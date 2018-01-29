@@ -31,7 +31,9 @@ MessageBox* MessageBox::createWith(const std::string& Title, const std::string& 
     auto layer = MessageBox::create();
     
     if(_delegate)
+    {
         layer->setDelegate(_delegate);
+    }
 
     layer->windowLayer = MessageBoxTextLayer::createMessageBoxTextLayer(Title,Body,buttonTitleList,layer);
     layer->addChild(layer->windowLayer);
@@ -44,7 +46,9 @@ MessageBox* MessageBox::createWith(const std::string& Title, const std::string& 
     auto layer = MessageBox::create();
     
     if(_delegate)
+    {
         layer->setDelegate(_delegate);
+    }
     
     std::vector<std::string> buttonsTitleList;
     buttonsTitleList.push_back(Button);
@@ -60,7 +64,9 @@ MessageBox* MessageBox::createWith(const std::string& Title, const std::string& 
     auto layer = MessageBox::create();
     
     if(_delegate)
+    {
         layer->setDelegate(_delegate);
+    }
     
     std::vector<std::string> buttonsTitleList;
     buttonsTitleList.push_back(Button);
@@ -82,7 +88,9 @@ MessageBox* MessageBox::createWith(long errorCode, MessageBoxDelegate* _delegate
     auto layer = MessageBox::create();
     
     if(_delegate)
+    {
         layer->setDelegate(_delegate);
+    }
     
     layer->windowLayer = MessageBoxTextLayer::createMessageBoxTextLayer(errorCode,layer);
     layer->addChild(layer->windowLayer);
@@ -97,7 +105,9 @@ MessageBox* MessageBox::createWith(long errorCode, TextInputLayer* textInputToHi
     layer->hideTextInput(textInputToHide);
     
     if(_delegate)
+    {
         layer->setDelegate(_delegate);
+    }
     
     layer->windowLayer = MessageBoxTextLayer::createMessageBoxTextLayer(errorCode,layer);
     layer->addChild(layer->windowLayer);
@@ -110,7 +120,9 @@ MessageBox* MessageBox::createWithLayer(MessageBoxLayerEnum messageBoxLayer, Mes
     auto layer = MessageBox::create();
     
     if(_delegate)
+    {
         layer->setDelegate(_delegate);
+    }
     
     layer->windowLayer = layer->initLayer(messageBoxLayer,{},layer);
     
@@ -124,7 +136,9 @@ MessageBox* MessageBox::createWithLayer(MessageBoxLayerEnum messageBoxLayer, con
     auto layer = MessageBox::create();
     
     if(_delegate)
+    {
         layer->setDelegate(_delegate);
+    }
     
     layer->windowLayer = layer->initLayer(messageBoxLayer,propertiesMap,layer);
     
@@ -216,7 +230,9 @@ void MessageBox::onSizeChanged()
     backgroundLayer->setContentSize(currentRunningScene->getContentSize());
     
     if(windowLayer)
+    {
         dynamic_cast<MessageBoxLayer*>(windowLayer)->onSizeChanged();
+    }
 }
 
 //-------------------- Object To Hide Functions ----------------------
@@ -235,7 +251,9 @@ void MessageBox::hideTextInput(TextInputLayer* textInputToHide)
 void MessageBox::UnHideTextInput()
 {
     if(savedTextInputToHide)
+    {
         savedTextInputToHide->setEditboxVisibility(true);
+    }
 }
     
 void MessageBox::sendDelegateMessageBoxButtonPressed(const std::string& messageBoxTitle,const std::string& buttonTitle)
@@ -243,7 +261,9 @@ void MessageBox::sendDelegateMessageBoxButtonPressed(const std::string& messageB
     this->scheduleOnce(schedule_selector(MessageBox::removeSelf), 0.1);
     UnHideTextInput();
     if(_delegate)
+    {
         this->getDelegate()->MessageBoxButtonPressed(messageBoxTitle, buttonTitle);
+    }
 }
                     
 }

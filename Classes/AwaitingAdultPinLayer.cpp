@@ -55,7 +55,11 @@ void AwaitingAdultPinLayer::addListenerToBiometricValidationSuccess()
     _biometricValidationSuccessListener = cocos2d::EventListenerCustom::create(BiometricAuthenticationHandler::kBiometricValidationSuccess, [=](EventCustom* event) {
         auto funcCallAction = CallFunc::create([=](){
             this->scheduleOnce(schedule_selector(AwaitingAdultPinLayer::removeSelf), 0.1);
-            this->getDelegate()->AdultPinAccepted(this);
+            
+            if(this->getDelegate())
+            {
+                this->getDelegate()->AdultPinAccepted(this);
+            }
         });
         
         this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
@@ -235,7 +239,11 @@ void AwaitingAdultPinLayer::secondCheckForPin()
     {
         //Schedule so it calls delegate before removing self. Avoiding crash
         this->scheduleOnce(schedule_selector(AwaitingAdultPinLayer::removeSelf), 0.1);
-        this->getDelegate()->AdultPinAccepted(this);
+        
+        if(this->getDelegate())
+        {
+            this->getDelegate()->AdultPinAccepted(this);
+        }
         
         if(UserDefault::getInstance()->getIntegerForKey(BiometricAuthenticationHandler::kBiometricValidation) == 0)
         {

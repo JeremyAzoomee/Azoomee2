@@ -40,7 +40,7 @@ public:
     
 private:
     BiometricAuthenticationHandler();
-    MessageBox* waitingForFingerPrint = nullptr;
+    MessageBox* _waitingForFingerPrint = nullptr;
 };
 
 NS_AZOOMEE_END

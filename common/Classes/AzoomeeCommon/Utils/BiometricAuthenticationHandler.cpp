@@ -78,7 +78,7 @@ void BiometricAuthenticationHandler::startBiometricAuthentication()
 #if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     IosNativeFunctionsSingleton::getInstance()->doBiometricValidation(false);
 #elif(CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    waitingForFingerPrint = MessageBox::createWith(kBiometricDialogTitle, kBiometricDialogImage, kBiometricDialogBody, kBiometricDialogCancelButtonTitle, this);
+    _waitingForFingerPrint = MessageBox::createWith(kBiometricDialogTitle, kBiometricDialogImage, kBiometricDialogBody, kBiometricDialogCancelButtonTitle, this);
     JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, kBiometricStartJavaMethodName);
 #endif
 }
@@ -86,9 +86,10 @@ void BiometricAuthenticationHandler::startBiometricAuthentication()
 void BiometricAuthenticationHandler::biometricAuthenticationSuccess()
 {
 #if(CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    if(waitingForFingerPrint)
+    if(_waitingForFingerPrint)
     {
-        waitingForFingerPrint->removeMessageBox();
+        _waitingForFingerPrint->removeMessageBox();
+        _waitingForFingerPrint = nullptr;
     }
 #endif
 
@@ -100,9 +101,10 @@ void BiometricAuthenticationHandler::biometricAuthenticationSuccess()
 void BiometricAuthenticationHandler::biometricAuthenticationFailure()
 {
 #if(CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    if(waitingForFingerPrint)
+    if(_waitingForFingerPrint)
     {
-        waitingForFingerPrint->removeMessageBox();
+        _waitingForFingerPrint->removeMessageBox();
+        _waitingForFingerPrint = nullptr;
     }
 #endif
     
@@ -113,9 +115,10 @@ void BiometricAuthenticationHandler::biometricAuthenticationFailure()
 void BiometricAuthenticationHandler::biometricAuthenticationError()
 {
 #if(CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    if(waitingForFingerPrint)
+    if(_waitingForFingerPrint)
     {
-        waitingForFingerPrint->removeMessageBox();
+        _waitingForFingerPrint->removeMessageBox();
+        _waitingForFingerPrint = nullptr;
     }
 #endif
 }
