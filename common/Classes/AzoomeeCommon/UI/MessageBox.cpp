@@ -26,13 +26,13 @@ const char* const MessageBox::kReport ="Report";
 const char* const MessageBox::kReset ="Reset";
 const char* const MessageBox::kDelete ="Delete";
 
-MessageBox* MessageBox::createWith(const std::string& Title, const std::string& Body, const std::vector<std::string>& buttonTitleList, MessageBoxDelegate* _delegate)
+MessageBox* MessageBox::createWith(const std::string& Title, const std::string& Body, const std::vector<std::string>& buttonTitleList, MessageBoxDelegate* delegate)
 {
     auto layer = MessageBox::create();
     
-    if(_delegate)
+    if(delegate)
     {
-        layer->setDelegate(_delegate);
+        layer->setDelegate(delegate);
     }
 
     layer->windowLayer = MessageBoxTextLayer::createMessageBoxTextLayer(Title,Body,buttonTitleList,layer);
@@ -41,13 +41,13 @@ MessageBox* MessageBox::createWith(const std::string& Title, const std::string& 
     return layer;
 }
 
-MessageBox* MessageBox::createWith(const std::string& Title, const std::string& Body, const std::string& Button, MessageBoxDelegate* _delegate)
+MessageBox* MessageBox::createWith(const std::string& Title, const std::string& Body, const std::string& Button, MessageBoxDelegate* delegate)
 {
     auto layer = MessageBox::create();
     
-    if(_delegate)
+    if(delegate)
     {
-        layer->setDelegate(_delegate);
+        layer->setDelegate(delegate);
     }
     
     std::vector<std::string> buttonsTitleList;
@@ -59,13 +59,13 @@ MessageBox* MessageBox::createWith(const std::string& Title, const std::string& 
     return layer;
 }
     
-    MessageBox* MessageBox::createWith(const std::string& Title, const std::string& imagePath, const std::string& Body, const std::string& Button, MessageBoxDelegate* _delegate)
+    MessageBox* MessageBox::createWith(const std::string& Title, const std::string& imagePath, const std::string& Body, const std::string& Button, MessageBoxDelegate* delegate)
 {
     auto layer = MessageBox::create();
     
-    if(_delegate)
+    if(delegate)
     {
-        layer->setDelegate(_delegate);
+        layer->setDelegate(delegate);
     }
     
     std::vector<std::string> buttonsTitleList;
@@ -83,13 +83,13 @@ MessageBox* MessageBox::createWith(const std::string& Title, const std::string& 
     return layer;
 }
 
-MessageBox* MessageBox::createWith(long errorCode, MessageBoxDelegate* _delegate)
+MessageBox* MessageBox::createWith(long errorCode, MessageBoxDelegate* delegate)
 {
     auto layer = MessageBox::create();
     
-    if(_delegate)
+    if(delegate)
     {
-        layer->setDelegate(_delegate);
+        layer->setDelegate(delegate);
     }
     
     layer->windowLayer = MessageBoxTextLayer::createMessageBoxTextLayer(errorCode,layer);
@@ -98,15 +98,15 @@ MessageBox* MessageBox::createWith(long errorCode, MessageBoxDelegate* _delegate
     return layer;
 }
 
-MessageBox* MessageBox::createWith(long errorCode, TextInputLayer* textInputToHide, MessageBoxDelegate* _delegate)
+MessageBox* MessageBox::createWith(long errorCode, TextInputLayer* textInputToHide, MessageBoxDelegate* delegate)
 {
     auto layer = MessageBox::create();
     
     layer->hideTextInput(textInputToHide);
     
-    if(_delegate)
+    if(delegate)
     {
-        layer->setDelegate(_delegate);
+        layer->setDelegate(delegate);
     }
     
     layer->windowLayer = MessageBoxTextLayer::createMessageBoxTextLayer(errorCode,layer);
@@ -115,13 +115,13 @@ MessageBox* MessageBox::createWith(long errorCode, TextInputLayer* textInputToHi
     return layer;
 }
     
-MessageBox* MessageBox::createWithLayer(MessageBoxLayerEnum messageBoxLayer, MessageBoxDelegate* _delegate)
+MessageBox* MessageBox::createWithLayer(MessageBoxLayerEnum messageBoxLayer, MessageBoxDelegate* delegate)
 {
     auto layer = MessageBox::create();
     
-    if(_delegate)
+    if(delegate)
     {
-        layer->setDelegate(_delegate);
+        layer->setDelegate(delegate);
     }
     
     layer->windowLayer = layer->initLayer(messageBoxLayer,{},layer);
@@ -131,13 +131,13 @@ MessageBox* MessageBox::createWithLayer(MessageBoxLayerEnum messageBoxLayer, Mes
     return layer;
 }
     
-MessageBox* MessageBox::createWithLayer(MessageBoxLayerEnum messageBoxLayer, const std::map<std::string, std::string>& propertiesMap, MessageBoxDelegate* _delegate)
+MessageBox* MessageBox::createWithLayer(MessageBoxLayerEnum messageBoxLayer, const std::map<std::string, std::string>& propertiesMap, MessageBoxDelegate* delegate)
 {
     auto layer = MessageBox::create();
     
-    if(_delegate)
+    if(delegate)
     {
-        layer->setDelegate(_delegate);
+        layer->setDelegate(delegate);
     }
     
     layer->windowLayer = layer->initLayer(messageBoxLayer,propertiesMap,layer);
