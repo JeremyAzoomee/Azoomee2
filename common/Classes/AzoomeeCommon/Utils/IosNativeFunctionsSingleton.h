@@ -20,6 +20,8 @@ public:
     
     void deleteHttpCookies();
     
+    bool doBiometricValidation(bool precheck);
+    
 private:
     IosNativeFunctionsSingleton();
 };
