@@ -3,7 +3,7 @@
 
 #include "cocos2d.h"
 #include "../Azoomee.h"
-#include <AzoomeeCommon/UI/MessageBox.h>
+#include "../UI/MessageBox.h"
 
 NS_AZOOMEE_BEGIN
 
