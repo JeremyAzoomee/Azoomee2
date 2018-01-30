@@ -121,7 +121,7 @@ void OnlineSafetyDetailsLayer::playVideo()
     videoLayer->addChild(closeVideoButton);
     
     //One YouTube video per slide, just list the ID. starting at slide 1.
-    std::vector<std::string> youtubeVideoId = {"OxqWjHD8nMU","riCzbUj_ow8","vGl0xCHPD58","zg9AgR8I7QI","_e6idatqS28"};
+    std::vector<std::string> youtubeVideoId = {"5qOcCUlEkRk","NntsCHmy1mM","cE4xPzR11uU","ICnqQaCUMKM","mjA6kA_Acik"};
     std::string videoEmbeddedURL = "https://www.youtube.com/embed/" + youtubeVideoId.at(currentSlideNumber-1) + "?rel=0?ecver=2&autoplay=1";
     
     videoWebview = experimental::ui::WebView::create();

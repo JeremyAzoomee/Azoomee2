@@ -70,6 +70,7 @@ void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget:
             }
             else if(location == _kButtonLocationIAP)
             {
+                AnalyticsSingleton::getInstance()->ctaButtonPressed("startIAP");
                 RoutePaymentSingleton::getInstance()->startInAppPayment();
                 closeCTAPopup();
             }
@@ -108,30 +109,36 @@ void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget:
             const std::string& location = buttonAction->getParamForKey("location");
             if(location == "privacyPolicy")
             {
+                AnalyticsSingleton::getInstance()->ctaButtonPressed("privacyPolicy");
                 ModalWebview::createWithURL(Url::PrivacyPolicyNoLinks);
             }
             else if(location == "termsOfUse")
             {
+                AnalyticsSingleton::getInstance()->ctaButtonPressed("termsOfUse");
                 ModalWebview::createWithURL(Url::TermsOfUse);
             }
             else if(location != "")
             {
+                AnalyticsSingleton::getInstance()->ctaButtonPressed("webViewURL");
                 ModalWebview::createWithURL(location);
             }
         }
         else if(buttonAction->getType() == _kButtonTypeCTATransition)
         {
+            AnalyticsSingleton::getInstance()->ctaButtonPressed("ctaTransition");
             const std::string& location = buttonAction->getParamForKey("location");
             DynamicNodeHandler::getInstance()->createDynamicNodeById(location);
         }
         else if(buttonAction->getType() == _kButtonTypeCTATransitionParams)
         {
+            AnalyticsSingleton::getInstance()->ctaButtonPressed("ctaTransition");
             const std::string& location = buttonAction->getParamForKey("location");
             const std::string& params = DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString();
             DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(location, params);
         }
         else if(buttonAction->getType() == _kButtonTypeCTATransitionGroup)
         {
+            AnalyticsSingleton::getInstance()->ctaButtonPressed("ctaTransitionGroup");
             const std::string& location = buttonAction->getParamForKey("location");
             DynamicNodeHandler::getInstance()->createDynamicNodeByGroupId(location);
         }
@@ -144,6 +151,7 @@ void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget:
             }
             else
             {
+                AnalyticsSingleton::getInstance()->ctaButtonPressed("close");
                 closeCTAPopup();
             }
         }
@@ -152,14 +160,17 @@ void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget:
             const std::string& flow = buttonAction->getParamForKey("flowType");
             if(flow == "signup")
             {
+                AnalyticsSingleton::getInstance()->ctaButtonPressed("startFlowSignUp");
                 DynamicNodeHandler::getInstance()->startSignupFlow();
             }
             else if(flow == "iap")
             {
+                AnalyticsSingleton::getInstance()->ctaButtonPressed("startFlowIAP");
                 DynamicNodeHandler::getInstance()->startIAPFlow();
             }
             else if(flow == "addchild")
             {
+                AnalyticsSingleton::getInstance()->ctaButtonPressed("startFlowAddChild");
                 DynamicNodeHandler::getInstance()->startAddChildFlow();
             }
         }

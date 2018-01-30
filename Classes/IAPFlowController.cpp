@@ -7,6 +7,7 @@
 
 #include "IAPFlowController.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "RoutePaymentSingleton.h"
 #include "DynamicNodeHandler.h"
 
@@ -30,17 +31,34 @@ void IAPFlowController::processAction(const ButtonActionDataRef& actionData)
 {
     _actionData = actionData;
     const std::string& fileName = actionData->getParamForKey(kCTAFilenameKey);
+    FlowPath pathAction = convertStringToFlowPath(actionData->getParamForKey(kCTAActionKey));
+    switch(pathAction)
+    {
+        default: case UNKNOWN:
+            AnalyticsSingleton::getInstance()->ctaButtonPressed("flowUnknown");
+            break;
+        case NEXT:
+            AnalyticsSingleton::getInstance()->ctaButtonPressed("flowNext");
+            break;
+        case BACK:
+            AnalyticsSingleton::getInstance()->ctaButtonPressed("flowBack");
+            break;
+        case CLOSE:
+            AnalyticsSingleton::getInstance()->ctaButtonPressed("flowClose");
+            break;
+    }
+    
     if( fileName == kIAPUpgradeCTAName)
     {
-        handleIAPUpgradeFlow(actionData);
+        handleIAPUpgradeFlow(actionData, pathAction);
     }
     else if(fileName == kCoppaPrivacyCTAName)
     {
-        handleCoppaPrivacyFlow(actionData);
+        handleCoppaPrivacyFlow(actionData, pathAction);
     }
     else if(fileName == kLearnMoreCTAName)
     {
-        handleLearnMoreFlow(actionData);
+        handleLearnMoreFlow(actionData, pathAction);
     }
 }
 
@@ -50,9 +68,8 @@ IAPFlowController::IAPFlowController() noexcept
     _type = FlowType::IAP;
 }
 
-void IAPFlowController::handleIAPUpgradeFlow(const ButtonActionDataRef& actionData)
+void IAPFlowController::handleIAPUpgradeFlow(const ButtonActionDataRef& actionData, FlowPath pathAction)
 {
-    FlowPath pathAction = convertStringToFlowPath(actionData->getParamForKey(kCTAActionKey));
     switch(pathAction)
     {
         default: case UNKNOWN:
@@ -86,9 +103,8 @@ void IAPFlowController::handleIAPUpgradeFlow(const ButtonActionDataRef& actionDa
     }
 }
 
-void IAPFlowController::handleCoppaPrivacyFlow(const ButtonActionDataRef& actionData)
+void IAPFlowController::handleCoppaPrivacyFlow(const ButtonActionDataRef& actionData, FlowPath pathAction)
 {
-    FlowPath pathAction = convertStringToFlowPath(actionData->getParamForKey(kCTAActionKey));
     switch(pathAction)
     {
         default: case UNKNOWN:
@@ -110,9 +126,8 @@ void IAPFlowController::handleCoppaPrivacyFlow(const ButtonActionDataRef& action
     }
 }
 
-void IAPFlowController::handleLearnMoreFlow(const ButtonActionDataRef& actionData)
+void IAPFlowController::handleLearnMoreFlow(const ButtonActionDataRef& actionData, FlowPath pathAction)
 {
-    FlowPath pathAction = convertStringToFlowPath(actionData->getParamForKey(kCTAActionKey));
     switch(pathAction)
     {
         default: case UNKNOWN:

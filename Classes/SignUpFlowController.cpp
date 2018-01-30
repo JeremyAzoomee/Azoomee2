@@ -37,27 +37,43 @@ DynamicNodeFlowControllerRef SignUpFlowController::create()
 void SignUpFlowController::processAction(const ButtonActionDataRef& actionData)
 {
     const std::string& fileName = actionData->getParamForKey(kCTAFilenameKey);
+    FlowPath pathAction = convertStringToFlowPath(actionData->getParamForKey(kCTAActionKey));
+    switch(pathAction)
+    {
+        default: case UNKNOWN:
+            AnalyticsSingleton::getInstance()->ctaButtonPressed("flowUnknown");
+            break;
+        case NEXT:
+            AnalyticsSingleton::getInstance()->ctaButtonPressed("flowNext");
+            break;
+        case BACK:
+            AnalyticsSingleton::getInstance()->ctaButtonPressed("flowBack");
+            break;
+        case CLOSE:
+            AnalyticsSingleton::getInstance()->ctaButtonPressed("flowClose");
+            break;
+    }
+    
     if( fileName == kEnterEmailCTAName)
     {
-        handleEnterEmailFlow(actionData);
+        handleEnterEmailFlow(actionData, pathAction);
     }
     else if(fileName == kConfirmEmailCTAName)
     {
-        handleConfirmEmailFlow(actionData);
+        handleConfirmEmailFlow(actionData, pathAction);
     }
     else if(fileName == kEnterPasswordCTAName)
     {
-        handleEnterPasswordFlow(actionData);
+        handleEnterPasswordFlow(actionData, pathAction);
     }
     else if(fileName == kEnterPinCTAName)
     {
-        handleEnterPinFlow(actionData);
+        handleEnterPinFlow(actionData, pathAction);
     }
 }
 
-void SignUpFlowController::handleEnterEmailFlow(const ButtonActionDataRef& actionData)
+void SignUpFlowController::handleEnterEmailFlow(const ButtonActionDataRef& actionData, FlowPath pathAction)
 {
-    FlowPath pathAction = convertStringToFlowPath(actionData->getParamForKey(kCTAActionKey));
     switch(pathAction)
     {
         default: case UNKNOWN:
@@ -84,9 +100,8 @@ void SignUpFlowController::handleEnterEmailFlow(const ButtonActionDataRef& actio
     }
 }
 
-void SignUpFlowController::handleConfirmEmailFlow(const ButtonActionDataRef& actionData)
+void SignUpFlowController::handleConfirmEmailFlow(const ButtonActionDataRef& actionData, FlowPath pathAction)
 {
-    FlowPath pathAction = convertStringToFlowPath(actionData->getParamForKey(kCTAActionKey));
     switch(pathAction)
     {
         default: case UNKNOWN:
@@ -114,9 +129,8 @@ void SignUpFlowController::handleConfirmEmailFlow(const ButtonActionDataRef& act
     }
 }
 
-void SignUpFlowController::handleEnterPasswordFlow(const ButtonActionDataRef& actionData)
+void SignUpFlowController::handleEnterPasswordFlow(const ButtonActionDataRef& actionData, FlowPath pathAction)
 {
-    FlowPath pathAction = convertStringToFlowPath(actionData->getParamForKey(kCTAActionKey));
     switch(pathAction)
     {
         default: case UNKNOWN:
@@ -148,9 +162,8 @@ void SignUpFlowController::handleEnterPasswordFlow(const ButtonActionDataRef& ac
     }
 }
 
-void SignUpFlowController::handleEnterPinFlow(const ButtonActionDataRef& actionData)
+void SignUpFlowController::handleEnterPinFlow(const ButtonActionDataRef& actionData, FlowPath pathAction)
 {
-    FlowPath pathAction = convertStringToFlowPath(actionData->getParamForKey(kCTAActionKey));
     switch(pathAction)
     {
         default: case UNKNOWN:

@@ -18,8 +18,8 @@ private:
     static const std::string kAddChildCTAName;
     static const std::string kSelectOomeeCTAName;
     
-    void handleAddChildFlow(const ButtonActionDataRef& actionData);
-    void handleSelectOomeeFlow(const ButtonActionDataRef& actionData);
+    void handleAddChildFlow(const ButtonActionDataRef& actionData, FlowPath pathAction);
+    void handleSelectOomeeFlow(const ButtonActionDataRef& actionData, FlowPath pathAction);
     
     void addChild(int oomeeNum);
     
