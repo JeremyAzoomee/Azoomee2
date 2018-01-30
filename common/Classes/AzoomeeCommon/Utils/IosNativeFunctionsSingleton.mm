@@ -57,7 +57,7 @@ bool IosNativeFunctionsSingleton::doBiometricValidation(bool precheck)
 {
     LAContext *myContext = [[LAContext alloc] init];
     NSError *authError = nil;
-    NSString *myLocalizedReasonString = @"Please use Face ID to enter your pin.";
+    NSString *myLocalizedReasonString = @"Please use biometric authentication to enter your pin.";
     if ([myContext canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&authError]) {
         
         if(precheck)
