@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <functional>
 #include <cctype>
-#include <locale>
 
 namespace Azoomee
 {
@@ -56,37 +55,7 @@ std::string stringReplace(std::string originalString, std::string stringToReplac
   return originalString;
 }
 
-bool isDateStringFormatCorrectForComparison(const std::string &dateToCheck)
-{
-    struct tm inputTimeStruct = {0};
-    return strptime(dateToCheck.c_str(), "%Y-%m-%d", &inputTimeStruct);
-}
 
-bool isDateStringOlderThanToday(const std::string &dateToCheck)
-{
-    time_t epochTimeForNow = std::time(NULL);
-    struct tm currentTimeStruct = *gmtime(&epochTimeForNow);
-    
-    currentTimeStruct.tm_hour = 0;
-    currentTimeStruct.tm_min = 0;
-    currentTimeStruct.tm_sec = 0;
-    currentTimeStruct.tm_isdst = -1;    //setting time to midnight, and turning off daylight saving, as we are curious about the day only
-    
-    long epochTimeForToday = mktime(&currentTimeStruct);
-    
-    struct tm inputTimeStruct = {0};
-    if(!strptime(dateToCheck.c_str(), "%Y-%m-%d", &inputTimeStruct))
-    {
-        return true;                    //if input string cannot be converted, we return true.
-    }
-    else
-    {
-        inputTimeStruct.tm_isdst = -1;
-        long epochTimeForInputDate = mktime(&inputTimeStruct);
-        
-        return (epochTimeForInputDate < epochTimeForToday);
-    }
-}
 
 std::string getJSONStringFromVectorOfMaps(std::vector<std::map<std::string, std::string>> inputMapVector)
 {
@@ -190,13 +159,6 @@ std::string shortenString(const std::string& string, int maxLength)
     }
     
     return string.substr(0, maxLength) + "...";
-}
-    
-int birthYearFromAge(int age)
-{
-    time_t t = time(NULL);
-    struct tm time = *localtime(&t);
-    return 1900 + time.tm_year - age;
 }
 
 } // Azoomee
