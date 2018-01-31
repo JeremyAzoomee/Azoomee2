@@ -20,6 +20,7 @@
 #include "FlowDataSingleton.h"
 #include "ChatNotificationsSingleton.h"
 #include <AzoomeeCommon/UI/PrivacyLayer.h>
+#include "ContentHistoryManager.h"
 #include "DynamicNodeHandler.h"
 
 #define OOMEE_LAYER_WIDTH 300
@@ -50,6 +51,8 @@ bool ChildSelectorScene::init()
     
     AnalyticsSingleton::getInstance()->logoutChildEvent();
     AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
+    
+    ContentHistoryManager::getInstance()->setReturnedFromContent(false);
     
     AudioMixer::getInstance()->stopBackgroundMusic();
     ChatNotificationsSingleton::getInstance()->stopNotificationsUpdate();

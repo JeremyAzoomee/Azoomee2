@@ -1002,6 +1002,7 @@
 				437395801ED3441F00C29DB1 /* FlowDataSingleton.h */,
 				4343CB9A1EBB826600247549 /* DeepLinkingSingleton.cpp */,
 				4343CB9B1EBB826600247549 /* DeepLinkingSingleton.h */,
+				43F42E371EE84B7800606290 /* Settings */,
 				02E595821E55DE5E0052F395 /* Offline */,
 				4323120D1E1D4DC500C8606D /* Utilities */,
 				A1CC0C261E156882008B469E /* Intro */,
@@ -1264,7 +1265,6 @@
 		A1CC0C271E15691C008B469E /* ModalMessages */ = {
 			isa = PBXGroup;
 			children = (
-				43F42E371EE84B7800606290 /* Settings */,
 				439694821EAA4A08003C17E6 /* PrivacyAndTermsLayer.cpp */,
 				439694831EAA4A08003C17E6 /* PrivacyAndTermsLayer.h */,
 				D13C40171E33A0F0002360A6 /* AwaitingAdultPinLayer.cpp */,

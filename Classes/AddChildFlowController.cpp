@@ -13,7 +13,7 @@
 #include <AzoomeeCommon/Input/TextInputChecker.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
-#include <time.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
 
@@ -30,13 +30,30 @@ DynamicNodeFlowControllerRef AddChildFlowController::create()
 void AddChildFlowController::processAction(const ButtonActionDataRef& actionData)
 {
     const std::string& fileName = actionData->getParamForKey(kCTAFilenameKey);
+    FlowPath pathAction = convertStringToFlowPath(actionData->getParamForKey(kCTAActionKey));
+    switch(pathAction)
+    {
+        default: case UNKNOWN:
+            AnalyticsSingleton::getInstance()->ctaButtonPressed("flowUnknown");
+            break;
+        case NEXT:
+            AnalyticsSingleton::getInstance()->ctaButtonPressed("flowNext");
+            break;
+        case BACK:
+            AnalyticsSingleton::getInstance()->ctaButtonPressed("flowBack");
+            break;
+        case CLOSE:
+            AnalyticsSingleton::getInstance()->ctaButtonPressed("flowClose");
+            break;
+    }
+    
     if( fileName == kAddChildCTAName)
     {
-        handleAddChildFlow(actionData);
+        handleAddChildFlow(actionData, pathAction);
     }
     else if(fileName == kSelectOomeeCTAName)
     {
-        handleSelectOomeeFlow(actionData);
+        handleSelectOomeeFlow(actionData, pathAction);
     }
 }
 
@@ -46,9 +63,8 @@ AddChildFlowController::AddChildFlowController() noexcept
     _type = FlowType::ADDCHILD;
 }
 
-void AddChildFlowController::handleAddChildFlow(const ButtonActionDataRef& actionData)
+void AddChildFlowController::handleAddChildFlow(const ButtonActionDataRef& actionData, FlowPath pathAction)
 {
-    FlowPath pathAction = convertStringToFlowPath(actionData->getParamForKey(kCTAActionKey));
     switch(pathAction)
     {
         default: case UNKNOWN:
@@ -85,9 +101,8 @@ void AddChildFlowController::handleAddChildFlow(const ButtonActionDataRef& actio
     }
 }
 
-void AddChildFlowController::handleSelectOomeeFlow(const ButtonActionDataRef& actionData)
+void AddChildFlowController::handleSelectOomeeFlow(const ButtonActionDataRef& actionData, FlowPath pathAction)
 {
-    FlowPath pathAction = convertStringToFlowPath(actionData->getParamForKey(kCTAActionKey));
     switch(pathAction)
     {
         default: case UNKNOWN:

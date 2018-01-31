@@ -27,9 +27,9 @@ private:
     
     ButtonActionDataRef _actionData = nullptr;
     
-    void handleIAPUpgradeFlow(const ButtonActionDataRef& actionData);
-    void handleCoppaPrivacyFlow(const ButtonActionDataRef& actionData);
-    void handleLearnMoreFlow(const ButtonActionDataRef& actionData);
+    void handleIAPUpgradeFlow(const ButtonActionDataRef& actionData, FlowPath pathAction);
+    void handleCoppaPrivacyFlow(const ButtonActionDataRef& actionData, FlowPath pathAction);
+    void handleLearnMoreFlow(const ButtonActionDataRef& actionData, FlowPath pathAction);
     
     void startIAP();
     
