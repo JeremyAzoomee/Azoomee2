@@ -208,7 +208,10 @@ using namespace Azoomee;
 
 - (void) createButton
 {
-    CGFloat buttonWidth = [[UIScreen mainScreen] bounds].size.width/15;
+    CGFloat buttonWidth = 0.0f;
+    CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+    
+    screenSize.width > screenSize.height ? buttonWidth = screenSize.width / 15.0f : buttonWidth = screenSize.height / 15.0f ;
     
     backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [backButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
