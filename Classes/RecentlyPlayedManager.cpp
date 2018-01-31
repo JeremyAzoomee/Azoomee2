@@ -85,6 +85,55 @@ std::vector<HQContentItemObjectRef> RecentlyPlayedManager::getRecentlyPlayedCont
     return recentContent;
 }
 
+void RecentlyPlayedManager::addContentIdToRecentlyPlayedFileForHQ(const std::string &contentId, const std::string &hq)
+{
+    std::vector<std::string> fileIds = getRecentContentIdsForHQ(hq);
+    
+    auto pivot = std::find_if(fileIds.begin(), fileIds.end(), [&](const std::string& id){return id == contentId;});
+    if(pivot != fileIds.end())
+    {
+        std::rotate(fileIds.begin(), pivot, pivot + 1);
+    }
+    else
+    {
+        fileIds.insert(fileIds.begin(),contentId);
+    }
+    
+    while(fileIds.size() > _kMaxRecentContent)
+    {
+        fileIds.pop_back();
+    }
+    
+    std::string newIdList = "";
+    for(int i = 0; i < fileIds.size(); i++)
+    {
+        newIdList += fileIds[i];
+        if(i < fileIds.size() -1)
+        {
+            newIdList += "/";
+        }
+    }
+    
+    FileUtils::getInstance()->writeStringToFile(newIdList, getRecentlyPlayedFilePathForHQ(hq));
+}
+
+std::vector<HQContentItemObjectRef> RecentlyPlayedManager::getRecentlyPlayedContentForHQ(const std::string &hq)
+{
+    std::vector<HQContentItemObjectRef> recentContent;
+    
+    const std::vector<std::string>& ids = getRecentContentIdsForHQ(hq);
+    for(const std::string& id : ids)
+    {
+        HQContentItemObjectRef content = HQDataProvider::getInstance()->getItemDataForSpecificItem(id);
+        if(content)
+        {
+            recentContent.push_back(content);
+        }
+    }
+    
+    return recentContent;
+}
+
 std::vector<std::string> RecentlyPlayedManager::getRecentContentIds() const
 {
     const std::string& fileStr = FileUtils::getInstance()->getStringFromFile(getRecentlyPlayedFilePath());
@@ -106,6 +155,29 @@ std::string RecentlyPlayedManager::getRecentlyPlayedFilePath() const
     }
     
     return childRecentlyPlayedFolderLoc + "/" + _kRecentlyPlayedFileName;
+}
+
+std::vector<std::string> RecentlyPlayedManager::getRecentContentIdsForHQ(const std::string &hq) const
+{
+    const std::string& fileStr = FileUtils::getInstance()->getStringFromFile(getRecentlyPlayedFilePathForHQ(hq));
+    
+    return splitStringToVector(fileStr, "/");
+}
+
+std::string RecentlyPlayedManager::getRecentlyPlayedFilePathForHQ(const std::string &hq) const
+{
+    const std::string& recentlyPlayedFolderLoc = FileUtils::getInstance()->getWritablePath() + _kRecentlyPlayedFolderName;
+    if(!FileUtils::getInstance()->isDirectoryExist(recentlyPlayedFolderLoc))
+    {
+        FileUtils::getInstance()->createDirectory(recentlyPlayedFolderLoc);
+    }
+    const std::string& childRecentlyPlayedFolderLoc = recentlyPlayedFolderLoc + ChildDataProvider::getInstance()->getLoggedInChildId();
+    if(!FileUtils::getInstance()->isDirectoryExist(childRecentlyPlayedFolderLoc))
+    {
+        FileUtils::getInstance()->createDirectory(childRecentlyPlayedFolderLoc);
+    }
+    
+    return childRecentlyPlayedFolderLoc + "/" + hq + _kRecentlyPlayedFileName;
 }
 
 NS_AZOOMEE_END

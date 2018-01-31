@@ -24,6 +24,9 @@ private:
     std::string getRecentlyPlayedFilePath() const;
     std::vector<std::string> getRecentContentIds() const;
     
+    std::string getRecentlyPlayedFilePathForHQ(const std::string& hq) const;
+    std::vector<std::string> getRecentContentIdsForHQ(const std::string& hq) const;
+    
 public:
     static RecentlyPlayedManager* getInstance(void);
     
@@ -32,6 +35,9 @@ public:
     
     void addContentIdToRecentlyPlayedFile(const std::string& contentId);
     std::vector<HQContentItemObjectRef> getRecentlyPlayedContent();
+    
+    void addContentIdToRecentlyPlayedFileForHQ(const std::string& contentId, const std::string& hq);
+    std::vector<HQContentItemObjectRef> getRecentlyPlayedContentForHQ(const std::string& hq);
     
 };
 

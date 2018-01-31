@@ -203,7 +203,7 @@ void HQScene2::addRecentlyPlayedCarousel()
     //inject recently played row
     if(_hqCategory != ConfigStorage::kGroupHQName)
     {
-        const std::vector<HQContentItemObjectRef> recentContent = RecentlyPlayedManager::getInstance()->getRecentlyPlayedContent();
+        const std::vector<HQContentItemObjectRef> recentContent = RecentlyPlayedManager::getInstance()->getRecentlyPlayedContentForHQ(_hqCategory);
         if(recentContent.size() > 0)
         {
             auto HQData = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(_hqCategory);
