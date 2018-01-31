@@ -1,18 +1,13 @@
 #include "SceneManagerScene.h"
-#include "OnboardingScene.h"
 #include "HQHistoryManager.h"
 #include "BaseScene.h"
-#include "OnboardingSuccessScene.h"
-#include "ChildAccountScene.h"
 #include "ChildSelectorScene.h"
 #include "LoginScene.h"
-#include "ChildAccountSuccessScene.h"
 #include "OfflineHubScene.h"
 #include "HQScene2.h"
 #include <AzoomeeCommon/Application.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "FlowDataSingleton.h"
-#include "FTUScene.h"
 #include <AzoomeeChat/UI/FriendListScene.h>
 #include <AzoomeeChat/UI/FriendListSceneArtPreview.h>
 #include "ChatDelegate.h"
@@ -74,27 +69,11 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             Director::getInstance()->replaceScene(goToScene);
             break;
         }
-        case Onboarding:
-        {
-            forceToPortrait();
-            AnalyticsSingleton::getInstance()->registerCurrentScene("ONBOARDING");
-            
-            auto funcCallAction = CallFunc::create([=](){
-                
-                cocos2d::Scene* goToScene = OnboardingScene::createScene();
-                Director::getInstance()->replaceScene(goToScene);
-            });
-            
-            auto action = Sequence::create(DelayTime::create(0.6f), funcCallAction, NULL);
-            this->runAction(action);
-            
-            break;
-        }
         case Base:
         {
             FlowDataSingleton::getInstance()->clearData();
             forceToLandscape();
-            HQHistoryManager::getInstance()->addHomeIfHistoryEmpty();
+            HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
             cocos2d::Scene* goToScene = BaseScene::createScene();
             Director::getInstance()->replaceScene(goToScene);
             break;
@@ -108,44 +87,11 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             Director::getInstance()->replaceScene(goToScene);
             break;
         }
-        case ChildAccount:
-        {
-            forceToPortrait();
-            AnalyticsSingleton::getInstance()->registerCurrentScene("CHILD_ACCOUNT");
-            
-            //requires delay to ensure portrait is set before rendering scene.
-            auto funcCallAction = CallFunc::create([=](){
-                
-                cocos2d::Scene* goToScene = ChildAccountScene::createScene();
-                Director::getInstance()->replaceScene(goToScene);
-            });
-            
-            auto action = Sequence::create(DelayTime::create(0.6f), funcCallAction, NULL);
-            this->runAction(action);
-            
-            break;
-        }
-        case ChildAccountSuccessScene:
-        {
-            forceToLandscape();
-            cocos2d::Scene* goToScene = ChildAccountSuccessScene::createScene();
-            AnalyticsSingleton::getInstance()->registerCurrentScene("CHILD_ACCOUNT_SUCCESS");
-            Director::getInstance()->replaceScene(goToScene);
-            break;
-        }
         case ChildSelector:
         {
             forceToLandscape();
             cocos2d::Scene* goToScene = ChildSelectorScene::createScene();
             AnalyticsSingleton::getInstance()->registerCurrentScene("CHILD_SELECTOR");
-            Director::getInstance()->replaceScene(goToScene);
-            break;
-        }
-        case OnboardingSuccessScene:
-        {
-            forceToLandscape();
-            cocos2d::Scene* goToScene = OnboardingSuccessScene::createScene();
-            AnalyticsSingleton::getInstance()->registerCurrentScene("ONBOARDING_SUCCESS");
             Director::getInstance()->replaceScene(goToScene);
             break;
         }
@@ -164,14 +110,6 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             cocos2d::Scene* goToScene = HQScene2::createSceneForOfflineArtsAppHQ();
             AnalyticsSingleton::getInstance()->registerCurrentScene("OFFLINE_ARTS_APP");
             Director::getInstance()->replaceScene(TransitionSlideInR::create(0.25f, goToScene));
-            break;
-        }
-        case FTUScene:
-        {
-            forceToLandscape();
-            cocos2d::Scene* goToScene = FTUScene::createScene();
-            AnalyticsSingleton::getInstance()->registerCurrentScene("FTU_SCENE");
-            Director::getInstance()->replaceScene(goToScene);
             break;
         }
         case ChatEntryPointScene:

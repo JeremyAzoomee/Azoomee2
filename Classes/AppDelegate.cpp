@@ -36,7 +36,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     auto scene = IntroVideoScene::createScene();
     Director::getInstance()->runWithScene(scene);
     
-    RoutePaymentSingleton::getInstance();
+    RoutePaymentSingleton::getInstance()->setOSManufacturer();
     SessionIdManager::getInstance();
     AnalyticsSingleton::getInstance()->setLandscapeOrientation();
     AnalyticsSingleton::getInstance()->firstLaunchEvent();
@@ -103,8 +103,11 @@ void AppDelegate::applicationWillEnterForeground()
             Director::getInstance()->replaceScene(OfflineHubScene::createScene());
             return;
         }
-        ContentHistoryManager::getInstance()->setReturnedFromContent(true);
-        HQHistoryManager::getInstance()->addHomeIfHistoryEmpty();
+        if(HQHistoryManager::getInstance()->getCurrentHQ() != ConfigStorage::kHomeHQName && !(HQHistoryManager::getInstance()->getCurrentHQ() == ConfigStorage::kGroupHQName && HQHistoryManager::getInstance()->getPreviousHQ() == ConfigStorage::kHomeHQName))
+        {
+            ContentHistoryManager::getInstance()->setReturnedFromContent(true);
+        }
+        HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
         
         auto baseScene = BaseScene::createScene();
         cocos2d::Director::getInstance()->replaceScene(baseScene);

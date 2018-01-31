@@ -60,9 +60,6 @@ void HQDataProvider::startBuildingHQ(const std::string &category)
     {
         HQScene2 *hqLayer = (HQScene2 *)contentLayer->getChildByName(category.c_str());
         hqLayer->startBuildingScrollView();
-        
-        //HQScene *hqLayer = (HQScene *)contentLayer->getChildByName(category.c_str());
-        //hqLayer->startBuildingScrollViewBasedOnName();
     }
     else
     {

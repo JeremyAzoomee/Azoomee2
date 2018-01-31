@@ -7,6 +7,12 @@
 //
 
 #include "DynamicNodeHandler.h"
+#include "SignUpFlowController.h"
+#include "IAPFlowController.h"
+#include "AddChildFlowController.h"
+#include "DynamicNodeDataInputStorage.h"
+#include "RoutePaymentSingleton.h"
+#include "FlowDataSingleton.h"
 #include <dirent.h>
 #include <AzoomeeCommon/Data/Json.h>
 #include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
@@ -116,6 +122,70 @@ void DynamicNodeHandler::createDynamicNodeByIdWithParams(const std::string& uniq
         }
     }
     
+}
+
+void DynamicNodeHandler::startSignupFlow()
+{
+    _flowController = SignUpFlowController::create();
+    createDynamicNodeByIdWithParams(_flowController->_flowEntryFile, DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
+}
+
+void DynamicNodeHandler::startIAPFlow()
+{
+    if(RoutePaymentSingleton::getInstance()->receiptDataFileExists())
+    {
+        if(!ParentDataProvider::getInstance()->isUserLoggedIn())
+        {
+            FlowDataSingleton::getInstance()->setSuccessFailPath(IAP_SUCCESS);
+            handleSuccessFailEvent();
+            return;
+        }
+        else
+        {
+            RoutePaymentSingleton::getInstance()->retryReceiptValidation();
+            return;
+        }
+    }
+    _flowController = IAPFlowController::create();
+    createDynamicNodeById(_flowController->_flowEntryFile);
+}
+
+void DynamicNodeHandler::startAddChildFlow()
+{
+    _flowController = AddChildFlowController::create();
+    createDynamicNodeByIdWithParams(_flowController->_flowEntryFile, DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
+}
+
+void DynamicNodeHandler::handleSuccessFailEvent()
+{
+    switch(FlowDataSingleton::getInstance()->getSuccessFailPath())
+    {
+        case SUCCESS_FAIL_NONE:
+            return;
+            break;
+        case IAP_SUCCESS:
+            createDynamicNodeById("payment_success.json");
+            break;
+        case IAP_FAIL:
+            createDynamicNodeById("payment_failed.json");
+            break;
+        case SIGNUP_SUCCESS: case SIGNUP_FAIL: case ADDCHILD_SUCCESS: case ADDCHILD_FAIL:
+        {
+            break;
+        }
+        case PREMIUM_NEW_ACCOUNT:
+        {
+            FlowDataSingleton::getInstance()->setFlowToSignUpNewProfile();
+            createDynamicNodeById("payment_new_account.json");
+            break;
+        }
+        case PREMIUM_EXISTING_ACCOUNT:
+        {
+            createDynamicNodeById("payment_existing_account.json");
+            break;
+        }
+    }
+    FlowDataSingleton::getInstance()->setSuccessFailPath(SUCCESS_FAIL_NONE);
 }
 
 void DynamicNodeHandler::getCTAFiles()
@@ -321,6 +391,16 @@ void DynamicNodeHandler::zipDownloadComplte(const std::string& fileString, const
     {
         unzipBundleCTAFiles();
     }
+}
+
+void DynamicNodeHandler::setFlowController(DynamicNodeFlowControllerRef flowController)
+{
+    _flowController = flowController;
+}
+
+DynamicNodeFlowControllerRef DynamicNodeHandler::getFlowController()
+{
+    return _flowController;
 }
 
 // Delegate functions

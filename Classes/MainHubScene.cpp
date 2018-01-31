@@ -32,7 +32,7 @@ bool MainHubScene::init()
         return false;
     }
     
-    this->setName("HOME");
+    this->setName(ConfigStorage::kHomeHQName);
     HQHistoryManager::getInstance()->isOffline = false;
     
     return true;

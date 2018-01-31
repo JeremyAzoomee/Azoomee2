@@ -92,7 +92,7 @@ Vec2 PrivacyAndTermsLayer::getCenterPosition()
 void PrivacyAndTermsLayer::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == privacyButton)
-        ModalWebview::createWithURL(Url::PrivacyPolicy);
+        ModalWebview::createWithURL(Url::PrivacyPolicyNoLinks);
     else if(button == termsButton)
         ModalWebview::createWithURL(Url::TermsOfUse);
 }

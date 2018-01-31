@@ -9,16 +9,11 @@ NS_AZOOMEE_BEGIN
 
 enum SceneNameEnum {
     Login,
-    Onboarding,
     Base,
     BaseWithNoHistory,
-    ChildAccount,
-    ChildAccountSuccessScene,
     ChildSelector,
-    OnboardingSuccessScene,
     OfflineHub,
     OfflineArtsAppHQ,
-    FTUScene,
     ChatEntryPointScene,
     WebviewPortrait,
     WebviewLandscape,

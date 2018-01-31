@@ -2,11 +2,14 @@
 #include "external/json/document.h"
 #include <AzoomeeCommon/UI/MessageBox.h>
 #include "BackEndCaller.h"
+#include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "LoginLogicHandler.h"
 #include "RoutePaymentSingleton.h"
+#include "DynamicNodeHandler.h"
+#include "FlowDataSingleton.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/jni/JniHelper.h"
@@ -47,12 +50,24 @@ void GooglePaymentSingleton::startBackEndPaymentVerification(std::string develop
     savedDeveloperPayload = developerPayload;
     savedOrderId = orderId;
     savedToken = token;
+    if(!ParentDataProvider::getInstance()->isUserLoggedIn())
+    {
+        auto funcCallAction = CallFunc::create([=](){
+            ModalMessages::getInstance()->stopLoading();
+            FlowDataSingleton::getInstance()->setSuccessFailPath(IAP_SUCCESS);
+            DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
+        });
+        
+        Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL)); //need time to get focus back from google window, otherwise the app will crash
+    }
+    else
+    {
+        auto funcCallAction = CallFunc::create([=](){
+            BackEndCaller::getInstance()->verifyGooglePayment(orderId, ConfigStorage::getInstance()->getIapSkuForProvider("google"), token);
+        });
     
-    auto funcCallAction = CallFunc::create([=](){
-        BackEndCaller::getInstance()->verifyGooglePayment(orderId, ConfigStorage::getInstance()->getIapSkuForProvider("google"), token);
-    });
-    
-    Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL)); //need time to get focus back from google window, otherwise the app will crash
+        Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL)); //need time to get focus back from google window, otherwise the app will crash
+    }
 }
 
 void GooglePaymentSingleton::onGooglePaymentVerificationAnswerReceived(std::string responseDataString)
@@ -124,8 +139,6 @@ void GooglePaymentSingleton::startIABPayment()
     
 #endif
 }
-
-NS_AZOOMEE_END
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 
@@ -200,3 +213,5 @@ JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_AppActivity_getDeveloperKey(JNIE
 }
 
 #endif
+
+NS_AZOOMEE_END

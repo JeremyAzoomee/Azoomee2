@@ -14,31 +14,36 @@
 #include "ui/CocosGUI.h"
 #include <AzoomeeCommon/Data/Json.h>
 #include "ButtonActionData.h"
+#include "DynamicNodeImage.h"
 
 NS_AZOOMEE_BEGIN
 
 class DynamicNodeCreator : public cocos2d::Ref
 {
+public:
+    static const std::string kCTAAssetLoc;
+    static const std::string kCTABundleImageLoc;
+    static const std::string kCTADeviceImageCacheLoc;
 private:
-    const std::string _kCTAAssetLoc = "res/cta_assets/";
-    const std::string _kCTABundleImageLoc = "res/cta_assets/cta_bundle/images/";
-    const std::string _kCTADeviceImageCacheLoc = "DCDECache/images/";
+    
     
     cocos2d::Node* _CTANode = nullptr;
     cocos2d::Size _windowSize;
-    float _sizeMod = 1.0f; //size mod value if screen ratio is outside of normal range 4:3 -> 16:9
+    
     //CTA components
     cocos2d::ui::Scale9Sprite* _popupFrame = nullptr;
     cocos2d::Node* _popupButtonsLayer = nullptr;
     cocos2d::Node* _popupImages = nullptr;
     cocos2d::Node* _textLayer = nullptr;
+    cocos2d::Node* _textInputLayer = nullptr;
+    cocos2d::Node* _linesLayer = nullptr;
     cocos2d::ui::Button* _closeButton = nullptr;
     cocos2d::LayerColor* _bgColour = nullptr;
     
     //masking node, stencil and background image
     cocos2d::ClippingNode* _clippingNode = nullptr;
     cocos2d::ui::Scale9Sprite* _stencil = nullptr;
-    cocos2d::Sprite* _maskedBGImage = nullptr;
+    DynamicNodeImage* _maskedBGImage = nullptr;
     
     // external parameters
     rapidjson::Document _externParams;
@@ -53,22 +58,20 @@ private:
     void configButtons(const rapidjson::Value& buttonsList);
     void configExtraImages(const rapidjson::Value& imageList);
     void configText(const rapidjson::Value& textConfig);
-
-    
-    void addButtonWithParams(const cocos2d::Vec2& size, const cocos2d::Vec2& pos, const std::string& buttonText, ButtonActionDataRef buttonActionData, const std::string& btnSpriteStr);
-    void addImageWithParams(const cocos2d::Vec2& size, const cocos2d::Vec2& pos, int opacity, const std::string& filename);
-    void addRemoteImageWithParams(const cocos2d::Vec2& size, const cocos2d::Vec2& pos, int opacity, const std::string& url);
-    void addTextWithParams(int fontSize, cocos2d::Color4B fontColour, const rapidjson::Value& params);
-    std::string addExternalParamsToString(const std::string& str);
+    void configTextInput(const rapidjson::Value& textInputConfig);
+    void configLines(const rapidjson::Value& linesConfig);
     
 public:
     static DynamicNodeCreator* getInstance(void);
+    static std::string addExternalParamsToString(const std::string& str);
     virtual ~DynamicNodeCreator();
     bool init(void);
     
     cocos2d::Node* createCTAFromFile(const std::string& filepath);
     cocos2d::Node* createCTAFromFileWithParams(const std::string& filepath, const std::string& params);
     void resetCTAPopup();
+    
+    float _sizeMod = 1.0f; //size mod value if screen ratio is outside of normal range 4:3 -> 16:9
 };
 
 NS_AZOOMEE_END

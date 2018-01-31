@@ -74,12 +74,15 @@ import com.urbanairship.UAirship;
 
 public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver.IabBroadcastListener {
 
+    private static boolean kRemoteDebugWebViewEnabled = false;
+
     private static Context mContext;
     private static Activity mActivity;
     private static AppActivity mAppActivity;
     private MixpanelAPI mixpanel;
     private IapManager iapManager;
     private static String advertisingId;
+    private Biometric biometric;
 
     private boolean _purchaseRequiredAfterSetup = false;
 
@@ -94,6 +97,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         mContext = this;
         mActivity = this;
         mAppActivity = this;
+        biometric = new Biometric(this);
 
         // If mFrameLayout hasn't been created, then the activity is going to be destroyed
         // For context, see Cocos2dxActivity onCreate !isTaskRoot() workaround.
@@ -113,9 +117,10 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     public static void startWebView(String url, String userid, int orientation) {
         Intent nvw;
 
-        if ((android.os.Build.MANUFACTURER.equals("Amazon")) && (url.substring(url.length() - 4).equals("html")))
+        if ((android.os.Build.MANUFACTURER.equals("Amazon") || kRemoteDebugWebViewEnabled) && (url.substring(url.length() - 4).equals("html")))
         {
             nvw = new Intent(mContext, NativeViewUI.class);
+            nvw.putExtra("remoteDebugWebViewEnabled", kRemoteDebugWebViewEnabled);
         }
         else
         {
@@ -125,6 +130,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         nvw.putExtra("url", url);
         nvw.putExtra("userid", userid);
         nvw.putExtra("orientation", orientation);
+
         mContext.startActivity(nvw);
 
     }
@@ -600,5 +606,37 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     public static void jniClearNotificationCenter()
     {
         NotificationManagerCompat.from(mContext).cancelAll();
+    }
+
+    // FINGERPRINT NATIVE ANDROID FUNCTIONS------------------------------
+
+    public static boolean fingerPrintAuthenticationAvailable()
+    {
+        if(mAppActivity.biometric == null)
+        {
+            return false;
+        }
+
+        return mAppActivity.biometric.fingerprintAuthenticationPossible();
+    }
+
+    public static void startFingerprintAuthentication()
+    {
+        if(mAppActivity.biometric == null)
+        {
+            return;
+        }
+
+        mAppActivity.biometric.startAuth();
+    }
+
+    public static void stopFingerprintAuthentication()
+    {
+        if(mAppActivity.biometric == null)
+        {
+            return;
+        }
+
+        mAppActivity.biometric.stopAuth();
     }
 }

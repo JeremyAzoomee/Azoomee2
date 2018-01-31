@@ -7,6 +7,8 @@
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include "LoginLogicHandler.h"
 #include "RoutePaymentSingleton.h"
+#include "DynamicNodeHandler.h"
+#include "FlowDataSingleton.h"
 
 using namespace cocos2d;
 
@@ -55,7 +57,16 @@ void ApplePaymentSingleton::transactionStatePurchased(std::string receiptData)
         RoutePaymentSingleton::getInstance()->writeReceiptDataToFile(receiptData);
     }
     
-    BackEndCaller::getInstance()->verifyApplePayment(receiptData);
+    if(!ParentDataProvider::getInstance()->isUserLoggedIn())
+    {
+        ModalMessages::getInstance()->stopLoading();
+        FlowDataSingleton::getInstance()->setSuccessFailPath(IAP_SUCCESS);
+        DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
+    }
+    else
+    {
+        BackEndCaller::getInstance()->verifyApplePayment(receiptData);
+    }
 }
 
 void ApplePaymentSingleton::onAnswerReceived(std::string responseDataString)
@@ -67,6 +78,7 @@ void ApplePaymentSingleton::onAnswerReceived(std::string responseDataString)
     {
         if(std::string(paymentData["receiptStatus"].GetString()) == "FULFILLED" && RoutePaymentSingleton::getInstance()->pressedIAPStartButton)
         {
+            ModalMessages::getInstance()->stopLoading();
             RoutePaymentSingleton::getInstance()->inAppPaymentSuccess();
             return;
         }
