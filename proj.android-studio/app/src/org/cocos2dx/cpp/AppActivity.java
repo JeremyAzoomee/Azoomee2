@@ -83,6 +83,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     private static String advertisingId;
     private Biometric biometric;
     private  Mixpanel mixpanel;
+    private Appsflyer appsflyer;
 
     private boolean _purchaseRequiredAfterSetup = false;
 
@@ -99,6 +100,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         mAppActivity = this;
         biometric = new Biometric(this);
         mixpanel = new Mixpanel(this);
+        appsflyer = new Appsflyer(this);
 
         // If mFrameLayout hasn't been created, then the activity is going to be destroyed
         // For context, see Cocos2dxActivity onCreate !isTaskRoot() workaround.
@@ -107,7 +109,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
             return;
         }
 
-        AppsFlyerLib.getInstance().startTracking(this.getApplication(), "BzPYMg8dkYsCuDn8XBUN94");
+        appsflyer.startTracking(this.getApplication());
 
         Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
 
@@ -266,35 +268,11 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
     public static void sendAppsFlyerEvent(String eventID, String jsonPropertiesString) {
 
-        JSONObject _mixPanelProperties = null;
-
-        try {
-            _mixPanelProperties = new JSONObject(jsonPropertiesString);
-        } catch (JSONException e) {
-            _mixPanelProperties = null;
+        if(mAppActivity.appsflyer == null)
+        {
+            return;
         }
-
-        if (_mixPanelProperties != null) {
-            Map<String, Object> _appsFlyerProperties = new HashMap<String, Object>();
-            java.util.Iterator<?> keys = _mixPanelProperties.keys();
-
-            while (keys.hasNext()) {
-                String key = (String) keys.next();
-
-                java.lang.Object properties = null;
-
-                try {
-                    properties = _mixPanelProperties.get(key);
-                } catch (JSONException e) {
-                }
-
-                if (properties != null) {
-                    _appsFlyerProperties.put(key, properties);
-                }
-            }
-            AppsFlyerLib.getInstance().trackEvent(mContext, eventID, _appsFlyerProperties);
-        } else
-            AppsFlyerLib.getInstance().trackEvent(mContext, eventID, null);
+        mAppActivity.appsflyer.sendAppsFlyerEvent(eventID, jsonPropertiesString);
     }
 
 
