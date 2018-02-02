@@ -7,60 +7,79 @@
 		<button id="requestName">Request username</button><br>
 		<button id="requestId">Request userid</button><br>
 		<button id="requestAvatar">Request user avatar</button><br>
+		<button id="saveImage">Save image</button><br>
 		<button id="requestScore">Request high score</button><br>
 		<input type="text" id="highscore"><button id="updateScore">Update high score</button><br>
 		<div id="messageplace" style="color: white; font-size: 20;"></div>
-		
+
 		<script>
 			window.addEventListener("message", receiveAPIMessage, false);
-			
+
 			document.getElementById('requestAzoomeeVersion').onclick = function()
 			{
    				requestData("requestAzoomeeVersion", document.getElementById("responseid").value);
    			};
-			
+
 			document.getElementById('requestName').onclick = function()
 			{
    				requestData("requestUsername", document.getElementById("responseid").value);
    			};
-			
+
 			document.getElementById('requestId').onclick = function()
 			{
    				requestData("requestUserID", document.getElementById("responseid").value);
 			};
-			
+
 			document.getElementById('requestAvatar').onclick = function()
 			{
    				requestData("requestUserAvatar", document.getElementById("responseid").value);
 			};
-			
+
 			document.getElementById('requestScore').onclick = function()
 			{
    				requestData("requestHighScore", document.getElementById("responseid").value);
 			};
-			
+
 			document.getElementById('updateScore').onclick = function()
 			{
 				var highscore = document.getElementById("highscore").value;
    				parent.postMessage({method: "updateHighScore", responseID: document.getElementById("responseid").value, score: Number(highscore)},"*");
    				console.log("[GAME] Highscore updated. Method: updateHighScore, score: " + Number(highscore));
 			};
-			
+
 			document.getElementById('requestPlaylist').onclick = function()
 			{
 				requestData("requestPlaylist", document.getElementById("responseid").value);
 			}
-			
+
+			document.getElementById('saveImage').onclick = function()
+			{
+				var image = new Image();
+
+    		image.onload = function () {
+
+					var canvas = document.createElement('canvas');
+        	canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
+        	canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
+
+        	canvas.getContext('2d').drawImage(this, 0, 0);
+
+        	alert(canvas.toDataURL('image/png'));//.replace(/^data:image\/(png|jpg);base64,/, ''));
+    		};
+
+    		image.src = "http://azoomee.com/wp-content/uploads/2018/02/Game_webthumb_1.jpg";
+			}
+
 			function requestData(methodName, responseId)
 			{
 				parent.postMessage({method: methodName, responseID: responseId}, "*");
 				console.log("[GAME] Postmessage was sent. Method: " + methodName + " responseId: " + responseId);
 			}
-			
+
 			function receiveAPIMessage(event)
 			{
 				document.getElementById("messageplace").innerHTML = "Feedback received from API: " + JSON.stringify(event.data);
-				
+
 				if(event.data.method == "requestAzoomeeVersion")
 				{
 					if(!checkForCompatibilityWithVersion("3.2.2", event.data.response.version))
@@ -69,30 +88,30 @@
 					}
 				}
 			}
-			
+
 			function checkForCompatibilityWithVersion(requestedVersion, azoomeeVersion)
 			{
 				var pureVersion1 = requestedVersion.split(" ")[0];
 				var pureVersion2 = azoomeeVersion.split(" ")[0];
-				
+
 				var versionElements1 = pureVersion1.split(".");
 				var versionElements2 = pureVersion2.split(".");
-				
+
 				if(versionElements1.length != versionElements2.length) return true;
-				
+
 				var versionsEqual = true;
 				for(var i = 0; i < versionElements1.length; i++)
 				{
 					if(versionElements1[i] != versionElements2[i]) versionsEqual = false;
 				}
-				
+
 				if(versionsEqual) return true;
-				
+
 				for(var i = 0;i < versionElements1.length; i++)
-				{ 
+				{
 					if(versionElements1[i] < versionElements2[i]) return true;
 				}
-				
+
 				return false;
 			}
 		</script>
