@@ -521,7 +521,6 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
         hideLoadingScreen();
         FlowDataSingleton::getInstance()->setErrorCode(errorCode);
         MessageBox::createWith(errorCode, nullptr);
-        //DynamicNodeHandler::getInstance()->startSignupFlow();
         return;
     }
     
