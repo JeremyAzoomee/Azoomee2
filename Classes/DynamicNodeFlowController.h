@@ -29,6 +29,8 @@ public:
     
     std::string _flowEntryFile = "";
     
+    FlowType getType() const;
+    
 protected:
     void exitFlow();
     FlowPath convertStringToFlowPath(const std::string& flowPathStr);
