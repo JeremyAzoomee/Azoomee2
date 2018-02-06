@@ -72,6 +72,11 @@ bool DynamicNodeText::initWithParams(int fontSize, Color4B fontColour, const rap
         _text->setHorizontalAlignment(TextHAlignment::CENTER);
     }
     
+    if(_text->getContentSize().width > dynamicNodeSize.width - 40)
+    {
+        _text->setScale((dynamicNodeSize.width - 40) / _text->getContentSize().width);
+    }
+    
     this->addChild(_text);
     
     return true;
