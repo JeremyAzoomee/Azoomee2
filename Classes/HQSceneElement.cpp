@@ -19,6 +19,7 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
+#include "RoutePaymentSingleton.h"
 #include "ManualGameInputLayer.h"
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
 #include "DynamicNodeHandler.h"
@@ -171,8 +172,7 @@ void HQSceneElement::addListenerToElement()
                 AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
                 AnalyticsSingleton::getInstance()->contentItemSelectedEvent(_elementItemData, _elementRowNumber, _elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(_elementCategory, _elementRowNumber, _elementIndex));
                 
-                DynamicNodeHandler::getInstance()->createDynamicNodeByGroupId(DynamicNodeHandler::kUpgradeGroup);
-                
+                DynamicNodeHandler::getInstance()->startIAPFlow();
                 return true;
             }
                 

@@ -202,7 +202,7 @@ void HQDataParser::onGetContentAnswerReceived(const std::string &responseString,
         ModalMessages::getInstance()->stopLoading();
         parseHQStructure(responseString, category.c_str());
         
-        if(category == "HOME")
+        if(category == ConfigStorage::kHomeHQName)
         {
             ChildDataParser::getInstance()->parseOomeeData(responseString);
             
@@ -213,7 +213,7 @@ void HQDataParser::onGetContentAnswerReceived(const std::string &responseString,
             }
             Node *baseLayer = runningScene->getChildByName("baseLayer");
             Node *contentLayer = baseLayer->getChildByName("contentLayer");
-            MainHubScene *homeLayer = (MainHubScene *)contentLayer->getChildByName("HOME");
+            MainHubScene *homeLayer = (MainHubScene *)contentLayer->getChildByName(ConfigStorage::kHomeHQName);
 
             homeLayer->buildMainHubScene();
         }

@@ -191,5 +191,12 @@ std::string shortenString(const std::string& string, int maxLength)
     
     return string.substr(0, maxLength) + "...";
 }
+    
+int birthYearFromAge(int age)
+{
+    time_t t = time(NULL);
+    struct tm time = *localtime(&t);
+    return 1900 + time.tm_year - age;
+}
 
 } // Azoomee

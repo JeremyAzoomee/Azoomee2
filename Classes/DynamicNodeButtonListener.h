@@ -14,6 +14,7 @@
 #include "ui/CocosGUI.h"
 #include <AzoomeeCommon/Data/Json.h>
 #include "ButtonActionData.h"
+#include "AwaitingAdultPinLayer.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -26,8 +27,17 @@ private:
     const std::string _kButtonTypeInternal = "internal";
     const std::string _kButtonTypeWeb = "web";
     const std::string _kButtonTypeDeepLink = "deeplink";
-    //constants for button locations
+    const std::string _kButtonTypeCTATransition = "ctaTransition";
+    const std::string _kButtonTypeCTATransitionParams = "ctaTransitionParams";
+    const std::string _kButtonTypeCTATransitionGroup = "ctaTransitionGroup";
+    const std::string _kButtonTypeFlowAction = "flowAction";
+    const std::string _kButtonTypeStartFlow = "startFlow";
+    
+    //constants for button params
     const std::string _kButtonLocationUpgrade = "showUpgrade";
+    const std::string _kButtonLocationIAP = "iap";
+    
+    ButtonActionDataRef _buttonAction;
     
     void closeCTAPopup();
     void upgradeButtonPressed();
@@ -37,7 +47,8 @@ public:
     virtual ~DynamicNodeButtonListener();
     bool init(void);
     
-    void onButtonPressedCallFunc(cocos2d::Ref* button, cocos2d::ui::Widget::TouchEventType evenType, ButtonActionDataRef buttonAction);
+    void onButtonPressedCallFunc(cocos2d::Ref* button, cocos2d::ui::Widget::TouchEventType evenType, const ButtonActionDataRef& buttonAction);
+    
 };
 
 NS_AZOOMEE_END

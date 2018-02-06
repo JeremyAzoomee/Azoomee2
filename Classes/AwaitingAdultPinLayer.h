@@ -21,7 +21,9 @@ public:
 class AwaitingAdultPinLayer : public cocos2d::Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate, public MessageBoxDelegate
 {
 private:
-
+    cocos2d::EventListenerCustom* _biometricValidationSuccessListener = nullptr;
+    cocos2d::EventListenerCustom* _biometricValidationFailureListener = nullptr;
+    
     cocos2d::Size visibleSize;
     cocos2d::Vec2 origin;
     
@@ -36,9 +38,14 @@ private:
     
     void createAndFadeInLayer();
     void addListenerToBackgroundLayer();
+    void addListenerToBiometricValidationSuccess();
+    void addListenerToBiometricValidationFailure();
     void addUIObjects();
     
     void removeSelf(float dt);
+    
+    void androidBiometricAuthenticationSuccess();
+    void androidBiometricAuthenticationFailure();
     
 public:
     virtual bool init();

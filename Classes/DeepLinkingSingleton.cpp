@@ -7,13 +7,13 @@
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
-#include "IAPUpsaleLayer.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "VideoPlaylistManager.h"
 #include "SceneManagerScene.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "ContentHistoryManager.h"
 #include <AzoomeeCommon/Data/Json.h>
+#include "DynamicNodeHandler.h"
 #include "ContentOpener.h"
 
 using namespace cocos2d;
@@ -129,7 +129,7 @@ bool DeepLinkingSingleton::actionDeepLink()
         {
             AnalyticsSingleton::getInstance()->deepLinkingMoveToEvent(path);
             
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(Onboarding));
+            DynamicNodeHandler::getInstance()->startSignupFlow();
             
             resetDeepLink();
             return true;
@@ -248,7 +248,7 @@ void DeepLinkingSingleton::completeContentAction(const HQContentItemObjectRef &c
 //Delegate Functions
 void DeepLinkingSingleton::MessageBoxButtonPressed(std::string messageBoxTitle, std::string buttonTitle)
 {
-    IAPUpsaleLayer::createRequiresPin();
+    DynamicNodeHandler::getInstance()->startIAPFlow();
 }
 
 NS_AZOOMEE_END

@@ -29,7 +29,7 @@ void ChatDelegate::onChatNavigationBack()
     // Go back to the hub
     if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
     {
-        HQHistoryManager::getInstance()->addHomeIfHistoryEmpty();
+        HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
     }
     else

@@ -1,5 +1,8 @@
 #include "IosNativeFunctionsSingleton.h"
+#include "../Data/ConfigStorage.h"
+#include "BiometricAuthenticationHandler.h"
 #import <AdSupport/ASIdentifierManager.h>
+#import <LocalAuthentication/LocalAuthentication.h>
 #import <UIKit/UIKit.h>
 
 using namespace cocos2d;
@@ -48,6 +51,45 @@ void IosNativeFunctionsSingleton::deleteHttpCookies()
     {
         [cookieStorage deleteCookie:each];
     }
+}
+
+bool IosNativeFunctionsSingleton::doBiometricValidation(bool precheck)
+{
+    LAContext *myContext = [[LAContext alloc] init];
+    NSError *authError = nil;
+    NSString *myLocalizedReasonString = @"Please use Touch ID or Face ID to enter your PIN.";
+    if ([myContext canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&authError]) {
+        
+        if(precheck)
+        {
+            return true;
+        }
+        
+        [myContext evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
+                  localizedReason:myLocalizedReasonString
+                            reply:^(BOOL success, NSError *error) {
+                                if (success) {
+                                    BiometricAuthenticationHandler::getInstance()->biometricAuthenticationSuccess();
+                                } else {
+                                    if([error code] == -6)
+                                    {
+                                        BiometricAuthenticationHandler::getInstance()->biometricAuthenticationNotNeeded(); //cancel pressed on faceid
+                                    }
+                                    else if([error code] != -2)
+                                    {
+                                        BiometricAuthenticationHandler::getInstance()->biometricAuthenticationFailure();
+                                    }
+                                }
+                            }];
+    } else {
+        cocos2d::log("BIOMETRIC could not start");
+        if(precheck)
+        {
+            return false;
+        }
+    }
+    
+    return true;
 }
 
 NS_AZOOMEE_END

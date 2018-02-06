@@ -123,7 +123,7 @@ void TextInputLayer::setupEditBoxUsingType()
             editBox->setInputFlag(ui::EditBox::InputFlag::INITIAL_CAPS_WORD);
             editBox->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
             //PLACEHOLDER TEXT WILL CHANGE/REMOVE WITH NEXT RELEASE AND CHANGE TO SIGNUP
-            editBox->setPlaceHolder("First name or nickname only!");
+            editBox->setPlaceHolder("First name or nickname only");
             break;
         }
         case INPUT_IS_DAY:
@@ -154,6 +154,13 @@ void TextInputLayer::setupEditBoxUsingType()
             editBox->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
             //PLACEHOLDER TEXT WILL CHANGE/REMOVE WITH NEXT RELEASE AND CHANGE TO SIGNUP
             editBox->setPlaceHolder("Minimum 6 characters");
+            break;
+        }
+        case INPUT_IS_AGE:
+        {
+            editBox->setMaxLength(3);
+            editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
+            editBox->setPlaceHolder("Age");
             break;
         }
     }
@@ -269,6 +276,42 @@ bool TextInputLayer::inputIsValid()
         case INPUT_IS_NEW_PASSWORD:
         {
             if(isValidPassword(editBox->getText(), 6))
+            {
+                isValidInput = true;
+            }
+            break;
+        }
+        case INPUT_IS_DAY:
+        {
+            int value = std::atoi(editBox->getText());
+            if(value > 0 && value <= 31)
+            {
+                isValidInput = true;
+            }
+            break;
+        }
+        case INPUT_IS_MONTH:
+        {
+            int value = std::atoi(editBox->getText());
+            if(value > 0 && value <= 12)
+            {
+                isValidInput = true;
+            }
+            break;
+        }
+        case INPUT_IS_YEAR:
+        {
+            int value = std::atoi(editBox->getText());
+            if(value > 0)
+            {
+                isValidInput = true;
+            }
+            break;
+        }
+        case INPUT_IS_AGE:
+        {
+            int value = std::atoi(editBox->getText());
+            if(value > 0 && value < 112)
             {
                 isValidInput = true;
             }

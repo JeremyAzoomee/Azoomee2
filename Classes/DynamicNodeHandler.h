@@ -12,6 +12,7 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include "cocos2d.h"
 #include "DynamicNodeCreator.h"
+#include "DynamicNodeFlowController.h"
 #include <AzoomeeCommon/Data/Json.h>
 #include "network/HttpClient.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
@@ -25,6 +26,8 @@ class DynamicNodeHandler : public cocos2d::Ref, public FileDownloaderDelegate
 private:
     
     FileDownloaderRef _fileDownloader = nullptr;
+    
+    DynamicNodeFlowControllerRef _flowController = nullptr;
     
     bool isCTAPackageJSONExist();
     
@@ -70,7 +73,15 @@ public:
     
     void createDynamicNodeByIdWithParams(const std::string& uniqueId, const std::string& params);
     
+    void startSignupFlow();
+    void startIAPFlow();
+    void startAddChildFlow();
+    void handleSuccessFailEvent();
+    
     void getCTAFiles();
+    
+    void setFlowController(DynamicNodeFlowControllerRef flowController);
+    DynamicNodeFlowControllerRef getFlowController();
     
     //delegate functions
     void onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode);

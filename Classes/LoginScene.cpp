@@ -14,6 +14,7 @@
 #include "FlowDataSingleton.h"
 #include "SceneManagerScene.h"
 #include "ChatNotificationsSingleton.h"
+#include "ContentHistoryManager.h"
 
 using namespace cocos2d;
 
@@ -38,6 +39,9 @@ bool LoginScene::init()
     
     ChatNotificationsSingleton::getInstance()->stopNotificationsUpdate();
     AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
+    
+    ContentHistoryManager::getInstance()->setReturnedFromContent(false);
+    
     PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel("NA");
     AudioMixer::getInstance()->stopBackgroundMusic();
     
