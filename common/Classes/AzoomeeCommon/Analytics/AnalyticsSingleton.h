@@ -83,6 +83,8 @@ public:
     void childProfileCreatedErrorEvent(long errorCode);
     void childProfileUpdateErrorEvent(long errorCode);
 
+    void childProfileCreatedEvent(int age, int oomeeNum);
+    
     //-------------HUB ACTIONS-------------------
     void hubTapOomeeEvent(int oomeeNumber, std::string oomeeAction);
     void navSelectionEvent(std::string hubOrTop, int buttonNumber);
@@ -161,6 +163,7 @@ public:
     //---------------CTA EVENTS----------------------------------
     void ctaButtonPressed(const std::string &buttonId, const std::string &title = "");
     void ctaWindowAppeared(const std::string &groupId, const std::string &nodeId);
+    void registerCTASource(const std::string& buttonId, const std::string& contentId, const std::string& mediaType);
 };
   
 }

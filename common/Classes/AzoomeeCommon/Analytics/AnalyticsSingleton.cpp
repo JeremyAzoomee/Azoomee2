@@ -276,6 +276,15 @@ void AnalyticsSingleton::childProfileUpdateErrorEvent(long errorCode)
     
     mixPanelSendEventWithStoredProperties("childProfileUpdateError", mixPanelProperties);
 }
+    
+void AnalyticsSingleton::childProfileCreatedEvent(int age, int oomeeNum)
+{
+    std::map<std::string, std::string> mixPanelProperties;
+    mixPanelProperties["SelectedOomee"] = ConfigStorage::getInstance()->getHumanReadableNameForOomee(oomeeNum);
+    mixPanelProperties["Age"] = age;
+    
+    mixPanelSendEventWithStoredProperties("childProfileUpdateError", mixPanelProperties);
+}
 
 //-------------HUB ACTIONS-------------------
 void AnalyticsSingleton::hubTapOomeeEvent(int oomeeNumber, std::string oomeeAction)
@@ -733,7 +742,12 @@ void AnalyticsSingleton::deepLinkingContentEvent()
     
 void AnalyticsSingleton::ctaButtonPressed(const std::string &buttonId, const std::string &title)
 {
-    const std::map<std::string, std::string> &mixPanelProperties = {{ "buttonId", buttonId }, { "groupId", _analyticsProperties->getCtaWindowGroupId() }, {"nodeId", _analyticsProperties->getCtaWindowNodeId()}, {"recommendedTitle",title}};
+    const std::map<std::string, std::string> &mixPanelProperties = {
+        { "buttonId", buttonId },
+        { "groupId", _analyticsProperties->getCtaWindowGroupId() },
+        {"nodeId", _analyticsProperties->getCtaWindowNodeId()},
+        {"recommendedTitle",title}
+    };
     mixPanelSendEventWithStoredProperties("ctaContentButtonPressed", mixPanelProperties);
 }
     
@@ -742,9 +756,23 @@ void AnalyticsSingleton::ctaWindowAppeared(const std::string &groupId, const std
     _analyticsProperties->setCtaWindowNodeId(nodeId);
     _analyticsProperties->setCtaWindowGroupId(groupId);
     
-    const std::map<std::string, std::string> &mixPanelProperties = {{ "groupId", groupId }, {"nodeId", nodeId}};
+    const std::map<std::string, std::string> &mixPanelProperties = {
+        { "groupId", groupId },
+        {"nodeId", nodeId},
+        {"sourceButton", _analyticsProperties->getCtaSourceButton()},
+        {"sourceContentId", _analyticsProperties->getCtaSourceContentId()},
+        {"aourceMediaType", _analyticsProperties->getCtaSourceMediaType()}
+    };
     
     mixPanelSendEventWithStoredProperties("ctaWindowAppeared", mixPanelProperties);
 }
+    
+void AnalyticsSingleton::registerCTASource(const std::string& buttonId, const std::string& contentId, const std::string& mediaType)
+{
+    _analyticsProperties->setCtaSourceButton(buttonId);
+    _analyticsProperties->setCtaSourceContentId(contentId);
+    _analyticsProperties->setCtaSourceMediaType(mediaType);
+}
+
 
 }

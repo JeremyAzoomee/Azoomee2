@@ -32,21 +32,6 @@ void IAPFlowController::processAction(const ButtonActionDataRef& actionData)
     _actionData = actionData;
     const std::string& fileName = actionData->getParamForKey(kCTAFilenameKey);
     FlowPath pathAction = convertStringToFlowPath(actionData->getParamForKey(kCTAActionKey));
-    switch(pathAction)
-    {
-        default: case UNKNOWN:
-            AnalyticsSingleton::getInstance()->ctaButtonPressed("flowUnknown");
-            break;
-        case NEXT:
-            AnalyticsSingleton::getInstance()->ctaButtonPressed("flowNext");
-            break;
-        case BACK:
-            AnalyticsSingleton::getInstance()->ctaButtonPressed("flowBack");
-            break;
-        case CLOSE:
-            AnalyticsSingleton::getInstance()->ctaButtonPressed("flowClose");
-            break;
-    }
     
     if( fileName == kIAPUpgradeCTAName)
     {
@@ -86,16 +71,19 @@ void IAPFlowController::handleIAPUpgradeFlow(const ButtonActionDataRef& actionDa
             }
             else if(path == kPathCoppa)
             {
+                AnalyticsSingleton::getInstance()->ctaButtonPressed("upgrade_coppaPrivacy");
                 DynamicNodeHandler::getInstance()->createDynamicNodeById(kCoppaPrivacyCTAName);
             }
             else if(path == kPathLearnMore)
             {
+                AnalyticsSingleton::getInstance()->ctaButtonPressed("upgrade_learnMore");
                 DynamicNodeHandler::getInstance()->createDynamicNodeById(kLearnMoreCTAName);
             }
             break;
         }
         case CLOSE: case BACK:
         {
+            AnalyticsSingleton::getInstance()->ctaButtonPressed("upgrade_close");
             exitFlow();
             break;
         }
@@ -114,6 +102,7 @@ void IAPFlowController::handleCoppaPrivacyFlow(const ButtonActionDataRef& action
         }
         case BACK:
         {
+            AnalyticsSingleton::getInstance()->ctaButtonPressed("coppaPrivacy_back");
             DynamicNodeHandler::getInstance()->createDynamicNodeById(kIAPUpgradeCTAName);
             break;
         }
@@ -137,6 +126,7 @@ void IAPFlowController::handleLearnMoreFlow(const ButtonActionDataRef& actionDat
         }
         case BACK:
         {
+            AnalyticsSingleton::getInstance()->ctaButtonPressed("learnMore_back");
             DynamicNodeHandler::getInstance()->createDynamicNodeById(kIAPUpgradeCTAName);
             break;
         }
@@ -172,11 +162,13 @@ void IAPFlowController::AdultPinAccepted(AwaitingAdultPinLayer* layer)
         const std::string& path = _actionData->getParamForKey("path");
         if(path == kPathRestore)
         {
+            AnalyticsSingleton::getInstance()->ctaButtonPressed("refreshPayment");
             RoutePaymentSingleton::getInstance()->refreshAppleReceiptFromButton();
             exitFlow();
         }
         else if(path == kPathIAP)
         {
+            AnalyticsSingleton::getInstance()->ctaButtonPressed("startIAP");
             RoutePaymentSingleton::getInstance()->startInAppPayment();
             exitFlow();
         }

@@ -436,6 +436,7 @@ std::string DynamicNodeCreator::addExternalParamsToString(const std::string& str
 
 void DynamicNodeCreator::resetCTAPopup()
 {
+    AnalyticsSingleton::getInstance()->registerCTASource("","","");
     if(_CTANode)
     {
         _CTANode->removeFromParent();
