@@ -8,72 +8,85 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class Mixpanel {
-    private static Context mContext = null;
-    private static String mMixpanelAPIKey = "7e94d58938714fa180917f0f3c7de4c9";
+public class Mixpanel
+{
+    private static Context _context = null;
+    private static final String kMixpanelAPIKey = "7e94d58938714fa180917f0f3c7de4c9";
 
-    private MixpanelAPI mMixpanelAPI = null;
+    private MixpanelAPI _mixpanelAPI = null;
 
-    public Mixpanel(Context context) {
-        this.mContext = context;
-        this.mMixpanelAPI = MixpanelAPI.getInstance(mContext , mMixpanelAPIKey);
+    public Mixpanel(Context context)
+    {
+        this._context = context;
+        this._mixpanelAPI = MixpanelAPI.getInstance(_context , kMixpanelAPIKey);
     }
 
 
-    public void sendMixPanelWithEventID(String eventID, String jsonPropertiesString) {
-        JSONObject _mixPanelProperties = null;
+    public void sendMixPanelWithEventID(String eventID, String jsonPropertiesString)
+    {
+        JSONObject mixPanelProperties = null;
 
-        try {
-            _mixPanelProperties = new JSONObject(jsonPropertiesString);
-        } catch (JSONException e) {
-            _mixPanelProperties = null;
+        try
+        {
+            mixPanelProperties = new JSONObject(jsonPropertiesString);
+        }
+        catch (JSONException e)
+        {
+            mixPanelProperties = null;
         }
         if(!isMixpanelContextAvailable())
         {
             return;
         }
-        mMixpanelAPI.track(eventID, _mixPanelProperties);
+        _mixpanelAPI.track(eventID, mixPanelProperties);
     }
 
-    public void sendMixPanelSuperProperties(String jsonPropertiesString) {
-        JSONObject _mixPanelProperties = null;
+    public void sendMixPanelSuperProperties(String jsonPropertiesString)
+    {
+        JSONObject mixPanelProperties = null;
 
-        try {
-            _mixPanelProperties = new JSONObject(jsonPropertiesString);
-        } catch (JSONException e) {
-            _mixPanelProperties = null;
+        try
+        {
+            mixPanelProperties = new JSONObject(jsonPropertiesString);
+        }
+        catch (JSONException e)
+        {
+            mixPanelProperties = null;
         }
         if(!isMixpanelContextAvailable())
         {
             return;
         }
-        mMixpanelAPI.registerSuperProperties(_mixPanelProperties);
+        _mixpanelAPI.registerSuperProperties(mixPanelProperties);
     }
 
-    public void sendMixPanelPeopleProperties(String parentID) {
+    public void sendMixPanelPeopleProperties(String parentID)
+    {
         if(!isMixpanelContextAvailable())
         {
             return;
         }
-        mMixpanelAPI.identify(parentID);
-        mMixpanelAPI.getPeople().identify(parentID);
-        mMixpanelAPI.getPeople().set("parentID", parentID);
+        _mixpanelAPI.identify(parentID);
+        _mixpanelAPI.getPeople().identify(parentID);
+        _mixpanelAPI.getPeople().set("parentID", parentID);
     }
 
-    public void showMixpanelNotification() {
+    public void showMixpanelNotification()
+    {
         if(!isMixpanelContextAvailable())
         {
             return;
         }
-        mMixpanelAPI.getPeople().showNotificationIfAvailable((Activity) mContext);
+        _mixpanelAPI.getPeople().showNotificationIfAvailable((Activity) _context);
     }
 
-    public void showMixpanelNotificationWithID(int notificationID) {
+    public void showMixpanelNotificationWithID(int notificationID)
+    {
         if(!isMixpanelContextAvailable())
         {
             return;
         }
-        mMixpanelAPI.getPeople().showNotificationById(notificationID, (Activity) mContext);
+        _mixpanelAPI.getPeople().showNotificationById(notificationID, (Activity) _context);
     }
 
     public void flush()
@@ -82,26 +95,21 @@ public class Mixpanel {
         {
             return;
         }
-        mMixpanelAPI.flush();
+        _mixpanelAPI.flush();
     }
 
     private boolean isMixpanelContextAvailable()
     {
-        if(mContext != null)
-        {
-            if(mMixpanelAPI == null)
-            {
-                mMixpanelAPI = MixpanelAPI.getInstance(mContext, mMixpanelAPIKey);
-                return true;
-            }
-            else
-            {
-                return true;
-            }
-        }
-        else
+        if(_context == null)
         {
             return false;
         }
+
+        if(_mixpanelAPI == null)
+        {
+            _mixpanelAPI = MixpanelAPI.getInstance(_context, kMixpanelAPIKey);
+        }
+
+        return true;
     }
 }
