@@ -14,6 +14,7 @@
 #include "FlowDataSingleton.h"
 #include "SceneManagerScene.h"
 #include "ChatNotificationsSingleton.h"
+#include "ContentHistoryManager.h"
 
 using namespace cocos2d;
 
@@ -38,6 +39,9 @@ bool LoginScene::init()
     
     ChatNotificationsSingleton::getInstance()->stopNotificationsUpdate();
     AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
+    
+    ContentHistoryManager::getInstance()->setReturnedFromContent(false);
+    
     PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel("NA");
     AudioMixer::getInstance()->stopBackgroundMusic();
     
@@ -239,6 +243,34 @@ void LoginScene::onExit()
 {
     OfflineChecker::getInstance()->setDelegate(nullptr);
     Node::onExit();
+}
+
+#pragma mark - IMEDelegate
+
+void LoginScene::keyboardWillShow(cocos2d::IMEKeyboardNotificationInfo& info)
+{
+    if(!isVisible())
+    {
+        return;
+    }
+    
+    // Take into account screen cropping
+    int keyboardHeight = info.end.size.height - Director::getInstance()->getVisibleOrigin().y;
+    
+    ConfigStorage::getInstance()->setEstimatedKeyboardHeight(keyboardHeight);
+}
+
+void LoginScene::keyboardDidShow(cocos2d::IMEKeyboardNotificationInfo& info)
+{
+    if(!isVisible())
+    {
+        return;
+    }
+    
+    // Take into account screen cropping
+    int keyboardHeight = info.end.size.height - Director::getInstance()->getVisibleOrigin().y;
+    
+    ConfigStorage::getInstance()->setEstimatedKeyboardHeight(keyboardHeight);
 }
 
 NS_AZOOMEE_END

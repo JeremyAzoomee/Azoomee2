@@ -223,6 +223,34 @@ inline std::map<std::string, std::string> getStringMapFromJson(const rapidjson::
     return returnValue;
 }
 
+inline std::map<std::string, std::string> getStringMapFromJsonString(const std::string& jsonString)
+{
+    std::map<std::string, std::string> returnValue;
+    
+    rapidjson::Document jsonDocument;
+    jsonDocument.Parse(jsonString.c_str());
+    
+    if(jsonDocument.HasParseError())
+    {
+        return returnValue;
+    }
+    
+    rapidjson::Document::MemberIterator M;
+    
+    for (M=jsonDocument.MemberBegin(); M!=jsonDocument.MemberEnd(); M++)
+    {
+        if(!M->name.IsNull() && M->name.IsString() && !M->value.IsNull() && M->value.IsString())
+        {
+            std::string key = M->name.GetString();
+            std::string value = M->value.GetString();
+            
+            returnValue[key] = value;
+        }
+    }
+    
+    return returnValue;
+}
+
 
 NS_AZOOMEE_END
 

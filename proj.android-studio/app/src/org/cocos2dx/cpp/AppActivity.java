@@ -74,12 +74,17 @@ import com.urbanairship.UAirship;
 
 public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver.IabBroadcastListener {
 
+    private static boolean kRemoteDebugWebViewEnabled = false;
+
     private static Context mContext;
     private static Activity mActivity;
     private static AppActivity mAppActivity;
     private MixpanelAPI mixpanel;
     private IapManager iapManager;
     private static String advertisingId;
+    private Biometric biometric;
+
+    private boolean _purchaseRequiredAfterSetup = false;
 
     //variables for google payment
     private IabHelper mHelper;
@@ -92,6 +97,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         mContext = this;
         mActivity = this;
         mAppActivity = this;
+        biometric = new Biometric(this);
 
         // If mFrameLayout hasn't been created, then the activity is going to be destroyed
         // For context, see Cocos2dxActivity onCreate !isTaskRoot() workaround.
@@ -111,9 +117,10 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     public static void startWebView(String url, String userid, int orientation) {
         Intent nvw;
 
-        if ((android.os.Build.MANUFACTURER.equals("Amazon")) && (url.substring(url.length() - 4).equals("html")))
+        if ((android.os.Build.MANUFACTURER.equals("Amazon") || kRemoteDebugWebViewEnabled) && (url.substring(url.length() - 4).equals("html")))
         {
             nvw = new Intent(mContext, NativeViewUI.class);
+            nvw.putExtra("remoteDebugWebViewEnabled", kRemoteDebugWebViewEnabled);
         }
         else
         {
@@ -123,6 +130,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         nvw.putExtra("url", url);
         nvw.putExtra("userid", userid);
         nvw.putExtra("orientation", orientation);
+
         mContext.startActivity(nvw);
 
     }
@@ -291,6 +299,8 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     //------IN-APP-PURCHASES COMMON-------------------------------
     public static void setupInAppPurchase()
     {
+        mAppActivity._purchaseRequiredAfterSetup = false;
+
         if (android.os.Build.MANUFACTURER.equals("Amazon"))
         {
             mAppActivity.setupIAPOnCreate();
@@ -384,7 +394,16 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
     public static void startGooglePurchase() {
         AppActivity currentActivity = mAppActivity;
-        currentActivity.startGoogleSubscriptionProcess();
+
+        if(currentActivity.mHelper == null)
+        {
+            currentActivity._purchaseRequiredAfterSetup = true;
+            currentActivity.setupGoogleIAB();
+        }
+        else
+        {
+            currentActivity.startGoogleSubscriptionProcess();
+        }
     }
 
     public void setupGoogleIAB() {
@@ -452,17 +471,33 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
             if(inventory.hasDetails(getGoogleSku()))
             {
-                setHumanReadablePrice(inventory.getSkuDetails(getGoogleSku()).getPrice());
+                String price = inventory.getSkuDetails(getGoogleSku()).getPrice();
+
+                if(price != null || price != "")
+                {
+                    setHumanReadablePrice(inventory.getSkuDetails(getGoogleSku()).getPrice());
+                }
+                else
+                {
+                    priceFetchFailed();
+                }
             }
 
             // Do we have the premium upgrade?
             Purchase premiumPurchase = inventory.getPurchase(getGoogleSku());
             mIsPremium = (premiumPurchase != null);
             Log.d("GOOGLEPLAY", "User is " + (mIsPremium ? "PREMIUM" : "NOT PREMIUM"));
+
+            if(_purchaseRequiredAfterSetup)
+            {
+                startGoogleSubscriptionProcess();
+            }
         }
     };
 
     public void startGoogleSubscriptionProcess() {
+        _purchaseRequiredAfterSetup = false;
+
         if(mIsPremium)
         {
             googlePurchaseFailedAlreadyPurchased();
@@ -470,6 +505,11 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         }
 
         try {
+            if(mHelper == null) //mHelper got disposed in the meantime
+            {
+                googlePurchaseFailed();
+            }
+
             mHelper.launchSubscriptionPurchaseFlow(mActivity, getGoogleSku(), 10001,
                     mPurchaseFinishedListener, getLoggedInParentUserId());
         } catch (IabHelper.IabAsyncInProgressException e) {
@@ -566,5 +606,37 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     public static void jniClearNotificationCenter()
     {
         NotificationManagerCompat.from(mContext).cancelAll();
+    }
+
+    // FINGERPRINT NATIVE ANDROID FUNCTIONS------------------------------
+
+    public static boolean fingerPrintAuthenticationAvailable()
+    {
+        if(mAppActivity.biometric == null)
+        {
+            return false;
+        }
+
+        return mAppActivity.biometric.fingerprintAuthenticationPossible();
+    }
+
+    public static void startFingerprintAuthentication()
+    {
+        if(mAppActivity.biometric == null)
+        {
+            return;
+        }
+
+        mAppActivity.biometric.startAuth();
+    }
+
+    public static void stopFingerprintAuthentication()
+    {
+        if(mAppActivity.biometric == null)
+        {
+            return;
+        }
+
+        mAppActivity.biometric.stopAuth();
     }
 }

@@ -6,11 +6,12 @@
 #include "GooglePaymentSingleton.h"
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include "LoginLogicHandler.h"
-#include "OnboardingSuccessScene.h"
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/UI/MessageBox.h>
 #include "FlowDataSingleton.h"
 #include "SceneManagerScene.h"
+#include "AzoomeeCommon/Data/Child/ChildDataParser.h"
+#include "DynamicNodeHandler.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     #include "platform/android/jni/JniHelper.h"
@@ -47,16 +48,21 @@ RoutePaymentSingleton::~RoutePaymentSingleton(void)
 
 bool RoutePaymentSingleton::init(void)
 {
-    setOSManufacturer();
     return true;
 }
 void RoutePaymentSingleton::startInAppPayment()
 {
-    if(ParentDataProvider::getInstance()->getLoggedInParentId() == "")
+    if(receiptDataFileExists())
     {
-        FlowDataSingleton::getInstance()->setErrorCode(ERROR_CODE_SOMETHING_WENT_WRONG);
-        LoginLogicHandler::getInstance()->doLoginLogic();
-        return;
+        if(!ParentDataProvider::getInstance()->isUserLoggedIn())
+        {
+            FlowDataSingleton::getInstance()->setSuccessFailPath(IAP_SUCCESS);
+            DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
+        }
+        else
+        {
+            retryReceiptValidation();
+        }
     }
     
     pressedIAPStartButton = true;
@@ -138,33 +144,6 @@ void RoutePaymentSingleton::refreshAppleReceiptFromButton()
     #endif
 }
 
-bool RoutePaymentSingleton::checkIfAppleReceiptRefreshNeeded()
-{
-    if(appleReceiptRefreshchecked)
-        return true;
-    else
-    {
-        appleReceiptRefreshchecked = true;
-
-    #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-        if(ParentDataProvider::getInstance()->getBillingProvider() == "APPLE" && isDateStringOlderThanToday(ParentDataProvider::getInstance()->getBillingDate()))
-        {
-            pressedIAPStartButton = false;
-            pressedRestorePurchaseButton = false;
-            ApplePaymentSingleton::getInstance()->refreshReceipt(false);
-            return false;
-        }
-    #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-        if(ParentDataProvider::getInstance()->getBillingProvider() == "APPLE" && !ParentDataProvider::getInstance()->isPaidUser())
-        {
-            MessageBox::createWith(ERROR_CODE_APPLE_SUBSCRIPTION_ON_NON_APPLE, this);
-            return false;
-        }
-    #endif
-        return true;
-    }
-}
-
 void RoutePaymentSingleton::backendRequestFailed(long errorCode)
 {
     if(errorCode == 409) //409 means the user was already upgraded, so we can remove the local receipt file.
@@ -193,7 +172,8 @@ void RoutePaymentSingleton::purchaseFailureErrorMessage(const std::string& failu
 {
     AnalyticsSingleton::getInstance()->iapSubscriptionFailedEvent(failureDetails);
     ModalMessages::getInstance()->stopLoading();
-    MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, nullptr);
+    FlowDataSingleton::getInstance()->setSuccessFailPath(IAP_FAIL);
+    DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
 }
 
 void RoutePaymentSingleton::doublePurchaseMessage()
@@ -211,7 +191,17 @@ void RoutePaymentSingleton::inAppPaymentSuccess()
     
     BackEndCaller::getInstance()->updateBillingData();
     FlowDataSingleton::getInstance()->addIAPSuccess(true);
-    Director::getInstance()->replaceScene(SceneManagerScene::createScene(OnboardingSuccessScene));
+    if(FlowDataSingleton::getInstance()->isSignupFlow())
+    {
+        FlowDataSingleton::getInstance()->setSuccessFailPath(PREMIUM_NEW_ACCOUNT);
+    }
+    else
+    {
+        FlowDataSingleton::getInstance()->setSuccessFailPath(PREMIUM_EXISTING_ACCOUNT);
+    }
+    
+    ChildDataParser::getInstance()->setChildLoggedIn(false);
+    BackEndCaller::getInstance()->getAvailableChildren();
 }
 
 void RoutePaymentSingleton::writeAndroidReceiptDataToFile(const std::string& developerPayload, const std::string& orderId, const std::string& token)

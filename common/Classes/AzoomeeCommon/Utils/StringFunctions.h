@@ -29,6 +29,8 @@ std::string rtrim(const std::string& s);
 /// Trim whitespace from the start and end of string
 std::string trim(const std::string& s);
 
+    
+int birthYearFromAge(int age);
   
 } // Azoomee
 

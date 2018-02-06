@@ -22,7 +22,6 @@ public:
     bool init(void);
     
     //MainHub Area services
-    HQContentItemObjectRef getItemDataForSpecificItem(const std::string &category, const std::string &itemid);
     HQContentItemObjectRef getItemDataForSpecificItem(const std::string &itemid);
     cocos2d::Vec2 getHighlightDataForSpecificItem(const std::string &category, int rowNumber, int itemNumber) const;
     

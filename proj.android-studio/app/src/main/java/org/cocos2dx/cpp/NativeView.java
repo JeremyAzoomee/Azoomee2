@@ -17,6 +17,7 @@ import com.tinizine.azoomee.R;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.xwalk.core.XWalkActivity;
+import org.xwalk.core.XWalkSettings;
 import org.xwalk.core.XWalkView;
 import org.xwalk.core.XWalkCookieManager;
 
@@ -96,7 +97,12 @@ public class NativeView extends XWalkActivity {
         android.view.Display display = wm.getDefaultDisplay();
         android.util.DisplayMetrics metrics = new android.util.DisplayMetrics();
         display.getMetrics(metrics);
-        int buttonWidth = metrics.widthPixels/12;
+
+        int buttonWidth = metrics.widthPixels / 12;
+        if(metrics.heightPixels > metrics.widthPixels)
+        {
+            buttonWidth = metrics.heightPixels / 12;
+        }
 
         android.widget.RelativeLayout.LayoutParams buttonLayoutParams = new android.widget.RelativeLayout.LayoutParams(
                 android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT, android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -183,6 +189,17 @@ public class NativeView extends XWalkActivity {
 
         Bundle extras = getIntent().getExtras();
         String myUrl = "about:blank";
+
+        XWalkSettings webSettings = xWalkWebView.getSettings();
+
+        webSettings.setAllowUniversalAccessFromFileURLs(true);
+        webSettings.setAllowContentAccess(true);
+        webSettings.setAllowFileAccess(true);
+        webSettings.setAllowFileAccessFromFileURLs(true);
+        webSettings.setBuiltInZoomControls(false);
+        webSettings.setMediaPlaybackRequiresUserGesture(false);
+        webSettings.setSupportZoom(false);
+
 
         if(extras != null)
         {

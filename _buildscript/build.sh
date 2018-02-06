@@ -32,6 +32,12 @@ if [ "$FILE1" != "$FILE2" ]; then
 	exit
 fi
 
+if grep -Fq "kRemoteDebugWebViewEnabled = true" ../proj.android-studio/app/src/org/cocos2dx/cpp/AppActivity.java;
+then
+    echo "Remote debugging cannot be enabled in production build! Please check ../proj.android-studio/app/src/org/cocos2dx/cpp/AppActivity.java for private static boolean kRemoteDebugWebViewEnabled = true;"
+    exit
+fi
+
 VER1=$(echo $VERSION| cut -d'.' -f 1)
 VER2=$(echo $VERSION| cut -d'.' -f 2)
 VER3=$(echo $VERSION| cut -d'.' -f 3)

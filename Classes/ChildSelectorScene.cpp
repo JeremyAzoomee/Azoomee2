@@ -20,6 +20,8 @@
 #include "FlowDataSingleton.h"
 #include "ChatNotificationsSingleton.h"
 #include <AzoomeeCommon/UI/PrivacyLayer.h>
+#include "ContentHistoryManager.h"
+#include "DynamicNodeHandler.h"
 
 #define OOMEE_LAYER_WIDTH 300
 #define OOMEE_LAYER_HEIGHT 450
@@ -50,6 +52,8 @@ bool ChildSelectorScene::init()
     AnalyticsSingleton::getInstance()->logoutChildEvent();
     AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
     
+    ContentHistoryManager::getInstance()->setReturnedFromContent(false);
+    
     AudioMixer::getInstance()->stopBackgroundMusic();
     ChatNotificationsSingleton::getInstance()->stopNotificationsUpdate();
     
@@ -77,8 +81,6 @@ void ChildSelectorScene::onEnterTransitionDidFinish()
     {
         MessageBox::createWith(FlowDataSingleton::getInstance()->getErrorCode(), nullptr);
     }
-    
-    FlowDataSingleton::getInstance()->clearData();
     
 }
 
@@ -162,19 +164,22 @@ void ChildSelectorScene::addProfilesToScrollView()
         addListenerToProfileLayer(profileLayer);
         _scrollView->addChild(profileLayer);
     }
-    if(ParentDataProvider::getInstance()->isBillingDataAvailable())
+    
+    _parentButton = createParentProfileButton();
+    _parentButton->setPosition(positionElementOnScrollView(_parentButton));
+    _scrollView->addChild(_parentButton);
+    _parentButton->setVisible(false);
+    
+    if(!ParentDataProvider::getInstance()->isBillingDataAvailable())
     {
-        if(ParentDataProvider::getInstance()->isPaidUser())
-        {
-            auto parentButton = createParentProfileButton();
-            parentButton->setPosition(positionElementOnScrollView(parentButton));
-            _scrollView->addChild(parentButton);
-        }
-
+        addBillingDataRecievedListener();
     }
     else
     {
-        addBillingDataRecievedListener();
+        if(ParentDataProvider::getInstance()->isPaidUser())
+        {
+            _parentButton->setVisible(true);
+        }
     }
     
 }
@@ -421,9 +426,7 @@ void ChildSelectorScene::AdultPinAccepted(AwaitingAdultPinLayer* layer)
         return;
     }
     
-    ModalMessages::getInstance()->startLoading();
-    //Delay so loading screen has time to appear, due to long loading of Spines
-    this->scheduleOnce(schedule_selector(ChildSelectorScene::callDelegateFunction), .5);
+    callDelegateFunction(0);
 }
 
 void ChildSelectorScene::refreshParentCookiesRequest()
@@ -472,8 +475,7 @@ void ChildSelectorScene::connectivityStateChanged(bool online)
 void ChildSelectorScene::callDelegateFunction(float dt)
 {
     FlowDataSingleton::getInstance()->setFlowToNewProfile();
-    OfflineChecker::getInstance()->setDelegate(nullptr);
-    Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildAccount));
+    DynamicNodeHandler::getInstance()->startAddChildFlow();
 }
 
 void ChildSelectorScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
@@ -490,20 +492,16 @@ void ChildSelectorScene::MessageBoxButtonPressed(std::string messageBoxTitle,std
 void ChildSelectorScene::addBillingDataRecievedListener()
 {
     //event will be fired from BackEndCaller::onUpdateBillingDataAnswerReceived
-    _scrollView->retain();
     _billingDataRecievedListener = EventListenerCustom::create(kBillingDataRecievedEvent, [=](EventCustom* event) {
         if(ParentDataProvider::getInstance()->isPaidUser())
         {
-            if(_scrollView)
+            if(_parentButton)
             {
-                auto parentButton = createParentProfileButton();
-                parentButton->setPosition(positionElementOnScrollView(parentButton));
-                _scrollView->addChild(parentButton);
+                _parentButton->setVisible(true);
             }
         }
         Director::getInstance()->getEventDispatcher()->removeEventListener(_billingDataRecievedListener);
         _billingDataRecievedListener = nullptr;
-        _scrollView->release();
     });
     
     _eventDispatcher->addEventListenerWithFixedPriority(_billingDataRecievedListener, 1);
@@ -516,8 +514,9 @@ void ChildSelectorScene::onExit()
     {
         Director::getInstance()->getEventDispatcher()->removeEventListener(_billingDataRecievedListener);
         _billingDataRecievedListener = nullptr;
-        _scrollView->release();
     }
+    _parentButton->removeFromParent();
+    _parentButton = nullptr;
     Node::onExit();
 }
 
