@@ -137,7 +137,7 @@ void HQScene2::startBuildingScrollView()
         
         //Filling up empty spaces with placeholders (Design requirement - except for Group HQ)
     
-        if(_hqCategory != ConfigStorage::kGroupHQName && rowIndex != 0)
+        if(_hqCategory != ConfigStorage::kGroupHQName && rowIndex > 0) //row index 0 will be recently played, which doesnt want placeholder assets
         {
             HQScene2PlaceHolderCreator hqScene2PlaceHolderCreator;
             hqScene2PlaceHolderCreator.setLowestElementYPosition(lowestElementYPosition);
@@ -201,37 +201,39 @@ void HQScene2::startBuildingScrollView()
 void HQScene2::addRecentlyPlayedCarousel()
 {
     //inject recently played row
-    if(_hqCategory != ConfigStorage::kGroupHQName)
+    if(_hqCategory == ConfigStorage::kGroupHQName)
     {
-        const std::vector<HQContentItemObjectRef> recentContent = RecentlyPlayedManager::getInstance()->getRecentlyPlayedContentForHQ(_hqCategory);
-        if(recentContent.size() > 0)
+        return;
+    }
+    
+    const std::vector<HQContentItemObjectRef> recentContent = RecentlyPlayedManager::getInstance()->getRecentlyPlayedContentForHQ(_hqCategory);
+    if(recentContent.size() > 0)
+    {
+        auto HQData = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(_hqCategory);
+        auto carouselData = HQData->getHqCarousels();
+        HQCarouselObjectRef recentContentCarousel = HQCarouselObject::create();
+        recentContentCarousel->setTitle("LAST PLAYED");
+        bool carouselExists = false;
+        for(auto carousel : carouselData)
         {
-            auto HQData = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(_hqCategory);
-            auto carouselData = HQData->getHqCarousels();
-            HQCarouselObjectRef recentContentCarousel = HQCarouselObject::create();
-            recentContentCarousel->setTitle("LAST PLAYED");
-            bool carouselExists = false;
-            for(auto carousel : carouselData)
+            if(carousel->getTitle() == "LAST PLAYED")
             {
-                if(carousel->getTitle() == "LAST PLAYED")
-                {
-                    recentContentCarousel = carousel;
-                    carouselExists = true;
-                    break;
-                }
+                recentContentCarousel = carousel;
+                carouselExists = true;
+                break;
             }
-            if(!carouselExists)
+        }
+        if(!carouselExists)
+        {
+            HQData->addCarouselToHqFront(recentContentCarousel);
+        }
+        
+        recentContentCarousel->removeAllItemsFromCarousel();
+        for(const HQContentItemObjectRef& item : recentContent)
+        {
+            if(item)
             {
-                HQData->addCarusoelToHqFront(recentContentCarousel);
-            }
-            
-            recentContentCarousel->removeAllItemsFromCarousel();
-            for(const HQContentItemObjectRef& item : recentContent)
-            {
-                if(item)
-                {
-                    recentContentCarousel->addContentItemToCarousel(item);
-                }
+                recentContentCarousel->addContentItemToCarousel(item);
             }
         }
     }

@@ -21,7 +21,6 @@ RecentlyPlayedManager* RecentlyPlayedManager::getInstance()
     if (!sRecentlyPlayedManagerSharedInstance.get())
     {
         sRecentlyPlayedManagerSharedInstance.reset(new RecentlyPlayedManager());
-        sRecentlyPlayedManagerSharedInstance->init();
     }
     
     return sRecentlyPlayedManagerSharedInstance.get();
@@ -31,44 +30,28 @@ RecentlyPlayedManager::~RecentlyPlayedManager(void)
 {
 }
 
-bool RecentlyPlayedManager::init(void)
-{
-    return true;
-}
-
 void RecentlyPlayedManager::addContentIdToRecentlyPlayedFile(const std::string& contentId)
 {
     std::vector<std::string> fileIds = getRecentContentIds();
     
-    auto pivot = std::find_if(fileIds.begin(), fileIds.end(), [&](const std::string& id){return id == contentId;});
+    auto pivot = std::find(fileIds.begin(), fileIds.end(), contentId);
     if(pivot != fileIds.end())
     {
         std::rotate(fileIds.begin(), pivot, pivot + 1);
     }
     else
     {
-        fileIds.insert(fileIds.begin(),contentId);
+        fileIds.insert(fileIds.begin(), contentId);
     }
     
-    while(fileIds.size() > _kMaxRecentContent)
-    {
-        fileIds.pop_back();
-    }
+    fileIds.resize(_kMaxRecentContent);
     
-    std::string newIdList = "";
-    for(int i = 0; i < fileIds.size(); i++)
-    {
-        newIdList += fileIds[i];
-        if(i < fileIds.size() -1)
-        {
-            newIdList += "/";
-        }
-    }
+    const std::string& newIdList = joinStrings(fileIds, "/");
     
     FileUtils::getInstance()->writeStringToFile(newIdList, getRecentlyPlayedFilePath());
 }
 
-std::vector<HQContentItemObjectRef> RecentlyPlayedManager::getRecentlyPlayedContent()
+std::vector<HQContentItemObjectRef> RecentlyPlayedManager::getRecentlyPlayedContent() const
 {
     std::vector<HQContentItemObjectRef> recentContent;
     
@@ -89,35 +72,24 @@ void RecentlyPlayedManager::addContentIdToRecentlyPlayedFileForHQ(const std::str
 {
     std::vector<std::string> fileIds = getRecentContentIdsForHQ(hq);
     
-    auto pivot = std::find_if(fileIds.begin(), fileIds.end(), [&](const std::string& id){return id == contentId;});
+    auto pivot = std::find(fileIds.begin(), fileIds.end(), contentId);
     if(pivot != fileIds.end())
     {
         std::rotate(fileIds.begin(), pivot, pivot + 1);
     }
     else
     {
-        fileIds.insert(fileIds.begin(),contentId);
+        fileIds.insert(fileIds.begin(), contentId);
     }
     
-    while(fileIds.size() > _kMaxRecentContent)
-    {
-        fileIds.pop_back();
-    }
+    fileIds.resize(_kMaxRecentContent);
     
-    std::string newIdList = "";
-    for(int i = 0; i < fileIds.size(); i++)
-    {
-        newIdList += fileIds[i];
-        if(i < fileIds.size() -1)
-        {
-            newIdList += "/";
-        }
-    }
+    const std::string& newIdList = joinStrings(fileIds, "/");
     
     FileUtils::getInstance()->writeStringToFile(newIdList, getRecentlyPlayedFilePathForHQ(hq));
 }
 
-std::vector<HQContentItemObjectRef> RecentlyPlayedManager::getRecentlyPlayedContentForHQ(const std::string &hq)
+std::vector<HQContentItemObjectRef> RecentlyPlayedManager::getRecentlyPlayedContentForHQ(const std::string &hq) const
 {
     std::vector<HQContentItemObjectRef> recentContent;
     

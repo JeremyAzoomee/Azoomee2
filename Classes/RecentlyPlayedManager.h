@@ -14,7 +14,7 @@
 
 NS_AZOOMEE_BEGIN
 
-class RecentlyPlayedManager : public cocos2d::Ref
+class RecentlyPlayedManager
 {
 private:
     const int _kMaxRecentContent = 8;
@@ -31,13 +31,12 @@ public:
     static RecentlyPlayedManager* getInstance(void);
     
     virtual ~RecentlyPlayedManager();
-    bool init(void);
     
     void addContentIdToRecentlyPlayedFile(const std::string& contentId);
-    std::vector<HQContentItemObjectRef> getRecentlyPlayedContent();
+    std::vector<HQContentItemObjectRef> getRecentlyPlayedContent() const;
     
     void addContentIdToRecentlyPlayedFileForHQ(const std::string& contentId, const std::string& hq);
-    std::vector<HQContentItemObjectRef> getRecentlyPlayedContentForHQ(const std::string& hq);
+    std::vector<HQContentItemObjectRef> getRecentlyPlayedContentForHQ(const std::string& hq) const;
     
 };
 

@@ -29,8 +29,8 @@ public:
     void setHqType(const std::string &inputHqType);
     void setHqUrl(const std::string &inputHqUrl);
     void setHqEntitlement(bool inputHqEntitlement);
-    void addCarusoelToHq(const HQCarouselObjectRef &inputCarouselData);
-    void addCarusoelToHqFront(const HQCarouselObjectRef &inputCarouselData);
+    void addCarouselToHq(const HQCarouselObjectRef &inputCarouselData);
+    void addCarouselToHqFront(const HQCarouselObjectRef &inputCarouselData);
     void addContentItemToRawStorage(const std::string &contentItemId, const HQContentItemObjectRef &inputContentItemObject);
     void setImages(const std::map<std::string, std::string> &images);
     
