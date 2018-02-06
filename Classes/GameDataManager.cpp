@@ -62,16 +62,6 @@ bool GameDataManager::init(void)
 
 void GameDataManager::startProcessingGame(const HQContentItemObjectRef &itemData)
 {
-    //Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Azoomee::Orientation::Landscape, "https://games.azoomee.ninja/" + itemData->getContentItemId() + "/export/index-azoomee.html"));
-    //Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Azoomee::Orientation::Landscape, "https://media.azoomee.ninja/distribution/global/001e8b25-878c-498b-ac22-59f53c616300/index.html"));
-    //displayLoadingScreen();
-    //if(!FileUtils::getInstance()->isDirectoryExist(getGameCachePath() + "001e8b25-878c-498b-ac22-59f53c616300"))
-    //{
-    //    FileUtils::getInstance()->createDirectory(getGameCachePath() + "001e8b25-878c-498b-ac22-59f53c616300");
-    //}
-    //getGameZipFile("https://media.azoomee.ninja/distribution/global/001e8b25-878c-498b-ac22-59f53c616300/game.zip", "001e8b25-878c-498b-ac22-59f53c616300");
-    //return;
-    
     AnalyticsSingleton::getInstance()->contentItemProcessingStartedEvent();
     
     processCancelled = false;
@@ -143,6 +133,8 @@ void GameDataManager::JSONFileIsPresent(const std::string &itemId)
     }
     else
     {
+        //check if streamable here
+        
         std::string uri = getDownloadUrlForGameFromJSONFile(basePathWithFileName);
         uri = uri.substr(0, uri.find_last_of("/"));
         const std::string& startFileNameWithPath = getStartFileFromJSONFile(basePathWithFileName);
