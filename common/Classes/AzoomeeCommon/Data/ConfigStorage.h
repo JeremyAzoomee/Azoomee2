@@ -4,6 +4,7 @@
 //General configuration
 //#define forcereload YES;
 //#define forgetuserdata YES;
+//#define allowUnpaidSignup YES
 //#define USINGCI YES
 
 #include <cocos/cocos2d.h>

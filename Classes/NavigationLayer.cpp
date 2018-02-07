@@ -630,7 +630,11 @@ void NavigationLayer::buttonPressed(ElectricDreamsButton* button)
     }
     else if(button == previewSignUpButton)
     {
+    #ifdef allowUnpaidSignup
+        DynamicNodeHandler::getInstance()->startSignupFlow();
+    #else
         DynamicNodeHandler::getInstance()->startIAPFlow();
+    #endif
     }
     else if(button == returnToChildSelectorButton)
     {
