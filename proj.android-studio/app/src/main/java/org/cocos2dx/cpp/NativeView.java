@@ -206,37 +206,33 @@ public class NativeView extends XWalkActivity {
             myUrl = extras.getString("url");
             userid = extras.getString("userid");
         }
-        //else
-        //{
-            XWalkCookieManager mCookieManager = new XWalkCookieManager();
-            mCookieManager.removeSessionCookie();
-            mCookieManager.removeExpiredCookie();
-            mCookieManager.removeAllCookie();
-            mCookieManager.flushCookieStore();
-            mCookieManager.setAcceptCookie(true);
-            mCookieManager.setAcceptFileSchemeCookies(true);
 
-            try
+        XWalkCookieManager mCookieManager = new XWalkCookieManager();
+        mCookieManager.removeSessionCookie();
+        mCookieManager.removeExpiredCookie();
+        mCookieManager.removeAllCookie();
+        mCookieManager.flushCookieStore();
+        mCookieManager.setAcceptCookie(true);
+        mCookieManager.setAcceptFileSchemeCookies(true);
+
+        try
+        {
+            JSONObject obj = new JSONObject(JNICalls.JNIGetAllCookies());
+            JSONArray array = obj.getJSONArray("Elements");
+
+            for(int i = 0; i < array.length(); i++)
             {
-                JSONObject obj = new JSONObject(JNICalls.JNIGetAllCookies());
-                JSONArray array = obj.getJSONArray("Elements");
+                JSONObject currentObject = array.getJSONObject(i);
+                String url = currentObject.getString("url");
+                String cookie = currentObject.getString("cookie");
 
-                for(int i = 0; i < array.length(); i++)
-                {
-                    JSONObject currentObject = array.getJSONObject(i);
-                    String url = currentObject.getString("url");
-                    String cookie = currentObject.getString("cookie");
-
-                    mCookieManager.setCookie(url, cookie);
-                }
+                mCookieManager.setCookie(url, cookie);
             }
-            catch (Exception ex)
-            {
-                JNICalls.getBackToLoginScreen();
-            }
-
-            //xWalkWebView.loadUrl("file:///android_asset/res/jwplayer/index_android.html?contentUrl=" + myUrl);
-        //}
+        }
+        catch (Exception ex)
+        {
+            JNICalls.getBackToLoginScreen();
+        }
 
         if(myUrl.substring(myUrl.length() - 4).equals("html"))
         {

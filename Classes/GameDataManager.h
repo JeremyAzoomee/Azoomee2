@@ -100,7 +100,6 @@ private:
     const std::string _kJsonTag = "json";
 };
 
-//void asyncUnzip(std::string zipPath,std::string dirpath, std::string passwd);
 
 NS_AZOOMEE_END
 

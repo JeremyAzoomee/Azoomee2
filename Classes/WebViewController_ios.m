@@ -51,22 +51,10 @@ using namespace Azoomee;
 
     webview = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, width, height)];
     
-    NSString *iosurlExtension = [urlToLoad substringFromIndex:MAX((int)[urlToLoad length]-4, 0)];
     NSString *urlToCall;
     
     
     urlToCall = [[NSBundle mainBundle] pathForResource:@"res/webcommApi/index_ios" ofType:@"html"];
-    /*
-    if([iosurlExtension isEqualToString:@"html"])
-    {
-        urlToCall = [[NSBundle mainBundle] pathForResource:@"res/webcommApi/index_ios" ofType:@"html"];
-    }
-    else
-    {
-        NSString *htmlFileAddress = [[NSBundle mainBundle] pathForResource:@"res/jwplayer/index_ios" ofType:@"html"];
-        urlToCall = [NSString stringWithFormat:@"%@?contentUrl=%@", htmlFileAddress, urlToLoad];
-    }
-     */
     
     NSURL *nsurl=[NSURL URLWithString:urlToCall];
     NSURLRequest *nsrequest = [NSURLRequest requestWithURL:nsurl];
@@ -153,26 +141,8 @@ using namespace Azoomee;
 {
     if(!iframeloaded)
     {
-        NSString *iosurlExtension = [urlToLoad substringFromIndex:MAX((int)[urlToLoad length]-4, 0)];
-        
-        //if([iosurlExtension isEqualToString:@"html"])
-        //{
-            //[webView stringByEvaluatingJavaScriptFromString:@"clearLocalStorage()"];
-            
-            //NSString *localStorageData = [NSString stringWithFormat: @"%s", getLocalStorageForGame()];
-            
-            //NSString *addDataString = [NSString stringWithFormat:@"addDataToLocalStorage(\"%@\")", localStorageData];
-            //NSLog(@"addDataString: %@", addDataString);
-            //[webView stringByEvaluatingJavaScriptFromString:addDataString];
-            
-            NSString *loadString = [NSString stringWithFormat:@"addFrameWithUrl(\"%@\")", urlToLoad];
-            [webView stringByEvaluatingJavaScriptFromString:loadString];
-        //}
-        //else
-        //{
-        //    NSString *loadString = [NSString stringWithFormat:@"startBuildingPlayer(\"%@\")", getVideoPlaylist()];
-        //    [webView stringByEvaluatingJavaScriptFromString:loadString];
-        //}
+        NSString *loadString = [NSString stringWithFormat:@"addFrameWithUrl(\"%@\")", urlToLoad];
+        [webView stringByEvaluatingJavaScriptFromString:loadString];
         
         iframeloaded = true;
     };

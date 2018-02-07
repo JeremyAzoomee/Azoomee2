@@ -269,18 +269,7 @@ std::string DynamicNodeHandler::getLastPullAppVersionFilePath() const
 bool DynamicNodeHandler::unzipCTAFiles(const char *zipPath, const char *dirpath, const char *passwd)
 {
     FileZipUtil::getInstance()->asyncUnzip(zipPath, dirpath, "", this);
-    /*
-    if(FileZipUtil::getInstance()->unzip(zipPath,dirpath,passwd))
-    {
-        FileUtils::getInstance()->removeFile(getCTADirectoryPath() + "CTAFiles.zip");
-        return true;
-    }
-    else
-    {
-        //unable to unzip file
-        FileUtils::getInstance()->removeFile(getCTADirectoryPath() + "CTAFiles.zip");
-        return false;
-    }*/
+
     return true;
 }
 
@@ -294,18 +283,7 @@ bool DynamicNodeHandler::unzipBundleCTAFiles()
     FileUtils::getInstance()->writeStringToFile(zipFile, destinationPath);
 
     FileZipUtil::getInstance()->asyncUnzip(destinationPath,basePath, "", this);
-    /*
-    if(FileZipUtil::getInstance()->unzip(destinationPath.c_str(),basePath.c_str(),nullptr))
-    {
-        FileUtils::getInstance()->removeFile(destinationPath);
-        return true;
-    }
-    else
-    {
-        //unable to unzip file
-        FileUtils::getInstance()->removeFile(destinationPath);
-        return false;
-    }*/
+
     return true;
 }
 
