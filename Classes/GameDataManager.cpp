@@ -65,6 +65,8 @@ void GameDataManager::startProcessingGame(const HQContentItemObjectRef &itemData
     AnalyticsSingleton::getInstance()->contentItemProcessingStartedEvent();
     
     processCancelled = false;
+    _gameIsBeingStreamed = false;
+    
     displayLoadingScreen();
     
     performGameCleanup();
@@ -131,17 +133,33 @@ void GameDataManager::JSONFileIsPresent(const std::string &itemId)
     {
         startGame(basePath, startFile);
     }
+    else if(!HQHistoryManager::getInstance()->isOffline)
+    {
+        if(getIsGameStreamableFromJSONFile(basePathWithFileName))
+        {
+            std::string uri = getDownloadUrlForGameFromJSONFile(basePathWithFileName);
+            uri = uri.substr(0, uri.find_last_of("/"));
+            const std::string& startFileNameWithPath = getStartFileFromJSONFile(basePathWithFileName);
+            Director::getInstance()->replaceScene(SceneManagerScene::createWebview(getGameOrientation(basePathWithFileName), uri + "/" + startFileNameWithPath));
+            _gameIsBeingStreamed = true;
+        }
+        
+        if(getIsGameDownloadableFromJSONFile(basePathWithFileName))
+        {
+            const std::string &downloadUrl = getDownloadUrlForGameFromJSONFile(basePathWithFileName);
+            getGameZipFile(downloadUrl, itemId); //getGameZipFile callback will call unzipGame and startGame
+        }
+        else
+        {
+            hideLoadingScreen();
+            showErrorMessage();
+            return;
+        }
+    }
     else
     {
-        //check if streamable here
-        
-        std::string uri = getDownloadUrlForGameFromJSONFile(basePathWithFileName);
-        uri = uri.substr(0, uri.find_last_of("/"));
-        const std::string& startFileNameWithPath = getStartFileFromJSONFile(basePathWithFileName);
-        Director::getInstance()->replaceScene(SceneManagerScene::createWebview(getGameOrientation(basePathWithFileName), uri + "/" + startFileNameWithPath));
-
-        const std::string &downloadUrl = getDownloadUrlForGameFromJSONFile(basePathWithFileName);
-        getGameZipFile(downloadUrl, itemId); //getGameZipFile callback will call unzipGame and startGame
+        hideLoadingScreen();
+        return;
     }
 }
 
@@ -256,6 +274,22 @@ int GameDataManager::getCurrentGameVersionFromJSONFile(const std::string &jsonFi
     return 0;
 }
 
+bool GameDataManager::getIsGameStreamableFromJSONFile(const std::string &jsonFileName)
+{
+    const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
+    rapidjson::Document gameData;
+    gameData.Parse(fileContent.c_str());
+    return getBoolFromJson("isStreamable", gameData);
+}
+
+bool GameDataManager::getIsGameDownloadableFromJSONFile(const std::string &jsonFileName)
+{
+    const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
+    rapidjson::Document gameData;
+    gameData.Parse(fileContent.c_str());
+    return getBoolFromJson("isDownloadable", gameData, true);
+}
+
 int GameDataManager::getMinGameVersionFromJSONString(const std::string &jsonString)
 {
     rapidjson::Document gameData;
@@ -295,49 +329,6 @@ void GameDataManager::getGameZipFile(const std::string &url, const std::string &
     
     FileZipUtil::getInstance()->asyncUnzip(zipPath, dirpath,"", this);
     
-    /*if(FileZipUtil::getInstance()->unzip(zipPath.c_str(), dirpath.c_str(),nullptr))
-    {
-    
-        removeGameZip(zipPath);
-    
-        if(!isGameCompatibleWithCurrentAzoomeeVersion(dirpath + "package.json"))
-        {
-            hideLoadingScreen(); //ERROR TO BE ADDED
-            showIncompatibleMessage();
-            return false;
-        }
-    
-        std::string startFileNameWithPath = getStartFileFromJSONFile(dirpath + "package.json");
-    
-        if(FileUtils::getInstance()->isFileExist(dirpath + startFileNameWithPath))
-        {
-            const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(dirpath + "package.json");
-            rapidjson::Document gameData;
-            gameData.Parse(fileContent.c_str());
-            std::string uri = gameData["uri"].GetString();
-            uri = uri.substr(0, uri.find_last_of("/"));
-            Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Azoomee::Orientation::Landscape, uri + startFileNameWithPath));
-            return true;;
-            startGame(dirpath, startFileNameWithPath);
-        }
-        else
-        {
-            AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
-            removeGameFolderOnError(dirpath);
-            hideLoadingScreen();
-            showErrorMessage();
-            return false;
-        }
-    }
-    else
-    {
-        AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
-        removeGameFolderOnError(dirpath);
-        hideLoadingScreen();
-        showErrorMessage();
-        return false;
-    }*/
-    
     return true;
 }
 
@@ -348,7 +339,10 @@ bool GameDataManager::removeGameZip(const std::string &fileNameWithPath)
 
 void GameDataManager::startGame(const std::string &basePath, const std::string &fileName)
 {
-    if(processCancelled) return;
+    if(processCancelled)
+    {
+        return;
+    }
     
     if(!FileUtils::getInstance()->isFileExist(basePath + fileName))
     {
@@ -551,38 +545,12 @@ void GameDataManager::onAsyncUnzipComplete(bool success, std::string zipPath,std
     if(success)
     {
         removeGameZip(zipPath);
-        /*
-        //Director::getInstance()->getScheduler()->schedule([&](float deltat){
-        //    Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Azoomee::Orientation::Landscape, "https://media.azoomee.ninja/distribution/global/001e8b25-878c-498b-ac22-59f53c616300/index.html"));
-            
-        //}, this, 0, 0, 0.5, false, "startGame");
-        
-        
-        if(!isGameCompatibleWithCurrentAzoomeeVersion(dirpath + "package.json"))
+        if(!_gameIsBeingStreamed)
         {
-            hideLoadingScreen(); //ERROR TO BE ADDED
-            showIncompatibleMessage();
+            const std::string &basePathWithFileName = dirpath + "package.json";
+            const std::string &startFile = getStartFileFromJSONFile(basePathWithFileName);
+            startGame(dirpath, startFile);
         }
-        
-        std::string startFileNameWithPath = getStartFileFromJSONFile(dirpath + "package.json");
-        
-        if(FileUtils::getInstance()->isFileExist(dirpath + startFileNameWithPath))
-        {
-            const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(dirpath + "package.json");
-            rapidjson::Document gameData;
-            gameData.Parse(fileContent.c_str());
-            std::string uri = gameData["uri"].GetString();
-            uri = uri.substr(0, uri.find_last_of("/"));
-            //Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Azoomee::Orientation::Landscape, uri + startFileNameWithPath));
-            startGame(dirpath, startFileNameWithPath);
-        }
-        else
-        {
-            AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
-            removeGameFolderOnError(dirpath);
-            hideLoadingScreen();
-            showErrorMessage();
-        }*/
     }
     else
     {

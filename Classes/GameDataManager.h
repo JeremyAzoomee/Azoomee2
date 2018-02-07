@@ -53,6 +53,8 @@ private:
     std::string getStartFileFromJSONFile(const std::string &jsonFileName);
     int getCurrentGameVersionFromJSONFile(const std::string &jsonFileName);
     int getMinGameVersionFromJSONString(const std::string &jsonString);
+    bool getIsGameStreamableFromJSONFile(const std::string& jsonFileName);
+    bool getIsGameDownloadableFromJSONFile(const std::string& jsonFileName);
     
     void getGameZipFile(const std::string &url, const std::string &itemId);
     
@@ -76,6 +78,8 @@ private:
     std::string _contentId = "";
     
     bool processCancelled = false;
+    
+    bool _gameIsBeingStreamed = false;
     
     bool isGameCompatibleWithCurrentAzoomeeVersion(const std::string &jsonFileName);
     Orientation getGameOrientation(const std::string& jsonFileName);
