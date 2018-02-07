@@ -24,6 +24,7 @@ public:
         HOME,
         ARTS_APP,
         GAME_HQ,
+        MIX_HQ,
         GROUP_HQ
     };
     
@@ -33,6 +34,7 @@ public:
     static const char* const kGroupHQName;
     static const char* const kHomeHQName;
     static const char* const kArtAppHQName;
+    static const char* const kMixHQName;
     
     static const char* const kDefaultHQName;
     

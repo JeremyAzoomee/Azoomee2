@@ -29,7 +29,7 @@ using namespace cocos2d;
 NS_AZOOMEE_BEGIN
 
 
-int amountOfItems = 5;
+int amountOfItems = 6;
 
 Scene* NavigationLayer::createScene()
 {
@@ -107,7 +107,7 @@ void NavigationLayer::startLoadingGroupHQ(std::string uri)
     HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kGroupHQName);
     
     this->getParent()->getChildByName("contentLayer")->stopAllActions();
-    this->getParent()->getChildByName("contentLayer")->runAction(Sequence::create(EaseInOut::create(MoveTo::create(0.5, ConfigStorage::getInstance()->getTargetPositionForMove(6)), 2), DelayTime::create(0.5), NULL));
+    this->getParent()->getChildByName("contentLayer")->runAction(Sequence::create(EaseInOut::create(MoveTo::create(0.5, ConfigStorage::getInstance()->getTargetPositionForMove(7)), 2), DelayTime::create(0.5), NULL));
     
     moveMenuPointsToHorizontalStateInGroupHQ(0.5);
     turnOffAllMenuItems();

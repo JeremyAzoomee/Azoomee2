@@ -24,6 +24,10 @@
       {
         "x": 420,
         "y": 242
+      },
+      {
+        "x": 0,
+        "y": 600
       }
     ]
   },
@@ -33,7 +37,8 @@
     1248,
     1957,
     1721,
-    1484
+    1484,
+    2193
   ],
   "horizontalYPositionsForMenuItems": -150,
   "horizontalMenuItemsHeight": 270,
@@ -74,6 +79,12 @@
       "g": 174,
       "b": 255,
       "a": 255
+    },
+    {
+      "r": 246,
+      "g": 187,
+      "b": 66,
+      "a": 255
     }
   ],
   "namesForMenuItems": [
@@ -83,6 +94,7 @@
     "HOME",
     "ARTS APP",
     "GAME HQ",
+    "MIX HQ",
     "GROUP HQ"
   ],
   "hqNamesReplacementForPermissionFeed": {
@@ -91,7 +103,8 @@
   	"AUDIO": "AUDIO HQ",
   	"HOME": "HOME",
   	"ART": "ARTS APP",
-  	"GAME": "GAME HQ"
+  	"GAME": "GAME HQ",
+    "MIX": "MIX HQ"
   },
   "tagNumberForMenuItems": {
     "CHAT": 0,
@@ -100,7 +113,8 @@
     "HOME": 3,
     "ARTS APP": 4,
     "GAME HQ": 5,
-    "GROUP HQ": 6
+    "MIX HQ": 6,
+    "GROUP HQ": 7
   },
   "targetPositionsForMove": [
     {
@@ -126,6 +140,10 @@
     {
       "x": 0,
       "y": 2048
+    },
+    {
+      "x": 0,
+      "y": 4096
     },
     {
       "x": 0,

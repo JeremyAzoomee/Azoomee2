@@ -24,6 +24,7 @@ static ConfigStorage *_sharedConfigStorage = NULL;
     const char* const ConfigStorage::kGroupHQName = "GROUP HQ";
     const char* const ConfigStorage::kHomeHQName = "HOME";
     const char* const ConfigStorage::kArtAppHQName = "ARTS APP";
+    const char* const ConfigStorage::kMixHQName = "MIX HQ";
     
     const char* const ConfigStorage::kDefaultHQName = kGameHQName;
     

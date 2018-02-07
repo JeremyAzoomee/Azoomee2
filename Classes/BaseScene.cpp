@@ -81,6 +81,7 @@ void BaseScene::startBuildingHQs()
     createHQScene2(ConfigStorage::kAudioHQName, contentLayer);
     createHQScene2(ConfigStorage::kArtAppHQName, contentLayer);
     createHQScene2(ConfigStorage::kGroupHQName, contentLayer);
+    createHQScene2(ConfigStorage::kMixHQName, contentLayer);
     
     addNavigationLayer();  //The navigation layer is being added to "this", because that won't move with the menu.
 }
