@@ -166,6 +166,20 @@ inline cocos2d::Vec2 getVec2FromJson(const std::string &keyName, const rapidjson
     return defaultReturn;
 }
 
+inline int getIntFromJson(const std::string &keyName, const rapidjson::Document &jsonDocument, int defaultReturn = INT_MAX)
+{
+    if(jsonDocument.HasParseError())
+    {
+        return defaultReturn;
+    }
+    
+    if(jsonDocument.HasMember(keyName.c_str()) && jsonDocument[keyName.c_str()].IsInt())
+    {
+        return jsonDocument[keyName.c_str()].GetInt();
+    }
+    return defaultReturn;
+}
+
 inline int getIntFromJson(const std::string &keyName, const rapidjson::Value &jsonValue, int defaultReturn = INT_MAX)
 {
     if(jsonValue.HasMember(keyName.c_str()) && jsonValue[keyName.c_str()].IsInt())

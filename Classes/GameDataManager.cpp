@@ -258,20 +258,8 @@ int GameDataManager::getCurrentGameVersionFromJSONFile(const std::string &jsonFi
     const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     rapidjson::Document gameData;
     gameData.Parse(fileContent.c_str());
-    if(gameData.HasParseError())
-    {
-        return 0;
-    }
     
-    if(gameData.HasMember("currentVersion"))
-    {
-        if(gameData["currentVersion"].IsInt())
-        {
-            return gameData["currentVersion"].GetInt();
-        }
-    }
-    
-    return 0;
+    return getIntFromJson("currentVersion", gameData, 0);
 }
 
 bool GameDataManager::getIsGameStreamableFromJSONFile(const std::string &jsonFileName)
@@ -294,20 +282,8 @@ int GameDataManager::getMinGameVersionFromJSONString(const std::string &jsonStri
 {
     rapidjson::Document gameData;
     gameData.Parse(jsonString.c_str());
-    if(gameData.HasParseError())
-    {
-        return 0;
-    }
     
-    if(gameData.HasMember("minVersion"))
-    {
-        if(gameData["minVersion"].IsInt())
-        {
-            return gameData["minVersion"].GetInt();
-        }
-    }
-    
-    return 0;
+    return getIntFromJson("minVersion", gameData, 0);
 }
 
 void GameDataManager::getGameZipFile(const std::string &url, const std::string &itemId)
@@ -424,23 +400,15 @@ void GameDataManager::removeGameFolderOnError(const std::string &dirPath)
 
 bool GameDataManager::isGameCompatibleWithCurrentAzoomeeVersion(const std::string &jsonFileName)
 {
-    std::string fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
+    const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     rapidjson::Document gameData;
     gameData.Parse(fileContent.c_str());
-    if(gameData.HasParseError())
-    {
-        return true;
-    }
     
-    if(gameData.HasMember("minAppVersion"))
+    const std::string& minAppVersion = getStringFromJson("minAppVersion", gameData);
+
+    if(minAppVersion != "" && !azoomeeMeetsVersionRequirement(minAppVersion))
     {
-        if(gameData["minAppVersion"].IsString())
-        {
-            if(!azoomeeMeetsVersionRequirement(gameData["minAppVersion"].GetString()))
-            {
-                return false;
-            }
-        }
+        return false;
     }
     
     return true;
