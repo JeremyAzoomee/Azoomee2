@@ -280,10 +280,11 @@ void AnalyticsSingleton::childProfileUpdateErrorEvent(long errorCode)
 void AnalyticsSingleton::childProfileCreatedEvent(int age, int oomeeNum)
 {
     std::map<std::string, std::string> mixPanelProperties;
+    mixPanelProperties["Method"] = "App";
     mixPanelProperties["SelectedOomee"] = ConfigStorage::getInstance()->getHumanReadableNameForOomee(oomeeNum);
     mixPanelProperties["Age"] = age;
     
-    mixPanelSendEventWithStoredProperties("childProfileUpdateError", mixPanelProperties);
+    mixPanelSendEventWithStoredProperties("childProfileCreatedEvent", mixPanelProperties);
 }
 
 //-------------HUB ACTIONS-------------------
