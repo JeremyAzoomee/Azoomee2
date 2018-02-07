@@ -761,7 +761,7 @@ void AnalyticsSingleton::ctaWindowAppeared(const std::string &groupId, const std
         {"nodeId", nodeId},
         {"sourceButton", _analyticsProperties->getCtaSourceButton()},
         {"sourceContentId", _analyticsProperties->getCtaSourceContentId()},
-        {"aourceMediaType", _analyticsProperties->getCtaSourceMediaType()}
+        {"sourceMediaType", _analyticsProperties->getCtaSourceMediaType()}
     };
     
     mixPanelSendEventWithStoredProperties("ctaWindowAppeared", mixPanelProperties);
