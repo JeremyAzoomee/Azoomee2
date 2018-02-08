@@ -22,6 +22,9 @@ private:
     
     std::string _ctaWindowNodeId = "";
     std::string _ctaWindowGroupId = "";
+    std::string _ctaSourceButton = "";
+    std::string _ctaSourceContentId = "";
+    std::string _ctaSourceMediaType = "";
     
     std::string _OSManufacturer;
     
@@ -44,6 +47,15 @@ public:
     
     void setCtaWindowGroupId(const std::string& groupId);
     std::string getCtaWindowGroupId() const;
+    
+    void setCtaSourceButton(const std::string& buttonId);
+    std::string getCtaSourceButton() const;
+    
+    void setCtaSourceContentId(const std::string& contentId);
+    std::string getCtaSourceContentId() const;
+    
+    void setCtaSourceMediaType(const std::string& mediaType);
+    std::string getCtaSourceMediaType() const;
     
     void setOSManufacturer(const std::string& osManufacturer);
     std::string getOSManufacturer() const;

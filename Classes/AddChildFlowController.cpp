@@ -12,6 +12,7 @@
 #include "DynamicNodeHandler.h"
 #include <AzoomeeCommon/Input/TextInputChecker.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
+#include <AzoomeeCommon/Utils/TimeFunctions.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
@@ -31,21 +32,6 @@ void AddChildFlowController::processAction(const ButtonActionDataRef& actionData
 {
     const std::string& fileName = actionData->getParamForKey(kCTAFilenameKey);
     FlowPath pathAction = convertStringToFlowPath(actionData->getParamForKey(kCTAActionKey));
-    switch(pathAction)
-    {
-        default: case UNKNOWN:
-            AnalyticsSingleton::getInstance()->ctaButtonPressed("flowUnknown");
-            break;
-        case NEXT:
-            AnalyticsSingleton::getInstance()->ctaButtonPressed("flowNext");
-            break;
-        case BACK:
-            AnalyticsSingleton::getInstance()->ctaButtonPressed("flowBack");
-            break;
-        case CLOSE:
-            AnalyticsSingleton::getInstance()->ctaButtonPressed("flowClose");
-            break;
-    }
     
     if( fileName == kAddChildCTAName)
     {
@@ -89,6 +75,7 @@ void AddChildFlowController::handleAddChildFlow(const ButtonActionDataRef& actio
                 return;
             }
             
+            AnalyticsSingleton::getInstance()->ctaButtonPressed("addChild_next");
             DynamicNodeHandler::getInstance()->createDynamicNodeById(kSelectOomeeCTAName);
             break;
         }
@@ -143,6 +130,9 @@ void AddChildFlowController::addChild(int oomeeNum)
     {
         return;
     }
+    
+    AnalyticsSingleton::getInstance()->childProfileCreatedEvent(age, oomeeNum);
+    
     auto backEndCaller = BackEndCaller::getInstance();
     if(FlowDataSingleton::getInstance()->isSignupNewProfileFlow() && ParentDataProvider::getInstance()->getAmountOfAvailableChildren() !=0)
     {

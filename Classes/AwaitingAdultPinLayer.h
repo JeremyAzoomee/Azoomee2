@@ -47,6 +47,8 @@ private:
     void androidBiometricAuthenticationSuccess();
     void androidBiometricAuthenticationFailure();
     
+    bool _pinIsForPayment = false;
+    
 public:
     virtual bool init();
     
@@ -63,6 +65,8 @@ public:
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
     
     void secondCheckForPin();
+    
+    void setPinIsForPayment(bool pinIsForPayment);
     
 };
 

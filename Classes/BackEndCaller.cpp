@@ -186,8 +186,17 @@ void BackEndCaller::onUpdateBillingDataAnswerReceived(const std::string& respons
 {
     ParentDataParser::getInstance()->parseParentBillingData(responseString);
     // fire event to add parent button to child select scene if paid account
-    EventCustom event(ChildSelectorScene::kBillingDataRecievedEvent);
-    Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+    if(Director::getInstance()->getRunningScene()->getName() == ChildSelectorScene::kSceneName)
+    {
+        if(ParentDataProvider::getInstance()->isPaidUser())
+        {
+            ChildSelectorScene* childSelectScene = dynamic_cast<ChildSelectorScene*>(Director::getInstance()->getRunningScene()->getChildByName(ChildSelectorScene::kSceneName));
+            if(childSelectScene)
+            {
+                childSelectScene->setParentButtonVisible(true);
+            }
+        }
+    }
 }
 
 //GETTING FORCE UPDATE INFORMATION

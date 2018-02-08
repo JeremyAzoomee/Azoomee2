@@ -23,6 +23,11 @@ DynamicNodeFlowController::DynamicNodeFlowController() noexcept
     _type = FlowType::NONE;
 }
 
+FlowType DynamicNodeFlowController::getType() const
+{
+    return _type;
+}
+
 void DynamicNodeFlowController::processAction(const ButtonActionDataRef& actionData)
 {
     // called in DynamicNodeButtonListener
