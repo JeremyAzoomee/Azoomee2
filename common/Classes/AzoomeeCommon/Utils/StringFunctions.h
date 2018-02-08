@@ -19,6 +19,7 @@ std::string replaceAll(std::string& str, const std::string& from, const std::str
 std::string getValueFromHttpResponseHeaderForKey(const std::string &key, const std::string &responseHeaderString);
 std::string& trim(std::string& string);
 std::string shortenString(const std::string& string, int maxLength);
+std::string joinStrings(const std::vector<std::string>& stringList, const std::string& divider);
     
 /// Trim whitespace from the start of string
 std::string ltrim(const std::string& s);

@@ -9,13 +9,16 @@
 #include "DynamicNodeHandler.h"
 #include "HQSceneArtsApp.h"
 #include "OfflineHubBackButton.h"
+#include "RecentlyPlayedManager.h"
 #include <AzoomeeCommon/UI/PrivacyLayer.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
+#include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+
 
 using namespace cocos2d;
 
@@ -102,6 +105,8 @@ void HQScene2::startBuildingScrollView()
     _carouselStorage.clear();
     float totalHeightOfCarousels = 0;
     
+    addRecentlyPlayedCarousel();
+    
     for(int rowIndex = 0; rowIndex < HQDataProvider::getInstance()->getNumberOfRowsForHQ(_hqCategory); rowIndex++)
     {
         cocos2d::LayerColor* carouselLayer = createNewCarousel();
@@ -133,7 +138,7 @@ void HQScene2::startBuildingScrollView()
         
         //Filling up empty spaces with placeholders (Design requirement - except for Group HQ)
     
-        if(_hqCategory != ConfigStorage::kGroupHQName)
+        if(_hqCategory != ConfigStorage::kGroupHQName && rowIndex > 0) //row index 0 will be recently played, which doesnt want placeholder assets
         {
             HQScene2PlaceHolderCreator hqScene2PlaceHolderCreator;
             hqScene2PlaceHolderCreator.setLowestElementYPosition(lowestElementYPosition);
@@ -192,6 +197,47 @@ void HQScene2::startBuildingScrollView()
     //show post content cta if necessary
     
     showPostContentCTA();
+}
+
+void HQScene2::addRecentlyPlayedCarousel()
+{
+    //inject recently played row
+    if(_hqCategory == ConfigStorage::kGroupHQName)
+    {
+        return;
+    }
+    
+    const std::vector<HQContentItemObjectRef> recentContent = RecentlyPlayedManager::getInstance()->getRecentlyPlayedContentForHQ(_hqCategory);
+    if(recentContent.size() > 0)
+    {
+        auto HQData = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(_hqCategory);
+        auto carouselData = HQData->getHqCarousels();
+        HQCarouselObjectRef recentContentCarousel = HQCarouselObject::create();
+        recentContentCarousel->setTitle("LAST PLAYED");
+        bool carouselExists = false;
+        for(auto carousel : carouselData)
+        {
+            if(carousel->getTitle() == "LAST PLAYED")
+            {
+                recentContentCarousel = carousel;
+                carouselExists = true;
+                break;
+            }
+        }
+        if(!carouselExists)
+        {
+            HQData->addCarouselToHqFront(recentContentCarousel);
+        }
+        
+        recentContentCarousel->removeAllItemsFromCarousel();
+        for(const HQContentItemObjectRef& item : recentContent)
+        {
+            if(item)
+            {
+                recentContentCarousel->addContentItemToCarousel(item);
+            }
+        }
+    }
 }
 
 void HQScene2::showPostContentCTA()

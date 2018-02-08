@@ -161,4 +161,17 @@ std::string shortenString(const std::string& string, int maxLength)
     return string.substr(0, maxLength) + "...";
 }
 
+std::string joinStrings(const std::vector<std::string>& stringList, const std::string& divider)
+{
+    std::string listString = "";
+    for (std::vector<std::string>::const_iterator strListItt = stringList.begin(); strListItt != stringList.end(); ++strListItt) {
+        listString += *strListItt;
+        if (strListItt != stringList.end() - 1)
+        {
+            listString += divider;
+        }
+    }
+    return listString;
+}
+    
 } // Azoomee
