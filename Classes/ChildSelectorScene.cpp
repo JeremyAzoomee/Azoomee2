@@ -31,14 +31,16 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-const char* const ChildSelectorScene::kBillingDataRecievedEvent  = "BillingDataRecived";
+const std::string ChildSelectorScene::kSceneName = "ChildSelectScene";
 
 Scene* ChildSelectorScene::createScene()
 {
     auto scene = Scene::create();
     auto layer = ChildSelectorScene::create();
+    layer->setName(kSceneName);
     scene->addChild(layer);
-
+    scene->setName(kSceneName);
+    
     return scene;
 }
 
@@ -170,11 +172,7 @@ void ChildSelectorScene::addProfilesToScrollView()
     _scrollView->addChild(_parentButton);
     _parentButton->setVisible(false);
     
-    if(!ParentDataProvider::getInstance()->isBillingDataAvailable())
-    {
-        addBillingDataRecievedListener();
-    }
-    else
+    if(ParentDataProvider::getInstance()->isBillingDataAvailable())
     {
         if(ParentDataProvider::getInstance()->isPaidUser())
         {
@@ -400,6 +398,14 @@ Layer* ChildSelectorScene::createParentProfileButton()
     return profileLayer;
 }
 
+void ChildSelectorScene::setParentButtonVisible(bool visible)
+{
+    if(_parentButton)
+    {
+        _parentButton->setVisible(visible);
+    }
+}
+
 //---------------------- Check Email Verified Before Adding Child ---------------
 
 void ChildSelectorScene::addChildButtonPressed(Node* target)
@@ -489,34 +495,11 @@ void ChildSelectorScene::MessageBoxButtonPressed(std::string messageBoxTitle,std
     }
 }
 
-void ChildSelectorScene::addBillingDataRecievedListener()
-{
-    //event will be fired from BackEndCaller::onUpdateBillingDataAnswerReceived
-    _billingDataRecievedListener = EventListenerCustom::create(kBillingDataRecievedEvent, [=](EventCustom* event) {
-        if(ParentDataProvider::getInstance()->isPaidUser())
-        {
-            if(_parentButton)
-            {
-                _parentButton->setVisible(true);
-            }
-        }
-        Director::getInstance()->getEventDispatcher()->removeEventListener(_billingDataRecievedListener);
-        _billingDataRecievedListener = nullptr;
-    });
-    
-    _eventDispatcher->addEventListenerWithFixedPriority(_billingDataRecievedListener, 1);
-}
 
 void ChildSelectorScene::onExit()
 {
     OfflineChecker::getInstance()->setDelegate(nullptr);
-    if(_billingDataRecievedListener)
-    {
-        Director::getInstance()->getEventDispatcher()->removeEventListener(_billingDataRecievedListener);
-        _billingDataRecievedListener = nullptr;
-    }
-    _parentButton->removeFromParent();
-    _parentButton = nullptr;
+
     Node::onExit();
 }
 
