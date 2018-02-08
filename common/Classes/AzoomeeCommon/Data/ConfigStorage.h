@@ -113,6 +113,7 @@ public:
     std::string getVersionNumber();
     std::string getVersionNumberWithPlatform();
     std::string getVersionNumberToDisplay();
+    std::string getVersionInformationForRequestHeader();
     
     //IAP Configuration
     std::string getIapSkuForProvider(const std::string& provider);
@@ -121,6 +122,7 @@ public:
     //Device-specific information
     std::string getDeviceInformation();
     std::string getDeviceAdvertisingId();
+    std::string getOSManufacturer();
     
     //Device-resolution-specific information
     void setIsDeviceIphoneX(bool isDeviceIphoneX);
@@ -144,6 +146,8 @@ private:
     std::vector<std::string> parentSignedRequestTags;
     
     bool _isDeviceIphoneX = false;
+    
+    std::string _osManufacturer = "";
     
 };
   

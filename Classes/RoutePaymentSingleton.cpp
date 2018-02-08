@@ -12,6 +12,7 @@
 #include "SceneManagerScene.h"
 #include "AzoomeeCommon/Data/Child/ChildDataParser.h"
 #include "DynamicNodeHandler.h"
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     #include "platform/android/jni/JniHelper.h"
@@ -94,44 +95,19 @@ bool RoutePaymentSingleton::showIAPContent()
     return !ParentDataProvider::getInstance()->isPaidUser();
 }
 
-void RoutePaymentSingleton::setOSManufacturer()
-{
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    
-    std::string resultStr = JniHelper::callStaticStringMethod(kAzoomeeActivityJavaClassName, "getOSBuildManufacturer");
-    
-    if (resultStr == "Amazon")
-    {
-        AnalyticsSingleton::getInstance()->registerIAPOS("Amazon");
-        OSManufacturer = "Amazon";
-    }
-    else
-    {
-        AnalyticsSingleton::getInstance()->registerIAPOS("Google");
-        OSManufacturer = "Google";
-    }
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    AnalyticsSingleton::getInstance()->registerIAPOS("iOS");
-    OSManufacturer = "iOS";
-#else
-#error Unsupported platform in RoutePaymentSingleton
-#endif
-
-}
-
 bool RoutePaymentSingleton::osIsIos()
 {
-    return (OSManufacturer == "iOS");
+    return (ConfigStorage::getInstance()->getOSManufacturer() == "Apple");
 }
 
 bool RoutePaymentSingleton::osIsAndroid()
 {
-    return (OSManufacturer == "Google");
+    return (ConfigStorage::getInstance()->getOSManufacturer() == "Google");
 }
 
 bool RoutePaymentSingleton::osIsAmazon()
 {
-    return (OSManufacturer == "Amazon");
+    return (ConfigStorage::getInstance()->getOSManufacturer() == "Amazon");
 }
 
 void RoutePaymentSingleton::refreshAppleReceiptFromButton()

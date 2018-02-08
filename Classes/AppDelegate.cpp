@@ -5,7 +5,6 @@
 #include "HQHistoryManager.h"
 #include "OfflineHubScene.h"
 #include "LoginLogicHandler.h"
-#include "RoutePaymentSingleton.h"
 #include "WebViewNative_ios.h"
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
@@ -36,7 +35,6 @@ bool AppDelegate::applicationDidFinishLaunching()
     auto scene = IntroVideoScene::createScene();
     Director::getInstance()->runWithScene(scene);
     
-    RoutePaymentSingleton::getInstance()->setOSManufacturer();
     SessionIdManager::getInstance();
     AnalyticsSingleton::getInstance()->setLandscapeOrientation();
     AnalyticsSingleton::getInstance()->firstLaunchEvent();
