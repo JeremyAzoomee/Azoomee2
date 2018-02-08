@@ -6,6 +6,7 @@
 #include "../Analytics/AnalyticsSingleton.h"
 #include "../API/API.h"
 #include "../Net/Utils.h"
+#include "Json.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/jni/JniHelper.h"
@@ -312,7 +313,17 @@ std::string ConfigStorage::getGradientImageForCategory(const std::string& catego
 
 std::string ConfigStorage::getHQSceneNameReplacementForPermissionFeed(const std::string &inputHqSceneName)
 {
-    return NavigationConfiguration["hqNamesReplacementForPermissionFeed"][inputHqSceneName.c_str()].GetString();
+    const rapidjson::Value& permissionField = NavigationConfiguration["hqNamesReplacementForPermissionFeed"];
+    const std::string& returnValue = getStringFromJson(inputHqSceneName, permissionField);
+    
+    if(returnValue == "")
+    {
+        return inputHqSceneName;
+    }
+    else
+    {
+        return returnValue;
+    }
 }
 
 cocos2d::Point ConfigStorage::getRelativeCirclePositionForMenuItem(int itemNumber)
