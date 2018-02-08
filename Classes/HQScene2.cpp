@@ -15,7 +15,7 @@
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
-#include <AzoomeeCommon/Analytics/AnalyticsProperties.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
 
@@ -232,6 +232,7 @@ void HQScene2::showPostContentCTA()
             HQContentItemObjectRef randomContent = carouselItems[randIndex];
             if(randomContent->isEntitled() && randomContent->getContentItemId() != lastContent->getContentItemId())
             {
+                AnalyticsSingleton::getInstance()->registerCTASource("postContent", lastContent->getContentItemId(), lastContent->getType());
                 DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(_hqCategory + ".json", randomContent->getJSONRepresentationOfStructure());
                 possibleContentFound = true;
             }

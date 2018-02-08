@@ -74,6 +74,33 @@ std::string AnalyticsProperties::getCtaWindowGroupId() const
     return _ctaWindowGroupId;
 }
 
+void AnalyticsProperties::setCtaSourceButton(const std::string &buttonId)
+{
+    _ctaSourceButton = buttonId;
+}
+std::string AnalyticsProperties::getCtaSourceButton() const
+{
+    return _ctaSourceButton;
+}
+
+void AnalyticsProperties::setCtaSourceContentId(const std::string &contentId)
+{
+    _ctaSourceContentId = contentId;
+}
+std::string AnalyticsProperties::getCtaSourceContentId() const
+{
+    return _ctaSourceContentId;
+}
+
+void AnalyticsProperties::setCtaSourceMediaType(const std::string &mediaType)
+{
+    _ctaSourceMediaType = mediaType;
+}
+std::string AnalyticsProperties::getCtaSourceMediaType() const
+{
+    return _ctaSourceMediaType;
+}
+
 void AnalyticsProperties::setOSManufacturer(const std::string& osManufacturer)
 {
     _OSManufacturer = osManufacturer;

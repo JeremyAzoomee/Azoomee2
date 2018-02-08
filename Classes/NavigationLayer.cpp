@@ -124,6 +124,7 @@ void NavigationLayer::changeToScene(ConfigStorage::HubTargetTagNumber target, fl
     
     if(!currentObject->getHqEntitlement())
     {
+        AnalyticsSingleton::getInstance()->registerCTASource("lockedHQ","",currentObject->getHqType());
         DynamicNodeHandler::getInstance()->startIAPFlow();
         return;
     }
@@ -630,6 +631,7 @@ void NavigationLayer::buttonPressed(ElectricDreamsButton* button)
     }
     else if(button == previewSignUpButton)
     {
+        AnalyticsSingleton::getInstance()->registerCTASource("signUp", "", "");
         DynamicNodeHandler::getInstance()->startSignupFlow();
     }
     else if(button == returnToChildSelectorButton)
