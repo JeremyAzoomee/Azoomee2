@@ -514,7 +514,6 @@ std::string ConfigStorage::getOSManufacturer()
     _osManufacturer = "Apple";
 #else
     _osManufacturer = "Unknown";
-#error Unsupported platform in RoutePaymentSingleton
 #endif
     
     return _osManufacturer;
