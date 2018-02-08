@@ -17,6 +17,7 @@ import com.tinizine.azoomee.R;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.xwalk.core.XWalkActivity;
+import org.xwalk.core.XWalkSettings;
 import org.xwalk.core.XWalkView;
 import org.xwalk.core.XWalkCookieManager;
 
@@ -188,6 +189,17 @@ public class NativeView extends XWalkActivity {
 
         Bundle extras = getIntent().getExtras();
         String myUrl = "about:blank";
+
+        XWalkSettings webSettings = xWalkWebView.getSettings();
+
+        webSettings.setAllowUniversalAccessFromFileURLs(true);
+        webSettings.setAllowContentAccess(true);
+        webSettings.setAllowFileAccess(true);
+        webSettings.setAllowFileAccessFromFileURLs(true);
+        webSettings.setBuiltInZoomControls(false);
+        webSettings.setMediaPlaybackRequiresUserGesture(false);
+        webSettings.setSupportZoom(false);
+
 
         if(extras != null)
         {
