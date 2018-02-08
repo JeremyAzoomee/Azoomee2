@@ -632,7 +632,11 @@ void NavigationLayer::buttonPressed(ElectricDreamsButton* button)
     else if(button == previewSignUpButton)
     {
         AnalyticsSingleton::getInstance()->registerCTASource("signUp", "", "");
+    #ifdef ALLOW_UNPAID_SIGNUP
         DynamicNodeHandler::getInstance()->startSignupFlow();
+    #else
+        DynamicNodeHandler::getInstance()->startIAPFlow();
+    #endif
     }
     else if(button == returnToChildSelectorButton)
     {
