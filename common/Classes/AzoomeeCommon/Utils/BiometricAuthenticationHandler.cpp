@@ -23,7 +23,7 @@ const char* const BiometricAuthenticationHandler::kAuthFailedDialogBody = "Ooops
 const std::vector<std::string> BiometricAuthenticationHandler::kAuthFailedDialogButtons = {"Retry", "Cancel"};
 
 const char* const BiometricAuthenticationHandler::kStartBiometricDialogTitle = "Biometric Authentication";
-const char* const BiometricAuthenticationHandler::kStartBiometricDialogBody = "Do you want to use biometric authentication to enter your PIN in the future?";
+const char* const BiometricAuthenticationHandler::kStartBiometricDialogBody = "Do you want to use your fingerprint or facial ID to enter your PIN in the future?";
 const std::vector<std::string> BiometricAuthenticationHandler::kStartBiometricDialogButtons = {"Yes", "No"};
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)

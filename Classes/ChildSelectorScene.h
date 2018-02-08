@@ -16,8 +16,7 @@ class ChildSelectorScene : public cocos2d::Layer, public AwaitingAdultPinLayerDe
 public:
     CREATE_FUNC(ChildSelectorScene);
     
-    //event name tag for billing data recieved.  event fired from BackEndCaller::onUpdateBillingDataAnswerReceived
-    static const char* const kBillingDataRecievedEvent;
+    static const std::string kSceneName;
     
     virtual bool init();
     virtual void onEnterTransitionDidFinish();
@@ -32,6 +31,8 @@ public:
     
     void connectivityStateChanged(bool online);
     
+    void setParentButtonVisible(bool visible);
+    
     //Delegate functions
     void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body);
     void onHttpRequestFailed(const std::string& requestTag, long errorCode);
@@ -44,9 +45,6 @@ private:
     void addScrollViewForProfiles();
     cocos2d::Size getScrollviewInnerSize(float scrollviewWidth);
     cocos2d::ui::ScrollView *_scrollView = nullptr;
-    
-    cocos2d::EventListenerCustom* _billingDataRecievedListener = nullptr;
-    void addBillingDataRecievedListener();
     
     void addVisualsToScene();
     void createSettingsButton();

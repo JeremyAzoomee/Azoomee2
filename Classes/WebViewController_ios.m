@@ -68,13 +68,14 @@ using namespace Azoomee;
     if(webview) return;
     
     float width = self.view.frame.size.width;
+    float height = self.view.frame.size.height;
     
     if(isDeviceIphoneX())
     {
-        width -= 50.0f;
+        height < width ? width -= 50.0f : height -= 50.0f;
     }
 
-    webview = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, width, self.view.frame.size.height)];
+    webview = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, width, height)];
     
     NSString *iosurlExtension = [urlToLoad substringFromIndex:MAX((int)[urlToLoad length]-4, 0)];
     NSString *urlToCall;
@@ -207,7 +208,10 @@ using namespace Azoomee;
 
 - (void) createButton
 {
-    CGFloat buttonWidth = [[UIScreen mainScreen] bounds].size.width/15;
+    CGFloat buttonWidth = 0.0f;
+    CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+    
+    screenSize.width > screenSize.height ? buttonWidth = screenSize.width / 15.0f : buttonWidth = screenSize.height / 15.0f ;
     
     backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [backButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];

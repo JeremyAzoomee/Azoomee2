@@ -173,13 +173,13 @@ cocos2d::network::HttpRequest* HttpRequestCreator::buildHttpRequest()           
         headers.push_back("X-AZ-COUNTRYCODE: " + ParentDataProvider::getInstance()->getLoggedInParentCountryCode());
     }
     
-    headers.push_back(StringUtils::format("x-az-appversion: %s", ConfigStorage::getInstance()->getVersionNumberWithPlatform().c_str()));
+    headers.push_back(StringUtils::format("x-az-appversion: %s", ConfigStorage::getInstance()->getVersionInformationForRequestHeader().c_str()));
     
     request->setHeaders(headers);
     
     for(int i = 0; i < request->getHeaders().size(); i++)
     {
-        cocos2d::log("%s", request->getHeaders().at(i).c_str());
+        cocos2d::log("HEADERS %s", request->getHeaders().at(i).c_str());
     }
     
     request->setResponseCallback(CC_CALLBACK_2(HttpRequestCreator::onHttpRequestAnswerReceived, this));
