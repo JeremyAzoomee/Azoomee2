@@ -143,7 +143,9 @@ void IAPFlowController::startIAP()
 {
     if(ParentDataProvider::getInstance()->isUserLoggedIn())
     {
-        AwaitingAdultPinLayer::create()->setDelegate(this);
+        AwaitingAdultPinLayer* pinLayer = AwaitingAdultPinLayer::create();
+        pinLayer->setDelegate(this);
+        pinLayer->setPinIsForPayment(true);
     }
     else
     {

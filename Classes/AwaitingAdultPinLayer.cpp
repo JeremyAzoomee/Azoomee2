@@ -203,14 +203,15 @@ void AwaitingAdultPinLayer::MessageBoxButtonPressed(std::string messageBoxTitle,
         if(buttonTitle == BiometricAuthenticationHandler::kStartBiometricDialogButtons.at(0))
         {
             BiometricAuthenticationHandler::getInstance()->startBiometricAuthentication();
-            return;
         }
         
         if(buttonTitle == BiometricAuthenticationHandler::kStartBiometricDialogButtons.at(1))
         {
             BiometricAuthenticationHandler::getInstance()->biometricAuthenticationNotNeeded();
-            return;
         }
+        
+        this->scheduleOnce(schedule_selector(AwaitingAdultPinLayer::removeSelf), 0.1);
+        return;
     }
     
     if(messageBoxTitle == BiometricAuthenticationHandler::kAuthFailedDialogTitle)
@@ -237,20 +238,22 @@ void AwaitingAdultPinLayer::secondCheckForPin()
     
     if(editBox_pin->getText() == ParentDataProvider::getInstance()->getParentPin() || ("" == ParentDataProvider::getInstance()->getParentPin() && editBox_pin->getText() == "1234"))
     {
-        //Schedule so it calls delegate before removing self. Avoiding crash
-        this->scheduleOnce(schedule_selector(AwaitingAdultPinLayer::removeSelf), 0.1);
-        
         if(this->getDelegate())
         {
             this->getDelegate()->AdultPinAccepted(this);
         }
         
-        if(UserDefault::getInstance()->getIntegerForKey(BiometricAuthenticationHandler::kBiometricValidation) == 0)
+        if((UserDefault::getInstance()->getIntegerForKey(BiometricAuthenticationHandler::kBiometricValidation) == 0) && (!_pinIsForPayment))
         {
             if(BiometricAuthenticationHandler::getInstance()->biometricAuthenticationAvailable())
             {
                 MessageBox::createWith(BiometricAuthenticationHandler::kStartBiometricDialogTitle, BiometricAuthenticationHandler::kStartBiometricDialogBody, BiometricAuthenticationHandler::kStartBiometricDialogButtons, this);
             }
+        }
+        else
+        {
+            //Schedule so it calls delegate before removing self. Avoiding crash
+            this->scheduleOnce(schedule_selector(AwaitingAdultPinLayer::removeSelf), 0.1);
         }
     }
     else
@@ -260,6 +263,11 @@ void AwaitingAdultPinLayer::secondCheckForPin()
         acceptButton->setVisible(false);
     }
     
+}
+
+void AwaitingAdultPinLayer::setPinIsForPayment(bool pinIsForPayment)
+{
+    _pinIsForPayment = pinIsForPayment;
 }
 
 NS_AZOOMEE_END
