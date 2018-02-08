@@ -12,6 +12,7 @@
 #include "DynamicNodeHandler.h"
 #include <AzoomeeCommon/Input/TextInputChecker.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
+#include <AzoomeeCommon/Utils/TimeFunctions.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 

@@ -21,8 +21,6 @@ public:
 private:
     SpecialCalendarEventManager();
     
-    long getEpochTimeForTodayWithoutYear();
-    long getEpochTimeForDateWithoutYear(int month, int day);
 };
 
 NS_AZOOMEE_END
