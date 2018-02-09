@@ -290,9 +290,11 @@ void GameDataManager::downloadGameIfPossible(const std::string &jsonFileName, co
     }
     else
     {
-        hideLoadingScreen();
-        showErrorMessage();
-        return;
+        if(!_gameIsBeingStreamed)
+        {
+            hideLoadingScreen();
+            showErrorMessage();
+        }
     }
 }
 
