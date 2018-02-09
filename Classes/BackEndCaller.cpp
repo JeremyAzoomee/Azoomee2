@@ -304,7 +304,9 @@ void BackEndCaller::getGordon()
 void BackEndCaller::onGetGordonAnswerReceived(const std::string& responseString)
 {
     if(CookieDataParser::getInstance()->parseDownloadCookies(responseString))
+    {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
+    }
 }
 
 //REGISTER PARENT---------------------------------------------------------------------------

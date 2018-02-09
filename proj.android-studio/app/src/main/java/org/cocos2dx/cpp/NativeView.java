@@ -207,39 +207,39 @@ public class NativeView extends XWalkActivity {
             userid = extras.getString("userid");
         }
 
+        XWalkCookieManager mCookieManager = new XWalkCookieManager();
+        mCookieManager.removeSessionCookie();
+        mCookieManager.removeExpiredCookie();
+        mCookieManager.removeAllCookie();
+        mCookieManager.flushCookieStore();
+        mCookieManager.setAcceptCookie(true);
+        mCookieManager.setAcceptFileSchemeCookies(true);
+
+        try
+        {
+            JSONObject obj = new JSONObject(JNICalls.JNIGetAllCookies());
+            JSONArray array = obj.getJSONArray("Elements");
+
+            for(int i = 0; i < array.length(); i++)
+            {
+                JSONObject currentObject = array.getJSONObject(i);
+                String url = currentObject.getString("url");
+                String cookie = currentObject.getString("cookie");
+
+                mCookieManager.setCookie(url, cookie);
+            }
+        }
+        catch (Exception ex)
+        {
+            JNICalls.getBackToLoginScreen();
+        }
+
         if(myUrl.substring(myUrl.length() - 4).equals("html"))
         {
             xWalkWebView.loadUrl("file:///android_asset/res/webcommApi/index_android.html?contentUrl=" + myUrl);
         }
         else
         {
-            XWalkCookieManager mCookieManager = new XWalkCookieManager();
-            mCookieManager.removeSessionCookie();
-            mCookieManager.removeExpiredCookie();
-            mCookieManager.removeAllCookie();
-            mCookieManager.flushCookieStore();
-            mCookieManager.setAcceptCookie(true);
-            mCookieManager.setAcceptFileSchemeCookies(true);
-
-            try
-            {
-                JSONObject obj = new JSONObject(JNICalls.JNIGetAllCookies());
-                JSONArray array = obj.getJSONArray("Elements");
-
-                for(int i = 0; i < array.length(); i++)
-                {
-                    JSONObject currentObject = array.getJSONObject(i);
-                    String url = currentObject.getString("url");
-                    String cookie = currentObject.getString("cookie");
-
-                    mCookieManager.setCookie(url, cookie);
-                }
-            }
-            catch (Exception ex)
-            {
-                JNICalls.getBackToLoginScreen();
-            }
-
             xWalkWebView.loadUrl("file:///android_asset/res/jwplayer/index_android.html?contentUrl=" + myUrl);
         }
 

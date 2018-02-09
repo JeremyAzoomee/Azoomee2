@@ -17,11 +17,12 @@
 #include "network/HttpClient.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Json.h>
+#include <AzoomeeCommon/Utils/FileZipUtil.h>
 #include <AzoomeeCommon/Utils/FileDownloader.h>
 
 NS_AZOOMEE_BEGIN
 
-class DynamicNodeHandler : public cocos2d::Ref, public FileDownloaderDelegate
+class DynamicNodeHandler : public cocos2d::Ref, public FileDownloaderDelegate, public FileZipDelegate
 {
 private:
     
@@ -83,7 +84,8 @@ public:
     void setFlowController(DynamicNodeFlowControllerRef flowController);
     DynamicNodeFlowControllerRef getFlowController();
     
-    //delegate functions
+    // Delegate functions
+    void onAsyncUnzipComplete(bool success, const std::string& zipPath, const std::string& dirpath);
     void onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode);
     
 };
