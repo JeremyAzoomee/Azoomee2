@@ -41,6 +41,7 @@ private:
     cocos2d::Vec2 _origin;
     cocos2d::Size _visibleSize;
     cocos2d::Layer* _parentButton = nullptr;
+    cocos2d::EventListenerTouchOneByOne* _parentButtonListener = nullptr;
     
     void addScrollViewForProfiles();
     cocos2d::Size getScrollviewInnerSize(float scrollviewWidth);

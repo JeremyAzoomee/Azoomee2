@@ -171,12 +171,14 @@ void ChildSelectorScene::addProfilesToScrollView()
     _parentButton->setPosition(positionElementOnScrollView(_parentButton));
     _scrollView->addChild(_parentButton);
     _parentButton->setVisible(false);
+    _parentButtonListener->setEnabled(false);
     
     if(ParentDataProvider::getInstance()->isBillingDataAvailable())
     {
         if(ParentDataProvider::getInstance()->isPaidUser())
         {
             _parentButton->setVisible(true);
+            _parentButtonListener->setEnabled(true);
         }
     }
     
@@ -372,8 +374,8 @@ Layer* ChildSelectorScene::createParentProfileButton()
     
     profileLabel->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
     
-    auto listener = EventListenerTouchOneByOne::create();
-    listener->onTouchBegan = [=](Touch *touch, Event *event)
+    _parentButtonListener = EventListenerTouchOneByOne::create();
+    _parentButtonListener->onTouchBegan = [=](Touch *touch, Event *event)
     {
         auto target = static_cast<Node*>(event->getCurrentTarget());
         Point locationInNode = target->convertToNodeSpace(touch->getLocation());
@@ -393,7 +395,7 @@ Layer* ChildSelectorScene::createParentProfileButton()
         return false;
     };
     
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), profileLayer);
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_parentButtonListener, profileLayer);
     
     return profileLayer;
 }
@@ -403,6 +405,7 @@ void ChildSelectorScene::setParentButtonVisible(bool visible)
     if(_parentButton)
     {
         _parentButton->setVisible(visible);
+        _parentButtonListener->setEnabled(visible);
     }
 }
 
