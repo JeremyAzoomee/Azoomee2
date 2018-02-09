@@ -84,6 +84,15 @@ void ChildSelectorScene::onEnterTransitionDidFinish()
         MessageBox::createWith(FlowDataSingleton::getInstance()->getErrorCode(), nullptr);
     }
     
+    if(ParentDataProvider::getInstance()->isBillingDataAvailable())
+    {
+        if(ParentDataProvider::getInstance()->isPaidUser())
+        {
+            _parentButton->setVisible(true);
+            _parentButtonListener->setEnabled(true);
+        }
+    }
+    
 }
 
 //-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
@@ -172,15 +181,6 @@ void ChildSelectorScene::addProfilesToScrollView()
     _scrollView->addChild(_parentButton);
     _parentButton->setVisible(false);
     _parentButtonListener->setEnabled(false);
-    
-    if(ParentDataProvider::getInstance()->isBillingDataAvailable())
-    {
-        if(ParentDataProvider::getInstance()->isPaidUser())
-        {
-            _parentButton->setVisible(true);
-            _parentButtonListener->setEnabled(true);
-        }
-    }
     
 }
 
