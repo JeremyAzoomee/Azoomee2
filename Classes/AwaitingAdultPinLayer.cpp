@@ -243,12 +243,9 @@ void AwaitingAdultPinLayer::secondCheckForPin()
             this->getDelegate()->AdultPinAccepted(this);
         }
         
-        if((UserDefault::getInstance()->getIntegerForKey(BiometricAuthenticationHandler::kBiometricValidation) == 0) && (!_pinIsForPayment))
+        if((UserDefault::getInstance()->getIntegerForKey(BiometricAuthenticationHandler::kBiometricValidation) == 0) && (!_pinIsForPayment) && (BiometricAuthenticationHandler::getInstance()->biometricAuthenticationAvailable()))
         {
-            if(BiometricAuthenticationHandler::getInstance()->biometricAuthenticationAvailable())
-            {
-                MessageBox::createWith(BiometricAuthenticationHandler::kStartBiometricDialogTitle, BiometricAuthenticationHandler::kStartBiometricDialogBody, BiometricAuthenticationHandler::kStartBiometricDialogButtons, this);
-            }
+            MessageBox::createWith(BiometricAuthenticationHandler::kStartBiometricDialogTitle, BiometricAuthenticationHandler::kStartBiometricDialogBody, BiometricAuthenticationHandler::kStartBiometricDialogButtons, this);
         }
         else
         {
