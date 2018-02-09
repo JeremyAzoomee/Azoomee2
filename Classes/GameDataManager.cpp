@@ -135,26 +135,9 @@ void GameDataManager::JSONFileIsPresent(const std::string &itemId)
     }
     else if(!HQHistoryManager::getInstance()->isOffline)
     {
-        if(getIsGameStreamableFromJSONFile(basePathWithFileName))
-        {
-            std::string uri = getDownloadUrlForGameFromJSONFile(basePathWithFileName);
-            uri = uri.substr(0, uri.find_last_of("/"));
-            const std::string& startFileNameWithPath = getStartFileFromJSONFile(basePathWithFileName);
-            Director::getInstance()->replaceScene(SceneManagerScene::createWebview(getGameOrientation(basePathWithFileName), uri + "/" + startFileNameWithPath));
-            _gameIsBeingStreamed = true;
-        }
+        streamGameIfPossible(basePathWithFileName);
         
-        if(getIsGameDownloadableFromJSONFile(basePathWithFileName))
-        {
-            const std::string &downloadUrl = getDownloadUrlForGameFromJSONFile(basePathWithFileName);
-            getGameZipFile(downloadUrl, itemId); //getGameZipFile callback will call unzipGame and startGame
-        }
-        else
-        {
-            hideLoadingScreen();
-            showErrorMessage();
-            return;
-        }
+        downloadGameIfPossible(basePathWithFileName, itemId);
     }
     else
     {
@@ -286,6 +269,33 @@ int GameDataManager::getMinGameVersionFromJSONString(const std::string &jsonStri
     return getIntFromJson("minVersion", gameData, 0);
 }
 
+void GameDataManager::streamGameIfPossible(const std::string &jsonFileName)
+{
+    if(getIsGameStreamableFromJSONFile(jsonFileName))
+    {
+        std::string uri = getDownloadUrlForGameFromJSONFile(jsonFileName);
+        uri = uri.substr(0, uri.find_last_of("/"));
+        const std::string& startFileNameWithPath = getStartFileFromJSONFile(jsonFileName);
+        Director::getInstance()->replaceScene(SceneManagerScene::createWebview(getGameOrientation(jsonFileName), uri + "/" + startFileNameWithPath));
+        _gameIsBeingStreamed = true;
+    }
+}
+
+void GameDataManager::downloadGameIfPossible(const std::string &jsonFileName, const std::string& itemId)
+{
+    if(getIsGameDownloadableFromJSONFile(jsonFileName))
+    {
+        const std::string &downloadUrl = getDownloadUrlForGameFromJSONFile(jsonFileName);
+        getGameZipFile(downloadUrl, itemId); //getGameZipFile callback will call unzipGame and startGame
+    }
+    else
+    {
+        hideLoadingScreen();
+        showErrorMessage();
+        return;
+    }
+}
+
 void GameDataManager::getGameZipFile(const std::string &url, const std::string &itemId)
 {
     _fileDownloader = FileDownloader::create();
@@ -406,12 +416,7 @@ bool GameDataManager::isGameCompatibleWithCurrentAzoomeeVersion(const std::strin
     
     const std::string& minAppVersion = getStringFromJson("minAppVersion", gameData);
 
-    if(minAppVersion != "" && !azoomeeMeetsVersionRequirement(minAppVersion))
-    {
-        return false;
-    }
-    
-    return true;
+    return ( minAppVersion.empty() || azoomeeMeetsVersionRequirement(minAppVersion) );
 }
 
 void GameDataManager::getContentItemImageForOfflineUsage(const std::string &gameId)
@@ -508,7 +513,7 @@ void GameDataManager::MessageBoxButtonPressed(std::string messageBoxTitle,std::s
     }
 }
 
-void GameDataManager::onAsyncUnzipComplete(bool success, std::string zipPath,std::string dirpath)
+void GameDataManager::onAsyncUnzipComplete(bool success, const std::string& zipPath, const std::string& dirpath)
 {
     if(success)
     {

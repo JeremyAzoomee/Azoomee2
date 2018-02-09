@@ -18,19 +18,19 @@ namespace Azoomee
     class FileZipDelegate
     {
     public:
-        virtual void onAsyncUnzipComplete(bool success, std::string zipPath, std::string dirpath) = 0;
+        virtual void onAsyncUnzipComplete(bool success, const std::string& zipPath, const std::string& dirpath) = 0;
     };
     
     class FileZipUtil : public cocos2d::Ref
     {
     private:
-        void unzipWithDelageteCallback(std::string zipPath,std::string dirpath,std::string passwd, FileZipDelegate* delegate);
+        void unzipWithDelageteCallback(std::string zipPath, std::string dirpath, std::string passwd, FileZipDelegate* delegate);
     public:
         static FileZipUtil* getInstance(void);
         virtual ~FileZipUtil();
     
         bool unzip(const char *zipPath,const char *dirpath,const char *passwd);
-        void asyncUnzip(std::string zipPath,std::string dirpath,std::string passwd, FileZipDelegate* delegate);
+        void asyncUnzip(const std::string& zipPath,const std::string& dirpath,const std::string& passwd, FileZipDelegate* delegate);
         
     };
 }

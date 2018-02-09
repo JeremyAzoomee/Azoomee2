@@ -85,7 +85,7 @@ public:
     DynamicNodeFlowControllerRef getFlowController();
     
     // Delegate functions
-    void onAsyncUnzipComplete(bool success, std::string zipPath, std::string dirpath);
+    void onAsyncUnzipComplete(bool success, const std::string& zipPath, const std::string& dirpath);
     void onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode);
     
 };

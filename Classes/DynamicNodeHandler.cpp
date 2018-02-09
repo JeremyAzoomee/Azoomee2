@@ -313,7 +313,7 @@ void DynamicNodeHandler::createDynamicNodeFromFileWithParams(const std::string &
     Director::getInstance()->getRunningScene()->addChild(cta);
 }
 
-void DynamicNodeHandler::onAsyncUnzipComplete(bool success, std::string zipPath, std::string dirpath)
+void DynamicNodeHandler::onAsyncUnzipComplete(bool success, const std::string& zipPath, const std::string& dirpath)
 {
     FileUtils::getInstance()->removeFile(zipPath);
 }

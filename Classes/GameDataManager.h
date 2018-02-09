@@ -35,7 +35,7 @@ public:
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
-    void onAsyncUnzipComplete(bool success, std::string zipPath,std::string dirpath);
+    void onAsyncUnzipComplete(bool success, const std::string& zipPath, const std::string& dirpath);
     void onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode);
     
 private:
@@ -55,6 +55,9 @@ private:
     int getMinGameVersionFromJSONString(const std::string &jsonString);
     bool getIsGameStreamableFromJSONFile(const std::string& jsonFileName);
     bool getIsGameDownloadableFromJSONFile(const std::string& jsonFileName);
+    
+    void streamGameIfPossible(const std::string& jsonFileName);
+    void downloadGameIfPossible(const std::string& jsonFileName, const std::string& itemId);
     
     void getGameZipFile(const std::string &url, const std::string &itemId);
     

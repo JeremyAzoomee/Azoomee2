@@ -138,7 +138,7 @@ namespace Azoomee {
         }
     }
     
-    void FileZipUtil::asyncUnzip(std::string zipPath, std::string dirpath, std::string passwd, FileZipDelegate *delegate)
+    void FileZipUtil::asyncUnzip(const std::string& zipPath, const std::string& dirpath, const std::string& passwd, FileZipDelegate *delegate)
     {
         std::thread unzipThread(&FileZipUtil::unzipWithDelageteCallback,this,zipPath,dirpath,passwd,delegate);
         unzipThread.detach();
