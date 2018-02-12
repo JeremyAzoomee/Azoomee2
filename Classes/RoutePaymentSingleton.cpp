@@ -64,6 +64,7 @@ void RoutePaymentSingleton::startInAppPayment()
         {
             retryReceiptValidation();
         }
+        return;
     }
     
     pressedIAPStartButton = true;
@@ -248,6 +249,8 @@ void RoutePaymentSingleton::retryReceiptValidation()
         writeReceiptDataToFile(dataString); //we do this to increase the attempt number by 1. If dataString is empty because of any issues, it is better not to rewrite the file.
     }
     
+    pressedIAPStartButton = true;
+    pressedRestorePurchaseButton = false;
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     ApplePaymentSingleton::getInstance()->transactionStatePurchased(dataString);
 #endif
