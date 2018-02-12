@@ -15,6 +15,7 @@ private:
     std::string videoErrorText;
     
     cocos2d::Scene* slideShowScene;
+    cocos2d::Scene* _startScreenScene;
 
     cocos2d::experimental::ui::VideoPlayer* videoPlayer;
     
