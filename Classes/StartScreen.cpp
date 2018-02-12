@@ -31,6 +31,8 @@ void StartScreen::onEnter()
     addImages();
     addText();
     addButtons();
+    
+    Node::onEnter();
 }
 
 bool StartScreen::init()
@@ -54,8 +56,8 @@ void StartScreen::addBGElements()
     
     Sprite* bigBGCircles = Sprite::create("res/startScreen/outer_circles.png");
     bigBGCircles->setPosition(this->getPosition() + contentSize / 2.0f);
-    bigBGCircles->runAction(RepeatForever::create(Sequence::create(FadeIn::create(2.0f), FadeOut::create(2.0f), NULL)));
     this->addChild(bigBGCircles);
+    bigBGCircles->runAction(FadeOut::create(2.0f));
     
     Sprite* innerCircle1 = Sprite::create("res/startScreen/inner_circle_centre_1.png");
     innerCircle1->setPosition(this->getPosition() + contentSize / 2.0f);
@@ -63,8 +65,8 @@ void StartScreen::addBGElements()
     
     Sprite* innerCircle2 = Sprite::create("res/startScreen/inner_circle_centre_2.png");
     innerCircle2->setPosition(this->getPosition() + contentSize / 2.0f);
-    innerCircle2->runAction(RepeatForever::create(RotateBy::create(15.0f, 360)));
     this->addChild(innerCircle2);
+    innerCircle2->runAction(RepeatForever::create(RotateBy::create(15.0f, 360)));
     
     Sprite* wiresLeft = Sprite::create("res/startScreen/wire_left.png");
     wiresLeft->setPosition(this->getPosition() + Vec2(0, contentSize.height / 2.0f));
