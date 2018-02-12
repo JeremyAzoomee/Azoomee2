@@ -20,6 +20,7 @@ Scene* StartScreen::createScene()
     Scene* scene = Scene::createWithSize(Director::getInstance()->getVisibleSize());
     StartScreen* startScreen = StartScreen::create();
     startScreen->setContentSize(scene->getContentSize());
+    startScreen->setPosition(Director::getInstance()->getVisibleOrigin());
     scene->addChild(startScreen);
     
     return scene;
@@ -32,7 +33,7 @@ void StartScreen::onEnter()
     addText();
     addButtons();
     
-    Node::onEnter();
+    Super::onEnter();
 }
 
 bool StartScreen::init()
@@ -55,27 +56,28 @@ void StartScreen::addBGElements()
     this->addChild(bgColour);
     
     Sprite* bigBGCircles = Sprite::create("res/startScreen/outer_circles.png");
-    bigBGCircles->setPosition(this->getPosition() + contentSize / 2.0f);
+    bigBGCircles->setPosition(contentSize / 2.0f);
+    bigBGCircles->runAction(RepeatForever::create( Sequence::create( EaseOut::create( FadeTo::create(1.5f, 75), 1), EaseIn::create( FadeTo::create(1.5f, 255), 1), nullptr)));
     this->addChild(bigBGCircles);
-    bigBGCircles->runAction(FadeOut::create(2.0f));
-    
     Sprite* innerCircle1 = Sprite::create("res/startScreen/inner_circle_centre_1.png");
-    innerCircle1->setPosition(this->getPosition() + contentSize / 2.0f);
+    innerCircle1->setPosition(contentSize / 2.0f);
     this->addChild(innerCircle1);
     
     Sprite* innerCircle2 = Sprite::create("res/startScreen/inner_circle_centre_2.png");
-    innerCircle2->setPosition(this->getPosition() + contentSize / 2.0f);
+    innerCircle2->setPosition(contentSize / 2.0f);
     this->addChild(innerCircle2);
     innerCircle2->runAction(RepeatForever::create(RotateBy::create(15.0f, 360)));
     
     Sprite* wiresLeft = Sprite::create("res/startScreen/wire_left.png");
-    wiresLeft->setPosition(this->getPosition() + Vec2(0, contentSize.height / 2.0f));
+    wiresLeft->setPosition(Vec2(0, contentSize.height / 2.0f));
     wiresLeft->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+    wiresLeft->runAction(RepeatForever::create( Sequence::create( DelayTime::create(0.5f), Repeat::create(Sequence::create(EaseElasticOut::create(FadeTo::create(0.3, 50)), EaseElasticOut::create(FadeTo::create(0.3, 255)), nullptr), 1), DelayTime::create(6.5f), nullptr)));
     this->addChild(wiresLeft);
     
     Sprite* wiresRight = Sprite::create("res/startScreen/wire_right.png");
-    wiresRight->setPosition(this->getPosition() + Vec2(contentSize.width, contentSize.height / 2.0f));
+    wiresRight->setPosition(Vec2(contentSize.width, contentSize.height / 2.0f));
     wiresRight->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
+    wiresRight->runAction(RepeatForever::create( Sequence::create( Repeat::create(Sequence::create(EaseElasticOut::create(FadeTo::create(0.3, 50)), EaseElasticOut::create(FadeTo::create(0.3, 255)), nullptr), 1), DelayTime::create(7.0f), nullptr)));
     this->addChild(wiresRight);
     
 }
