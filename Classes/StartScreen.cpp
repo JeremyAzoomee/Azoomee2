@@ -10,10 +10,14 @@
 #include "SceneManagerScene.h"
 #include "DynamicNodeHandler.h"
 #include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/Utils/ActionBuilder.h>
 
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
+
+const std::string StartScreen::kAssetLoc = "res/startScreen/";
 
 Scene* StartScreen::createScene()
 {
@@ -30,7 +34,6 @@ void StartScreen::onEnter()
 {
     addBGElements();
     addImages();
-    addText();
     addButtons();
     
     Super::onEnter();
@@ -55,29 +58,29 @@ void StartScreen::addBGElements()
     LayerColor* bgColour = LayerColor::create(Color4B::BLACK);
     this->addChild(bgColour);
     
-    Sprite* bigBGCircles = Sprite::create("res/startScreen/outer_circles.png");
+    Sprite* bigBGCircles = Sprite::create(kAssetLoc + "outer_circles.png");
     bigBGCircles->setPosition(contentSize / 2.0f);
-    bigBGCircles->runAction(RepeatForever::create( Sequence::create( EaseOut::create( FadeTo::create(1.5f, 75), 1), EaseIn::create( FadeTo::create(1.5f, 255), 1), nullptr)));
+    bigBGCircles->runAction(RepeatForever::create( createFadeInAndOutEffect(3.0f, 75, 255)));
     this->addChild(bigBGCircles);
-    Sprite* innerCircle1 = Sprite::create("res/startScreen/inner_circle_centre_1.png");
+    Sprite* innerCircle1 = Sprite::create(kAssetLoc + "inner_circle_centre_1.png");
     innerCircle1->setPosition(contentSize / 2.0f);
     this->addChild(innerCircle1);
     
-    Sprite* innerCircle2 = Sprite::create("res/startScreen/inner_circle_centre_2.png");
+    Sprite* innerCircle2 = Sprite::create(kAssetLoc + "inner_circle_centre_2.png");
     innerCircle2->setPosition(contentSize / 2.0f);
     this->addChild(innerCircle2);
     innerCircle2->runAction(RepeatForever::create(RotateBy::create(15.0f, 360)));
     
-    Sprite* wiresLeft = Sprite::create("res/startScreen/wire_left.png");
+    Sprite* wiresLeft = Sprite::create(kAssetLoc + "wire_left.png");
     wiresLeft->setPosition(Vec2(0, contentSize.height / 2.0f));
     wiresLeft->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
-    wiresLeft->runAction(RepeatForever::create( Sequence::create( DelayTime::create(0.5f), Repeat::create(Sequence::create(EaseElasticOut::create(FadeTo::create(0.3, 50)), EaseElasticOut::create(FadeTo::create(0.3, 255)), nullptr), 1), DelayTime::create(6.5f), nullptr)));
+    wiresLeft->runAction(RepeatForever::create( Sequence::create( DelayTime::create(0.5f), createFlickerEffect(1, 6.5f), nullptr)));
     this->addChild(wiresLeft);
     
-    Sprite* wiresRight = Sprite::create("res/startScreen/wire_right.png");
+    Sprite* wiresRight = Sprite::create(kAssetLoc + "wire_right.png");
     wiresRight->setPosition(Vec2(contentSize.width, contentSize.height / 2.0f));
     wiresRight->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
-    wiresRight->runAction(RepeatForever::create( Sequence::create( Repeat::create(Sequence::create(EaseElasticOut::create(FadeTo::create(0.3, 50)), EaseElasticOut::create(FadeTo::create(0.3, 255)), nullptr), 1), DelayTime::create(7.0f), nullptr)));
+    wiresRight->runAction(RepeatForever::create( createFlickerEffect(1, 7.0f)));
     this->addChild(wiresRight);
     
 }
@@ -86,57 +89,45 @@ void StartScreen::addImages()
 {
     const Size& contentSize = this->getContentSize();
     
-    Sprite* topLeftThumb = createSpriteWithBorderRing("res/startScreen/game_webthumb_1_copy.png", "res/startScreen/inner_circle_1.png");
+    Sprite* topLeftThumb = createSpriteWithBorderRing(kAssetLoc + "game_webthumb_1_copy.png", kAssetLoc + "inner_circle_1.png");
     topLeftThumb->setPosition( Vec2(contentSize.width * 0.087, contentSize.height * 0.615));
     this->addChild(topLeftThumb);
     
-    Sprite* midLeftThumb = createSpriteWithBorderRing("res/startScreen/game_webthumb_6_copy_3.png", "res/startScreen/inner_circle_2.png");
+    Sprite* midLeftThumb = createSpriteWithBorderRing(kAssetLoc + "game_webthumb_6_copy_3.png", kAssetLoc + "inner_circle_2.png");
     midLeftThumb->setPosition( Vec2(contentSize.width * 0.205, contentSize.height * 0.406));
     this->addChild(midLeftThumb);
     
-    Sprite* bottomLeftThumb = createSpriteWithBorderRing("res/startScreen/game_webthumb_3.png", "res/startScreen/inner_circle_3.png");
+    Sprite* bottomLeftThumb = createSpriteWithBorderRing(kAssetLoc + "game_webthumb_3.png", kAssetLoc + "inner_circle_3.png");
     bottomLeftThumb->setPosition( Vec2(contentSize.width * 0.087, contentSize.height * 0.208));
     this->addChild(bottomLeftThumb);
     
-    Sprite* topRightThumb = createSpriteWithBorderRing("res/startScreen/game_webthumb_4.png", "res/startScreen/inner_circle_1.png", -1);
+    Sprite* topRightThumb = createSpriteWithBorderRing(kAssetLoc + "game_webthumb_4.png", kAssetLoc + "inner_circle_1.png", -1);
     topRightThumb->setPosition( Vec2(contentSize.width * 0.913, contentSize.height * 0.615));
     this->addChild(topRightThumb);
     
-    Sprite* midRightThumb = createSpriteWithBorderRing("res/startScreen/game_webthumb_5.png", "res/startScreen/inner_circle_2.png", -1);
+    Sprite* midRightThumb = createSpriteWithBorderRing(kAssetLoc + "game_webthumb_5.png", kAssetLoc + "inner_circle_2.png", -1);
     midRightThumb->setPosition( Vec2(contentSize.width * 0.795, contentSize.height * 0.406));
     this->addChild(midRightThumb);
     
-    Sprite* bottomRightThumb = createSpriteWithBorderRing("res/startScreen/game_webthumb_6.png", "res/startScreen/inner_circle_3.png", -1);
+    Sprite* bottomRightThumb = createSpriteWithBorderRing(kAssetLoc + "game_webthumb_6.png", kAssetLoc + "inner_circle_3.png", -1);
     bottomRightThumb->setPosition( Vec2(contentSize.width * 0.913, contentSize.height * 0.208));
     this->addChild(bottomRightThumb);
     
-    Sprite* logo = Sprite::create("res/startScreen/azoomee_white.png");
+    Sprite* logo = Sprite::create(kAssetLoc + "azoomee_white.png");
     logo->setPosition(Vec2(contentSize.width * 0.5f, contentSize.height * 0.814));
     this->addChild(logo);
 }
 
-void StartScreen::addText()
-{
-    const Size& contentSize = this->getContentSize();
-    
-    Label* topLabel = Label::createWithTTF("Already got an account?", Style::Font::Regular , 115);
-    topLabel->setTextColor(Color4B(Style::Color::brightAqua));
-    topLabel->setPosition(Vec2(contentSize.width * 0.5f, contentSize.height * 0.647f ));
-    topLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    
-    this->addChild(topLabel);
-    
-    Label* bottomLabel = Label::createWithTTF("or", Style::Font::Regular , 115);
-    bottomLabel->setTextColor(Color4B(Style::Color::brightAqua));
-    bottomLabel->setPosition(Vec2(contentSize.width * 0.5f, contentSize.height * 0.369f ));
-    bottomLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    
-    this->addChild(bottomLabel);
-}
-
 void StartScreen::addButtons()
 {
-    ui::Button* closeButton = ui::Button::create("res/startScreen/close.png");
+    float posMod = 1.5f;
+    
+    if(ConfigStorage::getInstance()->isDeviceIphoneX())
+    {
+        posMod = 1.1f;
+    }
+    
+    ui::Button* closeButton = ui::Button::create(kAssetLoc + "close.png");
     closeButton->setNormalizedPosition(Vec2(0.978f, 0.978f));
     closeButton->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
     closeButton->addTouchEventListener([=](Ref *pSender, ui::Widget::TouchEventType eEventType)
@@ -149,7 +140,7 @@ void StartScreen::addButtons()
     
     this->addChild(closeButton);
     
-    ui::Button* loginButton = ui::Button::create("res/startScreen/rectangle_copy_3.png");
+    ui::Button* loginButton = ui::Button::create(kAssetLoc + "rectangle_copy_3.png");
     loginButton->setNormalizedPosition(Vec2(0.5f, 0.5f));
     loginButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     loginButton->addTouchEventListener([=](Ref *pSender, ui::Widget::TouchEventType eEventType)
@@ -166,9 +157,16 @@ void StartScreen::addButtons()
     loginText->setNormalizedPosition(Vec2(0.5f, 0.5f));
     loginButton->addChild(loginText);
     
+    Label* topLabel = Label::createWithTTF("Already got an account?", Style::Font::Regular , 115);
+    topLabel->setTextColor(Color4B(Style::Color::brightAqua));
+    topLabel->setPosition(Vec2(loginButton->getContentSize().width * 0.5f, loginButton->getContentSize().height * posMod ));
+    topLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    
+    loginButton->addChild(topLabel);
+    
     this->addChild(loginButton);
     
-    ui::Button* startTrialButton = ui::Button::create("res/startScreen/rectangle_copy_3.png");
+    ui::Button* startTrialButton = ui::Button::create(kAssetLoc + "rectangle_copy_3.png");
     startTrialButton->setNormalizedPosition(Vec2(0.5f, 0.225f));
     startTrialButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     startTrialButton->addTouchEventListener([=](Ref *pSender, ui::Widget::TouchEventType eEventType)
@@ -185,7 +183,15 @@ void StartScreen::addButtons()
     trialText->setNormalizedPosition(Vec2(0.5f, 0.5f));
     startTrialButton->addChild(trialText);
     
+    Label* bottomLabel = Label::createWithTTF("or", Style::Font::Regular , 115);
+    bottomLabel->setTextColor(Color4B(Style::Color::brightAqua));
+    bottomLabel->setPosition(Vec2(startTrialButton->getContentSize().width * 0.5f, startTrialButton->getContentSize().height * posMod ));
+    bottomLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    
+    startTrialButton->addChild(bottomLabel);
+    
     this->addChild(startTrialButton);
+
 }
 
 Sprite* StartScreen::createSpriteWithBorderRing(const std::string &imageFilename, const std::string& borderFilename, int rotationDir)

@@ -21,9 +21,10 @@ private:
     void addBGElements();
     void addImages();
     void addButtons();
-    void addText();
     
     cocos2d::Sprite* createSpriteWithBorderRing(const std::string& imageFilename, const std::string& borderFilename, int rotationDir = 1);
+    
+    static const std::string kAssetLoc;
     
 public:
     static cocos2d::Scene* createScene();

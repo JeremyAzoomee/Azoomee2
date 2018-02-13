@@ -106,7 +106,6 @@
 		43A90CE31EA7560500606099 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A90CE21EA7560500606099 /* Accelerate.framework */; };
 		43A90DE51EA7603800606099 /* WatchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A90DE41EA7603800606099 /* WatchKit.framework */; };
 		43BCD71E1EC9FD4E00A07737 /* SceneManagerScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43BCD71C1EC9FD4E00A07737 /* SceneManagerScene.cpp */; };
-		43F3844B1F1E394500ECA339 /* SlideShowScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43F384491F1E394500ECA339 /* SlideShowScene.cpp */; };
 		43F42E3B1EE84B9500606290 /* SettingsControlLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43F42E391EE84B9500606290 /* SettingsControlLayer.cpp */; };
 		43FDC6611EF7E3CE009B596B /* SettingsConfirmationLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43FDC65F1EF7E3CE009B596B /* SettingsConfirmationLayer.cpp */; };
 		43FDC6671EF7F743009B596B /* ConfirmationControlLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43FDC6631EF7F743009B596B /* ConfirmationControlLayer.cpp */; };
@@ -449,8 +448,6 @@
 		43A90DE41EA7603800606099 /* WatchKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/WatchKit.framework; sourceTree = DEVELOPER_DIR; };
 		43BCD71C1EC9FD4E00A07737 /* SceneManagerScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneManagerScene.cpp; sourceTree = "<group>"; };
 		43BCD71D1EC9FD4E00A07737 /* SceneManagerScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneManagerScene.h; sourceTree = "<group>"; };
-		43F384491F1E394500ECA339 /* SlideShowScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SlideShowScene.cpp; sourceTree = "<group>"; };
-		43F3844A1F1E394500ECA339 /* SlideShowScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideShowScene.h; sourceTree = "<group>"; };
 		43F42E391EE84B9500606290 /* SettingsControlLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsControlLayer.cpp; sourceTree = "<group>"; };
 		43F42E3A1EE84B9500606290 /* SettingsControlLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsControlLayer.h; sourceTree = "<group>"; };
 		43FDC65F1EF7E3CE009B596B /* SettingsConfirmationLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsConfirmationLayer.cpp; sourceTree = "<group>"; };
@@ -1264,8 +1261,6 @@
 			children = (
 				D11313481E337D3A00E2C033 /* IntroVideoScene.cpp */,
 				D11313491E337D3A00E2C033 /* IntroVideoScene.h */,
-				43F384491F1E394500ECA339 /* SlideShowScene.cpp */,
-				43F3844A1F1E394500ECA339 /* SlideShowScene.h */,
 				9220EC422031A75800BD7A90 /* StartScreen.h */,
 				9220EC462031AC9300BD7A90 /* StartScreen.cpp */,
 			);
@@ -1583,7 +1578,6 @@
 				02074B271E93966D009BB28C /* WebGameAPIDataManager.cpp in Sources */,
 				A15B2FCA1DFACF3800D25334 /* HQDataProvider.cpp in Sources */,
 				439694841EAA4A08003C17E6 /* PrivacyAndTermsLayer.cpp in Sources */,
-				43F3844B1F1E394500ECA339 /* SlideShowScene.cpp in Sources */,
 				02A11FF71EA6375D007EDD95 /* GooglePaymentSingleton.cpp in Sources */,
 				A198622E1DD480A60090F053 /* BaseScene.cpp in Sources */,
 				4343CB9C1EBB826600247549 /* DeepLinkingSingleton.cpp in Sources */,
