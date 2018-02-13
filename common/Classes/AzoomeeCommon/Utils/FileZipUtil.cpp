@@ -124,7 +124,24 @@ namespace Azoomee {
         unzClose(pFile);
         
         return true;
-
+    }
+    
+    void FileZipUtil::unzipWithDelageteCallback(std::string zipPath, std::string dirpath, std::string passwd, FileZipDelegate *delegate)
+    {
+        bool result = unzip(zipPath.c_str(), dirpath.c_str(), nullptr);
+        if(delegate)
+        {
+            Director::getInstance()->getScheduler()->performFunctionInCocosThread([delegate,result,zipPath,dirpath](){
+                delegate->onAsyncUnzipComplete(result, zipPath, dirpath);
+            });
+            
+        }
+    }
+    
+    void FileZipUtil::asyncUnzip(const std::string& zipPath, const std::string& dirpath, const std::string& passwd, FileZipDelegate *delegate)
+    {
+        std::thread unzipThread(&FileZipUtil::unzipWithDelageteCallback,this,zipPath,dirpath,passwd,delegate);
+        unzipThread.detach();
     }
 
 }

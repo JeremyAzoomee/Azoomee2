@@ -17,7 +17,6 @@
 #include <AzoomeeCommon/Data/Json.h>
 #include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
-#include <AzoomeeCommon/Utils/FileZipUtil.h>
 #include <AzoomeeCommon/Utils/DirectorySearcher.h>
 #include <AzoomeeCommon/Utils/VersionChecker.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
@@ -269,17 +268,9 @@ std::string DynamicNodeHandler::getLastPullAppVersionFilePath() const
 
 bool DynamicNodeHandler::unzipCTAFiles(const char *zipPath, const char *dirpath, const char *passwd)
 {
-    if(FileZipUtil::getInstance()->unzip(zipPath,dirpath,passwd))
-    {
-        FileUtils::getInstance()->removeFile(getCTADirectoryPath() + "CTAFiles.zip");
-        return true;
-    }
-    else
-    {
-        //unable to unzip file
-        FileUtils::getInstance()->removeFile(getCTADirectoryPath() + "CTAFiles.zip");
-        return false;
-    }
+    FileZipUtil::getInstance()->asyncUnzip(zipPath, dirpath, "", this);
+
+    return true;
 }
 
 bool DynamicNodeHandler::unzipBundleCTAFiles()
@@ -291,17 +282,9 @@ bool DynamicNodeHandler::unzipBundleCTAFiles()
     
     FileUtils::getInstance()->writeStringToFile(zipFile, destinationPath);
 
-    if(FileZipUtil::getInstance()->unzip(destinationPath.c_str(),basePath.c_str(),nullptr))
-    {
-        FileUtils::getInstance()->removeFile(destinationPath);
-        return true;
-    }
-    else
-    {
-        //unable to unzip file
-        FileUtils::getInstance()->removeFile(destinationPath);
-        return false;
-    }
+    FileZipUtil::getInstance()->asyncUnzip(destinationPath,basePath, "", this);
+
+    return true;
 }
 
 void DynamicNodeHandler::removeCTAFiles()
@@ -328,6 +311,11 @@ void DynamicNodeHandler::createDynamicNodeFromFileWithParams(const std::string &
 {
     Node* cta = DynamicNodeCreator::getInstance()->createCTAFromFileWithParams(file, params);
     Director::getInstance()->getRunningScene()->addChild(cta);
+}
+
+void DynamicNodeHandler::onAsyncUnzipComplete(bool success, const std::string& zipPath, const std::string& dirpath)
+{
+    FileUtils::getInstance()->removeFile(zipPath);
 }
 
 void DynamicNodeHandler::jsonDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode)

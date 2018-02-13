@@ -12,6 +12,7 @@
 #include "SceneManagerScene.h"
 #include "AzoomeeCommon/Data/Child/ChildDataParser.h"
 #include "DynamicNodeHandler.h"
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     #include "platform/android/jni/JniHelper.h"
@@ -63,6 +64,7 @@ void RoutePaymentSingleton::startInAppPayment()
         {
             retryReceiptValidation();
         }
+        return;
     }
     
     pressedIAPStartButton = true;
@@ -94,44 +96,19 @@ bool RoutePaymentSingleton::showIAPContent()
     return !ParentDataProvider::getInstance()->isPaidUser();
 }
 
-void RoutePaymentSingleton::setOSManufacturer()
-{
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    
-    std::string resultStr = JniHelper::callStaticStringMethod(kAzoomeeActivityJavaClassName, "getOSBuildManufacturer");
-    
-    if (resultStr == "Amazon")
-    {
-        AnalyticsSingleton::getInstance()->registerIAPOS("Amazon");
-        OSManufacturer = "Amazon";
-    }
-    else
-    {
-        AnalyticsSingleton::getInstance()->registerIAPOS("Google");
-        OSManufacturer = "Google";
-    }
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    AnalyticsSingleton::getInstance()->registerIAPOS("iOS");
-    OSManufacturer = "iOS";
-#else
-#error Unsupported platform in RoutePaymentSingleton
-#endif
-
-}
-
 bool RoutePaymentSingleton::osIsIos()
 {
-    return (OSManufacturer == "iOS");
+    return (ConfigStorage::getInstance()->getOSManufacturer() == "Apple");
 }
 
 bool RoutePaymentSingleton::osIsAndroid()
 {
-    return (OSManufacturer == "Google");
+    return (ConfigStorage::getInstance()->getOSManufacturer() == "Google");
 }
 
 bool RoutePaymentSingleton::osIsAmazon()
 {
-    return (OSManufacturer == "Amazon");
+    return (ConfigStorage::getInstance()->getOSManufacturer() == "Amazon");
 }
 
 void RoutePaymentSingleton::refreshAppleReceiptFromButton()
@@ -272,6 +249,8 @@ void RoutePaymentSingleton::retryReceiptValidation()
         writeReceiptDataToFile(dataString); //we do this to increase the attempt number by 1. If dataString is empty because of any issues, it is better not to rewrite the file.
     }
     
+    pressedIAPStartButton = true;
+    pressedRestorePurchaseButton = false;
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     ApplePaymentSingleton::getInstance()->transactionStatePurchased(dataString);
 #endif

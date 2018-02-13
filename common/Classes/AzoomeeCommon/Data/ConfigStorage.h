@@ -2,9 +2,10 @@
 #define AzoomeeCommon_ConfigStorage_h
 
 //General configuration
-//#define forcereload YES;
-//#define forgetuserdata YES;
-#define USINGCI YES
+//#define FORCE_RELOAD YES;
+//#define FORGET_USER_DATA YES;
+//#define ALLOW_UNPAID_SIGNUP YES
+//#define USINGCI YES
 
 #include <cocos/cocos2d.h>
 #include "Json.h"
@@ -115,6 +116,7 @@ public:
     std::string getVersionNumber();
     std::string getVersionNumberWithPlatform();
     std::string getVersionNumberToDisplay();
+    std::string getVersionInformationForRequestHeader();
     
     //IAP Configuration
     std::string getIapSkuForProvider(const std::string& provider);
@@ -123,6 +125,7 @@ public:
     //Device-specific information
     std::string getDeviceInformation();
     std::string getDeviceAdvertisingId();
+    std::string getOSManufacturer();
     
     //Device-resolution-specific information
     void setIsDeviceIphoneX(bool isDeviceIphoneX);
@@ -146,6 +149,8 @@ private:
     std::vector<std::string> parentSignedRequestTags;
     
     bool _isDeviceIphoneX = false;
+    
+    std::string _osManufacturer = "";
     
 };
   

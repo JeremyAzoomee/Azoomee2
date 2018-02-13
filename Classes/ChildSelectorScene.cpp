@@ -31,14 +31,16 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-const char* const ChildSelectorScene::kBillingDataRecievedEvent  = "BillingDataRecived";
+const std::string ChildSelectorScene::kSceneName = "ChildSelectScene";
 
 Scene* ChildSelectorScene::createScene()
 {
     auto scene = Scene::create();
     auto layer = ChildSelectorScene::create();
+    layer->setName(kSceneName);
     scene->addChild(layer);
-
+    scene->setName(kSceneName);
+    
     return scene;
 }
 
@@ -80,6 +82,15 @@ void ChildSelectorScene::onEnterTransitionDidFinish()
     if(FlowDataSingleton::getInstance()->hasError())
     {
         MessageBox::createWith(FlowDataSingleton::getInstance()->getErrorCode(), nullptr);
+    }
+    
+    if(ParentDataProvider::getInstance()->isBillingDataAvailable())
+    {
+        if(ParentDataProvider::getInstance()->isPaidUser())
+        {
+            _parentButton->setVisible(true);
+            _parentButtonListener->setEnabled(true);
+        }
     }
     
 }
@@ -169,18 +180,7 @@ void ChildSelectorScene::addProfilesToScrollView()
     _parentButton->setPosition(positionElementOnScrollView(_parentButton));
     _scrollView->addChild(_parentButton);
     _parentButton->setVisible(false);
-    
-    if(!ParentDataProvider::getInstance()->isBillingDataAvailable())
-    {
-        addBillingDataRecievedListener();
-    }
-    else
-    {
-        if(ParentDataProvider::getInstance()->isPaidUser())
-        {
-            _parentButton->setVisible(true);
-        }
-    }
+    _parentButtonListener->setEnabled(false);
     
 }
 
@@ -374,8 +374,8 @@ Layer* ChildSelectorScene::createParentProfileButton()
     
     profileLabel->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
     
-    auto listener = EventListenerTouchOneByOne::create();
-    listener->onTouchBegan = [=](Touch *touch, Event *event)
+    _parentButtonListener = EventListenerTouchOneByOne::create();
+    _parentButtonListener->onTouchBegan = [=](Touch *touch, Event *event)
     {
         auto target = static_cast<Node*>(event->getCurrentTarget());
         Point locationInNode = target->convertToNodeSpace(touch->getLocation());
@@ -395,9 +395,18 @@ Layer* ChildSelectorScene::createParentProfileButton()
         return false;
     };
     
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), profileLayer);
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_parentButtonListener, profileLayer);
     
     return profileLayer;
+}
+
+void ChildSelectorScene::setParentButtonVisible(bool visible)
+{
+    if(_parentButton)
+    {
+        _parentButton->setVisible(visible);
+        _parentButtonListener->setEnabled(visible);
+    }
 }
 
 //---------------------- Check Email Verified Before Adding Child ---------------
@@ -489,34 +498,11 @@ void ChildSelectorScene::MessageBoxButtonPressed(std::string messageBoxTitle,std
     }
 }
 
-void ChildSelectorScene::addBillingDataRecievedListener()
-{
-    //event will be fired from BackEndCaller::onUpdateBillingDataAnswerReceived
-    _billingDataRecievedListener = EventListenerCustom::create(kBillingDataRecievedEvent, [=](EventCustom* event) {
-        if(ParentDataProvider::getInstance()->isPaidUser())
-        {
-            if(_parentButton)
-            {
-                _parentButton->setVisible(true);
-            }
-        }
-        Director::getInstance()->getEventDispatcher()->removeEventListener(_billingDataRecievedListener);
-        _billingDataRecievedListener = nullptr;
-    });
-    
-    _eventDispatcher->addEventListenerWithFixedPriority(_billingDataRecievedListener, 1);
-}
 
 void ChildSelectorScene::onExit()
 {
     OfflineChecker::getInstance()->setDelegate(nullptr);
-    if(_billingDataRecievedListener)
-    {
-        Director::getInstance()->getEventDispatcher()->removeEventListener(_billingDataRecievedListener);
-        _billingDataRecievedListener = nullptr;
-    }
-    _parentButton->removeFromParent();
-    _parentButton = nullptr;
+
     Node::onExit();
 }
 

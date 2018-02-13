@@ -107,75 +107,95 @@ inline rapidjson::Value ToJson(const std::vector<value_type>& value)
     return valueObj;
 }
 
-inline std::string getStringFromJson(const std::string &keyName, const rapidjson::Document &jsonDocument)
+inline std::string getStringFromJson(const std::string &keyName, const rapidjson::Document &jsonDocument, const std::string& defaultReturn = "")
 {
-    if(jsonDocument.HasParseError()) return "";
+    if(jsonDocument.HasParseError())
+    {
+        return defaultReturn;
+    }
     
     if((jsonDocument.HasMember(keyName.c_str()))&&(!jsonDocument[keyName.c_str()].IsNull())&&(jsonDocument[keyName.c_str()].IsString()))
     {
         return jsonDocument[keyName.c_str()].GetString();
     }
     
-    return "";
+    return defaultReturn;
 }
 
-inline std::string getStringFromJson(const std::string &keyName, const rapidjson::Value &jsonValue)
+inline std::string getStringFromJson(const std::string &keyName, const rapidjson::Value &jsonValue, const std::string& defaultReturn = "")
 {
     if((jsonValue.HasMember(keyName.c_str()))&&(!jsonValue[keyName.c_str()].IsNull())&&(jsonValue[keyName.c_str()].IsString()))
     {
         return jsonValue[keyName.c_str()].GetString();
     }
                 
-    return "";
+    return defaultReturn;
 }
 
-inline bool getBoolFromJson(const std::string &keyName, const rapidjson::Document &jsonDocument)
+inline bool getBoolFromJson(const std::string &keyName, const rapidjson::Document &jsonDocument, bool defaultReturn = false)
 {
-    if(jsonDocument.HasParseError()) return "";
+    if(jsonDocument.HasParseError())
+    {
+        return defaultReturn;
+    }
     
     if((jsonDocument.HasMember(keyName.c_str()))&&(!jsonDocument[keyName.c_str()].IsNull())&&(jsonDocument[keyName.c_str()].IsBool()))
     {
         return jsonDocument[keyName.c_str()].GetBool();
     }
     
-    return false;
+    return defaultReturn;
 }
 
-inline bool getBoolFromJson(const std::string &keyName, const rapidjson::Value &jsonValue)
+inline bool getBoolFromJson(const std::string &keyName, const rapidjson::Value &jsonValue, bool defaultReturn = false)
 {
     if((jsonValue.HasMember(keyName.c_str()))&&(!jsonValue[keyName.c_str()].IsNull())&&(jsonValue[keyName.c_str()].IsBool()))
     {
         return jsonValue[keyName.c_str()].GetBool();
     }
     
-    return false;
+    return defaultReturn;
 }
 
-inline cocos2d::Vec2 getVec2FromJson(const std::string &keyName, const rapidjson::Value &jsonValue)
+inline cocos2d::Vec2 getVec2FromJson(const std::string &keyName, const rapidjson::Value &jsonValue, const cocos2d::Vec2& defaultReturn = cocos2d::Vec2(0,0))
 {
     if(jsonValue.HasMember(keyName.c_str()) && jsonValue[keyName.c_str()].Size() == 2 && jsonValue[keyName.c_str()][0].IsFloat() && jsonValue[keyName.c_str()][1].IsFloat())
     {
         return cocos2d::Vec2(jsonValue[keyName.c_str()][0].GetFloat(), jsonValue[keyName.c_str()][1].GetFloat());
     }
-    return cocos2d::Vec2(0,0);
+    return defaultReturn;
 }
 
-inline int getIntFromJson(const std::string &keyName, const rapidjson::Value &jsonValue)
+inline int getIntFromJson(const std::string &keyName, const rapidjson::Document &jsonDocument, int defaultReturn = INT_MAX)
+{
+    if(jsonDocument.HasParseError())
+    {
+        return defaultReturn;
+    }
+    
+    if(jsonDocument.HasMember(keyName.c_str()) && jsonDocument[keyName.c_str()].IsInt())
+    {
+        return jsonDocument[keyName.c_str()].GetInt();
+    }
+    return defaultReturn;
+}
+
+inline int getIntFromJson(const std::string &keyName, const rapidjson::Value &jsonValue, int defaultReturn = INT_MAX)
 {
     if(jsonValue.HasMember(keyName.c_str()) && jsonValue[keyName.c_str()].IsInt())
     {
         return jsonValue[keyName.c_str()].GetInt();
     }
-    return INT_MAX;
+    return defaultReturn;
 }
 
-inline cocos2d::Color4B getColor4BFromJson(const std::string &keyName, const rapidjson::Value &jsonValue)
+inline cocos2d::Color4B getColor4BFromJson(const std::string &keyName, const rapidjson::Value &jsonValue, const cocos2d::Color4B& defaultReturn = cocos2d::Color4B())
 {
     if(jsonValue.HasMember(keyName.c_str()) && jsonValue[keyName.c_str()].Size() == 4 && jsonValue[keyName.c_str()][0].IsInt() && jsonValue[keyName.c_str()][1].IsInt() && jsonValue[keyName.c_str()][2].IsInt() && jsonValue[keyName.c_str()][3].IsInt())
     {
         return cocos2d::Color4B(jsonValue[keyName.c_str()][0].GetInt(), jsonValue[keyName.c_str()][1].GetInt(), jsonValue[keyName.c_str()][2].GetInt(), jsonValue[keyName.c_str()][3].GetInt());
     }
-    return cocos2d::Color4B();
+    return defaultReturn;
 }
 
 inline std::vector<std::string> getStringArrayFromJson(const rapidjson::Value& jsonValue)

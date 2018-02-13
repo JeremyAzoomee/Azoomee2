@@ -186,8 +186,17 @@ void BackEndCaller::onUpdateBillingDataAnswerReceived(const std::string& respons
 {
     ParentDataParser::getInstance()->parseParentBillingData(responseString);
     // fire event to add parent button to child select scene if paid account
-    EventCustom event(ChildSelectorScene::kBillingDataRecievedEvent);
-    Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+    if(Director::getInstance()->getRunningScene()->getName() == ChildSelectorScene::kSceneName)
+    {
+        if(ParentDataProvider::getInstance()->isPaidUser())
+        {
+            ChildSelectorScene* childSelectScene = dynamic_cast<ChildSelectorScene*>(Director::getInstance()->getRunningScene()->getChildByName(ChildSelectorScene::kSceneName));
+            if(childSelectScene)
+            {
+                childSelectScene->setParentButtonVisible(true);
+            }
+        }
+    }
 }
 
 //GETTING FORCE UPDATE INFORMATION
@@ -295,7 +304,9 @@ void BackEndCaller::getGordon()
 void BackEndCaller::onGetGordonAnswerReceived(const std::string& responseString)
 {
     if(CookieDataParser::getInstance()->parseDownloadCookies(responseString))
+    {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
+    }
 }
 
 //REGISTER PARENT---------------------------------------------------------------------------
@@ -521,7 +532,6 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
         hideLoadingScreen();
         FlowDataSingleton::getInstance()->setErrorCode(errorCode);
         MessageBox::createWith(errorCode, nullptr);
-        //DynamicNodeHandler::getInstance()->startSignupFlow();
         return;
     }
     

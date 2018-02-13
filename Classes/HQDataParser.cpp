@@ -152,7 +152,7 @@ bool HQDataParser::parseHQStructure(const std::string &responseString, const cha
             }
         }
         
-        HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->addCarusoelToHq(carouselObject);
+        HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->addCarouselToHq(carouselObject);
         HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->setHqType(category);
     }
     

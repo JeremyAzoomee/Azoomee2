@@ -25,6 +25,7 @@ public:
     
     void openContentById(const std::string& contentId);
     void openContentObject(const HQContentItemObjectRef& contentItem);
+    
 };
 
 NS_AZOOMEE_END

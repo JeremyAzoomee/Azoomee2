@@ -75,7 +75,7 @@ void HQDataProvider::getDataForHQ(const std::string &category)
 {
     displayLoadingScreen();
     
-#ifdef forcereload
+#ifdef FORCE_RELOAD
         HQDataStorage::getInstance()->HQData.erase(category.c_str());
 #endif
     

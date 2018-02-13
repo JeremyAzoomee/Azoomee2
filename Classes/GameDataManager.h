@@ -10,11 +10,12 @@
 #include "SceneManagerScene.h"
 #include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
 #include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
+#include <AzoomeeCommon/Utils/FileZipUtil.h>
 #include <AzoomeeCommon/Utils/FileDownloader.h>
 
 NS_AZOOMEE_BEGIN
 
-class GameDataManager : public cocos2d::Ref, public ElectricDreamsButtonDelegate, public MessageBoxDelegate, public FileDownloaderDelegate
+class GameDataManager : public cocos2d::Ref, public ElectricDreamsButtonDelegate, public MessageBoxDelegate, public FileDownloaderDelegate, public FileZipDelegate
 {
     
 public:
@@ -29,9 +30,12 @@ public:
     void startProcessingGame(const HQContentItemObjectRef &itemData);
     void getJSONGameData(const std::string &url, const std::string &itemId);
     
+    bool unzipGame(const std::string& zipPath,const std::string& dirpath,const std::string& passwd);
+    
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
+    void onAsyncUnzipComplete(bool success, const std::string& zipPath, const std::string& dirpath);
     void onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode);
     
 private:
@@ -49,10 +53,14 @@ private:
     std::string getStartFileFromJSONFile(const std::string &jsonFileName);
     int getCurrentGameVersionFromJSONFile(const std::string &jsonFileName);
     int getMinGameVersionFromJSONString(const std::string &jsonString);
+    bool getIsGameStreamableFromJSONFile(const std::string& jsonFileName);
+    bool getIsGameDownloadableFromJSONFile(const std::string& jsonFileName);
+    
+    void streamGameIfPossible(const std::string& jsonFileName);
+    void downloadGameIfPossible(const std::string& jsonFileName, const std::string& itemId);
     
     void getGameZipFile(const std::string &url, const std::string &itemId);
     
-    bool unzipGame(const std::string& zipPath,const std::string& dirpath,const std::string& passwd);
     bool removeGameZip(const std::string &fileNameWithPath);
     
     void removeGameFolderOnError(const std::string &dirPath);
@@ -74,6 +82,8 @@ private:
     
     bool processCancelled = false;
     
+    bool _gameIsBeingStreamed = false;
+    
     bool isGameCompatibleWithCurrentAzoomeeVersion(const std::string &jsonFileName);
     Orientation getGameOrientation(const std::string& jsonFileName);
     
@@ -92,6 +102,7 @@ private:
     const std::string _kZipTag = "zip";
     const std::string _kJsonTag = "json";
 };
+
 
 NS_AZOOMEE_END
 
