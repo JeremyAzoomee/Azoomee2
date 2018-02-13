@@ -6,7 +6,6 @@
 #include <AzoomeeCommon/Strings.h>
 #include "LoginLogicHandler.h"
 #include "SceneManagerScene.h"
-#include "SlideShowScene.h"
 #include "StartScreen.h"
 
 using namespace cocos2d;
