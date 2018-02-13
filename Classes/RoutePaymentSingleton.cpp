@@ -164,8 +164,6 @@ void RoutePaymentSingleton::inAppPaymentSuccess()
 {
     removeReceiptDataFile();
     
-    AnalyticsSingleton::getInstance()->iapSubscriptionSuccessEvent();
-    
     BackEndCaller::getInstance()->updateBillingData();
     FlowDataSingleton::getInstance()->addIAPSuccess(true);
     if(FlowDataSingleton::getInstance()->isSignupFlow())

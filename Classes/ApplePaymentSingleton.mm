@@ -55,6 +55,7 @@ void ApplePaymentSingleton::transactionStatePurchased(std::string receiptData)
     if(!RoutePaymentSingleton::getInstance()->receiptDataFileExists())
     {
         RoutePaymentSingleton::getInstance()->writeReceiptDataToFile(receiptData);
+        AnalyticsSingleton::getInstance()->iapSubscriptionSuccessEvent();
     }
     
     if(!ParentDataProvider::getInstance()->isUserLoggedIn())
