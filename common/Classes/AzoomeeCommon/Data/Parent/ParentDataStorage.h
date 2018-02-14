@@ -22,17 +22,17 @@ public:
     rapidjson::Document availableChildrenData;
     rapidjson::Document pendingFriendRequestData;
     
-    std::string loggedInParentId;
-    std::string loggedInParentCdnSessionId;
-    std::string loggedInParentApiSecret;
-    std::string loggedInParentApiKey;
-    std::string loggedInParentActorStatus;
-    std::string loggedInParentPin;
-    std::string loggedInParentAvatarId;
-    std::string loggedInParentBillingStatus;
-    std::string loggedInParentBillingDate;
-    std::string loggedInParentBillingProvider;
-    std::string loggedInParentCountryCode;
+    std::string loggedInParentId = "";
+    std::string loggedInParentCdnSessionId = "";
+    std::string loggedInParentApiSecret = "";
+    std::string loggedInParentApiKey = "";
+    std::string loggedInParentActorStatus = "";
+    std::string loggedInParentPin = "";
+    std::string loggedInParentAvatarId = "";
+    std::string loggedInParentBillingStatus = "";
+    std::string loggedInParentBillingDate = "";
+    std::string loggedInParentBillingProvider = "";
+    std::string loggedInParentCountryCode = "";
     bool isLoggedInParentAnonymous = false;
     bool isBillingDataAvailable = false;
     

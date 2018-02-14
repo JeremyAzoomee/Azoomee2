@@ -490,8 +490,16 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
                 googlePurchaseFailed();
             }
 
+            String userId = getLoggedInParentUserId();
+
+            if(userId == "")
+            {
+                userId = Long.toHexString(Double.doubleToLongBits(Math.random()));
+            }
+
+
             mHelper.launchSubscriptionPurchaseFlow(mActivity, getGoogleSku(), 10001,
-                    mPurchaseFinishedListener, getLoggedInParentUserId());
+                    mPurchaseFinishedListener, userId);
         } catch (IabHelper.IabAsyncInProgressException e) {
             Log.d("GOOGLEPAY", "Error launching purchase flow. Another async operation in progress.");
             googlePurchaseFailed();
