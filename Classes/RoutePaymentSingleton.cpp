@@ -236,9 +236,10 @@ void RoutePaymentSingleton::retryReceiptValidation()
     int attemptNumber = atoi(fileContentSplit.at(0).c_str());
     const std::string& dataString = fileContentSplit.at(1);
     
-    if(attemptNumber > 2) //we want to avoid putting users to infinite loop
+    if(attemptNumber > 5) //we want to avoid putting users to infinite loop
     {
         //TODO: send receipt file data to back-end
+        removeReceiptDataFile();
         return;
     }
     

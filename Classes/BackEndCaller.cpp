@@ -122,7 +122,10 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString, con
         AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
         if(RoutePaymentSingleton::getInstance()->receiptDataFileExists())
         {
-            RoutePaymentSingleton::getInstance()->retryReceiptValidation();
+            Director::getInstance()->getScheduler()->schedule([&](float dt){
+                RoutePaymentSingleton::getInstance()->retryReceiptValidation();
+            }, this, 1.0, 0, 0, false, "receiptValidation");
+            
         }
         else
         {
