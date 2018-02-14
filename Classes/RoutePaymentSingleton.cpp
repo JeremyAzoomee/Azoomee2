@@ -218,10 +218,18 @@ void RoutePaymentSingleton::removeReceiptDataFile()
     }
 }
 
+void RoutePaymentSingleton::removeReceiptDataFileAndLogin()
+{
+    removeReceiptDataFile();
+    LoginLogicHandler::getInstance()->doLoginLogic();
+}
+
 void RoutePaymentSingleton::retryReceiptValidation()
 {
     if(!receiptDataFileExists())
     {
+        //TODO: send receipt file data to back-end
+        removeReceiptDataFileAndLogin();
         return;
     }
     
@@ -236,9 +244,10 @@ void RoutePaymentSingleton::retryReceiptValidation()
     int attemptNumber = atoi(fileContentSplit.at(0).c_str());
     const std::string& dataString = fileContentSplit.at(1);
     
-    if(attemptNumber > 2) //we want to avoid putting users to infinite loop
+    if(attemptNumber > 6) //we want to avoid putting users to infinite loop
     {
         //TODO: send receipt file data to back-end
+        removeReceiptDataFileAndLogin();
         return;
     }
     
@@ -266,6 +275,11 @@ void RoutePaymentSingleton::retryReceiptValidation()
         {
             GooglePaymentSingleton::getInstance()->startBackEndPaymentVerification(paymentElements.at(0), paymentElements.at(1), paymentElements.at(2));
         }
+    }
+    else
+    {
+        removeReceiptDataFileAndLogin();
+        return;
     }
 #endif
     
