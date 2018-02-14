@@ -38,21 +38,6 @@ void SignUpFlowController::processAction(const ButtonActionDataRef& actionData)
 {
     const std::string& fileName = actionData->getParamForKey(kCTAFilenameKey);
     FlowPath pathAction = convertStringToFlowPath(actionData->getParamForKey(kCTAActionKey));
-    switch(pathAction)
-    {
-        default: case UNKNOWN:
-            AnalyticsSingleton::getInstance()->ctaButtonPressed("flowUnknown");
-            break;
-        case NEXT:
-            AnalyticsSingleton::getInstance()->ctaButtonPressed("flowNext");
-            break;
-        case BACK:
-            AnalyticsSingleton::getInstance()->ctaButtonPressed("flowBack");
-            break;
-        case CLOSE:
-            AnalyticsSingleton::getInstance()->ctaButtonPressed("flowClose");
-            break;
-    }
     
     if( fileName == kEnterEmailCTAName)
     {
@@ -86,6 +71,7 @@ void SignUpFlowController::handleEnterEmailFlow(const ButtonActionDataRef& actio
             const std::string& email = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("email");
             if(isValidEmailAddress(email.c_str()))
             {
+                AnalyticsSingleton::getInstance()->ctaButtonPressed("enterEmail_continue");
                 DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(kConfirmEmailCTAName, DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
             }
             break;
@@ -93,6 +79,7 @@ void SignUpFlowController::handleEnterEmailFlow(const ButtonActionDataRef& actio
             
         case BACK: case CLOSE:
         {
+            AnalyticsSingleton::getInstance()->ctaButtonPressed("enterEmail_close");
             exitFlow();
             break;
         }
@@ -111,17 +98,20 @@ void SignUpFlowController::handleConfirmEmailFlow(const ButtonActionDataRef& act
         }
         case NEXT:
         {
+            AnalyticsSingleton::getInstance()->ctaButtonPressed("confirmEmail_confirm");
             DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(kEnterPasswordCTAName, DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
             break;
         }
             
         case BACK:
         {
+            AnalyticsSingleton::getInstance()->ctaButtonPressed("confirmEmail_back");
             DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(kEnterEmailCTAName, DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
             break;
         }
         case CLOSE:
         {
+            AnalyticsSingleton::getInstance()->ctaButtonPressed("confirmEmail_close");
             exitFlow();
             break;
         }
@@ -143,6 +133,7 @@ void SignUpFlowController::handleEnterPasswordFlow(const ButtonActionDataRef& ac
             const std::string& password = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("password");
             if(isValidPassword(password.c_str(),6))
             {
+                AnalyticsSingleton::getInstance()->ctaButtonPressed("enterPassword_continue");
                 DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(kEnterPinCTAName,DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
             }
             break;
@@ -150,11 +141,13 @@ void SignUpFlowController::handleEnterPasswordFlow(const ButtonActionDataRef& ac
             
         case BACK:
         {
+            AnalyticsSingleton::getInstance()->ctaButtonPressed("enterPassword_back");
             DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(kConfirmEmailCTAName,DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
             break;
         }
         case CLOSE:
         {
+            AnalyticsSingleton::getInstance()->ctaButtonPressed("enterPassword_close");
             exitFlow();
             break;
         }
@@ -176,6 +169,7 @@ void SignUpFlowController::handleEnterPinFlow(const ButtonActionDataRef& actionD
             const std::string& pin = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("pin");
             if(isValidPin(pin.c_str()))
             {
+                AnalyticsSingleton::getInstance()->ctaButtonPressed("enterPin_continue");
                 signUp();
             }
             break;
@@ -183,11 +177,13 @@ void SignUpFlowController::handleEnterPinFlow(const ButtonActionDataRef& actionD
             
         case BACK:
         {
+            AnalyticsSingleton::getInstance()->ctaButtonPressed("enterPin_back");
             DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(kEnterPasswordCTAName, DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
             break;
         }
         case CLOSE:
         {
+            AnalyticsSingleton::getInstance()->ctaButtonPressed("enterPin_close");
             exitFlow();
             break;
         }

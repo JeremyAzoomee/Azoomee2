@@ -13,10 +13,13 @@
 #include "VideoPlaylistManager.h"
 #include "WebViewSelector.h"
 #include "NavigationLayer.h"
+#include "RecentlyPlayedManager.h"
+#include "HQHistoryManager.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
-
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Utils/StringFunctions.h>
 
 using namespace cocos2d;
 
@@ -62,11 +65,14 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
     
     if(contentItem->getType() == ConfigStorage::kContentTypeGame)
     {
+        RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(),ConfigStorage::kGameHQName);
         ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
         GameDataManager::getInstance()->startProcessingGame(contentItem);
     }
     else if(contentItem->getType()  == ConfigStorage::kContentTypeVideo || contentItem->getType()  == ConfigStorage::kContentTypeAudio)
     {
+        const std::string& hqName = contentItem->getType()  == ConfigStorage::kContentTypeVideo ? ConfigStorage::kVideoHQName : ConfigStorage::kAudioHQName;
+        RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), hqName);
         ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
         auto webViewSelector = WebViewSelector::create();
         webViewSelector->loadWebView(contentItem->getUri(),Orientation::Landscape);

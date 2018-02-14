@@ -6,8 +6,13 @@
 #include "../Analytics/AnalyticsSingleton.h"
 #include "../API/API.h"
 #include "../Net/Utils.h"
+#include "Json.h"
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+#include "platform/android/jni/JniHelper.h"
+
+static const std::string kAzoomeeActivityJavaClassName = "org/cocos2dx/cpp/AppActivity";
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "../Utils/IosNativeFunctionsSingleton.h"
 #endif
 
@@ -308,7 +313,17 @@ std::string ConfigStorage::getGradientImageForCategory(const std::string& catego
 
 std::string ConfigStorage::getHQSceneNameReplacementForPermissionFeed(const std::string &inputHqSceneName)
 {
-    return NavigationConfiguration["hqNamesReplacementForPermissionFeed"][inputHqSceneName.c_str()].GetString();
+    const rapidjson::Value& permissionField = NavigationConfiguration["hqNamesReplacementForPermissionFeed"];
+    const std::string& returnValue = getStringFromJson(inputHqSceneName, permissionField);
+    
+    if(returnValue == "")
+    {
+        return inputHqSceneName;
+    }
+    else
+    {
+        return returnValue;
+    }
 }
 
 cocos2d::Point ConfigStorage::getRelativeCirclePositionForMenuItem(int itemNumber)
@@ -426,6 +441,11 @@ std::string ConfigStorage::getVersionNumberToDisplay()
 {
     return "Version Number " + getVersionNumber();
 }
+    
+std::string ConfigStorage::getVersionInformationForRequestHeader()
+{
+    return getOSManufacturer() + "/" + getVersionNumberWithPlatform();
+}
 
 //----------------------------- IAP Configuration -------------------------------------
 
@@ -457,8 +477,8 @@ std::string ConfigStorage::getDeviceInformation()
     sourceDeviceString1 = IosNativeFunctionsSingleton::getInstance()->getIosSystemVersion();
     sourceDeviceString2 = IosNativeFunctionsSingleton::getInstance()->getIosDeviceType();
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    sourceDeviceString1 = JniHelper::callStaticStringMethod("org/cocos2dx/cpp/AppActivity", "getAndroidDeviceModel");
-    sourceDeviceString2 = JniHelper::callStaticStringMethod("org/cocos2dx/cpp/AppActivity", "getOSBuildManufacturer");
+    sourceDeviceString1 = JniHelper::callStaticStringMethod(kAzoomeeActivityJavaClassName, "getAndroidDeviceModel");
+    sourceDeviceString2 = JniHelper::callStaticStringMethod(kAzoomeeActivityJavaClassName, "getOSBuildManufacturer");
 #endif
     
     std::string sourceDevice = Net::urlEncode(sourceDeviceString1) + "|" + Net::urlEncode(sourceDeviceString2);
@@ -473,10 +493,41 @@ std::string ConfigStorage::getDeviceAdvertisingId()
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     deviceId = IosNativeFunctionsSingleton::getInstance()->getIosDeviceIDFA();
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    deviceId = JniHelper::callStaticStringMethod("org/cocos2dx/cpp/AppActivity", "getAndroidDeviceAdvertisingId");
+    deviceId = JniHelper::callStaticStringMethod(kAzoomeeActivityJavaClassName, "getAndroidDeviceAdvertisingId");
 #endif
     
     return deviceId;
+}
+    
+std::string ConfigStorage::getOSManufacturer()
+{
+    if(_osManufacturer != "")
+    {
+        return _osManufacturer;
+    }
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    
+    std::string resultStr = JniHelper::callStaticStringMethod(kAzoomeeActivityJavaClassName, "getOSBuildManufacturer");
+    
+    if (resultStr == "Amazon")
+    {
+        AnalyticsSingleton::getInstance()->registerIAPOS("Amazon");
+        _osManufacturer = "Amazon";
+    }
+    else
+    {
+        AnalyticsSingleton::getInstance()->registerIAPOS("Google");
+        _osManufacturer = "Google";
+    }
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    AnalyticsSingleton::getInstance()->registerIAPOS("iOS");
+    _osManufacturer = "Apple";
+#else
+    _osManufacturer = "Unknown";
+#endif
+    
+    return _osManufacturer;
 }
     
 void ConfigStorage::setIsDeviceIphoneX(bool isDeviceIphoneX)

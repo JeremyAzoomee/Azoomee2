@@ -33,7 +33,7 @@ bool LoginLogicHandler::init(void)
 
 void LoginLogicHandler::doLoginLogic()
 {
-#ifdef forgetuserdata
+#ifdef FORGET_USER_DATA
     emptyUserName();
 #endif
     

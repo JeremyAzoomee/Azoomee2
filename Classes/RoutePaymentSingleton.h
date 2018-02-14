@@ -11,7 +11,6 @@ class RoutePaymentSingleton : public cocos2d::Ref, public MessageBoxDelegate
 {
 private:
     bool appleReceiptRefreshchecked = false;
-    std::string OSManufacturer;
     void createReceiptDataFolder();
     
 public:
@@ -51,8 +50,6 @@ public:
     
     static const std::string& kReceiptCacheFolder;
     static const std::string& kReceiptDataFileName;
-    
-    void setOSManufacturer();
 };
 
 NS_AZOOMEE_END

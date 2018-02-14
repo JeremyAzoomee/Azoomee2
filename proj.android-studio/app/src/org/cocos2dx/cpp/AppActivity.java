@@ -79,10 +79,11 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     private static Context mContext;
     private static Activity mActivity;
     private static AppActivity mAppActivity;
-    private MixpanelAPI mixpanel;
     private IapManager iapManager;
     private static String advertisingId;
     private Biometric biometric;
+    private  Mixpanel mixpanel;
+    private Appsflyer appsflyer;
 
     private boolean _purchaseRequiredAfterSetup = false;
 
@@ -98,6 +99,8 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         mActivity = this;
         mAppActivity = this;
         biometric = new Biometric(this);
+        mixpanel = new Mixpanel(this);
+        appsflyer = new Appsflyer(this);
 
         // If mFrameLayout hasn't been created, then the activity is going to be destroyed
         // For context, see Cocos2dxActivity onCreate !isTaskRoot() workaround.
@@ -106,8 +109,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
             return;
         }
 
-        AppsFlyerLib.getInstance().startTracking(this.getApplication(), "BzPYMg8dkYsCuDn8XBUN94");
-        mixpanel = MixpanelAPI.getInstance(this, "7e94d58938714fa180917f0f3c7de4c9");
+        appsflyer.startTracking(this.getApplication());
 
         Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
 
@@ -199,46 +201,48 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     //----Mix Panel------
 
     public static void sendMixPanelWithEventID(String eventID, String jsonPropertiesString) {
-        JSONObject _mixPanelProperties = null;
-
-        try {
-            _mixPanelProperties = new JSONObject(jsonPropertiesString);
-        } catch (JSONException e) {
-            _mixPanelProperties = null;
+        if(mAppActivity.mixpanel == null)
+        {
+            return;
         }
 
-        MixpanelAPI mixpanel = MixpanelAPI.getInstance(mContext, "7e94d58938714fa180917f0f3c7de4c9");
-        mixpanel.track(eventID, _mixPanelProperties);
+        mAppActivity.mixpanel.sendMixPanelWithEventID(eventID, jsonPropertiesString);
     }
 
     public static void sendMixPanelSuperProperties(String jsonPropertiesString) {
-        JSONObject _mixPanelProperties = null;
-
-        try {
-            _mixPanelProperties = new JSONObject(jsonPropertiesString);
-        } catch (JSONException e) {
-            _mixPanelProperties = null;
+        if(mAppActivity.mixpanel == null)
+        {
+            return;
         }
 
-        MixpanelAPI mixpanel = MixpanelAPI.getInstance(mContext, "7e94d58938714fa180917f0f3c7de4c9");
-        mixpanel.registerSuperProperties(_mixPanelProperties);
+        mAppActivity.mixpanel.sendMixPanelSuperProperties(jsonPropertiesString);
     }
 
     public static void sendMixPanelPeopleProperties(String parentID) {
-        MixpanelAPI mixpanel = MixpanelAPI.getInstance(mContext, "7e94d58938714fa180917f0f3c7de4c9");
-        mixpanel.identify(parentID);
-        mixpanel.getPeople().identify(parentID);
-        mixpanel.getPeople().set("parentID", parentID);
+        if(mAppActivity.mixpanel == null)
+        {
+            return;
+        }
+
+        mAppActivity.mixpanel.sendMixPanelPeopleProperties(parentID);
     }
 
     public static void showMixpanelNotification() {
-        MixpanelAPI mixpanel = MixpanelAPI.getInstance(mContext, "7e94d58938714fa180917f0f3c7de4c9");
-        mixpanel.getPeople().showNotificationIfAvailable(mActivity);
+        if(mAppActivity.mixpanel == null)
+        {
+            return;
+        }
+
+        mAppActivity.mixpanel.showMixpanelNotification();
     }
 
     public static void showMixpanelNotificationWithID(int notificationID) {
-        MixpanelAPI mixpanel = MixpanelAPI.getInstance(mContext, "7e94d58938714fa180917f0f3c7de4c9");
-        mixpanel.getPeople().showNotificationById(notificationID, mActivity);
+        if(mAppActivity.mixpanel == null)
+        {
+            return;
+        }
+
+        mAppActivity.mixpanel.showMixpanelNotificationWithID(notificationID);
     }
 
     @Override
@@ -264,35 +268,11 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
     public static void sendAppsFlyerEvent(String eventID, String jsonPropertiesString) {
 
-        JSONObject _mixPanelProperties = null;
-
-        try {
-            _mixPanelProperties = new JSONObject(jsonPropertiesString);
-        } catch (JSONException e) {
-            _mixPanelProperties = null;
+        if(mAppActivity.appsflyer == null)
+        {
+            return;
         }
-
-        if (_mixPanelProperties != null) {
-            Map<String, Object> _appsFlyerProperties = new HashMap<String, Object>();
-            java.util.Iterator<?> keys = _mixPanelProperties.keys();
-
-            while (keys.hasNext()) {
-                String key = (String) keys.next();
-
-                java.lang.Object properties = null;
-
-                try {
-                    properties = _mixPanelProperties.get(key);
-                } catch (JSONException e) {
-                }
-
-                if (properties != null) {
-                    _appsFlyerProperties.put(key, properties);
-                }
-            }
-            AppsFlyerLib.getInstance().trackEvent(mContext, eventID, _appsFlyerProperties);
-        } else
-            AppsFlyerLib.getInstance().trackEvent(mContext, eventID, null);
+        mAppActivity.appsflyer.sendAppsFlyerEvent(eventID, jsonPropertiesString);
     }
 
 

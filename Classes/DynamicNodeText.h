@@ -19,6 +19,7 @@ class DynamicNodeText : public cocos2d::Node
 {
 private:
     cocos2d::Label* _text = nullptr;
+    const int kBorderSafeZone = 40;
     
 public:
     virtual bool init() override;

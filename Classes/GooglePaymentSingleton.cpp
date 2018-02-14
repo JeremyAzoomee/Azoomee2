@@ -154,6 +154,7 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_googlePurchaseHappened(
     const char* cToken = env->GetStringUTFChars(token, NULL);
     
     RoutePaymentSingleton::getInstance()->writeAndroidReceiptDataToFile(std::string(cDeveloperPayload), std::string(cOrderId), std::string(cToken));
+    AnalyticsSingleton::getInstance()->iapSubscriptionSuccessEvent();
     GooglePaymentSingleton::getInstance()->startBackEndPaymentVerification(std::string(cDeveloperPayload), std::string(cOrderId), std::string(cToken));
 }
 
