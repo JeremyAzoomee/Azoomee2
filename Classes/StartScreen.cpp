@@ -32,10 +32,6 @@ Scene* StartScreen::createScene()
 
 void StartScreen::onEnter()
 {
-    addBGElements();
-    addImages();
-    addButtons();
-    
     Super::onEnter();
 }
 
@@ -47,6 +43,10 @@ bool StartScreen::init()
     }
     
     DynamicNodeHandler::getInstance()->getCTAFiles();
+    
+    addBGElements();
+    addImages();
+    addButtons();
     
     return true;
 }
@@ -120,12 +120,7 @@ void StartScreen::addImages()
 
 void StartScreen::addButtons()
 {
-    float posMod = 1.5f;
-    
-    if(ConfigStorage::getInstance()->isDeviceIphoneX())
-    {
-        posMod = 1.1f;
-    }
+    const float posMod = ConfigStorage::getInstance()->isDeviceIphoneX() ? 1.1f : 1.5f;
     
     ui::Button* closeButton = ui::Button::create(kAssetLoc + "close.png");
     closeButton->setNormalizedPosition(Vec2(0.978f, 0.978f));
