@@ -492,7 +492,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
             String userId = getLoggedInParentUserId();
 
-            if(userId == "")
+            if(userId.equals(""))
             {
                 userId = Long.toHexString(Double.doubleToLongBits(Math.random()));
             }
