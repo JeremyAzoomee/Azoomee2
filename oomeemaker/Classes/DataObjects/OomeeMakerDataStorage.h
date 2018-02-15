@@ -20,7 +20,7 @@ class OomeeMakerDataStorage
 {
 private:
     std::map<std::string, OomeeRef> _oomeeData;
-    std::map<std::string, ItemCategorRef> _categoryData;
+    std::map<std::string, ItemCategoryRef> _categoryData;
     std::map<std::string, OomeeItemRef> _oomeeItemData;
     
     std::map<std::string, std::vector<OomeeItemRef>> _oomeeItemsInCategoryData;
@@ -28,12 +28,11 @@ private:
 public:
     static OomeeMakerDataStorage* getInstance(void);
     virtual ~OomeeMakerDataStorage();
-    bool init(void);
     
     void clearAllData();
     void clearOomeeData();
     void clearCategoryData();
-    void clearCategoryItemData();
+    void clearOomeeItemData();
     
     void addOomee(const OomeeRef& oomee);
     void addItemCategory(const ItemCategoryRef& itemCategory);

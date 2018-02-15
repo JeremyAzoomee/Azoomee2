@@ -22,7 +22,7 @@ private:
     
     FileDownloaderRef _fileDownloader = nullptr;
     
-    void getPackageJson()
+    void getPackageJson();
     void getConfigDataZip();
     
     void parseOomeeData();
@@ -31,9 +31,8 @@ private:
     
     
 public:
-    static OomeeMakerDataHandler* getinstance();
+    static OomeeMakerDataHandler* getInstance();
     virtual ~OomeeMakerDataHandler();
-    void init();
     
     void getConfigFilesIfNeeded();
     
