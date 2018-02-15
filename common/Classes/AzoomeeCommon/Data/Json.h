@@ -189,29 +189,6 @@ inline int getIntFromJson(const std::string &keyName, const rapidjson::Value &js
     return defaultReturn;
 }
 
-inline float getFloatFromJson(const std::string &keyName, const rapidjson::Document &jsonDocument, float defaultReturn = 0)
-{
-    if(jsonDocument.HasParseError())
-    {
-        return defaultReturn;
-    }
-    
-    if(jsonDocument.HasMember(keyName.c_str()) && jsonDocument[keyName.c_str()].IsFloat())
-    {
-        return jsonDocument[keyName.c_str()].GetFloat();
-    }
-    return defaultReturn;
-}
-
-inline float getFloatFromJson(const std::string &keyName, const rapidjson::Value &jsonValue, float defaultReturn = 0)
-{
-    if(jsonValue.HasMember(keyName.c_str()) && jsonValue[keyName.c_str()].IsFloat())
-    {
-        return jsonValue[keyName.c_str()].GetFloat();
-    }
-    return defaultReturn;
-}
-
 inline cocos2d::Color4B getColor4BFromJson(const std::string &keyName, const rapidjson::Value &jsonValue, const cocos2d::Color4B& defaultReturn = cocos2d::Color4B())
 {
     if(jsonValue.HasMember(keyName.c_str()) && jsonValue[keyName.c_str()].Size() == 4 && jsonValue[keyName.c_str()][0].IsInt() && jsonValue[keyName.c_str()][1].IsInt() && jsonValue[keyName.c_str()][2].IsInt() && jsonValue[keyName.c_str()][3].IsInt())
@@ -288,34 +265,6 @@ inline std::map<std::string, std::string> getStringMapFromJsonString(const std::
             std::string value = M->value.GetString();
             
             returnValue[key] = value;
-        }
-    }
-    
-    return returnValue;
-}
-
-inline std::map<std::string, cocos2d::Vec2> getVec2MapFromJson(const rapidjson::Value& jsonValue)
-{
-    std::map<std::string, cocos2d::Vec2> returnValue;
-    
-    if(jsonValue.IsNull())
-    {
-        return returnValue;
-    }
-    
-    rapidjson::Value::ConstMemberIterator M;
-    
-    for (M=jsonValue.MemberBegin(); M!=jsonValue.MemberEnd(); M++)
-    {
-        if(!M->name.IsNull() && M->name.IsString() && !M->value.IsNull() && M->value.IsArray() && M->value.Size() == 2)
-        {
-            if(M->value[0].IsFloat() && M->value[1].IsFloat())
-            {
-                const std::string& name = M->name.GetString();
-                const cocos2d::Vec2& value = cocos2d::Vec2(M->value[0].GetFloat(), M->value[1].GetFloat());
-            
-                returnValue[name] = value;
-            }
         }
     }
     
