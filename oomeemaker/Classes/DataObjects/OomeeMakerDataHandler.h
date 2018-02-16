@@ -21,6 +21,7 @@ private:
     const std::string kBaseFolderName = "OomeeMaker/";
     
     FileDownloaderRef _fileDownloader = nullptr;
+    OomeeMakerDataStorage* _dataStorage = nullptr;
     
     void getPackageJson();
     void getConfigDataZip();
@@ -29,10 +30,12 @@ private:
     void parseCategoryData();
     void parseOomeeItemData();
     
+    std::vector<std::string> getConfigFilesForType(const std::string& listType) const;
     
 public:
     static OomeeMakerDataHandler* getInstance();
     virtual ~OomeeMakerDataHandler();
+    void init();
     
     void getConfigFilesIfNeeded();
     

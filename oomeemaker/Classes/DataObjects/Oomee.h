@@ -25,10 +25,11 @@ private:
     cocos2d::Vec2 _position;
     float _scale;
     float _sizeMultiplier;
+    std::string _assetName;
     
 public:
-    OomeeRef create();
-    OomeeRef createWithData(const rapidjson::Document& oomeeConfig);
+    static OomeeRef create();
+    static OomeeRef createWithData(const rapidjson::Document& oomeeConfig);
     Oomee();
     
     void initWithData(const rapidjson::Document& oomeeConfig);
@@ -43,6 +44,8 @@ public:
     float getScale() const;
     void setSizeMultiplier(float sizeMultiplier);
     float getSizeMultiplier() const;
+    void setAssetName(const std::string& assetName);
+    std::string getAssetName() const;
     
     
 };

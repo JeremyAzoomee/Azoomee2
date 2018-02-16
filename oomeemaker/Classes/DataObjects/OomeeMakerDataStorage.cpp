@@ -64,4 +64,24 @@ void OomeeMakerDataStorage::addOomeeItem(const OomeeItemRef& oomeeItem)
     _oomeeItemsInCategoryData[oomeeItem->getCategoryId()].push_back(oomeeItem);
 }
 
+std::map<std::string, OomeeRef> OomeeMakerDataStorage::getOomeedata()
+{
+    return _oomeeData;
+}
+
+std::map<std::string, ItemCategoryRef> OomeeMakerDataStorage::getItemCategoryData()
+{
+    return _categoryData;
+}
+
+std::map<std::string, OomeeItemRef> OomeeMakerDataStorage::getOomeeitemData()
+{
+    return _oomeeItemData;
+}
+
+std::map<std::string, std::vector<OomeeItemRef>> OomeeMakerDataStorage::getItemsInCategoryData()
+{
+    return _oomeeItemsInCategoryData;
+}
+
 NS_AZOOMEE_OM_END

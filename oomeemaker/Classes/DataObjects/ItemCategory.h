@@ -31,8 +31,8 @@ private:
     cocos2d::Color4B _highlightColour;
     
 public:
-    ItemCategoryRef create();
-    ItemCategoryRef createWithData(const rapidjson::Document& categoryConfig);
+    static ItemCategoryRef create();
+    static ItemCategoryRef createWithData(const rapidjson::Document& categoryConfig);
     ItemCategory();
     
     void initWithData(const rapidjson::Document& categoryConfig);

@@ -1,0 +1,161 @@
+{
+	"items":
+[
+	{
+		"id": "glasses01",
+		"targetAnchor": "eyes",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 0.5,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 4,
+		"categoryId": "test",
+		"assetFilename": "res/glasses_01.png"
+	},
+	{
+		"id": "glasses02",
+		"targetAnchor": "eyes",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 0.5,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 4,
+		"categoryId": "test",
+		"assetFilename": "res/glasses_02.png"
+	},
+	{
+		"id": "glasses03",
+		"targetAnchor": "eyes",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 0.5,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 4,
+		"categoryId": "test",
+		"assetFilename": "res/glasses_03.png"
+	},
+	{
+		"id": "hair01",
+		"targetAnchor": "head",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 0.5,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 4,
+		"categoryId": "test",
+		"assetFilename": "res/hair_01.png"
+	},
+	{
+		"id": "hair02",
+		"targetAnchor": "head",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 0.5,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 4,
+		"categoryId": "test",
+		"assetFilename": "res/hair_02.png"
+	},
+	{
+		"id": "hair03",
+		"targetAnchor": "head",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 0.5,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 4,
+		"categoryId": "test",
+		"assetFilename": "res/hair_03.png"
+	},
+	{
+		"id": "hat01",
+		"targetAnchor": "head",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 0.5,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 4,
+		"categoryId": "test",
+		"assetFilename": "res/hat_01.png"
+	},
+	{
+		"id": "hat02",
+		"targetAnchor": "head",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 0.5,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 4,
+		"categoryId": "test",
+		"assetFilename": "res/hat_02.png"
+	},
+	{
+		"id": "hat03",
+		"targetAnchor": "head",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 0.5,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 4,
+		"categoryId": "test",
+		"assetFilename": "res/hat_03.png"
+	},
+	{
+		"id": "necklace01",
+		"targetAnchor": "neck",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 0.5,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 4,
+		"categoryId": "test",
+		"assetFilename": "res/necklace_01.png"
+	},
+	{
+		"id": "necklace02",
+		"targetAnchor": "neck",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 0.5,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 4,
+		"categoryId": "test",
+		"assetFilename": "res/necklace_02.png"
+	},
+	{
+		"id": "necklace03",
+		"targetAnchor": "neck",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 0.5,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 4,
+		"categoryId": "test",
+		"assetFilename": "res/necklace_03.png"
+	},
+	{
+		"id": "trousers01",
+		"targetAnchor": "legs",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 0.5,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 4,
+		"categoryId": "test",
+		"assetFilename": "res/trousers_01.png"
+	}
+]
+}

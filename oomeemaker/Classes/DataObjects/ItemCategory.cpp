@@ -30,7 +30,7 @@ void ItemCategory::initWithData(const rapidjson::Document& categoryConfig)
 {
     setId(getStringFromJson("id", categoryConfig));
     setIconFilename(getStringFromJson("iconFilename", categoryConfig));
-    const std::vector<std::string>& holidayStrings = getStringArrayFromJson(categoryConfig);
+    const std::vector<std::string>& holidayStrings = getStringArrayFromJson(categoryConfig["holidaySeasons"]);
     std::vector<HolidayCalenderID> holidayCalenderIds;
     for(const std::string& holidayStr : holidayStrings)
     {

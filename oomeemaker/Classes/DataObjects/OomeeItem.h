@@ -33,8 +33,8 @@ private:
     
     
 public:
-    OomeeItemRef create();
-    OomeeItemRef createWithData(const rapidjson::Value& itemConfig);
+    static OomeeItemRef create();
+    static OomeeItemRef createWithData(const rapidjson::Value& itemConfig);
     OomeeItem();
     
     void initWithData(const rapidjson::Value& itemConfig);

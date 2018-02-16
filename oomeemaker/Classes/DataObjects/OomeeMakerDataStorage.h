@@ -38,6 +38,11 @@ public:
     void addItemCategory(const ItemCategoryRef& itemCategory);
     void addOomeeItem(const OomeeItemRef& oomeeItem);
     
+    std::map<std::string, OomeeRef> getOomeedata();
+    std::map<std::string, ItemCategoryRef> getItemCategoryData();
+    std::map<std::string, OomeeItemRef> getOomeeitemData();
+    std::map<std::string, std::vector<OomeeItemRef>> getItemsInCategoryData();
+    
 };
 
 NS_AZOOMEE_OM_END

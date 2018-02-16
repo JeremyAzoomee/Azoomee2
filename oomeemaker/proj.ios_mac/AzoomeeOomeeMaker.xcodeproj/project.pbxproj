@@ -199,6 +199,11 @@
 		9220EC7220333C4000BD7A90 /* AzoomeeCommon.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AzoomeeCommon.xcodeproj; path = ../../../azoomee2/common/proj.ios_mac/AzoomeeCommon.xcodeproj; sourceTree = "<group>"; };
 		9220ECAF20333E8800BD7A90 /* cocos2d_libs.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2d_libs.xcodeproj; path = "../../../cocos2d-x-modded/cocos2d/build/cocos2d_libs.xcodeproj"; sourceTree = "<group>"; };
 		9220ECBB20333EA600BD7A90 /* cocos2d_libs.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2d_libs.xcodeproj; path = "../../../cocos2d-x-modded/cocos2d/build/cocos2d_libs.xcodeproj"; sourceTree = "<group>"; };
+		9271D76C20372E0200370120 /* ItemCategoryButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ItemCategoryButton.h; sourceTree = "<group>"; };
+		9271D76D20372E4500370120 /* ItemCategoryList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ItemCategoryList.h; sourceTree = "<group>"; };
+		9271D76E20372E8300370120 /* OomeeItemButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OomeeItemButton.h; sourceTree = "<group>"; };
+		9271D76F20372EAA00370120 /* OomeeItemList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OomeeItemList.h; sourceTree = "<group>"; };
+		9271D7702037311F00370120 /* OomeeFigure.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OomeeFigure.h; sourceTree = "<group>"; };
 		92BEEFC72034502F00B32059 /* OomeeMakerDataStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OomeeMakerDataStorage.h; sourceTree = "<group>"; };
 		92BEEFCF203450C200B32059 /* AzoomeeOomeeMaker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AzoomeeOomeeMaker.h; sourceTree = "<group>"; };
 		92BEEFD02034532E00B32059 /* AzoomeeOomeeMaker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AzoomeeOomeeMaker.cpp; sourceTree = "<group>"; };
@@ -349,6 +354,7 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				9271D76620372D1500370120 /* UI */,
 				92BEEFDA20347B6800B32059 /* DataObjects */,
 				46880B8419C43A87006E1F66 /* AppDelegate.cpp */,
 				46880B8519C43A87006E1F66 /* AppDelegate.h */,
@@ -434,6 +440,18 @@
 				9220ECC620333EA700BD7A90 /* libcocos2d tvOS.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		9271D76620372D1500370120 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				9271D76C20372E0200370120 /* ItemCategoryButton.h */,
+				9271D76D20372E4500370120 /* ItemCategoryList.h */,
+				9271D76E20372E8300370120 /* OomeeItemButton.h */,
+				9271D76F20372EAA00370120 /* OomeeItemList.h */,
+				9271D7702037311F00370120 /* OomeeFigure.h */,
+			);
+			path = UI;
 			sourceTree = "<group>";
 		};
 		92BEEFDA20347B6800B32059 /* DataObjects */ = {

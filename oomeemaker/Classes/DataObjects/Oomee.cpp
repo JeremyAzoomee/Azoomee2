@@ -33,6 +33,7 @@ void Oomee::initWithData(const rapidjson::Document& oomeeConfig)
     setPosition(getVec2FromJson("position", oomeeConfig));
     setScale(getFloatFromJson("scale", oomeeConfig));
     setSizeMultiplier(getFloatFromJson("sizeMultiplier", oomeeConfig));
+    setAssetName(getStringFromJson("assetName", oomeeConfig));
 }
 
 // GETTERS AND SETTERS
@@ -80,6 +81,15 @@ void Oomee::setSizeMultiplier(float sizeMultiplier)
 float Oomee::getSizeMultiplier() const
 {
     return _sizeMultiplier;
+}
+
+void Oomee::setAssetName(const std::string& assetName)
+{
+    _assetName = assetName;
+}
+std::string Oomee::getAssetName() const
+{
+    return _assetName;
 }
 
 NS_AZOOMEE_OM_END
