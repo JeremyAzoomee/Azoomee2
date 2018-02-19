@@ -23,7 +23,7 @@
 			document.getElementById('requestName').onclick = function()
 			{
    				requestData("requestUsername", document.getElementById("responseid").value);
-   			};
+   		};
 
 			document.getElementById('requestId').onclick = function()
 			{
@@ -63,11 +63,12 @@
         	canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
 
         	canvas.getContext('2d').drawImage(this, 0, 0);
-
-        	alert(canvas.toDataURL('image/png'));//.replace(/^data:image\/(png|jpg);base64,/, ''));
+					var imgdata = canvas.toDataURL('image/png');
+					imgdata = imgdata.replace(/^data:image\/(png|jpg);base64,/, '');
+					parent.postMessage({method: "saveImage", responseID: document.getElementById("responseid").value, imageData: imgdata}, "*");//canvas.replace(/^data:image\/(png|jpg);base64,/, '')},"*");
     		};
 
-    		image.src = "http://azoomee.com/wp-content/uploads/2018/02/Game_webthumb_1.jpg";
+    		image.src = "test.jpg";
 			}
 
 			function requestData(methodName, responseId)
