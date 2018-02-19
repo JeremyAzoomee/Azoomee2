@@ -10,6 +10,6 @@ public class JNICalls {
 
     public static native void JNISaveLocalDataStorage(String data);
     public static native String JNIGetLocalDataStorage();
-    public static native String JNISendAPIRequest(String method, String responseID, String score);
+    public static native String JNISendAPIRequest(String method, String responseID, String sendData);
     public static native String JNIGetVideoPlaylist();
 }
