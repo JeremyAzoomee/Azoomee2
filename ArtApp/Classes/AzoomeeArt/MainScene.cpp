@@ -4,6 +4,7 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 #include <iostream>
 #include <iomanip>
@@ -194,12 +195,12 @@ void MainScene::saveFile()
         oss << tm.tm_mday << tm.tm_mon << tm.tm_year << tm.tm_hour << tm.tm_min << tm.tm_sec;
         auto fileNameStr = oss.str();
         
-        saveFileName = kArtCacheFolder + Azoomee::ChildDataProvider::getInstance()->getParentOrChildId() + "/" + fileNameStr + ".png";
+        saveFileName = ConfigStorage::kArtCacheFolder + Azoomee::ChildDataProvider::getInstance()->getParentOrChildId() + "/" + fileNameStr + ".png";
         this->_fileName = FileUtils::getInstance()->getWritablePath() + "/" + saveFileName;
     }
     else
     {
-        const std::string& truncatedPath = this->_fileName.substr(this->_fileName.find(kArtCacheFolder));
+        const std::string& truncatedPath = this->_fileName.substr(this->_fileName.find(ConfigStorage::kArtCacheFolder));
         saveFileName = truncatedPath;
         
     }

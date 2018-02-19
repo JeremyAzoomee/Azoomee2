@@ -39,6 +39,8 @@ static ConfigStorage *_sharedConfigStorage = NULL;
     
     const char* const ConfigStorage::kEstimatedKeyboardHeightPortrait = "Azoomee::MessageComposer::EstimatedKeyboardHeight/Portrait";
     const char* const ConfigStorage::kEstimatedKeyboardHeightLandscape = "Azoomee::MessageComposer::EstimatedKeyboardHeight/Landscape";
+    
+    const std::string ConfigStorage::kArtCacheFolder = "artCache/";
 
 ConfigStorage* ConfigStorage::getInstance()
 {

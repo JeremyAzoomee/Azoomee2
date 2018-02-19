@@ -69,10 +69,28 @@ char* WebGameAPIDataManager::handleAPIRequest(const char* method, const char* re
     
     if(strncmp(method, "saveImage", strlen(method)) == 0)
     {
-        const std::string& imageData = sendData;
-        //save image data
+        unsigned char* decoded;
+        int length = cocos2d::base64Decode((const unsigned char*)sendData, (unsigned int)strlen(sendData), &decoded);
+        std::string decodedString( reinterpret_cast<char const*>(decoded), length ) ;
         
-        return createReturnStringForAPI(method, responseId, "imageSave", "success");
+        auto t = std::time(nullptr);
+        auto tm = *std::localtime(&t);
+        
+        std::ostringstream oss;
+        oss << tm.tm_mday << tm.tm_mon << tm.tm_year << tm.tm_hour << tm.tm_min << tm.tm_sec;
+        auto fileNameStr = oss.str();
+        
+        const std::string &saveFolder = FileUtils::getInstance()->getWritablePath() + ConfigStorage::kArtCacheFolder + ChildDataProvider::getInstance()->getParentOrChildId() + "/";
+        
+        if(!FileUtils::getInstance()->isDirectoryExist(saveFolder))
+        {
+            FileUtils::getInstance()->createDirectory(saveFolder);
+        }
+        
+        if(FileUtils::getInstance()->writeStringToFile(decodedString, saveFolder + fileNameStr + ".png"))
+        {
+            return createReturnStringForAPI(method, responseId, "imageSave", "success");
+        }
     }
     
     return createReturnStringForAPI(method, responseId, "error", "error in request");
