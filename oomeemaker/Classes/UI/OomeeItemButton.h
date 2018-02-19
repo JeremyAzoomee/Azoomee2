@@ -8,27 +8,31 @@
 #ifndef OomeeItemButton_h
 #define OomeeItemButton_h
 
-#include "../AzoomeOomeeMaker.h"
+#include "../AzoomeeOomeeMaker.h"
 #include "../DataObjects/OomeeItem.h"
-#include <cocos2d/cocos2d.h>
-#include <cocos2d/UI/CocosGUI.h>
+#include <cocos/cocos2d.h>
+#include <cocos/ui/CocosGUI.h>
 
 NS_AZOOMEE_OM_BEGIN
 
 class OomeeItemButton : public cocos2d::ui::Button
 {
     typedef cocos2d::ui::Button Super;
+    typedef std::function<void(const OomeeItemRef&)> ItemSelectedCallback;
 private:
     OomeeItemRef _itemData;
+    ItemSelectedCallback _itemSelectedCallback = nullptr;
     
 public:
     
-    virtual bool init() override;
-    virtual void onEnter() override;
-    
     void setItemData(const OomeeItemRef& itemdata);
+    OomeeItemRef getData() const;
+    
+    void setItemSelectedCallback(const ItemSelectedCallback& callback);
     
     CREATE_FUNC(OomeeItemButton);
 };
+
+NS_AZOOMEE_OM_END
 
 #endif /* OomeeItemButton_h */

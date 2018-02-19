@@ -3,9 +3,22 @@
 
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
+#include "DataObjects/OomeeItem.h"
+#include "DataObjects/ItemCategory.h"
+#include "UI/OomeeFigure.h"
+#include "UI/OomeeItemList.h"
+
+using namespace Azoomee::OomeeMaker;
 
 class HelloWorld : public cocos2d::Layer
 {
+private:
+    OomeeFigure* _oomee = nullptr;
+    OomeeItemList* _itemList = nullptr;
+    
+    void addAccessoryToOomee(const OomeeItemRef& data);
+    void setItemsListForCategory(const ItemCategoryRef& data);
+    
 public:
     static cocos2d::Scene* createScene();
     

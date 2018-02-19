@@ -8,27 +8,30 @@
 #ifndef ItemCategoryButton_h
 #define ItemCategoryButton_h
 
-#include "../AzoomeOomeeMaker.h"
+#include "../AzoomeeOomeeMaker.h"
 #include "../DataObjects/ItemCategory.h"
-#include <cocos2d/cocos2d.h>
-#include <cocos2d/UI/CocosGUI.h>
+#include <cocos/cocos2d.h>
+#include <cocos/ui/CocosGUI.h>
 
 NS_AZOOMEE_OM_BEGIN
 
 class ItemCategoryButton : public cocos2d::ui::Button
 {
     typedef cocos2d::ui::Button Super;
+    typedef std::function<void(const ItemCategoryRef&)> ItemSelectedCallback;
 private:
     ItemCategoryRef _categoryData;
-    
+    ItemSelectedCallback _itemSelectedCallback = nullptr;
 public:
     
-    virtual bool init() override;
-    virtual void onEnter() override;
+    void setCategoryData(const ItemCategoryRef& categoryData);
+    ItemCategoryRef getCategoryData() const;
     
-    void setItemData(const ItemCategoryRef& itemdata);
+    void setItemSelectedCallback(const ItemSelectedCallback& callback);
     
     CREATE_FUNC(ItemCategoryButton);
 };
+
+NS_AZOOMEE_OM_END
 
 #endif /* ItemCategoryButton_h */

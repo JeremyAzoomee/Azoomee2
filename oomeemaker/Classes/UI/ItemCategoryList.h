@@ -8,28 +8,27 @@
 #ifndef ItemCategoryList_h
 #define ItemCategoryList_h
 
-#include "../AzoomeOomeeMaker.h"
+#include "../AzoomeeOomeeMaker.h"
 #include "../DataObjects/ItemCategory.h"
-#include <cocos2d/cocos2d.h>
-#include <cocos2d/UI/CocosGUI.h>
+#include <cocos/cocos2d.h>
+#include <cocos/ui/CocosGUI.h>
 
 NS_AZOOMEE_OM_BEGIN
 
 class ItemCategoryList : public cocos2d::ui::ListView
 {
     typedef cocos2d::ui::ListView Super;
-    
+    typedef std::function<void(const ItemCategoryRef&)> ItemSelectedCallback;
 private:
     std::vector<ItemCategoryRef> _categoryList;
-    
+    ItemSelectedCallback _itemSelectedCallback = nullptr;
 protected:
     virtual void doLayout() override;
-    virtual void onSizeChanged() override;
-    virtual void interceptTouchEvent(cocos2d::ui::Widget::TouchEventType event, cocos2d::ui::Widget *sender, cocos2d::Touch* touch) override;
     
 public:
     
-    void setItems(const std::vector<ItemCategoryRef>& itemList);
+    void setCategories(const std::vector<ItemCategoryRef>& categoryList);
+    void setItemSelectedCallback(const ItemSelectedCallback& callback);
     
     virtual bool init() override;
     virtual void onEnter() override;

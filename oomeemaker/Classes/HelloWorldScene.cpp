@@ -1,6 +1,9 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 #include "OomeeMakerDataHandler.h"
+#include "UI/OomeeItemList.h"
+#include "UI/ItemCategoryList.h"
+#include "UI/OomeeFigure.h"
 
 USING_NS_CC;
 using namespace Azoomee::OomeeMaker;
@@ -36,33 +39,55 @@ bool HelloWorld::init()
     OomeeMakerDataHandler::getInstance()->getConfigFilesIfNeeded();
     
     OomeeRef oomeeData = OomeeMakerDataStorage::getInstance()->getOomeedata()["oomee01"];
-    ItemCategoryRef categoryData = OomeeMakerDataStorage::getInstance()->getItemCategoryData()["test"];
-    std::vector<OomeeItemRef> itemsData = OomeeMakerDataStorage::getInstance()->getItemsInCategoryData()[categoryData->getId()];
     
-    Sprite* oomee = Sprite::create(oomeeData->getAssetName());
-    oomee->setPosition(origin + visibleSize / 2.0f);
-    this->addChild(oomee);
+    std::vector<ItemCategoryRef> categoryData = {
+        OomeeMakerDataStorage::getInstance()->getItemCategoryData()["test"]
+    };
+    std::vector<OomeeItemRef> itemsData = OomeeMakerDataStorage::getInstance()->getItemsInCategoryData()[categoryData[0]->getId()];
     
-    Sprite* category = Sprite::create(categoryData->getIconFilename());
-    category->setPosition(origin + Vec2(category->getContentSize().width, visibleSize.height / 2.0f));
-    this->addChild(category);
+    _oomee = OomeeFigure::create();
+    _oomee->setOomeeData(oomeeData);
+    _oomee->setPosition(origin + visibleSize / 2.0f);
     
-    float i = 0;
-    for(OomeeItemRef item : itemsData)
-    {
-        Sprite* itemSprite = Sprite::create(item->getAssetName());
-        itemSprite->setNormalizedPosition(Vec2(0.9, i/itemsData.size()));
-        this->addChild(itemSprite);
-        i++;
-    }
+    this->addChild(_oomee);
     
+    ItemCategoryList* categories = ItemCategoryList::create();
+    categories->setContentSize(Size(visibleSize.width / 6.0f, visibleSize.height * 0.7f));
+    categories->setNormalizedPosition(Vec2(0,0.35f));
+    categories->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+    categories->setItemSelectedCallback([this](const ItemCategoryRef& data) {
+        this->setItemsListForCategory(data);
+    });
+    categories->setCategories(categoryData);
     
+    this->addChild(categories);
     
+    _itemList = OomeeItemList::create();
+    _itemList->setContentSize(Size(visibleSize.width / 6.0f, visibleSize.height * 0.8f));
+    _itemList->setNormalizedPosition(Vec2(1.0f,0.5f));
+    _itemList->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
+    _itemList->setItemSelectedCallback([this](const OomeeItemRef& data) {
+        this->addAccessoryToOomee(data);
+    });
+    _itemList->setItems(itemsData);
     
-    
-    
+    this->addChild(_itemList);
     
     return true;
 }
 
+void HelloWorld::addAccessoryToOomee(const OomeeItemRef &data)
+{
+    if(_oomee)
+    {
+        _oomee->addAccessory(data);
+    }
+}
 
+void HelloWorld::setItemsListForCategory(const ItemCategoryRef& data)
+{
+    if(_itemList)
+    {
+        _itemList->setItems(OomeeMakerDataStorage::getInstance()->getItemsInCategoryData().at(data->getId()));
+    }
+}
