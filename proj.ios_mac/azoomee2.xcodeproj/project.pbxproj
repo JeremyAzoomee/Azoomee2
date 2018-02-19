@@ -53,6 +53,7 @@
 		300742E01EF91667005525AE /* libAzoomeeChat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 300742DA1EF9162E005525AE /* libAzoomeeChat.a */; };
 		300742F31EF93428005525AE /* ChatDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 300742F11EF93428005525AE /* ChatDelegate.cpp */; };
 		301CCA941EB139C1009ADA0C /* SettingsButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301CCA921EB139C1009ADA0C /* SettingsButton.cpp */; };
+		303499472020891B00E203A4 /* NavigationItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303499462020891B00E203A4 /* NavigationItem.cpp */; };
 		304D9EB31EA8F849008CED52 /* MPTakeoverNotificationViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 304D9E9F1EA8F849008CED52 /* MPTakeoverNotificationViewController~ipad.xib */; };
 		304D9EB41EA8F849008CED52 /* MPTakeoverNotificationViewController~iphonelandscape.xib in Resources */ = {isa = PBXBuildFile; fileRef = 304D9EA01EA8F849008CED52 /* MPTakeoverNotificationViewController~iphonelandscape.xib */; };
 		304D9EB51EA8F849008CED52 /* MPTakeoverNotificationViewController~iphoneportrait.xib in Resources */ = {isa = PBXBuildFile; fileRef = 304D9EA11EA8F849008CED52 /* MPTakeoverNotificationViewController~iphoneportrait.xib */; };
@@ -374,6 +375,8 @@
 		300742F21EF93428005525AE /* ChatDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatDelegate.h; sourceTree = "<group>"; };
 		301CCA921EB139C1009ADA0C /* SettingsButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsButton.cpp; sourceTree = "<group>"; };
 		301CCA931EB139C1009ADA0C /* SettingsButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsButton.h; sourceTree = "<group>"; };
+		303499422020891A00E203A4 /* NavigationItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationItem.h; sourceTree = "<group>"; };
+		303499462020891B00E203A4 /* NavigationItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NavigationItem.cpp; sourceTree = "<group>"; };
 		304D9E9F1EA8F849008CED52 /* MPTakeoverNotificationViewController~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "MPTakeoverNotificationViewController~ipad.xib"; path = "../common/proj.ios_mac/libs/Mixpanel/MPTakeoverNotificationViewController~ipad.xib"; sourceTree = "<group>"; };
 		304D9EA01EA8F849008CED52 /* MPTakeoverNotificationViewController~iphonelandscape.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "MPTakeoverNotificationViewController~iphonelandscape.xib"; path = "../common/proj.ios_mac/libs/Mixpanel/MPTakeoverNotificationViewController~iphonelandscape.xib"; sourceTree = "<group>"; };
 		304D9EA11EA8F849008CED52 /* MPTakeoverNotificationViewController~iphoneportrait.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "MPTakeoverNotificationViewController~iphoneportrait.xib"; path = "../common/proj.ios_mac/libs/Mixpanel/MPTakeoverNotificationViewController~iphoneportrait.xib"; sourceTree = "<group>"; };
@@ -1012,8 +1015,6 @@
 				A198622A1DD383BD0090F053 /* AppDelegate.h */,
 				43BCD71C1EC9FD4E00A07737 /* SceneManagerScene.cpp */,
 				43BCD71D1EC9FD4E00A07737 /* SceneManagerScene.h */,
-				307FFC6A1FED072C00784008 /* NavigationControl.cpp */,
-				307FFC6E1FED072C00784008 /* NavigationControl.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -1227,6 +1228,10 @@
 		A1CC0C161E1407BF008B469E /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
+				307FFC6A1FED072C00784008 /* NavigationControl.cpp */,
+				307FFC6E1FED072C00784008 /* NavigationControl.h */,
+				303499462020891B00E203A4 /* NavigationItem.cpp */,
+				303499422020891A00E203A4 /* NavigationItem.h */,
 				A198621D1DD3836D0090F053 /* NavigationLayer.cpp */,
 				A198621E1DD3836D0090F053 /* NavigationLayer.h */,
 			);
@@ -1587,6 +1592,7 @@
 				43FDC6681EF7F743009B596B /* ConfirmationLayer.cpp in Sources */,
 				9224BFB71F794BFA00108553 /* DynamicNodeHandler.cpp in Sources */,
 				A15B2FAF1DEDD1D500D25334 /* BackEndCaller.cpp in Sources */,
+				303499472020891B00E203A4 /* NavigationItem.cpp in Sources */,
 				926173A71F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp in Sources */,
 				9289DA0A1FBDD6EB00B12435 /* ContentHistoryManager.cpp in Sources */,
 				9220EADB2010F08200BD7A90 /* AddChildFlowController.cpp in Sources */,

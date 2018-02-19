@@ -33,15 +33,6 @@ using namespace network;
 
 NS_AZOOMEE_BEGIN
 
-Scene* HQSceneElement::createScene()
-{
-    auto scene = Scene::create();
-    auto layer = HQSceneElement::create();
-    scene->addChild(layer);
-
-    return scene;
-}
-
 bool HQSceneElement::init()
 {
     if ( !Layer::init() )
@@ -50,6 +41,11 @@ bool HQSceneElement::init()
     }
     
     return true;
+}
+
+HQSceneElement::~HQSceneElement()
+{
+    NavigationControl::getInstance()->removeNavigation(this);
 }
 
 void HQSceneElement::setCategory(const std::string &category)
@@ -113,10 +109,11 @@ void HQSceneElement::addHQSceneElement() //This method is being called by HQScen
 //-------------------All elements below this are used internally-----------------
 void HQSceneElement::addListenerToElement()
 {
-//    NavigationControl::getInstance()->addNavigation(this, [=](cocos2d::Node*)
-//    {
-//        CCLOG("HQSceneElement navigation event callback: %s", _elementItemData->getTitle().c_str());
-//    });
+    NavigationControl::getInstance()->addNavigation(this, [=](cocos2d::Node*)
+    {
+        CCLOG("HQSceneElement navigation event callback: %s", _elementItemData->getTitle().c_str());
+        startUpElementDependingOnType();
+    });
     
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(false);

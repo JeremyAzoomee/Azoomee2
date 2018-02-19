@@ -29,18 +29,27 @@ NavigationControl::NavigationControl()
     
     _visualLayer = cocos2d::Layer::create();
     _visualLayer->retain();
+    
+    // Schedule updates
+    auto scheduler = cocos2d::Director::getInstance()->getScheduler();
+    scheduler->scheduleUpdate(this, 0, false);
 }
 
 NavigationControl::~NavigationControl()
 {
     setKeypadEnabled(false);
     _visualLayer->release();
+    
+    // Unschedule updates
+    auto scheduler = cocos2d::Director::getInstance()->getScheduler();
+    scheduler->unscheduleUpdate(this);
 }
 
 void NavigationControl::reset()
 {
     // Remove all navigations
     _navigationPoints.clear();
+    _visualNavigationItems.clear();
     _currentPoint = nullptr;
     _visualLayer->removeAllChildren();
 }
@@ -56,33 +65,79 @@ cocos2d::Rect NodeScreenSpaceBoundingBox(cocos2d::Node* node)
 {
     cocos2d::Rect bounds;
     bounds.size = node->getContentSize();
-    bounds.origin = node->convertToWorldSpace(Vec2::ZERO);// - cocos2d::Director::getInstance()->getVisibleOrigin();
+    bounds.origin = node->convertToWorldSpace(Vec2::ZERO);
+    bounds.origin.x += bounds.size.width * 0.5f;
+    bounds.origin.y += bounds.size.height * 0.5f;
     return bounds;
 }
 
 void NavigationControl::addNavigation(cocos2d::Node* node, NavigationEventCallback onAction)
 {
-    // TODO: Change NavigationEventCallback to use a safety Delegate (not implemented yet, but it's time to do it)
     _navigationPoints[node] = onAction;
+    NavigationItem* navItem = NavigationItem::create();
+    navItem->setAnchorPoint(cocos2d::Vec2::ANCHOR_MIDDLE);
+    _visualNavigationItems[node] = navItem;
+    _visualLayer->addChild(navItem);
     
     if(_currentPoint == nullptr)
     {
         _currentPoint = node;
+        navItem->setHighlighted(true);
+    }
+}
+
+void NavigationControl::removeNavigation(cocos2d::Node* node)
+{
+    auto pointIt = _navigationPoints.find(node);
+    if(pointIt != _navigationPoints.end())
+    {
+        _navigationPoints.erase(pointIt);
+    }
+    
+    auto visualIt = _visualNavigationItems.find(node);
+    if(visualIt != _visualNavigationItems.end())
+    {
+        visualIt->second->removeFromParent();
+        _visualNavigationItems.erase(visualIt);
+    }
+    
+    if(node == _currentPoint)
+    {
+        _currentPoint = nullptr;
     }
 }
 
 void NavigationControl::highlightNavigation(cocos2d::Node* node)
 {
-    if(_navigationPoints.find(node) != _navigationPoints.end())
+    if(_currentPoint != nullptr)
+    {
+        _visualNavigationItems[_currentPoint]->setHighlighted(false);
+    }
+    if(node != nullptr && _navigationPoints.find(node) != _navigationPoints.end())
     {
         _currentPoint = node;
-        const cocos2d::Rect& navPoint = NodeScreenSpaceBoundingBox(node);
-        CCLOG("NavigationControl::highlightNavigation: %s", RectToString(navPoint).c_str());
+        _visualNavigationItems[_currentPoint]->setHighlighted(true);
         
-        _visualLayer->removeAllChildren();
-        cocos2d::LayerColor* nav = cocos2d::LayerColor::create(cocos2d::Color4B::RED, navPoint.size.width, navPoint.size.height);
+        // TODO: If node is inside a scrollview, scroll it automatically into view
+    }
+}
+
+cocos2d::Node* NavigationControl::getVisualLayer() const
+{
+    // TODO: Return nullptr if the current device doesn't require visual navigation
+    return _visualLayer;
+}
+
+void NavigationControl::update(float dt)
+{
+    // Update element positions
+    for(auto const& entry : _visualNavigationItems)
+    {
+        cocos2d::Node* node = entry.first;
+        NavigationItem* nav = entry.second;
+        const cocos2d::Rect& navPoint = NodeScreenSpaceBoundingBox(node);
         nav->setPosition(navPoint.origin);
-        _visualLayer->addChild(nav);
+        nav->setContentSize(navPoint.size);
     }
 }
 
@@ -131,6 +186,70 @@ void NavigationControl::onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, co
     }
 }
 
+// Return true if a < b
+bool NavigationPointSortX( const std::pair<cocos2d::Node*, cocos2d::Vec2>& a,
+                           const std::pair<cocos2d::Node*, cocos2d::Vec2>& b )
+{
+    const cocos2d::Vec2& posA = a.second;
+    const cocos2d::Vec2& posB = b.second;
+    return posA.x < posB.x;
+}
+
+// Return true if a < b
+bool NavigationPointSortY( const std::pair<cocos2d::Node*, cocos2d::Vec2>& a,
+                           const std::pair<cocos2d::Node*, cocos2d::Vec2>& b )
+{
+    const cocos2d::Vec2& posA = a.second;
+    const cocos2d::Vec2& posB = b.second;
+    return posA.y < posB.y;
+}
+
+// Return true if a < b
+bool NavigationPointSortXY( const std::pair<cocos2d::Node*, cocos2d::Vec2>& a,
+                            const std::pair<cocos2d::Node*, cocos2d::Vec2>& b )
+{
+    const cocos2d::Vec2& posA = a.second;
+    const cocos2d::Vec2& posB = b.second;
+    
+    float diffX = posA.x < posB.x;
+    if( diffX < 0.0f )
+    {
+        return true;
+    }
+    else if( diffX == 0.0f )
+    {
+        float diffY = posA.y < posB.y;
+        return diffY < 0.0f;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+// Return true if a < b
+bool NavigationPointSortYX( const std::pair<cocos2d::Node*, cocos2d::Vec2>& a,
+                            const std::pair<cocos2d::Node*, cocos2d::Vec2>& b )
+{
+    const cocos2d::Vec2& posA = a.second;
+    const cocos2d::Vec2& posB = b.second;
+    
+    float diffY = posA.y < posB.y;
+    if( diffY < 0.0f )
+    {
+        return true;
+    }
+    else if( diffY == 0.0f )
+    {
+        float diffX = posA.x < posB.x;
+        return diffX < 0.0f;
+    }
+    else
+    {
+        return false;
+    }
+}
+
 void NavigationControl::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
 {
     auto it = kKeyCodeNames.find(keyCode);
@@ -147,20 +266,20 @@ void NavigationControl::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, c
     {
         switch(keyCode)
         {
-            case cocos2d::EventKeyboard::KeyCode::KEY_BACK:
-            {
-                if(_navigationPoints.size() > 0)
-                {
-                    _currentPoint = nullptr;
-                    _navigationPoints.clear();
-                    cocos2d::Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
-                }
-                break;
-            }
+//            case cocos2d::EventKeyboard::KeyCode::KEY_BACK:
+//            {
+//                if(_navigationPoints.size() > 0)
+//                {
+//                    highlightNavigation(nullptr);
+//                    _navigationPoints.clear();
+//                    cocos2d::Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
+//                }
+//                break;
+//            }
             case cocos2d::EventKeyboard::KeyCode::KEY_DPAD_LEFT:
             case cocos2d::EventKeyboard::KeyCode::KEY_DPAD_RIGHT:
-            //case cocos2d::EventKeyboard::KeyCode::KEY_DPAD_UP:
-            //case cocos2d::EventKeyboard::KeyCode::KEY_DPAD_DOWN:
+            case cocos2d::EventKeyboard::KeyCode::KEY_DPAD_UP:
+            case cocos2d::EventKeyboard::KeyCode::KEY_DPAD_DOWN:
             {
                 if(_currentPoint == nullptr)
                 {
@@ -169,41 +288,77 @@ void NavigationControl::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, c
                 else
                 {
                     // Find the next item based on the direction we want to go
-                    cocos2d::Node* newPoint = nullptr;
-                    cocos2d::Vec2 targetPosition = NodeScreenSpaceBoundingBox(_currentPoint).origin;
+                    const cocos2d::Rect& currentBounds = NodeScreenSpaceBoundingBox(_currentPoint);
+                    const cocos2d::Vec2& currentPosition = currentBounds.origin;
+                    const float currentPositionV[2] = { currentPosition.x, currentPosition.y };
+                    cocos2d::Node* closestNode = nullptr;
                     cocos2d::Vec2 closestPosition;
+                    const int axis = ( keyCode == cocos2d::EventKeyboard::KeyCode::KEY_DPAD_LEFT || keyCode == cocos2d::EventKeyboard::KeyCode::KEY_DPAD_RIGHT) ? 0 : 1;
+                    const float dir = ( keyCode == cocos2d::EventKeyboard::KeyCode::KEY_DPAD_LEFT || keyCode == cocos2d::EventKeyboard::KeyCode::KEY_DPAD_DOWN ) ? -1 : 1;
+                    
+                    cocos2d::log("NavigationControl: axis=%d, dir=%f", axis, dir);
+                    
+                    // Get potential items on x axis based on x < currentX
+                    // Sort the items by x axis
+                    // Sort the items by y axis?
+                    
+                    std::vector<std::pair<cocos2d::Node*, cocos2d::Vec2>> potentialPoints;
+                    
+                    // Find points we could potentially navigate to
                     for(auto it = _navigationPoints.begin(); it != _navigationPoints.end(); ++it)
                     {
-                        const cocos2d::Vec2& newPos = NodeScreenSpaceBoundingBox(it->first).origin;
-                        
-                        if(keyCode == cocos2d::EventKeyboard::KeyCode::KEY_DPAD_LEFT)
+                        if(it->first == _currentPoint)
                         {
-                            if(newPos.x < targetPosition.x)
-                            {
-                                if(newPoint == nullptr || newPos.x > closestPosition.x)
-                                {
-                                    newPoint = it->first;
-                                    closestPosition = newPos;
-                                }
-                            }
+                            continue;
                         }
-                        else if(keyCode == cocos2d::EventKeyboard::KeyCode::KEY_DPAD_RIGHT)
+                        
+                        const cocos2d::Vec2& pos = NodeScreenSpaceBoundingBox(it->first).origin;
+                        const float posV[2] = { pos.x, pos.y };
+                        
+                        // Dir left/down (negative)
+                        // 5 - 10 = -5, * -1 = 5
+                        // 10 - 5 = 5, * -1 = -5
+                        // Dir right/up (positive)
+                        // 5 - 10 = -5, * 1 = -5
+                        // 10 - 5 = 5, * 1 = 5
+                        if((posV[axis] - currentPositionV[axis]) * dir >= 0)
                         {
-                            if(newPos.x > targetPosition.x)
-                            {
-                                if(newPoint == nullptr || newPos.x < closestPosition.x)
-                                {
-                                    newPoint = it->first;
-                                    closestPosition = newPos;
-                                }
-                            }
+                            cocos2d::Vec2 distance;
+                            distance.x = fabs(pos.x - currentPosition.x);
+                            distance.y = fabs(pos.y - currentPosition.y);
+                            potentialPoints.push_back(std::pair<cocos2d::Node*, cocos2d::Vec2>(it->first, distance));
                         }
                     }
                     
-                    if(newPoint != nullptr)
+                    if(potentialPoints.size() > 0)
                     {
-                        _currentPoint = newPoint;
-                        highlightNavigation(_currentPoint);
+                        // Sort on the other axis
+                        if(axis == 0)
+                        {
+//                            std::stable_sort(potentialPoints.begin(), potentialPoints.end(), NavigationPointSortYX);
+                            std::stable_sort(potentialPoints.begin(), potentialPoints.end(), NavigationPointSortX);
+                            std::stable_sort(potentialPoints.begin(), potentialPoints.end(), NavigationPointSortY);
+                        }
+                        else
+                        {
+//                            std::stable_sort(potentialPoints.begin(), potentialPoints.end(), NavigationPointSortXY);
+                            std::stable_sort(potentialPoints.begin(), potentialPoints.end(), NavigationPointSortY);
+                            std::stable_sort(potentialPoints.begin(), potentialPoints.end(), NavigationPointSortX);
+                        }
+                        
+                        for(int i = 0; i < potentialPoints.size(); ++i)
+                        {
+                            const cocos2d::Vec2& distance = potentialPoints[i].second;
+                            cocos2d::log("NavigationControl: %f, %f", distance.x, distance.y);
+                        }
+                        
+                        // Grab the first element
+                        closestNode = potentialPoints[0].first;
+                    }
+                    
+                    if(closestNode != nullptr)
+                    {
+                        highlightNavigation(closestNode);
                     }
                 }
                 break;
@@ -217,44 +372,11 @@ void NavigationControl::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, c
                 }
                 break;
             }
-            case cocos2d::EventKeyboard::KeyCode::KEY_DPAD_UP:
-            {
-                const std::string& contentID = "1156b02e-7267-42d2-b1c5-82d16de9ecbb"; // charlie and lola
-                DeepLinkingSingleton::getInstance()->setDeepLink(DeepLinkingSingleton::kPostContentDeeplinkStr + contentID);
-                break;
-            }
-            case cocos2d::EventKeyboard::KeyCode::KEY_DPAD_DOWN:
-            {
-                auto playlist = HQDataObjectStorage::getInstance()->getHQDataObjectForKey("GROUP HQ")->getHqCarousels().at(0);
-                VideoPlaylistManager::getInstance()->setPlaylist(playlist);
-                
-                auto webViewSelector = WebViewSelector::create();
-                auto item = playlist->getContentItems()[0];
-                
-                // https://media.azoomee.com/distribution/gb/5796a19b-7126-477d-ae19-aec2aa790e5a/video_stream.m3u8
-                webViewSelector->loadWebView(item->getUri().c_str(), Orientation::Landscape);
-                break;
-            }
             case cocos2d::EventKeyboard::KeyCode::KEY_MENU:
             {
-                // game
-                const std::string& contentID = "82786572-e240-4235-a79e-e4861d456c50";
-                DeepLinkingSingleton::getInstance()->setDeepLink(DeepLinkingSingleton::kPostContentDeeplinkStr + contentID);
-                
-                // TODO
-//                cocos2d::Rect visibleArea;
-//                visibleArea.origin = cocos2d::Director::getInstance()->getVisibleOrigin();
-//                visibleArea.size = cocos2d::Director::getInstance()->getVisibleSize();
-//                CCLOG("NavigationControl::visibleArea: %s", RectToString(visibleArea).c_str());
-//
-//                for(auto it : _navigationPoints)
-//                {
-//                    const cocos2d::Rect& navPoint = NodeScreenSpaceBoundingBox(it.first);
-//                    //if(visibleArea.intersectsRect(navPoint))
-//                    {
-//                        CCLOG("NavigationControl::navigation: %s", RectToString(navPoint).c_str());
-//                    }
-//                }
+                highlightNavigation(nullptr);
+                _navigationPoints.clear();
+                cocos2d::Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
                 break;
             }
         }

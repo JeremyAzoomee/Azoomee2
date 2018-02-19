@@ -611,6 +611,7 @@
 			isa = PBXGroup;
 			children = (
 				304A6EEA1EC9A96F000D52B5 /* CocosSharedPtr.h */,
+				3080AC4920162E4C0052C110 /* ObjectRef.h */,
 				02AE88DE1F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.h */,
 				02AE88DF1F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.mm */,
 				022218CA1ECF203000AD167F /* SessionIdManager.cpp */,

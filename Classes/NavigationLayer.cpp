@@ -67,6 +67,7 @@ bool NavigationLayer::init()
     for(const std::string& hqName : hqNames)
     {
         auto menuItemHolder = addMenuItemHolder(hqName);
+        _menuItems.push_back(menuItemHolder);
         addMenuItemCircle(hqName, menuItemHolder);
         if(hqName == ConfigStorage::kChatHQName)
         {
@@ -114,6 +115,7 @@ bool NavigationLayer::init()
 
 void NavigationLayer::startLoadingGroupHQ(std::string uri)
 {
+    NavigationControl::getInstance()->reset();
     HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kGroupHQName);
     
     this->getParent()->getChildByName("contentLayer")->stopAllActions();
@@ -552,11 +554,42 @@ void NavigationLayer::addBackButtonToNavigation()
 
 void NavigationLayer::removeBackButtonFromNavigation()
 {
-    this->removeChild(this->getChildByName("backButton"));
+    Node* backButton = this->getChildByName("backButton");
+    if(backButton != nullptr)
+    {
+        NavigationControl::getInstance()->removeNavigation(backButton);
+        this->removeChild(backButton);
+    }
 }
 
 void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
 {
+    NavigationControl::getInstance()->addNavigation(toBeAddedTo, [=](cocos2d::Node*)
+    {
+        // TODO: Put this into a method
+        AnalyticsSingleton::getInstance()->genericButtonPressEvent("groupBackButton");
+        AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
+        Scene *runningScene = Director::getInstance()->getRunningScene();
+        Node *baseLayer = runningScene->getChildByName("baseLayer");
+        Node *contentLayer = baseLayer->getChildByName("contentLayer");
+        
+        HQHistoryManager::getInstance()->getHistoryLog();
+        
+        if(HQHistoryManager::getInstance()->getPreviousHQ() != "HOME")
+        {
+            
+            HQScene2 *hqLayer2 = (HQScene2 *)contentLayer->getChildByName(HQHistoryManager::getInstance()->getPreviousHQ());
+            
+            auto funcCallAction = CallFunc::create([=](){
+                hqLayer2->startBuildingScrollView();
+            });
+            
+            this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
+        }
+        
+        this->changeToScene(ConfigStorage::getInstance()->getTagNumberForMenuName(HQHistoryManager::getInstance()->getPreviousHQ()), 0.5);
+    });
+    
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(true);
     listener->onTouchBegan = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
@@ -651,6 +684,13 @@ void NavigationLayer::cleanUpPreviousHQ()
 void NavigationLayer::onExit()
 {
     ChatNotificationsSingleton::getInstance()->setNavigationLayer(NULL);
+    
+    for(auto item : _menuItems)
+    {
+        NavigationControl::getInstance()->removeNavigation(item);
+    }
+    _menuItems.clear();
+    
     Node::onExit();
 }
 

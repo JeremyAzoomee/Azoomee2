@@ -31,6 +31,8 @@ private:
     cocos2d::Size visibleSize;
     cocos2d::Vec2 origin;
     
+    std::vector<cocos2d::Node*> _menuItems;
+    
     ElectricDreamsButton *previewLoginButton;
     ElectricDreamsButton *previewSignUpButton;
     ElectricDreamsButton *settingsButton;

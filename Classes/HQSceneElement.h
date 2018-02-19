@@ -14,7 +14,7 @@ class HQSceneElement : public cocos2d::Layer
 
 public:
     CREATE_FUNC(HQSceneElement);
-    static cocos2d::Scene* createScene();
+    virtual ~HQSceneElement();
     virtual bool init();
     
     void setCategory(const std::string &category);

@@ -17,6 +17,7 @@
 #include "BackEndCaller.h"
 
 #include "IAPProductDataHandler.h"
+#include "NavigationControl.h"
 
 using namespace cocos2d;
 
@@ -82,6 +83,13 @@ void BaseScene::startBuildingHQs()
     createHQScene2(ConfigStorage::kMixHQName, contentLayer);
     
     addNavigationLayer();  //The navigation layer is being added to "this", because that won't move with the menu.
+    
+    // Add visual navigation if available (i.e if device requires it)
+    cocos2d::Node* visualNavigation = NavigationControl::getInstance()->getVisualLayer();
+    if(visualNavigation != nullptr)
+    {
+        addChild(visualNavigation);
+    }
 }
 
 //-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------

@@ -7,7 +7,10 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -365,5 +368,61 @@ public class NativeViewUI extends Activity {
             isActivityExitRequested = false;
             cleanUpAndFinishActivity();
         }
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event)
+    {
+        Log.d("AzoomeeWebView", "dispatchKeyEvent: " + event.getAction() + ", keyCode=" + event.getKeyCode());
+        if(event.getAction() == KeyEvent.ACTION_DOWN)
+        {
+            onKeyDown(event.getKeyCode(), event);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        boolean handled = false;
+
+        Log.d("AzoomeeWebView", "onKeyDown: " + keyCode);
+
+        switch(keyCode)
+        {
+            case KeyEvent.KEYCODE_DPAD_CENTER:
+            case KeyEvent.KEYCODE_BUTTON_A:
+            {
+                Log.d("AzoomeeWebView", "KEYCODE_DPAD_CENTER");
+                float width = uiWebView.getWidth();
+                float height = uiWebView.getHeight();
+                float x = width * 0.5f;
+                float y = height * 0.75f;
+                dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
+                                                      MotionEvent.ACTION_DOWN, x, y, 0));
+                handled = true;
+                break;
+            }
+            case KeyEvent.KEYCODE_BACK:
+            {
+                Log.d("AzoomeeWebView", "KEYCODE_BACK");
+                cleanUpAndFinishActivity();
+                handled = true;
+                break;
+            }
+            case KeyEvent.KEYCODE_DPAD_LEFT:
+            {
+                handled = true;
+                break;
+            }
+            case KeyEvent.KEYCODE_DPAD_RIGHT:
+            {
+                handled = true;
+                break;
+            }
+        }
+
+        return handled || super.onKeyDown(keyCode, event);
     }
 }
