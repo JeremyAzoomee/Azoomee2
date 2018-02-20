@@ -54,6 +54,8 @@ private:
     Layer *createChildProfileButton(std::string profileName, int oomeeNumber);
     cocos2d::Point positionElementOnScrollView(Layer *layerToBeAdded);
     void addListenerToProfileLayer(Node *profileLayer);
+
+    void onNodeSelected(cocos2d::Node* target);
     
     Layer* createNewProfileButton();
     void addChildButtonPressed(Node* target);
@@ -73,10 +75,10 @@ private:
     void createAdultPinLayerWithDelegate();
     void removeAdultPinLayerDelegate();
 
-    cocos2d::EventListener* _keyboardListener = nullptr;
-    void setKeypadEnabled(bool enabled);
-    void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event) override;
-    void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event) override;
+    // cocos2d::EventListener* _keyboardListener = nullptr;
+    // void setKeypadEnabled(bool enabled);
+    // void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event) override;
+    // void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event) override;
 };
 
 NS_AZOOMEE_END

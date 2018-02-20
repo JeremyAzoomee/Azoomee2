@@ -19,6 +19,7 @@
 #include "SceneManagerScene.h"
 #include "FlowDataSingleton.h"
 #include "ChatNotificationsSingleton.h"
+#include "NavigationControl.h"
 #include <AzoomeeCommon/UI/PrivacyLayer.h>
 #include "ContentHistoryManager.h"
 #include "DynamicNodeHandler.h"
@@ -61,6 +62,8 @@ bool ChildSelectorScene::init()
     
     _visibleSize = Director::getInstance()->getVisibleSize();
     _origin = Director::getInstance()->getVisibleOrigin();
+
+    NavigationControl::getInstance()->reset();
     
     addVisualsToScene();
     createSettingsButton();
@@ -71,6 +74,13 @@ bool ChildSelectorScene::init()
     auto newProfileButton = createNewProfileButton();
     newProfileButton->setPosition(_origin.x + newProfileButton->getContentSize().width / 2, _origin.y + _visibleSize.height - newProfileButton->getContentSize().height * 0.8);
     this->addChild(newProfileButton);
+
+    // Add visual navigation if available (i.e if device requires it)
+    cocos2d::Node* visualNavigation = NavigationControl::getInstance()->getVisualLayer();
+    if(visualNavigation != nullptr)
+    {
+        addChild(visualNavigation);
+    }
 
     return true;
 }
@@ -93,7 +103,7 @@ void ChildSelectorScene::onEnterTransitionDidFinish()
         }
     }
     
-    setKeypadEnabled(true);
+    FlowDataSingleton::getInstance()->clearData();
 }
 
 //-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
@@ -258,22 +268,7 @@ void ChildSelectorScene::addListenerToProfileLayer(Node *profileLayer)
         if(!_touchMovedAway)
         {
             auto target = static_cast<Node*>(event->getCurrentTarget());
-         
-            AudioMixer::getInstance()->playEffect(SELECT_OOMEE_AUDIO_EFFECT);
-            
-            if(target->getName() == "addChildButton")
-            {
-                addChildButtonPressed(target);
-            }
-            else //Oomee child pressed
-            {
-                _parentIconSelected = false;
-                OfflineChecker::getInstance()->setDelegate(nullptr);
-                target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
-                int childNumber = target->getTag();
-                AnalyticsSingleton::getInstance()->registerChildGenderAndAge(childNumber);
-                BackEndCaller::getInstance()->childLogin(childNumber);
-            }
+            onNodeSelected(target);
             return true;
         }
         
@@ -287,6 +282,30 @@ void ChildSelectorScene::addListenerToProfileLayer(Node *profileLayer)
     };
     
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), profileLayer);
+    
+    NavigationControl::getInstance()->addNavigation(profileLayer, [=](cocos2d::Node* target)
+    {
+        onNodeSelected(target);
+    });
+}
+
+void ChildSelectorScene::onNodeSelected(cocos2d::Node* target)
+{
+    AudioMixer::getInstance()->playEffect(SELECT_OOMEE_AUDIO_EFFECT);
+            
+    if(target->getName() == "addChildButton")
+    {
+        addChildButtonPressed(target);
+    }
+    else //Oomee child pressed
+    {
+        _parentIconSelected = false;
+        OfflineChecker::getInstance()->setDelegate(nullptr);
+        target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
+        int childNumber = target->getTag();
+        AnalyticsSingleton::getInstance()->registerChildGenderAndAge(childNumber);
+        BackEndCaller::getInstance()->childLogin(childNumber);
+    }
 }
 
 Point ChildSelectorScene::positionElementOnScrollView(Layer *layerToBeAdded)
@@ -524,55 +543,18 @@ void ChildSelectorScene::MessageBoxButtonPressed(std::string messageBoxTitle,std
 
 void ChildSelectorScene::onExit()
 {
+    // Unregister all nav points
+    NavigationControl::getInstance()->reset();
+
     OfflineChecker::getInstance()->setDelegate(nullptr);
     removeAdultPinLayerDelegate();
-    setKeypadEnabled(false);
+    if(_billingDataRecievedListener)
+    {
+        Director::getInstance()->getEventDispatcher()->removeEventListener(_billingDataRecievedListener);
+        _billingDataRecievedListener = nullptr;
+        _scrollView->release();
+    }
     Node::onExit();
-}
-
-
-#pragma mark - Keypad
-
-void ChildSelectorScene::setKeypadEnabled(bool enabled)
-{
-    auto dispatcher = Director::getInstance()->getEventDispatcher();
-    
-    if(_keyboardListener != nullptr)
-    {
-        dispatcher->removeEventListener(_keyboardListener);
-    }
-    
-    if(enabled)
-    {
-        auto listener = EventListenerKeyboard::create();
-        listener->onKeyPressed = CC_CALLBACK_2(ChildSelectorScene::onKeyPressed, this);
-        listener->onKeyReleased = CC_CALLBACK_2(ChildSelectorScene::onKeyReleased, this);
-        
-        dispatcher->addEventListenerWithFixedPriority(listener, -1);
-        _keyboardListener = listener;
-    }
-}
-
-void ChildSelectorScene::onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
-{
-    ;
-}
-
-void ChildSelectorScene::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
-{
-    if(keyCode == cocos2d::EventKeyboard::KeyCode::KEY_DPAD_CENTER)
-    {
-        AudioMixer::getInstance()->playEffect(SELECT_OOMEE_AUDIO_EFFECT);
-        
-        //Oomee child pressed
-        _parentIconSelected = false;
-        OfflineChecker::getInstance()->setDelegate(nullptr);
-        int childNumber = 0;
-        auto target = _scrollView->getChildByTag(childNumber);
-        target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
-        AnalyticsSingleton::getInstance()->registerChildGenderAndAge(childNumber);
-        BackEndCaller::getInstance()->childLogin(childNumber);
-    }
 }
 
 NS_AZOOMEE_END
