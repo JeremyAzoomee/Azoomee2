@@ -9,7 +9,7 @@
 			function addFrameWithUrl(url)
 			{
 				var iframe = document.createElement('iframe');
-				iframe.src = "examplegame.html"; //url;
+				iframe.src = url;
 				iframe.width  = window.innerWidth - 15;
     			iframe.height = window.innerHeight - 15;
     			iframe.scrolling = "no";
@@ -50,12 +50,12 @@
 				}
 			}
 
-            function clearLocalStorage()
-            {
-            	localStorage.clear();
-            }
+      function clearLocalStorage()
+      {
+      	localStorage.clear();
+      }
 
-            function addDataToLocalStorage(data)
+      function addDataToLocalStorage(data)
 			{
 				dataString = atob(data);
 				if(dataString == "") return;
