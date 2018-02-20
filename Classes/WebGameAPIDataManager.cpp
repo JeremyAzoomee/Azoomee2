@@ -2,6 +2,7 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "VideoPlaylistManager.h"
+#include <AzoomeeCommon/Utils/TimeFunctions.h>
 
 using namespace cocos2d;
 
@@ -73,13 +74,6 @@ char* WebGameAPIDataManager::handleAPIRequest(const char* method, const char* re
         int length = cocos2d::base64Decode((const unsigned char*)sendData, (unsigned int)strlen(sendData), &decoded);
         std::string decodedString( reinterpret_cast<char const*>(decoded), length ) ;
         
-        auto t = std::time(nullptr);
-        auto tm = *std::localtime(&t);
-        
-        std::ostringstream oss;
-        oss << tm.tm_mday << tm.tm_mon << tm.tm_year << tm.tm_hour << tm.tm_min << tm.tm_sec;
-        auto fileNameStr = oss.str();
-        
         const std::string &saveFolder = FileUtils::getInstance()->getWritablePath() + ConfigStorage::kArtCacheFolder + ChildDataProvider::getInstance()->getParentOrChildId() + "/";
         
         if(!FileUtils::getInstance()->isDirectoryExist(saveFolder))
@@ -87,7 +81,7 @@ char* WebGameAPIDataManager::handleAPIRequest(const char* method, const char* re
             FileUtils::getInstance()->createDirectory(saveFolder);
         }
         
-        if(FileUtils::getInstance()->writeStringToFile(decodedString, saveFolder + fileNameStr + ".png"))
+        if(FileUtils::getInstance()->writeStringToFile(decodedString, saveFolder + getTimeStringForFileName() + ".png"))
         {
             return createReturnStringForAPI(method, responseId, "imageSave", "success");
         }
