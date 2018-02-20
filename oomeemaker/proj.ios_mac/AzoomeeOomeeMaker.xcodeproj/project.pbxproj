@@ -66,6 +66,7 @@
 		9271D776203AFAEC00370120 /* ItemCategoryButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D775203AFAEC00370120 /* ItemCategoryButton.cpp */; };
 		9271D778203AFEB700370120 /* ItemCategoryList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D777203AFEB700370120 /* ItemCategoryList.cpp */; };
 		9271D77A203B0ED400370120 /* OomeeFigure.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D779203B0ED400370120 /* OomeeFigure.cpp */; };
+		9271D780203C51A000370120 /* DragAndDropController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D77F203C51A000370120 /* DragAndDropController.cpp */; };
 		92BEEFD12034532E00B32059 /* AzoomeeOomeeMaker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BEEFD02034532E00B32059 /* AzoomeeOomeeMaker.cpp */; };
 		92BEEFE020359C5500B32059 /* Oomee.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BEEFDF20359C5500B32059 /* Oomee.cpp */; };
 		92BEEFE220359C7800B32059 /* ItemCategory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BEEFE120359C7800B32059 /* ItemCategory.cpp */; };
@@ -214,6 +215,8 @@
 		9271D775203AFAEC00370120 /* ItemCategoryButton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ItemCategoryButton.cpp; sourceTree = "<group>"; };
 		9271D777203AFEB700370120 /* ItemCategoryList.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ItemCategoryList.cpp; sourceTree = "<group>"; };
 		9271D779203B0ED400370120 /* OomeeFigure.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeFigure.cpp; sourceTree = "<group>"; };
+		9271D77E203C4A0A00370120 /* DragAndDropController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DragAndDropController.h; sourceTree = "<group>"; };
+		9271D77F203C51A000370120 /* DragAndDropController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DragAndDropController.cpp; sourceTree = "<group>"; };
 		92BEEFC72034502F00B32059 /* OomeeMakerDataStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OomeeMakerDataStorage.h; sourceTree = "<group>"; };
 		92BEEFCF203450C200B32059 /* AzoomeeOomeeMaker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AzoomeeOomeeMaker.h; sourceTree = "<group>"; };
 		92BEEFD02034532E00B32059 /* AzoomeeOomeeMaker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AzoomeeOomeeMaker.cpp; sourceTree = "<group>"; };
@@ -465,6 +468,8 @@
 				9271D773203AE3FA00370120 /* OomeeItemList.cpp */,
 				9271D7702037311F00370120 /* OomeeFigure.h */,
 				9271D779203B0ED400370120 /* OomeeFigure.cpp */,
+				9271D77E203C4A0A00370120 /* DragAndDropController.h */,
+				9271D77F203C51A000370120 /* DragAndDropController.cpp */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -686,6 +691,7 @@
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				92BEEFE620359CA600B32059 /* OomeeMakerDataStorage.cpp in Sources */,
+				9271D780203C51A000370120 /* DragAndDropController.cpp in Sources */,
 				9271D772203AE19200370120 /* OomeeItemButton.cpp in Sources */,
 				92BEEFE220359C7800B32059 /* ItemCategory.cpp in Sources */,
 				92BEEFE420359C8B00B32059 /* OomeeItem.cpp in Sources */,

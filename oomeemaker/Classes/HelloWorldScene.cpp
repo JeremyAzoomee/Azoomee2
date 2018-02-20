@@ -4,6 +4,7 @@
 #include "UI/OomeeItemList.h"
 #include "UI/ItemCategoryList.h"
 #include "UI/OomeeFigure.h"
+#include "UI/DragAndDropController.h"
 
 USING_NS_CC;
 using namespace Azoomee::OomeeMaker;
@@ -47,7 +48,9 @@ bool HelloWorld::init()
     
     _oomee = OomeeFigure::create();
     _oomee->setOomeeData(oomeeData);
-    _oomee->setPosition(origin + visibleSize / 2.0f);
+    _oomee->setPosition(origin);
+    _oomee->setContentSize(visibleSize);
+    _oomee->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     
     this->addChild(_oomee);
     
@@ -74,6 +77,12 @@ bool HelloWorld::init()
     this->addChild(_itemList);
     
     return true;
+}
+
+void HelloWorld::onEnterTransitionDidFinish()
+{
+    DragAndDropController::getInstance()->setTargetOomee(_oomee);
+    Layer::onEnterTransitionDidFinish();
 }
 
 void HelloWorld::addAccessoryToOomee(const OomeeItemRef &data)

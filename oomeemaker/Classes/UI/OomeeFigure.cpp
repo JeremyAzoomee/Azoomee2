@@ -6,6 +6,7 @@
 //
 
 #include "OomeeFigure.h"
+#include "DragAndDropController.h"
 
 using namespace cocos2d;
 
@@ -23,6 +24,48 @@ bool OomeeFigure::init()
 
 void OomeeFigure::onEnter()
 {
+    static bool removingItem = false;
+    static std::string anchorName = "";
+    _touchListener = EventListenerTouchOneByOne::create();
+    _touchListener->onTouchBegan = [&](Touch* touch, Event* event)
+    {
+        for(auto it = _accessorySprites.begin(); it != _accessorySprites.end(); ++it)
+        {
+            const Point& locationInNode = it->second->convertToNodeSpace(touch->getLocation());
+            const Size& s = it->second->getBoundingBox().size;//getContentSize();
+            const Rect& rect = Rect(0,0,s.width, s.height);
+            if(rect.containsPoint(locationInNode))
+            {
+                DragAndDropController::getInstance()->setItemData(_accessoryData.at(it->first));
+                removingItem = true;
+                anchorName = it->first;
+                return true;
+            }
+        }
+        removingItem = false;
+        anchorName = "";
+        return false;
+    };
+    
+    _touchListener->onTouchMoved = [&](Touch* touch, Event* event)
+    {
+        if(removingItem)
+        {
+            this->removeAccessory(anchorName);
+            removingItem = false;
+            anchorName = "";
+        }
+    };
+    
+    _touchListener->onTouchEnded = [&](Touch* touch, Event* event)
+    {
+        
+    };
+    
+    _touchListener->onTouchCancelled = _touchListener->onTouchEnded;
+    
+    this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_touchListener, this);
+    
     Super::onEnter();
 }
 
@@ -42,6 +85,11 @@ void OomeeFigure::setOomeeData(const OomeeRef& oomeeData)
     _baseSprite->setNormalizedPosition(_oomeeData->getPosition());
     _baseSprite->setScale(_oomeeData->getScale());
     this->addChild(_baseSprite);
+}
+
+OomeeRef OomeeFigure::getOomeeData() const
+{
+    return _oomeeData;
 }
 
 void OomeeFigure::addAccessory(const OomeeItemRef& oomeeItem)
@@ -72,6 +120,18 @@ void OomeeFigure::removeAccessory(const std::string anchorPoint)
     {
         _accessoryData.erase(_accessoryData.find(anchorPoint));
     }
+}
+
+Vec2 OomeeFigure::getWorldPositionForAnchorPoint(const std::string &anchorPoint)
+{
+    return this->getPosition() + getLocalPositionForAnchorPoint(anchorPoint);
+}
+
+Vec2 OomeeFigure::getLocalPositionForAnchorPoint(const std::string& anchorPoint)
+{
+    const Vec2& baseSpriteSize = _baseSprite->getContentSize() * _baseSprite->getScale();
+    const Vec2& anchor = _oomeeData->getAnchorPoints()[anchorPoint];
+    return Vec2(this->getContentSize().width * _baseSprite->getNormalizedPosition().x, this->getContentSize().height * _baseSprite->getNormalizedPosition().y) + Vec2(baseSpriteSize.x * anchor.x, baseSpriteSize.y * anchor.y) - (baseSpriteSize / 2.0f);
 }
 
 NS_AZOOMEE_OM_END

@@ -23,14 +23,20 @@ private:
     cocos2d::Sprite* _baseSprite = nullptr;
     std::map<std::string, cocos2d::Sprite*> _accessorySprites;
     std::map<std::string, OomeeItemRef> _accessoryData;
+    cocos2d::EventListenerTouchOneByOne* _touchListener = nullptr;
     
 public:
     virtual bool init() override;
     virtual void onEnter() override;
     
     void setOomeeData(const OomeeRef& oomeeData);
+    OomeeRef getOomeeData() const;
+    
     void addAccessory(const OomeeItemRef& oomeeItem);
     void removeAccessory(const std::string anchorPoint);
+    
+    cocos2d::Vec2 getWorldPositionForAnchorPoint(const std::string& anchorPoint);
+    cocos2d::Vec2 getLocalPositionForAnchorPoint(const std::string& anchorPoint);
     
     CREATE_FUNC(OomeeFigure);
 };

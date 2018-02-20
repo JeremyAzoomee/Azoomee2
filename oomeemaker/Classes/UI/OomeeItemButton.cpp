@@ -6,6 +6,7 @@
 //
 
 #include "OomeeItemButton.h"
+#include "DragAndDropController.h"
 
 using namespace cocos2d;
 
@@ -16,7 +17,13 @@ void OomeeItemButton::setItemData(const OomeeItemRef& itemdata)
     _itemData = itemdata;
     loadTextureNormal(_itemData->getAssetName());
     setScale(_itemData->getMenuScale());
+    
     addTouchEventListener([this](Ref*, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::BEGAN)
+        {
+            DragAndDropController::getInstance()->setItemData(_itemData);
+        }
+        
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
             if(_itemSelectedCallback)
