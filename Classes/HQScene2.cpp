@@ -216,7 +216,8 @@ void HQScene2::startBuildingScrollView()
     
     if(showingPostContentCTARequired())
     {
-        showPostContentCTA();
+        // @onimitch: Disabled while testing on Fire TV
+        //showPostContentCTA();
     }
 }
 
