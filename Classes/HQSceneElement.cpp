@@ -45,7 +45,7 @@ bool HQSceneElement::init()
 
 HQSceneElement::~HQSceneElement()
 {
-    NavigationControl::getInstance()->removeNavigation(this);
+    NavigationControl::getInstance()->removeNavigation(_elementVisual);
 }
 
 void HQSceneElement::setCategory(const std::string &category)
@@ -109,7 +109,7 @@ void HQSceneElement::addHQSceneElement() //This method is being called by HQScen
 //-------------------All elements below this are used internally-----------------
 void HQSceneElement::addListenerToElement()
 {
-    NavigationControl::getInstance()->addNavigation(this, [=](cocos2d::Node*)
+    NavigationControl::getInstance()->addNavigation(_elementVisual, [=](cocos2d::Node*)
     {
         CCLOG("HQSceneElement navigation event callback: %s", _elementItemData->getTitle().c_str());
         startUpElementDependingOnType();

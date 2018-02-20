@@ -66,8 +66,8 @@ cocos2d::Rect NodeScreenSpaceBoundingBox(cocos2d::Node* node)
     cocos2d::Rect bounds;
     bounds.size = node->getContentSize();
     bounds.origin = node->convertToWorldSpace(Vec2::ZERO);
-    bounds.origin.x += bounds.size.width * 0.5f;
-    bounds.origin.y += bounds.size.height * 0.5f;
+    // bounds.origin.x += bounds.size.width * 0.5f;
+    // bounds.origin.y += bounds.size.height * 0.5f;
     return bounds;
 }
 
@@ -136,7 +136,8 @@ void NavigationControl::update(float dt)
         cocos2d::Node* node = entry.first;
         NavigationItem* nav = entry.second;
         const cocos2d::Rect& navPoint = NodeScreenSpaceBoundingBox(node);
-        nav->setPosition(navPoint.origin);
+        const cocos2d::Vec2& centerPos = cocos2d::Vec2(navPoint.getMidX(), navPoint.getMidY());
+        nav->setPosition(centerPos);
         nav->setContentSize(navPoint.size);
     }
 }
@@ -288,8 +289,12 @@ void NavigationControl::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, c
                 else
                 {
                     // Find the next item based on the direction we want to go
+                    cocos2d::Rect visibleBounds;
+                    visibleBounds.origin = cocos2d::Director::getInstance()->getVisibleOrigin();
+                    visibleBounds.size = cocos2d::Director::getInstance()->getVisibleSize();
+
                     const cocos2d::Rect& currentBounds = NodeScreenSpaceBoundingBox(_currentPoint);
-                    const cocos2d::Vec2& currentPosition = currentBounds.origin;
+                    const cocos2d::Vec2& currentPosition = cocos2d::Vec2(currentBounds.getMidX(), currentBounds.getMidY());
                     const float currentPositionV[2] = { currentPosition.x, currentPosition.y };
                     cocos2d::Node* closestNode = nullptr;
                     cocos2d::Vec2 closestPosition;
@@ -312,7 +317,17 @@ void NavigationControl::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, c
                             continue;
                         }
                         
-                        const cocos2d::Vec2& pos = NodeScreenSpaceBoundingBox(it->first).origin;
+                        const cocos2d::Rect& bounds = NodeScreenSpaceBoundingBox(it->first);
+                        const cocos2d::Vec2& maxPos = Vec2(bounds.getMaxX(), bounds.getMaxY());
+
+                        // Ignore points outside of the visible screen
+                        // TODO: In future we can remove this and auto scroll ScrollViews to move the content into view
+                        if(!visibleBounds.containsPoint(bounds.origin) || !visibleBounds.containsPoint(maxPos))
+                        {
+                            continue;
+                        }
+
+                        const cocos2d::Vec2& pos = cocos2d::Vec2(bounds.getMidX(), bounds.getMidY());
                         const float posV[2] = { pos.x, pos.y };
                         
                         // Dir left/down (negative)
