@@ -68,7 +68,7 @@
 					parent.postMessage({method: "saveImage", responseID: document.getElementById("responseid").value, imageData: imgdata}, "*");//canvas.replace(/^data:image\/(png|jpg);base64,/, '')},"*");
     		};
 
-    		image.src = "test.jpg";
+    		image.src = ""; //Add an image to test!
 			}
 
 			function requestData(methodName, responseId)
