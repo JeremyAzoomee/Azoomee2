@@ -19,6 +19,7 @@ class OomeeFigure : public cocos2d::Node
 {
     typedef cocos2d::Node Super;
 private:
+    bool _isEditable = true;
     OomeeRef _oomeeData = nullptr;
     cocos2d::Sprite* _baseSprite = nullptr;
     std::map<std::string, cocos2d::Sprite*> _accessorySprites;
@@ -29,11 +30,17 @@ public:
     virtual bool init() override;
     virtual void onEnter() override;
     
+    bool initWithOomeeFigureData(const rapidjson::Document& data);
+    
     void setOomeeData(const OomeeRef& oomeeData);
     OomeeRef getOomeeData() const;
     
+    std::vector<std::string> getAccessoryIds() const;
+    
     void addAccessory(const OomeeItemRef& oomeeItem);
     void removeAccessory(const std::string anchorPoint);
+    
+    void setEditable(bool isEditable);
     
     cocos2d::Vec2 getWorldPositionForAnchorPoint(const std::string& anchorPoint);
     cocos2d::Vec2 getLocalPositionForAnchorPoint(const std::string& anchorPoint);

@@ -1,5 +1,6 @@
 #include "AppDelegate.h"
-#include "HelloWorldScene.h"
+#include "UI/OomeeMakerScene.h"
+#include "UI/OomeeSelectScene.h"
 
 USING_NS_CC;
 
@@ -55,8 +56,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 
     // create a scene. it's an autorelease object
-    auto scene = HelloWorld::createScene();
-
+    auto scene = Azoomee::OomeeMaker::OomeeMakerScene::create();
+    scene->setFilename(FileUtils::getInstance()->getWritablePath() + "oomeeFiles/test.oomee");
     // run
     director->runWithScene(scene);
 

@@ -7,6 +7,7 @@
 
 #include "OomeeFigure.h"
 #include "DragAndDropController.h"
+#include "../DataObjects/OomeeMakerDataStorage.h"
 
 using namespace cocos2d;
 
@@ -19,11 +20,6 @@ bool OomeeFigure::init()
         return false;
     }
     
-    return true;
-}
-
-void OomeeFigure::onEnter()
-{
     static bool removingItem = false;
     static std::string anchorName = "";
     _touchListener = EventListenerTouchOneByOne::create();
@@ -66,7 +62,52 @@ void OomeeFigure::onEnter()
     
     this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_touchListener, this);
     
+    return true;
+}
+
+void OomeeFigure::onEnter()
+{
+    if(_touchListener)
+    {
+        _touchListener->setEnabled(_isEditable);
+    }
+    
     Super::onEnter();
+}
+
+bool OomeeFigure::initWithOomeeFigureData(const rapidjson::Document &data)
+{
+    if(data.HasParseError())
+    {
+        return false;
+    }
+    
+    const std::string& oomeeKey = getStringFromJson("oomee", data);
+    
+    const OomeeRef& oomee = OomeeMakerDataStorage::getInstance()->getOomeeForKey(oomeeKey);
+    if(oomee)
+    {
+        setOomeeData(oomee);
+    }
+    else
+    {
+        return false;
+    }
+    
+    if(data.HasMember("oomeeItems"))
+    {
+        const std::vector<std::string>& itemKeys = getStringArrayFromJson(data["oomeeItems"]);
+        for(const std::string& key : itemKeys)
+        {
+            const OomeeItemRef& item = OomeeMakerDataStorage::getInstance()->getOomeeItemForKey(key);
+            if(item)
+            {
+                addAccessory(item);
+            }
+        }
+    }
+    
+    return true;
 }
 
 void OomeeFigure::setOomeeData(const OomeeRef& oomeeData)
@@ -90,6 +131,16 @@ void OomeeFigure::setOomeeData(const OomeeRef& oomeeData)
 OomeeRef OomeeFigure::getOomeeData() const
 {
     return _oomeeData;
+}
+
+std::vector<std::string> OomeeFigure::getAccessoryIds() const
+{
+    std::vector<std::string> ids;
+    for(auto accessory : _accessoryData)
+    {
+        ids.push_back(accessory.second->getId());
+    }
+    return ids;
 }
 
 void OomeeFigure::addAccessory(const OomeeItemRef& oomeeItem)
@@ -122,9 +173,18 @@ void OomeeFigure::removeAccessory(const std::string anchorPoint)
     }
 }
 
+void OomeeFigure::setEditable(bool isEditable)
+{
+    _isEditable = isEditable;
+    if(_touchListener)
+    {
+        _touchListener->setEnabled(_isEditable);
+    }
+}
+
 Vec2 OomeeFigure::getWorldPositionForAnchorPoint(const std::string &anchorPoint)
 {
-    return this->getPosition() + getLocalPositionForAnchorPoint(anchorPoint);
+    return this->getParent()->convertToWorldSpace(this->getPosition()) + getLocalPositionForAnchorPoint(anchorPoint);
 }
 
 Vec2 OomeeFigure::getLocalPositionForAnchorPoint(const std::string& anchorPoint)

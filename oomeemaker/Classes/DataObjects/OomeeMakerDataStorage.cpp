@@ -84,4 +84,43 @@ std::map<std::string, std::vector<OomeeItemRef>> OomeeMakerDataStorage::getItems
     return _oomeeItemsInCategoryData;
 }
 
+OomeeRef OomeeMakerDataStorage::getOomeeForKey(const std::string& key) const
+{
+    if(_oomeeData.find(key) != _oomeeData.end())
+    {
+        return _oomeeData.at(key);
+    }
+    
+    return nullptr;
+}
+
+ItemCategoryRef OomeeMakerDataStorage::getItemCategoryForKey(const std::string& key) const
+{
+    if(_categoryData.find(key) != _categoryData.end())
+    {
+        return _categoryData.at(key);
+    }
+    
+    return nullptr;
+}
+
+OomeeItemRef OomeeMakerDataStorage::getOomeeItemForKey(const std::string& key) const
+{
+    if(_oomeeItemData.find(key) != _oomeeItemData.end())
+    {
+        return _oomeeItemData.at(key);
+    }
+    
+    return nullptr;
+}
+std::vector<OomeeItemRef> OomeeMakerDataStorage::getItemsForCategory(const std::string& key) const
+{
+    std::vector<OomeeItemRef> items;
+    if(_oomeeItemsInCategoryData.find(key) != _oomeeItemsInCategoryData.end())
+    {
+        items = _oomeeItemsInCategoryData.at(key);
+    }
+    return items;
+}
+
 NS_AZOOMEE_OM_END

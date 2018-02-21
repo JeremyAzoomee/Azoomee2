@@ -43,6 +43,11 @@ public:
     std::map<std::string, OomeeItemRef> getOomeeitemData();
     std::map<std::string, std::vector<OomeeItemRef>> getItemsInCategoryData();
     
+    OomeeRef getOomeeForKey(const std::string& key) const;
+    ItemCategoryRef getItemCategoryForKey(const std::string& key) const;
+    OomeeItemRef getOomeeItemForKey(const std::string& key) const;
+    std::vector<OomeeItemRef> getItemsForCategory(const std::string& key) const;
+    
 };
 
 NS_AZOOMEE_OM_END
