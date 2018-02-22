@@ -19,6 +19,8 @@ class OomeeSelectScene : public cocos2d::Scene
 {
     typedef cocos2d::Scene Super;
 private:
+    cocos2d::Layer* _contentLayer = nullptr;
+    
     std::map<std::string, OomeeFigure*> _createdOomees;
     cocos2d::ui::ListView* _carousel;
     

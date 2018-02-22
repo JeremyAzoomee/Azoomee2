@@ -42,6 +42,8 @@ public:
     
     void setEditable(bool isEditable);
     
+    void saveSnapshotImage(const std::string& filepath);
+    
     cocos2d::Vec2 getWorldPositionForAnchorPoint(const std::string& anchorPoint);
     cocos2d::Vec2 getLocalPositionForAnchorPoint(const std::string& anchorPoint);
     

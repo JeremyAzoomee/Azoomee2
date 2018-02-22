@@ -32,7 +32,7 @@ void OomeeSelectScene::newOomee()
     oss << tm.tm_mday << tm.tm_mon << tm.tm_year << tm.tm_hour << tm.tm_min << tm.tm_sec;
     auto fileNameStr = oss.str();
         
-    saveFileName = FileUtils::getInstance()->getWritablePath() + "oomeeFiles/" + fileNameStr + ".oomee";
+    saveFileName = "oomeeFiles/" + fileNameStr;
     
     makerScene->setFilename(saveFileName);
     Director::getInstance()->replaceScene(makerScene);
@@ -45,35 +45,41 @@ bool OomeeSelectScene::init()
         return false;
     }
     
-    setContentSize(Director::getInstance()->getVisibleSize());
-    setPosition(Director::getInstance()->getVisibleOrigin());
+    Director::getInstance()->getTextureCache()->removeUnusedTextures();
+    
+    _contentLayer = Layer::create();
+    _contentLayer->setContentSize(Director::getInstance()->getVisibleSize());
+    _contentLayer->setPosition(Director::getInstance()->getVisibleOrigin());
+    this->addChild(_contentLayer);
     
     OomeeMakerDataHandler::getInstance()->getConfigFilesIfNeeded();
     
     _carousel = ui::ListView::create();
-    _carousel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    _carousel->setContentSize(_contentLayer->getContentSize() * 0.7f);
     _carousel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _carousel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    _carousel->setDirection(ui::ScrollView::Direction::HORIZONTAL);
+    _carousel->setBounceEnabled(true);
+    _carousel->setGravity(ui::ListView::Gravity::CENTER_VERTICAL);
+    _carousel->setItemsMargin(50.0f);
     
-    this->addChild(_carousel);
+    _contentLayer->addChild(_carousel);
     
     const std::string& searchDir = FileUtils::getInstance()->getWritablePath() + "oomeeFiles/";
-    const std::vector<std::string>& createdOomeeFiles = DirectorySearcher::getInstance()->getFilesInDirectoryWithExtention(searchDir, ".oomee");
+    const std::vector<std::string>& createdOomeeFiles = DirectorySearcher::getInstance()->getFilesInDirectoryWithExtention(searchDir, ".png");
     
-    for(const std::string& filename : createdOomeeFiles)
+    for(std::string filename : createdOomeeFiles)
     {
-        const std::string fileString = FileUtils::getInstance()->getStringFromFile(searchDir + filename);
-        rapidjson::Document file;
-        file.Parse(fileString.c_str());
-        if(!file.HasParseError())
+        std::string trimmedFilename = filename.substr(0,filename.size() - 4);
+        ui::Button* button = ui::Button::create(searchDir + filename);
+        button->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType)
         {
-            OomeeFigure* oomeeFigure = OomeeFigure::create();
-            oomeeFigure->setEditable(false);
-            if(oomeeFigure->initWithOomeeFigureData(file))
+            if(eType == ui::Widget::TouchEventType::ENDED)
             {
-                _carousel->addChild(oomeeFigure);
-                _createdOomees[searchDir + filename] = oomeeFigure;
+                this->editOomee("oomeeFiles/" + trimmedFilename);
             }
-        }
+        });
+        _carousel->pushBackCustomItem(button);
     }
     
     ui::Button* exitButton = ui::Button::create();
@@ -84,7 +90,7 @@ bool OomeeSelectScene::init()
     exitButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         this->newOomee();
     });
-    this->addChild(exitButton);
+    _contentLayer->addChild(exitButton);
     
     return true;
 }

@@ -182,6 +182,19 @@ void OomeeFigure::setEditable(bool isEditable)
     }
 }
 
+void OomeeFigure::saveSnapshotImage(const std::string &filepath)
+{
+    _baseSprite->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+    _baseSprite->setNormalizedPosition(Vec2(0,0));
+    _baseSprite->setScale(1);
+    RenderTexture* renderTex = RenderTexture::create(_baseSprite->getContentSize().width, _baseSprite->getContentSize().height);
+    renderTex->beginWithClear(0, 0, 0, 0);
+    _baseSprite->visit();
+    renderTex->end();
+    renderTex->saveToFile(filepath, Image::Format::PNG);
+    Director::getInstance()->getRenderer()->render();
+}
+
 Vec2 OomeeFigure::getWorldPositionForAnchorPoint(const std::string &anchorPoint)
 {
     return this->getParent()->convertToWorldSpace(this->getPosition()) + getLocalPositionForAnchorPoint(anchorPoint);

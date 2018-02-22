@@ -21,6 +21,7 @@ class OomeeMakerScene : public cocos2d::Scene
 {
     typedef cocos2d::Scene Super;
 private:
+    cocos2d::Layer* _contentLayer = nullptr;
     
     std::string _filename;
     OomeeFigure* _oomee = nullptr;

@@ -26,8 +26,11 @@ bool OomeeMakerScene::init()
     {
         return false;
     }
-    setContentSize(Director::getInstance()->getVisibleSize());
-    setPosition(Director::getInstance()->getVisibleOrigin());
+    
+    _contentLayer = Layer::create();
+    _contentLayer->setContentSize(Director::getInstance()->getVisibleSize());
+    _contentLayer->setPosition(Director::getInstance()->getVisibleOrigin());
+    this->addChild(_contentLayer);
     
     OomeeMakerDataHandler::getInstance()->getConfigFilesIfNeeded();
     
@@ -44,21 +47,21 @@ void OomeeMakerScene::onEnter()
     std::vector<OomeeItemRef> itemsData = OomeeMakerDataStorage::getInstance()->getItemsInCategoryData()[categoryData[0]->getId()];
     _oomee = OomeeFigure::create();
     _oomee->setOomeeData(oomeeData);
-    _oomee->setContentSize(this->getContentSize());
+    _oomee->setContentSize(_contentLayer->getContentSize());
     _oomee->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     _oomee->setEditable(true);
-    if(FileUtils::getInstance()->isFileExist(_filename))
+    if(FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->getWritablePath() + _filename + ".oomee"))
     {
         rapidjson::Document data;
-        data.Parse(FileUtils::getInstance()->getStringFromFile(_filename).c_str());
+        data.Parse(FileUtils::getInstance()->getStringFromFile(FileUtils::getInstance()->getWritablePath() + _filename + ".oomee").c_str());
         _oomee->initWithOomeeFigureData(data);
         
     }
     
-    this->addChild(_oomee);
+    _contentLayer->addChild(_oomee);
     
     ItemCategoryList* categories = ItemCategoryList::create();
-    categories->setContentSize(Size(this->getContentSize().width / 6.0f, this->getContentSize().height * 0.7f));
+    categories->setContentSize(Size(_contentLayer->getContentSize().width / 6.0f, _contentLayer->getContentSize().height * 0.7f));
     categories->setNormalizedPosition(Vec2(0,0.35f));
     categories->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
     categories->setItemSelectedCallback([this](const ItemCategoryRef& data) {
@@ -66,10 +69,10 @@ void OomeeMakerScene::onEnter()
     });
     categories->setCategories(categoryData);
     
-    this->addChild(categories);
+    _contentLayer->addChild(categories);
     
     _itemList = OomeeItemList::create();
-    _itemList->setContentSize(Size(this->getContentSize().width / 6.0f, this->getContentSize().height * 0.8f));
+    _itemList->setContentSize(Size(_contentLayer->getContentSize().width / 6.0f, _contentLayer->getContentSize().height * 0.8f));
     _itemList->setNormalizedPosition(Vec2(1.0f,0.5f));
     _itemList->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
     _itemList->setItemSelectedCallback([this](const OomeeItemRef& data) {
@@ -77,7 +80,7 @@ void OomeeMakerScene::onEnter()
     });
     _itemList->setItems(itemsData);
     
-    this->addChild(_itemList);
+    _contentLayer->addChild(_itemList);
     
     ui::Button* exitButton = ui::Button::create();
     exitButton->loadTextureNormal("CloseNormal.png");
@@ -86,7 +89,7 @@ void OomeeMakerScene::onEnter()
     exitButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         this->saveAndExit();
     });
-    this->addChild(exitButton);
+    _contentLayer->addChild(exitButton);
     
     Super::onEnter();
 }
@@ -94,6 +97,7 @@ void OomeeMakerScene::onEnter()
 void OomeeMakerScene::onEnterTransitionDidFinish()
 {
     DragAndDropController::getInstance()->setTargetOomee(_oomee);
+    DragAndDropController::getInstance()->attachToScene(this);
     Super::onEnterTransitionDidFinish();
 }
 
@@ -122,7 +126,7 @@ void OomeeMakerScene::saveAndExit()
 {
     std::string savedFileContent = "{";
     savedFileContent += StringUtils::format("\"oomee\":\"%s\",", _oomee->getOomeeData()->getId().c_str());
-    savedFileContent += "\"oomeeItems:[\"";
+    savedFileContent += "\"oomeeItems\":[";
     const std::vector<std::string>& accIds = _oomee->getAccessoryIds();
     for(int i = 0; i < accIds.size(); i++)
     {
@@ -134,7 +138,10 @@ void OomeeMakerScene::saveAndExit()
     }
     savedFileContent += "]}";
     
-    FileUtils::getInstance()->writeStringToFile(savedFileContent, _filename);
+    FileUtils::getInstance()->writeStringToFile(savedFileContent, FileUtils::getInstance()->getWritablePath() + _filename + ".oomee");
+    
+    _oomee->saveSnapshotImage(_filename + ".png");
+    
     Director::getInstance()->replaceScene(OomeeSelectScene::create());
 }
 

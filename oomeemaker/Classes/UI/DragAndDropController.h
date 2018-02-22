@@ -30,6 +30,7 @@ public:
     
     void setItemData(const OomeeItemRef& data);
     void setTargetOomee(OomeeFigure* oomeeFigure);
+    void attachToScene(cocos2d::Scene* currentScene);
 };
 
 NS_AZOOMEE_OM_END

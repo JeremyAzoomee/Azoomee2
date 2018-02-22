@@ -31,8 +31,7 @@ DragAndDropController::~DragAndDropController(void)
 void DragAndDropController::init()
 {
     _listenerTargetNode = Node::create();
-    Director::getInstance()->getRunningScene()->addChild(_listenerTargetNode,1000);
-    
+    //_listenerTargetNode->retain();
     _touchListener = EventListenerTouchOneByOne::create();
     
     _touchListener = EventListenerTouchOneByOne::create();
@@ -74,7 +73,8 @@ void DragAndDropController::init()
     
     _touchListener->onTouchCancelled = _touchListener->onTouchEnded;
     
-    _listenerTargetNode->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_touchListener, _listenerTargetNode);
+    //_touchListener->retain();
+    
 }
 
 void DragAndDropController::setItemData(const OomeeItemRef& data)
@@ -93,6 +93,13 @@ void DragAndDropController::setItemData(const OomeeItemRef& data)
 void DragAndDropController::setTargetOomee(OomeeFigure* oomeeFigure)
 {
     _oomeeFigure = oomeeFigure;
+}
+
+void DragAndDropController::attachToScene(cocos2d::Scene *currentScene)
+{
+    init();
+    currentScene->addChild(_listenerTargetNode);
+    _listenerTargetNode->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_touchListener, _listenerTargetNode);
 }
 
 NS_AZOOMEE_OM_END

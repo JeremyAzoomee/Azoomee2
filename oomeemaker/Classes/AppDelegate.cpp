@@ -56,8 +56,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 
     // create a scene. it's an autorelease object
-    auto scene = Azoomee::OomeeMaker::OomeeMakerScene::create();
-    scene->setFilename(FileUtils::getInstance()->getWritablePath() + "oomeeFiles/test.oomee");
+    auto scene = Azoomee::OomeeMaker::OomeeSelectScene::create();
+    
     // run
     director->runWithScene(scene);
 

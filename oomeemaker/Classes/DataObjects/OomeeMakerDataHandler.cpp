@@ -33,6 +33,7 @@ void OomeeMakerDataHandler::init()
 
 void OomeeMakerDataHandler::getConfigFilesIfNeeded()
 {
+    OomeeMakerDataStorage::getInstance()->clearAllData();
     parseOomeeData();
     parseCategoryData();
     parseOomeeItemData();
