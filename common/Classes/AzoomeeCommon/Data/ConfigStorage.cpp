@@ -425,30 +425,48 @@ cocos2d::Point ConfigStorage::getHorizontalPositionForMenuItemInGroupHQ(int item
 
 cocos2d::Color4B ConfigStorage::getColourForMenuItem(int itemNumber)
 {
-    Color4B returnColour;
+    Color4B returnColour = Color4B(0,0,0,0);
     
-    returnColour.r = NavigationConfiguration["coloursForMenuItems"][itemNumber]["r"].GetInt();
-    returnColour.g = NavigationConfiguration["coloursForMenuItems"][itemNumber]["g"].GetInt();
-    returnColour.b = NavigationConfiguration["coloursForMenuItems"][itemNumber]["b"].GetInt();
-    returnColour.a = NavigationConfiguration["coloursForMenuItems"][itemNumber]["a"].GetInt();
+    if(NavigationConfiguration["coloursForMenuItems"].Size() > itemNumber)
+    {
+        const rapidjson::Value &itemColour = NavigationConfiguration["coloursForMenuItems"][itemNumber];
+        
+        returnColour.r = getIntFromJson("r", itemColour);
+        returnColour.g = getIntFromJson("g", itemColour);
+        returnColour.b = getIntFromJson("b", itemColour);
+        returnColour.a = getIntFromJson("a", itemColour);
+    }
     
     return returnColour;
 }
 
 std::string ConfigStorage::getNameForMenuItem(int itemNumber)
 {
-    return NavigationConfiguration["namesForMenuItems"][itemNumber].GetString();
+    if(NavigationConfiguration["namesForMenuItems"].Size() > itemNumber)
+    {
+        return NavigationConfiguration["namesForMenuItems"][itemNumber].GetString();
+    }
+    else
+    {
+        return "";
+    }
 }
 
 ConfigStorage::HubTargetTagNumber ConfigStorage::getTagNumberForMenuName(const std::string& name)
 {
-    return (HubTargetTagNumber)NavigationConfiguration["tagNumberForMenuItems"][name.c_str()].GetInt();
+    return (HubTargetTagNumber)getIntFromJson(name, NavigationConfiguration["tagNumberForMenuItems"]);
 }
 
 Point ConfigStorage::getTargetPositionForMove(int itemNumber)
 {
-    float x = NavigationConfiguration["targetPositionsForMove"][itemNumber]["x"].GetDouble();
-    float y = NavigationConfiguration["targetPositionsForMove"][itemNumber]["y"].GetDouble();
+    float x = 0;
+    float y = 0;
+    
+    if(NavigationConfiguration["targetPositionsForMove"].Size() > itemNumber)
+    {
+        x = getDoubleFromJson("x", NavigationConfiguration["targetPositionsForMove"][itemNumber]);
+        y = getDoubleFromJson("y", NavigationConfiguration["targetPositionsForMove"][itemNumber]);
+    }
     
     return Point(x, y);
 }
@@ -463,9 +481,18 @@ std::string ConfigStorage::getGreetingAnimation()
 
 std::string ConfigStorage::getRandomIdForAnimationType(const std::string& animationType)
 {
-    if(animationType == "idle") return OomeeAnimationTypes["idleAnimations"][random(0, (int)OomeeAnimationTypes["idleAnimations"].Size() - 1)].GetString();
-    else if(animationType == "button") return OomeeAnimationTypes["buttonIdleAnimations"][random(0, (int)OomeeAnimationTypes["buttonIdleAnimations"].Size() - 1)].GetString();
-    else return OomeeAnimationTypes["touchAnimations"][random(0, (int)OomeeAnimationTypes["touchAnimations"].Size() - 1)].GetString();
+    if(animationType == "idle")
+    {
+        return OomeeAnimationTypes["idleAnimations"][random(0, (int)OomeeAnimationTypes["idleAnimations"].Size() - 1)].GetString();
+    }
+    else if(animationType == "button")
+    {
+        return OomeeAnimationTypes["buttonIdleAnimations"][random(0, (int)OomeeAnimationTypes["buttonIdleAnimations"].Size() - 1)].GetString();
+    }
+    else
+    {
+        return OomeeAnimationTypes["touchAnimations"][random(0, (int)OomeeAnimationTypes["touchAnimations"].Size() - 1)].GetString();
+    }
 }
 
 //--------------------------- UserDefaults First Time User for Slideshow------------
@@ -486,7 +513,7 @@ bool ConfigStorage::shouldShowFirstSlideShowScene()
 
 std::string ConfigStorage::getVersionNumber()
 {
-    return VersionConfiguration["version"].GetString();
+    return getStringFromJson("version", VersionConfiguration);
 }
 
 std::string ConfigStorage::getVersionNumberWithPlatform()
@@ -512,7 +539,7 @@ std::string ConfigStorage::getVersionInformationForRequestHeader()
 
 std::string ConfigStorage::getIapSkuForProvider(const std::string& provider)
 {
-    return IapConfiguration[provider.c_str()].GetString();
+    return getStringFromJson(provider, IapConfiguration);
 }
 
 std::string ConfigStorage::getDeveloperPublicKey()
