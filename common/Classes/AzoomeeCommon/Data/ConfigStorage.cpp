@@ -126,7 +126,16 @@ rapidjson::Document ConfigStorage::parseJsonConfigurationFile(const std::string&
     rapidjson::Document returnObject;
     returnObject.Parse(jsonString.c_str());
     
-    return returnObject;
+    if(returnObject.HasParseError())
+    {
+        cocos2d::log("The following file has got a json parse error: %s", fileName.c_str());
+        returnObject.SetObject();
+        return returnObject;
+    }
+    else
+    {
+        return returnObject;
+    }
 }
 
 //-------------------------BACKEND CALLER CONFIGURATION--------------------
@@ -201,100 +210,133 @@ bool ConfigStorage::isImmediateRequestSendingRequired(const std::string& request
 std::string ConfigStorage::getNameForOomee(int number)
 {
     std::string keyName = StringUtils::format("%d", number);
-    return OomeeConfiguration["nameForOomee"][keyName.c_str()].GetString();
+    const rapidjson::Value &oomeenames = OomeeConfiguration["nameForOomee"];
+    return getStringFromJson(keyName, oomeenames);
 }
 
 std::string ConfigStorage::getHumanReadableNameForOomee(int number)
 {
     std::string keyName = StringUtils::format("%d", number);
-    return OomeeConfiguration["humanReadableNameForOomee"][keyName.c_str()].GetString();
+    const rapidjson::Value &oomeenames = OomeeConfiguration["humanReadableNameForOomee"];
+    return getStringFromJson(keyName, oomeenames);
 }
 
 std::string ConfigStorage::getUrlForOomee(int number)
 {
     std::string keyName = StringUtils::format("%d", number);
-    return OomeeConfiguration["urlForOomee"][keyName.c_str()].GetString();
+    const rapidjson::Value &oomeeurls = OomeeConfiguration["urlForOomee"];
+    return getStringFromJson(keyName, oomeeurls);
 }
 
 int ConfigStorage::getOomeeNumberForUrl(const std::string& url)
 {
     std::string fileName = getFileNameFromUrl(url);
-    
-    if(OomeeConfiguration["oomeeNumberForUrl"].HasMember(fileName.c_str())) return OomeeConfiguration["oomeeNumberForUrl"][fileName.c_str()].GetInt();
-    else return 0;
+    const rapidjson::Value &oomeeNumbers = OomeeConfiguration["oomeeNumberForUrl"];
+    return getIntFromJson(fileName, oomeeNumbers, 0);
 }
 
 //-------------------------BASESCENE CONFIGURATION-------------------------
 Point ConfigStorage::getHQScenePositions(const std::string& hqSceneName)
 {
-    float x = BaseSceneConfiguration["HQScenePositions"][hqSceneName.c_str()]["x"].GetDouble();
-    float y = BaseSceneConfiguration["HQScenePositions"][hqSceneName.c_str()]["y"].GetDouble();
     
-    return Point(x,y);
+    
+    if(BaseSceneConfiguration["HQScenePositions"].HasMember(hqSceneName.c_str()))
+    {
+        const rapidjson::Value &scenePositionsns = BaseSceneConfiguration["HQScenePositions"][hqSceneName.c_str()];
+        float x = getDoubleFromJson("x", scenePositionsns);
+        float y = getDoubleFromJson("y", scenePositionsns);
+        
+        return Point(x,y);
+    }
+    else
+    {
+        return Point(0,0);
+    }
 }
 
 //-------------------------HQSCENEELEMENT CONFIGURATION-------------------------
 
 cocos2d::Size ConfigStorage::getSizeForContentItemInCategory(const std::string& category)
 {
-    float width = HQSceneConfiguration["sizeForContentLayerInCategory"][category.c_str()]["width"].GetDouble();
-    float height = HQSceneConfiguration["sizeForContentLayerInCategory"][category.c_str()]["height"].GetDouble();
-    
-    return Size(width, height);
+    if(HQSceneConfiguration["sizeForContentLayerInCategory"].HasMember(category.c_str()))
+    {
+        const rapidjson::Value &contentLayerSizes = HQSceneConfiguration["sizeForContentLayerInCategory"][category.c_str()];
+        float width = getDoubleFromJson("width", contentLayerSizes);
+        float height = getDoubleFromJson("height", contentLayerSizes);
+        
+        return Size(width, height);
+    }
+    else
+    {
+        return Size(0,0);
+    }
 }
 
 std::string ConfigStorage::getPlaceholderImageForContentItemInCategory(const std::string& type)
 {
-    return HQSceneConfiguration["placeholderImageForContentItemInCategory"][type.c_str()].GetString();
+    const rapidjson::Value &placeholders = HQSceneConfiguration["placeholderImageForContentItemInCategory"];
+    return getStringFromJson(type, placeholders);
 }
 
 float ConfigStorage::getScrollviewTitleTextHeight()
 {
-    return HQSceneConfiguration["scrollViewTextHeight"].GetDouble();
+    return getDoubleFromJson("scrollViewTextHeight", HQSceneConfiguration);
 }
 
 Size ConfigStorage::getGroupHQLogoSize()
 {
-    float width = HQSceneConfiguration["groupLogoSize"]["width"].GetDouble();
-    float height = HQSceneConfiguration["groupLogoSize"]["height"].GetDouble();
+    const rapidjson::Value &groupLogoSize = HQSceneConfiguration["groupLogoSize"];
+    float width = getDoubleFromJson("width", groupLogoSize);
+    float height = getDoubleFromJson("height", groupLogoSize);
     
     return Size(width, height);
 }
     
 int ConfigStorage::getContentItemImageValidityInSeconds()
 {
-    return HQSceneConfiguration["ContentItemImageValidityInSeconds"].GetInt();
+    return getIntFromJson("ContentItemImageValidityInSeconds", HQSceneConfiguration);
 }
     
 float ConfigStorage::getGroupContentItemTextHeight()
 {
-    return HQSceneConfiguration["groupContentItemTextHeight"].GetDouble();
+    return getDoubleFromJson("groupContentItemTextHeight", HQSceneConfiguration);
 }
 
 std::vector<Point> ConfigStorage::getMainHubPositionForHighlightElements(const std::string& categoryName)
 {
-    float x1 = HQSceneConfiguration["MainHubPositionsForHighlightElements"][categoryName.c_str()]["Points"][0]["x"].GetDouble();
-    float y1 = HQSceneConfiguration["MainHubPositionsForHighlightElements"][categoryName.c_str()]["Points"][0]["y"].GetDouble();
-    float x2 = HQSceneConfiguration["MainHubPositionsForHighlightElements"][categoryName.c_str()]["Points"][1]["x"].GetDouble();
-    float y2 = HQSceneConfiguration["MainHubPositionsForHighlightElements"][categoryName.c_str()]["Points"][1]["y"].GetDouble();
+    if(HQSceneConfiguration["MainHubPositionsForHighlightElements"].HasMember(categoryName.c_str()))
+    {
+        const rapidjson::Value &p1 = HQSceneConfiguration["MainHubPositionsForHighlightElements"][categoryName.c_str()]["Points"][0];
+        const rapidjson::Value &p2 = HQSceneConfiguration["MainHubPositionsForHighlightElements"][categoryName.c_str()]["Points"][1];
         
-    return std::vector<Point> {Point(x1, y1), Point(x2, y2)};
+        return std::vector<Point> {Point(getDoubleFromJson("x", p1), getDoubleFromJson("y", p1)), Point(getDoubleFromJson("x", p2), getDoubleFromJson("y", p2))};
+    }
+    else
+    {
+        return std::vector<Point> {Point(0,0), Point(0,0)};
+    }
 }
     
 cocos2d::Color4B ConfigStorage::getColourForElementType(const std::string& type)
 {
-    Color4B returnColor;
-    returnColor.r = HQSceneConfiguration["colourForElementType"][type.c_str()]["r"].GetInt();
-    returnColor.g = HQSceneConfiguration["colourForElementType"][type.c_str()]["g"].GetInt();
-    returnColor.b = HQSceneConfiguration["colourForElementType"][type.c_str()]["b"].GetInt();
-    returnColor.a = HQSceneConfiguration["colourForElementType"][type.c_str()]["a"].GetInt();
+    Color4B returnColor = Color4B(0, 0, 0, 0);
+    
+    if(HQSceneConfiguration["colourForElementType"].HasMember(type.c_str()))
+    {
+        const rapidjson::Value &typeColour = HQSceneConfiguration["colourForElementType"][type.c_str()];
+        
+        returnColor.r = getIntFromJson("r", typeColour);
+        returnColor.g = getIntFromJson("g", typeColour);
+        returnColor.b = getIntFromJson("b", typeColour);
+        returnColor.a = getIntFromJson("a", typeColour);
+    }
         
     return returnColor;
 }
     
 std::string ConfigStorage::getIconNameForCategory(const std::string& category)
 {
-    return HQSceneConfiguration["iconNameForCategory"][category.c_str()].GetString();
+    return getStringFromJson(category, HQSceneConfiguration["iconNameForCategory"]);
 }
     
 std::string ConfigStorage::getGradientImageForCategory(const std::string& category)
@@ -329,10 +371,17 @@ std::string ConfigStorage::getHQSceneNameReplacementForPermissionFeed(const std:
 cocos2d::Point ConfigStorage::getRelativeCirclePositionForMenuItem(int itemNumber)
 {
     //Gets the relative position to keep the navigation buttons in a circle
-    float x = NavigationConfiguration["relativeCirclePositionsForMenuItems"]["positions"][itemNumber]["x"].GetDouble();
-    float y = NavigationConfiguration["relativeCirclePositionsForMenuItems"]["positions"][itemNumber]["y"].GetDouble();
-    
-    return Point(x, y);
+    if(NavigationConfiguration["relativeCirclePositionsForMenuItems"]["positions"].Size() > itemNumber)
+    {
+        float x = getDoubleFromJson("x", NavigationConfiguration["relativeCirclePositionsForMenuItems"]["positions"][itemNumber]);
+        float y = getDoubleFromJson("y", NavigationConfiguration["relativeCirclePositionsForMenuItems"]["positions"][itemNumber]);
+        
+        return Point(x,y);
+    }
+    else
+    {
+        return Point(0,0);
+    }
 }
 
 cocos2d::Point ConfigStorage::getHorizontalPositionForMenuItem(int itemNumber)
@@ -340,15 +389,21 @@ cocos2d::Point ConfigStorage::getHorizontalPositionForMenuItem(int itemNumber)
     cocos2d::Point visualOrigin = Director::getInstance()->getVisibleOrigin();
     cocos2d::Size visualSize = Director::getInstance()->getVisibleSize();
     
-    float x = NavigationConfiguration["horizontalXPositionsForMenuItems"][itemNumber].GetDouble();
-    float y = visualOrigin.y + visualSize.height + NavigationConfiguration["horizontalYPositionsForMenuItems"].GetDouble();
+    float x = 0;
+    float y = 0;
+    
+    if(NavigationConfiguration["horizontalXPositionsForMenuItems"].Size() > itemNumber)
+    {
+        x = NavigationConfiguration["horizontalXPositionsForMenuItems"][itemNumber].GetDouble();
+        y = getDoubleFromJson("horizontalYPositionsForMenuItems", NavigationConfiguration) + visualOrigin.y + visualSize.height;
+    }
     
     return Point(x, y);
 }
 
 float ConfigStorage::getHorizontalMenuItemsHeight()
 {
-    return NavigationConfiguration["horizontalMenuItemsHeight"].GetDouble();
+    return getDoubleFromJson("horizontalMenuItemsHeight", NavigationConfiguration);
 }
 
 cocos2d::Point ConfigStorage::getHorizontalPositionForMenuItemInGroupHQ(int itemNumber)
@@ -356,8 +411,14 @@ cocos2d::Point ConfigStorage::getHorizontalPositionForMenuItemInGroupHQ(int item
     cocos2d::Point visualOrigin = Director::getInstance()->getVisibleOrigin();
     cocos2d::Size visualSize = Director::getInstance()->getVisibleSize();
     
-    float x = NavigationConfiguration["horizontalXPositionsForMenuItems"][itemNumber].GetDouble();
-    float y = visualOrigin.y + visualSize.height + NavigationConfiguration["horizontalYPositionsForMenuItemsInGroupHQ"].GetDouble();
+    float x = 0;
+    float y = 0;
+    
+    if(NavigationConfiguration["horizontalXPositionsForMenuItems"].Size() > itemNumber)
+    {
+        x = NavigationConfiguration["horizontalXPositionsForMenuItems"][itemNumber].GetDouble();
+        y = visualOrigin.y + visualSize.height + getDoubleFromJson("horizontalYPositionsForMenuItemsInGroupHQ", NavigationConfiguration);
+    }
     
     return Point(x, y);
 }
