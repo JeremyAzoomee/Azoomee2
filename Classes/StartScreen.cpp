@@ -32,6 +32,10 @@ Scene* StartScreen::createScene()
 
 void StartScreen::onEnter()
 {
+    addBGElements();
+    addImages();
+    addButtons();
+    
     Super::onEnter();
 }
 
@@ -43,10 +47,6 @@ bool StartScreen::init()
     }
     
     DynamicNodeHandler::getInstance()->getCTAFiles();
-    
-    addBGElements();
-    addImages();
-    addButtons();
     
     return true;
 }
@@ -62,22 +62,22 @@ void StartScreen::addBGElements()
     bigBGCircles->setPosition(contentSize / 2.0f);
     bigBGCircles->runAction(RepeatForever::create( createFadeInAndOutEffect(3.0f, 75, 255)));
     this->addChild(bigBGCircles);
-    Sprite* innerCircle1 = Sprite::create(kAssetLoc + "inner_circle_centre_1.png");
+    Sprite* innerCircle1 = Sprite::create("res/mainhub/circle_0.png");
     innerCircle1->setPosition(contentSize / 2.0f);
     this->addChild(innerCircle1);
     
-    Sprite* innerCircle2 = Sprite::create(kAssetLoc + "inner_circle_centre_2.png");
+    Sprite* innerCircle2 = Sprite::create("res/mainhub/circle_1.png");
     innerCircle2->setPosition(contentSize / 2.0f);
     this->addChild(innerCircle2);
     innerCircle2->runAction(RepeatForever::create(RotateBy::create(15.0f, 360)));
     
-    Sprite* wiresLeft = Sprite::create(kAssetLoc + "wire_left.png");
+    Sprite* wiresLeft = Sprite::create("res/decoration/wireLeft.png");
     wiresLeft->setPosition(Vec2(0, contentSize.height / 2.0f));
     wiresLeft->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
     wiresLeft->runAction(RepeatForever::create( Sequence::create( DelayTime::create(0.5f), createFlickerEffect(1, 6.5f), nullptr)));
     this->addChild(wiresLeft);
     
-    Sprite* wiresRight = Sprite::create(kAssetLoc + "wire_right.png");
+    Sprite* wiresRight = Sprite::create("res/decoration/wireRight.png");
     wiresRight->setPosition(Vec2(contentSize.width, contentSize.height / 2.0f));
     wiresRight->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
     wiresRight->runAction(RepeatForever::create( createFlickerEffect(1, 7.0f)));
@@ -122,7 +122,8 @@ void StartScreen::addButtons()
 {
     const float posMod = ConfigStorage::getInstance()->isDeviceIphoneX() ? 1.1f : 1.5f;
     
-    ui::Button* closeButton = ui::Button::create(kAssetLoc + "close.png");
+    ui::Button* closeButton = ui::Button::create("res/buttons/windowCloseButtonGreen.png");
+    closeButton->setScale(1.5f);
     closeButton->setNormalizedPosition(Vec2(0.978f, 0.978f));
     closeButton->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
     closeButton->addTouchEventListener([=](Ref *pSender, ui::Widget::TouchEventType eEventType)
