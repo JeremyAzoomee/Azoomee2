@@ -23,6 +23,10 @@ private:
     OomeeFigure* _oomeeFigure = nullptr;
     cocos2d::Node* _listenerTargetNode = nullptr;
     
+    bool _debugMode = false;
+    cocos2d::Label* _positioningLabel = nullptr;
+    cocos2d::DrawNode* _anchorToSprite = nullptr;
+    
 public:
     static DragAndDropController* getInstance();
     virtual ~DragAndDropController();
@@ -31,6 +35,8 @@ public:
     void setItemData(const OomeeItemRef& data);
     void setTargetOomee(OomeeFigure* oomeeFigure);
     void attachToScene(cocos2d::Scene* currentScene);
+    
+    void setDebugModeEnabled(bool isEnabled);
 };
 
 NS_AZOOMEE_OM_END

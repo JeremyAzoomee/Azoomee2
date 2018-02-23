@@ -98,6 +98,7 @@ void OomeeMakerScene::onEnterTransitionDidFinish()
 {
     DragAndDropController::getInstance()->setTargetOomee(_oomee);
     DragAndDropController::getInstance()->attachToScene(this);
+    DragAndDropController::getInstance()->setDebugModeEnabled(true);
     Super::onEnterTransitionDidFinish();
 }
 
