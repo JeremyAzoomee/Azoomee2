@@ -189,9 +189,9 @@ inline int getIntFromJson(const std::string &keyName, const rapidjson::Value &js
     return defaultReturn;
 }
 
-inline double getDoubleFromJson(const std::string &keyName, const rapidjson::Value &jsonValue, double defaultReturn = INT_MAX)
+inline double getDoubleFromJson(const std::string &keyName, const rapidjson::Value &jsonValue, double defaultReturn = DBL_MAX)
 {
-    if(jsonValue.HasMember(keyName.c_str()) && jsonValue[keyName.c_str()].IsDouble())
+    if((jsonValue.HasMember(keyName.c_str())) && ((jsonValue[keyName.c_str()].IsInt()) || (jsonValue[keyName.c_str()].IsDouble())))
     {
         return jsonValue[keyName.c_str()].GetDouble();
     }
