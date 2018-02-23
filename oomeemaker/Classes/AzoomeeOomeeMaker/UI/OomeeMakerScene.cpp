@@ -83,7 +83,7 @@ void OomeeMakerScene::onEnter()
     _contentLayer->addChild(_itemList);
     
     ui::Button* exitButton = ui::Button::create();
-    exitButton->loadTextureNormal("CloseNormal.png");
+    exitButton->loadTextureNormal("res/oomeeMaker/back_new.png");
     exitButton->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
     exitButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
     exitButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){

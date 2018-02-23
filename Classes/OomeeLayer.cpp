@@ -8,6 +8,8 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
+#include "SceneManagerScene.h"
+
 using namespace cocos2d;
 using namespace spine;
 
@@ -83,6 +85,9 @@ void OomeeLayer::addTouchListenerToOomee(spine::SkeletonAnimation* toBeAddedTo)
         
         if(rect.containsPoint(locationInNode))
         {
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(OomeeMakerEntryPointScene));
+            return true;
+            
             std::string animationid = ConfigStorage::getInstance()->getRandomIdForAnimationType("touch");
             
             target->setAnimation(0, animationid.c_str(), false);

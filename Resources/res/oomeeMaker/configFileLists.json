@@ -1,0 +1,14 @@
+{
+	"oomeeConfigs":
+	[
+		"res/oomeeMaker/oomee01.json"
+	],
+	"categoryConfigs":
+	[
+		"res/oomeeMaker/cat1.json"
+	],
+	"itemConfigs":
+	[
+		"res/oomeeMaker/cat1items.json"
+	]
+}

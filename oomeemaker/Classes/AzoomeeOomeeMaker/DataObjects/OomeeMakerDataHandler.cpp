@@ -105,7 +105,7 @@ void OomeeMakerDataHandler::parseOomeeItemData()
 std::vector<std::string> OomeeMakerDataHandler::getConfigFilesForType(const std::string& listType) const
 {
     rapidjson::Document configFilesList;
-    configFilesList.Parse(cocos2d::FileUtils::getInstance()->getStringFromFile("res/configFileLists.json").c_str());
+    configFilesList.Parse(cocos2d::FileUtils::getInstance()->getStringFromFile("res/oomeeMaker/configFileLists.json").c_str());
     if(configFilesList.HasParseError())
     {
         return std::vector<std::string>();

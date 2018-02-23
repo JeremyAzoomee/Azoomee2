@@ -21,8 +21,6 @@
 		46880B8219C43A67006E1F66 /* HelloWorld.png in Resources */ = {isa = PBXBuildFile; fileRef = 46880B7A19C43A67006E1F66 /* HelloWorld.png */; };
 		46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8419C43A87006E1F66 /* AppDelegate.cpp */; };
 		46880B8919C43A87006E1F66 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8419C43A87006E1F66 /* AppDelegate.cpp */; };
-		46880B8A19C43A87006E1F66 /* HelloWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8619C43A87006E1F66 /* HelloWorldScene.cpp */; };
-		46880B8B19C43A87006E1F66 /* HelloWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8619C43A87006E1F66 /* HelloWorldScene.cpp */; };
 		503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 503AE0F617EB97AB00D1A890 /* Icon.icns */; };
 		503AE10017EB989F00D1A890 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FB17EB989F00D1A890 /* AppController.mm */; };
 		503AE10117EB989F00D1A890 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FC17EB989F00D1A890 /* main.m */; };
@@ -69,6 +67,20 @@
 		9271D780203C51A000370120 /* DragAndDropController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D77F203C51A000370120 /* DragAndDropController.cpp */; };
 		9271D784203D8E9B00370120 /* OomeeMakerScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D783203D8E9B00370120 /* OomeeMakerScene.cpp */; };
 		9271D787203DBE5C00370120 /* OomeeSelectScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D786203DBE5C00370120 /* OomeeSelectScene.cpp */; };
+		9271D7B320404CCA00370120 /* AzoomeeOomeeMaker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BEEFD02034532E00B32059 /* AzoomeeOomeeMaker.cpp */; };
+		9271D7B420404CCA00370120 /* OomeeMakerDataStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BEEFE520359CA600B32059 /* OomeeMakerDataStorage.cpp */; };
+		9271D7B520404CCA00370120 /* OomeeMakerDataHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BEEFE720359D3F00B32059 /* OomeeMakerDataHandler.cpp */; };
+		9271D7B620404CCA00370120 /* Oomee.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BEEFDF20359C5500B32059 /* Oomee.cpp */; };
+		9271D7B720404CCA00370120 /* ItemCategory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BEEFE120359C7800B32059 /* ItemCategory.cpp */; };
+		9271D7B820404CCA00370120 /* OomeeItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BEEFE320359C8B00B32059 /* OomeeItem.cpp */; };
+		9271D7B920404CCA00370120 /* ItemCategoryButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D775203AFAEC00370120 /* ItemCategoryButton.cpp */; };
+		9271D7BA20404CCA00370120 /* ItemCategoryList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D777203AFEB700370120 /* ItemCategoryList.cpp */; };
+		9271D7BB20404CCA00370120 /* OomeeItemButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D771203AE19200370120 /* OomeeItemButton.cpp */; };
+		9271D7BC20404CCA00370120 /* OomeeItemList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D773203AE3FA00370120 /* OomeeItemList.cpp */; };
+		9271D7BD20404CCA00370120 /* OomeeFigure.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D779203B0ED400370120 /* OomeeFigure.cpp */; };
+		9271D7BE20404CCA00370120 /* DragAndDropController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D77F203C51A000370120 /* DragAndDropController.cpp */; };
+		9271D7BF20404CCA00370120 /* OomeeMakerScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D783203D8E9B00370120 /* OomeeMakerScene.cpp */; };
+		9271D7C020404CCA00370120 /* OomeeSelectScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D786203DBE5C00370120 /* OomeeSelectScene.cpp */; };
 		92BEEFD12034532E00B32059 /* AzoomeeOomeeMaker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BEEFD02034532E00B32059 /* AzoomeeOomeeMaker.cpp */; };
 		92BEEFE020359C5500B32059 /* Oomee.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BEEFDF20359C5500B32059 /* Oomee.cpp */; };
 		92BEEFE220359C7800B32059 /* ItemCategory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BEEFE120359C7800B32059 /* ItemCategory.cpp */; };
@@ -150,6 +162,20 @@
 			remoteGlobalIDString = A07A4C241783777C0073F6A7;
 			remoteInfo = "libcocos2d iOS";
 		};
+		9271D7AF20404C9700370120 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9220EC7220333C4000BD7A90 /* AzoomeeCommon.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 3077F4401E8D5048006DA465;
+			remoteInfo = AzoomeeCommon;
+		};
+		9271D7B120404C9D00370120 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9220ECBB20333EA600BD7A90 /* cocos2d_libs.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = A07A4C241783777C0073F6A7;
+			remoteInfo = "libcocos2d iOS";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -165,8 +191,6 @@
 		46880B7A19C43A67006E1F66 /* HelloWorld.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HelloWorld.png; sourceTree = "<group>"; };
 		46880B8419C43A87006E1F66 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate.cpp; sourceTree = "<group>"; };
 		46880B8519C43A87006E1F66 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		46880B8619C43A87006E1F66 /* HelloWorldScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HelloWorldScene.cpp; sourceTree = "<group>"; };
-		46880B8719C43A87006E1F66 /* HelloWorldScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelloWorldScene.h; sourceTree = "<group>"; };
 		503AE0F617EB97AB00D1A890 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
 		503AE0F717EB97AB00D1A890 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		503AE0FA17EB989F00D1A890 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppController.h; path = ios/AppController.h; sourceTree = SOURCE_ROOT; };
@@ -223,6 +247,7 @@
 		9271D782203D85BC00370120 /* OomeeSelectScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OomeeSelectScene.h; sourceTree = "<group>"; };
 		9271D783203D8E9B00370120 /* OomeeMakerScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeMakerScene.cpp; sourceTree = "<group>"; };
 		9271D786203DBE5C00370120 /* OomeeSelectScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeSelectScene.cpp; sourceTree = "<group>"; };
+		9271D7A620404C6400370120 /* libAzoomeeOomeeMaker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAzoomeeOomeeMaker.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		92BEEFC72034502F00B32059 /* OomeeMakerDataStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OomeeMakerDataStorage.h; sourceTree = "<group>"; };
 		92BEEFCF203450C200B32059 /* AzoomeeOomeeMaker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AzoomeeOomeeMaker.h; sourceTree = "<group>"; };
 		92BEEFD02034532E00B32059 /* AzoomeeOomeeMaker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AzoomeeOomeeMaker.cpp; sourceTree = "<group>"; };
@@ -287,6 +312,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9271D7A320404C6400370120 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -310,6 +342,7 @@
 			children = (
 				1D6058910D05DD3D006BFB54 /* AzoomeeOomeeMaker-mobile.app */,
 				5087E76F17EB910900C73F5D /* AzoomeeOomeeMaker-desktop.app */,
+				9271D7A620404C6400370120 /* libAzoomeeOomeeMaker.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -373,14 +406,9 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				9271D76620372D1500370120 /* UI */,
-				92BEEFDA20347B6800B32059 /* DataObjects */,
+				9271D79C2040492C00370120 /* AzoomeeOomeeMaker */,
 				46880B8419C43A87006E1F66 /* AppDelegate.cpp */,
 				46880B8519C43A87006E1F66 /* AppDelegate.h */,
-				46880B8619C43A87006E1F66 /* HelloWorldScene.cpp */,
-				46880B8719C43A87006E1F66 /* HelloWorldScene.h */,
-				92BEEFCF203450C200B32059 /* AzoomeeOomeeMaker.h */,
-				92BEEFD02034532E00B32059 /* AzoomeeOomeeMaker.cpp */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -484,6 +512,17 @@
 			path = UI;
 			sourceTree = "<group>";
 		};
+		9271D79C2040492C00370120 /* AzoomeeOomeeMaker */ = {
+			isa = PBXGroup;
+			children = (
+				92BEEFCF203450C200B32059 /* AzoomeeOomeeMaker.h */,
+				92BEEFD02034532E00B32059 /* AzoomeeOomeeMaker.cpp */,
+				92BEEFDA20347B6800B32059 /* DataObjects */,
+				9271D76620372D1500370120 /* UI */,
+			);
+			path = AzoomeeOomeeMaker;
+			sourceTree = "<group>";
+		};
 		92BEEFDA20347B6800B32059 /* DataObjects */ = {
 			isa = PBXGroup;
 			children = (
@@ -540,6 +579,25 @@
 			productReference = 5087E76F17EB910900C73F5D /* AzoomeeOomeeMaker-desktop.app */;
 			productType = "com.apple.product-type.application";
 		};
+		9271D7A520404C6400370120 /* AzoomeeOomeeMaker */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9271D7AC20404C6400370120 /* Build configuration list for PBXNativeTarget "AzoomeeOomeeMaker" */;
+			buildPhases = (
+				9271D7A220404C6400370120 /* Sources */,
+				9271D7A320404C6400370120 /* Frameworks */,
+				9271D7C320404D8900370120 /* copy headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9271D7B220404C9D00370120 /* PBXTargetDependency */,
+				9271D7B020404C9700370120 /* PBXTargetDependency */,
+			);
+			name = AzoomeeOomeeMaker;
+			productName = libAzoomeeOomeeMaker;
+			productReference = 9271D7A620404C6400370120 /* libAzoomeeOomeeMaker.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -550,6 +608,11 @@
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = Q986XSP3A8;
+					};
+					9271D7A520404C6400370120 = {
+						CreatedOnToolsVersion = 9.1;
+						DevelopmentTeam = Q986XSP3A8;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -583,6 +646,7 @@
 			targets = (
 				1D6058900D05DD3D006BFB54 /* AzoomeeOomeeMaker-mobile */,
 				5087E73D17EB910900C73F5D /* AzoomeeOomeeMaker-desktop */,
+				9271D7A520404C6400370120 /* AzoomeeOomeeMaker */,
 			);
 		};
 /* End PBXProject section */
@@ -685,6 +749,24 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		9271D7C320404D8900370120 /* copy headers */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "copy headers";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Copy all header files from Classes directory\nHEADERS_SRC=\"${SRCROOT}/../Classes/AzoomeeOomeeMaker\"\n# Copy header files into the built products directory\nHEADERS_DEST=\"${BUILT_PRODUCTS_DIR}/include/${PRODUCT_NAME}\"\n\n# Ensure the dest directory exists\nmkdir -p \"${HEADERS_DEST}\"\n\n# Use rsync to copy files\nrsync -q --include \"*.h\" --filter 'hide,! */' -avm \"${HEADERS_SRC}/\" \"${HEADERS_DEST}/\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		1D60588E0D05DD3D006BFB54 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -695,7 +777,6 @@
 				92BEEFD12034532E00B32059 /* AzoomeeOomeeMaker.cpp in Sources */,
 				9271D778203AFEB700370120 /* ItemCategoryList.cpp in Sources */,
 				9271D774203AE3FA00370120 /* OomeeItemList.cpp in Sources */,
-				46880B8A19C43A87006E1F66 /* HelloWorldScene.cpp in Sources */,
 				92BEEFE820359D3F00B32059 /* OomeeMakerDataHandler.cpp in Sources */,
 				9271D77A203B0ED400370120 /* OomeeFigure.cpp in Sources */,
 				9271D784203D8E9B00370120 /* OomeeMakerScene.cpp in Sources */,
@@ -718,7 +799,27 @@
 			files = (
 				46880B8919C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
-				46880B8B19C43A87006E1F66 /* HelloWorldScene.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9271D7A220404C6400370120 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9271D7B320404CCA00370120 /* AzoomeeOomeeMaker.cpp in Sources */,
+				9271D7B420404CCA00370120 /* OomeeMakerDataStorage.cpp in Sources */,
+				9271D7B520404CCA00370120 /* OomeeMakerDataHandler.cpp in Sources */,
+				9271D7B620404CCA00370120 /* Oomee.cpp in Sources */,
+				9271D7B720404CCA00370120 /* ItemCategory.cpp in Sources */,
+				9271D7B820404CCA00370120 /* OomeeItem.cpp in Sources */,
+				9271D7B920404CCA00370120 /* ItemCategoryButton.cpp in Sources */,
+				9271D7BA20404CCA00370120 /* ItemCategoryList.cpp in Sources */,
+				9271D7BB20404CCA00370120 /* OomeeItemButton.cpp in Sources */,
+				9271D7BC20404CCA00370120 /* OomeeItemList.cpp in Sources */,
+				9271D7BD20404CCA00370120 /* OomeeFigure.cpp in Sources */,
+				9271D7BE20404CCA00370120 /* DragAndDropController.cpp in Sources */,
+				9271D7BF20404CCA00370120 /* OomeeMakerScene.cpp in Sources */,
+				9271D7C020404CCA00370120 /* OomeeSelectScene.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -734,6 +835,16 @@
 			isa = PBXTargetDependency;
 			name = "libcocos2d iOS";
 			targetProxy = 9220ECC720333ED500BD7A90 /* PBXContainerItemProxy */;
+		};
+		9271D7B020404C9700370120 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AzoomeeCommon;
+			targetProxy = 9271D7AF20404C9700370120 /* PBXContainerItemProxy */;
+		};
+		9271D7B220404C9D00370120 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "libcocos2d iOS";
+			targetProxy = 9271D7B120404C9D00370120 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -874,6 +985,114 @@
 			};
 			name = Release;
 		};
+		9271D7AD20404C6400370120 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = Q986XSP3A8;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		9271D7AE20404C6400370120 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = Q986XSP3A8;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -940,6 +1159,15 @@
 			buildConfigurations = (
 				5087E76D17EB910900C73F5D /* Debug */,
 				5087E76E17EB910900C73F5D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		9271D7AC20404C6400370120 /* Build configuration list for PBXNativeTarget "AzoomeeOomeeMaker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9271D7AD20404C6400370120 /* Debug */,
+				9271D7AE20404C6400370120 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

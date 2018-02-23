@@ -1,6 +1,6 @@
 #include "AppDelegate.h"
-#include "UI/OomeeMakerScene.h"
-#include "UI/OomeeSelectScene.h"
+#include "AzoomeeOomeeMaker/UI/OomeeMakerScene.h"
+#include "AzoomeeOomeeMaker/UI/OomeeSelectScene.h"
 
 USING_NS_CC;
 

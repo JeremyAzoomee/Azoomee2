@@ -11,7 +11,7 @@
 		"targetScale": 1.0,
 		"zOrder": 4,
 		"categoryId": "test",
-		"assetFilename": "res/glasses_01.png"
+		"assetFilename": "res/oomeeMaker/glasses_01.png"
 	},
 	{
 		"id": "glasses02",
@@ -23,7 +23,7 @@
 		"targetScale": 1.0,
 		"zOrder": 4,
 		"categoryId": "test",
-		"assetFilename": "res/glasses_02.png"
+		"assetFilename": "res/oomeeMaker/glasses_02.png"
 	},
 	{
 		"id": "glasses03",
@@ -35,7 +35,7 @@
 		"targetScale": 1.0,
 		"zOrder": 4,
 		"categoryId": "test",
-		"assetFilename": "res/glasses_03.png"
+		"assetFilename": "res/oomeeMaker/glasses_03.png"
 	},
 	{
 		"id": "hair01",
@@ -47,7 +47,7 @@
 		"targetScale": 1.0,
 		"zOrder": 4,
 		"categoryId": "test",
-		"assetFilename": "res/hair_01.png"
+		"assetFilename": "res/oomeeMaker/hair_01.png"
 	},
 	{
 		"id": "hair02",
@@ -59,7 +59,7 @@
 		"targetScale": 1.0,
 		"zOrder": 4,
 		"categoryId": "test",
-		"assetFilename": "res/hair_02.png"
+		"assetFilename": "res/oomeeMaker/hair_02.png"
 	},
 	{
 		"id": "hair03",
@@ -71,7 +71,7 @@
 		"targetScale": 1.0,
 		"zOrder": 4,
 		"categoryId": "test",
-		"assetFilename": "res/hair_03.png"
+		"assetFilename": "res/oomeeMaker/hair_03.png"
 	},
 	{
 		"id": "hat01",
@@ -83,7 +83,7 @@
 		"targetScale": 1.0,
 		"zOrder": 4,
 		"categoryId": "test",
-		"assetFilename": "res/hat_01.png"
+		"assetFilename": "res/oomeeMaker/hat_01.png"
 	},
 	{
 		"id": "hat02",
@@ -95,7 +95,7 @@
 		"targetScale": 1.0,
 		"zOrder": 4,
 		"categoryId": "test",
-		"assetFilename": "res/hat_02.png"
+		"assetFilename": "res/oomeeMaker/hat_02.png"
 	},
 	{
 		"id": "hat03",
@@ -107,7 +107,7 @@
 		"targetScale": 1.0,
 		"zOrder": 4,
 		"categoryId": "test",
-		"assetFilename": "res/hat_03.png"
+		"assetFilename": "res/oomeeMaker/hat_03.png"
 	},
 	{
 		"id": "necklace01",
@@ -119,7 +119,7 @@
 		"targetScale": 1.0,
 		"zOrder": 4,
 		"categoryId": "test",
-		"assetFilename": "res/necklace_01.png"
+		"assetFilename": "res/oomeeMaker/necklace_01.png"
 	},
 	{
 		"id": "necklace02",
@@ -131,7 +131,7 @@
 		"targetScale": 1.0,
 		"zOrder": 4,
 		"categoryId": "test",
-		"assetFilename": "res/necklace_02.png"
+		"assetFilename": "res/oomeeMaker/necklace_02.png"
 	},
 	{
 		"id": "necklace03",
@@ -143,7 +143,7 @@
 		"targetScale": 1.0,
 		"zOrder": 4,
 		"categoryId": "test",
-		"assetFilename": "res/necklace_03.png"
+		"assetFilename": "res/oomeeMaker/necklace_03.png"
 	},
 	{
 		"id": "trousers01",
@@ -155,7 +155,7 @@
 		"targetScale": 1.0,
 		"zOrder": 4,
 		"categoryId": "test",
-		"assetFilename": "res/trousers_01.png"
+		"assetFilename": "res/oomeeMaker/trousers_01.png"
 	}
 ]
 }

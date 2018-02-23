@@ -66,6 +66,12 @@ bool OomeeSelectScene::init()
     _contentLayer->addChild(_carousel);
     
     const std::string& searchDir = FileUtils::getInstance()->getWritablePath() + "oomeeFiles/";
+    
+    if(!FileUtils::getInstance()->isDirectoryExist(searchDir))
+    {
+        FileUtils::getInstance()->createDirectory(searchDir);
+    }
+    
     const std::vector<std::string>& createdOomeeFiles = DirectorySearcher::getInstance()->getFilesInDirectoryWithExtention(searchDir, ".png");
     
     for(std::string filename : createdOomeeFiles)
@@ -82,13 +88,21 @@ bool OomeeSelectScene::init()
         _carousel->pushBackCustomItem(button);
     }
     
-    ui::Button* exitButton = ui::Button::create();
-    exitButton->loadTextureNormal("CloseNormal.png");
-    exitButton->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
-    exitButton->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
-    exitButton->setContentSize(Size(250,250));
-    exitButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+    ui::Button* newOomeeButton = ui::Button::create();
+    newOomeeButton->loadTextureNormal("res/oomeeMaker/menu6.png");
+    newOomeeButton->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
+    newOomeeButton->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
+    newOomeeButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         this->newOomee();
+    });
+    _contentLayer->addChild(newOomeeButton);
+    
+    ui::Button* exitButton = ui::Button::create();
+    exitButton->loadTextureNormal("res/oomeeMaker/close_button.png");
+    exitButton->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+    exitButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
+    exitButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+        delegate->onOomeeMakerNavigationBack();
     });
     _contentLayer->addChild(exitButton);
     

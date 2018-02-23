@@ -1,6 +1,6 @@
 {
 	"id": "test",
-	"iconFilename": "res/btn_emotion_1.png",
+	"iconFilename": "res/oomeeMaker/btn_emotion_1.png",
 	"holidaySeasons": ["none"],
 	"scale": 1.0,
 	"highlightColour": [255,0,0,255]
