@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0200ECD2204071B6006A22AA /* MediaPlayer_ios.m in Sources */ = {isa = PBXBuildFile; fileRef = 0200ECD1204071B6006A22AA /* MediaPlayer_ios.m */; };
 		02074B271E93966D009BB28C /* WebGameAPIDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02074B251E93966D009BB28C /* WebGameAPIDataManager.cpp */; };
 		0215646F1FC4202800641C14 /* HQScene2ElementPositioner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0215646E1FC4202800641C14 /* HQScene2ElementPositioner.cpp */; };
 		021564731FC4AB8300641C14 /* HQScene2PlaceHolderCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 021564721FC4AB8300641C14 /* HQScene2PlaceHolderCreator.cpp */; };
@@ -128,11 +129,11 @@
 		521A8EAA19F11F5000D177D7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
 		52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B47A461A53D09B004E4C60 /* Security.framework */; };
 		8262943E1AAF051F00CB7CF7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8262943D1AAF051F00CB7CF7 /* Security.framework */; };
-		9220EB21201A185C00BD7A90 /* RecentlyPlayedManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EB20201A185C00BD7A90 /* RecentlyPlayedManager.cpp */; };
 		9220EAD2200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EAD1200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp */; };
 		9220EAD5200F77E200BD7A90 /* SignUpFlowController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EAD4200F77E200BD7A90 /* SignUpFlowController.cpp */; };
 		9220EAD82010C07D00BD7A90 /* IAPFlowController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EAD72010C07D00BD7A90 /* IAPFlowController.cpp */; };
 		9220EADB2010F08200BD7A90 /* AddChildFlowController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EADA2010F08200BD7A90 /* AddChildFlowController.cpp */; };
+		9220EB21201A185C00BD7A90 /* RecentlyPlayedManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EB20201A185C00BD7A90 /* RecentlyPlayedManager.cpp */; };
 		9224BFB11F7908D400108553 /* DynamicNodeButtonListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB01F7908D400108553 /* DynamicNodeButtonListener.cpp */; };
 		9224BFB41F7932D200108553 /* ButtonActionData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB31F7932D200108553 /* ButtonActionData.cpp */; };
 		9224BFB71F794BFA00108553 /* DynamicNodeHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB61F794BFA00108553 /* DynamicNodeHandler.cpp */; };
@@ -294,6 +295,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0200ECD0204071B6006A22AA /* MediaPlayer_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaPlayer_ios.h; sourceTree = "<group>"; };
+		0200ECD1204071B6006A22AA /* MediaPlayer_ios.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaPlayer_ios.m; sourceTree = "<group>"; };
 		02074B251E93966D009BB28C /* WebGameAPIDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WebGameAPIDataManager.cpp; sourceTree = "<group>"; };
 		02074B261E93966D009BB28C /* WebGameAPIDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebGameAPIDataManager.h; sourceTree = "<group>"; };
 		0215646A1FC4202700641C14 /* HQScene2ElementPositioner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQScene2ElementPositioner.h; sourceTree = "<group>"; };
@@ -475,8 +478,6 @@
 		521A8EA819F11F5000D177D7 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		52B47A461A53D09B004E4C60 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		8262943D1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		9220EB1C201A144B00BD7A90 /* RecentlyPlayedManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecentlyPlayedManager.h; sourceTree = "<group>"; };
-		9220EB20201A185C00BD7A90 /* RecentlyPlayedManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RecentlyPlayedManager.cpp; sourceTree = "<group>"; };
 		9220EACA200F5AF600BD7A90 /* DynamicNodeFlowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DynamicNodeFlowController.h; sourceTree = "<group>"; };
 		9220EAD1200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeFlowController.cpp; sourceTree = "<group>"; };
 		9220EAD3200F64A200BD7A90 /* SignUpFlowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignUpFlowController.h; sourceTree = "<group>"; };
@@ -485,6 +486,8 @@
 		9220EAD72010C07D00BD7A90 /* IAPFlowController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = IAPFlowController.cpp; sourceTree = "<group>"; };
 		9220EAD92010EC2000BD7A90 /* AddChildFlowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddChildFlowController.h; sourceTree = "<group>"; };
 		9220EADA2010F08200BD7A90 /* AddChildFlowController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AddChildFlowController.cpp; sourceTree = "<group>"; };
+		9220EB1C201A144B00BD7A90 /* RecentlyPlayedManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecentlyPlayedManager.h; sourceTree = "<group>"; };
+		9220EB20201A185C00BD7A90 /* RecentlyPlayedManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RecentlyPlayedManager.cpp; sourceTree = "<group>"; };
 		9224BFAC1F79069E00108553 /* DynamicNodeButtonListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicNodeButtonListener.h; sourceTree = "<group>"; };
 		9224BFB01F7908D400108553 /* DynamicNodeButtonListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeButtonListener.cpp; sourceTree = "<group>"; };
 		9224BFB21F79310100108553 /* ButtonActionData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonActionData.h; sourceTree = "<group>"; };
@@ -629,6 +632,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0200ECCB20407191006A22AA /* NativeMediaPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				0200ECD0204071B6006A22AA /* MediaPlayer_ios.h */,
+				0200ECD1204071B6006A22AA /* MediaPlayer_ios.m */,
+			);
+			name = NativeMediaPlayer;
+			sourceTree = "<group>";
+		};
 		02074B241E93964F009BB28C /* WebGameAPIDataManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -1017,6 +1029,7 @@
 				A1817B481DDCB74900C2D13C /* MainHubScene */,
 				A19759861DE4931600FEB03C /* HQScene */,
 				A15B2F9A1DE74F6900D25334 /* NativeWebviews */,
+				0200ECCB20407191006A22AA /* NativeMediaPlayer */,
 				A15B2FAA1DEDD13B00D25334 /* BackEndCommunication */,
 				A19862291DD383BD0090F053 /* AppDelegate.cpp */,
 				A198622A1DD383BD0090F053 /* AppDelegate.h */,
@@ -1597,6 +1610,7 @@
 				A15B2FAF1DEDD1D500D25334 /* BackEndCaller.cpp in Sources */,
 				926173A71F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp in Sources */,
 				9289DA0A1FBDD6EB00B12435 /* ContentHistoryManager.cpp in Sources */,
+				0200ECD2204071B6006A22AA /* MediaPlayer_ios.m in Sources */,
 				9220EADB2010F08200BD7A90 /* AddChildFlowController.cpp in Sources */,
 				025BE95F1E3BD1F800EF76D1 /* WebViewNativeCaller_android.cpp in Sources */,
 				D13C401B1E33A0F0002360A6 /* AwaitingAdultPinLayer.cpp in Sources */,

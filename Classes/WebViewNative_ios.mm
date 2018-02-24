@@ -2,6 +2,7 @@
 #include "BaseScene.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "WebViewController_ios.h"
+#include "MediaPlayer_ios.h"
 
 using namespace cocos2d;
 
@@ -38,7 +39,8 @@ void WebViewNative_ios::onEnterTransitionDidFinish()
 
 void WebViewNative_ios::startLoadingUrl(std::string url)
 {
-    addWebViewToScreen(url);
+    //addWebViewToScreen(url);
+    addMediaPlayerToScreen();
 }
 
 void WebViewNative_ios::removeWebViewFromScreen()
@@ -50,6 +52,20 @@ void WebViewNative_ios::reAddWebViewToScreen()
 {
     [webViewController addWebViewToScreen];
     [webViewController createButton];
+}
+
+void WebViewNative_ios::addMediaPlayerToScreen()
+{
+    UIView *currentView = (UIView*)Director::getInstance()->getOpenGLView()->getEAGLView();
+    
+    MediaPlayerController *mediaPlayer = [[MediaPlayerController alloc] init];
+    [currentView addSubview:mediaPlayer.view];
+    
+    std::string userSessionId = ChildDataProvider::getInstance()->getParentOrChildCdnSessionId();
+    std::string mediaURL = "https://tv-media.azoomee.com/netgemstream/"+userSessionId+"/distribution/gb/229a4bec-63bd-437d-abcd-6951a6e6ae99/video_stream.m3u8";
+    NSString *iosurl = [NSString stringWithCString:mediaURL.c_str() encoding:[NSString defaultCStringEncoding]];
+    
+    [mediaPlayer startBuildingMediaPlayer:iosurl];
 }
 
 void WebViewNative_ios::addWebViewToScreen(std::string url)
