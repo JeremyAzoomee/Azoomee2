@@ -119,14 +119,21 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     public static void startWebView(String url, String userid, int orientation) {
         Intent nvw;
 
-        if ((android.os.Build.MANUFACTURER.equals("Amazon") || kRemoteDebugWebViewEnabled) && (url.substring(url.length() - 4).equals("html")))
+        if (url.substring(url.length() - 4).equals("m3u8"))
         {
-            nvw = new Intent(mContext, NativeViewUI.class);
-            nvw.putExtra("remoteDebugWebViewEnabled", kRemoteDebugWebViewEnabled);
+            nvw = new Intent(mContext, NativeMediaPlayer.class);
         }
         else
         {
-            nvw = new Intent(mContext, NativeView.class);
+            if ((android.os.Build.MANUFACTURER.equals("Amazon") || kRemoteDebugWebViewEnabled) && (url.substring(url.length() - 4).equals("html")))
+            {
+                nvw = new Intent(mContext, NativeViewUI.class);
+                nvw.putExtra("remoteDebugWebViewEnabled", kRemoteDebugWebViewEnabled);
+            }
+            else
+            {
+                nvw = new Intent(mContext, NativeView.class);
+            }
         }
 
         nvw.putExtra("url", url);
