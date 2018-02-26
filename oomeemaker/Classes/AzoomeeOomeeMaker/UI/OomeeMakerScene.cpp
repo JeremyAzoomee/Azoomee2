@@ -32,8 +32,6 @@ bool OomeeMakerScene::init()
     _contentLayer->setPosition(Director::getInstance()->getVisibleOrigin());
     this->addChild(_contentLayer);
     
-    OomeeMakerDataHandler::getInstance()->getConfigFilesIfNeeded();
-    
     return true;
 }
 

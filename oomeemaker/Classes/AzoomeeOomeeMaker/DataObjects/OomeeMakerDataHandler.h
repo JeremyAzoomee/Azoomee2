@@ -18,13 +18,16 @@ NS_AZOOMEE_OM_BEGIN
 class OomeeMakerDataHandler : public FileDownloaderDelegate, public FileZipDelegate
 {
 private:
-    const std::string kBaseFolderName = "OomeeMaker/";
+    const std::string kBaseFolderName = "oomeeMaker/";
     
     FileDownloaderRef _fileDownloader = nullptr;
     OomeeMakerDataStorage* _dataStorage = nullptr;
     
     void getPackageJson();
     void getConfigDataZip();
+    
+    void unzipBundledAssets();
+    void removeExistingAssets();
     
     void parseOomeeData();
     void parseCategoryData();
@@ -39,9 +42,14 @@ public:
     
     void getConfigFilesIfNeeded();
     
+    std::string getFullSaveDir() const;
+    std::string getLocalSaveDir() const;
+    std::string getAssetDir() const;
+    
     // Delegate functions
     void onAsyncUnzipComplete(bool success, const std::string& zipPath, const std::string& dirpath);
     void onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode);
+    
 };
 
 NS_AZOOMEE_OM_END

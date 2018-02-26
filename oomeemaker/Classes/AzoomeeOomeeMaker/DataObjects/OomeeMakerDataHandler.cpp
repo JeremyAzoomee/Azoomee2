@@ -6,6 +6,10 @@
 //
 
 #include "OomeeMakerDataHandler.h"
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/UI/ModalMessages.h>
+
+using namespace cocos2d;
 
 NS_AZOOMEE_OM_BEGIN
 
@@ -33,10 +37,21 @@ void OomeeMakerDataHandler::init()
 
 void OomeeMakerDataHandler::getConfigFilesIfNeeded()
 {
-    OomeeMakerDataStorage::getInstance()->clearAllData();
-    parseOomeeData();
-    parseCategoryData();
-    parseOomeeItemData();
+    removeExistingAssets();
+    unzipBundledAssets();
+}
+
+void OomeeMakerDataHandler::removeExistingAssets()
+{
+    if(FileUtils::getInstance()->isDirectoryExist(getAssetDir() + "assets"))
+    {
+        FileUtils::getInstance()->removeDirectory(getAssetDir() + "assets");
+    }
+    
+    if(FileUtils::getInstance()->isDirectoryExist(getAssetDir() + "configs"))
+    {
+        FileUtils::getInstance()->removeDirectory(getAssetDir() + "configs");
+    }
 }
 
 void OomeeMakerDataHandler::getPackageJson()
@@ -56,7 +71,7 @@ void OomeeMakerDataHandler::parseOomeeData()
     for(const std::string& filename : oomeeConfigs)
     {
         rapidjson::Document oomeeConfig;
-        oomeeConfig.Parse(cocos2d::FileUtils::getInstance()->getStringFromFile(filename).c_str());
+        oomeeConfig.Parse(cocos2d::FileUtils::getInstance()->getStringFromFile(getAssetDir() + filename).c_str());
         if(!oomeeConfig.HasParseError())
         {
             const OomeeRef& oomee = Oomee::createWithData(oomeeConfig);
@@ -71,7 +86,7 @@ void OomeeMakerDataHandler::parseCategoryData()
     for(const std::string& filename : catConfigs)
     {
         rapidjson::Document catConfig;
-        catConfig.Parse(cocos2d::FileUtils::getInstance()->getStringFromFile(filename).c_str());
+        catConfig.Parse(cocos2d::FileUtils::getInstance()->getStringFromFile(getAssetDir() + filename).c_str());
         if(!catConfig.HasParseError())
         {
             const ItemCategoryRef& category = ItemCategory::createWithData(catConfig);
@@ -86,7 +101,7 @@ void OomeeMakerDataHandler::parseOomeeItemData()
     for(const std::string& filename : itemConfigs)
     {
         rapidjson::Document itemConfig;
-        itemConfig.Parse(cocos2d::FileUtils::getInstance()->getStringFromFile(filename).c_str());
+        itemConfig.Parse(cocos2d::FileUtils::getInstance()->getStringFromFile(getAssetDir() + filename).c_str());
         if(!itemConfig.HasParseError())
         {
             if(itemConfig.HasMember("items") && itemConfig["items"].IsArray())
@@ -105,7 +120,7 @@ void OomeeMakerDataHandler::parseOomeeItemData()
 std::vector<std::string> OomeeMakerDataHandler::getConfigFilesForType(const std::string& listType) const
 {
     rapidjson::Document configFilesList;
-    configFilesList.Parse(cocos2d::FileUtils::getInstance()->getStringFromFile("res/oomeeMaker/configFileLists.json").c_str());
+    configFilesList.Parse(cocos2d::FileUtils::getInstance()->getStringFromFile(getAssetDir() + "configs/configFileLists.json").c_str());
     if(configFilesList.HasParseError())
     {
         return std::vector<std::string>();
@@ -114,10 +129,66 @@ std::vector<std::string> OomeeMakerDataHandler::getConfigFilesForType(const std:
     return getStringArrayFromJson(configFilesList[listType.c_str()]);
 }
 
+void OomeeMakerDataHandler::unzipBundledAssets()
+{
+    ModalMessages::getInstance()->startLoading();
+    const std::string& basePath = getAssetDir();
+    const std::string& targetPath = "res/oomeeMaker/oomeeMakerAssets.zip";
+    const std::string& destinationPath = basePath + "oomeeMakerAssets.zip";
+    const std::string& zipFile = FileUtils::getInstance()->getStringFromFile(targetPath);
+    
+    FileUtils::getInstance()->writeStringToFile(zipFile, destinationPath);
+    
+    FileZipUtil::getInstance()->asyncUnzip(destinationPath,basePath, "", this);
+}
+
+std::string OomeeMakerDataHandler::getFullSaveDir() const
+{
+    const std::string& assetDir = getAssetDir();
+#ifdef STANDALONE_APP
+    const std::string& searchDir =  assetDir + "user/";
+#else
+    const std::string& searchDir =  assetDir + ChildDataProvider::getInstance()->getParentOrChildId() + "/";
+#endif
+    
+    if(!FileUtils::getInstance()->isDirectoryExist(searchDir))
+    {
+        FileUtils::getInstance()->createDirectory(searchDir);
+    }
+    
+    return searchDir;
+}
+
+std::string OomeeMakerDataHandler::getLocalSaveDir() const
+{
+#ifdef STANDALONE_APP
+    return kBaseFolderName + "user/";
+#else
+    return kBaseFolderName + ChildDataProvider::getInstance()->getParentOrChildId() + "/";
+#endif
+}
+
+std::string OomeeMakerDataHandler::getAssetDir() const
+{
+    const std::string& assetDir = FileUtils::getInstance()->getWritablePath() + kBaseFolderName;
+    
+    if(!FileUtils::getInstance()->isDirectoryExist(assetDir))
+    {
+        FileUtils::getInstance()->createDirectory(assetDir);
+    }
+    
+    return assetDir;
+}
+
 // Delegate functions
 void OomeeMakerDataHandler::onAsyncUnzipComplete(bool success, const std::string& zipPath, const std::string& dirpath)
 {
-    
+    FileUtils::getInstance()->removeFile(zipPath);
+    OomeeMakerDataStorage::getInstance()->clearAllData();
+    parseOomeeData();
+    parseCategoryData();
+    parseOomeeItemData();
+    ModalMessages::getInstance()->stopLoading();
 }
 
 void OomeeMakerDataHandler::onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode)

@@ -6,6 +6,7 @@
 //
 
 #include "ItemCategoryButton.h"
+#include "../DataObjects/OomeeMakerDataHandler.h"
 
 using namespace cocos2d;
 
@@ -14,7 +15,7 @@ NS_AZOOMEE_OM_BEGIN
 void ItemCategoryButton::setCategoryData(const ItemCategoryRef& categoryData)
 {
     _categoryData = categoryData;
-    loadTextureNormal(_categoryData->getIconFilename());
+    loadTextureNormal(OomeeMakerDataHandler::getInstance()->getAssetDir() + _categoryData->getIconFilename());
     addTouchEventListener([this](Ref*, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {

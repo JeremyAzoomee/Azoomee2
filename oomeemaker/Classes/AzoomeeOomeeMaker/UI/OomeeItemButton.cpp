@@ -7,6 +7,7 @@
 
 #include "OomeeItemButton.h"
 #include "DragAndDropController.h"
+#include "../DataObjects/OomeeMakerDataHandler.h"
 
 using namespace cocos2d;
 
@@ -15,7 +16,7 @@ NS_AZOOMEE_OM_BEGIN
 void OomeeItemButton::setItemData(const OomeeItemRef& itemdata)
 {
     _itemData = itemdata;
-    loadTextureNormal(_itemData->getAssetName());
+    loadTextureNormal(OomeeMakerDataHandler::getInstance()->getAssetDir() + _itemData->getAssetName());
     setScale(_itemData->getMenuScale());
     
     addTouchEventListener([this](Ref*, ui::Widget::TouchEventType eType){

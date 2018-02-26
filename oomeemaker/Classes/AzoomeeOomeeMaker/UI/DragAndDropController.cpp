@@ -6,6 +6,7 @@
 //
 
 #include "DragAndDropController.h"
+#include "../DataObjects/OomeeMakerDataHandler.h"
 
 using namespace cocos2d;
 
@@ -99,7 +100,7 @@ void DragAndDropController::setItemData(const OomeeItemRef& data)
     {
         _itemSprite->removeFromParent();
     }
-    _itemSprite = Sprite::create(_itemData->getAssetName());
+    _itemSprite = Sprite::create(OomeeMakerDataHandler::getInstance()->getAssetDir() + _itemData->getAssetName());
     _itemSprite->setScale(_itemData->getDragScale());
     _itemSprite->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     

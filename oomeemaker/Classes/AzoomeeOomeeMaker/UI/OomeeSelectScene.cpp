@@ -9,6 +9,7 @@
 #include "OomeeMakerScene.h"
 #include "../DataObjects/OomeeMakerDataHandler.h"
 #include <AzoomeeCommon/Utils/DirectorySearcher.h>
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 
 using namespace cocos2d;
 
@@ -24,6 +25,8 @@ void OomeeSelectScene::editOomee(const std::string& oomeeFileName)
 void OomeeSelectScene::newOomee()
 {
     OomeeMakerScene* makerScene = OomeeMakerScene::create();
+    
+    // use func in timefunctions.h when merge in master
     std::string saveFileName;
     auto t = std::time(nullptr);
     auto tm = *std::localtime(&t);
@@ -32,7 +35,7 @@ void OomeeSelectScene::newOomee()
     oss << tm.tm_mday << tm.tm_mon << tm.tm_year << tm.tm_hour << tm.tm_min << tm.tm_sec;
     auto fileNameStr = oss.str();
         
-    saveFileName = "oomeeFiles/" + fileNameStr;
+    saveFileName = OomeeMakerDataHandler::getInstance()->getLocalSaveDir() + fileNameStr;
     
     makerScene->setFilename(saveFileName);
     Director::getInstance()->replaceScene(makerScene);
@@ -52,8 +55,6 @@ bool OomeeSelectScene::init()
     _contentLayer->setPosition(Director::getInstance()->getVisibleOrigin());
     this->addChild(_contentLayer);
     
-    OomeeMakerDataHandler::getInstance()->getConfigFilesIfNeeded();
-    
     _carousel = ui::ListView::create();
     _carousel->setContentSize(_contentLayer->getContentSize() * 0.7f);
     _carousel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -65,24 +66,17 @@ bool OomeeSelectScene::init()
     
     _contentLayer->addChild(_carousel);
     
-    const std::string& searchDir = FileUtils::getInstance()->getWritablePath() + "oomeeFiles/";
-    
-    if(!FileUtils::getInstance()->isDirectoryExist(searchDir))
-    {
-        FileUtils::getInstance()->createDirectory(searchDir);
-    }
-    
-    const std::vector<std::string>& createdOomeeFiles = DirectorySearcher::getInstance()->getFilesInDirectoryWithExtention(searchDir, ".png");
+    const std::vector<std::string>& createdOomeeFiles = DirectorySearcher::getInstance()->getFilesInDirectoryWithExtention(OomeeMakerDataHandler::getInstance()->getFullSaveDir(), ".png");
     
     for(std::string filename : createdOomeeFiles)
     {
-        std::string trimmedFilename = filename.substr(0,filename.size() - 4);
-        ui::Button* button = ui::Button::create(searchDir + filename);
+        std::string trimmedFilename = filename.substr(0,filename.size() - 4); //parse filename without file extention
+        ui::Button* button = ui::Button::create(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + filename);
         button->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType)
         {
             if(eType == ui::Widget::TouchEventType::ENDED)
             {
-                this->editOomee("oomeeFiles/" + trimmedFilename);
+                this->editOomee(OomeeMakerDataHandler::getInstance()->getLocalSaveDir() + trimmedFilename);
             }
         });
         _carousel->pushBackCustomItem(button);
@@ -102,7 +96,14 @@ bool OomeeSelectScene::init()
     exitButton->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
     exitButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
     exitButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
-        delegate->onOomeeMakerNavigationBack();
+        if(delegate)
+        {
+            delegate->onOomeeMakerNavigationBack();
+        }
+        else
+        {
+            exit(EXIT_SUCCESS);
+        }
     });
     _contentLayer->addChild(exitButton);
     
@@ -117,6 +118,8 @@ void OomeeSelectScene::onEnter()
 void OomeeSelectScene::onEnterTransitionDidFinish()
 {
     Super::onEnterTransitionDidFinish();
+    
+    OomeeMakerDataHandler::getInstance()->getConfigFilesIfNeeded();
 }
 
 NS_AZOOMEE_OM_END

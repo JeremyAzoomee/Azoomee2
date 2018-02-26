@@ -8,6 +8,7 @@
 #include "OomeeFigure.h"
 #include "DragAndDropController.h"
 #include "../DataObjects/OomeeMakerDataStorage.h"
+#include "../DataObjects/OomeeMakerDataHandler.h"
 
 using namespace cocos2d;
 
@@ -119,10 +120,12 @@ void OomeeFigure::setOomeeData(const OomeeRef& oomeeData)
     
     if(_baseSprite)
     {
+        //process transition of accessories here
+        
         _baseSprite->removeFromParent();
     }
     
-    _baseSprite = Sprite::create(_oomeeData->getAssetName());
+    _baseSprite = Sprite::create(OomeeMakerDataHandler::getInstance()->getAssetDir() + _oomeeData->getAssetName());
     _baseSprite->setNormalizedPosition(_oomeeData->getPosition());
     _baseSprite->setScale(_oomeeData->getScale());
     this->addChild(_baseSprite);
@@ -149,7 +152,7 @@ void OomeeFigure::addAccessory(const OomeeItemRef& oomeeItem)
     {
         removeAccessory(oomeeItem->getTargetAnchor());
         _accessoryData[oomeeItem->getTargetAnchor()] = oomeeItem;
-        Sprite* item = Sprite::create(oomeeItem->getAssetName());
+        Sprite* item = Sprite::create(OomeeMakerDataHandler::getInstance()->getAssetDir() + oomeeItem->getAssetName());
         const Size& baseSpriteSize = _baseSprite->getContentSize();
         const Vec2& anchorPoint = _oomeeData->getAnchorPoints()[oomeeItem->getTargetAnchor()];
         item->setPosition(Vec2(baseSpriteSize.width * anchorPoint.x, baseSpriteSize.height * anchorPoint.y) + oomeeItem->getOffset());
