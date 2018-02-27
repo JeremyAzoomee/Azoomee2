@@ -32,8 +32,6 @@ DragAndDropController::~DragAndDropController(void)
 void DragAndDropController::init()
 {
     _listenerTargetNode = Node::create();
-    //_listenerTargetNode->retain();
-    _touchListener = EventListenerTouchOneByOne::create();
     
     _touchListener = EventListenerTouchOneByOne::create();
     _touchListener->onTouchBegan = [&](Touch* touch, Event* event)
@@ -88,8 +86,6 @@ void DragAndDropController::init()
     };
     
     _touchListener->onTouchCancelled = _touchListener->onTouchEnded;
-    
-    //_touchListener->retain();
     
 }
 

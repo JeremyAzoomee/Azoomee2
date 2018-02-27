@@ -7,6 +7,7 @@
 
 #include "OomeeSelectScene.h"
 #include "OomeeMakerScene.h"
+#include "OomeeCarousel.h"
 #include "../DataObjects/OomeeMakerDataHandler.h"
 #include <AzoomeeCommon/Utils/DirectorySearcher.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
@@ -54,7 +55,7 @@ bool OomeeSelectScene::init()
     _contentLayer->setContentSize(Director::getInstance()->getVisibleSize());
     _contentLayer->setPosition(Director::getInstance()->getVisibleOrigin());
     this->addChild(_contentLayer);
-    
+    /*
     _carousel = ui::ListView::create();
     _carousel->setContentSize(_contentLayer->getContentSize() * 0.7f);
     _carousel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -65,12 +66,12 @@ bool OomeeSelectScene::init()
     _carousel->setItemsMargin(50.0f);
     
     _contentLayer->addChild(_carousel);
-    
+    */
     const std::vector<std::string>& createdOomeeFiles = DirectorySearcher::getInstance()->getFilesInDirectoryWithExtention(OomeeMakerDataHandler::getInstance()->getFullSaveDir(), ".png");
-    
+    std::vector<std::string> fullFilenames;
     for(std::string filename : createdOomeeFiles)
     {
-        std::string trimmedFilename = filename.substr(0,filename.size() - 4); //parse filename without file extention
+        /*std::string trimmedFilename = filename.substr(0,filename.size() - 4); //parse filename without file extention
         ui::Button* button = ui::Button::create(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + filename);
         button->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType)
         {
@@ -79,8 +80,17 @@ bool OomeeSelectScene::init()
                 this->editOomee(OomeeMakerDataHandler::getInstance()->getLocalSaveDir() + trimmedFilename);
             }
         });
-        _carousel->pushBackCustomItem(button);
+        _carousel->pushBackCustomItem(button);*/
+        fullFilenames.push_back(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + filename);
     }
+    
+    OomeeCarousel* oomeeCarousel = OomeeCarousel::create();
+    oomeeCarousel->setContentSize(_contentLayer->getContentSize() * 0.95);
+    oomeeCarousel->setVisibleRange(MIN(MAX(1,fullFilenames.size() * 0.75), 7));
+    oomeeCarousel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    oomeeCarousel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    oomeeCarousel->setOomeeData(fullFilenames);
+    _contentLayer->addChild(oomeeCarousel);
     
     ui::Button* newOomeeButton = ui::Button::create();
     newOomeeButton->loadTextureNormal("res/oomeeMaker/menu6.png");

@@ -63,6 +63,8 @@
 		9271D7BE20404CCA00370120 /* DragAndDropController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D77F203C51A000370120 /* DragAndDropController.cpp */; };
 		9271D7BF20404CCA00370120 /* OomeeMakerScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D783203D8E9B00370120 /* OomeeMakerScene.cpp */; };
 		9271D7C020404CCA00370120 /* OomeeSelectScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D786203DBE5C00370120 /* OomeeSelectScene.cpp */; };
+		9271D8092045A26800370120 /* OomeeCarousel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D8082045A26800370120 /* OomeeCarousel.cpp */; };
+		9271D80A2045AD6100370120 /* OomeeCarousel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D8082045A26800370120 /* OomeeCarousel.cpp */; };
 		92BEEFD12034532E00B32059 /* AzoomeeOomeeMaker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BEEFD02034532E00B32059 /* AzoomeeOomeeMaker.cpp */; };
 		92BEEFE020359C5500B32059 /* Oomee.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BEEFDF20359C5500B32059 /* Oomee.cpp */; };
 		92BEEFE220359C7800B32059 /* ItemCategory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BEEFE120359C7800B32059 /* ItemCategory.cpp */; };
@@ -233,6 +235,8 @@
 		9271D7D62044209000370120 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		9271D7DA2044216200370120 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.1.sdk/System/Library/Frameworks/WebKit.framework; sourceTree = DEVELOPER_DIR; };
 		9271D7DC2044228200370120 /* AirshipKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AirshipKit.framework; path = ../../common/proj.ios_mac/Carthage/Build/iOS/AirshipKit.framework; sourceTree = "<group>"; };
+		9271D8022045910200370120 /* OomeeCarousel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OomeeCarousel.h; sourceTree = "<group>"; };
+		9271D8082045A26800370120 /* OomeeCarousel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeCarousel.cpp; sourceTree = "<group>"; };
 		92BEEFC72034502F00B32059 /* OomeeMakerDataStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OomeeMakerDataStorage.h; sourceTree = "<group>"; };
 		92BEEFCF203450C200B32059 /* AzoomeeOomeeMaker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AzoomeeOomeeMaker.h; sourceTree = "<group>"; };
 		92BEEFD02034532E00B32059 /* AzoomeeOomeeMaker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AzoomeeOomeeMaker.cpp; sourceTree = "<group>"; };
@@ -479,6 +483,8 @@
 				9271D783203D8E9B00370120 /* OomeeMakerScene.cpp */,
 				9271D782203D85BC00370120 /* OomeeSelectScene.h */,
 				9271D786203DBE5C00370120 /* OomeeSelectScene.cpp */,
+				9271D8022045910200370120 /* OomeeCarousel.h */,
+				9271D8082045A26800370120 /* OomeeCarousel.cpp */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -720,6 +726,7 @@
 				92BEEFE820359D3F00B32059 /* OomeeMakerDataHandler.cpp in Sources */,
 				9271D77A203B0ED400370120 /* OomeeFigure.cpp in Sources */,
 				9271D784203D8E9B00370120 /* OomeeMakerScene.cpp in Sources */,
+				9271D8092045A26800370120 /* OomeeCarousel.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				92BEEFE620359CA600B32059 /* OomeeMakerDataStorage.cpp in Sources */,
@@ -749,6 +756,7 @@
 				9271D7BC20404CCA00370120 /* OomeeItemList.cpp in Sources */,
 				9271D7BD20404CCA00370120 /* OomeeFigure.cpp in Sources */,
 				9271D7BE20404CCA00370120 /* DragAndDropController.cpp in Sources */,
+				9271D80A2045AD6100370120 /* OomeeCarousel.cpp in Sources */,
 				9271D7BF20404CCA00370120 /* OomeeMakerScene.cpp in Sources */,
 				9271D7C020404CCA00370120 /* OomeeSelectScene.cpp in Sources */,
 			);
