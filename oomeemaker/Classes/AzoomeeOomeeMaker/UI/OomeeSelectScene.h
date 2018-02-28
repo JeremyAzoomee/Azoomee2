@@ -24,8 +24,7 @@ private:
     std::map<std::string, OomeeFigure*> _createdOomees;
     cocos2d::ui::ListView* _carousel;
     
-    void editOomee(const std::string& oomeeFileName);
-    void newOomee();
+    
     
 public:
     
@@ -35,6 +34,8 @@ public:
     
     CREATE_FUNC(OomeeSelectScene);
     
+    static void editOomee(const std::string& oomeeFileName);
+    static void newOomee();
 };
 
 NS_AZOOMEE_OM_END

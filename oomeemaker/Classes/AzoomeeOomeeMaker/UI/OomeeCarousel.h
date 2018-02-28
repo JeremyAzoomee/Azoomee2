@@ -22,6 +22,7 @@ private:
     std::vector<cocos2d::ui::Button*> _carouselButtons;
     int _currentIndex = 0;
     int _visibleRange = 3;
+    float _spacing = 0.0f;
     
     cocos2d::ClippingRectangleNode* _contentNode = nullptr;
     
@@ -30,10 +31,15 @@ private:
     
     void setTouchListener();
     
+    void centerButtons();
+    void rotateButtonsLeft();
+    void rotateButtonsRight();
+    
 public:
     virtual bool init() override;
     virtual void onEnter() override;
     virtual void setContentSize(const cocos2d::Size& contentSize) override;
+    virtual void update(float deltaT) override;
     
     void setOomeeData(const std::vector<std::string>& oomeeFilenames);
     void setVisibleRange(int visibleRange);

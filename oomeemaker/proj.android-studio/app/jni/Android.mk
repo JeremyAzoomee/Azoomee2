@@ -2,33 +2,34 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
-$(call import-add-path,$(LOCAL_PATH)/../../../cocos2d)
-$(call import-add-path,$(LOCAL_PATH)/../../../cocos2d/external)
-$(call import-add-path,$(LOCAL_PATH)/../../../cocos2d/cocos)
-$(call import-add-path,$(LOCAL_PATH)/../../../cocos2d/cocos/audio/include)
+$(call import-add-path, $(LOCAL_PATH)/../../../cocos2d)
+$(call import-add-path, $(LOCAL_PATH)/../../../common/proj.android-studio)
+$(call import-add-path, $(LOCAL_PATH)/../..)
 
-LOCAL_MODULE := MyGame_shared
+LOCAL_MODULE := AzoomeeOomeeMaker_shared
 
-LOCAL_MODULE_FILENAME := libMyGame
+LOCAL_MODULE_FILENAME := libAzoomeeOomeeMakerApp
 
-LOCAL_SRC_FILES := hellocpp/main.cpp \
-                   ../../../Classes/AppDelegate.cpp \
-                   ../../../Classes/HelloWorldScene.cpp
+define find-src-files
+	$(patsubst ./%, %, \
+  		$(shell cd $(LOCAL_PATH) ; \
+        	find $(1) -name "*.cpp" -and -not -name ".*" -and -not -name "_ios.*" | grep -vF $(2) \
+        ) \
+ 	)
+endef
+# Which files to exclude from compile?
+EXCLUDE_FILES := ../../../Classes/AzoomeeOomeeMaker/
 
-LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
-
-# _COCOS_HEADER_ANDROID_BEGIN
-# _COCOS_HEADER_ANDROID_END
-
+# Collect all source files to compile
+LOCAL_SRC_FILES := $(call find-src-files, ../../../Classes, $(EXCLUDE_FILES))
+LOCAL_SRC_FILES += main.cpp
 
 LOCAL_STATIC_LIBRARIES := cocos2dx_static
-
-# _COCOS_LIB_ANDROID_BEGIN
-# _COCOS_LIB_ANDROID_END
+LOCAL_STATIC_LIBRARIES += azoomee_common
+LOCAL_STATIC_LIBRARIES += azoomee_oomeemaker
 
 include $(BUILD_SHARED_LIBRARY)
 
-$(call import-module,.)
-
-# _COCOS_LIB_IMPORT_ANDROID_BEGIN
-# _COCOS_LIB_IMPORT_ANDROID_END
+$(call import-module, cocos)
+$(call import-module, azoomee_common/jni)
+$(call import-module, azoomee_oomeemaker/jni)

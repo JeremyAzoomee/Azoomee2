@@ -6,7 +6,7 @@
 //
 
 #include "OomeeMakerScene.h"
-#include "OomeeMakerDataHandler.h"
+#include "../DataObjects/OomeeMakerDataHandler.h"
 #include "OomeeItemList.h"
 #include "ItemCategoryList.h"
 #include "OomeeFigure.h"
