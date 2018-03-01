@@ -16,6 +16,8 @@ void ItemCategoryButton::setCategoryData(const ItemCategoryRef& categoryData)
 {
     _categoryData = categoryData;
     loadTextureNormal(OomeeMakerDataHandler::getInstance()->getAssetDir() + _categoryData->getIconFilename());
+    setMainImage(OomeeMakerDataHandler::getInstance()->getAssetDir() + _categoryData->getIconFilename());
+    setPlaceholderImage("res/chat/ui/avatar/avatar_background.png");
     addTouchEventListener([this](Ref*, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {

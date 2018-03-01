@@ -10,14 +10,15 @@
 
 #include "../AzoomeeOomeeMaker.h"
 #include "../DataObjects/ItemCategory.h"
+#include <AzoomeeCommon/UI/LazyLoadingButton.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 
 NS_AZOOMEE_OM_BEGIN
 
-class ItemCategoryButton : public cocos2d::ui::Button
+class ItemCategoryButton : public LazyLoadingButton
 {
-    typedef cocos2d::ui::Button Super;
+    typedef LazyLoadingButton Super;
     typedef std::function<void(const ItemCategoryRef&)> ItemSelectedCallback;
 private:
     ItemCategoryRef _categoryData;

@@ -9,6 +9,7 @@
 #define OomeeCarousel_h
 
 #include "../AzoomeeOomeeMaker.h"
+#include <AzoomeeCommon/UI/LazyLoadingButton.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 
@@ -19,15 +20,15 @@ class OomeeCarousel : public cocos2d::Node
     typedef cocos2d::Node Super;
 private:
     std::vector<std::string> _oomeeData;
-    std::vector<cocos2d::ui::Button*> _carouselButtons;
+    std::vector<LazyLoadingButton*> _carouselButtons;
     int _currentIndex = 0;
     int _visibleRange = 3;
     float _spacing = 0.0f;
     
     cocos2d::ClippingRectangleNode* _contentNode = nullptr;
     
-    cocos2d::ui::Button* _leftMostButton = nullptr;
-    cocos2d::ui::Button* _rightMostButton = nullptr;
+    LazyLoadingButton* _leftMostButton = nullptr;
+    LazyLoadingButton* _rightMostButton = nullptr;
     
     void setTouchListener();
     

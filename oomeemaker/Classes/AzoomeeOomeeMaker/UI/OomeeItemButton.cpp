@@ -17,6 +17,8 @@ void OomeeItemButton::setItemData(const OomeeItemRef& itemdata)
 {
     _itemData = itemdata;
     loadTextureNormal(OomeeMakerDataHandler::getInstance()->getAssetDir() + _itemData->getAssetName());
+    setMainImage(OomeeMakerDataHandler::getInstance()->getAssetDir() + _itemData->getAssetName());
+    setPlaceholderImage("res/chat/ui/avatar/contact_inknown_icon.png");
     setScale(_itemData->getMenuScale());
     
     addTouchEventListener([this](Ref*, ui::Widget::TouchEventType eType){

@@ -20,6 +20,7 @@ void OomeeItemList::doLayout()
 void OomeeItemList::interceptTouchEvent(cocos2d::ui::Widget::TouchEventType event, cocos2d::ui::Widget *sender, cocos2d::Touch* touch)
 {
     // use this to handle touch on buttons if we have mutiple columns
+    forceDoLayout();
 }
 
 void OomeeItemList::setItems(const std::vector<OomeeItemRef>& itemList)

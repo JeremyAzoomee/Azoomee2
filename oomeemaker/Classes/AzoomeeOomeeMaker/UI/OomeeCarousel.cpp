@@ -47,7 +47,7 @@ void OomeeCarousel::setTouchListener()
     EventListenerTouchOneByOne* listener = EventListenerTouchOneByOne::create();
     listener->onTouchBegan = [&](Touch* touch, Event* event)
     {
-        for(ui::Button* button : _carouselButtons)
+        for(LazyLoadingButton* button : _carouselButtons)
         {
             button->stopAllActions();
         }
@@ -56,7 +56,7 @@ void OomeeCarousel::setTouchListener()
     
     listener->onTouchMoved = [&](Touch* touch, Event* event)
     {
-        for(ui::Button* button : _carouselButtons)
+        for(LazyLoadingButton* button : _carouselButtons)
         {
             button->setPosition(button->getPosition() + Vec2(touch->getDelta().x,0));
         }
@@ -91,7 +91,9 @@ void OomeeCarousel::setOomeeData(const std::vector<std::string>& oomeeFilenames)
     for(int i = 0; i < oomeeFilenames.size(); i++)
     {
         const std::string assetName = OomeeMakerDataHandler::getInstance()->getFullSaveDir() + oomeeFilenames.at(i) + ".png";
-        ui::Button* button = ui::Button::create(assetName);
+        LazyLoadingButton* button = LazyLoadingButton::create();
+        button->setMainImage(assetName);
+        button->setPlaceholderImage("res/childSelection/om_Blue.png");
         button->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         button->setPosition(Vec2(_spacing * i, this->getContentSize().height / 2.0f));
         button->setSwallowTouches(false);
@@ -128,20 +130,20 @@ void OomeeCarousel::centerButtons()
 {
     float minDist = FLT_MAX;
     Vec2 moveVector = Vec2(0,0);
-    for(ui::Button* button : _carouselButtons)
+    for(LazyLoadingButton* button : _carouselButtons)
     {
-        Vec2 buttonCenterPos = button->getPosition();// + button->getContentSize() / 2.0f;
-        float dist = buttonCenterPos.distance(this->getPosition());
+        //Vec2 buttonCenterPos = button->getPosition();// + button->getContentSize() / 2.0f;
+        float dist = abs(button->getPosition().x - this->getPosition().x);//buttonCenterPos.distance(this->getPosition());
         if(dist < minDist)
         {
             minDist = dist;
-            moveVector = this->getPosition() - buttonCenterPos;
+            moveVector.x = this->getPosition().x - button->getPosition().x;
         }
     }
     
     Action* action = EaseBackOut::create(MoveBy::create(moveVector.length()/(this->getContentSize().width / 2), moveVector));
     
-    for(ui::Button* button : _carouselButtons)
+    for(LazyLoadingButton* button : _carouselButtons)
     {
         button->runAction(action->clone());
     }
@@ -152,7 +154,7 @@ void OomeeCarousel::rotateButtonsRight()
 {
     for(int i = 0; i < _carouselButtons.size(); i++)
     {
-        ui::Button* button = _carouselButtons.at(i);
+        LazyLoadingButton* button = _carouselButtons.at(i);
         if(button->getPosition().x > this->getPosition().x + (_spacing * (_visibleRange/2.0f)))
         {
             if(button == _rightMostButton)
@@ -169,7 +171,7 @@ void OomeeCarousel::rotateButtonsLeft()
 {
     for(int i = 0; i < _carouselButtons.size(); i++)
     {
-        ui::Button* button = _carouselButtons.at(i);
+        LazyLoadingButton* button = _carouselButtons.at(i);
         if(button->getPosition().x < this->getPosition().x - (_spacing * (_visibleRange/2.0f)))
         {
             if(button == _leftMostButton)
@@ -184,13 +186,15 @@ void OomeeCarousel::rotateButtonsLeft()
 
 void OomeeCarousel::update(float deltaT)
 {
-    for(ui::Button* button : _carouselButtons)
+    for(LazyLoadingButton* button : _carouselButtons)
     {
         Vec2 buttonCenterPos = button->getPosition();// + button->getContentSize() / 2.0f;
-        float dist = buttonCenterPos.distance(this->getPosition());
+        float dist = abs(button->getPosition().x - this->getPosition().x);
         float relativeDist = dist / (this->getContentSize().width / 2.0f);
         button->setScale(MAX(0.1,1.2 - relativeDist));
         button->setOpacity(MAX(0,255 - (255 * relativeDist)));
+        button->setPositionY(this->getContentSize().height/2 + this->getContentSize().height/5 * (relativeDist * relativeDist));
+        
     }
     
     Super::update(deltaT);
