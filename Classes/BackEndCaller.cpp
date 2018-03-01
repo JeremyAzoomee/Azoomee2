@@ -36,6 +36,8 @@
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "GooglePaymentSingleton.h"
 #include "AmazonPaymentSingleton.h"
+#include "platform/android/jni/JniHelper.h"
+static const std::string kAzoomeeActivityJavaClassName = "org/cocos2dx/cpp/AppActivity";
 #endif
 
 using namespace cocos2d;
@@ -310,6 +312,12 @@ void BackEndCaller::onGetGordonAnswerReceived(const std::string& responseString)
     {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
     }
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    
+    JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "startAndroidReviewProcess");
+    
+#endif
 }
 
 //REGISTER PARENT---------------------------------------------------------------------------
