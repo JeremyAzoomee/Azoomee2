@@ -318,6 +318,10 @@ void BackEndCaller::onGetGordonAnswerReceived(const std::string& responseString)
     JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "startAndroidReviewProcess");
     
 #endif
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    IosNativeFunctionsSingleton::getInstance()->startIosReviewProcess();
+#endif
 }
 
 //REGISTER PARENT---------------------------------------------------------------------------
