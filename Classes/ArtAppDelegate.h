@@ -25,6 +25,11 @@ public:
     virtual void onArtAppShareImage() override;
     virtual std::string getFileName() const override;
     virtual void setFileName(const std::string& fileName) override;
+    void setSecondsSpentInArtApp(long seconds) override;
+    long getSecondsSpentInArtApp();
+    
+private:
+    long _secondsSpentInArtApp = 0;
     
 };
 

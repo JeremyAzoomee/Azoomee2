@@ -19,6 +19,7 @@ private:
     DrawingCanvas* _drawingCanvas = nullptr;
     DrawingCanvasUILayer* _uiLayer = nullptr;
     std::string _fileName;
+    long _timeStampOnAppStart = 0;
     
     void saveFile();
 public:

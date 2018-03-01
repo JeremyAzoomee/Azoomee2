@@ -312,16 +312,6 @@ void BackEndCaller::onGetGordonAnswerReceived(const std::string& responseString)
     {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
     }
-    
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    
-    JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "startAndroidReviewProcess");
-    
-#endif
-    
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    IosNativeFunctionsSingleton::getInstance()->startIosReviewProcess();
-#endif
 }
 
 //REGISTER PARENT---------------------------------------------------------------------------

@@ -66,5 +66,15 @@ void ArtAppDelegate::onArtAppShareImage()
     }
 }
 
+void ArtAppDelegate::setSecondsSpentInArtApp(long seconds)
+{
+    _secondsSpentInArtApp = seconds;
+}
+
+long ArtAppDelegate::getSecondsSpentInArtApp()
+{
+    return _secondsSpentInArtApp;
+}
+
 
 NS_AZOOMEE_END
