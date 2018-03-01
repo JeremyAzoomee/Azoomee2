@@ -109,10 +109,10 @@ void HQScene2::startBuildingScrollView()
     
     for(int rowIndex = 0; rowIndex < HQDataProvider::getInstance()->getNumberOfRowsForHQ(_hqCategory); rowIndex++)
     {
-        cocos2d::LayerColor* carouselLayer = createNewCarousel();
-        
         const std::vector<HQContentItemObjectRef> &elementsForRow = HQDataProvider::getInstance()->getElementsForRow(_hqCategory, rowIndex);
         float lowestElementYPosition = 0;
+        
+        cocos2d::LayerColor* carouselLayer = createNewCarousel();
         
         for(int elementIndex = 0; elementIndex < elementsForRow.size(); elementIndex++)
         {
@@ -160,6 +160,11 @@ void HQScene2::startBuildingScrollView()
     float lastCarouselPosition = scrollView->getInnerContainerSize().height;
     for(int carouselIndex = 0; carouselIndex < _carouselStorage.size(); carouselIndex++)
     {
+        if(HQDataObjectStorage::getInstance()->getHQDataObjectForKey(_hqCategory)->getHqCarousels()[carouselIndex]->getContentItems().size() == 0)
+        {
+            continue;
+        }
+        
         lastCarouselPosition -= kSpaceAboveCarousel;
         
         cocos2d::Layer *carouselTitle = HQScene2CarouselTitle::createForCarousel(HQDataObjectStorage::getInstance()->getHQDataObjectForKey(_hqCategory)->getHqCarousels()[carouselIndex]);
@@ -208,34 +213,31 @@ void HQScene2::addRecentlyPlayedCarousel()
     }
     
     const std::vector<HQContentItemObjectRef> recentContent = RecentlyPlayedManager::getInstance()->getRecentlyPlayedContentForHQ(_hqCategory);
-    if(recentContent.size() > 0)
+    auto HQData = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(_hqCategory);
+    auto carouselData = HQData->getHqCarousels();
+    HQCarouselObjectRef recentContentCarousel = HQCarouselObject::create();
+    recentContentCarousel->setTitle("LAST PLAYED");
+    bool carouselExists = false;
+    for(auto carousel : carouselData)
     {
-        auto HQData = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(_hqCategory);
-        auto carouselData = HQData->getHqCarousels();
-        HQCarouselObjectRef recentContentCarousel = HQCarouselObject::create();
-        recentContentCarousel->setTitle("LAST PLAYED");
-        bool carouselExists = false;
-        for(auto carousel : carouselData)
+        if(carousel->getTitle() == "LAST PLAYED")
         {
-            if(carousel->getTitle() == "LAST PLAYED")
-            {
-                recentContentCarousel = carousel;
-                carouselExists = true;
-                break;
-            }
+            recentContentCarousel = carousel;
+            carouselExists = true;
+            break;
         }
-        if(!carouselExists)
+    }
+    if(!carouselExists)
+    {
+        HQData->addCarouselToHqFront(recentContentCarousel);
+    }
+    
+    recentContentCarousel->removeAllItemsFromCarousel();
+    for(const HQContentItemObjectRef& item : recentContent)
+    {
+        if(item)
         {
-            HQData->addCarouselToHqFront(recentContentCarousel);
-        }
-        
-        recentContentCarousel->removeAllItemsFromCarousel();
-        for(const HQContentItemObjectRef& item : recentContent)
-        {
-            if(item)
-            {
-                recentContentCarousel->addContentItemToCarousel(item);
-            }
+            recentContentCarousel->addContentItemToCarousel(item);
         }
     }
 }
