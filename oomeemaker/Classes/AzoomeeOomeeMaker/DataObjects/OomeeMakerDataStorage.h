@@ -43,6 +43,8 @@ public:
     std::map<std::string, OomeeItemRef> getOomeeitemData();
     std::map<std::string, std::vector<OomeeItemRef>> getItemsInCategoryData();
     
+    std::vector<ItemCategoryRef> getItemCategoryList();
+    
     OomeeRef getOomeeForKey(const std::string& key) const;
     ItemCategoryRef getItemCategoryForKey(const std::string& key) const;
     OomeeItemRef getOomeeItemForKey(const std::string& key) const;

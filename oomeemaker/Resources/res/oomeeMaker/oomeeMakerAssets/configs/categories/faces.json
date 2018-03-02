@@ -1,0 +1,7 @@
+{
+	"id": "faces",
+	"iconFilename": "assets/face/face_03.png",
+	"holidaySeasons": ["none"],
+	"scale": 1.0,
+	"highlightColour": [255,0,0,255]
+}

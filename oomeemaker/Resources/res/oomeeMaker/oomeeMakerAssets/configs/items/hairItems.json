@@ -1,0 +1,137 @@
+{
+	"items":
+[
+	{
+		"id": "hair01",
+		"targetAnchor": "head",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 1,
+		"categoryId": "hair",
+		"assetFilename": "assets/hair/hair_01.png"
+	},
+	{
+		"id": "hair02",
+		"targetAnchor": "head",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 1,
+		"categoryId": "hair",
+		"assetFilename": "assets/hair/hair_02.png"
+	},
+	{
+		"id": "hair03",
+		"targetAnchor": "head",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 1,
+		"categoryId": "hair",
+		"assetFilename": "assets/hair/hair_03.png"
+	},
+	{
+		"id": "hair04",
+		"targetAnchor": "head",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 1,
+		"categoryId": "hair",
+		"assetFilename": "assets/hair/hair_04.png"
+	},
+	{
+		"id": "hair05",
+		"targetAnchor": "head",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 1,
+		"categoryId": "hair",
+		"assetFilename": "assets/hair/hair_05.png"
+	},
+	{
+		"id": "hair06",
+		"targetAnchor": "head",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 1,
+		"categoryId": "hair",
+		"assetFilename": "assets/hair/hair_06.png"
+	},
+	{
+		"id": "hair01",
+		"targetAnchor": "head",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 1,
+		"categoryId": "hair",
+		"assetFilename": "assets/hair/hair.png"
+	},
+	{
+		"id": "hair07",
+		"targetAnchor": "head",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 1,
+		"categoryId": "hair",
+		"assetFilename": "assets/hair/hair_07.png"
+	},
+	{
+		"id": "hair08",
+		"targetAnchor": "head",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 1,
+		"categoryId": "hair",
+		"assetFilename": "assets/hair/hair_08.png"
+	},
+	{
+		"id": "hair09",
+		"targetAnchor": "head",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 1,
+		"categoryId": "hair",
+		"assetFilename": "assets/hair/hair_09.png"
+	},
+	{
+		"id": "hair10",
+		"targetAnchor": "head",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 1,
+		"categoryId": "hair",
+		"assetFilename": "assets/hair/hair_10.png"
+	}
+]
+}

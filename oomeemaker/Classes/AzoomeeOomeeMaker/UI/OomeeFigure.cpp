@@ -155,7 +155,7 @@ void OomeeFigure::addAccessory(const OomeeItemRef& oomeeItem)
         Sprite* item = Sprite::create(OomeeMakerDataHandler::getInstance()->getAssetDir() + oomeeItem->getAssetName());
         const Size& baseSpriteSize = _baseSprite->getContentSize();
         const Vec2& anchorPoint = _oomeeData->getAnchorPoints()[oomeeItem->getTargetAnchor()];
-        item->setPosition(Vec2(baseSpriteSize.width * anchorPoint.x, baseSpriteSize.height * anchorPoint.y) + oomeeItem->getOffset());
+        item->setPosition(Vec2(baseSpriteSize.width * anchorPoint.x, baseSpriteSize.height * anchorPoint.y) + oomeeItem->getOffset() * _oomeeData->getScale());
         item->setScale(oomeeItem->getTargetScale());
         _baseSprite->addChild(item, oomeeItem->getZOrder());
         _accessorySprites[oomeeItem->getTargetAnchor()] = item;

@@ -1,0 +1,113 @@
+{
+	"items":
+[
+	{
+		"id": "ears01",
+		"targetAnchor": "ears",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "ears",
+		"assetFilename": "assets/ears/ears_01.png"
+	},
+	{
+		"id": "ears02",
+		"targetAnchor": "ears",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "ears",
+		"assetFilename": "assets/ears/ears_02.png"
+	},
+	{
+		"id": "ears03",
+		"targetAnchor": "ears",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "ears",
+		"assetFilename": "assets/ears/ears_03.png"
+	},
+	{
+		"id": "ears04",
+		"targetAnchor": "ears",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "ears",
+		"assetFilename": "assets/ears/ears_04.png"
+	},
+	{
+		"id": "ears05",
+		"targetAnchor": "ears",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "ears",
+		"assetFilename": "assets/ears/ears_05.png"
+	},
+	{
+		"id": "ears06",
+		"targetAnchor": "ears",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "ears",
+		"assetFilename": "assets/ears/ears_06.png"
+	},
+	{
+		"id": "ears07",
+		"targetAnchor": "ears",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "ears",
+		"assetFilename": "assets/ears/ears_07.png"
+	},
+	{
+		"id": "ears08",
+		"targetAnchor": "ears",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "ears",
+		"assetFilename": "assets/ears/ears_08.png"
+	},
+	{
+		"id": "ears09",
+		"targetAnchor": "ears",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "ears",
+		"assetFilename": "assets/ears/ears_09.png"
+	}
+]
+}

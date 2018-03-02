@@ -1,0 +1,7 @@
+{
+	"id": "arms",
+	"iconFilename": "assets/arms/arm_left_04.png",
+	"holidaySeasons": ["none"],
+	"scale": 1.0,
+	"highlightColour": [255,0,0,255]
+}

@@ -15,6 +15,7 @@ NS_AZOOMEE_OM_BEGIN
 void ItemCategoryButton::setCategoryData(const ItemCategoryRef& categoryData)
 {
     _categoryData = categoryData;
+    setScale(_categoryData->getScale());
     loadTextureNormal(OomeeMakerDataHandler::getInstance()->getAssetDir() + _categoryData->getIconFilename());
     setMainImage(OomeeMakerDataHandler::getInstance()->getAssetDir() + _categoryData->getIconFilename());
     setPlaceholderImage("res/chat/ui/avatar/avatar_background.png");

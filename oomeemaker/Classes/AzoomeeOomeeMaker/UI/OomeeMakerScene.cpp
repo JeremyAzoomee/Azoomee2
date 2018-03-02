@@ -39,10 +39,10 @@ void OomeeMakerScene::onEnter()
 {
     OomeeRef oomeeData = OomeeMakerDataStorage::getInstance()->getOomeeForKey("oomee01");
     
-    std::vector<ItemCategoryRef> categoryData = {
-        OomeeMakerDataStorage::getInstance()->getItemCategoryForKey("test")
-    };
+    std::vector<ItemCategoryRef> categoryData = OomeeMakerDataStorage::getInstance()->getItemCategoryList();
+    
     std::vector<OomeeItemRef> itemsData = OomeeMakerDataStorage::getInstance()->getItemsInCategoryData()[categoryData[0]->getId()];
+    
     _oomee = OomeeFigure::create();
     _oomee->setOomeeData(oomeeData);
     _oomee->setContentSize(_contentLayer->getContentSize());

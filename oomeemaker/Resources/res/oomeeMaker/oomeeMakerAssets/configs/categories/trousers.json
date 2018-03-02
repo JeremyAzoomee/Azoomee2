@@ -1,0 +1,7 @@
+{
+	"id": "trousers",
+	"iconFilename": "assets/trousers/trousers_01.png",
+	"holidaySeasons": ["none"],
+	"scale": 1.0,
+	"highlightColour": [255,0,0,255]
+}

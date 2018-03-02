@@ -1,0 +1,7 @@
+{
+	"id": "necklaces",
+	"iconFilename": "assets/necklaces/necklace_03.png",
+	"holidaySeasons": ["none"],
+	"scale": 1.0,
+	"highlightColour": [255,0,0,255]
+}

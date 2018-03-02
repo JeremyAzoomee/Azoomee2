@@ -84,6 +84,16 @@ std::map<std::string, std::vector<OomeeItemRef>> OomeeMakerDataStorage::getItems
     return _oomeeItemsInCategoryData;
 }
 
+std::vector<ItemCategoryRef> OomeeMakerDataStorage::getItemCategoryList()
+{
+    std::vector<ItemCategoryRef> returnList;
+    for(auto element : _categoryData)
+    {
+        returnList.push_back(element.second);
+    }
+    return returnList;
+}
+
 OomeeRef OomeeMakerDataStorage::getOomeeForKey(const std::string& key) const
 {
     if(_oomeeData.find(key) != _oomeeData.end())

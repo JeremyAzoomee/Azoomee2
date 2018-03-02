@@ -1,0 +1,137 @@
+{
+	"items":
+[
+	{
+		"id": "horns01",
+		"targetAnchor": "ears",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "horns",
+		"assetFilename": "assets/horns/horns_01.png"
+	},
+	{
+		"id": "horns02",
+		"targetAnchor": "ears",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "horns",
+		"assetFilename": "assets/horns/horns_02.png"
+	},
+	{
+		"id": "horns03",
+		"targetAnchor": "ears",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "horns",
+		"assetFilename": "assets/horns/horns_03.png"
+	},
+	{
+		"id": "horns04",
+		"targetAnchor": "ears",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "horns",
+		"assetFilename": "assets/horns/horns_04.png"
+	},
+	{
+		"id": "horns05",
+		"targetAnchor": "ears",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "horns",
+		"assetFilename": "assets/horns/horns_05.png"
+	},
+	{
+		"id": "horns06",
+		"targetAnchor": "ears",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "horns",
+		"assetFilename": "assets/horns/horns_06.png"
+	},
+	{
+		"id": "horns07",
+		"targetAnchor": "ears",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "horns",
+		"assetFilename": "assets/horns/horns_07.png"
+	},
+	{
+		"id": "horns08",
+		"targetAnchor": "ears",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 2,
+		"categoryId": "horns",
+		"assetFilename": "assets/horns/horns_08.png"
+	},
+	{
+		"id": "horns09",
+		"targetAnchor": "ears",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "horns",
+		"assetFilename": "assets/horns/horns_09.png"
+	},
+	{
+		"id": "horns010",
+		"targetAnchor": "ears",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "horns",
+		"assetFilename": "assets/horns/horns_10.png"
+	},
+	{
+		"id": "horns11",
+		"targetAnchor": "ears",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "horns",
+		"assetFilename": "assets/horns/horns_11.png"
+	}
+]
+}

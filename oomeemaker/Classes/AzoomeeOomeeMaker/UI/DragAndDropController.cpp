@@ -66,7 +66,7 @@ void DragAndDropController::init()
             const Vec2& oomeePos = _oomeeFigure->getWorldPositionForAnchorPoint(_itemData->getTargetAnchor());
             const Vec2& targetDist = touch->getLocation() - oomeePos;
             Vec2 absDist = Vec2(targetDist.x * targetDist.x, targetDist.y * targetDist.y);
-            const Vec2& range = _itemData->getSnapRange();
+            const Vec2& range = _itemData->getSnapRange() * _oomeeFigure->getOomeeData()->getScale();
             Vec2 absRange = Vec2(range.x * range.x, range.y * range.y);
             if(absRange.x > absDist.x && absRange.y > absDist.y)
             {
