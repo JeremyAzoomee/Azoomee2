@@ -6,7 +6,7 @@
 #include <AzoomeeCommon/Strings.h>
 #include "LoginLogicHandler.h"
 #include "SceneManagerScene.h"
-#include "SlideShowScene.h"
+#include "StartScreen.h"
 
 using namespace cocos2d;
 using namespace cocos2d::experimental::ui;
@@ -38,12 +38,6 @@ bool IntroVideoScene::init()
     cocos2d::log("Cache folder: %s", FileUtils::getInstance()->getDocumentsPath().c_str());
     
     AnalyticsSingleton::getInstance()->registerCurrentScene("INTRO_VIDEO");
-    
-    if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
-    {
-        this->slideShowScene = SlideShowScene::createScene();
-        this->slideShowScene->retain();
-    }
     
     auto funcCallAction = CallFunc::create([=](){
         
@@ -120,8 +114,7 @@ void IntroVideoScene::navigateToNextScene()
     if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
     {
         AnalyticsSingleton::getInstance()->registerCurrentScene("INTRO_SLIDESHOW");
-        Director::getInstance()->replaceScene(this->slideShowScene);
-        this->slideShowScene->release();
+        Director::getInstance()->replaceScene(StartScreen::createScene());
     }
     else
     {

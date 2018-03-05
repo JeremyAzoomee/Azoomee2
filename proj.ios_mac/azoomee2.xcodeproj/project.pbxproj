@@ -106,7 +106,6 @@
 		43A90CE31EA7560500606099 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A90CE21EA7560500606099 /* Accelerate.framework */; };
 		43A90DE51EA7603800606099 /* WatchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A90DE41EA7603800606099 /* WatchKit.framework */; };
 		43BCD71E1EC9FD4E00A07737 /* SceneManagerScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43BCD71C1EC9FD4E00A07737 /* SceneManagerScene.cpp */; };
-		43F3844B1F1E394500ECA339 /* SlideShowScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43F384491F1E394500ECA339 /* SlideShowScene.cpp */; };
 		43F42E3B1EE84B9500606290 /* SettingsControlLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43F42E391EE84B9500606290 /* SettingsControlLayer.cpp */; };
 		43FDC6611EF7E3CE009B596B /* SettingsConfirmationLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43FDC65F1EF7E3CE009B596B /* SettingsConfirmationLayer.cpp */; };
 		43FDC6671EF7F743009B596B /* ConfirmationControlLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43FDC6631EF7F743009B596B /* ConfirmationControlLayer.cpp */; };
@@ -128,11 +127,12 @@
 		521A8EAA19F11F5000D177D7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
 		52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B47A461A53D09B004E4C60 /* Security.framework */; };
 		8262943E1AAF051F00CB7CF7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8262943D1AAF051F00CB7CF7 /* Security.framework */; };
-		9220EB21201A185C00BD7A90 /* RecentlyPlayedManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EB20201A185C00BD7A90 /* RecentlyPlayedManager.cpp */; };
 		9220EAD2200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EAD1200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp */; };
 		9220EAD5200F77E200BD7A90 /* SignUpFlowController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EAD4200F77E200BD7A90 /* SignUpFlowController.cpp */; };
 		9220EAD82010C07D00BD7A90 /* IAPFlowController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EAD72010C07D00BD7A90 /* IAPFlowController.cpp */; };
 		9220EADB2010F08200BD7A90 /* AddChildFlowController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EADA2010F08200BD7A90 /* AddChildFlowController.cpp */; };
+		9220EB21201A185C00BD7A90 /* RecentlyPlayedManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EB20201A185C00BD7A90 /* RecentlyPlayedManager.cpp */; };
+		9220EC472031AC9300BD7A90 /* StartScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EC462031AC9300BD7A90 /* StartScreen.cpp */; };
 		9224BFB11F7908D400108553 /* DynamicNodeButtonListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB01F7908D400108553 /* DynamicNodeButtonListener.cpp */; };
 		9224BFB41F7932D200108553 /* ButtonActionData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB31F7932D200108553 /* ButtonActionData.cpp */; };
 		9224BFB71F794BFA00108553 /* DynamicNodeHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB61F794BFA00108553 /* DynamicNodeHandler.cpp */; };
@@ -448,8 +448,6 @@
 		43A90DE41EA7603800606099 /* WatchKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/WatchKit.framework; sourceTree = DEVELOPER_DIR; };
 		43BCD71C1EC9FD4E00A07737 /* SceneManagerScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneManagerScene.cpp; sourceTree = "<group>"; };
 		43BCD71D1EC9FD4E00A07737 /* SceneManagerScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneManagerScene.h; sourceTree = "<group>"; };
-		43F384491F1E394500ECA339 /* SlideShowScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SlideShowScene.cpp; sourceTree = "<group>"; };
-		43F3844A1F1E394500ECA339 /* SlideShowScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideShowScene.h; sourceTree = "<group>"; };
 		43F42E391EE84B9500606290 /* SettingsControlLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsControlLayer.cpp; sourceTree = "<group>"; };
 		43F42E3A1EE84B9500606290 /* SettingsControlLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsControlLayer.h; sourceTree = "<group>"; };
 		43FDC65F1EF7E3CE009B596B /* SettingsConfirmationLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsConfirmationLayer.cpp; sourceTree = "<group>"; };
@@ -475,8 +473,6 @@
 		521A8EA819F11F5000D177D7 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		52B47A461A53D09B004E4C60 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		8262943D1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		9220EB1C201A144B00BD7A90 /* RecentlyPlayedManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecentlyPlayedManager.h; sourceTree = "<group>"; };
-		9220EB20201A185C00BD7A90 /* RecentlyPlayedManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RecentlyPlayedManager.cpp; sourceTree = "<group>"; };
 		9220EACA200F5AF600BD7A90 /* DynamicNodeFlowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DynamicNodeFlowController.h; sourceTree = "<group>"; };
 		9220EAD1200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeFlowController.cpp; sourceTree = "<group>"; };
 		9220EAD3200F64A200BD7A90 /* SignUpFlowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignUpFlowController.h; sourceTree = "<group>"; };
@@ -485,6 +481,10 @@
 		9220EAD72010C07D00BD7A90 /* IAPFlowController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = IAPFlowController.cpp; sourceTree = "<group>"; };
 		9220EAD92010EC2000BD7A90 /* AddChildFlowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddChildFlowController.h; sourceTree = "<group>"; };
 		9220EADA2010F08200BD7A90 /* AddChildFlowController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AddChildFlowController.cpp; sourceTree = "<group>"; };
+		9220EB1C201A144B00BD7A90 /* RecentlyPlayedManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecentlyPlayedManager.h; sourceTree = "<group>"; };
+		9220EB20201A185C00BD7A90 /* RecentlyPlayedManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RecentlyPlayedManager.cpp; sourceTree = "<group>"; };
+		9220EC422031A75800BD7A90 /* StartScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StartScreen.h; sourceTree = "<group>"; };
+		9220EC462031AC9300BD7A90 /* StartScreen.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = StartScreen.cpp; sourceTree = "<group>"; };
 		9224BFAC1F79069E00108553 /* DynamicNodeButtonListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicNodeButtonListener.h; sourceTree = "<group>"; };
 		9224BFB01F7908D400108553 /* DynamicNodeButtonListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeButtonListener.cpp; sourceTree = "<group>"; };
 		9224BFB21F79310100108553 /* ButtonActionData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonActionData.h; sourceTree = "<group>"; };
@@ -1261,8 +1261,8 @@
 			children = (
 				D11313481E337D3A00E2C033 /* IntroVideoScene.cpp */,
 				D11313491E337D3A00E2C033 /* IntroVideoScene.h */,
-				43F384491F1E394500ECA339 /* SlideShowScene.cpp */,
-				43F3844A1F1E394500ECA339 /* SlideShowScene.h */,
+				9220EC422031A75800BD7A90 /* StartScreen.h */,
+				9220EC462031AC9300BD7A90 /* StartScreen.cpp */,
 			);
 			name = Intro;
 			sourceTree = "<group>";
@@ -1578,7 +1578,6 @@
 				02074B271E93966D009BB28C /* WebGameAPIDataManager.cpp in Sources */,
 				A15B2FCA1DFACF3800D25334 /* HQDataProvider.cpp in Sources */,
 				439694841EAA4A08003C17E6 /* PrivacyAndTermsLayer.cpp in Sources */,
-				43F3844B1F1E394500ECA339 /* SlideShowScene.cpp in Sources */,
 				02A11FF71EA6375D007EDD95 /* GooglePaymentSingleton.cpp in Sources */,
 				A198622E1DD480A60090F053 /* BaseScene.cpp in Sources */,
 				4343CB9C1EBB826600247549 /* DeepLinkingSingleton.cpp in Sources */,
@@ -1608,6 +1607,7 @@
 				9220EAD2200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp in Sources */,
 				025BE9571E3B591C00EF76D1 /* PreviewLoginSignupMessageBox.cpp in Sources */,
 				9220EB21201A185C00BD7A90 /* RecentlyPlayedManager.cpp in Sources */,
+				9220EC472031AC9300BD7A90 /* StartScreen.cpp in Sources */,
 				9289DB441FD8137D00B12435 /* DynamicNodeButton.cpp in Sources */,
 				0253C9871EC053B5005037EB /* VideoPlaylistManager.cpp in Sources */,
 				0243B8DB1F1F5D5C005D3734 /* ChatNotificationsSingleton.cpp in Sources */,

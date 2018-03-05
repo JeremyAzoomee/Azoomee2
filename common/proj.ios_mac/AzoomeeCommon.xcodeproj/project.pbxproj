@@ -150,6 +150,7 @@
 		436007891F22120C000ECBA4 /* ModalWebview.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 436007871F22120C000ECBA4 /* ModalWebview.cpp */; };
 		9220E9C11FFE549500BD7A90 /* AnalyticsProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220E9C01FFE549500BD7A90 /* AnalyticsProperties.cpp */; };
 		9220EBB92021FC9300BD7A90 /* TimeFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EBB82021FC9300BD7A90 /* TimeFunctions.cpp */; };
+		9220EC6A203313CE00BD7A90 /* ActionBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EC69203313CE00BD7A90 /* ActionBuilder.cpp */; };
 		9224C00C1F7CFD7E00108553 /* FileZipUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224C00B1F7CFD7E00108553 /* FileZipUtil.cpp */; };
 		9224C00F1F7D13F000108553 /* DirectorySearcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224C00E1F7D13F000108553 /* DirectorySearcher.cpp */; };
 		9261739F1F2A3E4A008E3F9D /* OnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9261739E1F2A3E4A008E3F9D /* OnScreenChecker.cpp */; };
@@ -448,6 +449,8 @@
 		9220E9C01FFE549500BD7A90 /* AnalyticsProperties.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AnalyticsProperties.cpp; sourceTree = "<group>"; };
 		9220EBB72021F9E900BD7A90 /* TimeFunctions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TimeFunctions.h; sourceTree = "<group>"; };
 		9220EBB82021FC9300BD7A90 /* TimeFunctions.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TimeFunctions.cpp; sourceTree = "<group>"; };
+		9220EC6820330FE000BD7A90 /* ActionBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ActionBuilder.h; sourceTree = "<group>"; };
+		9220EC69203313CE00BD7A90 /* ActionBuilder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ActionBuilder.cpp; sourceTree = "<group>"; };
 		9224C00A1F7CF8C100108553 /* FileZipUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileZipUtil.h; sourceTree = "<group>"; };
 		9224C00B1F7CFD7E00108553 /* FileZipUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileZipUtil.cpp; sourceTree = "<group>"; };
 		9224C00D1F7D11F400108553 /* DirectorySearcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectorySearcher.h; sourceTree = "<group>"; };
@@ -633,6 +636,8 @@
 				0240FC932016538A00E88157 /* BiometricAuthenticationHandler.h */,
 				9220EBB72021F9E900BD7A90 /* TimeFunctions.h */,
 				9220EBB82021FC9300BD7A90 /* TimeFunctions.cpp */,
+				9220EC6820330FE000BD7A90 /* ActionBuilder.h */,
+				9220EC69203313CE00BD7A90 /* ActionBuilder.cpp */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1149,6 +1154,7 @@
 				4349C8041EA8ADEF00FE964B /* _MPTweakBindObserver.m in Sources */,
 				30E094C01EDF0F2B00555891 /* Utils.cpp in Sources */,
 				4349C8151EA8ADEF00FE964B /* MixpanelExceptionHandler.m in Sources */,
+				9220EC6A203313CE00BD7A90 /* ActionBuilder.cpp in Sources */,
 				3012ED9F1E97E6A40009027D /* RemoteImageSprite.cpp in Sources */,
 				3012ED631E969BF60009027D /* ChildDataStorage.cpp in Sources */,
 				302E847A1ED1B992006A498C /* SplitLayout.cpp in Sources */,
