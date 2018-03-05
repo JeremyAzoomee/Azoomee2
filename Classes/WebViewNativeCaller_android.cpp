@@ -205,16 +205,16 @@ JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIGetLocalDataStorage(
 
 extern "C"
 {
-    JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JNICalls_JNISendAPIRequest(JNIEnv* env, jobject thiz, jstring method, jstring responseID, jstring score);
+    JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JNICalls_JNISendAPIRequest(JNIEnv* env, jobject thiz, jstring method, jstring responseID, jstring sendData);
 };
 
-JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JNICalls_JNISendAPIRequest(JNIEnv* env, jobject thiz, jstring method, jstring responseID, jstring score)
+JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JNICalls_JNISendAPIRequest(JNIEnv* env, jobject thiz, jstring method, jstring responseID, jstring sendData)
 {
     const char* cMethod = env->GetStringUTFChars(method, NULL);
     const char* cResponseID = env->GetStringUTFChars(responseID, NULL);
-    const char* cScore = env->GetStringUTFChars(score, NULL);
+    const char* cSendData = env->GetStringUTFChars(sendData, NULL);
     
-    jstring returnString = env->NewStringUTF(WebGameAPIDataManager::getInstance()->handleAPIRequest(cMethod, cResponseID, cScore));
+    jstring returnString = env->NewStringUTF(WebGameAPIDataManager::getInstance()->handleAPIRequest(cMethod, cResponseID, cSendData));
     return returnString;
 }
 

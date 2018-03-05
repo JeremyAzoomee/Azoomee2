@@ -2,6 +2,7 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "VideoPlaylistManager.h"
+#include <AzoomeeCommon/Utils/TimeFunctions.h>
 
 using namespace cocos2d;
 
@@ -29,10 +30,8 @@ bool WebGameAPIDataManager::init(void)
     return true;
 }
 
-char* WebGameAPIDataManager::handleAPIRequest(const char* method, const char* responseId, const char* score)
+char* WebGameAPIDataManager::handleAPIRequest(const char* method, const char* responseId, const char* sendData)
 {
-    cocos2d::log("request arrived: %s, %s, %s", method, responseId, score);
-    
     if(strncmp(method, "requestUsername", strlen(method)) == 0)
     {
         return createReturnStringForAPI(method, responseId, "userName", ChildDataProvider::getInstance()->getLoggedInChildName().c_str());
@@ -55,7 +54,7 @@ char* WebGameAPIDataManager::handleAPIRequest(const char* method, const char* re
     
     if(strncmp(method, "updateHighScore", strlen(method)) == 0)
     {
-        int newScore = atoi(score);
+        int newScore = atoi(sendData);
         return createReturnStringForAPI(method, responseId, "score", StringUtils::format("%d", updateCurrentHighScoreForGame(newScore)).c_str());
     }
     
@@ -67,6 +66,25 @@ char* WebGameAPIDataManager::handleAPIRequest(const char* method, const char* re
     if(strncmp(method, "requestPlaylist", strlen(method)) == 0)
     {
         return createReturnStringForAPI(method, responseId, "playlist", VideoPlaylistManager::getInstance()->getPlaylist().c_str());
+    }
+    
+    if(strncmp(method, "saveImage", strlen(method)) == 0)
+    {
+        unsigned char* decoded;
+        int length = cocos2d::base64Decode((const unsigned char*)sendData, (unsigned int)strlen(sendData), &decoded);
+        std::string decodedString( reinterpret_cast<char const*>(decoded), length ) ;
+        
+        const std::string &saveFolder = FileUtils::getInstance()->getWritablePath() + ConfigStorage::kArtCacheFolder + ChildDataProvider::getInstance()->getParentOrChildId() + "/";
+        
+        if(!FileUtils::getInstance()->isDirectoryExist(saveFolder))
+        {
+            FileUtils::getInstance()->createDirectory(saveFolder);
+        }
+        
+        if(FileUtils::getInstance()->writeStringToFile(decodedString, saveFolder + getTimeStringForFileName() + ".png"))
+        {
+            return createReturnStringForAPI(method, responseId, "imageSave", "success");
+        }
     }
     
     return createReturnStringForAPI(method, responseId, "error", "error in request");

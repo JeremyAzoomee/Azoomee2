@@ -88,10 +88,19 @@ using namespace Azoomee;
         NSArray *urlItems = [urlComponents.string componentsSeparatedByString:@"?"];
         NSString *method = [urlItems objectAtIndex:2];
         NSString *responseId = [urlItems objectAtIndex:4];
-        NSString *score = @"null";
-        if([method isEqualToString:@"updateHighScore"]) score = [urlItems objectAtIndex:6];
+        NSString *sendData = @"null";
         
-        const char* returnString = sendGameApiRequest([method cStringUsingEncoding:NSUTF8StringEncoding], [responseId cStringUsingEncoding:NSUTF8StringEncoding], [score cStringUsingEncoding:NSUTF8StringEncoding]);
+        if([method isEqualToString:@"updateHighScore"])
+        {
+            sendData = [urlItems objectAtIndex:6];
+        }
+        
+        if([method isEqualToString:@"saveImage"])
+        {
+            sendData = [urlItems objectAtIndex:6];
+        }
+        
+        const char* returnString = sendGameApiRequest([method cStringUsingEncoding:NSUTF8StringEncoding], [responseId cStringUsingEncoding:NSUTF8StringEncoding], [sendData cStringUsingEncoding:NSUTF8StringEncoding]);
         NSLog(@"Sending string back to web: %s", returnString);
         
         NSString *callString = [NSString stringWithFormat:@"answerMessageReceivedFromAPI(\"%s\")", returnString];
