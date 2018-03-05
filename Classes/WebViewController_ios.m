@@ -212,7 +212,6 @@ using namespace Azoomee;
     if([iosurlExtension isEqualToString:@"html"])
     {
         NSString *htmlData = [webview stringByEvaluatingJavaScriptFromString:@"saveLocalDataBeforeExit()"];
-        NSLog(@"ART APP FILE DATA DIRECT LENGTH: %lu", htmlData.length);
         saveLocalStorageData(htmlData);
         [self finishView];
         return;
@@ -229,6 +228,9 @@ using namespace Azoomee;
     
     NSString *iosurlExtension = [urlToLoad substringFromIndex:MAX((int)[urlToLoad length]-4, 0)];
     if(![iosurlExtension isEqualToString:@"html"]) return;
+    
+    NSString *htmlData = [webview stringByEvaluatingJavaScriptFromString:@"saveLocalDataBeforeExit()"];
+    saveLocalStorageData(htmlData);
     
     [webview loadHTMLString:@"" baseURL:nil];
     [webview stopLoading];

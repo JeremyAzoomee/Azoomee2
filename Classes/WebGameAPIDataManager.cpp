@@ -124,14 +124,23 @@ int WebGameAPIDataManager::updateCurrentHighScoreForGame(int newScore)
 
 void WebGameAPIDataManager::createDirectoryTree()
 {
-    std::string scoreCacheFolder = FileUtils::getInstance()->getDocumentsPath() + "scoreCache";
-    if(!FileUtils::getInstance()->isDirectoryExist(scoreCacheFolder)) FileUtils::getInstance()->createDirectory(scoreCacheFolder);
+    const std::string &scoreCacheFolder = FileUtils::getInstance()->getDocumentsPath() + "scoreCache";
+    if(!FileUtils::getInstance()->isDirectoryExist(scoreCacheFolder))
+    {
+        FileUtils::getInstance()->createDirectory(scoreCacheFolder);
+    }
     
-    std::string userScoreCacheFolder = FileUtils::getInstance()->getDocumentsPath() + "scoreCache/" + ChildDataProvider::getInstance()->getLoggedInChildId();
-    if(!FileUtils::getInstance()->isDirectoryExist(userScoreCacheFolder)) FileUtils::getInstance()->createDirectory(userScoreCacheFolder);
+    const std::string &userScoreCacheFolder = scoreCacheFolder + "/" + ChildDataProvider::getInstance()->getLoggedInChildId();
+    if(!FileUtils::getInstance()->isDirectoryExist(userScoreCacheFolder))
+    {
+        FileUtils::getInstance()->createDirectory(userScoreCacheFolder);
+    }
     
-    std::string gameScoreCacheFolder = FileUtils::getInstance()->getDocumentsPath() + "scoreCache/" + ChildDataProvider::getInstance()->getLoggedInChildId() + "/" + runningGameId;
-    if(!FileUtils::getInstance()->isDirectoryExist(gameScoreCacheFolder)) FileUtils::getInstance()->createDirectory(gameScoreCacheFolder);
+    const std::string &gameScoreCacheFolder = userScoreCacheFolder + "/" + runningGameId;
+    if(!FileUtils::getInstance()->isDirectoryExist(gameScoreCacheFolder))
+    {
+        FileUtils::getInstance()->createDirectory(gameScoreCacheFolder);
+    }
 }
 
 //---------------------------------------------------------Local storage save / restore-----------------------------------------------------------
@@ -140,7 +149,10 @@ void WebGameAPIDataManager::saveLocalStorageData(std::string stringToBeWritten)
 {
     createDirectoryTree();
     
-    if(stringToBeWritten.length() > 0) FileUtils::getInstance()->writeStringToFile(stringToBeWritten, getPathForLocalStorageFile());
+    if(stringToBeWritten.length() > 0)
+    {
+        FileUtils::getInstance()->writeStringToFile(stringToBeWritten, getPathForLocalStorageFile());
+    }
 }
 
 char* WebGameAPIDataManager::getLocalStorageData()
@@ -148,7 +160,10 @@ char* WebGameAPIDataManager::getLocalStorageData()
     std::string returnString = "";
     
     createDirectoryTree();
-    if(!FileUtils::getInstance()->isFileExist(getPathForLocalStorageFile())) return strdup(returnString.c_str());
+    if(!FileUtils::getInstance()->isFileExist(getPathForLocalStorageFile()))
+    {
+        return strdup(returnString.c_str());
+    }
     else
     {
         std::string returnString = FileUtils::getInstance()->getStringFromFile(getPathForLocalStorageFile()).c_str();
