@@ -216,11 +216,11 @@ void HQScene2::addRecentlyPlayedCarousel()
     auto HQData = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(_hqCategory);
     auto carouselData = HQData->getHqCarousels();
     HQCarouselObjectRef recentContentCarousel = HQCarouselObject::create();
-    recentContentCarousel->setTitle("LAST PLAYED");
+    recentContentCarousel->setTitle(ConfigStorage::kRecentlyPlayedCarouselName);
     bool carouselExists = false;
     for(auto carousel : carouselData)
     {
-        if(carousel->getTitle() == "LAST PLAYED")
+        if(carousel->getTitle() == ConfigStorage::kRecentlyPlayedCarouselName)
         {
             recentContentCarousel = carousel;
             carouselExists = true;

@@ -37,6 +37,8 @@ public:
     
     static const char* const kDefaultHQName;
     
+    static const char* const kRecentlyPlayedCarouselName;
+    
     static const char* const kContentTypeVideo;
     static const char* const kContentTypeAudio;
     static const char* const kContentTypeGame;
