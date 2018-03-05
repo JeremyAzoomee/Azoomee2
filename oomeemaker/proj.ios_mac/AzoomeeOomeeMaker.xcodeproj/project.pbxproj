@@ -70,6 +70,7 @@
 		9271D8152046B86F00370120 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9271D8132046B86E00370120 /* Crashlytics.framework */; };
 		9271D8162046B86F00370120 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9271D8142046B86F00370120 /* Fabric.framework */; };
 		9271D8192046B8FB00370120 /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9271D8182046B8FB00370120 /* libicucore.tbd */; };
+		9271D863204D873C00370120 /* CCSpriteWithHue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D862204D873B00370120 /* CCSpriteWithHue.cpp */; };
 		92BEEFD12034532E00B32059 /* AzoomeeOomeeMaker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BEEFD02034532E00B32059 /* AzoomeeOomeeMaker.cpp */; };
 		92BEEFE020359C5500B32059 /* Oomee.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BEEFDF20359C5500B32059 /* Oomee.cpp */; };
 		92BEEFE220359C7800B32059 /* ItemCategory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BEEFE120359C7800B32059 /* ItemCategory.cpp */; };
@@ -248,6 +249,8 @@
 		9271D8132046B86E00370120 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = ../../proj.ios_mac/Crashlytics.framework; sourceTree = "<group>"; };
 		9271D8142046B86F00370120 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Fabric.framework; path = ../../proj.ios_mac/Fabric.framework; sourceTree = "<group>"; };
 		9271D8182046B8FB00370120 /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.1.sdk/usr/lib/libicucore.tbd; sourceTree = DEVELOPER_DIR; };
+		9271D85C204D873A00370120 /* CCSpriteWithHue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSpriteWithHue.h; sourceTree = "<group>"; };
+		9271D862204D873B00370120 /* CCSpriteWithHue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSpriteWithHue.cpp; sourceTree = "<group>"; };
 		92BEEFC72034502F00B32059 /* OomeeMakerDataStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OomeeMakerDataStorage.h; sourceTree = "<group>"; };
 		92BEEFCF203450C200B32059 /* AzoomeeOomeeMaker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AzoomeeOomeeMaker.h; sourceTree = "<group>"; };
 		92BEEFD02034532E00B32059 /* AzoomeeOomeeMaker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AzoomeeOomeeMaker.cpp; sourceTree = "<group>"; };
@@ -488,6 +491,8 @@
 		9271D76620372D1500370120 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				9271D862204D873B00370120 /* CCSpriteWithHue.cpp */,
+				9271D85C204D873A00370120 /* CCSpriteWithHue.h */,
 				9271D76C20372E0200370120 /* ItemCategoryButton.h */,
 				9271D775203AFAEC00370120 /* ItemCategoryButton.cpp */,
 				9271D76D20372E4500370120 /* ItemCategoryList.h */,
@@ -755,6 +760,7 @@
 				9271D780203C51A000370120 /* DragAndDropController.cpp in Sources */,
 				9271D772203AE19200370120 /* OomeeItemButton.cpp in Sources */,
 				92BEEFE220359C7800B32059 /* ItemCategory.cpp in Sources */,
+				9271D863204D873C00370120 /* CCSpriteWithHue.cpp in Sources */,
 				92BEEFE420359C8B00B32059 /* OomeeItem.cpp in Sources */,
 				9271D776203AFAEC00370120 /* ItemCategoryButton.cpp in Sources */,
 				9271D787203DBE5C00370120 /* OomeeSelectScene.cpp in Sources */,

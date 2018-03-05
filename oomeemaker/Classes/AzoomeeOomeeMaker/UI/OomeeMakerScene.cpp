@@ -70,7 +70,7 @@ void OomeeMakerScene::onEnter()
     _contentLayer->addChild(categories);
     
     _itemList = OomeeItemList::create();
-    _itemList->setContentSize(Size(_contentLayer->getContentSize().width / 6.0f, _contentLayer->getContentSize().height * 0.8f));
+    _itemList->setContentSize(Size(_contentLayer->getContentSize().width * 0.25f, _contentLayer->getContentSize().height * 0.9f));
     _itemList->setNormalizedPosition(Vec2(1.0f,0.5f));
     _itemList->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
     _itemList->setItemSelectedCallback([this](const OomeeItemRef& data) {

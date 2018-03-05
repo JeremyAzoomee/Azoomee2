@@ -7,6 +7,7 @@
 
 #include "OomeeItemList.h"
 #include "OomeeItemButton.h"
+#include <AzoomeeCommon/UI/LayoutParams.h>
 
 using namespace cocos2d;
 
@@ -25,19 +26,36 @@ void OomeeItemList::interceptTouchEvent(cocos2d::ui::Widget::TouchEventType even
 
 void OomeeItemList::setItems(const std::vector<OomeeItemRef>& itemList)
 {
+    _itemList = itemList;
     removeAllItems();
-    
-    for(const OomeeItemRef& item : itemList)
+    int i = 0;
+    while(i < itemList.size())
     {
-        OomeeItemButton* button = OomeeItemButton::create();
-        button->setItemSelectedCallback([this](const OomeeItemRef& data) {
-            if(_itemSelectedCallback)
+        ui::Layout* itemRow = ui::Layout::create();
+        itemRow->setLayoutType(ui::Layout::Type::ABSOLUTE);
+        itemRow->setContentSize(Size(0, 0));
+        
+        for(int column = 0; column < _columns; column++)
+        {
+            if(i < itemList.size())
             {
-                _itemSelectedCallback(data);
+                OomeeItemRef item = itemList.at(i);
+                OomeeItemButton* button = OomeeItemButton::create();
+                button->setItemSelectedCallback([this](const OomeeItemRef& data) {
+                    if(_itemSelectedCallback)
+                    {
+                        _itemSelectedCallback(data);
+                    }
+                });
+                button->setItemData(item);
+                button->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+                button->setNormalizedPosition(Vec2((column + 0.5) / _columns, 0.5));
+                itemRow->setContentSize(Size(this->getContentSize().width * ((column + 1)/_columns), MAX(button->getContentSize().height, itemRow->getContentSize().height)));
+                itemRow->addChild(button);
             }
-        });
-        button->setItemData(item);
-        pushBackCustomItem(button);
+            i++;
+        }
+        pushBackCustomItem(itemRow);
     }
     
     forceDoLayout();
@@ -54,6 +72,7 @@ bool OomeeItemList::init()
     setBounceEnabled(true);
     setGravity(ui::ListView::Gravity::CENTER_HORIZONTAL);
     setItemsMargin(50.0f);
+    setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     
     return true;
 }
@@ -76,6 +95,11 @@ void OomeeItemList::setContentSize(const cocos2d::Size& contentSize)
 void OomeeItemList::setItemSelectedCallback(const ItemSelectedCallback &callback)
 {
     _itemSelectedCallback = callback;
+}
+
+void OomeeItemList::setColumns(int columns)
+{
+    _columns = columns;
 }
 
 NS_AZOOMEE_OM_END

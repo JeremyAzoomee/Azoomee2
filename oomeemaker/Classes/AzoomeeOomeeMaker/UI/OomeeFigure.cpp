@@ -187,14 +187,23 @@ void OomeeFigure::setEditable(bool isEditable)
 
 void OomeeFigure::saveSnapshotImage(const std::string &filepath)
 {
-    _baseSprite->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-    _baseSprite->setNormalizedPosition(Vec2(0,0));
+    _baseSprite->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _baseSprite->setPosition(_baseSprite->getContentSize());
     _baseSprite->setScale(1);
-    RenderTexture* renderTex = RenderTexture::create(_baseSprite->getContentSize().width, _baseSprite->getContentSize().height);
+    RenderTexture* renderTex = RenderTexture::create(_baseSprite->getContentSize().width*2, _baseSprite->getContentSize().height*2 );
     renderTex->beginWithClear(0, 0, 0, 0);
     _baseSprite->visit();
     renderTex->end();
-    renderTex->saveToFile(filepath, Image::Format::PNG);
+    Director::getInstance()->getRenderer()->render();
+    
+    Sprite* temp = Sprite::createWithTexture(renderTex->getSprite()->getTexture());
+    temp->setFlippedY(true);
+    temp->setPosition(_baseSprite->getContentSize() / 2.0f);
+    RenderTexture* finalTex = RenderTexture::create(_baseSprite->getContentSize().width, _baseSprite->getContentSize().height);
+    finalTex->beginWithClear(0, 0, 0, 0);
+    temp->visit();
+    finalTex->end();
+    finalTex->saveToFile(filepath, Image::Format::PNG);
     Director::getInstance()->getRenderer()->render();
 }
 

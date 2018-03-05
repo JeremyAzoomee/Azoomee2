@@ -23,6 +23,7 @@ class OomeeItemList : public cocos2d::ui::ListView
 private:
     std::vector<OomeeItemRef> _itemList;
     ItemSelectedCallback _itemSelectedCallback = nullptr;
+    int _columns = 2;
     
 protected:
     virtual void doLayout() override;
@@ -32,6 +33,7 @@ public:
     
     void setItems(const std::vector<OomeeItemRef>& itemList);
     void setItemSelectedCallback(const ItemSelectedCallback& callback);
+    void setColumns(int columns);
     
     virtual bool init() override;
     virtual void onEnter() override;
