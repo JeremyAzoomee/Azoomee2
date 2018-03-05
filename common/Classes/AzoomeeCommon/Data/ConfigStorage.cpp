@@ -306,8 +306,10 @@ std::vector<Point> ConfigStorage::getMainHubPositionForHighlightElements(const s
 {
     if(HQSceneConfiguration["MainHubPositionsForHighlightElements"].HasMember(categoryName.c_str()))
     {
-        const rapidjson::Value &p1 = HQSceneConfiguration["MainHubPositionsForHighlightElements"][categoryName.c_str()]["Points"][0];
-        const rapidjson::Value &p2 = HQSceneConfiguration["MainHubPositionsForHighlightElements"][categoryName.c_str()]["Points"][1];
+        const rapidjson::Value &points = HQSceneConfiguration["MainHubPositionsForHighlightElements"][categoryName.c_str()]["Points"];
+        
+        const rapidjson::Value &p1 = points[0];
+        const rapidjson::Value &p2 = points[1];
         
         return std::vector<Point> {Point(getDoubleFromJson("x", p1), getDoubleFromJson("y", p1)), Point(getDoubleFromJson("x", p2), getDoubleFromJson("y", p2))};
     }
@@ -371,10 +373,13 @@ std::string ConfigStorage::getHQSceneNameReplacementForPermissionFeed(const std:
 cocos2d::Point ConfigStorage::getRelativeCirclePositionForMenuItem(int itemNumber)
 {
     //Gets the relative position to keep the navigation buttons in a circle
+    
     if(NavigationConfiguration["relativeCirclePositionsForMenuItems"]["positions"].Size() > itemNumber)
     {
-        float x = getDoubleFromJson("x", NavigationConfiguration["relativeCirclePositionsForMenuItems"]["positions"][itemNumber]);
-        float y = getDoubleFromJson("y", NavigationConfiguration["relativeCirclePositionsForMenuItems"]["positions"][itemNumber]);
+        const rapidjson::Value &position = NavigationConfiguration["relativeCirclePositionsForMenuItems"]["positions"][itemNumber];
+        
+        float x = getDoubleFromJson("x", position);
+        float y = getDoubleFromJson("y", position);
         
         return Point(x,y);
     }
