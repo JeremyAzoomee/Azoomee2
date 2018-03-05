@@ -17,7 +17,7 @@ NS_AZOOMEE_BEGIN
 class RecentlyPlayedManager
 {
 private:
-    const int _kMaxRecentContent = 8;
+    const int _kMaxRecentContent = 4;
     const std::string _kRecentlyPlayedFolderName = "RecentlyPlayed/";
     const std::string _kRecentlyPlayedFileName = "recentContent.txt";
     

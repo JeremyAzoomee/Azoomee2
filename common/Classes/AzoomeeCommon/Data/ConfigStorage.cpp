@@ -31,6 +31,8 @@ static ConfigStorage *_sharedConfigStorage = NULL;
     
     const char* const ConfigStorage::kDefaultHQName = kGameHQName;
     
+    const char* const ConfigStorage::kRecentlyPlayedCarouselName = "LAST PLAYED";
+    
     const char* const ConfigStorage::kContentTypeVideo = "VIDEO";
     const char* const ConfigStorage::kContentTypeAudio = "AUDIO";
     const char* const ConfigStorage::kContentTypeGame = "GAME";
