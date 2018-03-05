@@ -27,6 +27,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
@@ -153,6 +154,21 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
         // call thread start for background process
         thread.start();
+    }
+
+    public static void startAndroidReviewProcess()
+    {
+        final Uri uri = Uri.parse("market://details?id=" + mContext.getApplicationContext().getPackageName());
+        final Intent rateAppIntent = new Intent(Intent.ACTION_VIEW, uri);
+
+        if (mContext.getPackageManager().queryIntentActivities(rateAppIntent, 0).size() > 0)
+        {
+            mContext.startActivity(rateAppIntent);
+        }
+        else
+        {
+    /* handle your error case: the device has no way to handle market urls */
+        }
     }
 
     public static String getOSBuildManufacturer() {

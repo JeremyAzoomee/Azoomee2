@@ -59,6 +59,8 @@ bool MainScene::init()
     }
     
     Director::getInstance()->purgeCachedData();
+    
+    _timeStampOnAppStart = std::time(0);
 
     _drawingCanvas = DrawingCanvas::create();
 
@@ -170,6 +172,7 @@ void MainScene::shareButtonCallBack()
 void MainScene::saveFileAndExit()
 {
     saveFile();
+    delegate->setSecondsSpentInArtApp(std::time(0) - _timeStampOnAppStart);
     delegate->onArtAppNavigationBack();
 }
 

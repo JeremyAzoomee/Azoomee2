@@ -6,6 +6,10 @@
 #include <AzoomeeCommon/UI/MessageBox.h>
 #include <AzoomeeCommon/UI/Style.h>
 
+#if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+#include <AzoomeeCommon/Utils/IosNativeFunctionsSingleton.h>
+#endif
+
 #define MARGIN 69
 
 NS_AZOOMEE_BEGIN
@@ -109,6 +113,10 @@ void ConfirmationControlLayer::setToConfirmed()
      clearAllButtons();
      this->setLocalZOrder(CONFIRMATION_CONFIRMED_Z);
      confirmationFrameLayer->setToConfirm();
+    
+#if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    IosNativeFunctionsSingleton::getInstance()->startIosReviewProcess();
+#endif
 }
 
 void ConfirmationControlLayer::setToRejected()

@@ -4,6 +4,7 @@
 #import <AdSupport/ASIdentifierManager.h>
 #import <LocalAuthentication/LocalAuthentication.h>
 #import <UIKit/UIKit.h>
+#import "StoreKit/StoreKit.h"
 
 using namespace cocos2d;
 
@@ -90,6 +91,11 @@ bool IosNativeFunctionsSingleton::doBiometricValidation(bool precheck)
     }
     
     return true;
+}
+
+void IosNativeFunctionsSingleton::startIosReviewProcess()
+{
+    [SKStoreReviewController requestReview];
 }
 
 NS_AZOOMEE_END

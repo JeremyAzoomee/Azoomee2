@@ -22,6 +22,8 @@ public:
     
     bool doBiometricValidation(bool precheck);
     
+    void startIosReviewProcess();
+    
 private:
     IosNativeFunctionsSingleton();
 };

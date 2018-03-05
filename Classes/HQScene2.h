@@ -53,6 +53,9 @@ private:
     
     //group hq modifications
     void addGroupHQLogo();
+    
+    bool showingPostContentCTARequired();
+    bool startingReviewProcessRequired();
 };
 
 NS_AZOOMEE_END
