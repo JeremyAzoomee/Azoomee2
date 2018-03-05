@@ -189,6 +189,15 @@ inline int getIntFromJson(const std::string &keyName, const rapidjson::Value &js
     return defaultReturn;
 }
 
+inline double getDoubleFromJson(const std::string &keyName, const rapidjson::Value &jsonValue, double defaultReturn = DBL_MAX)
+{
+    if((jsonValue.HasMember(keyName.c_str())) && ((jsonValue[keyName.c_str()].IsInt()) || (jsonValue[keyName.c_str()].IsDouble())))
+    {
+        return jsonValue[keyName.c_str()].GetDouble();
+    }
+    return defaultReturn;
+}
+
 inline cocos2d::Color4B getColor4BFromJson(const std::string &keyName, const rapidjson::Value &jsonValue, const cocos2d::Color4B& defaultReturn = cocos2d::Color4B())
 {
     if(jsonValue.HasMember(keyName.c_str()) && jsonValue[keyName.c_str()].Size() == 4 && jsonValue[keyName.c_str()][0].IsInt() && jsonValue[keyName.c_str()][1].IsInt() && jsonValue[keyName.c_str()][2].IsInt() && jsonValue[keyName.c_str()][3].IsInt())
