@@ -146,7 +146,7 @@ void DynamicNodeHandler::startIAPFlow()
         }
     }
     _flowController = IAPFlowController::create();
-    createDynamicNodeById(_flowController->_flowEntryFile);
+    createDynamicNodeByGroupId(_flowController->_flowEntryFile);
 }
 
 void DynamicNodeHandler::startAddChildFlow()
