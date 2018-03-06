@@ -39,9 +39,6 @@ public class NativeView extends XWalkActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_native_view);
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
         final View decorView = getWindow().getDecorView();
 
         if (Build.VERSION.SDK_INT >= 11) {
@@ -126,7 +123,7 @@ public class NativeView extends XWalkActivity {
 
     private void cleanUpAndFinishActivity()
     {
-        if(xWalkWebView != null)
+        if(xWalkWebView != null && isWebViewReady)
         {
             isWebViewReady = false;
             xWalkWebView.evaluateJavascript("javascript:saveLocalDataBeforeExit();", null);
@@ -135,10 +132,10 @@ public class NativeView extends XWalkActivity {
             xWalkWebView.clearCache(true);
             xWalkWebView.pauseTimers();
             xWalkWebView.onDestroy();
-            xWalkWebView = null;
-
-            xWalkWebViewStatic = null;
         }
+
+        xWalkWebView = null;
+        xWalkWebViewStatic = null;
 
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -169,14 +166,19 @@ public class NativeView extends XWalkActivity {
         return false;
     }
 
-    public void onBackPressed(){
-        exitView();
+    public void onBackPressed()
+    {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            exitView();
     }
 
     public static void exitView()
     {
-        activity.runOnUiThread(new Runnable() {
-            public void run() {
+        activity.runOnUiThread(new Runnable()
+        {
+            public void run()
+            {
                 imageButtonStatic.callOnClick();
             }
         });
@@ -258,7 +260,7 @@ public class NativeView extends XWalkActivity {
     {
         super.onPause();
         JNICalls.JNIRegisterAppWentBackgroundEvent();
-        if (xWalkWebView != null) {
+        if (xWalkWebView != null && isWebViewReady) {
             xWalkWebView.pauseTimers();
             xWalkWebView.onHide();
         }
