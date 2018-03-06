@@ -47,7 +47,6 @@ public:
     void setAssetName(const std::string& assetName);
     std::string getAssetName() const;
     
-    
 };
 
 NS_AZOOMEE_OM_END

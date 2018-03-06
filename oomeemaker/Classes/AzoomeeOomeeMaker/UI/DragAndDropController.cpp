@@ -51,7 +51,7 @@ void DragAndDropController::init()
             
             if(_debugMode)
             {
-                const Vec2& dist = _oomeeFigure->getWorldPositionForAnchorPoint(_itemData->getTargetAnchor()) - _itemSprite->getPosition();
+                const Vec2& dist = (_itemSprite->getPosition() - _oomeeFigure->getWorldPositionForAnchorPoint(_itemData->getTargetAnchor())) / _oomeeFigure->getOomeeData()->getScale();
                 _positioningLabel->setString(StringUtils::format("x: %d, y:%d",(int)dist.x, (int)dist.y));
                 _anchorToSprite->clear();
                 _anchorToSprite->drawLine(_oomeeFigure->getWorldPositionForAnchorPoint(_itemData->getTargetAnchor()), _itemSprite->getPosition(), Color4F::WHITE);
@@ -96,13 +96,18 @@ void DragAndDropController::setItemData(const OomeeItemRef& data)
     {
         _itemSprite->removeFromParent();
     }
-    _itemSprite = Sprite::create(OomeeMakerDataHandler::getInstance()->getAssetDir() + _itemData->getAssetName());
+    _itemSprite = SpriteWithHue::create(OomeeMakerDataHandler::getInstance()->getAssetDir() + _itemData->getAssetName());
     _itemSprite->setScale(_itemData->getDragScale());
     _itemSprite->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    if(data->isUsingColourHue())
+    {
+        _itemSprite->setHue(_oomeeFigure->getHue());
+    }
+    _listenerTargetNode->addChild(_itemSprite);
     
     if(_debugMode)
     {
-        const Vec2& dist = _oomeeFigure->getWorldPositionForAnchorPoint(_itemData->getTargetAnchor()) - _itemSprite->getPosition();
+        const Vec2& dist = (_oomeeFigure->getWorldPositionForAnchorPoint(_itemData->getTargetAnchor()) - _itemSprite->getPosition());
         _positioningLabel = Label::createWithTTF(StringUtils::format("x: %d, y:%d",(int)dist.x, (int)dist.y), "fonts/arial.ttf", 40);
         _positioningLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
         _positioningLabel->setPosition(Vec2(_itemSprite->getContentSize().width * 0.5f, 0));
@@ -113,7 +118,7 @@ void DragAndDropController::setItemData(const OomeeItemRef& data)
         _listenerTargetNode->addChild(_anchorToSprite);
     }
     
-    _listenerTargetNode->addChild(_itemSprite);
+    
 }
 
 void DragAndDropController::setTargetOomee(OomeeFigure* oomeeFigure)

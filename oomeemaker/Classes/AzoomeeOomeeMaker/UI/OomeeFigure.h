@@ -11,6 +11,7 @@
 #include "../AzoomeeOomeeMaker.h"
 #include "../DataObjects/Oomee.h"
 #include "../DataObjects/OomeeItem.h"
+#include "CCSpriteWithHue.h"
 #include <cocos/cocos2d.h>
 
 NS_AZOOMEE_OM_BEGIN
@@ -21,10 +22,11 @@ class OomeeFigure : public cocos2d::Node
 private:
     bool _isEditable = true;
     OomeeRef _oomeeData = nullptr;
-    cocos2d::Sprite* _baseSprite = nullptr;
-    std::map<std::string, cocos2d::Sprite*> _accessorySprites;
+    SpriteWithHue* _baseSprite = nullptr;
+    std::map<std::string, SpriteWithHue*> _accessorySprites;
     std::map<std::string, OomeeItemRef> _accessoryData;
     cocos2d::EventListenerTouchOneByOne* _touchListener = nullptr;
+    float _hue = 0;
     
 public:
     virtual bool init() override;
@@ -46,6 +48,9 @@ public:
     
     cocos2d::Vec2 getWorldPositionForAnchorPoint(const std::string& anchorPoint);
     cocos2d::Vec2 getLocalPositionForAnchorPoint(const std::string& anchorPoint);
+    
+    float getHue() const;
+    void setHue(float hue);
     
     CREATE_FUNC(OomeeFigure);
 };

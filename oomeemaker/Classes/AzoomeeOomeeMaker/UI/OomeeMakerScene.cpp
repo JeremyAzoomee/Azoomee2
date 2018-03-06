@@ -80,6 +80,25 @@ void OomeeMakerScene::onEnter()
     
     _contentLayer->addChild(_itemList);
     
+    for(int i = 0; i < 10; i++)
+    {
+        ui::Button* colourButton = ui::Button::create();
+        colourButton->loadTextureNormal("res/oomeeMaker/back_new.png");
+        colourButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+        colourButton->setNormalizedPosition(Vec2(0.15 + i * 0.075, 0.1));
+        colourButton->addTouchEventListener([this, i](Ref* pSender, ui::Widget::TouchEventType eType){
+            _oomee->setHue(2 * M_PI * (i/10.0f));
+        });
+        SpriteWithHue* visibleSprite = SpriteWithHue::create("res/oomeeMaker/body_00.png");
+        visibleSprite->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+        visibleSprite->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+        visibleSprite->setScale(colourButton->getContentSize().width / visibleSprite->getContentSize().width);
+        visibleSprite->setHue(2 * M_PI * (i/10.0f));
+        colourButton->addChild(visibleSprite);
+        
+        _contentLayer->addChild(colourButton);
+    }
+    
     ui::Button* exitButton = ui::Button::create();
     exitButton->loadTextureNormal("res/oomeeMaker/back_new.png");
     exitButton->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
@@ -135,7 +154,7 @@ void OomeeMakerScene::saveAndExit()
             savedFileContent += ",";
         }
     }
-    savedFileContent += "]}";
+    savedFileContent += StringUtils::format("], \"colourHue\": %f }", _oomee->getHue());
     
     FileUtils::getInstance()->writeStringToFile(savedFileContent, FileUtils::getInstance()->getWritablePath() + _filename + ".oomee");
     

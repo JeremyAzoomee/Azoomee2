@@ -11,7 +11,8 @@
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "arms",
-		"assetFilename": "assets/arms/arm_left_01.png"
+		"assetFilename": "assets/arms/arm_left_01.png",
+		"useColourHue": true
 	},
 	{
 		"id": "armLeft02",
@@ -23,7 +24,8 @@
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "arms",
-		"assetFilename": "assets/arms/arm_left_02.png"
+		"assetFilename": "assets/arms/arm_left_02.png",
+		"useColourHue": true
 	},
 	{
 		"id": "armLeft02",
@@ -35,7 +37,8 @@
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "arms",
-		"assetFilename": "assets/arms/arm_left_02.png"
+		"assetFilename": "assets/arms/arm_left_02.png",
+		"useColourHue": true
 	},
 	{
 		"id": "armLeft03",
@@ -47,7 +50,8 @@
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "arms",
-		"assetFilename": "assets/arms/arm_left_03.png"
+		"assetFilename": "assets/arms/arm_left_03.png",
+		"useColourHue": true
 	},
 	{
 		"id": "armLeft04",
@@ -59,7 +63,8 @@
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "arms",
-		"assetFilename": "assets/arms/arm_left_04.png"
+		"assetFilename": "assets/arms/arm_left_04.png",
+		"useColourHue": true
 	},
 	{
 		"id": "armLeft05",
@@ -71,7 +76,8 @@
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "arms",
-		"assetFilename": "assets/arms/arm_left_05.png"
+		"assetFilename": "assets/arms/arm_left_05.png",
+		"useColourHue": true
 	},
 	{
 		"id": "armLeft06",
@@ -83,7 +89,8 @@
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "arms",
-		"assetFilename": "assets/arms/arm_left_06.png"
+		"assetFilename": "assets/arms/arm_left_06.png",
+		"useColourHue": true
 	},
 	{
 		"id": "armLeft07",
@@ -95,7 +102,8 @@
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "arms",
-		"assetFilename": "assets/arms/arm_left_07.png"
+		"assetFilename": "assets/arms/arm_left_07.png",
+		"useColourHue": true
 	},
 	{
 		"id": "armLeft08",
@@ -107,7 +115,8 @@
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "arms",
-		"assetFilename": "assets/arms/arm_left_08.png"
+		"assetFilename": "assets/arms/arm_left_08.png",
+		"useColourHue": true
 	},
 	{
 		"id": "armLeft01",
@@ -119,7 +128,8 @@
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "arms",
-		"assetFilename": "assets/arms/arm_left_01.png"
+		"assetFilename": "assets/arms/arm_left_01.png",
+		"useColourHue": true
 	},
 	{
 		"id": "armRight02",
@@ -131,7 +141,8 @@
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "arms",
-		"assetFilename": "assets/arms/arm_right_02.png"
+		"assetFilename": "assets/arms/arm_right_02.png",
+		"useColourHue": true
 	},
 	{
 		"id": "armRight02",
@@ -143,7 +154,8 @@
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "arms",
-		"assetFilename": "assets/arms/arm_right_02.png"
+		"assetFilename": "assets/arms/arm_right_02.png",
+		"useColourHue": true
 	},
 	{
 		"id": "armRight03",
@@ -155,7 +167,8 @@
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "arms",
-		"assetFilename": "assets/arms/arm_right_03.png"
+		"assetFilename": "assets/arms/arm_right_03.png",
+		"useColourHue": true
 	},
 	{
 		"id": "armRight04",
@@ -167,7 +180,8 @@
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "arms",
-		"assetFilename": "assets/arms/arm_right_04.png"
+		"assetFilename": "assets/arms/arm_right_04.png",
+		"useColourHue": true
 	},
 	{
 		"id": "armRight05",
@@ -179,7 +193,8 @@
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "arms",
-		"assetFilename": "assets/arms/arm_right_05.png"
+		"assetFilename": "assets/arms/arm_right_05.png",
+		"useColourHue": true
 	},
 	{
 		"id": "armRight06",
@@ -191,7 +206,8 @@
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "arms",
-		"assetFilename": "assets/arms/arm_right_06.png"
+		"assetFilename": "assets/arms/arm_right_06.png",
+		"useColourHue": true
 	},
 	{
 		"id": "armRight07",
@@ -203,7 +219,8 @@
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "arms",
-		"assetFilename": "assets/arms/arm_right_07.png"
+		"assetFilename": "assets/arms/arm_right_07.png",
+		"useColourHue": true
 	},
 	{
 		"id": "armRight08",
@@ -215,7 +232,8 @@
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "arms",
-		"assetFilename": "assets/arms/arm_right_08.png"
+		"assetFilename": "assets/arms/arm_right_08.png",
+		"useColourHue": true
 	}
 ]
 }

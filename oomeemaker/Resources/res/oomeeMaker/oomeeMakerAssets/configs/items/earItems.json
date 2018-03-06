@@ -11,7 +11,8 @@
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "ears",
-		"assetFilename": "assets/ears/ears_01.png"
+		"assetFilename": "assets/ears/ears_01.png",
+		"useColourHue": true
 	},
 	{
 		"id": "ears02",
@@ -23,7 +24,8 @@
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "ears",
-		"assetFilename": "assets/ears/ears_02.png"
+		"assetFilename": "assets/ears/ears_02.png",
+		"useColourHue": true
 	},
 	{
 		"id": "ears03",
@@ -35,7 +37,8 @@
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "ears",
-		"assetFilename": "assets/ears/ears_03.png"
+		"assetFilename": "assets/ears/ears_03.png",
+		"useColourHue": true
 	},
 	{
 		"id": "ears04",
@@ -47,7 +50,8 @@
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "ears",
-		"assetFilename": "assets/ears/ears_04.png"
+		"assetFilename": "assets/ears/ears_04.png",
+		"useColourHue": true
 	},
 	{
 		"id": "ears05",
@@ -59,7 +63,8 @@
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "ears",
-		"assetFilename": "assets/ears/ears_05.png"
+		"assetFilename": "assets/ears/ears_05.png",
+		"useColourHue": true
 	},
 	{
 		"id": "ears06",
@@ -71,7 +76,8 @@
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "ears",
-		"assetFilename": "assets/ears/ears_06.png"
+		"assetFilename": "assets/ears/ears_06.png",
+		"useColourHue": true
 	},
 	{
 		"id": "ears07",
@@ -83,7 +89,8 @@
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "ears",
-		"assetFilename": "assets/ears/ears_07.png"
+		"assetFilename": "assets/ears/ears_07.png",
+		"useColourHue": true
 	},
 	{
 		"id": "ears08",
@@ -95,7 +102,8 @@
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "ears",
-		"assetFilename": "assets/ears/ears_08.png"
+		"assetFilename": "assets/ears/ears_08.png",
+		"useColourHue": true
 	},
 	{
 		"id": "ears09",
@@ -107,7 +115,8 @@
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "ears",
-		"assetFilename": "assets/ears/ears_09.png"
+		"assetFilename": "assets/ears/ears_09.png",
+		"useColourHue": true
 	}
 ]
 }

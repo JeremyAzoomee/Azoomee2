@@ -9,6 +9,7 @@
 #include "DragAndDropController.h"
 #include "../DataObjects/OomeeMakerDataStorage.h"
 #include "../DataObjects/OomeeMakerDataHandler.h"
+#include <AzoomeeCommon/Utils/SpriteUtils.h>
 
 using namespace cocos2d;
 
@@ -26,22 +27,44 @@ bool OomeeFigure::init()
     _touchListener = EventListenerTouchOneByOne::create();
     _touchListener->onTouchBegan = [&](Touch* touch, Event* event)
     {
+        SpriteWithHue* targetSprite = nullptr;
+        std::string targetId = "";
         for(auto it = _accessorySprites.begin(); it != _accessorySprites.end(); ++it)
         {
             const Point& locationInNode = it->second->convertToNodeSpace(touch->getLocation());
             const Size& s = it->second->getBoundingBox().size;//getContentSize();
             const Rect& rect = Rect(0,0,s.width, s.height);
-            if(rect.containsPoint(locationInNode))
+            if(rect.containsPoint(locationInNode) && touchOnSpritePixelPerfect(touch, it->second))
             {
-                DragAndDropController::getInstance()->setItemData(_accessoryData.at(it->first));
-                removingItem = true;
-                anchorName = it->first;
-                return true;
+                if(!targetSprite)
+                {
+                    targetSprite = it->second;
+                    targetId = it->first;
+                }
+                else
+                {
+                    if(targetSprite->getLocalZOrder() < it->second->getLocalZOrder())
+                    {
+                        targetSprite = it->second;
+                        targetId = it->first;
+                    }
+                }
             }
         }
-        removingItem = false;
-        anchorName = "";
-        return false;
+        
+        if(targetSprite)
+        {
+            DragAndDropController::getInstance()->setItemData(_accessoryData.at(targetId));
+            removingItem = true;
+            anchorName = targetId;
+            return true;
+        }
+        else
+        {
+            removingItem = false;
+            anchorName = "";
+            return false;
+        }
     };
     
     _touchListener->onTouchMoved = [&](Touch* touch, Event* event)
@@ -85,12 +108,19 @@ bool OomeeFigure::initWithOomeeFigureData(const rapidjson::Document &data)
     
     const std::string& oomeeKey = getStringFromJson("oomee", data);
     
+    _hue = getFloatFromJson("colourHue", data);
+    
     const OomeeRef& oomee = OomeeMakerDataStorage::getInstance()->getOomeeForKey(oomeeKey);
     if(oomee)
     {
         setOomeeData(oomee);
     }
     else
+    {
+        return false;
+    }
+    
+    if(!_baseSprite)
     {
         return false;
     }
@@ -120,14 +150,15 @@ void OomeeFigure::setOomeeData(const OomeeRef& oomeeData)
     
     if(_baseSprite)
     {
-        //process transition of accessories here
+        //TODO - process transition of accessories here
         
         _baseSprite->removeFromParent();
     }
     
-    _baseSprite = Sprite::create(OomeeMakerDataHandler::getInstance()->getAssetDir() + _oomeeData->getAssetName());
+    _baseSprite = SpriteWithHue::create(OomeeMakerDataHandler::getInstance()->getAssetDir() + _oomeeData->getAssetName());
     _baseSprite->setNormalizedPosition(_oomeeData->getPosition());
     _baseSprite->setScale(_oomeeData->getScale());
+    _baseSprite->setHue(_hue);
     this->addChild(_baseSprite);
 }
 
@@ -152,11 +183,15 @@ void OomeeFigure::addAccessory(const OomeeItemRef& oomeeItem)
     {
         removeAccessory(oomeeItem->getTargetAnchor());
         _accessoryData[oomeeItem->getTargetAnchor()] = oomeeItem;
-        Sprite* item = Sprite::create(OomeeMakerDataHandler::getInstance()->getAssetDir() + oomeeItem->getAssetName());
+        SpriteWithHue* item = SpriteWithHue::create(OomeeMakerDataHandler::getInstance()->getAssetDir() + oomeeItem->getAssetName());
         const Size& baseSpriteSize = _baseSprite->getContentSize();
         const Vec2& anchorPoint = _oomeeData->getAnchorPoints()[oomeeItem->getTargetAnchor()];
         item->setPosition(Vec2(baseSpriteSize.width * anchorPoint.x, baseSpriteSize.height * anchorPoint.y) + oomeeItem->getOffset() * _oomeeData->getScale());
         item->setScale(oomeeItem->getTargetScale());
+        if(oomeeItem->isUsingColourHue())
+        {
+            item->setHue(_hue);
+        }
         _baseSprite->addChild(item, oomeeItem->getZOrder());
         _accessorySprites[oomeeItem->getTargetAnchor()] = item;
     }
@@ -205,6 +240,28 @@ void OomeeFigure::saveSnapshotImage(const std::string &filepath)
     finalTex->end();
     finalTex->saveToFile(filepath, Image::Format::PNG);
     Director::getInstance()->getRenderer()->render();
+}
+
+float OomeeFigure::getHue() const
+{
+    return _hue;
+}
+
+void OomeeFigure::setHue(float hue)
+{
+    _hue = hue;
+    if(_baseSprite)
+    {
+        _baseSprite->setHue(_hue);
+    }
+    
+    for(auto accessory : _accessorySprites)
+    {
+        if(_accessoryData.at(accessory.first)->isUsingColourHue())
+        {
+            accessory.second->setHue(_hue);
+        }
+    }
 }
 
 Vec2 OomeeFigure::getWorldPositionForAnchorPoint(const std::string &anchorPoint)

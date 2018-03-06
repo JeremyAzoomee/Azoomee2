@@ -38,6 +38,7 @@ void OomeeItem::initWithData(const rapidjson::Value& itemConfig)
     setZOrder(getIntFromJson("zOrder", itemConfig, 0));
     setCategoryId(getStringFromJson("categoryId", itemConfig));
     setAssetFilename(getStringFromJson("assetFilename", itemConfig));
+    setUseColourHue(getBoolFromJson("useColourHue", itemConfig));
 }
 
 // GETTERS AND SETTERS
@@ -131,5 +132,15 @@ std::string OomeeItem::getAssetName() const
 {
     return _assetFilename;
 }
+
+void OomeeItem::setUseColourHue(bool useColourHue)
+{
+    _useColourHue = useColourHue;
+}
+bool OomeeItem::isUsingColourHue() const
+{
+    return _useColourHue;
+}
+
 
 NS_AZOOMEE_OM_END

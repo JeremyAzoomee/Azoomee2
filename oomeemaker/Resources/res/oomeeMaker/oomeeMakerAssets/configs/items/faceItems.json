@@ -11,7 +11,8 @@
 		"targetScale": 1.0,
 		"zOrder": 2,
 		"categoryId": "faces",
-		"assetFilename": "assets/face/face_01.png"
+		"assetFilename": "assets/face/face_01.png",
+		"useColourHue": true
 	},
 	{
 		"id": "face02",
@@ -23,7 +24,8 @@
 		"targetScale": 1.0,
 		"zOrder": 2,
 		"categoryId": "faces",
-		"assetFilename": "assets/face/face_02.png"
+		"assetFilename": "assets/face/face_02.png",
+		"useColourHue": true
 	},
 	{
 		"id": "face03",
@@ -35,7 +37,8 @@
 		"targetScale": 1.0,
 		"zOrder": 2,
 		"categoryId": "faces",
-		"assetFilename": "assets/face/face_03.png"
+		"assetFilename": "assets/face/face_03.png",
+		"useColourHue": true
 	},
 	{
 		"id": "face04",
@@ -47,7 +50,8 @@
 		"targetScale": 1.0,
 		"zOrder": 2,
 		"categoryId": "faces",
-		"assetFilename": "assets/face/face_04.png"
+		"assetFilename": "assets/face/face_04.png",
+		"useColourHue": true
 	},
 	{
 		"id": "face05",
@@ -59,7 +63,8 @@
 		"targetScale": 1.0,
 		"zOrder": 2,
 		"categoryId": "faces",
-		"assetFilename": "assets/face/face_05.png"
+		"assetFilename": "assets/face/face_05.png",
+		"useColourHue": true
 	},
 	{
 		"id": "face06",
@@ -71,7 +76,8 @@
 		"targetScale": 1.0,
 		"zOrder": 2,
 		"categoryId": "faces",
-		"assetFilename": "assets/face/face_06.png"
+		"assetFilename": "assets/face/face_06.png",
+		"useColourHue": true
 	},
 	{
 		"id": "face01",
@@ -83,7 +89,8 @@
 		"targetScale": 1.0,
 		"zOrder": 2,
 		"categoryId": "faces",
-		"assetFilename": "assets/face/face_01.png"
+		"assetFilename": "assets/face/face_01.png",
+		"useColourHue": true
 	},
 	{
 		"id": "face07",
@@ -95,7 +102,8 @@
 		"targetScale": 1.0,
 		"zOrder": 2,
 		"categoryId": "faces",
-		"assetFilename": "assets/face/face_07.png"
+		"assetFilename": "assets/face/face_07.png",
+		"useColourHue": true
 	},
 	{
 		"id": "face08",
@@ -107,7 +115,8 @@
 		"targetScale": 1.0,
 		"zOrder": 2,
 		"categoryId": "faces",
-		"assetFilename": "assets/face/face_08.png"
+		"assetFilename": "assets/face/face_08.png",
+		"useColourHue": true
 	},
 	{
 		"id": "face09",
@@ -119,7 +128,8 @@
 		"targetScale": 1.0,
 		"zOrder": 2,
 		"categoryId": "faces",
-		"assetFilename": "assets/face/face_09.png"
+		"assetFilename": "assets/face/face_09.png",
+		"useColourHue": true
 	},
 	{
 		"id": "face10",
@@ -131,7 +141,8 @@
 		"targetScale": 1.0,
 		"zOrder": 2,
 		"categoryId": "faces",
-		"assetFilename": "assets/face/face_10.png"
+		"assetFilename": "assets/face/face_10.png",
+		"useColourHue": true
 	},
 	{
 		"id": "face11",
@@ -143,7 +154,8 @@
 		"targetScale": 1.0,
 		"zOrder": 2,
 		"categoryId": "faces",
-		"assetFilename": "assets/face/face_11.png"
+		"assetFilename": "assets/face/face_11.png",
+		"useColourHue": true
 	},
 	{
 		"id": "face12",
@@ -155,7 +167,8 @@
 		"targetScale": 1.0,
 		"zOrder": 2,
 		"categoryId": "faces",
-		"assetFilename": "assets/face/face_12.png"
+		"assetFilename": "assets/face/face_12.png",
+		"useColourHue": true
 	},
 	{
 		"id": "face13",
@@ -167,7 +180,8 @@
 		"targetScale": 1.0,
 		"zOrder": 2,
 		"categoryId": "faces",
-		"assetFilename": "assets/face/face_13.png"
+		"assetFilename": "assets/face/face_13.png",
+		"useColourHue": true
 	},
 	{
 		"id": "face14",
@@ -179,7 +193,8 @@
 		"targetScale": 1.0,
 		"zOrder": 2,
 		"categoryId": "faces",
-		"assetFilename": "assets/face/face_14.png"
+		"assetFilename": "assets/face/face_14.png",
+		"useColourHue": true
 	},
 	{
 		"id": "face15",
@@ -191,7 +206,8 @@
 		"targetScale": 1.0,
 		"zOrder": 2,
 		"categoryId": "faces",
-		"assetFilename": "assets/face/face_15.png"
+		"assetFilename": "assets/face/face_15.png",
+		"useColourHue": true
 	},
 	{
 		"id": "face16",
@@ -203,7 +219,8 @@
 		"targetScale": 1.0,
 		"zOrder": 2,
 		"categoryId": "faces",
-		"assetFilename": "assets/face/face_16.png"
+		"assetFilename": "assets/face/face_16.png",
+		"useColourHue": true
 	},
 	{
 		"id": "face17",
@@ -215,7 +232,8 @@
 		"targetScale": 1.0,
 		"zOrder": 2,
 		"categoryId": "faces",
-		"assetFilename": "assets/face/face_17.png"
+		"assetFilename": "assets/face/face_17.png",
+		"useColourHue": true
 	},
 	{
 		"id": "face18",
@@ -227,7 +245,8 @@
 		"targetScale": 1.0,
 		"zOrder": 2,
 		"categoryId": "faces",
-		"assetFilename": "assets/face/face_18.png"
+		"assetFilename": "assets/face/face_18.png",
+		"useColourHue": true
 	},
 	{
 		"id": "face19",
@@ -239,7 +258,8 @@
 		"targetScale": 1.0,
 		"zOrder": 2,
 		"categoryId": "faces",
-		"assetFilename": "assets/face/face_19.png"
+		"assetFilename": "assets/face/face_19.png",
+		"useColourHue": true
 	},
 	{
 		"id": "face20",
@@ -251,7 +271,8 @@
 		"targetScale": 1.0,
 		"zOrder": 2,
 		"categoryId": "faces",
-		"assetFilename": "assets/face/face_20.png"
+		"assetFilename": "assets/face/face_20.png",
+		"useColourHue": true
 	}
 ]
 }
