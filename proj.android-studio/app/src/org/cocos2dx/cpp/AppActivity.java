@@ -92,6 +92,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     private IabHelper mHelper;
     private IabBroadcastReceiver mBroadcastReceiver;
     private boolean mIsPremium;
+    private boolean IABHelperSetupComplete = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -484,6 +485,8 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
             mIsPremium = (premiumPurchase != null);
             Log.d("GOOGLEPLAY", "User is " + (mIsPremium ? "PREMIUM" : "NOT PREMIUM"));
 
+            IABHelperSetupComplete = true;
+
             if(_purchaseRequiredAfterSetup)
             {
                 startGoogleSubscriptionProcess();
@@ -493,6 +496,12 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
     public void startGoogleSubscriptionProcess() {
         _purchaseRequiredAfterSetup = false;
+
+        if(!IABHelperSetupComplete)
+        {
+            googlePurchaseFailed();
+            return;
+        }
 
         if(mIsPremium)
         {
