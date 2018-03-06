@@ -69,9 +69,15 @@ public class NativeView extends XWalkActivity {
             closeButton.setImageResource(R.drawable.back_button);
 
         closeButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
-        closeButton.setOnClickListener(new View.OnClickListener() {
+        closeButton.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v) {
+                if(isActivityExitRequested||!isWebViewReady)
+                {
+                    return;
+                }
+
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
@@ -168,6 +174,11 @@ public class NativeView extends XWalkActivity {
 
     public void onBackPressed()
     {
+            if(isActivityExitRequested||!isWebViewReady)
+            {
+                return;
+            }
+
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             exitView();
