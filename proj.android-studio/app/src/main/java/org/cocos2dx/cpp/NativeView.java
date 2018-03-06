@@ -35,16 +35,15 @@ public class NativeView extends XWalkActivity {
     private boolean isActivityExitRequested = false;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_native_view);
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
         final View decorView = getWindow().getDecorView();
 
-        if (Build.VERSION.SDK_INT >= 11) {
+        if (Build.VERSION.SDK_INT >= 11)
+        {
             int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE;
             decorView.setSystemUiVisibility(uiOptions);
         }
@@ -67,14 +66,25 @@ public class NativeView extends XWalkActivity {
 
         ImageButton closeButton = new ImageButton(this);
         if(loadingGame())
+        {
             closeButton.setImageResource(R.drawable.close_button);
+        }
         else
+        {
             closeButton.setImageResource(R.drawable.back_button);
+        }
 
         closeButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
-        closeButton.setOnClickListener(new View.OnClickListener() {
+        closeButton.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
+                if(isActivityExitRequested||!isWebViewReady)
+                {
+                    return;
+                }
+
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
@@ -126,7 +136,7 @@ public class NativeView extends XWalkActivity {
 
     private void cleanUpAndFinishActivity()
     {
-        if(xWalkWebView != null)
+        if(xWalkWebView != null && isWebViewReady)
         {
             isWebViewReady = false;
             xWalkWebView.evaluateJavascript("javascript:saveLocalDataBeforeExit();", null);
@@ -135,15 +145,17 @@ public class NativeView extends XWalkActivity {
             xWalkWebView.clearCache(true);
             xWalkWebView.pauseTimers();
             xWalkWebView.onDestroy();
-            xWalkWebView = null;
-
-            xWalkWebViewStatic = null;
         }
 
+        xWalkWebView = null;
+        xWalkWebViewStatic = null;
+
         final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
+        handler.postDelayed(new Runnable()
+        {
             @Override
-            public void run() {
+            public void run()
+            {
                 JNICalls.JNIRegisterAndroidSceneChangeEvent();
 
                 finish();
@@ -169,21 +181,32 @@ public class NativeView extends XWalkActivity {
         return false;
     }
 
-    public void onBackPressed(){
-        exitView();
+    public void onBackPressed()
+    {
+            if(isActivityExitRequested||!isWebViewReady)
+            {
+                return;
+            }
+
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            exitView();
     }
 
     public static void exitView()
     {
-        activity.runOnUiThread(new Runnable() {
-            public void run() {
+        activity.runOnUiThread(new Runnable()
+        {
+            public void run()
+            {
                 imageButtonStatic.callOnClick();
             }
         });
     }
 
     @Override
-    protected void onXWalkReady() {
+    protected void onXWalkReady()
+    {
         isWebViewReady = true;
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
@@ -258,7 +281,8 @@ public class NativeView extends XWalkActivity {
     {
         super.onPause();
         JNICalls.JNIRegisterAppWentBackgroundEvent();
-        if (xWalkWebView != null) {
+        if (xWalkWebView != null && isWebViewReady)
+        {
             xWalkWebView.pauseTimers();
             xWalkWebView.onHide();
         }
@@ -269,7 +293,8 @@ public class NativeView extends XWalkActivity {
     {
         super.onResume();
         JNICalls.JNIRegisterAppCameForegroundEvent();
-        if (isWebViewReady && xWalkWebView != null) {
+        if (isWebViewReady && xWalkWebView != null)
+        {
             xWalkWebView.resumeTimers();
             xWalkWebView.onShow();
         }
@@ -277,7 +302,8 @@ public class NativeView extends XWalkActivity {
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(Configuration newConfig)
+    {
         super.onConfigurationChanged(newConfig);
 
         if(activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE && isActivityExitRequested)
