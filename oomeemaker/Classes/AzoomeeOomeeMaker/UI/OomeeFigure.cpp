@@ -22,11 +22,10 @@ bool OomeeFigure::init()
         return false;
     }
     
-    static bool removingItem = false;
-    static std::string anchorName = "";
     _touchListener = EventListenerTouchOneByOne::create();
     _touchListener->onTouchBegan = [&](Touch* touch, Event* event)
     {
+        log("touch Began OF");
         SpriteWithHue* targetSprite = nullptr;
         std::string targetId = "";
         for(auto it = _accessorySprites.begin(); it != _accessorySprites.end(); ++it)
@@ -55,26 +54,16 @@ bool OomeeFigure::init()
         if(targetSprite)
         {
             DragAndDropController::getInstance()->setItemData(_accessoryData.at(targetId));
-            removingItem = true;
-            anchorName = targetId;
+            DragAndDropController::getInstance()->setRemoveItemFromOomee();
             return true;
         }
-        else
-        {
-            removingItem = false;
-            anchorName = "";
-            return false;
-        }
+        
+        return false;
     };
     
     _touchListener->onTouchMoved = [&](Touch* touch, Event* event)
     {
-        if(removingItem)
-        {
-            this->removeAccessory(anchorName);
-            removingItem = false;
-            anchorName = "";
-        }
+        
     };
     
     _touchListener->onTouchEnded = [&](Touch* touch, Event* event)
@@ -185,7 +174,7 @@ void OomeeFigure::addAccessory(const OomeeItemRef& oomeeItem)
         _accessoryData[oomeeItem->getTargetAnchor()] = oomeeItem;
         SpriteWithHue* item = SpriteWithHue::create(OomeeMakerDataHandler::getInstance()->getAssetDir() + oomeeItem->getAssetName());
         const Size& baseSpriteSize = _baseSprite->getContentSize();
-        const Vec2& anchorPoint = _oomeeData->getAnchorPoints()[oomeeItem->getTargetAnchor()];
+        Vec2 anchorPoint = _oomeeData->getAnchorPoints().at(oomeeItem->getTargetAnchor()); // dont const& - unstable on android, caused many tears
         item->setPosition(Vec2(baseSpriteSize.width * anchorPoint.x, baseSpriteSize.height * anchorPoint.y) + oomeeItem->getOffset() * _oomeeData->getScale());
         item->setScale(oomeeItem->getTargetScale());
         if(oomeeItem->isUsingColourHue())
@@ -272,7 +261,7 @@ Vec2 OomeeFigure::getWorldPositionForAnchorPoint(const std::string &anchorPoint)
 Vec2 OomeeFigure::getLocalPositionForAnchorPoint(const std::string& anchorPoint)
 {
     const Vec2& baseSpriteSize = _baseSprite->getContentSize() * _baseSprite->getScale();
-    const Vec2& anchor = _oomeeData->getAnchorPoints()[anchorPoint];
+    Vec2 anchor = _oomeeData->getAnchorPoints().at(anchorPoint); // dont const& - unstable on android, caused many tears
     return Vec2(this->getContentSize().width * _baseSprite->getNormalizedPosition().x, this->getContentSize().height * _baseSprite->getNormalizedPosition().y) + Vec2(baseSpriteSize.x * anchor.x, baseSpriteSize.y * anchor.y) - (baseSpriteSize / 2.0f);
 }
 

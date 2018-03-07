@@ -6,8 +6,8 @@ android {
 
     defaultConfig {
         applicationId "org.cocos2dx.AzoomeeOomeeMaker"
-        minSdkVersion 10
-        targetSdkVersion 22
+        minSdkVersion 21
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
     }

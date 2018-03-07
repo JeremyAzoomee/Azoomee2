@@ -23,6 +23,9 @@ private:
     cocos2d::EventListenerTouchOneByOne* _touchListener = nullptr;
     OomeeFigure* _oomeeFigure = nullptr;
     cocos2d::Node* _listenerTargetNode = nullptr;
+    cocos2d::Vec2 _anchorPos;
+    
+    bool _removeItemFromOomee = false;
     
     bool _debugMode = false;
     cocos2d::Label* _positioningLabel = nullptr;
@@ -36,6 +39,8 @@ public:
     void setItemData(const OomeeItemRef& data);
     void setTargetOomee(OomeeFigure* oomeeFigure);
     void attachToScene(cocos2d::Scene* currentScene);
+    
+    void setRemoveItemFromOomee();
     
     void setDebugModeEnabled(bool isEnabled);
 };

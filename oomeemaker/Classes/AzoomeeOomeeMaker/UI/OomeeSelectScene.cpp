@@ -106,8 +106,10 @@ void OomeeSelectScene::onEnter()
 void OomeeSelectScene::onEnterTransitionDidFinish()
 {
     Super::onEnterTransitionDidFinish();
+    this->getScheduler()->schedule([](float deltaT){
+        OomeeMakerDataHandler::getInstance()->getConfigFilesIfNeeded();
+    }, this, 0, 0, 0.5, false, "getFiles");
     
-    OomeeMakerDataHandler::getInstance()->getConfigFilesIfNeeded();
 }
 
 NS_AZOOMEE_OM_END

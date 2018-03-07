@@ -12,6 +12,7 @@
 #include "OomeeFigure.h"
 #include "DragAndDropController.h"
 #include "OomeeSelectScene.h"
+#include <AzoomeeCommon/UI/Style.h>
 
 using namespace cocos2d;
 
@@ -30,6 +31,9 @@ bool OomeeMakerScene::init()
     _contentLayer = Layer::create();
     _contentLayer->setContentSize(Director::getInstance()->getVisibleSize());
     _contentLayer->setPosition(Director::getInstance()->getVisibleOrigin());
+    
+    LayerColor* bg = LayerColor::create(Color4B(Style::Color::barney));
+    _contentLayer->addChild(bg);
     this->addChild(_contentLayer);
     
     return true;
@@ -37,11 +41,11 @@ bool OomeeMakerScene::init()
 
 void OomeeMakerScene::onEnter()
 {
-    OomeeRef oomeeData = OomeeMakerDataStorage::getInstance()->getOomeeForKey("oomee01");
+    const OomeeRef& oomeeData = OomeeMakerDataStorage::getInstance()->getOomeeForKey("oomee01");
     
-    std::vector<ItemCategoryRef> categoryData = OomeeMakerDataStorage::getInstance()->getItemCategoryList();
+    const std::vector<ItemCategoryRef>& categoryData = OomeeMakerDataStorage::getInstance()->getItemCategoryList();
     
-    std::vector<OomeeItemRef> itemsData = OomeeMakerDataStorage::getInstance()->getItemsInCategoryData()[categoryData[0]->getId()];
+    const std::vector<OomeeItemRef>& itemsData = OomeeMakerDataStorage::getInstance()->getItemsForCategory(categoryData.at(0)->getId());
     
     _oomee = OomeeFigure::create();
     _oomee->setOomeeData(oomeeData);
@@ -53,7 +57,6 @@ void OomeeMakerScene::onEnter()
         rapidjson::Document data;
         data.Parse(FileUtils::getInstance()->getStringFromFile(FileUtils::getInstance()->getWritablePath() + _filename + ".oomee").c_str());
         _oomee->initWithOomeeFigureData(data);
-        
     }
     
     _contentLayer->addChild(_oomee);
@@ -131,7 +134,7 @@ void OomeeMakerScene::setItemsListForCategory(const ItemCategoryRef& data)
 {
     if(_itemList)
     {
-        _itemList->setItems(OomeeMakerDataStorage::getInstance()->getItemsInCategoryData().at(data->getId()));
+        _itemList->setItems(OomeeMakerDataStorage::getInstance()->getItemsForCategory(data->getId()));
     }
 }
 
@@ -142,25 +145,48 @@ void OomeeMakerScene::setFilename(const std::string &filename)
 
 void OomeeMakerScene::saveAndExit()
 {
-    std::string savedFileContent = "{";
-    savedFileContent += StringUtils::format("\"oomee\":\"%s\",", _oomee->getOomeeData()->getId().c_str());
-    savedFileContent += "\"oomeeItems\":[";
-    const std::vector<std::string>& accIds = _oomee->getAccessoryIds();
-    for(int i = 0; i < accIds.size(); i++)
+    auto overlay = LayerColor::create(Style::Color_4B::semiTransparentOverlay, Director::getInstance()->getVisibleSize().width, Director::getInstance()->getVisibleSize().height);
+    overlay->setPosition(Director::getInstance()->getVisibleOrigin());
+    overlay->setName("savingOverlay");
+    this->addChild(overlay,2);
+    
+    auto savingLabel = Label::createWithTTF("Saving...", Style::Font::Regular, 128);
+    savingLabel->setColor(Style::Color::white);
+    savingLabel->setNormalizedPosition(Vec2(0.5,0.5));
+    savingLabel->setAnchorPoint(Vec2(0.5,0.5));
+    overlay->addChild(savingLabel);
+    
+    auto listener = EventListenerTouchOneByOne::create();
+    listener->setSwallowTouches(true);
+    listener->onTouchBegan = [=](Touch *touch, Event *event)
     {
-        savedFileContent += StringUtils::format("\"%s\"",accIds.at(i).c_str());
-        if(i < accIds.size() - 1)
+        return true;
+    };
+    
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), overlay);
+    const std::string scheduleKey = "saveAndShare";
+    Director::getInstance()->getScheduler()->schedule([&](float dt){
+        std::string savedFileContent = "{";
+        savedFileContent += StringUtils::format("\"oomee\":\"%s\",", _oomee->getOomeeData()->getId().c_str());
+        savedFileContent += "\"oomeeItems\":[";
+        const std::vector<std::string>& accIds = _oomee->getAccessoryIds();
+        for(int i = 0; i < accIds.size(); i++)
         {
-            savedFileContent += ",";
+            savedFileContent += StringUtils::format("\"%s\"",accIds.at(i).c_str());
+            if(i < accIds.size() - 1)
+            {
+                savedFileContent += ",";
+            }
         }
-    }
-    savedFileContent += StringUtils::format("], \"colourHue\": %f }", _oomee->getHue());
+        savedFileContent += StringUtils::format("], \"colourHue\": %f }", _oomee->getHue());
+        
+        FileUtils::getInstance()->writeStringToFile(savedFileContent, FileUtils::getInstance()->getWritablePath() + _filename + ".oomee");
+        
+        _oomee->saveSnapshotImage(_filename + ".png");
+        
+        Director::getInstance()->replaceScene(OomeeSelectScene::create());
+    }, this, 0.5, 0, 0, false, scheduleKey);
     
-    FileUtils::getInstance()->writeStringToFile(savedFileContent, FileUtils::getInstance()->getWritablePath() + _filename + ".oomee");
-    
-    _oomee->saveSnapshotImage(_filename + ".png");
-    
-    Director::getInstance()->replaceScene(OomeeSelectScene::create());
 }
 
 NS_AZOOMEE_OM_END

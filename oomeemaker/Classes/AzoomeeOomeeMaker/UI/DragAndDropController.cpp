@@ -36,6 +36,7 @@ void DragAndDropController::init()
     _touchListener = EventListenerTouchOneByOne::create();
     _touchListener->onTouchBegan = [&](Touch* touch, Event* event)
     {
+        log("touch began - DNDC");
         if(_itemData && _itemSprite)
         {
             return false;
@@ -45,16 +46,22 @@ void DragAndDropController::init()
     
     _touchListener->onTouchMoved = [&](Touch* touch, Event* event)
     {
+        if(this->_removeItemFromOomee)
+        {
+            _oomeeFigure->removeAccessory(_itemData->getTargetAnchor());
+            this->_removeItemFromOomee = false;
+        }
+        
         if(_itemSprite)
         {
             _itemSprite->setPosition(touch->getLocation());
             
             if(_debugMode)
             {
-                const Vec2& dist = (_itemSprite->getPosition() - _oomeeFigure->getWorldPositionForAnchorPoint(_itemData->getTargetAnchor())) / _oomeeFigure->getOomeeData()->getScale();
-                _positioningLabel->setString(StringUtils::format("x: %d, y:%d",(int)dist.x, (int)dist.y));
+                const Vec2& dist = (_itemSprite->getPosition() - _anchorPos) / _oomeeFigure->getOomeeData()->getScale();
+                _positioningLabel->setString(StringUtils::format("x: %d, y:%d\n%s",(int)dist.x, (int)dist.y, _itemData->getTargetAnchor().c_str()));
                 _anchorToSprite->clear();
-                _anchorToSprite->drawLine(_oomeeFigure->getWorldPositionForAnchorPoint(_itemData->getTargetAnchor()), _itemSprite->getPosition(), Color4F::WHITE);
+                _anchorToSprite->drawLine(_anchorPos, _itemSprite->getPosition(), Color4F::WHITE);
             }
         }
     };
@@ -63,8 +70,7 @@ void DragAndDropController::init()
     {
         if(_itemSprite && _itemData && _oomeeFigure)
         {
-            const Vec2& oomeePos = _oomeeFigure->getWorldPositionForAnchorPoint(_itemData->getTargetAnchor());
-            const Vec2& targetDist = touch->getLocation() - oomeePos;
+            const Vec2& targetDist = touch->getLocation() - _anchorPos;
             Vec2 absDist = Vec2(targetDist.x * targetDist.x, targetDist.y * targetDist.y);
             const Vec2& range = _itemData->getSnapRange() * _oomeeFigure->getOomeeData()->getScale();
             Vec2 absRange = Vec2(range.x * range.x, range.y * range.y);
@@ -83,6 +89,7 @@ void DragAndDropController::init()
                 _anchorToSprite = nullptr;
             }
         }
+        _touchListener->setSwallowTouches(false);
     };
     
     _touchListener->onTouchCancelled = _touchListener->onTouchEnded;
@@ -104,21 +111,30 @@ void DragAndDropController::setItemData(const OomeeItemRef& data)
         _itemSprite->setHue(_oomeeFigure->getHue());
     }
     _listenerTargetNode->addChild(_itemSprite);
+    _anchorPos = _oomeeFigure->getWorldPositionForAnchorPoint(_itemData->getTargetAnchor());
     
     if(_debugMode)
     {
-        const Vec2& dist = (_oomeeFigure->getWorldPositionForAnchorPoint(_itemData->getTargetAnchor()) - _itemSprite->getPosition());
+        const Vec2& dist = (_anchorPos - _itemSprite->getPosition());
+        if(_positioningLabel)
+        {
+            _positioningLabel->removeFromParent();
+        }
         _positioningLabel = Label::createWithTTF(StringUtils::format("x: %d, y:%d",(int)dist.x, (int)dist.y), "fonts/arial.ttf", 40);
         _positioningLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
         _positioningLabel->setPosition(Vec2(_itemSprite->getContentSize().width * 0.5f, 0));
         _itemSprite->addChild(_positioningLabel);
         
+        if(_anchorToSprite)
+        {
+            _anchorToSprite->removeFromParent();
+        }
         _anchorToSprite = DrawNode::create();
-        _anchorToSprite->drawLine(_oomeeFigure->getWorldPositionForAnchorPoint(_itemData->getTargetAnchor()), _itemSprite->getPosition(), Color4F::WHITE);
+        _anchorToSprite->drawLine(_anchorPos, _itemSprite->getPosition(), Color4F::WHITE);
         _listenerTargetNode->addChild(_anchorToSprite);
     }
     
-    
+    _touchListener->setSwallowTouches(true);
 }
 
 void DragAndDropController::setTargetOomee(OomeeFigure* oomeeFigure)
@@ -136,6 +152,11 @@ void DragAndDropController::attachToScene(cocos2d::Scene *currentScene)
 void DragAndDropController::setDebugModeEnabled(bool isEnabled)
 {
     _debugMode = isEnabled;
+}
+
+void DragAndDropController::setRemoveItemFromOomee()
+{
+    _removeItemFromOomee = true;
 }
 
 NS_AZOOMEE_OM_END

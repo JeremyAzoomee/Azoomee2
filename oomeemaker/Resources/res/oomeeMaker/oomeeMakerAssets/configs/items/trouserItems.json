@@ -74,18 +74,6 @@
 		"assetFilename": "assets/trousers/trousers_06.png"
 	},
 	{
-		"id": "trousers01",
-		"targetAnchor": "legs",
-		"offset": [0.0,0.0],
-		"snapRange": [100.0,100.0],
-		"menuScale": 1.0,
-		"dragScale": 2.0,
-		"targetScale": 1.0,
-		"zOrder": 4,
-		"categoryId": "trousers",
-		"assetFilename": "assets/trousers/trousers_01.png"
-	},
-	{
 		"id": "trousers07",
 		"targetAnchor": "legs",
 		"offset": [0.0,0.0],
@@ -132,18 +120,6 @@
 		"zOrder": 4,
 		"categoryId": "trousers",
 		"assetFilename": "assets/trousers/trousers_10.png"
-	},
-	{
-		"id": "trousers11",
-		"targetAnchor": "legs",
-		"offset": [0.0,0.0],
-		"snapRange": [100.0,100.0],
-		"menuScale": 1.0,
-		"dragScale": 2.0,
-		"targetScale": 1.0,
-		"zOrder": 4,
-		"categoryId": "trousers",
-		"assetFilename": "assets/trousers/trousers_11.png"
 	},
 	{
 		"id": "trousers12",
