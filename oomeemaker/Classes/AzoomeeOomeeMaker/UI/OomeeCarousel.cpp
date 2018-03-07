@@ -93,7 +93,7 @@ void OomeeCarousel::setOomeeData(const std::vector<std::string>& oomeeFilenames)
         const std::string assetName = OomeeMakerDataHandler::getInstance()->getFullSaveDir() + oomeeFilenames.at(i) + ".png";
         LazyLoadingButton* button = LazyLoadingButton::create();
         button->setMainImage(assetName);
-        button->setPlaceholderImage("res/childSelection/om_Blue.png");
+        button->setPlaceholderImage("res/oomeeMaker/body_00.png");
         button->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         button->setPosition(Vec2(_spacing * i, this->getContentSize().height / 2.0f));
         button->setSwallowTouches(false);
@@ -105,17 +105,26 @@ void OomeeCarousel::setOomeeData(const std::vector<std::string>& oomeeFilenames)
         });
         _contentNode->addChild(button);
         _carouselButtons.push_back(button);
-        if(i == 0)
-        {
-            _leftMostButton = button;
-        }
-        if(i == oomeeFilenames.size() - 1)
-        {
-            _rightMostButton = button;
-        }
     }
     
-    // add new oomee button here
+    LazyLoadingButton* button = LazyLoadingButton::create();
+    button->setMainImage("res/oomeeMaker/newoomee_cta.png");
+    button->setPlaceholderImage("res/oomeeMaker/body_00.png");
+    button->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    button->setPosition(Vec2(_spacing * _carouselButtons.size(), this->getContentSize().height / 2.0f));
+    button->setSwallowTouches(false);
+    button->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            OomeeSelectScene::newOomee();
+        }
+    });
+    _contentNode->addChild(button);
+    _carouselButtons.push_back(button);
+    
+    _leftMostButton = _carouselButtons.at(0);
+
+    _rightMostButton = _carouselButtons.at(_carouselButtons.size() - 1);
     
     rotateButtonsLeft();
 }

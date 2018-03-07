@@ -70,15 +70,6 @@ bool OomeeSelectScene::init()
     oomeeCarousel->setOomeeData(trimmedFilenames);
     _contentLayer->addChild(oomeeCarousel);
     
-    ui::Button* newOomeeButton = ui::Button::create();
-    newOomeeButton->loadTextureNormal("res/oomeeMaker/menu6.png");
-    newOomeeButton->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
-    newOomeeButton->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
-    newOomeeButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
-        this->newOomee();
-    });
-    _contentLayer->addChild(newOomeeButton);
-    
     ui::Button* exitButton = ui::Button::create();
     exitButton->loadTextureNormal("res/oomeeMaker/close_button.png");
     exitButton->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
