@@ -10,7 +10,7 @@
 
 #include "../AzoomeeOomeeMaker.h"
 #include "../DataObjects/OomeeItem.h"
-#include "CCSpriteWithHue.h"
+#include <AzoomeeCommon/UI/CCSpriteWithHue.h>
 #include "OomeeFigure.h"
 
 NS_AZOOMEE_OM_BEGIN

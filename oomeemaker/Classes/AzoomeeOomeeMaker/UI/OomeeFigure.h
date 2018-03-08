@@ -11,7 +11,7 @@
 #include "../AzoomeeOomeeMaker.h"
 #include "../DataObjects/Oomee.h"
 #include "../DataObjects/OomeeItem.h"
-#include "CCSpriteWithHue.h"
+#include <AzoomeeCommon/UI/CCSpriteWithHue.h>
 #include <cocos/cocos2d.h>
 
 NS_AZOOMEE_OM_BEGIN
