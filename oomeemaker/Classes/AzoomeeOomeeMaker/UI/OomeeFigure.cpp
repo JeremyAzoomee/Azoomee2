@@ -175,7 +175,7 @@ void OomeeFigure::addAccessory(const OomeeItemRef& oomeeItem)
         SpriteWithHue* item = SpriteWithHue::create(OomeeMakerDataHandler::getInstance()->getAssetDir() + oomeeItem->getAssetName());
         const Size& baseSpriteSize = _baseSprite->getContentSize();
         Vec2 anchorPoint = _oomeeData->getAnchorPoints().at(oomeeItem->getTargetAnchor()); // dont const& - unstable on android, caused many tears
-        item->setPosition(Vec2(baseSpriteSize.width * anchorPoint.x, baseSpriteSize.height * anchorPoint.y) + oomeeItem->getOffset() * _oomeeData->getScale());
+        item->setPosition(Vec2(baseSpriteSize.width * anchorPoint.x, baseSpriteSize.height * anchorPoint.y) + oomeeItem->getOffset());
         item->setScale(oomeeItem->getTargetScale());
         if(oomeeItem->isUsingColourHue())
         {

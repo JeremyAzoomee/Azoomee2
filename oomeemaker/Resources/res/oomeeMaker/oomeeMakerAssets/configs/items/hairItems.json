@@ -16,7 +16,7 @@
 	{
 		"id": "hair02",
 		"targetAnchor": "head",
-		"offset": [0.0,0.0],
+		"offset": [0.0,25.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -52,7 +52,7 @@
 	{
 		"id": "hair05",
 		"targetAnchor": "head",
-		"offset": [0.0,0.0],
+		"offset": [0.0,-35.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -64,7 +64,7 @@
 	{
 		"id": "hair06",
 		"targetAnchor": "head",
-		"offset": [0.0,0.0],
+		"offset": [0.0,-40.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -76,7 +76,7 @@
 	{
 		"id": "hair07",
 		"targetAnchor": "head",
-		"offset": [0.0,0.0],
+		"offset": [0.0,40.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -88,7 +88,7 @@
 	{
 		"id": "hair08",
 		"targetAnchor": "head",
-		"offset": [0.0,0.0],
+		"offset": [0.0,-40.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -100,7 +100,7 @@
 	{
 		"id": "hair09",
 		"targetAnchor": "head",
-		"offset": [0.0,0.0],
+		"offset": [5.0,-15.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -112,7 +112,7 @@
 	{
 		"id": "hair10",
 		"targetAnchor": "head",
-		"offset": [0.0,0.0],
+		"offset": [0.0,-100.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,

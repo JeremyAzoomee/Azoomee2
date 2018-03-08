@@ -17,7 +17,7 @@
 	{
 		"id": "face02",
 		"targetAnchor": "face",
-		"offset": [0.0,0.0],
+		"offset": [0.0,-35.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -30,7 +30,7 @@
 	{
 		"id": "face03",
 		"targetAnchor": "face",
-		"offset": [0.0,0.0],
+		"offset": [0.0,-55.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -43,7 +43,7 @@
 	{
 		"id": "face04",
 		"targetAnchor": "face",
-		"offset": [0.0,0.0],
+		"offset": [0.0,-80.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -56,7 +56,7 @@
 	{
 		"id": "face05",
 		"targetAnchor": "face",
-		"offset": [0.0,0.0],
+		"offset": [0.0,5.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -69,7 +69,7 @@
 	{
 		"id": "face06",
 		"targetAnchor": "face",
-		"offset": [0.0,0.0],
+		"offset": [0.0,5.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -80,22 +80,9 @@
 		"useColourHue": true
 	},
 	{
-		"id": "face01",
-		"targetAnchor": "face",
-		"offset": [0.0,0.0],
-		"snapRange": [100.0,100.0],
-		"menuScale": 1.0,
-		"dragScale": 2.0,
-		"targetScale": 1.0,
-		"zOrder": 2,
-		"categoryId": "faces",
-		"assetFilename": "assets/face/face_01.png",
-		"useColourHue": true
-	},
-	{
 		"id": "face07",
 		"targetAnchor": "face",
-		"offset": [0.0,0.0],
+		"offset": [0.0,-40.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -108,7 +95,7 @@
 	{
 		"id": "face08",
 		"targetAnchor": "face",
-		"offset": [0.0,0.0],
+		"offset": [0.0,-40.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -121,7 +108,7 @@
 	{
 		"id": "face09",
 		"targetAnchor": "face",
-		"offset": [0.0,0.0],
+		"offset": [0.0,5.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -134,7 +121,7 @@
 	{
 		"id": "face10",
 		"targetAnchor": "face",
-		"offset": [0.0,0.0],
+		"offset": [0.0,15.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -147,7 +134,7 @@
 	{
 		"id": "face11",
 		"targetAnchor": "face",
-		"offset": [0.0,0.0],
+		"offset": [0.0,5.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -160,7 +147,7 @@
 	{
 		"id": "face12",
 		"targetAnchor": "face",
-		"offset": [0.0,0.0],
+		"offset": [0.0,5.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -173,7 +160,7 @@
 	{
 		"id": "face13",
 		"targetAnchor": "face",
-		"offset": [0.0,0.0],
+		"offset": [-35.0,-45.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -186,7 +173,7 @@
 	{
 		"id": "face14",
 		"targetAnchor": "face",
-		"offset": [0.0,0.0],
+		"offset": [0.0,30.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -199,7 +186,7 @@
 	{
 		"id": "face15",
 		"targetAnchor": "face",
-		"offset": [0.0,0.0],
+		"offset": [0.0,-45.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -212,7 +199,7 @@
 	{
 		"id": "face16",
 		"targetAnchor": "face",
-		"offset": [0.0,0.0],
+		"offset": [0.0,-60.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -225,7 +212,7 @@
 	{
 		"id": "face17",
 		"targetAnchor": "face",
-		"offset": [0.0,0.0],
+		"offset": [-7.0,-20.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -238,7 +225,7 @@
 	{
 		"id": "face18",
 		"targetAnchor": "face",
-		"offset": [0.0,0.0],
+		"offset": [0.0,-45.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -251,7 +238,7 @@
 	{
 		"id": "face19",
 		"targetAnchor": "face",
-		"offset": [0.0,0.0],
+		"offset": [0.0,-45.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -264,7 +251,7 @@
 	{
 		"id": "face20",
 		"targetAnchor": "face",
-		"offset": [0.0,0.0],
+		"offset": [-10.0,-55.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,

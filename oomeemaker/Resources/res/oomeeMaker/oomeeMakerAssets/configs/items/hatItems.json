@@ -4,7 +4,7 @@
 	{
 		"id": "hat01",
 		"targetAnchor": "head",
-		"offset": [0.0,0.0],
+		"offset": [0.0,-20.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -16,7 +16,7 @@
 	{
 		"id": "hat02",
 		"targetAnchor": "head",
-		"offset": [0.0,0.0],
+		"offset": [-20.0,-25.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -52,7 +52,7 @@
 	{
 		"id": "hat05",
 		"targetAnchor": "head",
-		"offset": [0.0,0.0],
+		"offset": [0.0,-10.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -64,7 +64,7 @@
 	{
 		"id": "hat06",
 		"targetAnchor": "head",
-		"offset": [0.0,0.0],
+		"offset": [0.0,-10.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -72,18 +72,6 @@
 		"zOrder": 1,
 		"categoryId": "hats",
 		"assetFilename": "assets/hats/hat_06.png"
-	},
-	{
-		"id": "hat01",
-		"targetAnchor": "head",
-		"offset": [0.0,0.0],
-		"snapRange": [100.0,100.0],
-		"menuScale": 1.0,
-		"dragScale": 2.0,
-		"targetScale": 1.0,
-		"zOrder": 1,
-		"categoryId": "hats",
-		"assetFilename": "assets/hats/hat_01.png"
 	},
 	{
 		"id": "hat07",
@@ -100,7 +88,7 @@
 	{
 		"id": "hat08",
 		"targetAnchor": "head",
-		"offset": [0.0,0.0],
+		"offset": [0.0,-40.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -124,7 +112,7 @@
 	{
 		"id": "hat10",
 		"targetAnchor": "head",
-		"offset": [0.0,0.0],
+		"offset": [0.0,-75.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -160,7 +148,7 @@
 	{
 		"id": "hat13",
 		"targetAnchor": "head",
-		"offset": [0.0,0.0],
+		"offset": [0.0,-20.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -172,7 +160,7 @@
 	{
 		"id": "hat14",
 		"targetAnchor": "head",
-		"offset": [0.0,0.0],
+		"offset": [0.0,-20.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -184,7 +172,7 @@
 	{
 		"id": "hat15",
 		"targetAnchor": "head",
-		"offset": [0.0,0.0],
+		"offset": [0.0,30.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -196,7 +184,7 @@
 	{
 		"id": "hat16",
 		"targetAnchor": "head",
-		"offset": [0.0,0.0],
+		"offset": [0.0,15.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -208,7 +196,7 @@
 	{
 		"id": "hat17",
 		"targetAnchor": "head",
-		"offset": [0.0,0.0],
+		"offset": [15.0,-25.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -232,7 +220,7 @@
 	{
 		"id": "hat19",
 		"targetAnchor": "head",
-		"offset": [0.0,0.0],
+		"offset": [0.0,25.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,

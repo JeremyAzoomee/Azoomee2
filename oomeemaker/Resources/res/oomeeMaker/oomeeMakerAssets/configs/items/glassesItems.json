@@ -74,21 +74,9 @@
 		"assetFilename": "assets/glasses/glasses_06.png"
 	},
 	{
-		"id": "glasses01",
-		"targetAnchor": "eyes",
-		"offset": [0.0,0.0],
-		"snapRange": [100.0,100.0],
-		"menuScale": 1.0,
-		"dragScale": 2.0,
-		"targetScale": 1.0,
-		"zOrder": 6,
-		"categoryId": "glasses",
-		"assetFilename": "assets/glasses/glasses_01.png"
-	},
-	{
 		"id": "glasses07",
 		"targetAnchor": "eyes",
-		"offset": [0.0,0.0],
+		"offset": [75.0,-60.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,

@@ -28,7 +28,7 @@
 	{
 		"id": "necklace03",
 		"targetAnchor": "neck",
-		"offset": [0.0,0.0],
+		"offset": [0.0,-20.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -74,21 +74,9 @@
 		"assetFilename": "assets/necklaces/necklace_06.png"
 	},
 	{
-		"id": "necklace01",
-		"targetAnchor": "neck",
-		"offset": [0.0,0.0],
-		"snapRange": [100.0,100.0],
-		"menuScale": 1.0,
-		"dragScale": 2.0,
-		"targetScale": 1.0,
-		"zOrder": 5,
-		"categoryId": "necklaces",
-		"assetFilename": "assets/necklaces/necklace_01.png"
-	},
-	{
 		"id": "necklace07",
 		"targetAnchor": "neck",
-		"offset": [0.0,0.0],
+		"offset": [0.0,35.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -100,7 +88,7 @@
 	{
 		"id": "necklace08",
 		"targetAnchor": "neck",
-		"offset": [0.0,0.0],
+		"offset": [0.0,-10.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -112,7 +100,7 @@
 	{
 		"id": "necklace09",
 		"targetAnchor": "neck",
-		"offset": [0.0,0.0],
+		"offset": [0.0,-10.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -124,7 +112,7 @@
 	{
 		"id": "necklace10",
 		"targetAnchor": "neck",
-		"offset": [0.0,0.0],
+		"offset": [0.0,-10.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -136,7 +124,7 @@
 	{
 		"id": "necklace11",
 		"targetAnchor": "neck",
-		"offset": [0.0,0.0],
+		"offset": [0.0,60.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -148,7 +136,7 @@
 	{
 		"id": "necklace12",
 		"targetAnchor": "neck",
-		"offset": [0.0,0.0],
+		"offset": [0.0,40.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -160,7 +148,7 @@
 	{
 		"id": "necklace13",
 		"targetAnchor": "neck",
-		"offset": [0.0,0.0],
+		"offset": [0.0,30.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -172,7 +160,7 @@
 	{
 		"id": "necklace14",
 		"targetAnchor": "neck",
-		"offset": [0.0,0.0],
+		"offset": [0.0,40.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -184,7 +172,7 @@
 	{
 		"id": "necklace15",
 		"targetAnchor": "neck",
-		"offset": [0.0,0.0],
+		"offset": [25.0,20.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -196,7 +184,7 @@
 	{
 		"id": "necklace16",
 		"targetAnchor": "neck",
-		"offset": [0.0,0.0],
+		"offset": [25.0,20.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -208,7 +196,7 @@
 	{
 		"id": "necklace17",
 		"targetAnchor": "neck",
-		"offset": [0.0,0.0],
+		"offset": [0.0,30.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -220,7 +208,7 @@
 	{
 		"id": "necklace18",
 		"targetAnchor": "neck",
-		"offset": [0.0,0.0],
+		"offset": [0.0,20.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -232,7 +220,7 @@
 	{
 		"id": "necklace19",
 		"targetAnchor": "neck",
-		"offset": [0.0,0.0],
+		"offset": [0.0,15.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -244,7 +232,7 @@
 	{
 		"id": "necklace20",
 		"targetAnchor": "neck",
-		"offset": [0.0,0.0],
+		"offset": [0.0,30.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
