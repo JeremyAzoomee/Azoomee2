@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -311,5 +312,25 @@ public class NativeView extends XWalkActivity {
             isActivityExitRequested = false;
             cleanUpAndFinishActivity();
         }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+
+        try
+        {
+            return super.dispatchTouchEvent(event);
+        }
+        catch(java.lang.RuntimeException e) {
+
+            if ( e.getMessage().compareTo("Crosswalk's APIs are not ready yet") == 0 ) {
+            }
+            else
+            {
+                throw e;
+            }
+        }
+
+        return false;
     }
 }
