@@ -257,9 +257,16 @@ public class NativeView extends XWalkActivity {
             JNICalls.getBackToLoginScreen();
         }
 
-        if(myUrl.substring(myUrl.length() - 4).equals("html"))
+        if(myUrl.substring(myUrl.length() - 4).equals("html")) //content is game
         {
-            xWalkWebView.loadUrl("file:///android_asset/res/webcommApi/index_android.html?contentUrl=" + myUrl);
+            if(myUrl.substring(0, 4).equals("http")) //content is game loaded remotely
+            {
+                xWalkWebView.loadUrl(JNICalls.JNIGetRemoteWebGameAPIPath() + "index_android.html?contentUrl=" + myUrl);
+            }
+            else //game is loaded locally
+            {
+                xWalkWebView.loadUrl("file:///android_asset/res/webcommApi/index_android.html?contentUrl=" + myUrl);
+            }
         }
         else
         {

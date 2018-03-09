@@ -12,4 +12,5 @@ public class JNICalls {
     public static native String JNIGetLocalDataStorage();
     public static native String JNISendAPIRequest(String method, String responseID, String sendData);
     public static native String JNIGetVideoPlaylist();
+    public static native String JNIGetRemoteWebGameAPIPath();
 }

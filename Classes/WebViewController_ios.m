@@ -52,12 +52,20 @@ using namespace Azoomee;
     webview = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, width, height)];
     
     NSString *iosurlExtension = [urlToLoad substringFromIndex:MAX((int)[urlToLoad length]-4, 0)];
+    NSString *iosurlPrefix = [urlToLoad substringToIndex:4];
     NSString *urlToCall;
     
     
-    if([iosurlExtension isEqualToString:@"html"])
+    if([iosurlExtension isEqualToString:@"html"]) //this is a game
     {
-        urlToCall = [[NSBundle mainBundle] pathForResource:@"res/webcommApi/index_ios" ofType:@"html"];
+        if([iosurlPrefix isEqualToString:@"http"]) //game is loaded remotely
+        {
+            urlToCall = [NSString stringWithFormat:@"%@%@", getRemoteWebGameAPIPath(), @"index_ios.html"];
+        }
+        else //game is loaded locally
+        {
+            urlToCall = [[NSBundle mainBundle] pathForResource:@"res/webcommApi/index_ios" ofType:@"html"];
+        }
     }
     else
     {

@@ -5,7 +5,7 @@
 //#define FORCE_RELOAD YES;
 //#define FORGET_USER_DATA YES;
 //#define ALLOW_UNPAID_SIGNUP YES
-//#define USINGCI YES
+#define USINGCI YES
 
 #include <cocos/cocos2d.h>
 #include "Json.h"
@@ -64,6 +64,7 @@ public:
     std::string getCTAPackageJsonURL();
     std::string getMediaPrefixForXwalkCookies();
     std::string getPathForTag(const std::string& httpRequestTag);
+    std::string getRemoteWebGameAPIPath();
     bool isParentSignatureRequiredForRequest(const std::string& requestTag);
     bool isImmediateRequestSendingRequired(const std::string& requestTag);
     
