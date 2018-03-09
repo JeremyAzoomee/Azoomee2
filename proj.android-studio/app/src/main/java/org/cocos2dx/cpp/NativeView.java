@@ -323,7 +323,9 @@ public class NativeView extends XWalkActivity {
         }
         catch(java.lang.RuntimeException e) {
 
-            if ( e.getMessage().compareTo("Crosswalk's APIs are not ready yet") == 0 ) {
+            if ( e.getMessage().compareTo("Crosswalk's APIs are not ready yet") == 0 )
+            {
+                //don't throw exception if api is not ready.
             }
             else
             {
