@@ -21,6 +21,10 @@ public class Mixpanel
         this._mixpanelAPI = MixpanelAPI.getInstance(_context , kMixpanelAPIKey);
     }
 
+    public void identifyMixpanelWithId(String id)
+    {
+        this._mixpanelAPI.identify(id);
+    }
 
     public void sendMixPanelWithEventID(String eventID, String jsonPropertiesString)
     {

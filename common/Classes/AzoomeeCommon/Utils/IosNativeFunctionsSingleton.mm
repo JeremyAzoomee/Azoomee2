@@ -5,6 +5,7 @@
 #import <LocalAuthentication/LocalAuthentication.h>
 #import <UIKit/UIKit.h>
 #import "StoreKit/StoreKit.h"
+#import <Mixpanel/Mixpanel.h>
 
 using namespace cocos2d;
 
@@ -43,6 +44,16 @@ const char* IosNativeFunctionsSingleton::getIosDeviceType()
 const char* IosNativeFunctionsSingleton::getIosDeviceIDFA()
 {
     return [[[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString] cStringUsingEncoding:NSUTF8StringEncoding];
+}
+
+void IosNativeFunctionsSingleton::identifyMixpanel()
+{
+    NSString *idfa = [NSString stringWithCString:getIosDeviceIDFA() encoding:NSUTF8StringEncoding];
+    
+    if(![idfa isEqualToString:@""])
+    {
+        [[Mixpanel sharedInstance] identify:idfa];
+    }
 }
 
 void IosNativeFunctionsSingleton::deleteHttpCookies()

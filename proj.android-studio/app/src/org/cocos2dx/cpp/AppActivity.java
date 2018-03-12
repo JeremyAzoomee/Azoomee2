@@ -217,6 +217,14 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
     //----Mix Panel------
 
+    public static void identifyMixpanel()
+    {
+        if(!getAndroidDeviceAdvertisingId().equals(""))
+        {
+            mAppActivity.mixpanel.identifyMixpanelWithId(getAndroidDeviceAdvertisingId());
+        }
+    }
+
     public static void sendMixPanelWithEventID(String eventID, String jsonPropertiesString) {
         if(mAppActivity.mixpanel == null)
         {
