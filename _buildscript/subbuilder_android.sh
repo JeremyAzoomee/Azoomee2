@@ -35,20 +35,12 @@ if [ "$AMAZON" == "amazon" ]; then
   cp -r ../_replaceTestResults/AndroidManifest.xml ../proj.android-studio/app/AndroidManifest.xml
 fi
 
-if [ "$AMAZON" == "samsung" ]; then
-  cp ../proj.android-studio/app/AndroidManifest.xml ../_replaceTestResults/AndroidManifest.xml
-	sed -i.bak 's/<!--manifestHeader-->.*/<!--manifestHeader--><manifest xmlns:android="http:\/\/schemas.android.com\/apk\/res\/android" package="com.tinizine.azoomee" android:versionCode="'$BUILDNUMBER'" android:versionName="'$VERSIONNUMBER'" android:installLocation="auto">/g' ../_replaceTestResults/AndroidManifest.xml
-  sed -i.bk2 's/<!--samsungFeaturesPlace-->.*/<!--samsungFeaturesPlace--><uses-feature android:name="android.hardware.nfc " android:required="false"\/><uses-feature android:name="android.hardware.touchscreen" android:required="true"\/>/g' ../_replaceTestResults/AndroidManifest.xml
-  sed -i.bk3 's/<!--samsungPermissionsPlace-->.*/<!--samsungPermissionsPlace--><uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY"\/>/g' ../_replaceTestResults/AndroidManifest.xml
-  cp -r ../_replaceTestResults/AndroidManifest.xml ../proj.android-studio/app/AndroidManifest.xml
-fi
-
 cocos compile -p android --android-studio -m release
 
 cp -r ../bin/release/android/app-release-signed.apk ../_builds/build-$BUILDNUMBER$AMAZON.apk
 rm -rf ../bin/release/android/app-release-signed.apk
 
-if [ "$AMAZON" == "amazon" ] || [ "$AMAZON" == "samsung" ] ; then
+if [ "$AMAZON" == "amazon" ]; then
   cp -r ../_replaceTestResults/AndroidManifest.xml.bak ../proj.android-studio/app/AndroidManifest.xml
 fi
 
