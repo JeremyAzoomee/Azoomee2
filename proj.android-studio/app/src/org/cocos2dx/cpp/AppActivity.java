@@ -27,6 +27,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
@@ -91,6 +92,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     private IabHelper mHelper;
     private IabBroadcastReceiver mBroadcastReceiver;
     private boolean mIsPremium;
+    private boolean IABHelperSetupComplete = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,6 +157,21 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         thread.start();
     }
 
+    public static void startAndroidReviewProcess()
+    {
+        final Uri uri = Uri.parse("market://details?id=" + mContext.getApplicationContext().getPackageName());
+        final Intent rateAppIntent = new Intent(Intent.ACTION_VIEW, uri);
+
+        if (mContext.getPackageManager().queryIntentActivities(rateAppIntent, 0).size() > 0)
+        {
+            mContext.startActivity(rateAppIntent);
+        }
+        else
+        {
+    /* handle your error case: the device has no way to handle market urls */
+        }
+    }
+
     public static String getOSBuildManufacturer() {
         return android.os.Build.MANUFACTURER;
     }
@@ -199,6 +216,14 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     }
 
     //----Mix Panel------
+
+    public static void identifyMixpanel()
+    {
+        if(!getAndroidDeviceAdvertisingId().equals(""))
+        {
+            mAppActivity.mixpanel.identifyMixpanelWithId(getAndroidDeviceAdvertisingId());
+        }
+    }
 
     public static void sendMixPanelWithEventID(String eventID, String jsonPropertiesString) {
         if(mAppActivity.mixpanel == null)
@@ -468,6 +493,8 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
             mIsPremium = (premiumPurchase != null);
             Log.d("GOOGLEPLAY", "User is " + (mIsPremium ? "PREMIUM" : "NOT PREMIUM"));
 
+            IABHelperSetupComplete = true;
+
             if(_purchaseRequiredAfterSetup)
             {
                 startGoogleSubscriptionProcess();
@@ -477,6 +504,12 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
     public void startGoogleSubscriptionProcess() {
         _purchaseRequiredAfterSetup = false;
+
+        if(!IABHelperSetupComplete)
+        {
+            googlePurchaseFailed();
+            return;
+        }
 
         if(mIsPremium)
         {
@@ -490,8 +523,16 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
                 googlePurchaseFailed();
             }
 
+            String userId = getLoggedInParentUserId();
+
+            if(userId.equals(""))
+            {
+                userId = Long.toHexString(Double.doubleToLongBits(Math.random()));
+            }
+
+
             mHelper.launchSubscriptionPurchaseFlow(mActivity, getGoogleSku(), 10001,
-                    mPurchaseFinishedListener, getLoggedInParentUserId());
+                    mPurchaseFinishedListener, userId);
         } catch (IabHelper.IabAsyncInProgressException e) {
             Log.d("GOOGLEPAY", "Error launching purchase flow. Another async operation in progress.");
             googlePurchaseFailed();

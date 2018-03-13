@@ -6,7 +6,14 @@
 #include <AzoomeeCommon/Strings.h>
 #include "LoginLogicHandler.h"
 #include "SceneManagerScene.h"
-#include "SlideShowScene.h"
+#include "StartScreen.h"
+
+#if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    #include <AzoomeeCommon/Utils/IosNativeFunctionsSingleton.h>
+#elif(CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    #include "platform/android/jni/JniHelper.h"
+    static const std::string kAzoomeeActivityJavaClassName = "org/cocos2dx/cpp/AppActivity";
+#endif
 
 using namespace cocos2d;
 using namespace cocos2d::experimental::ui;
@@ -38,12 +45,6 @@ bool IntroVideoScene::init()
     cocos2d::log("Cache folder: %s", FileUtils::getInstance()->getDocumentsPath().c_str());
     
     AnalyticsSingleton::getInstance()->registerCurrentScene("INTRO_VIDEO");
-    
-    if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
-    {
-        this->slideShowScene = SlideShowScene::createScene();
-        this->slideShowScene->retain();
-    }
     
     auto funcCallAction = CallFunc::create([=](){
         
@@ -97,6 +98,11 @@ void IntroVideoScene::videoEventCallback(Ref* sender, VideoPlayer::EventType eve
             break;
         case VideoPlayer::EventType::COMPLETED:
         {
+#if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+            IosNativeFunctionsSingleton::getInstance()->identifyMixpanel();
+#elif(CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+            JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "identifyMixpanel");
+#endif
             navigateToNextScene();
             break;
         }
@@ -120,8 +126,7 @@ void IntroVideoScene::navigateToNextScene()
     if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
     {
         AnalyticsSingleton::getInstance()->registerCurrentScene("INTRO_SLIDESHOW");
-        Director::getInstance()->replaceScene(this->slideShowScene);
-        this->slideShowScene->release();
+        Director::getInstance()->replaceScene(StartScreen::createScene());
     }
     else
     {

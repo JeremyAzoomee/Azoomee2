@@ -12,6 +12,7 @@ class RoutePaymentSingleton : public cocos2d::Ref, public MessageBoxDelegate
 private:
     bool appleReceiptRefreshchecked = false;
     void createReceiptDataFolder();
+    void removeReceiptDataFileAndLogin();
     
 public:
     static RoutePaymentSingleton* getInstance(void);

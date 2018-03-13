@@ -19,6 +19,7 @@ bool isDateStringFormatCorrectForComparison(const std::string &dateToCheck);
 int birthYearFromAge(int age);
 long getEpochTimeForTodayWithoutYear();
 long getEpochTimeForDateWithoutYear(int month, int day);
+std::string getTimeStringForFileName();
 
 NS_AZOOMEE_END
 

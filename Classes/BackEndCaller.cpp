@@ -36,6 +36,8 @@
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "GooglePaymentSingleton.h"
 #include "AmazonPaymentSingleton.h"
+#include "platform/android/jni/JniHelper.h"
+static const std::string kAzoomeeActivityJavaClassName = "org/cocos2dx/cpp/AppActivity";
 #endif
 
 using namespace cocos2d;
@@ -122,7 +124,10 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString, con
         AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
         if(RoutePaymentSingleton::getInstance()->receiptDataFileExists())
         {
-            RoutePaymentSingleton::getInstance()->retryReceiptValidation();
+            Director::getInstance()->getScheduler()->schedule([&](float dt){
+                RoutePaymentSingleton::getInstance()->retryReceiptValidation();
+            }, this, 1.0, 0, 0, false, "receiptValidation");
+            
         }
         else
         {

@@ -8,8 +8,6 @@
 
 NS_AZOOMEE_AA_BEGIN
 
-static const std::string kArtCacheFolder = "artCache/";
-
 class MainScene : public cocos2d::Layer
 {
     typedef cocos2d::Layer Super;
@@ -19,6 +17,7 @@ private:
     DrawingCanvas* _drawingCanvas = nullptr;
     DrawingCanvasUILayer* _uiLayer = nullptr;
     std::string _fileName;
+    long _timeStampOnAppStart = 0;
     
     void saveFile();
 public:

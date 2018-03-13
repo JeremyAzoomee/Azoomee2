@@ -39,6 +39,8 @@ public:
     
     static const char* const kDefaultHQName;
     
+    static const char* const kRecentlyPlayedCarouselName;
+    
     static const char* const kContentTypeVideo;
     static const char* const kContentTypeAudio;
     static const char* const kContentTypeGame;
@@ -47,6 +49,8 @@ public:
     
     static const char* const kEstimatedKeyboardHeightPortrait;
     static const char* const kEstimatedKeyboardHeightLandscape;
+    
+    static const std::string kArtCacheFolder;
     
     /** Returns the shared instance of the Game Manager */
     static ConfigStorage* getInstance(void);
