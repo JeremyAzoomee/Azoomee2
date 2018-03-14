@@ -23,7 +23,7 @@ private:
     
     void completeContentAction(const HQContentItemObjectRef &contentItem);
     
-    void moveToHQ(ConfigStorage::HubTargetTagNumber hqName);
+    void moveToHQ(const std::string& hqName);
     void resetDeepLink();
     std::string getDataForKeyFromJSON(const std::string& jsonString, const std::string& key);
     

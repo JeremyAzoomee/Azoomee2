@@ -507,9 +507,11 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     }
     else
     {
-        for(int i = 0; i < 7; i++)
+        std::vector<std::string> hqNames = ConfigStorage::getInstance()->getHqNames();
+        hqNames.push_back(ConfigStorage::kGroupHQName);
+        for(const std::string& hqName : hqNames)
         {
-            if(requestTag == ConfigStorage::getInstance()->getNameForMenuItem(i))
+            if(requestTag == hqName)
             {
                 HQDataParser::getInstance()->onGetContentAnswerReceived(body, requestTag);
                 break;

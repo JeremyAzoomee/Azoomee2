@@ -75,7 +75,7 @@ void BaseScene::startBuildingHQs()
 {
     Layer *contentLayer = createContentLayer();
     
-    addMainHubScene(contentLayer);
+    //addMainHubScene(contentLayer);
     createHQScene2(ConfigStorage::kVideoHQName, contentLayer);            //We build each and every scene by its name. This is the name that we get from back-end.
     createHQScene2(ConfigStorage::kGameHQName, contentLayer);             //Probably worth moving these to configStorage?
     createHQScene2(ConfigStorage::kAudioHQName, contentLayer);
@@ -129,11 +129,11 @@ void BaseScene::addNavigationLayer()
     
     if(!HQHistoryManager::getInstance()->noHistory())
     {
-        sNavigationLayer->changeToScene(ConfigStorage::getInstance()->getTagNumberForMenuName(HQHistoryManager::getInstance()->getCurrentHQ()), 0.01);
+        sNavigationLayer->changeToScene(HQHistoryManager::getInstance()->getCurrentHQ(), 0.01);
     }
     else
     {
-        sNavigationLayer->changeToScene(ConfigStorage::getInstance()->getTagNumberForMenuName(ConfigStorage::kDefaultHQName), 0.01);
+        sNavigationLayer->changeToScene(ConfigStorage::kDefaultHQName, 0.01);
     }
 }
 

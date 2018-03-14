@@ -22,6 +22,7 @@ namespace Azoomee
 {
 static ConfigStorage *_sharedConfigStorage = NULL;
     
+    const char* const ConfigStorage::kChatHQName = "CHAT";
     const char* const ConfigStorage::kGameHQName = "GAME HQ";
     const char* const ConfigStorage::kVideoHQName = "VIDEO HQ";
     const char* const ConfigStorage::kAudioHQName = "AUDIO HQ";
@@ -360,7 +361,7 @@ std::string ConfigStorage::getGradientImageForCategory(const std::string& catego
     
 //------------------NAVIGATIONLAYER CONFIGURATION--------------------------------
 
-std::string ConfigStorage::getHQSceneNameReplacementForPermissionFeed(const std::string &inputHqSceneName)
+std::string ConfigStorage::getHQSceneNameReplacementForPermissionFeed(const std::string &inputHqSceneName) const
 {
     const rapidjson::Value& permissionField = NavigationConfiguration["hqNamesReplacementForPermissionFeed"];
     const std::string& returnValue = getStringFromJson(inputHqSceneName, permissionField);
@@ -375,26 +376,7 @@ std::string ConfigStorage::getHQSceneNameReplacementForPermissionFeed(const std:
     }
 }
 
-cocos2d::Point ConfigStorage::getRelativeCirclePositionForMenuItem(int itemNumber)
-{
-    //Gets the relative position to keep the navigation buttons in a circle
-    
-    if(NavigationConfiguration["relativeCirclePositionsForMenuItems"]["positions"].Size() > itemNumber)
-    {
-        const rapidjson::Value &position = NavigationConfiguration["relativeCirclePositionsForMenuItems"]["positions"][itemNumber];
-        
-        float x = getDoubleFromJson("x", position);
-        float y = getDoubleFromJson("y", position);
-        
-        return Point(x,y);
-    }
-    else
-    {
-        return Point(0,0);
-    }
-}
-
-cocos2d::Point ConfigStorage::getHorizontalPositionForMenuItem(int itemNumber)
+cocos2d::Point ConfigStorage::getHorizontalPositionForMenuItem(const std::string& hqName) const
 {
     cocos2d::Point visualOrigin = Director::getInstance()->getVisibleOrigin();
     cocos2d::Size visualSize = Director::getInstance()->getVisibleSize();
@@ -402,21 +384,21 @@ cocos2d::Point ConfigStorage::getHorizontalPositionForMenuItem(int itemNumber)
     float x = 0;
     float y = 0;
     
-    if(NavigationConfiguration["horizontalXPositionsForMenuItems"].Size() > itemNumber)
+    if(NavigationConfiguration["horizontalXPositionsForMenuItems"].HasMember(hqName.c_str()))
     {
-        x = NavigationConfiguration["horizontalXPositionsForMenuItems"][itemNumber].GetDouble();
+        x = NavigationConfiguration["horizontalXPositionsForMenuItems"][hqName.c_str()].GetDouble();
         y = getDoubleFromJson("horizontalYPositionsForMenuItems", NavigationConfiguration) + visualOrigin.y + visualSize.height;
     }
     
     return Point(x, y);
 }
 
-float ConfigStorage::getHorizontalMenuItemsHeight()
+float ConfigStorage::getHorizontalMenuItemsHeight() const
 {
     return getDoubleFromJson("horizontalMenuItemsHeight", NavigationConfiguration);
 }
 
-cocos2d::Point ConfigStorage::getHorizontalPositionForMenuItemInGroupHQ(int itemNumber)
+cocos2d::Point ConfigStorage::getHorizontalPositionForMenuItemInGroupHQ(const std::string& hqName) const
 {
     cocos2d::Point visualOrigin = Director::getInstance()->getVisibleOrigin();
     cocos2d::Size visualSize = Director::getInstance()->getVisibleSize();
@@ -424,22 +406,22 @@ cocos2d::Point ConfigStorage::getHorizontalPositionForMenuItemInGroupHQ(int item
     float x = 0;
     float y = 0;
     
-    if(NavigationConfiguration["horizontalXPositionsForMenuItems"].Size() > itemNumber)
+    if(NavigationConfiguration["horizontalXPositionsForMenuItems"].HasMember(hqName.c_str()))
     {
-        x = NavigationConfiguration["horizontalXPositionsForMenuItems"][itemNumber].GetDouble();
+        x = NavigationConfiguration["horizontalXPositionsForMenuItems"][hqName.c_str()].GetDouble();
         y = visualOrigin.y + visualSize.height + getDoubleFromJson("horizontalYPositionsForMenuItemsInGroupHQ", NavigationConfiguration);
     }
     
     return Point(x, y);
 }
 
-cocos2d::Color4B ConfigStorage::getColourForMenuItem(int itemNumber)
+cocos2d::Color4B ConfigStorage::getColourForMenuItem(const std::string& hqName) const
 {
     Color4B returnColour = Color4B(0,0,0,0);
     
-    if(NavigationConfiguration["coloursForMenuItems"].Size() > itemNumber)
+    if(NavigationConfiguration["coloursForMenuItems"].HasMember(hqName.c_str()))
     {
-        const rapidjson::Value &itemColour = NavigationConfiguration["coloursForMenuItems"][itemNumber];
+        const rapidjson::Value &itemColour = NavigationConfiguration["coloursForMenuItems"][hqName.c_str()];
         
         returnColour.r = getIntFromJson("r", itemColour);
         returnColour.g = getIntFromJson("g", itemColour);
@@ -450,11 +432,11 @@ cocos2d::Color4B ConfigStorage::getColourForMenuItem(int itemNumber)
     return returnColour;
 }
 
-std::string ConfigStorage::getNameForMenuItem(int itemNumber)
+std::string ConfigStorage::getNameForMenuItem(const std::string& hqName) const
 {
-    if(NavigationConfiguration["namesForMenuItems"].Size() > itemNumber)
+    if(NavigationConfiguration["namesForMenuItems"].HasMember(hqName.c_str()))
     {
-        return NavigationConfiguration["namesForMenuItems"][itemNumber].GetString();
+        return NavigationConfiguration["namesForMenuItems"][hqName.c_str()].GetString();
     }
     else
     {
@@ -462,23 +444,23 @@ std::string ConfigStorage::getNameForMenuItem(int itemNumber)
     }
 }
 
-ConfigStorage::HubTargetTagNumber ConfigStorage::getTagNumberForMenuName(const std::string& name)
-{
-    return (HubTargetTagNumber)getIntFromJson(name, NavigationConfiguration["tagNumberForMenuItems"]);
-}
-
-Point ConfigStorage::getTargetPositionForMove(int itemNumber)
+Point ConfigStorage::getTargetPositionForMove(const std::string& hqName) const
 {
     float x = 0;
     float y = 0;
     
-    if(NavigationConfiguration["targetPositionsForMove"].Size() > itemNumber)
+    if(NavigationConfiguration["targetPositionsForMove"].HasMember(hqName.c_str()))
     {
-        x = getDoubleFromJson("x", NavigationConfiguration["targetPositionsForMove"][itemNumber]);
-        y = getDoubleFromJson("y", NavigationConfiguration["targetPositionsForMove"][itemNumber]);
+        x = getDoubleFromJson("x", NavigationConfiguration["targetPositionsForMove"][hqName.c_str()]);
+        y = getDoubleFromJson("y", NavigationConfiguration["targetPositionsForMove"][hqName.c_str()]);
     }
     
     return Point(x, y);
+}
+    
+std::vector<std::string> ConfigStorage::getHqNames() const
+{
+    return getStringArrayFromJson(NavigationConfiguration["namesForMenuItems"]);
 }
 
 
