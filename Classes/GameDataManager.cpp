@@ -269,6 +269,14 @@ int GameDataManager::getMinGameVersionFromJSONString(const std::string &jsonStri
     return getIntFromJson("minVersion", gameData, 0);
 }
 
+Vec2 GameDataManager::getCloseButtonAnchorPointFromJSONFile(const std::string &jsonFileName)
+{
+    const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
+    rapidjson::Document gameData;
+    gameData.Parse(fileContent.c_str());
+    return getVec2FromJson("closeButtonAnchor", gameData);
+}
+
 void GameDataManager::streamGameIfPossible(const std::string &jsonFileName)
 {
     if(getIsGameStreamableFromJSONFile(jsonFileName))
@@ -276,7 +284,7 @@ void GameDataManager::streamGameIfPossible(const std::string &jsonFileName)
         std::string uri = getDownloadUrlForGameFromJSONFile(jsonFileName);
         uri = uri.substr(0, uri.find_last_of("/"));
         const std::string& startFileNameWithPath = getStartFileFromJSONFile(jsonFileName);
-        Director::getInstance()->replaceScene(SceneManagerScene::createWebview(getGameOrientation(jsonFileName), uri + "/" + startFileNameWithPath));
+        Director::getInstance()->replaceScene(SceneManagerScene::createWebview(getGameOrientation(jsonFileName), uri + "/" + startFileNameWithPath, getCloseButtonAnchorPointFromJSONFile(jsonFileName)));
         _gameIsBeingStreamed = true;
     }
 }
@@ -348,7 +356,7 @@ void GameDataManager::startGame(const std::string &basePath, const std::string &
         return;
     }
     addTimestampFile(basePath + "lastUsedTimestamp.txt");
-    Director::getInstance()->replaceScene(SceneManagerScene::createWebview(getGameOrientation(basePath + "package.json"), basePath + fileName));
+    Director::getInstance()->replaceScene(SceneManagerScene::createWebview(getGameOrientation(basePath + "package.json"), basePath + fileName, getCloseButtonAnchorPointFromJSONFile(basePath + "package.json")));
 }
 
 std::string GameDataManager::getGameIdPath(const std::string &gameId)

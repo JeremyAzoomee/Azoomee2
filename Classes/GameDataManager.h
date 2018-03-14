@@ -55,6 +55,7 @@ private:
     int getMinGameVersionFromJSONString(const std::string &jsonString);
     bool getIsGameStreamableFromJSONFile(const std::string& jsonFileName);
     bool getIsGameDownloadableFromJSONFile(const std::string& jsonFileName);
+    cocos2d::Vec2 getCloseButtonAnchorPointFromJSONFile(const std::string& jsonFileName);
     
     void streamGameIfPossible(const std::string& jsonFileName);
     void downloadGameIfPossible(const std::string& jsonFileName, const std::string& itemId);

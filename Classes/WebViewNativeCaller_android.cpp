@@ -21,7 +21,7 @@ using namespace Azoomee;
 
 NS_AZOOMEE_BEGIN
 
-cocos2d::Scene* WebViewNativeCaller_android::createSceneWithUrl(const std::string& url, Orientation orientation)
+cocos2d::Scene* WebViewNativeCaller_android::createSceneWithUrl(const std::string& url, Orientation orientation, Vec2 closeButtonAnchor)
 {
     auto scene = cocos2d::Scene::create();
     auto layer = WebViewNativeCaller_android::create();
@@ -29,6 +29,7 @@ cocos2d::Scene* WebViewNativeCaller_android::createSceneWithUrl(const std::strin
     
     layer->loadUrl = url;
     layer->_orientation = orientation;
+    layer->_closeButtonAnchor = closeButtonAnchor;
 
     return scene;
 }
@@ -119,7 +120,7 @@ void WebViewNativeCaller_android::onEnterTransitionDidFinish()
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     SessionIdManager::getInstance()->registerAndroidSceneChangeEvent();
     
-    JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "startWebView", loadUrl,ChildDataProvider::getInstance()->getLoggedInChildId(),(int)_orientation);
+    JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "startWebView", loadUrl,ChildDataProvider::getInstance()->getLoggedInChildId(),(int)_orientation, _closeButtonAnchor.x, _closeButtonAnchor.y);
         
 #endif
 }

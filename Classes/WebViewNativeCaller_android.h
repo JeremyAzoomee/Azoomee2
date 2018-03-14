@@ -11,7 +11,7 @@ class WebViewNativeCaller_android : public cocos2d::Layer
 {
 public:
     CREATE_FUNC(WebViewNativeCaller_android);
-    static cocos2d::Scene* createSceneWithUrl(const std::string& url, Orientation orientation);
+    static cocos2d::Scene* createSceneWithUrl(const std::string& url, Orientation orientation, cocos2d::Vec2 closeButtonAnchor);
     virtual bool init();
     void onEnterTransitionDidFinish();
     std::string loadUrl;
@@ -22,7 +22,7 @@ private:
     void sendEventToMixPanel(const char* eventKey, const char*eventValue);
     
     Orientation _orientation;
-
+    cocos2d::Vec2 _closeButtonAnchor;
 };
 
 NS_AZOOMEE_END

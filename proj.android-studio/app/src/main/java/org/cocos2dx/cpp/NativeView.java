@@ -125,8 +125,13 @@ public class NativeView extends XWalkActivity {
 
         closeButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
 
-        closeButton.setX(buttonWidth/8);
-        closeButton.setY(buttonWidth/8);
+        float paddedWindowWidth = metrics.widthPixels - (buttonWidth * 1.25f);
+        float paddedWindowHeight = metrics.heightPixels - (buttonWidth * 1.25f);
+        float xAnchor = extras.getFloat("closeAnchorX");
+        float yAnchor = extras.getFloat("closeAnchorY");
+
+        closeButton.setX(buttonWidth/8 + (xAnchor * paddedWindowWidth));
+        closeButton.setY(buttonWidth/8 + (yAnchor * paddedWindowHeight));
 
         // Add button to screen, with Size and Position
         addContentView(closeButton, buttonLayoutParams);
