@@ -16,7 +16,6 @@ public:
     
     virtual bool init();
     
-    void addMainHubScene(cocos2d::Node *toBeAddedTo);
     void startBuildingHQs();
     
 private:

@@ -3,7 +3,6 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "SimpleAudioEngine.h"
 
-#include "MainHubScene.h"
 #include "HQScene2.h"
 
 #include <AzoomeeCommon/Data/ConfigStorage.h>
@@ -75,7 +74,6 @@ void BaseScene::startBuildingHQs()
 {
     Layer *contentLayer = createContentLayer();
     
-    //addMainHubScene(contentLayer);
     createHQScene2(ConfigStorage::kVideoHQName, contentLayer);            //We build each and every scene by its name. This is the name that we get from back-end.
     createHQScene2(ConfigStorage::kGameHQName, contentLayer);             //Probably worth moving these to configStorage?
     createHQScene2(ConfigStorage::kAudioHQName, contentLayer);
@@ -84,14 +82,6 @@ void BaseScene::startBuildingHQs()
     createHQScene2(ConfigStorage::kMixHQName, contentLayer);
     
     addNavigationLayer();  //The navigation layer is being added to "this", because that won't move with the menu.
-}
-
-void BaseScene::addMainHubScene(Node* toBeAddedTo)
-{
-    auto sMainHubScene = MainHubScene::create();
-    sMainHubScene->setPosition(ConfigStorage::getInstance()->getHQScenePositions(ConfigStorage::kHomeHQName));
-    sMainHubScene->setTag(0);
-    toBeAddedTo->addChild(sMainHubScene);
 }
 
 //-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------

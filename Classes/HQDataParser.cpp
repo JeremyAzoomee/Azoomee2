@@ -13,7 +13,6 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Child/ChildDataParser.h>
 #include "BaseScene.h"
-#include "MainHubScene.h"
 
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObject.h>
@@ -202,25 +201,8 @@ void HQDataParser::onGetContentAnswerReceived(const std::string &responseString,
         ModalMessages::getInstance()->stopLoading();
         parseHQStructure(responseString, category.c_str());
         
-        if(category == ConfigStorage::kHomeHQName)
-        {
-            ChildDataParser::getInstance()->parseOomeeData(responseString);
-            
-            Scene *runningScene = Director::getInstance()->getRunningScene();
-            if(!runningScene->getChildByName("baseLayer"))
-            {
-                return;
-            }
-            Node *baseLayer = runningScene->getChildByName("baseLayer");
-            Node *contentLayer = baseLayer->getChildByName("contentLayer");
-            MainHubScene *homeLayer = (MainHubScene *)contentLayer->getChildByName(ConfigStorage::kHomeHQName);
-
-            homeLayer->buildMainHubScene();
-        }
-        else
-        {
-            HQDataProvider::getInstance()->startBuildingHQ(category);
-        }
+        HQDataProvider::getInstance()->startBuildingHQ(category);
+        
     }
 }
 

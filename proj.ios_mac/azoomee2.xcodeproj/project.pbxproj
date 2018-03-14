@@ -19,7 +19,6 @@
 		025633741F39AB5D0053FF26 /* ForceUpdateSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025633721F39AB5D0053FF26 /* ForceUpdateSingleton.cpp */; };
 		025633791F3B0F5C0053FF26 /* ForceUpdateAppLockScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025633771F3B0F5C0053FF26 /* ForceUpdateAppLockScene.cpp */; };
 		025BE9491E3A1E0000EF76D1 /* ArtsAppHQElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE9471E3A1E0000EF76D1 /* ArtsAppHQElement.cpp */; };
-		025BE94D1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE94B1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp */; };
 		025BE9501E3A1E9200EF76D1 /* WebViewController_ios.m in Sources */ = {isa = PBXBuildFile; fileRef = 025BE94F1E3A1E9200EF76D1 /* WebViewController_ios.m */; };
 		025BE9571E3B591C00EF76D1 /* PreviewLoginSignupMessageBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE9551E3B591C00EF76D1 /* PreviewLoginSignupMessageBox.cpp */; };
 		025BE95C1E3B980600EF76D1 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 025BE95B1E3B980600EF76D1 /* WebKit.framework */; };
@@ -148,7 +147,6 @@
 		929D46671F73F04D006E40CE /* DynamicNodeCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929D46661F73F04D006E40CE /* DynamicNodeCreator.cpp */; };
 		92A9A06E1F068A97008A19EB /* libAzoomeeArt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A9A06B1F068A7B008A19EB /* libAzoomeeArt.a */; };
 		92A9A0A91F0D1775008A19EB /* ArtAppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92A9A0A81F0D1775008A19EB /* ArtAppDelegate.cpp */; };
-		A11E738E1DDF00F100166ECA /* OomeeLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A11E738C1DDF00F100166ECA /* OomeeLayer.cpp */; };
 		A134ADCE1E0C0F420030BE98 /* HQSceneElementPositioner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A134ADCC1E0C0F420030BE98 /* HQSceneElementPositioner.cpp */; };
 		A154CC521DFEE7440008A626 /* GameDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A154CC501DFEE7440008A626 /* GameDataManager.cpp */; };
 		A15B2F991DE74F6400D25334 /* WebViewSelector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A15B2F971DE74F6400D25334 /* WebViewSelector.cpp */; };
@@ -157,12 +155,10 @@
 		A15B2FCA1DFACF3800D25334 /* HQDataProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A15B2FC81DFACF3800D25334 /* HQDataProvider.cpp */; };
 		A19759841DE4931200FEB03C /* HQSceneElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19759821DE4931200FEB03C /* HQSceneElement.cpp */; };
 		A19862221DD3836D0090F053 /* ChildSelectorScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19862131DD3836D0090F053 /* ChildSelectorScene.cpp */; };
-		A19862261DD3836D0090F053 /* MainHubScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A198621B1DD3836D0090F053 /* MainHubScene.cpp */; };
 		A19862271DD3836D0090F053 /* NavigationLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A198621D1DD3836D0090F053 /* NavigationLayer.cpp */; };
 		A198622B1DD383BD0090F053 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19862291DD383BD0090F053 /* AppDelegate.cpp */; };
 		A198622E1DD480A60090F053 /* BaseScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A198622C1DD480A60090F053 /* BaseScene.cpp */; };
 		A1CC0C241E141B47008B469E /* HQDataParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1CC0C201E141B47008B469E /* HQDataParser.cpp */; };
-		A1CC0C391E1E4D45008B469E /* DisplayChildNameLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1CC0C371E1E4D45008B469E /* DisplayChildNameLayer.cpp */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
 		BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C47EA1293683800B63C5D /* QuartzCore.framework */; };
@@ -317,8 +313,6 @@
 		025633781F3B0F5C0053FF26 /* ForceUpdateAppLockScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForceUpdateAppLockScene.h; sourceTree = "<group>"; };
 		025BE9471E3A1E0000EF76D1 /* ArtsAppHQElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtsAppHQElement.cpp; sourceTree = "<group>"; };
 		025BE9481E3A1E0000EF76D1 /* ArtsAppHQElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtsAppHQElement.h; sourceTree = "<group>"; };
-		025BE94B1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtsPreviewLayer.cpp; sourceTree = "<group>"; };
-		025BE94C1E3A1E2D00EF76D1 /* ArtsPreviewLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtsPreviewLayer.h; sourceTree = "<group>"; };
 		025BE94E1E3A1E9200EF76D1 /* WebViewController_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController_ios.h; sourceTree = "<group>"; };
 		025BE94F1E3A1E9200EF76D1 /* WebViewController_ios.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = WebViewController_ios.m; sourceTree = "<group>"; };
 		025BE9551E3B591C00EF76D1 /* PreviewLoginSignupMessageBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PreviewLoginSignupMessageBox.cpp; sourceTree = "<group>"; };
@@ -514,8 +508,6 @@
 		929D46661F73F04D006E40CE /* DynamicNodeCreator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeCreator.cpp; sourceTree = "<group>"; };
 		92A9A0A21F0D172F008A19EB /* ArtAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtAppDelegate.h; sourceTree = "<group>"; };
 		92A9A0A81F0D1775008A19EB /* ArtAppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtAppDelegate.cpp; sourceTree = "<group>"; };
-		A11E738C1DDF00F100166ECA /* OomeeLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeLayer.cpp; sourceTree = "<group>"; };
-		A11E738D1DDF00F100166ECA /* OomeeLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OomeeLayer.h; sourceTree = "<group>"; };
 		A134ADCC1E0C0F420030BE98 /* HQSceneElementPositioner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQSceneElementPositioner.cpp; sourceTree = "<group>"; };
 		A134ADCD1E0C0F420030BE98 /* HQSceneElementPositioner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQSceneElementPositioner.h; sourceTree = "<group>"; };
 		A154CC501DFEE7440008A626 /* GameDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameDataManager.cpp; sourceTree = "<group>"; };
@@ -532,8 +524,6 @@
 		A19759831DE4931200FEB03C /* HQSceneElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQSceneElement.h; sourceTree = "<group>"; };
 		A19862131DD3836D0090F053 /* ChildSelectorScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChildSelectorScene.cpp; sourceTree = "<group>"; };
 		A19862141DD3836D0090F053 /* ChildSelectorScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildSelectorScene.h; sourceTree = "<group>"; };
-		A198621B1DD3836D0090F053 /* MainHubScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainHubScene.cpp; sourceTree = "<group>"; };
-		A198621C1DD3836D0090F053 /* MainHubScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainHubScene.h; sourceTree = "<group>"; };
 		A198621D1DD3836D0090F053 /* NavigationLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NavigationLayer.cpp; sourceTree = "<group>"; };
 		A198621E1DD3836D0090F053 /* NavigationLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationLayer.h; sourceTree = "<group>"; };
 		A19862291DD383BD0090F053 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate.cpp; sourceTree = "<group>"; };
@@ -542,8 +532,6 @@
 		A198622D1DD480A60090F053 /* BaseScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseScene.h; sourceTree = "<group>"; };
 		A1CC0C201E141B47008B469E /* HQDataParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQDataParser.cpp; sourceTree = "<group>"; };
 		A1CC0C211E141B47008B469E /* HQDataParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQDataParser.h; sourceTree = "<group>"; };
-		A1CC0C371E1E4D45008B469E /* DisplayChildNameLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DisplayChildNameLayer.cpp; sourceTree = "<group>"; };
-		A1CC0C381E1E4D45008B469E /* DisplayChildNameLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisplayChildNameLayer.h; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		BF1C47EA1293683800B63C5D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -1014,7 +1002,6 @@
 				A1CC0C141E1407B2008B469E /* BaseScene */,
 				300742F61EF93433005525AE /* Chat */,
 				A1CC0C161E1407BF008B469E /* Navigation */,
-				A1817B481DDCB74900C2D13C /* MainHubScene */,
 				A19759861DE4931600FEB03C /* HQScene */,
 				A15B2F9A1DE74F6900D25334 /* NativeWebviews */,
 				A15B2FAA1DEDD13B00D25334 /* BackEndCommunication */,
@@ -1195,21 +1182,6 @@
 				9220EB20201A185C00BD7A90 /* RecentlyPlayedManager.cpp */,
 			);
 			name = HistoryManager;
-			sourceTree = "<group>";
-		};
-		A1817B481DDCB74900C2D13C /* MainHubScene */ = {
-			isa = PBXGroup;
-			children = (
-				A198621C1DD3836D0090F053 /* MainHubScene.h */,
-				A198621B1DD3836D0090F053 /* MainHubScene.cpp */,
-				A11E738C1DDF00F100166ECA /* OomeeLayer.cpp */,
-				A11E738D1DDF00F100166ECA /* OomeeLayer.h */,
-				A1CC0C371E1E4D45008B469E /* DisplayChildNameLayer.cpp */,
-				A1CC0C381E1E4D45008B469E /* DisplayChildNameLayer.h */,
-				025BE94B1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp */,
-				025BE94C1E3A1E2D00EF76D1 /* ArtsPreviewLayer.h */,
-			);
-			name = MainHubScene;
 			sourceTree = "<group>";
 		};
 		A19759861DE4931600FEB03C /* HQScene */ = {
@@ -1591,7 +1563,6 @@
 				9289DB7D1FD996A800B12435 /* DynamicNodeImage.cpp in Sources */,
 				021564731FC4AB8300641C14 /* HQScene2PlaceHolderCreator.cpp in Sources */,
 				43FDC6681EF7F743009B596B /* ConfirmationLayer.cpp in Sources */,
-				A11E738E1DDF00F100166ECA /* OomeeLayer.cpp in Sources */,
 				9224BFB71F794BFA00108553 /* DynamicNodeHandler.cpp in Sources */,
 				A15B2FAF1DEDD1D500D25334 /* BackEndCaller.cpp in Sources */,
 				926173A71F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp in Sources */,
@@ -1620,19 +1591,16 @@
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				A15B2FA11DE7534900D25334 /* WebViewNative_ios.mm in Sources */,
 				0215646F1FC4202800641C14 /* HQScene2ElementPositioner.cpp in Sources */,
-				025BE94D1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp in Sources */,
 				02C66A9F1FBAF79400F33686 /* HQScene2.cpp in Sources */,
 				9224BFB11F7908D400108553 /* DynamicNodeButtonListener.cpp in Sources */,
 				92759E701FE1598100639190 /* DynamicNodeLine.cpp in Sources */,
 				A19862271DD3836D0090F053 /* NavigationLayer.cpp in Sources */,
 				A198622B1DD383BD0090F053 /* AppDelegate.cpp in Sources */,
 				9220EAD5200F77E200BD7A90 /* SignUpFlowController.cpp in Sources */,
-				A19862261DD3836D0090F053 /* MainHubScene.cpp in Sources */,
 				02E595C31E5D9EE70052F395 /* OfflineText.cpp in Sources */,
 				02A11FF81EA6375D007EDD95 /* RoutePaymentSingleton.cpp in Sources */,
 				D13C40151E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm in Sources */,
 				430C30EA1EEAA0CF00E27589 /* SettingsKidsLayer.cpp in Sources */,
-				A1CC0C391E1E4D45008B469E /* DisplayChildNameLayer.cpp in Sources */,
 				430EC1501EE992B900B0103B /* AccountDetailsLayer.cpp in Sources */,
 				02E595861E55DE670052F395 /* OfflineHubScene.cpp in Sources */,
 				02E595CA1E66E2160052F395 /* HQSceneArtsApp.cpp in Sources */,

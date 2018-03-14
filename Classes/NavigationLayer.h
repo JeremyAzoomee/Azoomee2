@@ -4,7 +4,6 @@
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
-#include "DisplayChildNameLayer.h"
 #include <AzoomeeChat/ChatAPI.h>
 #include <AzoomeeChat/Data/Message.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
