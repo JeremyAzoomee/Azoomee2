@@ -12,6 +12,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Utils/ActionBuilder.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
 
@@ -130,6 +131,7 @@ void StartScreen::addButtons()
     {
         if(eEventType == ui::Widget::TouchEventType::ENDED)
         {
+            AnalyticsSingleton::getInstance()->genericButtonPressEvent("startScreen|close");
             BackEndCaller::getInstance()->anonymousDeviceLogin();
         }
     });
@@ -143,6 +145,7 @@ void StartScreen::addButtons()
     {
         if(eEventType == ui::Widget::TouchEventType::ENDED)
         {
+            AnalyticsSingleton::getInstance()->genericButtonPressEvent("startScreen|login");
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(Login));
         }
     });
@@ -169,6 +172,7 @@ void StartScreen::addButtons()
     {
         if(eEventType == ui::Widget::TouchEventType::ENDED)
         {
+            AnalyticsSingleton::getInstance()->genericButtonPressEvent("startScreen|startTrial");
             DynamicNodeHandler::getInstance()->startIAPFlow();
         }
     });
