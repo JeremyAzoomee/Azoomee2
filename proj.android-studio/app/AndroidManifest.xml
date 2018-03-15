@@ -7,11 +7,9 @@
     <uses-feature android:name="android.hardware.camera.front" android:required="false" />
     <uses-feature android:name="android.software.sip.voip" android:required="false"/>
     <uses-feature android:name="android.hardware.fingerprint" android:required="false"/>
-    <!--samsungFeaturesPlace-->
-
 
     <uses-sdk android:minSdkVersion="13"/>
-    
+
     <application
         android:label="Azoomee"
         android:allowBackup="true"
@@ -102,6 +100,5 @@
 	<uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.android.vending.BILLING" />
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
-    <!--samsungPermissionsPlace-->
 
 </manifest>

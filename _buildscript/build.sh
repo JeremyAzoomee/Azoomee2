@@ -64,11 +64,6 @@ echo "{\"version\": \"$VERSION ($COMMITID)\"}" > ../Resources/res/configuration/
 #The script builds for amazon first - while the other 3 buidls are done, the amazon one can be uploaded.
 #For testing purposes, the amazon build can be used as well - only android.xml meta tagging difference.
 
-if [ "$PLATFORM" == "" ] || [ "$PLATFORM" == "android" ] || [ "$PLATFORM" == "samsung" ] ; then
-  echo -e "\x1b[1;33;44mCreating Samsung build. Version number for build: $VERSION ($COMMITID)\x1b[0m"
-  ./subbuilder_android.sh armeabi-v7a $VERSION $ARMBUILD arm samsung
-fi
-
 if [ "$PLATFORM" == "" ] || [ "$PLATFORM" == "android" ] || [ "$PLATFORM" == "amazon" ] ; then
   echo -e "\x1b[1;33;44mCreating Amazon build. Version number for build: $VERSION ($COMMITID)\x1b[0m"
   ./subbuilder_android.sh armeabi-v7a $VERSION $ARMBUILD arm amazon
@@ -82,11 +77,6 @@ fi
 if [ "$PLATFORM" == "" ] || [ "$PLATFORM" == "android" ] || [ "$PLATFORM" == "google" ] || [ "$PLATFORM" == "google64" ] ; then
   echo -e "\x1b[1;33;44mCreating Google ARM64 build. Version number for build: $VERSION ($COMMITID)\x1b[0m"
   ./subbuilder_android.sh arm64-v8a $VERSION $ARM64BUILD arm64
-fi
-
-if [ "$PLATFORM" == "" ] || [ "$PLATFORM" == "android" ] || [ "$PLATFORM" == "google" ] || [ "$PLATFORM" == "googlex86" ] ; then
-  echo -e "\x1b[1;33;44mCreating Google X86 build. Version number for build: $VERSION ($COMMITID)\x1b[0m"
-  ./subbuilder_android.sh x86 $VERSION $X86BUILD x86
 fi
 
 if [ "$PLATFORM" == "" ] || [ "$PLATFORM" == "ios" ] ; then
