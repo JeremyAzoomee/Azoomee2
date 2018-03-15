@@ -66,6 +66,7 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
     if(contentItem->getType() == ConfigStorage::kContentTypeGame)
     {
         RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(),ConfigStorage::kGameHQName);
+        RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kMixHQName);
         ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
         GameDataManager::getInstance()->startProcessingGame(contentItem);
     }
@@ -73,6 +74,7 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
     {
         const std::string& hqName = contentItem->getType()  == ConfigStorage::kContentTypeVideo ? ConfigStorage::kVideoHQName : ConfigStorage::kAudioHQName;
         RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), hqName);
+        RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kMixHQName);
         ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
         auto webViewSelector = WebViewSelector::create();
         webViewSelector->loadWebView(contentItem->getUri(),Orientation::Landscape);
