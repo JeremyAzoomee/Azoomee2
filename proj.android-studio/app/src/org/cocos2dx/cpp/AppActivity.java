@@ -181,7 +181,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     }
 
     public static String getAndroidDeviceAdvertisingId() { //AAID must not be read on the main thread, so it's being read during onCreate, and now the result is being returned.
-        if(advertisingId == "" || advertisingId == null) return "NA";
+        if(advertisingId == null || advertisingId.equals("")) return "NA";
         else return advertisingId;
     }
 
@@ -517,11 +517,14 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
             return;
         }
 
-        try {
-            if(mHelper == null) //mHelper got disposed in the meantime
-            {
-                googlePurchaseFailed();
-            }
+        if(mHelper == null) //mHelper got disposed in the meantime
+        {
+            googlePurchaseFailed();
+            return;
+        }
+
+        try
+        {
 
             String userId = getLoggedInParentUserId();
 
@@ -533,7 +536,9 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
             mHelper.launchSubscriptionPurchaseFlow(mActivity, getGoogleSku(), 10001,
                     mPurchaseFinishedListener, userId);
-        } catch (IabHelper.IabAsyncInProgressException e) {
+        }
+        catch (IabHelper.IabAsyncInProgressException e)
+        {
             Log.d("GOOGLEPAY", "Error launching purchase flow. Another async operation in progress.");
             googlePurchaseFailed();
         }
