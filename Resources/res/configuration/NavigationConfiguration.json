@@ -1,10 +1,9 @@
 {
     "horizontalXPositionsForMenuItems": {
-        "CHAT": 895,
-        "VIDEO HQ": 1131,
-        "AUDIO HQ": 1368,
-        "MIX HQ": 1604,
-        "GAME HQ": 1368,
+        "MIX HQ": 895,
+        "GAME HQ": 1131,
+        "CHAT": 1604,
+        "VIDEO HQ": 1368,
         "ARTS APP": 1841
     },
   "horizontalYPositionsForMenuItems": -150,
