@@ -8,6 +8,7 @@
 #include "OomeeCarousel.h"
 #include "../DataObjects/OomeeMakerDataHandler.h"
 #include "OomeeSelectScene.h"
+#include "OomeeCarouselButton.h"
 
 NS_AZOOMEE_OM_BEGIN
 
@@ -50,6 +51,11 @@ void OomeeCarousel::setTouchListener()
         for(LazyLoadingButton* button : _carouselButtons)
         {
             button->stopAllActions();
+            OomeeCarouselButton* carouselButton = dynamic_cast<OomeeCarouselButton*>(button);
+            if(carouselButton)
+            {
+                carouselButton->setInFocus(false);
+            }
         }
         return true;
     };
@@ -91,18 +97,17 @@ void OomeeCarousel::setOomeeData(const std::vector<std::string>& oomeeFilenames)
     for(int i = 0; i < oomeeFilenames.size(); i++)
     {
         const std::string assetName = OomeeMakerDataHandler::getInstance()->getFullSaveDir() + oomeeFilenames.at(i) + ".png";
-        LazyLoadingButton* button = LazyLoadingButton::create();
-        button->setMainImage(assetName);
-        button->setPlaceholderImage("res/oomeeMaker/body_00.png");
+        OomeeCarouselButton* button = OomeeCarouselButton::create();
+        button->setOomeeData(oomeeFilenames.at(i));
         button->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         button->setPosition(Vec2(_spacing * i, this->getContentSize().height / 2.0f));
         button->setSwallowTouches(false);
-        button->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType){
+        /*button->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType){
             if(eType == ui::Widget::TouchEventType::ENDED)
             {
                 OomeeSelectScene::editOomee(OomeeMakerDataHandler::getInstance()->getLocalSaveDir() + oomeeFilenames.at(i));
             }
-        });
+        });*/
         _contentNode->addChild(button);
         _carouselButtons.push_back(button);
     }
@@ -139,6 +144,7 @@ void OomeeCarousel::centerButtons()
 {
     float minDist = FLT_MAX;
     Vec2 moveVector = Vec2(0,0);
+    LazyLoadingButton* centerButton = nullptr;
     for(LazyLoadingButton* button : _carouselButtons)
     {
         //Vec2 buttonCenterPos = button->getPosition();// + button->getContentSize() / 2.0f;
@@ -147,6 +153,7 @@ void OomeeCarousel::centerButtons()
         {
             minDist = dist;
             moveVector.x = this->getPosition().x - button->getPosition().x;
+            centerButton = button;
         }
     }
     
@@ -155,6 +162,12 @@ void OomeeCarousel::centerButtons()
     for(LazyLoadingButton* button : _carouselButtons)
     {
         button->runAction(action->clone());
+    }
+    
+    OomeeCarouselButton* carouselButton = dynamic_cast<OomeeCarouselButton*>(centerButton);
+    if(carouselButton)
+    {
+        carouselButton->setInFocus(true);
     }
     
 }

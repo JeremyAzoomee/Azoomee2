@@ -39,6 +39,8 @@
 		521A8E6519F0C34300D177D7 /* Default-736h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 521A8E6319F0C34300D177D7 /* Default-736h@3x.png */; };
 		521A8EA919F11F5000D177D7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
 		52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B47A461A53D09B004E4C60 /* Security.framework */; };
+		924398A5205BE22500CEDC1D /* OomeeCarouselButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924398A4205BE22500CEDC1D /* OomeeCarouselButton.cpp */; };
+		924398A6205BE22500CEDC1D /* OomeeCarouselButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924398A4205BE22500CEDC1D /* OomeeCarouselButton.cpp */; };
 		9271D7362035BD8C00370120 /* libAzoomeeCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9220EC7720333C4000BD7A90 /* libAzoomeeCommon.a */; };
 		9271D7372035BD8C00370120 /* libcocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9220ECC420333EA700BD7A90 /* libcocos2d iOS.a */; };
 		9271D772203AE19200370120 /* OomeeItemButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D771203AE19200370120 /* OomeeItemButton.cpp */; };
@@ -218,6 +220,8 @@
 		9220EC7220333C4000BD7A90 /* AzoomeeCommon.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AzoomeeCommon.xcodeproj; path = ../../../azoomee2/common/proj.ios_mac/AzoomeeCommon.xcodeproj; sourceTree = "<group>"; };
 		9220ECAF20333E8800BD7A90 /* cocos2d_libs.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2d_libs.xcodeproj; path = "../../../cocos2d-x-modded/cocos2d/build/cocos2d_libs.xcodeproj"; sourceTree = "<group>"; };
 		9220ECBB20333EA600BD7A90 /* cocos2d_libs.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2d_libs.xcodeproj; path = "../../../cocos2d-x-modded/cocos2d/build/cocos2d_libs.xcodeproj"; sourceTree = "<group>"; };
+		9243989E205BE20800CEDC1D /* OomeeCarouselButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OomeeCarouselButton.h; sourceTree = "<group>"; };
+		924398A4205BE22500CEDC1D /* OomeeCarouselButton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeCarouselButton.cpp; sourceTree = "<group>"; };
 		9271D76C20372E0200370120 /* ItemCategoryButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ItemCategoryButton.h; sourceTree = "<group>"; };
 		9271D76D20372E4500370120 /* ItemCategoryList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ItemCategoryList.h; sourceTree = "<group>"; };
 		9271D76E20372E8300370120 /* OomeeItemButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OomeeItemButton.h; sourceTree = "<group>"; };
@@ -506,6 +510,8 @@
 				9271D786203DBE5C00370120 /* OomeeSelectScene.cpp */,
 				9271D8022045910200370120 /* OomeeCarousel.h */,
 				9271D8082045A26800370120 /* OomeeCarousel.cpp */,
+				9243989E205BE20800CEDC1D /* OomeeCarouselButton.h */,
+				924398A4205BE22500CEDC1D /* OomeeCarouselButton.cpp */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -747,6 +753,7 @@
 				9271D774203AE3FA00370120 /* OomeeItemList.cpp in Sources */,
 				92BEEFE820359D3F00B32059 /* OomeeMakerDataHandler.cpp in Sources */,
 				9271D77A203B0ED400370120 /* OomeeFigure.cpp in Sources */,
+				924398A5205BE22500CEDC1D /* OomeeCarouselButton.cpp in Sources */,
 				9271D784203D8E9B00370120 /* OomeeMakerScene.cpp in Sources */,
 				9271D8092045A26800370120 /* OomeeCarousel.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
@@ -773,6 +780,7 @@
 				9271D7B720404CCA00370120 /* ItemCategory.cpp in Sources */,
 				9271D7B820404CCA00370120 /* OomeeItem.cpp in Sources */,
 				9271D7B920404CCA00370120 /* ItemCategoryButton.cpp in Sources */,
+				924398A6205BE22500CEDC1D /* OomeeCarouselButton.cpp in Sources */,
 				9271D7BA20404CCA00370120 /* ItemCategoryList.cpp in Sources */,
 				9271D7BB20404CCA00370120 /* OomeeItemButton.cpp in Sources */,
 				9271D7BC20404CCA00370120 /* OomeeItemList.cpp in Sources */,
