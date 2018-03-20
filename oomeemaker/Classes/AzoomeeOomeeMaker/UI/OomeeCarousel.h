@@ -29,6 +29,7 @@ private:
     
     LazyLoadingButton* _leftMostButton = nullptr;
     LazyLoadingButton* _rightMostButton = nullptr;
+    LazyLoadingButton* _centerButton = nullptr;
     
     void setTouchListener();
     

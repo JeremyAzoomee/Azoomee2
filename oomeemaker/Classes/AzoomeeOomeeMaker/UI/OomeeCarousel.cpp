@@ -32,8 +32,10 @@ void OomeeCarousel::onEnter()
 {
     setTouchListener();
     this->scheduleUpdate();
-    centerButtons();
     Super::onEnter();
+    this->getScheduler()->schedule([this](float deltaT){
+        this->centerButtons();
+    }, this, 0, 0, 1.0, 0, "centerButtons");
 }
 
 void OomeeCarousel::setContentSize(const Size& contentSize)
@@ -51,17 +53,18 @@ void OomeeCarousel::setTouchListener()
         for(LazyLoadingButton* button : _carouselButtons)
         {
             button->stopAllActions();
-            OomeeCarouselButton* carouselButton = dynamic_cast<OomeeCarouselButton*>(button);
-            if(carouselButton)
-            {
-                carouselButton->setInFocus(false);
-            }
         }
         return true;
     };
     
     listener->onTouchMoved = [&](Touch* touch, Event* event)
     {
+        OomeeCarouselButton* carouselButton = dynamic_cast<OomeeCarouselButton*>(_centerButton);
+        if(carouselButton)
+        {
+            carouselButton->setInFocus(false);
+        }
+        
         for(LazyLoadingButton* button : _carouselButtons)
         {
             button->setPosition(button->getPosition() + Vec2(touch->getDelta().x,0));
@@ -102,12 +105,6 @@ void OomeeCarousel::setOomeeData(const std::vector<std::string>& oomeeFilenames)
         button->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         button->setPosition(Vec2(_spacing * i, this->getContentSize().height / 2.0f));
         button->setSwallowTouches(false);
-        /*button->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType){
-            if(eType == ui::Widget::TouchEventType::ENDED)
-            {
-                OomeeSelectScene::editOomee(OomeeMakerDataHandler::getInstance()->getLocalSaveDir() + oomeeFilenames.at(i));
-            }
-        });*/
         _contentNode->addChild(button);
         _carouselButtons.push_back(button);
     }
@@ -132,6 +129,7 @@ void OomeeCarousel::setOomeeData(const std::vector<std::string>& oomeeFilenames)
     _rightMostButton = _carouselButtons.at(_carouselButtons.size() - 1);
     
     rotateButtonsLeft();
+    
 }
 
 void OomeeCarousel::setVisibleRange(int visibleRange)
@@ -157,17 +155,18 @@ void OomeeCarousel::centerButtons()
         }
     }
     
-    Action* action = EaseBackOut::create(MoveBy::create(moveVector.length()/(this->getContentSize().width / 2), moveVector));
-    
-    for(LazyLoadingButton* button : _carouselButtons)
-    {
-        button->runAction(action->clone());
-    }
-    
     OomeeCarouselButton* carouselButton = dynamic_cast<OomeeCarouselButton*>(centerButton);
     if(carouselButton)
     {
         carouselButton->setInFocus(true);
+    }
+    _centerButton = centerButton;
+    
+    Action* action = EaseBackOut::create(MoveBy::create(moveVector.length()/(this->getContentSize().width / 4), moveVector));
+    
+    for(LazyLoadingButton* button : _carouselButtons)
+    {
+        button->runAction(action->clone());
     }
     
 }

@@ -34,6 +34,8 @@ public:
     
     virtual bool init() override;
     
+    virtual void onEnter() override;
+    
     void setOomeeData(const std::string& filename);
     
     void setInFocus(bool inFocus);
