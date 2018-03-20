@@ -301,11 +301,11 @@ public class IabHelper {
             logDebug("Constructing buy intent for " + sku + ", item type: " + itemType);
             Bundle buyIntentBundle;
             if (oldSkus == null || oldSkus.isEmpty()) {
-                if(mService == null || mContext == null || sku == null || sku.equals("") || itemType == null || itemType.equals(""))
+                if(mService == null)
                 {
                     if (listener != null)
                     {
-                        result = new IabResult(BILLING_RESPONSE_RESULT_ERROR, "Unable to buy item");
+                        result = new IabResult(BILLING_RESPONSE_RESULT_ERROR, "IAB Service not available.");
                         listener.onIabPurchaseFinished(result, null);
                     }
                     return;
