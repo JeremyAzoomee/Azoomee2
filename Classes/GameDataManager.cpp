@@ -38,6 +38,15 @@ NS_AZOOMEE_BEGIN
 
 const char* const GameDataManager::kManualGameId = "MANUAL_GAME";
 
+const std::map<std::string, Vec2> GameDataManager::kCloseAnchorKeyToVec2Map = {
+    {"TOP_LEFT",Vec2(0,0)},
+    {"MIDDLE_LEFT",Vec2(0,0.5)},
+    {"BOTTOM_LEFT", Vec2(0,1)},
+    {"TOP_RIGHT",Vec2(1,0)},
+    {"MIDDLE_RIGHT",Vec2(1,0.5)},
+    {"BOTTOM_RIGHT", Vec2(1,1)}
+};
+
 static GameDataManager *_sharedGameDataManager = NULL;
 
 GameDataManager* GameDataManager::getInstance()
@@ -274,7 +283,12 @@ Vec2 GameDataManager::getCloseButtonAnchorPointFromJSONFile(const std::string &j
     const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     rapidjson::Document gameData;
     gameData.Parse(fileContent.c_str());
-    return getVec2FromJson("closeButtonAnchor", gameData);
+    const std::string& anchorKey = getStringFromJson("closeButtonAnchor", gameData, "TOP_LEFT");
+    if(kCloseAnchorKeyToVec2Map.find(anchorKey) != kCloseAnchorKeyToVec2Map.end())
+    {
+        return kCloseAnchorKeyToVec2Map.at(anchorKey);
+    }
+    return Vec2(0,0);
 }
 
 void GameDataManager::streamGameIfPossible(const std::string &jsonFileName)

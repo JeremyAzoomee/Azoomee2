@@ -23,6 +23,7 @@ public:
     
     static GameDataManager* getInstance(void);
     static const char* const kManualGameId;
+    static const std::map<std::string, cocos2d::Vec2> kCloseAnchorKeyToVec2Map;
     
     virtual ~GameDataManager();
     bool init(void);
