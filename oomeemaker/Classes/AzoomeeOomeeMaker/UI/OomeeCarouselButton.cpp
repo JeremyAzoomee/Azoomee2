@@ -33,6 +33,10 @@ void OomeeCarouselButton::onEnter()
         if(eType == TouchEventType::ENDED)
         {
             log("delete oomee");
+            if(_delegate)
+            {
+                _delegate->deleteOomee(_oomeeFileName);
+            }
         }
     });
     this->addChild(_deleteButton);
@@ -45,7 +49,10 @@ void OomeeCarouselButton::onEnter()
         if(eType == TouchEventType::ENDED)
         {
             log("edit oomee");
-            OomeeSelectScene::editOomee(OomeeMakerDataHandler::getInstance()->getLocalSaveDir() + _oomeeFileName);
+            if(_delegate)
+            {
+                _delegate->editOomee(_oomeeFileName);
+            }
         }
     });
     this->addChild(_editButton);
@@ -58,6 +65,10 @@ void OomeeCarouselButton::onEnter()
         if(eType == TouchEventType::ENDED)
         {
             log("set as avatar");
+            if(_delegate)
+            {
+                _delegate->makeAvatar(_oomeeFileName);
+            }
         }
     });
     this->addChild(_makeAvatarButton);
@@ -70,6 +81,10 @@ void OomeeCarouselButton::onEnter()
         if(eType == TouchEventType::ENDED)
         {
             log("share oomee");
+            if(_delegate)
+            {
+                _delegate->shareOomee(_oomeeFileName);
+            }
         }
     });
     this->addChild(_shareButton);
@@ -101,6 +116,11 @@ void OomeeCarouselButton::setInFocus(bool inFocus)
     {
         animateButtonsOut(0.3);
     }
+}
+
+void OomeeCarouselButton::setDelegate(OomeeCarouselButtonDelegate *delegate)
+{
+    _delegate = delegate;
 }
 
 void OomeeCarouselButton::animateButtonsIn(float duration)

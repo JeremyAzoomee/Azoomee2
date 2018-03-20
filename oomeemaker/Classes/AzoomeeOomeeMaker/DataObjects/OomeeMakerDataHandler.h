@@ -46,6 +46,8 @@ public:
     std::string getLocalSaveDir() const;
     std::string getAssetDir() const;
     
+    bool deleteOomee(const std::string& oomeeName );
+    
     // Delegate functions
     void onAsyncUnzipComplete(bool success, const std::string& zipPath, const std::string& dirpath);
     void onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode);

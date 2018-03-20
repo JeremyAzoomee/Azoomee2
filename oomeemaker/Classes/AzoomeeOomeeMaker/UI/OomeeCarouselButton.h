@@ -15,10 +15,21 @@
 
 NS_AZOOMEE_OM_BEGIN
 
+class OomeeCarouselButtonDelegate
+{
+public:
+    virtual void deleteOomee(const std::string& oomeeFilename) = 0;
+    virtual void editOomee(const std::string& oomeeFilename) = 0;
+    virtual void shareOomee(const std::string& oomeeFilename) = 0;
+    virtual void makeAvatar(const std::string& oomeeFilename) = 0;
+};
+
 class OomeeCarouselButton : public LazyLoadingButton
 {
     typedef LazyLoadingButton Super;
 private:
+    OomeeCarouselButtonDelegate* _delegate = nullptr;
+    
     cocos2d::ui::Button* _deleteButton = nullptr;
     cocos2d::ui::Button* _editButton = nullptr;
     cocos2d::ui::Button* _makeAvatarButton = nullptr;
@@ -37,6 +48,7 @@ public:
     virtual void onEnter() override;
     
     void setOomeeData(const std::string& filename);
+    void setDelegate(OomeeCarouselButtonDelegate* delegate);
     
     void setInFocus(bool inFocus);
     

@@ -180,6 +180,20 @@ std::string OomeeMakerDataHandler::getAssetDir() const
     return assetDir;
 }
 
+bool OomeeMakerDataHandler::deleteOomee(const std::string& oomeeName)
+{
+    const std::string& fullOomeeName = getFullSaveDir() + oomeeName + ".oomee";
+    const std::string& fullImageName = getFullSaveDir() + oomeeName + ".png";
+    
+    if(FileUtils::getInstance()->isFileExist(fullOomeeName))
+    {
+        FileUtils::getInstance()->removeFile(fullOomeeName);
+        FileUtils::getInstance()->removeFile(fullImageName);
+        return true;
+    }
+    return false;
+}
+
 // Delegate functions
 void OomeeMakerDataHandler::onAsyncUnzipComplete(bool success, const std::string& zipPath, const std::string& dirpath)
 {

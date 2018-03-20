@@ -52,10 +52,10 @@ void OomeeMakerScene::onEnter()
     _oomee->setContentSize(_contentLayer->getContentSize());
     _oomee->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     _oomee->setEditable(true);
-    if(FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->getWritablePath() + _filename + ".oomee"))
+    if(FileUtils::getInstance()->isFileExist(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".oomee"))
     {
         rapidjson::Document data;
-        data.Parse(FileUtils::getInstance()->getStringFromFile(FileUtils::getInstance()->getWritablePath() + _filename + ".oomee").c_str());
+        data.Parse(FileUtils::getInstance()->getStringFromFile(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".oomee").c_str());
         _oomee->initWithOomeeFigureData(data);
     }
     
@@ -180,9 +180,9 @@ void OomeeMakerScene::saveAndExit()
         }
         savedFileContent += StringUtils::format("], \"colourHue\": %f }", _oomee->getHue());
         
-        FileUtils::getInstance()->writeStringToFile(savedFileContent, FileUtils::getInstance()->getWritablePath() + _filename + ".oomee");
+        FileUtils::getInstance()->writeStringToFile(savedFileContent, OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".oomee");
         
-        _oomee->saveSnapshotImage(_filename + ".png");
+        _oomee->saveSnapshotImage(OomeeMakerDataHandler::getInstance()->getLocalSaveDir() + _filename + ".png");
         
         Director::getInstance()->replaceScene(OomeeSelectScene::create());
     }, this, 0.5, 0, 0, false, scheduleKey);

@@ -8,7 +8,6 @@
 #include "OomeeCarousel.h"
 #include "../DataObjects/OomeeMakerDataHandler.h"
 #include "OomeeSelectScene.h"
-#include "OomeeCarouselButton.h"
 
 NS_AZOOMEE_OM_BEGIN
 
@@ -30,11 +29,11 @@ bool OomeeCarousel::init()
 
 void OomeeCarousel::onEnter()
 {
-    setTouchListener();
     this->scheduleUpdate();
     Super::onEnter();
     this->getScheduler()->schedule([this](float deltaT){
         this->centerButtons();
+        setTouchListener();
     }, this, 0, 0, 1.0, 0, "centerButtons");
 }
 
@@ -59,10 +58,13 @@ void OomeeCarousel::setTouchListener()
     
     listener->onTouchMoved = [&](Touch* touch, Event* event)
     {
-        OomeeCarouselButton* carouselButton = dynamic_cast<OomeeCarouselButton*>(_centerButton);
-        if(carouselButton)
+        if(_centerButton)
         {
-            carouselButton->setInFocus(false);
+            OomeeCarouselButton* carouselButton = dynamic_cast<OomeeCarouselButton*>(_centerButton);
+            if(carouselButton)
+            {
+                carouselButton->setInFocus(false);
+            }
         }
         
         for(LazyLoadingButton* button : _carouselButtons)
@@ -94,6 +96,9 @@ void OomeeCarousel::setTouchListener()
 
 void OomeeCarousel::setOomeeData(const std::vector<std::string>& oomeeFilenames)
 {
+    _contentNode->removeAllChildren();
+    _carouselButtons.clear();
+    _centerButton = nullptr;
     
     _oomeeData = oomeeFilenames;
     
@@ -101,6 +106,7 @@ void OomeeCarousel::setOomeeData(const std::vector<std::string>& oomeeFilenames)
     {
         const std::string assetName = OomeeMakerDataHandler::getInstance()->getFullSaveDir() + oomeeFilenames.at(i) + ".png";
         OomeeCarouselButton* button = OomeeCarouselButton::create();
+        button->setDelegate(_buttonDelegate);
         button->setOomeeData(oomeeFilenames.at(i));
         button->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         button->setPosition(Vec2(_spacing * i, this->getContentSize().height / 2.0f));
@@ -153,6 +159,11 @@ void OomeeCarousel::centerButtons()
             moveVector.x = this->getPosition().x - button->getPosition().x;
             centerButton = button;
         }
+    }
+    
+    if(!centerButton)
+    {
+        return;
     }
     
     OomeeCarouselButton* carouselButton = dynamic_cast<OomeeCarouselButton*>(centerButton);
@@ -219,6 +230,19 @@ void OomeeCarousel::update(float deltaT)
     }
     
     Super::update(deltaT);
+}
+
+void OomeeCarousel::setButtonDelegate(OomeeCarouselButtonDelegate* delegate)
+{
+    _buttonDelegate = delegate;
+    for(LazyLoadingButton* button : _carouselButtons)
+    {
+        OomeeCarouselButton* oomeeButton = dynamic_cast<OomeeCarouselButton*>(button);
+        if(oomeeButton)
+        {
+            oomeeButton->setDelegate(delegate);
+        }
+    }
 }
 
 NS_AZOOMEE_OM_END

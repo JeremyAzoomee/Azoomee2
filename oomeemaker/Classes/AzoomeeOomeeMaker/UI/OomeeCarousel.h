@@ -9,6 +9,7 @@
 #define OomeeCarousel_h
 
 #include "../AzoomeeOomeeMaker.h"
+#include "OomeeCarouselButton.h"
 #include <AzoomeeCommon/UI/LazyLoadingButton.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
@@ -25,6 +26,8 @@ private:
     int _visibleRange = 3;
     float _spacing = 0.0f;
     
+    OomeeCarouselButtonDelegate* _buttonDelegate = nullptr;
+    
     cocos2d::ClippingRectangleNode* _contentNode = nullptr;
     
     LazyLoadingButton* _leftMostButton = nullptr;
@@ -33,7 +36,7 @@ private:
     
     void setTouchListener();
     
-    void centerButtons();
+    
     void rotateButtonsLeft();
     void rotateButtonsRight();
     
@@ -46,6 +49,8 @@ public:
     void setOomeeData(const std::vector<std::string>& oomeeFilenames);
     void setVisibleRange(int visibleRange);
     
+    void centerButtons();
+    void setButtonDelegate(OomeeCarouselButtonDelegate* delegate);
     
     CREATE_FUNC(OomeeCarousel);
 };
