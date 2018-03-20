@@ -5,7 +5,7 @@
 //#define FORCE_RELOAD YES;
 //#define FORGET_USER_DATA YES;
 //#define ALLOW_UNPAID_SIGNUP YES
-#define USINGCI YES
+//#define USINGCI YES
 
 #include <cocos/cocos2d.h>
 #include "Json.h"

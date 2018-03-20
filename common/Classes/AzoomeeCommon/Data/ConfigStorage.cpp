@@ -202,8 +202,9 @@ std::string ConfigStorage::getRemoteWebGameAPIPath()
 {
 #ifdef USINGCI
     return "https://media.azoomee.ninja/static/webgameapi/";
-#endif
+#else
     return "https://media.azoomee.com/static/webgameapi/";
+#endif
 }
     
 bool ConfigStorage::isParentSignatureRequiredForRequest(const std::string& requestTag)

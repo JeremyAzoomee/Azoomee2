@@ -51,14 +51,12 @@ using namespace Azoomee;
 
     webview = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, width, height)];
     
-    NSString *iosurlExtension = [urlToLoad substringFromIndex:MAX((int)[urlToLoad length]-4, 0)];
-    NSString *iosurlPrefix = [urlToLoad substringToIndex:4];
     NSString *urlToCall;
     
     
-    if([iosurlExtension isEqualToString:@"html"]) //this is a game
+    if([urlToLoad hasSuffix:@"html"]) //this is a game
     {
-        if([iosurlPrefix isEqualToString:@"http"]) //game is loaded remotely
+        if([urlToLoad hasPrefix:@"http"]) //game is loaded remotely
         {
             urlToCall = [NSString stringWithFormat:@"%@%@", getRemoteWebGameAPIPath(), @"index_ios.html"];
         }
@@ -167,9 +165,7 @@ using namespace Azoomee;
 {
     if(!iframeloaded)
     {
-        NSString *iosurlExtension = [urlToLoad substringFromIndex:MAX((int)[urlToLoad length]-4, 0)];
-        
-        if([iosurlExtension isEqualToString:@"html"])
+        if([urlToLoad hasSuffix:@"html"])
         {
             [webView stringByEvaluatingJavaScriptFromString:@"clearLocalStorage()"];
             
@@ -225,8 +221,7 @@ using namespace Azoomee;
 
 -(void) buttonClicked:(UIButton*)sender
 {
-    NSString *iosurlExtension = [urlToLoad substringFromIndex:MAX((int)[urlToLoad length]-4, 0)];
-    if([iosurlExtension isEqualToString:@"html"])
+    if([urlToLoad hasSuffix:@"html"])
     {
         NSString *htmlData = [webview stringByEvaluatingJavaScriptFromString:@"saveLocalDataBeforeExit()"];
         saveLocalStorageData(htmlData);
@@ -243,8 +238,10 @@ using namespace Azoomee;
 {
     [backButton removeFromSuperview];
     
-    NSString *iosurlExtension = [urlToLoad substringFromIndex:MAX((int)[urlToLoad length]-4, 0)];
-    if(![iosurlExtension isEqualToString:@"html"]) return;
+    if(![urlToLoad hasSuffix:@"html"])
+    {
+        return;
+    }
     
     NSString *htmlData = [webview stringByEvaluatingJavaScriptFromString:@"saveLocalDataBeforeExit()"];
     saveLocalStorageData(htmlData);
