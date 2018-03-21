@@ -11,7 +11,11 @@ static int lengthOfGeneratedId = 20;
 
 SessionIdManager::SessionIdManager()
 {
-    
+    timeStampGoingBackground = 0;
+    timeStampAndroidSceneChange = 0;
+    backgroundTimeInContent = 0;
+    sessionId = "";
+    generateSessionId();
 }
 
 SessionIdManager* SessionIdManager::getInstance()
@@ -26,17 +30,6 @@ SessionIdManager* SessionIdManager::getInstance()
 SessionIdManager::~SessionIdManager(void)
 {
     
-}
-
-bool SessionIdManager::init(void)
-{
-    timeStampGoingBackground = 0;
-    timeStampAndroidSceneChange = 0;
-    backgroundTimeInContent = 0;
-    sessionId = "";
-    generateSessionId();
-    
-    return true;
 }
 
 std::string SessionIdManager::getCurrentSessionId()

@@ -13,7 +13,6 @@ public:
     SessionIdManager();
     static SessionIdManager* getInstance();
     virtual ~SessionIdManager();
-    bool init(void);
     
     std::string getCurrentSessionId();
     void registerAppWentBackgroundEvent();
