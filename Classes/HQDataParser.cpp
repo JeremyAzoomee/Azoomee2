@@ -48,7 +48,7 @@ bool HQDataParser::init(void)
     return true;
 }
 
-bool HQDataParser::parseHQData(const std::string &responseString, const char *category)
+bool HQDataParser::parseHQData(const std::string &responseString, const char *hqName)
 {
     rapidjson::Document contentData;
     contentData.Parse(responseString.c_str());
@@ -59,7 +59,7 @@ bool HQDataParser::parseHQData(const std::string &responseString, const char *ca
         return false;
     }
     
-    HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->clearData();
+    HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName)->clearData();
     
     rapidjson::Value::MemberIterator M;
     
@@ -97,7 +97,7 @@ bool HQDataParser::parseHQData(const std::string &responseString, const char *ca
     return true;
 }
 
-bool HQDataParser::parseHQStructure(const std::string &responseString, const char *category)
+bool HQDataParser::parseHQStructure(const std::string &responseString, const char *hqName)
 {
     rapidjson::Document contentData;
     contentData.Parse(responseString.c_str());
@@ -151,13 +151,13 @@ bool HQDataParser::parseHQStructure(const std::string &responseString, const cha
             }
         }
         
-        HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->addCarouselToHq(carouselObject);
-        HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->setHqType(category);
+        HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName)->addCarouselToHq(carouselObject);
+        HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName)->setHqType(hqName);
     }
     
     if(contentData.HasMember("images"))
     {
-        HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->setImages(getStringMapFromJson(contentData["images"]));
+        HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName)->setImages(getStringMapFromJson(contentData["images"]));
     }
     
     return true;
@@ -194,14 +194,14 @@ bool HQDataParser::parseHQGetContentUrls(const std::string &responseString)
 
 //GETTING CONTENT
 
-void HQDataParser::onGetContentAnswerReceived(const std::string &responseString, const std::string &category)
+void HQDataParser::onGetContentAnswerReceived(const std::string &responseString, const std::string &hqName)
 {
-    if(parseHQData(responseString, category.c_str()))       //Parsing method returns true if there are no errors in the json string.
+    if(parseHQData(responseString, hqName.c_str()))       //Parsing method returns true if there are no errors in the json string.
     {
         ModalMessages::getInstance()->stopLoading();
-        parseHQStructure(responseString, category.c_str());
+        parseHQStructure(responseString, hqName.c_str());
         
-        HQDataProvider::getInstance()->startBuildingHQ(category);
+        HQDataProvider::getInstance()->startBuildingHQ(hqName);
         
     }
 }

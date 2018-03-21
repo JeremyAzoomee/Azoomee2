@@ -174,4 +174,10 @@ std::string joinStrings(const std::vector<std::string>& stringList, const std::s
     return listString;
 }
     
+std::string convertStringToAssetSafeString(const std::string& string)
+{
+    std::string lowerCase = stringToLower(string);
+    return replaceAll(lowerCase, " ", "_");
+}
+    
 } // Azoomee

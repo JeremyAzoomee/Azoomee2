@@ -14,6 +14,7 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Utils/StringFunctions.h>
 #include "LoginLogicHandler.h"
 #include "SettingsButton.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
@@ -252,7 +253,7 @@ Sprite* NavigationLayer::addMenuItemCircle(const std::string& hqName, Node* toBe
 
 Sprite* NavigationLayer::addMenuItemActive(const std::string& hqName, Node* toBeAddedTo)
 {
-    auto menuItemActive = Sprite::create(StringUtils::format("res/navigation/menu%s_on.png", hqName.c_str()).c_str());
+    auto menuItemActive = Sprite::create(StringUtils::format("res/navigation/menu_%s_on.png", convertStringToAssetSafeString(hqName).c_str()).c_str());
     menuItemActive->setName("on");
     menuItemActive->setOpacity(0);
     menuItemActive->setPosition(toBeAddedTo->getContentSize() / 2);
@@ -263,7 +264,7 @@ Sprite* NavigationLayer::addMenuItemActive(const std::string& hqName, Node* toBe
 
 Sprite* NavigationLayer::addMenuItemInactive(const std::string& hqName, Node* toBeAddedTo)
 {
-    auto menuItemInactive = Sprite::create(StringUtils::format("res/navigation/menu%s.png", hqName.c_str()).c_str());
+    auto menuItemInactive = Sprite::create(StringUtils::format("res/navigation/menu_%s.png", convertStringToAssetSafeString(hqName).c_str()).c_str());
     menuItemInactive->setName("off");
     menuItemInactive->setPosition(toBeAddedTo->getContentSize() / 2);
     menuItemInactive->setOpacity(255);
