@@ -50,7 +50,7 @@ bool SettingsControlLayer::init()
     AudioMixer::getInstance()->pauseBackgroundMusic();
     
     createSettingsLayer();
-    AwaitingAdultPinLayer::create()->setDelegate(this);
+    createAdultPinLayerWithDelegate();
     
     return true;
 }
@@ -175,6 +175,8 @@ void SettingsControlLayer::checkForConfirmationNotifications()
 
 void SettingsControlLayer::removeSelf()
 {
+    removeAdultPinLayerDelegate();
+    
     if(returnToChatScene)
     {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
@@ -229,12 +231,31 @@ void SettingsControlLayer::buttonPressed(ElectricDreamsButton* button)
 
 void SettingsControlLayer::AdultPinCancelled(AwaitingAdultPinLayer* layer)
 {
+    removeAdultPinLayerDelegate();
     removeSelf();
 }
 
 void SettingsControlLayer::AdultPinAccepted(AwaitingAdultPinLayer* layer)
 {
+    removeAdultPinLayerDelegate();
     createSettingsController();
+}
+
+void SettingsControlLayer::createAdultPinLayerWithDelegate()
+{
+    _awaitingAdultPinLayer = AwaitingAdultPinLayer::create();
+    _awaitingAdultPinLayer->setDelegate(this);
+}
+
+void SettingsControlLayer::removeAdultPinLayerDelegate()
+{
+    if(_awaitingAdultPinLayer == nullptr)
+    {
+        return;
+    }
+    
+    _awaitingAdultPinLayer->setDelegate(nullptr);
+    _awaitingAdultPinLayer = nullptr;
 }
 
 void SettingsControlLayer::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
@@ -256,10 +277,19 @@ void SettingsControlLayer::onHttpRequestFailed(const std::string& requestTag, lo
 
 SettingsControlLayer::~SettingsControlLayer()
 {
+    removeAdultPinLayerDelegate();
+    
     if(_pendingFRHttpRequest)
     {
         _pendingFRHttpRequest->clearDelegate();
     }
+}
+
+void SettingsControlLayer::onExit()
+{
+    removeAdultPinLayerDelegate();
+    
+    Node::onExit();
 }
 
 NS_AZOOMEE_END

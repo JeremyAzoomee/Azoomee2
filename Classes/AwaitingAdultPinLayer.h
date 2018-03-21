@@ -56,6 +56,8 @@ public:
     
     CC_SYNTHESIZE(AwaitingAdultPinLayerDelegate*, _delegate, Delegate);
     
+    void onExit();
+    
     //Delegate Functions
     void textInputIsValid(TextInputLayer* inputLayer, bool isValid);
     void textInputReturnPressed(TextInputLayer* inputLayer);

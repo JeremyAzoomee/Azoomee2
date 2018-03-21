@@ -68,6 +68,10 @@ private:
     
     void refreshParentCookiesRequest();
     void getParentCookiesRequest();
+    
+    AwaitingAdultPinLayer* _awaitingAdultPinLayer = nullptr;
+    void createAdultPinLayerWithDelegate();
+    void removeAdultPinLayerDelegate();
 };
 
 NS_AZOOMEE_END

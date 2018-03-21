@@ -388,7 +388,9 @@ Layer* ChildSelectorScene::createParentProfileButton()
             _parentIconSelected = true;
             target->stopAllActions();
             target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
-            AwaitingAdultPinLayer::create()->setDelegate(this);
+            
+            createAdultPinLayerWithDelegate();
+            
             return true;
         }
         
@@ -417,18 +419,21 @@ void ChildSelectorScene::addChildButtonPressed(Node* target)
     
     target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
     
-    AwaitingAdultPinLayer::create()->setDelegate(this);
+    createAdultPinLayerWithDelegate();
+    
     AnalyticsSingleton::getInstance()->childProfileStartEvent();
 }
 
 //----------------------- Delegate Functions ----------------------------
 void ChildSelectorScene::AdultPinCancelled(AwaitingAdultPinLayer* layer)
 {
-    //Do Nothing.
+    removeAdultPinLayerDelegate();
 }
 
 void ChildSelectorScene::AdultPinAccepted(AwaitingAdultPinLayer* layer)
 {
+    removeAdultPinLayerDelegate();
+    
     if(_parentIconSelected)
     {
         refreshParentCookiesRequest();
@@ -436,6 +441,23 @@ void ChildSelectorScene::AdultPinAccepted(AwaitingAdultPinLayer* layer)
     }
     
     callDelegateFunction(0);
+}
+
+void ChildSelectorScene::createAdultPinLayerWithDelegate()
+{
+    _awaitingAdultPinLayer = AwaitingAdultPinLayer::create();
+    _awaitingAdultPinLayer->setDelegate(this);
+}
+
+void ChildSelectorScene::removeAdultPinLayerDelegate()
+{
+    if(_awaitingAdultPinLayer == nullptr)
+    {
+        return;
+    }
+    
+    _awaitingAdultPinLayer->setDelegate(nullptr);
+    _awaitingAdultPinLayer = nullptr;
 }
 
 void ChildSelectorScene::refreshParentCookiesRequest()
@@ -502,6 +524,7 @@ void ChildSelectorScene::MessageBoxButtonPressed(std::string messageBoxTitle,std
 void ChildSelectorScene::onExit()
 {
     OfflineChecker::getInstance()->setDelegate(nullptr);
+    removeAdultPinLayerDelegate();
 
     Node::onExit();
 }
