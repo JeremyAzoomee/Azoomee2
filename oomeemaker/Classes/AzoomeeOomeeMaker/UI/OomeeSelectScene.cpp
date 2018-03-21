@@ -131,7 +131,7 @@ void OomeeSelectScene::makeAvatar(const std::string &oomeeFilename)
 
 void OomeeSelectScene::shareOomee(const std::string &oomeeFilename)
 {
-    
+    delegate->onOomeeMakerShareOomee(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + oomeeFilename + ".png");
 }
 
 NS_AZOOMEE_OM_END

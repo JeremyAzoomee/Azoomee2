@@ -13,11 +13,15 @@
 #define NS_AZOOMEE_OM_BEGIN namespace Azoomee { namespace OomeeMaker {
 #define NS_AZOOMEE_OM_END }}
 
+#include <string>
+
 NS_AZOOMEE_OM_BEGIN
 
 // Delegate is used to deal with navigating outside the oomee maker app
 struct Delegate {
     virtual void onOomeeMakerNavigationBack() = 0;
+    virtual void onOomeeMakerShareOomee(const std::string& filename) = 0;
+    
 };
 
 // Delegate instance in namespace

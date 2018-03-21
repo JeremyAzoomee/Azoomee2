@@ -21,7 +21,7 @@ public:
     static OomeeMakerDelegate* getInstance();
     
     virtual void onOomeeMakerNavigationBack() override;
-    
+    virtual void onOomeeMakerShareOomee(const std::string& filename) override;
 };
 
 NS_AZOOMEE_END

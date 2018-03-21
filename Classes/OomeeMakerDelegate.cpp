@@ -6,7 +6,10 @@
 //
 
 #include "OomeeMakerDelegate.h"
+#include "ChatDelegate.h"
 #include "SceneManagerScene.h"
+#include "HQHistoryManager.h"
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 
 USING_NS_CC;
 
@@ -26,6 +29,19 @@ OomeeMakerDelegate* OomeeMakerDelegate::getInstance()
 void OomeeMakerDelegate::onOomeeMakerNavigationBack()
 {
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+}
+
+void OomeeMakerDelegate::onOomeeMakerShareOomee(const std::string& filename)
+{
+    ChatDelegate::getInstance()->_imageFileName = filename;
+    if(filename != "")
+    {
+        if(!HQHistoryManager::getInstance()->isOffline && ChildDataProvider::getInstance()->getIsChildLoggedIn())
+        {
+            Director::getInstance()->getTextureCache()->reloadTexture(filename);
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+        }
+    }
 }
 
 NS_AZOOMEE_END
