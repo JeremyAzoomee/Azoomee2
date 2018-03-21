@@ -16,7 +16,7 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-cocos2d::Scene* WebViewSelector::createSceneWithUrl(const std::string& url, Orientation orientation, Vec2 closeButtonAnchor)
+cocos2d::Scene* WebViewSelector::createSceneWithUrl(const std::string& url, Orientation orientation, const Vec2& closeButtonAnchor)
 {
     // 'scene' is an autorelease object
     auto scene = cocos2d::Scene::create();
@@ -59,7 +59,7 @@ std::string WebViewSelector::getUrlWithoutPath(std::string url)
     return(url.substr(0, until)); //returning string before the 3rd slash.
 }
 
-void WebViewSelector::loadWebView(const std::string& url, Orientation orientation, Vec2 closeButtonAnchor)
+void WebViewSelector::loadWebView(const std::string& url, Orientation orientation, const Vec2& closeButtonAnchor)
 {
     AnalyticsSingleton::getInstance()->contentItemWebviewStartedEvent();
     AudioMixer::getInstance()->stopBackgroundMusic();

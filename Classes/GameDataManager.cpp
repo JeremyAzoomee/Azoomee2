@@ -227,7 +227,7 @@ bool GameDataManager::checkIfFileExists(const std::string &fileWithPath)
     return FileUtils::getInstance()->isFileExist(fileWithPath);
 }
 
-std::string GameDataManager::getDownloadUrlForGameFromJSONFile(const std::string &jsonFileName)
+std::string GameDataManager::getDownloadUrlForGameFromJSONFile(const std::string &jsonFileName) const
 {
     const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     rapidjson::Document gameData;
@@ -236,7 +236,7 @@ std::string GameDataManager::getDownloadUrlForGameFromJSONFile(const std::string
     return getStringFromJson("uri", gameData);
 }
 
-std::string GameDataManager::getStartFileFromJSONFile(const std::string &jsonFileName)
+std::string GameDataManager::getStartFileFromJSONFile(const std::string &jsonFileName) const
 {
     const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     rapidjson::Document gameData;
@@ -245,7 +245,7 @@ std::string GameDataManager::getStartFileFromJSONFile(const std::string &jsonFil
     return getStringFromJson("pathToStartPage", gameData);
 }
 
-int GameDataManager::getCurrentGameVersionFromJSONFile(const std::string &jsonFileName)
+int GameDataManager::getCurrentGameVersionFromJSONFile(const std::string &jsonFileName) const
 {
     const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     rapidjson::Document gameData;
@@ -254,7 +254,7 @@ int GameDataManager::getCurrentGameVersionFromJSONFile(const std::string &jsonFi
     return getIntFromJson("currentVersion", gameData, 0);
 }
 
-bool GameDataManager::getIsGameStreamableFromJSONFile(const std::string &jsonFileName)
+bool GameDataManager::getIsGameStreamableFromJSONFile(const std::string &jsonFileName) const
 {
     const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     rapidjson::Document gameData;
@@ -262,7 +262,7 @@ bool GameDataManager::getIsGameStreamableFromJSONFile(const std::string &jsonFil
     return getBoolFromJson("isStreamable", gameData);
 }
 
-bool GameDataManager::getIsGameDownloadableFromJSONFile(const std::string &jsonFileName)
+bool GameDataManager::getIsGameDownloadableFromJSONFile(const std::string &jsonFileName) const
 {
     const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     rapidjson::Document gameData;
@@ -270,7 +270,7 @@ bool GameDataManager::getIsGameDownloadableFromJSONFile(const std::string &jsonF
     return getBoolFromJson("isDownloadable", gameData, true);
 }
 
-int GameDataManager::getMinGameVersionFromJSONString(const std::string &jsonString)
+int GameDataManager::getMinGameVersionFromJSONString(const std::string &jsonString) const
 {
     rapidjson::Document gameData;
     gameData.Parse(jsonString.c_str());
@@ -278,7 +278,7 @@ int GameDataManager::getMinGameVersionFromJSONString(const std::string &jsonStri
     return getIntFromJson("minVersion", gameData, 0);
 }
 
-Vec2 GameDataManager::getCloseButtonAnchorPointFromJSONFile(const std::string &jsonFileName)
+Vec2 GameDataManager::getCloseButtonAnchorPointFromJSONFile(const std::string &jsonFileName) const
 {
     const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     rapidjson::Document gameData;

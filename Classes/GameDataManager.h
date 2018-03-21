@@ -50,13 +50,13 @@ private:
     void removeOldGameIfUpgradeNeeded(const std::string &downloadedJSONString, const std::string &gameId);
     bool checkIfFileExists(const std::string &fileWithPath);
     
-    std::string getDownloadUrlForGameFromJSONFile(const std::string &jsonFileName);
-    std::string getStartFileFromJSONFile(const std::string &jsonFileName);
-    int getCurrentGameVersionFromJSONFile(const std::string &jsonFileName);
-    int getMinGameVersionFromJSONString(const std::string &jsonString);
-    bool getIsGameStreamableFromJSONFile(const std::string& jsonFileName);
-    bool getIsGameDownloadableFromJSONFile(const std::string& jsonFileName);
-    cocos2d::Vec2 getCloseButtonAnchorPointFromJSONFile(const std::string& jsonFileName);
+    std::string getDownloadUrlForGameFromJSONFile(const std::string &jsonFileName) const;
+    std::string getStartFileFromJSONFile(const std::string &jsonFileName) const;
+    int getCurrentGameVersionFromJSONFile(const std::string &jsonFileName) const;
+    int getMinGameVersionFromJSONString(const std::string &jsonString) const;
+    bool getIsGameStreamableFromJSONFile(const std::string& jsonFileName) const;
+    bool getIsGameDownloadableFromJSONFile(const std::string& jsonFileName) const;
+    cocos2d::Vec2 getCloseButtonAnchorPointFromJSONFile(const std::string& jsonFileName) const;
     
     void streamGameIfPossible(const std::string& jsonFileName);
     void downloadGameIfPossible(const std::string& jsonFileName, const std::string& itemId);
