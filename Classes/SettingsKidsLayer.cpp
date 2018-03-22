@@ -137,8 +137,8 @@ void SettingsKidsLayer::MessageBoxButtonPressed(std::string messageBoxTitle, std
         ModalMessages::getInstance()->startLoading();
         
         HttpRequestCreator* request = API::DeleteChild(ParentDataProvider::getInstance()->getIDForAvailableChildren(childNumberToDelete),
-                                                       ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumberToDelete),
-                                                       ParentDataProvider::getInstance()->getSexForAnAvailableChildren(childNumberToDelete),
+                                                       ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(childNumberToDelete),
+                                                       ParentDataProvider::getInstance()->getSexForAnAvailableChild(childNumberToDelete),
                                                        this);
         request->execute();
     }

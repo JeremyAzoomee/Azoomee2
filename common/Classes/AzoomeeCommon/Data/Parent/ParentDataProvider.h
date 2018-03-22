@@ -19,14 +19,14 @@ public:
     bool init(void);
     
     int getAmountOfAvailableChildren();
-    std::string getProfileNameForAnAvailableChildren(int childNumber);
-    std::string getProfileNameForAnAvailableChildrenById(const std::string& childId);
-    std::string getAvatarForAnAvailableChildren(int childNumber);
-    std::string getAvatarForAnAvailableChildrenById(const std::string& childId);
-    std::string getDOBForAnAvailableChildren(int childNumber);
-    std::string getSexForAnAvailableChildren(int childNumber);
+    std::string getProfileNameForAnAvailableChild(int childNumber);
+    std::string getProfileNameForAnAvailableChildById(const std::string& childId);
+    std::string getAvatarForAnAvailableChild(int childNumber);
+    std::string getAvatarForAnAvailableChildById(const std::string& childId);
+    std::string getDOBForAnAvailableChild(int childNumber);
+    std::string getSexForAnAvailableChild(int childNumber);
     std::string getIDForAvailableChildren(int childNumber);
-    std::string getInviteCodeForAvailableChildren(int childNumber);
+    std::string getInviteCodeForAnAvailableChild(int childNumber);
     
     std::string getLoggedInParentActorStatus();
     std::string getLoggedInParentId();

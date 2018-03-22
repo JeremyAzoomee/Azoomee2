@@ -123,50 +123,50 @@ int ParentDataProvider::getAmountOfAvailableChildren()
     return (int)parentData->availableChildrenData.Size();
 }
 
-std::string ParentDataProvider::getProfileNameForAnAvailableChildren(int childNumber)
+std::string ParentDataProvider::getProfileNameForAnAvailableChild(int childNumber)
 {
     return ParentDataStorage::getInstance()->availableChildren.at(childNumber)["profileName"];
 }
     
-std::string ParentDataProvider::getProfileNameForAnAvailableChildrenById(const std::string& childId)
+std::string ParentDataProvider::getProfileNameForAnAvailableChildById(const std::string& childId)
 {
     ParentDataStorage* data = ParentDataStorage::getInstance();
     auto it = data->availableChildrenById.find(childId);
     if(it != data->availableChildrenById.end())
     {
         int index = it->second;
-        return getProfileNameForAnAvailableChildren(index);
+        return getProfileNameForAnAvailableChild(index);
     }
     // No child with childId found
     cocos2d::log("Warning: no child found with id: %s", childId.c_str());
     return "";
 }
 
-std::string ParentDataProvider::getAvatarForAnAvailableChildren(int childNumber)
+std::string ParentDataProvider::getAvatarForAnAvailableChild(int childNumber)
 {
     return ParentDataStorage::getInstance()->availableChildren.at(childNumber)["avatar"];
 }
     
-std::string ParentDataProvider::getAvatarForAnAvailableChildrenById(const std::string& childId)
+std::string ParentDataProvider::getAvatarForAnAvailableChildById(const std::string& childId)
 {
     ParentDataStorage* data = ParentDataStorage::getInstance();
     auto it = data->availableChildrenById.find(childId);
     if(it != data->availableChildrenById.end())
     {
         int index = it->second;
-        return getAvatarForAnAvailableChildren(index);
+        return getAvatarForAnAvailableChild(index);
     }
     // No child with childId found
     cocos2d::log("Warning: no child found with id: %s", childId.c_str());
     return "";
 }
 
-std::string ParentDataProvider::getDOBForAnAvailableChildren(int childNumber)
+std::string ParentDataProvider::getDOBForAnAvailableChild(int childNumber)
 {
     return ParentDataStorage::getInstance()->availableChildren.at(childNumber)["dob"];
 }
 
-std::string ParentDataProvider::getSexForAnAvailableChildren(int childNumber)
+std::string ParentDataProvider::getSexForAnAvailableChild(int childNumber)
 {
     return ParentDataStorage::getInstance()->availableChildren.at(childNumber)["sex"];
 }
@@ -176,7 +176,7 @@ std::string ParentDataProvider::getIDForAvailableChildren(int childNumber)
     return ParentDataStorage::getInstance()->availableChildren.at(childNumber)["id"];
 }
     
-std::string ParentDataProvider::getInviteCodeForAvailableChildren(int childNumber)
+std::string ParentDataProvider::getInviteCodeForAnAvailableChild(int childNumber)
 {
     return ParentDataStorage::getInstance()->availableChildren.at(childNumber)["inviteCode"];
 }

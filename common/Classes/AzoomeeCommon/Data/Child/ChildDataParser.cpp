@@ -98,8 +98,8 @@ void ChildDataParser::setLoggedInChildId(const std::string &id)
     }
     else
     {
-        data->loggedInChildName = ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildrenById(data->loggedInChildId);
-        data->loggedInChildAvatarId = ParentDataProvider::getInstance()->getAvatarForAnAvailableChildrenById(data->loggedInChildId);
+        data->loggedInChildName = ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildById(data->loggedInChildId);
+        data->loggedInChildAvatarId = ParentDataProvider::getInstance()->getAvatarForAnAvailableChildById(data->loggedInChildId);
     }
 }
 
