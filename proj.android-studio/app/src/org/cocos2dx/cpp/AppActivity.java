@@ -29,6 +29,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 import javax.crypto.Mac;
@@ -44,16 +45,12 @@ import org.cocos2dx.cpp.util.Purchase;
 import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.tinizine.azoomee.R;
 import com.tinizine.azoomee.common.AzoomeeActivity;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import com.amazon.device.iap.PurchasingService;
@@ -66,11 +63,8 @@ import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.ndk.CrashlyticsNdk;
 import io.fabric.sdk.android.Fabric;
 
-import com.mixpanel.android.mpmetrics.MixpanelAPI;
-
-import com.appsflyer.AppsFlyerLib;
-
 import com.urbanairship.UAirship;
+import com.urbanairship.push.notifications.DefaultNotificationFactory;
 
 
 public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver.IabBroadcastListener {
@@ -116,6 +110,14 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
 
         readAdvertisingIdFromDevice();
+
+        //setting up urban airship push notification icons
+        DefaultNotificationFactory defaultNotificationFactory = new DefaultNotificationFactory(getApplicationContext());
+        defaultNotificationFactory.setSmallIconId(R.drawable.ic_launcher);
+        defaultNotificationFactory.setLargeIcon(R.drawable.ic_launcher);
+        defaultNotificationFactory.setColor(NotificationCompat.COLOR_DEFAULT);
+        UAirship airship = UAirship.shared();
+        airship.getPushManager().setNotificationFactory(defaultNotificationFactory);
     }
 
     public static void startWebView(String url, String userid, int orientation) {
