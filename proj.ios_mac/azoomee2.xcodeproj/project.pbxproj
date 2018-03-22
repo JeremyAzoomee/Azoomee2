@@ -1320,6 +1320,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "azoomee2-mobile" */;
 			buildPhases = (
+				029B9A972063D20700D98EF2 /* Copy WebCommAPI from separate repository */,
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
@@ -1533,6 +1534,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		029B9A972063D20700D98EF2 /* Copy WebCommAPI from separate repository */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy WebCommAPI from separate repository";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "rm -rf ../Resources/res/webcommApi\ncp -rf ../../webgameapi_repo/webcommApi ../Resources/res/";
+		};
 		30647A941F13B53600A935C9 /* Carthage Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
