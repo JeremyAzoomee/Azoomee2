@@ -36,6 +36,8 @@
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "GooglePaymentSingleton.h"
 #include "AmazonPaymentSingleton.h"
+#include "platform/android/jni/JniHelper.h"
+static const std::string kAzoomeeActivityJavaClassName = "org/cocos2dx/cpp/AppActivity";
 #endif
 
 using namespace cocos2d;
@@ -505,9 +507,11 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     }
     else
     {
-        for(int i = 0; i < 6; i++)
+        std::vector<std::string> hqNames = ConfigStorage::getInstance()->getHqNames();
+        hqNames.push_back(ConfigStorage::kGroupHQName);
+        for(const std::string& hqName : hqNames)
         {
-            if(requestTag == ConfigStorage::getInstance()->getNameForMenuItem(i))
+            if(requestTag == hqName)
             {
                 HQDataParser::getInstance()->onGetContentAnswerReceived(body, requestTag);
                 break;

@@ -15,13 +15,13 @@ public:
     bool init(void);
     
     //Data Parsing methods
-    bool parseHQData(const std::string &responseString, const char *category);
-    bool parseHQStructure(const std::string &responseString, const char *category);
+    bool parseHQData(const std::string &responseString, const char *hqName);
+    bool parseHQStructure(const std::string &responseString, const char *hqName);
     bool parseHQGetContentUrls(const std::string &responseString);
     std::string getExtensionFromUri(const std::string &uri) const;
     
     //Communication methods
-    void onGetContentAnswerReceived(const std::string &responseString, const std::string &category);
+    void onGetContentAnswerReceived(const std::string &responseString, const std::string &hqName);
 };
 
 NS_AZOOMEE_END

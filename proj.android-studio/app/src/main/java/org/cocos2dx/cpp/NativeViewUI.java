@@ -36,13 +36,15 @@ public class NativeViewUI extends Activity {
     private boolean isActivityExitRequested = false;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_native_view);
 
         final View decorView = getWindow().getDecorView();
 
-        if (Build.VERSION.SDK_INT >= 11) {
+        if (Build.VERSION.SDK_INT >= 11)
+        {
             int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE;
             decorView.setSystemUiVisibility(uiOptions);
         }
@@ -55,16 +57,22 @@ public class NativeViewUI extends Activity {
         //---------Set Orientation-----------
         // orientation - 1 = Portrait
         if(extras.getInt("orientation") == _portrait)
+        {
             activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
 
         userid = extras.getString("userid");
         Log.d("userid", userid);
 
-        if(uiWebView != null) uiWebView.destroy();
+        if(uiWebView != null)
+        {
+            uiWebView.destroy();
+        }
 
         uiWebView = new WebView(this);
 
-        uiWebView.setWebViewClient(new WebViewClient() {
+        uiWebView.setWebViewClient(new WebViewClient()
+        {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 return false;
@@ -92,14 +100,24 @@ public class NativeViewUI extends Activity {
 
         ImageButton closeButton = new ImageButton(this);
         if(loadingGame())
+        {
             closeButton.setImageResource(R.drawable.close_button);
+        }
         else
+        {
             closeButton.setImageResource(R.drawable.back_button);
+        }
 
         closeButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
-        closeButton.setOnClickListener(new View.OnClickListener() {
+        closeButton.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
+                if(isActivityExitRequested||!isWebViewReady)
+                {
+                    return;
+                }
 
                 Bundle extras = getIntent().getExtras();
                 if(extras.getInt("orientation") == _portrait)
@@ -167,7 +185,7 @@ public class NativeViewUI extends Activity {
     {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-        if(uiWebView != null)
+        if(uiWebView != null && isWebViewReady)
         {
             isWebViewReady = false;
             uiWebView.evaluateJavascript("javascript:saveLocalDataBeforeExit();", null);
@@ -214,20 +232,31 @@ public class NativeViewUI extends Activity {
         return false;
     }
 
-    public void onBackPressed(){
+    public void onBackPressed()
+    {
+        if(isActivityExitRequested||!isWebViewReady)
+        {
+            return;
+        }
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         exitView();
     }
 
     public static void exitView()
     {
-        activity.runOnUiThread(new Runnable() {
-            public void run() {
+        activity.runOnUiThread(new Runnable()
+        {
+            public void run()
+            {
                 imageButtonStatic.callOnClick();
             }
         });
     }
 
-    protected void webviewAdditionalSettings() {
+    protected void webviewAdditionalSettings()
+    {
 
         Bundle extras = getIntent().getExtras();
         String myUrl = "about:blank";
@@ -241,11 +270,19 @@ public class NativeViewUI extends Activity {
         Log.d("urlToBeLoaded", myUrl);
         final String urlToBeLoaded;
 
-        if(myUrl.substring(myUrl.length() - 4).equals("html"))
+        if(myUrl.endsWith("html"))
         {
-            urlToBeLoaded = "file:///android_asset/res/webcommApi/index_android.html?contentUrl=" + myUrl;
+            if(myUrl.startsWith("http")) //content is game loaded remotely
+            {
+                urlToBeLoaded = JNICalls.JNIGetRemoteWebGameAPIPath() + "index_android.html?contentUrl=" + myUrl;
+            }
+            else //game is loaded locally
+            {
+                urlToBeLoaded = "file:///android_asset/res/webcommApi/index_android.html?contentUrl=" + myUrl;
+            }
         }
-        else {
+        else
+        {
             urlToBeLoaded = "file:///android_asset/res/jwplayer/index_android.html?contentUrl=" + myUrl;
         }
 

@@ -20,10 +20,12 @@ using namespace Azoomee;
     return self;
 }
 
-- (void)startBuildingWebView:(NSString*)url userid:(NSString*)userid
+- (void)startBuildingWebView:(NSString*)url userid:(NSString*)userid closeButtonAnchorX:(float)closeButtonAnchorX closeButtonAnchorY:(float)closeButtonAnchorY
 {
     urlToLoad = url;
     useridToUse = userid;
+    _closeButtonAnchorX = closeButtonAnchorX;
+    _closeButtonAnchorY = closeButtonAnchorY;
     
     [urlToLoad retain];
     [useridToUse retain];
@@ -51,13 +53,19 @@ using namespace Azoomee;
 
     webview = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, width, height)];
     
-    NSString *iosurlExtension = [urlToLoad substringFromIndex:MAX((int)[urlToLoad length]-4, 0)];
     NSString *urlToCall;
     
     
-    if([iosurlExtension isEqualToString:@"html"])
+    if([urlToLoad hasSuffix:@"html"]) //this is a game
     {
-        urlToCall = [[NSBundle mainBundle] pathForResource:@"res/webcommApi/index_ios" ofType:@"html"];
+        if([urlToLoad hasPrefix:@"http"]) //game is loaded remotely
+        {
+            urlToCall = [NSString stringWithFormat:@"%@%@", getRemoteWebGameAPIPath(), @"index_ios.html"];
+        }
+        else //game is loaded locally
+        {
+            urlToCall = [[NSBundle mainBundle] pathForResource:@"res/webcommApi/index_ios" ofType:@"html"];
+        }
     }
     else
     {
@@ -88,10 +96,19 @@ using namespace Azoomee;
         NSArray *urlItems = [urlComponents.string componentsSeparatedByString:@"?"];
         NSString *method = [urlItems objectAtIndex:2];
         NSString *responseId = [urlItems objectAtIndex:4];
-        NSString *score = @"null";
-        if([method isEqualToString:@"updateHighScore"]) score = [urlItems objectAtIndex:6];
+        NSString *sendData = @"null";
         
-        const char* returnString = sendGameApiRequest([method cStringUsingEncoding:NSUTF8StringEncoding], [responseId cStringUsingEncoding:NSUTF8StringEncoding], [score cStringUsingEncoding:NSUTF8StringEncoding]);
+        if([method isEqualToString:@"updateHighScore"])
+        {
+            sendData = [urlItems objectAtIndex:6];
+        }
+        
+        if([method isEqualToString:@"saveImage"])
+        {
+            sendData = [urlItems objectAtIndex:6];
+        }
+        
+        const char* returnString = sendGameApiRequest([method cStringUsingEncoding:NSUTF8StringEncoding], [responseId cStringUsingEncoding:NSUTF8StringEncoding], [sendData cStringUsingEncoding:NSUTF8StringEncoding]);
         NSLog(@"Sending string back to web: %s", returnString);
         
         NSString *callString = [NSString stringWithFormat:@"answerMessageReceivedFromAPI(\"%s\")", returnString];
@@ -150,9 +167,7 @@ using namespace Azoomee;
 {
     if(!iframeloaded)
     {
-        NSString *iosurlExtension = [urlToLoad substringFromIndex:MAX((int)[urlToLoad length]-4, 0)];
-        
-        if([iosurlExtension isEqualToString:@"html"])
+        if([urlToLoad hasSuffix:@"html"])
         {
             [webView stringByEvaluatingJavaScriptFromString:@"clearLocalStorage()"];
             
@@ -188,9 +203,12 @@ using namespace Azoomee;
     
     screenSize.width > screenSize.height ? buttonWidth = screenSize.width / 15.0f : buttonWidth = screenSize.height / 15.0f ;
     
+    screenSize.width -= buttonWidth * 1.5f;
+    screenSize.height -= buttonWidth * 1.5f;
+    
     backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [backButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [backButton setFrame:CGRectMake(buttonWidth/4, buttonWidth/4, buttonWidth, buttonWidth)];
+    [backButton setFrame:CGRectMake(buttonWidth/4 + (screenSize.width * _closeButtonAnchorX), buttonWidth/4 + (screenSize.height * _closeButtonAnchorY), buttonWidth, buttonWidth)];
     [backButton setExclusiveTouch:YES];
 
     //Check if has html, then opening game.
@@ -208,11 +226,9 @@ using namespace Azoomee;
 
 -(void) buttonClicked:(UIButton*)sender
 {
-    NSString *iosurlExtension = [urlToLoad substringFromIndex:MAX((int)[urlToLoad length]-4, 0)];
-    if([iosurlExtension isEqualToString:@"html"])
+    if([urlToLoad hasSuffix:@"html"])
     {
         NSString *htmlData = [webview stringByEvaluatingJavaScriptFromString:@"saveLocalDataBeforeExit()"];
-        NSLog(@"ART APP FILE DATA DIRECT LENGTH: %lu", htmlData.length);
         saveLocalStorageData(htmlData);
         [self finishView];
         return;
@@ -227,8 +243,13 @@ using namespace Azoomee;
 {
     [backButton removeFromSuperview];
     
-    NSString *iosurlExtension = [urlToLoad substringFromIndex:MAX((int)[urlToLoad length]-4, 0)];
-    if(![iosurlExtension isEqualToString:@"html"]) return;
+    if(![urlToLoad hasSuffix:@"html"])
+    {
+        return;
+    }
+    
+    NSString *htmlData = [webview stringByEvaluatingJavaScriptFromString:@"saveLocalDataBeforeExit()"];
+    saveLocalStorageData(htmlData);
     
     [webview loadHTMLString:@"" baseURL:nil];
     [webview stopLoading];

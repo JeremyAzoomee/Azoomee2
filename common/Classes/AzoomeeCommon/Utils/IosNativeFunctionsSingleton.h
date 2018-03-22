@@ -18,9 +18,13 @@ public:
     const char* getIosDeviceType();
     const char* getIosDeviceIDFA();
     
+    void identifyMixpanel();
+    
     void deleteHttpCookies();
     
     bool doBiometricValidation(bool precheck);
+    
+    void startIosReviewProcess();
     
 private:
     IosNativeFunctionsSingleton();

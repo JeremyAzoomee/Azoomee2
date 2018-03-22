@@ -55,9 +55,9 @@ public class JsInterface extends Activity {
     }
 
     @JavascriptInterface
-    public String apiRequest(String method, String responseID, String score)
+    public String apiRequest(String method, String responseID, String sendData)
     {
-        return JNICalls.JNISendAPIRequest(method, responseID, score);
+        return JNICalls.JNISendAPIRequest(method, responseID, sendData);
     }
 
     @JavascriptInterface

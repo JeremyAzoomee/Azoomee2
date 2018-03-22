@@ -1,135 +1,93 @@
 {
-  "relativeCirclePositionsForMenuItems": {
-    "positions": [
-      {
-        "x": 0,
-        "y": 485
-      },
-      {
-        "x": -420,
-        "y": 242
-      },
-      {
-        "x": -420,
-        "y": -242
-      },
-      {
-        "x": 0,
-        "y": -485
-      },
-      {
-        "x": 420,
-        "y": -242
-      },
-      {
-        "x": 420,
-        "y": 242
-      }
-    ]
-  },
-  "horizontalXPositionsForMenuItems": [
-    775,
-    1011,
-    1248,
-    1957,
-    1721,
-    1484
-  ],
+    "horizontalXPositionsForMenuItems": {
+        "GAME HQ": 1031,
+        "CHAT": 1504,
+        "VIDEO HQ": 1268,
+        "ARTS APP": 1741
+    },
   "horizontalYPositionsForMenuItems": -150,
   "horizontalMenuItemsHeight": 270,
   "horizontalYPositionsForMenuItemsInGroupHQ": 300,
-  "coloursForMenuItems": [
-    {
-      "r": 218,
-      "g": 18,
-      "b": 255,
-      "a": 255
+  "coloursForMenuItems": {
+    "CHAT": {
+        "r": 218,
+        "g": 18,
+        "b": 255,
+        "a": 255
     },
-    {
-      "r": 249,
-      "g": 74,
-      "b": 91,
-      "a": 255
+    "VIDEO HQ": {
+        "r": 249,
+        "g": 74,
+        "b": 91,
+        "a": 255
     },
-    {
-      "r": 55,
-      "g": 188,
-      "b": 152,
-      "a": 255
+    "AUDIO HQ": {
+        "r": 55,
+        "g": 188,
+        "b": 152,
+        "a": 255
     },
-    {
-      "r": 28,
-      "g": 244,
-      "b": 244,
-      "a": 255
+    "MIX HQ": {
+        "r": 28,
+        "g": 244,
+        "b": 244,
+        "a": 255
     },
-    {
-      "r": 246,
-      "g": 187,
-      "b": 66,
-      "a": 255
+    "ARTS APP": {
+        "r": 246,
+        "g": 187,
+        "b": 66,
+        "a": 255
     },
-    {
-      "r": 84,
-      "g": 174,
-      "b": 255,
-      "a": 255
+    "GAME HQ": {
+        "r": 84,
+        "g": 174,
+        "b": 255,
+        "a": 255
     }
-  ],
+  },
   "namesForMenuItems": [
     "CHAT",
     "VIDEO HQ",
-    "AUDIO HQ",
-    "HOME",
-    "ARTS APP",
     "GAME HQ",
-    "GROUP HQ"
+    "ARTS APP"
   ],
   "hqNamesReplacementForPermissionFeed": {
   	"CHAT": "CHAT",
   	"VIDEO": "VIDEO HQ",
   	"AUDIO": "AUDIO HQ",
-  	"HOME": "HOME",
   	"ART": "ARTS APP",
-  	"GAME": "GAME HQ"
+  	"GAME": "GAME HQ",
+    "MIX": "MIX HQ"
   },
-  "tagNumberForMenuItems": {
-    "CHAT": 0,
-    "VIDEO HQ": 1,
-    "AUDIO HQ": 2,
-    "HOME": 3,
-    "ARTS APP": 4,
-    "GAME HQ": 5,
-    "GROUP HQ": 6
-  },
-  "targetPositionsForMove": [
-    {
+  "targetPositionsForMove": {
+    "CHAT": {
       "x": 0,
       "y": 0
     },
-    {
+    "VIDEO HQ": {
       "x": -2732,
       "y": 0
     },
-    {
+    "AUDIO HQ": {
       "x": 2732,
       "y": 0
     },
-    {
+    "MIX HQ": {
       "x": 0,
-      "y": 0
+      "y": 4096
     },
-    {
-      "x": 0,
-      "y": -2048
-    },
-    {
+    "GAME HQ": {
       "x": 0,
       "y": 2048
     },
-    {
+    "ARTS APP": {
+      "x": 0,
+      "y": -2048
+    },
+    "GROUP HQ": {
       "x": 0,
       "y": -4096
     }
-  ]
+  }
 }

@@ -228,7 +228,6 @@ void RoutePaymentSingleton::retryReceiptValidation()
 {
     if(!receiptDataFileExists())
     {
-        //TODO: send receipt file data to back-end
         removeReceiptDataFileAndLogin();
         return;
     }
@@ -238,6 +237,8 @@ void RoutePaymentSingleton::retryReceiptValidation()
     
     if(fileContentSplit.size() != 2)
     {
+        //TODO: send receipt file data to back-end
+        removeReceiptDataFileAndLogin();
         return;
     }
     

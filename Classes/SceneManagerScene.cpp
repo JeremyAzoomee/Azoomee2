@@ -34,7 +34,7 @@ cocos2d::Scene* SceneManagerScene::createScene(SceneNameEnum sceneName)
     return scene;
 }
 
-cocos2d::Scene* SceneManagerScene::createWebview(Orientation _orientation, const std::string& URL)
+cocos2d::Scene* SceneManagerScene::createWebview(Orientation _orientation, const std::string& URL, Vec2 closeButtonAnchor)
 {
     auto scene = cocos2d::Scene::create();
     auto layer = SceneManagerScene::create();
@@ -45,6 +45,8 @@ cocos2d::Scene* SceneManagerScene::createWebview(Orientation _orientation, const
         layer->nextScene = WebviewLandscape;
     
     layer->webviewURL = URL;
+    layer->_closeButtonAnchor = closeButtonAnchor;
+    
     scene->addChild(layer);
     
     return scene;
@@ -169,14 +171,14 @@ void SceneManagerScene::onEnterTransitionDidFinish()
                 forceToPortrait();
             #endif
             AnalyticsSingleton::getInstance()->registerCurrentScene("WEBVIEWPORTRAIT");
-            WebViewSelector::createSceneWithUrl(webviewURL, Orientation::Portrait);
+            WebViewSelector::createSceneWithUrl(webviewURL, Orientation::Portrait, _closeButtonAnchor);
             break;
         }
         case WebviewLandscape:
         {
             forceToLandscape();
             AnalyticsSingleton::getInstance()->registerCurrentScene("WEBVIEWLANDSCAPE");
-            WebViewSelector::createSceneWithUrl(webviewURL, Orientation::Landscape);
+            WebViewSelector::createSceneWithUrl(webviewURL, Orientation::Landscape, _closeButtonAnchor);
             break;
         }
         default:

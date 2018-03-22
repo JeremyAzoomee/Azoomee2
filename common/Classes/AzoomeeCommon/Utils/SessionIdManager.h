@@ -1,19 +1,18 @@
 #ifndef AzoomeeCommon_SessionIdManager_h
 #define AzoomeeCommon_SessionIdManager_h
 
+#include "../Azoomee.h"
 #include <cocos/cocos2d.h>
 
-namespace Azoomee
-{
-
-class SessionIdManager : public cocos2d::Ref
+NS_AZOOMEE_BEGIN
+    
+class SessionIdManager
 {
     
 public:
-    static SessionIdManager* getInstance(void);
-    
+    SessionIdManager();
+    static SessionIdManager* getInstance();
     virtual ~SessionIdManager();
-    bool init(void);
     
     std::string getCurrentSessionId();
     void registerAppWentBackgroundEvent();
@@ -33,7 +32,7 @@ private:
     void generateSessionId();
     void increaseBackgroundTimeInContent();
 };
-  
-}
+
+NS_AZOOMEE_END
 
 #endif

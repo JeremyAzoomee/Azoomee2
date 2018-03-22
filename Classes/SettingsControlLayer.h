@@ -46,6 +46,10 @@ private:
     
     void removeSelf();
     
+    AwaitingAdultPinLayer* _awaitingAdultPinLayer = nullptr;
+    void createAdultPinLayerWithDelegate();
+    void removeAdultPinLayerDelegate();
+    
     //Button Actions
     void selectNewTab(Layer* newCurrentLayer, ElectricDreamsButton* buttonToBringForward);
     
@@ -55,6 +59,7 @@ public:
     static Layer* createFromChat();
     
     CREATE_FUNC(SettingsControlLayer);
+    void onExit();
     
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);

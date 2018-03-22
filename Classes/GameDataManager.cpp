@@ -38,6 +38,15 @@ NS_AZOOMEE_BEGIN
 
 const char* const GameDataManager::kManualGameId = "MANUAL_GAME";
 
+const std::map<std::string, Vec2> GameDataManager::kCloseAnchorKeyToVec2Map = {
+    {"TOP_LEFT",Vec2(0,0)},
+    {"MIDDLE_LEFT",Vec2(0,0.5)},
+    {"BOTTOM_LEFT", Vec2(0,1)},
+    {"TOP_RIGHT",Vec2(1,0)},
+    {"MIDDLE_RIGHT",Vec2(1,0.5)},
+    {"BOTTOM_RIGHT", Vec2(1,1)}
+};
+
 static GameDataManager *_sharedGameDataManager = NULL;
 
 GameDataManager* GameDataManager::getInstance()
@@ -218,7 +227,7 @@ bool GameDataManager::checkIfFileExists(const std::string &fileWithPath)
     return FileUtils::getInstance()->isFileExist(fileWithPath);
 }
 
-std::string GameDataManager::getDownloadUrlForGameFromJSONFile(const std::string &jsonFileName)
+std::string GameDataManager::getDownloadUrlForGameFromJSONFile(const std::string &jsonFileName) const
 {
     const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     rapidjson::Document gameData;
@@ -227,7 +236,7 @@ std::string GameDataManager::getDownloadUrlForGameFromJSONFile(const std::string
     return getStringFromJson("uri", gameData);
 }
 
-std::string GameDataManager::getStartFileFromJSONFile(const std::string &jsonFileName)
+std::string GameDataManager::getStartFileFromJSONFile(const std::string &jsonFileName) const
 {
     const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     rapidjson::Document gameData;
@@ -236,7 +245,7 @@ std::string GameDataManager::getStartFileFromJSONFile(const std::string &jsonFil
     return getStringFromJson("pathToStartPage", gameData);
 }
 
-int GameDataManager::getCurrentGameVersionFromJSONFile(const std::string &jsonFileName)
+int GameDataManager::getCurrentGameVersionFromJSONFile(const std::string &jsonFileName) const
 {
     const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     rapidjson::Document gameData;
@@ -245,7 +254,7 @@ int GameDataManager::getCurrentGameVersionFromJSONFile(const std::string &jsonFi
     return getIntFromJson("currentVersion", gameData, 0);
 }
 
-bool GameDataManager::getIsGameStreamableFromJSONFile(const std::string &jsonFileName)
+bool GameDataManager::getIsGameStreamableFromJSONFile(const std::string &jsonFileName) const
 {
     const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     rapidjson::Document gameData;
@@ -253,7 +262,7 @@ bool GameDataManager::getIsGameStreamableFromJSONFile(const std::string &jsonFil
     return getBoolFromJson("isStreamable", gameData);
 }
 
-bool GameDataManager::getIsGameDownloadableFromJSONFile(const std::string &jsonFileName)
+bool GameDataManager::getIsGameDownloadableFromJSONFile(const std::string &jsonFileName) const
 {
     const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     rapidjson::Document gameData;
@@ -261,12 +270,25 @@ bool GameDataManager::getIsGameDownloadableFromJSONFile(const std::string &jsonF
     return getBoolFromJson("isDownloadable", gameData, true);
 }
 
-int GameDataManager::getMinGameVersionFromJSONString(const std::string &jsonString)
+int GameDataManager::getMinGameVersionFromJSONString(const std::string &jsonString) const
 {
     rapidjson::Document gameData;
     gameData.Parse(jsonString.c_str());
     
     return getIntFromJson("minVersion", gameData, 0);
+}
+
+Vec2 GameDataManager::getCloseButtonAnchorPointFromJSONFile(const std::string &jsonFileName) const
+{
+    const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
+    rapidjson::Document gameData;
+    gameData.Parse(fileContent.c_str());
+    const std::string& anchorKey = getStringFromJson("closeButtonAnchor", gameData, "TOP_LEFT");
+    if(kCloseAnchorKeyToVec2Map.find(anchorKey) != kCloseAnchorKeyToVec2Map.end())
+    {
+        return kCloseAnchorKeyToVec2Map.at(anchorKey);
+    }
+    return Vec2(0,0);
 }
 
 void GameDataManager::streamGameIfPossible(const std::string &jsonFileName)
@@ -276,7 +298,7 @@ void GameDataManager::streamGameIfPossible(const std::string &jsonFileName)
         std::string uri = getDownloadUrlForGameFromJSONFile(jsonFileName);
         uri = uri.substr(0, uri.find_last_of("/"));
         const std::string& startFileNameWithPath = getStartFileFromJSONFile(jsonFileName);
-        Director::getInstance()->replaceScene(SceneManagerScene::createWebview(getGameOrientation(jsonFileName), uri + "/" + startFileNameWithPath));
+        Director::getInstance()->replaceScene(SceneManagerScene::createWebview(getGameOrientation(jsonFileName), uri + "/" + startFileNameWithPath, getCloseButtonAnchorPointFromJSONFile(jsonFileName)));
         _gameIsBeingStreamed = true;
     }
 }
@@ -348,7 +370,7 @@ void GameDataManager::startGame(const std::string &basePath, const std::string &
         return;
     }
     addTimestampFile(basePath + "lastUsedTimestamp.txt");
-    Director::getInstance()->replaceScene(SceneManagerScene::createWebview(getGameOrientation(basePath + "package.json"), basePath + fileName));
+    Director::getInstance()->replaceScene(SceneManagerScene::createWebview(getGameOrientation(basePath + "package.json"), basePath + fileName, getCloseButtonAnchorPointFromJSONFile(basePath + "package.json")));
 }
 
 std::string GameDataManager::getGameIdPath(const std::string &gameId)

@@ -112,6 +112,11 @@ NSString* getVideoPlaylist()
     return [NSString stringWithUTF8String:returnString.c_str()];
 }
 
+NSString* getRemoteWebGameAPIPath()
+{
+    return [NSString stringWithUTF8String:ConfigStorage::getInstance()->getRemoteWebGameAPIPath().c_str()];
+}
+
 bool isDeviceIphoneX()
 {
     return ConfigStorage::getInstance()->isDeviceIphoneX();

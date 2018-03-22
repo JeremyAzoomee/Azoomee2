@@ -87,7 +87,7 @@ public:
     
     //-------------HUB ACTIONS-------------------
     void hubTapOomeeEvent(int oomeeNumber, std::string oomeeAction);
-    void navSelectionEvent(std::string hubOrTop, int buttonNumber);
+    void navSelectionEvent(std::string hubOrTop, const std::string& buttonName);
     
     //-------------CONTENTITEM EVENTS----------
     void contentItemSelectedEvent(const std::string& Type);
