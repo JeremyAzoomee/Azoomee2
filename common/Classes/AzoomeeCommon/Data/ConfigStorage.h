@@ -64,6 +64,7 @@ public:
     std::string getCTAPackageJsonURL();
     std::string getMediaPrefixForXwalkCookies();
     std::string getPathForTag(const std::string& httpRequestTag);
+    std::string getRemoteWebGameAPIPath();
     bool isParentSignatureRequiredForRequest(const std::string& requestTag);
     bool isImmediateRequestSendingRequired(const std::string& requestTag);
     

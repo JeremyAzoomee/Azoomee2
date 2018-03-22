@@ -198,6 +198,15 @@ std::string ConfigStorage::getPathForTag(const std::string& httpRequestTag)
     return "";
 }
     
+std::string ConfigStorage::getRemoteWebGameAPIPath()
+{
+#ifdef USINGCI
+    return "https://media.azoomee.ninja/static/webgameapi/";
+#else
+    return "https://media.azoomee.com/static/webgameapi/";
+#endif
+}
+    
 bool ConfigStorage::isParentSignatureRequiredForRequest(const std::string& requestTag)
 {
     auto itemPosition = std::find(parentSignedRequestTags.begin(), parentSignedRequestTags.end(), requestTag);
