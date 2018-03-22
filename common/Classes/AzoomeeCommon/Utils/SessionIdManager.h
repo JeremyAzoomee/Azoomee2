@@ -6,7 +6,7 @@
 
 NS_AZOOMEE_BEGIN
     
-class SessionIdManager: public cocos2d::Ref
+class SessionIdManager
 {
     
 public:

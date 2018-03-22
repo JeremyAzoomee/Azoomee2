@@ -131,27 +131,52 @@ void SessionIdManager::generateSessionId()
 
 bool SessionIdManager::generatingNewSessionIdRequired()
 {
-    if(sessionId == "") return true;
-    if(timeStampGoingBackground == 0) return true;
-    if(time(NULL) - timeStampGoingBackground > 30) return true;
+    if(sessionId == "")
+    {
+        return true;
+    }
+    
+    if(timeStampGoingBackground == 0)
+    {
+        return true;
+    }
+    
+    if(time(NULL) - timeStampGoingBackground > 30)
+    {
+        return true;
+    }
     
     return false;
 }
 
 bool SessionIdManager::eventHappenedDuringAndroidSceneChange()
 {
-    if(timeStampAndroidSceneChange == 0) return false;
-    if(time(NULL) - timeStampAndroidSceneChange > 2) return false;
+    if(timeStampAndroidSceneChange == 0)
+    {
+        return false;
+    }
+    
+    if(time(NULL) - timeStampAndroidSceneChange > 2)
+    {
+        return false;
+    }
     
     return true;
 }
 
 void SessionIdManager::increaseBackgroundTimeInContent()
 {
-    if(timeStampGoingBackground == 0) return;
+    if(timeStampGoingBackground == 0)
+    {
+        return;
+    }
     
     long timeSpentBackground = time(NULL) - timeStampGoingBackground;
-    if(timeSpentBackground > 2) backgroundTimeInContent += timeSpentBackground;
+    
+    if(timeSpentBackground > 2)
+    {
+        backgroundTimeInContent += timeSpentBackground;
+    }
 }
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
