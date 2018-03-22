@@ -15,10 +15,12 @@
     bool iframeloaded;
     UIWebView *webview;
     UIButton* backButton;
+    float _closeButtonAnchorX;
+    float _closeButtonAnchorY;
 }
 
 -(id)init;
-- (void)startBuildingWebView:(NSString*)url userid:(NSString *)userid;
+- (void)startBuildingWebView:(NSString*)url userid:(NSString *)userid closeButtonAnchorX:(float)closeButtonAnchorX closeButtonAnchorY:(float)closeButtonAnchorY;
 - (void)removeWebViewWhileInBackground;
 - (void)addWebViewToScreen;
 - (void)createButton;

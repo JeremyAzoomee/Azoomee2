@@ -9,12 +9,12 @@ NS_AZOOMEE_BEGIN
 
 WebViewController *webViewController;
 
-Scene* WebViewNative_ios::createSceneWithURL(std::string url)
+Scene* WebViewNative_ios::createSceneWithURL(std::string url, Vec2 closeButtonAnchor)
 {
     auto scene = Scene::create();
     auto layer = WebViewNative_ios::create();
     scene->addChild(layer);
-    layer->startLoadingUrl(url);
+    layer->startLoadingUrl(url, closeButtonAnchor);
 
     return scene;
 }
@@ -36,9 +36,9 @@ void WebViewNative_ios::onEnterTransitionDidFinish()
 
 //-------------------------------------------All methods are private after this line---------------------------------------
 
-void WebViewNative_ios::startLoadingUrl(std::string url)
+void WebViewNative_ios::startLoadingUrl(std::string url, Vec2 closeButtonAnchor)
 {
-    addWebViewToScreen(url);
+    addWebViewToScreen(url, closeButtonAnchor);
 }
 
 void WebViewNative_ios::removeWebViewFromScreen()
@@ -52,7 +52,7 @@ void WebViewNative_ios::reAddWebViewToScreen()
     [webViewController createButton];
 }
 
-void WebViewNative_ios::addWebViewToScreen(std::string url)
+void WebViewNative_ios::addWebViewToScreen(std::string url, Vec2 closeButtonAnchor)
 {
 
     //Please note: cookie handling in ios is automatic. Set-cookie values are getting set from the httprequest's response, and they are being stored in the shared cookie storage. This is not true on Android (furthermore we are not using the built-in browser).
@@ -78,7 +78,7 @@ void WebViewNative_ios::addWebViewToScreen(std::string url)
     webViewController = [[WebViewController alloc] init];
     [currentView addSubview:webViewController.view];
     
-    [webViewController startBuildingWebView:iosurl userid:iosuserid];
+    [webViewController startBuildingWebView:iosurl userid:iosuserid closeButtonAnchorX:closeButtonAnchor.x closeButtonAnchorY:closeButtonAnchor.y];
     
     
     currentView = nil;

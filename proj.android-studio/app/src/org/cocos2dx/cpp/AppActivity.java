@@ -120,7 +120,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         airship.getPushManager().setNotificationFactory(defaultNotificationFactory);
     }
 
-    public static void startWebView(String url, String userid, int orientation) {
+    public static void startWebView(String url, String userid, int orientation, float closeButtonAnchorX, float closeButtonAnchorY) {
         Intent nvw;
 
         if ((android.os.Build.MANUFACTURER.equals("Amazon") || kRemoteDebugWebViewEnabled) && (url.substring(url.length() - 4).equals("html")))
@@ -136,6 +136,8 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         nvw.putExtra("url", url);
         nvw.putExtra("userid", userid);
         nvw.putExtra("orientation", orientation);
+        nvw.putExtra("closeAnchorX", closeButtonAnchorX);
+        nvw.putExtra("closeAnchorY", closeButtonAnchorY);
 
         mContext.startActivity(nvw);
 

@@ -75,7 +75,7 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
         RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), hqName);
         ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
         auto webViewSelector = WebViewSelector::create();
-        webViewSelector->loadWebView(contentItem->getUri(),Orientation::Landscape);
+        webViewSelector->loadWebView(contentItem->getUri(),Orientation::Landscape, Vec2(0,0));
     }
     else if(contentItem->getType()  == ConfigStorage::kContentTypeAudioGroup || contentItem->getType()  == ConfigStorage::kContentTypeGroup)
     {

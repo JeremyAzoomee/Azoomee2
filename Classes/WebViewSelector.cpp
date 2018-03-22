@@ -16,7 +16,7 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-cocos2d::Scene* WebViewSelector::createSceneWithUrl(const std::string& url, Orientation orientation)
+cocos2d::Scene* WebViewSelector::createSceneWithUrl(const std::string& url, Orientation orientation, const Vec2& closeButtonAnchor)
 {
     // 'scene' is an autorelease object
     auto scene = cocos2d::Scene::create();
@@ -27,7 +27,7 @@ cocos2d::Scene* WebViewSelector::createSceneWithUrl(const std::string& url, Orie
     // add layer as a child to scene
     scene->addChild(layer);
     
-    layer->loadWebView(url, orientation);
+    layer->loadWebView(url, orientation, closeButtonAnchor);
     
     // return the scene
     return scene;
@@ -59,18 +59,18 @@ std::string WebViewSelector::getUrlWithoutPath(std::string url)
     return(url.substr(0, until)); //returning string before the 3rd slash.
 }
 
-void WebViewSelector::loadWebView(const std::string& url, Orientation orientation)
+void WebViewSelector::loadWebView(const std::string& url, Orientation orientation, const Vec2& closeButtonAnchor)
 {
     AnalyticsSingleton::getInstance()->contentItemWebviewStartedEvent();
     AudioMixer::getInstance()->stopBackgroundMusic();
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    auto iosWebView = WebViewNative_ios::createSceneWithURL(url);
+    auto iosWebView = WebViewNative_ios::createSceneWithURL(url, closeButtonAnchor);
     Director::getInstance()->replaceScene(iosWebView);
 #endif
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    auto androidWebViewCaller = WebViewNativeCaller_android::createSceneWithUrl(url, orientation);
+    auto androidWebViewCaller = WebViewNativeCaller_android::createSceneWithUrl(url, orientation, closeButtonAnchor);
     Director::getInstance()->replaceScene(androidWebViewCaller);
 #endif
 }

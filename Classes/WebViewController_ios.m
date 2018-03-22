@@ -20,10 +20,12 @@ using namespace Azoomee;
     return self;
 }
 
-- (void)startBuildingWebView:(NSString*)url userid:(NSString*)userid
+- (void)startBuildingWebView:(NSString*)url userid:(NSString*)userid closeButtonAnchorX:(float)closeButtonAnchorX closeButtonAnchorY:(float)closeButtonAnchorY
 {
     urlToLoad = url;
     useridToUse = userid;
+    _closeButtonAnchorX = closeButtonAnchorX;
+    _closeButtonAnchorY = closeButtonAnchorY;
     
     [urlToLoad retain];
     [useridToUse retain];
@@ -201,9 +203,12 @@ using namespace Azoomee;
     
     screenSize.width > screenSize.height ? buttonWidth = screenSize.width / 15.0f : buttonWidth = screenSize.height / 15.0f ;
     
+    screenSize.width -= buttonWidth * 1.5f;
+    screenSize.height -= buttonWidth * 1.5f;
+    
     backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [backButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [backButton setFrame:CGRectMake(buttonWidth/4, buttonWidth/4, buttonWidth, buttonWidth)];
+    [backButton setFrame:CGRectMake(buttonWidth/4 + (screenSize.width * _closeButtonAnchorX), buttonWidth/4 + (screenSize.height * _closeButtonAnchorY), buttonWidth, buttonWidth)];
     [backButton setExclusiveTouch:YES];
 
     //Check if has html, then opening game.
