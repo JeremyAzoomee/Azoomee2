@@ -22,18 +22,20 @@ public:
         CHAT = 0,
         VIDEO_HQ,
         AUDIO_HQ,
-        HOME,
-        ARTS_APP,
+        MIX_HQ,
         GAME_HQ,
+        ARTS_APP,
         GROUP_HQ
     };
     
+    static const char* const kChatHQName;
     static const char* const kGameHQName;
     static const char* const kVideoHQName;
     static const char* const kAudioHQName;
     static const char* const kGroupHQName;
     static const char* const kHomeHQName;
     static const char* const kArtAppHQName;
+    static const char* const kMixHQName;
     
     static const char* const kDefaultHQName;
     
@@ -90,15 +92,14 @@ public:
     std::string getGradientImageForCategory(const std::string& category);
     
     //NavigationLayer configuration
-    std::string getHQSceneNameReplacementForPermissionFeed(const std::string &inputHqSceneName);
-    cocos2d::Point getRelativeCirclePositionForMenuItem(int itemNumber);
-    cocos2d::Point getHorizontalPositionForMenuItem(int itemNumber);
-    float getHorizontalMenuItemsHeight();
-    cocos2d::Point getHorizontalPositionForMenuItemInGroupHQ(int itemNumber);
-    cocos2d::Color4B getColourForMenuItem(int itemNumber);
-    std::string getNameForMenuItem(int itemNumber);
-    HubTargetTagNumber getTagNumberForMenuName(const std::string& name);
-    cocos2d::Point getTargetPositionForMove(int itemNumber);
+    std::string getHQSceneNameReplacementForPermissionFeed(const std::string &inputHqSceneName) const;
+    cocos2d::Point getHorizontalPositionForMenuItem(const std::string& hqName) const;
+    float getHorizontalMenuItemsHeight() const;
+    cocos2d::Point getHorizontalPositionForMenuItemInGroupHQ(const std::string& hqName) const;
+    cocos2d::Color4B getColourForMenuItem(const std::string& hqName) const;
+    std::string getNameForMenuItem(const std::string& hqName) const;
+    cocos2d::Point getTargetPositionForMove(const std::string& hqName) const;
+    std::vector<std::string> getHqNames() const;
     
     //MainHubScene configuration
     std::vector<cocos2d::Point> getMainHubPositionForHighlightElements(const std::string& categoryName);

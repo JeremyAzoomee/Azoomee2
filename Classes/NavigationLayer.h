@@ -4,7 +4,6 @@
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
-#include "DisplayChildNameLayer.h"
 #include <AzoomeeChat/ChatAPI.h>
 #include <AzoomeeChat/Data/Message.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
@@ -18,7 +17,7 @@ public:
     static cocos2d::Scene* createScene();
     virtual bool init();
     void startLoadingGroupHQ(std::string uri);
-    void changeToScene(ConfigStorage::HubTargetTagNumber target, float duration);
+    void changeToScene(const std::string& hqName, float duration);
     
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);
@@ -38,13 +37,13 @@ private:
     ElectricDreamsButton *returnToChildSelectorButton;
 
     //MenuItem creation phase
-    cocos2d::Sprite* addMenuItemHolder(int itemNumber);
-    cocos2d::Sprite* addMenuItemCircle(int itemNumber, cocos2d::Node *toBeAddedTo);
-    cocos2d::Sprite* addMenuItemInactive(int itemNumber, cocos2d::Node *toBeAddedTo);
-    cocos2d::Sprite* addMenuItemActive(int itemNumber, cocos2d::Node *toBeAddedTo);
+    cocos2d::Sprite* addMenuItemHolder(const std::string& hqName);
+    cocos2d::Sprite* addMenuItemCircle(const std::string& hqName, cocos2d::Node *toBeAddedTo);
+    cocos2d::Sprite* addMenuItemInactive(const std::string& hqName, cocos2d::Node *toBeAddedTo);
+    cocos2d::Sprite* addMenuItemActive(const std::string& hqName, cocos2d::Node *toBeAddedTo);
     void addListenerToMenuItem(Node *toBeAddedTo);
     
-    void addXmasDecorationToMenuItem(int itemNumber, cocos2d::Node *toBeAddedTo);
+    void addXmasDecorationToMenuItem(const std::string& hqName, cocos2d::Node *toBeAddedTo);
     
     void runDisplayAnimationForMenuItem(cocos2d::Node* node1, bool quick);
     
@@ -65,11 +64,11 @@ private:
     
     //Handling created menuitems or all menuitems
     void turnOffAllMenuItems();
-    void turnOnMenuItem(int tagNumber);
+    void turnOnMenuItem(const std::string& hqName);
     
-    void setButtonOn(int i);
+    void setButtonOn(const std::string& hqName);
     void delayedSetButtonOn(float dt);
-    void startLoadingHQScene(ConfigStorage::HubTargetTagNumber target);
+    void startLoadingHQScene(const std::string& hqName);
     void addBackButtonToNavigation();
     void removeBackButtonFromNavigation();
     void addListenerToBackButton(cocos2d::Node* toBeAddedTo);

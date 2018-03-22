@@ -297,10 +297,10 @@ void AnalyticsSingleton::hubTapOomeeEvent(int oomeeNumber, std::string oomeeActi
     mixPanelSendEventWithStoredProperties("tapOomee", mixPanelProperties);
 }
 
-void AnalyticsSingleton::navSelectionEvent(std::string hubOrTop, int buttonNumber)
+    void AnalyticsSingleton::navSelectionEvent(std::string hubOrTop, const std::string& buttonName)
 {
     std::map<std::string, std::string> mixPanelProperties;
-    mixPanelProperties["Type"] = ConfigStorage::getInstance()->getNameForMenuItem(buttonNumber);
+    mixPanelProperties["Type"] = buttonName;
     mixPanelProperties["Method"] = hubOrTop;
     
     mixPanelSendEventWithStoredProperties("contentNavSelection", mixPanelProperties);
