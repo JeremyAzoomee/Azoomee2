@@ -120,6 +120,16 @@ void NavigationLayer::startLoadingGroupHQ(std::string uri)
 
 void NavigationLayer::changeToScene(const std::string& hqName, float duration)
 {
+    
+    if(hqName == "OOMEE_MAKER")
+    {
+        if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+        {
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(OomeeMakerEntryPointScene));
+        }
+        return;
+    }
+    
     //CHECK IF THE ENTITLEMENT FOR THAT SPECIFIC HQ IS ENABLED
     
     const HQDataObjectRef &currentObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName);
