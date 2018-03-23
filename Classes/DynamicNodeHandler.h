@@ -73,6 +73,7 @@ public:
     void createDynamicNodeByGroupId(const std::string& groupId);
     
     void createDynamicNodeByIdWithParams(const std::string& uniqueId, const std::string& params);
+    void createDynamicNodeByGroupIdWithParams(const std::string& group, const std::string& params);
     
     void startSignupFlow();
     void startIAPFlow();
