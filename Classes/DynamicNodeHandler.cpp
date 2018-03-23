@@ -170,7 +170,9 @@ void DynamicNodeHandler::startIAPFlow()
         }
     }
     _flowController = IAPFlowController::create();
-    createDynamicNodeByGroupIdWithParams(_flowController->_flowEntryFile, getJSONStringFromMap({{"iapPrice",IAPProductDataHandler::getInstance()->getHumanReadableProductPrice()}}));
+    createDynamicNodeByGroupIdWithParams(_flowController->_flowEntryFile, getJSONStringFromMap({
+        {"iapPrice",IAPProductDataHandler::getInstance()->getHumanReadableProductPrice()}
+    }));
 }
 
 void DynamicNodeHandler::startAddChildFlow()

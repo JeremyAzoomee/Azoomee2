@@ -105,7 +105,9 @@ void IAPFlowController::handleCoppaPrivacyFlow(const ButtonActionDataRef& action
         case BACK:
         {
             AnalyticsSingleton::getInstance()->ctaButtonPressed("coppaPrivacy_back");
-            DynamicNodeHandler::getInstance()->createDynamicNodeByGroupIdWithParams(kIAPUpgradeCTAName, getJSONStringFromMap({{"iapPrice",IAPProductDataHandler::getInstance()->getHumanReadableProductPrice()}}));
+            DynamicNodeHandler::getInstance()->createDynamicNodeByGroupIdWithParams(kIAPUpgradeCTAName, getJSONStringFromMap({
+                {"iapPrice",IAPProductDataHandler::getInstance()->getHumanReadableProductPrice()}
+            }));
             break;
         }
         case CLOSE: case NEXT:
@@ -129,7 +131,9 @@ void IAPFlowController::handleLearnMoreFlow(const ButtonActionDataRef& actionDat
         case BACK:
         {
             AnalyticsSingleton::getInstance()->ctaButtonPressed("learnMore_back");
-            DynamicNodeHandler::getInstance()->createDynamicNodeByGroupIdWithParams(kIAPUpgradeCTAName, getJSONStringFromMap({{"iapPrice",IAPProductDataHandler::getInstance()->getHumanReadableProductPrice()}}));
+            DynamicNodeHandler::getInstance()->createDynamicNodeByGroupIdWithParams(kIAPUpgradeCTAName, getJSONStringFromMap({
+                {"iapPrice",IAPProductDataHandler::getInstance()->getHumanReadableProductPrice()}
+            }));
             break;
         }
         case CLOSE: case NEXT:
