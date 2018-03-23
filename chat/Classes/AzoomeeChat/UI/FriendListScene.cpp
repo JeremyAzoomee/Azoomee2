@@ -126,13 +126,16 @@ void FriendListScene::onSizeChanged()
     
     // Main layout
     const Vec2& titleBarSize = Vec2(1.0f, (isLandscape) ? 0.131f : 0.084f);
+    const Vec2& subTitleBarSize = Vec2(1.0f, (isLandscape) ? 0.15f : 0.07f);
+    
     _titleBar->setSizePercent(titleBarSize);
     const Vec2& contentLayoutSize = Vec2(1.0f, 1.0f - titleBarSize.y);
     _contentLayout->setSizePercent(contentLayoutSize);
-    // Subtitle bar uses same height as title bar
-    _subTitleBar->setSizePercent(Vec2(1.0f, 0.1f));
+    
+    _subTitleBar->setSizePercent(subTitleBarSize);
     _subTitleBarBorder->setContentSize(Size(contentSize.width,2.0f));
-    _friendListView->setSizePercent(Vec2(0.9f, 0.89));
+    
+    _friendListView->setSizePercent(Vec2(0.9f, 1.0f - subTitleBarSize.y));
     // 2 column on landscape, 1 column portrait
     _friendListView->setColumns((isLandscape) ? 2 : 1);
 
