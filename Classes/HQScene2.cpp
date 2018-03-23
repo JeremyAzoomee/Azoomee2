@@ -8,6 +8,7 @@
 #include "ContentHistoryManager.h"
 #include "DynamicNodeHandler.h"
 #include "HQSceneArtsApp.h"
+#include "MeHQ.h"
 #include "OfflineHubBackButton.h"
 #include "RecentlyPlayedManager.h"
 #include "ArtAppDelegate.h"
@@ -101,6 +102,18 @@ void HQScene2::startBuildingScrollView()
         IosNativeFunctionsSingleton::getInstance()->startIosReviewProcess();
     }
 #endif
+    
+    if(this->getName() == "ME HQ")
+    {
+        auto meHQ = this->getChildByName("ME HQ");
+        if(!meHQ)
+        {
+            auto meHQLayer = MeHQ::create();
+            meHQLayer->setName("ME HQ");
+            this->addChild(meHQLayer);
+        }
+        return;
+    }
     
     if(this->getName() == ConfigStorage::kArtAppHQName)
     {

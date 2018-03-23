@@ -39,9 +39,27 @@ bool HQSceneArtsApp::init()
 void HQSceneArtsApp::onEnter()
 {
     createArtsAppScrollView();
-    addPrivacyButton();
+    if(_showPrivacyButton)
+    {
+        addPrivacyButton();
+    }
     
     Node::onEnter();
+}
+
+void HQSceneArtsApp::setOriginPosition(cocos2d::Point origin)
+{
+    _origin = origin;
+}
+
+void HQSceneArtsApp::setSize(cocos2d::Size size)
+{
+    _visibleSize = size;
+}
+
+void HQSceneArtsApp::setShowPrivacyButton(bool showPrivacyButton)
+{
+    _showPrivacyButton = showPrivacyButton;
 }
 
 //------------------ All functions below this line are used internally ----------------------------
@@ -92,21 +110,15 @@ void HQSceneArtsApp::addEmptyImageToHorizontalScrollView(cocos2d::ui::ScrollView
 
 void HQSceneArtsApp::addCreatedImagesToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo)
 {
-    std::string path = FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getParentOrChildId();
-    std::vector<std::string> fileList = DirectorySearcher::getInstance()->getFilesInDirectory(path);
+    const std::string& path = FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getParentOrChildId();
+    std::vector<std::string> fileList = DirectorySearcher::getInstance()->getImagesInDirectory(path);
     
     std::reverse(fileList.begin(), fileList.end());
     
     for(int i = 0; i < fileList.size(); i++)
     {
-        if(fileList.at(i).size() > 4)
-        {
-            if(fileList.at(i).substr(fileList.at(i).size() -3, 3) == "png")
-            {
-                std::string imagePath = StringUtils::format("%s/%s", path.c_str(), fileList.at(i).c_str());
-                addImageToHorizontalScrollView(toBeAddedTo, imagePath, true, false);
-            }
-        }
+        const std::string& imagePath = StringUtils::format("%s/%s", path.c_str(), fileList.at(i).c_str());
+        addImageToHorizontalScrollView(toBeAddedTo, imagePath, true, false);
     }
 }
 

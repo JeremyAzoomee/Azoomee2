@@ -134,7 +134,7 @@ void NavigationLayer::changeToScene(const std::string& hqName, float duration)
     
     const HQDataObjectRef &currentObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName);
     
-    if(!currentObject->getHqEntitlement())
+    if(hqName != "ME HQ" && !currentObject->getHqEntitlement())
     {
         AnalyticsSingleton::getInstance()->registerCTASource("lockedHQ","",currentObject->getHqType());
         DynamicNodeHandler::getInstance()->startIAPFlow();
@@ -213,6 +213,18 @@ void NavigationLayer::loadArtsAppHQ()
     hqLayer->startBuildingScrollView();
 }
 
+void NavigationLayer::loadMeHQ()
+{
+    HQHistoryManager::getInstance()->addHQToHistoryManager("ME HQ");
+    
+    Scene *runningScene = Director::getInstance()->getRunningScene();
+    Node *baseLayer = runningScene->getChildByName("baseLayer");
+    Node *contentLayer = baseLayer->getChildByName("contentLayer");
+    HQScene2 *hqLayer = (HQScene2 *)contentLayer->getChildByName("ME HQ");
+    
+    hqLayer->startBuildingScrollView();
+}
+
 void NavigationLayer::startLoadingHQScene(const std::string& hqName)
 {
     if(hqName == ConfigStorage::kArtAppHQName)
@@ -223,6 +235,17 @@ void NavigationLayer::startLoadingHQScene(const std::string& hqName)
         
         this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
 
+        return;
+    }
+    
+    if(hqName == "ME HQ")
+    {
+        auto funcCallAction = CallFunc::create([=](){
+            this->loadMeHQ();
+        });
+        
+        this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
+        
         return;
     }
     

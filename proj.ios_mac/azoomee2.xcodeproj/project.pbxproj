@@ -136,7 +136,7 @@
 		9224BFB41F7932D200108553 /* ButtonActionData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB31F7932D200108553 /* ButtonActionData.cpp */; };
 		9224BFB71F794BFA00108553 /* DynamicNodeHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB61F794BFA00108553 /* DynamicNodeHandler.cpp */; };
 		926173A71F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926173A61F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp */; };
-		9271D7D12040544200370120 /* liblibAzoomeeOomeeMaker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9271D7CB2040537000370120 /* liblibAzoomeeOomeeMaker.a */; };
+		9271D7D12040544200370120 /* libAzoomeeOomeeMaker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9271D7CB2040537000370120 /* libAzoomeeOomeeMaker.a */; };
 		9271D7D32040557D00370120 /* OomeeMakerDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D7D22040557D00370120 /* OomeeMakerDelegate.cpp */; };
 		92759E701FE1598100639190 /* DynamicNodeLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92759E6F1FE1598100639190 /* DynamicNodeLine.cpp */; };
 		92759EB21FE81F6300639190 /* ContentOpener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92759EB11FE81F6300639190 /* ContentOpener.cpp */; };
@@ -146,6 +146,7 @@
 		9289DB441FD8137D00B12435 /* DynamicNodeButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DB431FD8137D00B12435 /* DynamicNodeButton.cpp */; };
 		9289DB471FD8414F00B12435 /* DynamicNodeText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DB461FD8414F00B12435 /* DynamicNodeText.cpp */; };
 		9289DB7D1FD996A800B12435 /* DynamicNodeImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DB7C1FD996A800B12435 /* DynamicNodeImage.cpp */; };
+		929A9CFC2065248A009B323D /* MeHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929A9CFB2065248A009B323D /* MeHQ.cpp */; };
 		929D46671F73F04D006E40CE /* DynamicNodeCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929D46661F73F04D006E40CE /* DynamicNodeCreator.cpp */; };
 		92A9A06E1F068A97008A19EB /* libAzoomeeArt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A9A06B1F068A7B008A19EB /* libAzoomeeArt.a */; };
 		92A9A0A91F0D1775008A19EB /* ArtAppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92A9A0A81F0D1775008A19EB /* ArtAppDelegate.cpp */; };
@@ -260,13 +261,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 1D6058910D05DD3D006BFB54;
 			remoteInfo = "AzoomeeOomeeMaker-mobile";
-		};
-		9271D7632035F44600370120 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9271D7572035F44600370120 /* AzoomeeOomeeMaker.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 5087E76F17EB910900C73F5D;
-			remoteInfo = "AzoomeeOomeeMaker-desktop";
 		};
 		9271D7CA2040537000370120 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -537,6 +531,8 @@
 		9289DB461FD8414F00B12435 /* DynamicNodeText.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeText.cpp; sourceTree = "<group>"; };
 		9289DB781FD9883100B12435 /* DynamicNodeImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DynamicNodeImage.h; sourceTree = "<group>"; };
 		9289DB7C1FD996A800B12435 /* DynamicNodeImage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeImage.cpp; sourceTree = "<group>"; };
+		929A9CFA2063CF4F009B323D /* MeHQ.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeHQ.h; sourceTree = "<group>"; };
+		929A9CFB2065248A009B323D /* MeHQ.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MeHQ.cpp; sourceTree = "<group>"; };
 		929D46651F73EC3B006E40CE /* DynamicNodeCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicNodeCreator.h; sourceTree = "<group>"; };
 		929D46661F73F04D006E40CE /* DynamicNodeCreator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeCreator.cpp; sourceTree = "<group>"; };
 		92A9A0A21F0D172F008A19EB /* ArtAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtAppDelegate.h; sourceTree = "<group>"; };
@@ -588,7 +584,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9271D7D12040544200370120 /* liblibAzoomeeOomeeMaker.a in Frameworks */,
+				9271D7D12040544200370120 /* libAzoomeeOomeeMaker.a in Frameworks */,
 				026FA3FF200E03460045C305 /* LocalAuthentication.framework in Frameworks */,
 				02BF05DD1F977FE800E7D086 /* AirshipKit.framework in Frameworks */,
 				92A9A06E1F068A97008A19EB /* libAzoomeeArt.a in Frameworks */,
@@ -1021,6 +1017,7 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				929A9CF92063CD76009B323D /* MeArea */,
 				9271D7C42040537000370120 /* OomeeMaker */,
 				92759EAC1FE81B9600639190 /* ContentOpener */,
 				929D46611F73EBDE006E40CE /* CallToAction */,
@@ -1139,8 +1136,7 @@
 			isa = PBXGroup;
 			children = (
 				9271D7622035F44600370120 /* AzoomeeOomeeMaker-mobile.app */,
-				9271D7642035F44600370120 /* AzoomeeOomeeMaker-desktop.app */,
-				9271D7CB2040537000370120 /* liblibAzoomeeOomeeMaker.a */,
+				9271D7CB2040537000370120 /* libAzoomeeOomeeMaker.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1161,6 +1157,15 @@
 				92759EB11FE81F6300639190 /* ContentOpener.cpp */,
 			);
 			name = ContentOpener;
+			sourceTree = "<group>";
+		};
+		929A9CF92063CD76009B323D /* MeArea */ = {
+			isa = PBXGroup;
+			children = (
+				929A9CFA2063CF4F009B323D /* MeHQ.h */,
+				929A9CFB2065248A009B323D /* MeHQ.cpp */,
+			);
+			name = MeArea;
 			sourceTree = "<group>";
 		};
 		929D46611F73EBDE006E40CE /* CallToAction */ = {
@@ -1504,17 +1509,10 @@
 			remoteRef = 9271D7612035F44600370120 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		9271D7642035F44600370120 /* AzoomeeOomeeMaker-desktop.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = "AzoomeeOomeeMaker-desktop.app";
-			remoteRef = 9271D7632035F44600370120 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		9271D7CB2040537000370120 /* liblibAzoomeeOomeeMaker.a */ = {
+		9271D7CB2040537000370120 /* libAzoomeeOomeeMaker.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = liblibAzoomeeOomeeMaker.a;
+			path = libAzoomeeOomeeMaker.a;
 			remoteRef = 9271D7CA2040537000370120 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -1650,6 +1648,7 @@
 				9289DA0A1FBDD6EB00B12435 /* ContentHistoryManager.cpp in Sources */,
 				9220EADB2010F08200BD7A90 /* AddChildFlowController.cpp in Sources */,
 				025BE95F1E3BD1F800EF76D1 /* WebViewNativeCaller_android.cpp in Sources */,
+				929A9CFC2065248A009B323D /* MeHQ.cpp in Sources */,
 				D13C401B1E33A0F0002360A6 /* AwaitingAdultPinLayer.cpp in Sources */,
 				431397721F1F4E9B00E358DC /* OnlineSafetyDetailsLayer.cpp in Sources */,
 				300742F31EF93428005525AE /* ChatDelegate.cpp in Sources */,

@@ -76,6 +76,9 @@ private:
     //Handle arts app
     void loadArtsAppHQ();
     
+    //Handle me hq
+    void loadMeHQ();
+    
     //memory management
     void cleanUpPreviousHQ();
     
