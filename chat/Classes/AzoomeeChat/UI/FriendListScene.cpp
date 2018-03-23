@@ -126,13 +126,16 @@ void FriendListScene::onSizeChanged()
     
     // Main layout
     const Vec2& titleBarSize = Vec2(1.0f, (isLandscape) ? 0.131f : 0.084f);
+    const Vec2& subTitleBarSize = Vec2(1.0f, (isLandscape) ? 0.15f : 0.07f);
+    
     _titleBar->setSizePercent(titleBarSize);
     const Vec2& contentLayoutSize = Vec2(1.0f, 1.0f - titleBarSize.y);
     _contentLayout->setSizePercent(contentLayoutSize);
-    // Subtitle bar uses same height as title bar
-    _subTitleBar->setSizePercent(Vec2(1.0f, 0.01f));
+    
+    _subTitleBar->setSizePercent(subTitleBarSize);
     _subTitleBarBorder->setContentSize(Size(contentSize.width,2.0f));
-    _friendListView->setSizePercent(Vec2(0.9f, 0.99));
+    
+    _friendListView->setSizePercent(Vec2(0.9f, 1.0f - subTitleBarSize.y));
     // 2 column on landscape, 1 column portrait
     _friendListView->setColumns((isLandscape) ? 2 : 1);
 
@@ -151,6 +154,7 @@ void FriendListScene::createContentUI(cocos2d::ui::Layout* parent)
     _subTitleBar->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _subTitleBar->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
     _subTitleBar->setBackGroundColor(Style::Color::dark);
+    
     parent->addChild(_subTitleBar);
     createSubTitleBarUI(_subTitleBar);
     
@@ -164,6 +168,51 @@ void FriendListScene::createContentUI(cocos2d::ui::Layout* parent)
 void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
 {
     parent->setLayoutType(ui::Layout::Type::RELATIVE);
+    
+    // Add the current user's name and avatar to the subtitle bar
+    
+    auto childDataLayout = ui::Layout::create();
+    childDataLayout->setLayoutType(cocos2d::ui::Layout::Type::HORIZONTAL);
+    childDataLayout->setLayoutParameter(CreateCenterRelativeLayoutParam());
+    childDataLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+    childDataLayout->setBackGroundColor(Style::Color::dark);
+    
+    // Add the current user's avatar to the subtitle bar
+    ChildDataProvider::getInstance()->getLoggedInChildAvatarId();
+    
+    std::string oomeeFileName;
+    std::string displayName;
+    
+    if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+    {
+        int oomeeNumber = ConfigStorage::getInstance()->getOomeeNumberForUrl(ChildDataProvider::getInstance()->getLoggedInChildAvatarId());
+        
+        oomeeFileName = StringUtils::format("res/childSelection/%s.png", ConfigStorage::getInstance()->getNameForOomee(oomeeNumber).c_str());
+        displayName = "   " + ChildDataProvider::getInstance()->getLoggedInChildName() + " (Kid Code: " + ParentDataProvider::getInstance()->getInviteCodeForAnAvailableChild(ChildDataProvider::getInstance()->getLoggedInChildNumber()) + ")";
+    }
+    else
+    {
+        oomeeFileName = "res/childSelection/om_GenericParent.png";
+        displayName = "   Parent";
+    }
+    
+    auto childAvatar = ui::ImageView::create(oomeeFileName);
+    
+    childAvatar->setLayoutParameter(CreateCenterVerticalLinearLayoutParam());
+    childAvatar->setSizeType(ui::Widget::SizeType::ABSOLUTE);
+    childAvatar->setScale(0.25f);
+    
+    auto childInfoLabel = ui::Text::create(displayName, Azoomee::Style::Font::Regular, 48);
+    childInfoLabel->setColor(Style::Color::white);
+    childInfoLabel->setLayoutParameter(CreateCenterVerticalLinearLayoutParam());
+    childInfoLabel->setSizeType(ui::Widget::SizeType::ABSOLUTE);
+    
+    childDataLayout->setSizeType(ui::Widget::SizeType::ABSOLUTE);
+    childDataLayout->setContentSize(Size(childAvatar->getBoundingBox().size.width + childInfoLabel->getContentSize().width, childAvatar->getBoundingBox().size.height));
+    childDataLayout->addChild(childAvatar);
+    childDataLayout->addChild(childInfoLabel);
+    
+    _subTitleBar->addChild(childDataLayout);
     
     // Border at bottom
     _subTitleBarBorder = ui::Layout::create();

@@ -141,7 +141,7 @@ void AuthAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
         cocos2d::log("Child profiles:");
         for(int i = 0; i < parentData->getAmountOfAvailableChildren(); ++i)
         {
-            const std::string& profileName = parentData->getProfileNameForAnAvailableChildren(i);
+            const std::string& profileName = parentData->getProfileNameForAnAvailableChild(i);
             cocos2d::log("profileName=%s", profileName.c_str());
         }
         

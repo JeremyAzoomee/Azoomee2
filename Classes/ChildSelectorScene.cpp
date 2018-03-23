@@ -166,10 +166,10 @@ void ChildSelectorScene::addProfilesToScrollView()
     
     for(int i = 0; i < ParentDataProvider::getInstance()->getAmountOfAvailableChildren(); i++)
     {
-        std::string oomeeUrl = ParentDataProvider::getInstance()->getAvatarForAnAvailableChildren(i);
+        std::string oomeeUrl = ParentDataProvider::getInstance()->getAvatarForAnAvailableChild(i);
         int oomeeNr = ConfigStorage::getInstance()->getOomeeNumberForUrl(oomeeUrl);
         
-        auto profileLayer = createChildProfileButton(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(i), oomeeNr);
+        auto profileLayer = createChildProfileButton(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(i), oomeeNr);
         profileLayer->setTag(i);
         profileLayer->setPosition(positionElementOnScrollView(profileLayer));
         addListenerToProfileLayer(profileLayer);

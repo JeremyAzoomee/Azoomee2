@@ -269,11 +269,11 @@ void BackEndCaller::childLogin(int childNumber)
 {
     displayLoadingScreen();
     
-    const std::string& profileName = ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber);
+    const std::string& profileName = ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(childNumber);
     HttpRequestCreator* request = API::ChildLoginRequest(profileName, this);
     request->execute();
     
-    ChildDataParser::getInstance()->setLoggedInChildName(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber));
+    ChildDataParser::getInstance()->setLoggedInChildName(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(childNumber));
     ChildDataParser::getInstance()->setLoggedInChildNumber(childNumber);
 }
 

@@ -157,10 +157,10 @@ void ChildSelectorScene::addProfilesToScrollView()
     
     for(int i = 0; i < ParentDataProvider::getInstance()->getAmountOfAvailableChildren(); i++)
     {
-        const std::string& oomeeUrl = ParentDataProvider::getInstance()->getAvatarForAnAvailableChildren(i);
+        const std::string& oomeeUrl = ParentDataProvider::getInstance()->getAvatarForAnAvailableChild(i);
         int oomeeNr = ConfigStorage::getInstance()->getOomeeNumberForUrl(oomeeUrl);
         
-        auto profileLayer = createChildProfileButton(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(i), oomeeNr);
+        auto profileLayer = createChildProfileButton(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(i), oomeeNr);
         profileLayer->setTag(i);
         profileLayer->setPosition(positionElementOnScrollView(profileLayer));
         addListenerToProfileLayer(profileLayer);
@@ -245,7 +245,7 @@ void ChildSelectorScene::addListenerToProfileLayer(Node *profileLayer)
             AnalyticsSingleton::getInstance()->registerChildGenderAndAge(childNumber);
             AnalyticsSingleton::getInstance()->genericButtonPressEvent("childSelectedForLogin");
             
-            const std::string& profileName = ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber);
+            const std::string& profileName = ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(childNumber);
             AuthAPI::getInstance()->loginChild(profileName);
             ModalMessages::getInstance()->startLoading();
             return true;
@@ -325,7 +325,7 @@ void ChildSelectorScene::onAuthAPIGetAvailableChildren()
     
 #ifdef AZOOMEE_CHAT_AUTO_CHILD_LOGIN
     // Auto select first child
-    const std::string& profileName = ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(3);
+    const std::string& profileName = ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(3);
     AuthAPI::getInstance()->loginChild(profileName);
     ModalMessages::getInstance()->startLoading();
 #endif
