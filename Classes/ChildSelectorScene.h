@@ -51,7 +51,7 @@ private:
     void createSettingsButton();
     void addProfilesToScrollView();
     void addPrivacyButton();
-    Layer *createChildProfileButton(std::string profileName, int oomeeNumber);
+    Layer *createChildProfileButton(std::string profileName, int childNum);
     cocos2d::Point positionElementOnScrollView(Layer *layerToBeAdded);
     void addListenerToProfileLayer(Node *profileLayer);
     

@@ -22,6 +22,7 @@
 #include <AzoomeeCommon/UI/PrivacyLayer.h>
 #include "ContentHistoryManager.h"
 #include "DynamicNodeHandler.h"
+#include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 
 #define OOMEE_LAYER_WIDTH 300
 #define OOMEE_LAYER_HEIGHT 450
@@ -166,10 +167,7 @@ void ChildSelectorScene::addProfilesToScrollView()
     
     for(int i = 0; i < ParentDataProvider::getInstance()->getAmountOfAvailableChildren(); i++)
     {
-        std::string oomeeUrl = ParentDataProvider::getInstance()->getAvatarForAnAvailableChildren(i);
-        int oomeeNr = ConfigStorage::getInstance()->getOomeeNumberForUrl(oomeeUrl);
-        
-        auto profileLayer = createChildProfileButton(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(i), oomeeNr);
+        auto profileLayer = createChildProfileButton(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(i), i);
         profileLayer->setTag(i);
         profileLayer->setPosition(positionElementOnScrollView(profileLayer));
         addListenerToProfileLayer(profileLayer);
@@ -184,7 +182,7 @@ void ChildSelectorScene::addProfilesToScrollView()
     
 }
 
-Layer *ChildSelectorScene::createChildProfileButton(std::string profileName, int oomeeNumber)
+Layer *ChildSelectorScene::createChildProfileButton(std::string profileName, int childNum)
 {
     auto profileLayer = Layer::create();
     profileLayer->setContentSize(Size(OOMEE_LAYER_WIDTH,OOMEE_LAYER_HEIGHT));
@@ -197,7 +195,9 @@ Layer *ChildSelectorScene::createChildProfileButton(std::string profileName, int
     float delayTime = CCRANDOM_0_1() * 0.5;
     glow->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
     
-    auto oomee = Sprite::create(StringUtils::format("res/childSelection/%s.png", ConfigStorage::getInstance()->getNameForOomee(oomeeNumber).c_str()));
+    auto oomee = RemoteImageSprite::create();
+    oomee->initWithUrlAndSizeWithoutPlaceholder(ParentDataProvider::getInstance()->getAvatarForAnAvailableChildren(childNum), Size(182, 256));
+    //auto oomee = Sprite::create(StringUtils::format("res/childSelection/%s.png", ConfigStorage::getInstance()->getNameForOomee(oomeeNumber).c_str()));
     oomee->setPosition(profileLayer->getContentSize().width / 2, profileLayer->getContentSize().height /2);
     oomee->setOpacity(0);
     oomee->setScale(1.25);

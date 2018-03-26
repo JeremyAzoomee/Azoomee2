@@ -382,6 +382,14 @@ void BackEndCaller::onUpdateChildAnswerReceived()
     getAvailableChildren();
 }
 
+void BackEndCaller::updateChildAvatar(const std::string &childId, const std::string &imageData)
+{
+    displayLoadingScreen();
+    
+    HttpRequestCreator* request = API::UpdateChildAvatar(childId, imageData, this);
+    request->execute();
+}
+
 //GOOGLE VERIFY PAYMENT---------------------------------------------------------------------
 void BackEndCaller::verifyGooglePayment(const std::string& orderId, const std::string& iapSku, const std::string& purchaseToken)
 {
@@ -458,6 +466,10 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     else if(requestTag == API::TagUpdateChild)
     {
         onUpdateChildAnswerReceived();
+    }
+    else if(requestTag == API::TagUpdateChildAvatar)
+    {
+        hideLoadingScreen();
     }
     else if(requestTag == API::TagRegisterParent)
     {

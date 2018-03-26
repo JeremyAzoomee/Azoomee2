@@ -106,7 +106,9 @@ void RemoteImageSprite::resizeImage()
         {
             loadedImage->setScale(MIN(this->getContentSize().height/ loadedImage->getContentSize().height, this->getContentSize().width/ loadedImage->getContentSize().width));
         }
-        _stencil->setContentSize(Size(loadedImage->getContentSize().width * loadedImage->getScaleX(), loadedImage->getContentSize().height * loadedImage->getScaleY()));
+        const Size& contentSize = Size(loadedImage->getContentSize().width * loadedImage->getScaleX(), loadedImage->getContentSize().height * loadedImage->getScaleY());
+        _clippingNode->setContentSize(this->getContentSize());
+        _stencil->setContentSize(contentSize);
         _stencil->setPosition(this->getContentSize() / 2.0f);
     }
 }
@@ -173,8 +175,10 @@ void RemoteImageSprite::imageAddedToCache(Texture2D* resulting_texture)
         {
             finalImage->setScale(MIN(holderContentSize.height / finalImage->getContentSize().height, holderContentSize.width / finalImage->getContentSize().width));
         }
-        _stencil->setContentSize(Size(finalImage->getContentSize().width * finalImage->getScaleX(), finalImage->getContentSize().height * finalImage->getScaleY()));
-        _stencil->setPosition(holderContentSize / 2.0f);
+        const Size& contentSize = Size(finalImage->getContentSize().width * finalImage->getScaleX(), finalImage->getContentSize().height * finalImage->getScaleY());
+        //_clippingNode->setContentSize(contentSize);
+        _stencil->setContentSize(contentSize);
+        _stencil->setPosition(this->getContentSize() / 2.0f);
         
         loadedImage = finalImage;
         
@@ -239,6 +243,7 @@ void RemoteImageSprite::addClippingNode(bool usingClippingNode)
     _stencil->setContentSize(this->getContentSize());
     _stencil->setPosition(this->getContentSize()/2);
     _stencil->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _clippingNode->setContentSize(this->getContentSize());
     _clippingNode->setStencil(_stencil);
     this->addChild(_clippingNode);
     if(usingClippingNode)

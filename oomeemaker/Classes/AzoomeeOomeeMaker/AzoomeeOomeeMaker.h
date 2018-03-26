@@ -8,7 +8,7 @@
 #ifndef AzoomeeOomeeMaker_h
 #define AzoomeeOomeeMaker_h
 
-#define STANDALONE_APP YES
+//#define STANDALONE_APP YES
 
 #define NS_AZOOMEE_OM_BEGIN namespace Azoomee { namespace OomeeMaker {
 #define NS_AZOOMEE_OM_END }}
@@ -21,6 +21,7 @@ NS_AZOOMEE_OM_BEGIN
 struct Delegate {
     virtual void onOomeeMakerNavigationBack() = 0;
     virtual void onOomeeMakerShareOomee(const std::string& filename) = 0;
+    virtual void onOomeeMakerUpdateAvatar(const std::string& filename) = 0;
     
 };
 

@@ -126,12 +126,18 @@ void OomeeSelectScene::deleteOomee(const std::string &oomeeFilename)
 
 void OomeeSelectScene::makeAvatar(const std::string &oomeeFilename)
 {
-    
+    if(delegate)
+    {
+        delegate->onOomeeMakerUpdateAvatar(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + oomeeFilename + ".png");
+    }
 }
 
 void OomeeSelectScene::shareOomee(const std::string &oomeeFilename)
 {
-    delegate->onOomeeMakerShareOomee(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + oomeeFilename + ".png");
+    if(delegate)
+    {
+        delegate->onOomeeMakerShareOomee(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + oomeeFilename + ".png");
+    }
 }
 
 NS_AZOOMEE_OM_END

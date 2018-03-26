@@ -9,6 +9,7 @@
 #include "ChatDelegate.h"
 #include "SceneManagerScene.h"
 #include "HQHistoryManager.h"
+#include "BackEndCaller.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 
 USING_NS_CC;
@@ -42,6 +43,15 @@ void OomeeMakerDelegate::onOomeeMakerShareOomee(const std::string& filename)
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
         }
     }
+}
+
+void OomeeMakerDelegate::onOomeeMakerUpdateAvatar(const std::string &filename)
+{
+    const std::string& imageData = FileUtils::getInstance()->getStringFromFile(filename);
+    char* str = nullptr;
+    base64Encode((unsigned char*)imageData.c_str(), (unsigned int)imageData.length(), &str);
+    BackEndCaller::getInstance()->updateChildAvatar(ChildDataProvider::getInstance()->getLoggedInChildId(), str);
+    
 }
 
 NS_AZOOMEE_END
