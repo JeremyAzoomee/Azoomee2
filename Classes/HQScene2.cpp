@@ -19,6 +19,7 @@
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 
 #if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include <AzoomeeCommon/Utils/IosNativeFunctionsSingleton.h>
@@ -252,7 +253,14 @@ void HQScene2::addRecentlyPlayedCarousel()
     {
         if(item)
         {
-            recentContentCarousel->addContentItemToCarousel(item);
+            if(!item->isEntitled() && ParentDataProvider::getInstance()->isPaidUser())
+            {
+                AnalyticsSingleton::getInstance()->lockedContentItemInRecentlyPlayedEvent(item);
+            }
+            else
+            {
+                recentContentCarousel->addContentItemToCarousel(item);
+            }
         }
     }
 }

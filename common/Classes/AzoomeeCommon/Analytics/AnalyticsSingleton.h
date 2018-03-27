@@ -99,6 +99,7 @@ public:
     void contentItemWebviewStartedEvent();
     void contentItemClosedEvent();
     void updateContentItemDetails(const HQContentItemObjectRef &contentItem);
+    void lockedContentItemInRecentlyPlayedEvent(const HQContentItemObjectRef& contentItem);
 
     //------------- PREVIEW ACTIONS ---------------
     void previewContentClickedEvent(std::string Title,std::string Description, std::string Type);
