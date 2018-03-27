@@ -43,14 +43,14 @@ ImageDownloader::~ImageDownloader()
     }*/
 }
 
-void ImageDownloader::downloadImage(ImageDownloaderDelegate* delegate, const std::string& url)
+void ImageDownloader::downloadImage(ImageDownloaderDelegate* delegate, const std::string& url, bool forceOverride)
 {
     _delegate = delegate;
     _filename = getFileNameFromURL(url);
     _category = getCategoryFromUrl(url);
     
     bool localFileExists = localImageExists();
-    if(localFileExists && !hasCacheExpired())
+    if(localFileExists && !hasCacheExpired() && !forceOverride)
     {
         loadFileFromLocalCacheAsync();
     }

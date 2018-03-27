@@ -13,6 +13,7 @@
 #include <AzoomeeCommon/Net/Utils.h>
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
+#include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
 #include "HQDataParser.h"
 #include "HQHistoryManager.h"
 #include "LoginLogicHandler.h"
@@ -469,6 +470,10 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     }
     else if(requestTag == API::TagUpdateChildAvatar)
     {
+        rapidjson::Document json;
+        json.Parse(body.c_str());
+        ImageDownloaderRef imageDownloader = ImageDownloader::create("imageCache/", ImageDownloader::CacheMode::File );
+        imageDownloader->downloadImage(nullptr, getStringFromJson("avatar", json), true);
         hideLoadingScreen();
     }
     else if(requestTag == API::TagRegisterParent)

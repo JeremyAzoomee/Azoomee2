@@ -86,7 +86,7 @@ public:
     bool localImageExists() const;
     
     /// Download or load the image from local cache
-    void downloadImage(ImageDownloaderDelegate* delegate, const std::string& url);
+    void downloadImage(ImageDownloaderDelegate* delegate, const std::string& url, bool forceOverride = false);
     
     // Delegate functions
     void onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode);

@@ -51,7 +51,6 @@ void OomeeMakerDelegate::onOomeeMakerUpdateAvatar(const std::string &filename)
     char* str = nullptr;
     base64Encode((unsigned char*)imageData.c_str(), (unsigned int)imageData.length(), &str);
     BackEndCaller::getInstance()->updateChildAvatar(ChildDataProvider::getInstance()->getLoggedInChildId(), str);
-    
 }
 
 NS_AZOOMEE_END
