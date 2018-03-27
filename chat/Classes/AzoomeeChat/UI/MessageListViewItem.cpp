@@ -192,12 +192,13 @@ void MessageListViewItem::resizeItemContents()
         {
             imageSize.width = textureSize.width / textureSize.height * imageSize.height;
         }
+        const Size& contentSize = Size(imageSize.width + (contentPadding.x * 2), imageSize.height + (contentPadding.y * 2));
         _artImage->setContentSize(imageSize);
+        
         //_imageStencil->setContentSize(imageSize);
         //_imageMask->setContentSize(imageSize);
         _artLayout->setContentSize(imageSize);
         _artImage->resizeImage();
-        const Size& contentSize = Size(imageSize.width + (contentPadding.x * 2), imageSize.height + (contentPadding.y * 2));
         _contentLayout->setContentSize(contentSize);
     }
     
@@ -247,7 +248,7 @@ void MessageListViewItem::setData(const MessageRef& message)
         }
         else if(messageType == Message::MessageTypeArt)
         {
-            _artImage->initWithUrlAndSizeWithoutPlaceholder(message->artURL(), Size(getContentSize().width/2,getContentSize().width/2 * 10.0f/16.0f), true);
+            _artImage->initWithUrlAndSizeWithoutPlaceholder(message->artURL(), Size(getContentSize().width/2,getContentSize().width/2 * 10.0f/16.0f));
         }
         else
         {

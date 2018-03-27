@@ -13,6 +13,7 @@
 #include "DynamicNodeDataInputStorage.h"
 #include "RoutePaymentSingleton.h"
 #include "FlowDataSingleton.h"
+#include "IAPProductDataHandler.h"
 #include <dirent.h>
 #include <AzoomeeCommon/Data/Json.h>
 #include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
@@ -20,6 +21,7 @@
 #include <AzoomeeCommon/Utils/DirectorySearcher.h>
 #include <AzoomeeCommon/Utils/VersionChecker.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Utils/StringFunctions.h>
 
 //#define USING_LOCAL_CTA_ASSETS YES
 
@@ -123,6 +125,28 @@ void DynamicNodeHandler::createDynamicNodeByIdWithParams(const std::string& uniq
     
 }
 
+void DynamicNodeHandler::createDynamicNodeByGroupIdWithParams(const std::string& groupId, const std::string& params)
+{
+    //local device folder
+    const std::string& ctaPath = getCTADirectoryPath();
+    const std::vector<std::string>& folders = DirectorySearcher::getInstance()->getFoldersInDirectory(ctaPath);
+    
+    for(const std::string& folder : folders)
+    {
+        if(folder == groupId)
+        {
+            const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getJsonFilesInDirectory(ctaPath + folder);
+            
+            int randomFileNameIndex = rand()%fileNames.size();
+            AnalyticsSingleton::getInstance()->ctaWindowAppeared(groupId, fileNames[randomFileNameIndex]);
+            createDynamicNodeFromFileWithParams(ctaPath + folder + "/" + fileNames[randomFileNameIndex], params);
+            return;
+            
+        }
+    }
+    
+}
+
 void DynamicNodeHandler::startSignupFlow()
 {
     _flowController = SignUpFlowController::create();
@@ -146,7 +170,9 @@ void DynamicNodeHandler::startIAPFlow()
         }
     }
     _flowController = IAPFlowController::create();
-    createDynamicNodeByGroupId(_flowController->_flowEntryFile);
+    createDynamicNodeByGroupIdWithParams(_flowController->_flowEntryFile, getJSONStringFromMap({
+        {"iapPrice",IAPProductDataHandler::getInstance()->getHumanReadableProductPrice()}
+    }));
 }
 
 void DynamicNodeHandler::startAddChildFlow()

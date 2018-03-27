@@ -49,7 +49,7 @@ void KidsLayer::addFrame()
 
 void KidsLayer::addChildName()
 {
-    Label* childNameLabel = createLabelChildNameSettings(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber));
+    Label* childNameLabel = createLabelChildNameSettings(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(childNumber));
     reduceLabelTextToFitWidth(childNameLabel,this->getContentSize().width*.95);
     childNameLabel->setPosition(this->getContentSize().width / 2, this->getContentSize().height - childNameLabel->getContentSize().height * 0.2);
     this->addChild(childNameLabel);
@@ -57,7 +57,7 @@ void KidsLayer::addChildName()
 
 void KidsLayer::addOomee()
 {
-    std::string oomeeUrl = ParentDataProvider::getInstance()->getAvatarForAnAvailableChildren(childNumber);
+    std::string oomeeUrl = ParentDataProvider::getInstance()->getAvatarForAnAvailableChild(childNumber);
     int oomeeNr = ConfigStorage::getInstance()->getOomeeNumberForUrl(oomeeUrl);
     
     oomeeSprite = Sprite::create(StringUtils::format("res/childSelection/%s.png", ConfigStorage::getInstance()->getNameForOomee(oomeeNr).c_str()));

@@ -22,6 +22,7 @@ public:
     
     virtual void onOomeeMakerNavigationBack() override;
     virtual void onOomeeMakerShareOomee(const std::string& filename) override;
+    virtual void onOomeeMakerUpdateAvatar(const std::string& filename) override;
 };
 
 NS_AZOOMEE_END

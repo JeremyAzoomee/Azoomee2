@@ -283,7 +283,7 @@ Vec2 GameDataManager::getCloseButtonAnchorPointFromJSONFile(const std::string &j
     const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     rapidjson::Document gameData;
     gameData.Parse(fileContent.c_str());
-    const std::string& anchorKey = getStringFromJson("closeButtonAnchor", gameData, "TOP_LEFT");
+    const std::string& anchorKey = getStringFromJson("closeButtonPosition", gameData, "TOP_LEFT");
     if(kCloseAnchorKeyToVec2Map.find(anchorKey) != kCloseAnchorKeyToVec2Map.end())
     {
         return kCloseAnchorKeyToVec2Map.at(anchorKey);

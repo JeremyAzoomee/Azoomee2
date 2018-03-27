@@ -28,7 +28,7 @@ android {
         versionCode 999000
         versionName '9.9.9'
     }
-    
+
     splits {
     	abi {
       		enable true
@@ -107,7 +107,7 @@ dependencies {
         transitive = true
     }
     compile 'com.appsflyer:af-android-sdk:4+@aar'
-    
+
     // Urban Airship SDK
     compile 'com.urbanairship.android:urbanairship-sdk:8.8.+'
     compile 'com.google.android.gms:play-services-gcm:11.2.2'
@@ -115,6 +115,16 @@ dependencies {
 
     // Recommended for in-app messaging
     compile 'com.android.support:cardview-v7:26.0.2'
+}
+
+task cleanWebcommApi(type: Delete) {
+    delete '../../Resources/res/webcommApi'
+}
+
+task copyWebcommApi(type: Copy) {
+    from '../../../webgameapi_repo/webcommApi'
+    into '../../Resources/res/webcommApi'
+
 }
 
 task cleanAssets(type: Delete) {
@@ -125,5 +135,8 @@ task copyAssets(type: Copy) {
     into 'assets'
 }
 
+copyAssets.mustRunAfter copyWebcommApi
+clean.dependsOn cleanWebcommApi
 clean.dependsOn cleanAssets
+preBuild.dependsOn copyWebcommApi
 preBuild.dependsOn copyAssets
