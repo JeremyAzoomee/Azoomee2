@@ -108,6 +108,11 @@ using namespace Azoomee;
             sendData = [urlItems objectAtIndex:6];
         }
         
+        if([method isEqualToString:@"sendLog"])
+        {
+            sendData = [urlItems objectAtIndex:6];
+        }
+        
         const char* returnString = sendGameApiRequest([method cStringUsingEncoding:NSUTF8StringEncoding], [responseId cStringUsingEncoding:NSUTF8StringEncoding], [sendData cStringUsingEncoding:NSUTF8StringEncoding]);
         NSLog(@"Sending string back to web: %s", returnString);
         
