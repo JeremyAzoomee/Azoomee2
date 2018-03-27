@@ -30,7 +30,7 @@ bool ChildDataProvider::init(void)
     return true;
 }
 
-std::string ChildDataProvider::getParentOrChildId()
+std::string ChildDataProvider::getParentOrChildId() const
 {
     if(ChildDataStorage::getInstance()->childLoggedIn)
     {
@@ -42,7 +42,7 @@ std::string ChildDataProvider::getParentOrChildId()
     }
 }
 
-std::string ChildDataProvider::getParentOrChildCdnSessionId()
+std::string ChildDataProvider::getParentOrChildCdnSessionId() const
 {
     if(ChildDataStorage::getInstance()->childLoggedIn)
     {
@@ -54,7 +54,7 @@ std::string ChildDataProvider::getParentOrChildCdnSessionId()
     }
 }
 
-std::string ChildDataProvider::getParentOrChildApiSecret()
+std::string ChildDataProvider::getParentOrChildApiSecret() const
 {
     if(ChildDataStorage::getInstance()->childLoggedIn)
     {
@@ -66,7 +66,7 @@ std::string ChildDataProvider::getParentOrChildApiSecret()
     }
 }
 
-std::string ChildDataProvider::getParentOrChildApiKey()
+std::string ChildDataProvider::getParentOrChildApiKey() const
 {
     if(ChildDataStorage::getInstance()->childLoggedIn)
     {
@@ -78,7 +78,7 @@ std::string ChildDataProvider::getParentOrChildApiKey()
     }
 }
     
-std::string ChildDataProvider::getParentOrChildAvatarId()
+std::string ChildDataProvider::getParentOrChildAvatarId() const
 {
     if(ChildDataStorage::getInstance()->childLoggedIn)
     {
@@ -90,17 +90,17 @@ std::string ChildDataProvider::getParentOrChildAvatarId()
     }
 }
 
-std::string ChildDataProvider::getLoggedInChildName()
+std::string ChildDataProvider::getLoggedInChildName() const
 {
     return ChildDataStorage::getInstance()->loggedInChildName;
 }
 
-std::string ChildDataProvider::getLoggedInChildId()
+std::string ChildDataProvider::getLoggedInChildId() const
 {
     return ChildDataStorage::getInstance()->loggedInChildId;
 }
 
-std::string ChildDataProvider::getLoggedInChildAvatarId()
+std::string ChildDataProvider::getLoggedInChildAvatarId() const
 {
     return ChildDataStorage::getInstance()->loggedInChildAvatarId;
 }

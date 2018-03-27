@@ -19,26 +19,26 @@ public:
     bool init(void);
     
     int getAmountOfAvailableChildren();
-    std::string getProfileNameForAnAvailableChildren(int childNumber);
-    std::string getProfileNameForAnAvailableChildrenById(const std::string& childId);
-    std::string getAvatarForAnAvailableChildren(int childNumber);
-    std::string getAvatarForAnAvailableChildrenById(const std::string& childId);
-    std::string getDOBForAnAvailableChildren(int childNumber);
-    std::string getSexForAnAvailableChildren(int childNumber);
-    std::string getIDForAvailableChildren(int childNumber);
-    std::string getInviteCodeForAvailableChildren(int childNumber);
+    std::string getProfileNameForAnAvailableChild(int childNumber) const;
+    std::string getProfileNameForAnAvailableChildById(const std::string& childId) const;
+    std::string getAvatarForAnAvailableChild(int childNumber) const;
+    std::string getAvatarForAnAvailableChildById(const std::string& childId) const;
+    std::string getDOBForAnAvailableChild(int childNumber) const;
+    std::string getSexForAnAvailableChild(int childNumber) const;
+    std::string getIDForAvailableChildren(int childNumber) const;
+    std::string getInviteCodeForAnAvailableChild(int childNumber) const;
     
-    std::string getLoggedInParentActorStatus();
-    std::string getLoggedInParentId();
-    std::string getLoggedInParentCdnSessionId();
-    std::string getLoggedInParentApiKey();
-    std::string getLoggedInParentApiSecret();
-    std::string getLoggedInParentAvatarId();
-    std::string getLoggedInParentCountryCode();
-    std::string getParentPin();
-    std::string getBillingStatus();
-    std::string getBillingDate();
-    std::string getBillingProvider();
+    std::string getLoggedInParentActorStatus() const;
+    std::string getLoggedInParentId() const;
+    std::string getLoggedInParentCdnSessionId() const;
+    std::string getLoggedInParentApiKey() const;
+    std::string getLoggedInParentApiSecret() const;
+    std::string getLoggedInParentAvatarId() const;
+    std::string getLoggedInParentCountryCode() const;
+    std::string getParentPin() const;
+    std::string getBillingStatus() const;
+    std::string getBillingDate() const;
+    std::string getBillingProvider() const;
     bool isLoggedInParentAnonymous();
     bool isBillingDataAvailable();
     bool isPaidUser();
@@ -47,12 +47,12 @@ public:
     
     //-----------Pending Friend Requests-------------
     int getNoOfPendingFriendRequest();
-    std::string getPendingFriendRequestSenderName(int pendingFriendRequestNo);
-    std::string getPendingFriendRequestFriendName(int pendingFriendRequestNo);
-    std::string getPendingFriendRequestInviteCode(int pendingFriendRequestNo);
-    std::string getPendingFriendRequestRequestID(int pendingFriendRequestNo);
-    std::string getPendingFriendRequestSenderID(int pendingFriendRequestNo);
-    std::string getPendingFriendRequestRespondentID(int pendingFriendRequestNo);
+    std::string getPendingFriendRequestSenderName(int pendingFriendRequestNo) const;
+    std::string getPendingFriendRequestFriendName(int pendingFriendRequestNo) const;
+    std::string getPendingFriendRequestInviteCode(int pendingFriendRequestNo) const;
+    std::string getPendingFriendRequestRequestID(int pendingFriendRequestNo) const;
+    std::string getPendingFriendRequestSenderID(int pendingFriendRequestNo) const;
+    std::string getPendingFriendRequestRespondentID(int pendingFriendRequestNo) const;
 };
 
 }

@@ -8,8 +8,10 @@
 #include "IAPFlowController.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Utils/StringFunctions.h>
 #include "RoutePaymentSingleton.h"
 #include "DynamicNodeHandler.h"
+#include "IAPProductDataHandler.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -103,7 +105,9 @@ void IAPFlowController::handleCoppaPrivacyFlow(const ButtonActionDataRef& action
         case BACK:
         {
             AnalyticsSingleton::getInstance()->ctaButtonPressed("coppaPrivacy_back");
-            DynamicNodeHandler::getInstance()->createDynamicNodeByGroupId(kIAPUpgradeCTAName);
+            DynamicNodeHandler::getInstance()->createDynamicNodeByGroupIdWithParams(kIAPUpgradeCTAName, getJSONStringFromMap({
+                {"iapPrice",IAPProductDataHandler::getInstance()->getHumanReadableProductPrice()}
+            }));
             break;
         }
         case CLOSE: case NEXT:
@@ -127,7 +131,9 @@ void IAPFlowController::handleLearnMoreFlow(const ButtonActionDataRef& actionDat
         case BACK:
         {
             AnalyticsSingleton::getInstance()->ctaButtonPressed("learnMore_back");
-            DynamicNodeHandler::getInstance()->createDynamicNodeByGroupId(kIAPUpgradeCTAName);
+            DynamicNodeHandler::getInstance()->createDynamicNodeByGroupIdWithParams(kIAPUpgradeCTAName, getJSONStringFromMap({
+                {"iapPrice",IAPProductDataHandler::getInstance()->getHumanReadableProductPrice()}
+            }));
             break;
         }
         case CLOSE: case NEXT:
