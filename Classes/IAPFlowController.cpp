@@ -15,27 +15,27 @@
 
 NS_AZOOMEE_BEGIN
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-const std::string IAPFlowController::kIAPUpgradeCTAName = "iap_upgrade_android";
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-const std::string IAPFlowController::kIAPUpgradeCTAName = "iap_upgrade_ios";
-#else
-const std::string IAPFlowController::kIAPUpgradeCTAName = "iap_upgrade";
-#endif
+const std::string IAPFlowController::kIAPUpgradeCTAName = "iap_upgrade_";
 const std::string IAPFlowController::kCoppaPrivacyCTAName = "coppa_privacy_notice.json";
 const std::string IAPFlowController::kLearnMoreCTAName = "iap_learn_more.json";
+
+DynamicNodeFlowControllerRef IAPFlowController::createWithContext(const std::string& context)
+{
+   return std::make_shared<IAPFlowController>(context);
+}
 
 DynamicNodeFlowControllerRef IAPFlowController::create()
 {
     return std::make_shared<IAPFlowController>();
 }
+
 void IAPFlowController::processAction(const ButtonActionDataRef& actionData)
 {
     _actionData = actionData;
     const std::string& fileName = actionData->getParamForKey(kCTAFilenameKey);
     FlowPath pathAction = convertStringToFlowPath(actionData->getParamForKey(kCTAActionKey));
     
-    if( fileName == kIAPUpgradeCTAName)
+    if( fileName == kIAPUpgradeCTAName + _contextExtention)
     {
         handleIAPUpgradeFlow(actionData, pathAction);
     }
@@ -49,9 +49,10 @@ void IAPFlowController::processAction(const ButtonActionDataRef& actionData)
     }
 }
 
-IAPFlowController::IAPFlowController() noexcept
+IAPFlowController::IAPFlowController(const std::string& context) noexcept
 {
-    _flowEntryFile = kIAPUpgradeCTAName;
+    _contextExtention = context;
+    _flowEntryFile = kIAPUpgradeCTAName + context;
     _type = FlowType::IAP;
 }
 
@@ -105,7 +106,7 @@ void IAPFlowController::handleCoppaPrivacyFlow(const ButtonActionDataRef& action
         case BACK:
         {
             AnalyticsSingleton::getInstance()->ctaButtonPressed("coppaPrivacy_back");
-            DynamicNodeHandler::getInstance()->createDynamicNodeByGroupIdWithParams(kIAPUpgradeCTAName, getJSONStringFromMap({
+            DynamicNodeHandler::getInstance()->createDynamicNodeByGroupIdWithParams(kIAPUpgradeCTAName + _contextExtention, getJSONStringFromMap({
                 {"iapPrice",IAPProductDataHandler::getInstance()->getHumanReadableProductPrice()}
             }));
             break;
@@ -131,7 +132,7 @@ void IAPFlowController::handleLearnMoreFlow(const ButtonActionDataRef& actionDat
         case BACK:
         {
             AnalyticsSingleton::getInstance()->ctaButtonPressed("learnMore_back");
-            DynamicNodeHandler::getInstance()->createDynamicNodeByGroupIdWithParams(kIAPUpgradeCTAName, getJSONStringFromMap({
+            DynamicNodeHandler::getInstance()->createDynamicNodeByGroupIdWithParams(kIAPUpgradeCTAName + _contextExtention, getJSONStringFromMap({
                 {"iapPrice",IAPProductDataHandler::getInstance()->getHumanReadableProductPrice()}
             }));
             break;

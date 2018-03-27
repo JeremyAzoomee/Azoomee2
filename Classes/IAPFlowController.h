@@ -25,6 +25,8 @@ private:
     const std::string kPathLearnMore = "learnMore";
     const std::string kPathCoppa = "coppa";
     
+    std::string _contextExtention = "default";
+    
     ButtonActionDataRef _actionData = nullptr;
     
     void handleIAPUpgradeFlow(const ButtonActionDataRef& actionData, FlowPath pathAction);
@@ -34,9 +36,10 @@ private:
     void startIAP();
     
 public:
+    static DynamicNodeFlowControllerRef createWithContext(const std::string& context);
     static DynamicNodeFlowControllerRef create();
     virtual void processAction(const ButtonActionDataRef& actionData) override;
-    IAPFlowController() noexcept;
+    IAPFlowController(const std::string& context = "default") noexcept;
 
     // delegate functions
     void AdultPinCancelled(AwaitingAdultPinLayer* layer) override;
