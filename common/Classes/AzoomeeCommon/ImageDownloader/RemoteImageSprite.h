@@ -48,7 +48,7 @@ private:
     
     bool addStarted = false;
     
-    float identifier;
+    float identifier = -1.0f;
     std::string imageUrl;
     cocos2d::ClippingNode* _clippingNode = nullptr;
     cocos2d::ui::Scale9Sprite* _stencil = nullptr;
