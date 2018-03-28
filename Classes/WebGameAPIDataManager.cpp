@@ -3,7 +3,6 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "VideoPlaylistManager.h"
 #include <AzoomeeCommon/Utils/TimeFunctions.h>
-#include <AzoomeeCommon/Net/Utils.h>
 
 using namespace cocos2d;
 
@@ -86,13 +85,6 @@ char* WebGameAPIDataManager::handleAPIRequest(const char* method, const char* re
         {
             return createReturnStringForAPI(method, responseId, "imageSave", "success");
         }
-    }
-    
-    if(strncmp(method, "sendLog", strlen(method)) == 0)
-    {
-        std::string logMessage = Net::urlDecode(sendData);
-        cocos2d::log("WEBVIEWLOG: %s", logMessage.c_str());
-        return createReturnStringForAPI(method, responseId, "sendLog", "success");
     }
     
     return createReturnStringForAPI(method, responseId, "error", "error in request");
