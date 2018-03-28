@@ -19,9 +19,9 @@ const std::string IAPFlowController::kIAPUpgradeCTAName = "iap_upgrade_";
 const std::string IAPFlowController::kCoppaPrivacyCTAName = "coppa_privacy_notice.json";
 const std::string IAPFlowController::kLearnMoreCTAName = "iap_learn_more.json";
 
-DynamicNodeFlowControllerRef IAPFlowController::createWithContext(const std::string& context)
+DynamicNodeFlowControllerRef IAPFlowController::createWithContext(IAPEntryContext context)
 {
-   return std::make_shared<IAPFlowController>(context);
+   return std::make_shared<IAPFlowController>(convertIAPEntryContextToString(context));
 }
 
 DynamicNodeFlowControllerRef IAPFlowController::create()
@@ -159,6 +159,22 @@ void IAPFlowController::startIAP()
         AdultPinAccepted(nullptr);
     }
 }
+
+std::string IAPFlowController::convertIAPEntryContextToString(IAPEntryContext context)
+{
+    switch (context) {
+        case DEFAULT:
+        return "default";
+        case LOCKED_CHAT:
+        return "chat";
+        case LOCKED_GAME:
+        return "game";
+        case LOCKED_VIDEO:
+        return "video";
+    }
+}
+
+// Delegate functions
 
 void IAPFlowController::AdultPinCancelled(AwaitingAdultPinLayer* layer)
 {

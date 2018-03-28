@@ -23,7 +23,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 
-//#define USING_LOCAL_CTA_ASSETS YES
+#define USING_LOCAL_CTA_ASSETS YES
 
 using namespace cocos2d;
 NS_AZOOMEE_BEGIN
@@ -153,7 +153,7 @@ void DynamicNodeHandler::startSignupFlow()
     createDynamicNodeByIdWithParams(_flowController->_flowEntryFile, DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
 }
 
-void DynamicNodeHandler::startIAPFlow()
+void DynamicNodeHandler::startIAPFlow(IAPEntryContext context)
 {
     if(RoutePaymentSingleton::getInstance()->receiptDataFileExists())
     {
@@ -169,7 +169,8 @@ void DynamicNodeHandler::startIAPFlow()
             return;
         }
     }
-    _flowController = IAPFlowController::create();
+    
+    _flowController = IAPFlowController::createWithContext(context);
     createDynamicNodeByGroupIdWithParams(_flowController->_flowEntryFile, getJSONStringFromMap({
         {"iapPrice",IAPProductDataHandler::getInstance()->getHumanReadableProductPrice()}
     }));

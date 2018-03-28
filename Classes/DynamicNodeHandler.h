@@ -13,6 +13,7 @@
 #include "cocos2d.h"
 #include "DynamicNodeCreator.h"
 #include "DynamicNodeFlowController.h"
+#include "IAPFlowController.h"
 #include <AzoomeeCommon/Data/Json.h>
 #include "network/HttpClient.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
@@ -76,7 +77,7 @@ public:
     void createDynamicNodeByGroupIdWithParams(const std::string& group, const std::string& params);
     
     void startSignupFlow();
-    void startIAPFlow();
+    void startIAPFlow(IAPEntryContext context = DEFAULT);
     void startAddChildFlow();
     void handleSuccessFailEvent();
     

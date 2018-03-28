@@ -13,6 +13,9 @@
 
 NS_AZOOMEE_BEGIN
 
+
+enum IAPEntryContext {DEFAULT, LOCKED_CHAT, LOCKED_GAME, LOCKED_VIDEO};
+
 class IAPFlowController : public DynamicNodeFlowController, public AwaitingAdultPinLayerDelegate
 {
 private:
@@ -25,7 +28,7 @@ private:
     const std::string kPathLearnMore = "learnMore";
     const std::string kPathCoppa = "coppa";
     
-    std::string _contextExtention = "default";
+    std::string _contextExtention;
     
     ButtonActionDataRef _actionData = nullptr;
     
@@ -35,12 +38,16 @@ private:
     
     void startIAP();
     
+    
+    
 public:
-    static DynamicNodeFlowControllerRef createWithContext(const std::string& context);
+    static DynamicNodeFlowControllerRef createWithContext(IAPEntryContext context);
     static DynamicNodeFlowControllerRef create();
     virtual void processAction(const ButtonActionDataRef& actionData) override;
     IAPFlowController(const std::string& context = "default") noexcept;
-
+    
+    static std::string convertIAPEntryContextToString(IAPEntryContext context);
+    
     // delegate functions
     void AdultPinCancelled(AwaitingAdultPinLayer* layer) override;
     void AdultPinAccepted(AwaitingAdultPinLayer* layer) override;
