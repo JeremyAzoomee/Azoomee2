@@ -122,6 +122,7 @@ void HQScene2::startBuildingScrollView()
         {
             auto offlineArtsAppScrollView = HQSceneArtsApp::create();
             offlineArtsAppScrollView->setName(ConfigStorage::kArtAppHQName);
+            offlineArtsAppScrollView->setOriginPosition(_origin + Vec2(0,_visibleSize.height * 0.7f));
             this->addChild(offlineArtsAppScrollView);
         }
         return;

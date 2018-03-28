@@ -6,9 +6,14 @@
 //
 
 #include "MeHQ.h"
+#include "HQScene2.h"
+#include "HQSceneElement.h"
 #include "SceneManagerScene.h"
+#include "RecentlyPlayedManager.h"
+#include "HQScene2ElementPositioner.h"
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 using namespace cocos2d;
 
@@ -24,11 +29,73 @@ bool MeHQ::init()
     this->setContentSize(Director::getInstance()->getVisibleSize());
     this->setPosition(Director::getInstance()->getVisibleOrigin());
     
+    _contentScrollView = cocos2d::ui::ScrollView::create();
+    _contentScrollView->setContentSize(Size(this->getContentSize().width * 0.75f, this->getContentSize().height * 0.8));
+    _contentScrollView->setPosition(Point(0,0));
+    _contentScrollView->setDirection(cocos2d::ui::ScrollView::Direction::VERTICAL);
+    _contentScrollView->setTouchEnabled(true);
+    _contentScrollView->setBounceEnabled(true);
+    _contentScrollView->setScrollBarEnabled(false);
+    _contentScrollView->setSwallowTouches(false);
+    _contentScrollView->setInnerContainerSize(Size(this->getContentSize().width * 0.75f, 0));
+    this->addChild(_contentScrollView);
+    
+    float totalHeight = 0;
+    
     _artScrollView = HQSceneArtsApp::create();
     _artScrollView->setShowPrivacyButton(false);
-    _artScrollView->setOriginPosition(Point(0,this->getContentSize().height * 0.5f));
-    _artScrollView->setSize(Size(this->getContentSize().width * 0.75f, 0));
-    this->addChild(_artScrollView);
+    _artScrollView->setSize(Size(_contentScrollView->getContentSize().width * 0.75f, 0));
+    //_artScrollView->setOriginPosition(Vec2(0,_contentScrollView->getContentSize().height));
+    _contentScrollView->addChild(_artScrollView);
+    _contentScrollView->setInnerContainerSize(_contentScrollView->getInnerContainerSize() + Size(0,_artScrollView->getContentSize().height));
+    
+    totalHeight += _artScrollView->getContentSize().height;
+    
+    auto recentContent = RecentlyPlayedManager::getInstance()->getRecentlyPlayedContentForHQ(ConfigStorage::kMixHQName);
+    
+    if(recentContent.size() > 0)
+    {
+        Layer* contentLayer = Layer::create();
+        contentLayer->setContentSize(Size(_contentScrollView->getContentSize().width, 0));
+        
+        float lowestElementYPosition = 0;
+        
+        for(const auto& content : recentContent)
+        {
+            auto hqSceneElement = HQSceneElement::create();
+            hqSceneElement->setCategory(ConfigStorage::kGameHQName);
+            hqSceneElement->setItemData(content);
+            hqSceneElement->setElementRow(0);
+            hqSceneElement->setElementIndex(0);
+            hqSceneElement->setMargin(HQScene2::kContentItemMargin);
+            hqSceneElement->setManualSizeMultiplier(1); //overriding default configuration contentItem sizes. Ideally this *should* go away when only the new hub is present everywhere.
+            hqSceneElement->addHQSceneElement();
+            
+            HQScene2ElementPositioner hqScene2ElementPositioner;
+            hqScene2ElementPositioner.setElement(hqSceneElement);
+            hqScene2ElementPositioner.setCarouselLayer(contentLayer);
+            hqScene2ElementPositioner.setHighlightData(Vec2(1,1));
+            hqScene2ElementPositioner.setBaseUnitSize(Size(590,442));
+            
+            Point position = hqScene2ElementPositioner.positionHQSceneElement();
+            
+            hqSceneElement->setPosition(position);
+            contentLayer->addChild(hqSceneElement);
+            
+            if(position.y < lowestElementYPosition)
+            {
+                lowestElementYPosition = position.y;
+            }
+        }
+        
+        contentLayer->setPosition(Vec2(0,_contentScrollView->getContentSize().height - 300));
+        contentLayer->setContentSize(Size(contentLayer->getContentSize().width, -lowestElementYPosition));
+        //_contentScrollView->setInnerContainerSize(_contentScrollView->getInnerContainerSize() + Size(0,contentLayer->getContentSize().height));
+        _contentScrollView->addChild(contentLayer);
+        _artScrollView->setOriginPosition(Vec2(0,_contentScrollView->getContentSize().height + _artScrollView->getContentSize().height));
+    }
+    
+    
     
     _oomeeMakerButton = ui::Button::create("res/artapp/popup_bg.png");
     _oomeeMakerButton->setScale9Enabled(true);

@@ -21,6 +21,7 @@ class MeHQ : public cocos2d::Layer
 private:
     cocos2d::ui::Button* _oomeeMakerButton = nullptr;
     HQSceneArtsApp* _artScrollView = nullptr;
+    cocos2d::ui::ScrollView* _contentScrollView = nullptr;
     
 public:
     

@@ -17,6 +17,7 @@ public:
     void setOriginPosition(cocos2d::Point origin);
     void setSize(cocos2d::Size size);
     void setShowPrivacyButton(bool showPrivacyButton);
+    void setRows(int rows);
     
 private:
     cocos2d::ui::ScrollView* createHorizontalScrollView(cocos2d::Size contentSize);
@@ -30,6 +31,7 @@ private:
     cocos2d::Size _visibleSize;
     cocos2d::Point _origin;
     bool _showPrivacyButton = true;
+    int _rows = 2;
     
 };
 

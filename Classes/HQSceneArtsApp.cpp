@@ -33,6 +33,9 @@ bool HQSceneArtsApp::init()
         _origin.x += 100;
     }
     
+    setContentSize(Size(_visibleSize.width,_rows * ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP").height));
+    setPosition(_origin);
+    
     return true;
 }
 
@@ -50,16 +53,24 @@ void HQSceneArtsApp::onEnter()
 void HQSceneArtsApp::setOriginPosition(cocos2d::Point origin)
 {
     _origin = origin;
+    setPosition(_origin);
 }
 
 void HQSceneArtsApp::setSize(cocos2d::Size size)
 {
     _visibleSize = size;
+    setContentSize(Size(_visibleSize.width, _rows * ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP").height));
 }
 
 void HQSceneArtsApp::setShowPrivacyButton(bool showPrivacyButton)
 {
     _showPrivacyButton = showPrivacyButton;
+}
+
+void HQSceneArtsApp::setRows(int rows)
+{
+    _rows = rows;
+    setContentSize(Size(_visibleSize.width, _rows * ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP").height));
 }
 
 //------------------ All functions below this line are used internally ----------------------------
@@ -69,8 +80,8 @@ cocos2d::ui::ScrollView* HQSceneArtsApp::createHorizontalScrollView(cocos2d::Siz
     auto scrollView = cocos2d::ui::ScrollView::create();
     scrollView->setContentSize(contentSize);
     scrollView->setInnerContainerSize(contentSize);
-    scrollView->setAnchorPoint(Vec2(0.0f, 0.5f));
-    scrollView->setPosition(Vec2(_origin.x, _origin.y + _visibleSize.height * 0.4f));
+    scrollView->setAnchorPoint(Vec2(0.0f, 1.0f));
+    scrollView->setPosition(Vec2(0,0));
     scrollView->setDirection(cocos2d::ui::ScrollView::Direction::HORIZONTAL);
     scrollView->setBounceEnabled(true);
     scrollView->setTouchEnabled(true);
@@ -82,7 +93,7 @@ cocos2d::ui::ScrollView* HQSceneArtsApp::createHorizontalScrollView(cocos2d::Siz
 
 void HQSceneArtsApp::createArtsAppScrollView()
 {
-    auto horizontalScrollView = createHorizontalScrollView(Size(_visibleSize.width, ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP").height * 2));
+    auto horizontalScrollView = createHorizontalScrollView(this->getContentSize());
     this->addChild(horizontalScrollView);
     
     const std::string& parentOrChildId = ChildDataProvider::getInstance()->getParentOrChildId();
@@ -99,7 +110,7 @@ void HQSceneArtsApp::createArtsAppScrollView()
 void HQSceneArtsApp::addPrivacyButton()
 {
     PrivacyLayer* privacyLayer = PrivacyLayer::createWithColor();
-    privacyLayer->setCenterPosition(Vec2(_origin.x + privacyLayer->getContentSize().height / 2 + privacyLayer->getContentSize().width / 2, _origin.y + privacyLayer->getContentSize().height));
+    privacyLayer->setCenterPosition(Vec2(privacyLayer->getContentSize().width / 2, -getContentSize().height - privacyLayer->getContentSize().height));
     this->addChild(privacyLayer);
 }
 
