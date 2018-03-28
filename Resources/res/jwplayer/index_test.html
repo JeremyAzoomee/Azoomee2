@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 	<head>
 		<title>JW Player</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
 	</head>
 	<body bgcolor="black">
 		<script src="./jwplayer/jwplayer.js"></script>
@@ -45,18 +46,16 @@
 				});
 
 				jwplayer().on('play', function(event){
-					if(document.getElementById("loadingScreen"))
+					if(document.getElementById("loadingPage"))
 					{
-						var loadingScreen = document.getElementById("loadingScreen");
-						loadingScreen.parentElement.removeChild(loadingScreen);
+						//var loadingScreen = document.getElementById("loadingPage");
+						//loadingScreen.parentElement.removeChild(loadingScreen);
 					}
 
 					console.log("playing");
 				});
 
 				jwplayer().on('ready', function(event){
-					var loadingScreen = document.getElementById("loadingScreen");
-					loadingScreen.innerHTML = '<div button onClick="startPlayBack()" id="loadingText" style="width: 100%; height: 100%; background-image: url(./play.png); width: 100%; height: 100%; background-repeat: no-repeat; background-position: center center; background-size: auto 18%;"></div>';
 					startPlayBack();
 				});
 
@@ -112,24 +111,12 @@
 				jwplayer().play(true);
 			}
 </script>
-<style type="text/css">
-			html,body
-			{
-				height:100%;
-				width:100%;
-				padding:0;
-				margin:0;
-			}
-
-			#videoPlayer
-			{
-				height:100%;
-				width:100%;
-				padding:0;
-			}
-		</style>
-		<div id="loadingScreen" style="text-align: center; vertical-align: middle; background-color: #000000; position: absolute; left: 0px; top: 0px; bottom: 0px; background-image: url(./loading_bg.jpg); width: 100%; height: 100%; background-repeat: no-repeat; background-position: center center;  background-size: auto 50%;">
-			<div id="loadingText" style="width: 100%; height: 100%; background-image: url(./load.png); width: 100%; height: 100%; background-repeat: no-repeat; background-position: center center;  background-size: auto 10%;"></div>
+		<div id="loadingPage">
+			<div id="loadingArea">
+				<img src="./circle_1.png" id="circle1">
+				<img src="./circle_1.png" id="circle2">
+				<img src="./load.png" id="loadingText">
+			</div>
 		</div>
 	</body>
 </html>
