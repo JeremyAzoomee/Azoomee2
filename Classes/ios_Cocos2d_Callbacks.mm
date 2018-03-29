@@ -11,6 +11,7 @@
 #include <AzoomeeCommon/ErrorCodes.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "ContentHistoryManager.h"
+#include "FavouritesManager.h"
 
 using namespace cocos2d;
 NS_AZOOMEE_BEGIN
@@ -120,6 +121,11 @@ NSString* getRemoteWebGameAPIPath()
 bool isDeviceIphoneX()
 {
     return ConfigStorage::getInstance()->isDeviceIphoneX();
+}
+
+void favContent()
+{
+    FavouritesManager::getInstance()->addToFavourites(ContentHistoryManager::getInstance()->getLastOpenedContent());
 }
 
 NS_AZOOMEE_END

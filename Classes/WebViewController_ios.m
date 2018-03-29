@@ -221,27 +221,42 @@ using namespace Azoomee;
         [backButton setImage:[UIImage imageNamed:@"res/navigation/back_button.png"] forState:UIControlStateNormal];
     }
     
+    favButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [favButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [favButton setFrame:CGRectMake(buttonWidth/4 + (screenSize.width * _closeButtonAnchorX), buttonWidth/4 + (screenSize.height * _closeButtonAnchorY) + buttonWidth, buttonWidth, buttonWidth)];
+    [favButton setExclusiveTouch:YES];
+    [favButton setImage:[UIImage imageNamed:@"res/artapp/confirm.png"] forState:UIControlStateNormal];
+    
     [self.view addSubview:backButton];
+    [self.view addSubview:favButton];
 }
 
 -(void) buttonClicked:(UIButton*)sender
 {
-    if([urlToLoad hasSuffix:@"html"])
+    if(sender == backButton)
     {
-        NSString *htmlData = [webview stringByEvaluatingJavaScriptFromString:@"saveLocalDataBeforeExit()"];
-        saveLocalStorageData(htmlData);
-        [self finishView];
-        return;
+        if([urlToLoad hasSuffix:@"html"])
+        {
+            NSString *htmlData = [webview stringByEvaluatingJavaScriptFromString:@"saveLocalDataBeforeExit()"];
+            saveLocalStorageData(htmlData);
+            [self finishView];
+            return;
+        }
+        else
+        {
+            [self finishView];
+        }
     }
-    else
+    else if(sender == favButton)
     {
-        [self finishView];
+        favContent();
     }
 }
 
 -(void) removeWebViewWhileInBackground
 {
     [backButton removeFromSuperview];
+    [favButton removeFromSuperview];
     
     if(![urlToLoad hasSuffix:@"html"])
     {
@@ -272,6 +287,7 @@ using namespace Azoomee;
     [webview removeFromSuperview];
     
     [backButton removeFromSuperview];
+    [favButton removeFromSuperview];
     
     [useridToUse release];
     [urlToLoad release];

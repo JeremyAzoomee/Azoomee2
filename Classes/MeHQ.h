@@ -12,6 +12,7 @@
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include "HQSceneArtsApp.h"
+#include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -23,6 +24,10 @@ private:
     HQSceneArtsApp* _artScrollView = nullptr;
     cocos2d::ui::ScrollView* _contentScrollView = nullptr;
     
+    void setHQCarouselData();
+    cocos2d::Layer* createContentCarousel(const std::vector<HQContentItemObjectRef>& content);
+    
+    std::string _hqCategory = "ME HQ";
 public:
     
     virtual bool init() override;

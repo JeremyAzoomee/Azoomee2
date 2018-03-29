@@ -147,6 +147,7 @@
 		9289DB471FD8414F00B12435 /* DynamicNodeText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DB461FD8414F00B12435 /* DynamicNodeText.cpp */; };
 		9289DB7D1FD996A800B12435 /* DynamicNodeImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DB7C1FD996A800B12435 /* DynamicNodeImage.cpp */; };
 		929A9CFC2065248A009B323D /* MeHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929A9CFB2065248A009B323D /* MeHQ.cpp */; };
+		929A9D57206CF9F1009B323D /* FavouritesManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929A9D56206CF9F1009B323D /* FavouritesManager.cpp */; };
 		929D46671F73F04D006E40CE /* DynamicNodeCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929D46661F73F04D006E40CE /* DynamicNodeCreator.cpp */; };
 		92A9A06E1F068A97008A19EB /* libAzoomeeArt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A9A06B1F068A7B008A19EB /* libAzoomeeArt.a */; };
 		92A9A0A91F0D1775008A19EB /* ArtAppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92A9A0A81F0D1775008A19EB /* ArtAppDelegate.cpp */; };
@@ -533,6 +534,8 @@
 		9289DB7C1FD996A800B12435 /* DynamicNodeImage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeImage.cpp; sourceTree = "<group>"; };
 		929A9CFA2063CF4F009B323D /* MeHQ.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeHQ.h; sourceTree = "<group>"; };
 		929A9CFB2065248A009B323D /* MeHQ.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MeHQ.cpp; sourceTree = "<group>"; };
+		929A9D51206CF9D9009B323D /* FavouritesManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FavouritesManager.h; sourceTree = "<group>"; };
+		929A9D56206CF9F1009B323D /* FavouritesManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FavouritesManager.cpp; sourceTree = "<group>"; };
 		929D46651F73EC3B006E40CE /* DynamicNodeCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicNodeCreator.h; sourceTree = "<group>"; };
 		929D46661F73F04D006E40CE /* DynamicNodeCreator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeCreator.cpp; sourceTree = "<group>"; };
 		92A9A0A21F0D172F008A19EB /* ArtAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtAppDelegate.h; sourceTree = "<group>"; };
@@ -1240,6 +1243,8 @@
 				9289DA091FBDD6EB00B12435 /* ContentHistoryManager.h */,
 				9220EB1C201A144B00BD7A90 /* RecentlyPlayedManager.h */,
 				9220EB20201A185C00BD7A90 /* RecentlyPlayedManager.cpp */,
+				929A9D51206CF9D9009B323D /* FavouritesManager.h */,
+				929A9D56206CF9F1009B323D /* FavouritesManager.cpp */,
 			);
 			name = HistoryManager;
 			sourceTree = "<group>";
@@ -1719,6 +1724,7 @@
 				02E595931E55F9BB0052F395 /* OfflineHubHQElement.cpp in Sources */,
 				02E5958C1E55F5ED0052F395 /* OfflineGameSearch.cpp in Sources */,
 				4319D3E21E67134600110F92 /* LoginScene.cpp in Sources */,
+				929A9D57206CF9F1009B323D /* FavouritesManager.cpp in Sources */,
 				430C30EE1EEAB6A000E27589 /* KidsLayer.cpp in Sources */,
 				A19759841DE4931200FEB03C /* HQSceneElement.cpp in Sources */,
 				43F42E3B1EE84B9500606290 /* SettingsControlLayer.cpp in Sources */,
