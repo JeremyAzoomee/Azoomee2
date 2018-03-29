@@ -26,6 +26,7 @@
 		026BAF781E3FFD33009C4ACE /* HQHistoryManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 026BAF761E3FFD33009C4ACE /* HQHistoryManager.cpp */; };
 		026FA3FF200E03460045C305 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 026FA3FB200E03460045C305 /* LocalAuthentication.framework */; };
 		0281F5C71E89210C001FCE60 /* LoginLogicHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0281F5C51E89210C001FCE60 /* LoginLogicHandler.cpp */; };
+		028DDEB5206CFB69006D7EC5 /* IntroVideoScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 028DDEB4206CFB69006D7EC5 /* IntroVideoScene.cpp */; };
 		02A11FF61EA6375D007EDD95 /* AmazonPaymentSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02A11FF01EA6375D007EDD95 /* AmazonPaymentSingleton.cpp */; };
 		02A11FF71EA6375D007EDD95 /* GooglePaymentSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02A11FF21EA6375D007EDD95 /* GooglePaymentSingleton.cpp */; };
 		02A11FF81EA6375D007EDD95 /* RoutePaymentSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02A11FF41EA6375D007EDD95 /* RoutePaymentSingleton.cpp */; };
@@ -162,7 +163,6 @@
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
 		BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C47EA1293683800B63C5D /* QuartzCore.framework */; };
-		D113134A1E337D3A00E2C033 /* IntroVideoScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11313481E337D3A00E2C033 /* IntroVideoScene.cpp */; };
 		D113134C1E337D7C00E2C033 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D113134B1E337D7C00E2C033 /* MediaPlayer.framework */; };
 		D13C40151E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm in Sources */ = {isa = PBXBuildFile; fileRef = D13C40141E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm */; };
 		D13C401B1E33A0F0002360A6 /* AwaitingAdultPinLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D13C40171E33A0F0002360A6 /* AwaitingAdultPinLayer.cpp */; };
@@ -325,6 +325,7 @@
 		026FA3FB200E03460045C305 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.2.sdk/System/Library/Frameworks/LocalAuthentication.framework; sourceTree = DEVELOPER_DIR; };
 		0281F5C51E89210C001FCE60 /* LoginLogicHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LoginLogicHandler.cpp; sourceTree = "<group>"; };
 		0281F5C61E89210C001FCE60 /* LoginLogicHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginLogicHandler.h; sourceTree = "<group>"; };
+		028DDEB4206CFB69006D7EC5 /* IntroVideoScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IntroVideoScene.cpp; sourceTree = "<group>"; };
 		02A11FF01EA6375D007EDD95 /* AmazonPaymentSingleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AmazonPaymentSingleton.cpp; sourceTree = "<group>"; };
 		02A11FF11EA6375D007EDD95 /* AmazonPaymentSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AmazonPaymentSingleton.h; sourceTree = "<group>"; };
 		02A11FF21EA6375D007EDD95 /* GooglePaymentSingleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GooglePaymentSingleton.cpp; sourceTree = "<group>"; };
@@ -535,7 +536,6 @@
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		BF1C47EA1293683800B63C5D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		D11313481E337D3A00E2C033 /* IntroVideoScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IntroVideoScene.cpp; sourceTree = "<group>"; };
 		D11313491E337D3A00E2C033 /* IntroVideoScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroVideoScene.h; sourceTree = "<group>"; };
 		D113134B1E337D7C00E2C033 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/MediaPlayer.framework; sourceTree = DEVELOPER_DIR; };
 		D13C40131E339F5E002360A6 /* ios_Cocos2d_Callbacks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ios_Cocos2d_Callbacks.h; sourceTree = "<group>"; };
@@ -1231,8 +1231,8 @@
 		A1CC0C261E156882008B469E /* Intro */ = {
 			isa = PBXGroup;
 			children = (
-				D11313481E337D3A00E2C033 /* IntroVideoScene.cpp */,
 				D11313491E337D3A00E2C033 /* IntroVideoScene.h */,
+				028DDEB4206CFB69006D7EC5 /* IntroVideoScene.cpp */,
 				9220EC422031A75800BD7A90 /* StartScreen.h */,
 				9220EC462031AC9300BD7A90 /* StartScreen.cpp */,
 			);
@@ -1569,6 +1569,7 @@
 				A198622E1DD480A60090F053 /* BaseScene.cpp in Sources */,
 				4343CB9C1EBB826600247549 /* DeepLinkingSingleton.cpp in Sources */,
 				025633741F39AB5D0053FF26 /* ForceUpdateSingleton.cpp in Sources */,
+				028DDEB5206CFB69006D7EC5 /* IntroVideoScene.cpp in Sources */,
 				A15B2F991DE74F6400D25334 /* WebViewSelector.cpp in Sources */,
 				4306ABA31EAE2C3E001E586A /* PaymentViewController_ios.mm in Sources */,
 				43FDC6611EF7E3CE009B596B /* SettingsConfirmationLayer.cpp in Sources */,
@@ -1634,7 +1635,6 @@
 				A134ADCE1E0C0F420030BE98 /* HQSceneElementPositioner.cpp in Sources */,
 				43FDC6671EF7F743009B596B /* ConfirmationControlLayer.cpp in Sources */,
 				301CCA941EB139C1009ADA0C /* SettingsButton.cpp in Sources */,
-				D113134A1E337D3A00E2C033 /* IntroVideoScene.cpp in Sources */,
 				02E595931E55F9BB0052F395 /* OfflineHubHQElement.cpp in Sources */,
 				02E5958C1E55F5ED0052F395 /* OfflineGameSearch.cpp in Sources */,
 				4319D3E21E67134600110F92 /* LoginScene.cpp in Sources */,

@@ -59,22 +59,23 @@ bool IntroVideoScene::init()
     this->runAction(action);
 
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    Rect _visibleRect = Director::getInstance()->getOpenGLView()->getVisibleRect();
+    cocos2d::Rect _visibleRect = Director::getInstance()->getOpenGLView()->getVisibleRect();
 
-    videoPlayer = cocos2d::experimental::ui::VideoPlayer::create();
-    videoPlayer->setContentSize(_visibleRect.size);
-    videoPlayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    videoPlayer->setPosition(Vec2(_visibleRect.origin.x + _visibleRect.size.width / 2,_visibleRect.origin.y + _visibleRect.size.height /2));
-    videoPlayer->setFileName("res/introAssets/Opening_Animation.mp4");
-    videoPlayer->setKeepAspectRatioEnabled(true);
-    videoPlayer->addEventListener(CC_CALLBACK_2(IntroVideoScene::videoEventCallback, this));
+    _videoPlayer = cocos2d::experimental::ui::VideoPlayer::create();
+    _videoPlayer->setContentSize(_visibleRect.size);
+    _videoPlayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _videoPlayer->setPosition(Vec2(_visibleRect.origin.x + _visibleRect.size.width / 2,_visibleRect.origin.y + _visibleRect.size.height /2));
+    _videoPlayer->setSwallowTouches(false);
+    _videoPlayer->setFileName("res/introAssets/Opening_Animation.mp4");
+    _videoPlayer->setKeepAspectRatioEnabled(true);
+    _videoPlayer->addEventListener(CC_CALLBACK_2(IntroVideoScene::videoEventCallback, this));
     
-    addChild(videoPlayer);
+    addChild(_videoPlayer);
     
 #ifndef novideo
-    videoPlayer->play();
+    _videoPlayer->play();
 #endif
-    
+
     return true;
 }
 
@@ -84,13 +85,35 @@ void IntroVideoScene::onEnter()
 #ifdef novideo
     navigateToNextScene();
 #endif
+    
+    UserDefault* userDefault = UserDefault::getInstance();
+    
+    if(!userDefault->getBoolForKey("canSkipVideo"))
+    {
+        userDefault->setBoolForKey("canSkipVideo", true);
+    }
+    else
+    {
+        auto listener = EventListenerTouchOneByOne::create();
+        listener->setSwallowTouches(true);
+        listener->onTouchBegan = [=](Touch *touch, Event *event)
+        {
+            this->navigateToNextScene();
+            return true;
+        };
+        
+        Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
+    }
 }
 
 void IntroVideoScene::videoEventCallback(Ref* sender, VideoPlayer::EventType eventType)
 {
     switch (eventType) {
         case VideoPlayer::EventType::PAUSED:
+        {
+            cocos2d::log("VIDEO: VIDEO PAUSED");
             break;
+        }
         case VideoPlayer::EventType::PLAYING:
         {
             videoErrorText = "Video Started Playing and ";
@@ -98,11 +121,6 @@ void IntroVideoScene::videoEventCallback(Ref* sender, VideoPlayer::EventType eve
             break;
         case VideoPlayer::EventType::COMPLETED:
         {
-#if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-            IosNativeFunctionsSingleton::getInstance()->identifyMixpanel();
-#elif(CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-            JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "identifyMixpanel");
-#endif
             navigateToNextScene();
             break;
         }
@@ -120,7 +138,14 @@ void IntroVideoScene::navigateToNextScene()
 {
     this->stopActionByTag(3);
     
-    videoPlayer->setVisible(false);
+#if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    IosNativeFunctionsSingleton::getInstance()->identifyMixpanel();
+#elif(CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "identifyMixpanel");
+#endif
+    
+    _videoPlayer->stop();
+    _videoPlayer->setVisible(false);
     AnalyticsSingleton::getInstance()->registerAppVersion();
     
     if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
