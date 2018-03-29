@@ -48,8 +48,8 @@
 				jwplayer().on('play', function(event){
 					if(document.getElementById("loadingPage"))
 					{
-						//var loadingScreen = document.getElementById("loadingPage");
-						//loadingScreen.parentElement.removeChild(loadingScreen);
+						var loadingScreen = document.getElementById("loadingPage");
+						loadingScreen.parentElement.removeChild(loadingScreen);
 					}
 
 					console.log("playing");
