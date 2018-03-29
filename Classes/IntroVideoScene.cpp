@@ -91,6 +91,7 @@ void IntroVideoScene::onEnter()
     if(!userDefault->getBoolForKey("canSkipVideo"))
     {
         userDefault->setBoolForKey("canSkipVideo", true);
+        userDefault->flush();
     }
     else
     {
