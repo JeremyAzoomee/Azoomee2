@@ -26,6 +26,8 @@ NS_AZOOMEE_BEGIN
 //cocos2d/cocos/platform/android/java/src/org/cocos2dx/lib/Cocos2dxVideoView.java row 204-206 if(isPlaying()) to be commented out
 //cocos2d/cocos/ui/UIVideoPlayer-ios.mm - roww 144-145 - MPMovideControlStyleNone, interactionenabled: false
 
+const char* const IntroVideoScene::kSkipVideoKeyInUserDefault = "canSkipVideo";
+
 Scene* IntroVideoScene::createScene()
 {
     auto scene = Scene::create();
@@ -88,9 +90,9 @@ void IntroVideoScene::onEnter()
     
     UserDefault* userDefault = UserDefault::getInstance();
     
-    if(!userDefault->getBoolForKey("canSkipVideo"))
+    if(!userDefault->getBoolForKey(kSkipVideoKeyInUserDefault))
     {
-        userDefault->setBoolForKey("canSkipVideo", true);
+        userDefault->setBoolForKey(kSkipVideoKeyInUserDefault, true);
         userDefault->flush();
     }
     else

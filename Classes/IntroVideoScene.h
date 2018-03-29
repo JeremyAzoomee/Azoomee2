@@ -10,6 +10,8 @@ NS_AZOOMEE_BEGIN
 class IntroVideoScene: public cocos2d::Layer
 {
 private:
+    static const char* const kSkipVideoKeyInUserDefault;
+    
     void videoEventCallback(Ref* sender, cocos2d::experimental::ui::VideoPlayer::EventType eventType);
     void navigateToNextScene();
     std::string videoErrorText;
