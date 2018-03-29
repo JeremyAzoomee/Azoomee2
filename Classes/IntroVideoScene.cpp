@@ -59,12 +59,12 @@ bool IntroVideoScene::init()
     this->runAction(action);
 
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    cocos2d::Rect _visibleRect = Director::getInstance()->getOpenGLView()->getVisibleRect();
+    cocos2d::Rect visibleRect = Director::getInstance()->getOpenGLView()->getVisibleRect();
 
     _videoPlayer = cocos2d::experimental::ui::VideoPlayer::create();
-    _videoPlayer->setContentSize(_visibleRect.size);
+    _videoPlayer->setContentSize(visibleRect.size);
     _videoPlayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _videoPlayer->setPosition(Vec2(_visibleRect.origin.x + _visibleRect.size.width / 2,_visibleRect.origin.y + _visibleRect.size.height /2));
+    _videoPlayer->setPosition(Vec2(visibleRect.origin.x + visibleRect.size.width / 2, visibleRect.origin.y + visibleRect.size.height /2));
     _videoPlayer->setSwallowTouches(false);
     _videoPlayer->setFileName("res/introAssets/Opening_Animation.mp4");
     _videoPlayer->setKeepAspectRatioEnabled(true);
