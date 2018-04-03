@@ -5,6 +5,9 @@
 #include "HQHistoryManager.h"
 #include "FlowDataSingleton.h"
 #include "LoginLogicHandler.h"
+#include "ContentHistoryManager.h"
+#include "HQDataProvider.h"
+#include "DeepLinkingSingleton.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 
 using namespace cocos2d;
@@ -20,6 +23,16 @@ ChatDelegate* ChatDelegate::getInstance()
         sChatDelegateSharedInstance.reset(new ChatDelegate());
     }
     return sChatDelegateSharedInstance.get();
+}
+
+void ChatDelegate::shareContentInChat()
+{
+    if(_sharedContentId != "")
+    {
+        const std::string& fileurl = HQDataProvider::getInstance()->getThumbnailUrlForItem(_sharedContentId);
+        ImageDownloaderRef imgDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
+        imgDownloader->downloadImage(this, fileurl);
+    }
 }
 
 #pragma mark - Azoomee::Chat::Delegate
@@ -49,5 +62,19 @@ void ChatDelegate::onChatAuthorizationError(const std::string& requestTag, long 
     FlowDataSingleton::getInstance()->setErrorCode(errorCode);
     LoginLogicHandler::getInstance()->doLoginLogic();
 }
+
+void ChatDelegate::onChatNavigateToContent(const std::string &contentId)
+{
+    DeepLinkingSingleton::getInstance()->setDeepLink("azoomee://post-content/" + contentId);
+}
+
+// delegate functions
+void ChatDelegate::onImageDownloadComplete(const ImageDownloaderRef& downloader)
+{
+    ChatDelegate::getInstance()->_imageFileName = downloader->getLocalImagePath();
+    Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+    
+}
+
 
 NS_AZOOMEE_END

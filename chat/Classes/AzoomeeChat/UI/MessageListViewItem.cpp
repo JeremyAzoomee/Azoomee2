@@ -2,6 +2,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/HQDataObject/ContentItemPool.h>
 #include "../Data/StickerCache.h"
 
 
@@ -249,6 +250,24 @@ void MessageListViewItem::setData(const MessageRef& message)
         else if(messageType == Message::MessageTypeArt)
         {
             _artImage->initWithUrlAndSizeWithoutPlaceholder(message->artURL(), Size(getContentSize().width/2,getContentSize().width/2 * 10.0f/16.0f));
+            _artLayout->setTouchEnabled(false);
+        }
+        else if(messageType == Message::MessageTypeContent)
+        {
+            HQContentItemObjectRef contentItem = ContentItemPool::getInstance()->getContentItemForId(message->contentId());
+            if(contentItem)
+            {
+                const std::string& imgUrl = contentItem->getBaseImageThumbUrl();
+            
+                _artImage->initWithUrlAndSizeWithoutPlaceholder(imgUrl, Size(getContentSize().width/2,getContentSize().width/2 * 10.0f/16.0f));
+                _artLayout->addTouchEventListener([=](Ref* sender, ui::Widget::TouchEventType event){
+                    if(event == ui::Widget::TouchEventType::ENDED)
+                    {
+                        Chat::delegate->onChatNavigateToContent(message->contentId());
+                    }
+                });
+                _artLayout->setTouchEnabled(true);
+            }
         }
         else
         {
@@ -261,7 +280,7 @@ void MessageListViewItem::setData(const MessageRef& message)
         _bubbleLayout->setVisible(messageText.size() > 0);
         if(!_bubbleLayout->isVisible())
         {
-            if(_messageData->messageType() == Message::MessageTypeArt)
+            if(_messageData->messageType() == Message::MessageTypeArt || _messageData->messageType() == Message::MessageTypeContent)
             {
                 _artLayout->setVisible(true);
             }

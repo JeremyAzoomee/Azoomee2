@@ -221,14 +221,21 @@ using namespace Azoomee;
         [backButton setImage:[UIImage imageNamed:@"res/navigation/back_button.png"] forState:UIControlStateNormal];
     }
     
-    favButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [favButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [favButton setFrame:CGRectMake(buttonWidth/4 + (screenSize.width * _closeButtonAnchorX), buttonWidth/4 + (screenSize.height * _closeButtonAnchorY) + buttonWidth, buttonWidth, buttonWidth)];
-    [favButton setExclusiveTouch:YES];
-    [favButton setImage:[UIImage imageNamed:@"res/artapp/confirm.png"] forState:UIControlStateNormal];
+    _favButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_favButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [_favButton setFrame:CGRectMake(buttonWidth/4 + (screenSize.width * _closeButtonAnchorX), buttonWidth/4 + (screenSize.height * _closeButtonAnchorY) + buttonWidth, buttonWidth, buttonWidth)];
+    [_favButton setExclusiveTouch:YES];
+    [_favButton setImage:[UIImage imageNamed:@"res/artapp/confirm.png"] forState:UIControlStateNormal];
+    
+    _shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_shareButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [_shareButton setFrame:CGRectMake(buttonWidth/4 + (screenSize.width * _closeButtonAnchorX), buttonWidth/4 + (screenSize.height * _closeButtonAnchorY) +  2 * buttonWidth, buttonWidth, buttonWidth)];
+    [_shareButton setExclusiveTouch:YES];
+    [_shareButton setImage:[UIImage imageNamed:@"res/artapp/share_ios.png"] forState:UIControlStateNormal];
     
     [self.view addSubview:backButton];
-    [self.view addSubview:favButton];
+    [self.view addSubview:_favButton];
+    [self.view addSubview:_shareButton];
 }
 
 -(void) buttonClicked:(UIButton*)sender
@@ -247,16 +254,31 @@ using namespace Azoomee;
             [self finishView];
         }
     }
-    else if(sender == favButton)
+    else if(sender == _favButton)
     {
         favContent();
+    }
+    else if(sender == _shareButton)
+    {
+        if([urlToLoad hasSuffix:@"html"])
+        {
+            NSString *htmlData = [webview stringByEvaluatingJavaScriptFromString:@"saveLocalDataBeforeExit()"];
+            saveLocalStorageData(htmlData);
+            [self finishView];
+        }
+        else
+        {
+            [self finishView];
+        }
+        shareContentInChat();
     }
 }
 
 -(void) removeWebViewWhileInBackground
 {
     [backButton removeFromSuperview];
-    [favButton removeFromSuperview];
+    [_favButton removeFromSuperview];
+    [_shareButton removeFromSuperview];
     
     if(![urlToLoad hasSuffix:@"html"])
     {
@@ -287,7 +309,8 @@ using namespace Azoomee;
     [webview removeFromSuperview];
     
     [backButton removeFromSuperview];
-    [favButton removeFromSuperview];
+    [_favButton removeFromSuperview];
+    [_shareButton removeFromSuperview];
     
     [useridToUse release];
     [urlToLoad release];

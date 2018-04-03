@@ -13,6 +13,7 @@
 #include <AzoomeeCommon/ErrorCodes.h>
 #include "ContentHistoryManager.h"
 #include "IAPProductDataHandler.h"
+#include "ChatDelegate.h"
 
 using namespace cocos2d;
 using namespace Azoomee;
@@ -105,6 +106,13 @@ void AppDelegate::applicationWillEnterForeground()
         {
             ContentHistoryManager::getInstance()->setReturnedFromContent(true);
         }
+        
+        if(ChatDelegate::getInstance()->_sharedContentId != "")
+        {
+            ChatDelegate::getInstance()->shareContentInChat();
+            return;
+        }
+        
         HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
         
         auto baseScene = BaseScene::createScene();

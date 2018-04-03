@@ -12,6 +12,7 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "ContentHistoryManager.h"
 #include "FavouritesManager.h"
+#include "ChatDelegate.h"
 
 using namespace cocos2d;
 NS_AZOOMEE_BEGIN
@@ -126,6 +127,12 @@ bool isDeviceIphoneX()
 void favContent()
 {
     FavouritesManager::getInstance()->addToFavourites(ContentHistoryManager::getInstance()->getLastOpenedContent());
+}
+
+void shareContentInChat()
+{
+    ChatDelegate::getInstance()->_sharedContentId = ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId();
+    ChatDelegate::getInstance()->shareContentInChat();
 }
 
 NS_AZOOMEE_END

@@ -19,8 +19,10 @@ struct Delegate {
     virtual void onChatNavigationBack() = 0;
     virtual void onChatAddFriend() = 0;
     virtual void onChatAuthorizationError(const std::string& requestTag, long errorCode) = 0;
+    virtual void onChatNavigateToContent(const std::string & contentId) = 0;
     
     std::string _imageFileName = "";
+    std::string _sharedContentId = "";
 };
 
 // Delegate instance in namespace

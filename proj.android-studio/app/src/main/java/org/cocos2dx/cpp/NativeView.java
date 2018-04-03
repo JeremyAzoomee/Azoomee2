@@ -30,6 +30,8 @@ public class NativeView extends XWalkActivity {
     public static XWalkView xWalkWebViewStatic;
     public static String userid;
     public static ImageButton imageButtonStatic;
+    public static ImageButton favButtonStatic;
+    public static ImageButton shareButtonStatic;
     private static final int _portrait = 1;
     private static final int _horizonal = 0;
     private boolean isWebViewReady = false;
@@ -137,6 +139,69 @@ public class NativeView extends XWalkActivity {
         addContentView(closeButton, buttonLayoutParams);
 
         imageButtonStatic = closeButton;
+
+        ImageButton favButton = new ImageButton(this);
+        favButton.setImageResource(R.drawable.confirm);
+        favButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
+        favButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if(isActivityExitRequested||!isWebViewReady)
+                {
+                    return;
+                }
+
+                JNICalls.JNIAddToFavourites();
+            }
+        });
+
+        favButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
+        favButton.setX(buttonWidth/8 + (xAnchor * paddedWindowWidth));
+        favButton.setY(buttonWidth * 1.125f + (yAnchor * paddedWindowHeight));
+
+        addContentView(favButton, buttonLayoutParams);
+
+        favButtonStatic = favButton;
+
+        ImageButton shareButton = new ImageButton(this);
+        shareButton.setImageResource(R.drawable.chat);
+        shareButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
+        shareButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if(isActivityExitRequested||!isWebViewReady)
+                {
+                    return;
+                }
+
+                JNICalls.JNIShareInChat();
+                Bundle extras = getIntent().getExtras();
+                if(extras.getInt("orientation") == _portrait)
+                {
+                    isActivityExitRequested = true;
+                    activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                    //cleanUpAndFinishActivity() will be called by the screen orientation change callback
+                }
+                else
+                {
+                    cleanUpAndFinishActivity();
+                }
+
+            }
+        });
+
+        shareButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
+        shareButton.setX(buttonWidth/8);
+        shareButton.setY(buttonWidth * 2.125f);
+
+        addContentView(shareButton, buttonLayoutParams);
+
+        shareButtonStatic = shareButton;
+
         xWalkWebViewStatic = xWalkWebView;
     }
 

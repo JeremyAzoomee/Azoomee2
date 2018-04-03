@@ -15,7 +15,8 @@
     bool iframeloaded;
     UIWebView *webview;
     UIButton* backButton;
-    UIButton* favButton;
+    UIButton* _favButton;
+    UIButton* _shareButton;
     float _closeButtonAnchorX;
     float _closeButtonAnchorY;
 }

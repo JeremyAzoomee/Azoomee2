@@ -19,6 +19,7 @@ extern "C" {
     NSString* getRemoteWebGameAPIPath();
     bool isDeviceIphoneX();
     void favContent();
+    void shareContentInChat();
     
 #ifdef __cplusplus
 }
