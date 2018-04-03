@@ -18,11 +18,11 @@ HttpRequestCreator::HttpRequestCreator(HttpRequestCreatorResponseDelegate* deleg
     ;
 }
 
-void HttpRequestCreator::execute()
+void HttpRequestCreator::execute(float timeout)
 {
     amountOfFails = 0;
     HttpRequest* request = buildHttpRequest();
-    sendRequest(request);
+    sendRequest(request, timeout);
 }
 
 void HttpRequestCreator::clearDelegate()
@@ -188,10 +188,10 @@ cocos2d::network::HttpRequest* HttpRequestCreator::buildHttpRequest()           
     return request;
 }
 
-void HttpRequestCreator::sendRequest(cocos2d::network::HttpRequest* request)
+void HttpRequestCreator::sendRequest(cocos2d::network::HttpRequest* request, float timeout)
 {
-    HttpClient::getInstance()->setTimeoutForConnect(10);
-    HttpClient::getInstance()->setTimeoutForRead(10);
+    HttpClient::getInstance()->setTimeoutForConnect(timeout);
+    HttpClient::getInstance()->setTimeoutForRead(timeout);
     
     if(ConfigStorage::getInstance()->isImmediateRequestSendingRequired(requestTag)) HttpClient::getInstance()->sendImmediate(request);
     else HttpClient::getInstance()->send(request);
