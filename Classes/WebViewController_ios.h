@@ -14,17 +14,21 @@
     NSString *useridToUse;
     bool iframeloaded;
     UIWebView *webview;
+    UIButton* _burgerButton;
     UIButton* backButton;
     UIButton* _favButton;
     UIButton* _shareButton;
     float _closeButtonAnchorX;
     float _closeButtonAnchorY;
+    float _buttonWidth;
+    bool _uiExpanded;
 }
 
 -(id)init;
 - (void)startBuildingWebView:(NSString*)url userid:(NSString *)userid closeButtonAnchorX:(float)closeButtonAnchorX closeButtonAnchorY:(float)closeButtonAnchorY;
 - (void)removeWebViewWhileInBackground;
 - (void)addWebViewToScreen;
-- (void)createButton;
+- (void)createButtons;
+- (void)animateButtons;
 
 @end

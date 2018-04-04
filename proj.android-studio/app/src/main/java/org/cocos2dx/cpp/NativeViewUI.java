@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.TranslateAnimation;
 import android.webkit.CookieManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -29,6 +30,7 @@ public class NativeViewUI extends Activity {
     public WebView uiWebView;
     public static WebView uiWebViewStatic;
     public static String userid;
+    public static ImageButton burgerButtonStatic;
     public static ImageButton imageButtonStatic;
     public static ImageButton favButtonStatic;
     public static ImageButton shareButtonStatic;
@@ -36,6 +38,7 @@ public class NativeViewUI extends Activity {
     private static final int _horizonal = 0;
     private boolean isWebViewReady = false;
     private boolean isActivityExitRequested = false;
+    private boolean _uiExpanded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -100,148 +103,9 @@ public class NativeViewUI extends Activity {
         addContentView(uiWebView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
 
-        ImageButton closeButton = new ImageButton(this);
-        if(loadingGame())
-        {
-            closeButton.setImageResource(R.drawable.close_button);
-        }
-        else
-        {
-            closeButton.setImageResource(R.drawable.back_button);
-        }
-
-        closeButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
-        closeButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                if(isActivityExitRequested||!isWebViewReady)
-                {
-                    return;
-                }
-
-                Bundle extras = getIntent().getExtras();
-                if(extras.getInt("orientation") == _portrait)
-                {
-                    isActivityExitRequested = true;
-                    activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-                    //cleanUpAndFinishActivity() will be called by the screen orientation change callback
-                }
-                else
-                {
-                    cleanUpAndFinishActivity();
-                }
-
-            }
-        });
-
-        //SET Button Size and position
-        WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-        android.view.Display display = wm.getDefaultDisplay();
-        android.util.DisplayMetrics metrics = new android.util.DisplayMetrics();
-        display.getMetrics(metrics);
-
-        int buttonWidth = metrics.widthPixels / 12;
-        if(metrics.heightPixels > metrics.widthPixels)
-        {
-            buttonWidth = metrics.heightPixels / 12;
-        }
-
-        android.widget.RelativeLayout.LayoutParams buttonLayoutParams = new android.widget.RelativeLayout.LayoutParams(
-                android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT, android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT);
-
-        buttonLayoutParams.leftMargin = 0;
-        buttonLayoutParams.topMargin = 0;
-        buttonLayoutParams.width = buttonWidth;
-        buttonLayoutParams.height = buttonWidth;
-
-        closeButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
-
-        closeButton.setX(buttonWidth/8);
-        closeButton.setY(buttonWidth/8);
-
-        // Add button to screen, with Size and Position
-        addContentView(closeButton, buttonLayoutParams);
-
-        uiWebView.resumeTimers();
-        uiWebView.loadUrl("about:blank");
-        uiWebView.clearCache(true);
-        uiWebView.clearHistory();
-
-        if(extras.getBoolean("remoteDebugWebViewEnabled"))
-        {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                Log.d("REMOTEDEBUG", "!!! ATTENTION: REMOTE DEBUGGING IS ON !!!");
-                uiWebView.setWebContentsDebuggingEnabled(true);
-            }
-        }
-
-        imageButtonStatic = closeButton;
-
-        ImageButton favButton = new ImageButton(this);
-        favButton.setImageResource(R.drawable.confirm);
-        favButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
-        favButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                if(isActivityExitRequested||!isWebViewReady)
-                {
-                    return;
-                }
-
-                JNICalls.JNIAddToFavourites();
-            }
-        });
-
-        favButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
-        favButton.setX(buttonWidth/8);
-        favButton.setY(buttonWidth * 1.125f);
-
-        addContentView(favButton, buttonLayoutParams);
-
-        favButtonStatic = favButton;
-
-        ImageButton shareButton = new ImageButton(this);
-        shareButton.setImageResource(R.drawable.chat);
-        shareButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
-        shareButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                if(isActivityExitRequested||!isWebViewReady)
-                {
-                    return;
-                }
-
-                JNICalls.JNIShareInChat();
-                Bundle extras = getIntent().getExtras();
-                if(extras.getInt("orientation") == _portrait)
-                {
-                    isActivityExitRequested = true;
-                    activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-                    //cleanUpAndFinishActivity() will be called by the screen orientation change callback
-                }
-                else
-                {
-                    cleanUpAndFinishActivity();
-                }
-
-            }
-        });
-
-        shareButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
-        shareButton.setX(buttonWidth/8);
-        shareButton.setY(buttonWidth * 2.125f);
-
-        addContentView(shareButton, buttonLayoutParams);
-
-        shareButtonStatic = shareButton;
-
         uiWebViewStatic = uiWebView;
+
+        addButtons();
 
         webviewAdditionalSettings();
     }
@@ -429,6 +293,247 @@ public class NativeViewUI extends Activity {
         {
             isActivityExitRequested = false;
             cleanUpAndFinishActivity();
+        }
+    }
+
+    private void addButtons()
+    {
+        Bundle extras = getIntent().getExtras();
+
+        //SET Button Size and position
+        WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+        android.view.Display display = wm.getDefaultDisplay();
+        android.util.DisplayMetrics metrics = new android.util.DisplayMetrics();
+        display.getMetrics(metrics);
+
+        int buttonWidth = metrics.widthPixels / 12;
+        if(metrics.heightPixels > metrics.widthPixels)
+        {
+            buttonWidth = metrics.heightPixels / 12;
+        }
+
+        android.widget.RelativeLayout.LayoutParams buttonLayoutParams = new android.widget.RelativeLayout.LayoutParams(
+                android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT, android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+        buttonLayoutParams.leftMargin = 0;
+        buttonLayoutParams.topMargin = 0;
+        buttonLayoutParams.width = buttonWidth;
+        buttonLayoutParams.height = buttonWidth;
+
+
+        float paddedWindowWidth = metrics.widthPixels - (buttonWidth * 1.25f);
+        float paddedWindowHeight = metrics.heightPixels - (buttonWidth * 1.25f);
+        float xAnchor = extras.getFloat("closeAnchorX");
+        float yAnchor = extras.getFloat("closeAnchorY");
+
+        ImageButton closeButton = new ImageButton(this);
+        if(loadingGame())
+        {
+            closeButton.setImageResource(R.drawable.close_button);
+        }
+        else
+        {
+            closeButton.setImageResource(R.drawable.back_button);
+        }
+
+        closeButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
+        closeButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if(isActivityExitRequested||!isWebViewReady)
+                {
+                    return;
+                }
+
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                Bundle extras = getIntent().getExtras();
+                if(extras.getInt("orientation") == _portrait)
+                {
+                    isActivityExitRequested = true;
+                    activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                    //cleanUpAndFinishActivity() will be called by the screen orientation change callback
+                }
+                else
+                {
+                    cleanUpAndFinishActivity();
+                }
+            }
+        });
+        closeButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
+
+        closeButton.setX(buttonWidth/8 + (xAnchor * paddedWindowWidth));
+        closeButton.setY(buttonWidth/8 + (yAnchor * paddedWindowHeight));
+
+        // Add button to screen, with Size and Position
+        addContentView(closeButton, buttonLayoutParams);
+
+        imageButtonStatic = closeButton;
+
+        ImageButton favButton = new ImageButton(this);
+        favButton.setImageResource(R.drawable.confirm);
+        favButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
+        favButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if(isActivityExitRequested||!isWebViewReady)
+                {
+                    return;
+                }
+
+                JNICalls.JNIAddToFavourites();
+            }
+        });
+
+        favButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
+        favButton.setX(buttonWidth/8 + (xAnchor * paddedWindowWidth));
+        favButton.setY(buttonWidth/8 + (yAnchor * paddedWindowHeight));
+
+        addContentView(favButton, buttonLayoutParams);
+
+        favButtonStatic = favButton;
+
+        ImageButton shareButton = new ImageButton(this);
+        shareButton.setImageResource(R.drawable.chat);
+        shareButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
+        shareButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if(isActivityExitRequested||!isWebViewReady)
+                {
+                    return;
+                }
+
+                JNICalls.JNIShareInChat();
+                Bundle extras = getIntent().getExtras();
+                if(extras.getInt("orientation") == _portrait)
+                {
+                    isActivityExitRequested = true;
+                    activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                    //cleanUpAndFinishActivity() will be called by the screen orientation change callback
+                }
+                else
+                {
+                    cleanUpAndFinishActivity();
+                }
+
+            }
+        });
+
+        shareButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
+        shareButton.setX(buttonWidth/8 + (xAnchor * paddedWindowWidth));
+        shareButton.setY(buttonWidth/8 + (yAnchor * paddedWindowHeight));
+
+        addContentView(shareButton, buttonLayoutParams);
+
+        shareButtonStatic = shareButton;
+
+        ImageButton burgerButton = new ImageButton(this);
+        burgerButton.setImageResource(R.drawable.settings);
+        burgerButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
+        burgerButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                animateButtons();
+            }
+        });
+
+        burgerButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
+        burgerButton.setX(buttonWidth/8 + (xAnchor * paddedWindowWidth));
+        burgerButton.setY(buttonWidth/8 + (yAnchor * paddedWindowHeight));
+
+        addContentView(burgerButton, buttonLayoutParams);
+
+        burgerButtonStatic = burgerButton;
+
+        _uiExpanded = false;
+    }
+
+    void animateButtons()
+    {
+        Bundle extras = getIntent().getExtras();
+
+        //SET Button Size and position
+        WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+        android.view.Display display = wm.getDefaultDisplay();
+        android.util.DisplayMetrics metrics = new android.util.DisplayMetrics();
+        display.getMetrics(metrics);
+
+        int buttonWidth = metrics.widthPixels / 12;
+        if(metrics.heightPixels > metrics.widthPixels)
+        {
+            buttonWidth = metrics.heightPixels / 12;
+        }
+
+        float paddedWindowWidth = metrics.widthPixels - (buttonWidth * 1.25f);
+        float paddedWindowHeight = metrics.heightPixels - (buttonWidth * 1.25f);
+        float xAnchor = extras.getFloat("closeAnchorX");
+        float yAnchor = extras.getFloat("closeAnchorY");
+
+        if(_uiExpanded)
+        {
+            Log.d("anim","close ui");
+            TranslateAnimation closeButtonAnim = new TranslateAnimation(0,burgerButtonStatic.getX() - imageButtonStatic.getX(),0,burgerButtonStatic.getY() - imageButtonStatic.getY());
+            closeButtonAnim.setDuration(750);
+            closeButtonAnim.setFillAfter(true);
+            imageButtonStatic.startAnimation(closeButtonAnim);
+            TranslateAnimation favButtonAnim = new TranslateAnimation(0,burgerButtonStatic.getX() - favButtonStatic.getX(),0,burgerButtonStatic.getY() - favButtonStatic.getY());
+            favButtonAnim.setDuration(750);
+            favButtonAnim.setFillAfter(true);
+            favButtonStatic.startAnimation(favButtonAnim);
+            TranslateAnimation shareButtonAnim = new TranslateAnimation(0,burgerButtonStatic.getX() - shareButtonStatic.getX(),0,burgerButtonStatic.getY() - shareButtonStatic.getY());
+            shareButtonAnim.setDuration(750);
+            shareButtonAnim.setFillAfter(true);
+            shareButtonStatic.startAnimation(shareButtonAnim);
+            _uiExpanded = false;
+        }
+        else
+        {
+            Log.d("anim","open ui");
+            float xMod = 0;
+            float yMod = 0;
+            if(yAnchor == 0.5)
+            {
+                if(xAnchor == 1.0)
+                {
+                    xMod = -1;
+                }
+                else
+                {
+                    xMod = 1;
+                }
+            }
+            else if(yAnchor == 0.0)
+            {
+                yMod = 1;
+            }
+            else
+            {
+                yMod = -1;
+            }
+
+            TranslateAnimation closeButtonAnim = new TranslateAnimation(0, (xMod * buttonWidth), 0,(yMod * buttonWidth));
+            closeButtonAnim.setDuration(750);
+            closeButtonAnim.setFillAfter(true);
+            imageButtonStatic.startAnimation(closeButtonAnim);
+            TranslateAnimation favButtonAnim = new TranslateAnimation(0, 2 * (xMod * buttonWidth), 0, 2 * (yMod * buttonWidth));
+            favButtonAnim.setDuration(750);
+            closeButtonAnim.setFillAfter(true);
+            favButtonStatic.startAnimation(favButtonAnim);
+            TranslateAnimation shareButtonAnim = new TranslateAnimation(0,  3 * (xMod * buttonWidth), 0, 3 * (yMod * buttonWidth));
+            shareButtonAnim.setDuration(750);
+            shareButtonAnim.setFillAfter(true);
+            shareButtonStatic.startAnimation(shareButtonAnim);
+            _uiExpanded = true;
         }
     }
 }

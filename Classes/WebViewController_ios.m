@@ -31,7 +31,7 @@ using namespace Azoomee;
     [useridToUse retain];
     
     [self addWebViewToScreen];
-    [self createButton];
+    [self createButtons];
 }
 
 - (void)viewDidLoad {
@@ -196,15 +196,23 @@ using namespace Azoomee;
     // Dispose of any resources that can be recreated.
 }
 
-- (void) createButton
+- (void) createButtons
 {
     CGFloat buttonWidth = 0.0f;
     CGSize screenSize = [[UIScreen mainScreen] bounds].size;
     
     screenSize.width > screenSize.height ? buttonWidth = screenSize.width / 15.0f : buttonWidth = screenSize.height / 15.0f ;
     
+    _buttonWidth = buttonWidth;
+    
     screenSize.width -= buttonWidth * 1.5f;
     screenSize.height -= buttonWidth * 1.5f;
+    
+    _burgerButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_burgerButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [_burgerButton setFrame:CGRectMake(buttonWidth/4 + (screenSize.width * _closeButtonAnchorX), buttonWidth/4 + (screenSize.height * _closeButtonAnchorY), buttonWidth, buttonWidth)];
+    [_burgerButton setExclusiveTouch:YES];
+    [_burgerButton setImage:[UIImage imageNamed:@"res/navigation/settings.png"] forState:UIControlStateNormal];
     
     backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [backButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
@@ -223,19 +231,22 @@ using namespace Azoomee;
     
     _favButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_favButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [_favButton setFrame:CGRectMake(buttonWidth/4 + (screenSize.width * _closeButtonAnchorX), buttonWidth/4 + (screenSize.height * _closeButtonAnchorY) + buttonWidth, buttonWidth, buttonWidth)];
+    [_favButton setFrame:CGRectMake(buttonWidth/4 + (screenSize.width * _closeButtonAnchorX), buttonWidth/4 + (screenSize.height * _closeButtonAnchorY), buttonWidth, buttonWidth)];
     [_favButton setExclusiveTouch:YES];
     [_favButton setImage:[UIImage imageNamed:@"res/artapp/confirm.png"] forState:UIControlStateNormal];
     
     _shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_shareButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [_shareButton setFrame:CGRectMake(buttonWidth/4 + (screenSize.width * _closeButtonAnchorX), buttonWidth/4 + (screenSize.height * _closeButtonAnchorY) +  2 * buttonWidth, buttonWidth, buttonWidth)];
+    [_shareButton setFrame:CGRectMake(buttonWidth/4 + (screenSize.width * _closeButtonAnchorX), buttonWidth/4 + (screenSize.height * _closeButtonAnchorY), buttonWidth, buttonWidth)];
     [_shareButton setExclusiveTouch:YES];
     [_shareButton setImage:[UIImage imageNamed:@"res/artapp/share_ios.png"] forState:UIControlStateNormal];
     
     [self.view addSubview:backButton];
     [self.view addSubview:_favButton];
     [self.view addSubview:_shareButton];
+    [self.view addSubview:_burgerButton];
+    
+    _uiExpanded = false;
 }
 
 -(void) buttonClicked:(UIButton*)sender
@@ -272,6 +283,10 @@ using namespace Azoomee;
         }
         shareContentInChat();
     }
+    else if(sender == _burgerButton)
+    {
+        [self animateButtons];
+    }
 }
 
 -(void) removeWebViewWhileInBackground
@@ -279,6 +294,7 @@ using namespace Azoomee;
     [backButton removeFromSuperview];
     [_favButton removeFromSuperview];
     [_shareButton removeFromSuperview];
+    [_burgerButton removeFromSuperview];
     
     if(![urlToLoad hasSuffix:@"html"])
     {
@@ -311,6 +327,7 @@ using namespace Azoomee;
     [backButton removeFromSuperview];
     [_favButton removeFromSuperview];
     [_shareButton removeFromSuperview];
+    [_burgerButton removeFromSuperview];
     
     [useridToUse release];
     [urlToLoad release];
@@ -320,6 +337,56 @@ using namespace Azoomee;
     navigateToBaseScene();
     
     [self release];
+}
+
+-(void) animateButtons
+{
+    CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+    screenSize.width -= _buttonWidth * 1.5f;
+    screenSize.height -= _buttonWidth * 1.5f;
+    
+    if(_uiExpanded)
+    {
+        // animate
+        [UIView animateWithDuration:0.75 animations:^{
+            backButton.frame = CGRectMake(_buttonWidth/4 + (screenSize.width * _closeButtonAnchorX), _buttonWidth/4 + (screenSize.height * _closeButtonAnchorY), _buttonWidth, _buttonWidth);
+            _favButton.frame = CGRectMake(_buttonWidth/4 + (screenSize.width * _closeButtonAnchorX), _buttonWidth/4 + (screenSize.height * _closeButtonAnchorY) , _buttonWidth, _buttonWidth);
+            _shareButton.frame = CGRectMake(_buttonWidth/4 + (screenSize.width * _closeButtonAnchorX), _buttonWidth/4 + (screenSize.height * _closeButtonAnchorY), _buttonWidth, _buttonWidth);
+        }];
+        _uiExpanded = false;
+    }
+    else
+    {
+        float xMod = 0;
+        float yMod = 0;
+        if(_closeButtonAnchorY == 0.5)
+        {
+            if(_closeButtonAnchorX == 1.0)
+            {
+                xMod = -1;
+            }
+            else
+            {
+                xMod = 1;
+            }
+        }
+        else if(_closeButtonAnchorY == 0.0)
+        {
+            yMod = 1;
+        }
+        else
+        {
+            yMod = -1;
+        }
+        // animate
+        [UIView animateWithDuration:0.75 animations:^{
+            backButton.frame = CGRectMake(_buttonWidth/4 + (screenSize.width * _closeButtonAnchorX) + (xMod * _buttonWidth), _buttonWidth/4 + (screenSize.height * _closeButtonAnchorY) + (yMod * _buttonWidth), _buttonWidth, _buttonWidth);
+            _favButton.frame = CGRectMake(_buttonWidth/4 + (screenSize.width * _closeButtonAnchorX) + 2 * (xMod * _buttonWidth), _buttonWidth/4 + (screenSize.height * _closeButtonAnchorY) + 2 * ( yMod * _buttonWidth), _buttonWidth, _buttonWidth);
+            _shareButton.frame = CGRectMake(_buttonWidth/4 + (screenSize.width * _closeButtonAnchorX) + 3 * (xMod * _buttonWidth), _buttonWidth/4 + (screenSize.height * _closeButtonAnchorY) + 3 * ( yMod * _buttonWidth), _buttonWidth, _buttonWidth);
+        }];
+        _uiExpanded = true;
+    }
+    
 }
 
 
