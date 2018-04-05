@@ -40,9 +40,17 @@ public class NativeView extends XWalkActivity {
     public static ImageButton shareButtonStatic;
     private static final int _portrait = 1;
     private static final int _horizonal = 0;
+    private int _buttonWidth;
+    private float _xAnchor;
+    private float _yAnchor;
+    private float _paddedWindowWidth;
+    private float _paddedWindowHeight;
+    private float _xMod;
+    private float _yMod;
     private boolean isWebViewReady = false;
     private boolean isActivityExitRequested = false;
     private boolean _uiExpanded = false;
+    private boolean _isAnimating = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -289,54 +297,15 @@ public class NativeView extends XWalkActivity {
 
     private void addButtons()
     {
-        Bundle extras = getIntent().getExtras();
-
-        //SET Button Size and position
-        WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-        android.view.Display display = wm.getDefaultDisplay();
-        android.util.DisplayMetrics metrics = new android.util.DisplayMetrics();
-        display.getMetrics(metrics);
-
-        int buttonWidth = metrics.widthPixels / 12;
-        if(metrics.heightPixels > metrics.widthPixels)
-        {
-            buttonWidth = metrics.heightPixels / 12;
-        }
+        calcUIButtonParams();
 
         android.widget.RelativeLayout.LayoutParams buttonLayoutParams = new android.widget.RelativeLayout.LayoutParams(
                 android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT, android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT);
 
         buttonLayoutParams.leftMargin = 0;
         buttonLayoutParams.topMargin = 0;
-        buttonLayoutParams.width = buttonWidth;
-        buttonLayoutParams.height = buttonWidth;
-
-        float paddedWindowWidth = metrics.widthPixels - (buttonWidth * 1.25f);
-        float paddedWindowHeight = metrics.heightPixels - (buttonWidth * 1.25f);
-        float xAnchor = extras.getFloat("closeAnchorX");
-        float yAnchor = extras.getFloat("closeAnchorY");
-
-        float xMod = 0;
-        float yMod = 0;
-        if(yAnchor == 0.5)
-        {
-            if(xAnchor == 1.0)
-            {
-                xMod = -1;
-            }
-            else
-            {
-                xMod = 1;
-            }
-        }
-        else if(yAnchor == 0.0)
-        {
-            yMod = 1;
-        }
-        else
-        {
-            yMod = -1;
-        }
+        buttonLayoutParams.width = _buttonWidth;
+        buttonLayoutParams.height = _buttonWidth;
 
         ImageButton closeButton = new ImageButton(this);
         if(loadingGame())
@@ -377,8 +346,8 @@ public class NativeView extends XWalkActivity {
         });
         closeButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
 
-        closeButton.setX(buttonWidth/8 + (xAnchor * paddedWindowWidth) + (xMod * buttonWidth));
-        closeButton.setY(buttonWidth/8 + (yAnchor * paddedWindowHeight) + (yMod * buttonWidth));
+        closeButton.setX(_buttonWidth/8 + (_xAnchor * _paddedWindowWidth) + (_xMod * _buttonWidth));
+        closeButton.setY(_buttonWidth/8 + (_yAnchor * _paddedWindowHeight) + (_yMod * _buttonWidth));
 
         // Add button to screen, with Size and Position
         addContentView(closeButton, buttonLayoutParams);
@@ -403,8 +372,8 @@ public class NativeView extends XWalkActivity {
         });
 
         favButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
-        favButton.setX(buttonWidth/8 + (xAnchor * paddedWindowWidth) + 2 * (xMod * buttonWidth));
-        favButton.setY(buttonWidth/8 + (yAnchor * paddedWindowHeight) + 2 * (yMod * buttonWidth));
+        favButton.setX(_buttonWidth/8 + (_xAnchor * _paddedWindowWidth) + 2 * (_xMod * _buttonWidth));
+        favButton.setY(_buttonWidth/8 + (_yAnchor * _paddedWindowHeight) + 2 * (_yMod * _buttonWidth));
 
         addContentView(favButton, buttonLayoutParams);
 
@@ -440,8 +409,8 @@ public class NativeView extends XWalkActivity {
         });
 
         shareButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
-        shareButton.setX(buttonWidth/8 + (xAnchor * paddedWindowWidth) + 3 * (xMod * buttonWidth));
-        shareButton.setY(buttonWidth/8 + (yAnchor * paddedWindowHeight) + 3 * (yMod * buttonWidth));
+        shareButton.setX(_buttonWidth/8 + (_xAnchor * _paddedWindowWidth) + 3 * (_xMod * _buttonWidth));
+        shareButton.setY(_buttonWidth/8 + (_yAnchor * _paddedWindowHeight) + 3 * (_yMod * _buttonWidth));
 
         addContentView(shareButton, buttonLayoutParams);
 
@@ -460,8 +429,8 @@ public class NativeView extends XWalkActivity {
         });
 
         burgerButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
-        burgerButton.setX(buttonWidth/8 + (xAnchor * paddedWindowWidth));
-        burgerButton.setY(buttonWidth/8 + (yAnchor * paddedWindowHeight));
+        burgerButton.setX(_buttonWidth/8 + (_xAnchor * _paddedWindowWidth));
+        burgerButton.setY(_buttonWidth/8 + (_yAnchor * _paddedWindowHeight));
 
         addContentView(burgerButton, buttonLayoutParams);
 
@@ -473,61 +442,38 @@ public class NativeView extends XWalkActivity {
 
     void animateButtons()
     {
-        Bundle extras = getIntent().getExtras();
 
-        //SET Button Size and position
-        WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-        android.view.Display display = wm.getDefaultDisplay();
-        android.util.DisplayMetrics metrics = new android.util.DisplayMetrics();
-        display.getMetrics(metrics);
-
-        int buttonWidth = metrics.widthPixels / 12;
-        if(metrics.heightPixels > metrics.widthPixels)
+        if(_isAnimating)
         {
-            buttonWidth = metrics.heightPixels / 12;
+            return;
         }
 
-        float paddedWindowWidth = metrics.widthPixels - (buttonWidth * 1.25f);
-        float paddedWindowHeight = metrics.heightPixels - (buttonWidth * 1.25f);
-        float xAnchor = extras.getFloat("closeAnchorX");
-        float yAnchor = extras.getFloat("closeAnchorY");
-
-        float xMod = 0;
-        float yMod = 0;
-        if(yAnchor == 0.5)
-        {
-            if(xAnchor == 1.0)
-            {
-                xMod = -1;
-            }
-            else
-            {
-                xMod = 1;
-            }
-        }
-        else if(yAnchor == 0.0)
-        {
-            yMod = 1;
-        }
-        else
-        {
-            yMod = -1;
-        }
-
-
+        //Ok, so android animations dont actually "move" the button, so the button is always in its expanded position,
+        //and the animations are sone relative to that.  when buttons are in the "closed" state, they are dissabled.
         if(_uiExpanded)
         {
-            imageButtonStatic.setX(buttonWidth/8 + (xAnchor * paddedWindowWidth) + (xMod * buttonWidth));
-            imageButtonStatic.setY(buttonWidth/8 + (yAnchor * paddedWindowHeight) + (yMod * buttonWidth));
-            favButtonStatic.setX(buttonWidth/8 + (xAnchor * paddedWindowWidth) + 2 * (xMod * buttonWidth));
-            favButtonStatic.setY(buttonWidth/8 + (yAnchor * paddedWindowHeight) + 2 * (yMod * buttonWidth));
-            shareButtonStatic.setX(buttonWidth/8 + (xAnchor * paddedWindowWidth) + 3 * (xMod * buttonWidth));
-            shareButtonStatic.setY(buttonWidth/8 + (yAnchor * paddedWindowHeight) + 3 * (yMod * buttonWidth));
-            
-            Log.d("anim","close ui");
             TranslateAnimation closeButtonAnim = new TranslateAnimation(0,burgerButtonStatic.getX() - imageButtonStatic.getX(),0,burgerButtonStatic.getY() - imageButtonStatic.getY());
             closeButtonAnim.setDuration(750);
             closeButtonAnim.setFillAfter(true);
+            closeButtonAnim.setAnimationListener(new TranslateAnimation.AnimationListener() {
+
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    _isAnimating = true;
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    _isAnimating = false;
+                    imageButtonStatic.setClickable(false);
+                    shareButtonStatic.setClickable(false);
+                    favButtonStatic.setClickable(false);
+                }
+            });
             imageButtonStatic.startAnimation(closeButtonAnim);
             TranslateAnimation favButtonAnim = new TranslateAnimation(0,burgerButtonStatic.getX() - favButtonStatic.getX(),0,burgerButtonStatic.getY() - favButtonStatic.getY());
             favButtonAnim.setDuration(750);
@@ -541,27 +487,83 @@ public class NativeView extends XWalkActivity {
         }
         else
         {
-            imageButtonStatic.setX(burgerButtonStatic.getX());
-            imageButtonStatic.setY(burgerButtonStatic.getY());
-            favButtonStatic.setX(burgerButtonStatic.getX());
-            favButtonStatic.setY(burgerButtonStatic.getY());
-            shareButtonStatic.setX(burgerButtonStatic.getX());
-            shareButtonStatic.setY(burgerButtonStatic.getY());
-            Log.d("anim","open ui");
-
-            TranslateAnimation closeButtonAnim = new TranslateAnimation(0,  (xMod * buttonWidth), 0, (yMod * buttonWidth));
+            TranslateAnimation closeButtonAnim = new TranslateAnimation(burgerButtonStatic.getX() - imageButtonStatic.getX(),  0, burgerButtonStatic.getY() - imageButtonStatic.getY(), 0);
             closeButtonAnim.setDuration(750);
             closeButtonAnim.setFillAfter(true);
+            closeButtonAnim.setAnimationListener(new TranslateAnimation.AnimationListener() {
+
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    _isAnimating = true;
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    _isAnimating = false;
+                    imageButtonStatic.setClickable(true);
+                    shareButtonStatic.setClickable(true);
+                    favButtonStatic.setClickable(true);
+                }
+            });
             imageButtonStatic.startAnimation(closeButtonAnim);
-            TranslateAnimation favButtonAnim = new TranslateAnimation(0,  2 * (xMod * buttonWidth), 0, 2 * (yMod * buttonWidth));
+            TranslateAnimation favButtonAnim = new TranslateAnimation(burgerButtonStatic.getX() - favButtonStatic.getX(), 0 , burgerButtonStatic.getY() - favButtonStatic.getY(), 0);
             favButtonAnim.setDuration(750);
             favButtonAnim.setFillAfter(true);
             favButtonStatic.startAnimation(favButtonAnim);
-            TranslateAnimation shareButtonAnim = new TranslateAnimation(0,  3 * (xMod * buttonWidth), 0, 3 * (yMod * buttonWidth));
+            TranslateAnimation shareButtonAnim = new TranslateAnimation(burgerButtonStatic.getX() - shareButtonStatic.getX(), 0 , burgerButtonStatic.getY() - shareButtonStatic.getY(), 0);
             shareButtonAnim.setDuration(750);
             shareButtonAnim.setFillAfter(true);
             shareButtonStatic.startAnimation(shareButtonAnim);
             _uiExpanded = true;
         }
     }
+
+    void calcUIButtonParams()
+    {
+        Bundle extras = getIntent().getExtras();
+
+        //SET Button Size and position
+        WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+        android.view.Display display = wm.getDefaultDisplay();
+        android.util.DisplayMetrics metrics = new android.util.DisplayMetrics();
+        display.getMetrics(metrics);
+
+        _buttonWidth = metrics.widthPixels / 12;
+        if(metrics.heightPixels > metrics.widthPixels)
+        {
+            _buttonWidth = metrics.heightPixels / 12;
+        }
+
+        _paddedWindowWidth = metrics.widthPixels - (_buttonWidth * 1.25f);
+        _paddedWindowHeight = metrics.heightPixels - (_buttonWidth * 1.25f);
+        _xAnchor = extras.getFloat("closeAnchorX");
+        _yAnchor = extras.getFloat("closeAnchorY");
+
+        _xMod = 0;
+        _yMod = 0;
+        if(_yAnchor == 0.5)
+        {
+            if(_xAnchor == 1.0)
+            {
+                _xMod = -1;
+            }
+            else
+            {
+                _xMod = 1;
+            }
+        }
+        else if(_yAnchor == 0.0)
+        {
+            _yMod = 1;
+        }
+        else
+        {
+            _yMod = -1;
+        }
+    }
+
 }
