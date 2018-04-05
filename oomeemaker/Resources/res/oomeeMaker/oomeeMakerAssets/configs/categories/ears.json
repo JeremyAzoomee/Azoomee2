@@ -1,6 +1,7 @@
 {
 	"id": "ears",
-	"iconFilename": "assets/ears/ears_01.png",
+	"iconFilenameSelected": "assets/categoryButtons/s_ears.png",
+	"iconFilenameUnselected": "assets/categoryButtons/u_ears.png",
 	"holidaySeasons": ["none"],
 	"scale": 1.0,
 	"highlightColour": [255,0,0,255]

@@ -32,7 +32,7 @@ bool OomeeMakerScene::init()
     _contentLayer->setContentSize(Director::getInstance()->getVisibleSize());
     _contentLayer->setPosition(Director::getInstance()->getVisibleOrigin());
     
-    LayerColor* bg = LayerColor::create(Color4B(Style::Color::barney));
+    LayerColor* bg = LayerColor::create(Color4B(Style::Color::white));
     _contentLayer->addChild(bg);
     this->addChild(_contentLayer);
     
@@ -62,8 +62,8 @@ void OomeeMakerScene::onEnter()
     _contentLayer->addChild(_oomee);
     
     ItemCategoryList* categories = ItemCategoryList::create();
-    categories->setContentSize(Size(_contentLayer->getContentSize().width / 6.0f, _contentLayer->getContentSize().height * 0.7f));
-    categories->setNormalizedPosition(Vec2(0,0.35f));
+    categories->setContentSize(Size(_contentLayer->getContentSize().width / 6.0f, _contentLayer->getContentSize().height * 0.85f));
+    categories->setNormalizedPosition(Vec2(0,0.425f));
     categories->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
     categories->setItemSelectedCallback([this](const ItemCategoryRef& data) {
         this->setItemsListForCategory(data);
@@ -73,7 +73,7 @@ void OomeeMakerScene::onEnter()
     _contentLayer->addChild(categories);
     
     _itemList = OomeeItemList::create();
-    _itemList->setContentSize(Size(_contentLayer->getContentSize().width * 0.25f, _contentLayer->getContentSize().height * 0.9f));
+    _itemList->setContentSize(Size(_contentLayer->getContentSize().width * 0.25f, _contentLayer->getContentSize().height));
     _itemList->setNormalizedPosition(Vec2(1.0f,0.5f));
     _itemList->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
     _itemList->setItemSelectedCallback([this](const OomeeItemRef& data) {

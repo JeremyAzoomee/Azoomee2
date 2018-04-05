@@ -102,6 +102,24 @@ void OomeeCarousel::setOomeeData(const std::vector<std::string>& oomeeFilenames)
     
     _oomeeData = oomeeFilenames;
     
+    if(_oomeeData.size() == 0)
+    {
+        LazyLoadingButton* button = LazyLoadingButton::create();
+        button->setMainImage("res/oomeeMaker/newoomee_cta.png");
+        button->setPlaceholderImage("res/oomeeMaker/body_00.png");
+        button->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+        button->setPosition(Vec2(_spacing * _carouselButtons.size(), this->getContentSize().height / 2.0f));
+        button->setSwallowTouches(false);
+        button->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType){
+            if(eType == ui::Widget::TouchEventType::ENDED)
+            {
+                OomeeSelectScene::newOomee();
+            }
+        });
+        _contentNode->addChild(button);
+        _carouselButtons.push_back(button);
+    }
+    
     for(int i = 0; i < oomeeFilenames.size(); i++)
     {
         const std::string assetName = OomeeMakerDataHandler::getInstance()->getFullSaveDir() + oomeeFilenames.at(i) + ".png";
@@ -114,21 +132,6 @@ void OomeeCarousel::setOomeeData(const std::vector<std::string>& oomeeFilenames)
         _contentNode->addChild(button);
         _carouselButtons.push_back(button);
     }
-    
-    LazyLoadingButton* button = LazyLoadingButton::create();
-    button->setMainImage("res/oomeeMaker/newoomee_cta.png");
-    button->setPlaceholderImage("res/oomeeMaker/body_00.png");
-    button->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    button->setPosition(Vec2(_spacing * _carouselButtons.size(), this->getContentSize().height / 2.0f));
-    button->setSwallowTouches(false);
-    button->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType){
-        if(eType == ui::Widget::TouchEventType::ENDED)
-        {
-            OomeeSelectScene::newOomee();
-        }
-    });
-    _contentNode->addChild(button);
-    _carouselButtons.push_back(button);
     
     _leftMostButton = _carouselButtons.at(0);
 

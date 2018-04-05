@@ -12,9 +12,7 @@
 		"configs/categories/hair.json",
 		"configs/categories/hats.json",
 		"configs/categories/horns.json",
-		"configs/categories/necklaces.json",
-		"configs/categories/tattoos.json",
-		"configs/categories/trousers.json"
+		"configs/categories/necklaces.json"
 	],
 	"itemConfigs":
 	[

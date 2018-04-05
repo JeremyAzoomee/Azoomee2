@@ -10,6 +10,7 @@
 #include "../DataObjects/OomeeMakerDataHandler.h"
 #include <AzoomeeCommon/Utils/DirectorySearcher.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 
 using namespace cocos2d;
 
@@ -41,6 +42,8 @@ bool OomeeSelectScene::init()
     
     Director::getInstance()->getTextureCache()->removeUnusedTextures();
     
+    addSideWiresToScreen(this, 0.2, 1.0f);
+    
     _contentLayer = Layer::create();
     _contentLayer->setContentSize(Director::getInstance()->getVisibleSize());
     _contentLayer->setPosition(Director::getInstance()->getVisibleOrigin());
@@ -48,7 +51,7 @@ bool OomeeSelectScene::init()
    
     _oomeeCarousel = OomeeCarousel::create();
     _oomeeCarousel->setButtonDelegate(this);
-    _oomeeCarousel->setContentSize(_contentLayer->getContentSize() * 0.95);
+    _oomeeCarousel->setContentSize(_contentLayer->getContentSize());
     _oomeeCarousel->setPosition(_contentLayer->getContentSize() / 2);
     setCarouselData();
     _contentLayer->addChild(_oomeeCarousel);
@@ -68,6 +71,15 @@ bool OomeeSelectScene::init()
         }
     });
     _contentLayer->addChild(exitButton);
+    
+    _newOomeeButton = ui::Button::create();
+    _newOomeeButton->loadTextureNormal("res/oomeeMaker/new_oomee_button.png");
+    _newOomeeButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _newOomeeButton->setNormalizedPosition(Vec2(0.5,0.15));
+    _newOomeeButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+        newOomee();
+    });
+    _contentLayer->addChild(_newOomeeButton);
     
     return true;
 }
