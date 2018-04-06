@@ -28,8 +28,13 @@ bool OomeeFigure::init()
         log("touch Began OF");
         SpriteWithHue* targetSprite = nullptr;
         std::string targetId = "";
+        const std::vector<std::string>& lockedAnchors = _oomeeData->getLockedAnchors();
         for(auto it = _accessorySprites.begin(); it != _accessorySprites.end(); ++it)
         {
+            if(std::find(lockedAnchors.begin(), lockedAnchors.end(), it->first) != std::end(lockedAnchors))
+            {
+                continue;
+            }
             const Point& locationInNode = it->second->convertToNodeSpace(touch->getLocation());
             const Size& s = it->second->getBoundingBox().size;//getContentSize();
             const Rect& rect = Rect(0,0,s.width, s.height);

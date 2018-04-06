@@ -22,6 +22,7 @@ class Oomee
 private:
     std::string _id;
     std::map<std::string, cocos2d::Vec2> _anchorPoints;
+    std::vector<std::string> _lockedAnchors;
     cocos2d::Vec2 _position;
     float _scale;
     float _sizeMultiplier;
@@ -38,6 +39,8 @@ public:
     std::string getId() const;
     void setAnchorPoints(const std::map<std::string, cocos2d::Vec2>& anchorPoints);
     std::map<std::string, cocos2d::Vec2> getAnchorPoints() const;
+    void setLockedAnchors(const std::vector<std::string>lockedAnchors);
+    std::vector<std::string> getLockedAnchors() const;
     void setPosition(const cocos2d::Vec2& position);
     cocos2d::Vec2 getPosition() const;
     void setScale(float scale);

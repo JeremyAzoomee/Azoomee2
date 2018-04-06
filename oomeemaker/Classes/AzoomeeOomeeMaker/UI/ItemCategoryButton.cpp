@@ -15,9 +15,9 @@ NS_AZOOMEE_OM_BEGIN
 void ItemCategoryButton::setCategoryData(const ItemCategoryRef& categoryData)
 {
     _categoryData = categoryData;
-    setScale(_categoryData->getScale());
-    loadTextureNormal(OomeeMakerDataHandler::getInstance()->getAssetDir() + _categoryData->getIconFilename());
-    setMainImage(OomeeMakerDataHandler::getInstance()->getAssetDir() + _categoryData->getIconFilename());
+    setScale(_categoryData->getScaleUnselected());
+    loadTextureNormal(OomeeMakerDataHandler::getInstance()->getAssetDir() + _categoryData->getIconFilenameUnselected());
+    setMainImage(OomeeMakerDataHandler::getInstance()->getAssetDir() + _categoryData->getIconFilenameUnselected());
     setPlaceholderImage("res/chat/ui/avatar/avatar_background.png");
     addTouchEventListener([this](Ref*, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
@@ -38,6 +38,22 @@ ItemCategoryRef ItemCategoryButton::getCategoryData() const
 void ItemCategoryButton::setItemSelectedCallback(const ItemSelectedCallback &callback)
 {
     _itemSelectedCallback = callback;
+}
+
+void ItemCategoryButton::setSelected(bool selected)
+{
+    if(selected)
+    {
+        loadTextureNormal(OomeeMakerDataHandler::getInstance()->getAssetDir() + _categoryData->getIconFilenameSelected());
+        setMainImage(OomeeMakerDataHandler::getInstance()->getAssetDir() + _categoryData->getIconFilenameSelected());
+        setScale(_categoryData->getScaleSelected());
+    }
+    else
+    {
+        loadTextureNormal(OomeeMakerDataHandler::getInstance()->getAssetDir() + _categoryData->getIconFilenameUnselected());
+        setMainImage(OomeeMakerDataHandler::getInstance()->getAssetDir() + _categoryData->getIconFilenameUnselected());
+        setScale(_categoryData->getScaleUnselected());
+    }
 }
 
 NS_AZOOMEE_OM_END

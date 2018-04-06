@@ -5,7 +5,7 @@
 	],
 	"categoryConfigs":
 	[
-		"configs/categories/arms.json",
+		"configs/categories/colours.json",
 		"configs/categories/ears.json",
 		"configs/categories/faces.json",
 		"configs/categories/glasses.json",
@@ -23,8 +23,6 @@
 		"configs/items/hairItems.json",
 		"configs/items/hatItems.json",
 		"configs/items/hornItems.json",
-		"configs/items/necklaceItems.json",
-		"configs/items/tattooItems.json",
-		"configs/items/trouserItems.json"
+		"configs/items/necklaceItems.json"
 	]
 }

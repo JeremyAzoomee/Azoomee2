@@ -22,6 +22,7 @@ class ItemCategoryList : public cocos2d::ui::ListView
 private:
     std::vector<ItemCategoryRef> _categoryList;
     ItemSelectedCallback _itemSelectedCallback = nullptr;
+    
 protected:
     virtual void doLayout() override;
     
@@ -29,6 +30,8 @@ public:
     
     void setCategories(const std::vector<ItemCategoryRef>& categoryList);
     void setItemSelectedCallback(const ItemSelectedCallback& callback);
+    
+    void setSelectedButton(const ItemCategoryRef& data);
     
     virtual bool init() override;
     virtual void onEnter() override;

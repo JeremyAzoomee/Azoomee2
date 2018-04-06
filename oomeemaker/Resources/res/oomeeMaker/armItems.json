@@ -208,32 +208,6 @@
 		"categoryId": "arms",
 		"assetFilename": "assets/arms/arm_right_08.png",
 		"useColourHue": true
-	},
-	{
-		"id": "armLeft09",
-		"targetAnchor": "armLeft",
-		"offset": [5.0,-15.0],
-		"snapRange": [100.0,100.0],
-		"menuScale": 1.0,
-		"dragScale": 2.0,
-		"targetScale": 1.0,
-		"zOrder": 5,
-		"categoryId": "arms",
-		"assetFilename": "assets/arms/arm_left_09.png",
-		"useColourHue": true
-	},
-	{
-		"id": "armRight09",
-		"targetAnchor": "armRight",
-		"offset": [-5.0,-15.0],
-		"snapRange": [100.0,100.0],
-		"menuScale": 1.0,
-		"dragScale": 2.0,
-		"targetScale": 1.0,
-		"zOrder": 5,
-		"categoryId": "arms",
-		"assetFilename": "assets/arms/arm_right_09.png",
-		"useColourHue": true
 	}
 ]
 }

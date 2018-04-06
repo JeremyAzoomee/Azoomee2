@@ -8,6 +8,7 @@
 #include "OomeeItemList.h"
 #include "OomeeItemButton.h"
 #include <AzoomeeCommon/UI/LayoutParams.h>
+#include <AzoomeeCommon/UI/CCSpriteWithHue.h>
 
 using namespace cocos2d;
 
@@ -61,6 +62,50 @@ void OomeeItemList::setItems(const std::vector<OomeeItemRef>& itemList)
     forceDoLayout();
 }
 
+void OomeeItemList::SetColourItems()
+{
+    removeAllItems();
+    
+    int i = 0;
+    while(i < 10)
+    {
+        ui::Layout* itemRow = ui::Layout::create();
+        itemRow->setLayoutType(ui::Layout::Type::ABSOLUTE);
+        itemRow->setContentSize(Size(0, 0));
+        
+        for(int column = 0; column < _columns; column++)
+        {
+            if(i < 10)
+            {
+                ui::Button* colourButton = ui::Button::create();
+                colourButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+                colourButton->ignoreContentAdaptWithSize(false);
+                colourButton->setContentSize(Size(this->getContentSize().width * 0.3f, this->getContentSize().width * 0.3f));
+                colourButton->setNormalizedPosition(Vec2((column + 0.5) / _columns, 0.5));
+                colourButton->addTouchEventListener([this, i](Ref* pSender, ui::Widget::TouchEventType eType){
+                    if(eType == ui::Widget::TouchEventType::ENDED)
+                    {
+                        if(_colourSelectedCallback)
+                        {
+                            _colourSelectedCallback(2 * M_PI * (i/10.0f));
+                        }
+                    }
+                });
+                SpriteWithHue* visibleSprite = SpriteWithHue::create("res/oomeeMaker/colour.png");
+                visibleSprite->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+                visibleSprite->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+                visibleSprite->setScale(colourButton->getContentSize().width / visibleSprite->getContentSize().width);
+                visibleSprite->setHue(2 * M_PI * (i/10.0f));
+                colourButton->addChild(visibleSprite);
+                itemRow->setContentSize(Size(this->getContentSize().width * ((column + 1)/_columns), MAX(colourButton->getContentSize().height, itemRow->getContentSize().height)));
+                itemRow->addChild(colourButton);
+            }
+            i++;
+        }
+        pushBackCustomItem(itemRow);
+    }
+}
+
 bool OomeeItemList::init()
 {
     if(!Super::init())
@@ -73,6 +118,7 @@ bool OomeeItemList::init()
     setGravity(ui::ListView::Gravity::CENTER_HORIZONTAL);
     setItemsMargin(50.0f);
     setTopPadding(100.0f);
+    setBottomPadding(100.0f);
     setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     
     return true;
@@ -99,6 +145,11 @@ void OomeeItemList::setContentSize(const cocos2d::Size& contentSize)
 void OomeeItemList::setItemSelectedCallback(const ItemSelectedCallback &callback)
 {
     _itemSelectedCallback = callback;
+}
+
+void OomeeItemList::setColourSelectedCallback(const ColourSelectedCallback &callback)
+{
+    _colourSelectedCallback = callback;
 }
 
 void OomeeItemList::setColumns(int columns)

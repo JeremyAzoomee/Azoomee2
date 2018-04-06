@@ -1,7 +1,9 @@
 {
 	"id": "faces",
-	"iconFilename": "assets/face/face_03.png",
+	"iconFilenameSelected": "assets/categoryButtons/s_expression.png",
+	"iconFilenameUnselected": "assets/categoryButtons/u_expression.png",
 	"holidaySeasons": ["none"],
-	"scale": 1.0,
+	"scaleSelected": 1.25,
+	"scaleUnselected": 1.0,
 	"highlightColour": [255,0,0,255]
 }

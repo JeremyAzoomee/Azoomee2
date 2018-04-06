@@ -45,8 +45,6 @@ void OomeeMakerScene::onEnter()
     
     const std::vector<ItemCategoryRef>& categoryData = OomeeMakerDataStorage::getInstance()->getItemCategoryList();
     
-    const std::vector<OomeeItemRef>& itemsData = OomeeMakerDataStorage::getInstance()->getItemsForCategory(categoryData.at(0)->getId());
-    
     _oomee = OomeeFigure::create();
     _oomee->setOomeeData(oomeeData);
     _oomee->setContentSize(_contentLayer->getContentSize());
@@ -58,14 +56,20 @@ void OomeeMakerScene::onEnter()
         data.Parse(FileUtils::getInstance()->getStringFromFile(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".oomee").c_str());
         _oomee->initWithOomeeFigureData(data);
     }
-    
+    else
+    {
+        _oomee->addAccessory(OomeeMakerDataStorage::getInstance()->getOomeeItemForKey("armLeft09"));
+        _oomee->addAccessory(OomeeMakerDataStorage::getInstance()->getOomeeItemForKey("armRight09"));
+        _oomee->addAccessory(OomeeMakerDataStorage::getInstance()->getOomeeItemForKey("face12"));
+    }
     _contentLayer->addChild(_oomee);
     
     ItemCategoryList* categories = ItemCategoryList::create();
     categories->setContentSize(Size(_contentLayer->getContentSize().width / 6.0f, _contentLayer->getContentSize().height * 0.85f));
     categories->setNormalizedPosition(Vec2(0,0.425f));
     categories->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
-    categories->setItemSelectedCallback([this](const ItemCategoryRef& data) {
+    categories->setItemSelectedCallback([this, categories](const ItemCategoryRef& data) {
+        categories->setSelectedButton(data);
         this->setItemsListForCategory(data);
     });
     categories->setCategories(categoryData);
@@ -74,33 +78,19 @@ void OomeeMakerScene::onEnter()
     
     _itemList = OomeeItemList::create();
     _itemList->setContentSize(Size(_contentLayer->getContentSize().width * 0.25f, _contentLayer->getContentSize().height));
-    _itemList->setNormalizedPosition(Vec2(1.0f,0.5f));
+    _itemList->setPosition(Vec2(_contentLayer->getContentSize().width + _itemList->getContentSize().width, _contentLayer->getContentSize().height / 2.0f));
     _itemList->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
     _itemList->setItemSelectedCallback([this](const OomeeItemRef& data) {
         this->addAccessoryToOomee(data);
     });
-    _itemList->setItems(itemsData);
+    _itemList->setColourSelectedCallback([this](float hue){
+        _oomee->setHue(hue);
+    });
+    _itemList->runAction(Sequence::create(DelayTime::create(0.5),MoveBy::create(1.5, Vec2(-_itemList->getContentSize().width, 0)), NULL));
+    categories->setSelectedButton(categoryData.at(0));
+    setItemsListForCategory(categoryData.at(0));
     
     _contentLayer->addChild(_itemList);
-    
-    for(int i = 0; i < 10; i++)
-    {
-        ui::Button* colourButton = ui::Button::create();
-        colourButton->loadTextureNormal("res/oomeeMaker/back_new.png");
-        colourButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-        colourButton->setNormalizedPosition(Vec2(0.15 + i * 0.075, 0.1));
-        colourButton->addTouchEventListener([this, i](Ref* pSender, ui::Widget::TouchEventType eType){
-            _oomee->setHue(2 * M_PI * (i/10.0f));
-        });
-        SpriteWithHue* visibleSprite = SpriteWithHue::create("res/oomeeMaker/body_00.png");
-        visibleSprite->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-        visibleSprite->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-        visibleSprite->setScale(colourButton->getContentSize().width / visibleSprite->getContentSize().width);
-        visibleSprite->setHue(2 * M_PI * (i/10.0f));
-        colourButton->addChild(visibleSprite);
-        
-        _contentLayer->addChild(colourButton);
-    }
     
     ui::Button* exitButton = ui::Button::create();
     exitButton->loadTextureNormal("res/oomeeMaker/back_new.png");
@@ -134,7 +124,14 @@ void OomeeMakerScene::setItemsListForCategory(const ItemCategoryRef& data)
 {
     if(_itemList)
     {
-        _itemList->setItems(OomeeMakerDataStorage::getInstance()->getItemsForCategory(data->getId()));
+        if(data->getId() == "colours")
+        {
+            _itemList->SetColourItems();
+        }
+        else
+        {
+            _itemList->setItems(OomeeMakerDataStorage::getInstance()->getItemsForCategory(data->getId()));
+        }
     }
 }
 

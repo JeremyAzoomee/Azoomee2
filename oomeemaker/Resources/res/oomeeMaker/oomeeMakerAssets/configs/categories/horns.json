@@ -1,7 +1,9 @@
 {
 	"id": "horns",
-	"iconFilename": "assets/horns/horns_01.png",
+	"iconFilenameSelected": "assets/categoryButtons/s_horns.png",
+	"iconFilenameUnselected": "assets/categoryButtons/u_horns.png",
 	"holidaySeasons": ["none"],
-	"scale": 1.0,
+	"scaleSelected": 1.25,
+	"scaleUnselected": 1.0,
 	"highlightColour": [255,0,0,255]
 }

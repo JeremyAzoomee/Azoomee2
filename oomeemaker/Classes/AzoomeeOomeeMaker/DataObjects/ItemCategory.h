@@ -25,9 +25,11 @@ class ItemCategory
 {
 private:
     std::string _id;
-    std::string _iconFilename;
+    std::string _iconFilenameSelected;
+    std::string _iconFilenameUnselected;
     std::vector<HolidayCalenderID> _holidaySeasonList;
-    float _scale;
+    float _scaleSelected;
+    float _scaleUnselected;
     cocos2d::Color4B _highlightColour;
     
 public:
@@ -39,12 +41,16 @@ public:
     
     void setId(const std::string& id);
     std::string getId() const;
-    void setIconFilename(const std::string& iconFilename);
-    std::string getIconFilename() const;
+    void setIconFilenameSelected(const std::string& iconFilename);
+    std::string getIconFilenameSelected() const;
+    void setIconFilenameUnselected(const std::string& iconFilename);
+    std::string getIconFilenameUnselected() const;
     void setHolidaySeasons(const std::vector<HolidayCalenderID>& holidaySeasons);
     std::vector<HolidayCalenderID> getHolidaySeasons() const;
-    void setScale(float scale);
-    float getScale() const;
+    void setScaleSelected(float scale);
+    float getScaleSelected() const;
+    void setScaleUnselected(float scale);
+    float getScaleUnselected() const;
     void setHighlightColour(const cocos2d::Color4B& colour);
     cocos2d::Color4B getHightlightColour() const;
     

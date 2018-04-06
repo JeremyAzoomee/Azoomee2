@@ -29,7 +29,8 @@ ItemCategory::ItemCategory()
 void ItemCategory::initWithData(const rapidjson::Document& categoryConfig)
 {
     setId(getStringFromJson("id", categoryConfig));
-    setIconFilename(getStringFromJson("iconFilename", categoryConfig));
+    setIconFilenameSelected(getStringFromJson("iconFilenameSelected", categoryConfig));
+    setIconFilenameUnselected(getStringFromJson("iconFilenameUnselected", categoryConfig));
     const std::vector<std::string>& holidayStrings = getStringArrayFromJson(categoryConfig["holidaySeasons"]);
     std::vector<HolidayCalenderID> holidayCalenderIds;
     for(const std::string& holidayStr : holidayStrings)
@@ -37,7 +38,8 @@ void ItemCategory::initWithData(const rapidjson::Document& categoryConfig)
         holidayCalenderIds.push_back(getHolidayCalenderIDFromString(holidayStr));
     }
     setHolidaySeasons(holidayCalenderIds);
-    setScale(getFloatFromJson("scale", categoryConfig));
+    setScaleSelected(getFloatFromJson("scaleSelected", categoryConfig));
+    setScaleUnselected(getFloatFromJson("scaleUnselected", categoryConfig));
     setHighlightColour(getColor4BFromJson("highlightColour", categoryConfig));
 }
 
@@ -52,13 +54,22 @@ std::string ItemCategory::getId() const
     return _id;
 }
 
-void ItemCategory::setIconFilename(const std::string& iconFilename)
+void ItemCategory::setIconFilenameSelected(const std::string& iconFilename)
 {
-    _iconFilename = iconFilename;
+    _iconFilenameSelected = iconFilename;
 }
-std::string ItemCategory::getIconFilename() const
+std::string ItemCategory::getIconFilenameSelected() const
 {
-    return _iconFilename;
+    return _iconFilenameSelected;
+}
+
+void ItemCategory::setIconFilenameUnselected(const std::string& iconFilename)
+{
+    _iconFilenameUnselected = iconFilename;
+}
+std::string ItemCategory::getIconFilenameUnselected() const
+{
+    return _iconFilenameUnselected;
 }
 
 void ItemCategory::setHolidaySeasons(const std::vector<HolidayCalenderID>& holidaySeasons)
@@ -70,13 +81,22 @@ std::vector<HolidayCalenderID> ItemCategory::getHolidaySeasons() const
     return _holidaySeasonList;
 }
 
-void ItemCategory::setScale(float scale)
+void ItemCategory::setScaleSelected(float scale)
 {
-    _scale = scale;
+    _scaleSelected = scale;
 }
-float ItemCategory::getScale() const
+float ItemCategory::getScaleSelected() const
 {
-    return _scale;
+    return _scaleSelected;
+}
+
+void ItemCategory::setScaleUnselected(float scale)
+{
+    _scaleUnselected = scale;
+}
+float ItemCategory::getScaleUnselected() const
+{
+    return _scaleUnselected;
 }
 
 void ItemCategory::setHighlightColour(const cocos2d::Color4B& colour)
