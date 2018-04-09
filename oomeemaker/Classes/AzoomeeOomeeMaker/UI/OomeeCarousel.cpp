@@ -8,6 +8,7 @@
 #include "OomeeCarousel.h"
 #include "../DataObjects/OomeeMakerDataHandler.h"
 #include "OomeeSelectScene.h"
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 NS_AZOOMEE_OM_BEGIN
 
@@ -226,6 +227,10 @@ void OomeeCarousel::update(float deltaT)
         float dist = abs(button->getPosition().x - this->getPosition().x);
         float relativeDist = dist / (this->getContentSize().width / 2.0f);
         button->setScale(MAX(0.1,1.2 - relativeDist));
+        if(ConfigStorage::getInstance()->isDevice18x9())
+        {
+            button->setScale(button->getScale() * 0.8f);
+        }
         button->setOpacity(MAX(0,255 - (255 * relativeDist)));
         button->setPositionY(this->getContentSize().height/2 + this->getContentSize().height/5 * (relativeDist * relativeDist));
         

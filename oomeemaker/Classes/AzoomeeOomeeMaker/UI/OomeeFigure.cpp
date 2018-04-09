@@ -15,7 +15,7 @@ using namespace cocos2d;
 
 NS_AZOOMEE_OM_BEGIN
 
-const std::vector<std::string> OomeeFigure::kDefaultAccessories = {"armLeft09", "artRight09", "face12"};
+const std::vector<std::string> OomeeFigure::kDefaultAccessories = {"armLeft09", "armRight09", "face12"};
 
 bool OomeeFigure::init()
 {

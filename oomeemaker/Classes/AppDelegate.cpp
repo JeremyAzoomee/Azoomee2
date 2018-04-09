@@ -1,6 +1,7 @@
 #include "AppDelegate.h"
 #include "AzoomeeOomeeMaker/UI/OomeeMakerScene.h"
 #include "AzoomeeOomeeMaker/UI/OomeeSelectScene.h"
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 USING_NS_CC;
 
@@ -45,7 +46,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     }
 
     // turn on display FPS
-    director->setDisplayStats(true);
+    director->setDisplayStats(false);
 
     // set FPS. the default value is 1.0/60 if you don't call this
     director->setAnimationInterval(1.0f / 60);
@@ -55,6 +56,12 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     register_all_packages();
 
+    const Size& visibleSize = Director::getInstance()->getVisibleSize();
+    if(visibleSize.width / visibleSize.height > 1.95)
+    {
+        ConfigStorage::getInstance()->setIsDevice18x9(true);
+    }
+    
     // create a scene. it's an autorelease object
     auto scene = Azoomee::OomeeMaker::OomeeSelectScene::create();
     
