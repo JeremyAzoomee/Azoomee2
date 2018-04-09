@@ -14,6 +14,8 @@ using namespace cocos2d;
 
 NS_AZOOMEE_OM_BEGIN
 
+const int OomeeItemList::kNumColours = 20;
+
 void OomeeItemList::doLayout()
 {
     Super::doLayout();
@@ -67,7 +69,7 @@ void OomeeItemList::SetColourItems()
     removeAllItems();
     
     int i = 0;
-    while(i < 10)
+    while(i < kNumColours)
     {
         ui::Layout* itemRow = ui::Layout::create();
         itemRow->setLayoutType(ui::Layout::Type::ABSOLUTE);
@@ -75,7 +77,7 @@ void OomeeItemList::SetColourItems()
         
         for(int column = 0; column < _columns; column++)
         {
-            if(i < 10)
+            if(i < kNumColours)
             {
                 ui::Button* colourButton = ui::Button::create();
                 colourButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -87,7 +89,7 @@ void OomeeItemList::SetColourItems()
                     {
                         if(_colourSelectedCallback)
                         {
-                            _colourSelectedCallback(2 * M_PI * (i/10.0f));
+                            _colourSelectedCallback(2 * M_PI * ((float)i/kNumColours));
                         }
                     }
                 });
@@ -95,7 +97,7 @@ void OomeeItemList::SetColourItems()
                 visibleSprite->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
                 visibleSprite->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
                 visibleSprite->setScale(colourButton->getContentSize().width / visibleSprite->getContentSize().width);
-                visibleSprite->setHue(2 * M_PI * (i/10.0f));
+                visibleSprite->setHue(2 * M_PI * ((float)i/kNumColours));
                 colourButton->addChild(visibleSprite);
                 itemRow->setContentSize(Size(this->getContentSize().width * ((column + 1)/_columns), MAX(colourButton->getContentSize().height, itemRow->getContentSize().height)));
                 itemRow->addChild(colourButton);

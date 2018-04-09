@@ -61,9 +61,7 @@ void ItemCategoryList::onEnter()
     {
         item->setOpacity(0);
         float randomDelay = RandomHelper::random_real(0.2, 0.7) + 0.5;
-        float blinkDelay = 0.1;
-        auto action = Sequence::create(DelayTime::create(randomDelay), FadeTo::create(0, 255), DelayTime::create(blinkDelay), FadeTo::create(0, 0), DelayTime::create(blinkDelay), FadeTo::create(0, 255), NULL);
-        item->runAction(action);
+        item->runAction(createBlinkEffect(randomDelay, 0.1));
     }
     
     Super::onEnter();

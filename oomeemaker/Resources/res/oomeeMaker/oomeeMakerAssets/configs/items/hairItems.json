@@ -76,7 +76,7 @@
 	{
 		"id": "hair07",
 		"targetAnchor": "head",
-		"offset": [0.0,40.0],
+		"offset": [-10.0,40.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -88,7 +88,7 @@
 	{
 		"id": "hair08",
 		"targetAnchor": "head",
-		"offset": [0.0,-40.0],
+		"offset": [-10.0,-40.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,

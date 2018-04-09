@@ -21,6 +21,9 @@ class OomeeMakerScene : public cocos2d::Scene
 {
     typedef cocos2d::Scene Super;
 private:
+    static const std::string kDefaultOomeeId;
+    static const std::string kColourCategoryId;
+    
     cocos2d::Layer* _contentLayer = nullptr;
     
     std::string _filename;
@@ -31,6 +34,7 @@ private:
     void setItemsListForCategory(const ItemCategoryRef& data);
     
     void saveAndExit();
+    void saveOomeeFiles();
     
 public:
     

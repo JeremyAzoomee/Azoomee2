@@ -154,8 +154,7 @@ void OomeeCarousel::centerButtons()
     LazyLoadingButton* centerButton = nullptr;
     for(LazyLoadingButton* button : _carouselButtons)
     {
-        //Vec2 buttonCenterPos = button->getPosition();// + button->getContentSize() / 2.0f;
-        float dist = abs(button->getPosition().x - this->getPosition().x);//buttonCenterPos.distance(this->getPosition());
+        float dist = abs(button->getPosition().x - this->getPosition().x);
         if(dist < minDist)
         {
             minDist = dist;

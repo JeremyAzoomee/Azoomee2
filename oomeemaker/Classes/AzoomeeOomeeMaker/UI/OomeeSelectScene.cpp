@@ -11,6 +11,7 @@
 #include <AzoomeeCommon/Utils/DirectorySearcher.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
+#include <AzoomeeCommon/Utils/TimeFunctions.h>
 
 using namespace cocos2d;
 
@@ -20,14 +21,7 @@ void OomeeSelectScene::newOomee()
 {
     OomeeMakerScene* makerScene = OomeeMakerScene::create();
     
-    // use func in timefunctions.h when merge in master
-    std::string saveFileName;
-    auto t = std::time(nullptr);
-    auto tm = *std::localtime(&t);
-    
-    std::ostringstream oss;
-    oss << tm.tm_mday << tm.tm_mon << tm.tm_year << tm.tm_hour << tm.tm_min << tm.tm_sec;
-    auto fileNameStr = oss.str();
+    const std::string& fileNameStr = getTimeStringForFileName();
     
     makerScene->setFilename(fileNameStr);
     Director::getInstance()->replaceScene(makerScene);

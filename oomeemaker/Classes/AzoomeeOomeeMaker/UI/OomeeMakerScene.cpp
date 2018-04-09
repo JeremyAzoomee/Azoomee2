@@ -13,10 +13,14 @@
 #include "DragAndDropController.h"
 #include "OomeeSelectScene.h"
 #include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/ModalMessages.h>
 
 using namespace cocos2d;
 
 NS_AZOOMEE_OM_BEGIN
+
+const std::string OomeeMakerScene::kDefaultOomeeId = "oomee01";
+const std::string OomeeMakerScene::kColourCategoryId = "colours";
 
 // on "init" you need to initialize your instance
 bool OomeeMakerScene::init()
@@ -41,7 +45,7 @@ bool OomeeMakerScene::init()
 
 void OomeeMakerScene::onEnter()
 {
-    const OomeeRef& oomeeData = OomeeMakerDataStorage::getInstance()->getOomeeForKey("oomee01");
+    const OomeeRef& oomeeData = OomeeMakerDataStorage::getInstance()->getOomeeForKey(kDefaultOomeeId);
     
     const std::vector<ItemCategoryRef>& categoryData = OomeeMakerDataStorage::getInstance()->getItemCategoryList();
     
@@ -58,9 +62,7 @@ void OomeeMakerScene::onEnter()
     }
     else
     {
-        _oomee->addAccessory(OomeeMakerDataStorage::getInstance()->getOomeeItemForKey("armLeft09"));
-        _oomee->addAccessory(OomeeMakerDataStorage::getInstance()->getOomeeItemForKey("armRight09"));
-        _oomee->addAccessory(OomeeMakerDataStorage::getInstance()->getOomeeItemForKey("face12"));
+        _oomee->addDefaultAccessories();
     }
     _contentLayer->addChild(_oomee);
     
@@ -124,7 +126,7 @@ void OomeeMakerScene::setItemsListForCategory(const ItemCategoryRef& data)
 {
     if(_itemList)
     {
-        if(data->getId() == "colours")
+        if(data->getId() == kColourCategoryId)
         {
             _itemList->SetColourItems();
         }
@@ -142,48 +144,35 @@ void OomeeMakerScene::setFilename(const std::string &filename)
 
 void OomeeMakerScene::saveAndExit()
 {
-    auto overlay = LayerColor::create(Style::Color_4B::semiTransparentOverlay, Director::getInstance()->getVisibleSize().width, Director::getInstance()->getVisibleSize().height);
-    overlay->setPosition(Director::getInstance()->getVisibleOrigin());
-    overlay->setName("savingOverlay");
-    this->addChild(overlay,2);
+    ModalMessages::getInstance()->startSaving();
     
-    auto savingLabel = Label::createWithTTF("Saving...", Style::Font::Regular, 128);
-    savingLabel->setColor(Style::Color::white);
-    savingLabel->setNormalizedPosition(Vec2(0.5,0.5));
-    savingLabel->setAnchorPoint(Vec2(0.5,0.5));
-    overlay->addChild(savingLabel);
-    
-    auto listener = EventListenerTouchOneByOne::create();
-    listener->setSwallowTouches(true);
-    listener->onTouchBegan = [=](Touch *touch, Event *event)
-    {
-        return true;
-    };
-    
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), overlay);
-    const std::string scheduleKey = "saveAndShare";
+    const std::string scheduleKey = "saveAndExit";
     Director::getInstance()->getScheduler()->schedule([&](float dt){
-        std::string savedFileContent = "{";
-        savedFileContent += StringUtils::format("\"oomee\":\"%s\",", _oomee->getOomeeData()->getId().c_str());
-        savedFileContent += "\"oomeeItems\":[";
-        const std::vector<std::string>& accIds = _oomee->getAccessoryIds();
-        for(int i = 0; i < accIds.size(); i++)
-        {
-            savedFileContent += StringUtils::format("\"%s\"",accIds.at(i).c_str());
-            if(i < accIds.size() - 1)
-            {
-                savedFileContent += ",";
-            }
-        }
-        savedFileContent += StringUtils::format("], \"colourHue\": %f }", _oomee->getHue());
-        
-        FileUtils::getInstance()->writeStringToFile(savedFileContent, OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".oomee");
-        
-        _oomee->saveSnapshotImage(OomeeMakerDataHandler::getInstance()->getLocalSaveDir() + _filename + ".png");
-        
+        saveOomeeFiles();
         Director::getInstance()->replaceScene(OomeeSelectScene::create());
     }, this, 0.5, 0, 0, false, scheduleKey);
     
+}
+
+void OomeeMakerScene::saveOomeeFiles()
+{
+    std::string savedFileContent = "{";
+    savedFileContent += StringUtils::format("\"oomee\":\"%s\",", _oomee->getOomeeData()->getId().c_str());
+    savedFileContent += "\"oomeeItems\":[";
+    const std::vector<std::string>& accIds = _oomee->getAccessoryIds();
+    for(int i = 0; i < accIds.size(); i++)
+    {
+        savedFileContent += StringUtils::format("\"%s\"",accIds.at(i).c_str());
+        if(i < accIds.size() - 1)
+        {
+            savedFileContent += ",";
+        }
+    }
+    savedFileContent += StringUtils::format("], \"colourHue\": %f }", _oomee->getHue());
+    
+    FileUtils::getInstance()->writeStringToFile(savedFileContent, OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".oomee");
+    
+    _oomee->saveSnapshotImage(OomeeMakerDataHandler::getInstance()->getLocalSaveDir() + _filename + ".png");
 }
 
 NS_AZOOMEE_OM_END

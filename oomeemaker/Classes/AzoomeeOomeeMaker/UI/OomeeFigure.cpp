@@ -15,6 +15,8 @@ using namespace cocos2d;
 
 NS_AZOOMEE_OM_BEGIN
 
+const std::vector<std::string> OomeeFigure::kDefaultAccessories = {"armLeft09", "artRight09", "face12"};
+
 bool OomeeFigure::init()
 {
     if(!Super::init())
@@ -139,15 +141,13 @@ void OomeeFigure::setOomeeData(const OomeeRef& oomeeData)
 {
     _oomeeData = oomeeData;
     
-    _accessoryData.clear();
-    _accessorySprites.clear();
-    
     if(_baseSprite)
     {
-        //TODO - process transition of accessories here
-        
         _baseSprite->removeFromParent();
     }
+    
+    _accessoryData.clear();
+    _accessorySprites.clear();
     
     _baseSprite = SpriteWithHue::create(OomeeMakerDataHandler::getInstance()->getAssetDir() + _oomeeData->getAssetName());
     _baseSprite->setNormalizedPosition(_oomeeData->getPosition());
@@ -173,7 +173,7 @@ std::vector<std::string> OomeeFigure::getAccessoryIds() const
 
 void OomeeFigure::addAccessory(const OomeeItemRef& oomeeItem)
 {
-    if(_baseSprite && (_oomeeData->getAnchorPoints().find(oomeeItem->getTargetAnchor()) != _oomeeData->getAnchorPoints().end()) )
+    if(_baseSprite && (_oomeeData->getAnchorPoints().find(oomeeItem->getTargetAnchor()) != _oomeeData->getAnchorPoints().end()) && oomeeItem )
     {
         removeAccessory(oomeeItem->getTargetAnchor());
         _accessoryData[oomeeItem->getTargetAnchor()] = oomeeItem;
@@ -255,6 +255,14 @@ void OomeeFigure::setHue(float hue)
         {
             accessory.second->setHue(_hue);
         }
+    }
+}
+
+void OomeeFigure::addDefaultAccessories()
+{
+    for(const std::string& itemName : kDefaultAccessories)
+    {
+        addAccessory(OomeeMakerDataStorage::getInstance()->getOomeeItemForKey(itemName));
     }
 }
 
