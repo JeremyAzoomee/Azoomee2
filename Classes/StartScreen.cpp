@@ -40,6 +40,12 @@ void StartScreen::onEnter()
     Super::onEnter();
 }
 
+void StartScreen::onExit()
+{
+    setKeypadEnabled(false);
+    Node::onExit();
+}
+
 bool StartScreen::init()
 {
     if(!Super::init())
@@ -48,6 +54,8 @@ bool StartScreen::init()
     }
     
     DynamicNodeHandler::getInstance()->getCTAFiles();
+    
+    setKeypadEnabled(true);
     
     return true;
 }
@@ -205,6 +213,41 @@ Sprite* StartScreen::createSpriteWithBorderRing(const std::string &imageFilename
     frame->runAction(RepeatForever::create(rotateAction));
     
     return image;
+}
+
+#pragma mark - Keypad
+
+void StartScreen::setKeypadEnabled(bool enabled)
+{
+    auto dispatcher = Director::getInstance()->getEventDispatcher();
+    
+    if(_keyboardListener != nullptr)
+    {
+        dispatcher->removeEventListener(_keyboardListener);
+    }
+    
+    if(enabled)
+    {
+        auto listener = EventListenerKeyboard::create();
+        listener->onKeyPressed = CC_CALLBACK_2(StartScreen::onKeyPressed, this);
+        listener->onKeyReleased = CC_CALLBACK_2(StartScreen::onKeyReleased, this);
+        
+        dispatcher->addEventListenerWithFixedPriority(listener, -1);
+        _keyboardListener = listener;
+    }
+}
+
+void StartScreen::onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
+{
+    ;
+}
+
+void StartScreen::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
+{
+    if(keyCode == cocos2d::EventKeyboard::KeyCode::KEY_DPAD_CENTER)
+    {
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Login));
+    }
 }
 
 NS_AZOOMEE_END

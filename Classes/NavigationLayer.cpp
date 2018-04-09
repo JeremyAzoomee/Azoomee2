@@ -85,8 +85,8 @@ bool NavigationLayer::init()
         
         NavigationControl::getInstance()->addNavigation(menuItemHolder, [=](cocos2d::Node*)
         {
-            CCLOG("NavigationLayer navigation event callback: %d", i);
-            this->changeToScene((ConfigStorage::HubTargetTagNumber)i, 0.5f);
+            CCLOG("NavigationLayer navigation event callback: %s", hqName.c_str());
+            this->changeToScene(menuItemHolder->getName(), 0.5f);
         });
         
         if(!HQHistoryManager::getInstance()->noHistory())
@@ -575,7 +575,7 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
         
         HQHistoryManager::getInstance()->getHistoryLog();
         
-        if(HQHistoryManager::getInstance()->getPreviousHQ() != "HOME")
+        if(HQHistoryManager::getInstance()->getPreviousHQ() != ConfigStorage::kHomeHQName)
         {
             
             HQScene2 *hqLayer2 = (HQScene2 *)contentLayer->getChildByName(HQHistoryManager::getInstance()->getPreviousHQ());
@@ -587,7 +587,7 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
             this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
         }
         
-        this->changeToScene(ConfigStorage::getInstance()->getTagNumberForMenuName(HQHistoryManager::getInstance()->getPreviousHQ()), 0.5);
+        this->changeToScene(HQHistoryManager::getInstance()->getPreviousHQ(), 0.5);
     });
     
     auto listener = EventListenerTouchOneByOne::create();

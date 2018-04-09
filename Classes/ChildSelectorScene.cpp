@@ -548,12 +548,6 @@ void ChildSelectorScene::onExit()
 
     OfflineChecker::getInstance()->setDelegate(nullptr);
     removeAdultPinLayerDelegate();
-    if(_billingDataRecievedListener)
-    {
-        Director::getInstance()->getEventDispatcher()->removeEventListener(_billingDataRecievedListener);
-        _billingDataRecievedListener = nullptr;
-        _scrollView->release();
-    }
     Node::onExit();
 }
 

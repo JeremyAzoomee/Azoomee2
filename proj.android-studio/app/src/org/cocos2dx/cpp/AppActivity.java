@@ -63,8 +63,8 @@ import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.ndk.CrashlyticsNdk;
 import io.fabric.sdk.android.Fabric;
 
-import com.urbanairship.UAirship;
-import com.urbanairship.push.notifications.DefaultNotificationFactory;
+// import com.urbanairship.UAirship;
+// import com.urbanairship.push.notifications.DefaultNotificationFactory;
 
 
 public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver.IabBroadcastListener {
@@ -111,13 +111,13 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
         readAdvertisingIdFromDevice();
 
-        //setting up urban airship push notification icons
-        DefaultNotificationFactory defaultNotificationFactory = new DefaultNotificationFactory(getApplicationContext());
-        defaultNotificationFactory.setSmallIconId(R.drawable.ic_launcher);
-        defaultNotificationFactory.setLargeIcon(R.drawable.ic_launcher);
-        defaultNotificationFactory.setColor(NotificationCompat.COLOR_DEFAULT);
-        UAirship airship = UAirship.shared();
-        airship.getPushManager().setNotificationFactory(defaultNotificationFactory);
+        // //setting up urban airship push notification icons
+        // DefaultNotificationFactory defaultNotificationFactory = new DefaultNotificationFactory(getApplicationContext());
+        // defaultNotificationFactory.setSmallIconId(R.drawable.ic_launcher);
+        // defaultNotificationFactory.setLargeIcon(R.drawable.ic_launcher);
+        // defaultNotificationFactory.setColor(NotificationCompat.COLOR_DEFAULT);
+        // UAirship airship = UAirship.shared();
+        // airship.getPushManager().setNotificationFactory(defaultNotificationFactory);
     }
 
     public static void startWebView(String url, String userid, int orientation, float closeButtonAnchorX, float closeButtonAnchorY) {

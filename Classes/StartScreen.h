@@ -26,10 +26,16 @@ private:
     
     static const std::string kAssetLoc;
     
+    cocos2d::EventListener* _keyboardListener = nullptr;
+    void setKeypadEnabled(bool enabled);
+    void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event) override;
+    void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event) override;
+    
 public:
     static cocos2d::Scene* createScene();
     
     virtual void onEnter() override;
+    virtual void onExit() override;
     virtual bool init() override;
     
     CREATE_FUNC(StartScreen);
