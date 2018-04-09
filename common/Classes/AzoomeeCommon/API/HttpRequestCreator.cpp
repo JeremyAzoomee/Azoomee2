@@ -190,7 +190,7 @@ cocos2d::network::HttpRequest* HttpRequestCreator::buildHttpRequest()           
 
 void HttpRequestCreator::sendRequest(cocos2d::network::HttpRequest* request, float timeout)
 {
-    HttpClient::getInstance()->setTimeoutForConnect(timeout);
+    HttpClient::getInstance()->setTimeoutForConnect(timeout); // This is copied by the created http request object, so next request wont change the value for previous requests
     HttpClient::getInstance()->setTimeoutForRead(timeout);
     
     if(ConfigStorage::getInstance()->isImmediateRequestSendingRequired(requestTag)) HttpClient::getInstance()->sendImmediate(request);
