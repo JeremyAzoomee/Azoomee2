@@ -386,21 +386,21 @@ void BackEndCaller::onUpdateChildAnswerReceived()
 void BackEndCaller::verifyGooglePayment(const std::string& orderId, const std::string& iapSku, const std::string& purchaseToken)
 {
     HttpRequestCreator* request = API::VerifyGooglePaymentRequest(orderId, iapSku, purchaseToken, this);
-    request->execute();
+    request->execute(30.0f);
 }
 
 //AMAZON VERIFY PAYMENT---------------------------------------------------------------------
 void BackEndCaller::verifyAmazonPayment(const std::string& requestId, const std::string& receiptId, const std::string& amazonUserid)
 {
     HttpRequestCreator* request = API::VerifyAmazonPaymentRequest(requestId, receiptId, amazonUserid, this);
-    request->execute();
+    request->execute(30.0f);
 }
 
 //APPLE VERIFY PAYMENT----------------------------------------------------------------------
 void BackEndCaller::verifyApplePayment(const std::string& receiptData)
 {
     HttpRequestCreator* request = API::VerifyApplePaymentRequest(receiptData, this);
-    request->execute();
+    request->execute(30.0f);
 }
 
 //GET CONTENT-------------------------------------------------------------------------------
