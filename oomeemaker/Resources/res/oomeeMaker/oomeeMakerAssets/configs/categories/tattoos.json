@@ -1,7 +1,0 @@
-{
-	"id": "tattoos",
-	"iconFilename": "assets/tattoos/tattoo_01.png",
-	"holidaySeasons": ["none"],
-	"scale": 1.0,
-	"highlightColour": [255,0,0,255]
-}

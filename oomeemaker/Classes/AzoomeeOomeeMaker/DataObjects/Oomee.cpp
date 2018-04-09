@@ -30,6 +30,7 @@ void Oomee::initWithData(const rapidjson::Document& oomeeConfig)
 {
     setId(getStringFromJson("id", oomeeConfig));
     setAnchorPoints(getVec2MapFromJson(oomeeConfig["anchorPoints"]));
+    setLockedAnchors(getStringArrayFromJson(oomeeConfig["lockedAnchors"]));
     setPosition(getVec2FromJson("position", oomeeConfig));
     setScale(getFloatFromJson("scale", oomeeConfig));
     setSizeMultiplier(getFloatFromJson("sizeMultiplier", oomeeConfig));
@@ -54,6 +55,15 @@ void Oomee::setAnchorPoints(const std::map<std::string, cocos2d::Vec2>& anchorPo
 std::map<std::string, cocos2d::Vec2> Oomee::getAnchorPoints() const
 {
     return _anchorPoints;
+}
+
+void Oomee::setLockedAnchors(const std::vector<std::string> lockedAnchors)
+{
+    _lockedAnchors = lockedAnchors;
+}
+std::vector<std::string> Oomee::getLockedAnchors() const
+{
+    return _lockedAnchors;
 }
 
 void Oomee::setPosition(const cocos2d::Vec2& position)

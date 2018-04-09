@@ -1,7 +1,9 @@
 {
 	"id": "glasses",
-	"iconFilename": "assets/glasses/glasses_01.png",
+	"iconFilenameSelected": "assets/categoryButtons/s_eyewear.png",
+	"iconFilenameUnselected": "assets/categoryButtons/u_eyewear.png",
 	"holidaySeasons": ["none"],
-	"scale": 1.0,
+	"scaleSelected": 1.25,
+	"scaleUnselected": 1.0,
 	"highlightColour": [255,0,0,255]
 }

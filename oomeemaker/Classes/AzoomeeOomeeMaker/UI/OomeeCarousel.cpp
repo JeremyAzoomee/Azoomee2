@@ -8,6 +8,7 @@
 #include "OomeeCarousel.h"
 #include "../DataObjects/OomeeMakerDataHandler.h"
 #include "OomeeSelectScene.h"
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 NS_AZOOMEE_OM_BEGIN
 
@@ -102,6 +103,24 @@ void OomeeCarousel::setOomeeData(const std::vector<std::string>& oomeeFilenames)
     
     _oomeeData = oomeeFilenames;
     
+    if(_oomeeData.size() == 0)
+    {
+        LazyLoadingButton* button = LazyLoadingButton::create();
+        button->setMainImage("res/oomeeMaker/newoomee_cta.png");
+        button->setPlaceholderImage("res/oomeeMaker/body_00.png");
+        button->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+        button->setPosition(Vec2(_spacing * _carouselButtons.size(), this->getContentSize().height / 2.0f));
+        button->setSwallowTouches(false);
+        button->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType){
+            if(eType == ui::Widget::TouchEventType::ENDED)
+            {
+                OomeeSelectScene::newOomee();
+            }
+        });
+        _contentNode->addChild(button);
+        _carouselButtons.push_back(button);
+    }
+    
     for(int i = 0; i < oomeeFilenames.size(); i++)
     {
         const std::string assetName = OomeeMakerDataHandler::getInstance()->getFullSaveDir() + oomeeFilenames.at(i) + ".png";
@@ -114,21 +133,6 @@ void OomeeCarousel::setOomeeData(const std::vector<std::string>& oomeeFilenames)
         _contentNode->addChild(button);
         _carouselButtons.push_back(button);
     }
-    
-    LazyLoadingButton* button = LazyLoadingButton::create();
-    button->setMainImage("res/oomeeMaker/newoomee_cta.png");
-    button->setPlaceholderImage("res/oomeeMaker/body_00.png");
-    button->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    button->setPosition(Vec2(_spacing * _carouselButtons.size(), this->getContentSize().height / 2.0f));
-    button->setSwallowTouches(false);
-    button->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType){
-        if(eType == ui::Widget::TouchEventType::ENDED)
-        {
-            OomeeSelectScene::newOomee();
-        }
-    });
-    _contentNode->addChild(button);
-    _carouselButtons.push_back(button);
     
     _leftMostButton = _carouselButtons.at(0);
 
@@ -151,8 +155,7 @@ void OomeeCarousel::centerButtons()
     LazyLoadingButton* centerButton = nullptr;
     for(LazyLoadingButton* button : _carouselButtons)
     {
-        //Vec2 buttonCenterPos = button->getPosition();// + button->getContentSize() / 2.0f;
-        float dist = abs(button->getPosition().x - this->getPosition().x);//buttonCenterPos.distance(this->getPosition());
+        float dist = abs(button->getPosition().x - this->getPosition().x);
         if(dist < minDist)
         {
             minDist = dist;
@@ -224,6 +227,10 @@ void OomeeCarousel::update(float deltaT)
         float dist = abs(button->getPosition().x - this->getPosition().x);
         float relativeDist = dist / (this->getContentSize().width / 2.0f);
         button->setScale(MAX(0.1,1.2 - relativeDist));
+        if(ConfigStorage::getInstance()->isDevice18x9())
+        {
+            button->setScale(button->getScale() * 0.8f);
+        }
         button->setOpacity(MAX(0,255 - (255 * relativeDist)));
         button->setPositionY(this->getContentSize().height/2 + this->getContentSize().height/5 * (relativeDist * relativeDist));
         

@@ -30,6 +30,9 @@ public:
     void startLoading();
     void stopLoading();
     
+    void startSaving();
+    void stopSaving();
+    
     void showMixpanelNotification();
     void showMixpanelNotificationWithID(int notificationID);
 };

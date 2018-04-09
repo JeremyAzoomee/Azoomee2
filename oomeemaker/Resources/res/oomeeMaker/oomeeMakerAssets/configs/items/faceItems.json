@@ -173,7 +173,7 @@
 	{
 		"id": "face14",
 		"targetAnchor": "face",
-		"offset": [0.0,30.0],
+		"offset": [0.0,-30.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,

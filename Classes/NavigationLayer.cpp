@@ -24,6 +24,7 @@
 #include "ChatNotificationsSingleton.h"
 #include "DynamicNodeHandler.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/Utils/ActionBuilder.h>
 
 using namespace cocos2d;
 
@@ -491,7 +492,7 @@ void NavigationLayer::runDisplayAnimationForMenuItem(cocos2d::Node* node1, bool 
         blinkDelay = 0.1;
     }
     
-    node1->runAction(Sequence::create(DelayTime::create(randomDelay), FadeTo::create(0, colour.a), DelayTime::create(blinkDelay), FadeTo::create(0, 0), DelayTime::create(blinkDelay), FadeTo::create(0, colour.a), NULL));
+    node1->runAction(createBlinkEffect(randomDelay, blinkDelay));
 }
 
 

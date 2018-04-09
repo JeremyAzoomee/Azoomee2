@@ -5,16 +5,14 @@
 	],
 	"categoryConfigs":
 	[
-		"configs/categories/arms.json",
+		"configs/categories/colours.json",
 		"configs/categories/ears.json",
 		"configs/categories/faces.json",
 		"configs/categories/glasses.json",
 		"configs/categories/hair.json",
 		"configs/categories/hats.json",
 		"configs/categories/horns.json",
-		"configs/categories/necklaces.json",
-		"configs/categories/tattoos.json",
-		"configs/categories/trousers.json"
+		"configs/categories/necklaces.json"
 	],
 	"itemConfigs":
 	[
@@ -25,8 +23,6 @@
 		"configs/items/hairItems.json",
 		"configs/items/hatItems.json",
 		"configs/items/hornItems.json",
-		"configs/items/necklaceItems.json",
-		"configs/items/tattooItems.json",
-		"configs/items/trouserItems.json"
+		"configs/items/necklaceItems.json"
 	]
 }

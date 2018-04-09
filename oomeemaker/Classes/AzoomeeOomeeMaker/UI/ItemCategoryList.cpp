@@ -7,6 +7,7 @@
 
 #include "ItemCategoryList.h"
 #include "ItemCategoryButton.h"
+#include <AzoomeeCommon/Utils/ActionBuilder.h>
 
 using namespace cocos2d;
 
@@ -25,7 +26,7 @@ void ItemCategoryList::setCategories(const std::vector<ItemCategoryRef>& categor
     {
         ItemCategoryButton* button = ItemCategoryButton::create();
         button->setCategoryData(category);
-        button->setItemSelectedCallback([this](const ItemCategoryRef& data) {
+        button->setItemSelectedCallback([this, button](const ItemCategoryRef& data) {
             if(_itemSelectedCallback)
             {
                 _itemSelectedCallback(data);
@@ -48,12 +49,21 @@ bool ItemCategoryList::init()
     setBounceEnabled(true);
     setGravity(ui::ListView::Gravity::CENTER_HORIZONTAL);
     setItemsMargin(50.0f);
+    setBottomPadding(200.0f);
     
     return true;
 }
 
 void ItemCategoryList::onEnter()
 {
+    auto items = getItems();
+    for(auto item : items)
+    {
+        item->setOpacity(0);
+        float randomDelay = RandomHelper::random_real(0.2, 0.7) + 0.5;
+        item->runAction(createBlinkEffect(randomDelay, 0.1));
+    }
+    
     Super::onEnter();
 }
 
@@ -70,6 +80,26 @@ void ItemCategoryList::setContentSize(const cocos2d::Size& contentSize)
 void ItemCategoryList::setItemSelectedCallback(const ItemSelectedCallback& callback)
 {
     _itemSelectedCallback = callback;
+}
+
+void ItemCategoryList::setSelectedButton(const ItemCategoryRef& data)
+{
+    auto itemList = getItems();
+    for(auto item : itemList)
+    {
+        ItemCategoryButton* button = dynamic_cast<ItemCategoryButton*>(item);
+        if(button)
+        {
+            if(button->getCategoryData() == data)
+            {
+                button->setSelected(true);
+            }
+            else
+            {
+                button->setSelected(false);
+            }
+        }
+    }
 }
 
 NS_AZOOMEE_OM_END

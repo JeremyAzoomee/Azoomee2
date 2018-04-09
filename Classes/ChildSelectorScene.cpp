@@ -23,6 +23,7 @@
 #include "ContentHistoryManager.h"
 #include "DynamicNodeHandler.h"
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
+#include <AzoomeeCommon/Utils/ActionBuilder.h>
 
 #define OOMEE_LAYER_WIDTH 300
 #define OOMEE_LAYER_HEIGHT 450
@@ -193,7 +194,7 @@ Layer *ChildSelectorScene::createChildProfileButton(std::string profileName, int
     profileLayer->addChild(glow);
     
     float delayTime = CCRANDOM_0_1() * 0.5;
-    glow->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    glow->runAction(createBlinkEffect(delayTime, 0.1));
     
     auto oomee = RemoteImageSprite::create();
     oomee->initWithUrlAndSizeWithoutPlaceholder(ParentDataProvider::getInstance()->getAvatarForAnAvailableChild(childNum), Size(182, 256));
@@ -203,7 +204,7 @@ Layer *ChildSelectorScene::createChildProfileButton(std::string profileName, int
     oomee->setScale(1.25);
     profileLayer->addChild(oomee);
     
-    oomee->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    oomee->runAction(createBlinkEffect(delayTime, 0.1));
     
     auto profileLabel = createLabelChildName(profileName);
     profileLabel->setPosition(profileLayer->getContentSize().width / 2, profileLabel->getContentSize().height / 2);
@@ -211,7 +212,7 @@ Layer *ChildSelectorScene::createChildProfileButton(std::string profileName, int
     reduceLabelTextToFitWidth(profileLabel,OOMEE_LAYER_WIDTH);
     profileLayer->addChild(profileLabel);
     
-    profileLabel->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    profileLabel->runAction(createBlinkEffect(delayTime, 0.1));
     
     return profileLayer;
 }
@@ -332,7 +333,7 @@ Layer* ChildSelectorScene::createNewProfileButton()
     addButtonLayer->addChild(addButtonSprite);
     
     float delayTime = CCRANDOM_0_1();
-    addButtonSprite->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    addButtonSprite->runAction(createBlinkEffect(delayTime, 0.1));
     
     auto addButtonIcon = Sprite::create("res/childSelection/button_addChild_icon.png");
     addButtonIcon->setPosition(addButtonIcon->getContentSize().width * 0.9, addButtonSprite->getContentSize().height * 0.5);
@@ -346,7 +347,7 @@ Layer* ChildSelectorScene::createNewProfileButton()
     addButtonLabel->setOpacity(0);
     addButtonSprite->addChild(addButtonLabel);
     
-    addButtonLabel->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    addButtonLabel->runAction(createBlinkEffect(delayTime, 0.1));
     
     return addButtonLayer;
 }
@@ -364,7 +365,7 @@ Layer* ChildSelectorScene::createParentProfileButton()
     profileLayer->addChild(oomee);
     
     float delayTime = CCRANDOM_0_1() * 0.5;
-    oomee->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    oomee->runAction(createBlinkEffect(delayTime, 0.1));
     
     auto profileLabel = createLabelChildName("Parent");
     profileLabel->setPosition(profileLayer->getContentSize().width / 2, profileLabel->getContentSize().height / 2);
@@ -372,7 +373,7 @@ Layer* ChildSelectorScene::createParentProfileButton()
     reduceLabelTextToFitWidth(profileLabel,OOMEE_LAYER_WIDTH);
     profileLayer->addChild(profileLabel);
     
-    profileLabel->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    profileLabel->runAction(createBlinkEffect(delayTime, 0.1));
     
     _parentButtonListener = EventListenerTouchOneByOne::create();
     _parentButtonListener->onTouchBegan = [=](Touch *touch, Event *event)

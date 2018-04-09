@@ -28,6 +28,8 @@ public:
     void setCategoryData(const ItemCategoryRef& categoryData);
     ItemCategoryRef getCategoryData() const;
     
+    void setSelected(bool selected);
+    
     void setItemSelectedCallback(const ItemSelectedCallback& callback);
     
     CREATE_FUNC(ItemCategoryButton);

@@ -134,6 +134,8 @@ public:
     //Device-resolution-specific information
     void setIsDeviceIphoneX(bool isDeviceIphoneX);
     bool isDeviceIphoneX() const;
+    void setIsDevice18x9(bool isDevice18x9);
+    bool isDevice18x9() const;
     
     //Set keyboard height for chat
     void setEstimatedKeyboardHeight(float size);
@@ -153,6 +155,7 @@ private:
     std::vector<std::string> parentSignedRequestTags;
     
     bool _isDeviceIphoneX = false;
+    bool _isDevice18x9 = false;
     
     std::string _osManufacturer = "";
     

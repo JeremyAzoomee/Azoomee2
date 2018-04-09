@@ -1,7 +1,9 @@
 {
 	"id": "hats",
-	"iconFilename": "assets/hats/hat_01.png",
+	"iconFilenameSelected": "assets/categoryButtons/s_hat.png",
+	"iconFilenameUnselected": "assets/categoryButtons/u_hat.png",
 	"holidaySeasons": ["none"],
-	"scale": 1.0,
+	"scaleSelected": 1.25,
+	"scaleUnselected": 1.0,
 	"highlightColour": [255,0,0,255]
 }

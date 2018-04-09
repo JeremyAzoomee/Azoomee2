@@ -24,6 +24,7 @@ private:
     
     std::map<std::string, OomeeFigure*> _createdOomees;
     OomeeCarousel* _oomeeCarousel = nullptr;
+    cocos2d::ui::Button* _newOomeeButton = nullptr;
     
     
 public:

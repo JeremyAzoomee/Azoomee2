@@ -48,8 +48,12 @@ void DragAndDropController::init()
     {
         if(this->_removeItemFromOomee)
         {
-            _oomeeFigure->removeAccessory(_itemData->getTargetAnchor());
+            if(_itemData)
+            {
+                _oomeeFigure->removeAccessory(_itemData->getTargetAnchor());
+            }
             this->_removeItemFromOomee = false;
+            
         }
         
         if(_itemSprite)
