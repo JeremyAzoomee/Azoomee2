@@ -48,20 +48,21 @@ bool IntroVideoScene::init()
     
     AnalyticsSingleton::getInstance()->registerCurrentScene("INTRO_VIDEO");
     
-    auto funcCallAction = CallFunc::create([=](){
+    auto funcCallAction = CallFunc::create([=]()
+    {
         
         videoErrorText = StringUtils::format("%svideo failsafe triggered.",videoErrorText.c_str());
         AnalyticsSingleton::getInstance()->introVideoTimedOutError(videoErrorText);
         navigateToNextScene();
     });
     
-    auto action = Sequence::create(DelayTime::create(7), funcCallAction, NULL);
+    auto action = Sequence::create(DelayTime::create(7.0f), funcCallAction, NULL);
     
     action->setTag(3);
     this->runAction(action);
 
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    cocos2d::Rect visibleRect = Director::getInstance()->getOpenGLView()->getVisibleRect();
+    const cocos2d::Rect& visibleRect = Director::getInstance()->getOpenGLView()->getVisibleRect();
 
     _videoPlayer = cocos2d::experimental::ui::VideoPlayer::create();
     _videoPlayer->setContentSize(visibleRect.size);
@@ -70,12 +71,20 @@ bool IntroVideoScene::init()
     _videoPlayer->setSwallowTouches(false);
     _videoPlayer->setFileName("res/introAssets/Opening_Animation.mp4");
     _videoPlayer->setKeepAspectRatioEnabled(true);
-    _videoPlayer->addEventListener(CC_CALLBACK_2(IntroVideoScene::videoEventCallback, this));
     
     addChild(_videoPlayer);
     
 #ifndef novideo
     _videoPlayer->play();
+    
+    auto addListenerAction = CallFunc::create([=]()
+    {
+        _videoPlayer->addEventListener(CC_CALLBACK_2(IntroVideoScene::videoEventCallback, this));
+    });
+    
+    auto delayListenerAction = Sequence::create(DelayTime::create(0.5f), addListenerAction, NULL); //video player from iOS 11.3 sends a playback complete event on initialisation, so we set up the listener a bit later.
+    delayListenerAction->setTag(4);
+    this->runAction(delayListenerAction);
 #endif
 
     return true;
@@ -120,8 +129,8 @@ void IntroVideoScene::videoEventCallback(Ref* sender, VideoPlayer::EventType eve
         case VideoPlayer::EventType::PLAYING:
         {
             videoErrorText = "Video Started Playing and ";
-        }
             break;
+        }
         case VideoPlayer::EventType::COMPLETED:
         {
             navigateToNextScene();
@@ -140,6 +149,7 @@ void IntroVideoScene::videoEventCallback(Ref* sender, VideoPlayer::EventType eve
 void IntroVideoScene::navigateToNextScene()
 {
     this->stopActionByTag(3);
+    this->stopActionByTag(4);
     
 #if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     IosNativeFunctionsSingleton::getInstance()->identifyMixpanel();
