@@ -392,6 +392,14 @@ void AnalyticsSingleton::contentItemClosedEvent()
     mixPanelSendEventWithStoredProperties("contentItemClosed", _analyticsProperties->getStoredContentItemProperties());
     
 }
+    
+void AnalyticsSingleton::lockedContentItemInRecentlyPlayedEvent(const HQContentItemObjectRef &contentItem)
+{
+    const std::map<std::string, std::string>& mixPanelProperties = {
+        {"ContentID", contentItem->getContentItemId()}
+    };
+    mixPanelSendEventWithStoredProperties("lockedContentInRecentlyPlayed", mixPanelProperties);
+}
 
 //------------- PREVIEW ACTIONS ---------------
 void AnalyticsSingleton::previewContentClickedEvent(std::string Title, std::string Description, std::string Type)
