@@ -46,14 +46,15 @@ bool IntroVideoScene::init()
     
     AnalyticsSingleton::getInstance()->registerCurrentScene("INTRO_VIDEO");
     
-    auto funcCallAction = CallFunc::create([=](){
+    auto funcCallAction = CallFunc::create([=]()
+    {
         
         videoErrorText = StringUtils::format("%svideo failsafe triggered.",videoErrorText.c_str());
         AnalyticsSingleton::getInstance()->introVideoTimedOutError(videoErrorText);
         navigateToNextScene();
     });
     
-    auto action = Sequence::create(DelayTime::create(7), funcCallAction, NULL);
+    auto action = Sequence::create(DelayTime::create(7.0f), funcCallAction, NULL);
     
     action->setTag(3);
     this->runAction(action);
@@ -67,12 +68,20 @@ bool IntroVideoScene::init()
     videoPlayer->setPosition(Vec2(_visibleRect.origin.x + _visibleRect.size.width / 2,_visibleRect.origin.y + _visibleRect.size.height /2));
     videoPlayer->setFileName("res/introAssets/Opening_Animation.mp4");
     videoPlayer->setKeepAspectRatioEnabled(true);
-    videoPlayer->addEventListener(CC_CALLBACK_2(IntroVideoScene::videoEventCallback, this));
     
     addChild(videoPlayer);
     
 #ifndef novideo
     videoPlayer->play();
+    
+    auto addListenerAction = CallFunc::create([=]()
+    {
+        videoPlayer->addEventListener(CC_CALLBACK_2(IntroVideoScene::videoEventCallback, this));
+    });
+    
+    auto delayListenerAction = Sequence::create(DelayTime::create(0.5f), addListenerAction, NULL); //video player from iOS 11.3 sends a playback complete event on initialisation, so we set up the listener a bit later.
+    delayListenerAction->setTag(4);
+    this->runAction(delayListenerAction);
 #endif
     
     return true;
@@ -94,8 +103,8 @@ void IntroVideoScene::videoEventCallback(Ref* sender, VideoPlayer::EventType eve
         case VideoPlayer::EventType::PLAYING:
         {
             videoErrorText = "Video Started Playing and ";
-        }
             break;
+        }
         case VideoPlayer::EventType::COMPLETED:
         {
 #if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -119,6 +128,7 @@ void IntroVideoScene::videoEventCallback(Ref* sender, VideoPlayer::EventType eve
 void IntroVideoScene::navigateToNextScene()
 {
     this->stopActionByTag(3);
+    this->stopActionByTag(4);
     
     videoPlayer->setVisible(false);
     AnalyticsSingleton::getInstance()->registerAppVersion();
