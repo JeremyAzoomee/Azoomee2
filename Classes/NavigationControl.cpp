@@ -5,8 +5,10 @@
 #include "VideoPlaylistManager.h"
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "WebViewSelector.h"
 #include "SceneManagerScene.h"
+#include "HQHistoryManager.h"
 
 using namespace cocos2d;
 
@@ -391,8 +393,37 @@ void NavigationControl::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, c
             {
                 highlightNavigation(nullptr);
                 _navigationPoints.clear();
-                cocos2d::Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
+                
+                // Go back to the hub
+                if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+                {
+                    HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
+                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+                }
+                else
+                {
+                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+                }
                 break;
+            }
+        }
+    }
+    else
+    {
+        if( keyCode == cocos2d::EventKeyboard::KeyCode::KEY_BACK )
+        {
+            highlightNavigation(nullptr);
+            _navigationPoints.clear();
+            
+            // Go back to the hub
+            if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+            {
+                HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
+                Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+            }
+            else
+            {
+                Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
             }
         }
     }
