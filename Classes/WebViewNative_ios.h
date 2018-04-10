@@ -16,6 +16,7 @@ public:
     void onEnterTransitionDidFinish();
     void removeWebViewFromScreen();
     void reAddWebViewToScreen();
+    void addMediaPlayerToScreen();
     
 private:
     void addWebViewToScreen(std::string url, cocos2d::Vec2 closeButtonAnchor);

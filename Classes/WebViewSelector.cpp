@@ -64,13 +64,16 @@ void WebViewSelector::loadWebView(const std::string& url, Orientation orientatio
     AnalyticsSingleton::getInstance()->contentItemWebviewStartedEvent();
     AudioMixer::getInstance()->stopBackgroundMusic();
     
+    const std::string& userSessionId = ChildDataProvider::getInstance()->getParentOrChildCdnSessionId();
+    const std::string& mediaurl = "https://tv-media.azoomee.com/netgemstream/"+userSessionId+"/distribution/gb/229a4bec-63bd-437d-abcd-6951a6e6ae99/video_stream.m3u8";
+    
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    auto iosWebView = WebViewNative_ios::createSceneWithURL(url, closeButtonAnchor);
+    auto iosWebView = WebViewNative_ios::createSceneWithURL(mediaurl, closeButtonAnchor);
     Director::getInstance()->replaceScene(iosWebView);
 #endif
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    auto androidWebViewCaller = WebViewNativeCaller_android::createSceneWithUrl(url, orientation, closeButtonAnchor);
+    auto androidWebViewCaller = WebViewNativeCaller_android::createSceneWithUrl(mediaurl, orientation, closeButtonAnchor);
     Director::getInstance()->replaceScene(androidWebViewCaller);
 #endif
 }

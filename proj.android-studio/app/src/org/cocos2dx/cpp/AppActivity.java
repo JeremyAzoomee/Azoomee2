@@ -123,7 +123,12 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     public static void startWebView(String url, String userid, int orientation, float closeButtonAnchorX, float closeButtonAnchorY) {
         Intent nvw;
 
-        if ((android.os.Build.MANUFACTURER.equals("Amazon") || kRemoteDebugWebViewEnabled) && (url.substring(url.length() - 4).equals("html")))
+        // Native stream
+        if(url.endsWith("m3u8"))
+        {
+            nvw = new Intent(mContext, NativeMediaPlayer.class);
+        }
+        else if((android.os.Build.MANUFACTURER.equals("Amazon") || kRemoteDebugWebViewEnabled) && url.endsWith("html"))
         {
             Log.d("AzoomeeWebView", "startWebView: NativeViewUI: " + android.os.Build.MANUFACTURER + ", url=" + url);
             nvw = new Intent(mContext, NativeViewUI.class);

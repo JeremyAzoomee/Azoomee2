@@ -2,6 +2,7 @@
 #include "BaseScene.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "WebViewController_ios.h"
+#include "MediaPlayer_ios.h"
 
 using namespace cocos2d;
 
