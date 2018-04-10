@@ -59,13 +59,33 @@ std::string WebViewSelector::getUrlWithoutPath(std::string url)
     return(url.substr(0, until)); //returning string before the 3rd slash.
 }
 
+inline bool ends_with(const std::string& value, const std::string& ending)
+{
+    if(ending.size() > value.size())
+    {
+        return false;
+    }
+    return std::equal(ending.rbegin(), ending.rend(), value.rbegin());
+}
+
 void WebViewSelector::loadWebView(const std::string& url, Orientation orientation, const Vec2& closeButtonAnchor)
 {
     AnalyticsSingleton::getInstance()->contentItemWebviewStartedEvent();
     AudioMixer::getInstance()->stopBackgroundMusic();
     
-    const std::string& userSessionId = ChildDataProvider::getInstance()->getParentOrChildCdnSessionId();
-    const std::string& mediaurl = "https://tv-media.azoomee.com/netgemstream/"+userSessionId+"/distribution/gb/229a4bec-63bd-437d-abcd-6951a6e6ae99/video_stream.m3u8";
+    // Change the video URLs to test direct video stream
+    std::string mediaurl;
+    if(ends_with(url, "html"))
+    {
+        // This is a game
+        mediaurl = url;
+    }
+    else
+    {
+        // Video
+        const std::string& userSessionId = ChildDataProvider::getInstance()->getParentOrChildCdnSessionId();
+        mediaurl = "https://tv-media.azoomee.com/netgemstream/" + userSessionId + "/distribution/gb/229a4bec-63bd-437d-abcd-6951a6e6ae99/video_stream.m3u8";
+    }
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     auto iosWebView = WebViewNative_ios::createSceneWithURL(mediaurl, closeButtonAnchor);
