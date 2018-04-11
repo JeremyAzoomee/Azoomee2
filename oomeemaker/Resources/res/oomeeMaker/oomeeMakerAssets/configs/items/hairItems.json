@@ -120,6 +120,18 @@
 		"zOrder": 1,
 		"categoryId": "hair",
 		"assetFilename": "assets/hair/hair_10.png"
+	},
+	{
+		"id": "hair11",
+		"targetAnchor": "head",
+		"offset": [10.0,-50.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 1,
+		"categoryId": "hair",
+		"assetFilename": "assets/hair/hair_11.png"
 	}
 ]
 }

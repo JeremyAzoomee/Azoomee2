@@ -168,6 +168,18 @@
 		"zOrder": 6,
 		"categoryId": "glasses",
 		"assetFilename": "assets/glasses/glasses_14.png"
+	},
+	{
+		"id": "glasses15",
+		"targetAnchor": "eyes",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 6,
+		"categoryId": "glasses",
+		"assetFilename": "assets/glasses/glasses_15.png"
 	}
 ]
 }
