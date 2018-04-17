@@ -382,6 +382,33 @@ public class NativeViewUI extends Activity {
         return false;
     }
 
+    /// Perform a touch event.
+    /// x and y are normalized, in 0-1 range.
+    private void performTouchEventAt( final float x, final float y )
+    {
+        // Convert to screen co-ordinates
+        final float width = uiWebView.getWidth();
+        final float height = uiWebView.getHeight();
+        final float xPos = width * x;
+        final float yPos = height * y;
+        final int touchUpAfterMs = 100;
+
+        // Touch down
+        dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
+                                              MotionEvent.ACTION_DOWN, xPos, yPos, 0));
+
+        // Touch up
+        // TODO: Touch up should actually be called from onKeyUp instead of automatically
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
+                                                      MotionEvent.ACTION_UP, xPos, yPos, 0));
+            }
+        }, touchUpAfterMs);
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)
     {
@@ -389,35 +416,94 @@ public class NativeViewUI extends Activity {
 
         Log.d("AzoomeeWebView", "onKeyDown: " + keyCode);
 
+        final float touchMarginX = 0.052f;
+        final float touchMarginY = 0.111f;
+
         switch(keyCode)
         {
             case KeyEvent.KEYCODE_DPAD_CENTER:
             case KeyEvent.KEYCODE_BUTTON_A:
             {
                 Log.d("AzoomeeWebView", "KEYCODE_DPAD_CENTER");
-                float width = uiWebView.getWidth();
-                float height = uiWebView.getHeight();
-                float x = width * 0.5f;
-                float y = height * 0.75f;
-                dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
-                                                      MotionEvent.ACTION_DOWN, x, y, 0));
                 handled = true;
+
+                // Touch just below centre
+                performTouchEventAt( 0.5f, 0.75f );
                 break;
             }
             case KeyEvent.KEYCODE_BACK:
             {
                 Log.d("AzoomeeWebView", "KEYCODE_BACK");
-                cleanUpAndFinishActivity();
                 handled = true;
+
+                cleanUpAndFinishActivity();
                 break;
             }
             case KeyEvent.KEYCODE_DPAD_LEFT:
             {
+                Log.d("AzoomeeWebView", "KEYCODE_DPAD_LEFT");
                 handled = true;
+
+                // Touch bottom left of screen
+                performTouchEventAt( touchMarginX, 1.0f - touchMarginY );
                 break;
             }
             case KeyEvent.KEYCODE_DPAD_RIGHT:
             {
+                Log.d("AzoomeeWebView", "KEYCODE_DPAD_RIGHT");
+                handled = true;
+
+                // Touch bottom right of screen
+                performTouchEventAt( 1.0f - touchMarginX, 1.0f - touchMarginY );
+                break;
+            }
+            case KeyEvent.KEYCODE_DPAD_UP:
+            {
+                Log.d("AzoomeeWebView", "KEYCODE_DPAD_UP");
+                handled = true;
+
+                // Touch top centre of screen
+                performTouchEventAt( 0.5f, touchMarginY );
+                break;
+            }
+            case KeyEvent.KEYCODE_DPAD_DOWN:
+            {
+                Log.d("AzoomeeWebView", "KEYCODE_DPAD_DOWN");
+                handled = true;
+
+                // Touch bottom centre of screen
+                performTouchEventAt( 0.5f, 1.0f - touchMarginY );
+                break;
+            }
+            case KeyEvent.KEYCODE_MENU:
+            {
+                Log.d("AzoomeeWebView", "KEYCODE_MENU");
+                handled = true;
+
+                // Touch top right of screen
+                performTouchEventAt( 1.0f - touchMarginX, touchMarginY );
+                break;
+            }
+            case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
+            {
+                Log.d("AzoomeeWebView", "KEYCODE_MEDIA_PLAY_PAUSE");
+                handled = true;
+
+                // Touch just below centre
+                performTouchEventAt( 0.5f, 0.75f );
+                // And allow restart on Cube Ninja (special case) just for demo purposes, we'll remove this later
+                performTouchEventAt( 0.715f, 0.667f );
+                break;
+            }
+            case KeyEvent.KEYCODE_MEDIA_REWIND:
+            {
+                Log.d("AzoomeeWebView", "KEYCODE_MEDIA_REWIND");
+                handled = true;
+                break;
+            }
+            case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
+            {
+                Log.d("AzoomeeWebView", "KEYCODE_MEDIA_FAST_FORWARD");
                 handled = true;
                 break;
             }
