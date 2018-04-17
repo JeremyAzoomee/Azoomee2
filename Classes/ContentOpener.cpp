@@ -83,7 +83,7 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
     {
         ModalMessages::getInstance()->stopLoading();
         
-        auto baseLayer = Director::getInstance()->getRunningScene()->getChildByName("baseLayer");
+        auto baseLayer = Director::getInstance()->getRunningScene();
         if(baseLayer)
         {
             NavigationLayer *navigationLayer = (NavigationLayer *)baseLayer->getChildByName("NavigationLayer");

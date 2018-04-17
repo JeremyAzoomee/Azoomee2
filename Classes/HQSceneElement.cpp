@@ -122,7 +122,7 @@ void HQSceneElement::addListenerToElement()
         Size s = target->getBoundingBox().size;//getContentSize();
         Rect rect = Rect(0,0,s.width, s.height);
         
-        if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0) return false;
+        if(Director::getInstance()->getRunningScene()->getChildByName("contentLayer")->getNumberOfRunningActions() > 0) return false;
         
         if(rect.containsPoint(locationInNode))
         {
@@ -156,7 +156,7 @@ void HQSceneElement::addListenerToElement()
         {
             if(_elementVisual->_overlayWhenTouched) _elementVisual->_overlayWhenTouched->setOpacity(0);
             
-            if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0) return false;
+            if(Director::getInstance()->getRunningScene()->getChildByName("contentLayer")->getNumberOfRunningActions() > 0) return false;
             
             AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
             _iamtouched = false;

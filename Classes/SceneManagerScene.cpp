@@ -74,18 +74,20 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         case Base:
         {
             FlowDataSingleton::getInstance()->clearData();
-            forceToLandscape();
+            //forceToLandscape();
+            acceptAnyOrientation();
             HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
-            cocos2d::Scene* goToScene = BaseScene::createScene();
+            Azoomee::Scene* goToScene = BaseScene::create();
             Director::getInstance()->replaceScene(goToScene);
             break;
         }
         case BaseWithNoHistory:
         {
             FlowDataSingleton::getInstance()->clearData();
-            forceToLandscape();
+            //forceToLandscape();
+            acceptAnyOrientation();
             HQHistoryManager::getInstance()->emptyHistory();
-            cocos2d::Scene* goToScene = BaseScene::createScene();
+            cocos2d::Scene* goToScene = BaseScene::create();
             Director::getInstance()->replaceScene(goToScene);
             break;
         }

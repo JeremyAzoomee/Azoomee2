@@ -9,7 +9,7 @@ NS_AZOOMEE_BEGIN
 
 WebViewController *webViewController;
 
-Scene* WebViewNative_ios::createSceneWithURL(std::string url, Vec2 closeButtonAnchor)
+cocos2d::Scene* WebViewNative_ios::createSceneWithURL(std::string url, Vec2 closeButtonAnchor)
 {
     auto scene = Scene::create();
     auto layer = WebViewNative_ios::create();

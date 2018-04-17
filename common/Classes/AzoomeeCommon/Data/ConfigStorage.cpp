@@ -387,7 +387,7 @@ std::string ConfigStorage::getHQSceneNameReplacementForPermissionFeed(const std:
 
 cocos2d::Point ConfigStorage::getHorizontalPositionForMenuItem(const std::string& hqName) const
 {
-    cocos2d::Point visualOrigin = Director::getInstance()->getVisibleOrigin();
+    cocos2d::Point visualOrigin = Vec2(0,0);//Director::getInstance()->getVisibleOrigin();
     cocos2d::Size visualSize = Director::getInstance()->getVisibleSize();
     
     float x = 0;

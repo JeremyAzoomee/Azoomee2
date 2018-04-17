@@ -32,7 +32,7 @@ NS_AZOOMEE_BEGIN
 
 int amountOfItems = 5;
 
-Scene* NavigationLayer::createScene()
+cocos2d::Scene* NavigationLayer::createScene()
 {
     auto scene = Scene::create();
     auto layer = NavigationLayer::create();
@@ -55,7 +55,7 @@ bool NavigationLayer::init()
     AudioMixer::getInstance()->playOomeeIdleSounds(true);
     
     visibleSize = Director::getInstance()->getVisibleSize();
-    origin = Director::getInstance()->getVisibleOrigin();
+    origin = Vec2(0,0);//Director::getInstance()->getVisibleOrigin();
     
     this->setAnchorPoint(Vec2(0.5, 0.5));
     
@@ -155,9 +155,9 @@ void NavigationLayer::changeToScene(const std::string& hqName, float duration)
         this->turnOnMenuItem(hqName);
         removeBackButtonFromNavigation();
         
-        Scene *runningScene = Director::getInstance()->getRunningScene();
-        Node *baseLayer = runningScene->getChildByName("baseLayer");
-        Node *contentLayer = baseLayer->getChildByName("contentLayer");
+        cocos2d::Scene *runningScene = Director::getInstance()->getRunningScene();
+        //Node *baseLayer = runningScene->getChildByName("baseLayer");
+        Node *contentLayer = runningScene->getChildByName("contentLayer");
         HQScene2 *hqLayer = (HQScene2 *)contentLayer->getChildByName(ConfigStorage::kGroupHQName);
         
         hqLayer->removeAllChildren();
@@ -195,9 +195,9 @@ void NavigationLayer::loadArtsAppHQ()
 {
     HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kArtAppHQName);
     
-    Scene *runningScene = Director::getInstance()->getRunningScene();
-    Node *baseLayer = runningScene->getChildByName("baseLayer");
-    Node *contentLayer = baseLayer->getChildByName("contentLayer");
+    cocos2d::Scene *runningScene = Director::getInstance()->getRunningScene();
+    //Node *baseLayer = runningScene->getChildByName("baseLayer");
+    Node *contentLayer = runningScene->getChildByName("contentLayer");
     HQScene2 *hqLayer = (HQScene2 *)contentLayer->getChildByName(ConfigStorage::kArtAppHQName);
     
     hqLayer->startBuildingScrollView();
@@ -420,7 +420,7 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
     listener->setSwallowTouches(true);
     listener->onTouchBegan = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
     {
-        if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0)
+        if(Director::getInstance()->getRunningScene()->getChildByName("contentLayer")->getNumberOfRunningActions() > 0)
         {
             return false;
         }
@@ -554,7 +554,7 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
     listener->setSwallowTouches(true);
     listener->onTouchBegan = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
     {
-        if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0)
+        if(Director::getInstance()->getRunningScene()->getChildByName("contentLayer")->getNumberOfRunningActions() > 0)
         {
             return false;
         }
@@ -569,9 +569,9 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
         {
             AnalyticsSingleton::getInstance()->genericButtonPressEvent("groupBackButton");
             AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
-            Scene *runningScene = Director::getInstance()->getRunningScene();
-            Node *baseLayer = runningScene->getChildByName("baseLayer");
-            Node *contentLayer = baseLayer->getChildByName("contentLayer");
+            cocos2d::Scene *runningScene = Director::getInstance()->getRunningScene();
+            //Node *baseLayer = runningScene->getChildByName("baseLayer");
+            Node *contentLayer = runningScene->getChildByName("contentLayer");
             
             HQHistoryManager::getInstance()->getHistoryLog();
             
@@ -629,7 +629,7 @@ void NavigationLayer::cleanUpPreviousHQ()
     std::string previousHqName = HQHistoryManager::getInstance()->getPreviousHQ();
     if(previousHqName != ConfigStorage::kHomeHQName)
     {
-        HQScene2* lastHQLayer = (HQScene2 *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getChildByName(previousHqName);
+        HQScene2* lastHQLayer = (HQScene2 *)Director::getInstance()->getRunningScene()->getChildByName("contentLayer")->getChildByName(previousHqName);
         
         auto funcCallAction = CallFunc::create([=](){
             lastHQLayer->removeAllChildrenWithCleanup(true);

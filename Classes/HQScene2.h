@@ -24,6 +24,7 @@ public:
     CREATE_FUNC(HQScene2);
     virtual bool init();
     void startBuildingScrollView();
+    void rebuildScrollView();
     
     void setHQCategory(const std::string &hqCategory);
     std::string _hqCategory;

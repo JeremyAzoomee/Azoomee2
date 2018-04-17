@@ -21,7 +21,7 @@ using namespace cocos2d;
 NS_AZOOMEE_BEGIN
 
 
-Scene* LoginScene::createScene()
+cocos2d::Scene* LoginScene::createScene()
 {
     auto scene = Scene::create();
     auto layer = LoginScene::create();

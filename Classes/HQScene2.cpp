@@ -68,7 +68,7 @@ bool HQScene2::init()
     }
     
     _visibleSize = Director::getInstance()->getVisibleSize();
-    _origin = Director::getInstance()->getVisibleOrigin();
+    _origin = Vec2(0,0);//Director::getInstance()->getVisibleOrigin();
     
     if(ConfigStorage::getInstance()->isDeviceIphoneX())
     {
@@ -218,6 +218,20 @@ void HQScene2::startBuildingScrollView()
     {
         showPostContentCTA();
     }
+}
+
+void HQScene2::rebuildScrollView()
+{
+    this->removeAllChildren();
+    _visibleSize = Director::getInstance()->getVisibleSize();
+    _origin = Vec2(0,0);//Director::getInstance()->getVisibleOrigin();
+    
+    if(ConfigStorage::getInstance()->isDeviceIphoneX())
+    {
+        _visibleSize.width -= 200;
+        _origin.x += 100;
+    }
+    startBuildingScrollView();
 }
 
 void HQScene2::addRecentlyPlayedCarousel()

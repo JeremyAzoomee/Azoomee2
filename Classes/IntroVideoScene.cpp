@@ -28,7 +28,7 @@ NS_AZOOMEE_BEGIN
 
 const char* const IntroVideoScene::kSkipVideoKeyInUserDefault = "canSkipVideo";
 
-Scene* IntroVideoScene::createScene()
+cocos2d::Scene* IntroVideoScene::createScene()
 {
     auto scene = Scene::create();
     auto layer = IntroVideoScene::create();
