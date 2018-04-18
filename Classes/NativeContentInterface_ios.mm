@@ -1,6 +1,7 @@
 #include "NativeContentInterface_ios.h"
 #include "BaseScene.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Utils/StringFunctions.h>
 #include "WebViewController_ios.h"
 #include "MediaPlayer_ios.h"
 
@@ -39,10 +40,14 @@ void NativeContentInterface_ios::onEnterTransitionDidFinish()
 
 void NativeContentInterface_ios::loadContentBasedOnUrl(const std::string &url, Vec2 closeButtonAnchor)
 {
-    
-    
-    //addWebViewToScreen(url, closeButtonAnchor);
-    addMediaPlayerToScreen(url);
+    if(stringEndsWith(url, "html"))
+    {
+        addWebViewToScreen(url, closeButtonAnchor);
+    }
+    else if(stringEndsWith(url, "m3u8"))
+    {
+        addMediaPlayerToScreen(url);
+    }
 }
 
 void NativeContentInterface_ios::removeWebViewFromScreen()
@@ -72,7 +77,6 @@ void NativeContentInterface_ios::addMediaPlayerToScreen(const std::string &url)
 
 void NativeContentInterface_ios::addWebViewToScreen(const std::string &url, Vec2 closeButtonAnchor)
 {
-
     //Please note: cookie handling in ios is automatic. Set-cookie values are getting set from the httprequest's response, and they are being stored in the shared cookie storage. This is not true on Android (furthermore we are not using the built-in browser).
     
     NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];

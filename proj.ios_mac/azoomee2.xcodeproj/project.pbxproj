@@ -19,7 +19,6 @@
 		025633741F39AB5D0053FF26 /* ForceUpdateSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025633721F39AB5D0053FF26 /* ForceUpdateSingleton.cpp */; };
 		025633791F3B0F5C0053FF26 /* ForceUpdateAppLockScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025633771F3B0F5C0053FF26 /* ForceUpdateAppLockScene.cpp */; };
 		025BE9491E3A1E0000EF76D1 /* ArtsAppHQElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE9471E3A1E0000EF76D1 /* ArtsAppHQElement.cpp */; };
-		025BE9501E3A1E9200EF76D1 /* WebViewController_ios.m in Sources */ = {isa = PBXBuildFile; fileRef = 025BE94F1E3A1E9200EF76D1 /* WebViewController_ios.m */; };
 		025BE9571E3B591C00EF76D1 /* PreviewLoginSignupMessageBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE9551E3B591C00EF76D1 /* PreviewLoginSignupMessageBox.cpp */; };
 		025BE95C1E3B980600EF76D1 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 025BE95B1E3B980600EF76D1 /* WebKit.framework */; };
 		025BE95F1E3BD1F800EF76D1 /* WebViewNativeCaller_android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE95D1E3BD1F800EF76D1 /* WebViewNativeCaller_android.cpp */; };
@@ -35,8 +34,9 @@
 		02C66A9F1FBAF79400F33686 /* HQScene2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02C66A9A1FBAF79200F33686 /* HQScene2.cpp */; };
 		02D4FCD21FCEE5E2005BA020 /* IAPProductDataHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02D4FCD11FCEE5E1005BA020 /* IAPProductDataHandler.mm */; };
 		02D4FCD41FCF0D0C005BA020 /* IAPProductDataHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02D4FCD31FCF0D0B005BA020 /* IAPProductDataHandler.cpp */; };
-		02D64451208744DC00FF17B4 /* MediaPlayer_ios.m in Sources */ = {isa = PBXBuildFile; fileRef = 02D64450208744DB00FF17B4 /* MediaPlayer_ios.m */; };
 		02D644542087489800FF17B4 /* NativeContentInterface_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02D644522087489800FF17B4 /* NativeContentInterface_ios.mm */; };
+		02D644692087826800FF17B4 /* MediaPlayer_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02D644682087826700FF17B4 /* MediaPlayer_ios.mm */; };
+		02D6446B2087828800FF17B4 /* WebViewController_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02D6446A2087828700FF17B4 /* WebViewController_ios.mm */; };
 		02E595861E55DE670052F395 /* OfflineHubScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595841E55DE670052F395 /* OfflineHubScene.cpp */; };
 		02E595891E55DFF00052F395 /* OfflineHubSceneVisuals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595871E55DFF00052F395 /* OfflineHubSceneVisuals.cpp */; };
 		02E5958C1E55F5ED0052F395 /* OfflineGameSearch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E5958A1E55F5ED0052F395 /* OfflineGameSearch.cpp */; };
@@ -315,7 +315,6 @@
 		025BE9471E3A1E0000EF76D1 /* ArtsAppHQElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtsAppHQElement.cpp; sourceTree = "<group>"; };
 		025BE9481E3A1E0000EF76D1 /* ArtsAppHQElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtsAppHQElement.h; sourceTree = "<group>"; };
 		025BE94E1E3A1E9200EF76D1 /* WebViewController_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController_ios.h; sourceTree = "<group>"; };
-		025BE94F1E3A1E9200EF76D1 /* WebViewController_ios.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = WebViewController_ios.m; sourceTree = "<group>"; };
 		025BE9551E3B591C00EF76D1 /* PreviewLoginSignupMessageBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PreviewLoginSignupMessageBox.cpp; sourceTree = "<group>"; };
 		025BE9561E3B591C00EF76D1 /* PreviewLoginSignupMessageBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreviewLoginSignupMessageBox.h; sourceTree = "<group>"; };
 		025BE95B1E3B980600EF76D1 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/WebKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -343,9 +342,10 @@
 		02D4FCD31FCF0D0B005BA020 /* IAPProductDataHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IAPProductDataHandler.cpp; sourceTree = "<group>"; };
 		02D6444A208743FC00FF17B4 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/MediaPlayer.framework; sourceTree = DEVELOPER_DIR; };
 		02D6444F208744DB00FF17B4 /* MediaPlayer_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaPlayer_ios.h; sourceTree = "<group>"; };
-		02D64450208744DB00FF17B4 /* MediaPlayer_ios.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaPlayer_ios.m; sourceTree = "<group>"; };
 		02D644522087489800FF17B4 /* NativeContentInterface_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NativeContentInterface_ios.mm; sourceTree = "<group>"; };
 		02D644532087489800FF17B4 /* NativeContentInterface_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeContentInterface_ios.h; sourceTree = "<group>"; };
+		02D644682087826700FF17B4 /* MediaPlayer_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MediaPlayer_ios.mm; sourceTree = "<group>"; };
+		02D6446A2087828700FF17B4 /* WebViewController_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WebViewController_ios.mm; sourceTree = "<group>"; };
 		02E595841E55DE670052F395 /* OfflineHubScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OfflineHubScene.cpp; sourceTree = "<group>"; };
 		02E595851E55DE670052F395 /* OfflineHubScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfflineHubScene.h; sourceTree = "<group>"; };
 		02E595871E55DFF00052F395 /* OfflineHubSceneVisuals.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OfflineHubSceneVisuals.cpp; sourceTree = "<group>"; };
@@ -1140,7 +1140,7 @@
 			isa = PBXGroup;
 			children = (
 				02D6444F208744DB00FF17B4 /* MediaPlayer_ios.h */,
-				02D64450208744DB00FF17B4 /* MediaPlayer_ios.m */,
+				02D644682087826700FF17B4 /* MediaPlayer_ios.mm */,
 				A15B2F971DE74F6400D25334 /* WebViewSelector.cpp */,
 				A15B2F981DE74F6400D25334 /* WebViewSelector.h */,
 				02D644532087489800FF17B4 /* NativeContentInterface_ios.h */,
@@ -1148,7 +1148,7 @@
 				D13C40131E339F5E002360A6 /* ios_Cocos2d_Callbacks.h */,
 				D13C40141E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm */,
 				025BE94E1E3A1E9200EF76D1 /* WebViewController_ios.h */,
-				025BE94F1E3A1E9200EF76D1 /* WebViewController_ios.m */,
+				02D6446A2087828700FF17B4 /* WebViewController_ios.mm */,
 				025BE95D1E3BD1F800EF76D1 /* WebViewNativeCaller_android.cpp */,
 				025BE95E1E3BD1F800EF76D1 /* WebViewNativeCaller_android.h */,
 			);
@@ -1564,6 +1564,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02D6446B2087828800FF17B4 /* WebViewController_ios.mm in Sources */,
 				02E595901E55F9960052F395 /* OfflineHubHQ.cpp in Sources */,
 				0281F5C71E89210C001FCE60 /* LoginLogicHandler.cpp in Sources */,
 				A19862221DD3836D0090F053 /* ChildSelectorScene.cpp in Sources */,
@@ -1589,6 +1590,7 @@
 				43FDC6681EF7F743009B596B /* ConfirmationLayer.cpp in Sources */,
 				9224BFB71F794BFA00108553 /* DynamicNodeHandler.cpp in Sources */,
 				A15B2FAF1DEDD1D500D25334 /* BackEndCaller.cpp in Sources */,
+				02D644692087826800FF17B4 /* MediaPlayer_ios.mm in Sources */,
 				926173A71F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp in Sources */,
 				9289DA0A1FBDD6EB00B12435 /* ContentHistoryManager.cpp in Sources */,
 				9220EADB2010F08200BD7A90 /* AddChildFlowController.cpp in Sources */,
@@ -1608,7 +1610,6 @@
 				0243B8DB1F1F5D5C005D3734 /* ChatNotificationsSingleton.cpp in Sources */,
 				4315CD041EEEC99600B4F22C /* KidsControlLayer.cpp in Sources */,
 				9289DAF61FCEEFF000B12435 /* DynamicNodeTextInput.cpp in Sources */,
-				025BE9501E3A1E9200EF76D1 /* WebViewController_ios.m in Sources */,
 				437395811ED3441F00C29DB1 /* FlowDataSingleton.cpp in Sources */,
 				02E595891E55DFF00052F395 /* OfflineHubSceneVisuals.cpp in Sources */,
 				9224BFB41F7932D200108553 /* ButtonActionData.cpp in Sources */,
@@ -1623,7 +1624,6 @@
 				02E595C31E5D9EE70052F395 /* OfflineText.cpp in Sources */,
 				02A11FF81EA6375D007EDD95 /* RoutePaymentSingleton.cpp in Sources */,
 				D13C40151E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm in Sources */,
-				02D64451208744DC00FF17B4 /* MediaPlayer_ios.m in Sources */,
 				430C30EA1EEAA0CF00E27589 /* SettingsKidsLayer.cpp in Sources */,
 				430EC1501EE992B900B0103B /* AccountDetailsLayer.cpp in Sources */,
 				02E595861E55DE670052F395 /* OfflineHubScene.cpp in Sources */,

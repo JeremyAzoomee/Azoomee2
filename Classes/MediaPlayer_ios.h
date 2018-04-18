@@ -10,10 +10,14 @@
 #import <MediaPlayer/MediaPlayer.h>
 
 @interface MediaPlayerController: UIViewController {
-
+    bool exitRequested;
+    CALayer *loadingLayer;
 }
+
+@property (nonatomic, strong) MPMoviePlayerController* moviePlayerController;
 
 -(id)init;
 -(void)startBuildingMediaPlayer:(NSString*)url;
+-(void)addBackButton;
 
 @end
