@@ -144,7 +144,7 @@ void GameDataManager::JSONFileIsPresent(const std::string &itemId)
     }
     else if(!HQHistoryManager::getInstance()->isOffline)
     {
-        streamGameIfPossible(basePathWithFileName);
+        //streamGameIfPossible(basePathWithFileName);
         
         downloadGameIfPossible(basePathWithFileName, itemId);
     }
