@@ -175,6 +175,17 @@ void BaseScene::onSizeChanged()
             }
         }
     }
+    auto navLayer = this->getChildByName("NavigationLayer");
+    if(navLayer == nullptr)
+    {
+        return;
+    }
+    
+    NavigationLayer* navigation = dynamic_cast<NavigationLayer*>(navLayer);
+    if(navigation)
+    {
+        navigation->repositionElements();
+    }
 }
 
 NS_AZOOMEE_END

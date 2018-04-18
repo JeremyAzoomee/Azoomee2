@@ -11,6 +11,7 @@
 #include "OnlineSafetyDetailsLayer.h"
 #include "FlowDataSingleton.h"
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 
 #define LINE_WIDTH 4
 #define TAB_SPACING 50
@@ -188,9 +189,14 @@ void SettingsControlLayer::removeSelf()
     }
     else
     {
-        AudioMixer::getInstance()->resumeBackgroundMusic();
-        this->removeChild(backgroundLayer);
-        this->removeFromParent();
+        if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+        {
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+        }
+        else
+        {
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+        }
     }
 }
 

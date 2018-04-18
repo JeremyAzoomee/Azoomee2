@@ -18,7 +18,8 @@ enum SceneNameEnum {
     WebviewPortrait,
     WebviewLandscape,
     ArtAppEntryPointScene,
-    SettingsFromChat
+    SettingsFromChat,
+    Settings
 };
 
 class SceneManagerScene : public cocos2d::Layer
