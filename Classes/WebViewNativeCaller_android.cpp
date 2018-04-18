@@ -8,6 +8,7 @@
 #include "VideoPlaylistManager.h"
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
 #include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/jni/JniHelper.h"
@@ -21,7 +22,7 @@ using namespace Azoomee;
 
 NS_AZOOMEE_BEGIN
 
-cocos2d::Scene* WebViewNativeCaller_android::createSceneWithUrl(const std::string& url, Orientation orientation)
+cocos2d::Scene* WebViewNativeCaller_android::createSceneWithUrl(const std::string& url, Orientation orientation, Vec2 closeButtonAnchor)
 {
     auto scene = cocos2d::Scene::create();
     auto layer = WebViewNativeCaller_android::create();
@@ -29,6 +30,7 @@ cocos2d::Scene* WebViewNativeCaller_android::createSceneWithUrl(const std::strin
     
     layer->loadUrl = url;
     layer->_orientation = orientation;
+    layer->_closeButtonAnchor = closeButtonAnchor;
 
     return scene;
 }
@@ -119,7 +121,7 @@ void WebViewNativeCaller_android::onEnterTransitionDidFinish()
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     SessionIdManager::getInstance()->registerAndroidSceneChangeEvent();
     
-    JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "startWebView", loadUrl,ChildDataProvider::getInstance()->getLoggedInChildId(),(int)_orientation);
+    JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "startWebView", loadUrl,ChildDataProvider::getInstance()->getLoggedInChildId(),(int)_orientation, _closeButtonAnchor.x, _closeButtonAnchor.y);
         
 #endif
 }
@@ -205,16 +207,16 @@ JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIGetLocalDataStorage(
 
 extern "C"
 {
-    JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JNICalls_JNISendAPIRequest(JNIEnv* env, jobject thiz, jstring method, jstring responseID, jstring score);
+    JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JNICalls_JNISendAPIRequest(JNIEnv* env, jobject thiz, jstring method, jstring responseID, jstring sendData);
 };
 
-JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JNICalls_JNISendAPIRequest(JNIEnv* env, jobject thiz, jstring method, jstring responseID, jstring score)
+JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JNICalls_JNISendAPIRequest(JNIEnv* env, jobject thiz, jstring method, jstring responseID, jstring sendData)
 {
     const char* cMethod = env->GetStringUTFChars(method, NULL);
     const char* cResponseID = env->GetStringUTFChars(responseID, NULL);
-    const char* cScore = env->GetStringUTFChars(score, NULL);
+    const char* cSendData = env->GetStringUTFChars(sendData, NULL);
     
-    jstring returnString = env->NewStringUTF(WebGameAPIDataManager::getInstance()->handleAPIRequest(cMethod, cResponseID, cScore));
+    jstring returnString = env->NewStringUTF(WebGameAPIDataManager::getInstance()->handleAPIRequest(cMethod, cResponseID, cSendData));
     return returnString;
 }
 
@@ -245,6 +247,21 @@ extern "C"
 JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIGetAllCookies(JNIEnv* env, jobject thiz)
 {
     jstring returnString = env->NewStringUTF(CookieDataProvider::getInstance()->getAllCookiesInJson().c_str());
+    return returnString;
+}
+
+#endif
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+
+extern "C"
+{
+    JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIGetRemoteWebGameAPIPath(JNIEnv* env, jobject thiz);
+};
+
+JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIGetRemoteWebGameAPIPath(JNIEnv* env, jobject thiz)
+{
+    jstring returnString = env->NewStringUTF(ConfigStorage::getInstance()->getRemoteWebGameAPIPath().c_str());
     return returnString;
 }
 

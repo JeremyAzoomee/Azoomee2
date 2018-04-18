@@ -36,6 +36,8 @@
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "GooglePaymentSingleton.h"
 #include "AmazonPaymentSingleton.h"
+#include "platform/android/jni/JniHelper.h"
+static const std::string kAzoomeeActivityJavaClassName = "org/cocos2dx/cpp/AppActivity";
 #endif
 
 using namespace cocos2d;
@@ -267,11 +269,11 @@ void BackEndCaller::childLogin(int childNumber)
 {
     displayLoadingScreen();
     
-    const std::string& profileName = ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber);
+    const std::string& profileName = ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(childNumber);
     HttpRequestCreator* request = API::ChildLoginRequest(profileName, this);
     request->execute();
     
-    ChildDataParser::getInstance()->setLoggedInChildName(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber));
+    ChildDataParser::getInstance()->setLoggedInChildName(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(childNumber));
     ChildDataParser::getInstance()->setLoggedInChildNumber(childNumber);
 }
 
@@ -384,21 +386,21 @@ void BackEndCaller::onUpdateChildAnswerReceived()
 void BackEndCaller::verifyGooglePayment(const std::string& orderId, const std::string& iapSku, const std::string& purchaseToken)
 {
     HttpRequestCreator* request = API::VerifyGooglePaymentRequest(orderId, iapSku, purchaseToken, this);
-    request->execute();
+    request->execute(30.0f);
 }
 
 //AMAZON VERIFY PAYMENT---------------------------------------------------------------------
 void BackEndCaller::verifyAmazonPayment(const std::string& requestId, const std::string& receiptId, const std::string& amazonUserid)
 {
     HttpRequestCreator* request = API::VerifyAmazonPaymentRequest(requestId, receiptId, amazonUserid, this);
-    request->execute();
+    request->execute(30.0f);
 }
 
 //APPLE VERIFY PAYMENT----------------------------------------------------------------------
 void BackEndCaller::verifyApplePayment(const std::string& receiptData)
 {
     HttpRequestCreator* request = API::VerifyApplePaymentRequest(receiptData, this);
-    request->execute();
+    request->execute(30.0f);
 }
 
 //GET CONTENT-------------------------------------------------------------------------------
@@ -505,9 +507,11 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     }
     else
     {
-        for(int i = 0; i < 6; i++)
+        std::vector<std::string> hqNames = ConfigStorage::getInstance()->getHqNames();
+        hqNames.push_back(ConfigStorage::kGroupHQName);
+        for(const std::string& hqName : hqNames)
         {
-            if(requestTag == ConfigStorage::getInstance()->getNameForMenuItem(i))
+            if(requestTag == hqName)
             {
                 HQDataParser::getInstance()->onGetContentAnswerReceived(body, requestTag);
                 break;

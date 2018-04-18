@@ -301,6 +301,15 @@ public class IabHelper {
             logDebug("Constructing buy intent for " + sku + ", item type: " + itemType);
             Bundle buyIntentBundle;
             if (oldSkus == null || oldSkus.isEmpty()) {
+                if(mService == null)
+                {
+                    if (listener != null)
+                    {
+                        result = new IabResult(BILLING_RESPONSE_RESULT_ERROR, "IAB Service not available.");
+                        listener.onIabPurchaseFinished(result, null);
+                    }
+                    return;
+                }
                 // Purchasing a new item or subscription re-signup
                 buyIntentBundle = mService.getBuyIntent(3, mContext.getPackageName(), sku, itemType,
                         extraData);

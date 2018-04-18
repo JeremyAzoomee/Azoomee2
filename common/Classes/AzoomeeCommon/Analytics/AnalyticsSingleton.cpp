@@ -110,9 +110,9 @@ void AnalyticsSingleton::registerChildID(std::string ChildID)
 
 void AnalyticsSingleton::registerChildGenderAndAge(int childNumber)
 {
-    mixPanelRegisterSuperProperties("sex",ParentDataProvider::getInstance()->getSexForAnAvailableChildren(childNumber));
+    mixPanelRegisterSuperProperties("sex",ParentDataProvider::getInstance()->getSexForAnAvailableChild(childNumber));
     
-    int childAge = ageFromDOBString(ParentDataProvider::getInstance()->getDOBForAnAvailableChildren(childNumber));
+    int childAge = ageFromDOBString(ParentDataProvider::getInstance()->getDOBForAnAvailableChild(childNumber));
     
     mixPanelRegisterSuperProperties("age",cocos2d::StringUtils::format("%s%d",NUMBER_IDENTIFIER, childAge));
 }
@@ -297,10 +297,10 @@ void AnalyticsSingleton::hubTapOomeeEvent(int oomeeNumber, std::string oomeeActi
     mixPanelSendEventWithStoredProperties("tapOomee", mixPanelProperties);
 }
 
-void AnalyticsSingleton::navSelectionEvent(std::string hubOrTop, int buttonNumber)
+    void AnalyticsSingleton::navSelectionEvent(std::string hubOrTop, const std::string& buttonName)
 {
     std::map<std::string, std::string> mixPanelProperties;
-    mixPanelProperties["Type"] = ConfigStorage::getInstance()->getNameForMenuItem(buttonNumber);
+    mixPanelProperties["Type"] = buttonName;
     mixPanelProperties["Method"] = hubOrTop;
     
     mixPanelSendEventWithStoredProperties("contentNavSelection", mixPanelProperties);
@@ -391,6 +391,14 @@ void AnalyticsSingleton::contentItemClosedEvent()
     
     mixPanelSendEventWithStoredProperties("contentItemClosed", _analyticsProperties->getStoredContentItemProperties());
     
+}
+    
+void AnalyticsSingleton::lockedContentItemInRecentlyPlayedEvent(const HQContentItemObjectRef &contentItem)
+{
+    const std::map<std::string, std::string>& mixPanelProperties = {
+        {"ContentID", contentItem->getContentItemId()}
+    };
+    mixPanelSendEventWithStoredProperties("lockedContentInRecentlyPlayed", mixPanelProperties);
 }
 
 //------------- PREVIEW ACTIONS ---------------

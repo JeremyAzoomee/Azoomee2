@@ -517,7 +517,7 @@ ElectricDreamsButton* ElectricDreamsButton::createChildSelectorButton()
     spriteOuterButton->setColor(Color3B::WHITE);
     layer->addChild(spriteOuterButton);
     
-    Sprite* spriteInnerButton = Sprite::create("res/navigation/menu6.png");
+    Sprite* spriteInnerButton = Sprite::create("res/navigation/menu_childSelect.png");
     spriteInnerButton->setPosition(spriteOuterButton->getContentSize().width/2, spriteOuterButton->getContentSize().height/2);
     spriteOuterButton->addChild(spriteInnerButton);
     

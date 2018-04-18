@@ -160,6 +160,14 @@ void AwaitingAdultPinLayer::removeSelf(float dt)
     }
 }
 
+void AwaitingAdultPinLayer::onExit()
+{
+    Director::getInstance()->getEventDispatcher()->removeEventListener(_biometricValidationSuccessListener);
+    Director::getInstance()->getEventDispatcher()->removeEventListener(_biometricValidationFailureListener);
+    
+    Node::onExit();
+}
+
 //----------------------- Delegate Functions ----------------------------
 
 void AwaitingAdultPinLayer::textInputIsValid(TextInputLayer* inputLayer, bool isValid)

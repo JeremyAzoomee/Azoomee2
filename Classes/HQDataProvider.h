@@ -23,29 +23,29 @@ public:
     
     //MainHub Area services
     HQContentItemObjectRef getItemDataForSpecificItem(const std::string &itemid);
-    cocos2d::Vec2 getHighlightDataForSpecificItem(const std::string &category, int rowNumber, int itemNumber) const;
+    cocos2d::Vec2 getHighlightDataForSpecificItem(const std::string &hqName, int rowNumber, int itemNumber) const;
     
-    std::string getThumbnailUrlForItem(const std::string &category, int rowNumber, int itemNumber) const;
+    std::string getThumbnailUrlForItem(const std::string &hqName, int rowNumber, int itemNumber) const;
     std::string getThumbnailUrlForItem(const std::string &itemId) const;
-    std::string getThumbnailUrlForItem(const std::string &category, const std::string &itemiId) const;
+    std::string getThumbnailUrlForItem(const std::string &hqName, const std::string &itemiId) const;
     std::string getThumbnailUrlForItem(HQContentItemObjectRef element, const cocos2d::Vec2 &shape) const;
     
-    std::string getHumanReadableHighlightDataForSpecificItem(const std::string &category, int rowNumber, int itemNumber) const;
+    std::string getHumanReadableHighlightDataForSpecificItem(const std::string &hqName, int rowNumber, int itemNumber) const;
     std::string convertShapeToThumbnailKey(const cocos2d::Vec2 &shape) const;
-    void getDataForHQ(const std::string &category);
+    void getDataForHQ(const std::string &hqName);
     void getDataForGroupHQ(const std::string &uri);
     
     //HQ Area services
-    int getNumberOfRowsForHQ(const std::string &category) const;
-    int getNumberOfElementsForRow(const std::string &category, int index) const;
-    std::vector<HQContentItemObjectRef> getElementsForRow(const std::string &category, int index);
-    std::string getTitleForRow(const std::string &category, int index) const;
-    std::string getTypeForSpecificItem(const std::string &category, const std::string &itemId) const;
+    int getNumberOfRowsForHQ(const std::string &hqName) const;
+    int getNumberOfElementsForRow(const std::string &hqName, int index) const;
+    std::vector<HQContentItemObjectRef> getElementsForRow(const std::string &hqName, int index);
+    std::string getTitleForRow(const std::string &hqName, int index) const;
+    std::string getTypeForSpecificItem(const std::string &hqName, const std::string &itemId) const;
     
-    std::vector<HQContentItemObjectRef> getAllContentItemsInRow(const std::string &category, int rowNumber);
+    std::vector<HQContentItemObjectRef> getAllContentItemsInRow(const std::string &hqName, int rowNumber);
     
     //Callback to start building HQ
-    void startBuildingHQ(const std::string &category);
+    void startBuildingHQ(const std::string &hqName);
     
     //Loading screen
     void displayLoadingScreen();

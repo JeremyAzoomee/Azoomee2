@@ -87,7 +87,7 @@ public:
     
     //-------------HUB ACTIONS-------------------
     void hubTapOomeeEvent(int oomeeNumber, std::string oomeeAction);
-    void navSelectionEvent(std::string hubOrTop, int buttonNumber);
+    void navSelectionEvent(std::string hubOrTop, const std::string& buttonName);
     
     //-------------CONTENTITEM EVENTS----------
     void contentItemSelectedEvent(const std::string& Type);
@@ -99,6 +99,7 @@ public:
     void contentItemWebviewStartedEvent();
     void contentItemClosedEvent();
     void updateContentItemDetails(const HQContentItemObjectRef &contentItem);
+    void lockedContentItemInRecentlyPlayedEvent(const HQContentItemObjectRef& contentItem);
 
     //------------- PREVIEW ACTIONS ---------------
     void previewContentClickedEvent(std::string Title,std::string Description, std::string Type);

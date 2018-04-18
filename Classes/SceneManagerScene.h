@@ -29,13 +29,15 @@ private:
     
     std::string webviewURL;
     
+    cocos2d::Vec2 _closeButtonAnchor;
+    
     void forceToPortrait();
     void forceToLandscape();
     void acceptAnyOrientation();
     
 public:
     static cocos2d::Scene* createScene(SceneNameEnum sceneName);
-    static cocos2d::Scene* createWebview(Orientation _orientation, const std::string& URL);
+    static cocos2d::Scene* createWebview(Orientation _orientation, const std::string& URL, cocos2d::Vec2 closeButtonAnchor = cocos2d::Vec2(0,0));
     
     virtual bool init();
     

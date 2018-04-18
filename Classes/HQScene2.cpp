@@ -10,6 +10,7 @@
 #include "HQSceneArtsApp.h"
 #include "OfflineHubBackButton.h"
 #include "RecentlyPlayedManager.h"
+#include "ArtAppDelegate.h"
 #include <AzoomeeCommon/UI/PrivacyLayer.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
@@ -18,6 +19,11 @@
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+
+#if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+#include <AzoomeeCommon/Utils/IosNativeFunctionsSingleton.h>
+#endif
 
 
 using namespace cocos2d;
@@ -90,6 +96,13 @@ void HQScene2::startBuildingScrollView()
         return;
     }
     
+#if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    if(startingReviewProcessRequired())
+    {
+        IosNativeFunctionsSingleton::getInstance()->startIosReviewProcess();
+    }
+#endif
+    
     if(this->getName() == ConfigStorage::kArtAppHQName)
     {
         auto artsLayer = this->getChildByName(ConfigStorage::kArtAppHQName);
@@ -109,10 +122,10 @@ void HQScene2::startBuildingScrollView()
     
     for(int rowIndex = 0; rowIndex < HQDataProvider::getInstance()->getNumberOfRowsForHQ(_hqCategory); rowIndex++)
     {
-        cocos2d::LayerColor* carouselLayer = createNewCarousel();
-        
         const std::vector<HQContentItemObjectRef> &elementsForRow = HQDataProvider::getInstance()->getElementsForRow(_hqCategory, rowIndex);
         float lowestElementYPosition = 0;
+        
+        cocos2d::LayerColor* carouselLayer = createNewCarousel();
         
         for(int elementIndex = 0; elementIndex < elementsForRow.size(); elementIndex++)
         {
@@ -160,6 +173,11 @@ void HQScene2::startBuildingScrollView()
     float lastCarouselPosition = scrollView->getInnerContainerSize().height;
     for(int carouselIndex = 0; carouselIndex < _carouselStorage.size(); carouselIndex++)
     {
+        if(HQDataProvider::getInstance()->getElementsForRow(_hqCategory, carouselIndex).size() == 0)
+        {
+            continue;
+        }
+        
         lastCarouselPosition -= kSpaceAboveCarousel;
         
         cocos2d::Layer *carouselTitle = HQScene2CarouselTitle::createForCarousel(HQDataObjectStorage::getInstance()->getHQDataObjectForKey(_hqCategory)->getHqCarousels()[carouselIndex]);
@@ -196,7 +214,10 @@ void HQScene2::startBuildingScrollView()
     
     //show post content cta if necessary
     
-    showPostContentCTA();
+    if(showingPostContentCTARequired())
+    {
+        showPostContentCTA();
+    }
 }
 
 void HQScene2::addRecentlyPlayedCarousel()
@@ -208,31 +229,35 @@ void HQScene2::addRecentlyPlayedCarousel()
     }
     
     const std::vector<HQContentItemObjectRef> recentContent = RecentlyPlayedManager::getInstance()->getRecentlyPlayedContentForHQ(_hqCategory);
-    if(recentContent.size() > 0)
+    auto HQData = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(_hqCategory);
+    auto carouselData = HQData->getHqCarousels();
+    HQCarouselObjectRef recentContentCarousel = HQCarouselObject::create();
+    recentContentCarousel->setTitle(ConfigStorage::kRecentlyPlayedCarouselName);
+    bool carouselExists = false;
+    for(auto carousel : carouselData)
     {
-        auto HQData = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(_hqCategory);
-        auto carouselData = HQData->getHqCarousels();
-        HQCarouselObjectRef recentContentCarousel = HQCarouselObject::create();
-        recentContentCarousel->setTitle("LAST PLAYED");
-        bool carouselExists = false;
-        for(auto carousel : carouselData)
+        if(carousel->getTitle() == ConfigStorage::kRecentlyPlayedCarouselName)
         {
-            if(carousel->getTitle() == "LAST PLAYED")
+            recentContentCarousel = carousel;
+            carouselExists = true;
+            break;
+        }
+    }
+    if(!carouselExists)
+    {
+        HQData->addCarouselToHqFront(recentContentCarousel);
+    }
+    
+    recentContentCarousel->removeAllItemsFromCarousel();
+    for(const HQContentItemObjectRef& item : recentContent)
+    {
+        if(item)
+        {
+            if(!item->isEntitled() && ParentDataProvider::getInstance()->isPaidUser())
             {
-                recentContentCarousel = carousel;
-                carouselExists = true;
-                break;
+                AnalyticsSingleton::getInstance()->lockedContentItemInRecentlyPlayedEvent(item);
             }
-        }
-        if(!carouselExists)
-        {
-            HQData->addCarouselToHqFront(recentContentCarousel);
-        }
-        
-        recentContentCarousel->removeAllItemsFromCarousel();
-        for(const HQContentItemObjectRef& item : recentContent)
-        {
-            if(item)
+            else
             {
                 recentContentCarousel->addContentItemToCarousel(item);
             }
@@ -240,11 +265,27 @@ void HQScene2::addRecentlyPlayedCarousel()
     }
 }
 
-void HQScene2::showPostContentCTA()
+bool HQScene2::startingReviewProcessRequired()
+{
+    if(showingPostContentCTARequired())
+    {
+        return true;
+    }
+    
+    if(_hqCategory == ConfigStorage::kArtAppHQName && ArtAppDelegate::getInstance()->getSecondsSpentInArtApp() > 180)
+    {
+        ArtAppDelegate::getInstance()->setSecondsSpentInArtApp(0);
+        return true;
+    }
+    
+    return false;
+}
+
+bool HQScene2::showingPostContentCTARequired()
 {
     if(!ContentHistoryManager::getInstance()->getReturnedFromContent() || _hqCategory == ConfigStorage::kGroupHQName)
     {
-        return;
+        return false;
     }
     
     int secondsInContent = 0;
@@ -255,15 +296,22 @@ void HQScene2::showPostContentCTA()
     }
     catch(std::out_of_range)
     {
-        return;
+        return false;
     }
     
     ContentHistoryManager::getInstance()->setReturnedFromContent(false);
     HQContentItemObjectRef lastContent = ContentHistoryManager::getInstance()->getLastOpenedContent();
     if(lastContent == nullptr || (lastContent->getType() == ConfigStorage::kContentTypeGame && secondsInContent < 180))
     {
-        return;
+        return false;
     }
+    
+    return true;
+}
+
+void HQScene2::showPostContentCTA()
+{
+    HQContentItemObjectRef lastContent = ContentHistoryManager::getInstance()->getLastOpenedContent();
     
     std::vector<HQCarouselObjectRef> hqCarousels = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(this->getName())->getHqCarousels();
     bool possibleContentFound = false;

@@ -27,59 +27,59 @@ bool ParentDataProvider::init(void)
     return true;
 }
 
-std::string ParentDataProvider::getLoggedInParentActorStatus()
+std::string ParentDataProvider::getLoggedInParentActorStatus() const
 {
     return ParentDataStorage::getInstance()->loggedInParentActorStatus;
 }
 
 
-std::string ParentDataProvider::getLoggedInParentId()
+std::string ParentDataProvider::getLoggedInParentId() const
 {
     return ParentDataStorage::getInstance()->loggedInParentId;
 }
     
-std::string ParentDataProvider::getLoggedInParentCdnSessionId()
+std::string ParentDataProvider::getLoggedInParentCdnSessionId() const
 {
     return ParentDataStorage::getInstance()->loggedInParentCdnSessionId;
 }
 
 
-std::string ParentDataProvider::getLoggedInParentApiKey()
+std::string ParentDataProvider::getLoggedInParentApiKey() const
 {
     return ParentDataStorage::getInstance()->loggedInParentApiKey;
 }
 
-std::string ParentDataProvider::getParentPin()
+std::string ParentDataProvider::getParentPin() const
 {
     return ParentDataStorage::getInstance()->loggedInParentPin;
 }
 
-std::string ParentDataProvider::getLoggedInParentApiSecret()
+std::string ParentDataProvider::getLoggedInParentApiSecret() const
 {
     return ParentDataStorage::getInstance()->loggedInParentApiSecret;
 }
     
-std::string ParentDataProvider::getLoggedInParentAvatarId()
+std::string ParentDataProvider::getLoggedInParentAvatarId() const
 {
     return ParentDataStorage::getInstance()->loggedInParentAvatarId;
 }
     
-std::string ParentDataProvider::getLoggedInParentCountryCode()
+std::string ParentDataProvider::getLoggedInParentCountryCode() const
 {
     return ParentDataStorage::getInstance()->loggedInParentCountryCode;
 }
 
-std::string ParentDataProvider::getBillingStatus()
+std::string ParentDataProvider::getBillingStatus() const
 {
     return ParentDataStorage::getInstance()->loggedInParentBillingStatus;
 }
 
-std::string ParentDataProvider::getBillingDate()
+std::string ParentDataProvider::getBillingDate() const
 {
     return ParentDataStorage::getInstance()->loggedInParentBillingDate;
 }
 
-std::string ParentDataProvider::getBillingProvider()
+std::string ParentDataProvider::getBillingProvider() const
 {
     return ParentDataStorage::getInstance()->loggedInParentBillingProvider;
 }
@@ -123,60 +123,60 @@ int ParentDataProvider::getAmountOfAvailableChildren()
     return (int)parentData->availableChildrenData.Size();
 }
 
-std::string ParentDataProvider::getProfileNameForAnAvailableChildren(int childNumber)
+std::string ParentDataProvider::getProfileNameForAnAvailableChild(int childNumber) const
 {
     return ParentDataStorage::getInstance()->availableChildren.at(childNumber)["profileName"];
 }
     
-std::string ParentDataProvider::getProfileNameForAnAvailableChildrenById(const std::string& childId)
+std::string ParentDataProvider::getProfileNameForAnAvailableChildById(const std::string& childId) const
 {
     ParentDataStorage* data = ParentDataStorage::getInstance();
     auto it = data->availableChildrenById.find(childId);
     if(it != data->availableChildrenById.end())
     {
         int index = it->second;
-        return getProfileNameForAnAvailableChildren(index);
+        return getProfileNameForAnAvailableChild(index);
     }
     // No child with childId found
     cocos2d::log("Warning: no child found with id: %s", childId.c_str());
     return "";
 }
 
-std::string ParentDataProvider::getAvatarForAnAvailableChildren(int childNumber)
+std::string ParentDataProvider::getAvatarForAnAvailableChild(int childNumber) const
 {
     return ParentDataStorage::getInstance()->availableChildren.at(childNumber)["avatar"];
 }
     
-std::string ParentDataProvider::getAvatarForAnAvailableChildrenById(const std::string& childId)
+std::string ParentDataProvider::getAvatarForAnAvailableChildById(const std::string& childId) const
 {
     ParentDataStorage* data = ParentDataStorage::getInstance();
     auto it = data->availableChildrenById.find(childId);
     if(it != data->availableChildrenById.end())
     {
         int index = it->second;
-        return getAvatarForAnAvailableChildren(index);
+        return getAvatarForAnAvailableChild(index);
     }
     // No child with childId found
     cocos2d::log("Warning: no child found with id: %s", childId.c_str());
     return "";
 }
 
-std::string ParentDataProvider::getDOBForAnAvailableChildren(int childNumber)
+std::string ParentDataProvider::getDOBForAnAvailableChild(int childNumber) const
 {
     return ParentDataStorage::getInstance()->availableChildren.at(childNumber)["dob"];
 }
 
-std::string ParentDataProvider::getSexForAnAvailableChildren(int childNumber)
+std::string ParentDataProvider::getSexForAnAvailableChild(int childNumber) const
 {
     return ParentDataStorage::getInstance()->availableChildren.at(childNumber)["sex"];
 }
     
-std::string ParentDataProvider::getIDForAvailableChildren(int childNumber)
+std::string ParentDataProvider::getIDForAvailableChildren(int childNumber) const
 {
     return ParentDataStorage::getInstance()->availableChildren.at(childNumber)["id"];
 }
     
-std::string ParentDataProvider::getInviteCodeForAvailableChildren(int childNumber)
+std::string ParentDataProvider::getInviteCodeForAnAvailableChild(int childNumber) const
 {
     return ParentDataStorage::getInstance()->availableChildren.at(childNumber)["inviteCode"];
 }
@@ -193,32 +193,32 @@ int ParentDataProvider::getNoOfPendingFriendRequest()
     return (int)parentData->pendingFriendRequestData.Size();
 }
     
-std::string ParentDataProvider::getPendingFriendRequestSenderName(int pendingFriendRequestNo)
+std::string ParentDataProvider::getPendingFriendRequestSenderName(int pendingFriendRequestNo) const
 {
     return ParentDataStorage::getInstance()->pendingFriendRequests.at(pendingFriendRequestNo)["senderName"];
 }
 
-std::string ParentDataProvider::getPendingFriendRequestFriendName(int pendingFriendRequestNo)
+std::string ParentDataProvider::getPendingFriendRequestFriendName(int pendingFriendRequestNo) const
 {
     return ParentDataStorage::getInstance()->pendingFriendRequests.at(pendingFriendRequestNo)["friendName"];
 }
     
-std::string ParentDataProvider::getPendingFriendRequestInviteCode(int pendingFriendRequestNo)
+std::string ParentDataProvider::getPendingFriendRequestInviteCode(int pendingFriendRequestNo) const
 {
     return ParentDataStorage::getInstance()->pendingFriendRequests.at(pendingFriendRequestNo)["inviteeCode"];
 }
     
-std::string ParentDataProvider::getPendingFriendRequestRequestID(int pendingFriendRequestNo)
+std::string ParentDataProvider::getPendingFriendRequestRequestID(int pendingFriendRequestNo) const
 {
     return ParentDataStorage::getInstance()->pendingFriendRequests.at(pendingFriendRequestNo)["id"];
 }
     
-std::string ParentDataProvider::getPendingFriendRequestSenderID(int pendingFriendRequestNo)
+std::string ParentDataProvider::getPendingFriendRequestSenderID(int pendingFriendRequestNo) const
 {
     return ParentDataStorage::getInstance()->pendingFriendRequests.at(pendingFriendRequestNo)["senderId"];
 }
 
-std::string ParentDataProvider::getPendingFriendRequestRespondentID(int pendingFriendRequestNo)
+std::string ParentDataProvider::getPendingFriendRequestRespondentID(int pendingFriendRequestNo) const
 {
     return ParentDataStorage::getInstance()->pendingFriendRequests.at(pendingFriendRequestNo)["respondentId"];
 }

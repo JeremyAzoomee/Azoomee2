@@ -56,7 +56,7 @@ void KidsControlLayer::addButtonsAndInput()
     deleteButton->setMixPanelButtonName("Settings-YourKids-Delete");
     childFrameLayer->addChild(deleteButton);
     
-    shareButton = ElectricDreamsButton::createKidCodeShareButton(ParentDataProvider::getInstance()->getInviteCodeForAvailableChildren(childNumber), this->getContentSize().width * 0.66f);
+    shareButton = ElectricDreamsButton::createKidCodeShareButton(ParentDataProvider::getInstance()->getInviteCodeForAnAvailableChild(childNumber), this->getContentSize().width * 0.66f);
     shareButton->setCenterPosition(Vec2(this->getContentSize().width/2,this->getContentSize().height - shareButton->getContentSize().height * 1.5f));
     shareButton->setDelegate(this);
     shareButton->setMixPanelButtonName("Settings-YourKids-ShareCode");
@@ -133,7 +133,7 @@ void KidsControlLayer::sendInviteCode()
 {
     ModalMessages::getInstance()->startLoading();
     
-    HttpRequestCreator *request = API::FriendRequest(ParentDataProvider::getInstance()->getIDForAvailableChildren(childNumber),ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber),stringToUpper(kidCodeTextInput->getText()), this);
+    HttpRequestCreator *request = API::FriendRequest(ParentDataProvider::getInstance()->getIDForAvailableChildren(childNumber),ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(childNumber),stringToUpper(kidCodeTextInput->getText()), this);
     request->execute();
     
     
@@ -160,9 +160,9 @@ void KidsControlLayer::shareKidCode()
 {
     parentLayer->selectChildForSharing(childNumber);
     
-    std::string childsName = ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber);
+    std::string childsName = ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(childNumber);
     
-    nativeShareScreenString(StringUtils::format("%s uses Azoomee to chat safely with family & friends. Enter %s's Kid Code %s in Azoomee to start chatting with your child.\nDownload Azoomee here: http://bit.ly/azoomeekids",childsName.c_str(),childsName.c_str(),ParentDataProvider::getInstance()->getInviteCodeForAvailableChildren(childNumber).c_str()));
+    nativeShareScreenString(StringUtils::format("%s uses Azoomee to chat safely with family & friends. Enter %s's Kid Code %s in Azoomee to start chatting with your child.\nDownload Azoomee here: http://bit.ly/azoomeekids",childsName.c_str(),childsName.c_str(),ParentDataProvider::getInstance()->getInviteCodeForAnAvailableChild(childNumber).c_str()));
 }
 
 void KidsControlLayer::clearAllButCloseButton()

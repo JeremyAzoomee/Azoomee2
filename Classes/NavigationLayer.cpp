@@ -14,6 +14,7 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Utils/StringFunctions.h>
 #include "LoginLogicHandler.h"
 #include "SettingsButton.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
@@ -60,20 +61,22 @@ bool NavigationLayer::init()
     
     //The menupoint strcuture is the following: menuItemImage is a white circle, always visible. menuItemInactive is the inactive image, visible when the menupoint is off. menuItemActive is the image that is visible when the menu is active.
     
-    for(int i = 0; i <= amountOfItems; i++)
+    const std::vector<std::string>& hqNames = ConfigStorage::getInstance()->getHqNames();
+    
+    for(const std::string& hqName : hqNames)
     {
-        auto menuItemHolder = addMenuItemHolder(i);
-        addMenuItemCircle(i, menuItemHolder);
-        if(i == 0)
+        auto menuItemHolder = addMenuItemHolder(hqName);
+        addMenuItemCircle(hqName, menuItemHolder);
+        if(hqName == ConfigStorage::kChatHQName)
         {
             addNotificationBadgeToChatIcon(menuItemHolder);
         }
-        addMenuItemInactive(i, menuItemHolder);                                  //Inactive menuItem is visible, when another menuItem is the selected one. The menu works as a set of radio buttons.
-        addMenuItemActive(i, menuItemHolder);                                    //Active menuItem is visible, when we are in the given menu
+        addMenuItemInactive(hqName, menuItemHolder);                                  //Inactive menuItem is visible, when another menuItem is the selected one. The menu works as a set of radio buttons.
+        addMenuItemActive(hqName, menuItemHolder);                                    //Active menuItem is visible, when we are in the given menu
         
         if(SpecialCalendarEventManager::getInstance()->isXmasTime())
         {
-            addXmasDecorationToMenuItem(i, menuItemHolder);
+            addXmasDecorationToMenuItem(hqName, menuItemHolder);
         }
         
         addListenerToMenuItem(menuItemHolder);
@@ -107,7 +110,7 @@ void NavigationLayer::startLoadingGroupHQ(std::string uri)
     HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kGroupHQName);
     
     this->getParent()->getChildByName("contentLayer")->stopAllActions();
-    this->getParent()->getChildByName("contentLayer")->runAction(Sequence::create(EaseInOut::create(MoveTo::create(0.5, ConfigStorage::getInstance()->getTargetPositionForMove(6)), 2), DelayTime::create(0.5), NULL));
+    this->getParent()->getChildByName("contentLayer")->runAction(Sequence::create(EaseInOut::create(MoveTo::create(0.5, ConfigStorage::getInstance()->getTargetPositionForMove(ConfigStorage::kGroupHQName)), 2), DelayTime::create(0.5), NULL));
     
     moveMenuPointsToHorizontalStateInGroupHQ(0.5);
     turnOffAllMenuItems();
@@ -115,11 +118,10 @@ void NavigationLayer::startLoadingGroupHQ(std::string uri)
     hidePreviewLoginSignupButtons();
 }
 
-void NavigationLayer::changeToScene(ConfigStorage::HubTargetTagNumber target, float duration)
+void NavigationLayer::changeToScene(const std::string& hqName, float duration)
 {
     //CHECK IF THE ENTITLEMENT FOR THAT SPECIFIC HQ IS ENABLED
     
-    const std::string &hqName = ConfigStorage::getInstance()->getNameForMenuItem(target);
     const HQDataObjectRef &currentObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName);
     
     if(!currentObject->getHqEntitlement())
@@ -131,30 +133,26 @@ void NavigationLayer::changeToScene(ConfigStorage::HubTargetTagNumber target, fl
     
     //IF THE BUTTON IS CHAT, START IT
     
-    if(target == ConfigStorage::HubTargetTagNumber::CHAT)
+    if(hqName == ConfigStorage::kChatHQName)
     {
         this->hideNotificationBadge();
         if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
         {
-            AnalyticsSingleton::getInstance()->navSelectionEvent("",target);
+            AnalyticsSingleton::getInstance()->navSelectionEvent("",hqName);
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
         }
         return;
     }
     
-    HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::getInstance()->getNameForMenuItem(target));
+    HQHistoryManager::getInstance()->addHQToHistoryManager(hqName);
     cleanUpPreviousHQ();
-
-    this->startLoadingHQScene(target);
+    
+    this->startLoadingHQScene(hqName);
     this->turnOffAllMenuItems();
-    if(target < ConfigStorage::HubTargetTagNumber::GROUP_HQ)
-    {
-        this->turnOnMenuItem(target);
-    }
     
     if(HQHistoryManager::getInstance()->getCurrentHQ() != ConfigStorage::kGroupHQName)
     {
-        this->turnOnMenuItem(target);
+        this->turnOnMenuItem(hqName);
         removeBackButtonFromNavigation();
         
         Scene *runningScene = Director::getInstance()->getRunningScene();
@@ -172,23 +170,16 @@ void NavigationLayer::changeToScene(ConfigStorage::HubTargetTagNumber target, fl
     }
     
     this->getParent()->getChildByName("contentLayer")->stopAllActions();
-    this->getParent()->getChildByName("contentLayer")->runAction(Sequence::create(EaseInOut::create(MoveTo::create(duration, ConfigStorage::getInstance()->getTargetPositionForMove(target)), 2), DelayTime::create(duration), NULL));
+    this->getParent()->getChildByName("contentLayer")->runAction(Sequence::create(EaseInOut::create(MoveTo::create(duration, ConfigStorage::getInstance()->getTargetPositionForMove(hqName)), 2), DelayTime::create(duration), NULL));
     
     
-    switch (target) {
-        case ConfigStorage::HubTargetTagNumber::CHAT:
-            moveMenuPointsToCircleState(duration);
-            break;
-        case ConfigStorage::HubTargetTagNumber::HOME:
-            moveMenuPointsToCircleState(duration);
-            break;
-        case ConfigStorage::HubTargetTagNumber::GROUP_HQ:
-            moveMenuPointsToHorizontalStateInGroupHQ(duration);
-            break;
-            
-        default:
-            moveMenuPointsToHorizontalState(duration);
-            break;
+    if(hqName == ConfigStorage::kGroupHQName)
+    {
+        moveMenuPointsToHorizontalStateInGroupHQ(duration);
+    }
+    else
+    {
+        moveMenuPointsToHorizontalState(duration);
     }
 }
 
@@ -212,9 +203,9 @@ void NavigationLayer::loadArtsAppHQ()
     hqLayer->startBuildingScrollView();
 }
 
-void NavigationLayer::startLoadingHQScene(ConfigStorage::HubTargetTagNumber target)
+void NavigationLayer::startLoadingHQScene(const std::string& hqName)
 {
-    if(target == ConfigStorage::HubTargetTagNumber::ARTS_APP)
+    if(hqName == ConfigStorage::kArtAppHQName)
     {
         auto funcCallAction = CallFunc::create([=](){
             this->loadArtsAppHQ();
@@ -226,17 +217,17 @@ void NavigationLayer::startLoadingHQScene(ConfigStorage::HubTargetTagNumber targ
     }
     
     auto funcCallAction2 = CallFunc::create([=](){
-        HQDataProvider::getInstance()->getDataForHQ(ConfigStorage::getInstance()->getNameForMenuItem(target));
+        HQDataProvider::getInstance()->getDataForHQ(hqName);
     });
     this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction2, NULL));
 }
 
-Sprite* NavigationLayer::addMenuItemHolder(int itemNumber)
+Sprite* NavigationLayer::addMenuItemHolder(const std::string& hqName)
 {
-    Point position = ConfigStorage::getInstance()->getRelativeCirclePositionForMenuItem(itemNumber);
+    Point position = ConfigStorage::getInstance()->getHorizontalPositionForMenuItem(hqName);
     
     auto menuItemHolder = Sprite::create();
-    menuItemHolder->setTag(itemNumber);
+    menuItemHolder->setName(hqName);
     menuItemHolder->setCascadeOpacityEnabled(true);
     menuItemHolder->setOpacity(0);
     menuItemHolder->setPosition(origin.x+visibleSize.width/2+position.x,origin.y+visibleSize.height/2+position.y);
@@ -245,9 +236,9 @@ Sprite* NavigationLayer::addMenuItemHolder(int itemNumber)
     return menuItemHolder;
 }
 
-Sprite* NavigationLayer::addMenuItemCircle(int itemNumber, Node* toBeAddedTo)
+Sprite* NavigationLayer::addMenuItemCircle(const std::string& hqName, Node* toBeAddedTo)
 {
-    Color4B colour = ConfigStorage::getInstance()->getColourForMenuItem(itemNumber);
+    Color4B colour = ConfigStorage::getInstance()->getColourForMenuItem(hqName);
     
     auto menuItemCircle = Sprite::create("res/navigation/outer_circle.png");
     toBeAddedTo->setContentSize(menuItemCircle->getContentSize());
@@ -260,9 +251,9 @@ Sprite* NavigationLayer::addMenuItemCircle(int itemNumber, Node* toBeAddedTo)
     return menuItemCircle;
 }
 
-Sprite* NavigationLayer::addMenuItemActive(int itemNumber, Node* toBeAddedTo)
+Sprite* NavigationLayer::addMenuItemActive(const std::string& hqName, Node* toBeAddedTo)
 {
-    auto menuItemActive = Sprite::create(StringUtils::format("res/navigation/menu%d_on.png", itemNumber).c_str());
+    auto menuItemActive = Sprite::create(StringUtils::format("res/navigation/menu_%s_on.png", convertStringToAssetSafeString(hqName).c_str()).c_str());
     menuItemActive->setName("on");
     menuItemActive->setOpacity(0);
     menuItemActive->setPosition(toBeAddedTo->getContentSize() / 2);
@@ -271,9 +262,9 @@ Sprite* NavigationLayer::addMenuItemActive(int itemNumber, Node* toBeAddedTo)
     return menuItemActive;
 }
 
-Sprite* NavigationLayer::addMenuItemInactive(int itemNumber, Node* toBeAddedTo)
+Sprite* NavigationLayer::addMenuItemInactive(const std::string& hqName, Node* toBeAddedTo)
 {
-    auto menuItemInactive = Sprite::create(StringUtils::format("res/navigation/menu%d.png", itemNumber).c_str());
+    auto menuItemInactive = Sprite::create(StringUtils::format("res/navigation/menu_%s.png", convertStringToAssetSafeString(hqName).c_str()).c_str());
     menuItemInactive->setName("off");
     menuItemInactive->setPosition(toBeAddedTo->getContentSize() / 2);
     menuItemInactive->setOpacity(255);
@@ -282,9 +273,9 @@ Sprite* NavigationLayer::addMenuItemInactive(int itemNumber, Node* toBeAddedTo)
     return menuItemInactive;
 }
 
-void NavigationLayer::addXmasDecorationToMenuItem(int itemNumber, cocos2d::Node *toBeAddedTo)
+void NavigationLayer::addXmasDecorationToMenuItem(const std::string& hqName, cocos2d::Node *toBeAddedTo)
 {
-    cocos2d::Sprite* xmasDecor = Sprite::create(StringUtils::format("res/xmasdecoration/snow%d.png", itemNumber));
+    cocos2d::Sprite* xmasDecor = Sprite::create(StringUtils::format("res/xmasdecoration/snow%d.png", RandomHelper::random_int(0, 5)));
     xmasDecor->setPosition(Vec2(toBeAddedTo->getContentSize().width / 2, toBeAddedTo->getContentSize().height));
     toBeAddedTo->addChild(xmasDecor, DECORATION_ZORDER);
 }
@@ -308,19 +299,19 @@ void NavigationLayer::addNotificationBadgeToChatIcon(cocos2d::Node* chatIcon)
 
 void NavigationLayer::showNotificationBadge()
 {
-    if(!this->getChildByTag(0)->getChildByName("notification"))
+    if(!this->getChildByName(ConfigStorage::kChatHQName)->getChildByName("notification"))
     {
         return;
     }
     
-    this->getChildByTag(0)->getChildByName("notification")->stopAllActions();
-    this->getChildByTag(0)->getChildByName("notification")->runAction(EaseElasticOut::create(ScaleTo::create(1.0, 1.0)));
+    this->getChildByName(ConfigStorage::kChatHQName)->getChildByName("notification")->stopAllActions();
+    this->getChildByName(ConfigStorage::kChatHQName)->getChildByName("notification")->runAction(EaseElasticOut::create(ScaleTo::create(1.0, 1.0)));
 }
 
 void NavigationLayer::hideNotificationBadge()
 {
-    this->getChildByTag(0)->getChildByName("notification")->stopAllActions();
-    this->getChildByTag(0)->getChildByName("notification")->setScale(0.0);
+    this->getChildByName(ConfigStorage::kChatHQName)->getChildByName("notification")->stopAllActions();
+    this->getChildByName(ConfigStorage::kChatHQName)->getChildByName("notification")->setScale(0.0);
 }
 
 //------------------TOP LEVEL BUTTONS-------------------
@@ -443,8 +434,8 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
         if(rect.containsPoint(locationInNode))
         {
             AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
-            AnalyticsSingleton::getInstance()->navSelectionEvent("",target->getTag());
-            this->changeToScene((ConfigStorage::HubTargetTagNumber)target->getTag(), 0.5);
+            AnalyticsSingleton::getInstance()->navSelectionEvent("",target->getName());
+            this->changeToScene(target->getName(), 0.5);
             
             return true;
         }
@@ -456,7 +447,7 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
 
 void NavigationLayer::runDisplayAnimationForMenuItem(cocos2d::Node* node1, bool quick)
 {
-    Color4B colour = ConfigStorage::getInstance()->getColourForMenuItem(node1->getTag());
+    Color4B colour = ConfigStorage::getInstance()->getColourForMenuItem(node1->getName());
     
     float randomDelay = 0;
     float blinkDelay = 0.0;
@@ -473,56 +464,42 @@ void NavigationLayer::runDisplayAnimationForMenuItem(cocos2d::Node* node1, bool 
 
 void NavigationLayer::turnOffAllMenuItems()
 {
-    for(int i = 0; i <= amountOfItems; i++)
+    
+    const std::vector<std::string>& hqNames = ConfigStorage::getInstance()->getHqNames();
+    
+    for(const std::string& hqName : hqNames)
     {
-        this->getChildByTag(i)->getChildByName("circle")->setOpacity(255);
-        this->getChildByTag(i)->getChildByName("on")->stopAllActions();
-        this->getChildByTag(i)->getChildByName("on")->setOpacity(0);
+        this->getChildByName(hqName)->getChildByName("circle")->setOpacity(255);
+        this->getChildByName(hqName)->getChildByName("on")->stopAllActions();
+        this->getChildByName(hqName)->getChildByName("on")->setOpacity(0);
     }
 }
 
-void NavigationLayer::turnOnMenuItem(int tagNumber)
+void NavigationLayer::turnOnMenuItem(const std::string& hqName)
 {
-    this->getChildByTag(tagNumber)->getChildByName("on")->runAction(Sequence::create(FadeTo::create(0, 255), DelayTime::create(0.1), FadeTo::create(0,0), DelayTime::create(0.1), FadeTo::create(0, 255), NULL));
-    this->getChildByTag(tagNumber)->getChildByName("circle")->setOpacity(0);
+    this->getChildByName(hqName)->getChildByName("on")->runAction(Sequence::create(FadeTo::create(0, 255), DelayTime::create(0.1), FadeTo::create(0,0), DelayTime::create(0.1), FadeTo::create(0, 255), NULL));
+    this->getChildByName(hqName)->getChildByName("circle")->setOpacity(0);
 }
 
 void NavigationLayer::delayedSetButtonOn(float dt)
 {
-    this->setButtonOn(3);
+    this->setButtonOn(ConfigStorage::kGameHQName);
 }
 
-void NavigationLayer::setButtonOn(int i)
+void NavigationLayer::setButtonOn(const std::string& hqName)
 {
-    this->getChildByTag(i)->getChildByName("on")->setOpacity(255);
-    this->getChildByTag(i)->getChildByName("circle")->setOpacity(0);
-}
-
-void NavigationLayer::moveMenuPointsToCircleState(float duration)
-{
-    AudioMixer::getInstance()->playOomeeIdleSounds(true);
-    for(int i = 0; i <= amountOfItems; i++)
-    {
-        auto menuItemImage = (Sprite *)this->getChildByTag(i);
-        Point targetPosition = ConfigStorage::getInstance()->getRelativeCirclePositionForMenuItem(i);
-        
-        menuItemImage->stopAction(menuItemImage->getActionByTag(1));
-        
-        auto action = EaseInOut::create(MoveTo::create(duration, Vec2(origin.x+visibleSize.width/2+targetPosition.x,origin.y+visibleSize.height/2+targetPosition.y)), 2);
-        action->setTag(1);
-        
-        menuItemImage->runAction(action);
-    }
-    topObjectsOnScreen();
+    this->getChildByName(hqName)->getChildByName("on")->setOpacity(255);
+    this->getChildByName(hqName)->getChildByName("circle")->setOpacity(0);
 }
 
 void NavigationLayer::moveMenuPointsToHorizontalState(float duration)
 {
     AudioMixer::getInstance()->playOomeeIdleSounds(false);
-    for(int i = 0; i <= amountOfItems; i++)
+    const std::vector<std::string> hqNames = ConfigStorage::getInstance()->getHqNames();
+    for(const std::string& hqName : hqNames)
     {
-        auto menuItemImage = (Sprite *)this->getChildByTag(i);
-        Point targetPosition = ConfigStorage::getInstance()->getHorizontalPositionForMenuItem(i);
+        auto menuItemImage = (Sprite *)this->getChildByName(hqName);
+        Point targetPosition = ConfigStorage::getInstance()->getHorizontalPositionForMenuItem(hqName);
         
         menuItemImage->stopAction(menuItemImage->getActionByTag(1));
         
@@ -531,16 +508,17 @@ void NavigationLayer::moveMenuPointsToHorizontalState(float duration)
         
         menuItemImage->runAction(action);
     }
-    topObjectsOffScreen();
+    topObjectsOnScreen();
 }
 
 void NavigationLayer::moveMenuPointsToHorizontalStateInGroupHQ(float duration)
 {
     AudioMixer::getInstance()->playOomeeIdleSounds(false);
-    for(int i = 0; i <= amountOfItems; i++)
+    const std::vector<std::string> hqNames = ConfigStorage::getInstance()->getHqNames();
+    for(const std::string& hqName : hqNames)
     {
-        auto menuItemImage = (Sprite *)this->getChildByTag(i);
-        Point targetPosition = ConfigStorage::getInstance()->getHorizontalPositionForMenuItemInGroupHQ(i);
+        auto menuItemImage = (Sprite *)this->getChildByName(hqName);
+        Point targetPosition = ConfigStorage::getInstance()->getHorizontalPositionForMenuItemInGroupHQ(hqName);
         
         menuItemImage->stopAction(menuItemImage->getActionByTag(1));
         
@@ -609,7 +587,7 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
                 this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
             }
 
-            this->changeToScene(ConfigStorage::getInstance()->getTagNumberForMenuName(HQHistoryManager::getInstance()->getPreviousHQ()), 0.5);
+            this->changeToScene(HQHistoryManager::getInstance()->getPreviousHQ(), 0.5);
 
             return true;
         }

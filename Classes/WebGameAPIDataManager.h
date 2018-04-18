@@ -13,7 +13,7 @@ public:
     static WebGameAPIDataManager* getInstance(void);
     virtual ~WebGameAPIDataManager();
     bool init(void);
-    char* handleAPIRequest(const char* method, const char* responseId, const char* score);
+    char* handleAPIRequest(const char* method, const char* responseId, const char* sendData);
     void setGameId(std::string gameId);
     void saveLocalStorageData(std::string stringToBeWritten);
     char* getLocalStorageData();

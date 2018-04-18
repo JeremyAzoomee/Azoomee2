@@ -123,7 +123,7 @@ void RoutePaymentSingleton::refreshAppleReceiptFromButton()
 
 void RoutePaymentSingleton::backendRequestFailed(long errorCode)
 {
-    if(errorCode == 409) //409 means the user was already upgraded, so we can remove the local receipt file.
+    if(errorCode == 409 || errorCode == 422) //409 means the user was already upgraded, so we can remove the local receipt file.
     {
         RoutePaymentSingleton::getInstance()->removeReceiptDataFile();
     }

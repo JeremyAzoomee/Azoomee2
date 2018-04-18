@@ -27,7 +27,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 import javax.crypto.Mac;
@@ -43,16 +45,12 @@ import org.cocos2dx.cpp.util.Purchase;
 import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.tinizine.azoomee.R;
 import com.tinizine.azoomee.common.AzoomeeActivity;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import com.amazon.device.iap.PurchasingService;
@@ -65,11 +63,8 @@ import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.ndk.CrashlyticsNdk;
 import io.fabric.sdk.android.Fabric;
 
-import com.mixpanel.android.mpmetrics.MixpanelAPI;
-
-import com.appsflyer.AppsFlyerLib;
-
 import com.urbanairship.UAirship;
+import com.urbanairship.push.notifications.DefaultNotificationFactory;
 
 
 public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver.IabBroadcastListener {
@@ -91,6 +86,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     private IabHelper mHelper;
     private IabBroadcastReceiver mBroadcastReceiver;
     private boolean mIsPremium;
+    private boolean IABHelperSetupComplete = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,9 +110,17 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
 
         readAdvertisingIdFromDevice();
+
+        //setting up urban airship push notification icons
+        DefaultNotificationFactory defaultNotificationFactory = new DefaultNotificationFactory(getApplicationContext());
+        defaultNotificationFactory.setSmallIconId(R.drawable.ic_launcher);
+        defaultNotificationFactory.setLargeIcon(R.drawable.ic_launcher);
+        defaultNotificationFactory.setColor(NotificationCompat.COLOR_DEFAULT);
+        UAirship airship = UAirship.shared();
+        airship.getPushManager().setNotificationFactory(defaultNotificationFactory);
     }
 
-    public static void startWebView(String url, String userid, int orientation) {
+    public static void startWebView(String url, String userid, int orientation, float closeButtonAnchorX, float closeButtonAnchorY) {
         Intent nvw;
 
         if (url.substring(url.length() - 4).equals("m3u8"))
@@ -139,6 +143,8 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         nvw.putExtra("url", url);
         nvw.putExtra("userid", userid);
         nvw.putExtra("orientation", orientation);
+        nvw.putExtra("closeAnchorX", closeButtonAnchorX);
+        nvw.putExtra("closeAnchorY", closeButtonAnchorY);
 
         mContext.startActivity(nvw);
 
@@ -162,6 +168,21 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         thread.start();
     }
 
+    public static void startAndroidReviewProcess()
+    {
+        final Uri uri = Uri.parse("market://details?id=" + mContext.getApplicationContext().getPackageName());
+        final Intent rateAppIntent = new Intent(Intent.ACTION_VIEW, uri);
+
+        if (mContext.getPackageManager().queryIntentActivities(rateAppIntent, 0).size() > 0)
+        {
+            mContext.startActivity(rateAppIntent);
+        }
+        else
+        {
+    /* handle your error case: the device has no way to handle market urls */
+        }
+    }
+
     public static String getOSBuildManufacturer() {
         return android.os.Build.MANUFACTURER;
     }
@@ -171,7 +192,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     }
 
     public static String getAndroidDeviceAdvertisingId() { //AAID must not be read on the main thread, so it's being read during onCreate, and now the result is being returned.
-        if(advertisingId == "" || advertisingId == null) return "NA";
+        if(advertisingId == null || advertisingId.equals("")) return "NA";
         else return advertisingId;
     }
 
@@ -206,6 +227,14 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     }
 
     //----Mix Panel------
+
+    public static void identifyMixpanel()
+    {
+        if(!getAndroidDeviceAdvertisingId().equals(""))
+        {
+            mAppActivity.mixpanel.identifyMixpanelWithId(getAndroidDeviceAdvertisingId());
+        }
+    }
 
     public static void sendMixPanelWithEventID(String eventID, String jsonPropertiesString) {
         if(mAppActivity.mixpanel == null)
@@ -475,6 +504,8 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
             mIsPremium = (premiumPurchase != null);
             Log.d("GOOGLEPLAY", "User is " + (mIsPremium ? "PREMIUM" : "NOT PREMIUM"));
 
+            IABHelperSetupComplete = true;
+
             if(_purchaseRequiredAfterSetup)
             {
                 startGoogleSubscriptionProcess();
@@ -485,17 +516,26 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     public void startGoogleSubscriptionProcess() {
         _purchaseRequiredAfterSetup = false;
 
+        if(!IABHelperSetupComplete)
+        {
+            googlePurchaseFailed();
+            return;
+        }
+
         if(mIsPremium)
         {
             googlePurchaseFailedAlreadyPurchased();
             return;
         }
 
-        try {
-            if(mHelper == null) //mHelper got disposed in the meantime
-            {
-                googlePurchaseFailed();
-            }
+        if(mHelper == null) //mHelper got disposed in the meantime
+        {
+            googlePurchaseFailed();
+            return;
+        }
+
+        try
+        {
 
             String userId = getLoggedInParentUserId();
 
@@ -507,7 +547,9 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
             mHelper.launchSubscriptionPurchaseFlow(mActivity, getGoogleSku(), 10001,
                     mPurchaseFinishedListener, userId);
-        } catch (IabHelper.IabAsyncInProgressException e) {
+        }
+        catch (IabHelper.IabAsyncInProgressException e)
+        {
             Log.d("GOOGLEPAY", "Error launching purchase flow. Another async operation in progress.");
             googlePurchaseFailed();
         }
