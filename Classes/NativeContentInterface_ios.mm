@@ -1,4 +1,4 @@
-#include "WebViewNative_ios.h"
+#include "NativeContentInterface_ios.h"
 #include "BaseScene.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "WebViewController_ios.h"
@@ -10,16 +10,16 @@ NS_AZOOMEE_BEGIN
 
 WebViewController *webViewController;
 
-Scene* WebViewNative_ios::createSceneWithURL(std::string url, Vec2 closeButtonAnchor)
+Scene* NativeContentInterface_ios::createSceneWithURL(const std::string &url, Vec2 closeButtonAnchor)
 {
     auto scene = Scene::create();
-    auto layer = WebViewNative_ios::create();
+    auto layer = NativeContentInterface_ios::create();
     scene->addChild(layer);
-    layer->startLoadingUrl(url, closeButtonAnchor);
+    layer->loadContentBasedOnUrl(url, closeButtonAnchor);
 
     return scene;
 }
-bool WebViewNative_ios::init()
+bool NativeContentInterface_ios::init()
 {
     if ( !Layer::init() )
     {
@@ -29,7 +29,7 @@ bool WebViewNative_ios::init()
     return true;
 }
 
-void WebViewNative_ios::onEnterTransitionDidFinish()
+void NativeContentInterface_ios::onEnterTransitionDidFinish()
 {
     Director::getInstance()->purgeCachedData();
     this->setName("iosWebView");
@@ -37,24 +37,26 @@ void WebViewNative_ios::onEnterTransitionDidFinish()
 
 //-------------------------------------------All methods are private after this line---------------------------------------
 
-void WebViewNative_ios::startLoadingUrl(std::string url, Vec2 closeButtonAnchor)
+void NativeContentInterface_ios::loadContentBasedOnUrl(const std::string &url, Vec2 closeButtonAnchor)
 {
+    
+    
     //addWebViewToScreen(url, closeButtonAnchor);
-    addMediaPlayerToScreen();
+    addMediaPlayerToScreen(url);
 }
 
-void WebViewNative_ios::removeWebViewFromScreen()
+void NativeContentInterface_ios::removeWebViewFromScreen()
 {
     [webViewController removeWebViewWhileInBackground];
 }
 
-void WebViewNative_ios::reAddWebViewToScreen()
+void NativeContentInterface_ios::reAddWebViewToScreen()
 {
     [webViewController addWebViewToScreen];
     [webViewController createButton];
 }
 
-void WebViewNative_ios::addMediaPlayerToScreen()
+void NativeContentInterface_ios::addMediaPlayerToScreen(const std::string &url)
 {
     UIView *currentView = (UIView*)Director::getInstance()->getOpenGLView()->getEAGLView();
     
@@ -68,7 +70,7 @@ void WebViewNative_ios::addMediaPlayerToScreen()
     [mediaPlayer startBuildingMediaPlayer:iosurl];
 }
 
-void WebViewNative_ios::addWebViewToScreen(std::string url, Vec2 closeButtonAnchor)
+void NativeContentInterface_ios::addWebViewToScreen(const std::string &url, Vec2 closeButtonAnchor)
 {
 
     //Please note: cookie handling in ios is automatic. Set-cookie values are getting set from the httprequest's response, and they are being stored in the shared cookie storage. This is not true on Android (furthermore we are not using the built-in browser).

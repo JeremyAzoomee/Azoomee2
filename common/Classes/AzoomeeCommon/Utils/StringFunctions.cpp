@@ -180,4 +180,17 @@ std::string convertStringToAssetSafeString(const std::string& string)
     return replaceAll(lowerCase, " ", "_");
 }
     
+bool stringEndsWith(const std::string &strToTest, const std::string &endStr)
+{
+    for (int i = 0; i <= strToTest.size(); ++i)
+    {
+        if (strToTest[strToTest.size() - endStr.size() + i] != endStr[i])
+        {
+            return false;
+        }
+    }
+    
+    return true;
+}
+    
 } // Azoomee

@@ -35,6 +35,8 @@
 		02C66A9F1FBAF79400F33686 /* HQScene2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02C66A9A1FBAF79200F33686 /* HQScene2.cpp */; };
 		02D4FCD21FCEE5E2005BA020 /* IAPProductDataHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02D4FCD11FCEE5E1005BA020 /* IAPProductDataHandler.mm */; };
 		02D4FCD41FCF0D0C005BA020 /* IAPProductDataHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02D4FCD31FCF0D0B005BA020 /* IAPProductDataHandler.cpp */; };
+		02D64451208744DC00FF17B4 /* MediaPlayer_ios.m in Sources */ = {isa = PBXBuildFile; fileRef = 02D64450208744DB00FF17B4 /* MediaPlayer_ios.m */; };
+		02D644542087489800FF17B4 /* NativeContentInterface_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02D644522087489800FF17B4 /* NativeContentInterface_ios.mm */; };
 		02E595861E55DE670052F395 /* OfflineHubScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595841E55DE670052F395 /* OfflineHubScene.cpp */; };
 		02E595891E55DFF00052F395 /* OfflineHubSceneVisuals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595871E55DFF00052F395 /* OfflineHubSceneVisuals.cpp */; };
 		02E5958C1E55F5ED0052F395 /* OfflineGameSearch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E5958A1E55F5ED0052F395 /* OfflineGameSearch.cpp */; };
@@ -151,7 +153,6 @@
 		A134ADCE1E0C0F420030BE98 /* HQSceneElementPositioner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A134ADCC1E0C0F420030BE98 /* HQSceneElementPositioner.cpp */; };
 		A154CC521DFEE7440008A626 /* GameDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A154CC501DFEE7440008A626 /* GameDataManager.cpp */; };
 		A15B2F991DE74F6400D25334 /* WebViewSelector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A15B2F971DE74F6400D25334 /* WebViewSelector.cpp */; };
-		A15B2FA11DE7534900D25334 /* WebViewNative_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = A15B2FA01DE7534900D25334 /* WebViewNative_ios.mm */; };
 		A15B2FAF1DEDD1D500D25334 /* BackEndCaller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A15B2FAD1DEDD1D500D25334 /* BackEndCaller.cpp */; };
 		A15B2FCA1DFACF3800D25334 /* HQDataProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A15B2FC81DFACF3800D25334 /* HQDataProvider.cpp */; };
 		A19759841DE4931200FEB03C /* HQSceneElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19759821DE4931200FEB03C /* HQSceneElement.cpp */; };
@@ -163,7 +164,7 @@
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
 		BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C47EA1293683800B63C5D /* QuartzCore.framework */; };
-		D113134C1E337D7C00E2C033 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D113134B1E337D7C00E2C033 /* MediaPlayer.framework */; };
+		D113134C1E337D7C00E2C033 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D113134B1E337D7C00E2C033 /* MediaPlayer.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		D13C40151E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm in Sources */ = {isa = PBXBuildFile; fileRef = D13C40141E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm */; };
 		D13C401B1E33A0F0002360A6 /* AwaitingAdultPinLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D13C40171E33A0F0002360A6 /* AwaitingAdultPinLayer.cpp */; };
 		D44C620C132DFF330009C878 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620B132DFF330009C878 /* OpenAL.framework */; };
@@ -340,6 +341,11 @@
 		02D4FCCB1FCED6E2005BA020 /* IAPProductDataHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPProductDataHandler.h; sourceTree = "<group>"; };
 		02D4FCD11FCEE5E1005BA020 /* IAPProductDataHandler.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IAPProductDataHandler.mm; sourceTree = "<group>"; };
 		02D4FCD31FCF0D0B005BA020 /* IAPProductDataHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IAPProductDataHandler.cpp; sourceTree = "<group>"; };
+		02D6444A208743FC00FF17B4 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/MediaPlayer.framework; sourceTree = DEVELOPER_DIR; };
+		02D6444F208744DB00FF17B4 /* MediaPlayer_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaPlayer_ios.h; sourceTree = "<group>"; };
+		02D64450208744DB00FF17B4 /* MediaPlayer_ios.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaPlayer_ios.m; sourceTree = "<group>"; };
+		02D644522087489800FF17B4 /* NativeContentInterface_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NativeContentInterface_ios.mm; sourceTree = "<group>"; };
+		02D644532087489800FF17B4 /* NativeContentInterface_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeContentInterface_ios.h; sourceTree = "<group>"; };
 		02E595841E55DE670052F395 /* OfflineHubScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OfflineHubScene.cpp; sourceTree = "<group>"; };
 		02E595851E55DE670052F395 /* OfflineHubScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfflineHubScene.h; sourceTree = "<group>"; };
 		02E595871E55DFF00052F395 /* OfflineHubSceneVisuals.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OfflineHubSceneVisuals.cpp; sourceTree = "<group>"; };
@@ -515,8 +521,6 @@
 		A154CC511DFEE7440008A626 /* GameDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameDataManager.h; sourceTree = "<group>"; };
 		A15B2F971DE74F6400D25334 /* WebViewSelector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WebViewSelector.cpp; sourceTree = "<group>"; };
 		A15B2F981DE74F6400D25334 /* WebViewSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewSelector.h; sourceTree = "<group>"; };
-		A15B2F9E1DE752D000D25334 /* WebViewNative_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewNative_ios.h; sourceTree = "<group>"; };
-		A15B2FA01DE7534900D25334 /* WebViewNative_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WebViewNative_ios.mm; sourceTree = "<group>"; };
 		A15B2FAD1DEDD1D500D25334 /* BackEndCaller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BackEndCaller.cpp; sourceTree = "<group>"; };
 		A15B2FAE1DEDD1D500D25334 /* BackEndCaller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackEndCaller.h; sourceTree = "<group>"; };
 		A15B2FC81DFACF3800D25334 /* HQDataProvider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQDataProvider.cpp; sourceTree = "<group>"; };
@@ -783,6 +787,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				02D6444A208743FC00FF17B4 /* MediaPlayer.framework */,
 				026FA3FB200E03460045C305 /* LocalAuthentication.framework */,
 				02BF05D91F977FE800E7D086 /* AirshipKit.framework */,
 				439694891EAA4ACD003C17E6 /* StoreKit.framework */,
@@ -1003,7 +1008,7 @@
 				300742F61EF93433005525AE /* Chat */,
 				A1CC0C161E1407BF008B469E /* Navigation */,
 				A19759861DE4931600FEB03C /* HQScene */,
-				A15B2F9A1DE74F6900D25334 /* NativeWebviews */,
+				A15B2F9A1DE74F6900D25334 /* ContentPlaybackComponents */,
 				A15B2FAA1DEDD13B00D25334 /* BackEndCommunication */,
 				A19862291DD383BD0090F053 /* AppDelegate.cpp */,
 				A198622A1DD383BD0090F053 /* AppDelegate.h */,
@@ -1131,13 +1136,15 @@
 			name = ArtApp;
 			sourceTree = "<group>";
 		};
-		A15B2F9A1DE74F6900D25334 /* NativeWebviews */ = {
+		A15B2F9A1DE74F6900D25334 /* ContentPlaybackComponents */ = {
 			isa = PBXGroup;
 			children = (
+				02D6444F208744DB00FF17B4 /* MediaPlayer_ios.h */,
+				02D64450208744DB00FF17B4 /* MediaPlayer_ios.m */,
 				A15B2F971DE74F6400D25334 /* WebViewSelector.cpp */,
 				A15B2F981DE74F6400D25334 /* WebViewSelector.h */,
-				A15B2FA01DE7534900D25334 /* WebViewNative_ios.mm */,
-				A15B2F9E1DE752D000D25334 /* WebViewNative_ios.h */,
+				02D644532087489800FF17B4 /* NativeContentInterface_ios.h */,
+				02D644522087489800FF17B4 /* NativeContentInterface_ios.mm */,
 				D13C40131E339F5E002360A6 /* ios_Cocos2d_Callbacks.h */,
 				D13C40141E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm */,
 				025BE94E1E3A1E9200EF76D1 /* WebViewController_ios.h */,
@@ -1145,7 +1152,7 @@
 				025BE95D1E3BD1F800EF76D1 /* WebViewNativeCaller_android.cpp */,
 				025BE95E1E3BD1F800EF76D1 /* WebViewNativeCaller_android.h */,
 			);
-			name = NativeWebviews;
+			name = ContentPlaybackComponents;
 			sourceTree = "<group>";
 		};
 		A15B2FA41DEC73B800D25334 /* Login */ = {
@@ -1563,6 +1570,7 @@
 				025BE9491E3A1E0000EF76D1 /* ArtsAppHQElement.cpp in Sources */,
 				025633791F3B0F5C0053FF26 /* ForceUpdateAppLockScene.cpp in Sources */,
 				02074B271E93966D009BB28C /* WebGameAPIDataManager.cpp in Sources */,
+				02D644542087489800FF17B4 /* NativeContentInterface_ios.mm in Sources */,
 				A15B2FCA1DFACF3800D25334 /* HQDataProvider.cpp in Sources */,
 				439694841EAA4A08003C17E6 /* PrivacyAndTermsLayer.cpp in Sources */,
 				02A11FF71EA6375D007EDD95 /* GooglePaymentSingleton.cpp in Sources */,
@@ -1605,7 +1613,6 @@
 				02E595891E55DFF00052F395 /* OfflineHubSceneVisuals.cpp in Sources */,
 				9224BFB41F7932D200108553 /* ButtonActionData.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
-				A15B2FA11DE7534900D25334 /* WebViewNative_ios.mm in Sources */,
 				0215646F1FC4202800641C14 /* HQScene2ElementPositioner.cpp in Sources */,
 				02C66A9F1FBAF79400F33686 /* HQScene2.cpp in Sources */,
 				9224BFB11F7908D400108553 /* DynamicNodeButtonListener.cpp in Sources */,
@@ -1616,6 +1623,7 @@
 				02E595C31E5D9EE70052F395 /* OfflineText.cpp in Sources */,
 				02A11FF81EA6375D007EDD95 /* RoutePaymentSingleton.cpp in Sources */,
 				D13C40151E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm in Sources */,
+				02D64451208744DC00FF17B4 /* MediaPlayer_ios.m in Sources */,
 				430C30EA1EEAA0CF00E27589 /* SettingsKidsLayer.cpp in Sources */,
 				430EC1501EE992B900B0103B /* AccountDetailsLayer.cpp in Sources */,
 				02E595861E55DE670052F395 /* OfflineHubScene.cpp in Sources */,

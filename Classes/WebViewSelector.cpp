@@ -5,7 +5,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-#include "WebViewNative_ios.h"
+#include "NativeContentInterface_ios.h"
 #endif
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -64,11 +64,10 @@ void WebViewSelector::loadWebView(const std::string& url, Orientation orientatio
     AnalyticsSingleton::getInstance()->contentItemWebviewStartedEvent();
     AudioMixer::getInstance()->stopBackgroundMusic();
     
-    std::string userSessionId = ChildDataProvider::getInstance()->getParentOrChildCdnSessionId();
-    std::string mediaurl = "https://tv-media.azoomee.com/netgemstream/"+userSessionId+"/distribution/gb/229a4bec-63bd-437d-abcd-6951a6e6ae99/video_stream.m3u8";
+    //decide to open native media player or webview here
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    auto iosWebView = WebViewNative_ios::createSceneWithURL(url, closeButtonAnchor);
+    auto iosWebView = NativeContentInterface_ios::createSceneWithURL(url, closeButtonAnchor);
     Director::getInstance()->replaceScene(iosWebView);
 #endif
     
