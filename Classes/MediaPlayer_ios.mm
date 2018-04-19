@@ -26,26 +26,40 @@
 
 -(void)startBuildingMediaPlayer:(NSString*)url
 {
-    NSURL *mediaURL = [NSURL URLWithString:url];
-    self.moviePlayerController = [[MPMoviePlayerController alloc] initWithContentURL:mediaURL];
+    NSString* playlistString = Azoomee::getPlaylistString();
+    NSArray* playlistUrls = [playlistString componentsSeparatedByString:@"|"];
+    NSMutableArray* playlistItems = [[NSMutableArray alloc] init];
+    int startPlaylistElementIndex = 0;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(moviePlaybackComplete:)
-                                                 name:MPMoviePlayerPlaybackDidFinishNotification
-                                               object:_moviePlayerController];
+    for(int i = 0; i < playlistUrls.count; i++)
+    {
+        NSURL *mediaURL = [NSURL URLWithString:url]; //TO BE REMOVED FOR PROD
+        
+        if([url isEqualToString:playlistUrls[i]])
+        {
+            startPlaylistElementIndex = i;
+        }
+        
+        AVPlayerItem *item = [[AVPlayerItem alloc] initWithURL:mediaURL];    //TO BE REPLACED FOR PROD WITH: [[AVPlayerItem alloc] initWithURL:[NSURL URLWithString:playlistUrls[i]]];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlaybackLogAccessed:) name:AVPlayerItemNewAccessLogEntryNotification object:item];
+        [playlistItems addObject:item];
+    }
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(moviePlaybackStateChanged:)
-                                                 //name:MPMoviePlayerPlaybackStateDidChangeNotification
-                                                 name: MPMoviePlayerNowPlayingMovieDidChangeNotification
-                                               object:_moviePlayerController];
+    self.queuePlayer = [[AVQueuePlayer alloc] initWithItems:playlistItems];
     
-    [_moviePlayerController.view setFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height)];
+    self.playerController = [[AVPlayerViewController alloc] init];
+    _playerController.player = _queuePlayer;
+    [_playerController.view setFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height)];
     
-    [self.view addSubview:_moviePlayerController.view];
+    [self.view addSubview:_playerController.view];
+    
     [self addLoadingLayer];
+    for(int i = 0; i < startPlaylistElementIndex; i++)
+    {
+        [_queuePlayer advanceToNextItem];
+    }
     
-    [_moviePlayerController play];
+    [_queuePlayer play];
     
     [self addBackButton];
 }
@@ -73,33 +87,24 @@
     
     exitRequested = true;
     [sender removeFromSuperview];
-    [_moviePlayerController stop];
+    [_queuePlayer pause];
+    [_playerController.view removeFromSuperview];
+    
+    if(loadingLayer != nil)
+    {
+        [loadingLayer removeFromSuperlayer];
+        loadingLayer = nil;
+    }
+    
+    Azoomee::navigateToBaseScene();
     
 }
 
 #pragma mark Event listeners ------------------------------------------------------------------------------------------------------
 
-- (void) moviePlaybackComplete:(NSNotification*)notification
+-(void) moviePlaybackLogAccessed:(NSNotification*)notification
 {
-    if(exitRequested)
-    {
-        if(loadingLayer != nil)
-        {
-            [loadingLayer removeFromSuperlayer];
-            loadingLayer = nil;
-        }
-        
-        exitRequested = false;
-        [_moviePlayerController setContentURL:nil];
-        [_moviePlayerController setFullscreen:NO animated:YES];
-        [_moviePlayerController.view removeFromSuperview];
-        Azoomee::navigateToBaseScene();
-    }
-}
-
--(void) moviePlaybackStateChanged:(NSNotification*)notification
-{
-    if(_moviePlayerController.playbackState == 1 && loadingLayer != nil)
+    if(loadingLayer != nil)
     {
         [loadingLayer removeFromSuperlayer];
         loadingLayer = nil;
@@ -144,7 +149,7 @@
     UIImage* loadingTextContent = [UIImage imageNamed:@"res/webcommApi/load.png"];
     [loadingText setContents:(id)loadingTextContent.CGImage];
     float imageAspectRatio = loadingTextContent.size.height / loadingTextContent.size.width;
-    CGSize displaySize = CGSizeMake(screenSize.width / 6, screenSize.width / 6 * imageAspectRatio);
+    CGSize displaySize = CGSizeMake(screenSize.width / 8, screenSize.width / 8 * imageAspectRatio);
     [loadingText setFrame:CGRectMake(midPoint.x - displaySize.width / 2, midPoint.y - displaySize.height / 2, displaySize.width, displaySize.height)];
     [loadingLayer addSublayer:loadingText];
 }

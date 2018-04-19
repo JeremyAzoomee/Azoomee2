@@ -18,6 +18,7 @@ public:
     
     void setPlaylist(const HQCarouselObjectRef &hqCarouselObject);
     std::string getPlaylist();
+    std::string getPlaylistForIosNativePlayer();
     HQContentItemObjectRef getContentItemDataForPlaylistElement(int elementNumber);
     void clearPlaylist();
     

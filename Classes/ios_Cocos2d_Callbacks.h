@@ -19,6 +19,8 @@ extern "C" {
     NSString* getRemoteWebGameAPIPath();
     bool isDeviceIphoneX();
     
+    NSString* getPlaylistString();
+    
 #ifdef __cplusplus
 }
 #endif

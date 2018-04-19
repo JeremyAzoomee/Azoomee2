@@ -8,13 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import <MediaPlayer/MediaPlayer.h>
+#import <AVFoundation/AVFoundation.h>
+#import <AVKit/AVKit.h>
 
 @interface MediaPlayerController: UIViewController {
     bool exitRequested;
     CALayer *loadingLayer;
 }
 
-@property (nonatomic, strong) MPMoviePlayerController* moviePlayerController;
+@property (nonatomic, retain) AVQueuePlayer* queuePlayer;
+@property (nonatomic, retain) AVPlayerViewController* playerController;
 
 -(id)init;
 -(void)startBuildingMediaPlayer:(NSString*)url;

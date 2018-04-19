@@ -43,7 +43,10 @@ std::string VideoPlaylistManager::getPlaylist()
 {
     std::string returnString;
     
-    if(_storedPlaylist->getContentItems().size() == 0) returnString = "noPlaylist";
+    if(_storedPlaylist->getContentItems().size() == 0)
+    {
+        returnString = "noPlaylist";
+    }
     else
     {
         std::vector<std::map<std::string, std::string>> playlistElements;
@@ -69,6 +72,33 @@ std::string VideoPlaylistManager::getPlaylist()
     cocos2d::base64Encode((unsigned char *)returnString.c_str(), (unsigned int)returnString.length(), &output);
     
     return StringUtils::format("%s", output);
+}
+
+std::string VideoPlaylistManager::getPlaylistForIosNativePlayer()
+{
+    std::string returnString;
+    
+    if(_storedPlaylist->getContentItems().size() == 0)
+    {
+        returnString = "noPlaylist";
+    }
+    else
+    {
+        for(auto item : _storedPlaylist->getContentItems())
+        {
+            if(item->isEntitled()&&(item->getType() == "AUDIO" || item->getType() == "VIDEO"))
+            {
+                if(returnString.length() > 0)
+                {
+                    returnString += "|";
+                }
+                
+                returnString += item->getUri();
+            }
+        }
+    }
+    
+    return returnString;
 }
 
 HQContentItemObjectRef VideoPlaylistManager::getContentItemDataForPlaylistElement(int elementNumber)
