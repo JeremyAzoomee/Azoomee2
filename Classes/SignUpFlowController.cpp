@@ -12,6 +12,7 @@
 #include "RoutePaymentSingleton.h"
 #include <AzoomeeCommon/Input/TextInputChecker.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Utils/StringFunctions.h>
 #include "SceneManagerScene.h"
 
 using namespace cocos2d;
@@ -22,6 +23,7 @@ const std::string SignUpFlowController::kEnterEmailCTAName = "signup_email.json"
 const std::string SignUpFlowController::kConfirmEmailCTAName = "signup_email_confirm.json";
 const std::string SignUpFlowController::kEnterPasswordCTAName = "signup_password.json";
 const std::string SignUpFlowController::kEnterPinCTAName = "signup_pin.json";
+const std::string SignUpFlowController::kAcceptTnCsCTAName = "signup_opt_in.json";
 
 SignUpFlowController::SignUpFlowController() noexcept
 {
@@ -54,6 +56,10 @@ void SignUpFlowController::processAction(const ButtonActionDataRef& actionData)
     else if(fileName == kEnterPinCTAName)
     {
         handleEnterPinFlow(actionData, pathAction);
+    }
+    else if(fileName == kAcceptTnCsCTAName)
+    {
+        handleAcceptTnCsFlow(actionData, pathAction);
     }
 }
 
@@ -170,7 +176,7 @@ void SignUpFlowController::handleEnterPinFlow(const ButtonActionDataRef& actionD
             if(isValidPin(pin.c_str()))
             {
                 AnalyticsSingleton::getInstance()->ctaButtonPressed("enterPin_continue");
-                signUp();
+                DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(kAcceptTnCsCTAName, DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
             }
             break;
         }
@@ -184,6 +190,42 @@ void SignUpFlowController::handleEnterPinFlow(const ButtonActionDataRef& actionD
         case CLOSE:
         {
             AnalyticsSingleton::getInstance()->ctaButtonPressed("enterPin_close");
+            exitFlow();
+            break;
+        }
+            
+    }
+}
+
+void SignUpFlowController::handleAcceptTnCsFlow(const ButtonActionDataRef& actionData, FlowPath pathAction)
+{
+    switch(pathAction)
+    {
+        default: case UNKNOWN:
+        {
+            return;
+            break;
+        }
+        case NEXT:
+        {
+            const std::string& tncAccept = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("tncAccept");
+            if(stringToBool(tncAccept))
+            {
+                AnalyticsSingleton::getInstance()->ctaButtonPressed("acceptTnCs_continue");
+                signUp();
+            }
+            break;
+        }
+            
+        case BACK:
+        {
+            AnalyticsSingleton::getInstance()->ctaButtonPressed("acceptTnCs_back");
+            DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(kEnterPinCTAName, DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
+            break;
+        }
+        case CLOSE:
+        {
+            AnalyticsSingleton::getInstance()->ctaButtonPressed("acceptTnCs_close");
             exitFlow();
             break;
         }

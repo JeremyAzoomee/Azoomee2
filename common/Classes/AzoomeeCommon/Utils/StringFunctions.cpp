@@ -180,4 +180,21 @@ std::string convertStringToAssetSafeString(const std::string& string)
     return replaceAll(lowerCase, " ", "_");
 }
     
+bool stringToBool(const std::string& string)
+{
+    if(stringToLower(string) == "true")
+    {
+        return true;
+    }
+    return false;
+}
+
+std::string boolToString(bool boolean)
+{
+    if(boolean)
+    {
+        return "true";
+    }
+    return "false";
+}
 } // Azoomee
