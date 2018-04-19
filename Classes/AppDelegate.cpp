@@ -107,7 +107,7 @@ void AppDelegate::applicationWillEnterForeground()
         }
         HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
         
-        auto baseScene = BaseScene::createScene();
+        auto baseScene = BaseScene::create();
         cocos2d::Director::getInstance()->replaceScene(baseScene);
     }
 
