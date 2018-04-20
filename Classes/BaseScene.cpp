@@ -18,6 +18,8 @@
 
 #include "IAPProductDataHandler.h"
 
+#include "DynamicNodeHandler.h"
+
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
@@ -186,6 +188,9 @@ void BaseScene::onSizeChanged()
     {
         navigation->repositionElements();
     }
+    
+    DynamicNodeHandler::getInstance()->rebuildCurrentCTA();
+    
 }
 
 NS_AZOOMEE_END

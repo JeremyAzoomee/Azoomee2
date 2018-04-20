@@ -17,6 +17,8 @@
 #include "DynamicNodeButton.h"
 #include "DynamicNodeText.h"
 #include "DynamicNodeLine.h"
+#include <AzoomeeCommon/UI/Scene.h>
+#include "DynamicNodeHandler.h"
 
 using namespace cocos2d;
 
@@ -196,6 +198,12 @@ void DynamicNodeCreator::initCTANode()
     
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), overlay);
     
+    if(dynamic_cast<Azoomee::Scene*>(Director::getInstance()->getRunningScene()))
+    {
+        Vec2 origin = Director::getInstance()->getVisibleOrigin();
+        _CTANode->setPosition(-origin);
+    }
+    
     _stencil = ui::Scale9Sprite::create(kCTAAssetLoc + "deep_free_pop_over.png");
     _stencil->setContentSize(Size(_windowSize.width*0.75,_windowSize.height*0.67));
     
@@ -270,7 +278,7 @@ void DynamicNodeCreator::configNodeSize(const rapidjson::Value &sizePercentages)
             
             float width = sizePercentages[0].GetFloat()/100.0f;
             float height = sizePercentages[1].GetFloat()/100.0f;
-            Size newSize = Size(_windowSize.width*width,_windowSize.height*height);
+            Size newSize = Size(2736*width,2048*height);
             
             if(newSize.width > visibleSizeSafe.width || newSize.height > visibleSizeSafe.height)
             {
@@ -441,6 +449,7 @@ void DynamicNodeCreator::resetCTAPopup()
     {
         _CTANode->removeFromParent();
         _CTANode = nullptr;
+        DynamicNodeHandler::getInstance()->_currentCTAFile = "";
     }
 }
 

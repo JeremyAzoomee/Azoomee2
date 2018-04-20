@@ -697,7 +697,36 @@ void NavigationLayer::repositionElements()
     }
     else
     {
-        showPreviewLoginSignupButtonsAfterDelay(0.1);
+        if(HQHistoryManager::getInstance()->getCurrentHQ() == ConfigStorage::kGroupHQName)
+        {
+            if(previewSignUpButton)
+            {
+                previewSignUpButton->setPosition(Vec2(origin.x - previewSignUpButton->getContentSize().width - previewSignUpButton->getContentSize().height/4, origin.y + visibleSize.height- previewSignUpButton->getContentSize().height * 1.25));
+            }
+            
+            if(previewLoginButton)
+            {
+                previewLoginButton->setPosition(Vec2(origin.x+visibleSize.width + previewLoginButton->getContentSize().width + previewLoginButton->getContentSize().height/4, origin.y + visibleSize.height- previewLoginButton->getContentSize().height* 1.25));
+            }
+            
+            auto backButton = this->getChildByName("backButton");
+            if(backButton)
+            {
+                backButton->setPosition(origin.x +backButton->getContentSize().width*.7, origin.y + visibleSize.height - backButton->getContentSize().height*.7);
+            }
+        }
+        else
+        {
+            if(previewSignUpButton)
+            {
+                previewSignUpButton->setPosition(Vec2(origin.x + previewSignUpButton->getContentSize().height/4, origin.y + visibleSize.height- previewSignUpButton->getContentSize().height * 1.25));
+            }
+            
+            if(previewLoginButton)
+            {
+                previewLoginButton->setPosition(Vec2(origin.x+visibleSize.width - previewLoginButton->getContentSize().width - previewLoginButton->getContentSize().height/4, origin.y + visibleSize.height- previewLoginButton->getContentSize().height* 1.25));
+            }
+        }
     }
     
 }

@@ -25,7 +25,6 @@ NS_AZOOMEE_BEGIN
 class DynamicNodeHandler : public cocos2d::Ref, public FileDownloaderDelegate, public FileZipDelegate
 {
 private:
-    
     FileDownloaderRef _fileDownloader = nullptr;
     
     DynamicNodeFlowControllerRef _flowController = nullptr;
@@ -65,6 +64,10 @@ public:
     
     //-----end popup group names
     
+    std::string _currentCTAFile;
+    bool _currentCTAUsingParams = false;
+    std::string _currentCTAParams;
+    
     static DynamicNodeHandler* getInstance(void);
     virtual ~DynamicNodeHandler();
     bool init(void);
@@ -84,6 +87,8 @@ public:
     
     void setFlowController(DynamicNodeFlowControllerRef flowController);
     DynamicNodeFlowControllerRef getFlowController();
+    
+    void rebuildCurrentCTA();
     
     // Delegate functions
     void onAsyncUnzipComplete(bool success, const std::string& zipPath, const std::string& dirpath);

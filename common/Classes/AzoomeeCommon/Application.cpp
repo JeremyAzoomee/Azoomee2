@@ -118,15 +118,17 @@ void Application::applicationWillEnterForeground()
 
 void Application::applicationScreenSizeChanged(int newWidth, int newHeight)
 {
+
     updateResolution(newWidth, newHeight);
-    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     // Notify the running scene if it's an Azoomee::Scene
-    /*auto director = Director::getInstance();
+    auto director = Director::getInstance();
     Azoomee::Scene* scene = dynamic_cast<Azoomee::Scene*>(director->getRunningScene());
     if(scene != nullptr)
     {
         scene->screenSizeDidChange();
-    }*/
+    }
+#endif
 }
 
 void Application::applicationScreenSizeWillChange(int newWidth, int newHeight, float duration)

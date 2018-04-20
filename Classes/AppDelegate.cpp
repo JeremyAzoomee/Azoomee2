@@ -13,6 +13,7 @@
 #include <AzoomeeCommon/ErrorCodes.h>
 #include "ContentHistoryManager.h"
 #include "IAPProductDataHandler.h"
+#include "SceneManagerScene.h"
 
 using namespace cocos2d;
 using namespace Azoomee;
@@ -107,8 +108,7 @@ void AppDelegate::applicationWillEnterForeground()
         }
         HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
         
-        auto baseScene = BaseScene::create();
-        cocos2d::Director::getInstance()->replaceScene(baseScene);
+        cocos2d::Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
     }
 
 #endif

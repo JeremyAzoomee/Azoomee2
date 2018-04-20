@@ -30,7 +30,7 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-const float HQScene2::kSideMarginSize[2] = {20.0f, 20.0f};
+const float HQScene2::kSideMarginSize[2] = {20.0f, 10.0f};
 const float HQScene2::kSpaceAboveCarousel[2] = {200.0f, 200.0f};
 const int HQScene2::kUnitsOnScreen[2] = {4,2};
 const float HQScene2::kContentItemMargin[2] = {20.0f, 20.0f};

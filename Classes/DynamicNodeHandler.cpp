@@ -329,12 +329,18 @@ void DynamicNodeHandler::removeCTAFiles()
 
 void DynamicNodeHandler::createDynamicNodeFromFile(const std::string &file)
 {
+    _currentCTAFile = file;
+    _currentCTAUsingParams = false;
+    _currentCTAParams = "";
     Node* cta = DynamicNodeCreator::getInstance()->createCTAFromFile(file);
     Director::getInstance()->getRunningScene()->addChild(cta);
 }
 
 void DynamicNodeHandler::createDynamicNodeFromFileWithParams(const std::string &file, const std::string& params)
 {
+    _currentCTAFile = file;
+    _currentCTAUsingParams = true;
+    _currentCTAParams = params;
     Node* cta = DynamicNodeCreator::getInstance()->createCTAFromFileWithParams(file, params);
     Director::getInstance()->getRunningScene()->addChild(cta);
 }
@@ -415,6 +421,21 @@ void DynamicNodeHandler::setFlowController(DynamicNodeFlowControllerRef flowCont
 DynamicNodeFlowControllerRef DynamicNodeHandler::getFlowController()
 {
     return _flowController;
+}
+
+void DynamicNodeHandler::rebuildCurrentCTA()
+{
+    if(_currentCTAFile != "")
+    {
+        if(_currentCTAUsingParams)
+        {
+            createDynamicNodeFromFileWithParams(_currentCTAFile, _currentCTAParams);
+        }
+        else
+        {
+            createDynamicNodeFromFile(_currentCTAFile);
+        }
+    }
 }
 
 // Delegate functions
