@@ -72,7 +72,10 @@ void WebViewSelector::loadWebView(const std::string& url, Orientation orientatio
 #endif
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    auto androidWebViewCaller = WebViewNativeCaller_android::createSceneWithUrl(url, orientation, closeButtonAnchor);
+    std::string userSessionId = ChildDataProvider::getInstance()->getParentOrChildCdnSessionId();
+    std::string mediaurl = "https://tv-media.azoomee.com/netgemstream/"+userSessionId+"/distribution/gb/229a4bec-63bd-437d-abcd-6951a6e6ae99/video_stream.m3u8"; //remove this for prod!!!
+    
+    auto androidWebViewCaller = WebViewNativeCaller_android::createSceneWithUrl(mediaurl, orientation, closeButtonAnchor);
     Director::getInstance()->replaceScene(androidWebViewCaller);
 #endif
 }
