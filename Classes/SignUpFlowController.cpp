@@ -209,7 +209,8 @@ void SignUpFlowController::handleAcceptTnCsFlow(const ButtonActionDataRef& actio
         case NEXT:
         {
             const std::string& tncAccept = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("tncAccept");
-            if(stringToBool(tncAccept))
+            const std::string& over18 = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("over18");
+            if(stringToBool(tncAccept) && stringToBool(over18))
             {
                 AnalyticsSingleton::getInstance()->ctaButtonPressed("acceptTnCs_continue");
                 signUp();

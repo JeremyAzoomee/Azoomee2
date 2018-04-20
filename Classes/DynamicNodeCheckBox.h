@@ -22,7 +22,7 @@ private:
     cocos2d::ui::CheckBox* _checkbox = nullptr;
     std::string _valueKey;
     
-    void addCheckboxWithParams(const cocos2d::Vec2& pos, bool selected);
+    void addCheckboxWithParams(const cocos2d::Vec2& pos, float size, bool selected);
     
 public:
     virtual bool init() override;

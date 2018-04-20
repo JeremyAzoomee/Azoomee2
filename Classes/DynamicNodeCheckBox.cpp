@@ -36,21 +36,25 @@ bool DynamicNodeCheckBox::initWithParams(const rapidjson::Value &params, const c
         return false;
     }
     
+    float size = getDoubleFromJson("size", params, 0.0) / 100.0f;
+    
     _valueKey = getStringFromJson("valueKey", params);
     
     bool isSelected = getBoolFromJson("selected", params);
     
-    addCheckboxWithParams(pos, isSelected);
+    addCheckboxWithParams(pos, size, isSelected);
     
     return true;
 }
 
 
-void DynamicNodeCheckBox::addCheckboxWithParams(const cocos2d::Vec2& pos, bool selected)
+void DynamicNodeCheckBox::addCheckboxWithParams(const cocos2d::Vec2& pos, float size, bool selected)
 {
     _checkbox = ui::CheckBox::create("res/cta_assets/check-box-empty.png", "res/cta_assets/correct-symbol.png");
     _checkbox->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _checkbox->setNormalizedPosition(pos);
+    _checkbox->ignoreContentAdaptWithSize(false);
+    _checkbox->setContentSize(Size(this->getContentSize().width, this->getContentSize().width) * size);
     _checkbox->addEventListener([&](Ref* pSender, ui::CheckBox::EventType eType){
         switch (eType) {
             case ui::CheckBox::EventType::SELECTED:
