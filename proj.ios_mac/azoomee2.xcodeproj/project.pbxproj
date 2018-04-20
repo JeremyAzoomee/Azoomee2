@@ -38,6 +38,7 @@
 		02D644692087826800FF17B4 /* MediaPlayer_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02D644682087826700FF17B4 /* MediaPlayer_ios.mm */; };
 		02D6446B2087828800FF17B4 /* WebViewController_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02D6446A2087828700FF17B4 /* WebViewController_ios.mm */; };
 		02D6446D2088AAA700FF17B4 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02D6446C2088AAA600FF17B4 /* AVKit.framework */; };
+		02D6446F2089EBF200FF17B4 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02D6446E2089EBF100FF17B4 /* CoreMedia.framework */; };
 		02E595861E55DE670052F395 /* OfflineHubScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595841E55DE670052F395 /* OfflineHubScene.cpp */; };
 		02E595891E55DFF00052F395 /* OfflineHubSceneVisuals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595871E55DFF00052F395 /* OfflineHubSceneVisuals.cpp */; };
 		02E5958C1E55F5ED0052F395 /* OfflineGameSearch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E5958A1E55F5ED0052F395 /* OfflineGameSearch.cpp */; };
@@ -348,6 +349,7 @@
 		02D644682087826700FF17B4 /* MediaPlayer_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MediaPlayer_ios.mm; sourceTree = "<group>"; };
 		02D6446A2087828700FF17B4 /* WebViewController_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WebViewController_ios.mm; sourceTree = "<group>"; };
 		02D6446C2088AAA600FF17B4 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/AVKit.framework; sourceTree = DEVELOPER_DIR; };
+		02D6446E2089EBF100FF17B4 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/CoreMedia.framework; sourceTree = DEVELOPER_DIR; };
 		02E595841E55DE670052F395 /* OfflineHubScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OfflineHubScene.cpp; sourceTree = "<group>"; };
 		02E595851E55DE670052F395 /* OfflineHubScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfflineHubScene.h; sourceTree = "<group>"; };
 		02E595871E55DFF00052F395 /* OfflineHubSceneVisuals.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OfflineHubSceneVisuals.cpp; sourceTree = "<group>"; };
@@ -561,6 +563,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02D6446F2089EBF200FF17B4 /* CoreMedia.framework in Frameworks */,
 				02D6446D2088AAA700FF17B4 /* AVKit.framework in Frameworks */,
 				026FA3FF200E03460045C305 /* LocalAuthentication.framework in Frameworks */,
 				02BF05DD1F977FE800E7D086 /* AirshipKit.framework in Frameworks */,
@@ -790,6 +793,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				02D6446E2089EBF100FF17B4 /* CoreMedia.framework */,
 				02D6446C2088AAA600FF17B4 /* AVKit.framework */,
 				02D6444A208743FC00FF17B4 /* MediaPlayer.framework */,
 				026FA3FB200E03460045C305 /* LocalAuthentication.framework */,

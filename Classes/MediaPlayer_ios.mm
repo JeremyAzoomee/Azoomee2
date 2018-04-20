@@ -14,6 +14,10 @@
 - (id)init
 {
     exitRequested = false;
+    
+    _videoTimeSent = -1.0f;
+    _previousRate = 0.0f;
+    
     self = [super init];
     return self;
 }
@@ -42,10 +46,17 @@
         
         AVPlayerItem *item = [[AVPlayerItem alloc] initWithURL:mediaURL];    //TO BE REPLACED FOR PROD WITH: [[AVPlayerItem alloc] initWithURL:[NSURL URLWithString:playlistUrls[i]]];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlaybackLogAccessed:) name:AVPlayerItemNewAccessLogEntryNotification object:item];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerItemDidReachEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:item];
+        
         [playlistItems addObject:item];
     }
     
     self.queuePlayer = [[AVQueuePlayer alloc] initWithItems:playlistItems];
+    
+    dispatch_queue_t mainQueue = dispatch_get_main_queue();
+    [self.queuePlayer addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(1.0f, NSEC_PER_SEC) queue:mainQueue usingBlock:^(CMTime time) {
+        [self playbackTimeTickEvent];
+    }];
     
     self.playerController = [[AVPlayerViewController alloc] init];
     _playerController.player = _queuePlayer;
@@ -108,6 +119,67 @@
     {
         [loadingLayer removeFromSuperlayer];
         loadingLayer = nil;
+    }
+}
+
+-(void) playbackTimeTickEvent
+{
+    if(_queuePlayer.currentItem != _lastPlayedItem) //track has changed
+    {
+        _lastPlayedItem = _queuePlayer.currentItem;
+        _videoTimeSent = -1.0f;
+        _previousRate = 0.0f;
+        
+        NSLog(@"VIDEOLOG First frame appeared");
+    }
+    
+    AVPlayerItem *currentItem = _queuePlayer.currentItem;
+    float duration = CMTimeGetSeconds(currentItem.duration);
+    float position = CMTimeGetSeconds(currentItem.currentTime);
+    
+    if(_queuePlayer.rate != _previousRate)
+    {
+        _previousRate = _queuePlayer.rate;
+        NSLog(@"VIDEOLOG Rate change to: %f", _previousRate);
+    }
+    
+    if(duration > 0.0f && position > 0.0f)
+    {
+        float playbackRatio = position / duration;
+        
+        if(playbackRatio > 0.0f && _videoTimeSent < 0.0f)
+        {
+            _videoTimeSent = 0.0f;
+            NSLog(@"VIDEOLOG 0pc passed");
+        }
+        
+        if(playbackRatio > 0.25f && _videoTimeSent < 0.25f)
+        {
+            _videoTimeSent = 0.25f;
+            NSLog(@"VIDEOLOG 25pc passed");
+        }
+        
+        if(playbackRatio > 0.5f && _videoTimeSent < 0.5f)
+        {
+            _videoTimeSent = 0.5f;
+            NSLog(@"VIDEOLOG 50pc passed");
+        }
+        
+        if(playbackRatio > 0.75f && _videoTimeSent < 0.75f)
+        {
+            _videoTimeSent = 0.75f;
+            NSLog(@"VIDEOLOG 75pc passed");
+        }
+    }
+}
+
+-(void) playerItemDidReachEnd:(NSNotification*)notification
+{
+    NSLog(@"VIDEOLOG Item completed");
+    
+    if(_queuePlayer.currentItem == _queuePlayer.items.lastObject)
+    {
+        NSLog(@"VIDEOLOG Playlist completed");
     }
 }
 

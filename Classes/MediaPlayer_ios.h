@@ -14,6 +14,10 @@
 @interface MediaPlayerController: UIViewController {
     bool exitRequested;
     CALayer *loadingLayer;
+    
+    float _videoTimeSent;
+    AVPlayerItem* _lastPlayedItem;
+    float _previousRate;
 }
 
 @property (nonatomic, retain) AVQueuePlayer* queuePlayer;
