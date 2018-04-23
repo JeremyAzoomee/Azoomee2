@@ -80,34 +80,18 @@
     CGSize screenSize = [[UIScreen mainScreen] bounds].size;
     CGFloat buttonWidth = screenSize.width * 0.05;
     
-    UIButton* backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [backButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [backButton setFrame:CGRectMake(buttonWidth / 4.0f, buttonWidth / 4.0f, buttonWidth, buttonWidth)];
-    [backButton setExclusiveTouch:YES];
-    [backButton setImage:[UIImage imageNamed:@"res/navigation/back_button.png"] forState:UIControlStateNormal];
+    _backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_backButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [_backButton setFrame:CGRectMake(buttonWidth / 4.0f, buttonWidth / 4.0f, buttonWidth, buttonWidth)];
+    [_backButton setExclusiveTouch:YES];
+    [_backButton setImage:[UIImage imageNamed:@"res/navigation/back_button.png"] forState:UIControlStateNormal];
     
-    [self.view addSubview:backButton];
+    [self.view addSubview:_backButton];
 }
 
 -(void) buttonClicked:(UIButton*)sender
 {
-    if(exitRequested)
-    {
-        return;
-    }
-    
-    exitRequested = true;
-    [sender removeFromSuperview];
-    [_queuePlayer pause];
-    [_playerController.view removeFromSuperview];
-    
-    if(loadingLayer != nil)
-    {
-        [loadingLayer removeFromSuperlayer];
-        loadingLayer = nil;
-    }
-    
-    Azoomee::navigateToBaseScene();
+    [self cleanupAndExit];
     
 }
 
@@ -180,6 +164,8 @@
     if(_queuePlayer.currentItem == _queuePlayer.items.lastObject)
     {
         NSLog(@"VIDEOLOG Playlist completed");
+        
+        [self cleanupAndExit];
     }
 }
 
@@ -236,6 +222,29 @@
     circleAnimation.fromValue = rotationAtStart;
     circleAnimation.toValue = [NSNumber numberWithFloat:([rotationAtStart floatValue] + 40 * M_PI * direction)];
     [layer addAnimation:circleAnimation forKey:@"transform.rotation"];
+}
+
+#pragma mark cleanup and exit ---------------------------------------------------------------------------------------------------------------
+
+-(void)cleanupAndExit
+{
+    if(exitRequested)
+    {
+        return;
+    }
+    
+    exitRequested = true;
+    [_backButton removeFromSuperview];
+    [_queuePlayer pause];
+    [_playerController.view removeFromSuperview];
+    
+    if(loadingLayer != nil)
+    {
+        [loadingLayer removeFromSuperlayer];
+        loadingLayer = nil;
+    }
+    
+    Azoomee::navigateToBaseScene();
 }
 
 @end

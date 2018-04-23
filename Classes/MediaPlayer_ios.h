@@ -18,6 +18,8 @@
     float _videoTimeSent;
     AVPlayerItem* _lastPlayedItem;
     float _previousRate;
+    
+    UIButton* _backButton;
 }
 
 @property (nonatomic, retain) AVQueuePlayer* queuePlayer;
