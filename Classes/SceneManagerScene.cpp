@@ -93,7 +93,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         }
         case ChildSelector:
         {
-            forceToLandscape();
+            acceptAnyOrientation();
             cocos2d::Scene* goToScene = ChildSelectorScene::createScene();
             AnalyticsSingleton::getInstance()->registerCurrentScene("CHILD_SELECTOR");
             Director::getInstance()->replaceScene(goToScene);

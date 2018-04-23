@@ -572,7 +572,7 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
         FlowDataSingleton::getInstance()->setErrorCode(errorCode);
         if(errorCode == -1)
         {
-            Director::getInstance()->replaceScene(OfflineHubScene::createScene());
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineHub));
             return;
         }
         
