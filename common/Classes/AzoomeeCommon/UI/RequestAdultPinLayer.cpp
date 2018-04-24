@@ -8,6 +8,8 @@
 #include "../Data/Parent/ParentDataParser.h"
 #include "ModalMessages.h"
 #include "../ErrorCodes.h"
+#include "../Utils/BiometricAuthenticationHandler.h"
+#include <AzoomeeCommon/UI/Scene.h>
 
 using namespace cocos2d;
 
@@ -22,10 +24,19 @@ bool RequestAdultPinLayer::init()
     
     this->setName("RequestPinLayer");
     
+    this->setPosition(dynamic_cast<Azoomee::Scene*>(Director::getInstance()->getRunningScene()) ? Vec2(0,0) : -Director::getInstance()->getVisibleOrigin());
+    
     AudioMixer::getInstance()->pauseBackgroundMusic();
     
     createBackgroundLayer();
     addListenerToBackgroundLayer();
+    addListenerToBiometricValidationSuccess();
+    addListenerToBiometricValidationFailure();
+    
+    if(BiometricAuthenticationHandler::getInstance()->biometricAuthenticationSet())
+    {
+        BiometricAuthenticationHandler::getInstance()->startBiometricAuthentication();
+    }
     setPercentageofScreenForBox();
     addUIObjects();
     addOrRemoveWires();
@@ -43,6 +54,37 @@ void RequestAdultPinLayer::createBackgroundLayer()
     this->addChild(backgroundLayer);
     
     currentRunningScene->addChild(this);
+}
+
+void RequestAdultPinLayer::addListenerToBiometricValidationSuccess()
+{
+    _biometricValidationSuccessListener = cocos2d::EventListenerCustom::create(BiometricAuthenticationHandler::kBiometricValidationSuccess, [=](EventCustom* event) {
+        auto funcCallAction = CallFunc::create([=](){
+            this->scheduleOnce(schedule_selector(RequestAdultPinLayer::removeSelf), 0.1);
+            
+            if(this->getDelegate())
+            {
+                this->getDelegate()->AdultPinAccepted(this);
+            }
+        });
+        
+        this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
+    });
+    
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(_biometricValidationSuccessListener, 1);
+}
+
+void RequestAdultPinLayer::addListenerToBiometricValidationFailure()
+{
+    _biometricValidationFailureListener = cocos2d::EventListenerCustom::create(BiometricAuthenticationHandler::kBiometricValidationFailure, [=](EventCustom* event) {
+        auto funcCallAction = CallFunc::create([=](){
+            MessageBox::createWith(BiometricAuthenticationHandler::kAuthFailedDialogTitle, BiometricAuthenticationHandler::kAuthFailedDialogBody, BiometricAuthenticationHandler::kAuthFailedDialogButtons, this);
+        });
+        
+        this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
+    });
+    
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(_biometricValidationFailureListener, 1);
 }
 
 void RequestAdultPinLayer::addListenerToBackgroundLayer()
@@ -99,6 +141,11 @@ void RequestAdultPinLayer::addUIObjects()
     editBox_pin->setPosition(Vec2(windowLayer->getContentSize().width/2 - editBox_pin->getContentSize().width/2 - acceptButton->getContentSize().width*.66, windowLayer->getContentSize().height*.25));
     editBox_pin->setDelegate(this);
     windowLayer->addChild(editBox_pin);
+    
+    if(!BiometricAuthenticationHandler::getInstance()->biometricAuthenticationSet())
+    {
+        editBox_pin->focusAndShowKeyboard();
+    }
     
     editBox_pin->focusAndShowKeyboard();
     
@@ -169,9 +216,19 @@ void RequestAdultPinLayer::removeSelf(float dt)
 {
     if(this)
     {
+        Director::getInstance()->getEventDispatcher()->removeEventListener(_biometricValidationSuccessListener);
+        Director::getInstance()->getEventDispatcher()->removeEventListener(_biometricValidationFailureListener);
         this->removeChild(backgroundLayer);
         this->removeFromParent();
     }
+}
+
+void RequestAdultPinLayer::onExit()
+{
+    Director::getInstance()->getEventDispatcher()->removeEventListener(_biometricValidationSuccessListener);
+    Director::getInstance()->getEventDispatcher()->removeEventListener(_biometricValidationFailureListener);
+    
+    Node::onExit();
 }
 
 void RequestAdultPinLayer::requestUpdatedPin()
@@ -241,7 +298,36 @@ void RequestAdultPinLayer::buttonPressed(ElectricDreamsButton* button)
 
 void RequestAdultPinLayer::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
 {
-    editBox_pin->setEditboxVisibility(true);
+    if(messageBoxTitle == BiometricAuthenticationHandler::kStartBiometricDialogTitle)
+    {
+        if(buttonTitle == BiometricAuthenticationHandler::kStartBiometricDialogButtons.at(0))
+        {
+            BiometricAuthenticationHandler::getInstance()->startBiometricAuthentication();
+        }
+        
+        if(buttonTitle == BiometricAuthenticationHandler::kStartBiometricDialogButtons.at(1))
+        {
+            BiometricAuthenticationHandler::getInstance()->biometricAuthenticationNotNeeded();
+        }
+        
+        this->scheduleOnce(schedule_selector(RequestAdultPinLayer::removeSelf), 0.1);
+        return;
+    }
+    
+    if(messageBoxTitle == BiometricAuthenticationHandler::kAuthFailedDialogTitle)
+    {
+        if(buttonTitle == BiometricAuthenticationHandler::kAuthFailedDialogButtons.at(0))
+        {
+            BiometricAuthenticationHandler::getInstance()->startBiometricAuthentication();
+            return;
+        }
+        
+        if(buttonTitle == BiometricAuthenticationHandler::kAuthFailedDialogButtons.at(1))
+        {
+            editBox_pin->focusAndShowKeyboard();
+            return;
+        }
+    }
     editBox_pin->focusAndShowKeyboard();
     
 }
@@ -257,6 +343,11 @@ void RequestAdultPinLayer::onHttpRequestSuccess(const std::string& requestTag, c
 void RequestAdultPinLayer::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
     checkPinAgainstStoredPin();
+}
+
+void RequestAdultPinLayer::setPinIsForPayment(bool pinIsForPayment)
+{
+    _pinIsForPayment = pinIsForPayment;
 }
 
 NS_AZOOMEE_END

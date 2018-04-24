@@ -149,7 +149,7 @@ void IAPFlowController::startIAP()
 {
     if(ParentDataProvider::getInstance()->isUserLoggedIn())
     {
-        AwaitingAdultPinLayer* pinLayer = AwaitingAdultPinLayer::create();
+        RequestAdultPinLayer* pinLayer = RequestAdultPinLayer::create();
         pinLayer->setDelegate(this);
         pinLayer->setPinIsForPayment(true);
     }
@@ -159,11 +159,11 @@ void IAPFlowController::startIAP()
     }
 }
 
-void IAPFlowController::AdultPinCancelled(AwaitingAdultPinLayer* layer)
+void IAPFlowController::AdultPinCancelled(RequestAdultPinLayer* layer)
 {
 }
 
-void IAPFlowController::AdultPinAccepted(AwaitingAdultPinLayer* layer)
+void IAPFlowController::AdultPinAccepted(RequestAdultPinLayer* layer)
 {
     if(_actionData)
     {

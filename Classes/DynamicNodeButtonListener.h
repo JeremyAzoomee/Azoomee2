@@ -14,7 +14,6 @@
 #include "ui/CocosGUI.h"
 #include <AzoomeeCommon/Data/Json.h>
 #include "ButtonActionData.h"
-#include "AwaitingAdultPinLayer.h"
 
 NS_AZOOMEE_BEGIN
 

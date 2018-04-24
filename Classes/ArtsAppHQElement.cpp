@@ -260,7 +260,7 @@ void ArtsAppHQElement::addListenerToDeleteButton(cocos2d::Sprite *toBeAddedTo)
                 FileUtils::getInstance()->removeFile(_imageURL);
                 if(!HQHistoryManager::getInstance()->isOffline)
                 {
-                    HQScene2 *hqScene = (HQScene2 *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getChildByName(ConfigStorage::kArtAppHQName);
+                    HQScene2 *hqScene = (HQScene2 *)Director::getInstance()->getRunningScene()->getChildByName("contentLayer")->getChildByName(ConfigStorage::kArtAppHQName);
                     hqScene->removeAllChildren();
                     Director::getInstance()->purgeCachedData();
                     hqScene->startBuildingScrollView();

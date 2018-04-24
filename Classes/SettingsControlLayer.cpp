@@ -235,13 +235,13 @@ void SettingsControlLayer::buttonPressed(ElectricDreamsButton* button)
         selectNewTab(OnlineSafetyDetailsLayer::createWithSize(Size(this->getContentSize().width, linePositionY - LINE_WIDTH / 2)), onlineSafetyButton);
 }
 
-void SettingsControlLayer::AdultPinCancelled(AwaitingAdultPinLayer* layer)
+void SettingsControlLayer::AdultPinCancelled(RequestAdultPinLayer* layer)
 {
     removeAdultPinLayerDelegate();
     removeSelf();
 }
 
-void SettingsControlLayer::AdultPinAccepted(AwaitingAdultPinLayer* layer)
+void SettingsControlLayer::AdultPinAccepted(RequestAdultPinLayer* layer)
 {
     removeAdultPinLayerDelegate();
     createSettingsController();
@@ -249,7 +249,7 @@ void SettingsControlLayer::AdultPinAccepted(AwaitingAdultPinLayer* layer)
 
 void SettingsControlLayer::createAdultPinLayerWithDelegate()
 {
-    _awaitingAdultPinLayer = AwaitingAdultPinLayer::create();
+    _awaitingAdultPinLayer = RequestAdultPinLayer::create();
     _awaitingAdultPinLayer->setDelegate(this);
 }
 

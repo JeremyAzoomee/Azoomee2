@@ -438,12 +438,12 @@ void ChildSelectorScene::addChildButtonPressed(Node* target)
 }
 
 //----------------------- Delegate Functions ----------------------------
-void ChildSelectorScene::AdultPinCancelled(AwaitingAdultPinLayer* layer)
+void ChildSelectorScene::AdultPinCancelled(RequestAdultPinLayer* layer)
 {
     removeAdultPinLayerDelegate();
 }
 
-void ChildSelectorScene::AdultPinAccepted(AwaitingAdultPinLayer* layer)
+void ChildSelectorScene::AdultPinAccepted(RequestAdultPinLayer* layer)
 {
     removeAdultPinLayerDelegate();
     
@@ -458,7 +458,7 @@ void ChildSelectorScene::AdultPinAccepted(AwaitingAdultPinLayer* layer)
 
 void ChildSelectorScene::createAdultPinLayerWithDelegate()
 {
-    _awaitingAdultPinLayer = AwaitingAdultPinLayer::create();
+    _awaitingAdultPinLayer = RequestAdultPinLayer::create();
     _awaitingAdultPinLayer->setDelegate(this);
 }
 

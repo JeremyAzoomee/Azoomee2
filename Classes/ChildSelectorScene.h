@@ -4,7 +4,7 @@
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Azoomee.h>
 #include "ui/UIScrollView.h"
-#include "AwaitingAdultPinLayer.h"
+#include <AzoomeeCommon/UI/RequestAdultPinLayer.h>
 #include "OfflineChecker.h"
 #include <AzoomeeCommon/UI/MessageBox.h>
 #include <AzoomeeCommon/API/HttpRequestCreator.h>
@@ -12,7 +12,7 @@
 
 NS_AZOOMEE_BEGIN
 
-class ChildSelectorScene : public Azoomee::Scene, public AwaitingAdultPinLayerDelegate, public OfflineCheckerDelegate, public MessageBoxDelegate, public Azoomee::HttpRequestCreatorResponseDelegate
+class ChildSelectorScene : public Azoomee::Scene, public RequestAdultPinLayerDelegate, public OfflineCheckerDelegate, public MessageBoxDelegate, public Azoomee::HttpRequestCreatorResponseDelegate
 {
     typedef Azoomee::Scene Super;
 public:
@@ -27,8 +27,8 @@ public:
     static Azoomee::Scene* createScene();
     
     //Delegate Functions
-    void AdultPinCancelled(AwaitingAdultPinLayer* layer) override;
-    void AdultPinAccepted(AwaitingAdultPinLayer* layer) override;
+    void AdultPinCancelled(RequestAdultPinLayer* layer) override;
+    void AdultPinAccepted(RequestAdultPinLayer* layer) override;
     void callDelegateFunction(float dt);
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle) override;
     
@@ -75,7 +75,7 @@ private:
     void refreshParentCookiesRequest();
     void getParentCookiesRequest();
     
-    AwaitingAdultPinLayer* _awaitingAdultPinLayer = nullptr;
+    RequestAdultPinLayer* _awaitingAdultPinLayer = nullptr;
     void createAdultPinLayerWithDelegate();
     void removeAdultPinLayerDelegate();
     
