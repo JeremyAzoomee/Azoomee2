@@ -20,7 +20,12 @@ import android.widget.VideoView;
 
 import com.tinizine.azoomee.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.UnsupportedEncodingException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class NativeMediaPlayer extends Activity {
 
@@ -32,6 +37,10 @@ public class NativeMediaPlayer extends Activity {
     private ImageView circle2;
     private ImageView loadingSign;
 
+    private JSONObject playlistObject;
+    private String currentlyPlayedUri;
+
+    private float _videoTimeSent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -44,26 +53,35 @@ public class NativeMediaPlayer extends Activity {
 
 
         Bundle extras = getIntent().getExtras();
-        String myUrl = "about:blank";
+        currentlyPlayedUri = "about:blank";
 
         if(extras != null)
         {
-            myUrl = extras.getString("url");
+            currentlyPlayedUri = extras.getString("url");
         }
 
-        Uri uri = Uri.parse(myUrl);
+        Uri uri = Uri.parse(currentlyPlayedUri);
 
-        getVideoPlaylist();
+        playlistObject = getVideoPlaylist();
 
-        videoview= (VideoView)findViewById(R.id.videoview_concept);
-        Log.i("Video URL", myUrl);
+        videoview = findViewById(R.id.videoview_concept);
+        Log.i("Video URL", currentlyPlayedUri);
         videoview.setVideoURI(uri);
         videoview.setMediaController(new MediaController(this));
         videoview.requestFocus();
         videoview.start();
 
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                handleVideoTimeEvents();
+            }
+        }, 0, 1000);//put here time 1000 milliseconds=1 second
+
         addLoadingScreen();
         addExitButton();
+
+        //Adding player listeners ------------------------------------------------------------------
 
         videoview.setOnInfoListener(new MediaPlayer.OnInfoListener()
         {
@@ -73,15 +91,102 @@ public class NativeMediaPlayer extends Activity {
 
                 if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START)
                 {
-                    // Here the video starts
+                    // Here the video starts, send event to mixpanel
                     removeLoadingScreen();
+                    _videoTimeSent = -1.0f;
                     return true;
                 }
 
                 return false;
             }
         });
+
+        videoview.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer)
+            {
+                Log.d("playlist event", "100pc passed");
+                //current item finished, sent event to mixpanel
+
+                String nextItem = getUrlForNextPlaylistItem();
+
+                if(nextItem.equals(""))
+                {
+                    //playlist finished, send event to mixpanel
+
+                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+
+                    if(videoview != null && videoview.isPlaying())
+                    {
+                        videoview.stopPlayback();
+                    }
+
+                    finish();
+                }
+                else
+                {
+                    Uri uri = Uri.parse(nextItem);
+                    videoview.setVideoURI(uri);
+                    videoview.start();
+                }
+            }
+        });
+
+        videoview.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mediaPlayer, int what, int extra)
+            {
+                //error happened, get back to main screen with error, send event to mixpanel
+                return true;
+            }
+        });
     }
+
+    //Handling time based events in a separate method, that is being scheduled in creation method
+
+    void handleVideoTimeEvents()
+    {
+        videoview.get
+
+        if(videoview == null || !videoview.isPlaying())
+        {
+            return;
+        }
+
+        int currentDuration = videoview.getDuration();
+        int currentPosition = videoview.getCurrentPosition();
+
+        float playbackRatio = (float)currentPosition / (float)currentDuration;
+
+        if(playbackRatio > 0.0f && _videoTimeSent < 0.0f)
+        {
+            _videoTimeSent = 0.0f;
+            Log.d("playlist event", "0pc passed");
+        }
+
+        if(playbackRatio > 0.25f && _videoTimeSent < 0.25f)
+        {
+            _videoTimeSent = 0.25f;
+            Log.d("playlist event", "25pc passed");
+        }
+
+        if(playbackRatio > 0.5f && _videoTimeSent < 0.5f)
+        {
+            _videoTimeSent = 0.5f;
+            Log.d("playlist event", "50pc passed");
+        }
+
+        if(playbackRatio > 0.75f && _videoTimeSent < 0.75f)
+        {
+            _videoTimeSent = 0.75f;
+            Log.d("playlist event", "75pc passed");
+        }
+
+    }
+
+    //Adding other elements to the screen
 
     void addExitButton()
     {
@@ -220,15 +325,61 @@ public class NativeMediaPlayer extends Activity {
         return imageView;
     }
 
-    //Get and create playlist array ---------------------------------------------------------------------------------------------------------
-    void getVideoPlaylist()
+    //Get, create and handle playlist array ---------------------------------------------------------------------------------------------------------
+    JSONObject getVideoPlaylist()
     {
+        String playlistString = "";
         byte[] data = Base64.decode(JNICalls.JNIGetVideoPlaylist(), Base64.DEFAULT);
-        try {
-            String playlistString = new String(data, "UTF-8");
-            Log.d("playlist", playlistString);
-        } catch (UnsupportedEncodingException e) {
+
+        try
+        {
+            playlistString = new String(data, "UTF-8");
+        }
+        catch (UnsupportedEncodingException e)
+        {
             e.printStackTrace();
         }
+
+        JSONObject generatedPlaylistObject;
+
+        try
+        {
+            generatedPlaylistObject = new JSONObject(playlistString);
+        }
+        catch (JSONException e)
+        {
+            return null;
+        }
+
+        return generatedPlaylistObject;
+    }
+
+    String getUrlForNextPlaylistItem()
+    {
+        try
+        {
+            for(int i = 0; i < playlistObject.getJSONArray("Elements").length(); i++)
+            {
+                String elementUri = playlistObject.getJSONArray("Elements").getJSONObject(i).getString("uri");
+                Log.d("playlist element", elementUri);
+                if(elementUri.equals(currentlyPlayedUri))
+                {
+                    if(i < playlistObject.getJSONArray("Elements").length())
+                    {
+                        String returnString = playlistObject.getJSONArray("Elements").getJSONObject(i + 1).getString("uri");
+                        return returnString;
+                    }
+                    else
+                    {
+                        return "";
+                    }
+                }
+            }
+        }
+        catch (JSONException e)
+        {
+            return "";
+        }
+        return "";
     }
 }
