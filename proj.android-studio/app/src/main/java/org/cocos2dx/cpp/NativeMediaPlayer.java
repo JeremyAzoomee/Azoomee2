@@ -148,8 +148,6 @@ public class NativeMediaPlayer extends Activity {
 
     void handleVideoTimeEvents()
     {
-        videoview.get
-
         if(videoview == null || !videoview.isPlaying())
         {
             return;
@@ -381,5 +379,17 @@ public class NativeMediaPlayer extends Activity {
             return "";
         }
         return "";
+    }
+
+    //Handling hardware back button
+
+    public void onBackPressed()
+    {
+        if(videoview != null && videoview.isPlaying())
+        {
+            videoview.stopPlayback();
+        }
+
+
     }
 }
