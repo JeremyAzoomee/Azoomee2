@@ -335,7 +335,7 @@ void HQScene2::showPostContentCTA()
             if(randomContent->isEntitled() && randomContent->getContentItemId() != lastContent->getContentItemId())
             {
                 AnalyticsSingleton::getInstance()->registerCTASource("postContent", lastContent->getContentItemId(), lastContent->getType());
-                DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(targetHQ + ".json", randomContent->getJSONRepresentationOfStructure());
+                DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(lastContent->getType() + ".json", randomContent->getJSONRepresentationOfStructure());
                 possibleContentFound = true;
             }
             else
