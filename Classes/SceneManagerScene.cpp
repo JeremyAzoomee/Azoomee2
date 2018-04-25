@@ -65,8 +65,8 @@ void SceneManagerScene::onEnterTransitionDidFinish()
     switch (nextScene) {
         case Login:
         {
-            forceToLandscape();
-            cocos2d::Scene*  goToScene = LoginScene::createScene();
+            acceptAnyOrientation();
+            cocos2d::Scene*  goToScene = LoginScene::create();
             AnalyticsSingleton::getInstance()->registerCurrentScene("LOGIN");
             Director::getInstance()->replaceScene(goToScene);
             break;
