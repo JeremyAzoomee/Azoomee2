@@ -9,6 +9,7 @@
 #include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Child/ChildDataParser.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include "PreviewLoginSignupMessageBox.h"
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
@@ -90,6 +91,29 @@ bool NavigationLayer::init()
             runDisplayAnimationForMenuItem(menuItemHolder, false);        //Animation for two items has to be handled separately, because opacity must not be in a parent-child relationship.
         }
     }
+    
+    _userTypeMessagingLayer = UserTypeMessagingLayer::create();
+    _userTypeMessagingLayer->setContentSize(Size(visibleSize.width, visibleSize.height * 0.2f));
+    _userTypeMessagingLayer->setPosition(origin - Vec2(0,visibleSize.height * 0.2f));
+    _userTypeMessagingLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    UserType userType = ANON;
+    if(!ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
+    {
+        userType = LAPSED;
+        if(ParentDataProvider::getInstance()->isPaidUser())
+        {
+            userType = PAID;
+        }
+    }
+    if(userType == PAID)
+    {
+        _userTypeMessagingLayer->setVisible(false);
+    }
+    _userTypeMessagingLayer->setUserType(userType);
+    _userTypeMessagingLayer->runAction(MoveTo::create(1, origin));
+    this->addChild(_userTypeMessagingLayer);
+   
+    
     
     if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
     {
