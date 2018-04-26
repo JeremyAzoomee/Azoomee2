@@ -6,7 +6,6 @@
 #include "../../Analytics/AnalyticsSingleton.h"
 #include "../../ErrorCodes.h"
 #include "../../Utils/PushNotificationsHandler.h"
-#include "../../Data/ConfigStorage.h"
 
 using namespace cocos2d;
 
