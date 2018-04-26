@@ -6,6 +6,7 @@
 #include "../../Analytics/AnalyticsSingleton.h"
 #include "../../ErrorCodes.h"
 #include "../../Utils/PushNotificationsHandler.h"
+#include "../../Data/ConfigStorage.h"
 
 using namespace cocos2d;
 
@@ -61,10 +62,9 @@ bool ParentDataParser::parseParentLoginData(const std::string &responseData)
             addParentLoginDataToUserDefaults();
             
             createCrashlyticsUserInfo(parentData->loggedInParentId, "");
-            AnalyticsSingleton::getInstance()->registerParentID(parentData->loggedInParentId);
             AnalyticsSingleton::getInstance()->registerAccountStatus(parentData->loggedInParentActorStatus);
             
-            PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel(parentData->loggedInParentId);
+            PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel(ConfigStorage::getInstance()->getDeviceAdvertisingId());
             
             return true;
         }
@@ -98,10 +98,9 @@ bool ParentDataParser::parseParentLoginDataFromAnonymousDeviceLogin(const std::s
             parentData->loggedInParentPin = "";
             
             createCrashlyticsUserInfo(parentData->loggedInParentId, "");
-            AnalyticsSingleton::getInstance()->registerParentID(parentData->loggedInParentId);
             AnalyticsSingleton::getInstance()->registerAccountStatus(parentData->loggedInParentActorStatus);
             
-            PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel(parentData->loggedInParentId);
+            PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel(ConfigStorage::getInstance()->getDeviceAdvertisingId());
             
             return true;
         }
@@ -263,11 +262,10 @@ void ParentDataParser::retrieveParentLoginDataFromUserDefaults()
     cocos2d::log("loggedInParentCountryCode = %s", parentData->loggedInParentCountryCode.c_str());
     
     createCrashlyticsUserInfo(parentData->loggedInParentId, "");
-    AnalyticsSingleton::getInstance()->registerParentID(parentData->loggedInParentId);
     AnalyticsSingleton::getInstance()->registerAccountStatus(parentData->loggedInParentActorStatus);
     AnalyticsSingleton::getInstance()->registerAzoomeeEmail(def->getStringForKey("username"));
     
-    PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel(parentData->loggedInParentId);
+    PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel(ConfigStorage::getInstance()->getDeviceAdvertisingId());
 }
 
 bool ParentDataParser::hasParentLoginDataInUserDefaults()
