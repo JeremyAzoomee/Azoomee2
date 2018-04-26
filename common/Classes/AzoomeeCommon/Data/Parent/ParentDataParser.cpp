@@ -64,7 +64,7 @@ bool ParentDataParser::parseParentLoginData(const std::string &responseData)
             createCrashlyticsUserInfo(parentData->loggedInParentId, "");
             AnalyticsSingleton::getInstance()->registerAccountStatus(parentData->loggedInParentActorStatus);
             
-            PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel(ConfigStorage::getInstance()->getDeviceAdvertisingId());
+            PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel(parentData->loggedInParentId);
             
             return true;
         }
@@ -100,7 +100,7 @@ bool ParentDataParser::parseParentLoginDataFromAnonymousDeviceLogin(const std::s
             createCrashlyticsUserInfo(parentData->loggedInParentId, "");
             AnalyticsSingleton::getInstance()->registerAccountStatus(parentData->loggedInParentActorStatus);
             
-            PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel(ConfigStorage::getInstance()->getDeviceAdvertisingId());
+            PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel(parentData->loggedInParentId);
             
             return true;
         }
@@ -265,7 +265,7 @@ void ParentDataParser::retrieveParentLoginDataFromUserDefaults()
     AnalyticsSingleton::getInstance()->registerAccountStatus(parentData->loggedInParentActorStatus);
     AnalyticsSingleton::getInstance()->registerAzoomeeEmail(def->getStringForKey("username"));
     
-    PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel(ConfigStorage::getInstance()->getDeviceAdvertisingId());
+    PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel(parentData->loggedInParentId);
 }
 
 bool ParentDataParser::hasParentLoginDataInUserDefaults()
