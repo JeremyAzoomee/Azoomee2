@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "UI/Scene.h"
+#include "Analytics/AnalyticsSingleton.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 
@@ -156,11 +157,13 @@ void Application::updateResolution(int newWidth, int newHeight)
     // Landscape
     if(newWidth > newHeight)
     {
+        Azoomee::AnalyticsSingleton::getInstance()->setLandscapeOrientation();
         glview->setDesignResolutionSize(designResolutionLandscapeSize.width, designResolutionLandscapeSize.height, ResolutionPolicy::NO_BORDER);
     }
     // Portrait
     else
     {
+        Azoomee::AnalyticsSingleton::getInstance()->setPortraitOrientation();
         glview->setDesignResolutionSize(designResolutionPortraitSize.width, designResolutionPortraitSize.height, ResolutionPolicy::NO_BORDER);
     }
 }
