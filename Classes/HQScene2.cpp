@@ -300,7 +300,6 @@ bool HQScene2::showingPostContentCTARequired()
         return false;
     }
     
-    
     HQContentItemObjectRef lastContent = ContentHistoryManager::getInstance()->getLastOpenedContent();
     if(lastContent == nullptr || (lastContent->getType() == ConfigStorage::kContentTypeGame && secondsInContent < 10))
     {
