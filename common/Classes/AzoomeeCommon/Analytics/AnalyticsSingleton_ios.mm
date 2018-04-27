@@ -35,6 +35,8 @@ NSDictionary* mapToNSDictionary(const std::map<std::string, std::string>& map)
     key = nil;
     value = nil;
   }
+    
+    [mutableDictionary setValue:@"188.166.165.68" forKey:@"ip"];
   
   return [NSDictionary dictionaryWithDictionary:mutableDictionary];
 }
