@@ -666,11 +666,13 @@ void NavigationLayer::repositionElements()
         {
             if(settingsButton)
             {
+                settingsButton->stopAllActions();
                 settingsButton->setPosition(Vec2(origin.x + visibleSize.width + settingsButton->getContentSize().width*1.5, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.5));
             }
             
             if(returnToChildSelectorButton)
             {
+                returnToChildSelectorButton->stopAllActions();
                 returnToChildSelectorButton->setPosition(Vec2(origin.x - returnToChildSelectorButton->getContentSize().width*1.25, visibleSize.height -  returnToChildSelectorButton->getContentSize().height * 1.25));
             }
             
@@ -686,11 +688,13 @@ void NavigationLayer::repositionElements()
         {
             if(settingsButton)
             {
+                settingsButton->stopAllActions();
                 settingsButton->setPosition(Vec2(origin.x + visibleSize.width - settingsButton->getContentSize().width*1.5, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.5));
             }
             
             if(returnToChildSelectorButton)
             {
+                returnToChildSelectorButton->stopAllActions();
                 returnToChildSelectorButton->setPosition(Vec2(origin.x + returnToChildSelectorButton->getContentSize().width*.25, visibleSize.height -  returnToChildSelectorButton->getContentSize().height * 1.25));
             }
         }
@@ -701,11 +705,13 @@ void NavigationLayer::repositionElements()
         {
             if(previewSignUpButton)
             {
+                previewSignUpButton->stopAllActions();
                 previewSignUpButton->setPosition(Vec2(origin.x - previewSignUpButton->getContentSize().width - previewSignUpButton->getContentSize().height/4, origin.y + visibleSize.height- previewSignUpButton->getContentSize().height * 1.25));
             }
             
             if(previewLoginButton)
             {
+                previewLoginButton->stopAllActions();
                 previewLoginButton->setPosition(Vec2(origin.x+visibleSize.width + previewLoginButton->getContentSize().width + previewLoginButton->getContentSize().height/4, origin.y + visibleSize.height- previewLoginButton->getContentSize().height* 1.25));
             }
             
@@ -719,11 +725,13 @@ void NavigationLayer::repositionElements()
         {
             if(previewSignUpButton)
             {
+                previewSignUpButton->stopAllActions();
                 previewSignUpButton->setPosition(Vec2(origin.x + previewSignUpButton->getContentSize().height/4, origin.y + visibleSize.height- previewSignUpButton->getContentSize().height * 1.25));
             }
             
             if(previewLoginButton)
             {
+                previewLoginButton->stopAllActions();
                 previewLoginButton->setPosition(Vec2(origin.x+visibleSize.width - previewLoginButton->getContentSize().width - previewLoginButton->getContentSize().height/4, origin.y + visibleSize.height- previewLoginButton->getContentSize().height* 1.25));
             }
         }
