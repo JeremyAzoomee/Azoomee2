@@ -48,6 +48,7 @@ private:
     // external parameters
     rapidjson::Document _externParams;
     bool _usingExternalParams = false;
+    bool _portraitMode = false;
     
     void processFile(const rapidjson::Document& configFile);
     void initCTANode();

@@ -12,6 +12,7 @@
 #include "ButtonActionData.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
+#include <AzoomeeCommon/Utils/StringFunctions.h>
 #include "HQDataProvider.h"
 #include "DynamicNodeTextInput.h"
 #include "DynamicNodeButton.h"
@@ -54,8 +55,22 @@ Node* DynamicNodeCreator::createCTAFromFile(const std::string& filepath)
     _usingExternalParams = false;
     //Init CTA objects
     initCTANode();
-
-    const std::string& jsonString = FileUtils::getInstance()->getStringFromFile(filepath);
+    std::string configFilePath = filepath;
+    _portraitMode = false;
+    if(Director::getInstance()->getVisibleSize().width < Director::getInstance()->getVisibleSize().height)
+    {
+        auto stringVec = splitStringToVector(filepath, "/");
+        std::string filename = stringVec.back();
+        stringVec.pop_back();
+        const std::string& path = joinStrings(stringVec, "/");
+        if(FileUtils::getInstance()->isFileExist(path + "/p_" + filename))
+        {
+            configFilePath = path + "/p_" + filename;
+            _portraitMode = true;
+        }
+    }
+    
+    const std::string& jsonString = FileUtils::getInstance()->getStringFromFile(configFilePath);
     
     rapidjson::Document configFile;
     configFile.Parse(jsonString.c_str());
@@ -80,7 +95,22 @@ Node* DynamicNodeCreator::createCTAFromFileWithParams(const std::string& filepat
     //Init CTA objects
     initCTANode();
     
-    const std::string& jsonString = FileUtils::getInstance()->getStringFromFile(filepath);
+    std::string configFilePath = filepath;
+    _portraitMode = false;
+    if(Director::getInstance()->getVisibleSize().width < Director::getInstance()->getVisibleSize().height)
+    {
+        auto stringVec = splitStringToVector(filepath, "/");
+        std::string filename = stringVec.back();
+        stringVec.pop_back();
+        const std::string& path = joinStrings(stringVec, "/");
+        if(FileUtils::getInstance()->isFileExist(path + "/p_" + filename))
+        {
+            configFilePath = path + "/p_" + filename;
+            _portraitMode = true;
+        }
+    }
+    
+    const std::string& jsonString = FileUtils::getInstance()->getStringFromFile(configFilePath);
     
     rapidjson::Document configFile;
     configFile.Parse(jsonString.c_str());
@@ -279,6 +309,10 @@ void DynamicNodeCreator::configNodeSize(const rapidjson::Value &sizePercentages)
             float width = sizePercentages[0].GetFloat()/100.0f;
             float height = sizePercentages[1].GetFloat()/100.0f;
             Size newSize = Size(2736*width,2048*height);
+            if(_portraitMode)
+            {
+                newSize = Size(2048*width,2736*height);
+            }
             
             if(newSize.width > visibleSizeSafe.width || newSize.height > visibleSizeSafe.height)
             {
