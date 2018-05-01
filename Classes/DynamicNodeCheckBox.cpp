@@ -23,7 +23,6 @@ bool DynamicNodeCheckBox::initWithParams(const rapidjson::Value &params, const c
     this->setContentSize(dynamicNodeSize);
     
     Vec2 pos;
-    ButtonActionDataRef actionData;
     
     pos = getVec2FromJson("position",params);
     
@@ -65,7 +64,6 @@ void DynamicNodeCheckBox::addCheckboxWithParams(const cocos2d::Vec2& pos, float 
                 break;
         }
     });
-    //DynamicNodeDataInputStorage::getInstance()->addElementToStorage(_valueKey, boolToString(selected));
     _checkbox->setSelected(selected);
     this->addChild(_checkbox);
 }
