@@ -38,6 +38,7 @@ public:
     //---------------SUPER PROPERTIES---------
     
     void registerAppVersion();
+    void registerAnonymousIp(const std::string& anonymousIp);
     void registerNoOfChildren(int noOfChildren);
     void registerAzoomeeEmail(std::string emailAddress);
     void registerAccountStatus(std::string Status);
