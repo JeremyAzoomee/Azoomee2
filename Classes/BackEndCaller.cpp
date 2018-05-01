@@ -316,7 +316,7 @@ void BackEndCaller::onGetGordonAnswerReceived(const std::string& responseString)
 
 //REGISTER PARENT---------------------------------------------------------------------------
 
-void BackEndCaller::registerParent(const std::string& emailAddress, const std::string& password, const std::string& pinNumber)
+void BackEndCaller::registerParent(const std::string& emailAddress, const std::string& password, const std::string& pinNumber, const std::string& marketingAccepted)
 {
     FlowDataSingleton::getInstance()->setFlowToSignup(emailAddress, password);
     const std::string &sourceDevice = ConfigStorage::getInstance()->getDeviceInformation();
@@ -328,7 +328,7 @@ void BackEndCaller::registerParent(const std::string& emailAddress, const std::s
     source = "ANDROID_INAPP";
 #endif
     
-    HttpRequestCreator* request = API::RegisterParentRequest(emailAddress, password, pinNumber, source, sourceDevice, this);
+    HttpRequestCreator* request = API::RegisterParentRequest(emailAddress, password, pinNumber, source, sourceDevice, marketingAccepted, this);
     request->execute();
     
     displayLoadingScreen();

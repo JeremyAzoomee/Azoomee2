@@ -239,10 +239,11 @@ void SignUpFlowController::signUp()
     const std::string& email = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("email");
     const std::string& password = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("password");
     const std::string& pin = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("pin");
+    const std::string& marketingAccepted = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("commsAccept");
     if(isValidPin(pin.c_str()) && isValidPassword(password.c_str(), 6) && isValidEmailAddress(email.c_str()))
     {
         AnalyticsSingleton::getInstance()->registerAzoomeeEmail(email);
-        BackEndCaller::getInstance()->registerParent(email, password ,pin);
+        BackEndCaller::getInstance()->registerParent(email, password ,pin, marketingAccepted);
         DynamicNodeDataInputStorage::getInstance()->clearStorage();
         exitFlow();
     }
