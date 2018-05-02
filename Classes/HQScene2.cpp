@@ -90,12 +90,6 @@ void HQScene2::startBuildingScrollView()
     _visibleSize = Director::getInstance()->getVisibleSize();
     _origin = Vec2(0,0);//Director::getInstance()->getVisibleOrigin();
     
-    if(ConfigStorage::getInstance()->isDeviceIphoneX())
-    {
-        _visibleSize.width -= 200;
-        _origin.x += 100;
-    }
-    
     if(_visibleSize.width >= _visibleSize.height)
     {
         _orientation = 0;
@@ -103,6 +97,19 @@ void HQScene2::startBuildingScrollView()
     else
     {
         _orientation = 1;
+    }
+    
+    if(ConfigStorage::getInstance()->isDeviceIphoneX())
+    {
+        if(_orientation)
+        {
+            _visibleSize.height -= 100;
+        }
+        else
+        {
+            _visibleSize.width -= 200;
+            _origin.x += 100;
+        }
     }
     
     _contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(_hqCategory);

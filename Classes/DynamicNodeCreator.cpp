@@ -304,7 +304,11 @@ void DynamicNodeCreator::configNodeSize(const rapidjson::Value &sizePercentages)
     {
         if(sizePercentages[0].IsFloat() && sizePercentages[1].IsFloat())
         {
-            const Size& visibleSizeSafe = Director::getInstance()->getVisibleSize() * 0.95f;
+            Size visibleSizeSafe = Director::getInstance()->getVisibleSize() - Size(50,50);
+            if(ConfigStorage::getInstance()->isDeviceIphoneX())
+            {
+                visibleSizeSafe = visibleSizeSafe - (visibleSizeSafe.width > visibleSizeSafe.height ? Size(200,0) : Size(0,200));
+            }
             
             float width = sizePercentages[0].GetFloat()/100.0f;
             float height = sizePercentages[1].GetFloat()/100.0f;

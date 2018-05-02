@@ -648,6 +648,17 @@ void NavigationLayer::repositionElements()
 {
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Vec2(0,0);//Director::getInstance()->getVisibleOrigin();
+    
+    float navOffset = 0;
+    
+    if(ConfigStorage::getInstance()->isDeviceIphoneX())
+    {
+        if(visibleSize.width < visibleSize.height)
+        {
+           navOffset = 100;
+        }
+    }
+    
     if(_hqButtonHolder)
     {
         if(HQHistoryManager::getInstance()->getCurrentHQ() == ConfigStorage::kGroupHQName)
@@ -656,7 +667,7 @@ void NavigationLayer::repositionElements()
         }
         else
         {
-            _hqButtonHolder->setPosition(visibleSize.width / 2.0f, visibleSize.height - 150);
+            _hqButtonHolder->setPosition(visibleSize.width / 2.0f, visibleSize.height - 150 - navOffset);
         }
     }
     
