@@ -22,10 +22,9 @@ bool DynamicNodeCheckBox::initWithParams(const rapidjson::Value &params, const c
 {
     this->setContentSize(dynamicNodeSize);
     
-    Vec2 pos;
+    Vec2 pos = getVec2FromJson("position",params);
     
-    pos = getVec2FromJson("position",params);
-    
+    // make sure we have a position, normalise if we do, return if not
     if(pos.x != 0 && pos.y != 0)
     {
         pos = pos/100.0f;
