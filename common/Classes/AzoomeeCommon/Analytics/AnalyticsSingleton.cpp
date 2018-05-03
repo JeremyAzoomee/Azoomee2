@@ -59,11 +59,10 @@ void AnalyticsSingleton::registerAppVersion()
 {
     mixPanelRegisterSuperProperties("appVersion",ConfigStorage::getInstance()->getVersionNumberToDisplay());
 }
-
-void AnalyticsSingleton::registerParentID(std::string ParentID)
+    
+void AnalyticsSingleton::registerAnonymousIp(const std::string& anonymousIp)
 {
-    mixPanelRegisterSuperProperties("parentID", ParentID);
-    mixPanelRegisterIdentity(ParentID,_analyticsProperties->getStoredGeneralProperties());
+    mixPanelRegisterSuperProperties("ip", anonymousIp);
 }
 
 void AnalyticsSingleton::registerNoOfChildren(int noOfChildren)
@@ -101,11 +100,6 @@ void AnalyticsSingleton::registerIAPOS(std::string OS_String)
 void AnalyticsSingleton::registerBillingProvider(std::string provider)
 {
     mixPanelRegisterSuperProperties("billingProvider",provider);
-}
-
-void AnalyticsSingleton::registerChildID(std::string ChildID)
-{
-    mixPanelRegisterSuperProperties("childID",ChildID);
 }
 
 void AnalyticsSingleton::registerChildGenderAndAge(int childNumber)
@@ -166,7 +160,6 @@ void AnalyticsSingleton::setIsUserAnonymous(bool isUserAnonymous)
 
 void AnalyticsSingleton::logoutChildEvent()
 {
-    mixPanelRegisterSuperProperties("childID","");
     mixPanelRegisterSuperProperties("sex","");
     mixPanelRegisterSuperProperties("age","");
 }
@@ -175,7 +168,6 @@ void AnalyticsSingleton::logoutParentEvent()
 {
     logoutChildEvent();
     mixPanelRegisterSuperProperties("accountStatus","");
-    mixPanelRegisterSuperProperties("parentID","");
     mixPanelRegisterSuperProperties("azoomeeEmail","");
     mixPanelRegisterSuperProperties("billingProvider","");
     mixPanelRegisterSuperProperties("billingStatus","");

@@ -10,6 +10,7 @@ NS_AZOOMEE_BEGIN
 
 #pragma mark - Constants
 
+const char* const API::TagIpCheck = "ipCheck";
 const char* const API::TagLogin = "parentLogin";
 const char* const API::TagAnonymousDeviceLogin = "anonymousDeviceLogin";
 const char* const API::TagUpdateBillingData = "updateBilling";
@@ -39,6 +40,15 @@ const char* const API::TagGetForceUpdateInformation = "forceUpdate";
 const char* const API::TagCookieRefresh = "cookieRefresh";
 
 #pragma mark - API Methods
+
+HttpRequestCreator* API::IpCheck(HttpRequestCreatorResponseDelegate* delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestTag = TagIpCheck;
+    request->url = "http://icanhazip.com";
+    request->encrypted = false;
+    return request;
+}
 
 HttpRequestCreator* API::OfflineCheck(HttpRequestCreatorResponseDelegate* delegate)
 {

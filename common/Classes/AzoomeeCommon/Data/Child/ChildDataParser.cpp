@@ -55,8 +55,6 @@ bool ChildDataParser::parseChildLoginData(const std::string &responseData)
     
     createCrashlyticsUserInfo(ParentDataProvider::getInstance()->getLoggedInParentId(), childDataStorage->loggedInChildId);
     
-    AnalyticsSingleton::getInstance()->registerChildID(childDataStorage->loggedInChildId);
-    
     childDataStorage->childLoggedIn = true;
     return true;
 }
