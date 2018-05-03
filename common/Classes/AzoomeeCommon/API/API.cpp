@@ -162,10 +162,11 @@ HttpRequestCreator* API::RegisterParentRequest(const std::string& emailAddress,
                                                const std::string& pinNumber,
                                                const std::string& source,
                                                const std::string& sourceDevice,
+                                               const std::string& marketingAccepted,
                                                HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestBody = StringUtils::format("{\"emailAddress\":\"%s\",\"over18\":\"true\",\"termsAccepted\":\"true\",\"password\":\"%s\",\"source\":\"%s\",\"pinNumber\":\"%s\", \"sourceDevice\":\"%s\"}", emailAddress.c_str(), password.c_str(), source.c_str(), pinNumber.c_str(), sourceDevice.c_str());
+    request->requestBody = StringUtils::format("{\"emailAddress\":\"%s\",\"over18\":\"true\",\"termsAccepted\":\"true\",\"trackingAccepted\":\"true\",\"marketingAccepted\":\"%s\",\"password\":\"%s\",\"source\":\"%s\",\"pinNumber\":\"%s\", \"sourceDevice\":\"%s\"}", emailAddress.c_str(), marketingAccepted.c_str(), password.c_str(), source.c_str(), pinNumber.c_str(), sourceDevice.c_str());
     request->requestTag = TagRegisterParent;
     request->method = "POST";
     return request;

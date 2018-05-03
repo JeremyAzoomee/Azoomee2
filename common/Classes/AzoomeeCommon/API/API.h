@@ -86,6 +86,7 @@ public:
                                                      const std::string& pinNumber,
                                                      const std::string& source,
                                                      const std::string& sourceDevice,
+                                                     const std::string& marketingAccepted,
                                                      HttpRequestCreatorResponseDelegate* delegate);
     
     static HttpRequestCreator* RegisterChildRequest(const std::string& childProfileName,
