@@ -67,11 +67,6 @@ void SignUpFlowController::handleEnterEmailFlow(const ButtonActionDataRef& actio
 {
     switch(pathAction)
     {
-        default: case UNKNOWN:
-        {
-            return;
-            break;
-        }
         case NEXT:
         {
             const std::string& email = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("email");
@@ -83,13 +78,19 @@ void SignUpFlowController::handleEnterEmailFlow(const ButtonActionDataRef& actio
             break;
         }
             
-        case BACK: case CLOSE:
+        case BACK:
+        case CLOSE:
         {
             AnalyticsSingleton::getInstance()->ctaButtonPressed("enterEmail_close");
             exitFlow();
             break;
         }
-
+        case UNKNOWN:
+        default:
+        {
+            return;
+            break;
+        }
     }
 }
 
@@ -97,11 +98,6 @@ void SignUpFlowController::handleConfirmEmailFlow(const ButtonActionDataRef& act
 {
     switch(pathAction)
     {
-        default: case UNKNOWN:
-        {
-            return;
-            break;
-        }
         case NEXT:
         {
             AnalyticsSingleton::getInstance()->ctaButtonPressed("confirmEmail_confirm");
@@ -121,7 +117,12 @@ void SignUpFlowController::handleConfirmEmailFlow(const ButtonActionDataRef& act
             exitFlow();
             break;
         }
-            
+        case UNKNOWN:
+        default:
+        {
+            return;
+            break;
+        }
     }
 }
 
@@ -129,11 +130,6 @@ void SignUpFlowController::handleEnterPasswordFlow(const ButtonActionDataRef& ac
 {
     switch(pathAction)
     {
-        default: case UNKNOWN:
-        {
-            return;
-            break;
-        }
         case NEXT:
         {
             const std::string& password = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("password");
@@ -157,7 +153,12 @@ void SignUpFlowController::handleEnterPasswordFlow(const ButtonActionDataRef& ac
             exitFlow();
             break;
         }
-            
+        case UNKNOWN:
+        default:
+        {
+            return;
+            break;
+        }
     }
 }
 
@@ -165,11 +166,6 @@ void SignUpFlowController::handleEnterPinFlow(const ButtonActionDataRef& actionD
 {
     switch(pathAction)
     {
-        default: case UNKNOWN:
-        {
-            return;
-            break;
-        }
         case NEXT:
         {
             const std::string& pin = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("pin");
@@ -193,7 +189,12 @@ void SignUpFlowController::handleEnterPinFlow(const ButtonActionDataRef& actionD
             exitFlow();
             break;
         }
-            
+        case UNKNOWN:
+        default:
+        {
+            return;
+            break;
+        }
     }
 }
 
@@ -201,11 +202,6 @@ void SignUpFlowController::handleAcceptTnCsFlow(const ButtonActionDataRef& actio
 {
     switch(pathAction)
     {
-        default: case UNKNOWN:
-        {
-            return;
-            break;
-        }
         case NEXT:
         {
             const std::string& tncAccept = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("tncAccept");
@@ -230,7 +226,12 @@ void SignUpFlowController::handleAcceptTnCsFlow(const ButtonActionDataRef& actio
             exitFlow();
             break;
         }
-            
+        case UNKNOWN:
+        default:
+        {
+            return;
+            break;
+        }
     }
 }
 

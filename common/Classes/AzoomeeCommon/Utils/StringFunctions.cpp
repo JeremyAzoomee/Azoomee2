@@ -182,19 +182,11 @@ std::string convertStringToAssetSafeString(const std::string& string)
     
 bool stringToBool(const std::string& string)
 {
-    if(stringToLower(string) == "true")
-    {
-        return true;
-    }
-    return false;
+    return stringToLower(string) == "true";
 }
 
 std::string boolToString(bool boolean)
 {
-    if(boolean)
-    {
-        return "true";
-    }
-    return "false";
+    return boolean ? "true" : "false";
 }
 } // Azoomee

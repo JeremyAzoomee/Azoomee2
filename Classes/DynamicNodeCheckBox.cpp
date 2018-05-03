@@ -24,7 +24,7 @@ bool DynamicNodeCheckBox::initWithParams(const rapidjson::Value &params, const c
     
     Vec2 pos = getVec2FromJson("position",params);
     
-    // make sure we have a position, normalise if we do, return if not
+    // make sure we have a position, normalise between 0.0 - 1.0 if we do, return if not
     if(pos.x != 0 && pos.y != 0)
     {
         pos = pos/100.0f;
