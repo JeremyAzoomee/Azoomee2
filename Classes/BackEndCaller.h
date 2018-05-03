@@ -62,6 +62,8 @@ public:
     
     // Check for offline mode
     void offlineCheck();
+    // Check the clients current ip
+    void ipCheck();
     // Login a user
     void login(const std::string& username, const std::string& password);
     // Login a device ID
