@@ -57,6 +57,16 @@ bool NavigationLayer::init()
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Vec2(0,0);//Director::getInstance()->getVisibleOrigin();
     
+    _navOffset = 0;
+    
+    if(ConfigStorage::getInstance()->isDeviceIphoneX())
+    {
+        if(visibleSize.width < visibleSize.height)
+        {
+            _navOffset = 100;
+        }
+    }
+    
     this->setAnchorPoint(Vec2(0.5, 0.5));
     
     const std::vector<std::string>& hqNames = ConfigStorage::getInstance()->getHqNames();
@@ -64,7 +74,7 @@ bool NavigationLayer::init()
     
     _hqButtonHolder = Node::create();
     _hqButtonHolder->setContentSize(Size(225.0f * numItems, 50));
-    _hqButtonHolder->setPosition(Vec2(visibleSize.width / 2.0f, visibleSize.height - 150));
+    _hqButtonHolder->setPosition(Vec2(visibleSize.width / 2.0f, visibleSize.height - 150 - _navOffset));
     _hqButtonHolder->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     this->addChild(_hqButtonHolder);
     
@@ -505,7 +515,7 @@ void NavigationLayer::moveMenuPointsToHorizontalState(float duration)
 {
     AudioMixer::getInstance()->playOomeeIdleSounds(false);
     
-    auto action = EaseInOut::create(MoveTo::create(duration, Vec2(visibleSize.width / 2.0f, visibleSize.height - 150)), 2);
+    auto action = EaseInOut::create(MoveTo::create(duration, Vec2(visibleSize.width / 2.0f, visibleSize.height - 150 - _navOffset)), 2);
     action->setTag(1);
         
     _hqButtonHolder->runAction(action);
@@ -649,13 +659,13 @@ void NavigationLayer::repositionElements()
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Vec2(0,0);//Director::getInstance()->getVisibleOrigin();
     
-    float navOffset = 0;
+    _navOffset = 0;
     
     if(ConfigStorage::getInstance()->isDeviceIphoneX())
     {
         if(visibleSize.width < visibleSize.height)
         {
-           navOffset = 100;
+           _navOffset = 100;
         }
     }
     
@@ -667,7 +677,7 @@ void NavigationLayer::repositionElements()
         }
         else
         {
-            _hqButtonHolder->setPosition(visibleSize.width / 2.0f, visibleSize.height - 150 - navOffset);
+            _hqButtonHolder->setPosition(visibleSize.width / 2.0f, visibleSize.height - 150 - _navOffset);
         }
     }
     

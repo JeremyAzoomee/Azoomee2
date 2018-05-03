@@ -99,19 +99,21 @@ void LoginScene::addLabelToScene()
     this->addChild(_versionLabel);
 
     _title = createLabelFlowMainTitle(StringMgr::getInstance()->getStringForKey(LOGINSCENE_EMAIL_LABEL));
-    _title->setPositionY(_backButton->getPositionY());
+    _title->setPositionY(_visibleSize.height * 0.9f);
+    _title->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     this->addChild(_title);
 }
 
 void LoginScene::addTextboxScene()
 {
-    _passwordTextInput = TextInputLayer::createWithSize(Size(1500,160), INPUT_IS_PASSWORD);
+    float width = MIN(1500, _visibleSize.width * 0.95f);
+    _passwordTextInput = TextInputLayer::createWithSize(Size(width,160), INPUT_IS_PASSWORD);
     _passwordTextInput->setDelegate(this);
     _passwordTextInput->setEditboxVisibility(false);
     _passwordTextInput->setCenterPosition(Vec2(_visibleSize.width / 2.0f, _visibleSize.height * 0.7f));
     this->addChild(_passwordTextInput);
     
-    _emailTextInput = TextInputLayer::createWithSize(Size(1500,160), INPUT_IS_EMAIL);
+    _emailTextInput = TextInputLayer::createWithSize(Size(width,160), INPUT_IS_EMAIL);
     _emailTextInput->setDelegate(this);
     _emailTextInput->setText(_storedUsername);
     _emailTextInput->setCenterPosition(Vec2(_visibleSize.width / 2.0f, _visibleSize.height * 0.7f));
@@ -289,7 +291,7 @@ void LoginScene::onSizeChanged()
 {
     Super::onSizeChanged();
     
-    _visibleSize = getContentSize();
+    _visibleSize = Director::getInstance()->getVisibleSize();
     
     // If initialised
     if(_emailTextInput)
@@ -299,6 +301,7 @@ void LoginScene::onSizeChanged()
         
         _versionLabel->setPosition(_visibleSize.width/2, _versionLabel->getContentSize().height);
         _title->setPosition(_visibleSize.width/2, _visibleSize.height * 0.9);
+        _title->setWidth(_visibleSize.width * 0.9f);
         _backButton->setCenterPosition(Vec2(_backButton->getContentSize().width*.7, _visibleSize.height - _backButton->getContentSize().height*.7));
         _nextButton->setCenterPosition(Vec2(_visibleSize.width - _nextButton->getContentSize().width*.7, _visibleSize.height - _nextButton->getContentSize().height*.7));
         

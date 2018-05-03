@@ -33,6 +33,8 @@ private:
     cocos2d::Size visibleSize;
     cocos2d::Vec2 origin;
     
+    float _navOffset = 0;
+    
     ElectricDreamsButton *previewLoginButton;
     ElectricDreamsButton *previewSignUpButton;
     ElectricDreamsButton *settingsButton;
