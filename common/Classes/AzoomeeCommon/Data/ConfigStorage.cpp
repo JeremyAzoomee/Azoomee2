@@ -680,18 +680,11 @@ void ConfigStorage::setClientAnonymousIp(const std::string& publicIp)
         
         _clientIp += currentElement;
     }
-    
-    cocos2d::log("LOGIP: %s", _clientIp.c_str());
 }
     
 std::string ConfigStorage::getClientAnonymousIp() const
 {
-    if(_clientIp == "")
-    {
-        return "0.0.0.0";
-    }
-    
-    return _clientIp;
+    return _clientIp.empty() ? "0.0.0.0" : _clientIp;
 }
     
 }
