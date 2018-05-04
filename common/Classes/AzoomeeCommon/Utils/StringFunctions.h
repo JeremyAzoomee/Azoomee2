@@ -21,7 +21,8 @@ std::string& trim(std::string& string);
 std::string shortenString(const std::string& string, int maxLength);
 std::string joinStrings(const std::vector<std::string>& stringList, const std::string& divider);
 std::string convertStringToAssetSafeString(const std::string& string);
-    
+bool stringToBool(const std::string& string);
+std::string boolToString(bool boolean);
 /// Trim whitespace from the start of string
 std::string ltrim(const std::string& s);
 /// Trim whitespace from the end of string

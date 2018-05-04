@@ -94,6 +94,19 @@ void BackEndCaller::offlineCheck()
     request->execute();
 }
 
+//GETTING IP
+
+void BackEndCaller::ipCheck()
+{
+    if(ConfigStorage::getInstance()->getClientAnonymousIp() != "0.0.0.0")
+    {
+        return;
+    }
+    
+    HttpRequestCreator* request = API::IpCheck(this);
+    request->execute();
+}
+
 //LOGGING IN BY PARENT-------------------------------------------------------------------------------
 
 void BackEndCaller::login(const std::string& username, const std::string& password)
@@ -316,7 +329,7 @@ void BackEndCaller::onGetGordonAnswerReceived(const std::string& responseString)
 
 //REGISTER PARENT---------------------------------------------------------------------------
 
-void BackEndCaller::registerParent(const std::string& emailAddress, const std::string& password, const std::string& pinNumber)
+void BackEndCaller::registerParent(const std::string& emailAddress, const std::string& password, const std::string& pinNumber, const std::string& marketingAccepted)
 {
     FlowDataSingleton::getInstance()->setFlowToSignup(emailAddress, password);
     const std::string &sourceDevice = ConfigStorage::getInstance()->getDeviceInformation();
@@ -328,7 +341,7 @@ void BackEndCaller::registerParent(const std::string& emailAddress, const std::s
     source = "ANDROID_INAPP";
 #endif
     
-    HttpRequestCreator* request = API::RegisterParentRequest(emailAddress, password, pinNumber, source, sourceDevice, this);
+    HttpRequestCreator* request = API::RegisterParentRequest(emailAddress, password, pinNumber, source, sourceDevice, marketingAccepted, this);
     request->execute();
     
     displayLoadingScreen();
@@ -431,7 +444,12 @@ void BackEndCaller::resetPasswordRequest(const std::string& emailAddress)
 //HttpRequestCreatorResponseDelegate--------------------------------------------------------
 void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
-    if(requestTag == API::TagGetGorden)
+    if(requestTag == API::TagIpCheck)
+    {
+        ConfigStorage::getInstance()->setClientAnonymousIp(body);
+        AnalyticsSingleton::getInstance()->registerAnonymousIp(ConfigStorage::getInstance()->getClientAnonymousIp());
+    }
+    else if(requestTag == API::TagGetGorden)
     {
         onGetGordonAnswerReceived(headers);
     }
@@ -478,6 +496,7 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     else if(requestTag == API::TagOfflineCheck)
     {
         OfflineChecker::getInstance()->onOfflineCheckAnswerReceived();
+        ipCheck();
     }
     else if(requestTag == ConfigStorage::kGroupHQName)
     {

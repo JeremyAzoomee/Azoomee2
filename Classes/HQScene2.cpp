@@ -329,13 +329,14 @@ bool HQScene2::showingPostContentCTARequired()
     }
     catch(std::out_of_range)
     {
+        ContentHistoryManager::getInstance()->setReturnedFromContent(false);
         return false;
     }
     
-    ContentHistoryManager::getInstance()->setReturnedFromContent(false);
     HQContentItemObjectRef lastContent = ContentHistoryManager::getInstance()->getLastOpenedContent();
     if(lastContent == nullptr || (lastContent->getType() == ConfigStorage::kContentTypeGame && secondsInContent < 180))
     {
+        ContentHistoryManager::getInstance()->setReturnedFromContent(false);
         return false;
     }
     
@@ -344,9 +345,15 @@ bool HQScene2::showingPostContentCTARequired()
 
 void HQScene2::showPostContentCTA()
 {
+    ContentHistoryManager::getInstance()->setReturnedFromContent(false);
     HQContentItemObjectRef lastContent = ContentHistoryManager::getInstance()->getLastOpenedContent();
+    std::string targetHQ = ConfigStorage::kGameHQName;
+    if(lastContent->getType() == ConfigStorage::kContentTypeGame)
+    {
+        targetHQ = ConfigStorage::kVideoHQName;
+    }
     
-    std::vector<HQCarouselObjectRef> hqCarousels = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(this->getName())->getHqCarousels();
+    std::vector<HQCarouselObjectRef> hqCarousels = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(targetHQ)->getHqCarousels();
     bool possibleContentFound = false;
     while(!possibleContentFound && hqCarousels.size() > 0) // look for available content in random carousel
     {
@@ -360,7 +367,7 @@ void HQScene2::showPostContentCTA()
             if(randomContent->isEntitled() && randomContent->getContentItemId() != lastContent->getContentItemId())
             {
                 AnalyticsSingleton::getInstance()->registerCTASource("postContent", lastContent->getContentItemId(), lastContent->getType());
-                DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(_hqCategory + ".json", randomContent->getJSONRepresentationOfStructure());
+                DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(lastContent->getType() + ".json", randomContent->getJSONRepresentationOfStructure());
                 possibleContentFound = true;
             }
             else

@@ -18,6 +18,7 @@
 #include "DynamicNodeButton.h"
 #include "DynamicNodeText.h"
 #include "DynamicNodeLine.h"
+#include "DynamicNodeCheckBox.h"
 #include <AzoomeeCommon/UI/Scene.h>
 #include "DynamicNodeHandler.h"
 
@@ -197,6 +198,13 @@ void DynamicNodeCreator::processFile(const rapidjson::Document& configFile)
         const rapidjson::Value& lineList = configFile["lines"];
         configLines(lineList);
     }
+    
+    //config check boxes drawing
+    if(configFile.HasMember("checkBoxes"))
+    {
+        const rapidjson::Value& checkBoxList = configFile["checkBoxes"];
+        configCheckBoxes(checkBoxList);
+    }
 }
 
 void DynamicNodeCreator::initCTANode()
@@ -271,6 +279,12 @@ void DynamicNodeCreator::initCTANode()
     _textInputLayer->setPosition(_windowSize/2);
     _CTANode->addChild(_textInputLayer);
     
+    _checkBoxLayer = Node::create();
+    _checkBoxLayer->setContentSize(_stencil->getContentSize());
+    _checkBoxLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _checkBoxLayer->setPosition(_windowSize/2);
+    _CTANode->addChild(_checkBoxLayer);
+    
     _textLayer = Node::create();
     _textLayer->setContentSize(_windowSize);
     _textLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -333,6 +347,7 @@ void DynamicNodeCreator::configNodeSize(const rapidjson::Value &sizePercentages)
             _textLayer->setContentSize(newSize);
             _textInputLayer->setContentSize(newSize);
             _linesLayer->setContentSize(newSize);
+            _checkBoxLayer->setContentSize(newSize);
         }
     }
 }
@@ -455,6 +470,19 @@ void DynamicNodeCreator::configLines(const rapidjson::Value &linesConfig)
             DynamicNodeLine* line = DynamicNodeLine::create();
             line->initWithParams(linesConfig[i], _linesLayer->getContentSize());
             _linesLayer->addChild(line);
+        }
+    }
+}
+
+void DynamicNodeCreator::configCheckBoxes(const rapidjson::Value &checkboxConfig)
+{
+    if(checkboxConfig.IsArray())
+    {
+        for (int i = 0; i < checkboxConfig.Size(); i++)
+        {
+            DynamicNodeCheckBox* checkBox = DynamicNodeCheckBox::create();
+            checkBox->initWithParams(checkboxConfig[i], _checkBoxLayer->getContentSize(),_usingExternalParams);
+            _checkBoxLayer->addChild(checkBox);
         }
     }
 }
