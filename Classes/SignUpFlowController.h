@@ -20,12 +20,14 @@ private:
     static const std::string kEnterPasswordCTAName;
     static const std::string kEnterPinCTAName;
     static const std::string kAcceptTnCsCTAName;
+    static const std::string kAcceptTnCsErrorCTAName;
     
     void handleEnterEmailFlow(const ButtonActionDataRef& actionData, FlowPath pathAction);
     void handleConfirmEmailFlow(const ButtonActionDataRef& actionData, FlowPath pathAction);
     void handleEnterPasswordFlow(const ButtonActionDataRef& actionData, FlowPath pathAction);
     void handleEnterPinFlow(const ButtonActionDataRef& actionData, FlowPath pathAction);
     void handleAcceptTnCsFlow(const ButtonActionDataRef& actionData, FlowPath pathAction);
+    void handleAcceptTnCsErrorFlow(const ButtonActionDataRef& actionData, FlowPath pathAction);
     
     void signUp();
     
