@@ -155,6 +155,7 @@
 		9224C00F1F7D13F000108553 /* DirectorySearcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224C00E1F7D13F000108553 /* DirectorySearcher.cpp */; };
 		9261739F1F2A3E4A008E3F9D /* OnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9261739E1F2A3E4A008E3F9D /* OnScreenChecker.cpp */; };
 		92759E9E1FE410BB00639190 /* FileDownloader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92759E9D1FE410BB00639190 /* FileDownloader.cpp */; };
+		92B1EC8D20A209CC007A58C0 /* ContentItemPoolParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92B1EC8C20A209CC007A58C0 /* ContentItemPoolParser.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -459,6 +460,11 @@
 		9261739E1F2A3E4A008E3F9D /* OnScreenChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OnScreenChecker.cpp; sourceTree = "<group>"; };
 		92759E9C1FE3DDCA00639190 /* FileDownloader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileDownloader.h; sourceTree = "<group>"; };
 		92759E9D1FE410BB00639190 /* FileDownloader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FileDownloader.cpp; sourceTree = "<group>"; };
+		92B1EC8820A209CB007A58C0 /* ContentItemPoolHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContentItemPoolHandler.h; path = HQDataObject/ContentItemPoolHandler.h; sourceTree = "<group>"; };
+		92B1EC8920A209CB007A58C0 /* HQStructureHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HQStructureHandler.h; path = HQDataObject/HQStructureHandler.h; sourceTree = "<group>"; };
+		92B1EC8A20A209CB007A58C0 /* HQStructureParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HQStructureParser.h; path = HQDataObject/HQStructureParser.h; sourceTree = "<group>"; };
+		92B1EC8B20A209CC007A58C0 /* ContentItemPoolParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContentItemPoolParser.h; path = HQDataObject/ContentItemPoolParser.h; sourceTree = "<group>"; };
+		92B1EC8C20A209CC007A58C0 /* ContentItemPoolParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContentItemPoolParser.cpp; path = HQDataObject/ContentItemPoolParser.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -480,6 +486,9 @@
 		021B1FC01F8389FC0044DCF7 /* HQDataObject */ = {
 			isa = PBXGroup;
 			children = (
+				92B1EC8C20A209CC007A58C0 /* ContentItemPoolParser.cpp */,
+				92B1EC8B20A209CC007A58C0 /* ContentItemPoolParser.h */,
+				92B1EC8820A209CB007A58C0 /* ContentItemPoolHandler.h */,
 				02BEDF2C1FE1327500D4C9B3 /* ContentItemPool.cpp */,
 				02BEDF2D1FE1327500D4C9B3 /* ContentItemPool.h */,
 				021B1FC11F838A0A0044DCF7 /* HQCarouselObject.cpp */,
@@ -490,6 +499,8 @@
 				021B1FC61F838A0A0044DCF7 /* HQDataObject.h */,
 				021B1FC71F838A0A0044DCF7 /* HQDataObjectStorage.cpp */,
 				021B1FC81F838A0A0044DCF7 /* HQDataObjectStorage.h */,
+				92B1EC8920A209CB007A58C0 /* HQStructureHandler.h */,
+				92B1EC8A20A209CB007A58C0 /* HQStructureParser.h */,
 			);
 			name = HQDataObject;
 			sourceTree = "<group>";
@@ -1157,6 +1168,7 @@
 				9220EC6A203313CE00BD7A90 /* ActionBuilder.cpp in Sources */,
 				3012ED9F1E97E6A40009027D /* RemoteImageSprite.cpp in Sources */,
 				3012ED631E969BF60009027D /* ChildDataStorage.cpp in Sources */,
+				92B1EC8D20A209CC007A58C0 /* ContentItemPoolParser.cpp in Sources */,
 				302E847A1ED1B992006A498C /* SplitLayout.cpp in Sources */,
 				3000FF7B1ED5BBB700E9717C /* Application.cpp in Sources */,
 				4349C84F1EA8ADEF00FE964B /* MPUIEdgeInsetsToNSDictionaryValueTransformer.m in Sources */,
