@@ -433,6 +433,12 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
                 Log.d("GOOGLEPAY", "Setup successful. Querying inventory.");
                 try {
+                    if(!mHelper.mSetupDone)
+                    {
+                        googlePurchaseFailed();
+                        return;
+                    }
+
                     String[] moreSkus = {getGoogleSku(), "SKU_ITEMONE"}; //fake skus required by queryInventoryAsync...
                     String[] moreSubSkus = {getGoogleSku(), "SUB_ITEMONE", "SUB_ITEMTWO"}; //fake skus required by queryInventoryAsync...
                     mHelper.queryInventoryAsync(true, Arrays.asList(moreSkus), Arrays.asList(moreSubSkus), mGotInventoryListener);
