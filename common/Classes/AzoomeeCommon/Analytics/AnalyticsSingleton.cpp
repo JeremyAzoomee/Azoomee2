@@ -35,11 +35,13 @@ bool AnalyticsSingleton::init(void)
     
 void AnalyticsSingleton::mixPanelSendEventWithStoredProperties(const std::string& eventID)
 {
+    AnalyticsProperties::getInstance()->updateEpochTime();
     mixPanelSendEventNative(eventID, _analyticsProperties->getStoredGeneralProperties());
 }
 
 void AnalyticsSingleton::mixPanelSendEventWithStoredProperties(const std::string& eventID, const std::map<std::string, std::string>& map)
 {
+    AnalyticsProperties::getInstance()->updateEpochTime();
     std::map<std::string, std::string> mapToBeSent;
     mapToBeSent.insert(map.begin(), map.end());
     const auto& generalProperties = _analyticsProperties->getStoredGeneralProperties();

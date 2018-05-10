@@ -6,6 +6,7 @@
 //
 
 #include "AnalyticsProperties.h"
+#include "../Utils/TimeFunctions.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -117,6 +118,11 @@ void AnalyticsProperties::setTimeOpenedContent(time_t timeOpenedContent)
 time_t AnalyticsProperties::getTimeOpenedContent() const
 {
     return _timeOpenedContent;
+}
+
+void AnalyticsProperties::updateEpochTime()
+{
+    _storedGeneralProperties["epochTime"] = getMillisecondTimestampString();
 }
 
 NS_AZOOMEE_END
