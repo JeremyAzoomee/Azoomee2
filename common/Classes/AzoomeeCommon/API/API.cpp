@@ -298,6 +298,23 @@ HttpRequestCreator* API::ResetPaswordRequest(const std::string& forEmailAddress,
     return request;
 }
 
+HttpRequestCreator* API::GetContentPoolRequest(Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestTag = TagGetContentPoolRequest;
+    request->encrypted = true;
+    return request;
+}
+
+HttpRequestCreator* API::GetHQStructureDataRequest(Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestTag = TagGetHqStructureDataRequest;
+    request->encrypted = true;
+    return request;
+}
+
+
 #pragma mark - Sharing
 
 HttpRequestCreator* API::GetChatListRequest(const std::string& userId,

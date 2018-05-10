@@ -50,6 +50,8 @@ public:
     static const char* const TagResetReportedChat;
     static const char* const TagGetForceUpdateInformation;
     static const char* const TagCookieRefresh;
+    static const char* const TagGetContentPoolRequest;
+    static const char* const TagGetHqStructureDataRequest;
     
 #pragma mark - API Methods
     
@@ -137,6 +139,10 @@ public:
     
     static HttpRequestCreator* ResetPaswordRequest(const std::string& forEmailAddress,
                                                    HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* GetContentPoolRequest(HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* GetHQStructureDataRequest(HttpRequestCreatorResponseDelegate* delegate);
     
 #pragma mark - Friend Requests
     
