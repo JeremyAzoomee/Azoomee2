@@ -65,11 +65,7 @@ void IAPFlowController::handleIAPUpgradeFlow(const ButtonActionDataRef& actionDa
 {
     switch(pathAction)
     {
-        default: case UNKNOWN:
-        {
-            return;
-            break;
-        }
+        
         case NEXT:
         {
             const std::string& path = actionData->getParamForKey("path");
@@ -89,13 +85,19 @@ void IAPFlowController::handleIAPUpgradeFlow(const ButtonActionDataRef& actionDa
             }
             break;
         }
-        case CLOSE: case BACK:
+        case CLOSE:
+        case BACK:
         {
             AnalyticsSingleton::getInstance()->ctaButtonPressed("upgrade_close");
             exitFlow();
             break;
         }
-            
+        default:
+        case UNKNOWN:
+        {
+            return;
+            break;
+        }
     }
 }
 
@@ -103,11 +105,6 @@ void IAPFlowController::handleCoppaPrivacyFlow(const ButtonActionDataRef& action
 {
     switch(pathAction)
     {
-        default: case UNKNOWN:
-        {
-            return;
-            break;
-        }
         case BACK:
         {
             AnalyticsSingleton::getInstance()->ctaButtonPressed("coppaPrivacy_back");
@@ -116,12 +113,18 @@ void IAPFlowController::handleCoppaPrivacyFlow(const ButtonActionDataRef& action
             }));
             break;
         }
-        case CLOSE: case NEXT:
+        case CLOSE:
+        case NEXT:
         {
             exitFlow();
             break;
         }
-            
+        default:
+        case UNKNOWN:
+        {
+            return;
+            break;
+        }
     }
 }
 
@@ -129,11 +132,6 @@ void IAPFlowController::handleLearnMoreFlow(const ButtonActionDataRef& actionDat
 {
     switch(pathAction)
     {
-        default: case UNKNOWN:
-        {
-            return;
-            break;
-        }
         case BACK:
         {
             AnalyticsSingleton::getInstance()->ctaButtonPressed("learnMore_back");
@@ -142,12 +140,18 @@ void IAPFlowController::handleLearnMoreFlow(const ButtonActionDataRef& actionDat
             }));
             break;
         }
-        case CLOSE: case NEXT:
+        case CLOSE:
+        case NEXT:
         {
             exitFlow();
             break;
         }
-            
+        default:
+        case UNKNOWN:
+        {
+            return;
+            break;
+        }
     }
 }
 
@@ -155,11 +159,6 @@ void IAPFlowController::handleAgeGateFlow(const ButtonActionDataRef& actionData,
 {
     switch(pathAction)
     {
-        default: case UNKNOWN:
-        {
-            return;
-            break;
-        }
         case NEXT:
         {
             AnalyticsSingleton::getInstance()->ctaButtonPressed("ageGate_next");
@@ -173,7 +172,8 @@ void IAPFlowController::handleAgeGateFlow(const ButtonActionDataRef& actionData,
             }
             break;
         }
-        case CLOSE: case BACK:
+        case CLOSE:
+        case BACK:
         {
             AnalyticsSingleton::getInstance()->ctaButtonPressed("ageGate_back");
             DynamicNodeHandler::getInstance()->createDynamicNodeByGroupIdWithParams(kIAPUpgradeCTAName, getJSONStringFromMap({
@@ -181,7 +181,12 @@ void IAPFlowController::handleAgeGateFlow(const ButtonActionDataRef& actionData,
             }));
             break;
         }
-            
+        default:
+        case UNKNOWN:
+        {
+            return;
+            break;
+        }
     }
 }
 
