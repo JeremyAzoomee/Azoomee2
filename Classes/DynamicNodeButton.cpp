@@ -51,7 +51,12 @@ bool DynamicNodeButton::initWithParams(const rapidjson::Value &params, const coc
     
     const std::string& btnSprite = getStringFromJson("sprite", params);
     
-    const std::string& btnString = getStringFromJson("text", params);
+    std::string btnString = getStringFromJson("text", params);
+    
+    if(usingExtrnParams)
+    {
+        btnString = DynamicNodeCreator::addExternalParamsToString(btnString);
+    }
     
     if(params.HasMember("action"))
     {
