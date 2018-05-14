@@ -25,15 +25,15 @@ android {
         applicationId "com.tinizine.azoomee"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 352202
-        versionName '3.5.2'
+        versionCode 999000
+        versionName '9.9.9'
     }
 
     splits {
     	abi {
       		enable true
       		reset()
-      		include 'arm64-v8a'
+      		include 'armeabi-v7a'
       		universalApk false
     	}
     }
