@@ -40,10 +40,13 @@ bool MeHQ::init()
     _contentListView->setBounceEnabled(true);
     _contentListView->setGravity(ui::ListView::Gravity::LEFT);
     _contentListView->setItemsMargin(50.0f);
+    _contentListView->setContentSize(Size(this->getContentSize().width, this->getContentSize().height - 300));
+    _contentListView->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+    _contentListView->setPosition(Director::getInstance()->getVisibleOrigin());
     
     this->addChild(_contentListView);
     
-    //_contentListView->pushBackCustomItem(MeHQProfileDetails::create());
+    _contentListView->pushBackCustomItem(MeHQProfileDetails::create());
     
     return true;
 }
