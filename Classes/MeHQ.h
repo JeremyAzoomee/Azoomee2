@@ -27,6 +27,9 @@ private:
     void setHQCarouselData();
     cocos2d::Layer* createContentCarousel(const std::vector<HQContentItemObjectRef>& content);
     
+    cocos2d::ui::ListView* _contentListView = nullptr;
+    
+    
     std::string _hqCategory = "ME HQ";
 public:
     
