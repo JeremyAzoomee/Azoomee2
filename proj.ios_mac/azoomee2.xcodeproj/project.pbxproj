@@ -135,6 +135,7 @@
 		9224BFB11F7908D400108553 /* DynamicNodeButtonListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB01F7908D400108553 /* DynamicNodeButtonListener.cpp */; };
 		9224BFB41F7932D200108553 /* ButtonActionData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB31F7932D200108553 /* ButtonActionData.cpp */; };
 		9224BFB71F794BFA00108553 /* DynamicNodeHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB61F794BFA00108553 /* DynamicNodeHandler.cpp */; };
+		924ACE3720A9C541007A5550 /* MeHQProfileDetails.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924ACE3620A9C541007A5550 /* MeHQProfileDetails.cpp */; };
 		926173A71F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926173A61F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp */; };
 		9271D7D12040544200370120 /* libAzoomeeOomeeMaker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9271D7CB2040537000370120 /* libAzoomeeOomeeMaker.a */; };
 		9271D7D32040557D00370120 /* OomeeMakerDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D7D22040557D00370120 /* OomeeMakerDelegate.cpp */; };
@@ -515,6 +516,7 @@
 		924ACE1F20A9A543007A5550 /* MeHQGallery.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeHQGallery.h; sourceTree = "<group>"; };
 		924ACE2020A9A55C007A5550 /* MeHQMessages.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeHQMessages.h; sourceTree = "<group>"; };
 		924ACE2120A9A572007A5550 /* MeHQDownloads.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeHQDownloads.h; sourceTree = "<group>"; };
+		924ACE3620A9C541007A5550 /* MeHQProfileDetails.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MeHQProfileDetails.cpp; sourceTree = "<group>"; };
 		926173A11F2A4CC5008E3F9D /* ArtImageOnScreenChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtImageOnScreenChecker.h; sourceTree = "<group>"; };
 		926173A61F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtImageOnScreenChecker.cpp; sourceTree = "<group>"; };
 		9271D7572035F44600370120 /* AzoomeeOomeeMaker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AzoomeeOomeeMaker.xcodeproj; path = ../oomeemaker/proj.ios_mac/AzoomeeOomeeMaker.xcodeproj; sourceTree = "<group>"; };
@@ -1172,6 +1174,7 @@
 				929A9CFA2063CF4F009B323D /* MeHQ.h */,
 				929A9CFB2065248A009B323D /* MeHQ.cpp */,
 				924ACE1A20A9A476007A5550 /* MeHQProfileDetails.h */,
+				924ACE3620A9C541007A5550 /* MeHQProfileDetails.cpp */,
 				924ACE1F20A9A543007A5550 /* MeHQGallery.h */,
 				924ACE2020A9A55C007A5550 /* MeHQMessages.h */,
 				924ACE2120A9A572007A5550 /* MeHQDownloads.h */,
@@ -1703,6 +1706,7 @@
 				02C66A9F1FBAF79400F33686 /* HQScene2.cpp in Sources */,
 				9224BFB11F7908D400108553 /* DynamicNodeButtonListener.cpp in Sources */,
 				92759E701FE1598100639190 /* DynamicNodeLine.cpp in Sources */,
+				924ACE3720A9C541007A5550 /* MeHQProfileDetails.cpp in Sources */,
 				A19862271DD3836D0090F053 /* NavigationLayer.cpp in Sources */,
 				A198622B1DD383BD0090F053 /* AppDelegate.cpp in Sources */,
 				9220EAD5200F77E200BD7A90 /* SignUpFlowController.cpp in Sources */,

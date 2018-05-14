@@ -20,15 +20,7 @@ class MeHQ : public cocos2d::Layer
 {
     typedef cocos2d::Layer Super;
 private:
-    cocos2d::ui::Button* _oomeeMakerButton = nullptr;
-    HQSceneArtsApp* _artScrollView = nullptr;
-    cocos2d::ui::ScrollView* _contentScrollView = nullptr;
-    
-    void setHQCarouselData();
-    cocos2d::Layer* createContentCarousel(const std::vector<HQContentItemObjectRef>& content);
-    
     cocos2d::ui::ListView* _contentListView = nullptr;
-    
     
     std::string _hqCategory = "ME HQ";
 public:
