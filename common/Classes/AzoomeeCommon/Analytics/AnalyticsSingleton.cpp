@@ -119,7 +119,7 @@ void AnalyticsSingleton::registerSessionId(std::string sessionId)
     setCrashlyticsKeyWithString("sessionId", sessionId);
 }
     
-void AnalyticsSingleton::registerCurrentScene(std::string currentScene)
+void AnalyticsSingleton::registerCurrentScene(const std::string &currentScene)
 {
     //before registering the new scene as current, reading out the previous one to be able to send previousScene property for mixpanel moveToSceneEvent.
     const std::map<std::string, std::string> &mixPanelProperties = _analyticsProperties->getStoredGeneralProperties();
@@ -545,7 +545,7 @@ void AnalyticsSingleton::httpRequestFailed(std::string requestTag, long response
     mixPanelSendEventWithStoredProperties("httpRequestFailed", mixPanelProperties);
 }
     
-void AnalyticsSingleton::moveToSceneEvent(std::string previousScene)
+void AnalyticsSingleton::moveToSceneEvent(const std::string &previousScene)
 {
     std::map<std::string, std::string> mixPanelProperties;
     mixPanelProperties["previousScene"] = previousScene;

@@ -46,7 +46,7 @@ public:
     void registerIAPOS(std::string OS_String);
     void registerBillingProvider(std::string provider);
     void registerSessionId(std::string sessionId);
-    void registerCurrentScene(std::string currentScene);
+    void registerCurrentScene(const std::string& currentScene);
     void setLandscapeOrientation();
     void setPortraitOrientation();
     void setNumberOfChatFriends(int noOfChildren);
@@ -124,7 +124,7 @@ public:
     void enteredForegroundEvent();
     void sessionIdHasChanged(std::string oldSessionId);
     void httpRequestFailed(std::string requestTag, long responseCode, std::string qid);
-    void moveToSceneEvent(std::string previousScene);
+    void moveToSceneEvent(const std::string& previousScene);
     void settingsOnlineSafetySlideChangeEvent(int NewSlideNumber);
     
     //---------------IAP ACTIONS------------------
