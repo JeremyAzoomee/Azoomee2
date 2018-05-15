@@ -124,7 +124,7 @@ public:
     void enteredForegroundEvent();
     void sessionIdHasChanged(std::string oldSessionId);
     void httpRequestFailed(std::string requestTag, long responseCode, std::string qid);
-    void moveToSceneEvent(std::string newScene);
+    void moveToSceneEvent(std::string previousScene);
     void settingsOnlineSafetySlideChangeEvent(int NewSlideNumber);
     
     //---------------IAP ACTIONS------------------
