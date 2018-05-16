@@ -37,6 +37,7 @@ private:
     cocos2d::Node* _textLayer = nullptr;
     cocos2d::Node* _textInputLayer = nullptr;
     cocos2d::Node* _linesLayer = nullptr;
+    cocos2d::Node* _checkBoxLayer = nullptr;
     cocos2d::ui::Button* _closeButton = nullptr;
     cocos2d::LayerColor* _bgColour = nullptr;
     
@@ -48,6 +49,7 @@ private:
     // external parameters
     rapidjson::Document _externParams;
     bool _usingExternalParams = false;
+    bool _portraitMode = false;
     
     void processFile(const rapidjson::Document& configFile);
     void initCTANode();
@@ -60,6 +62,7 @@ private:
     void configText(const rapidjson::Value& textConfig);
     void configTextInput(const rapidjson::Value& textInputConfig);
     void configLines(const rapidjson::Value& linesConfig);
+    void configCheckBoxes(const rapidjson::Value& checkboxConfig);
     
 public:
     static DynamicNodeCreator* getInstance(void);

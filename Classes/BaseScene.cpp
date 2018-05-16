@@ -18,23 +18,15 @@
 
 #include "IAPProductDataHandler.h"
 
+#include "DynamicNodeHandler.h"
+
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-Scene* BaseScene::createScene()
-{
-    auto scene = Scene::create();
-    auto layer = BaseScene::create();
-    
-    scene->addChild(layer);
-    
-    return scene;
-}
-
 bool BaseScene::init()
 {
-    if ( !Layer::init() )
+    if ( !Super::init() )
     {
         return false;
     }
@@ -162,6 +154,43 @@ void BaseScene::addXmasDecoration()
     snow2->setPosition(origin.x + visibleSize.width - snow2->getContentSize().width / 2, origin.y - snow2->getContentSize().height / 2);
     this->addChild(snow2, DECORATION_ZORDER);
     snow2->runAction(Sequence::create(DelayTime::create(0.5f), EaseOut::create(MoveTo::create(2, Vec2(snow2->getPosition().x, origin.y + snow2->getContentSize().height / 2)), 2.0f), NULL));
+}
+
+void BaseScene::onSizeChanged()
+{
+    Super::onSizeChanged();
+    
+    auto contentLayer = this->getChildByName("contentLayer");
+    if(contentLayer == nullptr)
+    {
+        return;
+    }
+    
+    for(auto child : this->getChildByName("contentLayer")->getChildren())
+    {
+        HQScene2* hqScene = dynamic_cast<HQScene2*>(child);
+        if(hqScene)
+        {
+            if(HQHistoryManager::getInstance()->getCurrentHQ() == hqScene->getName())
+            {
+                hqScene->rebuildScrollView();
+            }
+        }
+    }
+    auto navLayer = this->getChildByName("NavigationLayer");
+    if(navLayer == nullptr)
+    {
+        return;
+    }
+    
+    NavigationLayer* navigation = dynamic_cast<NavigationLayer*>(navLayer);
+    if(navigation)
+    {
+        navigation->repositionElements();
+    }
+    
+    DynamicNodeHandler::getInstance()->rebuildCurrentCTA();
+    
 }
 
 NS_AZOOMEE_END

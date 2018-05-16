@@ -13,6 +13,12 @@ public:
     CREATE_FUNC(HQSceneArtsApp);
     virtual bool init();
     void onEnter();
+    
+    void setOriginPosition(cocos2d::Point origin);
+    void setSize(cocos2d::Size size);
+    void setShowPrivacyButton(bool showPrivacyButton);
+    void setRows(int rows);
+    
 private:
     cocos2d::ui::ScrollView* createHorizontalScrollView(cocos2d::Size contentSize);
     void createArtsAppScrollView();
@@ -24,6 +30,8 @@ private:
     
     cocos2d::Size _visibleSize;
     cocos2d::Point _origin;
+    bool _showPrivacyButton = true;
+    int _rows = 2;
     
 };
 

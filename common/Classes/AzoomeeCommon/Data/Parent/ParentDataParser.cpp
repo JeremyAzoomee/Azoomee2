@@ -61,7 +61,6 @@ bool ParentDataParser::parseParentLoginData(const std::string &responseData)
             addParentLoginDataToUserDefaults();
             
             createCrashlyticsUserInfo(parentData->loggedInParentId, "");
-            AnalyticsSingleton::getInstance()->registerParentID(parentData->loggedInParentId);
             AnalyticsSingleton::getInstance()->registerAccountStatus(parentData->loggedInParentActorStatus);
             
             PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel(parentData->loggedInParentId);
@@ -98,7 +97,6 @@ bool ParentDataParser::parseParentLoginDataFromAnonymousDeviceLogin(const std::s
             parentData->loggedInParentPin = "";
             
             createCrashlyticsUserInfo(parentData->loggedInParentId, "");
-            AnalyticsSingleton::getInstance()->registerParentID(parentData->loggedInParentId);
             AnalyticsSingleton::getInstance()->registerAccountStatus(parentData->loggedInParentActorStatus);
             
             PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel(parentData->loggedInParentId);
@@ -263,7 +261,6 @@ void ParentDataParser::retrieveParentLoginDataFromUserDefaults()
     cocos2d::log("loggedInParentCountryCode = %s", parentData->loggedInParentCountryCode.c_str());
     
     createCrashlyticsUserInfo(parentData->loggedInParentId, "");
-    AnalyticsSingleton::getInstance()->registerParentID(parentData->loggedInParentId);
     AnalyticsSingleton::getInstance()->registerAccountStatus(parentData->loggedInParentActorStatus);
     AnalyticsSingleton::getInstance()->registerAzoomeeEmail(def->getStringForKey("username"));
     

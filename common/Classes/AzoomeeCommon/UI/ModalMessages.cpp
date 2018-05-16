@@ -2,6 +2,7 @@
 #include <ui/UIEditBox/UIEditBox.h>
 #include "../Analytics/AnalyticsSingleton.h"
 #include "../Mixpanel/Notifications.h"
+#include "Scene.h"
 
 USING_NS_CC;
 
@@ -22,7 +23,7 @@ ModalMessages* ModalMessages::getInstance()
     }
     
     _sharedModalMessages->visibleSize = Director::getInstance()->getVisibleSize();
-    _sharedModalMessages->origin = Director::getInstance()->getVisibleOrigin();
+    _sharedModalMessages->origin = dynamic_cast<Azoomee::Scene*>(Director::getInstance()->getRunningScene()) ? Vec2(0,0) : Director::getInstance()->getVisibleOrigin();
     
     return _sharedModalMessages;
 }

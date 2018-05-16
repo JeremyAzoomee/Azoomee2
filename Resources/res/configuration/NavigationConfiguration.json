@@ -47,9 +47,9 @@
     }
   },
   "namesForMenuItems": [
-    "CHAT",
-    "VIDEO HQ",
     "GAME HQ",
+    "VIDEO HQ",
+    "CHAT",
     "ARTS APP"
   ],
   "hqNamesReplacementForPermissionFeed": {

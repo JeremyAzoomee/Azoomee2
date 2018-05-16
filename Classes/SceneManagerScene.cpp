@@ -16,6 +16,7 @@
 #include "ArtAppDelegate.h"
 #include "EmptySceneForSettings.h"
 #include "WebViewSelector.h"
+#include "IntroVideoScene.h"
 
 using namespace cocos2d;
 
@@ -65,8 +66,8 @@ void SceneManagerScene::onEnterTransitionDidFinish()
     switch (nextScene) {
         case Login:
         {
-            forceToLandscape();
-            cocos2d::Scene*  goToScene = LoginScene::createScene();
+            acceptAnyOrientation();
+            cocos2d::Scene*  goToScene = LoginScene::create();
             AnalyticsSingleton::getInstance()->registerCurrentScene("LOGIN");
             Director::getInstance()->replaceScene(goToScene);
             break;
@@ -74,24 +75,26 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         case Base:
         {
             FlowDataSingleton::getInstance()->clearData();
-            forceToLandscape();
+            //forceToLandscape();
+            acceptAnyOrientation();
             HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
-            cocos2d::Scene* goToScene = BaseScene::createScene();
+            Azoomee::Scene* goToScene = BaseScene::create();
             Director::getInstance()->replaceScene(goToScene);
             break;
         }
         case BaseWithNoHistory:
         {
             FlowDataSingleton::getInstance()->clearData();
-            forceToLandscape();
+            //forceToLandscape();
+            acceptAnyOrientation();
             HQHistoryManager::getInstance()->emptyHistory();
-            cocos2d::Scene* goToScene = BaseScene::createScene();
+            cocos2d::Scene* goToScene = BaseScene::create();
             Director::getInstance()->replaceScene(goToScene);
             break;
         }
         case ChildSelector:
         {
-            forceToLandscape();
+            acceptAnyOrientation();
             cocos2d::Scene* goToScene = ChildSelectorScene::createScene();
             AnalyticsSingleton::getInstance()->registerCurrentScene("CHILD_SELECTOR");
             Director::getInstance()->replaceScene(goToScene);
@@ -151,7 +154,15 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         case SettingsFromChat:
         {
             forceToLandscape();
-            cocos2d::Scene* goToScene = EmptySceneForSettings::createScene();
+            cocos2d::Scene* goToScene = EmptySceneForSettings::createScene(CHAT);
+            AnalyticsSingleton::getInstance()->registerCurrentScene("SETTINGS");
+            Director::getInstance()->replaceScene(goToScene);
+            break;
+        }
+        case Settings:
+        {
+            forceToLandscape();
+            cocos2d::Scene* goToScene = EmptySceneForSettings::createScene(MAIN_APP);
             AnalyticsSingleton::getInstance()->registerCurrentScene("SETTINGS");
             Director::getInstance()->replaceScene(goToScene);
             break;
@@ -170,6 +181,19 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             forceToLandscape();
             AnalyticsSingleton::getInstance()->registerCurrentScene("WEBVIEWLANDSCAPE");
             WebViewSelector::createSceneWithUrl(webviewURL, Orientation::Landscape, _closeButtonAnchor);
+            break;
+        }
+        case introVideo:
+        {
+            if(Director::getInstance()->getVisibleSize().width / Director::getInstance()->getVisibleSize().height > 1.5)
+            {
+                forceToPortrait();
+            }
+            else
+            {
+                forceToLandscape();
+            }
+            Director::getInstance()->replaceScene(IntroVideoScene::create());
             break;
         }
         default:

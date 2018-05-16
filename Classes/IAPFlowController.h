@@ -9,11 +9,11 @@
 #define IAPFlowController_h
 
 #include "DynamicNodeFlowController.h"
-#include "AwaitingAdultPinLayer.h"
+#include <AzoomeeCommon/UI/RequestAdultPinLayer.h>
 
 NS_AZOOMEE_BEGIN
 
-class IAPFlowController : public DynamicNodeFlowController, public AwaitingAdultPinLayerDelegate
+class IAPFlowController : public DynamicNodeFlowController, public RequestAdultPinLayerDelegate
 {
 private:
     static const std::string kIAPUpgradeCTAName;
@@ -39,8 +39,8 @@ public:
     IAPFlowController() noexcept;
 
     // delegate functions
-    void AdultPinCancelled(AwaitingAdultPinLayer* layer) override;
-    void AdultPinAccepted(AwaitingAdultPinLayer* layer) override;
+    void AdultPinCancelled(RequestAdultPinLayer* layer) override;
+    void AdultPinAccepted(RequestAdultPinLayer* layer) override;
 };
 
 NS_AZOOMEE_END

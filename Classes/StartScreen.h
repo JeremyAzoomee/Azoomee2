@@ -11,12 +11,13 @@
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
 #include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/UI/Scene.h>
 
 NS_AZOOMEE_BEGIN
 
-class StartScreen : public cocos2d::Layer
+class StartScreen : public Azoomee::Scene
 {
-    typedef cocos2d::Layer Super;
+    typedef Azoomee::Scene Super;
 private:
     void addBGElements();
     void addImages();
@@ -27,7 +28,6 @@ private:
     static const std::string kAssetLoc;
     
 public:
-    static cocos2d::Scene* createScene();
     
     virtual void onEnter() override;
     virtual bool init() override;
