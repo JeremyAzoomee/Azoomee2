@@ -37,14 +37,12 @@
     
     for(int i = 0; i < playlistUrls.count; i++)
     {
-        NSURL *mediaURL = [NSURL URLWithString:url]; //TO BE REMOVED FOR PROD
-        
         if([url isEqualToString:playlistUrls[i]])
         {
             startPlaylistElementIndex = i;
         }
         
-        AVPlayerItem *item = [[AVPlayerItem alloc] initWithURL:mediaURL];    //TO BE REPLACED FOR PROD WITH: [[AVPlayerItem alloc] initWithURL:[NSURL URLWithString:playlistUrls[i]]];
+        AVPlayerItem *item = [[AVPlayerItem alloc] initWithURL:[NSURL URLWithString:playlistUrls[i]]];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlaybackLogAccessed:) name:AVPlayerItemNewAccessLogEntryNotification object:item];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerItemDidReachEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:item];
         

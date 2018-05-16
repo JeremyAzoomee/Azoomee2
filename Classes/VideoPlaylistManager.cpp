@@ -1,6 +1,7 @@
 #include "VideoPlaylistManager.h"
 #include "HQDataProvider.h"
 #include <AzoomeeCommon/Utils/StringFunctions.h>
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 
 using namespace cocos2d;
 
@@ -56,7 +57,11 @@ std::string VideoPlaylistManager::getPlaylist()
             if(item->isEntitled()&&(item->getType() == "AUDIO" || item->getType() == "VIDEO"))
             {
                 std::map<std::string, std::string> elementToBeAdded;
-                elementToBeAdded["uri"] = item->getUri();
+                
+                std::string itemUri = item->getUri();
+                itemUri = replaceAll(itemUri, "{sessionId}", ChildDataProvider::getInstance()->getParentOrChildCdnSessionId());
+                
+                elementToBeAdded["uri"] = itemUri;
                 elementToBeAdded["image"] = HQDataProvider::getInstance()->getThumbnailUrlForItem(item->getContentItemId());
                 elementToBeAdded["title"] = item->getTitle();
                 
@@ -93,7 +98,9 @@ std::string VideoPlaylistManager::getPlaylistForIosNativePlayer()
                     returnString += "|";
                 }
                 
-                returnString += item->getUri();
+                std::string itemUri = item->getUri();
+                itemUri = replaceAll(itemUri, "{sessionId}", ChildDataProvider::getInstance()->getParentOrChildCdnSessionId());
+                returnString += itemUri;
             }
         }
     }
