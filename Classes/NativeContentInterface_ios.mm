@@ -68,10 +68,7 @@ void NativeContentInterface_ios::addMediaPlayerToScreen(const std::string &url)
     MediaPlayerController *mediaPlayer = [[MediaPlayerController alloc] init];
     [currentView addSubview:mediaPlayer.view];
     
-    std::string userSessionId = ChildDataProvider::getInstance()->getParentOrChildCdnSessionId();
-    std::string mediaURL = "https://tv-media.azoomee.com/netgemstream/"+userSessionId+"/distribution/gb/229a4bec-63bd-437d-abcd-6951a6e6ae99/video_stream.m3u8";
-    NSString *iosurl = [NSString stringWithCString:mediaURL.c_str() encoding:[NSString defaultCStringEncoding]];
-    
+    NSString *iosurl = [NSString stringWithCString:url.c_str() encoding:[NSString defaultCStringEncoding]];
     [mediaPlayer startBuildingMediaPlayer:iosurl];
 }
 

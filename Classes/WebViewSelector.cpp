@@ -65,23 +65,20 @@ void WebViewSelector::loadWebView(const std::string& url, Orientation orientatio
     AnalyticsSingleton::getInstance()->contentItemWebviewStartedEvent();
     AudioMixer::getInstance()->stopBackgroundMusic();
     
-    //decide to open native media player or webview here
+    std::string targetUrl = url;
+    
+    if(stringEndsWith(targetUrl, "m3u8")) //this if clause will probably need changes for later
+    {
+        std::string userSessionId = ChildDataProvider::getInstance()->getParentOrChildCdnSessionId();
+        targetUrl = replaceAll(targetUrl, "{sessionId}", userSessionId);
+    }
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    auto iosWebView = NativeContentInterface_ios::createSceneWithURL(url, closeButtonAnchor);
+    auto iosWebView = NativeContentInterface_ios::createSceneWithURL(targetUrl, closeButtonAnchor);
     Director::getInstance()->replaceScene(iosWebView);
 #endif
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    
-    std::string targetUrl = url; //remove this definition for prod, and change targetUrl to url in the webviewcall
-    
-    if(stringEndsWith(url, "m3u8")) //remove this if clause for prod
-    {
-        std::string userSessionId = ChildDataProvider::getInstance()->getParentOrChildCdnSessionId();
-        targetUrl = "https://tv-media.azoomee.com/netgemstream/"+userSessionId+"/distribution/gb/229a4bec-63bd-437d-abcd-6951a6e6ae99/video_stream.m3u8"; //remove this for prod!!!
-    }
-    
     auto androidWebViewCaller = WebViewNativeCaller_android::createSceneWithUrl(targetUrl, orientation, closeButtonAnchor);
     Director::getInstance()->replaceScene(androidWebViewCaller);
 #endif
