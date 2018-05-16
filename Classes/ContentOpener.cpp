@@ -92,7 +92,6 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
             {
                 navigationLayer->startLoadingGroupHQ(contentItem->getUri());
                 
-                HQDataProvider::getInstance()->getDataForGroupHQ(contentItem->getUri());
                 HQHistoryManager::getInstance()->setGroupHQSourceId(contentItem->getContentItemId());
                 
                 auto funcCallAction = CallFunc::create([=](){
