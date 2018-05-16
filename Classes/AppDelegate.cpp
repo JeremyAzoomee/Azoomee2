@@ -31,10 +31,10 @@ bool AppDelegate::applicationDidFinishLaunching()
     Super::applicationDidFinishLaunching();
     
     register_all_packages();
-
+    
     // create a scene. it's an autorelease object
-    auto scene = IntroVideoScene::createScene();
-    Director::getInstance()->runWithScene(scene);
+    auto scene = IntroVideoScene::create();
+    Director::getInstance()->runWithScene(SceneManagerScene::createScene(introVideo));
     
     SessionIdManager::getInstance();
     AnalyticsSingleton::getInstance()->setLandscapeOrientation();

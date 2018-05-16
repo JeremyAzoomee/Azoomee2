@@ -19,7 +19,8 @@ enum SceneNameEnum {
     WebviewLandscape,
     ArtAppEntryPointScene,
     SettingsFromChat,
-    Settings
+    Settings,
+    introVideo
 };
 
 class SceneManagerScene : public cocos2d::Layer

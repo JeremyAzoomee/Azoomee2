@@ -3,12 +3,14 @@
 
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/UI/Scene.h>
 #include "ui/UIVideoPlayer.h"
 
 NS_AZOOMEE_BEGIN
 
-class IntroVideoScene: public cocos2d::Layer
+class IntroVideoScene: public Azoomee::Scene
 {
+    typedef Azoomee::Scene Super;
 private:
     static const char* const kSkipVideoKeyInUserDefault;
     
@@ -18,11 +20,13 @@ private:
 
     cocos2d::experimental::ui::VideoPlayer* _videoPlayer;
     
+protected:
+    virtual void onSizeChanged() override;
+    
 public:
-    static cocos2d::Scene* createScene();
-    void onEnter();
+    void onEnter() override;
 
-    virtual bool init();
+    virtual bool init() override;
 
     CREATE_FUNC(IntroVideoScene);
 };

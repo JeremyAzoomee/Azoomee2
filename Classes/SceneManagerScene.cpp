@@ -16,6 +16,7 @@
 #include "ArtAppDelegate.h"
 #include "EmptySceneForSettings.h"
 #include "WebViewSelector.h"
+#include "IntroVideoScene.h"
 
 using namespace cocos2d;
 
@@ -180,6 +181,19 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             forceToLandscape();
             AnalyticsSingleton::getInstance()->registerCurrentScene("WEBVIEWLANDSCAPE");
             WebViewSelector::createSceneWithUrl(webviewURL, Orientation::Landscape, _closeButtonAnchor);
+            break;
+        }
+        case introVideo:
+        {
+            if(Director::getInstance()->getVisibleSize().width / Director::getInstance()->getVisibleSize().height > 1.5)
+            {
+                forceToPortrait();
+            }
+            else
+            {
+                forceToLandscape();
+            }
+            Director::getInstance()->replaceScene(IntroVideoScene::create());
             break;
         }
         default:
