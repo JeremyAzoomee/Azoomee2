@@ -71,6 +71,8 @@ public class NativeMediaPlayer extends Activity {
         videoview.requestFocus();
         videoview.start();
 
+        JNICalls.sendMediaPlayerData("video.play", "");
+
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -106,13 +108,16 @@ public class NativeMediaPlayer extends Activity {
             public void onCompletion(MediaPlayer mediaPlayer)
             {
                 Log.d("playlist event", "100pc passed");
+
                 //current item finished, sent event to mixpanel
+                JNICalls.sendMediaPlayerData("video.complete", "");
 
                 String nextItem = getUrlForNextPlaylistItem();
 
                 if(nextItem.equals(""))
                 {
                     //playlist finished, send event to mixpanel
+                    JNICalls.sendMediaPlayerData("video.playlistcomplete", "");
 
                     getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                             WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
@@ -139,6 +144,7 @@ public class NativeMediaPlayer extends Activity {
             public boolean onError(MediaPlayer mediaPlayer, int what, int extra)
             {
                 //error happened, get back to main screen with error, send event to mixpanel
+
                 return true;
             }
         });
@@ -162,24 +168,28 @@ public class NativeMediaPlayer extends Activity {
         {
             _videoTimeSent = 0.0f;
             Log.d("playlist event", "0pc passed");
+            JNICalls.sendMediaPlayerData("video.time", "0");
         }
 
         if(playbackRatio > 0.25f && _videoTimeSent < 0.25f)
         {
             _videoTimeSent = 0.25f;
             Log.d("playlist event", "25pc passed");
+            JNICalls.sendMediaPlayerData("video.time", "25");
         }
 
         if(playbackRatio > 0.5f && _videoTimeSent < 0.5f)
         {
             _videoTimeSent = 0.5f;
             Log.d("playlist event", "50pc passed");
+            JNICalls.sendMediaPlayerData("video.time", "50");
         }
 
         if(playbackRatio > 0.75f && _videoTimeSent < 0.75f)
         {
             _videoTimeSent = 0.75f;
             Log.d("playlist event", "75pc passed");
+            JNICalls.sendMediaPlayerData("video.time", "75");
         }
 
     }
