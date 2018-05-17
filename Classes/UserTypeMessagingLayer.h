@@ -21,11 +21,13 @@ class UserTypeMessagingLayer : public cocos2d::Layer
     typedef cocos2d::Layer Super;
 private:
     cocos2d::ui::Scale9Sprite* _bgSprite = nullptr;
-    cocos2d::Label* _userTypeLabel = nullptr;
     cocos2d::ui::Button* _signInButton = nullptr;
     cocos2d::ui::Button* _startTrialButton = nullptr;
     cocos2d::ui::Button* _reactivateButton = nullptr;
-    cocos2d::ui::Button* _infoButton = nullptr;
+    cocos2d::Label* _signInLabel = nullptr;
+    cocos2d::Label* _startTrialLabel = nullptr;
+    cocos2d::Label* _reactivateLabel = nullptr;
+    cocos2d::Label* _premiumLabel = nullptr;
     
     UserType _userType;
 public:
@@ -35,6 +37,7 @@ public:
     
     void setUserType(UserType userType);
     
+    void repositionElements();
     
     CREATE_FUNC(UserTypeMessagingLayer);
 };

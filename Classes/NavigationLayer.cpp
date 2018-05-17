@@ -25,6 +25,7 @@
 #include "ChatNotificationsSingleton.h"
 #include "DynamicNodeHandler.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include "FlowDataSingleton.h"
 
 using namespace cocos2d;
 
@@ -111,8 +112,8 @@ bool NavigationLayer::init()
     }
     
     _userTypeMessagingLayer = UserTypeMessagingLayer::create();
-    _userTypeMessagingLayer->setContentSize(Size(visibleSize.width, visibleSize.height * 0.2f));
-    _userTypeMessagingLayer->setPosition(origin - Vec2(0,visibleSize.height * 0.2f));
+    _userTypeMessagingLayer->setContentSize(Size(visibleSize.width, 300));
+    _userTypeMessagingLayer->setPosition(origin - Vec2(0,300));
     _userTypeMessagingLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     UserType userType = ANON;
     if(!ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
@@ -123,12 +124,23 @@ bool NavigationLayer::init()
             userType = PAID;
         }
     }
+    _userTypeMessagingLayer->setUserType(userType);
     if(userType == PAID)
     {
-        _userTypeMessagingLayer->setVisible(false);
+        if(FlowDataSingleton::getInstance()->getDisplayUserPaidFlag())
+        {
+            FlowDataSingleton::getInstance()->setDisplayUserPaidFlag(false);
+            _userTypeMessagingLayer->runAction(Sequence::create(MoveTo::create(1, origin), DelayTime::create(10), MoveTo::create(2, Vec2(0,-_userTypeMessagingLayer->getContentSize().height * 1.5f)), NULL));
+        }
+        else
+        {
+            _userTypeMessagingLayer->setVisible(false);
+        }
     }
-    _userTypeMessagingLayer->setUserType(userType);
-    _userTypeMessagingLayer->runAction(MoveTo::create(1, origin));
+    else
+    {
+        _userTypeMessagingLayer->runAction(MoveTo::create(1, origin));
+    }
     this->addChild(_userTypeMessagingLayer);
    
     
@@ -682,6 +694,11 @@ void NavigationLayer::repositionElements()
 {
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Vec2(0,0);//Director::getInstance()->getVisibleOrigin();
+    
+    _userTypeMessagingLayer->setContentSize(Size(visibleSize.width, 300));
+    _userTypeMessagingLayer->setPositionX(origin.x);
+    
+    _userTypeMessagingLayer->repositionElements();
     
     _navOffset = 0;
     

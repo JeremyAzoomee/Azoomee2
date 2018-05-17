@@ -201,11 +201,13 @@ void DynamicNodeHandler::handleSuccessFailEvent()
         case PREMIUM_NEW_ACCOUNT:
         {
             FlowDataSingleton::getInstance()->setFlowToSignUpNewProfile();
+            FlowDataSingleton::getInstance()->setDisplayUserPaidFlag(true);
             createDynamicNodeById("payment_new_account.json");
             break;
         }
         case PREMIUM_EXISTING_ACCOUNT:
         {
+            FlowDataSingleton::getInstance()->setDisplayUserPaidFlag(true);
             createDynamicNodeById("payment_existing_account.json");
             break;
         }
