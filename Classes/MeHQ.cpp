@@ -19,6 +19,7 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
+#include <AzoomeeCommon/UI/LayoutParams.h>
 
 #include "MeHQProfileDetails.h"
 
@@ -38,15 +39,16 @@ bool MeHQ::init()
     _contentListView = ui::ListView::create();
     _contentListView->setDirection(ui::ScrollView::Direction::VERTICAL);
     _contentListView->setBounceEnabled(true);
-    _contentListView->setGravity(ui::ListView::Gravity::LEFT);
+    _contentListView->setGravity(ui::ListView::Gravity::CENTER_HORIZONTAL);
     _contentListView->setItemsMargin(50.0f);
     _contentListView->setContentSize(Size(this->getContentSize().width, this->getContentSize().height - 300));
     _contentListView->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     _contentListView->setPosition(Director::getInstance()->getVisibleOrigin());
     
     this->addChild(_contentListView);
-    
-    _contentListView->pushBackCustomItem(MeHQProfileDetails::create());
+    auto profileLayout = MeHQProfileDetails::create();
+    profileLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
+    _contentListView->pushBackCustomItem(profileLayout);
     
     return true;
 }
