@@ -123,6 +123,7 @@
     {
         _previousRate = _queuePlayer.rate;
         NSLog(@"VIDEOLOG Rate change to: %f", _previousRate);
+        Azoomee::sendMixPanelData("video.quality", cocos2d::StringUtils::format("%f", _previousRate).c_str());
     }
     
     if(duration > 0.0f && position > 0.0f)
@@ -133,24 +134,28 @@
         {
             _videoTimeSent = 0.0f;
             NSLog(@"VIDEOLOG 0pc passed");
+            Azoomee::sendMixPanelData("video.time", "0");
         }
         
         if(playbackRatio > 0.25f && _videoTimeSent < 0.25f)
         {
             _videoTimeSent = 0.25f;
             NSLog(@"VIDEOLOG 25pc passed");
+            Azoomee::sendMixPanelData("video.time", "25");
         }
         
         if(playbackRatio > 0.5f && _videoTimeSent < 0.5f)
         {
             _videoTimeSent = 0.5f;
             NSLog(@"VIDEOLOG 50pc passed");
+            Azoomee::sendMixPanelData("video.time", "50");
         }
         
         if(playbackRatio > 0.75f && _videoTimeSent < 0.75f)
         {
             _videoTimeSent = 0.75f;
             NSLog(@"VIDEOLOG 75pc passed");
+            Azoomee::sendMixPanelData("video.time", "75");
         }
     }
 }
@@ -158,10 +163,12 @@
 -(void) playerItemDidReachEnd:(NSNotification*)notification
 {
     NSLog(@"VIDEOLOG Item completed");
+    Azoomee::sendMixPanelData("video.complete", "");
     
     if(_queuePlayer.currentItem == _queuePlayer.items.lastObject)
     {
         NSLog(@"VIDEOLOG Playlist completed");
+        Azoomee::sendMixPanelData("video.playlistComplete", "");
         
         [self cleanupAndExit];
     }
