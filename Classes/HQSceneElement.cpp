@@ -86,8 +86,16 @@ void HQSceneElement::addHQSceneElement() //This method is being called by HQScen
     _elementVisual = HQSceneElementVisual::create();
     _elementVisual->setCategory(_elementCategory);
     _elementVisual->setItemData(_elementItemData);
-    _elementVisual->setShape(HQDataProvider::getInstance()->getHighlightDataForSpecificItem(_elementCategory, _elementRowNumber, _elementIndex));
-    _elementVisual->setThumbUrl(HQDataProvider::getInstance()->getThumbnailUrlForItem(_elementCategory, _elementRowNumber, _elementIndex));
+    if(_elementRowNumber != -1)
+    {
+        _elementVisual->setShape(HQDataProvider::getInstance()->getHighlightDataForSpecificItem(_elementCategory, _elementRowNumber, _elementIndex));
+        _elementVisual->setThumbUrl(HQDataProvider::getInstance()->getThumbnailUrlForItem(_elementCategory, _elementRowNumber, _elementIndex));
+    }
+    else
+    {
+        _elementVisual->setShape(Vec2(1,1));
+        _elementVisual->setThumbUrl(HQDataProvider::getInstance()->getThumbnailUrlForItem(_elementItemData->getContentItemId()));
+    }
     _elementVisual->setDelay(_elementRowNumber * 0.5 + _elementIndex * 0.1);
     _elementVisual->setCreatedForOffline(false);
     

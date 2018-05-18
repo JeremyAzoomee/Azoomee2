@@ -141,6 +141,8 @@
 		9271D7D32040557D00370120 /* OomeeMakerDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D7D22040557D00370120 /* OomeeMakerDelegate.cpp */; };
 		92759E701FE1598100639190 /* DynamicNodeLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92759E6F1FE1598100639190 /* DynamicNodeLine.cpp */; };
 		92759EB21FE81F6300639190 /* ContentOpener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92759EB11FE81F6300639190 /* ContentOpener.cpp */; };
+		927DF6E320AECA620080DFEF /* MeHQGallery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 927DF6E220AECA620080DFEF /* MeHQGallery.cpp */; };
+		927DF6E920AEF3C50080DFEF /* MeHQDownloads.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 927DF6E820AEF3C50080DFEF /* MeHQDownloads.cpp */; };
 		9289DA0A1FBDD6EB00B12435 /* ContentHistoryManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DA081FBDD6EB00B12435 /* ContentHistoryManager.cpp */; };
 		9289DAF31FCEDB1F00B12435 /* DynamicNodeDataInputStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DAF21FCEDB1F00B12435 /* DynamicNodeDataInputStorage.cpp */; };
 		9289DAF61FCEEFF000B12435 /* DynamicNodeTextInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DAF51FCEEFF000B12435 /* DynamicNodeTextInput.cpp */; };
@@ -526,6 +528,8 @@
 		92759E6F1FE1598100639190 /* DynamicNodeLine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeLine.cpp; sourceTree = "<group>"; };
 		92759EB01FE81BBE00639190 /* ContentOpener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContentOpener.h; sourceTree = "<group>"; };
 		92759EB11FE81F6300639190 /* ContentOpener.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ContentOpener.cpp; sourceTree = "<group>"; };
+		927DF6E220AECA620080DFEF /* MeHQGallery.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MeHQGallery.cpp; sourceTree = "<group>"; };
+		927DF6E820AEF3C50080DFEF /* MeHQDownloads.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MeHQDownloads.cpp; sourceTree = "<group>"; };
 		9289DA081FBDD6EB00B12435 /* ContentHistoryManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ContentHistoryManager.cpp; sourceTree = "<group>"; };
 		9289DA091FBDD6EB00B12435 /* ContentHistoryManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContentHistoryManager.h; sourceTree = "<group>"; };
 		9289DAEE1FCED6CE00B12435 /* DynamicNodeDataInputStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DynamicNodeDataInputStorage.h; sourceTree = "<group>"; };
@@ -1176,8 +1180,10 @@
 				924ACE1A20A9A476007A5550 /* MeHQProfileDetails.h */,
 				924ACE3620A9C541007A5550 /* MeHQProfileDetails.cpp */,
 				924ACE1F20A9A543007A5550 /* MeHQGallery.h */,
+				927DF6E220AECA620080DFEF /* MeHQGallery.cpp */,
 				924ACE2020A9A55C007A5550 /* MeHQMessages.h */,
 				924ACE2120A9A572007A5550 /* MeHQDownloads.h */,
+				927DF6E820AEF3C50080DFEF /* MeHQDownloads.cpp */,
 			);
 			name = MeArea;
 			sourceTree = "<group>";
@@ -1667,6 +1673,7 @@
 				A15B2F991DE74F6400D25334 /* WebViewSelector.cpp in Sources */,
 				4306ABA31EAE2C3E001E586A /* PaymentViewController_ios.mm in Sources */,
 				43FDC6611EF7E3CE009B596B /* SettingsConfirmationLayer.cpp in Sources */,
+				927DF6E320AECA620080DFEF /* MeHQGallery.cpp in Sources */,
 				026BAF781E3FFD33009C4ACE /* HQHistoryManager.cpp in Sources */,
 				92759EB21FE81F6300639190 /* ContentOpener.cpp in Sources */,
 				02E595B31E5B495B0052F395 /* HQSceneElementVisual.cpp in Sources */,
@@ -1688,6 +1695,7 @@
 				02D4FCD21FCEE5E2005BA020 /* IAPProductDataHandler.mm in Sources */,
 				9220EAD2200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp in Sources */,
 				025BE9571E3B591C00EF76D1 /* PreviewLoginSignupMessageBox.cpp in Sources */,
+				927DF6E920AEF3C50080DFEF /* MeHQDownloads.cpp in Sources */,
 				9220EB21201A185C00BD7A90 /* RecentlyPlayedManager.cpp in Sources */,
 				9220EC472031AC9300BD7A90 /* StartScreen.cpp in Sources */,
 				9289DB441FD8137D00B12435 /* DynamicNodeButton.cpp in Sources */,

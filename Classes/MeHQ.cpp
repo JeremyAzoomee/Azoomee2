@@ -22,6 +22,8 @@
 #include <AzoomeeCommon/UI/LayoutParams.h>
 
 #include "MeHQProfileDetails.h"
+#include "MeHQGallery.h"
+#include "MeHQDownloads.h"
 
 using namespace cocos2d;
 
@@ -49,6 +51,14 @@ bool MeHQ::init()
     auto profileLayout = MeHQProfileDetails::create();
     profileLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
     _contentListView->pushBackCustomItem(profileLayout);
+    
+    auto galleryLayout = MeHQGallery::create();
+    galleryLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
+    _contentListView->pushBackCustomItem(galleryLayout);
+    
+    auto downloadsLayout = MeHQDownloads::create();
+    downloadsLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
+    _contentListView->pushBackCustomItem(downloadsLayout);
     
     return true;
 }

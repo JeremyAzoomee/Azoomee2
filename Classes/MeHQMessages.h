@@ -10,7 +10,7 @@
 
 #include <AzoomeeCommon/Azoomee.h>
 #include <cocos/cocos2d.h>
-#include <cocos/UI/CocosGUI.h>
+#include <cocos/ui/CocosGUI.h>
 
 NS_AZOOMEE_BEGIN
 
