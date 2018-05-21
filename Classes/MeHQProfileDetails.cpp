@@ -6,6 +6,7 @@
 //
 
 #include "MeHQProfileDetails.h"
+#include "SceneManagerScene.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/UI/Style.h>
@@ -23,8 +24,8 @@ bool MeHQProfileDetails::init()
     }
     
     this->setContentSize(Size(Director::getInstance()->getVisibleSize().width, 1000));
-    setBackGroundColor(Color3B::RED);
-    setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+    //setBackGroundColor(Color3B::RED);
+    //setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
     setLayoutType(ui::Layout::Type::HORIZONTAL);
     
     auto avatarLayout = ui::Layout::create();
@@ -32,13 +33,17 @@ bool MeHQProfileDetails::init()
     avatarLayout->setSizePercent(Vec2(0.5,1.0));
     this->addChild(avatarLayout);
     
-    _avatar = ui::ImageView::create("res/chat/ui/avatar/avatar_background.png");
-    _avatar->ignoreContentAdaptWithSize(false);
+    _avatar = OomeeMaker::OomeeCarouselButton::create();
     _avatar->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _avatar->setNormalizedPosition(Vec2(0.5,0.5));
-    //_avatar->setContentSize(Size(this->getContentSize().width /2, this->getContentSize().height / 3.0f));
-    _avatar->setSizePercent(Vec2(0.9,0.9));
-    _avatar->setSizeType(ui::Widget::SizeType::PERCENT);
+    _avatar->setPlaceholderImage("res/OomeeMaker/body_00.png");
+    _avatar->loadPlaceholderImage();
+    
+    _avatar->setScale(MIN((this->getContentSize().height * 0.7) / _avatar->getContentSize().height,(this->getContentSize().width * 0.35) / _avatar->getContentSize().width));
+    
+    _profileImageDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
+    _profileImageDownloader->downloadImage(this, ParentDataProvider::getInstance()->getAvatarForAnAvailableChildById(ChildDataProvider::getInstance()->getLoggedInChildId()));
+    
     avatarLayout->addChild(_avatar);
     
     _labelLayout = ui::Layout::create();
@@ -46,22 +51,39 @@ bool MeHQProfileDetails::init()
     _labelLayout->setSizePercent(Vec2(0.5,1.0));
     this->addChild(_labelLayout);
     
-    _nameLabel = ui::Text::create(ChildDataProvider::getInstance()->getLoggedInChildName(),Style::Font::Regular , 100);
+    _nameLabel = ui::Text::create(ChildDataProvider::getInstance()->getLoggedInChildName(),Style::Font::Regular , 200);
     _nameLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _nameLabel->setNormalizedPosition(Vec2(0.5,0.75));
     _nameLabel->setContentSize(Size(this->getContentSize().width /2, this->getContentSize().height / 3.0f));
     _labelLayout->addChild(_nameLabel);
     
-    _kidCodeLabel = ui::Text::create(ParentDataProvider::getInstance()->getInviteCodeForAnAvailableChild(ChildDataProvider::getInstance()->getLoggedInChildNumber()), Style::Font::Regular, 70);
+    _kidCodeLabel = ui::Text::create("Kid Code: " + ParentDataProvider::getInstance()->getInviteCodeForAnAvailableChild(ChildDataProvider::getInstance()->getLoggedInChildNumber()), Style::Font::Regular, 90);
     _kidCodeLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _kidCodeLabel->setNormalizedPosition(Vec2(0.5,0.5));
     _kidCodeLabel->setContentSize(Size(this->getContentSize().width /2, this->getContentSize().height / 3.0f));
+    _kidCodeLabel->setTextColor(Color4B(Style::Color::greenishTeal));
     _labelLayout->addChild(_kidCodeLabel);
     
-    _editOomeeButton = ui::Button::create("res/buttons/greenMainButton.png");
+    _editOomeeButton = ui::Button::create("res/buttons/button_dark.png");
     _editOomeeButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _editOomeeButton->setNormalizedPosition(Vec2(0.5,0.25));
-    _editOomeeButton->setContentSize(Size(this->getContentSize().width /2, this->getContentSize().height / 3.0f));
+    _editOomeeButton->setScale9Enabled(true);
+    _editOomeeButton->setCapInsets(Rect(_editOomeeButton->getContentSize().width/2,0,1,_editOomeeButton->getContentSize().height));
+    _editOomeeButton->setContentSize(Size(this->getContentSize().width /3, this->getContentSize().height * 0.2));
+    _editOomeeButton->ignoreContentAdaptWithSize(false);
+    
+    _editOomeeButton->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(OomeeMakerEntryPointScene));
+        }
+    });
+    
+    Label* editOomeeLabel = Label::createWithTTF("Edit My Oomee", Style::Font::Regular, _editOomeeButton->getContentSize().height * 0.4f);
+    editOomeeLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    editOomeeLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    _editOomeeButton->addChild(editOomeeLabel);
+    
     _labelLayout->addChild(_editOomeeButton);
     
     return true;
@@ -74,12 +96,18 @@ void MeHQProfileDetails::onEnter()
 
 void MeHQProfileDetails::onExit()
 {
+    _profileImageDownloader->setDelegate(nullptr);
     Super::onExit();
 }
 
 void MeHQProfileDetails::onSizeChanged()
 {
     Super::onSizeChanged();
+}
+
+void MeHQProfileDetails::onImageDownloadComplete(const ImageDownloaderRef& downloader)
+{
+    _avatar->setMainImage(downloader->getLocalImagePath());
 }
 
 NS_AZOOMEE_END

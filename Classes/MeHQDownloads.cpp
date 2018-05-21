@@ -12,6 +12,8 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/HQDataObject/ContentItemPool.h>
+#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/LayoutParams.h>
 
 using namespace cocos2d;
 
@@ -30,9 +32,28 @@ bool MeHQDownloads::init()
     }
     
     this->setContentSize(Size(Director::getInstance()->getVisibleSize().width, 0));
-    setBackGroundColor(Color3B::BLUE);
-    setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+    //setBackGroundColor(Color3B::BLUE);
+    //setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
     setLayoutType(ui::Layout::Type::VERTICAL);
+    
+    auto labelLayout = ui::Layout::create();
+    labelLayout->setContentSize(Size(Director::getInstance()->getVisibleSize().width, 2 * kSpaceAboveCarousel));
+    labelLayout->setLayoutType(ui::Layout::Type::VERTICAL);
+    labelLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
+    this->addChild(labelLayout);
+    
+    ui::Text* heading = ui::Text::create("My Downloads", Style::Font::Regular, 150);
+    heading->setTextHorizontalAlignment(TextHAlignment::CENTER);
+    heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+    heading->setContentSize(Size(this->getContentSize().width, kSpaceAboveCarousel));
+    heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+    labelLayout->addChild(heading);
+    
+    ui::Text* heading2 = ui::Text::create("When you play games they’ll appear here, so you’ll be able to play\nthem when you’re offline.", Style::Font::Regular, 80);
+    heading2->setTextHorizontalAlignment(TextHAlignment::CENTER);
+    heading2->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+    heading2->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,kContentItemMargin,0,0)));
+    labelLayout->addChild(heading2);
     
     std::vector<HQContentItemObjectRef> gameList;
     std::vector<std::string> jsonList = getJsonFileListFromDir();
@@ -95,7 +116,7 @@ bool MeHQDownloads::init()
     
     this->addChild(carouselLayer);
     
-    this->setContentSize(Size(this->getContentSize().width, -lowestElementYPosition));
+    this->setContentSize(Size(this->getContentSize().width, -lowestElementYPosition + (2 * kSpaceAboveCarousel)));
     
     return true;
 }

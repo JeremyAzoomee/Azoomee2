@@ -143,6 +143,7 @@
 		92759EB21FE81F6300639190 /* ContentOpener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92759EB11FE81F6300639190 /* ContentOpener.cpp */; };
 		927DF6E320AECA620080DFEF /* MeHQGallery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 927DF6E220AECA620080DFEF /* MeHQGallery.cpp */; };
 		927DF6E920AEF3C50080DFEF /* MeHQDownloads.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 927DF6E820AEF3C50080DFEF /* MeHQDownloads.cpp */; };
+		927DF6EB20B2BD010080DFEF /* MeHQMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 927DF6EA20B2BD010080DFEF /* MeHQMessages.cpp */; };
 		9289DA0A1FBDD6EB00B12435 /* ContentHistoryManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DA081FBDD6EB00B12435 /* ContentHistoryManager.cpp */; };
 		9289DAF31FCEDB1F00B12435 /* DynamicNodeDataInputStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DAF21FCEDB1F00B12435 /* DynamicNodeDataInputStorage.cpp */; };
 		9289DAF61FCEEFF000B12435 /* DynamicNodeTextInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DAF51FCEEFF000B12435 /* DynamicNodeTextInput.cpp */; };
@@ -530,6 +531,7 @@
 		92759EB11FE81F6300639190 /* ContentOpener.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ContentOpener.cpp; sourceTree = "<group>"; };
 		927DF6E220AECA620080DFEF /* MeHQGallery.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MeHQGallery.cpp; sourceTree = "<group>"; };
 		927DF6E820AEF3C50080DFEF /* MeHQDownloads.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MeHQDownloads.cpp; sourceTree = "<group>"; };
+		927DF6EA20B2BD010080DFEF /* MeHQMessages.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MeHQMessages.cpp; sourceTree = "<group>"; };
 		9289DA081FBDD6EB00B12435 /* ContentHistoryManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ContentHistoryManager.cpp; sourceTree = "<group>"; };
 		9289DA091FBDD6EB00B12435 /* ContentHistoryManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContentHistoryManager.h; sourceTree = "<group>"; };
 		9289DAEE1FCED6CE00B12435 /* DynamicNodeDataInputStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DynamicNodeDataInputStorage.h; sourceTree = "<group>"; };
@@ -1182,6 +1184,7 @@
 				924ACE1F20A9A543007A5550 /* MeHQGallery.h */,
 				927DF6E220AECA620080DFEF /* MeHQGallery.cpp */,
 				924ACE2020A9A55C007A5550 /* MeHQMessages.h */,
+				927DF6EA20B2BD010080DFEF /* MeHQMessages.cpp */,
 				924ACE2120A9A572007A5550 /* MeHQDownloads.h */,
 				927DF6E820AEF3C50080DFEF /* MeHQDownloads.cpp */,
 			);
@@ -1750,6 +1753,7 @@
 				43F42E3B1EE84B9500606290 /* SettingsControlLayer.cpp in Sources */,
 				9220EAD82010C07D00BD7A90 /* IAPFlowController.cpp in Sources */,
 				0243B8CE1F0F8377005D3734 /* EmptySceneForSettings.cpp in Sources */,
+				927DF6EB20B2BD010080DFEF /* MeHQMessages.cpp in Sources */,
 				A154CC521DFEE7440008A626 /* GameDataManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

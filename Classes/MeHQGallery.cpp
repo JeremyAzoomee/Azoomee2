@@ -31,26 +31,23 @@ bool MeHQGallery::init()
     }
     
     this->setContentSize(Size(Director::getInstance()->getVisibleSize().width, 0));
-    setBackGroundColor(Color3B::BLUE);
-    setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+    //setBackGroundColor(Color3B::BLUE);
+    //setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
     setLayoutType(ui::Layout::Type::VERTICAL);
-    
-    auto labelLayout = ui::Layout::create();
-    labelLayout->setSizeType(ui::Widget::SizeType::PERCENT);
-    labelLayout->setSizePercent(Vec2(1.0,1.0));
-    this->addChild(labelLayout);
     
     ui::Text* heading = ui::Text::create("My Gallery", Style::Font::Regular, 150);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    heading->setNormalizedPosition(Vec2(0.5,1.0));
+    heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,50)));
     heading->setContentSize(Size(this->getContentSize().width, kSpaceAboveCarousel));
-    labelLayout->addChild(heading);
+    this->addChild(heading);
     
     Size contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kArtAppHQName);
     float unitWidth = (this->getContentSize().width - 2 * kSideMarginSize) / kUnitsOnScreen;
     float unitMultiplier = unitWidth / contentItemSize.width;
     
-    cocos2d::LayerColor* carouselLayer = LayerColor::create(cocos2d::Color4B(255, 0, 0, 0), this->getContentSize().width - 2 * kSideMarginSize, 0);
+    cocos2d::ui::Layout* carouselLayer = ui::Layout::create();
+    carouselLayer->setContentSize(Size(this->getContentSize().width - 2 * kSideMarginSize, 0));
+    carouselLayer->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     
     const std::string& dirPath = FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getParentOrChildId();
     
@@ -94,11 +91,30 @@ bool MeHQGallery::init()
     newImage->setPosition(elementPosition);
     carouselLayer->addChild(newImage);
     
-    carouselLayer->setPosition(Vec2(kSideMarginSize, -lowestElementYPosition));
+    for(auto item : carouselLayer->getChildren())
+    {
+        item->setPosition(item->getPosition() - Vec2(0,lowestElementYPosition));
+    }
+    
+    carouselLayer->setContentSize(Size(carouselLayer->getContentSize().width, -lowestElementYPosition));
     
     this->addChild(carouselLayer);
     
-    this->setContentSize(Size(this->getContentSize().width, -lowestElementYPosition + kSpaceAboveCarousel));
+    ui::Button* moreButton = ui::Button::create("res/buttons/button_dark.png");
+    moreButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    moreButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+    moreButton->setContentSize(Size(600,250));
+    moreButton->ignoreContentAdaptWithSize(false);
+    
+    Label* moreButtonLabel = Label::createWithTTF("More", Style::Font::Regular, moreButton->getContentSize().height * 0.4f);
+    moreButtonLabel->setTextColor(Color4B::WHITE);
+    moreButtonLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    moreButtonLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    moreButton->addChild(moreButtonLabel);
+    
+    this->addChild(moreButton);
+    
+    this->setContentSize(Size(this->getContentSize().width, -lowestElementYPosition + kSpaceAboveCarousel + 350));
     
     return true;
 }

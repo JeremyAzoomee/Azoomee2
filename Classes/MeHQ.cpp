@@ -42,7 +42,7 @@ bool MeHQ::init()
     _contentListView->setDirection(ui::ScrollView::Direction::VERTICAL);
     _contentListView->setBounceEnabled(true);
     _contentListView->setGravity(ui::ListView::Gravity::CENTER_HORIZONTAL);
-    _contentListView->setItemsMargin(50.0f);
+    _contentListView->setItemsMargin(150.0f);
     _contentListView->setContentSize(Size(this->getContentSize().width, this->getContentSize().height - 300));
     _contentListView->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     _contentListView->setPosition(Director::getInstance()->getVisibleOrigin());
