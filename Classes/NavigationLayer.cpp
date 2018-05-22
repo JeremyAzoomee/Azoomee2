@@ -338,7 +338,7 @@ void NavigationLayer::hideNotificationBadge()
 void NavigationLayer::createTopObjects()
 {
     settingsButton = SettingsButton::createSettingsButton(3.0f);
-    settingsButton->setPosition(origin.x + visibleSize.width, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.5);
+    settingsButton->setPosition(origin.x + visibleSize.width, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.25);
     this->addChild(settingsButton);
 
     returnToChildSelectorButton = ElectricDreamsButton::createChildSelectorButton();
@@ -354,7 +354,7 @@ void NavigationLayer::topObjectsOffScreen()
     if(settingsButton)
     {
         settingsButton->stopAllActions();
-        settingsButton->runAction(Sequence::create(EaseOut::create(MoveTo::create(1,Vec2(origin.x + visibleSize.width, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.5)), 2), NULL));
+        settingsButton->runAction(Sequence::create(EaseOut::create(MoveTo::create(1,Vec2(origin.x + visibleSize.width, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.25)), 2), NULL));
     }
     
     if(returnToChildSelectorButton)
@@ -369,7 +369,7 @@ void NavigationLayer::topObjectsOnScreen()
     if(settingsButton)
     {
         settingsButton->stopAllActions();
-        settingsButton->runAction(Sequence::create(EaseIn::create(MoveTo::create(1,Vec2(origin.x + visibleSize.width - settingsButton->getContentSize().width*1.5, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.5)), 2), NULL));
+        settingsButton->runAction(Sequence::create(EaseIn::create(MoveTo::create(1,Vec2(origin.x + visibleSize.width - settingsButton->getContentSize().width*1.25, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.25)), 2), NULL));
     }
     
     if(returnToChildSelectorButton)
@@ -688,7 +688,7 @@ void NavigationLayer::repositionElements()
             if(settingsButton)
             {
                 settingsButton->stopAllActions();
-                settingsButton->setPosition(Vec2(origin.x + visibleSize.width + settingsButton->getContentSize().width*1.5, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.5));
+                settingsButton->setPosition(Vec2(origin.x + visibleSize.width + settingsButton->getContentSize().width*1.25, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.25));
             }
             
             if(returnToChildSelectorButton)
@@ -710,7 +710,7 @@ void NavigationLayer::repositionElements()
             if(settingsButton)
             {
                 settingsButton->stopAllActions();
-                settingsButton->setPosition(Vec2(origin.x + visibleSize.width - settingsButton->getContentSize().width*1.5, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.5));
+                settingsButton->setPosition(Vec2(origin.x + visibleSize.width - settingsButton->getContentSize().width*1.25, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.25));
             }
             
             if(returnToChildSelectorButton)

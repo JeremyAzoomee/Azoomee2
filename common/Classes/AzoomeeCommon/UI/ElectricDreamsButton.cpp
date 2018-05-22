@@ -512,16 +512,11 @@ ElectricDreamsButton* ElectricDreamsButton::createChildSelectorButton()
 {
     auto layer = ElectricDreamsButton::create();
     
-    Sprite* spriteOuterButton = Sprite::create("res/navigation/outer_circle.png");
-    spriteOuterButton->setPosition(spriteOuterButton->getContentSize().width/2, spriteOuterButton->getContentSize().height/2);
-    spriteOuterButton->setColor(Color3B::WHITE);
-    layer->addChild(spriteOuterButton);
-    
     Sprite* spriteInnerButton = Sprite::create("res/navigation/menu_childSelect.png");
-    spriteInnerButton->setPosition(spriteOuterButton->getContentSize().width/2, spriteOuterButton->getContentSize().height/2);
-    spriteOuterButton->addChild(spriteInnerButton);
+    spriteInnerButton->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    layer->addChild(spriteInnerButton);
     
-    layer->setContentSize(spriteOuterButton->getContentSize());
+    layer->setContentSize(spriteInnerButton->getContentSize());
     layer->buttonAudioFile = BACK_BUTTON_AUDIO_EFFECT;
     layer->addListener();
 
