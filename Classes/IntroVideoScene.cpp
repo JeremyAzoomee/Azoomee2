@@ -55,13 +55,11 @@ bool IntroVideoScene::init()
     
 #ifndef novideo
     
-    auto addListenerAction = CallFunc::create([=]()
+    auto addVideoPlayer = CallFunc::create([=]()
     {
         const Size& visibleSize = Director::getInstance()->getVisibleSize();
         
         const std::string& videoFilename = visibleSize.width > visibleSize.height ? "res/introAssets/Opening_Animation.mp4" : "res/introAssets/azoomee_intro_portrait.mp4";
-        
-        cocos2d::log("screen size: %f,%f", visibleSize.width, visibleSize.height);
         
         _videoPlayer = cocos2d::experimental::ui::VideoPlayer::create();
         _videoPlayer->setContentSize(visibleSize);
@@ -73,11 +71,14 @@ bool IntroVideoScene::init()
         
         addChild(_videoPlayer);
         _videoPlayer->play();
+    });
         
+    auto addListenerAction = CallFunc::create([=]()
+    {
         _videoPlayer->addEventListener(CC_CALLBACK_2(IntroVideoScene::videoEventCallback, this));
     });
     
-    auto delayListenerAction = Sequence::create(DelayTime::create(1.0f), addListenerAction, NULL); //video player from iOS 11.3 sends a playback complete event on initialisation, so we set up the listener a bit later.
+    auto delayListenerAction = Sequence::create(DelayTime::create(1.0f),addVideoPlayer, DelayTime::create(1.0f), addListenerAction, NULL); //video player from iOS 11.3 sends a playback complete event on initialisation, so we set up the listener a bit later.
     delayListenerAction->setTag(4);
     this->runAction(delayListenerAction);
 #endif
