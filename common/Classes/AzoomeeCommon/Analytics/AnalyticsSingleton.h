@@ -92,6 +92,7 @@ public:
     void contentItemSelectedEvent(const std::string& Type);
     void contentItemSelectedEvent(const std::string& Type, const std::string& elementShape);
     void contentItemSelectedEvent(const HQContentItemObjectRef &contentItem, int rowNumber, int elementNumber, const std::string& elementShape);
+    void contentItemSelectedOutsideCarouselEvent(const HQContentItemObjectRef &contentItem);
     void contentItemProcessingStartedEvent();
     void contentItemProcessingErrorEvent();
     void contentItemIncompatibleEvent();
