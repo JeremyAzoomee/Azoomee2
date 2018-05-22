@@ -118,7 +118,7 @@ bool DeepLinkingSingleton::actionDeepLink()
         const HQContentItemObjectRef& item = HQDataProvider::getInstance()->getItemDataForSpecificItem(path);
         if(item)
         {
-            AnalyticsSingleton::getInstance()->contentItemSelectedOutsideCarouselEvent(item);
+            AnalyticsSingleton::getInstance()->contentItemSelectedEvent(item, -1, -1, "0,0");
             completeContentAction(item);
         }
         
@@ -218,7 +218,7 @@ void DeepLinkingSingleton::contentDetailsResponse(const std::string& responseBod
         contentItem->setUri(getStringFromJson("uri", contentData));
         contentItem->setContentItemId(path);
         
-        AnalyticsSingleton::getInstance()->contentItemSelectedOutsideCarouselEvent(contentItem);
+        AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, -1, -1, "0,0");
         
         completeContentAction(contentItem);
     }

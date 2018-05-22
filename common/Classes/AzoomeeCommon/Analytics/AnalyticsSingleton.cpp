@@ -338,11 +338,6 @@ void AnalyticsSingleton::contentItemSelectedEvent(const HQContentItemObjectRef &
     mixPanelSendEventWithStoredProperties("contentItemSelectedEvent", mixPanelProperties);
 }
     
-void AnalyticsSingleton::contentItemSelectedOutsideCarouselEvent(const Azoomee::HQContentItemObjectRef &contentItem)
-{
-    contentItemSelectedEvent(contentItem, -1, -1, "0,0");
-}
-    
 void AnalyticsSingleton::updateContentItemDetails(const HQContentItemObjectRef &contentItem)
 {
     std::map<std::string, std::string> mixPanelProperties;
