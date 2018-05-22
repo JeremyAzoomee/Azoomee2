@@ -337,6 +337,11 @@ void AnalyticsSingleton::contentItemSelectedEvent(const HQContentItemObjectRef &
     
     mixPanelSendEventWithStoredProperties("contentItemSelectedEvent", mixPanelProperties);
 }
+
+void AnalyticsSingleton::contentItemSelectedOutsideCarouselEvent(const HQContentItemObjectRef &contentItem)
+{
+    contentItemSelectedEvent(contentItem, -1, -1, "0,0");
+}
     
 void AnalyticsSingleton::updateContentItemDetails(const HQContentItemObjectRef &contentItem)
 {
