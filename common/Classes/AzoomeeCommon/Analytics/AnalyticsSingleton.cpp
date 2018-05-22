@@ -119,12 +119,21 @@ void AnalyticsSingleton::registerSessionId(std::string sessionId)
     setCrashlyticsKeyWithString("sessionId", sessionId);
 }
     
-void AnalyticsSingleton::registerCurrentScene(std::string currentScene)
+void AnalyticsSingleton::registerCurrentScene(const std::string &currentScene)
 {
+    //before registering the new scene as current, reading out the previous one to be able to send previousScene property for mixpanel moveToSceneEvent.
+    const std::map<std::string, std::string> &mixPanelProperties = _analyticsProperties->getStoredGeneralProperties();
+    std::string previousScene = "NA";
+    
+    if(mixPanelProperties.find("currentScene") != mixPanelProperties.end())
+    {
+        previousScene = mixPanelProperties.at("currentScene");
+    }
+    
     mixPanelRegisterSuperProperties("currentScene", currentScene);
     setCrashlyticsKeyWithString("currentScene", currentScene);
     
-    moveToSceneEvent(currentScene);
+    moveToSceneEvent(previousScene);
 }
     
 void AnalyticsSingleton::setPortraitOrientation()
@@ -536,10 +545,10 @@ void AnalyticsSingleton::httpRequestFailed(std::string requestTag, long response
     mixPanelSendEventWithStoredProperties("httpRequestFailed", mixPanelProperties);
 }
     
-void AnalyticsSingleton::moveToSceneEvent(std::string newScene)
+void AnalyticsSingleton::moveToSceneEvent(const std::string &previousScene)
 {
     std::map<std::string, std::string> mixPanelProperties;
-    mixPanelProperties["newScene"] = newScene;
+    mixPanelProperties["previousScene"] = previousScene;
     
     mixPanelSendEventWithStoredProperties("moveToSceneEvent", mixPanelProperties);
 }
