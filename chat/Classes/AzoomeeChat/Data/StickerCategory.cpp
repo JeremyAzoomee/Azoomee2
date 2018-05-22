@@ -21,6 +21,7 @@ StickerCategoryRef StickerCategory::createFromJson(const rapidjson::Value& json)
     //{
     //    "image_location": "<url>",
     //    "id": "food",
+    //    "season": "any",
     //    "stickers": [
     //        "ball/s_012.png",
     //        "ball/s_013.png",
@@ -32,7 +33,7 @@ StickerCategoryRef StickerCategory::createFromJson(const rapidjson::Value& json)
     
     const std::string& imageURL = json["image_location"].GetString();
     const std::string& categoryID = json["id"].GetString();
-    
+    CalenderSeasons season = SpecialCalendarEventManager::getInstance()->getSeasonFromString(getStringFromJson("season", json, "any"));
     StickerList stickers;
     const std::string& stickerLocalRoot = StickerCache::getInstance()->localBundlePath();
     const rapidjson::Value& stickersJson = json["stickers"];
@@ -47,6 +48,7 @@ StickerCategoryRef StickerCategory::createFromJson(const rapidjson::Value& json)
     StickerCategoryRef category(new StickerCategory());
     category->_imageURL = stickerLocalRoot + imageURL;
     category->_categoryID = categoryID;
+    category->_season = season;
     category->_stickers = stickers;
     return category;
 }
@@ -69,6 +71,11 @@ std::string StickerCategory::imageLocalPath() const
 {
     // For now, the imageURL is just the local path
     return _imageURL;
+}
+
+CalenderSeasons StickerCategory::season() const
+{
+    return _season;
 }
 
 StickerList StickerCategory::stickers() const

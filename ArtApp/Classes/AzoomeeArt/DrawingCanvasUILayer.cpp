@@ -9,6 +9,7 @@
 #include "DrawingCanvasUILayer.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/Utils/SpecialCalendarEventManager.h>
 
 using namespace cocos2d;
 
@@ -1059,6 +1060,12 @@ void DrawingCanvasUILayer::getStickerFilesFromJSON()
     {
         std::vector<std::string> catStickers;
         const auto& jsonCatEntry = *it;
+        
+        if(!SpecialCalendarEventManager::getInstance()->checkIfInSeason(SpecialCalendarEventManager::getInstance()->getSeasonFromString(getStringFromJson("season", jsonCatEntry, "any"))))
+        {
+            continue;
+        }
+        
         const std::string& catName = jsonCatEntry["image_location"].GetString();
         
         const rapidjson::Value& stickersJson = jsonCatEntry["stickers"];

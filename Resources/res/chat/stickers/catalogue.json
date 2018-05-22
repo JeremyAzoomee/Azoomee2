@@ -2,6 +2,7 @@
     "categories": [{
         "id": "set1",
         "image_location": "set1/category.png",
+        "season": "any",
         "stickers": [
             "set1/s_01@3x.png",
             "set1/s_02@3x.png",
@@ -23,6 +24,7 @@
     }, {
         "id": "set2",
         "image_location": "set2/category.png",
+        "season": "any",
         "stickers": [
             "set2/s_17@3x.png",
             "set2/s_18@3x.png",
@@ -44,6 +46,7 @@
     }, {
         "id": "set3",
         "image_location": "set3/category.png",
+        "season": "any",
         "stickers": [
             "set3/s_33@3x.png",
             "set3/s_34@3x.png",
@@ -65,6 +68,7 @@
     }, {
         "id": "set4",
         "image_location": "set4/category.png",
+        "season": "any",
         "stickers": [
             "set4/s_49@3x.png",
             "set4/s_50@3x.png",
@@ -86,6 +90,7 @@
     }, {
         "id": "set5",
         "image_location": "set5/category.png",
+        "season": "any",
         "stickers": [
             "set5/s_65@3x.png",
             "set5/s_66@3x.png",
@@ -107,6 +112,7 @@
     }, {
         "id": "set6",
         "image_location": "set6/category.png",
+        "season": "any",
         "stickers": [
             "set6/s_81@3x.png",
             "set6/s_82@3x.png",
@@ -125,6 +131,7 @@
     }, {
         "id": "set7",
         "image_location": "set7/category.png",
+        "season": "any",
         "stickers": [
             "set7/s_100@3x.png",
             "set7/s_101@3x.png",
@@ -146,6 +153,7 @@
     }, {
         "id": "set8",
         "image_location": "set8/category.png",
+        "season": "any",
         "stickers": [
             "set8/s_113@3x.png",
             "set8/s_114@3x.png",
@@ -167,6 +175,7 @@
     }, {
         "id": "set9",
         "image_location": "set9/category.png",
+        "season": "halloween",
         "stickers": [
             "set9/s_129@3x.png",
             "set9/s_130@3x.png",
@@ -188,6 +197,7 @@
     }, {
         "id": "set10",
         "image_location": "set10/category.png",
+        "season": "xmas",
         "stickers": [
             "set10/s_145@3x.png",
             "set10/s_146@3x.png",
