@@ -31,8 +31,8 @@ StickerCategoryRef StickerCategory::createFromJson(const rapidjson::Value& json)
     //    ]
     //}
     
-    const std::string& imageURL = json["image_location"].GetString();
-    const std::string& categoryID = json["id"].GetString();
+    const std::string& imageURL = getStringFromJson("image_location",json);
+    const std::string& categoryID = getStringFromJson("id",json);
     CalenderSeasons season = SpecialCalendarEventManager::getInstance()->getSeasonFromString(getStringFromJson("season", json, "any"));
     StickerList stickers;
     const std::string& stickerLocalRoot = StickerCache::getInstance()->localBundlePath();
