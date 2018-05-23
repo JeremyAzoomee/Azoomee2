@@ -19,6 +19,7 @@ NS_AZOOMEE_BEGIN
 class MeHQ : public cocos2d::Layer
 {
     typedef cocos2d::Layer Super;
+    typedef std::function<void()> RefreshLayoutCallback;
 private:
     cocos2d::ui::ListView* _contentListView = nullptr;
     
@@ -29,6 +30,8 @@ public:
     virtual void onEnter() override;
     
     CREATE_FUNC(MeHQ);
+    
+    void refreshFavouritesLayout();
 };
 
 NS_AZOOMEE_END

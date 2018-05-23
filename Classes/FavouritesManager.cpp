@@ -45,9 +45,22 @@ void FavouritesManager::addToFavourites(const HQContentItemObjectRef& contentIte
     }
 }
 
-void FavouritesManager::removeFromFavourites(const HQContentItemObject& contentItem)
+void FavouritesManager::removeFromFavourites(const HQContentItemObjectRef& contentItem)
 {
+    const std::string& contentId = contentItem->getContentItemId();
+    std::vector<std::string> fileIds = getFavouriteContentIds();
     
+    auto pivot = std::find(fileIds.begin(), fileIds.end(), contentId);
+    if(pivot != fileIds.end()) // not already favourited
+    {
+        fileIds.erase(pivot);
+        std::string newIdList = joinStrings(fileIds, "/");
+        if(newIdList == "")
+        {
+            newIdList = "-";
+        }
+        FileUtils::getInstance()->writeStringToFile(newIdList, getFavouritesFilePath());
+    }
 }
 
 std::vector<HQContentItemObjectRef> FavouritesManager::getFavouriteContent() const

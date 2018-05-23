@@ -24,6 +24,7 @@
 #include "MeHQProfileDetails.h"
 #include "MeHQGallery.h"
 #include "MeHQDownloads.h"
+#include "MeHQFavourites.h"
 
 using namespace cocos2d;
 
@@ -56,6 +57,13 @@ bool MeHQ::init()
     galleryLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
     _contentListView->pushBackCustomItem(galleryLayout);
     
+    auto favouriteLayout = MeHQFavourites::create();
+    favouriteLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
+    favouriteLayout->setRefreshCallback([this](){
+        this->refreshFavouritesLayout();
+    });
+    _contentListView->pushBackCustomItem(favouriteLayout);
+    
     auto downloadsLayout = MeHQDownloads::create();
     downloadsLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
     _contentListView->pushBackCustomItem(downloadsLayout);
@@ -66,6 +74,21 @@ bool MeHQ::init()
 void MeHQ::onEnter()
 {
     Super::onEnter();
+}
+
+void MeHQ::refreshFavouritesLayout()
+{
+    float scrollPercent = _contentListView->getScrolledPercentVertical();
+    _contentListView->removeItem(2);
+    auto favouriteLayout = MeHQFavourites::create();
+    favouriteLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
+    favouriteLayout->setRefreshCallback([this](){
+        this->refreshFavouritesLayout();
+    });
+    _contentListView->insertCustomItem(favouriteLayout, 2);
+    
+    _contentListView->forceDoLayout();
+    _contentListView->scrollToPercentVertical(scrollPercent, 0.1, true);
 }
 
 NS_AZOOMEE_END

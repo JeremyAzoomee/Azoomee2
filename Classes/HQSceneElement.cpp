@@ -81,6 +81,16 @@ void HQSceneElement::setMargin(float margin)
     _margin = margin;
 }
 
+void HQSceneElement::deleteButtonVisible(bool visible)
+{
+    _showDeleteButton = visible;
+}
+
+void HQSceneElement::setDeleteButtonCallback(const HQSceneElement::DeleteButtonCallback &callback)
+{
+    _deleteButtonCallback = callback;
+}
+
 void HQSceneElement::addHQSceneElement() //This method is being called by HQScene.cpp with all variables.
 {
     _elementVisual = HQSceneElementVisual::create();
@@ -113,6 +123,18 @@ void HQSceneElement::addHQSceneElement() //This method is being called by HQScen
     
     this->addChild(_elementVisual);
     this->setContentSize(_elementVisual->getContentSize());
+    
+    if(_showDeleteButton)
+    {
+        _deleteButton = createDeleteButton();
+        _deleteButton->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+        Layer* deleteLayer = Layer::create();
+        deleteLayer->setContentSize(Size(_elementVisual->getContentSize().width, _deleteButton->getContentSize().height * 1.5));
+        deleteLayer->addChild(_deleteButton);
+        this->addChild(deleteLayer);
+        _elementVisual->setPosition(Vec2(0,deleteLayer->getContentSize().height));
+        this->setContentSize(_elementVisual->getContentSize() + Size(0,deleteLayer->getContentSize().height));
+    }
     
     addListenerToElement();
 }
@@ -193,6 +215,23 @@ void HQSceneElement::addListenerToElement()
     };
     
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), _elementVisual->_baseLayer);
+}
+
+ui::Button* HQSceneElement::createDeleteButton()
+{
+    ui::Button* deleteButton = ui::Button::create("res/oomeeMaker/bin_button.png");
+    deleteButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    deleteButton->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            if(_deleteButtonCallback)
+            {
+                _deleteButtonCallback(_elementItemData);
+            }
+        }
+    });
+    
+    return deleteButton;
 }
 
 void HQSceneElement::startUpElementDependingOnType()

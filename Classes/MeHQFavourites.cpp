@@ -1,35 +1,44 @@
 //
-//  MeHQDownloads.cpp
+//  MeHQFavourites.cpp
 //  azoomee2-mobile
 //
-//  Created by Macauley on 18/05/2018.
+//  Created by Macauley on 23/05/2018.
 //
 
-#include "MeHQDownloads.h"
+#include "MeHQFavourites.h"
 #include "HQSceneElement.h"
 #include "HQScene2ElementPositioner.h"
-#include <AzoomeeCommon/Utils/DirectorySearcher.h>
+#include "FavouritesManager.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/HQDataObject/ContentItemPool.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
+#include "MeHQ.h"
 
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-const float MeHQDownloads::kSideMarginSize = 20.0f;
-const float MeHQDownloads::kSpaceAboveCarousel = 200.0f;
-const int MeHQDownloads::kUnitsOnScreen = 4;
-const float MeHQDownloads::kContentItemMargin = 20.0f;
+const float MeHQFavourites::kSideMarginSize = 20.0f;
+const float MeHQFavourites::kSpaceAboveCarousel = 200.0f;
+const int MeHQFavourites::kUnitsOnScreen = 4;
+const float MeHQFavourites::kContentItemMargin = 20.0f;
 
-bool MeHQDownloads::init()
+bool MeHQFavourites::init()
 {
     if(!Super::init())
     {
         return false;
     }
+    
+    
+    return true;
+}
+
+void MeHQFavourites::onEnter()
+{
+    Super::onEnter();
     
     this->setContentSize(Size(Director::getInstance()->getVisibleSize().width, 0));
     //setBackGroundColor(Color3B::BLUE);
@@ -37,60 +46,45 @@ bool MeHQDownloads::init()
     setLayoutType(ui::Layout::Type::VERTICAL);
     
     auto labelLayout = ui::Layout::create();
-    labelLayout->setContentSize(Size(Director::getInstance()->getVisibleSize().width, 2 * kSpaceAboveCarousel));
+    labelLayout->setContentSize(Size(Director::getInstance()->getVisibleSize().width, kSpaceAboveCarousel));
     labelLayout->setLayoutType(ui::Layout::Type::VERTICAL);
     labelLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
     this->addChild(labelLayout);
     
-    ui::Text* heading = ui::Text::create("My Downloads", Style::Font::Regular, 150);
+    ui::Text* heading = ui::Text::create("My Favourites", Style::Font::Regular, 150);
     heading->setTextHorizontalAlignment(TextHAlignment::CENTER);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setContentSize(Size(this->getContentSize().width, kSpaceAboveCarousel));
     heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     labelLayout->addChild(heading);
     
-    ui::Text* heading2 = ui::Text::create("When you play games they’ll appear here, so you’ll be able to play\nthem when you’re offline.", Style::Font::Regular, 80);
-    heading2->setTextHorizontalAlignment(TextHAlignment::CENTER);
-    heading2->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    heading2->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,kContentItemMargin,0,0)));
-    labelLayout->addChild(heading2);
-    
-    std::vector<HQContentItemObjectRef> gameList;
-    std::vector<std::string> jsonList = getJsonFileListFromDir();
-    
-    for(int i = 0; i < jsonList.size(); i++)
-    {
-        if(jsonList.at(i).length() > 3)
-        {
-            if(isStarterFileExists(jsonList.at(i)))
-            {
-                auto item = ContentItemPool::getInstance()->getContentItemForId(jsonList.at(i));
-                if(item)
-                {
-                    gameList.push_back(item);
-                }
-            }
-        }
-    }
-    
     Size contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kGameHQName);
     float unitWidth = (this->getContentSize().width - 2 * kSideMarginSize) / kUnitsOnScreen;
     float unitMultiplier = unitWidth / contentItemSize.width;
+    
+    const auto& favList = FavouritesManager::getInstance()->getFavouriteContent();
     
     cocos2d::LayerColor* carouselLayer = LayerColor::create(cocos2d::Color4B(255, 0, 0, 0), this->getContentSize().width - 2 * kSideMarginSize, 0);
     
     float lowestElementYPosition = 0;
     
-    for(int elementIndex = 0; elementIndex < gameList.size(); elementIndex++)
+    for(int elementIndex = 0; elementIndex < favList.size(); elementIndex++)
     {
         auto hqSceneElement = HQSceneElement::create();
         hqSceneElement->setCategory("ME HQ");
-        hqSceneElement->setItemData(gameList[elementIndex]);
+        hqSceneElement->setItemData(favList[elementIndex]);
         hqSceneElement->setElementRow(-1);
         hqSceneElement->setElementIndex(elementIndex);
         hqSceneElement->setMargin(kContentItemMargin);
         hqSceneElement->setManualSizeMultiplier(unitMultiplier); //overriding default configuration contentItem sizes. Ideally this *should* go away when only the new hub is present everywhere.
-        hqSceneElement->deleteButtonVisible(false);
+        hqSceneElement->deleteButtonVisible(true);
+        hqSceneElement->setDeleteButtonCallback([&](const HQContentItemObjectRef& contentItem){
+            FavouritesManager::getInstance()->removeFromFavourites(contentItem);
+            if(_refreshCallback)
+            {
+                _refreshCallback();
+            }
+        });
         
         hqSceneElement->addHQSceneElement();
         
@@ -117,65 +111,23 @@ bool MeHQDownloads::init()
     
     this->addChild(carouselLayer);
     
-    this->setContentSize(Size(this->getContentSize().width, -lowestElementYPosition + (2 * kSpaceAboveCarousel)));
-    
-    return true;
+    this->setContentSize(Size(this->getContentSize().width, -lowestElementYPosition + kSpaceAboveCarousel));
 }
 
-void MeHQDownloads::onEnter()
-{
-    Super::onEnter();
-}
-
-void MeHQDownloads::onExit()
+void MeHQFavourites::onExit()
 {
     Super::onExit();
 }
 
-void MeHQDownloads::onSizeChanged()
+void MeHQFavourites::onSizeChanged()
 {
     Super::onSizeChanged();
 }
 
-std::vector<std::string> MeHQDownloads::getJsonFileListFromDir()
+void MeHQFavourites::setRefreshCallback(const RefreshLayoutCallback &callback)
 {
-    std::string path = FileUtils::getInstance()->getWritablePath();
-    path = path + "/gameCache/";
-    
-    return DirectorySearcher::getInstance()->getFoldersInDirectory(path);
+    _refreshCallback = callback;
 }
-
-bool MeHQDownloads::isStarterFileExists(const std::string &gameId)
-{
-    if(getStartFileFromJson(gameId) == "ERROR") return false;
-    
-    std::string path = FileUtils::getInstance()->getWritablePath() + "gameCache/" + gameId + "/" + getStartFileFromJson(gameId);
-    return FileUtils::getInstance()->isFileExist(path);
-}
-
-std::string MeHQDownloads::getStartFileFromJson(const std::string &gameId)
-{
-    std::string jsonFileName = FileUtils::getInstance()->getWritablePath() + "gameCache/" + gameId + "/package.json";
-    
-    std::string fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
-    
-    rapidjson::Document gameData;
-    gameData.Parse(fileContent.c_str());
-    
-    if(gameData.HasParseError())
-    {
-        return "ERROR";
-    }
-    
-    if(gameData.HasMember("pathToStartPage"))
-    {
-        return getStringFromJson("pathToStartPage", gameData);
-    }
-    else
-    {
-        return "ERROR";
-    }
-}
-
 
 NS_AZOOMEE_END
+

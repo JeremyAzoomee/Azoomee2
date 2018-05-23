@@ -1,12 +1,12 @@
 //
-//  MeHQGallery.h
+//  MeHQFavourites.h
 //  azoomee2
 //
-//  Created by Macauley on 14/05/2018.
+//  Created by Macauley on 23/05/2018.
 //
 
-#ifndef MeHQGallery_h
-#define MeHQGallery_h
+#ifndef MeHQFavourites_h
+#define MeHQFavourites_h
 
 #include <AzoomeeCommon/Azoomee.h>
 #include <cocos/cocos2d.h>
@@ -14,7 +14,7 @@
 
 NS_AZOOMEE_BEGIN
 
-class MeHQGallery : public cocos2d::ui::Layout
+class MeHQFavourites : public cocos2d::ui::Layout
 {
     typedef cocos2d::ui::Layout Super;
     typedef std::function<void()> RefreshLayoutCallback;
@@ -36,11 +36,11 @@ public:
     virtual void onEnter() override;
     virtual void onExit() override;
     
-    CREATE_FUNC(MeHQGallery);
+    CREATE_FUNC(MeHQFavourites);
     
     void setRefreshCallback(const RefreshLayoutCallback& callback);
 };
 
 NS_AZOOMEE_END
 
-#endif /* MeHQGallery_h */
+#endif /* MeHQFavourites_h */

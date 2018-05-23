@@ -29,7 +29,7 @@ public:
     virtual ~FavouritesManager();
     
     void addToFavourites(const HQContentItemObjectRef& contentItem);
-    void removeFromFavourites(const HQContentItemObject& contentItem);
+    void removeFromFavourites(const HQContentItemObjectRef& contentItem);
     
     std::vector<HQContentItemObjectRef> getFavouriteContent() const;
     
