@@ -16,7 +16,7 @@ const char* const Message::MessageTypeArt = "ART";
 const char* const Message::MessageTypeContent = "CONTENT";
 
 /// A Message object must have at least these fields to be valid
-const std::vector<std::string> kRequiredFields = { "id", "type", "status", "senderId", "recipientId", "timestamp" };
+const std::vector<std::string> kRequiredFields = { "id", "type", "status", "senderId", "recipientId"/*, "timestamp" */};
 
 
 MessageRef Message::createFromJson(const rapidjson::Value& json)
@@ -56,7 +56,7 @@ MessageRef Message::createFromJson(const rapidjson::Value& json)
     const std::string& messageType = json["type"].GetString();
     const std::string& senderId = json["senderId"].GetString();
     const std::string& recipientId = json["recipientId"].GetString();
-    uint64_t timestamp = json["timestamp"].GetUint64();
+    uint64_t timestamp = 0;//json["timestamp"].GetUint64();
     const std::string& status = json["status"].GetString();
     bool moderated = (status == "MODERATED");
     std::string messageText;

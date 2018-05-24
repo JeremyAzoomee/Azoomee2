@@ -18,8 +18,15 @@ NS_AZOOMEE_BEGIN
 class MeHQMessages : public cocos2d::ui::Layout, public Chat::ChatAPIObserver
 {
     typedef cocos2d::ui::Layout Super;
+    typedef std::function<void()> RefreshLayoutCallback;
 private:
     cocos2d::ui::Layout* _contentLayer = nullptr;
+    Chat::FriendList _friendList;
+    Chat::MessageList _messages;
+    
+    RefreshLayoutCallback _refreshCallback = nullptr;
+    
+    void createMessageList();
     
 protected:
     virtual void onSizeChanged() override;
@@ -31,10 +38,10 @@ public:
     
     CREATE_FUNC(MeHQMessages);
     
-    /// Friend List success response
-    virtual void onChatAPIGetFriendList(const Chat::FriendList& friendList, int amountOfNewMessages) override;
-    /// Get message list success response
-    virtual void onChatAPIGetChatMessages(const Chat::MessageList& messageList) override;
+    void setRefreshCallback(const RefreshLayoutCallback& callback);
+    
+    /// Get Timeline Summary response
+    virtual void onChatAPIGetTimelineSummary(const Chat::MessageList& messageList) override;
     /// API error from Chat request
     virtual void onChatAPIErrorRecieved(const std::string& requestTag, long errorCode) override;
 };

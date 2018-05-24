@@ -25,6 +25,7 @@
 #include "MeHQGallery.h"
 #include "MeHQDownloads.h"
 #include "MeHQFavourites.h"
+#include "MeHQMessages.h"
 
 using namespace cocos2d;
 
@@ -64,6 +65,13 @@ bool MeHQ::init()
     });
     _contentListView->pushBackCustomItem(favouriteLayout);
     
+    auto messageList = MeHQMessages::create();
+    messageList->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
+    messageList->setRefreshCallback([this](){
+        this->refreshMessagesLayout();
+    });
+    _contentListView->addChild(messageList);
+    
     auto downloadsLayout = MeHQDownloads::create();
     downloadsLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
     _contentListView->pushBackCustomItem(downloadsLayout);
@@ -88,7 +96,14 @@ void MeHQ::refreshFavouritesLayout()
     _contentListView->insertCustomItem(favouriteLayout, 2);
     
     _contentListView->forceDoLayout();
-    _contentListView->scrollToPercentVertical(scrollPercent, 0.1, true);
+    _contentListView->scrollToPercentVertical(scrollPercent, 0, true);
+}
+
+void MeHQ::refreshMessagesLayout()
+{
+    //float scrollPercent = _contentListView->getScrolledPercentVertical();
+    _contentListView->forceDoLayout();
+    //_contentListView->scrollToPercentVertical(scrollPercent, 0, true);
 }
 
 NS_AZOOMEE_END

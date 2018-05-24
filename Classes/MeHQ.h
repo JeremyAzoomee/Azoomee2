@@ -32,6 +32,7 @@ public:
     CREATE_FUNC(MeHQ);
     
     void refreshFavouritesLayout();
+    void refreshMessagesLayout();
 };
 
 NS_AZOOMEE_END
