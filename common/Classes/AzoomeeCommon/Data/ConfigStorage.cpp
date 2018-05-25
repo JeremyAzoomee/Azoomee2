@@ -7,6 +7,7 @@
 #include "../API/API.h"
 #include "../Net/Utils.h"
 #include "Json.h"
+#include "../Utils/StringFunctions.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/jni/JniHelper.h"
@@ -45,6 +46,8 @@ static ConfigStorage *_sharedConfigStorage = NULL;
     const char* const ConfigStorage::kEstimatedKeyboardHeightLandscape = "Azoomee::MessageComposer::EstimatedKeyboardHeight/Landscape";
     
     const std::string ConfigStorage::kArtCacheFolder = "artCache/";
+    
+    
 
 ConfigStorage* ConfigStorage::getInstance()
 {
@@ -387,7 +390,7 @@ std::string ConfigStorage::getHQSceneNameReplacementForPermissionFeed(const std:
 
 cocos2d::Point ConfigStorage::getHorizontalPositionForMenuItem(const std::string& hqName) const
 {
-    cocos2d::Point visualOrigin = Director::getInstance()->getVisibleOrigin();
+    cocos2d::Point visualOrigin = Vec2(0,0);//Director::getInstance()->getVisibleOrigin();
     cocos2d::Size visualSize = Director::getInstance()->getVisibleSize();
     
     float x = 0;
@@ -664,6 +667,34 @@ void ConfigStorage::setEstimatedKeyboardHeight(float height)
         UserDefault::getInstance()->setFloatForKey(kEstimatedKeyboardHeightLandscape, height);
     }
 }
-
+    
+//----------------------- Anonymous IP configuration -------------------------------------------
+void ConfigStorage::setClientAnonymousIp(const std::string& publicIp)
+{
+    std::vector<std::string> ipElementsVector = splitStringToVector(publicIp, ".");
+    if(ipElementsVector.size() != 4)
+    {
+        _clientIp = "0.0.0.0";
+        return;
+    }
+    
+    _clientIp = "";
+    ipElementsVector[ipElementsVector.size() - 1] = "0";
+    
+    for(const std::string &currentElement : ipElementsVector)
+    {
+        if(_clientIp.length() != 0)
+        {
+            _clientIp += ".";
+        }
+        
+        _clientIp += currentElement;
+    }
+}
+    
+std::string ConfigStorage::getClientAnonymousIp() const
+{
+    return _clientIp.empty() ? "0.0.0.0" : _clientIp;
+}
     
 }

@@ -12,11 +12,15 @@
 #include "ButtonActionData.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
+#include <AzoomeeCommon/Utils/StringFunctions.h>
 #include "HQDataProvider.h"
 #include "DynamicNodeTextInput.h"
 #include "DynamicNodeButton.h"
 #include "DynamicNodeText.h"
 #include "DynamicNodeLine.h"
+#include "DynamicNodeCheckBox.h"
+#include <AzoomeeCommon/UI/Scene.h>
+#include "DynamicNodeHandler.h"
 
 using namespace cocos2d;
 
@@ -52,8 +56,22 @@ Node* DynamicNodeCreator::createCTAFromFile(const std::string& filepath)
     _usingExternalParams = false;
     //Init CTA objects
     initCTANode();
-
-    const std::string& jsonString = FileUtils::getInstance()->getStringFromFile(filepath);
+    std::string configFilePath = filepath;
+    _portraitMode = false;
+    if(Director::getInstance()->getVisibleSize().width < Director::getInstance()->getVisibleSize().height)
+    {
+        auto stringVec = splitStringToVector(filepath, "/");
+        std::string filename = stringVec.back();
+        stringVec.pop_back();
+        const std::string& path = joinStrings(stringVec, "/");
+        if(FileUtils::getInstance()->isFileExist(path + "/p_" + filename))
+        {
+            configFilePath = path + "/p_" + filename;
+            _portraitMode = true;
+        }
+    }
+    
+    const std::string& jsonString = FileUtils::getInstance()->getStringFromFile(configFilePath);
     
     rapidjson::Document configFile;
     configFile.Parse(jsonString.c_str());
@@ -78,7 +96,22 @@ Node* DynamicNodeCreator::createCTAFromFileWithParams(const std::string& filepat
     //Init CTA objects
     initCTANode();
     
-    const std::string& jsonString = FileUtils::getInstance()->getStringFromFile(filepath);
+    std::string configFilePath = filepath;
+    _portraitMode = false;
+    if(Director::getInstance()->getVisibleSize().width < Director::getInstance()->getVisibleSize().height)
+    {
+        auto stringVec = splitStringToVector(filepath, "/");
+        std::string filename = stringVec.back();
+        stringVec.pop_back();
+        const std::string& path = joinStrings(stringVec, "/");
+        if(FileUtils::getInstance()->isFileExist(path + "/p_" + filename))
+        {
+            configFilePath = path + "/p_" + filename;
+            _portraitMode = true;
+        }
+    }
+    
+    const std::string& jsonString = FileUtils::getInstance()->getStringFromFile(configFilePath);
     
     rapidjson::Document configFile;
     configFile.Parse(jsonString.c_str());
@@ -165,6 +198,13 @@ void DynamicNodeCreator::processFile(const rapidjson::Document& configFile)
         const rapidjson::Value& lineList = configFile["lines"];
         configLines(lineList);
     }
+    
+    //config check boxes drawing
+    if(configFile.HasMember("checkBoxes"))
+    {
+        const rapidjson::Value& checkBoxList = configFile["checkBoxes"];
+        configCheckBoxes(checkBoxList);
+    }
 }
 
 void DynamicNodeCreator::initCTANode()
@@ -195,6 +235,12 @@ void DynamicNodeCreator::initCTANode()
     };
     
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), overlay);
+    
+    if(dynamic_cast<Azoomee::Scene*>(Director::getInstance()->getRunningScene()))
+    {
+        Vec2 origin = Director::getInstance()->getVisibleOrigin();
+        _CTANode->setPosition(-origin);
+    }
     
     _stencil = ui::Scale9Sprite::create(kCTAAssetLoc + "deep_free_pop_over.png");
     _stencil->setContentSize(Size(_windowSize.width*0.75,_windowSize.height*0.67));
@@ -233,6 +279,12 @@ void DynamicNodeCreator::initCTANode()
     _textInputLayer->setPosition(_windowSize/2);
     _CTANode->addChild(_textInputLayer);
     
+    _checkBoxLayer = Node::create();
+    _checkBoxLayer->setContentSize(_stencil->getContentSize());
+    _checkBoxLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _checkBoxLayer->setPosition(_windowSize/2);
+    _CTANode->addChild(_checkBoxLayer);
+    
     _textLayer = Node::create();
     _textLayer->setContentSize(_windowSize);
     _textLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -266,11 +318,19 @@ void DynamicNodeCreator::configNodeSize(const rapidjson::Value &sizePercentages)
     {
         if(sizePercentages[0].IsFloat() && sizePercentages[1].IsFloat())
         {
-            const Size& visibleSizeSafe = Director::getInstance()->getVisibleSize() * 0.95f;
+            Size visibleSizeSafe = Director::getInstance()->getVisibleSize() - Size(50,50);
+            if(ConfigStorage::getInstance()->isDeviceIphoneX())
+            {
+                visibleSizeSafe = visibleSizeSafe - (visibleSizeSafe.width > visibleSizeSafe.height ? Size(200,0) : Size(0,200));
+            }
             
             float width = sizePercentages[0].GetFloat()/100.0f;
             float height = sizePercentages[1].GetFloat()/100.0f;
-            Size newSize = Size(_windowSize.width*width,_windowSize.height*height);
+            Size newSize = Size(2736*width,2048*height);
+            if(_portraitMode)
+            {
+                newSize = Size(2048*width,2736*height);
+            }
             
             if(newSize.width > visibleSizeSafe.width || newSize.height > visibleSizeSafe.height)
             {
@@ -287,6 +347,7 @@ void DynamicNodeCreator::configNodeSize(const rapidjson::Value &sizePercentages)
             _textLayer->setContentSize(newSize);
             _textInputLayer->setContentSize(newSize);
             _linesLayer->setContentSize(newSize);
+            _checkBoxLayer->setContentSize(newSize);
         }
     }
 }
@@ -413,6 +474,19 @@ void DynamicNodeCreator::configLines(const rapidjson::Value &linesConfig)
     }
 }
 
+void DynamicNodeCreator::configCheckBoxes(const rapidjson::Value &checkboxConfig)
+{
+    if(checkboxConfig.IsArray())
+    {
+        for (int i = 0; i < checkboxConfig.Size(); i++)
+        {
+            DynamicNodeCheckBox* checkBox = DynamicNodeCheckBox::create();
+            checkBox->initWithParams(checkboxConfig[i], _checkBoxLayer->getContentSize(),_usingExternalParams);
+            _checkBoxLayer->addChild(checkBox);
+        }
+    }
+}
+
 std::string DynamicNodeCreator::addExternalParamsToString(const std::string& str)
 {
     std::string sourceString = str;
@@ -441,6 +515,7 @@ void DynamicNodeCreator::resetCTAPopup()
     {
         _CTANode->removeFromParent();
         _CTANode = nullptr;
+        DynamicNodeHandler::getInstance()->_currentCTAFile = "";
     }
 }
 

@@ -10,6 +10,7 @@ NS_AZOOMEE_BEGIN
 
 #pragma mark - Constants
 
+const char* const API::TagIpCheck = "ipCheck";
 const char* const API::TagLogin = "parentLogin";
 const char* const API::TagAnonymousDeviceLogin = "anonymousDeviceLogin";
 const char* const API::TagUpdateBillingData = "updateBilling";
@@ -41,6 +42,15 @@ const char* const API::TagCookieRefresh = "cookieRefresh";
 const char* const API::TagUpdateChildAvatar = "updateChildAvatar";
 
 #pragma mark - API Methods
+
+HttpRequestCreator* API::IpCheck(HttpRequestCreatorResponseDelegate* delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestTag = TagIpCheck;
+    request->url = "http://icanhazip.com";
+    request->encrypted = false;
+    return request;
+}
 
 HttpRequestCreator* API::OfflineCheck(HttpRequestCreatorResponseDelegate* delegate)
 {
@@ -154,10 +164,11 @@ HttpRequestCreator* API::RegisterParentRequest(const std::string& emailAddress,
                                                const std::string& pinNumber,
                                                const std::string& source,
                                                const std::string& sourceDevice,
+                                               const std::string& marketingAccepted,
                                                HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestBody = StringUtils::format("{\"emailAddress\":\"%s\",\"over18\":\"true\",\"termsAccepted\":\"true\",\"password\":\"%s\",\"source\":\"%s\",\"pinNumber\":\"%s\", \"sourceDevice\":\"%s\"}", emailAddress.c_str(), password.c_str(), source.c_str(), pinNumber.c_str(), sourceDevice.c_str());
+    request->requestBody = StringUtils::format("{\"emailAddress\":\"%s\",\"over18\":\"true\",\"termsAccepted\":\"true\",\"trackingAccepted\":\"true\",\"marketingAccepted\":\"%s\",\"password\":\"%s\",\"source\":\"%s\",\"pinNumber\":\"%s\", \"sourceDevice\":\"%s\"}", emailAddress.c_str(), marketingAccepted.c_str(), password.c_str(), source.c_str(), pinNumber.c_str(), sourceDevice.c_str());
     request->requestTag = TagRegisterParent;
     request->method = "POST";
     return request;

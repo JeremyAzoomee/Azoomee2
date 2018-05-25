@@ -35,7 +35,7 @@ NS_AZOOMEE_BEGIN
 
 const std::string ChildSelectorScene::kSceneName = "ChildSelectScene";
 
-Scene* ChildSelectorScene::createScene()
+/*Scene* ChildSelectorScene::createScene()
 {
     auto scene = Scene::create();
     auto layer = ChildSelectorScene::create();
@@ -44,11 +44,19 @@ Scene* ChildSelectorScene::createScene()
     scene->setName(kSceneName);
     
     return scene;
+}*/
+
+Scene* ChildSelectorScene::createScene()
+{
+    auto scene = ChildSelectorScene::create();
+    scene->setName(kSceneName);
+    
+    return scene;
 }
 
 bool ChildSelectorScene::init()
 {
-    if ( !Layer::init() )
+    if ( !Super::init() )
     {
         return false;
     }
@@ -62,7 +70,12 @@ bool ChildSelectorScene::init()
     ChatNotificationsSingleton::getInstance()->stopNotificationsUpdate();
     
     _visibleSize = Director::getInstance()->getVisibleSize();
-    _origin = Director::getInstance()->getVisibleOrigin();
+    _origin = Vec2(0,0);//Director::getInstance()->getVisibleOrigin();
+    
+    _contentNode = Node::create();
+    _contentNode->setContentSize(_visibleSize);
+    
+    this->addChild(_contentNode, -1, "contentNode");
     
     addVisualsToScene();
     createSettingsButton();
@@ -72,7 +85,7 @@ bool ChildSelectorScene::init()
     
     auto newProfileButton = createNewProfileButton();
     newProfileButton->setPosition(_origin.x + newProfileButton->getContentSize().width / 2, _origin.y + _visibleSize.height - newProfileButton->getContentSize().height * 0.8);
-    this->addChild(newProfileButton);
+    _contentNode->addChild(newProfileButton);
 
     return true;
 }
@@ -94,7 +107,7 @@ void ChildSelectorScene::onEnterTransitionDidFinish()
             _parentButtonListener->setEnabled(true);
         }
     }
-    
+    Super::onEnterTransitionDidFinish();
 }
 
 //-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
@@ -105,7 +118,7 @@ void ChildSelectorScene::addVisualsToScene()
     
     auto selectTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(CHILD_SELECTSCENE_TITLE_LABEL));
     selectTitle->setPosition(_origin.x + _visibleSize.width * 0.5, _origin.y + _visibleSize.height * 0.9);
-    this->addChild(selectTitle);
+    _contentNode->addChild(selectTitle);
 }
 
 void ChildSelectorScene::addBackgroundToScreen()
@@ -115,25 +128,25 @@ void ChildSelectorScene::addBackgroundToScreen()
     
     auto wireLeft = Sprite::create("res/childSelection/wireLeft.png");
     wireLeft->setPosition(wireLeft->getContentSize().width / 2, visibleSize.height / 2 + origin.y);
-    this->addChild(wireLeft);
+    _contentNode->addChild(wireLeft);
     
     auto wireRight = Sprite::create("res/childSelection/wireRight.png");
     wireRight->setPosition(visibleSize.width - wireRight->getContentSize().width / 2, visibleSize.height / 2 + origin.y);
-    this->addChild(wireRight);
+    _contentNode->addChild(wireRight);
 }
 
 void ChildSelectorScene::createSettingsButton()
 {
     auto settingsButton = SettingsButton::createSettingsButton(0.0f);
     settingsButton->setCenterPosition(Vec2(_origin.x + _visibleSize.width - settingsButton->getContentSize().width, _origin.y + _visibleSize.height - settingsButton->getContentSize().height));
-    this->addChild(settingsButton);
+    _contentNode->addChild(settingsButton);
 }
 
 void ChildSelectorScene::addPrivacyButton()
 {
     PrivacyLayer* privacyLayer = PrivacyLayer::createWithColor();
     privacyLayer->setCenterPosition(Vec2(_origin.x + privacyLayer->getContentSize().height/2 +privacyLayer->getContentSize().width/2,_origin.y + privacyLayer->getContentSize().height));
-    this->addChild(privacyLayer);
+    _contentNode->addChild(privacyLayer);
 }
 
 void ChildSelectorScene::addScrollViewForProfiles()
@@ -148,7 +161,7 @@ void ChildSelectorScene::addScrollViewForProfiles()
     _scrollView->setSwallowTouches(false);
     _scrollView->setScrollBarEnabled(true);
     
-    this->addChild(_scrollView);
+    _contentNode->addChild(_scrollView);
 }
 
 Size ChildSelectorScene::getScrollviewInnerSize(float scrollviewWidth)
@@ -294,7 +307,7 @@ Point ChildSelectorScene::positionElementOnScrollView(Layer *layerToBeAdded)
     Vector<Node*> scrollViewChildren = _scrollView->getChildren();
     
     int numberOfChildrenWithParent = ParentDataProvider::getInstance()->getAmountOfAvailableChildren() + 1;
-    if(numberOfChildrenWithParent > 4) numberOfChildrenWithParent = 4;
+    if(numberOfChildrenWithParent > _isPortrait ? 2 : 4) numberOfChildrenWithParent = _isPortrait ? 2 : 4;
     
     float layerMultiplier = numberOfChildrenWithParent * 0.5;
     float gapMultiplier = (numberOfChildrenWithParent - 1) * 0.5;
@@ -426,12 +439,12 @@ void ChildSelectorScene::addChildButtonPressed(Node* target)
 }
 
 //----------------------- Delegate Functions ----------------------------
-void ChildSelectorScene::AdultPinCancelled(AwaitingAdultPinLayer* layer)
+void ChildSelectorScene::AdultPinCancelled(RequestAdultPinLayer* layer)
 {
     removeAdultPinLayerDelegate();
 }
 
-void ChildSelectorScene::AdultPinAccepted(AwaitingAdultPinLayer* layer)
+void ChildSelectorScene::AdultPinAccepted(RequestAdultPinLayer* layer)
 {
     removeAdultPinLayerDelegate();
     
@@ -446,7 +459,7 @@ void ChildSelectorScene::AdultPinAccepted(AwaitingAdultPinLayer* layer)
 
 void ChildSelectorScene::createAdultPinLayerWithDelegate()
 {
-    _awaitingAdultPinLayer = AwaitingAdultPinLayer::create();
+    _awaitingAdultPinLayer = RequestAdultPinLayer::create();
     _awaitingAdultPinLayer->setDelegate(this);
 }
 
@@ -527,7 +540,42 @@ void ChildSelectorScene::onExit()
     OfflineChecker::getInstance()->setDelegate(nullptr);
     removeAdultPinLayerDelegate();
 
-    Node::onExit();
+    Super::onExit();
+}
+
+void ChildSelectorScene::onSizeChanged()
+{
+    Super::onSizeChanged();
+    _isPortrait = Director::getInstance()->getVisibleSize().width < Director::getInstance()->getVisibleSize().height;
+    bool parentButtonVisible = false;
+    if(_parentButton)
+    {
+        parentButtonVisible = _parentButton->isVisible();
+    }
+    if(_contentNode)
+    {
+        _contentNode->removeFromParent();
+    }
+    
+    _visibleSize = Director::getInstance()->getVisibleSize();
+    _contentNode = Node::create();
+    _contentNode->setContentSize(_visibleSize);
+    
+    this->addChild(_contentNode, -1, "contentNode");
+    
+    addVisualsToScene();
+    createSettingsButton();
+    addScrollViewForProfiles();
+    addProfilesToScrollView();
+    addPrivacyButton();
+    
+    auto newProfileButton = createNewProfileButton();
+    newProfileButton->setPosition(_origin.x + newProfileButton->getContentSize().width / 2, _origin.y + _visibleSize.height - newProfileButton->getContentSize().height * 0.8);
+    _contentNode->addChild(newProfileButton);
+    
+    setParentButtonVisible(parentButtonVisible);
+    
+    DynamicNodeHandler::getInstance()->rebuildCurrentCTA();
 }
 
 NS_AZOOMEE_END

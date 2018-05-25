@@ -58,6 +58,7 @@ public:
     virtual void removeChild(cocos2d::Node* child, bool cleanup = true) override;
     virtual void removeAllChildrenWithCleanup(bool cleanup) override;
     virtual void reorderChild(cocos2d::Node* child, int localZOrder) override;
+    
 };
 
 NS_AZOOMEE_END

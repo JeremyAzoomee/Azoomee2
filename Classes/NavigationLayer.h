@@ -2,6 +2,7 @@
 #define __NAVIGATION_LAYER_H__
 
 #include <cocos/cocos2d.h>
+#include "UserTypeMessagingLayer.h"
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 #include <AzoomeeChat/ChatAPI.h>
@@ -27,17 +28,24 @@ public:
     void showNotificationBadge();
     void hideNotificationBadge();
     
+    void repositionElements();
+    
 private:
     cocos2d::Size visibleSize;
     cocos2d::Vec2 origin;
+    
+    float _navOffset = 0;
     
     ElectricDreamsButton *previewLoginButton;
     ElectricDreamsButton *previewSignUpButton;
     ElectricDreamsButton *settingsButton;
     ElectricDreamsButton *returnToChildSelectorButton;
+    
+    UserTypeMessagingLayer* _userTypeMessagingLayer = nullptr;
+    cocos2d::Node* _hqButtonHolder = nullptr;
 
     //MenuItem creation phase
-    cocos2d::Sprite* addMenuItemHolder(const std::string& hqName);
+    cocos2d::Sprite* addMenuItemHolder(const std::string& hqName, float pos);
     cocos2d::Sprite* addMenuItemCircle(const std::string& hqName, cocos2d::Node *toBeAddedTo);
     cocos2d::Sprite* addMenuItemInactive(const std::string& hqName, cocos2d::Node *toBeAddedTo);
     cocos2d::Sprite* addMenuItemActive(const std::string& hqName, cocos2d::Node *toBeAddedTo);

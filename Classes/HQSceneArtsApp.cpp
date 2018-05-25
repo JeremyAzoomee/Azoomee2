@@ -1,7 +1,3 @@
-//Creating a scrollview structure. vScrollView is the main, vertical scrollview, having several children of scrollViews, that can scroll horizontally.
-//We capture the the touches "under" the scrollView-s, and locking all horizontal movements on vertical touchMoves, and all vertical movements on horizontal touchMove.
-//The listener works the same way, as with all other nodes.
-
 #include "HQSceneArtsApp.h"
 #include "ArtsAppHQElement.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
@@ -25,7 +21,7 @@ bool HQSceneArtsApp::init()
     }
     
     _visibleSize = Director::getInstance()->getVisibleSize();
-    _origin = Director::getInstance()->getVisibleOrigin();
+    _origin = Vec2(0,0);//Director::getInstance()->getVisibleOrigin();
     
     if(ConfigStorage::getInstance()->isDeviceIphoneX())
     {

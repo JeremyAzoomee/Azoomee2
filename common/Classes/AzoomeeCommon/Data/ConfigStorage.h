@@ -140,6 +140,10 @@ public:
     //Set keyboard height for chat
     void setEstimatedKeyboardHeight(float size);
     
+    //Client IP setting
+    void setClientAnonymousIp(const std::string& publicIp);
+    std::string getClientAnonymousIp() const;
+    
 private:
     rapidjson::Document parseJsonConfigurationFile(const std::string& fileName);
     
@@ -158,7 +162,7 @@ private:
     bool _isDevice18x9 = false;
     
     std::string _osManufacturer = "";
-    
+    std::string _clientIp = "";
 };
   
 }

@@ -14,6 +14,7 @@
 #include "ContentHistoryManager.h"
 #include "IAPProductDataHandler.h"
 #include "ChatDelegate.h"
+#include "SceneManagerScene.h"
 
 using namespace cocos2d;
 using namespace Azoomee;
@@ -31,10 +32,10 @@ bool AppDelegate::applicationDidFinishLaunching()
     Super::applicationDidFinishLaunching();
     
     register_all_packages();
-
+    
     // create a scene. it's an autorelease object
-    auto scene = IntroVideoScene::createScene();
-    Director::getInstance()->runWithScene(scene);
+    auto scene = IntroVideoScene::create();
+    Director::getInstance()->runWithScene(SceneManagerScene::createScene(introVideo));
     
     SessionIdManager::getInstance();
     AnalyticsSingleton::getInstance()->setLandscapeOrientation();
@@ -121,8 +122,7 @@ void AppDelegate::applicationWillEnterForeground()
         
         HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
         
-        auto baseScene = BaseScene::createScene();
-        cocos2d::Director::getInstance()->replaceScene(baseScene);
+        cocos2d::Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
     }
 
 #endif

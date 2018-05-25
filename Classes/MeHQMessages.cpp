@@ -83,7 +83,7 @@ void MeHQMessages::createMessageList()
         messageLayout->setContentSize(Size(this->getContentSize().width * 0.9, 500));
         //messageLayout->setLayoutType(ui::Layout::Type::RELATIVE);
         messageLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
-        messageLayout->setBackGroundImage("res/decoration/windowScale9.png");
+        messageLayout->setBackGroundImage("res/decoration/message_bar_container.png");
         messageLayout->setBackGroundImageScale9Enabled(true);
         
         Chat::AvatarWidget* avatar = Chat::AvatarWidget::create();

@@ -62,6 +62,8 @@ public:
     
     // Check for offline mode
     void offlineCheck();
+    // Check the clients current ip
+    void ipCheck();
     // Login a user
     void login(const std::string& username, const std::string& password);
     // Login a device ID
@@ -71,7 +73,7 @@ public:
     // Update parent PIN from the server, calling back to AwaitingAdultPinLayer as part of the flow
     void updateParentPin(AwaitingAdultPinLayer* callBackTo);
     // Register a new parent account
-    void registerParent(const std::string& emailAddress, const std::string& password, const std::string& pinNumber);
+    void registerParent(const std::string& emailAddress, const std::string& password, const std::string& pinNumber, const std::string& marketingAccepted);
     // Get the children linked to the current parent from the backend
     void getAvailableChildren();
     // Login child profile with index

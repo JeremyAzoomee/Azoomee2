@@ -3,26 +3,29 @@
 
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/UI/Scene.h>
 #include "network/HttpClient.h"
 
 NS_AZOOMEE_BEGIN
 
-class BaseScene : public cocos2d::Layer
+class BaseScene : public Azoomee::Scene
 {
+    typedef Azoomee::Scene Super;
 public:
-    static cocos2d::Scene* createScene();
-    
     CREATE_FUNC(BaseScene);
     
-    virtual bool init();
+    virtual bool init() override;
     
     void startBuildingHQs();
+
+protected:
+    virtual void onSizeChanged() override;
     
 private:
     void createHQScene2(const std::string &sceneName, Node* toBeAddedTo);
     cocos2d::Layer* createContentLayer();
     void addNavigationLayer();
-    void onEnterTransitionDidFinish();
+    void onEnterTransitionDidFinish() override;
     void addParticleElementsToBackground();
     
     void addXmasDecoration();

@@ -130,6 +130,13 @@ void ModalWebview::onSizeChanged()
     _runningSceneSize = Director::getInstance()->getRunningScene()->getContentSize();
 
     _backgroundLayer->setContentSize(_runningSceneSize);
+    for(auto node : _backgroundLayer->getChildren())
+    {
+        if(node->getTag() == CIRCLE_TAG)
+        {
+            node->setPosition(_runningSceneSize.width / 2.0f, _runningSceneSize.height / 2);
+        }
+    }
     
     _closeButton->setCenterPosition(Vec2(_runningSceneSize.width/2.0f + _visibleSize.width/2.0f - _closeButton->getContentSize().width,_runningSceneSize.height/2.0f + _visibleSize.height/2.0f - _closeButton->getContentSize().height));
     

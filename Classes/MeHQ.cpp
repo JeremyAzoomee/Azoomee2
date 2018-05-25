@@ -47,7 +47,7 @@ bool MeHQ::init()
     _contentListView->setItemsMargin(150.0f);
     _contentListView->setContentSize(Size(this->getContentSize().width, this->getContentSize().height - 300));
     _contentListView->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-    _contentListView->setPosition(Director::getInstance()->getVisibleOrigin());
+    //_contentListView->setPosition(Director::getInstance()->getVisibleOrigin());
     
     this->addChild(_contentListView);
     auto profileLayout = MeHQProfileDetails::create();

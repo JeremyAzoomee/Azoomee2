@@ -38,7 +38,7 @@ public:
     //---------------SUPER PROPERTIES---------
     
     void registerAppVersion();
-    void registerParentID(std::string ParentID);
+    void registerAnonymousIp(const std::string& anonymousIp);
     void registerNoOfChildren(int noOfChildren);
     void registerAzoomeeEmail(std::string emailAddress);
     void registerAccountStatus(std::string Status);
@@ -53,7 +53,6 @@ public:
     void setChatFriendIsParent(bool chatFriendIsParent);
     void setIsUserAnonymous(bool isUserAnonymous);
 
-    void registerChildID(std::string noOfChatFriends);
     void registerChildGenderAndAge(int childNumber);
 
     void logoutChildEvent();
@@ -99,6 +98,7 @@ public:
     void contentItemWebviewStartedEvent();
     void contentItemClosedEvent();
     void updateContentItemDetails(const HQContentItemObjectRef &contentItem);
+    void lockedContentItemInRecentlyPlayedEvent(const HQContentItemObjectRef& contentItem);
 
     //------------- PREVIEW ACTIONS ---------------
     void previewContentClickedEvent(std::string Title,std::string Description, std::string Type);

@@ -56,11 +56,10 @@
     }
   },
   "namesForMenuItems": [
-    "CHAT",
-    "VIDEO HQ",
     "GAME HQ",
+    "VIDEO HQ",
+    "CHAT",
     "ARTS APP",
-    "OOMEE_MAKER",
     "ME HQ"
   ],
   "hqNamesReplacementForPermissionFeed": {
