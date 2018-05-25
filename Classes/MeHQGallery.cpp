@@ -18,10 +18,10 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-const float MeHQGallery::kSideMarginSize = 20.0f;
-const float MeHQGallery::kSpaceAboveCarousel = 200.0f;
-const int MeHQGallery::kUnitsOnScreen = 4;
-const float MeHQGallery::kContentItemMargin = 20.0f;
+const float MeHQGallery::kSideMarginSize[2] = {20.0f, 10.0f};
+const float MeHQGallery::kSpaceAboveCarousel[2] = {200.0f, 200.0f};
+const int MeHQGallery::kUnitsOnScreen[2] = {4,2};
+const float MeHQGallery::kContentItemMargin[2] = {20.0f, 20.0f};
 
 bool MeHQGallery::init()
 {
@@ -29,6 +29,8 @@ bool MeHQGallery::init()
     {
         return false;
     }
+    
+    int isPortrait = Director::getInstance()->getVisibleSize().width < Director::getInstance()->getVisibleSize().height;
     
     this->setContentSize(Size(Director::getInstance()->getVisibleSize().width, 0));
     //setBackGroundColor(Color3B::BLUE);
@@ -38,15 +40,15 @@ bool MeHQGallery::init()
     ui::Text* heading = ui::Text::create("My Gallery", Style::Font::Regular, 150);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,50)));
-    heading->setContentSize(Size(this->getContentSize().width, kSpaceAboveCarousel));
+    heading->setContentSize(Size(this->getContentSize().width, kSpaceAboveCarousel[isPortrait]));
     this->addChild(heading);
     
     Size contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kArtAppHQName);
-    float unitWidth = (this->getContentSize().width - 2 * kSideMarginSize) / kUnitsOnScreen;
+    float unitWidth = (this->getContentSize().width - 2 * kSideMarginSize[isPortrait]) / kUnitsOnScreen[isPortrait];
     float unitMultiplier = unitWidth / contentItemSize.width;
     
     cocos2d::ui::Layout* carouselLayer = ui::Layout::create();
-    carouselLayer->setContentSize(Size(this->getContentSize().width - 2 * kSideMarginSize, 0));
+    carouselLayer->setContentSize(Size(this->getContentSize().width - 2 * kSideMarginSize[isPortrait], 0));
     carouselLayer->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     
     const std::string& dirPath = FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getParentOrChildId();
@@ -114,7 +116,7 @@ bool MeHQGallery::init()
     
     this->addChild(moreButton);
     
-    this->setContentSize(Size(this->getContentSize().width, -lowestElementYPosition + kSpaceAboveCarousel + 350));
+    this->setContentSize(Size(this->getContentSize().width, -lowestElementYPosition + kSpaceAboveCarousel[isPortrait] + 350));
     
     return true;
 }

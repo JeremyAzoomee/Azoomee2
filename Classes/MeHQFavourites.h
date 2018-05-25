@@ -19,10 +19,10 @@ class MeHQFavourites : public cocos2d::ui::Layout
     typedef cocos2d::ui::Layout Super;
     typedef std::function<void()> RefreshLayoutCallback;
 private:
-    static const float kSideMarginSize;
-    static const float kSpaceAboveCarousel;
-    static const int kUnitsOnScreen;
-    static const float kContentItemMargin;
+    static const float kSideMarginSize[2];
+    static const float kSpaceAboveCarousel[2];
+    static const int kUnitsOnScreen[2];
+    static const float kContentItemMargin[2];
     
     cocos2d::ui::Layout* _contentLayer = nullptr;
     
