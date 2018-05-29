@@ -39,7 +39,7 @@ public:
     CREATE_FUNC(MeHQProfileDetails);
     
     //delegate functions
-    void onImageDownloadComplete(const ImageDownloaderRef& downloader);
+    void onImageDownloadComplete(const ImageDownloaderRef& downloader) override;
 };
 
 NS_AZOOMEE_END

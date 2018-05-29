@@ -84,6 +84,10 @@ void HQSceneElement::setMargin(float margin)
 void HQSceneElement::deleteButtonVisible(bool visible)
 {
     _showDeleteButton = visible;
+    if(_deleteButton)
+    {
+        _deleteButton->setVisible(visible);
+    }
 }
 
 void HQSceneElement::setDeleteButtonCallback(const HQSceneElement::DeleteButtonCallback &callback)
@@ -124,17 +128,11 @@ void HQSceneElement::addHQSceneElement() //This method is being called by HQScen
     this->addChild(_elementVisual);
     this->setContentSize(_elementVisual->getContentSize());
     
-    if(_showDeleteButton)
-    {
-        _deleteButton = createDeleteButton();
-        _deleteButton->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-        Layer* deleteLayer = Layer::create();
-        deleteLayer->setContentSize(Size(_elementVisual->getContentSize().width, _deleteButton->getContentSize().height * 1.5));
-        deleteLayer->addChild(_deleteButton);
-        this->addChild(deleteLayer);
-        _elementVisual->setPosition(Vec2(0,deleteLayer->getContentSize().height));
-        this->setContentSize(_elementVisual->getContentSize() + Size(0,deleteLayer->getContentSize().height));
-    }
+    _deleteButton = createDeleteButton();
+    _deleteButton->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+    _deleteButton->setPosition(Vec2(_deleteButton->getContentSize().width * 0.2, this->getContentSize().height - _deleteButton->getContentSize().width * 0.2));
+    _deleteButton->setVisible(_showDeleteButton);
+    this->addChild(_deleteButton);
     
     addListenerToElement();
 }
@@ -219,7 +217,7 @@ void HQSceneElement::addListenerToElement()
 
 ui::Button* HQSceneElement::createDeleteButton()
 {
-    ui::Button* deleteButton = ui::Button::create("res/oomeeMaker/bin_button.png");
+    ui::Button* deleteButton = ui::Button::create("res/buttons/close_button_me_page.png");
     deleteButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     deleteButton->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)

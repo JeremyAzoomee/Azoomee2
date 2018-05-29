@@ -51,7 +51,7 @@ void MeHQFavourites::onEnter()
     labelLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
     this->addChild(labelLayout);
     
-    ui::Text* heading = ui::Text::create("My Favourites", Style::Font::Regular, 150);
+    ui::Text* heading = ui::Text::create("My Favourites", Style::Font::Regular, 100);
     heading->setTextHorizontalAlignment(TextHAlignment::CENTER);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setContentSize(Size(this->getContentSize().width, kSpaceAboveCarousel[isPortrait]));
@@ -64,7 +64,9 @@ void MeHQFavourites::onEnter()
     
     const auto& favList = FavouritesManager::getInstance()->getFavouriteContent();
     
-    cocos2d::LayerColor* carouselLayer = LayerColor::create(cocos2d::Color4B(255, 0, 0, 0), this->getContentSize().width - 2 * kSideMarginSize[isPortrait], 0);
+    _carouselLayout = ui::Layout::create();
+    _carouselLayout->setContentSize(Size(this->getContentSize().width - 2 * kSideMarginSize[isPortrait], 0));
+    _carouselLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     
     float lowestElementYPosition = 0;
     
@@ -77,7 +79,7 @@ void MeHQFavourites::onEnter()
         hqSceneElement->setElementIndex(elementIndex);
         hqSceneElement->setMargin(kContentItemMargin[isPortrait]);
         hqSceneElement->setManualSizeMultiplier(unitMultiplier); //overriding default configuration contentItem sizes. Ideally this *should* go away when only the new hub is present everywhere.
-        hqSceneElement->deleteButtonVisible(true);
+        hqSceneElement->deleteButtonVisible(false);
         hqSceneElement->setDeleteButtonCallback([&](const HQContentItemObjectRef& contentItem){
             FavouritesManager::getInstance()->removeFromFavourites(contentItem);
             if(_refreshCallback)
@@ -92,14 +94,14 @@ void MeHQFavourites::onEnter()
         
         HQScene2ElementPositioner hqScene2ElementPositioner;
         hqScene2ElementPositioner.setElement(hqSceneElement);
-        hqScene2ElementPositioner.setCarouselLayer(carouselLayer);
+        hqScene2ElementPositioner.setCarouselLayer(_carouselLayout);
         hqScene2ElementPositioner.setHighlightData(elementShape);
         hqScene2ElementPositioner.setBaseUnitSize(hqSceneElement->getContentSize());
         
         const cocos2d::Point &elementPosition = hqScene2ElementPositioner.positionHQSceneElement();
         
         hqSceneElement->setPosition(elementPosition);
-        carouselLayer->addChild(hqSceneElement);
+        _carouselLayout->addChild(hqSceneElement);
         
         if(elementPosition.y < lowestElementYPosition)
         {
@@ -107,11 +109,75 @@ void MeHQFavourites::onEnter()
         }
     }
     
-    carouselLayer->setPosition(Vec2(kSideMarginSize[isPortrait], -lowestElementYPosition));
+    int numPlaceholders = (kUnitsOnScreen[isPortrait] * ceil((double)(favList.size()) / (double)kUnitsOnScreen[isPortrait])) - favList.size();
+    for(int i = 0; i < numPlaceholders; i++)
+    {
+        Sprite* placeholder = Sprite::create("res/contentPlaceholders/placeholder_thumbnail_1_1.png");
+        placeholder->setScale(((contentItemSize.width - kContentItemMargin[isPortrait]) * unitMultiplier) / placeholder->getContentSize().width);
+        placeholder->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+        
+        HQScene2ElementPositioner hqScene2ElementPositioner;
+        hqScene2ElementPositioner.setElement(placeholder);
+        hqScene2ElementPositioner.setCarouselLayer(_carouselLayout);
+        hqScene2ElementPositioner.setHighlightData(Vec2(1,1));
+        hqScene2ElementPositioner.setBaseUnitSize(contentItemSize * unitMultiplier);
+        
+        const cocos2d::Point &elementPosition = hqScene2ElementPositioner.positionHQSceneElement();
+        
+        placeholder->setPosition(elementPosition + Vec2(kContentItemMargin[isPortrait]/2, kContentItemMargin[isPortrait]/2));
+        _carouselLayout->addChild(placeholder);
+    }
     
-    this->addChild(carouselLayer);
+    for(auto item : _carouselLayout->getChildren())
+    {
+        item->setPosition(item->getPosition() - Vec2(0,lowestElementYPosition));
+    }
     
-    this->setContentSize(Size(this->getContentSize().width, -lowestElementYPosition + kSpaceAboveCarousel[isPortrait]));
+    _carouselLayout->setContentSize(Size(_carouselLayout->getContentSize().width, -lowestElementYPosition));
+    
+    this->addChild(_carouselLayout);
+    
+    ui::Button* editButton = ui::Button::create("res/buttons/button_dark.png");
+    editButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    editButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+    editButton->setContentSize(Size(1230,250));
+    editButton->ignoreContentAdaptWithSize(false);
+    editButton->setScale9Enabled(true);
+    editButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+        static bool enabled = false;
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            enabled = !enabled;
+            ui::Button* button = dynamic_cast<ui::Button*>(pSender);
+            if(button)
+            {
+                Label* label = dynamic_cast<Label*>(button->getChildByName("label"));
+                if(label)
+                {
+                    label->setString(enabled ? "Finish Editing" : "Edit My Favourites");
+                }
+            }
+            for(auto item : _carouselLayout->getChildren())
+            {
+                HQSceneElement* element = dynamic_cast<HQSceneElement*>(item);
+                if(element)
+                {
+                    element->deleteButtonVisible(enabled);
+                }
+            }
+        }
+    });
+    
+    Label* editButtonLabel = Label::createWithTTF("Edit My Favourites", Style::Font::Regular, editButton->getContentSize().height * 0.4f);
+    editButtonLabel->setTextColor(Color4B::WHITE);
+    editButtonLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    editButtonLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    editButtonLabel->setName("label");
+    editButton->addChild(editButtonLabel);
+    
+    this->addChild(editButton);
+    
+    this->setContentSize(Size(this->getContentSize().width, -lowestElementYPosition + kSpaceAboveCarousel[isPortrait] + 350));
 }
 
 void MeHQFavourites::onExit()

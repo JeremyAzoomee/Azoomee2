@@ -24,7 +24,7 @@ private:
     static const int kUnitsOnScreen[2];
     static const float kContentItemMargin[2];
     
-    cocos2d::ui::Layout* _contentLayer = nullptr;
+    cocos2d::ui::Layout* _carouselLayout = nullptr;
     
     RefreshLayoutCallback _refreshCallback = nullptr;
     

@@ -29,7 +29,7 @@ bool MeHQMessages::init()
     this->setContentSize(Size(Director::getInstance()->getVisibleSize().width, 200));
     setLayoutType(ui::Layout::Type::VERTICAL);
     
-    ui::Text* heading = ui::Text::create("My Last Messages", Style::Font::Regular, 150);
+    ui::Text* heading = ui::Text::create("My Last Messages", Style::Font::Regular, 100);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,50)));
     heading->setContentSize(Size(this->getContentSize().width, 200));

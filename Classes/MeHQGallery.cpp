@@ -8,6 +8,7 @@
 #include "MeHQGallery.h"
 #include "HQScene2ElementPositioner.h"
 #include "ArtsAppHQElement.h"
+#include "NavigationLayer.h"
 #include <AzoomeeCommon/Utils/DirectorySearcher.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
@@ -33,11 +34,9 @@ bool MeHQGallery::init()
     int isPortrait = Director::getInstance()->getVisibleSize().width < Director::getInstance()->getVisibleSize().height;
     
     this->setContentSize(Size(Director::getInstance()->getVisibleSize().width, 0));
-    //setBackGroundColor(Color3B::BLUE);
-    //setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
     setLayoutType(ui::Layout::Type::VERTICAL);
     
-    ui::Text* heading = ui::Text::create("My Gallery", Style::Font::Regular, 150);
+    ui::Text* heading = ui::Text::create("My Gallery", Style::Font::Regular, 100);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,50)));
     heading->setContentSize(Size(this->getContentSize().width, kSpaceAboveCarousel[isPortrait]));
@@ -75,6 +74,28 @@ bool MeHQGallery::init()
         carouselLayer->addChild(currentElement);
     }
     
+    if(artImages.size() <= 7)
+    {
+        int numPlaceholders = (kUnitsOnScreen[isPortrait] * ceil((double)(artImages.size() + 1) / (double)kUnitsOnScreen[isPortrait])) - (artImages.size() + 1);
+        for(int i = 0; i < numPlaceholders; i++)
+        {
+            Sprite* placeholder = Sprite::create("res/contentPlaceholders/placeholder_thumbnail_1_1.png");
+            placeholder->setScale(((contentItemSize.width - kContentItemMargin[isPortrait]) * unitMultiplier) / placeholder->getContentSize().width);
+            placeholder->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+            
+            HQScene2ElementPositioner hqScene2ElementPositioner;
+            hqScene2ElementPositioner.setElement(placeholder);
+            hqScene2ElementPositioner.setCarouselLayer(carouselLayer);
+            hqScene2ElementPositioner.setHighlightData(Vec2(1,1));
+            hqScene2ElementPositioner.setBaseUnitSize(contentItemSize * unitMultiplier);
+            
+            const cocos2d::Point &elementPosition = hqScene2ElementPositioner.positionHQSceneElement();
+            
+            placeholder->setPosition(elementPosition + Vec2(kContentItemMargin[isPortrait]/2, kContentItemMargin[isPortrait]/2));
+            carouselLayer->addChild(placeholder);
+        }
+    }
+    
     auto* newImage = ArtsAppHQElement::create();
     newImage->initWithURLAndSize(FileUtils::getInstance()->fullPathForFilename("res/arthqscene/new.png"), ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kArtAppHQName) * unitMultiplier, false, true);
     
@@ -107,6 +128,21 @@ bool MeHQGallery::init()
     moreButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
     moreButton->setContentSize(Size(600,250));
     moreButton->ignoreContentAdaptWithSize(false);
+    moreButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            auto baseLayer = Director::getInstance()->getRunningScene();
+            if(baseLayer)
+            {
+                NavigationLayer *navigationLayer = dynamic_cast<NavigationLayer*>(baseLayer->getChildByName("NavigationLayer"));
+                
+                if(navigationLayer)
+                {
+                    navigationLayer->changeToScene(ConfigStorage::kArtAppHQName, 0.5);
+                }
+            }
+        }
+    });
     
     Label* moreButtonLabel = Label::createWithTTF("More", Style::Font::Regular, moreButton->getContentSize().height * 0.4f);
     moreButtonLabel->setTextColor(Color4B::WHITE);

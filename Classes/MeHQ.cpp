@@ -54,6 +54,13 @@ bool MeHQ::init()
     profileLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
     _contentListView->pushBackCustomItem(profileLayout);
     
+    auto messageList = MeHQMessages::create();
+    messageList->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
+    messageList->setRefreshCallback([this](){
+        this->refreshMessagesLayout();
+    });
+    _contentListView->addChild(messageList);
+    
     auto galleryLayout = MeHQGallery::create();
     galleryLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
     _contentListView->pushBackCustomItem(galleryLayout);
@@ -64,13 +71,6 @@ bool MeHQ::init()
         this->refreshFavouritesLayout();
     });
     _contentListView->pushBackCustomItem(favouriteLayout);
-    
-    auto messageList = MeHQMessages::create();
-    messageList->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
-    messageList->setRefreshCallback([this](){
-        this->refreshMessagesLayout();
-    });
-    _contentListView->addChild(messageList);
     
     auto downloadsLayout = MeHQDownloads::create();
     downloadsLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
@@ -87,13 +87,13 @@ void MeHQ::onEnter()
 void MeHQ::refreshFavouritesLayout()
 {
     float scrollPercent = _contentListView->getScrolledPercentVertical();
-    _contentListView->removeItem(2);
+    _contentListView->removeItem(3);
     auto favouriteLayout = MeHQFavourites::create();
     favouriteLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
     favouriteLayout->setRefreshCallback([this](){
         this->refreshFavouritesLayout();
     });
-    _contentListView->insertCustomItem(favouriteLayout, 2);
+    _contentListView->insertCustomItem(favouriteLayout, 3);
     
     _contentListView->forceDoLayout();
     _contentListView->scrollToPercentVertical(scrollPercent, 0, true);

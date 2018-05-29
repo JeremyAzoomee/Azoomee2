@@ -26,8 +26,6 @@ bool MeHQProfileDetails::init()
     bool isPortrait = Director::getInstance()->getVisibleSize().width < Director::getInstance()->getVisibleSize().height;
     
     this->setContentSize(Size(Director::getInstance()->getVisibleSize().width, isPortrait ? 2000 : 1000));
-    //setBackGroundColor(Color3B::RED);
-    //setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
     setLayoutType(isPortrait ? ui::Layout::Type::VERTICAL : ui::Layout::Type::HORIZONTAL);
     
     auto avatarLayout = ui::Layout::create();

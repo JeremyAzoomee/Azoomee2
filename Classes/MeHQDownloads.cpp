@@ -42,7 +42,7 @@ bool MeHQDownloads::init()
     labelLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
     this->addChild(labelLayout);
     
-    ui::Text* heading = ui::Text::create("My Downloads", Style::Font::Regular, 150);
+    ui::Text* heading = ui::Text::create("My Downloads", Style::Font::Regular, 100);
     heading->setTextHorizontalAlignment(TextHAlignment::CENTER);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setContentSize(Size(this->getContentSize().width, kSpaceAboveCarousel[isPortrait]));
@@ -111,6 +111,25 @@ bool MeHQDownloads::init()
         {
             lowestElementYPosition = elementPosition.y;
         }
+    }
+    
+    int numPlaceholders = (kUnitsOnScreen[isPortrait] * ceil((double)(gameList.size()) / (double)kUnitsOnScreen[isPortrait])) - gameList.size();
+    for(int i = 0; i < numPlaceholders; i++)
+    {
+        Sprite* placeholder = Sprite::create("res/contentPlaceholders/placeholder_thumbnail_1_1.png");
+        placeholder->setScale(((contentItemSize.width - kContentItemMargin[isPortrait]) * unitMultiplier) / placeholder->getContentSize().width);
+        placeholder->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+        
+        HQScene2ElementPositioner hqScene2ElementPositioner;
+        hqScene2ElementPositioner.setElement(placeholder);
+        hqScene2ElementPositioner.setCarouselLayer(carouselLayer);
+        hqScene2ElementPositioner.setHighlightData(Vec2(1,1));
+        hqScene2ElementPositioner.setBaseUnitSize(contentItemSize * unitMultiplier);
+            
+        const cocos2d::Point &elementPosition = hqScene2ElementPositioner.positionHQSceneElement();
+            
+        placeholder->setPosition(elementPosition + Vec2(kContentItemMargin[isPortrait]/2, kContentItemMargin[isPortrait]/2));
+        carouselLayer->addChild(placeholder);
     }
     
     carouselLayer->setPosition(Vec2(kSideMarginSize[isPortrait], -lowestElementYPosition));
