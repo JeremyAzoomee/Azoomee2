@@ -79,6 +79,8 @@ private:
     void createAdultPinLayerWithDelegate();
     void removeAdultPinLayerDelegate();
     
+    float getVerticalOffset();
+    
 protected:
     virtual void onSizeChanged() override;
 };

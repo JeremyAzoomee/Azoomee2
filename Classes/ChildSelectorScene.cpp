@@ -33,17 +33,6 @@ NS_AZOOMEE_BEGIN
 
 const std::string ChildSelectorScene::kSceneName = "ChildSelectScene";
 
-/*Scene* ChildSelectorScene::createScene()
-{
-    auto scene = Scene::create();
-    auto layer = ChildSelectorScene::create();
-    layer->setName(kSceneName);
-    scene->addChild(layer);
-    scene->setName(kSceneName);
-    
-    return scene;
-}*/
-
 Scene* ChildSelectorScene::createScene()
 {
     auto scene = ChildSelectorScene::create();
@@ -70,6 +59,8 @@ bool ChildSelectorScene::init()
     _visibleSize = Director::getInstance()->getVisibleSize();
     _origin = Vec2(0,0);//Director::getInstance()->getVisibleOrigin();
     
+    _isPortrait = _visibleSize.width < _visibleSize.height;
+    
     _contentNode = Node::create();
     _contentNode->setContentSize(_visibleSize);
     
@@ -82,7 +73,7 @@ bool ChildSelectorScene::init()
     addPrivacyButton();
     
     auto newProfileButton = createNewProfileButton();
-    newProfileButton->setPosition(_origin.x + newProfileButton->getContentSize().width / 2, _origin.y + _visibleSize.height - newProfileButton->getContentSize().height * 0.8);
+    newProfileButton->setPosition(_origin.x + newProfileButton->getContentSize().width / 2, _origin.y + _visibleSize.height - (newProfileButton->getContentSize().height * 0.8) + getVerticalOffset());
     _contentNode->addChild(newProfileButton);
 
     return true;
@@ -115,7 +106,7 @@ void ChildSelectorScene::addVisualsToScene()
     addBackgroundToScreen();
     
     auto selectTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(CHILD_SELECTSCENE_TITLE_LABEL));
-    selectTitle->setPosition(_origin.x + _visibleSize.width * 0.5, _origin.y + _visibleSize.height * 0.9);
+    selectTitle->setPosition(_origin.x + _visibleSize.width * 0.5, _origin.y + (_visibleSize.height * 0.9) + getVerticalOffset());
     _contentNode->addChild(selectTitle);
 }
 
@@ -136,7 +127,7 @@ void ChildSelectorScene::addBackgroundToScreen()
 void ChildSelectorScene::createSettingsButton()
 {
     auto settingsButton = SettingsButton::createSettingsButton(0.0f);
-    settingsButton->setCenterPosition(Vec2(_origin.x + _visibleSize.width - settingsButton->getContentSize().width, _origin.y + _visibleSize.height - settingsButton->getContentSize().height));
+    settingsButton->setCenterPosition(Vec2(_origin.x + _visibleSize.width - settingsButton->getContentSize().width, _origin.y + _visibleSize.height - settingsButton->getContentSize().height + getVerticalOffset()));
     _contentNode->addChild(settingsButton);
 }
 
@@ -569,12 +560,17 @@ void ChildSelectorScene::onSizeChanged()
     addPrivacyButton();
     
     auto newProfileButton = createNewProfileButton();
-    newProfileButton->setPosition(_origin.x + newProfileButton->getContentSize().width / 2, _origin.y + _visibleSize.height - newProfileButton->getContentSize().height * 0.8);
+    newProfileButton->setPosition(_origin.x + newProfileButton->getContentSize().width / 2, _origin.y + _visibleSize.height - (newProfileButton->getContentSize().height * 0.8) + getVerticalOffset());
     _contentNode->addChild(newProfileButton);
     
     setParentButtonVisible(parentButtonVisible);
     
     DynamicNodeHandler::getInstance()->rebuildCurrentCTA();
+}
+
+float ChildSelectorScene::getVerticalOffset()
+{
+    return (_isPortrait && ConfigStorage::getInstance()->isDeviceIphoneX()) ?  -50 : 0;
 }
 
 NS_AZOOMEE_END
