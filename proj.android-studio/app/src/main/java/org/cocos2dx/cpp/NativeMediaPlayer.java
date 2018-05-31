@@ -51,6 +51,7 @@ public class NativeMediaPlayer extends Activity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_native_mediaplayer);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         if (Build.VERSION.SDK_INT >= 11)
         {
@@ -76,6 +77,7 @@ public class NativeMediaPlayer extends Activity {
         Log.i("Video URL", currentlyPlayedUri);
         videoview.setVideoURI(uri);
         _mediaController = new MediaController(this);
+        _mediaController.setAnchorView(videoview);
         videoview.setMediaController(_mediaController);
         videoview.requestFocus();
         videoview.start();
@@ -158,6 +160,24 @@ public class NativeMediaPlayer extends Activity {
                 return true;
             }
         });
+
+
+        View decorView = getWindow().getDecorView();
+        decorView.setOnSystemUiVisibilityChangeListener
+                (new View.OnSystemUiVisibilityChangeListener() {
+                    @Override
+                    public void onSystemUiVisibilityChange(int visibility) {
+                        // Note that system bars will only be "visible" if none of the
+                        // LOW_PROFILE, HIDE_NAVIGATION, or FULLSCREEN flags are set.
+                        if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) {
+                            // TODO: The system bars are visible. Make any desired
+                            hideSystemUI();
+                        } else {
+                            // TODO: The system bars are NOT visible. Make any desired
+                            hideSystemUI();
+                        }
+                    }
+                });
     }
 
     //Handling time based events in a separate method, that is being scheduled in creation method
@@ -416,15 +436,12 @@ public class NativeMediaPlayer extends Activity {
         // Or for "sticky immersive," replace it with SYSTEM_UI_FLAG_IMMERSIVE_STICKY
         //View decorView = getWindow().getDecorView();
         //decorView.setSystemUiVisibility(
-        //        View.SYSTEM_UI_FLAG_IMMERSIVE
-                        // Set the content to appear under the system bars so that the
-                        // content doesn't resize when the system bars hide and show.
-                        //| View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        //| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        //| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        // Hide the nav bar and status bar
-                        //| View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        //| View.SYSTEM_UI_FLAG_FULLSCREEN);
+                //View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+          //               View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+          //              | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+          //              | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+          //             | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+          //              | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
     }
 
     //Handling hardware back button
