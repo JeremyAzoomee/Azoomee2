@@ -25,6 +25,8 @@
 
 #define USING_LOCAL_CTA_ASSETS YES
 
+#define CTA_Z_ORDER 1000
+
 using namespace cocos2d;
 NS_AZOOMEE_BEGIN
 //-----start Popup group names
@@ -333,7 +335,7 @@ void DynamicNodeHandler::createDynamicNodeFromFile(const std::string &file)
     _currentCTAUsingParams = false;
     _currentCTAParams = "";
     Node* cta = DynamicNodeCreator::getInstance()->createCTAFromFile(file);
-    Director::getInstance()->getRunningScene()->addChild(cta);
+    Director::getInstance()->getRunningScene()->addChild(cta,CTA_Z_ORDER);
 }
 
 void DynamicNodeHandler::createDynamicNodeFromFileWithParams(const std::string &file, const std::string& params)
@@ -342,7 +344,7 @@ void DynamicNodeHandler::createDynamicNodeFromFileWithParams(const std::string &
     _currentCTAUsingParams = true;
     _currentCTAParams = params;
     Node* cta = DynamicNodeCreator::getInstance()->createCTAFromFileWithParams(file, params);
-    Director::getInstance()->getRunningScene()->addChild(cta);
+    Director::getInstance()->getRunningScene()->addChild(cta, CTA_Z_ORDER);
 }
 
 void DynamicNodeHandler::onAsyncUnzipComplete(bool success, const std::string& zipPath, const std::string& dirpath)

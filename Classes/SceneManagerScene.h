@@ -33,6 +33,8 @@ private:
     
     cocos2d::Vec2 _closeButtonAnchor;
     
+    void returnToPrevOrientation();
+    
     void forceToPortrait();
     void forceToLandscape();
     void acceptAnyOrientation();
