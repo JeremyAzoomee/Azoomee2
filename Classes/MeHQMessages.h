@@ -28,6 +28,8 @@ private:
     
     void createMessageList();
     
+    void buildEmptyCarousel();
+    
 protected:
     virtual void onSizeChanged() override;
     

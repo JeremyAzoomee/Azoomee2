@@ -29,6 +29,8 @@ private:
     bool isStarterFileExists(const std::string &gameId);
     std::string getStartFileFromJson(const std::string &gameId);
     
+    void buildEmptyCarousel();
+    
 protected:
     virtual void onSizeChanged() override;
     
