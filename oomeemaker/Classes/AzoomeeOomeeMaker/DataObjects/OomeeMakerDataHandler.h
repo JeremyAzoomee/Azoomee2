@@ -32,6 +32,7 @@ private:
     void parseOomeeData();
     void parseCategoryData();
     void parseOomeeItemData();
+    void parseOomeeColourData();
     
     std::vector<std::string> getConfigFilesForType(const std::string& listType) const;
     

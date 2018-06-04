@@ -7,6 +7,7 @@
 
 #include "OomeeItemList.h"
 #include "OomeeItemButton.h"
+#include "../DataObjects/OomeeMakerDataStorage.h"
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/UI/CCSpriteWithHue.h>
 
@@ -67,9 +68,9 @@ void OomeeItemList::setItems(const std::vector<OomeeItemRef>& itemList)
 void OomeeItemList::SetColourItems()
 {
     removeAllItems();
-    
+    auto colours = OomeeMakerDataStorage::getInstance()->getColourList();
     int i = 0;
-    while(i < kNumColours)
+    while(i < colours.size())
     {
         ui::Layout* itemRow = ui::Layout::create();
         itemRow->setLayoutType(ui::Layout::Type::ABSOLUTE);
@@ -77,8 +78,9 @@ void OomeeItemList::SetColourItems()
         
         for(int column = 0; column < _columns; column++)
         {
-            if(i < kNumColours)
+            if(i < colours.size())
             {
+                /*
                 ui::Button* colourButton = ui::Button::create();
                 colourButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
                 colourButton->ignoreContentAdaptWithSize(false);
@@ -99,6 +101,23 @@ void OomeeItemList::SetColourItems()
                 visibleSprite->setScale(colourButton->getContentSize().width / visibleSprite->getContentSize().width);
                 visibleSprite->setHue(2 * M_PI * ((float)i/kNumColours));
                 colourButton->addChild(visibleSprite);
+                itemRow->setContentSize(Size(this->getContentSize().width * ((column + 1)/_columns), MAX(colourButton->getContentSize().height, itemRow->getContentSize().height)));
+                itemRow->addChild(colourButton);
+                 */
+                ui::Button* colourButton = ui::Button::create("res/oomeeMaker/colour.png");
+                colourButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+                colourButton->ignoreContentAdaptWithSize(false);
+                colourButton->setContentSize(Size(this->getContentSize().width * 0.3f, this->getContentSize().width * 0.3f));
+                colourButton->setNormalizedPosition(Vec2((column + 0.5) / _columns, 0.5));
+                colourButton->addTouchEventListener([this, i, colours](Ref* pSender, ui::Widget::TouchEventType eType){
+                    if(eType == ui::Widget::TouchEventType::ENDED)
+                    {
+                        if(_colourSelectedCallback)
+                        {
+                            _colourSelectedCallback(colours.at(i));
+                        }
+                    }
+                });
                 itemRow->setContentSize(Size(this->getContentSize().width * ((column + 1)/_columns), MAX(colourButton->getContentSize().height, itemRow->getContentSize().height)));
                 itemRow->addChild(colourButton);
             }

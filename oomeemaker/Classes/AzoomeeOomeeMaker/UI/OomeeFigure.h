@@ -11,6 +11,9 @@
 #include "../AzoomeeOomeeMaker.h"
 #include "../DataObjects/Oomee.h"
 #include "../DataObjects/OomeeItem.h"
+#include "../DataObjects/OomeeColour.h"
+#include "OomeeBody.h"
+#include "OomeeAccessory.h"
 #include <AzoomeeCommon/UI/CCSpriteWithHue.h>
 #include <cocos/cocos2d.h>
 
@@ -24,9 +27,11 @@ private:
     
     bool _isEditable = true;
     OomeeRef _oomeeData = nullptr;
-    SpriteWithHue* _baseSprite = nullptr;
-    std::map<std::string, SpriteWithHue*> _accessorySprites;
-    std::map<std::string, OomeeItemRef> _accessoryData;
+    OomeeColourRef _colour = nullptr;
+    OomeeBody* _baseSprite = nullptr;
+    std::map<std::string, OomeeAccessory*> _accessories;
+    //std::map<std::string, SpriteWithHue*> _accessorySprites;
+    //std::map<std::string, OomeeItemRef> _accessoryData;
     cocos2d::EventListenerTouchOneByOne* _touchListener = nullptr;
     float _hue = 0;
     
@@ -50,6 +55,9 @@ public:
     
     cocos2d::Vec2 getWorldPositionForAnchorPoint(const std::string& anchorPoint);
     cocos2d::Vec2 getLocalPositionForAnchorPoint(const std::string& anchorPoint);
+    
+    void setColour(const OomeeColourRef& colour);
+    OomeeColourRef getColour() const;
     
     float getHue() const;
     void setHue(float hue);

@@ -1,0 +1,73 @@
+{
+	"items":
+[
+	{
+		"id": "armLeftTest",
+		"targetAnchor": "armLeft",
+		"offset": [-5.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "test",
+		"iconFilename": "assets/Test/1_Oomee_Arm_Left_Solid.png",
+		"assetSet": {
+			"base": "assets/Test/1_Oomee_Arm_Left_Solid.png",
+			"gradient": "assets/Test/1_Oomee_Arm_Left_Gradient.png"
+		},
+		"useColourHue": true
+	},
+	{
+		"id": "armRightTest",
+		"targetAnchor": "armRight",
+		"offset": [5.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "test",
+		"iconFilename": "assets/Test/1_Oomee_Arm_Right_Solid.png",
+		"assetSet": {
+			"base": "assets/Test/1_Oomee_Arm_Right_Solid.png",
+			"gradient": "assets/Test/1_Oomee_Arm_Right_Gradient.png"
+		},
+		"useColourHue": true
+	},
+	{
+		"id": "earsTest",
+		"targetAnchor": "ears",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "test",
+		"iconFilename": "assets/Test/1_Oomee_Ear_Solid.png",
+		"assetSet": {
+			"base": "assets/Test/1_Oomee_Ear_Solid.png",
+			"gradient": "assets/Test/1_Oomee_Ear_Gradient.png",
+			"shadow": "assets/Test/1_Oomee_Ear_Shadow.png"
+		},
+		"useColourHue": true
+	},
+	{
+		"id": "faceTest",
+		"targetAnchor": "face",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 4,
+		"categoryId": "test",
+		"iconFilename": "assets/Test/1_Eyes_Brown.png",
+		"assetSet": {
+			"base": "assets/Test/1_Eyes_Brown.png"
+		},
+		"useColourHue": false
+	}
+]
+}

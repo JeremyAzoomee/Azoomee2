@@ -12,13 +12,15 @@
 #include "../DataObjects/OomeeItem.h"
 #include <AzoomeeCommon/UI/CCSpriteWithHue.h>
 #include "OomeeFigure.h"
+#include "OomeeAccessory.h"
 
 NS_AZOOMEE_OM_BEGIN
 
 class DragAndDropController
 {
 private:
-    SpriteWithHue* _itemSprite = nullptr;
+    //SpriteWithHue* _itemSprite = nullptr;
+    OomeeAccessory* _itemSprite = nullptr;
     OomeeItemRef _itemData = nullptr;
     cocos2d::EventListenerTouchOneByOne* _touchListener = nullptr;
     OomeeFigure* _oomeeFigure = nullptr;

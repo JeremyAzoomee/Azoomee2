@@ -107,13 +107,15 @@ void DragAndDropController::setItemData(const OomeeItemRef& data)
     {
         _itemSprite->removeFromParent();
     }
-    _itemSprite = SpriteWithHue::create(OomeeMakerDataHandler::getInstance()->getAssetDir() + _itemData->getAssetName());
+    _itemSprite = OomeeAccessory::create();//SpriteWithHue::create(OomeeMakerDataHandler::getInstance()->getAssetDir() + _itemData->getAssetName());
+    _itemSprite->setItemData(_itemData);
+    _itemSprite->setColourData(_oomeeFigure->getColour());
     _itemSprite->setScale(_itemData->getDragScale());
     _itemSprite->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    if(data->isUsingColourHue())
-    {
-        _itemSprite->setHue(_oomeeFigure->getHue());
-    }
+    //if(data->isUsingColourHue())
+    //{
+    //    _itemSprite->setHue(_oomeeFigure->getHue());
+    //}
     _listenerTargetNode->addChild(_itemSprite);
     _anchorPos = _oomeeFigure->getWorldPositionForAnchorPoint(_itemData->getTargetAnchor());
     

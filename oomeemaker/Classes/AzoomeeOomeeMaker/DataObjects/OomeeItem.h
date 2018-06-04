@@ -29,7 +29,8 @@ private:
     float _targetScale;
     int _zOrder;
     std::string _categoryId;
-    std::string _assetFilename;
+    std::map<std::string, std::string> _assetSet;
+    std::string _iconFilename;
     bool _useColourHue;
     
     
@@ -58,8 +59,10 @@ public:
     int getZOrder() const;
     void setCategoryId(const std::string& categoryId);
     std::string getCategoryId() const;
-    void setAssetFilename(const std::string& assetName);
-    std::string getAssetName() const;
+    void setAssetSet(const std::map<std::string, std::string>& assetSet);
+    std::map<std::string, std::string> getAssetSet() const;
+    void setIconFilename(const std::string& iconFilename);
+    std::string getIconFilename() const;
     void setUseColourHue(bool useColourHue);
     bool isUsingColourHue() const;
     

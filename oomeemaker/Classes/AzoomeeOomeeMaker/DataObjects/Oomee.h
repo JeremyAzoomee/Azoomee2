@@ -26,7 +26,7 @@ private:
     cocos2d::Vec2 _position;
     float _scale;
     float _sizeMultiplier;
-    std::string _assetName;
+    std::map<std::string, std::string> _assetSet;
     
 public:
     static OomeeRef create();
@@ -47,8 +47,8 @@ public:
     float getScale() const;
     void setSizeMultiplier(float sizeMultiplier);
     float getSizeMultiplier() const;
-    void setAssetName(const std::string& assetName);
-    std::string getAssetName() const;
+    void setAssetSet(const std::map<std::string, std::string> assetSet);
+    std::map<std::string, std::string> getAssetSet() const;
     
 };
 

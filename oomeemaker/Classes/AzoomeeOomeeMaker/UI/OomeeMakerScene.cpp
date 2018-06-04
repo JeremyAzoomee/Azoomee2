@@ -19,7 +19,7 @@ using namespace cocos2d;
 
 NS_AZOOMEE_OM_BEGIN
 
-const std::string OomeeMakerScene::kDefaultOomeeId = "oomee01";
+const std::string OomeeMakerScene::kDefaultOomeeId = "oomeeNew";
 const std::string OomeeMakerScene::kColourCategoryId = "colours";
 
 // on "init" you need to initialize your instance
@@ -51,6 +51,7 @@ void OomeeMakerScene::onEnter()
     
     _oomee = OomeeFigure::create();
     _oomee->setOomeeData(oomeeData);
+    _oomee->setColour(OomeeMakerDataStorage::getInstance()->getColourForKey("yellow"));
     _oomee->setContentSize(_contentLayer->getContentSize());
     _oomee->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     _oomee->setEditable(true);
@@ -85,8 +86,11 @@ void OomeeMakerScene::onEnter()
     _itemList->setItemSelectedCallback([this](const OomeeItemRef& data) {
         this->addAccessoryToOomee(data);
     });
-    _itemList->setColourSelectedCallback([this](float hue){
-        _oomee->setHue(hue);
+    //_itemList->setColourSelectedCallback([this](float hue){
+    //    _oomee->setHue(hue);
+    //});
+    _itemList->setColourSelectedCallback([this](const OomeeColourRef& colour){
+        _oomee->setColour(colour);
     });
     _itemList->runAction(Sequence::create(DelayTime::create(0.5),MoveBy::create(1.5, Vec2(-_itemList->getContentSize().width, 0)), NULL));
     categories->setSelectedButton(categoryData.at(0));

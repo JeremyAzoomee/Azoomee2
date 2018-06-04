@@ -117,6 +117,28 @@ void OomeeMakerDataHandler::parseOomeeItemData()
     }
 }
 
+void OomeeMakerDataHandler::parseOomeeColourData()
+{
+    const std::vector<std::string>& colourConfigs = getConfigFilesForType("colourConfigs");
+    for(const std::string& filename : colourConfigs)
+    {
+        rapidjson::Document itemConfig;
+        itemConfig.Parse(cocos2d::FileUtils::getInstance()->getStringFromFile(getAssetDir() + filename).c_str());
+        if(!itemConfig.HasParseError())
+        {
+            if(itemConfig.HasMember("items") && itemConfig["items"].IsArray())
+            {
+                for (int i = 0; i < itemConfig["items"].Size(); i++)
+                {
+                    const OomeeColourRef& item = OomeeColour::createWithData(itemConfig["items"][i]);
+                    _dataStorage->addColour(item);
+                }
+            }
+            
+        }
+    }
+}
+
 std::vector<std::string> OomeeMakerDataHandler::getConfigFilesForType(const std::string& listType) const
 {
     rapidjson::Document configFilesList;
@@ -202,6 +224,7 @@ void OomeeMakerDataHandler::onAsyncUnzipComplete(bool success, const std::string
     parseOomeeData();
     parseCategoryData();
     parseOomeeItemData();
+    parseOomeeColourData();
     ModalMessages::getInstance()->stopLoading();
 }
 

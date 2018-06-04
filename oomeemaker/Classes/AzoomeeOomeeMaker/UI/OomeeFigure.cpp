@@ -15,7 +15,7 @@ using namespace cocos2d;
 
 NS_AZOOMEE_OM_BEGIN
 
-const std::vector<std::string> OomeeFigure::kDefaultAccessories = {"armLeft09", "armRight09", "face12"};
+const std::vector<std::string> OomeeFigure::kDefaultAccessories = {"armLeftTest", "armRightTest", "faceTest", "earsTest"};
 
 bool OomeeFigure::init()
 {
@@ -28,10 +28,12 @@ bool OomeeFigure::init()
     _touchListener->onTouchBegan = [&](Touch* touch, Event* event)
     {
         log("touch Began OF");
-        SpriteWithHue* targetSprite = nullptr;
+        //SpriteWithHue* targetSprite = nullptr;
+        OomeeAccessory* targetSprite = nullptr;
         std::string targetId = "";
         const std::vector<std::string>& lockedAnchors = _oomeeData->getLockedAnchors();
-        for(auto it = _accessorySprites.begin(); it != _accessorySprites.end(); ++it)
+        //for(auto it = _accessorySprites.begin(); it != _accessorySprites.end(); ++it)
+        for(auto it = _accessories.begin(); it != _accessories.end(); ++it)
         {
             if(std::find(lockedAnchors.begin(), lockedAnchors.end(), it->first) != std::end(lockedAnchors))
             {
@@ -40,7 +42,7 @@ bool OomeeFigure::init()
             const Point& locationInNode = it->second->convertToNodeSpace(touch->getLocation());
             const Size& s = it->second->getBoundingBox().size;//getContentSize();
             const Rect& rect = Rect(0,0,s.width, s.height);
-            if(rect.containsPoint(locationInNode) && touchOnSpritePixelPerfect(touch, it->second))
+            if(rect.containsPoint(locationInNode) && touchOnSpritePixelPerfect(touch, it->second->getBaseSprite()))
             {
                 if(!targetSprite)
                 {
@@ -60,7 +62,8 @@ bool OomeeFigure::init()
         
         if(targetSprite)
         {
-            DragAndDropController::getInstance()->setItemData(_accessoryData.at(targetId));
+            //DragAndDropController::getInstance()->setItemData(_accessoryData.at(targetId));
+            DragAndDropController::getInstance()->setItemData(targetSprite->getItemData());
             DragAndDropController::getInstance()->setRemoveItemFromOomee();
             return true;
         }
@@ -146,13 +149,19 @@ void OomeeFigure::setOomeeData(const OomeeRef& oomeeData)
         _baseSprite->removeFromParent();
     }
     
-    _accessoryData.clear();
-    _accessorySprites.clear();
-    
-    _baseSprite = SpriteWithHue::create(OomeeMakerDataHandler::getInstance()->getAssetDir() + _oomeeData->getAssetName());
+    //_accessoryData.clear();
+    //_accessorySprites.clear();
+    _accessories.clear();
+    _baseSprite = OomeeBody::create();
+    _baseSprite->setOomeeData(oomeeData);
+    if(_colour)
+    {
+        _baseSprite->setColourData(_colour);
+    }
+    //_baseSprite = SpriteWithHue::create(OomeeMakerDataHandler::getInstance()->getAssetDir() + _oomeeData->getAssetName());
     _baseSprite->setNormalizedPosition(_oomeeData->getPosition());
     _baseSprite->setScale(_oomeeData->getScale());
-    _baseSprite->setHue(_hue);
+    //_baseSprite->setHue(_hue);
     this->addChild(_baseSprite);
 }
 
@@ -164,9 +173,9 @@ OomeeRef OomeeFigure::getOomeeData() const
 std::vector<std::string> OomeeFigure::getAccessoryIds() const
 {
     std::vector<std::string> ids;
-    for(auto accessory : _accessoryData)
+    for(auto accessory : _accessories)
     {
-        ids.push_back(accessory.second->getId());
+        ids.push_back(accessory.second->getItemId());
     }
     return ids;
 }
@@ -176,7 +185,7 @@ void OomeeFigure::addAccessory(const OomeeItemRef& oomeeItem)
     if(_baseSprite && (_oomeeData->getAnchorPoints().find(oomeeItem->getTargetAnchor()) != _oomeeData->getAnchorPoints().end()) && oomeeItem )
     {
         removeAccessory(oomeeItem->getTargetAnchor());
-        _accessoryData[oomeeItem->getTargetAnchor()] = oomeeItem;
+        /*_accessoryData[oomeeItem->getTargetAnchor()] = oomeeItem;
         SpriteWithHue* item = SpriteWithHue::create(OomeeMakerDataHandler::getInstance()->getAssetDir() + oomeeItem->getAssetName());
         const Size& baseSpriteSize = _baseSprite->getContentSize();
         Vec2 anchorPoint = _oomeeData->getAnchorPoints().at(oomeeItem->getTargetAnchor()); // dont const& - unstable on android, caused many tears
@@ -188,11 +197,27 @@ void OomeeFigure::addAccessory(const OomeeItemRef& oomeeItem)
         }
         _baseSprite->addChild(item, oomeeItem->getZOrder());
         _accessorySprites[oomeeItem->getTargetAnchor()] = item;
+         */
+        OomeeAccessory* accessory = OomeeAccessory::create();
+        accessory->setItemData(oomeeItem);
+        accessory->setColourData(_colour);
+        const Size& baseSpriteSize = _baseSprite->getContentSize();
+        Vec2 anchorPoint = _oomeeData->getAnchorPoints().at(oomeeItem->getTargetAnchor()); // dont const& - unstable on android, caused many tears
+        accessory->setPosition(Vec2(baseSpriteSize.width * anchorPoint.x, baseSpriteSize.height * anchorPoint.y) + oomeeItem->getOffset());
+        accessory->setScale(oomeeItem->getTargetScale());
+        _baseSprite->addChild(accessory, oomeeItem->getZOrder());
+        _accessories[oomeeItem->getTargetAnchor()] = accessory;
     }
 }
 
 void OomeeFigure::removeAccessory(const std::string anchorPoint)
 {
+    if(_accessories.find(anchorPoint) != _accessories.end())
+    {
+        _accessories.at(anchorPoint)->removeFromParent();
+        _accessories.erase(_accessories.find(anchorPoint));
+    }
+    /*
     if(_accessorySprites.find(anchorPoint) != _accessorySprites.end())
     {
         _accessorySprites.at(anchorPoint)->removeFromParent();
@@ -203,6 +228,7 @@ void OomeeFigure::removeAccessory(const std::string anchorPoint)
     {
         _accessoryData.erase(_accessoryData.find(anchorPoint));
     }
+     */
 }
 
 void OomeeFigure::setEditable(bool isEditable)
@@ -236,6 +262,26 @@ void OomeeFigure::saveSnapshotImage(const std::string &filepath)
     Director::getInstance()->getRenderer()->render();
 }
 
+OomeeColourRef OomeeFigure::getColour() const
+{
+    return _colour;
+}
+
+void OomeeFigure::setColour(const OomeeColourRef &colour)
+{
+    _colour = colour;
+    if(_baseSprite)
+    {
+        _baseSprite->setColourData(_colour);
+    }
+    
+    for(auto accessory : _accessories)
+    {
+        accessory.second->setColourData(_colour);
+    }
+    
+}
+
 float OomeeFigure::getHue() const
 {
     return _hue;
@@ -244,7 +290,7 @@ float OomeeFigure::getHue() const
 void OomeeFigure::setHue(float hue)
 {
     _hue = hue;
-    if(_baseSprite)
+    /*if(_baseSprite)
     {
         _baseSprite->setHue(_hue);
     }
@@ -255,7 +301,7 @@ void OomeeFigure::setHue(float hue)
         {
             accessory.second->setHue(_hue);
         }
-    }
+    }*/
 }
 
 void OomeeFigure::addDefaultAccessories()
