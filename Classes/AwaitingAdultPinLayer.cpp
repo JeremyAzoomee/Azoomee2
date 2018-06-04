@@ -7,6 +7,7 @@
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 #include <AzoomeeCommon/Utils/BiometricAuthenticationHandler.h>
+#include "NavigationControl.h"
 
 using namespace cocos2d;
 
@@ -27,6 +28,7 @@ bool AwaitingAdultPinLayer::init()
     createAndFadeInLayer();
     addUIObjects();
     
+    setKeypadEnabled(true);
     
     return true;
 }
@@ -164,6 +166,8 @@ void AwaitingAdultPinLayer::onExit()
 {
     Director::getInstance()->getEventDispatcher()->removeEventListener(_biometricValidationSuccessListener);
     Director::getInstance()->getEventDispatcher()->removeEventListener(_biometricValidationFailureListener);
+
+    setKeypadEnabled(false);
     
     Node::onExit();
 }
@@ -273,6 +277,41 @@ void AwaitingAdultPinLayer::secondCheckForPin()
 void AwaitingAdultPinLayer::setPinIsForPayment(bool pinIsForPayment)
 {
     _pinIsForPayment = pinIsForPayment;
+}
+
+#pragma mark - Keypad
+
+void AwaitingAdultPinLayer::setKeypadEnabled(bool enabled)
+{
+    auto dispatcher = Director::getInstance()->getEventDispatcher();
+    
+    if(_keyboardListener != nullptr)
+    {
+        dispatcher->removeEventListener(_keyboardListener);
+    }
+    
+    if(enabled)
+    {
+        auto listener = EventListenerKeyboard::create();
+        listener->onKeyPressed = CC_CALLBACK_2(AwaitingAdultPinLayer::onKeyPressed, this);
+        listener->onKeyReleased = CC_CALLBACK_2(AwaitingAdultPinLayer::onKeyReleased, this);
+        
+        dispatcher->addEventListenerWithFixedPriority(listener, -1);
+        _keyboardListener = listener;
+    }
+}
+
+void AwaitingAdultPinLayer::onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
+{
+    ;
+}
+
+void AwaitingAdultPinLayer::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
+{
+    if(keyCode == cocos2d::EventKeyboard::KeyCode::KEY_BACK)
+    {
+        buttonPressed(cancelButton);
+    }
 }
 
 NS_AZOOMEE_END

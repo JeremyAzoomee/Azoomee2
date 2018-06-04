@@ -35,6 +35,11 @@ private:
     
     ElectricDreamsButton *acceptButton = nullptr;
     ElectricDreamsButton *cancelButton = nullptr;
+
+    cocos2d::EventListener* _keyboardListener = nullptr;
+    void setKeypadEnabled(bool enabled);
+    void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event) override;
+    void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event) override;
     
     void createAndFadeInLayer();
     void addListenerToBackgroundLayer();

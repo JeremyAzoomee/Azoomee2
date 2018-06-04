@@ -1,3 +1,10 @@
 #!/bin/bash
 
-cocos run -p android --android-studio --no-uninstall
+# Install and run only
+if [[ $1 == "-r" ]]; then
+    adb install -r "bin/debug/android/app-debug.apk"
+    adb shell am start -n "com.tinizine.azoomee/org.cocos2dx.cpp.AppActivity"
+else
+    # Build, install and run
+    cocos run -p android --android-studio --no-uninstall
+fi

@@ -6,6 +6,7 @@
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "LoginLogicHandler.h"
 #include "FlowDataSingleton.h"
+#include "NavigationControl.h"
 
 using namespace cocos2d;
 
@@ -140,6 +141,11 @@ void OfflineText::addExitOfflineModeButtonToScreen()
     enterButton->setCascadeOpacityEnabled(true);
     enterButton->setMixPanelButtonName("OfflineLetsGoButton");
     this->addChild(enterButton);
+
+    NavigationControl::getInstance()->addNavigation(enterButton, [=](cocos2d::Node* target)
+    {
+        buttonPressed(enterButton);
+    });
 }
 
 void OfflineText::buttonPressed(ElectricDreamsButton *button)

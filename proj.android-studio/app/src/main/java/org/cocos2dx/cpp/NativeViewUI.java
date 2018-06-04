@@ -31,12 +31,13 @@ public class NativeViewUI extends Activity {
     public static Activity activity = null;
     public WebView uiWebView;
     public static WebView uiWebViewStatic;
-    public static String userid;
+    public static String _userid;
     public static ImageButton imageButtonStatic;
     private static final int _portrait = 1;
     private static final int _horizonal = 0;
     private boolean isWebViewReady = false;
     private boolean isActivityExitRequested = false;
+    private String _contentURL = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -64,8 +65,9 @@ public class NativeViewUI extends Activity {
             activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
 
-        userid = extras.getString("userid");
-        Log.d("userid", userid);
+        _userid = extras.getString("userid");
+        _contentURL = extras.getString("url");
+        Log.d("userid", _userid);
 
         if(uiWebView != null)
         {
@@ -217,22 +219,9 @@ public class NativeViewUI extends Activity {
         }, 1500);
     }
 
-    private  boolean loadingGame()
+    private boolean loadingGame()
     {
-        Bundle extras = getIntent().getExtras();
-        String myUrl = "about:blank";
-
-        if(extras != null)
-        {
-            myUrl = extras.getString("url");
-
-            if(myUrl.toLowerCase().contains("html"))
-            {
-                return true;
-            }
-        }
-
-        return false;
+        return _contentURL.toLowerCase().contains("html");
     }
 
     public void onBackPressed()
@@ -260,33 +249,23 @@ public class NativeViewUI extends Activity {
 
     protected void webviewAdditionalSettings()
     {
-
-        Bundle extras = getIntent().getExtras();
-        String myUrl = "about:blank";
-
-        if(extras != null)
-        {
-            myUrl = extras.getString("url");
-            userid = extras.getString("userid");
-        }
-
-        Log.d("urlToBeLoaded", myUrl);
+        Log.d("urlToBeLoaded", _contentURL);
         final String urlToBeLoaded;
 
-        if(myUrl.endsWith("html"))
+        if(_contentURL.endsWith("html"))
         {
-            if(myUrl.startsWith("http")) //content is game loaded remotely
+            if(_contentURL.startsWith("http")) //content is game loaded remotely
             {
-                urlToBeLoaded = JNICalls.JNIGetRemoteWebGameAPIPath() + "index_android.html?contentUrl=" + myUrl;
+                urlToBeLoaded = JNICalls.JNIGetRemoteWebGameAPIPath() + "index_android.html?contentUrl=" + _contentURL;
             }
             else //game is loaded locally
             {
-                urlToBeLoaded = "file:///android_asset/res/webcommApi/index_android.html?contentUrl=" + myUrl;
+                urlToBeLoaded = "file:///android_asset/res/webcommApi/index_android.html?contentUrl=" + _contentURL;
             }
         }
         else
         {
-            urlToBeLoaded = "file:///android_asset/res/jwplayer/index_android.html?contentUrl=" + myUrl;
+            urlToBeLoaded = "file:///android_asset/res/jwplayer/index_android.html?contentUrl=" + _contentURL;
         }
 
         CookieManager uiWebviewCookieManager = CookieManager.getInstance();
@@ -386,21 +365,33 @@ public class NativeViewUI extends Activity {
     /// x and y are normalized, in 0-1 range.
     private void performTouchEventAt( final float x, final float y )
     {
+        performTouchEventAt( x, y, 0 );
+    }
+
+    private void performTouchEventAt( final float x, final float y, final int touchDownAfterMs )
+    {
         // Convert to screen co-ordinates
         final float width = uiWebView.getWidth();
         final float height = uiWebView.getHeight();
         final float xPos = width * x;
         final float yPos = height * y;
-        final int touchUpAfterMs = 100;
+        final int touchUpAfterMs = 100 + touchDownAfterMs;
 
         // Touch down
-        dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
-                                              MotionEvent.ACTION_DOWN, xPos, yPos, 0));
+        final Handler handlerDown = new Handler();
+        handlerDown.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Log.d("AzoomeeWebView", "performTouchEventAt: DOWN " + x + ", " + y + ", abs: " + xPos + ", " + yPos);
+                dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
+                                                      MotionEvent.ACTION_DOWN, xPos, yPos, 0));
+            }
+        }, touchDownAfterMs);
 
         // Touch up
         // TODO: Touch up should actually be called from onKeyUp instead of automatically
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
+        final Handler handlerUp = new Handler();
+        handlerUp.postDelayed(new Runnable() {
             @Override
             public void run() {
                 dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
@@ -408,6 +399,52 @@ public class NativeViewUI extends Activity {
             }
         }, touchUpAfterMs);
     }
+
+    /// Perform a key event.
+    /// x and y are normalized, in 0-1 range.
+    private void performKeyEventAt( final int keyCode )
+    {
+        performKeyEventAt( keyCode, 0 );
+    }
+
+    private void performKeyEventAt( final int keyCode, final int keyDownAfterMs )
+    {
+        final int keyUpAfterMs = 100 + keyDownAfterMs;
+
+        // Key down
+        final Handler handlerDown = new Handler();
+        handlerDown.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Log.d("AzoomeeWebView", "performKeyEventAt: DOWN " + keyCode);
+                dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, keyCode));
+            }
+        }, keyDownAfterMs);
+
+        // Key up
+        // TODO: Key up should actually be called from onKeyUp instead of automatically
+        final Handler handlerUp = new Handler();
+        handlerUp.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, keyCode));
+            }
+        }, keyUpAfterMs);
+    }
+
+    private static String kGameIDOomeeCake = "e320831d-4e10-489f-a6f3-7f73e156cdf2";
+    private static String kGameIDPoloInTheClouds = "989d8152aaea4383b849bff53f39da65";
+    private static String kGameIDThePirateKid = "2f149233-b31d-41ef-87b1-5d34d132d645";
+    private static String kGameIDExtremeKitten = "39580544-d61b-48ed-a373-0d777c8afe47";
+    private static String kGameIDRacingMonsterTrucks = "1fe791cf-b744-4a7a-8e7d-677d30d16a25";
+    private static String kGameIDGrandPrixHero = "8eef2d3b-a3c7-459b-9f8a-89e54eb8b312";
+    private static String kGameIDIndiaraSkullGold = "e31bee733df24ba78296d1169e666c22";
+    private static String kGameIDHighwayRiderExtreme = "11fcb2a17b5c429a952454aec288101a";
+    private static String kGameIDNimbleBoxes = "984050c2-55f1-4029-9d54-d84169ac25ac";
+    private static String kGameIDOomeeRush = "7e02bdf5-0f5e-4125-8fd3-a01da19fcd20";
+    private static String kGameIDYetiSensation = "5c05494a-1d3e-49e4-98fe-fea1560e05f7";
+    private static String kGameIDPrincessGoldbladeDangerousWater = "11196265ad8346789f3a91354537c325";
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)
@@ -427,8 +464,43 @@ public class NativeViewUI extends Activity {
                 Log.d("AzoomeeWebView", "KEYCODE_DPAD_CENTER");
                 handled = true;
 
-                // Touch just below centre
-                performTouchEventAt( 0.5f, 0.75f );
+                if(_contentURL.contains(kGameIDPoloInTheClouds))
+                {
+                    Log.d("AzoomeeWebView", "GameIDPoloInTheClouds");
+                    performTouchEventAt( 0.5f, 0.5f );
+                }
+                else if(_contentURL.contains(kGameIDGrandPrixHero))
+                {
+                    // performTouchEventAt( 0.5f, 0.5f ); - toggle sound
+                    performTouchEventAt( 0.8f, 0.8f );
+                    performTouchEventAt( 0.5f, 0.35f, 150 );
+                }
+                else if(_contentURL.contains(kGameIDRacingMonsterTrucks))
+                {
+                    performTouchEventAt( 0.5f, 0.6f );
+                }
+                else if(_contentURL.contains(kGameIDPrincessGoldbladeDangerousWater))
+                {
+                    // performKeyEventAt(KeyEvent.KEYCODE_C);
+                    performTouchEventAt( 0.25f, 0.75f );
+                    performTouchEventAt( 0.8f, 0.8f, 150 );
+                }
+                // else if(_contentURL.contains(kGameIDThePirateKid))
+                // {
+                //     Log.d("AzoomeeWebView", "GameIDThePirateKid");
+                //     performTouchEventAt( 0.9f, 0.8f );
+                // }
+                // else if(_contentURL.contains(kGameIDExtremeKitten))
+                // {
+                //     Log.d("AzoomeeWebView", "GameIDExtremeKitten");
+                //     performTouchEventAt( 0.5f, 0.75f );
+                //     performTouchEventAt( 0.9f, 0.8f );
+                // }
+                else
+                {
+                    // Touch just below centre
+                    performTouchEventAt( 0.5f, 0.75f );
+                }
                 break;
             }
             case KeyEvent.KEYCODE_BACK:
@@ -444,8 +516,29 @@ public class NativeViewUI extends Activity {
                 Log.d("AzoomeeWebView", "KEYCODE_DPAD_LEFT");
                 handled = true;
 
-                // Touch bottom left of screen
-                performTouchEventAt( touchMarginX, 1.0f - touchMarginY );
+                if(_contentURL.contains(kGameIDRacingMonsterTrucks))
+                {
+                    // Back
+                    performTouchEventAt( 0.1f, 1.0f - touchMarginY );
+                }
+                else if(_contentURL.contains(kGameIDOomeeCake) || _contentURL.contains(kGameIDOomeeRush))
+                {
+                    performTouchEventAt( 0.45f, 0.6f );
+                }
+                else if(_contentURL.contains(kGameIDYetiSensation))
+                {
+                    performTouchEventAt( 0.42f, 0.75f );
+                }
+                else if(_contentURL.contains(kGameIDPrincessGoldbladeDangerousWater))
+                {
+                    performTouchEventAt( 0.1f, 0.75f );
+                    // performKeyEventAt(37);
+                }
+                else
+                {
+                    // Touch bottom left of screen
+                    performTouchEventAt( touchMarginX, 1.0f - touchMarginY );
+                }
                 break;
             }
             case KeyEvent.KEYCODE_DPAD_RIGHT:
@@ -453,8 +546,32 @@ public class NativeViewUI extends Activity {
                 Log.d("AzoomeeWebView", "KEYCODE_DPAD_RIGHT");
                 handled = true;
 
-                // Touch bottom right of screen
-                performTouchEventAt( 1.0f - touchMarginX, 1.0f - touchMarginY );
+                if(_contentURL.contains(kGameIDThePirateKid) || _contentURL.contains(kGameIDExtremeKitten))
+                {
+                    performTouchEventAt( 0.9f, 0.8f );
+                }
+                else if(_contentURL.contains(kGameIDRacingMonsterTrucks) || _contentURL.contains(kGameIDGrandPrixHero))
+                {
+                    performTouchEventAt( 0.8f, 0.8f );
+                }
+                else if(_contentURL.contains(kGameIDOomeeCake) || _contentURL.contains(kGameIDOomeeRush))
+                {
+                    performTouchEventAt( 0.55f, 0.6f );
+                }
+                else if(_contentURL.contains(kGameIDYetiSensation))
+                {
+                    performTouchEventAt( 0.55f, 0.75f );
+                }
+                else if(_contentURL.contains(kGameIDPrincessGoldbladeDangerousWater))
+                {
+                    performTouchEventAt( 0.4f, 0.75f );
+                    // performKeyEventAt(39);
+                }
+                else
+                {
+                    // Touch bottom right of screen
+                    performTouchEventAt( 1.0f - touchMarginX, 1.0f - touchMarginY );
+                }
                 break;
             }
             case KeyEvent.KEYCODE_DPAD_UP:
@@ -462,8 +579,39 @@ public class NativeViewUI extends Activity {
                 Log.d("AzoomeeWebView", "KEYCODE_DPAD_UP");
                 handled = true;
 
-                // Touch top centre of screen
-                performTouchEventAt( 0.5f, touchMarginY );
+                if(_contentURL.contains(kGameIDGrandPrixHero))
+                {
+                    // upgrade buttons - just click all at once
+                    performTouchEventAt( 0.9f, 0.366f );
+                    performTouchEventAt( 0.9f, 0.466f, 150 );
+                    performTouchEventAt( 0.9f, 0.566f, 300 );
+                    performTouchEventAt( 0.9f, 0.666f, 450 );
+
+                    // pause menu - resume
+                    performTouchEventAt( 0.5f, 0.35f, 600 );
+
+                    // 31 height | 30 height
+                    // 11 = 0.354 | 0.366
+                    // 14 = 0.451 | 0.466
+                    // 17 = 0.548 | 0.566
+                    // 20 = 0.645 | 0.666
+                    // 26.25 = 
+                }
+                else if(_contentURL.contains(kGameIDRacingMonsterTrucks))
+                {
+                    // Accelerator pedal
+                    performTouchEventAt( 0.8f, 0.5f );
+                }
+                else if(_contentURL.contains(kGameIDPrincessGoldbladeDangerousWater))
+                {
+                    performTouchEventAt( 0.5f, 0.2f );
+                    // performKeyEventAt(KeyEvent.KEYCODE_X);
+                }
+                else
+                {
+                    // Touch top centre of screen
+                    performTouchEventAt( 0.5f, touchMarginY );
+                }
                 break;
             }
             case KeyEvent.KEYCODE_DPAD_DOWN:
@@ -471,14 +619,26 @@ public class NativeViewUI extends Activity {
                 Log.d("AzoomeeWebView", "KEYCODE_DPAD_DOWN");
                 handled = true;
 
-                // Touch bottom centre of screen
-                performTouchEventAt( 0.5f, 1.0f - touchMarginY );
+                if(_contentURL.contains(kGameIDGrandPrixHero))
+                {
+                    // main menu - how to play
+                    performTouchEventAt( 0.5f, 0.8f );
+                    // pause menu - how to play
+                    performTouchEventAt( 0.5f, 0.66f, 150 );
+                }
+                else
+                {
+                    // Touch bottom centre of screen
+                    performTouchEventAt( 0.5f, 1.0f - touchMarginY );
+                }
                 break;
             }
             case KeyEvent.KEYCODE_MENU:
             {
                 Log.d("AzoomeeWebView", "KEYCODE_MENU");
                 handled = true;
+
+                Log.d("AzoomeeWebView", "Current URL: " + uiWebView.getUrl());
 
                 // Touch top right of screen
                 performTouchEventAt( 1.0f - touchMarginX, touchMarginY );

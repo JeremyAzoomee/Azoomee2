@@ -6,5 +6,5 @@
 
 adb kill-server
 adb start-server
-adb connect $1
+adb connect $1:5555
 adb devices
