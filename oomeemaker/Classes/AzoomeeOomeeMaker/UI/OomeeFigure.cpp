@@ -160,6 +160,7 @@ void OomeeFigure::setOomeeData(const OomeeRef& oomeeData)
     }
     //_baseSprite = SpriteWithHue::create(OomeeMakerDataHandler::getInstance()->getAssetDir() + _oomeeData->getAssetName());
     _baseSprite->setNormalizedPosition(_oomeeData->getPosition());
+    //_baseSprite->setPosition(Vec2(this->getContentSize().width * _oomeeData->getPosition().x, this->getContentSize().height * oomeeData->getPosition().y) - _baseSprite->getContentSize()/2);
     _baseSprite->setScale(_oomeeData->getScale());
     //_baseSprite->setHue(_hue);
     this->addChild(_baseSprite);

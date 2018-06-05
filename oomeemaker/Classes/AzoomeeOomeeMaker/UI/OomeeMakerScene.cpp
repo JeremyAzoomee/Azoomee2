@@ -50,9 +50,9 @@ void OomeeMakerScene::onEnter()
     const std::vector<ItemCategoryRef>& categoryData = OomeeMakerDataStorage::getInstance()->getItemCategoryList();
     
     _oomee = OomeeFigure::create();
+    _oomee->setContentSize(_contentLayer->getContentSize());
     _oomee->setOomeeData(oomeeData);
     _oomee->setColour(OomeeMakerDataStorage::getInstance()->getColourForKey("yellow"));
-    _oomee->setContentSize(_contentLayer->getContentSize());
     _oomee->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     _oomee->setEditable(true);
     if(FileUtils::getInstance()->isFileExist(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".oomee"))

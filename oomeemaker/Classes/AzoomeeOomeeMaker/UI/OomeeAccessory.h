@@ -15,9 +15,9 @@
 
 NS_AZOOMEE_OM_BEGIN
 
-class OomeeAccessory : public cocos2d::Layer
+class OomeeAccessory : public cocos2d::Node
 {
-    typedef cocos2d::Layer Super;
+    typedef cocos2d::Node Super;
 private:
     static const std::map<std::string,int> kLayerOrderMap;
     
