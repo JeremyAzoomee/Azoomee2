@@ -34,6 +34,8 @@ public:
     void setOomeeData(const OomeeRef& oomeeData);
     void setColourData(const OomeeColourRef& colourData);
     
+    int transformZOrder(int zOrder);
+    
     CREATE_FUNC(OomeeBody);
 };
 

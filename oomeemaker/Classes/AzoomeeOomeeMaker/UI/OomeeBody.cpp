@@ -16,8 +16,9 @@ const std::map<std::string, int> OomeeBody::kLayerOrderMap = {
     {"base", 0},
     {"gradient",1},
     {"shadow",2},
-    {"highlight",3},
-    {"face", 4}
+    {"shadowLight",3},
+    {"highlight",4},
+    {"face", 5}
 };
 
 bool OomeeBody::init()
@@ -84,6 +85,15 @@ void OomeeBody::setColourData(const OomeeColourRef& colourData)
         }
     }
     
+}
+
+int OomeeBody::transformZOrder(int zOrder)
+{
+    if(zOrder >= 0)
+    {
+        return zOrder + kLayerOrderMap.rbegin()->second;
+    }
+    return zOrder;
 }
 
 NS_AZOOMEE_OM_END

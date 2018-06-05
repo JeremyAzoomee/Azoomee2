@@ -107,7 +107,12 @@ bool OomeeFigure::initWithOomeeFigureData(const rapidjson::Document &data)
     
     const std::string& oomeeKey = getStringFromJson("oomee", data);
     
-    _hue = getFloatFromJson("colourHue", data);
+    const std::string& colourId = getStringFromJson("colour", data);
+    _colour = OomeeMakerDataStorage::getInstance()->getColourForKey(colourId);
+    if(!_colour)
+    {
+        return false;
+    }
     
     const OomeeRef& oomee = OomeeMakerDataStorage::getInstance()->getOomeeForKey(oomeeKey);
     if(oomee)
@@ -206,7 +211,7 @@ void OomeeFigure::addAccessory(const OomeeItemRef& oomeeItem)
         Vec2 anchorPoint = _oomeeData->getAnchorPoints().at(oomeeItem->getTargetAnchor()); // dont const& - unstable on android, caused many tears
         accessory->setPosition(Vec2(baseSpriteSize.width * anchorPoint.x, baseSpriteSize.height * anchorPoint.y) + oomeeItem->getOffset());
         accessory->setScale(oomeeItem->getTargetScale());
-        _baseSprite->addChild(accessory, oomeeItem->getZOrder());
+        _baseSprite->addChild(accessory, _baseSprite->transformZOrder(oomeeItem->getZOrder()));
         _accessories[oomeeItem->getTargetAnchor()] = accessory;
     }
 }

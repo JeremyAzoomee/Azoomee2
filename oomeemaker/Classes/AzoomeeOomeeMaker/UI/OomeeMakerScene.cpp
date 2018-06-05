@@ -172,7 +172,7 @@ void OomeeMakerScene::saveOomeeFiles()
             savedFileContent += ",";
         }
     }
-    savedFileContent += StringUtils::format("], \"colourHue\": %f }", _oomee->getHue());
+    savedFileContent += StringUtils::format("], \"colour\": %s }", _oomee->getColour()->getId().c_str());
     
     FileUtils::getInstance()->writeStringToFile(savedFileContent, OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".oomee");
     

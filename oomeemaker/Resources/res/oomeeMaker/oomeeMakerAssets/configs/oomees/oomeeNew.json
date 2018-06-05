@@ -2,13 +2,13 @@
 	"id": "oomeeNew",
 	"anchorPoints": {
 		"head": [0.5,0.85],
-		"ears": [0.5,0.85],
-		"face": [0.5,0.6],
-		"eyes": [0.5,0.65],
+		"ears": [0.5,0.80],
+		"face": [0.5,0.65],
+		"eyes": [0.5,0.70],
 		"neck": [0.5,0.3],
 		"body": [0.5,0.25],
-		"armLeft": [0.1,0.4],
-		"armRight": [0.9,0.4],
+		"armLeft": [0.2,0.4],
+		"armRight": [0.8,0.4],
 		"legs": [0.5,0.1]
 	},
 	"lockedAnchors": [

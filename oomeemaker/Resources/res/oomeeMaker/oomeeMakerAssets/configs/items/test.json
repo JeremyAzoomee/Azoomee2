@@ -49,7 +49,7 @@
 		"assetSet": {
 			"base": "assets/Test/1_Oomee_Ear_Solid.png",
 			"gradient": "assets/Test/1_Oomee_Ear_Gradient.png",
-			"shadow": "assets/Test/1_Oomee_Ear_Shadow.png"
+			"shadowLight": "assets/Test/1_Oomee_Ear_Shadow.png"
 		},
 		"useColourHue": true
 	},
