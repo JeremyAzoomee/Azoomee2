@@ -6,6 +6,7 @@
 #include "../Strings.h"
 #include "../Utils/SessionIdManager.h"
 #include "../Crashlytics/CrashlyticsConfig.h"
+#include "../JWTSigner/HMACSHA256/HMACSHA256.h"
 
 namespace Azoomee
 {
@@ -67,6 +68,13 @@ void AnalyticsSingleton::registerAnonymousIp(const std::string& anonymousIp)
     mixPanelRegisterSuperProperties("ip", anonymousIp);
 }
 
+void AnalyticsSingleton::registerIdentifier(const std::string &parentId)
+{
+    const std::string& parentIdHash = HMACSHA256::getInstance()->getHMACSHA256Hash(parentId, parentId);
+    mixPanelRegisterSuperProperties("parentID", parentIdHash);
+    mixPanelRegisterIdentity(parentIdHash,_analyticsProperties->getStoredGeneralProperties());
+}
+    
 void AnalyticsSingleton::registerNoOfChildren(int noOfChildren)
 {
     mixPanelRegisterSuperProperties("noOfChildren",cocos2d::StringUtils::format("%s%d",NUMBER_IDENTIFIER, noOfChildren));
