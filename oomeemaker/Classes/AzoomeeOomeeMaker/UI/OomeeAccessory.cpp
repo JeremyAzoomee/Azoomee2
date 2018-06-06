@@ -18,7 +18,8 @@ const std::map<std::string, int> OomeeAccessory::kLayerOrderMap = {
     {"shadow",2},
     {"shadowLight",3},
     {"highlight",4},
-    {"face", 5}
+    {"face", 5},
+    {"none", 6}
 };
 
 bool OomeeAccessory::init()

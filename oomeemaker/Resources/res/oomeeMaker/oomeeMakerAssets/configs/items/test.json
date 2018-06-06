@@ -7,14 +7,14 @@
 		"offset": [-5.0,0.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
-		"dragScale": 2.0,
+		"dragScale": 1.0,
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "test",
-		"iconFilename": "assets/Test/1_Oomee_Arm_Left_Solid.png",
+		"iconFilename": "assets/Test/2_Oomee_Arm_Left_Solid.png",
 		"assetSet": {
-			"base": "assets/Test/1_Oomee_Arm_Left_Solid.png",
-			"gradient": "assets/Test/1_Oomee_Arm_Left_Gradient.png"
+			"base": "assets/Test/2_Oomee_Arm_Left_Solid.png",
+			"gradient": "assets/Test/2_Oomee_Arm_Left_Gradient.png"
 		},
 		"useColourHue": true
 	},
@@ -24,14 +24,14 @@
 		"offset": [5.0,0.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
-		"dragScale": 2.0,
+		"dragScale": 1.0,
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "test",
-		"iconFilename": "assets/Test/1_Oomee_Arm_Right_Solid.png",
+		"iconFilename": "assets/Test/2_Oomee_Arm_Right_Solid.png",
 		"assetSet": {
-			"base": "assets/Test/1_Oomee_Arm_Right_Solid.png",
-			"gradient": "assets/Test/1_Oomee_Arm_Right_Gradient.png"
+			"base": "assets/Test/2_Oomee_Arm_Right_Solid.png",
+			"gradient": "assets/Test/2_Oomee_Arm_Right_Gradient.png"
 		},
 		"useColourHue": true
 	},
@@ -41,15 +41,15 @@
 		"offset": [0.0,0.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
-		"dragScale": 2.0,
+		"dragScale": 1.0,
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "test",
-		"iconFilename": "assets/Test/1_Oomee_Ear_Solid.png",
+		"iconFilename": "assets/Test/2_Oomee_Ear_Solid.png",
 		"assetSet": {
-			"base": "assets/Test/1_Oomee_Ear_Solid.png",
-			"gradient": "assets/Test/1_Oomee_Ear_Gradient.png",
-			"shadowLight": "assets/Test/1_Oomee_Ear_Shadow.png"
+			"base": "assets/Test/2_Oomee_Ear_Solid.png",
+			"gradient": "assets/Test/2_Oomee_Ear_Gradient.png",
+			"shadowLight": "assets/Test/2_Oomee_Ear_Shadow.png"
 		},
 		"useColourHue": true
 	},
@@ -59,15 +59,17 @@
 		"offset": [0.0,0.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
-		"dragScale": 2.0,
+		"dragScale": 1.0,
 		"targetScale": 1.0,
 		"zOrder": 4,
 		"categoryId": "test",
-		"iconFilename": "assets/Test/1_Eyes_Brown.png",
+		"iconFilename": "assets/Test/2_Eyes_Brown.png",
 		"assetSet": {
-			"base": "assets/Test/1_Eyes_Brown.png"
+			"base": "assets/Test/2_Eyes_Brown.png",
+			"none": "assets/Test/2_Eyes_Brown.png",
+			"shadowLight": "assets/Test/2_Eyes_Shadow.png" 
 		},
-		"useColourHue": false
+		"useColourHue": true
 	}
 ]
 }

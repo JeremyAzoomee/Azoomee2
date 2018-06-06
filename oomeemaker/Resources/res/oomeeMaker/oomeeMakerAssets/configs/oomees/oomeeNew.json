@@ -17,13 +17,13 @@
 		"face"
 	],
 	"position": [0.44,0.5],
-	"scale": 2.0,
+	"scale": 1.0,
 	"sizeMultiplier": 1.0,
 	"assetSet": {
-		"base": "assets/Test/1_Body_Solid.png",
-		"gradient": "assets/Test/1_Body_Gradient.png",
-		"shadow": "assets/Test/1_Body_Leg_Shadow.png",
-		"highlight": "assets/Test/1_Body_Top_Shadow.png",
-		"face": "assets/Test/1_Body_Face_Background.png"
+		"base": "assets/Test/2_Body_Solid.png",
+		"gradient": "assets/Test/2_Body_Gradient.png",
+		"shadow": "assets/Test/2_Body_Leg_Shadow.png",
+		"highlight": "assets/Test/2_Body_Top_Shadow.png",
+		"face": "assets/Test/2_Body_Face_Background.png"
 	}
 }
