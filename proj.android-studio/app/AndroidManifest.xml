@@ -24,6 +24,8 @@
                    android:value="MyGame" />
         <meta-data android:name="com.urbanairship.autopilot"
             android:value="com.urbanairship.Autopilot"/>
+        <meta-data android:name="com.mixpanel.android.MPConfig.UseIpAddressForGeolocation"
+                   android:value="false" />
         <receiver android:name="com.appsflyer.SingleInstallBroadcastReceiver" android:exported="true">
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />

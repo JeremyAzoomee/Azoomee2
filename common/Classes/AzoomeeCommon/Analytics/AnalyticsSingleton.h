@@ -38,7 +38,7 @@ public:
     //---------------SUPER PROPERTIES---------
     
     void registerAppVersion();
-    void registerParentID(std::string ParentID);
+    void registerAnonymousIp(const std::string& anonymousIp);
     void registerNoOfChildren(int noOfChildren);
     void registerAzoomeeEmail(std::string emailAddress);
     void registerAccountStatus(std::string Status);
@@ -46,14 +46,13 @@ public:
     void registerIAPOS(std::string OS_String);
     void registerBillingProvider(std::string provider);
     void registerSessionId(std::string sessionId);
-    void registerCurrentScene(std::string currentScene);
+    void registerCurrentScene(const std::string& currentScene);
     void setLandscapeOrientation();
     void setPortraitOrientation();
     void setNumberOfChatFriends(int noOfChildren);
     void setChatFriendIsParent(bool chatFriendIsParent);
     void setIsUserAnonymous(bool isUserAnonymous);
 
-    void registerChildID(std::string noOfChatFriends);
     void registerChildGenderAndAge(int childNumber);
 
     void logoutChildEvent();
@@ -93,6 +92,7 @@ public:
     void contentItemSelectedEvent(const std::string& Type);
     void contentItemSelectedEvent(const std::string& Type, const std::string& elementShape);
     void contentItemSelectedEvent(const HQContentItemObjectRef &contentItem, int rowNumber, int elementNumber, const std::string& elementShape);
+    void contentItemSelectedOutsideCarouselEvent(const HQContentItemObjectRef &contentItem);
     void contentItemProcessingStartedEvent();
     void contentItemProcessingErrorEvent();
     void contentItemIncompatibleEvent();
@@ -125,7 +125,7 @@ public:
     void enteredForegroundEvent();
     void sessionIdHasChanged(std::string oldSessionId);
     void httpRequestFailed(std::string requestTag, long responseCode, std::string qid);
-    void moveToSceneEvent(std::string newScene);
+    void moveToSceneEvent(const std::string& previousScene);
     void settingsOnlineSafetySlideChangeEvent(int NewSlideNumber);
     
     //---------------IAP ACTIONS------------------

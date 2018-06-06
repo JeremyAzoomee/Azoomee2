@@ -87,6 +87,7 @@ void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget:
             {
                 AnalyticsSingleton::getInstance()->registerCurrentScene("REPLAY");
                 AnalyticsSingleton::getInstance()->ctaButtonPressed("replayContent", ContentHistoryManager::getInstance()->getLastOpenedContent()->getTitle());
+                AnalyticsSingleton::getInstance()->contentItemSelectedOutsideCarouselEvent(ContentHistoryManager::getInstance()->getLastOpenedContent());
                 ContentOpener::getInstance()->openContentObject(ContentHistoryManager::getInstance()->getLastOpenedContent());
                 closeCTAPopup();
             }
@@ -100,6 +101,7 @@ void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget:
                     contentTitle = content->getTitle();
                 }
                 AnalyticsSingleton::getInstance()->ctaButtonPressed("OpenRecommendedContent", contentTitle);
+                AnalyticsSingleton::getInstance()->contentItemSelectedOutsideCarouselEvent(content);
                 ContentOpener::getInstance()->openContentObject(content);
                 closeCTAPopup();
             }

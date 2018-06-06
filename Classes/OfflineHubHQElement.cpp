@@ -112,7 +112,7 @@ void OfflineHubHQElement::addListenerToElement(const std::map<std::string, std::
             contentItem->setType(itemData.at("type"));
             contentItem->setContentItemId(itemData.at("id"));
             
-            AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, -1, -1, "1,1");
+            AnalyticsSingleton::getInstance()->contentItemSelectedOutsideCarouselEvent(contentItem);
             
             Director::getInstance()->replaceScene(SceneManagerScene::createWebview(getGameOrientation(itemData), startUrl.c_str()));
         }

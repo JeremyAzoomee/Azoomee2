@@ -192,4 +192,14 @@ bool stringEndsWith(const std::string &strToTest, const std::string &endStr)
     }
 }
     
+bool stringToBool(const std::string& string)
+{
+    return stringToLower(string) == "true";
+}
+
+std::string boolToString(bool boolean)
+{
+    return boolean ? "true" : "false";
+}
+
 } // Azoomee

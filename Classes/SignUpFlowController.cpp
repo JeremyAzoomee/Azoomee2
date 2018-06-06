@@ -12,6 +12,7 @@
 #include "RoutePaymentSingleton.h"
 #include <AzoomeeCommon/Input/TextInputChecker.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Utils/StringFunctions.h>
 #include "SceneManagerScene.h"
 
 using namespace cocos2d;
@@ -22,6 +23,8 @@ const std::string SignUpFlowController::kEnterEmailCTAName = "signup_email.json"
 const std::string SignUpFlowController::kConfirmEmailCTAName = "signup_email_confirm.json";
 const std::string SignUpFlowController::kEnterPasswordCTAName = "signup_password.json";
 const std::string SignUpFlowController::kEnterPinCTAName = "signup_pin.json";
+const std::string SignUpFlowController::kAcceptTnCsCTAName = "signup_opt_in.json";
+const std::string SignUpFlowController::kAcceptTnCsErrorCTAName = "signup_opt_in_error.json";
 
 SignUpFlowController::SignUpFlowController() noexcept
 {
@@ -55,17 +58,20 @@ void SignUpFlowController::processAction(const ButtonActionDataRef& actionData)
     {
         handleEnterPinFlow(actionData, pathAction);
     }
+    else if(fileName == kAcceptTnCsCTAName)
+    {
+        handleAcceptTnCsFlow(actionData, pathAction);
+    }
+    else if(fileName == kAcceptTnCsErrorCTAName)
+    {
+        handleAcceptTnCsErrorFlow(actionData, pathAction);
+    }
 }
 
 void SignUpFlowController::handleEnterEmailFlow(const ButtonActionDataRef& actionData, FlowPath pathAction)
 {
     switch(pathAction)
     {
-        default: case UNKNOWN:
-        {
-            return;
-            break;
-        }
         case NEXT:
         {
             const std::string& email = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("email");
@@ -77,13 +83,19 @@ void SignUpFlowController::handleEnterEmailFlow(const ButtonActionDataRef& actio
             break;
         }
             
-        case BACK: case CLOSE:
+        case BACK:
+        case CLOSE:
         {
             AnalyticsSingleton::getInstance()->ctaButtonPressed("enterEmail_close");
             exitFlow();
             break;
         }
-
+        case UNKNOWN:
+        default:
+        {
+            return;
+            break;
+        }
     }
 }
 
@@ -91,11 +103,6 @@ void SignUpFlowController::handleConfirmEmailFlow(const ButtonActionDataRef& act
 {
     switch(pathAction)
     {
-        default: case UNKNOWN:
-        {
-            return;
-            break;
-        }
         case NEXT:
         {
             AnalyticsSingleton::getInstance()->ctaButtonPressed("confirmEmail_confirm");
@@ -115,7 +122,12 @@ void SignUpFlowController::handleConfirmEmailFlow(const ButtonActionDataRef& act
             exitFlow();
             break;
         }
-            
+        case UNKNOWN:
+        default:
+        {
+            return;
+            break;
+        }
     }
 }
 
@@ -123,11 +135,6 @@ void SignUpFlowController::handleEnterPasswordFlow(const ButtonActionDataRef& ac
 {
     switch(pathAction)
     {
-        default: case UNKNOWN:
-        {
-            return;
-            break;
-        }
         case NEXT:
         {
             const std::string& password = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("password");
@@ -151,7 +158,12 @@ void SignUpFlowController::handleEnterPasswordFlow(const ButtonActionDataRef& ac
             exitFlow();
             break;
         }
-            
+        case UNKNOWN:
+        default:
+        {
+            return;
+            break;
+        }
     }
 }
 
@@ -159,18 +171,13 @@ void SignUpFlowController::handleEnterPinFlow(const ButtonActionDataRef& actionD
 {
     switch(pathAction)
     {
-        default: case UNKNOWN:
-        {
-            return;
-            break;
-        }
         case NEXT:
         {
             const std::string& pin = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("pin");
             if(isValidPin(pin.c_str()))
             {
                 AnalyticsSingleton::getInstance()->ctaButtonPressed("enterPin_continue");
-                signUp();
+                DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(kAcceptTnCsCTAName, DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
             }
             break;
         }
@@ -187,7 +194,74 @@ void SignUpFlowController::handleEnterPinFlow(const ButtonActionDataRef& actionD
             exitFlow();
             break;
         }
+        case UNKNOWN:
+        default:
+        {
+            return;
+            break;
+        }
+    }
+}
+
+void SignUpFlowController::handleAcceptTnCsFlow(const ButtonActionDataRef& actionData, FlowPath pathAction)
+{
+    switch(pathAction)
+    {
+        case NEXT:
+        {
+            const std::string& tncAccept = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("tncAccept");
+            const std::string& over18 = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("over18");
+            if(stringToBool(tncAccept) && stringToBool(over18))
+            {
+                AnalyticsSingleton::getInstance()->ctaButtonPressed("acceptTnCs_continue");
+                signUp();
+            }
+            else
+            {
+                // reset check box values
+                DynamicNodeDataInputStorage::getInstance()->addElementToStorage("tncAccept", "false");
+                DynamicNodeDataInputStorage::getInstance()->addElementToStorage("over18", "false");
+                DynamicNodeDataInputStorage::getInstance()->addElementToStorage("commsAccept", "false");
+                
+                DynamicNodeHandler::getInstance()->createDynamicNodeById(kAcceptTnCsErrorCTAName);
+            }
+            break;
+        }
             
+        case BACK:
+        {
+            AnalyticsSingleton::getInstance()->ctaButtonPressed("acceptTnCs_back");
+            DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(kEnterPinCTAName, DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
+            break;
+        }
+        case CLOSE:
+        {
+            AnalyticsSingleton::getInstance()->ctaButtonPressed("acceptTnCs_close");
+            exitFlow();
+            break;
+        }
+        case UNKNOWN:
+        default:
+        {
+            return;
+            break;
+        }
+    }
+}
+
+void SignUpFlowController::handleAcceptTnCsErrorFlow(const ButtonActionDataRef& actionData, FlowPath pathAction)
+{
+    switch(pathAction)
+    {
+        case NEXT:
+        case BACK:
+        case CLOSE:
+        case UNKNOWN:
+        default:
+        {
+            DynamicNodeHandler::getInstance()->createDynamicNodeById(kAcceptTnCsCTAName);
+            break;
+        }
     }
 }
 
@@ -196,10 +270,11 @@ void SignUpFlowController::signUp()
     const std::string& email = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("email");
     const std::string& password = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("password");
     const std::string& pin = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("pin");
+    const std::string& marketingAccepted = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("commsAccept");
     if(isValidPin(pin.c_str()) && isValidPassword(password.c_str(), 6) && isValidEmailAddress(email.c_str()))
     {
         AnalyticsSingleton::getInstance()->registerAzoomeeEmail(email);
-        BackEndCaller::getInstance()->registerParent(email, password ,pin);
+        BackEndCaller::getInstance()->registerParent(email, password ,pin, marketingAccepted);
         DynamicNodeDataInputStorage::getInstance()->clearStorage();
         exitFlow();
     }

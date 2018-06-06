@@ -7,6 +7,7 @@
 
 #include "TimeFunctions.h"
 #include <locale>
+#include <chrono>
 
 NS_AZOOMEE_BEGIN
 
@@ -87,6 +88,14 @@ std::string getTimeStringForFileName()
     oss << tm.tm_mday << tm.tm_mon << tm.tm_year << tm.tm_hour << tm.tm_min << tm.tm_sec;
     
     return oss.str();
+}
+
+std::string getMillisecondTimestampString()
+{
+    auto millis = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+    std::stringstream ss;
+    ss << millis;
+    return ss.str();
 }
 
 NS_AZOOMEE_END

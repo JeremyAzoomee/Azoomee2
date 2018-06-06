@@ -23,6 +23,9 @@ std::string joinStrings(const std::vector<std::string>& stringList, const std::s
 std::string convertStringToAssetSafeString(const std::string& string);
 bool stringEndsWith(const std::string &strToTest, const std::string &endStr);
     
+bool stringToBool(const std::string& string);
+std::string boolToString(bool boolean);
+
 /// Trim whitespace from the start of string
 std::string ltrim(const std::string& s);
 /// Trim whitespace from the end of string

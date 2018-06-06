@@ -42,7 +42,7 @@ public class IabHelper {
     boolean mDebugLog = false;
     String mDebugTag = "IabHelper";
 
-    boolean mSetupDone = false;
+    public boolean mSetupDone = false;
     boolean mDisposed = false;
     boolean mDisposeAfterAsync = false;
     boolean mSubscriptionsSupported = false;

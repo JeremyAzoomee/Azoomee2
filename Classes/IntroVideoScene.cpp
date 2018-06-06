@@ -7,6 +7,7 @@
 #include "LoginLogicHandler.h"
 #include "SceneManagerScene.h"
 #include "StartScreen.h"
+#include "BackEndCaller.h"
 
 #if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     #include <AzoomeeCommon/Utils/IosNativeFunctionsSingleton.h>
@@ -93,6 +94,8 @@ bool IntroVideoScene::init()
 void IntroVideoScene::onEnter()
 {
     Node::onEnter();
+    BackEndCaller::getInstance()->ipCheck();
+    
 #ifdef novideo
     navigateToNextScene();
 #endif
@@ -124,6 +127,11 @@ void IntroVideoScene::videoEventCallback(Ref* sender, VideoPlayer::EventType eve
         case VideoPlayer::EventType::PAUSED:
         {
             cocos2d::log("VIDEO: VIDEO PAUSED");
+            break;
+        }
+        case VideoPlayer::EventType::STOPPED:
+        {
+            cocos2d::log("VIDEO: VIDEO STOPPED");
             break;
         }
         case VideoPlayer::EventType::PLAYING:
