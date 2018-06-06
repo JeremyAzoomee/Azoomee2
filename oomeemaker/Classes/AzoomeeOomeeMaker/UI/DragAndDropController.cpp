@@ -129,6 +129,7 @@ void DragAndDropController::setItemData(const OomeeItemRef& data)
         _positioningLabel = Label::createWithTTF(StringUtils::format("x: %d, y:%d",(int)dist.x, (int)dist.y), "fonts/arial.ttf", 40);
         _positioningLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
         _positioningLabel->setPosition(Vec2(_itemSprite->getContentSize().width * 0.5f, 0));
+        _positioningLabel->setTextColor(Color4B::BLACK);
         _itemSprite->addChild(_positioningLabel);
         
         if(_anchorToSprite)
@@ -136,7 +137,7 @@ void DragAndDropController::setItemData(const OomeeItemRef& data)
             _anchorToSprite->removeFromParent();
         }
         _anchorToSprite = DrawNode::create();
-        _anchorToSprite->drawLine(_anchorPos, _itemSprite->getPosition(), Color4F::WHITE);
+        _anchorToSprite->drawLine(_anchorPos, _itemSprite->getPosition(), Color4F::BLACK);
         _listenerTargetNode->addChild(_anchorToSprite);
     }
     

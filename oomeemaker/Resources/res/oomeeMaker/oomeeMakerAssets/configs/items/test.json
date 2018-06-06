@@ -4,70 +4,69 @@
 	{
 		"id": "armLeftTest",
 		"targetAnchor": "armLeft",
-		"offset": [-5.0,0.0],
+		"offset": [-35.0,0.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
-		"dragScale": 1.0,
+		"dragScale": 2.0,
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "test",
-		"iconFilename": "assets/Test/2_Oomee_Arm_Left_Solid.png",
+		"iconFilename": "assets/Test/Oomee_Arm_Left_Solid.png",
 		"assetSet": {
-			"base": "assets/Test/2_Oomee_Arm_Left_Solid.png",
-			"gradient": "assets/Test/2_Oomee_Arm_Left_Gradient.png"
+			"base": "assets/Test/Oomee_Arm_Left_Solid.png",
+			"gradient": "assets/Test/Oomee_Arm_Left_Gradient.png"
 		},
 		"useColourHue": true
 	},
 	{
 		"id": "armRightTest",
 		"targetAnchor": "armRight",
-		"offset": [5.0,0.0],
+		"offset": [35.0,0.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
-		"dragScale": 1.0,
+		"dragScale": 2.0,
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "test",
-		"iconFilename": "assets/Test/2_Oomee_Arm_Right_Solid.png",
+		"iconFilename": "assets/Test/Oomee_Arm_Right_Solid.png",
 		"assetSet": {
-			"base": "assets/Test/2_Oomee_Arm_Right_Solid.png",
-			"gradient": "assets/Test/2_Oomee_Arm_Right_Gradient.png"
+			"base": "assets/Test/Oomee_Arm_Right_Solid.png",
+			"gradient": "assets/Test/Oomee_Arm_Right_Gradient.png"
 		},
 		"useColourHue": true
 	},
 	{
 		"id": "earsTest",
 		"targetAnchor": "ears",
-		"offset": [0.0,0.0],
+		"offset": [0.0,-20.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
-		"dragScale": 1.0,
+		"dragScale": 2.0,
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "test",
-		"iconFilename": "assets/Test/2_Oomee_Ear_Solid.png",
+		"iconFilename": "assets/Test/Oomee_Ears_Yellow.png",
 		"assetSet": {
-			"base": "assets/Test/2_Oomee_Ear_Solid.png",
-			"gradient": "assets/Test/2_Oomee_Ear_Gradient.png",
-			"shadowLight": "assets/Test/2_Oomee_Ear_Shadow.png"
+			"base": "assets/Test/Oomee_Ear_Solid.png",
+			"gradient": "assets/Test/Oomee_Ear_Gradient.png",
+			"shadowLight": "assets/Test/Oomee_Ear_Shadow.png"
 		},
 		"useColourHue": true
 	},
 	{
 		"id": "faceTest",
 		"targetAnchor": "face",
-		"offset": [0.0,0.0],
+		"offset": [0.0,-15.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
-		"dragScale": 1.0,
+		"dragScale": 2.0,
 		"targetScale": 1.0,
 		"zOrder": 4,
 		"categoryId": "test",
-		"iconFilename": "assets/Test/2_Eyes_Brown.png",
+		"iconFilename": "assets/Test/Eyes_Brown.png",
 		"assetSet": {
-			"base": "assets/Test/2_Eyes_Brown.png",
-			"none": "assets/Test/2_Eyes_Brown.png",
-			"shadowLight": "assets/Test/2_Eyes_Shadow.png" 
+			"shadowEyes": "assets/Test/Eyes_Shadow.png",
+			"none": "assets/Test/Eyes_Brown.png"
 		},
 		"useColourHue": true
 	}

@@ -17,9 +17,10 @@ const std::map<std::string, int> OomeeBody::kLayerOrderMap = {
     {"gradient",1},
     {"shadow",2},
     {"shadowLight",3},
-    {"highlight",4},
-    {"face", 5},
-    {"none", 6}
+    {"shadowEyes",4},
+    {"highlight",5},
+    {"face", 6},
+    {"none", 7}
 };
 
 bool OomeeBody::init()
@@ -64,7 +65,7 @@ void OomeeBody::setOomeeData(const OomeeRef& oomeeData)
             this->setContentSize(spriteLayer->getContentSize());
         }
         
-        if(_colours)
+        if(_colours && spriteData.first != "none")
         {
             spriteLayer->setColor(Color3B(_colours->getColours().at(spriteData.first)));
         }
@@ -82,7 +83,10 @@ void OomeeBody::setColourData(const OomeeColourRef& colourData)
     {
         for(auto sprite : _sprites)
         {
-            sprite.second->setColor(Color3B(_colours->getColours().at(sprite.first)));
+            if(sprite.first != "none")
+            {
+                sprite.second->setColor(Color3B(_colours->getColours().at(sprite.first)));
+            }
         }
     }
     
@@ -92,7 +96,7 @@ int OomeeBody::transformZOrder(int zOrder)
 {
     if(zOrder >= 0)
     {
-        return zOrder + kLayerOrderMap.rbegin()->second;
+        return zOrder + kLayerOrderMap.at("none");
     }
     return zOrder;
 }

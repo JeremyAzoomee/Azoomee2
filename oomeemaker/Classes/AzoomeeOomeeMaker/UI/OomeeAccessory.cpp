@@ -17,9 +17,10 @@ const std::map<std::string, int> OomeeAccessory::kLayerOrderMap = {
     {"gradient",1},
     {"shadow",2},
     {"shadowLight",3},
-    {"highlight",4},
-    {"face", 5},
-    {"none", 6}
+    {"shadowEyes", 4},
+    {"highlight",5},
+    {"face", 6},
+    {"none", 7}
 };
 
 bool OomeeAccessory::init()
@@ -64,7 +65,7 @@ void OomeeAccessory::setItemData(const OomeeItemRef& itemData)
             this->setContentSize(spriteLayer->getContentSize());
         }
         
-        if(_colours && itemData->isUsingColourHue())
+        if(_colours && itemData->isUsingColourHue() && spriteData.first != "none")
         {
             spriteLayer->setColor(Color3B(_colours->getColours().at(spriteData.first)));
         }
@@ -84,7 +85,10 @@ void OomeeAccessory::setColourData(const OomeeColourRef& colourData)
         {
             for(auto sprite : _sprites)
             {
-                sprite.second->setColor(Color3B(_colours->getColours().at(sprite.first)));
+                if(sprite.first != "none")
+                {
+                    sprite.second->setColor(Color3B(_colours->getColours().at(sprite.first)));
+                }
             }
         }
     }
@@ -111,6 +115,10 @@ Sprite* OomeeAccessory::getBaseSprite() const
     if(_sprites.find("base") != _sprites.end())
     {
         return _sprites.at("base");
+    }
+    else if(_sprites.find("none") != _sprites.end())
+    {
+        return _sprites.at("none");
     }
     return nullptr;
 }
