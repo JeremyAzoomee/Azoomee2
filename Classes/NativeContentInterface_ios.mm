@@ -11,7 +11,7 @@ NS_AZOOMEE_BEGIN
 
 WebViewController *webViewController;
 
-Scene* NativeContentInterface_ios::createSceneWithURL(const std::string &url, Vec2 closeButtonAnchor)
+Scene* NativeContentInterface_ios::createSceneWithURL(const std::string &url, const Vec2& closeButtonAnchor)
 {
     auto scene = Scene::create();
     auto layer = NativeContentInterface_ios::create();
@@ -38,7 +38,7 @@ void NativeContentInterface_ios::onEnterTransitionDidFinish()
 
 //-------------------------------------------All methods are private after this line---------------------------------------
 
-void NativeContentInterface_ios::loadContentBasedOnUrl(const std::string &url, Vec2 closeButtonAnchor)
+void NativeContentInterface_ios::loadContentBasedOnUrl(const std::string &url, const Vec2& closeButtonAnchor)
 {
     if(stringEndsWith(url, "html"))
     {
@@ -72,7 +72,7 @@ void NativeContentInterface_ios::addMediaPlayerToScreen(const std::string &url)
     [mediaPlayer startBuildingMediaPlayer:iosurl];
 }
 
-void NativeContentInterface_ios::addWebViewToScreen(const std::string &url, Vec2 closeButtonAnchor)
+void NativeContentInterface_ios::addWebViewToScreen(const std::string &url, const Vec2& closeButtonAnchor)
 {
     //Please note: cookie handling in ios is automatic. Set-cookie values are getting set from the httprequest's response, and they are being stored in the shared cookie storage. This is not true on Android (furthermore we are not using the built-in browser).
     

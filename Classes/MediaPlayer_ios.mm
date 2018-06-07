@@ -13,12 +13,14 @@
 
 - (id)init
 {
-    exitRequested = false;
-    
-    _videoTimeSent = -1.0f;
-    _previousRate = 0.0f;
-    
     self = [super init];
+    if(self)
+    {
+        exitRequested = false;
+        
+        _videoTimeSent = -1.0f;
+        _previousRate = 0.0f;
+    }
     return self;
 }
 
@@ -32,7 +34,7 @@
 {
     NSString* playlistString = Azoomee::getPlaylistString();
     NSArray* playlistUrls = [playlistString componentsSeparatedByString:@"|"];
-    NSMutableArray* playlistItems = [[NSMutableArray alloc] init];
+    NSMutableArray* playlistItems = [NSMutableArray array];
     int startPlaylistElementIndex = 0;
     
     for(int i = 0; i < playlistUrls.count; i++)
@@ -47,28 +49,34 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerItemDidReachEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:item];
         
         [playlistItems addObject:item];
+        [item release];
     }
     
-    self.queuePlayer = [[AVQueuePlayer alloc] initWithItems:playlistItems];
-    
+    AVQueuePlayer* queuePlayer = [[AVQueuePlayer alloc] initWithItems:playlistItems];
+    self.queuePlayer = [queuePlayer autorelease];
+
     dispatch_queue_t mainQueue = dispatch_get_main_queue();
     [self.queuePlayer addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(1.0f, NSEC_PER_SEC) queue:mainQueue usingBlock:^(CMTime time) {
         [self playbackTimeTickEvent];
     }];
     
-    self.playerController = [[AVPlayerViewController alloc] init];
-    _playerController.player = _queuePlayer;
-    [_playerController.view setFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height)];
+    AVPlayerViewController* playerController = [[AVPlayerViewController alloc] init];
+    self.playerController = [playerController autorelease];
     
-    [self.view addSubview:_playerController.view];
+    CGRect bounds = [[UIScreen mainScreen] bounds];
+    
+    self.playerController.player = self.queuePlayer;
+    [self.playerController.view setFrame:CGRectMake(0, 0, bounds.size.width, bounds.size.height)];
+    
+    [self.view addSubview:self.playerController.view];
     
     [self addLoadingLayer];
     for(int i = 0; i < startPlaylistElementIndex; i++)
     {
-        [_queuePlayer advanceToNextItem];
+        [self.queuePlayer advanceToNextItem];
     }
     
-    [_queuePlayer play];
+    [self.queuePlayer play];
     
     [self addBackButton];
 }
@@ -78,13 +86,13 @@
     CGSize screenSize = [[UIScreen mainScreen] bounds].size;
     CGFloat buttonWidth = screenSize.width * 0.05;
     
-    _backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_backButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [_backButton setFrame:CGRectMake(buttonWidth / 4.0f, buttonWidth / 4.0f, buttonWidth, buttonWidth)];
-    [_backButton setExclusiveTouch:YES];
-    [_backButton setImage:[UIImage imageNamed:@"res/navigation/back_button.png"] forState:UIControlStateNormal];
+    self.backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.backButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [self.backButton setFrame:CGRectMake(buttonWidth / 4.0f, buttonWidth / 4.0f, buttonWidth, buttonWidth)];
+    [self.backButton setExclusiveTouch:YES];
+    [self.backButton setImage:[UIImage imageNamed:@"res/navigation/back_button.png"] forState:UIControlStateNormal];
     
-    [self.view addSubview:_backButton];
+    [self.view addSubview:self.backButton];
 }
 
 -(void) buttonClicked:(UIButton*)sender
@@ -97,32 +105,29 @@
 
 -(void) moviePlaybackLogAccessed:(NSNotification*)notification
 {
-    if(loadingLayer != nil)
+    if(self.loadingLayer != nil)
     {
-        [loadingLayer removeFromSuperlayer];
-        loadingLayer = nil;
+        [self.loadingLayer removeFromSuperlayer];
+        self.loadingLayer = nil;
     }
 }
 
 -(void) playbackTimeTickEvent
 {
-    if(_queuePlayer.currentItem != _lastPlayedItem) //track has changed
+    if(self.queuePlayer.currentItem != self.lastPlayedItem) //track has changed
     {
-        _lastPlayedItem = _queuePlayer.currentItem;
+        self.lastPlayedItem = _queuePlayer.currentItem;
         _videoTimeSent = -1.0f;
         _previousRate = 0.0f;
-        
-        NSLog(@"VIDEOLOG First frame appeared");
     }
     
     AVPlayerItem *currentItem = _queuePlayer.currentItem;
     float duration = CMTimeGetSeconds(currentItem.duration);
     float position = CMTimeGetSeconds(currentItem.currentTime);
     
-    if(_queuePlayer.rate != _previousRate)
+    if(self.queuePlayer.rate != _previousRate)
     {
-        _previousRate = _queuePlayer.rate;
-        NSLog(@"VIDEOLOG Rate change to: %f", _previousRate);
+        _previousRate = self.queuePlayer.rate;
         Azoomee::sendMixPanelData("video.quality", cocos2d::StringUtils::format("%f", _previousRate).c_str());
     }
     
@@ -133,28 +138,24 @@
         if(playbackRatio > 0.0f && _videoTimeSent < 0.0f)
         {
             _videoTimeSent = 0.0f;
-            NSLog(@"VIDEOLOG 0pc passed");
             Azoomee::sendMixPanelData("video.time", "0");
         }
         
         if(playbackRatio > 0.25f && _videoTimeSent < 0.25f)
         {
             _videoTimeSent = 0.25f;
-            NSLog(@"VIDEOLOG 25pc passed");
             Azoomee::sendMixPanelData("video.time", "25");
         }
         
         if(playbackRatio > 0.5f && _videoTimeSent < 0.5f)
         {
             _videoTimeSent = 0.5f;
-            NSLog(@"VIDEOLOG 50pc passed");
             Azoomee::sendMixPanelData("video.time", "50");
         }
         
         if(playbackRatio > 0.75f && _videoTimeSent < 0.75f)
         {
             _videoTimeSent = 0.75f;
-            NSLog(@"VIDEOLOG 75pc passed");
             Azoomee::sendMixPanelData("video.time", "75");
         }
     }
@@ -162,12 +163,10 @@
 
 -(void) playerItemDidReachEnd:(NSNotification*)notification
 {
-    NSLog(@"VIDEOLOG Item completed");
     Azoomee::sendMixPanelData("video.complete", "");
     
-    if(_queuePlayer.currentItem == _queuePlayer.items.lastObject)
+    if(self.queuePlayer.currentItem == self.queuePlayer.items.lastObject)
     {
-        NSLog(@"VIDEOLOG Playlist completed");
         Azoomee::sendMixPanelData("video.playlistComplete", "");
         
         [self cleanupAndExit];
@@ -178,13 +177,15 @@
 
 -(void)addLoadingLayer
 {
-    //basic black layer
-    loadingLayer = [CALayer layer];
-    [loadingLayer setBackgroundColor:[[UIColor blackColor] CGColor]];
-    [loadingLayer setFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height)];
-    [[self.view layer] addSublayer:loadingLayer];
+    CGRect bounds = [[UIScreen mainScreen] bounds];
     
-    CGSize screenSize = CGSizeMake([[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height);
+    //basic black layer
+    self.loadingLayer = [CALayer layer];
+    [self.loadingLayer setBackgroundColor:[[UIColor blackColor] CGColor]];
+    [self.loadingLayer setFrame:CGRectMake(0, 0, bounds.size.width, bounds.size.height)];
+    [[self.view layer] addSublayer:self.loadingLayer];
+    
+    CGSize screenSize = bounds.size;
     CGPoint midPoint = CGPointMake(screenSize.width / 2, screenSize.height / 2);
     
     //layer with circle 1
@@ -194,7 +195,7 @@
     [circle1 setContents:(id)circle1Content.CGImage];
     [circle1 setFrame:CGRectMake(midPoint.x - screenSize.height / 4, midPoint.y - screenSize.height / 4, screenSize.height / 2, screenSize.height / 2)];
     [circle1 setBackgroundColor:[[UIColor clearColor] CGColor]];
-    [loadingLayer addSublayer:circle1];
+    [self.loadingLayer addSublayer:circle1];
     
     [self addRotateAnimationToLayer:circle1 direction:1];
     
@@ -203,7 +204,7 @@
     [circle2 setContents:(id)circle1Content.CGImage];
     [circle2 setFrame:CGRectMake(midPoint.x - screenSize.height / 5, midPoint.y - screenSize.height / 5, screenSize.height / 2.5, screenSize.height / 2.5)];
     [circle2 setBackgroundColor:[[UIColor clearColor] CGColor]];
-    [loadingLayer addSublayer:circle2];
+    [self.loadingLayer addSublayer:circle2];
     
     [self addRotateAnimationToLayer:circle2 direction:-0.7f];
     
@@ -214,7 +215,7 @@
     float imageAspectRatio = loadingTextContent.size.height / loadingTextContent.size.width;
     CGSize displaySize = CGSizeMake(screenSize.width / 8, screenSize.width / 8 * imageAspectRatio);
     [loadingText setFrame:CGRectMake(midPoint.x - displaySize.width / 2, midPoint.y - displaySize.height / 2, displaySize.width, displaySize.height)];
-    [loadingLayer addSublayer:loadingText];
+    [self.loadingLayer addSublayer:loadingText];
 }
 
 -(void)addRotateAnimationToLayer:(CALayer*)layer direction:(float)direction
@@ -239,15 +240,20 @@
     }
     
     exitRequested = true;
-    [_backButton removeFromSuperview];
-    [_queuePlayer pause];
-    [_playerController.view removeFromSuperview];
+    [self.backButton removeFromSuperview];
+    [self.queuePlayer pause];
+    [self.playerController.view removeFromSuperview];
     
-    if(loadingLayer != nil)
+    if(self.loadingLayer != nil)
     {
-        [loadingLayer removeFromSuperlayer];
-        loadingLayer = nil;
+        [self.loadingLayer removeFromSuperlayer];
+        self.loadingLayer = nil;
     }
+    
+    self.queuePlayer = nil;
+    self.playerController = nil;
+    self.backButton = nil;
+    self.lastPlayedItem = nil;
     
     Azoomee::navigateToBaseScene();
 }

@@ -58,11 +58,7 @@ public class NativeMediaPlayer extends Activity {
 
         Bundle extras = getIntent().getExtras();
         currentlyPlayedUri = "about:blank";
-
-        if(extras != null)
-        {
-            currentlyPlayedUri = extras.getString("url");
-        }
+        currentlyPlayedUri = (extras != null) ? extras.getString("url") : "about:blank";
 
         Uri uri = Uri.parse(currentlyPlayedUri);
 
@@ -85,7 +81,7 @@ public class NativeMediaPlayer extends Activity {
             public void run() {
                 handleVideoTimeEvents();
             }
-        }, 0, 1000);//put here time 1000 milliseconds=1 second
+        }, 0, 5000);//put here time 1000 milliseconds=1 second
 
         addLoadingScreen();
         addExitButton();
@@ -151,7 +147,8 @@ public class NativeMediaPlayer extends Activity {
             public boolean onError(MediaPlayer mediaPlayer, int what, int extra)
             {
                 //error happened, get back to main screen with error, send event to mixpanel
-
+                JNICalls.getBackToLoginScreen();
+                onBackPressed();
                 return true;
             }
         });
@@ -376,7 +373,6 @@ public class NativeMediaPlayer extends Activity {
             for(int i = 0; i < playlistObject.getJSONArray("Elements").length(); i++)
             {
                 String elementUri = playlistObject.getJSONArray("Elements").getJSONObject(i).getString("uri");
-                Log.d("playlist element", elementUri);
                 if(elementUri.equals(currentlyPlayedUri))
                 {
                     if(i < playlistObject.getJSONArray("Elements").length())

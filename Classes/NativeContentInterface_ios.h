@@ -11,7 +11,7 @@ class NativeContentInterface_ios : public cocos2d::Layer
 public:
     CREATE_FUNC(NativeContentInterface_ios);
     cocos2d::Sprite *closeButton;
-    static cocos2d::Scene* createSceneWithURL(const std::string &url, cocos2d::Vec2 closeButtonAnchor);
+    static cocos2d::Scene* createSceneWithURL(const std::string &url, const cocos2d::Vec2& closeButtonAnchor);
     virtual bool init();
     void onEnterTransitionDidFinish();
     void removeWebViewFromScreen();
@@ -19,9 +19,9 @@ public:
     void addMediaPlayerToScreen(const std::string &url);
     
 private:
-    void addWebViewToScreen(const std::string &url, cocos2d::Vec2 closeButtonAnchor);
+    void addWebViewToScreen(const std::string &url, const cocos2d::Vec2& closeButtonAnchor);
     void addWebViewAndButtonToScreen(const std::string &url);
-    void loadContentBasedOnUrl(const std::string &url, cocos2d::Vec2 closeButtonAnchor);
+    void loadContentBasedOnUrl(const std::string &url, const cocos2d::Vec2& closeButtonAnchor);
     
     void removeWebViewAndBack();
 };

@@ -46,7 +46,7 @@ std::string VideoPlaylistManager::getPlaylist()
     
     if(_storedPlaylist->getContentItems().size() == 0)
     {
-        returnString = "noPlaylist";
+        returnString = kNoPlaylist;
     }
     else
     {
@@ -85,25 +85,24 @@ std::string VideoPlaylistManager::getPlaylistForIosNativePlayer()
     
     if(_storedPlaylist->getContentItems().size() == 0)
     {
-        returnString = "noPlaylist";
+        return kNoPlaylist;
     }
-    else
+    
+    for(auto item : _storedPlaylist->getContentItems())
     {
-        for(auto item : _storedPlaylist->getContentItems())
+        if(item->isEntitled()&&(item->getType() == "AUDIO" || item->getType() == "VIDEO"))
         {
-            if(item->isEntitled()&&(item->getType() == "AUDIO" || item->getType() == "VIDEO"))
+            if(returnString.length() > 0)
             {
-                if(returnString.length() > 0)
-                {
-                    returnString += "|";
-                }
-                
-                std::string itemUri = item->getUri();
-                itemUri = replaceAll(itemUri, "{sessionId}", ChildDataProvider::getInstance()->getParentOrChildCdnSessionId());
-                returnString += itemUri;
+                returnString += "|";
             }
+            
+            std::string itemUri = item->getUri();
+            itemUri = replaceAll(itemUri, "{sessionId}", ChildDataProvider::getInstance()->getParentOrChildCdnSessionId());
+            returnString += itemUri;
         }
     }
+    
     
     return returnString;
 }

@@ -24,6 +24,8 @@ public:
     
 private:
     HQCarouselObjectRef _storedPlaylist;
+    
+    const std::string kNoPlaylist = "noPlaylist";
 };
 
 NS_AZOOMEE_END

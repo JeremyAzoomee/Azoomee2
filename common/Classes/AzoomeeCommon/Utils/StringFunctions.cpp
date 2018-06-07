@@ -182,14 +182,7 @@ std::string convertStringToAssetSafeString(const std::string& string)
     
 bool stringEndsWith(const std::string &strToTest, const std::string &endStr)
 {
-    if(strToTest.size() >= endStr.size() && strToTest.compare(strToTest.size() - endStr.size(), endStr.size(), endStr) == 0)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return strToTest.size() >= endStr.size() && strToTest.compare(strToTest.size() - endStr.size(), endStr.size(), endStr) == 0;
 }
     
 bool stringToBool(const std::string& string)

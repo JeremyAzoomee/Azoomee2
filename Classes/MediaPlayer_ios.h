@@ -13,17 +13,17 @@
 
 @interface MediaPlayerController: UIViewController {
     bool exitRequested;
-    CALayer *loadingLayer;
     
     float _videoTimeSent;
-    AVPlayerItem* _lastPlayedItem;
     float _previousRate;
     
-    UIButton* _backButton;
 }
 
 @property (nonatomic, retain) AVQueuePlayer* queuePlayer;
 @property (nonatomic, retain) AVPlayerViewController* playerController;
+@property (nonatomic, retain) UIButton* backButton;
+@property (nonatomic, retain) CALayer *loadingLayer;
+@property (nonatomic, retain) AVPlayerItem* lastPlayedItem;
 
 -(id)init;
 -(void)startBuildingMediaPlayer:(NSString*)url;

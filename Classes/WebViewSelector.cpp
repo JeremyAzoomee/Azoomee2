@@ -69,7 +69,7 @@ void WebViewSelector::loadWebView(const std::string& url, Orientation orientatio
     
     if(stringEndsWith(targetUrl, "m3u8")) //this if clause will probably need changes for later
     {
-        std::string userSessionId = ChildDataProvider::getInstance()->getParentOrChildCdnSessionId();
+        const std::string& userSessionId = ChildDataProvider::getInstance()->getParentOrChildCdnSessionId();
         targetUrl = replaceAll(targetUrl, "{sessionId}", userSessionId);
     }
     
