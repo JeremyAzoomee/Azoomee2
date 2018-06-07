@@ -18,11 +18,14 @@ public:
     
     void setPlaylist(const HQCarouselObjectRef &hqCarouselObject);
     std::string getPlaylist();
+    std::string getPlaylistForIosNativePlayer();
     HQContentItemObjectRef getContentItemDataForPlaylistElement(int elementNumber);
     void clearPlaylist();
     
 private:
     HQCarouselObjectRef _storedPlaylist;
+    
+    const std::string kNoPlaylist = "noPlaylist";
 };
 
 NS_AZOOMEE_END
