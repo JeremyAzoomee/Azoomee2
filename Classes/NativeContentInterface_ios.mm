@@ -70,6 +70,7 @@ void NativeContentInterface_ios::addMediaPlayerToScreen(const std::string &url)
     
     NSString *iosurl = [NSString stringWithCString:url.c_str() encoding:[NSString defaultCStringEncoding]];
     [mediaPlayer startBuildingMediaPlayer:iosurl];
+    [mediaPlayer release];
 }
 
 void NativeContentInterface_ios::addWebViewToScreen(const std::string &url, const Vec2& closeButtonAnchor)
