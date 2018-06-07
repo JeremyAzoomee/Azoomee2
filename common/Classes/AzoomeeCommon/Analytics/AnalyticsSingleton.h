@@ -39,6 +39,7 @@ public:
     
     void registerAppVersion();
     void registerAnonymousIp(const std::string& anonymousIp);
+    void registerIdentifier(const std::string& parentId);
     void registerNoOfChildren(int noOfChildren);
     void registerAzoomeeEmail(std::string emailAddress);
     void registerAccountStatus(std::string Status);
@@ -52,7 +53,7 @@ public:
     void setNumberOfChatFriends(int noOfChildren);
     void setChatFriendIsParent(bool chatFriendIsParent);
     void setIsUserAnonymous(bool isUserAnonymous);
-
+    
     void registerChildGenderAndAge(int childNumber);
 
     void logoutChildEvent();
