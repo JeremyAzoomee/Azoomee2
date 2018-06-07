@@ -199,9 +199,9 @@ void DrawingCanvas::setBaseImage(const std::string& fileName)
     Director* director = Director::getInstance();
     
     Sprite* baseImage = Sprite::create(fileName);
-    baseImage->setAnchorPoint(Vec2(0,0));
-    baseImage->setPosition(director->getVisibleOrigin() + Vec2(director->getVisibleSize().width*0.09,director->getVisibleSize().height*0.175));
-    baseImage->setScale((director->getVisibleSize().width * 0.89)/baseImage->getContentSize().width);
+    baseImage->setAnchorPoint(Vec2(0.5,0.5));
+    baseImage->setPosition(director->getVisibleOrigin() + Vec2(director->getVisibleSize().width*0.535,director->getVisibleSize().height*0.575));
+    baseImage->setScale(MIN((director->getVisibleSize().width * 0.89)/baseImage->getContentSize().width,(director->getVisibleSize().height * 0.8)/baseImage->getContentSize().height));
     _drawing->begin();
     baseImage->visit();
     _drawing->end();
