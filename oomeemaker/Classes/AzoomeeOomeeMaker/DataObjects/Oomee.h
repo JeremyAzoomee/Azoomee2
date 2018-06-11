@@ -19,14 +19,16 @@ typedef std::shared_ptr<Oomee> OomeeRef;
 
 class Oomee
 {
+    typedef std::map<std::string, std::pair<std::string, int>> AssetMap; // {colour id key, {asset name, zorder}}
 private:
     std::string _id;
     std::map<std::string, cocos2d::Vec2> _anchorPoints;
     std::vector<std::string> _lockedAnchors;
+    std::vector<std::string> _defaultAccessories;
     cocos2d::Vec2 _position;
     float _scale;
     float _sizeMultiplier;
-    std::map<std::string, std::string> _assetSet;
+    AssetMap _assetSet;
     
 public:
     static OomeeRef create();
@@ -39,16 +41,18 @@ public:
     std::string getId() const;
     void setAnchorPoints(const std::map<std::string, cocos2d::Vec2>& anchorPoints);
     std::map<std::string, cocos2d::Vec2> getAnchorPoints() const;
-    void setLockedAnchors(const std::vector<std::string>lockedAnchors);
+    void setLockedAnchors(const std::vector<std::string>& lockedAnchors);
     std::vector<std::string> getLockedAnchors() const;
+    void setDefaultAccessories(const std::vector<std::string>& defaultAccessories);
+    std::vector<std::string> getDefaultAccessories() const;
     void setPosition(const cocos2d::Vec2& position);
     cocos2d::Vec2 getPosition() const;
     void setScale(float scale);
     float getScale() const;
     void setSizeMultiplier(float sizeMultiplier);
     float getSizeMultiplier() const;
-    void setAssetSet(const std::map<std::string, std::string> assetSet);
-    std::map<std::string, std::string> getAssetSet() const;
+    void setAssetSet(const AssetMap& assetSet);
+    AssetMap getAssetSet() const;
     
 };
 

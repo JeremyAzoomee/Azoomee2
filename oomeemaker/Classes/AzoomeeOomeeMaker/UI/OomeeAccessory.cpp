@@ -12,17 +12,6 @@ using namespace cocos2d;
 
 NS_AZOOMEE_OM_BEGIN
 
-const std::map<std::string, int> OomeeAccessory::kLayerOrderMap = {
-    {"base", 0},
-    {"gradient",1},
-    {"shadow",2},
-    {"shadowLight",3},
-    {"shadowEyes", 4},
-    {"highlight",5},
-    {"face", 6},
-    {"none", 7}
-};
-
 bool OomeeAccessory::init()
 {
     if(!Super::init())
@@ -57,20 +46,17 @@ void OomeeAccessory::setItemData(const OomeeItemRef& itemData)
     
     for(auto spriteData : itemData->getAssetSet())
     {
-        Sprite* spriteLayer = Sprite::create(OomeeMakerDataHandler::getInstance()->getAssetDir() + spriteData.second);
+        Sprite* spriteLayer = Sprite::create(OomeeMakerDataHandler::getInstance()->getAssetDir() + spriteData.second.first);
         spriteLayer->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
         
-        if(spriteData.first == "base")
-        {
-            this->setContentSize(spriteLayer->getContentSize());
-        }
+        this->setContentSize(Size(MAX(spriteLayer->getContentSize().width,this->getContentSize().width),MAX(spriteLayer->getContentSize().height, this->getContentSize().height)));
         
         if(_colours && itemData->isUsingColourHue() && spriteData.first != "none")
         {
             spriteLayer->setColor(Color3B(_colours->getColours().at(spriteData.first)));
         }
         _sprites[spriteData.first] = spriteLayer;
-        this->addChild(spriteLayer, kLayerOrderMap.at(spriteData.first));
+        this->addChild(spriteLayer, spriteData.second.second);
         
     }
 }
@@ -112,15 +98,19 @@ std::string OomeeAccessory::getItemId() const
 
 Sprite* OomeeAccessory::getBaseSprite() const
 {
-    if(_sprites.find("base") != _sprites.end())
+    int minLayer = INT_MAX;
+    Sprite* baseSprite = nullptr;
+    
+    for(auto assetData : _itemData->getAssetSet())
     {
-        return _sprites.at("base");
+        if(assetData.second.second < minLayer)
+        {
+            minLayer = assetData.second.second;
+            baseSprite = _sprites.at(assetData.first);
+        }
     }
-    else if(_sprites.find("none") != _sprites.end())
-    {
-        return _sprites.at("none");
-    }
-    return nullptr;
+    
+    return baseSprite;
 }
 
 NS_AZOOMEE_OM_END

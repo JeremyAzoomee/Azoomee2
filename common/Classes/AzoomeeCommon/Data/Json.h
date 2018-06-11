@@ -345,19 +345,43 @@ inline std::map<std::string, cocos2d::Color4B> getColourMapFromJson(const rapidj
     for (M=jsonValue.MemberBegin(); M!=jsonValue.MemberEnd(); M++)
     {
         const std::string& name = M->name.GetString();
-        //if(!M->name.IsNull() && M->name.IsString() && !M->value.IsNull() && M->value.IsArray() && M->value.Size() == 2)
-        //{
+        if(!M->name.IsNull() && M->name.IsString() && !M->value.IsNull() && M->value.IsArray() && M->value.Size() == 4)
+        {
             if(M->value[0].IsInt() && M->value[1].IsInt() && M->value[2].IsInt() && M->value[3].IsInt())
             {
                                         
                 returnValue[name] = cocos2d::Color4B(M->value[0].GetInt(), M->value[1].GetInt(), M->value[2].GetInt(), M->value[3].GetInt());
             }
-        //}
+        }
     }
     
     return returnValue;
 }
 
+inline std::map<std::string, std::pair<std::string,int>> getAssetMapFromJson(const rapidjson::Value& jsonValue)
+{
+    std::map<std::string, std::pair<std::string,int>> returnValue;
+
+    if(jsonValue.IsNull())
+    {
+        return returnValue;
+    }
+    
+    rapidjson::Value::ConstMemberIterator M;
+    
+    for (M=jsonValue.MemberBegin(); M!=jsonValue.MemberEnd(); M++)
+    {
+        if(!M->name.IsNull() && M->name.IsString() && !M->value.IsNull() && M->value.IsArray() && M->value.Size() == 2 && M->value[0].IsString() && M->value[1].IsInt())
+        {
+            std::string key = M->name.GetString();
+            std::pair<std::string,int> value = {M->value[0].GetString(),M->value[1].GetInt()};
+            
+            returnValue[key] = value;
+        }
+    }
+    
+    return returnValue;
+}
 
 NS_AZOOMEE_END
 

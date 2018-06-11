@@ -1,10 +1,16 @@
 <html>
 	<head>
 		<title>Game storage API</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
 	</head>
 	<body bgcolor="black">
-	<div id="loadingScreen" style="background-color: #000000; position: absolute; left: 0px; top: 0px; bottom: 0px; background-image: url(./loading_image.jpg); width: 100%; height: 100%; background-repeat: no-repeat; background-position: center center;">
-	</div>
+		<div id="loadingPage">
+			<div id="loadingArea">
+				<img src="./circle_1.png" id="circle1">
+				<img src="./circle_1.png" id="circle2">
+				<img src="./load.png" id="loadingText">
+			</div>
+		</div>
 		<script>
 			function addFrameWithUrl(url)
 			{
@@ -23,7 +29,7 @@
 
 			function removeLoadingScreen()
 			{
-				var target = document.getElementById("loadingScreen");
+				var target = document.getElementById("loadingPage");
 				target.parentElement.removeChild(target);
 			}
 
@@ -31,21 +37,19 @@
 			{
 				//Check if the game is communicating with the webapi standard
 
-				if(event.data == "saveImage")
-				{
-					var attempts = 0;
-					if('save' in localStorage) attempts = localStorage['save'];
-					attempts++;
-					localStorage['save'] = attempts;
-
-					return;
-				}
-
 				if ('method' in event.data)
 				{
 					if('score' in event.data)
 					{
 						window.location.href = "apirequest://apiscoreupdate?method?"+ event.data.method + "?responseID?" + event.data.responseID + "?score?" + event.data.score;
+					}
+					else if('imageData' in event.data)
+					{
+						window.location.href = "apirequest://apiimagesave?method?"+ event.data.method + "?responseID?" + event.data.responseID + "?imageData?" + event.data.imageData;
+					}
+					else if('logString' in event.data)
+					{
+						window.location.href = "apirequest://apilog?method?"+ event.data.method + "?responseID?" + event.data.responseID + "?logString?" + event.data.logString;
 					}
 					else
 					{
@@ -56,12 +60,12 @@
 				}
 			}
 
-            function clearLocalStorage()
-            {
-            	localStorage.clear();
-            }
+      function clearLocalStorage()
+      {
+      	localStorage.clear();
+      }
 
-            function addDataToLocalStorage(data)
+      function addDataToLocalStorage(data)
 			{
 				dataString = atob(data);
 				if(dataString == "") return;

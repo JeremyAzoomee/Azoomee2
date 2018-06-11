@@ -19,6 +19,7 @@ typedef std::shared_ptr<OomeeItem> OomeeItemRef;
 
 class OomeeItem
 {
+    typedef std::map<std::string, std::pair<std::string, int>> AssetMap; // {colour id key, {asset name, zorder}}
 private:
     std::string _id;
     std::string _targetAnchor;
@@ -29,7 +30,7 @@ private:
     float _targetScale;
     int _zOrder;
     std::string _categoryId;
-    std::map<std::string, std::string> _assetSet;
+    AssetMap _assetSet;
     std::string _iconFilename;
     bool _useColourHue;
     
@@ -59,8 +60,8 @@ public:
     int getZOrder() const;
     void setCategoryId(const std::string& categoryId);
     std::string getCategoryId() const;
-    void setAssetSet(const std::map<std::string, std::string>& assetSet);
-    std::map<std::string, std::string> getAssetSet() const;
+    void setAssetSet(const AssetMap& assetSet);
+    AssetMap getAssetSet() const;
     void setIconFilename(const std::string& iconFilename);
     std::string getIconFilename() const;
     void setUseColourHue(bool useColourHue);

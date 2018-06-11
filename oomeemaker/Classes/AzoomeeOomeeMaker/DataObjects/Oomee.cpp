@@ -31,12 +31,13 @@ void Oomee::initWithData(const rapidjson::Document& oomeeConfig)
     setId(getStringFromJson("id", oomeeConfig));
     setAnchorPoints(getVec2MapFromJson(oomeeConfig["anchorPoints"]));
     setLockedAnchors(getStringArrayFromJson(oomeeConfig["lockedAnchors"]));
+    setDefaultAccessories(getStringArrayFromJson(oomeeConfig["defaultAccessories"]));
     setPosition(getVec2FromJson("position", oomeeConfig));
     setScale(getFloatFromJson("scale", oomeeConfig));
     setSizeMultiplier(getFloatFromJson("sizeMultiplier", oomeeConfig));
     if(oomeeConfig.HasMember("assetSet"))
     {
-        setAssetSet(getStringMapFromJson(oomeeConfig["assetSet"]));
+        setAssetSet(getAssetMapFromJson(oomeeConfig["assetSet"]));
     }
 }
 
@@ -60,13 +61,22 @@ std::map<std::string, cocos2d::Vec2> Oomee::getAnchorPoints() const
     return _anchorPoints;
 }
 
-void Oomee::setLockedAnchors(const std::vector<std::string> lockedAnchors)
+void Oomee::setLockedAnchors(const std::vector<std::string>& lockedAnchors)
 {
     _lockedAnchors = lockedAnchors;
 }
 std::vector<std::string> Oomee::getLockedAnchors() const
 {
     return _lockedAnchors;
+}
+
+void Oomee::setDefaultAccessories(const std::vector<std::string>& defaultAccessories)
+{
+    _defaultAccessories = defaultAccessories;
+}
+std::vector<std::string> Oomee::getDefaultAccessories() const
+{
+    return _defaultAccessories;
 }
 
 void Oomee::setPosition(const cocos2d::Vec2& position)
@@ -96,12 +106,12 @@ float Oomee::getSizeMultiplier() const
     return _sizeMultiplier;
 }
 
-void Oomee::setAssetSet(const std::map<std::string, std::string> assetSet)
+void Oomee::setAssetSet(const AssetMap& assetSet)
 {
     _assetSet = assetSet;
 }
 
-std::map<std::string, std::string> Oomee::getAssetSet() const
+Oomee::AssetMap Oomee::getAssetSet() const
 {
     return _assetSet;
 }

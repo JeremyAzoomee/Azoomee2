@@ -15,8 +15,6 @@ using namespace cocos2d;
 
 NS_AZOOMEE_OM_BEGIN
 
-const std::vector<std::string> OomeeFigure::kDefaultAccessories = {"armLeftTest", "armRightTest", "faceTest", "earsTest"};
-
 bool OomeeFigure::init()
 {
     if(!Super::init())
@@ -154,6 +152,12 @@ void OomeeFigure::setOomeeData(const OomeeRef& oomeeData)
         _baseSprite->removeFromParent();
     }
     
+    std::map<std::string, OomeeItemRef> accessoriesHolder;
+    
+    for(auto item : _accessories)
+    {
+        accessoriesHolder[item.first] = item.second->getItemData();
+    }
     //_accessoryData.clear();
     //_accessorySprites.clear();
     _accessories.clear();
@@ -169,6 +173,20 @@ void OomeeFigure::setOomeeData(const OomeeRef& oomeeData)
     _baseSprite->setScale(_oomeeData->getScale());
     //_baseSprite->setHue(_hue);
     this->addChild(_baseSprite);
+    
+    for(const std::string& accId : _oomeeData->getDefaultAccessories())
+    {
+        const OomeeItemRef& item = OomeeMakerDataStorage::getInstance()->getOomeeItemForKey(accId);
+        if(item)
+        {
+            addAccessory(item);
+        }
+    }
+    
+    for(auto accessoryItem : accessoriesHolder)
+    {
+        addAccessory(accessoryItem.second);
+    }
 }
 
 OomeeRef OomeeFigure::getOomeeData() const
@@ -206,7 +224,10 @@ void OomeeFigure::addAccessory(const OomeeItemRef& oomeeItem)
          */
         OomeeAccessory* accessory = OomeeAccessory::create();
         accessory->setItemData(oomeeItem);
-        accessory->setColourData(_colour);
+        if(_colour)
+        {
+            accessory->setColourData(_colour);
+        }
         const Size& baseSpriteSize = _baseSprite->getContentSize();
         Vec2 anchorPoint = _oomeeData->getAnchorPoints().at(oomeeItem->getTargetAnchor()); // dont const& - unstable on android, caused many tears
         accessory->setPosition(Vec2(baseSpriteSize.width * anchorPoint.x, baseSpriteSize.height * anchorPoint.y) + oomeeItem->getOffset());

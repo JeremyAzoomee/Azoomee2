@@ -80,35 +80,12 @@ void OomeeItemList::SetColourItems()
         {
             if(i < colours.size())
             {
-                /*
-                ui::Button* colourButton = ui::Button::create();
-                colourButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-                colourButton->ignoreContentAdaptWithSize(false);
-                colourButton->setContentSize(Size(this->getContentSize().width * 0.3f, this->getContentSize().width * 0.3f));
-                colourButton->setNormalizedPosition(Vec2((column + 0.5) / _columns, 0.5));
-                colourButton->addTouchEventListener([this, i](Ref* pSender, ui::Widget::TouchEventType eType){
-                    if(eType == ui::Widget::TouchEventType::ENDED)
-                    {
-                        if(_colourSelectedCallback)
-                        {
-                            _colourSelectedCallback(2 * M_PI * ((float)i/kNumColours));
-                        }
-                    }
-                });
-                SpriteWithHue* visibleSprite = SpriteWithHue::create("res/oomeeMaker/colour.png");
-                visibleSprite->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-                visibleSprite->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-                visibleSprite->setScale(colourButton->getContentSize().width / visibleSprite->getContentSize().width);
-                visibleSprite->setHue(2 * M_PI * ((float)i/kNumColours));
-                colourButton->addChild(visibleSprite);
-                itemRow->setContentSize(Size(this->getContentSize().width * ((column + 1)/_columns), MAX(colourButton->getContentSize().height, itemRow->getContentSize().height)));
-                itemRow->addChild(colourButton);
-                 */
                 ui::Button* colourButton = ui::Button::create("res/oomeeMaker/colour.png");
                 colourButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
                 colourButton->ignoreContentAdaptWithSize(false);
                 colourButton->setContentSize(Size(this->getContentSize().width * 0.3f, this->getContentSize().width * 0.3f));
                 colourButton->setNormalizedPosition(Vec2((column + 0.5) / _columns, 0.5));
+                colourButton->setColor(Color3B(colours.at(i)->getColours().at("base")));
                 colourButton->addTouchEventListener([this, i, colours](Ref* pSender, ui::Widget::TouchEventType eType){
                     if(eType == ui::Widget::TouchEventType::ENDED)
                     {

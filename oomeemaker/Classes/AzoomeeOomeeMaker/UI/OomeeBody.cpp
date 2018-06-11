@@ -17,10 +17,12 @@ const std::map<std::string, int> OomeeBody::kLayerOrderMap = {
     {"gradient",1},
     {"shadow",2},
     {"shadowLight",3},
-    {"shadowEyes",4},
+    {"shadowEyes", 4},
     {"highlight",5},
-    {"face", 6},
-    {"none", 7}
+    {"gloss", 6},
+    {"face", 7},
+    {"faceGradient", 8},
+    {"none", 9}
 };
 
 bool OomeeBody::init()
@@ -57,20 +59,17 @@ void OomeeBody::setOomeeData(const OomeeRef& oomeeData)
     
     for(auto spriteData : _oomeeData->getAssetSet())
     {
-        Sprite* spriteLayer = Sprite::create(OomeeMakerDataHandler::getInstance()->getAssetDir() + spriteData.second);
+        Sprite* spriteLayer = Sprite::create(OomeeMakerDataHandler::getInstance()->getAssetDir() + spriteData.second.first);
         spriteLayer->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
         
-        if(spriteData.first == "base")
-        {
-            this->setContentSize(spriteLayer->getContentSize());
-        }
+        this->setContentSize(Size(MAX(spriteLayer->getContentSize().width,this->getContentSize().width),MAX(spriteLayer->getContentSize().height, this->getContentSize().height)));
         
         if(_colours && spriteData.first != "none")
         {
             spriteLayer->setColor(Color3B(_colours->getColours().at(spriteData.first)));
         }
         _sprites[spriteData.first] = spriteLayer;
-        this->addChild(spriteLayer, kLayerOrderMap.at(spriteData.first));
+        this->addChild(spriteLayer, spriteData.second.second);
         
     }
 }
@@ -94,11 +93,11 @@ void OomeeBody::setColourData(const OomeeColourRef& colourData)
 
 int OomeeBody::transformZOrder(int zOrder)
 {
-    if(zOrder >= 0)
+    if(zOrder < 0)
     {
-        return zOrder + kLayerOrderMap.at("none");
+        return zOrder;
     }
-    return zOrder;
+    return zOrder + _oomeeData->getAssetSet().size();
 }
 
 NS_AZOOMEE_OM_END

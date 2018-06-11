@@ -1,0 +1,35 @@
+{
+	"id": "lightRed",
+	"anchorPoints": {
+		"head": [0.5,0.85],
+		"ears": [0.5,0.80],
+		"face": [0.5,0.65],
+		"eyes": [0.5,0.70],
+		"neck": [0.5,0.3],
+		"body": [0.5,0.25],
+		"armLeft": [0.2,0.4],
+		"armRight": [0.8,0.4],
+		"legs": [0.5,0.1]
+	},
+	"lockedAnchors": [
+		"armLeft",
+		"armRight",
+		"face"
+	],
+	"defaultAccessories": [
+		"armLeft11",
+		"armRight11",
+		"face08",
+		"ears06"
+	],
+	"position": [0.44,0.5],
+	"scale": 2.0,
+	"sizeMultiplier": 1.0,
+	"assetSet": {
+		"base": ["assets/baseOomee/Body_Solid.png",0],
+		"gradient": ["assets/baseOomee/Body_Gradient.png",1],
+		"shadow": ["assets/baseOomee/Body_Leg_Shadow.png",2],
+		"highlight": ["assets/baseOomee/Body_Top_Shadow.png",3],
+		"face": ["assets/lightRedOomee/LightRed_Face_Background.png",4]
+	}
+}

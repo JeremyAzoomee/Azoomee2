@@ -1,7 +1,17 @@
 {
 	"oomeeConfigs":
 	[
-		"configs/oomees/oomeeNew.json"
+		"configs/oomees/yellow.json",
+		"configs/oomees/orange.json",
+		"configs/oomees/pink.json",
+		"configs/oomees/purple.json",
+		"configs/oomees/darkPink.json",
+		"configs/oomees/red.json",
+		"configs/oomees/blue.json",
+		"configs/oomees/aqua.json",
+		"configs/oomees/black.json",
+		"configs/oomees/lightRed.json",
+		"configs/oomees/green.json"
 	],
 	"categoryConfigs":
 	[

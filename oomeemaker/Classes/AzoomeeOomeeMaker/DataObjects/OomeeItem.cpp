@@ -39,7 +39,7 @@ void OomeeItem::initWithData(const rapidjson::Value& itemConfig)
     setCategoryId(getStringFromJson("categoryId", itemConfig));
     if(itemConfig.HasMember("assetSet"))
     {
-        setAssetSet(getStringMapFromJson(itemConfig["assetSet"]));
+        setAssetSet(getAssetMapFromJson(itemConfig["assetSet"]));
     }
     setIconFilename(getStringFromJson("iconFilename", itemConfig));
     setUseColourHue(getBoolFromJson("useColourHue", itemConfig));
@@ -128,12 +128,12 @@ std::string OomeeItem::getCategoryId() const
     return _categoryId;
 }
 
-void OomeeItem::setAssetSet(const std::map<std::string, std::string>& assetSet)
+void OomeeItem::setAssetSet(const AssetMap& assetSet)
 {
     _assetSet = assetSet;
 }
 
-std::map<std::string, std::string> OomeeItem::getAssetSet() const
+OomeeItem::AssetMap OomeeItem::getAssetSet() const
 {
     return _assetSet;
 }
