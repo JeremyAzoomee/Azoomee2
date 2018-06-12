@@ -6,6 +6,7 @@
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "LoginLogicHandler.h"
 #include "FlowDataSingleton.h"
+#include "HQHistoryManager.h"
 
 using namespace cocos2d;
 
