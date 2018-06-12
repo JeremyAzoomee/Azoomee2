@@ -43,6 +43,10 @@ void OomeeItem::initWithData(const rapidjson::Value& itemConfig)
     }
     setIconFilename(getStringFromJson("iconFilename", itemConfig));
     setUseColourHue(getBoolFromJson("useColourHue", itemConfig));
+    if(itemConfig.HasMember("dependancies"))
+    {
+        setDependancies(getStringArrayFromJson(itemConfig["dependancies"]));
+    }
 }
 
 // GETTERS AND SETTERS
@@ -157,5 +161,14 @@ bool OomeeItem::isUsingColourHue() const
     return _useColourHue;
 }
 
+void OomeeItem::setDependancies(const std::vector<std::string> &dependancies)
+{
+    _dependancies = dependancies;
+}
+
+std::vector<std::string> OomeeItem::getDependancies() const
+{
+    return _dependancies;
+}
 
 NS_AZOOMEE_OM_END

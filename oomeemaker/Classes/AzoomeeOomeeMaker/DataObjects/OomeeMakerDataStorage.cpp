@@ -170,4 +170,14 @@ std::vector<OomeeItemRef> OomeeMakerDataStorage::getItemsForCategory(const std::
     return items;
 }
 
+std::vector<OomeeItemRef> OomeeMakerDataStorage::getFilteredItemsForCategory(const std::string &key, const Azoomee::OomeeMaker::OomeeRef &activeOomee)
+{
+    const std::vector<std::string>& incompatableItemIds = activeOomee->getIncompatableAccessories();
+    std::vector<OomeeItemRef> itemData = getItemsForCategory(key);
+    itemData.erase(std::remove_if(itemData.begin(), itemData.end(), [&](OomeeItemRef item) {
+        return std::find(incompatableItemIds.begin(), incompatableItemIds.end(), item->getId()) != incompatableItemIds.end();
+    }),itemData.end());
+    return itemData;
+}
+
 NS_AZOOMEE_OM_END

@@ -25,7 +25,7 @@ void OomeeItemList::doLayout()
 void OomeeItemList::interceptTouchEvent(cocos2d::ui::Widget::TouchEventType event, cocos2d::ui::Widget *sender, cocos2d::Touch* touch)
 {
     // use this to handle touch on buttons if we have mutiple columns
-    forceDoLayout();
+    //forceDoLayout();
 }
 
 void OomeeItemList::setItems(const std::vector<OomeeItemRef>& itemList)
@@ -54,7 +54,8 @@ void OomeeItemList::setItems(const std::vector<OomeeItemRef>& itemList)
                 button->setItemData(item);
                 button->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
                 button->setNormalizedPosition(Vec2((column + 0.5) / _columns, 0.5));
-                itemRow->setContentSize(Size(this->getContentSize().width * ((column + 1)/_columns), MAX(button->getContentSize().height, itemRow->getContentSize().height)));
+                button->setSwallowTouches(false);
+                itemRow->setContentSize(Size(this->getContentSize().width, MAX(button->getContentSize().height, itemRow->getContentSize().height)));
                 itemRow->addChild(button);
             }
             i++;
@@ -95,7 +96,7 @@ void OomeeItemList::SetColourItems()
                         }
                     }
                 });
-                itemRow->setContentSize(Size(this->getContentSize().width * ((column + 1)/_columns), MAX(colourButton->getContentSize().height, itemRow->getContentSize().height)));
+                itemRow->setContentSize(Size(this->getContentSize().width, MAX(colourButton->getContentSize().height, itemRow->getContentSize().height)));
                 itemRow->addChild(colourButton);
             }
             i++;

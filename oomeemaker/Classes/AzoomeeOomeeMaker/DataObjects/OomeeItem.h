@@ -33,7 +33,7 @@ private:
     AssetMap _assetSet;
     std::string _iconFilename;
     bool _useColourHue;
-    
+    std::vector<std::string> _dependancies;
     
 public:
     static OomeeItemRef create();
@@ -66,6 +66,8 @@ public:
     std::string getIconFilename() const;
     void setUseColourHue(bool useColourHue);
     bool isUsingColourHue() const;
+    void setDependancies(const std::vector<std::string>& dependancies);
+    std::vector<std::string> getDependancies() const;
     
 };
 

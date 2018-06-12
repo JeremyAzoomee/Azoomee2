@@ -206,22 +206,31 @@ std::vector<std::string> OomeeFigure::getAccessoryIds() const
 
 void OomeeFigure::addAccessory(const OomeeItemRef& oomeeItem)
 {
-    if(_baseSprite && (_oomeeData->getAnchorPoints().find(oomeeItem->getTargetAnchor()) != _oomeeData->getAnchorPoints().end()) && oomeeItem )
+    if(oomeeItem)
     {
-        removeAccessory(oomeeItem->getTargetAnchor());
-        /*_accessoryData[oomeeItem->getTargetAnchor()] = oomeeItem;
-        SpriteWithHue* item = SpriteWithHue::create(OomeeMakerDataHandler::getInstance()->getAssetDir() + oomeeItem->getAssetName());
-        const Size& baseSpriteSize = _baseSprite->getContentSize();
-        Vec2 anchorPoint = _oomeeData->getAnchorPoints().at(oomeeItem->getTargetAnchor()); // dont const& - unstable on android, caused many tears
-        item->setPosition(Vec2(baseSpriteSize.width * anchorPoint.x, baseSpriteSize.height * anchorPoint.y) + oomeeItem->getOffset());
-        item->setScale(oomeeItem->getTargetScale());
-        if(oomeeItem->isUsingColourHue())
+        const auto& incompatAccList = _oomeeData->getIncompatableAccessories();
+        if(std::find(incompatAccList.begin(),incompatAccList.end(), oomeeItem->getId()) != incompatAccList.end())
         {
-            item->setHue(_hue);
+            return;
         }
-        _baseSprite->addChild(item, oomeeItem->getZOrder());
-        _accessorySprites[oomeeItem->getTargetAnchor()] = item;
-         */
+    }
+    else
+    {
+        return;
+    }
+    
+    if(_baseSprite && (_oomeeData->getAnchorPoints().find(oomeeItem->getTargetAnchor()) != _oomeeData->getAnchorPoints().end()))
+    {
+        if(_accessories.find(oomeeItem->getTargetAnchor()) != _accessories.end())
+        {
+            OomeeAccessory* accessory = _accessories.at(oomeeItem->getTargetAnchor());
+            if(accessory->getItemId() == oomeeItem->getId()) // accessory is already there
+            {
+                return;
+            }
+        }
+        
+        removeAccessory(oomeeItem->getTargetAnchor());
         OomeeAccessory* accessory = OomeeAccessory::create();
         accessory->setItemData(oomeeItem);
         if(_colour)
@@ -234,6 +243,11 @@ void OomeeFigure::addAccessory(const OomeeItemRef& oomeeItem)
         accessory->setScale(oomeeItem->getTargetScale());
         _baseSprite->addChild(accessory, _baseSprite->transformZOrder(oomeeItem->getZOrder()));
         _accessories[oomeeItem->getTargetAnchor()] = accessory;
+        
+        for(const std::string& id : oomeeItem->getDependancies())
+        {
+            addAccessory(OomeeMakerDataStorage::getInstance()->getOomeeItemForKey(id));
+        }
     }
 }
 
@@ -244,18 +258,6 @@ void OomeeFigure::removeAccessory(const std::string anchorPoint)
         _accessories.at(anchorPoint)->removeFromParent();
         _accessories.erase(_accessories.find(anchorPoint));
     }
-    /*
-    if(_accessorySprites.find(anchorPoint) != _accessorySprites.end())
-    {
-        _accessorySprites.at(anchorPoint)->removeFromParent();
-        _accessorySprites.erase(_accessorySprites.find(anchorPoint));
-    }
-    
-    if(_accessoryData.find(anchorPoint) != _accessoryData.end())
-    {
-        _accessoryData.erase(_accessoryData.find(anchorPoint));
-    }
-     */
 }
 
 void OomeeFigure::setEditable(bool isEditable)

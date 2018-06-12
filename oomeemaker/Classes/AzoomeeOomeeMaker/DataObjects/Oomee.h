@@ -25,6 +25,7 @@ private:
     std::map<std::string, cocos2d::Vec2> _anchorPoints;
     std::vector<std::string> _lockedAnchors;
     std::vector<std::string> _defaultAccessories;
+    std::vector<std::string> _incompatibleAccessories;
     cocos2d::Vec2 _position;
     float _scale;
     float _sizeMultiplier;
@@ -45,6 +46,8 @@ public:
     std::vector<std::string> getLockedAnchors() const;
     void setDefaultAccessories(const std::vector<std::string>& defaultAccessories);
     std::vector<std::string> getDefaultAccessories() const;
+    void setIncompatableAccessories(const std::vector<std::string>& incompatableAccessories);
+    std::vector<std::string> getIncompatableAccessories() const;
     void setPosition(const cocos2d::Vec2& position);
     cocos2d::Vec2 getPosition() const;
     void setScale(float scale);

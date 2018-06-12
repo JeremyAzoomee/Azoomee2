@@ -137,7 +137,14 @@ void OomeeMakerScene::setItemsListForCategory(const ItemCategoryRef& data)
         }
         else
         {
-            _itemList->setItems(OomeeMakerDataStorage::getInstance()->getItemsForCategory(data->getId()));
+            if(_oomee)
+            {
+                _itemList->setItems(OomeeMakerDataStorage::getInstance()->getFilteredItemsForCategory(data->getId(), _oomee->getOomeeData()));
+            }
+            else
+            {
+                _itemList->setItems(OomeeMakerDataStorage::getInstance()->getItemsForCategory(data->getId()));
+            }
         }
     }
 }

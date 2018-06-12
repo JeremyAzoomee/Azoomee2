@@ -29,9 +29,22 @@ Oomee::Oomee()
 void Oomee::initWithData(const rapidjson::Document& oomeeConfig)
 {
     setId(getStringFromJson("id", oomeeConfig));
-    setAnchorPoints(getVec2MapFromJson(oomeeConfig["anchorPoints"]));
-    setLockedAnchors(getStringArrayFromJson(oomeeConfig["lockedAnchors"]));
-    setDefaultAccessories(getStringArrayFromJson(oomeeConfig["defaultAccessories"]));
+    if(oomeeConfig.HasMember("anchorPoints"))
+    {
+        setAnchorPoints(getVec2MapFromJson(oomeeConfig["anchorPoints"]));
+    }
+    if(oomeeConfig.HasMember("lockedAnchors"))
+    {
+        setLockedAnchors(getStringArrayFromJson(oomeeConfig["lockedAnchors"]));
+    }
+    if(oomeeConfig.HasMember("defaultAccessories"))
+    {
+        setDefaultAccessories(getStringArrayFromJson(oomeeConfig["defaultAccessories"]));
+    }
+    if(oomeeConfig.HasMember("incompatableAccessories"))
+    {
+        setIncompatableAccessories(getStringArrayFromJson(oomeeConfig["incompatableAccessories"]));
+    }
     setPosition(getVec2FromJson("position", oomeeConfig));
     setScale(getFloatFromJson("scale", oomeeConfig));
     setSizeMultiplier(getFloatFromJson("sizeMultiplier", oomeeConfig));
@@ -77,6 +90,15 @@ void Oomee::setDefaultAccessories(const std::vector<std::string>& defaultAccesso
 std::vector<std::string> Oomee::getDefaultAccessories() const
 {
     return _defaultAccessories;
+}
+
+void Oomee::setIncompatableAccessories(const std::vector<std::string>& incompatableAccessories)
+{
+    _incompatibleAccessories = incompatableAccessories;
+}
+std::vector<std::string> Oomee::getIncompatableAccessories() const
+{
+    return _incompatibleAccessories;
 }
 
 void Oomee::setPosition(const cocos2d::Vec2& position)
