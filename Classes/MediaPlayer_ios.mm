@@ -54,7 +54,7 @@
     
     AVQueuePlayer* queuePlayer = [[AVQueuePlayer alloc] initWithItems:playlistItems];
     self.queuePlayer = [queuePlayer autorelease];
-
+    
     dispatch_queue_t mainQueue = dispatch_get_main_queue();
     [self.queuePlayer addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(1.0f, NSEC_PER_SEC) queue:mainQueue usingBlock:^(CMTime time) {
         [self playbackTimeTickEvent];
@@ -67,6 +67,7 @@
     
     self.playerController.player = self.queuePlayer;
     [self.playerController.view setFrame:CGRectMake(0, 0, bounds.size.width, bounds.size.height)];
+    self.playerController.allowsPictureInPicturePlayback = false;
     
     [self.view addSubview:self.playerController.view];
     
