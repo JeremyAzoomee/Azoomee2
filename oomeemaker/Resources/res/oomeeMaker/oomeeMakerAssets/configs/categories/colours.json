@@ -1,7 +1,7 @@
 {
 	"id": "colours",
-	"iconFilenameSelected": "assets/categoryButtons/s_bodycolour_pallette.png",
-	"iconFilenameUnselected": "assets/categoryButtons/u_bodycolour_pallette.png",
+	"iconFilenameSelected": "assets/categoryButtons/S_Bodycolour_pallette.png",
+	"iconFilenameUnselected": "assets/categoryButtons/U_Bodycolour_pallette.png",
 	"holidaySeasons": ["none"],
 	"scaleSelected": 1.25,
 	"scaleUnselected": 1.0,

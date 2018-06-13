@@ -4,26 +4,34 @@
 	{
 		"id": "hat01",
 		"targetAnchor": "head",
-		"offset": [0.0,-20.0],
+		"offset": [0.0,0.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
 		"targetScale": 1.0,
-		"zOrder": 1,
+		"zOrder": 6,
 		"categoryId": "hats",
-		"assetFilename": "assets/hats/hat_01.png"
+		"iconFilename": "assets/accessories/Hat1.png",
+		"assetSet": {
+			"base": ["assets/accessories/Hat1.png",0]
+		},
+		"useColourHue": false
 	},
 	{
 		"id": "hat02",
 		"targetAnchor": "head",
-		"offset": [-20.0,-25.0],
+		"offset": [0.0,0.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
 		"targetScale": 1.0,
-		"zOrder": 1,
+		"zOrder": 6,
 		"categoryId": "hats",
-		"assetFilename": "assets/hats/hat_02.png"
+		"iconFilename": "assets/accessories/Hat2.png",
+		"assetSet": {
+			"base": ["assets/accessories/Hat2.png",0]
+		},
+		"useColourHue": false
 	},
 	{
 		"id": "hat03",
@@ -33,9 +41,13 @@
 		"menuScale": 1.0,
 		"dragScale": 2.0,
 		"targetScale": 1.0,
-		"zOrder": 1,
+		"zOrder": 6,
 		"categoryId": "hats",
-		"assetFilename": "assets/hats/hat_03.png"
+		"iconFilename": "assets/accessories/Hat3.png",
+		"assetSet": {
+			"base": ["assets/accessories/Hat3.png",0]
+		},
+		"useColourHue": false
 	},
 	{
 		"id": "hat04",
@@ -45,33 +57,45 @@
 		"menuScale": 1.0,
 		"dragScale": 2.0,
 		"targetScale": 1.0,
-		"zOrder": 1,
+		"zOrder": 6,
 		"categoryId": "hats",
-		"assetFilename": "assets/hats/hat_04.png"
+		"iconFilename": "assets/accessories/Hat4.png",
+		"assetSet": {
+			"base": ["assets/accessories/Hat4.png",0]
+		},
+		"useColourHue": false
 	},
 	{
 		"id": "hat05",
 		"targetAnchor": "head",
-		"offset": [0.0,-10.0],
+		"offset": [0.0,0.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
 		"targetScale": 1.0,
-		"zOrder": 1,
+		"zOrder": 6,
 		"categoryId": "hats",
-		"assetFilename": "assets/hats/hat_05.png"
+		"iconFilename": "assets/accessories/Hat5.png",
+		"assetSet": {
+			"base": ["assets/accessories/Hat5.png",0]
+		},
+		"useColourHue": false
 	},
 	{
 		"id": "hat06",
 		"targetAnchor": "head",
-		"offset": [0.0,-10.0],
+		"offset": [0.0,0.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
 		"targetScale": 1.0,
-		"zOrder": 1,
+		"zOrder": 6,
 		"categoryId": "hats",
-		"assetFilename": "assets/hats/hat_06.png"
+		"iconFilename": "assets/accessories/Hat6.png",
+		"assetSet": {
+			"base": ["assets/accessories/Hat6.png",0]
+		},
+		"useColourHue": false
 	},
 	{
 		"id": "hat07",
@@ -81,21 +105,29 @@
 		"menuScale": 1.0,
 		"dragScale": 2.0,
 		"targetScale": 1.0,
-		"zOrder": 1,
+		"zOrder": 6,
 		"categoryId": "hats",
-		"assetFilename": "assets/hats/hat_07.png"
+		"iconFilename": "assets/accessories/Hat7.png",
+		"assetSet": {
+			"base": ["assets/accessories/Hat7.png",0]
+		},
+		"useColourHue": false
 	},
 	{
 		"id": "hat08",
 		"targetAnchor": "head",
-		"offset": [0.0,-40.0],
+		"offset": [0.0,0.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
 		"targetScale": 1.0,
-		"zOrder": 1,
+		"zOrder": 6,
 		"categoryId": "hats",
-		"assetFilename": "assets/hats/hat_08.png"
+		"iconFilename": "assets/accessories/Hat8.png",
+		"assetSet": {
+			"base": ["assets/accessories/Hat8.png",0]
+		},
+		"useColourHue": false
 	},
 	{
 		"id": "hat09",
@@ -105,21 +137,29 @@
 		"menuScale": 1.0,
 		"dragScale": 2.0,
 		"targetScale": 1.0,
-		"zOrder": 1,
+		"zOrder": 6,
 		"categoryId": "hats",
-		"assetFilename": "assets/hats/hat_09.png"
+		"iconFilename": "assets/accessories/Hat9.png",
+		"assetSet": {
+			"base": ["assets/accessories/Hat9.png",0]
+		},
+		"useColourHue": false
 	},
 	{
 		"id": "hat10",
 		"targetAnchor": "head",
-		"offset": [0.0,-75.0],
+		"offset": [0.0,0.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
 		"targetScale": 1.0,
-		"zOrder": 1,
+		"zOrder": 6,
 		"categoryId": "hats",
-		"assetFilename": "assets/hats/hat_10.png"
+		"iconFilename": "assets/accessories/Hat10.png",
+		"assetSet": {
+			"base": ["assets/accessories/Hat10.png",0]
+		},
+		"useColourHue": false
 	},
 	{
 		"id": "hat11",
@@ -129,9 +169,13 @@
 		"menuScale": 1.0,
 		"dragScale": 2.0,
 		"targetScale": 1.0,
-		"zOrder": 1,
+		"zOrder": 6,
 		"categoryId": "hats",
-		"assetFilename": "assets/hats/hat_11.png"
+		"iconFilename": "assets/accessories/Hat11.png",
+		"assetSet": {
+			"base": ["assets/accessories/Hat11.png",0]
+		},
+		"useColourHue": false
 	},
 	{
 		"id": "hat12",
@@ -141,93 +185,13 @@
 		"menuScale": 1.0,
 		"dragScale": 2.0,
 		"targetScale": 1.0,
-		"zOrder": 1,
+		"zOrder": 6,
 		"categoryId": "hats",
-		"assetFilename": "assets/hats/hat_12.png"
-	},
-	{
-		"id": "hat13",
-		"targetAnchor": "head",
-		"offset": [0.0,-20.0],
-		"snapRange": [100.0,100.0],
-		"menuScale": 1.0,
-		"dragScale": 2.0,
-		"targetScale": 1.0,
-		"zOrder": 1,
-		"categoryId": "hats",
-		"assetFilename": "assets/hats/hat_13.png"
-	},
-	{
-		"id": "hat14",
-		"targetAnchor": "head",
-		"offset": [0.0,-20.0],
-		"snapRange": [100.0,100.0],
-		"menuScale": 1.0,
-		"dragScale": 2.0,
-		"targetScale": 1.0,
-		"zOrder": 1,
-		"categoryId": "hats",
-		"assetFilename": "assets/hats/hat_14.png"
-	},
-	{
-		"id": "hat15",
-		"targetAnchor": "head",
-		"offset": [0.0,30.0],
-		"snapRange": [100.0,100.0],
-		"menuScale": 1.0,
-		"dragScale": 2.0,
-		"targetScale": 1.0,
-		"zOrder": 1,
-		"categoryId": "hats",
-		"assetFilename": "assets/hats/hat_15.png"
-	},
-	{
-		"id": "hat16",
-		"targetAnchor": "head",
-		"offset": [0.0,15.0],
-		"snapRange": [100.0,100.0],
-		"menuScale": 1.0,
-		"dragScale": 2.0,
-		"targetScale": 1.0,
-		"zOrder": 1,
-		"categoryId": "hats",
-		"assetFilename": "assets/hats/hat_16.png"
-	},
-	{
-		"id": "hat17",
-		"targetAnchor": "head",
-		"offset": [15.0,-25.0],
-		"snapRange": [100.0,100.0],
-		"menuScale": 1.0,
-		"dragScale": 2.0,
-		"targetScale": 1.0,
-		"zOrder": 1,
-		"categoryId": "hats",
-		"assetFilename": "assets/hats/hat_17.png"
-	},
-	{
-		"id": "hat18",
-		"targetAnchor": "head",
-		"offset": [0.0,0.0],
-		"snapRange": [100.0,100.0],
-		"menuScale": 1.0,
-		"dragScale": 2.0,
-		"targetScale": 1.0,
-		"zOrder": 1,
-		"categoryId": "hats",
-		"assetFilename": "assets/hats/hat_18.png"
-	},
-	{
-		"id": "hat19",
-		"targetAnchor": "head",
-		"offset": [0.0,25.0],
-		"snapRange": [100.0,100.0],
-		"menuScale": 1.0,
-		"dragScale": 2.0,
-		"targetScale": 1.0,
-		"zOrder": 1,
-		"categoryId": "hats",
-		"assetFilename": "assets/hats/hat_19.png"
+		"iconFilename": "assets/accessories/Hat12.png",
+		"assetSet": {
+			"base": ["assets/accessories/Hat12.png",0]
+		},
+		"useColourHue": false
 	}
 ]
 }

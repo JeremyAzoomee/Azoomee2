@@ -4,262 +4,204 @@
 	{
 		"id": "face01",
 		"targetAnchor": "face",
-		"offset": [0.0,0.0],
+		"offset": [0.0,-15.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
 		"targetScale": 1.0,
-		"zOrder": 2,
+		"zOrder": 4,
 		"categoryId": "faces",
-		"assetFilename": "assets/face/face_01.png",
+		"iconFilename": "assets/faces/Eyes_Brown.png",
+		"assetSet": {
+			"shadowEyes": ["assets/faces/Eyes_Shadow.png",0],
+			"none": ["assets/faces/Eyes_Brown.png",1]
+		},
 		"useColourHue": true
 	},
 	{
 		"id": "face02",
 		"targetAnchor": "face",
-		"offset": [0.0,-35.0],
+		"offset": [0.0,-15.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
 		"targetScale": 1.0,
-		"zOrder": 2,
+		"zOrder": 4,
 		"categoryId": "faces",
-		"assetFilename": "assets/face/face_02.png",
+		"iconFilename": "assets/faces/Eyes_Black.png",
+		"assetSet": {
+			"shadowEyes": ["assets/faces/Eyes_Shadow.png",0],
+			"none": ["assets/faces/Eyes_Black.png",1]
+		},
 		"useColourHue": true
 	},
 	{
 		"id": "face03",
 		"targetAnchor": "face",
-		"offset": [0.0,-55.0],
+		"offset": [0.0,-15.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
 		"targetScale": 1.0,
-		"zOrder": 2,
+		"zOrder": 4,
 		"categoryId": "faces",
-		"assetFilename": "assets/face/face_03.png",
+		"iconFilename": "assets/faces/Eyes_Brown_2.png",
+		"assetSet": {
+			"gloss": ["assets/faces/Eyes_Shadow_2.png",0],
+			"highlight": ["assets/faces/Oomee_Cheeks.png",1],
+			"none": ["assets/faces/Eyes_Brown_2.png",2]
+		},
 		"useColourHue": true
 	},
 	{
 		"id": "face04",
 		"targetAnchor": "face",
-		"offset": [0.0,-80.0],
+		"offset": [0.0,-15.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
 		"targetScale": 1.0,
-		"zOrder": 2,
+		"zOrder": 4,
 		"categoryId": "faces",
-		"assetFilename": "assets/face/face_04.png",
+		"iconFilename": "assets/faces/EyesMouth03.png",
+		"assetSet": {
+			"shadowEyes": ["assets/faces/EyesShadow03.png",0],
+			"none": ["assets/faces/EyesMouth03.png",1]
+		},
 		"useColourHue": true
 	},
 	{
 		"id": "face05",
 		"targetAnchor": "face",
-		"offset": [0.0,5.0],
+		"offset": [0.0,-15.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
 		"targetScale": 1.0,
-		"zOrder": 2,
+		"zOrder": 4,
 		"categoryId": "faces",
-		"assetFilename": "assets/face/face_05.png",
+		"iconFilename": "assets/faces/Eyes_Mouth_Black.png",
+		"assetSet": {
+			"shadowEyes": ["assets/faces/Eyes_Shadow.png",0],
+			"none": ["assets/faces/Eyes_Mouth_Black.png",1]
+		},
 		"useColourHue": true
 	},
 	{
 		"id": "face06",
 		"targetAnchor": "face",
-		"offset": [0.0,5.0],
+		"offset": [0.0,-15.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
 		"targetScale": 1.0,
-		"zOrder": 2,
+		"zOrder": 4,
 		"categoryId": "faces",
-		"assetFilename": "assets/face/face_06.png",
+		"iconFilename": "assets/faces/EyesMouth04.png",
+		"assetSet": {
+			"shadowEyes": ["assets/faces/EyesShadow07.png",0],
+			"none": ["assets/faces/EyesMouth04.png",1]
+		},
 		"useColourHue": true
 	},
 	{
 		"id": "face07",
 		"targetAnchor": "face",
-		"offset": [0.0,-40.0],
+		"offset": [0.0,-15.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
 		"targetScale": 1.0,
-		"zOrder": 2,
+		"zOrder": 4,
 		"categoryId": "faces",
-		"assetFilename": "assets/face/face_07.png",
+		"iconFilename": "assets/faces/EyesBlack03.png",
+		"assetSet": {
+			"none": ["assets/faces/EyesBlack03.png",0]
+		},
 		"useColourHue": true
 	},
 	{
 		"id": "face08",
 		"targetAnchor": "face",
-		"offset": [0.0,-40.0],
+		"offset": [0.0,-15.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
 		"targetScale": 1.0,
-		"zOrder": 2,
+		"zOrder": 4,
 		"categoryId": "faces",
-		"assetFilename": "assets/face/face_08.png",
+		"iconFilename": "assets/faces/EyesMouth05.png",
+		"assetSet": {
+			"none": ["assets/faces/EyesMouth05.png",0]
+		},
 		"useColourHue": true
 	},
 	{
 		"id": "face09",
 		"targetAnchor": "face",
-		"offset": [0.0,5.0],
+		"offset": [0.0,-15.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
 		"targetScale": 1.0,
-		"zOrder": 2,
+		"zOrder": 4,
 		"categoryId": "faces",
-		"assetFilename": "assets/face/face_09.png",
+		"iconFilename": "assets/faces/EyesMouthBlack02.png",
+		"assetSet": {
+			"shadowEyes": ["assets/faces/EyesShadow05.png",0],
+			"none": ["assets/faces/EyesMouthBlack02.png",1]
+		},
 		"useColourHue": true
 	},
 	{
 		"id": "face10",
 		"targetAnchor": "face",
-		"offset": [0.0,15.0],
+		"offset": [0.0,-15.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
 		"targetScale": 1.0,
-		"zOrder": 2,
+		"zOrder": 4,
 		"categoryId": "faces",
-		"assetFilename": "assets/face/face_10.png",
+		"iconFilename": "assets/faces/EyesMouth06.png",
+		"assetSet": {
+			"none": ["assets/faces/EyesMouth06.png",0]
+		},
 		"useColourHue": true
 	},
 	{
 		"id": "face11",
 		"targetAnchor": "face",
-		"offset": [0.0,5.0],
+		"offset": [0.0,-15.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
 		"targetScale": 1.0,
-		"zOrder": 2,
+		"zOrder": 4,
 		"categoryId": "faces",
-		"assetFilename": "assets/face/face_11.png",
+		"iconFilename": "assets/faces/EyesMouth07.png",
+		"assetSet": {
+			"none": ["assets/faces/EyesMouth07.png",0]
+		},
 		"useColourHue": true
 	},
 	{
 		"id": "face12",
 		"targetAnchor": "face",
-		"offset": [0.0,5.0],
+		"offset": [0.0,-15.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
 		"targetScale": 1.0,
-		"zOrder": 2,
+		"zOrder": 4,
 		"categoryId": "faces",
-		"assetFilename": "assets/face/face_12.png",
-		"useColourHue": true
-	},
-	{
-		"id": "face13",
-		"targetAnchor": "face",
-		"offset": [-35.0,-45.0],
-		"snapRange": [100.0,100.0],
-		"menuScale": 1.0,
-		"dragScale": 2.0,
-		"targetScale": 1.0,
-		"zOrder": 2,
-		"categoryId": "faces",
-		"assetFilename": "assets/face/face_13.png",
-		"useColourHue": true
-	},
-	{
-		"id": "face14",
-		"targetAnchor": "face",
-		"offset": [0.0,-30.0],
-		"snapRange": [100.0,100.0],
-		"menuScale": 1.0,
-		"dragScale": 2.0,
-		"targetScale": 1.0,
-		"zOrder": 2,
-		"categoryId": "faces",
-		"assetFilename": "assets/face/face_14.png",
-		"useColourHue": true
-	},
-	{
-		"id": "face15",
-		"targetAnchor": "face",
-		"offset": [0.0,-45.0],
-		"snapRange": [100.0,100.0],
-		"menuScale": 1.0,
-		"dragScale": 2.0,
-		"targetScale": 1.0,
-		"zOrder": 2,
-		"categoryId": "faces",
-		"assetFilename": "assets/face/face_15.png",
-		"useColourHue": true
-	},
-	{
-		"id": "face16",
-		"targetAnchor": "face",
-		"offset": [0.0,-60.0],
-		"snapRange": [100.0,100.0],
-		"menuScale": 1.0,
-		"dragScale": 2.0,
-		"targetScale": 1.0,
-		"zOrder": 2,
-		"categoryId": "faces",
-		"assetFilename": "assets/face/face_16.png",
-		"useColourHue": true
-	},
-	{
-		"id": "face17",
-		"targetAnchor": "face",
-		"offset": [-7.0,-20.0],
-		"snapRange": [100.0,100.0],
-		"menuScale": 1.0,
-		"dragScale": 2.0,
-		"targetScale": 1.0,
-		"zOrder": 2,
-		"categoryId": "faces",
-		"assetFilename": "assets/face/face_17.png",
-		"useColourHue": true
-	},
-	{
-		"id": "face18",
-		"targetAnchor": "face",
-		"offset": [0.0,-45.0],
-		"snapRange": [100.0,100.0],
-		"menuScale": 1.0,
-		"dragScale": 2.0,
-		"targetScale": 1.0,
-		"zOrder": 2,
-		"categoryId": "faces",
-		"assetFilename": "assets/face/face_18.png",
-		"useColourHue": true
-	},
-	{
-		"id": "face19",
-		"targetAnchor": "face",
-		"offset": [0.0,-45.0],
-		"snapRange": [100.0,100.0],
-		"menuScale": 1.0,
-		"dragScale": 2.0,
-		"targetScale": 1.0,
-		"zOrder": 2,
-		"categoryId": "faces",
-		"assetFilename": "assets/face/face_19.png",
-		"useColourHue": true
-	},
-	{
-		"id": "face20",
-		"targetAnchor": "face",
-		"offset": [-10.0,-55.0],
-		"snapRange": [100.0,100.0],
-		"menuScale": 1.0,
-		"dragScale": 2.0,
-		"targetScale": 1.0,
-		"zOrder": 2,
-		"categoryId": "faces",
-		"assetFilename": "assets/face/face_20.png",
+		"iconFilename": "assets/faces/EyesMouth08.png",
+		"assetSet": {
+			"shadowEyes": ["assets/faces/EyesMouth08_Shadow.png",0],
+			"none": ["assets/faces/EyesMouth08.png",1]
+		},
 		"useColourHue": true
 	}
+
 ]
 }

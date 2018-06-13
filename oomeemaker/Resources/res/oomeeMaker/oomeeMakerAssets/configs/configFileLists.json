@@ -16,11 +16,19 @@
 	"categoryConfigs":
 	[
 		"configs/categories/colours.json",
-		"configs/categories/test.json"
+		"configs/categories/ears.json",
+		"configs/categories/faces.json",
+		"configs/categories/hats.json",
+		"configs/categories/objects.json",
+		"configs/categories/arms.json"
 	],
 	"itemConfigs":
 	[
-		"configs/items/test.json"
+		"configs/items/armItems.json",
+		"configs/items/earItems.json",
+		"configs/items/faceItems.json",
+		"configs/items/hatItems.json",
+		"configs/items/objectItems.json"
 	],
 	"colourConfigs":
 	[
