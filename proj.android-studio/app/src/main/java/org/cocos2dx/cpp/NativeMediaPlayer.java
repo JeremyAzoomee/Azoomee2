@@ -6,6 +6,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -221,7 +222,15 @@ public class NativeMediaPlayer extends Activity {
                     videoview.stopPlayback();
                 }
 
-                finish();
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        JNICalls.JNIRegisterAndroidSceneChangeEvent();
+
+                        finish();
+                    }
+                }, 1500);
             }
 
         });
@@ -407,7 +416,15 @@ public class NativeMediaPlayer extends Activity {
             videoview.stopPlayback();
         }
 
-        finish();
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                JNICalls.JNIRegisterAndroidSceneChangeEvent();
+
+                finish();
+            }
+        }, 1500);
 
     }
 }
