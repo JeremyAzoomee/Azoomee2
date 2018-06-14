@@ -4,7 +4,7 @@
 	{
 		"id": "glasses01",
 		"targetAnchor": "eyes",
-		"offset": [0.0,0.0],
+		"offset": [0.0,-50.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -14,6 +14,22 @@
 		"iconFilename": "assets/accessories/Glasses1.png",
 		"assetSet": {
 			"base": ["assets/accessories/Glasses1.png",0]
+		},
+		"useColourHue": false
+	},
+	{
+		"id": "glasses02",
+		"targetAnchor": "eyes",
+		"offset": [0.0,-50.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 6,
+		"categoryId": "objects",
+		"iconFilename": "assets/accessories/Glasses2.png",
+		"assetSet": {
+			"base": ["assets/accessories/Glasses2.png",0]
 		},
 		"useColourHue": false
 	},
@@ -60,7 +76,7 @@
 	{
 		"id": "toy03",
 		"targetAnchor": "toy",
-		"offset": [0.0,-20.0],
+		"offset": [0.0,15.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -80,7 +96,7 @@
 	{
 		"id": "toy04",
 		"targetAnchor": "toy",
-		"offset": [0.0,-20.0],
+		"offset": [0.0,-30.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -100,7 +116,7 @@
 	{
 		"id": "toy05",
 		"targetAnchor": "toy",
-		"offset": [0.0,-20.0],
+		"offset": [0.0,15.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -120,7 +136,7 @@
 	{
 		"id": "toy06",
 		"targetAnchor": "toy",
-		"offset": [0.0,-20.0],
+		"offset": [-250.0,45.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -140,7 +156,7 @@
 	{
 		"id": "toy07",
 		"targetAnchor": "toy",
-		"offset": [0.0,-20.0],
+		"offset": [250.0,130.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -160,7 +176,7 @@
 	{
 		"id": "toy08",
 		"targetAnchor": "toy",
-		"offset": [0.0,-20.0],
+		"offset": [220.0,40.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -176,6 +192,58 @@
 			"armLeft15",
 			"armRight15"
 		]
+	},
+	{
+		"id": "toy09",
+		"targetAnchor": "toy",
+		"offset": [-250.0,270.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 6,
+		"categoryId": "objects",
+		"iconFilename": "assets/accessories/Toy9.png",
+		"assetSet": {
+			"base": ["assets/accessories/Toy9.png",0]
+		},
+		"useColourHue": false,
+		"dependancies": [
+			"armLeft17",
+			"armRight17"
+		]
+	},
+	{
+		"id": "cape01",
+		"targetAnchor": "toy",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "objects",
+		"iconFilename": "assets/accessories/Cape1.png",
+		"assetSet": {
+			"base": ["assets/accessories/Cape1.png",0]
+		},
+		"useColourHue": false
+	},
+	{
+		"id": "horns01",
+		"targetAnchor": "head",
+		"offset": [0.0,-105.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "objects",
+		"iconFilename": "assets/accessories/Horns2.png",
+		"assetSet": {
+			"base": ["assets/accessories/Horns2.png",0]
+		},
+		"useColourHue": false
 	}
 ]
 }

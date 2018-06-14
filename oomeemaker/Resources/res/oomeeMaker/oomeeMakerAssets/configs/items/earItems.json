@@ -22,13 +22,13 @@
 	{
 		"id": "ears02",
 		"targetAnchor": "ears",
-		"offset": [0.0,-20.0],
+		"offset": [0.0,-45.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
 		"targetScale": 1.0,
 		"zOrder": -1,
-		"categoryId": "test",
+		"categoryId": "ears",
 		"iconFilename": "assets/ears/Oomee_Ears_Blue.png",
 		"assetSet": {
 			"faceGradient": ["assets/ears/ear02_Solid.png",0],
@@ -56,7 +56,7 @@
 	{
 		"id": "ears04",
 		"targetAnchor": "ears",
-		"offset": [0.0,-20.0],
+		"offset": [0.0,-40.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -75,7 +75,7 @@
 	{
 		"id": "ears05",
 		"targetAnchor": "ears",
-		"offset": [0.0,-20.0],
+		"offset": [0.0,-45.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -93,7 +93,7 @@
 	{
 		"id": "ears06",
 		"targetAnchor": "ears",
-		"offset": [0.0,-20.0],
+		"offset": [0.0,-15.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -111,7 +111,7 @@
 	{
 		"id": "ears07",
 		"targetAnchor": "ears",
-		"offset": [0.0,-20.0],
+		"offset": [0.0,30.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -128,7 +128,7 @@
 	{
 		"id": "ears08",
 		"targetAnchor": "ears",
-		"offset": [0.0,-20.0],
+		"offset": [0.0,25.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -146,7 +146,7 @@
 	{
 		"id": "ears09",
 		"targetAnchor": "ears",
-		"offset": [0.0,-20.0],
+		"offset": [0.0,15.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -164,7 +164,7 @@
 	{
 		"id": "ears10",
 		"targetAnchor": "ears",
-		"offset": [0.0,-20.0],
+		"offset": [0.0,-70.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -181,7 +181,7 @@
 	{
 		"id": "ears11",
 		"targetAnchor": "ears",
-		"offset": [0.0,-20.0],
+		"offset": [0.0,40.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -197,7 +197,7 @@
 	{
 		"id": "ears12",
 		"targetAnchor": "ears",
-		"offset": [0.0,-20.0],
+		"offset": [-60.0,25.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -216,7 +216,7 @@
 	{
 		"id": "ears13",
 		"targetAnchor": "ears",
-		"offset": [0.0,-20.0],
+		"offset": [0.0,50.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -234,9 +234,102 @@
 		"useColourHue": true
 	},
 	{
-		"id": "antenna01",
+		"id": "ears14",
 		"targetAnchor": "ears",
 		"offset": [0.0,-20.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "ears",
+		"iconFilename": "assets/ears/EarsBlue2.png",
+		"assetSet": {
+			"highlight": ["assets/ears/ear14_Solid.png",0],
+			"shadowLight": ["assets/ears/ear14_Gradient.png",1],
+			"base": ["assets/ears/ear14_Top.png",2],
+			"gradient": ["assets/ears/ear14_TopGradient.png",3]
+
+		},
+		"useColourHue": true
+	},
+	{
+		"id": "ears15",
+		"targetAnchor": "ears",
+		"offset": [0.0,-60.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "ears",
+		"iconFilename": "assets/ears/EarsGreen.png",
+		"assetSet": {
+			"base": ["assets/ears/ear15_Solid.png",0],
+			"gradient": ["assets/ears/ear15_Gradient.png",1],
+			"highlight": ["assets/ears/ear15_Top.png",3],
+			"none": ["assets/ears/EarsGreen.2.png",2]
+
+		},
+		"useColourHue": true
+	},
+	{
+		"id": "ears16",
+		"targetAnchor": "ears",
+		"offset": [0.0,15.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "ears",
+		"iconFilename": "assets/ears/EarsRed2.png",
+		"assetSet": {
+			"base": ["assets/ears/ear16_Solid.png",0],
+			"highlight": ["assets/ears/ear16_Top.png",1]
+		},
+		"useColourHue": true
+	},
+	{
+		"id": "ears17",
+		"targetAnchor": "ears",
+		"offset": [0.0,15.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 5,
+		"categoryId": "hats",
+		"iconFilename": "assets/ears/EarsAqua2.png",
+		"assetSet": {
+			"base": ["assets/ears/ear17_Solid.png",0],
+			"gradient": ["assets/ears/ear17_Bottom.png",1],
+			"gloss": ["assets/ears/ear17_Top.png",2],
+			"none": ["assets/ears/Hat21.png",3]
+
+		},
+		"useColourHue": true
+	},
+	{
+		"id": "ears18",
+		"targetAnchor": "ears",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "ears",
+		"iconFilename": "assets/ears/EarsLightRed2.png",
+		"assetSet": {
+			"base": ["assets/ears/ear18_Solid.png",0]
+		},
+		"useColourHue": true
+	},
+	{
+		"id": "antenna01",
+		"targetAnchor": "ears",
+		"offset": [0.0,25.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -253,7 +346,7 @@
 	{
 		"id": "antenna02",
 		"targetAnchor": "ears",
-		"offset": [0.0,-20.0],
+		"offset": [0.0,0.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -269,7 +362,7 @@
 	{
 		"id": "antenna03",
 		"targetAnchor": "ears",
-		"offset": [0.0,-20.0],
+		"offset": [0.0,0.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
@@ -288,7 +381,7 @@
 	{
 		"id": "antenna04",
 		"targetAnchor": "ears",
-		"offset": [0.0,-20.0],
+		"offset": [0.0,5.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,

@@ -63,7 +63,7 @@ void DragAndDropController::init()
             if(_debugMode)
             {
                 const Vec2& dist = (_itemSprite->getPosition() - _anchorPos) / _oomeeFigure->getOomeeData()->getScale();
-                _positioningLabel->setString(StringUtils::format("x: %d, y:%d\n%s",(int)dist.x, (int)dist.y, _itemData->getTargetAnchor().c_str()));
+                _positioningLabel->setString(StringUtils::format("x: %d, y:%d\n%s, %s",(int)dist.x, (int)dist.y, _itemData->getTargetAnchor().c_str(),_itemData->getId().c_str()));
                 _anchorToSprite->clear();
                 _anchorToSprite->drawLine(_anchorPos, _itemSprite->getPosition(), Color4F::WHITE);
             }
