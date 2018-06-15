@@ -189,6 +189,13 @@ void BaseScene::onSizeChanged()
         navigation->repositionElements();
     }
     
+    auto gameDownloadCancelButton = dynamic_cast<ElectricDreamsButton*>(this->getChildByName("cancelButton"));
+    if(gameDownloadCancelButton)
+    {
+        const Size& size = Director::getInstance()->getVisibleSize();
+        gameDownloadCancelButton->setCenterPosition(Vec2(size.width - gameDownloadCancelButton->getContentSize().width, size.height - gameDownloadCancelButton->getContentSize().height));
+    }
+    
     DynamicNodeHandler::getInstance()->rebuildCurrentCTA();
     
 }

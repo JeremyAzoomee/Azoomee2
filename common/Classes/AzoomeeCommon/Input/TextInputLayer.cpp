@@ -329,6 +329,11 @@ void TextInputLayer::setEditboxVisibility(bool visibility)
     editBox->setVisible(visibility);
 }
     
+bool TextInputLayer::getEditboxVisibility() const
+{
+    return editBox->isVisible();
+}
+    
 void TextInputLayer::setEditboxHasError(bool hasError)
 {
     if(hasError)

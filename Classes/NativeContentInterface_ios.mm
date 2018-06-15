@@ -11,9 +11,9 @@ NS_AZOOMEE_BEGIN
 
 WebViewController *webViewController;
 
-Scene* NativeContentInterface_ios::createSceneWithURL(const std::string &url, const Vec2& closeButtonAnchor)
+cocos2d::Scene* NativeContentInterface_ios::createSceneWithURL(const std::string &url, const Vec2& closeButtonAnchor)
 {
-    auto scene = Scene::create();
+    auto scene = cocos2d::Scene::create();
     auto layer = NativeContentInterface_ios::create();
     scene->addChild(layer);
     layer->loadContentBasedOnUrl(url, closeButtonAnchor);
