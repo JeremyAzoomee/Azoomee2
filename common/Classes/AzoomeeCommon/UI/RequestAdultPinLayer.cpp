@@ -9,7 +9,7 @@
 #include "ModalMessages.h"
 #include "../ErrorCodes.h"
 #include "../Utils/BiometricAuthenticationHandler.h"
-#include <AzoomeeCommon/UI/Scene.h>
+#include "Scene.h"
 
 using namespace cocos2d;
 
