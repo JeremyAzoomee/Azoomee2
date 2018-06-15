@@ -5,7 +5,7 @@
 #include "HQHistoryManager.h"
 #include "OfflineHubScene.h"
 #include "LoginLogicHandler.h"
-#include "WebViewNative_ios.h"
+#include "NativeContentInterface_ios.h"
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Utils/PushNotificationsHandler.h>
@@ -53,7 +53,7 @@ void AppDelegate::applicationDidEnterBackground()
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     if(Director::getInstance()->getRunningScene()->getChildByName("iosWebView"))
     {
-        WebViewNative_ios *webview = (WebViewNative_ios*)Director::getInstance()->getRunningScene()->getChildByName("iosWebView");
+        NativeContentInterface_ios *webview = (NativeContentInterface_ios*)Director::getInstance()->getRunningScene()->getChildByName("iosWebView");
         webview->removeWebViewFromScreen();
     }
     
@@ -78,7 +78,7 @@ void AppDelegate::applicationWillEnterForeground()
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     if(Director::getInstance()->getRunningScene()->getChildByName("iosWebView"))
     {
-        WebViewNative_ios *webview = (WebViewNative_ios*)Director::getInstance()->getRunningScene()->getChildByName("iosWebView");
+        NativeContentInterface_ios *webview = (NativeContentInterface_ios*)Director::getInstance()->getRunningScene()->getChildByName("iosWebView");
         webview->reAddWebViewToScreen();
     }
 #endif

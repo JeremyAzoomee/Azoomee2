@@ -50,13 +50,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="org.cocos2dx.cpp.NativeView"
+            android:name="org.cocos2dx.cpp.NativeViewUI"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensorLandscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
         </activity>
         <activity
-            android:name="org.cocos2dx.cpp.NativeViewUI"
+            android:name="org.cocos2dx.cpp.NativeMediaPlayer"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensorLandscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">

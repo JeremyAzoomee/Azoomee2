@@ -19,6 +19,7 @@ private:
     static const std::string kIAPUpgradeCTAName;
     static const std::string kCoppaPrivacyCTAName;
     static const std::string kLearnMoreCTAName;
+    static const std::string kAgeGateCTAName;
     
     const std::string kPathIAP = "iap";
     const std::string kPathRestore = "restore";
@@ -26,11 +27,14 @@ private:
     const std::string kPathCoppa = "coppa";
     
     ButtonActionDataRef _actionData = nullptr;
+    int _targetVal;
     
     void handleIAPUpgradeFlow(const ButtonActionDataRef& actionData, FlowPath pathAction);
     void handleCoppaPrivacyFlow(const ButtonActionDataRef& actionData, FlowPath pathAction);
     void handleLearnMoreFlow(const ButtonActionDataRef& actionData, FlowPath pathAction);
+    void handleAgeGateFlow(const ButtonActionDataRef& actionData, FlowPath pathAction);
     
+    void startAgeGate();
     void startIAP();
     
 public:

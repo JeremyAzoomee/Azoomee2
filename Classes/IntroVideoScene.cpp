@@ -125,6 +125,11 @@ void IntroVideoScene::videoEventCallback(Ref* sender, VideoPlayer::EventType eve
             cocos2d::log("VIDEO: VIDEO PAUSED");
             break;
         }
+        case VideoPlayer::EventType::STOPPED:
+        {
+            cocos2d::log("VIDEO: VIDEO STOPPED");
+            break;
+        }
         case VideoPlayer::EventType::PLAYING:
         {
             videoErrorText = "Video Started Playing and ";

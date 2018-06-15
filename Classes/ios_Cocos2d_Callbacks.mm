@@ -11,6 +11,7 @@
 #include <AzoomeeCommon/ErrorCodes.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "ContentHistoryManager.h"
+#include "VideoPlaylistManager.h"
 
 using namespace cocos2d;
 NS_AZOOMEE_BEGIN
@@ -120,6 +121,11 @@ NSString* getRemoteWebGameAPIPath()
 bool isDeviceIphoneX()
 {
     return ConfigStorage::getInstance()->isDeviceIphoneX();
+}
+
+NSString* getPlaylistString()
+{
+    return [NSString stringWithUTF8String:VideoPlaylistManager::getInstance()->getPlaylistForIosNativePlayer().c_str()];
 }
 
 NS_AZOOMEE_END
