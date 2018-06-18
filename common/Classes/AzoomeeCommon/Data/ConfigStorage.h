@@ -4,7 +4,7 @@
 //General configuration
 //#define FORCE_RELOAD YES;
 //#define FORGET_USER_DATA YES;
-//#define ALLOW_UNPAID_SIGNUP YES
+#define ALLOW_UNPAID_SIGNUP YES
 //#define USINGCI YES
 
 #include <cocos/cocos2d.h>
@@ -138,6 +138,10 @@ public:
     //Set keyboard height for chat
     void setEstimatedKeyboardHeight(float size);
     
+    //Client IP setting
+    void setClientAnonymousIp(const std::string& publicIp);
+    std::string getClientAnonymousIp() const;
+    
 private:
     rapidjson::Document parseJsonConfigurationFile(const std::string& fileName);
     
@@ -155,7 +159,7 @@ private:
     bool _isDeviceIphoneX = false;
     
     std::string _osManufacturer = "";
-    
+    std::string _clientIp = "";
 };
   
 }

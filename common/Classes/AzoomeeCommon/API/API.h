@@ -20,6 +20,7 @@ public:
 
 #pragma mark - Constants
     
+    static const char* const TagIpCheck;
     static const char* const TagLogin;
     static const char* const TagAnonymousDeviceLogin;
     static const char* const TagUpdateBillingData;
@@ -52,6 +53,8 @@ public:
     
 #pragma mark - API Methods
     
+    static HttpRequestCreator* IpCheck(HttpRequestCreatorResponseDelegate* delegate);
+    
     static HttpRequestCreator* OfflineCheck(HttpRequestCreatorResponseDelegate* delegate);
     
     static HttpRequestCreator* LoginRequest(const std::string& username,
@@ -83,6 +86,7 @@ public:
                                                      const std::string& pinNumber,
                                                      const std::string& source,
                                                      const std::string& sourceDevice,
+                                                     const std::string& marketingAccepted,
                                                      HttpRequestCreatorResponseDelegate* delegate);
     
     static HttpRequestCreator* RegisterChildRequest(const std::string& childProfileName,

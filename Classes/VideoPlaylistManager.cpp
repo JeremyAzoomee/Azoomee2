@@ -1,6 +1,7 @@
 #include "VideoPlaylistManager.h"
 #include "HQDataProvider.h"
 #include <AzoomeeCommon/Utils/StringFunctions.h>
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 
 using namespace cocos2d;
 
@@ -43,7 +44,10 @@ std::string VideoPlaylistManager::getPlaylist()
 {
     std::string returnString;
     
-    if(_storedPlaylist->getContentItems().size() == 0) returnString = "noPlaylist";
+    if(_storedPlaylist->getContentItems().size() == 0)
+    {
+        returnString = kNoPlaylist;
+    }
     else
     {
         std::vector<std::map<std::string, std::string>> playlistElements;
@@ -53,7 +57,11 @@ std::string VideoPlaylistManager::getPlaylist()
             if(item->isEntitled()&&(item->getType() == "AUDIO" || item->getType() == "VIDEO"))
             {
                 std::map<std::string, std::string> elementToBeAdded;
-                elementToBeAdded["uri"] = item->getUri();
+                
+                std::string itemUri = item->getUri();
+                itemUri = replaceAll(itemUri, "{sessionId}", ChildDataProvider::getInstance()->getParentOrChildCdnSessionId());
+                
+                elementToBeAdded["uri"] = itemUri;
                 elementToBeAdded["image"] = HQDataProvider::getInstance()->getThumbnailUrlForItem(item->getContentItemId());
                 elementToBeAdded["title"] = item->getTitle();
                 
@@ -69,6 +77,34 @@ std::string VideoPlaylistManager::getPlaylist()
     cocos2d::base64Encode((unsigned char *)returnString.c_str(), (unsigned int)returnString.length(), &output);
     
     return StringUtils::format("%s", output);
+}
+
+std::string VideoPlaylistManager::getPlaylistForIosNativePlayer()
+{
+    std::string returnString;
+    
+    if(_storedPlaylist->getContentItems().size() == 0)
+    {
+        return kNoPlaylist;
+    }
+    
+    for(auto item : _storedPlaylist->getContentItems())
+    {
+        if(item->isEntitled()&&(item->getType() == "AUDIO" || item->getType() == "VIDEO"))
+        {
+            if(returnString.length() > 0)
+            {
+                returnString += "|";
+            }
+            
+            std::string itemUri = item->getUri();
+            itemUri = replaceAll(itemUri, "{sessionId}", ChildDataProvider::getInstance()->getParentOrChildCdnSessionId());
+            returnString += itemUri;
+        }
+    }
+    
+    
+    return returnString;
 }
 
 HQContentItemObjectRef VideoPlaylistManager::getContentItemDataForPlaylistElement(int elementNumber)

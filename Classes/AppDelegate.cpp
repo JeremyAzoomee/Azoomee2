@@ -5,7 +5,7 @@
 #include "HQHistoryManager.h"
 #include "OfflineHubScene.h"
 #include "LoginLogicHandler.h"
-#include "WebViewNative_ios.h"
+#include "NativeContentInterface_ios.h"
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Utils/PushNotificationsHandler.h>
@@ -13,6 +13,7 @@
 #include <AzoomeeCommon/ErrorCodes.h>
 #include "ContentHistoryManager.h"
 #include "IAPProductDataHandler.h"
+#include "SceneManagerScene.h"
 
 using namespace cocos2d;
 using namespace Azoomee;
@@ -30,10 +31,10 @@ bool AppDelegate::applicationDidFinishLaunching()
     Super::applicationDidFinishLaunching();
     
     register_all_packages();
-
+    
     // create a scene. it's an autorelease object
-    auto scene = IntroVideoScene::createScene();
-    Director::getInstance()->runWithScene(scene);
+    auto scene = IntroVideoScene::create();
+    Director::getInstance()->runWithScene(SceneManagerScene::createScene(introVideo));
     
     SessionIdManager::getInstance();
     AnalyticsSingleton::getInstance()->setLandscapeOrientation();
@@ -52,7 +53,7 @@ void AppDelegate::applicationDidEnterBackground()
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     if(Director::getInstance()->getRunningScene()->getChildByName("iosWebView"))
     {
-        WebViewNative_ios *webview = (WebViewNative_ios*)Director::getInstance()->getRunningScene()->getChildByName("iosWebView");
+        NativeContentInterface_ios *webview = (NativeContentInterface_ios*)Director::getInstance()->getRunningScene()->getChildByName("iosWebView");
         webview->removeWebViewFromScreen();
     }
     
@@ -77,7 +78,7 @@ void AppDelegate::applicationWillEnterForeground()
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     if(Director::getInstance()->getRunningScene()->getChildByName("iosWebView"))
     {
-        WebViewNative_ios *webview = (WebViewNative_ios*)Director::getInstance()->getRunningScene()->getChildByName("iosWebView");
+        NativeContentInterface_ios *webview = (NativeContentInterface_ios*)Director::getInstance()->getRunningScene()->getChildByName("iosWebView");
         webview->reAddWebViewToScreen();
     }
 #endif
@@ -107,8 +108,7 @@ void AppDelegate::applicationWillEnterForeground()
         }
         HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
         
-        auto baseScene = BaseScene::createScene();
-        cocos2d::Director::getInstance()->replaceScene(baseScene);
+        cocos2d::Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
     }
 
 #endif

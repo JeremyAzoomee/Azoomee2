@@ -20,19 +20,9 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-
-Scene* LoginScene::createScene()
-{
-    auto scene = Scene::create();
-    auto layer = LoginScene::create();
-    scene->addChild(layer);
-    
-    return scene;
-}
-
 bool LoginScene::init()
 {
-    if ( !Layer::init() )
+    if ( !Super::init() )
     {
         return false;
     }
@@ -45,13 +35,12 @@ bool LoginScene::init()
     PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel("NA");
     AudioMixer::getInstance()->stopBackgroundMusic();
     
-    visibleSize = Director::getInstance()->getVisibleSize();
-    origin = Director::getInstance()->getVisibleOrigin();
+    _visibleSize = Director::getInstance()->getVisibleSize();
+    _origin = Vec2(0,0);
     
     addBackground();
     getUserDefaults();
     addTextboxScene();
-    //addSideWiresToScreen(this, 0, 2);
     addButtonsScene();
     addLabelToScene();
     
@@ -60,18 +49,21 @@ bool LoginScene::init()
 
 void LoginScene::onEnterTransitionDidFinish()
 {
-    currentScreen = emailLoginScreen;
+    _currentScreen = emailLoginScreen;
 
     OfflineChecker::getInstance()->setDelegate(this);
     
     if(FlowDataSingleton::getInstance()->hasError())
     {
-        MessageBox::createWith(FlowDataSingleton::getInstance()->getErrorCode(), emailTextInput, this);
+        MessageBox::createWith(FlowDataSingleton::getInstance()->getErrorCode(), this);
+        _emailTextInput->setEditboxVisibility(false);
     }
     else
-        emailTextInput->focusAndShowKeyboard();
+    {
+        _emailTextInput->focusAndShowKeyboard();
+    }
     
-    nextButton->setVisible(isValidEmailAddress(storedUsername.c_str()));
+    _nextButton->setVisible(isValidEmailAddress(_storedUsername.c_str()));
 }
 
 //----------------- SCENE SETUP ---------------
@@ -79,107 +71,118 @@ void LoginScene::onEnterTransitionDidFinish()
 void LoginScene::getUserDefaults()
 {
     UserDefault* def = UserDefault::getInstance();
-    storedUsername = def->getStringForKey("username", "");
+    _storedUsername = def->getStringForKey("username", "");
     def->flush();
     
-    if(storedUsername == "")
-        storedUsername = FlowDataSingleton::getInstance()->getUserName();
+    if(_storedUsername == "")
+    {
+        _storedUsername = FlowDataSingleton::getInstance()->getUserName();
+    }
 }
 
 void LoginScene::addBackground()
 {
-    auto newLayer = LayerColor::create(Color4B::WHITE, visibleSize.width,  visibleSize.height);
-    newLayer->setPosition(origin.x, origin.y);
-    this->addChild(newLayer);
+    auto newLayer = LayerColor::create(Color4B::WHITE, _visibleSize.width,  _visibleSize.height);
+    newLayer->setPosition(_origin.x, _origin.y);
+    newLayer->setName("bgLayer");
+    this->addChild(newLayer, -1);
     
     Sprite* topGradient = Sprite::create("res/decoration/topSignupGrad.png");
     topGradient->setAnchorPoint(Vec2(0.0f, 1.0f));
-    topGradient->setPosition(0.0f, origin.y + visibleSize.height);
-    topGradient->setScaleX(visibleSize.width / topGradient->getContentSize().width);
+    topGradient->setPosition(0.0f, _origin.y + _visibleSize.height);
+    topGradient->setScaleX(_visibleSize.width / topGradient->getContentSize().width);
     newLayer->addChild(topGradient);
 }
 
 void LoginScene::addLabelToScene()
 {
-    auto versionTitle = createLabelAppVerison(ConfigStorage::getInstance()->getVersionNumberToDisplay());
-    this->addChild(versionTitle);
+    _versionLabel = createLabelAppVerison(ConfigStorage::getInstance()->getVersionNumberToDisplay());
+    this->addChild(_versionLabel);
 
-    title = createLabelFlowMainTitle(StringMgr::getInstance()->getStringForKey(LOGINSCENE_EMAIL_LABEL));
-    title->setPositionY(backButton->getPositionY());
-    this->addChild(title);
+    _title = createLabelFlowMainTitle(StringMgr::getInstance()->getStringForKey(LOGINSCENE_EMAIL_LABEL));
+    _title->setPositionY(_visibleSize.height * 0.9f);
+    _title->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+    this->addChild(_title);
 }
 
 void LoginScene::addTextboxScene()
 {
-    passwordTextInput = TextInputLayer::createWithSize(Size(1500,160), INPUT_IS_PASSWORD);
-    passwordTextInput->setDelegate(this);
-    passwordTextInput->setEditboxVisibility(false);
-    this->addChild(passwordTextInput);
+    float width = MIN(1500, _visibleSize.width * 0.95f);
+    _passwordTextInput = TextInputLayer::createWithSize(Size(width,160), INPUT_IS_PASSWORD);
+    _passwordTextInput->setDelegate(this);
+    _passwordTextInput->setEditboxVisibility(false);
+    _passwordTextInput->setCenterPosition(Vec2(_visibleSize.width / 2.0f, _visibleSize.height * 0.7f));
+    this->addChild(_passwordTextInput);
     
-    emailTextInput = TextInputLayer::createWithSize(Size(1500,160), INPUT_IS_EMAIL);
-    emailTextInput->setDelegate(this);
-    emailTextInput->setText(storedUsername);
-    this->addChild(emailTextInput);
+    _emailTextInput = TextInputLayer::createWithSize(Size(width,160), INPUT_IS_EMAIL);
+    _emailTextInput->setDelegate(this);
+    _emailTextInput->setText(_storedUsername);
+    _emailTextInput->setCenterPosition(Vec2(_visibleSize.width / 2.0f, _visibleSize.height * 0.7f));
+    this->addChild(_emailTextInput);
 }
 
 void LoginScene::addButtonsScene()
 {
-    backButton = ElectricDreamsButton::createBackButtonGreen();
-    backButton->setCenterPosition(Vec2(origin.x +backButton->getContentSize().width*.7, origin.y + visibleSize.height - backButton->getContentSize().height*.7));
-    backButton->setDelegate(this);
-    backButton->setMixPanelButtonName("LoginSceneBackButton");
-    this->addChild(backButton);
+    _backButton = ElectricDreamsButton::createBackButtonGreen();
+    _backButton->setCenterPosition(Vec2(_origin.x +_backButton->getContentSize().width*.7, _origin.y + _visibleSize.height - _backButton->getContentSize().height*.7));
+    _backButton->setDelegate(this);
+    _backButton->setMixPanelButtonName("LoginSceneBackButton");
+    this->addChild(_backButton);
     
-    nextButton = ElectricDreamsButton::createNextButtonGreen();
-    nextButton->setCenterPosition(Vec2(origin.x + visibleSize.width -nextButton->getContentSize().width*.7, origin.y+ visibleSize.height - nextButton->getContentSize().height*.7));
-    nextButton->setDelegate(this);
-    nextButton->setMixPanelButtonName("LoginSceneNextButton");
-    this->addChild(nextButton);
+    _nextButton = ElectricDreamsButton::createNextButtonGreen();
+    _nextButton->setCenterPosition(Vec2(_origin.x + _visibleSize.width - _nextButton->getContentSize().width*.7, _origin.y+ _visibleSize.height - _nextButton->getContentSize().height*.7));
+    _nextButton->setDelegate(this);
+    _nextButton->setMixPanelButtonName("LoginSceneNextButton");
+    this->addChild(_nextButton);
 }
 
 //------------CHANGE SCREEN VISUALS ON BUTTON PRESS----------------------
 void LoginScene::changeElementsToPasswordScreen()
 {
-    title->setString(StringMgr::getInstance()->getStringForKey(LOGINSCENE_PASSWORD_LABEL));
-    storedUsername = emailTextInput->getText();
-    AnalyticsSingleton::getInstance()->registerAzoomeeEmail(storedUsername);
-    emailTextInput->setEditboxVisibility(false);
-    passwordTextInput->setEditboxVisibility(true);
-    nextButton->setVisible(false);
-    currentScreen = passwordLoginScreen;
-    passwordTextInput->focusAndShowKeyboard();
+    _title->setString(StringMgr::getInstance()->getStringForKey(LOGINSCENE_PASSWORD_LABEL));
+    _storedUsername = _emailTextInput->getText();
+    AnalyticsSingleton::getInstance()->registerAzoomeeEmail(_storedUsername);
+    _emailTextInput->setEditboxVisibility(false);
+    _passwordTextInput->setEditboxVisibility(true);
+    _nextButton->setVisible(false);
+    _currentScreen = passwordLoginScreen;
+    _passwordTextInput->focusAndShowKeyboard();
 }
 
 void LoginScene::changeElementsToEmailScreen()
 {
-    title->setString(StringMgr::getInstance()->getStringForKey(LOGINSCENE_EMAIL_LABEL));
-    passwordTextInput->setEditboxVisibility(false);
-    passwordTextInput->setText("");
-    emailTextInput->setEditboxVisibility(true);
-    currentScreen = emailLoginScreen;
-    nextButton->setVisible(isValidEmailAddress(emailTextInput->getText().c_str()));
-    emailTextInput->focusAndShowKeyboard();
+    _title->setString(StringMgr::getInstance()->getStringForKey(LOGINSCENE_EMAIL_LABEL));
+    _passwordTextInput->setEditboxVisibility(false);
+    _passwordTextInput->setText("");
+    _emailTextInput->setEditboxVisibility(true);
+    _currentScreen = emailLoginScreen;
+    _nextButton->setVisible(isValidEmailAddress(_emailTextInput->getText().c_str()));
+    _emailTextInput->focusAndShowKeyboard();
 }
 
 void LoginScene::backButtonPressed()
 {
-    if(currentScreen == emailLoginScreen)
+    if(_currentScreen == emailLoginScreen)
     {
         BackEndCaller::getInstance()->anonymousDeviceLogin();
     }
-    else if(currentScreen == passwordLoginScreen)
+    else if(_currentScreen == passwordLoginScreen)
+    {
         changeElementsToEmailScreen();
+    }
 }
 
 void LoginScene::nextButtonPressed()
 {
-    if(currentScreen == emailLoginScreen)
+    if(_currentScreen == emailLoginScreen)
+    {
         changeElementsToPasswordScreen();
-    else if(currentScreen == passwordLoginScreen)
+    }
+    else if(_currentScreen == passwordLoginScreen)
     {
         FlowDataSingleton::getInstance()->setFlowToLogin();
         OfflineChecker::getInstance()->setDelegate(nullptr);
-        login(storedUsername, passwordTextInput->getText());
+        login(_storedUsername, _passwordTextInput->getText());
     }
 }
 
@@ -194,15 +197,19 @@ void LoginScene::login(std::string username, std::string password)
 //-------------DELEGATE FUNCTIONS-------------------
 void LoginScene::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
 {
-    nextButton->setVisible(isValid);
+    _nextButton->setVisible(isValid);
 }
 
 void LoginScene::textInputReturnPressed(TextInputLayer* inputLayer)
 {
-    if(currentScreen == emailLoginScreen && emailTextInput->inputIsValid())
+    if(_currentScreen == emailLoginScreen && _emailTextInput->inputIsValid())
+    {
         nextButtonPressed();
-    else if(currentScreen == passwordLoginScreen && passwordTextInput->inputIsValid())
+    }
+    else if(_currentScreen == passwordLoginScreen && _passwordTextInput->inputIsValid())
+    {
         nextButtonPressed();
+    }
 }
 
 void LoginScene::editBoxEditingDidBegin(TextInputLayer* inputLayer)
@@ -217,32 +224,41 @@ void LoginScene::editBoxEditingDidEnd(TextInputLayer* inputLayer)
 
 void LoginScene::buttonPressed(ElectricDreamsButton* button)
 {
-    if(button == nextButton)
+    if(button == _nextButton)
+    {
         nextButtonPressed();
-    else if(button == backButton)
+    }
+    else if(button == _backButton)
+    {
         backButtonPressed();
+    }
 }
 void LoginScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
 {
     if(messageBoxTitle == StringMgr::getInstance()->getErrorMessageWithCode(ERROR_CODE_INVALID_CREDENTIALS)[ERROR_TITLE] && buttonTitle == MessageBox::kResetPassword)
     {
-        BackEndCaller::getInstance()->resetPasswordRequest(emailTextInput->getText());
-        Azoomee::MessageBox::createWith("Request Sent", StringUtils::format("Instructions for resetting your password have been sent to:\n\n%s",emailTextInput->getText().c_str()), "OK", this);
+        BackEndCaller::getInstance()->resetPasswordRequest(_emailTextInput->getText());
+        Azoomee::MessageBox::createWith("Request Sent", StringUtils::format("Instructions for resetting your password have been sent to:\n\n%s",_emailTextInput->getText().c_str()), "OK", this);
     }
     else
-        emailTextInput->focusAndShowKeyboard();
+    {
+        _emailTextInput->setEditboxVisibility(true);
+        _emailTextInput->focusAndShowKeyboard();
+    }
 }
 
 void LoginScene::connectivityStateChanged(bool online)
 {
     if(!online)
+    {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineHub));
+    }
 }
 
 void LoginScene::onExit()
 {
     OfflineChecker::getInstance()->setDelegate(nullptr);
-    Node::onExit();
+    Super::onExit();
 }
 
 #pragma mark - IMEDelegate
@@ -271,6 +287,41 @@ void LoginScene::keyboardDidShow(cocos2d::IMEKeyboardNotificationInfo& info)
     int keyboardHeight = info.end.size.height - Director::getInstance()->getVisibleOrigin().y;
     
     ConfigStorage::getInstance()->setEstimatedKeyboardHeight(keyboardHeight);
+}
+
+void LoginScene::onSizeChanged()
+{
+    Super::onSizeChanged();
+    
+    _visibleSize = Director::getInstance()->getVisibleSize();
+    
+    // If initialised
+    if(_emailTextInput)
+    {
+        this->removeChildByName("bgLayer");
+        addBackground();
+        
+        _versionLabel->setPosition(_visibleSize.width/2, _versionLabel->getContentSize().height);
+        _title->setPosition(_visibleSize.width/2, _visibleSize.height * 0.9);
+        _title->setWidth(_visibleSize.width * 0.9f);
+        _backButton->setCenterPosition(Vec2(_backButton->getContentSize().width*.7, _visibleSize.height - _backButton->getContentSize().height*.7));
+        _nextButton->setCenterPosition(Vec2(_visibleSize.width - _nextButton->getContentSize().width*.7, _visibleSize.height - _nextButton->getContentSize().height*.7));
+        
+        // Horribly, we have to re-create the editboxes. If we don't the native OS view gets stuck offset
+        std::string username = _emailTextInput->getText();
+        std::string password = _passwordTextInput->getText();
+        bool emailInputVisiblility = _emailTextInput->getEditboxVisibility();
+        bool passwordInputVisiblility = _passwordTextInput->getEditboxVisibility();
+        _emailTextInput->removeFromParent();
+        _passwordTextInput->removeFromParent();
+        addTextboxScene();
+        
+        _emailTextInput->setText(username);
+        _passwordTextInput->setText(password);
+        
+        _emailTextInput->setEditboxVisibility(emailInputVisiblility);
+        _passwordTextInput->setEditboxVisibility(passwordInputVisiblility);
+    }
 }
 
 NS_AZOOMEE_END

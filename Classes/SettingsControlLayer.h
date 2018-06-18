@@ -4,14 +4,14 @@
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
-#include "AwaitingAdultPinLayer.h"
+#include <AzoomeeCommon/UI/RequestAdultPinLayer.h>
 #include <AzoomeeCommon/API/HttpRequestCreator.h>
 
 
 USING_NS_CC;
 NS_AZOOMEE_BEGIN
 
-class SettingsControlLayer : public Layer, public ElectricDreamsButtonDelegate, public AwaitingAdultPinLayerDelegate, public Azoomee::HttpRequestCreatorResponseDelegate
+class SettingsControlLayer : public Layer, public ElectricDreamsButtonDelegate, public RequestAdultPinLayerDelegate, public Azoomee::HttpRequestCreatorResponseDelegate
 {
 private:
     Size _visibleSize;
@@ -46,7 +46,7 @@ private:
     
     void removeSelf();
     
-    AwaitingAdultPinLayer* _awaitingAdultPinLayer = nullptr;
+    RequestAdultPinLayer* _awaitingAdultPinLayer = nullptr;
     void createAdultPinLayerWithDelegate();
     void removeAdultPinLayerDelegate();
     
@@ -63,8 +63,8 @@ public:
     
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);
-    void AdultPinCancelled(AwaitingAdultPinLayer* layer);
-    void AdultPinAccepted(AwaitingAdultPinLayer* layer);
+    void AdultPinCancelled(RequestAdultPinLayer* layer);
+    void AdultPinAccepted(RequestAdultPinLayer* layer);
     void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body);
     void onHttpRequestFailed(const std::string& requestTag, long errorCode);
     

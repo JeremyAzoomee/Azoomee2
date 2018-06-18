@@ -80,6 +80,8 @@ public:
     void focusAndShowKeyboard();
     
     void setEditboxVisibility(bool visibility);
+    bool getEditboxVisibility() const;
+    
     void setEditboxHasError(bool hasError = true);
     
     bool inputIsValid();

@@ -12,3 +12,4 @@ proj.win32/
 !Resources/
 !proj.android-studio/app/src/
 cocos2d
+Resources/res/webcommApi

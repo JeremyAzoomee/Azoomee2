@@ -6,6 +6,7 @@
 #include "../Strings.h"
 #include "../Utils/SessionIdManager.h"
 #include "../Crashlytics/CrashlyticsConfig.h"
+#include "../JWTSigner/HMACSHA256/HMACSHA256.h"
 
 namespace Azoomee
 {
@@ -35,11 +36,13 @@ bool AnalyticsSingleton::init(void)
     
 void AnalyticsSingleton::mixPanelSendEventWithStoredProperties(const std::string& eventID)
 {
+    AnalyticsProperties::getInstance()->updateEpochTime();
     mixPanelSendEventNative(eventID, _analyticsProperties->getStoredGeneralProperties());
 }
 
 void AnalyticsSingleton::mixPanelSendEventWithStoredProperties(const std::string& eventID, const std::map<std::string, std::string>& map)
 {
+    AnalyticsProperties::getInstance()->updateEpochTime();
     std::map<std::string, std::string> mapToBeSent;
     mapToBeSent.insert(map.begin(), map.end());
     const auto& generalProperties = _analyticsProperties->getStoredGeneralProperties();
@@ -59,13 +62,19 @@ void AnalyticsSingleton::registerAppVersion()
 {
     mixPanelRegisterSuperProperties("appVersion",ConfigStorage::getInstance()->getVersionNumberToDisplay());
 }
-
-void AnalyticsSingleton::registerParentID(std::string ParentID)
+    
+void AnalyticsSingleton::registerAnonymousIp(const std::string& anonymousIp)
 {
-    mixPanelRegisterSuperProperties("parentID", ParentID);
-    mixPanelRegisterIdentity(ParentID,_analyticsProperties->getStoredGeneralProperties());
+    mixPanelRegisterSuperProperties("ip", anonymousIp);
 }
 
+void AnalyticsSingleton::registerIdentifier(const std::string &parentId)
+{
+    const std::string& parentIdHash = HMACSHA256::getInstance()->getHMACSHA256Hash(parentId, parentId);
+    mixPanelRegisterSuperProperties("parentID", parentIdHash);
+    mixPanelRegisterIdentity(parentIdHash,_analyticsProperties->getStoredGeneralProperties());
+}
+    
 void AnalyticsSingleton::registerNoOfChildren(int noOfChildren)
 {
     mixPanelRegisterSuperProperties("noOfChildren",cocos2d::StringUtils::format("%s%d",NUMBER_IDENTIFIER, noOfChildren));
@@ -103,11 +112,6 @@ void AnalyticsSingleton::registerBillingProvider(std::string provider)
     mixPanelRegisterSuperProperties("billingProvider",provider);
 }
 
-void AnalyticsSingleton::registerChildID(std::string ChildID)
-{
-    mixPanelRegisterSuperProperties("childID",ChildID);
-}
-
 void AnalyticsSingleton::registerChildGenderAndAge(int childNumber)
 {
     mixPanelRegisterSuperProperties("sex",ParentDataProvider::getInstance()->getSexForAnAvailableChild(childNumber));
@@ -123,12 +127,21 @@ void AnalyticsSingleton::registerSessionId(std::string sessionId)
     setCrashlyticsKeyWithString("sessionId", sessionId);
 }
     
-void AnalyticsSingleton::registerCurrentScene(std::string currentScene)
+void AnalyticsSingleton::registerCurrentScene(const std::string &currentScene)
 {
+    //before registering the new scene as current, reading out the previous one to be able to send previousScene property for mixpanel moveToSceneEvent.
+    const std::map<std::string, std::string> &mixPanelProperties = _analyticsProperties->getStoredGeneralProperties();
+    std::string previousScene = "NA";
+    
+    if(mixPanelProperties.find("currentScene") != mixPanelProperties.end())
+    {
+        previousScene = mixPanelProperties.at("currentScene");
+    }
+    
     mixPanelRegisterSuperProperties("currentScene", currentScene);
     setCrashlyticsKeyWithString("currentScene", currentScene);
     
-    moveToSceneEvent(currentScene);
+    moveToSceneEvent(previousScene);
 }
     
 void AnalyticsSingleton::setPortraitOrientation()
@@ -166,7 +179,6 @@ void AnalyticsSingleton::setIsUserAnonymous(bool isUserAnonymous)
 
 void AnalyticsSingleton::logoutChildEvent()
 {
-    mixPanelRegisterSuperProperties("childID","");
     mixPanelRegisterSuperProperties("sex","");
     mixPanelRegisterSuperProperties("age","");
 }
@@ -175,7 +187,6 @@ void AnalyticsSingleton::logoutParentEvent()
 {
     logoutChildEvent();
     mixPanelRegisterSuperProperties("accountStatus","");
-    mixPanelRegisterSuperProperties("parentID","");
     mixPanelRegisterSuperProperties("azoomeeEmail","");
     mixPanelRegisterSuperProperties("billingProvider","");
     mixPanelRegisterSuperProperties("billingStatus","");
@@ -343,6 +354,11 @@ void AnalyticsSingleton::contentItemSelectedEvent(const HQContentItemObjectRef &
     
     mixPanelSendEventWithStoredProperties("contentItemSelectedEvent", mixPanelProperties);
 }
+
+void AnalyticsSingleton::contentItemSelectedOutsideCarouselEvent(const HQContentItemObjectRef &contentItem)
+{
+    contentItemSelectedEvent(contentItem, -1, -1, "0,0");
+}
     
 void AnalyticsSingleton::updateContentItemDetails(const HQContentItemObjectRef &contentItem)
 {
@@ -391,6 +407,14 @@ void AnalyticsSingleton::contentItemClosedEvent()
     
     mixPanelSendEventWithStoredProperties("contentItemClosed", _analyticsProperties->getStoredContentItemProperties());
     
+}
+    
+void AnalyticsSingleton::lockedContentItemInRecentlyPlayedEvent(const HQContentItemObjectRef &contentItem)
+{
+    const std::map<std::string, std::string>& mixPanelProperties = {
+        {"ContentID", contentItem->getContentItemId()}
+    };
+    mixPanelSendEventWithStoredProperties("lockedContentInRecentlyPlayed", mixPanelProperties);
 }
 
 //------------- PREVIEW ACTIONS ---------------
@@ -534,10 +558,10 @@ void AnalyticsSingleton::httpRequestFailed(std::string requestTag, long response
     mixPanelSendEventWithStoredProperties("httpRequestFailed", mixPanelProperties);
 }
     
-void AnalyticsSingleton::moveToSceneEvent(std::string newScene)
+void AnalyticsSingleton::moveToSceneEvent(const std::string &previousScene)
 {
     std::map<std::string, std::string> mixPanelProperties;
-    mixPanelProperties["newScene"] = newScene;
+    mixPanelProperties["previousScene"] = previousScene;
     
     mixPanelSendEventWithStoredProperties("moveToSceneEvent", mixPanelProperties);
 }

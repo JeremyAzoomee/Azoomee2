@@ -31,9 +31,9 @@ using namespace cocos2d;
 NS_AZOOMEE_BEGIN
 
 
-int amountOfItems = 5;
+int amountOfItems = 4;
 
-Scene* NavigationLayer::createScene()
+cocos2d::Scene* NavigationLayer::createScene()
 {
     auto scene = Scene::create();
     auto layer = NavigationLayer::create();
@@ -56,17 +56,35 @@ bool NavigationLayer::init()
     AudioMixer::getInstance()->playOomeeIdleSounds(true);
     
     visibleSize = Director::getInstance()->getVisibleSize();
-    origin = Director::getInstance()->getVisibleOrigin();
+    origin = Vec2(0,0);//Director::getInstance()->getVisibleOrigin();
+    
+    _navOffset = 0;
+    
+    if(ConfigStorage::getInstance()->isDeviceIphoneX())
+    {
+        if(visibleSize.width < visibleSize.height)
+        {
+            _navOffset = 100;
+        }
+    }
     
     this->setAnchorPoint(Vec2(0.5, 0.5));
     
+    const std::vector<std::string>& hqNames = ConfigStorage::getInstance()->getHqNames();
+    int numItems = (int)hqNames.size();
+    
+    _hqButtonHolder = Node::create();
+    _hqButtonHolder->setContentSize(Size(225.0f * numItems, 50));
+    _hqButtonHolder->setPosition(Vec2(visibleSize.width / 2.0f, visibleSize.height - 150 - _navOffset));
+    _hqButtonHolder->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    this->addChild(_hqButtonHolder);
+    
     //The menupoint strcuture is the following: menuItemImage is a white circle, always visible. menuItemInactive is the inactive image, visible when the menupoint is off. menuItemActive is the image that is visible when the menu is active.
     
-    const std::vector<std::string>& hqNames = ConfigStorage::getInstance()->getHqNames();
-    
-    for(const std::string& hqName : hqNames)
+    for(int i = 0; i < numItems; i++)
     {
-        auto menuItemHolder = addMenuItemHolder(hqName);
+        const std::string& hqName = hqNames[i];
+        auto menuItemHolder = addMenuItemHolder(hqName,(i + 0.5f)/numItems);
         addMenuItemCircle(hqName, menuItemHolder);
         if(hqName == ConfigStorage::kChatHQName)
         {
@@ -161,9 +179,9 @@ void NavigationLayer::changeToScene(const std::string& hqName, float duration)
         this->turnOnMenuItem(hqName);
         removeBackButtonFromNavigation();
         
-        Scene *runningScene = Director::getInstance()->getRunningScene();
-        Node *baseLayer = runningScene->getChildByName("baseLayer");
-        Node *contentLayer = baseLayer->getChildByName("contentLayer");
+        cocos2d::Scene *runningScene = Director::getInstance()->getRunningScene();
+        //Node *baseLayer = runningScene->getChildByName("baseLayer");
+        Node *contentLayer = runningScene->getChildByName("contentLayer");
         HQScene2 *hqLayer = (HQScene2 *)contentLayer->getChildByName(ConfigStorage::kGroupHQName);
         
         hqLayer->removeAllChildren();
@@ -201,9 +219,9 @@ void NavigationLayer::loadArtsAppHQ()
 {
     HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kArtAppHQName);
     
-    Scene *runningScene = Director::getInstance()->getRunningScene();
-    Node *baseLayer = runningScene->getChildByName("baseLayer");
-    Node *contentLayer = baseLayer->getChildByName("contentLayer");
+    cocos2d::Scene *runningScene = Director::getInstance()->getRunningScene();
+    //Node *baseLayer = runningScene->getChildByName("baseLayer");
+    Node *contentLayer = runningScene->getChildByName("contentLayer");
     HQScene2 *hqLayer = (HQScene2 *)contentLayer->getChildByName(ConfigStorage::kArtAppHQName);
     
     hqLayer->startBuildingScrollView();
@@ -228,16 +246,17 @@ void NavigationLayer::startLoadingHQScene(const std::string& hqName)
     this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction2, NULL));
 }
 
-Sprite* NavigationLayer::addMenuItemHolder(const std::string& hqName)
+Sprite* NavigationLayer::addMenuItemHolder(const std::string& hqName, float pos)
 {
-    Point position = ConfigStorage::getInstance()->getHorizontalPositionForMenuItem(hqName);
+    //Point position = ConfigStorage::getInstance()->getHorizontalPositionForMenuItem(hqName);
     
     auto menuItemHolder = Sprite::create();
     menuItemHolder->setName(hqName);
     menuItemHolder->setCascadeOpacityEnabled(true);
     menuItemHolder->setOpacity(0);
-    menuItemHolder->setPosition(origin.x+visibleSize.width/2+position.x,origin.y+visibleSize.height/2+position.y);
-    this->addChild(menuItemHolder);
+    //menuItemHolder->setPosition(origin.x+visibleSize.width/2+position.x,origin.y+visibleSize.height/2+position.y);
+    menuItemHolder->setNormalizedPosition(Vec2(pos,0.5));
+    _hqButtonHolder->addChild(menuItemHolder);
     
     return menuItemHolder;
 }
@@ -305,19 +324,19 @@ void NavigationLayer::addNotificationBadgeToChatIcon(cocos2d::Node* chatIcon)
 
 void NavigationLayer::showNotificationBadge()
 {
-    if(!this->getChildByName(ConfigStorage::kChatHQName)->getChildByName("notification"))
+    if(!_hqButtonHolder->getChildByName(ConfigStorage::kChatHQName)->getChildByName("notification"))
     {
         return;
     }
     
-    this->getChildByName(ConfigStorage::kChatHQName)->getChildByName("notification")->stopAllActions();
-    this->getChildByName(ConfigStorage::kChatHQName)->getChildByName("notification")->runAction(EaseElasticOut::create(ScaleTo::create(1.0, 1.0)));
+    _hqButtonHolder->getChildByName(ConfigStorage::kChatHQName)->getChildByName("notification")->stopAllActions();
+    _hqButtonHolder->getChildByName(ConfigStorage::kChatHQName)->getChildByName("notification")->runAction(EaseElasticOut::create(ScaleTo::create(1.0, 1.0)));
 }
 
 void NavigationLayer::hideNotificationBadge()
 {
-    this->getChildByName(ConfigStorage::kChatHQName)->getChildByName("notification")->stopAllActions();
-    this->getChildByName(ConfigStorage::kChatHQName)->getChildByName("notification")->setScale(0.0);
+    _hqButtonHolder->getChildByName(ConfigStorage::kChatHQName)->getChildByName("notification")->stopAllActions();
+    _hqButtonHolder->getChildByName(ConfigStorage::kChatHQName)->getChildByName("notification")->setScale(0.0);
 }
 
 //------------------TOP LEVEL BUTTONS-------------------
@@ -325,7 +344,7 @@ void NavigationLayer::hideNotificationBadge()
 void NavigationLayer::createTopObjects()
 {
     settingsButton = SettingsButton::createSettingsButton(3.0f);
-    settingsButton->setPosition(origin.x + visibleSize.width, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.5);
+    settingsButton->setPosition(origin.x + visibleSize.width, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.25);
     this->addChild(settingsButton);
 
     returnToChildSelectorButton = ElectricDreamsButton::createChildSelectorButton();
@@ -341,7 +360,7 @@ void NavigationLayer::topObjectsOffScreen()
     if(settingsButton)
     {
         settingsButton->stopAllActions();
-        settingsButton->runAction(Sequence::create(EaseOut::create(MoveTo::create(1,Vec2(origin.x + visibleSize.width, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.5)), 2), NULL));
+        settingsButton->runAction(Sequence::create(EaseOut::create(MoveTo::create(1,Vec2(origin.x + visibleSize.width, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.25)), 2), NULL));
     }
     
     if(returnToChildSelectorButton)
@@ -356,13 +375,13 @@ void NavigationLayer::topObjectsOnScreen()
     if(settingsButton)
     {
         settingsButton->stopAllActions();
-        settingsButton->runAction(Sequence::create(EaseIn::create(MoveTo::create(1,Vec2(origin.x + visibleSize.width - settingsButton->getContentSize().width*1.5, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.5)), 2), NULL));
+        settingsButton->runAction(Sequence::create(EaseIn::create(MoveTo::create(1,Vec2(origin.x + visibleSize.width - settingsButton->getContentSize().width*1.25, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.25)), 2), NULL));
     }
     
     if(returnToChildSelectorButton)
     {
         returnToChildSelectorButton->stopAllActions();
-        returnToChildSelectorButton->runAction(Sequence::create(EaseIn::create(MoveTo::create(1,Vec2(origin.x + returnToChildSelectorButton->getContentSize().width*.25, returnToChildSelectorButton->getPositionY())), 2), NULL));
+        returnToChildSelectorButton->runAction(Sequence::create(EaseIn::create(MoveTo::create(1,Vec2(origin.x + returnToChildSelectorButton->getContentSize().width*.25, visibleSize.height -  returnToChildSelectorButton->getContentSize().height * 1.25)), 2), NULL));
         
         
     }
@@ -426,7 +445,7 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
     listener->setSwallowTouches(true);
     listener->onTouchBegan = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
     {
-        if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0)
+        if(Director::getInstance()->getRunningScene()->getChildByName("contentLayer")->getNumberOfRunningActions() > 0)
         {
             return false;
         }
@@ -475,16 +494,16 @@ void NavigationLayer::turnOffAllMenuItems()
     
     for(const std::string& hqName : hqNames)
     {
-        this->getChildByName(hqName)->getChildByName("circle")->setOpacity(255);
-        this->getChildByName(hqName)->getChildByName("on")->stopAllActions();
-        this->getChildByName(hqName)->getChildByName("on")->setOpacity(0);
+        _hqButtonHolder->getChildByName(hqName)->getChildByName("circle")->setOpacity(255);
+        _hqButtonHolder->getChildByName(hqName)->getChildByName("on")->stopAllActions();
+        _hqButtonHolder->getChildByName(hqName)->getChildByName("on")->setOpacity(0);
     }
 }
 
 void NavigationLayer::turnOnMenuItem(const std::string& hqName)
 {
-    this->getChildByName(hqName)->getChildByName("on")->runAction(Sequence::create(FadeTo::create(0, 255), DelayTime::create(0.1), FadeTo::create(0,0), DelayTime::create(0.1), FadeTo::create(0, 255), NULL));
-    this->getChildByName(hqName)->getChildByName("circle")->setOpacity(0);
+    _hqButtonHolder->getChildByName(hqName)->getChildByName("on")->runAction(Sequence::create(FadeTo::create(0, 255), DelayTime::create(0.1), FadeTo::create(0,0), DelayTime::create(0.1), FadeTo::create(0, 255), NULL));
+    _hqButtonHolder->getChildByName(hqName)->getChildByName("circle")->setOpacity(0);
 }
 
 void NavigationLayer::delayedSetButtonOn(float dt)
@@ -494,45 +513,33 @@ void NavigationLayer::delayedSetButtonOn(float dt)
 
 void NavigationLayer::setButtonOn(const std::string& hqName)
 {
-    this->getChildByName(hqName)->getChildByName("on")->setOpacity(255);
-    this->getChildByName(hqName)->getChildByName("circle")->setOpacity(0);
+    _hqButtonHolder->getChildByName(hqName)->getChildByName("on")->setOpacity(255);
+    _hqButtonHolder->getChildByName(hqName)->getChildByName("circle")->setOpacity(0);
 }
 
 void NavigationLayer::moveMenuPointsToHorizontalState(float duration)
 {
     AudioMixer::getInstance()->playOomeeIdleSounds(false);
-    const std::vector<std::string> hqNames = ConfigStorage::getInstance()->getHqNames();
-    for(const std::string& hqName : hqNames)
-    {
-        auto menuItemImage = (Sprite *)this->getChildByName(hqName);
-        Point targetPosition = ConfigStorage::getInstance()->getHorizontalPositionForMenuItem(hqName);
+    
+    auto action = EaseInOut::create(MoveTo::create(duration, Vec2(visibleSize.width / 2.0f, visibleSize.height - 150 - _navOffset)), 2);
+    action->setTag(1);
         
-        menuItemImage->stopAction(menuItemImage->getActionByTag(1));
-        
-        auto action = EaseInOut::create(MoveTo::create(duration, targetPosition), 2);
-        action->setTag(1);
-        
-        menuItemImage->runAction(action);
-    }
+    _hqButtonHolder->runAction(action);
+    
     topObjectsOnScreen();
 }
 
 void NavigationLayer::moveMenuPointsToHorizontalStateInGroupHQ(float duration)
 {
     AudioMixer::getInstance()->playOomeeIdleSounds(false);
-    const std::vector<std::string> hqNames = ConfigStorage::getInstance()->getHqNames();
-    for(const std::string& hqName : hqNames)
-    {
-        auto menuItemImage = (Sprite *)this->getChildByName(hqName);
-        Point targetPosition = ConfigStorage::getInstance()->getHorizontalPositionForMenuItemInGroupHQ(hqName);
+    
+    _hqButtonHolder->stopAction(_hqButtonHolder->getActionByTag(1));
         
-        menuItemImage->stopAction(menuItemImage->getActionByTag(1));
+    auto action = EaseInOut::create(MoveTo::create(duration, Vec2(visibleSize.width / 2.0f, visibleSize.height + 150)), 2);
+    action->setTag(1);
         
-        auto action = EaseInOut::create(MoveTo::create(duration, targetPosition), 2);
-        action->setTag(1);
-        
-        menuItemImage->runAction(action);
-    }
+    _hqButtonHolder->runAction(action);
+    
     topObjectsOffScreen();
 }
 
@@ -560,7 +567,7 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
     listener->setSwallowTouches(true);
     listener->onTouchBegan = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
     {
-        if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0)
+        if(Director::getInstance()->getRunningScene()->getChildByName("contentLayer")->getNumberOfRunningActions() > 0)
         {
             return false;
         }
@@ -575,9 +582,9 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
         {
             AnalyticsSingleton::getInstance()->genericButtonPressEvent("groupBackButton");
             AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
-            Scene *runningScene = Director::getInstance()->getRunningScene();
-            Node *baseLayer = runningScene->getChildByName("baseLayer");
-            Node *contentLayer = baseLayer->getChildByName("contentLayer");
+            cocos2d::Scene *runningScene = Director::getInstance()->getRunningScene();
+            //Node *baseLayer = runningScene->getChildByName("baseLayer");
+            Node *contentLayer = runningScene->getChildByName("contentLayer");
             
             HQHistoryManager::getInstance()->getHistoryLog();
             
@@ -587,7 +594,7 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
                 HQScene2 *hqLayer2 = (HQScene2 *)contentLayer->getChildByName(HQHistoryManager::getInstance()->getPreviousHQ());
                 
                 auto funcCallAction = CallFunc::create([=](){
-                    hqLayer2->startBuildingScrollView();
+                    hqLayer2->rebuildScrollView();
                 });
                 
                 this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
@@ -635,7 +642,7 @@ void NavigationLayer::cleanUpPreviousHQ()
     std::string previousHqName = HQHistoryManager::getInstance()->getPreviousHQ();
     if(previousHqName != ConfigStorage::kHomeHQName)
     {
-        HQScene2* lastHQLayer = (HQScene2 *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getChildByName(previousHqName);
+        HQScene2* lastHQLayer = (HQScene2 *)Director::getInstance()->getRunningScene()->getChildByName("contentLayer")->getChildByName(previousHqName);
         
         auto funcCallAction = CallFunc::create([=](){
             lastHQLayer->removeAllChildrenWithCleanup(true);
@@ -651,6 +658,112 @@ void NavigationLayer::onExit()
 {
     ChatNotificationsSingleton::getInstance()->setNavigationLayer(NULL);
     Node::onExit();
+}
+
+void NavigationLayer::repositionElements()
+{
+    visibleSize = Director::getInstance()->getVisibleSize();
+    origin = Vec2(0,0);//Director::getInstance()->getVisibleOrigin();
+    
+    _navOffset = 0;
+    
+    if(ConfigStorage::getInstance()->isDeviceIphoneX())
+    {
+        if(visibleSize.width < visibleSize.height)
+        {
+           _navOffset = 100;
+        }
+    }
+    
+    if(_hqButtonHolder)
+    {
+        if(HQHistoryManager::getInstance()->getCurrentHQ() == ConfigStorage::kGroupHQName)
+        {
+            _hqButtonHolder->setPosition(visibleSize.width / 2.0f, visibleSize.height + 150);
+        }
+        else
+        {
+            _hqButtonHolder->setPosition(visibleSize.width / 2.0f, visibleSize.height - 150 - _navOffset);
+        }
+    }
+    
+    if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+    {
+        if(HQHistoryManager::getInstance()->getCurrentHQ() == ConfigStorage::kGroupHQName)
+        {
+            if(settingsButton)
+            {
+                settingsButton->stopAllActions();
+                settingsButton->setPosition(Vec2(origin.x + visibleSize.width + settingsButton->getContentSize().width*1.25, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.25));
+            }
+            
+            if(returnToChildSelectorButton)
+            {
+                returnToChildSelectorButton->stopAllActions();
+                returnToChildSelectorButton->setPosition(Vec2(origin.x - returnToChildSelectorButton->getContentSize().width*1.25, visibleSize.height -  returnToChildSelectorButton->getContentSize().height * 1.25));
+            }
+            
+            auto backButton = this->getChildByName("backButton");
+            if(backButton)
+            {
+                
+                backButton->setPosition(origin.x +backButton->getContentSize().width*.7, origin.y + visibleSize.height - backButton->getContentSize().height*.7);
+            }
+            
+        }
+        else
+        {
+            if(settingsButton)
+            {
+                settingsButton->stopAllActions();
+                settingsButton->setPosition(Vec2(origin.x + visibleSize.width - settingsButton->getContentSize().width*1.25, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.25));
+            }
+            
+            if(returnToChildSelectorButton)
+            {
+                returnToChildSelectorButton->stopAllActions();
+                returnToChildSelectorButton->setPosition(Vec2(origin.x + returnToChildSelectorButton->getContentSize().width*.25, visibleSize.height -  returnToChildSelectorButton->getContentSize().height * 1.25));
+            }
+        }
+    }
+    else
+    {
+        if(HQHistoryManager::getInstance()->getCurrentHQ() == ConfigStorage::kGroupHQName)
+        {
+            if(previewSignUpButton)
+            {
+                previewSignUpButton->stopAllActions();
+                previewSignUpButton->setPosition(Vec2(origin.x - previewSignUpButton->getContentSize().width - previewSignUpButton->getContentSize().height/4, origin.y + visibleSize.height- previewSignUpButton->getContentSize().height * 1.25));
+            }
+            
+            if(previewLoginButton)
+            {
+                previewLoginButton->stopAllActions();
+                previewLoginButton->setPosition(Vec2(origin.x+visibleSize.width + previewLoginButton->getContentSize().width + previewLoginButton->getContentSize().height/4, origin.y + visibleSize.height- previewLoginButton->getContentSize().height* 1.25));
+            }
+            
+            auto backButton = this->getChildByName("backButton");
+            if(backButton)
+            {
+                backButton->setPosition(origin.x +backButton->getContentSize().width*.7, origin.y + visibleSize.height - backButton->getContentSize().height*.7);
+            }
+        }
+        else
+        {
+            if(previewSignUpButton)
+            {
+                previewSignUpButton->stopAllActions();
+                previewSignUpButton->setPosition(Vec2(origin.x + previewSignUpButton->getContentSize().height/4, origin.y + visibleSize.height- previewSignUpButton->getContentSize().height * 1.25));
+            }
+            
+            if(previewLoginButton)
+            {
+                previewLoginButton->stopAllActions();
+                previewLoginButton->setPosition(Vec2(origin.x+visibleSize.width - previewLoginButton->getContentSize().width - previewLoginButton->getContentSize().height/4, origin.y + visibleSize.height- previewLoginButton->getContentSize().height* 1.25));
+            }
+        }
+    }
+    
 }
 
 NS_AZOOMEE_END

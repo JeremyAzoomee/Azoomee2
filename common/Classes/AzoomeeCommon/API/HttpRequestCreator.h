@@ -26,11 +26,11 @@ public:
     HttpRequestCreator(HttpRequestCreatorResponseDelegate* delegate);
     
     // Build and execute the request
-    void execute();
+    void execute(float timeout = 10.0f);
     // Build and return the request only, without sending it
     cocos2d::network::HttpRequest* buildHttpRequest();
     // Send the specified request
-    void sendRequest(cocos2d::network::HttpRequest* request);
+    void sendRequest(cocos2d::network::HttpRequest* request, float timeout = 10.0f);
     
     void clearDelegate();
     

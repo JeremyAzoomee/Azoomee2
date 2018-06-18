@@ -54,11 +54,11 @@ void ArtAppDelegate::onArtAppNavigationBack()
 
 void ArtAppDelegate::onArtAppShareImage()
 {
-    ChatDelegate::getInstance()->_imageFileName = filename;
     if(filename != "")
     {
         if(!HQHistoryManager::getInstance()->isOffline && ChildDataProvider::getInstance()->getIsChildLoggedIn())
         {
+            ChatDelegate::getInstance()->_imageFileName = filename;
             ArtAppRunning = false;
             Director::getInstance()->getTextureCache()->reloadTexture(filename);
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));

@@ -1,6 +1,7 @@
 #include "SettingsButton.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "SettingsControlLayer.h"
+#include "SceneManagerScene.h"
 
 using namespace cocos2d;
 
@@ -38,7 +39,8 @@ bool SettingsButton::init()
 
 void SettingsButton::onButtonPressed()
 {
-    SettingsControlLayer::create();
+    Director::getInstance()->replaceScene(SceneManagerScene::createScene(Settings));
+    //SettingsControlLayer::create();
 }
 
 NS_AZOOMEE_END
