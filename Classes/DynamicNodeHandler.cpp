@@ -93,8 +93,10 @@ void DynamicNodeHandler::createDynamicNodeByGroupId(const std::string& groupId)
     {
         if(folder == groupId)
         {
-            const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getJsonFilesInDirectory(ctaPath + folder);
-            
+            std::vector<std::string> fileNames = DirectorySearcher::getInstance()->getJsonFilesInDirectory(ctaPath + folder);
+            fileNames.erase(std::remove_if(fileNames.begin(), fileNames.end(), [&](std::string item){
+                return item.compare(0, 2, "p_") == 0;
+            }));
             int randomFileNameIndex = rand()%fileNames.size();
             AnalyticsSingleton::getInstance()->ctaWindowAppeared(groupId, fileNames[randomFileNameIndex]);
             createDynamicNodeFromFile(ctaPath + folder + "/" + fileNames[randomFileNameIndex]);
@@ -137,8 +139,10 @@ void DynamicNodeHandler::createDynamicNodeByGroupIdWithParams(const std::string&
     {
         if(folder == groupId)
         {
-            const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getJsonFilesInDirectory(ctaPath + folder);
-            
+            std::vector<std::string> fileNames = DirectorySearcher::getInstance()->getJsonFilesInDirectory(ctaPath + folder);
+            fileNames.erase(std::remove_if(fileNames.begin(), fileNames.end(), [&](std::string item){
+                return item.compare(0, 2, "p_") == 0;
+            }));
             int randomFileNameIndex = rand()%fileNames.size();
             AnalyticsSingleton::getInstance()->ctaWindowAppeared(groupId, fileNames[randomFileNameIndex]);
             createDynamicNodeFromFileWithParams(ctaPath + folder + "/" + fileNames[randomFileNameIndex], params);

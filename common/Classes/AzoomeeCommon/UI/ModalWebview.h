@@ -6,7 +6,6 @@
 #include "ui/UIWebView.h"
 #include "../Azoomee.h"
 
-
 NS_AZOOMEE_BEGIN
 
 class ModalWebview : public cocos2d::Layer, public ElectricDreamsButtonDelegate

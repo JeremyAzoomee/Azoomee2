@@ -3,6 +3,7 @@
 using namespace cocos2d;
 
 #define CIRCLE_TAG 1000
+#define WEBVIEW_Z_ORDER 2000
 
 NS_AZOOMEE_BEGIN
 
@@ -16,7 +17,7 @@ Layer* ModalWebview::createWithURL(std::string url)
     layer->onSizeChanged();
     layer->addLoadingCircles();
     
-    Director::getInstance()->getRunningScene()->addChild(layer);
+    Director::getInstance()->getRunningScene()->addChild(layer, WEBVIEW_Z_ORDER);
     return layer;
 }
 
