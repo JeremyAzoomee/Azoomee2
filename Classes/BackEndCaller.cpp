@@ -104,7 +104,7 @@ void BackEndCaller::ipCheck()
     }
     
     HttpRequestCreator* request = API::IpCheck(this);
-    request->execute();
+    request->execute(3.0f);
 }
 
 //LOGGING IN BY PARENT-------------------------------------------------------------------------------
@@ -547,6 +547,13 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
         return; //if the file cannot be found, we do nothing, update won't be forced.
     }
     
+    if(requestTag == API::TagIpCheck)
+    {
+        ConfigStorage::getInstance()->setClientAnonymousIp("0.0.0.0");
+        AnalyticsSingleton::getInstance()->registerAnonymousIp(ConfigStorage::getInstance()->getClientAnonymousIp());
+        return;
+    }
+    
     if(requestTag == API::TagOfflineCheck)
     {
         OfflineChecker::getInstance()->onOfflineCheckFailed();
@@ -584,6 +591,7 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
     {
         FlowDataSingleton::getInstance()->setErrorCode(errorCode);
         LoginLogicHandler::getInstance()->forceNewLogin();
+        return;
     }
     
     if(requestTag == API::TagGetAvailableChildren)

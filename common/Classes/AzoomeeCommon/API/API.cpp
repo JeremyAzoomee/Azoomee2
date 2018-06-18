@@ -45,7 +45,7 @@ HttpRequestCreator* API::IpCheck(HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->requestTag = TagIpCheck;
-    request->url = "http://icanhazip.com";
+    request->url = "https://icanhazip.azoomee.com";
     request->encrypted = false;
     return request;
 }
