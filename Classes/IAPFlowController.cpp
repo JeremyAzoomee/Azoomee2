@@ -109,7 +109,7 @@ void IAPFlowController::handleCoppaPrivacyFlow(const ButtonActionDataRef& action
         case BACK:
         {
             AnalyticsSingleton::getInstance()->ctaButtonPressed("coppaPrivacy_back");
-            DynamicNodeHandler::getInstance()->createDynamicNodeByGroupIdWithParams(kIAPUpgradeCTAName, getJSONStringFromMap({
+            DynamicNodeHandler::getInstance()->createDynamicNodeByGroupIdWithParams(kIAPUpgradeCTAName + _contextExtention, getJSONStringFromMap({
                 {"iapPrice",IAPProductDataHandler::getInstance()->getHumanReadableProductPrice()}
             }));
             break;
