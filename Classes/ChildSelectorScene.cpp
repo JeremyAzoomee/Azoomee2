@@ -66,11 +66,15 @@ bool ChildSelectorScene::init()
     
     this->addChild(_contentNode, -1, "contentNode");
     
+    _firstTime = true;
+    
     addVisualsToScene();
     createSettingsButton();
     addScrollViewForProfiles();
     addProfilesToScrollView();
     addPrivacyButton();
+    
+    _firstTime = false;
     
     auto newProfileButton = createNewProfileButton();
     newProfileButton->setPosition(_origin.x + newProfileButton->getContentSize().width / 2, _origin.y + _visibleSize.height - (newProfileButton->getContentSize().height * 0.8) + getVerticalOffset());
@@ -195,28 +199,34 @@ Layer *ChildSelectorScene::createChildProfileButton(std::string profileName, int
     
     auto glow = Sprite::create("res/childSelection/glow.png");
     glow->setPosition(profileLayer->getContentSize().width / 2, profileLayer->getContentSize().height /2);
-    glow->setOpacity(0);
     profileLayer->addChild(glow);
     
     float delayTime = CCRANDOM_0_1() * 0.5;
-    glow->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    if(_firstTime)
+    {
+        glow->setOpacity(0);
+        glow->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    }
     
     auto oomee = Sprite::create(StringUtils::format("res/childSelection/%s.png", ConfigStorage::getInstance()->getNameForOomee(oomeeNumber).c_str()));
     oomee->setPosition(profileLayer->getContentSize().width / 2, profileLayer->getContentSize().height /2);
-    oomee->setOpacity(0);
     oomee->setScale(1.25);
     profileLayer->addChild(oomee);
     
-    oomee->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
-    
+    if(_firstTime)
+    {
+        oomee->setOpacity(0);
+        oomee->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    }
     auto profileLabel = createLabelChildName(profileName);
     profileLabel->setPosition(profileLayer->getContentSize().width / 2, profileLabel->getContentSize().height / 2);
-    profileLabel->setOpacity(0);
     reduceLabelTextToFitWidth(profileLabel,OOMEE_LAYER_WIDTH);
     profileLayer->addChild(profileLabel);
-    
-    profileLabel->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
-    
+    if(_firstTime)
+    {
+        profileLabel->setOpacity(0);
+        profileLabel->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    }
     return profileLayer;
 }
 
@@ -330,28 +340,34 @@ Layer* ChildSelectorScene::createNewProfileButton()
     
     auto addButtonSprite = Sprite::create("res/childSelection/button_addChild_frame.png");
     addButtonSprite->setPosition(addButtonLayer->getContentSize().width / 2, addButtonLayer->getContentSize().height /2);
-    addButtonSprite->setOpacity(0);
     addButtonSprite->setName("addChildButton");
     addListenerToProfileLayer(addButtonSprite);
     addButtonLayer->addChild(addButtonSprite);
     
     float delayTime = CCRANDOM_0_1();
-    addButtonSprite->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
-    
+    if(_firstTime)
+    {
+        addButtonSprite->setOpacity(0);
+        addButtonSprite->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    }
     auto addButtonIcon = Sprite::create("res/childSelection/button_addChild_icon.png");
     addButtonIcon->setPosition(addButtonIcon->getContentSize().width * 0.9, addButtonSprite->getContentSize().height * 0.5);
-    addButtonIcon->setOpacity(0);
     addButtonSprite->addChild(addButtonIcon);
-    
-    addButtonIcon->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    if(_firstTime)
+    {
+        addButtonIcon->setOpacity(0);
+        addButtonIcon->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    }
     
     auto addButtonLabel = createLabelWith("Add a profile", Style::Font::Regular, Style::Color::brightAqua, 40);
     addButtonLabel->setPosition(addButtonSprite->getContentSize().width * 0.57, addButtonSprite->getContentSize().height * 0.47);
-    addButtonLabel->setOpacity(0);
     addButtonSprite->addChild(addButtonLabel);
-    
-    addButtonLabel->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
-    
+    if(_firstTime)
+    {
+        addButtonLabel->setOpacity(0);
+        addButtonLabel->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    }
+
     return addButtonLayer;
 }
 
@@ -364,20 +380,23 @@ Layer* ChildSelectorScene::createParentProfileButton()
     auto oomee = Sprite::create("res/childSelection/om_GenericParent.png");
     oomee->setPosition(profileLayer->getContentSize().width / 2, profileLayer->getContentSize().height * 0.62);
     oomee->setScale(1.25);
-    oomee->setOpacity(0);
     profileLayer->addChild(oomee);
     
     float delayTime = CCRANDOM_0_1() * 0.5;
-    oomee->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
-    
+    if(_firstTime)
+    {
+        oomee->setOpacity(0);
+        oomee->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    }
     auto profileLabel = createLabelChildName("Parent");
     profileLabel->setPosition(profileLayer->getContentSize().width / 2, profileLabel->getContentSize().height / 2);
-    profileLabel->setOpacity(0);
     reduceLabelTextToFitWidth(profileLabel,OOMEE_LAYER_WIDTH);
     profileLayer->addChild(profileLabel);
-    
-    profileLabel->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
-    
+    if(_firstTime)
+    {
+        profileLabel->setOpacity(0);
+        profileLabel->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    }
     _parentButtonListener = EventListenerTouchOneByOne::create();
     _parentButtonListener->onTouchBegan = [=](Touch *touch, Event *event)
     {
