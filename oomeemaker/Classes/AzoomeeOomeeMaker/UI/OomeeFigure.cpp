@@ -248,6 +248,8 @@ void OomeeFigure::addAccessory(const OomeeItemRef& oomeeItem)
         {
             addAccessory(OomeeMakerDataStorage::getInstance()->getOomeeItemForKey(id));
         }
+        
+        dependancyCheck();
     }
 }
 
@@ -340,6 +342,32 @@ void OomeeFigure::addDefaultAccessories()
     for(const std::string& itemName : kDefaultAccessories)
     {
         addAccessory(OomeeMakerDataStorage::getInstance()->getOomeeItemForKey(itemName));
+    }
+}
+
+void OomeeFigure::dependancyCheck()
+{
+    std::vector<std::string> removeAccsAnchors;
+    for(const auto& acc : _accessories)
+    {
+        const OomeeItemRef& itemData = acc.second->getItemData();
+        for(const auto& dependancyId : itemData->getDependancies())
+        {
+            const OomeeItemRef& dependancyData = OomeeMakerDataStorage::getInstance()->getOomeeItemForKey(dependancyId);
+            if(dependancyData && _accessories.find(dependancyData->getTargetAnchor()) != _accessories.end())
+            {
+                if(_accessories.at(dependancyData->getTargetAnchor())->getItemId() != dependancyId)
+                {
+                    removeAccsAnchors.push_back(acc.first);
+                    break;
+                }
+            }
+        }
+    }
+    
+    for(const auto& removeAnchor : removeAccsAnchors)
+    {
+        removeAccessory(removeAnchor);
     }
 }
 

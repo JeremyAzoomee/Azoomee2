@@ -468,7 +468,7 @@
 	{
 		"id": "armLeft12",
 		"targetAnchor": "armLeft",
-		"offset": [19.0,-11.0],
+		"offset": [14.0,-10.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 0.75,
 		"dragScale": 2.0,
@@ -489,7 +489,7 @@
 	{
 		"id": "armRight12",
 		"targetAnchor": "armRight",
-		"offset": [-19.0,-11.0],
+		"offset": [-14.0,-10.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 0.75,
 		"dragScale": 2.0,
@@ -510,7 +510,7 @@
 	{
 		"id": "armLeft13",
 		"targetAnchor": "armLeft",
-		"offset": [35.0,0.0],
+		"offset": [29.0,-9.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 0.75,
 		"dragScale": 2.0,
@@ -531,7 +531,7 @@
 	{
 		"id": "armRight13",
 		"targetAnchor": "armRight",
-		"offset": [-35.0,0.0],
+		"offset": [-29.0,-9.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 0.75,
 		"dragScale": 2.0,

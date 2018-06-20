@@ -29,7 +29,7 @@ private:
     std::vector<OomeeItemRef> _itemList;
     ItemSelectedCallback _itemSelectedCallback = nullptr;
     ColourSelectedCallback _colourSelectedCallback = nullptr;
-    int _columns = 2;
+    int _columns = 1;
     
 protected:
     virtual void doLayout() override;

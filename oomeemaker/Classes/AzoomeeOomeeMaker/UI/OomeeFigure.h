@@ -35,6 +35,8 @@ private:
     cocos2d::EventListenerTouchOneByOne* _touchListener = nullptr;
     float _hue = 0;
     
+    void dependancyCheck();
+    
 public:
     virtual bool init() override;
     virtual void onEnter() override;
