@@ -32,7 +32,7 @@ void OomeeCarouselButton::onEnter()
     bgCircle1->setRotation(RandomHelper::random_real(0.0,M_PI));
     this->addChild(bgCircle1, -1);
     
-    auto popIn1 = EaseBackOut::create(ScaleTo::create(0.5, (Vec2(this->getContentSize()).length() * 0.8f) / bgCircle1->getContentSize().height));
+    auto popIn1 = EaseBackOut::create(ScaleTo::create(0.5, (Vec2(this->getContentSize()).length() * 0.7f) / bgCircle1->getContentSize().height));
     auto rotate1 = RepeatForever::create(RotateBy::create(30 + CCRANDOM_0_1() * 30, 360));
     
     bgCircle1->runAction(popIn1);
@@ -45,7 +45,7 @@ void OomeeCarouselButton::onEnter()
     bgCircle2->setRotation(RandomHelper::random_real(0.0,M_PI));
     this->addChild(bgCircle2, -1);
     
-    auto popIn2 = EaseBackOut::create(ScaleTo::create(0.5, (Vec2(this->getContentSize()).length() * 1.1f) / bgCircle2->getContentSize().height));
+    auto popIn2 = EaseBackOut::create(ScaleTo::create(0.5, (Vec2(this->getContentSize()).length() * 0.95f) / bgCircle2->getContentSize().height));
     auto rotate2 = RepeatForever::create(RotateBy::create(30 +  CCRANDOM_0_1() * 30, -360));
         
     bgCircle2->runAction(popIn2);
@@ -158,7 +158,7 @@ void OomeeCarouselButton::animateButtonsIn(float duration)
     duration *= durationMod;
     Action* scaleAction = ScaleTo::create(duration, 1);
     
-    Vec2 basePos = Vec2(centerWidth - this->getContentSize().height/1.5, centerHeight + this->getContentSize().height/1.5);
+    Vec2 basePos = Vec2(centerWidth - this->getContentSize().height/1.7, centerHeight + this->getContentSize().height/1.7);
     
     Action* moveActionEdit = EaseBackOut::create(MoveTo::create(duration, basePos));
     _editButton->stopAllActions();

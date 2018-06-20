@@ -275,15 +275,16 @@ void OomeeFigure::saveSnapshotImage(const std::string &filepath)
 {
     Sprite* target = Sprite::create("res/oomeeMaker/1_Oomee_Reference.png");
     // render twice, first in 2x size canvas to make sure accessories dont get culled by the renderer, then again to get normal size image
-    _baseSprite->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _baseSprite->setPosition(target->getContentSize());
-    _baseSprite->setScale(target->getContentSize().height / _baseSprite->getContentSize().height);
-    RenderTexture* renderTex = RenderTexture::create(target->getContentSize().width*2, target->getContentSize().height*2 );
+    _baseSprite->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _baseSprite->setPosition(Vec2(target->getContentSize().width/2,0));
+    _baseSprite->setScale(0.75);
+    RenderTexture* renderTex = RenderTexture::create(target->getContentSize().width, target->getContentSize().height);
     renderTex->beginWithClear(0, 0, 0, 0);
     _baseSprite->visit();
     renderTex->end();
+    renderTex->saveToFile(filepath, Image::Format::PNG);
     Director::getInstance()->getRenderer()->render();
-    
+    /*
     Sprite* temp = Sprite::createWithTexture(renderTex->getSprite()->getTexture());
     temp->setFlippedY(true);
     temp->setPosition(target->getContentSize() / 2.0f);
@@ -293,6 +294,7 @@ void OomeeFigure::saveSnapshotImage(const std::string &filepath)
     finalTex->end();
     finalTex->saveToFile(filepath, Image::Format::PNG);
     Director::getInstance()->getRenderer()->render();
+     */
 }
 
 OomeeColourRef OomeeFigure::getColour() const

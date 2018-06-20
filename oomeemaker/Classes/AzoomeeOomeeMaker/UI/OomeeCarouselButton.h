@@ -52,7 +52,6 @@ public:
     
     void setInFocus(bool inFocus);
     
-    
     CREATE_FUNC(OomeeCarouselButton);
 };
 
