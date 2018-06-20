@@ -168,18 +168,14 @@ void IntroVideoScene::navigateToNextScene()
     }
     AnalyticsSingleton::getInstance()->registerAppVersion();
     
-    LoginLogicHandler::getInstance()->doLoginLogic();
-    /*
     if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
     {
-        AnalyticsSingleton::getInstance()->registerCurrentScene("INTRO_SLIDESHOW");
-        Director::getInstance()->replaceScene(StartScreen::create());
+        BackEndCaller::getInstance()->anonymousDeviceLogin();
     }
     else
     {
         LoginLogicHandler::getInstance()->doLoginLogic();
     }
-     */
 }
 
 void IntroVideoScene::onSizeChanged()
