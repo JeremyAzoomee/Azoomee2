@@ -9,6 +9,7 @@
 #include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Child/ChildDataParser.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include "PreviewLoginSignupMessageBox.h"
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
@@ -24,6 +25,7 @@
 #include "ChatNotificationsSingleton.h"
 #include "DynamicNodeHandler.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include "FlowDataSingleton.h"
 
 using namespace cocos2d;
 
@@ -108,6 +110,40 @@ bool NavigationLayer::init()
             runDisplayAnimationForMenuItem(menuItemHolder, false);        //Animation for two items has to be handled separately, because opacity must not be in a parent-child relationship.
         }
     }
+    
+    _userTypeMessagingLayer = UserTypeMessagingLayer::create();
+    _userTypeMessagingLayer->setContentSize(Size(visibleSize.width, 300));
+    _userTypeMessagingLayer->setPosition(origin - Vec2(0,300));
+    _userTypeMessagingLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    UserType userType = ANON;
+    if(!ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
+    {
+        userType = LAPSED;
+        if(ParentDataProvider::getInstance()->isPaidUser())
+        {
+            userType = PAID;
+        }
+    }
+    _userTypeMessagingLayer->setUserType(userType);
+    if(userType == PAID)
+    {
+        if(FlowDataSingleton::getInstance()->getDisplayUserPaidFlag())
+        {
+            FlowDataSingleton::getInstance()->setDisplayUserPaidFlag(false);
+            _userTypeMessagingLayer->runAction(Sequence::create(MoveTo::create(1, origin), DelayTime::create(10), MoveTo::create(2, Vec2(0,-_userTypeMessagingLayer->getContentSize().height * 1.5f)), NULL));
+        }
+        else
+        {
+            _userTypeMessagingLayer->setVisible(false);
+        }
+    }
+    else
+    {
+        _userTypeMessagingLayer->runAction(MoveTo::create(1, origin));
+    }
+    this->addChild(_userTypeMessagingLayer);
+   
+    
     
     if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
     {
@@ -658,6 +694,11 @@ void NavigationLayer::repositionElements()
 {
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Vec2(0,0);//Director::getInstance()->getVisibleOrigin();
+    
+    _userTypeMessagingLayer->setContentSize(Size(visibleSize.width, 300));
+    _userTypeMessagingLayer->setPositionX(origin.x);
+    
+    _userTypeMessagingLayer->repositionElements();
     
     _navOffset = 0;
     

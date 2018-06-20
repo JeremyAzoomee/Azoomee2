@@ -11,6 +11,7 @@
 #include "../Utils/BiometricAuthenticationHandler.h"
 #include "Scene.h"
 
+
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN

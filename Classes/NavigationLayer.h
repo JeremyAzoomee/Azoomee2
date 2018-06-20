@@ -2,6 +2,7 @@
 #define __NAVIGATION_LAYER_H__
 
 #include <cocos/cocos2d.h>
+#include "UserTypeMessagingLayer.h"
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 #include <AzoomeeChat/ChatAPI.h>
@@ -40,6 +41,7 @@ private:
     ElectricDreamsButton *settingsButton;
     ElectricDreamsButton *returnToChildSelectorButton;
     
+    UserTypeMessagingLayer* _userTypeMessagingLayer = nullptr;
     cocos2d::Node* _hqButtonHolder = nullptr;
 
     //MenuItem creation phase
