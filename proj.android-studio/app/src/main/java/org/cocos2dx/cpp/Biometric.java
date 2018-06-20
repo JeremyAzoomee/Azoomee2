@@ -25,7 +25,11 @@ public class Biometric {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
             FingerprintManager fingerprintManager = (FingerprintManager) mContext.getSystemService(FINGERPRINT_SERVICE);
-
+            if(fingerprintManager == null)
+            {
+                return false;
+            }
+            
             if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.USE_FINGERPRINT) == PackageManager.PERMISSION_GRANTED)
             {
                 if (fingerprintManager.isHardwareDetected())
