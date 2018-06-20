@@ -91,7 +91,7 @@ void UserTypeMessagingLayer::onEnter()
     _reactivateButton = ui::Button::create("res/buttons/MainButton.png");
     _reactivateButton->setContentSize(Size(this->getContentSize().width * (isPortrait ? 0.6f : 0.5f), this->getContentSize().height * 0.65f));
     _reactivateButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _reactivateButton->setNormalizedPosition(Vec2(isPortrait ? 0.33 : 0.5, 0.5));
+    _reactivateButton->setNormalizedPosition(Vec2(0.5, 0.5));
     _reactivateButton->setSwallowTouches(true);
     _reactivateButton->setColor(Color3B::WHITE);
     _reactivateButton->ignoreContentAdaptWithSize(true);
