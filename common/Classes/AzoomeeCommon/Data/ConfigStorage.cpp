@@ -172,9 +172,17 @@ std::string ConfigStorage::getServerUrl()
 std::string ConfigStorage::getCTAPackageJsonURL()
 {
 #ifdef USINGCI
-    return "https://media.azoomee.ninja/static/popups/package.json";
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    return "https://media.azoomee.ninja/static/popups/android/package.json";
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    return "https://media.azoomee.ninja/static/popups/ios/package.json";
 #endif
-    return "https://media.azoomee.com/static/popups/package.json";
+#endif
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    return "https://media.azoomee.com/static/popups/android/package.json";
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    return "https://media.azoomee.com/static/popups/ios/package.json";
+#endif
 }
     
 std::string ConfigStorage::getMediaPrefixForXwalkCookies()

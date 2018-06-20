@@ -24,6 +24,7 @@
 #include "BackEndCaller.h"
 #include "ChatNotificationsSingleton.h"
 #include "DynamicNodeHandler.h"
+#include "IAPFlowController.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "FlowDataSingleton.h"
 
@@ -181,7 +182,12 @@ void NavigationLayer::changeToScene(const std::string& hqName, float duration)
     if(!currentObject->getHqEntitlement())
     {
         AnalyticsSingleton::getInstance()->registerCTASource("lockedHQ","",currentObject->getHqType());
-        DynamicNodeHandler::getInstance()->startIAPFlow();
+        IAPEntryContext context = DEFAULT;
+        if(hqName == ConfigStorage::kChatHQName)
+        {
+            context = LOCKED_CHAT;
+        }
+        DynamicNodeHandler::getInstance()->startIAPFlow(context);
         return;
     }
     

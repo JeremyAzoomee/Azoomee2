@@ -159,7 +159,7 @@ void DynamicNodeHandler::startSignupFlow()
     createDynamicNodeByIdWithParams(_flowController->_flowEntryFile, DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
 }
 
-void DynamicNodeHandler::startIAPFlow()
+void DynamicNodeHandler::startIAPFlow(IAPEntryContext context)
 {
     if(RoutePaymentSingleton::getInstance()->receiptDataFileExists())
     {
@@ -175,7 +175,8 @@ void DynamicNodeHandler::startIAPFlow()
             return;
         }
     }
-    _flowController = IAPFlowController::create();
+    
+    _flowController = IAPFlowController::createWithContext(context);
     createDynamicNodeByGroupIdWithParams(_flowController->_flowEntryFile, getJSONStringFromMap({
         {"iapPrice",IAPProductDataHandler::getInstance()->getHumanReadableProductPrice()}
     }));
