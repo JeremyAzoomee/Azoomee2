@@ -15,7 +15,9 @@ public class DeepLink extends AppActivity {
 
         Intent intent = getIntent();
         Uri data = intent.getData();
-        sendDeepLinkToCPP(data.toString());
+        if(data != null) {
+            sendDeepLinkToCPP(data.toString());
+        }
     }
 
     public static native void sendDeepLinkToCPP(String URIString);
