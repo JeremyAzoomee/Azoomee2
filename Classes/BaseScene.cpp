@@ -94,8 +94,8 @@ void BaseScene::createHQScene2(const std::string &sceneName, Node *toBeAddedTo)
 Layer* BaseScene::createContentLayer()
 {
     auto contentLayer = Layer::create();
-    contentLayer->setPosition(ConfigStorage::getInstance()->getHQScenePositions("contentLayer"));
-    contentLayer->setName("contentLayer");
+    contentLayer->setPosition(ConfigStorage::getInstance()->getHQScenePositions(ConfigStorage::kContentLayerName));
+    contentLayer->setName(ConfigStorage::kContentLayerName);
     this->addChild(contentLayer);
     
     return contentLayer;
@@ -105,8 +105,8 @@ void BaseScene::addNavigationLayer()
 {
     //Adding main menu to BaseScene (this), instead of contentLayer, as we don't want to move it, when panning contentlayer
     auto sNavigationLayer = NavigationLayer::create();
-    sNavigationLayer->setPosition(ConfigStorage::getInstance()->getHQScenePositions("NavigationLayer"));
-    sNavigationLayer->setName("NavigationLayer");
+    sNavigationLayer->setPosition(ConfigStorage::getInstance()->getHQScenePositions(ConfigStorage::kNavigationLayerName));
+    sNavigationLayer->setName(ConfigStorage::kNavigationLayerName);
     this->addChild(sNavigationLayer);
     
     if(!HQHistoryManager::getInstance()->noHistory())
@@ -160,13 +160,13 @@ void BaseScene::onSizeChanged()
 {
     Super::onSizeChanged();
     
-    auto contentLayer = this->getChildByName("contentLayer");
+    auto contentLayer = this->getChildByName(ConfigStorage::kContentLayerName);
     if(contentLayer == nullptr)
     {
         return;
     }
     
-    for(auto child : this->getChildByName("contentLayer")->getChildren())
+    for(auto child : this->getChildByName(ConfigStorage::kContentLayerName)->getChildren())
     {
         HQScene2* hqScene = dynamic_cast<HQScene2*>(child);
         if(hqScene)
@@ -177,7 +177,7 @@ void BaseScene::onSizeChanged()
             }
         }
     }
-    auto navLayer = this->getChildByName("NavigationLayer");
+    auto navLayer = this->getChildByName(ConfigStorage::kNavigationLayerName);
     if(navLayer == nullptr)
     {
         return;
@@ -193,7 +193,8 @@ void BaseScene::onSizeChanged()
     if(gameDownloadCancelButton)
     {
         const Size& size = Director::getInstance()->getVisibleSize();
-        gameDownloadCancelButton->setCenterPosition(Vec2(size.width - gameDownloadCancelButton->getContentSize().width, size.height - gameDownloadCancelButton->getContentSize().height));
+        const Size& buttonSize = gameDownloadCancelButton->getContentSize();
+        gameDownloadCancelButton->setCenterPosition(Vec2(size.width - buttonSize.width, size.height - buttonSize.height));
     }
     
     DynamicNodeHandler::getInstance()->rebuildCurrentCTA();

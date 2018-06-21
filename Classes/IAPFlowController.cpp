@@ -245,13 +245,13 @@ void IAPFlowController::startIAP()
 std::string IAPFlowController::convertIAPEntryContextToString(IAPEntryContext context)
 {
     switch (context) {
-        case DEFAULT:
+        case IAPEntryContext::DEFAULT:
         return "default";
-        case LOCKED_CHAT:
+        case IAPEntryContext::LOCKED_CHAT:
         return "chat";
-        case LOCKED_GAME:
+        case IAPEntryContext::LOCKED_GAME:
         return "game";
-        case LOCKED_VIDEO:
+        case IAPEntryContext::LOCKED_VIDEO:
         return "video";
     }
 }

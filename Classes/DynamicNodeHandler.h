@@ -80,7 +80,7 @@ public:
     void createDynamicNodeByGroupIdWithParams(const std::string& group, const std::string& params);
     
     void startSignupFlow();
-    void startIAPFlow(IAPEntryContext context = DEFAULT);
+    void startIAPFlow(IAPEntryContext context = IAPEntryContext::DEFAULT);
     void startAddChildFlow();
     void handleSuccessFailEvent();
     

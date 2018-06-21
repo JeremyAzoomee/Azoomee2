@@ -36,6 +36,10 @@ static ConfigStorage *_sharedConfigStorage = NULL;
     
     const char* const ConfigStorage::kRecentlyPlayedCarouselName = "LAST PLAYED";
     
+    const char* const ConfigStorage::kContentNodeName = "contentNode";
+    const char* const ConfigStorage::kContentLayerName = "contentLayer";
+    const char* const ConfigStorage::kNavigationLayerName = "NavigationLayer";
+    
     const char* const ConfigStorage::kContentTypeVideo = "VIDEO";
     const char* const ConfigStorage::kContentTypeAudio = "AUDIO";
     const char* const ConfigStorage::kContentTypeGame = "GAME";
@@ -172,16 +176,17 @@ std::string ConfigStorage::getServerUrl()
 std::string ConfigStorage::getCTAPackageJsonURL()
 {
 #ifdef USINGCI
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+  #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     return "https://media.azoomee.ninja/static/popups/android/package.json";
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+  #elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     return "https://media.azoomee.ninja/static/popups/ios/package.json";
-#endif
-#endif
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+  #endif
+#else
+  #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     return "https://media.azoomee.com/static/popups/android/package.json";
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+  #elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     return "https://media.azoomee.com/static/popups/ios/package.json";
+  #endif
 #endif
 }
     

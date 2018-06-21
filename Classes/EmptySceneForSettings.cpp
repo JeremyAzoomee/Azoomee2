@@ -28,10 +28,10 @@ bool EmptySceneForSettings::init()
 void EmptySceneForSettings::onEnterTransitionDidFinish()
 {
     switch (_origin) {
-        case CHAT:
+        case SettingsOrigin::CHAT:
             SettingsControlLayer::createFromChat();
             break;
-        case MAIN_APP:
+        case SettingsOrigin::MAIN_APP:
             SettingsControlLayer::create();
             break;
     }

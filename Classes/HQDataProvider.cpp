@@ -44,12 +44,8 @@ void HQDataProvider::startBuildingHQ(const std::string &hqName)
     hideLoadingScreen();
     
     Scene *runningScene = Director::getInstance()->getRunningScene();
-    //Node *baseLayer = runningScene->getChildByName("baseLayer");
-    //if(baseLayer == nullptr)
-    //{
-    //    return;
-    //}
-    Node *contentLayer = runningScene->getChildByName("contentLayer");
+
+    Node *contentLayer = runningScene->getChildByName(ConfigStorage::kContentLayerName);
     if(contentLayer == nullptr)
     {
         return;

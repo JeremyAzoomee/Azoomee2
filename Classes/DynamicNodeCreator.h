@@ -24,6 +24,8 @@ public:
     static const std::string kCTAAssetLoc;
     static const std::string kCTABundleImageLoc;
     static const std::string kCTADeviceImageCacheLoc;
+    
+    static const std::string kPortraitPrefix;
 private:
     
     

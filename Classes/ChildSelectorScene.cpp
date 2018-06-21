@@ -64,7 +64,7 @@ bool ChildSelectorScene::init()
     _contentNode = Node::create();
     _contentNode->setContentSize(_visibleSize);
     
-    this->addChild(_contentNode, -1, "contentNode");
+    this->addChild(_contentNode, -1, ConfigStorage::kContentNodeName);
     
     _firstTime = true;
     
@@ -570,7 +570,7 @@ void ChildSelectorScene::onSizeChanged()
     _contentNode = Node::create();
     _contentNode->setContentSize(_visibleSize);
     
-    this->addChild(_contentNode, -1, "contentNode");
+    this->addChild(_contentNode, -1, ConfigStorage::kContentNodeName);
     
     addVisualsToScene();
     createSettingsButton();

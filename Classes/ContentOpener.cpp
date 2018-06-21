@@ -85,7 +85,7 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
         auto baseLayer = Director::getInstance()->getRunningScene();
         if(baseLayer)
         {
-            NavigationLayer *navigationLayer = (NavigationLayer *)baseLayer->getChildByName("NavigationLayer");
+            NavigationLayer *navigationLayer = (NavigationLayer *)baseLayer->getChildByName(ConfigStorage::kNavigationLayerName);
             
             if(navigationLayer)
             {

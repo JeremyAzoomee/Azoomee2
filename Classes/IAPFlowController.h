@@ -13,7 +13,7 @@
 
 NS_AZOOMEE_BEGIN
 
-enum IAPEntryContext {DEFAULT, LOCKED_CHAT, LOCKED_GAME, LOCKED_VIDEO};
+enum class IAPEntryContext {DEFAULT, LOCKED_CHAT, LOCKED_GAME, LOCKED_VIDEO};
 
 class IAPFlowController : public DynamicNodeFlowController, public RequestAdultPinLayerDelegate
 {

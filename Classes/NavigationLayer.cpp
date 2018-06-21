@@ -58,7 +58,7 @@ bool NavigationLayer::init()
     AudioMixer::getInstance()->playOomeeIdleSounds(true);
     
     visibleSize = Director::getInstance()->getVisibleSize();
-    origin = Vec2(0,0);//Director::getInstance()->getVisibleOrigin();
+    origin = Vec2(0,0);
     
     _navOffset = 0;
     
@@ -116,17 +116,17 @@ bool NavigationLayer::init()
     _userTypeMessagingLayer->setContentSize(Size(visibleSize.width, 300));
     _userTypeMessagingLayer->setPosition(origin - Vec2(0,300));
     _userTypeMessagingLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-    UserType userType = ANON;
+    UserType userType = UserType::ANON;
     if(!ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
     {
-        userType = LAPSED;
+        userType = UserType::LAPSED;
         if(ParentDataProvider::getInstance()->isPaidUser())
         {
-            userType = PAID;
+            userType = UserType::PAID;
         }
     }
     _userTypeMessagingLayer->setUserType(userType);
-    if(userType == PAID)
+    if(userType == UserType::PAID)
     {
         if(FlowDataSingleton::getInstance()->getDisplayUserPaidFlag())
         {
@@ -164,8 +164,8 @@ void NavigationLayer::startLoadingGroupHQ(std::string uri)
 {
     HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kGroupHQName);
     
-    this->getParent()->getChildByName("contentLayer")->stopAllActions();
-    this->getParent()->getChildByName("contentLayer")->runAction(Sequence::create(EaseInOut::create(MoveTo::create(0.5, ConfigStorage::getInstance()->getTargetPositionForMove(ConfigStorage::kGroupHQName)), 2), DelayTime::create(0.5), NULL));
+    this->getParent()->getChildByName(ConfigStorage::kContentLayerName)->stopAllActions();
+    this->getParent()->getChildByName(ConfigStorage::kContentLayerName)->runAction(Sequence::create(EaseInOut::create(MoveTo::create(0.5, ConfigStorage::getInstance()->getTargetPositionForMove(ConfigStorage::kGroupHQName)), 2), DelayTime::create(0.5), NULL));
     
     moveMenuPointsToHorizontalStateInGroupHQ(0.5);
     turnOffAllMenuItems();
@@ -182,10 +182,10 @@ void NavigationLayer::changeToScene(const std::string& hqName, float duration)
     if(!currentObject->getHqEntitlement())
     {
         AnalyticsSingleton::getInstance()->registerCTASource("lockedHQ","",currentObject->getHqType());
-        IAPEntryContext context = DEFAULT;
+        IAPEntryContext context = IAPEntryContext::DEFAULT;
         if(hqName == ConfigStorage::kChatHQName)
         {
-            context = LOCKED_CHAT;
+            context = IAPEntryContext::LOCKED_CHAT;
         }
         DynamicNodeHandler::getInstance()->startIAPFlow(context);
         return;
@@ -216,8 +216,7 @@ void NavigationLayer::changeToScene(const std::string& hqName, float duration)
         removeBackButtonFromNavigation();
         
         cocos2d::Scene *runningScene = Director::getInstance()->getRunningScene();
-        //Node *baseLayer = runningScene->getChildByName("baseLayer");
-        Node *contentLayer = runningScene->getChildByName("contentLayer");
+        Node *contentLayer = runningScene->getChildByName(ConfigStorage::kContentLayerName);
         HQScene2 *hqLayer = (HQScene2 *)contentLayer->getChildByName(ConfigStorage::kGroupHQName);
         
         hqLayer->removeAllChildren();
@@ -229,8 +228,8 @@ void NavigationLayer::changeToScene(const std::string& hqName, float duration)
         hidePreviewLoginSignupButtons();
     }
     
-    this->getParent()->getChildByName("contentLayer")->stopAllActions();
-    this->getParent()->getChildByName("contentLayer")->runAction(Sequence::create(EaseInOut::create(MoveTo::create(duration, ConfigStorage::getInstance()->getTargetPositionForMove(hqName)), 2), DelayTime::create(duration), NULL));
+    this->getParent()->getChildByName(ConfigStorage::kContentLayerName)->stopAllActions();
+    this->getParent()->getChildByName(ConfigStorage::kContentLayerName)->runAction(Sequence::create(EaseInOut::create(MoveTo::create(duration, ConfigStorage::getInstance()->getTargetPositionForMove(hqName)), 2), DelayTime::create(duration), NULL));
     
     
     if(hqName == ConfigStorage::kGroupHQName)
@@ -256,8 +255,7 @@ void NavigationLayer::loadArtsAppHQ()
     HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kArtAppHQName);
     
     cocos2d::Scene *runningScene = Director::getInstance()->getRunningScene();
-    //Node *baseLayer = runningScene->getChildByName("baseLayer");
-    Node *contentLayer = runningScene->getChildByName("contentLayer");
+    Node *contentLayer = runningScene->getChildByName(ConfigStorage::kContentLayerName);
     HQScene2 *hqLayer = (HQScene2 *)contentLayer->getChildByName(ConfigStorage::kArtAppHQName);
     
     hqLayer->startBuildingScrollView();
@@ -284,13 +282,10 @@ void NavigationLayer::startLoadingHQScene(const std::string& hqName)
 
 Sprite* NavigationLayer::addMenuItemHolder(const std::string& hqName, float pos)
 {
-    //Point position = ConfigStorage::getInstance()->getHorizontalPositionForMenuItem(hqName);
-    
     auto menuItemHolder = Sprite::create();
     menuItemHolder->setName(hqName);
     menuItemHolder->setCascadeOpacityEnabled(true);
     menuItemHolder->setOpacity(0);
-    //menuItemHolder->setPosition(origin.x+visibleSize.width/2+position.x,origin.y+visibleSize.height/2+position.y);
     menuItemHolder->setNormalizedPosition(Vec2(pos,0.5));
     _hqButtonHolder->addChild(menuItemHolder);
     
@@ -380,11 +375,13 @@ void NavigationLayer::hideNotificationBadge()
 void NavigationLayer::createTopObjects()
 {
     settingsButton = SettingsButton::createSettingsButton(3.0f);
-    settingsButton->setPosition(origin.x + visibleSize.width, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.25);
+    const Size& settingsButtonSize = settingsButton->getContentSize();
+    settingsButton->setPosition(origin.x + visibleSize.width, origin.y + visibleSize.height - settingsButtonSize.height * 1.25);
     this->addChild(settingsButton);
 
     returnToChildSelectorButton = ElectricDreamsButton::createChildSelectorButton();
-    returnToChildSelectorButton->setPosition(Vec2(origin.x - returnToChildSelectorButton->getContentSize().width, origin.y + visibleSize.height - returnToChildSelectorButton->getContentSize().height*1.25));
+    const Size& childSelectButtonSize = returnToChildSelectorButton->getContentSize();
+    returnToChildSelectorButton->setPosition(Vec2(origin.x - childSelectButtonSize.width, origin.y + visibleSize.height - childSelectButtonSize.height*1.25));
     returnToChildSelectorButton->setDelegate(this);
     this->addChild(returnToChildSelectorButton);
     
@@ -395,14 +392,16 @@ void NavigationLayer::topObjectsOffScreen()
 {
     if(settingsButton)
     {
+        const Size& settingsButtonSize = settingsButton->getContentSize();
         settingsButton->stopAllActions();
-        settingsButton->runAction(Sequence::create(EaseOut::create(MoveTo::create(1,Vec2(origin.x + visibleSize.width, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.25)), 2), NULL));
+        settingsButton->runAction(Sequence::create(EaseOut::create(MoveTo::create(1,Vec2(origin.x + visibleSize.width, origin.y + visibleSize.height - settingsButtonSize.height * 1.25)), 2), NULL));
     }
     
     if(returnToChildSelectorButton)
     {
+        const Size& childSelectButtonSize = returnToChildSelectorButton->getContentSize();
         returnToChildSelectorButton->stopAllActions();
-        returnToChildSelectorButton->runAction(Sequence::create(EaseOut::create(MoveTo::create(1,Vec2(origin.x - returnToChildSelectorButton->getContentSize().width, returnToChildSelectorButton->getPositionY())), 2), NULL));
+        returnToChildSelectorButton->runAction(Sequence::create(EaseOut::create(MoveTo::create(1,Vec2(origin.x - childSelectButtonSize.width, returnToChildSelectorButton->getPositionY())), 2), NULL));
     }
 }
 
@@ -410,14 +409,16 @@ void NavigationLayer::topObjectsOnScreen()
 {
     if(settingsButton)
     {
+        const Size& settingsButtonSize = settingsButton->getContentSize();
         settingsButton->stopAllActions();
-        settingsButton->runAction(Sequence::create(EaseIn::create(MoveTo::create(1,Vec2(origin.x + visibleSize.width - settingsButton->getContentSize().width*1.25, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.25)), 2), NULL));
+        settingsButton->runAction(Sequence::create(EaseIn::create(MoveTo::create(1,Vec2(origin.x + visibleSize.width - settingsButtonSize.width*1.25, origin.y + visibleSize.height - settingsButtonSize.height * 1.25)), 2), NULL));
     }
     
     if(returnToChildSelectorButton)
     {
+        const Size& childSelectButtonSize = returnToChildSelectorButton->getContentSize();
         returnToChildSelectorButton->stopAllActions();
-        returnToChildSelectorButton->runAction(Sequence::create(EaseIn::create(MoveTo::create(1,Vec2(origin.x + returnToChildSelectorButton->getContentSize().width*.25, visibleSize.height -  returnToChildSelectorButton->getContentSize().height * 1.25)), 2), NULL));
+        returnToChildSelectorButton->runAction(Sequence::create(EaseIn::create(MoveTo::create(1,Vec2(origin.x + childSelectButtonSize.width*.25, visibleSize.height -  childSelectButtonSize.height * 1.25)), 2), NULL));
         
         
     }
@@ -428,7 +429,8 @@ void NavigationLayer::topObjectsOnScreen()
 void NavigationLayer::createPreviewLoginButton()
 {
     previewLoginButton = ElectricDreamsButton::createTextAsButton(StringMgr::getInstance()->getStringForKey(BUTTON_LOG_IN_MULTILINE));
-    previewLoginButton->setPosition(Vec2(origin.x+visibleSize.width + previewLoginButton->getContentSize().width + previewLoginButton->getContentSize().height/4, origin.y + visibleSize.height- previewLoginButton->getContentSize().height* 1.25));
+    const Size& loginButtonSize = previewLoginButton->getContentSize();
+    previewLoginButton->setPosition(Vec2(origin.x+visibleSize.width + loginButtonSize.width + loginButtonSize.height/4, origin.y + visibleSize.height- loginButtonSize.height* 1.25));
     previewLoginButton->setDelegate(this);
     previewLoginButton->setMixPanelButtonName("PreviewLogin");
     this->addChild(previewLoginButton);
@@ -437,7 +439,8 @@ void NavigationLayer::createPreviewLoginButton()
 void NavigationLayer::createPreviewSignUpButton()
 {
     previewSignUpButton = ElectricDreamsButton::createTextAsButton(StringMgr::getInstance()->getStringForKey(BUTTON_SIGN_UP_MULTILINE));
-    previewSignUpButton->setPosition(Vec2(origin.x - previewSignUpButton->getContentSize().width - previewSignUpButton->getContentSize().height/4, origin.y + visibleSize.height- previewSignUpButton->getContentSize().height * 1.25));
+    const Size& signupButtonSize = previewSignUpButton->getContentSize();
+    previewSignUpButton->setPosition(Vec2(origin.x - signupButtonSize.width - signupButtonSize.height/4, origin.y + visibleSize.height- signupButtonSize.height * 1.25));
     previewSignUpButton->setDelegate(this);
     previewSignUpButton->setMixPanelButtonName("PreviewSignUp");
     this->addChild(previewSignUpButton);
@@ -447,14 +450,16 @@ void NavigationLayer::showPreviewLoginSignupButtonsAfterDelay(float delay)
 {
     if(previewSignUpButton)
     {
+        const Size& signupButtonSize = previewSignUpButton->getContentSize();
         previewSignUpButton->stopAllActions();
-         previewSignUpButton->runAction(Sequence::create(DelayTime::create(delay), EaseInOut::create(MoveTo::create(1, Vec2(origin.x + previewSignUpButton->getContentSize().height/4, origin.y + visibleSize.height- previewSignUpButton->getContentSize().height * 1.25)), 2), NULL));
+        previewSignUpButton->runAction(Sequence::create(DelayTime::create(delay), EaseInOut::create(MoveTo::create(1, Vec2(origin.x + signupButtonSize.height/4, origin.y + visibleSize.height- signupButtonSize.height * 1.25)), 2), NULL));
     }
     
     if(previewLoginButton)
     {
+        const Size& loginButtonSize = previewLoginButton->getContentSize();
         previewLoginButton->stopAllActions();
-            previewLoginButton->runAction(Sequence::create(DelayTime::create(delay), EaseInOut::create(MoveTo::create(1, Vec2(origin.x+visibleSize.width - previewLoginButton->getContentSize().width - previewLoginButton->getContentSize().height/4, origin.y + visibleSize.height- previewLoginButton->getContentSize().height * 1.25)), 2), NULL));
+        previewLoginButton->runAction(Sequence::create(DelayTime::create(delay), EaseInOut::create(MoveTo::create(1, Vec2(origin.x+visibleSize.width - loginButtonSize.width - loginButtonSize.height/4, origin.y + visibleSize.height- loginButtonSize.height * 1.25)), 2), NULL));
     }
 }
 
@@ -462,14 +467,16 @@ void NavigationLayer::hidePreviewLoginSignupButtons()
 {
     if(previewSignUpButton)
     {
+        const Size& signupButtonSize = previewSignUpButton->getContentSize();
         previewSignUpButton->stopAllActions();
-        previewSignUpButton->runAction(Sequence::create(EaseInOut::create(MoveTo::create(1, Vec2(origin.x - previewSignUpButton->getContentSize().width - previewSignUpButton->getContentSize().height/4, origin.y + visibleSize.height- previewSignUpButton->getContentSize().height * 1.25)), 2), NULL));
+        previewSignUpButton->runAction(Sequence::create(EaseInOut::create(MoveTo::create(1, Vec2(origin.x - signupButtonSize.width - signupButtonSize.height/4, origin.y + visibleSize.height- signupButtonSize.height * 1.25)), 2), NULL));
     }
     
     if(previewLoginButton)
     {
-            previewLoginButton->stopAllActions();
-            previewLoginButton->runAction(Sequence::create(EaseInOut::create(MoveTo::create(1, Vec2(origin.x+visibleSize.width + previewLoginButton->getContentSize().width + previewLoginButton->getContentSize().height/4, origin.y + visibleSize.height- previewLoginButton->getContentSize().height* 1.25)), 2), NULL));
+        const Size& loginButtonSize = previewLoginButton->getContentSize();
+        previewLoginButton->stopAllActions();
+        previewLoginButton->runAction(Sequence::create(EaseInOut::create(MoveTo::create(1, Vec2(origin.x+visibleSize.width + loginButtonSize.width + loginButtonSize.height/4, origin.y + visibleSize.height- loginButtonSize.height* 1.25)), 2), NULL));
     }
 }
 
@@ -481,7 +488,7 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
     listener->setSwallowTouches(true);
     listener->onTouchBegan = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
     {
-        if(Director::getInstance()->getRunningScene()->getChildByName("contentLayer")->getNumberOfRunningActions() > 0)
+        if(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName)->getNumberOfRunningActions() > 0)
         {
             return false;
         }
@@ -603,7 +610,7 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
     listener->setSwallowTouches(true);
     listener->onTouchBegan = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
     {
-        if(Director::getInstance()->getRunningScene()->getChildByName("contentLayer")->getNumberOfRunningActions() > 0)
+        if(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName)->getNumberOfRunningActions() > 0)
         {
             return false;
         }
@@ -619,8 +626,7 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
             AnalyticsSingleton::getInstance()->genericButtonPressEvent("groupBackButton");
             AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
             cocos2d::Scene *runningScene = Director::getInstance()->getRunningScene();
-            //Node *baseLayer = runningScene->getChildByName("baseLayer");
-            Node *contentLayer = runningScene->getChildByName("contentLayer");
+            Node *contentLayer = runningScene->getChildByName(ConfigStorage::kContentLayerName);
             
             HQHistoryManager::getInstance()->getHistoryLog();
             
@@ -675,10 +681,10 @@ void NavigationLayer::buttonPressed(ElectricDreamsButton* button)
 void NavigationLayer::cleanUpPreviousHQ()
 {
     cocos2d::log("previous hq is: %s", HQHistoryManager::getInstance()->getPreviousHQ().c_str());
-    std::string previousHqName = HQHistoryManager::getInstance()->getPreviousHQ();
+    const std::string& previousHqName = HQHistoryManager::getInstance()->getPreviousHQ();
     if(previousHqName != ConfigStorage::kHomeHQName)
     {
-        HQScene2* lastHQLayer = (HQScene2 *)Director::getInstance()->getRunningScene()->getChildByName("contentLayer")->getChildByName(previousHqName);
+        HQScene2* lastHQLayer = (HQScene2 *)Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName)->getChildByName(previousHqName);
         
         auto funcCallAction = CallFunc::create([=](){
             lastHQLayer->removeAllChildrenWithCleanup(true);
@@ -699,7 +705,7 @@ void NavigationLayer::onExit()
 void NavigationLayer::repositionElements()
 {
     visibleSize = Director::getInstance()->getVisibleSize();
-    origin = Vec2(0,0);//Director::getInstance()->getVisibleOrigin();
+    origin = Vec2(0,0);
     
     _userTypeMessagingLayer->setContentSize(Size(visibleSize.width, 300));
     _userTypeMessagingLayer->setPositionX(origin.x);
@@ -734,21 +740,23 @@ void NavigationLayer::repositionElements()
         {
             if(settingsButton)
             {
+                const Size& settingsButtonSize = settingsButton->getContentSize();
                 settingsButton->stopAllActions();
-                settingsButton->setPosition(Vec2(origin.x + visibleSize.width + settingsButton->getContentSize().width*1.25, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.25));
+                settingsButton->setPosition(Vec2(origin.x + visibleSize.width + settingsButtonSize.width*1.25, origin.y + visibleSize.height - settingsButtonSize.height * 1.25));
             }
             
             if(returnToChildSelectorButton)
             {
+                const Size& childSelectButtonSize = returnToChildSelectorButton->getContentSize();
                 returnToChildSelectorButton->stopAllActions();
-                returnToChildSelectorButton->setPosition(Vec2(origin.x - returnToChildSelectorButton->getContentSize().width*1.25, visibleSize.height -  returnToChildSelectorButton->getContentSize().height * 1.25));
+                returnToChildSelectorButton->setPosition(Vec2(origin.x - childSelectButtonSize.width*1.25, visibleSize.height - childSelectButtonSize.height * 1.25));
             }
             
             auto backButton = this->getChildByName("backButton");
             if(backButton)
             {
-                
-                backButton->setPosition(origin.x +backButton->getContentSize().width*.7, origin.y + visibleSize.height - backButton->getContentSize().height*.7);
+                const Size& backButtonSize = backButton->getContentSize();
+                backButton->setPosition(origin.x + backButtonSize.width*.7, origin.y + visibleSize.height - backButtonSize.height*.7);
             }
             
         }
@@ -756,14 +764,16 @@ void NavigationLayer::repositionElements()
         {
             if(settingsButton)
             {
+                const Size& settingsButtonSize = settingsButton->getContentSize();
                 settingsButton->stopAllActions();
-                settingsButton->setPosition(Vec2(origin.x + visibleSize.width - settingsButton->getContentSize().width*1.25, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.25));
+                settingsButton->setPosition(Vec2(origin.x + visibleSize.width - settingsButtonSize.width*1.25, origin.y + visibleSize.height - settingsButtonSize.height * 1.25));
             }
             
             if(returnToChildSelectorButton)
             {
+                const Size& childSelectButtonSize = returnToChildSelectorButton->getContentSize();
                 returnToChildSelectorButton->stopAllActions();
-                returnToChildSelectorButton->setPosition(Vec2(origin.x + returnToChildSelectorButton->getContentSize().width*.25, visibleSize.height -  returnToChildSelectorButton->getContentSize().height * 1.25));
+                returnToChildSelectorButton->setPosition(Vec2(origin.x + childSelectButtonSize.width*.25, visibleSize.height -  childSelectButtonSize.height * 1.25));
             }
         }
     }
@@ -773,34 +783,39 @@ void NavigationLayer::repositionElements()
         {
             if(previewSignUpButton)
             {
+                const Size& signupButtonSize = previewSignUpButton->getContentSize();
                 previewSignUpButton->stopAllActions();
-                previewSignUpButton->setPosition(Vec2(origin.x - previewSignUpButton->getContentSize().width - previewSignUpButton->getContentSize().height/4, origin.y + visibleSize.height- previewSignUpButton->getContentSize().height * 1.25));
+                previewSignUpButton->setPosition(Vec2(origin.x - signupButtonSize.width - signupButtonSize.height/4, origin.y + visibleSize.height- signupButtonSize.height * 1.25));
             }
             
             if(previewLoginButton)
             {
+                const Size& loginButtonSize = previewLoginButton->getContentSize();
                 previewLoginButton->stopAllActions();
-                previewLoginButton->setPosition(Vec2(origin.x+visibleSize.width + previewLoginButton->getContentSize().width + previewLoginButton->getContentSize().height/4, origin.y + visibleSize.height- previewLoginButton->getContentSize().height* 1.25));
+                previewLoginButton->setPosition(Vec2(origin.x+visibleSize.width + loginButtonSize.width + loginButtonSize.height/4, origin.y + visibleSize.height- loginButtonSize.height* 1.25));
             }
             
             auto backButton = this->getChildByName("backButton");
             if(backButton)
             {
-                backButton->setPosition(origin.x +backButton->getContentSize().width*.7, origin.y + visibleSize.height - backButton->getContentSize().height*.7);
+                const Size& backButtonSize = backButton->getContentSize();
+                backButton->setPosition(origin.x + backButtonSize.width*.7, origin.y + visibleSize.height - backButtonSize.height*.7);
             }
         }
         else
         {
             if(previewSignUpButton)
             {
+                const Size& signupButtonSize = previewSignUpButton->getContentSize();
                 previewSignUpButton->stopAllActions();
-                previewSignUpButton->setPosition(Vec2(origin.x + previewSignUpButton->getContentSize().height/4, origin.y + visibleSize.height- previewSignUpButton->getContentSize().height * 1.25));
+                previewSignUpButton->setPosition(Vec2(origin.x + signupButtonSize.height/4, origin.y + visibleSize.height- signupButtonSize.height * 1.25));
             }
             
             if(previewLoginButton)
             {
+                const Size& loginButtonSize = previewLoginButton->getContentSize();
                 previewLoginButton->stopAllActions();
-                previewLoginButton->setPosition(Vec2(origin.x+visibleSize.width - previewLoginButton->getContentSize().width - previewLoginButton->getContentSize().height/4, origin.y + visibleSize.height- previewLoginButton->getContentSize().height* 1.25));
+                previewLoginButton->setPosition(Vec2(origin.x+visibleSize.width - loginButtonSize.width - loginButtonSize.height/4, origin.y + visibleSize.height- loginButtonSize.height* 1.25));
             }
         }
     }

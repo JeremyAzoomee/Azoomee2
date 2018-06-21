@@ -123,7 +123,10 @@ void HQSceneElement::addListenerToElement()
         Size s = target->getBoundingBox().size;//getContentSize();
         Rect rect = Rect(0,0,s.width, s.height);
         
-        if(Director::getInstance()->getRunningScene()->getChildByName("contentLayer")->getNumberOfRunningActions() > 0) return false;
+        if(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName)->getNumberOfRunningActions() > 0)
+        {
+            return false;
+        }
         
         if(rect.containsPoint(locationInNode))
         {
@@ -157,7 +160,10 @@ void HQSceneElement::addListenerToElement()
         {
             if(_elementVisual->_overlayWhenTouched) _elementVisual->_overlayWhenTouched->setOpacity(0);
             
-            if(Director::getInstance()->getRunningScene()->getChildByName("contentLayer")->getNumberOfRunningActions() > 0) return false;
+            if(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName)->getNumberOfRunningActions() > 0)
+            {
+                return false;
+            }
             
             AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
             _iamtouched = false;
@@ -173,14 +179,14 @@ void HQSceneElement::addListenerToElement()
                 AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
                 AnalyticsSingleton::getInstance()->contentItemSelectedEvent(_elementItemData, _elementRowNumber, _elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(_elementCategory, _elementRowNumber, _elementIndex));
                 AnalyticsSingleton::getInstance()->registerCTASource("lockedContent",_elementItemData->getContentItemId(),_elementItemData->getType());
-                IAPEntryContext context = DEFAULT;
+                IAPEntryContext context = IAPEntryContext::DEFAULT;
                 if(_elementItemData->getType() == ConfigStorage::kContentTypeGame)
                 {
-                    context = LOCKED_GAME;
+                    context = IAPEntryContext::LOCKED_GAME;
                 }
                 else if(_elementItemData->getType() == ConfigStorage::kContentTypeVideo || _elementItemData->getType() == ConfigStorage::kContentTypeGroup)
                 {
-                    context = LOCKED_VIDEO;
+                    context = IAPEntryContext::LOCKED_VIDEO;
                 }
                 DynamicNodeHandler::getInstance()->startIAPFlow(context);
                 return true;

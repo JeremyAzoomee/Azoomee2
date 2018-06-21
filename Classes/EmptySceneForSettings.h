@@ -6,12 +6,12 @@
 
 NS_AZOOMEE_BEGIN
 
-enum SettingsOrigin { CHAT, MAIN_APP};
+enum class SettingsOrigin { CHAT, MAIN_APP};
 
 class EmptySceneForSettings : public cocos2d::Layer
 {
 public:
-    static cocos2d::Scene* createScene(SettingsOrigin origin = CHAT);
+    static cocos2d::Scene* createScene(SettingsOrigin origin = SettingsOrigin::CHAT);
     virtual bool init();
     void onEnterTransitionDidFinish();
     
