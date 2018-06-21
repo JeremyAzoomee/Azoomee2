@@ -18,7 +18,7 @@
 #include "LoginLogicHandler.h"
 #include "ChildSelectorScene.h"
 #include "BaseScene.h"
-#include "AwaitingAdultPinLayer.h"
+#include <AzoomeeCommon/UI/RequestAdultPinLayer.h>
 #include "RoutePaymentSingleton.h"
 #include "SceneManagerScene.h"
 #include "DeepLinkingSingleton.h"
@@ -249,9 +249,9 @@ void BackEndCaller::onUpdateParentPinAnswerReceived(const std::string& responseS
     {
         hideLoadingScreen();
         
-        AwaitingAdultPinLayer *checkBack = (AwaitingAdultPinLayer *)callBackNode;
+        RequestAdultPinLayer *checkBack = (RequestAdultPinLayer *)callBackNode;
         cocos2d::log("Calling back awaitingsomething");
-        checkBack->secondCheckForPin();
+        checkBack->checkPinAgainstStoredPin();
     }
 }
 
@@ -583,7 +583,7 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
         FlowDataSingleton::getInstance()->setErrorCode(errorCode);
         if(errorCode == -1)
         {
-            Director::getInstance()->replaceScene(OfflineHubScene::createScene());
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineHub));
             return;
         }
         

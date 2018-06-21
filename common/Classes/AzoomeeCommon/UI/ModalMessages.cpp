@@ -2,6 +2,7 @@
 #include <ui/UIEditBox/UIEditBox.h>
 #include "../Analytics/AnalyticsSingleton.h"
 #include "../Mixpanel/Notifications.h"
+#include "Scene.h"
 
 USING_NS_CC;
 
@@ -22,7 +23,7 @@ ModalMessages* ModalMessages::getInstance()
     }
     
     _sharedModalMessages->visibleSize = Director::getInstance()->getVisibleSize();
-    _sharedModalMessages->origin = Director::getInstance()->getVisibleOrigin();
+    _sharedModalMessages->origin = dynamic_cast<Azoomee::Scene*>(Director::getInstance()->getRunningScene()) ? Vec2(0,0) : Director::getInstance()->getVisibleOrigin();
     
     return _sharedModalMessages;
 }
@@ -81,7 +82,7 @@ void ModalMessages::startLoading()
     for(int i = 0; i < 3; i++)
     {
         auto loadingCircle = Sprite::create("res/modal/loading.png");
-        loadingCircle->setPosition(visibleSize.width / 2, visibleSize.height / 2);
+        loadingCircle->setNormalizedPosition(Vec2(0.5,0.5));
         loadingCircle->setOpacity(0);
         loadingCircle->setRotation(RandomHelper::random_int(0, 360));
         loadingCircle->setScale(0.6 + i * 0.2);
@@ -99,6 +100,15 @@ void ModalMessages::startLoading()
 void ModalMessages::stopLoading()
 {
     this->removeLayer();
+}
+
+void ModalMessages::onSizeChanged()
+{
+    if(Director::getInstance()->getRunningScene()->getChildByName("loadingLayer"))
+    {
+        loadingLayer->setContentSize(visibleSize);
+        loadingLayer->setPosition(origin.x, origin.y);
+    }
 }
 
 //-----------------MIXPANEL NOTIFICATIONS--------------------------

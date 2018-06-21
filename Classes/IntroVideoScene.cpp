@@ -29,18 +29,9 @@ NS_AZOOMEE_BEGIN
 
 const char* const IntroVideoScene::kSkipVideoKeyInUserDefault = "canSkipVideo";
 
-Scene* IntroVideoScene::createScene()
-{
-    auto scene = Scene::create();
-    auto layer = IntroVideoScene::create();
-    scene->addChild(layer);
-
-    return scene;
-}
-
 bool IntroVideoScene::init()
 {
-    if ( !Layer::init() )
+    if ( !Super::init() )
     {
         return false;
     }
@@ -57,33 +48,37 @@ bool IntroVideoScene::init()
         navigateToNextScene();
     });
     
-    auto action = Sequence::create(DelayTime::create(7.0f), funcCallAction, NULL);
+    auto action = Sequence::create(DelayTime::create(8.0f), funcCallAction, NULL);
     
     action->setTag(3);
     this->runAction(action);
-
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    const cocos2d::Rect& visibleRect = Director::getInstance()->getOpenGLView()->getVisibleRect();
-
-    _videoPlayer = cocos2d::experimental::ui::VideoPlayer::create();
-    _videoPlayer->setContentSize(visibleRect.size);
-    _videoPlayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _videoPlayer->setPosition(Vec2(visibleRect.origin.x + visibleRect.size.width / 2, visibleRect.origin.y + visibleRect.size.height /2));
-    _videoPlayer->setSwallowTouches(false);
-    _videoPlayer->setFileName("res/introAssets/Opening_Animation.mp4");
-    _videoPlayer->setKeepAspectRatioEnabled(true);
-    
-    addChild(_videoPlayer);
     
 #ifndef novideo
-    _videoPlayer->play();
     
+    auto addVideoPlayer = CallFunc::create([=]()
+    {
+        const Size& visibleSize = Director::getInstance()->getVisibleSize();
+        
+        const std::string& videoFilename = visibleSize.width > visibleSize.height ? "res/introAssets/Opening_Animation.mp4" : "res/introAssets/azoomee_intro_portrait.mp4";
+        
+        _videoPlayer = cocos2d::experimental::ui::VideoPlayer::create();
+        _videoPlayer->setContentSize(visibleSize);
+        _videoPlayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+        _videoPlayer->setPosition(Vec2(visibleSize.width / 2, visibleSize.height /2));
+        _videoPlayer->setSwallowTouches(false);
+        _videoPlayer->setFileName(videoFilename);
+        _videoPlayer->setKeepAspectRatioEnabled(true);
+        
+        addChild(_videoPlayer);
+        _videoPlayer->play();
+    });
+        
     auto addListenerAction = CallFunc::create([=]()
     {
         _videoPlayer->addEventListener(CC_CALLBACK_2(IntroVideoScene::videoEventCallback, this));
     });
     
-    auto delayListenerAction = Sequence::create(DelayTime::create(0.5f), addListenerAction, NULL); //video player from iOS 11.3 sends a playback complete event on initialisation, so we set up the listener a bit later.
+    auto delayListenerAction = Sequence::create(DelayTime::create(1.0f),addVideoPlayer, DelayTime::create(1.0f), addListenerAction, NULL); //video player from iOS 11.3 sends a playback complete event on initialisation, so we set up the listener a bit later.
     delayListenerAction->setTag(4);
     this->runAction(delayListenerAction);
 #endif
@@ -93,7 +88,7 @@ bool IntroVideoScene::init()
 
 void IntroVideoScene::onEnter()
 {
-    Node::onEnter();
+    Super::onEnter();
     BackEndCaller::getInstance()->ipCheck();
     
 #ifdef novideo
@@ -119,6 +114,7 @@ void IntroVideoScene::onEnter()
         
         Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
     }
+    
 }
 
 void IntroVideoScene::videoEventCallback(Ref* sender, VideoPlayer::EventType eventType)
@@ -165,18 +161,30 @@ void IntroVideoScene::navigateToNextScene()
     JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "identifyMixpanel");
 #endif
     
-    _videoPlayer->stop();
-    _videoPlayer->setVisible(false);
+    if(_videoPlayer)
+    {
+        _videoPlayer->stop();
+        _videoPlayer->setVisible(false);
+    }
     AnalyticsSingleton::getInstance()->registerAppVersion();
     
     if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
     {
-        AnalyticsSingleton::getInstance()->registerCurrentScene("INTRO_SLIDESHOW");
-        Director::getInstance()->replaceScene(StartScreen::createScene());
+        BackEndCaller::getInstance()->anonymousDeviceLogin();
     }
     else
     {
         LoginLogicHandler::getInstance()->doLoginLogic();
+    }
+}
+
+void IntroVideoScene::onSizeChanged()
+{
+    if(_videoPlayer)
+    {
+        const cocos2d::Rect& visibleRect = Director::getInstance()->getOpenGLView()->getVisibleRect();
+        _videoPlayer->setContentSize(visibleRect.size);
+        _videoPlayer->setPosition(Vec2(visibleRect.size.width / 2, visibleRect.size.height /2));
     }
 }
 

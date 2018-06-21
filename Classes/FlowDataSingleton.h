@@ -31,6 +31,8 @@ private:
     //Settings Deleted Child Flow
     bool childDeletedFlag = false;
     
+    bool _displayUserPaidFlag = false;
+    
 public:
     static FlowDataSingleton* getInstance(void);
     virtual ~FlowDataSingleton();
@@ -68,6 +70,9 @@ public:
     
     void setSuccessFailPath(SuccessFailPath path);
     SuccessFailPath getSuccessFailPath();
+    
+    void setDisplayUserPaidFlag(bool displayFlag);
+    bool getDisplayUserPaidFlag();
     
 };
 

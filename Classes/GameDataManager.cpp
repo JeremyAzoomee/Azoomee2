@@ -400,7 +400,7 @@ Orientation GameDataManager::getGameOrientation(const std::string& jsonFileName)
 void GameDataManager::displayLoadingScreen()
 {
     const Size& size = Director::getInstance()->getVisibleSize();
-    const Point& origin = Director::getInstance()->getVisibleOrigin();
+    const Point& origin = Vec2(0,0);
     
     ModalMessages::getInstance()->startLoading();
     

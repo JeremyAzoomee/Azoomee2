@@ -149,7 +149,13 @@ void MessageBoxTextLayer::createCancelButton()
 
 void MessageBoxTextLayer::createMessageWindow()
 {
-    float windowHeight = messageTitleLabel->getContentSize().height + scrollView->getContentSize().height + buttonsList.at(0)->getContentSize().height + cancelButton->getContentSize().height*4;
+    float buttonHeight = buttonsList.at(0)->getContentSize().height;
+    if(currentRunningSceneSize.width < currentRunningSceneSize.height)
+    {
+        buttonHeight = (buttonsList.at(0)->getContentSize().height * buttonsList.size()) + (cancelButton->getContentSize().height * buttonsList.size() - 1);
+    }
+    
+    float windowHeight = messageTitleLabel->getContentSize().height + scrollView->getContentSize().height + buttonHeight + cancelButton->getContentSize().height*4;
     
     windowLayer = createWindowLayer(currentRunningSceneSize.width * percentageOfScreenForBox, windowHeight);
     windowLayer->setPosition(currentRunningSceneSize.width/2- windowLayer->getContentSize().width/2,(currentRunningSceneSize.height - windowLayer->getContentSize().height) * 0.66);
@@ -180,10 +186,22 @@ void MessageBoxTextLayer::addObjectsToWindow()
 
 void MessageBoxTextLayer::positionButtonsBasedOnWidth(float nextItemHeight)
 {
-    for(int i=0;i < _buttonsTitleList.size(); i++)
+    if(currentRunningSceneSize.width < currentRunningSceneSize.height)
     {
-        buttonsList.at(i)->setCenterPosition(Vec2(buttonSpaceWidth/2 + buttonSpaceWidth*i, nextItemHeight));
-        windowLayer->addChild(buttonsList.at(i));
+        for(int i=0;i < _buttonsTitleList.size(); i++)
+        {
+            buttonsList.at(i)->setCenterPosition(Vec2(windowLayer->getContentSize().width/2, nextItemHeight));
+            windowLayer->addChild(buttonsList.at(i));
+            nextItemHeight -= (buttonsList.at(0)->getContentSize().height + cancelButton->getContentSize().height);
+        }
+    }
+    else
+    {
+        for(int i=0;i < _buttonsTitleList.size(); i++)
+        {
+            buttonsList.at(i)->setCenterPosition(Vec2(buttonSpaceWidth/2 + buttonSpaceWidth*i, nextItemHeight));
+            windowLayer->addChild(buttonsList.at(i));
+        }
     }
 }
 

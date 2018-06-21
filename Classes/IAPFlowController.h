@@ -9,11 +9,13 @@
 #define IAPFlowController_h
 
 #include "DynamicNodeFlowController.h"
-#include "AwaitingAdultPinLayer.h"
+#include <AzoomeeCommon/UI/RequestAdultPinLayer.h>
 
 NS_AZOOMEE_BEGIN
 
-class IAPFlowController : public DynamicNodeFlowController, public AwaitingAdultPinLayerDelegate
+enum class IAPEntryContext {DEFAULT, LOCKED_CHAT, LOCKED_GAME, LOCKED_VIDEO};
+
+class IAPFlowController : public DynamicNodeFlowController, public RequestAdultPinLayerDelegate
 {
 private:
     static const std::string kIAPUpgradeCTAName;
@@ -26,6 +28,8 @@ private:
     const std::string kPathLearnMore = "learnMore";
     const std::string kPathCoppa = "coppa";
     
+    std::string _contextExtention;
+    
     ButtonActionDataRef _actionData = nullptr;
     int _targetVal;
     
@@ -37,14 +41,19 @@ private:
     void startAgeGate();
     void startIAP();
     
+    
+    
 public:
+    static DynamicNodeFlowControllerRef createWithContext(IAPEntryContext context);
     static DynamicNodeFlowControllerRef create();
     virtual void processAction(const ButtonActionDataRef& actionData) override;
-    IAPFlowController() noexcept;
-
+    IAPFlowController(const std::string& context = "default") noexcept;
+    
+    static std::string convertIAPEntryContextToString(IAPEntryContext context);
+    
     // delegate functions
-    void AdultPinCancelled(AwaitingAdultPinLayer* layer) override;
-    void AdultPinAccepted(AwaitingAdultPinLayer* layer) override;
+    void AdultPinCancelled(RequestAdultPinLayer* layer) override;
+    void AdultPinAccepted(RequestAdultPinLayer* layer) override;
 };
 
 NS_AZOOMEE_END

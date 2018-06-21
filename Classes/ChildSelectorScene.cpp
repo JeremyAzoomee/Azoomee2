@@ -35,10 +35,7 @@ const std::string ChildSelectorScene::kSceneName = "ChildSelectScene";
 
 Scene* ChildSelectorScene::createScene()
 {
-    auto scene = Scene::create();
-    auto layer = ChildSelectorScene::create();
-    layer->setName(kSceneName);
-    scene->addChild(layer);
+    auto scene = ChildSelectorScene::create();
     scene->setName(kSceneName);
     
     return scene;
@@ -46,7 +43,7 @@ Scene* ChildSelectorScene::createScene()
 
 bool ChildSelectorScene::init()
 {
-    if ( !Layer::init() )
+    if ( !Super::init() )
     {
         return false;
     }
@@ -60,7 +57,16 @@ bool ChildSelectorScene::init()
     ChatNotificationsSingleton::getInstance()->stopNotificationsUpdate();
     
     _visibleSize = Director::getInstance()->getVisibleSize();
-    _origin = Director::getInstance()->getVisibleOrigin();
+    _origin = Vec2(0,0);//Director::getInstance()->getVisibleOrigin();
+    
+    _isPortrait = _visibleSize.width < _visibleSize.height;
+    
+    _contentNode = Node::create();
+    _contentNode->setContentSize(_visibleSize);
+    
+    this->addChild(_contentNode, -1, ConfigStorage::kContentNodeName);
+    
+    _firstTime = true;
     
     addVisualsToScene();
     createSettingsButton();
@@ -68,9 +74,11 @@ bool ChildSelectorScene::init()
     addProfilesToScrollView();
     addPrivacyButton();
     
+    _firstTime = false;
+    
     auto newProfileButton = createNewProfileButton();
-    newProfileButton->setPosition(_origin.x + newProfileButton->getContentSize().width / 2, _origin.y + _visibleSize.height - newProfileButton->getContentSize().height * 0.8);
-    this->addChild(newProfileButton);
+    newProfileButton->setPosition(_origin.x + newProfileButton->getContentSize().width / 2, _origin.y + _visibleSize.height - (newProfileButton->getContentSize().height * 0.8) + getVerticalOffset());
+    _contentNode->addChild(newProfileButton);
 
     return true;
 }
@@ -92,7 +100,7 @@ void ChildSelectorScene::onEnterTransitionDidFinish()
             _parentButtonListener->setEnabled(true);
         }
     }
-    
+    Super::onEnterTransitionDidFinish();
 }
 
 //-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
@@ -102,8 +110,8 @@ void ChildSelectorScene::addVisualsToScene()
     addBackgroundToScreen();
     
     auto selectTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(CHILD_SELECTSCENE_TITLE_LABEL));
-    selectTitle->setPosition(_origin.x + _visibleSize.width * 0.5, _origin.y + _visibleSize.height * 0.9);
-    this->addChild(selectTitle);
+    selectTitle->setPosition(_origin.x + _visibleSize.width * 0.5, _origin.y + (_visibleSize.height * 0.9) + getVerticalOffset());
+    _contentNode->addChild(selectTitle);
 }
 
 void ChildSelectorScene::addBackgroundToScreen()
@@ -113,25 +121,25 @@ void ChildSelectorScene::addBackgroundToScreen()
     
     auto wireLeft = Sprite::create("res/childSelection/wireLeft.png");
     wireLeft->setPosition(wireLeft->getContentSize().width / 2, visibleSize.height / 2 + origin.y);
-    this->addChild(wireLeft);
+    _contentNode->addChild(wireLeft);
     
     auto wireRight = Sprite::create("res/childSelection/wireRight.png");
     wireRight->setPosition(visibleSize.width - wireRight->getContentSize().width / 2, visibleSize.height / 2 + origin.y);
-    this->addChild(wireRight);
+    _contentNode->addChild(wireRight);
 }
 
 void ChildSelectorScene::createSettingsButton()
 {
     auto settingsButton = SettingsButton::createSettingsButton(0.0f);
-    settingsButton->setCenterPosition(Vec2(_origin.x + _visibleSize.width - settingsButton->getContentSize().width, _origin.y + _visibleSize.height - settingsButton->getContentSize().height));
-    this->addChild(settingsButton);
+    settingsButton->setCenterPosition(Vec2(_origin.x + _visibleSize.width - settingsButton->getContentSize().width, _origin.y + _visibleSize.height - settingsButton->getContentSize().height + getVerticalOffset()));
+    _contentNode->addChild(settingsButton);
 }
 
 void ChildSelectorScene::addPrivacyButton()
 {
     PrivacyLayer* privacyLayer = PrivacyLayer::createWithColor();
     privacyLayer->setCenterPosition(Vec2(_origin.x + privacyLayer->getContentSize().height/2 +privacyLayer->getContentSize().width/2,_origin.y + privacyLayer->getContentSize().height));
-    this->addChild(privacyLayer);
+    _contentNode->addChild(privacyLayer);
 }
 
 void ChildSelectorScene::addScrollViewForProfiles()
@@ -146,7 +154,7 @@ void ChildSelectorScene::addScrollViewForProfiles()
     _scrollView->setSwallowTouches(false);
     _scrollView->setScrollBarEnabled(true);
     
-    this->addChild(_scrollView);
+    _contentNode->addChild(_scrollView);
 }
 
 Size ChildSelectorScene::getScrollviewInnerSize(float scrollviewWidth)
@@ -191,28 +199,34 @@ Layer *ChildSelectorScene::createChildProfileButton(std::string profileName, int
     
     auto glow = Sprite::create("res/childSelection/glow.png");
     glow->setPosition(profileLayer->getContentSize().width / 2, profileLayer->getContentSize().height /2);
-    glow->setOpacity(0);
     profileLayer->addChild(glow);
     
     float delayTime = CCRANDOM_0_1() * 0.5;
-    glow->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    if(_firstTime)
+    {
+        glow->setOpacity(0);
+        glow->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    }
     
     auto oomee = Sprite::create(StringUtils::format("res/childSelection/%s.png", ConfigStorage::getInstance()->getNameForOomee(oomeeNumber).c_str()));
     oomee->setPosition(profileLayer->getContentSize().width / 2, profileLayer->getContentSize().height /2);
-    oomee->setOpacity(0);
     oomee->setScale(1.25);
     profileLayer->addChild(oomee);
     
-    oomee->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
-    
+    if(_firstTime)
+    {
+        oomee->setOpacity(0);
+        oomee->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    }
     auto profileLabel = createLabelChildName(profileName);
     profileLabel->setPosition(profileLayer->getContentSize().width / 2, profileLabel->getContentSize().height / 2);
-    profileLabel->setOpacity(0);
     reduceLabelTextToFitWidth(profileLabel,OOMEE_LAYER_WIDTH);
     profileLayer->addChild(profileLabel);
-    
-    profileLabel->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
-    
+    if(_firstTime)
+    {
+        profileLabel->setOpacity(0);
+        profileLabel->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    }
     return profileLayer;
 }
 
@@ -293,7 +307,7 @@ Point ChildSelectorScene::positionElementOnScrollView(Layer *layerToBeAdded)
     Vector<Node*> scrollViewChildren = _scrollView->getChildren();
     
     int numberOfChildrenWithParent = ParentDataProvider::getInstance()->getAmountOfAvailableChildren() + 1;
-    if(numberOfChildrenWithParent > 4) numberOfChildrenWithParent = 4;
+    if(numberOfChildrenWithParent > _isPortrait ? 2 : 4) numberOfChildrenWithParent = _isPortrait ? 2 : 4;
     
     float layerMultiplier = numberOfChildrenWithParent * 0.5;
     float gapMultiplier = (numberOfChildrenWithParent - 1) * 0.5;
@@ -326,28 +340,34 @@ Layer* ChildSelectorScene::createNewProfileButton()
     
     auto addButtonSprite = Sprite::create("res/childSelection/button_addChild_frame.png");
     addButtonSprite->setPosition(addButtonLayer->getContentSize().width / 2, addButtonLayer->getContentSize().height /2);
-    addButtonSprite->setOpacity(0);
     addButtonSprite->setName("addChildButton");
     addListenerToProfileLayer(addButtonSprite);
     addButtonLayer->addChild(addButtonSprite);
     
     float delayTime = CCRANDOM_0_1();
-    addButtonSprite->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
-    
+    if(_firstTime)
+    {
+        addButtonSprite->setOpacity(0);
+        addButtonSprite->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    }
     auto addButtonIcon = Sprite::create("res/childSelection/button_addChild_icon.png");
     addButtonIcon->setPosition(addButtonIcon->getContentSize().width * 0.9, addButtonSprite->getContentSize().height * 0.5);
-    addButtonIcon->setOpacity(0);
     addButtonSprite->addChild(addButtonIcon);
-    
-    addButtonIcon->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    if(_firstTime)
+    {
+        addButtonIcon->setOpacity(0);
+        addButtonIcon->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    }
     
     auto addButtonLabel = createLabelWith("Add a profile", Style::Font::Regular, Style::Color::brightAqua, 40);
     addButtonLabel->setPosition(addButtonSprite->getContentSize().width * 0.57, addButtonSprite->getContentSize().height * 0.47);
-    addButtonLabel->setOpacity(0);
     addButtonSprite->addChild(addButtonLabel);
-    
-    addButtonLabel->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
-    
+    if(_firstTime)
+    {
+        addButtonLabel->setOpacity(0);
+        addButtonLabel->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    }
+
     return addButtonLayer;
 }
 
@@ -360,20 +380,23 @@ Layer* ChildSelectorScene::createParentProfileButton()
     auto oomee = Sprite::create("res/childSelection/om_GenericParent.png");
     oomee->setPosition(profileLayer->getContentSize().width / 2, profileLayer->getContentSize().height * 0.62);
     oomee->setScale(1.25);
-    oomee->setOpacity(0);
     profileLayer->addChild(oomee);
     
     float delayTime = CCRANDOM_0_1() * 0.5;
-    oomee->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
-    
+    if(_firstTime)
+    {
+        oomee->setOpacity(0);
+        oomee->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    }
     auto profileLabel = createLabelChildName("Parent");
     profileLabel->setPosition(profileLayer->getContentSize().width / 2, profileLabel->getContentSize().height / 2);
-    profileLabel->setOpacity(0);
     reduceLabelTextToFitWidth(profileLabel,OOMEE_LAYER_WIDTH);
     profileLayer->addChild(profileLabel);
-    
-    profileLabel->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
-    
+    if(_firstTime)
+    {
+        profileLabel->setOpacity(0);
+        profileLabel->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    }
     _parentButtonListener = EventListenerTouchOneByOne::create();
     _parentButtonListener->onTouchBegan = [=](Touch *touch, Event *event)
     {
@@ -425,12 +448,12 @@ void ChildSelectorScene::addChildButtonPressed(Node* target)
 }
 
 //----------------------- Delegate Functions ----------------------------
-void ChildSelectorScene::AdultPinCancelled(AwaitingAdultPinLayer* layer)
+void ChildSelectorScene::AdultPinCancelled(RequestAdultPinLayer* layer)
 {
     removeAdultPinLayerDelegate();
 }
 
-void ChildSelectorScene::AdultPinAccepted(AwaitingAdultPinLayer* layer)
+void ChildSelectorScene::AdultPinAccepted(RequestAdultPinLayer* layer)
 {
     removeAdultPinLayerDelegate();
     
@@ -445,7 +468,7 @@ void ChildSelectorScene::AdultPinAccepted(AwaitingAdultPinLayer* layer)
 
 void ChildSelectorScene::createAdultPinLayerWithDelegate()
 {
-    _awaitingAdultPinLayer = AwaitingAdultPinLayer::create();
+    _awaitingAdultPinLayer = RequestAdultPinLayer::create();
     _awaitingAdultPinLayer->setDelegate(this);
 }
 
@@ -526,7 +549,47 @@ void ChildSelectorScene::onExit()
     OfflineChecker::getInstance()->setDelegate(nullptr);
     removeAdultPinLayerDelegate();
 
-    Node::onExit();
+    Super::onExit();
+}
+
+void ChildSelectorScene::onSizeChanged()
+{
+    Super::onSizeChanged();
+    _isPortrait = Director::getInstance()->getVisibleSize().width < Director::getInstance()->getVisibleSize().height;
+    bool parentButtonVisible = false;
+    if(_parentButton)
+    {
+        parentButtonVisible = _parentButton->isVisible();
+    }
+    if(_contentNode)
+    {
+        _contentNode->removeFromParent();
+    }
+    
+    _visibleSize = Director::getInstance()->getVisibleSize();
+    _contentNode = Node::create();
+    _contentNode->setContentSize(_visibleSize);
+    
+    this->addChild(_contentNode, -1, ConfigStorage::kContentNodeName);
+    
+    addVisualsToScene();
+    createSettingsButton();
+    addScrollViewForProfiles();
+    addProfilesToScrollView();
+    addPrivacyButton();
+    
+    auto newProfileButton = createNewProfileButton();
+    newProfileButton->setPosition(_origin.x + newProfileButton->getContentSize().width / 2, _origin.y + _visibleSize.height - (newProfileButton->getContentSize().height * 0.8) + getVerticalOffset());
+    _contentNode->addChild(newProfileButton);
+    
+    setParentButtonVisible(parentButtonVisible);
+    
+    DynamicNodeHandler::getInstance()->rebuildCurrentCTA();
+}
+
+float ChildSelectorScene::getVerticalOffset()
+{
+    return (_isPortrait && ConfigStorage::getInstance()->isDeviceIphoneX()) ?  -50 : 0;
 }
 
 NS_AZOOMEE_END

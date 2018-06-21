@@ -20,17 +20,6 @@ NS_AZOOMEE_BEGIN
 
 const std::string StartScreen::kAssetLoc = "res/startScreen/";
 
-Scene* StartScreen::createScene()
-{
-    Scene* scene = Scene::createWithSize(Director::getInstance()->getVisibleSize());
-    StartScreen* startScreen = StartScreen::create();
-    startScreen->setContentSize(scene->getContentSize());
-    startScreen->setPosition(Director::getInstance()->getVisibleOrigin());
-    scene->addChild(startScreen);
-    
-    return scene;
-}
-
 void StartScreen::onEnter()
 {
     addBGElements();

@@ -126,6 +126,12 @@ task copyWebcommApi(type: Copy) {
 
 }
 
+task ctaZip(type: Zip) {
+    from fileTree(dir: '../../../app-content-dynamicnode/android/')
+    archiveName 'CTAFiles.zip'
+    destinationDir(file('../../Resources/res/cta_assets/'))
+}
+
 task cleanAssets(type: Delete) {
     delete 'assets'
 }
@@ -135,7 +141,9 @@ task copyAssets(type: Copy) {
 }
 
 copyAssets.mustRunAfter copyWebcommApi
+copyAssets.mustRunAfter ctaZip
 clean.dependsOn cleanWebcommApi
 clean.dependsOn cleanAssets
 preBuild.dependsOn copyWebcommApi
+preBuild.dependsOn ctaZip
 preBuild.dependsOn copyAssets

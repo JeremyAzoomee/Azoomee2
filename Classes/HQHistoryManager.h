@@ -3,6 +3,7 @@
 
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/UI/Orientation.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -26,6 +27,8 @@ public:
     void addDefaultHQIfHistoryEmpty();
     void getHistoryLog();
     
+    void updatePrevOrientation();
+    
     std::vector<std::string> hqNames;
     
     //Adding last group source ID
@@ -36,6 +39,8 @@ public:
     
     bool thereWasAnError = false;
     bool isOffline = false;
+    
+    Orientation _prevHQOrientation = Orientation::Landscape;
     
 };
 

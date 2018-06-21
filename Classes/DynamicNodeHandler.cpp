@@ -25,6 +25,8 @@
 
 //#define USING_LOCAL_CTA_ASSETS YES
 
+#define CTA_Z_ORDER 1000
+
 using namespace cocos2d;
 NS_AZOOMEE_BEGIN
 //-----start Popup group names
@@ -91,8 +93,10 @@ void DynamicNodeHandler::createDynamicNodeByGroupId(const std::string& groupId)
     {
         if(folder == groupId)
         {
-            const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getJsonFilesInDirectory(ctaPath + folder);
-            
+            std::vector<std::string> fileNames = DirectorySearcher::getInstance()->getJsonFilesInDirectory(ctaPath + folder);
+            fileNames.erase(std::remove_if(fileNames.begin(), fileNames.end(), [&](std::string item){
+                return item.compare(0, 2, "p_") == 0;
+            }));
             int randomFileNameIndex = rand()%fileNames.size();
             AnalyticsSingleton::getInstance()->ctaWindowAppeared(groupId, fileNames[randomFileNameIndex]);
             createDynamicNodeFromFile(ctaPath + folder + "/" + fileNames[randomFileNameIndex]);
@@ -135,8 +139,10 @@ void DynamicNodeHandler::createDynamicNodeByGroupIdWithParams(const std::string&
     {
         if(folder == groupId)
         {
-            const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getJsonFilesInDirectory(ctaPath + folder);
-            
+            std::vector<std::string> fileNames = DirectorySearcher::getInstance()->getJsonFilesInDirectory(ctaPath + folder);
+            fileNames.erase(std::remove_if(fileNames.begin(), fileNames.end(), [&](std::string item){
+                return item.compare(0, 2, "p_") == 0;
+            }));
             int randomFileNameIndex = rand()%fileNames.size();
             AnalyticsSingleton::getInstance()->ctaWindowAppeared(groupId, fileNames[randomFileNameIndex]);
             createDynamicNodeFromFileWithParams(ctaPath + folder + "/" + fileNames[randomFileNameIndex], params);
@@ -153,7 +159,7 @@ void DynamicNodeHandler::startSignupFlow()
     createDynamicNodeByIdWithParams(_flowController->_flowEntryFile, DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
 }
 
-void DynamicNodeHandler::startIAPFlow()
+void DynamicNodeHandler::startIAPFlow(IAPEntryContext context)
 {
     if(RoutePaymentSingleton::getInstance()->receiptDataFileExists())
     {
@@ -169,7 +175,8 @@ void DynamicNodeHandler::startIAPFlow()
             return;
         }
     }
-    _flowController = IAPFlowController::create();
+    
+    _flowController = IAPFlowController::createWithContext(context);
     createDynamicNodeByGroupIdWithParams(_flowController->_flowEntryFile, getJSONStringFromMap({
         {"iapPrice",IAPProductDataHandler::getInstance()->getHumanReadableProductPrice()}
     }));
@@ -201,11 +208,13 @@ void DynamicNodeHandler::handleSuccessFailEvent()
         case PREMIUM_NEW_ACCOUNT:
         {
             FlowDataSingleton::getInstance()->setFlowToSignUpNewProfile();
+            FlowDataSingleton::getInstance()->setDisplayUserPaidFlag(true);
             createDynamicNodeById("payment_new_account.json");
             break;
         }
         case PREMIUM_EXISTING_ACCOUNT:
         {
+            FlowDataSingleton::getInstance()->setDisplayUserPaidFlag(true);
             createDynamicNodeById("payment_existing_account.json");
             break;
         }
@@ -329,14 +338,20 @@ void DynamicNodeHandler::removeCTAFiles()
 
 void DynamicNodeHandler::createDynamicNodeFromFile(const std::string &file)
 {
+    _currentCTAFile = file;
+    _currentCTAUsingParams = false;
+    _currentCTAParams = "";
     Node* cta = DynamicNodeCreator::getInstance()->createCTAFromFile(file);
-    Director::getInstance()->getRunningScene()->addChild(cta);
+    Director::getInstance()->getRunningScene()->addChild(cta,CTA_Z_ORDER);
 }
 
 void DynamicNodeHandler::createDynamicNodeFromFileWithParams(const std::string &file, const std::string& params)
 {
+    _currentCTAFile = file;
+    _currentCTAUsingParams = true;
+    _currentCTAParams = params;
     Node* cta = DynamicNodeCreator::getInstance()->createCTAFromFileWithParams(file, params);
-    Director::getInstance()->getRunningScene()->addChild(cta);
+    Director::getInstance()->getRunningScene()->addChild(cta, CTA_Z_ORDER);
 }
 
 void DynamicNodeHandler::onAsyncUnzipComplete(bool success, const std::string& zipPath, const std::string& dirpath)
@@ -415,6 +430,21 @@ void DynamicNodeHandler::setFlowController(DynamicNodeFlowControllerRef flowCont
 DynamicNodeFlowControllerRef DynamicNodeHandler::getFlowController()
 {
     return _flowController;
+}
+
+void DynamicNodeHandler::rebuildCurrentCTA()
+{
+    if(_currentCTAFile != "")
+    {
+        if(_currentCTAUsingParams)
+        {
+            createDynamicNodeFromFileWithParams(_currentCTAFile, _currentCTAParams);
+        }
+        else
+        {
+            createDynamicNodeFromFile(_currentCTAFile);
+        }
+    }
 }
 
 // Delegate functions

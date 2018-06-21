@@ -18,7 +18,9 @@ enum SceneNameEnum {
     WebviewPortrait,
     WebviewLandscape,
     ArtAppEntryPointScene,
-    SettingsFromChat
+    SettingsFromChat,
+    Settings,
+    introVideo
 };
 
 class SceneManagerScene : public cocos2d::Layer
@@ -30,6 +32,8 @@ private:
     std::string webviewURL;
     
     cocos2d::Vec2 _closeButtonAnchor;
+    
+    void returnToPrevOrientation();
     
     void forceToPortrait();
     void forceToLandscape();

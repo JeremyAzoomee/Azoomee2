@@ -24,6 +24,8 @@ public:
     static const std::string kCTAAssetLoc;
     static const std::string kCTABundleImageLoc;
     static const std::string kCTADeviceImageCacheLoc;
+    
+    static const std::string kPortraitPrefix;
 private:
     
     
@@ -49,6 +51,7 @@ private:
     // external parameters
     rapidjson::Document _externParams;
     bool _usingExternalParams = false;
+    bool _portraitMode = false;
     
     void processFile(const rapidjson::Document& configFile);
     void initCTANode();
