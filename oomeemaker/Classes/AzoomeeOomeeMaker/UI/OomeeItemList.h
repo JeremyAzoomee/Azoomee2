@@ -24,7 +24,6 @@ class OomeeItemList : public cocos2d::ui::ListView
     typedef std::function<void(const OomeeColourRef&)> ColourSelectedCallback;
     
 private:
-    static const int kNumColours;
     
     std::vector<OomeeItemRef> _itemList;
     ItemSelectedCallback _itemSelectedCallback = nullptr;
@@ -42,7 +41,7 @@ public:
     void setColourSelectedCallback(const ColourSelectedCallback& callback);
     void setColumns(int columns);
     
-    void SetColourItems();
+    void setColourItems();
     
     virtual bool init() override;
     virtual void onEnter() override;

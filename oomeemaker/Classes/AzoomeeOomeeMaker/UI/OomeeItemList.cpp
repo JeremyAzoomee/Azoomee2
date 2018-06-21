@@ -15,8 +15,6 @@ using namespace cocos2d;
 
 NS_AZOOMEE_OM_BEGIN
 
-const int OomeeItemList::kNumColours = 20;
-
 void OomeeItemList::doLayout()
 {
     Super::doLayout();
@@ -66,7 +64,7 @@ void OomeeItemList::setItems(const std::vector<OomeeItemRef>& itemList)
     forceDoLayout();
 }
 
-void OomeeItemList::SetColourItems()
+void OomeeItemList::setColourItems()
 {
     removeAllItems();
     auto colours = OomeeMakerDataStorage::getInstance()->getColourList();

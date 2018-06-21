@@ -25,6 +25,8 @@ private:
     std::map<std::string, OomeeItemRef> _oomeeItemData;
     std::map<std::string, OomeeColourRef> _oomeeColourData;
     std::map<std::string, std::vector<OomeeItemRef>> _oomeeItemsInCategoryData;
+    std::vector<ItemCategoryRef> _itemCategoryList;
+    std::vector<OomeeColourRef> _oomeeColourList;
     
 public:
     static OomeeMakerDataStorage* getInstance(void);

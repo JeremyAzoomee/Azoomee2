@@ -23,7 +23,6 @@ class OomeeFigure : public cocos2d::Node
 {
     typedef cocos2d::Node Super;
 private:
-    static const std::vector<std::string> kDefaultAccessories;
     
     bool _isEditable = true;
     OomeeRef _oomeeData = nullptr;

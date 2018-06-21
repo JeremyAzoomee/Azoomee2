@@ -59,7 +59,11 @@ void OomeeMakerScene::onEnter()
     {
         rapidjson::Document data;
         data.Parse(FileUtils::getInstance()->getStringFromFile(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".oomee").c_str());
-        _oomee->initWithOomeeFigureData(data);
+        if(!_oomee->initWithOomeeFigureData(data))
+        {
+            _oomee->setOomeeData(oomeeData);
+            _oomee->setColour(OomeeMakerDataStorage::getInstance()->getColourForKey(kDefaultOomeeId));
+        }
     }
     _contentLayer->addChild(_oomee);
     
@@ -82,9 +86,6 @@ void OomeeMakerScene::onEnter()
     _itemList->setItemSelectedCallback([this](const OomeeItemRef& data) {
         this->addAccessoryToOomee(data);
     });
-    //_itemList->setColourSelectedCallback([this](float hue){
-    //    _oomee->setHue(hue);
-    //});
     _itemList->setColourSelectedCallback([this](const OomeeColourRef& colour){
         const OomeeRef& oomee = OomeeMakerDataStorage::getInstance()->getOomeeForKey(colour->getId());
         if(oomee)
@@ -121,31 +122,18 @@ void OomeeMakerScene::onEnterTransitionDidFinish()
 
 void OomeeMakerScene::addAccessoryToOomee(const OomeeItemRef &data)
 {
-    if(_oomee)
-    {
-        _oomee->addAccessory(data);
-    }
+    _oomee->addAccessory(data);
 }
 
 void OomeeMakerScene::setItemsListForCategory(const ItemCategoryRef& data)
 {
-    if(_itemList)
+    if(data->getId() == kColourCategoryId)
     {
-        if(data->getId() == kColourCategoryId)
-        {
-            _itemList->SetColourItems();
-        }
-        else
-        {
-            if(_oomee)
-            {
-                _itemList->setItems(OomeeMakerDataStorage::getInstance()->getFilteredItemsForCategory(data->getId(), _oomee->getOomeeData()));
-            }
-            else
-            {
-                _itemList->setItems(OomeeMakerDataStorage::getInstance()->getItemsForCategory(data->getId()));
-            }
-        }
+        _itemList->setColourItems();
+    }
+    else
+    {
+        _itemList->setItems(OomeeMakerDataStorage::getInstance()->getFilteredItemsForCategory(data->getId(), _oomee->getOomeeData()));
     }
 }
 

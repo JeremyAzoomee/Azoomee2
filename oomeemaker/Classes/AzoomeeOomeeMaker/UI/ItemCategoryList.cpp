@@ -85,7 +85,7 @@ void ItemCategoryList::setItemSelectedCallback(const ItemSelectedCallback& callb
 void ItemCategoryList::setSelectedButton(const ItemCategoryRef& data)
 {
     auto itemList = getItems();
-    for(auto item : itemList)
+    for(const auto& item : itemList)
     {
         ItemCategoryButton* button = dynamic_cast<ItemCategoryButton*>(item);
         if(button)
