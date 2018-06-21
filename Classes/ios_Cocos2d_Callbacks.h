@@ -21,6 +21,8 @@ extern "C" {
     void favContent();
     void shareContentInChat();
     
+    NSString* getPlaylistString();
+    
 #ifdef __cplusplus
 }
 #endif

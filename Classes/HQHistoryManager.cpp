@@ -106,4 +106,9 @@ std::string HQHistoryManager::getGroupHQSourceId()
     return lastGroupHQSourceId;
 }
 
+void HQHistoryManager::updatePrevOrientation()
+{
+    _prevHQOrientation = (Director::getInstance()->getVisibleSize().width < Director::getInstance()->getVisibleSize().height) ? Portrait : Landscape;
+}
+
 NS_AZOOMEE_END

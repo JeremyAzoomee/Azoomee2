@@ -80,6 +80,10 @@ private:
     void createAdultPinLayerWithDelegate();
     void removeAdultPinLayerDelegate();
     
+    float getVerticalOffset();
+    
+    bool _firstTime = false;
+    
 protected:
     virtual void onSizeChanged() override;
 };

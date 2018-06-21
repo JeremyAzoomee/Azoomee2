@@ -339,14 +339,6 @@ void OomeeFigure::setHue(float hue)
     }*/
 }
 
-void OomeeFigure::addDefaultAccessories()
-{
-    for(const std::string& itemName : kDefaultAccessories)
-    {
-        addAccessory(OomeeMakerDataStorage::getInstance()->getOomeeItemForKey(itemName));
-    }
-}
-
 void OomeeFigure::dependancyCheck()
 {
     std::vector<std::string> removeAccsAnchors;

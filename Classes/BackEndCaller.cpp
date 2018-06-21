@@ -269,6 +269,7 @@ void BackEndCaller::getAvailableChildren()
 void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseString)
 {
     ModalMessages::getInstance()->stopLoading();
+    AnalyticsSingleton::getInstance()->registerIdentifier(ParentDataProvider::getInstance()->getLoggedInParentId());
     ParentDataParser::getInstance()->parseAvailableChildren(responseString);
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
     

@@ -24,6 +24,7 @@ const std::string SignUpFlowController::kConfirmEmailCTAName = "signup_email_con
 const std::string SignUpFlowController::kEnterPasswordCTAName = "signup_password.json";
 const std::string SignUpFlowController::kEnterPinCTAName = "signup_pin.json";
 const std::string SignUpFlowController::kAcceptTnCsCTAName = "signup_opt_in.json";
+const std::string SignUpFlowController::kAcceptTnCsErrorCTAName = "signup_opt_in_error.json";
 
 SignUpFlowController::SignUpFlowController() noexcept
 {
@@ -60,6 +61,10 @@ void SignUpFlowController::processAction(const ButtonActionDataRef& actionData)
     else if(fileName == kAcceptTnCsCTAName)
     {
         handleAcceptTnCsFlow(actionData, pathAction);
+    }
+    else if(fileName == kAcceptTnCsErrorCTAName)
+    {
+        handleAcceptTnCsErrorFlow(actionData, pathAction);
     }
 }
 
@@ -211,6 +216,15 @@ void SignUpFlowController::handleAcceptTnCsFlow(const ButtonActionDataRef& actio
                 AnalyticsSingleton::getInstance()->ctaButtonPressed("acceptTnCs_continue");
                 signUp();
             }
+            else
+            {
+                // reset check box values
+                DynamicNodeDataInputStorage::getInstance()->addElementToStorage("tncAccept", "false");
+                DynamicNodeDataInputStorage::getInstance()->addElementToStorage("over18", "false");
+                DynamicNodeDataInputStorage::getInstance()->addElementToStorage("commsAccept", "false");
+                
+                DynamicNodeHandler::getInstance()->createDynamicNodeById(kAcceptTnCsErrorCTAName);
+            }
             break;
         }
             
@@ -230,6 +244,22 @@ void SignUpFlowController::handleAcceptTnCsFlow(const ButtonActionDataRef& actio
         default:
         {
             return;
+            break;
+        }
+    }
+}
+
+void SignUpFlowController::handleAcceptTnCsErrorFlow(const ButtonActionDataRef& actionData, FlowPath pathAction)
+{
+    switch(pathAction)
+    {
+        case NEXT:
+        case BACK:
+        case CLOSE:
+        case UNKNOWN:
+        default:
+        {
+            DynamicNodeHandler::getInstance()->createDynamicNodeById(kAcceptTnCsCTAName);
             break;
         }
     }

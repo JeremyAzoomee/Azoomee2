@@ -83,7 +83,7 @@ void ModalMessages::startLoading()
     for(int i = 0; i < 3; i++)
     {
         auto loadingCircle = Sprite::create("res/modal/loading.png");
-        loadingCircle->setPosition(visibleSize.width / 2, visibleSize.height / 2);
+        loadingCircle->setNormalizedPosition(Vec2(0.5,0.5));
         loadingCircle->setOpacity(0);
         loadingCircle->setRotation(RandomHelper::random_int(0, 360));
         loadingCircle->setScale(0.6 + i * 0.2);
@@ -103,7 +103,6 @@ void ModalMessages::stopLoading()
     this->removeLayer();
 }
 
-
 void ModalMessages::startSaving()
 {
     if(Director::getInstance()->getRunningScene()->getChildByName("loadingLayer")) return;
@@ -121,6 +120,15 @@ void ModalMessages::startSaving()
 void ModalMessages::stopSaving()
 {
     this->removeLayer();
+}
+
+void ModalMessages::onSizeChanged()
+{
+    if(Director::getInstance()->getRunningScene()->getChildByName("loadingLayer"))
+    {
+        loadingLayer->setContentSize(visibleSize);
+        loadingLayer->setPosition(origin.x, origin.y);
+    }
 }
 
 //-----------------MIXPANEL NOTIFICATIONS--------------------------

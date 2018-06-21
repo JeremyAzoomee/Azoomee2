@@ -9,7 +9,8 @@
 #include "ModalMessages.h"
 #include "../ErrorCodes.h"
 #include "../Utils/BiometricAuthenticationHandler.h"
-#include "../UI/Scene.h"
+#include "Scene.h"
+
 
 using namespace cocos2d;
 

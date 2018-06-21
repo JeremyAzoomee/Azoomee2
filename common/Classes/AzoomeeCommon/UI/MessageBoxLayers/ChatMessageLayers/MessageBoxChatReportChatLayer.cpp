@@ -88,7 +88,10 @@ void MessageBoxChatReportChatLayer::createCancelButton()
 void MessageBoxChatReportChatLayer::createMessageWindowLandscape()
 {
     float windowHeight = cancelButton->getContentSize().height + messageTitleLabel->getContentSize().height + oomeeSprite->getContentSize().height + reportButton->getContentSize().height + (4*MESSAGE_BOX_PADDING);
-    
+    if(currentRunningSceneSize.width / currentRunningSceneSize.height >= 2)
+    {
+        windowHeight -= (2*MESSAGE_BOX_PADDING);
+    }
     windowLayer = createWindowLayer(currentRunningSceneSize.width * percentageOfScreenForBox, windowHeight);
     windowLayer->setPosition(currentRunningSceneSize.width/2- windowLayer->getContentSize().width/2,(currentRunningSceneSize.height - windowLayer->getContentSize().height) * 0.66);
     this->addChild(windowLayer);
@@ -96,13 +99,15 @@ void MessageBoxChatReportChatLayer::createMessageWindowLandscape()
 
 void MessageBoxChatReportChatLayer::addObjectsToWindowLandscape()
 {
+    bool removePadding = currentRunningSceneSize.width / currentRunningSceneSize.height >= 2 ? true : false;
+    
     float nextItemHeight = windowLayer->getContentSize().height-cancelButton->getContentSize().height*.75;
     
     cancelButton->setCenterPosition(Vec2(windowLayer->getContentSize().width-cancelButton->getContentSize().width*0.75, nextItemHeight));
     windowLayer->addChild(cancelButton);
     
     // Add OomeeSprite
-    nextItemHeight = nextItemHeight-cancelButton->getContentSize().height/2 - oomeeSprite->getContentSize().height/2;
+    nextItemHeight = nextItemHeight - oomeeSprite->getContentSize().height/2 - (removePadding ? 0 : cancelButton->getContentSize().height/2);
     oomeeSprite->setPosition(windowLayer->getContentSize().width/2,nextItemHeight);
     windowLayer->addChild(oomeeSprite);
     
@@ -112,7 +117,7 @@ void MessageBoxChatReportChatLayer::addObjectsToWindowLandscape()
     windowLayer->addChild(messageTitleLabel);
     
     // Add Reset Button
-    nextItemHeight = nextItemHeight- MESSAGE_BOX_PADDING*1.5- messageTitleLabel->getContentSize().height/2 - reportButton->getContentSize().height/2;
+    nextItemHeight = nextItemHeight- MESSAGE_BOX_PADDING* (removePadding ? 0.75 : 1.5) - messageTitleLabel->getContentSize().height/2 - reportButton->getContentSize().height/2;
     reportButton->setCenterPosition(Vec2(windowLayer->getContentSize().width*.7, nextItemHeight));
     windowLayer->addChild(reportButton);
     

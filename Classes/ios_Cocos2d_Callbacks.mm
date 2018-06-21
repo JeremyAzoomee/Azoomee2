@@ -13,6 +13,8 @@
 #include "ContentHistoryManager.h"
 #include "FavouritesManager.h"
 #include "ChatDelegate.h"
+#include "VideoPlaylistManager.h"
+
 
 using namespace cocos2d;
 NS_AZOOMEE_BEGIN
@@ -133,6 +135,11 @@ void shareContentInChat()
 {
     ChatDelegate::getInstance()->_sharedContentId = ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId();
     ChatDelegate::getInstance()->shareContentInChat();
+}
+
+NSString* getPlaylistString()
+{
+    return [NSString stringWithUTF8String:VideoPlaylistManager::getInstance()->getPlaylistForIosNativePlayer().c_str()];
 }
 
 NS_AZOOMEE_END

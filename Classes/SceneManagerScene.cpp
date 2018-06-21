@@ -19,6 +19,7 @@
 #include "EmptySceneForSettings.h"
 #include "WebViewSelector.h"
 #include "IntroVideoScene.h"
+#include "ContentHistoryManager.h"
 
 using namespace cocos2d;
 
@@ -77,7 +78,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         case Base:
         {
             FlowDataSingleton::getInstance()->clearData();
-            //forceToLandscape();
+            returnToPrevOrientation();
             acceptAnyOrientation();
             HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
             Azoomee::Scene* goToScene = BaseScene::create();
@@ -87,7 +88,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         case BaseWithNoHistory:
         {
             FlowDataSingleton::getInstance()->clearData();
-            //forceToLandscape();
+            returnToPrevOrientation();
             acceptAnyOrientation();
             HQHistoryManager::getInstance()->emptyHistory();
             cocos2d::Scene* goToScene = BaseScene::create();
@@ -179,6 +180,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         }
         case WebviewPortrait:
         {
+            HQHistoryManager::getInstance()->updatePrevOrientation();
             #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
                 forceToPortrait();
             #endif
@@ -188,6 +190,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         }
         case WebviewLandscape:
         {
+            HQHistoryManager::getInstance()->updatePrevOrientation();
             forceToLandscape();
             AnalyticsSingleton::getInstance()->registerCurrentScene("WEBVIEWLANDSCAPE");
             WebViewSelector::createSceneWithUrl(webviewURL, Orientation::Landscape, _closeButtonAnchor);
@@ -226,6 +229,21 @@ void SceneManagerScene::forceToLandscape()
 void SceneManagerScene::acceptAnyOrientation()
 {
     Azoomee::Application::setOrientation(Azoomee::Application::Orientation::Any);
+}
+
+void SceneManagerScene::returnToPrevOrientation()
+{
+    if(ContentHistoryManager::getInstance()->getReturnedFromContent())
+    {
+        if(HQHistoryManager::getInstance()->_prevHQOrientation == Portrait)
+        {
+            forceToPortrait();
+        }
+        else
+        {
+            forceToLandscape();
+        }
+    }
 }
 
 NS_AZOOMEE_END

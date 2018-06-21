@@ -26,6 +26,7 @@
 #include "ContentHistoryManager.h"
 #include "ContentOpener.h"
 #include "VideoPlaylistManager.h"
+#include "IAPFlowController.h"
 
 using namespace cocos2d;
 using namespace network;
@@ -200,7 +201,16 @@ void HQSceneElement::addListenerToElement()
                 AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
                 AnalyticsSingleton::getInstance()->contentItemSelectedEvent(_elementItemData, _elementRowNumber, _elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(_elementCategory, _elementRowNumber, _elementIndex));
                 AnalyticsSingleton::getInstance()->registerCTASource("lockedContent",_elementItemData->getContentItemId(),_elementItemData->getType());
-                DynamicNodeHandler::getInstance()->startIAPFlow();
+                IAPEntryContext context = DEFAULT;
+                if(_elementItemData->getType() == ConfigStorage::kContentTypeGame)
+                {
+                    context = LOCKED_GAME;
+                }
+                else if(_elementItemData->getType() == ConfigStorage::kContentTypeVideo || _elementItemData->getType() == ConfigStorage::kContentTypeGroup)
+                {
+                    context = LOCKED_VIDEO;
+                }
+                DynamicNodeHandler::getInstance()->startIAPFlow(context);
                 return true;
             }
                 

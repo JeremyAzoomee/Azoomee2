@@ -55,7 +55,8 @@ void LoginScene::onEnterTransitionDidFinish()
     
     if(FlowDataSingleton::getInstance()->hasError())
     {
-        MessageBox::createWith(FlowDataSingleton::getInstance()->getErrorCode(), _emailTextInput, this);
+        MessageBox::createWith(FlowDataSingleton::getInstance()->getErrorCode(), this);
+        _emailTextInput->setEditboxVisibility(false);
     }
     else
     {
@@ -241,6 +242,7 @@ void LoginScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string
     }
     else
     {
+        _emailTextInput->setEditboxVisibility(true);
         _emailTextInput->focusAndShowKeyboard();
     }
 }
@@ -308,6 +310,8 @@ void LoginScene::onSizeChanged()
         // Horribly, we have to re-create the editboxes. If we don't the native OS view gets stuck offset
         std::string username = _emailTextInput->getText();
         std::string password = _passwordTextInput->getText();
+        bool emailInputVisiblility = _emailTextInput->getEditboxVisibility();
+        bool passwordInputVisiblility = _passwordTextInput->getEditboxVisibility();
         _emailTextInput->removeFromParent();
         _passwordTextInput->removeFromParent();
         addTextboxScene();
@@ -315,8 +319,8 @@ void LoginScene::onSizeChanged()
         _emailTextInput->setText(username);
         _passwordTextInput->setText(password);
         
-        _emailTextInput->setEditboxVisibility(_currentScreen == LoginScreenLocationEnum::emailLoginScreen);
-        _passwordTextInput->setEditboxVisibility(_currentScreen == LoginScreenLocationEnum::passwordLoginScreen);
+        _emailTextInput->setEditboxVisibility(emailInputVisiblility);
+        _passwordTextInput->setEditboxVisibility(passwordInputVisiblility);
     }
 }
 

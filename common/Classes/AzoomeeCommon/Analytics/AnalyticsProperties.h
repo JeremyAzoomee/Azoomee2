@@ -42,6 +42,8 @@ public:
     void addGeneralProperty(const std::string& key, const std::string& value);
     std::map<std::string, std::string> getStoredGeneralProperties() const;
     
+    void updateEpochTime();
+    
     void setCtaWindowNodeId(const std::string& nodeId);
     std::string getCtaWindowNodeId() const;
     

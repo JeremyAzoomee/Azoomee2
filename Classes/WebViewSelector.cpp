@@ -3,9 +3,10 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Utils/StringFunctions.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-#include "WebViewNative_ios.h"
+#include "NativeContentInterface_ios.h"
 #endif
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -64,13 +65,21 @@ void WebViewSelector::loadWebView(const std::string& url, Orientation orientatio
     AnalyticsSingleton::getInstance()->contentItemWebviewStartedEvent();
     AudioMixer::getInstance()->stopBackgroundMusic();
     
+    std::string targetUrl = url;
+    
+    if(stringEndsWith(targetUrl, "m3u8")) //this if clause will probably need changes for later
+    {
+        const std::string& userSessionId = ChildDataProvider::getInstance()->getParentOrChildCdnSessionId();
+        targetUrl = replaceAll(targetUrl, "{sessionId}", userSessionId);
+    }
+    
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    auto iosWebView = WebViewNative_ios::createSceneWithURL(url, closeButtonAnchor);
+    auto iosWebView = NativeContentInterface_ios::createSceneWithURL(targetUrl, closeButtonAnchor);
     Director::getInstance()->replaceScene(iosWebView);
 #endif
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    auto androidWebViewCaller = WebViewNativeCaller_android::createSceneWithUrl(url, orientation, closeButtonAnchor);
+    auto androidWebViewCaller = WebViewNativeCaller_android::createSceneWithUrl(targetUrl, orientation, closeButtonAnchor);
     Director::getInstance()->replaceScene(androidWebViewCaller);
 #endif
 }
