@@ -1,7 +1,7 @@
 {
 	"id": "faces",
-	"iconFilenameSelected": "assets/categoryButtons/s_expression.png",
-	"iconFilenameUnselected": "assets/categoryButtons/u_expression.png",
+	"iconFilenameSelected": "assets/categoryButtons/S_Faces.png",
+	"iconFilenameUnselected": "assets/categoryButtons/U_Faces.png",
 	"holidaySeasons": ["none"],
 	"scaleSelected": 1.25,
 	"scaleUnselected": 1.0,

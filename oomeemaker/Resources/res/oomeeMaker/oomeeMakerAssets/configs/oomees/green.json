@@ -1,0 +1,39 @@
+{
+	"id": "green",
+	"anchorPoints": {
+		"head": [0.5,0.85],
+		"ears": [0.5,0.80],
+		"face": [0.5,0.61],
+		"eyes": [0.5,0.70],
+		"neck": [0.5,0.3],
+		"toy": [0.5,0.35],
+		"armLeft": [0.2,0.4],
+		"armRight": [0.8,0.4],
+		"legs": [0.5,0.1]
+	},
+	"lockedAnchors": [
+		"armLeft",
+		"armRight",
+		"face"
+	],
+	"defaultAccessories": [
+		"armLeft07",
+		"armRight07",
+		"face09",
+		"antenna03"
+	],
+	"incompatableAccessories": [
+		"face01"
+	],
+	"position": [0.44,0.5],
+	"scale": 2.0,
+	"sizeMultiplier": 1.0,
+	"assetSet": {
+		"base": ["assets/baseOomee/Body_Solid.png",0],
+		"gradient": ["assets/baseOomee/Body_Gradient.png",1],
+		"shadow": ["assets/baseOomee/Body_Leg_Shadow.png",2],
+		"highlight": ["assets/greenOomee/Green_Top_Shadow.png",3],
+		"face": ["assets/greenOomee/Green_Face_Background.png",4],
+		"gloss": ["assets/greenOomee/Green_Gloss.png",5]
+	}
+}

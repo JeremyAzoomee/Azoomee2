@@ -63,7 +63,7 @@ void DragAndDropController::init()
             if(_debugMode)
             {
                 const Vec2& dist = (_itemSprite->getPosition() - _anchorPos) / _oomeeFigure->getOomeeData()->getScale();
-                _positioningLabel->setString(StringUtils::format("x: %d, y:%d\n%s",(int)dist.x, (int)dist.y, _itemData->getTargetAnchor().c_str()));
+                _positioningLabel->setString(StringUtils::format("x: %d, y:%d\n%s, %s",(int)dist.x, (int)dist.y, _itemData->getTargetAnchor().c_str(),_itemData->getId().c_str()));
                 _anchorToSprite->clear();
                 _anchorToSprite->drawLine(_anchorPos, _itemSprite->getPosition(), Color4F::WHITE);
             }
@@ -107,13 +107,15 @@ void DragAndDropController::setItemData(const OomeeItemRef& data)
     {
         _itemSprite->removeFromParent();
     }
-    _itemSprite = SpriteWithHue::create(OomeeMakerDataHandler::getInstance()->getAssetDir() + _itemData->getAssetName());
+    _itemSprite = OomeeAccessory::create();//SpriteWithHue::create(OomeeMakerDataHandler::getInstance()->getAssetDir() + _itemData->getAssetName());
+    _itemSprite->setItemData(_itemData);
+    _itemSprite->setColourData(_oomeeFigure->getColour());
     _itemSprite->setScale(_itemData->getDragScale());
     _itemSprite->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    if(data->isUsingColourHue())
-    {
-        _itemSprite->setHue(_oomeeFigure->getHue());
-    }
+    //if(data->isUsingColourHue())
+    //{
+    //    _itemSprite->setHue(_oomeeFigure->getHue());
+    //}
     _listenerTargetNode->addChild(_itemSprite);
     _anchorPos = _oomeeFigure->getWorldPositionForAnchorPoint(_itemData->getTargetAnchor());
     
@@ -127,6 +129,7 @@ void DragAndDropController::setItemData(const OomeeItemRef& data)
         _positioningLabel = Label::createWithTTF(StringUtils::format("x: %d, y:%d",(int)dist.x, (int)dist.y), "fonts/arial.ttf", 40);
         _positioningLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
         _positioningLabel->setPosition(Vec2(_itemSprite->getContentSize().width * 0.5f, 0));
+        _positioningLabel->setTextColor(Color4B::BLACK);
         _itemSprite->addChild(_positioningLabel);
         
         if(_anchorToSprite)
@@ -134,7 +137,7 @@ void DragAndDropController::setItemData(const OomeeItemRef& data)
             _anchorToSprite->removeFromParent();
         }
         _anchorToSprite = DrawNode::create();
-        _anchorToSprite->drawLine(_anchorPos, _itemSprite->getPosition(), Color4F::WHITE);
+        _anchorToSprite->drawLine(_anchorPos, _itemSprite->getPosition(), Color4F::BLACK);
         _listenerTargetNode->addChild(_anchorToSprite);
     }
     

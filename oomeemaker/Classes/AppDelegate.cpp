@@ -59,7 +59,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     const Size& visibleSize = Director::getInstance()->getVisibleSize();
     if(visibleSize.width / visibleSize.height > 1.95)
     {
-        ConfigStorage::getInstance()->setIsDevice18x9(true);
+        Azoomee::ConfigStorage::getInstance()->setIsDevice18x9(true);
     }
     
     // create a scene. it's an autorelease object

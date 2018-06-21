@@ -1,9 +1,0 @@
-{
-	"id": "hair",
-	"iconFilenameSelected": "assets/categoryButtons/s_hair.png",
-	"iconFilenameUnselected": "assets/categoryButtons/u_hair.png",
-	"holidaySeasons": ["none"],
-	"scaleSelected": 1.25,
-	"scaleUnselected": 1.0,
-	"highlightColour": [255,0,0,255]
-}

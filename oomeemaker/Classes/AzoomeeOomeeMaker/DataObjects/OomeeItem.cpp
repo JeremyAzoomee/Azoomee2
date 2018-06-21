@@ -37,8 +37,16 @@ void OomeeItem::initWithData(const rapidjson::Value& itemConfig)
     setTargetScale(getFloatFromJson("targetScale", itemConfig, 1.0f));
     setZOrder(getIntFromJson("zOrder", itemConfig, 0));
     setCategoryId(getStringFromJson("categoryId", itemConfig));
-    setAssetFilename(getStringFromJson("assetFilename", itemConfig));
+    if(itemConfig.HasMember("assetSet"))
+    {
+        setAssetSet(getAssetMapFromJson(itemConfig["assetSet"]));
+    }
+    setIconFilename(getStringFromJson("iconFilename", itemConfig));
     setUseColourHue(getBoolFromJson("useColourHue", itemConfig));
+    if(itemConfig.HasMember("dependancies"))
+    {
+        setDependancies(getStringArrayFromJson(itemConfig["dependancies"]));
+    }
 }
 
 // GETTERS AND SETTERS
@@ -124,13 +132,24 @@ std::string OomeeItem::getCategoryId() const
     return _categoryId;
 }
 
-void OomeeItem::setAssetFilename(const std::string& assetName)
+void OomeeItem::setAssetSet(const AssetMap& assetSet)
 {
-    _assetFilename = assetName;
+    _assetSet = assetSet;
 }
-std::string OomeeItem::getAssetName() const
+
+OomeeItem::AssetMap OomeeItem::getAssetSet() const
 {
-    return _assetFilename;
+    return _assetSet;
+}
+
+void OomeeItem::setIconFilename(const std::string& iconFilename)
+{
+    _iconFilename = iconFilename;
+}
+
+std::string OomeeItem::getIconFilename() const
+{
+    return _iconFilename;
 }
 
 void OomeeItem::setUseColourHue(bool useColourHue)
@@ -142,5 +161,14 @@ bool OomeeItem::isUsingColourHue() const
     return _useColourHue;
 }
 
+void OomeeItem::setDependancies(const std::vector<std::string> &dependancies)
+{
+    _dependancies = dependancies;
+}
+
+std::vector<std::string> OomeeItem::getDependancies() const
+{
+    return _dependancies;
+}
 
 NS_AZOOMEE_OM_END

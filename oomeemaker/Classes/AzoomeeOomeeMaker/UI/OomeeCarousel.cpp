@@ -130,6 +130,19 @@ void OomeeCarousel::setOomeeData(const std::vector<std::string>& oomeeFilenames)
         button->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         button->setPosition(Vec2(_spacing * i, this->getContentSize().height / 2.0f));
         button->setSwallowTouches(false);
+        button->setCascadeOpacityEnabled(true);
+        button->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType){
+            if(eType == ui::Widget::TouchEventType::ENDED)
+            {
+                if(pSender == _centerButton)
+                {
+                    if(_buttonDelegate)
+                    {
+                        _buttonDelegate->editOomee(_oomeeData.at(i));
+                    }
+                }
+            }
+        });
         _contentNode->addChild(button);
         _carouselButtons.push_back(button);
     }
@@ -233,7 +246,7 @@ void OomeeCarousel::update(float deltaT)
         }
         button->setOpacity(MAX(0,255 - (255 * relativeDist)));
         button->setPositionY(this->getContentSize().height/2 + this->getContentSize().height/5 * (relativeDist * relativeDist));
-        
+        button->setGlobalZOrder(button->getScale() * 10.0f);
     }
     
     Super::update(deltaT);

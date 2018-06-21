@@ -30,6 +30,7 @@ void OomeeMakerDataStorage::clearAllData()
     clearOomeeItemData();
     clearCategoryData();
     clearOomeeData();
+    clearColourData();
 }
 
 void OomeeMakerDataStorage::clearOomeeData()
@@ -48,6 +49,11 @@ void OomeeMakerDataStorage::clearOomeeItemData()
     _oomeeItemsInCategoryData.clear();
 }
 
+void OomeeMakerDataStorage::clearColourData()
+{
+    _oomeeColourData.clear();
+}
+
 void OomeeMakerDataStorage::addOomee(const OomeeRef& oomee)
 {
     _oomeeData[oomee->getId()] = oomee;
@@ -62,6 +68,11 @@ void OomeeMakerDataStorage::addOomeeItem(const OomeeItemRef& oomeeItem)
 {
     _oomeeItemData[oomeeItem->getId()] = oomeeItem;
     _oomeeItemsInCategoryData[oomeeItem->getCategoryId()].push_back(oomeeItem);
+}
+
+void OomeeMakerDataStorage::addColour(const OomeeColourRef &colour)
+{
+    _oomeeColourData[colour->getId()] = colour;
 }
 
 std::map<std::string, OomeeRef> OomeeMakerDataStorage::getOomeedata()
@@ -84,10 +95,25 @@ std::map<std::string, std::vector<OomeeItemRef>> OomeeMakerDataStorage::getItems
     return _oomeeItemsInCategoryData;
 }
 
+std::map<std::string, OomeeColourRef> OomeeMakerDataStorage::getColourData()
+{
+    return _oomeeColourData;
+}
+
 std::vector<ItemCategoryRef> OomeeMakerDataStorage::getItemCategoryList()
 {
     std::vector<ItemCategoryRef> returnList;
     for(auto element : _categoryData)
+    {
+        returnList.push_back(element.second);
+    }
+    return returnList;
+}
+
+std::vector<OomeeColourRef> OomeeMakerDataStorage::getColourList()
+{
+    std::vector<OomeeColourRef> returnList;
+    for(auto element : _oomeeColourData)
     {
         returnList.push_back(element.second);
     }
@@ -123,6 +149,17 @@ OomeeItemRef OomeeMakerDataStorage::getOomeeItemForKey(const std::string& key) c
     
     return nullptr;
 }
+
+OomeeColourRef OomeeMakerDataStorage::getColourForKey(const std::string &key) const
+{
+    if(_oomeeColourData.find(key) != _oomeeColourData.end())
+    {
+        return _oomeeColourData.at(key);
+    }
+    
+    return nullptr;
+}
+
 std::vector<OomeeItemRef> OomeeMakerDataStorage::getItemsForCategory(const std::string& key) const
 {
     std::vector<OomeeItemRef> items;
@@ -131,6 +168,16 @@ std::vector<OomeeItemRef> OomeeMakerDataStorage::getItemsForCategory(const std::
         items = _oomeeItemsInCategoryData.at(key);
     }
     return items;
+}
+
+std::vector<OomeeItemRef> OomeeMakerDataStorage::getFilteredItemsForCategory(const std::string &key, const Azoomee::OomeeMaker::OomeeRef &activeOomee)
+{
+    const std::vector<std::string>& incompatableItemIds = activeOomee->getIncompatableAccessories();
+    std::vector<OomeeItemRef> itemData = getItemsForCategory(key);
+    itemData.erase(std::remove_if(itemData.begin(), itemData.end(), [&](OomeeItemRef item) {
+        return std::find(incompatableItemIds.begin(), incompatableItemIds.end(), item->getId()) != incompatableItemIds.end();
+    }),itemData.end());
+    return itemData;
 }
 
 NS_AZOOMEE_OM_END

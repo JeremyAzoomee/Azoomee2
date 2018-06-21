@@ -1,28 +1,37 @@
 {
 	"oomeeConfigs":
 	[
-		"configs/oomees/oomee01.json"
+		"configs/oomees/yellow.json",
+		"configs/oomees/orange.json",
+		"configs/oomees/pink.json",
+		"configs/oomees/purple.json",
+		"configs/oomees/darkPink.json",
+		"configs/oomees/red.json",
+		"configs/oomees/blue.json",
+		"configs/oomees/aqua.json",
+		"configs/oomees/black.json",
+		"configs/oomees/lightRed.json",
+		"configs/oomees/green.json"
 	],
 	"categoryConfigs":
 	[
 		"configs/categories/colours.json",
 		"configs/categories/ears.json",
 		"configs/categories/faces.json",
-		"configs/categories/glasses.json",
-		"configs/categories/hair.json",
 		"configs/categories/hats.json",
-		"configs/categories/horns.json",
-		"configs/categories/necklaces.json"
+		"configs/categories/objects.json",
+		"configs/categories/arms.json"
 	],
 	"itemConfigs":
 	[
 		"configs/items/armItems.json",
 		"configs/items/earItems.json",
 		"configs/items/faceItems.json",
-		"configs/items/glassesItems.json",
-		"configs/items/hairItems.json",
 		"configs/items/hatItems.json",
-		"configs/items/hornItems.json",
-		"configs/items/necklaceItems.json"
+		"configs/items/objectItems.json"
+	],
+	"colourConfigs":
+	[
+		"configs/colours/colourItems.json"
 	]
 }

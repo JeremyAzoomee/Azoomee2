@@ -29,12 +29,29 @@ Oomee::Oomee()
 void Oomee::initWithData(const rapidjson::Document& oomeeConfig)
 {
     setId(getStringFromJson("id", oomeeConfig));
-    setAnchorPoints(getVec2MapFromJson(oomeeConfig["anchorPoints"]));
-    setLockedAnchors(getStringArrayFromJson(oomeeConfig["lockedAnchors"]));
+    if(oomeeConfig.HasMember("anchorPoints"))
+    {
+        setAnchorPoints(getVec2MapFromJson(oomeeConfig["anchorPoints"]));
+    }
+    if(oomeeConfig.HasMember("lockedAnchors"))
+    {
+        setLockedAnchors(getStringArrayFromJson(oomeeConfig["lockedAnchors"]));
+    }
+    if(oomeeConfig.HasMember("defaultAccessories"))
+    {
+        setDefaultAccessories(getStringArrayFromJson(oomeeConfig["defaultAccessories"]));
+    }
+    if(oomeeConfig.HasMember("incompatableAccessories"))
+    {
+        setIncompatableAccessories(getStringArrayFromJson(oomeeConfig["incompatableAccessories"]));
+    }
     setPosition(getVec2FromJson("position", oomeeConfig));
     setScale(getFloatFromJson("scale", oomeeConfig));
     setSizeMultiplier(getFloatFromJson("sizeMultiplier", oomeeConfig));
-    setAssetName(getStringFromJson("assetName", oomeeConfig));
+    if(oomeeConfig.HasMember("assetSet"))
+    {
+        setAssetSet(getAssetMapFromJson(oomeeConfig["assetSet"]));
+    }
 }
 
 // GETTERS AND SETTERS
@@ -57,13 +74,31 @@ std::map<std::string, cocos2d::Vec2> Oomee::getAnchorPoints() const
     return _anchorPoints;
 }
 
-void Oomee::setLockedAnchors(const std::vector<std::string> lockedAnchors)
+void Oomee::setLockedAnchors(const std::vector<std::string>& lockedAnchors)
 {
     _lockedAnchors = lockedAnchors;
 }
 std::vector<std::string> Oomee::getLockedAnchors() const
 {
     return _lockedAnchors;
+}
+
+void Oomee::setDefaultAccessories(const std::vector<std::string>& defaultAccessories)
+{
+    _defaultAccessories = defaultAccessories;
+}
+std::vector<std::string> Oomee::getDefaultAccessories() const
+{
+    return _defaultAccessories;
+}
+
+void Oomee::setIncompatableAccessories(const std::vector<std::string>& incompatableAccessories)
+{
+    _incompatibleAccessories = incompatableAccessories;
+}
+std::vector<std::string> Oomee::getIncompatableAccessories() const
+{
+    return _incompatibleAccessories;
 }
 
 void Oomee::setPosition(const cocos2d::Vec2& position)
@@ -93,13 +128,14 @@ float Oomee::getSizeMultiplier() const
     return _sizeMultiplier;
 }
 
-void Oomee::setAssetName(const std::string& assetName)
+void Oomee::setAssetSet(const AssetMap& assetSet)
 {
-    _assetName = assetName;
+    _assetSet = assetSet;
 }
-std::string Oomee::getAssetName() const
+
+Oomee::AssetMap Oomee::getAssetSet() const
 {
-    return _assetName;
+    return _assetSet;
 }
 
 NS_AZOOMEE_OM_END

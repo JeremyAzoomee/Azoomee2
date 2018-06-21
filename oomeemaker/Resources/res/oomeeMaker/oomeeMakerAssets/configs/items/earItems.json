@@ -4,27 +4,36 @@
 	{
 		"id": "ears01",
 		"targetAnchor": "ears",
-		"offset": [0.0,0.0],
+		"offset": [0.0,-20.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "ears",
-		"assetFilename": "assets/ears/ears_01.png",
+		"iconFilename": "assets/ears/Oomee_Ears_Yellow.png",
+		"assetSet": {
+			"base": ["assets/ears/Oomee_Ear_Solid.png",0],
+			"gradient": ["assets/ears/Oomee_Ear_Gradient.png",1],
+			"shadowLight": ["assets/ears/Oomee_Ear_Shadow.png",2]
+		},
 		"useColourHue": true
 	},
 	{
 		"id": "ears02",
 		"targetAnchor": "ears",
-		"offset": [0.0,-65.0],
+		"offset": [0.0,-45.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "ears",
-		"assetFilename": "assets/ears/ears_02.png",
+		"iconFilename": "assets/ears/Oomee_Ears_Blue.png",
+		"assetSet": {
+			"faceGradient": ["assets/ears/ear02_Solid.png",0],
+			"shadowLight": ["assets/ears/ear02_Gradient.png",1]
+		},
 		"useColourHue": true
 	},
 	{
@@ -37,76 +46,272 @@
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "ears",
-		"assetFilename": "assets/ears/ears_03.png",
+		"iconFilename": "assets/ears/EarsRed.png",
+		"assetSet": {
+			"base": ["assets/ears/ear03_Solid.png",0],
+			"gradient": ["assets/ears/ear03_Gradient.png",1]
+		},
 		"useColourHue": true
 	},
 	{
 		"id": "ears04",
 		"targetAnchor": "ears",
-		"offset": [0.0,-30.0],
+		"offset": [0.0,-40.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "ears",
-		"assetFilename": "assets/ears/ears_04.png",
+		"iconFilename": "assets/ears/EarsBlack.png",
+		"assetSet": {
+			"shadowLight": ["assets/ears/ear04_Base.png",0],
+			"base": ["assets/ears/ear04_Stripe.png",1],
+			"shadow": ["assets/ears/ear04_Shadow.png",2],
+			"gloss": ["assets/ears/ear04_Highlight.png",3]
+		},
 		"useColourHue": true
 	},
 	{
 		"id": "ears05",
 		"targetAnchor": "ears",
-		"offset": [0.0,0.0],
+		"offset": [0.0,-45.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "ears",
-		"assetFilename": "assets/ears/ears_05.png",
+		"iconFilename": "assets/ears/EarsAqua.png",
+		"assetSet": {
+			"base": ["assets/ears/ear05_Solid.png",0],
+			"shadow": ["assets/ears/ear05_Dark.png",1],
+			"gloss": ["assets/ears/ear05_Top.png",2]
+		},
 		"useColourHue": true
 	},
 	{
 		"id": "ears06",
 		"targetAnchor": "ears",
-		"offset": [0.0,-30.0],
+		"offset": [0.0,-15.0],
 		"snapRange": [100.0,100.0],
-		"menuScale": 0.75,
+		"menuScale": 1.0,
 		"dragScale": 2.0,
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "ears",
-		"assetFilename": "assets/ears/ears_06.png",
+		"iconFilename": "assets/ears/EarsLightRed.png",
+		"assetSet": {
+			"base": ["assets/ears/ear06_Solid.png",0],
+			"gradient": ["assets/ears/ear06_Gradient.png",1],
+			"highlight": ["assets/ears/ear06_Top.png",2]
+		},
 		"useColourHue": true
 	},
 	{
 		"id": "ears07",
 		"targetAnchor": "ears",
-		"offset": [0.0,0.0],
+		"offset": [0.0,30.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "ears",
-		"assetFilename": "assets/ears/ears_07.png",
+		"iconFilename": "assets/ears/EarsYellow2.png",
+		"assetSet": {
+			"base": ["assets/ears/ear07_Solid.png",0],
+			"gradient": ["assets/ears/ear07_Gradient.png",1]
+		},
 		"useColourHue": true
 	},
 	{
 		"id": "ears08",
 		"targetAnchor": "ears",
-		"offset": [0.0,0.0],
+		"offset": [0.0,25.0],
 		"snapRange": [100.0,100.0],
 		"menuScale": 1.0,
 		"dragScale": 2.0,
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "ears",
-		"assetFilename": "assets/ears/ears_08.png",
+		"iconFilename": "assets/ears/EarsYellow3.png",
+		"assetSet": {
+			"base": ["assets/ears/ear08_Solid.png",0],
+			"gradient": ["assets/ears/ear08_Gradient.png",1],
+			"highlight": ["assets/ears/ear08_Highlight.png",2]
+		},
 		"useColourHue": true
 	},
 	{
 		"id": "ears09",
+		"targetAnchor": "ears",
+		"offset": [0.0,15.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "ears",
+		"iconFilename": "assets/ears/PinkAntena2.png",
+		"assetSet": {
+			"base": ["assets/ears/ear09_Solid.png",0],
+			"gradient": ["assets/ears/ear09_Gradient.png",1],
+			"highlight": ["assets/ears/ear09_Top.png",2]
+		},
+		"useColourHue": true
+	},
+	{
+		"id": "ears10",
+		"targetAnchor": "ears",
+		"offset": [0.0,-70.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "ears",
+		"iconFilename": "assets/ears/EarsDarkPink.png",
+		"assetSet": {
+			"base": ["assets/ears/ear10_Solid.png",0],
+			"highlight": ["assets/ears/ear10_Top.png",1]
+		},
+		"useColourHue": true
+	},
+	{
+		"id": "ears11",
+		"targetAnchor": "ears",
+		"offset": [0.0,40.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "ears",
+		"iconFilename": "assets/ears/PurpleAntenna2.png",
+		"assetSet": {
+			"base": ["assets/ears/ear11_Solid.png",0]
+		},
+		"useColourHue": true
+	},
+	{
+		"id": "ears12",
+		"targetAnchor": "ears",
+		"offset": [-60.0,25.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "ears",
+		"iconFilename": "assets/ears/OrangeAntenna2.png",
+		"assetSet": {
+			"base": ["assets/ears/ear12_Bottom.png",1],
+			"highlight": ["assets/ears/ear12_Solid.png",0],
+			"gloss": ["assets/ears/ear12_Top.png",2]
+
+		},
+		"useColourHue": true
+	},
+	{
+		"id": "ears13",
+		"targetAnchor": "ears",
+		"offset": [0.0,50.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "ears",
+		"iconFilename": "assets/ears/OrangeAntenna3.png",
+		"assetSet": {
+			"face": ["assets/ears/ear13_Solid.png",0],
+			"gradient": ["assets/ears/ear13_Gradient.png",1],
+			"highlight": ["assets/ears/ear13_Top.png",2],
+			"shadowLight": ["assets/ears/ear13_Shadow.png",3]
+
+		},
+		"useColourHue": true
+	},
+	{
+		"id": "ears14",
+		"targetAnchor": "ears",
+		"offset": [0.0,-20.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "ears",
+		"iconFilename": "assets/ears/EarsBlue2.png",
+		"assetSet": {
+			"highlight": ["assets/ears/ear14_Solid.png",0],
+			"shadowLight": ["assets/ears/ear14_Gradient.png",1],
+			"base": ["assets/ears/ear14_Top.png",2],
+			"gradient": ["assets/ears/ear14_TopGradient.png",3]
+
+		},
+		"useColourHue": true
+	},
+	{
+		"id": "ears15",
+		"targetAnchor": "ears",
+		"offset": [0.0,-60.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "ears",
+		"iconFilename": "assets/ears/EarsGreen.png",
+		"assetSet": {
+			"base": ["assets/ears/ear15_Solid.png",0],
+			"gradient": ["assets/ears/ear15_Gradient.png",1],
+			"highlight": ["assets/ears/ear15_Top.png",3],
+			"none": ["assets/ears/EarsGreen.2.png",2]
+
+		},
+		"useColourHue": true
+	},
+	{
+		"id": "ears16",
+		"targetAnchor": "ears",
+		"offset": [0.0,15.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "ears",
+		"iconFilename": "assets/ears/EarsRed2.png",
+		"assetSet": {
+			"base": ["assets/ears/ear16_Solid.png",0],
+			"highlight": ["assets/ears/ear16_Top.png",1]
+		},
+		"useColourHue": true
+	},
+	{
+		"id": "ears17",
+		"targetAnchor": "ears",
+		"offset": [0.0,15.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 5,
+		"categoryId": "hats",
+		"iconFilename": "assets/ears/EarsAqua2.png",
+		"assetSet": {
+			"base": ["assets/ears/ear17_Solid.png",0],
+			"gradient": ["assets/ears/ear17_Bottom.png",1],
+			"gloss": ["assets/ears/ear17_Top.png",2],
+			"none": ["assets/ears/Hat21.png",3]
+
+		},
+		"useColourHue": true
+	},
+	{
+		"id": "ears18",
 		"targetAnchor": "ears",
 		"offset": [0.0,0.0],
 		"snapRange": [100.0,100.0],
@@ -115,7 +320,80 @@
 		"targetScale": 1.0,
 		"zOrder": -1,
 		"categoryId": "ears",
-		"assetFilename": "assets/ears/ears_09.png",
+		"iconFilename": "assets/ears/EarsLightRed2.png",
+		"assetSet": {
+			"base": ["assets/ears/ear18_Solid.png",0]
+		},
+		"useColourHue": true
+	},
+	{
+		"id": "antenna01",
+		"targetAnchor": "ears",
+		"offset": [0.0,25.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "ears",
+		"iconFilename": "assets/hair/antenna_Pink.png",
+		"assetSet": {
+			"base": ["assets/hair/antenna01_Solid.png",0],
+			"gradient": ["assets/hair/antenna01_Gradient.png",1]
+		},
+		"useColourHue": true
+	},
+	{
+		"id": "antenna02",
+		"targetAnchor": "ears",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "ears",
+		"iconFilename": "assets/hair/antenna_DarkPink.png",
+		"assetSet": {
+			"base": ["assets/hair/antenna02.png",0]
+		},
+		"useColourHue": true
+	},
+	{
+		"id": "antenna03",
+		"targetAnchor": "ears",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "ears",
+		"iconFilename": "assets/hair/antenna_Purple.png",
+		"assetSet": {
+			"gradient": ["assets/hair/antenna03_Bottom.png",0],
+			"base": ["assets/hair/antenna03_Middle.png",1],
+			"highlight": ["assets/hair/antenna03_Top.png",2],
+			"gloss": ["assets/hair/antenna03_Top_Shadow.png",3]
+		},
+		"useColourHue": true
+	},
+	{
+		"id": "antenna04",
+		"targetAnchor": "ears",
+		"offset": [0.0,5.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": -1,
+		"categoryId": "ears",
+		"iconFilename": "assets/hair/antenna_Orange.png",
+		"assetSet": {
+			"highlight": ["assets/hair/antenna04_Bottom.png",0],
+			"face": ["assets/hair/antenna04_Middle.png",1],
+			"gloss": ["assets/hair/antenna04_Top.png",2]
+		},
 		"useColourHue": true
 	}
 ]

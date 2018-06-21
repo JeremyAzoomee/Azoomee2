@@ -19,7 +19,7 @@ using namespace cocos2d;
 
 NS_AZOOMEE_OM_BEGIN
 
-const std::string OomeeMakerScene::kDefaultOomeeId = "oomee01";
+const std::string OomeeMakerScene::kDefaultOomeeId = "yellow";
 const std::string OomeeMakerScene::kColourCategoryId = "colours";
 
 // on "init" you need to initialize your instance
@@ -50,8 +50,9 @@ void OomeeMakerScene::onEnter()
     const std::vector<ItemCategoryRef>& categoryData = OomeeMakerDataStorage::getInstance()->getItemCategoryList();
     
     _oomee = OomeeFigure::create();
-    _oomee->setOomeeData(oomeeData);
     _oomee->setContentSize(_contentLayer->getContentSize());
+    _oomee->setOomeeData(oomeeData);
+    _oomee->setColour(OomeeMakerDataStorage::getInstance()->getColourForKey(kDefaultOomeeId));
     _oomee->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     _oomee->setEditable(true);
     if(FileUtils::getInstance()->isFileExist(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".oomee"))
@@ -59,10 +60,6 @@ void OomeeMakerScene::onEnter()
         rapidjson::Document data;
         data.Parse(FileUtils::getInstance()->getStringFromFile(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".oomee").c_str());
         _oomee->initWithOomeeFigureData(data);
-    }
-    else
-    {
-        _oomee->addDefaultAccessories();
     }
     _contentLayer->addChild(_oomee);
     
@@ -85,8 +82,16 @@ void OomeeMakerScene::onEnter()
     _itemList->setItemSelectedCallback([this](const OomeeItemRef& data) {
         this->addAccessoryToOomee(data);
     });
-    _itemList->setColourSelectedCallback([this](float hue){
-        _oomee->setHue(hue);
+    //_itemList->setColourSelectedCallback([this](float hue){
+    //    _oomee->setHue(hue);
+    //});
+    _itemList->setColourSelectedCallback([this](const OomeeColourRef& colour){
+        const OomeeRef& oomee = OomeeMakerDataStorage::getInstance()->getOomeeForKey(colour->getId());
+        if(oomee)
+        {
+            _oomee->setOomeeData(oomee);
+        }
+        _oomee->setColour(colour);
     });
     _itemList->runAction(Sequence::create(DelayTime::create(0.5),MoveBy::create(1.5, Vec2(-_itemList->getContentSize().width, 0)), NULL));
     categories->setSelectedButton(categoryData.at(0));
@@ -132,7 +137,14 @@ void OomeeMakerScene::setItemsListForCategory(const ItemCategoryRef& data)
         }
         else
         {
-            _itemList->setItems(OomeeMakerDataStorage::getInstance()->getItemsForCategory(data->getId()));
+            if(_oomee)
+            {
+                _itemList->setItems(OomeeMakerDataStorage::getInstance()->getFilteredItemsForCategory(data->getId(), _oomee->getOomeeData()));
+            }
+            else
+            {
+                _itemList->setItems(OomeeMakerDataStorage::getInstance()->getItemsForCategory(data->getId()));
+            }
         }
     }
 }
@@ -168,7 +180,7 @@ void OomeeMakerScene::saveOomeeFiles()
             savedFileContent += ",";
         }
     }
-    savedFileContent += StringUtils::format("], \"colourHue\": %f }", _oomee->getHue());
+    savedFileContent += StringUtils::format("], \"colour\": \"%s\" }", _oomee->getColour()->getId().c_str());
     
     FileUtils::getInstance()->writeStringToFile(savedFileContent, OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".oomee");
     

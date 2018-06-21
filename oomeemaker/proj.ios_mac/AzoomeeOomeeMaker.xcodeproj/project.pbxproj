@@ -39,6 +39,14 @@
 		521A8E6519F0C34300D177D7 /* Default-736h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 521A8E6319F0C34300D177D7 /* Default-736h@3x.png */; };
 		521A8EA919F11F5000D177D7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
 		52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B47A461A53D09B004E4C60 /* Security.framework */; };
+		9227577220C5532800C66BCD /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9227576C20C5532800C66BCD /* AdSupport.framework */; };
+		9227577420C5537B00C66BCD /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9227577320C5537B00C66BCD /* LocalAuthentication.framework */; };
+		9227577820C5730200C66BCD /* OomeeColour.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9227577720C5730200C66BCD /* OomeeColour.cpp */; };
+		9227577920C5730200C66BCD /* OomeeColour.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9227577720C5730200C66BCD /* OomeeColour.cpp */; };
+		9227577B20C57B7800C66BCD /* OomeeAccessory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9227577A20C57B7800C66BCD /* OomeeAccessory.cpp */; };
+		9227577C20C57B7800C66BCD /* OomeeAccessory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9227577A20C57B7800C66BCD /* OomeeAccessory.cpp */; };
+		9227577F20C587EE00C66BCD /* OomeeBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9227577E20C587EE00C66BCD /* OomeeBody.cpp */; };
+		9227578020C587EE00C66BCD /* OomeeBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9227577E20C587EE00C66BCD /* OomeeBody.cpp */; };
 		924398A5205BE22500CEDC1D /* OomeeCarouselButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924398A4205BE22500CEDC1D /* OomeeCarouselButton.cpp */; };
 		924398A6205BE22500CEDC1D /* OomeeCarouselButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924398A4205BE22500CEDC1D /* OomeeCarouselButton.cpp */; };
 		9271D7362035BD8C00370120 /* libAzoomeeCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9220EC7720333C4000BD7A90 /* libAzoomeeCommon.a */; };
@@ -220,6 +228,14 @@
 		9220EC7220333C4000BD7A90 /* AzoomeeCommon.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AzoomeeCommon.xcodeproj; path = ../../../azoomee2/common/proj.ios_mac/AzoomeeCommon.xcodeproj; sourceTree = "<group>"; };
 		9220ECAF20333E8800BD7A90 /* cocos2d_libs.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2d_libs.xcodeproj; path = "../../../cocos2d-x-modded/cocos2d/build/cocos2d_libs.xcodeproj"; sourceTree = "<group>"; };
 		9220ECBB20333EA600BD7A90 /* cocos2d_libs.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2d_libs.xcodeproj; path = "../../../cocos2d-x-modded/cocos2d/build/cocos2d_libs.xcodeproj"; sourceTree = "<group>"; };
+		9227576C20C5532800C66BCD /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/AdSupport.framework; sourceTree = DEVELOPER_DIR; };
+		9227577320C5537B00C66BCD /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/LocalAuthentication.framework; sourceTree = DEVELOPER_DIR; };
+		9227577520C56DA400C66BCD /* OomeeAccessory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OomeeAccessory.h; sourceTree = "<group>"; };
+		9227577620C5717F00C66BCD /* OomeeColour.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OomeeColour.h; sourceTree = "<group>"; };
+		9227577720C5730200C66BCD /* OomeeColour.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeColour.cpp; sourceTree = "<group>"; };
+		9227577A20C57B7800C66BCD /* OomeeAccessory.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeAccessory.cpp; sourceTree = "<group>"; };
+		9227577D20C585FE00C66BCD /* OomeeBody.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OomeeBody.h; sourceTree = "<group>"; };
+		9227577E20C587EE00C66BCD /* OomeeBody.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeBody.cpp; sourceTree = "<group>"; };
 		9243989E205BE20800CEDC1D /* OomeeCarouselButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OomeeCarouselButton.h; sourceTree = "<group>"; };
 		924398A4205BE22500CEDC1D /* OomeeCarouselButton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeCarouselButton.cpp; sourceTree = "<group>"; };
 		9271D76C20372E0200370120 /* ItemCategoryButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ItemCategoryButton.h; sourceTree = "<group>"; };
@@ -280,6 +296,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9227577420C5537B00C66BCD /* LocalAuthentication.framework in Frameworks */,
+				9227577220C5532800C66BCD /* AdSupport.framework in Frameworks */,
 				9271D8152046B86F00370120 /* Crashlytics.framework in Frameworks */,
 				9271D8162046B86F00370120 /* Fabric.framework in Frameworks */,
 				9271D8122046B86E00370120 /* AppsFlyerLib.framework in Frameworks */,
@@ -355,6 +373,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9227577320C5537B00C66BCD /* LocalAuthentication.framework */,
+				9227576C20C5532800C66BCD /* AdSupport.framework */,
 				9271D8182046B8FB00370120 /* libicucore.tbd */,
 				9271D8132046B86E00370120 /* Crashlytics.framework */,
 				9271D8142046B86F00370120 /* Fabric.framework */,
@@ -512,6 +532,10 @@
 				9271D8082045A26800370120 /* OomeeCarousel.cpp */,
 				9243989E205BE20800CEDC1D /* OomeeCarouselButton.h */,
 				924398A4205BE22500CEDC1D /* OomeeCarouselButton.cpp */,
+				9227577520C56DA400C66BCD /* OomeeAccessory.h */,
+				9227577A20C57B7800C66BCD /* OomeeAccessory.cpp */,
+				9227577D20C585FE00C66BCD /* OomeeBody.h */,
+				9227577E20C587EE00C66BCD /* OomeeBody.cpp */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -540,6 +564,8 @@
 				92BEEFE120359C7800B32059 /* ItemCategory.cpp */,
 				92BEEFDD20347C3200B32059 /* OomeeItem.h */,
 				92BEEFE320359C8B00B32059 /* OomeeItem.cpp */,
+				9227577620C5717F00C66BCD /* OomeeColour.h */,
+				9227577720C5730200C66BCD /* OomeeColour.cpp */,
 			);
 			path = DataObjects;
 			sourceTree = "<group>";
@@ -749,8 +775,10 @@
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				92BEEFE020359C5500B32059 /* Oomee.cpp in Sources */,
 				92BEEFD12034532E00B32059 /* AzoomeeOomeeMaker.cpp in Sources */,
+				9227577820C5730200C66BCD /* OomeeColour.cpp in Sources */,
 				9271D778203AFEB700370120 /* ItemCategoryList.cpp in Sources */,
 				9271D774203AE3FA00370120 /* OomeeItemList.cpp in Sources */,
+				9227577B20C57B7800C66BCD /* OomeeAccessory.cpp in Sources */,
 				92BEEFE820359D3F00B32059 /* OomeeMakerDataHandler.cpp in Sources */,
 				9271D77A203B0ED400370120 /* OomeeFigure.cpp in Sources */,
 				924398A5205BE22500CEDC1D /* OomeeCarouselButton.cpp in Sources */,
@@ -764,6 +792,7 @@
 				92BEEFE220359C7800B32059 /* ItemCategory.cpp in Sources */,
 				92BEEFE420359C8B00B32059 /* OomeeItem.cpp in Sources */,
 				9271D776203AFAEC00370120 /* ItemCategoryButton.cpp in Sources */,
+				9227577F20C587EE00C66BCD /* OomeeBody.cpp in Sources */,
 				9271D787203DBE5C00370120 /* OomeeSelectScene.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 			);
@@ -778,13 +807,16 @@
 				9271D7B520404CCA00370120 /* OomeeMakerDataHandler.cpp in Sources */,
 				9271D7B620404CCA00370120 /* Oomee.cpp in Sources */,
 				9271D7B720404CCA00370120 /* ItemCategory.cpp in Sources */,
+				9227577920C5730200C66BCD /* OomeeColour.cpp in Sources */,
 				9271D7B820404CCA00370120 /* OomeeItem.cpp in Sources */,
 				9271D7B920404CCA00370120 /* ItemCategoryButton.cpp in Sources */,
 				924398A6205BE22500CEDC1D /* OomeeCarouselButton.cpp in Sources */,
 				9271D7BA20404CCA00370120 /* ItemCategoryList.cpp in Sources */,
+				9227577C20C57B7800C66BCD /* OomeeAccessory.cpp in Sources */,
 				9271D7BB20404CCA00370120 /* OomeeItemButton.cpp in Sources */,
 				9271D7BC20404CCA00370120 /* OomeeItemList.cpp in Sources */,
 				9271D7BD20404CCA00370120 /* OomeeFigure.cpp in Sources */,
+				9227578020C587EE00C66BCD /* OomeeBody.cpp in Sources */,
 				9271D7BE20404CCA00370120 /* DragAndDropController.cpp in Sources */,
 				9271D80A2045AD6100370120 /* OomeeCarousel.cpp in Sources */,
 				9271D7BF20404CCA00370120 /* OomeeMakerScene.cpp in Sources */,

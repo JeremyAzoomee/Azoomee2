@@ -10,6 +10,7 @@
 
 #include "../AzoomeeOomeeMaker.h"
 #include "../DataObjects/OomeeItem.h"
+#include "../DataObjects/OomeeColour.h"
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 
@@ -19,7 +20,8 @@ class OomeeItemList : public cocos2d::ui::ListView
 {
     typedef cocos2d::ui::ListView Super;
     typedef std::function<void(const OomeeItemRef&)> ItemSelectedCallback;
-    typedef std::function<void(float hue)> ColourSelectedCallback;
+    //typedef std::function<void(float hue)> ColourSelectedCallback;
+    typedef std::function<void(const OomeeColourRef&)> ColourSelectedCallback;
     
 private:
     static const int kNumColours;
@@ -27,7 +29,7 @@ private:
     std::vector<OomeeItemRef> _itemList;
     ItemSelectedCallback _itemSelectedCallback = nullptr;
     ColourSelectedCallback _colourSelectedCallback = nullptr;
-    int _columns = 2;
+    int _columns = 1;
     
 protected:
     virtual void doLayout() override;
