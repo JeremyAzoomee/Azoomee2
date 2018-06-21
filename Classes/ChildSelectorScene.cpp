@@ -25,7 +25,7 @@
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 #include <AzoomeeCommon/Utils/ActionBuilder.h>
 
-#define OOMEE_LAYER_WIDTH 300
+#define OOMEE_LAYER_WIDTH 450
 #define OOMEE_LAYER_HEIGHT 450
 #define OOMEE_LAYER_GAP 210
 
@@ -208,10 +208,11 @@ Layer *ChildSelectorScene::createChildProfileButton(std::string profileName, int
     }
     
     auto oomee = RemoteImageSprite::create();
-    oomee->initWithUrlAndSizeWithoutPlaceholder(ParentDataProvider::getInstance()->getAvatarForAnAvailableChild(childNum), Size(182, 256));
+    oomee->initWithUrlAndSizeWithoutPlaceholder(ParentDataProvider::getInstance()->getAvatarForAnAvailableChild(childNum), Size(320, 320));
+    oomee->setKeepAspectRatio(true);
     //auto oomee = Sprite::create(StringUtils::format("res/childSelection/%s.png", ConfigStorage::getInstance()->getNameForOomee(oomeeNumber).c_str()));
     oomee->setPosition(profileLayer->getContentSize().width / 2, profileLayer->getContentSize().height /2);
-    oomee->setScale(1.25);
+    //oomee->setScale(1.25);
     profileLayer->addChild(oomee);
     
     if(_firstTime)
