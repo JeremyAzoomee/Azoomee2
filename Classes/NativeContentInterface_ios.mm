@@ -9,7 +9,7 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-WebViewController *webViewController;
+WebViewController *webViewController = nil;
 
 Scene* NativeContentInterface_ios::createSceneWithURL(const std::string &url, const Vec2& closeButtonAnchor)
 {
@@ -36,6 +36,12 @@ void NativeContentInterface_ios::onEnterTransitionDidFinish()
     this->setName("iosWebView");
 }
 
+void NativeContentInterface_ios::onExit()
+{
+    webViewController = nil;
+    Layer::onExit();
+}
+
 //-------------------------------------------All methods are private after this line---------------------------------------
 
 void NativeContentInterface_ios::loadContentBasedOnUrl(const std::string &url, const Vec2& closeButtonAnchor)
@@ -52,13 +58,19 @@ void NativeContentInterface_ios::loadContentBasedOnUrl(const std::string &url, c
 
 void NativeContentInterface_ios::removeWebViewFromScreen()
 {
-    [webViewController removeWebViewWhileInBackground];
+    if(webViewController != nil)
+    {
+        [webViewController removeWebViewWhileInBackground];
+    }
 }
 
 void NativeContentInterface_ios::reAddWebViewToScreen()
 {
-    [webViewController addWebViewToScreen];
-    [webViewController createButton];
+    if(webViewController != nil)
+    {
+        [webViewController addWebViewToScreen];
+        [webViewController createButton];
+    }
 }
 
 void NativeContentInterface_ios::addMediaPlayerToScreen(const std::string &url)
