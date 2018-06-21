@@ -13,6 +13,7 @@ public:
     cocos2d::Sprite *closeButton;
     static cocos2d::Scene* createSceneWithURL(const std::string &url, const cocos2d::Vec2& closeButtonAnchor);
     virtual bool init();
+    virtual void onExit();
     void onEnterTransitionDidFinish();
     void removeWebViewFromScreen();
     void reAddWebViewToScreen();

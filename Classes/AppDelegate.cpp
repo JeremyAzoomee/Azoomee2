@@ -53,8 +53,11 @@ void AppDelegate::applicationDidEnterBackground()
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     if(Director::getInstance()->getRunningScene()->getChildByName("iosWebView"))
     {
-        NativeContentInterface_ios *webview = (NativeContentInterface_ios*)Director::getInstance()->getRunningScene()->getChildByName("iosWebView");
-        webview->removeWebViewFromScreen();
+        NativeContentInterface_ios *webview = dynamic_cast<NativeContentInterface_ios*>(Director::getInstance()->getRunningScene()->getChildByName("iosWebView"));
+        if(webview)
+        {
+            webview->removeWebViewFromScreen();
+        }
     }
     
 #endif
@@ -78,8 +81,11 @@ void AppDelegate::applicationWillEnterForeground()
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     if(Director::getInstance()->getRunningScene()->getChildByName("iosWebView"))
     {
-        NativeContentInterface_ios *webview = (NativeContentInterface_ios*)Director::getInstance()->getRunningScene()->getChildByName("iosWebView");
-        webview->reAddWebViewToScreen();
+        NativeContentInterface_ios *webview = dynamic_cast<NativeContentInterface_ios*>(Director::getInstance()->getRunningScene()->getChildByName("iosWebView"));
+        if(webview)
+        {
+            webview->reAddWebViewToScreen();
+        }
     }
 #endif
     
