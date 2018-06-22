@@ -165,7 +165,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         case SettingsFromChat:
         {
             forceToLandscape();
-            cocos2d::Scene* goToScene = EmptySceneForSettings::createScene(CHAT);
+            cocos2d::Scene* goToScene = EmptySceneForSettings::createScene(SettingsOrigin::CHAT);
             AnalyticsSingleton::getInstance()->registerCurrentScene("SETTINGS");
             Director::getInstance()->replaceScene(goToScene);
             break;
@@ -173,7 +173,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         case Settings:
         {
             forceToLandscape();
-            cocos2d::Scene* goToScene = EmptySceneForSettings::createScene(MAIN_APP);
+            cocos2d::Scene* goToScene = EmptySceneForSettings::createScene(SettingsOrigin::MAIN_APP);
             AnalyticsSingleton::getInstance()->registerCurrentScene("SETTINGS");
             Director::getInstance()->replaceScene(goToScene);
             break;

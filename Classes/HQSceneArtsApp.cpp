@@ -21,7 +21,7 @@ bool HQSceneArtsApp::init()
     }
     
     _visibleSize = Director::getInstance()->getVisibleSize();
-    _origin = Vec2(0,0);//Director::getInstance()->getVisibleOrigin();
+    _origin = Vec2(0,0);
     
     if(ConfigStorage::getInstance()->isDeviceIphoneX())
     {
@@ -29,7 +29,7 @@ bool HQSceneArtsApp::init()
         _origin.x += 100;
     }
     
-    setContentSize(Size(_visibleSize.width,_rows * ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP").height));
+    setContentSize(Size(_visibleSize.width,_rows * ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kArtAppHQName).height));
     setPosition(_origin);
     
     return true;
@@ -55,7 +55,7 @@ void HQSceneArtsApp::setOriginPosition(cocos2d::Point origin)
 void HQSceneArtsApp::setSize(cocos2d::Size size)
 {
     _visibleSize = size;
-    setContentSize(Size(_visibleSize.width, _rows * ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP").height));
+    setContentSize(Size(_visibleSize.width, _rows * ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kArtAppHQName).height));
 }
 
 void HQSceneArtsApp::setShowPrivacyButton(bool showPrivacyButton)
@@ -66,7 +66,7 @@ void HQSceneArtsApp::setShowPrivacyButton(bool showPrivacyButton)
 void HQSceneArtsApp::setRows(int rows)
 {
     _rows = rows;
-    setContentSize(Size(_visibleSize.width, _rows * ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP").height));
+    setContentSize(Size(_visibleSize.width, _rows * ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kArtAppHQName).height));
 }
 
 //------------------ All functions below this line are used internally ----------------------------
@@ -132,7 +132,7 @@ void HQSceneArtsApp::addCreatedImagesToHorizontalScrollView(cocos2d::ui::ScrollV
 void HQSceneArtsApp::addImageToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, const std::string& imagePath, bool deletable, bool newImage)
 {
     auto artImage = ArtsAppHQElement::create();
-    artImage->initWithURLAndSize(imagePath, ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP"), deletable, newImage);
+    artImage->initWithURLAndSize(imagePath, ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kArtAppHQName), deletable, newImage);
     
     toBeAddedTo->addChild(artImage);
     

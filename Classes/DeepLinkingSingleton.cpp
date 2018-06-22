@@ -182,10 +182,10 @@ void DeepLinkingSingleton::moveToHQ(const std::string& hqName)
 {
     AnalyticsSingleton::getInstance()->deepLinkingMoveToEvent(path);
     
-    auto baseLayer = Director::getInstance()->getRunningScene()->getChildByName("baseLayer");
+    auto baseLayer = Director::getInstance()->getRunningScene();
     if(baseLayer)
     {
-        NavigationLayer *navigationLayer = (NavigationLayer *)baseLayer->getChildByName("NavigationLayer");
+        NavigationLayer *navigationLayer = dynamic_cast<NavigationLayer*>(baseLayer->getChildByName(ConfigStorage::kNavigationLayerName));
         
         if(navigationLayer)
         {

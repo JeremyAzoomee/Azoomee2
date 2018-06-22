@@ -260,7 +260,7 @@ void ArtsAppHQElement::addListenerToDeleteButton(cocos2d::Sprite *toBeAddedTo)
                 FileUtils::getInstance()->removeFile(_imageURL);
                 if(!HQHistoryManager::getInstance()->isOffline)
                 {
-                    HQScene2 *hqScene = (HQScene2 *)Director::getInstance()->getRunningScene()->getChildByName("contentLayer")->getChildByName(ConfigStorage::kArtAppHQName);
+                    HQScene2 *hqScene = (HQScene2 *)Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName)->getChildByName(ConfigStorage::kArtAppHQName);
                     hqScene->removeAllChildren();
                     Director::getInstance()->purgeCachedData();
                     hqScene->startBuildingScrollView();
@@ -333,9 +333,9 @@ void ArtsAppHQElement::addListenerToElement()
     
     listener->onTouchEnded = [=](Touch *touch, Event *event)
     {
-        if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer"))
+        if(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName))
         {
-            if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0)
+            if(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName)->getNumberOfRunningActions() > 0)
             {
                 return false;
             }

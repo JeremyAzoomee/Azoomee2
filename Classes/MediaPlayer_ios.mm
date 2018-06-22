@@ -9,6 +9,8 @@
 #import "MediaPlayer_ios.h"
 #import "ios_Cocos2d_Callbacks.h"
 
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+
 @implementation MediaPlayerController
 
 - (id)init
@@ -67,7 +69,10 @@
     
     self.playerController.player = self.queuePlayer;
     [self.playerController.view setFrame:CGRectMake(0, 0, bounds.size.width, bounds.size.height)];
-    self.playerController.allowsPictureInPicturePlayback = false;
+    if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9.0"))
+    {
+        self.playerController.allowsPictureInPicturePlayback = false;
+    }
     
     [self.view addSubview:self.playerController.view];
     

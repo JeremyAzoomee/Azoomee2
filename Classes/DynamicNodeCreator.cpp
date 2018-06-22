@@ -32,6 +32,8 @@ const std::string DynamicNodeCreator::kCTAAssetLoc = "res/cta_assets/";
 const std::string DynamicNodeCreator::kCTABundleImageLoc = "res/cta_assets/cta_bundle/images/";
 const std::string DynamicNodeCreator::kCTADeviceImageCacheLoc = "DCDECache/images/";
 
+const std::string DynamicNodeCreator::kPortraitPrefix = "/p_";
+
 DynamicNodeCreator* DynamicNodeCreator::getInstance()
 {
     if(!sDynamicNodeCreatorSharedInstance.get())
@@ -64,9 +66,9 @@ Node* DynamicNodeCreator::createCTAFromFile(const std::string& filepath)
         std::string filename = stringVec.back();
         stringVec.pop_back();
         const std::string& path = joinStrings(stringVec, "/");
-        if(FileUtils::getInstance()->isFileExist(path + "/p_" + filename))
+        if(FileUtils::getInstance()->isFileExist(path + kPortraitPrefix + filename))
         {
-            configFilePath = path + "/p_" + filename;
+            configFilePath = path + kPortraitPrefix + filename;
             _portraitMode = true;
         }
     }
@@ -104,9 +106,9 @@ Node* DynamicNodeCreator::createCTAFromFileWithParams(const std::string& filepat
         std::string filename = stringVec.back();
         stringVec.pop_back();
         const std::string& path = joinStrings(stringVec, "/");
-        if(FileUtils::getInstance()->isFileExist(path + "/p_" + filename))
+        if(FileUtils::getInstance()->isFileExist(path + kPortraitPrefix + filename))
         {
-            configFilePath = path + "/p_" + filename;
+            configFilePath = path + kPortraitPrefix + filename;
             _portraitMode = true;
         }
     }

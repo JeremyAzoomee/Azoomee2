@@ -14,7 +14,7 @@
 
 NS_AZOOMEE_BEGIN
 
-enum UserType {ANON, LAPSED, PAID};
+enum class UserType {ANON, LAPSED, PAID};
 
 class UserTypeMessagingLayer : public cocos2d::Layer
 {
