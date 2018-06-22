@@ -197,7 +197,7 @@ void TitleBarWidget::updateTitleLayout()
         _titleLayout->setLayoutType(ui::Layout::Type::HORIZONTAL);
         
         _avatarWidget->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(85.0f, 0.0f, 0.0f, 0.0f)));
-        _titleLabel->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(30.0f, 0.0f, 0.0f, 0.0f)));
+        _titleLabel->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(100.0f, 0.0f, 0.0f, 0.0f)));
     }
     else
     {

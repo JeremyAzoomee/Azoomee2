@@ -68,7 +68,7 @@ void MeHQMessages::setRefreshCallback(const RefreshLayoutCallback& callback)
 
 void MeHQMessages::buildEmptyCarousel()
 {
-    int isPortrait = Director::getInstance()->getVisibleSize().width < Director::getInstance()->getVisibleSize().height;
+    bool isPortrait = Director::getInstance()->getVisibleSize().width < Director::getInstance()->getVisibleSize().height;
     
     ui::ImageView* msgLogo = ui::ImageView::create("res/meHQ/mail.png");
     msgLogo->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -113,6 +113,8 @@ void MeHQMessages::buildEmptyCarousel()
 
 void MeHQMessages::createMessageList()
 {
+    bool isPortrait = Director::getInstance()->getVisibleSize().width < Director::getInstance()->getVisibleSize().height;
+    
     float totalHeight = 200;
     
     this->removeAllChildren();
@@ -147,13 +149,15 @@ void MeHQMessages::createMessageList()
             
             avatar->setAvatarForFriend(*friendIt);
             avatar->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-            avatar->setNormalizedPosition(Vec2(0.12,0.5));
+            avatar->setNormalizedPosition(Vec2(isPortrait ? 0.15 : 0.1,0.5));
             avatar->setContentSize(Size(300,300));
             messageLayout->addChild(avatar);
             
+            float textPos = isPortrait ? 0.40 : 0.25;
+            
             ui::Text* senderName = ui::Text::create(message->senderName(), Style::Font::Regular, 120);
             senderName->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
-            senderName->setNormalizedPosition(Vec2(0.25,0.66));
+            senderName->setNormalizedPosition(Vec2(textPos,0.66));
             messageLayout->addChild(senderName);
             
             ui::Text* messageText = ui::Text::create("", Style::Font::Regular, 80);
@@ -173,7 +177,8 @@ void MeHQMessages::createMessageList()
             
             messageText->setString(text);
             messageText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
-            messageText->setNormalizedPosition(Vec2(0.25,0.33));
+            messageText->setNormalizedPosition(Vec2(textPos,0.33));
+            
             messageLayout->addChild(messageText);
             
             
