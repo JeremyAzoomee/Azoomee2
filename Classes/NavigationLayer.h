@@ -36,8 +36,6 @@ private:
     
     float _navOffset = 0;
     
-    ElectricDreamsButton *previewLoginButton;
-    ElectricDreamsButton *previewSignUpButton;
     ElectricDreamsButton *settingsButton;
     ElectricDreamsButton *returnToChildSelectorButton;
     
@@ -63,12 +61,6 @@ private:
     void createTopObjects();
     void topObjectsOffScreen();
     void topObjectsOnScreen();
-    
-    //--------PREVIEW BUTTONS--------
-    void createPreviewLoginButton();
-    void createPreviewSignUpButton();
-    void showPreviewLoginSignupButtonsAfterDelay(float delay);
-    void hidePreviewLoginSignupButtons();
     
     //Handling created menuitems or all menuitems
     void turnOffAllMenuItems();
