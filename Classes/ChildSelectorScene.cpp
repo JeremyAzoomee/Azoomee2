@@ -135,7 +135,7 @@ void ChildSelectorScene::createSettingsButton()
 void ChildSelectorScene::addPrivacyButton()
 {
     PrivacyLayer* privacyLayer = PrivacyLayer::createWithColor();
-    privacyLayer->setCenterPosition(Vec2(privacyLayer->getContentSize().height/2 + privacyLayer->getContentSize().width/2,privacyLayer->getContentSize().height));
+    privacyLayer->setCenterPosition(Vec2(_visibleSize.width / 2,privacyLayer->getContentSize().height));
     _contentNode->addChild(privacyLayer);
 }
 
@@ -195,7 +195,7 @@ void ChildSelectorScene::addProfilesToScrollView()
     
     _parentButton = createParentProfileButton();
     setParentButtonVisible(false);
-    _parentButton->setPosition(Vec2(_visibleSize.width * (_isPortrait ? 0.5f : 0.33f), _parentButton->getContentSize().height * 1.5f));
+    _parentButton->setPosition(Vec2(_visibleSize.width * (_isPortrait ? 0.5f : 0.35f), _parentButton->getContentSize().height * 1.5f));
     _contentNode->addChild(_parentButton);
     
 }
@@ -370,7 +370,7 @@ void ChildSelectorScene::setParentButtonVisible(bool visible)
         _parentButton->setVisible(visible);
         if(visible && !_isPortrait && _addChildButton)
         {
-            _addChildButton->setPosition(Vec2(_visibleSize.width * 0.66, _addChildButton->getContentSize().height * (_isPortrait ? 3.0f : 1.5f)));
+            _addChildButton->setPosition(Vec2(_visibleSize.width * 0.65, _addChildButton->getContentSize().height * (_isPortrait ? 3.0f : 1.5f)));
         }
     }
 }
