@@ -40,6 +40,8 @@ public:
     void onHttpRequestFailed(const std::string& requestTag, long errorCode) override;
     
 private:
+    static const std::string kOomeeLayerName;
+    
     cocos2d::Node* _contentNode = nullptr;
     
     cocos2d::Size _visibleSize;

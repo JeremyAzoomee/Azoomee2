@@ -32,6 +32,7 @@ using namespace cocos2d;
 NS_AZOOMEE_BEGIN
 
 const std::string ChildSelectorScene::kSceneName = "ChildSelectScene";
+const std::string ChildSelectorScene::kOomeeLayerName = "oomee";
 
 Scene* ChildSelectorScene::createScene()
 {
@@ -114,14 +115,16 @@ void ChildSelectorScene::addVisualsToScene()
 
 void ChildSelectorScene::addBackgroundToScreen()
 {
-    auto wireLeft = Sprite::create("res/childSelection/wireLeft.png");
+    auto wireLeft = Sprite::create(StringUtils::format("res/childSelection/wireLeft%s.png", _isPortrait ? "_portrait" : ""));
     wireLeft->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
     wireLeft->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
+    wireLeft->setScale(_visibleSize.height / wireLeft->getContentSize().height);
     _contentNode->addChild(wireLeft);
     
-    auto wireRight = Sprite::create("res/childSelection/wireRight.png");
+    auto wireRight = Sprite::create(StringUtils::format("res/childSelection/wireRight%s.png", _isPortrait ? "_portrait" : ""));
     wireRight->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
     wireRight->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
+    wireRight->setScale(_visibleSize.height / wireRight->getContentSize().height);
     _contentNode->addChild(wireRight);
 }
 
@@ -185,7 +188,7 @@ void ChildSelectorScene::addProfilesToScrollView()
     
     for(int i = 0; i < ParentDataProvider::getInstance()->getAmountOfAvailableChildren(); i++)
     {
-        std::string oomeeUrl = ParentDataProvider::getInstance()->getAvatarForAnAvailableChild(i);
+        const std::string& oomeeUrl = ParentDataProvider::getInstance()->getAvatarForAnAvailableChild(i);
         int oomeeNr = ConfigStorage::getInstance()->getOomeeNumberForUrl(oomeeUrl);
         
         auto profileLayer = createChildProfileButton(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(i), oomeeNr);
@@ -215,7 +218,7 @@ ui::Button *ChildSelectorScene::createChildProfileButton(const std::string& prof
             auto button = dynamic_cast<Node*>(pSender);
             if(button)
             {
-                auto oomeeLayer = button->getChildByName("oomee");
+                auto oomeeLayer = button->getChildByName(kOomeeLayerName);
                 if(oomeeLayer)
                 {
                     oomeeLayer->setScale(1.25f);
@@ -236,7 +239,7 @@ ui::Button *ChildSelectorScene::createChildProfileButton(const std::string& prof
             auto button = dynamic_cast<Node*>(pSender);
             if(button)
             {
-                auto oomeeLayer = button->getChildByName("oomee");
+                auto oomeeLayer = button->getChildByName(kOomeeLayerName);
                 if(oomeeLayer)
                 {
                     oomeeLayer->setScale(1.0f);
@@ -247,7 +250,7 @@ ui::Button *ChildSelectorScene::createChildProfileButton(const std::string& prof
     
     auto oomee = Sprite::create(StringUtils::format("res/childSelection/%s.png", ConfigStorage::getInstance()->getNameForOomee(oomeeNumber).c_str()));
     oomee->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    oomee->setName("oomee");
+    oomee->setName(kOomeeLayerName);
     button->addChild(oomee);
     
     float delayTime = CCRANDOM_0_1() * 0.5;
