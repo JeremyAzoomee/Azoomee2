@@ -23,7 +23,6 @@ public:
     virtual bool init() override;
     virtual void onEnterTransitionDidFinish() override;
     void onExit() override;
-    //static cocos2d::Scene* createScene();
     static Azoomee::Scene* createScene();
     
     //Delegate Functions
@@ -41,13 +40,14 @@ public:
     void onHttpRequestFailed(const std::string& requestTag, long errorCode) override;
     
 private:
+    static const std::string kOomeeLayerName;
+    
     cocos2d::Node* _contentNode = nullptr;
     
-    cocos2d::Vec2 _origin;
     cocos2d::Size _visibleSize;
     bool _isPortrait = false;
-    cocos2d::Layer* _parentButton = nullptr;
-    cocos2d::EventListenerTouchOneByOne* _parentButtonListener = nullptr;
+    cocos2d::ui::Button* _parentButton = nullptr;
+    cocos2d::ui::Button* _addChildButton = nullptr;
     
     void addScrollViewForProfiles();
     cocos2d::Size getScrollviewInnerSize(float scrollviewWidth);
@@ -57,14 +57,13 @@ private:
     void createSettingsButton();
     void addProfilesToScrollView();
     void addPrivacyButton();
-    cocos2d::Layer *createChildProfileButton(std::string profileName, int oomeeNumber);
-    cocos2d::Point positionElementOnScrollView(cocos2d::Layer *layerToBeAdded);
-    void addListenerToProfileLayer(cocos2d::Node *profileLayer);
+    cocos2d::ui::Button* createChildProfileButton(const std::string& profileName, int oomeeNumber);
+    cocos2d::Point positionElementOnScrollView(cocos2d::Node *layerToBeAdded);
     
-    cocos2d::Layer* createNewProfileButton();
+    cocos2d::ui::Button* createNewProfileButton();
     void addChildButtonPressed(cocos2d::Node* target);
     
-    cocos2d::Layer* createParentProfileButton();
+    cocos2d::ui::Button* createParentProfileButton();
     
     cocos2d::Point _startTouchPosition;
     bool _touchMovedAway = false;
@@ -78,8 +77,6 @@ private:
     RequestAdultPinLayer* _awaitingAdultPinLayer = nullptr;
     void createAdultPinLayerWithDelegate();
     void removeAdultPinLayerDelegate();
-    
-    float getVerticalOffset();
     
     bool _firstTime = false;
     

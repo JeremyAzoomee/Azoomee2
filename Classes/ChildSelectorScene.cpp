@@ -32,6 +32,7 @@ using namespace cocos2d;
 NS_AZOOMEE_BEGIN
 
 const std::string ChildSelectorScene::kSceneName = "ChildSelectScene";
+const std::string ChildSelectorScene::kOomeeLayerName = "oomee";
 
 Scene* ChildSelectorScene::createScene()
 {
@@ -57,7 +58,6 @@ bool ChildSelectorScene::init()
     ChatNotificationsSingleton::getInstance()->stopNotificationsUpdate();
     
     _visibleSize = Director::getInstance()->getVisibleSize();
-    _origin = Vec2(0,0);//Director::getInstance()->getVisibleOrigin();
     
     _isPortrait = _visibleSize.width < _visibleSize.height;
     
@@ -76,9 +76,9 @@ bool ChildSelectorScene::init()
     
     _firstTime = false;
     
-    auto newProfileButton = createNewProfileButton();
-    newProfileButton->setPosition(_origin.x + newProfileButton->getContentSize().width / 2, _origin.y + _visibleSize.height - (newProfileButton->getContentSize().height * 0.8) + getVerticalOffset());
-    _contentNode->addChild(newProfileButton);
+    _addChildButton= createNewProfileButton();
+    _addChildButton->setPosition(Vec2(_visibleSize.width * 0.5, _addChildButton->getContentSize().height * (_isPortrait ? 3.0f : 1.5f)));
+    _contentNode->addChild(_addChildButton);
 
     return true;
 }
@@ -96,8 +96,7 @@ void ChildSelectorScene::onEnterTransitionDidFinish()
     {
         if(ParentDataProvider::getInstance()->isPaidUser())
         {
-            _parentButton->setVisible(true);
-            _parentButtonListener->setEnabled(true);
+            setParentButtonVisible(true);
         }
     }
     Super::onEnterTransitionDidFinish();
@@ -110,43 +109,44 @@ void ChildSelectorScene::addVisualsToScene()
     addBackgroundToScreen();
     
     auto selectTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(CHILD_SELECTSCENE_TITLE_LABEL));
-    selectTitle->setPosition(_origin.x + _visibleSize.width * 0.5, _origin.y + (_visibleSize.height * 0.9) + getVerticalOffset());
+    selectTitle->setNormalizedPosition(Vec2(0.5,0.9));
     _contentNode->addChild(selectTitle);
 }
 
 void ChildSelectorScene::addBackgroundToScreen()
 {
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-    auto origin = Director::getInstance()->getVisibleOrigin();
-    
-    auto wireLeft = Sprite::create("res/childSelection/wireLeft.png");
-    wireLeft->setPosition(wireLeft->getContentSize().width / 2, visibleSize.height / 2 + origin.y);
+    auto wireLeft = Sprite::create(StringUtils::format("res/childSelection/wireLeft%s.png", _isPortrait ? "_portrait" : ""));
+    wireLeft->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+    wireLeft->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
+    wireLeft->setScale(_visibleSize.height / wireLeft->getContentSize().height);
     _contentNode->addChild(wireLeft);
     
-    auto wireRight = Sprite::create("res/childSelection/wireRight.png");
-    wireRight->setPosition(visibleSize.width - wireRight->getContentSize().width / 2, visibleSize.height / 2 + origin.y);
+    auto wireRight = Sprite::create(StringUtils::format("res/childSelection/wireRight%s.png", _isPortrait ? "_portrait" : ""));
+    wireRight->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
+    wireRight->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
+    wireRight->setScale(_visibleSize.height / wireRight->getContentSize().height);
     _contentNode->addChild(wireRight);
 }
 
 void ChildSelectorScene::createSettingsButton()
 {
     auto settingsButton = SettingsButton::createSettingsButton(0.0f);
-    settingsButton->setCenterPosition(Vec2(_origin.x + _visibleSize.width - settingsButton->getContentSize().width, _origin.y + _visibleSize.height - settingsButton->getContentSize().height + getVerticalOffset()));
+    settingsButton->setCenterPosition(Vec2(_visibleSize.width - settingsButton->getContentSize().width,_visibleSize.height - settingsButton->getContentSize().height));
     _contentNode->addChild(settingsButton);
 }
 
 void ChildSelectorScene::addPrivacyButton()
 {
     PrivacyLayer* privacyLayer = PrivacyLayer::createWithColor();
-    privacyLayer->setCenterPosition(Vec2(_origin.x + privacyLayer->getContentSize().height/2 +privacyLayer->getContentSize().width/2,_origin.y + privacyLayer->getContentSize().height));
+    privacyLayer->setCenterPosition(Vec2(_visibleSize.width / 2,privacyLayer->getContentSize().height));
     _contentNode->addChild(privacyLayer);
 }
 
 void ChildSelectorScene::addScrollViewForProfiles()
 {
     _scrollView = ui::ScrollView::create();
-    _scrollView->setContentSize(Size(_visibleSize.width * 0.75, _visibleSize.height * 0.8));
-    _scrollView->setPosition(Point(_origin.x + _visibleSize.width * 0.125, _origin.y + _visibleSize.height * 0.05));
+    _scrollView->setContentSize(Size(_visibleSize.width * 0.75, _visibleSize.height * (_isPortrait ?  0.65 : 0.6)));
+    _scrollView->setPosition(Point(_visibleSize.width * 0.125,_visibleSize.height * (_isPortrait ?  0.2 : 0.25)));
     _scrollView->setDirection(cocos2d::ui::ScrollView::Direction::VERTICAL);
     _scrollView->setBounceEnabled(true);
     _scrollView->setTouchEnabled(true);
@@ -155,17 +155,31 @@ void ChildSelectorScene::addScrollViewForProfiles()
     _scrollView->setScrollBarEnabled(true);
     
     _contentNode->addChild(_scrollView);
+    
+    Sprite* verticalScrollGradientTop = Sprite::create("res/decoration/TopNavGrad.png");
+    verticalScrollGradientTop->setAnchorPoint(Vec2(0.5, 1.0));
+    verticalScrollGradientTop->setScaleX(_visibleSize.width * 0.75 / verticalScrollGradientTop->getContentSize().width);
+    verticalScrollGradientTop->setColor(Color3B::BLACK);
+    verticalScrollGradientTop->setPosition(Vec2(_visibleSize.width / 2, _scrollView->getPosition().y + _scrollView->getContentSize().height));
+    _contentNode->addChild(verticalScrollGradientTop,1);
+    
+    Sprite* verticalScrollGradientBottom = Sprite::create("res/decoration/TopNavGrad.png");
+    verticalScrollGradientBottom->setAnchorPoint(Vec2(0.5, 1.0));
+    verticalScrollGradientBottom->setScaleX(_visibleSize.width * 0.75 / verticalScrollGradientBottom->getContentSize().width);
+    verticalScrollGradientBottom->setColor(Color3B::BLACK);
+    verticalScrollGradientBottom->setRotation(180);
+    verticalScrollGradientBottom->setPosition(Vec2(_visibleSize.width / 2, _scrollView->getPosition().y));
+    _contentNode->addChild(verticalScrollGradientBottom,1);
 }
 
 Size ChildSelectorScene::getScrollviewInnerSize(float scrollviewWidth)
 {
-    double oomeeLayersPerWidth;
-    modf(scrollviewWidth/(OOMEE_LAYER_WIDTH + OOMEE_LAYER_GAP), &oomeeLayersPerWidth);
+    int childrenPerRow = _isPortrait ? 2 : 4;
+    int numChildren = ParentDataProvider::getInstance()->getAmountOfAvailableChildren();
     
-    double oomeeLayesNeededForHeight;
-    modf((ParentDataProvider::getInstance()->getAmountOfAvailableChildren() / oomeeLayersPerWidth) + 1, &oomeeLayesNeededForHeight);
+    int numRows = ceil(numChildren / (double)childrenPerRow);
     
-    return Size(scrollviewWidth, (OOMEE_LAYER_GAP+OOMEE_LAYER_HEIGHT)*oomeeLayesNeededForHeight);
+    return Size(scrollviewWidth, (OOMEE_LAYER_HEIGHT * numRows) + (OOMEE_LAYER_GAP * (numRows - 0.5)));
 }
 
 void ChildSelectorScene::addProfilesToScrollView()
@@ -174,143 +188,113 @@ void ChildSelectorScene::addProfilesToScrollView()
     
     for(int i = 0; i < ParentDataProvider::getInstance()->getAmountOfAvailableChildren(); i++)
     {
-        std::string oomeeUrl = ParentDataProvider::getInstance()->getAvatarForAnAvailableChild(i);
+        const std::string& oomeeUrl = ParentDataProvider::getInstance()->getAvatarForAnAvailableChild(i);
         int oomeeNr = ConfigStorage::getInstance()->getOomeeNumberForUrl(oomeeUrl);
         
         auto profileLayer = createChildProfileButton(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(i), oomeeNr);
-        profileLayer->setTag(i);
         profileLayer->setPosition(positionElementOnScrollView(profileLayer));
-        addListenerToProfileLayer(profileLayer);
         _scrollView->addChild(profileLayer);
     }
     
     _parentButton = createParentProfileButton();
-    _parentButton->setPosition(positionElementOnScrollView(_parentButton));
-    _scrollView->addChild(_parentButton);
-    _parentButton->setVisible(false);
-    _parentButtonListener->setEnabled(false);
+    setParentButtonVisible(false);
+    _parentButton->setPosition(Vec2(_visibleSize.width * (_isPortrait ? 0.5f : 0.35f), _parentButton->getContentSize().height * 1.7f));
+    _contentNode->addChild(_parentButton);
     
 }
 
-Layer *ChildSelectorScene::createChildProfileButton(std::string profileName, int oomeeNumber)
+ui::Button *ChildSelectorScene::createChildProfileButton(const std::string& profileName, int oomeeNumber)
 {
-    auto profileLayer = Layer::create();
-    profileLayer->setContentSize(Size(OOMEE_LAYER_WIDTH,OOMEE_LAYER_HEIGHT));
+    auto button = ui::Button::create();
+    button->setContentSize(Size(OOMEE_LAYER_WIDTH,OOMEE_LAYER_HEIGHT));
+    button->ignoreContentAdaptWithSize(false);
+    button->setTag(oomeeNumber);
+    button->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     
-    auto glow = Sprite::create("res/childSelection/glow.png");
-    glow->setPosition(profileLayer->getContentSize().width / 2, profileLayer->getContentSize().height /2);
-    profileLayer->addChild(glow);
+    button->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType)
+    {
+        if(eType == ui::Widget::TouchEventType::BEGAN)
+        {
+            auto button = dynamic_cast<Node*>(pSender);
+            if(button)
+            {
+                auto oomeeLayer = button->getChildByName(kOomeeLayerName);
+                if(oomeeLayer)
+                {
+                    oomeeLayer->setScale(1.25f);
+                }
+            }
+        }
+        else if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            AudioMixer::getInstance()->playEffect(SELECT_OOMEE_AUDIO_EFFECT);
+            _parentIconSelected = false;
+            OfflineChecker::getInstance()->setDelegate(nullptr);
+            int childNumber = ((Node*)pSender)->getTag();
+            AnalyticsSingleton::getInstance()->registerChildGenderAndAge(childNumber);
+            BackEndCaller::getInstance()->childLogin(childNumber);
+        }
+        else if(eType == ui::Widget::TouchEventType::CANCELED)
+        {
+            auto button = dynamic_cast<Node*>(pSender);
+            if(button)
+            {
+                auto oomeeLayer = button->getChildByName(kOomeeLayerName);
+                if(oomeeLayer)
+                {
+                    oomeeLayer->setScale(1.0f);
+                }
+            }
+        }
+    });
+    
+    auto oomee = Sprite::create(StringUtils::format("res/childSelection/%s.png", ConfigStorage::getInstance()->getNameForOomee(oomeeNumber).c_str()));
+    oomee->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    oomee->setName(kOomeeLayerName);
+    button->addChild(oomee);
     
     float delayTime = CCRANDOM_0_1() * 0.5;
+    if(_firstTime)
+    {
+        oomee->setOpacity(0);
+        oomee->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    }
+    
+    auto glow = Sprite::create("res/childSelection/glow.png");
+    glow->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    oomee->addChild(glow, -1);
+    
     if(_firstTime)
     {
         glow->setOpacity(0);
         glow->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
     }
     
-    auto oomee = Sprite::create(StringUtils::format("res/childSelection/%s.png", ConfigStorage::getInstance()->getNameForOomee(oomeeNumber).c_str()));
-    oomee->setPosition(profileLayer->getContentSize().width / 2, profileLayer->getContentSize().height /2);
-    oomee->setScale(1.25);
-    profileLayer->addChild(oomee);
-    
-    if(_firstTime)
-    {
-        oomee->setOpacity(0);
-        oomee->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
-    }
     auto profileLabel = createLabelChildName(profileName);
-    profileLabel->setPosition(profileLayer->getContentSize().width / 2, profileLabel->getContentSize().height / 2);
+    profileLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    profileLabel->setNormalizedPosition(Vec2(0.5,0));
     reduceLabelTextToFitWidth(profileLabel,OOMEE_LAYER_WIDTH);
-    profileLayer->addChild(profileLabel);
+    button->addChild(profileLabel);
     if(_firstTime)
     {
         profileLabel->setOpacity(0);
         profileLabel->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
     }
-    return profileLayer;
+    return button;
 }
 
-void ChildSelectorScene::addListenerToProfileLayer(Node *profileLayer)
-{
-    auto listener = EventListenerTouchOneByOne::create();
-    listener->onTouchBegan = [=](Touch *touch, Event *event)
-    {
-        _touchMovedAway = false;
-        auto target = static_cast<Node*>(event->getCurrentTarget());
-        _startTouchPosition = touch->getLocation();
-        Point locationInNode = target->convertToNodeSpace(touch->getLocation());
-        Size s = target->getContentSize();
-        Rect rect = Rect(0,0,s.width, s.height);
-        
-        if(rect.containsPoint(locationInNode))
-        {
-            target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.1)));
-            
-            return true;
-        }
-        
-        return false;
-    };
-    
-    listener->onTouchMoved = [=](Touch *touch, Event *event)
-    {
-        
-        
-        if((!_touchMovedAway)&&(touch->getLocation().distance(_startTouchPosition) > 10))
-        {
-            _touchMovedAway = true;
-            auto target = static_cast<Node*>(event->getCurrentTarget());
-            target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
-        }
-        
-        return true;
-    };
-    
-    listener->onTouchEnded = [=](Touch *touch, Event *event)
-    {
-        if(!_touchMovedAway)
-        {
-            auto target = static_cast<Node*>(event->getCurrentTarget());
-         
-            AudioMixer::getInstance()->playEffect(SELECT_OOMEE_AUDIO_EFFECT);
-            
-            if(target->getName() == "addChildButton")
-            {
-                addChildButtonPressed(target);
-            }
-            else //Oomee child pressed
-            {
-                _parentIconSelected = false;
-                OfflineChecker::getInstance()->setDelegate(nullptr);
-                target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
-                int childNumber = target->getTag();
-                AnalyticsSingleton::getInstance()->registerChildGenderAndAge(childNumber);
-                BackEndCaller::getInstance()->childLogin(childNumber);
-            }
-            return true;
-        }
-        
-        return false;
-    };
-    
-    listener->onTouchCancelled = [=](Touch *touch, Event *event)
-    {
-        auto target = static_cast<Node*>(event->getCurrentTarget());
-        target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
-    };
-    
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), profileLayer);
-}
-
-Point ChildSelectorScene::positionElementOnScrollView(Layer *layerToBeAdded)
+Point ChildSelectorScene::positionElementOnScrollView(Node *layerToBeAdded)
 {
     Vector<Node*> scrollViewChildren = _scrollView->getChildren();
     
-    int numberOfChildrenWithParent = ParentDataProvider::getInstance()->getAmountOfAvailableChildren() + 1;
-    if(numberOfChildrenWithParent > _isPortrait ? 2 : 4) numberOfChildrenWithParent = _isPortrait ? 2 : 4;
+    int numberOfChildren = ParentDataProvider::getInstance()->getAmountOfAvailableChildren();
+    if(numberOfChildren > _isPortrait ? 2 : 4)
+    {
+        numberOfChildren = _isPortrait ? 2 : 4;
+    }
     
-    float layerMultiplier = numberOfChildrenWithParent * 0.5;
-    float gapMultiplier = (numberOfChildrenWithParent - 1) * 0.5;
+    float layerMultiplier = numberOfChildren * 0.5;
+    float gapMultiplier = (numberOfChildren - 1) * 0.5;
     
     float startPosX = _scrollView->getInnerContainerSize().width / 2 - (gapMultiplier * OOMEE_LAYER_GAP) - (layerMultiplier * OOMEE_LAYER_WIDTH);
     
@@ -332,97 +316,54 @@ Point ChildSelectorScene::positionElementOnScrollView(Layer *layerToBeAdded)
     return newPos;
 }
 
-Layer* ChildSelectorScene::createNewProfileButton()
+ui::Button* ChildSelectorScene::createNewProfileButton()
 {
-    auto addButtonLayer = Layer::create();
-    addButtonLayer->setContentSize(Size(OOMEE_LAYER_WIDTH,OOMEE_LAYER_HEIGHT));
-    
-    
-    auto addButtonSprite = Sprite::create("res/childSelection/button_addChild_frame.png");
-    addButtonSprite->setPosition(addButtonLayer->getContentSize().width / 2, addButtonLayer->getContentSize().height /2);
-    addButtonSprite->setName("addChildButton");
-    addListenerToProfileLayer(addButtonSprite);
-    addButtonLayer->addChild(addButtonSprite);
+    ui::Button* addChildButton = ui::Button::create("res/childSelection/add_a_profile_large.png");
+    addChildButton->setName("addChildButton");
+    addChildButton->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType)
+    {
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChildSelector - AddChild");
+            
+            createAdultPinLayerWithDelegate();
+            
+            AnalyticsSingleton::getInstance()->childProfileStartEvent();
+        }
+    });
     
     float delayTime = CCRANDOM_0_1();
     if(_firstTime)
     {
-        addButtonSprite->setOpacity(0);
-        addButtonSprite->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
-    }
-    auto addButtonIcon = Sprite::create("res/childSelection/button_addChild_icon.png");
-    addButtonIcon->setPosition(addButtonIcon->getContentSize().width * 0.9, addButtonSprite->getContentSize().height * 0.5);
-    addButtonSprite->addChild(addButtonIcon);
-    if(_firstTime)
-    {
-        addButtonIcon->setOpacity(0);
-        addButtonIcon->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+        addChildButton->setOpacity(0);
+        addChildButton->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
     }
     
-    auto addButtonLabel = createLabelWith("Add a profile", Style::Font::Regular, Style::Color::brightAqua, 40);
-    addButtonLabel->setPosition(addButtonSprite->getContentSize().width * 0.57, addButtonSprite->getContentSize().height * 0.47);
-    addButtonSprite->addChild(addButtonLabel);
-    if(_firstTime)
-    {
-        addButtonLabel->setOpacity(0);
-        addButtonLabel->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
-    }
-
-    return addButtonLayer;
+    return addChildButton;
 }
 
-Layer* ChildSelectorScene::createParentProfileButton()
+ui::Button* ChildSelectorScene::createParentProfileButton()
 {
-    auto profileLayer = Layer::create();
-    profileLayer->setContentSize(Size(OOMEE_LAYER_WIDTH,OOMEE_LAYER_HEIGHT));
-    profileLayer->setPosition(Director::getInstance()->getVisibleOrigin().x + Director::getInstance()->getVisibleSize().width - profileLayer->getContentSize().width, profileLayer->getContentSize().height * 0.75);
-    
-    auto oomee = Sprite::create("res/childSelection/om_GenericParent.png");
-    oomee->setPosition(profileLayer->getContentSize().width / 2, profileLayer->getContentSize().height * 0.62);
-    oomee->setScale(1.25);
-    profileLayer->addChild(oomee);
+    auto parentButton = ui::Button::create("res/childSelection/parent_inbox.png");
     
     float delayTime = CCRANDOM_0_1() * 0.5;
     if(_firstTime)
     {
-        oomee->setOpacity(0);
-        oomee->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+        parentButton->setOpacity(0);
+        parentButton->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
     }
-    auto profileLabel = createLabelChildName("Parent");
-    profileLabel->setPosition(profileLayer->getContentSize().width / 2, profileLabel->getContentSize().height / 2);
-    reduceLabelTextToFitWidth(profileLabel,OOMEE_LAYER_WIDTH);
-    profileLayer->addChild(profileLabel);
-    if(_firstTime)
-    {
-        profileLabel->setOpacity(0);
-        profileLabel->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
-    }
-    _parentButtonListener = EventListenerTouchOneByOne::create();
-    _parentButtonListener->onTouchBegan = [=](Touch *touch, Event *event)
-    {
-        auto target = static_cast<Node*>(event->getCurrentTarget());
-        Point locationInNode = target->convertToNodeSpace(touch->getLocation());
-        Size s = target->getContentSize();
-        Rect rect = Rect(0,0,s.width, s.height);
-        
-        if(rect.containsPoint(locationInNode))
+    
+    parentButton->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
         {
             AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChildSelector - ParentOomee");
             _parentIconSelected = true;
-            target->stopAllActions();
-            target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
             
             createAdultPinLayerWithDelegate();
-            
-            return true;
         }
-        
-        return false;
-    };
+    });
     
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_parentButtonListener, profileLayer);
-    
-    return profileLayer;
+    return parentButton;
 }
 
 void ChildSelectorScene::setParentButtonVisible(bool visible)
@@ -430,21 +371,11 @@ void ChildSelectorScene::setParentButtonVisible(bool visible)
     if(_parentButton)
     {
         _parentButton->setVisible(visible);
-        _parentButtonListener->setEnabled(visible);
+        if(visible && !_isPortrait && _addChildButton)
+        {
+            _addChildButton->setPosition(Vec2(_visibleSize.width * 0.65, _addChildButton->getContentSize().height * (_isPortrait ? 3.2f : 1.7f)));
+        }
     }
-}
-
-//---------------------- Check Email Verified Before Adding Child ---------------
-
-void ChildSelectorScene::addChildButtonPressed(Node* target)
-{
-    AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChildSelector - AddChild");
-    
-    target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
-    
-    createAdultPinLayerWithDelegate();
-    
-    AnalyticsSingleton::getInstance()->childProfileStartEvent();
 }
 
 //----------------------- Delegate Functions ----------------------------
@@ -567,6 +498,7 @@ void ChildSelectorScene::onSizeChanged()
     }
     
     _visibleSize = Director::getInstance()->getVisibleSize();
+    
     _contentNode = Node::create();
     _contentNode->setContentSize(_visibleSize);
     
@@ -578,18 +510,13 @@ void ChildSelectorScene::onSizeChanged()
     addProfilesToScrollView();
     addPrivacyButton();
     
-    auto newProfileButton = createNewProfileButton();
-    newProfileButton->setPosition(_origin.x + newProfileButton->getContentSize().width / 2, _origin.y + _visibleSize.height - (newProfileButton->getContentSize().height * 0.8) + getVerticalOffset());
-    _contentNode->addChild(newProfileButton);
+    _addChildButton = createNewProfileButton();
+    _addChildButton->setPosition(Vec2(_visibleSize.width * 0.5, _addChildButton->getContentSize().height * (_isPortrait ? 3.2f : 1.7f)));
+    _contentNode->addChild(_addChildButton);
     
     setParentButtonVisible(parentButtonVisible);
     
     DynamicNodeHandler::getInstance()->rebuildCurrentCTA();
-}
-
-float ChildSelectorScene::getVerticalOffset()
-{
-    return (_isPortrait && ConfigStorage::getInstance()->isDeviceIphoneX()) ?  -50 : 0;
 }
 
 NS_AZOOMEE_END
