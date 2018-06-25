@@ -25,7 +25,8 @@
 
 #define OOMEE_LAYER_WIDTH 300
 #define OOMEE_LAYER_HEIGHT 450
-#define OOMEE_LAYER_GAP 210
+#define OOMEE_LAYER_GAP 100
+#define OOMEE_LAYER_GAP_PORTRAIT 50
 
 using namespace cocos2d;
 
@@ -138,7 +139,7 @@ void ChildSelectorScene::createSettingsButton()
 void ChildSelectorScene::addPrivacyButton()
 {
     PrivacyLayer* privacyLayer = PrivacyLayer::createWithColor();
-    privacyLayer->setCenterPosition(Vec2(_visibleSize.width / 2,privacyLayer->getContentSize().height));
+    privacyLayer->setCenterPosition(Vec2(_visibleSize.width / 2,privacyLayer->getContentSize().height * 2.0f));
     _contentNode->addChild(privacyLayer);
 }
 
@@ -179,7 +180,7 @@ Size ChildSelectorScene::getScrollviewInnerSize(float scrollviewWidth)
     
     int numRows = ceil(numChildren / (double)childrenPerRow);
     
-    return Size(scrollviewWidth, (OOMEE_LAYER_HEIGHT * numRows) + (OOMEE_LAYER_GAP * (numRows - 0.5)));
+    return Size(scrollviewWidth, (OOMEE_LAYER_HEIGHT * numRows) + ((_isPortrait ? OOMEE_LAYER_GAP_PORTRAIT : OOMEE_LAYER_GAP) * (numRows - 0.5)));
 }
 
 void ChildSelectorScene::addProfilesToScrollView()
@@ -192,6 +193,7 @@ void ChildSelectorScene::addProfilesToScrollView()
         int oomeeNr = ConfigStorage::getInstance()->getOomeeNumberForUrl(oomeeUrl);
         
         auto profileLayer = createChildProfileButton(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(i), oomeeNr);
+        profileLayer->setTag(i);
         profileLayer->setPosition(positionElementOnScrollView(profileLayer));
         _scrollView->addChild(profileLayer);
     }
@@ -208,7 +210,6 @@ ui::Button *ChildSelectorScene::createChildProfileButton(const std::string& prof
     auto button = ui::Button::create();
     button->setContentSize(Size(OOMEE_LAYER_WIDTH,OOMEE_LAYER_HEIGHT));
     button->ignoreContentAdaptWithSize(false);
-    button->setTag(oomeeNumber);
     button->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     
     button->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType)
@@ -310,7 +311,7 @@ Point ChildSelectorScene::positionElementOnScrollView(Node *layerToBeAdded)
     
     if(newPos.x + layerToBeAdded->getContentSize().width > _scrollView->getInnerContainerSize().width)
     {
-        newPos = Point(startPosX, newPos.y - OOMEE_LAYER_GAP / 2 - layerToBeAdded->getContentSize().height);
+        newPos = Point(startPosX, newPos.y - (_isPortrait ? OOMEE_LAYER_GAP_PORTRAIT : OOMEE_LAYER_GAP) / 2 - layerToBeAdded->getContentSize().height);
     }
     
     return newPos;
