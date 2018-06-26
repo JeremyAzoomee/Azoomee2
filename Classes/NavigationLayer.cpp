@@ -151,12 +151,6 @@ bool NavigationLayer::init()
     {
         createTopObjects();
     }
-    else
-    {
-        createPreviewLoginButton();
-        createPreviewSignUpButton();
-        showPreviewLoginSignupButtonsAfterDelay(3);
-    }
     
     return true;
 }
@@ -171,7 +165,6 @@ void NavigationLayer::startLoadingGroupHQ(std::string uri)
     moveMenuPointsToHorizontalStateInGroupHQ(0.5);
     turnOffAllMenuItems();
     addBackButtonToNavigation();
-    hidePreviewLoginSignupButtons();
 }
 
 void NavigationLayer::changeToScene(const std::string& hqName, float duration)
@@ -231,12 +224,10 @@ void NavigationLayer::changeToScene(const std::string& hqName, float duration)
         HQScene2 *hqLayer = (HQScene2 *)contentLayer->getChildByName(ConfigStorage::kGroupHQName);
         
         hqLayer->removeAllChildren();
-        showPreviewLoginSignupButtonsAfterDelay(0);
     }
     else
     {
         addBackButtonToNavigation();
-        hidePreviewLoginSignupButtons();
     }
     
     this->getParent()->getChildByName(ConfigStorage::kContentLayerName)->stopAllActions();
@@ -458,62 +449,6 @@ void NavigationLayer::topObjectsOnScreen()
     }
 }
 
-//------------------PREVIEW BUTTONS-------------------
-
-void NavigationLayer::createPreviewLoginButton()
-{
-    previewLoginButton = ElectricDreamsButton::createTextAsButton(StringMgr::getInstance()->getStringForKey(BUTTON_LOG_IN_MULTILINE));
-    const Size& loginButtonSize = previewLoginButton->getContentSize();
-    previewLoginButton->setPosition(Vec2(origin.x+visibleSize.width + loginButtonSize.width + loginButtonSize.height/4, origin.y + visibleSize.height- loginButtonSize.height* 1.25));
-    previewLoginButton->setDelegate(this);
-    previewLoginButton->setMixPanelButtonName("PreviewLogin");
-    this->addChild(previewLoginButton);
-}
-
-void NavigationLayer::createPreviewSignUpButton()
-{
-    previewSignUpButton = ElectricDreamsButton::createTextAsButton(StringMgr::getInstance()->getStringForKey(BUTTON_SIGN_UP_MULTILINE));
-    const Size& signupButtonSize = previewSignUpButton->getContentSize();
-    previewSignUpButton->setPosition(Vec2(origin.x - signupButtonSize.width - signupButtonSize.height/4, origin.y + visibleSize.height- signupButtonSize.height * 1.25));
-    previewSignUpButton->setDelegate(this);
-    previewSignUpButton->setMixPanelButtonName("PreviewSignUp");
-    this->addChild(previewSignUpButton);
-}
-
-void NavigationLayer::showPreviewLoginSignupButtonsAfterDelay(float delay)
-{
-    if(previewSignUpButton)
-    {
-        const Size& signupButtonSize = previewSignUpButton->getContentSize();
-        previewSignUpButton->stopAllActions();
-        previewSignUpButton->runAction(Sequence::create(DelayTime::create(delay), EaseInOut::create(MoveTo::create(1, Vec2(origin.x + signupButtonSize.height/4, origin.y + visibleSize.height- signupButtonSize.height * 1.25)), 2), NULL));
-    }
-    
-    if(previewLoginButton)
-    {
-        const Size& loginButtonSize = previewLoginButton->getContentSize();
-        previewLoginButton->stopAllActions();
-        previewLoginButton->runAction(Sequence::create(DelayTime::create(delay), EaseInOut::create(MoveTo::create(1, Vec2(origin.x+visibleSize.width - loginButtonSize.width - loginButtonSize.height/4, origin.y + visibleSize.height- loginButtonSize.height * 1.25)), 2), NULL));
-    }
-}
-
-void NavigationLayer::hidePreviewLoginSignupButtons()
-{
-    if(previewSignUpButton)
-    {
-        const Size& signupButtonSize = previewSignUpButton->getContentSize();
-        previewSignUpButton->stopAllActions();
-        previewSignUpButton->runAction(Sequence::create(EaseInOut::create(MoveTo::create(1, Vec2(origin.x - signupButtonSize.width - signupButtonSize.height/4, origin.y + visibleSize.height- signupButtonSize.height * 1.25)), 2), NULL));
-    }
-    
-    if(previewLoginButton)
-    {
-        const Size& loginButtonSize = previewLoginButton->getContentSize();
-        previewLoginButton->stopAllActions();
-        previewLoginButton->runAction(Sequence::create(EaseInOut::create(MoveTo::create(1, Vec2(origin.x+visibleSize.width + loginButtonSize.width + loginButtonSize.height/4, origin.y + visibleSize.height- loginButtonSize.height* 1.25)), 2), NULL));
-    }
-}
-
 //---------------LISTENERS------------------
 
 void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
@@ -692,20 +627,8 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
 
 void NavigationLayer::buttonPressed(ElectricDreamsButton* button)
 {
-    if(button == previewLoginButton)
-    {
-        LoginLogicHandler::getInstance()->forceNewLogin();
-    }
-    else if(button == previewSignUpButton)
-    {
-        AnalyticsSingleton::getInstance()->registerCTASource("signUp", "", "");
-    #ifdef ALLOW_UNPAID_SIGNUP
-        DynamicNodeHandler::getInstance()->startSignupFlow();
-    #else
-        DynamicNodeHandler::getInstance()->startIAPFlow();
-    #endif
-    }
-    else if(button == returnToChildSelectorButton)
+
+    if(button == returnToChildSelectorButton)
     {
         ChildDataParser::getInstance()->setChildLoggedIn(false);
         BackEndCaller::getInstance()->getAvailableChildren();
@@ -815,20 +738,6 @@ void NavigationLayer::repositionElements()
     {
         if(HQHistoryManager::getInstance()->getCurrentHQ() == ConfigStorage::kGroupHQName)
         {
-            if(previewSignUpButton)
-            {
-                const Size& signupButtonSize = previewSignUpButton->getContentSize();
-                previewSignUpButton->stopAllActions();
-                previewSignUpButton->setPosition(Vec2(origin.x - signupButtonSize.width - signupButtonSize.height/4, origin.y + visibleSize.height- signupButtonSize.height * 1.25));
-            }
-            
-            if(previewLoginButton)
-            {
-                const Size& loginButtonSize = previewLoginButton->getContentSize();
-                previewLoginButton->stopAllActions();
-                previewLoginButton->setPosition(Vec2(origin.x+visibleSize.width + loginButtonSize.width + loginButtonSize.height/4, origin.y + visibleSize.height- loginButtonSize.height* 1.25));
-            }
-            
             auto backButton = this->getChildByName("backButton");
             if(backButton)
             {
@@ -836,22 +745,7 @@ void NavigationLayer::repositionElements()
                 backButton->setPosition(origin.x + backButtonSize.width*.7, origin.y + visibleSize.height - backButtonSize.height*.7);
             }
         }
-        else
-        {
-            if(previewSignUpButton)
-            {
-                const Size& signupButtonSize = previewSignUpButton->getContentSize();
-                previewSignUpButton->stopAllActions();
-                previewSignUpButton->setPosition(Vec2(origin.x + signupButtonSize.height/4, origin.y + visibleSize.height- signupButtonSize.height * 1.25));
-            }
-            
-            if(previewLoginButton)
-            {
-                const Size& loginButtonSize = previewLoginButton->getContentSize();
-                previewLoginButton->stopAllActions();
-                previewLoginButton->setPosition(Vec2(origin.x+visibleSize.width - loginButtonSize.width - loginButtonSize.height/4, origin.y + visibleSize.height- loginButtonSize.height* 1.25));
-            }
-        }
+
     }
     
 }
