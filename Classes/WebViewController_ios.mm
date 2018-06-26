@@ -212,34 +212,33 @@ using namespace Azoomee;
     [_burgerButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [_burgerButton setFrame:CGRectMake(buttonWidth/4 + (screenSize.width * _closeButtonAnchorX), buttonWidth/4 + (screenSize.height * _closeButtonAnchorY), buttonWidth, buttonWidth)];
     [_burgerButton setExclusiveTouch:YES];
-    [_burgerButton setImage:[UIImage imageNamed:@"res/navigation/settings.png"] forState:UIControlStateNormal];
+    [_burgerButton setImage:[UIImage imageNamed:@"res/webview_buttons/menu_unselected.png"] forState:UIControlStateNormal];
+    [_burgerButton setImage:[UIImage imageNamed:@"res/webview_buttons/menu_selected.png"] forState:UIControlStateSelected];
     
     backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [backButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [backButton setFrame:CGRectMake(buttonWidth/4 + (screenSize.width * _closeButtonAnchorX), buttonWidth/4 + (screenSize.height * _closeButtonAnchorY), buttonWidth, buttonWidth)];
     [backButton setExclusiveTouch:YES];
-
-    //Check if has html, then opening game.
-    if([urlToLoad containsString:@"html"])
-    {
-        [backButton setImage:[UIImage imageNamed:@"res/navigation/close_button.png"] forState:UIControlStateNormal];
-    }
-    else
-    {
-        [backButton setImage:[UIImage imageNamed:@"res/navigation/back_button.png"] forState:UIControlStateNormal];
-    }
+    [backButton setImage:[UIImage imageNamed:@"res/webview_buttons/close_unselected.png"] forState:UIControlStateNormal];
+    [backButton setImage:[UIImage imageNamed:@"res/webview_buttons/close_selected.png"] forState:UIControlStateSelected];
     
     _favButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_favButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [_favButton setFrame:CGRectMake(buttonWidth/4 + (screenSize.width * _closeButtonAnchorX), buttonWidth/4 + (screenSize.height * _closeButtonAnchorY), buttonWidth, buttonWidth)];
     [_favButton setExclusiveTouch:YES];
-    [_favButton setImage:[UIImage imageNamed:@"res/artapp/confirm.png"] forState:UIControlStateNormal];
+    [_favButton setImage:[UIImage imageNamed:@"res/webview_buttons/favourite_unselected.png"] forState:UIControlStateNormal];
+    [_favButton setImage:[UIImage imageNamed:@"res/webview_buttons/favourite_selected.png"] forState:UIControlStateSelected];
+    if(isFavContent())
+    {
+        [_favButton setSelected: true];
+    }
     
     _shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_shareButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [_shareButton setFrame:CGRectMake(buttonWidth/4 + (screenSize.width * _closeButtonAnchorX), buttonWidth/4 + (screenSize.height * _closeButtonAnchorY), buttonWidth, buttonWidth)];
     [_shareButton setExclusiveTouch:YES];
-    [_shareButton setImage:[UIImage imageNamed:@"res/artapp/share_ios.png"] forState:UIControlStateNormal];
+    [_shareButton setImage:[UIImage imageNamed:@"res/webview_buttons/share_unselected.png"] forState:UIControlStateNormal];
+    [_shareButton setImage:[UIImage imageNamed:@"res/webview_buttons/share_selected.png"] forState:UIControlStateSelected];
     
     [self.view addSubview:backButton];
     [self.view addSubview:_favButton];
@@ -251,6 +250,8 @@ using namespace Azoomee;
 
 -(void) buttonClicked:(UIButton*)sender
 {
+    [sender setSelected: !sender.isSelected];
+    
     if(sender == backButton)
     {
         if([urlToLoad hasSuffix:@"html"])
@@ -267,7 +268,14 @@ using namespace Azoomee;
     }
     else if(sender == _favButton)
     {
-        favContent();
+        if(isFavContent())
+        {
+            unFavContent();
+        }
+        else
+        {
+            favContent();
+        }
     }
     else if(sender == _shareButton)
     {

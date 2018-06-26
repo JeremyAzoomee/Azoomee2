@@ -31,6 +31,8 @@ public:
     void addToFavourites(const HQContentItemObjectRef& contentItem);
     void removeFromFavourites(const HQContentItemObjectRef& contentItem);
     
+    bool isFavouriteContent(const std::string& contentId);
+    
     std::vector<HQContentItemObjectRef> getFavouriteContent() const;
     
 };

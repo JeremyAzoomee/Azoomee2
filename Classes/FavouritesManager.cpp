@@ -103,4 +103,10 @@ std::vector<std::string> FavouritesManager::getFavouriteContentIds() const
     return splitStringToVector(fileStr, "/");
 }
 
+bool FavouritesManager::isFavouriteContent(const std::string &contentId)
+{
+    const std::vector<std::string>& favList = getFavouriteContentIds();
+    return std::find(favList.begin(), favList.end(), contentId) != favList.end();
+}
+
 NS_AZOOMEE_END
