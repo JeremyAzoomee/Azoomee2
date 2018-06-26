@@ -15,5 +15,7 @@ public class JNICalls {
     public static native String JNIGetRemoteWebGameAPIPath();
 
     public static native void JNIAddToFavourites();
+    public static native void JNIRemoveFromFavourites();
+    public static native boolean JNIIsInFavourites();
     public static native void JNIShareInChat();
 }

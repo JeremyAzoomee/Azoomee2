@@ -288,6 +288,34 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIAddToFavourites(JNIEnv*
 
 extern "C"
 {
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIRemoveFromFavourites(JNIEnv* env, jobject thiz);
+};
+
+JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIRemoveFromFavourites(JNIEnv* env, jobject thiz)
+{
+    FavouritesManager::getInstance()->removeFromFavourites(ContentHistoryManager::getInstance()->getLastOpenedContent());
+}
+
+#endif
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+
+extern "C"
+{
+    JNIEXPORT bool JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIIsInFavourites(JNIEnv* env, jobject thiz);
+};
+
+JNIEXPORT bool JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIIsInFavourites(JNIEnv* env, jobject thiz)
+{
+    return FavouritesManager::getInstance()->isFavouriteContent(ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId());
+}
+
+#endif
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+
+extern "C"
+{
     JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIShareInChat(JNIEnv* env, jobject thiz);
 };
 

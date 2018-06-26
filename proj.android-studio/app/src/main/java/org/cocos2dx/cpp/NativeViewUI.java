@@ -152,24 +152,6 @@ public class NativeViewUI extends Activity {
         }, 1500);
     }
 
-    private  boolean loadingGame()
-    {
-        Bundle extras = getIntent().getExtras();
-        String myUrl = "about:blank";
-
-        if(extras != null)
-        {
-            myUrl = extras.getString("url");
-
-            if(myUrl.toLowerCase().contains("html"))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     public void onBackPressed()
     {
         if(isActivityExitRequested||!isWebViewReady)
@@ -317,15 +299,9 @@ public class NativeViewUI extends Activity {
         buttonLayoutParams.width = _buttonWidth;
         buttonLayoutParams.height = _buttonWidth;
 
-        ImageButton closeButton = new ImageButton(this);
-        if(loadingGame())
-        {
-            closeButton.setImageResource(R.drawable.close_button);
-        }
-        else
-        {
-            closeButton.setImageResource(R.drawable.back_button);
-        }
+        final ImageButton closeButton = new ImageButton(this);
+        closeButton.setImageResource(R.drawable.close_unelected);
+        closeButton.setTag(R.drawable.close_unelected);
 
         closeButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
         closeButton.setOnClickListener(new View.OnClickListener()
@@ -340,6 +316,18 @@ public class NativeViewUI extends Activity {
 
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                Integer resource = (Integer)closeButton.getTag();
+                if(resource == R.drawable.close_selected)
+                {
+                    closeButton.setImageResource(R.drawable.close_unelected);
+                    closeButton.setTag(R.drawable.close_unelected);
+                }
+                else
+                {
+                    closeButton.setImageResource(R.drawable.close_selected);
+                    closeButton.setTag(R.drawable.close_selected);
+                }
 
                 Bundle extras = getIntent().getExtras();
                 if(extras.getInt("orientation") == _portrait)
@@ -364,8 +352,15 @@ public class NativeViewUI extends Activity {
 
         imageButtonStatic = closeButton;
 
-        ImageButton favButton = new ImageButton(this);
-        favButton.setImageResource(R.drawable.confirm);
+        final ImageButton favButton = new ImageButton(this);
+        if(JNICalls.JNIIsInFavourites())
+        {
+            favButton.setImageResource(R.drawable.favourite_selected);
+        }
+        else
+        {
+            favButton.setImageResource(R.drawable.favourite_unelected);
+        }
         favButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
         favButton.setOnClickListener(new View.OnClickListener()
         {
@@ -376,8 +371,15 @@ public class NativeViewUI extends Activity {
                 {
                     return;
                 }
-
-                JNICalls.JNIAddToFavourites();
+                if(JNICalls.JNIIsInFavourites())
+                {
+                    JNICalls.JNIRemoveFromFavourites();
+                    favButton.setImageResource(R.drawable.favourite_unelected);
+                }
+                else {
+                    JNICalls.JNIAddToFavourites();
+                    favButton.setImageResource(R.drawable.favourite_selected);
+                }
             }
         });
 
@@ -389,8 +391,9 @@ public class NativeViewUI extends Activity {
 
         favButtonStatic = favButton;
 
-        ImageButton shareButton = new ImageButton(this);
-        shareButton.setImageResource(R.drawable.chat);
+        final ImageButton shareButton = new ImageButton(this);
+        shareButton.setImageResource(R.drawable.share_unelected);
+        shareButton.setTag(R.drawable.share_unelected);
         shareButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
         shareButton.setOnClickListener(new View.OnClickListener()
         {
@@ -401,7 +404,17 @@ public class NativeViewUI extends Activity {
                 {
                     return;
                 }
-
+                Integer resource = (Integer)shareButton.getTag();
+                if(resource == R.drawable.share_selected)
+                {
+                    shareButton.setImageResource(R.drawable.share_unelected);
+                    shareButton.setTag(R.drawable.share_unelected);
+                }
+                else
+                {
+                    shareButton.setImageResource(R.drawable.share_selected);
+                    shareButton.setTag(R.drawable.share_selected);
+                }
                 JNICalls.JNIShareInChat();
                 Bundle extras = getIntent().getExtras();
                 if(extras.getInt("orientation") == _portrait)
@@ -426,14 +439,26 @@ public class NativeViewUI extends Activity {
 
         shareButtonStatic = shareButton;
 
-        ImageButton burgerButton = new ImageButton(this);
-        burgerButton.setImageResource(R.drawable.settings);
+        final ImageButton burgerButton = new ImageButton(this);
+        burgerButton.setImageResource(R.drawable.menu_unselected);
+        burgerButton.setTag(R.drawable.menu_unselected);
         burgerButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
         burgerButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
+                Integer resource = (Integer)burgerButton.getTag();
+                if(resource == R.drawable.menu_selected)
+                {
+                    burgerButton.setImageResource(R.drawable.menu_unselected);
+                    burgerButton.setTag(R.drawable.menu_unselected);
+                }
+                else
+                {
+                    burgerButton.setImageResource(R.drawable.menu_selected);
+                    burgerButton.setTag(R.drawable.menu_selected);
+                }
                 animateButtons();
             }
         });
@@ -459,7 +484,7 @@ public class NativeViewUI extends Activity {
         }
 
         //Ok, so android animations dont actually "move" the button, so the button is always in its expanded position,
-        //and the animations are sone relative to that.  when buttons are in the "closed" state, they are dissabled.
+        //and the animations are done relative to that.  when buttons are in the "closed" state, they are dissabled.
         if(_uiExpanded)
         {
             TranslateAnimation closeButtonAnim = new TranslateAnimation(0,burgerButtonStatic.getX() - imageButtonStatic.getX(),0,burgerButtonStatic.getY() - imageButtonStatic.getY());
