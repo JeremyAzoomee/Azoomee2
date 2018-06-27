@@ -14,8 +14,8 @@ NS_AZOOMEE_OM_BEGIN
 
 void ItemCategoryButton::setCategoryData(const ItemCategoryRef& categoryData)
 {
-    const std::string& imageFilepath = OomeeMakerDataHandler::getInstance()->getAssetDir() + _categoryData->getIconFilenameUnselected();
     _categoryData = categoryData;
+    const std::string& imageFilepath = OomeeMakerDataHandler::getInstance()->getAssetDir() + _categoryData->getIconFilenameUnselected();
     setScale(_categoryData->getScaleUnselected());
     loadTextureNormal(imageFilepath);
     setMainImage(imageFilepath);

@@ -110,10 +110,13 @@ bool OomeeItemList::init()
         return false;
     }
     
+    setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+    setBackGroundColor(Color3B::WHITE);
+    
     setDirection(ui::ScrollView::Direction::VERTICAL);
     setBounceEnabled(true);
     setGravity(ui::ListView::Gravity::CENTER_HORIZONTAL);
-    setItemsMargin(50.0f);
+    setItemsMargin(100.0f);
     setTopPadding(100.0f);
     setBottomPadding(100.0f);
     setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
@@ -123,9 +126,6 @@ bool OomeeItemList::init()
 
 void OomeeItemList::onEnter()
 {
-    setBackGroundImage("res/oomeeMaker/OomeeMaker_Drawer_Gradient.png");
-    setBackGroundImageScale9Enabled(true);
-    
     Super::onEnter();
 }
 

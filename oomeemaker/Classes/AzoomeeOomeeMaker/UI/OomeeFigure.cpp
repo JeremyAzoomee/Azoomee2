@@ -261,8 +261,11 @@ void OomeeFigure::setEditable(bool isEditable)
 
 void OomeeFigure::saveSnapshotImage(const std::string &filepath)
 {
+    auto prevPos = _baseSprite->getPosition();
+    auto prevScale = _baseSprite->getScale();
+    auto prevAnchor = _baseSprite->getAnchorPoint();
+    
     Sprite* target = Sprite::create("res/oomeeMaker/1_Oomee_Reference.png");
-    // render twice, first in 2x size canvas to make sure accessories dont get culled by the renderer, then again to get normal size image
     _baseSprite->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _baseSprite->setPosition(Vec2(target->getContentSize().width/2,0));
     _baseSprite->setScale(0.75);
@@ -272,17 +275,10 @@ void OomeeFigure::saveSnapshotImage(const std::string &filepath)
     renderTex->end();
     renderTex->saveToFile(filepath, Image::Format::PNG);
     Director::getInstance()->getRenderer()->render();
-    /*
-    Sprite* temp = Sprite::createWithTexture(renderTex->getSprite()->getTexture());
-    temp->setFlippedY(true);
-    temp->setPosition(target->getContentSize() / 2.0f);
-    RenderTexture* finalTex = RenderTexture::create(target->getContentSize().width, target->getContentSize().height);
-    finalTex->beginWithClear(0, 0, 0, 0);
-    temp->visit();
-    finalTex->end();
-    finalTex->saveToFile(filepath, Image::Format::PNG);
-    Director::getInstance()->getRenderer()->render();
-     */
+    
+    _baseSprite->setPosition(prevPos);
+    _baseSprite->setAnchorPoint(prevAnchor);
+    _baseSprite->setScale(prevScale);
 }
 
 OomeeColourRef OomeeFigure::getColour() const

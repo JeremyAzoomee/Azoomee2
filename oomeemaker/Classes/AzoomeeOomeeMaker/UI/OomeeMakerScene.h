@@ -30,11 +30,18 @@ private:
     OomeeFigure* _oomee = nullptr;
     OomeeItemList* _itemList = nullptr;
     
+    cocos2d::ui::Button* _topScrollButton = nullptr;
+    cocos2d::ui::Button* _bottomScrollButton = nullptr;
+    
     void addAccessoryToOomee(const OomeeItemRef& data);
     void setItemsListForCategory(const ItemCategoryRef& data);
     
     void saveAndExit();
     void saveOomeeFiles();
+    
+    void addBGLayer();
+    
+    void makeAvatar();
     
 public:
     
