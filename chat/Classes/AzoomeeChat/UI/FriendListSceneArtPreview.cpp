@@ -206,6 +206,7 @@ void FriendListSceneArtPreview::onBackButtonPressed()
     // Reset the polling time
     ChatAPI::getInstance()->scheduleFriendListPoll( ChatAPI::kScheduleRateLow );
     Azoomee::Chat::delegate->_imageFileName = "";
+    Azoomee::Chat::delegate->_sharedContentId = "";
     Azoomee::Chat::delegate->onChatNavigationBack();
 }
 

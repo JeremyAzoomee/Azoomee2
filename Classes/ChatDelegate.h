@@ -27,6 +27,7 @@ public:
     
     // delegate functions
     void onImageDownloadComplete(const ImageDownloaderRef& downloader) override;
+    void onImageDownloadFailed() override;
 };
 
 NS_AZOOMEE_END

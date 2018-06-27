@@ -34,7 +34,6 @@ bool AppDelegate::applicationDidFinishLaunching()
     register_all_packages();
     
     // create a scene. it's an autorelease object
-    auto scene = IntroVideoScene::create();
     Director::getInstance()->runWithScene(SceneManagerScene::createScene(introVideo));
     
     SessionIdManager::getInstance();

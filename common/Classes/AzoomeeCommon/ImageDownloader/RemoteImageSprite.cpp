@@ -262,4 +262,9 @@ void RemoteImageSprite::onImageDownloadComplete(const ImageDownloaderRef& downlo
     Director::getInstance()->getTextureCache()->addImageAsync(filename, CC_CALLBACK_1(RemoteImageSprite::imageAddedToCache, this));
 }
 
+void RemoteImageSprite::onImageDownloadFailed()
+{
+    // do nothing
+}
+
 NS_AZOOMEE_END

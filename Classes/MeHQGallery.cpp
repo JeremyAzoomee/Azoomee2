@@ -46,6 +46,11 @@ bool MeHQGallery::init()
     
     const std::string& dirPath = FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getParentOrChildId();
     
+    if(!FileUtils::getInstance()->isDirectoryExist(dirPath))
+    {
+        FileUtils::getInstance()->createDirectory(dirPath);
+    }
+       
     auto artImages = DirectorySearcher::getInstance()->getImagesInDirectory(dirPath);
 
     if(artImages.size() > 0)
@@ -189,6 +194,7 @@ void MeHQGallery::buildEmptyCarousel()
     makePaintingButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
+            
             ArtAppDelegate::getInstance()->setFileName("");
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(ArtAppEntryPointScene));
         }

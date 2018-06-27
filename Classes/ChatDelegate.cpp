@@ -76,5 +76,23 @@ void ChatDelegate::onImageDownloadComplete(const ImageDownloaderRef& downloader)
     
 }
 
+void ChatDelegate::onImageDownloadFailed()
+{
+    if(_sharedContentId != "")
+    {
+        const auto& item = HQDataProvider::getInstance()->getItemDataForSpecificItem(_sharedContentId);
+        if(item)
+        {
+            std::string filename = "res/contentPlaceholders/Games1X1.png";
+            if(item->getType() == ConfigStorage::kContentTypeVideo)
+            {
+                filename = "res/contentPlaceholders/Video1X1.png";
+            }
+            _imageFileName = filename;
+        }
+    }
+    Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+}
+
 
 NS_AZOOMEE_END

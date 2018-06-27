@@ -15,6 +15,7 @@
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 
 using namespace cocos2d;
 
@@ -160,7 +161,7 @@ void MeHQMessages::createMessageList()
             senderName->setNormalizedPosition(Vec2(textPos,0.66));
             messageLayout->addChild(senderName);
             
-            ui::Text* messageText = ui::Text::create("", Style::Font::Regular, 80);
+            Label* messageText = Label::createWithTTF("", Style::Font::Regular, 72);
             std::string text = message->messageText();
             if(message->messageType() == Chat::Message::MessageTypeArt)
             {
@@ -178,6 +179,9 @@ void MeHQMessages::createMessageList()
             messageText->setString(text);
             messageText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
             messageText->setNormalizedPosition(Vec2(textPos,0.33));
+            
+            float maxWidth = this->getContentSize().width * (1 - textPos - 0.1);
+            reduceLabelTextToFitWidth(messageText, maxWidth);
             
             messageLayout->addChild(messageText);
             

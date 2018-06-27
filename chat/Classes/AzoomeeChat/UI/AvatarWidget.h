@@ -40,6 +40,7 @@ private:
     
     // - ImageDownloaderDelegate
     void onImageDownloadComplete(const ImageDownloaderRef& downloader) override;
+    void onImageDownloadFailed() override;
 
 protected:
     

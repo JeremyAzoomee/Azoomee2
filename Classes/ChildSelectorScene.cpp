@@ -24,11 +24,12 @@
 #include "DynamicNodeHandler.h"
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 #include <AzoomeeCommon/Utils/ActionBuilder.h>
+#include <AzoomeeCommon/Utils/StringFunctions.h>
 
 #define OOMEE_LAYER_WIDTH 400
 #define OOMEE_LAYER_HEIGHT 400
 #define OOMEE_LAYER_GAP 100
-#define OOMEE_LAYER_GAP_PORTRAIT 50
+#define OOMEE_LAYER_GAP_PORTRAIT 100
 
 using namespace cocos2d;
 
@@ -274,7 +275,7 @@ ui::Button *ChildSelectorScene::createChildProfileButton(const std::string& prof
     }
     
     auto profileLabel = createLabelChildName(profileName);
-    profileLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    profileLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     profileLabel->setNormalizedPosition(Vec2(0.5,0));
     reduceLabelTextToFitWidth(profileLabel,OOMEE_LAYER_WIDTH);
     button->addChild(profileLabel);

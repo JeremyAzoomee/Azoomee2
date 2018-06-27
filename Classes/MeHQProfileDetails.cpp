@@ -36,7 +36,7 @@ bool MeHQProfileDetails::init()
     _avatar = OomeeMaker::OomeeCarouselButton::create();
     _avatar->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _avatar->setNormalizedPosition(Vec2(0.5,0.5));
-    _avatar->setPlaceholderImage("res/OomeeMaker/body_00.png");
+    _avatar->setPlaceholderImage("res/oomeeMaker/1_Oomee_Reference.png");
     _avatar->loadPlaceholderImage();
     
     _avatar->setScale((this->getContentSize().height * (isPortrait ? 0.35 : 0.7)) / _avatar->getContentSize().height);
@@ -108,6 +108,11 @@ void MeHQProfileDetails::onSizeChanged()
 void MeHQProfileDetails::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {
     _avatar->setMainImage(downloader->getLocalImagePath());
+}
+
+void MeHQProfileDetails::onImageDownloadFailed()
+{
+    
 }
 
 NS_AZOOMEE_END

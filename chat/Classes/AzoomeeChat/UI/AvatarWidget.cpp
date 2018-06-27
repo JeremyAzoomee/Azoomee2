@@ -167,4 +167,13 @@ void AvatarWidget::onImageDownloadComplete(const ImageDownloaderRef& downloader)
     }
 }
 
+void AvatarWidget::onImageDownloadFailed()
+{
+    if(_avatarDownloader)
+    {
+        _avatarDownloader->setDelegate(nullptr);
+        _avatarDownloader.reset();
+    }
+}
+
 NS_AZOOMEE_CHAT_END

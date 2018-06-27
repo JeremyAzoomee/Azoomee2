@@ -363,8 +363,8 @@ public class NativeMediaPlayer extends Activity {
         buttonLayoutParams.height = _buttonWidth;
 
         final ImageButton closeButton = new ImageButton(this);
-        closeButton.setImageResource(R.drawable.close_selected);
-        closeButton.setTag(R.drawable.close_selected);
+        closeButton.setImageResource(R.drawable.close_unelected);
+        closeButton.setTag(R.drawable.close_unelected);
 
         closeButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
         closeButton.setOnClickListener(new View.OnClickListener()
@@ -372,8 +372,6 @@ public class NativeMediaPlayer extends Activity {
             @Override
             public void onClick(View v)
             {
-                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
                 Integer resource = (Integer)closeButton.getTag();
                 if(resource == R.drawable.close_selected)
@@ -387,7 +385,7 @@ public class NativeMediaPlayer extends Activity {
                     closeButton.setTag(R.drawable.close_selected);
                 }
 
-                onBackPressed();
+                exitMediaplayer();
             }
         });
         closeButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
@@ -436,8 +434,8 @@ public class NativeMediaPlayer extends Activity {
         favButtonStatic = favButton;
 
         final ImageButton shareButton = new ImageButton(this);
-        shareButton.setImageResource(R.drawable.share_selected);
-        shareButton.setTag(R.drawable.share_selected);
+        shareButton.setImageResource(R.drawable.share_unelected);
+        shareButton.setTag(R.drawable.share_unelected);
         shareButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
         shareButton.setOnClickListener(new View.OnClickListener()
         {
@@ -458,7 +456,7 @@ public class NativeMediaPlayer extends Activity {
                 }
                 JNICalls.JNIShareInChat();
 
-                onBackPressed();
+                exitMediaplayer();
 
             }
         });
@@ -473,7 +471,7 @@ public class NativeMediaPlayer extends Activity {
 
         final ImageButton burgerButton = new ImageButton(this);
         burgerButton.setImageResource(R.drawable.menu_unselected);
-        burgerButton.setTag(R.drawable.menu_selected);
+        burgerButton.setTag(R.drawable.menu_unselected);
         burgerButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
         burgerButton.setOnClickListener(new View.OnClickListener()
         {
@@ -609,9 +607,8 @@ public class NativeMediaPlayer extends Activity {
         _paddedWindowHeight = metrics.heightPixels - (_buttonWidth * 1.25f);
     }
 
-    //Handling hardware back button
 
-    public void onBackPressed()
+    public void exitMediaplayer()
     {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
@@ -631,6 +628,11 @@ public class NativeMediaPlayer extends Activity {
                 finish();
             }
         }, 1500);
+    }
+    //Handling hardware back button
 
+    public void onBackPressed()
+    {
+        exitMediaplayer();
     }
 }
