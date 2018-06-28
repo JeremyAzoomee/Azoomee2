@@ -260,13 +260,16 @@ void MessageListViewItem::setData(const MessageRef& message)
                 const std::string& imgUrl = contentItem->getBaseImageThumbUrl();
             
                 _artImage->initWithUrlAndSizeWithoutPlaceholder(imgUrl, Size(getContentSize().width/2,getContentSize().width/2 * 10.0f/16.0f));
-                _artLayout->addTouchEventListener([=](Ref* sender, ui::Widget::TouchEventType event){
-                    if(event == ui::Widget::TouchEventType::ENDED)
-                    {
-                        Chat::delegate->onChatNavigateToContent(message->contentId());
-                    }
-                });
-                _artLayout->setTouchEnabled(true);
+                if(!_userIsParent)
+                {
+                    _artLayout->addTouchEventListener([=](Ref* sender, ui::Widget::TouchEventType event){
+                        if(event == ui::Widget::TouchEventType::ENDED)
+                        {
+                            Chat::delegate->onChatNavigateToContent(message->contentId());
+                        }
+                    });
+                    _artLayout->setTouchEnabled(true);
+                }
             }
         }
         else
@@ -329,6 +332,16 @@ void MessageListViewItem::setData(const MessageRef& message)
 MessageRef MessageListViewItem::getData() const
 {
     return _messageData;
+}
+
+void MessageListViewItem::setUserIsParent(bool isParent)
+{
+    _userIsParent = isParent;
+}
+
+bool MessageListViewItem::getUserIsParent() const
+{
+    return _userIsParent;
 }
 
 void MessageListViewItem::setAlignment(const Alignment& alignment)
