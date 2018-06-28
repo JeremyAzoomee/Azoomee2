@@ -32,6 +32,7 @@ private:
     
     cocos2d::ui::Button* _topScrollButton = nullptr;
     cocos2d::ui::Button* _bottomScrollButton = nullptr;
+    cocos2d::ui::Button* _undoButton = nullptr;
     
     void addAccessoryToOomee(const OomeeItemRef& data);
     void setItemsListForCategory(const ItemCategoryRef& data);
@@ -42,6 +43,7 @@ private:
     void addBGLayer();
     
     void makeAvatar();
+    void undo();
     
 public:
     

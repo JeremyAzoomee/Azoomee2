@@ -103,8 +103,8 @@ void OomeeMakerScene::onEnter()
     _oomee = OomeeFigure::create();
     _oomee->setContentSize(Size(_contentLayer->getContentSize().width * 0.585, _contentLayer->getContentSize().height));
     _oomee->setPosition(Vec2(_contentLayer->getContentSize().width * 0.165, 0));
-    _oomee->setOomeeData(oomeeData);
     _oomee->setColour(OomeeMakerDataStorage::getInstance()->getColourForKey(kDefaultOomeeId));
+    _oomee->setOomeeData(oomeeData);
     _oomee->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     _oomee->setEditable(true);
     if(FileUtils::getInstance()->isFileExist(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".oomee"))
@@ -144,12 +144,12 @@ void OomeeMakerScene::onEnter()
         this->addAccessoryToOomee(data);
     });
     _itemList->setColourSelectedCallback([this](const OomeeColourRef& colour){
+        _oomee->setColour(colour);
         const OomeeRef& oomee = OomeeMakerDataStorage::getInstance()->getOomeeForKey(colour->getId());
         if(oomee)
         {
             _oomee->setOomeeData(oomee);
         }
-        _oomee->setColour(colour);
     });
     _itemList->runAction(Sequence::create(DelayTime::create(0.5),MoveBy::create(1.5, Vec2(-_itemList->getContentSize().width, 0)), NULL));
     categories->setSelectedButton(categoryData.at(0));
@@ -196,9 +196,24 @@ void OomeeMakerScene::onEnter()
     exitButton->setAnchorPoint(Vec2(-0.25, 1.25));
     exitButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
     exitButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
-        this->saveAndExit();
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            this->saveAndExit();
+        }
     });
     _contentLayer->addChild(exitButton);
+    
+    _undoButton = ui::Button::create();
+    _undoButton->loadTextureNormal("res/oomeeMaker/undo.png");
+    _undoButton->setAnchorPoint(Vec2(-0.25, 1.25));
+    _undoButton->setPosition(Vec2(exitButton->getContentSize().width * 1.5, _contentLayer->getContentSize().height));
+    _undoButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            this->undo();
+        }
+    });
+    _contentLayer->addChild(_undoButton);
     
     ui::Button* makeAvatarButon = ui::Button::create();
     makeAvatarButon->loadTextureNormal("res/oomeeMaker/make_oomee_button_1.png");
@@ -240,6 +255,14 @@ void OomeeMakerScene::setItemsListForCategory(const ItemCategoryRef& data)
 void OomeeMakerScene::setFilename(const std::string &filename)
 {
     _filename = filename;
+}
+
+void OomeeMakerScene::undo()
+{
+    if(_oomee)
+    {
+        _oomee->undoLastAction();
+    }
 }
 
 void OomeeMakerScene::saveAndExit()

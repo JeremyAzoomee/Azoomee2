@@ -59,20 +59,29 @@ bool OomeeFigure::init()
         {
             DragAndDropController::getInstance()->setItemData(targetSprite->getItemData());
             DragAndDropController::getInstance()->setRemoveItemFromOomee();
+            _removingItem = true;
             return true;
         }
-        
+        _removingItem = false;
         return false;
     };
     
     _touchListener->onTouchMoved = [&](Touch* touch, Event* event)
     {
-        
+        if(_removingItem)
+        {
+            _undoStack.push_back(getDataSnapshot());
+            _removingItem = false;
+        }
     };
     
     _touchListener->onTouchEnded = [&](Touch* touch, Event* event)
     {
-        
+        if(_removingItem)
+        {
+            _undoStack.push_back(getDataSnapshot());
+            _removingItem = false;
+        }
     };
     
     _touchListener->onTouchCancelled = _touchListener->onTouchEnded;
@@ -130,12 +139,15 @@ bool OomeeFigure::initWithOomeeFigureData(const rapidjson::Document &data)
             }
         }
     }
+    _undoStack.clear();
+    _undoStack.push_back(getDataSnapshot());
     
     return true;
 }
 
 void OomeeFigure::setOomeeData(const OomeeRef& oomeeData)
 {
+    auto undoStackSize = _undoStack.size();
     _oomeeData = oomeeData;
     
     if(_baseSprite)
@@ -175,6 +187,13 @@ void OomeeFigure::setOomeeData(const OomeeRef& oomeeData)
     {
         addAccessory(accessoryItem.second);
     }
+    
+    while(_undoStack.size() > undoStackSize)// oomee change counts as single undoabe action
+    {
+        _undoStack.pop_back();
+    }
+    
+    _undoStack.push_back(getDataSnapshot());
 }
 
 OomeeRef OomeeFigure::getOomeeData() const
@@ -234,10 +253,16 @@ void OomeeFigure::addAccessory(const OomeeItemRef& oomeeItem)
         
         for(const std::string& id : oomeeItem->getDependancies())
         {
+            auto undoStackSize = _undoStack.size();
             addAccessory(OomeeMakerDataStorage::getInstance()->getOomeeItemForKey(id));
+            while(_undoStack.size() > undoStackSize) // might not have added accessory / action to stack, so check if size has changed
+            {
+                _undoStack.pop_back(); // dont count recursive additions as unique actions
+            }
         }
         
         dependancyCheck();
+        _undoStack.push_back(getDataSnapshot()); // add to undo stack after recursive accessory addition and dependancy cleanup
     }
 }
 
@@ -334,6 +359,52 @@ void OomeeFigure::dependancyCheck()
     for(const auto& removeAnchor : removeAccsAnchors)
     {
         removeAccessory(removeAnchor);
+    }
+    
+}
+
+OomeeDataSnapshot OomeeFigure::getDataSnapshot()
+{
+    OomeeDataSnapshot snapshot;
+    snapshot._oomeeData = _oomeeData;
+    snapshot._colourData = _colour;
+    for(const auto& acc : _accessories )
+    {
+        snapshot._accessoryData.push_back(acc.second->getItemData());
+    }
+    return snapshot;
+}
+
+void OomeeFigure::loadDataSnapshot(const OomeeDataSnapshot &dataSnapshot)
+{
+    auto undoStackSize = _undoStack.size();
+    setOomeeData(dataSnapshot._oomeeData);
+    setColour(dataSnapshot._colourData);
+    for(const auto& anchorPoint : _oomeeData->getAnchorPoints())
+    {
+        removeAccessory(anchorPoint.first);
+    }
+    for(const auto& acc : dataSnapshot._accessoryData)
+    {
+        addAccessory(acc);
+    }
+    
+    while(_undoStack.size() > undoStackSize) // reverse adding snapshots back onto the undo stack
+    {
+        _undoStack.pop_back();
+    }
+    _undoStack.push_back(getDataSnapshot()); // reset last snapshot to current state
+}
+
+void OomeeFigure::undoLastAction()
+{
+    // snapshot at top of stack is current state
+    if(_undoStack.size() >= 2)
+    {
+        _undoStack.pop_back(); //remove current state, this is updated to new state after loading old snapshot
+        auto targetState = _undoStack.at(_undoStack.size() - 1); //get previous state
+        _undoStack.pop_back(); // remove previous state from stack
+        loadDataSnapshot(targetState); // load previous state
     }
 }
 
