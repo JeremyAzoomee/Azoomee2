@@ -119,17 +119,17 @@ void OomeeMakerScene::onEnter()
     }
     _contentLayer->addChild(_oomee);
     
-    ItemCategoryList* categories = ItemCategoryList::create();
-    categories->setContentSize(Size(_contentLayer->getContentSize().width * 0.165, _contentLayer->getContentSize().height * 0.85f));
-    categories->setNormalizedPosition(Vec2(0,0.425f));
-    categories->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
-    categories->setItemSelectedCallback([this, categories](const ItemCategoryRef& data) {
-        categories->setSelectedButton(data);
+    _categoryList = ItemCategoryList::create();
+    _categoryList->setContentSize(Size(_contentLayer->getContentSize().width * 0.165, _contentLayer->getContentSize().height * 0.85f));
+    _categoryList->setNormalizedPosition(Vec2(0,0.425f));
+    _categoryList->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+    _categoryList->setItemSelectedCallback([this](const ItemCategoryRef& data) {
+        _categoryList->setSelectedButton(data);
         this->setItemsListForCategory(data);
     });
-    categories->setCategories(categoryData);
+    _categoryList->setCategories(categoryData);
     
-    _contentLayer->addChild(categories);
+    _contentLayer->addChild(_categoryList);
     
     LayerColor* itemListBG = LayerColor::create(Color4B::WHITE, _contentLayer->getContentSize().width * 0.25f, _contentLayer->getContentSize().height);
     itemListBG->setPosition(Vec2(_contentLayer->getContentSize().width, 0));
@@ -152,8 +152,6 @@ void OomeeMakerScene::onEnter()
         }
     });
     _itemList->runAction(Sequence::create(DelayTime::create(0.5),MoveBy::create(1.5, Vec2(-_itemList->getContentSize().width, 0)), NULL));
-    categories->setSelectedButton(categoryData.at(0));
-    setItemsListForCategory(categoryData.at(0));
     
     _contentLayer->addChild(_itemList);
     
@@ -232,6 +230,12 @@ void OomeeMakerScene::onEnterTransitionDidFinish()
     DragAndDropController::getInstance()->setTargetOomee(_oomee);
     DragAndDropController::getInstance()->attachToScene(this);
     DragAndDropController::getInstance()->setDebugModeEnabled(true);
+    
+    runAction(Sequence::create(DelayTime::create(0.5), CallFunc::create([=](){
+        _categoryList->setSelectedButton(OomeeMakerDataStorage::getInstance()->getItemCategoryForKey(kColourCategoryId));
+        setItemsListForCategory(OomeeMakerDataStorage::getInstance()->getItemCategoryForKey(kColourCategoryId));
+    }), NULL));
+    
     Super::onEnterTransitionDidFinish();
 }
 
