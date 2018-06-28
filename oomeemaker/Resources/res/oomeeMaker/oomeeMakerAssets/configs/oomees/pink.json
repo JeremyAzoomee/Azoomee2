@@ -23,7 +23,7 @@
 		"antenna01"
 	],
 	"position": [0.44,0.5],
-	"scale": 2.0,
+	"scale": 1.5,
 	"sizeMultiplier": 1.0,
 	"assetSet": {
 		"base": ["assets/baseOomee/Body_Solid.png",0],

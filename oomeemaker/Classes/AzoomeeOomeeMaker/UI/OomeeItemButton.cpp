@@ -16,8 +16,9 @@ NS_AZOOMEE_OM_BEGIN
 void OomeeItemButton::setItemData(const OomeeItemRef& itemdata)
 {
     _itemData = itemdata;
-    loadTextureNormal(OomeeMakerDataHandler::getInstance()->getAssetDir() + _itemData->getIconFilename());
-    setMainImage(OomeeMakerDataHandler::getInstance()->getAssetDir() + _itemData->getIconFilename());
+    const std::string& iconFilename = OomeeMakerDataHandler::getInstance()->getAssetDir() + _itemData->getIconFilename();
+    loadTextureNormal(iconFilename);
+    setMainImage(iconFilename);
     setPlaceholderImage("res/chat/ui/avatar/contact_inknown_icon.png");
     setScale(_itemData->getMenuScale());
     
@@ -26,8 +27,7 @@ void OomeeItemButton::setItemData(const OomeeItemRef& itemdata)
         {
             DragAndDropController::getInstance()->setItemData(_itemData);
         }
-        
-        if(eType == ui::Widget::TouchEventType::ENDED)
+        else if(eType == ui::Widget::TouchEventType::ENDED)
         {
             if(_itemSelectedCallback)
             {

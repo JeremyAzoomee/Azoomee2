@@ -22,7 +22,6 @@ class OomeeSelectScene : public cocos2d::Scene, public OomeeCarouselButtonDelega
 private:
     cocos2d::Layer* _contentLayer = nullptr;
     
-    std::map<std::string, OomeeFigure*> _createdOomees;
     OomeeCarousel* _oomeeCarousel = nullptr;
     cocos2d::ui::Button* _newOomeeButton = nullptr;
     

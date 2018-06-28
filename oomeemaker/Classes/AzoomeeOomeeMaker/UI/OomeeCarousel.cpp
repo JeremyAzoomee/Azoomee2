@@ -136,9 +136,13 @@ void OomeeCarousel::setOomeeData(const std::vector<std::string>& oomeeFilenames)
             {
                 if(pSender == _centerButton)
                 {
-                    if(_buttonDelegate)
+                    auto oomeeCenterButton = dynamic_cast<OomeeCarouselButton*>(_centerButton);
+                    if(oomeeCenterButton && oomeeCenterButton->getInFocus())
                     {
-                        _buttonDelegate->editOomee(_oomeeData.at(i));
+                        if(_buttonDelegate)
+                        {
+                            _buttonDelegate->editOomee(_oomeeData.at(i));
+                        }
                     }
                 }
             }

@@ -59,10 +59,6 @@ bool OomeeSelectScene::init()
         {
             delegate->onOomeeMakerNavigationBack();
         }
-        else
-        {
-            exit(EXIT_SUCCESS);
-        }
     });
     _contentLayer->addChild(exitButton);
     
@@ -94,11 +90,6 @@ void OomeeSelectScene::onEnterTransitionDidFinish()
 
 void OomeeSelectScene::setCarouselData()
 {
-    if(!_oomeeCarousel)
-    {
-        return;
-    }
-    
     const std::string& fileExtention = ".png";
     const std::vector<std::string>& createdOomeeFiles = DirectorySearcher::getInstance()->getFilesInDirectoryWithExtention(OomeeMakerDataHandler::getInstance()->getFullSaveDir(), fileExtention);
     std::vector<std::string> trimmedFilenames;
@@ -106,7 +97,10 @@ void OomeeSelectScene::setCarouselData()
     {
         trimmedFilenames.push_back(filename.substr(0,filename.length() - fileExtention.size()));
     }
-    _oomeeCarousel->setVisibleRange(MIN(MAX(1,ceil(trimmedFilenames.size() * 0.75f)), 6));
+    int oomeeListRange = ceil(trimmedFilenames.size() * 0.75f); //target visible range set to (int) number of oomees * 0.75
+    oomeeListRange = MAX(1,oomeeListRange); // cap base number at 1, is oomee list is empty
+    oomeeListRange = MIN(oomeeListRange, 6); // set max cap to 6, if oomeeList has > 8 oomees
+    _oomeeCarousel->setVisibleRange(oomeeListRange);
     _oomeeCarousel->setOomeeData(trimmedFilenames);
 }
 

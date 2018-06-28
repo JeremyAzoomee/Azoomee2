@@ -145,6 +145,11 @@ void OomeeCarouselButton::setInFocus(bool inFocus)
     }
 }
 
+bool OomeeCarouselButton::getInFocus() const
+{
+    return _inFocus;
+}
+
 void OomeeCarouselButton::setDelegate(OomeeCarouselButtonDelegate *delegate)
 {
     _delegate = delegate;

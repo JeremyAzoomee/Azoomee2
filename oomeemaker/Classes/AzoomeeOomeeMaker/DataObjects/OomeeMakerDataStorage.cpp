@@ -41,6 +41,7 @@ void OomeeMakerDataStorage::clearOomeeData()
 void OomeeMakerDataStorage::clearCategoryData()
 {
     _categoryData.clear();
+    _itemCategoryList.clear();
 }
 
 void OomeeMakerDataStorage::clearOomeeItemData()
@@ -52,6 +53,7 @@ void OomeeMakerDataStorage::clearOomeeItemData()
 void OomeeMakerDataStorage::clearColourData()
 {
     _oomeeColourData.clear();
+    _oomeeColourList.clear();
 }
 
 void OomeeMakerDataStorage::addOomee(const OomeeRef& oomee)
@@ -62,6 +64,7 @@ void OomeeMakerDataStorage::addOomee(const OomeeRef& oomee)
 void OomeeMakerDataStorage::addItemCategory(const ItemCategoryRef& itemCategory)
 {
     _categoryData[itemCategory->getId()] = itemCategory;
+    _itemCategoryList.push_back(itemCategory);
 }
 
 void OomeeMakerDataStorage::addOomeeItem(const OomeeItemRef& oomeeItem)
@@ -73,6 +76,7 @@ void OomeeMakerDataStorage::addOomeeItem(const OomeeItemRef& oomeeItem)
 void OomeeMakerDataStorage::addColour(const OomeeColourRef &colour)
 {
     _oomeeColourData[colour->getId()] = colour;
+    _oomeeColourList.push_back(colour);
 }
 
 std::map<std::string, OomeeRef> OomeeMakerDataStorage::getOomeedata()
@@ -102,22 +106,12 @@ std::map<std::string, OomeeColourRef> OomeeMakerDataStorage::getColourData()
 
 std::vector<ItemCategoryRef> OomeeMakerDataStorage::getItemCategoryList()
 {
-    std::vector<ItemCategoryRef> returnList;
-    for(auto element : _categoryData)
-    {
-        returnList.push_back(element.second);
-    }
-    return returnList;
+    return _itemCategoryList;
 }
 
 std::vector<OomeeColourRef> OomeeMakerDataStorage::getColourList()
 {
-    std::vector<OomeeColourRef> returnList;
-    for(auto element : _oomeeColourData)
-    {
-        returnList.push_back(element.second);
-    }
-    return returnList;
+    return _oomeeColourList;
 }
 
 OomeeRef OomeeMakerDataStorage::getOomeeForKey(const std::string& key) const

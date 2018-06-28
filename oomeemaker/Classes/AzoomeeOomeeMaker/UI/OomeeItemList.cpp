@@ -15,8 +15,6 @@ using namespace cocos2d;
 
 NS_AZOOMEE_OM_BEGIN
 
-const int OomeeItemList::kNumColours = 20;
-
 void OomeeItemList::doLayout()
 {
     Super::doLayout();
@@ -66,7 +64,7 @@ void OomeeItemList::setItems(const std::vector<OomeeItemRef>& itemList)
     forceDoLayout();
 }
 
-void OomeeItemList::SetColourItems()
+void OomeeItemList::setColourItems()
 {
     removeAllItems();
     auto colours = OomeeMakerDataStorage::getInstance()->getColourList();
@@ -112,10 +110,13 @@ bool OomeeItemList::init()
         return false;
     }
     
+    setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+    setBackGroundColor(Color3B::WHITE);
+    
     setDirection(ui::ScrollView::Direction::VERTICAL);
     setBounceEnabled(true);
     setGravity(ui::ListView::Gravity::CENTER_HORIZONTAL);
-    setItemsMargin(50.0f);
+    setItemsMargin(100.0f);
     setTopPadding(100.0f);
     setBottomPadding(100.0f);
     setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
@@ -125,9 +126,6 @@ bool OomeeItemList::init()
 
 void OomeeItemList::onEnter()
 {
-    setBackGroundImage("res/oomeeMaker/OomeeMaker_Drawer_Gradient.png");
-    setBackGroundImageScale9Enabled(true);
-    
     Super::onEnter();
 }
 

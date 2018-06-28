@@ -97,7 +97,7 @@ int OomeeBody::transformZOrder(int zOrder)
     {
         return zOrder;
     }
-    return zOrder + _oomeeData->getAssetSet().size();
+    return zOrder + (int)_oomeeData->getAssetSet().size();
 }
 
 NS_AZOOMEE_OM_END

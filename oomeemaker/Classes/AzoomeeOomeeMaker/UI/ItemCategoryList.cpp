@@ -49,7 +49,8 @@ bool ItemCategoryList::init()
     setBounceEnabled(true);
     setGravity(ui::ListView::Gravity::CENTER_HORIZONTAL);
     setItemsMargin(50.0f);
-    setBottomPadding(200.0f);
+    setTopPadding(100.0f);
+    setBottomPadding(100.0f);
     
     return true;
 }
@@ -85,7 +86,7 @@ void ItemCategoryList::setItemSelectedCallback(const ItemSelectedCallback& callb
 void ItemCategoryList::setSelectedButton(const ItemCategoryRef& data)
 {
     auto itemList = getItems();
-    for(auto item : itemList)
+    for(const auto& item : itemList)
     {
         ItemCategoryButton* button = dynamic_cast<ItemCategoryButton*>(item);
         if(button)

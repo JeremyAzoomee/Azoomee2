@@ -19,6 +19,15 @@
 
 NS_AZOOMEE_OM_BEGIN
 
+enum class AccessoryAction {ADD, REMOVE};
+
+struct OomeeDataSnapshot
+{
+    OomeeRef _oomeeData;
+    OomeeColourRef _colourData;
+    std::vector<OomeeItemRef> _accessoryData;
+};
+
 class OomeeFigure : public cocos2d::Node
 {
     typedef cocos2d::Node Super;
@@ -29,10 +38,15 @@ private:
     OomeeColourRef _colour = nullptr;
     OomeeBody* _baseSprite = nullptr;
     std::map<std::string, OomeeAccessory*> _accessories;
-    //std::map<std::string, SpriteWithHue*> _accessorySprites;
-    //std::map<std::string, OomeeItemRef> _accessoryData;
     cocos2d::EventListenerTouchOneByOne* _touchListener = nullptr;
     float _hue = 0;
+    
+    bool _removingItem = false;
+    
+    std::vector<OomeeDataSnapshot> _undoStack;
+    
+    OomeeDataSnapshot getDataSnapshot();
+    void loadDataSnapshot(const OomeeDataSnapshot& dataSnapshot);
     
     void dependancyCheck();
     
@@ -63,6 +77,8 @@ public:
     float getHue() const;
     void setHue(float hue);
     
+    
+    void undoLastAction();
     
     CREATE_FUNC(OomeeFigure);
 };
