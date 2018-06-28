@@ -137,7 +137,7 @@ bool MeHQGallery::init()
         ui::Button* moreButton = ui::Button::create("res/buttons/button_dark.png");
         moreButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
         moreButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
-        moreButton->setContentSize(Size(600,250));
+        moreButton->setContentSize(Size(600,moreButton->getContentSize().height));
         moreButton->ignoreContentAdaptWithSize(false);
         moreButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
             if(eType == ui::Widget::TouchEventType::ENDED)
@@ -188,7 +188,7 @@ void MeHQGallery::buildEmptyCarousel()
     makePaintingButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     makePaintingButton->setCapInsets(capInsents);
     makePaintingButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
-    makePaintingButton->setContentSize(Size(1000,250));
+    makePaintingButton->setContentSize(Size(1000,makePaintingButton->getContentSize().height));
     makePaintingButton->setScale9Enabled(true);
     //makePaintingButton->ignoreContentAdaptWithSize(false);
     makePaintingButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){

@@ -69,7 +69,7 @@ bool MeHQProfileDetails::init()
     _editOomeeButton->setNormalizedPosition(Vec2(0.5,0.25));
     _editOomeeButton->setScale9Enabled(true);
     _editOomeeButton->setCapInsets(Rect(_editOomeeButton->getContentSize().width/2,0,1,_editOomeeButton->getContentSize().height));
-    _editOomeeButton->setContentSize(Size(912, 200));
+    _editOomeeButton->setContentSize(Size(912, _editOomeeButton->getContentSize().height));
     _editOomeeButton->ignoreContentAdaptWithSize(false);
     
     _editOomeeButton->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){

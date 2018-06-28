@@ -144,7 +144,7 @@ void MeHQFavourites::onEnter()
         ui::Button* editButton = ui::Button::create("res/buttons/button_dark.png");
         editButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
         editButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
-        editButton->setContentSize(Size(1230,250));
+        editButton->setContentSize(Size(1230,editButton->getContentSize().height));
         editButton->ignoreContentAdaptWithSize(false);
         editButton->setScale9Enabled(true);
         editButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
@@ -200,14 +200,13 @@ void MeHQFavourites::buildEmptyCarousel()
     
     Rect capInsents = Rect(100, 0, 286, 149);
     
-    ui::Button* makePaintingButton = ui::Button::create("res/buttons/button_dark.png");
-    makePaintingButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    makePaintingButton->setCapInsets(capInsents);
-    makePaintingButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
-    makePaintingButton->setContentSize(Size(1000,250));
-    makePaintingButton->setScale9Enabled(true);
-    //makePaintingButton->ignoreContentAdaptWithSize(false);
-    makePaintingButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+    ui::Button* trySomethingButton = ui::Button::create("res/buttons/button_dark.png");
+    trySomethingButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    trySomethingButton->setCapInsets(capInsents);
+    trySomethingButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+    trySomethingButton->setContentSize(Size(1000,trySomethingButton->getContentSize().height));
+    trySomethingButton->setScale9Enabled(true);
+    trySomethingButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
             auto baseLayer = Director::getInstance()->getRunningScene();
@@ -223,13 +222,13 @@ void MeHQFavourites::buildEmptyCarousel()
         }
     });
     
-    Label* makePaintingButtonLabel = Label::createWithTTF("Try something new", Style::Font::Regular, makePaintingButton->getContentSize().height * 0.4f);
-    makePaintingButtonLabel->setTextColor(Color4B::WHITE);
-    makePaintingButtonLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    makePaintingButtonLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    makePaintingButton->addChild(makePaintingButtonLabel);
+    Label* trySomethingButtonLabel = Label::createWithTTF("Try something new", Style::Font::Regular, trySomethingButton->getContentSize().height * 0.4f);
+    trySomethingButtonLabel->setTextColor(Color4B::WHITE);
+    trySomethingButtonLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    trySomethingButtonLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    trySomethingButton->addChild(trySomethingButtonLabel);
     
-    this->addChild(makePaintingButton);
+    this->addChild(trySomethingButton);
     
     ui::Text* heading = ui::Text::create(StringUtils::format("Favourite content after you watch%sor play and it will appear here.", isPortrait ? "\n" : " "), Style::Font::Regular, 80);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);

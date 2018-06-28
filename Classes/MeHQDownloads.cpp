@@ -162,14 +162,13 @@ void MeHQDownloads::buildEmptyCarousel()
     
     Rect capInsents = Rect(100, 0, 286, 149);
     
-    ui::Button* makePaintingButton = ui::Button::create("res/buttons/button_dark.png");
-    makePaintingButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    makePaintingButton->setCapInsets(capInsents);
-    makePaintingButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
-    makePaintingButton->setContentSize(Size(1000,250));
-    makePaintingButton->setScale9Enabled(true);
-    //makePaintingButton->ignoreContentAdaptWithSize(false);
-    makePaintingButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+    ui::Button* playGamesButton = ui::Button::create("res/buttons/button_dark.png");
+    playGamesButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    playGamesButton->setCapInsets(capInsents);
+    playGamesButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+    playGamesButton->setContentSize(Size(1000,playGamesButton->getContentSize().height));
+    playGamesButton->setScale9Enabled(true);
+    playGamesButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
             auto baseLayer = Director::getInstance()->getRunningScene();
@@ -185,13 +184,13 @@ void MeHQDownloads::buildEmptyCarousel()
         }
     });
     
-    Label* makePaintingButtonLabel = Label::createWithTTF("Play games", Style::Font::Regular, makePaintingButton->getContentSize().height * 0.4f);
-    makePaintingButtonLabel->setTextColor(Color4B::WHITE);
-    makePaintingButtonLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    makePaintingButtonLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    makePaintingButton->addChild(makePaintingButtonLabel);
+    Label* playGamesButtonLabel = Label::createWithTTF("Play games", Style::Font::Regular, playGamesButton->getContentSize().height * 0.4f);
+    playGamesButtonLabel->setTextColor(Color4B::WHITE);
+    playGamesButtonLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    playGamesButtonLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    playGamesButton->addChild(playGamesButtonLabel);
     
-    this->addChild(makePaintingButton);
+    this->addChild(playGamesButton);
     
     ui::Text* heading = ui::Text::create(StringUtils::format("Play some games and they’ll appear%shere, then you can play them\nwhen you’re offline.", isPortrait ? "\n" : " "), Style::Font::Regular, 80);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);

@@ -101,9 +101,7 @@ void MeHQ::refreshFavouritesLayout()
 
 void MeHQ::refreshMessagesLayout()
 {
-    //float scrollPercent = _contentListView->getScrolledPercentVertical();
     _contentListView->forceDoLayout();
-    //_contentListView->scrollToPercentVertical(scrollPercent, 0, true);
 }
 
 NS_AZOOMEE_END
