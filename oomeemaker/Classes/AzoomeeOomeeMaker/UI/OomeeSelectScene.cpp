@@ -126,9 +126,9 @@ void OomeeSelectScene::deleteOomee(const std::string &oomeeFilename)
 
 void OomeeSelectScene::makeAvatar(const std::string &oomeeFilename)
 {
-    if(delegate)
+    if(Azoomee::OomeeMaker::delegate)
     {
-        delegate->onOomeeMakerUpdateAvatar(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + oomeeFilename + ".png");
+        Azoomee::OomeeMaker::delegate->onOomeeMakerUpdateAvatar(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + oomeeFilename + ".png");
     }
 }
 
