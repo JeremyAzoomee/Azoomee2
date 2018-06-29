@@ -11,8 +11,9 @@
 #include "../Utils/BiometricAuthenticationHandler.h"
 #include "Scene.h"
 
-
 using namespace cocos2d;
+
+#define PIN_Z_ORDER 3000
 
 NS_AZOOMEE_BEGIN
 
@@ -54,7 +55,7 @@ void RequestAdultPinLayer::createBackgroundLayer()
     backgroundLayer = LayerColor::create(Color4B(15,14,7,255),currentRunningScene->getContentSize().width, currentRunningScene->getContentSize().height);
     this->addChild(backgroundLayer);
     
-    currentRunningScene->addChild(this);
+    currentRunningScene->addChild(this, PIN_Z_ORDER);
 }
 
 void RequestAdultPinLayer::addListenerToBiometricValidationSuccess()
