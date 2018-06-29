@@ -27,7 +27,6 @@ public:
     virtual void setFileName(const std::string& fileName) override;
     void setSecondsSpentInArtApp(long seconds) override;
     long getSecondsSpentInArtApp() const;
-    bool _returnedFromArtApp = false;
     
 private:
     long _secondsSpentInArtApp = 0;

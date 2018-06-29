@@ -95,6 +95,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         }
         case ChildSelector:
         {
+            returnToPrevOrientation();
             acceptAnyOrientation();
             cocos2d::Scene* goToScene = ChildSelectorScene::createScene();
             AnalyticsSingleton::getInstance()->registerCurrentScene("CHILD_SELECTOR");
@@ -155,6 +156,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         }
         case SettingsFromChat:
         {
+            HQHistoryManager::getInstance()->updatePrevOrientation();
             forceToLandscape();
             cocos2d::Scene* goToScene = EmptySceneForSettings::createScene(SettingsOrigin::CHAT);
             AnalyticsSingleton::getInstance()->registerCurrentScene("SETTINGS");
@@ -198,6 +200,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             {
                 forceToLandscape();
             }
+            HQHistoryManager::getInstance()->updatePrevOrientation();
             Director::getInstance()->replaceScene(IntroVideoScene::create());
             break;
         }
@@ -225,7 +228,7 @@ void SceneManagerScene::acceptAnyOrientation()
 
 void SceneManagerScene::returnToPrevOrientation()
 {
-    if(ContentHistoryManager::getInstance()->getReturnedFromContent() || ArtAppDelegate::getInstance()->_returnedFromArtApp)
+    if(ContentHistoryManager::getInstance()->getReturnedFromContent() || HQHistoryManager::getInstance()->_returnedFromForcedOrientation)
     {
         if(HQHistoryManager::getInstance()->_prevHQOrientation == Portrait)
         {
@@ -236,7 +239,7 @@ void SceneManagerScene::returnToPrevOrientation()
             forceToLandscape();
         }
     }
-    ArtAppDelegate::getInstance()->_returnedFromArtApp = false;
+    HQHistoryManager::getInstance()->_returnedFromForcedOrientation = false;
 }
 
 NS_AZOOMEE_END
