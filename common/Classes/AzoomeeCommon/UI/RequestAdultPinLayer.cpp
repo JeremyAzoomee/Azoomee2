@@ -330,6 +330,7 @@ void RequestAdultPinLayer::MessageBoxButtonPressed(std::string messageBoxTitle,s
             return;
         }
     }
+    editBox_pin->setEditboxVisibility(true);
     editBox_pin->focusAndShowKeyboard();
     
 }

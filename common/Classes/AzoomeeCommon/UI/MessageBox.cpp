@@ -14,6 +14,8 @@ using namespace cocos2d;
 
 #define MESSAGE_BOX_PADDING 100
 
+#define MESSAGE_BOX_Z_ORDER 4000
+
 namespace Azoomee
 {
     
@@ -197,7 +199,7 @@ void MessageBox::createBackgroundLayer()
     backgroundLayer = LayerColor::create(Style::Color_4B::awaitingPinLayer,currentRunningScene->getContentSize().width, currentRunningScene->getContentSize().height);
     this->addChild(backgroundLayer);
     
-    Director::getInstance()->getRunningScene()->addChild(this);
+    Director::getInstance()->getRunningScene()->addChild(this, MESSAGE_BOX_Z_ORDER);
 }
 
 void MessageBox::addListenerToBackgroundLayer()
