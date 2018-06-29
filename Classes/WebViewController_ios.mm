@@ -56,28 +56,20 @@ using namespace Azoomee;
     NSString *urlToCall;
     
     
-    if([urlToLoad hasSuffix:@"html"]) //this is a game
-    {
-        if([urlToLoad hasPrefix:@"http"]) //game is loaded remotely
-        {
-            urlToCall = [NSString stringWithFormat:@"%@%@", getRemoteWebGameAPIPath(), @"index_ios.html"];
-        }
-        else //game is loaded locally
-        {
-            urlToCall = [[NSBundle mainBundle] pathForResource:@"res/webcommApi/index_ios" ofType:@"html"];
-        }
-    }
-    else
-    {
-        NSString *htmlFileAddress = [[NSBundle mainBundle] pathForResource:@"res/jwplayer/index_ios" ofType:@"html"];
-        urlToCall = [NSString stringWithFormat:@"%@?contentUrl=%@", htmlFileAddress, urlToLoad];
-    }
+    //if([urlToLoad hasPrefix:@"http"]) //game is loaded remotely
+    //{
+    //    urlToCall = [NSString stringWithFormat:@"%@%@", getRemoteWebGameAPIPath(), @"index_ios.html"];
+    //}
+    //else //game is loaded locally
+    //{
+        urlToCall = [[NSBundle mainBundle] pathForResource:@"res/webcommApi/index_ios" ofType:@"html"];
+    //}
     
     NSURL *nsurl=[NSURL URLWithString:urlToCall];
     NSURLRequest *nsrequest = [NSURLRequest requestWithURL:nsurl];
     
-    [webview setAllowsInlineMediaPlayback:YES];
-    [webview setMediaPlaybackRequiresUserAction:NO];
+    //[webview setAllowsInlineMediaPlayback:YES];
+    //[webview setMediaPlaybackRequiresUserAction:NO];
     [webview scrollView].scrollEnabled = NO;
     [webview scrollView].bounces = NO;
     [webview setDelegate:self];
@@ -167,24 +159,18 @@ using namespace Azoomee;
 {
     if(!iframeloaded)
     {
-        if([urlToLoad hasSuffix:@"html"])
-        {
-            [webView stringByEvaluatingJavaScriptFromString:@"clearLocalStorage()"];
+
+        //[webView stringByEvaluatingJavaScriptFromString:@"clearLocalStorage()"];
             
-            NSString *localStorageData = [NSString stringWithFormat: @"%s", getLocalStorageForGame()];
+        //NSString *localStorageData = [NSString stringWithFormat: @"%s", getLocalStorageForGame()];
             
-            NSString *addDataString = [NSString stringWithFormat:@"addDataToLocalStorage(\"%@\")", localStorageData];
-            NSLog(@"addDataString: %@", addDataString);
-            [webView stringByEvaluatingJavaScriptFromString:addDataString];
+        //NSString *addDataString = [NSString stringWithFormat:@"addDataToLocalStorage(\"%@\")", localStorageData];
+        //NSLog(@"addDataString: %@", addDataString);
+        //[webView stringByEvaluatingJavaScriptFromString:addDataString];
             
-            NSString *loadString = [NSString stringWithFormat:@"addFrameWithUrl(\"%@\")", urlToLoad];
-            [webView stringByEvaluatingJavaScriptFromString:loadString];
-        }
-        else
-        {
-            NSString *loadString = [NSString stringWithFormat:@"startBuildingPlayer(\"%@\")", getVideoPlaylist()];
-            [webView stringByEvaluatingJavaScriptFromString:loadString];
-        }
+        NSString *loadString = [NSString stringWithFormat:@"addFrameWithUrl(\"%@\")", urlToLoad];
+        [webView stringByEvaluatingJavaScriptFromString:loadString];
+   
         
         iframeloaded = true;
     };
@@ -211,15 +197,7 @@ using namespace Azoomee;
     [backButton setFrame:CGRectMake(buttonWidth/4 + (screenSize.width * _closeButtonAnchorX), buttonWidth/4 + (screenSize.height * _closeButtonAnchorY), buttonWidth, buttonWidth)];
     [backButton setExclusiveTouch:YES];
 
-    //Check if has html, then opening game.
-    if([urlToLoad containsString:@"html"])
-    {
-        [backButton setImage:[UIImage imageNamed:@"res/navigation/close_button.png"] forState:UIControlStateNormal];
-    }
-    else
-    {
-        [backButton setImage:[UIImage imageNamed:@"res/navigation/back_button.png"] forState:UIControlStateNormal];
-    }
+    [backButton setImage:[UIImage imageNamed:@"res/navigation/close_button.png"] forState:UIControlStateNormal];
     
     [self.view addSubview:backButton];
 }
@@ -242,11 +220,6 @@ using namespace Azoomee;
 -(void) removeWebViewWhileInBackground
 {
     [backButton removeFromSuperview];
-    
-    if(![urlToLoad hasSuffix:@"html"])
-    {
-        return;
-    }
     
     NSString *htmlData = [webview stringByEvaluatingJavaScriptFromString:@"saveLocalDataBeforeExit()"];
     saveLocalStorageData(htmlData);

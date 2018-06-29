@@ -17,7 +17,7 @@ bool ManualGameInputLayer::init()
     }
     
     visibleSize = Director::getInstance()->getVisibleSize();
-    origin = Director::getInstance()->getVisibleOrigin();
+    origin = Vec2(0,0);//Director::getInstance()->getVisibleOrigin();
 
     createBackgroundLayer();
     addSideWiresToScreen(this, 0, 2);
@@ -103,6 +103,9 @@ void ManualGameInputLayer::buttonPressed(ElectricDreamsButton* button)
     }
     else if(button == startGameButton)
     {
+        Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Landscape, uriTextInput->getText()));
+
+        /*
         ModalMessages::getInstance()->startLoading();
         
         UserDefault* def = UserDefault::getInstance();
@@ -117,6 +120,7 @@ void ManualGameInputLayer::buttonPressed(ElectricDreamsButton* button)
         FileUtils::getInstance()->createDirectory(manualGamePath);
         
         GameDataManager::getInstance()->getJSONGameData(uriTextInput->getText().c_str(), GameDataManager::kManualGameId);
+         */
     }
 }
 

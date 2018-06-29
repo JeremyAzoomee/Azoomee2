@@ -99,14 +99,14 @@ public class NativeViewUI extends Activity {
                 ViewGroup.LayoutParams.MATCH_PARENT));
 
         ImageButton closeButton = new ImageButton(this);
-        if(loadingGame())
-        {
+        //if(loadingGame())
+        //{
             closeButton.setImageResource(R.drawable.close_button);
-        }
-        else
-        {
-            closeButton.setImageResource(R.drawable.back_button);
-        }
+        //}
+        //else
+        //{
+        //    closeButton.setImageResource(R.drawable.back_button);
+        //}
 
         closeButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
         closeButton.setOnClickListener(new View.OnClickListener()
@@ -270,21 +270,21 @@ public class NativeViewUI extends Activity {
         Log.d("urlToBeLoaded", myUrl);
         final String urlToBeLoaded;
 
-        if(myUrl.endsWith("html"))
-        {
-            if(myUrl.startsWith("http")) //content is game loaded remotely
-            {
-                urlToBeLoaded = JNICalls.JNIGetRemoteWebGameAPIPath() + "index_android.html?contentUrl=" + myUrl;
-            }
-            else //game is loaded locally
-            {
+        //if(myUrl.endsWith("html"))
+        //{
+        //    if(myUrl.startsWith("http")) //content is game loaded remotely
+        //    {
+        //        urlToBeLoaded = JNICalls.JNIGetRemoteWebGameAPIPath() + "index_android.html?contentUrl=" + myUrl;
+        //    }
+        //    else //game is loaded locally
+        //    {
                 urlToBeLoaded = "file:///android_asset/res/webcommApi/index_android.html?contentUrl=" + myUrl;
-            }
-        }
-        else
-        {
-            urlToBeLoaded = "file:///android_asset/res/jwplayer/index_android.html?contentUrl=" + myUrl;
-        }
+        //    }
+        //}
+        //else
+        //{
+        //    urlToBeLoaded = "file:///android_asset/res/jwplayer/index_android.html?contentUrl=" + myUrl;
+        //}
 
         CookieManager uiWebviewCookieManager = CookieManager.getInstance();
         if (Build.VERSION.SDK_INT >= 21)
