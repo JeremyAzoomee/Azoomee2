@@ -12,7 +12,6 @@ class ManualGameInputLayer : public cocos2d::Layer, public ElectricDreamsButtonD
 {
 private:
     cocos2d::Size visibleSize;
-    cocos2d::Vec2 origin;
     
     cocos2d::LayerColor *backgroundLayer;
     

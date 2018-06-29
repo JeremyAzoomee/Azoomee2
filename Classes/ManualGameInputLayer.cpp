@@ -4,6 +4,7 @@
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "GameDataManager.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 using namespace cocos2d;
 
@@ -17,8 +18,7 @@ bool ManualGameInputLayer::init()
     }
     
     visibleSize = Director::getInstance()->getVisibleSize();
-    origin = Director::getInstance()->getVisibleOrigin();
-
+    setName(ConfigStorage::kContentTypeManual);
     createBackgroundLayer();
     addSideWiresToScreen(this, 0, 2);
     addTitle();
@@ -32,7 +32,7 @@ bool ManualGameInputLayer::init()
 
 void ManualGameInputLayer::createBackgroundLayer()
 {
-    backgroundLayer = LayerColor::create(Color4B::BLACK,origin.x + visibleSize.width,origin.y + visibleSize.height);
+    backgroundLayer = LayerColor::create(Color4B::BLACK,visibleSize.width, visibleSize.height);
     
     this->addChild(backgroundLayer);
     Director::getInstance()->getRunningScene()->addChild(this);
@@ -57,19 +57,20 @@ void ManualGameInputLayer::addListenerToBackgroundLayer()
 void ManualGameInputLayer::addTitle()
 {
     auto title = createLabelHeader("Add Game URL");
+    title->setPosition(Vec2(visibleSize.width / 2, visibleSize.height * 0.9f));
     backgroundLayer->addChild(title);
 }
 
 void ManualGameInputLayer::addButtons()
 {
     backButton = ElectricDreamsButton::createBackButton();
-    backButton->setCenterPosition(Vec2(origin.x +backButton->getContentSize().width*.7, origin.y + visibleSize.height - backButton->getContentSize().height*.7));
+    backButton->setCenterPosition(Vec2(backButton->getContentSize().width*.7, visibleSize.height - backButton->getContentSize().height*.7));
     backButton->setDelegate(this);
     backButton->setMixPanelButtonName("ManualGameInputBackButton");
     backgroundLayer->addChild(backButton);
     
     startGameButton = ElectricDreamsButton::createNextButton();
-    startGameButton->setCenterPosition(Vec2(origin.x + visibleSize.width -startGameButton->getContentSize().width*.7, origin.y+ visibleSize.height - startGameButton->getContentSize().height*.7));
+    startGameButton->setCenterPosition(Vec2(visibleSize.width -startGameButton->getContentSize().width*.7, visibleSize.height - startGameButton->getContentSize().height*.7));
     startGameButton->setDelegate(this);
     startGameButton->setMixPanelButtonName("ManualGameInputStartGameButton");
     backgroundLayer->addChild(startGameButton);
@@ -79,8 +80,9 @@ void ManualGameInputLayer::addTextBox()
 {
     UserDefault* def = UserDefault::getInstance();
     
-    uriTextInput = TextInputLayer::createWithSize(Size(1500,500), -1);
+    uriTextInput = TextInputLayer::createWithSize(Size(visibleSize.width * 0.75f,500), -1);
     uriTextInput->setText(def->getStringForKey("GameURI", ""));
+    uriTextInput->setCenterPosition(Vec2(visibleSize.width/2, visibleSize.height * 0.70f));
     backgroundLayer->addChild(uriTextInput);
     def->flush();
 }

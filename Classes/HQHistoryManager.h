@@ -40,6 +40,8 @@ public:
     bool thereWasAnError = false;
     bool isOffline = false;
     
+    bool _returnedFromForcedOrientation = false;
+    
     Orientation _prevHQOrientation = Orientation::Landscape;
     
 };
