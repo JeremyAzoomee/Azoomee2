@@ -122,7 +122,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         {
             // Make sure we set the chat delegate
             Azoomee::Chat::delegate = ChatDelegate::getInstance();
-            
+            returnToPrevOrientation();
             acceptAnyOrientation();
             cocos2d::Scene* goToScene;
             if(Azoomee::Chat::delegate->_imageFileName != "")
@@ -139,6 +139,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         }
         case ArtAppEntryPointScene:
         {
+            HQHistoryManager::getInstance()->updatePrevOrientation();
             Azoomee::ArtApp::delegate = ArtAppDelegate::getInstance();
             ArtAppDelegate::getInstance()->ArtAppRunning = true;
             
@@ -162,6 +163,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         }
         case Settings:
         {
+            HQHistoryManager::getInstance()->updatePrevOrientation();
             forceToLandscape();
             cocos2d::Scene* goToScene = EmptySceneForSettings::createScene(SettingsOrigin::MAIN_APP);
             AnalyticsSingleton::getInstance()->registerCurrentScene("SETTINGS");
@@ -223,7 +225,7 @@ void SceneManagerScene::acceptAnyOrientation()
 
 void SceneManagerScene::returnToPrevOrientation()
 {
-    if(ContentHistoryManager::getInstance()->getReturnedFromContent())
+    if(ContentHistoryManager::getInstance()->getReturnedFromContent() || ArtAppDelegate::getInstance()->_returnedFromArtApp)
     {
         if(HQHistoryManager::getInstance()->_prevHQOrientation == Portrait)
         {
@@ -234,6 +236,7 @@ void SceneManagerScene::returnToPrevOrientation()
             forceToLandscape();
         }
     }
+    ArtAppDelegate::getInstance()->_returnedFromArtApp = false;
 }
 
 NS_AZOOMEE_END
