@@ -11,6 +11,8 @@ USING_NS_CC;
 #define MESSAGE_BOX_MINIMUM_WIDTH 1366
 #define MESSAGE_BOX_MAXIMUM_WIDTH 2049
 
+#define LOADING_Z_ORDER 5000
+
 NS_AZOOMEE_BEGIN
 
 static ModalMessages *_sharedModalMessages = NULL;
@@ -45,7 +47,7 @@ void ModalMessages::createAndFadeInLayer()
     loadingLayer->setPosition(origin.x, origin.y);
     loadingLayer->setOpacity(0);
     loadingLayer->setName("loadingLayer");
-    Director::getInstance()->getRunningScene()->addChild(loadingLayer);
+    Director::getInstance()->getRunningScene()->addChild(loadingLayer, LOADING_Z_ORDER);
     
     addListenerToBackgroundLayer();
     

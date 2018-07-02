@@ -183,7 +183,7 @@ Size ChildSelectorScene::getScrollviewInnerSize(float scrollviewWidth)
     
     int numRows = ceil(numChildren / (double)childrenPerRow);
     
-    return Size(scrollviewWidth, (OOMEE_LAYER_HEIGHT * numRows) + ((_isPortrait ? OOMEE_LAYER_GAP_PORTRAIT : OOMEE_LAYER_GAP) * (numRows - 0.5)));
+    return Size(OOMEE_LAYER_WIDTH * childrenPerRow + OOMEE_LAYER_GAP * (childrenPerRow - 1), (OOMEE_LAYER_HEIGHT * numRows) + ((_isPortrait ? OOMEE_LAYER_GAP_PORTRAIT : OOMEE_LAYER_GAP) * (numRows - 0.5)));
 }
 
 void ChildSelectorScene::addProfilesToScrollView()
@@ -314,7 +314,7 @@ Point ChildSelectorScene::positionElementOnScrollView(Node *layerToBeAdded)
     
     Point newPos = Point(lastPos.x + lastChild->getContentSize().width + OOMEE_LAYER_GAP, lastPos.y);
     
-    if(newPos.x + layerToBeAdded->getContentSize().width > _scrollView->getInnerContainerSize().width)
+    if(newPos.x + layerToBeAdded->getContentSize().width > (startPosX + getScrollviewInnerSize(_scrollView->getContentSize().width).width)) // position relative to expected size
     {
         newPos = Point(startPosX, newPos.y - (_isPortrait ? OOMEE_LAYER_GAP_PORTRAIT : OOMEE_LAYER_GAP) / 2 - layerToBeAdded->getContentSize().height);
     }

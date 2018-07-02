@@ -196,7 +196,7 @@ void HQSceneElement::addListenerToElement()
             AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
             _iamtouched = false;
             
-            if(_elementItemData->getType() == "MANUAL")
+            if(_elementItemData->getType() == ConfigStorage::kContentTypeManual)
             {
                 ManualGameInputLayer::create();
                 return true;

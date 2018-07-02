@@ -15,7 +15,7 @@
 #include "HQDataParser.h"
 #include "HQHistoryManager.h"
 #include "BackEndCaller.h"
-
+#include "ManualGameInputLayer.h"
 #include "IAPProductDataHandler.h"
 
 #include "DynamicNodeHandler.h"
@@ -182,6 +182,13 @@ void BaseScene::onSizeChanged()
     if(navLayer == nullptr)
     {
         return;
+    }
+    
+    auto manualInputLayer = this->getChildByName(ConfigStorage::kContentTypeManual);
+    if(manualInputLayer)
+    {
+        manualInputLayer->removeFromParent();
+        ManualGameInputLayer::create();
     }
     
     NavigationLayer* navigation = dynamic_cast<NavigationLayer*>(navLayer);

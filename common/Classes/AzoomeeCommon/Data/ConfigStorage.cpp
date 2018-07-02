@@ -45,6 +45,7 @@ static ConfigStorage *_sharedConfigStorage = NULL;
     const char* const ConfigStorage::kContentTypeGame = "GAME";
     const char* const ConfigStorage::kContentTypeGroup = "GROUP";
     const char* const ConfigStorage::kContentTypeAudioGroup = "AUDIOGROUP";
+    const char* const ConfigStorage::kContentTypeManual = "MANUAL";
     
     const char* const ConfigStorage::kEstimatedKeyboardHeightPortrait = "Azoomee::MessageComposer::EstimatedKeyboardHeight/Portrait";
     const char* const ConfigStorage::kEstimatedKeyboardHeightLandscape = "Azoomee::MessageComposer::EstimatedKeyboardHeight/Landscape";

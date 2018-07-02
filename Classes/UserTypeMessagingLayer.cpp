@@ -39,7 +39,7 @@ void UserTypeMessagingLayer::onEnter()
     this->addChild(_bgSprite);
     
     _startTrialButton = ui::Button::create("res/buttons/MainButton.png");
-    _startTrialButton->setContentSize(Size(this->getContentSize().width * (isPortrait ? 0.6f : 0.5f), this->getContentSize().height * 0.65f));
+    _startTrialButton->setContentSize(Size(this->getContentSize().width * (isPortrait ? 0.6f : 0.5f), _startTrialButton->getContentSize().height));
     _startTrialButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _startTrialButton->setNormalizedPosition(Vec2(isPortrait ? 0.33 : 0.5, 0.5));
     _startTrialButton->setSwallowTouches(true);
@@ -89,12 +89,13 @@ void UserTypeMessagingLayer::onEnter()
     this->addChild(_signInButton);
     
     _reactivateButton = ui::Button::create("res/buttons/MainButton.png");
-    _reactivateButton->setContentSize(Size(this->getContentSize().width * (isPortrait ? 0.6f : 0.5f), this->getContentSize().height * 0.65f));
+    _reactivateButton->setContentSize(Size(this->getContentSize().width * (isPortrait ? 0.75f : 0.5f), _reactivateButton->getContentSize().height));
     _reactivateButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _reactivateButton->setNormalizedPosition(Vec2(0.5, 0.5));
     _reactivateButton->setSwallowTouches(true);
     _reactivateButton->setColor(Color3B::WHITE);
     _reactivateButton->ignoreContentAdaptWithSize(true);
+    _reactivateButton->setScale9Enabled(true);
     _reactivateButton->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType)
     {
         if(eType == ui::Widget::TouchEventType::ENDED)
@@ -103,7 +104,7 @@ void UserTypeMessagingLayer::onEnter()
         }
     });
     
-    _reactivateLabel = Label::createWithTTF("Reactivate", Style::Font::Regular, _reactivateButton->getContentSize().height * 0.4);
+    _reactivateLabel = Label::createWithTTF("Reactivate your account", Style::Font::Regular, _reactivateButton->getContentSize().height * 0.4);
     _reactivateLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _reactivateLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _reactivateLabel->setTextColor(Color4B(246,187,66,255));
@@ -146,7 +147,7 @@ void UserTypeMessagingLayer::repositionElements()
     
     _bgSprite->setContentSize(this->getContentSize());
     
-    _startTrialButton->setContentSize(Size(this->getContentSize().width * (isPortrait ? 0.6f : 0.5f), this->getContentSize().height * 0.65f));
+    _startTrialButton->setContentSize(Size(this->getContentSize().width * (isPortrait ? 0.6f : 0.5f), _startTrialButton->getContentSize().height));
     _startTrialButton->setNormalizedPosition(Vec2(isPortrait ? 0.33 : 0.5, 0.5));
     _startTrialLabel->setBMFontSize(_startTrialButton->getContentSize().height * 0.4);
     
@@ -158,8 +159,8 @@ void UserTypeMessagingLayer::repositionElements()
     newDrawNode->drawRect(Vec2(0, -7), Vec2(_signInLabel->getContentSize().width, -6), Color4F::WHITE);
     _signInLabel->addChild(newDrawNode);
     
-    _reactivateButton->setContentSize(Size(this->getContentSize().width * (isPortrait ? 0.6f : 0.5f), this->getContentSize().height * 0.65f));
-    _reactivateButton->setNormalizedPosition(Vec2(isPortrait ? 0.33 : 0.5, 0.5));
+    _reactivateButton->setContentSize(Size(this->getContentSize().width * (isPortrait ? 0.75f : 0.5f), _reactivateButton->getContentSize().height));
+    _reactivateButton->setNormalizedPosition(Vec2(isPortrait ? 0.5 : 0.5, 0.5));
     _reactivateLabel->setBMFontSize(_reactivateButton->getContentSize().height * 0.4);
     
     _premiumLabel->setString(StringUtils::format("Congratulations!%sYou are now a Premium User.",(isPortrait ? "\n" : " ")));
