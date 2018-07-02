@@ -50,6 +50,7 @@ public:
     static const char* const kContentTypeGame;
     static const char* const kContentTypeGroup;
     static const char* const kContentTypeAudioGroup;
+    static const char* const kContentTypeManual;
     
     static const char* const kEstimatedKeyboardHeightPortrait;
     static const char* const kEstimatedKeyboardHeightLandscape;

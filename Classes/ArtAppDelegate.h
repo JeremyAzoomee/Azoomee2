@@ -30,7 +30,6 @@ public:
     
 private:
     long _secondsSpentInArtApp = 0;
-    
 };
 
 NS_AZOOMEE_END

@@ -5,6 +5,7 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 #include <AzoomeeCommon/Input/TextInputLayer.h>
+#include "ui/CocosGUI.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -12,12 +13,13 @@ class ManualGameInputLayer : public cocos2d::Layer, public ElectricDreamsButtonD
 {
 private:
     cocos2d::Size visibleSize;
-    cocos2d::Vec2 origin;
     
     cocos2d::LayerColor *backgroundLayer;
     
     ElectricDreamsButton* backButton;
     ElectricDreamsButton* startGameButton;
+    
+    cocos2d::ui::CheckBox* _streamGameCheckbox = nullptr;
     
     TextInputLayer *uriTextInput;
     

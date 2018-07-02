@@ -4,6 +4,7 @@
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "GameDataManager.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 using namespace cocos2d;
 
@@ -17,8 +18,7 @@ bool ManualGameInputLayer::init()
     }
     
     visibleSize = Director::getInstance()->getVisibleSize();
-    origin = Vec2(0,0);//Director::getInstance()->getVisibleOrigin();
-
+    setName(ConfigStorage::kContentTypeManual);
     createBackgroundLayer();
     addSideWiresToScreen(this, 0, 2);
     addTitle();
@@ -32,7 +32,7 @@ bool ManualGameInputLayer::init()
 
 void ManualGameInputLayer::createBackgroundLayer()
 {
-    backgroundLayer = LayerColor::create(Color4B::BLACK,origin.x + visibleSize.width,origin.y + visibleSize.height);
+    backgroundLayer = LayerColor::create(Color4B::BLACK,visibleSize.width, visibleSize.height);
     
     this->addChild(backgroundLayer);
     Director::getInstance()->getRunningScene()->addChild(this);
@@ -57,30 +57,43 @@ void ManualGameInputLayer::addListenerToBackgroundLayer()
 void ManualGameInputLayer::addTitle()
 {
     auto title = createLabelHeader("Add Game URL");
+    title->setPosition(Vec2(visibleSize.width / 2, visibleSize.height * 0.9f));
     backgroundLayer->addChild(title);
 }
 
 void ManualGameInputLayer::addButtons()
 {
     backButton = ElectricDreamsButton::createBackButton();
-    backButton->setCenterPosition(Vec2(origin.x +backButton->getContentSize().width*.7, origin.y + visibleSize.height - backButton->getContentSize().height*.7));
+    backButton->setCenterPosition(Vec2(backButton->getContentSize().width*.7, visibleSize.height - backButton->getContentSize().height*.7));
     backButton->setDelegate(this);
     backButton->setMixPanelButtonName("ManualGameInputBackButton");
     backgroundLayer->addChild(backButton);
     
     startGameButton = ElectricDreamsButton::createNextButton();
-    startGameButton->setCenterPosition(Vec2(origin.x + visibleSize.width -startGameButton->getContentSize().width*.7, origin.y+ visibleSize.height - startGameButton->getContentSize().height*.7));
+    startGameButton->setCenterPosition(Vec2(visibleSize.width -startGameButton->getContentSize().width*.7, visibleSize.height - startGameButton->getContentSize().height*.7));
     startGameButton->setDelegate(this);
     startGameButton->setMixPanelButtonName("ManualGameInputStartGameButton");
     backgroundLayer->addChild(startGameButton);
+    
+    _streamGameCheckbox = ui::CheckBox::create("res/buttons/check-box-empty-white.png", "res/buttons/correct-symbol-white.png");
+    _streamGameCheckbox->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _streamGameCheckbox->setPosition(Vec2(backgroundLayer->getContentSize().width / 2.0f, backgroundLayer->getContentSize().height / 3.0f));
+    backgroundLayer->addChild(_streamGameCheckbox);
+    
+    Label* checkboxLabel = Label::createWithTTF("Stream Game?", Style::Font::Regular, 72);
+    checkboxLabel->setTextColor(Color4B::WHITE);
+    checkboxLabel->setAnchorPoint(Vec2(0.5, -0.5));
+    checkboxLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+    _streamGameCheckbox->addChild(checkboxLabel);
 }
 
 void ManualGameInputLayer::addTextBox()
 {
     UserDefault* def = UserDefault::getInstance();
     
-    uriTextInput = TextInputLayer::createWithSize(Size(1500,500), -1);
+    uriTextInput = TextInputLayer::createWithSize(Size(visibleSize.width * 0.75f,500), -1);
     uriTextInput->setText(def->getStringForKey("GameURI", ""));
+    uriTextInput->setCenterPosition(Vec2(visibleSize.width/2, visibleSize.height * 0.70f));
     backgroundLayer->addChild(uriTextInput);
     def->flush();
 }
@@ -103,24 +116,30 @@ void ManualGameInputLayer::buttonPressed(ElectricDreamsButton* button)
     }
     else if(button == startGameButton)
     {
-        Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Landscape, uriTextInput->getText()));
-
-        /*
-        ModalMessages::getInstance()->startLoading();
-        
         UserDefault* def = UserDefault::getInstance();
         def->setStringForKey("GameURI", uriTextInput->getText());
         def->flush();
         
-        std::string manualGamePath = FileUtils::getInstance()->getWritablePath() + "gameCache/" + GameDataManager::kManualGameId;
-        
-        if(FileUtils::getInstance()->isDirectoryExist(manualGamePath))
-            FileUtils::getInstance()->removeDirectory(manualGamePath);
+        if(_streamGameCheckbox->isSelected())
+        {
+            if(uriTextInput->getText().size() > 4)
+            {
+                Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Landscape, uriTextInput->getText()));
+            }
+        }
+        else
+        {
+            ModalMessages::getInstance()->startLoading();
+            
+            std::string manualGamePath = FileUtils::getInstance()->getWritablePath() + "gameCache/" + GameDataManager::kManualGameId;
+            
+            if(FileUtils::getInstance()->isDirectoryExist(manualGamePath))
+                FileUtils::getInstance()->removeDirectory(manualGamePath);
 
-        FileUtils::getInstance()->createDirectory(manualGamePath);
-        
-        GameDataManager::getInstance()->getJSONGameData(uriTextInput->getText().c_str(), GameDataManager::kManualGameId);
-         */
+            FileUtils::getInstance()->createDirectory(manualGamePath);
+            
+            GameDataManager::getInstance()->getJSONGameData(uriTextInput->getText().c_str(), GameDataManager::kManualGameId);
+        }
     }
 }
 

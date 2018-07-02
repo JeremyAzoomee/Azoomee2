@@ -10,6 +10,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include "OnlineSafetyDetailsLayer.h"
 #include "FlowDataSingleton.h"
+#include "HQHistoryManager.h"
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 
@@ -178,6 +179,7 @@ void SettingsControlLayer::removeSelf()
 {
     removeAdultPinLayerDelegate();
     
+    HQHistoryManager::getInstance()->_returnedFromForcedOrientation = true;
     if(returnToChatScene)
     {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));

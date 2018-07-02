@@ -1,4 +1,5 @@
 #include "ElectricDreamsDecoration.h"
+#include "Scene.h"
 #include <ui/UIScale9Sprite.h>
 
 using namespace cocos2d;
@@ -10,7 +11,7 @@ namespace Azoomee
 void addSideWiresToScreen(Node* parentLayer, float withDelay, float withDuration)
 {
     auto visibleSize = Director::getInstance()->getVisibleSize();
-    auto origin = Director::getInstance()->getVisibleOrigin();
+    auto origin = dynamic_cast<Azoomee::Scene*>(Director::getInstance()->getRunningScene()) ? Vec2(0,0) : Director::getInstance()->getVisibleOrigin();
     
     auto wireLeft = Sprite::create("res/decoration/wireLeft.png");
     wireLeft->setName("Wire");
@@ -31,7 +32,7 @@ void addSideWiresToScreen(Node* parentLayer, float withDelay, float withDuration
 void addSideWiresToScreen(Node* parentLayer)
 {
     auto visibleSize = Director::getInstance()->getVisibleSize();
-    auto origin = Director::getInstance()->getVisibleOrigin();
+    auto origin = dynamic_cast<Azoomee::Scene*>(Director::getInstance()->getRunningScene()) ? Vec2(0,0) : Director::getInstance()->getVisibleOrigin();
     
     auto wireLeft = Sprite::create("res/decoration/wireLeft.png");
     wireLeft->setName("Wire");
@@ -47,7 +48,7 @@ void addSideWiresToScreen(Node* parentLayer)
 void addMainHubSideWiresToScreen(cocos2d::Node* parentLayer, float withDelay, float withDuration)
 {
     auto visibleSize = Director::getInstance()->getVisibleSize();
-    auto origin = Director::getInstance()->getVisibleOrigin();
+    auto origin = dynamic_cast<Azoomee::Scene*>(Director::getInstance()->getRunningScene()) ? Vec2(0,0) : Director::getInstance()->getVisibleOrigin();
     
     auto wireLeft = Sprite::create("res/decoration/wireLeft_MainHub.png");
     wireLeft->setName("Wire");
@@ -67,7 +68,7 @@ void addMainHubSideWiresToScreen(cocos2d::Node* parentLayer, float withDelay, fl
 void addMainHubSideWiresToScreen(cocos2d::Node* parentLayer)
 {
     auto visibleSize = Director::getInstance()->getVisibleSize();
-    auto origin = Director::getInstance()->getVisibleOrigin();
+    auto origin = dynamic_cast<Azoomee::Scene*>(Director::getInstance()->getRunningScene()) ? Vec2(0,0) : Director::getInstance()->getVisibleOrigin();
     
     auto wireLeft = Sprite::create("res/decoration/wireLeft_MainHub.png");
     wireLeft->setName("Wire");
