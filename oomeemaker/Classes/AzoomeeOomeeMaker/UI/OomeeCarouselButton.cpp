@@ -27,7 +27,7 @@ void OomeeCarouselButton::onEnter()
 {
     Sprite* bgCircle1 = Sprite::create("res/oomeeMaker/circle_0.png");
     bgCircle1->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    bgCircle1->setPosition(this->getContentSize()/2);
+    bgCircle1->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     bgCircle1->setScale(0);
     bgCircle1->setRotation(RandomHelper::random_real(0.0,M_PI));
     this->addChild(bgCircle1, -1);
@@ -40,7 +40,7 @@ void OomeeCarouselButton::onEnter()
     
     Sprite* bgCircle2 = Sprite::create("res/oomeeMaker/circle_1.png");
     bgCircle2->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    bgCircle2->setPosition(this->getContentSize()/2);
+    bgCircle2->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     bgCircle2->setScale(0);
     bgCircle2->setRotation(RandomHelper::random_real(0.0,M_PI));
     this->addChild(bgCircle2, -1);

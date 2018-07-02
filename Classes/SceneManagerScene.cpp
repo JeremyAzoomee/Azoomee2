@@ -158,6 +158,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         }
         case OomeeMakerEntryPointScene:
         {
+            HQHistoryManager::getInstance()->updatePrevOrientation();
             Azoomee::OomeeMaker::delegate = OomeeMakerDelegate::getInstance();
             forceToLandscape();
             cocos2d::Scene* goToScene = Azoomee::OomeeMaker::OomeeSelectScene::create();

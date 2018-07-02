@@ -45,10 +45,7 @@ void MeHQMessages::onEnter()
     Super::onEnter();
     Chat::ChatAPI::getInstance()->registerObserver(this);
     _friendList = Chat::ChatAPI::getInstance()->getFriendList();
-    //Director::getInstance()->getScheduler()->schedule([](float deltaT){
-        Chat::ChatAPI::getInstance()->getTimelineSummary();
-    //}, this, 0, 0, 0.1, false, "getTimelineSummary");
-    
+    Chat::ChatAPI::getInstance()->getTimelineSummary();
 }
 
 void MeHQMessages::onExit()
@@ -84,7 +81,6 @@ void MeHQMessages::buildEmptyCarousel()
     makePaintingButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
     makePaintingButton->setContentSize(Size(1000,250));
     makePaintingButton->setScale9Enabled(true);
-    //makePaintingButton->ignoreContentAdaptWithSize(false);
     makePaintingButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
@@ -155,10 +151,14 @@ void MeHQMessages::createMessageList()
             messageLayout->addChild(avatar);
             
             float textPos = isPortrait ? 0.40 : 0.25;
+            float maxWidth = this->getContentSize().width * (1 - textPos - 0.1);
             
-            ui::Text* senderName = ui::Text::create(message->senderName(), Style::Font::Regular, 120);
+            Label* senderName = Label::createWithTTF(message->senderName(), Style::Font::Regular, 120);
             senderName->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
             senderName->setNormalizedPosition(Vec2(textPos,0.66));
+            
+            reduceLabelTextToFitWidth(senderName, maxWidth);
+            
             messageLayout->addChild(senderName);
             
             Label* messageText = Label::createWithTTF("", Style::Font::Regular, 72);
@@ -180,7 +180,6 @@ void MeHQMessages::createMessageList()
             messageText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
             messageText->setNormalizedPosition(Vec2(textPos,0.33));
             
-            float maxWidth = this->getContentSize().width * (1 - textPos - 0.1);
             reduceLabelTextToFitWidth(messageText, maxWidth);
             
             messageLayout->addChild(messageText);
