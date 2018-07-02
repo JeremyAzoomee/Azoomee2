@@ -134,7 +134,7 @@ void AvatarWidget::onSizeChanged()
 
 #pragma mark - Public
 
-void AvatarWidget::setAvatarForFriend(const FriendRef& friendData)
+void AvatarWidget::setAvatarForFriend(const FriendRef& friendData, bool forceImageReload)
 {
     const std::string& avatarURL = (friendData) ? friendData->avatarURL() : "";
     _avatarPlaceholder->setVisible(avatarURL.empty());
@@ -150,7 +150,7 @@ void AvatarWidget::setAvatarForFriend(const FriendRef& friendData)
     if(!avatarURL.empty())
     {
         _avatarDownloader = ImageDownloader::create("avatars", ImageDownloader::CacheMode::File);
-        _avatarDownloader->downloadImage(this, avatarURL);
+        _avatarDownloader->downloadImage(this, avatarURL, forceImageReload);
     }
 }
 

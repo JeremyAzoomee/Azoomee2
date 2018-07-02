@@ -243,7 +243,7 @@ void TitleBarWidget::setTitleAvatar(const FriendRef& friendData)
     _titleLabel->setString(friendData->friendName());
     setTitleColor(Style::Color::brightAqua);
     _titleLabel->setFontSize(80.0f);
-    _avatarWidget->setAvatarForFriend(friendData);
+    _avatarWidget->setAvatarForFriend(friendData, true); // true = force avatar image reload
     
     _titleLabel->setVisible(true);
     _titleImage->setVisible(false);

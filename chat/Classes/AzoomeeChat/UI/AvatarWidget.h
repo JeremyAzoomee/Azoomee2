@@ -49,7 +49,7 @@ protected:
 public:
     
     /// Setup to display the avatar for friend
-    void setAvatarForFriend(const FriendRef& friendData);
+    void setAvatarForFriend(const FriendRef& friendData, bool forceImageReload = false);
     
     virtual bool init() override;
     virtual void onEnter() override;
