@@ -191,13 +191,14 @@ void HQScene2::startBuildingScrollView()
         
         //Filling up empty spaces with placeholders (Design requirement - except for Group HQ)
     
-        if(_hqCategory != ConfigStorage::kGroupHQName && rowIndex > 0) //row index 0 will be recently played, which doesnt want placeholder assets
+        if(_hqCategory != ConfigStorage::kGroupHQName)
         {
             HQScene2PlaceHolderCreator hqScene2PlaceHolderCreator;
             hqScene2PlaceHolderCreator.setLowestElementYPosition(lowestElementYPosition);
             hqScene2PlaceHolderCreator.setCarouselLayer(carouselLayer);
             hqScene2PlaceHolderCreator.setBaseUnitSize(_contentItemSize * _unitMultiplier);
             hqScene2PlaceHolderCreator.setMargin(kContentItemMargin[_orientation]);
+            hqScene2PlaceHolderCreator.setUseWirePlaceholder(rowIndex == 0);
             hqScene2PlaceHolderCreator.addPlaceHoldersToCarousel();
         }
         

@@ -183,7 +183,7 @@ void NavigationLayer::changeToScene(const std::string& hqName, float duration)
     
     const HQDataObjectRef &currentObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName);
     
-    if(hqName != "ME HQ" && !currentObject->getHqEntitlement())
+    if((hqName == "ME HQ" && ParentDataProvider::getInstance()->isLoggedInParentAnonymous()) || (hqName != "ME HQ" && !currentObject->getHqEntitlement()))
     {
         AnalyticsSingleton::getInstance()->registerCTASource("lockedHQ","",currentObject->getHqType());
         IAPEntryContext context = IAPEntryContext::DEFAULT;
