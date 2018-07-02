@@ -56,7 +56,11 @@ MessageRef Message::createFromJson(const rapidjson::Value& json)
     const std::string& messageType = json["type"].GetString();
     const std::string& senderId = json["senderId"].GetString();
     const std::string& recipientId = json["recipientId"].GetString();
-    uint64_t timestamp = 0;//json["timestamp"].GetUint64();
+    uint64_t timestamp = 0;
+    if(json.HasMember("timestamp"))
+    {
+        timestamp = json["timestamp"].GetUint64();
+    }
     const std::string& status = json["status"].GetString();
     bool moderated = (status == "MODERATED");
     std::string messageText;
