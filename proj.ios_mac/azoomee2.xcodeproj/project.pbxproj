@@ -156,6 +156,9 @@
 		9289DB441FD8137D00B12435 /* DynamicNodeButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DB431FD8137D00B12435 /* DynamicNodeButton.cpp */; };
 		9289DB471FD8414F00B12435 /* DynamicNodeText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DB461FD8414F00B12435 /* DynamicNodeText.cpp */; };
 		9289DB7D1FD996A800B12435 /* DynamicNodeImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DB7C1FD996A800B12435 /* DynamicNodeImage.cpp */; };
+		928A6DCB20EBB9650053E793 /* ChildCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928A6DCA20EBB9650053E793 /* ChildCreator.cpp */; };
+		928A6DCD20EBC2560053E793 /* AddChildScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928A6DCC20EBC2560053E793 /* AddChildScene.cpp */; };
+		928A6DD520EBDD4A0053E793 /* AddChildLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928A6DD420EBDD4A0053E793 /* AddChildLayer.cpp */; };
 		92951513208895D200F43AEC /* DynamicNodeCheckBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92951512208895D200F43AEC /* DynamicNodeCheckBox.cpp */; };
 		9295158B2091D48700F43AEC /* UserTypeMessagingLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9295158A2091D48700F43AEC /* UserTypeMessagingLayer.cpp */; };
 		929A9CFC2065248A009B323D /* MeHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929A9CFB2065248A009B323D /* MeHQ.cpp */; };
@@ -559,6 +562,16 @@
 		9289DB461FD8414F00B12435 /* DynamicNodeText.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeText.cpp; sourceTree = "<group>"; };
 		9289DB781FD9883100B12435 /* DynamicNodeImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DynamicNodeImage.h; sourceTree = "<group>"; };
 		9289DB7C1FD996A800B12435 /* DynamicNodeImage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeImage.cpp; sourceTree = "<group>"; };
+		928A6DC420EBA79B0053E793 /* AddChildScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddChildScene.h; sourceTree = "<group>"; };
+		928A6DC920EBB42B0053E793 /* ChildCreator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChildCreator.h; sourceTree = "<group>"; };
+		928A6DCA20EBB9650053E793 /* ChildCreator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChildCreator.cpp; sourceTree = "<group>"; };
+		928A6DCC20EBC2560053E793 /* AddChildScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AddChildScene.cpp; sourceTree = "<group>"; };
+		928A6DCF20EBD31A0053E793 /* ChildNameLayerFirstTime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChildNameLayerFirstTime.h; sourceTree = "<group>"; };
+		928A6DD020EBD32A0053E793 /* ChildNameLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChildNameLayer.h; sourceTree = "<group>"; };
+		928A6DD120EBD3450053E793 /* ChildAgeLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChildAgeLayer.h; sourceTree = "<group>"; };
+		928A6DD220EBD3570053E793 /* ChildOomeeLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChildOomeeLayer.h; sourceTree = "<group>"; };
+		928A6DD320EBDA240053E793 /* AddChildLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddChildLayer.h; sourceTree = "<group>"; };
+		928A6DD420EBDD4A0053E793 /* AddChildLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AddChildLayer.cpp; sourceTree = "<group>"; };
 		9295150E208895B300F43AEC /* DynamicNodeCheckBox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DynamicNodeCheckBox.h; sourceTree = "<group>"; };
 		92951512208895D200F43AEC /* DynamicNodeCheckBox.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeCheckBox.cpp; sourceTree = "<group>"; };
 		929515862091D04800F43AEC /* UserTypeMessagingLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserTypeMessagingLayer.h; sourceTree = "<group>"; };
@@ -1051,6 +1064,7 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				923EA8D220EBA6C200283342 /* addChild */,
 				929A9CF92063CD76009B323D /* MeArea */,
 				9271D7C42040537000370120 /* OomeeMaker */,
 				92759EAC1FE81B9600639190 /* ContentOpener */,
@@ -1157,6 +1171,23 @@
 				9220EADA2010F08200BD7A90 /* AddChildFlowController.cpp */,
 			);
 			name = DynamicNodeFlowControllers;
+			sourceTree = "<group>";
+		};
+		923EA8D220EBA6C200283342 /* addChild */ = {
+			isa = PBXGroup;
+			children = (
+				928A6DC420EBA79B0053E793 /* AddChildScene.h */,
+				928A6DCC20EBC2560053E793 /* AddChildScene.cpp */,
+				928A6DC920EBB42B0053E793 /* ChildCreator.h */,
+				928A6DCA20EBB9650053E793 /* ChildCreator.cpp */,
+				928A6DCF20EBD31A0053E793 /* ChildNameLayerFirstTime.h */,
+				928A6DD020EBD32A0053E793 /* ChildNameLayer.h */,
+				928A6DD120EBD3450053E793 /* ChildAgeLayer.h */,
+				928A6DD220EBD3570053E793 /* ChildOomeeLayer.h */,
+				928A6DD320EBDA240053E793 /* AddChildLayer.h */,
+				928A6DD420EBDD4A0053E793 /* AddChildLayer.cpp */,
+			);
+			name = addChild;
 			sourceTree = "<group>";
 		};
 		9246EDD01F0403A8008CD359 /* Products */ = {
@@ -1700,6 +1731,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				928A6DD520EBDD4A0053E793 /* AddChildLayer.cpp in Sources */,
 				02D6446B2087828800FF17B4 /* WebViewController_ios.mm in Sources */,
 				02E595901E55F9960052F395 /* OfflineHubHQ.cpp in Sources */,
 				0281F5C71E89210C001FCE60 /* LoginLogicHandler.cpp in Sources */,
@@ -1716,6 +1748,7 @@
 				4343CB9C1EBB826600247549 /* DeepLinkingSingleton.cpp in Sources */,
 				025633741F39AB5D0053FF26 /* ForceUpdateSingleton.cpp in Sources */,
 				028DDEB5206CFB69006D7EC5 /* IntroVideoScene.cpp in Sources */,
+				928A6DCD20EBC2560053E793 /* AddChildScene.cpp in Sources */,
 				A15B2F991DE74F6400D25334 /* WebViewSelector.cpp in Sources */,
 				4306ABA31EAE2C3E001E586A /* PaymentViewController_ios.mm in Sources */,
 				43FDC6611EF7E3CE009B596B /* SettingsConfirmationLayer.cpp in Sources */,
@@ -1785,6 +1818,7 @@
 				A134ADCE1E0C0F420030BE98 /* HQSceneElementPositioner.cpp in Sources */,
 				43FDC6671EF7F743009B596B /* ConfirmationControlLayer.cpp in Sources */,
 				301CCA941EB139C1009ADA0C /* SettingsButton.cpp in Sources */,
+				928A6DCB20EBB9650053E793 /* ChildCreator.cpp in Sources */,
 				02E595931E55F9BB0052F395 /* OfflineHubHQElement.cpp in Sources */,
 				02E5958C1E55F5ED0052F395 /* OfflineGameSearch.cpp in Sources */,
 				927DF72420B593600080DFEF /* MeHQFavourites.cpp in Sources */,
