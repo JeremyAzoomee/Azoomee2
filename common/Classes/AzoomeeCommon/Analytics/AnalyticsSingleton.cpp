@@ -786,17 +786,19 @@ void AnalyticsSingleton::ctaWindowAppeared(const std::string &groupId, const std
         {"nodeId", nodeId},
         {"sourceButton", _analyticsProperties->getCtaSourceButton()},
         {"sourceContentId", _analyticsProperties->getCtaSourceContentId()},
-        {"sourceMediaType", _analyticsProperties->getCtaSourceMediaType()}
+        {"sourceMediaType", _analyticsProperties->getCtaSourceMediaType()},
+        {"recommendedContentId", _analyticsProperties->getCtaRecommendedContentId()}
     };
     
     mixPanelSendEventWithStoredProperties("ctaWindowAppeared", mixPanelProperties);
 }
     
-void AnalyticsSingleton::registerCTASource(const std::string& buttonId, const std::string& contentId, const std::string& mediaType)
+    void AnalyticsSingleton::registerCTASource(const std::string& buttonId, const std::string& contentId, const std::string& mediaType, const std::string& recommendedContentId)
 {
     _analyticsProperties->setCtaSourceButton(buttonId);
     _analyticsProperties->setCtaSourceContentId(contentId);
     _analyticsProperties->setCtaSourceMediaType(mediaType);
+    _analyticsProperties->setCtaRecommendedContentId(recommendedContentId);
 }
 
 
