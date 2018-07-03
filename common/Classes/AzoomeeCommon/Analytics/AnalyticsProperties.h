@@ -25,6 +25,7 @@ private:
     std::string _ctaSourceButton = "";
     std::string _ctaSourceContentId = "";
     std::string _ctaSourceMediaType = "";
+    std::string _ctaRecommendedContentId = "";
     
     std::string _OSManufacturer;
     
@@ -58,6 +59,9 @@ public:
     
     void setCtaSourceMediaType(const std::string& mediaType);
     std::string getCtaSourceMediaType() const;
+    
+    void setCtaRecommendedContentId(const std::string& recommendedContentId);
+    std::string getCtaRecommendedContentId() const;
     
     void setOSManufacturer(const std::string& osManufacturer);
     std::string getOSManufacturer() const;
