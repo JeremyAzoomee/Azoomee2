@@ -13,6 +13,7 @@
 #include "../DataObjects/ItemCategory.h"
 #include "OomeeFigure.h"
 #include "OomeeItemList.h"
+#include "ItemCategoryList.h"
 #include <cocos/cocos2d.h>
 
 NS_AZOOMEE_OM_BEGIN
@@ -29,12 +30,22 @@ private:
     std::string _filename;
     OomeeFigure* _oomee = nullptr;
     OomeeItemList* _itemList = nullptr;
+    ItemCategoryList* _categoryList = nullptr;
+    
+    cocos2d::ui::Button* _topScrollButton = nullptr;
+    cocos2d::ui::Button* _bottomScrollButton = nullptr;
+    cocos2d::ui::Button* _undoButton = nullptr;
     
     void addAccessoryToOomee(const OomeeItemRef& data);
     void setItemsListForCategory(const ItemCategoryRef& data);
     
     void saveAndExit();
     void saveOomeeFiles();
+    
+    void addBGLayer();
+    
+    void makeAvatar();
+    void undo();
     
 public:
     

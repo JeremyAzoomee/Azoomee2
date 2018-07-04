@@ -8,6 +8,8 @@
 #include "DragAndDropController.h"
 #include "../DataObjects/OomeeMakerDataHandler.h"
 
+#define DEBUG_DNDC YES
+
 using namespace cocos2d;
 
 NS_AZOOMEE_OM_BEGIN
@@ -36,7 +38,6 @@ void DragAndDropController::init()
     _touchListener = EventListenerTouchOneByOne::create();
     _touchListener->onTouchBegan = [&](Touch* touch, Event* event)
     {
-        log("touch began - DNDC");
         if(_itemData && _itemSprite)
         {
             return false;
@@ -46,13 +47,13 @@ void DragAndDropController::init()
     
     _touchListener->onTouchMoved = [&](Touch* touch, Event* event)
     {
-        if(this->_removeItemFromOomee)
+        if(_removeItemFromOomee)
         {
             if(_itemData)
             {
                 _oomeeFigure->removeAccessory(_itemData->getTargetAnchor());
             }
-            this->_removeItemFromOomee = false;
+            _removeItemFromOomee = false;
             
         }
         
@@ -60,13 +61,12 @@ void DragAndDropController::init()
         {
             _itemSprite->setPosition(touch->getLocation());
             
-            if(_debugMode)
-            {
-                const Vec2& dist = (_itemSprite->getPosition() - _anchorPos) / _oomeeFigure->getOomeeData()->getScale();
-                _positioningLabel->setString(StringUtils::format("x: %d, y:%d\n%s, %s",(int)dist.x, (int)dist.y, _itemData->getTargetAnchor().c_str(),_itemData->getId().c_str()));
-                _anchorToSprite->clear();
-                _anchorToSprite->drawLine(_anchorPos, _itemSprite->getPosition(), Color4F::WHITE);
-            }
+#ifdef DEBUG_DNDC
+            const Vec2& dist = (_itemSprite->getPosition() - _anchorPos) / _oomeeFigure->getOomeeData()->getScale();
+            _positioningLabel->setString(StringUtils::format("x: %d, y:%d\n%s, %s",(int)dist.x, (int)dist.y, _itemData->getTargetAnchor().c_str(),_itemData->getId().c_str()));
+            _anchorToSprite->clear();
+            _anchorToSprite->drawLine(_anchorPos, _itemSprite->getPosition(), Color4F::WHITE);
+#endif
         }
     };
     
@@ -86,12 +86,11 @@ void DragAndDropController::init()
             _itemSprite->removeFromParent();
             _itemSprite = nullptr;
             
-            if(_debugMode)
-            {
-                _positioningLabel = nullptr;
-                _anchorToSprite->removeFromParent();
-                _anchorToSprite = nullptr;
-            }
+#ifdef DEBUG_DNDC
+            _positioningLabel = nullptr;
+            _anchorToSprite->removeFromParent();
+            _anchorToSprite = nullptr;
+#endif
         }
         _touchListener->setSwallowTouches(false);
     };
@@ -107,39 +106,34 @@ void DragAndDropController::setItemData(const OomeeItemRef& data)
     {
         _itemSprite->removeFromParent();
     }
-    _itemSprite = OomeeAccessory::create();//SpriteWithHue::create(OomeeMakerDataHandler::getInstance()->getAssetDir() + _itemData->getAssetName());
+    _itemSprite = OomeeAccessory::create();
     _itemSprite->setItemData(_itemData);
     _itemSprite->setColourData(_oomeeFigure->getColour());
     _itemSprite->setScale(_itemData->getDragScale());
     _itemSprite->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    //if(data->isUsingColourHue())
-    //{
-    //    _itemSprite->setHue(_oomeeFigure->getHue());
-    //}
     _listenerTargetNode->addChild(_itemSprite);
     _anchorPos = _oomeeFigure->getWorldPositionForAnchorPoint(_itemData->getTargetAnchor());
     
-    if(_debugMode)
+#ifdef DEBUG_DNDC
+    const Vec2& dist = (_anchorPos - _itemSprite->getPosition());
+    if(_positioningLabel)
     {
-        const Vec2& dist = (_anchorPos - _itemSprite->getPosition());
-        if(_positioningLabel)
-        {
-            _positioningLabel->removeFromParent();
-        }
-        _positioningLabel = Label::createWithTTF(StringUtils::format("x: %d, y:%d",(int)dist.x, (int)dist.y), "fonts/arial.ttf", 40);
-        _positioningLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-        _positioningLabel->setPosition(Vec2(_itemSprite->getContentSize().width * 0.5f, 0));
-        _positioningLabel->setTextColor(Color4B::BLACK);
-        _itemSprite->addChild(_positioningLabel);
-        
-        if(_anchorToSprite)
-        {
-            _anchorToSprite->removeFromParent();
-        }
-        _anchorToSprite = DrawNode::create();
-        _anchorToSprite->drawLine(_anchorPos, _itemSprite->getPosition(), Color4F::BLACK);
-        _listenerTargetNode->addChild(_anchorToSprite);
+        _positioningLabel->removeFromParent();
     }
+    _positioningLabel = Label::createWithTTF(StringUtils::format("x: %d, y:%d",(int)dist.x, (int)dist.y), "fonts/arial.ttf", 40);
+    _positioningLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+    _positioningLabel->setPosition(Vec2(_itemSprite->getContentSize().width * 0.5f, 0));
+    _positioningLabel->setTextColor(Color4B::BLACK);
+    _itemSprite->addChild(_positioningLabel);
+        
+    if(_anchorToSprite)
+    {
+        _anchorToSprite->removeFromParent();
+    }
+    _anchorToSprite = DrawNode::create();
+    _anchorToSprite->drawLine(_anchorPos, _itemSprite->getPosition(), Color4F::BLACK);
+    _listenerTargetNode->addChild(_anchorToSprite);
+#endif
     
     _touchListener->setSwallowTouches(true);
 }

@@ -51,7 +51,7 @@ public:
     void setDelegate(OomeeCarouselButtonDelegate* delegate);
     
     void setInFocus(bool inFocus);
-    
+    bool getInFocus() const;
     
     CREATE_FUNC(OomeeCarouselButton);
 };
