@@ -102,6 +102,15 @@ std::string AnalyticsProperties::getCtaSourceMediaType() const
     return _ctaSourceMediaType;
 }
 
+void AnalyticsProperties::setCtaRecommendedContentId(const std::string &recommendedContentId)
+{
+    _ctaRecommendedContentId = recommendedContentId;
+}
+std::string AnalyticsProperties::getCtaRecommendedContentId() const
+{
+    return _ctaRecommendedContentId;
+}
+
 void AnalyticsProperties::setOSManufacturer(const std::string& osManufacturer)
 {
     _OSManufacturer = osManufacturer;

@@ -105,6 +105,15 @@ void ModalMessages::stopLoading()
     this->removeLayer();
 }
 
+void ModalMessages::onSizeChanged()
+{
+    if(Director::getInstance()->getRunningScene()->getChildByName("loadingLayer"))
+    {
+        loadingLayer->setContentSize(visibleSize);
+        loadingLayer->setPosition(origin.x, origin.y);
+    }
+}
+
 void ModalMessages::startSaving()
 {
     if(Director::getInstance()->getRunningScene()->getChildByName("loadingLayer")) return;
@@ -122,15 +131,6 @@ void ModalMessages::startSaving()
 void ModalMessages::stopSaving()
 {
     this->removeLayer();
-}
-
-void ModalMessages::onSizeChanged()
-{
-    if(Director::getInstance()->getRunningScene()->getChildByName("loadingLayer"))
-    {
-        loadingLayer->setContentSize(visibleSize);
-        loadingLayer->setPosition(origin.x, origin.y);
-    }
 }
 
 //-----------------MIXPANEL NOTIFICATIONS--------------------------

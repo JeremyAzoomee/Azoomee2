@@ -380,7 +380,7 @@ void HQScene2::showPostContentCTA()
             HQContentItemObjectRef randomContent = carouselItems[randIndex];
             if(randomContent->isEntitled() && randomContent->getContentItemId() != lastContent->getContentItemId())
             {
-                AnalyticsSingleton::getInstance()->registerCTASource("postContent", lastContent->getContentItemId(), lastContent->getType());
+                AnalyticsSingleton::getInstance()->registerCTASource("postContent", lastContent->getContentItemId(), lastContent->getType(), randomContent->getContentItemId());
                 DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(lastContent->getType() + ".json", randomContent->getJSONRepresentationOfStructure());
                 possibleContentFound = true;
             }
