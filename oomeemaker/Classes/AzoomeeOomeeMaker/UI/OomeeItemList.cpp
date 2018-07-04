@@ -82,6 +82,7 @@ void OomeeItemList::setColourItems()
                 ui::Button* colourButton = ui::Button::create("res/oomeeMaker/colour.png");
                 colourButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
                 colourButton->ignoreContentAdaptWithSize(false);
+                colourButton->setSwallowTouches(false);
                 colourButton->setContentSize(Size(this->getContentSize().width * 0.3f, this->getContentSize().width * 0.3f));
                 colourButton->setNormalizedPosition(Vec2((column + 0.5) / _columns, 0.5));
                 colourButton->setColor(Color3B(colours.at(i)->getColours().at("base")));
