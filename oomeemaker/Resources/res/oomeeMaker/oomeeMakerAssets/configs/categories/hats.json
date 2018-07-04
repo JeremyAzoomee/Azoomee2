@@ -1,0 +1,9 @@
+{
+	"id": "hats",
+	"iconFilenameSelected": "assets/categoryButtons/S_Headgear.png",
+	"iconFilenameUnselected": "assets/categoryButtons/U_Headgear.png",
+	"holidaySeasons": ["none"],
+	"scaleSelected": 1.25,
+	"scaleUnselected": 1.0,
+	"highlightColour": [255,0,0,255]
+}

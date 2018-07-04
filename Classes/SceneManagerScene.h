@@ -18,6 +18,7 @@ enum SceneNameEnum {
     WebviewPortrait,
     WebviewLandscape,
     ArtAppEntryPointScene,
+    OomeeMakerEntryPointScene,
     SettingsFromChat,
     Settings,
     introVideo

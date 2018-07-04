@@ -38,6 +38,7 @@ const char* const API::TagReportChat = "chat.report";
 const char* const API::TagResetReportedChat = "chat.resetReported";
 const char* const API::TagGetForceUpdateInformation = "forceUpdate";
 const char* const API::TagCookieRefresh = "cookieRefresh";
+const char* const API::TagUpdateChildAvatar = "updateChildAvatar";
 
 #pragma mark - API Methods
 
@@ -218,6 +219,20 @@ HttpRequestCreator* API::DeleteChild(const std::string& childId,
     request->url = ConfigStorage::getInstance()->getServerUrl() + ConfigStorage::getInstance()->getPathForTag(TagDeleteChild) + childId;
     request->method = "PATCH";
     request->encrypted = true;
+    return request;
+}
+
+HttpRequestCreator* API::UpdateChildAvatar(const std::string &childId,
+                                           const std::string &imageData,
+                                           Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestTag = TagUpdateChildAvatar;
+    request->requestPath = StringUtils::format("/api/user/child/%s/avatar", childId.c_str());
+    request->method = "PATCH";
+    request->encrypted = true;
+    
+    request->requestBody = "{\"userId\":\"" + childId + "\", \"data\":\"" + imageData + "\"}";
     return request;
 }
 

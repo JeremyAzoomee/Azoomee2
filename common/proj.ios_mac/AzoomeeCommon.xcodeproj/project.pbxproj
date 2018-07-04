@@ -154,6 +154,10 @@
 		9224C00C1F7CFD7E00108553 /* FileZipUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224C00B1F7CFD7E00108553 /* FileZipUtil.cpp */; };
 		9224C00F1F7D13F000108553 /* DirectorySearcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224C00E1F7D13F000108553 /* DirectorySearcher.cpp */; };
 		9261739F1F2A3E4A008E3F9D /* OnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9261739E1F2A3E4A008E3F9D /* OnScreenChecker.cpp */; };
+		9271D8452048311A00370120 /* LazyLoadingButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D8442048311A00370120 /* LazyLoadingButton.cpp */; };
+		9271D84720483C0D00370120 /* LazyLoadButtonOnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D84620483C0D00370120 /* LazyLoadButtonOnScreenChecker.cpp */; };
+		9271D888204EE7EE00370120 /* SpriteUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D887204EE7EE00370120 /* SpriteUtils.cpp */; };
+		9271D88B2051725C00370120 /* CCSpriteWithHue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D8892051725800370120 /* CCSpriteWithHue.cpp */; };
 		92759E9E1FE410BB00639190 /* FileDownloader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92759E9D1FE410BB00639190 /* FileDownloader.cpp */; };
 /* End PBXBuildFile section */
 
@@ -457,6 +461,14 @@
 		9224C00E1F7D13F000108553 /* DirectorySearcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DirectorySearcher.cpp; sourceTree = "<group>"; };
 		9261739D1F2A3D34008E3F9D /* OnScreenChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnScreenChecker.h; sourceTree = "<group>"; };
 		9261739E1F2A3E4A008E3F9D /* OnScreenChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OnScreenChecker.cpp; sourceTree = "<group>"; };
+		9271D842204829C700370120 /* LazyLoadingButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LazyLoadingButton.h; sourceTree = "<group>"; };
+		9271D84320482E9700370120 /* LazyLoadButtonOnScreenChecker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LazyLoadButtonOnScreenChecker.h; sourceTree = "<group>"; };
+		9271D8442048311A00370120 /* LazyLoadingButton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LazyLoadingButton.cpp; sourceTree = "<group>"; };
+		9271D84620483C0D00370120 /* LazyLoadButtonOnScreenChecker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LazyLoadButtonOnScreenChecker.cpp; sourceTree = "<group>"; };
+		9271D886204EE6AD00370120 /* SpriteUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpriteUtils.h; sourceTree = "<group>"; };
+		9271D887204EE7EE00370120 /* SpriteUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SpriteUtils.cpp; sourceTree = "<group>"; };
+		9271D8892051725800370120 /* CCSpriteWithHue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSpriteWithHue.cpp; sourceTree = "<group>"; };
+		9271D88A2051725B00370120 /* CCSpriteWithHue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSpriteWithHue.h; sourceTree = "<group>"; };
 		92759E9C1FE3DDCA00639190 /* FileDownloader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileDownloader.h; sourceTree = "<group>"; };
 		92759E9D1FE410BB00639190 /* FileDownloader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FileDownloader.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -636,6 +648,8 @@
 				0240FC932016538A00E88157 /* BiometricAuthenticationHandler.h */,
 				9220EBB72021F9E900BD7A90 /* TimeFunctions.h */,
 				9220EBB82021FC9300BD7A90 /* TimeFunctions.cpp */,
+				9271D886204EE6AD00370120 /* SpriteUtils.h */,
+				9271D887204EE7EE00370120 /* SpriteUtils.cpp */,
 				9220EC6820330FE000BD7A90 /* ActionBuilder.h */,
 				9220EC69203313CE00BD7A90 /* ActionBuilder.cpp */,
 			);
@@ -683,6 +697,12 @@
 				305966801ECC6987009A7130 /* Style.h */,
 				3012ED8E1E97DCC00009027D /* OomeeButtonLayer.cpp */,
 				3012ED8F1E97DCC00009027D /* OomeeButtonLayer.h */,
+				9271D842204829C700370120 /* LazyLoadingButton.h */,
+				9271D8442048311A00370120 /* LazyLoadingButton.cpp */,
+				9271D84320482E9700370120 /* LazyLoadButtonOnScreenChecker.h */,
+				9271D84620483C0D00370120 /* LazyLoadButtonOnScreenChecker.cpp */,
+				9271D8892051725800370120 /* CCSpriteWithHue.cpp */,
+				9271D88A2051725B00370120 /* CCSpriteWithHue.h */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1199,6 +1219,7 @@
 				4349C8201EA8ADEF00FE964B /* MPABTestDesignerDisconnectMessage.m in Sources */,
 				02AE88E01F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.mm in Sources */,
 				3012ED6F1E96A3140009027D /* TextInputChecker.cpp in Sources */,
+				9271D88B2051725C00370120 /* CCSpriteWithHue.cpp in Sources */,
 				4349C8391EA8ADEF00FE964B /* MPNSNumberToCGFloatValueTransformer.m in Sources */,
 				4349C83D1EA8ADEF00FE964B /* MPObjectSerializerConfig.m in Sources */,
 				0240FC952016538C00E88157 /* BiometricAuthenticationHandler.cpp in Sources */,
@@ -1222,6 +1243,7 @@
 				4349C8531EA8ADEF00FE964B /* MPVariant.m in Sources */,
 				434A55E41F29F9C800740601 /* MessageBoxLayer.cpp in Sources */,
 				4349C8551EA8ADEF00FE964B /* NSInvocation+MPHelpers.m in Sources */,
+				9271D8452048311A00370120 /* LazyLoadingButton.cpp in Sources */,
 				3012EDB01E97E8450009027D /* HMACSHA256_ios.mm in Sources */,
 				021564901FC5F3DC00641C14 /* SpecialCalendarEventManager.cpp in Sources */,
 				4349C82A1EA8ADEF00FE964B /* MPCGPointToNSDictionaryValueTransformer.m in Sources */,
@@ -1236,6 +1258,7 @@
 				4349C85B1EA8ADEF00FE964B /* UIImage+MPAverageColor.m in Sources */,
 				4349C8511EA8ADEF00FE964B /* MPUIImageToNSDictionaryValueTransformer.m in Sources */,
 				4349C83F1EA8ADEF00FE964B /* MPPassThroughValueTransformer.m in Sources */,
+				9271D84720483C0D00370120 /* LazyLoadButtonOnScreenChecker.cpp in Sources */,
 				3012ED511E969AE40009027D /* CookieDataProvider.cpp in Sources */,
 				4349C84A1EA8ADEF00FE964B /* MPTweakInline.m in Sources */,
 				3092BCF01EB10524006D6F4C /* HttpRequestCreator.cpp in Sources */,
@@ -1258,6 +1281,7 @@
 				4349C8351EA8ADEF00FE964B /* MPNotification.m in Sources */,
 				4313697E1F2B6882002BEA8C /* MessageBoxOnlineSafetySlidesLayer.cpp in Sources */,
 				4349C8431EA8ADEF00FE964B /* MPSwizzle.m in Sources */,
+				9271D888204EE7EE00370120 /* SpriteUtils.cpp in Sources */,
 				4349C82D1EA8ADEF00FE964B /* MPClassDescription.m in Sources */,
 				9220EBB92021FC9300BD7A90 /* TimeFunctions.cpp in Sources */,
 				3012EDA11E97E6A40009027D /* ImageDownloader.cpp in Sources */,

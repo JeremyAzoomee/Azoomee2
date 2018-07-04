@@ -1,0 +1,389 @@
+{
+	"items":
+[
+	{
+		"id": "hat01",
+		"targetAnchor": "head",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 0.75,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 6,
+		"categoryId": "hats",
+		"iconFilename": "assets/accessories/Hat1.png",
+		"assetSet": {
+			"base": ["assets/accessories/Hat1.png",0]
+		},
+		"useColourHue": false
+	},
+	{
+		"id": "hat02",
+		"targetAnchor": "head",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 6,
+		"categoryId": "hats",
+		"iconFilename": "assets/accessories/Hat2.png",
+		"assetSet": {
+			"base": ["assets/accessories/Hat2.png",0]
+		},
+		"useColourHue": false
+	},
+	{
+		"id": "hat03",
+		"targetAnchor": "head",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 0.75,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 6,
+		"categoryId": "hats",
+		"iconFilename": "assets/accessories/Hat3.png",
+		"assetSet": {
+			"base": ["assets/accessories/Hat3.png",0]
+		},
+		"useColourHue": false
+	},
+	{
+		"id": "hat04",
+		"targetAnchor": "head",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 6,
+		"categoryId": "hats",
+		"iconFilename": "assets/accessories/Hat4.png",
+		"assetSet": {
+			"base": ["assets/accessories/Hat4.png",0]
+		},
+		"useColourHue": false
+	},
+	{
+		"id": "hat05",
+		"targetAnchor": "head",
+		"offset": [0.0,-15.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 0.9,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 6,
+		"categoryId": "hats",
+		"iconFilename": "assets/accessories/Hat5.png",
+		"assetSet": {
+			"base": ["assets/accessories/Hat5.png",0]
+		},
+		"useColourHue": false
+	},
+	{
+		"id": "hat06",
+		"targetAnchor": "head",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 0.75,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 6,
+		"categoryId": "hats",
+		"iconFilename": "assets/accessories/Hat6.png",
+		"assetSet": {
+			"base": ["assets/accessories/Hat6.png",0]
+		},
+		"useColourHue": false
+	},
+	{
+		"id": "hat07",
+		"targetAnchor": "head",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 0.75,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 6,
+		"categoryId": "hats",
+		"iconFilename": "assets/accessories/Hat7.png",
+		"assetSet": {
+			"base": ["assets/accessories/Hat7.png",0]
+		},
+		"useColourHue": false
+	},
+	{
+		"id": "hat08",
+		"targetAnchor": "head",
+		"offset": [0.0,-40.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 0.75,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 6,
+		"categoryId": "hats",
+		"iconFilename": "assets/accessories/Hat8.png",
+		"assetSet": {
+			"base": ["assets/accessories/Hat8.png",0]
+		},
+		"useColourHue": false
+	},
+	{
+		"id": "hat09",
+		"targetAnchor": "head",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 0.9,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 6,
+		"categoryId": "hats",
+		"iconFilename": "assets/accessories/Hat9.png",
+		"assetSet": {
+			"base": ["assets/accessories/Hat9.png",0]
+		},
+		"useColourHue": false
+	},
+	{
+		"id": "hat10",
+		"targetAnchor": "head",
+		"offset": [0.0,-90.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 0.75,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 6,
+		"categoryId": "hats",
+		"iconFilename": "assets/accessories/Hat10.png",
+		"assetSet": {
+			"base": ["assets/accessories/Hat10.png",0]
+		},
+		"useColourHue": false
+	},
+	{
+		"id": "hat11",
+		"targetAnchor": "head",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 0.9,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 6,
+		"categoryId": "hats",
+		"iconFilename": "assets/accessories/Hat11.png",
+		"assetSet": {
+			"base": ["assets/accessories/Hat11.png",0]
+		},
+		"useColourHue": false
+	},
+	{
+		"id": "hat12",
+		"targetAnchor": "head",
+		"offset": [0.0,0.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 0.80,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 6,
+		"categoryId": "hats",
+		"iconFilename": "assets/accessories/Hat12.png",
+		"assetSet": {
+			"base": ["assets/accessories/Hat12.png",0]
+		},
+		"useColourHue": false
+	},
+	{
+		"id": "hat13",
+		"targetAnchor": "head",
+		"offset": [0.0,-20.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 0.8,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 6,
+		"categoryId": "hats",
+		"iconFilename": "assets/accessories/Hat13.png",
+		"assetSet": {
+			"base": ["assets/accessories/Hat13.png",0]
+		},
+		"useColourHue": false
+	},
+	{
+		"id": "hat14",
+		"targetAnchor": "head",
+		"offset": [0.0,-40.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 0.8,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 6,
+		"categoryId": "hats",
+		"iconFilename": "assets/accessories/Hat14.png",
+		"assetSet": {
+			"base": ["assets/accessories/Hat14.png",0]
+		},
+		"useColourHue": false
+	},
+	{
+		"id": "hat15",
+		"targetAnchor": "head",
+		"offset": [0.0,-55.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 0.8,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 6,
+		"categoryId": "hats",
+		"iconFilename": "assets/accessories/Hat15.png",
+		"assetSet": {
+			"base": ["assets/accessories/Hat15.png",0]
+		},
+		"useColourHue": false
+	},
+	{
+		"id": "hat16",
+		"targetAnchor": "head",
+		"offset": [0.0,-80.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 0.8,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 6,
+		"categoryId": "hats",
+		"iconFilename": "assets/accessories/Hat16.png",
+		"assetSet": {
+			"base": ["assets/accessories/Hat16.png",0]
+		},
+		"useColourHue": false
+	},
+	{
+		"id": "hat17",
+		"targetAnchor": "head",
+		"offset": [0.0,-100.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 0.8,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 6,
+		"categoryId": "hats",
+		"iconFilename": "assets/accessories/Hat17.png",
+		"assetSet": {
+			"base": ["assets/accessories/Hat17.png",0]
+		},
+		"useColourHue": false
+	},
+	{
+		"id": "hat18",
+		"targetAnchor": "head",
+		"offset": [0.0,-10.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 0.8,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 6,
+		"categoryId": "hats",
+		"iconFilename": "assets/accessories/Hat18.png",
+		"assetSet": {
+			"base": ["assets/accessories/Hat18.png",0]
+		},
+		"useColourHue": false
+	},
+	{
+		"id": "hat19",
+		"targetAnchor": "head",
+		"offset": [0.0,-10.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 1.0,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 6,
+		"categoryId": "hats",
+		"iconFilename": "assets/accessories/Hat19.png",
+		"assetSet": {
+			"base": ["assets/accessories/Hat19.png",0]
+		},
+		"useColourHue": false
+	},
+	{
+		"id": "hat20",
+		"targetAnchor": "head",
+		"offset": [0.0,-40.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 0.8,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 6,
+		"categoryId": "hats",
+		"iconFilename": "assets/accessories/Hat20.png",
+		"assetSet": {
+			"base": ["assets/accessories/Hat20.png",0]
+		},
+		"useColourHue": false
+	},
+	{
+		"id": "hat21",
+		"targetAnchor": "head",
+		"offset": [0.0,-40.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 0.8,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 6,
+		"categoryId": "hats",
+		"iconFilename": "assets/accessories/Hat21.png",
+		"assetSet": {
+			"base": ["assets/accessories/Hat21.png",0]
+		},
+		"useColourHue": false
+	},
+	{
+		"id": "hat22",
+		"targetAnchor": "head",
+		"offset": [0.0,-110.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 0.8,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 6,
+		"categoryId": "hats",
+		"iconFilename": "assets/accessories/Hat22.png",
+		"assetSet": {
+			"base": ["assets/accessories/Hat22.png",0]
+		},
+		"useColourHue": false
+	},
+	{
+		"id": "hat23",
+		"targetAnchor": "head",
+		"offset": [0.0,-100.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 0.8,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 6,
+		"categoryId": "hats",
+		"iconFilename": "assets/accessories/Hat23.png",
+		"assetSet": {
+			"base": ["assets/accessories/Hat23.png",0]
+		},
+		"useColourHue": false
+	},
+	{
+		"id": "hat24",
+		"targetAnchor": "head",
+		"offset": [0.0,-110.0],
+		"snapRange": [100.0,100.0],
+		"menuScale": 0.8,
+		"dragScale": 2.0,
+		"targetScale": 1.0,
+		"zOrder": 6,
+		"categoryId": "hats",
+		"iconFilename": "assets/accessories/Hat24.png",
+		"assetSet": {
+			"base": ["assets/accessories/Hat24.png",0]
+		},
+		"useColourHue": false
+	}
+]
+}

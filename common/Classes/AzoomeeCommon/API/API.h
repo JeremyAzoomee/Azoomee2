@@ -50,6 +50,7 @@ public:
     static const char* const TagResetReportedChat;
     static const char* const TagGetForceUpdateInformation;
     static const char* const TagCookieRefresh;
+    static const char* const TagUpdateChildAvatar;
     
 #pragma mark - API Methods
     
@@ -108,6 +109,10 @@ public:
                                            const std::string& childProfileName,
                                            const std::string& childGender,
                                            HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* UpdateChildAvatar(const std::string& childId,
+                                                 const std::string& imageData,
+                                                 HttpRequestCreatorResponseDelegate* delegate);
     
     static HttpRequestCreator* VerifyGooglePaymentRequest(const std::string& orderId,
                                                           const std::string& iapSku,

@@ -22,9 +22,11 @@
 #include <AzoomeeCommon/UI/PrivacyLayer.h>
 #include "ContentHistoryManager.h"
 #include "DynamicNodeHandler.h"
+#include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
+#include <AzoomeeCommon/Utils/ActionBuilder.h>
 
-#define OOMEE_LAYER_WIDTH 300
-#define OOMEE_LAYER_HEIGHT 450
+#define OOMEE_LAYER_WIDTH 400
+#define OOMEE_LAYER_HEIGHT 400
 #define OOMEE_LAYER_GAP 100
 #define OOMEE_LAYER_GAP_PORTRAIT 50
 
@@ -189,10 +191,7 @@ void ChildSelectorScene::addProfilesToScrollView()
     
     for(int i = 0; i < ParentDataProvider::getInstance()->getAmountOfAvailableChildren(); i++)
     {
-        const std::string& oomeeUrl = ParentDataProvider::getInstance()->getAvatarForAnAvailableChild(i);
-        int oomeeNr = ConfigStorage::getInstance()->getOomeeNumberForUrl(oomeeUrl);
-        
-        auto profileLayer = createChildProfileButton(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(i), oomeeNr);
+        auto profileLayer = createChildProfileButton(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(i), i);
         profileLayer->setTag(i);
         profileLayer->setPosition(positionElementOnScrollView(profileLayer));
         _scrollView->addChild(profileLayer);
@@ -205,7 +204,7 @@ void ChildSelectorScene::addProfilesToScrollView()
     
 }
 
-ui::Button *ChildSelectorScene::createChildProfileButton(const std::string& profileName, int oomeeNumber)
+ui::Button *ChildSelectorScene::createChildProfileButton(const std::string& profileName, int childNum)
 {
     auto button = ui::Button::create();
     button->setContentSize(Size(OOMEE_LAYER_WIDTH,OOMEE_LAYER_HEIGHT));
@@ -249,16 +248,18 @@ ui::Button *ChildSelectorScene::createChildProfileButton(const std::string& prof
         }
     });
     
-    auto oomee = Sprite::create(StringUtils::format("res/childSelection/%s.png", ConfigStorage::getInstance()->getNameForOomee(oomeeNumber).c_str()));
+    auto oomee = RemoteImageSprite::create();
+    oomee->initWithUrlAndSizeWithoutPlaceholder(ParentDataProvider::getInstance()->getAvatarForAnAvailableChild(childNum), Size(182, 256));
     oomee->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     oomee->setName(kOomeeLayerName);
+    oomee->setKeepAspectRatio(true);
     button->addChild(oomee);
     
     float delayTime = CCRANDOM_0_1() * 0.5;
     if(_firstTime)
     {
         oomee->setOpacity(0);
-        oomee->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+        oomee->runAction(createBlinkEffect(delayTime, 0.1));
     }
     
     auto glow = Sprite::create("res/childSelection/glow.png");
@@ -268,7 +269,7 @@ ui::Button *ChildSelectorScene::createChildProfileButton(const std::string& prof
     if(_firstTime)
     {
         glow->setOpacity(0);
-        glow->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+        glow->runAction(createBlinkEffect(delayTime, 0.1));
     }
     
     auto profileLabel = createLabelChildName(profileName);
@@ -279,7 +280,7 @@ ui::Button *ChildSelectorScene::createChildProfileButton(const std::string& prof
     if(_firstTime)
     {
         profileLabel->setOpacity(0);
-        profileLabel->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+        profileLabel->runAction(createBlinkEffect(delayTime, 0.1));
     }
     return button;
 }
@@ -337,7 +338,7 @@ ui::Button* ChildSelectorScene::createNewProfileButton()
     if(_firstTime)
     {
         addChildButton->setOpacity(0);
-        addChildButton->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+        addChildButton->runAction(createBlinkEffect(delayTime, 0.1));
     }
     
     return addChildButton;

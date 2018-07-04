@@ -21,4 +21,9 @@ Sequence* createFlickerEffect(int flickerCount, float delayBetweenFlickers)
     return Sequence::create( Repeat::create(Sequence::create(EaseElasticOut::create(FadeTo::create(0.3, 50)), EaseElasticOut::create(FadeTo::create(0.3, 255)), nullptr), flickerCount), DelayTime::create(delayBetweenFlickers), nullptr);
 }
 
+cocos2d::Sequence* createBlinkEffect(float startDelay, float blinkDelay)
+{
+    return Sequence::create(DelayTime::create(startDelay), FadeTo::create(0, 255), DelayTime::create(blinkDelay), FadeTo::create(0, 0), DelayTime::create(blinkDelay), FadeTo::create(0, 255), NULL);
+}
+
 NS_AZOOMEE_END

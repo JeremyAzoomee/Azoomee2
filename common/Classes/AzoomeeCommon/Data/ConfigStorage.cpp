@@ -645,6 +645,16 @@ bool ConfigStorage::isDeviceIphoneX() const
 {
     return _isDeviceIphoneX;
 }
+    
+void ConfigStorage::setIsDevice18x9(bool isDevice18x9)
+{
+    _isDevice18x9 = isDevice18x9;
+}
+    
+bool ConfigStorage::isDevice18x9() const
+{
+    return _isDevice18x9;
+}
 
 //------------------------- Set estimated keyboard height for chat ---------------------------
 void ConfigStorage::setEstimatedKeyboardHeight(float height)

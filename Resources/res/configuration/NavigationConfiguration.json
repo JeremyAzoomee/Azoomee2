@@ -3,7 +3,8 @@
         "GAME HQ": 1031,
         "CHAT": 1504,
         "VIDEO HQ": 1268,
-        "ARTS APP": 1741
+        "ARTS APP": 1741,
+        "OOMEE_MAKER": 1978
     },
   "horizontalYPositionsForMenuItems": -150,
   "horizontalMenuItemsHeight": 270,
@@ -44,13 +45,20 @@
         "g": 174,
         "b": 255,
         "a": 255
+    },
+    "OOMEE_MAKER": {
+        "r": 84,
+        "g": 174,
+        "b": 255,
+        "a": 255
     }
   },
   "namesForMenuItems": [
     "GAME HQ",
     "VIDEO HQ",
     "CHAT",
-    "ARTS APP"
+    "ARTS APP",
+    "OOMEE_MAKER"
   ],
   "hqNamesReplacementForPermissionFeed": {
   	"CHAT": "CHAT",

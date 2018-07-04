@@ -10,6 +10,8 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Utils/SpecialCalendarEventManager.h>
+#include <AzoomeeCommon/Utils/DirectorySearcher.h>
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 
 using namespace cocos2d;
 
@@ -403,7 +405,7 @@ void DrawingCanvasUILayer::addStickerSelectButtons(const Size& visibleSize, cons
     for(int i = 0; i < _stickerCats.size(); i++)
     {
         ui::Button* stickerCatButton = ui::Button::create();
-        stickerCatButton->loadTextures(kStickerLoc + _stickerCats[i]->first, kStickerLoc + _stickerCats[i]->first);
+        stickerCatButton->loadTextures(_stickerCats[i]->first, _stickerCats[i]->first);
         stickerCatButton->setAnchorPoint(Vec2(0.5,0.5));
         stickerCatButton->setNormalizedPosition(Vec2((i+0.5f)/(float)_stickerCats.size(),0.5));
         stickerCatButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onStickerCategoryChangePressed, this,i));
@@ -899,8 +901,9 @@ void DrawingCanvasUILayer::onStickerCategoryChangePressed(Ref *pSender, ui::Widg
         {
             ui::Button* temp = ui::Button::create();
             temp->setAnchorPoint(Vec2(0.5,0.5));
-            temp->loadTextures(kStickerLoc + _stickerCats[index]->second[i],kStickerLoc + _stickerCats[index]->second[i]);
+            temp->loadTextures(_stickerCats[index]->second[i], _stickerCats[index]->second[i]);
             temp->setPosition(Vec2(_stickerScrollView->getInnerContainerSize().width*((i+1.0f)/(numStickers+1)),_stickerScrollView->getInnerContainerSize().height*0.8));
+            temp->setScale(271.0f/temp->getContentSize().height);
             temp->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onAddStickerPressed, this));
             _stickerScrollView->addChild(temp);
             
@@ -908,8 +911,9 @@ void DrawingCanvasUILayer::onStickerCategoryChangePressed(Ref *pSender, ui::Widg
             {
                 ui::Button* temp2 = ui::Button::create();
                 temp2->setAnchorPoint(Vec2(0.5,0.5));
-                temp2->loadTextures(kStickerLoc + _stickerCats[index]->second[i+1],kStickerLoc + _stickerCats[index]->second[i+1]);
+                temp2->loadTextures( _stickerCats[index]->second[i+1], _stickerCats[index]->second[i+1]);
                 temp2->setPosition(Vec2(_stickerScrollView->getInnerContainerSize().width*((i+1.0f)/(numStickers+1)),_stickerScrollView->getInnerContainerSize().height*0.4));
+                temp2->setScale(271.0f/temp2->getContentSize().height);
                 temp2->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onAddStickerPressed, this));
                 _stickerScrollView->addChild(temp2);
             }
@@ -1072,17 +1076,38 @@ void DrawingCanvasUILayer::getStickerFilesFromJSON()
         for(auto it = stickersJson.Begin(); it != stickersJson.End(); ++it)
         {
             const auto& jsonStickEntry = *it;
-            const std::string& sticker = jsonStickEntry.GetString();
+            const std::string& sticker = kStickerLoc + jsonStickEntry.GetString();
             catStickers.push_back(sticker);
         }
         
         StickerSetRef categorySet = std::make_shared<StickerSet>();
-        categorySet->first = catName;
+        categorySet->first = kStickerLoc + catName;
         categorySet->second = catStickers;
         
         _stickerCats.push_back(categorySet);
         
     }
+    
+    const std::string& oomeeStoragePath = FileUtils::getInstance()->getWritablePath() + "oomeeMaker/" + ChildDataProvider::getInstance()->getParentOrChildId();
+    const std::vector<std::string>& oomeeImages = DirectorySearcher::getInstance()->getImagesInDirectory(oomeeStoragePath);
+    
+    if(oomeeImages.size() == 0)
+    {
+        return;
+    }
+    
+    std::vector<std::string> fullFilenames;
+    for(const std::string& img : oomeeImages)
+    {
+        fullFilenames.push_back(oomeeStoragePath + "/" + img);
+    }
+    StickerSetRef oomeeCat = std::make_shared<StickerSet>();
+    oomeeCat->first = "res/navigation/menu_childSelect.png";
+    oomeeCat->second = fullFilenames;
+    
+    _stickerCats.push_back(oomeeCat);
+    
+    
 }
 
 

@@ -163,4 +163,34 @@ namespace Azoomee{
         }
     }
     
+    std::vector<std::string> DirectorySearcher::getFilesInDirectoryWithExtention(const std::string& path, const std::string& fileExtention)
+    {
+        std::vector<std::string> fileNames;
+        
+        DIR *dir;
+        struct dirent *ent;
+        if ((dir = opendir (path.c_str())) != NULL)
+        {
+            while ((ent = readdir (dir)) != NULL)
+            {
+                std::string fileName(ent->d_name);
+                
+                if(fileName.size() > fileExtention.size())
+                {
+                    if(fileName.substr(fileName.size() - fileExtention.size(), fileExtention.size()) == fileExtention)
+                    {
+                        fileNames.push_back(fileName);
+                    }
+                }
+            }
+            closedir (dir);
+            return fileNames;
+        }
+        else
+        {
+            perror ("");
+            return fileNames;
+        }
+    }
+    
 }
