@@ -45,6 +45,9 @@ bool OomeeMakerScene::init()
 
 void OomeeMakerScene::addBGLayer()
 {
+    
+    const Size& contentSize = _contentLayer->getContentSize();
+    
     LayerColor* base = LayerColor::create(Color4B(Style::Color::white));
     _contentLayer->addChild(base);
     LayerColor* bg = LayerColor::create(Color4B(Style::Color::greyBlue));
@@ -53,14 +56,14 @@ void OomeeMakerScene::addBGLayer()
     
     Sprite* wiresLeft = Sprite::create("res/oomeeMaker/wire_left.png");
     wiresLeft->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
-    wiresLeft->setPosition(Vec2(0, _contentLayer->getContentSize().height));
+    wiresLeft->setPosition(Vec2(0, contentSize.height));
     wiresLeft->setOpacity(0);
     wiresLeft->runAction(Sequence::create(DelayTime::create(2.0),FadeIn::create(1.5), NULL));
     _contentLayer->addChild(wiresLeft);
     
     Sprite* wiresRight = Sprite::create("res/oomeeMaker/wire_right.png");
     wiresRight->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
-    wiresRight->setPosition(Vec2(_contentLayer->getContentSize().width * 0.75, _contentLayer->getContentSize().height));
+    wiresRight->setPosition(Vec2(contentSize.width * 0.75, contentSize.height));
     wiresRight->setOpacity(0);
     wiresRight->runAction(Sequence::create(DelayTime::create(2.0),FadeIn::create(1.5), NULL));
     _contentLayer->addChild(wiresRight);
@@ -73,7 +76,7 @@ void OomeeMakerScene::addBGLayer()
     bgCircle1->setRotation(RandomHelper::random_real(0.0,M_PI));
     _contentLayer->addChild(bgCircle1);
     
-    auto popIn1 = EaseBackOut::create(ScaleTo::create(0.5, ((_contentLayer->getContentSize().width * 0.35) / bgCircle1->getContentSize().height)));
+    auto popIn1 = EaseBackOut::create(ScaleTo::create(0.5, ((contentSize.width * 0.35) / bgCircle1->getContentSize().height)));
     auto rotate1 = RepeatForever::create(RotateBy::create(30 + CCRANDOM_0_1() * 30, 360));
     
     bgCircle1->runAction(popIn1);
@@ -87,7 +90,7 @@ void OomeeMakerScene::addBGLayer()
     bgCircle2->setRotation(RandomHelper::random_real(0.0,M_PI));
     _contentLayer->addChild(bgCircle2);
     
-    auto popIn2 = EaseBackOut::create(ScaleTo::create(0.5, ((_contentLayer->getContentSize().width * 0.45) / bgCircle2->getContentSize().height)));
+    auto popIn2 = EaseBackOut::create(ScaleTo::create(0.5, ((contentSize.width * 0.45) / bgCircle2->getContentSize().height)));
     auto rotate2 = RepeatForever::create(RotateBy::create(30 +  CCRANDOM_0_1() * 30, -360));
     
     bgCircle2->runAction(popIn2);
@@ -96,13 +99,15 @@ void OomeeMakerScene::addBGLayer()
 
 void OomeeMakerScene::onEnter()
 {
+    const Size& contentSize = _contentLayer->getContentSize();
+    
     const OomeeRef& oomeeData = OomeeMakerDataStorage::getInstance()->getOomeeForKey(kDefaultOomeeId);
     
     const std::vector<ItemCategoryRef>& categoryData = OomeeMakerDataStorage::getInstance()->getItemCategoryList();
     
     _oomee = OomeeFigure::create();
-    _oomee->setContentSize(Size(_contentLayer->getContentSize().width * 0.585, _contentLayer->getContentSize().height));
-    _oomee->setPosition(Vec2(_contentLayer->getContentSize().width * 0.165, 0));
+    _oomee->setContentSize(Size(contentSize.width * 0.585, contentSize.height));
+    _oomee->setPosition(Vec2(contentSize.width * 0.165, 0));
     _oomee->setColour(OomeeMakerDataStorage::getInstance()->getColourForKey(kDefaultOomeeId));
     _oomee->setOomeeData(oomeeData);
     _oomee->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
@@ -120,7 +125,7 @@ void OomeeMakerScene::onEnter()
     _contentLayer->addChild(_oomee);
     
     _categoryList = ItemCategoryList::create();
-    _categoryList->setContentSize(Size(_contentLayer->getContentSize().width * 0.165, _contentLayer->getContentSize().height * 0.85f));
+    _categoryList->setContentSize(Size(contentSize.width * 0.165, contentSize.height * 0.85f));
     _categoryList->setNormalizedPosition(Vec2(0,0.425f));
     _categoryList->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
     _categoryList->setItemSelectedCallback([this](const ItemCategoryRef& data) {
@@ -131,14 +136,14 @@ void OomeeMakerScene::onEnter()
     
     _contentLayer->addChild(_categoryList);
     
-    LayerColor* itemListBG = LayerColor::create(Color4B::WHITE, _contentLayer->getContentSize().width * 0.25f, _contentLayer->getContentSize().height);
-    itemListBG->setPosition(Vec2(_contentLayer->getContentSize().width, 0));
-    itemListBG->runAction(Sequence::create(DelayTime::create(0.5),MoveBy::create(1.5, Vec2(-_contentLayer->getContentSize().width * 0.25f, 0)), NULL));
+    LayerColor* itemListBG = LayerColor::create(Color4B::WHITE, contentSize.width * 0.25f, contentSize.height);
+    itemListBG->setPosition(Vec2(contentSize.width, 0));
+    itemListBG->runAction(Sequence::create(DelayTime::create(0.5),MoveBy::create(1.5, Vec2(-contentSize.width * 0.25f, 0)), NULL));
     _contentLayer->addChild(itemListBG);
     
     _itemList = OomeeItemList::create();
-    _itemList->setContentSize(Size(_contentLayer->getContentSize().width * 0.25f, _contentLayer->getContentSize().height * 0.8f));
-    _itemList->setPosition(Vec2(_contentLayer->getContentSize().width + _itemList->getContentSize().width, _contentLayer->getContentSize().height / 2.0f));
+    _itemList->setContentSize(Size(contentSize.width * 0.25f, contentSize.height * 0.8f));
+    _itemList->setPosition(Vec2(contentSize.width + _itemList->getContentSize().width, contentSize.height / 2.0f));
     _itemList->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
     _itemList->setItemSelectedCallback([this](const OomeeItemRef& data) {
         this->addAccessoryToOomee(data);
@@ -204,7 +209,7 @@ void OomeeMakerScene::onEnter()
     _undoButton = ui::Button::create();
     _undoButton->loadTextureNormal("res/oomeeMaker/undo.png");
     _undoButton->setAnchorPoint(Vec2(-0.25, 1.25));
-    _undoButton->setPosition(Vec2(exitButton->getContentSize().width * 1.5, _contentLayer->getContentSize().height));
+    _undoButton->setPosition(Vec2(exitButton->getContentSize().width * 1.5, contentSize.height));
     _undoButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
@@ -216,7 +221,7 @@ void OomeeMakerScene::onEnter()
     ui::Button* makeAvatarButon = ui::Button::create();
     makeAvatarButon->loadTextureNormal("res/oomeeMaker/make_oomee_button_1.png");
     makeAvatarButon->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    makeAvatarButon->setPosition(Vec2(_contentLayer->getContentSize().width * 0.42, makeAvatarButon->getContentSize().height));
+    makeAvatarButon->setPosition(Vec2(contentSize.width * 0.42, makeAvatarButon->getContentSize().height));
     makeAvatarButon->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         this->makeAvatar();
     });
