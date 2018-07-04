@@ -1,9 +1,0 @@
-{
-	"id": "objects",
-	"iconFilenameSelected": "assets/categoryButtons/S_Objects.png",
-	"iconFilenameUnselected": "assets/categoryButtons/U_Objects.png",
-	"holidaySeasons": ["none"],
-	"scaleSelected": 1.25,
-	"scaleUnselected": 1.0,
-	"highlightColour": [255,0,0,255]
-}
