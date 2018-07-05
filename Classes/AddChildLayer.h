@@ -18,7 +18,7 @@ NS_AZOOMEE_BEGIN
 class AddChildLayer : public cocos2d::Layer
 {
     typedef cocos2d::Layer Super;
-private:
+protected:
     ChildCreatorRef _childCreator = nullptr;
     AddChildSceneDelegate* _delegate = nullptr;
     

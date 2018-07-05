@@ -159,6 +159,10 @@
 		928A6DCB20EBB9650053E793 /* ChildCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928A6DCA20EBB9650053E793 /* ChildCreator.cpp */; };
 		928A6DCD20EBC2560053E793 /* AddChildScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928A6DCC20EBC2560053E793 /* AddChildScene.cpp */; };
 		928A6DD520EBDD4A0053E793 /* AddChildLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928A6DD420EBDD4A0053E793 /* AddChildLayer.cpp */; };
+		928A6E8120EE2A290053E793 /* ChildNameLayerFirstTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928A6E8020EE2A290053E793 /* ChildNameLayerFirstTime.cpp */; };
+		928A6E8720EE58A70053E793 /* ChildNameLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928A6E8620EE58A70053E793 /* ChildNameLayer.cpp */; };
+		928A6E8920EE5C880053E793 /* ChildAgeLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928A6E8820EE5C880053E793 /* ChildAgeLayer.cpp */; };
+		928A6E8B20EE62270053E793 /* ChildOomeeLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928A6E8A20EE62270053E793 /* ChildOomeeLayer.cpp */; };
 		92951513208895D200F43AEC /* DynamicNodeCheckBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92951512208895D200F43AEC /* DynamicNodeCheckBox.cpp */; };
 		9295158B2091D48700F43AEC /* UserTypeMessagingLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9295158A2091D48700F43AEC /* UserTypeMessagingLayer.cpp */; };
 		929A9CFC2065248A009B323D /* MeHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929A9CFB2065248A009B323D /* MeHQ.cpp */; };
@@ -572,6 +576,10 @@
 		928A6DD220EBD3570053E793 /* ChildOomeeLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChildOomeeLayer.h; sourceTree = "<group>"; };
 		928A6DD320EBDA240053E793 /* AddChildLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddChildLayer.h; sourceTree = "<group>"; };
 		928A6DD420EBDD4A0053E793 /* AddChildLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AddChildLayer.cpp; sourceTree = "<group>"; };
+		928A6E8020EE2A290053E793 /* ChildNameLayerFirstTime.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChildNameLayerFirstTime.cpp; sourceTree = "<group>"; };
+		928A6E8620EE58A70053E793 /* ChildNameLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChildNameLayer.cpp; sourceTree = "<group>"; };
+		928A6E8820EE5C880053E793 /* ChildAgeLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChildAgeLayer.cpp; sourceTree = "<group>"; };
+		928A6E8A20EE62270053E793 /* ChildOomeeLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChildOomeeLayer.cpp; sourceTree = "<group>"; };
 		9295150E208895B300F43AEC /* DynamicNodeCheckBox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DynamicNodeCheckBox.h; sourceTree = "<group>"; };
 		92951512208895D200F43AEC /* DynamicNodeCheckBox.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeCheckBox.cpp; sourceTree = "<group>"; };
 		929515862091D04800F43AEC /* UserTypeMessagingLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserTypeMessagingLayer.h; sourceTree = "<group>"; };
@@ -1181,9 +1189,13 @@
 				928A6DC920EBB42B0053E793 /* ChildCreator.h */,
 				928A6DCA20EBB9650053E793 /* ChildCreator.cpp */,
 				928A6DCF20EBD31A0053E793 /* ChildNameLayerFirstTime.h */,
+				928A6E8020EE2A290053E793 /* ChildNameLayerFirstTime.cpp */,
 				928A6DD020EBD32A0053E793 /* ChildNameLayer.h */,
+				928A6E8620EE58A70053E793 /* ChildNameLayer.cpp */,
 				928A6DD120EBD3450053E793 /* ChildAgeLayer.h */,
+				928A6E8820EE5C880053E793 /* ChildAgeLayer.cpp */,
 				928A6DD220EBD3570053E793 /* ChildOomeeLayer.h */,
+				928A6E8A20EE62270053E793 /* ChildOomeeLayer.cpp */,
 				928A6DD320EBDA240053E793 /* AddChildLayer.h */,
 				928A6DD420EBDD4A0053E793 /* AddChildLayer.cpp */,
 			);
@@ -1754,6 +1766,7 @@
 				43FDC6611EF7E3CE009B596B /* SettingsConfirmationLayer.cpp in Sources */,
 				927DF6E320AECA620080DFEF /* MeHQGallery.cpp in Sources */,
 				026BAF781E3FFD33009C4ACE /* HQHistoryManager.cpp in Sources */,
+				928A6E8920EE5C880053E793 /* ChildAgeLayer.cpp in Sources */,
 				92759EB21FE81F6300639190 /* ContentOpener.cpp in Sources */,
 				02E595B31E5B495B0052F395 /* HQSceneElementVisual.cpp in Sources */,
 				9289DB7D1FD996A800B12435 /* DynamicNodeImage.cpp in Sources */,
@@ -1769,10 +1782,12 @@
 				929A9CFC2065248A009B323D /* MeHQ.cpp in Sources */,
 				431397721F1F4E9B00E358DC /* OnlineSafetyDetailsLayer.cpp in Sources */,
 				300742F31EF93428005525AE /* ChatDelegate.cpp in Sources */,
+				928A6E8120EE2A290053E793 /* ChildNameLayerFirstTime.cpp in Sources */,
 				432A6C0D1EA8E2A200C5842B /* ManualGameInputLayer.cpp in Sources */,
 				021564761FC4C79C00641C14 /* HQScene2CarouselTitle.cpp in Sources */,
 				02D4FCD21FCEE5E2005BA020 /* IAPProductDataHandler.mm in Sources */,
 				9220EAD2200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp in Sources */,
+				928A6E8720EE58A70053E793 /* ChildNameLayer.cpp in Sources */,
 				025BE9571E3B591C00EF76D1 /* PreviewLoginSignupMessageBox.cpp in Sources */,
 				927DF6E920AEF3C50080DFEF /* MeHQDownloads.cpp in Sources */,
 				9220EB21201A185C00BD7A90 /* RecentlyPlayedManager.cpp in Sources */,
@@ -1786,6 +1801,7 @@
 				437395811ED3441F00C29DB1 /* FlowDataSingleton.cpp in Sources */,
 				02E595891E55DFF00052F395 /* OfflineHubSceneVisuals.cpp in Sources */,
 				9224BFB41F7932D200108553 /* ButtonActionData.cpp in Sources */,
+				928A6E8B20EE62270053E793 /* ChildOomeeLayer.cpp in Sources */,
 				9271D7D32040557D00370120 /* OomeeMakerDelegate.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				0215646F1FC4202800641C14 /* HQScene2ElementPositioner.cpp in Sources */,

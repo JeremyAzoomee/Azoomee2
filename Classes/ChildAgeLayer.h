@@ -19,7 +19,7 @@ class ChildAgeLayer : public AddChildLayer
 {
     typedef cocos2d::Layer Super;
 private:
-    
+    TextInputLayer* _textInput = nullptr;
     
 public:
     

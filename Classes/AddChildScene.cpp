@@ -6,6 +6,11 @@
 //
 
 #include "AddChildScene.h"
+#include "ChildNameLayerFirstTime.h"
+#include "ChildNameLayer.h"
+#include "ChildAgeLayer.h"
+#include "ChildOomeeLayer.h"
+#include "SceneManagerScene.h"
 
 using namespace cocos2d;
 
@@ -44,6 +49,10 @@ Azoomee::Scene* AddChildScene::createWithFlowStage(const AddChildFlow& flowStage
 {
     auto scene = AddChildScene::create();
     scene->setFlowStage(flowStage);
+    if(flowStage == AddChildFlow::FIRST_TIME_SETUP_NAME);
+    {
+        scene->_addingFirstChild = true;
+    }
     return scene;
 }
 
@@ -70,21 +79,59 @@ void AddChildScene::addBackground()
 
 void AddChildScene::setSceneForFlow()
 {
+    if(_contentLayer)
+    {
+        _contentLayer->removeFromParent();
+    }
+    AddChildLayer* nextLayer = nullptr;
     switch (_currentFlowStage) {
         case AddChildFlow::FIRST_TIME_SETUP_NAME:
-        
+        nextLayer = ChildNameLayerFirstTime::create();
         break;
         
         case AddChildFlow::ADDITIONAL_NAME:
-        
+        nextLayer = ChildNameLayer::create();
         break;
         
         case AddChildFlow::AGE:
-        
+        nextLayer = ChildAgeLayer::create();
         break;
         
         case AddChildFlow::OOMEE:
+        nextLayer = ChildOomeeLayer::create();
+        break;
         
+        default:
+        break;
+    }
+    if(nextLayer)
+    {
+        nextLayer->setChildCreator(_childCreator);
+        nextLayer->setDelegate(this);
+        nextLayer->setContentSize(this->getContentSize());
+        this->addChild(nextLayer);
+        _contentLayer = nextLayer;
+    }
+}
+
+// Delegate Functions
+void AddChildScene::nextLayer()
+{
+    _prevFlowStage = _currentFlowStage;
+    switch(_currentFlowStage)
+    {
+        case AddChildFlow::FIRST_TIME_SETUP_NAME:
+        case AddChildFlow::ADDITIONAL_NAME:
+        _currentFlowStage = AddChildFlow::AGE;
+        setSceneForFlow();
+        break;
+        
+        case AddChildFlow::AGE:
+        _childCreator->addChild();
+        break;
+        
+        case AddChildFlow::OOMEE:
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
         break;
         
         default:
@@ -92,15 +139,24 @@ void AddChildScene::setSceneForFlow()
     }
 }
 
-// Delegate Functions
-void AddChildScene::nextLayer()
-{
-    
-}
-
 void AddChildScene::prevLayer()
 {
-    
+    switch(_currentFlowStage)
+    {
+        case AddChildFlow::FIRST_TIME_SETUP_NAME:
+        case AddChildFlow::ADDITIONAL_NAME:
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+        break;
+        
+        case AddChildFlow::AGE:
+        case AddChildFlow::OOMEE:
+        _currentFlowStage = _prevFlowStage;
+        setSceneForFlow();
+        break;
+        
+        default:
+        break;
+    }
 }
 
 NS_AZOOMEE_END

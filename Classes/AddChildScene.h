@@ -9,30 +9,35 @@
 #define AddChildScene_h
 
 #include <AzoomeeCommon/UI/Scene.h>
+#include <AzoomeeCommon/API/HttpRequestCreator.h>
 #include <cocos/cocos2d.h>
 #include "ChildCreator.h"
 
 NS_AZOOMEE_BEGIN
 
-enum class AddChildFlow {FIRST_TIME_SETUP_NAME, ADDITIONAL_NAME, AGE, OOMEE};
+enum class AddChildFlow {FIRST_TIME_SETUP_NAME, ADDITIONAL_NAME, AGE, OOMEE, NIL};
 
 class AddChildSceneDelegate
 {
+public:
     virtual void nextLayer() = 0;
     virtual void prevLayer() = 0;
 };
 
-class AddChildScene : public Azoomee::Scene, AddChildSceneDelegate
+class AddChildScene : public Azoomee::Scene, AddChildSceneDelegate, HttpRequestCreatorResponseDelegate
 {
     typedef Azoomee::Scene Super;
 private:
     
     AddChildFlow _currentFlowStage = AddChildFlow::ADDITIONAL_NAME;
+    AddChildFlow _prevFlowStage = AddChildFlow::NIL;
     cocos2d::Layer* _contentLayer = nullptr;
     ChildCreatorRef _childCreator = nullptr;
     
     void addBackground();
     void setSceneForFlow();
+    
+    bool _addingFirstChild = false;
     
 public:
     
@@ -50,6 +55,10 @@ public:
     // Delegate Functions
     virtual void nextLayer() override;
     virtual void prevLayer() override;
+    
+    //-HttpRequestCreatorResponseDelegate
+    void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body) override;
+    void onHttpRequestFailed(const std::string& requestTag, long errorCode) override;
 };
 
 NS_AZOOMEE_END

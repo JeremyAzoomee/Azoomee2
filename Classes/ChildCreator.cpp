@@ -6,13 +6,13 @@
 //
 
 #include "ChildCreator.h"
-#include "BackEndCaller.h"
 #include "FlowDataSingleton.h"
 #include <AzoomeeCommon/Input/TextInputChecker.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/Utils/TimeFunctions.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/API/API.h>
 
 
 using namespace cocos2d;
@@ -34,6 +34,21 @@ void ChildCreator::setAge(int age)
     _age = age;
 }
 
+std::string ChildCreator::getName() const
+{
+    return _childName;
+}
+
+int ChildCreator::getAge() const
+{
+    return _age;
+}
+
+void ChildCreator::setHttpRespnseDelegate(Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+{
+    _delegate = delegate;
+}
+
 bool ChildCreator::addChild()
 {
     if(_age <= 0 || !isValidChildName(_childName.c_str()))
@@ -51,15 +66,19 @@ bool ChildCreator::addChild()
     }
     int oomeeNum = 0;
     AnalyticsSingleton::getInstance()->childProfileCreatedEvent(_age, oomeeNum);
-    
-    auto backEndCaller = BackEndCaller::getInstance();
+    HttpRequestCreator* request = nullptr;
     if(FlowDataSingleton::getInstance()->isSignupNewProfileFlow() && ParentDataProvider::getInstance()->getAmountOfAvailableChildren() !=0)
     {
-        backEndCaller->updateChild(ParentDataProvider::getInstance()->getIDForAvailableChildren(0), _childName, gender, DOB, oomeeNum);
+        const std::string& oomeeUrl = ConfigStorage::getInstance()->getUrlForOomee(oomeeNum);
+        const std::string& ownerId = ParentDataProvider::getInstance()->getLoggedInParentId();
+        const std::string& childId = ParentDataProvider::getInstance()->getIDForAvailableChildren(0);
+        const std::string& url = ConfigStorage::getInstance()->getServerUrl() + "/api/user/child/" + childId;
+        request = API::UpdateChildRequest(url, childId, _childName, gender, DOB, oomeeUrl, ownerId, _delegate);
     }
     else
     {
-        backEndCaller->registerChild(_childName, gender, DOB, oomeeNum);
+        const std::string& oomeeUrl = ConfigStorage::getInstance()->getUrlForOomee(oomeeNum);
+        request = API::RegisterChildRequest(_childName, gender, DOB, oomeeUrl, _delegate);
     }
     return true;
 }
