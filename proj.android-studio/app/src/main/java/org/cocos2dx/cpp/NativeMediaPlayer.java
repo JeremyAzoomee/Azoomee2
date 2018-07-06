@@ -362,6 +362,8 @@ public class NativeMediaPlayer extends Activity {
         buttonLayoutParams.width = _buttonWidth;
         buttonLayoutParams.height = _buttonWidth;
 
+        float buttonPadding = _buttonWidth / 8.0f;
+
         final ImageButton closeButton = new ImageButton(this);
         closeButton.setImageResource(R.drawable.close_unelected);
         closeButton.setTag(R.drawable.close_unelected);
@@ -390,8 +392,8 @@ public class NativeMediaPlayer extends Activity {
         });
         closeButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
 
-        closeButton.setX(_buttonWidth/8);
-        closeButton.setY(_buttonWidth/8 + _buttonWidth);
+        closeButton.setX(buttonPadding);
+        closeButton.setY(buttonPadding + _buttonWidth);
 
         // Add button to screen, with Size and Position
         addContentView(closeButton, buttonLayoutParams);
@@ -426,8 +428,8 @@ public class NativeMediaPlayer extends Activity {
         });
 
         favButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
-        favButton.setX(_buttonWidth/8);
-        favButton.setY(_buttonWidth/8 + 2 * _buttonWidth);
+        favButton.setX(buttonPadding);
+        favButton.setY(buttonPadding + 2 * _buttonWidth);
 
         addContentView(favButton, buttonLayoutParams);
 
@@ -462,8 +464,8 @@ public class NativeMediaPlayer extends Activity {
         });
 
         shareButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
-        shareButton.setX(_buttonWidth/8);
-        shareButton.setY(_buttonWidth/8 + 3 * _buttonWidth);
+        shareButton.setX(buttonPadding);
+        shareButton.setY(buttonPadding + 3 * _buttonWidth);
 
         addContentView(shareButton, buttonLayoutParams);
 
@@ -494,8 +496,8 @@ public class NativeMediaPlayer extends Activity {
         });
 
         burgerButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
-        burgerButton.setX(_buttonWidth/8);
-        burgerButton.setY(_buttonWidth/8);
+        burgerButton.setX(buttonPadding);
+        burgerButton.setY(buttonPadding);
 
         addContentView(burgerButton, buttonLayoutParams);
 

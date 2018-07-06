@@ -38,16 +38,17 @@ bool MeHQ::init()
         return false;
     }
     
-    this->setContentSize(Director::getInstance()->getVisibleSize());
+    const Size& contentSize = Director::getInstance()->getVisibleSize();
+    
+    this->setContentSize(contentSize);
     
     _contentListView = ui::ListView::create();
     _contentListView->setDirection(ui::ScrollView::Direction::VERTICAL);
     _contentListView->setBounceEnabled(true);
     _contentListView->setGravity(ui::ListView::Gravity::CENTER_HORIZONTAL);
     _contentListView->setItemsMargin(150.0f);
-    _contentListView->setContentSize(Size(this->getContentSize().width, this->getContentSize().height - 300));
+    _contentListView->setContentSize(Size(contentSize.width, contentSize.height - 300));
     _contentListView->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-    //_contentListView->setPosition(Director::getInstance()->getVisibleOrigin());
     
     this->addChild(_contentListView);
     auto profileLayout = MeHQProfileDetails::create();

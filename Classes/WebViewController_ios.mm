@@ -201,30 +201,32 @@ using namespace Azoomee;
     CGFloat buttonWidth = 0.0f;
     CGSize screenSize = [[UIScreen mainScreen] bounds].size;
     
-    screenSize.width > screenSize.height ? buttonWidth = screenSize.width / 15.0f : buttonWidth = screenSize.height / 15.0f ;
+    buttonWidth = (screenSize.width > screenSize.height) ? screenSize.width / 15.0f : screenSize.height / 15.0f;
     
     _buttonWidth = buttonWidth;
     
     screenSize.width -= buttonWidth * 1.5f;
     screenSize.height -= buttonWidth * 1.5f;
     
+    CGFloat buttonPadding = buttonWidth / 4.0f;
+    
     _burgerButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_burgerButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [_burgerButton setFrame:CGRectMake(buttonWidth/4 + (screenSize.width * _closeButtonAnchorX), buttonWidth/4 + (screenSize.height * _closeButtonAnchorY), buttonWidth, buttonWidth)];
+    [_burgerButton setFrame:CGRectMake(buttonPadding + (screenSize.width * _closeButtonAnchorX), buttonPadding + (screenSize.height * _closeButtonAnchorY), buttonWidth, buttonWidth)];
     [_burgerButton setExclusiveTouch:YES];
     [_burgerButton setImage:[UIImage imageNamed:@"res/webview_buttons/menu_unselected.png"] forState:UIControlStateNormal];
     [_burgerButton setImage:[UIImage imageNamed:@"res/webview_buttons/menu_selected.png"] forState:UIControlStateSelected];
     
     backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [backButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [backButton setFrame:CGRectMake(buttonWidth/4 + (screenSize.width * _closeButtonAnchorX), buttonWidth/4 + (screenSize.height * _closeButtonAnchorY), buttonWidth, buttonWidth)];
+    [backButton setFrame:CGRectMake(buttonPadding + (screenSize.width * _closeButtonAnchorX), buttonPadding + (screenSize.height * _closeButtonAnchorY), buttonWidth, buttonWidth)];
     [backButton setExclusiveTouch:YES];
     [backButton setImage:[UIImage imageNamed:@"res/webview_buttons/close_unselected.png"] forState:UIControlStateNormal];
     [backButton setImage:[UIImage imageNamed:@"res/webview_buttons/close_selected.png"] forState:UIControlStateSelected];
     
     _favButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_favButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [_favButton setFrame:CGRectMake(buttonWidth/4 + (screenSize.width * _closeButtonAnchorX), buttonWidth/4 + (screenSize.height * _closeButtonAnchorY), buttonWidth, buttonWidth)];
+    [_favButton setFrame:CGRectMake(buttonPadding + (screenSize.width * _closeButtonAnchorX), buttonPadding + (screenSize.height * _closeButtonAnchorY), buttonWidth, buttonWidth)];
     [_favButton setExclusiveTouch:YES];
     [_favButton setImage:[UIImage imageNamed:@"res/webview_buttons/favourite_unselected.png"] forState:UIControlStateNormal];
     [_favButton setImage:[UIImage imageNamed:@"res/webview_buttons/favourite_selected.png"] forState:UIControlStateSelected];
@@ -235,7 +237,7 @@ using namespace Azoomee;
     
     _shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_shareButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [_shareButton setFrame:CGRectMake(buttonWidth/4 + (screenSize.width * _closeButtonAnchorX), buttonWidth/4 + (screenSize.height * _closeButtonAnchorY), buttonWidth, buttonWidth)];
+    [_shareButton setFrame:CGRectMake(buttonPadding + (screenSize.width * _closeButtonAnchorX), buttonPadding + (screenSize.height * _closeButtonAnchorY), buttonWidth, buttonWidth)];
     [_shareButton setExclusiveTouch:YES];
     [_shareButton setImage:[UIImage imageNamed:@"res/webview_buttons/share_unselected.png"] forState:UIControlStateNormal];
     [_shareButton setImage:[UIImage imageNamed:@"res/webview_buttons/share_selected.png"] forState:UIControlStateSelected];
@@ -353,13 +355,15 @@ using namespace Azoomee;
     screenSize.width -= _buttonWidth * 1.5f;
     screenSize.height -= _buttonWidth * 1.5f;
     
+    CGFloat buttonPadding = _buttonWidth / 4.0f;
+    
     if(_uiExpanded)
     {
         // animate
         [UIView animateWithDuration:0.75 animations:^{
-            backButton.frame = CGRectMake(_buttonWidth/4 + (screenSize.width * _closeButtonAnchorX), _buttonWidth/4 + (screenSize.height * _closeButtonAnchorY), _buttonWidth, _buttonWidth);
-            _favButton.frame = CGRectMake(_buttonWidth/4 + (screenSize.width * _closeButtonAnchorX), _buttonWidth/4 + (screenSize.height * _closeButtonAnchorY) , _buttonWidth, _buttonWidth);
-            _shareButton.frame = CGRectMake(_buttonWidth/4 + (screenSize.width * _closeButtonAnchorX), _buttonWidth/4 + (screenSize.height * _closeButtonAnchorY), _buttonWidth, _buttonWidth);
+            backButton.frame = CGRectMake(buttonPadding + (screenSize.width * _closeButtonAnchorX), buttonPadding + (screenSize.height * _closeButtonAnchorY), _buttonWidth, _buttonWidth);
+            _favButton.frame = CGRectMake(buttonPadding + (screenSize.width * _closeButtonAnchorX), buttonPadding + (screenSize.height * _closeButtonAnchorY) , _buttonWidth, _buttonWidth);
+            _shareButton.frame = CGRectMake(buttonPadding + (screenSize.width * _closeButtonAnchorX), buttonPadding + (screenSize.height * _closeButtonAnchorY), _buttonWidth, _buttonWidth);
         }];
         _uiExpanded = false;
     }
@@ -388,9 +392,9 @@ using namespace Azoomee;
         }
         // animate
         [UIView animateWithDuration:0.75 animations:^{
-            backButton.frame = CGRectMake(_buttonWidth/4 + (screenSize.width * _closeButtonAnchorX) + (xMod * _buttonWidth), _buttonWidth/4 + (screenSize.height * _closeButtonAnchorY) + (yMod * _buttonWidth), _buttonWidth, _buttonWidth);
-            _favButton.frame = CGRectMake(_buttonWidth/4 + (screenSize.width * _closeButtonAnchorX) + 2 * (xMod * _buttonWidth), _buttonWidth/4 + (screenSize.height * _closeButtonAnchorY) + 2 * ( yMod * _buttonWidth), _buttonWidth, _buttonWidth);
-            _shareButton.frame = CGRectMake(_buttonWidth/4 + (screenSize.width * _closeButtonAnchorX) + 3 * (xMod * _buttonWidth), _buttonWidth/4 + (screenSize.height * _closeButtonAnchorY) + 3 * ( yMod * _buttonWidth), _buttonWidth, _buttonWidth);
+            backButton.frame = CGRectMake(buttonPadding + (screenSize.width * _closeButtonAnchorX) + (xMod * _buttonWidth), buttonPadding + (screenSize.height * _closeButtonAnchorY) + (yMod * _buttonWidth), _buttonWidth, _buttonWidth);
+            _favButton.frame = CGRectMake(buttonPadding + (screenSize.width * _closeButtonAnchorX) + 2 * (xMod * _buttonWidth), buttonPadding + (screenSize.height * _closeButtonAnchorY) + 2 * ( yMod * _buttonWidth), _buttonWidth, _buttonWidth);
+            _shareButton.frame = CGRectMake(buttonPadding + (screenSize.width * _closeButtonAnchorX) + 3 * (xMod * _buttonWidth), buttonPadding + (screenSize.height * _closeButtonAnchorY) + 3 * ( yMod * _buttonWidth), _buttonWidth, _buttonWidth);
         }];
         _uiExpanded = true;
     }

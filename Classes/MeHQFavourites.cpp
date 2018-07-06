@@ -41,13 +41,15 @@ void MeHQFavourites::onEnter()
 {
     Super::onEnter();
     
-    int isPortrait = Director::getInstance()->getVisibleSize().width < Director::getInstance()->getVisibleSize().height;
+    const Size& visibleSize = Director::getInstance()->getVisibleSize();
     
-    this->setContentSize(Size(Director::getInstance()->getVisibleSize().width, 0));
+    int isPortrait = visibleSize.width < visibleSize.height;
+    
+    this->setContentSize(Size(visibleSize.width, 0));
     setLayoutType(ui::Layout::Type::VERTICAL);
     
     auto labelLayout = ui::Layout::create();
-    labelLayout->setContentSize(Size(Director::getInstance()->getVisibleSize().width, kSpaceAboveCarousel[isPortrait]));
+    labelLayout->setContentSize(Size(visibleSize.width, kSpaceAboveCarousel[isPortrait]));
     labelLayout->setLayoutType(ui::Layout::Type::VERTICAL);
     labelLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
     this->addChild(labelLayout);
@@ -55,7 +57,7 @@ void MeHQFavourites::onEnter()
     ui::Text* heading = ui::Text::create("My Favourites", Style::Font::Regular, 100);
     heading->setTextHorizontalAlignment(TextHAlignment::CENTER);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    heading->setContentSize(Size(this->getContentSize().width, kSpaceAboveCarousel[isPortrait]));
+    heading->setContentSize(Size(visibleSize.width, kSpaceAboveCarousel[isPortrait]));
     heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     labelLayout->addChild(heading);
     
@@ -64,12 +66,12 @@ void MeHQFavourites::onEnter()
     if(favList.size() > 0)
     {
         Size contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kGameHQName);
-        float unitWidth = (this->getContentSize().width - 2 * kSideMarginSize[isPortrait]) / kUnitsOnScreen[isPortrait];
+        float unitWidth = (visibleSize.width - 2 * kSideMarginSize[isPortrait]) / kUnitsOnScreen[isPortrait];
         float unitMultiplier = unitWidth / contentItemSize.width;
 
     
         _carouselLayout = ui::Layout::create();
-        _carouselLayout->setContentSize(Size(this->getContentSize().width - 2 * kSideMarginSize[isPortrait], 0));
+        _carouselLayout->setContentSize(Size(visibleSize.width - 2 * kSideMarginSize[isPortrait], 0));
         _carouselLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     
         float lowestElementYPosition = 0;
@@ -77,7 +79,7 @@ void MeHQFavourites::onEnter()
         for(int elementIndex = 0; elementIndex < favList.size(); elementIndex++)
         {
             auto hqSceneElement = HQSceneElement::create();
-            hqSceneElement->setCategory("ME HQ");
+            hqSceneElement->setCategory(ConfigStorage::kMeHQName);
             hqSceneElement->setItemData(favList[elementIndex]);
             hqSceneElement->setElementRow(-1);
             hqSceneElement->setElementIndex(elementIndex);
@@ -181,7 +183,7 @@ void MeHQFavourites::onEnter()
     
         this->addChild(editButton);
     
-        this->setContentSize(Size(this->getContentSize().width, -lowestElementYPosition + kSpaceAboveCarousel[isPortrait] + 350));
+        this->setContentSize(Size(visibleSize.width, -lowestElementYPosition + kSpaceAboveCarousel[isPortrait] + 350));
     }
     else
     {
@@ -191,7 +193,9 @@ void MeHQFavourites::onEnter()
 
 void MeHQFavourites::buildEmptyCarousel()
 {
-    int isPortrait = Director::getInstance()->getVisibleSize().width < Director::getInstance()->getVisibleSize().height;
+    const Size& visibleSize = Director::getInstance()->getVisibleSize();
+    
+    int isPortrait = visibleSize.width < visibleSize.height;
     
     ui::ImageView* favLogo = ui::ImageView::create("res/meHQ/smiley.png");
     favLogo->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -234,10 +238,10 @@ void MeHQFavourites::buildEmptyCarousel()
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setTextHorizontalAlignment(TextHAlignment::CENTER);
     heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
-    heading->setContentSize(Size(this->getContentSize().width, 200));
+    heading->setContentSize(Size(visibleSize.width, 200));
     this->addChild(heading);
     
-    this->setContentSize(Size(this->getContentSize().width, 2 * kSpaceAboveCarousel[isPortrait] + 350 + favLogo->getContentSize().height));
+    this->setContentSize(Size(visibleSize.width, 2 * kSpaceAboveCarousel[isPortrait] + 350 + favLogo->getContentSize().height));
     
 }
 

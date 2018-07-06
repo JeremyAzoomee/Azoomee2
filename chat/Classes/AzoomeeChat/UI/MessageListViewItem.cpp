@@ -249,7 +249,8 @@ void MessageListViewItem::setData(const MessageRef& message)
         }
         else if(messageType == Message::MessageTypeArt)
         {
-            _artImage->initWithUrlAndSizeWithoutPlaceholder(message->artURL(), Size(getContentSize().width/2,getContentSize().width/2 * 10.0f/16.0f));
+            const Size& contentSize = getContentSize();
+            _artImage->initWithUrlAndSizeWithoutPlaceholder(message->artURL(), Size(contentSize.width/2,contentSize.width/2 * 10.0f/16.0f));
             _artLayout->setTouchEnabled(false);
         }
         else if(messageType == Message::MessageTypeContent)
@@ -258,8 +259,8 @@ void MessageListViewItem::setData(const MessageRef& message)
             if(contentItem)
             {
                 const std::string& imgUrl = contentItem->getBaseImageThumbUrl();
-            
-                _artImage->initWithUrlAndSizeWithoutPlaceholder(imgUrl, Size(getContentSize().width/2,getContentSize().width/2 * 10.0f/16.0f));
+                const Size& contentSize = getContentSize();
+                _artImage->initWithUrlAndSizeWithoutPlaceholder(imgUrl, Size(contentSize.width/2,contentSize.width/2 * 10.0f/16.0f));
                 if(!_userIsParent)
                 {
                     _artLayout->addTouchEventListener([=](Ref* sender, ui::Widget::TouchEventType event){

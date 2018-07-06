@@ -32,13 +32,15 @@ bool MeHQDownloads::init()
         return false;
     }
     
-    int isPortrait = Director::getInstance()->getVisibleSize().width < Director::getInstance()->getVisibleSize().height;
+    const Size& visibleSize = Director::getInstance()->getVisibleSize();
     
-    this->setContentSize(Size(Director::getInstance()->getVisibleSize().width, 0));
+    int isPortrait = visibleSize.width < visibleSize.height;
+    
+    this->setContentSize(Size(visibleSize.width, 0));
     setLayoutType(ui::Layout::Type::VERTICAL);
     
     auto labelLayout = ui::Layout::create();
-    labelLayout->setContentSize(Size(Director::getInstance()->getVisibleSize().width, kSpaceAboveCarousel[isPortrait] + kContentItemMargin[isPortrait]));
+    labelLayout->setContentSize(Size(visibleSize.width, kSpaceAboveCarousel[isPortrait] + kContentItemMargin[isPortrait]));
     labelLayout->setLayoutType(ui::Layout::Type::VERTICAL);
     labelLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
     this->addChild(labelLayout);
@@ -46,20 +48,20 @@ bool MeHQDownloads::init()
     ui::Text* heading = ui::Text::create("My Downloads", Style::Font::Regular, 100);
     heading->setTextHorizontalAlignment(TextHAlignment::CENTER);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    heading->setContentSize(Size(this->getContentSize().width, kSpaceAboveCarousel[isPortrait]));
+    heading->setContentSize(Size(visibleSize.width, kSpaceAboveCarousel[isPortrait]));
     heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     labelLayout->addChild(heading);
     
     std::vector<HQContentItemObjectRef> gameList;
-    std::vector<std::string> jsonList = getJsonFileListFromDir();
+    const std::vector<std::string>& jsonList = getJsonFileListFromDir();
     
-    for(int i = 0; i < jsonList.size(); i++)
+    for(const auto& json : jsonList)
     {
-        if(jsonList.at(i).length() > 3)
+        if(json.length() > 3)
         {
-            if(isStarterFileExists(jsonList.at(i)))
+            if(isStarterFileExists(json))
             {
-                auto item = ContentItemPool::getInstance()->getContentItemForId(jsonList.at(i));
+                auto item = ContentItemPool::getInstance()->getContentItemForId(json);
                 if(item)
                 {
                     gameList.push_back(item);
@@ -77,10 +79,10 @@ bool MeHQDownloads::init()
         heading2->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,kContentItemMargin[isPortrait],0,0)));
         labelLayout->addChild(heading2);
         
-        labelLayout->setContentSize(Size(Director::getInstance()->getVisibleSize().width, 2 * kSpaceAboveCarousel[isPortrait] + kContentItemMargin[isPortrait]));
+        labelLayout->setContentSize(Size(visibleSize.width, 2 * kSpaceAboveCarousel[isPortrait] + kContentItemMargin[isPortrait]));
         
         Size contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kGameHQName);
-        float unitWidth = (this->getContentSize().width - 2 * kSideMarginSize[isPortrait]) / kUnitsOnScreen[isPortrait];
+        float unitWidth = (visibleSize.width - 2 * kSideMarginSize[isPortrait]) / kUnitsOnScreen[isPortrait];
         float unitMultiplier = unitWidth / contentItemSize.width;
         
         cocos2d::LayerColor* carouselLayer = LayerColor::create(cocos2d::Color4B(255, 0, 0, 0), this->getContentSize().width - 2 * kSideMarginSize[isPortrait], 0);
@@ -90,7 +92,7 @@ bool MeHQDownloads::init()
         for(int elementIndex = 0; elementIndex < gameList.size(); elementIndex++)
         {
             auto hqSceneElement = HQSceneElement::create();
-            hqSceneElement->setCategory("ME HQ");
+            hqSceneElement->setCategory(ConfigStorage::kMeHQName);
             hqSceneElement->setItemData(gameList[elementIndex]);
             hqSceneElement->setElementRow(-1);
             hqSceneElement->setElementIndex(elementIndex);
@@ -133,8 +135,8 @@ bool MeHQDownloads::init()
             hqScene2ElementPositioner.setBaseUnitSize(contentItemSize * unitMultiplier);
             
             const cocos2d::Point &elementPosition = hqScene2ElementPositioner.positionHQSceneElement();
-            
-            placeholder->setPosition(elementPosition + Vec2(kContentItemMargin[isPortrait]/2, kContentItemMargin[isPortrait]/2));
+            float offset = kContentItemMargin[isPortrait]/2;
+            placeholder->setPosition(elementPosition + Vec2(offset, offset));
             carouselLayer->addChild(placeholder);
         }
         
@@ -142,7 +144,7 @@ bool MeHQDownloads::init()
         
         this->addChild(carouselLayer);
         
-        this->setContentSize(Size(this->getContentSize().width, -lowestElementYPosition + labelLayout->getContentSize().height));
+        this->setContentSize(Size(visibleSize.width, -lowestElementYPosition + labelLayout->getContentSize().height));
     }
     else
     {
@@ -153,7 +155,9 @@ bool MeHQDownloads::init()
 
 void MeHQDownloads::buildEmptyCarousel()
 {
-    int isPortrait = Director::getInstance()->getVisibleSize().width < Director::getInstance()->getVisibleSize().height;
+    const Size& visibleSize = Director::getInstance()->getVisibleSize();
+    
+    int isPortrait = visibleSize.width < visibleSize.height;
     
     ui::ImageView* dlLogo = ui::ImageView::create("res/meHQ/ball.png");
     dlLogo->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -196,10 +200,10 @@ void MeHQDownloads::buildEmptyCarousel()
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setTextHorizontalAlignment(TextHAlignment::CENTER);
     heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
-    heading->setContentSize(Size(this->getContentSize().width, 200));
+    heading->setContentSize(Size(visibleSize.width, 200));
     this->addChild(heading);
     
-    this->setContentSize(Size(this->getContentSize().width, 3 * kSpaceAboveCarousel[isPortrait] + 350 + dlLogo->getContentSize().height));
+    this->setContentSize(Size(visibleSize.width, 3 * kSpaceAboveCarousel[isPortrait] + 350 + dlLogo->getContentSize().height));
     
 }
 
@@ -218,25 +222,22 @@ void MeHQDownloads::onSizeChanged()
     Super::onSizeChanged();
 }
 
-std::vector<std::string> MeHQDownloads::getJsonFileListFromDir()
+std::vector<std::string> MeHQDownloads::getJsonFileListFromDir() const
 {
-    std::string path = FileUtils::getInstance()->getWritablePath();
-    path = path + "/gameCache/";
-    
-    return DirectorySearcher::getInstance()->getFoldersInDirectory(path);
+    return DirectorySearcher::getInstance()->getFoldersInDirectory(ConfigStorage::getInstance()->getGameCachePath());
 }
 
-bool MeHQDownloads::isStarterFileExists(const std::string &gameId)
+bool MeHQDownloads::isStarterFileExists(const std::string &gameId) const
 {
-    if(getStartFileFromJson(gameId) == "ERROR") return false;
+    if(getStartFileFromJson(gameId) == ConfigStorage::kGameDownloadError) return false;
     
-    std::string path = FileUtils::getInstance()->getWritablePath() + "gameCache/" + gameId + "/" + getStartFileFromJson(gameId);
+    std::string path = ConfigStorage::getInstance()->getGameCachePath() + gameId + "/" + getStartFileFromJson(gameId);
     return FileUtils::getInstance()->isFileExist(path);
 }
 
-std::string MeHQDownloads::getStartFileFromJson(const std::string &gameId)
+std::string MeHQDownloads::getStartFileFromJson(const std::string &gameId) const
 {
-    std::string jsonFileName = FileUtils::getInstance()->getWritablePath() + "gameCache/" + gameId + "/package.json";
+    std::string jsonFileName = ConfigStorage::getInstance()->getGameCachePath() + gameId + "/package.json";
     
     std::string fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     
@@ -245,7 +246,7 @@ std::string MeHQDownloads::getStartFileFromJson(const std::string &gameId)
     
     if(gameData.HasParseError())
     {
-        return "ERROR";
+        return ConfigStorage::kGameDownloadError;
     }
     
     if(gameData.HasMember("pathToStartPage"))
@@ -254,7 +255,7 @@ std::string MeHQDownloads::getStartFileFromJson(const std::string &gameId)
     }
     else
     {
-        return "ERROR";
+        return ConfigStorage::kGameDownloadError;
     }
 }
 

@@ -299,6 +299,8 @@ public class NativeViewUI extends Activity {
         buttonLayoutParams.width = _buttonWidth;
         buttonLayoutParams.height = _buttonWidth;
 
+        float buttonPadding = _buttonWidth / 8.0f;
+
         final ImageButton closeButton = new ImageButton(this);
         closeButton.setImageResource(R.drawable.close_unelected);
         closeButton.setTag(R.drawable.close_unelected);
@@ -344,8 +346,8 @@ public class NativeViewUI extends Activity {
         });
         closeButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
 
-        closeButton.setX(_buttonWidth/8 + (_xAnchor * _paddedWindowWidth) + (_xMod * _buttonWidth));
-        closeButton.setY(_buttonWidth/8 + (_yAnchor * _paddedWindowHeight) + (_yMod * _buttonWidth));
+        closeButton.setX(buttonPadding + (_xAnchor * _paddedWindowWidth) + (_xMod * _buttonWidth));
+        closeButton.setY(buttonPadding + (_yAnchor * _paddedWindowHeight) + (_yMod * _buttonWidth));
 
         // Add button to screen, with Size and Position
         addContentView(closeButton, buttonLayoutParams);
@@ -384,8 +386,8 @@ public class NativeViewUI extends Activity {
         });
 
         favButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
-        favButton.setX(_buttonWidth/8 + (_xAnchor * _paddedWindowWidth) + 2 * (_xMod * _buttonWidth));
-        favButton.setY(_buttonWidth/8 + (_yAnchor * _paddedWindowHeight) + 2 * (_yMod * _buttonWidth));
+        favButton.setX(buttonPadding + (_xAnchor * _paddedWindowWidth) + 2 * (_xMod * _buttonWidth));
+        favButton.setY(buttonPadding + (_yAnchor * _paddedWindowHeight) + 2 * (_yMod * _buttonWidth));
 
         addContentView(favButton, buttonLayoutParams);
 
@@ -432,8 +434,8 @@ public class NativeViewUI extends Activity {
         });
 
         shareButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
-        shareButton.setX(_buttonWidth/8 + (_xAnchor * _paddedWindowWidth) + 3 * (_xMod * _buttonWidth));
-        shareButton.setY(_buttonWidth/8 + (_yAnchor * _paddedWindowHeight) + 3 * (_yMod * _buttonWidth));
+        shareButton.setX(buttonPadding + (_xAnchor * _paddedWindowWidth) + 3 * (_xMod * _buttonWidth));
+        shareButton.setY(buttonPadding + (_yAnchor * _paddedWindowHeight) + 3 * (_yMod * _buttonWidth));
 
         addContentView(shareButton, buttonLayoutParams);
 
@@ -464,8 +466,8 @@ public class NativeViewUI extends Activity {
         });
 
         burgerButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
-        burgerButton.setX(_buttonWidth/8 + (_xAnchor * _paddedWindowWidth));
-        burgerButton.setY(_buttonWidth/8 + (_yAnchor * _paddedWindowHeight));
+        burgerButton.setX(buttonPadding + (_xAnchor * _paddedWindowWidth));
+        burgerButton.setY(buttonPadding + (_yAnchor * _paddedWindowHeight));
 
         addContentView(burgerButton, buttonLayoutParams);
 

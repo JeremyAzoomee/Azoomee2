@@ -9,6 +9,7 @@
 #define MeHQ_h
 
 #include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include "HQSceneArtsApp.h"
@@ -23,7 +24,7 @@ class MeHQ : public cocos2d::Layer
 private:
     cocos2d::ui::ListView* _contentListView = nullptr;
     
-    std::string _hqCategory = "ME HQ";
+    std::string _hqCategory = ConfigStorage::kMeHQName;
 public:
     
     virtual bool init() override;

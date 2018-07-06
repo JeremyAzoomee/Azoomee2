@@ -65,7 +65,7 @@ void ChatDelegate::onChatAuthorizationError(const std::string& requestTag, long 
 
 void ChatDelegate::onChatNavigateToContent(const std::string &contentId)
 {
-    DeepLinkingSingleton::getInstance()->setDeepLink("azoomee://post-content/" + contentId);
+    DeepLinkingSingleton::getInstance()->setDeepLink(DeepLinkingSingleton::kPostContentDeeplinkStr + contentId);
 }
 
 // delegate functions

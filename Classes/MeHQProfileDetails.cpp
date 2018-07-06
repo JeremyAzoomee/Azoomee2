@@ -23,9 +23,14 @@ bool MeHQProfileDetails::init()
         return false;
     }
     
-    bool isPortrait = Director::getInstance()->getVisibleSize().width < Director::getInstance()->getVisibleSize().height;
+    const Size& visibleSize = Director::getInstance()->getVisibleSize();
     
-    this->setContentSize(Size(Director::getInstance()->getVisibleSize().width, isPortrait ? 2000 : 1000));
+    bool isPortrait = visibleSize.width < visibleSize.height;
+    
+    this->setContentSize(Size(visibleSize.width, isPortrait ? 2000 : 1000)); // portrait stacks elements vertically, so 2x height
+    
+    const Size& contentSize = this->getContentSize();
+    
     setLayoutType(isPortrait ? ui::Layout::Type::VERTICAL : ui::Layout::Type::HORIZONTAL);
     
     auto avatarLayout = ui::Layout::create();
@@ -39,7 +44,7 @@ bool MeHQProfileDetails::init()
     _avatar->setPlaceholderImage("res/oomeeMaker/1_Oomee_Reference.png");
     _avatar->loadPlaceholderImage();
     
-    _avatar->setScale((this->getContentSize().height * (isPortrait ? 0.35 : 0.7)) / _avatar->getContentSize().height);
+    _avatar->setScale((contentSize.height * (isPortrait ? 0.35 : 0.7)) / _avatar->getContentSize().height);
     
     _profileImageDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
     _profileImageDownloader->downloadImage(this, ParentDataProvider::getInstance()->getAvatarForAnAvailableChildById(ChildDataProvider::getInstance()->getLoggedInChildId()));
@@ -54,13 +59,13 @@ bool MeHQProfileDetails::init()
     _nameLabel = ui::Text::create(ChildDataProvider::getInstance()->getLoggedInChildName(),Style::Font::Regular , 200);
     _nameLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _nameLabel->setNormalizedPosition(Vec2(0.5,0.75));
-    _nameLabel->setContentSize(Size(this->getContentSize().width /2, this->getContentSize().height / 3.0f));
+    _nameLabel->setContentSize(Size(contentSize.width /2, contentSize.height / 3.0f));
     _labelLayout->addChild(_nameLabel);
     
     _kidCodeLabel = ui::Text::create("Kid Code: " + ParentDataProvider::getInstance()->getInviteCodeForAnAvailableChild(ChildDataProvider::getInstance()->getLoggedInChildNumber()), Style::Font::Regular, 90);
     _kidCodeLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _kidCodeLabel->setNormalizedPosition(Vec2(0.5,0.5));
-    _kidCodeLabel->setContentSize(Size(this->getContentSize().width /2, this->getContentSize().height / 3.0f));
+    _kidCodeLabel->setContentSize(Size(contentSize.width /2, contentSize.height / 3.0f));
     _kidCodeLabel->setTextColor(Color4B(Style::Color::greenishTeal));
     _labelLayout->addChild(_kidCodeLabel);
     

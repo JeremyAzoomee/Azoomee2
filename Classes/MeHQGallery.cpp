@@ -33,15 +33,17 @@ bool MeHQGallery::init()
         return false;
     }
     
-    int isPortrait = Director::getInstance()->getVisibleSize().width < Director::getInstance()->getVisibleSize().height;
+    const Size& visibleSize = Director::getInstance()->getVisibleSize();
     
-    this->setContentSize(Size(Director::getInstance()->getVisibleSize().width, 0));
+    int isPortrait = visibleSize.width < visibleSize.height;
+    
+    this->setContentSize(Size(visibleSize.width, 0));
     setLayoutType(ui::Layout::Type::VERTICAL);
     
     ui::Text* heading = ui::Text::create("My Gallery", Style::Font::Regular, 100);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,50)));
-    heading->setContentSize(Size(this->getContentSize().width, kSpaceAboveCarousel[isPortrait]));
+    heading->setContentSize(Size(visibleSize.width, kSpaceAboveCarousel[isPortrait]));
     this->addChild(heading);
     
     const std::string& dirPath = FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getParentOrChildId();
@@ -57,11 +59,11 @@ bool MeHQGallery::init()
     {
     
         Size contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kArtAppHQName);
-        float unitWidth = (this->getContentSize().width - 2 * kSideMarginSize[isPortrait]) / kUnitsOnScreen[isPortrait];
+        float unitWidth = (visibleSize.width - 2 * kSideMarginSize[isPortrait]) / kUnitsOnScreen[isPortrait];
         float unitMultiplier = unitWidth / contentItemSize.width;
         
         cocos2d::ui::Layout* carouselLayer = ui::Layout::create();
-        carouselLayer->setContentSize(Size(this->getContentSize().width - 2 * kSideMarginSize[isPortrait], 0));
+        carouselLayer->setContentSize(Size(visibleSize.width - 2 * kSideMarginSize[isPortrait], 0));
         carouselLayer->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
         
         std::reverse(artImages.begin(), artImages.end());
@@ -163,7 +165,7 @@ bool MeHQGallery::init()
         
         this->addChild(moreButton);
         
-        this->setContentSize(Size(this->getContentSize().width, -lowestElementYPosition + kSpaceAboveCarousel[isPortrait] + 350));
+        this->setContentSize(Size(visibleSize.width, -lowestElementYPosition + kSpaceAboveCarousel[isPortrait] + 350));
     }
     else
     {
@@ -175,7 +177,9 @@ bool MeHQGallery::init()
 
 void MeHQGallery::buildEmptyCarousel()
 {
-    int isPortrait = Director::getInstance()->getVisibleSize().width < Director::getInstance()->getVisibleSize().height;
+    const Size& visibleSize = Director::getInstance()->getVisibleSize();
+    
+    int isPortrait = visibleSize.width < visibleSize.height;
     
     ui::ImageView* artLogo = ui::ImageView::create("res/meHQ/art.png");
     artLogo->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -190,7 +194,6 @@ void MeHQGallery::buildEmptyCarousel()
     makePaintingButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
     makePaintingButton->setContentSize(Size(1000,makePaintingButton->getContentSize().height));
     makePaintingButton->setScale9Enabled(true);
-    //makePaintingButton->ignoreContentAdaptWithSize(false);
     makePaintingButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
@@ -212,7 +215,7 @@ void MeHQGallery::buildEmptyCarousel()
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setTextHorizontalAlignment(TextHAlignment::CENTER);
     heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
-    heading->setContentSize(Size(this->getContentSize().width, kSpaceAboveCarousel[isPortrait]));
+    heading->setContentSize(Size(visibleSize.width, kSpaceAboveCarousel[isPortrait]));
     this->addChild(heading);
     
     this->setContentSize(Size(this->getContentSize().width, 2 * kSpaceAboveCarousel[isPortrait] + 350 + artLogo->getContentSize().height));

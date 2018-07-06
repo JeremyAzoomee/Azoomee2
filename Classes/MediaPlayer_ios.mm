@@ -94,7 +94,7 @@ using namespace Azoomee;
     CGFloat buttonWidth = 0.0f;
     CGSize screenSize = [[UIScreen mainScreen] bounds].size;
     
-    screenSize.width > screenSize.height ? buttonWidth = screenSize.width / 15.0f : buttonWidth = screenSize.height / 15.0f ;
+    buttonWidth = (screenSize.width > screenSize.height) ? screenSize.width / 15.0f : screenSize.height / 15.0f;
     
     _buttonWidth = buttonWidth;
     

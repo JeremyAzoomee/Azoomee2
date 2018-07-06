@@ -129,13 +129,13 @@ void HQScene2::startBuildingScrollView()
     }
 #endif
     
-    if(this->getName() == "ME HQ")
+    if(this->getName() == ConfigStorage::kMeHQName)
     {
-        auto meHQ = this->getChildByName("ME HQ");
+        auto meHQ = this->getChildByName(ConfigStorage::kMeHQName);
         if(!meHQ)
         {
             auto meHQLayer = MeHQ::create();
-            meHQLayer->setName("ME HQ");
+            meHQLayer->setName(ConfigStorage::kMeHQName);
             this->addChild(meHQLayer);
         }
         return;

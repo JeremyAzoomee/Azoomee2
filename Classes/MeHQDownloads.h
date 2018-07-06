@@ -25,9 +25,9 @@ private:
     
     cocos2d::ui::Layout* _contentLayer = nullptr;
     
-    std::vector<std::string> getJsonFileListFromDir();
-    bool isStarterFileExists(const std::string &gameId);
-    std::string getStartFileFromJson(const std::string &gameId);
+    std::vector<std::string> getJsonFileListFromDir() const;
+    bool isStarterFileExists(const std::string &gameId) const;
+    std::string getStartFileFromJson(const std::string &gameId) const;
     
     void buildEmptyCarousel();
     

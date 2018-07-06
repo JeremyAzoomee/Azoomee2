@@ -66,7 +66,9 @@ void MeHQMessages::setRefreshCallback(const RefreshLayoutCallback& callback)
 
 void MeHQMessages::buildEmptyCarousel()
 {
-    bool isPortrait = Director::getInstance()->getVisibleSize().width < Director::getInstance()->getVisibleSize().height;
+    const Size& visibleSize = Director::getInstance()->getVisibleSize();
+    
+    bool isPortrait = visibleSize.width < visibleSize.height;
     
     ui::ImageView* msgLogo = ui::ImageView::create("res/meHQ/mail.png");
     msgLogo->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -103,14 +105,16 @@ void MeHQMessages::buildEmptyCarousel()
     heading->setContentSize(Size(this->getContentSize().width, 200));
     this->addChild(heading);
     
-    this->setContentSize(Size(this->getContentSize().width, 400 + 350 + msgLogo->getContentSize().height));
+    this->setContentSize(Size(visibleSize.width, 400 + 350 + msgLogo->getContentSize().height));
     
 }
 
 
 void MeHQMessages::createMessageList()
 {
-    bool isPortrait = Director::getInstance()->getVisibleSize().width < Director::getInstance()->getVisibleSize().height;
+    const Size& visibleSize = Director::getInstance()->getVisibleSize();
+    
+    bool isPortrait = visibleSize.width < visibleSize.height;
     
     float totalHeight = 200;
     
@@ -127,8 +131,7 @@ void MeHQMessages::createMessageList()
         for(const Chat::MessageRef& message : _messages)
         {
             ui::Layout* messageLayout = ui::Layout::create();
-            messageLayout->setContentSize(Size(this->getContentSize().width * 0.9, 500));
-            //messageLayout->setLayoutType(ui::Layout::Type::RELATIVE);
+            messageLayout->setContentSize(Size(visibleSize.width * 0.9, 500));
             messageLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
             messageLayout->setBackGroundImage("res/decoration/message_bar_container.png");
             messageLayout->setBackGroundImageScale9Enabled(true);
@@ -214,7 +217,7 @@ void MeHQMessages::createMessageList()
             totalHeight += messageLayout->getContentSize().height + 100;
         }
     
-        this->setContentSize(Size(this->getContentSize().width ,totalHeight));
+        this->setContentSize(Size(visibleSize.width ,totalHeight));
     }
     else
     {

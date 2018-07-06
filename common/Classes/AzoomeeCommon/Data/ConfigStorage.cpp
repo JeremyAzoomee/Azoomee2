@@ -30,7 +30,7 @@ static ConfigStorage *_sharedConfigStorage = NULL;
     const char* const ConfigStorage::kGroupHQName = "GROUP HQ";
     const char* const ConfigStorage::kHomeHQName = "HOME";
     const char* const ConfigStorage::kArtAppHQName = "ARTS APP";
-    const char* const ConfigStorage::kMixHQName = "MIX HQ";
+    const char* const ConfigStorage::kMeHQName = "ME HQ";
     
     const char* const ConfigStorage::kDefaultHQName = kGameHQName;
     
@@ -52,7 +52,7 @@ static ConfigStorage *_sharedConfigStorage = NULL;
     
     const std::string ConfigStorage::kArtCacheFolder = "artCache/";
     
-    
+    const std::string ConfigStorage::kGameDownloadError = "ERROR";
 
 ConfigStorage* ConfigStorage::getInstance()
 {
@@ -124,6 +124,11 @@ std::string ConfigStorage::getFileNameFromUrl(const std::string& url)
     int subLength = endPoint - startPoint;
     
     return url.substr(startPoint, subLength);
+}
+    
+std::string ConfigStorage::getGameCachePath()
+{
+    return FileUtils::getInstance()->getWritablePath() + "gameCache/";
 }
 
 //-------------------------PRIVATE METHOD TO PARSE CONFIG JSON FILE--------
