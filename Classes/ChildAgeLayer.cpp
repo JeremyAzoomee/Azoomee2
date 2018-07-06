@@ -27,13 +27,16 @@ void ChildAgeLayer::onEnter()
 {
     const Size& contentSize = this->getContentSize();
     
-    Label* title = Label::createWithTTF("Personalise their experience", Style::Font::Bold, 90);
+    bool isPortrait = contentSize.width < contentSize.height;
+    
+    Label* title = Label::createWithTTF(StringUtils::format("Personalise their%sexperience",isPortrait ? "\n" : " "), Style::Font::Regular, 150);
     title->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+    title->setHorizontalAlignment(TextHAlignment::CENTER);
     title->setPosition(contentSize.width / 2.0f, contentSize.height * 0.9f);
     title->setColor(Color3B::WHITE);
     this->addChild(title);
     
-    _textInput = TextInputLayer::createWithSize(Size(contentSize.width / 4, 200), INPUT_IS_AGE);
+    _textInput = TextInputLayer::createWithSize(Size(400, 160), INPUT_IS_AGE);
     _textInput->setCenterPosition(Vec2(contentSize.width / 2.0f, contentSize.height * 0.6f));
     if(_childCreator && _childCreator->getAge() > 0)
     {
@@ -41,20 +44,21 @@ void ChildAgeLayer::onEnter()
     }
     this->addChild(_textInput);
     
-    Label* textInputTitle = Label::createWithTTF("How old are they?", Style::Font::Regular, 60);
-    textInputTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    textInputTitle->setPosition(_textInput->getPosition() + Vec2(0, _textInput->getContentSize().height));
+    Label* textInputTitle = Label::createWithTTF("How old are they?", Style::Font::Regular, 120);
+    textInputTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    textInputTitle->setPosition(_textInput->getPosition() + Vec2(_textInput->getContentSize().width / 2, _textInput->getContentSize().height * 1.25f));
     textInputTitle->setColor(Color3B::WHITE);
     this->addChild(textInputTitle);
     
-    Label* textInputSubTitle = Label::createWithTTF("We need this to give them age-appropriate content.", Style::Font::Regular, 50);
-    textInputSubTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    textInputSubTitle->setPosition(_textInput->getPosition() + Vec2(0, -_textInput->getContentSize().height));
+    Label* textInputSubTitle = Label::createWithTTF(StringUtils::format("We need this to give them%sage-appropriate content.",isPortrait ? "\n" : " "), Style::Font::Regular, 100);
+    textInputSubTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+    textInputSubTitle->setHorizontalAlignment(TextHAlignment::CENTER);
+    textInputSubTitle->setPosition(_textInput->getPosition() + Vec2(_textInput->getContentSize().width / 2, -_textInput->getContentSize().height / 2));
     textInputSubTitle->setColor(Style::Color::telish);
     this->addChild(textInputSubTitle);
     
     ui::Button* continueButton = ui::Button::create("res/buttons/MainButton.png");
-    continueButton->setColor(Style::Color::greenishTeal);
+    continueButton->setColor(Style::Color::telish);
     continueButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     continueButton->setPosition(Vec2(contentSize.width / 2, contentSize.height * 0.3));
     continueButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType)

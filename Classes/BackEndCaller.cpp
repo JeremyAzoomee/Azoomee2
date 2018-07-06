@@ -271,11 +271,18 @@ void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseStrin
     ModalMessages::getInstance()->stopLoading();
     AnalyticsSingleton::getInstance()->registerIdentifier(ParentDataProvider::getInstance()->getLoggedInParentId());
     ParentDataParser::getInstance()->parseAvailableChildren(responseString);
-    Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
-    
-    Director::getInstance()->getScheduler()->schedule([&](float dt){
-        DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
-    }, this, 0.5, 0, 0, false, "eventHandler");
+    if(ParentDataProvider::getInstance()->getAmountOfAvailableChildren() == 0)
+    {
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(AddChildFirstTime));
+    }
+    else
+    {
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+        
+        Director::getInstance()->getScheduler()->schedule([&](float dt){
+            DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
+        }, this, 0.5, 0, 0, false, "eventHandler");
+    }
 }
 
 //CHILDREN LOGIN----------------------------------------------------------------------------------------

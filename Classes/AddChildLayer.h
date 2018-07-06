@@ -32,7 +32,7 @@ public:
     
     CREATE_FUNC(AddChildLayer);
     
-}
+};
 
 NS_AZOOMEE_END
 

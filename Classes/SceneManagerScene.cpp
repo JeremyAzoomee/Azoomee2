@@ -20,6 +20,7 @@
 #include "WebViewSelector.h"
 #include "IntroVideoScene.h"
 #include "ContentHistoryManager.h"
+#include "AddChildScene.h"
 
 using namespace cocos2d;
 
@@ -213,6 +214,20 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             }
             HQHistoryManager::getInstance()->updatePrevOrientation();
             Director::getInstance()->replaceScene(IntroVideoScene::create());
+            break;
+        }
+        case AddChild:
+        {
+            acceptAnyOrientation();
+            HQHistoryManager::getInstance()->updatePrevOrientation();
+            Director::getInstance()->replaceScene(AddChildScene::createWithFlowStage(AddChildFlow::ADDITIONAL_NAME));
+            break;
+        }
+        case AddChildFirstTime:
+        {
+            acceptAnyOrientation();
+            HQHistoryManager::getInstance()->updatePrevOrientation();
+            Director::getInstance()->replaceScene(AddChildScene::createWithFlowStage(AddChildFlow::FIRST_TIME_SETUP_NAME));
             break;
         }
         default:

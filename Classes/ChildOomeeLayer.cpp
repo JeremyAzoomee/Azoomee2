@@ -55,7 +55,7 @@ void ChildOomeeLayer::onEnter()
     ui::Button* doneButton = ui::Button::create("res/buttons/MainButton.png");
     doneButton->setColor(Style::Color::greenishTeal);
     doneButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    doneButton->setPosition(Vec2(contentSize.width / 2, contentSize.height * 0.3));
+    doneButton->setPosition(Vec2(contentSize.width * 0.66f, contentSize.height * 0.3));
     doneButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType)
     {
         if(eType == ui::Widget::TouchEventType::ENDED)
@@ -73,6 +73,28 @@ void ChildOomeeLayer::onEnter()
     doneButtonText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     doneButtonText->setTextColor(Color4B::BLACK);
     doneButton->addChild(doneButtonText);
+    
+    ui::Button* addAnotherButton = ui::Button::create("res/buttons/MainButton.png");
+    addAnotherButton->setColor(Style::Color::greenishTeal);
+    addAnotherButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    addAnotherButton->setPosition(Vec2(contentSize.width * 0.66f, contentSize.height * 0.3));
+    addAnotherButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType)
+    {
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            if(_delegate)
+            {
+                _delegate->prevLayer();
+            }
+        }
+    });
+    this->addChild(addAnotherButton);
+    
+    Label* addAnotherButtonText = Label::createWithTTF("Add another child", Style::Font::Regular, addAnotherButton->getContentSize().height * 0.4f);
+    addAnotherButtonText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    addAnotherButtonText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    addAnotherButtonText->setTextColor(Color4B::BLACK);
+    addAnotherButton->addChild(addAnotherButtonText);
     
     Sprite* progressIcon = Sprite::create("res/decoration/progress3.png");
     progressIcon->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);

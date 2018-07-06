@@ -466,7 +466,8 @@ void ChildSelectorScene::connectivityStateChanged(bool online)
 void ChildSelectorScene::callDelegateFunction(float dt)
 {
     FlowDataSingleton::getInstance()->setFlowToNewProfile();
-    DynamicNodeHandler::getInstance()->startAddChildFlow();
+    Director::getInstance()->replaceScene(SceneManagerScene::createScene(AddChild));
+    //DynamicNodeHandler::getInstance()->startAddChildFlow();
 }
 
 void ChildSelectorScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)

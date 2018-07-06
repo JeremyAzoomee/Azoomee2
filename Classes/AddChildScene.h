@@ -31,7 +31,7 @@ private:
     
     AddChildFlow _currentFlowStage = AddChildFlow::ADDITIONAL_NAME;
     AddChildFlow _prevFlowStage = AddChildFlow::NIL;
-    cocos2d::Layer* _contentLayer = nullptr;
+    cocos2d::Layer* _sceneLayer = nullptr;
     ChildCreatorRef _childCreator = nullptr;
     
     void addBackground();

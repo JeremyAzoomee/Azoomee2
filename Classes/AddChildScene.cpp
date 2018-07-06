@@ -11,6 +11,7 @@
 #include "ChildAgeLayer.h"
 #include "ChildOomeeLayer.h"
 #include "SceneManagerScene.h"
+#include "FlowDataSingleton.h"
 
 using namespace cocos2d;
 
@@ -30,14 +31,20 @@ bool AddChildScene::init()
 
 void AddChildScene::onEnter()
 {
+    _childCreator = ChildCreator::create();
+    _childCreator->setHttpRespnseDelegate(this);
+    _childCreator->setFirstTime(_addingFirstChild);
     setSceneForFlow();
+    Super::onEnter();
 }
 
 void AddChildScene::onSizeChanged()
 {
-    this->removeAllChildren();
+    this->removeAllChildrenWithCleanup(true);
+    _sceneLayer = nullptr;
     addBackground();
     setSceneForFlow();
+    Super::onSizeChanged();
 }
 
 void AddChildScene::setFlowStage(const AddChildFlow& flowStage)
@@ -79,9 +86,10 @@ void AddChildScene::addBackground()
 
 void AddChildScene::setSceneForFlow()
 {
-    if(_contentLayer)
+    if(_sceneLayer)
     {
-        _contentLayer->removeFromParent();
+        _sceneLayer->removeFromParent();
+        _sceneLayer = nullptr;
     }
     AddChildLayer* nextLayer = nullptr;
     switch (_currentFlowStage) {
@@ -110,7 +118,7 @@ void AddChildScene::setSceneForFlow()
         nextLayer->setDelegate(this);
         nextLayer->setContentSize(this->getContentSize());
         this->addChild(nextLayer);
-        _contentLayer = nextLayer;
+        _sceneLayer = nextLayer;
     }
 }
 
@@ -149,14 +157,30 @@ void AddChildScene::prevLayer()
         break;
         
         case AddChildFlow::AGE:
-        case AddChildFlow::OOMEE:
         _currentFlowStage = _prevFlowStage;
+        setSceneForFlow();
+        break;
+        
+        case AddChildFlow::OOMEE:
+        _currentFlowStage = AddChildFlow::ADDITIONAL_NAME;
         setSceneForFlow();
         break;
         
         default:
         break;
     }
+}
+
+void AddChildScene::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
+{
+    _currentFlowStage = AddChildFlow::OOMEE;
+    setSceneForFlow();
+}
+
+void AddChildScene::onHttpRequestFailed(const std::string& requestTag, long errorCode)
+{
+    FlowDataSingleton::getInstance()->setErrorCode(errorCode);
+    Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
 }
 
 NS_AZOOMEE_END

@@ -34,6 +34,11 @@ void ChildCreator::setAge(int age)
     _age = age;
 }
 
+void ChildCreator::setFirstTime(bool firstTime)
+{
+    _firstTime = firstTime;
+}
+
 std::string ChildCreator::getName() const
 {
     return _childName;
@@ -67,7 +72,7 @@ bool ChildCreator::addChild()
     int oomeeNum = 0;
     AnalyticsSingleton::getInstance()->childProfileCreatedEvent(_age, oomeeNum);
     HttpRequestCreator* request = nullptr;
-    if(FlowDataSingleton::getInstance()->isSignupNewProfileFlow() && ParentDataProvider::getInstance()->getAmountOfAvailableChildren() !=0)
+    if(_firstTime)
     {
         const std::string& oomeeUrl = ConfigStorage::getInstance()->getUrlForOomee(oomeeNum);
         const std::string& ownerId = ParentDataProvider::getInstance()->getLoggedInParentId();
@@ -80,6 +85,9 @@ bool ChildCreator::addChild()
         const std::string& oomeeUrl = ConfigStorage::getInstance()->getUrlForOomee(oomeeNum);
         request = API::RegisterChildRequest(_childName, gender, DOB, oomeeUrl, _delegate);
     }
+    
+    request->execute();
+    
     return true;
 }
 

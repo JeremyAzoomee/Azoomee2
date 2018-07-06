@@ -26,24 +26,24 @@ void ChildNameLayer::onEnter()
 {
     const Size& contentSize = this->getContentSize();
     
-    Label* title = Label::createWithTTF("Add another child", Style::Font::Bold, 90);
+    Label* title = Label::createWithTTF("Add another child", Style::Font::Regular, 150);
     title->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     title->setPosition(contentSize.width / 2.0f, contentSize.height * 0.9f);
     title->setColor(Color3B::WHITE);
     this->addChild(title);
     
-    _textInput = TextInputLayer::createWithSize(Size(contentSize.width / 2, 200), INPUT_IS_CHILD_NAME);
+    _textInput = TextInputLayer::createWithSize(Size(contentSize.width * ((contentSize.width > contentSize.height) ? 0.5 : 0.75), 160), INPUT_IS_CHILD_NAME);
     _textInput->setCenterPosition(Vec2(contentSize.width / 2.0f, contentSize.height * 0.6f));
     this->addChild(_textInput);
     
-    Label* textInputTitle = Label::createWithTTF("What’s your child’s name?", Style::Font::Regular, 60);
-    textInputTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    textInputTitle->setPosition(_textInput->getPosition() + Vec2(0, _textInput->getContentSize().height));
+    Label* textInputTitle = Label::createWithTTF("What’s your child’s name?", Style::Font::Regular, 100);
+    textInputTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    textInputTitle->setPosition(_textInput->getPosition() + Vec2(_textInput->getContentSize().width / 2, _textInput->getContentSize().height * 1.25));
     textInputTitle->setColor(Color3B::WHITE);
     this->addChild(textInputTitle);
     
     ui::Button* continueButton = ui::Button::create("res/buttons/MainButton.png");
-    continueButton->setColor(Style::Color::greenishTeal);
+    continueButton->setColor(Style::Color::telish);
     continueButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     continueButton->setPosition(Vec2(contentSize.width / 2, contentSize.height * 0.3));
     continueButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType)

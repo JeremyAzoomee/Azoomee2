@@ -23,6 +23,7 @@ class ChildCreator
 private:
     std::string _childName = "";
     int _age = -1;
+    bool _firstTime = false;
     HttpRequestCreatorResponseDelegate* _delegate = nullptr;
     
 public:
@@ -30,6 +31,7 @@ public:
     
     void setChildName(const std::string& childName);
     void setAge(int age);
+    void setFirstTime(bool firstTime);
     
     std::string getName() const;
     int getAge() const;

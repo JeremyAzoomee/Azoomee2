@@ -21,7 +21,9 @@ enum SceneNameEnum {
     OomeeMakerEntryPointScene,
     SettingsFromChat,
     Settings,
-    introVideo
+    introVideo,
+    AddChild,
+    AddChildFirstTime
 };
 
 class SceneManagerScene : public cocos2d::Layer
