@@ -13,6 +13,7 @@
 #include <AzoomeeCommon/ErrorCodes.h>
 #include "ContentHistoryManager.h"
 #include "IAPProductDataHandler.h"
+#include "ChatDelegate.h"
 #include "SceneManagerScene.h"
 
 using namespace cocos2d;
@@ -33,7 +34,6 @@ bool AppDelegate::applicationDidFinishLaunching()
     register_all_packages();
     
     // create a scene. it's an autorelease object
-    auto scene = IntroVideoScene::create();
     Director::getInstance()->runWithScene(SceneManagerScene::createScene(introVideo));
     
     SessionIdManager::getInstance();
@@ -118,6 +118,13 @@ void AppDelegate::applicationWillEnterForeground()
         {
             ContentHistoryManager::getInstance()->setReturnedFromContent(true);
         }
+        
+        if(ChatDelegate::getInstance()->_sharedContentId != "")
+        {
+            ChatDelegate::getInstance()->shareContentInChat();
+            return;
+        }
+        
         HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
         
         cocos2d::Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));

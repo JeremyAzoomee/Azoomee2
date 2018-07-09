@@ -3,6 +3,7 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 #include <AzoomeeCommon/Azoomee.h>
 
 NS_AZOOMEE_BEGIN
@@ -57,10 +58,15 @@ void KidsLayer::addChildName()
 
 void KidsLayer::addOomee()
 {
-    std::string oomeeUrl = ParentDataProvider::getInstance()->getAvatarForAnAvailableChild(childNumber);
-    int oomeeNr = ConfigStorage::getInstance()->getOomeeNumberForUrl(oomeeUrl);
+    const std::string& oomeeUrl = ParentDataProvider::getInstance()->getAvatarForAnAvailableChild(childNumber);
+    //int oomeeNr = ConfigStorage::getInstance()->getOomeeNumberForUrl(oomeeUrl);
     
-    oomeeSprite = Sprite::create(StringUtils::format("res/childSelection/%s.png", ConfigStorage::getInstance()->getNameForOomee(oomeeNr).c_str()));
+    //oomeeSprite = Sprite::create(StringUtils::format("res/childSelection/%s.png", ConfigStorage::getInstance()->getNameForOomee(oomeeNr).c_str()));
+    auto oomee = RemoteImageSprite::create();
+    oomee->initWithUrlAndSizeWithoutPlaceholder(oomeeUrl, Size(256, 256));
+    oomee->setKeepAspectRatio(true);
+    oomee->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    oomeeSprite = oomee;
     this->addChild(oomeeSprite);
     
     setOomeeToLargeSize();

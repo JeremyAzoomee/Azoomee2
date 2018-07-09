@@ -66,8 +66,8 @@ bool AvatarWidget::init()
                                   clipSize.width * 0.5f, 0.0f, circleResolution,
                                   Color4F::GREEN);
     // A rect above the circle half way point, since some oomees have ears sticking outside the circle
-    _stencilMask->drawSolidRect(Vec2(clipSize.width * -0.5f, clipSize.height * 0.5f),
-                                Vec2(clipSize.width * 2.0f, clipSize.height * 1.5f),
+    _stencilMask->drawSolidRect(Vec2(clipSize.width * -0.25f, clipSize.height * 0.5f),
+                                Vec2(clipSize.width * 1.5f, clipSize.height * 1.5f),
                                 Color4F::GREEN);
     _clippingNode->setStencil(_stencilMask);
     
@@ -134,7 +134,7 @@ void AvatarWidget::onSizeChanged()
 
 #pragma mark - Public
 
-void AvatarWidget::setAvatarForFriend(const FriendRef& friendData)
+void AvatarWidget::setAvatarForFriend(const FriendRef& friendData, bool forceImageReload)
 {
     const std::string& avatarURL = (friendData) ? friendData->avatarURL() : "";
     _avatarPlaceholder->setVisible(avatarURL.empty());
@@ -150,7 +150,7 @@ void AvatarWidget::setAvatarForFriend(const FriendRef& friendData)
     if(!avatarURL.empty())
     {
         _avatarDownloader = ImageDownloader::create("avatars", ImageDownloader::CacheMode::File);
-        _avatarDownloader->downloadImage(this, avatarURL);
+        _avatarDownloader->downloadImage(this, avatarURL, forceImageReload);
     }
 }
 
@@ -160,6 +160,15 @@ void AvatarWidget::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {
     _avatarImage->loadTexture(downloader->getLocalImagePath());
     
+    if(_avatarDownloader)
+    {
+        _avatarDownloader->setDelegate(nullptr);
+        _avatarDownloader.reset();
+    }
+}
+
+void AvatarWidget::onImageDownloadFailed()
+{
     if(_avatarDownloader)
     {
         _avatarDownloader->setDelegate(nullptr);

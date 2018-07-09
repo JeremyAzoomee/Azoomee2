@@ -317,7 +317,7 @@ void OomeeMakerScene::makeAvatar()
         ModalMessages::getInstance()->stopSaving();
         if(delegate)
         {
-            delegate->onOomeeMakerUpdateAvatar(_filename);
+            delegate->onOomeeMakerUpdateAvatar(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".png");
         }
     }, this, 0.5, 0, 0, false, scheduleKey);
     

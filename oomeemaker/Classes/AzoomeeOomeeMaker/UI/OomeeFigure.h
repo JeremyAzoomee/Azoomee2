@@ -77,7 +77,6 @@ public:
     float getHue() const;
     void setHue(float hue);
     
-    void addDefaultAccessories();
     
     void undoLastAction();
     

@@ -26,8 +26,8 @@
 #include "DynamicNodeHandler.h"
 #include "IAPFlowController.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include "FlowDataSingleton.h"
 #include <AzoomeeCommon/Utils/ActionBuilder.h>
+#include "FlowDataSingleton.h"
 
 using namespace cocos2d;
 
@@ -183,7 +183,7 @@ void NavigationLayer::changeToScene(const std::string& hqName, float duration)
     
     const HQDataObjectRef &currentObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName);
     
-    if(!currentObject->getHqEntitlement())
+    if((hqName == ConfigStorage::kMeHQName && ParentDataProvider::getInstance()->isLoggedInParentAnonymous()) || (hqName != ConfigStorage::kMeHQName && !currentObject->getHqEntitlement()))
     {
         AnalyticsSingleton::getInstance()->registerCTASource("lockedHQ","",currentObject->getHqType());
         IAPEntryContext context = IAPEntryContext::DEFAULT;
@@ -263,6 +263,17 @@ void NavigationLayer::loadArtsAppHQ()
     hqLayer->startBuildingScrollView();
 }
 
+void NavigationLayer::loadMeHQ()
+{
+    HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kMeHQName);
+    
+    cocos2d::Scene *runningScene = Director::getInstance()->getRunningScene();
+    Node *contentLayer = runningScene->getChildByName("contentLayer");
+    HQScene2 *hqLayer = (HQScene2 *)contentLayer->getChildByName(ConfigStorage::kMeHQName);
+    
+    hqLayer->startBuildingScrollView();
+}
+
 void NavigationLayer::startLoadingHQScene(const std::string& hqName)
 {
     if(hqName == ConfigStorage::kArtAppHQName)
@@ -273,6 +284,17 @@ void NavigationLayer::startLoadingHQScene(const std::string& hqName)
         
         this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
 
+        return;
+    }
+    
+    if(hqName == ConfigStorage::kMeHQName)
+    {
+        auto funcCallAction = CallFunc::create([=](){
+            this->loadMeHQ();
+        });
+        
+        this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
+        
         return;
     }
     

@@ -36,6 +36,7 @@ private:
     
     // - RemoteImageSpriteDelegate
     virtual void onImageDownloadComplete(const ImageDownloaderRef& downloader) override;
+    virtual void onImageDownloadFailed() override;
     
     void addPlaceHolderImage(std::string type, cocos2d::Size contentSize, cocos2d::Vec2 shape);
     void addLoadingAnimation();

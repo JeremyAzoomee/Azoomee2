@@ -30,6 +30,7 @@ private:
     std::string _stickerLocation;
     std::string _artLocation;
     std::string _artData;
+    std::string _contentId;
     std::string _senderId;
     std::string _recipientId;
     uint64_t _timestamp = 0;
@@ -43,6 +44,7 @@ public:
     static const char* const MessageTypeText;
     static const char* const MessageTypeSticker;
     static const char* const MessageTypeArt;
+    static const char* const MessageTypeContent;
     
     /// Create a Message from JSON
     static MessageRef createFromJson(const rapidjson::Value& json);
@@ -52,12 +54,15 @@ public:
     static MessageRef createStickerMessage(const StickerRef& sticker);
     /// Create an Art Message
     static MessageRef createArtMessage(const std::string& artData);
+    /// Create Content Message
+    static MessageRef createContentMessage(const std::string& contentId);
     
     std::string messageId() const;
     std::string messageType() const;
     std::string messageText() const;
     std::string stickerURL() const;
     std::string artURL() const;
+    std::string contentId() const;
     std::string senderId() const;
     std::string senderName() const;
     std::string recipientId() const;

@@ -9,9 +9,9 @@
 #include "DrawingCanvasUILayer.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Utils/SpecialCalendarEventManager.h>
 #include <AzoomeeCommon/Utils/DirectorySearcher.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Utils/SpecialCalendarEventManager.h>
 
 using namespace cocos2d;
 

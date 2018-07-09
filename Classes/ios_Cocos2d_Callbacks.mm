@@ -11,7 +11,10 @@
 #include <AzoomeeCommon/ErrorCodes.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "ContentHistoryManager.h"
+#include "FavouritesManager.h"
+#include "ChatDelegate.h"
 #include "VideoPlaylistManager.h"
+
 
 using namespace cocos2d;
 NS_AZOOMEE_BEGIN
@@ -121,6 +124,27 @@ NSString* getRemoteWebGameAPIPath()
 bool isDeviceIphoneX()
 {
     return ConfigStorage::getInstance()->isDeviceIphoneX();
+}
+
+void favContent()
+{
+    FavouritesManager::getInstance()->addToFavourites(ContentHistoryManager::getInstance()->getLastOpenedContent());
+}
+
+void unFavContent()
+{
+    FavouritesManager::getInstance()->removeFromFavourites(ContentHistoryManager::getInstance()->getLastOpenedContent());
+}
+
+bool isFavContent()
+{
+    return FavouritesManager::getInstance()->isFavouriteContent(ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId());
+}
+
+void shareContentInChat()
+{
+    ChatDelegate::getInstance()->_sharedContentId = ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId();
+    ChatDelegate::getInstance()->shareContentInChat();
 }
 
 NSString* getPlaylistString()

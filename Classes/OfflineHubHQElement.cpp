@@ -102,7 +102,7 @@ void OfflineHubHQElement::addListenerToElement(const std::map<std::string, std::
             
             AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
             iamtouched = false;
-            std::string startUrl = FileUtils::getInstance()->getWritablePath() + "gameCache/" + itemData.at("id") + "/" +  itemData.at("uri").c_str();
+            std::string startUrl = ConfigStorage::getInstance()->getGameCachePath() + itemData.at("id") + "/" +  itemData.at("uri").c_str();
             
             cocos2d::log("Action to come: %s", startUrl.c_str());
             

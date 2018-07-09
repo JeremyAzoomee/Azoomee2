@@ -24,11 +24,12 @@
 #include "DynamicNodeHandler.h"
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 #include <AzoomeeCommon/Utils/ActionBuilder.h>
+#include <AzoomeeCommon/Utils/StringFunctions.h>
 
 #define OOMEE_LAYER_WIDTH 400
 #define OOMEE_LAYER_HEIGHT 400
 #define OOMEE_LAYER_GAP 100
-#define OOMEE_LAYER_GAP_PORTRAIT 50
+#define OOMEE_LAYER_GAP_PORTRAIT 100
 
 using namespace cocos2d;
 
@@ -249,10 +250,11 @@ ui::Button *ChildSelectorScene::createChildProfileButton(const std::string& prof
     });
     
     auto oomee = RemoteImageSprite::create();
-    oomee->initWithUrlAndSizeWithoutPlaceholder(ParentDataProvider::getInstance()->getAvatarForAnAvailableChild(childNum), Size(182, 256));
+    oomee->initWithUrlAndSizeWithoutPlaceholder(ParentDataProvider::getInstance()->getAvatarForAnAvailableChild(childNum), Size(320, 320));
+    oomee->setKeepAspectRatio(true);
+    oomee->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     oomee->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     oomee->setName(kOomeeLayerName);
-    oomee->setKeepAspectRatio(true);
     button->addChild(oomee);
     
     float delayTime = CCRANDOM_0_1() * 0.5;
@@ -273,15 +275,17 @@ ui::Button *ChildSelectorScene::createChildProfileButton(const std::string& prof
     }
     
     auto profileLabel = createLabelChildName(profileName);
-    profileLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    profileLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     profileLabel->setNormalizedPosition(Vec2(0.5,0));
     reduceLabelTextToFitWidth(profileLabel,OOMEE_LAYER_WIDTH);
     button->addChild(profileLabel);
+    
     if(_firstTime)
     {
         profileLabel->setOpacity(0);
         profileLabel->runAction(createBlinkEffect(delayTime, 0.1));
     }
+
     return button;
 }
 
@@ -340,7 +344,6 @@ ui::Button* ChildSelectorScene::createNewProfileButton()
         addChildButton->setOpacity(0);
         addChildButton->runAction(createBlinkEffect(delayTime, 0.1));
     }
-    
     return addChildButton;
 }
 
@@ -352,7 +355,7 @@ ui::Button* ChildSelectorScene::createParentProfileButton()
     if(_firstTime)
     {
         parentButton->setOpacity(0);
-        parentButton->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+        parentButton->runAction(createBlinkEffect(delayTime,0.1));
     }
     
     parentButton->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType){

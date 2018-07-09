@@ -4,7 +4,9 @@
         "CHAT": 1504,
         "VIDEO HQ": 1268,
         "ARTS APP": 1741,
-        "OOMEE_MAKER": 1978
+        "OOMEE_MAKER": 1978,
+        "ME HQ": 794
+        
     },
   "horizontalYPositionsForMenuItems": -150,
   "horizontalMenuItemsHeight": 270,
@@ -28,10 +30,10 @@
         "b": 152,
         "a": 255
     },
-    "MIX HQ": {
-        "r": 28,
-        "g": 244,
-        "b": 244,
+    "ME HQ": {
+        "r": 55,
+        "g": 188,
+        "b": 152,
         "a": 255
     },
     "ARTS APP": {
@@ -58,7 +60,7 @@
     "VIDEO HQ",
     "CHAT",
     "ARTS APP",
-    "OOMEE_MAKER"
+    "ME HQ"
   ],
   "hqNamesReplacementForPermissionFeed": {
   	"CHAT": "CHAT",
@@ -81,7 +83,7 @@
       "x": 2732,
       "y": 0
     },
-    "MIX HQ": {
+    "ME HQ": {
       "x": 0,
       "y": 4096
     },

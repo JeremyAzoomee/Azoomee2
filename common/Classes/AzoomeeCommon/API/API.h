@@ -48,6 +48,7 @@ public:
     static const char* const TagGetPendingFriendRequests;
     static const char* const TagReportChat;
     static const char* const TagResetReportedChat;
+    static const char* const TagGetTimelineSummary;
     static const char* const TagGetForceUpdateInformation;
     static const char* const TagCookieRefresh;
     static const char* const TagUpdateChildAvatar;
@@ -195,6 +196,8 @@ public:
                                                      const std::string& friendId,
                                                      HttpRequestCreatorResponseDelegate* delegate);
     
+    static HttpRequestCreator* GetTimelineSummary(const std::string& userId,
+                                                        HttpRequestCreatorResponseDelegate* delegate);
     
     
 };

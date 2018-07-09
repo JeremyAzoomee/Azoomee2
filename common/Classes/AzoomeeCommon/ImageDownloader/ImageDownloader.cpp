@@ -212,12 +212,18 @@ void ImageDownloader::onFileDownloadComplete(const std::string& fileString, cons
         }
         else
         {
-            // TODO: Failed callback
+            if(_delegate)
+            {
+                _delegate->onImageDownloadFailed();
+            }
         }
     }
     else
     {
-        // TODO: Failed callback
+        if(_delegate)
+        {
+            _delegate->onImageDownloadFailed();
+        }
     }
     _downloadingImagePool.erase(std::find(_downloadingImagePool.begin(), _downloadingImagePool.end(), shared_from_this()));
 }

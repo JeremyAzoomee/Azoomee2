@@ -2,8 +2,8 @@
 #include <ui/UIEditBox/UIEditBox.h>
 #include "../Analytics/AnalyticsSingleton.h"
 #include "../Mixpanel/Notifications.h"
-#include "Scene.h"
 #include "Style.h"
+#include "Scene.h"
 
 USING_NS_CC;
 

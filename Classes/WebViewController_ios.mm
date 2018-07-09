@@ -31,7 +31,7 @@ using namespace Azoomee;
     [useridToUse retain];
     
     [self addWebViewToScreen];
-    [self createButton];
+    [self createButtons];
 }
 
 - (void)viewDidLoad {
@@ -196,52 +196,115 @@ using namespace Azoomee;
     // Dispose of any resources that can be recreated.
 }
 
-- (void) createButton
+- (void) createButtons
 {
     CGFloat buttonWidth = 0.0f;
     CGSize screenSize = [[UIScreen mainScreen] bounds].size;
     
-    screenSize.width > screenSize.height ? buttonWidth = screenSize.width / 15.0f : buttonWidth = screenSize.height / 15.0f ;
+    buttonWidth = (screenSize.width > screenSize.height) ? screenSize.width / 15.0f : screenSize.height / 15.0f;
+    
+    _buttonWidth = buttonWidth;
     
     screenSize.width -= buttonWidth * 1.5f;
     screenSize.height -= buttonWidth * 1.5f;
     
+    CGFloat buttonPadding = buttonWidth / 4.0f;
+    
+    _burgerButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_burgerButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [_burgerButton setFrame:CGRectMake(buttonPadding + (screenSize.width * _closeButtonAnchorX), buttonPadding + (screenSize.height * _closeButtonAnchorY), buttonWidth, buttonWidth)];
+    [_burgerButton setExclusiveTouch:YES];
+    [_burgerButton setImage:[UIImage imageNamed:@"res/webview_buttons/menu_unselected.png"] forState:UIControlStateNormal];
+    [_burgerButton setImage:[UIImage imageNamed:@"res/webview_buttons/menu_selected.png"] forState:UIControlStateSelected];
+    
     backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [backButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [backButton setFrame:CGRectMake(buttonWidth/4 + (screenSize.width * _closeButtonAnchorX), buttonWidth/4 + (screenSize.height * _closeButtonAnchorY), buttonWidth, buttonWidth)];
+    [backButton setFrame:CGRectMake(buttonPadding + (screenSize.width * _closeButtonAnchorX), buttonPadding + (screenSize.height * _closeButtonAnchorY), buttonWidth, buttonWidth)];
     [backButton setExclusiveTouch:YES];
-
-    //Check if has html, then opening game.
-    if([urlToLoad containsString:@"html"])
+    [backButton setImage:[UIImage imageNamed:@"res/webview_buttons/close_unselected.png"] forState:UIControlStateNormal];
+    [backButton setImage:[UIImage imageNamed:@"res/webview_buttons/close_selected.png"] forState:UIControlStateSelected];
+    
+    _favButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_favButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [_favButton setFrame:CGRectMake(buttonPadding + (screenSize.width * _closeButtonAnchorX), buttonPadding + (screenSize.height * _closeButtonAnchorY), buttonWidth, buttonWidth)];
+    [_favButton setExclusiveTouch:YES];
+    [_favButton setImage:[UIImage imageNamed:@"res/webview_buttons/favourite_unselected.png"] forState:UIControlStateNormal];
+    [_favButton setImage:[UIImage imageNamed:@"res/webview_buttons/favourite_selected.png"] forState:UIControlStateSelected];
+    if(isFavContent())
     {
-        [backButton setImage:[UIImage imageNamed:@"res/navigation/close_button.png"] forState:UIControlStateNormal];
-    }
-    else
-    {
-        [backButton setImage:[UIImage imageNamed:@"res/navigation/back_button.png"] forState:UIControlStateNormal];
+        [_favButton setSelected: true];
     }
     
+    _shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_shareButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [_shareButton setFrame:CGRectMake(buttonPadding + (screenSize.width * _closeButtonAnchorX), buttonPadding + (screenSize.height * _closeButtonAnchorY), buttonWidth, buttonWidth)];
+    [_shareButton setExclusiveTouch:YES];
+    [_shareButton setImage:[UIImage imageNamed:@"res/webview_buttons/share_unselected.png"] forState:UIControlStateNormal];
+    [_shareButton setImage:[UIImage imageNamed:@"res/webview_buttons/share_selected.png"] forState:UIControlStateSelected];
+    
     [self.view addSubview:backButton];
+    [self.view addSubview:_favButton];
+    [self.view addSubview:_shareButton];
+    [self.view addSubview:_burgerButton];
+    
+    _uiExpanded = false;
 }
 
 -(void) buttonClicked:(UIButton*)sender
 {
-    if([urlToLoad hasSuffix:@"html"])
+    [sender setSelected: !sender.isSelected];
+    
+    if(sender == backButton)
     {
-        NSString *htmlData = [webview stringByEvaluatingJavaScriptFromString:@"saveLocalDataBeforeExit()"];
-        saveLocalStorageData(htmlData);
-        [self finishView];
-        return;
+        if([urlToLoad hasSuffix:@"html"])
+        {
+            NSString *htmlData = [webview stringByEvaluatingJavaScriptFromString:@"saveLocalDataBeforeExit()"];
+            saveLocalStorageData(htmlData);
+            [self finishView];
+            return;
+        }
+        else
+        {
+            [self finishView];
+        }
     }
-    else
+    else if(sender == _favButton)
     {
-        [self finishView];
+        if(isFavContent())
+        {
+            unFavContent();
+        }
+        else
+        {
+            favContent();
+        }
+    }
+    else if(sender == _shareButton)
+    {
+        if([urlToLoad hasSuffix:@"html"])
+        {
+            NSString *htmlData = [webview stringByEvaluatingJavaScriptFromString:@"saveLocalDataBeforeExit()"];
+            saveLocalStorageData(htmlData);
+            [self finishView];
+        }
+        else
+        {
+            [self finishView];
+        }
+        shareContentInChat();
+    }
+    else if(sender == _burgerButton)
+    {
+        [self animateButtons];
     }
 }
 
 -(void) removeWebViewWhileInBackground
 {
     [backButton removeFromSuperview];
+    [_favButton removeFromSuperview];
+    [_shareButton removeFromSuperview];
+    [_burgerButton removeFromSuperview];
     
     if(![urlToLoad hasSuffix:@"html"])
     {
@@ -272,6 +335,9 @@ using namespace Azoomee;
     [webview removeFromSuperview];
     
     [backButton removeFromSuperview];
+    [_favButton removeFromSuperview];
+    [_shareButton removeFromSuperview];
+    [_burgerButton removeFromSuperview];
     
     [useridToUse release];
     [urlToLoad release];
@@ -281,6 +347,58 @@ using namespace Azoomee;
     navigateToBaseScene();
     
     [self release];
+}
+
+-(void) animateButtons
+{
+    CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+    screenSize.width -= _buttonWidth * 1.5f;
+    screenSize.height -= _buttonWidth * 1.5f;
+    
+    CGFloat buttonPadding = _buttonWidth / 4.0f;
+    
+    if(_uiExpanded)
+    {
+        // animate
+        [UIView animateWithDuration:0.75 animations:^{
+            backButton.frame = CGRectMake(buttonPadding + (screenSize.width * _closeButtonAnchorX), buttonPadding + (screenSize.height * _closeButtonAnchorY), _buttonWidth, _buttonWidth);
+            _favButton.frame = CGRectMake(buttonPadding + (screenSize.width * _closeButtonAnchorX), buttonPadding + (screenSize.height * _closeButtonAnchorY) , _buttonWidth, _buttonWidth);
+            _shareButton.frame = CGRectMake(buttonPadding + (screenSize.width * _closeButtonAnchorX), buttonPadding + (screenSize.height * _closeButtonAnchorY), _buttonWidth, _buttonWidth);
+        }];
+        _uiExpanded = false;
+    }
+    else
+    {
+        float xMod = 0;
+        float yMod = 0;
+        if(_closeButtonAnchorY == 0.5)
+        {
+            if(_closeButtonAnchorX == 1.0)
+            {
+                xMod = -1;
+            }
+            else
+            {
+                xMod = 1;
+            }
+        }
+        else if(_closeButtonAnchorY == 0.0)
+        {
+            yMod = 1;
+        }
+        else
+        {
+            yMod = -1;
+        }
+        // animate
+        [UIView animateWithDuration:0.75 animations:^{
+            backButton.frame = CGRectMake(buttonPadding + (screenSize.width * _closeButtonAnchorX) + (xMod * _buttonWidth), buttonPadding + (screenSize.height * _closeButtonAnchorY) + (yMod * _buttonWidth), _buttonWidth, _buttonWidth);
+            _favButton.frame = CGRectMake(buttonPadding + (screenSize.width * _closeButtonAnchorX) + 2 * (xMod * _buttonWidth), buttonPadding + (screenSize.height * _closeButtonAnchorY) + 2 * ( yMod * _buttonWidth), _buttonWidth, _buttonWidth);
+            _shareButton.frame = CGRectMake(buttonPadding + (screenSize.width * _closeButtonAnchorX) + 3 * (xMod * _buttonWidth), buttonPadding + (screenSize.height * _closeButtonAnchorY) + 3 * ( yMod * _buttonWidth), _buttonWidth, _buttonWidth);
+        }];
+        _uiExpanded = true;
+    }
+    
 }
 
 

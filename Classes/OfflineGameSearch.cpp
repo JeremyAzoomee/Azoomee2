@@ -52,8 +52,7 @@ std::vector<std::map<std::string, std::string>> OfflineGameSearch::getOfflineGam
 
 std::vector<std::string> OfflineGameSearch::getJsonFileListFromDir()
 {
-    std::string path = FileUtils::getInstance()->getWritablePath();
-    path = path + "/gameCache/";
+    std::string path = ConfigStorage::getInstance()->getGameCachePath();
     
     std::vector<std::string> fileNames;
     
@@ -81,15 +80,15 @@ std::vector<std::string> OfflineGameSearch::getJsonFileListFromDir()
 
 bool OfflineGameSearch::isStarterFileExists(const std::string &gameId)
 {
-    if(getStartFileFromJson(gameId) == "ERROR") return false;
+    if(getStartFileFromJson(gameId) == ConfigStorage::kGameDownloadError) return false;
     
-    std::string path = FileUtils::getInstance()->getWritablePath() + "gameCache/" + gameId + "/" + getStartFileFromJson(gameId);
+    std::string path = ConfigStorage::getInstance()->getGameCachePath() + gameId + "/" + getStartFileFromJson(gameId);
     return FileUtils::getInstance()->isFileExist(path);
 }
 
 std::string OfflineGameSearch::getStartFileFromJson(const std::string &gameId)
 {
-    std::string jsonFileName = FileUtils::getInstance()->getWritablePath() + "gameCache/" + gameId + "/package.json";
+    std::string jsonFileName = ConfigStorage::getInstance()->getGameCachePath() + gameId + "/package.json";
     
     std::string fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     
@@ -98,7 +97,7 @@ std::string OfflineGameSearch::getStartFileFromJson(const std::string &gameId)
     
     if(gameData.HasParseError())
     {
-        return "ERROR";
+        return ConfigStorage::kGameDownloadError;
     }
     
     if(gameData.HasMember("pathToStartPage"))
@@ -107,7 +106,7 @@ std::string OfflineGameSearch::getStartFileFromJson(const std::string &gameId)
     }
     else
     {
-        return "ERROR";
+        return ConfigStorage::kGameDownloadError;
     }
 }
 
@@ -115,8 +114,8 @@ std::map<std::string, std::string> OfflineGameSearch::getGameDetails(const std::
 {
     std::map<std::string, std::string> currentGameData;
     
-    std::string packageFileName = FileUtils::getInstance()->getWritablePath() + "gameCache/" + gameId + "/package.json";
-    std::string feedDataFileName = FileUtils::getInstance()->getWritablePath() + "gameCache/" + gameId + "/feedData.json";
+    std::string packageFileName = ConfigStorage::getInstance()->getGameCachePath() + gameId + "/package.json";
+    std::string feedDataFileName = ConfigStorage::getInstance()->getGameCachePath() + gameId + "/feedData.json";
     
     currentGameData["id"] = gameId;
     currentGameData["entitled"] = "true";

@@ -16,6 +16,7 @@ typedef std::shared_ptr<ImageDownloader> ImageDownloaderRef;
 struct ImageDownloaderDelegate
 {
     virtual void onImageDownloadComplete(const ImageDownloaderRef& downloader) = 0;
+    virtual void onImageDownloadFailed() = 0;
 };
 
 class ImageDownloader : public std::enable_shared_from_this<ImageDownloader>, FileDownloaderDelegate

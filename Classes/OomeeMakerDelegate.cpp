@@ -29,7 +29,15 @@ OomeeMakerDelegate* OomeeMakerDelegate::getInstance()
 
 void OomeeMakerDelegate::onOomeeMakerNavigationBack()
 {
-    Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+    HQHistoryManager::getInstance()->_returnedFromForcedOrientation = true;
+    if(!HQHistoryManager::getInstance()->isOffline)
+    {
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+    }
+    else
+    {
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineHub));
+    }
 }
 
 void OomeeMakerDelegate::onOomeeMakerShareOomee(const std::string& filename)
@@ -39,6 +47,7 @@ void OomeeMakerDelegate::onOomeeMakerShareOomee(const std::string& filename)
     {
         if(!HQHistoryManager::getInstance()->isOffline && ChildDataProvider::getInstance()->getIsChildLoggedIn())
         {
+            HQHistoryManager::getInstance()->_returnedFromForcedOrientation = true;
             Director::getInstance()->getTextureCache()->reloadTexture(filename);
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
         }
