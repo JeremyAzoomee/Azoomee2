@@ -49,8 +49,15 @@ bool MeHQ::init()
     _contentListView->setItemsMargin(150.0f);
     _contentListView->setContentSize(Size(contentSize.width, contentSize.height - 300));
     _contentListView->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-    
     this->addChild(_contentListView);
+    
+    Sprite* verticalScrollGradient = Sprite::create("res/decoration/TopNavGrad.png");
+    verticalScrollGradient->setAnchorPoint(Vec2(0.5, 1.0));
+    verticalScrollGradient->setScaleX(contentSize.width / verticalScrollGradient->getContentSize().width);
+    verticalScrollGradient->setColor(Color3B::BLACK);
+    verticalScrollGradient->setPosition(Vec2(contentSize.width / 2, _contentListView->getContentSize().height));
+    this->addChild(verticalScrollGradient);
+    
     auto profileLayout = MeHQProfileDetails::create();
     profileLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
     _contentListView->pushBackCustomItem(profileLayout);
