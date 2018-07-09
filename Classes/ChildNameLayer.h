@@ -15,11 +15,12 @@
 
 NS_AZOOMEE_BEGIN
 
-class ChildNameLayer : public AddChildLayer
+class ChildNameLayer : public AddChildLayer, TextInputLayerDelegate
 {
     typedef cocos2d::Layer Super;
 private:
     TextInputLayer* _textInput = nullptr;
+    cocos2d::ui::Button* _continueButton = nullptr;
     
 public:
     
@@ -27,6 +28,12 @@ public:
     virtual void onEnter() override;
     
     CREATE_FUNC(ChildNameLayer);
+    
+    // delegate functions
+    virtual void textInputIsValid(TextInputLayer* inputLayer, bool isValid) override;
+    virtual void textInputReturnPressed(TextInputLayer* inputLayer) override;
+    virtual void editBoxEditingDidBegin(TextInputLayer* inputLayer) override;
+    virtual void editBoxEditingDidEnd(TextInputLayer* inputLayer) override;
 };
 
 NS_AZOOMEE_END

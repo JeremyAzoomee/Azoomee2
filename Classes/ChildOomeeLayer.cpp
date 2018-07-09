@@ -25,37 +25,46 @@ bool ChildOomeeLayer::init()
 
 void ChildOomeeLayer::onEnter()
 {
+    const float offset[2] = {100.0f, 200.0f};
     const Size& contentSize = this->getContentSize();
     
-    Label* mainTitle = Label::createWithTTF(StringUtils::format("Here is %s’s Oomee",_childCreator->getName().c_str()), Style::Font::Bold, 120);
+    bool isPortrait = contentSize.width < contentSize.height;
+    
+    Label* mainTitle = Label::createWithTTF(StringUtils::format("Here is %s’s Oomee",_childCreator->getName().c_str()), Style::Font::Regular, 120);
     mainTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     mainTitle->setPosition(Vec2(contentSize.width / 2, contentSize.height - mainTitle->getContentSize().height));
-    mainTitle->setColor(Style::Color::telish);
+    mainTitle->setColor(Style::Color::white);
     mainTitle->enableGlow(Color4B(Style::Color::telish));
+    mainTitle->setMaxLineWidth(contentSize.width * 0.9);
+    mainTitle->setHorizontalAlignment(TextHAlignment::CENTER);
     this->addChild(mainTitle);
     
+    float oomeeHeight = contentSize.height * 0.3;
+    
     _oomee = OomeeMaker::OomeeCarouselButton::create();
-    _oomee = OomeeMaker::OomeeCarouselButton::create();
-    _oomee->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _oomee->setNormalizedPosition(Vec2(0.5,0.5));
+    _oomee->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+    _oomee->setPosition(mainTitle->getPosition() - Vec2(0,mainTitle->getContentSize().height + offset[isPortrait]));
     _oomee->setPlaceholderImage("res/oomeeMaker/1_Oomee_Reference.png");
     _oomee->loadPlaceholderImage();
-    
-    _oomee->setScale((this->getContentSize().height * 0.4f) / _oomee->getContentSize().height);
+    _oomee->setScale(oomeeHeight / _oomee->getContentSize().height);
+    this->addChild(_oomee);
     
     _oomeeDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
     _oomeeDownloader->downloadImage(this, ConfigStorage::getInstance()->getUrlForOomee(0));
     
-    Label* subTitle = Label::createWithTTF("Don’t worry if they don’t like it,\nthey can change it anytime in the Oomee Maker.", Style::Font::Bold, 90);
+    Label* subTitle = Label::createWithTTF(StringUtils::format("Don’t worry if they don’t like it,\nthey can change it anytime%sin the Oomee Maker.",isPortrait ? "\n" : " "), Style::Font::Regular, 90);
     subTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    subTitle->setPosition(mainTitle->getPosition() - Vec2(0, mainTitle->getContentSize().height * 1.5f));
+    subTitle->setPosition(_oomee->getPosition() - Vec2(0,oomeeHeight + offset[isPortrait]));
     subTitle->setColor(Color3B::WHITE);
+    subTitle->setHorizontalAlignment(TextHAlignment::CENTER);
     this->addChild(subTitle);
     
     ui::Button* doneButton = ui::Button::create("res/buttons/MainButton.png");
-    doneButton->setColor(Style::Color::greenishTeal);
-    doneButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    doneButton->setPosition(Vec2(contentSize.width * 0.66f, contentSize.height * 0.3));
+    doneButton->setColor(Style::Color::telish);
+    doneButton->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE : Vec2::ANCHOR_MIDDLE_RIGHT);
+    doneButton->setPosition(Vec2(contentSize.width * (isPortrait ? 0.5 : 0.7325f), contentSize.height * (isPortrait ? 0.125 : 0.2)));
+    doneButton->ignoreContentAdaptWithSize(false);
+    doneButton->setScale9Enabled(true);
     doneButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType)
     {
         if(eType == ui::Widget::TouchEventType::ENDED)
@@ -73,11 +82,14 @@ void ChildOomeeLayer::onEnter()
     doneButtonText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     doneButtonText->setTextColor(Color4B::BLACK);
     doneButton->addChild(doneButtonText);
+    doneButton->setContentSize(Size(doneButtonText->getContentSize().width + 160, doneButton->getContentSize().height));
     
     ui::Button* addAnotherButton = ui::Button::create("res/buttons/MainButton.png");
-    addAnotherButton->setColor(Style::Color::greenishTeal);
-    addAnotherButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    addAnotherButton->setPosition(Vec2(contentSize.width * 0.66f, contentSize.height * 0.3));
+    addAnotherButton->setColor(Style::Color::telish);
+    addAnotherButton->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE : Vec2::ANCHOR_MIDDLE_LEFT);
+    addAnotherButton->setPosition(Vec2(contentSize.width * (isPortrait ? 0.5 : 0.2675f), contentSize.height * (isPortrait ? 0.225 : 0.2)));
+    addAnotherButton->ignoreContentAdaptWithSize(false);
+    addAnotherButton->setScale9Enabled(true);
     addAnotherButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType)
     {
         if(eType == ui::Widget::TouchEventType::ENDED)
@@ -95,6 +107,7 @@ void ChildOomeeLayer::onEnter()
     addAnotherButtonText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     addAnotherButtonText->setTextColor(Color4B::BLACK);
     addAnotherButton->addChild(addAnotherButtonText);
+    addAnotherButton->setContentSize(Size(addAnotherButtonText->getContentSize().width + 160, addAnotherButton->getContentSize().height));
     
     Sprite* progressIcon = Sprite::create("res/decoration/progress3.png");
     progressIcon->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);

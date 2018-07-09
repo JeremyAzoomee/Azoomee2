@@ -38,6 +38,7 @@ void ChildAgeLayer::onEnter()
     
     _textInput = TextInputLayer::createWithSize(Size(400, 160), INPUT_IS_AGE);
     _textInput->setCenterPosition(Vec2(contentSize.width / 2.0f, contentSize.height * 0.6f));
+    _textInput->setDelegate(this);
     if(_childCreator && _childCreator->getAge() > 0)
     {
         _textInput->setText(StringUtils::format("%d",_childCreator->getAge()));
@@ -57,11 +58,12 @@ void ChildAgeLayer::onEnter()
     textInputSubTitle->setColor(Style::Color::telish);
     this->addChild(textInputSubTitle);
     
-    ui::Button* continueButton = ui::Button::create("res/buttons/MainButton.png");
-    continueButton->setColor(Style::Color::telish);
-    continueButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    continueButton->setPosition(Vec2(contentSize.width / 2, contentSize.height * 0.3));
-    continueButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType)
+    _continueButton = ui::Button::create("res/buttons/MainButton.png");
+    _continueButton->setColor(Style::Color::telish);
+    _continueButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _continueButton->setPosition(Vec2(contentSize.width / 2, contentSize.height * 0.3));
+    _continueButton->setEnabled(_textInput->inputIsValid());
+    _continueButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType)
     {
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
@@ -78,13 +80,13 @@ void ChildAgeLayer::onEnter()
             }
         }
     });
-    this->addChild(continueButton);
+    this->addChild(_continueButton);
     
-    Label* buttonText = Label::createWithTTF("Continue", Style::Font::Regular, continueButton->getContentSize().height * 0.4f);
+    Label* buttonText = Label::createWithTTF("Continue", Style::Font::Regular, _continueButton->getContentSize().height * 0.4f);
     buttonText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     buttonText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     buttonText->setTextColor(Color4B::BLACK);
-    continueButton->addChild(buttonText);
+    _continueButton->addChild(buttonText);
     
     Sprite* progressIcon = Sprite::create("res/decoration/progress2.png");
     progressIcon->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
@@ -94,6 +96,34 @@ void ChildAgeLayer::onEnter()
     Super::onEnter();
 }
 
+//delegate functions
+
+void ChildAgeLayer::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
+{
+    _continueButton->setEnabled(isValid);
+}
+void ChildAgeLayer::textInputReturnPressed(TextInputLayer* inputLayer)
+{
+    if(_textInput->inputIsValid())
+    {
+        if(_childCreator)
+        {
+            _childCreator->setAge(std::atoi(_textInput->getText().c_str()));
+        }
+        if(_delegate)
+        {
+            _delegate->nextLayer();
+        }
+    }
+}
+void ChildAgeLayer::editBoxEditingDidBegin(TextInputLayer* inputLayer)
+{
+    
+}
+void ChildAgeLayer::editBoxEditingDidEnd(TextInputLayer* inputLayer)
+{
+    
+}
 
 NS_AZOOMEE_END
 

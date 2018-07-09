@@ -56,7 +56,7 @@ Azoomee::Scene* AddChildScene::createWithFlowStage(const AddChildFlow& flowStage
 {
     auto scene = AddChildScene::create();
     scene->setFlowStage(flowStage);
-    if(flowStage == AddChildFlow::FIRST_TIME_SETUP_NAME);
+    if(flowStage == AddChildFlow::FIRST_TIME_SETUP_NAME)
     {
         scene->_addingFirstChild = true;
     }
@@ -125,7 +125,6 @@ void AddChildScene::setSceneForFlow()
 // Delegate Functions
 void AddChildScene::nextLayer()
 {
-    _prevFlowStage = _currentFlowStage;
     switch(_currentFlowStage)
     {
         case AddChildFlow::FIRST_TIME_SETUP_NAME:
@@ -157,11 +156,15 @@ void AddChildScene::prevLayer()
         break;
         
         case AddChildFlow::AGE:
-        _currentFlowStage = _prevFlowStage;
+        _currentFlowStage = _addingFirstChild ? AddChildFlow::FIRST_TIME_SETUP_NAME : AddChildFlow::ADDITIONAL_NAME;
         setSceneForFlow();
         break;
         
         case AddChildFlow::OOMEE:
+        _addingFirstChild = false;
+        _childCreator = ChildCreator::create();
+        _childCreator->setHttpRespnseDelegate(this);
+        _childCreator->setFirstTime(_addingFirstChild);
         _currentFlowStage = AddChildFlow::ADDITIONAL_NAME;
         setSceneForFlow();
         break;

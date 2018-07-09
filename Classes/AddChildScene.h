@@ -15,7 +15,7 @@
 
 NS_AZOOMEE_BEGIN
 
-enum class AddChildFlow {FIRST_TIME_SETUP_NAME, ADDITIONAL_NAME, AGE, OOMEE, NIL};
+enum class AddChildFlow {FIRST_TIME_SETUP_NAME, ADDITIONAL_NAME, AGE, OOMEE};
 
 class AddChildSceneDelegate
 {
@@ -30,7 +30,6 @@ class AddChildScene : public Azoomee::Scene, AddChildSceneDelegate, HttpRequestC
 private:
     
     AddChildFlow _currentFlowStage = AddChildFlow::ADDITIONAL_NAME;
-    AddChildFlow _prevFlowStage = AddChildFlow::NIL;
     cocos2d::Layer* _sceneLayer = nullptr;
     ChildCreatorRef _childCreator = nullptr;
     
