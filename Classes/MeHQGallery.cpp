@@ -58,7 +58,7 @@ bool MeHQGallery::init()
     if(artImages.size() > 0)
     {
     
-        Size contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kArtAppHQName);
+        const Size& contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kArtAppHQName);
         float unitWidth = (visibleSize.width - 2 * kSideMarginSize[isPortrait]) / kUnitsOnScreen[isPortrait];
         float unitMultiplier = unitWidth / contentItemSize.width;
         
@@ -71,7 +71,7 @@ bool MeHQGallery::init()
         for(int elementIndex = 0; elementIndex < MIN(7,artImages.size()); elementIndex++)
         {
             auto* currentElement = ArtsAppHQElement::create();
-            currentElement->initWithURLAndSize(dirPath + "/" + artImages[elementIndex], ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kArtAppHQName) * unitMultiplier, true, false);
+            currentElement->initWithURLAndSize(dirPath + "/" + artImages[elementIndex], contentItemSize * unitMultiplier, true, false);
             
             Vec2 elementShape = Vec2(1,1);
             
@@ -110,7 +110,7 @@ bool MeHQGallery::init()
         }
         
         auto* newImage = ArtsAppHQElement::create();
-        newImage->initWithURLAndSize(FileUtils::getInstance()->fullPathForFilename("res/arthqscene/new.png"), ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kArtAppHQName) * unitMultiplier, false, true);
+        newImage->initWithURLAndSize(FileUtils::getInstance()->fullPathForFilename("res/arthqscene/new.png"), contentItemSize * unitMultiplier, false, true);
         
         Vec2 elementShape = Vec2(1,1);
         
