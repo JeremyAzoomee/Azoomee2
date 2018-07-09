@@ -77,15 +77,12 @@ bool OomeeSelectScene::init()
 void OomeeSelectScene::onEnter()
 {
     Super::onEnter();
+    OomeeMakerDataHandler::getInstance()->getConfigFilesIfNeeded();
 }
 
 void OomeeSelectScene::onEnterTransitionDidFinish()
 {
     Super::onEnterTransitionDidFinish();
-    this->getScheduler()->schedule([](float deltaT){
-        OomeeMakerDataHandler::getInstance()->getConfigFilesIfNeeded();
-    }, this, 0, 0, 0.5, false, "getFiles");
-    
 }
 
 void OomeeSelectScene::setCarouselData()
