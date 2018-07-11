@@ -39,6 +39,7 @@ public:
     
     void registerAppVersion();
     void registerAnonymousIp(const std::string& anonymousIp);
+    void registerIdentifier(const std::string& parentId);
     void registerNoOfChildren(int noOfChildren);
     void registerAzoomeeEmail(std::string emailAddress);
     void registerAccountStatus(std::string Status);
@@ -46,13 +47,13 @@ public:
     void registerIAPOS(std::string OS_String);
     void registerBillingProvider(std::string provider);
     void registerSessionId(std::string sessionId);
-    void registerCurrentScene(std::string currentScene);
+    void registerCurrentScene(const std::string& currentScene);
     void setLandscapeOrientation();
     void setPortraitOrientation();
     void setNumberOfChatFriends(int noOfChildren);
     void setChatFriendIsParent(bool chatFriendIsParent);
     void setIsUserAnonymous(bool isUserAnonymous);
-
+    
     void registerChildGenderAndAge(int childNumber);
 
     void logoutChildEvent();
@@ -92,6 +93,7 @@ public:
     void contentItemSelectedEvent(const std::string& Type);
     void contentItemSelectedEvent(const std::string& Type, const std::string& elementShape);
     void contentItemSelectedEvent(const HQContentItemObjectRef &contentItem, int rowNumber, int elementNumber, const std::string& elementShape);
+    void contentItemSelectedOutsideCarouselEvent(const HQContentItemObjectRef &contentItem);
     void contentItemProcessingStartedEvent();
     void contentItemProcessingErrorEvent();
     void contentItemIncompatibleEvent();
@@ -124,7 +126,7 @@ public:
     void enteredForegroundEvent();
     void sessionIdHasChanged(std::string oldSessionId);
     void httpRequestFailed(std::string requestTag, long responseCode, std::string qid);
-    void moveToSceneEvent(std::string newScene);
+    void moveToSceneEvent(const std::string& previousScene);
     void settingsOnlineSafetySlideChangeEvent(int NewSlideNumber);
     
     //---------------IAP ACTIONS------------------
@@ -163,7 +165,7 @@ public:
     //---------------CTA EVENTS----------------------------------
     void ctaButtonPressed(const std::string &buttonId, const std::string &title = "");
     void ctaWindowAppeared(const std::string &groupId, const std::string &nodeId);
-    void registerCTASource(const std::string& buttonId, const std::string& contentId, const std::string& mediaType);
+    void registerCTASource(const std::string& buttonId, const std::string& contentId, const std::string& mediaType, const std::string& recommendedContentId = "");
 };
   
 }

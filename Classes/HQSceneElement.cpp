@@ -26,6 +26,7 @@
 #include "ContentHistoryManager.h"
 #include "ContentOpener.h"
 #include "VideoPlaylistManager.h"
+#include "IAPFlowController.h"
 
 using namespace cocos2d;
 using namespace network;
@@ -122,7 +123,10 @@ void HQSceneElement::addListenerToElement()
         Size s = target->getBoundingBox().size;//getContentSize();
         Rect rect = Rect(0,0,s.width, s.height);
         
-        if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0) return false;
+        if(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName)->getNumberOfRunningActions() > 0)
+        {
+            return false;
+        }
         
         if(rect.containsPoint(locationInNode))
         {
@@ -156,12 +160,15 @@ void HQSceneElement::addListenerToElement()
         {
             if(_elementVisual->_overlayWhenTouched) _elementVisual->_overlayWhenTouched->setOpacity(0);
             
-            if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0) return false;
+            if(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName)->getNumberOfRunningActions() > 0)
+            {
+                return false;
+            }
             
             AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
             _iamtouched = false;
             
-            if(_elementItemData->getType() == "MANUAL")
+            if(_elementItemData->getType() == ConfigStorage::kContentTypeManual)
             {
                 ManualGameInputLayer::create();
                 return true;
@@ -172,7 +179,16 @@ void HQSceneElement::addListenerToElement()
                 AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
                 AnalyticsSingleton::getInstance()->contentItemSelectedEvent(_elementItemData, _elementRowNumber, _elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(_elementCategory, _elementRowNumber, _elementIndex));
                 AnalyticsSingleton::getInstance()->registerCTASource("lockedContent",_elementItemData->getContentItemId(),_elementItemData->getType());
-                DynamicNodeHandler::getInstance()->startIAPFlow();
+                IAPEntryContext context = IAPEntryContext::DEFAULT;
+                if(_elementItemData->getType() == ConfigStorage::kContentTypeGame)
+                {
+                    context = IAPEntryContext::LOCKED_GAME;
+                }
+                else if(_elementItemData->getType() == ConfigStorage::kContentTypeVideo || _elementItemData->getType() == ConfigStorage::kContentTypeGroup)
+                {
+                    context = IAPEntryContext::LOCKED_VIDEO;
+                }
+                DynamicNodeHandler::getInstance()->startIAPFlow(context);
                 return true;
             }
                 

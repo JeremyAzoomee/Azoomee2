@@ -41,11 +41,16 @@ public:
     
     static const char* const kRecentlyPlayedCarouselName;
     
+    static const char* const kContentNodeName;
+    static const char* const kContentLayerName;
+    static const char* const kNavigationLayerName;
+    
     static const char* const kContentTypeVideo;
     static const char* const kContentTypeAudio;
     static const char* const kContentTypeGame;
     static const char* const kContentTypeGroup;
     static const char* const kContentTypeAudioGroup;
+    static const char* const kContentTypeManual;
     
     static const char* const kEstimatedKeyboardHeightPortrait;
     static const char* const kEstimatedKeyboardHeightLandscape;

@@ -6,6 +6,7 @@
 #include "../Strings.h"
 #include "../Utils/SessionIdManager.h"
 #include "../Crashlytics/CrashlyticsConfig.h"
+#include "../JWTSigner/HMACSHA256/HMACSHA256.h"
 
 namespace Azoomee
 {
@@ -35,11 +36,13 @@ bool AnalyticsSingleton::init(void)
     
 void AnalyticsSingleton::mixPanelSendEventWithStoredProperties(const std::string& eventID)
 {
+    AnalyticsProperties::getInstance()->updateEpochTime();
     mixPanelSendEventNative(eventID, _analyticsProperties->getStoredGeneralProperties());
 }
 
 void AnalyticsSingleton::mixPanelSendEventWithStoredProperties(const std::string& eventID, const std::map<std::string, std::string>& map)
 {
+    AnalyticsProperties::getInstance()->updateEpochTime();
     std::map<std::string, std::string> mapToBeSent;
     mapToBeSent.insert(map.begin(), map.end());
     const auto& generalProperties = _analyticsProperties->getStoredGeneralProperties();
@@ -65,6 +68,13 @@ void AnalyticsSingleton::registerAnonymousIp(const std::string& anonymousIp)
     mixPanelRegisterSuperProperties("ip", anonymousIp);
 }
 
+void AnalyticsSingleton::registerIdentifier(const std::string &parentId)
+{
+    const std::string& parentIdHash = HMACSHA256::getInstance()->getHMACSHA256Hash(parentId, parentId);
+    mixPanelRegisterSuperProperties("parentID", parentIdHash);
+    mixPanelRegisterIdentity(parentIdHash,_analyticsProperties->getStoredGeneralProperties());
+}
+    
 void AnalyticsSingleton::registerNoOfChildren(int noOfChildren)
 {
     mixPanelRegisterSuperProperties("noOfChildren",cocos2d::StringUtils::format("%s%d",NUMBER_IDENTIFIER, noOfChildren));
@@ -117,12 +127,21 @@ void AnalyticsSingleton::registerSessionId(std::string sessionId)
     setCrashlyticsKeyWithString("sessionId", sessionId);
 }
     
-void AnalyticsSingleton::registerCurrentScene(std::string currentScene)
+void AnalyticsSingleton::registerCurrentScene(const std::string &currentScene)
 {
+    //before registering the new scene as current, reading out the previous one to be able to send previousScene property for mixpanel moveToSceneEvent.
+    const std::map<std::string, std::string> &mixPanelProperties = _analyticsProperties->getStoredGeneralProperties();
+    std::string previousScene = "NA";
+    
+    if(mixPanelProperties.find("currentScene") != mixPanelProperties.end())
+    {
+        previousScene = mixPanelProperties.at("currentScene");
+    }
+    
     mixPanelRegisterSuperProperties("currentScene", currentScene);
     setCrashlyticsKeyWithString("currentScene", currentScene);
     
-    moveToSceneEvent(currentScene);
+    moveToSceneEvent(previousScene);
 }
     
 void AnalyticsSingleton::setPortraitOrientation()
@@ -335,6 +354,11 @@ void AnalyticsSingleton::contentItemSelectedEvent(const HQContentItemObjectRef &
     
     mixPanelSendEventWithStoredProperties("contentItemSelectedEvent", mixPanelProperties);
 }
+
+void AnalyticsSingleton::contentItemSelectedOutsideCarouselEvent(const HQContentItemObjectRef &contentItem)
+{
+    contentItemSelectedEvent(contentItem, -1, -1, "0,0");
+}
     
 void AnalyticsSingleton::updateContentItemDetails(const HQContentItemObjectRef &contentItem)
 {
@@ -534,10 +558,10 @@ void AnalyticsSingleton::httpRequestFailed(std::string requestTag, long response
     mixPanelSendEventWithStoredProperties("httpRequestFailed", mixPanelProperties);
 }
     
-void AnalyticsSingleton::moveToSceneEvent(std::string newScene)
+void AnalyticsSingleton::moveToSceneEvent(const std::string &previousScene)
 {
     std::map<std::string, std::string> mixPanelProperties;
-    mixPanelProperties["newScene"] = newScene;
+    mixPanelProperties["previousScene"] = previousScene;
     
     mixPanelSendEventWithStoredProperties("moveToSceneEvent", mixPanelProperties);
 }
@@ -762,17 +786,19 @@ void AnalyticsSingleton::ctaWindowAppeared(const std::string &groupId, const std
         {"nodeId", nodeId},
         {"sourceButton", _analyticsProperties->getCtaSourceButton()},
         {"sourceContentId", _analyticsProperties->getCtaSourceContentId()},
-        {"sourceMediaType", _analyticsProperties->getCtaSourceMediaType()}
+        {"sourceMediaType", _analyticsProperties->getCtaSourceMediaType()},
+        {"recommendedContentId", _analyticsProperties->getCtaRecommendedContentId()}
     };
     
     mixPanelSendEventWithStoredProperties("ctaWindowAppeared", mixPanelProperties);
 }
     
-void AnalyticsSingleton::registerCTASource(const std::string& buttonId, const std::string& contentId, const std::string& mediaType)
+    void AnalyticsSingleton::registerCTASource(const std::string& buttonId, const std::string& contentId, const std::string& mediaType, const std::string& recommendedContentId)
 {
     _analyticsProperties->setCtaSourceButton(buttonId);
     _analyticsProperties->setCtaSourceContentId(contentId);
     _analyticsProperties->setCtaSourceMediaType(mediaType);
+    _analyticsProperties->setCtaRecommendedContentId(recommendedContentId);
 }
 
 

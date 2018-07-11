@@ -118,7 +118,7 @@ bool DeepLinkingSingleton::actionDeepLink()
         const HQContentItemObjectRef& item = HQDataProvider::getInstance()->getItemDataForSpecificItem(path);
         if(item)
         {
-            AnalyticsSingleton::getInstance()->contentItemSelectedEvent(item, -1, -1, "0,0");
+            AnalyticsSingleton::getInstance()->contentItemSelectedOutsideCarouselEvent(item);
             completeContentAction(item);
         }
         
@@ -182,10 +182,10 @@ void DeepLinkingSingleton::moveToHQ(const std::string& hqName)
 {
     AnalyticsSingleton::getInstance()->deepLinkingMoveToEvent(path);
     
-    auto baseLayer = Director::getInstance()->getRunningScene()->getChildByName("baseLayer");
+    auto baseLayer = Director::getInstance()->getRunningScene();
     if(baseLayer)
     {
-        NavigationLayer *navigationLayer = (NavigationLayer *)baseLayer->getChildByName("NavigationLayer");
+        NavigationLayer *navigationLayer = dynamic_cast<NavigationLayer*>(baseLayer->getChildByName(ConfigStorage::kNavigationLayerName));
         
         if(navigationLayer)
         {
@@ -218,7 +218,7 @@ void DeepLinkingSingleton::contentDetailsResponse(const std::string& responseBod
         contentItem->setUri(getStringFromJson("uri", contentData));
         contentItem->setContentItemId(path);
         
-        AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, -1, -1, "0,0");
+        AnalyticsSingleton::getInstance()->contentItemSelectedOutsideCarouselEvent(contentItem);
         
         completeContentAction(contentItem);
     }

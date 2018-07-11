@@ -36,11 +36,16 @@ static ConfigStorage *_sharedConfigStorage = NULL;
     
     const char* const ConfigStorage::kRecentlyPlayedCarouselName = "LAST PLAYED";
     
+    const char* const ConfigStorage::kContentNodeName = "contentNode";
+    const char* const ConfigStorage::kContentLayerName = "contentLayer";
+    const char* const ConfigStorage::kNavigationLayerName = "NavigationLayer";
+    
     const char* const ConfigStorage::kContentTypeVideo = "VIDEO";
     const char* const ConfigStorage::kContentTypeAudio = "AUDIO";
     const char* const ConfigStorage::kContentTypeGame = "GAME";
     const char* const ConfigStorage::kContentTypeGroup = "GROUP";
     const char* const ConfigStorage::kContentTypeAudioGroup = "AUDIOGROUP";
+    const char* const ConfigStorage::kContentTypeManual = "MANUAL";
     
     const char* const ConfigStorage::kEstimatedKeyboardHeightPortrait = "Azoomee::MessageComposer::EstimatedKeyboardHeight/Portrait";
     const char* const ConfigStorage::kEstimatedKeyboardHeightLandscape = "Azoomee::MessageComposer::EstimatedKeyboardHeight/Landscape";
@@ -172,9 +177,18 @@ std::string ConfigStorage::getServerUrl()
 std::string ConfigStorage::getCTAPackageJsonURL()
 {
 #ifdef USINGCI
-    return "https://media.azoomee.ninja/static/popups/package.json";
+  #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    return "https://media.azoomee.ninja/static/popups/android/package.json";
+  #elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    return "https://media.azoomee.ninja/static/popups/ios/package.json";
+  #endif
+#else
+  #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    return "https://media.azoomee.com/static/popups/android/package.json";
+  #elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    return "https://media.azoomee.com/static/popups/ios/package.json";
+  #endif
 #endif
-    return "https://media.azoomee.com/static/popups/package.json";
 }
     
 std::string ConfigStorage::getMediaPrefixForXwalkCookies()
@@ -390,7 +404,7 @@ std::string ConfigStorage::getHQSceneNameReplacementForPermissionFeed(const std:
 
 cocos2d::Point ConfigStorage::getHorizontalPositionForMenuItem(const std::string& hqName) const
 {
-    cocos2d::Point visualOrigin = Director::getInstance()->getVisibleOrigin();
+    cocos2d::Point visualOrigin = Vec2(0,0);//Director::getInstance()->getVisibleOrigin();
     cocos2d::Size visualSize = Director::getInstance()->getVisibleSize();
     
     float x = 0;

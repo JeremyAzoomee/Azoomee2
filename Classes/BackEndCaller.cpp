@@ -18,7 +18,7 @@
 #include "LoginLogicHandler.h"
 #include "ChildSelectorScene.h"
 #include "BaseScene.h"
-#include "AwaitingAdultPinLayer.h"
+#include <AzoomeeCommon/UI/RequestAdultPinLayer.h>
 #include "RoutePaymentSingleton.h"
 #include "SceneManagerScene.h"
 #include "DeepLinkingSingleton.h"
@@ -104,7 +104,7 @@ void BackEndCaller::ipCheck()
     }
     
     HttpRequestCreator* request = API::IpCheck(this);
-    request->execute();
+    request->execute(3.0f); // 3 second timeout on request
 }
 
 //LOGGING IN BY PARENT-------------------------------------------------------------------------------
@@ -249,9 +249,9 @@ void BackEndCaller::onUpdateParentPinAnswerReceived(const std::string& responseS
     {
         hideLoadingScreen();
         
-        AwaitingAdultPinLayer *checkBack = (AwaitingAdultPinLayer *)callBackNode;
+        RequestAdultPinLayer *checkBack = (RequestAdultPinLayer *)callBackNode;
         cocos2d::log("Calling back awaitingsomething");
-        checkBack->secondCheckForPin();
+        checkBack->checkPinAgainstStoredPin();
     }
 }
 
@@ -268,6 +268,7 @@ void BackEndCaller::getAvailableChildren()
 void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseString)
 {
     ModalMessages::getInstance()->stopLoading();
+    AnalyticsSingleton::getInstance()->registerIdentifier(ParentDataProvider::getInstance()->getLoggedInParentId());
     ParentDataParser::getInstance()->parseAvailableChildren(responseString);
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
     
@@ -541,80 +542,68 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
 
 void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
-    if(requestTag == API::TagGetForceUpdateInformation)
+    if(requestTag == API::TagIpCheck)
     {
-        return; //if the file cannot be found, we do nothing, update won't be forced.
+        ConfigStorage::getInstance()->setClientAnonymousIp("0.0.0.0");
+        AnalyticsSingleton::getInstance()->registerAnonymousIp(ConfigStorage::getInstance()->getClientAnonymousIp());
     }
-    
-    if(requestTag == API::TagOfflineCheck)
+    else if(requestTag == API::TagOfflineCheck)
     {
         OfflineChecker::getInstance()->onOfflineCheckFailed();
-        return;
     }
-    
-    if(requestTag == API::TagRegisterParent)
+    else if(requestTag == API::TagRegisterParent)
     {
         AnalyticsSingleton::getInstance()->OnboardingAccountCreatedErrorEvent(errorCode);
         hideLoadingScreen();
         FlowDataSingleton::getInstance()->setErrorCode(errorCode);
         MessageBox::createWith(errorCode, nullptr);
-        return;
     }
-    
-    if(requestTag == API::TagRegisterChild)
+    else if(requestTag == API::TagRegisterChild)
     {
         AnalyticsSingleton::getInstance()->childProfileCreatedErrorEvent(errorCode);
         hideLoadingScreen();
         FlowDataSingleton::getInstance()->setErrorCode(errorCode);
         DynamicNodeHandler::getInstance()->startAddChildFlow();
-        return;
     }
-    
-    if(requestTag == API::TagUpdateChild)
+    else if(requestTag == API::TagUpdateChild)
     {
         AnalyticsSingleton::getInstance()->childProfileUpdateErrorEvent(errorCode);
         hideLoadingScreen();
         FlowDataSingleton::getInstance()->setErrorCode(errorCode);
         DynamicNodeHandler::getInstance()->startAddChildFlow();
-        return;
     }
-    
-    if(requestTag == API::TagLogin)
+    else if(requestTag == API::TagLogin)
     {
         FlowDataSingleton::getInstance()->setErrorCode(errorCode);
         LoginLogicHandler::getInstance()->forceNewLogin();
     }
-    
-    if(requestTag == API::TagGetAvailableChildren)
+    else if(requestTag == API::TagGetAvailableChildren)
     {
 
         FlowDataSingleton::getInstance()->setErrorCode(errorCode);
         if(errorCode == -1)
         {
-            Director::getInstance()->replaceScene(OfflineHubScene::createScene());
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineHub));
             return;
         }
         
         LoginLogicHandler::getInstance()->forceNewLogin();
-        return;
     }
-    
-    if(requestTag == API::TagVerifyApplePayment || requestTag == API::TagVerifyAmazonPayment || requestTag == API::TagVerifyGooglePayment)
+    else if(requestTag == API::TagVerifyApplePayment || requestTag == API::TagVerifyAmazonPayment || requestTag == API::TagVerifyGooglePayment)
     {
         cocos2d::log("IAP Failed with Errorcode: %ld", errorCode);
         AnalyticsSingleton::getInstance()->iapBackEndRequestFailedEvent(errorCode);
         RoutePaymentSingleton::getInstance()->backendRequestFailed(errorCode);
+    }
+    else if(requestTag == API::TagResetPasswordRequest || requestTag == API::TagUpdateBillingData || requestTag == API::TagGetForceUpdateInformation) //Dont do anything with a password Request attempt
+    {
         return;
     }
-    //Dont do anything with a password Request attempt
-    if(requestTag == API::TagResetPasswordRequest)
-        return;
-    
-    if(requestTag == API::TagUpdateBillingData)
-        return;
-    
-    FlowDataSingleton::getInstance()->setErrorCode(errorCode);
-    LoginLogicHandler::getInstance()->doLoginLogic();
+    else
+    {
+        FlowDataSingleton::getInstance()->setErrorCode(errorCode);
+        LoginLogicHandler::getInstance()->doLoginLogic();
+    }
 }
 
 NS_AZOOMEE_END

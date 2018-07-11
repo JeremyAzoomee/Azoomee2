@@ -5,10 +5,11 @@ using namespace cocos2d;
 NS_AZOOMEE_BEGIN
 
 
-Scene* EmptySceneForSettings::createScene()
+Scene* EmptySceneForSettings::createScene(SettingsOrigin origin)
 {
     auto scene = Scene::create();
     auto layer = EmptySceneForSettings::create();
+    layer->_origin = origin;
     scene->addChild(layer);
     
     return scene;
@@ -26,7 +27,15 @@ bool EmptySceneForSettings::init()
 
 void EmptySceneForSettings::onEnterTransitionDidFinish()
 {
-    SettingsControlLayer::createFromChat();
+    switch (_origin) {
+        case SettingsOrigin::CHAT:
+            SettingsControlLayer::createFromChat();
+            break;
+        case SettingsOrigin::MAIN_APP:
+            SettingsControlLayer::create();
+            break;
+    }
+    
 }
 
 NS_AZOOMEE_END

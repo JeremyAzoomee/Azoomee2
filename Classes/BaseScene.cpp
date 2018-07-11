@@ -15,26 +15,18 @@
 #include "HQDataParser.h"
 #include "HQHistoryManager.h"
 #include "BackEndCaller.h"
-
+#include "ManualGameInputLayer.h"
 #include "IAPProductDataHandler.h"
+
+#include "DynamicNodeHandler.h"
 
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-Scene* BaseScene::createScene()
-{
-    auto scene = Scene::create();
-    auto layer = BaseScene::create();
-    
-    scene->addChild(layer);
-    
-    return scene;
-}
-
 bool BaseScene::init()
 {
-    if ( !Layer::init() )
+    if ( !Super::init() )
     {
         return false;
     }
@@ -102,8 +94,8 @@ void BaseScene::createHQScene2(const std::string &sceneName, Node *toBeAddedTo)
 Layer* BaseScene::createContentLayer()
 {
     auto contentLayer = Layer::create();
-    contentLayer->setPosition(ConfigStorage::getInstance()->getHQScenePositions("contentLayer"));
-    contentLayer->setName("contentLayer");
+    contentLayer->setPosition(ConfigStorage::getInstance()->getHQScenePositions(ConfigStorage::kContentLayerName));
+    contentLayer->setName(ConfigStorage::kContentLayerName);
     this->addChild(contentLayer);
     
     return contentLayer;
@@ -113,8 +105,8 @@ void BaseScene::addNavigationLayer()
 {
     //Adding main menu to BaseScene (this), instead of contentLayer, as we don't want to move it, when panning contentlayer
     auto sNavigationLayer = NavigationLayer::create();
-    sNavigationLayer->setPosition(ConfigStorage::getInstance()->getHQScenePositions("NavigationLayer"));
-    sNavigationLayer->setName("NavigationLayer");
+    sNavigationLayer->setPosition(ConfigStorage::getInstance()->getHQScenePositions(ConfigStorage::kNavigationLayerName));
+    sNavigationLayer->setName(ConfigStorage::kNavigationLayerName);
     this->addChild(sNavigationLayer);
     
     if(!HQHistoryManager::getInstance()->noHistory())
@@ -162,6 +154,58 @@ void BaseScene::addXmasDecoration()
     snow2->setPosition(origin.x + visibleSize.width - snow2->getContentSize().width / 2, origin.y - snow2->getContentSize().height / 2);
     this->addChild(snow2, DECORATION_ZORDER);
     snow2->runAction(Sequence::create(DelayTime::create(0.5f), EaseOut::create(MoveTo::create(2, Vec2(snow2->getPosition().x, origin.y + snow2->getContentSize().height / 2)), 2.0f), NULL));
+}
+
+void BaseScene::onSizeChanged()
+{
+    Super::onSizeChanged();
+    
+    auto contentLayer = this->getChildByName(ConfigStorage::kContentLayerName);
+    if(contentLayer == nullptr)
+    {
+        return;
+    }
+    
+    for(auto child : this->getChildByName(ConfigStorage::kContentLayerName)->getChildren())
+    {
+        HQScene2* hqScene = dynamic_cast<HQScene2*>(child);
+        if(hqScene)
+        {
+            if(HQHistoryManager::getInstance()->getCurrentHQ() == hqScene->getName())
+            {
+                hqScene->rebuildScrollView();
+            }
+        }
+    }
+    auto navLayer = this->getChildByName(ConfigStorage::kNavigationLayerName);
+    if(navLayer == nullptr)
+    {
+        return;
+    }
+    
+    auto manualInputLayer = this->getChildByName(ConfigStorage::kContentTypeManual);
+    if(manualInputLayer)
+    {
+        manualInputLayer->removeFromParent();
+        ManualGameInputLayer::create();
+    }
+    
+    NavigationLayer* navigation = dynamic_cast<NavigationLayer*>(navLayer);
+    if(navigation)
+    {
+        navigation->repositionElements();
+    }
+    
+    auto gameDownloadCancelButton = dynamic_cast<ElectricDreamsButton*>(this->getChildByName("cancelButton"));
+    if(gameDownloadCancelButton)
+    {
+        const Size& size = Director::getInstance()->getVisibleSize();
+        const Size& buttonSize = gameDownloadCancelButton->getContentSize();
+        gameDownloadCancelButton->setCenterPosition(Vec2(size.width - buttonSize.width, size.height - buttonSize.height));
+    }
+    
+    DynamicNodeHandler::getInstance()->rebuildCurrentCTA();
+    
 }
 
 NS_AZOOMEE_END

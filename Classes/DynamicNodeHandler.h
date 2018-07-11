@@ -13,6 +13,7 @@
 #include "cocos2d.h"
 #include "DynamicNodeCreator.h"
 #include "DynamicNodeFlowController.h"
+#include "IAPFlowController.h"
 #include <AzoomeeCommon/Data/Json.h>
 #include "network/HttpClient.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
@@ -25,7 +26,6 @@ NS_AZOOMEE_BEGIN
 class DynamicNodeHandler : public cocos2d::Ref, public FileDownloaderDelegate, public FileZipDelegate
 {
 private:
-    
     FileDownloaderRef _fileDownloader = nullptr;
     
     DynamicNodeFlowControllerRef _flowController = nullptr;
@@ -65,6 +65,10 @@ public:
     
     //-----end popup group names
     
+    std::string _currentCTAFile;
+    bool _currentCTAUsingParams = false;
+    std::string _currentCTAParams;
+    
     static DynamicNodeHandler* getInstance(void);
     virtual ~DynamicNodeHandler();
     bool init(void);
@@ -76,7 +80,7 @@ public:
     void createDynamicNodeByGroupIdWithParams(const std::string& group, const std::string& params);
     
     void startSignupFlow();
-    void startIAPFlow();
+    void startIAPFlow(IAPEntryContext context = IAPEntryContext::DEFAULT);
     void startAddChildFlow();
     void handleSuccessFailEvent();
     
@@ -84,6 +88,8 @@ public:
     
     void setFlowController(DynamicNodeFlowControllerRef flowController);
     DynamicNodeFlowControllerRef getFlowController();
+    
+    void rebuildCurrentCTA();
     
     // Delegate functions
     void onAsyncUnzipComplete(bool success, const std::string& zipPath, const std::string& dirpath);

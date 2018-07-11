@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "UI/Scene.h"
+#include "Analytics/AnalyticsSingleton.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 
@@ -118,9 +119,9 @@ void Application::applicationWillEnterForeground()
 
 void Application::applicationScreenSizeChanged(int newWidth, int newHeight)
 {
-    
+
     updateResolution(newWidth, newHeight);
-    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     // Notify the running scene if it's an Azoomee::Scene
     auto director = Director::getInstance();
     Azoomee::Scene* scene = dynamic_cast<Azoomee::Scene*>(director->getRunningScene());
@@ -128,6 +129,7 @@ void Application::applicationScreenSizeChanged(int newWidth, int newHeight)
     {
         scene->screenSizeDidChange();
     }
+#endif
 }
 
 void Application::applicationScreenSizeWillChange(int newWidth, int newHeight, float duration)
@@ -155,11 +157,13 @@ void Application::updateResolution(int newWidth, int newHeight)
     // Landscape
     if(newWidth > newHeight)
     {
+        Azoomee::AnalyticsSingleton::getInstance()->setLandscapeOrientation();
         glview->setDesignResolutionSize(designResolutionLandscapeSize.width, designResolutionLandscapeSize.height, ResolutionPolicy::NO_BORDER);
     }
     // Portrait
     else
     {
+        Azoomee::AnalyticsSingleton::getInstance()->setPortraitOrientation();
         glview->setDesignResolutionSize(designResolutionPortraitSize.width, designResolutionPortraitSize.height, ResolutionPolicy::NO_BORDER);
     }
 }

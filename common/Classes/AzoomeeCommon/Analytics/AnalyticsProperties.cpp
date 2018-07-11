@@ -6,6 +6,7 @@
 //
 
 #include "AnalyticsProperties.h"
+#include "../Utils/TimeFunctions.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -101,6 +102,15 @@ std::string AnalyticsProperties::getCtaSourceMediaType() const
     return _ctaSourceMediaType;
 }
 
+void AnalyticsProperties::setCtaRecommendedContentId(const std::string &recommendedContentId)
+{
+    _ctaRecommendedContentId = recommendedContentId;
+}
+std::string AnalyticsProperties::getCtaRecommendedContentId() const
+{
+    return _ctaRecommendedContentId;
+}
+
 void AnalyticsProperties::setOSManufacturer(const std::string& osManufacturer)
 {
     _OSManufacturer = osManufacturer;
@@ -117,6 +127,11 @@ void AnalyticsProperties::setTimeOpenedContent(time_t timeOpenedContent)
 time_t AnalyticsProperties::getTimeOpenedContent() const
 {
     return _timeOpenedContent;
+}
+
+void AnalyticsProperties::updateEpochTime()
+{
+    _storedGeneralProperties["epochTime"] = getMillisecondTimestampString();
 }
 
 NS_AZOOMEE_END

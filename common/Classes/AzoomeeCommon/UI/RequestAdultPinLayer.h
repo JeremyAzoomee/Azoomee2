@@ -22,6 +22,8 @@ public:
 class RequestAdultPinLayer : public cocos2d::Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate, public MessageBoxDelegate, public Azoomee::HttpRequestCreatorResponseDelegate
 {
 private:
+    cocos2d::EventListenerCustom* _biometricValidationSuccessListener = nullptr;
+    cocos2d::EventListenerCustom* _biometricValidationFailureListener = nullptr;
     
     cocos2d::LayerColor *backgroundLayer;
     
@@ -40,13 +42,19 @@ private:
     
     void createBackgroundLayer();
     void addListenerToBackgroundLayer();
+    void addListenerToBiometricValidationSuccess();
+    void addListenerToBiometricValidationFailure();
     void setPercentageofScreenForBox();
     void addUIObjects();
     
     void removeSelf(float dt);
     
+    void androidBiometricAuthenticationSuccess();
+    void androidBiometricAuthenticationFailure();
+    
+    bool _pinIsForPayment = false;
+    
     void requestUpdatedPin();
-    void checkPinAgainstStoredPin();
     
     void resizeWindowAndObjects();
     void addOrRemoveWires();
@@ -57,6 +65,7 @@ private:
     
 public:
     virtual bool init();
+    virtual void onExit();
     
     CREATE_FUNC(RequestAdultPinLayer);
     
@@ -71,6 +80,8 @@ public:
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
     
     void onSizeChanged();
+    void checkPinAgainstStoredPin();
+    void setPinIsForPayment(bool pinIsForPayment);
     
 };
 

@@ -2,6 +2,7 @@
 #include "MessageBox.h"
 #include "RequestAdultPinLayer.h"
 #include "ModalWebview.h"
+#include "ModalMessages.h"
 
 using namespace cocos2d;
 
@@ -125,6 +126,8 @@ void Scene::onSizeChanged()
     {
         modalWebview->onSizeChanged();
     }
+    
+    ModalMessages::getInstance()->onSizeChanged();
     
 }
 

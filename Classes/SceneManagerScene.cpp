@@ -16,6 +16,8 @@
 #include "ArtAppDelegate.h"
 #include "EmptySceneForSettings.h"
 #include "WebViewSelector.h"
+#include "IntroVideoScene.h"
+#include "ContentHistoryManager.h"
 
 using namespace cocos2d;
 
@@ -65,8 +67,8 @@ void SceneManagerScene::onEnterTransitionDidFinish()
     switch (nextScene) {
         case Login:
         {
-            forceToLandscape();
-            cocos2d::Scene*  goToScene = LoginScene::createScene();
+            acceptAnyOrientation();
+            cocos2d::Scene*  goToScene = LoginScene::create();
             AnalyticsSingleton::getInstance()->registerCurrentScene("LOGIN");
             Director::getInstance()->replaceScene(goToScene);
             break;
@@ -74,24 +76,27 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         case Base:
         {
             FlowDataSingleton::getInstance()->clearData();
-            forceToLandscape();
+            returnToPrevOrientation();
+            acceptAnyOrientation();
             HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
-            cocos2d::Scene* goToScene = BaseScene::createScene();
+            Azoomee::Scene* goToScene = BaseScene::create();
             Director::getInstance()->replaceScene(goToScene);
             break;
         }
         case BaseWithNoHistory:
         {
             FlowDataSingleton::getInstance()->clearData();
-            forceToLandscape();
+            returnToPrevOrientation();
+            acceptAnyOrientation();
             HQHistoryManager::getInstance()->emptyHistory();
-            cocos2d::Scene* goToScene = BaseScene::createScene();
+            cocos2d::Scene* goToScene = BaseScene::create();
             Director::getInstance()->replaceScene(goToScene);
             break;
         }
         case ChildSelector:
         {
-            forceToLandscape();
+            returnToPrevOrientation();
+            acceptAnyOrientation();
             cocos2d::Scene* goToScene = ChildSelectorScene::createScene();
             AnalyticsSingleton::getInstance()->registerCurrentScene("CHILD_SELECTOR");
             Director::getInstance()->replaceScene(goToScene);
@@ -118,7 +123,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         {
             // Make sure we set the chat delegate
             Azoomee::Chat::delegate = ChatDelegate::getInstance();
-            
+            returnToPrevOrientation();
             acceptAnyOrientation();
             cocos2d::Scene* goToScene;
             if(Azoomee::Chat::delegate->_imageFileName != "")
@@ -135,6 +140,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         }
         case ArtAppEntryPointScene:
         {
+            HQHistoryManager::getInstance()->updatePrevOrientation();
             Azoomee::ArtApp::delegate = ArtAppDelegate::getInstance();
             ArtAppDelegate::getInstance()->ArtAppRunning = true;
             
@@ -150,14 +156,25 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         }
         case SettingsFromChat:
         {
+            HQHistoryManager::getInstance()->updatePrevOrientation();
             forceToLandscape();
-            cocos2d::Scene* goToScene = EmptySceneForSettings::createScene();
+            cocos2d::Scene* goToScene = EmptySceneForSettings::createScene(SettingsOrigin::CHAT);
+            AnalyticsSingleton::getInstance()->registerCurrentScene("SETTINGS");
+            Director::getInstance()->replaceScene(goToScene);
+            break;
+        }
+        case Settings:
+        {
+            HQHistoryManager::getInstance()->updatePrevOrientation();
+            forceToLandscape();
+            cocos2d::Scene* goToScene = EmptySceneForSettings::createScene(SettingsOrigin::MAIN_APP);
             AnalyticsSingleton::getInstance()->registerCurrentScene("SETTINGS");
             Director::getInstance()->replaceScene(goToScene);
             break;
         }
         case WebviewPortrait:
         {
+            HQHistoryManager::getInstance()->updatePrevOrientation();
             #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
                 forceToPortrait();
             #endif
@@ -167,9 +184,24 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         }
         case WebviewLandscape:
         {
+            HQHistoryManager::getInstance()->updatePrevOrientation();
             forceToLandscape();
             AnalyticsSingleton::getInstance()->registerCurrentScene("WEBVIEWLANDSCAPE");
             WebViewSelector::createSceneWithUrl(webviewURL, Orientation::Landscape, _closeButtonAnchor);
+            break;
+        }
+        case introVideo:
+        {
+            if(Director::getInstance()->getVisibleSize().width / Director::getInstance()->getVisibleSize().height > 1.5)
+            {
+                forceToPortrait();
+            }
+            else
+            {
+                forceToLandscape();
+            }
+            HQHistoryManager::getInstance()->updatePrevOrientation();
+            Director::getInstance()->replaceScene(IntroVideoScene::create());
             break;
         }
         default:
@@ -192,6 +224,22 @@ void SceneManagerScene::forceToLandscape()
 void SceneManagerScene::acceptAnyOrientation()
 {
     Azoomee::Application::setOrientation(Azoomee::Application::Orientation::Any);
+}
+
+void SceneManagerScene::returnToPrevOrientation()
+{
+    if(ContentHistoryManager::getInstance()->getReturnedFromContent() || HQHistoryManager::getInstance()->_returnedFromForcedOrientation)
+    {
+        if(HQHistoryManager::getInstance()->_prevHQOrientation == Portrait)
+        {
+            forceToPortrait();
+        }
+        else
+        {
+            forceToLandscape();
+        }
+    }
+    HQHistoryManager::getInstance()->_returnedFromForcedOrientation = false;
 }
 
 NS_AZOOMEE_END

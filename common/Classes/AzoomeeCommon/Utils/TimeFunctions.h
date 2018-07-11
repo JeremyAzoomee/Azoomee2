@@ -20,6 +20,7 @@ int birthYearFromAge(int age);
 long getEpochTimeForTodayWithoutYear();
 long getEpochTimeForDateWithoutYear(int month, int day);
 std::string getTimeStringForFileName();
+std::string getMillisecondTimestampString();
 
 NS_AZOOMEE_END
 

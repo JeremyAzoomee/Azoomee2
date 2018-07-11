@@ -204,4 +204,14 @@ SuccessFailPath FlowDataSingleton::getSuccessFailPath()
     return _currentSuccesFailPath;
 }
 
+void FlowDataSingleton::setDisplayUserPaidFlag(bool displayFlag)
+{
+    _displayUserPaidFlag = displayFlag;
+}
+
+bool FlowDataSingleton::getDisplayUserPaidFlag()
+{
+    return _displayUserPaidFlag;
+}
+
 NS_AZOOMEE_END

@@ -76,23 +76,21 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
         RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), hqName);
         RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kMixHQName);
         ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
-        auto webViewSelector = WebViewSelector::create();
-        webViewSelector->loadWebView(contentItem->getUri(),Orientation::Landscape, Vec2(0,0));
+        Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Orientation::Landscape, contentItem->getUri(),Vec2(0,0)));
     }
     else if(contentItem->getType()  == ConfigStorage::kContentTypeAudioGroup || contentItem->getType()  == ConfigStorage::kContentTypeGroup)
     {
         ModalMessages::getInstance()->stopLoading();
         
-        auto baseLayer = Director::getInstance()->getRunningScene()->getChildByName("baseLayer");
+        auto baseLayer = Director::getInstance()->getRunningScene();
         if(baseLayer)
         {
-            NavigationLayer *navigationLayer = (NavigationLayer *)baseLayer->getChildByName("NavigationLayer");
+            NavigationLayer *navigationLayer = (NavigationLayer *)baseLayer->getChildByName(ConfigStorage::kNavigationLayerName);
             
             if(navigationLayer)
             {
                 navigationLayer->startLoadingGroupHQ(contentItem->getUri());
                 
-                HQDataProvider::getInstance()->getDataForGroupHQ(contentItem->getUri());
                 HQHistoryManager::getInstance()->setGroupHQSourceId(contentItem->getContentItemId());
                 
                 auto funcCallAction = CallFunc::create([=](){
