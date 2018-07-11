@@ -12,6 +12,7 @@
 #include "HQHistoryManager.h"
 #include "HQSceneArtsApp.h"
 #include "HQScene2.h"
+#include "MeHQ.h"
 
 using namespace cocos2d;
 
@@ -256,14 +257,43 @@ void ArtsAppHQElement::addListenerToDeleteButton(cocos2d::Sprite *toBeAddedTo)
         {
             if(rect.containsPoint(locationInNode))
             {
+                return true;
+            }
+        }
+        return false;
+    };
+    
+    listener->onTouchEnded = [=](Touch *touch, Event *event)
+    {
+        auto target = static_cast<Node*>(event->getCurrentTarget());
+        
+        Point locationInNode = target->convertToNodeSpace(touch->getLocation());
+        Size s = target->getBoundingBox().size;//getContentSize();
+        Rect rect = Rect(0,0,s.width, s.height);
+        
+        if(target->getOpacity() == 255)
+        {
+            if(rect.containsPoint(locationInNode))
+            {
                 AnalyticsSingleton::getInstance()->genericButtonPressEvent("artsAppDeleteButton");
                 FileUtils::getInstance()->removeFile(_imageURL);
                 if(!HQHistoryManager::getInstance()->isOffline)
                 {
-                    HQScene2 *hqScene = (HQScene2 *)Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName)->getChildByName(ConfigStorage::kArtAppHQName);
-                    hqScene->removeAllChildren();
-                    Director::getInstance()->purgeCachedData();
-                    hqScene->startBuildingScrollView();
+                    if(HQHistoryManager::getInstance()->getCurrentHQ() == ConfigStorage::kArtAppHQName)
+                    {
+                        HQScene2 *hqScene = (HQScene2 *)Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName)->getChildByName(ConfigStorage::kArtAppHQName);
+                        hqScene->removeAllChildren();
+                        Director::getInstance()->purgeCachedData();
+                        hqScene->startBuildingScrollView();
+                    }
+                    else
+                    {
+                        MeHQ *hqScene = dynamic_cast<MeHQ*>(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName)->getChildByName(ConfigStorage::kMeHQName)->getChildByName(ConfigStorage::kMeHQName));
+                        if(hqScene)
+                        {
+                            hqScene->refreshGalleryLayout();
+                        }
+                    }
                 }
                 else
                 {
@@ -274,11 +304,8 @@ void ArtsAppHQElement::addListenerToDeleteButton(cocos2d::Sprite *toBeAddedTo)
                     offlineArtsAppScrollView->setName(HQScene2::kArtScrollViewName);
                     hqScene->addChild(offlineArtsAppScrollView);
                 }
-                return true;
             }
         }
-        
-        return false;
     };
     
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), toBeAddedTo);

@@ -32,7 +32,8 @@ static ConfigStorage *_sharedConfigStorage = NULL;
     const char* const ConfigStorage::kArtAppHQName = "ARTS APP";
     const char* const ConfigStorage::kMeHQName = "ME HQ";
     
-    const char* const ConfigStorage::kDefaultHQName = kGameHQName;
+    const char* const ConfigStorage::kDefaultHQName = kMeHQName;
+    const char* const ConfigStorage::kAnonDefaultHQName = kGameHQName;
     
     const char* const ConfigStorage::kRecentlyPlayedCarouselName = "LAST PLAYED";
     
@@ -129,6 +130,11 @@ std::string ConfigStorage::getFileNameFromUrl(const std::string& url)
 std::string ConfigStorage::getGameCachePath()
 {
     return FileUtils::getInstance()->getWritablePath() + "gameCache/";
+}
+    
+std::string ConfigStorage::getDefaultHQ()
+{
+    return ParentDataProvider::getInstance()->isLoggedInParentAnonymous() ? kAnonDefaultHQName : kDefaultHQName;
 }
 
 //-------------------------PRIVATE METHOD TO PARSE CONFIG JSON FILE--------

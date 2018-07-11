@@ -11,6 +11,7 @@
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
+#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 
 using namespace cocos2d;
 
@@ -43,11 +44,16 @@ bool MeHQProfileDetails::init()
     _avatar->setNormalizedPosition(Vec2(0.5,0.5));
     _avatar->setPlaceholderImage("res/oomeeMaker/1_Oomee_Reference.png");
     _avatar->loadPlaceholderImage();
-    
-    _avatar->setScale((contentSize.height * (isPortrait ? 0.35 : 0.7)) / _avatar->getContentSize().height);
-    
+    _avatar->setScale((contentSize.height * (isPortrait ? 0.45 : 0.9)) / _avatar->getContentSize().height);
+    _avatar->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType)
+    {
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(OomeeMakerEntryPointScene));
+        }
+    });
     _profileImageDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
-    _profileImageDownloader->downloadImage(this, ParentDataProvider::getInstance()->getAvatarForAnAvailableChildById(ChildDataProvider::getInstance()->getLoggedInChildId()));
+    _profileImageDownloader->downloadImage(this, ChildDataProvider::getInstance()->getLoggedInChildAvatarId());
     
     avatarLayout->addChild(_avatar);
     
@@ -56,10 +62,13 @@ bool MeHQProfileDetails::init()
     _labelLayout->setSizePercent(isPortrait ? Vec2(1.0,0.5) : Vec2(0.5,1.0));
     this->addChild(_labelLayout);
     
-    _nameLabel = ui::Text::create(ChildDataProvider::getInstance()->getLoggedInChildName(),Style::Font::Regular , 200);
+    _nameLabel = Label::createWithTTF(ChildDataProvider::getInstance()->getLoggedInChildName(),Style::Font::Regular , 200);
     _nameLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _nameLabel->setNormalizedPosition(Vec2(0.5,0.75));
     _nameLabel->setContentSize(Size(contentSize.width /2, contentSize.height / 3.0f));
+    
+    reduceLabelTextToFitWidth(_nameLabel, contentSize.width * _labelLayout->getSizePercent().x);
+    
     _labelLayout->addChild(_nameLabel);
     
     _kidCodeLabel = ui::Text::create("Kid Code: " + ParentDataProvider::getInstance()->getInviteCodeForAnAvailableChild(ChildDataProvider::getInstance()->getLoggedInChildNumber()), Style::Font::Regular, 90);

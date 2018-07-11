@@ -55,8 +55,8 @@ bool MeHQGallery::init()
        
     auto artImages = DirectorySearcher::getInstance()->getImagesInDirectory(dirPath);
 
-    if(artImages.size() > 0)
-    {
+   // if(artImages.size() > 0)
+    //{
     
         const Size& contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kArtAppHQName);
         float unitWidth = (visibleSize.width - 2 * kSideMarginSize[isPortrait]) / kUnitsOnScreen[isPortrait];
@@ -166,11 +166,11 @@ bool MeHQGallery::init()
         this->addChild(moreButton);
         
         this->setContentSize(Size(visibleSize.width, -lowestElementYPosition + kSpaceAboveCarousel[isPortrait] + 350));
-    }
-    else
-    {
-        buildEmptyCarousel();
-    }
+    //}
+    //else
+    //{
+    //    buildEmptyCarousel();
+    //}
     
     return true;
 }

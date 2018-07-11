@@ -72,15 +72,6 @@ bool MeHQDownloads::init()
     
     if(gameList.size() > 0)
     {
-    
-        ui::Text* heading2 = ui::Text::create(StringUtils::format("When you play games they’ll appear%shere, so you’ll be able to play%sthem%swhen you’re offline.", isPortrait ? "\n" : " ", isPortrait ? " " : "\n", isPortrait ? "\n" : " "), Style::Font::Regular, 80);
-        heading2->setTextHorizontalAlignment(TextHAlignment::CENTER);
-        heading2->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-        heading2->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,kContentItemMargin[isPortrait],0,0)));
-        labelLayout->addChild(heading2);
-        
-        labelLayout->setContentSize(Size(visibleSize.width, 2 * kSpaceAboveCarousel[isPortrait] + kContentItemMargin[isPortrait]));
-        
         Size contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kGameHQName);
         float unitWidth = (visibleSize.width - 2 * kSideMarginSize[isPortrait]) / kUnitsOnScreen[isPortrait];
         float unitMultiplier = unitWidth / contentItemSize.width;
@@ -196,7 +187,17 @@ void MeHQDownloads::buildEmptyCarousel()
     
     this->addChild(playGamesButton);
     
-    ui::Text* heading = ui::Text::create(StringUtils::format("Play some games and they’ll appear%shere, then you can play them\nwhen you’re offline.", isPortrait ? "\n" : " "), Style::Font::Regular, 80);
+    std::string downloadsString;
+    if(ConfigStorage::getInstance()->isDevice18x9())
+    {
+        downloadsString = StringUtils::format("Play some games and they’ll%sappear%shere, then you can play%sthem%swhen you’re offline.", isPortrait ? "\n" : " ", isPortrait ? " " : "\n", isPortrait ? "\n" : " ", isPortrait ? " " : "\n");
+    }
+    else
+    {
+        downloadsString = StringUtils::format("Play some games and they’ll appear%shere, then you can play them\nwhen you’re offline.", isPortrait ? "\n" : " ");
+    }
+    
+    ui::Text* heading = ui::Text::create(downloadsString, Style::Font::Regular, 80);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setTextHorizontalAlignment(TextHAlignment::CENTER);
     heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
