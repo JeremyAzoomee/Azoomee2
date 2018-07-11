@@ -7,6 +7,7 @@
 
 #include "ChildNameLayerFirstTime.h"
 #include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 using namespace cocos2d;
 
@@ -27,18 +28,19 @@ void ChildNameLayerFirstTime::onEnter()
     const Size& contentSize = this->getContentSize();
     
     bool isPortrait = contentSize.width < contentSize.height;
+    bool is18x9 = ConfigStorage::getInstance()->isDevice18x9();
     
-    Label* mainTitle = Label::createWithTTF(StringUtils::format("Welcome to%sAzoomee", isPortrait ? "\n" : " "), Style::Font::Regular, 200);
+    Label* mainTitle = Label::createWithTTF(StringUtils::format("Welcome to%sAzoomee", isPortrait ? "\n" : " "), Style::Font::Regular, (is18x9 && !isPortrait) ? 160 : 200);
     mainTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    mainTitle->setPosition(Vec2(contentSize.width / 2, contentSize.height - 100));
+    mainTitle->setPosition(Vec2(contentSize.width / 2, contentSize.height - ((is18x9 && !isPortrait) ? 50 : 100)));
     mainTitle->setColor(Style::Color::telish);
     mainTitle->enableGlow(Color4B(Style::Color::telish));
     mainTitle->setHorizontalAlignment(TextHAlignment::CENTER);
     this->addChild(mainTitle);
     
-    Label* subTitle = Label::createWithTTF(StringUtils::format("Let's complete%syour setup", isPortrait ? "\n" : " "), Style::Font::Regular, 150);
+    Label* subTitle = Label::createWithTTF(StringUtils::format("Let's complete%syour setup", isPortrait ? "\n" : " "), Style::Font::Regular, (is18x9 && !isPortrait) ? 120 : 150);
     subTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    subTitle->setPosition(mainTitle->getPosition() - Vec2(0, mainTitle->getContentSize().height + 50));
+    subTitle->setPosition(mainTitle->getPosition() - Vec2(0, mainTitle->getContentSize().height + ((is18x9 && !isPortrait) ? 25 : 50)));
     subTitle->setColor(Color3B::WHITE);
     subTitle->setHorizontalAlignment(TextHAlignment::CENTER);
     this->addChild(subTitle);

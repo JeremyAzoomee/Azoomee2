@@ -71,20 +71,9 @@ bool ChildCreator::addChild()
     }
     int oomeeNum = 0;
     AnalyticsSingleton::getInstance()->childProfileCreatedEvent(_age, oomeeNum);
-    HttpRequestCreator* request = nullptr;
-    if(_firstTime)
-    {
-        const std::string& oomeeUrl = ConfigStorage::getInstance()->getUrlForOomee(oomeeNum);
-        const std::string& ownerId = ParentDataProvider::getInstance()->getLoggedInParentId();
-        const std::string& childId = ParentDataProvider::getInstance()->getIDForAvailableChildren(0);
-        const std::string& url = ConfigStorage::getInstance()->getServerUrl() + "/api/user/child/" + childId;
-        request = API::UpdateChildRequest(url, childId, _childName, gender, DOB, oomeeUrl, ownerId, _delegate);
-    }
-    else
-    {
-        const std::string& oomeeUrl = ConfigStorage::getInstance()->getUrlForOomee(oomeeNum);
-        request = API::RegisterChildRequest(_childName, gender, DOB, oomeeUrl, _delegate);
-    }
+    
+    const std::string& oomeeUrl = ConfigStorage::getInstance()->getUrlForOomee(oomeeNum);
+    HttpRequestCreator* request = API::RegisterChildRequest(_childName, gender, DOB, oomeeUrl, _delegate);
     
     request->execute();
     

@@ -25,14 +25,16 @@ bool ChildOomeeLayer::init()
 
 void ChildOomeeLayer::onEnter()
 {
-    const float offset[2] = {100.0f, 200.0f};
+     bool is18x9 = ConfigStorage::getInstance()->isDevice18x9();
+    const float offset[2] = {is18x9 ? 50.0f : 100.0f, 200.0f};
     const Size& contentSize = this->getContentSize();
     
     bool isPortrait = contentSize.width < contentSize.height;
+   
     
     Label* mainTitle = Label::createWithTTF(StringUtils::format("Here is %s’s Oomee",_childCreator->getName().c_str()), Style::Font::Regular, 120);
     mainTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    mainTitle->setPosition(Vec2(contentSize.width / 2, contentSize.height - mainTitle->getContentSize().height));
+    mainTitle->setPosition(Vec2(contentSize.width / 2, contentSize.height - (mainTitle->getContentSize().height * ((is18x9 && !isPortrait) ? 0.5f : 1.0f))));
     mainTitle->setColor(Style::Color::white);
     mainTitle->enableGlow(Color4B(Style::Color::telish));
     mainTitle->setMaxLineWidth(contentSize.width * 0.9);
@@ -52,7 +54,7 @@ void ChildOomeeLayer::onEnter()
     _oomeeDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
     _oomeeDownloader->downloadImage(this, ConfigStorage::getInstance()->getUrlForOomee(0));
     
-    Label* subTitle = Label::createWithTTF(StringUtils::format("Don’t worry if they don’t like it,\nthey can change it anytime%sin the Oomee Maker.",isPortrait ? "\n" : " "), Style::Font::Regular, 90);
+    Label* subTitle = Label::createWithTTF(StringUtils::format("Don’t worry if they don’t like it,\nthey can change it anytime%sin the Oomee Maker.",isPortrait ? "\n" : " "), Style::Font::Regular, (is18x9 && !isPortrait) ? 75 : 90);
     subTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     subTitle->setPosition(_oomee->getPosition() - Vec2(0,oomeeHeight + offset[isPortrait]));
     subTitle->setColor(Color3B::WHITE);
