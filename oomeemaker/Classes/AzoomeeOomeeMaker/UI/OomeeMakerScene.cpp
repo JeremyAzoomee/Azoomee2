@@ -74,6 +74,7 @@ void OomeeMakerScene::addBGLayer()
     bgCircle1->setScale(0);
     bgCircle1->setOpacity(25);
     bgCircle1->setRotation(RandomHelper::random_real(0.0,M_PI));
+    bgCircle1->setColor(Style::Color::darkTeal);
     _contentLayer->addChild(bgCircle1);
     
     auto popIn1 = EaseBackOut::create(ScaleTo::create(0.5, ((contentSize.width * 0.35) / bgCircle1->getContentSize().height)));
@@ -88,6 +89,7 @@ void OomeeMakerScene::addBGLayer()
     bgCircle2->setScale(0);
     bgCircle2->setOpacity(25);
     bgCircle2->setRotation(RandomHelper::random_real(0.0,M_PI));
+    bgCircle2->setColor(Style::Color::darkTeal);
     _contentLayer->addChild(bgCircle2);
     
     auto popIn2 = EaseBackOut::create(ScaleTo::create(0.5, ((contentSize.width * 0.45) / bgCircle2->getContentSize().height)));
@@ -206,10 +208,22 @@ void OomeeMakerScene::onEnter()
     });
     _contentLayer->addChild(exitButton);
     
+    ui::Button* makeAvatarButon = ui::Button::create();
+    makeAvatarButon->loadTextureNormal("res/oomeeMaker/make_oomee_button.png");
+    makeAvatarButon->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    makeAvatarButon->setPosition(Vec2(contentSize.width * 0.42, makeAvatarButon->getContentSize().height));
+    makeAvatarButon->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            this->makeAvatar();
+        }
+    });
+    _contentLayer->addChild(makeAvatarButon);
+    
     _undoButton = ui::Button::create();
     _undoButton->loadTextureNormal("res/oomeeMaker/undo.png");
-    _undoButton->setAnchorPoint(Vec2(-0.25, 1.25));
-    _undoButton->setPosition(Vec2(exitButton->getContentSize().width * 1.5, contentSize.height));
+    _undoButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _undoButton->setPosition(makeAvatarButon->getPosition() - Vec2(makeAvatarButon->getContentSize().width * 1.25,0));
     _undoButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
@@ -218,14 +232,17 @@ void OomeeMakerScene::onEnter()
     });
     _contentLayer->addChild(_undoButton);
     
-    ui::Button* makeAvatarButon = ui::Button::create();
-    makeAvatarButon->loadTextureNormal("res/oomeeMaker/make_oomee_button_1.png");
-    makeAvatarButon->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    makeAvatarButon->setPosition(Vec2(contentSize.width * 0.42, makeAvatarButon->getContentSize().height));
-    makeAvatarButon->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
-        this->makeAvatar();
+    ui::Button* shareOomeeButon = ui::Button::create();
+    shareOomeeButon->loadTextureNormal("res/oomeeMaker/share_button.png");
+    shareOomeeButon->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    shareOomeeButon->setPosition(makeAvatarButon->getPosition() + Vec2(makeAvatarButon->getContentSize().width * 1.25, 0));
+    shareOomeeButon->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            this->shareOomee();
+        }
     });
-    _contentLayer->addChild(makeAvatarButon);
+    _contentLayer->addChild(shareOomeeButon);
     
     Super::onEnter();
 }
@@ -319,7 +336,63 @@ void OomeeMakerScene::makeAvatar()
         {
             delegate->onOomeeMakerUpdateAvatar(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".png");
         }
+        displayMadeAvatarNotification();
     }, this, 0.5, 0, 0, false, scheduleKey);
+    
+}
+
+void OomeeMakerScene::shareOomee()
+{
+    ModalMessages::getInstance()->startSaving();
+    
+    const std::string scheduleKey = "saveAndExit";
+    Director::getInstance()->getScheduler()->schedule([&](float dt){
+        saveOomeeFiles();
+        ModalMessages::getInstance()->stopSaving();
+        if(delegate)
+        {
+            delegate->onOomeeMakerShareOomee(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".png");
+        }
+    }, this, 0.5, 0, 0, false, scheduleKey);
+}
+
+void OomeeMakerScene::displayMadeAvatarNotification()
+{
+    Texture2D* particleTex = Director::getInstance()->getTextureCache()->addImage("res/oomeemaker/confetti_particle.png");
+    
+    auto particles = ParticleFireworks::create();
+    particles->cocos2d::ParticleSystem::setTotalParticles(100);
+    particles->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+    particles->setEmissionRate(25);
+    particles->setDuration(4.0f);
+    particles->setScale(4.0f);
+    particles->setGravity(Vec2(0,-200));
+    particles->setPosVar(Vec2(120, 10));
+    particles->setStartSpinVar(180);
+    particles->setStartColor(Color4F(0.0,0.0,0.0,1.0));
+    particles->setStartColorVar(Color4F(1.0,1.0,1.0,0.0));
+    particles->setEndColorVar(Color4F(1.0,1.0,1.0,0.0));
+    particles->setEndColor(Color4F(0.0,0.0,0.0,1.0));
+    particles->cocos2d::ParticleSystem::setTexture(particleTex);
+    particles->setPosition(Vec2(_contentLayer->getContentSize().width * 0.42, _contentLayer->getContentSize().height));
+    particles->setAutoRemoveOnFinish(true);
+    _contentLayer->addChild(particles,10);
+    
+    auto banner = ui::Scale9Sprite::create("res/artapp/popup_bg.png");
+    banner->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    banner->setPosition(Vec2(_contentLayer->getContentSize().width * 0.42, _contentLayer->getContentSize().height));
+    banner->setContentSize(Size(_contentLayer->getContentSize().width * 0.43 , 400));
+    banner->setColor(Style::Color::darkGreenBlue);
+    banner->runAction(Sequence::create(MoveBy::create(1.0, Vec2(0,-200)), DelayTime::create(3.0f),MoveBy::create(1.0, Vec2(0,200)),CallFunc::create([=](){
+        banner->removeFromParent();
+    }),NULL));
+    _contentLayer->addChild(banner,10);
+    
+    auto bannerLabel = Label::createWithTTF("This is Your New Avatar!", Style::Font::Regular, 83);
+    bannerLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    bannerLabel->setNormalizedPosition(Vec2(0.5, 0.25));
+    bannerLabel->setColor(Color3B::WHITE);
+    banner->addChild(bannerLabel);
     
 }
 

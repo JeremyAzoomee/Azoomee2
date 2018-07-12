@@ -364,42 +364,6 @@ public class NativeMediaPlayer extends Activity {
 
         float buttonPadding = _buttonWidth / 8.0f;
 
-        final ImageButton closeButton = new ImageButton(this);
-        closeButton.setImageResource(R.drawable.close_unelected);
-        closeButton.setTag(R.drawable.close_unelected);
-
-        closeButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
-        closeButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-
-                Integer resource = (Integer)closeButton.getTag();
-                if(resource == R.drawable.close_selected)
-                {
-                    closeButton.setImageResource(R.drawable.close_unelected);
-                    closeButton.setTag(R.drawable.close_unelected);
-                }
-                else
-                {
-                    closeButton.setImageResource(R.drawable.close_selected);
-                    closeButton.setTag(R.drawable.close_selected);
-                }
-
-                exitMediaplayer();
-            }
-        });
-        closeButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
-
-        closeButton.setX(buttonPadding);
-        closeButton.setY(buttonPadding + _buttonWidth);
-
-        // Add button to screen, with Size and Position
-        addContentView(closeButton, buttonLayoutParams);
-
-        imageButtonStatic = closeButton;
-
         final ImageButton favButton = new ImageButton(this);
         if(JNICalls.JNIIsInFavourites())
         {
@@ -497,11 +461,47 @@ public class NativeMediaPlayer extends Activity {
 
         burgerButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
         burgerButton.setX(buttonPadding);
-        burgerButton.setY(buttonPadding);
+        burgerButton.setY(buttonPadding + _buttonWidth);
 
         addContentView(burgerButton, buttonLayoutParams);
 
         burgerButtonStatic = burgerButton;
+
+        final ImageButton closeButton = new ImageButton(this);
+        closeButton.setImageResource(R.drawable.close_unelected);
+        closeButton.setTag(R.drawable.close_unelected);
+
+        closeButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
+        closeButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+
+                Integer resource = (Integer)closeButton.getTag();
+                if(resource == R.drawable.close_selected)
+                {
+                    closeButton.setImageResource(R.drawable.close_unelected);
+                    closeButton.setTag(R.drawable.close_unelected);
+                }
+                else
+                {
+                    closeButton.setImageResource(R.drawable.close_selected);
+                    closeButton.setTag(R.drawable.close_selected);
+                }
+
+                exitMediaplayer();
+            }
+        });
+        closeButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
+
+        closeButton.setX(buttonPadding);
+        closeButton.setY(buttonPadding);
+
+        // Add button to screen, with Size and Position
+        addContentView(closeButton, buttonLayoutParams);
+
+        imageButtonStatic = closeButton;
 
         _uiExpanded = true;
         animateButtons();
@@ -519,10 +519,14 @@ public class NativeMediaPlayer extends Activity {
         //and the animations are done relative to that.  when buttons are in the "closed" state, they are dissabled.
         if(_uiExpanded)
         {
-            TranslateAnimation closeButtonAnim = new TranslateAnimation(0,burgerButtonStatic.getX() - imageButtonStatic.getX(),0,burgerButtonStatic.getY() - imageButtonStatic.getY());
-            closeButtonAnim.setDuration(750);
-            closeButtonAnim.setFillAfter(true);
-            closeButtonAnim.setAnimationListener(new TranslateAnimation.AnimationListener() {
+            //TranslateAnimation closeButtonAnim = new TranslateAnimation(0,burgerButtonStatic.getX() - imageButtonStatic.getX(),0,burgerButtonStatic.getY() - imageButtonStatic.getY());
+            //closeButtonAnim.setDuration(500);
+            //closeButtonAnim.setFillAfter(true);
+            //imageButtonStatic.startAnimation(closeButtonAnim);
+            TranslateAnimation favButtonAnim = new TranslateAnimation(0,burgerButtonStatic.getX() - favButtonStatic.getX(),0,burgerButtonStatic.getY() - favButtonStatic.getY());
+            favButtonAnim.setDuration(500);
+            favButtonAnim.setFillAfter(true);
+            favButtonAnim.setAnimationListener(new TranslateAnimation.AnimationListener() {
 
                 @Override
                 public void onAnimationStart(Animation animation) {
@@ -536,28 +540,28 @@ public class NativeMediaPlayer extends Activity {
                 @Override
                 public void onAnimationEnd(Animation animation) {
                     _isAnimating = false;
-                    imageButtonStatic.setClickable(false);
+                    //imageButtonStatic.setClickable(false);
                     shareButtonStatic.setClickable(false);
                     favButtonStatic.setClickable(false);
                 }
             });
-            imageButtonStatic.startAnimation(closeButtonAnim);
-            TranslateAnimation favButtonAnim = new TranslateAnimation(0,burgerButtonStatic.getX() - favButtonStatic.getX(),0,burgerButtonStatic.getY() - favButtonStatic.getY());
-            favButtonAnim.setDuration(750);
-            favButtonAnim.setFillAfter(true);
             favButtonStatic.startAnimation(favButtonAnim);
             TranslateAnimation shareButtonAnim = new TranslateAnimation(0,burgerButtonStatic.getX() - shareButtonStatic.getX(),0,burgerButtonStatic.getY() - shareButtonStatic.getY());
-            shareButtonAnim.setDuration(750);
+            shareButtonAnim.setDuration(500);
             shareButtonAnim.setFillAfter(true);
             shareButtonStatic.startAnimation(shareButtonAnim);
             _uiExpanded = false;
         }
         else
         {
-            TranslateAnimation closeButtonAnim = new TranslateAnimation(burgerButtonStatic.getX() - imageButtonStatic.getX(),  0, burgerButtonStatic.getY() - imageButtonStatic.getY(), 0);
-            closeButtonAnim.setDuration(750);
-            closeButtonAnim.setFillAfter(true);
-            closeButtonAnim.setAnimationListener(new TranslateAnimation.AnimationListener() {
+            //TranslateAnimation closeButtonAnim = new TranslateAnimation(burgerButtonStatic.getX() - imageButtonStatic.getX(),  0, burgerButtonStatic.getY() - imageButtonStatic.getY(), 0);
+            //closeButtonAnim.setDuration(500);
+            //closeButtonAnim.setFillAfter(true);
+            //imageButtonStatic.startAnimation(closeButtonAnim);
+            TranslateAnimation favButtonAnim = new TranslateAnimation(burgerButtonStatic.getX() - favButtonStatic.getX(), 0 , burgerButtonStatic.getY() - favButtonStatic.getY(), 0);
+            favButtonAnim.setDuration(500);
+            favButtonAnim.setFillAfter(true);
+            favButtonAnim.setAnimationListener(new TranslateAnimation.AnimationListener() {
 
                 @Override
                 public void onAnimationStart(Animation animation) {
@@ -571,18 +575,14 @@ public class NativeMediaPlayer extends Activity {
                 @Override
                 public void onAnimationEnd(Animation animation) {
                     _isAnimating = false;
-                    imageButtonStatic.setClickable(true);
+                    //imageButtonStatic.setClickable(true);
                     shareButtonStatic.setClickable(true);
                     favButtonStatic.setClickable(true);
                 }
             });
-            imageButtonStatic.startAnimation(closeButtonAnim);
-            TranslateAnimation favButtonAnim = new TranslateAnimation(burgerButtonStatic.getX() - favButtonStatic.getX(), 0 , burgerButtonStatic.getY() - favButtonStatic.getY(), 0);
-            favButtonAnim.setDuration(750);
-            favButtonAnim.setFillAfter(true);
             favButtonStatic.startAnimation(favButtonAnim);
             TranslateAnimation shareButtonAnim = new TranslateAnimation(burgerButtonStatic.getX() - shareButtonStatic.getX(), 0 , burgerButtonStatic.getY() - shareButtonStatic.getY(), 0);
-            shareButtonAnim.setDuration(750);
+            shareButtonAnim.setDuration(500);
             shareButtonAnim.setFillAfter(true);
             shareButtonStatic.startAnimation(shareButtonAnim);
             _uiExpanded = true;

@@ -46,6 +46,9 @@ private:
     
     void makeAvatar();
     void undo();
+    void shareOomee();
+    
+    void displayMadeAvatarNotification();
     
 public:
     

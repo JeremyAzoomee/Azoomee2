@@ -91,14 +91,14 @@ bool MeHQ::init()
     _contentListView->pushBackCustomItem(galleryLayout);
     _sectionIndexMap[kGalleryLayerName] = indexNum++;
     
-    //auto favouriteLayout = MeHQFavourites::create();
-    //favouriteLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
-    //favouriteLayout->setRefreshCallback([this](){
-    //    this->refreshFavouritesLayout();
-    //});
-    //favouriteLayout->setName(kFavoritesLayerName);
-    //_contentListView->pushBackCustomItem(favouriteLayout);
-    //_sectionIndexMap[kFavoritesLayerName] = indexNum++;
+    auto favouriteLayout = MeHQFavourites::create();
+    favouriteLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
+    favouriteLayout->setRefreshCallback([this](){
+        this->refreshFavouritesLayout();
+    });
+    favouriteLayout->setName(kFavoritesLayerName);
+    _contentListView->pushBackCustomItem(favouriteLayout);
+    _sectionIndexMap[kFavoritesLayerName] = indexNum++;
     
     auto downloadsLayout = MeHQDownloads::create();
     downloadsLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());

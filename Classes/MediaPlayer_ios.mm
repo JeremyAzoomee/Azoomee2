@@ -101,13 +101,6 @@ using namespace Azoomee;
     screenSize.width -= buttonWidth * 1.5f;
     screenSize.height -= buttonWidth * 1.5f;
     
-    _burgerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_burgerButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [_burgerButton setFrame:CGRectMake(buttonWidth/4, buttonWidth/4, buttonWidth, buttonWidth)];
-    [_burgerButton setExclusiveTouch:YES];
-    [_burgerButton setImage:[UIImage imageNamed:@"res/webview_buttons/menu_unselected.png"] forState:UIControlStateNormal];
-    [_burgerButton setImage:[UIImage imageNamed:@"res/webview_buttons/menu_selected.png"] forState:UIControlStateSelected];
-    
     _backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_backButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [_backButton setFrame:CGRectMake(buttonWidth/4, buttonWidth/4, buttonWidth, buttonWidth)];
@@ -115,9 +108,16 @@ using namespace Azoomee;
     [_backButton setImage:[UIImage imageNamed:@"res/webview_buttons/close_unselected.png"] forState:UIControlStateNormal];
     [_backButton setImage:[UIImage imageNamed:@"res/webview_buttons/close_selected.png"] forState:UIControlStateSelected];
     
+    _burgerButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_burgerButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [_burgerButton setFrame:CGRectMake(buttonWidth/4, buttonWidth/4 + buttonWidth, buttonWidth, buttonWidth)];
+    [_burgerButton setExclusiveTouch:YES];
+    [_burgerButton setImage:[UIImage imageNamed:@"res/webview_buttons/menu_unselected.png"] forState:UIControlStateNormal];
+    [_burgerButton setImage:[UIImage imageNamed:@"res/webview_buttons/menu_selected.png"] forState:UIControlStateSelected];
+    
     _favButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_favButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [_favButton setFrame:CGRectMake(buttonWidth/4, buttonWidth/4, buttonWidth, buttonWidth)];
+    [_favButton setFrame:CGRectMake(buttonWidth/4, buttonWidth/4 + buttonWidth, buttonWidth, buttonWidth)];
     [_favButton setExclusiveTouch:YES];
     [_favButton setImage:[UIImage imageNamed:@"res/webview_buttons/favourite_unselected.png"] forState:UIControlStateNormal];
     [_favButton setImage:[UIImage imageNamed:@"res/webview_buttons/favourite_selected.png"] forState:UIControlStateSelected];
@@ -128,15 +128,15 @@ using namespace Azoomee;
     
     _shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_shareButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [_shareButton setFrame:CGRectMake(buttonWidth/4, buttonWidth/4, buttonWidth, buttonWidth)];
+    [_shareButton setFrame:CGRectMake(buttonWidth/4, buttonWidth/4 + buttonWidth, buttonWidth, buttonWidth)];
     [_shareButton setExclusiveTouch:YES];
     [_shareButton setImage:[UIImage imageNamed:@"res/webview_buttons/share_unselected.png"] forState:UIControlStateNormal];
     [_shareButton setImage:[UIImage imageNamed:@"res/webview_buttons/share_selected.png"] forState:UIControlStateSelected];
     
-    [self.view addSubview:_backButton];
     [self.view addSubview:_favButton];
     [self.view addSubview:_shareButton];
     [self.view addSubview:_burgerButton];
+    [self.view addSubview:_backButton];
     
     _uiExpanded = false;
 }
@@ -181,18 +181,18 @@ using namespace Azoomee;
     if(_uiExpanded)
     {
         // animate
-        [UIView animateWithDuration:0.75 animations:^{
-            _backButton.frame = CGRectMake(_buttonWidth/4, _buttonWidth/4, _buttonWidth, _buttonWidth);
-            _favButton.frame = CGRectMake(_buttonWidth/4, _buttonWidth/4, _buttonWidth, _buttonWidth);
-            _shareButton.frame = CGRectMake(_buttonWidth/4, _buttonWidth/4, _buttonWidth, _buttonWidth);
+        [UIView animateWithDuration:0.5 animations:^{
+            //_backButton.frame = CGRectMake(_buttonWidth/4, _buttonWidth/4, _buttonWidth, _buttonWidth);
+            _favButton.frame = CGRectMake(_buttonWidth/4, _buttonWidth/4 + _buttonWidth, _buttonWidth, _buttonWidth);
+            _shareButton.frame = CGRectMake(_buttonWidth/4, _buttonWidth/4 + _buttonWidth, _buttonWidth, _buttonWidth);
         }];
         _uiExpanded = false;
     }
     else
     {
         // animate
-        [UIView animateWithDuration:0.75 animations:^{
-            _backButton.frame = CGRectMake(_buttonWidth/4, _buttonWidth/4 + _buttonWidth, _buttonWidth, _buttonWidth);
+        [UIView animateWithDuration:0.5 animations:^{
+            //_backButton.frame = CGRectMake(_buttonWidth/4, _buttonWidth/4 + _buttonWidth, _buttonWidth, _buttonWidth);
             _favButton.frame = CGRectMake(_buttonWidth/4, _buttonWidth/4 + (2  * _buttonWidth), _buttonWidth, _buttonWidth);
             _shareButton.frame = CGRectMake(_buttonWidth/4, _buttonWidth/4 + (3 * _buttonWidth), _buttonWidth, _buttonWidth);
         }];

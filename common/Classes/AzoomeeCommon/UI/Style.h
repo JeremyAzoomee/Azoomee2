@@ -42,6 +42,8 @@ namespace Color
     const cocos2d::Color3B blueGreen(16, 117, 114);
     const cocos2d::Color3B telish(38, 192, 180);
     const cocos2d::Color3B greyBlue(124, 172, 179);
+    const cocos2d::Color3B darkGreenBlue(21, 88, 98);
+    const cocos2d::Color3B darkTeal(1, 46, 46);
     
     // These colors below don't have exact names in Zeplin.
     // So the names have been chosen to be close enough to other Zeplin colors.
