@@ -269,4 +269,9 @@ void OomeeCarousel::setButtonDelegate(OomeeCarouselButtonDelegate* delegate)
     }
 }
 
+OomeeCarouselButton* OomeeCarousel::getCenterButton()
+{
+    return dynamic_cast<OomeeCarouselButton*>(_centerButton);
+}
+
 NS_AZOOMEE_OM_END

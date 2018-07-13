@@ -38,6 +38,8 @@ public:
     
     static void newOomee();
     
+    void toggleMakeAvatarHiglight();
+    
     //Delegate functions
     virtual void editOomee(const std::string& oomeeFileName) override;
     virtual void deleteOomee(const std::string& oomeeFilename) override;

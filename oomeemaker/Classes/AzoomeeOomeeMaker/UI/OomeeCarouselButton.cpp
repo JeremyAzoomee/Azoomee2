@@ -59,7 +59,8 @@ void OomeeCarouselButton::onEnter()
     _innerCircle->setPosition(Vec2(this->getContentSize().width / 2, (_outerCircle->getContentSize().height * targetScale) / 2.5));
     _outerCircle->setPosition(Vec2(this->getContentSize().width / 2, (_outerCircle->getContentSize().height * targetScale) / 2.5));
     
-    enableHighlight(false);
+    _outerCircle->setColor(Style::Color::darkTeal);
+    _innerCircle->setColor(Style::Color::darkTeal);
     
     _deleteButton = ui::Button::create("res/oomeeMaker/bin_button.png");
     _deleteButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -228,13 +229,13 @@ void OomeeCarouselButton::enableHighlight(bool enable)
 {
     if(enable)
     {
-        _outerCircle->setColor(Style::Color::brightAqua);
-        _innerCircle->setColor(Style::Color::brightAqua);
+        _outerCircle->runAction(TintTo::create(0.5, Style::Color::brightAqua));
+        _innerCircle->runAction(TintTo::create(0.5, Style::Color::brightAqua));
     }
     else
     {
-        _outerCircle->setColor(Style::Color::darkTeal);
-        _innerCircle->setColor(Style::Color::darkTeal);
+        _outerCircle->runAction(TintTo::create(0.5, Style::Color::darkTeal));
+        _innerCircle->runAction(TintTo::create(0.5, Style::Color::darkTeal));
     }
 }
 

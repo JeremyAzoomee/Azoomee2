@@ -12,6 +12,7 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 #include <AzoomeeCommon/Utils/TimeFunctions.h>
+#include <AzoomeeCommon/UI/Style.h>
 
 using namespace cocos2d;
 
@@ -101,6 +102,38 @@ void OomeeSelectScene::setCarouselData()
     _oomeeCarousel->setOomeeData(trimmedFilenames);
 }
 
+void OomeeSelectScene::toggleMakeAvatarHiglight()
+{
+    auto centerButton = _oomeeCarousel->getCenterButton();
+    if(centerButton)
+    {
+        this->runAction(Sequence::create(
+        CallFunc::create([=](){
+            centerButton->enableHighlight(true);
+        }), DelayTime::create(4.0f),
+        CallFunc::create([=](){
+            centerButton->enableHighlight(false);
+        }), NULL));
+        
+        auto banner = ui::Scale9Sprite::create("res/oomeeMaker/popup_window.png");
+        banner->setAnchorPoint(Vec2(0.0,1.25));
+        banner->setPosition(Vec2(_contentLayer->getContentSize().width, _contentLayer->getContentSize().height));
+        banner->setContentSize(Size(_contentLayer->getContentSize().width * 0.315 , 216));
+        banner->setColor(Style::Color::white);
+        banner->runAction(Sequence::create(MoveBy::create(0.5, Vec2(-banner->getContentSize().width,0)), DelayTime::create(3.0f),MoveBy::create(0.5, Vec2(banner->getContentSize().width,0)),CallFunc::create([=](){
+            banner->removeFromParent();
+        }),NULL));
+        _contentLayer->addChild(banner,10);
+        
+        auto bannerLabel = Label::createWithTTF("This is Your New Avatar!", Style::Font::Regular, 73);
+        bannerLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+        bannerLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+        bannerLabel->setColor(Color3B::BLACK);
+        banner->addChild(bannerLabel);
+        
+    }
+}
+
 // delegate functions
 
 void OomeeSelectScene::editOomee(const std::string& oomeeFileName)
@@ -114,6 +147,7 @@ void OomeeSelectScene::deleteOomee(const std::string &oomeeFilename)
 {
     if(OomeeMakerDataHandler::getInstance()->deleteOomee(oomeeFilename))
     {
+        stopAllActions();
         setCarouselData();
         this->getScheduler()->schedule([this](float deltaT){
             _oomeeCarousel->centerButtons();

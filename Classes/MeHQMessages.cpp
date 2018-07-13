@@ -31,7 +31,7 @@ bool MeHQMessages::init()
     this->setContentSize(Size(Director::getInstance()->getVisibleSize().width, 200));
     setLayoutType(ui::Layout::Type::VERTICAL);
     
-    ui::Text* heading = ui::Text::create("My Last Messages", Style::Font::Regular, 100);
+    ui::Text* heading = ui::Text::create("My Last Messages", Style::Font::Regular, 115);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,50)));
     heading->setContentSize(Size(this->getContentSize().width, 200));
@@ -122,7 +122,7 @@ void MeHQMessages::createMessageList()
     
     ui::Text* heading = ui::Text::create("My Last Messages", Style::Font::Regular, 100);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+    heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,50)));
     heading->setContentSize(Size(this->getContentSize().width, 200));
     this->addChild(heading);
     
@@ -131,10 +131,10 @@ void MeHQMessages::createMessageList()
         for(const Chat::MessageRef& message : _messages)
         {
             ui::Layout* messageLayout = ui::Layout::create();
-            messageLayout->setContentSize(Size(visibleSize.width * 0.9, 500));
-            messageLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
-            messageLayout->setBackGroundImage("res/decoration/message_bar_container.png");
-            messageLayout->setBackGroundImageScale9Enabled(true);
+            messageLayout->setContentSize(Size(visibleSize.width * 0.9, 400));
+            messageLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+            //messageLayout->setBackGroundImage("res/decoration/message_bar_container.png");
+            //messageLayout->setBackGroundImageScale9Enabled(true);
             
             Chat::AvatarWidget* avatar = Chat::AvatarWidget::create();
             
@@ -153,10 +153,10 @@ void MeHQMessages::createMessageList()
             avatar->setContentSize(Size(300,300));
             messageLayout->addChild(avatar);
             
-            float textPos = isPortrait ? 0.40 : 0.25;
-            float maxWidth = this->getContentSize().width * (1 - textPos - 0.1);
+            float textPos = isPortrait ? 0.30 : 0.2;
+            float maxWidth = this->getContentSize().width * (1 - textPos - 0.05);
             
-            Label* senderName = Label::createWithTTF(message->senderName(), Style::Font::Regular, 120);
+            Label* senderName = Label::createWithTTF(message->senderName(), Style::Font::Regular, 97);
             senderName->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
             senderName->setNormalizedPosition(Vec2(textPos,0.66));
             
@@ -164,7 +164,7 @@ void MeHQMessages::createMessageList()
             
             messageLayout->addChild(senderName);
             
-            Label* messageText = Label::createWithTTF("", Style::Font::Regular, 72);
+            Label* messageText = Label::createWithTTF("", Style::Font::Regular, 82);
             std::string text = message->messageText();
             if(message->messageType() == Chat::Message::MessageTypeArt)
             {
@@ -214,7 +214,7 @@ void MeHQMessages::createMessageList()
             });
             messageLayout->setTouchEnabled(true);
             
-            totalHeight += messageLayout->getContentSize().height + 100;
+            totalHeight += messageLayout->getContentSize().height;
         }
     
         this->setContentSize(Size(visibleSize.width ,totalHeight));

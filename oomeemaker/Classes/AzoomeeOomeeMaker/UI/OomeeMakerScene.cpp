@@ -336,7 +336,6 @@ void OomeeMakerScene::makeAvatar()
         {
             delegate->onOomeeMakerUpdateAvatar(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".png");
         }
-        displayMadeAvatarNotification();
     }, this, 0.5, 0, 0, false, scheduleKey);
     
 }
@@ -363,11 +362,11 @@ void OomeeMakerScene::displayMadeAvatarNotification()
     auto particles = ParticleFireworks::create();
     particles->cocos2d::ParticleSystem::setTotalParticles(100);
     particles->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    particles->setEmissionRate(25);
-    particles->setDuration(4.0f);
+    particles->setEmissionRate(33);
+    particles->setDuration(2.0f);
     particles->setScale(4.0f);
     particles->setGravity(Vec2(0,-200));
-    particles->setPosVar(Vec2(120, 10));
+    particles->setPosVar(Vec2(100, 10));
     particles->setStartSpinVar(180);
     particles->setStartColor(Color4F(0.0,0.0,0.0,1.0));
     particles->setStartColorVar(Color4F(1.0,1.0,1.0,0.0));
@@ -383,7 +382,7 @@ void OomeeMakerScene::displayMadeAvatarNotification()
     banner->setPosition(Vec2(_contentLayer->getContentSize().width * 0.42, _contentLayer->getContentSize().height));
     banner->setContentSize(Size(_contentLayer->getContentSize().width * 0.43 , 400));
     banner->setColor(Style::Color::darkGreenBlue);
-    banner->runAction(Sequence::create(MoveBy::create(1.0, Vec2(0,-200)), DelayTime::create(3.0f),MoveBy::create(1.0, Vec2(0,200)),CallFunc::create([=](){
+    banner->runAction(Sequence::create(MoveBy::create(1.0, Vec2(0,-200)), DelayTime::create(2.0f),MoveBy::create(1.0, Vec2(0,200)),CallFunc::create([=](){
         banner->removeFromParent();
     }),NULL));
     _contentLayer->addChild(banner,10);

@@ -48,8 +48,6 @@ private:
     void undo();
     void shareOomee();
     
-    void displayMadeAvatarNotification();
-    
 public:
     
     virtual bool init() override;
@@ -57,6 +55,7 @@ public:
     virtual void onEnterTransitionDidFinish() override;
     
     void setFilename(const std::string& filename);
+    void displayMadeAvatarNotification();
     
     CREATE_FUNC(OomeeMakerScene);
 };

@@ -30,6 +30,8 @@ private:
     
     void buildEmptyCarousel();
     
+    
+    
 protected:
     virtual void onSizeChanged() override;
     

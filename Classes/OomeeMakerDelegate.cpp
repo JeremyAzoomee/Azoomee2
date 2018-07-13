@@ -9,8 +9,12 @@
 #include "ChatDelegate.h"
 #include "SceneManagerScene.h"
 #include "HQHistoryManager.h"
-#include "BackEndCaller.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
+#include <AzoomeeOomeeMaker/UI/OomeeMakerScene.h>
+#include <AzoomeeOomeeMaker/UI/OomeeSelectScene.h>
+#include <AzoomeeCommon/API/API.h>
+#include <AzoomeeCommon/UI/ModalMessages.h>
 
 USING_NS_CC;
 
@@ -56,10 +60,44 @@ void OomeeMakerDelegate::onOomeeMakerShareOomee(const std::string& filename)
 
 void OomeeMakerDelegate::onOomeeMakerUpdateAvatar(const std::string &filename)
 {
+    ModalMessages::getInstance()->startLoading();
     const std::string& imageData = FileUtils::getInstance()->getStringFromFile(filename);
     char* str = nullptr;
     base64Encode((unsigned char*)imageData.c_str(), (unsigned int)imageData.length(), &str);
-    BackEndCaller::getInstance()->updateChildAvatar(ChildDataProvider::getInstance()->getLoggedInChildId(), str);
+    
+    HttpRequestCreator* request = API::UpdateChildAvatar(ChildDataProvider::getInstance()->getLoggedInChildId(), str, this);
+    request->execute();
+}
+
+void OomeeMakerDelegate::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
+{
+    if(requestTag == API::TagUpdateChildAvatar)
+    {
+        rapidjson::Document json;
+        json.Parse(body.c_str());
+        ChildDataParser::getInstance()->setLoggedInChildAvatarId(getStringFromJson("avatar", json));
+        ImageDownloaderRef imageDownloader = ImageDownloader::create("imageCache/", ImageDownloader::CacheMode::File );
+        imageDownloader->downloadImage(nullptr, getStringFromJson("avatar", json), true);
+        
+        ModalMessages::getInstance()->stopLoading();
+        auto scene = Director::getInstance()->getRunningScene();
+        OomeeMaker::OomeeSelectScene* selectScene = dynamic_cast<OomeeMaker::OomeeSelectScene*>(scene);
+        if(selectScene)
+        {
+            selectScene->toggleMakeAvatarHiglight();
+            return;
+        }
+        OomeeMaker::OomeeMakerScene* makerScene = dynamic_cast<OomeeMaker::OomeeMakerScene*>(scene);
+        if(makerScene)
+        {
+            makerScene->displayMadeAvatarNotification();
+        }
+        
+    }
+}
+void OomeeMakerDelegate::onHttpRequestFailed(const std::string& requestTag, long errorCode)
+{
+    ModalMessages::getInstance()->stopLoading();
 }
 
 NS_AZOOMEE_END
