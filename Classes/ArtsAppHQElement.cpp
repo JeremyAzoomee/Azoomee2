@@ -26,6 +26,7 @@ bool ArtsAppHQElement::initWithURLAndSize(const std::string& filePath, const Siz
     }
     
     _elementActive = true;
+    _newImage = newImage;
     
     this->setCascadeOpacityEnabled(true);
     this->setContentSize(size);
@@ -53,7 +54,7 @@ bool ArtsAppHQElement::initWithURLAndSize(const std::string& filePath, const Siz
     
     addOverlay();
     
-    if(deletable == true)
+    if(deletable)
     {
         _deleteButton = addDeleteButton();
         addListenerToDeleteButton(_deleteButton);
@@ -177,8 +178,10 @@ void ArtsAppHQElement::addLockToElement()
 
 Sprite* ArtsAppHQElement::addDeleteButton()
 {
-    auto delButton = Sprite::create("res/arthqscene/delete.png");
-    delButton->setPosition(this->getContentSize().width - 80, this->getContentSize().height - 80);
+    auto delButton = Sprite::create("res/buttons/close_button_me_page.png");
+    delButton->setAnchorPoint(Vec2(-0.25,1.25));
+    delButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
+    delButton->setScale(0.75);
     delButton->setOpacity(0);
     this->addChild(delButton,1);
     
@@ -379,7 +382,7 @@ void ArtsAppHQElement::addListenerToElement()
             _overlayWhenTouched->setOpacity(0);
             _overlayWhenTouched->stopAllActions();
             
-            if(_imageURL.substr(_imageURL.length() - 7) == "new.png")
+            if(_newImage)
             {
                 ArtAppDelegate::getInstance()->setFileName("");
             }

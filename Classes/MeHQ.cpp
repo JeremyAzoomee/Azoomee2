@@ -152,8 +152,15 @@ void MeHQ::refreshMessagesLayout()
 void MeHQ::refreshGalleryLayout()
 {
     float scrollPercent = _contentListView->getScrolledPercentVertical();
+    MeHQGallery* galleryLayer = dynamic_cast<MeHQGallery*>(_contentListView->getItem(_sectionIndexMap[kGalleryLayerName]));
+    bool expanded = false;
+    if(galleryLayer)
+    {
+        expanded = galleryLayer->_expanded;
+    }
     _contentListView->removeItem(_sectionIndexMap[kGalleryLayerName]);
     auto galleryLayout = MeHQGallery::create();
+    galleryLayout->_expanded = expanded;
     galleryLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
     _contentListView->insertCustomItem(galleryLayout, _sectionIndexMap[kGalleryLayerName]);
     

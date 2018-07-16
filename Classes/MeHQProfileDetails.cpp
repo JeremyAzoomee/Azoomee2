@@ -57,6 +57,12 @@ bool MeHQProfileDetails::init()
     
     avatarLayout->addChild(_avatar);
     
+    Sprite* editIcon = Sprite::create("res/oomeeMaker/edit_button.png");
+    editIcon->setAnchorPoint(Vec2(1.25,1.25));
+    editIcon->setPosition(_avatar->getContentSize());
+    editIcon->setScale(0.5);
+    _avatar->addChild(editIcon);
+    
     _labelLayout = ui::Layout::create();
     _labelLayout->setSizeType(ui::Widget::SizeType::PERCENT);
     _labelLayout->setSizePercent(isPortrait ? Vec2(1.0,0.34) : Vec2(0.5,1.0));

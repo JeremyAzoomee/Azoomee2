@@ -38,6 +38,8 @@ public:
     virtual void onEnter() override;
     virtual void onExit() override;
     
+    bool _expanded = false;
+    
     CREATE_FUNC(MeHQGallery);
     
     void setRefreshCallback(const RefreshLayoutCallback& callback);

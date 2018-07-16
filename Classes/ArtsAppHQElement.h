@@ -24,6 +24,7 @@ private:
     void addListenerToElement();
     void addLockToElement();
     bool _elementActive = false;
+    bool _newImage = false;
     
     cocos2d::Sprite *addDeleteButton();
     cocos2d::Sprite *_deleteButton;

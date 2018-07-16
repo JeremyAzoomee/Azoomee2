@@ -56,8 +56,8 @@ void OomeeCarouselButton::onEnter()
     _outerCircle->runAction(rotate2);
     
     float targetScale = (Vec2(this->getContentSize()).length() * 0.75f) / _outerCircle->getContentSize().height;
-    _innerCircle->setPosition(Vec2(this->getContentSize().width / 2, (_outerCircle->getContentSize().height * targetScale) / 2.5));
-    _outerCircle->setPosition(Vec2(this->getContentSize().width / 2, (_outerCircle->getContentSize().height * targetScale) / 2.5));
+    _innerCircle->setNormalizedPosition(Vec2(0.5, ((_outerCircle->getContentSize().height * targetScale) / 2.5) / this->getContentSize().height));
+    _outerCircle->setNormalizedPosition(Vec2(0.5, ((_outerCircle->getContentSize().height * targetScale) / 2.5) / this->getContentSize().height));
     
     _outerCircle->setColor(Style::Color::darkTeal);
     _innerCircle->setColor(Style::Color::darkTeal);

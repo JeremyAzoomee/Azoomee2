@@ -28,6 +28,8 @@ private:
     
     RefreshLayoutCallback _refreshCallback = nullptr;
     
+    bool _editEnabled = false;
+    
     void buildEmptyCarousel();
     
 protected:
