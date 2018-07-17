@@ -357,7 +357,7 @@ void OomeeMakerScene::shareOomee()
 
 void OomeeMakerScene::displayMadeAvatarNotification()
 {
-    Texture2D* particleTex = Director::getInstance()->getTextureCache()->addImage("res/oomeemaker/confetti_particle.png");
+    Texture2D* particleTex = Director::getInstance()->getTextureCache()->addImage("res/oomeeMaker/confetti_particle.png");
     
     std::vector<Color4F> colours = {
         Style::Color_4F::green,
