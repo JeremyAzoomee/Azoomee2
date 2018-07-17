@@ -270,8 +270,8 @@ using namespace Azoomee;
     [_shareButton setImage:[UIImage imageNamed:@"res/webview_buttons/share_unselected.png"] forState:UIControlStateNormal];
     [_shareButton setImage:[UIImage imageNamed:@"res/webview_buttons/share_selected.png"] forState:UIControlStateSelected];
     
-    [self.view addSubview:_favButton];
     [self.view addSubview:_shareButton];
+    [self.view addSubview:_favButton];
     [self.view addSubview:_burgerButton];
     [self.view addSubview:backButton];
     

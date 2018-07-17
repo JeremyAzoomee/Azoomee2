@@ -20,6 +20,11 @@ class MeHQMessages : public cocos2d::ui::Layout, public Chat::ChatAPIObserver
     typedef cocos2d::ui::Layout Super;
     typedef std::function<void()> RefreshLayoutCallback;
 private:
+    static const float kSideMarginSize[2];
+    static const float kSpaceAboveCarousel[2];
+    static const int kUnitsOnScreen[2];
+    static const float kContentItemMargin[2];
+    
     cocos2d::ui::Layout* _contentLayer = nullptr;
     Chat::FriendList _friendList;
     Chat::MessageList _messages;

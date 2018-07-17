@@ -266,11 +266,11 @@ void MeHQFavourites::buildEmptyCarousel()
      ui::Text* heading = ui::Text::create(StringUtils::format("Favourite content after you watch%sor play and it will appear here.", isPortrait ? "\n" : " "), Style::Font::Regular, 80);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setTextHorizontalAlignment(TextHAlignment::CENTER);
-    heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
+    heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
     heading->setContentSize(Size(visibleSize.width, 200));
     this->addChild(heading);
     
-    this->setContentSize(Size(visibleSize.width, heading->getContentSize().height -lowestElementYPosition + kSpaceAboveCarousel[isPortrait]));
+    this->setContentSize(Size(visibleSize.width, heading->getContentSize().height -lowestElementYPosition + kSpaceAboveCarousel[isPortrait] + 50));
     
 }
 

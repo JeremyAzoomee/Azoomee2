@@ -359,29 +359,38 @@ void OomeeMakerScene::displayMadeAvatarNotification()
 {
     Texture2D* particleTex = Director::getInstance()->getTextureCache()->addImage("res/oomeemaker/confetti_particle.png");
     
-    auto particles = ParticleFireworks::create();
-    particles->cocos2d::ParticleSystem::setTotalParticles(100);
-    particles->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    particles->setEmissionRate(33);
-    particles->setDuration(2.0f);
-    particles->setScale(4.0f);
-    particles->setGravity(Vec2(0,-200));
-    particles->setPosVar(Vec2(100, 10));
-    particles->setStartSpinVar(180);
-    particles->setStartColor(Color4F(0.0,0.0,0.0,1.0));
-    particles->setStartColorVar(Color4F(1.0,1.0,1.0,0.0));
-    particles->setEndColorVar(Color4F(1.0,1.0,1.0,0.0));
-    particles->setEndColor(Color4F(0.0,0.0,0.0,1.0));
-    particles->cocos2d::ParticleSystem::setTexture(particleTex);
-    particles->setPosition(Vec2(_contentLayer->getContentSize().width * 0.42, _contentLayer->getContentSize().height));
-    particles->setAutoRemoveOnFinish(true);
-    _contentLayer->addChild(particles,10);
+    std::vector<Color4F> colours = {
+        Style::Color_4F::green,
+        Style::Color_4F::yellow,
+        Style::Color_4F::red,
+        Style::Color_4F::purple,
+        Style::Color_4F::blue
+    };
     
-    auto banner = ui::Scale9Sprite::create("res/artapp/popup_bg.png");
+    for(auto colour : colours)
+    {
+        auto particles = ParticleFireworks::create();
+        particles->cocos2d::ParticleSystem::setTotalParticles(100.0f/ colours.size());
+        particles->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+        particles->setEmissionRate(33.0f / colours.size());
+        particles->setDuration(2.0f);
+        particles->setScale(4.0f);
+        particles->setGravity(Vec2(0,-200));
+        particles->setPosVar(Vec2(100, 10));
+        particles->setStartSpinVar(180);
+        particles->setStartColor(colour);
+        particles->setStartColorVar(Color4F(0.0,0.0,0.0,0.0));
+        particles->setEndColor(colour);
+        particles->setEndColorVar(Color4F(0.0,0.0,0.0,0.0));
+        particles->cocos2d::ParticleSystem::setTexture(particleTex);
+        particles->setPosition(Vec2(_contentLayer->getContentSize().width * 0.42, _contentLayer->getContentSize().height));
+        particles->setAutoRemoveOnFinish(true);
+        _contentLayer->addChild(particles,10);
+    }
+    auto banner = ui::Scale9Sprite::create("res/oomeeMaker/green_box.png");
     banner->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     banner->setPosition(Vec2(_contentLayer->getContentSize().width * 0.42, _contentLayer->getContentSize().height));
     banner->setContentSize(Size(_contentLayer->getContentSize().width * 0.43 , 400));
-    banner->setColor(Style::Color::darkGreenBlue);
     banner->runAction(Sequence::create(MoveBy::create(1.0, Vec2(0,-200)), DelayTime::create(2.0f),MoveBy::create(1.0, Vec2(0,200)),CallFunc::create([=](){
         banner->removeFromParent();
     }),NULL));

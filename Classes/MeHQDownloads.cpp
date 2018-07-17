@@ -231,7 +231,7 @@ void MeHQDownloads::buildEmptyCarousel()
     ui::Text* heading = ui::Text::create(downloadsString, Style::Font::Regular, 80);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setTextHorizontalAlignment(TextHAlignment::CENTER);
-    heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
+    heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
     heading->setContentSize(Size(visibleSize.width, 200));
     this->addChild(heading);
     

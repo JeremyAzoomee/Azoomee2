@@ -21,6 +21,11 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+const float MeHQMessages::kSideMarginSize[2] = {20.0f, 10.0f};
+const float MeHQMessages::kSpaceAboveCarousel[2] = {200.0f, 200.0f};
+const int MeHQMessages::kUnitsOnScreen[2] = {4,2};
+const float MeHQMessages::kContentItemMargin[2] = {20.0f, 20.0f};
+
 bool MeHQMessages::init()
 {
     if(!Super::init())
@@ -72,15 +77,19 @@ void MeHQMessages::buildEmptyCarousel()
     
     float totalHeight = 200;
     
+    Size contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kGameHQName);
+    float unitWidth = (visibleSize.width - 2 * kSideMarginSize[isPortrait]) / kUnitsOnScreen[isPortrait];
+    float unitMultiplier = unitWidth / contentItemSize.width;
+    
     ui::Layout* divider = ui::Layout::create();
-    divider->setLayoutParameter(CreateLeftLinearLayoutParam(ui::Margin(20,0,0,0)));
-    divider->setContentSize(Size((visibleSize.width - 40) * (isPortrait ? 1.0f : 0.75f), 8));
+    divider->setLayoutParameter(CreateLeftLinearLayoutParam(ui::Margin(kSideMarginSize[isPortrait],0,0,0)));
+    divider->setContentSize(Size((visibleSize.width - 2 * kSideMarginSize[isPortrait]) * (isPortrait ? 1.0f : 0.75f) - kContentItemMargin[isPortrait], 8));
     divider->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
     divider->setBackGroundColor(Style::Color::bluegreenish);
     this->addChild(divider);
     
     ui::Layout* messageLayout = ui::Layout::create();
-    messageLayout->setContentSize(Size(visibleSize.width - 40, 442));
+    messageLayout->setContentSize(Size(visibleSize.width - 2 * kSideMarginSize[isPortrait], contentItemSize.height * unitMultiplier));
     messageLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     
     Chat::FriendRef fakeAcc = Chat::Friend::create("", "Azoomee",ConfigStorage::getInstance()->getUrlForOomee(0));
@@ -116,14 +125,14 @@ void MeHQMessages::buildEmptyCarousel()
     totalHeight += messageLayout->getContentSize().height;
     
     ui::Layout* divider2 = ui::Layout::create();
-    divider2->setLayoutParameter(CreateLeftLinearLayoutParam(ui::Margin(20,0,0,0)));
-    divider2->setContentSize(Size((visibleSize.width - 40) * (isPortrait ? 1.0f : 0.75f), 8));
+    divider2->setLayoutParameter(CreateLeftLinearLayoutParam(ui::Margin(kSideMarginSize[isPortrait],0,0,0)));
+    divider2->setContentSize(Size((visibleSize.width - 2 * kSideMarginSize[isPortrait]) * (isPortrait ? 1.0f : 0.75f) - kContentItemMargin[isPortrait], 8));
     divider2->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
     divider2->setBackGroundColor(Style::Color::bluegreenish);
     this->addChild(divider2);
     
     ui::Button* chatButton = ui::Button::create("res/meHQ/send_message_button.png");
-    chatButton->setScale( 442 / chatButton->getContentSize().height);
+    chatButton->setScale( ((contentItemSize.width - kContentItemMargin[isPortrait]) * unitMultiplier) / chatButton->getContentSize().width);
     chatButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     chatButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
@@ -133,14 +142,15 @@ void MeHQMessages::buildEmptyCarousel()
     });
     if(!isPortrait)
     {
-        chatButton->setPosition(divider2->getPosition() + divider2->getContentSize() + (chatButton->getContentSize() / 2));
+        chatButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
+        chatButton->setNormalizedPosition(Vec2((visibleSize.width - kSideMarginSize[isPortrait]) / visibleSize.width, 0.5));
         messageLayout->addChild(chatButton);
     }
     else
     {
         chatButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
         this->addChild(chatButton);
-        totalHeight += chatButton->getContentSize().height;
+        totalHeight += chatButton->getContentSize().height + 100;
     }
     
     ui::Text* heading = ui::Text::create(StringUtils::format("When you send messages, your%slast messages will appear here.", isPortrait ? "\n" : " "), Style::Font::Regular, 80);
@@ -150,7 +160,7 @@ void MeHQMessages::buildEmptyCarousel()
     heading->setContentSize(Size(this->getContentSize().width, 200));
     this->addChild(heading);
     
-    totalHeight += heading->getContentSize().height + 100;
+    totalHeight += heading->getContentSize().height + 150;
     
     this->setContentSize(Size(visibleSize.width ,totalHeight));
 }
