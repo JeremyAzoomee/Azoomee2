@@ -26,6 +26,7 @@
 #include "DynamicNodeHandler.h"
 #include "IAPFlowController.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/Utils/ActionBuilder.h>
 #include "FlowDataSingleton.h"
 
 using namespace cocos2d;
@@ -168,11 +169,21 @@ void NavigationLayer::startLoadingGroupHQ(std::string uri)
 
 void NavigationLayer::changeToScene(const std::string& hqName, float duration)
 {
+    
+    if(hqName == "OOMEE_MAKER")
+    {
+        if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+        {
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(OomeeMakerEntryPointScene));
+        }
+        return;
+    }
+    
     //CHECK IF THE ENTITLEMENT FOR THAT SPECIFIC HQ IS ENABLED
     
     const HQDataObjectRef &currentObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName);
     
-    if(!currentObject->getHqEntitlement())
+    if((hqName == ConfigStorage::kMeHQName && ParentDataProvider::getInstance()->isLoggedInParentAnonymous()) || (hqName != ConfigStorage::kMeHQName && !currentObject->getHqEntitlement()))
     {
         AnalyticsSingleton::getInstance()->registerCTASource("lockedHQ","",currentObject->getHqType());
         IAPEntryContext context = IAPEntryContext::DEFAULT;
@@ -252,6 +263,17 @@ void NavigationLayer::loadArtsAppHQ()
     hqLayer->startBuildingScrollView();
 }
 
+void NavigationLayer::loadMeHQ()
+{
+    HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kMeHQName);
+    
+    cocos2d::Scene *runningScene = Director::getInstance()->getRunningScene();
+    Node *contentLayer = runningScene->getChildByName("contentLayer");
+    HQScene2 *hqLayer = (HQScene2 *)contentLayer->getChildByName(ConfigStorage::kMeHQName);
+    
+    hqLayer->startBuildingScrollView();
+}
+
 void NavigationLayer::startLoadingHQScene(const std::string& hqName)
 {
     if(hqName == ConfigStorage::kArtAppHQName)
@@ -262,6 +284,17 @@ void NavigationLayer::startLoadingHQScene(const std::string& hqName)
         
         this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
 
+        return;
+    }
+    
+    if(hqName == ConfigStorage::kMeHQName)
+    {
+        auto funcCallAction = CallFunc::create([=](){
+            this->loadMeHQ();
+        });
+        
+        this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
+        
         return;
     }
     
@@ -461,7 +494,7 @@ void NavigationLayer::runDisplayAnimationForMenuItem(cocos2d::Node* node1, bool 
         blinkDelay = 0.1;
     }
     
-    node1->runAction(Sequence::create(DelayTime::create(randomDelay), FadeTo::create(0, colour.a), DelayTime::create(blinkDelay), FadeTo::create(0, 0), DelayTime::create(blinkDelay), FadeTo::create(0, colour.a), NULL));
+    node1->runAction(createBlinkEffect(randomDelay, blinkDelay));
 }
 
 
@@ -604,8 +637,9 @@ void NavigationLayer::buttonPressed(ElectricDreamsButton* button)
 void NavigationLayer::cleanUpPreviousHQ()
 {
     cocos2d::log("previous hq is: %s", HQHistoryManager::getInstance()->getPreviousHQ().c_str());
+    cocos2d::log("current hq is: %s", HQHistoryManager::getInstance()->getCurrentHQ().c_str());
     const std::string& previousHqName = HQHistoryManager::getInstance()->getPreviousHQ();
-    if(previousHqName != ConfigStorage::kHomeHQName)
+    if(!(previousHqName == ConfigStorage::kMeHQName && HQHistoryManager::getInstance()->getCurrentHQ() == ConfigStorage::kMeHQName))
     {
         HQScene2* lastHQLayer = (HQScene2 *)Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName)->getChildByName(previousHqName);
         

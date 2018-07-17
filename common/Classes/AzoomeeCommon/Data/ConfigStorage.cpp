@@ -30,9 +30,10 @@ static ConfigStorage *_sharedConfigStorage = NULL;
     const char* const ConfigStorage::kGroupHQName = "GROUP HQ";
     const char* const ConfigStorage::kHomeHQName = "HOME";
     const char* const ConfigStorage::kArtAppHQName = "ARTS APP";
-    const char* const ConfigStorage::kMixHQName = "MIX HQ";
+    const char* const ConfigStorage::kMeHQName = "ME HQ";
     
-    const char* const ConfigStorage::kDefaultHQName = kGameHQName;
+    const char* const ConfigStorage::kDefaultHQName = kMeHQName;
+    const char* const ConfigStorage::kAnonDefaultHQName = kGameHQName;
     
     const char* const ConfigStorage::kRecentlyPlayedCarouselName = "LAST PLAYED";
     
@@ -52,7 +53,7 @@ static ConfigStorage *_sharedConfigStorage = NULL;
     
     const std::string ConfigStorage::kArtCacheFolder = "artCache/";
     
-    
+    const std::string ConfigStorage::kGameDownloadError = "ERROR";
 
 ConfigStorage* ConfigStorage::getInstance()
 {
@@ -124,6 +125,16 @@ std::string ConfigStorage::getFileNameFromUrl(const std::string& url)
     int subLength = endPoint - startPoint;
     
     return url.substr(startPoint, subLength);
+}
+    
+std::string ConfigStorage::getGameCachePath()
+{
+    return FileUtils::getInstance()->getWritablePath() + "gameCache/";
+}
+    
+std::string ConfigStorage::getDefaultHQ()
+{
+    return ParentDataProvider::getInstance()->isLoggedInParentAnonymous() ? kAnonDefaultHQName : kDefaultHQName;
 }
 
 //-------------------------PRIVATE METHOD TO PARSE CONFIG JSON FILE--------
@@ -644,6 +655,16 @@ void ConfigStorage::setIsDeviceIphoneX(bool isDeviceIphoneX)
 bool ConfigStorage::isDeviceIphoneX() const
 {
     return _isDeviceIphoneX;
+}
+    
+void ConfigStorage::setIsDevice18x9(bool isDevice18x9)
+{
+    _isDevice18x9 = isDevice18x9;
+}
+    
+bool ConfigStorage::isDevice18x9() const
+{
+    return _isDevice18x9;
 }
 
 //------------------------- Set estimated keyboard height for chat ---------------------------

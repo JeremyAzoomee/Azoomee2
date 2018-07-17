@@ -16,6 +16,7 @@ typedef std::shared_ptr<ImageDownloader> ImageDownloaderRef;
 struct ImageDownloaderDelegate
 {
     virtual void onImageDownloadComplete(const ImageDownloaderRef& downloader) = 0;
+    virtual void onImageDownloadFailed() = 0;
 };
 
 class ImageDownloader : public std::enable_shared_from_this<ImageDownloader>, FileDownloaderDelegate
@@ -86,7 +87,7 @@ public:
     bool localImageExists() const;
     
     /// Download or load the image from local cache
-    void downloadImage(ImageDownloaderDelegate* delegate, const std::string& url);
+    void downloadImage(ImageDownloaderDelegate* delegate, const std::string& url, bool forceOverride = false);
     
     // Delegate functions
     void onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode);

@@ -35,13 +35,16 @@ bool RemoteImageSprite::initWithURLAndSize(const std::string& url, const std::st
     
     this->setCascadeOpacityEnabled(true);
     this->setContentSize(size);
+    
+    //addClippingNode(false);
+    
     this->addPlaceHolderImage(type, size, shape);
     
     imageUrl = url;
     return true;
 }
 
-bool RemoteImageSprite::initWithUrlAndSizeWithoutPlaceholder(const std::string& url, const cocos2d::Size& size)
+bool RemoteImageSprite::initWithUrlAndSizeWithoutPlaceholder(const std::string& url, const cocos2d::Size& size, bool useStencil)
 {
     if(!Sprite::init())
     {
@@ -52,6 +55,8 @@ bool RemoteImageSprite::initWithUrlAndSizeWithoutPlaceholder(const std::string& 
     
     this->setCascadeOpacityEnabled(true);
     this->setContentSize(size);
+    
+    //addClippingNode(useStencil);
     
     imageUrl = url;
     return true;
@@ -80,7 +85,7 @@ void RemoteImageSprite::removeLoadedImage()
 {
     if(loadedImage)
     {
-        loadedImage->getParent()->removeChild(loadedImage);
+        loadedImage->removeFromParent();
         loadedImage = nullptr;
         
         ImageDownloaderCacheCleanerLogic::getInstance()->imageRemoved();
@@ -92,8 +97,17 @@ void RemoteImageSprite::resizeImage()
     if(loadedImage)
     {
         loadedImage->setPosition(this->getContentSize() / 2);
-        loadedImage->setScaleX(this->getContentSize().width/ loadedImage->getContentSize().width);
-        loadedImage->setScaleY(this->getContentSize().height/ loadedImage->getContentSize().height);
+        if(!_keepAspectRatio)
+        {
+            loadedImage->setScaleX(this->getContentSize().width/ loadedImage->getContentSize().width);
+            loadedImage->setScaleY(this->getContentSize().height/ loadedImage->getContentSize().height);
+        }
+        else
+        {
+            loadedImage->setScale(MIN(this->getContentSize().height/ loadedImage->getContentSize().height, this->getContentSize().width/ loadedImage->getContentSize().width));
+        }
+        //_stencil->setContentSize(Size(loadedImage->getContentSize().width * loadedImage->getScaleX(), loadedImage->getContentSize().height * loadedImage->getScaleY()));
+        //_stencil->setPosition(this->getContentSize() / 2.0f);
     }
 }
 
@@ -150,14 +164,28 @@ void RemoteImageSprite::imageAddedToCache(Texture2D* resulting_texture)
         auto finalImage = Sprite::createWithTexture( resulting_texture );
         finalImage->setPosition(holderContentSize / 2);
         finalImage->setOpacity(0);
-        finalImage->setScaleX(holderContentSize.width / finalImage->getContentSize().width);
-        finalImage->setScaleY(holderContentSize.height / finalImage->getContentSize().height);
+        if(!_keepAspectRatio)
+        {
+            finalImage->setScaleX(holderContentSize.width / finalImage->getContentSize().width);
+            finalImage->setScaleY(holderContentSize.height / finalImage->getContentSize().height);
+        }
+        else
+        {
+            finalImage->setScale(MIN(holderContentSize.height / finalImage->getContentSize().height, holderContentSize.width / finalImage->getContentSize().width));
+        }
+        //_stencil->setContentSize(Size(finalImage->getContentSize().width * finalImage->getScaleX(), finalImage->getContentSize().height * finalImage->getScaleY()));
+        //_stencil->setPosition(holderContentSize / 2.0f);
         
         loadedImage = finalImage;
         
         if(shouldAddNewBadgeToImage)
+        {
             addNewBadgeToLoadedImage();
-        if(!aboutToExit) this->addChild(loadedImage);
+        }
+        if(!aboutToExit)
+        {
+            this->addChild(loadedImage);
+        }
         
         finalImage->runAction(FadeIn::create(0.1));
     }
@@ -199,6 +227,30 @@ void RemoteImageSprite::onExit()
     Super::onExit();
 }
 
+void RemoteImageSprite::setKeepAspectRatio(bool keepAspectRatio)
+{
+    _keepAspectRatio = keepAspectRatio;
+}
+
+void RemoteImageSprite::addClippingNode(bool usingClippingNode)
+{
+    _clippingNode = ClippingNode::create();
+    _stencil = ui::Scale9Sprite::create("res/artapp/popup_bg.png");
+    _stencil->setContentSize(this->getContentSize());
+    _stencil->setPosition(this->getContentSize()/2);
+    _stencil->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _clippingNode->setStencil(_stencil);
+    this->addChild(_clippingNode);
+    if(usingClippingNode)
+    {
+        _clippingNode->setAlphaThreshold(0.5f);
+    }
+    else
+    {
+        _clippingNode->setAlphaThreshold(1.0f);
+    }
+}
+
 #pragma mark - RemoteImageSpriteDelegate
 
 void RemoteImageSprite::onImageDownloadComplete(const ImageDownloaderRef& downloader)
@@ -208,6 +260,11 @@ void RemoteImageSprite::onImageDownloadComplete(const ImageDownloaderRef& downlo
     this->setName(filename);
     this->retain();
     Director::getInstance()->getTextureCache()->addImageAsync(filename, CC_CALLBACK_1(RemoteImageSprite::imageAddedToCache, this));
+}
+
+void RemoteImageSprite::onImageDownloadFailed()
+{
+    // do nothing
 }
 
 NS_AZOOMEE_END

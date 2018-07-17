@@ -69,7 +69,7 @@ void NativeContentInterface_ios::reAddWebViewToScreen()
     if(webViewController != nil)
     {
         [webViewController addWebViewToScreen];
-        [webViewController createButton];
+        [webViewController createButtons];
     }
 }
 

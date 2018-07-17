@@ -2,6 +2,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/HQDataObject/ContentItemPool.h>
 #include "../Data/StickerCache.h"
 
 
@@ -74,17 +75,18 @@ bool MessageListViewItem::init()
     _artImage = RemoteImageSprite::create();
     _artImage->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _artImage->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    //_artLayout->addChild(_artImage);
+    _artImage->setKeepAspectRatio(true);
+    _artLayout->addChild(_artImage);
     
     // Art Stencil
-    _imageStencil = ui::Scale9Sprite::create("res/artapp/popup_bg.png");
-    _imageStencil->setContentSize(_artImage->getContentSize());
-    _imageStencil->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+    //_imageStencil = ui::Scale9Sprite::create("res/artapp/popup_bg.png");
+    //_imageStencil->setContentSize(_artImage->getContentSize());
+    //_imageStencil->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     // Art clipping node
-    _imageMask = ClippingNode::create(_imageStencil);
-    _imageMask->setAlphaThreshold(0.5f);
-    _imageMask->addChild(_artImage);
-    _artLayout->addChild(_imageMask);
+    //_imageMask = ClippingNode::create(_imageStencil);
+    //_imageMask->setAlphaThreshold(0.5f);
+    //_imageMask->addChild(_artImage);
+    //_artLayout->addChild(_imageMask);
     
     // By default setup content as blank
     setAlignment(Alignment::Left);
@@ -191,12 +193,13 @@ void MessageListViewItem::resizeItemContents()
         {
             imageSize.width = textureSize.width / textureSize.height * imageSize.height;
         }
+        const Size& contentSize = Size(imageSize.width + (contentPadding.x * 2), imageSize.height + (contentPadding.y * 2));
         _artImage->setContentSize(imageSize);
-        _imageStencil->setContentSize(imageSize);
-        _imageMask->setContentSize(imageSize);
+        
+        //_imageStencil->setContentSize(imageSize);
+        //_imageMask->setContentSize(imageSize);
         _artLayout->setContentSize(imageSize);
         _artImage->resizeImage();
-        const Size& contentSize = Size(imageSize.width + (contentPadding.x * 2), imageSize.height + (contentPadding.y * 2));
         _contentLayout->setContentSize(contentSize);
     }
     
@@ -246,7 +249,29 @@ void MessageListViewItem::setData(const MessageRef& message)
         }
         else if(messageType == Message::MessageTypeArt)
         {
-            _artImage->initWithUrlAndSizeWithoutPlaceholder(message->artURL(), Size(getContentSize().width/2,getContentSize().width/2 * 10.0f/16.0f));
+            const Size& contentSize = getContentSize();
+            _artImage->initWithUrlAndSizeWithoutPlaceholder(message->artURL(), Size(contentSize.width/2,contentSize.width/2 * 10.0f/16.0f));
+            _artLayout->setTouchEnabled(false);
+        }
+        else if(messageType == Message::MessageTypeContent)
+        {
+            HQContentItemObjectRef contentItem = ContentItemPool::getInstance()->getContentItemForId(message->contentId());
+            if(contentItem)
+            {
+                const std::string& imgUrl = contentItem->getBaseImageThumbUrl();
+                const Size& contentSize = getContentSize();
+                _artImage->initWithUrlAndSizeWithoutPlaceholder(imgUrl, Size(contentSize.width/2,contentSize.width/2 * 10.0f/16.0f));
+                if(!_userIsParent)
+                {
+                    _artLayout->addTouchEventListener([=](Ref* sender, ui::Widget::TouchEventType event){
+                        if(event == ui::Widget::TouchEventType::ENDED)
+                        {
+                            Chat::delegate->onChatNavigateToContent(message->contentId());
+                        }
+                    });
+                    _artLayout->setTouchEnabled(true);
+                }
+            }
         }
         else
         {
@@ -259,7 +284,7 @@ void MessageListViewItem::setData(const MessageRef& message)
         _bubbleLayout->setVisible(messageText.size() > 0);
         if(!_bubbleLayout->isVisible())
         {
-            if(_messageData->messageType() == Message::MessageTypeArt)
+            if(_messageData->messageType() == Message::MessageTypeArt || _messageData->messageType() == Message::MessageTypeContent)
             {
                 _artLayout->setVisible(true);
             }
@@ -308,6 +333,16 @@ void MessageListViewItem::setData(const MessageRef& message)
 MessageRef MessageListViewItem::getData() const
 {
     return _messageData;
+}
+
+void MessageListViewItem::setUserIsParent(bool isParent)
+{
+    _userIsParent = isParent;
+}
+
+bool MessageListViewItem::getUserIsParent() const
+{
+    return _userIsParent;
 }
 
 void MessageListViewItem::setAlignment(const Alignment& alignment)

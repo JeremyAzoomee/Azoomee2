@@ -124,7 +124,15 @@ void MessageComposer::onEnter()
     
     if(Azoomee::Chat::delegate->_imageFileName != "")
     {
-        sendArtMessage(Azoomee::Chat::delegate->_imageFileName);
+        if(Azoomee::Chat::delegate->_sharedContentId != "")
+        {
+            sendMessage("Hey! This is great, check it out");
+            sendContentMessage(Azoomee::Chat::delegate->_sharedContentId);
+        }
+        else
+        {
+            sendArtMessage(Azoomee::Chat::delegate->_imageFileName);
+        }
     }
 }
 
@@ -132,6 +140,7 @@ void MessageComposer::onExit()
 {
     Super::onExit();
     Azoomee::Chat::delegate->_imageFileName = "";
+    Azoomee::Chat::delegate->_sharedContentId = "";
     if(_touchListener)
     {
         _eventDispatcher->removeEventListener(_touchListener);
@@ -466,6 +475,19 @@ void MessageComposer::sendArtMessage(const std::string &artFile)
     
     setMode(MessageComposer::Mode::Idle);
     _messageEntryField->setString("");
+}
+
+void MessageComposer::sendContentMessage(const std::string& contentId)
+{
+    AudioMixer::getInstance()->playEffect("laser_whoosh_ripple.mp3");
+    if(_delegate)
+    {
+        const MessageRef& messageObj = Message::createContentMessage(contentId);
+        _delegate->onMessageComposerSendMessage(messageObj);
+    }
+    // Clear the message field and go back to idle
+    _messageEntryField->setString("");
+    setMode(MessageComposer::Mode::Idle);
 }
 
 #pragma mark - Mode

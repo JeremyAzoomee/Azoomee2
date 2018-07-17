@@ -22,7 +22,7 @@ public:
         CHAT = 0,
         VIDEO_HQ,
         AUDIO_HQ,
-        MIX_HQ,
+        ME_HQ,
         GAME_HQ,
         ARTS_APP,
         GROUP_HQ
@@ -35,9 +35,10 @@ public:
     static const char* const kGroupHQName;
     static const char* const kHomeHQName;
     static const char* const kArtAppHQName;
-    static const char* const kMixHQName;
+    static const char* const kMeHQName;
     
     static const char* const kDefaultHQName;
+    static const char* const kAnonDefaultHQName;
     
     static const char* const kRecentlyPlayedCarouselName;
     
@@ -57,12 +58,17 @@ public:
     
     static const std::string kArtCacheFolder;
     
+    static const std::string kGameDownloadError;
+    
     /** Returns the shared instance of the Game Manager */
     static ConfigStorage* getInstance(void);
     virtual ~ConfigStorage();
     bool init(void);
     
     std::string getFileNameFromUrl(const std::string& url);
+    
+    std::string getGameCachePath();
+    std::string getDefaultHQ();
     
     //Backend caller configuration
     std::string getServerHost();
@@ -139,6 +145,8 @@ public:
     //Device-resolution-specific information
     void setIsDeviceIphoneX(bool isDeviceIphoneX);
     bool isDeviceIphoneX() const;
+    void setIsDevice18x9(bool isDevice18x9);
+    bool isDevice18x9() const;
     
     //Set keyboard height for chat
     void setEstimatedKeyboardHeight(float size);
@@ -162,6 +170,7 @@ private:
     std::vector<std::string> parentSignedRequestTags;
     
     bool _isDeviceIphoneX = false;
+    bool _isDevice18x9 = false;
     
     std::string _osManufacturer = "";
     std::string _clientIp = "";

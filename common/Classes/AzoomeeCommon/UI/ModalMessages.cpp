@@ -2,6 +2,7 @@
 #include <ui/UIEditBox/UIEditBox.h>
 #include "../Analytics/AnalyticsSingleton.h"
 #include "../Mixpanel/Notifications.h"
+#include "Style.h"
 #include "Scene.h"
 
 USING_NS_CC;
@@ -111,6 +112,25 @@ void ModalMessages::onSizeChanged()
         loadingLayer->setContentSize(visibleSize);
         loadingLayer->setPosition(origin.x, origin.y);
     }
+}
+
+void ModalMessages::startSaving()
+{
+    if(Director::getInstance()->getRunningScene()->getChildByName("loadingLayer")) return;
+    
+    createAndFadeInLayer();
+    
+    auto savingLabel = Label::createWithTTF("Saving...", Style::Font::Regular, 128);
+    savingLabel->setColor(Style::Color::white);
+    savingLabel->setNormalizedPosition(Vec2(0.5,0.5));
+    savingLabel->setAnchorPoint(Vec2(0.5,0.5));
+    loadingLayer->addChild(savingLabel);
+    
+}
+
+void ModalMessages::stopSaving()
+{
+    this->removeLayer();
 }
 
 //-----------------MIXPANEL NOTIFICATIONS--------------------------

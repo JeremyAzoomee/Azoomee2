@@ -82,6 +82,8 @@ public:
     void registerChild(const std::string& childProfileName, const std::string& childGender, const std::string& childDOB, int oomeeNumber);
     // Update a child profile
     void updateChild(const std::string& childId, const std::string& childProfileName, const std::string& childGender, const std::string& childDOB, int oomeeNumber);
+    // Update child avatar
+    void updateChildAvatar(const std::string& childId, const std::string& imageData);
     // Get gorden. Good gorden.
     void getGordon();
     // Verify a google payment
