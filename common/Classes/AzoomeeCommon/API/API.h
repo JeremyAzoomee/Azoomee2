@@ -146,9 +146,11 @@ public:
     static HttpRequestCreator* ResetPaswordRequest(const std::string& forEmailAddress,
                                                    HttpRequestCreatorResponseDelegate* delegate);
     
-    static HttpRequestCreator* GetContentPoolRequest(HttpRequestCreatorResponseDelegate* delegate);
+    static HttpRequestCreator* GetContentPoolRequest(const std::string& childId,
+                                                     HttpRequestCreatorResponseDelegate* delegate);
     
-    static HttpRequestCreator* GetHQStructureDataRequest(HttpRequestCreatorResponseDelegate* delegate);
+    static HttpRequestCreator* GetHQStructureDataRequest(const std::string& childId,
+                                                         HttpRequestCreatorResponseDelegate* delegate);
     
 #pragma mark - Friend Requests
     

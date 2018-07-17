@@ -317,18 +317,20 @@ HttpRequestCreator* API::ResetPaswordRequest(const std::string& forEmailAddress,
     return request;
 }
 
-HttpRequestCreator* API::GetContentPoolRequest(Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+HttpRequestCreator* API::GetContentPoolRequest(const std::string& childId, Azoomee::HttpRequestCreatorResponseDelegate *delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->requestTag = TagGetContentPoolRequest;
+    request->requestPath = StringUtils::format("/electricdreams/v3/%s/items",childId.c_str());
     request->encrypted = true;
     return request;
 }
 
-HttpRequestCreator* API::GetHQStructureDataRequest(Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+HttpRequestCreator* API::GetHQStructureDataRequest(const std::string& childId, Azoomee::HttpRequestCreatorResponseDelegate *delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->requestTag = TagGetHqStructureDataRequest;
+    request->requestPath = StringUtils::format("/electricdreams/v3/%s/feeds",childId.c_str());
     request->encrypted = true;
     return request;
 }
