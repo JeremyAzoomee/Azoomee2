@@ -79,6 +79,9 @@ public:
     /// Reset a reported chat by the parent
     void resetReportedChat(const FriendRef& friendObj);
     
+    /// Get timeline summary
+    void getTimelineSummary();
+    
     
     /// - Schedule Poll
     bool isFriendListPollScheduled();
@@ -98,6 +101,8 @@ struct ChatAPIObserver
     virtual void onChatAPIGetChatMessages(const MessageList& messageList) {};
     /// Send message success response
     virtual void onChatAPISendMessage(const MessageRef& sentMessage) {};
+    /// Get Timeline Summary response
+    virtual void onChatAPIGetTimelineSummary(const MessageList& messageList) {};
     /// API error from Chat request
     virtual void onChatAPIErrorRecieved(const std::string& requestTag, long errorCode) {};
 };

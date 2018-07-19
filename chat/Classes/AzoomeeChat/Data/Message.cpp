@@ -13,9 +13,10 @@ NS_AZOOMEE_CHAT_BEGIN
 const char* const Message::MessageTypeText = "TEXT";
 const char* const Message::MessageTypeSticker = "STICKER";
 const char* const Message::MessageTypeArt = "ART";
+const char* const Message::MessageTypeContent = "CONTENT";
 
 /// A Message object must have at least these fields to be valid
-const std::vector<std::string> kRequiredFields = { "id", "type", "status", "senderId", "recipientId", "timestamp" };
+const std::vector<std::string> kRequiredFields = { "id", "type", "status", "senderId", "recipientId"/*, "timestamp" */};
 
 
 MessageRef Message::createFromJson(const rapidjson::Value& json)
@@ -55,12 +56,17 @@ MessageRef Message::createFromJson(const rapidjson::Value& json)
     const std::string& messageType = json["type"].GetString();
     const std::string& senderId = json["senderId"].GetString();
     const std::string& recipientId = json["recipientId"].GetString();
-    uint64_t timestamp = json["timestamp"].GetUint64();
+    uint64_t timestamp = 0;
+    if(json.HasMember("timestamp"))
+    {
+        timestamp = json["timestamp"].GetUint64();
+    }
     const std::string& status = json["status"].GetString();
     bool moderated = (status == "MODERATED");
     std::string messageText;
     std::string stickerLocation;
     std::string artLocation;
+    std::string contentId;
     
     // Active message
     if(status == "ACTIVE")
@@ -113,6 +119,25 @@ MessageRef Message::createFromJson(const rapidjson::Value& json)
             artLocation = json["location"].GetString();
             
         }
+        else if(messageType == Message::MessageTypeContent)
+        {
+            if(!json.HasMember("params"))
+            {
+                // Invalid JSON
+                return MessageRef();
+            }
+            
+            const auto& params = json["params"];
+            
+            if(!params.HasMember("contentId"))
+            {
+                // Invalid JSON
+                return MessageRef();
+            }
+            
+            contentId = params["contentId"].GetString();
+            
+        }
         else
         {
             messageText = StringUtils::format("<unsupported message type: %s>", messageType.c_str());
@@ -138,6 +163,7 @@ MessageRef Message::createFromJson(const rapidjson::Value& json)
     messageData->_messageText = messageText;
     messageData->_stickerLocation = stickerLocation;
     messageData->_artLocation = artLocation;
+    messageData->_contentId = contentId;
     messageData->_moderated = moderated;
     return messageData;
 }
@@ -163,6 +189,14 @@ MessageRef Message::createArtMessage(const std::string &artData)
     MessageRef messageData(new Message());
     messageData->_messageType = Message::MessageTypeArt;
     messageData->_artData = artData;
+    return messageData;
+}
+
+MessageRef Message::createContentMessage(const std::string& contentId)
+{
+    MessageRef messageData(new Message());
+    messageData->_messageType = Message::MessageTypeContent;
+    messageData->_contentId = contentId;
     return messageData;
 }
 
@@ -193,6 +227,11 @@ std::string Message::stickerURL() const
 std::string Message::artURL() const
 {
     return _artLocation;
+}
+
+std::string Message::contentId() const
+{
+    return _contentId;
 }
 
 std::string Message::senderId() const
@@ -258,6 +297,13 @@ rapidjson::Value Message::toJson() const
     else if(_messageType == Message::MessageTypeArt)
     {
         json.AddMember("data",ToJson(_artData),allocator);
+    }
+    else if(_messageType == Message::MessageTypeContent)
+    {
+        std::map<std::string, std::string> params = {
+            { "contentId", _contentId }
+        };
+        json.AddMember("params", ToJson(params), allocator);
     }
     if(_timestamp > 0)
     {

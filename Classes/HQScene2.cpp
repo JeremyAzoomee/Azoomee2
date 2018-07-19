@@ -8,6 +8,7 @@
 #include "ContentHistoryManager.h"
 #include "DynamicNodeHandler.h"
 #include "HQSceneArtsApp.h"
+#include "MeHQ.h"
 #include "OfflineHubBackButton.h"
 #include "RecentlyPlayedManager.h"
 #include "ArtAppDelegate.h"
@@ -128,6 +129,18 @@ void HQScene2::startBuildingScrollView()
     }
 #endif
     
+    if(this->getName() == ConfigStorage::kMeHQName)
+    {
+        auto meHQ = this->getChildByName(ConfigStorage::kMeHQName);
+        if(!meHQ)
+        {
+            auto meHQLayer = MeHQ::create();
+            meHQLayer->setName(ConfigStorage::kMeHQName);
+            this->addChild(meHQLayer);
+        }
+        return;
+    }
+    
     if(this->getName() == ConfigStorage::kArtAppHQName)
     {
         auto artsLayer = this->getChildByName(ConfigStorage::kArtAppHQName);
@@ -178,13 +191,14 @@ void HQScene2::startBuildingScrollView()
         
         //Filling up empty spaces with placeholders (Design requirement - except for Group HQ)
     
-        if(_hqCategory != ConfigStorage::kGroupHQName && rowIndex > 0) //row index 0 will be recently played, which doesnt want placeholder assets
+        if(_hqCategory != ConfigStorage::kGroupHQName)
         {
             HQScene2PlaceHolderCreator hqScene2PlaceHolderCreator;
             hqScene2PlaceHolderCreator.setLowestElementYPosition(lowestElementYPosition);
             hqScene2PlaceHolderCreator.setCarouselLayer(carouselLayer);
             hqScene2PlaceHolderCreator.setBaseUnitSize(_contentItemSize * _unitMultiplier);
             hqScene2PlaceHolderCreator.setMargin(kContentItemMargin[_orientation]);
+            hqScene2PlaceHolderCreator.setUseWirePlaceholder(rowIndex == 0);
             hqScene2PlaceHolderCreator.addPlaceHoldersToCarousel();
         }
         

@@ -9,6 +9,8 @@
 #import "MediaPlayer_ios.h"
 #import "ios_Cocos2d_Callbacks.h"
 
+using namespace Azoomee;
+
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
 @implementation MediaPlayerController
@@ -84,28 +86,121 @@
     
     [self.queuePlayer play];
     
-    [self addBackButton];
+    [self createButtons];
 }
 
--(void)addBackButton
+- (void) createButtons
 {
+    CGFloat buttonWidth = 0.0f;
     CGSize screenSize = [[UIScreen mainScreen] bounds].size;
-    CGFloat buttonWidth = screenSize.width * 0.05;
     
-    self.backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.backButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [self.backButton setFrame:CGRectMake(buttonWidth / 4.0f, buttonWidth / 4.0f, buttonWidth, buttonWidth)];
-    [self.backButton setExclusiveTouch:YES];
-    [self.backButton setImage:[UIImage imageNamed:@"res/navigation/back_button.png"] forState:UIControlStateNormal];
+    buttonWidth = (screenSize.width > screenSize.height) ? screenSize.width / 15.0f : screenSize.height / 15.0f;
     
-    [self.view addSubview:self.backButton];
+    _buttonWidth = buttonWidth;
+    
+    screenSize.width -= buttonWidth * 1.5f;
+    screenSize.height -= buttonWidth * 1.5f;
+    
+    _backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_backButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [_backButton setFrame:CGRectMake(buttonWidth/4, buttonWidth/4, buttonWidth, buttonWidth)];
+    [_backButton setExclusiveTouch:YES];
+    [_backButton setImage:[UIImage imageNamed:@"res/webview_buttons/close_unselected.png"] forState:UIControlStateNormal];
+    [_backButton setImage:[UIImage imageNamed:@"res/webview_buttons/close_selected.png"] forState:UIControlStateSelected];
+    
+    _burgerButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_burgerButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [_burgerButton setFrame:CGRectMake(buttonWidth/4, buttonWidth/4 + buttonWidth, buttonWidth, buttonWidth)];
+    [_burgerButton setExclusiveTouch:YES];
+    [_burgerButton setImage:[UIImage imageNamed:@"res/webview_buttons/menu_unselected.png"] forState:UIControlStateNormal];
+    [_burgerButton setImage:[UIImage imageNamed:@"res/webview_buttons/menu_selected.png"] forState:UIControlStateSelected];
+    
+    _favButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_favButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [_favButton setFrame:CGRectMake(buttonWidth/4, buttonWidth/4 + buttonWidth, buttonWidth, buttonWidth)];
+    [_favButton setExclusiveTouch:YES];
+    [_favButton setImage:[UIImage imageNamed:@"res/webview_buttons/favourite_unselected.png"] forState:UIControlStateNormal];
+    [_favButton setImage:[UIImage imageNamed:@"res/webview_buttons/favourite_selected.png"] forState:UIControlStateSelected];
+    if(isFavContent())
+    {
+        [_favButton setSelected: true];
+    }
+    
+    _shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_shareButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [_shareButton setFrame:CGRectMake(buttonWidth/4, buttonWidth/4 + buttonWidth, buttonWidth, buttonWidth)];
+    [_shareButton setExclusiveTouch:YES];
+    [_shareButton setImage:[UIImage imageNamed:@"res/webview_buttons/share_unselected.png"] forState:UIControlStateNormal];
+    [_shareButton setImage:[UIImage imageNamed:@"res/webview_buttons/share_selected.png"] forState:UIControlStateSelected];
+    
+    [self.view addSubview:_favButton];
+    [self.view addSubview:_shareButton];
+    [self.view addSubview:_burgerButton];
+    [self.view addSubview:_backButton];
+    
+    _uiExpanded = false;
 }
 
 -(void) buttonClicked:(UIButton*)sender
 {
-    [self cleanupAndExit];
+    [sender setSelected: !sender.isSelected];
+    
+    if(sender == _backButton)
+    {
+        [self cleanupAndExit];
+    }
+    else if(sender == _favButton)
+    {
+        if(isFavContent())
+        {
+            unFavContent();
+        }
+        else
+        {
+            favContent();
+        }
+    }
+    else if(sender == _shareButton)
+    {
+        [self cleanupAndExit];
+        shareContentInChat();
+    }
+    else if(sender == _burgerButton)
+    {
+        [self animateButtons];
+    }
     
 }
+
+-(void) animateButtons
+{
+    CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+    screenSize.width -= _buttonWidth * 1.5f;
+    screenSize.height -= _buttonWidth * 1.5f;
+    
+    if(_uiExpanded)
+    {
+        // animate
+        [UIView animateWithDuration:0.5 animations:^{
+            //_backButton.frame = CGRectMake(_buttonWidth/4, _buttonWidth/4, _buttonWidth, _buttonWidth);
+            _favButton.frame = CGRectMake(_buttonWidth/4, _buttonWidth/4 + _buttonWidth, _buttonWidth, _buttonWidth);
+            _shareButton.frame = CGRectMake(_buttonWidth/4, _buttonWidth/4 + _buttonWidth, _buttonWidth, _buttonWidth);
+        }];
+        _uiExpanded = false;
+    }
+    else
+    {
+        // animate
+        [UIView animateWithDuration:0.5 animations:^{
+            //_backButton.frame = CGRectMake(_buttonWidth/4, _buttonWidth/4 + _buttonWidth, _buttonWidth, _buttonWidth);
+            _favButton.frame = CGRectMake(_buttonWidth/4, _buttonWidth/4 + (2  * _buttonWidth), _buttonWidth, _buttonWidth);
+            _shareButton.frame = CGRectMake(_buttonWidth/4, _buttonWidth/4 + (3 * _buttonWidth), _buttonWidth, _buttonWidth);
+        }];
+        _uiExpanded = true;
+    }
+    
+}
+
 
 #pragma mark Event listeners ------------------------------------------------------------------------------------------------------
 
@@ -246,7 +341,10 @@
     }
     
     exitRequested = true;
+    [self.burgerButton removeFromSuperview];
     [self.backButton removeFromSuperview];
+    [self.favButton removeFromSuperview];
+    [self.shareButton removeFromSuperview];
     [self.queuePlayer pause];
     [self.playerController.view removeFromSuperview];
     
@@ -258,7 +356,6 @@
     
     self.queuePlayer = nil;
     self.playerController = nil;
-    self.backButton = nil;
     self.lastPlayedItem = nil;
     
     Azoomee::navigateToBaseScene();

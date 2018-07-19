@@ -14,6 +14,7 @@ public:
     void setLowestElementYPosition(float lowestElementYPosition);
     void setMargin(float margin);
     void setVerticalImageOffset(float offset);
+    void setUseWirePlaceholder(bool useWirePlaceholder);
     
     void addPlaceHoldersToCarousel();
     
@@ -24,6 +25,7 @@ private:
     float _lowestElementYPosition = 0.0f;
     float _margin = 10.0f;
     float _verticalImageOffset = 0.0f;
+    bool _useWirePlaceholder = false;
     
     cocos2d::Layer* createPlaceHolderLayer(const cocos2d::Vec2 &highlightData);
     void addPlaceHolderImageToLayer(cocos2d::Layer* placeHolderLayer, const cocos2d::Vec2 &highlightdata);

@@ -111,7 +111,7 @@ void ManualGameInputLayer::buttonPressed(ElectricDreamsButton* button)
         def->setStringForKey("GameURI", uriTextInput->getText());
         def->flush();
         
-        std::string manualGamePath = FileUtils::getInstance()->getWritablePath() + "gameCache/" + GameDataManager::kManualGameId;
+        std::string manualGamePath = ConfigStorage::getInstance()->getGameCachePath() + GameDataManager::kManualGameId;
         
         if(FileUtils::getInstance()->isDirectoryExist(manualGamePath))
             FileUtils::getInstance()->removeDirectory(manualGamePath);

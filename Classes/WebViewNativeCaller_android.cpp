@@ -6,9 +6,12 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "WebGameAPIDataManager.h"
 #include "VideoPlaylistManager.h"
+#include "FavouritesManager.h"
+#include "ContentHistoryManager.h"
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
 #include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include "ChatDelegate.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/jni/JniHelper.h"
@@ -263,6 +266,62 @@ JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIGetRemoteWebGameAPIP
 {
     jstring returnString = env->NewStringUTF(ConfigStorage::getInstance()->getRemoteWebGameAPIPath().c_str());
     return returnString;
+}
+
+#endif
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+
+extern "C"
+{
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIAddToFavourites(JNIEnv* env, jobject thiz);
+};
+
+JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIAddToFavourites(JNIEnv* env, jobject thiz)
+{
+    FavouritesManager::getInstance()->addToFavourites(ContentHistoryManager::getInstance()->getLastOpenedContent());
+}
+
+#endif
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+
+extern "C"
+{
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIRemoveFromFavourites(JNIEnv* env, jobject thiz);
+};
+
+JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIRemoveFromFavourites(JNIEnv* env, jobject thiz)
+{
+    FavouritesManager::getInstance()->removeFromFavourites(ContentHistoryManager::getInstance()->getLastOpenedContent());
+}
+
+#endif
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+
+extern "C"
+{
+    JNIEXPORT bool JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIIsInFavourites(JNIEnv* env, jobject thiz);
+};
+
+JNIEXPORT bool JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIIsInFavourites(JNIEnv* env, jobject thiz)
+{
+    return FavouritesManager::getInstance()->isFavouriteContent(ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId());
+}
+
+#endif
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+
+extern "C"
+{
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIShareInChat(JNIEnv* env, jobject thiz);
+};
+
+JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIShareInChat(JNIEnv* env, jobject thiz)
+{
+    ChatDelegate::getInstance()->_sharedContentId = ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId();
 }
 
 #endif

@@ -16,17 +16,22 @@
     
     float _videoTimeSent;
     float _previousRate;
-    
+    float _buttonWidth;
+    bool _uiExpanded;
 }
 
 @property (nonatomic, retain) AVQueuePlayer* queuePlayer;
 @property (nonatomic, retain) AVPlayerViewController* playerController;
 @property (nonatomic, retain) UIButton* backButton;
+@property (nonatomic, retain) UIButton* burgerButton;
+@property (nonatomic, retain) UIButton* favButton;
+@property (nonatomic, retain) UIButton* shareButton;
 @property (nonatomic, retain) CALayer *loadingLayer;
 @property (nonatomic, retain) AVPlayerItem* lastPlayedItem;
 
 -(id)init;
 -(void)startBuildingMediaPlayer:(NSString*)url;
--(void)addBackButton;
+-(void)createButtons;
+-(void)animateButtons;
 
 @end

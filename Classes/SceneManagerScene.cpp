@@ -13,6 +13,8 @@
 #include "ChatDelegate.h"
 #include "../ArtApp/Classes/AzoomeeArt/MainScene.h"
 #include "../ArtApp/Classes/AzoomeeArt/AzoomeeArtApp.h"
+#include "OomeeMakerDelegate.h"
+#include <AzoomeeOomeeMaker/UI/OomeeSelectScene.h>
 #include "ArtAppDelegate.h"
 #include "EmptySceneForSettings.h"
 #include "WebViewSelector.h"
@@ -152,6 +154,15 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             else
                 goToScene = Azoomee::ArtApp::MainScene::createScene();
             Director::getInstance()->replaceScene(TransitionSlideInR::create(0.25f, goToScene));
+            break;
+        }
+        case OomeeMakerEntryPointScene:
+        {
+            HQHistoryManager::getInstance()->updatePrevOrientation();
+            Azoomee::OomeeMaker::delegate = OomeeMakerDelegate::getInstance();
+            forceToLandscape();
+            cocos2d::Scene* goToScene = Azoomee::OomeeMaker::OomeeSelectScene::create();
+            Director::getInstance()->replaceScene(goToScene);
             break;
         }
         case SettingsFromChat:

@@ -15,6 +15,7 @@ NS_AZOOMEE_BEGIN
 
 cocos2d::Sequence* createFadeInAndOutEffect(float totalDuration, int fadeInOpacity, int fadeOutOpacity);
 cocos2d::Sequence* createFlickerEffect(int flickerCount, float delayBetweenFlickers);
+cocos2d::Sequence* createBlinkEffect(float startDelay, float blinkDelay);
 
 NS_AZOOMEE_END
 

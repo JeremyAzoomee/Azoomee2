@@ -2,7 +2,7 @@
 #include "MessageListViewItem.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
-
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 
 using namespace cocos2d;
 
@@ -276,7 +276,12 @@ void MessageListView::setData(const FriendList& participants, const MessageList&
         _blankListItem->retain();
         _listView->removeLastItem();
 #endif
-        
+        bool userIsParent = false;
+        if(_participants[0]->friendId() == ParentDataProvider::getInstance()->getLoggedInParentId())
+        {
+            userIsParent = true;
+        }
+            
         const cocos2d::Vector<ui::Widget*> items = _listView->getItems();
         for(int i = 0; i < items.size() || i < messageList.size(); ++i)
         {
@@ -296,6 +301,7 @@ void MessageListView::setData(const FriendList& participants, const MessageList&
             {
                 // Ran out of UI elements, so we need to add a new one now
                 item = MessageListViewItem::create();
+                item->setUserIsParent(userIsParent);
                 // Must width before setting data since we pass in 0 height
                 item->setContentSize(Size(contentSize.width, 0.0f));
                 item->setData(message);

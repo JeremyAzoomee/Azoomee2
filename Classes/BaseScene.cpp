@@ -71,7 +71,7 @@ void BaseScene::startBuildingHQs()
     createHQScene2(ConfigStorage::kAudioHQName, contentLayer);
     createHQScene2(ConfigStorage::kArtAppHQName, contentLayer);
     createHQScene2(ConfigStorage::kGroupHQName, contentLayer);
-    createHQScene2(ConfigStorage::kMixHQName, contentLayer);
+    createHQScene2(ConfigStorage::kMeHQName, contentLayer);
     
     addNavigationLayer();  //The navigation layer is being added to "this", because that won't move with the menu.
 }
@@ -115,7 +115,7 @@ void BaseScene::addNavigationLayer()
     }
     else
     {
-        sNavigationLayer->changeToScene(ConfigStorage::kDefaultHQName, 0.01);
+        sNavigationLayer->changeToScene(ConfigStorage::getInstance()->getDefaultHQ(), 0.01);
     }
 }
 
@@ -166,7 +166,7 @@ void BaseScene::onSizeChanged()
         return;
     }
     
-    for(auto child : this->getChildByName(ConfigStorage::kContentLayerName)->getChildren())
+    for(auto child : contentLayer->getChildren())
     {
         HQScene2* hqScene = dynamic_cast<HQScene2*>(child);
         if(hqScene)

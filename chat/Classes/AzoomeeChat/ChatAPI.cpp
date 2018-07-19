@@ -161,6 +161,12 @@ void ChatAPI::markMessagesAsRead(const FriendRef& friendObj, const MessageRef& m
     request->execute();
 }
 
+void ChatAPI::getTimelineSummary()
+{
+    HttpRequestCreator* request = API::GetTimelineSummary(ChildDataProvider::getInstance()->getParentOrChildId(), this);
+    request->execute();
+}
+
 #pragma mark - HttpRequestCreatorResponseDelegate
 
 void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
@@ -267,6 +273,41 @@ void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
     {
         AnalyticsSingleton::getInstance()->chatResetReportedEvent();
         ModalMessages::getInstance()->stopLoading();
+    }
+    else if(requestTag == API::TagGetTimelineSummary)
+    {
+        rapidjson::Document response;
+        response.Parse(body.c_str());
+        
+        if(!response.HasParseError())
+        {
+            // Grab the messages
+            MessageList messages;
+            
+            for(auto it = response.Begin(); it != response.End(); ++it)
+            {
+                const auto& object = *it;
+                const MessageRef& message = Message::createFromJson(object);
+                if(message)
+                {
+                    // Make sure a text type message has a message, aka ignore blank messages
+                    if(message->messageType() == Message::MessageTypeText && message->messageText().size() == 0)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        messages.push_back(message);
+                    }
+                }
+            }
+            
+            // Notify observers
+            for(auto observer : _observers)
+            {
+                observer->onChatAPIGetTimelineSummary(messages);
+            }
+        }
     }
 }
 

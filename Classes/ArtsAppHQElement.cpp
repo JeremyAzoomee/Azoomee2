@@ -12,6 +12,7 @@
 #include "HQHistoryManager.h"
 #include "HQSceneArtsApp.h"
 #include "HQScene2.h"
+#include "MeHQ.h"
 
 using namespace cocos2d;
 
@@ -25,6 +26,7 @@ bool ArtsAppHQElement::initWithURLAndSize(const std::string& filePath, const Siz
     }
     
     _elementActive = true;
+    _newImage = newImage;
     
     this->setCascadeOpacityEnabled(true);
     this->setContentSize(size);
@@ -52,7 +54,7 @@ bool ArtsAppHQElement::initWithURLAndSize(const std::string& filePath, const Siz
     
     addOverlay();
     
-    if(deletable == true)
+    if(deletable)
     {
         _deleteButton = addDeleteButton();
         addListenerToDeleteButton(_deleteButton);
@@ -176,8 +178,10 @@ void ArtsAppHQElement::addLockToElement()
 
 Sprite* ArtsAppHQElement::addDeleteButton()
 {
-    auto delButton = Sprite::create("res/arthqscene/delete.png");
-    delButton->setPosition(this->getContentSize().width - 80, this->getContentSize().height - 80);
+    auto delButton = Sprite::create("res/buttons/close_button_me_page.png");
+    delButton->setAnchorPoint(Vec2(-0.25,1.25));
+    delButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
+    delButton->setScale(0.75);
     delButton->setOpacity(0);
     this->addChild(delButton,1);
     
@@ -256,14 +260,43 @@ void ArtsAppHQElement::addListenerToDeleteButton(cocos2d::Sprite *toBeAddedTo)
         {
             if(rect.containsPoint(locationInNode))
             {
+                return true;
+            }
+        }
+        return false;
+    };
+    
+    listener->onTouchEnded = [=](Touch *touch, Event *event)
+    {
+        auto target = static_cast<Node*>(event->getCurrentTarget());
+        
+        Point locationInNode = target->convertToNodeSpace(touch->getLocation());
+        Size s = target->getBoundingBox().size;//getContentSize();
+        Rect rect = Rect(0,0,s.width, s.height);
+        
+        if(target->getOpacity() == 255)
+        {
+            if(rect.containsPoint(locationInNode))
+            {
                 AnalyticsSingleton::getInstance()->genericButtonPressEvent("artsAppDeleteButton");
                 FileUtils::getInstance()->removeFile(_imageURL);
                 if(!HQHistoryManager::getInstance()->isOffline)
                 {
-                    HQScene2 *hqScene = (HQScene2 *)Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName)->getChildByName(ConfigStorage::kArtAppHQName);
-                    hqScene->removeAllChildren();
-                    Director::getInstance()->purgeCachedData();
-                    hqScene->startBuildingScrollView();
+                    if(HQHistoryManager::getInstance()->getCurrentHQ() == ConfigStorage::kArtAppHQName)
+                    {
+                        HQScene2 *hqScene = (HQScene2 *)Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName)->getChildByName(ConfigStorage::kArtAppHQName);
+                        hqScene->removeAllChildren();
+                        Director::getInstance()->purgeCachedData();
+                        hqScene->startBuildingScrollView();
+                    }
+                    else
+                    {
+                        MeHQ *hqScene = dynamic_cast<MeHQ*>(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName)->getChildByName(ConfigStorage::kMeHQName)->getChildByName(ConfigStorage::kMeHQName));
+                        if(hqScene)
+                        {
+                            hqScene->refreshGalleryLayout();
+                        }
+                    }
                 }
                 else
                 {
@@ -274,11 +307,8 @@ void ArtsAppHQElement::addListenerToDeleteButton(cocos2d::Sprite *toBeAddedTo)
                     offlineArtsAppScrollView->setName(HQScene2::kArtScrollViewName);
                     hqScene->addChild(offlineArtsAppScrollView);
                 }
-                return true;
             }
         }
-        
-        return false;
     };
     
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), toBeAddedTo);
@@ -352,7 +382,7 @@ void ArtsAppHQElement::addListenerToElement()
             _overlayWhenTouched->setOpacity(0);
             _overlayWhenTouched->stopAllActions();
             
-            if(_imageURL.substr(_imageURL.length() - 7) == "new.png")
+            if(_newImage)
             {
                 ArtAppDelegate::getInstance()->setFileName("");
             }
