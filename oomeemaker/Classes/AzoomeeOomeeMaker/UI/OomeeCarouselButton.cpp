@@ -8,6 +8,7 @@
 #include "OomeeCarouselButton.h"
 #include "../DataObjects/OomeeMakerDataHandler.h"
 #include "OomeeSelectScene.h"
+#include <AzoomeeCommon/UI/Style.h>
 
 using namespace cocos2d;
 
@@ -25,31 +26,41 @@ bool OomeeCarouselButton::init()
 
 void OomeeCarouselButton::onEnter()
 {
-    Sprite* bgCircle1 = Sprite::create("res/oomeeMaker/circle_0.png");
-    bgCircle1->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    bgCircle1->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    bgCircle1->setScale(0);
-    bgCircle1->setRotation(RandomHelper::random_real(0.0,M_PI));
-    this->addChild(bgCircle1, -1);
+    _innerCircle = Sprite::create("res/oomeeMaker/circle_0.png");
+    _innerCircle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    //bgCircle1->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    //float targetScale = (Vec2(this->getContentSize()).length() * 0.49f) / bgCircle1->getContentSize().height;
+    //bgCircle1->setPosition(Vec2(this->getContentSize().width / 2,  (bgCircle1->getContentSize().height * targetScale) / 2));
+    _innerCircle->setScale(0);
+    _innerCircle->setRotation(RandomHelper::random_real(0.0,M_PI));
+    this->addChild(_innerCircle, -1);
     
-    auto popIn1 = EaseBackOut::create(ScaleTo::create(0.5, (Vec2(this->getContentSize()).length() * 0.7f) / bgCircle1->getContentSize().height));
+    auto popIn1 = EaseBackOut::create(ScaleTo::create(0.5, (Vec2(this->getContentSize()).length() * 0.55f) / _innerCircle->getContentSize().height));
     auto rotate1 = RepeatForever::create(RotateBy::create(30 + CCRANDOM_0_1() * 30, 360));
     
-    bgCircle1->runAction(popIn1);
-    bgCircle1->runAction(rotate1);
+    _innerCircle->runAction(popIn1);
+    _innerCircle->runAction(rotate1);
     
-    Sprite* bgCircle2 = Sprite::create("res/oomeeMaker/circle_1.png");
-    bgCircle2->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    bgCircle2->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    bgCircle2->setScale(0);
-    bgCircle2->setRotation(RandomHelper::random_real(0.0,M_PI));
-    this->addChild(bgCircle2, -1);
+    _outerCircle = Sprite::create("res/oomeeMaker/circle_1.png");
+    _outerCircle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    //bgCircle2->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    //bgCircle2->setPosition(Vec2(this->getContentSize().width / 2,  (bgCircle2->getContentSize().height * targetScale) / 2));
+    _outerCircle->setScale(0);
+    _outerCircle->setRotation(RandomHelper::random_real(0.0,M_PI));
+    this->addChild(_outerCircle, -1);
     
-    auto popIn2 = EaseBackOut::create(ScaleTo::create(0.5, (Vec2(this->getContentSize()).length() * 0.95f) / bgCircle2->getContentSize().height));
+    auto popIn2 = EaseBackOut::create(ScaleTo::create(0.5, (Vec2(this->getContentSize()).length() * 0.75f) / _outerCircle->getContentSize().height));
     auto rotate2 = RepeatForever::create(RotateBy::create(30 +  CCRANDOM_0_1() * 30, -360));
         
-    bgCircle2->runAction(popIn2);
-    bgCircle2->runAction(rotate2);
+    _outerCircle->runAction(popIn2);
+    _outerCircle->runAction(rotate2);
+    
+    float targetScale = (Vec2(this->getContentSize()).length() * 0.75f) / _outerCircle->getContentSize().height;
+    _innerCircle->setNormalizedPosition(Vec2(0.5, ((_outerCircle->getContentSize().height * targetScale) / 2.5) / this->getContentSize().height));
+    _outerCircle->setNormalizedPosition(Vec2(0.5, ((_outerCircle->getContentSize().height * targetScale) / 2.5) / this->getContentSize().height));
+    
+    _outerCircle->setColor(Style::Color::darkTeal);
+    _innerCircle->setColor(Style::Color::darkTeal);
     
     _deleteButton = ui::Button::create("res/oomeeMaker/bin_button.png");
     _deleteButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -163,7 +174,7 @@ void OomeeCarouselButton::animateButtonsIn(float duration)
     duration *= durationMod;
     Action* scaleAction = ScaleTo::create(duration, 1);
     
-    Vec2 basePos = Vec2(centerWidth - this->getContentSize().height/1.7, centerHeight + this->getContentSize().height/1.7);
+    Vec2 basePos = Vec2(centerWidth - this->getContentSize().height/2, centerHeight + this->getContentSize().height/2);
     
     Action* moveActionEdit = EaseBackOut::create(MoveTo::create(duration, basePos));
     _editButton->stopAllActions();
@@ -212,6 +223,20 @@ void OomeeCarouselButton::animateButtonsOut(float duration)
     _makeAvatarButton->stopAllActions();
     _makeAvatarButton->runAction(scaleAction->clone());
     _makeAvatarButton->runAction(moveAction->clone());
+}
+
+void OomeeCarouselButton::enableHighlight(bool enable)
+{
+    if(enable)
+    {
+        _outerCircle->runAction(TintTo::create(0.5, Style::Color::brightAqua));
+        _innerCircle->runAction(TintTo::create(0.5, Style::Color::brightAqua));
+    }
+    else
+    {
+        _outerCircle->runAction(TintTo::create(0.5, Style::Color::darkTeal));
+        _innerCircle->runAction(TintTo::create(0.5, Style::Color::darkTeal));
+    }
 }
 
 

@@ -38,6 +38,7 @@ public:
     static const char* const kMeHQName;
     
     static const char* const kDefaultHQName;
+    static const char* const kAnonDefaultHQName;
     
     static const char* const kRecentlyPlayedCarouselName;
     
@@ -67,6 +68,7 @@ public:
     std::string getFileNameFromUrl(const std::string& url);
     
     std::string getGameCachePath();
+    std::string getDefaultHQ();
     
     //Backend caller configuration
     std::string getServerHost();

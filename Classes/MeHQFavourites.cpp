@@ -48,18 +48,12 @@ void MeHQFavourites::onEnter()
     this->setContentSize(Size(visibleSize.width, 0));
     setLayoutType(ui::Layout::Type::VERTICAL);
     
-    auto labelLayout = ui::Layout::create();
-    labelLayout->setContentSize(Size(visibleSize.width, kSpaceAboveCarousel[isPortrait]));
-    labelLayout->setLayoutType(ui::Layout::Type::VERTICAL);
-    labelLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
-    this->addChild(labelLayout);
-    
     ui::Text* heading = ui::Text::create("My Favourites", Style::Font::Regular, 100);
     heading->setTextHorizontalAlignment(TextHAlignment::CENTER);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setContentSize(Size(visibleSize.width, kSpaceAboveCarousel[isPortrait]));
-    heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
-    labelLayout->addChild(heading);
+    heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,50)));
+    this->addChild(heading);
     
     const auto& favList = FavouritesManager::getInstance()->getFavouriteContent();
     
@@ -143,24 +137,24 @@ void MeHQFavourites::onEnter()
     
         this->addChild(_carouselLayout);
     
-        ui::Button* editButton = ui::Button::create("res/buttons/button_dark.png");
+        ui::Button* editButton = ui::Button::create("res/buttons/MainButton.png");
+        editButton->setColor(Style::Color::darkTeal);
         editButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-        editButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
-        editButton->setContentSize(Size(1230,editButton->getContentSize().height));
+        editButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
+        editButton->setContentSize(Size(1100,editButton->getContentSize().height));
         editButton->ignoreContentAdaptWithSize(false);
         editButton->setScale9Enabled(true);
         editButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
-            static bool enabled = false;
             if(eType == ui::Widget::TouchEventType::ENDED)
             {
-                enabled = !enabled;
+                _editEnabled = !_editEnabled;
                 ui::Button* button = dynamic_cast<ui::Button*>(pSender);
                 if(button)
                 {
                     Label* label = dynamic_cast<Label*>(button->getChildByName("label"));
                     if(label)
                     {
-                        label->setString(enabled ? "Finish Editing" : "Edit My Favourites");
+                        label->setString(_editEnabled ? "Finish Editing" : "Edit My Favourites");
                     }
                 }
                 for(auto item : _carouselLayout->getChildren())
@@ -168,7 +162,7 @@ void MeHQFavourites::onEnter()
                     HQSceneElement* element = dynamic_cast<HQSceneElement*>(item);
                     if(element)
                     {
-                        element->deleteButtonVisible(enabled);
+                        element->deleteButtonVisible(_editEnabled);
                     }
                 }
             }
@@ -183,7 +177,7 @@ void MeHQFavourites::onEnter()
     
         this->addChild(editButton);
     
-        this->setContentSize(Size(visibleSize.width, -lowestElementYPosition + kSpaceAboveCarousel[isPortrait] + 350));
+        this->setContentSize(Size(visibleSize.width, -lowestElementYPosition + kSpaceAboveCarousel[isPortrait] + editButton->getContentSize().height));
     }
     else
     {
@@ -197,20 +191,43 @@ void MeHQFavourites::buildEmptyCarousel()
     
     int isPortrait = visibleSize.width < visibleSize.height;
     
-    ui::ImageView* favLogo = ui::ImageView::create("res/meHQ/smiley.png");
-    favLogo->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    favLogo->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
-    this->addChild(favLogo);
+    Size contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kGameHQName);
+    float unitWidth = (visibleSize.width - 2 * kSideMarginSize[isPortrait]) / kUnitsOnScreen[isPortrait];
+    float unitMultiplier = unitWidth / contentItemSize.width;
     
-    Rect capInsents = Rect(100, 0, 286, 149);
+    cocos2d::ui::Layout* carouselLayer = ui::Layout::create();
+    carouselLayer->setContentSize(Size(visibleSize.width - 2 * kSideMarginSize[isPortrait], 0));
+    carouselLayer->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     
-    ui::Button* trySomethingButton = ui::Button::create("res/buttons/button_dark.png");
-    trySomethingButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    trySomethingButton->setCapInsets(capInsents);
-    trySomethingButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
-    trySomethingButton->setContentSize(Size(1000,trySomethingButton->getContentSize().height));
-    trySomethingButton->setScale9Enabled(true);
-    trySomethingButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+    float lowestElementYPosition = 0;
+    
+    for(int elementIndex = 0; elementIndex < kUnitsOnScreen[isPortrait] - 1; elementIndex++)
+    {
+        Sprite* placeholder = Sprite::create("res/contentPlaceholders/placeholder_thumbnail_1_1.png");
+        placeholder->setScale(((contentItemSize.width - kContentItemMargin[isPortrait]) * unitMultiplier) / placeholder->getContentSize().width);
+        placeholder->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+        
+        HQScene2ElementPositioner hqScene2ElementPositioner;
+        hqScene2ElementPositioner.setElement(placeholder);
+        hqScene2ElementPositioner.setCarouselLayer(carouselLayer);
+        hqScene2ElementPositioner.setHighlightData(Vec2(1,1));
+        hqScene2ElementPositioner.setBaseUnitSize(contentItemSize * unitMultiplier);
+        
+        const cocos2d::Point &elementPosition = hqScene2ElementPositioner.positionHQSceneElement();
+        float offset = kContentItemMargin[isPortrait]/2;
+        placeholder->setPosition(elementPosition + Vec2(offset, offset));
+        carouselLayer->addChild(placeholder);
+        
+        if(elementPosition.y < lowestElementYPosition)
+        {
+            lowestElementYPosition = elementPosition.y;
+        }
+    }
+    
+    ui::Button* playGamesButton = ui::Button::create("res/meHQ/play_games_button.png");
+    playGamesButton->setScale(((contentItemSize.width - kContentItemMargin[isPortrait]) * unitMultiplier) / playGamesButton->getContentSize().width);
+    playGamesButton->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+    playGamesButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
             auto baseLayer = Director::getInstance()->getRunningScene();
@@ -226,22 +243,34 @@ void MeHQFavourites::buildEmptyCarousel()
         }
     });
     
-    Label* trySomethingButtonLabel = Label::createWithTTF("Try something new", Style::Font::Regular, trySomethingButton->getContentSize().height * 0.4f);
-    trySomethingButtonLabel->setTextColor(Color4B::WHITE);
-    trySomethingButtonLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    trySomethingButtonLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    trySomethingButton->addChild(trySomethingButtonLabel);
+    HQScene2ElementPositioner hqScene2ElementPositioner;
+    hqScene2ElementPositioner.setElement(playGamesButton);
+    hqScene2ElementPositioner.setCarouselLayer(carouselLayer);
+    hqScene2ElementPositioner.setHighlightData(Vec2(1,1));
+    hqScene2ElementPositioner.setBaseUnitSize(contentItemSize * unitMultiplier);
     
-    this->addChild(trySomethingButton);
+    const cocos2d::Point &elementPosition = hqScene2ElementPositioner.positionHQSceneElement();
+    float offset = kContentItemMargin[isPortrait]/2;
+    playGamesButton->setPosition(elementPosition + Vec2(offset, offset));
+    carouselLayer->addChild(playGamesButton);
     
-    ui::Text* heading = ui::Text::create(StringUtils::format("Favourite content after you watch%sor play and it will appear here.", isPortrait ? "\n" : " "), Style::Font::Regular, 80);
+    for(auto item : carouselLayer->getChildren())
+    {
+        item->setPosition(item->getPosition() - Vec2(0,lowestElementYPosition));
+    }
+    
+    carouselLayer->setContentSize(Size(carouselLayer->getContentSize().width, -lowestElementYPosition));
+    
+    this->addChild(carouselLayer);
+    
+     ui::Text* heading = ui::Text::create(StringUtils::format("Favourite content after you watch%sor play and it will appear here.", isPortrait ? "\n" : " "), Style::Font::Regular, 80);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setTextHorizontalAlignment(TextHAlignment::CENTER);
     heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
     heading->setContentSize(Size(visibleSize.width, 200));
     this->addChild(heading);
     
-    this->setContentSize(Size(visibleSize.width, 2 * kSpaceAboveCarousel[isPortrait] + 350 + favLogo->getContentSize().height));
+    this->setContentSize(Size(visibleSize.width, heading->getContentSize().height -lowestElementYPosition + kSpaceAboveCarousel[isPortrait] + 50));
     
 }
 

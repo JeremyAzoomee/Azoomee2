@@ -66,8 +66,8 @@ bool AvatarWidget::init()
                                   clipSize.width * 0.5f, 0.0f, circleResolution,
                                   Color4F::GREEN);
     // A rect above the circle half way point, since some oomees have ears sticking outside the circle
-    _stencilMask->drawSolidRect(Vec2(clipSize.width * -0.25f, clipSize.height * 0.5f),
-                                Vec2(clipSize.width * 1.5f, clipSize.height * 1.5f),
+    _stencilMask->drawSolidRect(Vec2(clipSize.width * 0.0f, clipSize.height * 0.5f),
+                                Vec2(clipSize.width * 1.0f, clipSize.height * 1.5f),
                                 Color4F::GREEN);
     _clippingNode->setStencil(_stencilMask);
     
@@ -75,8 +75,8 @@ bool AvatarWidget::init()
     _avatarImage = ui::ImageView::create();
     _avatarImage->ignoreContentAdaptWithSize(false); // stretch the image
     _avatarImage->setAnchorPoint(Vec2(0.5f, 0.5f));
-    _avatarImage->setPosition(Vec2(clipSize.width * 0.5f, clipSize.height * 0.6f));
-    _avatarImage->setScale(0.55f); //0.865f);
+    _avatarImage->setPosition(Vec2(clipSize.width * 0.5f, clipSize.height * 0.45f));
+    _avatarImage->setScale(0.4f); //0.865f);
     _clippingNode->addChild(_avatarImage);
     
     

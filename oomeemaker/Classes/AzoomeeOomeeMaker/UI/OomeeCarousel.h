@@ -51,6 +51,7 @@ public:
     
     void centerButtons();
     void setButtonDelegate(OomeeCarouselButtonDelegate* delegate);
+    OomeeCarouselButton* getCenterButton();
     
     CREATE_FUNC(OomeeCarousel);
 };

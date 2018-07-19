@@ -21,6 +21,11 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+const float MeHQMessages::kSideMarginSize[2] = {20.0f, 10.0f};
+const float MeHQMessages::kSpaceAboveCarousel[2] = {200.0f, 200.0f};
+const int MeHQMessages::kUnitsOnScreen[2] = {4,2};
+const float MeHQMessages::kContentItemMargin[2] = {20.0f, 20.0f};
+
 bool MeHQMessages::init()
 {
     if(!Super::init())
@@ -70,33 +75,83 @@ void MeHQMessages::buildEmptyCarousel()
     
     bool isPortrait = visibleSize.width < visibleSize.height;
     
-    ui::ImageView* msgLogo = ui::ImageView::create("res/meHQ/mail.png");
-    msgLogo->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    msgLogo->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
-    this->addChild(msgLogo);
+    float totalHeight = 200;
     
-    Rect capInsents = Rect(100, 0, 286, 149);
+    Size contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kGameHQName);
+    float unitWidth = (visibleSize.width - 2 * kSideMarginSize[isPortrait]) / kUnitsOnScreen[isPortrait];
+    float unitMultiplier = unitWidth / contentItemSize.width;
     
-    ui::Button* makePaintingButton = ui::Button::create("res/buttons/button_dark.png");
-    makePaintingButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    makePaintingButton->setCapInsets(capInsents);
-    makePaintingButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
-    makePaintingButton->setContentSize(Size(1000,250));
-    makePaintingButton->setScale9Enabled(true);
-    makePaintingButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+    ui::Layout* divider = ui::Layout::create();
+    divider->setLayoutParameter(CreateLeftLinearLayoutParam(ui::Margin(kSideMarginSize[isPortrait],0,0,0)));
+    divider->setContentSize(Size((visibleSize.width - 2 * kSideMarginSize[isPortrait]) * (isPortrait ? 1.0f : 0.75f) - kContentItemMargin[isPortrait], 8));
+    divider->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+    divider->setBackGroundColor(Style::Color::bluegreenish);
+    this->addChild(divider);
+    
+    ui::Layout* messageLayout = ui::Layout::create();
+    messageLayout->setContentSize(Size(visibleSize.width - 2 * kSideMarginSize[isPortrait], contentItemSize.height * unitMultiplier));
+    messageLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+    
+    Chat::FriendRef fakeAcc = Chat::Friend::create("", "Azoomee",ConfigStorage::getInstance()->getUrlForOomee(0));
+    
+    Chat::AvatarWidget* avatar = Chat::AvatarWidget::create();
+    avatar->setAvatarForFriend(fakeAcc);
+    avatar->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    avatar->setNormalizedPosition(Vec2(isPortrait ? 0.15 : 0.1,0.5));
+    avatar->setContentSize(Size(300,300));
+    messageLayout->addChild(avatar);
+    
+    float textPos = isPortrait ? 0.30 : 0.2;
+    float maxWidth = this->getContentSize().width * ((isPortrait ? 1 : 0.75) - textPos - 0.05);
+    
+    Label* senderName = Label::createWithTTF("Azoomee", Style::Font::Regular, 97);
+    senderName->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+    senderName->setNormalizedPosition(Vec2(textPos,0.66));
+    
+    reduceLabelTextToFitWidth(senderName, maxWidth);
+    
+    messageLayout->addChild(senderName);
+    
+    Label* messageText = Label::createWithTTF("Welcome to your Me Page!", Style::Font::Regular, 82);
+    messageText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+    messageText->setNormalizedPosition(Vec2(textPos,0.33));
+    
+    reduceLabelTextToFitWidth(messageText, maxWidth);
+    
+    messageLayout->addChild(messageText);
+    
+    this->addChild(messageLayout);
+    
+    totalHeight += messageLayout->getContentSize().height;
+    
+    ui::Layout* divider2 = ui::Layout::create();
+    divider2->setLayoutParameter(CreateLeftLinearLayoutParam(ui::Margin(kSideMarginSize[isPortrait],0,0,0)));
+    divider2->setContentSize(Size((visibleSize.width - 2 * kSideMarginSize[isPortrait]) * (isPortrait ? 1.0f : 0.75f) - kContentItemMargin[isPortrait], 8));
+    divider2->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+    divider2->setBackGroundColor(Style::Color::bluegreenish);
+    this->addChild(divider2);
+    
+    ui::Button* chatButton = ui::Button::create("res/meHQ/send_message_button.png");
+    chatButton->setScale( ((contentItemSize.width - kContentItemMargin[isPortrait]) * unitMultiplier) / chatButton->getContentSize().width);
+    chatButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    chatButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
         }
     });
-    
-    Label* makePaintingButtonLabel = Label::createWithTTF("Send a message", Style::Font::Regular, makePaintingButton->getContentSize().height * 0.4f);
-    makePaintingButtonLabel->setTextColor(Color4B::WHITE);
-    makePaintingButtonLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    makePaintingButtonLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    makePaintingButton->addChild(makePaintingButtonLabel);
-    
-    this->addChild(makePaintingButton);
+    if(!isPortrait)
+    {
+        chatButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
+        chatButton->setNormalizedPosition(Vec2((visibleSize.width - kSideMarginSize[isPortrait]) / visibleSize.width, 0.5));
+        messageLayout->addChild(chatButton);
+    }
+    else
+    {
+        chatButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
+        this->addChild(chatButton);
+        totalHeight += chatButton->getContentSize().height + 100;
+    }
     
     ui::Text* heading = ui::Text::create(StringUtils::format("When you send messages, your%slast messages will appear here.", isPortrait ? "\n" : " "), Style::Font::Regular, 80);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
@@ -105,8 +160,9 @@ void MeHQMessages::buildEmptyCarousel()
     heading->setContentSize(Size(this->getContentSize().width, 200));
     this->addChild(heading);
     
-    this->setContentSize(Size(visibleSize.width, 400 + 350 + msgLogo->getContentSize().height));
+    totalHeight += heading->getContentSize().height + 150;
     
+    this->setContentSize(Size(visibleSize.width ,totalHeight));
 }
 
 
@@ -122,7 +178,7 @@ void MeHQMessages::createMessageList()
     
     ui::Text* heading = ui::Text::create("My Last Messages", Style::Font::Regular, 100);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+    heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,50)));
     heading->setContentSize(Size(this->getContentSize().width, 200));
     this->addChild(heading);
     
@@ -130,11 +186,18 @@ void MeHQMessages::createMessageList()
     {
         for(const Chat::MessageRef& message : _messages)
         {
+            ui::Layout* divider = ui::Layout::create();
+            divider->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,0)));
+            divider->setContentSize(Size(visibleSize.width * 0.9f, 8));
+            divider->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+            divider->setBackGroundColor(Style::Color::bluegreenish);
+            this->addChild(divider);
+            
             ui::Layout* messageLayout = ui::Layout::create();
-            messageLayout->setContentSize(Size(visibleSize.width * 0.9, 500));
-            messageLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
-            messageLayout->setBackGroundImage("res/decoration/message_bar_container.png");
-            messageLayout->setBackGroundImageScale9Enabled(true);
+            messageLayout->setContentSize(Size(visibleSize.width * 0.9, 442));
+            messageLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+            //messageLayout->setBackGroundImage("res/decoration/message_bar_container.png");
+            //messageLayout->setBackGroundImageScale9Enabled(true);
             
             Chat::AvatarWidget* avatar = Chat::AvatarWidget::create();
             
@@ -153,10 +216,10 @@ void MeHQMessages::createMessageList()
             avatar->setContentSize(Size(300,300));
             messageLayout->addChild(avatar);
             
-            float textPos = isPortrait ? 0.40 : 0.25;
-            float maxWidth = this->getContentSize().width * (1 - textPos - 0.1);
+            float textPos = isPortrait ? 0.30 : 0.2;
+            float maxWidth = this->getContentSize().width * (1 - textPos - 0.05);
             
-            Label* senderName = Label::createWithTTF(message->senderName(), Style::Font::Regular, 120);
+            Label* senderName = Label::createWithTTF(message->senderName(), Style::Font::Regular, 97);
             senderName->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
             senderName->setNormalizedPosition(Vec2(textPos,0.66));
             
@@ -164,7 +227,7 @@ void MeHQMessages::createMessageList()
             
             messageLayout->addChild(senderName);
             
-            Label* messageText = Label::createWithTTF("", Style::Font::Regular, 72);
+            Label* messageText = Label::createWithTTF("", Style::Font::Regular, 82);
             std::string text = message->messageText();
             if(message->messageType() == Chat::Message::MessageTypeArt)
             {
@@ -214,8 +277,15 @@ void MeHQMessages::createMessageList()
             });
             messageLayout->setTouchEnabled(true);
             
-            totalHeight += messageLayout->getContentSize().height + 100;
+            totalHeight += messageLayout->getContentSize().height;
         }
+        
+        ui::Layout* divider = ui::Layout::create();
+        divider->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,0)));
+        divider->setContentSize(Size(visibleSize.width * 0.9f, 8));
+        divider->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+        divider->setBackGroundColor(Style::Color::bluegreenish);
+        this->addChild(divider);
     
         this->setContentSize(Size(visibleSize.width ,totalHeight));
     }

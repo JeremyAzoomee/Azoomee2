@@ -637,8 +637,9 @@ void NavigationLayer::buttonPressed(ElectricDreamsButton* button)
 void NavigationLayer::cleanUpPreviousHQ()
 {
     cocos2d::log("previous hq is: %s", HQHistoryManager::getInstance()->getPreviousHQ().c_str());
+    cocos2d::log("current hq is: %s", HQHistoryManager::getInstance()->getCurrentHQ().c_str());
     const std::string& previousHqName = HQHistoryManager::getInstance()->getPreviousHQ();
-    if(previousHqName != ConfigStorage::kHomeHQName)
+    if(!(previousHqName == ConfigStorage::kMeHQName && HQHistoryManager::getInstance()->getCurrentHQ() == ConfigStorage::kMeHQName))
     {
         HQScene2* lastHQLayer = (HQScene2 *)Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName)->getChildByName(previousHqName);
         

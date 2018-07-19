@@ -10,12 +10,13 @@
 
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeOomeeMaker/AzoomeeOomeeMaker.h>
+#include <AzoomeeCommon/API/HttpRequestCreator.h>
 #include <string>
 #include <memory>
 
 NS_AZOOMEE_BEGIN
 
-class OomeeMakerDelegate: public Azoomee::OomeeMaker::Delegate
+class OomeeMakerDelegate: public Azoomee::OomeeMaker::Delegate, HttpRequestCreatorResponseDelegate
 {
 public:
     static OomeeMakerDelegate* getInstance();
@@ -23,6 +24,9 @@ public:
     virtual void onOomeeMakerNavigationBack() override;
     virtual void onOomeeMakerShareOomee(const std::string& filename) override;
     virtual void onOomeeMakerUpdateAvatar(const std::string& filename) override;
+    
+    virtual void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body) override;
+    virtual void onHttpRequestFailed(const std::string& requestTag, long errorCode) override;
 };
 
 NS_AZOOMEE_END

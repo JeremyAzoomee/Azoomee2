@@ -51,7 +51,7 @@ std::string HQHistoryManager::getCurrentHQ()
 std::string HQHistoryManager::getPreviousHQ()
 {
     if(hqNames.size() > 1) return hqNames.at(hqNames.size() - 2);
-    else return ConfigStorage::kDefaultHQName;
+    else return ConfigStorage::getInstance()->getDefaultHQ();
 }
 
 std::string HQHistoryManager::getBeforePreviousHQ()
@@ -70,8 +70,8 @@ void HQHistoryManager::addDefaultHQIfHistoryEmpty()
 {
     if(hqNames.size() == 0)
     {
-        Azoomee::AnalyticsSingleton::getInstance()->registerCurrentScene(ConfigStorage::kDefaultHQName);
-        hqNames.push_back(ConfigStorage::kDefaultHQName);
+        Azoomee::AnalyticsSingleton::getInstance()->registerCurrentScene(ConfigStorage::getInstance()->getDefaultHQ());
+        hqNames.push_back(ConfigStorage::getInstance()->getDefaultHQ());
     }
     else
     {

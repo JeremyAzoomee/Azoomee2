@@ -115,7 +115,7 @@ void BaseScene::addNavigationLayer()
     }
     else
     {
-        sNavigationLayer->changeToScene(ConfigStorage::kDefaultHQName, 0.01);
+        sNavigationLayer->changeToScene(ConfigStorage::getInstance()->getDefaultHQ(), 0.01);
     }
 }
 
@@ -166,7 +166,7 @@ void BaseScene::onSizeChanged()
         return;
     }
     
-    for(auto child : this->getChildByName(ConfigStorage::kContentLayerName)->getChildren())
+    for(auto child : contentLayer->getChildren())
     {
         HQScene2* hqScene = dynamic_cast<HQScene2*>(child);
         if(hqScene)

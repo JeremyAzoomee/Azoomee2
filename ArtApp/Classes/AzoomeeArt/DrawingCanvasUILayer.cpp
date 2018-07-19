@@ -138,6 +138,7 @@ void DrawingCanvasUILayer::addClearButton(const Size& visibleSize, const Point& 
     _undoButton->loadTextures(kArtAppAssetLoc + "redo.png", kArtAppAssetLoc + "redo.png");
     _undoButton->setPosition(Vec2(visibleSize.width - _undoButton->getContentSize().width, _clearButton->getPosition().y));
     _undoButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onUndoButtonPressed, this));
+    _undoButton->setFlippedX(true);
     this->addChild(_undoButton,MAIN_UI_LAYER);
     
     _confirmDeleteImagePopup = Node::create();
