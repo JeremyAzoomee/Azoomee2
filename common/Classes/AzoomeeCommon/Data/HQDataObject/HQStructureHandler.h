@@ -14,19 +14,28 @@
 #include "../../Utils/FileDownloader.h"
 
 NS_AZOOMEE_BEGIN
+class HQFeedDelegate
+{
+public:
+    virtual void onFeedDownloadComplete() = 0;
+};
 
 class HQStructureHandler : public HttpRequestCreatorResponseDelegate, FileZipDelegate, FileDownloaderDelegate
 {
 private:
+    FileDownloaderRef _fileDownloader = nullptr;
+    HQFeedDelegate* _delegate = nullptr;
+    
+    void loadLocalData();
     void loadHQStructureDataByName(const std::string& userFeedName);
     
 public:
     static HQStructureHandler* getInstance();
     ~HQStructureHandler();
     
-    void getLatestHQStructureFeed();
+    void setHQFeedDelegate(HQFeedDelegate* delegate);
     
-    void loadHQStructureForUser();
+    void getLatestHQStructureFeed();
     
     //delegate functions
     virtual void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body);

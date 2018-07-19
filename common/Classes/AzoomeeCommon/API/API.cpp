@@ -39,6 +39,8 @@ const char* const API::TagResetReportedChat = "chat.resetReported";
 const char* const API::TagGetTimelineSummary = "chat.getTimelineSummary";
 const char* const API::TagGetForceUpdateInformation = "forceUpdate";
 const char* const API::TagCookieRefresh = "cookieRefresh";
+const char* const API::TagGetContentPoolRequest = "getContentPool";
+const char* const API::TagGetHqStructureDataRequest = "getHQStructureData";
 const char* const API::TagUpdateChildAvatar = "updateChildAvatar";
 
 #pragma mark - API Methods
@@ -321,7 +323,8 @@ HttpRequestCreator* API::GetContentPoolRequest(const std::string& childId, Azoom
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->requestTag = TagGetContentPoolRequest;
-    request->requestPath = StringUtils::format("/electricdreams/v3/%s/items",childId.c_str());
+    request->requestPath = StringUtils::format("/api/electricdreams/v3/%s/items",childId.c_str());
+    request->method = "GET";
     request->encrypted = true;
     return request;
 }
@@ -330,7 +333,7 @@ HttpRequestCreator* API::GetHQStructureDataRequest(const std::string& childId, A
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->requestTag = TagGetHqStructureDataRequest;
-    request->requestPath = StringUtils::format("/electricdreams/v3/%s/feeds",childId.c_str());
+    request->requestPath = StringUtils::format("/api/electricdreams/v3/%s/feeds",childId.c_str());
     request->encrypted = true;
     return request;
 }

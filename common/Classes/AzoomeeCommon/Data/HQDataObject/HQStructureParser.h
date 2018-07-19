@@ -21,7 +21,7 @@ public:
     static HQStructureParser* getInstance();
     ~HQStructureParser(void);
     
-    void parseHQStructureData(const std::string hqStuctureData);
+    void parseHQStructureData(const std::string hqStuctureData, const std::string& hqName);
     
 };
 

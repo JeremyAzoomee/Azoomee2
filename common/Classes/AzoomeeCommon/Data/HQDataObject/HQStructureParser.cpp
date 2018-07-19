@@ -30,36 +30,33 @@ HQStructureParser::~HQStructureParser(void)
     
 }
 
-void parseHQStructureData(const std::string hqStuctureData)
+void HQStructureParser::parseHQStructureData(const std::string hqStuctureData, const std::string& hqName)
 {
     // stucture
     /*
-        [
-         "GAME": {
-             "rows": [
-                 {
-                     "contentIds": [
-                        "1111111-11111-1111-111111",
-                        etc.
-                     ],
-                     "title": "favs",
-                     "images": {
-                        "icon": "icon url"
-                     },
-                     "shapes": [
-                        [1,1],
-                        etc
-                     ]
-     
-                 }
-             ]
-         },
-         "VIDEO": {
-     
-         },
+    {
+     "items":{
+         "1111111-11111-1111-111111":{"entitled":true},
+         "1111111-22222-1111-111111":{"entitled":true}
          etc.
+     },
+     "rows": [
+     {
+        "contentIds": [
+            "1111111-11111-1111-111111",
+            etc.
+        ],
+        "title": "favs",
+        "images": {
+            "icon": "icon url"
+        },
+        "shapes": [
+            [1,1],
+            etc
         ]
-     */
+     }
+    }
+    */
     
     rapidjson::Document hqData;
     hqData.Parse(hqStuctureData.c_str());
@@ -69,72 +66,70 @@ void parseHQStructureData(const std::string hqStuctureData)
         return; //JSON HAS ERRORS IN IT
     }
     
-    if(!hqData.IsArray())
+    if(!hqData.HasMember("items") || !hqData.HasMember("rows"))
     {
         return;
     }
     
-    for (auto M = hqData.MemberBegin(); M != hqData.MemberEnd(); M++)
+    HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName)->clearData();
+    
+    const rapidjson::Value& items = hqData["items"];
+    for (auto M = items.MemberBegin(); M != items.MemberEnd(); M++)
     {
-        const rapidjson::Value& hq = M->value;
-        const std::string& hqName = M->name.GetString();
-        if(!hq.HasMember("rows"))
+        HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName)->addContentEntitlement(M->name.GetString(), M->value["entitled"].GetBool());
+    }
+    
+    for (int rowNumber = 0; rowNumber < hqData["rows"].Size(); rowNumber++)
+    {
+        const rapidjson::Value& rowData = hqData["rows"][rowNumber];
+        HQCarouselObjectRef carouselObject = HQCarouselObject::create();
+        
+        carouselObject->setTitle(getStringFromJson("title", rowData));
+        
+        if(rowData.HasMember("images"))
         {
-            continue;
+            carouselObject->setIcon(getStringFromJson("icon", rowData["images"])); //parsing carousel main icon if present
         }
         
-        for (int rowNumber = 0; rowNumber < hq["rows"].Size(); rowNumber++)
+        if(rowData.HasMember("contentIds") && rowData["contentIds"].IsArray() && rowData["contentIds"].Size() != 0)
         {
-            const rapidjson::Value& rowData = hq["rows"][rowNumber];
-            HQCarouselObjectRef carouselObject = HQCarouselObject::create();
-            
-            carouselObject->setTitle(getStringFromJson("title", rowData));
-            
-            if(rowData.HasMember("images"))
+            const rapidjson::Value& contentIds = rowData["contentIds"];
+            for(int elementIndex = 0; elementIndex < contentIds.Size(); elementIndex++)
             {
-                carouselObject->setIcon(getStringFromJson("icon", rowData["images"])); //parsing carousel main icon if present
-            }
-            
-            if(rowData.HasMember("contentIds") && rowData["contentIds"].IsArray() && rowData["contentIds"].Size() != 0)
-            {
-                const rapidjson::Value& contentIds = rowData["contentIds"];
-                for(int elementIndex = 0; elementIndex < contentIds.Size(); elementIndex++)
+                if(!contentIds[elementIndex].IsString())
                 {
-                    if(!contentIds[elementIndex].IsString())
-                    {
-                        continue;
-                    }
-                    const std::string &contentId = contentIds[elementIndex].GetString();
-                    
-                    const HQContentItemObjectRef &pointerToContentItem = ContentItemPool::getInstance()->getContentItemForId(contentId);
-                    if(pointerToContentItem == nullptr)
-                    {
-                        continue;
-                    }
-                    
-                    Vec2 contentItemHighlight = Vec2(1,1);
-                    if(rowData.HasMember("shapes") && rowData["shapes"].IsArray() && rowData["shapes"].Size() > elementIndex)
-                    {
-                        const rapidjson::Value& elementShapeData = rowData["shapes"][elementIndex];
-                        if(elementShapeData.IsArray() && elementShapeData.Size() == 2 && elementShapeData[0].IsInt() && elementShapeData[1].IsInt())
-                        {
-                            contentItemHighlight = Vec2(elementShapeData[0].GetInt(), elementShapeData[1].GetInt());
-                        }
-                    }
-                    
-                    carouselObject->addContentItemToCarousel(pointerToContentItem);
-                    carouselObject->addContentItemHighlight(contentItemHighlight);
+                    continue;
                 }
+                const std::string &contentId = contentIds[elementIndex].GetString();
+                
+                const HQContentItemObjectRef &pointerToContentItem = ContentItemPool::getInstance()->getContentItemForId(contentId);
+                if(pointerToContentItem == nullptr)
+                {
+                    continue;
+                }
+                
+                Vec2 contentItemHighlight = Vec2(1,1);
+                if(rowData.HasMember("shapes") && rowData["shapes"].IsArray() && rowData["shapes"].Size() > elementIndex)
+                {
+                    const rapidjson::Value& elementShapeData = rowData["shapes"][elementIndex];
+                    if(elementShapeData.IsArray() && elementShapeData.Size() == 2 && elementShapeData[0].IsInt() && elementShapeData[1].IsInt())
+                    {
+                        contentItemHighlight = Vec2(elementShapeData[0].GetInt(), elementShapeData[1].GetInt());
+                    }
+                }
+                
+                carouselObject->addContentItemToCarousel(pointerToContentItem);
+                carouselObject->addContentItemHighlight(contentItemHighlight);
             }
-            
-            HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName)->addCarouselToHq(carouselObject);
-            HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName)->setHqType(hqName);
         }
         
-        if(hq.HasMember("images"))
-        {
-            HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName)->setImages(getStringMapFromJson(hq["images"]));
-        }
+        HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName)->addCarouselToHq(carouselObject);
+        HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName)->setHqType(hqName);
+    }
+        
+    if(hqData.HasMember("images"))
+    {
+        HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName)->setImages(getStringMapFromJson(hqData["images"]));
     }
     
 }

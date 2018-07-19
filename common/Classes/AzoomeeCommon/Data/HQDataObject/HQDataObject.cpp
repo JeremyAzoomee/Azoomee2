@@ -31,6 +31,11 @@ void HQDataObject::setImages(const std::map<std::string, std::string> &images)
     _images = images;
 }
 
+void HQDataObject::addContentEntitlement(const std::string& contentItemId, bool entitlement)
+{
+    _contentEntitlement[contentItemId] = entitlement;
+}
+
 void HQDataObject::addCarouselToHq(const HQCarouselObjectRef &inputCarouselData)
 {
     _carousels.push_back(inputCarouselData);
@@ -78,9 +83,19 @@ std::string HQDataObject::getGroupLogo() const
     }
 }
 
+bool HQDataObject::getItemEntitlement(const std::string &itemId) const
+{
+    if(_contentEntitlement.find(itemId) != _contentEntitlement.end())
+    {
+        return _contentEntitlement.at(itemId);
+    }
+    return false;
+}
+
 void HQDataObject::clearData()
 {
     _rawContentItems.clear();
+    _contentEntitlement.clear();
     _carousels.clear();
     _images.clear();
 }

@@ -49,6 +49,13 @@ void ContentItemPoolParser::parseContentItemPool(const std::string contentItemPo
                 }
             }
         }
+        else
+        {
+            for (auto M = contentData.MemberBegin(); M != contentData.MemberEnd(); M++)
+            {
+                parseContentItem(M->name.GetString(), M->value);
+            }
+        }
     }
     else
     {

@@ -38,8 +38,14 @@ ContentItemPoolHandler::~ContentItemPoolHandler(void)
     
 }
 
+void ContentItemPoolHandler::setContentPoolDelegate(Azoomee::ContentPoolDelegate *delegate)
+{
+    _delegate = delegate;
+}
+
 void ContentItemPoolHandler::getLatestContentPool()
 {
+    ModalMessages::getInstance()->startLoading();
     const std::string& childId = ParentDataProvider::getInstance()->isLoggedInParentAnonymous() ? "anonymous" : ChildDataProvider::getInstance()->getParentOrChildId();
     HttpRequestCreator* request = API::GetContentPoolRequest(childId, this);
     request->execute();
@@ -50,13 +56,26 @@ void ContentItemPoolHandler::loadLocalData()
     const std::string& localDataPath = cocos2d::FileUtils::getInstance()->getWritablePath() + "contentCache/items.json";
     const std::string& data = cocos2d::FileUtils::getInstance()->getStringFromFile(localDataPath);
     ContentItemPoolParser::getInstance()->parseContentItemPool(data);
+    ModalMessages::getInstance()->stopLoading();
+    if(_delegate)
+    {
+        _delegate->onContentDownloadComplete();
+    }
 }
 
-bool ContentItemPoolHandler::isNewerVersion(time_t timestamp)
+std::string ContentItemPoolHandler::getLocalEtag()
 {
-    const std::string& timestampPath = cocos2d::FileUtils::getInstance()->getWritablePath() + "contentCache/lastModified.time.stmp";
-    const time_t oldTimestamp = atoll(cocos2d::FileUtils::getInstance()->getStringFromFile(timestampPath).c_str());
-    return timestamp > oldTimestamp;
+    const std::string& etagFilePath = cocos2d::FileUtils::getInstance()->getWritablePath() + "contentCache/etag.txt";
+    if(cocos2d::FileUtils::getInstance()->isFileExist(etagFilePath))
+    {
+        return cocos2d::FileUtils::getInstance()->getStringFromFile(etagFilePath);
+    }
+    return "";
+}
+void ContentItemPoolHandler::setLocalEtag(const std::string& etag)
+{
+    const std::string& etagFilePath = cocos2d::FileUtils::getInstance()->getWritablePath() + "contentCache/etag.txt";
+    cocos2d::FileUtils::getInstance()->writeStringToFile(etag, etagFilePath);
 }
 
 //delegate functions
@@ -68,22 +87,13 @@ void ContentItemPoolHandler::onHttpRequestSuccess(const std::string& requestTag,
     {
         return;
     }
-    time_t lastModified = result["lastModified"].GetUint64();
-    if(isNewerVersion(lastModified))
-    {
-        const std::string& zipUrl = getStringFromJson("uri", result);
-        const std::string& timestampPath = cocos2d::FileUtils::getInstance()->getWritablePath() + "contentCache/lastModified.time.stmp";
-        std::stringstream ss;
-        ss << lastModified;
-        cocos2d::FileUtils::getInstance()->writeStringToFile(ss.str(), timestampPath);
-        _fileDownloader = FileDownloader::create();
-        _fileDownloader->setDelegate(this);
-        _fileDownloader->downloadFileFromServer(zipUrl);
-    }
-    else
-    {
-        loadLocalData();
-    }
+    
+    const std::string& zipUrl = getStringFromJson("uri", result);
+
+    _fileDownloader = FileDownloader::create();
+    _fileDownloader->setDelegate(this);
+    _fileDownloader->setEtag(getLocalEtag());
+    _fileDownloader->downloadFileFromServer(zipUrl);
 
 }
 
@@ -94,11 +104,19 @@ void ContentItemPoolHandler::onHttpRequestFailed(const std::string& requestTag, 
 
 void ContentItemPoolHandler::onFileDownloadComplete(const std::string &fileString, const std::string &tag, long responseCode)
 {
-    _fileDownloader = nullptr;
-    const std::string& dirPath = cocos2d::FileUtils::getInstance()->getWritablePath() + "contentCache/";
-    const std::string& zipPath = dirPath + "contentPool.zip";
-    cocos2d::FileUtils::getInstance()->writeStringToFile(fileString, zipPath);
-    FileZipUtil::getInstance()->asyncUnzip(zipPath, dirPath, "", this);
+    if(responseCode == 200)
+    {
+        setLocalEtag(_fileDownloader->getEtag());
+        _fileDownloader = nullptr;
+        const std::string& dirPath = cocos2d::FileUtils::getInstance()->getWritablePath() + "contentCache";
+        const std::string& zipPath = dirPath + "/contentPool.zip";
+        cocos2d::FileUtils::getInstance()->writeStringToFile(fileString, zipPath);
+        FileZipUtil::getInstance()->asyncUnzip(zipPath, dirPath, "", this);
+    }
+    else
+    {
+        loadLocalData();
+    }
 }
 
 void ContentItemPoolHandler::onAsyncUnzipComplete(bool success, const std::string &zipPath, const std::string &dirpath)

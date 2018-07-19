@@ -15,16 +15,28 @@
 
 NS_AZOOMEE_BEGIN
 
+class ContentPoolDelegate
+{
+public:
+    virtual void onContentDownloadComplete() = 0;
+};
+
+
 class ContentItemPoolHandler : public HttpRequestCreatorResponseDelegate, FileZipDelegate, FileDownloaderDelegate
 {
 private:
     FileDownloaderRef _fileDownloader = nullptr;
+    ContentPoolDelegate* _delegate = nullptr;
     
-    bool isNewerVersion(time_t timestamp);
+    std::string getLocalEtag();
+    void setLocalEtag(const std::string& etag);
+    
     void loadLocalData();
 public:
     static ContentItemPoolHandler* getInstance();
     ~ContentItemPoolHandler();
+    
+    void setContentPoolDelegate(ContentPoolDelegate* delegate);
     
     void getLatestContentPool();
     
