@@ -30,7 +30,7 @@ HQStructureParser::~HQStructureParser(void)
     
 }
 
-void HQStructureParser::parseHQStructureData(const std::string hqStuctureData, const std::string& hqName)
+void HQStructureParser::parseHQStructureData(const std::string& hqStuctureData, const std::string& hqName)
 {
     // stucture
     /*
@@ -57,6 +57,7 @@ void HQStructureParser::parseHQStructureData(const std::string hqStuctureData, c
      }
     }
     */
+    parseEntitlementData(hqStuctureData);
     
     rapidjson::Document hqData;
     hqData.Parse(hqStuctureData.c_str());
@@ -66,18 +67,12 @@ void HQStructureParser::parseHQStructureData(const std::string hqStuctureData, c
         return; //JSON HAS ERRORS IN IT
     }
     
-    if(!hqData.HasMember("items") || !hqData.HasMember("rows"))
+    if(!hqData.HasMember("rows"))
     {
         return;
     }
     
     HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName)->clearData();
-    
-    const rapidjson::Value& items = hqData["items"];
-    for (auto M = items.MemberBegin(); M != items.MemberEnd(); M++)
-    {
-        HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName)->addContentEntitlement(M->name.GetString(), M->value["entitled"].GetBool());
-    }
     
     for (int rowNumber = 0; rowNumber < hqData["rows"].Size(); rowNumber++)
     {
@@ -132,6 +127,33 @@ void HQStructureParser::parseHQStructureData(const std::string hqStuctureData, c
         HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName)->setImages(getStringMapFromJson(hqData["images"]));
     }
     
+}
+
+void HQStructureParser::parseEntitlementData(const std::string &entitlementData)
+{
+    rapidjson::Document data;
+    data.Parse(entitlementData.c_str());
+    
+    if (data.HasParseError())
+    {
+        return; //JSON HAS ERRORS IN IT
+    }
+    
+    if(!data.HasMember("items"))
+    {
+        return;
+    }
+    
+    const rapidjson::Value& items = data["items"];
+    for (auto M = items.MemberBegin(); M != items.MemberEnd(); M++)
+    {
+        auto item = ContentItemPool::getInstance()->getContentItemForId(M->name.GetString());
+        if(item)
+        {
+            item->setEntitled(getBoolFromJson("entitled",M->value));
+            item->setUri(getStringFromJson("location", M->value, item->getUri()));
+        }
+    }
 }
 
 NS_AZOOMEE_END

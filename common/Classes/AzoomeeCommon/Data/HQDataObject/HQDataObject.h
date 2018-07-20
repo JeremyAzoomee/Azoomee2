@@ -19,7 +19,6 @@ private:
     bool _hqEntitlement = false;
     std::vector<HQCarouselObjectRef> _carousels;
     std::map<std::string, HQContentItemObjectRef> _rawContentItems;
-    std::map<std::string, bool> _contentEntitlement;
     bool _isDownloaded = false;
     std::map<std::string, std::string> _images;
     

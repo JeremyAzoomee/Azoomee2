@@ -27,7 +27,6 @@ private:
     HQFeedDelegate* _delegate = nullptr;
     
     void loadLocalData();
-    void loadHQStructureDataByName(const std::string& userFeedName);
     
 public:
     static HQStructureHandler* getInstance();
@@ -36,6 +35,8 @@ public:
     void setHQFeedDelegate(HQFeedDelegate* delegate);
     
     void getLatestHQStructureFeed();
+    
+    void loadGroupHQData(const std::string& groupIdPath);
     
     //delegate functions
     virtual void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body);

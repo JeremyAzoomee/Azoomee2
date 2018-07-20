@@ -21,6 +21,7 @@ std::string& trim(std::string& string);
 std::string shortenString(const std::string& string, int maxLength);
 std::string joinStrings(const std::vector<std::string>& stringList, const std::string& divider);
 std::string convertStringToAssetSafeString(const std::string& string);
+std::string convertToHQNameString(const std::string& string);
 bool stringEndsWith(const std::string &strToTest, const std::string &endStr);
     
 bool stringToBool(const std::string& string);

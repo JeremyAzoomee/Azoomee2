@@ -15,6 +15,8 @@
 #include "../Parent/ParentDataProvider.h"
 #include "../Child/ChildDataProvider.h"
 #include "../../Utils/DirectorySearcher.h"
+#include "../ConfigStorage.h"
+#include "../../Utils/StringFunctions.h"
 
 using namespace cocos2d;
 
@@ -55,24 +57,38 @@ void HQStructureHandler::getLatestHQStructureFeed()
     request->execute();
 }
 
-void HQStructureHandler::loadHQStructureDataByName(const std::string& userFeedName)
-{
-    HQStructureParser::getInstance()->parseHQStructureData(FileUtils::getInstance()->getStringFromFile(userFeedName));
-}
-
 void HQStructureHandler::loadLocalData()
 {
     const std::string& localDataPath = cocos2d::FileUtils::getInstance()->getWritablePath() + "feedsCache/";
-    const auto& feeds = DirectorySearcher::getInstance()->getJsonFilesInDirectory(localDataPath);
-    for(const auto& feed : feeds)
+    const auto& feedsFolders = DirectorySearcher::getInstance()->getFoldersInDirectory(localDataPath);
+    for(const auto& folder : feedsFolders)
     {
-        const std::string& data = cocos2d::FileUtils::getInstance()->getStringFromFile(localDataPath + feed);
-        HQStructureParser::getInstance()->parseHQStructureData(data);
+        if(folder == "groups")
+        {
+            const auto& groupFeeds = DirectorySearcher::getInstance()->getJsonFilesInDirectory(localDataPath + folder);
+            for(const auto& group : groupFeeds)
+            {
+                const std::string& data = cocos2d::FileUtils::getInstance()->getStringFromFile(localDataPath + folder + "/" + group);
+                HQStructureParser::getInstance()->parseEntitlementData(data);
+            }
+        }
+        const std::string& data = cocos2d::FileUtils::getInstance()->getStringFromFile(localDataPath + folder + "/feed.json");
+        HQStructureParser::getInstance()->parseHQStructureData(data, convertToHQNameString(folder));
     }
     ModalMessages::getInstance()->stopLoading();
     if(_delegate)
     {
         _delegate->onFeedDownloadComplete();
+    }
+}
+
+void HQStructureHandler::loadGroupHQData(const std::string &groupIdPath)
+{
+    const std::string& dataPath = cocos2d::FileUtils::getInstance()->getWritablePath() + "feedsCache/" + groupIdPath;
+    if(FileUtils::getInstance()->isFileExist(dataPath))
+    {
+        const std::string& data = cocos2d::FileUtils::getInstance()->getStringFromFile(dataPath);
+        HQStructureParser::getInstance()->parseHQStructureData(data, ConfigStorage::kGroupHQName);
     }
 }
 
