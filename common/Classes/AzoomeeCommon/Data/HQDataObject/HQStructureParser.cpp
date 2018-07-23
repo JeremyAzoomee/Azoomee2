@@ -57,7 +57,6 @@ void HQStructureParser::parseHQStructureData(const std::string& hqStuctureData, 
      }
     }
     */
-    parseEntitlementData(hqStuctureData);
     
     rapidjson::Document hqData;
     hqData.Parse(hqStuctureData.c_str());
@@ -67,6 +66,18 @@ void HQStructureParser::parseHQStructureData(const std::string& hqStuctureData, 
         return; //JSON HAS ERRORS IN IT
     }
     
+    if(hqData.HasMember("items"))
+    {
+        const rapidjson::Value& items = hqData["items"];
+        for (auto M = items.MemberBegin(); M != items.MemberEnd(); M++)
+        {
+            auto item = ContentItemPool::getInstance()->getContentItemForId(M->name.GetString());
+            if(item)
+            {
+                item->setUri(getStringFromJson("location", M->value, item->getUri()));
+            }
+        }
+    }
     if(!hqData.HasMember("rows"))
     {
         return;
@@ -139,19 +150,12 @@ void HQStructureParser::parseEntitlementData(const std::string &entitlementData)
         return; //JSON HAS ERRORS IN IT
     }
     
-    if(!data.HasMember("items"))
-    {
-        return;
-    }
-    
-    const rapidjson::Value& items = data["items"];
-    for (auto M = items.MemberBegin(); M != items.MemberEnd(); M++)
+    for (auto M = data.MemberBegin(); M != data.MemberEnd(); M++)
     {
         auto item = ContentItemPool::getInstance()->getContentItemForId(M->name.GetString());
         if(item)
         {
-            item->setEntitled(getBoolFromJson("entitled",M->value));
-            item->setUri(getStringFromJson("location", M->value, item->getUri()));
+            item->setEntitled(M->value.GetBool());
         }
     }
 }

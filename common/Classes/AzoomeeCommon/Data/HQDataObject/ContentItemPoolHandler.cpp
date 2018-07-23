@@ -13,8 +13,11 @@
 #include "../../UI/ModalMessages.h"
 #include "../Parent/ParentDataProvider.h"
 #include "../Child/ChildDataProvider.h"
+#include "ContentItemPool.h"
 
 NS_AZOOMEE_BEGIN
+
+const std::string ContentItemPoolHandler::kCachePath = "contentCache/";
 
 static std::auto_ptr<ContentItemPoolHandler> sContentItemPoolHandlerSharedInstance;
 
@@ -24,7 +27,7 @@ ContentItemPoolHandler* ContentItemPoolHandler::getInstance()
     {
         sContentItemPoolHandlerSharedInstance.reset(new ContentItemPoolHandler());
     }
-    const std::string& cachePath = cocos2d::FileUtils::getInstance()->getWritablePath() + "contentCache/";
+    const std::string& cachePath = cocos2d::FileUtils::getInstance()->getWritablePath() + kCachePath;
     if(!cocos2d::FileUtils::getInstance()->isDirectoryExist(cachePath))
     {
         cocos2d::FileUtils::getInstance()->createDirectory(cachePath);
@@ -53,9 +56,13 @@ void ContentItemPoolHandler::getLatestContentPool()
 
 void ContentItemPoolHandler::loadLocalData()
 {
-    const std::string& localDataPath = cocos2d::FileUtils::getInstance()->getWritablePath() + "contentCache/items.json";
-    const std::string& data = cocos2d::FileUtils::getInstance()->getStringFromFile(localDataPath);
-    ContentItemPoolParser::getInstance()->parseContentItemPool(data);
+    if(!ContentItemPool::getInstance()->isSameContentPool(getLocalEtag()))
+    {
+        const std::string& localDataPath = cocos2d::FileUtils::getInstance()->getWritablePath() + kCachePath + "items.json";
+        const std::string& data = cocos2d::FileUtils::getInstance()->getStringFromFile(localDataPath);
+        ContentItemPoolParser::getInstance()->parseContentItemPool(data);
+        ContentItemPool::getInstance()->setPoolEtag(getLocalEtag());
+    }
     ModalMessages::getInstance()->stopLoading();
     if(_delegate)
     {
@@ -65,7 +72,7 @@ void ContentItemPoolHandler::loadLocalData()
 
 std::string ContentItemPoolHandler::getLocalEtag()
 {
-    const std::string& etagFilePath = cocos2d::FileUtils::getInstance()->getWritablePath() + "contentCache/etag.txt";
+    const std::string& etagFilePath = cocos2d::FileUtils::getInstance()->getWritablePath() + kCachePath + "etag.txt";
     if(cocos2d::FileUtils::getInstance()->isFileExist(etagFilePath))
     {
         return cocos2d::FileUtils::getInstance()->getStringFromFile(etagFilePath);
@@ -74,7 +81,7 @@ std::string ContentItemPoolHandler::getLocalEtag()
 }
 void ContentItemPoolHandler::setLocalEtag(const std::string& etag)
 {
-    const std::string& etagFilePath = cocos2d::FileUtils::getInstance()->getWritablePath() + "contentCache/etag.txt";
+    const std::string& etagFilePath = cocos2d::FileUtils::getInstance()->getWritablePath() + kCachePath + "etag.txt";
     cocos2d::FileUtils::getInstance()->writeStringToFile(etag, etagFilePath);
 }
 
@@ -108,7 +115,7 @@ void ContentItemPoolHandler::onFileDownloadComplete(const std::string &fileStrin
     {
         setLocalEtag(_fileDownloader->getEtag());
         _fileDownloader = nullptr;
-        const std::string& dirPath = cocos2d::FileUtils::getInstance()->getWritablePath() + "contentCache";
+        const std::string& dirPath = cocos2d::FileUtils::getInstance()->getWritablePath() + kCachePath;
         const std::string& zipPath = dirPath + "/contentPool.zip";
         cocos2d::FileUtils::getInstance()->writeStringToFile(fileString, zipPath);
         FileZipUtil::getInstance()->asyncUnzip(zipPath, dirPath, "", this);

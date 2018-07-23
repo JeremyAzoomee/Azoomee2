@@ -23,10 +23,18 @@ public:
 class HQStructureHandler : public HttpRequestCreatorResponseDelegate, FileZipDelegate, FileDownloaderDelegate
 {
 private:
+    static const std::string kCachePath;
+    
     FileDownloaderRef _fileDownloader = nullptr;
     HQFeedDelegate* _delegate = nullptr;
     
+    std::string _feedPath;
+    
     void loadLocalData();
+    std::string getLocalEtag();
+    void setLocalEtag(const std::string& etag);
+    
+    void parseNavigationData(const std::string& data);
     
 public:
     static HQStructureHandler* getInstance();

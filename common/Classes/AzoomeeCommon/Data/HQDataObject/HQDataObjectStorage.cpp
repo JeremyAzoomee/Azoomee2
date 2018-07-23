@@ -39,4 +39,14 @@ void HQDataObjectStorage::clearAllHQData()
     _hqDataObjects.clear();
 }
 
+bool HQDataObjectStorage::isSameHQData(const std::string &etag)
+{
+    return _currentHQDataEtag == etag;
+}
+
+void HQDataObjectStorage::setHQDataEtag(const std::string &etag)
+{
+    _currentHQDataEtag = etag;
+}
+
 NS_AZOOMEE_END

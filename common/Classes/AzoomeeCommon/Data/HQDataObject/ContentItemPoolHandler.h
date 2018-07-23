@@ -25,6 +25,8 @@ public:
 class ContentItemPoolHandler : public HttpRequestCreatorResponseDelegate, FileZipDelegate, FileDownloaderDelegate
 {
 private:
+    static const std::string kCachePath;
+    
     FileDownloaderRef _fileDownloader = nullptr;
     ContentPoolDelegate* _delegate = nullptr;
     

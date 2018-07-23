@@ -17,10 +17,13 @@
 #include "../../Utils/DirectorySearcher.h"
 #include "../ConfigStorage.h"
 #include "../../Utils/StringFunctions.h"
+#include "HQDataObjectStorage.h"
 
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
+
+const std::string HQStructureHandler::kCachePath = "feedsCache/";
 
 static std::auto_ptr<HQStructureHandler> sHQStructureHandlerSharedInstance;
 
@@ -30,7 +33,7 @@ HQStructureHandler* HQStructureHandler::getInstance()
     {
         sHQStructureHandlerSharedInstance.reset(new HQStructureHandler());
     }
-    const std::string& cachePath = cocos2d::FileUtils::getInstance()->getWritablePath() + "feedsCache/";
+    const std::string& cachePath = cocos2d::FileUtils::getInstance()->getWritablePath() + kCachePath;
     if(!cocos2d::FileUtils::getInstance()->isDirectoryExist(cachePath))
     {
         cocos2d::FileUtils::getInstance()->createDirectory(cachePath);
@@ -59,21 +62,23 @@ void HQStructureHandler::getLatestHQStructureFeed()
 
 void HQStructureHandler::loadLocalData()
 {
-    const std::string& localDataPath = cocos2d::FileUtils::getInstance()->getWritablePath() + "feedsCache/";
-    const auto& feedsFolders = DirectorySearcher::getInstance()->getFoldersInDirectory(localDataPath);
-    for(const auto& folder : feedsFolders)
+    if(!HQDataObjectStorage::getInstance()->isSameHQData(getLocalEtag()))
     {
-        if(folder == "groups")
+        const std::string& localDataPath = cocos2d::FileUtils::getInstance()->getWritablePath() + kCachePath + _feedPath + "/";
+        const std::string& data = cocos2d::FileUtils::getInstance()->getStringFromFile(localDataPath + "entitlements.json");
+        HQStructureParser::getInstance()->parseEntitlementData(data);
+        
+        const auto& feedsFolders = DirectorySearcher::getInstance()->getFoldersInDirectory(localDataPath);
+        for(const auto& folder : feedsFolders)
         {
-            const auto& groupFeeds = DirectorySearcher::getInstance()->getJsonFilesInDirectory(localDataPath + folder);
-            for(const auto& group : groupFeeds)
+            if(folder == "groups")
             {
-                const std::string& data = cocos2d::FileUtils::getInstance()->getStringFromFile(localDataPath + folder + "/" + group);
-                HQStructureParser::getInstance()->parseEntitlementData(data);
+                continue;
             }
+            const std::string& data = cocos2d::FileUtils::getInstance()->getStringFromFile(localDataPath + folder + "/feed.json");
+            HQStructureParser::getInstance()->parseHQStructureData(data, convertToHQNameString(folder));
         }
-        const std::string& data = cocos2d::FileUtils::getInstance()->getStringFromFile(localDataPath + folder + "/feed.json");
-        HQStructureParser::getInstance()->parseHQStructureData(data, convertToHQNameString(folder));
+        HQDataObjectStorage::getInstance()->setHQDataEtag(getLocalEtag());
     }
     ModalMessages::getInstance()->stopLoading();
     if(_delegate)
@@ -84,12 +89,48 @@ void HQStructureHandler::loadLocalData()
 
 void HQStructureHandler::loadGroupHQData(const std::string &groupIdPath)
 {
-    const std::string& dataPath = cocos2d::FileUtils::getInstance()->getWritablePath() + "feedsCache/" + groupIdPath;
+    const std::string& dataPath = cocos2d::FileUtils::getInstance()->getWritablePath() + kCachePath + _feedPath + "/" + groupIdPath;
     if(FileUtils::getInstance()->isFileExist(dataPath))
     {
         const std::string& data = cocos2d::FileUtils::getInstance()->getStringFromFile(dataPath);
         HQStructureParser::getInstance()->parseHQStructureData(data, ConfigStorage::kGroupHQName);
     }
+}
+
+std::string HQStructureHandler::getLocalEtag()
+{
+    const std::string& etagFilePath = cocos2d::FileUtils::getInstance()->getWritablePath() + kCachePath + _feedPath + "/etag.txt";
+    if(cocos2d::FileUtils::getInstance()->isFileExist(etagFilePath))
+    {
+        return cocos2d::FileUtils::getInstance()->getStringFromFile(etagFilePath);
+    }
+    return "";
+}
+void HQStructureHandler::setLocalEtag(const std::string& etag)
+{
+    const std::string& etagFilePath = cocos2d::FileUtils::getInstance()->getWritablePath() + kCachePath + _feedPath + "/etag.txt";
+    cocos2d::FileUtils::getInstance()->writeStringToFile(etag, etagFilePath);
+}
+
+void HQStructureHandler::parseNavigationData(const std::string &data)
+{
+    rapidjson::Document result;
+    result.Parse(data.c_str());
+    if(result.HasParseError() || !result.HasMember("navigation"))
+    {
+        return;
+    }
+    
+    std::vector<std::string> hqNames;
+    for(int i = 0; i < result["navigation"].Size(); i++)
+    {
+        hqNames.push_back(getStringFromJson("name", result["navigation"][i]));
+        if(getBoolFromJson("default", result["navigation"][i], false))
+        {
+            ConfigStorage::getInstance()->setDefaultHQ(hqNames.back());
+        }
+    }
+    ConfigStorage::getInstance()->setNavigationHQs(hqNames);
 }
 
 //delegate functions
@@ -103,10 +144,13 @@ void HQStructureHandler::onHttpRequestSuccess(const std::string& requestTag, con
     }
     
     const std::string& zipUrl = getStringFromJson("uri", result);
+    _feedPath = getStringFromJson("id", result);
+    
+    parseNavigationData(body);
     
     _fileDownloader = FileDownloader::create();
     _fileDownloader->setDelegate(this);
-    //_fileDownloader->setEtag(getLocalEtag());
+    _fileDownloader->setEtag(getLocalEtag());
     _fileDownloader->downloadFileFromServer(zipUrl);
 }
 
@@ -119,9 +163,14 @@ void HQStructureHandler::onFileDownloadComplete(const std::string &fileString, c
 {
     if(responseCode == 200)
     {
-        //setLocalEtag(_fileDownloader->getEtag());
+        const std::string& dirPath = cocos2d::FileUtils::getInstance()->getWritablePath() + kCachePath + _feedPath;
+        if(FileUtils::getInstance()->isDirectoryExist(dirPath))
+        {
+            FileUtils::getInstance()->removeDirectory(dirPath);
+        }
+        FileUtils::getInstance()->createDirectory(dirPath);
+        setLocalEtag(_fileDownloader->getEtag());
         _fileDownloader = nullptr;
-        const std::string& dirPath = cocos2d::FileUtils::getInstance()->getWritablePath() + "feedsCache";
         const std::string& zipPath = dirPath + "/feeds.zip";
         cocos2d::FileUtils::getInstance()->writeStringToFile(fileString, zipPath);
         FileZipUtil::getInstance()->asyncUnzip(zipPath, dirPath, "", this);
