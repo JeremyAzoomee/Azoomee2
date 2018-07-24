@@ -38,7 +38,7 @@ void ChildNameLayerFirstTime::onEnter()
     mainTitle->setHorizontalAlignment(TextHAlignment::CENTER);
     this->addChild(mainTitle);
     
-    Label* subTitle = Label::createWithTTF(StringUtils::format("Let's complete%syour setup", isPortrait ? "\n" : " "), Style::Font::Regular, (is18x9 && !isPortrait) ? 120 : 150);
+    Label* subTitle = Label::createWithTTF("Let's complete your setup", Style::Font::Regular, (isPortrait ? 100 : (is18x9) ? 120 : 150));
     subTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     subTitle->setPosition(mainTitle->getPosition() - Vec2(0, mainTitle->getContentSize().height + ((is18x9 && !isPortrait) ? 25 : 50)));
     subTitle->setColor(Color3B::WHITE);
@@ -63,7 +63,8 @@ void ChildNameLayerFirstTime::onEnter()
     _continueButton = ui::Button::create("res/buttons/MainButton.png");
     _continueButton->setColor(Style::Color::telish);
     _continueButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _continueButton->setEnabled(_textInput->inputIsValid());
+    _continueButton->setTouchEnabled(_textInput->inputIsValid());
+    _continueButton->setOpacity(_textInput->inputIsValid() ? 255 : 125);
     _continueButton->setPosition(Vec2(contentSize.width / 2, contentSize.height * 0.3));
     _continueButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType)
     {
@@ -102,7 +103,8 @@ void ChildNameLayerFirstTime::onEnter()
 
 void ChildNameLayerFirstTime::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
 {
-    _continueButton->setEnabled(isValid);
+    _continueButton->setTouchEnabled(isValid);
+    _continueButton->setOpacity(isValid ? 255 : 125);
 }
 void ChildNameLayerFirstTime::textInputReturnPressed(TextInputLayer* inputLayer)
 {

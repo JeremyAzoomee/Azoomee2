@@ -62,7 +62,8 @@ void ChildAgeLayer::onEnter()
     _continueButton->setColor(Style::Color::telish);
     _continueButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _continueButton->setPosition(Vec2(contentSize.width * (isPortrait ? 0.5 : 0.66), contentSize.height * 0.3));
-    _continueButton->setEnabled(_textInput->inputIsValid());
+    _continueButton->setTouchEnabled(_textInput->inputIsValid());
+    _continueButton->setOpacity(_textInput->inputIsValid() ? 255 : 125);
     _continueButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType)
     {
         if(eType == ui::Widget::TouchEventType::ENDED)
@@ -122,7 +123,8 @@ void ChildAgeLayer::onEnter()
 
 void ChildAgeLayer::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
 {
-    _continueButton->setEnabled(isValid);
+    _continueButton->setTouchEnabled(isValid);
+    _continueButton->setOpacity(isValid ? 255 : 125);
 }
 void ChildAgeLayer::textInputReturnPressed(TextInputLayer* inputLayer)
 {
