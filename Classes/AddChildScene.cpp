@@ -12,6 +12,7 @@
 #include "ChildOomeeLayer.h"
 #include "SceneManagerScene.h"
 #include "FlowDataSingleton.h"
+#include "BackEndCaller.h"
 
 using namespace cocos2d;
 
@@ -129,16 +130,16 @@ void AddChildScene::nextLayer()
     {
         case AddChildFlow::FIRST_TIME_SETUP_NAME:
         case AddChildFlow::ADDITIONAL_NAME:
-        _currentFlowStage = AddChildFlow::AGE;
-        setSceneForFlow();
+            _currentFlowStage = AddChildFlow::AGE;
+            setSceneForFlow();
         break;
         
         case AddChildFlow::AGE:
-        _childCreator->addChild();
+            _childCreator->addChild();
         break;
         
         case AddChildFlow::OOMEE:
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+            BackEndCaller::getInstance()->getAvailableChildren();
         break;
         
         default:
@@ -152,21 +153,21 @@ void AddChildScene::prevLayer()
     {
         case AddChildFlow::FIRST_TIME_SETUP_NAME:
         case AddChildFlow::ADDITIONAL_NAME:
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+            BackEndCaller::getInstance()->getAvailableChildren();
         break;
         
         case AddChildFlow::AGE:
-        _currentFlowStage = _addingFirstChild ? AddChildFlow::FIRST_TIME_SETUP_NAME : AddChildFlow::ADDITIONAL_NAME;
-        setSceneForFlow();
+            _currentFlowStage = _addingFirstChild ? AddChildFlow::FIRST_TIME_SETUP_NAME : AddChildFlow::ADDITIONAL_NAME;
+            setSceneForFlow();
         break;
         
         case AddChildFlow::OOMEE:
-        _addingFirstChild = false;
-        _childCreator = ChildCreator::create();
-        _childCreator->setHttpRespnseDelegate(this);
-        _childCreator->setFirstTime(_addingFirstChild);
-        _currentFlowStage = AddChildFlow::ADDITIONAL_NAME;
-        setSceneForFlow();
+            _addingFirstChild = false;
+            _childCreator = ChildCreator::create();
+            _childCreator->setHttpRespnseDelegate(this);
+            _childCreator->setFirstTime(_addingFirstChild);
+            _currentFlowStage = AddChildFlow::ADDITIONAL_NAME;
+            setSceneForFlow();
         break;
         
         default:
