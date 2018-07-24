@@ -165,7 +165,7 @@ public:
     //---------------CTA EVENTS----------------------------------
     void ctaButtonPressed(const std::string &buttonId, const std::string &title = "");
     void ctaWindowAppeared(const std::string &groupId, const std::string &nodeId);
-    void registerCTASource(const std::string& buttonId, const std::string& contentId, const std::string& mediaType);
+    void registerCTASource(const std::string& buttonId, const std::string& contentId, const std::string& mediaType, const std::string& recommendedContentId = "");
 };
   
 }

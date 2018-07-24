@@ -34,6 +34,10 @@ private:
     cocos2d::ui::Button* _editButton = nullptr;
     cocos2d::ui::Button* _makeAvatarButton = nullptr;
     cocos2d::ui::Button* _shareButton = nullptr;
+    
+    cocos2d::Sprite* _innerCircle = nullptr;
+    cocos2d::Sprite* _outerCircle = nullptr;
+    
     bool _inFocus = false;
     std::string _oomeeFileName;
     
@@ -52,6 +56,8 @@ public:
     
     void setInFocus(bool inFocus);
     bool getInFocus() const;
+    
+    void enableHighlight(bool enable);
     
     CREATE_FUNC(OomeeCarouselButton);
 };

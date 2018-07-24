@@ -357,7 +357,6 @@ ui::Button* ChildSelectorScene::createParentProfileButton()
     auto parentButton = ui::Button::create("res/childSelection/parent_inbox.png");
     
     float delayTime = CCRANDOM_0_1() * 0.5;
-
     if(_firstTime)
     {
         parentButton->setOpacity(0);

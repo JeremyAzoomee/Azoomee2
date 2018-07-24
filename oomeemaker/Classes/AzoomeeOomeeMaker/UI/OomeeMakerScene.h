@@ -46,6 +46,7 @@ private:
     
     void makeAvatar();
     void undo();
+    void shareOomee();
     
 public:
     
@@ -54,6 +55,7 @@ public:
     virtual void onEnterTransitionDidFinish() override;
     
     void setFilename(const std::string& filename);
+    void displayMadeAvatarNotification();
     
     CREATE_FUNC(OomeeMakerScene);
 };

@@ -37,6 +37,7 @@ void OomeeMakerDataHandler::init()
 
 void OomeeMakerDataHandler::getConfigFilesIfNeeded()
 {
+    ModalMessages::getInstance()->startLoading();
     removeExistingAssets();
     unzipBundledAssets();
 }
@@ -153,7 +154,6 @@ std::vector<std::string> OomeeMakerDataHandler::getConfigFilesForType(const std:
 
 void OomeeMakerDataHandler::unzipBundledAssets()
 {
-    ModalMessages::getInstance()->startLoading();
     const std::string& basePath = getAssetDir();
     const std::string& targetPath = "res/oomeeMaker/oomeeMakerAssets.zip";
     const std::string& destinationPath = basePath + "oomeeMakerAssets.zip";

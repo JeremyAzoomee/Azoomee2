@@ -183,7 +183,7 @@ void NavigationLayer::changeToScene(const std::string& hqName, float duration)
     
     const HQDataObjectRef &currentObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName);
     
-    if((hqName == "ME HQ" && ParentDataProvider::getInstance()->isLoggedInParentAnonymous()) || (hqName != "ME HQ" && !currentObject->getHqEntitlement()))
+    if((hqName == ConfigStorage::kMeHQName && ParentDataProvider::getInstance()->isLoggedInParentAnonymous()) || (hqName != ConfigStorage::kMeHQName && !currentObject->getHqEntitlement()))
     {
         AnalyticsSingleton::getInstance()->registerCTASource("lockedHQ","",currentObject->getHqType());
         IAPEntryContext context = IAPEntryContext::DEFAULT;
@@ -265,12 +265,11 @@ void NavigationLayer::loadArtsAppHQ()
 
 void NavigationLayer::loadMeHQ()
 {
-    HQHistoryManager::getInstance()->addHQToHistoryManager("ME HQ");
+    HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kMeHQName);
     
     cocos2d::Scene *runningScene = Director::getInstance()->getRunningScene();
-    //Node *baseLayer = runningScene->getChildByName("baseLayer");
     Node *contentLayer = runningScene->getChildByName("contentLayer");
-    HQScene2 *hqLayer = (HQScene2 *)contentLayer->getChildByName("ME HQ");
+    HQScene2 *hqLayer = (HQScene2 *)contentLayer->getChildByName(ConfigStorage::kMeHQName);
     
     hqLayer->startBuildingScrollView();
 }
@@ -288,7 +287,7 @@ void NavigationLayer::startLoadingHQScene(const std::string& hqName)
         return;
     }
     
-    if(hqName == "ME HQ")
+    if(hqName == ConfigStorage::kMeHQName)
     {
         auto funcCallAction = CallFunc::create([=](){
             this->loadMeHQ();
@@ -638,8 +637,9 @@ void NavigationLayer::buttonPressed(ElectricDreamsButton* button)
 void NavigationLayer::cleanUpPreviousHQ()
 {
     cocos2d::log("previous hq is: %s", HQHistoryManager::getInstance()->getPreviousHQ().c_str());
+    cocos2d::log("current hq is: %s", HQHistoryManager::getInstance()->getCurrentHQ().c_str());
     const std::string& previousHqName = HQHistoryManager::getInstance()->getPreviousHQ();
-    if(previousHqName != ConfigStorage::kHomeHQName)
+    if(!(previousHqName == ConfigStorage::kMeHQName && HQHistoryManager::getInstance()->getCurrentHQ() == ConfigStorage::kMeHQName))
     {
         HQScene2* lastHQLayer = (HQScene2 *)Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName)->getChildByName(previousHqName);
         

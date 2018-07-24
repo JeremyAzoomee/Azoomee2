@@ -250,7 +250,7 @@ void OomeeCarousel::update(float deltaT)
         }
         button->setOpacity(MAX(0,255 - (255 * relativeDist)));
         button->setPositionY(this->getContentSize().height/2 + this->getContentSize().height/5 * (relativeDist * relativeDist));
-        button->setGlobalZOrder(button->getScale() * 10.0f);
+        button->setLocalZOrder(button->getScale() * 10.0f);
     }
     
     Super::update(deltaT);
@@ -267,6 +267,11 @@ void OomeeCarousel::setButtonDelegate(OomeeCarouselButtonDelegate* delegate)
             oomeeButton->setDelegate(delegate);
         }
     }
+}
+
+OomeeCarouselButton* OomeeCarousel::getCenterButton()
+{
+    return dynamic_cast<OomeeCarouselButton*>(_centerButton);
 }
 
 NS_AZOOMEE_OM_END

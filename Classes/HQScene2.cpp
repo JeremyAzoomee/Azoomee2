@@ -129,13 +129,13 @@ void HQScene2::startBuildingScrollView()
     }
 #endif
     
-    if(this->getName() == "ME HQ")
+    if(this->getName() == ConfigStorage::kMeHQName)
     {
-        auto meHQ = this->getChildByName("ME HQ");
+        auto meHQ = this->getChildByName(ConfigStorage::kMeHQName);
         if(!meHQ)
         {
             auto meHQLayer = MeHQ::create();
-            meHQLayer->setName("ME HQ");
+            meHQLayer->setName(ConfigStorage::kMeHQName);
             this->addChild(meHQLayer);
         }
         return;
@@ -380,7 +380,7 @@ void HQScene2::showPostContentCTA()
             HQContentItemObjectRef randomContent = carouselItems[randIndex];
             if(randomContent->isEntitled() && randomContent->getContentItemId() != lastContent->getContentItemId())
             {
-                AnalyticsSingleton::getInstance()->registerCTASource("postContent", lastContent->getContentItemId(), lastContent->getType());
+                AnalyticsSingleton::getInstance()->registerCTASource("postContent", lastContent->getContentItemId(), lastContent->getType(), randomContent->getContentItemId());
                 DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(lastContent->getType() + ".json", randomContent->getJSONRepresentationOfStructure());
                 possibleContentFound = true;
             }

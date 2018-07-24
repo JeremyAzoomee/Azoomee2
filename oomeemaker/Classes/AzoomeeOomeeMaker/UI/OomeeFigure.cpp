@@ -291,10 +291,13 @@ void OomeeFigure::saveSnapshotImage(const std::string &filepath)
     auto prevAnchor = _baseSprite->getAnchorPoint();
     
     Sprite* target = Sprite::create("res/oomeeMaker/1_Oomee_Reference.png");
+    
+    const Size& targetSize = target->getContentSize();
+    
     _baseSprite->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-    _baseSprite->setPosition(Vec2(target->getContentSize().width/2,0));
+    _baseSprite->setPosition(Vec2(targetSize.width/2,0));
     _baseSprite->setScale(0.75);
-    RenderTexture* renderTex = RenderTexture::create(target->getContentSize().width, target->getContentSize().height);
+    RenderTexture* renderTex = RenderTexture::create(targetSize.width, targetSize.height);
     renderTex->beginWithClear(0, 0, 0, 0);
     _baseSprite->visit();
     renderTex->end();
@@ -402,7 +405,7 @@ void OomeeFigure::undoLastAction()
     if(_undoStack.size() >= 2)
     {
         _undoStack.pop_back(); //remove current state, this is updated to new state after loading old snapshot
-        auto targetState = _undoStack.at(_undoStack.size() - 1); //get previous state
+        auto targetState = _undoStack.back(); //get previous state
         _undoStack.pop_back(); // remove previous state from stack
         loadDataSnapshot(targetState); // load previous state
     }
@@ -415,9 +418,10 @@ Vec2 OomeeFigure::getWorldPositionForAnchorPoint(const std::string &anchorPoint)
 
 Vec2 OomeeFigure::getLocalPositionForAnchorPoint(const std::string& anchorPoint)
 {
+    const Size& layerSize = getContentSize();
     const Vec2& baseSpriteSize = _baseSprite->getContentSize() * _baseSprite->getScale();
     Vec2 anchor = _oomeeData->getAnchorPoints().at(anchorPoint); // dont const& - unstable on android, caused many tears
-    return Vec2(getContentSize().width * _baseSprite->getNormalizedPosition().x, getContentSize().height * _baseSprite->getNormalizedPosition().y) + Vec2(baseSpriteSize.x * anchor.x, baseSpriteSize.y * anchor.y) - (baseSpriteSize / 2.0f);
+    return Vec2(layerSize.width * _baseSprite->getNormalizedPosition().x, layerSize.height * _baseSprite->getNormalizedPosition().y) + Vec2(baseSpriteSize.x * anchor.x, baseSpriteSize.y * anchor.y) - (baseSpriteSize / 2.0f);
 }
 
 NS_AZOOMEE_OM_END

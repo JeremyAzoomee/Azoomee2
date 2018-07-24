@@ -32,34 +32,23 @@ bool MeHQDownloads::init()
         return false;
     }
     
-    int isPortrait = Director::getInstance()->getVisibleSize().width < Director::getInstance()->getVisibleSize().height;
+    const Size& visibleSize = Director::getInstance()->getVisibleSize();
     
-    this->setContentSize(Size(Director::getInstance()->getVisibleSize().width, 0));
+    int isPortrait = visibleSize.width < visibleSize.height;
+    
+    this->setContentSize(Size(visibleSize.width, 0));
     setLayoutType(ui::Layout::Type::VERTICAL);
     
-    auto labelLayout = ui::Layout::create();
-    labelLayout->setContentSize(Size(Director::getInstance()->getVisibleSize().width, kSpaceAboveCarousel[isPortrait] + kContentItemMargin[isPortrait]));
-    labelLayout->setLayoutType(ui::Layout::Type::VERTICAL);
-    labelLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
-    this->addChild(labelLayout);
-    
-    ui::Text* heading = ui::Text::create("My Downloads", Style::Font::Regular, 100);
-    heading->setTextHorizontalAlignment(TextHAlignment::CENTER);
-    heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    heading->setContentSize(Size(this->getContentSize().width, kSpaceAboveCarousel[isPortrait]));
-    heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
-    labelLayout->addChild(heading);
-    
     std::vector<HQContentItemObjectRef> gameList;
-    std::vector<std::string> jsonList = getJsonFileListFromDir();
+    const std::vector<std::string>& jsonList = getJsonFileListFromDir();
     
-    for(int i = 0; i < jsonList.size(); i++)
+    for(const auto& json : jsonList)
     {
-        if(jsonList.at(i).length() > 3)
+        if(json.length() > 3)
         {
-            if(isStarterFileExists(jsonList.at(i)))
+            if(isStarterFileExists(json))
             {
-                auto item = ContentItemPool::getInstance()->getContentItemForId(jsonList.at(i));
+                auto item = ContentItemPool::getInstance()->getContentItemForId(json);
                 if(item)
                 {
                     gameList.push_back(item);
@@ -68,29 +57,29 @@ bool MeHQDownloads::init()
         }
     }
     
+    ui::Text* heading = ui::Text::create((gameList.size() > 0) ? "Available Offline" : "My Downloads", Style::Font::Regular, 100);
+    heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+    heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,50)));
+    heading->setContentSize(Size(visibleSize.width, kSpaceAboveCarousel[isPortrait]));
+    this->addChild(heading);
+    
     if(gameList.size() > 0)
     {
-    
-        ui::Text* heading2 = ui::Text::create(StringUtils::format("When you play games they’ll appear%shere, so you’ll be able to play%sthem%swhen you’re offline.", isPortrait ? "\n" : " ", isPortrait ? " " : "\n", isPortrait ? "\n" : " "), Style::Font::Regular, 80);
-        heading2->setTextHorizontalAlignment(TextHAlignment::CENTER);
-        heading2->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-        heading2->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,kContentItemMargin[isPortrait],0,0)));
-        labelLayout->addChild(heading2);
-        
-        labelLayout->setContentSize(Size(Director::getInstance()->getVisibleSize().width, 2 * kSpaceAboveCarousel[isPortrait] + kContentItemMargin[isPortrait]));
-        
         Size contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kGameHQName);
-        float unitWidth = (this->getContentSize().width - 2 * kSideMarginSize[isPortrait]) / kUnitsOnScreen[isPortrait];
+        float unitWidth = (visibleSize.width - 2 * kSideMarginSize[isPortrait]) / kUnitsOnScreen[isPortrait];
         float unitMultiplier = unitWidth / contentItemSize.width;
         
-        cocos2d::LayerColor* carouselLayer = LayerColor::create(cocos2d::Color4B(255, 0, 0, 0), this->getContentSize().width - 2 * kSideMarginSize[isPortrait], 0);
+        //cocos2d::LayerColor* carouselLayer = LayerColor::create(cocos2d::Color4B(255, 0, 0, 0), this->getContentSize().width - 2 * kSideMarginSize[isPortrait], 0);
+        cocos2d::ui::Layout* carouselLayer = ui::Layout::create();
+        carouselLayer->setContentSize(Size(visibleSize.width - 2 * kSideMarginSize[isPortrait], 0));
+        carouselLayer->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
         
         float lowestElementYPosition = 0;
         
         for(int elementIndex = 0; elementIndex < gameList.size(); elementIndex++)
         {
             auto hqSceneElement = HQSceneElement::create();
-            hqSceneElement->setCategory("ME HQ");
+            hqSceneElement->setCategory(ConfigStorage::kMeHQName);
             hqSceneElement->setItemData(gameList[elementIndex]);
             hqSceneElement->setElementRow(-1);
             hqSceneElement->setElementIndex(elementIndex);
@@ -133,8 +122,8 @@ bool MeHQDownloads::init()
             hqScene2ElementPositioner.setBaseUnitSize(contentItemSize * unitMultiplier);
             
             const cocos2d::Point &elementPosition = hqScene2ElementPositioner.positionHQSceneElement();
-            
-            placeholder->setPosition(elementPosition + Vec2(kContentItemMargin[isPortrait]/2, kContentItemMargin[isPortrait]/2));
+            float offset = kContentItemMargin[isPortrait]/2;
+            placeholder->setPosition(elementPosition + Vec2(offset, offset));
             carouselLayer->addChild(placeholder);
         }
         
@@ -142,7 +131,7 @@ bool MeHQDownloads::init()
         
         this->addChild(carouselLayer);
         
-        this->setContentSize(Size(this->getContentSize().width, -lowestElementYPosition + labelLayout->getContentSize().height));
+        this->setContentSize(Size(visibleSize.width, -lowestElementYPosition + kSpaceAboveCarousel[isPortrait]));
     }
     else
     {
@@ -153,21 +142,46 @@ bool MeHQDownloads::init()
 
 void MeHQDownloads::buildEmptyCarousel()
 {
-    int isPortrait = Director::getInstance()->getVisibleSize().width < Director::getInstance()->getVisibleSize().height;
+    const Size& visibleSize = Director::getInstance()->getVisibleSize();
     
-    ui::ImageView* dlLogo = ui::ImageView::create("res/meHQ/ball.png");
-    dlLogo->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    dlLogo->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
-    this->addChild(dlLogo);
+    int isPortrait = visibleSize.width < visibleSize.height;
     
-    Rect capInsents = Rect(100, 0, 286, 149);
+    Size contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kGameHQName);
+    float unitWidth = (visibleSize.width - 2 * kSideMarginSize[isPortrait]) / kUnitsOnScreen[isPortrait];
+    float unitMultiplier = unitWidth / contentItemSize.width;
     
-    ui::Button* playGamesButton = ui::Button::create("res/buttons/button_dark.png");
-    playGamesButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    playGamesButton->setCapInsets(capInsents);
-    playGamesButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
-    playGamesButton->setContentSize(Size(1000,playGamesButton->getContentSize().height));
-    playGamesButton->setScale9Enabled(true);
+    cocos2d::ui::Layout* carouselLayer = ui::Layout::create();
+    carouselLayer->setContentSize(Size(visibleSize.width - 2 * kSideMarginSize[isPortrait], 0));
+    carouselLayer->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+    
+    float lowestElementYPosition = 0;
+    
+    for(int elementIndex = 0; elementIndex < kUnitsOnScreen[isPortrait] - 1; elementIndex++)
+    {
+        Sprite* placeholder = Sprite::create("res/contentPlaceholders/placeholder_thumbnail_1_1.png");
+        placeholder->setScale(((contentItemSize.width - kContentItemMargin[isPortrait]) * unitMultiplier) / placeholder->getContentSize().width);
+        placeholder->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+        
+        HQScene2ElementPositioner hqScene2ElementPositioner;
+        hqScene2ElementPositioner.setElement(placeholder);
+        hqScene2ElementPositioner.setCarouselLayer(carouselLayer);
+        hqScene2ElementPositioner.setHighlightData(Vec2(1,1));
+        hqScene2ElementPositioner.setBaseUnitSize(contentItemSize * unitMultiplier);
+        
+        const cocos2d::Point &elementPosition = hqScene2ElementPositioner.positionHQSceneElement();
+        float offset = kContentItemMargin[isPortrait]/2;
+        placeholder->setPosition(elementPosition + Vec2(offset, offset));
+        carouselLayer->addChild(placeholder);
+        
+        if(elementPosition.y < lowestElementYPosition)
+        {
+            lowestElementYPosition = elementPosition.y;
+        }
+    }
+    
+    ui::Button* playGamesButton = ui::Button::create("res/meHQ/play_games_button.png");
+    playGamesButton->setScale(((contentItemSize.width - kContentItemMargin[isPortrait]) * unitMultiplier) / playGamesButton->getContentSize().width);
+    playGamesButton->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     playGamesButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
@@ -184,22 +198,44 @@ void MeHQDownloads::buildEmptyCarousel()
         }
     });
     
-    Label* playGamesButtonLabel = Label::createWithTTF("Play games", Style::Font::Regular, playGamesButton->getContentSize().height * 0.4f);
-    playGamesButtonLabel->setTextColor(Color4B::WHITE);
-    playGamesButtonLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    playGamesButtonLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    playGamesButton->addChild(playGamesButtonLabel);
+    HQScene2ElementPositioner hqScene2ElementPositioner;
+    hqScene2ElementPositioner.setElement(playGamesButton);
+    hqScene2ElementPositioner.setCarouselLayer(carouselLayer);
+    hqScene2ElementPositioner.setHighlightData(Vec2(1,1));
+    hqScene2ElementPositioner.setBaseUnitSize(contentItemSize * unitMultiplier);
     
-    this->addChild(playGamesButton);
+    const cocos2d::Point &elementPosition = hqScene2ElementPositioner.positionHQSceneElement();
+    float offset = kContentItemMargin[isPortrait]/2;
+    playGamesButton->setPosition(elementPosition + Vec2(offset, offset));
+    carouselLayer->addChild(playGamesButton);
     
-    ui::Text* heading = ui::Text::create(StringUtils::format("Play some games and they’ll appear%shere, then you can play them\nwhen you’re offline.", isPortrait ? "\n" : " "), Style::Font::Regular, 80);
+    for(auto item : carouselLayer->getChildren())
+    {
+        item->setPosition(item->getPosition() - Vec2(0,lowestElementYPosition));
+    }
+    
+    carouselLayer->setContentSize(Size(carouselLayer->getContentSize().width, -lowestElementYPosition));
+    
+    this->addChild(carouselLayer);
+    
+    std::string downloadsString;
+    if(ConfigStorage::getInstance()->isDevice18x9())
+    {
+        downloadsString = StringUtils::format("Play some games and they’ll%sappear%shere, then you can play%sthem%swhen you’re offline.", isPortrait ? "\n" : " ", isPortrait ? " " : "\n", isPortrait ? "\n" : " ", isPortrait ? " " : "\n");
+    }
+    else
+    {
+        downloadsString = StringUtils::format("Play some games and they’ll appear%shere, then you can play them\nwhen you’re offline.", isPortrait ? "\n" : " ");
+    }
+    
+    ui::Text* heading = ui::Text::create(downloadsString, Style::Font::Regular, 80);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setTextHorizontalAlignment(TextHAlignment::CENTER);
     heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
-    heading->setContentSize(Size(this->getContentSize().width, 200));
+    heading->setContentSize(Size(visibleSize.width, 200));
     this->addChild(heading);
     
-    this->setContentSize(Size(this->getContentSize().width, 3 * kSpaceAboveCarousel[isPortrait] + 350 + dlLogo->getContentSize().height));
+    this->setContentSize(Size(visibleSize.width, heading->getContentSize().height -lowestElementYPosition + kSpaceAboveCarousel[isPortrait] + kContentItemMargin[isPortrait] + 100));
     
 }
 
@@ -218,25 +254,22 @@ void MeHQDownloads::onSizeChanged()
     Super::onSizeChanged();
 }
 
-std::vector<std::string> MeHQDownloads::getJsonFileListFromDir()
+std::vector<std::string> MeHQDownloads::getJsonFileListFromDir() const
 {
-    std::string path = FileUtils::getInstance()->getWritablePath();
-    path = path + "/gameCache/";
-    
-    return DirectorySearcher::getInstance()->getFoldersInDirectory(path);
+    return DirectorySearcher::getInstance()->getFoldersInDirectory(ConfigStorage::getInstance()->getGameCachePath());
 }
 
-bool MeHQDownloads::isStarterFileExists(const std::string &gameId)
+bool MeHQDownloads::isStarterFileExists(const std::string &gameId) const
 {
-    if(getStartFileFromJson(gameId) == "ERROR") return false;
+    if(getStartFileFromJson(gameId) == ConfigStorage::kGameDownloadError) return false;
     
-    std::string path = FileUtils::getInstance()->getWritablePath() + "gameCache/" + gameId + "/" + getStartFileFromJson(gameId);
+    std::string path = ConfigStorage::getInstance()->getGameCachePath() + gameId + "/" + getStartFileFromJson(gameId);
     return FileUtils::getInstance()->isFileExist(path);
 }
 
-std::string MeHQDownloads::getStartFileFromJson(const std::string &gameId)
+std::string MeHQDownloads::getStartFileFromJson(const std::string &gameId) const
 {
-    std::string jsonFileName = FileUtils::getInstance()->getWritablePath() + "gameCache/" + gameId + "/package.json";
+    std::string jsonFileName = ConfigStorage::getInstance()->getGameCachePath() + gameId + "/package.json";
     
     std::string fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     
@@ -245,7 +278,7 @@ std::string MeHQDownloads::getStartFileFromJson(const std::string &gameId)
     
     if(gameData.HasParseError())
     {
-        return "ERROR";
+        return ConfigStorage::kGameDownloadError;
     }
     
     if(gameData.HasMember("pathToStartPage"))
@@ -254,7 +287,7 @@ std::string MeHQDownloads::getStartFileFromJson(const std::string &gameId)
     }
     else
     {
-        return "ERROR";
+        return ConfigStorage::kGameDownloadError;
     }
 }
 

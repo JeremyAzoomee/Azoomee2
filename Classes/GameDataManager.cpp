@@ -375,12 +375,12 @@ void GameDataManager::startGame(const std::string &basePath, const std::string &
 
 std::string GameDataManager::getGameIdPath(const std::string &gameId)
 {
-    return FileUtils::getInstance()->getWritablePath() + "gameCache/" + gameId + "/";
+    return ConfigStorage::getInstance()->getGameCachePath() + gameId + "/";
 }
 
 std::string GameDataManager::getGameCachePath()
 {
-    return FileUtils::getInstance()->getWritablePath() + "gameCache/";
+    return ConfigStorage::getInstance()->getGameCachePath();
 }
 
 Orientation GameDataManager::getGameOrientation(const std::string& jsonFileName)
