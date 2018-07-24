@@ -250,20 +250,6 @@ bool ConfigStorage::isImmediateRequestSendingRequired(const std::string& request
 }
 
 //-------------------------Oomee settings---------------------------
-std::string ConfigStorage::getNameForOomee(int number)
-{
-    std::string keyName = StringUtils::format("%d", number);
-    const rapidjson::Value &oomeenames = OomeeConfiguration["nameForOomee"];
-    return getStringFromJson(keyName, oomeenames);
-}
-
-std::string ConfigStorage::getHumanReadableNameForOomee(int number)
-{
-    std::string keyName = StringUtils::format("%d", number);
-    const rapidjson::Value &oomeenames = OomeeConfiguration["humanReadableNameForOomee"];
-    return getStringFromJson(keyName, oomeenames);
-}
-
 std::string ConfigStorage::getUrlForOomee(int number)
 {
     std::string keyName = StringUtils::format("%d", number);

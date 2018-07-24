@@ -70,7 +70,7 @@ bool ChildCreator::addChild()
         return false;
     }
     int oomeeNum = 0;
-    AnalyticsSingleton::getInstance()->childProfileCreatedEvent(_age, oomeeNum);
+    AnalyticsSingleton::getInstance()->childProfileCreatedEvent(_age);
     
     const std::string& oomeeUrl = ConfigStorage::getInstance()->getUrlForOomee(oomeeNum);
     HttpRequestCreator* request = API::RegisterChildRequest(_childName, gender, DOB, oomeeUrl, _delegate);

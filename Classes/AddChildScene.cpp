@@ -13,6 +13,7 @@
 #include "SceneManagerScene.h"
 #include "FlowDataSingleton.h"
 #include "BackEndCaller.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
 
@@ -95,21 +96,25 @@ void AddChildScene::setSceneForFlow()
     AddChildLayer* nextLayer = nullptr;
     switch (_currentFlowStage) {
         case AddChildFlow::FIRST_TIME_SETUP_NAME:
-        nextLayer = ChildNameLayerFirstTime::create();
-        break;
-        
+        {
+            nextLayer = ChildNameLayerFirstTime::create();
+            break;
+        }
         case AddChildFlow::ADDITIONAL_NAME:
-        nextLayer = ChildNameLayer::create();
-        break;
-        
+        {
+            nextLayer = ChildNameLayer::create();
+            break;
+        }
         case AddChildFlow::AGE:
-        nextLayer = ChildAgeLayer::create();
-        break;
-        
+        {
+            nextLayer = ChildAgeLayer::create();
+            break;
+        }
         case AddChildFlow::OOMEE:
-        nextLayer = ChildOomeeLayer::create();
-        break;
-        
+        {
+            nextLayer = ChildOomeeLayer::create();
+            break;
+        }
         default:
         break;
     }
@@ -130,18 +135,21 @@ void AddChildScene::nextLayer()
     {
         case AddChildFlow::FIRST_TIME_SETUP_NAME:
         case AddChildFlow::ADDITIONAL_NAME:
+        {
             _currentFlowStage = AddChildFlow::AGE;
             setSceneForFlow();
-        break;
-        
+            break;
+        }
         case AddChildFlow::AGE:
-            _childCreator->addChild();
-        break;
-        
+        {
+             _childCreator->addChild();
+            break;
+        }
         case AddChildFlow::OOMEE:
+        {
             BackEndCaller::getInstance()->getAvailableChildren();
-        break;
-        
+            break;
+        }
         default:
         break;
     }
@@ -153,36 +161,41 @@ void AddChildScene::prevLayer()
     {
         case AddChildFlow::FIRST_TIME_SETUP_NAME:
         case AddChildFlow::ADDITIONAL_NAME:
+        {
             BackEndCaller::getInstance()->getAvailableChildren();
-        break;
-        
+            break;
+        }
         case AddChildFlow::AGE:
+        {
             _currentFlowStage = _addingFirstChild ? AddChildFlow::FIRST_TIME_SETUP_NAME : AddChildFlow::ADDITIONAL_NAME;
             setSceneForFlow();
-        break;
-        
+            break;
+        }
         case AddChildFlow::OOMEE:
+        {
             _addingFirstChild = false;
             _childCreator = ChildCreator::create();
             _childCreator->setHttpRespnseDelegate(this);
             _childCreator->setFirstTime(_addingFirstChild);
             _currentFlowStage = AddChildFlow::ADDITIONAL_NAME;
             setSceneForFlow();
-        break;
-        
+            break;
+        }
         default:
-        break;
+            break;
     }
 }
 
 void AddChildScene::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
+    AnalyticsSingleton::getInstance()->childProfileCreatedSuccessEvent();
     _currentFlowStage = AddChildFlow::OOMEE;
     setSceneForFlow();
 }
 
 void AddChildScene::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
+    AnalyticsSingleton::getInstance()->childProfileCreatedErrorEvent(errorCode);
     FlowDataSingleton::getInstance()->setErrorCode(errorCode);
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
 }

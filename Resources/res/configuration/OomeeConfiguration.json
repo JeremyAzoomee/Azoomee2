@@ -1,33 +1,15 @@
 {
-  "nameForOomee": {
-    "0": "om_Pink",
-    "1": "om_Yellow",
-    "2": "om_Raspberry",
-    "3": "om_Green",
-    "4": "om_Blue"
-  },
-  
-  "humanReadableNameForOomee": {
-    "0": "Pink",
-    "1": "Yellow",
-    "2": "Raspberry",
-    "3": "Green",
-    "4": "Blue"
-  },
-  
   "urlForOomee": {
-    "0": "https://media.azoomee.com/static/thumbs/oomee_01.png",
-    "1": "https://media.azoomee.com/static/thumbs/oomee_03.png",
-    "2": "https://media.azoomee.com/static/thumbs/oomee_04.png",
-    "3": "https://media.azoomee.com/static/thumbs/oomee_05.png",
-    "4": "https://media.azoomee.com/static/thumbs/oomee_06.png"
+    "0": "https://media.azoomee.com/static/thumbs/oomee_10.png",
+    "1": "https://media.azoomee.com/static/thumbs/oomee_09.png",
+    "2": "https://media.azoomee.com/static/thumbs/oomee_08.png",
+    "3": "https://media.azoomee.com/static/thumbs/oomee_07.png"
   },
   
   "oomeeNumberForUrl": {
-  "oomee_01.png": 0,
-  "oomee_03.png": 1,
-  "oomee_04.png": 2,
-  "oomee_05.png": 3,
-  "oomee_06.png": 4
+  "oomee_10.png": 0,
+  "oomee_09.png": 1,
+  "oomee_08.png": 2,
+  "oomee_07.png": 3
   }
 }

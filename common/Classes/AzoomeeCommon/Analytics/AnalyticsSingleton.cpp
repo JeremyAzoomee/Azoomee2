@@ -255,19 +255,10 @@ void AnalyticsSingleton::childProfileDOBErrorEvent()
     //mixPanelSendEvent("childProfileDOBError");
 }
 
-void AnalyticsSingleton::childProfileOomeeEvent(int oomeeNumber)
-{
-    std::map<std::string, std::string> mixPanelProperties;
-    mixPanelProperties["SelectedOomee"] = ConfigStorage::getInstance()->getHumanReadableNameForOomee(oomeeNumber);
-    
-    mixPanelSendEventWithStoredProperties("childProfileOomee", mixPanelProperties);
-}
-
-void AnalyticsSingleton::childProfileCreatedSuccessEvent(int oomeeNumber)
+void AnalyticsSingleton::childProfileCreatedSuccessEvent()
 {
     std::map<std::string, std::string> mixPanelProperties;
     mixPanelProperties["Method"] = "App";
-    mixPanelProperties["SelectedOomee"] = ConfigStorage::getInstance()->getHumanReadableNameForOomee(oomeeNumber);
     
     mixPanelSendEventWithStoredProperties("childProfileCreatedSuccess", mixPanelProperties);
 }
@@ -288,25 +279,16 @@ void AnalyticsSingleton::childProfileUpdateErrorEvent(long errorCode)
     mixPanelSendEventWithStoredProperties("childProfileUpdateError", mixPanelProperties);
 }
     
-void AnalyticsSingleton::childProfileCreatedEvent(int age, int oomeeNum)
+void AnalyticsSingleton::childProfileCreatedEvent(int age)
 {
     std::map<std::string, std::string> mixPanelProperties;
     mixPanelProperties["Method"] = "App";
-    mixPanelProperties["SelectedOomee"] = ConfigStorage::getInstance()->getHumanReadableNameForOomee(oomeeNum);
     mixPanelProperties["Age"] = age;
     
     mixPanelSendEventWithStoredProperties("childProfileCreatedEvent", mixPanelProperties);
 }
 
 //-------------HUB ACTIONS-------------------
-void AnalyticsSingleton::hubTapOomeeEvent(int oomeeNumber, std::string oomeeAction)
-{
-    std::map<std::string, std::string> mixPanelProperties;
-    mixPanelProperties["SelectedOomee"] = ConfigStorage::getInstance()->getHumanReadableNameForOomee(oomeeNumber);
-    mixPanelProperties["OomeeAnimation"] = oomeeAction;
-    
-    mixPanelSendEventWithStoredProperties("tapOomee", mixPanelProperties);
-}
 
     void AnalyticsSingleton::navSelectionEvent(std::string hubOrTop, const std::string& buttonName)
 {

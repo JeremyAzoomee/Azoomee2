@@ -380,7 +380,7 @@ void BackEndCaller::registerChild(const std::string& childProfileName, const std
 
 void BackEndCaller::onRegisterChildAnswerReceived()
 {
-    AnalyticsSingleton::getInstance()->childProfileCreatedSuccessEvent(FlowDataSingleton::getInstance()->getOomeeColourNumber());
+    AnalyticsSingleton::getInstance()->childProfileCreatedSuccessEvent();
     getAvailableChildren();
 }
 

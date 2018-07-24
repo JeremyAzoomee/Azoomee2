@@ -48,7 +48,9 @@ void ChildOomeeLayer::onEnter()
     _oomee->setPosition(mainTitle->getPosition() - Vec2(0,mainTitle->getContentSize().height + offset[isPortrait]));
     _oomee->setPlaceholderImage("res/oomeeMaker/1_Oomee_Reference.png");
     _oomee->loadPlaceholderImage();
-    _oomee->setScale(oomeeHeight / _oomee->getContentSize().height);
+    //_oomee->setScale(oomeeHeight / _oomee->getContentSize().height);
+    _oomee->setContentSize(_oomee->getContentSize() * (oomeeHeight / _oomee->getContentSize().height));
+    _oomee->ignoreContentAdaptWithSize(false);
     this->addChild(_oomee);
     
     _oomeeDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
@@ -122,6 +124,8 @@ void ChildOomeeLayer::onEnter()
 void ChildOomeeLayer::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {
     _oomee->setMainImage(downloader->getLocalImagePath());
+    float oomeeHeight = this->getContentSize().height * 0.3;
+    _oomee->setContentSize(_oomee->getContentSize() * (oomeeHeight / _oomee->getContentSize().height));
 }
 void ChildOomeeLayer::onImageDownloadFailed()
 {
