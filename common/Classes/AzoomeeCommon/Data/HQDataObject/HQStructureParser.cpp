@@ -83,7 +83,9 @@ void HQStructureParser::parseHQStructureData(const std::string& hqStuctureData, 
         return;
     }
     
-    HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName)->clearData();
+    HQDataObjectRef hq = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName);
+    
+    hq->clearData();
     
     for (int rowNumber = 0; rowNumber < hqData["rows"].Size(); rowNumber++)
     {
@@ -129,13 +131,13 @@ void HQStructureParser::parseHQStructureData(const std::string& hqStuctureData, 
             }
         }
         
-        HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName)->addCarouselToHq(carouselObject);
-        HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName)->setHqType(hqName);
+        hq->addCarouselToHq(carouselObject);
+        hq->setHqType(hqName);
     }
         
     if(hqData.HasMember("images"))
     {
-        HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName)->setImages(getStringMapFromJson(hqData["images"]));
+        hq->setImages(getStringMapFromJson(hqData["images"]));
     }
     
 }

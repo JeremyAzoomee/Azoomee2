@@ -70,7 +70,7 @@ void ContentItemPoolHandler::loadLocalData()
     }
 }
 
-std::string ContentItemPoolHandler::getLocalEtag()
+std::string ContentItemPoolHandler::getLocalEtag() const
 {
     const std::string& etagFilePath = cocos2d::FileUtils::getInstance()->getWritablePath() + kCachePath + "etag.txt";
     if(cocos2d::FileUtils::getInstance()->isFileExist(etagFilePath))

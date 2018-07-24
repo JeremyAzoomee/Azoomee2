@@ -27,7 +27,7 @@ ContentItemPoolParser::~ContentItemPoolParser(void)
 
 }
 
-void ContentItemPoolParser::parseContentItemPool(const std::string contentItemPoolString)
+void ContentItemPoolParser::parseContentItemPool(const std::string& contentItemPoolString)
 {
     rapidjson::Document contentData;
     contentData.Parse(contentItemPoolString.c_str());

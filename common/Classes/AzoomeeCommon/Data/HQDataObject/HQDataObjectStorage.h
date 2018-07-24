@@ -17,7 +17,7 @@ public:
     HQDataObjectRef getHQDataObjectForKey(const std::string &key);
     void clearAllHQData();
     
-    bool isSameHQData(const std::string& etag);
+    bool isSameHQData(const std::string& etag) const;
     void setHQDataEtag(const std::string& etag);
     
 private:

@@ -24,6 +24,7 @@ class HQStructureHandler : public HttpRequestCreatorResponseDelegate, FileZipDel
 {
 private:
     static const std::string kCachePath;
+    static const std::string kZipName;
     
     FileDownloaderRef _fileDownloader = nullptr;
     HQFeedDelegate* _delegate = nullptr;

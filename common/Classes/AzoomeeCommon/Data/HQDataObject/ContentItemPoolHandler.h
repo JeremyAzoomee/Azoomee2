@@ -30,7 +30,7 @@ private:
     FileDownloaderRef _fileDownloader = nullptr;
     ContentPoolDelegate* _delegate = nullptr;
     
-    std::string getLocalEtag();
+    std::string getLocalEtag() const;
     void setLocalEtag(const std::string& etag);
     
     void loadLocalData();

@@ -24,6 +24,7 @@ using namespace cocos2d;
 NS_AZOOMEE_BEGIN
 
 const std::string HQStructureHandler::kCachePath = "feedsCache/";
+const std::string HQStructureHandler::kZipName = "feeds.zip";
 
 static std::auto_ptr<HQStructureHandler> sHQStructureHandlerSharedInstance;
 
@@ -124,8 +125,9 @@ void HQStructureHandler::parseNavigationData(const std::string &data)
     std::vector<std::string> hqNames;
     for(int i = 0; i < result["navigation"].Size(); i++)
     {
-        hqNames.push_back(getStringFromJson("name", result["navigation"][i]));
-        if(getBoolFromJson("default", result["navigation"][i], false))
+        const auto& value = result["navigation"][i];
+        hqNames.push_back(getStringFromJson("name", value));
+        if(getBoolFromJson("default", value, false))
         {
             ConfigStorage::getInstance()->setDefaultHQ(hqNames.back());
         }
@@ -171,7 +173,7 @@ void HQStructureHandler::onFileDownloadComplete(const std::string &fileString, c
         FileUtils::getInstance()->createDirectory(dirPath);
         setLocalEtag(_fileDownloader->getEtag());
         _fileDownloader = nullptr;
-        const std::string& zipPath = dirPath + "/feeds.zip";
+        const std::string& zipPath = dirPath + kZipName;
         cocos2d::FileUtils::getInstance()->writeStringToFile(fileString, zipPath);
         FileZipUtil::getInstance()->asyncUnzip(zipPath, dirPath, "", this);
     }

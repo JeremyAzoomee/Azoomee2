@@ -39,7 +39,7 @@ void HQDataObjectStorage::clearAllHQData()
     _hqDataObjects.clear();
 }
 
-bool HQDataObjectStorage::isSameHQData(const std::string &etag)
+bool HQDataObjectStorage::isSameHQData(const std::string &etag) const
 {
     return _currentHQDataEtag == etag;
 }

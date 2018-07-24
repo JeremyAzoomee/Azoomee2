@@ -21,7 +21,7 @@ public:
     static ContentItemPoolParser* getInstance();
     ~ContentItemPoolParser(void);
     
-    void parseContentItemPool(const std::string contentItemPoolString);
+    void parseContentItemPool(const std::string& contentItemPoolString);
     
 };
 
