@@ -63,20 +63,7 @@ void HQDataProvider::getDataForHQ(const std::string &hqName)
 #ifdef FORCE_RELOAD
         HQDataStorage::getInstance()->HQData.erase(hqName.c_str());
 #endif
-    
-    const HQDataObjectRef &objectToBeLoaded = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName);
-        
-    if(objectToBeLoaded->getHqType() != "")
-    {
-        startBuildingHQ(hqName);
-    }
-    else
-    {
-        if(objectToBeLoaded->getHqUrl() != "")
-        {
-            BackEndCaller::getInstance()->getHQContent(objectToBeLoaded->getHqUrl(), hqName);
-        }
-    }
+    startBuildingHQ(hqName);
 }
 
 void HQDataProvider::getDataForGroupHQ(const std::string &uri)
