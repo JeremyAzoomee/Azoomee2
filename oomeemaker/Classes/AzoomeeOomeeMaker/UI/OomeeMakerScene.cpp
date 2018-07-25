@@ -391,7 +391,7 @@ void OomeeMakerScene::displayMadeAvatarNotification()
     banner->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     banner->setPosition(Vec2(_contentLayer->getContentSize().width * 0.42, _contentLayer->getContentSize().height));
     banner->setContentSize(Size(_contentLayer->getContentSize().width * 0.43 , 400));
-    banner->runAction(Sequence::create(MoveBy::create(1.0, Vec2(0,-200)), DelayTime::create(2.0f),MoveBy::create(1.0, Vec2(0,200)),CallFunc::create([=](){
+    banner->runAction(Sequence::create(MoveBy::create(0.5, Vec2(0,-200)), DelayTime::create(3.0f),MoveBy::create(0.5, Vec2(0,200)),CallFunc::create([=](){
         banner->removeFromParent();
     }),NULL));
     _contentLayer->addChild(banner,10);
