@@ -32,8 +32,7 @@ static ConfigStorage *_sharedConfigStorage = NULL;
     const char* const ConfigStorage::kArtAppHQName = "ARTS APP";
     const char* const ConfigStorage::kMeHQName = "ME HQ";
     
-    const char* const ConfigStorage::kDefaultHQName = kMeHQName;
-    const char* const ConfigStorage::kAnonDefaultHQName = kGameHQName;
+    std::string ConfigStorage::kDefaultHQName = ConfigStorage::kMeHQName;
     
     const char* const ConfigStorage::kRecentlyPlayedCarouselName = "LAST PLAYED";
     
@@ -134,7 +133,7 @@ std::string ConfigStorage::getGameCachePath()
     
 std::string ConfigStorage::getDefaultHQ()
 {
-    return ParentDataProvider::getInstance()->isLoggedInParentAnonymous() ? kAnonDefaultHQName : kDefaultHQName;
+    return kDefaultHQName;
 }
 
 //-------------------------PRIVATE METHOD TO PARSE CONFIG JSON FILE--------
@@ -483,10 +482,23 @@ Point ConfigStorage::getTargetPositionForMove(const std::string& hqName) const
     
 std::vector<std::string> ConfigStorage::getHqNames() const
 {
+    if(_navigationHQs.size() > 0)
+    {
+        return _navigationHQs;
+    }
     return getStringArrayFromJson(NavigationConfiguration["namesForMenuItems"]);
 }
 
+void ConfigStorage::setNavigationHQs(const std::vector<std::string>& hqs)
+{
+    _navigationHQs = hqs;
+}
 
+void ConfigStorage::setDefaultHQ(const std::string &defaultHq)
+{
+    kDefaultHQName = defaultHq;
+}
+    
 //-----------------------------------OOMEE animation identifier configuration----------------------------------
 
 std::string ConfigStorage::getGreetingAnimation()

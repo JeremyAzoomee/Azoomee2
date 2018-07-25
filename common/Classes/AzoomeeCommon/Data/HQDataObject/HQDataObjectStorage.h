@@ -17,9 +17,13 @@ public:
     HQDataObjectRef getHQDataObjectForKey(const std::string &key);
     void clearAllHQData();
     
+    bool isSameHQData(const std::string& etag) const;
+    void setHQDataEtag(const std::string& etag);
+    
 private:
     HQDataObjectStorage();
     std::map<std::string, HQDataObjectRef> _hqDataObjects;
+    std::string _currentHQDataEtag;
 };
 
 NS_AZOOMEE_END

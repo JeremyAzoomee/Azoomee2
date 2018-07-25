@@ -10,6 +10,7 @@
 #include "FlowDataSingleton.h"
 #include <AzoomeeCommon/ErrorCodes.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include "ContentHistoryManager.h"
 #include "FavouritesManager.h"
 #include "ChatDelegate.h"
@@ -145,6 +146,11 @@ void shareContentInChat()
 {
     ChatDelegate::getInstance()->_sharedContentId = ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId();
     ChatDelegate::getInstance()->shareContentInChat();
+}
+
+bool isAnonUser()
+{
+    return ParentDataProvider::getInstance()->isLoggedInParentAnonymous();
 }
 
 NSString* getPlaylistString()

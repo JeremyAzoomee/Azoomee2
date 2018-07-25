@@ -332,7 +332,9 @@ void BackEndCaller::onGetGordonAnswerReceived(const std::string& responseString)
 {
     if(CookieDataParser::getInstance()->parseDownloadCookies(responseString))
     {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
+        //Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
+        ContentItemPoolHandler::getInstance()->setContentPoolDelegate(this);
+        ContentItemPoolHandler::getInstance()->getLatestContentPool();
     }
 }
 
@@ -629,6 +631,17 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
         FlowDataSingleton::getInstance()->setErrorCode(errorCode);
         LoginLogicHandler::getInstance()->doLoginLogic();
     }
+}
+
+void BackEndCaller::onContentDownloadComplete()
+{
+    HQStructureHandler::getInstance()->setHQFeedDelegate(this);
+    HQStructureHandler::getInstance()->getLatestHQStructureFeed();
+}
+
+void BackEndCaller::onFeedDownloadComplete()
+{
+     Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
 }
 
 NS_AZOOMEE_END
