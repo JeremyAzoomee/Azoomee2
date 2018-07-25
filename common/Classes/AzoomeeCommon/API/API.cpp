@@ -39,6 +39,8 @@ const char* const API::TagResetReportedChat = "chat.resetReported";
 const char* const API::TagGetTimelineSummary = "chat.getTimelineSummary";
 const char* const API::TagGetForceUpdateInformation = "forceUpdate";
 const char* const API::TagCookieRefresh = "cookieRefresh";
+const char* const API::TagGetContentPoolRequest = "getContentPool";
+const char* const API::TagGetHqStructureDataRequest = "getHQStructureData";
 const char* const API::TagUpdateChildAvatar = "updateChildAvatar";
 
 #pragma mark - API Methods
@@ -316,6 +318,26 @@ HttpRequestCreator* API::ResetPaswordRequest(const std::string& forEmailAddress,
     request->encrypted = false;
     return request;
 }
+
+HttpRequestCreator* API::GetContentPoolRequest(const std::string& childId, Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestTag = TagGetContentPoolRequest;
+    request->requestPath = StringUtils::format("/api/electricdreams/v3/%s/items",childId.c_str());
+    request->method = "GET";
+    request->encrypted = true;
+    return request;
+}
+
+HttpRequestCreator* API::GetHQStructureDataRequest(const std::string& childId, Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestTag = TagGetHqStructureDataRequest;
+    request->requestPath = StringUtils::format("/api/electricdreams/v3/%s/feeds",childId.c_str());
+    request->encrypted = true;
+    return request;
+}
+
 
 #pragma mark - Sharing
 

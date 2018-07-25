@@ -51,6 +51,8 @@ public:
     static const char* const TagGetTimelineSummary;
     static const char* const TagGetForceUpdateInformation;
     static const char* const TagCookieRefresh;
+    static const char* const TagGetContentPoolRequest;
+    static const char* const TagGetHqStructureDataRequest;
     static const char* const TagUpdateChildAvatar;
     
 #pragma mark - API Methods
@@ -143,6 +145,12 @@ public:
     
     static HttpRequestCreator* ResetPaswordRequest(const std::string& forEmailAddress,
                                                    HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* GetContentPoolRequest(const std::string& childId,
+                                                     HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* GetHQStructureDataRequest(const std::string& childId,
+                                                         HttpRequestCreatorResponseDelegate* delegate);
     
 #pragma mark - Friend Requests
     

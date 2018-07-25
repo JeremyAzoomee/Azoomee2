@@ -5,7 +5,7 @@
 //#define FORCE_RELOAD YES;
 //#define FORGET_USER_DATA YES;
 //#define ALLOW_UNPAID_SIGNUP YES
-//#define USINGCI YES
+#define USINGCI YES
 
 #include <cocos/cocos2d.h>
 #include "Json.h"
@@ -37,8 +37,7 @@ public:
     static const char* const kArtAppHQName;
     static const char* const kMeHQName;
     
-    static const char* const kDefaultHQName;
-    static const char* const kAnonDefaultHQName;
+    static std::string kDefaultHQName;
     
     static const char* const kRecentlyPlayedCarouselName;
     
@@ -111,6 +110,8 @@ public:
     std::string getNameForMenuItem(const std::string& hqName) const;
     cocos2d::Point getTargetPositionForMove(const std::string& hqName) const;
     std::vector<std::string> getHqNames() const;
+    void setNavigationHQs(const std::vector<std::string>& hqs);
+    void setDefaultHQ(const std::string& defaultHq);
     
     //MainHubScene configuration
     std::vector<cocos2d::Point> getMainHubPositionForHighlightElements(const std::string& categoryName);
@@ -168,6 +169,8 @@ private:
     
     std::vector<std::string> requestTagsRequireImmediateSending;
     std::vector<std::string> parentSignedRequestTags;
+    
+    std::vector<std::string> _navigationHQs;
     
     bool _isDeviceIphoneX = false;
     bool _isDevice18x9 = false;
