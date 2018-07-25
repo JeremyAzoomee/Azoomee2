@@ -670,64 +670,6 @@ ElectricDreamsButton* ElectricDreamsButton::createSendButton()
     return layer;
 }
 
-//-------------OOMEE BUTTONS AND FUNCTIONS---------------------
-
-ElectricDreamsButton* ElectricDreamsButton::createOomeeButtonWithOutline(int oomeeNumber, std::string oomeeName)
-{
-    auto layer = ElectricDreamsButton::create();
-    layer->addChild(layer->createSpriteButton("res/buttons/rectangle2.png", "" ));
-    layer->addListener();
-    
-    Sprite* glow = createGlow();
-    glow->setPosition(layer->getContentSize().width/2, layer->getContentSize().height*.6);
-    glow->setScale(.3);
-    layer->addChild(glow);
-    
-    layer->oomeeLayer = OomeeButtonLayer::createOomeeLayer(oomeeNumber);
-    layer->oomeeLayer->setPosition(layer->getContentSize().width/2, layer->getContentSize().height *.30);
-    layer->addChild(layer->oomeeLayer);
-    
-    auto oomeeNameLabel = createLabelBody(oomeeName);
-    oomeeNameLabel->setPosition(layer->getContentSize().width/2, layer->getContentSize().height *.15);
-    layer->addChild(oomeeNameLabel);
-    
-    layer->setMixPanelButtonName(StringUtils::format("oomeeButton|%d",oomeeNumber));
-    
-    return layer;
-}
-
-ElectricDreamsButton* ElectricDreamsButton::createOomeeAsButton(int oomeeNumber)
-{
-    auto layer = ElectricDreamsButton::create();
-    layer->setContentSize(Size(300,300));
-    layer->oomeeLayer = OomeeButtonLayer::createOomeeLayer(oomeeNumber);
-    layer->oomeeLayer->setPosition(layer->getContentSize().width/2, 0);
-    layer->addChild(layer->oomeeLayer);
-    
-    layer->setTag(oomeeNumber);
-    
-    layer->addListener();
-    
-    layer->setMixPanelButtonName(StringUtils::format("oomeeButton|%d",oomeeNumber));
-    
-    return layer;
-}
-
-void ElectricDreamsButton::playOomeeAnimation(std::string OomeeAnimation, bool loop)
-{
-    oomeeLayer->playAnimation(OomeeAnimation, loop);
-}
-
-void ElectricDreamsButton::playOomeeAnimationNoSound(std::string OomeeAnimation)
-{
-    oomeeLayer->playAnimationNoSound(OomeeAnimation);
-}
-
-void ElectricDreamsButton::hideOomee()
-{
-    oomeeLayer->hideOomee();
-}
-
 
 //---------------------- Listener Function -----------------------------
 

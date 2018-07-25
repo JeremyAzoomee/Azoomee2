@@ -159,6 +159,7 @@ void AvatarWidget::setAvatarForFriend(const FriendRef& friendData, bool forceIma
 void AvatarWidget::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {
     _avatarImage->loadTexture(downloader->getLocalImagePath());
+    _avatarImage->setContentSize(Size(600,600));
     
     if(_avatarDownloader)
     {

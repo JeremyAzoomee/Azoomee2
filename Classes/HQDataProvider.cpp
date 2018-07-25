@@ -63,20 +63,7 @@ void HQDataProvider::getDataForHQ(const std::string &hqName)
 #ifdef FORCE_RELOAD
         HQDataStorage::getInstance()->HQData.erase(hqName.c_str());
 #endif
-    
-    const HQDataObjectRef &objectToBeLoaded = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName);
-        
-    if(objectToBeLoaded->getHqType() != "")
-    {
-        startBuildingHQ(hqName);
-    }
-    else
-    {
-        if(objectToBeLoaded->getHqUrl() != "")
-        {
-            BackEndCaller::getInstance()->getHQContent(objectToBeLoaded->getHqUrl(), hqName);
-        }
-    }
+    startBuildingHQ(hqName);
 }
 
 void HQDataProvider::getDataForGroupHQ(const std::string &uri)
@@ -87,7 +74,9 @@ void HQDataProvider::getDataForGroupHQ(const std::string &uri)
     groupHQObject->clearData();
     
     HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kGroupHQName)->setHqEntitlement(true); //group hq entitlement is not in the initial login feed, so we have to make it enabled manually.
-    BackEndCaller::getInstance()->getHQContent(uri, ConfigStorage::kGroupHQName);
+    HQStructureHandler::getInstance()->loadGroupHQData(uri);
+    startBuildingHQ(ConfigStorage::kGroupHQName);
+    //BackEndCaller::getInstance()->getHQContent(uri, ConfigStorage::kGroupHQName);
 }
 
 int HQDataProvider::getNumberOfRowsForHQ(const std::string &hqName) const
@@ -265,6 +254,8 @@ void HQDataProvider::hideLoadingScreen()
 const std::map<std::string, std::string> HQDataProvider::kLockFiles = {
     { ConfigStorage::kContentTypeVideo, "res/hqscene/locked_video.png" },
     { ConfigStorage::kContentTypeAudio, "res/hqscene/locked_audio_books.png" },
+    { ConfigStorage::kContentTypeGroup, "res/hqscene/locked_video.png" },
+    { ConfigStorage::kContentTypeAudioGroup, "res/hqscene/locked_audio_books.png" },
     { ConfigStorage::kContentTypeGame, "res/hqscene/locked_games.png" },
     { "", "res/hqscene/locked.png" }
 };

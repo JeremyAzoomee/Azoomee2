@@ -23,6 +23,8 @@ extern "C" {
     bool isFavContent();
     void shareContentInChat();
     
+    bool isAnonUser();
+    
     NSString* getPlaylistString();
     
 #ifdef __cplusplus

@@ -23,9 +23,13 @@ public:
     void backupContentItemPool();
     void restoreContentItemPool();
     
+    bool isSameContentPool(const std::string& etag);
+    void setPoolEtag(const std::string& etag);
+    
 private:
     ContentItemPool();
     std::map<std::string, HQContentItemObjectRef> _contentItems;
+    std::string _currentPoolEtag;
 };
 
 NS_AZOOMEE_END

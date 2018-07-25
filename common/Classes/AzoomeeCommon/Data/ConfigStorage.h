@@ -37,8 +37,7 @@ public:
     static const char* const kArtAppHQName;
     static const char* const kMeHQName;
     
-    static const char* const kDefaultHQName;
-    static const char* const kAnonDefaultHQName;
+    static std::string kDefaultHQName;
     
     static const char* const kRecentlyPlayedCarouselName;
     
@@ -82,8 +81,6 @@ public:
     bool isImmediateRequestSendingRequired(const std::string& requestTag);
     
     //ChildAccountScene settings
-    std::string getNameForOomee(int number);
-    std::string getHumanReadableNameForOomee(int number);
     std::string getUrlForOomee(int number);
     int getOomeeNumberForUrl(const std::string& url);
     
@@ -111,6 +108,8 @@ public:
     std::string getNameForMenuItem(const std::string& hqName) const;
     cocos2d::Point getTargetPositionForMove(const std::string& hqName) const;
     std::vector<std::string> getHqNames() const;
+    void setNavigationHQs(const std::vector<std::string>& hqs);
+    void setDefaultHQ(const std::string& defaultHq);
     
     //MainHubScene configuration
     std::vector<cocos2d::Point> getMainHubPositionForHighlightElements(const std::string& categoryName);
@@ -168,6 +167,8 @@ private:
     
     std::vector<std::string> requestTagsRequireImmediateSending;
     std::vector<std::string> parentSignedRequestTags;
+    
+    std::vector<std::string> _navigationHQs;
     
     bool _isDeviceIphoneX = false;
     bool _isDevice18x9 = false;

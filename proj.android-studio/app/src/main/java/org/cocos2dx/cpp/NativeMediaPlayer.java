@@ -364,109 +364,93 @@ public class NativeMediaPlayer extends Activity {
 
         float buttonPadding = _buttonWidth / 8.0f;
 
-        final ImageButton favButton = new ImageButton(this);
-        if(JNICalls.JNIIsInFavourites())
-        {
-            favButton.setImageResource(R.drawable.favourite_selected);
+        if(!JNICalls.JNIIsAnonUser()) {
+            final ImageButton favButton = new ImageButton(this);
+            if (JNICalls.JNIIsInFavourites()) {
+                favButton.setImageResource(R.drawable.favourite_selected);
+            } else {
+                favButton.setImageResource(R.drawable.favourite_unelected);
+            }
+            favButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
+            favButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (JNICalls.JNIIsInFavourites()) {
+                        JNICalls.JNIRemoveFromFavourites();
+                        favButton.setImageResource(R.drawable.favourite_unelected);
+                    } else {
+                        JNICalls.JNIAddToFavourites();
+                        favButton.setImageResource(R.drawable.favourite_selected);
+                    }
+                }
+            });
+
+            favButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
+            favButton.setX(buttonPadding);
+            favButton.setY(buttonPadding + 2 * _buttonWidth);
+
+            addContentView(favButton, buttonLayoutParams);
+
+            favButtonStatic = favButton;
+
+            final ImageButton shareButton = new ImageButton(this);
+            shareButton.setImageResource(R.drawable.share_unelected);
+            shareButton.setTag(R.drawable.share_unelected);
+            shareButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
+            shareButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Integer resource = (Integer) shareButton.getTag();
+                    if (resource == R.drawable.share_selected) {
+                        shareButton.setImageResource(R.drawable.share_unelected);
+                        shareButton.setTag(R.drawable.share_unelected);
+                    } else {
+                        shareButton.setImageResource(R.drawable.share_selected);
+                        shareButton.setTag(R.drawable.share_selected);
+                    }
+                    JNICalls.JNIShareInChat();
+
+                    exitMediaplayer();
+
+                }
+            });
+
+            shareButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
+            shareButton.setX(buttonPadding);
+            shareButton.setY(buttonPadding + 3 * _buttonWidth);
+
+            addContentView(shareButton, buttonLayoutParams);
+
+            shareButtonStatic = shareButton;
+
+            final ImageButton burgerButton = new ImageButton(this);
+            burgerButton.setImageResource(R.drawable.menu_unselected);
+            burgerButton.setTag(R.drawable.menu_unselected);
+            burgerButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
+            burgerButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Integer resource = (Integer) burgerButton.getTag();
+                    if (resource == R.drawable.menu_selected) {
+                        burgerButton.setImageResource(R.drawable.menu_unselected);
+                        burgerButton.setTag(R.drawable.menu_unselected);
+                    } else {
+                        burgerButton.setImageResource(R.drawable.menu_selected);
+                        burgerButton.setTag(R.drawable.menu_selected);
+                    }
+                    animateButtons();
+                }
+            });
+
+            burgerButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
+            burgerButton.setX(buttonPadding);
+            burgerButton.setY(buttonPadding + _buttonWidth);
+
+            addContentView(burgerButton, buttonLayoutParams);
+
+            burgerButtonStatic = burgerButton;
         }
-        else
-        {
-            favButton.setImageResource(R.drawable.favourite_unelected);
-        }
-        favButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
-        favButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                if(JNICalls.JNIIsInFavourites())
-                {
-                    JNICalls.JNIRemoveFromFavourites();
-                    favButton.setImageResource(R.drawable.favourite_unelected);
-                }
-                else {
-                    JNICalls.JNIAddToFavourites();
-                    favButton.setImageResource(R.drawable.favourite_selected);
-                }
-            }
-        });
-
-        favButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
-        favButton.setX(buttonPadding);
-        favButton.setY(buttonPadding + 2 * _buttonWidth);
-
-        addContentView(favButton, buttonLayoutParams);
-
-        favButtonStatic = favButton;
-
-        final ImageButton shareButton = new ImageButton(this);
-        shareButton.setImageResource(R.drawable.share_unelected);
-        shareButton.setTag(R.drawable.share_unelected);
-        shareButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
-        shareButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-
-                Integer resource = (Integer)shareButton.getTag();
-                if(resource == R.drawable.share_selected)
-                {
-                    shareButton.setImageResource(R.drawable.share_unelected);
-                    shareButton.setTag(R.drawable.share_unelected);
-                }
-                else
-                {
-                    shareButton.setImageResource(R.drawable.share_selected);
-                    shareButton.setTag(R.drawable.share_selected);
-                }
-                JNICalls.JNIShareInChat();
-
-                exitMediaplayer();
-
-            }
-        });
-
-        shareButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
-        shareButton.setX(buttonPadding);
-        shareButton.setY(buttonPadding + 3 * _buttonWidth);
-
-        addContentView(shareButton, buttonLayoutParams);
-
-        shareButtonStatic = shareButton;
-
-        final ImageButton burgerButton = new ImageButton(this);
-        burgerButton.setImageResource(R.drawable.menu_unselected);
-        burgerButton.setTag(R.drawable.menu_unselected);
-        burgerButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
-        burgerButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                Integer resource = (Integer)burgerButton.getTag();
-                if(resource == R.drawable.menu_selected)
-                {
-                    burgerButton.setImageResource(R.drawable.menu_unselected);
-                    burgerButton.setTag(R.drawable.menu_unselected);
-                }
-                else
-                {
-                    burgerButton.setImageResource(R.drawable.menu_selected);
-                    burgerButton.setTag(R.drawable.menu_selected);
-                }
-                animateButtons();
-            }
-        });
-
-        burgerButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
-        burgerButton.setX(buttonPadding);
-        burgerButton.setY(buttonPadding + _buttonWidth);
-
-        addContentView(burgerButton, buttonLayoutParams);
-
-        burgerButtonStatic = burgerButton;
-
         final ImageButton closeButton = new ImageButton(this);
         closeButton.setImageResource(R.drawable.close_unelected);
         closeButton.setTag(R.drawable.close_unelected);
@@ -519,10 +503,6 @@ public class NativeMediaPlayer extends Activity {
         //and the animations are done relative to that.  when buttons are in the "closed" state, they are dissabled.
         if(_uiExpanded)
         {
-            //TranslateAnimation closeButtonAnim = new TranslateAnimation(0,burgerButtonStatic.getX() - imageButtonStatic.getX(),0,burgerButtonStatic.getY() - imageButtonStatic.getY());
-            //closeButtonAnim.setDuration(500);
-            //closeButtonAnim.setFillAfter(true);
-            //imageButtonStatic.startAnimation(closeButtonAnim);
             TranslateAnimation favButtonAnim = new TranslateAnimation(0,burgerButtonStatic.getX() - favButtonStatic.getX(),0,burgerButtonStatic.getY() - favButtonStatic.getY());
             favButtonAnim.setDuration(500);
             favButtonAnim.setFillAfter(true);
@@ -554,10 +534,6 @@ public class NativeMediaPlayer extends Activity {
         }
         else
         {
-            //TranslateAnimation closeButtonAnim = new TranslateAnimation(burgerButtonStatic.getX() - imageButtonStatic.getX(),  0, burgerButtonStatic.getY() - imageButtonStatic.getY(), 0);
-            //closeButtonAnim.setDuration(500);
-            //closeButtonAnim.setFillAfter(true);
-            //imageButtonStatic.startAnimation(closeButtonAnim);
             TranslateAnimation favButtonAnim = new TranslateAnimation(burgerButtonStatic.getX() - favButtonStatic.getX(), 0 , burgerButtonStatic.getY() - favButtonStatic.getY(), 0);
             favButtonAnim.setDuration(500);
             favButtonAnim.setFillAfter(true);

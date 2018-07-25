@@ -271,11 +271,18 @@ void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseStrin
     ModalMessages::getInstance()->stopLoading();
     AnalyticsSingleton::getInstance()->registerIdentifier(ParentDataProvider::getInstance()->getLoggedInParentId());
     ParentDataParser::getInstance()->parseAvailableChildren(responseString);
-    Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
-    
-    Director::getInstance()->getScheduler()->schedule([&](float dt){
-        DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
-    }, this, 0.5, 0, 0, false, "eventHandler");
+    if(ParentDataProvider::getInstance()->getAmountOfAvailableChildren() == 0)
+    {
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(AddChildFirstTime));
+    }
+    else
+    {
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+        
+        Director::getInstance()->getScheduler()->schedule([&](float dt){
+            DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
+        }, this, 0.5, 0, 0, false, "eventHandler");
+    }
 }
 
 //CHILDREN LOGIN----------------------------------------------------------------------------------------
@@ -325,7 +332,9 @@ void BackEndCaller::onGetGordonAnswerReceived(const std::string& responseString)
 {
     if(CookieDataParser::getInstance()->parseDownloadCookies(responseString))
     {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
+        //Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
+        ContentItemPoolHandler::getInstance()->setContentPoolDelegate(this);
+        ContentItemPoolHandler::getInstance()->getLatestContentPool();
     }
 }
 
@@ -373,7 +382,7 @@ void BackEndCaller::registerChild(const std::string& childProfileName, const std
 
 void BackEndCaller::onRegisterChildAnswerReceived()
 {
-    AnalyticsSingleton::getInstance()->childProfileCreatedSuccessEvent(FlowDataSingleton::getInstance()->getOomeeColourNumber());
+    AnalyticsSingleton::getInstance()->childProfileCreatedSuccessEvent();
     getAvailableChildren();
 }
 
@@ -622,6 +631,17 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
         FlowDataSingleton::getInstance()->setErrorCode(errorCode);
         LoginLogicHandler::getInstance()->doLoginLogic();
     }
+}
+
+void BackEndCaller::onContentDownloadComplete()
+{
+    HQStructureHandler::getInstance()->setHQFeedDelegate(this);
+    HQStructureHandler::getInstance()->getLatestHQStructureFeed();
+}
+
+void BackEndCaller::onFeedDownloadComplete()
+{
+     Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
 }
 
 NS_AZOOMEE_END

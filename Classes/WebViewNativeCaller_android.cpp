@@ -1,6 +1,7 @@
 #include "WebViewNativeCaller_android.h"
 #include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
@@ -322,6 +323,20 @@ extern "C"
 JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIShareInChat(JNIEnv* env, jobject thiz)
 {
     ChatDelegate::getInstance()->_sharedContentId = ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId();
+}
+
+#endif
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+
+extern "C"
+{
+    JNIEXPORT bool JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIIsAnonUser(JNIEnv* env, jobject thiz);
+};
+
+JNIEXPORT bool JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIIsAnonUser(JNIEnv* env, jobject thiz)
+{
+    return ParentDataProvider::getInstance()->isLoggedInParentAnonymous();
 }
 
 #endif

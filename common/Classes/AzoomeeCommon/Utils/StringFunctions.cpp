@@ -180,6 +180,11 @@ std::string convertStringToAssetSafeString(const std::string& string)
     return replaceAll(lowerCase, " ", "_");
 }
     
+std::string convertToHQNameString(const std::string& string)
+    {
+        return stringToUpper(string) + " HQ";
+    }
+    
 bool stringEndsWith(const std::string &strToTest, const std::string &endStr)
 {
     return strToTest.size() >= endStr.size() && strToTest.compare(strToTest.size() - endStr.size(), endStr.size(), endStr) == 0;
