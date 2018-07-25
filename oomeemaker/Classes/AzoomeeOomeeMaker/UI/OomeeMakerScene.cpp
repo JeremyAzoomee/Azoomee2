@@ -14,6 +14,7 @@
 #include "OomeeSelectScene.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
 
@@ -322,6 +323,7 @@ void OomeeMakerScene::saveOomeeFiles()
     FileUtils::getInstance()->writeStringToFile(savedFileContent, OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".oomee");
     
     _oomee->saveSnapshotImage(OomeeMakerDataHandler::getInstance()->getLocalSaveDir() + _filename + ".png");
+    AnalyticsSingleton::getInstance()->saveOomee(savedFileContent);
 }
 
 void OomeeMakerScene::makeAvatar()

@@ -164,6 +164,20 @@ public:
     void ctaButtonPressed(const std::string &buttonId, const std::string &title = "");
     void ctaWindowAppeared(const std::string &groupId, const std::string &nodeId);
     void registerCTASource(const std::string& buttonId, const std::string& contentId, const std::string& mediaType, const std::string& recommendedContentId = "");
+    
+    //--------------ME HQ Events--------------------------------
+    void favouriteContentItem(const std::string& contentItemId);
+    void unFavouriteContentItem(const std::string& contentItemId);
+    void shareContentItemButtonPressed(const std::string& contentItemId);
+    
+    //-------------OomeeMaker Events----------------------------
+    void makeAvatarSuccess();
+    void shareOomee();
+    void editOomee();
+    void deleteOomee();
+    void newOomee();
+    void saveOomee(const std::string& oomeeDataString);
+    
 };
   
 }

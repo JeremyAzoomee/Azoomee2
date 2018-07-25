@@ -8,8 +8,7 @@
 #include "../Crashlytics/CrashlyticsConfig.h"
 #include "../JWTSigner/HMACSHA256/HMACSHA256.h"
 
-namespace Azoomee
-{
+NS_AZOOMEE_BEGIN
 
 static AnalyticsSingleton *_sharedAnalyticsSingleton = NULL;
 
@@ -775,7 +774,7 @@ void AnalyticsSingleton::ctaWindowAppeared(const std::string &groupId, const std
     mixPanelSendEventWithStoredProperties("ctaWindowAppeared", mixPanelProperties);
 }
     
-    void AnalyticsSingleton::registerCTASource(const std::string& buttonId, const std::string& contentId, const std::string& mediaType, const std::string& recommendedContentId)
+void AnalyticsSingleton::registerCTASource(const std::string& buttonId, const std::string& contentId, const std::string& mediaType, const std::string& recommendedContentId)
 {
     _analyticsProperties->setCtaSourceButton(buttonId);
     _analyticsProperties->setCtaSourceContentId(contentId);
@@ -783,5 +782,46 @@ void AnalyticsSingleton::ctaWindowAppeared(const std::string &groupId, const std
     _analyticsProperties->setCtaRecommendedContentId(recommendedContentId);
 }
 
+//--------------ME HQ Events--------------------------------
 
+void AnalyticsSingleton::favouriteContentItem(const std::string& contentItemId)
+{
+    mixPanelSendEventWithStoredProperties("contentItemFavourited", {{"favItemId",contentItemId}});
 }
+void AnalyticsSingleton::unFavouriteContentItem(const std::string& contentItemId)
+{
+    mixPanelSendEventWithStoredProperties("contentItemUnfavourited", {{"unfavItemId",contentItemId}});
+}
+void AnalyticsSingleton::shareContentItemButtonPressed(const std::string& contentItemId)
+{
+    mixPanelSendEventWithStoredProperties("shareContentItemButtonPressed", {{"sharedItemId",contentItemId}});
+}
+
+//-------------OomeeMaker Events----------------------------
+
+void AnalyticsSingleton::makeAvatarSuccess()
+{
+    mixPanelSendEventWithStoredProperties("makeAvatarSuccess");
+}
+void AnalyticsSingleton::shareOomee()
+{
+    mixPanelSendEventWithStoredProperties("shareOomee");
+}
+void AnalyticsSingleton::editOomee()
+{
+    mixPanelSendEventWithStoredProperties("editOomee");
+}
+void AnalyticsSingleton::deleteOomee()
+{
+    mixPanelSendEventWithStoredProperties("deleteOomee");
+}
+void AnalyticsSingleton::newOomee()
+{
+    mixPanelSendEventWithStoredProperties("newOomee");
+}
+void AnalyticsSingleton::saveOomee(const std::string& oomeeDataString)
+{
+    mixPanelSendEventWithStoredProperties("saveOomee",{{"oomeeData",oomeeDataString}});
+}
+
+NS_AZOOMEE_END
