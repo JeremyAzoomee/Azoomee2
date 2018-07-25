@@ -103,6 +103,11 @@ void ChildSelectorScene::onEnterTransitionDidFinish()
             setParentButtonVisible(true);
         }
     }
+    
+    if(ParentDataProvider::getInstance()->getAmountOfAvailableChildren() == 0)
+    {
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(AddChildFirstTime));
+    }
     Super::onEnterTransitionDidFinish();
 }
 
@@ -464,8 +469,14 @@ void ChildSelectorScene::connectivityStateChanged(bool online)
 
 void ChildSelectorScene::callDelegateFunction(float dt)
 {
-    FlowDataSingleton::getInstance()->setFlowToNewProfile();
-    DynamicNodeHandler::getInstance()->startAddChildFlow();
+    if(ParentDataProvider::getInstance()->getAmountOfAvailableChildren() == 0)
+    {
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(AddChildFirstTime));
+    }
+    else
+    {
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(AddChild));
+    }
 }
 
 void ChildSelectorScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)

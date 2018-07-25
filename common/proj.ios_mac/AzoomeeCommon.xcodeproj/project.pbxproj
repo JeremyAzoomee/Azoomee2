@@ -41,7 +41,6 @@
 		3012ED891E97DB450009027D /* ModalMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED871E97DB450009027D /* ModalMessages.cpp */; };
 		3012ED901E97DCC00009027D /* ElectricDreamsDecoration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED8A1E97DCC00009027D /* ElectricDreamsDecoration.cpp */; };
 		3012ED911E97DCC00009027D /* ElectricDreamsTextStyles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED8C1E97DCC00009027D /* ElectricDreamsTextStyles.cpp */; };
-		3012ED921E97DCC00009027D /* OomeeButtonLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED8E1E97DCC00009027D /* OomeeButtonLayer.cpp */; };
 		3012ED951E97E5260009027D /* TextInputLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED931E97E5260009027D /* TextInputLayer.cpp */; };
 		3012ED9F1E97E6A40009027D /* RemoteImageSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED971E97E6A40009027D /* RemoteImageSprite.cpp */; };
 		3012EDA01E97E6A40009027D /* ImageDownloaderCacheCleanerLogic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED991E97E6A40009027D /* ImageDownloaderCacheCleanerLogic.cpp */; };
@@ -237,8 +236,6 @@
 		3012ED8B1E97DCC00009027D /* ElectricDreamsDecoration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElectricDreamsDecoration.h; sourceTree = "<group>"; };
 		3012ED8C1E97DCC00009027D /* ElectricDreamsTextStyles.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ElectricDreamsTextStyles.cpp; sourceTree = "<group>"; };
 		3012ED8D1E97DCC00009027D /* ElectricDreamsTextStyles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElectricDreamsTextStyles.h; sourceTree = "<group>"; };
-		3012ED8E1E97DCC00009027D /* OomeeButtonLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeButtonLayer.cpp; sourceTree = "<group>"; };
-		3012ED8F1E97DCC00009027D /* OomeeButtonLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OomeeButtonLayer.h; sourceTree = "<group>"; };
 		3012ED931E97E5260009027D /* TextInputLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextInputLayer.cpp; sourceTree = "<group>"; };
 		3012ED941E97E5260009027D /* TextInputLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextInputLayer.h; sourceTree = "<group>"; };
 		3012ED971E97E6A40009027D /* RemoteImageSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RemoteImageSprite.cpp; sourceTree = "<group>"; };
@@ -715,8 +712,6 @@
 				305966971ECCAF76009A7130 /* Scene.cpp */,
 				305966981ECCAF76009A7130 /* Scene.h */,
 				305966801ECC6987009A7130 /* Style.h */,
-				3012ED8E1E97DCC00009027D /* OomeeButtonLayer.cpp */,
-				3012ED8F1E97DCC00009027D /* OomeeButtonLayer.h */,
 				9271D842204829C700370120 /* LazyLoadingButton.h */,
 				9271D8442048311A00370120 /* LazyLoadingButton.cpp */,
 				9271D84320482E9700370120 /* LazyLoadButtonOnScreenChecker.h */,
@@ -1221,7 +1216,6 @@
 				30E094BF1EDF0F2B00555891 /* URI.cpp in Sources */,
 				92759E9E1FE410BB00639190 /* FileDownloader.cpp in Sources */,
 				4349C81B1EA8ADEF00FE964B /* MPABTestDesignerClearRequestMessage.m in Sources */,
-				3012ED921E97DCC00009027D /* OomeeButtonLayer.cpp in Sources */,
 				9224C00C1F7CFD7E00108553 /* FileZipUtil.cpp in Sources */,
 				4349C8321EA8ADEF00FE964B /* MPEventBinding.m in Sources */,
 				4349C8291EA8ADEF00FE964B /* MPCGColorRefToNSStringValueTransformer.m in Sources */,

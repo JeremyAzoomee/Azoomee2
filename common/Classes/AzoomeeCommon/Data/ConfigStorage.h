@@ -5,7 +5,7 @@
 //#define FORCE_RELOAD YES;
 //#define FORGET_USER_DATA YES;
 //#define ALLOW_UNPAID_SIGNUP YES
-#define USINGCI YES
+//#define USINGCI YES
 
 #include <cocos/cocos2d.h>
 #include "Json.h"
@@ -81,8 +81,6 @@ public:
     bool isImmediateRequestSendingRequired(const std::string& requestTag);
     
     //ChildAccountScene settings
-    std::string getNameForOomee(int number);
-    std::string getHumanReadableNameForOomee(int number);
     std::string getUrlForOomee(int number);
     int getOomeeNumberForUrl(const std::string& url);
     

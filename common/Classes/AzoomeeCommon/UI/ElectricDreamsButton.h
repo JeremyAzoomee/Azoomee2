@@ -3,7 +3,6 @@
 
 #include <cocos/cocos2d.h>
 #include <cocos/ui/UIScale9Sprite.h>
-#include "OomeeButtonLayer.h"
 
 
 namespace Azoomee
@@ -25,7 +24,6 @@ private:
     
     cocos2d::Sprite* spriteButton;
     std::string buttonAudioFile;
-    OomeeButtonLayer* oomeeLayer;
     
     bool buttonEnabled;
     std::string buttonEnabledImage;
@@ -91,13 +89,6 @@ public:
     static ElectricDreamsButton* createSendButton();
     static ElectricDreamsButton* createRedOutlineButton(std::string buttonText, float buttonWidth);
     static ElectricDreamsButton* createRedFilledButton(std::string buttonText, float buttonWidth);
-    
-    // ---------- OOMEE BUTTONS AND FUNCTIONS------------
-    static ElectricDreamsButton* createOomeeButtonWithOutline(int oomeeNumber, std::string oomeeName);
-    static ElectricDreamsButton* createOomeeAsButton(int oomeeNumber);
-    void playOomeeAnimation(std::string OomeeAnimation, bool loop);
-    void playOomeeAnimationNoSound(std::string OomeeAnimation);
-    void hideOomee();
     
     void setCenterPosition(cocos2d::Vec2 position);
     cocos2d::Vec2 getCenterPosition();

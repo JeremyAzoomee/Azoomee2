@@ -131,7 +131,7 @@ void AddChildFlowController::addChild(int oomeeNum)
         return;
     }
     
-    AnalyticsSingleton::getInstance()->childProfileCreatedEvent(age, oomeeNum);
+    AnalyticsSingleton::getInstance()->childProfileCreatedEvent(age);
     
     auto backEndCaller = BackEndCaller::getInstance();
     if(FlowDataSingleton::getInstance()->isSignupNewProfileFlow() && ParentDataProvider::getInstance()->getAmountOfAvailableChildren() !=0)

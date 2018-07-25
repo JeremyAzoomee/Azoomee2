@@ -78,15 +78,13 @@ public:
     void childProdileNameErrorEvent();
     void childProfileDOBEvent();
     void childProfileDOBErrorEvent(); // NO DOB CHECKING IS COMPLETED
-    void childProfileOomeeEvent(int oomeeNumber);
-    void childProfileCreatedSuccessEvent(int oomeeNumber);
+    void childProfileCreatedSuccessEvent();
     void childProfileCreatedErrorEvent(long errorCode);
     void childProfileUpdateErrorEvent(long errorCode);
 
-    void childProfileCreatedEvent(int age, int oomeeNum);
+    void childProfileCreatedEvent(int age);
     
     //-------------HUB ACTIONS-------------------
-    void hubTapOomeeEvent(int oomeeNumber, std::string oomeeAction);
     void navSelectionEvent(std::string hubOrTop, const std::string& buttonName);
     
     //-------------CONTENTITEM EVENTS----------

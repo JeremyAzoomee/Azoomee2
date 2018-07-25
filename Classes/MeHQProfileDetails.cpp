@@ -44,6 +44,7 @@ bool MeHQProfileDetails::init()
     _avatar->setNormalizedPosition(Vec2(isPortrait ? 0.5 : 0.6,0.5));
     _avatar->setPlaceholderImage("res/oomeeMaker/1_Oomee_Reference.png");
     _avatar->loadPlaceholderImage();
+    _avatar->ignoreContentAdaptWithSize(false);
     _avatar->setScale((contentSize.height * (isPortrait ? 0.6 : 0.9)) / _avatar->getContentSize().height);
     _avatar->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType)
     {
@@ -130,7 +131,9 @@ void MeHQProfileDetails::onSizeChanged()
 
 void MeHQProfileDetails::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {
+    Size prevSize = _avatar->getContentSize();
     _avatar->setMainImage(downloader->getLocalImagePath());
+    _avatar->setContentSize(prevSize);
 }
 
 void MeHQProfileDetails::onImageDownloadFailed()
