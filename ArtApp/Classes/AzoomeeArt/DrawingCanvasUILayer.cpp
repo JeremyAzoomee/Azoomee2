@@ -1103,7 +1103,7 @@ void DrawingCanvasUILayer::getStickerFilesFromJSON()
         fullFilenames.push_back(oomeeStoragePath + "/" + img);
     }
     StickerSetRef oomeeCat = std::make_shared<StickerSet>();
-    oomeeCat->first = "res/navigation/menu_childSelect.png";
+    oomeeCat->first = kStickerLoc + "Category_MyOomees.png";
     oomeeCat->second = fullFilenames;
     
     _stickerCats.push_back(oomeeCat);
