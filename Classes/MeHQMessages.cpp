@@ -8,6 +8,8 @@
 #include "MeHQMessages.h"
 #include "ChatDelegate.h"
 #include "SceneManagerScene.h"
+#include "IAPFlowController.h"
+#include "DynamicNodeHandler.h"
 #include <AzoomeeChat/UI/AvatarWidget.h>
 #include <AzoomeeChat/UI/MessageScene.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
@@ -16,6 +18,7 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
 
 using namespace cocos2d;
 
@@ -137,7 +140,18 @@ void MeHQMessages::buildEmptyCarousel()
     chatButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+            const HQDataObjectRef &currentObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName);
+            
+            if(!currentObject->getHqEntitlement())
+            {
+                AnalyticsSingleton::getInstance()->registerCTASource("lockedHQ","",currentObject->getHqType());
+                IAPEntryContext context = IAPEntryContext::LOCKED_CHAT;
+                DynamicNodeHandler::getInstance()->startIAPFlow(context);
+            }
+            else
+            {
+                Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+            }
         }
     });
     if(!isPortrait)

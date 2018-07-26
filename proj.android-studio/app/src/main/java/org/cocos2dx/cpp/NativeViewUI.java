@@ -333,44 +333,50 @@ public class NativeViewUI extends Activity {
 
             favButtonStatic = favButton;
 
-            final ImageButton shareButton = new ImageButton(this);
-            shareButton.setImageResource(R.drawable.share_unelected);
-            shareButton.setTag(R.drawable.share_unelected);
-            shareButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
-            shareButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (isActivityExitRequested || !isWebViewReady) {
-                        return;
+            if(JNICalls.JNIIsChatEntitled()) {
+                final ImageButton shareButton = new ImageButton(this);
+                shareButton.setImageResource(R.drawable.share_unelected);
+                shareButton.setTag(R.drawable.share_unelected);
+                shareButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
+                shareButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (isActivityExitRequested || !isWebViewReady) {
+                            return;
+                        }
+                        Integer resource = (Integer) shareButton.getTag();
+                        if (resource == R.drawable.share_selected) {
+                            shareButton.setImageResource(R.drawable.share_unelected);
+                            shareButton.setTag(R.drawable.share_unelected);
+                        } else {
+                            shareButton.setImageResource(R.drawable.share_selected);
+                            shareButton.setTag(R.drawable.share_selected);
+                        }
+                        JNICalls.JNIShareInChat();
+                        Bundle extras = getIntent().getExtras();
+                        if (extras.getInt("orientation") == _portrait) {
+                            isActivityExitRequested = true;
+                            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                            //cleanUpAndFinishActivity() will be called by the screen orientation change callback
+                        } else {
+                            cleanUpAndFinishActivity();
+                        }
+
                     }
-                    Integer resource = (Integer) shareButton.getTag();
-                    if (resource == R.drawable.share_selected) {
-                        shareButton.setImageResource(R.drawable.share_unelected);
-                        shareButton.setTag(R.drawable.share_unelected);
-                    } else {
-                        shareButton.setImageResource(R.drawable.share_selected);
-                        shareButton.setTag(R.drawable.share_selected);
-                    }
-                    JNICalls.JNIShareInChat();
-                    Bundle extras = getIntent().getExtras();
-                    if (extras.getInt("orientation") == _portrait) {
-                        isActivityExitRequested = true;
-                        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-                        //cleanUpAndFinishActivity() will be called by the screen orientation change callback
-                    } else {
-                        cleanUpAndFinishActivity();
-                    }
+                });
 
-                }
-            });
+                shareButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
+                shareButton.setX(buttonPadding + (_xAnchor * _paddedWindowWidth) + 3 * (_xMod * _buttonWidth));
+                shareButton.setY(buttonPadding + (_yAnchor * _paddedWindowHeight) + 3 * (_yMod * _buttonWidth));
 
-            shareButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
-            shareButton.setX(buttonPadding + (_xAnchor * _paddedWindowWidth) + 3 * (_xMod * _buttonWidth));
-            shareButton.setY(buttonPadding + (_yAnchor * _paddedWindowHeight) + 3 * (_yMod * _buttonWidth));
+                addContentView(shareButton, buttonLayoutParams);
 
-            addContentView(shareButton, buttonLayoutParams);
-
-            shareButtonStatic = shareButton;
+                shareButtonStatic = shareButton;
+            }
+            else
+            {
+                shareButtonStatic = null;
+            }
 
             final ImageButton burgerButton = new ImageButton(this);
             burgerButton.setImageResource(R.drawable.menu_unselected);
@@ -486,15 +492,19 @@ public class NativeViewUI extends Activity {
                 public void onAnimationEnd(Animation animation) {
                     _isAnimating = false;
                     //imageButtonStatic.setClickable(false);
-                    shareButtonStatic.setClickable(false);
+                    if(shareButtonStatic != null) {
+                        shareButtonStatic.setClickable(false);
+                    }
                     favButtonStatic.setClickable(false);
                 }
             });
             favButtonStatic.startAnimation(favButtonAnim);
-            TranslateAnimation shareButtonAnim = new TranslateAnimation(0,burgerButtonStatic.getX() - shareButtonStatic.getX(),0,burgerButtonStatic.getY() - shareButtonStatic.getY());
-            shareButtonAnim.setDuration(500);
-            shareButtonAnim.setFillAfter(true);
-            shareButtonStatic.startAnimation(shareButtonAnim);
+            if(shareButtonStatic != null) {
+                TranslateAnimation shareButtonAnim = new TranslateAnimation(0, burgerButtonStatic.getX() - shareButtonStatic.getX(), 0, burgerButtonStatic.getY() - shareButtonStatic.getY());
+                shareButtonAnim.setDuration(500);
+                shareButtonAnim.setFillAfter(true);
+                shareButtonStatic.startAnimation(shareButtonAnim);
+            }
             _uiExpanded = false;
         }
         else
@@ -517,15 +527,19 @@ public class NativeViewUI extends Activity {
                 public void onAnimationEnd(Animation animation) {
                     _isAnimating = false;
                     //imageButtonStatic.setClickable(true);
-                    shareButtonStatic.setClickable(true);
+                    if(shareButtonStatic != null) {
+                        shareButtonStatic.setClickable(true);
+                    }
                     favButtonStatic.setClickable(true);
                 }
             });
             favButtonStatic.startAnimation(favButtonAnim);
-            TranslateAnimation shareButtonAnim = new TranslateAnimation(burgerButtonStatic.getX() - shareButtonStatic.getX(), 0 , burgerButtonStatic.getY() - shareButtonStatic.getY(), 0);
-            shareButtonAnim.setDuration(500);
-            shareButtonAnim.setFillAfter(true);
-            shareButtonStatic.startAnimation(shareButtonAnim);
+            if(shareButtonStatic != null) {
+                TranslateAnimation shareButtonAnim = new TranslateAnimation(burgerButtonStatic.getX() - shareButtonStatic.getX(), 0, burgerButtonStatic.getY() - shareButtonStatic.getY(), 0);
+                shareButtonAnim.setDuration(500);
+                shareButtonAnim.setFillAfter(true);
+                shareButtonStatic.startAnimation(shareButtonAnim);
+            }
             _uiExpanded = true;
         }
     }

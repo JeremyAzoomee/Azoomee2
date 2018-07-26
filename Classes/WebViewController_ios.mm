@@ -264,14 +264,17 @@ using namespace Azoomee;
             [_favButton setSelected: true];
         }
         
-        _shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_shareButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
-        [_shareButton setFrame:CGRectMake(buttonPaddingX + (screenSize.width * _closeButtonAnchorX) + (xMod * _buttonWidth), buttonPaddingY + (screenSize.height * _closeButtonAnchorY) + (yMod * _buttonWidth), buttonWidth, buttonWidth)];
-        [_shareButton setExclusiveTouch:YES];
-        [_shareButton setImage:[UIImage imageNamed:@"res/webview_buttons/share_unselected.png"] forState:UIControlStateNormal];
-        [_shareButton setImage:[UIImage imageNamed:@"res/webview_buttons/share_selected.png"] forState:UIControlStateSelected];
-        
-        [self.view addSubview:_shareButton];
+        if(isChatEntitled())
+        {
+            _shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            [_shareButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
+            [_shareButton setFrame:CGRectMake(buttonPaddingX + (screenSize.width * _closeButtonAnchorX) + (xMod * _buttonWidth), buttonPaddingY + (screenSize.height * _closeButtonAnchorY) + (yMod * _buttonWidth), buttonWidth, buttonWidth)];
+            [_shareButton setExclusiveTouch:YES];
+            [_shareButton setImage:[UIImage imageNamed:@"res/webview_buttons/share_unselected.png"] forState:UIControlStateNormal];
+            [_shareButton setImage:[UIImage imageNamed:@"res/webview_buttons/share_selected.png"] forState:UIControlStateSelected];
+            
+            [self.view addSubview:_shareButton];
+        }
         [self.view addSubview:_favButton];
         [self.view addSubview:_burgerButton];
     }
@@ -335,7 +338,10 @@ using namespace Azoomee;
     if(!isAnonUser())
     {
         [_favButton removeFromSuperview];
-        [_shareButton removeFromSuperview];
+        if(isChatEntitled())
+        {
+            [_shareButton removeFromSuperview];
+        }
         [_burgerButton removeFromSuperview];
     }
     
@@ -371,7 +377,10 @@ using namespace Azoomee;
     if(!isAnonUser())
     {
         [_favButton removeFromSuperview];
-        [_shareButton removeFromSuperview];
+        if(isChatEntitled())
+        {
+            [_shareButton removeFromSuperview];
+        }
         [_burgerButton removeFromSuperview];
     }
     
@@ -426,7 +435,10 @@ using namespace Azoomee;
         // animate
         [UIView animateWithDuration:0.5 animations:^{
             _favButton.frame = CGRectMake(buttonPaddingX + (screenSize.width * _closeButtonAnchorX) + (xMod * _buttonWidth), buttonPaddingY + (screenSize.height * _closeButtonAnchorY) + (yMod * _buttonWidth), _buttonWidth, _buttonWidth);
-            _shareButton.frame = CGRectMake(buttonPaddingX + (screenSize.width * _closeButtonAnchorX) + (xMod * _buttonWidth), buttonPaddingY + (screenSize.height * _closeButtonAnchorY) + (yMod * _buttonWidth), _buttonWidth, _buttonWidth);
+            if(isChatEntitled())
+            {
+                _shareButton.frame = CGRectMake(buttonPaddingX + (screenSize.width * _closeButtonAnchorX) + (xMod * _buttonWidth), buttonPaddingY + (screenSize.height * _closeButtonAnchorY) + (yMod * _buttonWidth), _buttonWidth, _buttonWidth);
+            }
         }];
         _uiExpanded = false;
     }
@@ -435,7 +447,10 @@ using namespace Azoomee;
         // animate
         [UIView animateWithDuration:0.5 animations:^{
             _favButton.frame = CGRectMake(buttonPaddingX + (screenSize.width * _closeButtonAnchorX) + 2 * (xMod * _buttonWidth), buttonPaddingY + (screenSize.height * _closeButtonAnchorY) + 2 * ( yMod * _buttonWidth), _buttonWidth, _buttonWidth);
-            _shareButton.frame = CGRectMake(buttonPaddingX + (screenSize.width * _closeButtonAnchorX) + 3 * (xMod * _buttonWidth), buttonPaddingY + (screenSize.height * _closeButtonAnchorY) + 3 * ( yMod * _buttonWidth), _buttonWidth, _buttonWidth);
+            if(isChatEntitled())
+            {
+                _shareButton.frame = CGRectMake(buttonPaddingX + (screenSize.width * _closeButtonAnchorX) + 3 * (xMod * _buttonWidth), buttonPaddingY + (screenSize.height * _closeButtonAnchorY) + 3 * ( yMod * _buttonWidth), _buttonWidth, _buttonWidth);
+            }
         }];
         _uiExpanded = true;
     }

@@ -22,7 +22,7 @@ extern "C" {
     void unFavContent();
     bool isFavContent();
     void shareContentInChat();
-    
+    bool isChatEntitled();
     bool isAnonUser();
     
     NSString* getPlaylistString();
