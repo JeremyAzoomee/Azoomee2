@@ -6,6 +6,7 @@
 //
 
 #include "OomeeMakerScene.h"
+#include "SimpleAudioEngine.h"
 #include "../DataObjects/OomeeMakerDataHandler.h"
 #include "OomeeItemList.h"
 #include "ItemCategoryList.h"
@@ -127,10 +128,11 @@ void OomeeMakerScene::onEnter()
     _contentLayer->addChild(_oomee);
     
     _categoryList = ItemCategoryList::create();
-    _categoryList->setContentSize(Size(contentSize.width * 0.165, contentSize.height * 0.85f));
-    _categoryList->setNormalizedPosition(Vec2(0,0.425f));
+    _categoryList->setContentSize(Size(contentSize.width * 0.165, contentSize.height * 0.65f));
+    _categoryList->setPosition(Vec2(0,contentSize.height * 0.425f));
     _categoryList->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
     _categoryList->setItemSelectedCallback([this](const ItemCategoryRef& data) {
+        CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/CategorySelection_Button.mp3");
         _categoryList->setSelectedButton(data);
         this->setItemsListForCategory(data);
     });
@@ -163,7 +165,7 @@ void OomeeMakerScene::onEnter()
     _contentLayer->addChild(_itemList);
     
     _topScrollButton = ui::Button::create("res/oomeeMaker/arrow_carousel_up.png");
-    _topScrollButton->setAnchorPoint(Vec2(0.5,-1.0));
+    _topScrollButton->setAnchorPoint(Vec2(0.5,0.0));
     _topScrollButton->setPosition(_itemList->getPosition() + Vec2(-_itemList->getContentSize().width / 2, _itemList->getContentSize().height / 2));
     _topScrollButton->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType)
     {
@@ -180,7 +182,7 @@ void OomeeMakerScene::onEnter()
     _contentLayer->addChild(_topScrollButton);
     
     _bottomScrollButton = ui::Button::create("res/oomeeMaker/arrow_carousel_down.png");
-    _bottomScrollButton->setAnchorPoint(Vec2(0.5, 2.0));
+    _bottomScrollButton->setAnchorPoint(Vec2(0.5, 1.0));
     _bottomScrollButton->setPosition(_itemList->getPosition() - (_itemList->getContentSize() / 2));
     _bottomScrollButton->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType)
     {
@@ -195,6 +197,37 @@ void OomeeMakerScene::onEnter()
     });
     _bottomScrollButton->runAction(Sequence::create(DelayTime::create(0.5),MoveBy::create(1.5, Vec2(-_itemList->getContentSize().width, 0)), NULL));
     _contentLayer->addChild(_bottomScrollButton);
+    
+    ui::Button* categoryTopScrollButton = ui::Button::create("res/oomeeMaker/arrow_carousel_up.png");
+    categoryTopScrollButton->setAnchorPoint(Vec2(0.5,0.0));
+    categoryTopScrollButton->setVisible(false);
+    categoryTopScrollButton->setPosition(_categoryList->getPosition() + (_categoryList->getContentSize() / 2));
+    
+    ui::Button* categoryBottomScrollButton = ui::Button::create("res/oomeeMaker/arrow_carousel_down.png");
+    categoryBottomScrollButton->setAnchorPoint(Vec2(0.5, 1.0));
+    categoryBottomScrollButton->setPosition(_categoryList->getPosition() + Vec2(_categoryList->getContentSize().width / 2, -_categoryList->getContentSize().height / 2));
+    
+    categoryTopScrollButton->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType)
+    {
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            _categoryList->scrollToTop(0.1, false);
+            categoryTopScrollButton->setVisible(false);
+            categoryBottomScrollButton->setVisible(true);
+        }
+    });
+    _contentLayer->addChild(categoryTopScrollButton);
+    
+    categoryBottomScrollButton->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType)
+    {
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            _categoryList->scrollToBottom(0.1, false);
+            categoryTopScrollButton->setVisible(true);
+            categoryBottomScrollButton->setVisible(false);
+        }
+    });
+    _contentLayer->addChild(categoryBottomScrollButton);
     
     ui::Button* exitButton = ui::Button::create();
     exitButton->loadTextureNormal("res/oomeeMaker/back.png");
@@ -287,6 +320,7 @@ void OomeeMakerScene::undo()
 {
     if(_oomee)
     {
+        CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Undo_Exit_Buttons.wav");
         _oomee->undoLastAction();
     }
 }
@@ -294,7 +328,7 @@ void OomeeMakerScene::undo()
 void OomeeMakerScene::saveAndExit()
 {
     ModalMessages::getInstance()->startSaving();
-    
+    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Undo_Exit_Buttons.wav");
     const std::string scheduleKey = "saveAndExit";
     Director::getInstance()->getScheduler()->schedule([&](float dt){
         saveOomeeFiles();
@@ -327,7 +361,7 @@ void OomeeMakerScene::saveOomeeFiles()
 void OomeeMakerScene::makeAvatar()
 {
     ModalMessages::getInstance()->startSaving();
-    
+    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Make_Avatar_Button.wav");
     const std::string scheduleKey = "saveAndExit";
     Director::getInstance()->getScheduler()->schedule([&](float dt){
         saveOomeeFiles();
@@ -343,7 +377,7 @@ void OomeeMakerScene::makeAvatar()
 void OomeeMakerScene::shareOomee()
 {
     ModalMessages::getInstance()->startSaving();
-    
+    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Share_Button.mp3");
     const std::string scheduleKey = "saveAndExit";
     Director::getInstance()->getScheduler()->schedule([&](float dt){
         saveOomeeFiles();
@@ -357,6 +391,7 @@ void OomeeMakerScene::shareOomee()
 
 void OomeeMakerScene::displayMadeAvatarNotification()
 {
+    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Avatar_Messagedrop.mp3");
     Texture2D* particleTex = Director::getInstance()->getTextureCache()->addImage("res/oomeeMaker/confetti_particle.png");
     
     std::vector<Color4F> colours = {
@@ -374,9 +409,14 @@ void OomeeMakerScene::displayMadeAvatarNotification()
         particles->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
         particles->setEmissionRate(33.0f / colours.size());
         particles->setDuration(2.0f);
+        particles->setSpeed(-50);
         particles->setScale(4.0f);
-        particles->setGravity(Vec2(0,-200));
-        particles->setPosVar(Vec2(100, 10));
+        particles->setStartSize(17.5f);
+        particles->setStartSizeVar(0);
+        particles->setEndSize(17.5f);
+        particles->setEndSizeVar(0);
+        particles->setGravity(Vec2(0,-400));
+        particles->setPosVar(Vec2(150, 10));
         particles->setStartSpinVar(180);
         particles->setStartColor(colour);
         particles->setStartColorVar(Color4F(0.0,0.0,0.0,0.0));

@@ -49,8 +49,8 @@ bool ItemCategoryList::init()
     setBounceEnabled(true);
     setGravity(ui::ListView::Gravity::CENTER_HORIZONTAL);
     setItemsMargin(50.0f);
-    setTopPadding(100.0f);
-    setBottomPadding(100.0f);
+    setTopPadding(50.0f);
+    setBottomPadding(50.0f);
     
     return true;
 }

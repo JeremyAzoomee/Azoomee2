@@ -6,6 +6,7 @@
 //
 
 #include "DragAndDropController.h"
+#include "SimpleAudioEngine.h"
 #include "../DataObjects/OomeeMakerDataHandler.h"
 
 #define DEBUG_DNDC YES
@@ -80,6 +81,7 @@ void DragAndDropController::init()
             Vec2 absRange = Vec2(range.x * range.x, range.y * range.y);
             if(absRange.x > absDist.x && absRange.y > absDist.y)
             {
+                CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Item_Drop.wav");
                 _oomeeFigure->addAccessory(_itemData);
             }
             _itemData = nullptr;
