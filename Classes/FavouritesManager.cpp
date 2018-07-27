@@ -9,6 +9,7 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include "HQDataProvider.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
 
@@ -42,6 +43,7 @@ void FavouritesManager::addToFavourites(const HQContentItemObjectRef& contentIte
         fileIds.insert(fileIds.begin(), contentId);
         const std::string& newIdList = joinStrings(fileIds, "/");
         FileUtils::getInstance()->writeStringToFile(newIdList, getFavouritesFilePath());
+        AnalyticsSingleton::getInstance()->favouriteContentItem(contentId);
     }
 }
 
@@ -60,6 +62,7 @@ void FavouritesManager::removeFromFavourites(const HQContentItemObjectRef& conte
             newIdList = "-";
         }
         FileUtils::getInstance()->writeStringToFile(newIdList, getFavouritesFilePath());
+        AnalyticsSingleton::getInstance()->unFavouriteContentItem(contentId);
     }
 }
 

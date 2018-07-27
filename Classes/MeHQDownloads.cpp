@@ -81,7 +81,7 @@ bool MeHQDownloads::init()
             auto hqSceneElement = HQSceneElement::create();
             hqSceneElement->setCategory(ConfigStorage::kMeHQName);
             hqSceneElement->setItemData(gameList[elementIndex]);
-            hqSceneElement->setElementRow(-1);
+            hqSceneElement->setElementRow(-3);
             hqSceneElement->setElementIndex(elementIndex);
             hqSceneElement->setMargin(kContentItemMargin[isPortrait]);
             hqSceneElement->setManualSizeMultiplier(unitMultiplier); //overriding default configuration contentItem sizes. Ideally this *should* go away when only the new hub is present everywhere.

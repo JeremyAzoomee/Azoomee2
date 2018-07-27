@@ -75,7 +75,7 @@ void MeHQFavourites::onEnter()
             auto hqSceneElement = HQSceneElement::create();
             hqSceneElement->setCategory(ConfigStorage::kMeHQName);
             hqSceneElement->setItemData(favList[elementIndex]);
-            hqSceneElement->setElementRow(-1);
+            hqSceneElement->setElementRow(-2);
             hqSceneElement->setElementIndex(elementIndex);
             hqSceneElement->setMargin(kContentItemMargin[isPortrait]);
             hqSceneElement->setManualSizeMultiplier(unitMultiplier); //overriding default configuration contentItem sizes. Ideally this *should* go away when only the new hub is present everywhere.

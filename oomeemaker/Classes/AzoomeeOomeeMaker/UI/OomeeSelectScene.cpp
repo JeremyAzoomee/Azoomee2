@@ -13,6 +13,7 @@
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 #include <AzoomeeCommon/Utils/TimeFunctions.h>
 #include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
 
@@ -20,6 +21,7 @@ NS_AZOOMEE_OM_BEGIN
 
 void OomeeSelectScene::newOomee()
 {
+    AnalyticsSingleton::getInstance()->newOomee();
     OomeeMakerScene* makerScene = OomeeMakerScene::create();
     
     const std::string& fileNameStr = getTimeStringForFileName();
@@ -138,6 +140,7 @@ void OomeeSelectScene::toggleMakeAvatarHiglight()
 
 void OomeeSelectScene::editOomee(const std::string& oomeeFileName)
 {
+    AnalyticsSingleton::getInstance()->editOomee();
     OomeeMakerScene* makerScene = OomeeMakerScene::create();
     makerScene->setFilename(oomeeFileName);
     Director::getInstance()->replaceScene(makerScene);
@@ -147,6 +150,7 @@ void OomeeSelectScene::deleteOomee(const std::string &oomeeFilename)
 {
     if(OomeeMakerDataHandler::getInstance()->deleteOomee(oomeeFilename))
     {
+        AnalyticsSingleton::getInstance()->deleteOomee();
         stopAllActions();
         setCarouselData();
         this->getScheduler()->schedule([this](float deltaT){

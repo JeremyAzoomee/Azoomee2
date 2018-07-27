@@ -9,6 +9,7 @@
 #include "HQDataProvider.h"
 #include "DeepLinkingSingleton.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
 
@@ -29,6 +30,7 @@ void ChatDelegate::shareContentInChat()
 {
     if(_sharedContentId != "")
     {
+        AnalyticsSingleton::getInstance()->shareContentItemButtonPressed(_sharedContentId);
         const std::string& fileurl = HQDataProvider::getInstance()->getThumbnailUrlForItem(_sharedContentId);
         ImageDownloaderRef imgDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
         imgDownloader->downloadImage(this, fileurl);
