@@ -15,6 +15,7 @@
 #include <AzoomeeOomeeMaker/UI/OomeeSelectScene.h>
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 USING_NS_CC;
 
@@ -54,6 +55,7 @@ void OomeeMakerDelegate::onOomeeMakerShareOomee(const std::string& filename)
             HQHistoryManager::getInstance()->_returnedFromForcedOrientation = true;
             Director::getInstance()->getTextureCache()->reloadTexture(filename);
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+            AnalyticsSingleton::getInstance()->shareOomee();
         }
     }
 }
@@ -92,7 +94,7 @@ void OomeeMakerDelegate::onHttpRequestSuccess(const std::string& requestTag, con
         {
             makerScene->displayMadeAvatarNotification();
         }
-        
+        AnalyticsSingleton::getInstance()->makeAvatarSuccess();
     }
 }
 void OomeeMakerDelegate::onHttpRequestFailed(const std::string& requestTag, long errorCode)
