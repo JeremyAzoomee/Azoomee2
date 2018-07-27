@@ -3,13 +3,15 @@
     "0": "https://media.azoomee.com/static/thumbs/oomee_10.png",
     "1": "https://media.azoomee.com/static/thumbs/oomee_09.png",
     "2": "https://media.azoomee.com/static/thumbs/oomee_08.png",
-    "3": "https://media.azoomee.com/static/thumbs/oomee_07.png"
+    "3": "https://media.azoomee.com/static/thumbs/oomee_07.png",
+    "4": "https://media.azoomee.com/static/thumbs/oomee_11.png"
   },
   
   "oomeeNumberForUrl": {
   "oomee_10.png": 0,
   "oomee_09.png": 1,
   "oomee_08.png": 2,
-  "oomee_07.png": 3
+  "oomee_07.png": 3,
+  "oomee_11.png": 4
   }
 }

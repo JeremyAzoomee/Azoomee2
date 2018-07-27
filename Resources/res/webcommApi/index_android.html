@@ -19,8 +19,8 @@
 					var iframe = document.createElement('iframe');
 					iframe.src = url;
 					iframe.style.border = "none"
-					iframe.width  = window.innerWidth - 20;
-					iframe.height = window.innerHeight - 20;
+					iframe.width  = window.innerWidth;
+					iframe.height = window.innerHeight;
 					document.body.appendChild(iframe);
 
 					iframe.addEventListener("load", removeLoadingScreen);

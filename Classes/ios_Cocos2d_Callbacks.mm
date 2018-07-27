@@ -11,6 +11,7 @@
 #include <AzoomeeCommon/ErrorCodes.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
 #include "ContentHistoryManager.h"
 #include "FavouritesManager.h"
 #include "ChatDelegate.h"
@@ -146,6 +147,11 @@ void shareContentInChat()
 {
     ChatDelegate::getInstance()->_sharedContentId = ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId();
     ChatDelegate::getInstance()->shareContentInChat();
+}
+
+bool isChatEntitled()
+{
+    return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName)->getHqEntitlement();
 }
 
 bool isAnonUser()

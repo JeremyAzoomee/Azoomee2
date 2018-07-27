@@ -7,6 +7,7 @@
 
 #include "OomeeSelectScene.h"
 #include "OomeeMakerScene.h"
+#include "SimpleAudioEngine.h"
 #include "../DataObjects/OomeeMakerDataHandler.h"
 #include <AzoomeeCommon/Utils/DirectorySearcher.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
@@ -58,9 +59,13 @@ bool OomeeSelectScene::init()
     exitButton->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
     exitButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
     exitButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
-        if(delegate)
+        if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            delegate->onOomeeMakerNavigationBack();
+            CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Undo_Exit_Buttons.mp3");
+            if(delegate)
+            {
+                delegate->onOomeeMakerNavigationBack();
+            }
         }
     });
     _contentLayer->addChild(exitButton);
@@ -70,7 +75,11 @@ bool OomeeSelectScene::init()
     _newOomeeButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _newOomeeButton->setNormalizedPosition(Vec2(0.5,0.15));
     _newOomeeButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
-        newOomee();
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Edit_Button.wav");
+            newOomee();
+        }
     });
     _contentLayer->addChild(_newOomeeButton);
     
@@ -109,6 +118,7 @@ void OomeeSelectScene::toggleMakeAvatarHiglight()
     auto centerButton = _oomeeCarousel->getCenterButton();
     if(centerButton)
     {
+        CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Avatar_Messagedrop.mp3");
         this->runAction(Sequence::create(
         CallFunc::create([=](){
             centerButton->enableHighlight(true);
@@ -140,6 +150,7 @@ void OomeeSelectScene::toggleMakeAvatarHiglight()
 
 void OomeeSelectScene::editOomee(const std::string& oomeeFileName)
 {
+    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Edit_Button.wav");
     AnalyticsSingleton::getInstance()->editOomee();
     OomeeMakerScene* makerScene = OomeeMakerScene::create();
     makerScene->setFilename(oomeeFileName);
@@ -150,6 +161,7 @@ void OomeeSelectScene::deleteOomee(const std::string &oomeeFilename)
 {
     if(OomeeMakerDataHandler::getInstance()->deleteOomee(oomeeFilename))
     {
+        CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Undo_Exit_Buttons.mp3");
         AnalyticsSingleton::getInstance()->deleteOomee();
         stopAllActions();
         setCarouselData();
@@ -163,6 +175,7 @@ void OomeeSelectScene::makeAvatar(const std::string &oomeeFilename)
 {
     if(Azoomee::OomeeMaker::delegate)
     {
+        CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Make_Avatar_Button.mp3");
         Azoomee::OomeeMaker::delegate->onOomeeMakerUpdateAvatar(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + oomeeFilename + ".png");
     }
 }
@@ -171,6 +184,7 @@ void OomeeSelectScene::shareOomee(const std::string &oomeeFilename)
 {
     if(delegate)
     {
+        CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Share_Button.mp3");
         delegate->onOomeeMakerShareOomee(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + oomeeFilename + ".png");
     }
 }

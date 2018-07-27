@@ -26,6 +26,8 @@ struct FileDownloaderDelegate
 class FileDownloader : public std::enable_shared_from_this<FileDownloader>
 {
 private:
+    static const std::string kEtagName;
+    
     FileDownloaderDelegate* _delegate = nullptr;
     cocos2d::network::HttpRequest* _downloadRequest = nullptr;
     std::string _url;
