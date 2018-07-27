@@ -284,23 +284,9 @@ void OomeeMakerScene::update(float deltaT)
 {
     if(_itemList && _itemList->getItems().size() > 0)
     {
-        if(_itemList->getBottommostItemInCurrentView() == _itemList->getItems().back())
-        {
-            _bottomScrollButton->setVisible(false);
-        }
-        else
-        {
-            _bottomScrollButton->setVisible(true);
-        }
-        
-        if(_itemList->getTopmostItemInCurrentView() == _itemList->getItems().front())
-        {
-            _topScrollButton->setVisible(false);
-        }
-        else
-        {
-            _topScrollButton->setVisible(true);
-        }
+        _bottomScrollButton->setVisible(_itemList->getBottommostItemInCurrentView() != _itemList->getItems().back());
+        _topScrollButton->setVisible(_itemList->getTopmostItemInCurrentView() != _itemList->getItems().front());
+
     }
     Super::update(deltaT);
 }
