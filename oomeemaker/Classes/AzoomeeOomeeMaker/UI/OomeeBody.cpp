@@ -57,12 +57,19 @@ void OomeeBody::setOomeeData(const OomeeRef& oomeeData)
     }
     _sprites.clear();
     
+    int lowestZOrder = INT_MAX;
+    
     for(auto spriteData : _oomeeData->getAssetSet())
     {
         Sprite* spriteLayer = Sprite::create(OomeeMakerDataHandler::getInstance()->getAssetDir() + spriteData.second.first);
         spriteLayer->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
         
-        this->setContentSize(Size(MAX(spriteLayer->getContentSize().width,this->getContentSize().width),MAX(spriteLayer->getContentSize().height, this->getContentSize().height)));
+        if(spriteData.second.second < lowestZOrder)
+        {
+            lowestZOrder = spriteData.second.second;
+            this->setContentSize(spriteLayer->getContentSize());
+            //this->setContentSize(Size(MAX(spriteLayer->getContentSize().width,this->getContentSize().width),MAX(spriteLayer->getContentSize().height, this->getContentSize().height)));
+        }
         
         if(_colours && spriteData.first != "none")
         {

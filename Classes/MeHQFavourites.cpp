@@ -75,7 +75,7 @@ void MeHQFavourites::onEnter()
             auto hqSceneElement = HQSceneElement::create();
             hqSceneElement->setCategory(ConfigStorage::kMeHQName);
             hqSceneElement->setItemData(favList[elementIndex]);
-            hqSceneElement->setElementRow(-1);
+            hqSceneElement->setElementRow(-2);
             hqSceneElement->setElementIndex(elementIndex);
             hqSceneElement->setMargin(kContentItemMargin[isPortrait]);
             hqSceneElement->setManualSizeMultiplier(unitMultiplier); //overriding default configuration contentItem sizes. Ideally this *should* go away when only the new hub is present everywhere.
@@ -224,7 +224,7 @@ void MeHQFavourites::buildEmptyCarousel()
         }
     }
     
-    ui::Button* playGamesButton = ui::Button::create("res/meHQ/play_games_button.png");
+    ui::Button* playGamesButton = ui::Button::create("res/meHQ/watch_videos_button.png");
     playGamesButton->setScale(((contentItemSize.width - kContentItemMargin[isPortrait]) * unitMultiplier) / playGamesButton->getContentSize().width);
     playGamesButton->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     playGamesButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){

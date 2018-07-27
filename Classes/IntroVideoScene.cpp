@@ -6,7 +6,6 @@
 #include <AzoomeeCommon/Strings.h>
 #include "LoginLogicHandler.h"
 #include "SceneManagerScene.h"
-#include "StartScreen.h"
 #include "BackEndCaller.h"
 
 #if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)

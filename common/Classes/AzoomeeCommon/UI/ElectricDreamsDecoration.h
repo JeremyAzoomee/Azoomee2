@@ -10,9 +10,6 @@ namespace Azoomee
 void addSideWiresToScreen(cocos2d::Node* parentLayer, float withDelay, float withDuration);
 void addSideWiresToScreen(cocos2d::Node* parentLayer);
     
-void addMainHubSideWiresToScreen(cocos2d::Node* parentLayer, float withDelay, float withDuration);
-void addMainHubSideWiresToScreen(cocos2d::Node* parentLayer);
-    
 void removeWiresFromScreen(cocos2d::Node* parentLayer);
 
 void addGlowToScreen(cocos2d::Node* parentLayer, float withDelay);

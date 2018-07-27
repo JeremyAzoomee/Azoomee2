@@ -18,5 +18,6 @@ public class JNICalls {
     public static native void JNIRemoveFromFavourites();
     public static native boolean JNIIsInFavourites();
     public static native void JNIShareInChat();
+    public static native boolean JNIIsChatEntitled();
     public static native boolean JNIIsAnonUser();
 }

@@ -8,6 +8,8 @@
 #include "MeHQMessages.h"
 #include "ChatDelegate.h"
 #include "SceneManagerScene.h"
+#include "IAPFlowController.h"
+#include "DynamicNodeHandler.h"
 #include <AzoomeeChat/UI/AvatarWidget.h>
 #include <AzoomeeChat/UI/MessageScene.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
@@ -16,6 +18,7 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
 
 using namespace cocos2d;
 
@@ -36,7 +39,7 @@ bool MeHQMessages::init()
     this->setContentSize(Size(Director::getInstance()->getVisibleSize().width, 200));
     setLayoutType(ui::Layout::Type::VERTICAL);
     
-    ui::Text* heading = ui::Text::create("My Last Messages", Style::Font::Regular, 100);
+    ui::Text* heading = ui::Text::create("Last Messages", Style::Font::Regular, 100);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,50)));
     heading->setContentSize(Size(this->getContentSize().width, 200));
@@ -81,18 +84,11 @@ void MeHQMessages::buildEmptyCarousel()
     float unitWidth = (visibleSize.width - 2 * kSideMarginSize[isPortrait]) / kUnitsOnScreen[isPortrait];
     float unitMultiplier = unitWidth / contentItemSize.width;
     
-    ui::Layout* divider = ui::Layout::create();
-    divider->setLayoutParameter(CreateLeftLinearLayoutParam(ui::Margin(kSideMarginSize[isPortrait],0,0,0)));
-    divider->setContentSize(Size((visibleSize.width - 2 * kSideMarginSize[isPortrait]) * (isPortrait ? 1.0f : 0.75f) - kContentItemMargin[isPortrait], 8));
-    divider->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    divider->setBackGroundColor(Style::Color::bluegreenish);
-    this->addChild(divider);
-    
     ui::Layout* messageLayout = ui::Layout::create();
-    messageLayout->setContentSize(Size(visibleSize.width - 2 * kSideMarginSize[isPortrait], contentItemSize.height * unitMultiplier));
+    messageLayout->setContentSize(Size(visibleSize.width - 2 * kSideMarginSize[isPortrait], isPortrait ? contentItemSize.height : contentItemSize.height * unitMultiplier));
     messageLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     
-    Chat::FriendRef fakeAcc = Chat::Friend::create("", "Azoomee",ConfigStorage::getInstance()->getUrlForOomee(0));
+    Chat::FriendRef fakeAcc = Chat::Friend::create("", "Azoomee",ConfigStorage::getInstance()->getUrlForOomee(4));
     
     Chat::AvatarWidget* avatar = Chat::AvatarWidget::create();
     avatar->setAvatarForFriend(fakeAcc);
@@ -124,43 +120,66 @@ void MeHQMessages::buildEmptyCarousel()
     
     totalHeight += messageLayout->getContentSize().height;
     
-    ui::Layout* divider2 = ui::Layout::create();
-    divider2->setLayoutParameter(CreateLeftLinearLayoutParam(ui::Margin(kSideMarginSize[isPortrait],0,0,0)));
-    divider2->setContentSize(Size((visibleSize.width - 2 * kSideMarginSize[isPortrait]) * (isPortrait ? 1.0f : 0.75f) - kContentItemMargin[isPortrait], 8));
-    divider2->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    divider2->setBackGroundColor(Style::Color::bluegreenish);
-    this->addChild(divider2);
     
-    ui::Button* chatButton = ui::Button::create("res/meHQ/send_message_button.png");
-    chatButton->setScale( ((contentItemSize.width - kContentItemMargin[isPortrait]) * unitMultiplier) / chatButton->getContentSize().width);
-    chatButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    chatButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
-        if(eType == ui::Widget::TouchEventType::ENDED)
-        {
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
-        }
-    });
+    
+    ui::Scale9Sprite* bgFrame = ui::Scale9Sprite::create("res/meHQ/chat_bg.png");
+    bgFrame->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
+    bgFrame->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+    bgFrame->setContentSize(Size((visibleSize.width - 2 * kSideMarginSize[isPortrait]) * (isPortrait ? 1.0f : 0.75f) - kContentItemMargin[isPortrait], messageLayout->getContentSize().height));
+    bgFrame->setColor(Style::Color::darkTeal);
+    messageLayout->addChild(bgFrame, -1);
+    
     if(!isPortrait)
     {
+        ui::Button* chatButton = ui::Button::create("res/meHQ/send_message_button.png");
+        chatButton->setScale( ((contentItemSize.width - kContentItemMargin[isPortrait]) * unitMultiplier) / chatButton->getContentSize().width);
+        chatButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+            if(eType == ui::Widget::TouchEventType::ENDED)
+            {
+                const HQDataObjectRef &currentObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName);
+                
+                if(!currentObject->getHqEntitlement())
+                {
+                    AnalyticsSingleton::getInstance()->registerCTASource("lockedHQ","",currentObject->getHqType());
+                    IAPEntryContext context = IAPEntryContext::LOCKED_CHAT;
+                    DynamicNodeHandler::getInstance()->startIAPFlow(context);
+                }
+                else
+                {
+                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+                }
+            }
+        });
+    
         chatButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
         chatButton->setNormalizedPosition(Vec2((visibleSize.width - kSideMarginSize[isPortrait]) / visibleSize.width, 0.5));
         messageLayout->addChild(chatButton);
     }
     else
     {
+        ui::Button* chatButton = ui::Button::create("res/meHQ/send_messgae_button_no_icon.png");
         chatButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
+        chatButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+        chatButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+            if(eType == ui::Widget::TouchEventType::ENDED)
+            {
+                const HQDataObjectRef &currentObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName);
+                
+                if(!currentObject->getHqEntitlement())
+                {
+                    AnalyticsSingleton::getInstance()->registerCTASource("lockedHQ","",currentObject->getHqType());
+                    IAPEntryContext context = IAPEntryContext::LOCKED_CHAT;
+                    DynamicNodeHandler::getInstance()->startIAPFlow(context);
+                }
+                else
+                {
+                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+                }
+            }
+        });
         this->addChild(chatButton);
         totalHeight += chatButton->getContentSize().height + 100;
     }
-    
-    ui::Text* heading = ui::Text::create(StringUtils::format("When you send messages, your%slast messages will appear here.", isPortrait ? "\n" : " "), Style::Font::Regular, 80);
-    heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    heading->setTextHorizontalAlignment(TextHAlignment::CENTER);
-    heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
-    heading->setContentSize(Size(this->getContentSize().width, 200));
-    this->addChild(heading);
-    
-    totalHeight += heading->getContentSize().height + 150;
     
     this->setContentSize(Size(visibleSize.width ,totalHeight));
 }
@@ -176,7 +195,7 @@ void MeHQMessages::createMessageList()
     
     this->removeAllChildren();
     
-    ui::Text* heading = ui::Text::create("My Last Messages", Style::Font::Regular, 100);
+    ui::Text* heading = ui::Text::create("Last Messages", Style::Font::Regular, 100);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,50)));
     heading->setContentSize(Size(this->getContentSize().width, 200));
@@ -184,20 +203,26 @@ void MeHQMessages::createMessageList()
     
     if(_messages.size() > 0)
     {
+        int i = 0;
+        float messageLayoutHeight = 0;
         for(const Chat::MessageRef& message : _messages)
         {
-            ui::Layout* divider = ui::Layout::create();
-            divider->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,0)));
-            divider->setContentSize(Size(visibleSize.width * 0.9f, 8));
-            divider->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-            divider->setBackGroundColor(Style::Color::bluegreenish);
-            this->addChild(divider);
+            if(i != 0)
+            {
+                ui::Layout* divider = ui::Layout::create();
+                divider->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,0)));
+                divider->setContentSize(Size(visibleSize.width - (2 * kSideMarginSize[isPortrait]), 6));
+                divider->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+                divider->setBackGroundColor(Style::Color::charcoalGrey);
+                this->addChild(divider);
+                messageLayoutHeight += 6;
+                totalHeight += 6;
+            }
+            i++;
             
             ui::Layout* messageLayout = ui::Layout::create();
-            messageLayout->setContentSize(Size(visibleSize.width * 0.9, 442));
+            messageLayout->setContentSize(Size(visibleSize.width - (2 * kSideMarginSize[isPortrait]), 300));
             messageLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
-            //messageLayout->setBackGroundImage("res/decoration/message_bar_container.png");
-            //messageLayout->setBackGroundImageScale9Enabled(true);
             
             Chat::AvatarWidget* avatar = Chat::AvatarWidget::create();
             
@@ -213,13 +238,13 @@ void MeHQMessages::createMessageList()
             avatar->setAvatarForFriend(*friendIt);
             avatar->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
             avatar->setNormalizedPosition(Vec2(isPortrait ? 0.15 : 0.1,0.5));
-            avatar->setContentSize(Size(300,300));
+            avatar->setContentSize(Size(200,200));
             messageLayout->addChild(avatar);
             
             float textPos = isPortrait ? 0.30 : 0.2;
             float maxWidth = this->getContentSize().width * (1 - textPos - 0.05);
             
-            Label* senderName = Label::createWithTTF(message->senderName(), Style::Font::Regular, 97);
+            Label* senderName = Label::createWithTTF(message->senderName(), Style::Font::Regular, 77);
             senderName->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
             senderName->setNormalizedPosition(Vec2(textPos,0.66));
             
@@ -227,7 +252,7 @@ void MeHQMessages::createMessageList()
             
             messageLayout->addChild(senderName);
             
-            Label* messageText = Label::createWithTTF("", Style::Font::Regular, 82);
+            Label* messageText = Label::createWithTTF("", Style::Font::Regular, 62);
             std::string text = message->messageText();
             if(message->messageType() == Chat::Message::MessageTypeArt)
             {
@@ -278,16 +303,19 @@ void MeHQMessages::createMessageList()
             messageLayout->setTouchEnabled(true);
             
             totalHeight += messageLayout->getContentSize().height;
+            messageLayoutHeight += messageLayout->getContentSize().height;
         }
-        
-        ui::Layout* divider = ui::Layout::create();
-        divider->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,0)));
-        divider->setContentSize(Size(visibleSize.width * 0.9f, 8));
-        divider->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-        divider->setBackGroundColor(Style::Color::bluegreenish);
-        this->addChild(divider);
     
         this->setContentSize(Size(visibleSize.width ,totalHeight));
+        
+        ui::Scale9Sprite* bgFrame = ui::Scale9Sprite::create("res/meHQ/chat_bg.png");
+        //bgFrame->setNormalizedPosition(Vec2(0.5,0.0));
+        bgFrame->setPosition(visibleSize.width / 2, 50);
+        bgFrame->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+        bgFrame->setContentSize(Size(visibleSize.width - (2 * kSideMarginSize[isPortrait]), messageLayoutHeight));
+        bgFrame->setColor(Style::Color::darkTeal);
+        this->addChild(bgFrame, -1);
+        
     }
     else
     {

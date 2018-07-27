@@ -393,36 +393,42 @@ public class NativeMediaPlayer extends Activity {
 
             favButtonStatic = favButton;
 
-            final ImageButton shareButton = new ImageButton(this);
-            shareButton.setImageResource(R.drawable.share_unelected);
-            shareButton.setTag(R.drawable.share_unelected);
-            shareButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
-            shareButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            if(JNICalls.JNIIsChatEntitled()) {
+                final ImageButton shareButton = new ImageButton(this);
+                shareButton.setImageResource(R.drawable.share_unelected);
+                shareButton.setTag(R.drawable.share_unelected);
+                shareButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
+                shareButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-                    Integer resource = (Integer) shareButton.getTag();
-                    if (resource == R.drawable.share_selected) {
-                        shareButton.setImageResource(R.drawable.share_unelected);
-                        shareButton.setTag(R.drawable.share_unelected);
-                    } else {
-                        shareButton.setImageResource(R.drawable.share_selected);
-                        shareButton.setTag(R.drawable.share_selected);
+                        Integer resource = (Integer) shareButton.getTag();
+                        if (resource == R.drawable.share_selected) {
+                            shareButton.setImageResource(R.drawable.share_unelected);
+                            shareButton.setTag(R.drawable.share_unelected);
+                        } else {
+                            shareButton.setImageResource(R.drawable.share_selected);
+                            shareButton.setTag(R.drawable.share_selected);
+                        }
+                        JNICalls.JNIShareInChat();
+
+                        exitMediaplayer();
+
                     }
-                    JNICalls.JNIShareInChat();
+                });
 
-                    exitMediaplayer();
+                shareButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
+                shareButton.setX(buttonPadding);
+                shareButton.setY(buttonPadding + 3 * _buttonWidth);
 
-                }
-            });
+                addContentView(shareButton, buttonLayoutParams);
 
-            shareButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
-            shareButton.setX(buttonPadding);
-            shareButton.setY(buttonPadding + 3 * _buttonWidth);
-
-            addContentView(shareButton, buttonLayoutParams);
-
-            shareButtonStatic = shareButton;
+                shareButtonStatic = shareButton;
+            }
+            else
+            {
+                shareButtonStatic = null;
+            }
 
             final ImageButton burgerButton = new ImageButton(this);
             burgerButton.setImageResource(R.drawable.menu_unselected);
@@ -450,6 +456,9 @@ public class NativeMediaPlayer extends Activity {
             addContentView(burgerButton, buttonLayoutParams);
 
             burgerButtonStatic = burgerButton;
+
+            _uiExpanded = true;
+            animateButtons();
         }
         final ImageButton closeButton = new ImageButton(this);
         closeButton.setImageResource(R.drawable.close_unelected);
@@ -486,9 +495,6 @@ public class NativeMediaPlayer extends Activity {
         addContentView(closeButton, buttonLayoutParams);
 
         imageButtonStatic = closeButton;
-
-        _uiExpanded = true;
-        animateButtons();
     }
 
     void animateButtons()
@@ -521,15 +527,19 @@ public class NativeMediaPlayer extends Activity {
                 public void onAnimationEnd(Animation animation) {
                     _isAnimating = false;
                     //imageButtonStatic.setClickable(false);
-                    shareButtonStatic.setClickable(false);
+                    if(shareButtonStatic != null) {
+                        shareButtonStatic.setClickable(false);
+                    }
                     favButtonStatic.setClickable(false);
                 }
             });
             favButtonStatic.startAnimation(favButtonAnim);
-            TranslateAnimation shareButtonAnim = new TranslateAnimation(0,burgerButtonStatic.getX() - shareButtonStatic.getX(),0,burgerButtonStatic.getY() - shareButtonStatic.getY());
-            shareButtonAnim.setDuration(500);
-            shareButtonAnim.setFillAfter(true);
-            shareButtonStatic.startAnimation(shareButtonAnim);
+            if(shareButtonStatic != null) {
+                TranslateAnimation shareButtonAnim = new TranslateAnimation(0, burgerButtonStatic.getX() - shareButtonStatic.getX(), 0, burgerButtonStatic.getY() - shareButtonStatic.getY());
+                shareButtonAnim.setDuration(500);
+                shareButtonAnim.setFillAfter(true);
+                shareButtonStatic.startAnimation(shareButtonAnim);
+            }
             _uiExpanded = false;
         }
         else
@@ -552,15 +562,19 @@ public class NativeMediaPlayer extends Activity {
                 public void onAnimationEnd(Animation animation) {
                     _isAnimating = false;
                     //imageButtonStatic.setClickable(true);
-                    shareButtonStatic.setClickable(true);
+                    if(shareButtonStatic != null) {
+                        shareButtonStatic.setClickable(true);
+                    }
                     favButtonStatic.setClickable(true);
                 }
             });
             favButtonStatic.startAnimation(favButtonAnim);
-            TranslateAnimation shareButtonAnim = new TranslateAnimation(burgerButtonStatic.getX() - shareButtonStatic.getX(), 0 , burgerButtonStatic.getY() - shareButtonStatic.getY(), 0);
-            shareButtonAnim.setDuration(500);
-            shareButtonAnim.setFillAfter(true);
-            shareButtonStatic.startAnimation(shareButtonAnim);
+            if(shareButtonStatic != null) {
+                TranslateAnimation shareButtonAnim = new TranslateAnimation(burgerButtonStatic.getX() - shareButtonStatic.getX(), 0, burgerButtonStatic.getY() - shareButtonStatic.getY(), 0);
+                shareButtonAnim.setDuration(500);
+                shareButtonAnim.setFillAfter(true);
+                shareButtonStatic.startAnimation(shareButtonAnim);
+            }
             _uiExpanded = true;
         }
     }

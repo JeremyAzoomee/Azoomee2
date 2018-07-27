@@ -15,6 +15,12 @@ using namespace cocos2d::network;
 
 NS_AZOOMEE_BEGIN
 
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+const std::string FileDownloader::kEtagName = "ETag";
+#else
+const std::string FileDownloader::kEtagName = "Etag";
+#endif
+
 FileDownloaderRef FileDownloader::create()
 {
     return std::make_shared<FileDownloader>();
@@ -78,7 +84,7 @@ void FileDownloader::downloadFileFromServerAnswerReceived(cocos2d::network::Http
     {
         if(response && response->getResponseData())
         {
-            _etag = getValueFromHttpResponseHeaderForKey("Etag", std::string(response->getResponseHeader()->begin(), response->getResponseHeader()->end()));
+            _etag = getValueFromHttpResponseHeaderForKey(kEtagName, std::string(response->getResponseHeader()->begin(), response->getResponseHeader()->end()));
             std::vector<char> myResponse = *response->getResponseData();
             const std::string& responseString = std::string(myResponse.begin(), myResponse.end());
             if(_delegate)
