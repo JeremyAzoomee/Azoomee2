@@ -85,22 +85,6 @@
         "image_location": "oomees/category.png",
         "season": "any",
         "stickers": [
-            "oomees/s_65@3x.png",
-            "oomees/s_66@3x.png",
-            "oomees/s_67@3x.png",
-            "oomees/s_68@3x.png",
-            "oomees/s_69@3x.png",
-            "oomees/s_70@3x.png",
-            "oomees/s_71@3x.png",
-            "oomees/s_72@3x.png",
-            "oomees/s_73@3x.png",
-            "oomees/s_74@3x.png",
-            "oomees/s_75@3x.png",
-            "oomees/s_76@3x.png",
-            "oomees/s_77@3x.png",
-            "oomees/s_78@3x.png",
-            "oomees/s_79@3x.png",
-            "oomees/s_80@3x.png"
         ]
     }, {
         "id": "summer",
