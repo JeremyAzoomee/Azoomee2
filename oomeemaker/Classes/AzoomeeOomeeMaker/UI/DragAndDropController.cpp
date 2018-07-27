@@ -9,7 +9,7 @@
 #include "SimpleAudioEngine.h"
 #include "../DataObjects/OomeeMakerDataHandler.h"
 
-#define DEBUG_DNDC YES
+//#define DEBUG_DNDC YES
 
 using namespace cocos2d;
 

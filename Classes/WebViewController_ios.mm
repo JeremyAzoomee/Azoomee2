@@ -43,14 +43,17 @@ using namespace Azoomee;
 - (void)addWebViewToScreen {
     if(webview) return;
     
-    float width = self.view.frame.size.width;
-    float height = self.view.frame.size.height;
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat width = screenRect.size.width;
+    CGFloat height = screenRect.size.height;
+    
+    //float width = self.view.frame.size.width;
+    //float height = self.view.frame.size.height;
     
     if(isDeviceIphoneX())
     {
         height < width ? width -= 50.0f : height -= 50.0f;
     }
-
     webview = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, width, height)];
     
     NSString *urlToCall;
@@ -84,6 +87,7 @@ using namespace Azoomee;
     [webview loadRequest:nsrequest];
     [webview setBackgroundColor:[UIColor blackColor]];
     [self.view addSubview:webview];
+    
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {

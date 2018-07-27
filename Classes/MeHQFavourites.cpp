@@ -224,7 +224,7 @@ void MeHQFavourites::buildEmptyCarousel()
         }
     }
     
-    ui::Button* playGamesButton = ui::Button::create("res/meHQ/play_games_button.png");
+    ui::Button* playGamesButton = ui::Button::create("res/meHQ/watch_videos_button.png");
     playGamesButton->setScale(((contentItemSize.width - kContentItemMargin[isPortrait]) * unitMultiplier) / playGamesButton->getContentSize().width);
     playGamesButton->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     playGamesButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){

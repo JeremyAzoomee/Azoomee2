@@ -276,8 +276,33 @@ void OomeeMakerScene::onEnter()
         }
     });
     _contentLayer->addChild(shareOomeeButon);
-    
+    this->scheduleUpdate();
     Super::onEnter();
+}
+
+void OomeeMakerScene::update(float deltaT)
+{
+    if(_itemList && _itemList->getItems().size() > 0)
+    {
+        if(_itemList->getBottommostItemInCurrentView() == _itemList->getItems().back())
+        {
+            _bottomScrollButton->setVisible(false);
+        }
+        else
+        {
+            _bottomScrollButton->setVisible(true);
+        }
+        
+        if(_itemList->getTopmostItemInCurrentView() == _itemList->getItems().front())
+        {
+            _topScrollButton->setVisible(false);
+        }
+        else
+        {
+            _topScrollButton->setVisible(true);
+        }
+    }
+    Super::update(deltaT);
 }
 
 void OomeeMakerScene::onEnterTransitionDidFinish()
@@ -320,7 +345,7 @@ void OomeeMakerScene::undo()
 {
     if(_oomee)
     {
-        CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Undo_Exit_Buttons.wav");
+        CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Undo_Exit_Buttons.mp3");
         _oomee->undoLastAction();
     }
 }
@@ -328,7 +353,7 @@ void OomeeMakerScene::undo()
 void OomeeMakerScene::saveAndExit()
 {
     ModalMessages::getInstance()->startSaving();
-    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Undo_Exit_Buttons.wav");
+    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Undo_Exit_Buttons.mp3");
     const std::string scheduleKey = "saveAndExit";
     Director::getInstance()->getScheduler()->schedule([&](float dt){
         saveOomeeFiles();
@@ -361,7 +386,7 @@ void OomeeMakerScene::saveOomeeFiles()
 void OomeeMakerScene::makeAvatar()
 {
     ModalMessages::getInstance()->startSaving();
-    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Make_Avatar_Button.wav");
+    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Make_Avatar_Button.mp3");
     const std::string scheduleKey = "saveAndExit";
     Director::getInstance()->getScheduler()->schedule([&](float dt){
         saveOomeeFiles();

@@ -456,6 +456,9 @@ public class NativeMediaPlayer extends Activity {
             addContentView(burgerButton, buttonLayoutParams);
 
             burgerButtonStatic = burgerButton;
+
+            _uiExpanded = true;
+            animateButtons();
         }
         final ImageButton closeButton = new ImageButton(this);
         closeButton.setImageResource(R.drawable.close_unelected);
@@ -492,9 +495,6 @@ public class NativeMediaPlayer extends Activity {
         addContentView(closeButton, buttonLayoutParams);
 
         imageButtonStatic = closeButton;
-
-        _uiExpanded = true;
-        animateButtons();
     }
 
     void animateButtons()

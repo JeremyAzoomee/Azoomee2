@@ -169,7 +169,7 @@ void OomeeCarouselButton::setDelegate(OomeeCarouselButtonDelegate *delegate)
 
 void OomeeCarouselButton::animateButtonsIn(float duration)
 {
-    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Homescreen_ButtonsAppear.mp3");
+    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Homescreen_Buttons_Appear.mp3");
     const float centerWidth = this->getContentSize().width / 2.0f;
     const float centerHeight = this->getContentSize().height / 2.0f;
     const float durationMod = 1 - _deleteButton->getScale();

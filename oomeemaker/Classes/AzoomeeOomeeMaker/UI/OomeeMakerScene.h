@@ -53,6 +53,7 @@ public:
     virtual bool init() override;
     virtual void onEnter() override;
     virtual void onEnterTransitionDidFinish() override;
+    virtual void update(float deltaT) override;
     
     void setFilename(const std::string& filename);
     void displayMadeAvatarNotification();

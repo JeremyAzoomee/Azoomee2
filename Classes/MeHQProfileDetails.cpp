@@ -7,6 +7,7 @@
 
 #include "MeHQProfileDetails.h"
 #include "SceneManagerScene.h"
+#include "SimpleAudioEngine.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/UI/Style.h>
@@ -50,6 +51,7 @@ bool MeHQProfileDetails::init()
     {
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
+            CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Edit_Button.wav");
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(OomeeMakerEntryPointScene));
         }
     });
@@ -69,7 +71,7 @@ bool MeHQProfileDetails::init()
     _labelLayout->setSizePercent(isPortrait ? Vec2(1.0,0.34) : Vec2(0.5,1.0));
     this->addChild(_labelLayout);
     
-    _nameLabel = Label::createWithTTF(ChildDataProvider::getInstance()->getLoggedInChildName(),Style::Font::Regular , 243);
+    _nameLabel = Label::createWithTTF(ChildDataProvider::getInstance()->getLoggedInChildName(),Style::Font::Regular , 200);
     _nameLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _nameLabel->setNormalizedPosition(Vec2(0.5,isPortrait ? 0.60 : 0.75));
     _nameLabel->setContentSize(Size(contentSize.width /2, contentSize.height / 3.0f));
@@ -98,6 +100,7 @@ bool MeHQProfileDetails::init()
         _editOomeeButton->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
             if(eType == ui::Widget::TouchEventType::ENDED)
             {
+                CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Edit_Button.wav");
                 Director::getInstance()->replaceScene(SceneManagerScene::createScene(OomeeMakerEntryPointScene));
             }
         });

@@ -59,7 +59,7 @@ bool OomeeSelectScene::init()
     exitButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Undo_Exit_Buttons.wav");
+            CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Undo_Exit_Buttons.mp3");
             if(delegate)
             {
                 delegate->onOomeeMakerNavigationBack();
@@ -158,7 +158,7 @@ void OomeeSelectScene::deleteOomee(const std::string &oomeeFilename)
 {
     if(OomeeMakerDataHandler::getInstance()->deleteOomee(oomeeFilename))
     {
-        CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Undo_Exit_Buttons.wav");
+        CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Undo_Exit_Buttons.mp3");
         stopAllActions();
         setCarouselData();
         this->getScheduler()->schedule([this](float deltaT){
@@ -171,7 +171,7 @@ void OomeeSelectScene::makeAvatar(const std::string &oomeeFilename)
 {
     if(Azoomee::OomeeMaker::delegate)
     {
-        CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Make_Avatar_Button.wav");
+        CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Make_Avatar_Button.mp3");
         Azoomee::OomeeMaker::delegate->onOomeeMakerUpdateAvatar(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + oomeeFilename + ".png");
     }
 }
