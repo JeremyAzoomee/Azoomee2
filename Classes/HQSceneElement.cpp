@@ -101,7 +101,7 @@ void HQSceneElement::addHQSceneElement() //This method is being called by HQScen
     _elementVisual = HQSceneElementVisual::create();
     _elementVisual->setCategory(_elementCategory);
     _elementVisual->setItemData(_elementItemData);
-    if(_elementRowNumber != -1)
+    if(_elementRowNumber > -1)
     {
         _elementVisual->setShape(HQDataProvider::getInstance()->getHighlightDataForSpecificItem(_elementCategory, _elementRowNumber, _elementIndex));
         _elementVisual->setThumbUrl(HQDataProvider::getInstance()->getThumbnailUrlForItem(_elementCategory, _elementRowNumber, _elementIndex));

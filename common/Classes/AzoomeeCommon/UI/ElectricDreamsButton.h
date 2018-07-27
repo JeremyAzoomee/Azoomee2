@@ -72,7 +72,6 @@ public:
     static ElectricDreamsButton* createWindowCloseButton();
     static ElectricDreamsButton* createWindowCloseButtonGreen();
     static ElectricDreamsButton* createWhiteWindowCloselButton();
-    static ElectricDreamsButton* createAddButton();
     static ElectricDreamsButton* createPlaceHolderButton();
     static ElectricDreamsButton* createPlaceHolderButton(float withWidth);
     static ElectricDreamsButton* createPlaceHolderGreenButton(float withWidth);

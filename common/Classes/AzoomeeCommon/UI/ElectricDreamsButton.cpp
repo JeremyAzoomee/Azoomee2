@@ -447,15 +447,6 @@ ElectricDreamsButton* ElectricDreamsButton::createWhiteWindowCloselButton()
     return layer;
 }
 
-ElectricDreamsButton* ElectricDreamsButton::createAddButton()
-{
-    auto layer = ElectricDreamsButton::create();
-    layer->addChild(layer->createSpriteButton("res/childSelection/button_add_child.png", NEXT_BUTTON_AUDIO_EFFECT ));
-    layer->addListener();
-    
-    return layer;
-}
-
 ElectricDreamsButton* ElectricDreamsButton::createPlaceHolderButton()
 {
     auto layer = ElectricDreamsButton::create();
