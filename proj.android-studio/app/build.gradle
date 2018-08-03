@@ -29,15 +29,6 @@ android {
         versionName '9.9.9'
     }
 
-    splits {
-    	abi {
-      		enable true
-      		reset()
-      		include 'arm64-v8a'
-      		universalApk false
-    	}
-    }
-
     sourceSets.main {
         java.srcDir "src"
         res.srcDir "res"
