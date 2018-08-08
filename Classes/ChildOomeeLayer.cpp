@@ -54,7 +54,7 @@ void ChildOomeeLayer::onEnter()
     this->addChild(_oomee);
     
     _oomeeDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
-    _oomeeDownloader->downloadImage(this, ConfigStorage::getInstance()->getUrlForOomee(0));
+    _oomeeDownloader->downloadImage(this, ConfigStorage::getInstance()->getUrlForOomee(_childCreator->getOomeeNum()));
     
     Label* subTitle = Label::createWithTTF(StringUtils::format("Don’t worry if they don’t like it,\nthey can change it anytime%sin the Oomee Maker.",isPortrait ? "\n" : " "), Style::Font::Regular, (is18x9 && !isPortrait) ? 75 : 90);
     subTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);

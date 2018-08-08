@@ -49,6 +49,11 @@ int ChildCreator::getAge() const
     return _age;
 }
 
+int ChildCreator::getOomeeNum() const
+{
+    return _oomeeNum;
+}
+
 void ChildCreator::setHttpRespnseDelegate(Azoomee::HttpRequestCreatorResponseDelegate *delegate)
 {
     _delegate = delegate;
@@ -69,10 +74,10 @@ bool ChildCreator::addChild()
     {
         return false;
     }
-    int oomeeNum = 0;
+    _oomeeNum = RandomHelper::random_int(0, 4);
     AnalyticsSingleton::getInstance()->childProfileCreatedEvent(_age);
     
-    const std::string& oomeeUrl = ConfigStorage::getInstance()->getUrlForOomee(oomeeNum);
+    const std::string& oomeeUrl = ConfigStorage::getInstance()->getUrlForOomee(_oomeeNum);
     HttpRequestCreator* request = API::RegisterChildRequest(_childName, gender, DOB, oomeeUrl, _delegate);
     
     request->execute();

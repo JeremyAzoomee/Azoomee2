@@ -119,6 +119,15 @@ void ChildAgeLayer::onEnter()
     Super::onEnter();
 }
 
+void ChildAgeLayer::onExit()
+{
+    if(_textInput)
+    {
+        _textInput->setDelegate(nullptr);
+    }
+    Super::onExit();
+}
+
 //delegate functions
 
 void ChildAgeLayer::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
@@ -136,7 +145,7 @@ void ChildAgeLayer::textInputReturnPressed(TextInputLayer* inputLayer)
         }
         if(_delegate)
         {
-            _delegate->nextLayer();
+            this->runAction(Sequence::create(DelayTime::create(0.1), CallFunc::create([&](){_delegate->nextLayer();}), NULL));
         }
     }
 }

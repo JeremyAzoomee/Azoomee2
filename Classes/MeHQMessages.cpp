@@ -211,9 +211,10 @@ void MeHQMessages::createMessageList()
             {
                 ui::Layout* divider = ui::Layout::create();
                 divider->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,0)));
-                divider->setContentSize(Size(visibleSize.width - (2 * kSideMarginSize[isPortrait]), 6));
+                divider->setContentSize(Size(visibleSize.width - (10 * kSideMarginSize[isPortrait]), 6));
                 divider->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-                divider->setBackGroundColor(Style::Color::charcoalGrey);
+                divider->setBackGroundColor(Style::Color::white);
+                divider->setOpacity(50);
                 this->addChild(divider);
                 messageLayoutHeight += 6;
                 totalHeight += 6;

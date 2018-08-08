@@ -72,7 +72,7 @@ void MessageBoxOnlineSafetySlidesLayer::addUIObjects()
     slideTitleLabel = createLabelWith(StringMgr::getInstance()->getStringForKey(StringUtils::format("%s%d", slideTitle.c_str(),currentSlideNumber)), Style::Font::Bold, Style::Color::safetySlideTitleColor, titleFontSize);
     
     //-----------SLIDE IMAGE--------------------
-    mainImage = Sprite::create(StringUtils::format("res/onlineSafetySlides/safetyIll0%d.png",currentSlideNumber));
+    mainImage = Sprite::create(StringUtils::format("res/onlineSafetySlides/Oomees_SettingsPage-0%d.png",currentSlideNumber));
     
     //-----------SLIDE MAIN TEXT--------------------
     mainTextLabel = createLabelWith(StringMgr::getInstance()->getStringForKey(StringUtils::format("%s%d", slideMainText.c_str(),currentSlideNumber)), Style::Font::Regular, Style::Color::black, mainTextFontSize);
@@ -108,7 +108,7 @@ void MessageBoxOnlineSafetySlidesLayer::setToCurrentSlideNumber()
     slideTitleLabel->setString(StringMgr::getInstance()->getStringForKey(StringUtils::format("%s%d", slideTitle.c_str(),currentSlideNumber)));
     mainTextLabel->setString(StringMgr::getInstance()->getStringForKey(StringUtils::format("%s%d", slideMainText.c_str(),currentSlideNumber)));
     
-    mainImage->setTexture(StringUtils::format("res/onlineSafetySlides/safetyIll0%d.png",currentSlideNumber));
+    mainImage->setTexture(StringUtils::format("res/onlineSafetySlides/Oomees_SettingsPage-0%d.png",currentSlideNumber));
 }
 
 void MessageBoxOnlineSafetySlidesLayer::moveSlideNumberBy(int moveBy)

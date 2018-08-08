@@ -52,6 +52,8 @@ Scene* HQScene2::createSceneForOfflineArtsAppHQ()
     
     auto offlineArtsAppScrollView = HQSceneArtsApp::create();
     offlineArtsAppScrollView->setName(kArtScrollViewName);
+    offlineArtsAppScrollView->setOriginPosition(Director::getInstance()->getVisibleOrigin() + Vec2(0,Director::getInstance()->getVisibleSize().height * 0.80f));
+    offlineArtsAppScrollView->setRows(2);
     layer->addChild(offlineArtsAppScrollView);
     
     auto offlineHubBackButton = OfflineHubBackButton::create();
