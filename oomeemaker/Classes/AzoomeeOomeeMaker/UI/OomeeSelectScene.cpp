@@ -106,10 +106,7 @@ void OomeeSelectScene::setCarouselData()
     {
         trimmedFilenames.push_back(filename.substr(0,filename.length() - fileExtention.size()));
     }
-    int oomeeListRange = ceil(trimmedFilenames.size() * 0.75f); //target visible range set to (int) number of oomees * 0.75
-    oomeeListRange = MAX(1,oomeeListRange); // cap base number at 1, is oomee list is empty
-    oomeeListRange = MIN(oomeeListRange, 3); // set max cap to 3, if oomeeList has > 3 oomees
-    _oomeeCarousel->setVisibleRange(oomeeListRange);
+    _oomeeCarousel->setVisibleRange(3);
     _oomeeCarousel->setOomeeData(trimmedFilenames);
 }
 

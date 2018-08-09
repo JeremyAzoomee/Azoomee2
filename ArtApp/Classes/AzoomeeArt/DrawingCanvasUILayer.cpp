@@ -331,7 +331,7 @@ void DrawingCanvasUILayer::addStickerSelectButtons(const Size& visibleSize, cons
 {
     _addStickerButton = ui::Button::create();
     _addStickerButton->setAnchorPoint(Vec2(0.5,0.5));
-    _addStickerButton->loadTextures(kArtAppAssetLoc + "star_3.png", kArtAppAssetLoc + "star_3.png");
+    _addStickerButton->loadTextures(kArtAppAssetLoc + "Sticker_Button.png", kArtAppAssetLoc + "Sticker_Button.png");
     _addStickerButton->setPosition(Vec2(_addStickerButton->getContentSize().width, _colourSelectButton->getPosition().y));
     _addStickerButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onAddStickerButtonPressed,this));
     
