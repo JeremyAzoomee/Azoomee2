@@ -5,6 +5,7 @@
 #include "GameDataManager.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include "ContentHistoryManager.h"
 
 using namespace cocos2d;
 
@@ -117,7 +118,9 @@ void ManualGameInputLayer::buttonPressed(ElectricDreamsButton* button)
             FileUtils::getInstance()->removeDirectory(manualGamePath);
 
         FileUtils::getInstance()->createDirectory(manualGamePath);
-        
+        HQContentItemObjectRef contentItem = HQContentItemObject::create();
+        contentItem->setContentItemId(GameDataManager::kManualGameId);
+        ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
         GameDataManager::getInstance()->getJSONGameData(uriTextInput->getText().c_str(), GameDataManager::kManualGameId);
     }
 }

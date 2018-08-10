@@ -166,7 +166,7 @@ rapidjson::Document ConfigStorage::parseJsonConfigurationFile(const std::string&
 std::string ConfigStorage::getServerHost()
 {
 #ifdef USINGCI
-    return "api.elb.ci.azoomee.ninja";
+    return "api.azoomee.ninja";
 #endif
     return "api.azoomee.com";
 }

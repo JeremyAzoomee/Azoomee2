@@ -62,7 +62,7 @@ void OomeeCarousel::setTouchListener()
         if(_centerButton)
         {
             OomeeCarouselButton* carouselButton = dynamic_cast<OomeeCarouselButton*>(_centerButton);
-            if(carouselButton)
+            if(carouselButton && carouselButton->getName() != "new")
             {
                 carouselButton->setInFocus(false);
             }
@@ -103,22 +103,30 @@ void OomeeCarousel::setOomeeData(const std::vector<std::string>& oomeeFilenames)
     
     _oomeeData = oomeeFilenames;
     
-    if(_oomeeData.size() == 0)
+    int j = 0;
+    if(_oomeeData.size() < 3)
     {
-        LazyLoadingButton* button = LazyLoadingButton::create();
-        button->setMainImage("res/oomeeMaker/newoomee_cta.png");
-        button->setPlaceholderImage("res/oomeeMaker/body_00.png");
-        button->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-        button->setPosition(Vec2(_spacing * _carouselButtons.size(), this->getContentSize().height / 2.0f));
-        button->setSwallowTouches(false);
-        button->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType){
-            if(eType == ui::Widget::TouchEventType::ENDED)
-            {
-                OomeeSelectScene::newOomee();
-            }
-        });
-        _contentNode->addChild(button);
-        _carouselButtons.push_back(button);
+        for(; j < (3 - _oomeeData.size()); j++)
+        {
+            OomeeCarouselButton* button = OomeeCarouselButton::create();
+            button->setPlaceholderImage("res/oomeeMaker/new_oomee_button_3.png");
+            button->loadPlaceholderImage();
+            button->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+            button->setPosition(Vec2(_spacing * j, this->getContentSize().height / 2.0f));
+            button->setSwallowTouches(false);
+            button->setName("new");
+            button->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType){
+                if(pSender == _centerButton)
+                {
+                    if(eType == ui::Widget::TouchEventType::ENDED)
+                    {
+                        OomeeSelectScene::newOomee();
+                    }
+                }
+            });
+            _contentNode->addChild(button);
+            _carouselButtons.push_back(button);
+        }
     }
     
     for(int i = 0; i < oomeeFilenames.size(); i++)
@@ -128,7 +136,7 @@ void OomeeCarousel::setOomeeData(const std::vector<std::string>& oomeeFilenames)
         button->setDelegate(_buttonDelegate);
         button->setOomeeData(oomeeFilenames.at(i));
         button->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-        button->setPosition(Vec2(_spacing * i, this->getContentSize().height / 2.0f));
+        button->setPosition(Vec2(_spacing * (i + j), this->getContentSize().height / 2.0f));
         button->setSwallowTouches(false);
         button->setCascadeOpacityEnabled(true);
         button->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType){
@@ -187,7 +195,7 @@ void OomeeCarousel::centerButtons()
     }
     
     OomeeCarouselButton* carouselButton = dynamic_cast<OomeeCarouselButton*>(centerButton);
-    if(carouselButton)
+    if(carouselButton && carouselButton->getName() != "new")
     {
         carouselButton->setInFocus(true);
     }

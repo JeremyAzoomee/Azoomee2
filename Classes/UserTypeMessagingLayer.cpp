@@ -28,7 +28,7 @@ bool UserTypeMessagingLayer::init()
 void UserTypeMessagingLayer::onEnter()
 {
     bool isPortrait = Director::getInstance()->getVisibleSize().width < Director::getInstance()->getVisibleSize().height;
-    
+    bool is18x9 = ConfigStorage::getInstance()->isDevice18x9();
     Super::onEnter();
     
     _bgSprite = ui::Scale9Sprite::create("res/artapp/white_bg.png");
@@ -39,7 +39,7 @@ void UserTypeMessagingLayer::onEnter()
     this->addChild(_bgSprite);
     
     _startTrialButton = ui::Button::create("res/buttons/MainButton.png");
-    _startTrialButton->setContentSize(Size(this->getContentSize().width * (isPortrait ? 0.6f : 0.5f), _startTrialButton->getContentSize().height));
+    _startTrialButton->setContentSize(Size(this->getContentSize().width * (isPortrait ? 0.65f : 0.5f), _startTrialButton->getContentSize().height));
     _startTrialButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _startTrialButton->setNormalizedPosition(Vec2(isPortrait ? 0.33 : 0.5, 0.5));
     _startTrialButton->setSwallowTouches(true);
@@ -54,7 +54,7 @@ void UserTypeMessagingLayer::onEnter()
         }
     });
     
-    _startTrialLabel = Label::createWithTTF("Start 7 Day Trial", Style::Font::Regular, _startTrialButton->getContentSize().height * 0.4);
+    _startTrialLabel = Label::createWithTTF("Start 7 Day Free Trial", Style::Font::Regular, _startTrialButton->getContentSize().height * ( is18x9 ? 0.35 : 0.4 ));
     _startTrialLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _startTrialLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _startTrialLabel->setTextColor(Color4B(246,187,66,255));
@@ -144,12 +144,12 @@ void UserTypeMessagingLayer::setUserType(UserType userType)
 void UserTypeMessagingLayer::repositionElements()
 {
     bool isPortrait = Director::getInstance()->getVisibleSize().width < Director::getInstance()->getVisibleSize().height;
-    
+    bool is18x9 = ConfigStorage::getInstance()->isDevice18x9();
     _bgSprite->setContentSize(this->getContentSize());
     
-    _startTrialButton->setContentSize(Size(this->getContentSize().width * (isPortrait ? 0.6f : 0.5f), _startTrialButton->getContentSize().height));
+    _startTrialButton->setContentSize(Size(this->getContentSize().width * (isPortrait ? 0.65f : 0.5f), _startTrialButton->getContentSize().height));
     _startTrialButton->setNormalizedPosition(Vec2(isPortrait ? 0.33 : 0.5, 0.5));
-    _startTrialLabel->setBMFontSize(_startTrialButton->getContentSize().height * 0.4);
+    _startTrialLabel->setBMFontSize(_startTrialButton->getContentSize().height * ( is18x9 ? 0.35 : 0.4 ));
     
     _signInButton->setContentSize(Size(this->getContentSize().width * 0.2f, this->getContentSize().height * 0.65f));
     _signInButton->setNormalizedPosition(Vec2(isPortrait ? 0.85 : 0.9, 0.5));

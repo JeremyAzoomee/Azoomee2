@@ -237,7 +237,7 @@ void MeHQFavourites::buildEmptyCarousel()
                 
                 if(navigationLayer)
                 {
-                    navigationLayer->changeToScene(ConfigStorage::kGameHQName, 0.5);
+                    navigationLayer->changeToScene(ConfigStorage::kVideoHQName, 0.5);
                 }
             }
         }

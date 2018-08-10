@@ -14,6 +14,8 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.webkit.CookieManager;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -111,6 +113,15 @@ public class NativeViewUI extends Activity {
 
         addContentView(uiWebView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
+
+        uiWebView.setWebViewClient(new WebViewClient(){
+
+            @Override public void onReceivedError(WebView view, WebResourceRequest request,
+                                                  WebResourceError error) {
+                super.onReceivedError(view, request, error);
+                Log.d("NativeViewUI", "onReceivedError: " + error.toString());
+            }
+        });
 
         uiWebViewStatic = uiWebView;
 

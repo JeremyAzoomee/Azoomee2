@@ -99,6 +99,16 @@ void ChildNameLayerFirstTime::onEnter()
     Super::onEnter();
 }
 
+void ChildNameLayerFirstTime::onExit()
+{
+    if(_textInput)
+    {
+        _textInput->setDelegate(nullptr);
+    }
+    Super::onExit();
+}
+
+
 //delegate functions
 
 void ChildNameLayerFirstTime::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
@@ -116,7 +126,7 @@ void ChildNameLayerFirstTime::textInputReturnPressed(TextInputLayer* inputLayer)
         }
         if(_delegate)
         {
-            _delegate->nextLayer();
+            this->runAction(Sequence::create(DelayTime::create(0.1), CallFunc::create([&](){_delegate->nextLayer();}), NULL));
         }
     }
 }

@@ -85,7 +85,7 @@ void MeHQMessages::buildEmptyCarousel()
     float unitMultiplier = unitWidth / contentItemSize.width;
     
     ui::Layout* messageLayout = ui::Layout::create();
-    messageLayout->setContentSize(Size(visibleSize.width - 2 * kSideMarginSize[isPortrait], isPortrait ? contentItemSize.height : contentItemSize.height * unitMultiplier));
+    messageLayout->setContentSize(Size(visibleSize.width - 2 * kSideMarginSize[isPortrait], isPortrait ? 300 : contentItemSize.height * unitMultiplier));
     messageLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     
     Chat::FriendRef fakeAcc = Chat::Friend::create("", "Azoomee",ConfigStorage::getInstance()->getUrlForOomee(4));
@@ -94,13 +94,13 @@ void MeHQMessages::buildEmptyCarousel()
     avatar->setAvatarForFriend(fakeAcc);
     avatar->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     avatar->setNormalizedPosition(Vec2(isPortrait ? 0.15 : 0.1,0.5));
-    avatar->setContentSize(Size(300,300));
+    avatar->setContentSize(isPortrait ? Size(200,200) : Size(300,300));
     messageLayout->addChild(avatar);
     
     float textPos = isPortrait ? 0.30 : 0.2;
     float maxWidth = this->getContentSize().width * ((isPortrait ? 1 : 0.75) - textPos - 0.05);
     
-    Label* senderName = Label::createWithTTF("Azoomee", Style::Font::Regular, 97);
+    Label* senderName = Label::createWithTTF("Azoomee", Style::Font::Regular, isPortrait ? 77 : 97);
     senderName->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
     senderName->setNormalizedPosition(Vec2(textPos,0.66));
     
@@ -108,7 +108,7 @@ void MeHQMessages::buildEmptyCarousel()
     
     messageLayout->addChild(senderName);
     
-    Label* messageText = Label::createWithTTF("Welcome to your Me Page!", Style::Font::Regular, 82);
+    Label* messageText = Label::createWithTTF("Welcome to your Me Page!", Style::Font::Regular, isPortrait ? 62 : 82);
     messageText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
     messageText->setNormalizedPosition(Vec2(textPos,0.33));
     
@@ -211,9 +211,10 @@ void MeHQMessages::createMessageList()
             {
                 ui::Layout* divider = ui::Layout::create();
                 divider->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,0)));
-                divider->setContentSize(Size(visibleSize.width - (2 * kSideMarginSize[isPortrait]), 6));
+                divider->setContentSize(Size(visibleSize.width - (10 * kSideMarginSize[isPortrait]), 6));
                 divider->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-                divider->setBackGroundColor(Style::Color::charcoalGrey);
+                divider->setBackGroundColor(Style::Color::white);
+                divider->setOpacity(50);
                 this->addChild(divider);
                 messageLayoutHeight += 6;
                 totalHeight += 6;

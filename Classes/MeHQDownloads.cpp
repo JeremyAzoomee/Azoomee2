@@ -78,6 +78,10 @@ bool MeHQDownloads::init()
         
         for(int elementIndex = 0; elementIndex < gameList.size(); elementIndex++)
         {
+            if(!gameList[elementIndex]->isEntitled())
+            {
+                continue;
+            }
             auto hqSceneElement = HQSceneElement::create();
             hqSceneElement->setCategory(ConfigStorage::kMeHQName);
             hqSceneElement->setItemData(gameList[elementIndex]);

@@ -3,6 +3,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "GameDataManager.h"
 #include "SceneManagerScene.h"
+#include "ContentHistoryManager.h"
 #include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
 
 using namespace cocos2d;
@@ -113,7 +114,7 @@ void OfflineHubHQElement::addListenerToElement(const std::map<std::string, std::
             contentItem->setContentItemId(itemData.at("id"));
             
             AnalyticsSingleton::getInstance()->contentItemSelectedOutsideCarouselEvent(contentItem);
-            
+            ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
             Director::getInstance()->replaceScene(SceneManagerScene::createWebview(getGameOrientation(itemData), startUrl.c_str()));
         }
         

@@ -71,7 +71,7 @@ void OnlineSafetyDetailsLayer::addUIObjects()
     //-----------SLIDE IMAGE--------------------
     // Location in relation to the Main Title Location
     
-    mainImage = Sprite::create(StringUtils::format("res/onlineSafetySlides/safetyIll0%d.png",currentSlideNumber));
+    mainImage = Sprite::create(StringUtils::format("res/onlineSafetySlides/Oomees_SettingsPage-0%d.png",currentSlideNumber));
     mainImage->setPosition(this->getContentSize().width - MARGIN_TO_CHEVRON * 1.5 - mainImage->getContentSize().width / 2, slideTitleLabel->getPositionY()-slideTitleLabel->getContentSize().height * 1.5f - mainImage->getContentSize().height / 2);
     backgroundLayer->addChild(mainImage);
     
@@ -138,7 +138,7 @@ void OnlineSafetyDetailsLayer::setToCurrentSlideNumber()
     slideTitleLabel->setString(StringMgr::getInstance()->getStringForKey(StringUtils::format("%sAdult%d", ONLINE_SAFETY_SLIDE_TITLE,currentSlideNumber)));
     mainTextLabel->setString(StringMgr::getInstance()->getStringForKey(StringUtils::format("%sAdult%d", ONLINE_SAFETY_SLIDE_MAIN_TEXT,currentSlideNumber)));
     
-    mainImage->setTexture(StringUtils::format("res/onlineSafetySlides/safetyIll0%d.png",currentSlideNumber));
+    mainImage->setTexture(StringUtils::format("res/onlineSafetySlides/Oomees_SettingsPage-0%d.png",currentSlideNumber));
 }
 
 void OnlineSafetyDetailsLayer::moveSlideNumberBy(int moveBy)

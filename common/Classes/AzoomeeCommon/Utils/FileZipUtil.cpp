@@ -64,7 +64,8 @@ namespace Azoomee {
                 std::string combinedDir = std::string(dirpath) + "/";
                 for (int i = 0; i < dirs.size(); i++)
                 {
-                    if(dirs[i].find(".") != std::string::npos)
+                    
+                    if(i == dirs.size() - 1)
                     {
                         continue;
                     }
