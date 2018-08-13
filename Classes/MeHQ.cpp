@@ -59,6 +59,7 @@ bool MeHQ::init()
     _contentListView->setBottomPadding(100.0f);
     _contentListView->setContentSize(Size(contentSize.width, contentSize.height - ((ConfigStorage::getInstance()->isDeviceIphoneX() && contentSize.width < contentSize.height) ? 400 : 300)));
     _contentListView->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+    _contentListView->setSwallowTouches(true);
     this->addChild(_contentListView);
     
     Sprite* verticalScrollGradient = Sprite::create("res/decoration/TopNavGrad.png");

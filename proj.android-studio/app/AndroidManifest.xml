@@ -15,7 +15,6 @@
         android:allowBackup="true"
         android:largeHeap="true"
         android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher_circle"
         android:vmSafeMode="true">
 
         <!--appsflyerMetaPlace-->
