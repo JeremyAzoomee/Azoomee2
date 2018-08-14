@@ -29,6 +29,15 @@ android {
         versionName '9.9.9'
     }
 
+    splits {
+    	abi {
+      		enable true
+      		reset()
+      		include 'armeabi-v7a'
+      		universalApk false
+    	}
+    }
+
     sourceSets.main {
         java.srcDir "src"
         res.srcDir "res"
