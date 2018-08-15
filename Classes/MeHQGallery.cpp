@@ -37,53 +37,6 @@ bool MeHQGallery::init()
     return true;
 }
 
-void MeHQGallery::buildEmptyCarousel()
-{
-    const Size& visibleSize = Director::getInstance()->getVisibleSize();
-    
-    int isPortrait = visibleSize.width < visibleSize.height;
-    
-    ui::ImageView* artLogo = ui::ImageView::create("res/meHQ/art.png");
-    artLogo->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    artLogo->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
-    this->addChild(artLogo);
-    
-    Rect capInsents = Rect(100, 0, 286, 149);
-    
-    ui::Button* makePaintingButton = ui::Button::create("res/buttons/button_dark.png");
-    makePaintingButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    makePaintingButton->setCapInsets(capInsents);
-    makePaintingButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
-    makePaintingButton->setContentSize(Size(1000,makePaintingButton->getContentSize().height));
-    makePaintingButton->setScale9Enabled(true);
-    makePaintingButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
-        if(eType == ui::Widget::TouchEventType::ENDED)
-        {
-            
-            ArtAppDelegate::getInstance()->setFileName("");
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ArtAppEntryPointScene));
-        }
-    });
-    
-    Label* makePaintingButtonLabel = Label::createWithTTF("Make a painting", Style::Font::Regular, makePaintingButton->getContentSize().height * 0.4f);
-    makePaintingButtonLabel->setTextColor(Color4B::WHITE);
-    makePaintingButtonLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    makePaintingButtonLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    makePaintingButton->addChild(makePaintingButtonLabel);
-    
-    this->addChild(makePaintingButton);
-    
-    ui::Text* heading = ui::Text::create(StringUtils::format("When you use the art studio, your%smasterpieces will appear here.", isPortrait ? "\n" : " "), Style::Font::Regular, 80);
-    heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    heading->setTextHorizontalAlignment(TextHAlignment::CENTER);
-    heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
-    heading->setContentSize(Size(visibleSize.width, kSpaceAboveCarousel[isPortrait]));
-    this->addChild(heading);
-    
-    this->setContentSize(Size(this->getContentSize().width, 2 * kSpaceAboveCarousel[isPortrait] + 350 + artLogo->getContentSize().height));
-    
-}
-
 void MeHQGallery::onEnter()
 {
     const Size& visibleSize = Director::getInstance()->getVisibleSize();
@@ -113,7 +66,7 @@ void MeHQGallery::onEnter()
     auto artImages = DirectorySearcher::getInstance()->getImagesInDirectory(dirPath);
     
     
-    const Size& contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kArtAppHQName);
+    const Size& contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kGameHQName);
     float unitWidth = (visibleSize.width - 2 * kSideMarginSize[isPortrait]) / kUnitsOnScreen[isPortrait];
     float unitMultiplier = unitWidth / contentItemSize.width;
     
@@ -164,8 +117,19 @@ void MeHQGallery::onEnter()
         }
     }
     
-    auto* newImage = ArtsAppHQElement::create();
-    newImage->initWithURLAndSize(FileUtils::getInstance()->fullPathForFilename("res/meHQ/new_painting_button.png"), contentItemSize * unitMultiplier, false, true);
+    //auto* newImage = ArtsAppHQElement::create();
+    //newImage->initWithURLAndSize(FileUtils::getInstance()->fullPathForFilename("res/meHQ/new_painting_button.png"), contentItemSize * unitMultiplier, false, true);
+    
+    ui::Button* newImage = ui::Button::create("res/meHQ/new_painting_button.png");
+    newImage->setScale(((contentItemSize.width - kContentItemMargin[isPortrait]) * unitMultiplier) / newImage->getContentSize().width);
+    newImage->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+    newImage->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            ArtAppDelegate::getInstance()->setFileName("");
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ArtAppEntryPointScene));
+        }
+    });
     
     Vec2 elementShape = Vec2(1,1);
     
@@ -179,7 +143,8 @@ void MeHQGallery::onEnter()
     
     float lowestElementYPosition = elementPosition.y;
     
-    newImage->setPosition(elementPosition);
+    float offset = kContentItemMargin[isPortrait]/2;
+    newImage->setPosition(elementPosition + Vec2(offset, offset));
     carouselLayer->addChild(newImage);
     
     for(auto item : carouselLayer->getChildren())

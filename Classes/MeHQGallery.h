@@ -28,8 +28,6 @@ private:
     
     RefreshLayoutCallback _refreshCallback = nullptr;
     
-    void buildEmptyCarousel();
-    
 protected:
     virtual void onSizeChanged() override;
     
