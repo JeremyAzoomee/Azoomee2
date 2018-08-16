@@ -25,7 +25,6 @@ bool ChildNameLayer::init()
 void ChildNameLayer::onEnter()
 {
     const Size& contentSize = this->getContentSize();
-    bool isPortrait = contentSize.width < contentSize.height;
     
     Label* title = Label::createWithTTF("Add another child", Style::Font::Regular, 150);
     title->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
@@ -48,12 +47,11 @@ void ChildNameLayer::onEnter()
     textInputTitle->setColor(Color3B::WHITE);
     this->addChild(textInputTitle);
     
-    _continueButton = ui::Button::create("res/buttons/MainButton.png");
-    _continueButton->setColor(Style::Color::telish);
-    _continueButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _continueButton = ui::Button::create("res/login/next_btnGreen.png");
+    _continueButton->setAnchorPoint(Vec2(1.25,1.25));
     _continueButton->setTouchEnabled(_textInput->inputIsValid());
     _continueButton->setOpacity(_textInput->inputIsValid() ? 255 : 125);
-    _continueButton->setPosition(Vec2(contentSize.width * (isPortrait ? 0.5 : 0.66), contentSize.height * 0.3));
+    _continueButton->setPosition(contentSize);
     _continueButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType)
     {
         if(eType == ui::Widget::TouchEventType::ENDED)
@@ -73,16 +71,9 @@ void ChildNameLayer::onEnter()
     });
     this->addChild(_continueButton);
     
-    Label* buttonText = Label::createWithTTF("Continue", Style::Font::Regular, _continueButton->getContentSize().height * 0.4f);
-    buttonText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    buttonText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    buttonText->setTextColor(Color4B::BLACK);
-    _continueButton->addChild(buttonText);
-    
-    ui::Button* backButton = ui::Button::create("res/buttons/MainButton.png");
-    backButton->setColor(Style::Color::telish);
-    backButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    backButton->setPosition(Vec2(contentSize.width * (isPortrait ? 0.5 : 0.33), contentSize.height * (isPortrait ? 0.2 : 0.3)));
+    ui::Button* backButton = ui::Button::create("res/login/back_btnGreen.png");
+    backButton->setAnchorPoint(Vec2(-0.25,1.25));
+    backButton->setPosition(Vec2(0, contentSize.height));
     backButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType)
     {
         if(eType == ui::Widget::TouchEventType::ENDED)
@@ -94,12 +85,6 @@ void ChildNameLayer::onEnter()
         }
     });
     this->addChild(backButton);
-    
-    Label* backButtonText = Label::createWithTTF("Cancel", Style::Font::Regular, _continueButton->getContentSize().height * 0.4f);
-    backButtonText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    backButtonText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    backButtonText->setTextColor(Color4B::BLACK);
-    backButton->addChild(backButtonText);
     
     Sprite* progressIcon = Sprite::create("res/decoration/progress1.png");
     progressIcon->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);

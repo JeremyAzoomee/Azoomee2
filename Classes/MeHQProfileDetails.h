@@ -23,7 +23,6 @@ private:
     cocos2d::ui::Layout* _contentLayer = nullptr;
     OomeeMaker::OomeeCarouselButton* _avatar = nullptr;
     cocos2d::ui::Layout* _labelLayout = nullptr;
-    cocos2d::ui::Button* _editOomeeButton = nullptr;
     cocos2d::Label* _nameLabel = nullptr;
     cocos2d::ui::Text* _kidCodeLabel = nullptr;
     

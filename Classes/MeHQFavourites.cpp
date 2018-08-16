@@ -10,6 +10,7 @@
 #include "HQScene2ElementPositioner.h"
 #include "FavouritesManager.h"
 #include "NavigationLayer.h"
+#include "HQDataProvider.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/HQDataObject/ContentItemPool.h>
@@ -20,11 +21,6 @@
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
-
-const float MeHQFavourites::kSideMarginSize[2] = {20.0f, 10.0f};
-const float MeHQFavourites::kSpaceAboveCarousel[2] = {200.0f, 200.0f};
-const int MeHQFavourites::kUnitsOnScreen[2] = {4,2};
-const float MeHQFavourites::kContentItemMargin[2] = {20.0f, 20.0f};
 
 bool MeHQFavourites::init()
 {
@@ -45,13 +41,18 @@ void MeHQFavourites::onEnter()
     
     int isPortrait = visibleSize.width < visibleSize.height;
     
+    float spaceAboveCarousel = HQDataProvider::getInstance()->getSpaceAboveCarousel();
+    float sideMargin = HQDataProvider::getInstance()->getSideMargin();
+    int unitsOnScreen = HQDataProvider::getInstance()->getUnitsOnScreen();
+    float contentItemMargin = HQDataProvider::getInstance()->getContentItemMargin();
+    
     this->setContentSize(Size(visibleSize.width, 0));
     setLayoutType(ui::Layout::Type::VERTICAL);
     
     ui::Text* heading = ui::Text::create("My Favourites", Style::Font::Regular, 100);
     heading->setTextHorizontalAlignment(TextHAlignment::CENTER);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    heading->setContentSize(Size(visibleSize.width, kSpaceAboveCarousel[isPortrait]));
+    heading->setContentSize(Size(visibleSize.width, spaceAboveCarousel));
     heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,50)));
     this->addChild(heading);
     
@@ -60,12 +61,12 @@ void MeHQFavourites::onEnter()
     if(favList.size() > 0)
     {
         Size contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kGameHQName);
-        float unitWidth = (visibleSize.width - 2 * kSideMarginSize[isPortrait]) / kUnitsOnScreen[isPortrait];
+        float unitWidth = (visibleSize.width - 2 * sideMargin) / unitsOnScreen;
         float unitMultiplier = unitWidth / contentItemSize.width;
 
     
         _carouselLayout = ui::Layout::create();
-        _carouselLayout->setContentSize(Size(visibleSize.width - 2 * kSideMarginSize[isPortrait], 0));
+        _carouselLayout->setContentSize(Size(visibleSize.width - 2 * sideMargin, 0));
         _carouselLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     
         float lowestElementYPosition = 0;
@@ -77,7 +78,7 @@ void MeHQFavourites::onEnter()
             hqSceneElement->setItemData(favList[elementIndex]);
             hqSceneElement->setElementRow(-2);
             hqSceneElement->setElementIndex(elementIndex);
-            hqSceneElement->setMargin(kContentItemMargin[isPortrait]);
+            hqSceneElement->setMargin(contentItemMargin);
             hqSceneElement->setManualSizeMultiplier(unitMultiplier); //overriding default configuration contentItem sizes. Ideally this *should* go away when only the new hub is present everywhere.
             hqSceneElement->deleteButtonVisible(false);
             hqSceneElement->setDeleteButtonCallback([&](const HQContentItemObjectRef& contentItem){
@@ -109,11 +110,11 @@ void MeHQFavourites::onEnter()
             }
         }
     
-        int numPlaceholders = (kUnitsOnScreen[isPortrait] * ceil((double)(favList.size()) / (double)kUnitsOnScreen[isPortrait])) - favList.size();
+        int numPlaceholders = (unitsOnScreen * ceil((double)(favList.size()) / (double)unitsOnScreen)) - favList.size();
         for(int i = 0; i < numPlaceholders; i++)
         {
             Sprite* placeholder = Sprite::create("res/contentPlaceholders/placeholder_thumbnail_1_1.png");
-            placeholder->setScale(((contentItemSize.width - kContentItemMargin[isPortrait]) * unitMultiplier) / placeholder->getContentSize().width);
+            placeholder->setScale(((contentItemSize.width - contentItemMargin) * unitMultiplier) / placeholder->getContentSize().width);
             placeholder->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
             
             HQScene2ElementPositioner hqScene2ElementPositioner;
@@ -124,7 +125,7 @@ void MeHQFavourites::onEnter()
             
             const cocos2d::Point &elementPosition = hqScene2ElementPositioner.positionHQSceneElement();
             
-            placeholder->setPosition(elementPosition + Vec2(kContentItemMargin[isPortrait]/2, kContentItemMargin[isPortrait]/2));
+            placeholder->setPosition(elementPosition + Vec2(contentItemMargin/2, contentItemMargin/2));
             _carouselLayout->addChild(placeholder);
         }
     
@@ -177,7 +178,7 @@ void MeHQFavourites::onEnter()
     
         this->addChild(editButton);
     
-        this->setContentSize(Size(visibleSize.width, -lowestElementYPosition + kSpaceAboveCarousel[isPortrait] + editButton->getContentSize().height));
+        this->setContentSize(Size(visibleSize.width, -lowestElementYPosition + spaceAboveCarousel + editButton->getContentSize().height));
     }
     else
     {
@@ -191,20 +192,25 @@ void MeHQFavourites::buildEmptyCarousel()
     
     int isPortrait = visibleSize.width < visibleSize.height;
     
+    float spaceAboveCarousel = HQDataProvider::getInstance()->getSpaceAboveCarousel();
+    float sideMargin = HQDataProvider::getInstance()->getSideMargin();
+    int unitsOnScreen = HQDataProvider::getInstance()->getUnitsOnScreen();
+    float contentItemMargin = HQDataProvider::getInstance()->getContentItemMargin();
+    
     Size contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kGameHQName);
-    float unitWidth = (visibleSize.width - 2 * kSideMarginSize[isPortrait]) / kUnitsOnScreen[isPortrait];
+    float unitWidth = (visibleSize.width - 2 * sideMargin) / unitsOnScreen;
     float unitMultiplier = unitWidth / contentItemSize.width;
     
     cocos2d::ui::Layout* carouselLayer = ui::Layout::create();
-    carouselLayer->setContentSize(Size(visibleSize.width - 2 * kSideMarginSize[isPortrait], 0));
+    carouselLayer->setContentSize(Size(visibleSize.width - 2 * sideMargin, 0));
     carouselLayer->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     
     float lowestElementYPosition = 0;
     
-    for(int elementIndex = 0; elementIndex < kUnitsOnScreen[isPortrait] - 1; elementIndex++)
+    for(int elementIndex = 0; elementIndex < unitsOnScreen - 1; elementIndex++)
     {
         Sprite* placeholder = Sprite::create("res/contentPlaceholders/placeholder_thumbnail_1_1.png");
-        placeholder->setScale(((contentItemSize.width - kContentItemMargin[isPortrait]) * unitMultiplier) / placeholder->getContentSize().width);
+        placeholder->setScale(((contentItemSize.width - contentItemMargin) * unitMultiplier) / placeholder->getContentSize().width);
         placeholder->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
         
         HQScene2ElementPositioner hqScene2ElementPositioner;
@@ -214,7 +220,7 @@ void MeHQFavourites::buildEmptyCarousel()
         hqScene2ElementPositioner.setBaseUnitSize(contentItemSize * unitMultiplier);
         
         const cocos2d::Point &elementPosition = hqScene2ElementPositioner.positionHQSceneElement();
-        float offset = kContentItemMargin[isPortrait]/2;
+        float offset = contentItemMargin/2;
         placeholder->setPosition(elementPosition + Vec2(offset, offset));
         carouselLayer->addChild(placeholder);
         
@@ -225,7 +231,8 @@ void MeHQFavourites::buildEmptyCarousel()
     }
     
     ui::Button* playGamesButton = ui::Button::create("res/meHQ/watch_videos_button.png");
-    playGamesButton->setScale(((contentItemSize.width - kContentItemMargin[isPortrait]) * unitMultiplier) / playGamesButton->getContentSize().width);
+    playGamesButton->setContentSize(playGamesButton->getContentSize() * (((contentItemSize.width - contentItemMargin) * unitMultiplier) / playGamesButton->getContentSize().width));
+    playGamesButton->ignoreContentAdaptWithSize(false);
     playGamesButton->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     playGamesButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
@@ -250,7 +257,7 @@ void MeHQFavourites::buildEmptyCarousel()
     hqScene2ElementPositioner.setBaseUnitSize(contentItemSize * unitMultiplier);
     
     const cocos2d::Point &elementPosition = hqScene2ElementPositioner.positionHQSceneElement();
-    float offset = kContentItemMargin[isPortrait]/2;
+    float offset = contentItemMargin/2;
     playGamesButton->setPosition(elementPosition + Vec2(offset, offset));
     carouselLayer->addChild(playGamesButton);
     
@@ -270,7 +277,7 @@ void MeHQFavourites::buildEmptyCarousel()
     heading->setContentSize(Size(visibleSize.width, 200));
     this->addChild(heading);
     
-    this->setContentSize(Size(visibleSize.width, heading->getContentSize().height -lowestElementYPosition + kSpaceAboveCarousel[isPortrait] + 50));
+    this->setContentSize(Size(visibleSize.width, heading->getContentSize().height -lowestElementYPosition + spaceAboveCarousel + 50));
     
 }
 

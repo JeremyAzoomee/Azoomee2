@@ -32,7 +32,7 @@ void ChildNameLayerFirstTime::onEnter()
     
     Label* mainTitle = Label::createWithTTF(StringUtils::format("Welcome to%sAzoomee", isPortrait ? "\n" : " "), Style::Font::Regular, (is18x9 && !isPortrait) ? 160 : 200);
     mainTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    mainTitle->setPosition(Vec2(contentSize.width / 2, contentSize.height - ((is18x9 && !isPortrait) ? 50 : 100)));
+    mainTitle->setPosition(Vec2(contentSize.width / 2, contentSize.height - (is18x9 ? (isPortrait ? 225 : 50) : 100)));
     mainTitle->setColor(Style::Color::telish);
     mainTitle->enableGlow(Color4B(Style::Color::telish));
     mainTitle->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -60,12 +60,11 @@ void ChildNameLayerFirstTime::onEnter()
     textInputTitle->setColor(Color3B::WHITE);
     this->addChild(textInputTitle);
     
-    _continueButton = ui::Button::create("res/buttons/MainButton.png");
-    _continueButton->setColor(Style::Color::telish);
-    _continueButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _continueButton = ui::Button::create("res/login/next_btnGreen.png");
+    _continueButton->setAnchorPoint(Vec2(1.25,1.25));
     _continueButton->setTouchEnabled(_textInput->inputIsValid());
     _continueButton->setOpacity(_textInput->inputIsValid() ? 255 : 125);
-    _continueButton->setPosition(Vec2(contentSize.width / 2, contentSize.height * 0.3));
+    _continueButton->setPosition(contentSize);
     _continueButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType)
     {
         if(eType == ui::Widget::TouchEventType::ENDED)
@@ -84,12 +83,6 @@ void ChildNameLayerFirstTime::onEnter()
         }
     });
     this->addChild(_continueButton);
-    
-    Label* buttonText = Label::createWithTTF("Continue", Style::Font::Regular, _continueButton->getContentSize().height * 0.4f);
-    buttonText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    buttonText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    buttonText->setTextColor(Color4B::BLACK);
-    _continueButton->addChild(buttonText);
     
     Sprite* progressIcon = Sprite::create("res/decoration/progress1.png");
     progressIcon->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);

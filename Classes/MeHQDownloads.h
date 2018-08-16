@@ -18,10 +18,6 @@ class MeHQDownloads : public cocos2d::ui::Layout
 {
     typedef cocos2d::ui::Layout Super;
 private:
-    static const float kSideMarginSize[2];
-    static const float kSpaceAboveCarousel[2];
-    static const int kUnitsOnScreen[2];
-    static const float kContentItemMargin[2];
     
     cocos2d::ui::Layout* _contentLayer = nullptr;
     

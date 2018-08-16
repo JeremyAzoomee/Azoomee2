@@ -52,6 +52,16 @@ public:
     void hideLoadingScreen();
     
     static const std::map<std::string, std::string> kLockFiles;
+    
+    static const float kSideMarginSize[3][2];
+    static const float kSpaceAboveCarousel[3][2];
+    static const int kUnitsOnScreen[3][2];
+    static const float kContentItemMargin[3][2];
+    
+    float getSideMargin() const;
+    float getSpaceAboveCarousel() const;
+    int getUnitsOnScreen() const;
+    float getContentItemMargin() const;
 
 };
 

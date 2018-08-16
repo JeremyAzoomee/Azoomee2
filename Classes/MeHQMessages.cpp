@@ -10,6 +10,7 @@
 #include "SceneManagerScene.h"
 #include "IAPFlowController.h"
 #include "DynamicNodeHandler.h"
+#include "HQDataProvider.h"
 #include <AzoomeeChat/UI/AvatarWidget.h>
 #include <AzoomeeChat/UI/MessageScene.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
@@ -23,11 +24,6 @@
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
-
-const float MeHQMessages::kSideMarginSize[2] = {20.0f, 10.0f};
-const float MeHQMessages::kSpaceAboveCarousel[2] = {200.0f, 200.0f};
-const int MeHQMessages::kUnitsOnScreen[2] = {4,2};
-const float MeHQMessages::kContentItemMargin[2] = {20.0f, 20.0f};
 
 bool MeHQMessages::init()
 {
@@ -77,15 +73,23 @@ void MeHQMessages::buildEmptyCarousel()
     const Size& visibleSize = Director::getInstance()->getVisibleSize();
     
     bool isPortrait = visibleSize.width < visibleSize.height;
+    if(isPortrait && (visibleSize.height / visibleSize.width) < 16.0/10.5)
+    {
+        isPortrait = false;
+    }
+    
+    float sideMargin = HQDataProvider::getInstance()->getSideMargin();
+    int unitsOnScreen = HQDataProvider::getInstance()->getUnitsOnScreen();
+    float contentItemMargin = HQDataProvider::getInstance()->getContentItemMargin();
     
     float totalHeight = 200;
     
     Size contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kGameHQName);
-    float unitWidth = (visibleSize.width - 2 * kSideMarginSize[isPortrait]) / kUnitsOnScreen[isPortrait];
+    float unitWidth = (visibleSize.width - 2 * sideMargin) / unitsOnScreen;
     float unitMultiplier = unitWidth / contentItemSize.width;
     
     ui::Layout* messageLayout = ui::Layout::create();
-    messageLayout->setContentSize(Size(visibleSize.width - 2 * kSideMarginSize[isPortrait], isPortrait ? 300 : contentItemSize.height * unitMultiplier));
+    messageLayout->setContentSize(Size(visibleSize.width - 2 * sideMargin, isPortrait ? 300 : contentItemSize.height * unitMultiplier));
     messageLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     
     Chat::FriendRef fakeAcc = Chat::Friend::create("", "Azoomee",ConfigStorage::getInstance()->getUrlForOomee(4));
@@ -120,19 +124,17 @@ void MeHQMessages::buildEmptyCarousel()
     
     totalHeight += messageLayout->getContentSize().height;
     
-    
-    
     ui::Scale9Sprite* bgFrame = ui::Scale9Sprite::create("res/meHQ/chat_bg.png");
     bgFrame->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
     bgFrame->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
-    bgFrame->setContentSize(Size((visibleSize.width - 2 * kSideMarginSize[isPortrait]) * (isPortrait ? 1.0f : 0.75f) - kContentItemMargin[isPortrait], messageLayout->getContentSize().height));
+    bgFrame->setContentSize(Size((visibleSize.width - 2 * sideMargin) * (isPortrait ? 1.0f : 0.75f) - contentItemMargin, messageLayout->getContentSize().height));
     bgFrame->setColor(Style::Color::darkTeal);
     messageLayout->addChild(bgFrame, -1);
     
     if(!isPortrait)
     {
         ui::Button* chatButton = ui::Button::create("res/meHQ/send_message_button.png");
-        chatButton->setScale( ((contentItemSize.width - kContentItemMargin[isPortrait]) * unitMultiplier) / chatButton->getContentSize().width);
+        chatButton->setScale( ((contentItemSize.width - contentItemMargin) * unitMultiplier) / chatButton->getContentSize().width);
         chatButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
             if(eType == ui::Widget::TouchEventType::ENDED)
             {
@@ -152,7 +154,7 @@ void MeHQMessages::buildEmptyCarousel()
         });
     
         chatButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
-        chatButton->setNormalizedPosition(Vec2((visibleSize.width - kSideMarginSize[isPortrait]) / visibleSize.width, 0.5));
+        chatButton->setNormalizedPosition(Vec2((visibleSize.width - sideMargin) / visibleSize.width, 0.5));
         messageLayout->addChild(chatButton);
     }
     else
@@ -191,6 +193,8 @@ void MeHQMessages::createMessageList()
     
     bool isPortrait = visibleSize.width < visibleSize.height;
     
+    float sideMargin = HQDataProvider::getInstance()->getSideMargin();
+    
     float totalHeight = 200;
     
     this->removeAllChildren();
@@ -211,7 +215,7 @@ void MeHQMessages::createMessageList()
             {
                 ui::Layout* divider = ui::Layout::create();
                 divider->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,0)));
-                divider->setContentSize(Size(visibleSize.width - (10 * kSideMarginSize[isPortrait]), 6));
+                divider->setContentSize(Size(visibleSize.width - (10 * sideMargin), 6));
                 divider->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
                 divider->setBackGroundColor(Style::Color::white);
                 divider->setOpacity(50);
@@ -222,7 +226,7 @@ void MeHQMessages::createMessageList()
             i++;
             
             ui::Layout* messageLayout = ui::Layout::create();
-            messageLayout->setContentSize(Size(visibleSize.width - (2 * kSideMarginSize[isPortrait]), 300));
+            messageLayout->setContentSize(Size(visibleSize.width - (2 * sideMargin), 300));
             messageLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
             
             Chat::AvatarWidget* avatar = Chat::AvatarWidget::create();
@@ -310,10 +314,9 @@ void MeHQMessages::createMessageList()
         this->setContentSize(Size(visibleSize.width ,totalHeight));
         
         ui::Scale9Sprite* bgFrame = ui::Scale9Sprite::create("res/meHQ/chat_bg.png");
-        //bgFrame->setNormalizedPosition(Vec2(0.5,0.0));
         bgFrame->setPosition(visibleSize.width / 2, 50);
         bgFrame->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-        bgFrame->setContentSize(Size(visibleSize.width - (2 * kSideMarginSize[isPortrait]), messageLayoutHeight));
+        bgFrame->setContentSize(Size(visibleSize.width - (2 * sideMargin), messageLayoutHeight));
         bgFrame->setColor(Style::Color::darkTeal);
         this->addChild(bgFrame, -1);
         

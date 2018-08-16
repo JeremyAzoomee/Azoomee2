@@ -73,7 +73,7 @@ void MessageBoxChatResetModerationLayer::createBody()
     
 void MessageBoxChatResetModerationLayer::createSprite()
 {
-    oomeeSprite = Sprite::create("res/chat/ui/messageBoxes/thoughtfullOomee.png");
+    oomeeSprite = Sprite::create("res/chat/ui/messageBoxes/Oomee_Reset_Conversation.png");
 }
 
 void MessageBoxChatResetModerationLayer::createButtons()
