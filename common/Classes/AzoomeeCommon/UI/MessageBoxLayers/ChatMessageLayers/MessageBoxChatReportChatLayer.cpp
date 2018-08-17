@@ -62,7 +62,7 @@ void MessageBoxChatReportChatLayer::createTitle()
     
 void MessageBoxChatReportChatLayer::createSprite()
 {
-    oomeeSprite = Sprite::create("res/chat/ui/messageBoxes/sadOomees.png");
+    oomeeSprite = Sprite::create("res/chat/ui/messageBoxes/Oomee_Report_Chat.png");
 }
 
 void MessageBoxChatReportChatLayer::createButtons()

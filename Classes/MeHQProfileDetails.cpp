@@ -28,6 +28,10 @@ bool MeHQProfileDetails::init()
     const Size& visibleSize = Director::getInstance()->getVisibleSize();
     
     bool isPortrait = visibleSize.width < visibleSize.height;
+    if(isPortrait && (visibleSize.height / visibleSize.width) < 16.0/10.5)
+    {
+        isPortrait = false;
+    }
     
     this->setContentSize(Size(visibleSize.width, isPortrait ? 1500 : 1000)); // portrait stacks elements vertically, so 2x height
     
@@ -72,8 +76,8 @@ bool MeHQProfileDetails::init()
     this->addChild(_labelLayout);
     
     _nameLabel = Label::createWithTTF(ChildDataProvider::getInstance()->getLoggedInChildName(),Style::Font::Regular , 200);
-    _nameLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _nameLabel->setNormalizedPosition(Vec2(0.5,isPortrait ? 0.60 : 0.75));
+    _nameLabel->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE : Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _nameLabel->setNormalizedPosition(Vec2(0.5,isPortrait ? 0.60 : 0.5));
     _nameLabel->setContentSize(Size(contentSize.width /2, contentSize.height / 3.0f));
     
     reduceLabelTextToFitWidth(_nameLabel, contentSize.width * _labelLayout->getSizePercent().x);
@@ -81,37 +85,11 @@ bool MeHQProfileDetails::init()
     _labelLayout->addChild(_nameLabel);
     
     _kidCodeLabel = ui::Text::create("Kid Code: " + ParentDataProvider::getInstance()->getInviteCodeForAnAvailableChild(ChildDataProvider::getInstance()->getLoggedInChildNumber()), Style::Font::Regular, 96);
-    _kidCodeLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _kidCodeLabel->setNormalizedPosition(Vec2(0.5,isPortrait ? 0.20 : 0.5));
+    _kidCodeLabel->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE : Vec2::ANCHOR_MIDDLE_TOP);
+    _kidCodeLabel->setNormalizedPosition(Vec2(0.5,isPortrait ? 0.20 : 0.45));
     _kidCodeLabel->setContentSize(Size(contentSize.width /2, contentSize.height / 3.0f));
     _kidCodeLabel->setTextColor(Color4B(Style::Color::greenishTeal));
     _labelLayout->addChild(_kidCodeLabel);
-    if(!isPortrait)
-    {
-        _editOomeeButton = ui::Button::create("res/buttons/MainButton.png");
-        _editOomeeButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-        _editOomeeButton->setNormalizedPosition(Vec2(0.5,0.25));
-        _editOomeeButton->setScale9Enabled(true);
-        _editOomeeButton->setColor(Style::Color::greenishTeal);
-        _editOomeeButton->setCapInsets(Rect(_editOomeeButton->getContentSize().width/2,0,1,_editOomeeButton->getContentSize().height));
-        _editOomeeButton->setContentSize(Size(940, _editOomeeButton->getContentSize().height));
-        _editOomeeButton->ignoreContentAdaptWithSize(false);
-        
-        _editOomeeButton->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
-            if(eType == ui::Widget::TouchEventType::ENDED)
-            {
-                CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Edit_Button.wav");
-                Director::getInstance()->replaceScene(SceneManagerScene::createScene(OomeeMakerEntryPointScene));
-            }
-        });
-        
-        Label* editOomeeLabel = Label::createWithTTF("Edit My Oomee", Style::Font::Regular, _editOomeeButton->getContentSize().height * 0.4f);
-        editOomeeLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-        editOomeeLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-        _editOomeeButton->addChild(editOomeeLabel);
-    
-        _labelLayout->addChild(_editOomeeButton);
-    }
     
     return true;
 }

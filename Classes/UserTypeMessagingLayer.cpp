@@ -89,7 +89,7 @@ void UserTypeMessagingLayer::onEnter()
     this->addChild(_signInButton);
     
     _reactivateButton = ui::Button::create("res/buttons/MainButton.png");
-    _reactivateButton->setContentSize(Size(this->getContentSize().width * (isPortrait ? 0.75f : 0.5f), _reactivateButton->getContentSize().height));
+    _reactivateButton->setContentSize(Size(this->getContentSize().width * (isPortrait ? (is18x9 ? 0.85 : 0.75f) : 0.5f), _reactivateButton->getContentSize().height));
     _reactivateButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _reactivateButton->setNormalizedPosition(Vec2(0.5, 0.5));
     _reactivateButton->setSwallowTouches(true);
@@ -159,7 +159,7 @@ void UserTypeMessagingLayer::repositionElements()
     newDrawNode->drawRect(Vec2(0, -7), Vec2(_signInLabel->getContentSize().width, -6), Color4F::WHITE);
     _signInLabel->addChild(newDrawNode);
     
-    _reactivateButton->setContentSize(Size(this->getContentSize().width * (isPortrait ? 0.75f : 0.5f), _reactivateButton->getContentSize().height));
+    _reactivateButton->setContentSize(Size(this->getContentSize().width * (isPortrait ? (is18x9 ? 0.85 : 0.75f) : 0.5f), _reactivateButton->getContentSize().height));
     _reactivateButton->setNormalizedPosition(Vec2(isPortrait ? 0.5 : 0.5, 0.5));
     _reactivateLabel->setBMFontSize(_reactivateButton->getContentSize().height * 0.4);
     

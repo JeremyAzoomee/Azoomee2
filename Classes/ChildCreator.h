@@ -25,6 +25,7 @@ private:
     int _age = -1;
     int _oomeeNum = 0;
     bool _firstTime = false;
+    std::string _createdChildId = "";
     HttpRequestCreatorResponseDelegate* _delegate = nullptr;
     
 public:
@@ -33,10 +34,12 @@ public:
     void setChildName(const std::string& childName);
     void setAge(int age);
     void setFirstTime(bool firstTime);
+    void setCreatedChildId(const std::string& childId);
     
     std::string getName() const;
     int getAge() const;
     int getOomeeNum() const;
+    std::string getCreatedChildId() const;
     
     void setHttpRespnseDelegate(HttpRequestCreatorResponseDelegate* delegate);
     

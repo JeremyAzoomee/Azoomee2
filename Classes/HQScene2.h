@@ -11,10 +11,6 @@ NS_AZOOMEE_BEGIN
 class HQScene2 : public cocos2d::Layer
 {
 public:
-    static const float kSideMarginSize[2];
-    static const float kSpaceAboveCarousel[2];
-    static const int kUnitsOnScreen[2];
-    static const float kContentItemMargin[2];
     static const float kSpaceForPrivacyPolicy;
     static const std::string& kScrollViewName;
     static const std::string& kGroupLogoName;

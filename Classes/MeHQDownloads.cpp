@@ -9,6 +9,7 @@
 #include "HQSceneElement.h"
 #include "HQScene2ElementPositioner.h"
 #include "NavigationLayer.h"
+#include "HQDataProvider.h"
 #include <AzoomeeCommon/Utils/DirectorySearcher.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
@@ -20,11 +21,6 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-const float MeHQDownloads::kSideMarginSize[2] = {20.0f, 10.0f};
-const float MeHQDownloads::kSpaceAboveCarousel[2] = {200.0f, 200.0f};
-const int MeHQDownloads::kUnitsOnScreen[2] = {4,2};
-const float MeHQDownloads::kContentItemMargin[2] = {20.0f, 20.0f};
-
 bool MeHQDownloads::init()
 {
     if(!Super::init())
@@ -34,7 +30,10 @@ bool MeHQDownloads::init()
     
     const Size& visibleSize = Director::getInstance()->getVisibleSize();
     
-    int isPortrait = visibleSize.width < visibleSize.height;
+    const float spaceAboveCarousel = HQDataProvider::getInstance()->getSpaceAboveCarousel();
+    const float sideMargin = HQDataProvider::getInstance()->getSideMargin();
+    const int unitsOnScreen = HQDataProvider::getInstance()->getUnitsOnScreen();
+    const float contentItemMargin = HQDataProvider::getInstance()->getContentItemMargin();
     
     this->setContentSize(Size(visibleSize.width, 0));
     setLayoutType(ui::Layout::Type::VERTICAL);
@@ -49,7 +48,7 @@ bool MeHQDownloads::init()
             if(isStarterFileExists(json))
             {
                 auto item = ContentItemPool::getInstance()->getContentItemForId(json);
-                if(item)
+                if(item && item->isEntitled())
                 {
                     gameList.push_back(item);
                 }
@@ -60,34 +59,29 @@ bool MeHQDownloads::init()
     ui::Text* heading = ui::Text::create((gameList.size() > 0) ? "Available Offline" : "My Downloads", Style::Font::Regular, 100);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,50)));
-    heading->setContentSize(Size(visibleSize.width, kSpaceAboveCarousel[isPortrait]));
+    heading->setContentSize(Size(visibleSize.width, spaceAboveCarousel));
     this->addChild(heading);
     
     if(gameList.size() > 0)
     {
         Size contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kGameHQName);
-        float unitWidth = (visibleSize.width - 2 * kSideMarginSize[isPortrait]) / kUnitsOnScreen[isPortrait];
+        float unitWidth = (visibleSize.width - 2 * sideMargin) / unitsOnScreen;
         float unitMultiplier = unitWidth / contentItemSize.width;
         
-        //cocos2d::LayerColor* carouselLayer = LayerColor::create(cocos2d::Color4B(255, 0, 0, 0), this->getContentSize().width - 2 * kSideMarginSize[isPortrait], 0);
         cocos2d::ui::Layout* carouselLayer = ui::Layout::create();
-        carouselLayer->setContentSize(Size(visibleSize.width - 2 * kSideMarginSize[isPortrait], 0));
+        carouselLayer->setContentSize(Size(visibleSize.width - 2 * sideMargin, 0));
         carouselLayer->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
         
         float lowestElementYPosition = 0;
         
         for(int elementIndex = 0; elementIndex < gameList.size(); elementIndex++)
         {
-            if(!gameList[elementIndex]->isEntitled())
-            {
-                continue;
-            }
             auto hqSceneElement = HQSceneElement::create();
             hqSceneElement->setCategory(ConfigStorage::kMeHQName);
             hqSceneElement->setItemData(gameList[elementIndex]);
             hqSceneElement->setElementRow(-3);
             hqSceneElement->setElementIndex(elementIndex);
-            hqSceneElement->setMargin(kContentItemMargin[isPortrait]);
+            hqSceneElement->setMargin(contentItemMargin);
             hqSceneElement->setManualSizeMultiplier(unitMultiplier); //overriding default configuration contentItem sizes. Ideally this *should* go away when only the new hub is present everywhere.
             hqSceneElement->deleteButtonVisible(false);
             
@@ -112,11 +106,11 @@ bool MeHQDownloads::init()
             }
         }
         
-        int numPlaceholders = (kUnitsOnScreen[isPortrait] * ceil((double)(gameList.size()) / (double)kUnitsOnScreen[isPortrait])) - gameList.size();
+        int numPlaceholders = (unitsOnScreen * ceil((double)(gameList.size()) / (double)unitsOnScreen)) - gameList.size();
         for(int i = 0; i < numPlaceholders; i++)
         {
             Sprite* placeholder = Sprite::create("res/contentPlaceholders/placeholder_thumbnail_1_1.png");
-            placeholder->setScale(((contentItemSize.width - kContentItemMargin[isPortrait]) * unitMultiplier) / placeholder->getContentSize().width);
+            placeholder->setScale(((contentItemSize.width - contentItemMargin) * unitMultiplier) / placeholder->getContentSize().width);
             placeholder->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
             
             HQScene2ElementPositioner hqScene2ElementPositioner;
@@ -126,16 +120,16 @@ bool MeHQDownloads::init()
             hqScene2ElementPositioner.setBaseUnitSize(contentItemSize * unitMultiplier);
             
             const cocos2d::Point &elementPosition = hqScene2ElementPositioner.positionHQSceneElement();
-            float offset = kContentItemMargin[isPortrait]/2;
+            float offset = contentItemMargin/2;
             placeholder->setPosition(elementPosition + Vec2(offset, offset));
             carouselLayer->addChild(placeholder);
         }
         
-        carouselLayer->setPosition(Vec2(kSideMarginSize[isPortrait], -lowestElementYPosition));
+        carouselLayer->setPosition(Vec2(sideMargin, -lowestElementYPosition));
         
         this->addChild(carouselLayer);
         
-        this->setContentSize(Size(visibleSize.width, -lowestElementYPosition + kSpaceAboveCarousel[isPortrait]));
+        this->setContentSize(Size(visibleSize.width, -lowestElementYPosition + spaceAboveCarousel));
     }
     else
     {
@@ -150,20 +144,25 @@ void MeHQDownloads::buildEmptyCarousel()
     
     int isPortrait = visibleSize.width < visibleSize.height;
     
+    const float spaceAboveCarousel = HQDataProvider::getInstance()->getSpaceAboveCarousel();
+    const float sideMargin = HQDataProvider::getInstance()->getSideMargin();
+    const int unitsOnScreen = HQDataProvider::getInstance()->getUnitsOnScreen();
+    const float contentItemMargin = HQDataProvider::getInstance()->getContentItemMargin();
+    
     Size contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kGameHQName);
-    float unitWidth = (visibleSize.width - 2 * kSideMarginSize[isPortrait]) / kUnitsOnScreen[isPortrait];
+    float unitWidth = (visibleSize.width - 2 * sideMargin) / unitsOnScreen;
     float unitMultiplier = unitWidth / contentItemSize.width;
     
     cocos2d::ui::Layout* carouselLayer = ui::Layout::create();
-    carouselLayer->setContentSize(Size(visibleSize.width - 2 * kSideMarginSize[isPortrait], 0));
+    carouselLayer->setContentSize(Size(visibleSize.width - 2 * sideMargin, 0));
     carouselLayer->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     
     float lowestElementYPosition = 0;
     
-    for(int elementIndex = 0; elementIndex < kUnitsOnScreen[isPortrait] - 1; elementIndex++)
+    for(int elementIndex = 0; elementIndex < unitsOnScreen - 1; elementIndex++)
     {
         Sprite* placeholder = Sprite::create("res/contentPlaceholders/placeholder_thumbnail_1_1.png");
-        placeholder->setScale(((contentItemSize.width - kContentItemMargin[isPortrait]) * unitMultiplier) / placeholder->getContentSize().width);
+        placeholder->setScale(((contentItemSize.width - contentItemMargin) * unitMultiplier) / placeholder->getContentSize().width);
         placeholder->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
         
         HQScene2ElementPositioner hqScene2ElementPositioner;
@@ -173,7 +172,7 @@ void MeHQDownloads::buildEmptyCarousel()
         hqScene2ElementPositioner.setBaseUnitSize(contentItemSize * unitMultiplier);
         
         const cocos2d::Point &elementPosition = hqScene2ElementPositioner.positionHQSceneElement();
-        float offset = kContentItemMargin[isPortrait]/2;
+        float offset = contentItemMargin/2;
         placeholder->setPosition(elementPosition + Vec2(offset, offset));
         carouselLayer->addChild(placeholder);
         
@@ -184,7 +183,8 @@ void MeHQDownloads::buildEmptyCarousel()
     }
     
     ui::Button* playGamesButton = ui::Button::create("res/meHQ/play_games_button.png");
-    playGamesButton->setScale(((contentItemSize.width - kContentItemMargin[isPortrait]) * unitMultiplier) / playGamesButton->getContentSize().width);
+    playGamesButton->setContentSize(playGamesButton->getContentSize() * (((contentItemSize.width - contentItemMargin) * unitMultiplier) / playGamesButton->getContentSize().width));
+    playGamesButton->ignoreContentAdaptWithSize(false);
     playGamesButton->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     playGamesButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
@@ -209,7 +209,7 @@ void MeHQDownloads::buildEmptyCarousel()
     hqScene2ElementPositioner.setBaseUnitSize(contentItemSize * unitMultiplier);
     
     const cocos2d::Point &elementPosition = hqScene2ElementPositioner.positionHQSceneElement();
-    float offset = kContentItemMargin[isPortrait]/2;
+    float offset = contentItemMargin/2;
     playGamesButton->setPosition(elementPosition + Vec2(offset, offset));
     carouselLayer->addChild(playGamesButton);
     
@@ -239,7 +239,7 @@ void MeHQDownloads::buildEmptyCarousel()
     heading->setContentSize(Size(visibleSize.width, 200));
     this->addChild(heading);
     
-    this->setContentSize(Size(visibleSize.width, heading->getContentSize().height -lowestElementYPosition + kSpaceAboveCarousel[isPortrait] + kContentItemMargin[isPortrait] + 100));
+    this->setContentSize(Size(visibleSize.width, heading->getContentSize().height -lowestElementYPosition + spaceAboveCarousel + contentItemMargin + 100));
     
 }
 

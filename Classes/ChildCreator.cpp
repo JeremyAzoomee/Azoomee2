@@ -39,6 +39,11 @@ void ChildCreator::setFirstTime(bool firstTime)
     _firstTime = firstTime;
 }
 
+void ChildCreator::setCreatedChildId(const std::string &childId)
+{
+    _createdChildId = childId;
+}
+
 std::string ChildCreator::getName() const
 {
     return _childName;
@@ -52,6 +57,11 @@ int ChildCreator::getAge() const
 int ChildCreator::getOomeeNum() const
 {
     return _oomeeNum;
+}
+
+std::string ChildCreator::getCreatedChildId() const
+{
+    return _createdChildId;
 }
 
 void ChildCreator::setHttpRespnseDelegate(Azoomee::HttpRequestCreatorResponseDelegate *delegate)

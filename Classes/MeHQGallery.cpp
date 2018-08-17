@@ -11,6 +11,7 @@
 #include "NavigationLayer.h"
 #include "SceneManagerScene.h"
 #include "ArtAppDelegate.h"
+#include "HQDataProvider.h"
 #include <AzoomeeCommon/Utils/DirectorySearcher.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
@@ -22,11 +23,6 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-const float MeHQGallery::kSideMarginSize[2] = {20.0f, 10.0f};
-const float MeHQGallery::kSpaceAboveCarousel[2] = {200.0f, 200.0f};
-const int MeHQGallery::kUnitsOnScreen[2] = {4,2};
-const float MeHQGallery::kContentItemMargin[2] = {20.0f, 20.0f};
-
 bool MeHQGallery::init()
 {
     if(!Super::init())
@@ -37,58 +33,14 @@ bool MeHQGallery::init()
     return true;
 }
 
-void MeHQGallery::buildEmptyCarousel()
-{
-    const Size& visibleSize = Director::getInstance()->getVisibleSize();
-    
-    int isPortrait = visibleSize.width < visibleSize.height;
-    
-    ui::ImageView* artLogo = ui::ImageView::create("res/meHQ/art.png");
-    artLogo->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    artLogo->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
-    this->addChild(artLogo);
-    
-    Rect capInsents = Rect(100, 0, 286, 149);
-    
-    ui::Button* makePaintingButton = ui::Button::create("res/buttons/button_dark.png");
-    makePaintingButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    makePaintingButton->setCapInsets(capInsents);
-    makePaintingButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
-    makePaintingButton->setContentSize(Size(1000,makePaintingButton->getContentSize().height));
-    makePaintingButton->setScale9Enabled(true);
-    makePaintingButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
-        if(eType == ui::Widget::TouchEventType::ENDED)
-        {
-            
-            ArtAppDelegate::getInstance()->setFileName("");
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ArtAppEntryPointScene));
-        }
-    });
-    
-    Label* makePaintingButtonLabel = Label::createWithTTF("Make a painting", Style::Font::Regular, makePaintingButton->getContentSize().height * 0.4f);
-    makePaintingButtonLabel->setTextColor(Color4B::WHITE);
-    makePaintingButtonLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    makePaintingButtonLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    makePaintingButton->addChild(makePaintingButtonLabel);
-    
-    this->addChild(makePaintingButton);
-    
-    ui::Text* heading = ui::Text::create(StringUtils::format("When you use the art studio, your%smasterpieces will appear here.", isPortrait ? "\n" : " "), Style::Font::Regular, 80);
-    heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    heading->setTextHorizontalAlignment(TextHAlignment::CENTER);
-    heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
-    heading->setContentSize(Size(visibleSize.width, kSpaceAboveCarousel[isPortrait]));
-    this->addChild(heading);
-    
-    this->setContentSize(Size(this->getContentSize().width, 2 * kSpaceAboveCarousel[isPortrait] + 350 + artLogo->getContentSize().height));
-    
-}
-
 void MeHQGallery::onEnter()
 {
     const Size& visibleSize = Director::getInstance()->getVisibleSize();
     
-    int isPortrait = visibleSize.width < visibleSize.height;
+    const float spaceAboveCarousel = HQDataProvider::getInstance()->getSpaceAboveCarousel();
+    const float sideMargin = HQDataProvider::getInstance()->getSideMargin();
+    const int unitsOnScreen = HQDataProvider::getInstance()->getUnitsOnScreen();
+    const float contentItemMargin = HQDataProvider::getInstance()->getContentItemMargin();
     
     float totalHeight = 0;
     
@@ -98,7 +50,7 @@ void MeHQGallery::onEnter()
     ui::Text* heading = ui::Text::create("My Gallery", Style::Font::Regular, 100);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,50)));
-    heading->setContentSize(Size(visibleSize.width, kSpaceAboveCarousel[isPortrait]));
+    heading->setContentSize(Size(visibleSize.width, spaceAboveCarousel));
     this->addChild(heading);
     
     totalHeight += heading->getContentSize().height + 50;
@@ -113,12 +65,12 @@ void MeHQGallery::onEnter()
     auto artImages = DirectorySearcher::getInstance()->getImagesInDirectory(dirPath);
     
     
-    const Size& contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kArtAppHQName);
-    float unitWidth = (visibleSize.width - 2 * kSideMarginSize[isPortrait]) / kUnitsOnScreen[isPortrait];
+    const Size& contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kGameHQName);
+    float unitWidth = (visibleSize.width - 2 * sideMargin) / unitsOnScreen;
     float unitMultiplier = unitWidth / contentItemSize.width;
     
     cocos2d::ui::Layout* carouselLayer = ui::Layout::create();
-    carouselLayer->setContentSize(Size(visibleSize.width - 2 * kSideMarginSize[isPortrait], 0));
+    carouselLayer->setContentSize(Size(visibleSize.width - 2 * sideMargin, 0));
     carouselLayer->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     
     std::reverse(artImages.begin(), artImages.end());
@@ -144,11 +96,11 @@ void MeHQGallery::onEnter()
     
     if(artImages.size() <= 7)
     {
-        int numPlaceholders = (kUnitsOnScreen[isPortrait] * ceil((double)(artImages.size() + 1) / (double)kUnitsOnScreen[isPortrait])) - (artImages.size() + 1);
+        int numPlaceholders = (unitsOnScreen * ceil((double)(artImages.size() + 1) / (double)unitsOnScreen)) - (artImages.size() + 1);
         for(int i = 0; i < numPlaceholders; i++)
         {
             Sprite* placeholder = Sprite::create("res/contentPlaceholders/placeholder_thumbnail_1_1.png");
-            placeholder->setScale(((contentItemSize.width - kContentItemMargin[isPortrait]) * unitMultiplier) / placeholder->getContentSize().width);
+            placeholder->setScale(((contentItemSize.width - contentItemMargin) * unitMultiplier) / placeholder->getContentSize().width);
             placeholder->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
             
             HQScene2ElementPositioner hqScene2ElementPositioner;
@@ -159,13 +111,22 @@ void MeHQGallery::onEnter()
             
             const cocos2d::Point &elementPosition = hqScene2ElementPositioner.positionHQSceneElement();
             
-            placeholder->setPosition(elementPosition + Vec2(kContentItemMargin[isPortrait]/2, kContentItemMargin[isPortrait]/2));
+            placeholder->setPosition(elementPosition + Vec2(contentItemMargin/2, contentItemMargin/2));
             carouselLayer->addChild(placeholder);
         }
     }
     
-    auto* newImage = ArtsAppHQElement::create();
-    newImage->initWithURLAndSize(FileUtils::getInstance()->fullPathForFilename("res/meHQ/new_painting_button.png"), contentItemSize * unitMultiplier, false, true);
+    ui::Button* newImage = ui::Button::create("res/meHQ/new_painting_button.png");
+    newImage->setContentSize(newImage->getContentSize() * (((contentItemSize.width - contentItemMargin) * unitMultiplier) / newImage->getContentSize().width));
+    newImage->ignoreContentAdaptWithSize(false);
+    newImage->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+    newImage->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            ArtAppDelegate::getInstance()->setFileName("");
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ArtAppEntryPointScene));
+        }
+    });
     
     Vec2 elementShape = Vec2(1,1);
     
@@ -179,7 +140,8 @@ void MeHQGallery::onEnter()
     
     float lowestElementYPosition = elementPosition.y;
     
-    newImage->setPosition(elementPosition);
+    float offset = contentItemMargin/2;
+    newImage->setPosition(elementPosition + Vec2(offset, offset));
     carouselLayer->addChild(newImage);
     
     for(auto item : carouselLayer->getChildren())

@@ -311,7 +311,7 @@ bool TextInputLayer::inputIsValid()
         case INPUT_IS_AGE:
         {
             int value = std::atoi(editBox->getText());
-            if(value > 0 && value < 112)
+            if(value > 0 && value < kMaxAge)
             {
                 isValidInput = true;
             }

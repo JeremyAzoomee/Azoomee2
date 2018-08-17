@@ -25,7 +25,7 @@ bool ChildOomeeLayer::init()
 
 void ChildOomeeLayer::onEnter()
 {
-     bool is18x9 = ConfigStorage::getInstance()->isDevice18x9();
+    bool is18x9 = ConfigStorage::getInstance()->isDevice18x9();
     const float offset[2] = {is18x9 ? 50.0f : 100.0f, 200.0f};
     const Size& contentSize = this->getContentSize();
     
@@ -41,20 +41,19 @@ void ChildOomeeLayer::onEnter()
     mainTitle->setHorizontalAlignment(TextHAlignment::CENTER);
     this->addChild(mainTitle);
     
-    float oomeeHeight = contentSize.height * 0.3;
+    float oomeeHeight = contentSize.height * 0.3f;
     
     _oomee = OomeeMaker::OomeeCarouselButton::create();
     _oomee->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _oomee->setPosition(mainTitle->getPosition() - Vec2(0,mainTitle->getContentSize().height + offset[isPortrait]));
-    _oomee->setPlaceholderImage("res/oomeeMaker/1_Oomee_Reference.png");
+    _oomee->setPlaceholderImage(ConfigStorage::getInstance()->getLocalImageForOomee(_childCreator->getOomeeNum()));
     _oomee->loadPlaceholderImage();
     //_oomee->setScale(oomeeHeight / _oomee->getContentSize().height);
     _oomee->setContentSize(_oomee->getContentSize() * (oomeeHeight / _oomee->getContentSize().height));
     _oomee->ignoreContentAdaptWithSize(false);
     this->addChild(_oomee);
     
-    _oomeeDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
-    _oomeeDownloader->downloadImage(this, ConfigStorage::getInstance()->getUrlForOomee(_childCreator->getOomeeNum()));
+    saveDefaultOomeeToOomeeMakerFiles();
     
     Label* subTitle = Label::createWithTTF(StringUtils::format("Don’t worry if they don’t like it,\nthey can change it anytime%sin the Oomee Maker.",isPortrait ? "\n" : " "), Style::Font::Regular, (is18x9 && !isPortrait) ? 75 : 90);
     subTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
@@ -66,7 +65,7 @@ void ChildOomeeLayer::onEnter()
     ui::Button* doneButton = ui::Button::create("res/buttons/MainButton.png");
     doneButton->setColor(Style::Color::telish);
     doneButton->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE : Vec2::ANCHOR_MIDDLE_RIGHT);
-    doneButton->setPosition(Vec2(contentSize.width * (isPortrait ? 0.5 : 0.7325f), contentSize.height * (isPortrait ? 0.125 : 0.2)));
+    doneButton->setPosition(Vec2(contentSize.width * (isPortrait ? 0.5f : 0.7325f), contentSize.height * (isPortrait ? 0.125f : 0.2f)));
     doneButton->ignoreContentAdaptWithSize(false);
     doneButton->setScale9Enabled(true);
     doneButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType)
@@ -91,7 +90,7 @@ void ChildOomeeLayer::onEnter()
     ui::Button* addAnotherButton = ui::Button::create("res/buttons/MainButton.png");
     addAnotherButton->setColor(Style::Color::telish);
     addAnotherButton->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE : Vec2::ANCHOR_MIDDLE_LEFT);
-    addAnotherButton->setPosition(Vec2(contentSize.width * (isPortrait ? 0.5 : 0.2675f), contentSize.height * (isPortrait ? 0.225 : 0.2)));
+    addAnotherButton->setPosition(Vec2(contentSize.width * (isPortrait ? 0.5f : 0.2675f), contentSize.height * (isPortrait ? 0.225f : 0.2f)));
     addAnotherButton->ignoreContentAdaptWithSize(false);
     addAnotherButton->setScale9Enabled(true);
     addAnotherButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType)
@@ -121,15 +120,23 @@ void ChildOomeeLayer::onEnter()
     Super::onEnter();
 }
 
-void ChildOomeeLayer::onImageDownloadComplete(const ImageDownloaderRef& downloader)
+void ChildOomeeLayer::saveDefaultOomeeToOomeeMakerFiles()
 {
-    _oomee->setMainImage(downloader->getLocalImagePath());
-    float oomeeHeight = this->getContentSize().height * 0.3;
-    _oomee->setContentSize(_oomee->getContentSize() * (oomeeHeight / _oomee->getContentSize().height));
-}
-void ChildOomeeLayer::onImageDownloadFailed()
-{
+    const std::string& imageData = FileUtils::getInstance()->getStringFromFile(ConfigStorage::getInstance()->getLocalImageForOomee(_childCreator->getOomeeNum()));
+    const std::string& oomeeConfig = FileUtils::getInstance()->getStringFromFile(ConfigStorage::getInstance()->getLocalConfigForOomee(_childCreator->getOomeeNum()));
+    std::string filePath = FileUtils::getInstance()->getWritablePath() + "oomeeMaker/";
+    if(!FileUtils::getInstance()->isDirectoryExist(filePath))
+    {
+        FileUtils::getInstance()->createDirectory(filePath);
+    }
+    filePath += _childCreator->getCreatedChildId() + "/";
+    if(!FileUtils::getInstance()->isDirectoryExist(filePath))
+    {
+        FileUtils::getInstance()->createDirectory(filePath);
+    }
     
+    FileUtils::getInstance()->writeStringToFile(imageData, filePath + "default_oomee.png");
+    FileUtils::getInstance()->writeStringToFile(oomeeConfig, filePath + "default_oomee.oomee");
 }
 
 NS_AZOOMEE_END

@@ -189,6 +189,9 @@ void AddChildScene::prevLayer()
 void AddChildScene::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
     AnalyticsSingleton::getInstance()->childProfileCreatedSuccessEvent();
+    rapidjson::Document data;
+    data.Parse(body.c_str());
+    _childCreator->setCreatedChildId(getStringFromJson("id", data));
     _currentFlowStage = AddChildFlow::OOMEE;
     setSceneForFlow();
 }

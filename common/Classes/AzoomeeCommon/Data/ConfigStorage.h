@@ -82,6 +82,9 @@ public:
     
     //ChildAccountScene settings
     std::string getUrlForOomee(int number);
+    std::string getConfigUrlForOomee(int number);
+    std::string getLocalImageForOomee(int number);
+    std::string getLocalConfigForOomee(int number);
     int getOomeeNumberForUrl(const std::string& url);
     
     //BaseScene configuration

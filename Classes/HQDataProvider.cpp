@@ -260,4 +260,89 @@ const std::map<std::string, std::string> HQDataProvider::kLockFiles = {
     { "", "res/hqscene/locked.png" }
 };
 
+// hq size/layout params
+// Format:
+//          [18:9/16:9] [Landscape,Portrait],
+//          [16:10] [Landscape, Portrait],
+//          [4:3] [Landscape, Portrait]]
+//
+const float HQDataProvider::kSideMarginSize[3][2] = {{20,10},{20,10},{20,10}};
+const float HQDataProvider::kSpaceAboveCarousel[3][2] = {{200,200},{200,200},{200,200}};
+const int HQDataProvider::kUnitsOnScreen[3][2] = {{4,2},{4,2},{4,4}};
+const float HQDataProvider::kContentItemMargin[3][2] = {{20,20},{20,20},{20,20}};
+
+float HQDataProvider::getSideMargin() const
+{
+    const Size& visibleSize = Director::getInstance()->getVisibleSize();
+    int isPortrait = visibleSize.width < visibleSize.height;
+    float screenRatio =  isPortrait ? (visibleSize.height / visibleSize.width) : (visibleSize.width / visibleSize.height);
+        
+    int screenIndex = 0;
+    if(screenRatio < k16x10UpperBound)
+    {
+        screenIndex++;
+    }
+    if(screenRatio < k16x10LowerBound)
+    {
+        screenIndex++;
+    }
+    return kSideMarginSize[screenIndex][isPortrait];
+    
+}
+
+float HQDataProvider::getSpaceAboveCarousel() const
+{
+    const Size& visibleSize = Director::getInstance()->getVisibleSize();
+    int isPortrait = visibleSize.width < visibleSize.height;
+    float screenRatio =  isPortrait ? (visibleSize.height / visibleSize.width) : (visibleSize.width / visibleSize.height);
+    
+    int screenIndex = 0;
+    if(screenRatio < (16.0/9.5))
+    {
+        screenIndex++;
+    }
+    if(screenRatio < (16.0/10.5))
+    {
+        screenIndex++;
+    }
+    return kSpaceAboveCarousel[screenIndex][isPortrait];
+}
+
+int HQDataProvider::getUnitsOnScreen() const
+{
+    const Size& visibleSize = Director::getInstance()->getVisibleSize();
+    int isPortrait = visibleSize.width < visibleSize.height;
+    float screenRatio =  isPortrait ? (visibleSize.height / visibleSize.width) : (visibleSize.width / visibleSize.height);
+    
+    int screenIndex = 0;
+    if(screenRatio < (16.0/9.5))
+    {
+        screenIndex++;
+    }
+    if(screenRatio < (16.0/10.5))
+    {
+        screenIndex++;
+    }
+    return kUnitsOnScreen[screenIndex][isPortrait];
+    
+}
+
+float HQDataProvider::getContentItemMargin() const
+{
+    const Size& visibleSize = Director::getInstance()->getVisibleSize();
+    int isPortrait = visibleSize.width < visibleSize.height;
+    float screenRatio =  isPortrait ? (visibleSize.height / visibleSize.width) : (visibleSize.width / visibleSize.height);
+    
+    int screenIndex = 0;
+    if(screenRatio < (16.0/9.5))
+    {
+        screenIndex++;
+    }
+    if(screenRatio < (16.0/10.5))
+    {
+        screenIndex++;
+    }
+    return kContentItemMargin[screenIndex][isPortrait];
+    
+}
 NS_AZOOMEE_END
