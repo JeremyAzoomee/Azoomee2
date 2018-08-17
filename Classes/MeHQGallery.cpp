@@ -37,10 +37,10 @@ void MeHQGallery::onEnter()
 {
     const Size& visibleSize = Director::getInstance()->getVisibleSize();
     
-    float spaceAboveCarousel = HQDataProvider::getInstance()->getSpaceAboveCarousel();
-    float sideMargin = HQDataProvider::getInstance()->getSideMargin();
-    int unitsOnScreen = HQDataProvider::getInstance()->getUnitsOnScreen();
-    float contentItemMargin = HQDataProvider::getInstance()->getContentItemMargin();
+    const float spaceAboveCarousel = HQDataProvider::getInstance()->getSpaceAboveCarousel();
+    const float sideMargin = HQDataProvider::getInstance()->getSideMargin();
+    const int unitsOnScreen = HQDataProvider::getInstance()->getUnitsOnScreen();
+    const float contentItemMargin = HQDataProvider::getInstance()->getContentItemMargin();
     
     float totalHeight = 0;
     

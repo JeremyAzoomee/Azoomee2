@@ -278,11 +278,11 @@ float HQDataProvider::getSideMargin() const
     float screenRatio =  isPortrait ? (visibleSize.height / visibleSize.width) : (visibleSize.width / visibleSize.height);
         
     int screenIndex = 0;
-    if(screenRatio < (16.0/9.5))
+    if(screenRatio < k16x10UpperBound)
     {
         screenIndex++;
     }
-    if(screenRatio < (16.0/10.5))
+    if(screenRatio < k16x10LowerBound)
     {
         screenIndex++;
     }

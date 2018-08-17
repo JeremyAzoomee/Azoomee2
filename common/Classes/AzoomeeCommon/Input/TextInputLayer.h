@@ -63,6 +63,8 @@ private:
     
     int textInputType;
     
+    const int kMaxAge = 118;
+    
 public:
     virtual bool init();
     

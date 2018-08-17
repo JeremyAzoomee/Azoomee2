@@ -45,7 +45,7 @@ void ChildNameLayerFirstTime::onEnter()
     subTitle->setHorizontalAlignment(TextHAlignment::CENTER);
     this->addChild(subTitle);
     
-    _textInput = TextInputLayer::createWithSize(Size(contentSize.width * (isPortrait ? 0.75 : 0.5), 160), INPUT_IS_CHILD_NAME);
+    _textInput = TextInputLayer::createWithSize(Size(contentSize.width * (isPortrait ? 0.75f : 0.5f), 160), INPUT_IS_CHILD_NAME);
     _textInput->setCenterPosition(Vec2(contentSize.width / 2.0f, contentSize.height * (isPortrait ? 0.55f : 0.5f)));
     _textInput->setDelegate(this);
     if(_childCreator && _childCreator->getName() != "")
@@ -56,12 +56,12 @@ void ChildNameLayerFirstTime::onEnter()
     
     Label* textInputTitle = Label::createWithTTF("What’s your child’s name?", Style::Font::Regular, 100);
     textInputTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-    textInputTitle->setPosition(_textInput->getPosition() + Vec2(_textInput->getContentSize().width / 2, _textInput->getContentSize().height * 1.25));
+    textInputTitle->setPosition(_textInput->getPosition() + Vec2(_textInput->getContentSize().width / 2, _textInput->getContentSize().height * 1.25f));
     textInputTitle->setColor(Color3B::WHITE);
     this->addChild(textInputTitle);
     
     _continueButton = ui::Button::create("res/login/next_btnGreen.png");
-    _continueButton->setAnchorPoint(Vec2(1.25,1.25));
+    _continueButton->setAnchorPoint(Vec2(1.25f,1.25f));
     _continueButton->setTouchEnabled(_textInput->inputIsValid());
     _continueButton->setOpacity(_textInput->inputIsValid() ? 255 : 125);
     _continueButton->setPosition(contentSize);
@@ -119,7 +119,7 @@ void ChildNameLayerFirstTime::textInputReturnPressed(TextInputLayer* inputLayer)
         }
         if(_delegate)
         {
-            this->runAction(Sequence::create(DelayTime::create(0.1), CallFunc::create([&](){_delegate->nextLayer();}), NULL));
+            this->runAction(Sequence::create(DelayTime::create(0.1f), CallFunc::create([&](){_delegate->nextLayer();}), NULL));
         }
     }
 }

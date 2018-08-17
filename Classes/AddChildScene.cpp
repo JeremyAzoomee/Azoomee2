@@ -191,10 +191,7 @@ void AddChildScene::onHttpRequestSuccess(const std::string& requestTag, const st
     AnalyticsSingleton::getInstance()->childProfileCreatedSuccessEvent();
     rapidjson::Document data;
     data.Parse(body.c_str());
-    if(!data.HasParseError())
-    {
-        _childCreator->setCreatedChildId(getStringFromJson("id", data));
-    }
+    _childCreator->setCreatedChildId(getStringFromJson("id", data));
     _currentFlowStage = AddChildFlow::OOMEE;
     setSceneForFlow();
 }

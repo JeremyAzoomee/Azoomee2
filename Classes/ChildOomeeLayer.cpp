@@ -41,7 +41,7 @@ void ChildOomeeLayer::onEnter()
     mainTitle->setHorizontalAlignment(TextHAlignment::CENTER);
     this->addChild(mainTitle);
     
-    float oomeeHeight = contentSize.height * 0.3;
+    float oomeeHeight = contentSize.height * 0.3f;
     
     _oomee = OomeeMaker::OomeeCarouselButton::create();
     _oomee->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
@@ -65,7 +65,7 @@ void ChildOomeeLayer::onEnter()
     ui::Button* doneButton = ui::Button::create("res/buttons/MainButton.png");
     doneButton->setColor(Style::Color::telish);
     doneButton->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE : Vec2::ANCHOR_MIDDLE_RIGHT);
-    doneButton->setPosition(Vec2(contentSize.width * (isPortrait ? 0.5 : 0.7325f), contentSize.height * (isPortrait ? 0.125 : 0.2)));
+    doneButton->setPosition(Vec2(contentSize.width * (isPortrait ? 0.5f : 0.7325f), contentSize.height * (isPortrait ? 0.125f : 0.2f)));
     doneButton->ignoreContentAdaptWithSize(false);
     doneButton->setScale9Enabled(true);
     doneButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType)
@@ -90,7 +90,7 @@ void ChildOomeeLayer::onEnter()
     ui::Button* addAnotherButton = ui::Button::create("res/buttons/MainButton.png");
     addAnotherButton->setColor(Style::Color::telish);
     addAnotherButton->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE : Vec2::ANCHOR_MIDDLE_LEFT);
-    addAnotherButton->setPosition(Vec2(contentSize.width * (isPortrait ? 0.5 : 0.2675f), contentSize.height * (isPortrait ? 0.225 : 0.2)));
+    addAnotherButton->setPosition(Vec2(contentSize.width * (isPortrait ? 0.5f : 0.2675f), contentSize.height * (isPortrait ? 0.225f : 0.2f)));
     addAnotherButton->ignoreContentAdaptWithSize(false);
     addAnotherButton->setScale9Enabled(true);
     addAnotherButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType)

@@ -73,14 +73,14 @@ void MeHQMessages::buildEmptyCarousel()
     const Size& visibleSize = Director::getInstance()->getVisibleSize();
     
     bool isPortrait = visibleSize.width < visibleSize.height;
-    if(isPortrait && (visibleSize.height / visibleSize.width) < 16.0/10.5)
+    if(isPortrait && (visibleSize.height / visibleSize.width) < HQDataProvider::getInstance()->k16x10LowerBound)
     {
         isPortrait = false;
     }
     
-    float sideMargin = HQDataProvider::getInstance()->getSideMargin();
-    int unitsOnScreen = HQDataProvider::getInstance()->getUnitsOnScreen();
-    float contentItemMargin = HQDataProvider::getInstance()->getContentItemMargin();
+    const float sideMargin = HQDataProvider::getInstance()->getSideMargin();
+    const int unitsOnScreen = HQDataProvider::getInstance()->getUnitsOnScreen();
+    const float contentItemMargin = HQDataProvider::getInstance()->getContentItemMargin();
     
     float totalHeight = 200;
     
@@ -193,7 +193,7 @@ void MeHQMessages::createMessageList()
     
     bool isPortrait = visibleSize.width < visibleSize.height;
     
-    float sideMargin = HQDataProvider::getInstance()->getSideMargin();
+    const float sideMargin = HQDataProvider::getInstance()->getSideMargin();
     
     float totalHeight = 200;
     

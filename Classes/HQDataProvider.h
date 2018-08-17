@@ -58,6 +58,9 @@ public:
     static const int kUnitsOnScreen[3][2];
     static const float kContentItemMargin[3][2];
     
+    const float k16x10UpperBound = 16.0f/9.5f;
+    const float k16x10LowerBound = 16.0f/10.5f;
+    
     float getSideMargin() const;
     float getSpaceAboveCarousel() const;
     int getUnitsOnScreen() const;

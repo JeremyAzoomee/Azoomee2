@@ -59,7 +59,7 @@ void ChildAgeLayer::onEnter()
     this->addChild(textInputSubTitle);
     
     _continueButton = ui::Button::create("res/login/next_btnGreen.png");
-    _continueButton->setAnchorPoint(Vec2(1.25,1.25));
+    _continueButton->setAnchorPoint(Vec2(1.25f,1.25f));
     _continueButton->setPosition(contentSize);
     _continueButton->setTouchEnabled(_textInput->inputIsValid());
     _continueButton->setOpacity(_textInput->inputIsValid() ? 255 : 125);
@@ -83,7 +83,7 @@ void ChildAgeLayer::onEnter()
     this->addChild(_continueButton);
     
     ui::Button* backButton = ui::Button::create("res/login/back_btnGreen.png");
-    backButton->setAnchorPoint(Vec2(-0.25,1.25));
+    backButton->setAnchorPoint(Vec2(-0.25f,1.25f));
     backButton->setPosition(Vec2(0, contentSize.height));
     backButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType)
     {
@@ -131,7 +131,7 @@ void ChildAgeLayer::textInputReturnPressed(TextInputLayer* inputLayer)
         }
         if(_delegate)
         {
-            this->runAction(Sequence::create(DelayTime::create(0.1), CallFunc::create([&](){_delegate->nextLayer();}), NULL));
+            this->runAction(Sequence::create(DelayTime::create(0.1f), CallFunc::create([&](){_delegate->nextLayer();}), NULL));
         }
     }
 }

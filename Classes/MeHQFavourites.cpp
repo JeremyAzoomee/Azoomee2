@@ -39,12 +39,10 @@ void MeHQFavourites::onEnter()
     
     const Size& visibleSize = Director::getInstance()->getVisibleSize();
     
-    int isPortrait = visibleSize.width < visibleSize.height;
-    
-    float spaceAboveCarousel = HQDataProvider::getInstance()->getSpaceAboveCarousel();
-    float sideMargin = HQDataProvider::getInstance()->getSideMargin();
-    int unitsOnScreen = HQDataProvider::getInstance()->getUnitsOnScreen();
-    float contentItemMargin = HQDataProvider::getInstance()->getContentItemMargin();
+    const float spaceAboveCarousel = HQDataProvider::getInstance()->getSpaceAboveCarousel();
+    const float sideMargin = HQDataProvider::getInstance()->getSideMargin();
+    const int unitsOnScreen = HQDataProvider::getInstance()->getUnitsOnScreen();
+    const float contentItemMargin = HQDataProvider::getInstance()->getContentItemMargin();
     
     this->setContentSize(Size(visibleSize.width, 0));
     setLayoutType(ui::Layout::Type::VERTICAL);
@@ -192,10 +190,10 @@ void MeHQFavourites::buildEmptyCarousel()
     
     int isPortrait = visibleSize.width < visibleSize.height;
     
-    float spaceAboveCarousel = HQDataProvider::getInstance()->getSpaceAboveCarousel();
-    float sideMargin = HQDataProvider::getInstance()->getSideMargin();
-    int unitsOnScreen = HQDataProvider::getInstance()->getUnitsOnScreen();
-    float contentItemMargin = HQDataProvider::getInstance()->getContentItemMargin();
+    const float spaceAboveCarousel = HQDataProvider::getInstance()->getSpaceAboveCarousel();
+    const float sideMargin = HQDataProvider::getInstance()->getSideMargin();
+    const int unitsOnScreen = HQDataProvider::getInstance()->getUnitsOnScreen();
+    const float contentItemMargin = HQDataProvider::getInstance()->getContentItemMargin();
     
     Size contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kGameHQName);
     float unitWidth = (visibleSize.width - 2 * sideMargin) / unitsOnScreen;
