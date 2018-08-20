@@ -15,6 +15,7 @@
 #include "NavigationLayer.h"
 #include "RecentlyPlayedManager.h"
 #include "HQHistoryManager.h"
+#include "ArtAppDelegate.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
@@ -99,6 +100,18 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
                 
                 Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
             }
+        }
+    }
+    else if(contentItem->getType() == ConfigStorage::kContentTypeInternal)
+    {
+        if(contentItem->getUri() == ConfigStorage::kOomeeMakerURI)
+        {
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(OomeeMakerEntryPointScene));
+        }
+        else if(contentItem->getUri() == ConfigStorage::kArtAppURI)
+        {
+            ArtAppDelegate::getInstance()->setFileName("");
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ArtAppEntryPointScene));
         }
     }
 }
