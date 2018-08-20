@@ -1,7 +1,7 @@
 {
     "LoginScene":
         {
-            "email_label":"Log in. Please enter your email.",
+            "email_label":"Log in.\nPlease enter your email.",
             "password_label":"Password"
         },
     

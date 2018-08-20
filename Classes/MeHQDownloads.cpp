@@ -110,7 +110,7 @@ bool MeHQDownloads::init()
         for(int i = 0; i < numPlaceholders; i++)
         {
             Sprite* placeholder = Sprite::create("res/contentPlaceholders/placeholder_thumbnail_1_1.png");
-            placeholder->setScale(((contentItemSize.width - contentItemMargin) * unitMultiplier) / placeholder->getContentSize().width);
+            placeholder->setContentSize(placeholder->getContentSize() * (((contentItemSize.width - contentItemMargin) * unitMultiplier) / placeholder->getContentSize().width));
             placeholder->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
             
             HQScene2ElementPositioner hqScene2ElementPositioner;
@@ -162,7 +162,7 @@ void MeHQDownloads::buildEmptyCarousel()
     for(int elementIndex = 0; elementIndex < unitsOnScreen - 1; elementIndex++)
     {
         Sprite* placeholder = Sprite::create("res/contentPlaceholders/placeholder_thumbnail_1_1.png");
-        placeholder->setScale(((contentItemSize.width - contentItemMargin) * unitMultiplier) / placeholder->getContentSize().width);
+        placeholder->setContentSize(placeholder->getContentSize() * (((contentItemSize.width - contentItemMargin) * unitMultiplier) / placeholder->getContentSize().width));
         placeholder->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
         
         HQScene2ElementPositioner hqScene2ElementPositioner;
