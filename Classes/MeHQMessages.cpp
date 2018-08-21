@@ -117,6 +117,7 @@ void MeHQMessages::buildEmptyCarousel()
     Label* messageText = Label::createWithTTF("Welcome to your Me Page!", Style::Font::Regular, isPortrait ? 62 : is3x4Device ? 62 : 82);
     messageText->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
     messageText->setPosition(Vec2(messageLayout->getContentSize().width * textPos,messageLayout->getContentSize().height * 0.5 - 20));
+    messageText->setOpacity(179);
     
     reduceLabelTextToFitWidth(messageText, maxWidth);
     
@@ -277,6 +278,7 @@ void MeHQMessages::createMessageList()
             messageText->setString(text);
             messageText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
             messageText->setNormalizedPosition(Vec2(textPos,0.33));
+            messageText->setOpacity(179);
             
             reduceLabelTextToFitWidth(messageText, maxWidth);
             
