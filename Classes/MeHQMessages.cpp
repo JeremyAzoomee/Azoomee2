@@ -73,9 +73,11 @@ void MeHQMessages::buildEmptyCarousel()
     const Size& visibleSize = Director::getInstance()->getVisibleSize();
     
     bool isPortrait = visibleSize.width < visibleSize.height;
+    bool is3x4Device = false;
     if(isPortrait && (visibleSize.height / visibleSize.width) < HQDataProvider::getInstance()->k16x10LowerBound)
     {
         isPortrait = false;
+        is3x4Device = true;
     }
     
     const float sideMargin = HQDataProvider::getInstance()->getSideMargin();
@@ -104,17 +106,17 @@ void MeHQMessages::buildEmptyCarousel()
     float textPos = isPortrait ? 0.30 : 0.2;
     float maxWidth = this->getContentSize().width * ((isPortrait ? 1 : 0.75) - textPos - 0.05);
     
-    Label* senderName = Label::createWithTTF("Azoomee", Style::Font::Regular, isPortrait ? 77 : 97);
-    senderName->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
-    senderName->setNormalizedPosition(Vec2(textPos,0.66));
+    Label* senderName = Label::createWithTTF("Azoomee", Style::Font::Regular, isPortrait ? 77 : is3x4Device ? 77 : 97);
+    senderName->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+    senderName->setPosition(Vec2(messageLayout->getContentSize().width * textPos,messageLayout->getContentSize().height * 0.5 + 20));
     
     reduceLabelTextToFitWidth(senderName, maxWidth);
     
     messageLayout->addChild(senderName);
     
-    Label* messageText = Label::createWithTTF("Welcome to your Me Page!", Style::Font::Regular, isPortrait ? 62 : 82);
-    messageText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
-    messageText->setNormalizedPosition(Vec2(textPos,0.33));
+    Label* messageText = Label::createWithTTF("Welcome to your Me Page!", Style::Font::Regular, isPortrait ? 62 : is3x4Device ? 62 : 82);
+    messageText->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+    messageText->setPosition(Vec2(messageLayout->getContentSize().width * textPos,messageLayout->getContentSize().height * 0.5 - 20));
     
     reduceLabelTextToFitWidth(messageText, maxWidth);
     
