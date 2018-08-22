@@ -257,7 +257,7 @@ void OomeeMakerScene::onEnter()
     _undoButton = ui::Button::create();
     _undoButton->loadTextureNormal("res/oomeeMaker/undo.png");
     _undoButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _undoButton->setPosition(makeAvatarButon->getPosition() - Vec2(makeAvatarButon->getContentSize().width * 1.25,0));
+    _undoButton->setPosition(makeAvatarButon->getPosition() - Vec2(makeAvatarButon->getContentSize().width,0));
     _undoButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
@@ -269,7 +269,7 @@ void OomeeMakerScene::onEnter()
     ui::Button* shareOomeeButon = ui::Button::create();
     shareOomeeButon->loadTextureNormal("res/oomeeMaker/share_button.png");
     shareOomeeButon->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    shareOomeeButon->setPosition(makeAvatarButon->getPosition() + Vec2(makeAvatarButon->getContentSize().width * 1.25, 0));
+    shareOomeeButon->setPosition(makeAvatarButon->getPosition() + Vec2(makeAvatarButon->getContentSize().width, 0));
     shareOomeeButon->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
