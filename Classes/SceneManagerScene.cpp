@@ -22,6 +22,8 @@
 #include "ContentHistoryManager.h"
 #include "AddChildScene.h"
 
+#include "SettingsHub.h"
+
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
@@ -178,10 +180,10 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         case Settings:
         {
             HQHistoryManager::getInstance()->updatePrevOrientation();
-            forceToLandscape();
-            cocos2d::Scene* goToScene = EmptySceneForSettings::createScene(SettingsOrigin::MAIN_APP);
+            forceToPortrait();
+            //cocos2d::Scene* goToScene = EmptySceneForSettings::createScene(SettingsOrigin::MAIN_APP);
             AnalyticsSingleton::getInstance()->registerCurrentScene("SETTINGS");
-            Director::getInstance()->replaceScene(goToScene);
+            Director::getInstance()->replaceScene(SettingsHub::create());
             break;
         }
         case WebviewPortrait:
