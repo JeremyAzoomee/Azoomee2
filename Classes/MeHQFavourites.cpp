@@ -112,7 +112,7 @@ void MeHQFavourites::onEnter()
         for(int i = 0; i < numPlaceholders; i++)
         {
             Sprite* placeholder = Sprite::create("res/contentPlaceholders/placeholder_thumbnail_1_1.png");
-            placeholder->setScale(((contentItemSize.width - contentItemMargin) * unitMultiplier) / placeholder->getContentSize().width);
+            placeholder->setContentSize(placeholder->getContentSize() * (((contentItemSize.width - contentItemMargin) * unitMultiplier) / placeholder->getContentSize().width));
             placeholder->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
             
             HQScene2ElementPositioner hqScene2ElementPositioner;
@@ -136,11 +136,9 @@ void MeHQFavourites::onEnter()
     
         this->addChild(_carouselLayout);
     
-        ui::Button* editButton = ui::Button::create("res/buttons/MainButton.png");
-        editButton->setColor(Style::Color::darkTeal);
+        ui::Button* editButton = ui::Button::create("res/meHQ/cta_button.png");
         editButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
         editButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
-        editButton->setContentSize(Size(1100,editButton->getContentSize().height));
         editButton->ignoreContentAdaptWithSize(false);
         editButton->setScale9Enabled(true);
         editButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
@@ -153,7 +151,7 @@ void MeHQFavourites::onEnter()
                     Label* label = dynamic_cast<Label*>(button->getChildByName("label"));
                     if(label)
                     {
-                        label->setString(_editEnabled ? "Finish Editing" : "Edit My Favourites");
+                        label->setString(_editEnabled ? "Done" : "Edit");
                     }
                 }
                 for(auto item : _carouselLayout->getChildren())
@@ -167,7 +165,7 @@ void MeHQFavourites::onEnter()
             }
         });
     
-        Label* editButtonLabel = Label::createWithTTF("Edit My Favourites", Style::Font::Regular, editButton->getContentSize().height * 0.4f);
+        Label* editButtonLabel = Label::createWithTTF("Edit", Style::Font::Regular, editButton->getContentSize().height * 0.35f);
         editButtonLabel->setTextColor(Color4B::WHITE);
         editButtonLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         editButtonLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -208,7 +206,7 @@ void MeHQFavourites::buildEmptyCarousel()
     for(int elementIndex = 0; elementIndex < unitsOnScreen - 1; elementIndex++)
     {
         Sprite* placeholder = Sprite::create("res/contentPlaceholders/placeholder_thumbnail_1_1.png");
-        placeholder->setScale(((contentItemSize.width - contentItemMargin) * unitMultiplier) / placeholder->getContentSize().width);
+        placeholder->setContentSize(placeholder->getContentSize() * (((contentItemSize.width - contentItemMargin) * unitMultiplier) / placeholder->getContentSize().width));
         placeholder->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
         
         HQScene2ElementPositioner hqScene2ElementPositioner;
