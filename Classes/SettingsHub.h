@@ -12,8 +12,11 @@
 #include <AzoomeeCommon/UI/Scene.h>
 #include <cocos/cocos2d.h>
 #include <ui/CocosGUI.h>
+#include "SettingsNavigationButton.h"
 
 NS_AZOOMEE_BEGIN
+
+enum class SettingsPages {KIDS, FRIENDSHIPS, ACCOUNT, ONLINE_SAFETY, SUPPORT};
 
 class SettingsHub : public Azoomee::Scene
 {
@@ -26,12 +29,17 @@ private:
     cocos2d::ui::Button* _titleBarButton = nullptr;
     // navigation buttons
     cocos2d::ui::Layout* _navigationLayout = nullptr;
-    cocos2d::ui::Layout* _kidsButton = nullptr;
-    cocos2d::ui::Layout* _friendshipsButton = nullptr;
-    cocos2d::ui::Layout* _yourAccountButton = nullptr;
-    cocos2d::ui::Layout* _onlineSafetyButton = nullptr;
-    cocos2d::ui::Layout* _supportButton = nullptr;
+    SettingsNavigationButton* _kidsButton = nullptr;
+    SettingsNavigationButton* _friendshipsButton = nullptr;
+    SettingsNavigationButton* _yourAccountButton = nullptr;
+    SettingsNavigationButton* _onlineSafetyButton = nullptr;
+    SettingsNavigationButton* _supportButton = nullptr;
     
+    bool _inHub = true;
+    
+    cocos2d::ui::Layout* _activeSettingsPageHolder = nullptr;
+    
+    void changeToPage(SettingsPages page);
     
 public:
     virtual bool init() override;

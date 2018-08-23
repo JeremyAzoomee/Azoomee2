@@ -8,6 +8,7 @@
 #include "SettingsHub.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "SceneManagerScene.h"
 
 using namespace cocos2d;
@@ -34,25 +35,37 @@ bool SettingsHub::init()
     _contentLayout->setLayoutType(ui::Layout::Type::VERTICAL);
     this->addChild(_contentLayout);
     
+    bool isIphoneX = ConfigStorage::getInstance()->isDeviceIphoneX();
+    
     _titleLayout = ui::Layout::create();
-    _titleLayout->setContentSize(Size(visibleSize.width, 150));
+    _titleLayout->setContentSize(Size(visibleSize.width, isIphoneX ? 250 : 150));
     _titleLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
     _titleLayout->setBackGroundColor(Style::Color::skyBlue);
     _contentLayout->addChild(_titleLayout);
     
     _titleBarButton = ui::Button::create("res/settings/exit_button.png");
-    _titleBarButton->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
+    _titleBarButton->setNormalizedPosition(isIphoneX ? Vec2(0,0.75) : Vec2::ANCHOR_MIDDLE_LEFT);
     _titleBarButton->setAnchorPoint(Vec2(-0.5,0.5));
     _titleLayout->addChild(_titleBarButton);
     _titleBarButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+            if(_inHub)
+            {
+                Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+            }
+            else
+            {
+                _navigationLayout->setPosition(Vec2(0, 0));
+                _titleText->setString("Settings");
+                _titleBarButton->loadTextureNormal("res/settings/exit_button.png");
+                _inHub = true;
+            }
         }
     });
     
     _titleText = ui::Text::create("Settings", Style::Font::Medium, 91);
-    _titleText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    _titleText->setNormalizedPosition(isIphoneX ? Vec2(0.5,0.25) : Vec2::ANCHOR_MIDDLE);
     _titleText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _titleText->setTextColor(Color4B::WHITE);
     _titleLayout->addChild(_titleText);
@@ -62,57 +75,79 @@ bool SettingsHub::init()
     _navigationLayout->setLayoutType(ui::Layout::Type::VERTICAL);
     _contentLayout->addChild(_navigationLayout);
     
-    _kidsButton = ui::Layout::create();
+    _kidsButton = SettingsNavigationButton::create();
     _kidsButton->setContentSize(Size(visibleSize.width, (_navigationLayout->getContentSize().height * 0.2) - 10));
     _kidsButton->setLayoutParameter(CreateTopLinearLayoutParam(ui::Margin(0,0,0,10)));
-    _kidsButton->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _kidsButton->setBackGroundColor(Color3B::WHITE);
+    _kidsButton->setIconFilename("res/settings/your_kids_icon_2.png");
+    _kidsButton->setTitleText("Your Kids");
+    _kidsButton->setSubTitleText("Lorem ipsum dolor sit amet, dolor adipiscing elit psum dolor sit.");
+    _kidsButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            this->changeToPage(SettingsPages::KIDS);
+        }
+    });
+    _kidsButton->setTouchEnabled(true);
     _navigationLayout->addChild(_kidsButton);
     
-    ui::ImageView* icon = ui::ImageView::create("res/settings/your_kids_icon_2.png");
-    icon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
-    icon->setAnchorPoint(Vec2(-0.5,0.5));
-    _kidsButton->addChild(icon);
-    
-    ui::ImageView* arrow = ui::ImageView::create("res/settings/right_arrow_2.png");
-    arrow->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
-    arrow->setAnchorPoint(Vec2(1.5,0.5));
-    _kidsButton->addChild(arrow);
-    
-    ui::Layout* textHolder = ui::Layout::create();
-    textHolder->setContentSize(Size(_kidsButton->getContentSize().width - (icon->getContentSize().width * 2) - (arrow->getContentSize().width * 1.5),_kidsButton->getContentSize().height));
-    textHolder->setPosition(Vec2((icon->getContentSize().width * 1.75f), _kidsButton->getContentSize().height * 0.5f));
-    textHolder->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
-    textHolder->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    textHolder->setBackGroundColor(Color3B::YELLOW);
-    _kidsButton->addChild(textHolder);
-    
-    _friendshipsButton = ui::Layout::create();
+    _friendshipsButton = SettingsNavigationButton::create();
     _friendshipsButton->setContentSize(Size(visibleSize.width, (_navigationLayout->getContentSize().height * 0.2) - 10));
     _friendshipsButton->setLayoutParameter(CreateTopLinearLayoutParam(ui::Margin(0,0,0,10)));
-    _friendshipsButton->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _friendshipsButton->setBackGroundColor(Color3B::WHITE);
+    _friendshipsButton->setIconFilename("res/settings/friendships_icon_3.png");
+    _friendshipsButton->setTitleText("Friendships");
+    _friendshipsButton->setSubTitleText("Lorem ipsum dolor sit amet, dolor adipiscing elit psum dolor sit.");
+    _friendshipsButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            this->changeToPage(SettingsPages::FRIENDSHIPS);
+        }
+    });
+    _friendshipsButton->setTouchEnabled(true);
     _navigationLayout->addChild(_friendshipsButton);
     
-    _yourAccountButton = ui::Layout::create();
+    _yourAccountButton = SettingsNavigationButton::create();
     _yourAccountButton->setContentSize(Size(visibleSize.width, (_navigationLayout->getContentSize().height * 0.2) - 10));
     _yourAccountButton->setLayoutParameter(CreateTopLinearLayoutParam(ui::Margin(0,0,0,10)));
-    _yourAccountButton->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _yourAccountButton->setBackGroundColor(Color3B::WHITE);
+    _yourAccountButton->setIconFilename("res/settings/your_account_icon_4.png");
+    _yourAccountButton->setTitleText("Your Account");
+    _yourAccountButton->setSubTitleText("Lorem ipsum dolor sit amet, dolor adipiscing elit psum dolor sit.");
+    _yourAccountButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            this->changeToPage(SettingsPages::ACCOUNT);
+        }
+    });
+    _yourAccountButton->setTouchEnabled(true);
     _navigationLayout->addChild(_yourAccountButton);
     
-    _onlineSafetyButton = ui::Layout::create();
+    _onlineSafetyButton = SettingsNavigationButton::create();
     _onlineSafetyButton->setContentSize(Size(visibleSize.width, (_navigationLayout->getContentSize().height * 0.2) - 10));
     _onlineSafetyButton->setLayoutParameter(CreateTopLinearLayoutParam(ui::Margin(0,0,0,10)));
-    _onlineSafetyButton->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _onlineSafetyButton->setBackGroundColor(Color3B::WHITE);
+    _onlineSafetyButton->setIconFilename("res/settings/online_safety_icon_4.png");
+    _onlineSafetyButton->setTitleText("Online Safety");
+    _onlineSafetyButton->setSubTitleText("Lorem ipsum dolor sit amet, dolor adipiscing elit psum dolor sit.");
+    _onlineSafetyButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            this->changeToPage(SettingsPages::ONLINE_SAFETY);
+        }
+    });
+    _onlineSafetyButton->setTouchEnabled(true);
     _navigationLayout->addChild(_onlineSafetyButton);
     
-    _supportButton = ui::Layout::create();
+    _supportButton = SettingsNavigationButton::create();
     _supportButton->setContentSize(Size(visibleSize.width, (_navigationLayout->getContentSize().height * 0.2) - 10));
     _supportButton->setLayoutParameter(CreateTopLinearLayoutParam(ui::Margin(0,0,0,10)));
-    _supportButton->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _supportButton->setBackGroundColor(Color3B::WHITE);
+    _supportButton->setIconFilename("res/settings/support_icon_4.png");
+    _supportButton->setTitleText("Support");
+    _supportButton->setSubTitleText("Lorem ipsum dolor sit amet, dolor adipiscing elit psum dolor sit.");
+    _supportButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            this->changeToPage(SettingsPages::SUPPORT);
+        }
+    });
+    _supportButton->setTouchEnabled(true);
     _navigationLayout->addChild(_supportButton);
     
     
@@ -127,6 +162,41 @@ void SettingsHub::onEnter()
 void SettingsHub::onSizeChanged()
 {
     
+}
+
+void SettingsHub::changeToPage(SettingsPages page)
+{
+    switch(page)
+    {
+        case SettingsPages::KIDS:
+        {
+            _titleText->setString("Your Kids");
+            break;
+        }
+        case SettingsPages::FRIENDSHIPS:
+        {
+            _titleText->setString("Friendships");
+            break;
+        }
+        case SettingsPages::ACCOUNT:
+        {
+            _titleText->setString("Your Account");
+            break;
+        }
+        case SettingsPages::ONLINE_SAFETY:
+        {
+            _titleText->setString("Online Safety");
+            break;
+        }
+        case SettingsPages::SUPPORT:
+        {
+            _titleText->setString("Support");
+            break;
+        }
+    }
+    _navigationLayout->setPosition(Vec2(-this->getContentSize().width, 0));
+    _titleBarButton->loadTextureNormal("res/settings/toggle_switch_white.png");
+    _inHub = false;
 }
 
 NS_AZOOMEE_END
