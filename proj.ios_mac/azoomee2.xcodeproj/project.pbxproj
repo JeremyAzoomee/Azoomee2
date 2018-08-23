@@ -143,6 +143,8 @@
 		926173A71F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926173A61F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp */; };
 		926A2AE1212D6F5500AE7964 /* SettingsHub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926A2AE0212D6F5500AE7964 /* SettingsHub.cpp */; };
 		926A2B0C212EABB000AE7964 /* SettingsNavigationButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926A2B0B212EABB000AE7964 /* SettingsNavigationButton.cpp */; };
+		926A2B2C212F018E00AE7964 /* SettingsPageHeader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926A2B2B212F018E00AE7964 /* SettingsPageHeader.cpp */; };
+		926A2B2F212F14B400AE7964 /* SettingsSupportPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926A2B2E212F14B400AE7964 /* SettingsSupportPage.cpp */; };
 		9271D7D12040544200370120 /* libAzoomeeOomeeMaker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9271D7CB2040537000370120 /* libAzoomeeOomeeMaker.a */; };
 		9271D7D32040557D00370120 /* OomeeMakerDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D7D22040557D00370120 /* OomeeMakerDelegate.cpp */; };
 		92759E701FE1598100639190 /* DynamicNodeLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92759E6F1FE1598100639190 /* DynamicNodeLine.cpp */; };
@@ -545,6 +547,11 @@
 		926A2AE0212D6F5500AE7964 /* SettingsHub.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsHub.cpp; sourceTree = "<group>"; };
 		926A2B06212EA9C300AE7964 /* SettingsNavigationButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsNavigationButton.h; sourceTree = "<group>"; };
 		926A2B0B212EABB000AE7964 /* SettingsNavigationButton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsNavigationButton.cpp; sourceTree = "<group>"; };
+		926A2B25212EFD8300AE7964 /* SettingsKidsPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsKidsPage.h; sourceTree = "<group>"; };
+		926A2B2A212F003300AE7964 /* SettingsPageHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsPageHeader.h; sourceTree = "<group>"; };
+		926A2B2B212F018E00AE7964 /* SettingsPageHeader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsPageHeader.cpp; sourceTree = "<group>"; };
+		926A2B2D212F125600AE7964 /* SettingsSupportPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsSupportPage.h; sourceTree = "<group>"; };
+		926A2B2E212F14B400AE7964 /* SettingsSupportPage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsSupportPage.cpp; sourceTree = "<group>"; };
 		9271D7572035F44600370120 /* AzoomeeOomeeMaker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AzoomeeOomeeMaker.xcodeproj; path = ../oomeemaker/proj.ios_mac/AzoomeeOomeeMaker.xcodeproj; sourceTree = "<group>"; };
 		9271D7CE204053BC00370120 /* OomeeMakerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OomeeMakerDelegate.h; sourceTree = "<group>"; };
 		9271D7D22040557D00370120 /* OomeeMakerDelegate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeMakerDelegate.cpp; sourceTree = "<group>"; };
@@ -999,6 +1006,8 @@
 				43FDC6661EF7F743009B596B /* ConfirmationLayer.h */,
 				926A2B06212EA9C300AE7964 /* SettingsNavigationButton.h */,
 				926A2B0B212EABB000AE7964 /* SettingsNavigationButton.cpp */,
+				926A2B2A212F003300AE7964 /* SettingsPageHeader.h */,
+				926A2B2B212F018E00AE7964 /* SettingsPageHeader.cpp */,
 			);
 			name = SettingsSubLayers;
 			sourceTree = "<group>";
@@ -1036,6 +1045,9 @@
 				43FDC6601EF7E3CE009B596B /* SettingsConfirmationLayer.h */,
 				430C30E81EEAA0CF00E27589 /* SettingsKidsLayer.cpp */,
 				430C30E91EEAA0CF00E27589 /* SettingsKidsLayer.h */,
+				926A2B25212EFD8300AE7964 /* SettingsKidsPage.h */,
+				926A2B2D212F125600AE7964 /* SettingsSupportPage.h */,
+				926A2B2E212F14B400AE7964 /* SettingsSupportPage.cpp */,
 			);
 			name = SettingsTabLayers;
 			sourceTree = "<group>";
@@ -1770,6 +1782,7 @@
 				4306ABA31EAE2C3E001E586A /* PaymentViewController_ios.mm in Sources */,
 				43FDC6611EF7E3CE009B596B /* SettingsConfirmationLayer.cpp in Sources */,
 				927DF6E320AECA620080DFEF /* MeHQGallery.cpp in Sources */,
+				926A2B2C212F018E00AE7964 /* SettingsPageHeader.cpp in Sources */,
 				026BAF781E3FFD33009C4ACE /* HQHistoryManager.cpp in Sources */,
 				928A6E8920EE5C880053E793 /* ChildAgeLayer.cpp in Sources */,
 				92759EB21FE81F6300639190 /* ContentOpener.cpp in Sources */,
@@ -1798,6 +1811,7 @@
 				9220EB21201A185C00BD7A90 /* RecentlyPlayedManager.cpp in Sources */,
 				926A2AE1212D6F5500AE7964 /* SettingsHub.cpp in Sources */,
 				9289DB441FD8137D00B12435 /* DynamicNodeButton.cpp in Sources */,
+				926A2B2F212F14B400AE7964 /* SettingsSupportPage.cpp in Sources */,
 				0253C9871EC053B5005037EB /* VideoPlaylistManager.cpp in Sources */,
 				0243B8DB1F1F5D5C005D3734 /* ChatNotificationsSingleton.cpp in Sources */,
 				4315CD041EEEC99600B4F22C /* KidsControlLayer.cpp in Sources */,

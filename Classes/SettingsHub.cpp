@@ -73,7 +73,13 @@ bool SettingsHub::init()
     _navigationLayout = ui::Layout::create();
     _navigationLayout->setContentSize(Size(visibleSize.width, visibleSize.height - _titleLayout->getContentSize().height));
     _navigationLayout->setLayoutType(ui::Layout::Type::VERTICAL);
+    _navigationLayout->setPosition(Vec2(0,0));
     _contentLayout->addChild(_navigationLayout);
+    
+    _activeSettingsPageHolder = ui::Layout::create();
+    _activeSettingsPageHolder->setContentSize(_navigationLayout->getContentSize());
+    _activeSettingsPageHolder->setPosition(Vec2(visibleSize.width, 0));
+    _contentLayout->addChild(_activeSettingsPageHolder);
     
     _kidsButton = SettingsNavigationButton::create();
     _kidsButton->setContentSize(Size(visibleSize.width, (_navigationLayout->getContentSize().height * 0.2) - 10));
@@ -166,6 +172,7 @@ void SettingsHub::onSizeChanged()
 
 void SettingsHub::changeToPage(SettingsPages page)
 {
+    _activeSettingsPageHolder->removeAllChildren();
     switch(page)
     {
         case SettingsPages::KIDS:
@@ -194,6 +201,7 @@ void SettingsHub::changeToPage(SettingsPages page)
             break;
         }
     }
+    _activeSettingsPageHolder->setPosition(Vec2(0,0));
     _navigationLayout->setPosition(Vec2(-this->getContentSize().width, 0));
     _titleBarButton->loadTextureNormal("res/settings/toggle_switch_white.png");
     _inHub = false;
