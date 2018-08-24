@@ -6,7 +6,6 @@
 //
 
 #include "SettingsPageHeader.h"
-
 #include <AzoomeeCommon/UI/Style.h>
 
 using namespace cocos2d;
@@ -31,6 +30,7 @@ void SettingsPageHeader::onEnter()
     _text = Label::createWithTTF(_textString, Style::Font::Medium, 48);
     _text->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _text->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    _text->setHorizontalAlignment(TextHAlignment::CENTER);
     _text->setTextColor(Color4B(Style::Color::white));
     _text->setWidth(this->getContentSize().width * 0.75);
     this->addChild(_text);

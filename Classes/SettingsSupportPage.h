@@ -15,7 +15,7 @@
 
 NS_AZOOMEE_BEGIN
 
-class SettingsSupportPage : cocos2d::ui::Layout
+class SettingsSupportPage : public cocos2d::ui::Layout
 {
     typedef cocos2d::ui::Layout Super;
 private:

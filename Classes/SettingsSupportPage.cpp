@@ -7,6 +7,8 @@
 
 #include "SettingsSupportPage.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/UI/LayoutParams.h>
+#include <AzoomeeCommon/UI/Style.h>
 
 using namespace cocos2d;
 
@@ -20,8 +22,6 @@ bool SettingsSupportPage::init()
     }
     
     this->setLayoutType(ui::Layout::Type::VERTICAL);
-    this->setSizeType(ui::Widget::SizeType::PERCENT);
-    this->setSizePercent(Vec2(1.0f,1.0f));
     
     return true;
 }
@@ -30,8 +30,24 @@ void SettingsSupportPage::onEnter()
 {
     _headerBanner = SettingsPageHeader::create();
     _headerBanner->setContentSize(Size(this->getContentSize().width, 316));
-    _headerBanner->setText("Version Number " + ConfigStorage::getInstance()->getVersionNumberToDisplay());
+    _headerBanner->setText(ConfigStorage::getInstance()->getVersionNumberToDisplay());
+    _headerBanner->setLayoutParameter(CreateTopLinearLayoutParam());
     this->addChild(_headerBanner);
+    
+    _supportBox = ui::Layout::create();
+    _supportBox->setContentSize(Size(this->getContentSize().width - 100, this->getContentSize().height * 0.45f));
+    _supportBox->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
+    _supportBox->setBackGroundImage("res/settings/rounded_rect.png");
+    _supportBox->setBackGroundImageScale9Enabled(true);
+    this->addChild(_supportBox);
+    
+    Label* text = Label::createWithTTF("Need some help?\n\n\nVisit our support page at support.azoomee.com\n\nOr\n\nContact us directly at help@azoomee.com", Style::Font::Medium, 75);
+    text->setWidth(_supportBox->getContentSize().width * 0.8f);
+    text->setHorizontalAlignment(TextHAlignment::CENTER);
+    text->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+    text->setPosition(Vec2(_supportBox->getContentSize().width * 0.5f, _supportBox->getContentSize().height - 40));
+    text->setTextColor(Color4B::BLACK);
+    _supportBox->addChild(text);
     
     Super::onEnter();
 }

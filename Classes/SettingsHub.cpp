@@ -10,6 +10,8 @@
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "SceneManagerScene.h"
+#include "SettingsSupportPage.h"
+#include "SettingsOnlineSafetyPage.h"
 
 using namespace cocos2d;
 
@@ -56,6 +58,7 @@ bool SettingsHub::init()
             }
             else
             {
+                _activeSettingsPageHolder->setPosition(Vec2(visibleSize.width,0));
                 _navigationLayout->setPosition(Vec2(0, 0));
                 _titleText->setString("Settings");
                 _titleBarButton->loadTextureNormal("res/settings/exit_button.png");
@@ -192,11 +195,17 @@ void SettingsHub::changeToPage(SettingsPages page)
         }
         case SettingsPages::ONLINE_SAFETY:
         {
+            auto page = SettingsOnlineSafetyPage::create();
+            page->setContentSize(_activeSettingsPageHolder->getContentSize());
+            _activeSettingsPageHolder->addChild(page);
             _titleText->setString("Online Safety");
             break;
         }
         case SettingsPages::SUPPORT:
         {
+            auto page = SettingsSupportPage::create();
+            page->setContentSize(_activeSettingsPageHolder->getContentSize());
+            _activeSettingsPageHolder->addChild(page);
             _titleText->setString("Support");
             break;
         }
