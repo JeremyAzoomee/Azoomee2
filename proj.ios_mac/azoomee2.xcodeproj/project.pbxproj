@@ -147,6 +147,8 @@
 		926A2B2F212F14B400AE7964 /* SettingsSupportPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926A2B2E212F14B400AE7964 /* SettingsSupportPage.cpp */; };
 		926A2B3221301BB800AE7964 /* SettingsOnlineSafetyPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926A2B3121301BB800AE7964 /* SettingsOnlineSafetyPage.cpp */; };
 		926A2B352130330800AE7964 /* OnlineSafetySlide.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926A2B342130330800AE7964 /* OnlineSafetySlide.cpp */; };
+		926A2B3921356C2000AE7964 /* EditAccountLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926A2B3821356C2000AE7964 /* EditAccountLayer.cpp */; };
+		926A2B3B21357A7900AE7964 /* SettingsYourAccountPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926A2B3A21357A7900AE7964 /* SettingsYourAccountPage.cpp */; };
 		9271D7D12040544200370120 /* libAzoomeeOomeeMaker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9271D7CB2040537000370120 /* libAzoomeeOomeeMaker.a */; };
 		9271D7D32040557D00370120 /* OomeeMakerDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D7D22040557D00370120 /* OomeeMakerDelegate.cpp */; };
 		92759E701FE1598100639190 /* DynamicNodeLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92759E6F1FE1598100639190 /* DynamicNodeLine.cpp */; };
@@ -558,6 +560,10 @@
 		926A2B3121301BB800AE7964 /* SettingsOnlineSafetyPage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsOnlineSafetyPage.cpp; sourceTree = "<group>"; };
 		926A2B33213021E400AE7964 /* OnlineSafetySlide.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OnlineSafetySlide.h; sourceTree = "<group>"; };
 		926A2B342130330800AE7964 /* OnlineSafetySlide.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OnlineSafetySlide.cpp; sourceTree = "<group>"; };
+		926A2B362135475F00AE7964 /* SettingsYourAccountPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsYourAccountPage.h; sourceTree = "<group>"; };
+		926A2B3721354BED00AE7964 /* EditAccountLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EditAccountLayer.h; sourceTree = "<group>"; };
+		926A2B3821356C2000AE7964 /* EditAccountLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EditAccountLayer.cpp; sourceTree = "<group>"; };
+		926A2B3A21357A7900AE7964 /* SettingsYourAccountPage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsYourAccountPage.cpp; sourceTree = "<group>"; };
 		9271D7572035F44600370120 /* AzoomeeOomeeMaker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AzoomeeOomeeMaker.xcodeproj; path = ../oomeemaker/proj.ios_mac/AzoomeeOomeeMaker.xcodeproj; sourceTree = "<group>"; };
 		9271D7CE204053BC00370120 /* OomeeMakerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OomeeMakerDelegate.h; sourceTree = "<group>"; };
 		9271D7D22040557D00370120 /* OomeeMakerDelegate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeMakerDelegate.cpp; sourceTree = "<group>"; };
@@ -1016,6 +1022,8 @@
 				926A2B2B212F018E00AE7964 /* SettingsPageHeader.cpp */,
 				926A2B33213021E400AE7964 /* OnlineSafetySlide.h */,
 				926A2B342130330800AE7964 /* OnlineSafetySlide.cpp */,
+				926A2B3721354BED00AE7964 /* EditAccountLayer.h */,
+				926A2B3821356C2000AE7964 /* EditAccountLayer.cpp */,
 			);
 			name = SettingsSubLayers;
 			sourceTree = "<group>";
@@ -1058,6 +1066,8 @@
 				926A2B2E212F14B400AE7964 /* SettingsSupportPage.cpp */,
 				926A2B30213019A500AE7964 /* SettingsOnlineSafetyPage.h */,
 				926A2B3121301BB800AE7964 /* SettingsOnlineSafetyPage.cpp */,
+				926A2B362135475F00AE7964 /* SettingsYourAccountPage.h */,
+				926A2B3A21357A7900AE7964 /* SettingsYourAccountPage.cpp */,
 			);
 			name = SettingsTabLayers;
 			sourceTree = "<group>";
@@ -1819,6 +1829,7 @@
 				9220EAD2200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp in Sources */,
 				928A6E8720EE58A70053E793 /* ChildNameLayer.cpp in Sources */,
 				025BE9571E3B591C00EF76D1 /* PreviewLoginSignupMessageBox.cpp in Sources */,
+				926A2B3B21357A7900AE7964 /* SettingsYourAccountPage.cpp in Sources */,
 				927DF6E920AEF3C50080DFEF /* MeHQDownloads.cpp in Sources */,
 				9220EB21201A185C00BD7A90 /* RecentlyPlayedManager.cpp in Sources */,
 				926A2AE1212D6F5500AE7964 /* SettingsHub.cpp in Sources */,
@@ -1833,6 +1844,7 @@
 				02E595891E55DFF00052F395 /* OfflineHubSceneVisuals.cpp in Sources */,
 				9224BFB41F7932D200108553 /* ButtonActionData.cpp in Sources */,
 				928A6E8B20EE62270053E793 /* ChildOomeeLayer.cpp in Sources */,
+				926A2B3921356C2000AE7964 /* EditAccountLayer.cpp in Sources */,
 				9271D7D32040557D00370120 /* OomeeMakerDelegate.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				0215646F1FC4202800641C14 /* HQScene2ElementPositioner.cpp in Sources */,

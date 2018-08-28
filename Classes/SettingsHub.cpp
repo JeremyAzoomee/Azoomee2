@@ -12,6 +12,7 @@
 #include "SceneManagerScene.h"
 #include "SettingsSupportPage.h"
 #include "SettingsOnlineSafetyPage.h"
+#include "SettingsYourAccountPage.h"
 
 using namespace cocos2d;
 
@@ -190,6 +191,9 @@ void SettingsHub::changeToPage(SettingsPages page)
         }
         case SettingsPages::ACCOUNT:
         {
+            auto page = SettingsYourAccountPage::create();
+            page->setContentSize(_activeSettingsPageHolder->getContentSize());
+            _activeSettingsPageHolder->addChild(page);
             _titleText->setString("Your Account");
             break;
         }

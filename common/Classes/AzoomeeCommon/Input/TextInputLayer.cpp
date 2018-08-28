@@ -168,15 +168,16 @@ void TextInputLayer::setupEditBoxUsingType()
     
 void TextInputLayer::createSettingsChatEditBox(float width)
 {
-    Rect spriteRect = Rect(0, 0, 268, 107);
-    Rect capInsents = Rect(100, 53, 1, 1);
+    //Rect spriteRect = Rect(0, 0, 268, 107);
+    //Rect capInsents = Rect(100, 53, 1, 1);
     
-    editBoxArea = ui::Scale9Sprite::create("res/settings/textEntry.png", spriteRect, capInsents);
-    editBoxArea->setContentSize(Size(width,107));
+    editBoxArea = ui::Scale9Sprite::create("res/settings/rounded_rect_frame.png");
+    editBoxArea->setContentSize(Size(width,160));
     editBoxArea->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
+    editBoxArea->setColor(Style::Color::carolinaBlue);
     this->addChild(editBoxArea);
     
-    editBox = ui::EditBox::create(Size(this->getContentSize().width - 100,this->getContentSize().height), "res/settings/textEntry.png");
+    editBox = ui::EditBox::create(Size(this->getContentSize().width - 20,this->getContentSize().height), "res/settings/rounded_rect.png");
     editBox->moveOnKeyboardDisplayRequired = false;
     
     editBox->setColor(Color3B::WHITE);
