@@ -234,6 +234,8 @@ void HQSceneElement::addListenerToElement()
 ui::Button* HQSceneElement::createDeleteButton()
 {
     ui::Button* deleteButton = ui::Button::create("res/buttons/close_button_me_page.png");
+    deleteButton->setContentSize(Size(this->getContentSize().width * 0.25f, this->getContentSize().width * 0.25f));
+    deleteButton->ignoreContentAdaptWithSize(false);
     deleteButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     deleteButton->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)

@@ -184,16 +184,17 @@ void OomeeCarouselButton::animateButtonsIn(float duration)
     _editButton->runAction(moveActionEdit);
     
     basePos.rotate(Vec2(centerWidth,centerHeight),CC_DEGREES_TO_RADIANS(-30));
+    Action* moveActionAvatar = EaseBackOut::create(MoveTo::create(duration, basePos));
+    _makeAvatarButton->stopAllActions();
+    _makeAvatarButton->runAction(scaleAction->clone());
+    _makeAvatarButton->runAction(moveActionAvatar);
+    
+    basePos.rotate(Vec2(centerWidth,centerHeight),CC_DEGREES_TO_RADIANS(-30));
     Action* moveActionShare = EaseBackOut::create(MoveTo::create(duration, basePos));
     _shareButton->stopAllActions();
     _shareButton->runAction(scaleAction->clone());
     _shareButton->runAction(moveActionShare);
     
-    basePos.rotate(Vec2(centerWidth,centerHeight),CC_DEGREES_TO_RADIANS(-30));
-    Action* moveActionAvatar = EaseBackOut::create(MoveTo::create(duration, basePos));
-    _makeAvatarButton->stopAllActions();
-    _makeAvatarButton->runAction(scaleAction->clone());
-    _makeAvatarButton->runAction(moveActionAvatar);
     
     basePos.rotate(Vec2(centerWidth,centerHeight),CC_DEGREES_TO_RADIANS(-30));
     Action* moveActionDelete = EaseBackOut::create(MoveTo::create(duration, basePos));

@@ -51,6 +51,10 @@ public:
     static const char* const kContentTypeGroup;
     static const char* const kContentTypeAudioGroup;
     static const char* const kContentTypeManual;
+    static const char* const kContentTypeInternal;
+    
+    static const char* const kOomeeMakerURI;
+    static const char* const kArtAppURI;
     
     static const char* const kEstimatedKeyboardHeightPortrait;
     static const char* const kEstimatedKeyboardHeightLandscape;

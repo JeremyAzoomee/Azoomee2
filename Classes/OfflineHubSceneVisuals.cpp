@@ -39,7 +39,7 @@ void OfflineHubSceneVisuals::addOomeesToScreen()
     Size size = Director::getInstance()->getVisibleSize();
     
     std::vector<Point> startPositions = {Point(-220, origin.y + size.height - 650), Point(origin.x + size.width + 160, origin.y + size.height - 650)};
-    std::vector<Point> endPositions = {Point(201, origin.y + size.height - 450), Point(origin.x + size.width - 144, origin.y + size.height - 450)};
+    std::vector<Point> endPositions = {Point(157, origin.y + size.height - 450), Point(origin.x + size.width - 144, origin.y + size.height - 450)};
     
     for(int i = 0; i < 2; i++)
     {
