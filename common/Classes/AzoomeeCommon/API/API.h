@@ -54,6 +54,9 @@ public:
     static const char* const TagGetContentPoolRequest;
     static const char* const TagGetHqStructureDataRequest;
     static const char* const TagUpdateChildAvatar;
+    static const char* const TagUpdateParentDetails;
+    static const char* const TagUpdateParentPassword;
+    static const char* const TagGetParentDetails;
     
 #pragma mark - API Methods
     
@@ -151,6 +154,23 @@ public:
     
     static HttpRequestCreator* GetHQStructureDataRequest(const std::string& childId,
                                                          HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* UpdateParentDetailsRequest(const std::string& parentId,
+                                                          const std::string& firstName,
+                                                          const std::string& lastName,
+                                                          const std::string& displayName,
+                                                          const std::string& pinNumber,
+                                                          const std::string& avatarUri,
+                                                          const std::string &marketingAccepted,
+                                                          HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* UpdateParentPasswordRequest(const std::string& parentId,
+                                                          const std::string& oldPassword,
+                                                          const std::string& newPassword,
+                                                          HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* getParentDetailsRequest(const std::string& parentId,
+                                                       HttpRequestCreatorResponseDelegate* delegate);
     
 #pragma mark - Friend Requests
     
