@@ -217,6 +217,18 @@ void ParentDataParser::parseParentBillingData(const std::string &responseData)
     def->setStringForKey("loggedInParentCdnSessionId", parentData->loggedInParentCdnSessionId);
     
 }
+
+void ParentDataParser::parseParentDetails(const std::string &responseData)
+{
+    rapidjson::Document sessionData;
+    sessionData.Parse(responseData.c_str());
+    if(sessionData.HasParseError())
+    {
+        return;
+    }
+    
+    
+}
     
 void ParentDataParser::logoutChild()
 {

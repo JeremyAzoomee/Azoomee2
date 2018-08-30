@@ -148,7 +148,7 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString, con
             getAvailableChildren();
             updateBillingData();
         }
-        
+        getParentDetails();
     }
     else
     {
@@ -254,6 +254,24 @@ void BackEndCaller::onUpdateParentPinAnswerReceived(const std::string& responseS
         cocos2d::log("Calling back awaitingsomething");
         checkBack->checkPinAgainstStoredPin();
     }
+}
+
+void BackEndCaller::updateParentDetails(const std::string &displayName, const std::string &pinNumber)
+{
+    
+}
+
+void BackEndCaller::updateParentPassword(const std::string &oldPassword, const std::string &newPassword)
+{
+    
+}
+
+// GETTING PARENT DATA--------------------------------------------------------------------------------
+
+void BackEndCaller::getParentDetails()
+{
+    HttpRequestCreator* request = API::getParentDetailsRequest(ParentDataProvider::getInstance()->getLoggedInParentId(), this);
+    request->execute();
 }
 
 //GETTING AVAILABLE CHILDREN--------------------------------------------------------------------------
@@ -512,6 +530,10 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     else if(requestTag == API::TagParentPin)
     {
         onUpdateParentPinAnswerReceived(body);
+    }
+    else if(requestTag == API::TagGetParentDetails)
+    {
+        ParentDataParser::getInstance()->parseParentDetails(body);
     }
     else if(requestTag == "deepLinkContentRequest")
     {
