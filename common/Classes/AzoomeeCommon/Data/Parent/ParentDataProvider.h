@@ -36,6 +36,8 @@ public:
     std::string getLoggedInParentAvatarId() const;
     std::string getLoggedInParentCountryCode() const;
     std::string getParentPin() const;
+    std::string getParentDisplayName() const;
+    std::string getParentEmail() const;
     std::string getBillingStatus() const;
     std::string getBillingDate() const;
     std::string getBillingProvider() const;

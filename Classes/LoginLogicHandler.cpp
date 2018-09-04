@@ -44,6 +44,7 @@ void LoginLogicHandler::doLoginLogic()
         Azoomee::ParentDataParser::getInstance()->retrieveParentLoginDataFromUserDefaults();
         BackEndCaller::getInstance()->getAvailableChildren();
         BackEndCaller::getInstance()->updateBillingData();
+        BackEndCaller::getInstance()->getParentDetails();
         return;
     }
     else if(DeepLinkingSingleton::getInstance()->actionDeepLink())

@@ -63,7 +63,17 @@ std::string ParentDataProvider::getLoggedInParentAvatarId() const
 {
     return ParentDataStorage::getInstance()->loggedInParentAvatarId;
 }
+
+std::string ParentDataProvider::getParentEmail() const
+{
+    return ParentDataStorage::getInstance()->loggedInParentEmail;
+}
     
+std::string ParentDataProvider::getParentDisplayName() const
+{
+    return ParentDataStorage::getInstance()->loggedInParentDisplayName;
+}
+
 std::string ParentDataProvider::getLoggedInParentCountryCode() const
 {
     return ParentDataStorage::getInstance()->loggedInParentCountryCode;

@@ -32,16 +32,14 @@ void EditAccountLayer::onEnter()
 {
     int lowestY = this->getContentSize().height;
     
-    _nameText = ui::Text::create("Temp", Style::Font::Medium, 107);
+    _nameText = ui::Text::create(ParentDataProvider::getInstance()->getParentDisplayName(), Style::Font::Medium, 107);
     _nameText->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,80,0,0)));
     _nameText->setTextColor(Color4B::BLACK);
     this->addChild(_nameText);
     
     lowestY -= (_nameText->getContentSize().height + 80);
     
-    UserDefault* def = UserDefault::getInstance();
-    const std::string& username = def->getStringForKey("username", "");
-    def->flush();
+    const std::string& username = ParentDataProvider::getInstance()->getParentEmail();
     _emailText = ui::Text::create(username, Style::Font::Medium, 59);
     _emailText->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,40,0,0)));
     _emailText->setTextColor(Color4B::BLACK);
