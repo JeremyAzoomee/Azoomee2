@@ -25,6 +25,8 @@ private:
     cocos2d::ui::ListView* _friendRequestList = nullptr;
     HttpRequestCreator* _pendingFRHttpRequest = nullptr;
     
+    void addFriendRequestsToScrollView();
+    
 public:
     
     virtual bool init() override;

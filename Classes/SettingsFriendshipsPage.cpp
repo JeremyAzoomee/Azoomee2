@@ -16,6 +16,7 @@
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
+#include "FriendRequestLayer.h"
 
 using namespace cocos2d;
 
@@ -30,9 +31,6 @@ bool SettingsFriendshipsPage::init()
     
     this->setLayoutType(ui::Layout::Type::VERTICAL);
     
-    _pendingFRHttpRequest = API::GetPendingFriendRequests(this);
-    _pendingFRHttpRequest->execute();
-    
     return true;
 }
 
@@ -46,10 +44,14 @@ void SettingsFriendshipsPage::onEnter()
     
     _friendRequestList = ui::ListView::create();
     _friendRequestList->setDirection(ui::ScrollView::Direction::VERTICAL);
+    _friendRequestList->setBounceEnabled(true);
     _friendRequestList->setContentSize(Size(this->getContentSize().width - 100, this->getContentSize().height - 416));
-    _friendRequestList->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,50,0)));
+    _friendRequestList->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
     _friendRequestList->setItemsMargin(50);
     this->addChild(_friendRequestList);
+    
+    _pendingFRHttpRequest = API::GetPendingFriendRequests(this);
+    _pendingFRHttpRequest->execute();
     
     Super::onEnter();
 }
@@ -65,11 +67,31 @@ void SettingsFriendshipsPage::onExit()
 }
 
 
+void SettingsFriendshipsPage::addFriendRequestsToScrollView()
+{
+    for(int i = 0; i < ParentDataProvider::getInstance()->getNoOfPendingFriendRequest(); i++)
+    {
+        const std::string& senderName = ParentDataProvider::getInstance()->getPendingFriendRequestSenderName(i);
+        const std::string& senderCode = "";
+        const std::string& recipientName = ParentDataProvider::getInstance()->getPendingFriendRequestFriendName(i);
+        const std::string& recipientCode = ParentDataProvider::getInstance()->getPendingFriendRequestInviteCode(i);
+        const std::string& respondentId = ParentDataProvider::getInstance()->getPendingFriendRequestRespondentID(i);
+        const std::string& requestId = ParentDataProvider::getInstance()->getPendingFriendRequestRequestID(i);
+        
+        FriendRequestLayer* friendRequest = FriendRequestLayer::create();
+        friendRequest->setContentSize(Size(_friendRequestList->getContentSize().width, 500));
+        friendRequest->setChildDetails(senderName, senderCode, recipientName, recipientCode, respondentId, requestId);
+        _friendRequestList->pushBackCustomItem(friendRequest);
+        
+    }
+}
+
 //-----------DELETGATE FUNCTIONS-----------
 
 void SettingsFriendshipsPage::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
     ParentDataParser::getInstance()->parsePendingFriendRequests(body);
+    addFriendRequestsToScrollView();
 }
 
 void SettingsFriendshipsPage::onHttpRequestFailed(const std::string& requestTag, long errorCode)

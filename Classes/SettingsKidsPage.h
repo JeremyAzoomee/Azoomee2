@@ -11,16 +11,17 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include <cocos/cocos2d.h>
 #include <ui/CocosGUI.h>
+#include "SettingsPageHeader.h"
 
 NS_AZOOMEE_BEGIN
 
-class SettingsKidsPage : cocos2d::ui::Layout
+class SettingsKidsPage : public cocos2d::ui::Layout
 {
     typedef cocos2d::ui::Layout Super;
 private:
     
     cocos2d::ui::ListView* _kidList = nullptr;
-    cocos2d::ui::Layout* _headerBanner = nullptr;
+    SettingsPageHeader* _headerBanner = nullptr;
     cocos2d::ui::Layout* _footerBanner = nullptr;
     
 public:

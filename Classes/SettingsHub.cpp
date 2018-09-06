@@ -13,6 +13,8 @@
 #include "SettingsSupportPage.h"
 #include "SettingsOnlineSafetyPage.h"
 #include "SettingsYourAccountPage.h"
+#include "SettingsFriendshipsPage.h"
+#include "SettingsKidsPage.h"
 
 using namespace cocos2d;
 
@@ -181,11 +183,17 @@ void SettingsHub::changeToPage(SettingsPages page)
     {
         case SettingsPages::KIDS:
         {
+            auto page = SettingsKidsPage::create();
+            page->setContentSize(_activeSettingsPageHolder->getContentSize());
+            _activeSettingsPageHolder->addChild(page);
             _titleText->setString("Your Kids");
             break;
         }
         case SettingsPages::FRIENDSHIPS:
         {
+            auto page = SettingsFriendshipsPage::create();
+            page->setContentSize(_activeSettingsPageHolder->getContentSize());
+            _activeSettingsPageHolder->addChild(page);
             _titleText->setString("Friendships");
             break;
         }
