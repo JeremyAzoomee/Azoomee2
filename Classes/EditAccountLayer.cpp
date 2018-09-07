@@ -9,6 +9,9 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
+#include <AzoomeeCommon/API/API.h>
+#include <AzoomeeCommon/UI/ModalMessages.h>
 
 using namespace cocos2d;
 
@@ -61,15 +64,39 @@ void EditAccountLayer::onEnter()
     pinText->setPosition(Vec2(pinEditboxLayout->getContentSize().width * 0.225f, pinEditboxLayout->getContentSize().height / 2));
     pinEditboxLayout->addChild(pinText);
     
-    _pinEditbox = TextInputLayer::createSettingsChatTextInput(this->getContentSize().width * 0.6f);
+    _pinEditbox = TextInputLayer::createSettingsBoxTextInput(this->getContentSize().width * 0.6f, INPUT_IS_PIN);
     _pinEditbox->setCenterPosition(Vec2(pinEditboxLayout->getContentSize().width * 0.55f, pinEditboxLayout->getContentSize().height / 2));
     _pinEditbox->setText(ParentDataProvider::getInstance()->getParentPin());
+    _pinEditbox->setEnabled(false);
     pinEditboxLayout->addChild(_pinEditbox);
     
-    ui::Button* editPinButton = ui::Button::create("res/settings/edit_text_input.png");
-    editPinButton->setPosition(Vec2(pinEditboxLayout->getContentSize().width * 0.85f - 10, pinEditboxLayout->getContentSize().height / 2));
-    editPinButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
-    pinEditboxLayout->addChild(editPinButton);
+    _editPinButton = ui::Button::create("res/settings/edit_text_input.png");
+    _editPinButton->setPosition(Vec2(pinEditboxLayout->getContentSize().width * 0.85f - 10, pinEditboxLayout->getContentSize().height / 2));
+    _editPinButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+    _editPinButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            if(_editingPin)
+            {
+                if(_pinEditbox->inputIsValid())
+                {
+                    ModalMessages::getInstance()->startLoading();
+                    HttpRequestCreator* request = API::UpdateParentDetailsRequest(ParentDataProvider::getInstance()->getLoggedInParentId(), ParentDataProvider::getInstance()->getParentDisplayName(), _pinEditbox->getText(), this);
+                    request->execute();
+                    _editingPin = false;
+                    _pinEditbox->setEnabled(false);
+                    _editPinButton->loadTextureNormal("res/settings/edit_text_input.png");
+                }
+            }
+            else
+            {
+                _editingPin = true;
+                _pinEditbox->setEnabled(true);
+                _editPinButton->loadTextureNormal("res/settings/confirm_edit_button.png");
+            }
+        }
+    });
+    pinEditboxLayout->addChild(_editPinButton);
     
     ui::Layout* passwordEditboxLayout = ui::Layout::create();
     passwordEditboxLayout->setContentSize(Size(this->getContentSize().width, 190));
@@ -131,6 +158,20 @@ void EditAccountLayer::onEnter()
     this->addChild(_accountTypeLayout);
     
     Super::onEnter();
+}
+
+// delegate functions
+void EditAccountLayer::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
+{
+    if(requestTag == API::TagUpdateParentDetails)
+    {
+        ModalMessages::getInstance()->stopLoading();
+        ParentDataParser::getInstance()->parseParentDetails(body);
+    }
+}
+void EditAccountLayer::onHttpRequestFailed(const std::string& requestTag, long errorCode)
+{
+    
 }
 
 NS_AZOOMEE_END

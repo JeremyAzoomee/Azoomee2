@@ -11,6 +11,9 @@
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/NativeShare/NativeShare.h>
+#include <AzoomeeCommon/API/API.h>
+#include <AzoomeeCommon/UI/ModalMessages.h>
+#include "SettingsMessageBoxDeleteChild.h"
 
 using namespace cocos2d;
 
@@ -153,10 +156,21 @@ void KidDetailsLayer::onEnter()
     ui::Button* addFriendButton = ui::Button::create("res/settings/add_freind_code_button.png");
     addFriendButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
     addFriendButton->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
+    addFriendButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            if(_kidCodeInput->inputIsValid())
+            {
+                ModalMessages::getInstance()->startLoading();
+                HttpRequestCreator* request = API::FriendRequest(ParentDataProvider::getInstance()->getIDForAvailableChildren(_childNum), ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(_childNum), _kidCodeInput->getText(), this);
+                request->execute();
+            }
+        }
+    });
     addFriendInputLayout->addChild(addFriendButton);
     
     float inputWidth = addFriendInputLayout->getContentSize().width - addFriendButton->getContentSize().width;
-    _kidCodeInput = TextInputLayer::createSettingsChatTextInput(inputWidth);
+    _kidCodeInput = TextInputLayer::createSettingsBoxTextInput(inputWidth, INPUT_IS_KIDS_CODE);
     _kidCodeInput->setCenterPosition(Vec2(inputWidth * 0.5f, 80));
     addFriendInputLayout->addChild(_kidCodeInput);
     
@@ -166,7 +180,9 @@ void KidDetailsLayer::onEnter()
     _deleteButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            
+            SettingsMessageBoxDeleteChild* messageBox = SettingsMessageBoxDeleteChild::create();
+            messageBox->setDelegate(this);
+            Director::getInstance()->getRunningScene()->addChild(messageBox,100);
         }
     });
     this->addChild(_deleteButton);
@@ -179,16 +195,33 @@ void KidDetailsLayer::setChildNum(int childNum)
     _childNum = childNum;
 }
 
+void KidDetailsLayer::setDeleteChildCallback(const Azoomee::KidDetailsLayer::DeleteChildCallback &callback)
+{
+    _deleteCallback = callback;
+}
+
 // Delegate Functions
 
 void KidDetailsLayer::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
-    
+    if(requestTag == API::TagDeleteChild)
+    {
+         ModalMessages::getInstance()->stopLoading();
+        if(_deleteCallback)
+        {
+            _deleteCallback();
+        }
+    }
+    else if(requestTag == API::TagFriendRequest)
+    {
+        ModalMessages::getInstance()->stopLoading();
+        
+    }
 }
 
 void KidDetailsLayer::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
-    
+     ModalMessages::getInstance()->stopLoading();
 }
 
 void KidDetailsLayer::onButtonPressed(SettingsMessageBox* pSender, SettingsMessageBoxButtonType type)
@@ -200,8 +233,27 @@ void KidDetailsLayer::onButtonPressed(SettingsMessageBox* pSender, SettingsMessa
             pSender->removeFromParent();
             break;
         }
-        case SettingsMessageBoxButtonType::REJECT:
+        case SettingsMessageBoxButtonType::DELETE:
         {
+            pSender->removeFromParent();
+            ModalMessages::getInstance()->startLoading();
+            HttpRequestCreator* request = API::DeleteChild(ParentDataProvider::getInstance()->getIDForAvailableChildren(_childNum),
+                                                           ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(_childNum),
+                                                           ParentDataProvider::getInstance()->getSexForAnAvailableChild(_childNum),
+                                                           this);
+            request->execute();
+            break;
+        }
+        case SettingsMessageBoxButtonType::CLOSE:
+        {
+            pSender->removeFromParent();
+            break;
+        }
+        case SettingsMessageBoxButtonType::SEND:
+        {
+            //cast to proper message box
+            //grab text from message box (error handling done in message box)
+            //send FR
             pSender->removeFromParent();
             break;
         }

@@ -342,16 +342,12 @@ HttpRequestCreator* API::GetHQStructureDataRequest(const std::string& childId, A
 }
 
 HttpRequestCreator* API::UpdateParentDetailsRequest(const std::string &parentId,
-                                                    const std::string &firstName,
-                                                    const std::string &lastName,
                                                     const std::string &displayName,
                                                     const std::string &pinNumber,
-                                                    const std::string &avatarUri,
-                                                    const std::string &marketingAccepted,
                                                     Azoomee::HttpRequestCreatorResponseDelegate *delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestBody = StringUtils::format("{\"firstName\":\"%s\",\"lastName\":\"%s\",\"displayName\":\"%s\",\"pinNumber\":\"%s\",\"avatar\":\"%s\",\"termsAccepted\":\"true\",\"marketingAccepted\":\"%s\"}", firstName.c_str(), lastName.c_str(), displayName.c_str(), pinNumber.c_str(), avatarUri.c_str(), marketingAccepted.c_str());
+    request->requestBody = StringUtils::format("{\"displayName\":\"%s\",\"pinNumber\":\"%s\"}", displayName.c_str(), pinNumber.c_str());
     request->requestTag = TagUpdateParentDetails;
     request->requestPath = StringUtils::format("/api/user/adult/%s",parentId.c_str());
     request->method = "PATCH";

@@ -21,6 +21,7 @@ NS_AZOOMEE_BEGIN
 class KidDetailsLayer : public cocos2d::ui::Layout, public Azoomee::HttpRequestCreatorResponseDelegate, public SettingsMessageBoxDelegate
 {
     typedef cocos2d::ui::Layout Super;
+    typedef std::function<void()> DeleteChildCallback;
 private:
     
     cocos2d::ui::Button* _deleteButton = nullptr;
@@ -30,6 +31,8 @@ private:
     TextInputLayer* _kidCodeInput = nullptr;
     
     ImageDownloaderRef _oomeeDownloader = nullptr;
+    
+    DeleteChildCallback _deleteCallback = nullptr;
     
     int _childNum;
     
@@ -41,6 +44,7 @@ public:
     CREATE_FUNC(KidDetailsLayer);
     
     void setChildNum(int childNum);
+    void setDeleteChildCallback(const DeleteChildCallback& callback);
     
     //Delegate Functions
     void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body) override;

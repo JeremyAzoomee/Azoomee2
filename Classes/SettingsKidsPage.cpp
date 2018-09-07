@@ -9,6 +9,9 @@
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
+#include <AzoomeeCommon/UI/ModalMessages.h>
+#include <AzoomeeCommon/API/API.h>
 #include "KidDetailsLayer.h"
 
 using namespace cocos2d;
@@ -45,13 +48,7 @@ void SettingsKidsPage::onEnter()
     _kidList->setBottomPadding(50);
     this->addChild(_kidList);
     
-    for(int i = 0; i < ParentDataProvider::getInstance()->getAmountOfAvailableChildren(); i++)
-    {
-        KidDetailsLayer* kidLayer = KidDetailsLayer::create();
-        kidLayer->setContentSize(Size(_kidList->getContentSize().width, 1650));
-        kidLayer->setChildNum(i);
-        _kidList->addChild(kidLayer);
-    }
+    addKidsToScrollView();
     
     _footerBanner = ui::Layout::create();
     _footerBanner->setContentSize(Size(this->getContentSize().width, 150));
@@ -79,6 +76,39 @@ void SettingsKidsPage::onEnter()
     _footerBanner->addChild(centerLayout);
     
     Super::onEnter();
+}
+
+void SettingsKidsPage::addKidsToScrollView()
+{
+    for(int i = 0; i < ParentDataProvider::getInstance()->getAmountOfAvailableChildren(); i++)
+    {
+        KidDetailsLayer* kidLayer = KidDetailsLayer::create();
+        kidLayer->setContentSize(Size(_kidList->getContentSize().width, 1650));
+        kidLayer->setChildNum(i);
+        kidLayer->setDeleteChildCallback([&](){
+            ModalMessages::getInstance()->startLoading();
+            HttpRequestCreator* request = API::GetAvailableChildrenRequest(this);
+            request->execute();
+        });
+        _kidList->pushBackCustomItem(kidLayer);
+    }
+}
+
+// Delegate Functions
+
+void SettingsKidsPage::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
+{
+    ModalMessages::getInstance()->stopLoading();
+    if(ParentDataParser::getInstance()->parseAvailableChildren(body))
+    {
+        _kidList->removeAllItems();
+        addKidsToScrollView();
+    }
+}
+
+void SettingsKidsPage::onHttpRequestFailed(const std::string& requestTag, long errorCode)
+{
+    ModalMessages::getInstance()->stopLoading();
 }
 
 NS_AZOOMEE_END

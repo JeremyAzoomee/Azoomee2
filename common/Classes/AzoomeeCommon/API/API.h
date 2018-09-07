@@ -156,12 +156,8 @@ public:
                                                          HttpRequestCreatorResponseDelegate* delegate);
     
     static HttpRequestCreator* UpdateParentDetailsRequest(const std::string& parentId,
-                                                          const std::string& firstName,
-                                                          const std::string& lastName,
                                                           const std::string& displayName,
                                                           const std::string& pinNumber,
-                                                          const std::string& avatarUri,
-                                                          const std::string &marketingAccepted,
                                                           HttpRequestCreatorResponseDelegate* delegate);
     
     static HttpRequestCreator* UpdateParentPasswordRequest(const std::string& parentId,

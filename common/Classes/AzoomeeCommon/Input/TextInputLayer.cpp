@@ -28,6 +28,26 @@ TextInputLayer* TextInputLayer::createWithSize(Size inputBoxSize, int textInputT
     
     return layer;
 }
+
+TextInputLayer* TextInputLayer::createSettingsBoxTextInput(float width, int textInputType)
+{
+    auto layer = TextInputLayer::create();
+    layer->setContentSize(Size(width,150));
+    layer->textInputType = textInputType;
+    layer->createSettingsBoxEditBox(width);
+    
+    return layer;
+}
+    
+TextInputLayer* TextInputLayer::createSettingsRoundedTextInput(float width, int textInputType)
+{
+    auto layer = TextInputLayer::create();
+    layer->setContentSize(Size(width,136));
+    layer->textInputType = textInputType;
+    layer->createSettingRoundedEditBox(width);
+    
+    return layer;
+}
     
 TextInputLayer* TextInputLayer::createSettingsChatTextInput(float width)
 {
@@ -91,11 +111,75 @@ void TextInputLayer::createEditBox()
     
     this->addChild(editBox);
 }
+    
+void TextInputLayer::createSettingsBoxEditBox(float width)
+{
+    editBoxArea = ui::Scale9Sprite::create("res/settings/rounded_rect_frame.png");
+    editBoxArea->setContentSize(Size(width,160));
+    editBoxArea->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
+    editBoxArea->setColor(Style::Color::carolinaBlue);
+    this->addChild(editBoxArea);
+    
+    editBox = ui::EditBox::create(Size(this->getContentSize().width - 20,this->getContentSize().height), "res/settings/rounded_rect.png");
+    editBox->moveOnKeyboardDisplayRequired = false;
+    
+    editBox->setColor(Color3B::WHITE);
+    editBox->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
+    editBox->setFont(Style::Font::Input, INPUT_STYLE_SIZE);
+    editBox->setFontColor(Color3B::BLACK);
+    editBox->setPlaceholderFontColor(Style::Color::telish);
+    editBox->setPlaceholderFont(Style::Font::Regular, 70);
+    
+    editBox->setTextHorizontalAlignment(TextHAlignment::CENTER);
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    editBox->setReturnType(ui::EditBox::KeyboardReturnType::GO);
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    editBox->setReturnType(ui::EditBox::KeyboardReturnType::NEXT);
+#endif
+    
+    editBox->setDelegate(this);
+    
+    this->setupEditBoxUsingType();
+    
+    this->addChild(editBox);
+}
 
+void TextInputLayer::createSettingRoundedEditBox(float width)
+{
+    editBoxArea = ui::Scale9Sprite::create("res/settings/settings_rounded_frame.png");
+    editBoxArea->setContentSize(Size(width,146));
+    editBoxArea->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
+    this->addChild(editBoxArea);
+    
+    editBox = ui::EditBox::create(Size(this->getContentSize().width - 20,this->getContentSize().height), "res/settings/settings_rounded.png");
+    editBox->moveOnKeyboardDisplayRequired = false;
+    
+    editBox->setColor(Color3B::WHITE);
+    editBox->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
+    editBox->setFont(Style::Font::Input, INPUT_STYLE_SIZE);
+    editBox->setFontColor(Color3B::BLACK);
+    editBox->setPlaceholderFontColor(Style::Color::telish);
+    editBox->setPlaceholderFont(Style::Font::Regular, 70);
+    
+    editBox->setTextHorizontalAlignment(TextHAlignment::CENTER);
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    editBox->setReturnType(ui::EditBox::KeyboardReturnType::GO);
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    editBox->setReturnType(ui::EditBox::KeyboardReturnType::NEXT);
+#endif
+    
+    editBox->setDelegate(this);
+    
+    this->setupEditBoxUsingType();
+    
+    this->addChild(editBox);
+}
+    
 void TextInputLayer::setupEditBoxUsingType()
 {
     switch (textInputType)
-    
     {
         case INPUT_IS_EMAIL:
         {
@@ -182,9 +266,9 @@ void TextInputLayer::createSettingsChatEditBox(float width)
     
     editBox->setColor(Color3B::WHITE);
     editBox->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
-    editBox->setFont(Style::Font::kidCodeRegular, 84);
+    //editBox->setFont(Style::Font::kidCodeRegular, 84);
     editBox->setFontColor(Color3B::BLACK);
-    editBox->setInputFlag(ui::EditBox::InputFlag::INITIAL_CAPS_ALL_CHARACTERS);
+    //editBox->setInputFlag(ui::EditBox::InputFlag::INITIAL_CAPS_ALL_CHARACTERS);
     
     editBox->setTextHorizontalAlignment(TextHAlignment::CENTER);
     
@@ -196,8 +280,8 @@ void TextInputLayer::createSettingsChatEditBox(float width)
     
     editBox->setDelegate(this);
     
-    editBox->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
-    editBox->setMaxLength(8);
+    //editBox->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
+    //editBox->setMaxLength(8);
     
     this->addChild(editBox);
 }
@@ -357,6 +441,11 @@ void TextInputLayer::setNewWidth(float newWidth)
     editBoxArea->setContentSize(cocos2d::Size(newWidth,this->getContentSize().height));
     editBoxArea->setPosition(Vec2(this->getContentSize().width/2,this->getContentSize().height/2));
     
+}
+    
+void TextInputLayer::setEnabled(bool enabled)
+{
+    editBox->setEnabled(enabled);
 }
 
 //--------------- EditBox Delegate Fuctions --------------------------------
