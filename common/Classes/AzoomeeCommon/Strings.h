@@ -11,42 +11,21 @@
 #define LOGINSCENE_EMAIL_LABEL "LoginScene/email_label"
 #define LOGINSCENE_PASSWORD_LABEL "LoginScene/password_label"
 
-//---------- ONBOARDING SCENE --------------
+//----------- ADD CHILD SCENE ---------------------
 
-#define ONBOARDINGSCENE_TITLE_LABEL "OnboardingScene/title_label"
-#define ONBOARDINGSCENE_EMAIL_LABEL "OnboardingScene/email_label"
-#define ONBOARDINGSCENE_PASSWORD_LABEL "OnboardingScene/password_label"
-#define ONBOARDINGSCENE_PIN_LABEL "OnboardingScene/pin_label"
-#define ONBOARDINGSCENE_PIN_SUB_LABEL "OnboardingScene/pin_sub_label"
-
-//---------- ONBOARDING SUCCESS SCENE --------------
-
-#define ONBOARDINGSUCCESSSCENE_IAP_SUCCESS_TITLE_LABEL "OnboardingSuccessScene/IAP_success_title_label"
-#define ONBOARDINGSUCCESSSCENE_IAP_FAIL_TITLE_LABEL "OnboardingSuccessScene/IAP_fail_title_label"
-#define ONBOARDINGSUCCESSSCENE_SUCCESS_SUB_LABEL "OnboardingSuccessScene/sub_success_label"
-#define ONBOARDINGSUCCESSSCENE_FAIL_SUB_LABEL "OnboardingSuccessScene/sub_fail_label"
-#define ONBOARDINGSUCCESSSCENE_IAP_SUCCESS_BOTTOM_LABEL "OnboardingSuccessScene/IAP_success_bottom_label"
-#define ONBOARDINGSUCCESSSCENE_IAP_FAIL_BOTTOM_LABEL "OnboardingSuccessScene/IAP_fail_bottom_label"
-
-//----------- CHILD ACCOUNT SCENE ------------
-
-#define CHILDACCOUNTSCENE_MAIN_TITLE_SIGNUP_LABEL "ChildAccountScene/main_title_signup_label"
-#define CHILDACCOUNTSCENE_MAIN_TITLE_ADD_CHILD_LABEL "ChildAccountScene/main_title_add_child_label"
-#define CHILDACCOUNTSCENE_SELECT_OOMEE_TITLE_LABEL "ChildAccountScene/select_oomee_title_label"
-#define CHILDACCOUNTSCENE_REQUEST_NAME_LABEL "ChildAccountScene/request_name_label"
-#define CHILDACCOUNTSCENE_EDIT_NAME_LABEL "ChildAccountScene/edit_name_label"
-#define CHILDACCOUNTSCENE_REQUEST_DOB_LABEL "ChildAccountScene/request_dob_label"
-#define CHILDACCOUNTSCENE_REQUEST_DOB_SUB_LABEL "ChildAccountScene/request_dob_sub_label"
-
-#define CHILDACCOUNTSCENE_REQUEST_OOMEE_LABEL "ChildAccountScene/request_oomee_label"
-
-#define CHILDACCOUNTSCENE_DOB_DAY_PLACEHOLDER "ChildAccountScene/dob_day_placeholder"
-#define CHILDACCOUNTSCENE_DOB_MONTH_PLACEHOLDER "ChildAccountScene/dob_month_placeholder"
-#define CHILDACCOUNTSCENE_DOB_YEAR_PLACEHOLDER "ChildAccountScene/dob_year_placeholder"
-
-//----------- CHILD ACCOUNT SUCCESS SCENE ------------
-
-#define CHILDACCOUNTSUCCESSSCENE_REQUEST_NAME_LABEL "ChildAccountSuccessScene/title_label"
+#define ADDCHILD_WELCOME_TITLE "AddChildScene/welcomeTitle"
+#define ADDCHILD_WELCOME_TITLE_MULTILINE "AddChildScene/welcomeTitleMultiline"
+#define ADDCHILD_WELCOME_SUB_TITLE "AddChildScene/welcomeSubTitle"
+#define ADDCHILD_ADD_ANOTHER_TITLE "AddChildScene/addAnotherTitle"
+#define ADDCHILD_NAME_HEADING "AddChildScene/nameHeading"
+#define ADDCHILD_AGE_TITLE "AddChildScene/ageTitle"
+#define ADDCHILD_AGE_TITLE_MULTILINE "AddChildScene/ageTitleMultiline"
+#define ADDCHILD_AGE_HEADING "AddChildScene/ageHeading"
+#define ADDCHILD_AGE_SUB_HEADING "AddChildScene/ageSubHeading"
+#define ADDCHILD_AGE_SUB_HEADING_MULTILINE "AddChildScene/ageSubHeadingMultiline"
+#define ADDCHILD_OOMEE_TITLE "AddChildScene/oomeeTitle"
+#define ADDCHILD_OOMEE_SUB_TITLE "AddChildScene/oomeeSubTitle"
+#define ADDCHILD_OOMEE_SUB_TITLE_MULTILINE "AddChildScene/oomeeSubTitleMultiline"
 
 //----------- OFFLINE STRINGS---------------------
 
@@ -61,6 +40,7 @@
 #define PIN_REQUEST_LABEL "OtherLabels/pin_request_label"
 #define CHILD_SELECTSCENE_TITLE_LABEL "OtherLabels/child_selectscene_title_label"
 #define LOADING_LABEL "OtherLabels/loading_label"
+#define SAVING_LABEL "OtherLabels/saving_label"
 
 //------------ GENERIC BUTTONS ----------------
 
@@ -73,12 +53,21 @@
 #define BUTTON_CONTINUE "GenericButtons/continue"
 #define BUTTON_SKIP "GenericButtons/skip"
 #define BUTTON_ADD_ANOTHER_LABEL "GenericButtons/add_another"
+#define BUTTON_ADD_ANOTHE_CHILD "GenericButtons/add_another_child"
 #define BUTTON_LETS_GO "GenericButtons/lets_go"
 #define BUTTON_RETRY "GenericButtons/retry"
 #define BUTTON_RESET "GenericButtons/reset"
 #define BUTTON_REPORT "GenericButtons/report"
 #define BUTTON_ONLINE_SAFETY_TIPS "GenericButtons/onlineSafetyTips"
 #define BUTTON_BACK "GenericButtons/back"
+#define BUTTON_DONE "GenericButtons/done"
+#define BUTTON_EDIT "GenericButtons/edit"
+#define BUTTON_CONFIRM "GenericButtons/confirm"
+#define BUTTON_REJECT "GenericButtons/reject"
+#define BUTTON_YES "GenericButtons/yes"
+#define BUTTON_NO "GenericButtons/no"
+#define BUTTON_TRY_AGAIN "GenericButtons/tryAgain"
+#define BUTTON_START_TRIAL "GenericButtons/startTrial"
 
 //--------------ONLINE SAFETY SLIDES------------------
 
@@ -104,5 +93,77 @@
 
 #define CHAT_CHAT_REPORTED "Chat/chatReported"
 #define CHAT_CHAT_REPORTED_MULTILINE "Chat/chatReportedMultiline"
+#define CHAT_SHARE_WITH_FRIEND "Chat/shareWithFriend"
+#define CHAT_ADD_FRIENDS_BUTTON "Chat/addFriendsButton"
+
+//------------ ART APP ------------------------
+
+#define ART_APP_DELETE_ART "ArtApp/deleteArt"
+
+//----------- OOMEE MAKER ----------------------
+
+#define OOMEE_MAKER_NEW_AVATAR "OomeeMaker/newAvatar"
+
+//----------- ME HQ ----------------------------
+
+#define MEHQ_FIRST_USE_MESSAGE_SENDER "MeHQ/firstUseMessageSender"
+#define MEHQ_FIRST_USE_MESSAGE_BODY "MeHQ/firstUseMessageBody"
+#define MEHQ_MESSAGE_PLACEHOLDER_PICTURE "MeHQ/messagePlaceholderPicture"
+#define MEHQ_MESSAGE_PLACEHOLDER_STICKER "MeHQ/messagePlaceholderSticker"
+#define MEHQ_MESSAGE_PLACEHOLDER_LINK "MeHQ/messagePlaceholderLink"
+#define MEHQ_HEADING_MESSAGES "MeHQ/headingMessages"
+#define MEHQ_HEADING_GALLERY "MeHQ/headingGallery"
+#define MEHQ_HEADING_FAVOURITES "MeHQ/headingFavourites"
+#define MEHQ_HEADING_DOWNLOADS "MeHQ/headingDownloads"
+#define MEHQ_HEADING_DOWNLOADS_EMPTY "MeHQ/headingDownloadsEmpty"
+#define MEHQ_SUB_HEADING_FAVOURITES "MeHQ/subHeadingFavourites"
+#define MEHQ_SUB_HEADING_FAVOURITES_MULTILINE "MeHQ/subHeadingFavouritesMultiline"
+#define MEHQ_SUB_HEADING_DOWNLOADS "MeHQ/subHeadingDownloads"
+#define MEHQ_SUB_HEADING_DOWNLOADS_MULTILINE "MeHQ/subHeadingDownloadsMultiline"
+#define MEHQ_SUB_HEADING_DOWNLOADS_MULTILINE_18X9 "MeHQ/subHeadingDownloadsMultiline18x9"
+
+//----------- USER MESSAGING -------------------
+
+#define USER_MSG_START_TRIAL "UserMessaging/startTrial"
+#define USER_MSG_REACTIVATE "UserMessaging/reactivate"
+#define USER_MSG_PREMIUM "UserMessaging/premium"
+#define USER_MSG_PREMIUM_MULTILINE "UserMessaging/premiumMultiline"
+
+//----------- FORCE UPDATE ---------------------
+
+#define FORCE_UPDATE_TITLE "ForceUpdate/title"
+#define FORCE_UPDATE_SUB_TITLE "ForceUpdate/subTitle"
+#define FORCE_UPDATE_BUTTON "ForceUpdate/button"
+
+//----------- INPUT PLACEHOLDERS ---------------
+
+#define INPUT_PLACEHOLDER_PASSWORD "InputPlaceholders/password"
+#define INPUT_PLACEHOLDER_CHILD_NAME "InputPlaceholders/childName"
+#define INPUT_PLACEHOLDER_AGE "InputPlaceholders/age"
+#define INPUT_PLACEHOLDER_DAY "InputPlaceholders/day"
+#define INPUT_PLACEHOLDER_MONTH "InputPlaceholders/month"
+#define INPUT_PLACEHOLDER_YEAR "InputPlaceholders/year"
+
+//----------- SETTINGS -------------------------
+
+#define SETTINGS_HEADING_YOUR_KIDS "Settings/headingYourKids"
+#define SETTINGS_HEADING_FRIENDSHIPS "Settings/headingFriendships"
+#define SETTINGS_HEADING_ONLINE_SAFETY "Settings/headingOnlineSafety"
+#define SETTINGS_HEADING_YOUR_ACCOUNT "Settings/headingYourAccount"
+#define SETTINGS_SHARE_KID_CODE "Settings/shareKidCode"
+#define SETTINGS_ADD_FRIEND "Settings/addFriend"
+#define SETTINGS_CODE_UNRECOGNISED "Settings/codeUnrecognised"
+#define SETTINGS_CODE_ACCEPTED "Settings/codeAccepted"
+#define SETTINGS_CODE_ACCEPTED_DETAILS "Settings/codeAcceptedDetails"
+#define SETTINGS_FRIENDSHIP_CONFIRMED "Settings/friendshipConfirmed"
+#define SETTINGS_REJECT_FRIENDSHIP_Q "Settings/rejectFriendshipQ"
+#define SETTINGS_REJECTED "Settings/rejected"
+#define SETTINGS_ENTER_KID_CODE "Settings/enterKidCode"
+#define SETTINGS_SHARE_CODE_TEXT "Settings/shareCodeText"
+#define SETTINGS_DELETE_PROFILE "Settings/deleteProfile"
+#define SETTINGS_LEARN_ABOUT_SUBSCRIPTIONS "Settings/learnAboutSubscriptions"
+#define SETTINGS_ACCOUNT_TYPE_TEXT "Settings/accountTypeText"
+#define SETTINGS_FRIENDSHIPS_TO_APPROVE "Settings/friendshipsToApprove"
+#define SETTINGS_NO_FRIENDSHIPS_TO_APPROVE "Settings/noFriendshipsToApprove"
 
 #endif

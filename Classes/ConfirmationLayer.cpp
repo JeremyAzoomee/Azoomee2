@@ -1,5 +1,6 @@
 #include "ConfirmationLayer.h"
 #include "ui/UIScale9Sprite.h"
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/Style.h>
@@ -59,7 +60,7 @@ void ConfirmationLayer::setToConfirm()
     clearUIItems();
     createRect(Style::Color_4F::macaroniAndCheese);
     
-    Label* rejectRequest = createLabelBody(StringUtils::format("%s & %s are now friends and can chat!",childNameLabel->getString().c_str(),friendNameLabel->getString().c_str()),Color3B::BLACK);
+    Label* rejectRequest = createLabelBody(StringUtils::format(StringMgr::getInstance()->getStringForKey(SETTINGS_FRIENDSHIP_CONFIRMED).c_str(),childNameLabel->getString().c_str(),friendNameLabel->getString().c_str()),Color3B::BLACK);
     rejectRequest->setTag(1000);
     rejectRequest->setPosition(this->getContentSize().width/2, this->getContentSize().height/2);
     this->addChild(rejectRequest);
@@ -75,7 +76,7 @@ void ConfirmationLayer::setToReject()
     childNameLabel->setVisible(true);
     friendNameLabel->setVisible(true);
     
-    Label* rejectRequest = createLabelBody("Reject this friendship?",Color3B::BLACK);
+    Label* rejectRequest = createLabelBody(StringMgr::getInstance()->getStringForKey(SETTINGS_REJECT_FRIENDSHIP_Q),Color3B::BLACK);
     rejectRequest->setTag(1000);
     rejectRequest->setPosition(this->getContentSize().width/2, this->getContentSize().height/2);
     this->addChild(rejectRequest);
@@ -89,7 +90,7 @@ void ConfirmationLayer::setToRejected()
     childNameLabel->setVisible(false);
     friendNameLabel->setVisible(false);
     
-    Label* rejectRequest = createLabelBody("Rejected",Style::Color::watermelon);
+    Label* rejectRequest = createLabelBody(StringMgr::getInstance()->getStringForKey(SETTINGS_REJECTED),Style::Color::watermelon);
     rejectRequest->setTag(1000);
     rejectRequest->setPosition(this->getContentSize().width/2, this->getContentSize().height/2);
     this->addChild(rejectRequest);

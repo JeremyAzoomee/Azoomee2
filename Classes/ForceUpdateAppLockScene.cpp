@@ -1,4 +1,5 @@
 #include "ForceUpdateAppLockScene.h"
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 #include "ForceUpdateSingleton.h"
@@ -36,14 +37,14 @@ void ForceUpdateAppLockScene::addVisualComponentsToScene()
 {
     addSideWiresToScreen(this, 0, 2);
     
-    auto titleLabel = Label::createWithTTF("Azoomee needs to be updated!", Style::Font::Regular, 130);
+    auto titleLabel = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(FORCE_UPDATE_TITLE), Style::Font::Regular, 130);
     titleLabel->setColor(Style::Color::brightAqua);
     titleLabel->setAnchorPoint(Vec2(0.5,0.5));
     titleLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     titleLabel->setPosition(visibleSize.width/2 + origin.x, visibleSize.height + origin.y -titleLabel->getContentSize().height * 1.2f);
     this->addChild(titleLabel);
     
-    auto subTitleLabel = Label::createWithTTF("It looks like you are using an old version of Azoomee.\nTo continue using Azoomee, please ask\na grown-up to update it to the latest version\nby tapping the button below.", Style::Font::Regular, 76);
+    auto subTitleLabel = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(FORCE_UPDATE_SUB_TITLE), Style::Font::Regular, 76);
     subTitleLabel->setColor(Color3B::WHITE);
     subTitleLabel->setAnchorPoint(Vec2(0.5,0.5));
     subTitleLabel->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -53,7 +54,7 @@ void ForceUpdateAppLockScene::addVisualComponentsToScene()
 
 void ForceUpdateAppLockScene::addUpdateButtonToScene()
 {
-    updateButton = ElectricDreamsButton::createButtonWithText("Update Azoomee", 225);
+    updateButton = ElectricDreamsButton::createButtonWithText(StringMgr::getInstance()->getStringForKey(FORCE_UPDATE_BUTTON), 225);
     updateButton->setPosition(visibleSize.width / 2 + origin.x - updateButton->getContentSize().width / 2, updateButton->getContentSize().height * 0.75f + origin.y);
     updateButton->setDelegate(this);
     updateButton->setMixPanelButtonName("UpdateAzoomeeButton");

@@ -9,6 +9,7 @@
 #include "OomeeMakerScene.h"
 #include "SimpleAudioEngine.h"
 #include "../DataObjects/OomeeMakerDataHandler.h"
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Utils/DirectorySearcher.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
@@ -134,7 +135,7 @@ void OomeeSelectScene::toggleMakeAvatarHiglight()
         }),NULL));
         _contentLayer->addChild(banner,10);
         
-        auto bannerLabel = Label::createWithTTF("This is Your New Avatar!", Style::Font::Regular, 73);
+        auto bannerLabel = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(OOMEE_MAKER_NEW_AVATAR), Style::Font::Regular, 73);
         bannerLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         bannerLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
         bannerLabel->setColor(Color3B::BLACK);

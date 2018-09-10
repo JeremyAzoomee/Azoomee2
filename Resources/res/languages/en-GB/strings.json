@@ -1,49 +1,24 @@
 {
     "LoginScene":
-        {
-            "email_label":"Log in.\nPlease enter your email.",
-            "password_label":"Password"
-        },
-    
-    "OnboardingScene":
     {
-        "title_label":"Create your family account",
-        "email_label":"Enter parent's email address",
-        "password_label":"Create a password",
-        "pin_label":"Set up a 4-digit PIN",
-        "pin_sub_label":"Use this to protect the parents/settings area."
+        "email_label":"Log in.\nPlease enter your email.",
+        "password_label":"Password"
     },
-    
-    "OnboardingSuccessScene":
+    "AddChildScene":
     {
-        "IAP_success_title_label":"Your Azoomee subscription is now active!",
-        "IAP_fail_title_label":"Preview Azoomee",
-        "sub_success_label":"Tap %s to get started!",
-        "sub_fail_label":"Tap %s to take a look around",
-        "IAP_success_bottom_label":"",
-        "IAP_fail_bottom_label":"You can always unlock full access later"
-    },
-    
-    "ChildAccountScene":
-    {
-        "main_title_signup_label":"Personalise your child’s experience",
-        "main_title_add_child_label":"Create a profile for your child",
-        "select_oomee_title_label":"Give your child their own Oomee",
-        "request_name_label":"What's your child's first name",
-        "edit_name_label":"Want to change the display name?",
-        "request_dob_label":"What's their date of birth",
-        "request_dob_sub_label":"We need this to give them age-appropriate\nvideos, games & audiobooks",
-        
-        "request_oomee_label":"Pick your favourite character",
-        
-        "dob_day_placeholder":"DD",
-        "dob_month_placeholder":"MM",
-        "dob_year_placeholder":"YYYY"
-    },
-    
-    "ChildAccountSuccessScene":
-    {
-        "title_label":"Great!\nTap on your Oomee to get started."
+        "welcomeTitle": "Welcome to Azoomee",
+        "welcomeTitleMultiline": "Welcome to\nAzoomee",
+        "welcomeSubTitle": "Let's complete your setup",
+        "addAnotherTitle": "Add another child",
+        "nameHeading": "What’s your child’s name?",
+        "ageTitle": "Personalise their experience",
+        "ageTitleMultiline": "Personalise their\nexperience",
+        "ageHeading": "How old are they?",
+        "ageSubHeading": "We need this to give them age-appropriate content.",
+        "ageSubHeadingMultiline": "We need this to give them\nage-appropriate content.",
+        "oomeeTitle": "Here is %s’s Oomee",
+        "oomeeSubTitle": "Don’t worry if they don’t like it,\nthey can change it anytime in the Oomee Maker.",
+        "oomeeSubTitleMultiline": "Don’t worry if they don’t like it,\nthey can change it anytime\nin the Oomee Maker."
     },
     
     "OfflineScene":
@@ -53,14 +28,14 @@
         "offline_sub_title_label":"Check your connection and try again",
         "hub_logged_in_body_label":"In the meantime you can still enjoy these.",
         "online_title_label":"Great news! You are back online."
-        
     },
     
     "OtherLabels":
     {
         "pin_request_label":"Please enter your PIN",
         "child_selectscene_title_label":"Select your profile",
-        "loading_label":"Loading"
+        "loading_label":"Loading",
+        "saving_label":"Saving..."
     },
     
     "GenericButtons":
@@ -78,12 +53,22 @@
         
         "skip":"Skip",
         "add_another":"Add another",
+        "add_another_child": "Add another child",
         "lets_go":"Let's go",
         "retry":"Retry",
         "reset":"Reset",
         "report":"Report",
         "onlineSafetyTips":"online safety tips",
-        "back":"Back"
+        "back":"Back",
+        "done": "Done",
+        "edit": "Edit",
+        "confirm": "Confirm",
+        "reject": "Reject",
+        "yes": "Yes",
+        "no": "No",
+        "tryAgain": "Try Again",
+        "startTrial": "Start Trial"
+
     },
     
     "OnlineSafetySlides":
@@ -126,6 +111,80 @@
     "Chat":
     {
         "chatReported":"This chat has been reported. Get your parent to reset it.",
-        "chatReportedMultiline":"This chat has been reported.\nGet your parent to reset it."
+        "chatReportedMultiline":"This chat has been reported.\nGet your parent to reset it.",
+        "shareWithFriend": "Who would you like to share this with?",
+        "addFriendsButton": "Add Friends"
+    },
+    "ArtApp":
+    {
+        "deleteArt": "Are you sure you\nwant to delete\nyour picture?"
+    },
+    "OomeeMaker":
+    {
+        "newAvatar": "This is Your New Avatar!"
+    },
+    "MeHQ":
+    {
+        "firstUseMessageSender": "Azoomee",
+        "firstUseMessageBody": "Welcome to your Me Page!",
+        "messagePlaceholderPicture": "Sent a Picture",
+        "messagePlaceholderSticker": "Sent a Sticker",
+        "messagePlaceholderLink": "Sent a Link",
+        "headingMessages": "Last Messages",
+        "headingGallery": "My Gallery",
+        "headingFavourites": "My Favourites",
+        "headingDownloads": "Available Offline",
+        "headingDownloadsEmpty": "My Downloads",
+        "subHeadingFavourites": "Favourite content after you watch or play and it will appear here.",
+        "subHeadingFavouritesMultiline": "Favourite content after you watch\nor play and it will appear here.",
+        "subHeadingDownloads": "Play some games and they’ll appear here, then you can play them\nwhen you’re offline.",
+        "subHeadingDownloadsMultiline": "Play some games and they’ll appear\nhere, then you can play them\nwhen you’re offline.",
+        "subHeadingDownloadsMultiline18x9": "Play some games and they’ll\nappear here, then you can play\nthem when you’re offline."
+
+    },
+    "UserMessaging":
+    {
+        "startTrial": "Start 7 Day Free Trial",
+        "reactivate": "Reactivate your account",
+        "premium": "Congratulations! You are now a Premium User",
+        "premiumMultiline": "Congratulations!\nYou are now a Premium User"
+    },
+    "ForceUpdate":
+    {
+        "title": "Azoomee needs to be updated!",
+        "subTitle": "It looks like you are using an old version of Azoomee.\nTo continue using Azoomee, please ask\na grown-up to update it to the latest version\nby tapping the button below.",
+        "button": "Update Azoomee"
+    },
+    "InputPlaceholders":
+    {
+        "password": "Minimum 6 characters",
+        "childName": "First name or nickname only",
+        "age": "Age",
+        "day": "DD",
+        "month": "MM",
+        "year": "YYYY"
+    },
+    "Settings":
+    {
+        "headingYourKids": "Your Kids",
+        "headingFriendships": "Friendships",
+        "headingOnlineSafety": "Online Safety",
+        "headingYourAccount": "Your Account",
+        "shareKidCode": "Share with friends",
+        "addFriend": "To add a Friend",
+        "codeUnrecognised": "Oh No! We didn't recognise\nthat Kid Code.",
+        "codeAccepted": "Kid Code accepted",
+        "codeAcceptedDetails": "Your friend has been added!\nTheir parents will need to\nconfirm the friendship.",
+        "friendshipConfirmed": "%s & %s are now friends and can chat!",
+        "rejectFriendshipQ": "Reject this friendship?",
+        "rejected": "Rejected",
+        "enterKidCode": "Enter their Kid Code here",
+        "shareCodeText": "%s uses Azoomee to chat safely with family & friends. Enter %s's Kid Code %s in Azoomee to start chatting with your child.\nDownload Azoomee here: http://bit.ly/azoomeekids",
+        "deleteProfile": "Delete Profile",
+        "learnAboutSubscriptions": "Learn about Subscriptions",
+        "accountTypeText": "You have a ",
+        "friendshipsToApprove": "You have new friendships to approve!",
+        "noFriendshipsToApprove": "There are no new friendships to approve right now."
     }
+
 }
