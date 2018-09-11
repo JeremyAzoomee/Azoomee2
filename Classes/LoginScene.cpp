@@ -238,7 +238,7 @@ void LoginScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string
     if(messageBoxTitle == StringMgr::getInstance()->getErrorMessageWithCode(ERROR_CODE_INVALID_CREDENTIALS)[ERROR_TITLE] && buttonTitle == MessageBox::kResetPassword)
     {
         BackEndCaller::getInstance()->resetPasswordRequest(_emailTextInput->getText());
-        Azoomee::MessageBox::createWith("Request Sent", StringUtils::format("Instructions for resetting your password have been sent to:\n\n%s",_emailTextInput->getText().c_str()), "OK", this);
+        Azoomee::MessageBox::createWith(StringMgr::getInstance()->getStringForKey(LOGINSCENE_RESET_PASSWORD_TITLE), StringUtils::format(StringMgr::getInstance()->getStringForKey(LOGINSCENE_RESET_PASSWORD_BODY).c_str(),_emailTextInput->getText().c_str()), StringMgr::getInstance()->getStringForKey(BUTTON_OK) , this);
     }
     else
     {

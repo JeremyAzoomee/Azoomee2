@@ -10,6 +10,8 @@
 
 #define LOGINSCENE_EMAIL_LABEL "LoginScene/email_label"
 #define LOGINSCENE_PASSWORD_LABEL "LoginScene/password_label"
+#define LOGINSCENE_RESET_PASSWORD_TITLE "LoginScene/resetPasswordTitle"
+#define LOGINSCENE_RESET_PASSWORD_BODY "LoginScene/resetPasswordBody"
 
 //----------- ADD CHILD SCENE ---------------------
 
@@ -41,6 +43,7 @@
 #define CHILD_SELECTSCENE_TITLE_LABEL "OtherLabels/child_selectscene_title_label"
 #define LOADING_LABEL "OtherLabels/loading_label"
 #define SAVING_LABEL "OtherLabels/saving_label"
+#define KID_CODE "OtherLabels/kidCode"
 
 //------------ GENERIC BUTTONS ----------------
 
@@ -68,6 +71,8 @@
 #define BUTTON_NO "GenericButtons/no"
 #define BUTTON_TRY_AGAIN "GenericButtons/tryAgain"
 #define BUTTON_START_TRIAL "GenericButtons/startTrial"
+#define BUTTON_UPDATE "GenericButtons/update"
+#define BUTTON_OK "GenericButtons/ok"
 
 //--------------ONLINE SAFETY SLIDES------------------
 
@@ -134,6 +139,8 @@
 #define FORCE_UPDATE_TITLE "ForceUpdate/title"
 #define FORCE_UPDATE_SUB_TITLE "ForceUpdate/subTitle"
 #define FORCE_UPDATE_BUTTON "ForceUpdate/button"
+#define FORCE_UPDATE_MSG_BOX_TITLE "ForcUpdate/messageBoxTitle"
+#define FORCE_UPDATE_MSG_BOX_BODY "ForceUpdate/messageBoxBody"
 
 //----------- INPUT PLACEHOLDERS ---------------
 

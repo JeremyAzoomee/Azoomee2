@@ -2,7 +2,9 @@
     "LoginScene":
     {
         "email_label":"Log in.\nPlease enter your email.",
-        "password_label":"Password"
+        "password_label":"Password",
+        "resetPasswordTitle": "Request Sent",
+        "resetPasswordBody": "Instructions for resetting your password have been sent to:\n\n%s"
     },
     "AddChildScene":
     {
@@ -35,7 +37,8 @@
         "pin_request_label":"Please enter your PIN",
         "child_selectscene_title_label":"Select your profile",
         "loading_label":"Loading",
-        "saving_label":"Saving..."
+        "saving_label":"Saving...",
+        "kidCode": "Kid Code: "
     },
     
     "GenericButtons":
@@ -67,7 +70,9 @@
         "yes": "Yes",
         "no": "No",
         "tryAgain": "Try Again",
-        "startTrial": "Start Trial"
+        "startTrial": "Start Trial",
+        "update": "Update",
+        "ok": "OK"
 
     },
     
@@ -153,7 +158,10 @@
     {
         "title": "Azoomee needs to be updated!",
         "subTitle": "It looks like you are using an old version of Azoomee.\nTo continue using Azoomee, please ask\na grown-up to update it to the latest version\nby tapping the button below.",
-        "button": "Update Azoomee"
+        "button": "Update Azoomee",
+        "messageBoxTitle": "Update recommended",
+        "messageBoxBody": "You should update to the\nlatest version of Azoomee.\nAsk a grown-up to help you."
+
     },
     "InputPlaceholders":
     {
