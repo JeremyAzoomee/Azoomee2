@@ -248,6 +248,32 @@ void ParentDataParser::parseParentDetails(const std::string &responseData)
     
 }
     
+void ParentDataParser::parseChildUpdateData(int childNum, const std::string &responseData)
+{
+    rapidjson::Document childData;
+    childData.Parse(responseData.c_str());
+    if(childData.HasParseError())
+    {
+        return;
+    }
+    
+    ParentDataStorage* parentData = ParentDataStorage::getInstance();
+    
+    std::map<std::string, std::string> currentChild;
+    
+    currentChild["profileName"] = getStringFromJson("profileName", childData);
+    currentChild["avatar"] = getStringFromJson("avatar", childData);
+    currentChild["inviteCode"] = getStringFromJson("inviteCode", childData);
+    currentChild["sex"] = getStringFromJson("sex", childData);
+    currentChild["dob"] = getStringFromJson("dob", childData);
+    currentChild["id"] = getStringFromJson("id", childData);
+    
+    parentData->availableChildren[childNum] = currentChild;
+    
+    const std::string& childId = currentChild["id"];
+    parentData->availableChildrenById[childId] = childNum;
+}
+    
 void ParentDataParser::logoutChild()
 {
     ChildDataStorage::getInstance()->childLoggedIn = false;

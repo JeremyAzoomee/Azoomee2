@@ -25,7 +25,14 @@ class KidDetailsLayer : public cocos2d::ui::Layout, public Azoomee::HttpRequestC
 private:
     
     cocos2d::ui::Button* _deleteButton = nullptr;
-    cocos2d::Label* _nameLabel = nullptr;
+    
+    cocos2d::ui::Layout* _nameLayout = nullptr;
+    cocos2d::ui::Layout* _editNameLayout = nullptr;
+    cocos2d::ui::Layout* _displayNameLayout = nullptr;
+    TextInputLayer* _editNameInput = nullptr;
+    cocos2d::Label* _nameText = nullptr;
+    cocos2d::ui::Button* _editNameButton = nullptr;
+    
     RemoteImageSprite* _oomee = nullptr;
     cocos2d::ui::Layout* _kidCodeLayout = nullptr;
     TextInputLayer* _kidCodeInput = nullptr;

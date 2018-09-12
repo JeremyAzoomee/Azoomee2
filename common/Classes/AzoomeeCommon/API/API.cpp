@@ -45,6 +45,7 @@ const char* const API::TagUpdateChildAvatar = "updateChildAvatar";
 const char* const API::TagUpdateParentDetails = "updateParentDetails";
 const char* const API::TagUpdateParentPassword = "updateParentPassword";
 const char* const API::TagGetParentDetails = "getParentDetails";
+const char* const API::TagUpdateChildNameRequest = "updateChildNameRequest";
 
 #pragma mark - API Methods
 
@@ -378,6 +379,18 @@ HttpRequestCreator* API::getParentDetailsRequest(const std::string &parentId, Az
     return request;
 }
 
+HttpRequestCreator* API::UpdateChildNameRequest(const std::string& childId,
+                                                const std::string& newName,
+                                                HttpRequestCreatorResponseDelegate* delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestBody = StringUtils::format("{\"profileName\":\"%s\"}", newName.c_str());
+    request->requestPath = StringUtils::format("/api/user/child/%s",childId.c_str());
+    request->requestTag = TagUpdateChildNameRequest;
+    request->method = "PATCH";
+    request->encrypted = true;
+    return request;
+}
 
 #pragma mark - Sharing
 

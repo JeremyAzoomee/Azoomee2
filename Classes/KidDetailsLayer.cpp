@@ -9,11 +9,13 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/NativeShare/NativeShare.h>
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "SettingsMessageBoxDeleteChild.h"
+#include "SettingsMessageBoxFREvent.h"
 
 using namespace cocos2d;
 
@@ -55,26 +57,72 @@ void KidDetailsLayer::onEnter()
     centralContentLayout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     this->addChild(centralContentLayout);
     
-    ui::Layout* nameLayout = ui::Layout::create();
-    nameLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+    _nameLayout = ui::Layout::create();
+    _nameLayout->setContentSize(Size(this->getContentSize().width * 0.6f, 157));
+    _nameLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,80,0,0)));
     
-    _nameLabel = Label::createWithTTF(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(_childNum), Style::Font::Medium, 107);
-    _nameLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _nameLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    _nameLabel->setTextColor(Color4B::BLACK);
-    if(_nameLabel->getContentSize().width > this->getContentSize().width * 0.6f)
-    {
-        reduceLabelTextToFitWidth(_nameLabel, this->getContentSize().width * 0.6f);
-    }
+    centralContentLayout->addChild(_nameLayout);
     
-    ui::Button* editNameButton = ui::Button::create("res/settings/edit_button_circle.png");
-    editNameButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
-    editNameButton->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
+    _editNameLayout = ui::Layout::create();
+    _editNameLayout->setContentSize(_nameLayout->getContentSize());
+    _editNameLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+    _editNameLayout->setVisible(false);
+    _nameLayout->addChild(_editNameLayout);
     
-    nameLayout->setContentSize(Size(_nameLabel->getContentSize().width + (3 * editNameButton->getContentSize().width), _nameLabel->getContentSize().height));
-    nameLayout->addChild(_nameLabel);
-    nameLayout->addChild(editNameButton);
-    centralContentLayout->addChild(nameLayout);
+    _editNameInput = TextInputLayer::createSettingsRoundedTextInput(this->getContentSize().width * 0.6f, INPUT_IS_CHILD_NAME);
+    _editNameInput->setCenterPosition(_editNameLayout->getContentSize() / 2);
+    _editNameInput->setText(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(_childNum));
+    _editNameLayout->addChild(_editNameInput);
+    
+    ui::Button* confirmNameEditButton = ui::Button::create("res/settings/tick_button.png");
+    confirmNameEditButton->setAnchorPoint(Vec2(1.14,0.5));
+    confirmNameEditButton->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
+    confirmNameEditButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            if(_editNameInput->getText() != _nameText->getString())
+            {
+                if(_editNameInput->inputIsValid())
+                {
+                    ModalMessages::getInstance()->startLoading();
+                    HttpRequestCreator* request = API::UpdateChildNameRequest(ParentDataProvider::getInstance()->getIDForAvailableChildren(_childNum), _editNameInput->getText(), this);
+                    request->execute();
+                    _displayNameLayout->setVisible(true);
+                    _editNameLayout->setVisible(false);
+                }
+            }
+            else
+            {
+                _displayNameLayout->setVisible(true);
+                _editNameLayout->setVisible(false);
+            }
+        }
+    });
+    _editNameInput->addChild(confirmNameEditButton);
+    
+    _displayNameLayout = ui::Layout::create();
+    _displayNameLayout->setContentSize(_nameLayout->getContentSize());
+    _displayNameLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+    _nameLayout->addChild(_displayNameLayout);
+    
+    _nameText = Label::createWithTTF(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(_childNum), Style::Font::Medium, 107);
+    _nameText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _nameText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    _nameText->setTextColor(Color4B::BLACK);
+    reduceLabelTextToFitWidth(_nameText, _nameLayout->getContentSize().width * 0.8f);
+    _displayNameLayout->addChild(_nameText);
+    
+    _editNameButton = ui::Button::create("res/settings/edit_button_circle.png");
+    _editNameButton->setAnchorPoint(Vec2(-0.25,0.5));
+    _editNameButton->setPosition((_displayNameLayout->getContentSize() * 0.5) + Size(_nameText->getContentSize().width * 0.5f,0));
+    _editNameButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            _displayNameLayout->setVisible(false);
+            _editNameLayout->setVisible(true);
+        }
+    });
+    _displayNameLayout->addChild(_editNameButton);
     
     ui::Layout* oomeeLayout = ui::Layout::create();
     oomeeLayout->setContentSize(Size(this->getContentSize().height * 0.45f, this->getContentSize().height * 0.45f));
@@ -206,7 +254,7 @@ void KidDetailsLayer::onHttpRequestSuccess(const std::string& requestTag, const 
 {
     if(requestTag == API::TagDeleteChild)
     {
-         ModalMessages::getInstance()->stopLoading();
+        ModalMessages::getInstance()->stopLoading();
         if(_deleteCallback)
         {
             _deleteCallback();
@@ -215,13 +263,39 @@ void KidDetailsLayer::onHttpRequestSuccess(const std::string& requestTag, const 
     else if(requestTag == API::TagFriendRequest)
     {
         ModalMessages::getInstance()->stopLoading();
-        
+        SettingsMessageBoxFREvent* messageBox = SettingsMessageBoxFREvent::create();
+        messageBox->setDelegate(this);
+        messageBox->setType(EventType::SUCCESS);
+        Director::getInstance()->getRunningScene()->addChild(messageBox,100);
+    }
+    else if(requestTag == API::TagUpdateChildNameRequest)
+    {
+        ModalMessages::getInstance()->stopLoading();
+        {
+            rapidjson::Document data;
+            data.Parse(body.c_str());
+            if(!data.HasParseError())
+            {
+                ParentDataParser::getInstance()->parseChildUpdateData(_childNum, body);
+                _nameText->setString(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(_childNum));
+                reduceLabelTextToFitWidth(_nameText, _nameLayout->getContentSize().width * 0.8f);
+                _editNameButton->setPosition((_displayNameLayout->getContentSize() * 0.5) + Size(_nameText->getContentSize().width * 0.5f,0));
+                _editNameInput->setText(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(_childNum));
+            }
+        }
     }
 }
 
 void KidDetailsLayer::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
-     ModalMessages::getInstance()->stopLoading();
+    ModalMessages::getInstance()->stopLoading();
+    if(requestTag == API::TagFriendRequest)
+    {
+        SettingsMessageBoxFREvent* messageBox = SettingsMessageBoxFREvent::create();
+        messageBox->setDelegate(this);
+        messageBox->setType(EventType::FAIL);
+        Director::getInstance()->getRunningScene()->addChild(messageBox,100);
+    }
 }
 
 void KidDetailsLayer::onButtonPressed(SettingsMessageBox* pSender, SettingsMessageBoxButtonType type)
@@ -251,9 +325,13 @@ void KidDetailsLayer::onButtonPressed(SettingsMessageBox* pSender, SettingsMessa
         }
         case SettingsMessageBoxButtonType::SEND:
         {
-            //cast to proper message box
-            //grab text from message box (error handling done in message box)
-            //send FR
+            SettingsMessageBoxFREvent* messageBox = dynamic_cast<SettingsMessageBoxFREvent*>(pSender);
+            if(messageBox)
+            {
+                ModalMessages::getInstance()->startLoading();
+                HttpRequestCreator* request = API::FriendRequest(ParentDataProvider::getInstance()->getIDForAvailableChildren(_childNum), ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(_childNum), messageBox->getInputString(), this);
+                request->execute();
+            }
             pSender->removeFromParent();
             break;
         }

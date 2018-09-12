@@ -21,12 +21,17 @@ class EditAccountLayer : public cocos2d::ui::Layout, public HttpRequestCreatorRe
     typedef cocos2d::ui::Layout Super;
 private:
     cocos2d::ui::Layout* _accountTypeLayout = nullptr;
+    cocos2d::ui::Layout* _nameLayout = nullptr;
+    cocos2d::ui::Layout* _editNameLayout = nullptr;
+    cocos2d::ui::Layout* _displayNameLayout = nullptr;
+    TextInputLayer* _editNameInput = nullptr;
     cocos2d::ui::Text* _nameText = nullptr;
-    cocos2d::ui::Button* _editNameButon = nullptr;
+    cocos2d::ui::Button* _editNameButton = nullptr;
     cocos2d::ui::Text* _emailText = nullptr;
     TextInputLayer* _pinEditbox = nullptr;
     cocos2d::ui::Button* _editPinButton = nullptr;
     TextInputLayer* _passwordEditBox = nullptr;
+    cocos2d::ui::Button* _editPasswordButton = nullptr;
     
     bool _editingPin = false;
     

@@ -24,6 +24,7 @@ public:
     void parseParentBillingData(const std::string &responseData);
     void parseParentSessionData(const std::string &responseData);
     void parseParentDetails(const std::string &responseData);
+    void parseChildUpdateData(int childNum, const std::string& responseData);
     void logoutChild();
     void retrieveParentLoginDataFromUserDefaults();
     bool hasParentLoginDataInUserDefaults();

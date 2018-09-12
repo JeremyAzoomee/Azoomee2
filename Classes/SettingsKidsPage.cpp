@@ -13,6 +13,7 @@
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/API/API.h>
 #include "KidDetailsLayer.h"
+#include "SceneManagerScene.h"
 
 using namespace cocos2d;
 
@@ -54,6 +55,13 @@ void SettingsKidsPage::onEnter()
     _footerBanner->setContentSize(Size(this->getContentSize().width, 150));
     _footerBanner->setBackGroundColor(Style::Color::skyBlue);
     _footerBanner->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+    _footerBanner->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(AddChild));
+        }
+    });
+    _footerBanner->setTouchEnabled(true);
     this->addChild(_footerBanner);
     
     ui::ImageView* newProfileImg = ui::ImageView::create("res/settings/add_new_profile_button.png");

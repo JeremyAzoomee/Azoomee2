@@ -35,12 +35,73 @@ void EditAccountLayer::onEnter()
 {
     int lowestY = this->getContentSize().height;
     
-    _nameText = ui::Text::create(ParentDataProvider::getInstance()->getParentDisplayName(), Style::Font::Medium, 107);
-    _nameText->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,80,0,0)));
-    _nameText->setTextColor(Color4B::BLACK);
-    this->addChild(_nameText);
+    _nameLayout = ui::Layout::create();
+    _nameLayout->setContentSize(Size(this->getContentSize().width * 0.6f, 157));
+    _nameLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,80,0,0)));
     
-    lowestY -= (_nameText->getContentSize().height + 80);
+    this->addChild(_nameLayout);
+    
+    _editNameLayout = ui::Layout::create();
+    _editNameLayout->setContentSize(_nameLayout->getContentSize());
+    _editNameLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+    _editNameLayout->setVisible(false);
+    _nameLayout->addChild(_editNameLayout);
+    
+    _editNameInput = TextInputLayer::createSettingsRoundedTextInput(this->getContentSize().width * 0.6f, INPUT_IS_CHILD_NAME);
+    _editNameInput->setCenterPosition(_editNameLayout->getContentSize() / 2);
+    _editNameInput->setText(ParentDataProvider::getInstance()->getParentDisplayName());
+    _editNameLayout->addChild(_editNameInput);
+    
+    ui::Button* confirmNameEditButton = ui::Button::create("res/settings/tick_button.png");
+    confirmNameEditButton->setAnchorPoint(Vec2(1.14,0.5));
+    confirmNameEditButton->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
+    confirmNameEditButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            if(_editNameInput->getText() != _nameText->getString())
+            {
+                if(_editNameInput->inputIsValid())
+                {
+                    ModalMessages::getInstance()->startLoading();
+                    HttpRequestCreator* request = API::UpdateParentDetailsRequest(ParentDataProvider::getInstance()->getLoggedInParentId(), _editNameInput->getText(), ParentDataProvider::getInstance()->getParentPin(), this);
+                    request->execute();
+                    _displayNameLayout->setVisible(true);
+                    _editNameLayout->setVisible(false);
+                }
+            }
+            else
+            {
+                _displayNameLayout->setVisible(true);
+                _editNameLayout->setVisible(false);
+            }
+        }
+    });
+    _editNameInput->addChild(confirmNameEditButton);
+    
+    _displayNameLayout = ui::Layout::create();
+    _displayNameLayout->setContentSize(_nameLayout->getContentSize());
+    _displayNameLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+    _nameLayout->addChild(_displayNameLayout);
+    
+    _nameText = ui::Text::create(ParentDataProvider::getInstance()->getParentDisplayName(), Style::Font::Medium, 107);
+    _nameText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _nameText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    _nameText->setTextColor(Color4B::BLACK);
+    _displayNameLayout->addChild(_nameText);
+    
+    _editNameButton = ui::Button::create("res/settings/edit_button_circle.png");
+    _editNameButton->setAnchorPoint(Vec2(-0.25,0.5));
+    _editNameButton->setPosition((_displayNameLayout->getContentSize() * 0.5) + Size(_nameText->getContentSize().width * 0.5f,0));
+    _editNameButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            _displayNameLayout->setVisible(false);
+            _editNameLayout->setVisible(true);
+        }
+    });
+    _displayNameLayout->addChild(_editNameButton);
+    
+    lowestY -= (_nameLayout->getContentSize().height + 80);
     
     const std::string& username = ParentDataProvider::getInstance()->getParentEmail();
     _emailText = ui::Text::create(username, Style::Font::Medium, 59);
@@ -167,11 +228,14 @@ void EditAccountLayer::onHttpRequestSuccess(const std::string& requestTag, const
     {
         ModalMessages::getInstance()->stopLoading();
         ParentDataParser::getInstance()->parseParentDetails(body);
+        _nameText->setString(ParentDataProvider::getInstance()->getParentDisplayName());
+        _editNameButton->setPosition((_displayNameLayout->getContentSize() * 0.5) + Size(_nameText->getContentSize().width * 0.5f,0));
+        _editNameInput->setText(ParentDataProvider::getInstance()->getParentDisplayName());
     }
 }
 void EditAccountLayer::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
-    
+    ModalMessages::getInstance()->stopLoading();
 }
 
 NS_AZOOMEE_END

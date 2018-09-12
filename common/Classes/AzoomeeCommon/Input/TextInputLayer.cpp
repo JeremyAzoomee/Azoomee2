@@ -120,15 +120,15 @@ void TextInputLayer::createSettingsBoxEditBox(float width)
     editBoxArea->setColor(Style::Color::carolinaBlue);
     this->addChild(editBoxArea);
     
-    editBox = ui::EditBox::create(Size(this->getContentSize().width - 20,this->getContentSize().height), "res/settings/rounded_rect.png");
+    editBox = ui::EditBox::create(Size(this->getContentSize().width - 40,this->getContentSize().height), "res/settings/rounded_rect.png");
     editBox->moveOnKeyboardDisplayRequired = false;
     
     editBox->setColor(Color3B::WHITE);
     editBox->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
     editBox->setFont(Style::Font::Input, INPUT_STYLE_SIZE);
     editBox->setFontColor(Color3B::BLACK);
-    editBox->setPlaceholderFontColor(Style::Color::telish);
-    editBox->setPlaceholderFont(Style::Font::Regular, 70);
+    editBox->setPlaceholderFontColor(Style::Color::battleshipGrey);
+    editBox->setPlaceholderFont(Style::Font::Regular, 59);
     
     editBox->setTextHorizontalAlignment(TextHAlignment::CENTER);
     
@@ -152,7 +152,7 @@ void TextInputLayer::createSettingRoundedEditBox(float width)
     editBoxArea->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
     this->addChild(editBoxArea);
     
-    editBox = ui::EditBox::create(Size(this->getContentSize().width - 20,this->getContentSize().height), "res/settings/settings_rounded.png");
+    editBox = ui::EditBox::create(Size(this->getContentSize().width - (2 * EDITBOX_CURVE_WIDTH),this->getContentSize().height), "res/settings/settings_rounded.png");
     editBox->moveOnKeyboardDisplayRequired = false;
     
     editBox->setColor(Color3B::WHITE);
@@ -247,6 +247,14 @@ void TextInputLayer::setupEditBoxUsingType()
             editBox->setPlaceHolder("Age");
             break;
         }
+        case INPUT_IS_KIDS_CODE:
+        {
+            editBox->setInputFlag(ui::EditBox::InputFlag::INITIAL_CAPS_ALL_CHARACTERS);
+            editBox->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
+            editBox->setMaxLength(8);
+            editBox->setPlaceHolder("Enter Friend's Kid Code");
+            break;
+        }
     }
 }
     
@@ -269,7 +277,8 @@ void TextInputLayer::createSettingsChatEditBox(float width)
     //editBox->setFont(Style::Font::kidCodeRegular, 84);
     editBox->setFontColor(Color3B::BLACK);
     //editBox->setInputFlag(ui::EditBox::InputFlag::INITIAL_CAPS_ALL_CHARACTERS);
-    
+    //editBox->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
+    //editBox->setMaxLength(8);
     editBox->setTextHorizontalAlignment(TextHAlignment::CENTER);
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -280,8 +289,6 @@ void TextInputLayer::createSettingsChatEditBox(float width)
     
     editBox->setDelegate(this);
     
-    //editBox->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
-    //editBox->setMaxLength(8);
     
     this->addChild(editBox);
 }

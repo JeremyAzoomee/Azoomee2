@@ -57,6 +57,7 @@ public:
     static const char* const TagUpdateParentDetails;
     static const char* const TagUpdateParentPassword;
     static const char* const TagGetParentDetails;
+    static const char* const TagUpdateChildNameRequest;
     
 #pragma mark - API Methods
     
@@ -167,6 +168,10 @@ public:
     
     static HttpRequestCreator* getParentDetailsRequest(const std::string& parentId,
                                                        HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* UpdateChildNameRequest(const std::string& childId,
+                                                      const std::string& newName,
+                                                      HttpRequestCreatorResponseDelegate* delegate);
     
 #pragma mark - Friend Requests
     
