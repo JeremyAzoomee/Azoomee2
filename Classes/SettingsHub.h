@@ -23,6 +23,7 @@ class SettingsHub : public Azoomee::Scene
     typedef Azoomee::Scene Super;
 private:
     cocos2d::ui::Layout* _contentLayout = nullptr;
+    cocos2d::ui::Layout* _mainBodyLayout = nullptr;
     // titile bar
     cocos2d::ui::Layout* _titleLayout = nullptr;
     cocos2d::ui::Text* _titleText = nullptr;

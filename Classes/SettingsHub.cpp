@@ -61,8 +61,8 @@ bool SettingsHub::init()
             }
             else
             {
-                _activeSettingsPageHolder->setPosition(Vec2(visibleSize.width,0));
-                _navigationLayout->setPosition(Vec2(0, 0));
+                _activeSettingsPageHolder->setVisible(false);
+                _navigationLayout->setVisible(true);
                 _titleText->setString("Settings");
                 _titleBarButton->loadTextureNormal("res/settings/exit_button.png");
                 _inHub = true;
@@ -76,16 +76,19 @@ bool SettingsHub::init()
     _titleText->setTextColor(Color4B::WHITE);
     _titleLayout->addChild(_titleText);
     
+    _mainBodyLayout = ui::Layout::create();
+    _mainBodyLayout->setContentSize(Size(visibleSize.width, visibleSize.height - _titleLayout->getContentSize().height));
+    _contentLayout->addChild(_mainBodyLayout);
+    
     _navigationLayout = ui::Layout::create();
-    _navigationLayout->setContentSize(Size(visibleSize.width, visibleSize.height - _titleLayout->getContentSize().height));
+    _navigationLayout->setContentSize(_mainBodyLayout->getContentSize());
     _navigationLayout->setLayoutType(ui::Layout::Type::VERTICAL);
-    _navigationLayout->setPosition(Vec2(0,0));
-    _contentLayout->addChild(_navigationLayout);
+    _mainBodyLayout->addChild(_navigationLayout);
     
     _activeSettingsPageHolder = ui::Layout::create();
-    _activeSettingsPageHolder->setContentSize(_navigationLayout->getContentSize());
-    _activeSettingsPageHolder->setPosition(Vec2(visibleSize.width, 0));
-    _contentLayout->addChild(_activeSettingsPageHolder);
+    _activeSettingsPageHolder->setContentSize(_mainBodyLayout->getContentSize());
+    _activeSettingsPageHolder->setVisible(false);
+    _mainBodyLayout->addChild(_activeSettingsPageHolder);
     
     _kidsButton = SettingsNavigationButton::create();
     _kidsButton->setContentSize(Size(visibleSize.width, (_navigationLayout->getContentSize().height * 0.2) - 10));
@@ -222,8 +225,8 @@ void SettingsHub::changeToPage(SettingsPages page)
             break;
         }
     }
-    _activeSettingsPageHolder->setPosition(Vec2(0,0));
-    _navigationLayout->setPosition(Vec2(-this->getContentSize().width, 0));
+    _activeSettingsPageHolder->setVisible(true);
+    _navigationLayout->setVisible(false);
     _titleBarButton->loadTextureNormal("res/settings/toggle_switch_white.png");
     _inHub = false;
 }
