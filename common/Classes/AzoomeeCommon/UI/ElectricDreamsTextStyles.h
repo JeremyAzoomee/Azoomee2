@@ -2,6 +2,7 @@
 #define AzoomeeCommon_ElectricDreamsTextStyles_h
 
 #include <cocos/cocos2d.h>
+#include <cocos/ui/CocosGUI.h>
 #include "Style.h"
 
 
@@ -38,7 +39,8 @@ cocos2d::Label*  createLabelSettingsChat(std::string text,cocos2d::Color3B color
 cocos2d::Label*  createLabelKidCode(std::string text,cocos2d::Color3B color);
 
 void reduceLabelTextToFitWidth(cocos2d::Label* label,float maxWidth);
-  
+void reduceLabelTextToFitWidth(cocos2d::ui::Text* label,float maxWidth);
+    
 }
 
 #endif
