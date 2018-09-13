@@ -352,6 +352,13 @@ public class NativeViewUI extends Activity {
     @Override
     public boolean dispatchKeyEvent(KeyEvent event)
     {
+        if(_contentURL.contains(kGameIDIndiaraSkullGold))
+        {
+            Log.d("AzoomeeWebView", "INDIARA dispatchKeyEvent: " + event.getAction() + ", keyCode=" + event.getKeyCode());
+            return super.dispatchKeyEvent(event);
+//            return false;
+        }
+
         Log.d("AzoomeeWebView", "dispatchKeyEvent: " + event.getAction() + ", keyCode=" + event.getKeyCode());
         if(event.getAction() == KeyEvent.ACTION_DOWN)
         {
