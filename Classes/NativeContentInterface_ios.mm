@@ -9,7 +9,7 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-//WebViewController *webViewController = nil;
+WebViewController *webViewController = nil;
 
 cocos2d::Scene* NativeContentInterface_ios::createSceneWithURL(const std::string &url, const Vec2& closeButtonAnchor)
 {
@@ -34,6 +34,16 @@ void NativeContentInterface_ios::onEnterTransitionDidFinish()
 {
     Director::getInstance()->purgeCachedData();
     this->setName("iosWebView");
+}
+
+void NativeContentInterface_ios::onExit()
+{
+    if(webViewController != nil)
+    {
+        [webViewController release];
+        webViewController = nil;
+    }
+    Layer::onExit();
 }
 
 //-------------------------------------------All methods are private after this line---------------------------------------
@@ -84,7 +94,7 @@ void NativeContentInterface_ios::addWebViewToScreen(const std::string &url, cons
     
     UIView *currentView = (UIView*)Director::getInstance()->getOpenGLView()->getEAGLView();
     
-    WebViewController* webViewController = [[WebViewController alloc] init];
+    webViewController = [[WebViewController alloc] init];
     [currentView addSubview:webViewController.view];
     
     [webViewController startBuildingWebView:iosurl userid:iosuserid closeButtonAnchorX:closeButtonAnchor.x closeButtonAnchorY:closeButtonAnchor.y];
