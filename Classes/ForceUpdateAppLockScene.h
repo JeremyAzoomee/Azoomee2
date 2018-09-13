@@ -4,27 +4,31 @@
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
+#include <AzoomeeCommon/UI/Scene.h>
 
 NS_AZOOMEE_BEGIN
 
-class ForceUpdateAppLockScene : public cocos2d::Layer, public ElectricDreamsButtonDelegate
+class ForceUpdateAppLockScene : public Azoomee::Scene, public ElectricDreamsButtonDelegate
 {
+    typedef Azoomee::Scene Super;
 private:
-    cocos2d::Size visibleSize;
-    cocos2d::Vec2 origin;
+    cocos2d::Size _visibleSize;
     
     ElectricDreamsButton *updateButton = nullptr;
     
     void addVisualComponentsToScene();
     void addUpdateButtonToScene();
-    void onExit();
+    void onExit() override;
+    
+protected:
+    virtual void onSizeChanged() override;
 
 public:
-    static cocos2d::Scene* createScene();
-    virtual bool init();
+    //static Azoomee::Scene* createScene();
+    virtual bool init() override;
     
     //Delegate Functions
-    void buttonPressed(ElectricDreamsButton* button);
+    void buttonPressed(ElectricDreamsButton* button) override;
     
     // implement the "static create()" method manually
     CREATE_FUNC(ForceUpdateAppLockScene);

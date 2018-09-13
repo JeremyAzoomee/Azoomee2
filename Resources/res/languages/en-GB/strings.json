@@ -157,7 +157,7 @@
     "ForceUpdate":
     {
         "title": "Azoomee needs to be updated!",
-        "subTitle": "It looks like you are using an old version of Azoomee.\nTo continue using Azoomee, please ask\na grown-up to update it to the latest version\nby tapping the button below.",
+        "subTitle": "It looks like you are using an old version of Azoomee.\nTo continue using Azoomee, please ask a grown-up to update it to the latest version by tapping the button below.",
         "button": "Update Azoomee",
         "messageBoxTitle": "Update recommended",
         "messageBoxBody": "You should update to the\nlatest version of Azoomee.\nAsk a grown-up to help you."

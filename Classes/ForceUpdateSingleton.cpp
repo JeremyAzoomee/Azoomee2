@@ -54,7 +54,7 @@ void ForceUpdateSingleton::onForceUpdateLogicHasLocalFile()
     {
         if(isAppCloseRequired())
         {
-            Director::getInstance()->replaceScene(ForceUpdateAppLockScene::createScene());
+            Director::getInstance()->replaceScene(ForceUpdateAppLockScene::create());
         }
         else
         {

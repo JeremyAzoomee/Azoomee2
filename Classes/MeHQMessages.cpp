@@ -261,7 +261,7 @@ void MeHQMessages::createMessageList()
             
             messageLayout->addChild(senderName);
             
-            Label* messageText = Label::createWithTTF("", Style::Font::Regular, 62);
+            ui::Text* messageText = ui::Text::create("", Style::Font::RegularSystemName, 62);
             std::string text = message->messageText();
             if(message->messageType() == Chat::Message::MessageTypeArt)
             {
