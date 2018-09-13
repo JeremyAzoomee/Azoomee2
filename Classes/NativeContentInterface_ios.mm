@@ -9,7 +9,7 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-WebViewController *webViewController = nil;
+//WebViewController *webViewController = nil;
 
 cocos2d::Scene* NativeContentInterface_ios::createSceneWithURL(const std::string &url, const Vec2& closeButtonAnchor)
 {
@@ -36,12 +36,6 @@ void NativeContentInterface_ios::onEnterTransitionDidFinish()
     this->setName("iosWebView");
 }
 
-void NativeContentInterface_ios::onExit()
-{
-    webViewController = nil;
-    Layer::onExit();
-}
-
 //-------------------------------------------All methods are private after this line---------------------------------------
 
 void NativeContentInterface_ios::loadContentBasedOnUrl(const std::string &url, const Vec2& closeButtonAnchor)
@@ -53,23 +47,6 @@ void NativeContentInterface_ios::loadContentBasedOnUrl(const std::string &url, c
     else if(stringEndsWith(url, "m3u8"))
     {
         addMediaPlayerToScreen(url);
-    }
-}
-
-void NativeContentInterface_ios::removeWebViewFromScreen()
-{
-    if(webViewController != nil)
-    {
-        [webViewController removeWebViewWhileInBackground];
-    }
-}
-
-void NativeContentInterface_ios::reAddWebViewToScreen()
-{
-    if(webViewController != nil)
-    {
-        [webViewController addWebViewToScreen];
-        [webViewController createButtons];
     }
 }
 
@@ -107,16 +84,16 @@ void NativeContentInterface_ios::addWebViewToScreen(const std::string &url, cons
     
     UIView *currentView = (UIView*)Director::getInstance()->getOpenGLView()->getEAGLView();
     
-    webViewController = [[WebViewController alloc] init];
+    WebViewController* webViewController = [[WebViewController alloc] init];
     [currentView addSubview:webViewController.view];
     
     [webViewController startBuildingWebView:iosurl userid:iosuserid closeButtonAnchorX:closeButtonAnchor.x closeButtonAnchorY:closeButtonAnchor.y];
+    //[webViewController release];
     
-    
-    currentView = nil;
-    cookieStorage = nil;
-    iosurl = nil;
-    iosuserid = nil;
+    //currentView = nil;
+    //cookieStorage = nil;
+    //iosurl = nil;
+    //iosuserid = nil;
 }
 
 NS_AZOOMEE_END
