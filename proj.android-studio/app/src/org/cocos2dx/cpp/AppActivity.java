@@ -433,6 +433,10 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
                 Log.d("GOOGLEPAY", "Setup successful. Querying inventory.");
                 try {
+                    mBroadcastReceiver = new IabBroadcastReceiver(mAppActivity);
+                    IntentFilter broadcastFilter = new IntentFilter(IabBroadcastReceiver.ACTION);
+                    registerReceiver(mBroadcastReceiver, broadcastFilter);
+
                     if(!mHelper.mSetupDone)
                     {
                         googlePurchaseFailed();
@@ -447,10 +451,6 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
                 }
             }
         });
-
-        mBroadcastReceiver = new IabBroadcastReceiver(this);
-        IntentFilter broadcastFilter = new IntentFilter(IabBroadcastReceiver.ACTION);
-        registerReceiver(mBroadcastReceiver, broadcastFilter);
 
     }
 
