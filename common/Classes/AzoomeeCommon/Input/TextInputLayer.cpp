@@ -158,7 +158,7 @@ void TextInputLayer::setupEditBoxUsingType()
         }
         case INPUT_IS_AGE:
         {
-            editBox->setMaxLength(3);
+            editBox->setMaxLength(2);
             editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
             editBox->setPlaceHolder("Age");
             break;
