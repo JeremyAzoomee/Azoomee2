@@ -113,8 +113,8 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
         //setting up urban airship push notification icons
         DefaultNotificationFactory defaultNotificationFactory = new DefaultNotificationFactory(getApplicationContext());
-        defaultNotificationFactory.setSmallIconId(R.drawable.ic_launcher);
-        defaultNotificationFactory.setLargeIcon(R.drawable.ic_launcher);
+        defaultNotificationFactory.setSmallIconId(R.mipmap.ic_launcher);
+        defaultNotificationFactory.setLargeIcon(R.mipmap.ic_launcher);
         defaultNotificationFactory.setColor(NotificationCompat.COLOR_DEFAULT);
         UAirship airship = UAirship.shared();
         airship.getPushManager().setNotificationFactory(defaultNotificationFactory);
