@@ -38,7 +38,11 @@ void NativeContentInterface_ios::onEnterTransitionDidFinish()
 
 void NativeContentInterface_ios::onExit()
 {
-    webViewController = nil;
+    if(webViewController != nil)
+    {
+        [webViewController release];
+        webViewController = nil;
+    }
     Layer::onExit();
 }
 
@@ -53,23 +57,6 @@ void NativeContentInterface_ios::loadContentBasedOnUrl(const std::string &url, c
     else if(stringEndsWith(url, "m3u8"))
     {
         addMediaPlayerToScreen(url);
-    }
-}
-
-void NativeContentInterface_ios::removeWebViewFromScreen()
-{
-    if(webViewController != nil)
-    {
-        [webViewController removeWebViewWhileInBackground];
-    }
-}
-
-void NativeContentInterface_ios::reAddWebViewToScreen()
-{
-    if(webViewController != nil)
-    {
-        [webViewController addWebViewToScreen];
-        [webViewController createButtons];
     }
 }
 
@@ -111,12 +98,12 @@ void NativeContentInterface_ios::addWebViewToScreen(const std::string &url, cons
     [currentView addSubview:webViewController.view];
     
     [webViewController startBuildingWebView:iosurl userid:iosuserid closeButtonAnchorX:closeButtonAnchor.x closeButtonAnchorY:closeButtonAnchor.y];
+    //[webViewController release];
     
-    
-    currentView = nil;
-    cookieStorage = nil;
-    iosurl = nil;
-    iosuserid = nil;
+    //currentView = nil;
+    //cookieStorage = nil;
+    //iosurl = nil;
+    //iosuserid = nil;
 }
 
 NS_AZOOMEE_END

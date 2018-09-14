@@ -140,7 +140,7 @@ using namespace Azoomee;
         
         navigateToLoginScene();
         
-        [self release];
+        //[self release];
         
         return NO;
     }
@@ -339,6 +339,7 @@ using namespace Azoomee;
 -(void) removeWebViewWhileInBackground
 {
     [backButton removeFromSuperview];
+    
     if(!isAnonUser())
     {
         [_favButton removeFromSuperview];
@@ -378,14 +379,18 @@ using namespace Azoomee;
     [webview removeFromSuperview];
     
     [backButton removeFromSuperview];
+    backButton = nil;
     if(!isAnonUser())
     {
         [_favButton removeFromSuperview];
+        _favButton = nil;
         if(isChatEntitled())
         {
             [_shareButton removeFromSuperview];
+            _shareButton = nil;
         }
         [_burgerButton removeFromSuperview];
+        _burgerButton = nil;
     }
     
     [useridToUse release];
@@ -395,7 +400,7 @@ using namespace Azoomee;
     
     navigateToBaseScene();
     
-    [self release];
+    //[self release];
 }
 
 -(void) animateButtons
