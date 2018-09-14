@@ -15,7 +15,7 @@
 
 NS_AZOOMEE_AA_BEGIN
 
-typedef std::pair<std::string,std::vector<std::string>> StickerSet;
+typedef std::pair<std::string,std::vector<std::pair<std::string,std::string>>> StickerSet;
 typedef std::shared_ptr<StickerSet> StickerSetRef;
 typedef std::vector<StickerSetRef> StickerFileStore;
 

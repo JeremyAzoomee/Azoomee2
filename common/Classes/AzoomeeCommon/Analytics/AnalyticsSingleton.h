@@ -177,6 +177,10 @@ public:
     void deleteOomee();
     void newOomee();
     void saveOomee(const std::string& oomeeDataString);
+    void reportNumberOfOomees(int numOomees);
+    
+    //-------------Art app events-------------------------------
+    void stickerSelectedEvent(const std::string& stickerFilename);
     
 };
   

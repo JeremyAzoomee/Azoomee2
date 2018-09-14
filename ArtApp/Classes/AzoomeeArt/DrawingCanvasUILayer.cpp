@@ -663,7 +663,7 @@ void DrawingCanvasUILayer::onAddStickerPressed(Ref *pSender, ui::Widget::TouchEv
         pressedButton->setScale(baseScale / 0.85f);
         setStickerPopupVisible(false);
 
-        _drawingCanvas->setupStickerNode(pressedButton->getNormalFile().file);
+        _drawingCanvas->setupStickerNode(pressedButton->getNormalFile().file, pressedButton->getName());
 
         setStickerUIEnabled(true);
     }
@@ -740,7 +740,7 @@ void DrawingCanvasUILayer::onConfirmStickerPressed(Ref *pSender, ui::Widget::Tou
         _drawingCanvas->setListenerEnabled(true);
         
         //add sticker as node in drawing scene on undo stack
-        
+
         _drawingCanvas->addStickerToDrawing();
         
     }
@@ -902,7 +902,8 @@ void DrawingCanvasUILayer::onStickerCategoryChangePressed(Ref *pSender, ui::Widg
         {
             ui::Button* temp = ui::Button::create();
             temp->setAnchorPoint(Vec2(0.5,0.5));
-            temp->loadTextures(_stickerCats[index]->second[i], _stickerCats[index]->second[i]);
+            temp->loadTextures(_stickerCats[index]->second[i].first, _stickerCats[index]->second[i].first);
+            temp->setName(_stickerCats[index]->second[i].second);
             temp->setPosition(Vec2(_stickerScrollView->getInnerContainerSize().width*((i+1.0f)/(numStickers+1)),_stickerScrollView->getInnerContainerSize().height*0.8));
             temp->setScale(271.0f/temp->getContentSize().height);
             temp->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onAddStickerPressed, this));
@@ -912,7 +913,8 @@ void DrawingCanvasUILayer::onStickerCategoryChangePressed(Ref *pSender, ui::Widg
             {
                 ui::Button* temp2 = ui::Button::create();
                 temp2->setAnchorPoint(Vec2(0.5,0.5));
-                temp2->loadTextures( _stickerCats[index]->second[i+1], _stickerCats[index]->second[i+1]);
+                temp2->loadTextures( _stickerCats[index]->second[i+1].first, _stickerCats[index]->second[i+1].first);
+                temp2->setName(_stickerCats[index]->second[i+1].second);
                 temp2->setPosition(Vec2(_stickerScrollView->getInnerContainerSize().width*((i+1.0f)/(numStickers+1)),_stickerScrollView->getInnerContainerSize().height*0.4));
                 temp2->setScale(271.0f/temp2->getContentSize().height);
                 temp2->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onAddStickerPressed, this));
@@ -1063,7 +1065,7 @@ void DrawingCanvasUILayer::getStickerFilesFromJSON()
     const rapidjson::Value& categories = json["categories"];
     for(auto it = categories.Begin(); it != categories.End(); ++it)
     {
-        std::vector<std::string> catStickers;
+        std::vector<std::pair<std::string,std::string>> catStickers;
         const auto& jsonCatEntry = *it;
         
         if(!SpecialCalendarEventManager::getInstance()->checkIfInSeason(SpecialCalendarEventManager::getInstance()->getSeasonFromString(getStringFromJson("season", jsonCatEntry, "any"))))
@@ -1078,7 +1080,8 @@ void DrawingCanvasUILayer::getStickerFilesFromJSON()
         {
             const auto& jsonStickEntry = *it;
             const std::string& sticker = kStickerLoc + jsonStickEntry.GetString();
-            catStickers.push_back(sticker);
+            const std::string& identifier = jsonStickEntry.GetString();
+            catStickers.push_back(std::pair<std::string,std::string>(sticker,identifier));
         }
         
         StickerSetRef categorySet = std::make_shared<StickerSet>();
@@ -1097,10 +1100,10 @@ void DrawingCanvasUILayer::getStickerFilesFromJSON()
         return;
     }
     
-    std::vector<std::string> fullFilenames;
+    std::vector<std::pair<std::string,std::string>> fullFilenames;
     for(const std::string& img : oomeeImages)
     {
-        fullFilenames.push_back(oomeeStoragePath + "/" + img);
+        fullFilenames.push_back(std::pair<std::string, std::string>(oomeeStoragePath + "/" + img,"myOomees/" + img));
     }
     StickerSetRef oomeeCat = std::make_shared<StickerSet>();
     oomeeCat->first = kStickerLoc + "Category_MyOomees.png";

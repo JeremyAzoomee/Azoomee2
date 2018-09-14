@@ -823,5 +823,19 @@ void AnalyticsSingleton::saveOomee(const std::string& oomeeDataString)
 {
     mixPanelSendEventWithStoredProperties("saveOomee",{{"oomeeData",oomeeDataString}});
 }
+void AnalyticsSingleton::reportNumberOfOomees(int numOomees)
+{
+    mixPanelSendEventWithStoredProperties("reportNumOomeesEvent",{{"numOomees", cocos2d::StringUtils::format("%d", numOomees)}});
+}
 
+//----------------Art app events------------------------------
+
+void AnalyticsSingleton::stickerSelectedEvent(const std::string &stickerFilename)
+{
+    auto splitString = splitStringToVector(stickerFilename, "/");
+    if(splitString.size() >= 2)
+    {
+        mixPanelSendEventWithStoredProperties("artAppStickerSelected",{{"stickerCategory",splitString.at(splitString.size() - 2)},{"stickerName",splitString.at(splitString.size() - 1)}} );
+    }
+}
 NS_AZOOMEE_END
