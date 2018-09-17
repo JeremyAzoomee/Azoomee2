@@ -103,7 +103,7 @@ void HQSceneElementVisual::setShouldDisplayVisualElementsOverImage()
     // OR
     // if size is 1x2 or 2x2 AND element is Video or Video Group
     
-    if(_elementItemData->getType() == ConfigStorage::kContentTypeGame)
+    if(_elementItemData->getType() == ConfigStorage::kContentTypeGame || _elementItemData->getType() == ConfigStorage::kContentTypeInternal)
     {
         _shouldDisplayVisualElementsOverImage = false;
     }
