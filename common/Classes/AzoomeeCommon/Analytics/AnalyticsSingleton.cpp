@@ -744,6 +744,11 @@ void AnalyticsSingleton::deepLinkingContentEvent()
         mixPanelSendEventWithStoredProperties("chatResetReportedEvent");
     }
 
+void AnalyticsSingleton::chatOpenSharedContentEvent(const std::string& contentId)
+{
+    mixPanelSendEventWithStoredProperties("chatOpenSharedContentEvent", {{"contentId", contentId}});
+}
+
 //-------------------------------------CTA ACTIONS-----------------------------
     
 void AnalyticsSingleton::ctaButtonPressed(const std::string &buttonId, const std::string &title)

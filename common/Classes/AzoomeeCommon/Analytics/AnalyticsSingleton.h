@@ -159,6 +159,7 @@ public:
     void unreadMessagesNotificationReceived();
     void chatReportedEvent();
     void chatResetReportedEvent();
+    void chatOpenSharedContentEvent(const std::string& contentId);
     
     //---------------CTA EVENTS----------------------------------
     void ctaButtonPressed(const std::string &buttonId, const std::string &title = "");
