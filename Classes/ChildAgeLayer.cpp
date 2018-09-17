@@ -6,7 +6,7 @@
 //
 
 #include "ChildAgeLayer.h"
-
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/Style.h>
 
 using namespace cocos2d;
@@ -29,7 +29,7 @@ void ChildAgeLayer::onEnter()
     
     bool isPortrait = contentSize.width < contentSize.height;
     
-    Label* title = Label::createWithTTF(StringUtils::format("Personalise their%sexperience",isPortrait ? "\n" : " "), Style::Font::Regular, 150);
+    Label* title = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(isPortrait ? ADDCHILD_AGE_TITLE_MULTILINE : ADDCHILD_AGE_TITLE), Style::Font::Regular, 150);
     title->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     title->setHorizontalAlignment(TextHAlignment::CENTER);
     title->setPosition(contentSize.width / 2.0f, contentSize.height * 0.9f);
@@ -45,13 +45,13 @@ void ChildAgeLayer::onEnter()
     }
     this->addChild(_textInput);
     
-    Label* textInputTitle = Label::createWithTTF("How old are they?", Style::Font::Regular, 120);
+    Label* textInputTitle = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(ADDCHILD_AGE_HEADING), Style::Font::Regular, 120);
     textInputTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     textInputTitle->setPosition(_textInput->getPosition() + Vec2(_textInput->getContentSize().width / 2, _textInput->getContentSize().height * 1.25f));
     textInputTitle->setColor(Color3B::WHITE);
     this->addChild(textInputTitle);
     
-    Label* textInputSubTitle = Label::createWithTTF(StringUtils::format("We need this to give them%sage-appropriate content.",isPortrait ? "\n" : " "), Style::Font::Regular, 100);
+    Label* textInputSubTitle = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(isPortrait ? ADDCHILD_AGE_SUB_HEADING_MULTILINE : ADDCHILD_AGE_SUB_HEADING), Style::Font::Regular, 100);
     textInputSubTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     textInputSubTitle->setHorizontalAlignment(TextHAlignment::CENTER);
     textInputSubTitle->setPosition(_textInput->getPosition() + Vec2(_textInput->getContentSize().width / 2, -_textInput->getContentSize().height / 2));

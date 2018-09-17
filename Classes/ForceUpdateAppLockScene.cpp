@@ -1,4 +1,5 @@
 #include "ForceUpdateAppLockScene.h"
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 #include "ForceUpdateSingleton.h"
@@ -7,24 +8,14 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-Scene* ForceUpdateAppLockScene::createScene()
-{
-    auto scene = Scene::create();
-    auto layer = ForceUpdateAppLockScene::create();
-    scene->addChild(layer);
-    
-    return scene;
-}
-
 bool ForceUpdateAppLockScene::init()
 {
-    if ( !Layer::init() )
+    if ( !Super::init() )
     {
         return false;
     }
     
-    visibleSize = Director::getInstance()->getVisibleSize();
-    origin = Director::getInstance()->getVisibleOrigin();
+    _visibleSize = Director::getInstance()->getVisibleSize();
     
     addVisualComponentsToScene();
     addUpdateButtonToScene();
@@ -34,30 +25,42 @@ bool ForceUpdateAppLockScene::init()
 
 void ForceUpdateAppLockScene::addVisualComponentsToScene()
 {
-    addSideWiresToScreen(this, 0, 2);
+    addSideWiresToScreen(this, 0, 1);
     
-    auto titleLabel = Label::createWithTTF("Azoomee needs to be updated!", Style::Font::Regular, 130);
+    auto titleLabel = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(FORCE_UPDATE_TITLE), Style::Font::Regular, 130);
     titleLabel->setColor(Style::Color::brightAqua);
-    titleLabel->setAnchorPoint(Vec2(0.5,0.5));
+    titleLabel->setAnchorPoint(Vec2(0.5,1.0));
     titleLabel->setHorizontalAlignment(TextHAlignment::CENTER);
-    titleLabel->setPosition(visibleSize.width/2 + origin.x, visibleSize.height + origin.y -titleLabel->getContentSize().height * 1.2f);
+    titleLabel->setWidth(_visibleSize.width * 0.8f);
+    titleLabel->setPosition(_visibleSize.width/2, _visibleSize.height - 100);
     this->addChild(titleLabel);
     
-    auto subTitleLabel = Label::createWithTTF("It looks like you are using an old version of Azoomee.\nTo continue using Azoomee, please ask\na grown-up to update it to the latest version\nby tapping the button below.", Style::Font::Regular, 76);
+    auto subTitleLabel = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(FORCE_UPDATE_SUB_TITLE), Style::Font::Regular, 76);
     subTitleLabel->setColor(Color3B::WHITE);
-    subTitleLabel->setAnchorPoint(Vec2(0.5,0.5));
+    subTitleLabel->setAnchorPoint(Vec2(0.5,1.0));
     subTitleLabel->setHorizontalAlignment(TextHAlignment::CENTER);
-    subTitleLabel->setPosition(visibleSize.width/2,titleLabel->getPositionY()-titleLabel->getContentSize().height - subTitleLabel->getContentSize().height);
+    subTitleLabel->setWidth(_visibleSize.width * 0.8f);
+    subTitleLabel->setPosition((_visibleSize.width/2),titleLabel->getPositionY() - titleLabel->getContentSize().height - 100);
     this->addChild(subTitleLabel);
 }
 
 void ForceUpdateAppLockScene::addUpdateButtonToScene()
 {
-    updateButton = ElectricDreamsButton::createButtonWithText("Update Azoomee", 225);
-    updateButton->setPosition(visibleSize.width / 2 + origin.x - updateButton->getContentSize().width / 2, updateButton->getContentSize().height * 0.75f + origin.y);
+    updateButton = ElectricDreamsButton::createButtonWithText(StringMgr::getInstance()->getStringForKey(FORCE_UPDATE_BUTTON), 225);
+    updateButton->setPosition(_visibleSize.width / 2 - updateButton->getContentSize().width / 2, updateButton->getContentSize().height * 0.75f);
     updateButton->setDelegate(this);
     updateButton->setMixPanelButtonName("UpdateAzoomeeButton");
     this->addChild(updateButton);
+}
+
+void ForceUpdateAppLockScene::onSizeChanged()
+{
+    removeAllChildrenWithCleanup(true);
+    
+    _visibleSize = Director::getInstance()->getVisibleSize();
+    
+    addVisualComponentsToScene();
+    addUpdateButtonToScene();
 }
 
 //----------------------- Delegate Functions ----------------------------
@@ -69,8 +72,8 @@ void ForceUpdateAppLockScene::buttonPressed(ElectricDreamsButton* button)
 
 void ForceUpdateAppLockScene::onExit()
 {
-    Director::getInstance()->replaceScene(ForceUpdateAppLockScene::createScene()); //prevent this scene to be removed by any others.
-    Node::onExit();
+    Director::getInstance()->replaceScene(ForceUpdateAppLockScene::create()); //prevent this scene to be removed by any others.
+    Super::onExit();
 }
 
 NS_AZOOMEE_END

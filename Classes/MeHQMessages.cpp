@@ -11,6 +11,7 @@
 #include "IAPFlowController.h"
 #include "DynamicNodeHandler.h"
 #include "HQDataProvider.h"
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeChat/UI/AvatarWidget.h>
 #include <AzoomeeChat/UI/MessageScene.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
@@ -35,7 +36,7 @@ bool MeHQMessages::init()
     this->setContentSize(Size(Director::getInstance()->getVisibleSize().width, 200));
     setLayoutType(ui::Layout::Type::VERTICAL);
     
-    ui::Text* heading = ui::Text::create("Last Messages", Style::Font::Regular, 100);
+    ui::Text* heading = ui::Text::create(StringMgr::getInstance()->getStringForKey(MEHQ_HEADING_MESSAGES), Style::Font::Regular, 100);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,50)));
     heading->setContentSize(Size(this->getContentSize().width, 200));
@@ -106,7 +107,7 @@ void MeHQMessages::buildEmptyCarousel()
     float textPos = isPortrait ? 0.30 : 0.2;
     float maxWidth = this->getContentSize().width * ((isPortrait ? 1 : 0.75) - textPos - 0.05);
     
-    Label* senderName = Label::createWithTTF("Azoomee", Style::Font::Regular, isPortrait ? 77 : is3x4Device ? 77 : 97);
+    Label* senderName = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(MEHQ_FIRST_USE_MESSAGE_SENDER), Style::Font::Regular, isPortrait ? 77 : is3x4Device ? 77 : 97);
     senderName->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     senderName->setPosition(Vec2(messageLayout->getContentSize().width * textPos,messageLayout->getContentSize().height * 0.5 + 20));
     
@@ -114,7 +115,7 @@ void MeHQMessages::buildEmptyCarousel()
     
     messageLayout->addChild(senderName);
     
-    Label* messageText = Label::createWithTTF("Welcome to your Me Page!", Style::Font::Regular, isPortrait ? 62 : is3x4Device ? 62 : 82);
+    Label* messageText = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(MEHQ_FIRST_USE_MESSAGE_BODY), Style::Font::Regular, isPortrait ? 62 : is3x4Device ? 62 : 82);
     messageText->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
     messageText->setPosition(Vec2(messageLayout->getContentSize().width * textPos,messageLayout->getContentSize().height * 0.5 - 20));
     messageText->setOpacity(179);
@@ -202,7 +203,7 @@ void MeHQMessages::createMessageList()
     
     this->removeAllChildren();
     
-    ui::Text* heading = ui::Text::create("Last Messages", Style::Font::Regular, 100);
+    ui::Text* heading = ui::Text::create(StringMgr::getInstance()->getStringForKey(MEHQ_HEADING_MESSAGES), Style::Font::Regular, 100);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,50)));
     heading->setContentSize(Size(this->getContentSize().width, 200));
@@ -260,19 +261,19 @@ void MeHQMessages::createMessageList()
             
             messageLayout->addChild(senderName);
             
-            Label* messageText = Label::createWithTTF("", Style::Font::Regular, 62);
+            ui::Text* messageText = ui::Text::create("", Style::Font::RegularSystemName, 62);
             std::string text = message->messageText();
             if(message->messageType() == Chat::Message::MessageTypeArt)
             {
-                text = "Sent a picture";
+                text = StringMgr::getInstance()->getStringForKey(MEHQ_MESSAGE_PLACEHOLDER_PICTURE);
             }
             else if(message->messageType() == Chat::Message::MessageTypeSticker)
             {
-                text = "Sent a Sticker";
+                text = StringMgr::getInstance()->getStringForKey(MEHQ_MESSAGE_PLACEHOLDER_STICKER);
             }
             else if(message->messageType() == Chat::Message::MessageTypeContent)
             {
-                text = "Sent a Link";
+                text = StringMgr::getInstance()->getStringForKey(MEHQ_MESSAGE_PLACEHOLDER_LINK);
             }
             
             messageText->setString(text);

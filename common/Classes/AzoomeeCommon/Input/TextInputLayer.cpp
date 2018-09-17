@@ -206,28 +206,27 @@ void TextInputLayer::setupEditBoxUsingType()
             editBox->setMaxLength(12);
             editBox->setInputFlag(ui::EditBox::InputFlag::INITIAL_CAPS_WORD);
             editBox->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
-            //PLACEHOLDER TEXT WILL CHANGE/REMOVE WITH NEXT RELEASE AND CHANGE TO SIGNUP
-            editBox->setPlaceHolder("First name or nickname only");
+            editBox->setPlaceHolder(StringMgr::getInstance()->getStringForKey(INPUT_PLACEHOLDER_CHILD_NAME).c_str());
             break;
         }
         case INPUT_IS_DAY:
         {
             editBox->setMaxLength(2);
-            editBox->setPlaceHolder(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_DOB_DAY_PLACEHOLDER).c_str());
+            editBox->setPlaceHolder(StringMgr::getInstance()->getStringForKey(INPUT_PLACEHOLDER_DAY).c_str());
             editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
             break;
         }
         case INPUT_IS_MONTH:
         {
             editBox->setMaxLength(2);
-            editBox->setPlaceHolder(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_DOB_MONTH_PLACEHOLDER).c_str());
+            editBox->setPlaceHolder(StringMgr::getInstance()->getStringForKey(INPUT_PLACEHOLDER_MONTH).c_str());
             editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
             break;
         }
         case INPUT_IS_YEAR:
         {
             editBox->setMaxLength(4);
-            editBox->setPlaceHolder(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_DOB_YEAR_PLACEHOLDER).c_str());
+            editBox->setPlaceHolder(StringMgr::getInstance()->getStringForKey(INPUT_PLACEHOLDER_YEAR).c_str());
             editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
             break;
         }
@@ -236,15 +235,14 @@ void TextInputLayer::setupEditBoxUsingType()
             editBox->setMaxLength(50);
             editBox->setInputFlag(ui::EditBox::InputFlag::PASSWORD);
             editBox->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
-            //PLACEHOLDER TEXT WILL CHANGE/REMOVE WITH NEXT RELEASE AND CHANGE TO SIGNUP
-            editBox->setPlaceHolder("Minimum 6 characters");
+            editBox->setPlaceHolder(StringMgr::getInstance()->getStringForKey(INPUT_PLACEHOLDER_PASSWORD).c_str());
             break;
         }
         case INPUT_IS_AGE:
         {
-            editBox->setMaxLength(3);
+            editBox->setMaxLength(2);
             editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
-            editBox->setPlaceHolder("Age");
+            editBox->setPlaceHolder(StringMgr::getInstance()->getStringForKey(INPUT_PLACEHOLDER_AGE).c_str());
             break;
         }
         case INPUT_IS_KIDS_CODE:

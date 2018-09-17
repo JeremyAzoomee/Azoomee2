@@ -12,6 +12,7 @@
 #include "SceneManagerScene.h"
 #include "ArtAppDelegate.h"
 #include "HQDataProvider.h"
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Utils/DirectorySearcher.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
@@ -47,7 +48,7 @@ void MeHQGallery::onEnter()
     this->setContentSize(Size(visibleSize.width, 0));
     setLayoutType(ui::Layout::Type::VERTICAL);
     
-    ui::Text* heading = ui::Text::create("My Gallery", Style::Font::Regular, 100);
+    ui::Text* heading = ui::Text::create(StringMgr::getInstance()->getStringForKey(MEHQ_HEADING_GALLERY), Style::Font::Regular, 100);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,50)));
     heading->setContentSize(Size(visibleSize.width, spaceAboveCarousel));

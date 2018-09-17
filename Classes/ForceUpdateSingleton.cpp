@@ -2,6 +2,7 @@
 #include "BackEndCaller.h"
 
 #include <external/json/document.h>
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Utils/VersionChecker.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include "ForceUpdateAppLockScene.h"
@@ -53,12 +54,12 @@ void ForceUpdateSingleton::onForceUpdateLogicHasLocalFile()
     {
         if(isAppCloseRequired())
         {
-            Director::getInstance()->replaceScene(ForceUpdateAppLockScene::createScene());
+            Director::getInstance()->replaceScene(ForceUpdateAppLockScene::create());
         }
         else
         {
-            std::vector<std::string> buttonNames = {"OK", "Update"};
-            MessageBox::createWith("Update recommended", "You should update to the\nlatest version of Azoomee.\nAsk a grown-up to help you.", buttonNames, this);
+            std::vector<std::string> buttonNames = {StringMgr::getInstance()->getStringForKey(BUTTON_OK), StringMgr::getInstance()->getStringForKey(BUTTON_UPDATE)};
+            MessageBox::createWith(StringMgr::getInstance()->getStringForKey(FORCE_UPDATE_MSG_BOX_TITLE), StringMgr::getInstance()->getStringForKey(FORCE_UPDATE_MSG_BOX_BODY), buttonNames, this);
         }
     }
 }

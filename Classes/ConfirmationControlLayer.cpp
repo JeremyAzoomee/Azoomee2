@@ -5,6 +5,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
 #include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/Strings.h>
 
 #if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include <AzoomeeCommon/Utils/IosNativeFunctionsSingleton.h>
@@ -50,27 +51,27 @@ void ConfirmationControlLayer::addConfirmationFrame()
 
 void ConfirmationControlLayer::addButtons()
 {
-    confirmButton = ElectricDreamsButton::createGreenButton("Confirm", 400);
+    confirmButton = ElectricDreamsButton::createGreenButton(StringMgr::getInstance()->getStringForKey(BUTTON_CONFIRM), 400);
     confirmButton->setCenterPosition(Vec2(this->getContentSize().width-confirmButton->getContentSize().width/2-MARGIN,this->getContentSize().height/2));
     confirmButton->setDelegate(this);
     confirmButton->setMixPanelButtonName("Settings-Confirmation-Confirm");
     confirmationFrameLayer->addChild(confirmButton);
     
-    yesButton = ElectricDreamsButton::createRedFilledButton("Yes", 400);
+    yesButton = ElectricDreamsButton::createRedFilledButton(StringMgr::getInstance()->getStringForKey(BUTTON_YES), 400);
     yesButton->setCenterPosition(confirmButton->getCenterPosition());
     yesButton->setDelegate(this);
     yesButton->setVisible(false);
     yesButton->setMixPanelButtonName("Settings-Confirmation-Reject-Yes");
     confirmationFrameLayer->addChild(yesButton);
     
-    noButton = ElectricDreamsButton::createRedOutlineButton("No", 400);
+    noButton = ElectricDreamsButton::createRedOutlineButton(StringMgr::getInstance()->getStringForKey(BUTTON_NO), 400);
     noButton->setCenterPosition(Vec2(confirmButton->getPositionX() - noButton->getContentSize().width/2 - MARGIN,this->getContentSize().height/2));
     noButton->setVisible(false);
     noButton->setDelegate(this);
     noButton->setMixPanelButtonName("Settings-Confirmation-Reject-No");
     confirmationFrameLayer->addChild(noButton);
     
-    rejectButton = ElectricDreamsButton::createTextAsButtonWithColor("Reject", 48,true,Style::Color::greenish);
+    rejectButton = ElectricDreamsButton::createTextAsButtonWithColor(StringMgr::getInstance()->getStringForKey(BUTTON_REJECT), 48,true,Style::Color::greenish);
     rejectButton->setCenterPosition(noButton->getCenterPosition());
     rejectButton->setDelegate(this);
     rejectButton->setMixPanelButtonName("Settings-Confirmation-Reject");

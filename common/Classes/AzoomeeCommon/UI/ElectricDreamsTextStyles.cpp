@@ -230,5 +230,17 @@ void reduceLabelTextToFitWidth(Label* label,float maxWidth)
         label->setString(StringUtils::format("%s...",labelText.c_str()));
     }
 }
+    
+    void reduceLabelTextToFitWidth(ui::Text* label,float maxWidth)
+{
+    std::string labelText = label->getString();
+    
+    while(label->getContentSize().width > maxWidth)
+    {
+        labelText = labelText.substr(0, labelText.length()-1);
+        
+        label->setString(StringUtils::format("%s...",labelText.c_str()));
+    }
+}
   
 }
