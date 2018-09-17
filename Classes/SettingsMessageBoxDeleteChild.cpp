@@ -6,6 +6,7 @@
 //
 
 #include "SettingsMessageBoxDeleteChild.h"
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/Style.h>
 
 using namespace cocos2d;
@@ -18,7 +19,7 @@ void SettingsMessageBoxDeleteChild::onEnter()
     
     _messageBox->setContentSize(Size(_visibleSize.width - 100, 720));
     
-    _heading = Label::createWithTTF("Are you sure you want to\ndelete this profile?", Style::Font::Medium, 91);
+    _heading = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(SETTINGS_DELETE_PROFILE), Style::Font::Medium, 91);
     _heading->setTextColor(Color4B::BLACK);
     _heading->setHorizontalAlignment(TextHAlignment::CENTER);
     _heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
@@ -34,7 +35,7 @@ void SettingsMessageBoxDeleteChild::onEnter()
     _cancelButton->addTouchEventListener(CC_CALLBACK_2(SettingsMessageBox::onButtonPressed, this));
     _messageBox->addChild(_cancelButton);
     
-    Label* cancelLabel = Label::createWithTTF("Cancel", Style::Font::Medium, 75);
+    Label* cancelLabel = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(SETTINGS_DELETE_PROFILE), Style::Font::Medium, 75);
     cancelLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     cancelLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _cancelButton->addChild(cancelLabel);
@@ -48,7 +49,7 @@ void SettingsMessageBoxDeleteChild::onEnter()
     _deleteButton->addTouchEventListener(CC_CALLBACK_2(SettingsMessageBox::onButtonPressed, this));
     _messageBox->addChild(_deleteButton);
     
-    Label* deleteLabel = Label::createWithTTF("Delete", Style::Font::Medium, 75);
+    Label* deleteLabel = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(BUTTON_DELETE), Style::Font::Medium, 75);
     deleteLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     deleteLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _deleteButton->addChild(deleteLabel);

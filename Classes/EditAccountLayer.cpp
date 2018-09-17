@@ -6,6 +6,7 @@
 //
 
 #include "EditAccountLayer.h"
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
@@ -118,7 +119,7 @@ void EditAccountLayer::onEnter()
     
     lowestY -= (pinEditboxLayout->getContentSize().height + 35);
     
-    Label* pinText = Label::createWithTTF("Pin", Style::Font::Medium, 59);
+    Label* pinText = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(PIN_LABEL), Style::Font::Medium, 59);
     pinText->setTextColor(Color4B(Style::Color::battleshipGrey));
     pinText->setHorizontalAlignment(TextHAlignment::RIGHT);
     pinText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
@@ -166,7 +167,7 @@ void EditAccountLayer::onEnter()
     
     lowestY -= passwordEditboxLayout->getContentSize().height;
     
-    Label* passwordText = Label::createWithTTF("Password", Style::Font::Medium, 59);
+    Label* passwordText = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(PASSWORD_LABEL), Style::Font::Medium, 59);
     passwordText->setTextColor(Color4B(Style::Color::battleshipGrey));
     passwordText->setHorizontalAlignment(TextHAlignment::RIGHT);
     passwordText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
@@ -193,7 +194,7 @@ void EditAccountLayer::onEnter()
     
     if(ParentDataProvider::getInstance()->isPaidUser())
     {
-        Label* subDeetsLab = Label::createWithTTF(StringUtils::format("Premium Subscription\nRenew’s on %s",ParentDataProvider::getInstance()->getBillingDate().c_str()), Style::Font::Medium, 59);
+        Label* subDeetsLab = Label::createWithTTF(StringUtils::format(StringMgr::getInstance()->getStringForKey(SETTINGS_ACCOUNT_PREMIUM_LABEL).c_str(),ParentDataProvider::getInstance()->getBillingDate().c_str()), Style::Font::Medium, 59);
         subDeetsLab->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
         subDeetsLab->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         subDeetsLab->setTextColor(Color4B::WHITE);
@@ -208,7 +209,7 @@ void EditAccountLayer::onEnter()
     }
     else
     {
-        Label* subDeetsLab = Label::createWithTTF("Free Account\nTap Renew for a special offer", Style::Font::Medium, 59);
+        Label* subDeetsLab = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(SETTINGS_ACCOUNT_FREE_LABEL), Style::Font::Medium, 59);
         subDeetsLab->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
         subDeetsLab->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         subDeetsLab->setTextColor(Color4B::WHITE);

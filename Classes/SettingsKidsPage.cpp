@@ -6,6 +6,7 @@
 //
 
 #include "SettingsKidsPage.h"
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
@@ -35,7 +36,7 @@ void SettingsKidsPage::onEnter()
 {
     _headerBanner = SettingsPageHeader::create();
     _headerBanner->setContentSize(Size(this->getContentSize().width, 316));
-    _headerBanner->setText("Every child has a unique Kid Code. Share it with your friends and family to invite them to safely connect on Azoomee Chat.");
+    _headerBanner->setText(StringMgr::getInstance()->getStringForKey(SETTINGS_PAGE_HEADING_YOUR_KIDS));
     _headerBanner->setLayoutParameter(CreateTopLinearLayoutParam());
     this->addChild(_headerBanner);
     
@@ -68,7 +69,7 @@ void SettingsKidsPage::onEnter()
     newProfileImg->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     newProfileImg->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_LEFT);
     
-    Label* newProfileText = Label::createWithTTF("Add New Profile", Style::Font::Medium, 75);
+    Label* newProfileText = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(SETTINGS_ADD_PROFILE_BUTTON), Style::Font::Medium, 75);
     newProfileText->setTextColor(Color4B::WHITE);
     newProfileText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
     newProfileText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);

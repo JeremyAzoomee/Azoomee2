@@ -6,6 +6,7 @@
 //
 
 #include "SettingsMessageBoxRejectFR.h"
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/Style.h>
 
 using namespace cocos2d;
@@ -18,7 +19,7 @@ void SettingsMessageBoxRejectFR::onEnter()
     
     _messageBox->setContentSize(Size(_visibleSize.width - 100, 720));
     
-    _heading = Label::createWithTTF("Are you sure you want to\nreject this profile?", Style::Font::Medium, 91);
+    _heading = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(SETTINGS_REJECT_FRIENDSHIP_Q), Style::Font::Medium, 91);
     _heading->setTextColor(Color4B::BLACK);
     _heading->setHorizontalAlignment(TextHAlignment::CENTER);
     _heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
@@ -34,7 +35,7 @@ void SettingsMessageBoxRejectFR::onEnter()
     _cancelButton->addTouchEventListener(CC_CALLBACK_2(SettingsMessageBox::onButtonPressed, this));
     _messageBox->addChild(_cancelButton);
     
-    Label* cancelLabel = Label::createWithTTF("Cancel", Style::Font::Medium, 75);
+    Label* cancelLabel = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(BUTTON_CANCEL), Style::Font::Medium, 75);
     cancelLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     cancelLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _cancelButton->addChild(cancelLabel);
@@ -48,7 +49,7 @@ void SettingsMessageBoxRejectFR::onEnter()
     _rejectButton->addTouchEventListener(CC_CALLBACK_2(SettingsMessageBox::onButtonPressed, this));
     _messageBox->addChild(_rejectButton);
     
-    Label* rejectLabel = Label::createWithTTF("Reject", Style::Font::Medium, 75);
+    Label* rejectLabel = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(BUTTON_REJECT), Style::Font::Medium, 75);
     rejectLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     rejectLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _rejectButton->addChild(rejectLabel);

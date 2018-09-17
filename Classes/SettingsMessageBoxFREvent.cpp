@@ -6,6 +6,7 @@
 //
 
 #include "SettingsMessageBoxFREvent.h"
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/Style.h>
 
 using namespace cocos2d;
@@ -63,7 +64,7 @@ void SettingsMessageBoxFREvent::onEnter()
     _sendButton->setTouchEnabled(_textInput->inputIsValid());
     _messageBox->addChild(_sendButton);
     
-    Label* sendLabel = Label::createWithTTF("Send", Style::Font::Medium, 75);
+    Label* sendLabel = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(BUTTON_SEND), Style::Font::Medium, 75);
     sendLabel->setTextColor(Color4B::WHITE);
     sendLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     sendLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -72,16 +73,16 @@ void SettingsMessageBoxFREvent::onEnter()
     switch (_type) {
         case EventType::SUCCESS:
         {
-            _heading->setString("Your friend has been invited!");
-            _subHeading->setString("Their parents will need to confirm\nthe friendship");
-            _textInputHeading->setString("Invite another friend");
+            _heading->setString(StringMgr::getInstance()->getStringForKey(SETTINGS_CODE_ACCEPTED));
+            _subHeading->setString(StringMgr::getInstance()->getStringForKey(SETTINGS_CODE_ACCEPTED_DETAILS));
+            _textInputHeading->setString(StringMgr::getInstance()->getStringForKey(SETTINGS_ADD_FRIEND));
             break;
         }
         case EventType::FAIL:
         {
-            _heading->setString("Oops");
-            _subHeading->setString("We didnt recognise that\nkid code");
-            _textInputHeading->setString("Try Again");
+            _heading->setString(StringMgr::getInstance()->getStringForKey(SETTINGS_CODE_UNRECOGNISED));
+            _subHeading->setString(StringMgr::getInstance()->getStringForKey(SETTINGS_CODE_UNRECOGNISED_DETAILS));
+            _textInputHeading->setString(StringMgr::getInstance()->getStringForKey(BUTTON_TRY_AGAIN));
             break;
         }
     }

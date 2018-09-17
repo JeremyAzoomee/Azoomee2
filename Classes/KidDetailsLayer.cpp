@@ -6,6 +6,7 @@
 //
 
 #include "KidDetailsLayer.h"
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
@@ -180,7 +181,7 @@ void KidDetailsLayer::onEnter()
         {
             const std::string& childsName = ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(_childNum);
             
-            nativeShareScreenString(StringUtils::format("%s uses Azoomee to chat safely with family & friends. Enter %s's Kid Code %s in Azoomee to start chatting with your child.\nDownload Azoomee here: http://bit.ly/azoomeekids",childsName.c_str(),childsName.c_str(),ParentDataProvider::getInstance()->getInviteCodeForAnAvailableChild(_childNum).c_str()));
+            nativeShareScreenString(StringUtils::format(StringMgr::getInstance()->getStringForKey(SETTINGS_SHARE_CODE_TEXT).c_str(),childsName.c_str(),childsName.c_str(),ParentDataProvider::getInstance()->getInviteCodeForAnAvailableChild(_childNum).c_str()));
         }
     });
     centralContentLayout->addChild(_kidCodeLayout);

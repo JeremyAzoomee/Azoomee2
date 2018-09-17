@@ -13,7 +13,6 @@
 		021564761FC4C79C00641C14 /* HQScene2CarouselTitle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 021564751FC4C79C00641C14 /* HQScene2CarouselTitle.cpp */; };
 		0240FC48201224AC00E88157 /* Stickers.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0240FC47201224AC00E88157 /* Stickers.xcassets */; };
 		0240FC4C201224AC00E88157 /* stickers.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 0240FC45201224AC00E88157 /* stickers.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		0243B8CE1F0F8377005D3734 /* EmptySceneForSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0243B8CC1F0F8377005D3734 /* EmptySceneForSettings.cpp */; };
 		0243B8DB1F1F5D5C005D3734 /* ChatNotificationsSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0243B8D91F1F5D5C005D3734 /* ChatNotificationsSingleton.cpp */; };
 		0253C9871EC053B5005037EB /* VideoPlaylistManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0253C9851EC053B4005037EB /* VideoPlaylistManager.cpp */; };
 		025633741F39AB5D0053FF26 /* ForceUpdateSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025633721F39AB5D0053FF26 /* ForceUpdateSingleton.cpp */; };
@@ -86,11 +85,6 @@
 		430B21511E4485E0004ACB10 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 430B21501E4485E0004ACB10 /* Security.framework */; };
 		430B21551E4487E5004ACB10 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 430B21541E4487E5004ACB10 /* SystemConfiguration.framework */; };
 		430B215D1E448825004ACB10 /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 430B215C1E448825004ACB10 /* libicucore.tbd */; };
-		430C30EA1EEAA0CF00E27589 /* SettingsKidsLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430C30E81EEAA0CF00E27589 /* SettingsKidsLayer.cpp */; };
-		430C30EE1EEAB6A000E27589 /* KidsLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430C30EC1EEAB6A000E27589 /* KidsLayer.cpp */; };
-		430EC1501EE992B900B0103B /* AccountDetailsLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430EC14E1EE992B900B0103B /* AccountDetailsLayer.cpp */; };
-		431397721F1F4E9B00E358DC /* OnlineSafetyDetailsLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 431397701F1F4E9B00E358DC /* OnlineSafetyDetailsLayer.cpp */; };
-		4315CD041EEEC99600B4F22C /* KidsControlLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4315CD021EEEC99600B4F22C /* KidsControlLayer.cpp */; };
 		4319D3E21E67134600110F92 /* LoginScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4319D3E01E67134600110F92 /* LoginScene.cpp */; };
 		432A6C0D1EA8E2A200C5842B /* ManualGameInputLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 432A6C0B1EA8E2A200C5842B /* ManualGameInputLayer.cpp */; };
 		433AD3071E252A2C003757AD /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433AD3051E252A2C003757AD /* Crashlytics.framework */; };
@@ -110,10 +104,6 @@
 		43A90CE31EA7560500606099 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A90CE21EA7560500606099 /* Accelerate.framework */; };
 		43A90DE51EA7603800606099 /* WatchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A90DE41EA7603800606099 /* WatchKit.framework */; };
 		43BCD71E1EC9FD4E00A07737 /* SceneManagerScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43BCD71C1EC9FD4E00A07737 /* SceneManagerScene.cpp */; };
-		43F42E3B1EE84B9500606290 /* SettingsControlLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43F42E391EE84B9500606290 /* SettingsControlLayer.cpp */; };
-		43FDC6611EF7E3CE009B596B /* SettingsConfirmationLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43FDC65F1EF7E3CE009B596B /* SettingsConfirmationLayer.cpp */; };
-		43FDC6671EF7F743009B596B /* ConfirmationControlLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43FDC6631EF7F743009B596B /* ConfirmationControlLayer.cpp */; };
-		43FDC6681EF7F743009B596B /* ConfirmationLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43FDC6651EF7F743009B596B /* ConfirmationLayer.cpp */; };
 		503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 503AE0F617EB97AB00D1A890 /* Icon.icns */; };
 		503AE10017EB989F00D1A890 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FB17EB989F00D1A890 /* AppController.mm */; };
 		503AE10117EB989F00D1A890 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FC17EB989F00D1A890 /* main.m */; };
@@ -357,8 +347,6 @@
 		0240FC45201224AC00E88157 /* stickers.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = stickers.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		0240FC47201224AC00E88157 /* Stickers.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Stickers.xcassets; sourceTree = "<group>"; };
 		0240FC49201224AC00E88157 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0243B8CC1F0F8377005D3734 /* EmptySceneForSettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EmptySceneForSettings.cpp; sourceTree = "<group>"; };
-		0243B8CD1F0F8377005D3734 /* EmptySceneForSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmptySceneForSettings.h; sourceTree = "<group>"; };
 		0243B8D91F1F5D5C005D3734 /* ChatNotificationsSingleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChatNotificationsSingleton.cpp; sourceTree = "<group>"; };
 		0243B8DA1F1F5D5C005D3734 /* ChatNotificationsSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatNotificationsSingleton.h; sourceTree = "<group>"; };
 		0253C9851EC053B4005037EB /* VideoPlaylistManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VideoPlaylistManager.cpp; sourceTree = "<group>"; };
@@ -470,16 +458,6 @@
 		430B215A1E4487F9004ACB10 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		430B215C1E448825004ACB10 /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/usr/lib/libicucore.tbd; sourceTree = DEVELOPER_DIR; };
 		430B215E1E448AF6004ACB10 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
-		430C30E81EEAA0CF00E27589 /* SettingsKidsLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsKidsLayer.cpp; sourceTree = "<group>"; };
-		430C30E91EEAA0CF00E27589 /* SettingsKidsLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsKidsLayer.h; sourceTree = "<group>"; };
-		430C30EC1EEAB6A000E27589 /* KidsLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = KidsLayer.cpp; sourceTree = "<group>"; };
-		430C30ED1EEAB6A000E27589 /* KidsLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KidsLayer.h; sourceTree = "<group>"; };
-		430EC14E1EE992B900B0103B /* AccountDetailsLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AccountDetailsLayer.cpp; sourceTree = "<group>"; };
-		430EC14F1EE992B900B0103B /* AccountDetailsLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountDetailsLayer.h; sourceTree = "<group>"; };
-		431397701F1F4E9B00E358DC /* OnlineSafetyDetailsLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OnlineSafetyDetailsLayer.cpp; sourceTree = "<group>"; };
-		431397711F1F4E9B00E358DC /* OnlineSafetyDetailsLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnlineSafetyDetailsLayer.h; sourceTree = "<group>"; };
-		4315CD021EEEC99600B4F22C /* KidsControlLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = KidsControlLayer.cpp; sourceTree = "<group>"; };
-		4315CD031EEEC99600B4F22C /* KidsControlLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KidsControlLayer.h; sourceTree = "<group>"; };
 		4319D3E01E67134600110F92 /* LoginScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LoginScene.cpp; sourceTree = "<group>"; };
 		4319D3E11E67134600110F92 /* LoginScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginScene.h; sourceTree = "<group>"; };
 		432A6C0B1EA8E2A200C5842B /* ManualGameInputLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ManualGameInputLayer.cpp; sourceTree = "<group>"; };
@@ -506,14 +484,6 @@
 		43A90DE41EA7603800606099 /* WatchKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/WatchKit.framework; sourceTree = DEVELOPER_DIR; };
 		43BCD71C1EC9FD4E00A07737 /* SceneManagerScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneManagerScene.cpp; sourceTree = "<group>"; };
 		43BCD71D1EC9FD4E00A07737 /* SceneManagerScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneManagerScene.h; sourceTree = "<group>"; };
-		43F42E391EE84B9500606290 /* SettingsControlLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsControlLayer.cpp; sourceTree = "<group>"; };
-		43F42E3A1EE84B9500606290 /* SettingsControlLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsControlLayer.h; sourceTree = "<group>"; };
-		43FDC65F1EF7E3CE009B596B /* SettingsConfirmationLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsConfirmationLayer.cpp; sourceTree = "<group>"; };
-		43FDC6601EF7E3CE009B596B /* SettingsConfirmationLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsConfirmationLayer.h; sourceTree = "<group>"; };
-		43FDC6631EF7F743009B596B /* ConfirmationControlLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConfirmationControlLayer.cpp; sourceTree = "<group>"; };
-		43FDC6641EF7F743009B596B /* ConfirmationControlLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfirmationControlLayer.h; sourceTree = "<group>"; };
-		43FDC6651EF7F743009B596B /* ConfirmationLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConfirmationLayer.cpp; sourceTree = "<group>"; };
-		43FDC6661EF7F743009B596B /* ConfirmationLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfirmationLayer.h; sourceTree = "<group>"; };
 		503AE0F617EB97AB00D1A890 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
 		503AE0F717EB97AB00D1A890 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		503AE0FA17EB989F00D1A890 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppController.h; path = ios/AppController.h; sourceTree = SOURCE_ROOT; };
@@ -796,15 +766,6 @@
 			path = stickers;
 			sourceTree = "<group>";
 		};
-		0243B8C91F0F836A005D3734 /* EmptySceneForSettings */ = {
-			isa = PBXGroup;
-			children = (
-				0243B8CC1F0F8377005D3734 /* EmptySceneForSettings.cpp */,
-				0243B8CD1F0F8377005D3734 /* EmptySceneForSettings.h */,
-			);
-			name = EmptySceneForSettings;
-			sourceTree = "<group>";
-		};
 		0243B9B01F387C43005D3734 /* ForceUpdate */ = {
 			isa = PBXGroup;
 			children = (
@@ -1031,14 +992,6 @@
 		4315CD001EEEC91600B4F22C /* SettingsSubLayers */ = {
 			isa = PBXGroup;
 			children = (
-				4315CD021EEEC99600B4F22C /* KidsControlLayer.cpp */,
-				4315CD031EEEC99600B4F22C /* KidsControlLayer.h */,
-				430C30EC1EEAB6A000E27589 /* KidsLayer.cpp */,
-				430C30ED1EEAB6A000E27589 /* KidsLayer.h */,
-				43FDC6631EF7F743009B596B /* ConfirmationControlLayer.cpp */,
-				43FDC6641EF7F743009B596B /* ConfirmationControlLayer.h */,
-				43FDC6651EF7F743009B596B /* ConfirmationLayer.cpp */,
-				43FDC6661EF7F743009B596B /* ConfirmationLayer.h */,
 				926A2B06212EA9C300AE7964 /* SettingsNavigationButton.h */,
 				926A2B0B212EABB000AE7964 /* SettingsNavigationButton.cpp */,
 				926A2B2A212F003300AE7964 /* SettingsPageHeader.h */,
@@ -1066,7 +1019,6 @@
 		4323120D1E1D4DC500C8606D /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				0243B8C91F0F836A005D3734 /* EmptySceneForSettings */,
 				02074B241E93964F009BB28C /* WebGameAPIDataManager */,
 				020ACCFB1E70561F002490CE /* PaymentSingleton */,
 				A15D58921E028C940099CDEE /* HistoryManager */,
@@ -1088,14 +1040,6 @@
 		434999131EF955F000EB8F88 /* SettingsTabLayers */ = {
 			isa = PBXGroup;
 			children = (
-				431397701F1F4E9B00E358DC /* OnlineSafetyDetailsLayer.cpp */,
-				431397711F1F4E9B00E358DC /* OnlineSafetyDetailsLayer.h */,
-				430EC14E1EE992B900B0103B /* AccountDetailsLayer.cpp */,
-				430EC14F1EE992B900B0103B /* AccountDetailsLayer.h */,
-				43FDC65F1EF7E3CE009B596B /* SettingsConfirmationLayer.cpp */,
-				43FDC6601EF7E3CE009B596B /* SettingsConfirmationLayer.h */,
-				430C30E81EEAA0CF00E27589 /* SettingsKidsLayer.cpp */,
-				430C30E91EEAA0CF00E27589 /* SettingsKidsLayer.h */,
 				926A2B25212EFD8300AE7964 /* SettingsKidsPage.h */,
 				924E845121412D70004590FD /* SettingsKidsPage.cpp */,
 				926A2B2D212F125600AE7964 /* SettingsSupportPage.h */,
@@ -1126,8 +1070,6 @@
 			children = (
 				434999131EF955F000EB8F88 /* SettingsTabLayers */,
 				4315CD001EEEC91600B4F22C /* SettingsSubLayers */,
-				43F42E391EE84B9500606290 /* SettingsControlLayer.cpp */,
-				43F42E3A1EE84B9500606290 /* SettingsControlLayer.h */,
 				926A2ADB212D5D0300AE7964 /* SettingsHub.h */,
 				926A2AE0212D6F5500AE7964 /* SettingsHub.cpp */,
 			);
@@ -1839,7 +1781,6 @@
 				928A6DCD20EBC2560053E793 /* AddChildScene.cpp in Sources */,
 				A15B2F991DE74F6400D25334 /* WebViewSelector.cpp in Sources */,
 				4306ABA31EAE2C3E001E586A /* PaymentViewController_ios.mm in Sources */,
-				43FDC6611EF7E3CE009B596B /* SettingsConfirmationLayer.cpp in Sources */,
 				924E8455214141DC004590FD /* KidDetailsLayer.cpp in Sources */,
 				927DF6E320AECA620080DFEF /* MeHQGallery.cpp in Sources */,
 				926A2B2C212F018E00AE7964 /* SettingsPageHeader.cpp in Sources */,
@@ -1850,7 +1791,6 @@
 				02E595B31E5B495B0052F395 /* HQSceneElementVisual.cpp in Sources */,
 				9289DB7D1FD996A800B12435 /* DynamicNodeImage.cpp in Sources */,
 				021564731FC4AB8300641C14 /* HQScene2PlaceHolderCreator.cpp in Sources */,
-				43FDC6681EF7F743009B596B /* ConfirmationLayer.cpp in Sources */,
 				9224BFB71F794BFA00108553 /* DynamicNodeHandler.cpp in Sources */,
 				A15B2FAF1DEDD1D500D25334 /* BackEndCaller.cpp in Sources */,
 				926A2B352130330800AE7964 /* OnlineSafetySlide.cpp in Sources */,
@@ -1862,7 +1802,6 @@
 				025BE95F1E3BD1F800EF76D1 /* WebViewNativeCaller_android.cpp in Sources */,
 				929A9CFC2065248A009B323D /* MeHQ.cpp in Sources */,
 				924E845221412D70004590FD /* SettingsKidsPage.cpp in Sources */,
-				431397721F1F4E9B00E358DC /* OnlineSafetyDetailsLayer.cpp in Sources */,
 				300742F31EF93428005525AE /* ChatDelegate.cpp in Sources */,
 				928A6E8120EE2A290053E793 /* ChildNameLayerFirstTime.cpp in Sources */,
 				432A6C0D1EA8E2A200C5842B /* ManualGameInputLayer.cpp in Sources */,
@@ -1879,7 +1818,6 @@
 				926A2B2F212F14B400AE7964 /* SettingsSupportPage.cpp in Sources */,
 				0253C9871EC053B5005037EB /* VideoPlaylistManager.cpp in Sources */,
 				0243B8DB1F1F5D5C005D3734 /* ChatNotificationsSingleton.cpp in Sources */,
-				4315CD041EEEC99600B4F22C /* KidsControlLayer.cpp in Sources */,
 				92951513208895D200F43AEC /* DynamicNodeCheckBox.cpp in Sources */,
 				9289DAF61FCEEFF000B12435 /* DynamicNodeTextInput.cpp in Sources */,
 				920F6FE52140472A00B7BB76 /* SettingsMessageBox.cpp in Sources */,
@@ -1903,8 +1841,6 @@
 				02E595C31E5D9EE70052F395 /* OfflineText.cpp in Sources */,
 				02A11FF81EA6375D007EDD95 /* RoutePaymentSingleton.cpp in Sources */,
 				D13C40151E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm in Sources */,
-				430C30EA1EEAA0CF00E27589 /* SettingsKidsLayer.cpp in Sources */,
-				430EC1501EE992B900B0103B /* AccountDetailsLayer.cpp in Sources */,
 				924E8450214117D9004590FD /* SettingsMessageBoxRejectFR.cpp in Sources */,
 				02E595861E55DE670052F395 /* OfflineHubScene.cpp in Sources */,
 				02E595CA1E66E2160052F395 /* HQSceneArtsApp.cpp in Sources */,
@@ -1921,7 +1857,6 @@
 				02E595B91E5CA2690052F395 /* OfflineHubBackButton.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				A134ADCE1E0C0F420030BE98 /* HQSceneElementPositioner.cpp in Sources */,
-				43FDC6671EF7F743009B596B /* ConfirmationControlLayer.cpp in Sources */,
 				301CCA941EB139C1009ADA0C /* SettingsButton.cpp in Sources */,
 				928A6DCB20EBB9650053E793 /* ChildCreator.cpp in Sources */,
 				02E595931E55F9BB0052F395 /* OfflineHubHQElement.cpp in Sources */,
@@ -1930,11 +1865,8 @@
 				927DF72420B593600080DFEF /* MeHQFavourites.cpp in Sources */,
 				4319D3E21E67134600110F92 /* LoginScene.cpp in Sources */,
 				929A9D57206CF9F1009B323D /* FavouritesManager.cpp in Sources */,
-				430C30EE1EEAB6A000E27589 /* KidsLayer.cpp in Sources */,
 				A19759841DE4931200FEB03C /* HQSceneElement.cpp in Sources */,
-				43F42E3B1EE84B9500606290 /* SettingsControlLayer.cpp in Sources */,
 				9220EAD82010C07D00BD7A90 /* IAPFlowController.cpp in Sources */,
-				0243B8CE1F0F8377005D3734 /* EmptySceneForSettings.cpp in Sources */,
 				927DF6EB20B2BD010080DFEF /* MeHQMessages.cpp in Sources */,
 				A154CC521DFEE7440008A626 /* GameDataManager.cpp in Sources */,
 			);

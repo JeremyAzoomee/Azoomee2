@@ -44,6 +44,8 @@
 #define LOADING_LABEL "OtherLabels/loading_label"
 #define SAVING_LABEL "OtherLabels/saving_label"
 #define KID_CODE "OtherLabels/kidCode"
+#define PASSWORD_LABEL "OtherLabels/password"
+#define PIN_LABEL "OtherLabels/pin"
 
 //------------ GENERIC BUTTONS ----------------
 
@@ -73,6 +75,8 @@
 #define BUTTON_START_TRIAL "GenericButtons/startTrial"
 #define BUTTON_UPDATE "GenericButtons/update"
 #define BUTTON_OK "GenericButtons/ok"
+#define BUTTON_DELETE "GenericButtons/delete"
+#define BUTTON_SEND "GenericButtons/send"
 
 //--------------ONLINE SAFETY SLIDES------------------
 
@@ -153,13 +157,31 @@
 
 //----------- SETTINGS -------------------------
 
+#define SETTINGS_HEADING_MAIN "Settings/headingMain"
 #define SETTINGS_HEADING_YOUR_KIDS "Settings/headingYourKids"
 #define SETTINGS_HEADING_FRIENDSHIPS "Settings/headingFriendships"
 #define SETTINGS_HEADING_ONLINE_SAFETY "Settings/headingOnlineSafety"
 #define SETTINGS_HEADING_YOUR_ACCOUNT "Settings/headingYourAccount"
+#define SETTINGS_HEADING_SUPPORT "Settings/headingSupport"
+#define SETTINGS_SUB_HEADING_YOUR_KIDS "Settings/subHeadingYourKids"
+#define SETTINGS_SUB_HEADING_FRIENDSHIPS "Settings/subHeadingFriendships"
+#define SETTINGS_SUB_HEADING_ONLINE_SAFETY "Settings/subHeadingOnlineSafety"
+#define SETTINGS_SUB_HEADING_YOUR_ACCOUNT "Settings/subHeadingYourAccount"
+#define SETTINGS_SUB_HEADING_SUPPORT "Settings/subHeadingSupport"
+#define SETTINGS_PAGE_HEADING_YOUR_KIDS "Settings/pageHeadingYourKids"
+#define SETTINGS_PAGE_HEADING_FRIENDSHIPS "Settings/pageHeadingFriendships"
+#define SETTINGS_PAGE_HEADING_ONLINE_SAFETY "Settings/pageHeadingOnlineSafety"
+#define SETTINGS_PAGE_HEADING_YOUR_ACCOUNT "Settings/pageHeadingYourAccount"
+#define SETTINGS_PAGE_HEADING_SUPPORT "Settings/pageHeadingSupport"
+#define SETTINGS_ADD_PROFILE_BUTTON "Settings/addProfileButton"
+#define SETTINGS_SUPPORT_BODY "Settings/supportBody"
+#define SETTINGS_ACCOUNT_PREMIUM_LABEL "Settings/accountPremiumLabel"
+#define SETTINGS_ACCOUNT_FREE_LABEL "Settings/accountFreeLabel"
+#define SETTINGS_FRIEND_REQUEST_BODY "Settings/friendRequestBody"
 #define SETTINGS_SHARE_KID_CODE "Settings/shareKidCode"
 #define SETTINGS_ADD_FRIEND "Settings/addFriend"
 #define SETTINGS_CODE_UNRECOGNISED "Settings/codeUnrecognised"
+#define SETTINGS_CODE_UNRECOGNISED_DETAILS "Settings/codeUnrecognisedDetails"
 #define SETTINGS_CODE_ACCEPTED "Settings/codeAccepted"
 #define SETTINGS_CODE_ACCEPTED_DETAILS "Settings/codeAcceptedDetails"
 #define SETTINGS_FRIENDSHIP_CONFIRMED "Settings/friendshipConfirmed"

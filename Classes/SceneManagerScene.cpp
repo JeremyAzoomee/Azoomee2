@@ -16,7 +16,6 @@
 #include "OomeeMakerDelegate.h"
 #include <AzoomeeOomeeMaker/UI/OomeeSelectScene.h>
 #include "ArtAppDelegate.h"
-#include "EmptySceneForSettings.h"
 #include "WebViewSelector.h"
 #include "IntroVideoScene.h"
 #include "ContentHistoryManager.h"
@@ -172,9 +171,9 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         {
             HQHistoryManager::getInstance()->updatePrevOrientation();
             forceToLandscape();
-            cocos2d::Scene* goToScene = EmptySceneForSettings::createScene(SettingsOrigin::CHAT);
+            //cocos2d::Scene* goToScene = EmptySceneForSettings::createScene(SettingsOrigin::CHAT);
             AnalyticsSingleton::getInstance()->registerCurrentScene("SETTINGS");
-            Director::getInstance()->replaceScene(goToScene);
+            Director::getInstance()->replaceScene(SettingsHub::create());
             break;
         }
         case Settings:
