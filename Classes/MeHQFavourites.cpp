@@ -11,6 +11,7 @@
 #include "FavouritesManager.h"
 #include "NavigationLayer.h"
 #include "HQDataProvider.h"
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/HQDataObject/ContentItemPool.h>
@@ -47,7 +48,7 @@ void MeHQFavourites::onEnter()
     this->setContentSize(Size(visibleSize.width, 0));
     setLayoutType(ui::Layout::Type::VERTICAL);
     
-    ui::Text* heading = ui::Text::create("My Favourites", Style::Font::Regular, 100);
+    ui::Text* heading = ui::Text::create(StringMgr::getInstance()->getStringForKey(MEHQ_HEADING_FAVOURITES), Style::Font::Regular, 100);
     heading->setTextHorizontalAlignment(TextHAlignment::CENTER);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setContentSize(Size(visibleSize.width, spaceAboveCarousel));
@@ -151,7 +152,7 @@ void MeHQFavourites::onEnter()
                     Label* label = dynamic_cast<Label*>(button->getChildByName("label"));
                     if(label)
                     {
-                        label->setString(_editEnabled ? "Done" : "Edit");
+                        label->setString(StringMgr::getInstance()->getStringForKey(_editEnabled ? BUTTON_DONE : BUTTON_EDIT));
                     }
                 }
                 for(auto item : _carouselLayout->getChildren())
@@ -165,7 +166,7 @@ void MeHQFavourites::onEnter()
             }
         });
     
-        Label* editButtonLabel = Label::createWithTTF("Edit", Style::Font::Regular, editButton->getContentSize().height * 0.35f);
+        Label* editButtonLabel = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(BUTTON_EDIT), Style::Font::Regular, editButton->getContentSize().height * 0.35f);
         editButtonLabel->setTextColor(Color4B::WHITE);
         editButtonLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         editButtonLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -266,7 +267,7 @@ void MeHQFavourites::buildEmptyCarousel()
     
     this->addChild(carouselLayer);
     
-     ui::Text* heading = ui::Text::create(StringUtils::format("Favourite content after you watch%sor play and it will appear here.", isPortrait ? "\n" : " "), Style::Font::Regular, 80);
+    ui::Text* heading = ui::Text::create(StringMgr::getInstance()->getStringForKey(isPortrait ? MEHQ_SUB_HEADING_FAVOURITES_MULTILINE : MEHQ_SUB_HEADING_FAVOURITES), Style::Font::Regular, 80);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setTextHorizontalAlignment(TextHAlignment::CENTER);
     heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));

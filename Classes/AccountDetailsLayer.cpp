@@ -61,7 +61,7 @@ void AccountDetailsLayer::addUIObjects()
     
     if(RoutePaymentSingleton::getInstance()->showIAPContent())
     {
-        iapButton = ElectricDreamsButton::createGreenButtonWithWidth("Start Trial", this->getContentSize().width / 3);
+        iapButton = ElectricDreamsButton::createGreenButtonWithWidth(StringMgr::getInstance()->getStringForKey(BUTTON_START_TRIAL), this->getContentSize().width / 3);
         iapButton->setCenterPosition(Vec2(this->getContentSize().width /2, this->getContentSize().height * 0.6f));
         iapButton->setDelegate(this);
         iapButton->setMixPanelButtonName("ExitorLogoutStartTrialButton");
@@ -87,7 +87,7 @@ void AccountDetailsLayer::addRichTextLabel(std::string BOLDText)
     cocos2d::ui::RichText* richTextLabel = cocos2d::ui::RichText::create();
     richTextLabel->setAnchorPoint(Vec2(0.5,0.5));
     
-    richTextLabel->pushBackElement(ui::RichElementText::create(0, Color3B::BLACK, 255, "You have a ", Style::Font::Regular, 84));
+    richTextLabel->pushBackElement(ui::RichElementText::create(0, Color3B::BLACK, 255, StringMgr::getInstance()->getStringForKey(SETTINGS_ACCOUNT_TYPE_TEXT), Style::Font::Regular, 84));
     richTextLabel->pushBackElement(ui::RichElementText::create(0, Color3B::BLACK, 255, BOLDText, Style::Font::Bold, 84));
     richTextLabel->setPosition(Vec2(this->getContentSize().width / 2, this->getContentSize().height * 0.6f));
     this->addChild(richTextLabel);
@@ -95,7 +95,7 @@ void AccountDetailsLayer::addRichTextLabel(std::string BOLDText)
     // ------- LEARN MORE BUTTON ------------
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    learnMoreButton = ElectricDreamsButton::createTextAsButtonWithColor("Learn about Subscriptions", 40, true, Style::Color::greenish);
+    learnMoreButton = ElectricDreamsButton::createTextAsButtonWithColor(StringMgr::getInstance()->getStringForKey(SETTINGS_LEARN_ABOUT_SUBSCRIPTIONS), 40, true, Style::Color::greenish);
     learnMoreButton->setPosition(this->getContentSize().width / 2 - learnMoreButton->getContentSize().width / 2, this->getContentSize().height * 0.5f);
     learnMoreButton->setDelegate(this);
     learnMoreButton->setMixPanelButtonName("ExitorLogoutLearnMoreButton");

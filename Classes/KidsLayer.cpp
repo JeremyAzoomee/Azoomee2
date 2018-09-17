@@ -1,4 +1,5 @@
 #include "KidsLayer.h"
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
@@ -105,12 +106,12 @@ void KidsLayer::setToStartLayout()
 {
     removeObjects(true);
     
-    Label* ShareWithFriendLabel = createLabelWith("Share with friends", Style::Font::Regular, Style::Color::black, 40);
+    Label* ShareWithFriendLabel = createLabelWith(StringMgr::getInstance()->getStringForKey(SETTINGS_SHARE_KID_CODE), Style::Font::Regular, Style::Color::black, 40);
     ShareWithFriendLabel->setTag(1000);
     ShareWithFriendLabel->setPosition(this->getContentSize().width / 2, this->getContentSize().height - ShareWithFriendLabel->getContentSize().height * 2.0f);
     this->addChild(ShareWithFriendLabel);
     
-    Label* AddAFriendLabel = createLabelWith("To add a friend", Style::Font::Regular, Style::Color::black, 40);
+    Label* AddAFriendLabel = createLabelWith(StringMgr::getInstance()->getStringForKey(SETTINGS_ADD_FRIEND), Style::Font::Regular, Style::Color::black, 40);
     AddAFriendLabel->setTag(1000);
     AddAFriendLabel->setPosition(this->getContentSize().width/2,AddAFriendLabel->getContentSize().height * 5.8f);
     this->addChild(AddAFriendLabel);
@@ -119,7 +120,7 @@ void KidsLayer::setToStartLayout()
 void KidsLayer::setToAddAFriendTextBox()
 {
     removeObjects(true);
-    Label* detailsLabel = createLabelSettingsChat("To add a friend",Style::Color::black);
+    Label* detailsLabel = createLabelSettingsChat(StringMgr::getInstance()->getStringForKey(SETTINGS_ADD_FRIEND),Style::Color::black);
     detailsLabel->setPosition(this->getContentSize().width/2,oomeeSprite->getPositionY() - (oomeeSprite->getContentSize().height/2 * oomeeSprite->getScale()) - detailsLabel->getContentSize().height*1.5);
     detailsLabel->setTag(1000);
     this->addChild(detailsLabel);
@@ -138,7 +139,7 @@ void KidsLayer::setToCodeError(std::string code)
     failedTextBox->addChild(failedTextBoxLabel);
     this->addChild(failedTextBox);
     
-    Label* detailsLabel = createLabelSettingsChat("Oh No! We didn't recognise\nthat Kid Code.",Style::Color::black);
+    Label* detailsLabel = createLabelSettingsChat(StringMgr::getInstance()->getStringForKey(SETTINGS_CODE_UNRECOGNISED),Style::Color::black);
     detailsLabel->setPosition(this->getContentSize().width/2,failedTextBox->getPositionY() + detailsLabel->getContentSize().height*1.25);
     detailsLabel->setTag(1000);
     this->addChild(detailsLabel);
@@ -158,12 +159,12 @@ void KidsLayer::setToCodeSuccess(std::string code)
     displayCodeTextBox->addChild(failedTextBoxLabel);
     this->addChild(displayCodeTextBox);
     
-    Label* titleLabel = createLabelSettingsChat("Kid Code accepted",Style::Color::black);
+    Label* titleLabel = createLabelSettingsChat(StringMgr::getInstance()->getStringForKey(SETTINGS_CODE_ACCEPTED),Style::Color::black);
     titleLabel->setPosition(this->getContentSize().width/2,displayCodeTextBox->getPositionY() + titleLabel->getContentSize().height*2.25);
     titleLabel->setTag(1000);
     this->addChild(titleLabel);
     
-    Label* detailsLabel = createLabelSettingsChat("Your friend has been added!\nTheir parents will need to\nconfirm the friendship.",Style::Color::black);
+    Label* detailsLabel = createLabelSettingsChat(StringMgr::getInstance()->getStringForKey(SETTINGS_CODE_ACCEPTED_DETAILS),Style::Color::black);
     detailsLabel->setPosition(this->getContentSize().width/2,displayCodeTextBox->getPositionY() - detailsLabel->getContentSize().height);
     detailsLabel->setTag(1000);
     this->addChild(detailsLabel);

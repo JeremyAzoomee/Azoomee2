@@ -1,4 +1,5 @@
 #include "FriendListSceneArtPreview.h"
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
@@ -134,7 +135,7 @@ void FriendListSceneArtPreview::createContentUI(cocos2d::ui::Layout* parent)
     _artPreviewText->setFontName(Style::Font::Regular);
     _artPreviewText->setFontSize(75.0f);
     _artPreviewText->setTextColor(Color4B(Style::Color::white));
-    _artPreviewText->setString("Who would you like to share this picture with?");
+    _artPreviewText->setString(StringMgr::getInstance()->getStringForKey(CHAT_SHARE_WITH_FRIEND));
     _artPreviewText->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
     paddingLayout->addChild(_artPreviewText);
     paddingLayout->setContentSize(Size(Director::getInstance()->getVisibleSize().width, _artPreviewText->getContentSize().height * 1.5f));

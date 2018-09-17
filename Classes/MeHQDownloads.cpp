@@ -10,6 +10,7 @@
 #include "HQScene2ElementPositioner.h"
 #include "NavigationLayer.h"
 #include "HQDataProvider.h"
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Utils/DirectorySearcher.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
@@ -56,7 +57,7 @@ bool MeHQDownloads::init()
         }
     }
     
-    ui::Text* heading = ui::Text::create((gameList.size() > 0) ? "Available Offline" : "My Downloads", Style::Font::Regular, 100);
+    ui::Text* heading = ui::Text::create(StringMgr::getInstance()->getStringForKey((gameList.size() > 0) ? MEHQ_HEADING_DOWNLOADS : MEHQ_HEADING_DOWNLOADS_EMPTY), Style::Font::Regular, 100);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,50)));
     heading->setContentSize(Size(visibleSize.width, spaceAboveCarousel));
@@ -225,11 +226,11 @@ void MeHQDownloads::buildEmptyCarousel()
     std::string downloadsString;
     if(ConfigStorage::getInstance()->isDevice18x9())
     {
-        downloadsString = StringUtils::format("Play some games and they’ll%sappear%shere, then you can play%sthem%swhen you’re offline.", isPortrait ? "\n" : " ", isPortrait ? " " : "\n", isPortrait ? "\n" : " ", isPortrait ? " " : "\n");
+        downloadsString = StringMgr::getInstance()->getStringForKey(isPortrait ? MEHQ_SUB_HEADING_DOWNLOADS_MULTILINE_18X9 : MEHQ_SUB_HEADING_DOWNLOADS_MULTILINE);
     }
     else
     {
-        downloadsString = StringUtils::format("Play some games and they’ll appear%shere, then you can play them\nwhen you’re offline.", isPortrait ? "\n" : " ");
+        downloadsString = StringMgr::getInstance()->getStringForKey(isPortrait ? MEHQ_SUB_HEADING_DOWNLOADS_MULTILINE : MEHQ_SUB_HEADING_DOWNLOADS);
     }
     
     ui::Text* heading = ui::Text::create(downloadsString, Style::Font::Regular, 80);

@@ -91,7 +91,7 @@ bool TitleBarWidget::init()
     // Reset Reported Chat Button
     _reportResetButton = ui::Button::create("res/chat/ui/buttons/reset_button.png");
     // TODO: Get from Strings
-    _reportResetButton->setTitleText("Reset");
+    _reportResetButton->setTitleText(StringMgr::getInstance()->getStringForKey(BUTTON_RESET));
     _reportResetButton->setTitleColor(Style::Color::black);
     _reportResetButton->setTitleFontName(Style::Font::Regular);
     _reportResetButton->setTitleFontSize(45.0f);
@@ -104,7 +104,7 @@ bool TitleBarWidget::init()
     // Add friend button
     _reportButton = ui::Button::create("res/chat/ui/buttons/report_button_outline.png");
     // TODO: Get from Strings
-    _reportButton->setTitleText("Report");
+    _reportButton->setTitleText(StringMgr::getInstance()->getStringForKey(BUTTON_REPORT));
     _reportButton->setTitleColor(Style::Color::brightAqua);
     _reportButton->setTitleFontName(Style::Font::Regular);
     _reportButton->setTitleFontSize(45.0f);

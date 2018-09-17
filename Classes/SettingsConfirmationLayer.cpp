@@ -8,6 +8,7 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
+#include <AzoomeeCommon/Strings.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -51,11 +52,11 @@ void SettingsConfirmationLayer::confirmationDetailsReceived()
 
 void SettingsConfirmationLayer::addDetailsLabel()
 {
-    std::string labelText = "You have new friendships to approve!";
+    std::string labelText = StringMgr::getInstance()->getStringForKey(SETTINGS_FRIENDSHIPS_TO_APPROVE);
     
     
     if(ParentDataProvider::getInstance()->getNoOfPendingFriendRequest() == 0)
-        labelText = "There are no new friendships to approve right now.";
+        labelText = StringMgr::getInstance()->getStringForKey(SETTINGS_NO_FRIENDSHIPS_TO_APPROVE);;
     
     detailsLabel = createLabelSettingsChat(labelText,Color3B::BLACK);
     detailsLabel->setHorizontalAlignment(TextHAlignment::LEFT);
