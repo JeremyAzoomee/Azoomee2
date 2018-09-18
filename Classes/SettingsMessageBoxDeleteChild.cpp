@@ -35,7 +35,7 @@ void SettingsMessageBoxDeleteChild::onEnter()
     _cancelButton->addTouchEventListener(CC_CALLBACK_2(SettingsMessageBox::onButtonPressed, this));
     _messageBox->addChild(_cancelButton);
     
-    Label* cancelLabel = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(SETTINGS_DELETE_PROFILE), Style::Font::Medium, 75);
+    Label* cancelLabel = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(BUTTON_CANCEL), Style::Font::Medium, 75);
     cancelLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     cancelLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _cancelButton->addChild(cancelLabel);

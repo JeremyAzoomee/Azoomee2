@@ -174,7 +174,8 @@
         "age": "Age",
         "day": "DD",
         "month": "MM",
-        "year": "YYYY"
+        "year": "YYYY",
+        "kidCode": "Enter Friend's Kid Code"
     },
     "Settings":
     {

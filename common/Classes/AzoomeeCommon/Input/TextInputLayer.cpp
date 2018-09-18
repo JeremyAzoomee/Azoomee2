@@ -250,7 +250,7 @@ void TextInputLayer::setupEditBoxUsingType()
             editBox->setInputFlag(ui::EditBox::InputFlag::INITIAL_CAPS_ALL_CHARACTERS);
             editBox->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
             editBox->setMaxLength(8);
-            editBox->setPlaceHolder("Enter Friend's Kid Code");
+            editBox->setPlaceHolder(StringMgr::getInstance()->getStringForKey(INPUT_PLACEHOLDER_KID_CODE).c_str());
             break;
         }
     }
@@ -472,6 +472,7 @@ void TextInputLayer::editBoxReturn(cocos2d::ui::EditBox* editBox)
     
 void TextInputLayer::editBoxEditingDidEndWithAction(cocos2d::ui::EditBox* editBox, EditBoxEndAction action)
 {
+    Director::getInstance()->getRunningScene()->setPositionY(0);
     #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
         if(action == EditBoxEndAction::RETURN)
     #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -489,6 +490,14 @@ void TextInputLayer::editBoxEditingDidEndWithAction(cocos2d::ui::EditBox* editBo
     
 void TextInputLayer::editBoxEditingDidBegin(cocos2d::ui::EditBox* editBox)
 {
+    auto pos = editBox->convertToWorldSpace(editBox->getPosition());
+    pos.y -= editBox->getContentSize().height;
+    bool isPortrait = Director::getInstance()->getVisibleSize().width < Director::getInstance()->getVisibleSize().height;
+    float height = UserDefault::getInstance()->getFloatForKey(isPortrait ? ConfigStorage::kEstimatedKeyboardHeightPortrait : ConfigStorage::kEstimatedKeyboardHeightLandscape);
+    if(pos.y < height)
+    {
+        Director::getInstance()->getRunningScene()->setPositionY(height - pos.y);
+    }
     if(this->getDelegate())
     {
         //Inform Delegates if input is valid
@@ -498,6 +507,7 @@ void TextInputLayer::editBoxEditingDidBegin(cocos2d::ui::EditBox* editBox)
     
 void TextInputLayer::editBoxEditingDidEnd(cocos2d::ui::EditBox* editBox)
 {
+    Director::getInstance()->getRunningScene()->setPositionY(0);
     if(this->getDelegate())
     {
         //Inform Delegates if input is valid

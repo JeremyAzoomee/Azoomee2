@@ -45,9 +45,11 @@ void SettingsFriendshipsPage::onEnter()
     _friendRequestList = ui::ListView::create();
     _friendRequestList->setDirection(ui::ScrollView::Direction::VERTICAL);
     _friendRequestList->setBounceEnabled(true);
-    _friendRequestList->setContentSize(Size(this->getContentSize().width - 100, this->getContentSize().height - 416));
-    _friendRequestList->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
+    _friendRequestList->setContentSize(Size(this->getContentSize().width - 100, this->getContentSize().height - 366));
+    _friendRequestList->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _friendRequestList->setItemsMargin(50);
+    _friendRequestList->setTopPadding(50);
+    _friendRequestList->setBottomPadding(50);
     this->addChild(_friendRequestList);
     
     _pendingFRHttpRequest = API::GetPendingFriendRequests(this);

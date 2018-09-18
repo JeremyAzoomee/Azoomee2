@@ -154,6 +154,7 @@
 #define INPUT_PLACEHOLDER_DAY "InputPlaceholders/day"
 #define INPUT_PLACEHOLDER_MONTH "InputPlaceholders/month"
 #define INPUT_PLACEHOLDER_YEAR "InputPlaceholders/year"
+#define INPUT_PLACEHOLDER_KID_CODE "InputPlaceholders/kidCode"
 
 //----------- SETTINGS -------------------------
 
