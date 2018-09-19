@@ -11,6 +11,7 @@
 #include "OnlineSafetyDetailsLayer.h"
 #include "FlowDataSingleton.h"
 #include "HQHistoryManager.h"
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 
@@ -134,25 +135,25 @@ void SettingsControlLayer::createLine()
 
 void SettingsControlLayer::createTabs()
 {
-    childrenButton = ElectricDreamsButton::createTabButton("Your Kids");
+    childrenButton = ElectricDreamsButton::createTabButton(StringMgr::getInstance()->getStringForKey(SETTINGS_HEADING_YOUR_KIDS));
     childrenButton->setPosition(TAB_SPACING * 2, linePositionY - LINE_WIDTH);
     childrenButton->setDelegate(this);
     childrenButton->setMixPanelButtonName("SettingsTab-YourKids");
     backgroundLayer->addChild(childrenButton,IDLE_TAB_Z);
     
-    confirmationButton = ElectricDreamsButton::createTabButton("Friendships");
+    confirmationButton = ElectricDreamsButton::createTabButton(StringMgr::getInstance()->getStringForKey(SETTINGS_HEADING_FRIENDSHIPS));
     confirmationButton->setPosition(childrenButton->getPositionX() + childrenButton->getContentSize().width / 2 + TAB_SPACING + confirmationButton->getContentSize().width / 2, linePositionY-LINE_WIDTH);
     confirmationButton->setDelegate(this);
     confirmationButton->setMixPanelButtonName("SettingsTab-TheirFriends");
     backgroundLayer->addChild(confirmationButton, IDLE_TAB_Z);
     
-    onlineSafetyButton = ElectricDreamsButton::createTabButton("Online Safety");
+    onlineSafetyButton = ElectricDreamsButton::createTabButton(StringMgr::getInstance()->getStringForKey(SETTINGS_HEADING_ONLINE_SAFETY));
     onlineSafetyButton->setPosition(confirmationButton->getPositionX() + confirmationButton->getContentSize().width / 2 + TAB_SPACING + onlineSafetyButton->getContentSize().width / 2, linePositionY - LINE_WIDTH);
     onlineSafetyButton->setDelegate(this);
     onlineSafetyButton->setMixPanelButtonName("SettingsTab-OnlineSafety");
     backgroundLayer->addChild(onlineSafetyButton, IDLE_TAB_Z);
     
-    accountButton = ElectricDreamsButton::createTabButton("Your Account");
+    accountButton = ElectricDreamsButton::createTabButton(StringMgr::getInstance()->getStringForKey(SETTINGS_HEADING_YOUR_ACCOUNT));
     accountButton->setPosition(onlineSafetyButton->getPositionX() + onlineSafetyButton->getContentSize().width / 2 + TAB_SPACING + accountButton->getContentSize().width / 2 , linePositionY-LINE_WIDTH);
     accountButton->setDelegate(this);
     accountButton->setMixPanelButtonName("SettingsTab-Account");

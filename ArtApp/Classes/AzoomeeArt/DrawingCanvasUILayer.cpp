@@ -7,6 +7,7 @@
 //
 
 #include "DrawingCanvasUILayer.h"
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Utils/DirectorySearcher.h>
@@ -165,7 +166,7 @@ void DrawingCanvasUILayer::addClearButton(const Size& visibleSize, const Point& 
     oomee->setNormalizedPosition(Vec2(0.23,0.5));
     _confirmDeleteImagePopup->addChild(oomee);
     
-    Label* text = Label::createWithTTF("Are you sure you\nwant to delete\nyour picture?", Style::Font::Regular, 100);
+    Label* text = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(ART_APP_DELETE_ART), Style::Font::Regular, 100);
     text->setAnchorPoint(Vec2(0,1));
     text->setNormalizedPosition(Vec2(0.45,0.88));
     text->setColor(Color3B(Style::Color_4F::brightAqua));

@@ -13,6 +13,7 @@
 #include "OomeeFigure.h"
 #include "DragAndDropController.h"
 #include "OomeeSelectScene.h"
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
@@ -449,7 +450,7 @@ void OomeeMakerScene::displayMadeAvatarNotification()
     }),NULL));
     _contentLayer->addChild(banner,10);
     
-    auto bannerLabel = Label::createWithTTF("This is Your New Avatar!", Style::Font::Regular, 83);
+    auto bannerLabel = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(OOMEE_MAKER_NEW_AVATAR), Style::Font::Regular, 83);
     bannerLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     bannerLabel->setNormalizedPosition(Vec2(0.5, 0.25));
     bannerLabel->setColor(Color3B::WHITE);

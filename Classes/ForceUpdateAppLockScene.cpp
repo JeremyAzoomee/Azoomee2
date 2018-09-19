@@ -1,4 +1,5 @@
 #include "ForceUpdateAppLockScene.h"
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 #include "ForceUpdateSingleton.h"
@@ -26,7 +27,7 @@ void ForceUpdateAppLockScene::addVisualComponentsToScene()
 {
     addSideWiresToScreen(this, 0, 1);
     
-    auto titleLabel = Label::createWithTTF("Azoomee needs to be updated!", Style::Font::Regular, 130);
+    auto titleLabel = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(FORCE_UPDATE_TITLE), Style::Font::Regular, 130);
     titleLabel->setColor(Style::Color::brightAqua);
     titleLabel->setAnchorPoint(Vec2(0.5,1.0));
     titleLabel->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -34,7 +35,7 @@ void ForceUpdateAppLockScene::addVisualComponentsToScene()
     titleLabel->setPosition(_visibleSize.width/2, _visibleSize.height - 100);
     this->addChild(titleLabel);
     
-    auto subTitleLabel = Label::createWithTTF("It looks like you are using an old version of Azoomee.\nTo continue using Azoomee, please ask a grown-up to update it to the latest version by tapping the button below.", Style::Font::Regular, 76);
+    auto subTitleLabel = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(FORCE_UPDATE_SUB_TITLE), Style::Font::Regular, 76);
     subTitleLabel->setColor(Color3B::WHITE);
     subTitleLabel->setAnchorPoint(Vec2(0.5,1.0));
     subTitleLabel->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -45,7 +46,7 @@ void ForceUpdateAppLockScene::addVisualComponentsToScene()
 
 void ForceUpdateAppLockScene::addUpdateButtonToScene()
 {
-    updateButton = ElectricDreamsButton::createButtonWithText("Update Azoomee", 225);
+    updateButton = ElectricDreamsButton::createButtonWithText(StringMgr::getInstance()->getStringForKey(FORCE_UPDATE_BUTTON), 225);
     updateButton->setPosition(_visibleSize.width / 2 - updateButton->getContentSize().width / 2, updateButton->getContentSize().height * 0.75f);
     updateButton->setDelegate(this);
     updateButton->setMixPanelButtonName("UpdateAzoomeeButton");

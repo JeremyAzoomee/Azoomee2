@@ -4,6 +4,7 @@
 #include "../Mixpanel/Notifications.h"
 #include "Style.h"
 #include "Scene.h"
+#include "../Strings.h"
 
 USING_NS_CC;
 
@@ -120,7 +121,7 @@ void ModalMessages::startSaving()
     
     createAndFadeInLayer();
     
-    auto savingLabel = Label::createWithTTF("Saving...", Style::Font::Regular, 128);
+    auto savingLabel = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(SAVING_LABEL), Style::Font::Regular, 128);
     savingLabel->setColor(Style::Color::white);
     savingLabel->setNormalizedPosition(Vec2(0.5,0.5));
     savingLabel->setAnchorPoint(Vec2(0.5,0.5));

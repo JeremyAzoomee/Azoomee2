@@ -7,6 +7,7 @@
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/Strings.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -50,7 +51,7 @@ void KidsControlLayer::addButtonsAndInput()
     closeButton->setMixPanelButtonName("Settings-YourKids-Close");
     childFrameLayer->addChild(closeButton);
     
-    deleteButton = ElectricDreamsButton::createTextAsButtonWithColor("Delete Profile", 46, true,Style::Color::greenish);
+    deleteButton = ElectricDreamsButton::createTextAsButtonWithColor(StringMgr::getInstance()->getStringForKey(SETTINGS_DELETE_PROFILE), 46, true,Style::Color::greenish);
     deleteButton->setCenterPosition(Vec2(this->getContentSize().width/2, deleteButton->getContentSize().height * 0.3));
     deleteButton->setDelegate(this);
     deleteButton->setMixPanelButtonName("Settings-YourKids-Delete");
@@ -62,21 +63,21 @@ void KidsControlLayer::addButtonsAndInput()
     shareButton->setMixPanelButtonName("Settings-YourKids-ShareCode");
     childFrameLayer->addChild(shareButton);
     
-    tryAgainButton = ElectricDreamsButton::createGreenButton("Try Again", this->getContentSize().width * 0.66f);
+    tryAgainButton = ElectricDreamsButton::createGreenButton(StringMgr::getInstance()->getStringForKey(BUTTON_TRY_AGAIN), this->getContentSize().width * 0.66f);
     tryAgainButton->setCenterPosition(Vec2(this->getContentSize().width/2,this->getContentSize().height * 0.25f - tryAgainButton->getContentSize().height));
     tryAgainButton->setVisible(false);
     tryAgainButton->setDelegate(this);
     tryAgainButton->setMixPanelButtonName("Settings-YourKids-TryCodeAgain");
     childFrameLayer->addChild(tryAgainButton);
     
-    addAnotherButton = ElectricDreamsButton::createGreenButton("Add Another", this->getContentSize().width * 0.66f);
+    addAnotherButton = ElectricDreamsButton::createGreenButton(StringMgr::getInstance()->getStringForKey(BUTTON_ADD_ANOTHER_LABEL), this->getContentSize().width * 0.66f);
     addAnotherButton->setCenterPosition(Vec2(this->getContentSize().width/2,tryAgainButton->getPositionY()));
     addAnotherButton->setVisible(false);
     addAnotherButton->setDelegate(this);
     addAnotherButton->setMixPanelButtonName("Settings-YourKids-AddAnotherCode");
     childFrameLayer->addChild(addAnotherButton);
 
-    textInputButton = ElectricDreamsButton::createTextInputAsButton("Enter their Kid Code here", this->getContentSize().width * 0.8f);
+    textInputButton = ElectricDreamsButton::createTextInputAsButton(StringMgr::getInstance()->getStringForKey(SETTINGS_ENTER_KID_CODE), this->getContentSize().width * 0.8f);
     textInputButton->setCenterPosition(Vec2(this->getContentSize().width/2,textInputButton->getContentSize().height*1.3));
     textInputButton->setDelegate(this);
     textInputButton->setMixPanelButtonName("Settings-YourKids-EnterKidCodeHere");
@@ -162,7 +163,7 @@ void KidsControlLayer::shareKidCode()
     
     std::string childsName = ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(childNumber);
     
-    nativeShareScreenString(StringUtils::format("%s uses Azoomee to chat safely with family & friends. Enter %s's Kid Code %s in Azoomee to start chatting with your child.\nDownload Azoomee here: http://bit.ly/azoomeekids",childsName.c_str(),childsName.c_str(),ParentDataProvider::getInstance()->getInviteCodeForAnAvailableChild(childNumber).c_str()));
+    nativeShareScreenString(StringUtils::format(StringMgr::getInstance()->getStringForKey(SETTINGS_SHARE_CODE_TEXT).c_str(),childsName.c_str(),childsName.c_str(),ParentDataProvider::getInstance()->getInviteCodeForAnAvailableChild(childNumber).c_str()));
 }
 
 void KidsControlLayer::clearAllButCloseButton()

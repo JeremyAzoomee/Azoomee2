@@ -10,6 +10,7 @@
 #include "SimpleAudioEngine.h"
 #include "HQDataProvider.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/UI/Style.h>
@@ -89,7 +90,7 @@ bool MeHQProfileDetails::init()
     
     _labelLayout->addChild(_nameLabel);
     
-    _kidCodeLabel = ui::Text::create("Kid Code: " + ParentDataProvider::getInstance()->getInviteCodeForAnAvailableChild(ChildDataProvider::getInstance()->getLoggedInChildNumber()), Style::Font::Regular, is3x4Device ? 67 : 96);
+    _kidCodeLabel = ui::Text::create(StringMgr::getInstance()->getStringForKey(KID_CODE) + ParentDataProvider::getInstance()->getInviteCodeForAnAvailableChild(ChildDataProvider::getInstance()->getLoggedInChildNumber()), Style::Font::Regular, is3x4Device ? 67 : 96);
     _kidCodeLabel->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE : Vec2::ANCHOR_MIDDLE_TOP);
     _kidCodeLabel->setNormalizedPosition(Vec2(0.5,isPortrait ? 0.20 : 0.45));
     _kidCodeLabel->setContentSize(Size(contentSize.width /2, contentSize.height / 3.0f));
