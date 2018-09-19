@@ -172,13 +172,14 @@ public:
     void shareContentItemButtonPressed(const std::string& contentItemId);
     
     //-------------OomeeMaker Events----------------------------
-    void makeAvatarSuccess();
+    void makeAvatarSuccess(const std::string& origin);
     void shareOomee();
     void editOomee();
     void deleteOomee();
     void newOomee();
     void saveOomee(const std::string& oomeeDataString);
     void reportNumberOfOomees(int numOomees);
+    void accessorySelectedEvent(const std::string& method);
     
     //-------------Art app events-------------------------------
     void stickerSelectedEvent(const std::string& stickerFilename);

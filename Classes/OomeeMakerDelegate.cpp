@@ -81,18 +81,19 @@ void OomeeMakerDelegate::onHttpRequestSuccess(const std::string& requestTag, con
         ChildDataParser::getInstance()->setLoggedInChildAvatarId(getStringFromJson("avatar", json));
         ImageDownloaderRef imageDownloader = ImageDownloader::create("imageCache/", ImageDownloader::CacheMode::File );
         imageDownloader->downloadImage(nullptr, getStringFromJson("avatar", json), true);
-        AnalyticsSingleton::getInstance()->makeAvatarSuccess();
         ModalMessages::getInstance()->stopLoading();
         auto scene = Director::getInstance()->getRunningScene();
         OomeeMaker::OomeeSelectScene* selectScene = dynamic_cast<OomeeMaker::OomeeSelectScene*>(scene);
         if(selectScene)
         {
+            AnalyticsSingleton::getInstance()->makeAvatarSuccess("OOMEE_SELECT");
             selectScene->toggleMakeAvatarHiglight();
             return;
         }
         OomeeMaker::OomeeMakerScene* makerScene = dynamic_cast<OomeeMaker::OomeeMakerScene*>(scene);
         if(makerScene)
         {
+            AnalyticsSingleton::getInstance()->makeAvatarSuccess("OOMEE_MAKER");
             makerScene->displayMadeAvatarNotification();
         }
     }

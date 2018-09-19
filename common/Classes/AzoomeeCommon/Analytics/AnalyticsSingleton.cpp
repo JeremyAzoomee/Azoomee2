@@ -804,9 +804,9 @@ void AnalyticsSingleton::shareContentItemButtonPressed(const std::string& conten
 
 //-------------OomeeMaker Events----------------------------
 
-void AnalyticsSingleton::makeAvatarSuccess()
+void AnalyticsSingleton::makeAvatarSuccess(const std::string& origin)
 {
-    mixPanelSendEventWithStoredProperties("makeAvatarSuccess");
+    mixPanelSendEventWithStoredProperties("makeAvatarSuccess", {{"origin",origin}});
 }
 void AnalyticsSingleton::shareOomee()
 {
@@ -831,6 +831,11 @@ void AnalyticsSingleton::saveOomee(const std::string& oomeeDataString)
 void AnalyticsSingleton::reportNumberOfOomees(int numOomees)
 {
     mixPanelSendEventWithStoredProperties("reportNumOomeesEvent",{{"numOomees", cocos2d::StringUtils::format("%d", numOomees)}});
+}
+
+void AnalyticsSingleton::accessorySelectedEvent(const std::string& method)
+{
+    mixPanelSendEventWithStoredProperties("accessorySelected" ,{{"method", method}});
 }
 
 //----------------Art app events------------------------------
