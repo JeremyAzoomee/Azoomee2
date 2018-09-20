@@ -79,23 +79,7 @@ void OomeeCarouselButton::onEnter()
     });
     this->addChild(_deleteButton);
     
-    _editButton = ui::Button::create("res/oomeeMaker/edit_button.png");
-    _editButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _editButton->setPosition(this->getContentSize()/2);
-    _editButton->setScale(0);
-    _editButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
-        if(eType == TouchEventType::ENDED)
-        {
-            log("edit oomee");
-            if(_delegate)
-            {
-                _delegate->editOomee(_oomeeFileName);
-            }
-        }
-    });
-    this->addChild(_editButton);
-    
-    _makeAvatarButton = ui::Button::create("res/oomeeMaker/profile_button.png");
+    _makeAvatarButton = ui::Button::create("res/oomeeMaker/make_oomee_button.png");
     _makeAvatarButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _makeAvatarButton->setPosition(this->getContentSize()/2);
     _makeAvatarButton->setScale(0);
@@ -176,14 +160,8 @@ void OomeeCarouselButton::animateButtonsIn(float duration)
     duration *= durationMod;
     Action* scaleAction = ScaleTo::create(duration, 1);
     
-    Vec2 basePos = Vec2(centerWidth - this->getContentSize().height/2, centerHeight + this->getContentSize().height/2);
+    Vec2 basePos = Vec2(centerWidth, centerHeight + this->getContentSize().height*0.65f);
     
-    Action* moveActionEdit = EaseBackOut::create(MoveTo::create(duration, basePos));
-    _editButton->stopAllActions();
-    _editButton->runAction(scaleAction->clone());
-    _editButton->runAction(moveActionEdit);
-    
-    basePos.rotate(Vec2(centerWidth,centerHeight),CC_DEGREES_TO_RADIANS(-30));
     Action* moveActionAvatar = EaseBackOut::create(MoveTo::create(duration, basePos));
     _makeAvatarButton->stopAllActions();
     _makeAvatarButton->runAction(scaleAction->clone());
@@ -196,7 +174,7 @@ void OomeeCarouselButton::animateButtonsIn(float duration)
     _shareButton->runAction(moveActionShare);
     
     
-    basePos.rotate(Vec2(centerWidth,centerHeight),CC_DEGREES_TO_RADIANS(-30));
+    basePos.rotate(Vec2(centerWidth,centerHeight),CC_DEGREES_TO_RADIANS(60));
     Action* moveActionDelete = EaseBackOut::create(MoveTo::create(duration, basePos));
     _deleteButton->stopAllActions();
     _deleteButton->runAction(scaleAction->clone());
@@ -216,10 +194,6 @@ void OomeeCarouselButton::animateButtonsOut(float duration)
     _deleteButton->runAction(scaleAction->clone());
     _deleteButton->runAction(moveAction->clone());
     
-    _editButton->stopAllActions();
-    _editButton->runAction(scaleAction->clone());
-    _editButton->runAction(moveAction->clone());
-    
     _shareButton->stopAllActions();
     _shareButton->runAction(scaleAction->clone());
     _shareButton->runAction(moveAction->clone());
@@ -233,8 +207,8 @@ void OomeeCarouselButton::enableHighlight(bool enable)
 {
     if(enable)
     {
-        _outerCircle->runAction(TintTo::create(0.5, Style::Color::brightAqua));
-        _innerCircle->runAction(TintTo::create(0.5, Style::Color::brightAqua));
+        _outerCircle->runAction(TintTo::create(0.5, Style::Color::oomeeGreen));
+        _innerCircle->runAction(TintTo::create(0.5, Style::Color::oomeeGreen));
     }
     else
     {

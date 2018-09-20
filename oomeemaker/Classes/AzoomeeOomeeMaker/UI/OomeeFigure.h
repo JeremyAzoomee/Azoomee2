@@ -64,6 +64,8 @@ public:
     void addAccessory(const OomeeItemRef& oomeeItem);
     void removeAccessory(const std::string anchorPoint);
     
+    void resetOomee();
+    
     void setEditable(bool isEditable);
     
     void saveSnapshotImage(const std::string& filepath);

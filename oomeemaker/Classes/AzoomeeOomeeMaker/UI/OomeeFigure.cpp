@@ -275,6 +275,21 @@ void OomeeFigure::removeAccessory(const std::string anchorPoint)
     }
 }
 
+void OomeeFigure::resetOomee()
+{
+    std::vector<std::string> anchorNames;
+    for(auto item : _accessories)
+    {
+        anchorNames.push_back(item.first);
+    }
+    for(auto anchor : anchorNames)
+    {
+        removeAccessory(anchor);
+    }
+    setOomeeData(_oomeeData);
+
+}
+
 void OomeeFigure::setEditable(bool isEditable)
 {
     _isEditable = isEditable;

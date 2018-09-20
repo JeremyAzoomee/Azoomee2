@@ -31,7 +31,6 @@ private:
     OomeeCarouselButtonDelegate* _delegate = nullptr;
     
     cocos2d::ui::Button* _deleteButton = nullptr;
-    cocos2d::ui::Button* _editButton = nullptr;
     cocos2d::ui::Button* _makeAvatarButton = nullptr;
     cocos2d::ui::Button* _shareButton = nullptr;
     
