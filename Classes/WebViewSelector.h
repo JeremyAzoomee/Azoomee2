@@ -18,6 +18,9 @@ public:
     CREATE_FUNC(WebViewSelector);
     static cocos2d::Scene* createSceneWithUrl(const std::string& url, Orientation orientation, const cocos2d::Vec2& closeButtonAnchor);
     virtual bool init() override;
+    virtual void onEnter() override;
+    
+    void setParams(const std::string& url, Orientation orientation, const cocos2d::Vec2& closeButtonAnchor);
     
     std::string getUrlWithoutPath(std::string);
     int findPositionOfNthString(std::string string, std::string whatToFind, int whichOne);

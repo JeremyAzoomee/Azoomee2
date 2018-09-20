@@ -122,7 +122,6 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
     public static void startWebView(String url, String userid, int orientation, float closeButtonAnchorX, float closeButtonAnchorY) {
         Intent nvw;
-
         if (url.substring(url.length() - 4).equals("m3u8"))
         {
             nvw = new Intent(mContext, NativeMediaPlayer.class);

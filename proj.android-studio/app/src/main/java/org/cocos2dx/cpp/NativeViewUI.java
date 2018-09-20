@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,10 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.tinizine.azoomee.R;
 
@@ -33,10 +37,13 @@ public class NativeViewUI extends Activity {
     public WebView uiWebView;
     public static WebView uiWebViewStatic;
     public static String userid;
-    public static ImageButton burgerButtonStatic;
+
     public static ImageButton imageButtonStatic;
     public static ImageButton favButtonStatic;
     public static ImageButton shareButtonStatic;
+
+    private FrameLayout _favBanner;
+
     private static final int _portrait = 1;
     private static final int _horizonal = 0;
     private int _buttonWidth;
@@ -126,6 +133,7 @@ public class NativeViewUI extends Activity {
         uiWebViewStatic = uiWebView;
 
         addButtons();
+        addFavBanner();
 
         webviewAdditionalSettings();
     }
@@ -315,9 +323,9 @@ public class NativeViewUI extends Activity {
         if(!JNICalls.JNIIsAnonUser()) {
             final ImageButton favButton = new ImageButton(this);
             if (JNICalls.JNIIsInFavourites()) {
-                favButton.setImageResource(R.drawable.favourite_selected);
+                favButton.setImageResource(R.drawable.favourite_selected_v2);
             } else {
-                favButton.setImageResource(R.drawable.favourite_unelected);
+                favButton.setImageResource(R.drawable.favourite_unelected_v2);
             }
             favButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
             favButton.setOnClickListener(new View.OnClickListener() {
@@ -328,17 +336,18 @@ public class NativeViewUI extends Activity {
                     }
                     if (JNICalls.JNIIsInFavourites()) {
                         JNICalls.JNIRemoveFromFavourites();
-                        favButton.setImageResource(R.drawable.favourite_unelected);
+                        favButton.setImageResource(R.drawable.favourite_unelected_v2);
                     } else {
                         JNICalls.JNIAddToFavourites();
-                        favButton.setImageResource(R.drawable.favourite_selected);
+                        animateFavBanner();
+                        favButton.setImageResource(R.drawable.favourite_selected_v2);
                     }
                 }
             });
 
             favButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
-            favButton.setX(buttonPadding + (_xAnchor * _paddedWindowWidth) + 2 * (_xMod * _buttonWidth));
-            favButton.setY(buttonPadding + (_yAnchor * _paddedWindowHeight) + 2 * (_yMod * _buttonWidth));
+            favButton.setX(buttonPadding + (_xAnchor * _paddedWindowWidth) + (_xMod * _buttonWidth));
+            favButton.setY(buttonPadding + (_yAnchor * _paddedWindowHeight) + (_yMod * _buttonWidth));
 
             addContentView(favButton, buttonLayoutParams);
 
@@ -346,22 +355,13 @@ public class NativeViewUI extends Activity {
 
             if(JNICalls.JNIIsChatEntitled()) {
                 final ImageButton shareButton = new ImageButton(this);
-                shareButton.setImageResource(R.drawable.share_unelected);
-                shareButton.setTag(R.drawable.share_unelected);
+                shareButton.setImageResource(R.drawable.share_unelected_v2);
                 shareButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
                 shareButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (isActivityExitRequested || !isWebViewReady) {
                             return;
-                        }
-                        Integer resource = (Integer) shareButton.getTag();
-                        if (resource == R.drawable.share_selected) {
-                            shareButton.setImageResource(R.drawable.share_unelected);
-                            shareButton.setTag(R.drawable.share_unelected);
-                        } else {
-                            shareButton.setImageResource(R.drawable.share_selected);
-                            shareButton.setTag(R.drawable.share_selected);
                         }
                         JNICalls.JNIShareInChat();
                         Bundle extras = getIntent().getExtras();
@@ -377,8 +377,8 @@ public class NativeViewUI extends Activity {
                 });
 
                 shareButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
-                shareButton.setX(buttonPadding + (_xAnchor * _paddedWindowWidth) + 3 * (_xMod * _buttonWidth));
-                shareButton.setY(buttonPadding + (_yAnchor * _paddedWindowHeight) + 3 * (_yMod * _buttonWidth));
+                shareButton.setX(buttonPadding + (_xAnchor * _paddedWindowWidth) + 2 * (_xMod * _buttonWidth));
+                shareButton.setY(buttonPadding + (_yAnchor * _paddedWindowHeight) + 2 * (_yMod * _buttonWidth));
 
                 addContentView(shareButton, buttonLayoutParams);
 
@@ -389,39 +389,9 @@ public class NativeViewUI extends Activity {
                 shareButtonStatic = null;
             }
 
-            final ImageButton burgerButton = new ImageButton(this);
-            burgerButton.setImageResource(R.drawable.menu_unselected);
-            burgerButton.setTag(R.drawable.menu_unselected);
-            burgerButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
-            burgerButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Integer resource = (Integer) burgerButton.getTag();
-                    if (resource == R.drawable.menu_selected) {
-                        burgerButton.setImageResource(R.drawable.menu_unselected);
-                        burgerButton.setTag(R.drawable.menu_unselected);
-                    } else {
-                        burgerButton.setImageResource(R.drawable.menu_selected);
-                        burgerButton.setTag(R.drawable.menu_selected);
-                    }
-                    animateButtons();
-                }
-            });
-
-            burgerButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
-            burgerButton.setX(buttonPadding + (_xAnchor * _paddedWindowWidth) + (_xMod * _buttonWidth));
-            burgerButton.setY(buttonPadding + (_yAnchor * _paddedWindowHeight) + (_yMod * _buttonWidth));
-
-            addContentView(burgerButton, buttonLayoutParams);
-
-            burgerButtonStatic = burgerButton;
-
-            _uiExpanded = true;
-            animateButtons();
         }
         final ImageButton closeButton = new ImageButton(this);
-        closeButton.setImageResource(R.drawable.close_unelected);
-        closeButton.setTag(R.drawable.close_unelected);
+        closeButton.setImageResource(R.drawable.close_unelected_v2);
 
         closeButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
         closeButton.setOnClickListener(new View.OnClickListener()
@@ -436,18 +406,6 @@ public class NativeViewUI extends Activity {
 
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-                Integer resource = (Integer)closeButton.getTag();
-                if(resource == R.drawable.close_selected)
-                {
-                    closeButton.setImageResource(R.drawable.close_unelected);
-                    closeButton.setTag(R.drawable.close_unelected);
-                }
-                else
-                {
-                    closeButton.setImageResource(R.drawable.close_selected);
-                    closeButton.setTag(R.drawable.close_selected);
-                }
 
                 Bundle extras = getIntent().getExtras();
                 if(extras.getInt("orientation") == _portrait)
@@ -473,86 +431,130 @@ public class NativeViewUI extends Activity {
         imageButtonStatic = closeButton;
     }
 
-    void animateButtons()
+    // Create fav notification banner
+    void addFavBanner()
+    {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int height = displayMetrics.heightPixels;
+        int width = displayMetrics.widthPixels;
+
+        android.widget.RelativeLayout.LayoutParams bgLayoutParams = new android.widget.RelativeLayout.LayoutParams(
+                android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT, android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+        bgLayoutParams.leftMargin = 0;
+        bgLayoutParams.topMargin = 0;
+        bgLayoutParams.width = (int)(Math.max(width, height) * 0.334f);
+        bgLayoutParams.height = (int)(Math.min(width,height) * 0.105f);
+
+        _favBanner = new FrameLayout(this);
+        _favBanner.setX(width / 2 - bgLayoutParams.width / 2);
+        _favBanner.setY(0);
+        _favBanner.setAlpha(0.0f);
+
+        addContentView(_favBanner,bgLayoutParams);
+
+        ImageView background = new ImageView(this);
+        background.setImageResource(R.drawable.fav_banner);
+
+        background.setX(0);
+        background.setY(0);
+
+        _favBanner.addView(background, bgLayoutParams);
+
+        ImageView heart = new ImageView(this);
+        heart.setImageResource(R.drawable.heart);
+
+        android.widget.RelativeLayout.LayoutParams heartLayoutParams = new android.widget.RelativeLayout.LayoutParams(
+                android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT, android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+        heartLayoutParams.leftMargin = 0;
+        heartLayoutParams.topMargin = 0;
+        heartLayoutParams.width = (int)(bgLayoutParams.width * 0.107f);
+        heartLayoutParams.height = (int)(bgLayoutParams.height * 0.44f);
+
+        heart.setX(bgLayoutParams.width * 0.07f);
+        heart.setY(bgLayoutParams.height * 0.28f);
+
+        _favBanner.addView(heart, heartLayoutParams);
+
+        TextView text = new TextView(this);
+        text.setText("Added to Favourites");
+        text.setLayoutParams(new android.widget.RelativeLayout.LayoutParams(
+                android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT, android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT));
+        text.setX(bgLayoutParams.width * 0.25f);
+        text.setY(bgLayoutParams.height * 0.2f);
+        _favBanner.addView(text);
+    }
+
+    void animateFavBanner()
     {
 
-        if(_isAnimating)
-        {
-            return;
-        }
+        final TranslateAnimation returnAnim = new TranslateAnimation(0,0,0,-_favBanner.getHeight());
+        returnAnim.setDuration(500);
+        returnAnim.setAnimationListener(new TranslateAnimation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation)
+            {
 
-        //Ok, so android animations dont actually "move" the button, so the button is always in its expanded position,
-        //and the animations are done relative to that.  when buttons are in the "closed" state, they are dissabled.
-        if(_uiExpanded)
-        {
-            TranslateAnimation favButtonAnim = new TranslateAnimation(0,burgerButtonStatic.getX() - favButtonStatic.getX(),0,burgerButtonStatic.getY() - favButtonStatic.getY());
-            favButtonAnim.setDuration(500);
-            favButtonAnim.setFillAfter(true);
-            favButtonAnim.setAnimationListener(new TranslateAnimation.AnimationListener() {
-
-                @Override
-                public void onAnimationStart(Animation animation) {
-                    _isAnimating = true;
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    _isAnimating = false;
-                    //imageButtonStatic.setClickable(false);
-                    if(shareButtonStatic != null) {
-                        shareButtonStatic.setClickable(false);
-                    }
-                    favButtonStatic.setClickable(false);
-                }
-            });
-            favButtonStatic.startAnimation(favButtonAnim);
-            if(shareButtonStatic != null) {
-                TranslateAnimation shareButtonAnim = new TranslateAnimation(0, burgerButtonStatic.getX() - shareButtonStatic.getX(), 0, burgerButtonStatic.getY() - shareButtonStatic.getY());
-                shareButtonAnim.setDuration(500);
-                shareButtonAnim.setFillAfter(true);
-                shareButtonStatic.startAnimation(shareButtonAnim);
             }
-            _uiExpanded = false;
-        }
-        else
-        {
-            TranslateAnimation favButtonAnim = new TranslateAnimation(burgerButtonStatic.getX() - favButtonStatic.getX(), 0 , burgerButtonStatic.getY() - favButtonStatic.getY(), 0);
-            favButtonAnim.setDuration(500);
-            favButtonAnim.setFillAfter(true);
-            favButtonAnim.setAnimationListener(new TranslateAnimation.AnimationListener() {
 
-                @Override
-                public void onAnimationStart(Animation animation) {
-                    _isAnimating = true;
-                }
+            @Override
+            public void onAnimationRepeat(Animation animation)
+            {
 
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    _isAnimating = false;
-                    //imageButtonStatic.setClickable(true);
-                    if(shareButtonStatic != null) {
-                        shareButtonStatic.setClickable(true);
-                    }
-                    favButtonStatic.setClickable(true);
-                }
-            });
-            favButtonStatic.startAnimation(favButtonAnim);
-            if(shareButtonStatic != null) {
-                TranslateAnimation shareButtonAnim = new TranslateAnimation(burgerButtonStatic.getX() - shareButtonStatic.getX(), 0, burgerButtonStatic.getY() - shareButtonStatic.getY(), 0);
-                shareButtonAnim.setDuration(500);
-                shareButtonAnim.setFillAfter(true);
-                shareButtonStatic.startAnimation(shareButtonAnim);
             }
-            _uiExpanded = true;
-        }
+            @Override
+            public void onAnimationEnd(Animation animation)
+            {
+                _favBanner.setAlpha(0.0f);
+            }
+        });
+
+        final TranslateAnimation waitAnim = new TranslateAnimation(0,0,0,0);
+        waitAnim.setDuration(1000);
+        waitAnim.setAnimationListener(new TranslateAnimation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation)
+            {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation)
+            {
+
+            }
+            @Override
+            public void onAnimationEnd(Animation animation)
+            {
+                _favBanner.startAnimation(returnAnim);
+            }
+        });
+        waitAnim.setFillAfter(true);
+
+        TranslateAnimation animation = new TranslateAnimation(0,0,-_favBanner.getHeight(),0);
+        animation.setDuration(500);
+        animation.setAnimationListener(new TranslateAnimation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation)
+            {
+                _favBanner.setAlpha(1.0f);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation)
+            {
+
+            }
+            @Override
+            public void onAnimationEnd(Animation animation)
+            {
+                _favBanner.startAnimation(waitAnim);
+            }
+        });
+        animation.setFillAfter(true);
+        _favBanner.startAnimation(animation);
     }
 
     void calcUIButtonParams()

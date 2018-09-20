@@ -14,10 +14,10 @@
     NSString *useridToUse;
     bool iframeloaded;
     UIWebView *webview;
-    UIButton* _burgerButton;
     UIButton* backButton;
     UIButton* _favButton;
     UIButton* _shareButton;
+    CALayer* _favContentBanner;
     float _closeButtonAnchorX;
     float _closeButtonAnchorY;
     float _buttonWidth;
@@ -29,6 +29,8 @@
 - (void)removeWebViewWhileInBackground;
 - (void)addWebViewToScreen;
 - (void)createButtons;
-- (void)animateButtons;
+- (void)createFavBanner;
+- (void)favAnimation;
+- (void) closePopup:(NSTimer *)timer;
 
 @end

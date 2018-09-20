@@ -29,7 +29,7 @@ cocos2d::Scene* WebViewSelector::createSceneWithUrl(const std::string& url, Orie
     // add layer as a child to scene
     scene->addChild(layer);
     
-    layer->loadWebView(url, orientation, closeButtonAnchor);
+    layer->setParams(url, orientation, closeButtonAnchor);
     
     // return the scene
     return scene;
@@ -66,10 +66,6 @@ void WebViewSelector::loadWebView(const std::string& url, Orientation orientatio
     AnalyticsSingleton::getInstance()->contentItemWebviewStartedEvent();
     AudioMixer::getInstance()->stopBackgroundMusic();
     
-    _targetUrl = url;
-    _orientation = orientation;
-    _closeButtonAnchor = closeButtonAnchor;
-    
     if(stringEndsWith(_targetUrl, "m3u8")) //this if clause will probably need changes for later
     {
         const std::string& userSessionId = ChildDataProvider::getInstance()->getParentOrChildCdnSessionId();
@@ -103,6 +99,20 @@ bool WebViewSelector::init()
 
     
     return true;
+}
+
+void WebViewSelector::onEnter()
+{
+    Layer::onEnter();
+    
+    loadWebView(_targetUrl, _orientation, _closeButtonAnchor);
+}
+
+void WebViewSelector::setParams(const std::string &url, Azoomee::Orientation orientation, const cocos2d::Vec2 &closeButtonAnchor)
+{
+    _targetUrl = url;
+    _orientation = orientation;
+    _closeButtonAnchor = closeButtonAnchor;
 }
 
 void WebViewSelector::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)

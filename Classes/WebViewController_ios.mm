@@ -32,6 +32,7 @@ using namespace Azoomee;
     
     [self addWebViewToScreen];
     [self createButtons];
+    [self createFavBanner];
 }
 
 - (void)viewDidLoad {
@@ -246,23 +247,15 @@ using namespace Azoomee;
     [backButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [backButton setFrame:CGRectMake(buttonPaddingX + (screenSize.width * _closeButtonAnchorX), buttonPaddingY + (screenSize.height * _closeButtonAnchorY), buttonWidth, buttonWidth)];
     [backButton setExclusiveTouch:YES];
-    [backButton setImage:[UIImage imageNamed:@"res/webview_buttons/close_unselected.png"] forState:UIControlStateNormal];
-    [backButton setImage:[UIImage imageNamed:@"res/webview_buttons/close_selected.png"] forState:UIControlStateSelected];
+    [backButton setImage:[UIImage imageNamed:@"res/webview_buttons/close_unelected_v2.png"] forState:UIControlStateNormal];
     if(!isAnonUser())
     {
-        _burgerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_burgerButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
-        [_burgerButton setFrame:CGRectMake(buttonPaddingX + (screenSize.width * _closeButtonAnchorX) + (xMod * _buttonWidth), buttonPaddingY + (screenSize.height * _closeButtonAnchorY) + (yMod * _buttonWidth), buttonWidth, buttonWidth)];
-        [_burgerButton setExclusiveTouch:YES];
-        [_burgerButton setImage:[UIImage imageNamed:@"res/webview_buttons/menu_unselected.png"] forState:UIControlStateNormal];
-        [_burgerButton setImage:[UIImage imageNamed:@"res/webview_buttons/menu_selected.png"] forState:UIControlStateSelected];
-        
         _favButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_favButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
         [_favButton setFrame:CGRectMake(buttonPaddingX + (screenSize.width * _closeButtonAnchorX) + (xMod * _buttonWidth), buttonPaddingY + (screenSize.height * _closeButtonAnchorY) + (yMod * _buttonWidth), buttonWidth, buttonWidth)];
         [_favButton setExclusiveTouch:YES];
-        [_favButton setImage:[UIImage imageNamed:@"res/webview_buttons/favourite_unselected.png"] forState:UIControlStateNormal];
-        [_favButton setImage:[UIImage imageNamed:@"res/webview_buttons/favourite_selected.png"] forState:UIControlStateSelected];
+        [_favButton setImage:[UIImage imageNamed:@"res/webview_buttons/favourite_unelected_v2.png"] forState:UIControlStateNormal];
+        [_favButton setImage:[UIImage imageNamed:@"res/webview_buttons/favourite_selected_v2.png"] forState:UIControlStateSelected];
         if(isFavContent())
         {
             [_favButton setSelected: true];
@@ -272,19 +265,61 @@ using namespace Azoomee;
         {
             _shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
             [_shareButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
-            [_shareButton setFrame:CGRectMake(buttonPaddingX + (screenSize.width * _closeButtonAnchorX) + (xMod * _buttonWidth), buttonPaddingY + (screenSize.height * _closeButtonAnchorY) + (yMod * _buttonWidth), buttonWidth, buttonWidth)];
+            [_shareButton setFrame:CGRectMake(buttonPaddingX + (screenSize.width * _closeButtonAnchorX) + 2 * (xMod * _buttonWidth), buttonPaddingY + (screenSize.height * _closeButtonAnchorY) + 2 * (yMod * _buttonWidth), buttonWidth, buttonWidth)];
             [_shareButton setExclusiveTouch:YES];
-            [_shareButton setImage:[UIImage imageNamed:@"res/webview_buttons/share_unselected.png"] forState:UIControlStateNormal];
-            [_shareButton setImage:[UIImage imageNamed:@"res/webview_buttons/share_selected.png"] forState:UIControlStateSelected];
+            [_shareButton setImage:[UIImage imageNamed:@"res/webview_buttons/share_unelected_v2.png"] forState:UIControlStateNormal];
             
             [self.view addSubview:_shareButton];
         }
         [self.view addSubview:_favButton];
-        [self.view addSubview:_burgerButton];
     }
     [self.view addSubview:backButton];
     
     _uiExpanded = false;
+}
+
+-(void) createFavBanner
+{
+    CGRect bounds = [[UIScreen mainScreen] bounds];
+    CGSize size = bounds.size;
+    
+    CGFloat width = MAX(size.width * 0.334f, size.height * 0.334f);
+    CGFloat height = MIN(size.height * 0.105f, size.width * 0.105f);
+    
+    _favContentBanner = [CALayer layer];
+    [_favContentBanner setFrame:CGRectMake((size.width / 2) - (width / 2), -height, width, height)];
+    //[_favContentBanner setAnchorPoint:CGPointMake(0.5, 0)];
+    //[_favContentBanner setBackgroundColor:[[UIColor yellowColor] CGColor]];
+    [[self.view layer] addSublayer:_favContentBanner];
+    
+    //layer with bg
+    CALayer* bg = [CALayer layer];
+    UIImage* bgContent = [UIImage imageNamed:@"res/webview_buttons/fav_banner.png"];
+    
+    [bg setContents:(id)bgContent.CGImage];
+    [bg setFrame:CGRectMake(0, 0, width, height)];
+    //[bg setAnchorPoint:CGPointMake(0.5,0)];
+    [_favContentBanner addSublayer:bg];
+    
+    //layer with heart
+    CALayer* heart = [CALayer layer];
+    UIImage* heartContent = [UIImage imageNamed:@"res/webview_buttons/heart.png"];
+    
+    [heart setContents:(id)heartContent.CGImage];
+    [heart setFrame:CGRectMake(width * 0.07, height * 0.28 , width * 0.107, height * 0.44)];
+    //[bg setAnchorPoint:CGPointMake(0.5,0)];
+    [_favContentBanner addSublayer:heart];
+    
+    //layer with heart
+    CATextLayer *textLayer = [CATextLayer layer];
+    // set the string
+    textLayer.string = @"Added to Favourites";
+    textLayer.foregroundColor = [UIColor whiteColor].CGColor;
+    textLayer.frame = CGRectMake(width * 0.2, height * 0.2, width, height);
+    textLayer.fontSize = height * 0.45;
+    textLayer.font = (__bridge CFTypeRef)@"SofiaProSoftRegular";
+    
+    [_favContentBanner addSublayer:textLayer];
 }
 
 -(void) buttonClicked:(UIButton*)sender
@@ -314,6 +349,7 @@ using namespace Azoomee;
         else
         {
             favContent();
+            [self favAnimation];
         }
     }
     else if(sender == _shareButton)
@@ -330,10 +366,6 @@ using namespace Azoomee;
         }
         shareContentInChat();
     }
-    else if(sender == _burgerButton)
-    {
-        [self animateButtons];
-    }
 }
 
 -(void) removeWebViewWhileInBackground
@@ -347,7 +379,6 @@ using namespace Azoomee;
         {
             [_shareButton removeFromSuperview];
         }
-        [_burgerButton removeFromSuperview];
     }
     
     if(![urlToLoad hasSuffix:@"html"])
@@ -389,9 +420,10 @@ using namespace Azoomee;
             [_shareButton removeFromSuperview];
             _shareButton = nil;
         }
-        [_burgerButton removeFromSuperview];
-        _burgerButton = nil;
     }
+    
+    [_favContentBanner removeFromSuperlayer];
+    _favContentBanner = nil;
     
     [useridToUse release];
     [urlToLoad release];
@@ -403,67 +435,19 @@ using namespace Azoomee;
     //[self release];
 }
 
--(void) animateButtons
+-(void) favAnimation
 {
-    CGSize screenSize = [[UIScreen mainScreen] bounds].size;
-    screenSize.width -= _buttonWidth * 1.5f;
-    screenSize.height -= _buttonWidth * 1.5f;
+    [UIView animateWithDuration:0.5 animations:^{ _favContentBanner.frame = CGRectMake(_favContentBanner.frame.origin.x, 0, _favContentBanner.frame.size.width, _favContentBanner.frame.size.height);}];
+    [NSTimer scheduledTimerWithTimeInterval:2.0f
+                                     target:self selector:@selector(closePopup:) userInfo:nil repeats:NO];
     
-    float xMod = 0;
-    float yMod = 0;
-    if(_closeButtonAnchorY == 0.5)
-    {
-        if(_closeButtonAnchorX == 1.0)
-        {
-            xMod = -1;
-        }
-        else
-        {
-            xMod = 1;
-        }
-    }
-    else if(_closeButtonAnchorY == 0.0)
-    {
-        yMod = 1;
-    }
-    else
-    {
-        yMod = -1;
-    }
-    
-    CGFloat buttonPaddingX = _buttonWidth / 4.0f;
-    CGFloat buttonPaddingY = _buttonWidth / 4.0f;
-    
-    if(isDeviceIphoneX() && screenSize.width > screenSize.height)
-    {
-        buttonPaddingX += ((_closeButtonAnchorX - 0.5) * 2.0f) * (-25.0f);
-    }
-    
-    if(_uiExpanded)
-    {
-        // animate
-        [UIView animateWithDuration:0.5 animations:^{
-            _favButton.frame = CGRectMake(buttonPaddingX + (screenSize.width * _closeButtonAnchorX) + (xMod * _buttonWidth), buttonPaddingY + (screenSize.height * _closeButtonAnchorY) + (yMod * _buttonWidth), _buttonWidth, _buttonWidth);
-            if(isChatEntitled())
-            {
-                _shareButton.frame = CGRectMake(buttonPaddingX + (screenSize.width * _closeButtonAnchorX) + (xMod * _buttonWidth), buttonPaddingY + (screenSize.height * _closeButtonAnchorY) + (yMod * _buttonWidth), _buttonWidth, _buttonWidth);
-            }
-        }];
-        _uiExpanded = false;
-    }
-    else
-    {
-        // animate
-        [UIView animateWithDuration:0.5 animations:^{
-            _favButton.frame = CGRectMake(buttonPaddingX + (screenSize.width * _closeButtonAnchorX) + 2 * (xMod * _buttonWidth), buttonPaddingY + (screenSize.height * _closeButtonAnchorY) + 2 * ( yMod * _buttonWidth), _buttonWidth, _buttonWidth);
-            if(isChatEntitled())
-            {
-                _shareButton.frame = CGRectMake(buttonPaddingX + (screenSize.width * _closeButtonAnchorX) + 3 * (xMod * _buttonWidth), buttonPaddingY + (screenSize.height * _closeButtonAnchorY) + 3 * ( yMod * _buttonWidth), _buttonWidth, _buttonWidth);
-            }
-        }];
-        _uiExpanded = true;
-    }
-    
+}
+
+- (void) closePopup:(NSTimer *)timer
+{
+    [UIView animateWithDuration:0.5 animations:^{
+        _favContentBanner.frame = CGRectMake(_favContentBanner.frame.origin.x, -_favContentBanner.frame.size.height, _favContentBanner.frame.size.width, _favContentBanner.frame.size.height);}
+     ];
 }
 
 
