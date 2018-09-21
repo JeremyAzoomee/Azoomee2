@@ -13,6 +13,7 @@
 #include <AzoomeeCommon/Utils/DirectorySearcher.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Utils/SpecialCalendarEventManager.h>
+#include <AzoomeeCommon/UI/ModalMessages.h>
 
 using namespace cocos2d;
 
@@ -107,6 +108,23 @@ void DrawingCanvasUILayer::setDrawingCanvas(DrawingCanvas *drawingCanvas)
     this->_drawingCanvas = drawingCanvas;
 }
 
+void DrawingCanvasUILayer::setFilename(const std::string &filename)
+{
+    _filename = filename;
+}
+
+void DrawingCanvasUILayer::saveImage()
+{
+    ModalMessages::getInstance()->startSaving();
+    
+    const std::string scheduleKey = "save";
+    Director::getInstance()->getScheduler()->schedule([&](float dt){
+        const std::string& truncatedPath = _filename.substr(_filename.find(ConfigStorage::kArtCacheFolder));
+        _drawingCanvas->saveImage(truncatedPath);
+        ModalMessages::getInstance()->stopSaving();
+    }, this, 0.5, 0, 0, false, scheduleKey);
+}
+
 //UI LOADING
 
 void DrawingCanvasUILayer::addBackgroundFrame(const Size& visibleSize, const Point& visibleOrigin)
@@ -127,17 +145,31 @@ void DrawingCanvasUILayer::addBackgroundFrame(const Size& visibleSize, const Poi
 
 void DrawingCanvasUILayer::addClearButton(const Size& visibleSize, const Point& visibleOrigin)
 {
+    _saveButton = ui::Button::create(kArtAppAssetLoc + "save_button.png");
+    _saveButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _saveButton->setPosition(Vec2(visibleSize.width - _saveButton->getContentSize().width, visibleOrigin.y + visibleSize.height * 0.0825f));
+    _saveButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            ConfirmCancelMessageBox* messageBox = ConfirmCancelMessageBox::createWithParams(StringMgr::getInstance()->getStringForKey(SAVEQ_LABEL), "res/buttons/confirm_tick_2.png", "res/buttons/confirm_x_2.png", Color3B::BLACK, Color4B::WHITE);
+            messageBox->setDelegate(this);
+            messageBox->setPosition(Director::getInstance()->getVisibleOrigin());
+            this->addChild(messageBox,POPUP_UI_LAYER);
+        }
+    });
+    this->addChild(_saveButton, MAIN_UI_LAYER);
+    
     _clearButton = ui::Button::create();
-    _clearButton->setAnchorPoint(Vec2(0.5,0.5));
+    _clearButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _clearButton->loadTextures(kArtAppAssetLoc + "delete.png", kArtAppAssetLoc + "delete.png");
-    _clearButton->setPosition(Vec2(visibleSize.width - _clearButton->getContentSize().width * 2.5, visibleOrigin.y + visibleSize.height * 0.0825f));
+    _clearButton->setPosition(Vec2(_saveButton->getPosition().x - _clearButton->getContentSize().width * 1.5f, _saveButton->getPosition().y));
     _clearButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onClearButtonPressed, this));
     this->addChild(_clearButton,MAIN_UI_LAYER);
     
     _undoButton = ui::Button::create();
-    _undoButton->setAnchorPoint(Vec2(0.5,0.5));
+    _undoButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _undoButton->loadTextures(kArtAppAssetLoc + "redo.png", kArtAppAssetLoc + "redo.png");
-    _undoButton->setPosition(Vec2(visibleSize.width - _undoButton->getContentSize().width, _clearButton->getPosition().y));
+    _undoButton->setPosition(Vec2(_clearButton->getPosition().x - _undoButton->getContentSize().width * 1.5f, _clearButton->getPosition().y));
     _undoButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onUndoButtonPressed, this));
     _undoButton->setFlippedX(true);
     this->addChild(_undoButton,MAIN_UI_LAYER);
@@ -308,9 +340,9 @@ void DrawingCanvasUILayer::addToolSelectButtons(const Size& visibleSize, const P
 {
     
     _toolButtonLayout = Node::create();
-    _toolButtonLayout->setContentSize(Size(visibleSize.width*0.6f,visibleSize.height*0.175f));
+    _toolButtonLayout->setContentSize(Size(visibleSize.width*0.5f,visibleSize.height*0.175f));
     _toolButtonLayout->setAnchorPoint(Vec2(0.5,0));
-    _toolButtonLayout->setPosition(Vec2(visibleOrigin.x + visibleSize.width/2,visibleOrigin.y));
+    _toolButtonLayout->setPosition(Vec2(visibleOrigin.x + visibleSize.width * 0.45,visibleOrigin.y));
     this->addChild(_toolButtonLayout,MAIN_UI_LAYER);
     
     addBrushTool(kArtAppAssetLoc + "pencil_frame.png", kArtAppAssetLoc + "pencil.png", PEN, Vec2(0.1,0), true);
@@ -1109,7 +1141,19 @@ void DrawingCanvasUILayer::getStickerFilesFromJSON()
     
     _stickerCats.push_back(oomeeCat);
     
-    
+}
+
+// delegate functions
+
+void DrawingCanvasUILayer::onConfirmPressed(Azoomee::ConfirmCancelMessageBox *pSender)
+{
+    saveImage();
+    pSender->removeFromParent();
+}
+
+void DrawingCanvasUILayer::onCancelPressed(Azoomee::ConfirmCancelMessageBox *pSender)
+{
+    pSender->removeFromParent();
 }
 
 
