@@ -20,6 +20,8 @@ class OomeeCarousel : public cocos2d::Node
 {
     typedef cocos2d::Node Super;
 private:
+    static const std::string kNewOomeeTag;
+    
     std::vector<std::string> _oomeeData;
     std::vector<LazyLoadingButton*> _carouselButtons;
     int _currentIndex = 0;

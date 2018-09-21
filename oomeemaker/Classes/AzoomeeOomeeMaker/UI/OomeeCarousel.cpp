@@ -14,6 +14,8 @@ NS_AZOOMEE_OM_BEGIN
 
 using namespace cocos2d;
 
+const std::string OomeeCarousel::kNewOomeeTag = "new";
+
 bool OomeeCarousel::init()
 {
     if(!Super::init())
@@ -62,7 +64,7 @@ void OomeeCarousel::setTouchListener()
         if(_centerButton)
         {
             OomeeCarouselButton* carouselButton = dynamic_cast<OomeeCarouselButton*>(_centerButton);
-            if(carouselButton && carouselButton->getName() != "new")
+            if(carouselButton && carouselButton->getName() != kNewOomeeTag)
             {
                 carouselButton->setInFocus(false);
             }
@@ -114,7 +116,7 @@ void OomeeCarousel::setOomeeData(const std::vector<std::string>& oomeeFilenames)
             button->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
             button->setPosition(Vec2(_spacing * j, this->getContentSize().height / 2.0f));
             button->setSwallowTouches(false);
-            button->setName("new");
+            button->setName(kNewOomeeTag);
             button->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType){
                 if(pSender == _centerButton)
                 {
@@ -195,7 +197,7 @@ void OomeeCarousel::centerButtons()
     }
     
     OomeeCarouselButton* carouselButton = dynamic_cast<OomeeCarouselButton*>(centerButton);
-    if(carouselButton && carouselButton->getName() != "new")
+    if(carouselButton && carouselButton->getName() != kNewOomeeTag)
     {
         carouselButton->setInFocus(true);
     }
@@ -220,7 +222,7 @@ void OomeeCarousel::moveCarouselLeft()
     if(_centerButton)
     {
         OomeeCarouselButton* carouselButton = dynamic_cast<OomeeCarouselButton*>(_centerButton);
-        if(carouselButton && carouselButton->getName() != "new")
+        if(carouselButton && carouselButton->getName() != kNewOomeeTag)
         {
             carouselButton->setInFocus(false);
         }
@@ -257,7 +259,7 @@ void OomeeCarousel::moveCarouselRight()
     if(_centerButton)
     {
         OomeeCarouselButton* carouselButton = dynamic_cast<OomeeCarouselButton*>(_centerButton);
-        if(carouselButton && carouselButton->getName() != "new")
+        if(carouselButton && carouselButton->getName() != kNewOomeeTag)
         {
             carouselButton->setInFocus(false);
         }
@@ -347,7 +349,7 @@ void OomeeCarousel::centerOnOomee(const std::string &targetOomee)
     if(_centerButton)
     {
         OomeeCarouselButton* carouselButton = dynamic_cast<OomeeCarouselButton*>(_centerButton);
-        if(carouselButton && carouselButton->getName() != "new")
+        if(carouselButton && carouselButton->getName() != kNewOomeeTag)
         {
             carouselButton->setInFocus(false);
         }
