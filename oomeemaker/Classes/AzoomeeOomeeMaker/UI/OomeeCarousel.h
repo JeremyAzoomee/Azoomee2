@@ -50,6 +50,11 @@ public:
     void setVisibleRange(int visibleRange);
     
     void centerButtons();
+    void moveCarouselLeft();
+    void moveCarouselRight();
+    
+    void centerOnOomee(const std::string& targetOomee);
+    
     void setButtonDelegate(OomeeCarouselButtonDelegate* delegate);
     OomeeCarouselButton* getCenterButton();
     

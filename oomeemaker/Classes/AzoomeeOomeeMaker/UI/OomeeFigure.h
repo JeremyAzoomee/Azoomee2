@@ -79,8 +79,8 @@ public:
     float getHue() const;
     void setHue(float hue);
     
-    
     void undoLastAction();
+    int getUndoStackSize() const;
     
     CREATE_FUNC(OomeeFigure);
 };

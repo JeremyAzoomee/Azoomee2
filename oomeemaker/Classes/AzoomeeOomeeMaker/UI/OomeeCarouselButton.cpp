@@ -122,6 +122,11 @@ void OomeeCarouselButton::setOomeeData(const std::string &filename)
     loadPlaceholderImage();
 }
 
+std::string OomeeCarouselButton::getOomeeFilename() const
+{
+    return _oomeeFileName;
+}
+
 void OomeeCarouselButton::setInFocus(bool inFocus)
 {
     if(inFocus == _inFocus)

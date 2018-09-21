@@ -26,9 +26,14 @@ private:
     static const std::string kDefaultOomeeId;
     static const std::string kColourCategoryId;
     
+    static const std::string kSavePopupId;
+    static const std::string kResetPopupId;
+    
     cocos2d::Layer* _contentLayer = nullptr;
     
     std::string _filename;
+    bool _newOomee = false;
+    
     OomeeFigure* _oomee = nullptr;
     OomeeItemList* _itemList = nullptr;
     ItemCategoryList* _categoryList = nullptr;
@@ -56,6 +61,7 @@ public:
     virtual void onEnterTransitionDidFinish() override;
     
     void setFilename(const std::string& filename);
+    void setIsNewOomee(bool newOomee);
     void displayMadeAvatarNotification();
     
     CREATE_FUNC(OomeeMakerScene);

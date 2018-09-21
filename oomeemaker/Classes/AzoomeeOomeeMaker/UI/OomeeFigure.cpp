@@ -426,6 +426,11 @@ void OomeeFigure::undoLastAction()
     }
 }
 
+int OomeeFigure::getUndoStackSize() const
+{
+    return (int)_undoStack.size();
+}
+
 Vec2 OomeeFigure::getWorldPositionForAnchorPoint(const std::string &anchorPoint)
 {
     return getParent()->convertToWorldSpace(getPosition()) + getLocalPositionForAnchorPoint(anchorPoint);

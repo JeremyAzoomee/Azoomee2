@@ -38,7 +38,10 @@
         "child_selectscene_title_label":"Select your profile",
         "loading_label":"Loading",
         "saving_label":"Saving...",
-        "kidCode": "Kid Code: "
+        "kidCode": "Kid Code: ",
+        "saveQ": "Save?",
+        "deleteQ": "Delete?",
+        "resetQ": "Reset?"
     },
     
     "GenericButtons":
@@ -126,7 +129,7 @@
     },
     "OomeeMaker":
     {
-        "newAvatar": "This is Your New Avatar!"
+        "newAvatar": "This is your new Oomee!"
     },
     "MeHQ":
     {

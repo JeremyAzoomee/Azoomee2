@@ -29,6 +29,7 @@ void OomeeSelectScene::newOomee()
     const std::string& fileNameStr = getTimeStringForFileName();
     
     makerScene->setFilename(fileNameStr);
+    makerScene->setIsNewOomee(true);
     Director::getInstance()->replaceScene(makerScene);
 }
 
@@ -41,7 +42,7 @@ bool OomeeSelectScene::init()
     
     Director::getInstance()->getTextureCache()->removeUnusedTextures();
     
-    addSideWiresToScreen(this, 0.2, 1.0f);
+    addSideWiresToScreen(this, 0.2, 1.0f, 0.3f);
     
     _contentLayer = Layer::create();
     _contentLayer->setContentSize(Director::getInstance()->getVisibleSize());
@@ -57,7 +58,7 @@ bool OomeeSelectScene::init()
     
     ui::Button* exitButton = ui::Button::create();
     exitButton->loadTextureNormal("res/oomeeMaker/close_button.png");
-    exitButton->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+    exitButton->setAnchorPoint(Vec2(-0.25,1.25));
     exitButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
     exitButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
@@ -83,6 +84,29 @@ bool OomeeSelectScene::init()
         }
     });
     _contentLayer->addChild(_newOomeeButton);
+    
+    ui::Button* leftArrow = ui::Button::create("res/oomeeMaker/arrow_button.png");
+    leftArrow->setRotation(180);
+    leftArrow->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    leftArrow->setNormalizedPosition(Vec2(0.1,0.5));
+    leftArrow->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            _oomeeCarousel->moveCarouselLeft();
+        }
+    });
+    _contentLayer->addChild(leftArrow);
+    
+    ui::Button* rightArrow = ui::Button::create("res/oomeeMaker/arrow_button.png");
+    rightArrow->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    rightArrow->setNormalizedPosition(Vec2(0.9,0.5));
+    rightArrow->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            _oomeeCarousel->moveCarouselRight();
+        }
+    });
+    _contentLayer->addChild(rightArrow);
     
     return true;
 }
@@ -128,7 +152,7 @@ void OomeeSelectScene::toggleMakeAvatarHiglight()
         auto banner = ui::Scale9Sprite::create("res/oomeeMaker/popup_window.png");
         banner->setAnchorPoint(Vec2(0.0,1.25));
         banner->setPosition(Vec2(_contentLayer->getContentSize().width, _contentLayer->getContentSize().height));
-        banner->setContentSize(Size(_contentLayer->getContentSize().width * 0.315 , 216));
+        banner->setContentSize(Size(_contentLayer->getContentSize().width * 0.315 , 166));
         banner->setColor(Style::Color::white);
         banner->runAction(Sequence::create(MoveBy::create(0.5, Vec2(-banner->getContentSize().width,0)), DelayTime::create(3.0f),MoveBy::create(0.5, Vec2(banner->getContentSize().width,0)),CallFunc::create([=](){
             banner->removeFromParent();
@@ -144,6 +168,11 @@ void OomeeSelectScene::toggleMakeAvatarHiglight()
     }
 }
 
+void OomeeSelectScene::setCarouselCenterTarget(const std::string &oomeeFilename)
+{
+    _oomeeCarousel->centerOnOomee(oomeeFilename);
+}
+
 // delegate functions
 
 void OomeeSelectScene::editOomee(const std::string& oomeeFileName)
@@ -157,16 +186,10 @@ void OomeeSelectScene::editOomee(const std::string& oomeeFileName)
 
 void OomeeSelectScene::deleteOomee(const std::string &oomeeFilename)
 {
-    if(OomeeMakerDataHandler::getInstance()->deleteOomee(oomeeFilename))
-    {
-        CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Undo_Exit_Buttons.mp3");
-        AnalyticsSingleton::getInstance()->deleteOomee();
-        stopAllActions();
-        setCarouselData();
-        this->getScheduler()->schedule([this](float deltaT){
-            _oomeeCarousel->centerButtons();
-        }, this, 0, 0, 1.0, 0, "centerButtons");
-    }
+    ConfirmCancelMessageBox* messagebox = ConfirmCancelMessageBox::createWithParams(StringMgr::getInstance()->getStringForKey(DELETEQ_LABEL), "res/buttons/confirm_bin.png", "res/buttons/confirm_x_2.png");
+    messagebox->setDelegate(this);
+    messagebox->setName(oomeeFilename);
+    _contentLayer->addChild(messagebox);
 }
 
 void OomeeSelectScene::makeAvatar(const std::string &oomeeFilename)
@@ -185,6 +208,26 @@ void OomeeSelectScene::shareOomee(const std::string &oomeeFilename)
         CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Share_Button.mp3");
         delegate->onOomeeMakerShareOomee(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + oomeeFilename + ".png");
     }
+}
+
+void OomeeSelectScene::onConfirmPressed(Azoomee::ConfirmCancelMessageBox *pSender)
+{
+    if(OomeeMakerDataHandler::getInstance()->deleteOomee(pSender->getName()))
+    {
+        CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Undo_Exit_Buttons.mp3");
+        AnalyticsSingleton::getInstance()->deleteOomee();
+        stopAllActions();
+        setCarouselData();
+        this->getScheduler()->schedule([this](float deltaT){
+            _oomeeCarousel->centerButtons();
+        }, this, 0, 0, 1.0, 0, "centerButtons");
+    }
+    pSender->removeFromParent();
+}
+
+void OomeeSelectScene::onCancelPressed(Azoomee::ConfirmCancelMessageBox *pSender)
+{
+    pSender->removeFromParent();
 }
 
 NS_AZOOMEE_OM_END

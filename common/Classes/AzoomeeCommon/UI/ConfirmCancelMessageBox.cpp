@@ -42,7 +42,7 @@ bool ConfirmCancelMessageBox::init()
     _messageBox->setBackGroundImageScale9Enabled(true);
     _messageBox->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _messageBox->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    _messageBox->setContentSize(Size(890,680));
+    _messageBox->setContentSize(Size(890,570));
     this->addChild(_messageBox);
     
     _titleText = Label::createWithTTF("", Style::Font::Regular, 109);

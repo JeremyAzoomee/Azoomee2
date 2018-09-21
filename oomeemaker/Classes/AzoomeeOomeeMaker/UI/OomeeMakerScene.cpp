@@ -25,6 +25,9 @@ NS_AZOOMEE_OM_BEGIN
 const std::string OomeeMakerScene::kDefaultOomeeId = "yellow";
 const std::string OomeeMakerScene::kColourCategoryId = "colours";
 
+const std::string OomeeMakerScene::kSavePopupId = "save";
+const std::string OomeeMakerScene::kResetPopupId = "reset";
+
 // on "init" you need to initialize your instance
 bool OomeeMakerScene::init()
 {
@@ -174,6 +177,8 @@ void OomeeMakerScene::onEnter()
     
     _itemSlider = ui::Slider::create("res/oomeeMaker/slide_track.png", "res/oomeeMaker/slider.png");
     _itemSlider->setPosition(_itemList->getPosition() + Vec2(itemListBG->getContentSize().width,0));
+    _itemSlider->setContentSize(Size(contentSize.height * 0.75f,_itemSlider->getContentSize().height));
+    _itemSlider->ignoreContentAdaptWithSize(false);
     _itemSlider->setAnchorPoint(Vec2(0.5,3.0));
     _itemSlider->setPercent(0);
     _itemSlider->setRotation(90.0f);
@@ -224,7 +229,19 @@ void OomeeMakerScene::onEnter()
     exitButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            this->saveAndExit();
+            if(_oomee->getUndoStackSize() > 1 || _newOomee)
+            {
+                ConfirmCancelMessageBox* messageBox = ConfirmCancelMessageBox::createWithParams(StringMgr::getInstance()->getStringForKey(SAVEQ_LABEL), "res/buttons/confirm_tick_2.png", "res/buttons/confirm_x_2.png");
+                messageBox->setDelegate(this);
+                messageBox->setName(kSavePopupId);
+                _contentLayer->addChild(messageBox);
+            }
+            else
+            {
+                auto scene = OomeeSelectScene::create();
+                scene->setCarouselCenterTarget(_filename);
+                Director::getInstance()->replaceScene(scene);
+            }
         }
     });
     _contentLayer->addChild(exitButton);
@@ -260,9 +277,9 @@ void OomeeMakerScene::onEnter()
     resetOomeeButon->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            ConfirmCancelMessageBox* messageBox = ConfirmCancelMessageBox::createWithParams("Delete?", "res/buttons/confirm_bin.png", "res/buttons/confirm_x_2.png");
+            ConfirmCancelMessageBox* messageBox = ConfirmCancelMessageBox::createWithParams(StringMgr::getInstance()->getStringForKey(RESETQ_LABEL), "res/buttons/confirm_bin.png", "res/buttons/confirm_x_2.png");
             messageBox->setDelegate(this);
-            messageBox->setName("reset");
+            messageBox->setName(kResetPopupId);
             _contentLayer->addChild(messageBox);
         }
     });
@@ -307,6 +324,11 @@ void OomeeMakerScene::setFilename(const std::string &filename)
     _filename = filename;
 }
 
+void OomeeMakerScene::setIsNewOomee(bool newOomee)
+{
+    _newOomee = newOomee;
+}
+
 void OomeeMakerScene::undo()
 {
     if(_oomee)
@@ -323,7 +345,9 @@ void OomeeMakerScene::saveAndExit()
     const std::string scheduleKey = "saveAndExit";
     Director::getInstance()->getScheduler()->schedule([&](float dt){
         saveOomeeFiles();
-        Director::getInstance()->replaceScene(OomeeSelectScene::create());
+        auto scene = OomeeSelectScene::create();
+        scene->setCarouselCenterTarget(_filename);
+        Director::getInstance()->replaceScene(scene);
     }, this, 0.5, 0, 0, false, scheduleKey);
     
 }
@@ -430,11 +454,11 @@ void OomeeMakerScene::displayMadeAvatarNotification()
 
 void OomeeMakerScene::onConfirmPressed(Azoomee::ConfirmCancelMessageBox *pSender)
 {
-    if(pSender->getName() == "reset")
+    if(pSender->getName() == kResetPopupId)
     {
         resetOomee();
     }
-    else if(pSender->getName() == "save")
+    else if(pSender->getName() == kSavePopupId)
     {
         saveAndExit();
     }
@@ -443,6 +467,15 @@ void OomeeMakerScene::onConfirmPressed(Azoomee::ConfirmCancelMessageBox *pSender
 
 void OomeeMakerScene::onCancelPressed(Azoomee::ConfirmCancelMessageBox *pSender)
 {
+    if(pSender->getName() == kSavePopupId)
+    {
+        auto scene = OomeeSelectScene::create();
+        if(!_newOomee)
+        {
+            scene->setCarouselCenterTarget(_filename);
+        }
+        Director::getInstance()->replaceScene(scene);
+    }
     pSender->removeFromParent();
 }
 

@@ -31,6 +31,7 @@ void OomeeMakerDataStorage::clearAllData()
     clearCategoryData();
     clearOomeeData();
     clearColourData();
+    _initialised = false;
 }
 
 void OomeeMakerDataStorage::clearOomeeData()

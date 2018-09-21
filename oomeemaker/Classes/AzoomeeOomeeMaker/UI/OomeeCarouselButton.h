@@ -51,6 +51,7 @@ public:
     virtual void onEnter() override;
     
     void setOomeeData(const std::string& filename);
+    std::string getOomeeFilename() const;
     void setDelegate(OomeeCarouselButtonDelegate* delegate);
     
     void setInFocus(bool inFocus);
