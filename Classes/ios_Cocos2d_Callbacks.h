@@ -25,6 +25,8 @@ extern "C" {
     bool isChatEntitled();
     bool isAnonUser();
     
+    NSString* getStringForKey(const char* key);
+    
     NSString* getPlaylistString();
     
 #ifdef __cplusplus

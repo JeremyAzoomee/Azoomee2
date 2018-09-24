@@ -301,9 +301,10 @@ using namespace Azoomee;
     
     
     UILabel* text = [[UILabel alloc] initWithFrame:CGRectMake(width * 0.25, height * 0.15, width * 0.65, height * 0.7)];
-    [text setText:@"Added to Favourites"];
+    [text setText:Azoomee::getStringForKey("Native/favContentLabel")];
     [text setTextColor:[UIColor whiteColor]];
     [text setAdjustsFontSizeToFitWidth:true];
+    [text setFont:[UIFont fontWithName:@"SofiaProSoftRegular" size:17]];
     [_favContentBanner addSubview:text];
 }
 

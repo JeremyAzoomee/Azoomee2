@@ -3,6 +3,7 @@ package org.cocos2dx.cpp;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
@@ -345,11 +346,14 @@ public class NativeMediaPlayer extends Activity {
         _favBanner.addView(heart, heartLayoutParams);
 
         TextView text = new TextView(this);
-        text.setText("Added to Favourites");
+        text.setText(JNICalls.JNIGetStringForKey("Native/favContentLabel"));
         text.setLayoutParams(new android.widget.RelativeLayout.LayoutParams(
                 android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT, android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT));
         text.setX(bgLayoutParams.width * 0.25f);
         text.setY(bgLayoutParams.height * 0.2f);
+        Typeface face = Typeface.createFromAsset(getAssets(),
+                "fonts/azoomee.ttf");
+        text.setTypeface(face);
         _favBanner.addView(text);
     }
 

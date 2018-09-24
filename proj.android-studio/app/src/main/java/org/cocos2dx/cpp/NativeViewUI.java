@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -479,11 +480,14 @@ public class NativeViewUI extends Activity {
         _favBanner.addView(heart, heartLayoutParams);
 
         TextView text = new TextView(this);
-        text.setText("Added to Favourites");
+        text.setText(JNICalls.JNIGetStringForKey("Native/favContentLabel"));
         text.setLayoutParams(new android.widget.RelativeLayout.LayoutParams(
                 android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT, android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT));
         text.setX(bgLayoutParams.width * 0.25f);
         text.setY(bgLayoutParams.height * 0.2f);
+        Typeface face = Typeface.createFromAsset(getAssets(),
+            "fonts/azoomee.ttf");
+        text.setTypeface(face);
         _favBanner.addView(text);
     }
 

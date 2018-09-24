@@ -173,4 +173,8 @@
 #define SETTINGS_FRIENDSHIPS_TO_APPROVE "Settings/friendshipsToApprove"
 #define SETTINGS_NO_FRIENDSHIPS_TO_APPROVE "Settings/noFriendshipsToApprove"
 
+//---------- NATIVE STRINGS -----------------------
+
+#define NATIVE_FAV_CONTENT_LABEL "Native/favContentLabel"
+
 #endif

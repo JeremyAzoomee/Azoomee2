@@ -13,6 +13,7 @@
 #include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
+#include <AzoomeeCommon/Strings.h>
 #include "ChatDelegate.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -202,6 +203,23 @@ extern "C"
 JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIGetLocalDataStorage(JNIEnv* env, jobject thiz)
 {
     jstring returnString = env->NewStringUTF(WebGameAPIDataManager::getInstance()->getLocalStorageData());
+    return returnString;
+}
+
+#endif
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+
+extern "C"
+{
+    JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIGetStringForKey(JNIEnv* env, jobject thiz, jstring key);
+};
+
+JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIGetStringForKey(JNIEnv* env, jobject thiz, jstring key)
+{
+    const char* cKey = env->GetStringUTFChars(key, NULL);
+    
+    jstring returnString = env->NewStringUTF(StringMgr::getInstance()->getStringForKey(cKey).c_str());
     return returnString;
 }
 

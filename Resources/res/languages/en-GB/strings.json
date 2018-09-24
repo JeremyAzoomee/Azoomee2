@@ -193,6 +193,10 @@
         "accountTypeText": "You have a ",
         "friendshipsToApprove": "You have new friendships to approve!",
         "noFriendshipsToApprove": "There are no new friendships to approve right now."
+    },
+    "Native":
+    {
+        "favContentLabel": "Added to Favourites"
     }
 
 }
