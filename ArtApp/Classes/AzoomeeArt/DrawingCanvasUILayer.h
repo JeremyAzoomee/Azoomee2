@@ -27,6 +27,9 @@ private:
     static const std::vector<cocos2d::Color3B> _kColours;
     static const std::vector<std::pair<std::string,std::string>> _kPatterns;
     
+    static const std::string kSavePopupName;
+    static const std::string kClearPopupName;
+    
     std::string _filename = "";
     
     DrawingCanvas* _drawingCanvas = nullptr;
@@ -40,10 +43,6 @@ private:
     cocos2d::ui::Button* _undoButton = nullptr;
     cocos2d::ui::Button* _saveButton = nullptr;
     cocos2d::ui::Slider* _brushSizeSlider = nullptr;
-    
-    cocos2d::Node* _confirmDeleteImagePopup = nullptr;
-    cocos2d::ui::Button* _confrimDeleteButton = nullptr;
-    cocos2d::ui::Button* _cancelDeleteButton = nullptr;
     
     cocos2d::ui::Button* _addStickerButton = nullptr;
     cocos2d::ui::Button* _closeStickerSelectButton = nullptr;
@@ -76,7 +75,6 @@ private:
     void addBrushTool(const std::string& buttonFilename, const std::string& bodyFilename, BrushType type, cocos2d::Vec2 normalisedPos, bool selected);
     
     //button callbacks
-    void onClearButtonPressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
     void onUndoButtonPressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
     void onColourChangePressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
     void onColourSelectPressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
@@ -87,9 +85,6 @@ private:
     
     void onConfirmStickerPressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
     void onCancelStickerPressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
-    
-    void onConfirmDeletePressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
-    void onCancelDeletePressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
     
     void onToolChanged(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType, int index);
     
