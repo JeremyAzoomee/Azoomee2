@@ -154,6 +154,7 @@ void OomeeMakerScene::onEnter()
     _itemList->setContentSize(Size(contentSize.width * 0.2f, contentSize.height * 0.9f));
     _itemList->setPosition(Vec2(contentSize.width, contentSize.height / 2.0f));
     _itemList->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+    _itemList->setTouchEnabled(false);
     _itemList->setItemSelectedCallback([this](const OomeeItemRef& data) {
         this->addAccessoryToOomee(data);
     });
@@ -166,12 +167,6 @@ void OomeeMakerScene::onEnter()
         }
     });
     _itemList->runAction(Sequence::create(DelayTime::create(0.5),MoveBy::create(1.5, Vec2(-itemListBG->getContentSize().width, 0)), NULL));
-    _itemList->addEventListener([&](Ref* pSender, ui::ScrollView::EventType eType){
-        if(eType == ui::ScrollView::EventType::CONTAINER_MOVED)
-        {
-            _itemSlider->setPercent(_itemList->getScrolledPercentVertical());
-        }
-    });
     _contentLayer->addChild(_itemList);
     
     
@@ -185,7 +180,7 @@ void OomeeMakerScene::onEnter()
     _itemSlider->addEventListener([&](cocos2d::Ref* pSender, cocos2d::ui::Slider::EventType eEventType){
         if(eEventType == ui::Slider::EventType::ON_PERCENTAGE_CHANGED)
         {
-            _itemList->scrollToPercentVertical(_itemSlider->getPercent(), 0, false);
+            _itemList->scrollToPercentVertical(MAX(_itemSlider->getPercent(),1), 0, false);
         }
     });
     _itemSlider->runAction(Sequence::create(DelayTime::create(0.5),MoveBy::create(1.5, Vec2(-itemListBG->getContentSize().width, 0)), NULL));
