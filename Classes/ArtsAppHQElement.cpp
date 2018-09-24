@@ -178,7 +178,7 @@ void ArtsAppHQElement::addLockToElement()
 
 Sprite* ArtsAppHQElement::addDeleteButton()
 {
-    auto delButton = Sprite::create("res/buttons/close_button_me_page.png");
+    auto delButton = Sprite::create("res/buttons/delete_button_favourites.png");
     delButton->setAnchorPoint(Vec2(-0.25,1.25));
     delButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
     delButton->setScale(0.75);
