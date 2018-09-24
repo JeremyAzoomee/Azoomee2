@@ -14,6 +14,8 @@ NS_AZOOMEE_OM_BEGIN
 
 using namespace cocos2d;
 
+const std::string OomeeCarousel::kNewOomeeTag = "new";
+
 bool OomeeCarousel::init()
 {
     if(!Super::init())
@@ -62,7 +64,7 @@ void OomeeCarousel::setTouchListener()
         if(_centerButton)
         {
             OomeeCarouselButton* carouselButton = dynamic_cast<OomeeCarouselButton*>(_centerButton);
-            if(carouselButton && carouselButton->getName() != "new")
+            if(carouselButton && carouselButton->getName() != kNewOomeeTag)
             {
                 carouselButton->setInFocus(false);
             }
@@ -114,7 +116,7 @@ void OomeeCarousel::setOomeeData(const std::vector<std::string>& oomeeFilenames)
             button->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
             button->setPosition(Vec2(_spacing * j, this->getContentSize().height / 2.0f));
             button->setSwallowTouches(false);
-            button->setName("new");
+            button->setName(kNewOomeeTag);
             button->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType){
                 if(pSender == _centerButton)
                 {
@@ -195,7 +197,7 @@ void OomeeCarousel::centerButtons()
     }
     
     OomeeCarouselButton* carouselButton = dynamic_cast<OomeeCarouselButton*>(centerButton);
-    if(carouselButton && carouselButton->getName() != "new")
+    if(carouselButton && carouselButton->getName() != kNewOomeeTag)
     {
         carouselButton->setInFocus(true);
     }
@@ -208,6 +210,79 @@ void OomeeCarousel::centerButtons()
         button->runAction(action->clone());
     }
     
+}
+
+void OomeeCarousel::moveCarouselLeft()
+{
+    for(LazyLoadingButton* button : _carouselButtons)
+    {
+        button->stopAllActions();
+    }
+    
+    if(_centerButton)
+    {
+        OomeeCarouselButton* carouselButton = dynamic_cast<OomeeCarouselButton*>(_centerButton);
+        if(carouselButton && carouselButton->getName() != kNewOomeeTag)
+        {
+            carouselButton->setInFocus(false);
+        }
+    }
+    
+    Vec2 moveVec = Vec2(-_spacing * 0.7f,0);
+    FiniteTimeAction* moveLeft = MoveBy::create(moveVec.length()/(this->getContentSize().width / 2), moveVec);
+    rotateButtonsLeft();
+    for(LazyLoadingButton* button : _carouselButtons)
+    {
+        if(button == _centerButton)
+        {
+            button->runAction(Sequence::create(moveLeft->clone(), CallFunc::create([&](){
+                rotateButtonsLeft();
+                centerButtons();
+            }) , NULL));
+        }
+        else
+        {
+            button->runAction(moveLeft->clone());
+        }
+        
+    }
+    
+}
+
+void OomeeCarousel::moveCarouselRight()
+{
+    for(LazyLoadingButton* button : _carouselButtons)
+    {
+        button->stopAllActions();
+    }
+    
+    if(_centerButton)
+    {
+        OomeeCarouselButton* carouselButton = dynamic_cast<OomeeCarouselButton*>(_centerButton);
+        if(carouselButton && carouselButton->getName() != kNewOomeeTag)
+        {
+            carouselButton->setInFocus(false);
+        }
+    }
+    
+    Vec2 moveVec = Vec2(_spacing * 0.7f,0);
+    FiniteTimeAction* moveRight = MoveBy::create(moveVec.length()/(this->getContentSize().width / 2), moveVec);
+    rotateButtonsRight();
+    for(LazyLoadingButton* button : _carouselButtons)
+    {
+        if(button == _centerButton)
+        {
+            button->runAction(Sequence::create(moveRight->clone(), CallFunc::create([&](){
+                rotateButtonsRight();
+                centerButtons();
+            }) , NULL));
+        }
+        else
+        {
+            button->runAction(moveRight->clone());
+        }
+        
+    }
 }
 
 void OomeeCarousel::rotateButtonsRight()
@@ -242,6 +317,53 @@ void OomeeCarousel::rotateButtonsLeft()
             }
         }
     }
+}
+
+void OomeeCarousel::centerOnOomee(const std::string &targetOomee)
+{
+    auto target = std::find_if(_carouselButtons.begin(), _carouselButtons.end(), [=](LazyLoadingButton* button){
+        OomeeCarouselButton* oomeeButton = dynamic_cast<OomeeCarouselButton*>(button);
+        if(oomeeButton)
+        {
+            return oomeeButton->getOomeeFilename() == targetOomee;
+        }
+        return false;
+    });
+    
+    if(target == _carouselButtons.end())
+    {
+        return;
+    }
+    
+    OomeeCarouselButton* targetButton = dynamic_cast<OomeeCarouselButton*>(*target);
+    if(!targetButton)
+    {
+        return;
+    }
+    
+    for(LazyLoadingButton* button : _carouselButtons)
+    {
+        button->stopAllActions();
+    }
+    
+    if(_centerButton)
+    {
+        OomeeCarouselButton* carouselButton = dynamic_cast<OomeeCarouselButton*>(_centerButton);
+        if(carouselButton && carouselButton->getName() != kNewOomeeTag)
+        {
+            carouselButton->setInFocus(false);
+        }
+    }
+    
+    Vec2 moveVec = Vec2(this->getPosition().x - targetButton->getPosition().x,0);
+    
+    for(LazyLoadingButton* button : _carouselButtons)
+    {
+        button->setPosition(button->getPosition() + moveVec);
+    }
+    
+    moveVec.x > 0 ? rotateButtonsRight() : rotateButtonsLeft();
+    
 }
 
 void OomeeCarousel::update(float deltaT)

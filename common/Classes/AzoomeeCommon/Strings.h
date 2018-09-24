@@ -44,6 +44,9 @@
 #define LOADING_LABEL "OtherLabels/loading_label"
 #define SAVING_LABEL "OtherLabels/saving_label"
 #define KID_CODE "OtherLabels/kidCode"
+#define SAVEQ_LABEL "OtherLabels/saveQ"
+#define DELETEQ_LABEL "OtherLabels/deleteQ"
+#define RESETQ_LABEL "OtherLabels/resetQ"
 
 //------------ GENERIC BUTTONS ----------------
 

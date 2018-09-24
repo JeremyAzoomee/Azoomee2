@@ -15,26 +15,32 @@
 #include "OomeeItemList.h"
 #include "ItemCategoryList.h"
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/UI/ConfirmCancelMessageBox.h>
 
 NS_AZOOMEE_OM_BEGIN
 
-class OomeeMakerScene : public cocos2d::Scene
+class OomeeMakerScene : public cocos2d::Scene, ConfirmCancelMessageBoxDelegate
 {
     typedef cocos2d::Scene Super;
 private:
     static const std::string kDefaultOomeeId;
     static const std::string kColourCategoryId;
     
+    static const std::string kSavePopupId;
+    static const std::string kResetPopupId;
+    
     cocos2d::Layer* _contentLayer = nullptr;
     
     std::string _filename;
+    bool _newOomee = false;
+    
     OomeeFigure* _oomee = nullptr;
     OomeeItemList* _itemList = nullptr;
     ItemCategoryList* _categoryList = nullptr;
     
-    cocos2d::ui::Button* _topScrollButton = nullptr;
-    cocos2d::ui::Button* _bottomScrollButton = nullptr;
     cocos2d::ui::Button* _undoButton = nullptr;
+    
+    cocos2d::ui::Slider* _itemSlider = nullptr;
     
     void addAccessoryToOomee(const OomeeItemRef& data);
     void setItemsListForCategory(const ItemCategoryRef& data);
@@ -46,19 +52,23 @@ private:
     
     void makeAvatar();
     void undo();
-    void shareOomee();
+    void resetOomee();
     
 public:
     
     virtual bool init() override;
     virtual void onEnter() override;
     virtual void onEnterTransitionDidFinish() override;
-    virtual void update(float deltaT) override;
     
     void setFilename(const std::string& filename);
+    void setIsNewOomee(bool newOomee);
     void displayMadeAvatarNotification();
     
     CREATE_FUNC(OomeeMakerScene);
+    
+    //delegate functions
+    virtual void onConfirmPressed(ConfirmCancelMessageBox* pSender) override;
+    virtual void onCancelPressed(ConfirmCancelMessageBox* pSender) override;
 };
 
 NS_AZOOMEE_OM_END

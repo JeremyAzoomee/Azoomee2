@@ -275,6 +275,21 @@ void OomeeFigure::removeAccessory(const std::string anchorPoint)
     }
 }
 
+void OomeeFigure::resetOomee()
+{
+    std::vector<std::string> anchorNames;
+    for(auto item : _accessories)
+    {
+        anchorNames.push_back(item.first);
+    }
+    for(auto anchor : anchorNames)
+    {
+        removeAccessory(anchor);
+    }
+    setOomeeData(_oomeeData);
+
+}
+
 void OomeeFigure::setEditable(bool isEditable)
 {
     _isEditable = isEditable;
@@ -409,6 +424,11 @@ void OomeeFigure::undoLastAction()
         _undoStack.pop_back(); // remove previous state from stack
         loadDataSnapshot(targetState); // load previous state
     }
+}
+
+int OomeeFigure::getUndoStackSize() const
+{
+    return (int)_undoStack.size();
 }
 
 Vec2 OomeeFigure::getWorldPositionForAnchorPoint(const std::string &anchorPoint)
