@@ -49,7 +49,7 @@ public:
     void clearDrawing();
     
     void setStickerNodeVisible(bool isVisible);
-    void setupStickerNode(const std::string& stickerFile);
+    void setupStickerNode(const std::string& stickerFile, const std::string& identifier);
     void addStickerToDrawing();
     void changeTool(int index);
     void removeCurrentDrawNode();

@@ -330,7 +330,6 @@ void ArtsAppHQElement::addListenerToElement()
         
         if(rect.containsPoint(locationInNode))
         {
-            AnalyticsSingleton::getInstance()->contentItemSelectedEvent(ConfigStorage::kArtAppHQName, "1,1");
 
             _overlayWhenTouched->setOpacity(150);
             _iamtouched = true;
@@ -385,10 +384,12 @@ void ArtsAppHQElement::addListenerToElement()
             if(_newImage)
             {
                 ArtAppDelegate::getInstance()->setFileName("");
+                AnalyticsSingleton::getInstance()->contentItemSelectedEvent("NewArt");
             }
             else
             {
                 ArtAppDelegate::getInstance()->setFileName(_imageURL);
+                AnalyticsSingleton::getInstance()->contentItemSelectedEvent("EditArt");
             }
             
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(ArtAppEntryPointScene));

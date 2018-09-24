@@ -102,6 +102,7 @@ void OomeeSelectScene::setCarouselData()
 {
     const std::string& fileExtention = ".png";
     const std::vector<std::string>& createdOomeeFiles = DirectorySearcher::getInstance()->getFilesInDirectoryWithExtention(OomeeMakerDataHandler::getInstance()->getFullSaveDir(), fileExtention);
+    AnalyticsSingleton::getInstance()->reportNumberOfOomees((int)createdOomeeFiles.size());
     std::vector<std::string> trimmedFilenames;
     for(std::string filename : createdOomeeFiles)
     {

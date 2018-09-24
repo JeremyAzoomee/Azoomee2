@@ -9,6 +9,7 @@
 #include "SceneManagerScene.h"
 #include "SimpleAudioEngine.h"
 #include "HQDataProvider.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
@@ -59,6 +60,7 @@ bool MeHQProfileDetails::init()
     {
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
+            AnalyticsSingleton::getInstance()->contentItemSelectedEvent(ConfigStorage::kOomeeMakerURI);
             CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Edit_Button.wav");
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(OomeeMakerEntryPointScene));
         }
