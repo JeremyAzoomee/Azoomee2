@@ -9,6 +9,7 @@
 #include "LoginLogicHandler.h"
 #include "FlowDataSingleton.h"
 #include <AzoomeeCommon/ErrorCodes.h>
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
@@ -162,6 +163,11 @@ bool isAnonUser()
 NSString* getPlaylistString()
 {
     return [NSString stringWithUTF8String:VideoPlaylistManager::getInstance()->getPlaylistForIosNativePlayer().c_str()];
+}
+
+NSString* getNSStringForKey(const char* key)
+{
+    return [NSString stringWithUTF8String:StringMgr::getInstance()->getStringForKey(key).c_str()];
 }
 
 NS_AZOOMEE_END
