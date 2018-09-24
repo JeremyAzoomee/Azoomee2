@@ -10,6 +10,7 @@ NS_AZOOMEE_BEGIN
 
 class WebViewSelector : public cocos2d::Layer, HttpRequestCreatorResponseDelegate
 {
+    typedef cocos2d::Layer Super;
 private:
     std::string _targetUrl;
     Orientation _orientation;

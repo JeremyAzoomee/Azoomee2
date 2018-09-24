@@ -165,7 +165,7 @@ NSString* getPlaylistString()
     return [NSString stringWithUTF8String:VideoPlaylistManager::getInstance()->getPlaylistForIosNativePlayer().c_str()];
 }
 
-NSString* getStringForKey(const char* key)
+NSString* getNSStringForKey(const char* key)
 {
     return [NSString stringWithUTF8String:StringMgr::getInstance()->getStringForKey(key).c_str()];
 }

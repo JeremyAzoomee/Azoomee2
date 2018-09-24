@@ -92,7 +92,7 @@ bool WebViewSelector::init()
 {
     //////////////////////////////
     // 1. super init first
-    if ( !Layer::init() )
+    if ( !Super::init() )
     {
         return false;
     }
@@ -103,7 +103,7 @@ bool WebViewSelector::init()
 
 void WebViewSelector::onEnter()
 {
-    Layer::onEnter();
+    Super::onEnter();
     
     loadWebView(_targetUrl, _orientation, _closeButtonAnchor);
 }
