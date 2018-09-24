@@ -17,7 +17,7 @@
     UIButton* backButton;
     UIButton* _favButton;
     UIButton* _shareButton;
-    CALayer* _favContentBanner;
+    UIView* _favContentBanner;
     float _closeButtonAnchorX;
     float _closeButtonAnchorY;
     float _buttonWidth;

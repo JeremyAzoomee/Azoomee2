@@ -18,7 +18,7 @@
     float _previousRate;
     float _buttonWidth;
     bool _uiExpanded;
-    CALayer *_favContentBanner;
+    UIView *_favContentBanner;
 }
 
 @property (nonatomic, retain) AVQueuePlayer* queuePlayer;

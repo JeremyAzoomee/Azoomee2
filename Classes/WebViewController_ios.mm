@@ -286,40 +286,25 @@ using namespace Azoomee;
     CGFloat width = MAX(size.width * 0.334f, size.height * 0.334f);
     CGFloat height = MIN(size.height * 0.105f, size.width * 0.105f);
     
-    _favContentBanner = [CALayer layer];
-    [_favContentBanner setFrame:CGRectMake((size.width / 2) - (width / 2), -height, width, height)];
-    //[_favContentBanner setAnchorPoint:CGPointMake(0.5, 0)];
-    //[_favContentBanner setBackgroundColor:[[UIColor yellowColor] CGColor]];
-    [[self.view layer] addSublayer:_favContentBanner];
+    _favContentBanner = [[UIView alloc] initWithFrame:CGRectMake((size.width / 2) - (width / 2), -height, width, height)];
+    [self.view addSubview:_favContentBanner];
     
     //layer with bg
-    CALayer* bg = [CALayer layer];
-    UIImage* bgContent = [UIImage imageNamed:@"res/webview_buttons/fav_banner.png"];
-    
-    [bg setContents:(id)bgContent.CGImage];
+    UIImageView* bg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"res/webview_buttons/fav_banner.png"]];
     [bg setFrame:CGRectMake(0, 0, width, height)];
-    //[bg setAnchorPoint:CGPointMake(0.5,0)];
-    [_favContentBanner addSublayer:bg];
+    [_favContentBanner addSubview:bg];
     
     //layer with heart
-    CALayer* heart = [CALayer layer];
-    UIImage* heartContent = [UIImage imageNamed:@"res/webview_buttons/heart.png"];
-    
-    [heart setContents:(id)heartContent.CGImage];
+    UIImageView* heart = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"res/webview_buttons/heart.png"]];
     [heart setFrame:CGRectMake(width * 0.07, height * 0.28 , width * 0.107, height * 0.44)];
-    //[bg setAnchorPoint:CGPointMake(0.5,0)];
-    [_favContentBanner addSublayer:heart];
+    [_favContentBanner addSubview:heart];
     
-    //layer with heart
-    CATextLayer *textLayer = [CATextLayer layer];
-    // set the string
-    textLayer.string = @"Added to Favourites";
-    textLayer.foregroundColor = [UIColor whiteColor].CGColor;
-    textLayer.frame = CGRectMake(width * 0.2, height * 0.2, width, height);
-    textLayer.fontSize = height * 0.45;
-    textLayer.font = (__bridge CFTypeRef)@"SofiaProSoftRegular";
     
-    [_favContentBanner addSublayer:textLayer];
+    UILabel* text = [[UILabel alloc] initWithFrame:CGRectMake(width * 0.25, height * 0.15, width * 0.65, height * 0.7)];
+    [text setText:@"Added to Favourites"];
+    [text setTextColor:[UIColor whiteColor]];
+    [text setAdjustsFontSizeToFitWidth:true];
+    [_favContentBanner addSubview:text];
 }
 
 -(void) buttonClicked:(UIButton*)sender
@@ -422,7 +407,7 @@ using namespace Azoomee;
         }
     }
     
-    [_favContentBanner removeFromSuperlayer];
+    [_favContentBanner removeFromSuperview];
     _favContentBanner = nil;
     
     [useridToUse release];
