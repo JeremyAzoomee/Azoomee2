@@ -82,10 +82,9 @@ long getEpochTimeForDateWithoutYear(int month, int day)
 std::string getTimeStringForFileName()
 {
     auto t = std::time(nullptr);
-    auto tm = *std::localtime(&t);
     
     std::ostringstream oss;
-    oss << tm.tm_mday << tm.tm_mon << tm.tm_year << tm.tm_hour << tm.tm_min << tm.tm_sec;
+    oss << t;
     
     return oss.str();
 }
