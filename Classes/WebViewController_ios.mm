@@ -306,6 +306,10 @@ using namespace Azoomee;
     [text setAdjustsFontSizeToFitWidth:true];
     [text setFont:[UIFont fontWithName:@"SofiaProSoftRegular" size:17]];
     [_favContentBanner addSubview:text];
+    
+    [bg release];
+    [heart release];
+    [text release];
 }
 
 -(void) buttonClicked:(UIButton*)sender
@@ -409,6 +413,7 @@ using namespace Azoomee;
     }
     
     [_favContentBanner removeFromSuperview];
+    [_favContentBanner release];
     _favContentBanner = nil;
     
     [useridToUse release];
