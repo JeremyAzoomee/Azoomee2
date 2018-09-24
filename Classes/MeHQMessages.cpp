@@ -36,11 +36,16 @@ bool MeHQMessages::init()
     this->setContentSize(Size(Director::getInstance()->getVisibleSize().width, 200));
     setLayoutType(ui::Layout::Type::VERTICAL);
     
-    ui::Text* heading = ui::Text::create(StringMgr::getInstance()->getStringForKey(MEHQ_HEADING_MESSAGES), Style::Font::Regular, 100);
+    ui::Text* heading = ui::Text::create(StringMgr::getInstance()->getStringForKey(MEHQ_HEADING_MESSAGES), Style::Font::Regular, 75);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,50)));
     heading->setContentSize(Size(this->getContentSize().width, 200));
     this->addChild(heading);
+    
+    Sprite* icon = Sprite::create("res/meHQ/title_icon_last_messages.png");
+    icon->setAnchorPoint(Vec2(1.5f,0.25f));
+    icon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
+    heading->addChild(icon);
     
     return true;
 }
@@ -94,6 +99,24 @@ void MeHQMessages::buildEmptyCarousel()
     ui::Layout* messageLayout = ui::Layout::create();
     messageLayout->setContentSize(Size(visibleSize.width - 2 * sideMargin, isPortrait ? 300 : contentItemSize.height * unitMultiplier));
     messageLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+    messageLayout->setTouchEnabled(true);
+    messageLayout->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            const HQDataObjectRef &currentObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName);
+            
+            if(!currentObject->getHqEntitlement())
+            {
+                AnalyticsSingleton::getInstance()->registerCTASource("lockedHQ","",currentObject->getHqType());
+                IAPEntryContext context = IAPEntryContext::LOCKED_CHAT;
+                DynamicNodeHandler::getInstance()->startIAPFlow(context);
+            }
+            else
+            {
+                Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+            }
+        }
+    });
     
     Chat::FriendRef fakeAcc = Chat::Friend::create("", "Azoomee",ConfigStorage::getInstance()->getUrlForOomee(4));
     
@@ -161,31 +184,6 @@ void MeHQMessages::buildEmptyCarousel()
         chatButton->setNormalizedPosition(Vec2((visibleSize.width - sideMargin) / visibleSize.width, 0.5));
         messageLayout->addChild(chatButton);
     }
-    else
-    {
-        ui::Button* chatButton = ui::Button::create("res/meHQ/send_messgae_button_no_icon.png");
-        chatButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
-        chatButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-        chatButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
-            if(eType == ui::Widget::TouchEventType::ENDED)
-            {
-                const HQDataObjectRef &currentObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName);
-                
-                if(!currentObject->getHqEntitlement())
-                {
-                    AnalyticsSingleton::getInstance()->registerCTASource("lockedHQ","",currentObject->getHqType());
-                    IAPEntryContext context = IAPEntryContext::LOCKED_CHAT;
-                    DynamicNodeHandler::getInstance()->startIAPFlow(context);
-                }
-                else
-                {
-                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
-                }
-            }
-        });
-        this->addChild(chatButton);
-        totalHeight += chatButton->getContentSize().height + 100;
-    }
     
     this->setContentSize(Size(visibleSize.width ,totalHeight));
 }
@@ -203,11 +201,16 @@ void MeHQMessages::createMessageList()
     
     this->removeAllChildren();
     
-    ui::Text* heading = ui::Text::create(StringMgr::getInstance()->getStringForKey(MEHQ_HEADING_MESSAGES), Style::Font::Regular, 100);
+    ui::Text* heading = ui::Text::create(StringMgr::getInstance()->getStringForKey(MEHQ_HEADING_MESSAGES), Style::Font::Regular, 75);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,50)));
     heading->setContentSize(Size(this->getContentSize().width, 200));
     this->addChild(heading);
+    
+    Sprite* icon = Sprite::create("res/meHQ/title_icon_last_messages.png");
+    icon->setAnchorPoint(Vec2(1.5f,0.25f));
+    icon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
+    heading->addChild(icon);
     
     if(_messages.size() > 0)
     {

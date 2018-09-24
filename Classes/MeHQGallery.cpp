@@ -49,11 +49,16 @@ void MeHQGallery::onEnter()
     this->setContentSize(Size(visibleSize.width, 0));
     setLayoutType(ui::Layout::Type::VERTICAL);
     
-    ui::Text* heading = ui::Text::create(StringMgr::getInstance()->getStringForKey(MEHQ_HEADING_GALLERY), Style::Font::Regular, 100);
+    ui::Text* heading = ui::Text::create(StringMgr::getInstance()->getStringForKey(MEHQ_HEADING_GALLERY), Style::Font::Regular, 75);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,50)));
     heading->setContentSize(Size(visibleSize.width, spaceAboveCarousel));
     this->addChild(heading);
+    
+    Sprite* icon = Sprite::create("res/meHQ/title_icon_my_gallery.png");
+    icon->setAnchorPoint(Vec2(1.5f,0.25f));
+    icon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
+    heading->addChild(icon);
     
     totalHeight += heading->getContentSize().height + 50;
     
