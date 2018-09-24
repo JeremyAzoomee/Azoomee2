@@ -124,11 +124,7 @@
 #define MEHQ_HEADING_FAVOURITES "MeHQ/headingFavourites"
 #define MEHQ_HEADING_DOWNLOADS "MeHQ/headingDownloads"
 #define MEHQ_HEADING_DOWNLOADS_EMPTY "MeHQ/headingDownloadsEmpty"
-#define MEHQ_SUB_HEADING_FAVOURITES "MeHQ/subHeadingFavourites"
-#define MEHQ_SUB_HEADING_FAVOURITES_MULTILINE "MeHQ/subHeadingFavouritesMultiline"
 #define MEHQ_SUB_HEADING_DOWNLOADS "MeHQ/subHeadingDownloads"
-#define MEHQ_SUB_HEADING_DOWNLOADS_MULTILINE "MeHQ/subHeadingDownloadsMultiline"
-#define MEHQ_SUB_HEADING_DOWNLOADS_MULTILINE_18X9 "MeHQ/subHeadingDownloadsMultiline18x9"
 
 //----------- USER MESSAGING -------------------
 

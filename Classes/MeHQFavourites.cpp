@@ -48,12 +48,17 @@ void MeHQFavourites::onEnter()
     this->setContentSize(Size(visibleSize.width, 0));
     setLayoutType(ui::Layout::Type::VERTICAL);
     
-    ui::Text* heading = ui::Text::create(StringMgr::getInstance()->getStringForKey(MEHQ_HEADING_FAVOURITES), Style::Font::Regular, 100);
+    ui::Text* heading = ui::Text::create(StringMgr::getInstance()->getStringForKey(MEHQ_HEADING_FAVOURITES), Style::Font::Regular, 75);
     heading->setTextHorizontalAlignment(TextHAlignment::CENTER);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setContentSize(Size(visibleSize.width, spaceAboveCarousel));
     heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,50)));
     this->addChild(heading);
+    
+    Sprite* icon = Sprite::create("res/meHQ/title_icon_my_favourites.png");
+    icon->setAnchorPoint(Vec2(1.5f,0.25f));
+    icon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
+    heading->addChild(icon);
     
     const auto& favList = FavouritesManager::getInstance()->getFavouriteContent();
     
@@ -137,11 +142,9 @@ void MeHQFavourites::onEnter()
     
         this->addChild(_carouselLayout);
     
-        ui::Button* editButton = ui::Button::create("res/meHQ/cta_button.png");
+        ui::Button* editButton = ui::Button::create("res/meHQ/edit_button_favourites.png");
         editButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
         editButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
-        editButton->ignoreContentAdaptWithSize(false);
-        editButton->setScale9Enabled(true);
         editButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
             if(eType == ui::Widget::TouchEventType::ENDED)
             {
@@ -149,11 +152,7 @@ void MeHQFavourites::onEnter()
                 ui::Button* button = dynamic_cast<ui::Button*>(pSender);
                 if(button)
                 {
-                    Label* label = dynamic_cast<Label*>(button->getChildByName("label"));
-                    if(label)
-                    {
-                        label->setString(StringMgr::getInstance()->getStringForKey(_editEnabled ? BUTTON_DONE : BUTTON_EDIT));
-                    }
+                    button->loadTextureNormal(_editEnabled ? "res/meHQ/done_button_favourites.png" : "res/meHQ/edit_button_favourites.png");
                 }
                 for(auto item : _carouselLayout->getChildren())
                 {
@@ -165,13 +164,6 @@ void MeHQFavourites::onEnter()
                 }
             }
         });
-    
-        Label* editButtonLabel = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(BUTTON_EDIT), Style::Font::Regular, editButton->getContentSize().height * 0.35f);
-        editButtonLabel->setTextColor(Color4B::WHITE);
-        editButtonLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-        editButtonLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-        editButtonLabel->setName("label");
-        editButton->addChild(editButtonLabel);
     
         this->addChild(editButton);
     
@@ -186,8 +178,6 @@ void MeHQFavourites::onEnter()
 void MeHQFavourites::buildEmptyCarousel()
 {
     const Size& visibleSize = Director::getInstance()->getVisibleSize();
-    
-    int isPortrait = visibleSize.width < visibleSize.height;
     
     const float spaceAboveCarousel = HQDataProvider::getInstance()->getSpaceAboveCarousel();
     const float sideMargin = HQDataProvider::getInstance()->getSideMargin();
@@ -227,7 +217,7 @@ void MeHQFavourites::buildEmptyCarousel()
         }
     }
     
-    ui::Button* playGamesButton = ui::Button::create("res/meHQ/watch_videos_button.png");
+    ui::Button* playGamesButton = ui::Button::create("res/meHQ/my_favourites_button.png");
     playGamesButton->setContentSize(playGamesButton->getContentSize() * (((contentItemSize.width - contentItemMargin) * unitMultiplier) / playGamesButton->getContentSize().width));
     playGamesButton->ignoreContentAdaptWithSize(false);
     playGamesButton->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
@@ -267,14 +257,7 @@ void MeHQFavourites::buildEmptyCarousel()
     
     this->addChild(carouselLayer);
     
-    ui::Text* heading = ui::Text::create(StringMgr::getInstance()->getStringForKey(isPortrait ? MEHQ_SUB_HEADING_FAVOURITES_MULTILINE : MEHQ_SUB_HEADING_FAVOURITES), Style::Font::Regular, 80);
-    heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    heading->setTextHorizontalAlignment(TextHAlignment::CENTER);
-    heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
-    heading->setContentSize(Size(visibleSize.width, 200));
-    this->addChild(heading);
-    
-    this->setContentSize(Size(visibleSize.width, heading->getContentSize().height -lowestElementYPosition + spaceAboveCarousel + 50));
+    this->setContentSize(Size(visibleSize.width, -lowestElementYPosition + spaceAboveCarousel + 50));
     
 }
 
