@@ -35,6 +35,7 @@ OomeeMakerDelegate* OomeeMakerDelegate::getInstance()
 void OomeeMakerDelegate::onOomeeMakerNavigationBack()
 {
     HQHistoryManager::getInstance()->_returnedFromForcedOrientation = true;
+    AnalyticsSingleton::getInstance()->contentItemClosedEvent();
     if(!HQHistoryManager::getInstance()->isOffline)
     {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
@@ -80,21 +81,21 @@ void OomeeMakerDelegate::onHttpRequestSuccess(const std::string& requestTag, con
         ChildDataParser::getInstance()->setLoggedInChildAvatarId(getStringFromJson("avatar", json));
         ImageDownloaderRef imageDownloader = ImageDownloader::create("imageCache/", ImageDownloader::CacheMode::File );
         imageDownloader->downloadImage(nullptr, getStringFromJson("avatar", json), true);
-        
         ModalMessages::getInstance()->stopLoading();
         auto scene = Director::getInstance()->getRunningScene();
         OomeeMaker::OomeeSelectScene* selectScene = dynamic_cast<OomeeMaker::OomeeSelectScene*>(scene);
         if(selectScene)
         {
+            AnalyticsSingleton::getInstance()->makeAvatarSuccess("OOMEE_SELECT");
             selectScene->toggleMakeAvatarHiglight();
             return;
         }
         OomeeMaker::OomeeMakerScene* makerScene = dynamic_cast<OomeeMaker::OomeeMakerScene*>(scene);
         if(makerScene)
         {
+            AnalyticsSingleton::getInstance()->makeAvatarSuccess("OOMEE_MAKER");
             makerScene->displayMadeAvatarNotification();
         }
-        AnalyticsSingleton::getInstance()->makeAvatarSuccess();
     }
 }
 void OomeeMakerDelegate::onHttpRequestFailed(const std::string& requestTag, long errorCode)

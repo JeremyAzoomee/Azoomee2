@@ -9,6 +9,7 @@
 #include "ArtAppDelegate.h"
 #include "HQHistoryManager.h"
 #include "SceneManagerScene.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "ChatDelegate.h"
 
@@ -40,7 +41,6 @@ void ArtAppDelegate::setFileName(const std::string& filename)
 void ArtAppDelegate::onArtAppNavigationBack()
 {
     ArtAppRunning = false;
-    
     if(HQHistoryManager::getInstance()->isOffline)
     {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineArtsAppHQ));
@@ -59,6 +59,7 @@ void ArtAppDelegate::onArtAppShareImage()
     {
         if(!HQHistoryManager::getInstance()->isOffline && ChildDataProvider::getInstance()->getIsChildLoggedIn())
         {
+            AnalyticsSingleton::getInstance()->contentItemClosedEvent();
             ChatDelegate::getInstance()->_imageFileName = filename;
             ArtAppRunning = false;
             HQHistoryManager::getInstance()->_returnedFromForcedOrientation = true;

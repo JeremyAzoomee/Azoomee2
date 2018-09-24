@@ -7,7 +7,7 @@
 #include "LoginLogicHandler.h"
 #include "ContentHistoryManager.h"
 #include "HQDataProvider.h"
-#include "DeepLinkingSingleton.h"
+#include "ContentOpener.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
@@ -67,13 +67,14 @@ void ChatDelegate::onChatAuthorizationError(const std::string& requestTag, long 
 
 void ChatDelegate::onChatNavigateToContent(const std::string &contentId)
 {
-    DeepLinkingSingleton::getInstance()->setDeepLink(DeepLinkingSingleton::kPostContentDeeplinkStr + contentId);
+    AnalyticsSingleton::getInstance()->chatOpenSharedContentEvent(contentId);
+    ContentOpener::getInstance()->openContentById(contentId);
 }
 
 // delegate functions
 void ChatDelegate::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {
-    ChatDelegate::getInstance()->_imageFileName = downloader->getLocalImagePath();
+    _imageFileName = downloader->getLocalImagePath();
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
     
 }

@@ -744,6 +744,11 @@ void AnalyticsSingleton::deepLinkingContentEvent()
         mixPanelSendEventWithStoredProperties("chatResetReportedEvent");
     }
 
+void AnalyticsSingleton::chatOpenSharedContentEvent(const std::string& contentId)
+{
+    mixPanelSendEventWithStoredProperties("chatOpenSharedContentEvent", {{"contentId", contentId}});
+}
+
 //-------------------------------------CTA ACTIONS-----------------------------
     
 void AnalyticsSingleton::ctaButtonPressed(const std::string &buttonId, const std::string &title)
@@ -799,9 +804,9 @@ void AnalyticsSingleton::shareContentItemButtonPressed(const std::string& conten
 
 //-------------OomeeMaker Events----------------------------
 
-void AnalyticsSingleton::makeAvatarSuccess()
+void AnalyticsSingleton::makeAvatarSuccess(const std::string& origin)
 {
-    mixPanelSendEventWithStoredProperties("makeAvatarSuccess");
+    mixPanelSendEventWithStoredProperties("makeAvatarSuccess", {{"origin",origin}});
 }
 void AnalyticsSingleton::shareOomee()
 {
@@ -823,5 +828,24 @@ void AnalyticsSingleton::saveOomee(const std::string& oomeeDataString)
 {
     mixPanelSendEventWithStoredProperties("saveOomee",{{"oomeeData",oomeeDataString}});
 }
+void AnalyticsSingleton::reportNumberOfOomees(int numOomees)
+{
+    mixPanelSendEventWithStoredProperties("reportNumOomeesEvent",{{"numOomees", cocos2d::StringUtils::format("%d", numOomees)}});
+}
 
+void AnalyticsSingleton::accessorySelectedEvent(const std::string& method)
+{
+    mixPanelSendEventWithStoredProperties("accessorySelected" ,{{"method", method}});
+}
+
+//----------------Art app events------------------------------
+
+void AnalyticsSingleton::stickerSelectedEvent(const std::string &stickerFilename)
+{
+    auto splitString = splitStringToVector(stickerFilename, "/");
+    if(splitString.size() >= 2)
+    {
+        mixPanelSendEventWithStoredProperties("artAppStickerSelected",{{"stickerCategory",splitString.at(splitString.size() - 2)},{"stickerName",splitString.at(splitString.size() - 1)}} );
+    }
+}
 NS_AZOOMEE_END
