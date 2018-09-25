@@ -304,7 +304,7 @@ using namespace Azoomee;
     [text setText:Azoomee::getNSStringForKey("Native/favContentLabel")];
     [text setTextColor:[UIColor whiteColor]];
     [text setAdjustsFontSizeToFitWidth:true];
-    [text setFont:[UIFont fontWithName:@"SofiaProSoftRegular" size:17]];
+    [text setFont:[UIFont fontWithName:@"SofiaProSoftRegular" size:height * 0.35]];
     [_favContentBanner addSubview:text];
     
     [bg release];
