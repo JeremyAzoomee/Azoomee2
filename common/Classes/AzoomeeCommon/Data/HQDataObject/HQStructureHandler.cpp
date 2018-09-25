@@ -126,11 +126,18 @@ void HQStructureHandler::parseNavigationData(const std::string &data)
     for(int i = 0; i < result["navigation"].Size(); i++)
     {
         const auto& value = result["navigation"][i];
-        hqNames.push_back(getStringFromJson("name", value));
+        const std::string& hqName = getStringFromJson("name", value);
+        hqNames.push_back(hqName);
         if(getBoolFromJson("default", value, false))
         {
             ConfigStorage::getInstance()->setDefaultHQ(hqNames.back());
         }
+        if(value.HasMember("available"))
+        {
+            HQDataObjectRef dataObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName);
+            dataObject->setHqEntitlement(getBoolFromJson("available", value));
+        }
+        
     }
     ConfigStorage::getInstance()->setNavigationHQs(hqNames);
 }

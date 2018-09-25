@@ -43,7 +43,7 @@ bool MeHQMessages::init()
     this->addChild(heading);
     
     Sprite* icon = Sprite::create("res/meHQ/title_icon_last_messages.png");
-    icon->setAnchorPoint(Vec2(1.5f,0.25f));
+    icon->setAnchorPoint(Vec2(1.5f,0.35f));
     icon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
     heading->addChild(icon);
     
@@ -208,7 +208,7 @@ void MeHQMessages::createMessageList()
     this->addChild(heading);
     
     Sprite* icon = Sprite::create("res/meHQ/title_icon_last_messages.png");
-    icon->setAnchorPoint(Vec2(1.5f,0.25f));
+    icon->setAnchorPoint(Vec2(1.5f,0.35f));
     icon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
     heading->addChild(icon);
     

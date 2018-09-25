@@ -22,7 +22,7 @@ using namespace cocos2d;
 
 NS_AZOOMEE_OM_BEGIN
 
-const std::string OomeeMakerScene::kDefaultOomeeId = "yellow";
+const std::string OomeeMakerScene::kDefaultOomeeId = "orange";
 const std::string OomeeMakerScene::kColourCategoryId = "colours";
 
 const std::string OomeeMakerScene::kSavePopupId = "save";
@@ -155,6 +155,7 @@ void OomeeMakerScene::onEnter()
     _itemList->setPosition(Vec2(contentSize.width, contentSize.height / 2.0f));
     _itemList->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
     _itemList->setTouchEnabled(false);
+    _itemList->setScrollBarEnabled(false);
     _itemList->setItemSelectedCallback([this](const OomeeItemRef& data) {
         this->addAccessoryToOomee(data);
     });

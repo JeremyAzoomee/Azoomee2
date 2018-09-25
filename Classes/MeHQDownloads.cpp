@@ -64,7 +64,7 @@ bool MeHQDownloads::init()
     this->addChild(heading);
     
     Sprite* icon = Sprite::create("res/meHQ/title_icon_my_downloads.png");
-    icon->setAnchorPoint(Vec2(1.5f,0.25f));
+    icon->setAnchorPoint(Vec2(1.5f,0.35f));
     icon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
     heading->addChild(icon);
     
