@@ -135,7 +135,7 @@ void HQSceneElementVisual::createCallbackFunction(float delay)
             {
                 addGradientToBottom();
                 auto iconSprite = addIconToImage();
-                if(!isOffline)
+                if(!isOffline && iconSprite != nullptr)
                 {
                     addLabelsToImage(iconSprite);
                 }

@@ -105,6 +105,12 @@ void RemoteImageSprite::addPlaceHolderImage(std::string type, Size contentSize, 
         placeholderImageFile = StringUtils::format("%s1X1.png",ConfigStorage::getInstance()->getPlaceholderImageForContentItemInCategory(type).c_str());
     }
     
+    // @onimitch: Added a fix as no placeholder image is being found for 100 year boy on Fire TV (maybe just due to being on older HQ code).
+    if(!FileUtils::getInstance()->isFileExist(placeholderImageFile))
+    {
+        placeholderImageFile = "res/contentPlaceholders/Games1X1.png";
+    }
+    
     auto placeHolderImage = Sprite::create(placeholderImageFile);
     placeHolderImage->setPosition(this->getContentSize() / 2);
     placeHolderImage->setName("placeHolderImage");
