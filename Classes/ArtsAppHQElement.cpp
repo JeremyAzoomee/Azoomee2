@@ -57,7 +57,6 @@ bool ArtsAppHQElement::initWithURLAndSize(const std::string& filePath, const Siz
     if(deletable)
     {
         _deleteButton = addDeleteButton();
-        addListenerToDeleteButton(_deleteButton);
     }
         
     addListenerToElement();
@@ -176,54 +175,39 @@ void ArtsAppHQElement::addLockToElement()
     this->addChild(lockImage,1);
 }
 
-Sprite* ArtsAppHQElement::addDeleteButton()
+ui::Button* ArtsAppHQElement::addDeleteButton()
 {
-    auto delButton = Sprite::create("res/buttons/delete_button_favourites.png");
-    delButton->setAnchorPoint(Vec2(-0.25,1.25));
-    delButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
-    delButton->setScale(0.75);
-    delButton->setOpacity(0);
-    this->addChild(delButton,1);
-    
-    return delButton;
+	ui::Button* deleteButton = ui::Button::create("res/buttons/delete_button_favourites.png");
+	deleteButton->setContentSize(Size(this->getContentSize().width * 0.25f, this->getContentSize().width * 0.25f));
+	deleteButton->ignoreContentAdaptWithSize(false);
+	deleteButton->setAnchorPoint(Vec2(-0.25,1.25));
+	deleteButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
+	deleteButton->setVisible(_showDeleteButton);
+	deleteButton->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType){
+		if(eType == ui::Widget::TouchEventType::ENDED)
+		{
+			if(_deleteCallback)
+			{
+				_deleteCallback(_imageURL);
+			}
+		}
+	});
+	this->addChild(deleteButton,2);
+    return deleteButton;
 }
 
-void ArtsAppHQElement::showDeleteButton(float dt)
+void ArtsAppHQElement::deleteButtonVisible(bool visible)
 {
-    if(_deleteButton)
-    {
-        _deleteButton->setOpacity(255);
-    }
+	_showDeleteButton = visible;
+	if(_deleteButton)
+	{
+		_deleteButton->setVisible(visible);
+	}
 }
 
-void ArtsAppHQElement::hideDeleteButton()
+void ArtsAppHQElement::setDeleteButtonCallback(const ArtsAppHQElement::DeleteButtonCallback &callback)
 {
-    if(_deleteButton)
-    {
-        _deleteButton->setOpacity(0);
-        _overlayWhenTouched->setOpacity(0);
-    }
-}
-
-void ArtsAppHQElement::scheduleShowingDeleteButton()
-{
-    if(_deleteButton)
-    {
-        this->scheduleOnce(schedule_selector(ArtsAppHQElement::showDeleteButton), 1);
-    }
-}
-
-void ArtsAppHQElement::unscheduleShowingDeleteButton()
-{
-    if(_deleteButton)
-    {
-        this->unschedule(schedule_selector(ArtsAppHQElement::showDeleteButton));
-    }
-}
-
-bool ArtsAppHQElement::deleteButtonIsShown()
-{
-    return (_deleteButton && _deleteButton->getOpacity() > 0);
+	_deleteCallback = callback;
 }
 
 void ArtsAppHQElement::onExit()
@@ -244,7 +228,7 @@ void ArtsAppHQElement::onExit()
     Layer::onExit();
 }
 
-void ArtsAppHQElement::addListenerToDeleteButton(cocos2d::Sprite *toBeAddedTo)
+/*void ArtsAppHQElement::addListenerToDeleteButton(cocos2d::Sprite *toBeAddedTo)
 {
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(true);
@@ -312,7 +296,7 @@ void ArtsAppHQElement::addListenerToDeleteButton(cocos2d::Sprite *toBeAddedTo)
     };
     
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), toBeAddedTo);
-}
+}*/
 
 void ArtsAppHQElement::addListenerToElement()
 {
@@ -326,8 +310,6 @@ void ArtsAppHQElement::addListenerToElement()
         Size s = target->getBoundingBox().size;//getContentSize();
         Rect rect = Rect(0,0,s.width, s.height);
         
-        this->hideDeleteButton();
-        
         if(rect.containsPoint(locationInNode))
         {
 
@@ -335,8 +317,6 @@ void ArtsAppHQElement::addListenerToElement()
             _iamtouched = true;
             _movedAway = false;
             _touchPoint = touch->getLocation();
-            
-            this->scheduleShowingDeleteButton();
             
             return true;
         }
@@ -352,9 +332,6 @@ void ArtsAppHQElement::addListenerToElement()
             _iamtouched = false;
             _overlayWhenTouched->stopAllActions();
             _overlayWhenTouched->setOpacity(0);
-            
-            this->unscheduleShowingDeleteButton();
-            this->hideDeleteButton();
         }
         
         return true;
@@ -368,11 +345,6 @@ void ArtsAppHQElement::addListenerToElement()
             {
                 return false;
             }
-        }
-        
-        if(deleteButtonIsShown())
-        {
-            return true;
         }
         
         if(_iamtouched)

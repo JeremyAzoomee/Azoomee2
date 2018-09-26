@@ -140,7 +140,7 @@ HttpRequestCreator* API::ChildLoginRequest(const std::string& profileName,
     request->requestBody = StringUtils::format("{\"userName\": \"%s\", \"password\": \"\"}", profileName.c_str());
     request->requestTag = TagChildLogin;
     request->method = "POST";
-    request->urlParameters = "hqs=true";
+    //request->urlParameters = "hqs=true";
     request->encrypted = true;
     return request;
 }

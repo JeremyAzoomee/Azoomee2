@@ -157,7 +157,7 @@ void DrawingCanvasUILayer::addClearButton(const Size& visibleSize, const Point& 
             ConfirmCancelMessageBox* messageBox = ConfirmCancelMessageBox::createWithParams(StringMgr::getInstance()->getStringForKey(SAVEQ_LABEL), "res/buttons/confirm_tick_2.png", "res/buttons/confirm_x_2.png", Color3B::BLACK, Color4B::WHITE);
             messageBox->setName(kSavePopupName);
             messageBox->setDelegate(this);
-            messageBox->setPosition(Director::getInstance()->getVisibleOrigin());
+            messageBox->setPosition(Director::getInstance()->getVisibleOrigin() + Vec2(Director::getInstance()->getVisibleSize().width * 0.09f/2.0f,Director::getInstance()->getVisibleSize().height * 0.175f/2.0f));
             Director::getInstance()->getRunningScene()->addChild(messageBox,POPUP_UI_LAYER);
         }
     });
@@ -173,7 +173,7 @@ void DrawingCanvasUILayer::addClearButton(const Size& visibleSize, const Point& 
             ConfirmCancelMessageBox* messageBox = ConfirmCancelMessageBox::createWithParams(StringMgr::getInstance()->getStringForKey(DELETEQ_LABEL), "res/buttons/confirm_bin.png", "res/buttons/confirm_x_2.png", Color3B::BLACK, Color4B::WHITE);
             messageBox->setName(kClearPopupName);
             messageBox->setDelegate(this);
-            messageBox->setPosition(Director::getInstance()->getVisibleOrigin());
+            messageBox->setPosition(Director::getInstance()->getVisibleOrigin() + Vec2(Director::getInstance()->getVisibleSize().width * 0.09f/2.0f,Director::getInstance()->getVisibleSize().height * 0.175f/2.0f));
             Director::getInstance()->getRunningScene()->addChild(messageBox,POPUP_UI_LAYER);
         }
     });
@@ -996,23 +996,21 @@ void DrawingCanvasUILayer::getStickerFilesFromJSON()
     const std::string& oomeeStoragePath = FileUtils::getInstance()->getWritablePath() + "oomeeMaker/" + ChildDataProvider::getInstance()->getParentOrChildId();
     const std::vector<std::string>& oomeeImages = DirectorySearcher::getInstance()->getImagesInDirectory(oomeeStoragePath);
     
-    if(oomeeImages.size() == 0)
+    if(oomeeImages.size() != 0)
     {
-        return;
-    }
-    
-    std::vector<std::pair<std::string,std::string>> fullFilenames;
-    for(const std::string& img : oomeeImages)
-    {
-        fullFilenames.push_back(std::pair<std::string, std::string>(oomeeStoragePath + "/" + img,"myOomees/" + img));
-    }
-    
-    StickerSetRef oomeeCat = std::make_shared<StickerSet>();
-    oomeeCat->first = kStickerLoc + "Category_MyOomees.png";
-    oomeeCat->second = fullFilenames;
-    
-    _stickerCats.push_back(oomeeCat);
-    
+		std::vector<std::pair<std::string,std::string>> fullFilenames;
+		for(const std::string& img : oomeeImages)
+		{
+			fullFilenames.push_back(std::pair<std::string, std::string>(oomeeStoragePath + "/" + img,"myOomees/" + img));
+		}
+		
+		StickerSetRef oomeeCat = std::make_shared<StickerSet>();
+		oomeeCat->first = kStickerLoc + "Category_MyOomees.png";
+		oomeeCat->second = fullFilenames;
+		
+		_stickerCats.push_back(oomeeCat);
+	}
+	
     const std::string& fullFileText = FileUtils::getInstance()->getStringFromFile(kStickerLoc + "catalogue.json");
     
     rapidjson::Document json;

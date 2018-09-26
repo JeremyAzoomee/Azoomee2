@@ -230,6 +230,7 @@ void OomeeMakerScene::onEnter()
                 ConfirmCancelMessageBox* messageBox = ConfirmCancelMessageBox::createWithParams(StringMgr::getInstance()->getStringForKey(SAVEQ_LABEL), "res/buttons/confirm_tick_2.png", "res/buttons/confirm_x_2.png");
                 messageBox->setDelegate(this);
                 messageBox->setName(kSavePopupId);
+				messageBox->setPosition(Vec2(-this->getContentSize().width * 0.08f, 0));
                 _contentLayer->addChild(messageBox);
             }
             else
@@ -276,6 +277,7 @@ void OomeeMakerScene::onEnter()
             ConfirmCancelMessageBox* messageBox = ConfirmCancelMessageBox::createWithParams(StringMgr::getInstance()->getStringForKey(RESETQ_LABEL), "res/buttons/confirm_bin.png", "res/buttons/confirm_x_2.png");
             messageBox->setDelegate(this);
             messageBox->setName(kResetPopupId);
+			messageBox->setPosition(Vec2(-this->getContentSize().width * 0.08f, 0));
             _contentLayer->addChild(messageBox);
         }
     });

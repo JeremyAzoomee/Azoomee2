@@ -56,16 +56,16 @@ bool MeHQDownloads::init()
             }
         }
     }
-    
+	
+	Sprite* icon = Sprite::create("res/meHQ/title_icon_my_downloads.png");
+	icon->setAnchorPoint(Vec2(1.5f,0.35f));
+	icon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
+	
     ui::Text* heading = ui::Text::create(StringMgr::getInstance()->getStringForKey((gameList.size() > 0) ? MEHQ_HEADING_DOWNLOADS : MEHQ_HEADING_DOWNLOADS_EMPTY), Style::Font::Regular, 75);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,50)));
+    heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(icon->getContentSize().width* 0.75f,0,0,50)));
     heading->setContentSize(Size(visibleSize.width, spaceAboveCarousel));
     this->addChild(heading);
-    
-    Sprite* icon = Sprite::create("res/meHQ/title_icon_my_downloads.png");
-    icon->setAnchorPoint(Vec2(1.5f,0.35f));
-    icon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
     heading->addChild(icon);
     
     if(gameList.size() > 0)

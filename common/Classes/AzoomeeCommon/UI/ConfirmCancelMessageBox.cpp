@@ -27,6 +27,12 @@ bool ConfirmCancelMessageBox::init()
     }
     
     this->setContentSize(Director::getInstance()->getVisibleSize());
+	
+	Layer* touchLayer = Layer::create();
+	touchLayer->setContentSize(this->getContentSize() * 2);
+	touchLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	touchLayer->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	this->addChild(touchLayer);
     
     EventListenerTouchOneByOne* touchListener = EventListenerTouchOneByOne::create();
     touchListener->setSwallowTouches(true);
@@ -35,7 +41,7 @@ bool ConfirmCancelMessageBox::init()
         return true;
     };
     
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListener->clone(), this);
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListener->clone(), touchLayer);
     
     _messageBox = ui::Layout::create();
     _messageBox->setBackGroundImage("res/modal/confirm_cancel_popup.png");

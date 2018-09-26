@@ -35,16 +35,16 @@ bool MeHQMessages::init()
     
     this->setContentSize(Size(Director::getInstance()->getVisibleSize().width, 200));
     setLayoutType(ui::Layout::Type::VERTICAL);
-    
+	
+	Sprite* icon = Sprite::create("res/meHQ/title_icon_last_messages.png");
+	icon->setAnchorPoint(Vec2(1.5f,0.35f));
+	icon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
+	
     ui::Text* heading = ui::Text::create(StringMgr::getInstance()->getStringForKey(MEHQ_HEADING_MESSAGES), Style::Font::Regular, 75);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,50)));
+    heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(icon->getContentSize().width* 0.75f,0,0,50)));
     heading->setContentSize(Size(this->getContentSize().width, 200));
     this->addChild(heading);
-    
-    Sprite* icon = Sprite::create("res/meHQ/title_icon_last_messages.png");
-    icon->setAnchorPoint(Vec2(1.5f,0.35f));
-    icon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
     heading->addChild(icon);
     
     return true;
@@ -200,16 +200,16 @@ void MeHQMessages::createMessageList()
     float totalHeight = 200;
     
     this->removeAllChildren();
-    
+	
+	Sprite* icon = Sprite::create("res/meHQ/title_icon_last_messages.png");
+	icon->setAnchorPoint(Vec2(1.5f,0.35f));
+	icon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
+	
     ui::Text* heading = ui::Text::create(StringMgr::getInstance()->getStringForKey(MEHQ_HEADING_MESSAGES), Style::Font::Regular, 75);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,50)));
+    heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(icon->getContentSize().width* 0.75f,0,0,50)));
     heading->setContentSize(Size(this->getContentSize().width, 200));
     this->addChild(heading);
-    
-    Sprite* icon = Sprite::create("res/meHQ/title_icon_last_messages.png");
-    icon->setAnchorPoint(Vec2(1.5f,0.35f));
-    icon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
     heading->addChild(icon);
     
     if(_messages.size() > 0)
