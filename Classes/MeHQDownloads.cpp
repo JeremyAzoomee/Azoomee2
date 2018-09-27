@@ -33,7 +33,7 @@ bool MeHQDownloads::init()
     
     const float spaceAboveCarousel = HQDataProvider::getInstance()->getSpaceAboveCarousel();
     const float sideMargin = HQDataProvider::getInstance()->getSideMargin();
-    const int unitsOnScreen = HQDataProvider::getInstance()->getUnitsOnScreen();
+    const int unitsOnScreen = HQDataProvider::getInstance()->getUnitsOnScreenMeHQ();
     const float contentItemMargin = HQDataProvider::getInstance()->getContentItemMargin();
     
     this->setContentSize(Size(visibleSize.width, 0));
@@ -71,7 +71,7 @@ bool MeHQDownloads::init()
     if(gameList.size() > 0)
     {
         Size contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kGameHQName);
-        float unitWidth = (visibleSize.width - 2 * sideMargin) / unitsOnScreen;
+        float unitWidth = (visibleSize.width - 2 * sideMargin - contentItemMargin / 2.0f) / unitsOnScreen;
         float unitMultiplier = unitWidth / contentItemSize.width;
         
         cocos2d::ui::Layout* carouselLayer = ui::Layout::create();
@@ -150,7 +150,7 @@ void MeHQDownloads::buildEmptyCarousel()
     
     const float spaceAboveCarousel = HQDataProvider::getInstance()->getSpaceAboveCarousel();
     const float sideMargin = HQDataProvider::getInstance()->getSideMargin();
-    const int unitsOnScreen = HQDataProvider::getInstance()->getUnitsOnScreen();
+    const int unitsOnScreen = HQDataProvider::getInstance()->getUnitsOnScreenMeHQ();
     const float contentItemMargin = HQDataProvider::getInstance()->getContentItemMargin();
     
     Size contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kGameHQName);
@@ -158,7 +158,7 @@ void MeHQDownloads::buildEmptyCarousel()
     float unitMultiplier = unitWidth / contentItemSize.width;
     
     cocos2d::ui::Layout* carouselLayer = ui::Layout::create();
-    carouselLayer->setContentSize(Size(visibleSize.width - 2 * sideMargin, 0));
+    carouselLayer->setContentSize(Size(visibleSize.width - 2 * sideMargin - contentItemMargin / 2.0f, 0));
     carouselLayer->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     
     float lowestElementYPosition = 0;

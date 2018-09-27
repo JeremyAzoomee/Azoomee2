@@ -117,7 +117,7 @@ void HQScene2::startBuildingScrollView()
     float contentItemMargin = HQDataProvider::getInstance()->getContentItemMargin();
     
     _contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(_hqCategory);
-    _unitWidth = (_visibleSize.width - 2 * sideMargin) / unitsOnScreen;
+    _unitWidth = (_visibleSize.width - 2 * sideMargin - contentItemMargin / 2.0f) / unitsOnScreen;
     _unitMultiplier = calculateUnitMultiplier();
     
     if(_hqCategory == "" || this->getChildByName(kScrollViewName)) //Checking if this was created before, or this is the first time -> the layer has any kids.
@@ -258,10 +258,10 @@ void HQScene2::startBuildingScrollView()
     
     //show post content cta if necessary
     
-    if(showingPostContentCTARequired())
-    {
-        showPostContentCTA();
-    }
+    //if(showingPostContentCTARequired())
+    //{
+    //    showPostContentCTA();
+    //}
 }
 
 void HQScene2::rebuildScrollView()

@@ -41,9 +41,11 @@ void MeHQGallery::onEnter()
     
     const float spaceAboveCarousel = HQDataProvider::getInstance()->getSpaceAboveCarousel();
     const float sideMargin = HQDataProvider::getInstance()->getSideMargin();
-    const int unitsOnScreen = HQDataProvider::getInstance()->getUnitsOnScreen();
+    const int unitsOnScreen = HQDataProvider::getInstance()->getUnitsOnScreenMeHQ();
     const float contentItemMargin = HQDataProvider::getInstance()->getContentItemMargin();
-    
+	
+	const int artFoldPoint = (unitsOnScreen * 2) - 1;
+	
     float totalHeight = 0;
     
     this->setContentSize(Size(visibleSize.width, 0));
@@ -82,10 +84,10 @@ void MeHQGallery::onEnter()
     
     std::reverse(artImages.begin(), artImages.end());
     
-    for(int elementIndex = 0; elementIndex < (_expanded ? artImages.size() : MIN(7,artImages.size())); elementIndex++)
+    for(int elementIndex = 0; elementIndex < (_expanded ? artImages.size() : MIN(artFoldPoint,artImages.size())); elementIndex++)
     {
         auto* currentElement = ArtsAppHQElement::create();
-        currentElement->initWithURLAndSize(dirPath + "/" + artImages[elementIndex], contentItemSize * unitMultiplier, true, false);
+        currentElement->initWithURLAndSize(dirPath + "/" + artImages[elementIndex], contentItemSize * (((contentItemSize.width - contentItemMargin) * unitMultiplier) / contentItemSize.width), true, false);
         currentElement->enableOnScreenChecker();
 		currentElement->setDeleteButtonCallback([&](const std::string& imageFilename){
 			_targetDeleteFilename = imageFilename;
@@ -104,11 +106,11 @@ void MeHQGallery::onEnter()
         
         const cocos2d::Point &elementPosition = hqScene2ElementPositioner.positionHQSceneElement();
         
-        currentElement->setPosition(elementPosition);
+        currentElement->setPosition(elementPosition + Vec2(contentItemMargin/2, contentItemMargin/2));
         _carouselLayout->addChild(currentElement);
     }
     
-    if(artImages.size() <= 7)
+    if(artImages.size() <= artFoldPoint)
     {
         int numPlaceholders = (unitsOnScreen * ceil((double)(artImages.size() + 1) / (double)unitsOnScreen)) - (artImages.size() + 1);
         for(int i = 0; i < numPlaceholders; i++)

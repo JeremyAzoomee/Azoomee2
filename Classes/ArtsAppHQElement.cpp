@@ -142,22 +142,22 @@ void ArtsAppHQElement::addPlaceHolder()
 
 void ArtsAppHQElement::createImageBorder()
 {
-    _baseLayer = LayerColor::create(ConfigStorage::getInstance()->getColourForElementType(ConfigStorage::kArtAppHQName), this->getContentSize().width - 20, this->getContentSize().height - 20);
-    _baseLayer->setPosition(10,10);
+    _baseLayer = LayerColor::create(ConfigStorage::getInstance()->getColourForElementType(ConfigStorage::kArtAppHQName), this->getContentSize().width, this->getContentSize().height);
+    //_baseLayer->setPosition(10,10);
     this->addChild(_baseLayer);
 }
 
 void ArtsAppHQElement::createWhiteBackground()
 {
-    auto whiteBackground = LayerColor::create(Color4B(255,255,255,255), this->getContentSize().width - 40, this->getContentSize().height - 40);
-    whiteBackground->setPosition(20,20);
+    auto whiteBackground = LayerColor::create(Color4B(255,255,255,255), this->getContentSize().width - 20, this->getContentSize().height - 20);
+    whiteBackground->setPosition(10,10);
     this->addChild(whiteBackground);
 }
 
 void ArtsAppHQElement::addOverlay()
 {
-    _overlayWhenTouched = LayerColor::create(ConfigStorage::getInstance()->getColourForElementType(ConfigStorage::kArtAppHQName), this->getContentSize().width - 20, this->getContentSize().height - 20);
-    _overlayWhenTouched->setPosition(10,10);
+    _overlayWhenTouched = LayerColor::create(ConfigStorage::getInstance()->getColourForElementType(ConfigStorage::kArtAppHQName), this->getContentSize().width, this->getContentSize().height);
+    //_overlayWhenTouched->setPosition(10,10);
     _overlayWhenTouched->setOpacity(0);
     this->addChild(_overlayWhenTouched,1);
 }
