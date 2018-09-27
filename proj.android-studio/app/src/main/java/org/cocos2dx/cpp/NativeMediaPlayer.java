@@ -346,7 +346,7 @@ public class NativeMediaPlayer extends Activity {
         _favBanner.addView(heart, heartLayoutParams);
 
         TextView text = new TextView(this);
-        text.setTextSize(bgLayoutParams.height * 0.3f);
+        text.setTextSize(bgLayoutParams.height * 0.25f);
         text.setText(JNICalls.JNIGetStringForKey("Native/favContentLabel"));
         text.setLayoutParams(new android.widget.RelativeLayout.LayoutParams(
                 android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT, android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT));

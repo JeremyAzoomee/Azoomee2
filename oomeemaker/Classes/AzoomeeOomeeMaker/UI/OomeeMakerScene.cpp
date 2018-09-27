@@ -390,6 +390,13 @@ void OomeeMakerScene::makeAvatar()
 
 void OomeeMakerScene::resetOomee()
 {
+	const OomeeColourRef& colour = OomeeMakerDataStorage::getInstance()->getColourForKey(kDefaultOomeeId);
+	_oomee->setColour(colour);
+	const OomeeRef& oomee = OomeeMakerDataStorage::getInstance()->getOomeeForKey(colour->getId());
+	if(oomee)
+	{
+		_oomee->setOomeeData(oomee);
+	}
     _oomee->resetOomee();
 }
 
