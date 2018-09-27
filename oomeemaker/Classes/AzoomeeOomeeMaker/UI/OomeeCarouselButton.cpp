@@ -64,13 +64,14 @@ void OomeeCarouselButton::onEnter()
     _innerCircle->setColor(Style::Color::darkTeal);
     
     _deleteButton = ui::Button::create("res/oomeeMaker/bin_button.png");
+    _deleteButton->setContentSize(_deleteButton->getContentSize() * 0.8f);
+    _deleteButton->ignoreContentAdaptWithSize(false);
     _deleteButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _deleteButton->setPosition(this->getContentSize()/2);
     _deleteButton->setScale(0);
     _deleteButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == TouchEventType::ENDED)
         {
-            log("delete oomee");
             if(_delegate)
             {
                 _delegate->deleteOomee(_oomeeFileName);
@@ -80,13 +81,14 @@ void OomeeCarouselButton::onEnter()
     this->addChild(_deleteButton);
     
     _makeAvatarButton = ui::Button::create("res/oomeeMaker/make_oomee_button.png");
+    _makeAvatarButton->setContentSize(_makeAvatarButton->getContentSize() * 0.8f);
+    _makeAvatarButton->ignoreContentAdaptWithSize(false);
     _makeAvatarButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _makeAvatarButton->setPosition(this->getContentSize()/2);
     _makeAvatarButton->setScale(0);
     _makeAvatarButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == TouchEventType::ENDED)
         {
-            log("set as avatar");
             if(_delegate)
             {
                 _delegate->makeAvatar(_oomeeFileName);
@@ -96,13 +98,14 @@ void OomeeCarouselButton::onEnter()
     this->addChild(_makeAvatarButton);
     
     _shareButton = ui::Button::create("res/oomeeMaker/message_button.png");
+    _shareButton->setContentSize(_shareButton->getContentSize() * 0.8f);
+    _shareButton->ignoreContentAdaptWithSize(false);
     _shareButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _shareButton->setPosition(this->getContentSize()/2);
     _shareButton->setScale(0);
     _shareButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == TouchEventType::ENDED)
         {
-            log("share oomee");
             if(_delegate)
             {
                 _delegate->shareOomee(_oomeeFileName);

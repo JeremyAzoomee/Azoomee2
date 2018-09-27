@@ -22,7 +22,7 @@ using namespace cocos2d;
 
 NS_AZOOMEE_OM_BEGIN
 
-const std::string OomeeMakerScene::kDefaultOomeeId = "yellow";
+const std::string OomeeMakerScene::kDefaultOomeeId = "orange";
 const std::string OomeeMakerScene::kColourCategoryId = "colours";
 
 const std::string OomeeMakerScene::kSavePopupId = "save";
@@ -154,6 +154,8 @@ void OomeeMakerScene::onEnter()
     _itemList->setContentSize(Size(contentSize.width * 0.2f, contentSize.height * 0.9f));
     _itemList->setPosition(Vec2(contentSize.width, contentSize.height / 2.0f));
     _itemList->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+    _itemList->setTouchEnabled(false);
+    _itemList->setScrollBarEnabled(false);
     _itemList->setItemSelectedCallback([this](const OomeeItemRef& data) {
         this->addAccessoryToOomee(data);
     });
@@ -166,12 +168,6 @@ void OomeeMakerScene::onEnter()
         }
     });
     _itemList->runAction(Sequence::create(DelayTime::create(0.5),MoveBy::create(1.5, Vec2(-itemListBG->getContentSize().width, 0)), NULL));
-    _itemList->addEventListener([&](Ref* pSender, ui::ScrollView::EventType eType){
-        if(eType == ui::ScrollView::EventType::CONTAINER_MOVED)
-        {
-            _itemSlider->setPercent(_itemList->getScrolledPercentVertical());
-        }
-    });
     _contentLayer->addChild(_itemList);
     
     
@@ -185,7 +181,7 @@ void OomeeMakerScene::onEnter()
     _itemSlider->addEventListener([&](cocos2d::Ref* pSender, cocos2d::ui::Slider::EventType eEventType){
         if(eEventType == ui::Slider::EventType::ON_PERCENTAGE_CHANGED)
         {
-            _itemList->scrollToPercentVertical(_itemSlider->getPercent(), 0, false);
+            _itemList->scrollToPercentVertical(MAX(_itemSlider->getPercent(),1), 0, false);
         }
     });
     _itemSlider->runAction(Sequence::create(DelayTime::create(0.5),MoveBy::create(1.5, Vec2(-itemListBG->getContentSize().width, 0)), NULL));
@@ -234,6 +230,7 @@ void OomeeMakerScene::onEnter()
                 ConfirmCancelMessageBox* messageBox = ConfirmCancelMessageBox::createWithParams(StringMgr::getInstance()->getStringForKey(SAVEQ_LABEL), "res/buttons/confirm_tick_2.png", "res/buttons/confirm_x_2.png");
                 messageBox->setDelegate(this);
                 messageBox->setName(kSavePopupId);
+				messageBox->setPosition(Vec2(-this->getContentSize().width * 0.08f, 0));
                 _contentLayer->addChild(messageBox);
             }
             else
@@ -280,6 +277,7 @@ void OomeeMakerScene::onEnter()
             ConfirmCancelMessageBox* messageBox = ConfirmCancelMessageBox::createWithParams(StringMgr::getInstance()->getStringForKey(RESETQ_LABEL), "res/buttons/confirm_bin.png", "res/buttons/confirm_x_2.png");
             messageBox->setDelegate(this);
             messageBox->setName(kResetPopupId);
+			messageBox->setPosition(Vec2(-this->getContentSize().width * 0.08f, 0));
             _contentLayer->addChild(messageBox);
         }
     });

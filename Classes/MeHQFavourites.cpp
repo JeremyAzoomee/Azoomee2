@@ -42,22 +42,22 @@ void MeHQFavourites::onEnter()
     
     const float spaceAboveCarousel = HQDataProvider::getInstance()->getSpaceAboveCarousel();
     const float sideMargin = HQDataProvider::getInstance()->getSideMargin();
-    const int unitsOnScreen = HQDataProvider::getInstance()->getUnitsOnScreen();
+    const int unitsOnScreen = HQDataProvider::getInstance()->getUnitsOnScreenMeHQ();
     const float contentItemMargin = HQDataProvider::getInstance()->getContentItemMargin();
     
     this->setContentSize(Size(visibleSize.width, 0));
     setLayoutType(ui::Layout::Type::VERTICAL);
-    
+	
+	Sprite* icon = Sprite::create("res/meHQ/title_icon_my_favourites.png");
+	icon->setAnchorPoint(Vec2(1.5f,0.35f));
+	icon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
+	
     ui::Text* heading = ui::Text::create(StringMgr::getInstance()->getStringForKey(MEHQ_HEADING_FAVOURITES), Style::Font::Regular, 75);
     heading->setTextHorizontalAlignment(TextHAlignment::CENTER);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setContentSize(Size(visibleSize.width, spaceAboveCarousel));
-    heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,50)));
+    heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(icon->getContentSize().width* 0.75f,0,0,50)));
     this->addChild(heading);
-    
-    Sprite* icon = Sprite::create("res/meHQ/title_icon_my_favourites.png");
-    icon->setAnchorPoint(Vec2(1.5f,0.25f));
-    icon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
     heading->addChild(icon);
     
     const auto& favList = FavouritesManager::getInstance()->getFavouriteContent();
@@ -65,7 +65,7 @@ void MeHQFavourites::onEnter()
     if(favList.size() > 0)
     {
         Size contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kGameHQName);
-        float unitWidth = (visibleSize.width - 2 * sideMargin) / unitsOnScreen;
+        float unitWidth = (visibleSize.width - 2 * sideMargin - contentItemMargin / 2.0f) / unitsOnScreen;
         float unitMultiplier = unitWidth / contentItemSize.width;
 
     
@@ -84,13 +84,12 @@ void MeHQFavourites::onEnter()
             hqSceneElement->setElementIndex(elementIndex);
             hqSceneElement->setMargin(contentItemMargin);
             hqSceneElement->setManualSizeMultiplier(unitMultiplier); //overriding default configuration contentItem sizes. Ideally this *should* go away when only the new hub is present everywhere.
-            hqSceneElement->deleteButtonVisible(false);
+            hqSceneElement->deleteButtonVisible(_editEnabled);
             hqSceneElement->setDeleteButtonCallback([&](const HQContentItemObjectRef& contentItem){
-                FavouritesManager::getInstance()->removeFromFavourites(contentItem);
-                if(_refreshCallback)
-                {
-                    _refreshCallback();
-                }
+				_targetDeleteItem = contentItem;
+				_deleteItemMessageBox = ConfirmCancelMessageBox::createWithParams(StringMgr::getInstance()->getStringForKey(DELETEQ_LABEL), "res/buttons/confirm_bin.png", "res/buttons/confirm_x_2.png");
+				_deleteItemMessageBox->setDelegate(this);
+				Director::getInstance()->getRunningScene()->addChild(_deleteItemMessageBox);
             });
             
             hqSceneElement->addHQSceneElement();
@@ -142,7 +141,7 @@ void MeHQFavourites::onEnter()
     
         this->addChild(_carouselLayout);
     
-        ui::Button* editButton = ui::Button::create("res/meHQ/edit_button_favourites.png");
+        ui::Button* editButton = ui::Button::create(_editEnabled ? "res/meHQ/done_button_favourites.png" : "res/meHQ/edit_button_favourites.png");
         editButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
         editButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
         editButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
@@ -181,11 +180,11 @@ void MeHQFavourites::buildEmptyCarousel()
     
     const float spaceAboveCarousel = HQDataProvider::getInstance()->getSpaceAboveCarousel();
     const float sideMargin = HQDataProvider::getInstance()->getSideMargin();
-    const int unitsOnScreen = HQDataProvider::getInstance()->getUnitsOnScreen();
+    const int unitsOnScreen = HQDataProvider::getInstance()->getUnitsOnScreenMeHQ();
     const float contentItemMargin = HQDataProvider::getInstance()->getContentItemMargin();
     
     Size contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kGameHQName);
-    float unitWidth = (visibleSize.width - 2 * sideMargin) / unitsOnScreen;
+    float unitWidth = (visibleSize.width - 2 * sideMargin - contentItemMargin / 2.0f) / unitsOnScreen;
     float unitMultiplier = unitWidth / contentItemSize.width;
     
     cocos2d::ui::Layout* carouselLayer = ui::Layout::create();
@@ -263,6 +262,12 @@ void MeHQFavourites::buildEmptyCarousel()
 
 void MeHQFavourites::onExit()
 {
+	_targetDeleteItem = nullptr;
+	if(_deleteItemMessageBox)
+	{
+		_deleteItemMessageBox->removeFromParent();
+		_deleteItemMessageBox = nullptr;
+	}
     Super::onExit();
 }
 
@@ -274,6 +279,38 @@ void MeHQFavourites::onSizeChanged()
 void MeHQFavourites::setRefreshCallback(const RefreshLayoutCallback &callback)
 {
     _refreshCallback = callback;
+}
+
+void MeHQFavourites::setEditEnabled(bool enabled)
+{
+    _editEnabled = enabled;
+}
+
+bool MeHQFavourites::getEditEnabled() const
+{
+    return _editEnabled;
+}
+
+// delegate functions
+
+void MeHQFavourites::onConfirmPressed(ConfirmCancelMessageBox *pSender)
+{
+	if(_targetDeleteItem)
+	{
+		FavouritesManager::getInstance()->removeFromFavourites(_targetDeleteItem);
+		if(_refreshCallback)
+		{
+			_refreshCallback();
+		}
+	}
+	_targetDeleteItem = nullptr;
+}
+
+void MeHQFavourites::onCancelPressed(ConfirmCancelMessageBox *pSender)
+{
+	_targetDeleteItem = nullptr;
+	_deleteItemMessageBox = nullptr;
+	pSender->removeFromParent();
 }
 
 NS_AZOOMEE_END

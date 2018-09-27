@@ -41,23 +41,25 @@ void MeHQGallery::onEnter()
     
     const float spaceAboveCarousel = HQDataProvider::getInstance()->getSpaceAboveCarousel();
     const float sideMargin = HQDataProvider::getInstance()->getSideMargin();
-    const int unitsOnScreen = HQDataProvider::getInstance()->getUnitsOnScreen();
+    const int unitsOnScreen = HQDataProvider::getInstance()->getUnitsOnScreenMeHQ();
     const float contentItemMargin = HQDataProvider::getInstance()->getContentItemMargin();
-    
+	
+	const int artFoldPoint = (unitsOnScreen * 2) - 1;
+	
     float totalHeight = 0;
     
     this->setContentSize(Size(visibleSize.width, 0));
     setLayoutType(ui::Layout::Type::VERTICAL);
-    
+	
+	Sprite* icon = Sprite::create("res/meHQ/title_icon_my_gallery.png");
+	icon->setAnchorPoint(Vec2(1.5f,0.35f));
+	icon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
+	
     ui::Text* heading = ui::Text::create(StringMgr::getInstance()->getStringForKey(MEHQ_HEADING_GALLERY), Style::Font::Regular, 75);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,50)));
+    heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(icon->getContentSize().width* 0.75f,0,0,50)));
     heading->setContentSize(Size(visibleSize.width, spaceAboveCarousel));
     this->addChild(heading);
-    
-    Sprite* icon = Sprite::create("res/meHQ/title_icon_my_gallery.png");
-    icon->setAnchorPoint(Vec2(1.5f,0.25f));
-    icon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
     heading->addChild(icon);
     
     totalHeight += heading->getContentSize().height + 50;
@@ -76,32 +78,39 @@ void MeHQGallery::onEnter()
     float unitWidth = (visibleSize.width - 2 * sideMargin) / unitsOnScreen;
     float unitMultiplier = unitWidth / contentItemSize.width;
     
-    cocos2d::ui::Layout* carouselLayer = ui::Layout::create();
-    carouselLayer->setContentSize(Size(visibleSize.width - 2 * sideMargin, 0));
-    carouselLayer->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+    _carouselLayout = ui::Layout::create();
+    _carouselLayout->setContentSize(Size(visibleSize.width - 2 * sideMargin, 0));
+    _carouselLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     
     std::reverse(artImages.begin(), artImages.end());
     
-    for(int elementIndex = 0; elementIndex < (_expanded ? artImages.size() : MIN(7,artImages.size())); elementIndex++)
+    for(int elementIndex = 0; elementIndex < (_expanded ? artImages.size() : MIN(artFoldPoint,artImages.size())); elementIndex++)
     {
         auto* currentElement = ArtsAppHQElement::create();
-        currentElement->initWithURLAndSize(dirPath + "/" + artImages[elementIndex], contentItemSize * unitMultiplier, true, false);
+        currentElement->initWithURLAndSize(dirPath + "/" + artImages[elementIndex], contentItemSize * (((contentItemSize.width - contentItemMargin) * unitMultiplier) / contentItemSize.width), true, false);
         currentElement->enableOnScreenChecker();
+		currentElement->setDeleteButtonCallback([&](const std::string& imageFilename){
+			_targetDeleteFilename = imageFilename;
+			_deleteItemMessageBox = ConfirmCancelMessageBox::createWithParams(StringMgr::getInstance()->getStringForKey(DELETEQ_LABEL), "res/buttons/confirm_bin.png", "res/buttons/confirm_x_2.png");
+			_deleteItemMessageBox->setDelegate(this);
+			Director::getInstance()->getRunningScene()->addChild(_deleteItemMessageBox);
+		});
+		currentElement->deleteButtonVisible(_editEnabled);
         Vec2 elementShape = Vec2(1,1);
         
         HQScene2ElementPositioner hqScene2ElementPositioner;
         hqScene2ElementPositioner.setElement(currentElement);
-        hqScene2ElementPositioner.setCarouselLayer(carouselLayer);
+        hqScene2ElementPositioner.setCarouselLayer(_carouselLayout);
         hqScene2ElementPositioner.setHighlightData(elementShape);
         hqScene2ElementPositioner.setBaseUnitSize(contentItemSize * unitMultiplier);
         
         const cocos2d::Point &elementPosition = hqScene2ElementPositioner.positionHQSceneElement();
         
-        currentElement->setPosition(elementPosition);
-        carouselLayer->addChild(currentElement);
+        currentElement->setPosition(elementPosition + Vec2(contentItemMargin/2, contentItemMargin/2));
+        _carouselLayout->addChild(currentElement);
     }
     
-    if(artImages.size() <= 7)
+    if(artImages.size() <= artFoldPoint)
     {
         int numPlaceholders = (unitsOnScreen * ceil((double)(artImages.size() + 1) / (double)unitsOnScreen)) - (artImages.size() + 1);
         for(int i = 0; i < numPlaceholders; i++)
@@ -112,14 +121,14 @@ void MeHQGallery::onEnter()
             
             HQScene2ElementPositioner hqScene2ElementPositioner;
             hqScene2ElementPositioner.setElement(placeholder);
-            hqScene2ElementPositioner.setCarouselLayer(carouselLayer);
+            hqScene2ElementPositioner.setCarouselLayer(_carouselLayout);
             hqScene2ElementPositioner.setHighlightData(Vec2(1,1));
             hqScene2ElementPositioner.setBaseUnitSize(contentItemSize * unitMultiplier);
             
             const cocos2d::Point &elementPosition = hqScene2ElementPositioner.positionHQSceneElement();
             
             placeholder->setPosition(elementPosition + Vec2(contentItemMargin/2, contentItemMargin/2));
-            carouselLayer->addChild(placeholder);
+            _carouselLayout->addChild(placeholder);
         }
     }
     
@@ -140,7 +149,7 @@ void MeHQGallery::onEnter()
     
     HQScene2ElementPositioner hqScene2ElementPositioner;
     hqScene2ElementPositioner.setElement(newImage);
-    hqScene2ElementPositioner.setCarouselLayer(carouselLayer);
+    hqScene2ElementPositioner.setCarouselLayer(_carouselLayout);
     hqScene2ElementPositioner.setHighlightData(elementShape);
     hqScene2ElementPositioner.setBaseUnitSize(contentItemSize * unitMultiplier);
     
@@ -150,19 +159,49 @@ void MeHQGallery::onEnter()
     
     float offset = contentItemMargin/2;
     newImage->setPosition(elementPosition + Vec2(offset, offset));
-    carouselLayer->addChild(newImage);
+    _carouselLayout->addChild(newImage);
     
-    for(auto item : carouselLayer->getChildren())
+    for(auto item : _carouselLayout->getChildren())
     {
         item->setPosition(item->getPosition() - Vec2(0,lowestElementYPosition));
     }
     
-    carouselLayer->setContentSize(Size(carouselLayer->getContentSize().width, -lowestElementYPosition));
+    _carouselLayout->setContentSize(Size(_carouselLayout->getContentSize().width, -lowestElementYPosition));
     
-    totalHeight += carouselLayer->getContentSize().height;
+    totalHeight += _carouselLayout->getContentSize().height;
     
-    this->addChild(carouselLayer);
-    
+    this->addChild(_carouselLayout);
+	
+	if(artImages.size() > 0)
+	{
+		ui::Button* editButton = ui::Button::create(_editEnabled ? "res/meHQ/done_button_favourites.png" : "res/meHQ/edit_button_favourites.png");
+		editButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+		editButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
+		editButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+			if(eType == ui::Widget::TouchEventType::ENDED)
+			{
+				_editEnabled = !_editEnabled;
+				ui::Button* button = dynamic_cast<ui::Button*>(pSender);
+				if(button)
+				{
+					button->loadTextureNormal(_editEnabled ? "res/meHQ/done_button_favourites.png" : "res/meHQ/edit_button_favourites.png");
+				}
+				for(auto item : _carouselLayout->getChildren())
+				{
+					ArtsAppHQElement* element = dynamic_cast<ArtsAppHQElement*>(item);
+					if(element)
+					{
+						element->deleteButtonVisible(_editEnabled);
+					}
+				}
+			}
+		});
+	
+		totalHeight += editButton->getContentSize().height + 50;
+	
+		this->addChild(editButton);
+	}
+		
     if(artImages.size() > 7)
     {
         ui::Button* moreButton = ui::Button::create("res/meHQ/toggle_switch_closed.png");
@@ -176,11 +215,10 @@ void MeHQGallery::onEnter()
             if(eType == ui::Widget::TouchEventType::ENDED)
             {
                 _expanded = !_expanded;
-                MeHQ* parent = dynamic_cast<MeHQ*>(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName)->getChildByName(ConfigStorage::kMeHQName)->getChildByName(ConfigStorage::kMeHQName));
-                if(parent)
-                {
-                    parent->refreshGalleryLayout();
-                }
+                if(_refreshCallback)
+				{
+					_refreshCallback();
+				}
             }
         });
         
@@ -195,12 +233,55 @@ void MeHQGallery::onEnter()
 
 void MeHQGallery::onExit()
 {
+	_targetDeleteFilename = "";
+	if(_deleteItemMessageBox)
+	{
+		_deleteItemMessageBox->removeFromParent();
+		_deleteItemMessageBox = nullptr;
+	}
     Super::onExit();
 }
 
 void MeHQGallery::onSizeChanged()
 {
     Super::onSizeChanged();
+}
+
+void MeHQGallery::setRefreshCallback(const RefreshLayoutCallback &callback)
+{
+	_refreshCallback = callback;
+}
+
+void MeHQGallery::setEditEnabled(bool enabled)
+{
+	_editEnabled = enabled;
+}
+
+bool MeHQGallery::getEditEnabled() const
+{
+	return _editEnabled;
+}
+
+// delegate functions
+
+void MeHQGallery::onConfirmPressed(ConfirmCancelMessageBox *pSender)
+{
+	if(_targetDeleteFilename != "")
+	{
+		AnalyticsSingleton::getInstance()->genericButtonPressEvent("artsAppDeleteButton");
+		FileUtils::getInstance()->removeFile(_targetDeleteFilename);
+		if(_refreshCallback)
+		{
+			_refreshCallback();
+		}
+	}
+}
+
+void MeHQGallery::onCancelPressed(ConfirmCancelMessageBox *pSender)
+{
+	_targetDeleteFilename = "";
+	_deleteItemMessageBox = nullptr;
+	pSender->removeFromParent();
 }
 
 NS_AZOOMEE_END

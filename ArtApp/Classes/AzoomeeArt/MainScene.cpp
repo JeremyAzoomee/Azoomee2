@@ -114,7 +114,7 @@ void MainScene::backButtonCallBack()
     {
         ConfirmCancelMessageBox* messageBox = ConfirmCancelMessageBox::createWithParams(StringMgr::getInstance()->getStringForKey(SAVEQ_LABEL), "res/buttons/confirm_tick_2.png", "res/buttons/confirm_x_2.png", Color3B::BLACK, Color4B::WHITE);
         messageBox->setDelegate(this);
-        messageBox->setPosition(Director::getInstance()->getVisibleOrigin());
+        messageBox->setPosition(Director::getInstance()->getVisibleOrigin() + Vec2(Director::getInstance()->getVisibleSize().width * 0.09f/2.0f,Director::getInstance()->getVisibleSize().height * 0.175f/2.0f));
         this->addChild(messageBox,POPUP_UI_LAYER);
         
     }

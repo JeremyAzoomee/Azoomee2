@@ -50,6 +50,7 @@ void OomeeCarousel::setContentSize(const Size& contentSize)
 void OomeeCarousel::setTouchListener()
 {
     EventListenerTouchOneByOne* listener = EventListenerTouchOneByOne::create();
+    
     listener->onTouchBegan = [&](Touch* touch, Event* event)
     {
         for(LazyLoadingButton* button : _carouselButtons)
@@ -61,12 +62,15 @@ void OomeeCarousel::setTouchListener()
     
     listener->onTouchMoved = [&](Touch* touch, Event* event)
     {
-        if(_centerButton)
+        if(touch->getLocation().distance(touch->getStartLocation()) > 50)
         {
-            OomeeCarouselButton* carouselButton = dynamic_cast<OomeeCarouselButton*>(_centerButton);
-            if(carouselButton && carouselButton->getName() != kNewOomeeTag)
+            if(_centerButton)
             {
-                carouselButton->setInFocus(false);
+                OomeeCarouselButton* carouselButton = dynamic_cast<OomeeCarouselButton*>(_centerButton);
+                if(carouselButton && carouselButton->getName() != kNewOomeeTag)
+                {
+                    carouselButton->setInFocus(false);
+                }
             }
         }
         

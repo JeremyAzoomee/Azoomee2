@@ -269,6 +269,7 @@ const std::map<std::string, std::string> HQDataProvider::kLockFiles = {
 const float HQDataProvider::kSideMarginSize[3][2] = {{20,10},{20,10},{20,10}};
 const float HQDataProvider::kSpaceAboveCarousel[3][2] = {{200,200},{200,200},{200,200}};
 const int HQDataProvider::kUnitsOnScreen[3][2] = {{4,2},{4,2},{4,4}};
+const int HQDataProvider::kUnitsOnScreenMeHQ[3][2] = {{4,3},{4,3},{4,4}};
 const float HQDataProvider::kContentItemMargin[3][2] = {{20,20},{20,20},{20,20}};
 
 float HQDataProvider::getSideMargin() const
@@ -325,6 +326,25 @@ int HQDataProvider::getUnitsOnScreen() const
     }
     return kUnitsOnScreen[screenIndex][isPortrait];
     
+}
+
+int HQDataProvider::getUnitsOnScreenMeHQ() const
+{
+	const Size& visibleSize = Director::getInstance()->getVisibleSize();
+	int isPortrait = visibleSize.width < visibleSize.height;
+	float screenRatio =  isPortrait ? (visibleSize.height / visibleSize.width) : (visibleSize.width / visibleSize.height);
+	
+	int screenIndex = 0;
+	if(screenRatio < (16.0/9.5))
+	{
+		screenIndex++;
+	}
+	if(screenRatio < (16.0/10.5))
+	{
+		screenIndex++;
+	}
+	return kUnitsOnScreenMeHQ[screenIndex][isPortrait];
+	
 }
 
 float HQDataProvider::getContentItemMargin() const
