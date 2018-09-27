@@ -154,10 +154,11 @@ void DrawingCanvasUILayer::addClearButton(const Size& visibleSize, const Point& 
     _saveButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
+			const Size& visibleSize = Director::getInstance()->getVisibleSize();
             ConfirmCancelMessageBox* messageBox = ConfirmCancelMessageBox::createWithParams(StringMgr::getInstance()->getStringForKey(SAVEQ_LABEL), "res/buttons/confirm_tick_2.png", "res/buttons/confirm_x_2.png", Color3B::BLACK, Color4B::WHITE);
             messageBox->setName(kSavePopupName);
             messageBox->setDelegate(this);
-            messageBox->setPosition(Director::getInstance()->getVisibleOrigin() + Vec2(Director::getInstance()->getVisibleSize().width * 0.09f/2.0f,Director::getInstance()->getVisibleSize().height * 0.175f/2.0f));
+            messageBox->setPosition(Director::getInstance()->getVisibleOrigin() + Vec2(visibleSize.width * 0.09f/2.0f,visibleSize.height * 0.175f/2.0f));
             Director::getInstance()->getRunningScene()->addChild(messageBox,POPUP_UI_LAYER);
         }
     });
@@ -170,10 +171,11 @@ void DrawingCanvasUILayer::addClearButton(const Size& visibleSize, const Point& 
     _clearButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
+			const Size& visibleSize = Director::getInstance()->getVisibleSize();
             ConfirmCancelMessageBox* messageBox = ConfirmCancelMessageBox::createWithParams(StringMgr::getInstance()->getStringForKey(DELETEQ_LABEL), "res/buttons/confirm_bin.png", "res/buttons/confirm_x_2.png", Color3B::BLACK, Color4B::WHITE);
             messageBox->setName(kClearPopupName);
             messageBox->setDelegate(this);
-            messageBox->setPosition(Director::getInstance()->getVisibleOrigin() + Vec2(Director::getInstance()->getVisibleSize().width * 0.09f/2.0f,Director::getInstance()->getVisibleSize().height * 0.175f/2.0f));
+            messageBox->setPosition(Director::getInstance()->getVisibleOrigin() + Vec2(visibleSize.width * 0.09f/2.0f,visibleSize.height * 0.175f/2.0f));
             Director::getInstance()->getRunningScene()->addChild(messageBox,POPUP_UI_LAYER);
         }
     });
