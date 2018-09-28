@@ -36,6 +36,9 @@ private:
     
     cocos2d::Sprite* _innerCircle = nullptr;
     cocos2d::Sprite* _outerCircle = nullptr;
+	
+	cocos2d::Sprite* _mainCircleColour = nullptr;
+	cocos2d::Sprite* _highlightCircleColour = nullptr;
     
     bool _inFocus = false;
     std::string _oomeeFileName;
@@ -49,7 +52,7 @@ public:
     virtual bool init() override;
     
     virtual void onEnter() override;
-    
+	
     void setOomeeData(const std::string& filename);
     std::string getOomeeFilename() const;
     void setDelegate(OomeeCarouselButtonDelegate* delegate);
