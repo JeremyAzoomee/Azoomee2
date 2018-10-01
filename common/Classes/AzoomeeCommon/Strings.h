@@ -158,11 +158,13 @@
 //----------- SETTINGS -------------------------
 
 #define SETTINGS_HEADING_MAIN "Settings/headingMain"
+#define SETTINGS_HEADING_LANGUAGE "Settings/headingLanguage"
 #define SETTINGS_HEADING_YOUR_KIDS "Settings/headingYourKids"
 #define SETTINGS_HEADING_FRIENDSHIPS "Settings/headingFriendships"
 #define SETTINGS_HEADING_ONLINE_SAFETY "Settings/headingOnlineSafety"
 #define SETTINGS_HEADING_YOUR_ACCOUNT "Settings/headingYourAccount"
 #define SETTINGS_HEADING_SUPPORT "Settings/headingSupport"
+#define SETTINGS_SUB_HEADING_LANGUAGE "Settings/subHeadingLanguage"
 #define SETTINGS_SUB_HEADING_YOUR_KIDS "Settings/subHeadingYourKids"
 #define SETTINGS_SUB_HEADING_FRIENDSHIPS "Settings/subHeadingFriendships"
 #define SETTINGS_SUB_HEADING_ONLINE_SAFETY "Settings/subHeadingOnlineSafety"

@@ -40,7 +40,7 @@
         "saving_label":"Saving...",
         "kidCode": "Kid Code: ",
         "password": "Password",
-        "pin": "Pin"
+        "pin": "Pin",
         "saveQ": "Save?",
         "deleteQ": "Delete?",
         "resetQ": "Reset?"
@@ -178,11 +178,13 @@
     "Settings":
     {
         "headingMain": "Settings",
+        "headingLanguage": "Language",
         "headingYourKids": "Your Kids",
         "headingFriendships": "Friendships",
         "headingOnlineSafety": "Online Safety",
         "headingYourAccount": "Your Account",
         "headingSupport": "Support",
+        "subHeadingLanguage": "Change your language selection",
         "subHeadingYourKids": "Manage your kids’ profiles and add friends using Kid Codes",
         "subHeadingFriendships": "Accept or reject new friendship requests",
         "subHeadingOnlineSafety": "Tips and tricks to help your family stay safe online",

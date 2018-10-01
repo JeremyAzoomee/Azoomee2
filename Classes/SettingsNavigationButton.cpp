@@ -30,6 +30,8 @@ void SettingsNavigationButton::onEnter()
     _icon = ui::ImageView::create(_iconFilename);
     _icon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
     _icon->setAnchorPoint(Vec2(-0.5,0.5));
+	_icon->ignoreContentAdaptWithSize(false);
+	_icon->setContentSize(Size(213,213));
     this->addChild(_icon);
     
     _arrow = ui::ImageView::create("res/settings/right_arrow_2.png");

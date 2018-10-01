@@ -51,7 +51,9 @@ bool SettingsHub::init()
     
     _titleBarButton = ui::Button::create("res/settings/exit_button.png");
     _titleBarButton->setNormalizedPosition(isIphoneX ? Vec2(0,0.75) : Vec2::ANCHOR_MIDDLE_LEFT);
-    _titleBarButton->setAnchorPoint(Vec2(-0.5,0.5));
+    _titleBarButton->setAnchorPoint(Vec2(-0.25,0.5));
+	_titleBarButton->setContentSize(Size(150, 150));
+	_titleBarButton->ignoreContentAdaptWithSize(false);
     _titleLayout->addChild(_titleBarButton);
     _titleBarButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
@@ -90,9 +92,26 @@ bool SettingsHub::init()
     _activeSettingsPageHolder->setContentSize(_mainBodyLayout->getContentSize());
     _activeSettingsPageHolder->setVisible(false);
     _mainBodyLayout->addChild(_activeSettingsPageHolder);
-    
+	
+	const float buttonHeight = _navigationLayout->getContentSize().height * (1.0f / 6.0f) - 10;
+	
+	_languageButton = SettingsNavigationButton::create();
+	_languageButton->setContentSize(Size(visibleSize.width, buttonHeight));
+	_languageButton->setLayoutParameter(CreateTopLinearLayoutParam(ui::Margin(0,0,0,10)));
+	_languageButton->setIconFilename("res/settings/flag_english_uk.png");
+	_languageButton->setTitleText(StringMgr::getInstance()->getStringForKey(SETTINGS_HEADING_LANGUAGE));
+	_languageButton->setSubTitleText(StringMgr::getInstance()->getStringForKey(SETTINGS_SUB_HEADING_LANGUAGE));
+	_languageButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+		if(eType == ui::Widget::TouchEventType::ENDED)
+		{
+			this->changeToPage(SettingsPages::LANGUAGE);
+		}
+	});
+	_languageButton->setTouchEnabled(true);
+	_navigationLayout->addChild(_languageButton);
+	
     _kidsButton = SettingsNavigationButton::create();
-    _kidsButton->setContentSize(Size(visibleSize.width, (_navigationLayout->getContentSize().height * 0.2) - 10));
+    _kidsButton->setContentSize(Size(visibleSize.width, buttonHeight));
     _kidsButton->setLayoutParameter(CreateTopLinearLayoutParam(ui::Margin(0,0,0,10)));
     _kidsButton->setIconFilename("res/settings/your_kids_icon_2.png");
     _kidsButton->setTitleText(StringMgr::getInstance()->getStringForKey(SETTINGS_HEADING_YOUR_KIDS));
@@ -107,7 +126,7 @@ bool SettingsHub::init()
     _navigationLayout->addChild(_kidsButton);
     
     _friendshipsButton = SettingsNavigationButton::create();
-    _friendshipsButton->setContentSize(Size(visibleSize.width, (_navigationLayout->getContentSize().height * 0.2) - 10));
+    _friendshipsButton->setContentSize(Size(visibleSize.width, buttonHeight));
     _friendshipsButton->setLayoutParameter(CreateTopLinearLayoutParam(ui::Margin(0,0,0,10)));
     _friendshipsButton->setIconFilename("res/settings/friendships_icon_3.png");
     _friendshipsButton->setTitleText(StringMgr::getInstance()->getStringForKey(SETTINGS_HEADING_FRIENDSHIPS));
@@ -122,7 +141,7 @@ bool SettingsHub::init()
     _navigationLayout->addChild(_friendshipsButton);
     
     _yourAccountButton = SettingsNavigationButton::create();
-    _yourAccountButton->setContentSize(Size(visibleSize.width, (_navigationLayout->getContentSize().height * 0.2) - 10));
+    _yourAccountButton->setContentSize(Size(visibleSize.width, buttonHeight));
     _yourAccountButton->setLayoutParameter(CreateTopLinearLayoutParam(ui::Margin(0,0,0,10)));
     _yourAccountButton->setIconFilename("res/settings/your_account_icon_4.png");
     _yourAccountButton->setTitleText(StringMgr::getInstance()->getStringForKey(SETTINGS_HEADING_YOUR_ACCOUNT));
@@ -137,7 +156,7 @@ bool SettingsHub::init()
     _navigationLayout->addChild(_yourAccountButton);
     
     _onlineSafetyButton = SettingsNavigationButton::create();
-    _onlineSafetyButton->setContentSize(Size(visibleSize.width, (_navigationLayout->getContentSize().height * 0.2) - 10));
+    _onlineSafetyButton->setContentSize(Size(visibleSize.width, buttonHeight));
     _onlineSafetyButton->setLayoutParameter(CreateTopLinearLayoutParam(ui::Margin(0,0,0,10)));
     _onlineSafetyButton->setIconFilename("res/settings/online_safety_icon_4.png");
     _onlineSafetyButton->setTitleText(StringMgr::getInstance()->getStringForKey(SETTINGS_HEADING_ONLINE_SAFETY));
@@ -152,7 +171,7 @@ bool SettingsHub::init()
     _navigationLayout->addChild(_onlineSafetyButton);
     
     _supportButton = SettingsNavigationButton::create();
-    _supportButton->setContentSize(Size(visibleSize.width, (_navigationLayout->getContentSize().height * 0.2) - 10));
+    _supportButton->setContentSize(Size(visibleSize.width, buttonHeight));
     _supportButton->setLayoutParameter(CreateTopLinearLayoutParam(ui::Margin(0,0,0,10)));
     _supportButton->setIconFilename("res/settings/support_icon_4.png");
     _supportButton->setTitleText(StringMgr::getInstance()->getStringForKey(SETTINGS_HEADING_SUPPORT));
@@ -185,7 +204,12 @@ void SettingsHub::changeToPage(SettingsPages page)
     _activeSettingsPageHolder->removeAllChildren();
     switch(page)
     {
-        case SettingsPages::KIDS:
+		case SettingsPages::LANGUAGE: {
+			
+			_titleText->setString(StringMgr::getInstance()->getStringForKey(SETTINGS_HEADING_LANGUAGE));
+			break;
+		}
+		case SettingsPages::KIDS:
         {
             auto page = SettingsKidsPage::create();
             page->setContentSize(_activeSettingsPageHolder->getContentSize());

@@ -16,7 +16,7 @@
 
 NS_AZOOMEE_BEGIN
 
-enum class SettingsPages {KIDS, FRIENDSHIPS, ACCOUNT, ONLINE_SAFETY, SUPPORT};
+enum class SettingsPages {LANGUAGE, KIDS, FRIENDSHIPS, ACCOUNT, ONLINE_SAFETY, SUPPORT};
 
 class SettingsHub : public Azoomee::Scene
 {
@@ -30,6 +30,7 @@ private:
     cocos2d::ui::Button* _titleBarButton = nullptr;
     // navigation buttons
     cocos2d::ui::Layout* _navigationLayout = nullptr;
+	SettingsNavigationButton* _languageButton = nullptr;
     SettingsNavigationButton* _kidsButton = nullptr;
     SettingsNavigationButton* _friendshipsButton = nullptr;
     SettingsNavigationButton* _yourAccountButton = nullptr;
