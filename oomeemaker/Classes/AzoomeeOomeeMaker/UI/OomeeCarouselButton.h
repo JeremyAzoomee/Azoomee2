@@ -37,8 +37,8 @@ private:
     cocos2d::Sprite* _innerCircle = nullptr;
     cocos2d::Sprite* _outerCircle = nullptr;
 	
-	cocos2d::Sprite* _mainCircleColour = nullptr;
-	cocos2d::Sprite* _highlightCircleColour = nullptr;
+	cocos2d::LayerGradient* _mainCircleColour = nullptr;
+	cocos2d::LayerGradient* _highlightCircleColour = nullptr;
     
     bool _inFocus = false;
     std::string _oomeeFileName;

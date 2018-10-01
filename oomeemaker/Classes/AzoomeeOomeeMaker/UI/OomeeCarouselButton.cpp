@@ -27,37 +27,6 @@ bool OomeeCarouselButton::init()
 
 void OomeeCarouselButton::onEnter()
 {
-	//Node* stencil = Node::create();
-	//stencil->setContentSize(this->getContentSize());
-	
-	//ClippingNode* bgClipper = ClippingNode::create(stencil);
-	//bgClipper->setAlphaThreshold(0.5f);
-	//this->addChild(bgClipper, -1);
-	
-	//ui::Layout* bgColour = ui::Layout::create();
-	//bgColour->setBackGroundColorType(ui::Layout::BackGroundColorType::GRADIENT);
-	//bgColour->setBackGroundColorVector(Vec2(-1.0f,1.0f));
-	//bgColour->setBackGroundColor(Style::Color::darkTeal, Style::Color::greenishTeal);
-	//bgColour->setContentSize(this->getContentSize() * 0.25f);
-	//bgColour->setBackGroundColorOpacity(200);
-	
-	LayerGradient* gradient = LayerGradient::create(Color4B(Style::Color::darkTeal), Color4B(Style::Color::greenishTeal), Vec2(-1.0f,1.0f));
-	gradient->setContentSize(this->getContentSize() * 0.25f);
-	
-	RenderTexture* tex = RenderTexture::create(gradient->getContentSize().width, gradient->getContentSize().height);
-	tex->beginWithClear(0, 0, 0, 0);
-	gradient->cocos2d::Node::visit();
-	tex->end();
-	
-	LayerGradient* gradient2 = LayerGradient::create(Color4B(Style::Color::oomeeGreen), Color4B(Style::Color::oomeeGreen), Vec2(-1.0f,1.0f));
-	gradient2->setContentSize(this->getContentSize() * 0.25f);
-	
-	RenderTexture* tex2 = RenderTexture::create(gradient2->getContentSize().width, gradient2->getContentSize().height);
-	tex2->beginWithClear(0, 0, 0, 0);
-	gradient2->cocos2d::Node::visit();
-	tex2->end();
-	//this->addChild(bgColour);
-	
     _innerCircle = Sprite::create("res/oomeeMaker/circle_0.png");
     _innerCircle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	BlendFunc blendFunc = BlendFunc();
@@ -99,21 +68,21 @@ void OomeeCarouselButton::onEnter()
     _outerCircle->setColor(Style::Color::darkTeal);
     _innerCircle->setColor(Style::Color::darkTeal);
 	
-	_mainCircleColour = Sprite::createWithTexture(tex->getSprite()->getTexture());
-	_mainCircleColour->setFlippedY(true);
-	_mainCircleColour->setContentSize(this->getContentSize() * 1.25f);
+	_mainCircleColour = LayerGradient::create(Color4B(Style::Color::darkTeal), Color4B(Style::Color::greenishTeal), Vec2(-1,1));
 	BlendFunc blendFunc1 = BlendFunc();
 	blendFunc1.src = GL_ONE_MINUS_DST_ALPHA;
 	blendFunc1.dst = GL_DST_ALPHA;
 	_mainCircleColour->setBlendFunc(blendFunc1);
-	_mainCircleColour->setPosition(this->getContentSize() / 2.0f);
+	_mainCircleColour->setContentSize(this->getContentSize() * 1.3f);
+	_mainCircleColour->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	_mainCircleColour->setPosition(this->getContentSize() * -0.15f);
 	this->addChild(_mainCircleColour,-1);
 	
-	_highlightCircleColour = Sprite::createWithTexture(tex2->getSprite()->getTexture());
-	_highlightCircleColour->setFlippedY(true);
-	_highlightCircleColour->setContentSize(this->getContentSize() * 1.25f);
+	_highlightCircleColour = LayerGradient::create(Color4B(Style::Color::greenishTeal), Color4B(Style::Color::greenishTeal), Vec2(-1,1));
 	_highlightCircleColour->setBlendFunc(blendFunc1);
-	_highlightCircleColour->setPosition(this->getContentSize() / 2.0f);
+	_highlightCircleColour->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	_highlightCircleColour->setPosition(this->getContentSize() * -0.15f);
+	_highlightCircleColour->setContentSize(this->getContentSize() * 1.3f);
 	_highlightCircleColour->setOpacity(0);
 	_highlightCircleColour->setVisible(false);
 	this->addChild(_highlightCircleColour,-1);
