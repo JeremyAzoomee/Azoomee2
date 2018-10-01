@@ -64,6 +64,8 @@ public:
     void addAccessory(const OomeeItemRef& oomeeItem);
     void removeAccessory(const std::string anchorPoint);
     
+    void resetOomee();
+    
     void setEditable(bool isEditable);
     
     void saveSnapshotImage(const std::string& filepath);
@@ -77,8 +79,8 @@ public:
     float getHue() const;
     void setHue(float hue);
     
-    
     void undoLastAction();
+    int getUndoStackSize() const;
     
     CREATE_FUNC(OomeeFigure);
 };

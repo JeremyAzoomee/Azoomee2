@@ -46,6 +46,9 @@
 #define KID_CODE "OtherLabels/kidCode"
 #define PASSWORD_LABEL "OtherLabels/password"
 #define PIN_LABEL "OtherLabels/pin"
+#define SAVEQ_LABEL "OtherLabels/saveQ"
+#define DELETEQ_LABEL "OtherLabels/deleteQ"
+#define RESETQ_LABEL "OtherLabels/resetQ"
 
 //------------ GENERIC BUTTONS ----------------
 
@@ -125,11 +128,7 @@
 #define MEHQ_HEADING_FAVOURITES "MeHQ/headingFavourites"
 #define MEHQ_HEADING_DOWNLOADS "MeHQ/headingDownloads"
 #define MEHQ_HEADING_DOWNLOADS_EMPTY "MeHQ/headingDownloadsEmpty"
-#define MEHQ_SUB_HEADING_FAVOURITES "MeHQ/subHeadingFavourites"
-#define MEHQ_SUB_HEADING_FAVOURITES_MULTILINE "MeHQ/subHeadingFavouritesMultiline"
 #define MEHQ_SUB_HEADING_DOWNLOADS "MeHQ/subHeadingDownloads"
-#define MEHQ_SUB_HEADING_DOWNLOADS_MULTILINE "MeHQ/subHeadingDownloadsMultiline"
-#define MEHQ_SUB_HEADING_DOWNLOADS_MULTILINE_18X9 "MeHQ/subHeadingDownloadsMultiline18x9"
 
 //----------- USER MESSAGING -------------------
 
@@ -195,5 +194,9 @@
 #define SETTINGS_ACCOUNT_TYPE_TEXT "Settings/accountTypeText"
 #define SETTINGS_FRIENDSHIPS_TO_APPROVE "Settings/friendshipsToApprove"
 #define SETTINGS_NO_FRIENDSHIPS_TO_APPROVE "Settings/noFriendshipsToApprove"
+
+//---------- NATIVE STRINGS -----------------------
+
+#define NATIVE_FAV_CONTENT_LABEL "Native/favContentLabel"
 
 #endif

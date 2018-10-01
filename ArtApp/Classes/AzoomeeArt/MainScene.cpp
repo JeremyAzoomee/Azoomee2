@@ -1,6 +1,7 @@
 #include "MainScene.h"
 #include "SimpleAudioEngine.h"
 #include "AzoomeeArtApp.h"
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
@@ -26,7 +27,9 @@ Scene* MainScene::createScene()
     auto layer = MainScene::create();
     layer->addBackButton();
     layer->addShareButton();
-    layer->_fileName = "";
+    const std::string& fileNameStr = getTimeStringForFileName();
+    const std::string& saveFileName = ConfigStorage::kArtCacheFolder + Azoomee::ChildDataProvider::getInstance()->getParentOrChildId() + "/" + fileNameStr + ".png";
+    layer->_fileName = FileUtils::getInstance()->getWritablePath() + "/" + saveFileName;
     // add layer as a child to scene
     scene->addChild(layer);
     // return the scene
@@ -77,6 +80,12 @@ bool MainScene::init()
     return true;
 }
 
+void MainScene::onEnter()
+{
+    _uiLayer->setFilename(_fileName);
+    Super::onEnter();
+}
+
 void MainScene::addBackButton()
 {
     _backButton = ui::Button::create();
@@ -92,11 +101,7 @@ void MainScene::addShareButton()
     _shareButton = ui::Button::create();
     _shareButton->setPosition(_backButton->getPosition() - Vec2(0, _backButton->getContentSize().height * 1.33f));
     _shareButton->setAnchorPoint(Vec2(0.5,1));
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    _shareButton->loadTextures(kArtAppAssetLoc + "share_android.png", kArtAppAssetLoc + "share_android.png");
-#else
-    _shareButton->loadTextures(kArtAppAssetLoc + "share_ios.png", kArtAppAssetLoc + "share_ios.png");
-#endif
+    _shareButton->loadTextureNormal(kArtAppAssetLoc + "share.png");
     _shareButton->addClickEventListener([this](Ref* but){shareButtonCallBack();});
     this->addChild(_shareButton,1);
 }
@@ -107,12 +112,11 @@ void MainScene::backButtonCallBack()
     
     if(_drawingCanvas->_actionCounter > 0)
     {
-        ModalMessages::getInstance()->startSaving();
+        ConfirmCancelMessageBox* messageBox = ConfirmCancelMessageBox::createWithParams(StringMgr::getInstance()->getStringForKey(SAVEQ_LABEL), "res/buttons/confirm_tick_2.png", "res/buttons/confirm_x_2.png", Color3B::BLACK, Color4B::WHITE);
+        messageBox->setDelegate(this);
+        messageBox->setPosition(Director::getInstance()->getVisibleOrigin() + Vec2(Director::getInstance()->getVisibleSize().width * 0.09f/2.0f,Director::getInstance()->getVisibleSize().height * 0.175f/2.0f));
+        this->addChild(messageBox,POPUP_UI_LAYER);
         
-        const std::string scheduleKey = "saveAndExit";
-        Director::getInstance()->getScheduler()->schedule([&](float dt){
-            this->saveFileAndExit();
-        }, this, 0.5, 0, 0, false, scheduleKey);
     }
     else
     {
@@ -172,6 +176,24 @@ void MainScene::saveFile()
     }
     
     _drawingCanvas->saveImage(saveFileName);
+}
+
+void MainScene::onConfirmPressed(Azoomee::ConfirmCancelMessageBox *pSender)
+{
+    ModalMessages::getInstance()->startSaving();
+    
+    const std::string scheduleKey = "saveAndExit";
+    Director::getInstance()->getScheduler()->schedule([&](float dt){
+        this->saveFileAndExit();
+    }, this, 0.5, 0, 0, false, scheduleKey);
+    
+    pSender->removeFromParent();
+}
+
+void MainScene::onCancelPressed(Azoomee::ConfirmCancelMessageBox *pSender)
+{
+    pSender->removeFromParent();
+    delegate->onArtAppNavigationBack();
 }
 
 NS_AZOOMEE_AA_END

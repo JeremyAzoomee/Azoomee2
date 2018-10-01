@@ -37,9 +37,12 @@ void OomeeMakerDataHandler::init()
 
 void OomeeMakerDataHandler::getConfigFilesIfNeeded()
 {
-    ModalMessages::getInstance()->startLoading();
-    removeExistingAssets();
-    unzipBundledAssets();
+    if(!_dataStorage->getInstance()->_initialised)
+    {
+        ModalMessages::getInstance()->startLoading();
+        removeExistingAssets();
+        unzipBundledAssets();
+    }
 }
 
 void OomeeMakerDataHandler::removeExistingAssets()
@@ -225,6 +228,7 @@ void OomeeMakerDataHandler::onAsyncUnzipComplete(bool success, const std::string
     parseCategoryData();
     parseOomeeItemData();
     parseOomeeColourData();
+    OomeeMakerDataStorage::getInstance()->_initialised = true;
     ModalMessages::getInstance()->stopLoading();
 }
 

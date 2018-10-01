@@ -8,6 +8,7 @@
 #include "OomeeItemButton.h"
 #include "DragAndDropController.h"
 #include "../DataObjects/OomeeMakerDataHandler.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
 
@@ -31,6 +32,7 @@ void OomeeItemButton::setItemData(const OomeeItemRef& itemdata)
         {
             if(_itemSelectedCallback)
             {
+                AnalyticsSingleton::getInstance()->accessorySelectedEvent("TAP");
                 _itemSelectedCallback(_itemData);
             }
         }

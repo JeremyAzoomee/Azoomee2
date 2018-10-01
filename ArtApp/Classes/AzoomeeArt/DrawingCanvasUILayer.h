@@ -12,19 +12,25 @@
 #include "AzoomeeArtApp.h"
 #include "DrawingCanvas.h"
 #include "PatternFileStorage.h"
+#include <AzoomeeCommon/UI/ConfirmCancelMessageBox.h>
 
 NS_AZOOMEE_AA_BEGIN
 
-typedef std::pair<std::string,std::vector<std::string>> StickerSet;
+typedef std::pair<std::string,std::vector<std::pair<std::string,std::string>>> StickerSet;
 typedef std::shared_ptr<StickerSet> StickerSetRef;
 typedef std::vector<StickerSetRef> StickerFileStore;
 
-class DrawingCanvasUILayer: public cocos2d::Node
+class DrawingCanvasUILayer: public cocos2d::Node, ConfirmCancelMessageBoxDelegate
 {
     typedef cocos2d::Node Super;
 private:
     static const std::vector<cocos2d::Color3B> _kColours;
     static const std::vector<std::pair<std::string,std::string>> _kPatterns;
+    
+    static const std::string kSavePopupName;
+    static const std::string kClearPopupName;
+    
+    std::string _filename = "";
     
     DrawingCanvas* _drawingCanvas = nullptr;
     
@@ -35,11 +41,8 @@ private:
     cocos2d::Node* _toolButtonLayout = nullptr;
     cocos2d::ui::Button* _clearButton = nullptr;
     cocos2d::ui::Button* _undoButton = nullptr;
+    cocos2d::ui::Button* _saveButton = nullptr;
     cocos2d::ui::Slider* _brushSizeSlider = nullptr;
-    
-    cocos2d::Node* _confirmDeleteImagePopup = nullptr;
-    cocos2d::ui::Button* _confrimDeleteButton = nullptr;
-    cocos2d::ui::Button* _cancelDeleteButton = nullptr;
     
     cocos2d::ui::Button* _addStickerButton = nullptr;
     cocos2d::ui::Button* _closeStickerSelectButton = nullptr;
@@ -59,6 +62,8 @@ private:
     void onEnter() override;
     void onExit() override;
     
+    void saveImage();
+    
     //setup functions
     void addBackgroundFrame(const cocos2d::Size& visibleSize, const cocos2d::Point& visibleOrigin);
     void addClearButton(const cocos2d::Size& visibleSize, const cocos2d::Point& visibleOrigin);
@@ -70,7 +75,6 @@ private:
     void addBrushTool(const std::string& buttonFilename, const std::string& bodyFilename, BrushType type, cocos2d::Vec2 normalisedPos, bool selected);
     
     //button callbacks
-    void onClearButtonPressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
     void onUndoButtonPressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
     void onColourChangePressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
     void onColourSelectPressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
@@ -81,9 +85,6 @@ private:
     
     void onConfirmStickerPressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
     void onCancelStickerPressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
-    
-    void onConfirmDeletePressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
-    void onCancelDeletePressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
     
     void onToolChanged(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType, int index);
     
@@ -107,6 +108,11 @@ private:
 public:
     CREATE_FUNC(DrawingCanvasUILayer);
     void setDrawingCanvas(DrawingCanvas* drawingCanvas);
+    void setFilename(const std::string& filename);
+    
+    //delegate functions
+    virtual void onConfirmPressed(ConfirmCancelMessageBox* pSender) override;
+    virtual void onCancelPressed(ConfirmCancelMessageBox* pSender) override;
     
 };
 

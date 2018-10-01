@@ -59,6 +59,7 @@ namespace Color
     const cocos2d::Color3B chatEnterTextColor(135, 135, 135);
     const cocos2d::Color3B greenish(38,192,180);
     const cocos2d::Color3B bluegreenish(0,132,132);
+    const cocos2d::Color3B oomeeGreen(28, 128, 95);
 }
    
 /**

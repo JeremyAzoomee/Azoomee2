@@ -22,8 +22,11 @@ using namespace cocos2d;
 
 NS_AZOOMEE_OM_BEGIN
 
-const std::string OomeeMakerScene::kDefaultOomeeId = "yellow";
+const std::string OomeeMakerScene::kDefaultOomeeId = "orange";
 const std::string OomeeMakerScene::kColourCategoryId = "colours";
+
+const std::string OomeeMakerScene::kSavePopupId = "save";
+const std::string OomeeMakerScene::kResetPopupId = "reset";
 
 // on "init" you need to initialize your instance
 bool OomeeMakerScene::init()
@@ -148,9 +151,11 @@ void OomeeMakerScene::onEnter()
     _contentLayer->addChild(itemListBG);
     
     _itemList = OomeeItemList::create();
-    _itemList->setContentSize(Size(contentSize.width * 0.25f, contentSize.height * 0.8f));
-    _itemList->setPosition(Vec2(contentSize.width + _itemList->getContentSize().width, contentSize.height / 2.0f));
-    _itemList->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
+    _itemList->setContentSize(Size(contentSize.width * 0.2f, contentSize.height * 0.9f));
+    _itemList->setPosition(Vec2(contentSize.width, contentSize.height / 2.0f));
+    _itemList->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+    _itemList->setTouchEnabled(false);
+    _itemList->setScrollBarEnabled(false);
     _itemList->setItemSelectedCallback([this](const OomeeItemRef& data) {
         this->addAccessoryToOomee(data);
     });
@@ -162,43 +167,25 @@ void OomeeMakerScene::onEnter()
             _oomee->setOomeeData(oomee);
         }
     });
-    _itemList->runAction(Sequence::create(DelayTime::create(0.5),MoveBy::create(1.5, Vec2(-_itemList->getContentSize().width, 0)), NULL));
-    
+    _itemList->runAction(Sequence::create(DelayTime::create(0.5),MoveBy::create(1.5, Vec2(-itemListBG->getContentSize().width, 0)), NULL));
     _contentLayer->addChild(_itemList);
     
-    _topScrollButton = ui::Button::create("res/oomeeMaker/arrow_carousel_up.png");
-    _topScrollButton->setAnchorPoint(Vec2(0.5,0.0));
-    _topScrollButton->setPosition(_itemList->getPosition() + Vec2(-_itemList->getContentSize().width / 2, _itemList->getContentSize().height / 2));
-    _topScrollButton->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType)
-    {
-        if(eType == ui::Widget::TouchEventType::BEGAN)
-        {
-            _itemList->scrollToTop(5, true);
-        }
-        else if(eType == ui::Widget::TouchEventType::ENDED || eType == ui::Widget::TouchEventType::CANCELED)
-        {
-            _itemList->stopAutoScroll();
-        }
-    });
-    _topScrollButton->runAction(Sequence::create(DelayTime::create(0.5),MoveBy::create(1.5, Vec2(-_itemList->getContentSize().width, 0)), NULL));
-    _contentLayer->addChild(_topScrollButton);
     
-    _bottomScrollButton = ui::Button::create("res/oomeeMaker/arrow_carousel_down.png");
-    _bottomScrollButton->setAnchorPoint(Vec2(0.5, 1.0));
-    _bottomScrollButton->setPosition(_itemList->getPosition() - (_itemList->getContentSize() / 2));
-    _bottomScrollButton->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType)
-    {
-        if(eType == ui::Widget::TouchEventType::BEGAN)
+    _itemSlider = ui::Slider::create("res/oomeeMaker/slide_track.png", "res/oomeeMaker/slider.png");
+    _itemSlider->setPosition(_itemList->getPosition() + Vec2(itemListBG->getContentSize().width,0));
+    _itemSlider->setContentSize(Size(contentSize.height * 0.75f,_itemSlider->getContentSize().height));
+    _itemSlider->ignoreContentAdaptWithSize(false);
+    _itemSlider->setAnchorPoint(Vec2(0.5,3.0));
+    _itemSlider->setPercent(0);
+    _itemSlider->setRotation(90.0f);
+    _itemSlider->addEventListener([&](cocos2d::Ref* pSender, cocos2d::ui::Slider::EventType eEventType){
+        if(eEventType == ui::Slider::EventType::ON_PERCENTAGE_CHANGED)
         {
-            _itemList->scrollToBottom(5, true);
-        }
-        else if(eType == ui::Widget::TouchEventType::ENDED || eType == ui::Widget::TouchEventType::CANCELED)
-        {
-            _itemList->stopAutoScroll();
+            _itemList->scrollToPercentVertical(MAX(_itemSlider->getPercent(),1), 0, false);
         }
     });
-    _bottomScrollButton->runAction(Sequence::create(DelayTime::create(0.5),MoveBy::create(1.5, Vec2(-_itemList->getContentSize().width, 0)), NULL));
-    _contentLayer->addChild(_bottomScrollButton);
+    _itemSlider->runAction(Sequence::create(DelayTime::create(0.5),MoveBy::create(1.5, Vec2(-itemListBG->getContentSize().width, 0)), NULL));
+    _contentLayer->addChild(_itemSlider);
     
     ui::Button* categoryTopScrollButton = ui::Button::create("res/oomeeMaker/arrow_carousel_up.png");
     categoryTopScrollButton->setAnchorPoint(Vec2(0.5,0.0));
@@ -238,7 +225,20 @@ void OomeeMakerScene::onEnter()
     exitButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            this->saveAndExit();
+            if(_oomee->getUndoStackSize() > 1 || _newOomee)
+            {
+                ConfirmCancelMessageBox* messageBox = ConfirmCancelMessageBox::createWithParams(StringMgr::getInstance()->getStringForKey(SAVEQ_LABEL), "res/buttons/confirm_tick_2.png", "res/buttons/confirm_x_2.png");
+                messageBox->setDelegate(this);
+                messageBox->setName(kSavePopupId);
+				messageBox->setPosition(Vec2(-this->getContentSize().width * 0.08f, 0));
+                _contentLayer->addChild(messageBox);
+            }
+            else
+            {
+                auto scene = OomeeSelectScene::create();
+                scene->setCarouselCenterTarget(_filename);
+                Director::getInstance()->replaceScene(scene);
+            }
         }
     });
     _contentLayer->addChild(exitButton);
@@ -258,7 +258,7 @@ void OomeeMakerScene::onEnter()
     _undoButton = ui::Button::create();
     _undoButton->loadTextureNormal("res/oomeeMaker/undo.png");
     _undoButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _undoButton->setPosition(makeAvatarButon->getPosition() - Vec2(makeAvatarButon->getContentSize().width,0));
+    _undoButton->setPosition(makeAvatarButon->getPosition() - Vec2(makeAvatarButon->getContentSize().width * 1.25f,0));
     _undoButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
@@ -267,30 +267,23 @@ void OomeeMakerScene::onEnter()
     });
     _contentLayer->addChild(_undoButton);
     
-    ui::Button* shareOomeeButon = ui::Button::create();
-    shareOomeeButon->loadTextureNormal("res/oomeeMaker/share_button.png");
-    shareOomeeButon->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    shareOomeeButon->setPosition(makeAvatarButon->getPosition() + Vec2(makeAvatarButon->getContentSize().width, 0));
-    shareOomeeButon->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+    ui::Button* resetOomeeButon = ui::Button::create();
+    resetOomeeButon->loadTextureNormal("res/oomeeMaker/bin_2.png");
+    resetOomeeButon->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    resetOomeeButon->setPosition(makeAvatarButon->getPosition() + Vec2(makeAvatarButon->getContentSize().width * 1.25f, 0));
+    resetOomeeButon->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            this->shareOomee();
+            ConfirmCancelMessageBox* messageBox = ConfirmCancelMessageBox::createWithParams(StringMgr::getInstance()->getStringForKey(RESETQ_LABEL), "res/buttons/confirm_bin.png", "res/buttons/confirm_x_2.png");
+            messageBox->setDelegate(this);
+            messageBox->setName(kResetPopupId);
+			messageBox->setPosition(Vec2(-this->getContentSize().width * 0.08f, 0));
+            _contentLayer->addChild(messageBox);
         }
     });
-    _contentLayer->addChild(shareOomeeButon);
-    this->scheduleUpdate();
+    _contentLayer->addChild(resetOomeeButon);
+
     Super::onEnter();
-}
-
-void OomeeMakerScene::update(float deltaT)
-{
-    if(_itemList && _itemList->getItems().size() > 0)
-    {
-        _bottomScrollButton->setVisible(_itemList->getBottommostItemInCurrentView() != _itemList->getItems().back());
-        _topScrollButton->setVisible(_itemList->getTopmostItemInCurrentView() != _itemList->getItems().front());
-
-    }
-    Super::update(deltaT);
 }
 
 void OomeeMakerScene::onEnterTransitionDidFinish()
@@ -329,6 +322,11 @@ void OomeeMakerScene::setFilename(const std::string &filename)
     _filename = filename;
 }
 
+void OomeeMakerScene::setIsNewOomee(bool newOomee)
+{
+    _newOomee = newOomee;
+}
+
 void OomeeMakerScene::undo()
 {
     if(_oomee)
@@ -345,7 +343,9 @@ void OomeeMakerScene::saveAndExit()
     const std::string scheduleKey = "saveAndExit";
     Director::getInstance()->getScheduler()->schedule([&](float dt){
         saveOomeeFiles();
-        Director::getInstance()->replaceScene(OomeeSelectScene::create());
+        auto scene = OomeeSelectScene::create();
+        scene->setCarouselCenterTarget(_filename);
+        Director::getInstance()->replaceScene(scene);
     }, this, 0.5, 0, 0, false, scheduleKey);
     
 }
@@ -388,19 +388,16 @@ void OomeeMakerScene::makeAvatar()
     
 }
 
-void OomeeMakerScene::shareOomee()
+void OomeeMakerScene::resetOomee()
 {
-    ModalMessages::getInstance()->startSaving();
-    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Share_Button.mp3");
-    const std::string scheduleKey = "saveAndExit";
-    Director::getInstance()->getScheduler()->schedule([&](float dt){
-        saveOomeeFiles();
-        ModalMessages::getInstance()->stopSaving();
-        if(delegate)
-        {
-            delegate->onOomeeMakerShareOomee(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".png");
-        }
-    }, this, 0.5, 0, 0, false, scheduleKey);
+	const OomeeColourRef& colour = OomeeMakerDataStorage::getInstance()->getColourForKey(kDefaultOomeeId);
+	_oomee->setColour(colour);
+	const OomeeRef& oomee = OomeeMakerDataStorage::getInstance()->getOomeeForKey(colour->getId());
+	if(oomee)
+	{
+		_oomee->setOomeeData(oomee);
+	}
+    _oomee->resetOomee();
 }
 
 void OomeeMakerScene::displayMadeAvatarNotification()
@@ -456,6 +453,35 @@ void OomeeMakerScene::displayMadeAvatarNotification()
     bannerLabel->setColor(Color3B::WHITE);
     banner->addChild(bannerLabel);
     
+}
+
+// delegate functions
+
+void OomeeMakerScene::onConfirmPressed(Azoomee::ConfirmCancelMessageBox *pSender)
+{
+    if(pSender->getName() == kResetPopupId)
+    {
+        resetOomee();
+    }
+    else if(pSender->getName() == kSavePopupId)
+    {
+        saveAndExit();
+    }
+    pSender->removeFromParent();
+}
+
+void OomeeMakerScene::onCancelPressed(Azoomee::ConfirmCancelMessageBox *pSender)
+{
+    if(pSender->getName() == kSavePopupId)
+    {
+        auto scene = OomeeSelectScene::create();
+        if(!_newOomee)
+        {
+            scene->setCarouselCenterTarget(_filename);
+        }
+        Director::getInstance()->replaceScene(scene);
+    }
+    pSender->removeFromParent();
 }
 
 NS_AZOOMEE_OM_END

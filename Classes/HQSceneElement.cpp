@@ -233,7 +233,7 @@ void HQSceneElement::addListenerToElement()
 
 ui::Button* HQSceneElement::createDeleteButton()
 {
-    ui::Button* deleteButton = ui::Button::create("res/buttons/close_button_me_page.png");
+    ui::Button* deleteButton = ui::Button::create("res/buttons/delete_button_favourites.png");
     deleteButton->setContentSize(Size(this->getContentSize().width * 0.25f, this->getContentSize().width * 0.25f));
     deleteButton->ignoreContentAdaptWithSize(false);
     deleteButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);

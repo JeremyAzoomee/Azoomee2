@@ -41,6 +41,9 @@
         "kidCode": "Kid Code: ",
         "password": "Password",
         "pin": "Pin"
+        "saveQ": "Save?",
+        "deleteQ": "Delete?",
+        "resetQ": "Reset?"
     },
     
     "GenericButtons":
@@ -130,7 +133,7 @@
     },
     "OomeeMaker":
     {
-        "newAvatar": "This is Your New Avatar!"
+        "newAvatar": "This is your new Oomee!"
     },
     "MeHQ":
     {
@@ -139,17 +142,12 @@
         "messagePlaceholderPicture": "Sent a Picture",
         "messagePlaceholderSticker": "Sent a Sticker",
         "messagePlaceholderLink": "Sent a Link",
-        "headingMessages": "Last Messages",
-        "headingGallery": "My Gallery",
-        "headingFavourites": "My Favourites",
-        "headingDownloads": "Available Offline",
-        "headingDownloadsEmpty": "My Downloads",
-        "subHeadingFavourites": "Favourite content after you watch or play and it will appear here.",
-        "subHeadingFavouritesMultiline": "Favourite content after you watch\nor play and it will appear here.",
-        "subHeadingDownloads": "Play some games and they’ll appear here, then you can play them\nwhen you’re offline.",
-        "subHeadingDownloadsMultiline": "Play some games and they’ll appear\nhere, then you can play them\nwhen you’re offline.",
-        "subHeadingDownloadsMultiline18x9": "Play some games and they’ll\nappear here, then you can play\nthem when you’re offline."
-
+        "headingMessages": "LAST MESSAGES",
+        "headingGallery": "MY GALLERY",
+        "headingFavourites": "MY FAVOURITES",
+        "headingDownloads": "AVAILABLE OFFLINE",
+        "headingDownloadsEmpty": "MY DOWNLOADS",
+        "subHeadingDownloads": "When you play games they’ll become available offline."
     },
     "UserMessaging":
     {
@@ -216,6 +214,10 @@
         "accountTypeText": "You have a ",
         "friendshipsToApprove": "You have new friendships to approve!",
         "noFriendshipsToApprove": "There are no new friendships to approve right now."
+    },
+    "Native":
+    {
+        "favContentLabel": "Added to Favourites"
     }
 
 }

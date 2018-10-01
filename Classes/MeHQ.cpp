@@ -89,6 +89,9 @@ bool MeHQ::init()
     auto galleryLayout = MeHQGallery::create();
     galleryLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
     galleryLayout->setName(kGalleryLayerName);
+	galleryLayout->setRefreshCallback([this](){
+		this->refreshGalleryLayout();
+	});
     _contentListView->pushBackCustomItem(galleryLayout);
     _sectionIndexMap[kGalleryLayerName] = indexNum++;
     
@@ -133,12 +136,16 @@ void MeHQ::onExit()
 void MeHQ::refreshFavouritesLayout()
 {
     float scrollPercent = _contentListView->getScrolledPercentVertical();
+    MeHQFavourites* favsLayer = dynamic_cast<MeHQFavourites*>(_contentListView->getItem(_sectionIndexMap[kFavoritesLayerName]));
+    bool editEnabled = favsLayer->getEditEnabled();
     _contentListView->removeItem(_sectionIndexMap[kFavoritesLayerName]);
     auto favouriteLayout = MeHQFavourites::create();
     favouriteLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
+	favouriteLayout->setName(kFavoritesLayerName);
     favouriteLayout->setRefreshCallback([this](){
         this->refreshFavouritesLayout();
     });
+	favouriteLayout->setEditEnabled(editEnabled);
     _contentListView->insertCustomItem(favouriteLayout, _sectionIndexMap[kFavoritesLayerName]);
     
     _contentListView->forceDoLayout();
@@ -154,15 +161,17 @@ void MeHQ::refreshGalleryLayout()
 {
     float scrollPercent = _contentListView->getScrolledPercentVertical();
     MeHQGallery* galleryLayer = dynamic_cast<MeHQGallery*>(_contentListView->getItem(_sectionIndexMap[kGalleryLayerName]));
-    bool expanded = false;
-    if(galleryLayer)
-    {
-        expanded = galleryLayer->_expanded;
-    }
+	bool editEnabled = galleryLayer->getEditEnabled();
+    bool expanded = galleryLayer->_expanded;
     _contentListView->removeItem(_sectionIndexMap[kGalleryLayerName]);
     auto galleryLayout = MeHQGallery::create();
     galleryLayout->_expanded = expanded;
     galleryLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
+	galleryLayout->setName(kGalleryLayerName);
+	galleryLayout->setEditEnabled(editEnabled);
+	galleryLayout->setRefreshCallback([this](){
+		this->refreshGalleryLayout();
+	});
     _contentListView->insertCustomItem(galleryLayout, _sectionIndexMap[kGalleryLayerName]);
     
     _contentListView->forceDoLayout();

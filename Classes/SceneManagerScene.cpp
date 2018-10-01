@@ -192,7 +192,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
                 forceToPortrait();
             #endif
             AnalyticsSingleton::getInstance()->registerCurrentScene("WEBVIEWPORTRAIT");
-            cocos2d::Scene* goToScene =  WebViewSelector::createSceneWithUrl(webviewURL, Orientation::Portrait, _closeButtonAnchor);
+            cocos2d::Scene* goToScene = WebViewSelector::createSceneWithUrl(webviewURL, Orientation::Portrait, _closeButtonAnchor);
             Director::getInstance()->replaceScene(goToScene);
             break;
         }
@@ -201,7 +201,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             HQHistoryManager::getInstance()->updatePrevOrientation();
             forceToLandscape();
             AnalyticsSingleton::getInstance()->registerCurrentScene("WEBVIEWLANDSCAPE");
-            cocos2d::Scene* goToScene =  WebViewSelector::createSceneWithUrl(webviewURL, Orientation::Landscape, _closeButtonAnchor);
+            cocos2d::Scene* goToScene = WebViewSelector::createSceneWithUrl(webviewURL, Orientation::Landscape, _closeButtonAnchor);
             Director::getInstance()->replaceScene(goToScene);
             break;
         }

@@ -59,6 +59,8 @@ public:
     OomeeColourRef getColourForKey(const std::string& key) const;
     
     std::vector<OomeeItemRef> getFilteredItemsForCategory(const std::string& key, const OomeeRef& activeOomee);
+    
+    bool _initialised = false;
 };
 
 NS_AZOOMEE_OM_END

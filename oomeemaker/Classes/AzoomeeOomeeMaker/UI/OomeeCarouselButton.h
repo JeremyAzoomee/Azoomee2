@@ -31,7 +31,6 @@ private:
     OomeeCarouselButtonDelegate* _delegate = nullptr;
     
     cocos2d::ui::Button* _deleteButton = nullptr;
-    cocos2d::ui::Button* _editButton = nullptr;
     cocos2d::ui::Button* _makeAvatarButton = nullptr;
     cocos2d::ui::Button* _shareButton = nullptr;
     
@@ -52,6 +51,7 @@ public:
     virtual void onEnter() override;
     
     void setOomeeData(const std::string& filename);
+    std::string getOomeeFilename() const;
     void setDelegate(OomeeCarouselButtonDelegate* delegate);
     
     void setInFocus(bool inFocus);

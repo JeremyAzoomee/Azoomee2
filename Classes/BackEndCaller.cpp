@@ -319,11 +319,12 @@ void BackEndCaller::childLogin(int childNumber)
 
 void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString, const std::string& headerString)
 {
-    if((!ChildDataParser::getInstance()->parseChildLoginData(responseString)) || (!HQDataParser::getInstance()->parseHQGetContentUrls(responseString)))
+    if((!ChildDataParser::getInstance()->parseChildLoginData(responseString)))
     {
         LoginLogicHandler::getInstance()->doLoginLogic();
+        return;
     }
-    
+    HQDataParser::getInstance()->parseHQGetContentUrls(responseString);
     ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey("X-AZ-COUNTRYCODE", headerString));
     DynamicNodeHandler::getInstance()->getCTAFiles();
     getGordon();

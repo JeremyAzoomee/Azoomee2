@@ -8,7 +8,7 @@ using namespace cocos2d;
 namespace Azoomee
 {
 
-void addSideWiresToScreen(Node* parentLayer, float withDelay, float withDuration)
+void addSideWiresToScreen(Node* parentLayer, float withDelay, float withDuration, float opacity)
 {
     auto visibleSize = Director::getInstance()->getVisibleSize();
     auto origin = dynamic_cast<Azoomee::Scene*>(Director::getInstance()->getRunningScene()) ? Vec2(0,0) : Director::getInstance()->getVisibleOrigin();
@@ -16,11 +16,13 @@ void addSideWiresToScreen(Node* parentLayer, float withDelay, float withDuration
     auto wireLeft = Sprite::create("res/decoration/wireLeft.png");
     wireLeft->setName("Wire");
     wireLeft->setPosition(wireLeft->getContentSize().width / -2 + origin.x, visibleSize.height / 2 + origin.y);
+    wireLeft->setOpacity(255 * opacity);
     parentLayer->addChild(wireLeft);
     
     auto wireRight = Sprite::create("res/decoration/wireRight.png");
     wireRight->setName("Wire");
     wireRight->setPosition(wireRight->getContentSize().width / 2 + visibleSize.width + origin.x, visibleSize.height / 2 + origin.y);
+    wireRight->setOpacity(255 * opacity);
     parentLayer->addChild(wireRight);
     
     wireLeft->runAction(Sequence::create(DelayTime::create(withDelay), EaseOut::create(MoveTo::create(1, Vec2(wireLeft->getContentSize().width / 2+ origin.x, visibleSize.height / 2 + origin.y)), withDuration), NULL));

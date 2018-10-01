@@ -33,7 +33,7 @@ bool MeHQDownloads::init()
     
     const float spaceAboveCarousel = HQDataProvider::getInstance()->getSpaceAboveCarousel();
     const float sideMargin = HQDataProvider::getInstance()->getSideMargin();
-    const int unitsOnScreen = HQDataProvider::getInstance()->getUnitsOnScreen();
+    const int unitsOnScreen = HQDataProvider::getInstance()->getUnitsOnScreenMeHQ();
     const float contentItemMargin = HQDataProvider::getInstance()->getContentItemMargin();
     
     this->setContentSize(Size(visibleSize.width, 0));
@@ -56,17 +56,22 @@ bool MeHQDownloads::init()
             }
         }
     }
-    
-    ui::Text* heading = ui::Text::create(StringMgr::getInstance()->getStringForKey((gameList.size() > 0) ? MEHQ_HEADING_DOWNLOADS : MEHQ_HEADING_DOWNLOADS_EMPTY), Style::Font::Regular, 100);
+	
+	Sprite* icon = Sprite::create("res/meHQ/title_icon_my_downloads.png");
+	icon->setAnchorPoint(Vec2(1.5f,0.35f));
+	icon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
+	
+    ui::Text* heading = ui::Text::create(StringMgr::getInstance()->getStringForKey((gameList.size() > 0) ? MEHQ_HEADING_DOWNLOADS : MEHQ_HEADING_DOWNLOADS_EMPTY), Style::Font::Regular, 75);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,50)));
+    heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(icon->getContentSize().width* 0.75f,0,0,50)));
     heading->setContentSize(Size(visibleSize.width, spaceAboveCarousel));
     this->addChild(heading);
+    heading->addChild(icon);
     
     if(gameList.size() > 0)
     {
         Size contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kGameHQName);
-        float unitWidth = (visibleSize.width - 2 * sideMargin) / unitsOnScreen;
+        float unitWidth = (visibleSize.width - 2 * sideMargin - contentItemMargin / 2.0f) / unitsOnScreen;
         float unitMultiplier = unitWidth / contentItemSize.width;
         
         cocos2d::ui::Layout* carouselLayer = ui::Layout::create();
@@ -143,11 +148,9 @@ void MeHQDownloads::buildEmptyCarousel()
 {
     const Size& visibleSize = Director::getInstance()->getVisibleSize();
     
-    int isPortrait = visibleSize.width < visibleSize.height;
-    
     const float spaceAboveCarousel = HQDataProvider::getInstance()->getSpaceAboveCarousel();
     const float sideMargin = HQDataProvider::getInstance()->getSideMargin();
-    const int unitsOnScreen = HQDataProvider::getInstance()->getUnitsOnScreen();
+    const int unitsOnScreen = HQDataProvider::getInstance()->getUnitsOnScreenMeHQ();
     const float contentItemMargin = HQDataProvider::getInstance()->getContentItemMargin();
     
     Size contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kGameHQName);
@@ -155,7 +158,7 @@ void MeHQDownloads::buildEmptyCarousel()
     float unitMultiplier = unitWidth / contentItemSize.width;
     
     cocos2d::ui::Layout* carouselLayer = ui::Layout::create();
-    carouselLayer->setContentSize(Size(visibleSize.width - 2 * sideMargin, 0));
+    carouselLayer->setContentSize(Size(visibleSize.width - 2 * sideMargin - contentItemMargin / 2.0f, 0));
     carouselLayer->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     
     float lowestElementYPosition = 0;
@@ -183,7 +186,7 @@ void MeHQDownloads::buildEmptyCarousel()
         }
     }
     
-    ui::Button* playGamesButton = ui::Button::create("res/meHQ/play_games_button.png");
+    ui::Button* playGamesButton = ui::Button::create("res/meHQ/my_downloads_button.png");
     playGamesButton->setContentSize(playGamesButton->getContentSize() * (((contentItemSize.width - contentItemMargin) * unitMultiplier) / playGamesButton->getContentSize().width));
     playGamesButton->ignoreContentAdaptWithSize(false);
     playGamesButton->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
@@ -223,24 +226,19 @@ void MeHQDownloads::buildEmptyCarousel()
     
     this->addChild(carouselLayer);
     
-    std::string downloadsString;
-    if(ConfigStorage::getInstance()->isDevice18x9())
-    {
-        downloadsString = StringMgr::getInstance()->getStringForKey(isPortrait ? MEHQ_SUB_HEADING_DOWNLOADS_MULTILINE_18X9 : MEHQ_SUB_HEADING_DOWNLOADS_MULTILINE);
-    }
-    else
-    {
-        downloadsString = StringMgr::getInstance()->getStringForKey(isPortrait ? MEHQ_SUB_HEADING_DOWNLOADS_MULTILINE : MEHQ_SUB_HEADING_DOWNLOADS);
-    }
-    
-    ui::Text* heading = ui::Text::create(downloadsString, Style::Font::Regular, 80);
+    Label* heading = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(MEHQ_SUB_HEADING_DOWNLOADS), Style::Font::Regular, 80);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    heading->setTextHorizontalAlignment(TextHAlignment::CENTER);
-    heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
-    heading->setContentSize(Size(visibleSize.width, 200));
-    this->addChild(heading);
+    heading->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+    heading->setHorizontalAlignment(TextHAlignment::CENTER);
+    heading->setMaxLineWidth(visibleSize.width * 0.8f);
     
-    this->setContentSize(Size(visibleSize.width, heading->getContentSize().height -lowestElementYPosition + spaceAboveCarousel + contentItemMargin + 100));
+    ui::Layout* labelHolder = ui::Layout::create();
+    labelHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+    labelHolder->setContentSize(heading->getContentSize());
+    labelHolder->addChild(heading);
+    this->addChild(labelHolder);
+    
+    this->setContentSize(Size(visibleSize.width, labelHolder->getContentSize().height -lowestElementYPosition + spaceAboveCarousel + contentItemMargin + 100));
     
 }
 

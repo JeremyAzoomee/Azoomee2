@@ -159,6 +159,7 @@ public:
     void unreadMessagesNotificationReceived();
     void chatReportedEvent();
     void chatResetReportedEvent();
+    void chatOpenSharedContentEvent(const std::string& contentId);
     
     //---------------CTA EVENTS----------------------------------
     void ctaButtonPressed(const std::string &buttonId, const std::string &title = "");
@@ -171,12 +172,17 @@ public:
     void shareContentItemButtonPressed(const std::string& contentItemId);
     
     //-------------OomeeMaker Events----------------------------
-    void makeAvatarSuccess();
+    void makeAvatarSuccess(const std::string& origin);
     void shareOomee();
     void editOomee();
     void deleteOomee();
     void newOomee();
     void saveOomee(const std::string& oomeeDataString);
+    void reportNumberOfOomees(int numOomees);
+    void accessorySelectedEvent(const std::string& method);
+    
+    //-------------Art app events-------------------------------
+    void stickerSelectedEvent(const std::string& stickerFilename);
     
 };
   

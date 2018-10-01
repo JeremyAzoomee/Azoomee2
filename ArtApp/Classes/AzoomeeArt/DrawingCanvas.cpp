@@ -8,6 +8,7 @@
 
 #include "DrawingCanvas.h"
 #include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <dirent.h>
 #include <math.h>
 
@@ -143,9 +144,10 @@ void DrawingCanvas::setStickerNodeVisible(bool isVisible)
     _stickerNode->setTouchListenerEnabled(isVisible);
 }
 
-void DrawingCanvas::setupStickerNode(const std::string& stickerFile)
+void DrawingCanvas::setupStickerNode(const std::string& stickerFile, const std::string& identifier)
 {
     Sprite* newSticker = Sprite::create(stickerFile);
+    newSticker->setName(identifier);
     newSticker->setAnchorPoint(Vec2(0.5,0.5));
     newSticker->setPosition(Director::getInstance()->getVisibleOrigin() + Director::getInstance()->getVisibleSize()/2);
     _stickerNode->reset();
@@ -154,6 +156,7 @@ void DrawingCanvas::setupStickerNode(const std::string& stickerFile)
 
 void DrawingCanvas::addStickerToDrawing()
 {
+    AnalyticsSingleton::getInstance()->stickerSelectedEvent(_stickerNode->getSticker()->getName());
     _drawingStack.push_back(_stickerNode->getSticker());
     Sprite* temp = _stickerNode->getSticker();
     temp->retain(); //move sticker from sticker node to drawing canvas
