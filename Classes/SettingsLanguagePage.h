@@ -19,6 +19,8 @@ class SettingsLanguagePage : public cocos2d::ui::Layout
 	typedef cocos2d::ui::Layout Super;
 private:
 	
+	static std::vector<std::pair<std::string, std::string>> kLanguageData;
+	
 	cocos2d::ui::ListView* _languageList = nullptr;
 	
 public:

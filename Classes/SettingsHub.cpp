@@ -16,6 +16,7 @@
 #include "SettingsYourAccountPage.h"
 #include "SettingsFriendshipsPage.h"
 #include "SettingsKidsPage.h"
+#include "SettingsLanguagePage.h"
 
 using namespace cocos2d;
 
@@ -205,7 +206,9 @@ void SettingsHub::changeToPage(SettingsPages page)
     switch(page)
     {
 		case SettingsPages::LANGUAGE: {
-			
+			auto page = SettingsLanguagePage::create();
+			page->setContentSize(_activeSettingsPageHolder->getContentSize());
+			_activeSettingsPageHolder->addChild(page);
 			_titleText->setString(StringMgr::getInstance()->getStringForKey(SETTINGS_HEADING_LANGUAGE));
 			break;
 		}

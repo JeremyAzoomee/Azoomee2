@@ -205,6 +205,7 @@ void KidDetailsLayer::onEnter()
     ui::Button* addFriendButton = ui::Button::create("res/settings/add_freind_code_button.png");
     addFriendButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
     addFriendButton->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
+	
     addFriendButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
@@ -216,13 +217,12 @@ void KidDetailsLayer::onEnter()
             }
         }
     });
-    addFriendInputLayout->addChild(addFriendButton);
-    
-    float inputWidth = addFriendInputLayout->getContentSize().width - addFriendButton->getContentSize().width;
+    float inputWidth = addFriendInputLayout->getContentSize().width - addFriendButton->getContentSize().width + 10;
     _kidCodeInput = TextInputLayer::createSettingsBoxTextInput(inputWidth, INPUT_IS_KIDS_CODE);
     _kidCodeInput->setCenterPosition(Vec2(inputWidth * 0.5f, 80));
     addFriendInputLayout->addChild(_kidCodeInput);
-    
+    addFriendInputLayout->addChild(addFriendButton);
+	
     _deleteButton = ui::Button::create("res/settings/bin_button_4.png");
     _deleteButton->setAnchorPoint(Vec2(-0.5,1.5));
     _deleteButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);

@@ -100,7 +100,9 @@ public:
     void setText(std::string newText);
     
     void setEnabled(bool enabled);
-    
+	
+	void setPlaceholderText(const std::string& placeholder);
+	
     //Editbox Delegate Functions
     void editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text);
     void editBoxReturn(cocos2d::ui::EditBox* editBox);

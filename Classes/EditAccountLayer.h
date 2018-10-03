@@ -13,10 +13,13 @@
 #include <AzoomeeCommon/API/HttpRequestCreator.h>
 #include <cocos/cocos2d.h>
 #include <ui/CocosGUI.h>
+#include "SettingsMessageBox.h"
 
 NS_AZOOMEE_BEGIN
 
-class EditAccountLayer : public cocos2d::ui::Layout, public HttpRequestCreatorResponseDelegate
+enum class EditPasswordState {LOCKED, CURRENT_PASSWORD, NEW_PASSWORD};
+
+class EditAccountLayer : public cocos2d::ui::Layout, public HttpRequestCreatorResponseDelegate, public SettingsMessageBoxDelegate
 {
     typedef cocos2d::ui::Layout Super;
 private:
@@ -34,7 +37,10 @@ private:
     cocos2d::ui::Button* _editPasswordButton = nullptr;
     
     bool _editingPin = false;
-    
+	bool _pinRequest = false;
+	EditPasswordState _passwordState;
+	std::string _currentPassword = "";
+	
 public:
     
     virtual bool init() override;
@@ -45,6 +51,8 @@ public:
     //delegate functions
     void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body) override;
     void onHttpRequestFailed(const std::string& requestTag, long errorCode) override;
+	
+	void onButtonPressed(SettingsMessageBox* pSender, SettingsMessageBoxButtonType type) override;
 };
 
 NS_AZOOMEE_END

@@ -57,7 +57,7 @@ void SettingsYourAccountPage::onEnter()
     
     this->addChild(_footerBanner);
     
-    Label* logout = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(BUTTON_LOG_OUT), Style::Font::Medium, 75);
+    Label* logout = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(BUTTON_LOG_OUT), Style::Font::Medium, 60);
     logout->setTextColor(Color4B::WHITE);
     logout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     logout->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -83,7 +83,7 @@ void SettingsYourAccountPage::onEnter()
     
     _footerBanner->addChild(logoutButton);
     
-    Label* privacy = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(T_and_C_Privacy_Button), Style::Font::Medium, 75);
+    Label* privacy = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(T_and_C_Privacy_Button), Style::Font::Medium, 60);
     privacy->setTextColor(Color4B::WHITE);
     privacy->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     privacy->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -108,7 +108,7 @@ void SettingsYourAccountPage::onEnter()
     
     _footerBanner->addChild(privacyButton);
     
-    Label* terms = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(T_and_C_Terms_Button), Style::Font::Medium, 75);
+    Label* terms = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(T_and_C_Terms_Button), Style::Font::Medium, 60);
     terms->setTextColor(Color4B::WHITE);
     terms->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     terms->setAnchorPoint(Vec2::ANCHOR_MIDDLE);

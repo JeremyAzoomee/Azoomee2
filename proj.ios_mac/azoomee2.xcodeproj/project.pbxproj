@@ -126,6 +126,8 @@
 		920F6FE52140472A00B7BB76 /* SettingsMessageBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920F6FE42140472A00B7BB76 /* SettingsMessageBox.cpp */; };
 		921A25F421627FD6005C8C41 /* SettingsLanguagePage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A25F321627FD6005C8C41 /* SettingsLanguagePage.cpp */; };
 		921A25F72162830A005C8C41 /* LanguageListItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A25F62162830A005C8C41 /* LanguageListItem.cpp */; };
+		921A25FA2164D08B005C8C41 /* SettingsMessageBoxNotification.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A25F92164D08B005C8C41 /* SettingsMessageBoxNotification.cpp */; };
+		921A25FD2164E8DE005C8C41 /* SettingsMessageBoxTryAgain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A25FC2164E8DE005C8C41 /* SettingsMessageBoxTryAgain.cpp */; };
 		9220EAD2200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EAD1200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp */; };
 		9220EAD5200F77E200BD7A90 /* SignUpFlowController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EAD4200F77E200BD7A90 /* SignUpFlowController.cpp */; };
 		9220EAD82010C07D00BD7A90 /* IAPFlowController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EAD72010C07D00BD7A90 /* IAPFlowController.cpp */; };
@@ -513,6 +515,10 @@
 		921A25F321627FD6005C8C41 /* SettingsLanguagePage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsLanguagePage.cpp; sourceTree = "<group>"; };
 		921A25F521628205005C8C41 /* LanguageListItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LanguageListItem.h; sourceTree = "<group>"; };
 		921A25F62162830A005C8C41 /* LanguageListItem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LanguageListItem.cpp; sourceTree = "<group>"; };
+		921A25F82164CE64005C8C41 /* SettingsMessageBoxNotification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsMessageBoxNotification.h; sourceTree = "<group>"; };
+		921A25F92164D08B005C8C41 /* SettingsMessageBoxNotification.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsMessageBoxNotification.cpp; sourceTree = "<group>"; };
+		921A25FB2164E86E005C8C41 /* SettingsMessageBoxTryAgain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsMessageBoxTryAgain.h; sourceTree = "<group>"; };
+		921A25FC2164E8DE005C8C41 /* SettingsMessageBoxTryAgain.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsMessageBoxTryAgain.cpp; sourceTree = "<group>"; };
 		9220EACA200F5AF600BD7A90 /* DynamicNodeFlowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DynamicNodeFlowController.h; sourceTree = "<group>"; };
 		9220EAD1200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeFlowController.cpp; sourceTree = "<group>"; };
 		9220EAD3200F64A200BD7A90 /* SignUpFlowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignUpFlowController.h; sourceTree = "<group>"; };
@@ -1018,6 +1024,10 @@
 				924E845721427C05004590FD /* SettingsMessageBoxDeleteChild.cpp */,
 				924E84712147FCDA004590FD /* SettingsMessageBoxFREvent.h */,
 				924E84762147FE2B004590FD /* SettingsMessageBoxFREvent.cpp */,
+				921A25F82164CE64005C8C41 /* SettingsMessageBoxNotification.h */,
+				921A25F92164D08B005C8C41 /* SettingsMessageBoxNotification.cpp */,
+				921A25FB2164E86E005C8C41 /* SettingsMessageBoxTryAgain.h */,
+				921A25FC2164E8DE005C8C41 /* SettingsMessageBoxTryAgain.cpp */,
 				921A25F521628205005C8C41 /* LanguageListItem.h */,
 				921A25F62162830A005C8C41 /* LanguageListItem.cpp */,
 			);
@@ -1798,6 +1808,7 @@
 				920F6FDE213EB76300B7BB76 /* SettingsFriendshipsPage.cpp in Sources */,
 				928A6E8920EE5C880053E793 /* ChildAgeLayer.cpp in Sources */,
 				92759EB21FE81F6300639190 /* ContentOpener.cpp in Sources */,
+				921A25FD2164E8DE005C8C41 /* SettingsMessageBoxTryAgain.cpp in Sources */,
 				02E595B31E5B495B0052F395 /* HQSceneElementVisual.cpp in Sources */,
 				9289DB7D1FD996A800B12435 /* DynamicNodeImage.cpp in Sources */,
 				021564731FC4AB8300641C14 /* HQScene2PlaceHolderCreator.cpp in Sources */,
@@ -1879,6 +1890,7 @@
 				929A9D57206CF9F1009B323D /* FavouritesManager.cpp in Sources */,
 				A19759841DE4931200FEB03C /* HQSceneElement.cpp in Sources */,
 				9220EAD82010C07D00BD7A90 /* IAPFlowController.cpp in Sources */,
+				921A25FA2164D08B005C8C41 /* SettingsMessageBoxNotification.cpp in Sources */,
 				927DF6EB20B2BD010080DFEF /* MeHQMessages.cpp in Sources */,
 				A154CC521DFEE7440008A626 /* GameDataManager.cpp in Sources */,
 			);

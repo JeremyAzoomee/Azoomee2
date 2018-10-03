@@ -29,18 +29,18 @@ void SettingsNavigationButton::onEnter()
 {
     _icon = ui::ImageView::create(_iconFilename);
     _icon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
-    _icon->setAnchorPoint(Vec2(-0.5,0.5));
+    _icon->setAnchorPoint(Vec2(-0.5f,0.5f));
 	_icon->ignoreContentAdaptWithSize(false);
 	_icon->setContentSize(Size(213,213));
     this->addChild(_icon);
     
     _arrow = ui::ImageView::create("res/settings/right_arrow_2.png");
     _arrow->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
-    _arrow->setAnchorPoint(Vec2(1.5,0.5));
+    _arrow->setAnchorPoint(Vec2(3.0f,0.5f));
     this->addChild(_arrow);
     
     _textLayout = ui::Layout::create();
-    _textLayout->setContentSize(Size(this->getContentSize().width - (_icon->getContentSize().width * 2) - (_arrow->getContentSize().width * 1.5),this->getContentSize().height));
+    _textLayout->setContentSize(Size(this->getContentSize().width - (_icon->getContentSize().width * 2) - (_arrow->getContentSize().width * 3.0f),this->getContentSize().height));
     _textLayout->setPosition(Vec2((_icon->getContentSize().width * 1.75f), this->getContentSize().height * 0.5f));
     _textLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
     this->addChild(_textLayout);

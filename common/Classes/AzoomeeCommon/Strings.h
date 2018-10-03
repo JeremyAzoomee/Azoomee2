@@ -80,6 +80,8 @@
 #define BUTTON_OK "GenericButtons/ok"
 #define BUTTON_DELETE "GenericButtons/delete"
 #define BUTTON_SEND "GenericButtons/send"
+#define BUTTON_MANAGE "GenericButtons/manage"
+#define BUTTON_RENEW_SUB "GenericButtons/renewSub"
 
 //--------------ONLINE SAFETY SLIDES------------------
 

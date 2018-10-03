@@ -25,6 +25,7 @@ private:
 	
 	cocos2d::Label* _languageText = nullptr;
 	cocos2d::ui::ImageView* _flag = nullptr;
+	cocos2d::ui::ImageView* _radialSelect = nullptr;
 	
 public:
 	
@@ -33,6 +34,7 @@ public:
 	
 	void setLanguage(const std::string& text);
 	void setFlagImage(const std::string& imageFilename);
+	void setSelected(bool selected);
 	
 	CREATE_FUNC(LanguageListItem);
 	

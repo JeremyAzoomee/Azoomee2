@@ -25,46 +25,51 @@ bool FriendRequestLayer::init()
         return false;
     }
     
-    setBackGroundColor(Color3B::WHITE);
-    setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    
     return true;
 }
 
 void FriendRequestLayer::onEnter()
 {
-    //ui::Scale9Sprite* stencil = ui::Scale9Sprite::create("res/settings/rounded_rect.png");
-    //stencil->setContentSize(this->getContentSize());
+    ui::Scale9Sprite* stencil = ui::Scale9Sprite::create("res/settings/rounded_rect.png");
+	stencil->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+    stencil->setContentSize(this->getContentSize());
     
-    //_contentClippingNode = ClippingNode::create(stencil);
+    _contentClippingNode = ClippingNode::create(stencil);
     //_contentClippingNode->addChild(LayerColor::create(Color4B::WHITE, this->getContentSize().width, this->getContentSize().height));
-    //_contentClippingNode->setContentSize(this->getContentSize());
+    _contentClippingNode->setContentSize(this->getContentSize());
+	_contentClippingNode->setAlphaThreshold(0.5f);
     
-    //this->addChild(_contentClippingNode);
-    
+    this->addChild(_contentClippingNode);
+	
+	ui::Layout* contentLayout = ui::Layout::create();
+	contentLayout->setBackGroundColor(Color3B::WHITE);
+	contentLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+	contentLayout->setContentSize(this->getContentSize());
+	_contentClippingNode->addChild(contentLayout);
+	
     _senderText = Label::createWithTTF(StringUtils::format("%s\n%s",_senderName.c_str(), _senderInviteCode.c_str()), Style::Font::Medium, 48);
     _senderText->setNormalizedPosition(Vec2(0.25,0.66));
     _senderText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _senderText->setHorizontalAlignment(TextHAlignment::CENTER);
     _senderText->setTextColor(Color4B::BLACK);
-    this->addChild(_senderText);
-    //_contentClippingNode->addChild(_senderText);
+    //this->addChild(_senderText);
+    contentLayout->addChild(_senderText);
     
     _recipientText = Label::createWithTTF(StringUtils::format("%s\n%s",_recipientName.c_str(), _recipientInviteCode.c_str()), Style::Font::Medium, 48);
     _recipientText->setNormalizedPosition(Vec2(0.75,0.66));
     _recipientText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _recipientText->setHorizontalAlignment(TextHAlignment::CENTER);
     _recipientText->setTextColor(Color4B::BLACK);
-    this->addChild(_recipientText);
-    //_contentClippingNode->addChild(_recipientText);
+    //this->addChild(_recipientText);
+    contentLayout->addChild(_recipientText);
     
     _bodyText = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(SETTINGS_FRIEND_REQUEST_BODY), Style::Font::Medium, 48);
     _bodyText->setNormalizedPosition(Vec2(0.5,0.66));
     _bodyText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _bodyText->setHorizontalAlignment(TextHAlignment::CENTER);
     _bodyText->setTextColor(Color4B(Style::Color::battleshipGrey));
-    this->addChild(_bodyText);
-    //_contentClippingNode->addChild(_bodyText);
+    //this->addChild(_bodyText);
+    contentLayout->addChild(_bodyText);
     
     
     _rejectButton = ui::Layout::create();
@@ -82,8 +87,8 @@ void FriendRequestLayer::onEnter()
             Director::getInstance()->getRunningScene()->addChild(messageBox,100);
         }
     });
-    this->addChild(_rejectButton);
-    //_contentClippingNode->addChild(_rejectButton);
+    //this->addChild(_rejectButton);
+    contentLayout->addChild(_rejectButton);
     
     Label* rejectLabel = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(BUTTON_REJECT), Style::Font::Medium, 59);
     rejectLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -106,8 +111,8 @@ void FriendRequestLayer::onEnter()
             request->execute();
         }
     });
-    this->addChild(_confirmButton);
-    //_contentClippingNode->addChild(_confirmButton);
+    //this->addChild(_confirmButton);
+    contentLayout->addChild(_confirmButton);
     
     Label* confirmLabel = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(BUTTON_CONFIRM), Style::Font::Medium, 59);
     confirmLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -122,8 +127,8 @@ void FriendRequestLayer::onEnter()
     _rejectedBanner->setContentSize(Size(this->getContentSize().width, this->getContentSize().height * 0.33f));
     _rejectedBanner->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _rejectedBanner->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-    this->addChild(_rejectedBanner);
-    //_contentClippingNode->addChild(_rejectedBanner);
+    //this->addChild(_rejectedBanner);
+    contentLayout->addChild(_rejectedBanner);
     
     Label* rejectedLabel = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(SETTINGS_REJECTED), Style::Font::Medium, 59);
     rejectedLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -138,8 +143,8 @@ void FriendRequestLayer::onEnter()
     _confirmedBanner->setContentSize(Size(this->getContentSize().width, this->getContentSize().height * 0.33f));
     _confirmedBanner->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _confirmedBanner->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-    this->addChild(_confirmedBanner);
-    //_contentClippingNode->addChild(_confirmedBanner);
+    //this->addChild(_confirmedBanner);
+    contentLayout->addChild(_confirmedBanner);
     
     Label* confirmedLabel = Label::createWithTTF(StringUtils::format(StringMgr::getInstance()->getStringForKey(SETTINGS_FRIENDSHIP_CONFIRMED).c_str(), _recipientName.c_str()) ,Style::Font::Medium , 59);
     confirmedLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);

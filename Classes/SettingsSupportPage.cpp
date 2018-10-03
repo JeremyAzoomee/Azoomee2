@@ -45,8 +45,8 @@ void SettingsSupportPage::onEnter()
     Label* text = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(SETTINGS_SUPPORT_BODY), Style::Font::Medium, 75);
     text->setWidth(_supportBox->getContentSize().width * 0.8f);
     text->setHorizontalAlignment(TextHAlignment::CENTER);
-    text->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    text->setPosition(Vec2(_supportBox->getContentSize().width * 0.5f, _supportBox->getContentSize().height - 40));
+    text->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    text->setPosition(Vec2(_supportBox->getContentSize().width * 0.5f, _supportBox->getContentSize().height * 0.5f));
     text->setTextColor(Color4B::BLACK);
     _supportBox->addChild(text);
     

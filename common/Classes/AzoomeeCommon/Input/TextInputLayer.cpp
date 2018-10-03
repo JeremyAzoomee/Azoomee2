@@ -93,7 +93,7 @@ void TextInputLayer::createEditBox()
 
     editBox->setColor(Color3B::WHITE);
     editBox->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
-    editBox->setFont(Style::Font::Input, INPUT_STYLE_SIZE);
+    editBox->setFont(Style::Font::Regular, 70);
     editBox->setFontColor(Color3B::BLACK);
     editBox->setPlaceholderFontColor(Style::Color::telish);
     editBox->setPlaceholderFont(Style::Font::Regular, 70);
@@ -125,7 +125,7 @@ void TextInputLayer::createSettingsBoxEditBox(float width)
     
     editBox->setColor(Color3B::WHITE);
     editBox->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
-    editBox->setFont(Style::Font::Input, INPUT_STYLE_SIZE);
+    editBox->setFont(Style::Font::Regular, 59);
     editBox->setFontColor(Color3B::BLACK);
     editBox->setPlaceholderFontColor(Style::Color::battleshipGrey);
     editBox->setPlaceholderFont(Style::Font::Regular, 59);
@@ -157,7 +157,7 @@ void TextInputLayer::createSettingRoundedEditBox(float width)
     
     editBox->setColor(Color3B::WHITE);
     editBox->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
-    editBox->setFont(Style::Font::Input, INPUT_STYLE_SIZE);
+    editBox->setFont(Style::Font::Regular, 70);
     editBox->setFontColor(Color3B::BLACK);
     editBox->setPlaceholderFontColor(Style::Color::telish);
     editBox->setPlaceholderFont(Style::Font::Regular, 70);
@@ -451,6 +451,11 @@ void TextInputLayer::setNewWidth(float newWidth)
 void TextInputLayer::setEnabled(bool enabled)
 {
     editBox->setEnabled(enabled);
+}
+	
+void TextInputLayer::setPlaceholderText(const std::string &placeholder)
+{
+	editBox->setPlaceHolder(placeholder.c_str());
 }
 
 //--------------- EditBox Delegate Fuctions --------------------------------

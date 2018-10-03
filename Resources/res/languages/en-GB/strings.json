@@ -79,7 +79,9 @@
         "update": "Update",
         "ok": "OK",
         "delete": "Delete",
-        "send": "Send"
+        "send": "Send",
+        "manage": "Manage",
+        "renewSub": "Renew subscription"
 
     },
     

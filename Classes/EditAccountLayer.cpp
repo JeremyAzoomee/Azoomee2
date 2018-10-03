@@ -6,6 +6,9 @@
 //
 
 #include "EditAccountLayer.h"
+#include "DynamicNodeHandler.h"
+#include "SettingsMessageBoxNotification.h"
+#include "SettingsMessageBoxTryAgain.h"
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
@@ -98,6 +101,7 @@ void EditAccountLayer::onEnter()
         {
             _displayNameLayout->setVisible(false);
             _editNameLayout->setVisible(true);
+			_editNameInput->focusAndShowKeyboard();
         }
     });
     _displayNameLayout->addChild(_editNameButton);
@@ -133,8 +137,10 @@ void EditAccountLayer::onEnter()
     pinEditboxLayout->addChild(_pinEditbox);
     
     _editPinButton = ui::Button::create("res/settings/edit_text_input.png");
-    _editPinButton->setPosition(Vec2(pinEditboxLayout->getContentSize().width * 0.85f - 10, pinEditboxLayout->getContentSize().height / 2));
+    _editPinButton->setPosition(Vec2(pinEditboxLayout->getContentSize().width * 0.85f - 20, pinEditboxLayout->getContentSize().height / 2));
     _editPinButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+	_editPinButton->setContentSize(Size(_pinEditbox->getContentSize().height + 10, _pinEditbox->getContentSize().height + 10));
+	_editPinButton->ignoreContentAdaptWithSize(false);
     _editPinButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
@@ -145,7 +151,8 @@ void EditAccountLayer::onEnter()
                     ModalMessages::getInstance()->startLoading();
                     HttpRequestCreator* request = API::UpdateParentDetailsRequest(ParentDataProvider::getInstance()->getLoggedInParentId(), ParentDataProvider::getInstance()->getParentDisplayName(), _pinEditbox->getText(), this);
                     request->execute();
-                    _editingPin = false;
+					_pinRequest = true;
+					_editingPin = false;
                     _pinEditbox->setEnabled(false);
                     _editPinButton->loadTextureNormal("res/settings/edit_text_input.png");
                 }
@@ -155,6 +162,7 @@ void EditAccountLayer::onEnter()
                 _editingPin = true;
                 _pinEditbox->setEnabled(true);
                 _editPinButton->loadTextureNormal("res/settings/confirm_edit_button.png");
+				_pinEditbox->focusAndShowKeyboard();
             }
         }
     });
@@ -174,14 +182,65 @@ void EditAccountLayer::onEnter()
     passwordText->setPosition(Vec2(passwordEditboxLayout->getContentSize().width * 0.225f, passwordEditboxLayout->getContentSize().height / 2));
     passwordEditboxLayout->addChild(passwordText);
     
-    _passwordEditBox = TextInputLayer::createSettingsChatTextInput(this->getContentSize().width * 0.6f);
+    _passwordEditBox = TextInputLayer::createSettingsBoxTextInput(this->getContentSize().width * 0.6f, INPUT_IS_NEW_PASSWORD);
     _passwordEditBox->setCenterPosition(Vec2(passwordEditboxLayout->getContentSize().width * 0.55f, passwordEditboxLayout->getContentSize().height / 2));
+	_passwordEditBox->setPlaceholderText("Change password");
+	_passwordEditBox->setEnabled(false);
     passwordEditboxLayout->addChild(_passwordEditBox);
-    
-    ui::Button* editPasswordButton = ui::Button::create("res/settings/edit_text_input.png");
-    editPasswordButton->setPosition(Vec2(passwordEditboxLayout->getContentSize().width * 0.85f - 10, passwordEditboxLayout->getContentSize().height / 2));
-    editPasswordButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
-    passwordEditboxLayout->addChild(editPasswordButton);
+	
+	_passwordState = EditPasswordState::LOCKED;
+	
+    _editPasswordButton = ui::Button::create("res/settings/edit_text_input.png");
+    _editPasswordButton->setPosition(Vec2(passwordEditboxLayout->getContentSize().width * 0.85f - 20, passwordEditboxLayout->getContentSize().height / 2));
+    _editPasswordButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+	_editPasswordButton->setContentSize(Size(_passwordEditBox->getContentSize().height + 10, _passwordEditBox->getContentSize().height + 10));
+	_editPasswordButton->ignoreContentAdaptWithSize(false);
+	_editPasswordButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+		if(eType == ui::Widget::TouchEventType::ENDED)
+		{
+			switch (_passwordState) {
+				case EditPasswordState::LOCKED:
+				{
+					_passwordEditBox->setEnabled(true);
+					_passwordEditBox->setPlaceholderText("Enter current password");
+					_passwordEditBox->focusAndShowKeyboard();
+					_editPasswordButton->loadTextureNormal("res/settings/edit_next.png");
+					_passwordState = EditPasswordState::CURRENT_PASSWORD;
+					break;
+				}
+				case EditPasswordState::CURRENT_PASSWORD:
+				{
+					if(_passwordEditBox->inputIsValid())
+					{
+						_currentPassword = _passwordEditBox->getText();
+						_passwordState = EditPasswordState::NEW_PASSWORD;
+						_passwordEditBox->setPlaceholderText("Enter new password");
+						_passwordEditBox->setText("");
+						_passwordEditBox->focusAndShowKeyboard();
+						_editPasswordButton->loadTextureNormal("res/settings/confirm_edit_button.png");
+						break;
+					}
+				}
+				case EditPasswordState::NEW_PASSWORD:
+				{
+					if(_passwordEditBox->inputIsValid())
+					{
+						ModalMessages::getInstance()->startLoading();
+						HttpRequestCreator* request = API::UpdateParentPasswordRequest(ParentDataProvider::getInstance()->getLoggedInParentId(), _currentPassword, _passwordEditBox->getText(), this);
+						request->execute();
+						
+						_passwordEditBox->setEnabled(false);
+						_passwordState = EditPasswordState::LOCKED;
+						_passwordEditBox->setPlaceholderText("Change password");
+						_passwordEditBox->setText("");
+						_editPasswordButton->loadTextureNormal("res/settings/edit_text_input.png");
+					}
+					break;
+				}
+			}
+		}
+	});
+    passwordEditboxLayout->addChild(_editPasswordButton);
     
     float remainingPadding = lowestY - 400;
     
@@ -204,17 +263,46 @@ void EditAccountLayer::onEnter()
         const std::string& billingProvider = ParentDataProvider::getInstance()->getBillingProvider();
         if(billingProvider == "APPLE" || billingProvider == "GOOGLE" || billingProvider == "AMAZON")
         {
-            // add button to link to sub manager
+			subDeetsLab->setNormalizedPosition(Vec2(0.5f,0.66f));
+			ui::Button* manageButton = ui::Button::create("res/settings/sub_button.png");
+			manageButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+			manageButton->setNormalizedPosition(Vec2(0.5f,0.33f));
+			_accountTypeLayout->addChild(manageButton);
+			
+			Label* manageLab = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(BUTTON_MANAGE), Style::Font::Medium, manageButton->getContentSize().height * 0.4f);
+			manageLab->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+			manageLab->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+			manageLab->setTextColor(Color4B::BLACK);
+			manageLab->setHorizontalAlignment(TextHAlignment::CENTER);
+			manageButton->addChild(manageLab);
         }
     }
     else
     {
         Label* subDeetsLab = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(SETTINGS_ACCOUNT_FREE_LABEL), Style::Font::Medium, 59);
-        subDeetsLab->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+        subDeetsLab->setNormalizedPosition(Vec2(0.5f,0.66f));
         subDeetsLab->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         subDeetsLab->setTextColor(Color4B::WHITE);
         subDeetsLab->setHorizontalAlignment(TextHAlignment::CENTER);
         _accountTypeLayout->addChild(subDeetsLab);
+		
+		ui::Button* resubButton = ui::Button::create("res/settings/sub_button.png");
+		resubButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+		resubButton->setNormalizedPosition(Vec2(0.5f,0.33f));
+		resubButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+			if(eType == ui::Widget::TouchEventType::ENDED)
+			{
+				DynamicNodeHandler::getInstance()->startIAPFlow();
+			}
+		});
+		_accountTypeLayout->addChild(resubButton);
+		
+		Label* resubLab = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(BUTTON_RENEW_SUB), Style::Font::Medium, resubButton->getContentSize().height * 0.4f);
+		resubLab->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+		resubLab->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+		resubLab->setTextColor(Color4B::BLACK);
+		resubLab->setHorizontalAlignment(TextHAlignment::CENTER);
+		resubButton->addChild(resubLab);
     }
     
     this->addChild(_accountTypeLayout);
@@ -229,14 +317,56 @@ void EditAccountLayer::onHttpRequestSuccess(const std::string& requestTag, const
     {
         ModalMessages::getInstance()->stopLoading();
         ParentDataParser::getInstance()->parseParentDetails(body);
-        _nameText->setString(ParentDataProvider::getInstance()->getParentDisplayName());
-        _editNameButton->setPosition((_displayNameLayout->getContentSize() * 0.5) + Size(_nameText->getContentSize().width * 0.5f,0));
-        _editNameInput->setText(ParentDataProvider::getInstance()->getParentDisplayName());
+		if(_pinRequest)
+		{
+			_pinRequest = false;
+			_pinEditbox->setText(ParentDataProvider::getInstance()->getParentPin());
+			SettingsMessageBoxNotification* messageBox = SettingsMessageBoxNotification::create();
+			messageBox->setHeading("Your pin number has been updated!");
+			messageBox->setDelegate(this);
+			Director::getInstance()->getRunningScene()->addChild(messageBox,100);
+		}
+		else
+		{
+			_nameText->setString(ParentDataProvider::getInstance()->getParentDisplayName());
+			_editNameButton->setPosition((_displayNameLayout->getContentSize() * 0.5) + Size(_nameText->getContentSize().width * 0.5f,0));
+			_editNameInput->setText(ParentDataProvider::getInstance()->getParentDisplayName());
+		}
     }
+	else if(requestTag == API::TagUpdateParentPassword)
+	{
+		ModalMessages::getInstance()->stopLoading();
+		SettingsMessageBoxNotification* messageBox = SettingsMessageBoxNotification::create();
+		messageBox->setHeading("Your password has been updated!");
+		messageBox->setDelegate(this);
+		Director::getInstance()->getRunningScene()->addChild(messageBox,100);
+		
+	}
 }
 void EditAccountLayer::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
     ModalMessages::getInstance()->stopLoading();
+	if(requestTag == API::TagUpdateParentPassword)
+	{
+		SettingsMessageBoxTryAgain* messageBox = SettingsMessageBoxTryAgain::create();
+		messageBox->setHeading("Oops");
+		messageBox->setSubHeading("The current password you entered doesnt seem to match up with what we’ve got");
+		messageBox->setDelegate(this);
+		Director::getInstance()->getRunningScene()->addChild(messageBox,100);
+	}
+}
+
+void EditAccountLayer::onButtonPressed(SettingsMessageBox* pSender, SettingsMessageBoxButtonType type)
+{
+	pSender->removeFromParent();
+	if(type == SettingsMessageBoxButtonType::TRY_AGAIN)
+	{
+		_passwordEditBox->setEnabled(true);
+		_passwordEditBox->setPlaceholderText("Enter current password");
+		_passwordEditBox->focusAndShowKeyboard();
+		_editPasswordButton->loadTextureNormal("res/settings/edit_next.png");
+		_passwordState = EditPasswordState::CURRENT_PASSWORD;
+	}
 }
 
 NS_AZOOMEE_END

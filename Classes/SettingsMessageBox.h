@@ -16,7 +16,7 @@ NS_AZOOMEE_BEGIN
 
 class SettingsMessageBox;
 
-enum class SettingsMessageBoxButtonType {CANCEL = 0, CLOSE, DELETE, REJECT, SEND};
+enum class SettingsMessageBoxButtonType {CANCEL = 0, CLOSE, DELETE, REJECT, SEND, TRY_AGAIN};
 
 class SettingsMessageBoxButton : public cocos2d::ui::Button
 {
