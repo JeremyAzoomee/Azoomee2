@@ -114,7 +114,7 @@ void LoginScene::addLabelToScene()
 //    versionLabel->setPosition(versionLabel->getPosition() - Director::getInstance()->getVisibleOrigin());
     this->addChild(versionLabel);
 
-    titleLabel = createLabelHeader(StringMgr::getInstance()->getStringForKey(LOGINSCENE_EMAIL_LABEL));
+    titleLabel = createLabelHeader(_("Log in. Please enter your email."));
 //    titleLabel->setPosition(titleLabel->getPosition() - Director::getInstance()->getVisibleOrigin());
     this->addChild(titleLabel);
 }
@@ -150,7 +150,7 @@ void LoginScene::addButtonsScene()
 
 void LoginScene::changeElementsToPasswordScreen()
 {
-    titleLabel->setString(StringMgr::getInstance()->getStringForKey(LOGINSCENE_PASSWORD_LABEL));
+    titleLabel->setString(_("Password"));
     storedUsername = emailTextInput->getText();
     AnalyticsSingleton::getInstance()->registerAzoomeeEmail(storedUsername);
     emailTextInput->setEditboxVisibility(false);
@@ -163,7 +163,7 @@ void LoginScene::changeElementsToPasswordScreen()
 
 void LoginScene::changeElementsToEmailScreen()
 {
-    titleLabel->setString(StringMgr::getInstance()->getStringForKey(LOGINSCENE_EMAIL_LABEL));
+    titleLabel->setString(_("Log in. Please enter your email."));
     passwordTextInput->setEditboxVisibility(false);
     passwordTextInput->setText("");
     emailTextInput->setEditboxVisibility(true);

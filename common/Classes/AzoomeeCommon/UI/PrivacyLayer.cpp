@@ -31,7 +31,7 @@ bool PrivacyLayer::init()
 
 void PrivacyLayer::createButton(cocos2d::Color3B newColor)
 {
-    _privacyButton = ElectricDreamsButton::createTextAsButtonWithColor(StringMgr::getInstance()->getStringForKey(T_and_C_Privacy_Button), 40, true, newColor);
+    _privacyButton = ElectricDreamsButton::createTextAsButtonWithColor(_("Privacy Policy"), 40, true, newColor);
     _privacyButton->setMixPanelButtonName("PrivacyPolicyNoLinksButton");
     _privacyButton->setDelegate(this);
 }

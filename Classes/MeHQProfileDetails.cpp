@@ -90,7 +90,7 @@ bool MeHQProfileDetails::init()
     
     _labelLayout->addChild(_nameLabel);
     
-    _kidCodeLabel = ui::Text::create(StringMgr::getInstance()->getStringForKey(KID_CODE) + ParentDataProvider::getInstance()->getInviteCodeForAnAvailableChild(ChildDataProvider::getInstance()->getLoggedInChildNumber()), Style::Font::Regular, is3x4Device ? 67 : 80);
+    _kidCodeLabel = ui::Text::create(_("Kid Code:") + " " + ParentDataProvider::getInstance()->getInviteCodeForAnAvailableChild(ChildDataProvider::getInstance()->getLoggedInChildNumber()), Style::Font::Regular, is3x4Device ? 67 : 80);
     _kidCodeLabel->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE : Vec2::ANCHOR_MIDDLE_TOP);
     _kidCodeLabel->setNormalizedPosition(Vec2(0.5,isPortrait ? 0.25 : 0.45));
     _kidCodeLabel->setContentSize(Size(contentSize.width /2, contentSize.height / 3.0f));

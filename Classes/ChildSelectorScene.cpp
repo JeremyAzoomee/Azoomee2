@@ -117,7 +117,7 @@ void ChildSelectorScene::addVisualsToScene()
 {
     addBackgroundToScreen();
     
-    auto selectTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(CHILD_SELECTSCENE_TITLE_LABEL));
+    auto selectTitle = createLabelHeader(_("Select your profile"));
     selectTitle->setNormalizedPosition(Vec2(0.5,0.9));
     _contentNode->addChild(selectTitle);
 }

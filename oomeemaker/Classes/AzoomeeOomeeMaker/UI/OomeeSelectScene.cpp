@@ -160,7 +160,7 @@ void OomeeSelectScene::toggleMakeAvatarHiglight()
         }),NULL));
         _contentLayer->addChild(banner,10);
         
-        auto bannerLabel = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(OOMEE_MAKER_NEW_AVATAR), Style::Font::Regular, 73);
+        auto bannerLabel = Label::createWithTTF(_("This is your new Oomee!"), Style::Font::Regular, 73);
         bannerLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         bannerLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
         bannerLabel->setColor(Color3B::BLACK);
@@ -187,7 +187,7 @@ void OomeeSelectScene::editOomee(const std::string& oomeeFileName)
 
 void OomeeSelectScene::deleteOomee(const std::string &oomeeFilename)
 {
-    ConfirmCancelMessageBox* messagebox = ConfirmCancelMessageBox::createWithParams(StringMgr::getInstance()->getStringForKey(DELETEQ_LABEL), "res/buttons/confirm_bin.png", "res/buttons/confirm_x_2.png");
+    ConfirmCancelMessageBox* messagebox = ConfirmCancelMessageBox::createWithParams(_("Delete?"), "res/buttons/confirm_bin.png", "res/buttons/confirm_x_2.png");
     messagebox->setDelegate(this);
     messagebox->setName(oomeeFilename);
     _contentLayer->addChild(messagebox);

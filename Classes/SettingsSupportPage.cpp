@@ -42,7 +42,7 @@ void SettingsSupportPage::onEnter()
     _supportBox->setBackGroundImageScale9Enabled(true);
     this->addChild(_supportBox);
     
-    Label* text = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(SETTINGS_SUPPORT_BODY), Style::Font::Medium, 75);
+    Label* text = Label::createWithTTF(_("Need some help?\n\n\nVisit our support page at support.azoomee.com\n\nOr\n\nContact us directly at help@azoomee.com"), Style::Font::Medium, 75);
     text->setWidth(_supportBox->getContentSize().width * 0.8f);
     text->setHorizontalAlignment(TextHAlignment::CENTER);
     text->setAnchorPoint(Vec2::ANCHOR_MIDDLE);

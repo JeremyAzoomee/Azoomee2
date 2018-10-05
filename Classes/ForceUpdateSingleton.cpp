@@ -58,8 +58,8 @@ void ForceUpdateSingleton::onForceUpdateLogicHasLocalFile()
         }
         else
         {
-            std::vector<std::string> buttonNames = {StringMgr::getInstance()->getStringForKey(BUTTON_OK), StringMgr::getInstance()->getStringForKey(BUTTON_UPDATE)};
-            MessageBox::createWith(StringMgr::getInstance()->getStringForKey(FORCE_UPDATE_MSG_BOX_TITLE), StringMgr::getInstance()->getStringForKey(FORCE_UPDATE_MSG_BOX_BODY), buttonNames, this);
+            std::vector<std::string> buttonNames = {_("OK"), _("Update")};
+            MessageBox::createWith(_("Update recommended"), _("You should update to the latest version of Azoomee. Ask a grown-up to help you."), buttonNames, this);
         }
     }
 }

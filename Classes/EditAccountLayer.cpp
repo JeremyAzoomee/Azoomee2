@@ -123,7 +123,7 @@ void EditAccountLayer::onEnter()
     
     lowestY -= (pinEditboxLayout->getContentSize().height + 35);
     
-    Label* pinText = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(PIN_LABEL), Style::Font::Medium, 59);
+    Label* pinText = Label::createWithTTF(_("Pin"), Style::Font::Medium, 59);
     pinText->setTextColor(Color4B(Style::Color::battleshipGrey));
     pinText->setHorizontalAlignment(TextHAlignment::RIGHT);
     pinText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
@@ -175,7 +175,7 @@ void EditAccountLayer::onEnter()
     
     lowestY -= passwordEditboxLayout->getContentSize().height;
     
-    Label* passwordText = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(PASSWORD_LABEL), Style::Font::Medium, 59);
+    Label* passwordText = Label::createWithTTF(_("Password"), Style::Font::Medium, 59);
     passwordText->setTextColor(Color4B(Style::Color::battleshipGrey));
     passwordText->setHorizontalAlignment(TextHAlignment::RIGHT);
     passwordText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
@@ -184,7 +184,7 @@ void EditAccountLayer::onEnter()
     
     _passwordEditBox = TextInputLayer::createSettingsBoxTextInput(this->getContentSize().width * 0.6f, INPUT_IS_NEW_PASSWORD);
     _passwordEditBox->setCenterPosition(Vec2(passwordEditboxLayout->getContentSize().width * 0.55f, passwordEditboxLayout->getContentSize().height / 2));
-	_passwordEditBox->setPlaceholderText("Change password");
+	_passwordEditBox->setPlaceholderText(_("Change password"));
 	_passwordEditBox->setEnabled(false);
     passwordEditboxLayout->addChild(_passwordEditBox);
 	
@@ -202,7 +202,7 @@ void EditAccountLayer::onEnter()
 				case EditPasswordState::LOCKED:
 				{
 					_passwordEditBox->setEnabled(true);
-					_passwordEditBox->setPlaceholderText("Enter current password");
+					_passwordEditBox->setPlaceholderText(_("Enter current password"));
 					_passwordEditBox->focusAndShowKeyboard();
 					_editPasswordButton->loadTextureNormal("res/settings/edit_next.png");
 					_passwordState = EditPasswordState::CURRENT_PASSWORD;
@@ -214,7 +214,7 @@ void EditAccountLayer::onEnter()
 					{
 						_currentPassword = _passwordEditBox->getText();
 						_passwordState = EditPasswordState::NEW_PASSWORD;
-						_passwordEditBox->setPlaceholderText("Enter new password");
+						_passwordEditBox->setPlaceholderText(_("Enter new password"));
 						_passwordEditBox->setText("");
 						_passwordEditBox->focusAndShowKeyboard();
 						_editPasswordButton->loadTextureNormal("res/settings/confirm_edit_button.png");
@@ -231,7 +231,7 @@ void EditAccountLayer::onEnter()
 						
 						_passwordEditBox->setEnabled(false);
 						_passwordState = EditPasswordState::LOCKED;
-						_passwordEditBox->setPlaceholderText("Change password");
+						_passwordEditBox->setPlaceholderText(_("Change password"));
 						_passwordEditBox->setText("");
 						_editPasswordButton->loadTextureNormal("res/settings/edit_text_input.png");
 					}
@@ -253,7 +253,7 @@ void EditAccountLayer::onEnter()
     
     if(ParentDataProvider::getInstance()->isPaidUser())
     {
-        Label* subDeetsLab = Label::createWithTTF(StringUtils::format(StringMgr::getInstance()->getStringForKey(SETTINGS_ACCOUNT_PREMIUM_LABEL).c_str(),ParentDataProvider::getInstance()->getBillingDate().c_str()), Style::Font::Medium, 59);
+        Label* subDeetsLab = Label::createWithTTF(StringUtils::format(_("Premium Subscription\nRenew’s on %s").c_str(),ParentDataProvider::getInstance()->getBillingDate().c_str()), Style::Font::Medium, 59);
         subDeetsLab->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
         subDeetsLab->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         subDeetsLab->setTextColor(Color4B::WHITE);
@@ -269,7 +269,7 @@ void EditAccountLayer::onEnter()
 			manageButton->setNormalizedPosition(Vec2(0.5f,0.33f));
 			_accountTypeLayout->addChild(manageButton);
 			
-			Label* manageLab = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(BUTTON_MANAGE), Style::Font::Medium, manageButton->getContentSize().height * 0.4f);
+			Label* manageLab = Label::createWithTTF(_("Manage"), Style::Font::Medium, manageButton->getContentSize().height * 0.4f);
 			manageLab->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 			manageLab->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 			manageLab->setTextColor(Color4B::BLACK);
@@ -279,7 +279,7 @@ void EditAccountLayer::onEnter()
     }
     else
     {
-        Label* subDeetsLab = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(SETTINGS_ACCOUNT_FREE_LABEL), Style::Font::Medium, 59);
+        Label* subDeetsLab = Label::createWithTTF(_("Free Account\nTap Renew for a special offer"), Style::Font::Medium, 59);
         subDeetsLab->setNormalizedPosition(Vec2(0.5f,0.66f));
         subDeetsLab->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         subDeetsLab->setTextColor(Color4B::WHITE);
@@ -297,7 +297,7 @@ void EditAccountLayer::onEnter()
 		});
 		_accountTypeLayout->addChild(resubButton);
 		
-		Label* resubLab = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(BUTTON_RENEW_SUB), Style::Font::Medium, resubButton->getContentSize().height * 0.4f);
+		Label* resubLab = Label::createWithTTF(_("Renew subscription"), Style::Font::Medium, resubButton->getContentSize().height * 0.4f);
 		resubLab->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 		resubLab->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 		resubLab->setTextColor(Color4B::BLACK);
@@ -322,7 +322,7 @@ void EditAccountLayer::onHttpRequestSuccess(const std::string& requestTag, const
 			_pinRequest = false;
 			_pinEditbox->setText(ParentDataProvider::getInstance()->getParentPin());
 			SettingsMessageBoxNotification* messageBox = SettingsMessageBoxNotification::create();
-			messageBox->setHeading("Your pin number has been updated!");
+			messageBox->setHeading(_("Your pin number has been updated!"));
 			messageBox->setDelegate(this);
 			Director::getInstance()->getRunningScene()->addChild(messageBox,100);
 		}
@@ -337,7 +337,7 @@ void EditAccountLayer::onHttpRequestSuccess(const std::string& requestTag, const
 	{
 		ModalMessages::getInstance()->stopLoading();
 		SettingsMessageBoxNotification* messageBox = SettingsMessageBoxNotification::create();
-		messageBox->setHeading("Your password has been updated!");
+		messageBox->setHeading(_("Your password has been updated!"));
 		messageBox->setDelegate(this);
 		Director::getInstance()->getRunningScene()->addChild(messageBox,100);
 		
@@ -349,8 +349,8 @@ void EditAccountLayer::onHttpRequestFailed(const std::string& requestTag, long e
 	if(requestTag == API::TagUpdateParentPassword)
 	{
 		SettingsMessageBoxTryAgain* messageBox = SettingsMessageBoxTryAgain::create();
-		messageBox->setHeading("Oops");
-		messageBox->setSubHeading("The current password you entered doesnt seem to match up with what we’ve got");
+		messageBox->setHeading(_("Oops!"));
+		messageBox->setSubHeading(_("The current password you entered doesnt seem to match up with what we’ve got"));
 		messageBox->setDelegate(this);
 		Director::getInstance()->getRunningScene()->addChild(messageBox,100);
 	}
@@ -362,7 +362,7 @@ void EditAccountLayer::onButtonPressed(SettingsMessageBox* pSender, SettingsMess
 	if(type == SettingsMessageBoxButtonType::TRY_AGAIN)
 	{
 		_passwordEditBox->setEnabled(true);
-		_passwordEditBox->setPlaceholderText("Enter current password");
+		_passwordEditBox->setPlaceholderText(_("Enter current password"));
 		_passwordEditBox->focusAndShowKeyboard();
 		_editPasswordButton->loadTextureNormal("res/settings/edit_next.png");
 		_passwordState = EditPasswordState::CURRENT_PASSWORD;

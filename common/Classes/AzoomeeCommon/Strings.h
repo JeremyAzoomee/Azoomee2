@@ -5,6 +5,8 @@
 #include "Utils/StringMgr.h"
 #include "Utils/StringFunctions.h"
 
+#define _(string) StringMgr::getInstance()->getStringForKey(string)
+
 
 // ---------- LOGIN SCENE TEXT -------------
 

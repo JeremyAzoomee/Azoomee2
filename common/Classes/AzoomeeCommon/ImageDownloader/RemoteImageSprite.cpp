@@ -137,7 +137,7 @@ void RemoteImageSprite::addLoadingAnimation()
     loadingAnimation->setPosition(0, 0);
     this->addChild(loadingAnimation);
     
-    auto loadingLabel = createLabelSmallLoading(StringMgr::getInstance()->getStringForKey(LOADING_LABEL));
+    auto loadingLabel = createLabelSmallLoading(_("Loading"));
     loadingLabel->setPosition(this->getContentSize() / 2);
     loadingAnimation->addChild(loadingLabel);
 }

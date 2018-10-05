@@ -1,4 +1,5 @@
 #include "FriendListScene.h"
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
@@ -191,7 +192,7 @@ void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
     if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
     {
         oomeeFileName = ChildDataProvider::getInstance()->getParentOrChildAvatarId();
-        displayName = "   " + ChildDataProvider::getInstance()->getLoggedInChildName() + " (Kid Code: " + ParentDataProvider::getInstance()->getInviteCodeForAnAvailableChild(ChildDataProvider::getInstance()->getLoggedInChildNumber()) + ")";
+        displayName = "   " + ChildDataProvider::getInstance()->getLoggedInChildName() + " (" + _("Kid Code:") + " " + ParentDataProvider::getInstance()->getInviteCodeForAnAvailableChild(ChildDataProvider::getInstance()->getLoggedInChildNumber()) + ")";
         auto childAvatarSprite = RemoteImageSprite::create();
         childAvatarSprite->setKeepAspectRatio(true);
         childAvatarSprite->initWithUrlAndSizeWithoutPlaceholder(oomeeFileName, Size(128,128));
@@ -202,7 +203,7 @@ void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
     else
     {
         oomeeFileName = "res/childSelection/om_GenericParent.png";
-        displayName = "   Parent";
+        displayName = "   " + _("Parent");
         auto parentAvatar = Sprite::create(oomeeFileName);
         parentAvatar->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
         childAvatar->setContentSize(parentAvatar->getContentSize());

@@ -19,11 +19,12 @@ void SettingsMessageBoxDeleteChild::onEnter()
     
     _messageBox->setContentSize(Size(_visibleSize.width - 100, 720));
     
-    _heading = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(SETTINGS_DELETE_PROFILE), Style::Font::Medium, 91);
+    _heading = Label::createWithTTF(_("Are you sure you want to delete this profile?"), Style::Font::Medium, 91);
     _heading->setTextColor(Color4B::BLACK);
     _heading->setHorizontalAlignment(TextHAlignment::CENTER);
     _heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _heading->setNormalizedPosition(Vec2(0.5,0.84));
+	_heading->setWidth((_visibleSize.width - 100) * 0.75f);
     _messageBox->addChild(_heading);
     
     _cancelButton = SettingsMessageBoxButton::create();
@@ -35,7 +36,7 @@ void SettingsMessageBoxDeleteChild::onEnter()
     _cancelButton->addTouchEventListener(CC_CALLBACK_2(SettingsMessageBox::onButtonPressed, this));
     _messageBox->addChild(_cancelButton);
     
-    Label* cancelLabel = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(BUTTON_CANCEL), Style::Font::Medium, 75);
+    Label* cancelLabel = Label::createWithTTF(_("Cancel"), Style::Font::Medium, 75);
     cancelLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     cancelLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _cancelButton->addChild(cancelLabel);
@@ -49,7 +50,7 @@ void SettingsMessageBoxDeleteChild::onEnter()
     _deleteButton->addTouchEventListener(CC_CALLBACK_2(SettingsMessageBox::onButtonPressed, this));
     _messageBox->addChild(_deleteButton);
     
-    Label* deleteLabel = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(BUTTON_DELETE), Style::Font::Medium, 75);
+    Label* deleteLabel = Label::createWithTTF(_("Delete"), Style::Font::Medium, 75);
     deleteLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     deleteLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _deleteButton->addChild(deleteLabel);

@@ -43,7 +43,7 @@ private:
 
     bool keysExistInJson(std::string sceneID, std::string stringKey, Document inDocument);
     
-    std::string getStringFromJson(std::vector<std::string> jsonKeys, rapidjson::Value& sceneJsonDictionary);
+    std::string getNestedStringFromJson(std::vector<std::string> jsonKeys, rapidjson::Value& sceneJsonDictionary);
     
 };
   

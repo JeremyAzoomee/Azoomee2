@@ -158,7 +158,7 @@ void RequestAdultPinLayer::addUIObjects()
     
     //---------- MODAL LABEL ------------
     
-    enterYourPinTitle = createLabelButtonAdultPrimary(StringMgr::getInstance()->getStringForKey(PIN_REQUEST_LABEL));
+    enterYourPinTitle = createLabelButtonAdultPrimary(_("Please enter your PIN"));
     enterYourPinTitle->setPosition(editBox_pin->getPositionX() + enterYourPinTitle->getContentSize().width/2, windowLayer->getContentSize().height*.66+enterYourPinTitle->getContentSize().height/2);
     windowLayer->addChild(enterYourPinTitle);
     

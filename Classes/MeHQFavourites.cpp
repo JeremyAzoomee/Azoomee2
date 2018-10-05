@@ -52,7 +52,7 @@ void MeHQFavourites::onEnter()
 	icon->setAnchorPoint(Vec2(1.5f,0.35f));
 	icon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	
-    ui::Text* heading = ui::Text::create(StringMgr::getInstance()->getStringForKey(MEHQ_HEADING_FAVOURITES), Style::Font::Regular, 75);
+    ui::Text* heading = ui::Text::create(_("MY FAVOURITES"), Style::Font::Regular, 75);
     heading->setTextHorizontalAlignment(TextHAlignment::CENTER);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setContentSize(Size(visibleSize.width, spaceAboveCarousel));
@@ -87,7 +87,7 @@ void MeHQFavourites::onEnter()
             hqSceneElement->deleteButtonVisible(_editEnabled);
             hqSceneElement->setDeleteButtonCallback([&](const HQContentItemObjectRef& contentItem){
 				_targetDeleteItem = contentItem;
-				_deleteItemMessageBox = ConfirmCancelMessageBox::createWithParams(StringMgr::getInstance()->getStringForKey(DELETEQ_LABEL), "res/buttons/confirm_bin.png", "res/buttons/confirm_x_2.png");
+				_deleteItemMessageBox = ConfirmCancelMessageBox::createWithParams(_("Delete?"), "res/buttons/confirm_bin.png", "res/buttons/confirm_x_2.png");
 				_deleteItemMessageBox->setDelegate(this);
 				Director::getInstance()->getRunningScene()->addChild(_deleteItemMessageBox);
             });

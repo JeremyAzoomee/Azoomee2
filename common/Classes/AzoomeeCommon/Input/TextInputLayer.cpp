@@ -206,27 +206,27 @@ void TextInputLayer::setupEditBoxUsingType()
             editBox->setMaxLength(12);
             editBox->setInputFlag(ui::EditBox::InputFlag::INITIAL_CAPS_WORD);
             editBox->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
-            editBox->setPlaceHolder(StringMgr::getInstance()->getStringForKey(INPUT_PLACEHOLDER_CHILD_NAME).c_str());
+            editBox->setPlaceHolder(_("First name or nickname only").c_str());
             break;
         }
         case INPUT_IS_DAY:
         {
             editBox->setMaxLength(2);
-            editBox->setPlaceHolder(StringMgr::getInstance()->getStringForKey(INPUT_PLACEHOLDER_DAY).c_str());
+            editBox->setPlaceHolder(_("DD").c_str());
             editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
             break;
         }
         case INPUT_IS_MONTH:
         {
             editBox->setMaxLength(2);
-            editBox->setPlaceHolder(StringMgr::getInstance()->getStringForKey(INPUT_PLACEHOLDER_MONTH).c_str());
+            editBox->setPlaceHolder(_("MM").c_str());
             editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
             break;
         }
         case INPUT_IS_YEAR:
         {
             editBox->setMaxLength(4);
-            editBox->setPlaceHolder(StringMgr::getInstance()->getStringForKey(INPUT_PLACEHOLDER_YEAR).c_str());
+            editBox->setPlaceHolder(_("YYYY").c_str());
             editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
             break;
         }
@@ -235,14 +235,14 @@ void TextInputLayer::setupEditBoxUsingType()
             editBox->setMaxLength(50);
             editBox->setInputFlag(ui::EditBox::InputFlag::PASSWORD);
             editBox->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
-            editBox->setPlaceHolder(StringMgr::getInstance()->getStringForKey(INPUT_PLACEHOLDER_PASSWORD).c_str());
+            editBox->setPlaceHolder(_("Minimum 6 characters").c_str());
             break;
         }
         case INPUT_IS_AGE:
         {
             editBox->setMaxLength(2);
             editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
-            editBox->setPlaceHolder(StringMgr::getInstance()->getStringForKey(INPUT_PLACEHOLDER_AGE).c_str());
+            editBox->setPlaceHolder(_("Age").c_str());
             break;
         }
         case INPUT_IS_KIDS_CODE:
@@ -250,7 +250,7 @@ void TextInputLayer::setupEditBoxUsingType()
             editBox->setInputFlag(ui::EditBox::InputFlag::INITIAL_CAPS_ALL_CHARACTERS);
             editBox->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
             editBox->setMaxLength(8);
-            editBox->setPlaceHolder(StringMgr::getInstance()->getStringForKey(INPUT_PLACEHOLDER_KID_CODE).c_str());
+            editBox->setPlaceHolder(_("Enter Friend's Kid Code").c_str());
             break;
         }
     }

@@ -38,7 +38,7 @@ void SettingsFriendshipsPage::onEnter()
 {
     _headerBanner = SettingsPageHeader::create();
     _headerBanner->setContentSize(Size(this->getContentSize().width, 316));
-    _headerBanner->setText(StringMgr::getInstance()->getStringForKey(SETTINGS_PAGE_HEADING_FRIENDSHIPS));
+    _headerBanner->setText(_("Learn more about chat… sit amet, consectetur adipiscing elit. consectetur adipiscing elit."));
     _headerBanner->setLayoutParameter(CreateTopLinearLayoutParam());
     this->addChild(_headerBanner);
     
