@@ -27,7 +27,7 @@ void ChildNameLayer::onEnter()
 {
     const Size& contentSize = this->getContentSize();
     
-    Label* title = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(ADDCHILD_ADD_ANOTHER_TITLE), Style::Font::Regular, 150);
+    Label* title = Label::createWithTTF(_("Add another child"), Style::Font::Regular, 150);
     title->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     title->setPosition(contentSize.width / 2.0f, contentSize.height * 0.9f);
     title->setColor(Color3B::WHITE);
@@ -42,7 +42,7 @@ void ChildNameLayer::onEnter()
     }
     this->addChild(_textInput);
     
-    Label* textInputTitle = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(ADDCHILD_NAME_HEADING), Style::Font::Regular, 100);
+    Label* textInputTitle = Label::createWithTTF(_("What’s your child’s name?"), Style::Font::Regular, 100);
     textInputTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     textInputTitle->setPosition(_textInput->getPosition() + Vec2(_textInput->getContentSize().width / 2, _textInput->getContentSize().height * 1.25f));
     textInputTitle->setColor(Color3B::WHITE);

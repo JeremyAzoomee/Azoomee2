@@ -55,7 +55,7 @@ void MeHQGallery::onEnter()
 	icon->setAnchorPoint(Vec2(1.5f,0.35f));
 	icon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	
-    ui::Text* heading = ui::Text::create(StringMgr::getInstance()->getStringForKey(MEHQ_HEADING_GALLERY), Style::Font::Regular, 75);
+    ui::Text* heading = ui::Text::create(_("MY GALLERY"), Style::Font::Regular, 75);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(icon->getContentSize().width* 0.75f,0,0,50)));
     heading->setContentSize(Size(visibleSize.width, spaceAboveCarousel));
@@ -91,7 +91,7 @@ void MeHQGallery::onEnter()
         currentElement->enableOnScreenChecker();
 		currentElement->setDeleteButtonCallback([&](const std::string& imageFilename){
 			_targetDeleteFilename = imageFilename;
-			_deleteItemMessageBox = ConfirmCancelMessageBox::createWithParams(StringMgr::getInstance()->getStringForKey(DELETEQ_LABEL), "res/buttons/confirm_bin.png", "res/buttons/confirm_x_2.png");
+			_deleteItemMessageBox = ConfirmCancelMessageBox::createWithParams(_("Delete?"), "res/buttons/confirm_bin.png", "res/buttons/confirm_x_2.png");
 			_deleteItemMessageBox->setDelegate(this);
 			Director::getInstance()->getRunningScene()->addChild(_deleteItemMessageBox);
 		});

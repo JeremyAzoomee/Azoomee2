@@ -32,7 +32,7 @@ void SettingsOnlineSafetyPage::onEnter()
 {
     _headerBanner = SettingsPageHeader::create();
     _headerBanner->setContentSize(Size(this->getContentSize().width, 316));
-    _headerBanner->setText(StringMgr::getInstance()->getStringForKey(SETTINGS_PAGE_HEADING_ONLINE_SAFETY));
+    _headerBanner->setText(_("Watch SearchItUp… sit amet, consectetur adipiscing elit. consectetur adipiscing elit."));
     _headerBanner->setLayoutParameter(CreateTopLinearLayoutParam());
     this->addChild(_headerBanner);
     
@@ -44,9 +44,9 @@ void SettingsOnlineSafetyPage::onEnter()
     {
         OnlineSafetySlide* slide = OnlineSafetySlide::create();
         slide->setContentSize(_onlineSafetyPageView->getContentSize());
-        slide->setTitle(StringMgr::getInstance()->getStringForKey(StringUtils::format("%sAdult%d", ONLINE_SAFETY_SLIDE_TITLE,i)));
+        slide->setTitle(_(StringUtils::format("titleAdult%d",i)));
         slide->setImage(StringUtils::format("res/onlineSafetySlides/Oomees_SettingsPage-0%d.png",i));
-        slide->setBodyText(StringMgr::getInstance()->getStringForKey(StringUtils::format("%sAdult%d", ONLINE_SAFETY_SLIDE_MAIN_TEXT,i)));
+        slide->setBodyText(_(StringUtils::format("mainTextAdult%d",i)));
         _onlineSafetyPageView->addPage(slide);
     }
     

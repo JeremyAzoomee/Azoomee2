@@ -67,14 +67,14 @@ bool SettingsHub::init()
             {
                 _activeSettingsPageHolder->setVisible(false);
                 _navigationLayout->setVisible(true);
-                _titleText->setString(StringMgr::getInstance()->getStringForKey(SETTINGS_HEADING_MAIN));
+                _titleText->setString(_("Settings"));
                 _titleBarButton->loadTextureNormal("res/settings/exit_button.png");
                 _inHub = true;
             }
         }
     });
     
-    _titleText = ui::Text::create(StringMgr::getInstance()->getStringForKey(SETTINGS_HEADING_MAIN), Style::Font::Medium, 91);
+    _titleText = ui::Text::create(_("Settings"), Style::Font::Medium, 91);
     _titleText->setNormalizedPosition(isIphoneX ? Vec2(0.5,0.25) : Vec2::ANCHOR_MIDDLE);
     _titleText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _titleText->setTextColor(Color4B::WHITE);
@@ -100,8 +100,8 @@ bool SettingsHub::init()
 	_languageButton->setContentSize(Size(visibleSize.width, buttonHeight));
 	_languageButton->setLayoutParameter(CreateTopLinearLayoutParam(ui::Margin(0,0,0,10)));
 	_languageButton->setIconFilename("res/settings/flag_english_uk.png");
-	_languageButton->setTitleText(StringMgr::getInstance()->getStringForKey(SETTINGS_HEADING_LANGUAGE));
-	_languageButton->setSubTitleText(StringMgr::getInstance()->getStringForKey(SETTINGS_SUB_HEADING_LANGUAGE));
+	_languageButton->setTitleText(_("Language"));
+	_languageButton->setSubTitleText(_("Change your language selection"));
 	_languageButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
@@ -115,8 +115,8 @@ bool SettingsHub::init()
     _kidsButton->setContentSize(Size(visibleSize.width, buttonHeight));
     _kidsButton->setLayoutParameter(CreateTopLinearLayoutParam(ui::Margin(0,0,0,10)));
     _kidsButton->setIconFilename("res/settings/your_kids_icon_2.png");
-    _kidsButton->setTitleText(StringMgr::getInstance()->getStringForKey(SETTINGS_HEADING_YOUR_KIDS));
-    _kidsButton->setSubTitleText(StringMgr::getInstance()->getStringForKey(SETTINGS_SUB_HEADING_YOUR_KIDS));
+    _kidsButton->setTitleText(_("Your Kids"));
+    _kidsButton->setSubTitleText(_("Manage your kids’ profiles and add friends using Kid Codes"));
     _kidsButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
@@ -130,8 +130,8 @@ bool SettingsHub::init()
     _friendshipsButton->setContentSize(Size(visibleSize.width, buttonHeight));
     _friendshipsButton->setLayoutParameter(CreateTopLinearLayoutParam(ui::Margin(0,0,0,10)));
     _friendshipsButton->setIconFilename("res/settings/friendships_icon_3.png");
-    _friendshipsButton->setTitleText(StringMgr::getInstance()->getStringForKey(SETTINGS_HEADING_FRIENDSHIPS));
-    _friendshipsButton->setSubTitleText(StringMgr::getInstance()->getStringForKey(SETTINGS_SUB_HEADING_FRIENDSHIPS));
+    _friendshipsButton->setTitleText(_("Friendships"));
+    _friendshipsButton->setSubTitleText(_("Learn more about chat… sit amet, consectetur adipiscing elit. consectetur adipiscing elit."));
     _friendshipsButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
@@ -145,8 +145,8 @@ bool SettingsHub::init()
     _yourAccountButton->setContentSize(Size(visibleSize.width, buttonHeight));
     _yourAccountButton->setLayoutParameter(CreateTopLinearLayoutParam(ui::Margin(0,0,0,10)));
     _yourAccountButton->setIconFilename("res/settings/your_account_icon_4.png");
-    _yourAccountButton->setTitleText(StringMgr::getInstance()->getStringForKey(SETTINGS_HEADING_YOUR_ACCOUNT));
-    _yourAccountButton->setSubTitleText(StringMgr::getInstance()->getStringForKey(SETTINGS_SUB_HEADING_YOUR_ACCOUNT));
+    _yourAccountButton->setTitleText(_("Your Account"));
+    _yourAccountButton->setSubTitleText(_("Update your details and manage your subscription"));
     _yourAccountButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
@@ -160,8 +160,8 @@ bool SettingsHub::init()
     _onlineSafetyButton->setContentSize(Size(visibleSize.width, buttonHeight));
     _onlineSafetyButton->setLayoutParameter(CreateTopLinearLayoutParam(ui::Margin(0,0,0,10)));
     _onlineSafetyButton->setIconFilename("res/settings/online_safety_icon_4.png");
-    _onlineSafetyButton->setTitleText(StringMgr::getInstance()->getStringForKey(SETTINGS_HEADING_ONLINE_SAFETY));
-    _onlineSafetyButton->setSubTitleText(StringMgr::getInstance()->getStringForKey(SETTINGS_SUB_HEADING_ONLINE_SAFETY));
+    _onlineSafetyButton->setTitleText(_("Online Safety"));
+    _onlineSafetyButton->setSubTitleText(_("Tips and tricks to help your family stay safe online"));
     _onlineSafetyButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
@@ -175,8 +175,8 @@ bool SettingsHub::init()
     _supportButton->setContentSize(Size(visibleSize.width, buttonHeight));
     _supportButton->setLayoutParameter(CreateTopLinearLayoutParam(ui::Margin(0,0,0,10)));
     _supportButton->setIconFilename("res/settings/support_icon_4.png");
-    _supportButton->setTitleText(StringMgr::getInstance()->getStringForKey(SETTINGS_HEADING_SUPPORT));
-    _supportButton->setSubTitleText(StringMgr::getInstance()->getStringForKey(SETTINGS_SUB_HEADING_SUPPORT));
+    _supportButton->setTitleText(_("Support"));
+    _supportButton->setSubTitleText(_("Need some help? View our support page or contact us directly"));
     _supportButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
@@ -209,7 +209,7 @@ void SettingsHub::changeToPage(SettingsPages page)
 			auto page = SettingsLanguagePage::create();
 			page->setContentSize(_activeSettingsPageHolder->getContentSize());
 			_activeSettingsPageHolder->addChild(page);
-			_titleText->setString(StringMgr::getInstance()->getStringForKey(SETTINGS_HEADING_LANGUAGE));
+			_titleText->setString(_("Language"));
 			break;
 		}
 		case SettingsPages::KIDS:
@@ -217,7 +217,7 @@ void SettingsHub::changeToPage(SettingsPages page)
             auto page = SettingsKidsPage::create();
             page->setContentSize(_activeSettingsPageHolder->getContentSize());
             _activeSettingsPageHolder->addChild(page);
-            _titleText->setString(StringMgr::getInstance()->getStringForKey(SETTINGS_HEADING_YOUR_KIDS));
+            _titleText->setString(_("Your Kids"));
             break;
         }
         case SettingsPages::FRIENDSHIPS:
@@ -225,7 +225,7 @@ void SettingsHub::changeToPage(SettingsPages page)
             auto page = SettingsFriendshipsPage::create();
             page->setContentSize(_activeSettingsPageHolder->getContentSize());
             _activeSettingsPageHolder->addChild(page);
-            _titleText->setString(StringMgr::getInstance()->getStringForKey(SETTINGS_HEADING_FRIENDSHIPS));
+            _titleText->setString(_("Friendships"));
             break;
         }
         case SettingsPages::ACCOUNT:
@@ -233,7 +233,7 @@ void SettingsHub::changeToPage(SettingsPages page)
             auto page = SettingsYourAccountPage::create();
             page->setContentSize(_activeSettingsPageHolder->getContentSize());
             _activeSettingsPageHolder->addChild(page);
-            _titleText->setString(StringMgr::getInstance()->getStringForKey(SETTINGS_HEADING_YOUR_ACCOUNT));
+            _titleText->setString(_("Your Account"));
             break;
         }
         case SettingsPages::ONLINE_SAFETY:
@@ -241,7 +241,7 @@ void SettingsHub::changeToPage(SettingsPages page)
             auto page = SettingsOnlineSafetyPage::create();
             page->setContentSize(_activeSettingsPageHolder->getContentSize());
             _activeSettingsPageHolder->addChild(page);
-            _titleText->setString(StringMgr::getInstance()->getStringForKey(SETTINGS_HEADING_ONLINE_SAFETY));
+            _titleText->setString(_("Online Safety"));
             break;
         }
         case SettingsPages::SUPPORT:
@@ -249,7 +249,7 @@ void SettingsHub::changeToPage(SettingsPages page)
             auto page = SettingsSupportPage::create();
             page->setContentSize(_activeSettingsPageHolder->getContentSize());
             _activeSettingsPageHolder->addChild(page);
-            _titleText->setString(StringMgr::getInstance()->getStringForKey(SETTINGS_HEADING_SUPPORT));
+            _titleText->setString(_("Support"));
             break;
         }
     }

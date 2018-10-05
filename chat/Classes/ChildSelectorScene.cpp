@@ -37,7 +37,7 @@ bool ChildSelectorScene::init()
     
     addVisualsToScene();
     
-    titleLabel = createLabelHeader(StringMgr::getInstance()->getStringForKey(CHILD_SELECTSCENE_TITLE_LABEL));
+    titleLabel = createLabelHeader(_("Select your profile"));
     titleLabel->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.9);
     this->addChild(titleLabel);
     

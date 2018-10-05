@@ -16,8 +16,8 @@ Layer* MessageBoxOnlineSafetySlidesLayer::createForParent(Layer* parentLayer)
     auto layer = MessageBoxOnlineSafetySlidesLayer::create();
     
     layer->isParent=true;
-    layer->slideTitle = StringUtils::format("%sAdult", ONLINE_SAFETY_SLIDE_TITLE);
-    layer->slideMainText = StringUtils::format("%sAdult", ONLINE_SAFETY_SLIDE_MAIN_TEXT);
+    layer->slideTitle = "titleAdult";
+    layer->slideMainText = "mainTextAdult";
     layer->videoIDs = {"OxqWjHD8nMU","riCzbUj_ow8","vGl0xCHPD58","zg9AgR8I7QI","_e6idatqS28"};
     layer->titleFontSize = 70;
     layer->mainTextFontSize = 59;
@@ -35,8 +35,8 @@ Layer* MessageBoxOnlineSafetySlidesLayer::createForChild(Layer* parentLayer)
     auto layer = MessageBoxOnlineSafetySlidesLayer::create();
     
     layer->totalSlides = 4;
-    layer->slideTitle = StringUtils::format("%sChild", ONLINE_SAFETY_SLIDE_TITLE);
-    layer->slideMainText = StringUtils::format("%sChild", ONLINE_SAFETY_SLIDE_MAIN_TEXT);
+    layer->slideTitle = "titleChild";
+	layer->slideMainText = "mainTextChild";
     layer->videoIDs = {"14eaf3c0-c36c-4df5-a857-05f40c00884c","50957646-27d2-4723-921d-52c84e3396df","4ebd6de5-a75d-4d38-b28f-811900174b81","ed23035d-fea4-440e-a8d2-f5a33da4e794"};
     layer->titleFontSize = 90;
     layer->mainTextFontSize = 70;
@@ -64,18 +64,18 @@ void MessageBoxOnlineSafetySlidesLayer::addUIObjects()
 {
     //-------------MAIN TITLE --------------
     if(isParent)
-        titleLabel = createLabelWith(StringMgr::getInstance()->getStringForKey(ONLINE_SAFETY_MAIN_TITLE), Style::Font::Regular, Style::Color::black, 70);
+        titleLabel = createLabelWith(_("Keeping your family safe online"), Style::Font::Regular, Style::Color::black, 70);
     else
         titleLabel = createLabelWith("", Style::Font::Regular, Style::Color::black, 5);
     
     //------------SLIDE TITLE--------------------
-    slideTitleLabel = createLabelWith(StringMgr::getInstance()->getStringForKey(StringUtils::format("%s%d", slideTitle.c_str(),currentSlideNumber)), Style::Font::Bold, Style::Color::safetySlideTitleColor, titleFontSize);
+    slideTitleLabel = createLabelWith(_(StringUtils::format("%s%d", slideTitle.c_str(),currentSlideNumber)), Style::Font::Bold, Style::Color::safetySlideTitleColor, titleFontSize);
     
     //-----------SLIDE IMAGE--------------------
     mainImage = Sprite::create(StringUtils::format("res/onlineSafetySlides/Oomees_SettingsPage-0%d.png",currentSlideNumber));
     
     //-----------SLIDE MAIN TEXT--------------------
-    mainTextLabel = createLabelWith(StringMgr::getInstance()->getStringForKey(StringUtils::format("%s%d", slideMainText.c_str(),currentSlideNumber)), Style::Font::Regular, Style::Color::black, mainTextFontSize);
+    mainTextLabel = createLabelWith(_(StringUtils::format("%s%d", slideMainText.c_str(),currentSlideNumber)), Style::Font::Regular, Style::Color::black, mainTextFontSize);
     mainTextLabel->setLineSpacing(textLineSpacing);
     
     //-----------SLIDE NATVIATION--------------------
@@ -89,7 +89,7 @@ void MessageBoxOnlineSafetySlidesLayer::addUIObjects()
     chevronRightButton->setDelegate(this);
     chevronRightButton->setMixPanelButtonName("MessageBox-OnlineSafety-RighChevron");
     
-    /*watchSearchItUpButton = ElectricDreamsButton::createTextAsButtonWithColor(StringMgr::getInstance()->getStringForKey(ONLINE_SAFETY_BUTTON_TEXT), 59, true, Style::Color::safetySlideTitleColor);
+    /*watchSearchItUpButton = ElectricDreamsButton::createTextAsButtonWithColor(_(ONLINE_SAFETY_BUTTON_TEXT), 59, true, Style::Color::safetySlideTitleColor);
     watchSearchItUpButton->setCenterPosition(Vec2(mainImage->getPositionX(),mainImage->getPositionY()-mainImage->getContentSize().height/2-watchSearchItUpButton->getContentSize().height*2));
     watchSearchItUpButton->setDelegate(this);
     watchSearchItUpButton->setMixPanelButtonName("MessageBox-OnlineSafety-watchSearchItUp");*/
@@ -105,8 +105,8 @@ void MessageBoxOnlineSafetySlidesLayer::createCancelButton()
 void MessageBoxOnlineSafetySlidesLayer::setToCurrentSlideNumber()
 {
     AnalyticsSingleton::getInstance()->settingsOnlineSafetySlideChangeEvent(currentSlideNumber);
-    slideTitleLabel->setString(StringMgr::getInstance()->getStringForKey(StringUtils::format("%s%d", slideTitle.c_str(),currentSlideNumber)));
-    mainTextLabel->setString(StringMgr::getInstance()->getStringForKey(StringUtils::format("%s%d", slideMainText.c_str(),currentSlideNumber)));
+    slideTitleLabel->setString(_(StringUtils::format("%s%d", slideTitle.c_str(),currentSlideNumber)));
+    mainTextLabel->setString(_(StringUtils::format("%s%d", slideMainText.c_str(),currentSlideNumber)));
     
     mainImage->setTexture(StringUtils::format("res/onlineSafetySlides/Oomees_SettingsPage-0%d.png",currentSlideNumber));
 }

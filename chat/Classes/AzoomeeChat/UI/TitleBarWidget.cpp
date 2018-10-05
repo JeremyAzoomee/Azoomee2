@@ -84,14 +84,14 @@ bool TitleBarWidget::init()
     _warningImageRight->setAnchorPoint(Vec2(0.5f, 0.5f));
     _reportedChatTitleBar->addChild(_warningImageRight);
     
-    _warningLabel = createLabelWith(StringMgr::getInstance()->getStringForKey(CHAT_CHAT_REPORTED), Style::Font::Regular, Style::Color::black, 64);
+    _warningLabel = createLabelWith(_("This chat has been reported. Get your parent to reset it."), Style::Font::Regular, Style::Color::black, 64);
     _warningLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     _reportedChatTitleBar->addChild(_warningLabel);
     
     // Reset Reported Chat Button
     _reportResetButton = ui::Button::create("res/chat/ui/buttons/reset_button.png");
     // TODO: Get from Strings
-    _reportResetButton->setTitleText(StringMgr::getInstance()->getStringForKey(BUTTON_RESET));
+    _reportResetButton->setTitleText(_("Reset"));
     _reportResetButton->setTitleColor(Style::Color::black);
     _reportResetButton->setTitleFontName(Style::Font::Regular);
     _reportResetButton->setTitleFontSize(45.0f);
@@ -104,7 +104,7 @@ bool TitleBarWidget::init()
     // Add friend button
     _reportButton = ui::Button::create("res/chat/ui/buttons/report_button_outline.png");
     // TODO: Get from Strings
-    _reportButton->setTitleText(StringMgr::getInstance()->getStringForKey(BUTTON_REPORT));
+    _reportButton->setTitleText(_("Report"));
     _reportButton->setTitleColor(Style::Color::brightAqua);
     _reportButton->setTitleFontName(Style::Font::Regular);
     _reportButton->setTitleFontSize(45.0f);
@@ -173,14 +173,14 @@ void TitleBarWidget::onSizeChangedReportedBar(const Size& contentSize)
     // Get max width, to analyse if changes needed.
     float maxReportLabelWidth = contentSize.width - _warningImageRight->getContentSize().width*2 - kTitleButtonsEdgePadding*4;
     
-    _warningLabel->setString(StringMgr::getInstance()->getStringForKey(CHAT_CHAT_REPORTED));
+    _warningLabel->setString(_("This chat has been reported. Get your parent to reset it."));
     _warningLabel->setBMFontSize(64);
-    
     if(_warningLabel->getContentSize().width > maxReportLabelWidth)
     {
         //Add Label over 2 lines
+		_warningLabel->setWidth(maxReportLabelWidth);
         _warningLabel->setBMFontSize(54);
-        _warningLabel->setString(StringMgr::getInstance()->getStringForKey(CHAT_CHAT_REPORTED_MULTILINE));
+        //_warningLabel->setString(_("This chat has been reported. Get your parent to reset it."));
     }
 
     float reportedBarHeight = _warningLabel->getContentSize().height + kTitleButtonsEdgePadding;

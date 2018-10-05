@@ -45,16 +45,16 @@ void OfflineText::createForLogin()
 {
     this->removeAllChildren();
     addOfflineLogoToScreen();
-    addTextTitleToScreen(StringMgr::getInstance()->getStringForKey(OFFLINESCENE_OFFLINE_TITLE_LABEL));
-    addTextSubTitleToScreen(StringMgr::getInstance()->getStringForKey(OFFLINESCENE_FOR_LOGIN_SUB_TITLE_LABEL));
+    addTextTitleToScreen(_("You are offline"));
+    addTextSubTitleToScreen(_("Check your connection and try again"));
 }
 
 void OfflineText::createForLoginNoUser()
 {
     this->removeAllChildren();
     addOfflineLogoToScreen();
-    addTextTitleToScreen(StringMgr::getInstance()->getStringForKey(OFFLINESCENE_OFFLINE_TITLE_LABEL));
-    addTextSubTitleToScreen(StringMgr::getInstance()->getStringForKey(OFFLINESCENE_OFFLINE_SUB_TITLE_LABEL));
+    addTextTitleToScreen(_("You are offline"));
+    addTextSubTitleToScreen(_("Check your connection and try again"));
 }
 
 void OfflineText::createForOfflineHub()
@@ -69,16 +69,16 @@ void OfflineText::createForOfflineHubWhenOffline()
     
     this->removeAllChildren();
     addOfflineLogoToScreen();
-    addTextTitleToScreen(StringMgr::getInstance()->getStringForKey(OFFLINESCENE_OFFLINE_TITLE_LABEL));
+    addTextTitleToScreen(_("You are offline"));
     
     if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
     {
-        addTextSubTitleToScreen(StringMgr::getInstance()->getStringForKey(OFFLINESCENE_OFFLINE_SUB_TITLE_LABEL));
-        addTextBodyToScreen(StringMgr::getInstance()->getStringForKey(OFFLINESCENE_HUB_LOGGED_IN_BODY_LABEL));
+        addTextSubTitleToScreen(_("Check your connection and try again"));
+        addTextBodyToScreen(_("In the meantime you can still enjoy these."));
     }
     else
     {
-        addTextSubTitleToScreen(StringMgr::getInstance()->getStringForKey(OFFLINESCENE_OFFLINE_SUB_TITLE_LABEL));
+        addTextSubTitleToScreen(_("Check your connection and try again"));
     }
     
     addRetryButtonToScreen();
@@ -90,7 +90,7 @@ void OfflineText::createForOfflineHubWhenOnline()
     
     this->removeAllChildren();
     addOnlineLogoToScreen();
-    addTextTitleToScreen(StringMgr::getInstance()->getStringForKey(OFFLINESCENE_ONLINE_TITLE_LABEL));
+    addTextTitleToScreen(_("Great news! You are back online."));
     addTextSubTitleToScreen("");
     addExitOfflineModeButtonToScreen();
 }
@@ -129,7 +129,7 @@ void OfflineText::addOnlineLogoToScreen()
 
 void OfflineText::addExitOfflineModeButtonToScreen()
 {
-    auto enterButton = ElectricDreamsButton::createButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_LETS_GO));
+    auto enterButton = ElectricDreamsButton::createButtonWithText(_("Let's go"));
     
     Size buttonContentSize = enterButton->getContentSize();
     Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -192,7 +192,7 @@ void OfflineText::addTextBodyToScreen(std::string text)
 
 void OfflineText::addRetryButtonToScreen()
 {
-    auto retryButton = ElectricDreamsButton::createButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_RETRY));
+    auto retryButton = ElectricDreamsButton::createButtonWithText(_("Retry"));
     Size retryButtonContentSize = retryButton->getContentSize();
     
     retryButton->setDelegate(this);

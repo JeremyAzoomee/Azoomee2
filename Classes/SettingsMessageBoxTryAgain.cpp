@@ -46,7 +46,7 @@ void SettingsMessageBoxTryAgain::onEnter()
 	_tryAgainButton->addTouchEventListener(CC_CALLBACK_2(SettingsMessageBox::onButtonPressed, this));
 	_messageBox->addChild(_tryAgainButton);
 	
-	Label* tryAgainLabel = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(BUTTON_TRY_AGAIN), Style::Font::Medium, 75);
+	Label* tryAgainLabel = Label::createWithTTF(_("Try again"), Style::Font::Medium, 75);
 	tryAgainLabel->setTextColor(Color4B::WHITE);
 	tryAgainLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	tryAgainLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);

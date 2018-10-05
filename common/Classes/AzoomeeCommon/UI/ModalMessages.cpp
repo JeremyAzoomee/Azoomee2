@@ -121,7 +121,7 @@ void ModalMessages::startSaving()
     
     createAndFadeInLayer();
     
-    auto savingLabel = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(SAVING_LABEL), Style::Font::Regular, 128);
+    auto savingLabel = Label::createWithTTF(_("Saving..."), Style::Font::Regular, 128);
     savingLabel->setColor(Style::Color::white);
     savingLabel->setNormalizedPosition(Vec2(0.5,0.5));
     savingLabel->setAnchorPoint(Vec2(0.5,0.5));

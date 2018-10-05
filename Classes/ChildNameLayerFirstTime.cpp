@@ -31,15 +31,16 @@ void ChildNameLayerFirstTime::onEnter()
     bool isPortrait = contentSize.width < contentSize.height;
     bool is18x9 = ConfigStorage::getInstance()->isDevice18x9();
     
-    Label* mainTitle = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(isPortrait ? ADDCHILD_WELCOME_TITLE_MULTILINE : ADDCHILD_WELCOME_TITLE), Style::Font::Regular, (is18x9 && !isPortrait) ? 160 : 200);
+    Label* mainTitle = Label::createWithTTF(_("Welcome to Azoomee"), Style::Font::Regular, (is18x9 && !isPortrait) ? 160 : 200);
     mainTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     mainTitle->setPosition(Vec2(contentSize.width / 2, contentSize.height - (is18x9 ? (isPortrait ? 225 : 50) : 100)));
     mainTitle->setColor(Style::Color::telish);
     mainTitle->enableGlow(Color4B(Style::Color::telish));
     mainTitle->setHorizontalAlignment(TextHAlignment::CENTER);
+	mainTitle->setWidth(contentSize.width * 0.75f);
     this->addChild(mainTitle);
     
-    Label* subTitle = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(ADDCHILD_WELCOME_SUB_TITLE), Style::Font::Regular, (isPortrait ? 100 : (is18x9) ? 120 : 150));
+    Label* subTitle = Label::createWithTTF(_("Let's complete your setup"), Style::Font::Regular, (isPortrait ? 100 : (is18x9) ? 120 : 150));
     subTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     subTitle->setPosition(mainTitle->getPosition() - Vec2(0, mainTitle->getContentSize().height + ((is18x9 && !isPortrait) ? 25 : 50)));
     subTitle->setColor(Color3B::WHITE);
@@ -55,7 +56,7 @@ void ChildNameLayerFirstTime::onEnter()
     }
     this->addChild(_textInput);
     
-    Label* textInputTitle = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(ADDCHILD_NAME_HEADING), Style::Font::Regular, 100);
+    Label* textInputTitle = Label::createWithTTF(_("What’s your child’s name?"), Style::Font::Regular, 100);
     textInputTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     textInputTitle->setPosition(_textInput->getPosition() + Vec2(_textInput->getContentSize().width / 2, _textInput->getContentSize().height * 1.25f));
     textInputTitle->setColor(Color3B::WHITE);
