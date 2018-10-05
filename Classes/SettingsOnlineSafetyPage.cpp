@@ -44,9 +44,9 @@ void SettingsOnlineSafetyPage::onEnter()
     {
         OnlineSafetySlide* slide = OnlineSafetySlide::create();
         slide->setContentSize(_onlineSafetyPageView->getContentSize());
-        slide->setTitle(_(StringUtils::format("titleAdult%d",i)));
+        slide->setTitle(_(StringUtils::format("titleAdult%d",i))); //use dynamic string name to get page heading and text
         slide->setImage(StringUtils::format("res/onlineSafetySlides/Oomees_SettingsPage-0%d.png",i));
-        slide->setBodyText(_(StringUtils::format("mainTextAdult%d",i)));
+        slide->setBodyText(_(StringUtils::format("mainTextAdult%d",i))); //use dynamic string name to get page heading and text
         _onlineSafetyPageView->addPage(slide);
     }
     
