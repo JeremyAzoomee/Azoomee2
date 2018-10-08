@@ -215,7 +215,6 @@
 	"Sent a Sticker":"Sent a Sticker",
 	"Sent a Link":"Sent a Link",
 	"Add New Profile":"Add New Profile",
-	"Need some help?\n\n\nVisit our support page at support.azoomee.com\n\nOr\n\nContact us directly at help@azoomee.com":"Need some help?\n\n\nVisit our support page at support.azoomee.com\n\nOr\n\nContact us directly at help@azoomee.com",
 	"Pin":"Pin",
 	"Change password":"Change password",
 	"Enter current password":"Enter current password",
@@ -245,7 +244,6 @@
 	"Manage your kids’ profiles and add friends using Kid Codes":"Manage your kids’ profiles and add friends using Kid Codes",
 	"Update your details and manage your subscription":"Update your details and manage your subscription",
 	"Tips and tricks to help your family stay safe online":"Tips and tricks to help your family stay safe online",
-	"Need some help? View our support page or contact us directly":"Need some help? View our support page or contact us directly",
 	"Support":"Support",
 	"and":"and",
 	"Update":"Update",
@@ -270,5 +268,9 @@
 	"Accept or reject new friendship requests":"Accept or reject new friendship requests",
 	"Need some help? View our support page or contact us directly":"Need some help? View our support page or contact us directly",
 	"Friendship Requests":"Friendship Requests",
-	"Premium Subscription":"Premium Subscription"
+	"Premium Subscription":"Premium Subscription",
+	"Need some help?":"Need some help?",
+	"Visit our support page at":"Visit our support page at",
+	"Contact us directly at":"Contact us directly at",
+	"Or":"Or"
 }

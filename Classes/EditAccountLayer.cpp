@@ -16,6 +16,7 @@
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
+#include <AzoomeeCommon/NativeShare/NativeShare.h>
 
 using namespace cocos2d;
 
@@ -270,6 +271,16 @@ void EditAccountLayer::onEnter()
 			ui::Button* manageButton = ui::Button::create("res/settings/sub_button.png");
 			manageButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 			manageButton->setNormalizedPosition(Vec2(0.5f,0.33f));
+			manageButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+				if(eType == ui::Widget::TouchEventType::ENDED)
+				{
+				#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+					openDeeplink("https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/DirectAction/manageSubscriptions");
+				#else
+					openDeeplink("https://play.google.com/store/account/subscriptions");
+				#endif
+				}
+			});
 			_accountTypeLayout->addChild(manageButton);
 			
 			Label* manageLab = Label::createWithTTF(_("Manage"), Style::Font::Medium, manageButton->getContentSize().height * 0.4f);

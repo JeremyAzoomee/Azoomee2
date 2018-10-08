@@ -194,7 +194,7 @@ void KidDetailsLayer::onEnter()
     
     Sprite* shareButton = Sprite::create("res/settings/kid_code_share.png");
     shareButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
-    shareButton->setNormalizedPosition(Vec2(0.9,0.5));
+    shareButton->setPosition(Vec2(_kidCodeLayout->getContentSize().width - 30, _kidCodeLayout->getContentSize().height * 0.5f));
     _kidCodeLayout->addChild(shareButton);
     
     ui::Layout* addFriendInputLayout = ui::Layout::create();

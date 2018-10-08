@@ -39,5 +39,13 @@ void nativeShareScreenString(const std::string& shareString)
         [rootViewController presentViewController:activityVC animated:YES completion:nil];
     }
 }
-  
+
+	void openDeeplink(const std::string& url)
+	{
+		NSString* urlNSString = [NSString stringWithUTF8String:url.c_str()];
+		
+		NSURL* urlObj = [[NSURL alloc] initWithString:urlNSString];
+		
+		[[UIApplication sharedApplication] openURL:urlObj];
+	}
 }

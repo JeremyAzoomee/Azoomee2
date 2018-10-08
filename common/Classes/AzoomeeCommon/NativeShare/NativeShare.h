@@ -7,6 +7,7 @@ namespace Azoomee
 {
   
     void nativeShareScreenString(const std::string& shareString);
+	void openDeeplink(const std::string& url);
 }
 
 #endif

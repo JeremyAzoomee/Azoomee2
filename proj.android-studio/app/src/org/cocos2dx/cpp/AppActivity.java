@@ -611,6 +611,11 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         mActivity.startActivity(shareIntent);
     }
 
+    public static void openDeeplinkUrl(String url){
+        Intent intent = new Intent(Intent.ACTION_VIEW).setData(Uri.parse(url));
+        mActivity.startActivity(intent);
+    }
+
     // PUSH NOTIFICATIONS NATIVE ANDRODID FUNCTIONS
 
     public static void jniSetNamedUserIdentifierForPushChannel(String channelName)
