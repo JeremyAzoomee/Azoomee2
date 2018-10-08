@@ -51,8 +51,8 @@ bool SettingsHub::init()
     _contentLayout->addChild(_titleLayout);
     
     _titleBarButton = ui::Button::create("res/settings/exit_button.png");
-    _titleBarButton->setNormalizedPosition(isIphoneX ? Vec2(0,0.75) : Vec2::ANCHOR_MIDDLE_LEFT);
-    _titleBarButton->setAnchorPoint(Vec2(-0.25,0.5));
+    _titleBarButton->setNormalizedPosition(isIphoneX ? Vec2(0,0.75f) : Vec2::ANCHOR_MIDDLE_LEFT);
+    _titleBarButton->setAnchorPoint(Vec2(0.0f,0.5f));
 	_titleBarButton->setContentSize(Size(150, 150));
 	_titleBarButton->ignoreContentAdaptWithSize(false);
     _titleLayout->addChild(_titleBarButton);
@@ -75,7 +75,7 @@ bool SettingsHub::init()
     });
     
     _titleText = ui::Text::create(_("Settings"), Style::Font::Medium, 91);
-    _titleText->setNormalizedPosition(isIphoneX ? Vec2(0.5,0.25) : Vec2::ANCHOR_MIDDLE);
+    _titleText->setNormalizedPosition(isIphoneX ? Vec2(0.5f,0.25f) : Vec2::ANCHOR_MIDDLE);
     _titleText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _titleText->setTextColor(Color4B::WHITE);
     _titleLayout->addChild(_titleText);
@@ -130,8 +130,8 @@ bool SettingsHub::init()
     _friendshipsButton->setContentSize(Size(visibleSize.width, buttonHeight));
     _friendshipsButton->setLayoutParameter(CreateTopLinearLayoutParam(ui::Margin(0,0,0,10)));
     _friendshipsButton->setIconFilename("res/settings/friendships_icon_3.png");
-    _friendshipsButton->setTitleText(_("Friendships"));
-    _friendshipsButton->setSubTitleText(_("Learn more about chat… sit amet, consectetur adipiscing elit. consectetur adipiscing elit."));
+    _friendshipsButton->setTitleText(_("Friendship Requests"));
+    _friendshipsButton->setSubTitleText(_("Accept or reject new friendship requests"));
     _friendshipsButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {

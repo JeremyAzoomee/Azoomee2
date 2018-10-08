@@ -40,7 +40,7 @@ void SettingsNavigationButton::onEnter()
     this->addChild(_arrow);
     
     _textLayout = ui::Layout::create();
-    _textLayout->setContentSize(Size(this->getContentSize().width - (_icon->getContentSize().width * 2) - (_arrow->getContentSize().width * 3.0f),this->getContentSize().height));
+    _textLayout->setContentSize(Size(this->getContentSize().width - (_icon->getContentSize().width * 2) - (_arrow->getContentSize().width * 4.0f),this->getContentSize().height));
     _textLayout->setPosition(Vec2((_icon->getContentSize().width * 1.75f), this->getContentSize().height * 0.5f));
     _textLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
     this->addChild(_textLayout);
@@ -51,11 +51,12 @@ void SettingsNavigationButton::onEnter()
     _titleText->setTextColor(Color4B(Style::Color::skyBlue));
     _textLayout->addChild(_titleText);
     
-    _subTitleText = Label::createWithTTF(_subTitleTextString, Style::Font::Medium, 48);
+    _subTitleText = Label::createWithTTF(_subTitleTextString, Style::Font::Medium, 49);
     _subTitleText->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
     _subTitleText->setPosition(Vec2(0,_textLayout->getContentSize().height * 0.5f));
     _subTitleText->setWidth(_textLayout->getContentSize().width);
     _subTitleText->setTextColor(Color4B(Style::Color::battleshipGrey));
+	_subTitleText->setLineSpacing(20.0f);
     _textLayout->addChild(_subTitleText);
     
     

@@ -32,7 +32,7 @@ void SettingsOnlineSafetyPage::onEnter()
 {
     _headerBanner = SettingsPageHeader::create();
     _headerBanner->setContentSize(Size(this->getContentSize().width, 316));
-    _headerBanner->setText(_("Watch SearchItUp… sit amet, consectetur adipiscing elit. consectetur adipiscing elit."));
+    _headerBanner->setText(_("Tips and tricks to help your family stay safe online"));
     _headerBanner->setLayoutParameter(CreateTopLinearLayoutParam());
     this->addChild(_headerBanner);
     

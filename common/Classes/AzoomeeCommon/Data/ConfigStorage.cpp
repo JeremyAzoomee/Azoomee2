@@ -8,6 +8,7 @@
 #include "../Net/Utils.h"
 #include "Json.h"
 #include "../Utils/StringFunctions.h"
+#include "../Strings.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/jni/JniHelper.h"
@@ -578,7 +579,7 @@ std::string ConfigStorage::getVersionNumberWithPlatform()
 
 std::string ConfigStorage::getVersionNumberToDisplay()
 {
-    return "Version Number " + getVersionNumber();
+    return _("Version Number") + " " + getVersionNumber();
 }
     
 std::string ConfigStorage::getVersionInformationForRequestHeader()

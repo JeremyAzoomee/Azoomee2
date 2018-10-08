@@ -184,6 +184,7 @@ void EditAccountLayer::onEnter()
     
     _passwordEditBox = TextInputLayer::createSettingsBoxTextInput(this->getContentSize().width * 0.6f, INPUT_IS_NEW_PASSWORD);
     _passwordEditBox->setCenterPosition(Vec2(passwordEditboxLayout->getContentSize().width * 0.55f, passwordEditboxLayout->getContentSize().height / 2));
+	_passwordEditBox->setText("xxxxxx");
 	_passwordEditBox->setPlaceholderText(_("Change password"));
 	_passwordEditBox->setEnabled(false);
     passwordEditboxLayout->addChild(_passwordEditBox);
@@ -202,6 +203,7 @@ void EditAccountLayer::onEnter()
 				case EditPasswordState::LOCKED:
 				{
 					_passwordEditBox->setEnabled(true);
+					_passwordEditBox->setText("");
 					_passwordEditBox->setPlaceholderText(_("Enter current password"));
 					_passwordEditBox->focusAndShowKeyboard();
 					_editPasswordButton->loadTextureNormal("res/settings/edit_next.png");
@@ -253,7 +255,8 @@ void EditAccountLayer::onEnter()
     
     if(ParentDataProvider::getInstance()->isPaidUser())
     {
-        Label* subDeetsLab = Label::createWithTTF(StringUtils::format(_("Premium Subscription\nRenew’s on %s").c_str(),ParentDataProvider::getInstance()->getBillingDate().c_str()), Style::Font::Medium, 59);
+        //Label* subDeetsLab = Label::createWithTTF(StringUtils::format(_("Premium Subscription\nRenew’s on %s").c_str(),ParentDataProvider::getInstance()->getBillingDate().c_str()), Style::Font::Medium, 59);
+		Label* subDeetsLab = Label::createWithTTF(_("Premium Subscription"), Style::Font::Medium, 59);
         subDeetsLab->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
         subDeetsLab->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         subDeetsLab->setTextColor(Color4B::WHITE);

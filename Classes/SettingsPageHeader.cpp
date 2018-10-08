@@ -27,12 +27,13 @@ bool SettingsPageHeader::init()
 
 void SettingsPageHeader::onEnter()
 {
-    _text = Label::createWithTTF(_textString, Style::Font::Medium, 48);
+    _text = Label::createWithTTF(_textString, Style::Font::Medium, 53);
     _text->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _text->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _text->setHorizontalAlignment(TextHAlignment::CENTER);
     _text->setTextColor(Color4B(Style::Color::white));
     _text->setWidth(this->getContentSize().width * 0.75);
+	_text->setLineSpacing(20);
     this->addChild(_text);
     
     Super::onEnter();

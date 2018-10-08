@@ -157,10 +157,10 @@ void TextInputLayer::createSettingRoundedEditBox(float width)
     
     editBox->setColor(Color3B::WHITE);
     editBox->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
-    editBox->setFont(Style::Font::Regular, 70);
+    editBox->setFont(Style::Font::Regular, 63);
     editBox->setFontColor(Color3B::BLACK);
-    editBox->setPlaceholderFontColor(Style::Color::telish);
-    editBox->setPlaceholderFont(Style::Font::Regular, 70);
+    editBox->setPlaceholderFontColor(Style::Color::battleshipGrey);
+    editBox->setPlaceholderFont(Style::Font::Regular, 63);
     
     editBox->setTextHorizontalAlignment(TextHAlignment::CENTER);
     
@@ -173,7 +173,7 @@ void TextInputLayer::createSettingRoundedEditBox(float width)
     editBox->setDelegate(this);
     
     this->setupEditBoxUsingType();
-    
+	
     this->addChild(editBox);
 }
     

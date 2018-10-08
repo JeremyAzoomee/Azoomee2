@@ -21,7 +21,6 @@ class SettingsYourAccountPage : public cocos2d::ui::Layout
     typedef cocos2d::ui::Layout Super;
 private:
     
-    SettingsPageHeader* _headerBanner = nullptr;
     cocos2d::ui::Layout* _footerBanner = nullptr;
     EditAccountLayer* _editAccountLayer = nullptr;
     

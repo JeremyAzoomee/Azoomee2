@@ -36,18 +36,12 @@ bool SettingsYourAccountPage::init()
 
 void SettingsYourAccountPage::onEnter()
 {
-    _headerBanner = SettingsPageHeader::create();
-    _headerBanner->setContentSize(Size(this->getContentSize().width, 316));
-    _headerBanner->setText(_("Learn more about managing your account… adipiscing elit. consectetur adipiscing elit."));
-    _headerBanner->setLayoutParameter(CreateTopLinearLayoutParam());
-    this->addChild(_headerBanner);
-    
     _editAccountLayer = EditAccountLayer::create();
     _editAccountLayer->setContentSize(Size(this->getContentSize().width - 100, this->getContentSize().height * 0.5f));
     _editAccountLayer->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
     this->addChild(_editAccountLayer);
     
-    float margin = this->getContentSize().height - _headerBanner->getContentSize().height - _editAccountLayer->getContentSize().height - 200;
+    float margin = this->getContentSize().height - _editAccountLayer->getContentSize().height - 200;
     
     _footerBanner = ui::Layout::create();
     _footerBanner->setContentSize(Size(this->getContentSize().width, 150));
