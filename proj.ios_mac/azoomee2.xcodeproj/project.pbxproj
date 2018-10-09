@@ -1771,7 +1771,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd ../../app-content-dynamicnode/ios\nzip -r ../../azoomee2/Resources/res/cta_assets/CTAFiles.zip *";
+			shellScript = "cd ../../app-content-dynamicnode/ios\nzip -r ../../azoomee2/Resources/res/cta_assets/CTAFiles.zip *\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

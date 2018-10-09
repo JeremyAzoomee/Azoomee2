@@ -23,7 +23,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 
-//#define USING_LOCAL_CTA_ASSETS YES
+#define USING_LOCAL_CTA_ASSETS YES
 
 #define CTA_Z_ORDER 1000
 

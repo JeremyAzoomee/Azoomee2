@@ -8,6 +8,7 @@
 #include "DynamicNodeText.h"
 #include "DynamicNodeCreator.h"
 #include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/Strings.h>
 
 using namespace cocos2d;
 
@@ -28,7 +29,9 @@ bool DynamicNodeText::initWithParams(int fontSize, Color4B fontColour, const rap
     
     const Vec2& pos = getVec2FromJson("position", params)/100.0f;
     std::string text = getStringFromJson("text", params);
-    
+	
+	text = _(text);
+	
     if(usingExternParams)
     {
         text = DynamicNodeCreator::addExternalParamsToString(text);
@@ -57,6 +60,13 @@ bool DynamicNodeText::initWithParams(int fontSize, Color4B fontColour, const rap
     _text->setNormalizedPosition(pos);
     _text->setTextColor(fontColour);
     _text->setLineSpacing(lineSpacing);
+	
+	const Vec2& maxSize = getVec2FromJson("maxSize", params);
+	if(maxSize.x > 0 && maxSize.y > 0)
+	{
+		_text->setOverflow(Label::Overflow::SHRINK);
+		_text->setDimensions(dynamicNodeSize.width * maxSize.x, dynamicNodeSize.height * maxSize.y);
+	}
     
     if(alignment == "left")
     {

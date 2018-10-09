@@ -9,6 +9,7 @@
 #include "DynamicNodeCreator.h"
 #include "DynamicNodeButtonListener.h"
 #include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/Strings.h>
 
 using namespace cocos2d;
 
@@ -51,7 +52,7 @@ bool DynamicNodeButton::initWithParams(const rapidjson::Value &params, const coc
     
     const std::string& btnSprite = getStringFromJson("sprite", params);
     
-    std::string btnString = getStringFromJson("text", params);
+    std::string btnString = _(getStringFromJson("text", params));
     
     if(usingExtrnParams)
     {
@@ -107,12 +108,16 @@ void DynamicNodeButton::addButtonWithParams(const cocos2d::Size& size, const coc
     label->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     label->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     label->setColor(Color3B::BLACK);
-    if(underlined)
-    {
-        DrawNode* newDrawNode = DrawNode::create();
-        newDrawNode->drawRect(Vec2(0, -7), Vec2(label->getContentSize().width, -6), Color4F::BLACK);
-        label->addChild(newDrawNode);
-    }
+	label->setHorizontalAlignment(TextHAlignment::CENTER);
+	label->setVerticalAlignment(TextVAlignment::CENTER);
+	if(underlined)
+	{
+		DrawNode* newDrawNode = DrawNode::create();
+		newDrawNode->drawRect(Vec2(button->getContentSize().width / 2 - MIN(label->getContentSize().width / 2, button->getContentSize().width / 2), -7), Vec2(button->getContentSize().width / 2 + MIN(label->getContentSize().width / 2, button->getContentSize().width / 2), -6), Color4F::BLACK);
+		label->addChild(newDrawNode);
+	}
+	label->setOverflow(Label::Overflow::SHRINK);
+	label->setDimensions(button->getContentSize().width, button->getContentSize().height);
     button->addChild(label);
     this->addChild(button);
 }
