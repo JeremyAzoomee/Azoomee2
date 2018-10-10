@@ -12,16 +12,20 @@
 #include <AzoomeeCommon/UI/Scene.h>
 #include <cocos/cocos2d.h>
 #include <ui/CocosGUI.h>
+#include <AzoomeeCommon/UI/RequestAdultPinLayer.h>
 #include "SettingsNavigationButton.h"
 
 NS_AZOOMEE_BEGIN
 
 enum class SettingsPages {LANGUAGE, KIDS, FRIENDSHIPS, ACCOUNT, ONLINE_SAFETY, SUPPORT};
+enum class SettingsOrigin {HQ, CHILD_SELECT, CHAT};
 
-class SettingsHub : public Azoomee::Scene
+class SettingsHub : public Azoomee::Scene, RequestAdultPinLayerDelegate
 {
     typedef Azoomee::Scene Super;
 private:
+	SettingsOrigin _origin = SettingsOrigin::CHILD_SELECT;
+	
     cocos2d::ui::Layout* _contentLayout = nullptr;
     cocos2d::ui::Layout* _mainBodyLayout = nullptr;
     // titile bar
@@ -48,8 +52,14 @@ public:
     virtual void onEnter() override;
     
     virtual void onSizeChanged() override;
-    
+	
+	void setOrigin(SettingsOrigin origin);
+	
     CREATE_FUNC(SettingsHub);
+	
+	//delegate functions
+	void AdultPinCancelled(RequestAdultPinLayer* layer) override;
+	void AdultPinAccepted(RequestAdultPinLayer* layer) override;
 };
 
 NS_AZOOMEE_END

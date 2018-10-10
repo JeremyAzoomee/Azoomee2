@@ -272,5 +272,7 @@
 	"Need some help?":"Need some help?",
 	"Visit our support page at":"Visit our support page at",
 	"Contact us directly at":"Contact us directly at",
-	"Or":"Or"
+	"Or":"Or",
+	"Parents must approve new friendships before any messages can be sent. You can accept or reject friendship requests here.":"Parents must approve new friendships before any messages can be sent. You can accept or reject friendship requests here.",
+	"You Cant do that right now, this child is currently logged in.":"You Cant do that right now, this child is currently logged in."
 }

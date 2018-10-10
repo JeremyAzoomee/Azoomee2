@@ -61,7 +61,18 @@ bool SettingsHub::init()
         {
             if(_inHub)
             {
-                Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+				switch(_origin)
+				{
+					case SettingsOrigin::HQ:
+						Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+						break;
+					case SettingsOrigin::CHILD_SELECT:
+						Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+						break;
+					case SettingsOrigin::CHAT:
+						Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+						break;
+				}
             }
             else
             {
@@ -192,12 +203,20 @@ bool SettingsHub::init()
 
 void SettingsHub::onEnter()
 {
+	RequestAdultPinLayer* pinLayer = RequestAdultPinLayer::create();
+	pinLayer->setDelegate(this);
+	
     Super::onEnter();
 }
 
 void SettingsHub::onSizeChanged()
 {
     
+}
+
+void SettingsHub::setOrigin(SettingsOrigin origin)
+{
+	_origin = origin;
 }
 
 void SettingsHub::changeToPage(SettingsPages page)
@@ -257,6 +276,27 @@ void SettingsHub::changeToPage(SettingsPages page)
     _navigationLayout->setVisible(false);
     _titleBarButton->loadTextureNormal("res/settings/toggle_switch_white.png");
     _inHub = false;
+}
+
+
+void SettingsHub::AdultPinCancelled(RequestAdultPinLayer* layer)
+{
+	switch(_origin)
+	{
+		case SettingsOrigin::HQ:
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+			break;
+		case SettingsOrigin::CHILD_SELECT:
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+			break;
+		case SettingsOrigin::CHAT:
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+			break;
+	}
+}
+void SettingsHub::AdultPinAccepted(RequestAdultPinLayer* layer)
+{
+	layer->removeFromParent();
 }
 
 NS_AZOOMEE_END

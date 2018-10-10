@@ -38,7 +38,7 @@ void SettingsFriendshipsPage::onEnter()
 {
     _headerBanner = SettingsPageHeader::create();
     _headerBanner->setContentSize(Size(this->getContentSize().width, 316));
-    _headerBanner->setText(_("Learn more about chat… sit amet, consectetur adipiscing elit. consectetur adipiscing elit."));
+    _headerBanner->setText(_("Parents must approve new friendships before any messages can be sent. You can accept or reject friendship requests here."));
     _headerBanner->setLayoutParameter(CreateTopLinearLayoutParam());
     this->addChild(_headerBanner);
     

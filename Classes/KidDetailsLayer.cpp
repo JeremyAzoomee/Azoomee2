@@ -10,6 +10,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/NativeShare/NativeShare.h>
@@ -17,6 +18,7 @@
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "SettingsMessageBoxDeleteChild.h"
 #include "SettingsMessageBoxFREvent.h"
+#include "SettingsMessageBoxNotification.h"
 
 using namespace cocos2d;
 
@@ -229,9 +231,20 @@ void KidDetailsLayer::onEnter()
     _deleteButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            SettingsMessageBoxDeleteChild* messageBox = SettingsMessageBoxDeleteChild::create();
-            messageBox->setDelegate(this);
-            Director::getInstance()->getRunningScene()->addChild(messageBox,100);
+			const std::string& targetChildId = ParentDataProvider::getInstance()->getIDForAvailableChildren(_childNum);
+			if(ChildDataProvider::getInstance()->getIsChildLoggedIn() && ChildDataProvider::getInstance()->getLoggedInChildId() == targetChildId)
+			{
+				SettingsMessageBoxNotification* messageBox = SettingsMessageBoxNotification::create();
+				messageBox->setHeading(_("You Cant do that right now, this child is currently logged in."));
+				messageBox->setDelegate(this);
+				Director::getInstance()->getRunningScene()->addChild(messageBox,100);
+			}
+			else
+			{
+            	SettingsMessageBoxDeleteChild* messageBox = SettingsMessageBoxDeleteChild::create();
+            	messageBox->setDelegate(this);
+            	Director::getInstance()->getRunningScene()->addChild(messageBox,100);
+			}
         }
     });
     this->addChild(_deleteButton);

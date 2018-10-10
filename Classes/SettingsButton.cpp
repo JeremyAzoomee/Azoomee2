@@ -1,5 +1,6 @@
 #include "SettingsButton.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "SceneManagerScene.h"
 
 using namespace cocos2d;
@@ -38,7 +39,7 @@ bool SettingsButton::init()
 
 void SettingsButton::onButtonPressed()
 {
-    Director::getInstance()->replaceScene(SceneManagerScene::createScene(Settings));
+	Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildDataProvider::getInstance()->getIsChildLoggedIn() ? SettingsFromHQ : SettingsFromChildSelect));
 }
 
 NS_AZOOMEE_END
