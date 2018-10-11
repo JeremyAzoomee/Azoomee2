@@ -128,6 +128,17 @@
 		921A25F72162830A005C8C41 /* LanguageListItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A25F62162830A005C8C41 /* LanguageListItem.cpp */; };
 		921A25FA2164D08B005C8C41 /* SettingsMessageBoxNotification.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A25F92164D08B005C8C41 /* SettingsMessageBoxNotification.cpp */; };
 		921A25FD2164E8DE005C8C41 /* SettingsMessageBoxTryAgain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A25FC2164E8DE005C8C41 /* SettingsMessageBoxTryAgain.cpp */; };
+		921A2669216F6F7A005C8C41 /* VodacomOnboardingFlowData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A2668216F6F7A005C8C41 /* VodacomOnboardingFlowData.cpp */; };
+		921A266B216F7307005C8C41 /* VodacomOnboardingScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A266A216F7307005C8C41 /* VodacomOnboardingScene.cpp */; };
+		921A266D216F958B005C8C41 /* VodacomOnboardingLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A266C216F958B005C8C41 /* VodacomOnboardingLayer.cpp */; };
+		921A266F216F9F6A005C8C41 /* VodacomOnboardingRegisterLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A266E216F9F6A005C8C41 /* VodacomOnboardingRegisterLayer.cpp */; };
+		921A2671216F9F85005C8C41 /* VodacomOnboardingVoucherLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A2670216F9F85005C8C41 /* VodacomOnboardingVoucherLayer.cpp */; };
+		921A2673216F9FA1005C8C41 /* VodacomOnboardingLoginLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A2672216F9FA1005C8C41 /* VodacomOnboardingLoginLayer.cpp */; };
+		921A2675216F9FD3005C8C41 /* VodacomOnboardingSuccessLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A2674216F9FD3005C8C41 /* VodacomOnboardingSuccessLayer.cpp */; };
+		921A2677216F9FF6005C8C41 /* VodacomOnboardingDetailsLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A2676216F9FF6005C8C41 /* VodacomOnboardingDetailsLayer.cpp */; };
+		921A2679216FA030005C8C41 /* VodacomOnboardingErrorLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A2678216FA030005C8C41 /* VodacomOnboardingErrorLayer.cpp */; };
+		921A267B216FA05A005C8C41 /* VodacomOnboardingPinLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A267A216FA05A005C8C41 /* VodacomOnboardingPinLayer.cpp */; };
+		921A267D216FA0A4005C8C41 /* VodacomOnboardingAddChildLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A267C216FA0A4005C8C41 /* VodacomOnboardingAddChildLayer.cpp */; };
 		9220EAD2200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EAD1200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp */; };
 		9220EAD5200F77E200BD7A90 /* SignUpFlowController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EAD4200F77E200BD7A90 /* SignUpFlowController.cpp */; };
 		9220EAD82010C07D00BD7A90 /* IAPFlowController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EAD72010C07D00BD7A90 /* IAPFlowController.cpp */; };
@@ -519,6 +530,28 @@
 		921A25F92164D08B005C8C41 /* SettingsMessageBoxNotification.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsMessageBoxNotification.cpp; sourceTree = "<group>"; };
 		921A25FB2164E86E005C8C41 /* SettingsMessageBoxTryAgain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsMessageBoxTryAgain.h; sourceTree = "<group>"; };
 		921A25FC2164E8DE005C8C41 /* SettingsMessageBoxTryAgain.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsMessageBoxTryAgain.cpp; sourceTree = "<group>"; };
+		921A265D216E444C005C8C41 /* VodacomOnboardingFlowData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VodacomOnboardingFlowData.h; sourceTree = "<group>"; };
+		921A265E216E4495005C8C41 /* VodacomOnboardingScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VodacomOnboardingScene.h; sourceTree = "<group>"; };
+		921A265F216E44AF005C8C41 /* VodacomOnboardingLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VodacomOnboardingLayer.h; sourceTree = "<group>"; };
+		921A2660216E4582005C8C41 /* VodacomOnboardingRegisterLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VodacomOnboardingRegisterLayer.h; sourceTree = "<group>"; };
+		921A2661216E459D005C8C41 /* VodacomOnboardingVoucherLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VodacomOnboardingVoucherLayer.h; sourceTree = "<group>"; };
+		921A2662216E45D5005C8C41 /* VodacomOnboardingLoginLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VodacomOnboardingLoginLayer.h; sourceTree = "<group>"; };
+		921A2663216E4610005C8C41 /* VodacomOnboardingSuccessLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VodacomOnboardingSuccessLayer.h; sourceTree = "<group>"; };
+		921A2664216E463B005C8C41 /* VodacomOnboardingDetailsLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VodacomOnboardingDetailsLayer.h; sourceTree = "<group>"; };
+		921A2665216E466E005C8C41 /* VodacomOnboardingErrorLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VodacomOnboardingErrorLayer.h; sourceTree = "<group>"; };
+		921A2666216E4833005C8C41 /* VodacomOnboardingPinLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VodacomOnboardingPinLayer.h; sourceTree = "<group>"; };
+		921A2667216E4877005C8C41 /* VodacomOnboardingAddChildLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VodacomOnboardingAddChildLayer.h; sourceTree = "<group>"; };
+		921A2668216F6F7A005C8C41 /* VodacomOnboardingFlowData.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VodacomOnboardingFlowData.cpp; sourceTree = "<group>"; };
+		921A266A216F7307005C8C41 /* VodacomOnboardingScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VodacomOnboardingScene.cpp; sourceTree = "<group>"; };
+		921A266C216F958B005C8C41 /* VodacomOnboardingLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VodacomOnboardingLayer.cpp; sourceTree = "<group>"; };
+		921A266E216F9F6A005C8C41 /* VodacomOnboardingRegisterLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VodacomOnboardingRegisterLayer.cpp; sourceTree = "<group>"; };
+		921A2670216F9F85005C8C41 /* VodacomOnboardingVoucherLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VodacomOnboardingVoucherLayer.cpp; sourceTree = "<group>"; };
+		921A2672216F9FA1005C8C41 /* VodacomOnboardingLoginLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VodacomOnboardingLoginLayer.cpp; sourceTree = "<group>"; };
+		921A2674216F9FD3005C8C41 /* VodacomOnboardingSuccessLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VodacomOnboardingSuccessLayer.cpp; sourceTree = "<group>"; };
+		921A2676216F9FF6005C8C41 /* VodacomOnboardingDetailsLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VodacomOnboardingDetailsLayer.cpp; sourceTree = "<group>"; };
+		921A2678216FA030005C8C41 /* VodacomOnboardingErrorLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VodacomOnboardingErrorLayer.cpp; sourceTree = "<group>"; };
+		921A267A216FA05A005C8C41 /* VodacomOnboardingPinLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VodacomOnboardingPinLayer.cpp; sourceTree = "<group>"; };
+		921A267C216FA0A4005C8C41 /* VodacomOnboardingAddChildLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VodacomOnboardingAddChildLayer.cpp; sourceTree = "<group>"; };
 		9220EACA200F5AF600BD7A90 /* DynamicNodeFlowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DynamicNodeFlowController.h; sourceTree = "<group>"; };
 		9220EAD1200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeFlowController.cpp; sourceTree = "<group>"; };
 		9220EAD3200F64A200BD7A90 /* SignUpFlowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignUpFlowController.h; sourceTree = "<group>"; };
@@ -1111,6 +1144,7 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				921A265B216E2775005C8C41 /* Vodacom */,
 				923EA8D220EBA6C200283342 /* addChild */,
 				929A9CF92063CD76009B323D /* MeArea */,
 				9271D7C42040537000370120 /* OomeeMaker */,
@@ -1170,6 +1204,35 @@
 			name = Icons;
 			path = ios;
 			sourceTree = SOURCE_ROOT;
+		};
+		921A265B216E2775005C8C41 /* Vodacom */ = {
+			isa = PBXGroup;
+			children = (
+				921A265D216E444C005C8C41 /* VodacomOnboardingFlowData.h */,
+				921A2668216F6F7A005C8C41 /* VodacomOnboardingFlowData.cpp */,
+				921A265E216E4495005C8C41 /* VodacomOnboardingScene.h */,
+				921A266A216F7307005C8C41 /* VodacomOnboardingScene.cpp */,
+				921A265F216E44AF005C8C41 /* VodacomOnboardingLayer.h */,
+				921A266C216F958B005C8C41 /* VodacomOnboardingLayer.cpp */,
+				921A2660216E4582005C8C41 /* VodacomOnboardingRegisterLayer.h */,
+				921A266E216F9F6A005C8C41 /* VodacomOnboardingRegisterLayer.cpp */,
+				921A2661216E459D005C8C41 /* VodacomOnboardingVoucherLayer.h */,
+				921A2670216F9F85005C8C41 /* VodacomOnboardingVoucherLayer.cpp */,
+				921A2662216E45D5005C8C41 /* VodacomOnboardingLoginLayer.h */,
+				921A2672216F9FA1005C8C41 /* VodacomOnboardingLoginLayer.cpp */,
+				921A2663216E4610005C8C41 /* VodacomOnboardingSuccessLayer.h */,
+				921A2674216F9FD3005C8C41 /* VodacomOnboardingSuccessLayer.cpp */,
+				921A2664216E463B005C8C41 /* VodacomOnboardingDetailsLayer.h */,
+				921A2676216F9FF6005C8C41 /* VodacomOnboardingDetailsLayer.cpp */,
+				921A2665216E466E005C8C41 /* VodacomOnboardingErrorLayer.h */,
+				921A2678216FA030005C8C41 /* VodacomOnboardingErrorLayer.cpp */,
+				921A2666216E4833005C8C41 /* VodacomOnboardingPinLayer.h */,
+				921A267A216FA05A005C8C41 /* VodacomOnboardingPinLayer.cpp */,
+				921A2667216E4877005C8C41 /* VodacomOnboardingAddChildLayer.h */,
+				921A267C216FA0A4005C8C41 /* VodacomOnboardingAddChildLayer.cpp */,
+			);
+			path = Vodacom;
+			sourceTree = "<group>";
 		};
 		9220EACE200F5DB100BD7A90 /* DynamicNodeTools */ = {
 			isa = PBXGroup;
@@ -1728,7 +1791,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "rm -rf ../Resources/res/webcommApi\ncp -rf ../../webgameapi_repo/webcommApi ../Resources/res/";
+			shellScript = "rm -rf ../Resources/res/webcommApi\ncp -rf ../../webgameapi_repo/webcommApi ../Resources/res/\n";
 		};
 		30647A941F13B53600A935C9 /* Carthage Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1771,7 +1834,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd ../../app-content-dynamicnode/ios\nzip -r ../../azoomee2/Resources/res/cta_assets/CTAFiles.zip *";
+			shellScript = "cd ../../app-content-dynamicnode/ios\nzip -r ../../azoomee2/Resources/res/cta_assets/CTAFiles.zip *\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1788,11 +1851,14 @@
 				A19862221DD3836D0090F053 /* ChildSelectorScene.cpp in Sources */,
 				025BE9491E3A1E0000EF76D1 /* ArtsAppHQElement.cpp in Sources */,
 				025633791F3B0F5C0053FF26 /* ForceUpdateAppLockScene.cpp in Sources */,
+				921A2677216F9FF6005C8C41 /* VodacomOnboardingDetailsLayer.cpp in Sources */,
 				02074B271E93966D009BB28C /* WebGameAPIDataManager.cpp in Sources */,
 				02D644542087489800FF17B4 /* NativeContentInterface_ios.mm in Sources */,
 				A15B2FCA1DFACF3800D25334 /* HQDataProvider.cpp in Sources */,
 				9295158B2091D48700F43AEC /* UserTypeMessagingLayer.cpp in Sources */,
+				921A267D216FA0A4005C8C41 /* VodacomOnboardingAddChildLayer.cpp in Sources */,
 				439694841EAA4A08003C17E6 /* PrivacyAndTermsLayer.cpp in Sources */,
+				921A2671216F9F85005C8C41 /* VodacomOnboardingVoucherLayer.cpp in Sources */,
 				02A11FF71EA6375D007EDD95 /* GooglePaymentSingleton.cpp in Sources */,
 				A198622E1DD480A60090F053 /* BaseScene.cpp in Sources */,
 				4343CB9C1EBB826600247549 /* DeepLinkingSingleton.cpp in Sources */,
@@ -1804,6 +1870,7 @@
 				924E8455214141DC004590FD /* KidDetailsLayer.cpp in Sources */,
 				927DF6E320AECA620080DFEF /* MeHQGallery.cpp in Sources */,
 				926A2B2C212F018E00AE7964 /* SettingsPageHeader.cpp in Sources */,
+				921A266D216F958B005C8C41 /* VodacomOnboardingLayer.cpp in Sources */,
 				026BAF781E3FFD33009C4ACE /* HQHistoryManager.cpp in Sources */,
 				920F6FDE213EB76300B7BB76 /* SettingsFriendshipsPage.cpp in Sources */,
 				928A6E8920EE5C880053E793 /* ChildAgeLayer.cpp in Sources */,
@@ -1834,18 +1901,23 @@
 				926A2B3B21357A7900AE7964 /* SettingsYourAccountPage.cpp in Sources */,
 				927DF6E920AEF3C50080DFEF /* MeHQDownloads.cpp in Sources */,
 				9220EB21201A185C00BD7A90 /* RecentlyPlayedManager.cpp in Sources */,
+				921A2669216F6F7A005C8C41 /* VodacomOnboardingFlowData.cpp in Sources */,
 				926A2AE1212D6F5500AE7964 /* SettingsHub.cpp in Sources */,
 				9289DB441FD8137D00B12435 /* DynamicNodeButton.cpp in Sources */,
 				926A2B2F212F14B400AE7964 /* SettingsSupportPage.cpp in Sources */,
 				0253C9871EC053B5005037EB /* VideoPlaylistManager.cpp in Sources */,
 				0243B8DB1F1F5D5C005D3734 /* ChatNotificationsSingleton.cpp in Sources */,
+				921A266B216F7307005C8C41 /* VodacomOnboardingScene.cpp in Sources */,
 				92951513208895D200F43AEC /* DynamicNodeCheckBox.cpp in Sources */,
 				9289DAF61FCEEFF000B12435 /* DynamicNodeTextInput.cpp in Sources */,
 				920F6FE52140472A00B7BB76 /* SettingsMessageBox.cpp in Sources */,
 				437395811ED3441F00C29DB1 /* FlowDataSingleton.cpp in Sources */,
 				02E595891E55DFF00052F395 /* OfflineHubSceneVisuals.cpp in Sources */,
+				921A2675216F9FD3005C8C41 /* VodacomOnboardingSuccessLayer.cpp in Sources */,
 				9224BFB41F7932D200108553 /* ButtonActionData.cpp in Sources */,
 				928A6E8B20EE62270053E793 /* ChildOomeeLayer.cpp in Sources */,
+				921A267B216FA05A005C8C41 /* VodacomOnboardingPinLayer.cpp in Sources */,
+				921A2673216F9FA1005C8C41 /* VodacomOnboardingLoginLayer.cpp in Sources */,
 				926A2B3921356C2000AE7964 /* EditAccountLayer.cpp in Sources */,
 				9271D7D32040557D00370120 /* OomeeMakerDelegate.cpp in Sources */,
 				921A25F421627FD6005C8C41 /* SettingsLanguagePage.cpp in Sources */,
@@ -1856,6 +1928,7 @@
 				924E845821427C05004590FD /* SettingsMessageBoxDeleteChild.cpp in Sources */,
 				9224BFB11F7908D400108553 /* DynamicNodeButtonListener.cpp in Sources */,
 				92759E701FE1598100639190 /* DynamicNodeLine.cpp in Sources */,
+				921A2679216FA030005C8C41 /* VodacomOnboardingErrorLayer.cpp in Sources */,
 				924ACE3720A9C541007A5550 /* MeHQProfileDetails.cpp in Sources */,
 				A19862271DD3836D0090F053 /* NavigationLayer.cpp in Sources */,
 				A198622B1DD383BD0090F053 /* AppDelegate.cpp in Sources */,
@@ -1893,6 +1966,7 @@
 				921A25FA2164D08B005C8C41 /* SettingsMessageBoxNotification.cpp in Sources */,
 				927DF6EB20B2BD010080DFEF /* MeHQMessages.cpp in Sources */,
 				A154CC521DFEE7440008A626 /* GameDataManager.cpp in Sources */,
+				921A266F216F9F6A005C8C41 /* VodacomOnboardingRegisterLayer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

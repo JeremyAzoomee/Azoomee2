@@ -54,8 +54,12 @@ void UserTypeMessagingLayer::onEnter()
             DynamicNodeHandler::getInstance()->startIAPFlow();
         }
     });
-    
+	
+#ifdef VODACOM_BUILD
+	_startTrialLabel = Label::createWithTTF(_("Unlock everything"), Style::Font::Regular, _startTrialButton->getContentSize().height * ( is18x9 ? 0.35 : 0.4 ));
+#else
     _startTrialLabel = Label::createWithTTF(_("Start 7 Day Free Trial"), Style::Font::Regular, _startTrialButton->getContentSize().height * ( is18x9 ? 0.35 : 0.4 ));
+#endif
     _startTrialLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _startTrialLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _startTrialLabel->setTextColor(Color4B(246,187,66,255));
@@ -104,8 +108,12 @@ void UserTypeMessagingLayer::onEnter()
             DynamicNodeHandler::getInstance()->startIAPFlow();
         }
     });
-    
+	
+#ifdef VODACOM_BUILD
+	_reactivateLabel = Label::createWithTTF(_("Unlock everything"), Style::Font::Regular, _reactivateButton->getContentSize().height * 0.4);
+#else
     _reactivateLabel = Label::createWithTTF(_("Reactivate your account"), Style::Font::Regular, _reactivateButton->getContentSize().height * 0.4);
+#endif
     _reactivateLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _reactivateLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _reactivateLabel->setTextColor(Color4B(246,187,66,255));

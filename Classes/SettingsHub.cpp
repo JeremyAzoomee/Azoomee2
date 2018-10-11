@@ -105,9 +105,11 @@ bool SettingsHub::init()
     _activeSettingsPageHolder->setVisible(false);
     _mainBodyLayout->addChild(_activeSettingsPageHolder);
 	
-	const float buttonHeight = _navigationLayout->getContentSize().height * (1.0f / 6.0f) - 10;
+	const int numButtons = 5;
 	
-	_languageButton = SettingsNavigationButton::create();
+	const float buttonHeight = _navigationLayout->getContentSize().height * (1.0f / numButtons) - 10;
+	
+	/*_languageButton = SettingsNavigationButton::create();
 	_languageButton->setContentSize(Size(visibleSize.width, buttonHeight));
 	_languageButton->setLayoutParameter(CreateTopLinearLayoutParam(ui::Margin(0,0,0,10)));
 	_languageButton->setIconFilename("res/settings/flag_english_uk.png");
@@ -120,7 +122,7 @@ bool SettingsHub::init()
 		}
 	});
 	_languageButton->setTouchEnabled(true);
-	_navigationLayout->addChild(_languageButton);
+	_navigationLayout->addChild(_languageButton);*/
 	
     _kidsButton = SettingsNavigationButton::create();
     _kidsButton->setContentSize(Size(visibleSize.width, buttonHeight));
