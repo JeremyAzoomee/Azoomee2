@@ -18,6 +18,8 @@ bool VodacomOnboardingErrorLayer::init()
 		return false;
 	}
 	
+	setLayoutType(ui::Layout::Type::VERTICAL);
+	
 	return true;
 }
 

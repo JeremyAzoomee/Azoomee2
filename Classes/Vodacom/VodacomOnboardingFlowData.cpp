@@ -81,9 +81,18 @@ void VodacomOnboardingFlowData::setPrevState(const FlowState& prevState)
 {
 	_prevState = prevState;
 }
-FlowState VodacomOnboardingFlowData::gePrevState() const
+FlowState VodacomOnboardingFlowData::getPrevState() const
 {
 	return _prevState;
+}
+
+void VodacomOnboardingFlowData::setErrorType(const ErrorType& errorType)
+{
+	_errorType = errorType;
+}
+ErrorType VodacomOnboardingFlowData::getErrorType() const
+{
+	return _errorType;
 }
 
 NS_AZOOMEE_END

@@ -127,7 +127,7 @@ void BackEndCaller::login(const std::string& username, const std::string& passwo
 
 void BackEndCaller::onLoginAnswerReceived(const std::string& responseString, const std::string& headerString)
 {
-    IAPProductDataHandler::getInstance()->fetchProductData();
+    //IAPProductDataHandler::getInstance()->fetchProductData();
     
     cocos2d::log("Response string is: %s", responseString.c_str());
     if(ParentDataParser::getInstance()->parseParentLoginData(responseString))

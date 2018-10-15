@@ -9,13 +9,19 @@
 #define VodacomOnboardingPinLayer_h
 
 #include "VodacomOnboardingLayer.h"
+#include <AzoomeeCommon/Input/TextInputLayer.h>
+#include <AzoomeeCommon/API/HttpRequestCreator.h>
 
 NS_AZOOMEE_BEGIN
 
-class VodacomOnboardingPinLayer : public VodacomOnboardingLayer
+class VodacomOnboardingPinLayer : public VodacomOnboardingLayer, HttpRequestCreatorResponseDelegate
 {
 	typedef VodacomOnboardingLayer Super;
 private:
+	cocos2d::ui::Button* _closeButton = nullptr;
+	cocos2d::ui::Button* _backButton = nullptr;
+	cocos2d::ui::Button* _confirmButton = nullptr;
+	TextInputLayer* _pinInput = nullptr;
 	
 public:
 	
@@ -23,6 +29,10 @@ public:
 	virtual void onEnter();
 	
 	CREATE_FUNC(VodacomOnboardingPinLayer);
+	
+	//Delegate Functions
+	void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body) override;
+	void onHttpRequestFailed(const std::string& requestTag, long errorCode) override;
 };
 
 NS_AZOOMEE_END

@@ -46,6 +46,7 @@ const char* const API::TagUpdateParentDetails = "updateParentDetails";
 const char* const API::TagUpdateParentPassword = "updateParentPassword";
 const char* const API::TagGetParentDetails = "getParentDetails";
 const char* const API::TagUpdateChildNameRequest = "updateChildNameRequest";
+const char* const API::TagAddVoucher = "addVoucher";
 
 #pragma mark - API Methods
 
@@ -177,7 +178,8 @@ HttpRequestCreator* API::RegisterParentRequest(const std::string& emailAddress,
                                                HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestBody = StringUtils::format("{\"emailAddress\":\"%s\",\"over18\":\"true\",\"termsAccepted\":\"true\",\"marketingAccepted\":\"%s\",\"password\":\"%s\",\"source\":\"%s\",\"pinNumber\":\"%s\", \"sourceDevice\":\"%s\",\"defaultChild\":\"false\"}", emailAddress.c_str(), marketingAccepted.c_str(), password.c_str(), source.c_str(), pinNumber.c_str(), sourceDevice.c_str());
+    request->requestBody = StringUtils::format("{\"emailAddress\":\"%s\",\"over18\":\"true\",\"termsAccepted\":\"true\",\"marketingAccepted\":\"%s\",\"password\":\"%s\",\"source\":\"%s\",\"pinNumber\":\"%s\", \"sourceDevice\":\"%s\"}", emailAddress.c_str(), marketingAccepted.c_str(), password.c_str(), source.c_str(), pinNumber.c_str(), sourceDevice.c_str());
+	request->urlParameters = "defaultChild=false";
     request->requestTag = TagRegisterParent;
     request->method = "POST";
     return request;
@@ -390,6 +392,19 @@ HttpRequestCreator* API::UpdateChildNameRequest(const std::string& childId,
     request->method = "PATCH";
     request->encrypted = true;
     return request;
+}
+
+HttpRequestCreator* API::AddVoucher(const std::string &parentId,
+									const std::string &voucherCode,
+									HttpRequestCreatorResponseDelegate *delegate)
+{
+	HttpRequestCreator* request = new HttpRequestCreator(delegate);
+	request->requestBody = StringUtils::format("{\"voucherCode\":\"%s\"}", voucherCode.c_str());
+	request->requestPath = StringUtils::format("/api/billing/user/%s/voucher",parentId.c_str());
+	request->requestTag = TagAddVoucher;
+	request->method = "PATCH";
+	request->encrypted = true;
+	return request;
 }
 
 #pragma mark - Sharing

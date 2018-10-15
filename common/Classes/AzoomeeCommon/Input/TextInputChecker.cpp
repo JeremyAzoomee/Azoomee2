@@ -189,5 +189,9 @@ bool isDateInFuture(std::string dobstring)
     
     return(ts >= time(NULL) || ts==-1);
 }
-  
+	
+	bool isValidVoucher(const std::string& voucher)
+	{
+		return true;
+	}
 }

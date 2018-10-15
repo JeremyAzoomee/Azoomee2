@@ -14,6 +14,7 @@
 #include "VodacomOnboardingDetailsLayer.h"
 #include "VodacomOnboardingErrorLayer.h"
 #include "VodacomOnboardingPinLayer.h"
+#include "../SceneManagerScene.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Strings.h>
@@ -29,7 +30,8 @@ bool VodacomOnboardingScene::init()
 		return false;
 	}
 	
-	setContentSize(Director::getInstance()->getVisibleSize());
+	LayerColor* bg = LayerColor::create(Color4B::WHITE);
+	this->addChild(bg);
 	
 	return true;
 }
@@ -42,6 +44,11 @@ void VodacomOnboardingScene::onEnter()
 	_flowData->setPrevState(FlowState::EXIT);
 	moveToState((_flowData->getUserType() == UserType::FREE) ? FlowState::ADD_VOUCHER : FlowState::DETAILS);
 	Super::onEnter();
+}
+
+void VodacomOnboardingScene::exitFlow()
+{
+	Director::getInstance()->replaceScene(SceneManagerScene::createScene(_flowData->getUserType() == UserType::FREE ? ChildSelector : Base));
 }
 
 //delegate Functions

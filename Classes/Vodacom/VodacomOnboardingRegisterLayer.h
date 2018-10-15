@@ -9,6 +9,7 @@
 #define VodacomOnboardingRegisterLayer_h
 
 #include "VodacomOnboardingLayer.h"
+#include <AzoomeeCommon/Input/TextInputLayer.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -16,6 +17,11 @@ class VodacomOnboardingRegisterLayer : public VodacomOnboardingLayer
 {
 	typedef VodacomOnboardingLayer Super;
 private:
+	cocos2d::ui::Button* _closeButton = nullptr;
+	cocos2d::ui::Button* _backButton = nullptr;
+	cocos2d::ui::Button* _confirmButton = nullptr;
+	TextInputLayer* _emailInput = nullptr;
+	TextInputLayer* _passwordInput = nullptr;
 	
 public:
 	

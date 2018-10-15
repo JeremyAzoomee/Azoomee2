@@ -16,7 +16,7 @@ NS_AZOOMEE_BEGIN
 
 enum class UserType {ANON, FREE, ANON_FREE}; //ANON = anonymous, FREE = logged in w/o premium, ANON_FREE = anonymous user who has account to log into
 enum class FlowState {EXIT, DETAILS, ADD_VOUCHER, REGISTER, PIN, ADD_CHILD, LOGIN, SUCCESS, ERROR};
-enum class ErrorType {NONE, LOGIN, VOUCHER, RESET};
+enum class ErrorType {NONE, LOGIN, VOUCHER, RESET, ALREADY_PREMIUM, ALREADY_REGISTERED};
 
 class VodacomOnboardingFlowData;
 typedef std::shared_ptr<VodacomOnboardingFlowData> VodacomOnboardingFlowDataRef;
@@ -59,7 +59,10 @@ public:
 	FlowState getCurrentState() const;
 	
 	void setPrevState(const FlowState& prevState);
-	FlowState gePrevState() const;
+	FlowState getPrevState() const;
+	
+	void setErrorType(const ErrorType& errorType);
+	ErrorType getErrorType() const;
 };
 
 NS_AZOOMEE_END

@@ -10,17 +10,19 @@
 
 #include <AzoomeeCommon/Azoomee.h>
 #include <cocos/cocos2d.h>
+#include <cocos/ui/CocosGUI.h>
 #include "VodacomOnboardingFlowData.h"
 
 NS_AZOOMEE_BEGIN
 class VodacomOnboardingLayerDelegate
 {
+public:
 	virtual void moveToState(const FlowState& targetState) = 0;
 };
 
-class VodacomOnboardingLayer : public cocos2d::Layer
+class VodacomOnboardingLayer : public cocos2d::ui::Layout
 {
-	typedef cocos2d::Layer Super;
+	typedef cocos2d::ui::Layout Super;
 private:
 	
 protected:
