@@ -34,6 +34,7 @@ public:
 	
 	//delegate Functions
 	void moveToState(const FlowState& targetState) override;
+	void moveToPreviousState() override;
 };
 
 NS_AZOOMEE_END

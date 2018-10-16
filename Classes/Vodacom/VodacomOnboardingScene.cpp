@@ -40,8 +40,9 @@ void VodacomOnboardingScene::onEnter()
 {
 	_flowData = VodacomOnboardingFlowData::create();
 	_flowData->setUserType(ParentDataProvider::getInstance()->isLoggedInParentAnonymous() ? UserType::ANON : UserType::FREE);
-	_flowData->setCurrentState(FlowState::EXIT);
-	_flowData->setPrevState(FlowState::EXIT);
+	//_flowData->setCurrentState(FlowState::EXIT);
+	//_flowData->setPrevState(FlowState::EXIT);
+	_flowData->pushState(FlowState::EXIT);
 	moveToState((_flowData->getUserType() == UserType::FREE) ? FlowState::ADD_VOUCHER : FlowState::DETAILS);
 	Super::onEnter();
 }
@@ -91,8 +92,57 @@ void VodacomOnboardingScene::moveToState(const FlowState& targetState)
 	}
 	if(nextLayer)
 	{
-		_flowData->setPrevState(_flowData->getCurrentState());
-		_flowData->setCurrentState(targetState);
+		//_flowData->setPrevState(_flowData->getCurrentState());
+		//_flowData->setCurrentState(targetState);
+		_flowData->pushState(targetState);
+		nextLayer->setFlowData(_flowData);
+		nextLayer->setDelegate(this);
+		nextLayer->setContentSize(this->getContentSize());
+		this->addChild(nextLayer);
+		_currentLayer = nextLayer;
+	}
+}
+
+void VodacomOnboardingScene::moveToPreviousState()
+{
+	if(_currentLayer)
+	{
+		_currentLayer->removeFromParent();
+		_currentLayer = nullptr;
+	}
+	VodacomOnboardingLayer* nextLayer = nullptr;
+	_flowData->popState();
+	switch (_flowData->getCurrentState()) {
+		case FlowState::EXIT:
+			exitFlow();
+			return;
+		case FlowState::DETAILS:
+			nextLayer = VodacomOnboardingDetailsLayer::create();
+			break;
+		case FlowState::ADD_VOUCHER:
+			nextLayer = VodacomOnboardingVoucherLayer::create();
+			break;
+		case FlowState::REGISTER:
+			nextLayer = VodacomOnboardingRegisterLayer::create();
+			break;
+		case FlowState::PIN:
+			nextLayer = VodacomOnboardingPinLayer::create();
+			break;
+		case FlowState::ADD_CHILD:
+			nextLayer = VodacomOnboardingAddChildLayer::create();
+			break;
+		case FlowState::LOGIN:
+			nextLayer = VodacomOnboardingLoginLayer::create();
+			break;
+		case FlowState::SUCCESS:
+			nextLayer = VodacomOnboardingSuccessLayer::create();
+			break;
+		case FlowState::ERROR:
+			nextLayer = VodacomOnboardingErrorLayer::create();
+			break;
+	}
+	if(nextLayer)
+	{
 		nextLayer->setFlowData(_flowData);
 		nextLayer->setDelegate(this);
 		nextLayer->setContentSize(this->getContentSize());

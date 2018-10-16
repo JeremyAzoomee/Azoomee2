@@ -68,7 +68,7 @@ UserType VodacomOnboardingFlowData::getUserType() const
 	return _userType;
 }
 
-void VodacomOnboardingFlowData::setCurrentState(const FlowState& currentState)
+/*void VodacomOnboardingFlowData::setCurrentState(const FlowState& currentState)
 {
 	_currentState = currentState;
 }
@@ -84,7 +84,7 @@ void VodacomOnboardingFlowData::setPrevState(const FlowState& prevState)
 FlowState VodacomOnboardingFlowData::getPrevState() const
 {
 	return _prevState;
-}
+}*/
 
 void VodacomOnboardingFlowData::setErrorType(const ErrorType& errorType)
 {
@@ -93,6 +93,36 @@ void VodacomOnboardingFlowData::setErrorType(const ErrorType& errorType)
 ErrorType VodacomOnboardingFlowData::getErrorType() const
 {
 	return _errorType;
+}
+
+void VodacomOnboardingFlowData::pushState(const FlowState &state)
+{
+	_stateStack.push(state);
+}
+
+void VodacomOnboardingFlowData::popState()
+{
+	if(_stateStack.size() > 0)
+	{
+		_stateStack.pop();
+	}
+	if(_stateStack.size() == 0)
+	{
+		_stateStack.push(FlowState::EXIT);
+	}
+}
+
+void VodacomOnboardingFlowData::resetStateStack()
+{
+	while(_stateStack.size() > 1)
+	{
+		_stateStack.pop();
+	}
+}
+
+FlowState VodacomOnboardingFlowData::getCurrentState() const
+{
+	return _stateStack.top();
 }
 
 NS_AZOOMEE_END

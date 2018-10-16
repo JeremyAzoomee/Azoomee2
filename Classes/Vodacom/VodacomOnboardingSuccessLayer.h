@@ -16,6 +16,7 @@ class VodacomOnboardingSuccessLayer : public VodacomOnboardingLayer
 {
 	typedef VodacomOnboardingLayer Super;
 private:
+	cocos2d::ui::Button* _closeButton = nullptr;
 	
 public:
 	

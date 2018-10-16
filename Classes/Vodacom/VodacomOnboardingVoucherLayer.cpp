@@ -11,6 +11,7 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 
 using namespace cocos2d;
@@ -52,7 +53,8 @@ void VodacomOnboardingVoucherLayer::onEnter()
 		{
 			if(_delegate)
 			{
-				_delegate->moveToState(_flowData->getPrevState());
+				_flowData->setVoucherCode(_voucherInput->getText());
+				_delegate->moveToPreviousState();
 			}
 		}
 	});
@@ -137,11 +139,20 @@ void VodacomOnboardingVoucherLayer::onEnter()
 
 void VodacomOnboardingVoucherLayer::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
-	if(_delegate)
+	if(requestTag == API::TagAddVoucher)
 	{
-		_delegate->moveToState(FlowState::SUCCESS);
+		HttpRequestCreator* request = API::UpdateBillingDataRequest(this);
+		request->execute();
 	}
-	ModalMessages::getInstance()->stopLoading();
+	else if(requestTag == API::TagUpdateBillingData)
+	{
+		ParentDataParser::getInstance()->parseParentBillingData(body);
+		if(_delegate)
+		{
+			_delegate->moveToState(FlowState::SUCCESS);
+		}
+		ModalMessages::getInstance()->stopLoading();
+	}
 }
 void VodacomOnboardingVoucherLayer::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {

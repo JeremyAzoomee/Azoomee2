@@ -292,5 +292,17 @@
 	"Create a 4 digit PIN to access your settings.":"Create a 4 digit PIN to access your settings.",
 	"Setup a profile":"Setup a profile",
 	"Child's name":"Child's name",
-	"This is to create a profile with age-appropriate content. You can add more children later.":"This is to create a profile with age-appropriate content. You can add more children later."
+	"This is to create a profile with age-appropriate content. You can add more children later.":"This is to create a profile with age-appropriate content. You can add more children later.",
+	"Success!":"Success!",
+	"Your voucher has been added,":"Your voucher has been added,",
+	"valid until":"valid until",
+	"Your voucher code isn’t valid. Please re-enter it.":"Your voucher code isn’t valid. Please re-enter it.",
+	"There was a problem with your email or password.":"There was a problem with your email or password.",
+	"Reset password":"Reset password",
+	"Reset requested":"Reset requested",
+	"Complete":"Complete",
+	"Next Step":"Next Step",
+	"Your voucher code isn’t valid. Please re-enter it.":"Your voucher code isn’t valid. Please re-enter it.",
+	"Instructions for resetting your password have been sent to:":"Instructions for resetting your password have been sent to:"
+
 }

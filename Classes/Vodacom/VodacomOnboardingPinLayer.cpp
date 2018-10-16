@@ -55,7 +55,8 @@ void VodacomOnboardingPinLayer::onEnter()
 		{
 			if(_delegate)
 			{
-				_delegate->moveToState(_flowData->getPrevState());
+				_flowData->setPin(_pinInput->getText());
+				_delegate->moveToPreviousState();
 			}
 		}
 	});
@@ -120,6 +121,7 @@ void VodacomOnboardingPinLayer::onEnter()
 		{
 			if(_delegate && _pinInput->inputIsValid())
 			{
+				_flowData->setPin(_pinInput->getText());
 				ModalMessages::getInstance()->startLoading();
 				const std::string &sourceDevice = ConfigStorage::getInstance()->getDeviceInformation();
 				HttpRequestCreator* request = API::RegisterParentRequest(_flowData->getEmail(), _flowData->getPassword(), _pinInput->getText(), "VODACOM", sourceDevice, "false", this);
@@ -129,13 +131,17 @@ void VodacomOnboardingPinLayer::onEnter()
 	});
 	this->addChild(_confirmButton);
 	
-	Label* confirmText = Label::createWithTTF(_("Confirm"), Style::Font::Regular, _confirmButton->getContentSize().height * 0.5f);
+	Label* confirmText = Label::createWithTTF(_("Next Step"), Style::Font::Regular, _confirmButton->getContentSize().height * 0.5f);
 	confirmText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	confirmText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	confirmText->setHorizontalAlignment(TextHAlignment::CENTER);
 	confirmText->setVerticalAlignment(TextVAlignment::CENTER);
 	confirmText->setDimensions(_confirmButton->getContentSize().width, _confirmButton->getContentSize().height);
 	_confirmButton->addChild(confirmText);
+	
+	ui::ImageView* progressIcon = ui::ImageView::create("res/vodacom/step_counter_2.png");
+	progressIcon->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,200,0,0)));
+	this->addChild(progressIcon);
 	
 	Super::onEnter();
 }
@@ -160,6 +166,7 @@ void VodacomOnboardingPinLayer::onHttpRequestSuccess(const std::string& requestT
 			_flowData->setUserType(UserType::FREE);
 			if(_delegate)
 			{
+				_flowData->resetStateStack();
 				_delegate->moveToState(FlowState::ADD_CHILD);
 			}
 		}

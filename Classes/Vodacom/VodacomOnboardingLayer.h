@@ -18,6 +18,7 @@ class VodacomOnboardingLayerDelegate
 {
 public:
 	virtual void moveToState(const FlowState& targetState) = 0;
+	virtual void moveToPreviousState() = 0;
 };
 
 class VodacomOnboardingLayer : public cocos2d::ui::Layout

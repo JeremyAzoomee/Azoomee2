@@ -55,7 +55,9 @@ void VodacomOnboardingLoginLayer::onEnter()
 		{
 			if(_delegate)
 			{
-				_delegate->moveToState(_flowData->getPrevState());
+				_flowData->setEmail(_emailInput->getText());
+				_flowData->setPassword(_passwordInput->getText());
+				_delegate->moveToPreviousState();
 			}
 		}
 	});
@@ -128,6 +130,8 @@ void VodacomOnboardingLoginLayer::onEnter()
 		{
 			if(_delegate && _emailInput->inputIsValid() && _passwordInput->inputIsValid())
 			{
+				_flowData->setEmail(_emailInput->getText());
+				_flowData->setPassword(_passwordInput->getText());
 				ModalMessages::getInstance()->startLoading();
 				HttpRequestCreator* request = API::LoginRequest(_emailInput->getText(), _passwordInput->getText(), this);
 				request->execute();
@@ -162,6 +166,15 @@ void VodacomOnboardingLoginLayer::onHttpRequestSuccess(const std::string& reques
 			HttpRequestCreator* request = API::UpdateBillingDataRequest(this);
 			request->execute();
 		}
+		else
+		{
+			_flowData->setErrorType(ErrorType::LOGIN);
+			if(_delegate)
+			{
+				_delegate->moveToState(FlowState::ERROR);
+			}
+			ModalMessages::getInstance()->stopLoading();
+		}
 	}
 	else if(requestTag == API::TagUpdateBillingData)
 	{
@@ -175,10 +188,19 @@ void VodacomOnboardingLoginLayer::onHttpRequestSuccess(const std::string& reques
 		{
 			ModalMessages::getInstance()->stopLoading();
 			_flowData->setErrorType(ErrorType::ALREADY_PREMIUM);
+			if(_delegate)
+			{
+				_delegate->moveToState(FlowState::ERROR);
+			}
 		}
 
 	}
 	else if(requestTag == API::TagAddVoucher)
+	{
+		HttpRequestCreator* request = API::UpdateBillingDataRequest(this);
+		request->execute();
+	}
+	else if(requestTag == API::TagUpdateBillingData)
 	{
 		ModalMessages::getInstance()->stopLoading();
 		if(_delegate)
@@ -186,7 +208,6 @@ void VodacomOnboardingLoginLayer::onHttpRequestSuccess(const std::string& reques
 			_delegate->moveToState(FlowState::SUCCESS);
 		}
 	}
-	
 	
 }
 void VodacomOnboardingLoginLayer::onHttpRequestFailed(const std::string& requestTag, long errorCode)

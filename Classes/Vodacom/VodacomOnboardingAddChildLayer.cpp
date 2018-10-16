@@ -151,13 +151,17 @@ void VodacomOnboardingAddChildLayer::onEnter()
 	});
 	this->addChild(_confirmButton);
 	
-	Label* confirmText = Label::createWithTTF(_("Confirm"), Style::Font::Regular, _confirmButton->getContentSize().height * 0.5f);
+	Label* confirmText = Label::createWithTTF(_("Complete"), Style::Font::Regular, _confirmButton->getContentSize().height * 0.5f);
 	confirmText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	confirmText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	confirmText->setHorizontalAlignment(TextHAlignment::CENTER);
 	confirmText->setVerticalAlignment(TextVAlignment::CENTER);
 	confirmText->setDimensions(_confirmButton->getContentSize().width, _confirmButton->getContentSize().height);
 	_confirmButton->addChild(confirmText);
+	
+	ui::ImageView* progressIcon = ui::ImageView::create("res/vodacom/step_counter_3.png");
+	progressIcon->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,200,0,0)));
+	this->addChild(progressIcon);
 	
 	Super::onEnter();
 }
@@ -175,6 +179,7 @@ void VodacomOnboardingAddChildLayer::onHttpRequestSuccess(const std::string& req
 		ModalMessages::getInstance()->stopLoading();
 		if(_delegate)
 		{
+			_flowData->resetStateStack();
 			_delegate->moveToState(FlowState::SUCCESS);
 		}
 	}
@@ -186,6 +191,8 @@ void VodacomOnboardingAddChildLayer::onHttpRequestFailed(const std::string& requ
 		_flowData->setErrorType(ErrorType::VOUCHER);
 		if(_delegate)
 		{
+			_flowData->resetStateStack();
+			_flowData->pushState(FlowState::ADD_VOUCHER);
 			_delegate->moveToState(FlowState::ERROR);
 		}
 	}

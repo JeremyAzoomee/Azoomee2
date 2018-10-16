@@ -49,7 +49,9 @@ void VodacomOnboardingRegisterLayer::onEnter()
 		{
 			if(_delegate)
 			{
-				_delegate->moveToState(_flowData->getPrevState());
+				_flowData->setEmail(_emailInput->getText());
+				_flowData->setPassword(_passwordInput->getText());
+				_delegate->moveToPreviousState();
 			}
 		}
 	});
@@ -161,7 +163,7 @@ void VodacomOnboardingRegisterLayer::onEnter()
 	});
 	this->addChild(_confirmButton);
 	
-	Label* confirmText = Label::createWithTTF(_("Confirm"), Style::Font::Regular, _confirmButton->getContentSize().height * 0.5f);
+	Label* confirmText = Label::createWithTTF(_("Next Step"), Style::Font::Regular, _confirmButton->getContentSize().height * 0.5f);
 	confirmText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	confirmText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	confirmText->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -170,6 +172,10 @@ void VodacomOnboardingRegisterLayer::onEnter()
 	_confirmButton->addChild(confirmText);
 	
 	Super::onEnter();
+	
+	ui::ImageView* progressIcon = ui::ImageView::create("res/vodacom/step_counter_1.png");
+	progressIcon->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,200,0,0)));
+	this->addChild(progressIcon);
 }
 
 NS_AZOOMEE_END

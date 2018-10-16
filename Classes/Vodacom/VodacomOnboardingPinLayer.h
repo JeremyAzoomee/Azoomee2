@@ -25,8 +25,8 @@ private:
 	
 public:
 	
-	virtual bool init();
-	virtual void onEnter();
+	virtual bool init() override;
+	virtual void onEnter() override;
 	
 	CREATE_FUNC(VodacomOnboardingPinLayer);
 	

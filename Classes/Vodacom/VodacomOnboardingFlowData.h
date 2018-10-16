@@ -30,9 +30,11 @@ private:
 	std::string _pin;
 	
 	UserType _userType = UserType::ANON;
-	FlowState _currentState = FlowState::DETAILS;
-	FlowState _prevState = FlowState::DETAILS;
+	//FlowState _currentState = FlowState::DETAILS;
+	//FlowState _prevState = FlowState::DETAILS;
 	ErrorType _errorType = ErrorType::NONE;
+	
+	std::stack<FlowState> _stateStack;
 	
 public:
 	
@@ -55,14 +57,19 @@ public:
 	void setUserType(const UserType& userType);
 	UserType getUserType() const;
 	
-	void setCurrentState(const FlowState& currentState);
-	FlowState getCurrentState() const;
+	//void setCurrentState(const FlowState& currentState);
+	//FlowState getCurrentState() const;
 	
-	void setPrevState(const FlowState& prevState);
-	FlowState getPrevState() const;
+	//void setPrevState(const FlowState& prevState);
+	//FlowState getPrevState() const;
 	
 	void setErrorType(const ErrorType& errorType);
 	ErrorType getErrorType() const;
+	
+	void pushState(const FlowState& state);
+	void popState();
+	void resetStateStack();
+	FlowState getCurrentState() const;
 };
 
 NS_AZOOMEE_END
