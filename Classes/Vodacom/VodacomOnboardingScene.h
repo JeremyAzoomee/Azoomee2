@@ -13,10 +13,11 @@
 #include <cocos/cocos2d.h>
 #include "VodacomOnboardingFlowData.h"
 #include "VodacomOnboardingLayer.h"
+#include <AzoomeeCommon/API/HttpRequestCreator.h>
 
 NS_AZOOMEE_BEGIN
 
-class VodacomOnboardingScene : public Azoomee::Scene, VodacomOnboardingLayerDelegate
+class VodacomOnboardingScene : public Azoomee::Scene, VodacomOnboardingLayerDelegate, HttpRequestCreatorResponseDelegate
 {
 	typedef Azoomee::Scene Super;
 private:
@@ -35,6 +36,9 @@ public:
 	//delegate Functions
 	void moveToState(const FlowState& targetState) override;
 	void moveToPreviousState() override;
+	
+	void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body) override;
+	void onHttpRequestFailed(const std::string& requestTag, long errorCode) override;
 };
 
 NS_AZOOMEE_END

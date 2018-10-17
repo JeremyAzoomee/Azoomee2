@@ -69,7 +69,7 @@ void VodacomOnboardingLoginLayer::onEnter()
 	buttonHolder->addChild(_closeButton);
 	buttonHolder->addChild(_backButton);
 	
-	Label* title = Label::createWithTTF(_("Setup your account"), Style::Font::Regular, 96);
+	Label* title = Label::createWithTTF(_("Log in"), Style::Font::Regular, 96);
 	title->setTextColor(Color4B::BLACK);
 	title->setHorizontalAlignment(TextHAlignment::CENTER);
 	title->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -95,6 +95,16 @@ void VodacomOnboardingLoginLayer::onEnter()
 	
 	_emailInput = TextInputLayer::createSettingsRoundedTextInput(this->getContentSize().width * 0.6f, INPUT_IS_EMAIL);
 	_emailInput->setCenterPosition(_emailInput->getContentSize() / 2.0f);
+	_emailInput->setDelegate(this);
+	_emailInput->setText(_flowData->getEmail());
+	
+	Label* emailError = Label::createWithTTF(_("*Invalid email address"), Style::Font::Regular, 53);
+	emailError->setTextColor(Color4B(Style::Color::watermelon));
+	emailError->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+	emailError->setNormalizedPosition(Vec2(0.1f,-0.1));
+	emailError->setName("error");
+	emailError->setVisible(false);
+	_emailInput->addChild(emailError);
 	
 	ui::Layout* inputLayout = ui::Layout::create();
 	inputLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
@@ -116,6 +126,16 @@ void VodacomOnboardingLoginLayer::onEnter()
 	
 	_passwordInput = TextInputLayer::createSettingsRoundedTextInput(this->getContentSize().width * 0.6f, INPUT_IS_PASSWORD);
 	_passwordInput->setCenterPosition(_passwordInput->getContentSize() / 2.0f);
+	_passwordInput->setDelegate(this);
+	_passwordInput->setText(_flowData->getPassword());
+	
+	Label* pwError = Label::createWithTTF(_("*Invalid password"), Style::Font::Regular, 53);
+	pwError->setTextColor(Color4B(Style::Color::watermelon));
+	pwError->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+	pwError->setNormalizedPosition(Vec2(0.1f,-0.1));
+	pwError->setName("error");
+	pwError->setVisible(false);
+	_passwordInput->addChild(pwError);
 	
 	ui::Layout* pwInputLayout = ui::Layout::create();
 	pwInputLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
@@ -128,14 +148,7 @@ void VodacomOnboardingLoginLayer::onEnter()
 	_confirmButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			if(_delegate && _emailInput->inputIsValid() && _passwordInput->inputIsValid())
-			{
-				_flowData->setEmail(_emailInput->getText());
-				_flowData->setPassword(_passwordInput->getText());
-				ModalMessages::getInstance()->startLoading();
-				HttpRequestCreator* request = API::LoginRequest(_emailInput->getText(), _passwordInput->getText(), this);
-				request->execute();
-			}
+			this->onConfirmPressed();
 		}
 	});
 	this->addChild(_confirmButton);
@@ -149,6 +162,20 @@ void VodacomOnboardingLoginLayer::onEnter()
 	_confirmButton->addChild(confirmText);
 	
 	Super::onEnter();
+	
+	_emailInput->focusAndShowKeyboard();
+}
+
+void VodacomOnboardingLoginLayer::onConfirmPressed()
+{
+	if(_delegate && _emailInput->inputIsValid() && _passwordInput->inputIsValid())
+	{
+		_flowData->setEmail(_emailInput->getText());
+		_flowData->setPassword(_passwordInput->getText());
+		ModalMessages::getInstance()->startLoading();
+		HttpRequestCreator* request = API::LoginRequest(_emailInput->getText(), _passwordInput->getText(), this);
+		request->execute();
+	}
 }
 
 void VodacomOnboardingLoginLayer::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
@@ -162,8 +189,10 @@ void VodacomOnboardingLoginLayer::onHttpRequestSuccess(const std::string& reques
 			AnalyticsSingleton::getInstance()->signInSuccessEvent();
 			AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
 			_flowData->setUserType(UserType::FREE);
-			
-			HttpRequestCreator* request = API::UpdateBillingDataRequest(this);
+			UserDefault* def = UserDefault::getInstance();
+			def->setStringForKey("username", _flowData->getEmail());
+			def->flush();
+			HttpRequestCreator* request = API::UpdateBillingDataRequest(ParentDataProvider::getInstance()->getLoggedInParentId(), this);
 			request->execute();
 		}
 		else
@@ -197,11 +226,13 @@ void VodacomOnboardingLoginLayer::onHttpRequestSuccess(const std::string& reques
 	}
 	else if(requestTag == API::TagAddVoucher)
 	{
-		HttpRequestCreator* request = API::UpdateBillingDataRequest(this);
+		HttpRequestCreator* request = API::UpdateBillingDataRequest(ParentDataProvider::getInstance()->getLoggedInParentId(), this);
+		request->requestTag = "billingAfterVoucher";
 		request->execute();
 	}
-	else if(requestTag == API::TagUpdateBillingData)
+	else if(requestTag == "billingAfterVoucher")
 	{
+		ParentDataParser::getInstance()->parseParentBillingData(body);
 		ModalMessages::getInstance()->stopLoading();
 		if(_delegate)
 		{
@@ -229,6 +260,47 @@ void VodacomOnboardingLoginLayer::onHttpRequestFailed(const std::string& request
 		}
 	}
 	ModalMessages::getInstance()->stopLoading();
+}
+
+
+void VodacomOnboardingLoginLayer::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
+{
+	auto errorMsg = inputLayer->getChildByName("error");
+	if(errorMsg)
+	{
+		errorMsg->setVisible(!isValid);
+	}
+	if(inputLayer == _emailInput)
+	{
+		_flowData->setEmail(inputLayer->getText());
+	}
+	else if(inputLayer == _passwordInput)
+	{
+		_flowData->setPassword(inputLayer->getText());
+	}
+}
+void VodacomOnboardingLoginLayer::textInputReturnPressed(TextInputLayer* inputLayer)
+{
+	if(inputLayer == _emailInput)
+	{
+		_flowData->setEmail(inputLayer->getText());
+		_passwordInput->focusAndShowKeyboard();
+	}
+	else if(inputLayer == _passwordInput)
+	{
+		_flowData->setPassword(inputLayer->getText());
+		this->runAction(Sequence::create(DelayTime::create(0.1f), CallFunc::create([&](){
+			this->onConfirmPressed();
+		}),NULL));
+	}
+}
+void VodacomOnboardingLoginLayer::editBoxEditingDidBegin(TextInputLayer* inputLayer)
+{
+	
+}
+void VodacomOnboardingLoginLayer::editBoxEditingDidEnd(TextInputLayer* inputLayer)
+{
+	
 }
 
 NS_AZOOMEE_END

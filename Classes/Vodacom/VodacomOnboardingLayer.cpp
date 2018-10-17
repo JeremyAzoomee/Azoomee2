@@ -15,7 +15,7 @@ bool VodacomOnboardingLayer::init()
 	{
 		return false;
 	}
-	
+	_flowData = VodacomOnboardingFlowData::create();
 	return true;
 }
 void VodacomOnboardingLayer::onEnter()

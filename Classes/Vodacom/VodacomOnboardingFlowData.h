@@ -28,10 +28,10 @@ private:
 	std::string _email;
 	std::string _password;
 	std::string _pin;
+	std::string _childName;
+	std::string _childAge;
 	
 	UserType _userType = UserType::ANON;
-	//FlowState _currentState = FlowState::DETAILS;
-	//FlowState _prevState = FlowState::DETAILS;
 	ErrorType _errorType = ErrorType::NONE;
 	
 	std::stack<FlowState> _stateStack;
@@ -54,14 +54,14 @@ public:
 	void setPin(const std::string& pin);
 	std::string getPin() const;
 	
+	void setChildName(const std::string& childName);
+	std::string getChildName() const;
+	
+	void setChildAge(const std::string& childAge);
+	std::string getChildAge() const;
+	
 	void setUserType(const UserType& userType);
 	UserType getUserType() const;
-	
-	//void setCurrentState(const FlowState& currentState);
-	//FlowState getCurrentState() const;
-	
-	//void setPrevState(const FlowState& prevState);
-	//FlowState getPrevState() const;
 	
 	void setErrorType(const ErrorType& errorType);
 	ErrorType getErrorType() const;

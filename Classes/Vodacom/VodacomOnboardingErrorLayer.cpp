@@ -12,6 +12,7 @@
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 
 using namespace cocos2d;
 
@@ -142,6 +143,15 @@ void VodacomOnboardingErrorLayer::setupForVoucherError()
 	
 	_voucherInput = TextInputLayer::createSettingsRoundedTextInput(this->getContentSize().width * 0.6f, INPUT_IS_VOUCHER);
 	_voucherInput->setCenterPosition(_voucherInput->getContentSize() / 2.0f);
+	_voucherInput->setDelegate(this);
+	
+	Label* voucherError = Label::createWithTTF(_("*Invalid Voucher"), Style::Font::Regular, 53);
+	voucherError->setTextColor(Color4B(Style::Color::watermelon));
+	voucherError->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+	voucherError->setNormalizedPosition(Vec2(0.1f,-0.1));
+	voucherError->setName("error");
+	voucherError->setVisible(false);
+	_voucherInput->addChild(voucherError);
 	
 	ui::Layout* inputLayout = ui::Layout::create();
 	inputLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
@@ -179,6 +189,8 @@ void VodacomOnboardingErrorLayer::setupForVoucherError()
 	confirmText->setVerticalAlignment(TextVAlignment::CENTER);
 	confirmText->setDimensions(_confirmButton->getContentSize().width, _confirmButton->getContentSize().height);
 	_confirmButton->addChild(confirmText);
+	
+	_voucherInput->focusAndShowKeyboard();
 }
 
 void VodacomOnboardingErrorLayer::setupForLoginError()
@@ -379,12 +391,206 @@ void VodacomOnboardingErrorLayer::setupForPasswordReset()
 
 void VodacomOnboardingErrorLayer::setupForAlreadyRegistered()
 {
+	ui::Button* closeButton = ui::Button::create("res/vodacom/close.png");
+	closeButton->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
+	closeButton->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
+	closeButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+		if(eType == ui::Widget::TouchEventType::ENDED)
+		{
+			if(_delegate)
+			{
+				_delegate->moveToState(FlowState::EXIT);
+			}
+		}
+	});
 	
+	ui::Button* backButton = ui::Button::create("res/vodacom/back.png");
+	backButton->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+	backButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
+	backButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+		if(eType == ui::Widget::TouchEventType::ENDED)
+		{
+			if(_delegate)
+			{
+				_delegate->moveToPreviousState();
+			}
+		}
+	});
+	
+	ui::Layout* buttonHolder = ui::Layout::create();
+	buttonHolder->setContentSize(Size(this->getContentSize().width, closeButton->getContentSize().height));
+	this->addChild(buttonHolder);
+	
+	buttonHolder->addChild(closeButton);
+	buttonHolder->addChild(backButton);
+	
+	Label* title = Label::createWithTTF(_("Already Registered"), Style::Font::Regular, 96);
+	title->setTextColor(Color4B::BLACK);
+	title->setHorizontalAlignment(TextHAlignment::CENTER);
+	title->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	title->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	
+	ui::Layout* titleHolder = ui::Layout::create();
+	titleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+	titleHolder->setContentSize(title->getContentSize());
+	titleHolder->addChild(title);
+	this->addChild(titleHolder);
+	
+	Label* subHeading = Label::createWithTTF(_("The email address has already been registered. Please register with a new email address or log in using this email address"), Style::Font::Regular, 64);
+	subHeading->setTextColor(Color4B::BLACK);
+	subHeading->setHorizontalAlignment(TextHAlignment::CENTER);
+	subHeading->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	subHeading->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	subHeading->setWidth(this->getContentSize().width * 0.7f);
+	
+	ui::Layout* subHeadingHolder = ui::Layout::create();
+	subHeadingHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	subHeadingHolder->setContentSize(subHeading->getContentSize());
+	subHeadingHolder->addChild(subHeading);
+	this->addChild(subHeadingHolder);
+	
+	ui::Button* okButton = ui::Button::create("res/vodacom/main_button.png");
+	okButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	okButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+		if(eType == ui::Widget::TouchEventType::ENDED)
+		{
+			if(_delegate)
+			{
+				_delegate->moveToPreviousState();
+			}
+		}
+	});
+	this->addChild(okButton);
+	
+	Label* okText = Label::createWithTTF(_("OK"), Style::Font::Regular, okButton->getContentSize().height * 0.5f);
+	okText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	okText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	okText->setHorizontalAlignment(TextHAlignment::CENTER);
+	okText->setVerticalAlignment(TextVAlignment::CENTER);
+	okText->setDimensions(okButton->getContentSize().width, okButton->getContentSize().height);
+	okButton->addChild(okText);
+	
+	ui::Button* loginButton = ui::Button::create("res/vodacom/main_button.png");
+	loginButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	loginButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+		if(eType == ui::Widget::TouchEventType::ENDED)
+		{
+			if(_delegate)
+			{
+				_flowData->popState();
+				_delegate->moveToState(FlowState::LOGIN);
+			}
+		}
+	});
+	this->addChild(loginButton);
+	
+	Label* loginText = Label::createWithTTF(_("Log in"), Style::Font::Regular, loginButton->getContentSize().height * 0.5f);
+	loginText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	loginText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	loginText->setHorizontalAlignment(TextHAlignment::CENTER);
+	loginText->setVerticalAlignment(TextVAlignment::CENTER);
+	loginText->setDimensions(loginButton->getContentSize().width, loginButton->getContentSize().height);
+	loginButton->addChild(loginText);
 }
 
 void VodacomOnboardingErrorLayer::setupForAlreadyPremium()
 {
+	ui::Button* closeButton = ui::Button::create("res/vodacom/close.png");
+	closeButton->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
+	closeButton->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
+	closeButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+		if(eType == ui::Widget::TouchEventType::ENDED)
+		{
+			if(_delegate)
+			{
+				_delegate->moveToState(FlowState::EXIT);
+			}
+		}
+	});
 	
+	ui::Button* backButton = ui::Button::create("res/vodacom/back.png");
+	backButton->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+	backButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
+	backButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+		if(eType == ui::Widget::TouchEventType::ENDED)
+		{
+			if(_delegate)
+			{
+				_delegate->moveToState(FlowState::EXIT);
+			}
+		}
+	});
+	
+	ui::Layout* buttonHolder = ui::Layout::create();
+	buttonHolder->setContentSize(Size(this->getContentSize().width, closeButton->getContentSize().height));
+	this->addChild(buttonHolder);
+	
+	buttonHolder->addChild(closeButton);
+	buttonHolder->addChild(backButton);
+	
+	Label* title = Label::createWithTTF(_("You Can't Do That"), Style::Font::Regular, 96);
+	title->setTextColor(Color4B::BLACK);
+	title->setHorizontalAlignment(TextHAlignment::CENTER);
+	title->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	title->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	
+	ui::Layout* titleHolder = ui::Layout::create();
+	titleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+	titleHolder->setContentSize(title->getContentSize());
+	titleHolder->addChild(title);
+	this->addChild(titleHolder);
+	
+	Label* subHeading = Label::createWithTTF(_("This account is already Premium, you can't add another voucher at this time."), Style::Font::Regular, 64);
+	subHeading->setTextColor(Color4B::BLACK);
+	subHeading->setHorizontalAlignment(TextHAlignment::CENTER);
+	subHeading->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	subHeading->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	subHeading->setWidth(this->getContentSize().width * 0.7f);
+	
+	ui::Layout* subHeadingHolder = ui::Layout::create();
+	subHeadingHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	subHeadingHolder->setContentSize(subHeading->getContentSize());
+	subHeadingHolder->addChild(subHeading);
+	this->addChild(subHeadingHolder);
+	
+	ui::Button* okButton = ui::Button::create("res/vodacom/main_button.png");
+	okButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	okButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+		if(eType == ui::Widget::TouchEventType::ENDED)
+		{
+			if(_delegate)
+			{
+				_delegate->moveToState(FlowState::EXIT);
+			}
+		}
+	});
+	this->addChild(okButton);
+	
+	Label* okText = Label::createWithTTF(_("OK"), Style::Font::Regular, okButton->getContentSize().height * 0.5f);
+	okText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	okText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	okText->setHorizontalAlignment(TextHAlignment::CENTER);
+	okText->setVerticalAlignment(TextVAlignment::CENTER);
+	okText->setDimensions(okButton->getContentSize().width, okButton->getContentSize().height);
+	okButton->addChild(okText);
+}
+
+void VodacomOnboardingErrorLayer::onVoucherEntered()
+{
+	if(_delegate && _voucherInput->inputIsValid())
+	{
+		if(_flowData->getUserType() == UserType::FREE)
+		{
+			ModalMessages::getInstance()->startLoading();
+			HttpRequestCreator* request = API::AddVoucher(ParentDataProvider::getInstance()->getLoggedInParentId(), _voucherInput->getText(), this);
+			request->execute();
+		}
+		else
+		{
+			_flowData->setVoucherCode(_voucherInput->getText());
+			_delegate->moveToState(FlowState::REGISTER);
+		}
+	}
 }
 
 //Delegate Functions
@@ -392,7 +598,12 @@ void VodacomOnboardingErrorLayer::onHttpRequestSuccess(const std::string& reques
 {
 	if(requestTag == API::TagAddVoucher)
 	{
-		_flowData->setErrorType(ErrorType::NONE);
+		HttpRequestCreator* request = API::UpdateBillingDataRequest(ParentDataProvider::getInstance()->getLoggedInParentId(), this);
+		request->execute();
+	}
+	else if(requestTag == API::TagUpdateBillingData)
+	{
+		ParentDataParser::getInstance()->parseParentBillingData(body);
 		if(_delegate)
 		{
 			_delegate->moveToState(FlowState::SUCCESS);
@@ -427,6 +638,34 @@ void VodacomOnboardingErrorLayer::onHttpRequestFailed(const std::string& request
 	{
 		ModalMessages::getInstance()->stopLoading();
 	}
+}
+
+void VodacomOnboardingErrorLayer::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
+{
+	auto errorMsg = inputLayer->getChildByName("error");
+	if(errorMsg)
+	{
+		errorMsg->setVisible(!isValid);
+	}
+	_flowData->setVoucherCode(inputLayer->getText());
+}
+void VodacomOnboardingErrorLayer::textInputReturnPressed(TextInputLayer* inputLayer)
+{
+	if(inputLayer == _voucherInput)
+	{
+		_flowData->setVoucherCode(inputLayer->getText());
+		this->runAction(Sequence::create(DelayTime::create(0.1f), CallFunc::create([&](){
+			this->onVoucherEntered();
+		}),NULL));
+	}
+}
+void VodacomOnboardingErrorLayer::editBoxEditingDidBegin(TextInputLayer* inputLayer)
+{
+	
+}
+void VodacomOnboardingErrorLayer::editBoxEditingDidEnd(TextInputLayer* inputLayer)
+{
+	
 }
 
 NS_AZOOMEE_END

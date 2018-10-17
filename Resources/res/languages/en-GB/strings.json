@@ -303,6 +303,13 @@
 	"Complete":"Complete",
 	"Next Step":"Next Step",
 	"Your voucher code isn’t valid. Please re-enter it.":"Your voucher code isn’t valid. Please re-enter it.",
-	"Instructions for resetting your password have been sent to:":"Instructions for resetting your password have been sent to:"
+	"Instructions for resetting your password have been sent to:":"Instructions for resetting your password have been sent to:",
+	"*Invalid password":"*Invalid password",
+	"*Invalid email address":"*Invalid email address",
+	"*Invalid Voucher":"*Invalid Voucher",
+	"This account is already Premium, you can't add another voucher at this time.":"This account is already Premium, you can't add another voucher at this time.",
+	"*PIN must be 4 numbers only":"*PIN must be 4 numbers only",
+	"*Invalid name":"*Invalid name",
+	"*Invalid age":"*Invalid age"
 
 }

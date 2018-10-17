@@ -107,6 +107,16 @@ void VodacomOnboardingPinLayer::onEnter()
 	
 	_pinInput = TextInputLayer::createSettingsRoundedTextInput(this->getContentSize().width * 0.6f, INPUT_IS_PIN);
 	_pinInput->setCenterPosition(_pinInput->getContentSize() / 2.0f);
+	_pinInput->setDelegate(this);
+	_pinInput->setText(_flowData->getPin());
+	
+	Label* pinError = Label::createWithTTF(_("*PIN must be 4 numbers only"), Style::Font::Regular, 53);
+	pinError->setTextColor(Color4B(Style::Color::watermelon));
+	pinError->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+	pinError->setNormalizedPosition(Vec2(0.1f,-0.1));
+	pinError->setName("error");
+	pinError->setVisible(false);
+	_pinInput->addChild(pinError);
 	
 	ui::Layout* inputLayout = ui::Layout::create();
 	inputLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
@@ -119,14 +129,7 @@ void VodacomOnboardingPinLayer::onEnter()
 	_confirmButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			if(_delegate && _pinInput->inputIsValid())
-			{
-				_flowData->setPin(_pinInput->getText());
-				ModalMessages::getInstance()->startLoading();
-				const std::string &sourceDevice = ConfigStorage::getInstance()->getDeviceInformation();
-				HttpRequestCreator* request = API::RegisterParentRequest(_flowData->getEmail(), _flowData->getPassword(), _pinInput->getText(), "VODACOM", sourceDevice, "false", this);
-				request->execute();
-			}
+			this->onConfirmPressed();
 		}
 	});
 	this->addChild(_confirmButton);
@@ -144,6 +147,20 @@ void VodacomOnboardingPinLayer::onEnter()
 	this->addChild(progressIcon);
 	
 	Super::onEnter();
+	
+	_pinInput->focusAndShowKeyboard();
+}
+
+void VodacomOnboardingPinLayer::onConfirmPressed()
+{
+	if(_delegate && _pinInput->inputIsValid())
+	{
+		_flowData->setPin(_pinInput->getText());
+		ModalMessages::getInstance()->startLoading();
+		const std::string &sourceDevice = ConfigStorage::getInstance()->getDeviceInformation();
+		HttpRequestCreator* request = API::RegisterParentRequest(_flowData->getEmail(), _flowData->getPassword(), _pinInput->getText(), "VODACOM", sourceDevice, "false", this);
+		request->execute();
+	}
 }
 
 //Delegate Functions
@@ -164,9 +181,13 @@ void VodacomOnboardingPinLayer::onHttpRequestSuccess(const std::string& requestT
 			AnalyticsSingleton::getInstance()->signInSuccessEvent();
 			AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
 			_flowData->setUserType(UserType::FREE);
+			UserDefault* def = UserDefault::getInstance();
+			def->setStringForKey("username", _flowData->getEmail());
+			def->flush();
 			if(_delegate)
 			{
 				_flowData->resetStateStack();
+				_flowData->pushState(FlowState::ADD_VOUCHER);
 				_delegate->moveToState(FlowState::ADD_CHILD);
 			}
 		}
@@ -179,9 +200,38 @@ void VodacomOnboardingPinLayer::onHttpRequestFailed(const std::string& requestTa
 		_flowData->setErrorType(ErrorType::ALREADY_REGISTERED);
 		if(_delegate)
 		{
+			_flowData->popState(); // set back to return to register screen
 			_delegate->moveToState(FlowState::ERROR);
 		}
 	}
+	ModalMessages::getInstance()->stopLoading();
+}
+
+//Delegate Functions
+
+void VodacomOnboardingPinLayer::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
+{
+	auto errorMsg = inputLayer->getChildByName("error");
+	if(errorMsg)
+	{
+		errorMsg->setVisible(!isValid);
+	}
+	_flowData->setPin(inputLayer->getText());
+}
+void VodacomOnboardingPinLayer::textInputReturnPressed(TextInputLayer* inputLayer)
+{
+	_flowData->setPin(inputLayer->getText());
+	this->runAction(Sequence::create(DelayTime::create(0.1f), CallFunc::create([&](){
+		this->onConfirmPressed();
+	}),NULL));
+}
+void VodacomOnboardingPinLayer::editBoxEditingDidBegin(TextInputLayer* inputLayer)
+{
+	
+}
+void VodacomOnboardingPinLayer::editBoxEditingDidEnd(TextInputLayer* inputLayer)
+{
+	
 }
 
 NS_AZOOMEE_END

@@ -73,7 +73,8 @@ public:
     static HttpRequestCreator* AnonymousDeviceLoginRequest(const std::string& deviceId,
                                                            HttpRequestCreatorResponseDelegate* delegate);
     
-    static HttpRequestCreator* UpdateBillingDataRequest(HttpRequestCreatorResponseDelegate* delegate);
+	static HttpRequestCreator* UpdateBillingDataRequest(const std::string& parentId,
+														HttpRequestCreatorResponseDelegate* delegate);
     
     static HttpRequestCreator* GetForceUpdateInformationRequest(HttpRequestCreatorResponseDelegate* delegate);
     

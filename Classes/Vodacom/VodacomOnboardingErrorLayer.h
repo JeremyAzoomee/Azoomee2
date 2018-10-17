@@ -14,7 +14,7 @@
 
 NS_AZOOMEE_BEGIN
 
-class VodacomOnboardingErrorLayer : public VodacomOnboardingLayer, HttpRequestCreatorResponseDelegate
+class VodacomOnboardingErrorLayer : public VodacomOnboardingLayer, HttpRequestCreatorResponseDelegate, TextInputLayerDelegate
 {
 	typedef VodacomOnboardingLayer Super;
 private:
@@ -22,22 +22,13 @@ private:
 	cocos2d::ui::Button* _confirmButton = nullptr;
 	TextInputLayer* _voucherInput = nullptr;
 	
-	// Login UI
-	
-	
-	// Password reset UI
-	
-	
-	// Already registered UI
-	
-	
-	// Already premium UI
-	
 	void setupForLoginError();
 	void setupForVoucherError();
 	void setupForPasswordReset();
 	void setupForAlreadyPremium();
 	void setupForAlreadyRegistered();
+	
+	void onVoucherEntered();
 	
 public:
 	
@@ -49,6 +40,11 @@ public:
 	//Delegate Functions
 	void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body) override;
 	void onHttpRequestFailed(const std::string& requestTag, long errorCode) override;
+	
+	virtual void textInputIsValid(TextInputLayer* inputLayer, bool isValid) override;
+	virtual void textInputReturnPressed(TextInputLayer* inputLayer) override;
+	virtual void editBoxEditingDidBegin(TextInputLayer* inputLayer) override;
+	virtual void editBoxEditingDidEnd(TextInputLayer* inputLayer) override;
 };
 
 NS_AZOOMEE_END

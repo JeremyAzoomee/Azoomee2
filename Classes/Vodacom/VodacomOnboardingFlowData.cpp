@@ -59,6 +59,24 @@ std::string VodacomOnboardingFlowData::getPin() const
 	return _pin;
 }
 
+void VodacomOnboardingFlowData::setChildName(const std::string &childName)
+{
+	_childName = childName;
+}
+std::string VodacomOnboardingFlowData::getChildName() const
+{
+	return _childName;
+}
+
+void VodacomOnboardingFlowData::setChildAge(const std::string& childAge)
+{
+	_childAge = childAge;
+}
+std::string VodacomOnboardingFlowData::getChildAge() const
+{
+	return _childAge;
+}
+
 void VodacomOnboardingFlowData::setUserType(const UserType& userType)
 {
 	_userType = userType;
@@ -67,24 +85,6 @@ UserType VodacomOnboardingFlowData::getUserType() const
 {
 	return _userType;
 }
-
-/*void VodacomOnboardingFlowData::setCurrentState(const FlowState& currentState)
-{
-	_currentState = currentState;
-}
-FlowState VodacomOnboardingFlowData::getCurrentState() const
-{
-	return _currentState;
-}
-
-void VodacomOnboardingFlowData::setPrevState(const FlowState& prevState)
-{
-	_prevState = prevState;
-}
-FlowState VodacomOnboardingFlowData::getPrevState() const
-{
-	return _prevState;
-}*/
 
 void VodacomOnboardingFlowData::setErrorType(const ErrorType& errorType)
 {

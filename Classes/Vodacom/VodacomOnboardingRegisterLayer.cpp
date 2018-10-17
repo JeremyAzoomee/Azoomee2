@@ -120,6 +120,16 @@ void VodacomOnboardingRegisterLayer::onEnter()
 	
 	_emailInput = TextInputLayer::createSettingsRoundedTextInput(this->getContentSize().width * 0.6f, INPUT_IS_EMAIL);
 	_emailInput->setCenterPosition(_emailInput->getContentSize() / 2.0f);
+	_emailInput->setDelegate(this);
+	_emailInput->setText(_flowData->getEmail());
+	
+	Label* emailError = Label::createWithTTF(_("*Invalid email address"), Style::Font::Regular, 53);
+	emailError->setTextColor(Color4B(Style::Color::watermelon));
+	emailError->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+	emailError->setNormalizedPosition(Vec2(0.1f,-0.1));
+	emailError->setName("error");
+	emailError->setVisible(false);
+	_emailInput->addChild(emailError);
 	
 	ui::Layout* inputLayout = ui::Layout::create();
 	inputLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
@@ -139,8 +149,18 @@ void VodacomOnboardingRegisterLayer::onEnter()
 	pwInputTitleHolder->addChild(pwInputTitle);
 	this->addChild(pwInputTitleHolder);
 	
-	_passwordInput = TextInputLayer::createSettingsRoundedTextInput(this->getContentSize().width * 0.6f, INPUT_IS_PASSWORD);
+	_passwordInput = TextInputLayer::createSettingsRoundedTextInput(this->getContentSize().width * 0.6f, INPUT_IS_NEW_PASSWORD);
 	_passwordInput->setCenterPosition(_passwordInput->getContentSize() / 2.0f);
+	_passwordInput->setDelegate(this);
+	_passwordInput->setText(_flowData->getPassword());
+	
+	Label* pwError = Label::createWithTTF(_("*Invalid password"), Style::Font::Regular, 53);
+	pwError->setTextColor(Color4B(Style::Color::watermelon));
+	pwError->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+	pwError->setNormalizedPosition(Vec2(0.1f,-0.1));
+	pwError->setName("error");
+	pwError->setVisible(false);
+	_passwordInput->addChild(pwError);
 	
 	ui::Layout* pwInputLayout = ui::Layout::create();
 	pwInputLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
@@ -153,12 +173,7 @@ void VodacomOnboardingRegisterLayer::onEnter()
 	_confirmButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			if(_delegate && _emailInput->inputIsValid() && _passwordInput->inputIsValid())
-			{
-				_flowData->setEmail(_emailInput->getText());
-				_flowData->setPassword(_passwordInput->getText());
-				_delegate->moveToState(FlowState::PIN);
-			}
+			this->onConfirmPressed();
 		}
 	});
 	this->addChild(_confirmButton);
@@ -171,11 +186,65 @@ void VodacomOnboardingRegisterLayer::onEnter()
 	confirmText->setDimensions(_confirmButton->getContentSize().width, _confirmButton->getContentSize().height);
 	_confirmButton->addChild(confirmText);
 	
-	Super::onEnter();
-	
 	ui::ImageView* progressIcon = ui::ImageView::create("res/vodacom/step_counter_1.png");
 	progressIcon->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,200,0,0)));
 	this->addChild(progressIcon);
+	
+	Super::onEnter();
+	
+	_emailInput->focusAndShowKeyboard();
+}
+
+void VodacomOnboardingRegisterLayer::onConfirmPressed()
+{
+	if(_delegate && _emailInput->inputIsValid() && _passwordInput->inputIsValid())
+	{
+		_flowData->setEmail(_emailInput->getText());
+		_flowData->setPassword(_passwordInput->getText());
+		_delegate->moveToState(FlowState::PIN);
+	}
+}
+
+//Delegate Functions
+
+void VodacomOnboardingRegisterLayer::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
+{
+	auto errorMsg = inputLayer->getChildByName("error");
+	if(errorMsg)
+	{
+		errorMsg->setVisible(!isValid);
+	}
+	if(inputLayer == _emailInput)
+	{
+		_flowData->setEmail(inputLayer->getText());
+	}
+	else if(inputLayer == _passwordInput)
+	{
+		_flowData->setPassword(inputLayer->getText());
+	}
+}
+void VodacomOnboardingRegisterLayer::textInputReturnPressed(TextInputLayer* inputLayer)
+{
+	if(inputLayer == _emailInput)
+	{
+		_flowData->setEmail(inputLayer->getText());
+		_passwordInput->focusAndShowKeyboard();
+	}
+	else if(inputLayer == _passwordInput)
+	{
+		_flowData->setPassword(inputLayer->getText());
+		this->runAction(Sequence::create(DelayTime::create(0.1f), CallFunc::create([&](){
+			this->onConfirmPressed();
+		}),NULL));
+	}
+}
+void VodacomOnboardingRegisterLayer::editBoxEditingDidBegin(TextInputLayer* inputLayer)
+{
+	
+}
+void VodacomOnboardingRegisterLayer::editBoxEditingDidEnd(TextInputLayer* inputLayer)
+{
+	
 }
 
 NS_AZOOMEE_END

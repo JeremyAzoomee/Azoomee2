@@ -99,10 +99,12 @@ HttpRequestCreator* API::AnonymousDeviceLoginRequest(const std::string &deviceId
     return request;
 }
 
-HttpRequestCreator* API::UpdateBillingDataRequest(HttpRequestCreatorResponseDelegate* delegate)
+HttpRequestCreator* API::UpdateBillingDataRequest(const std::string& parentId,
+												  HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->requestTag = TagUpdateBillingData;
+	request->requestPath = StringUtils::format("/api/billing/user/%s/billingStatus", parentId.c_str());
     request->encrypted = true;
     return request;
 }

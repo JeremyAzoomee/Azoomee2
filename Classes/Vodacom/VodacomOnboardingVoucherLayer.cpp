@@ -92,6 +92,16 @@ void VodacomOnboardingVoucherLayer::onEnter()
 	
 	_voucherInput = TextInputLayer::createSettingsRoundedTextInput(this->getContentSize().width * 0.6f, INPUT_IS_VOUCHER);
 	_voucherInput->setCenterPosition(_voucherInput->getContentSize() / 2.0f);
+	_voucherInput->setDelegate(this);
+	_voucherInput->setText(_flowData->getVoucherCode());
+	
+	Label* voucherError = Label::createWithTTF(_("*Invalid Voucher"), Style::Font::Regular, 53);
+	voucherError->setTextColor(Color4B(Style::Color::watermelon));
+	voucherError->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+	voucherError->setNormalizedPosition(Vec2(0.1f,-0.1));
+	voucherError->setName("error");
+	voucherError->setVisible(false);
+	_voucherInput->addChild(voucherError);
 	
 	ui::Layout* inputLayout = ui::Layout::create();
 	inputLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
@@ -104,20 +114,7 @@ void VodacomOnboardingVoucherLayer::onEnter()
 	_confirmButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			if(_delegate && _voucherInput->inputIsValid())
-			{
-				if(_flowData->getUserType() == UserType::FREE)
-				{
-					ModalMessages::getInstance()->startLoading();
-					HttpRequestCreator* request = API::AddVoucher(ParentDataProvider::getInstance()->getLoggedInParentId(), _voucherInput->getText(), this);
-					request->execute();
-				}
-				else
-				{
-					_flowData->setVoucherCode(_voucherInput->getText());
-					_delegate->moveToState(FlowState::REGISTER);
-				}
-			}
+			this->onConfirmPressed();
 		}
 	});
 	this->addChild(_confirmButton);
@@ -135,13 +132,15 @@ void VodacomOnboardingVoucherLayer::onEnter()
 	this->addChild(oomee);
 	
 	Super::onEnter();
+	
+	_voucherInput->focusAndShowKeyboard();
 }
 
 void VodacomOnboardingVoucherLayer::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
 	if(requestTag == API::TagAddVoucher)
 	{
-		HttpRequestCreator* request = API::UpdateBillingDataRequest(this);
+		HttpRequestCreator* request = API::UpdateBillingDataRequest(ParentDataProvider::getInstance()->getLoggedInParentId(), this);
 		request->execute();
 	}
 	else if(requestTag == API::TagUpdateBillingData)
@@ -162,6 +161,51 @@ void VodacomOnboardingVoucherLayer::onHttpRequestFailed(const std::string& reque
 		_delegate->moveToState(FlowState::ERROR);
 	}
 	ModalMessages::getInstance()->stopLoading();
+}
+
+void VodacomOnboardingVoucherLayer::onConfirmPressed()
+{
+	if(_delegate && _voucherInput->inputIsValid())
+	{
+		if(_flowData->getUserType() == UserType::FREE)
+		{
+			ModalMessages::getInstance()->startLoading();
+			HttpRequestCreator* request = API::AddVoucher(ParentDataProvider::getInstance()->getLoggedInParentId(), _voucherInput->getText(), this);
+			request->execute();
+		}
+		else
+		{
+			_flowData->setVoucherCode(_voucherInput->getText());
+			_delegate->moveToState(FlowState::REGISTER);
+		}
+	}
+}
+
+//Delegate Functions
+
+void VodacomOnboardingVoucherLayer::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
+{
+	auto errorMsg = inputLayer->getChildByName("error");
+	if(errorMsg)
+	{
+		errorMsg->setVisible(!isValid);
+	}
+	_flowData->setVoucherCode(inputLayer->getText());
+}
+void VodacomOnboardingVoucherLayer::textInputReturnPressed(TextInputLayer* inputLayer)
+{
+	_flowData->setVoucherCode(inputLayer->getText());
+	this->runAction(Sequence::create(DelayTime::create(0.1f), CallFunc::create([&](){
+		this->onConfirmPressed();
+	}),NULL));
+}
+void VodacomOnboardingVoucherLayer::editBoxEditingDidBegin(TextInputLayer* inputLayer)
+{
+	
+}
+void VodacomOnboardingVoucherLayer::editBoxEditingDidEnd(TextInputLayer* inputLayer)
+{
+	
 }
 
 NS_AZOOMEE_END
