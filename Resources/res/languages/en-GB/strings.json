@@ -310,6 +310,7 @@
 	"This account is already Premium, you can't add another voucher at this time.":"This account is already Premium, you can't add another voucher at this time.",
 	"*PIN must be 4 numbers only":"*PIN must be 4 numbers only",
 	"*Invalid name":"*Invalid name",
-	"*Invalid age":"*Invalid age"
+	"*Invalid age":"*Invalid age",
+	"Start 7 Day Free Trial":"Start 7 Day Free Trial"
 
 }

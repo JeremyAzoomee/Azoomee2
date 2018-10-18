@@ -9,7 +9,7 @@ STRUCTURENAME=$1
 VERSIONNUMBER=$2
 BUILDNUMBER=$3
 XWALKSTRUCTURENAME=$4
-AMAZON=$5
+VARIENT=$5
 
 rm -rf ../_replaceTestResults
 mkdir ../_replaceTestResults
@@ -29,21 +29,25 @@ sed -i.bak 's/include '\''[^'\'']'\''$/include '\'$STRUCTURENAME\''/g' ../_repla
 cp -r ../_replaceTestResults/Application.mk ../proj.android-studio/app/jni/Application.mk
 cp -r ../_replaceTestResults/build.gradle ../proj.android-studio/app/build.gradle
 
-if [ "$AMAZON" == "amazon" ]; then
+if [ "$VARIENT" == "amazon" ]; then
   cp ../proj.android-studio/app/AndroidManifest.xml ../_replaceTestResults/AndroidManifest.xml
 	sed -i.bak 's/<!--appsflyerMetaPlace-->.*/<!--appsflyerMetaPlace--><meta-data android:name="CHANNEL" android:value="Amazon"\/>/g' ../_replaceTestResults/AndroidManifest.xml
   cp -r ../_replaceTestResults/AndroidManifest.xml ../proj.android-studio/app/AndroidManifest.xml
 fi
 
-cocos compile -p android --android-studio -m release
+if [ "$VARIENT" == "vodacom" ]; then
+	cocos compile -p android --android-studio --ndk-cppflags="-DVODACOM_BUILD" -m release
+else
+	cocos compile -p android --android-studio -m release
+fi
 
-cp -r ../bin/release/android/app-release-signed.apk ../_builds/build-$BUILDNUMBER$AMAZON.apk
+cp -r ../bin/release/android/app-release-signed.apk ../_builds/build-$BUILDNUMBER$VARIENT.apk
 rm -rf ../bin/release/android/app-release-signed.apk
 
-if [ "$AMAZON" == "amazon" ]; then
+if [ "$VARIENT" == "amazon" ]; then
   cp -r ../_replaceTestResults/AndroidManifest.xml.bak ../proj.android-studio/app/AndroidManifest.xml
 fi
 
 rm -rf ../_replaceTestResults
 
-osascript -e 'tell app "System Events" to display notification "Build '$BUILDNUMBER' '$AMAZON' is created" with title "Azoomee"'
+osascript -e 'tell app "System Events" to display notification "Build '$BUILDNUMBER' '$VARIENT' is created" with title "Azoomee"'

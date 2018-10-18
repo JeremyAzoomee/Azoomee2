@@ -6,7 +6,6 @@
 //#define FORGET_USER_DATA YES;
 //#define ALLOW_UNPAID_SIGNUP YES
 //#define USINGCI YES
-#define VODACOM_BUILD YES
 
 #include <cocos/cocos2d.h>
 #include "Json.h"
