@@ -10,6 +10,7 @@
 
 #include <memory>
 #include <string>
+#include <vector>
 #include <AzoomeeCommon/Azoomee.h>
 
 NS_AZOOMEE_BEGIN
@@ -34,7 +35,7 @@ private:
 	UserType _userType = UserType::ANON;
 	ErrorType _errorType = ErrorType::NONE;
 	
-	std::stack<FlowState> _stateStack;
+	std::vector<FlowState> _stateStack;
 	
 public:
 	

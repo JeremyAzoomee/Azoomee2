@@ -97,18 +97,18 @@ ErrorType VodacomOnboardingFlowData::getErrorType() const
 
 void VodacomOnboardingFlowData::pushState(const FlowState &state)
 {
-	_stateStack.push(state);
+	_stateStack.push_back(state);
 }
 
 void VodacomOnboardingFlowData::popState()
 {
 	if(_stateStack.size() > 0)
 	{
-		_stateStack.pop();
+		_stateStack.pop_back();
 	}
 	if(_stateStack.size() == 0)
 	{
-		_stateStack.push(FlowState::EXIT);
+		_stateStack.push_back(FlowState::EXIT);
 	}
 }
 
@@ -116,13 +116,13 @@ void VodacomOnboardingFlowData::resetStateStack()
 {
 	while(_stateStack.size() > 1)
 	{
-		_stateStack.pop();
+		_stateStack.pop_back();
 	}
 }
 
 FlowState VodacomOnboardingFlowData::getCurrentState() const
 {
-	return _stateStack.top();
+	return _stateStack.back();
 }
 
 NS_AZOOMEE_END
