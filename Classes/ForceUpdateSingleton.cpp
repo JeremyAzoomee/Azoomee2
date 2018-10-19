@@ -22,7 +22,7 @@ NS_AZOOMEE_BEGIN
 std::auto_ptr<ForceUpdateSingleton> _sharedForceUpdateSingleton;
 const std::string &forceUpdateDirectory = "updateData/";
 const std::string &forceUpdateFileSubPath = forceUpdateDirectory + "updateData.json";
-const int timeIntervalForRemoteFileDownloadInSeconds = 259200; //we check for new remote file every 3rd day
+const int timeIntervalForRemoteFileDownloadInSeconds = 3600; //we check for new remote file every hour
 
 ForceUpdateSingleton* ForceUpdateSingleton::getInstance()
 {
@@ -50,18 +50,52 @@ void ForceUpdateSingleton::setDelegate(ForceUpdateDelegate *delegate)
 
 void ForceUpdateSingleton::doForceUpdateLogic()
 {
-	ModalMessages::getInstance()->startLoading();
-	_fileDownloader = FileDownloader::create();
-	_fileDownloader->setEtag(getLocalEtag());
-	_fileDownloader->setDelegate(this);
+	if(remoteForceUpdateDataDownloadRequired())
+	{
+		ModalMessages::getInstance()->startLoading();
+		_fileDownloader = FileDownloader::create();
+		_fileDownloader->setEtag(getLocalEtag());
+		_fileDownloader->setDelegate(this);
+		
+		std::string url = "https://versions.azoomee.com";
+		
+	#ifdef USINGCI
+		url = "http://versions.azoomee.ninja";
+	#endif
+		
+		_fileDownloader->downloadFileFromServer(url);
+	}
+	else
+	{
+		onForceUpdateLogicHasLocalFile();
+	}
+}
+
+bool ForceUpdateSingleton::remoteForceUpdateDataDownloadRequired()
+{
+	if(!FileUtils::getInstance()->isFileExist(writablePath + forceUpdateFileSubPath))
+	{
+		createUpdateDirectory();
+		return true;
+	}
 	
-	std::string url = "https://versions.azoomee.com";
+	std::map<std::string, std::string> localForceUpdateDataMap = getMapFromForceUpdateJsonData(FileUtils::getInstance()->getStringFromFile(writablePath + forceUpdateFileSubPath));
 	
-#ifdef USINGCI
-	url = "http://versions.azoomee.ninja";
-#endif
+	if(localForceUpdateDataMap["timeStamp"] == "") return true;
+	if(time(NULL) - atoi(localForceUpdateDataMap["timeStamp"].c_str()) >= timeIntervalForRemoteFileDownloadInSeconds) return true;
 	
-	_fileDownloader->downloadFileFromServer(url);
+	return false;
+}
+
+bool ForceUpdateSingleton::parseAndSaveForceUpdateData(const std::string &jsonString)
+{
+	    std::map<std::string, std::string> forceUpdateData = getMapFromForceUpdateJsonData(jsonString);
+	    forceUpdateData["timeStamp"] = StringUtils::format("%ld", time(NULL));
+	    const std::string &jsonStringToBeWritten = getJSONStringFromMap(forceUpdateData);
+	
+	    FileUtils::getInstance()->writeStringToFile(jsonStringToBeWritten, writablePath + forceUpdateFileSubPath);
+	
+	    return true;
 }
 
 void ForceUpdateSingleton::onForceUpdateLogicHasLocalFile()
@@ -187,7 +221,7 @@ void ForceUpdateSingleton::onFileDownloadComplete(const std::string &fileString,
 {
 	if(responseCode == 200)
 	{
-		FileUtils::getInstance()->writeStringToFile(fileString, writablePath + forceUpdateFileSubPath);
+		parseAndSaveForceUpdateData(fileString);
 		setLocalEtag(_fileDownloader->getEtag());
 	}
 	onForceUpdateLogicHasLocalFile();

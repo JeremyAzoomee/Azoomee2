@@ -34,6 +34,8 @@ public:
 private:
     ForceUpdateSingleton();
     void onForceUpdateLogicHasLocalFile();
+	bool remoteForceUpdateDataDownloadRequired();
+	bool parseAndSaveForceUpdateData(const std::string &jsonString);
 	
 	std::string getLocalEtag() const;
 	void setLocalEtag(const std::string& etag);
