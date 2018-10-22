@@ -14,6 +14,8 @@
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include "../ChildCreator.h"
+#include "VodacomMessageBoxInfo.h"
+#include "VodacomMessageBoxNotification.h"
 
 using namespace cocos2d;
 
@@ -33,38 +35,6 @@ bool VodacomOnboardingAddChildLayer::init()
 
 void VodacomOnboardingAddChildLayer::onEnter()
 {
-	_closeButton = ui::Button::create("res/vodacom/close.png");
-	_closeButton->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
-	_closeButton->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
-	_closeButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
-		if(eType == ui::Widget::TouchEventType::ENDED)
-		{
-			ModalMessages::getInstance()->startLoading();
-			HttpRequestCreator* request = API::AddVoucher(ParentDataProvider::getInstance()->getLoggedInParentId(), _flowData->getVoucherCode(), this);
-			request->execute();
-		}
-	});
-	
-	_backButton = ui::Button::create("res/vodacom/back.png");
-	_backButton->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
-	_backButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
-	_backButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
-		if(eType == ui::Widget::TouchEventType::ENDED)
-		{
-			if(_delegate)
-			{
-				_delegate->moveToPreviousState();
-			}
-		}
-	});
-	
-	ui::Layout* buttonHolder = ui::Layout::create();
-	buttonHolder->setContentSize(Size(this->getContentSize().width, _closeButton->getContentSize().height));
-	this->addChild(buttonHolder);
-	
-	buttonHolder->addChild(_closeButton);
-	buttonHolder->addChild(_backButton);
-	
 	Label* title = Label::createWithTTF(_("Setup a profile"), Style::Font::Regular, 96);
 	title->setTextColor(Color4B::BLACK);
 	title->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -72,10 +42,23 @@ void VodacomOnboardingAddChildLayer::onEnter()
 	title->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	
 	ui::Layout* titleHolder = ui::Layout::create();
-	titleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+	titleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
 	titleHolder->setContentSize(title->getContentSize());
 	titleHolder->addChild(title);
 	this->addChild(titleHolder);
+	
+	Label* subTitle = Label::createWithTTF(_("In order to get going you’ll need to set up a child profile. Don’t worry, you can add more children later."), Style::Font::Regular, 64);
+	subTitle->setTextColor(Color4B::BLACK);
+	subTitle->setWidth(this->getContentSize().width * 0.65f);
+	subTitle->setHorizontalAlignment(TextHAlignment::CENTER);
+	subTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	subTitle->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	
+	ui::Layout* subTitleHolder = ui::Layout::create();
+	subTitleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	subTitleHolder->setContentSize(subTitle->getContentSize());
+	subTitleHolder->addChild(subTitle);
+	this->addChild(subTitleHolder);
 	
 	Label* inputTitle = Label::createWithTTF(_("Child's name"), Style::Font::Regular, 64);
 	inputTitle->setTextColor(Color4B::BLACK);
@@ -139,18 +122,32 @@ void VodacomOnboardingAddChildLayer::onEnter()
 	ageInputLayout->addChild(_ageInput);
 	this->addChild(ageInputLayout);
 	
-	Label* subTitle = Label::createWithTTF(_("This is to create a profile with age-appropriate content. You can add more children later."), Style::Font::Regular, 64);
-	subTitle->setTextColor(Color4B::BLACK);
-	subTitle->setWidth(this->getContentSize().width * 0.65f);
-	subTitle->setHorizontalAlignment(TextHAlignment::CENTER);
-	subTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	subTitle->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	Label* detailsLink = Label::createWithTTF(_("Why do we need this?"), Style::Font::Regular, 64);
+	detailsLink->setTextColor(Color4B(Style::Color::skyBlue));
+	detailsLink->setWidth(this->getContentSize().width * 0.65f);
+	detailsLink->setHorizontalAlignment(TextHAlignment::CENTER);
+	detailsLink->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	detailsLink->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	
-	ui::Layout* subTitleHolder = ui::Layout::create();
-	subTitleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
-	subTitleHolder->setContentSize(subTitle->getContentSize());
-	subTitleHolder->addChild(subTitle);
-	this->addChild(subTitleHolder);
+	DrawNode* underline = DrawNode::create();
+	underline->drawRect(Vec2(0, -7), Vec2(detailsLink->getContentSize().width, -6), Color4F(Style::Color::skyBlue));
+	detailsLink->addChild(underline);
+	
+	ui::Layout* detailsLinkHolder = ui::Layout::create();
+	detailsLinkHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	detailsLinkHolder->setContentSize(detailsLink->getContentSize());
+	detailsLinkHolder->setTouchEnabled(true);
+	detailsLinkHolder->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+		if(eType == ui::Widget::TouchEventType::ENDED)
+		{
+			VodacomMessageBoxInfo* messageBox = VodacomMessageBoxInfo::create();
+			messageBox->setDelegate(this);
+			messageBox->setHeading(_("We need your child’s age so we can create a profile with age-appropriate content."));
+			Director::getInstance()->getRunningScene()->addChild(messageBox);
+		}
+	});
+	detailsLinkHolder->addChild(detailsLink);
+	this->addChild(detailsLinkHolder);
 	
 	_confirmButton = ui::Button::create("res/vodacom/main_button.png");
 	_confirmButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
@@ -170,7 +167,7 @@ void VodacomOnboardingAddChildLayer::onEnter()
 	confirmText->setDimensions(_confirmButton->getContentSize().width, _confirmButton->getContentSize().height);
 	_confirmButton->addChild(confirmText);
 	
-	ui::ImageView* progressIcon = ui::ImageView::create("res/vodacom/step_counter_3.png");
+	ui::ImageView* progressIcon = ui::ImageView::create("res/vodacom/step_counter_4.png");
 	progressIcon->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,200,0,0)));
 	this->addChild(progressIcon);
 	
@@ -203,37 +200,23 @@ void VodacomOnboardingAddChildLayer::onHttpRequestSuccess(const std::string& req
 	}
 	else if(requestTag == API::TagGetAvailableChildren)
 	{
-		ParentDataParser::getInstance()->parseAvailableChildren(body);
-		HttpRequestCreator* request = API::AddVoucher(ParentDataProvider::getInstance()->getLoggedInParentId(), _flowData->getVoucherCode(), this);
-		request->execute();
-	}
-	else if(requestTag == API::TagAddVoucher)
-	{
-		HttpRequestCreator* request = API::UpdateBillingDataRequest(ParentDataProvider::getInstance()->getLoggedInParentId(), this);
-		request->execute();
-	}
-	else if(requestTag == API::TagUpdateBillingData)
-	{
-		ParentDataParser::getInstance()->parseParentBillingData(body);
-		if(_delegate)
-		{
-			_delegate->moveToState(FlowState::SUCCESS);
-		}
 		ModalMessages::getInstance()->stopLoading();
+		ParentDataParser::getInstance()->parseAvailableChildren(body);
+		VodacomMessageBoxNotification* messageBox = VodacomMessageBoxNotification::create();
+		messageBox->setHeading(StringUtils::format("%s %s",_("Profile created for").c_str(),_flowData->getChildName().c_str()));
+		messageBox->setDelegate(this);
+		Director::getInstance()->getRunningScene()->addChild(messageBox);
+		this->runAction(Sequence::createWithTwoActions(DelayTime::create(4.0f), CallFunc::create([messageBox, this](){
+			messageBox->removeFromParent();
+			if(_delegate)
+			{
+				_delegate->moveToState(FlowState::SUCCESS);
+			}
+		})));
 	}
 }
 void VodacomOnboardingAddChildLayer::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
-	if(requestTag == API::TagAddVoucher)
-	{
-		_flowData->setErrorType(ErrorType::VOUCHER);
-		if(_delegate)
-		{
-			_flowData->resetStateStack();
-			_flowData->pushState(FlowState::ADD_VOUCHER);
-			_delegate->moveToState(FlowState::ERROR);
-		}
-	}
 	ModalMessages::getInstance()->stopLoading();
 }
 
@@ -275,6 +258,11 @@ void VodacomOnboardingAddChildLayer::editBoxEditingDidBegin(TextInputLayer* inpu
 void VodacomOnboardingAddChildLayer::editBoxEditingDidEnd(TextInputLayer* inputLayer)
 {
 	
+}
+
+void VodacomOnboardingAddChildLayer::onButtonPressed(SettingsMessageBox *pSender, SettingsMessageBoxButtonType type)
+{
+	pSender->removeFromParent();
 }
 
 NS_AZOOMEE_END

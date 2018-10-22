@@ -11,10 +11,11 @@
 #include "VodacomOnboardingLayer.h"
 #include <AzoomeeCommon/Input/TextInputLayer.h>
 #include <AzoomeeCommon/API/HttpRequestCreator.h>
+#include "../SettingsMessageBox.h"
 
 NS_AZOOMEE_BEGIN
 
-class VodacomOnboardingPinLayer : public VodacomOnboardingLayer, HttpRequestCreatorResponseDelegate, TextInputLayerDelegate
+class VodacomOnboardingPinLayer : public VodacomOnboardingLayer, HttpRequestCreatorResponseDelegate, TextInputLayerDelegate, SettingsMessageBoxDelegate
 {
 	typedef VodacomOnboardingLayer Super;
 private:
@@ -40,6 +41,8 @@ public:
 	virtual void textInputReturnPressed(TextInputLayer* inputLayer) override;
 	virtual void editBoxEditingDidBegin(TextInputLayer* inputLayer) override;
 	virtual void editBoxEditingDidEnd(TextInputLayer* inputLayer) override;
+	
+	virtual void onButtonPressed(SettingsMessageBox* pSender, SettingsMessageBoxButtonType type) override;
 };
 
 NS_AZOOMEE_END

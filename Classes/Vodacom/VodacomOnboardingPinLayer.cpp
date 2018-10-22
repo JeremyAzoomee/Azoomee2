@@ -15,6 +15,8 @@
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include "VodacomMessageBoxExitFlow.h"
+#include "VodacomMessageBoxNotification.h"
 
 using namespace cocos2d;
 
@@ -40,10 +42,10 @@ void VodacomOnboardingPinLayer::onEnter()
 	_closeButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			if(_delegate)
-			{
-				_delegate->moveToState(FlowState::EXIT);
-			}
+			VodacomMessageBoxExitFlow* messageBox = VodacomMessageBoxExitFlow::create();
+			messageBox->setDelegate(this);
+			messageBox->setState(ExitFlowState::ACCOUNT_CREATE);
+			Director::getInstance()->getRunningScene()->addChild(messageBox);
 		}
 	});
 	
@@ -142,7 +144,7 @@ void VodacomOnboardingPinLayer::onEnter()
 	confirmText->setDimensions(_confirmButton->getContentSize().width, _confirmButton->getContentSize().height);
 	_confirmButton->addChild(confirmText);
 	
-	ui::ImageView* progressIcon = ui::ImageView::create("res/vodacom/step_counter_2.png");
+	ui::ImageView* progressIcon = ui::ImageView::create("res/vodacom/step_counter_3.png");
 	progressIcon->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,200,0,0)));
 	this->addChild(progressIcon);
 	
@@ -173,24 +175,41 @@ void VodacomOnboardingPinLayer::onHttpRequestSuccess(const std::string& requestT
 	}
 	else if(requestTag == API::TagLogin)
 	{
-		ModalMessages::getInstance()->stopLoading();
 		if(ParentDataParser::getInstance()->parseParentLoginData(body))
 		{
 			ConfigStorage::getInstance()->setFirstSlideShowSeen();
 			ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey("X-AZ-COUNTRYCODE", headers));
 			AnalyticsSingleton::getInstance()->signInSuccessEvent();
 			AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
-			_flowData->setUserType(UserType::FREE);
+			_flowData->setUserType(UserType::REGISTERED);
 			UserDefault* def = UserDefault::getInstance();
 			def->setStringForKey("username", _flowData->getEmail());
 			def->flush();
-			if(_delegate)
-			{
-				_flowData->resetStateStack();
-				_flowData->pushState(FlowState::ADD_VOUCHER);
-				_delegate->moveToState(FlowState::ADD_CHILD);
-			}
+			
+			VodacomMessageBoxNotification* messageBox = VodacomMessageBoxNotification::create();
+			messageBox->setHeading(_("Account created"));
+			Director::getInstance()->getRunningScene()->addChild(messageBox);
+			this->runAction(Sequence::createWithTwoActions(DelayTime::create(4.0f), CallFunc::create([messageBox,this](){
+				messageBox->removeFromParent();
+				HttpRequestCreator* request = API::AddVoucher(ParentDataProvider::getInstance()->getLoggedInParentId(), _flowData->getVoucherCode(), this);
+				request->execute();
+			})));
 		}
+	}
+	else if(requestTag == API::TagAddVoucher)
+	{
+		HttpRequestCreator* request = API::UpdateBillingDataRequest(ParentDataProvider::getInstance()->getLoggedInParentId(), this);
+		request->execute();
+	}
+	else if(requestTag == API::TagUpdateBillingData)
+	{
+		ParentDataParser::getInstance()->parseParentBillingData(body);
+		if(_delegate)
+		{
+			_flowData->resetStateStack();
+			_delegate->moveToState(FlowState::ADD_CHILD);
+		}
+		ModalMessages::getInstance()->stopLoading();
 	}
 }
 void VodacomOnboardingPinLayer::onHttpRequestFailed(const std::string& requestTag, long errorCode)
@@ -201,6 +220,15 @@ void VodacomOnboardingPinLayer::onHttpRequestFailed(const std::string& requestTa
 		if(_delegate)
 		{
 			_flowData->popState(); // set back to return to register screen
+			_delegate->moveToState(FlowState::ERROR);
+		}
+	}
+	else if(requestTag == API::TagAddVoucher)
+	{
+		_flowData->setErrorType(ErrorType::VOUCHER);
+		if(_delegate)
+		{
+			_flowData->resetStateStack();
 			_delegate->moveToState(FlowState::ERROR);
 		}
 	}
@@ -232,6 +260,18 @@ void VodacomOnboardingPinLayer::editBoxEditingDidBegin(TextInputLayer* inputLaye
 void VodacomOnboardingPinLayer::editBoxEditingDidEnd(TextInputLayer* inputLayer)
 {
 	
+}
+
+void VodacomOnboardingPinLayer::onButtonPressed(SettingsMessageBox *pSender, SettingsMessageBoxButtonType type)
+{
+	pSender->removeFromParent();
+	if(type == SettingsMessageBoxButtonType::CLOSE)
+	{
+		if(_delegate)
+		{
+			_delegate->moveToState(FlowState::EXIT);
+		}
+	}
 }
 
 NS_AZOOMEE_END

@@ -311,6 +311,9 @@
 	"*PIN must be 4 numbers only":"*PIN must be 4 numbers only",
 	"*Invalid name":"*Invalid name",
 	"*Invalid age":"*Invalid age",
-	"Start 7 Day Free Trial":"Start 7 Day Free Trial"
+	"Start 7 Day Free Trial":"Start 7 Day Free Trial",
+	"Confirm email address":"Confirm email address",
+	"*Email addresses do not match":"*Email addresses do not match"
+
 
 }

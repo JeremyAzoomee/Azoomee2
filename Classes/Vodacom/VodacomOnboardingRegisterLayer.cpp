@@ -9,6 +9,7 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
+#include "VodacomMessageBoxExitFlow.h"
 
 using namespace cocos2d;
 
@@ -34,10 +35,10 @@ void VodacomOnboardingRegisterLayer::onEnter()
 	_closeButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			if(_delegate)
-			{
-				_delegate->moveToState(FlowState::EXIT);
-			}
+			VodacomMessageBoxExitFlow* messageBox = VodacomMessageBoxExitFlow::create();
+			messageBox->setDelegate(this);
+			messageBox->setState(ExitFlowState::ACCOUNT_CREATE);
+			Director::getInstance()->getRunningScene()->addChild(messageBox);
 		}
 	});
 	
@@ -137,6 +138,37 @@ void VodacomOnboardingRegisterLayer::onEnter()
 	inputLayout->addChild(_emailInput);
 	this->addChild(inputLayout);
 	
+	Label* confEmailTitle = Label::createWithTTF(_("Confirm email address"), Style::Font::Regular, 64);
+	confEmailTitle->setTextColor(Color4B::BLACK);
+	confEmailTitle->setHorizontalAlignment(TextHAlignment::CENTER);
+	confEmailTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	confEmailTitle->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	
+	ui::Layout* confEmailTitleHolder = ui::Layout::create();
+	confEmailTitleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	confEmailTitleHolder->setContentSize(confEmailTitle->getContentSize());
+	confEmailTitleHolder->addChild(confEmailTitle);
+	this->addChild(confEmailTitleHolder);
+	
+	_confirmEmailInput = TextInputLayer::createSettingsRoundedTextInput(this->getContentSize().width * 0.6f, INPUT_IS_EMAIL);
+	_confirmEmailInput->setCenterPosition(_emailInput->getContentSize() / 2.0f);
+	_confirmEmailInput->setDelegate(this);
+	_confirmEmailInput->setText(_flowData->getEmail());
+	
+	Label* confEmailError = Label::createWithTTF(_("*Email addresses do not match"), Style::Font::Regular, 53);
+	confEmailError->setTextColor(Color4B(Style::Color::watermelon));
+	confEmailError->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+	confEmailError->setNormalizedPosition(Vec2(0.1f,-0.1));
+	confEmailError->setName("error");
+	confEmailError->setVisible(false);
+	_emailInput->addChild(confEmailError);
+	
+	ui::Layout* confEmailLayout = ui::Layout::create();
+	confEmailLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	confEmailLayout->setContentSize(_confirmEmailInput->getContentSize());
+	confEmailLayout->addChild(_confirmEmailInput);
+	this->addChild(confEmailLayout);
+	
 	Label* pwInputTitle = Label::createWithTTF(_("Password"), Style::Font::Regular, 64);
 	pwInputTitle->setTextColor(Color4B::BLACK);
 	pwInputTitle->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -186,7 +218,7 @@ void VodacomOnboardingRegisterLayer::onEnter()
 	confirmText->setDimensions(_confirmButton->getContentSize().width, _confirmButton->getContentSize().height);
 	_confirmButton->addChild(confirmText);
 	
-	ui::ImageView* progressIcon = ui::ImageView::create("res/vodacom/step_counter_1.png");
+	ui::ImageView* progressIcon = ui::ImageView::create("res/vodacom/step_counter_2.png");
 	progressIcon->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,200,0,0)));
 	this->addChild(progressIcon);
 	
@@ -197,7 +229,7 @@ void VodacomOnboardingRegisterLayer::onEnter()
 
 void VodacomOnboardingRegisterLayer::onConfirmPressed()
 {
-	if(_delegate && _emailInput->inputIsValid() && _passwordInput->inputIsValid())
+	if(_delegate && _emailInput->inputIsValid() && _passwordInput->inputIsValid() && (_emailInput->getText() == _confirmEmailInput->getText()))
 	{
 		_flowData->setEmail(_emailInput->getText());
 		_flowData->setPassword(_passwordInput->getText());
@@ -214,6 +246,10 @@ void VodacomOnboardingRegisterLayer::textInputIsValid(TextInputLayer* inputLayer
 	{
 		errorMsg->setVisible(!isValid);
 	}
+	
+	auto errorMsg2 = _confirmEmailInput->getChildByName("error");
+	errorMsg2->setVisible(_confirmEmailInput->getText() != _emailInput->getText());
+	
 	if(inputLayer == _emailInput)
 	{
 		_flowData->setEmail(inputLayer->getText());
@@ -228,6 +264,10 @@ void VodacomOnboardingRegisterLayer::textInputReturnPressed(TextInputLayer* inpu
 	if(inputLayer == _emailInput)
 	{
 		_flowData->setEmail(inputLayer->getText());
+		_confirmEmailInput->focusAndShowKeyboard();
+	}
+	else if(inputLayer == _confirmEmailInput)
+	{
 		_passwordInput->focusAndShowKeyboard();
 	}
 	else if(inputLayer == _passwordInput)
@@ -245,6 +285,18 @@ void VodacomOnboardingRegisterLayer::editBoxEditingDidBegin(TextInputLayer* inpu
 void VodacomOnboardingRegisterLayer::editBoxEditingDidEnd(TextInputLayer* inputLayer)
 {
 	
+}
+
+void VodacomOnboardingRegisterLayer::onButtonPressed(SettingsMessageBox *pSender, SettingsMessageBoxButtonType type)
+{
+	pSender->removeFromParent();
+	if(type == SettingsMessageBoxButtonType::CLOSE)
+	{
+		if(_delegate)
+		{
+			_delegate->moveToState(FlowState::EXIT);
+		}
+	}
 }
 
 NS_AZOOMEE_END

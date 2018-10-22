@@ -15,7 +15,7 @@
 
 NS_AZOOMEE_BEGIN
 
-enum class UserType {ANON, FREE, ANON_FREE}; //ANON = anonymous, FREE = logged in w/o premium, ANON_FREE = anonymous user who has account to log into
+enum class UserType {ANON, FREE, ANON_FREE, REGISTERED}; //ANON = anonymous, FREE = logged in w/o premium, ANON_FREE = anonymous user who has account to log into
 enum class FlowState {EXIT, DETAILS, ADD_VOUCHER, REGISTER, PIN, ADD_CHILD, LOGIN, SUCCESS, ERROR};
 enum class ErrorType {NONE, LOGIN, VOUCHER, RESET, ALREADY_PREMIUM, ALREADY_REGISTERED};
 

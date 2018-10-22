@@ -29,10 +29,65 @@ bool VodacomOnboardingSuccessLayer::init()
 
 void VodacomOnboardingSuccessLayer::onEnter()
 {
-	_closeButton = ui::Button::create("res/vodacom/close.png");
-	_closeButton->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
-	_closeButton->setLayoutParameter(CreateRightLinearLayoutParam());
-	_closeButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+	Label* title = Label::createWithTTF(_("Success!"), Style::Font::Regular, 96);
+	title->setTextColor(Color4B::BLACK);
+	title->setHorizontalAlignment(TextHAlignment::CENTER);
+	title->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	title->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	
+	ui::Layout* titleHolder = ui::Layout::create();
+	titleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	titleHolder->setContentSize(title->getContentSize());
+	titleHolder->addChild(title);
+	this->addChild(titleHolder);
+	
+	if(ParentDataProvider::getInstance()->isPaidUser())
+	{
+		Label* subHeading = Label::createWithTTF(_("Your voucher has been added,"), Style::Font::Regular, 64);
+		subHeading->setTextColor(Color4B::BLACK);
+		subHeading->setHorizontalAlignment(TextHAlignment::CENTER);
+		subHeading->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+		subHeading->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+		subHeading->setWidth(this->getContentSize().width * 0.75f);
+		
+		ui::Layout* subHeadingHolder = ui::Layout::create();
+		subHeadingHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+		subHeadingHolder->setContentSize(subHeading->getContentSize());
+		subHeadingHolder->addChild(subHeading);
+		this->addChild(subHeadingHolder);
+		
+		Label* validUntil = Label::createWithTTF(_("valid until") + " " + ParentDataProvider::getInstance()->getBillingDate() , Style::Font::Regular, 64);
+		validUntil->setTextColor(Color4B::BLACK);
+		validUntil->setHorizontalAlignment(TextHAlignment::CENTER);
+		validUntil->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+		validUntil->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+		
+		ui::Layout* validUntilHolder = ui::Layout::create();
+		validUntilHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+		validUntilHolder->setContentSize(validUntil->getContentSize());
+		validUntilHolder->addChild(validUntil);
+		this->addChild(validUntilHolder);
+	}
+	else
+	{
+		Label* subHeading = Label::createWithTTF(_("Set up complete. You’ll need to add a valid voucher later for full access."), Style::Font::Regular, 64);
+		subHeading->setTextColor(Color4B::BLACK);
+		subHeading->setHorizontalAlignment(TextHAlignment::CENTER);
+		subHeading->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+		subHeading->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+		subHeading->setWidth(this->getContentSize().width * 0.75f);
+		
+		ui::Layout* subHeadingHolder = ui::Layout::create();
+		subHeadingHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+		subHeadingHolder->setContentSize(subHeading->getContentSize());
+		subHeadingHolder->addChild(subHeading);
+		this->addChild(subHeadingHolder);
+	}
+	
+	ui::Button* letsGoButton = ui::Button::create("res/vodacom/main_button.png");
+	letsGoButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	letsGoButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	letsGoButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
 			if(_delegate)
@@ -41,43 +96,16 @@ void VodacomOnboardingSuccessLayer::onEnter()
 			}
 		}
 	});
-	this->addChild(_closeButton);
+	this->addChild(letsGoButton);
 	
-	Label* title = Label::createWithTTF(_("Success!"), Style::Font::Regular, 96);
-	title->setTextColor(Color4B::BLACK);
-	title->setHorizontalAlignment(TextHAlignment::CENTER);
-	title->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	title->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	
-	ui::Layout* titleHolder = ui::Layout::create();
-	titleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
-	titleHolder->setContentSize(title->getContentSize());
-	titleHolder->addChild(title);
-	this->addChild(titleHolder);
-	
-	Label* subHeading = Label::createWithTTF(_("Your voucher has been added,"), Style::Font::Regular, 64);
-	subHeading->setTextColor(Color4B::BLACK);
-	subHeading->setHorizontalAlignment(TextHAlignment::CENTER);
-	subHeading->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	subHeading->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	
-	ui::Layout* subHeadingHolder = ui::Layout::create();
-	subHeadingHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
-	subHeadingHolder->setContentSize(subHeading->getContentSize());
-	subHeadingHolder->addChild(subHeading);
-	this->addChild(subHeadingHolder);
-	
-	Label* validUntil = Label::createWithTTF(_("valid until") + " " + ParentDataProvider::getInstance()->getBillingDate() , Style::Font::Regular, 64);
-	validUntil->setTextColor(Color4B::BLACK);
-	validUntil->setHorizontalAlignment(TextHAlignment::CENTER);
-	validUntil->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	validUntil->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	
-	ui::Layout* validUntilHolder = ui::Layout::create();
-	validUntilHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
-	validUntilHolder->setContentSize(validUntil->getContentSize());
-	validUntilHolder->addChild(validUntil);
-	this->addChild(validUntilHolder);
+	Label* letsGoLabel = Label::createWithTTF(_("Let's go"), Style::Font::Regular, letsGoButton->getContentSize().height * 0.5f);
+	letsGoLabel->setTextColor(Color4B::WHITE);
+	letsGoLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	letsGoLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	letsGoLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+	letsGoLabel->setOverflow(Label::Overflow::SHRINK);
+	letsGoLabel->setDimensions(letsGoButton->getContentSize().width, letsGoButton->getContentSize().height);
+	letsGoButton->addChild(letsGoLabel);
 	
 	ui::ImageView* oomee = ui::ImageView::create("res/vodacom/success_image.png");
 	oomee->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,200,0,0)));

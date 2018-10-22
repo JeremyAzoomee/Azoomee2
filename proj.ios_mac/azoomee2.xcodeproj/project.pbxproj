@@ -139,6 +139,9 @@
 		921A2679216FA030005C8C41 /* VodacomOnboardingErrorLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A2678216FA030005C8C41 /* VodacomOnboardingErrorLayer.cpp */; };
 		921A267B216FA05A005C8C41 /* VodacomOnboardingPinLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A267A216FA05A005C8C41 /* VodacomOnboardingPinLayer.cpp */; };
 		921A267D216FA0A4005C8C41 /* VodacomOnboardingAddChildLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A267C216FA0A4005C8C41 /* VodacomOnboardingAddChildLayer.cpp */; };
+		921A26BB217DFB55005C8C41 /* VodacomMessageBoxExitFlow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A26BA217DFB54005C8C41 /* VodacomMessageBoxExitFlow.cpp */; };
+		921A26BD217E0A91005C8C41 /* VodacomMessageBoxNotification.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A26BC217E0A91005C8C41 /* VodacomMessageBoxNotification.cpp */; };
+		921A26BF217E1653005C8C41 /* VodacomMessageBoxInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A26BE217E1653005C8C41 /* VodacomMessageBoxInfo.cpp */; };
 		9220EAD2200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EAD1200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp */; };
 		9220EAD5200F77E200BD7A90 /* SignUpFlowController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EAD4200F77E200BD7A90 /* SignUpFlowController.cpp */; };
 		9220EAD82010C07D00BD7A90 /* IAPFlowController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EAD72010C07D00BD7A90 /* IAPFlowController.cpp */; };
@@ -552,6 +555,12 @@
 		921A2678216FA030005C8C41 /* VodacomOnboardingErrorLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VodacomOnboardingErrorLayer.cpp; sourceTree = "<group>"; };
 		921A267A216FA05A005C8C41 /* VodacomOnboardingPinLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VodacomOnboardingPinLayer.cpp; sourceTree = "<group>"; };
 		921A267C216FA0A4005C8C41 /* VodacomOnboardingAddChildLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VodacomOnboardingAddChildLayer.cpp; sourceTree = "<group>"; };
+		921A26B3217DEE45005C8C41 /* VodacomMessageBoxExitFlow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VodacomMessageBoxExitFlow.h; sourceTree = "<group>"; };
+		921A26B8217DEEA3005C8C41 /* VodacomMessageBoxNotification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VodacomMessageBoxNotification.h; sourceTree = "<group>"; };
+		921A26B9217DEF06005C8C41 /* VodacomMessageBoxInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VodacomMessageBoxInfo.h; sourceTree = "<group>"; };
+		921A26BA217DFB54005C8C41 /* VodacomMessageBoxExitFlow.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VodacomMessageBoxExitFlow.cpp; sourceTree = "<group>"; };
+		921A26BC217E0A91005C8C41 /* VodacomMessageBoxNotification.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VodacomMessageBoxNotification.cpp; sourceTree = "<group>"; };
+		921A26BE217E1653005C8C41 /* VodacomMessageBoxInfo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VodacomMessageBoxInfo.cpp; sourceTree = "<group>"; };
 		9220EACA200F5AF600BD7A90 /* DynamicNodeFlowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DynamicNodeFlowController.h; sourceTree = "<group>"; };
 		9220EAD1200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeFlowController.cpp; sourceTree = "<group>"; };
 		9220EAD3200F64A200BD7A90 /* SignUpFlowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignUpFlowController.h; sourceTree = "<group>"; };
@@ -1230,6 +1239,12 @@
 				921A267A216FA05A005C8C41 /* VodacomOnboardingPinLayer.cpp */,
 				921A2667216E4877005C8C41 /* VodacomOnboardingAddChildLayer.h */,
 				921A267C216FA0A4005C8C41 /* VodacomOnboardingAddChildLayer.cpp */,
+				921A26B3217DEE45005C8C41 /* VodacomMessageBoxExitFlow.h */,
+				921A26BA217DFB54005C8C41 /* VodacomMessageBoxExitFlow.cpp */,
+				921A26B8217DEEA3005C8C41 /* VodacomMessageBoxNotification.h */,
+				921A26BC217E0A91005C8C41 /* VodacomMessageBoxNotification.cpp */,
+				921A26B9217DEF06005C8C41 /* VodacomMessageBoxInfo.h */,
+				921A26BE217E1653005C8C41 /* VodacomMessageBoxInfo.cpp */,
 			);
 			path = Vodacom;
 			sourceTree = "<group>";
@@ -1867,6 +1882,7 @@
 				928A6DCD20EBC2560053E793 /* AddChildScene.cpp in Sources */,
 				A15B2F991DE74F6400D25334 /* WebViewSelector.cpp in Sources */,
 				4306ABA31EAE2C3E001E586A /* PaymentViewController_ios.mm in Sources */,
+				921A26BF217E1653005C8C41 /* VodacomMessageBoxInfo.cpp in Sources */,
 				924E8455214141DC004590FD /* KidDetailsLayer.cpp in Sources */,
 				927DF6E320AECA620080DFEF /* MeHQGallery.cpp in Sources */,
 				926A2B2C212F018E00AE7964 /* SettingsPageHeader.cpp in Sources */,
@@ -1902,6 +1918,7 @@
 				927DF6E920AEF3C50080DFEF /* MeHQDownloads.cpp in Sources */,
 				9220EB21201A185C00BD7A90 /* RecentlyPlayedManager.cpp in Sources */,
 				921A2669216F6F7A005C8C41 /* VodacomOnboardingFlowData.cpp in Sources */,
+				921A26BB217DFB55005C8C41 /* VodacomMessageBoxExitFlow.cpp in Sources */,
 				926A2AE1212D6F5500AE7964 /* SettingsHub.cpp in Sources */,
 				9289DB441FD8137D00B12435 /* DynamicNodeButton.cpp in Sources */,
 				926A2B2F212F14B400AE7964 /* SettingsSupportPage.cpp in Sources */,
@@ -1964,6 +1981,7 @@
 				A19759841DE4931200FEB03C /* HQSceneElement.cpp in Sources */,
 				9220EAD82010C07D00BD7A90 /* IAPFlowController.cpp in Sources */,
 				921A25FA2164D08B005C8C41 /* SettingsMessageBoxNotification.cpp in Sources */,
+				921A26BD217E0A91005C8C41 /* VodacomMessageBoxNotification.cpp in Sources */,
 				927DF6EB20B2BD010080DFEF /* MeHQMessages.cpp in Sources */,
 				A154CC521DFEE7440008A626 /* GameDataManager.cpp in Sources */,
 				921A266F216F9F6A005C8C41 /* VodacomOnboardingRegisterLayer.cpp in Sources */,

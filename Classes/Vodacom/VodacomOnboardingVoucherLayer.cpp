@@ -127,10 +127,16 @@ void VodacomOnboardingVoucherLayer::onEnter()
 	confirmText->setDimensions(_confirmButton->getContentSize().width, _confirmButton->getContentSize().height);
 	_confirmButton->addChild(confirmText);
 	
-	ui::ImageView* oomee = ui::ImageView::create("res/vodacom/orange_oomee.png");
-	oomee->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,300,0,0)));
+	ui::ImageView* oomee = ui::ImageView::create("res/vodacom/voda_oomee.png");
+	oomee->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
 	this->addChild(oomee);
 	
+	if(_flowData->getUserType() != UserType::FREE)
+	{
+		ui::ImageView* progress = ui::ImageView::create("res/vodacom/step_counter_1.png");
+		progress->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+		this->addChild(progress);
+	}
 	Super::onEnter();
 	
 	_voucherInput->focusAndShowKeyboard();

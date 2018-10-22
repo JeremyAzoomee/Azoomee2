@@ -15,6 +15,7 @@
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include "VodacomMessageBoxNotification.h"
 
 using namespace cocos2d;
 
@@ -210,8 +211,16 @@ void VodacomOnboardingLoginLayer::onHttpRequestSuccess(const std::string& reques
 		ParentDataParser::getInstance()->parseParentBillingData(body);
 		if(!ParentDataProvider::getInstance()->isPaidUser())
 		{
-			HttpRequestCreator* request = API::AddVoucher(ParentDataProvider::getInstance()->getLoggedInParentId(), _flowData->getVoucherCode(), this);
-			request->execute();
+			ModalMessages::getInstance()->stopLoading();
+			VodacomMessageBoxNotification* messageBox = VodacomMessageBoxNotification::create();
+			messageBox->setHeading(_("Logged in"));
+			Director::getInstance()->getRunningScene()->addChild(messageBox);
+			this->runAction(Sequence::createWithTwoActions(DelayTime::create(4.0f), CallFunc::create([messageBox, this](){
+				messageBox->removeFromParent();
+				ModalMessages::getInstance()->startLoading();
+				HttpRequestCreator* request = API::AddVoucher(ParentDataProvider::getInstance()->getLoggedInParentId(), _flowData->getVoucherCode(), this);
+				request->execute();
+			})));
 		}
 		else
 		{

@@ -10,10 +10,11 @@
 
 #include "VodacomOnboardingLayer.h"
 #include <AzoomeeCommon/Input/TextInputLayer.h>
+#include "../SettingsMessageBox.h"
 
 NS_AZOOMEE_BEGIN
 
-class VodacomOnboardingRegisterLayer : public VodacomOnboardingLayer, TextInputLayerDelegate
+class VodacomOnboardingRegisterLayer : public VodacomOnboardingLayer, TextInputLayerDelegate, SettingsMessageBoxDelegate
 {
 	typedef VodacomOnboardingLayer Super;
 private:
@@ -21,6 +22,7 @@ private:
 	cocos2d::ui::Button* _backButton = nullptr;
 	cocos2d::ui::Button* _confirmButton = nullptr;
 	TextInputLayer* _emailInput = nullptr;
+	TextInputLayer* _confirmEmailInput = nullptr;
 	TextInputLayer* _passwordInput = nullptr;
 	
 	void onConfirmPressed();
@@ -37,6 +39,8 @@ public:
 	virtual void textInputReturnPressed(TextInputLayer* inputLayer) override;
 	virtual void editBoxEditingDidBegin(TextInputLayer* inputLayer) override;
 	virtual void editBoxEditingDidEnd(TextInputLayer* inputLayer) override;
+	
+	virtual void onButtonPressed(SettingsMessageBox* pSender, SettingsMessageBoxButtonType type) override;
 };
 
 NS_AZOOMEE_END

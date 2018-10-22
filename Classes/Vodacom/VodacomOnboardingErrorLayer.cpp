@@ -13,6 +13,8 @@
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
+#include <AzoomeeCommon/NativeShare/NativeShare.h>
+#include "VodacomMessageBoxExitFlow.h"
 
 using namespace cocos2d;
 
@@ -71,39 +73,21 @@ void VodacomOnboardingErrorLayer::onEnter()
 
 void VodacomOnboardingErrorLayer::setupForVoucherError()
 {
-	ui::Button* closeButton = ui::Button::create("res/vodacom/close.png");
-	closeButton->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
-	closeButton->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
-	closeButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
-		if(eType == ui::Widget::TouchEventType::ENDED)
-		{
-			if(_delegate)
+	if(_flowData->getUserType() == UserType::FREE)
+	{
+		ui::Button* closeButton = ui::Button::create("res/vodacom/close.png");
+		closeButton->setLayoutParameter(CreateRightLinearLayoutParam());
+		closeButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+			if(eType == ui::Widget::TouchEventType::ENDED)
 			{
-				_delegate->moveToState(FlowState::EXIT);
+				VodacomMessageBoxExitFlow* messageBox = VodacomMessageBoxExitFlow::create();
+				messageBox->setDelegate(this);
+				messageBox->setState(ExitFlowState::ACCOUNT_CREATE);
+				Director::getInstance()->getRunningScene()->addChild(messageBox);
 			}
-		}
-	});
-	
-	ui::Button* backButton = ui::Button::create("res/vodacom/back.png");
-	backButton->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
-	backButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
-	backButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
-		if(eType == ui::Widget::TouchEventType::ENDED)
-		{
-			if(_delegate)
-			{
-				_delegate->moveToPreviousState();
-			}
-		}
-	});
-	
-	ui::Layout* buttonHolder = ui::Layout::create();
-	buttonHolder->setContentSize(Size(this->getContentSize().width, closeButton->getContentSize().height));
-	this->addChild(buttonHolder);
-	
-	buttonHolder->addChild(closeButton);
-	buttonHolder->addChild(backButton);
-	
+		});
+		this->addChild(closeButton);
+	}
 	Label* title = Label::createWithTTF(_("Oops!"), Style::Font::Regular, 96);
 	title->setTextColor(Color4B::BLACK);
 	title->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -111,12 +95,12 @@ void VodacomOnboardingErrorLayer::setupForVoucherError()
 	title->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	
 	ui::Layout* titleHolder = ui::Layout::create();
-	titleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+	titleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
 	titleHolder->setContentSize(title->getContentSize());
 	titleHolder->addChild(title);
 	this->addChild(titleHolder);
 	
-	Label* subHeading = Label::createWithTTF(_("Your voucher code isn’t valid. Please re-enter it."), Style::Font::Regular, 64);
+	Label* subHeading = Label::createWithTTF(_("The voucher code you entered earlier isn’t valid. Please re-enter it."), Style::Font::Regular, 64);
 	subHeading->setTextColor(Color4B::BLACK);
 	subHeading->setHorizontalAlignment(TextHAlignment::CENTER);
 	subHeading->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -166,7 +150,7 @@ void VodacomOnboardingErrorLayer::setupForVoucherError()
 		{
 			if(_delegate && _voucherInput->inputIsValid())
 			{
-				if(_flowData->getUserType() == UserType::FREE)
+				if(_flowData->getUserType() == UserType::FREE || _flowData->getUserType() == UserType::REGISTERED)
 				{
 					ModalMessages::getInstance()->startLoading();
 					HttpRequestCreator* request = API::AddVoucher(ParentDataProvider::getInstance()->getLoggedInParentId(), _voucherInput->getText(), this);
@@ -190,6 +174,64 @@ void VodacomOnboardingErrorLayer::setupForVoucherError()
 	confirmText->setDimensions(_confirmButton->getContentSize().width, _confirmButton->getContentSize().height);
 	_confirmButton->addChild(confirmText);
 	
+	if(_flowData->getUserType() == UserType::REGISTERED)
+	{
+	
+		Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular, 64);
+		needHelp->setTextColor(Color4B(Style::Color::skyBlue));
+		needHelp->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
+		needHelp->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+		Label* contactUs = Label::createWithTTF(_("Contact us"), Style::Font::Regular, 64);
+		contactUs->setTextColor(Color4B(Style::Color::skyBlue));
+		contactUs->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
+		contactUs->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
+		
+		DrawNode* underline = DrawNode::create();
+		underline->drawRect(Vec2(0, -7), Vec2(contactUs->getContentSize().width, -6), Color4F(Style::Color::skyBlue));
+		contactUs->addChild(underline);
+		
+		ui::Layout* contactUsHolder = ui::Layout::create();
+		contactUsHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+		contactUsHolder->setContentSize(Size(needHelp->getContentSize().width + contactUs->getContentSize().width + 20, contactUs->getContentSize().height));
+		contactUsHolder->addChild(needHelp);
+		contactUsHolder->addChild(contactUs);
+		contactUsHolder->setTouchEnabled(true);
+		contactUsHolder->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
+			if(eType == ui::Widget::TouchEventType::ENDED)
+			{
+				openDeeplink("mailto:help@azoomee.com");
+			}
+		});
+		this->addChild(contactUsHolder);
+		
+		Label* skip = Label::createWithTTF(_("Skip this step"), Style::Font::Regular, 64);
+		skip->setTextColor(Color4B(Style::Color::skyBlue));
+		skip->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+		skip->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+		
+		DrawNode* underline2 = DrawNode::create();
+		underline2->drawRect(Vec2(0, -7), Vec2(skip->getContentSize().width, -6), Color4F(Style::Color::skyBlue));
+		skip->addChild(underline2);
+		
+		ui::Layout* skipHolder = ui::Layout::create();
+		skipHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,75,0,0)));
+		skipHolder->setContentSize(skip->getContentSize());
+		skipHolder->setTouchEnabled(true);
+		skipHolder->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+			if(eType == ui::Widget::TouchEventType::ENDED)
+			{
+				if(_delegate)
+				{
+					if(_flowData->getUserType() == UserType::REGISTERED)
+					{
+						_delegate->moveToState(FlowState::ADD_CHILD);
+					}
+				}
+			}
+		});
+		skipHolder->addChild(skip);
+		this->addChild(skipHolder);
+	}
 	_voucherInput->focusAndShowKeyboard();
 }
 
@@ -387,6 +429,26 @@ void VodacomOnboardingErrorLayer::setupForPasswordReset()
 	okText->setVerticalAlignment(TextVAlignment::CENTER);
 	okText->setDimensions(okButton->getContentSize().width, okButton->getContentSize().height);
 	okButton->addChild(okText);
+	
+	Label* notRecieved = Label::createWithTTF(_("Didin't recieve an email?"), Style::Font::Regular, 64);
+	notRecieved->setTextColor(Color4B(Style::Color::skyBlue));
+	notRecieved->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
+	notRecieved->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+	Label* sendAgain = Label::createWithTTF(_("Send again"), Style::Font::Regular, 64);
+	sendAgain->setTextColor(Color4B(Style::Color::skyBlue));
+	sendAgain->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
+	sendAgain->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
+	
+	DrawNode* underline = DrawNode::create();
+	underline->drawRect(Vec2(0, -7), Vec2(sendAgain->getContentSize().width, -6), Color4F(Style::Color::skyBlue));
+	sendAgain->addChild(underline);
+	
+	ui::Layout* sendAgainHolder = ui::Layout::create();
+	sendAgainHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	sendAgainHolder->setContentSize(Size(notRecieved->getContentSize().width + sendAgain->getContentSize().width + 20, sendAgain->getContentSize().height));
+	sendAgainHolder->addChild(notRecieved);
+	sendAgainHolder->addChild(sendAgain);
+	this->addChild(sendAgainHolder);
 }
 
 void VodacomOnboardingErrorLayer::setupForAlreadyRegistered()
@@ -606,7 +668,14 @@ void VodacomOnboardingErrorLayer::onHttpRequestSuccess(const std::string& reques
 		ParentDataParser::getInstance()->parseParentBillingData(body);
 		if(_delegate)
 		{
-			_delegate->moveToState(FlowState::SUCCESS);
+			if(_flowData->getUserType() == UserType::REGISTERED)
+			{
+				_delegate->moveToState(FlowState::ADD_CHILD);
+			}
+			else
+			{
+				_delegate->moveToState(FlowState::SUCCESS);
+			}
 		}
 		ModalMessages::getInstance()->stopLoading();
 	}
@@ -666,6 +735,18 @@ void VodacomOnboardingErrorLayer::editBoxEditingDidBegin(TextInputLayer* inputLa
 void VodacomOnboardingErrorLayer::editBoxEditingDidEnd(TextInputLayer* inputLayer)
 {
 	
+}
+
+void VodacomOnboardingErrorLayer::onButtonPressed(SettingsMessageBox *pSender, SettingsMessageBoxButtonType type)
+{
+	pSender->removeFromParent();
+	if(type == SettingsMessageBoxButtonType::CLOSE)
+	{
+		if(_delegate)
+		{
+			_delegate->moveToState(FlowState::EXIT);
+		}
+	}
 }
 
 NS_AZOOMEE_END
