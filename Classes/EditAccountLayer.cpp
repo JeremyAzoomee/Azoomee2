@@ -256,8 +256,11 @@ void EditAccountLayer::onEnter()
     
     if(ParentDataProvider::getInstance()->isPaidUser())
     {
-        //Label* subDeetsLab = Label::createWithTTF(StringUtils::format(_("Premium Subscription\nRenew’s on %s").c_str(),ParentDataProvider::getInstance()->getBillingDate().c_str()), Style::Font::Medium, 59);
+#ifdef VODACOM_BUILD
+        Label* subDeetsLab = Label::createWithTTF(StringUtils::format(_("Premium Subscription\nExpires on %s").c_str(),ParentDataProvider::getInstance()->getBillingDate().c_str()), Style::Font::Medium, 59);
+#else
 		Label* subDeetsLab = Label::createWithTTF(_("Premium Subscription"), Style::Font::Medium, 59);
+#endif
         subDeetsLab->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
         subDeetsLab->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         subDeetsLab->setTextColor(Color4B::WHITE);
@@ -293,7 +296,11 @@ void EditAccountLayer::onEnter()
     }
     else
     {
-        Label* subDeetsLab = Label::createWithTTF(_("Free Account\nTap Renew for a special offer"), Style::Font::Medium, 59);
+#ifdef VODACOM_BUILD
+        Label* subDeetsLab = Label::createWithTTF(_("Free Account\nTap Renew to enter a voucher"), Style::Font::Medium, 59);
+#else
+		Label* subDeetsLab = Label::createWithTTF(_("Free Account\nTap Renew for a special offer"), Style::Font::Medium, 59);
+#endif
         subDeetsLab->setNormalizedPosition(Vec2(0.5f,0.66f));
         subDeetsLab->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         subDeetsLab->setTextColor(Color4B::WHITE);

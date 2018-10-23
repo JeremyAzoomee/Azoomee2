@@ -36,7 +36,7 @@ void VodacomOnboardingSuccessLayer::onEnter()
 	title->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	
 	ui::Layout* titleHolder = ui::Layout::create();
-	titleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	titleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,200,0,0)));
 	titleHolder->setContentSize(title->getContentSize());
 	titleHolder->addChild(title);
 	this->addChild(titleHolder);
@@ -51,7 +51,7 @@ void VodacomOnboardingSuccessLayer::onEnter()
 		subHeading->setWidth(this->getContentSize().width * 0.75f);
 		
 		ui::Layout* subHeadingHolder = ui::Layout::create();
-		subHeadingHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+		subHeadingHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
 		subHeadingHolder->setContentSize(subHeading->getContentSize());
 		subHeadingHolder->addChild(subHeading);
 		this->addChild(subHeadingHolder);
@@ -78,7 +78,7 @@ void VodacomOnboardingSuccessLayer::onEnter()
 		subHeading->setWidth(this->getContentSize().width * 0.75f);
 		
 		ui::Layout* subHeadingHolder = ui::Layout::create();
-		subHeadingHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+		subHeadingHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
 		subHeadingHolder->setContentSize(subHeading->getContentSize());
 		subHeadingHolder->addChild(subHeading);
 		this->addChild(subHeadingHolder);
@@ -103,6 +103,7 @@ void VodacomOnboardingSuccessLayer::onEnter()
 	letsGoLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	letsGoLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	letsGoLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+	letsGoLabel->setVerticalAlignment(TextVAlignment::CENTER);
 	letsGoLabel->setOverflow(Label::Overflow::SHRINK);
 	letsGoLabel->setDimensions(letsGoButton->getContentSize().width, letsGoButton->getContentSize().height);
 	letsGoButton->addChild(letsGoLabel);

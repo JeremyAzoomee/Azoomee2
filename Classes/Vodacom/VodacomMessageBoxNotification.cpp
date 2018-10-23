@@ -20,6 +20,7 @@ void VodacomMessageBoxNotification::onEnter()
 	_messageBox->setContentSize(Size(_visibleSize.width - 100, 855));
 	
 	_heading = Label::createWithTTF(_headingText, Style::Font::Regular, 91);
+	_heading->setTextColor(Color4B::BLACK);
 	_heading->setNormalizedPosition(Vec2(0.5f, 0.75f));
 	_heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_heading->setHorizontalAlignment(TextHAlignment::CENTER);

@@ -20,6 +20,7 @@ void VodacomMessageBoxInfo::onEnter()
 	_messageBox->setContentSize(Size(_visibleSize.width - 100, 855));
 	
 	_heading = Label::createWithTTF(_headingText, Style::Font::Regular, 64);
+	_heading->setTextColor(Color4B::BLACK);
 	_heading->setNormalizedPosition(Vec2(0.5f, 0.5f));
 	_heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 	_heading->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -37,7 +38,7 @@ void VodacomMessageBoxInfo::onEnter()
 	_okButton->addTouchEventListener(CC_CALLBACK_2(SettingsMessageBox::onButtonPressed, this));
 	_messageBox->addChild(_okButton);
 	
-	Label* okLabel = Label::createWithTTF(_("Ok"), Style::Font::Regular, 75);
+	Label* okLabel = Label::createWithTTF(_("OK"), Style::Font::Regular, 75);
 	okLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	okLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	_okButton->addChild(okLabel);

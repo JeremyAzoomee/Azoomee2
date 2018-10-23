@@ -185,12 +185,13 @@ void VodacomOnboardingPinLayer::onHttpRequestSuccess(const std::string& requestT
 			UserDefault* def = UserDefault::getInstance();
 			def->setStringForKey("username", _flowData->getEmail());
 			def->flush();
-			
+			ModalMessages::getInstance()->stopLoading();
 			VodacomMessageBoxNotification* messageBox = VodacomMessageBoxNotification::create();
 			messageBox->setHeading(_("Account created"));
 			Director::getInstance()->getRunningScene()->addChild(messageBox);
 			this->runAction(Sequence::createWithTwoActions(DelayTime::create(4.0f), CallFunc::create([messageBox,this](){
 				messageBox->removeFromParent();
+				ModalMessages::getInstance()->startLoading();
 				HttpRequestCreator* request = API::AddVoucher(ParentDataProvider::getInstance()->getLoggedInParentId(), _flowData->getVoucherCode(), this);
 				request->execute();
 			})));

@@ -161,7 +161,7 @@ void VodacomOnboardingRegisterLayer::onEnter()
 	confEmailError->setNormalizedPosition(Vec2(0.1f,-0.1));
 	confEmailError->setName("error");
 	confEmailError->setVisible(false);
-	_emailInput->addChild(confEmailError);
+	_confirmEmailInput->addChild(confEmailError);
 	
 	ui::Layout* confEmailLayout = ui::Layout::create();
 	confEmailLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));

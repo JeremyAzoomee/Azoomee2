@@ -82,7 +82,7 @@ void VodacomOnboardingErrorLayer::setupForVoucherError()
 			{
 				VodacomMessageBoxExitFlow* messageBox = VodacomMessageBoxExitFlow::create();
 				messageBox->setDelegate(this);
-				messageBox->setState(ExitFlowState::ACCOUNT_CREATE);
+				messageBox->setState(ExitFlowState::VOUCHER);
 				Director::getInstance()->getRunningScene()->addChild(messageBox);
 			}
 		});
@@ -95,7 +95,7 @@ void VodacomOnboardingErrorLayer::setupForVoucherError()
 	title->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	
 	ui::Layout* titleHolder = ui::Layout::create();
-	titleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	titleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	titleHolder->setContentSize(title->getContentSize());
 	titleHolder->addChild(title);
 	this->addChild(titleHolder);
@@ -486,7 +486,7 @@ void VodacomOnboardingErrorLayer::setupForAlreadyRegistered()
 	buttonHolder->addChild(closeButton);
 	buttonHolder->addChild(backButton);
 	
-	Label* title = Label::createWithTTF(_("Already Registered"), Style::Font::Regular, 96);
+	Label* title = Label::createWithTTF(_("Already registered"), Style::Font::Regular, 96);
 	title->setTextColor(Color4B::BLACK);
 	title->setHorizontalAlignment(TextHAlignment::CENTER);
 	title->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -498,7 +498,7 @@ void VodacomOnboardingErrorLayer::setupForAlreadyRegistered()
 	titleHolder->addChild(title);
 	this->addChild(titleHolder);
 	
-	Label* subHeading = Label::createWithTTF(_("The email address has already been registered. Please register with a new email address or log in using this email address"), Style::Font::Regular, 64);
+	Label* subHeading = Label::createWithTTF(_("This email address has already been registered. Please create a new account with a new email address or log in using this email address."), Style::Font::Regular, 64);
 	subHeading->setTextColor(Color4B::BLACK);
 	subHeading->setHorizontalAlignment(TextHAlignment::CENTER);
 	subHeading->setAnchorPoint(Vec2::ANCHOR_MIDDLE);

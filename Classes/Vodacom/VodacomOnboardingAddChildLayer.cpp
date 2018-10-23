@@ -42,7 +42,7 @@ void VodacomOnboardingAddChildLayer::onEnter()
 	title->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	
 	ui::Layout* titleHolder = ui::Layout::create();
-	titleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	titleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,200,0,0)));
 	titleHolder->setContentSize(title->getContentSize());
 	titleHolder->addChild(title);
 	this->addChild(titleHolder);
@@ -124,7 +124,11 @@ void VodacomOnboardingAddChildLayer::onEnter()
 	
 	Label* detailsLink = Label::createWithTTF(_("Why do we need this?"), Style::Font::Regular, 64);
 	detailsLink->setTextColor(Color4B(Style::Color::skyBlue));
-	detailsLink->setWidth(this->getContentSize().width * 0.65f);
+	float textWidth = detailsLink->getContentSize().width;
+	if(textWidth > this->getContentSize().width * 0.65f)
+	{
+		detailsLink->setWidth(this->getContentSize().width * 0.65f);
+	}
 	detailsLink->setHorizontalAlignment(TextHAlignment::CENTER);
 	detailsLink->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	detailsLink->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
