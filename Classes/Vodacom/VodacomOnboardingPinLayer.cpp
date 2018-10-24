@@ -29,8 +29,6 @@ bool VodacomOnboardingPinLayer::init()
 		return false;
 	}
 	
-	setLayoutType(ui::Layout::Type::VERTICAL);
-	
 	return true;
 }
 
@@ -65,7 +63,7 @@ void VodacomOnboardingPinLayer::onEnter()
 	
 	ui::Layout* buttonHolder = ui::Layout::create();
 	buttonHolder->setContentSize(Size(this->getContentSize().width, _closeButton->getContentSize().height));
-	this->addChild(buttonHolder);
+	_verticalLayout->addChild(buttonHolder);
 	
 	buttonHolder->addChild(_closeButton);
 	buttonHolder->addChild(_backButton);
@@ -80,7 +78,7 @@ void VodacomOnboardingPinLayer::onEnter()
 	titleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	titleHolder->setContentSize(title->getContentSize());
 	titleHolder->addChild(title);
-	this->addChild(titleHolder);
+	_verticalLayout->addChild(titleHolder);
 	
 	Label* subTitle = Label::createWithTTF(_("Create a 4 digit PIN to access your settings."), Style::Font::Regular, 64);
 	subTitle->setTextColor(Color4B::BLACK);
@@ -93,7 +91,7 @@ void VodacomOnboardingPinLayer::onEnter()
 	subTitleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,75,0,0)));
 	subTitleHolder->setContentSize(subTitle->getContentSize());
 	subTitleHolder->addChild(subTitle);
-	this->addChild(subTitleHolder);
+	_verticalLayout->addChild(subTitleHolder);
 	
 	Label* inputTitle = Label::createWithTTF(_("Pin"), Style::Font::Regular, 64);
 	inputTitle->setTextColor(Color4B::BLACK);
@@ -105,7 +103,7 @@ void VodacomOnboardingPinLayer::onEnter()
 	inputTitleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
 	inputTitleHolder->setContentSize(inputTitle->getContentSize());
 	inputTitleHolder->addChild(inputTitle);
-	this->addChild(inputTitleHolder);
+	_verticalLayout->addChild(inputTitleHolder);
 	
 	_pinInput = TextInputLayer::createSettingsRoundedTextInput(this->getContentSize().width * 0.6f, INPUT_IS_PIN);
 	_pinInput->setCenterPosition(_pinInput->getContentSize() / 2.0f);
@@ -124,7 +122,7 @@ void VodacomOnboardingPinLayer::onEnter()
 	inputLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
 	inputLayout->setContentSize(_pinInput->getContentSize());
 	inputLayout->addChild(_pinInput);
-	this->addChild(inputLayout);
+	_verticalLayout->addChild(inputLayout);
 	
 	_confirmButton = ui::Button::create("res/vodacom/main_button.png");
 	_confirmButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
@@ -134,19 +132,19 @@ void VodacomOnboardingPinLayer::onEnter()
 			this->onConfirmPressed();
 		}
 	});
-	this->addChild(_confirmButton);
+	_verticalLayout->addChild(_confirmButton);
 	
 	Label* confirmText = Label::createWithTTF(_("Next Step"), Style::Font::Regular, _confirmButton->getContentSize().height * 0.5f);
 	confirmText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	confirmText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	confirmText->setHorizontalAlignment(TextHAlignment::CENTER);
 	confirmText->setVerticalAlignment(TextVAlignment::CENTER);
-	confirmText->setDimensions(_confirmButton->getContentSize().width, _confirmButton->getContentSize().height);
+	confirmText->setDimensions(_confirmButton->getContentSize().width * 0.8f, _confirmButton->getContentSize().height);
 	_confirmButton->addChild(confirmText);
 	
 	ui::ImageView* progressIcon = ui::ImageView::create("res/vodacom/step_counter_3.png");
 	progressIcon->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,200,0,0)));
-	this->addChild(progressIcon);
+	_verticalLayout->addChild(progressIcon);
 	
 	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular, 64);
 	needHelp->setTextColor(Color4B(Style::Color::skyBlue));
@@ -162,7 +160,8 @@ void VodacomOnboardingPinLayer::onEnter()
 	contactUs->addChild(underline);
 	
 	ui::Layout* contactUsHolder = ui::Layout::create();
-	contactUsHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	contactUsHolder->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+	contactUsHolder->setAnchorPoint(Vec2(0.5f,-1.0f));
 	contactUsHolder->setContentSize(Size(needHelp->getContentSize().width + contactUs->getContentSize().width + 20, contactUs->getContentSize().height));
 	contactUsHolder->addChild(needHelp);
 	contactUsHolder->addChild(contactUs);
@@ -232,12 +231,26 @@ void VodacomOnboardingPinLayer::onHttpRequestSuccess(const std::string& requestT
 	else if(requestTag == API::TagUpdateBillingData)
 	{
 		ParentDataParser::getInstance()->parseParentBillingData(body);
-		if(_delegate)
+		if(_flowData->getVoucherFailed())
 		{
-			_flowData->resetStateStack();
-			_delegate->moveToState(FlowState::ADD_CHILD);
+			ModalMessages::getInstance()->stopLoading();
+			_flowData->setErrorType(ErrorType::VOUCHER);
+			if(_delegate)
+			{
+				_flowData->setVoucherFailed(false);
+				_flowData->resetStateStack();
+				_delegate->moveToState(FlowState::ERROR);
+			}
 		}
-		ModalMessages::getInstance()->stopLoading();
+		else
+		{
+			if(_delegate)
+			{
+				_flowData->resetStateStack();
+				_delegate->moveToState(FlowState::ADD_CHILD);
+			}
+			ModalMessages::getInstance()->stopLoading();
+		}
 	}
 }
 void VodacomOnboardingPinLayer::onHttpRequestFailed(const std::string& requestTag, long errorCode)
@@ -250,17 +263,15 @@ void VodacomOnboardingPinLayer::onHttpRequestFailed(const std::string& requestTa
 			_flowData->popState(); // set back to return to register screen
 			_delegate->moveToState(FlowState::ERROR);
 		}
+		ModalMessages::getInstance()->stopLoading();
 	}
 	else if(requestTag == API::TagAddVoucher)
 	{
-		_flowData->setErrorType(ErrorType::VOUCHER);
-		if(_delegate)
-		{
-			_flowData->resetStateStack();
-			_delegate->moveToState(FlowState::ERROR);
-		}
+		_flowData->setVoucherFailed(true);
+		HttpRequestCreator* request = API::UpdateBillingDataRequest(ParentDataProvider::getInstance()->getLoggedInParentId(), this);
+		request->execute();
 	}
-	ModalMessages::getInstance()->stopLoading();
+	
 }
 
 //Delegate Functions

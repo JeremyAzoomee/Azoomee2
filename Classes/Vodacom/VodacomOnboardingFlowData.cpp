@@ -77,6 +77,16 @@ std::string VodacomOnboardingFlowData::getChildAge() const
 	return _childAge;
 }
 
+void VodacomOnboardingFlowData::setVoucherFailed(bool failed)
+{
+	_voucherFailed = failed;
+}
+
+bool VodacomOnboardingFlowData::getVoucherFailed() const
+{
+	return _voucherFailed;
+}
+
 void VodacomOnboardingFlowData::setUserType(const UserType& userType)
 {
 	_userType = userType;

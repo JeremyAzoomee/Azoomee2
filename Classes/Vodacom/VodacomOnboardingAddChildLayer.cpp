@@ -28,8 +28,6 @@ bool VodacomOnboardingAddChildLayer::init()
 		return false;
 	}
 	
-	setLayoutType(ui::Layout::Type::VERTICAL);
-	
 	return true;
 }
 
@@ -45,7 +43,7 @@ void VodacomOnboardingAddChildLayer::onEnter()
 	titleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,200,0,0)));
 	titleHolder->setContentSize(title->getContentSize());
 	titleHolder->addChild(title);
-	this->addChild(titleHolder);
+	_verticalLayout->addChild(titleHolder);
 	
 	Label* subTitle = Label::createWithTTF(_("In order to get going you’ll need to set up a child profile. Don’t worry, you can add more children later."), Style::Font::Regular, 64);
 	subTitle->setTextColor(Color4B::BLACK);
@@ -58,7 +56,7 @@ void VodacomOnboardingAddChildLayer::onEnter()
 	subTitleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
 	subTitleHolder->setContentSize(subTitle->getContentSize());
 	subTitleHolder->addChild(subTitle);
-	this->addChild(subTitleHolder);
+	_verticalLayout->addChild(subTitleHolder);
 	
 	Label* inputTitle = Label::createWithTTF(_("Child's name"), Style::Font::Regular, 64);
 	inputTitle->setTextColor(Color4B::BLACK);
@@ -70,7 +68,7 @@ void VodacomOnboardingAddChildLayer::onEnter()
 	inputTitleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
 	inputTitleHolder->setContentSize(inputTitle->getContentSize());
 	inputTitleHolder->addChild(inputTitle);
-	this->addChild(inputTitleHolder);
+	_verticalLayout->addChild(inputTitleHolder);
 	
 	_nameInput = TextInputLayer::createSettingsRoundedTextInput(this->getContentSize().width * 0.6f, INPUT_IS_CHILD_NAME);
 	_nameInput->setCenterPosition(_nameInput->getContentSize() / 2.0f);
@@ -89,7 +87,7 @@ void VodacomOnboardingAddChildLayer::onEnter()
 	inputLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
 	inputLayout->setContentSize(_nameInput->getContentSize());
 	inputLayout->addChild(_nameInput);
-	this->addChild(inputLayout);
+	_verticalLayout->addChild(inputLayout);
 	
 	Label* ageInputTitle = Label::createWithTTF(_("Age"), Style::Font::Regular, 64);
 	ageInputTitle->setTextColor(Color4B::BLACK);
@@ -101,26 +99,7 @@ void VodacomOnboardingAddChildLayer::onEnter()
 	ageInputTitleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
 	ageInputTitleHolder->setContentSize(ageInputTitle->getContentSize());
 	ageInputTitleHolder->addChild(ageInputTitle);
-	this->addChild(ageInputTitleHolder);
-	
-	_ageInput = TextInputLayer::createSettingsRoundedTextInput(this->getContentSize().width * 0.6f, INPUT_IS_AGE);
-	_ageInput->setCenterPosition(_ageInput->getContentSize() / 2.0f);
-	_ageInput->setDelegate(this);
-	_ageInput->setText(_flowData->getChildAge());
-	
-	Label* ageError = Label::createWithTTF(_("*Invalid age"), Style::Font::Regular, 53);
-	ageError->setTextColor(Color4B(Style::Color::watermelon));
-	ageError->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
-	ageError->setNormalizedPosition(Vec2(0.1f,-0.1));
-	ageError->setName("error");
-	ageError->setVisible(false);
-	_ageInput->addChild(ageError);
-	
-	ui::Layout* ageInputLayout = ui::Layout::create();
-	ageInputLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
-	ageInputLayout->setContentSize(_ageInput->getContentSize());
-	ageInputLayout->addChild(_ageInput);
-	this->addChild(ageInputLayout);
+	_verticalLayout->addChild(ageInputTitleHolder);
 	
 	Label* detailsLink = Label::createWithTTF(_("Why do we need this?"), Style::Font::Regular, 64);
 	detailsLink->setTextColor(Color4B(Style::Color::skyBlue));
@@ -151,7 +130,26 @@ void VodacomOnboardingAddChildLayer::onEnter()
 		}
 	});
 	detailsLinkHolder->addChild(detailsLink);
-	this->addChild(detailsLinkHolder);
+	_verticalLayout->addChild(detailsLinkHolder);
+	
+	_ageInput = TextInputLayer::createSettingsRoundedTextInput(this->getContentSize().width * 0.6f, INPUT_IS_AGE);
+	_ageInput->setCenterPosition(_ageInput->getContentSize() / 2.0f);
+	_ageInput->setDelegate(this);
+	_ageInput->setText(_flowData->getChildAge());
+	
+	Label* ageError = Label::createWithTTF(_("*Invalid age"), Style::Font::Regular, 53);
+	ageError->setTextColor(Color4B(Style::Color::watermelon));
+	ageError->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+	ageError->setNormalizedPosition(Vec2(0.1f,-0.1));
+	ageError->setName("error");
+	ageError->setVisible(false);
+	_ageInput->addChild(ageError);
+	
+	ui::Layout* ageInputLayout = ui::Layout::create();
+	ageInputLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	ageInputLayout->setContentSize(_ageInput->getContentSize());
+	ageInputLayout->addChild(_ageInput);
+	_verticalLayout->addChild(ageInputLayout);
 	
 	_confirmButton = ui::Button::create("res/vodacom/main_button.png");
 	_confirmButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
@@ -161,19 +159,19 @@ void VodacomOnboardingAddChildLayer::onEnter()
 			this->onConfirmPressed();
 		}
 	});
-	this->addChild(_confirmButton);
+	_verticalLayout->addChild(_confirmButton);
 	
 	Label* confirmText = Label::createWithTTF(_("Complete"), Style::Font::Regular, _confirmButton->getContentSize().height * 0.5f);
 	confirmText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	confirmText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	confirmText->setHorizontalAlignment(TextHAlignment::CENTER);
 	confirmText->setVerticalAlignment(TextVAlignment::CENTER);
-	confirmText->setDimensions(_confirmButton->getContentSize().width, _confirmButton->getContentSize().height);
+	confirmText->setDimensions(_confirmButton->getContentSize().width * 0.8f, _confirmButton->getContentSize().height);
 	_confirmButton->addChild(confirmText);
 	
 	ui::ImageView* progressIcon = ui::ImageView::create("res/vodacom/step_counter_4.png");
 	progressIcon->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,200,0,0)));
-	this->addChild(progressIcon);
+	_verticalLayout->addChild(progressIcon);
 	
 	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular, 64);
 	needHelp->setTextColor(Color4B(Style::Color::skyBlue));
@@ -189,7 +187,8 @@ void VodacomOnboardingAddChildLayer::onEnter()
 	contactUs->addChild(underline2);
 	
 	ui::Layout* contactUsHolder = ui::Layout::create();
-	contactUsHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	contactUsHolder->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+	contactUsHolder->setAnchorPoint(Vec2(0.5f,-1.0f));
 	contactUsHolder->setContentSize(Size(needHelp->getContentSize().width + contactUs->getContentSize().width + 20, contactUs->getContentSize().height));
 	contactUsHolder->addChild(needHelp);
 	contactUsHolder->addChild(contactUs);

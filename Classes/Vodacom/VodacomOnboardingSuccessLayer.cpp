@@ -22,8 +22,6 @@ bool VodacomOnboardingSuccessLayer::init()
 		return false;
 	}
 	
-	setLayoutType(ui::Layout::Type::VERTICAL);
-	
 	return true;
 }
 
@@ -39,7 +37,7 @@ void VodacomOnboardingSuccessLayer::onEnter()
 	titleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,200,0,0)));
 	titleHolder->setContentSize(title->getContentSize());
 	titleHolder->addChild(title);
-	this->addChild(titleHolder);
+	_verticalLayout->addChild(titleHolder);
 	
 	if(ParentDataProvider::getInstance()->isPaidUser())
 	{
@@ -54,7 +52,7 @@ void VodacomOnboardingSuccessLayer::onEnter()
 		subHeadingHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
 		subHeadingHolder->setContentSize(subHeading->getContentSize());
 		subHeadingHolder->addChild(subHeading);
-		this->addChild(subHeadingHolder);
+		_verticalLayout->addChild(subHeadingHolder);
 		
 		Label* validUntil = Label::createWithTTF(_("valid until") + " " + ParentDataProvider::getInstance()->getBillingDate() , Style::Font::Regular, 64);
 		validUntil->setTextColor(Color4B::BLACK);
@@ -66,7 +64,7 @@ void VodacomOnboardingSuccessLayer::onEnter()
 		validUntilHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 		validUntilHolder->setContentSize(validUntil->getContentSize());
 		validUntilHolder->addChild(validUntil);
-		this->addChild(validUntilHolder);
+		_verticalLayout->addChild(validUntilHolder);
 	}
 	else
 	{
@@ -81,7 +79,7 @@ void VodacomOnboardingSuccessLayer::onEnter()
 		subHeadingHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
 		subHeadingHolder->setContentSize(subHeading->getContentSize());
 		subHeadingHolder->addChild(subHeading);
-		this->addChild(subHeadingHolder);
+		_verticalLayout->addChild(subHeadingHolder);
 	}
 	
 	ui::Button* letsGoButton = ui::Button::create("res/vodacom/main_button.png");
@@ -96,7 +94,7 @@ void VodacomOnboardingSuccessLayer::onEnter()
 			}
 		}
 	});
-	this->addChild(letsGoButton);
+	_verticalLayout->addChild(letsGoButton);
 	
 	Label* letsGoLabel = Label::createWithTTF(_("Let's go"), Style::Font::Regular, letsGoButton->getContentSize().height * 0.5f);
 	letsGoLabel->setTextColor(Color4B::WHITE);
@@ -105,12 +103,12 @@ void VodacomOnboardingSuccessLayer::onEnter()
 	letsGoLabel->setHorizontalAlignment(TextHAlignment::CENTER);
 	letsGoLabel->setVerticalAlignment(TextVAlignment::CENTER);
 	letsGoLabel->setOverflow(Label::Overflow::SHRINK);
-	letsGoLabel->setDimensions(letsGoButton->getContentSize().width, letsGoButton->getContentSize().height);
+	letsGoLabel->setDimensions(letsGoButton->getContentSize().width * 0.8f, letsGoButton->getContentSize().height);
 	letsGoButton->addChild(letsGoLabel);
 	
 	ui::ImageView* oomee = ui::ImageView::create("res/vodacom/success_image.png");
 	oomee->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,200,0,0)));
-	this->addChild(oomee);
+	_verticalLayout->addChild(oomee);
 	
 	Super::onEnter();
 }

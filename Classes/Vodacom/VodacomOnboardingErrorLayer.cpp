@@ -27,8 +27,6 @@ bool VodacomOnboardingErrorLayer::init()
 		return false;
 	}
 	
-	setLayoutType(ui::Layout::Type::VERTICAL);
-	
 	return true;
 }
 
@@ -86,7 +84,7 @@ void VodacomOnboardingErrorLayer::setupForVoucherError()
 				Director::getInstance()->getRunningScene()->addChild(messageBox);
 			}
 		});
-		this->addChild(closeButton);
+		_verticalLayout->addChild(closeButton);
 	}
 	Label* title = Label::createWithTTF(_("Oops!"), Style::Font::Regular, 96);
 	title->setTextColor(Color4B::BLACK);
@@ -98,7 +96,7 @@ void VodacomOnboardingErrorLayer::setupForVoucherError()
 	titleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,((_flowData->getUserType() == UserType::FREE) ? 0 : 200),0, 0)));
 	titleHolder->setContentSize(title->getContentSize());
 	titleHolder->addChild(title);
-	this->addChild(titleHolder);
+	_verticalLayout->addChild(titleHolder);
 	
 	Label* subHeading = Label::createWithTTF(_("The voucher code you entered earlier isn’t valid. Please re-enter it."), Style::Font::Regular, 64);
 	subHeading->setTextColor(Color4B::BLACK);
@@ -111,7 +109,7 @@ void VodacomOnboardingErrorLayer::setupForVoucherError()
 	subHeadingHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
 	subHeadingHolder->setContentSize(subHeading->getContentSize());
 	subHeadingHolder->addChild(subHeading);
-	this->addChild(subHeadingHolder);
+	_verticalLayout->addChild(subHeadingHolder);
 	
 	Label* inputTitle = Label::createWithTTF(_("Voucher code"), Style::Font::Regular, 64);
 	inputTitle->setTextColor(Color4B::BLACK);
@@ -123,7 +121,7 @@ void VodacomOnboardingErrorLayer::setupForVoucherError()
 	inputTitleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
 	inputTitleHolder->setContentSize(inputTitle->getContentSize());
 	inputTitleHolder->addChild(inputTitle);
-	this->addChild(inputTitleHolder);
+	_verticalLayout->addChild(inputTitleHolder);
 	
 	_voucherInput = TextInputLayer::createSettingsRoundedTextInput(this->getContentSize().width * 0.6f, INPUT_IS_VOUCHER);
 	_voucherInput->setCenterPosition(_voucherInput->getContentSize() / 2.0f);
@@ -141,7 +139,7 @@ void VodacomOnboardingErrorLayer::setupForVoucherError()
 	inputLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
 	inputLayout->setContentSize(_voucherInput->getContentSize());
 	inputLayout->addChild(_voucherInput);
-	this->addChild(inputLayout);
+	_verticalLayout->addChild(inputLayout);
 	
 	_confirmButton = ui::Button::create("res/vodacom/main_button.png");
 	_confirmButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
@@ -164,42 +162,15 @@ void VodacomOnboardingErrorLayer::setupForVoucherError()
 			}
 		}
 	});
-	this->addChild(_confirmButton);
+	_verticalLayout->addChild(_confirmButton);
 	
 	Label* confirmText = Label::createWithTTF(_("Confirm"), Style::Font::Regular, _confirmButton->getContentSize().height * 0.5f);
 	confirmText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	confirmText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	confirmText->setHorizontalAlignment(TextHAlignment::CENTER);
 	confirmText->setVerticalAlignment(TextVAlignment::CENTER);
-	confirmText->setDimensions(_confirmButton->getContentSize().width, _confirmButton->getContentSize().height);
+	confirmText->setDimensions(_confirmButton->getContentSize().width * 0.8f, _confirmButton->getContentSize().height);
 	_confirmButton->addChild(confirmText);
-	
-	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular, 64);
-	needHelp->setTextColor(Color4B(Style::Color::skyBlue));
-	needHelp->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
-	needHelp->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
-	Label* contactUs = Label::createWithTTF(_("Contact us"), Style::Font::Regular, 64);
-	contactUs->setTextColor(Color4B(Style::Color::skyBlue));
-	contactUs->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
-	contactUs->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
-		
-	DrawNode* underline = DrawNode::create();
-	underline->drawRect(Vec2(0, -7), Vec2(contactUs->getContentSize().width, -6), Color4F(Style::Color::skyBlue));
-	contactUs->addChild(underline);
-		
-	ui::Layout* contactUsHolder = ui::Layout::create();
-	contactUsHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
-	contactUsHolder->setContentSize(Size(needHelp->getContentSize().width + contactUs->getContentSize().width + 20, contactUs->getContentSize().height));
-	contactUsHolder->addChild(needHelp);
-	contactUsHolder->addChild(contactUs);
-	contactUsHolder->setTouchEnabled(true);
-	contactUsHolder->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
-		if(eType == ui::Widget::TouchEventType::ENDED)
-		{
-			openDeeplink("mailto:help@azoomee.com");
-		}
-	});
-	this->addChild(contactUsHolder);
 	
 	if(_flowData->getUserType() == UserType::REGISTERED)
 	{
@@ -229,8 +200,37 @@ void VodacomOnboardingErrorLayer::setupForVoucherError()
 			}
 		});
 		skipHolder->addChild(skip);
-		this->addChild(skipHolder);
+		_verticalLayout->addChild(skipHolder);
 	}
+	
+	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular, 64);
+	needHelp->setTextColor(Color4B(Style::Color::skyBlue));
+	needHelp->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
+	needHelp->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+	Label* contactUs = Label::createWithTTF(_("Contact us"), Style::Font::Regular, 64);
+	contactUs->setTextColor(Color4B(Style::Color::skyBlue));
+	contactUs->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
+	contactUs->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
+		
+	DrawNode* underline = DrawNode::create();
+	underline->drawRect(Vec2(0, -7), Vec2(contactUs->getContentSize().width, -6), Color4F(Style::Color::skyBlue));
+	contactUs->addChild(underline);
+		
+	ui::Layout* contactUsHolder = ui::Layout::create();
+	contactUsHolder->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+	contactUsHolder->setAnchorPoint(Vec2(0.5f,-1.0f));
+	contactUsHolder->setContentSize(Size(needHelp->getContentSize().width + contactUs->getContentSize().width + 20, contactUs->getContentSize().height));
+	contactUsHolder->addChild(needHelp);
+	contactUsHolder->addChild(contactUs);
+	contactUsHolder->setTouchEnabled(true);
+	contactUsHolder->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
+		if(eType == ui::Widget::TouchEventType::ENDED)
+		{
+			Application::getInstance()->openURL("mailto:help@azoomee.com");
+		}
+	});
+	this->addChild(contactUsHolder);
+	
 	_voucherInput->focusAndShowKeyboard();
 }
 
@@ -264,7 +264,7 @@ void VodacomOnboardingErrorLayer::setupForLoginError()
 	
 	ui::Layout* buttonHolder = ui::Layout::create();
 	buttonHolder->setContentSize(Size(this->getContentSize().width, closeButton->getContentSize().height));
-	this->addChild(buttonHolder);
+	_verticalLayout->addChild(buttonHolder);
 	
 	buttonHolder->addChild(closeButton);
 	buttonHolder->addChild(backButton);
@@ -279,7 +279,7 @@ void VodacomOnboardingErrorLayer::setupForLoginError()
 	titleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	titleHolder->setContentSize(title->getContentSize());
 	titleHolder->addChild(title);
-	this->addChild(titleHolder);
+	_verticalLayout->addChild(titleHolder);
 	
 	Label* subHeading = Label::createWithTTF(_("There was a problem with your email or password."), Style::Font::Regular, 64);
 	subHeading->setTextColor(Color4B::BLACK);
@@ -292,7 +292,7 @@ void VodacomOnboardingErrorLayer::setupForLoginError()
 	subHeadingHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
 	subHeadingHolder->setContentSize(subHeading->getContentSize());
 	subHeadingHolder->addChild(subHeading);
-	this->addChild(subHeadingHolder);
+	_verticalLayout->addChild(subHeadingHolder);
 	
 	ui::Button* tryAgainButton = ui::Button::create("res/vodacom/main_button.png");
 	tryAgainButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
@@ -312,7 +312,7 @@ void VodacomOnboardingErrorLayer::setupForLoginError()
 	tryAgainText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	tryAgainText->setHorizontalAlignment(TextHAlignment::CENTER);
 	tryAgainText->setVerticalAlignment(TextVAlignment::CENTER);
-	tryAgainText->setDimensions(tryAgainButton->getContentSize().width, tryAgainButton->getContentSize().height);
+	tryAgainText->setDimensions(tryAgainButton->getContentSize().width * 0.8f, tryAgainButton->getContentSize().height);
 	tryAgainButton->addChild(tryAgainText);
 	
 	ui::Button* resetButton = ui::Button::create("res/vodacom/main_button.png");
@@ -325,14 +325,14 @@ void VodacomOnboardingErrorLayer::setupForLoginError()
 			request->execute();
 		}
 	});
-	this->addChild(resetButton);
+	_verticalLayout->addChild(resetButton);
 	
 	Label* resetText = Label::createWithTTF(_("Reset password"), Style::Font::Regular, resetButton->getContentSize().height * 0.5f);
 	resetText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	resetText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	resetText->setHorizontalAlignment(TextHAlignment::CENTER);
 	resetText->setVerticalAlignment(TextVAlignment::CENTER);
-	resetText->setDimensions(resetButton->getContentSize().width, resetButton->getContentSize().height);
+	resetText->setDimensions(resetButton->getContentSize().width * 0.8f, resetButton->getContentSize().height);
 	resetButton->addChild(resetText);
 	
 	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular, 64);
@@ -349,7 +349,8 @@ void VodacomOnboardingErrorLayer::setupForLoginError()
 	contactUs->addChild(underline);
 	
 	ui::Layout* contactUsHolder = ui::Layout::create();
-	contactUsHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	contactUsHolder->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+	contactUsHolder->setAnchorPoint(Vec2(0.5f,-1.0f));
 	contactUsHolder->setContentSize(Size(needHelp->getContentSize().width + contactUs->getContentSize().width + 20, contactUs->getContentSize().height));
 	contactUsHolder->addChild(needHelp);
 	contactUsHolder->addChild(contactUs);
@@ -393,7 +394,7 @@ void VodacomOnboardingErrorLayer::setupForPasswordReset()
 	
 	ui::Layout* buttonHolder = ui::Layout::create();
 	buttonHolder->setContentSize(Size(this->getContentSize().width, closeButton->getContentSize().height));
-	this->addChild(buttonHolder);
+	_verticalLayout->addChild(buttonHolder);
 	
 	buttonHolder->addChild(closeButton);
 	buttonHolder->addChild(backButton);
@@ -408,7 +409,7 @@ void VodacomOnboardingErrorLayer::setupForPasswordReset()
 	titleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	titleHolder->setContentSize(title->getContentSize());
 	titleHolder->addChild(title);
-	this->addChild(titleHolder);
+	_verticalLayout->addChild(titleHolder);
 	
 	Label* subHeading = Label::createWithTTF(_("Instructions for resetting your password have been sent to:"), Style::Font::Regular, 64);
 	subHeading->setTextColor(Color4B::BLACK);
@@ -421,7 +422,7 @@ void VodacomOnboardingErrorLayer::setupForPasswordReset()
 	subHeadingHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
 	subHeadingHolder->setContentSize(subHeading->getContentSize());
 	subHeadingHolder->addChild(subHeading);
-	this->addChild(subHeadingHolder);
+	_verticalLayout->addChild(subHeadingHolder);
 	
 	Label* email = Label::createWithTTF(_flowData->getEmail(), Style::Font::Regular, 64);
 	email->setTextColor(Color4B(Style::Color::skyBlue));
@@ -433,7 +434,7 @@ void VodacomOnboardingErrorLayer::setupForPasswordReset()
 	emailHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
 	emailHolder->setContentSize(email->getContentSize());
 	emailHolder->addChild(email);
-	this->addChild(emailHolder);
+	_verticalLayout->addChild(emailHolder);
 	
 	ui::Button* okButton = ui::Button::create("res/vodacom/main_button.png");
 	okButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
@@ -446,14 +447,14 @@ void VodacomOnboardingErrorLayer::setupForPasswordReset()
 			}
 		}
 	});
-	this->addChild(okButton);
+	_verticalLayout->addChild(okButton);
 	
 	Label* okText = Label::createWithTTF(_("OK"), Style::Font::Regular, okButton->getContentSize().height * 0.5f);
 	okText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	okText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	okText->setHorizontalAlignment(TextHAlignment::CENTER);
 	okText->setVerticalAlignment(TextVAlignment::CENTER);
-	okText->setDimensions(okButton->getContentSize().width, okButton->getContentSize().height);
+	okText->setDimensions(okButton->getContentSize().width * 0.8f, okButton->getContentSize().height);
 	okButton->addChild(okText);
 	
 	Label* notRecieved = Label::createWithTTF(_("Didin't recieve an email?"), Style::Font::Regular, 64);
@@ -483,7 +484,7 @@ void VodacomOnboardingErrorLayer::setupForPasswordReset()
 	});
 	sendAgainHolder->addChild(notRecieved);
 	sendAgainHolder->addChild(sendAgain);
-	this->addChild(sendAgainHolder);
+	_verticalLayout->addChild(sendAgainHolder);
 	
 	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular, 64);
 	needHelp->setTextColor(Color4B(Style::Color::skyBlue));
@@ -499,7 +500,8 @@ void VodacomOnboardingErrorLayer::setupForPasswordReset()
 	contactUs->addChild(underline2);
 	
 	ui::Layout* contactUsHolder = ui::Layout::create();
-	contactUsHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	contactUsHolder->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+	contactUsHolder->setAnchorPoint(Vec2(0.5f,-1.0f));
 	contactUsHolder->setContentSize(Size(needHelp->getContentSize().width + contactUs->getContentSize().width + 20, contactUs->getContentSize().height));
 	contactUsHolder->addChild(needHelp);
 	contactUsHolder->addChild(contactUs);
@@ -543,7 +545,7 @@ void VodacomOnboardingErrorLayer::setupForAlreadyRegistered()
 	
 	ui::Layout* buttonHolder = ui::Layout::create();
 	buttonHolder->setContentSize(Size(this->getContentSize().width, closeButton->getContentSize().height));
-	this->addChild(buttonHolder);
+	_verticalLayout->addChild(buttonHolder);
 	
 	buttonHolder->addChild(closeButton);
 	buttonHolder->addChild(backButton);
@@ -558,7 +560,7 @@ void VodacomOnboardingErrorLayer::setupForAlreadyRegistered()
 	titleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	titleHolder->setContentSize(title->getContentSize());
 	titleHolder->addChild(title);
-	this->addChild(titleHolder);
+	_verticalLayout->addChild(titleHolder);
 	
 	Label* subHeading = Label::createWithTTF(_("This email address has already been registered. Please create a new account with a new email address or log in using this email address."), Style::Font::Regular, 64);
 	subHeading->setTextColor(Color4B::BLACK);
@@ -571,7 +573,7 @@ void VodacomOnboardingErrorLayer::setupForAlreadyRegistered()
 	subHeadingHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
 	subHeadingHolder->setContentSize(subHeading->getContentSize());
 	subHeadingHolder->addChild(subHeading);
-	this->addChild(subHeadingHolder);
+	_verticalLayout->addChild(subHeadingHolder);
 	
 	ui::Button* okButton = ui::Button::create("res/vodacom/main_button.png");
 	okButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
@@ -584,14 +586,14 @@ void VodacomOnboardingErrorLayer::setupForAlreadyRegistered()
 			}
 		}
 	});
-	this->addChild(okButton);
+	_verticalLayout->addChild(okButton);
 	
 	Label* okText = Label::createWithTTF(_("Create new account"), Style::Font::Regular, okButton->getContentSize().height * 0.5f);
 	okText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	okText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	okText->setHorizontalAlignment(TextHAlignment::CENTER);
 	okText->setVerticalAlignment(TextVAlignment::CENTER);
-	okText->setDimensions(okButton->getContentSize().width, okButton->getContentSize().height);
+	okText->setDimensions(okButton->getContentSize().width * 0.8f, okButton->getContentSize().height);
 	okButton->addChild(okText);
 	
 	ui::Button* loginButton = ui::Button::create("res/vodacom/main_button.png");
@@ -606,14 +608,14 @@ void VodacomOnboardingErrorLayer::setupForAlreadyRegistered()
 			}
 		}
 	});
-	this->addChild(loginButton);
+	_verticalLayout->addChild(loginButton);
 	
 	Label* loginText = Label::createWithTTF(_("Log in"), Style::Font::Regular, loginButton->getContentSize().height * 0.5f);
 	loginText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	loginText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	loginText->setHorizontalAlignment(TextHAlignment::CENTER);
 	loginText->setVerticalAlignment(TextVAlignment::CENTER);
-	loginText->setDimensions(loginButton->getContentSize().width, loginButton->getContentSize().height);
+	loginText->setDimensions(loginButton->getContentSize().width * 0.8f, loginButton->getContentSize().height);
 	loginButton->addChild(loginText);
 	
 	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular, 64);
@@ -630,7 +632,8 @@ void VodacomOnboardingErrorLayer::setupForAlreadyRegistered()
 	contactUs->addChild(underline);
 	
 	ui::Layout* contactUsHolder = ui::Layout::create();
-	contactUsHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	contactUsHolder->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+	contactUsHolder->setAnchorPoint(Vec2(0.5f,-1.0f));
 	contactUsHolder->setContentSize(Size(needHelp->getContentSize().width + contactUs->getContentSize().width + 20, contactUs->getContentSize().height));
 	contactUsHolder->addChild(needHelp);
 	contactUsHolder->addChild(contactUs);
@@ -674,7 +677,7 @@ void VodacomOnboardingErrorLayer::setupForAlreadyPremium()
 	
 	ui::Layout* buttonHolder = ui::Layout::create();
 	buttonHolder->setContentSize(Size(this->getContentSize().width, closeButton->getContentSize().height));
-	this->addChild(buttonHolder);
+	_verticalLayout->addChild(buttonHolder);
 	
 	buttonHolder->addChild(closeButton);
 	buttonHolder->addChild(backButton);
@@ -689,7 +692,7 @@ void VodacomOnboardingErrorLayer::setupForAlreadyPremium()
 	titleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	titleHolder->setContentSize(title->getContentSize());
 	titleHolder->addChild(title);
-	this->addChild(titleHolder);
+	_verticalLayout->addChild(titleHolder);
 	
 	Label* subHeading = Label::createWithTTF(_("This account is already Premium, you can't add another voucher at this time."), Style::Font::Regular, 64);
 	subHeading->setTextColor(Color4B::BLACK);
@@ -702,7 +705,7 @@ void VodacomOnboardingErrorLayer::setupForAlreadyPremium()
 	subHeadingHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
 	subHeadingHolder->setContentSize(subHeading->getContentSize());
 	subHeadingHolder->addChild(subHeading);
-	this->addChild(subHeadingHolder);
+	_verticalLayout->addChild(subHeadingHolder);
 	
 	ui::Button* okButton = ui::Button::create("res/vodacom/main_button.png");
 	okButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
@@ -715,14 +718,14 @@ void VodacomOnboardingErrorLayer::setupForAlreadyPremium()
 			}
 		}
 	});
-	this->addChild(okButton);
+	_verticalLayout->addChild(okButton);
 	
 	Label* okText = Label::createWithTTF(_("OK"), Style::Font::Regular, okButton->getContentSize().height * 0.5f);
 	okText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	okText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	okText->setHorizontalAlignment(TextHAlignment::CENTER);
 	okText->setVerticalAlignment(TextVAlignment::CENTER);
-	okText->setDimensions(okButton->getContentSize().width, okButton->getContentSize().height);
+	okText->setDimensions(okButton->getContentSize().width * 0.8f, okButton->getContentSize().height);
 	okButton->addChild(okText);
 	
 	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular, 64);
@@ -739,7 +742,8 @@ void VodacomOnboardingErrorLayer::setupForAlreadyPremium()
 	contactUs->addChild(underline);
 	
 	ui::Layout* contactUsHolder = ui::Layout::create();
-	contactUsHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	contactUsHolder->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+	contactUsHolder->setAnchorPoint(Vec2(0.5f,-1.0f));
 	contactUsHolder->setContentSize(Size(needHelp->getContentSize().width + contactUs->getContentSize().width + 20, contactUs->getContentSize().height));
 	contactUsHolder->addChild(needHelp);
 	contactUsHolder->addChild(contactUs);

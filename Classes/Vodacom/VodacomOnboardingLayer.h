@@ -30,6 +30,8 @@ protected:
 	VodacomOnboardingFlowDataRef _flowData = nullptr;
 	VodacomOnboardingLayerDelegate* _delegate = nullptr;
 	
+	cocos2d::ui::Layout* _verticalLayout = nullptr;
+	
 public:
 	
 	bool init() override;

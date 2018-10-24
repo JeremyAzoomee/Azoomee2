@@ -7,7 +7,7 @@
 		<key>ArtApp.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>4</integer>
+			<integer>3</integer>
 		</dict>
 		<key>Azoomee2_ArtApp.xcscheme</key>
 		<dict>
@@ -17,7 +17,7 @@
 		<key>azoomee2_ArtApp-desktop.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>9</integer>
+			<integer>8</integer>
 		</dict>
 		<key>azoomee2_ArtApp-mobile.xcscheme</key>
 		<dict>

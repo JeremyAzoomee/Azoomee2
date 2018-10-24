@@ -21,8 +21,6 @@ bool VodacomOnboardingDetailsLayer::init()
 		return false;
 	}
 	
-	setLayoutType(ui::Layout::Type::VERTICAL);
-	
 	return true;
 }
 
@@ -40,11 +38,11 @@ void VodacomOnboardingDetailsLayer::onEnter()
 			}
 		}
 	});
-	this->addChild(_closeButton);
+	_verticalLayout->addChild(_closeButton);
 	
 	_image = ui::ImageView::create("res/vodacom/content_img.png");
 	_image->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
-	this->addChild(_image);
+	_verticalLayout->addChild(_image);
 	
 	Label* title = Label::createWithTTF(_("Unlock everything"), Style::Font::Regular, 96);
 	title->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -56,7 +54,7 @@ void VodacomOnboardingDetailsLayer::onEnter()
 	ui::Layout* titleHolder = ui::Layout::create();
 	titleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	titleHolder->setContentSize(title->getContentSize());
-	this->addChild(titleHolder);
+	_verticalLayout->addChild(titleHolder);
 	titleHolder->addChild(title);
 	
 	const std::vector<std::string> bulletPoints = {_("Hundreds of games and videos"),_("No in-app purchases or ads"),_("Personalise your profile"),_("Chat safely with friends and family")};
@@ -76,9 +74,9 @@ void VodacomOnboardingDetailsLayer::onEnter()
 		bullet->addChild(tick);
 		
 		ui::Layout* holder = ui::Layout::create();
-		holder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+		holder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(tick->getContentSize().width,100,0,0)));
 		holder->setContentSize(bullet->getContentSize());
-		this->addChild(holder);
+		_verticalLayout->addChild(holder);
 		holder->addChild(bullet);
 	}
 	
@@ -93,14 +91,14 @@ void VodacomOnboardingDetailsLayer::onEnter()
 			}
 		}
 	});
-	this->addChild(_addVoucherButton);
+	_verticalLayout->addChild(_addVoucherButton);
 	
 	Label* addVoucherText = Label::createWithTTF(_("Add voucher"), Style::Font::Regular, _addVoucherButton->getContentSize().height * 0.5f);
 	addVoucherText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	addVoucherText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	addVoucherText->setHorizontalAlignment(TextHAlignment::CENTER);
 	addVoucherText->setVerticalAlignment(TextVAlignment::CENTER);
-	addVoucherText->setDimensions(_addVoucherButton->getContentSize().width, _addVoucherButton->getContentSize().height);
+	addVoucherText->setDimensions(_addVoucherButton->getContentSize().width * 0.8f, _addVoucherButton->getContentSize().height);
 	_addVoucherButton->addChild(addVoucherText);
 	
 	Label* voucherLearnMore = Label::createWithTTF(_("Don’t have a voucher?"), Style::Font::Regular, 64);
@@ -121,7 +119,7 @@ void VodacomOnboardingDetailsLayer::onEnter()
 	learnMoreHolder->setContentSize(Size(voucherLearnMore->getContentSize().width + learnMore->getContentSize().width + 20, learnMore->getContentSize().height));
 	learnMoreHolder->addChild(voucherLearnMore);
 	learnMoreHolder->addChild(learnMore);
-	this->addChild(learnMoreHolder);
+	_verticalLayout->addChild(learnMoreHolder);
 	
 	Super::onEnter();
 }

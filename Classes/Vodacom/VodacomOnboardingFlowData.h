@@ -32,6 +32,8 @@ private:
 	std::string _childName;
 	std::string _childAge;
 	
+	bool _voucherFailed = false;
+	
 	UserType _userType = UserType::ANON;
 	ErrorType _errorType = ErrorType::NONE;
 	
@@ -60,6 +62,9 @@ public:
 	
 	void setChildAge(const std::string& childAge);
 	std::string getChildAge() const;
+	
+	void setVoucherFailed(bool failed);
+	bool getVoucherFailed() const;
 	
 	void setUserType(const UserType& userType);
 	UserType getUserType() const;

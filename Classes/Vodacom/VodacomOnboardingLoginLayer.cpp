@@ -28,8 +28,6 @@ bool VodacomOnboardingLoginLayer::init()
 		return false;
 	}
 	
-	setLayoutType(ui::Layout::Type::VERTICAL);
-	
 	return true;
 }
 
@@ -65,7 +63,7 @@ void VodacomOnboardingLoginLayer::onEnter()
 	
 	ui::Layout* buttonHolder = ui::Layout::create();
 	buttonHolder->setContentSize(Size(this->getContentSize().width, _closeButton->getContentSize().height));
-	this->addChild(buttonHolder);
+	_verticalLayout->addChild(buttonHolder);
 	
 	buttonHolder->addChild(_closeButton);
 	buttonHolder->addChild(_backButton);
@@ -80,7 +78,7 @@ void VodacomOnboardingLoginLayer::onEnter()
 	titleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	titleHolder->setContentSize(title->getContentSize());
 	titleHolder->addChild(title);
-	this->addChild(titleHolder);
+	_verticalLayout->addChild(titleHolder);
 	
 	Label* inputTitle = Label::createWithTTF(_("Email address"), Style::Font::Regular, 64);
 	inputTitle->setTextColor(Color4B::BLACK);
@@ -92,7 +90,7 @@ void VodacomOnboardingLoginLayer::onEnter()
 	inputTitleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
 	inputTitleHolder->setContentSize(inputTitle->getContentSize());
 	inputTitleHolder->addChild(inputTitle);
-	this->addChild(inputTitleHolder);
+	_verticalLayout->addChild(inputTitleHolder);
 	
 	_emailInput = TextInputLayer::createSettingsRoundedTextInput(this->getContentSize().width * 0.6f, INPUT_IS_EMAIL);
 	_emailInput->setCenterPosition(_emailInput->getContentSize() / 2.0f);
@@ -111,7 +109,7 @@ void VodacomOnboardingLoginLayer::onEnter()
 	inputLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
 	inputLayout->setContentSize(_emailInput->getContentSize());
 	inputLayout->addChild(_emailInput);
-	this->addChild(inputLayout);
+	_verticalLayout->addChild(inputLayout);
 	
 	Label* pwInputTitle = Label::createWithTTF(_("Password"), Style::Font::Regular, 64);
 	pwInputTitle->setTextColor(Color4B::BLACK);
@@ -123,7 +121,7 @@ void VodacomOnboardingLoginLayer::onEnter()
 	pwInputTitleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
 	pwInputTitleHolder->setContentSize(pwInputTitle->getContentSize());
 	pwInputTitleHolder->addChild(pwInputTitle);
-	this->addChild(pwInputTitleHolder);
+	_verticalLayout->addChild(pwInputTitleHolder);
 	
 	_passwordInput = TextInputLayer::createSettingsRoundedTextInput(this->getContentSize().width * 0.6f, INPUT_IS_PASSWORD);
 	_passwordInput->setCenterPosition(_passwordInput->getContentSize() / 2.0f);
@@ -142,7 +140,7 @@ void VodacomOnboardingLoginLayer::onEnter()
 	pwInputLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
 	pwInputLayout->setContentSize(_passwordInput->getContentSize());
 	pwInputLayout->addChild(_passwordInput);
-	this->addChild(pwInputLayout);
+	_verticalLayout->addChild(pwInputLayout);
 	
 	_confirmButton = ui::Button::create("res/vodacom/main_button.png");
 	_confirmButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
@@ -152,14 +150,14 @@ void VodacomOnboardingLoginLayer::onEnter()
 			this->onConfirmPressed();
 		}
 	});
-	this->addChild(_confirmButton);
+	_verticalLayout->addChild(_confirmButton);
 	
 	Label* confirmText = Label::createWithTTF(_("Confirm"), Style::Font::Regular, _confirmButton->getContentSize().height * 0.5f);
 	confirmText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	confirmText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	confirmText->setHorizontalAlignment(TextHAlignment::CENTER);
 	confirmText->setVerticalAlignment(TextVAlignment::CENTER);
-	confirmText->setDimensions(_confirmButton->getContentSize().width, _confirmButton->getContentSize().height);
+	confirmText->setDimensions(_confirmButton->getContentSize().width * 0.8f, _confirmButton->getContentSize().height);
 	_confirmButton->addChild(confirmText);
 	
 	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular, 64);
@@ -176,7 +174,8 @@ void VodacomOnboardingLoginLayer::onEnter()
 	contactUs->addChild(underline);
 	
 	ui::Layout* contactUsHolder = ui::Layout::create();
-	contactUsHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	contactUsHolder->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+	contactUsHolder->setAnchorPoint(Vec2(0.5f,-1.0f));
 	contactUsHolder->setContentSize(Size(needHelp->getContentSize().width + contactUs->getContentSize().width + 20, contactUs->getContentSize().height));
 	contactUsHolder->addChild(needHelp);
 	contactUsHolder->addChild(contactUs);
