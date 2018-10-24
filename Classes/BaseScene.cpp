@@ -38,7 +38,9 @@ void BaseScene::onEnterTransitionDidFinish()
 {
     this->setName("baseLayer");
     
-    IAPProductDataHandler::getInstance()->fetchProductData();
+#ifndef VODACOM_BUILD
+	IAPProductDataHandler::getInstance()->fetchProductData();
+#endif
     
     Director::getInstance()->purgeCachedData();
     

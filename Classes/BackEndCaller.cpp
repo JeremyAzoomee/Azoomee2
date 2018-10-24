@@ -127,7 +127,9 @@ void BackEndCaller::login(const std::string& username, const std::string& passwo
 
 void BackEndCaller::onLoginAnswerReceived(const std::string& responseString, const std::string& headerString)
 {
-    //IAPProductDataHandler::getInstance()->fetchProductData();
+#ifndef VODACOM_BUILD
+	IAPProductDataHandler::getInstance()->fetchProductData();
+#endif
     
     cocos2d::log("Response string is: %s", responseString.c_str());
     if(ParentDataParser::getInstance()->parseParentLoginData(responseString))
@@ -173,7 +175,9 @@ void BackEndCaller::anonymousDeviceLogin()
 
 void BackEndCaller::onAnonymousDeviceLoginAnswerReceived(const std::string &responseString, const std::string& headerString)
 {
-    IAPProductDataHandler::getInstance()->fetchProductData();
+#ifndef VODACOM_BUILD
+	IAPProductDataHandler::getInstance()->fetchProductData();
+#endif
     
     cocos2d::log("Response string is: %s", responseString.c_str());
     if(ParentDataParser::getInstance()->parseParentLoginDataFromAnonymousDeviceLogin(responseString))
@@ -379,7 +383,9 @@ void BackEndCaller::registerParent(const std::string& emailAddress, const std::s
 
 void BackEndCaller::onRegisterParentAnswerReceived()
 {
-    IAPProductDataHandler::getInstance()->fetchProductData();
+#ifndef VODACOM_BUILD
+	IAPProductDataHandler::getInstance()->fetchProductData();
+#endif
     ConfigStorage::getInstance()->setFirstSlideShowSeen();
     AnalyticsSingleton::getInstance()->OnboardingAccountCreatedEvent();
     FlowDataSingleton::getInstance()->setSuccessFailPath(SIGNUP_SUCCESS);
