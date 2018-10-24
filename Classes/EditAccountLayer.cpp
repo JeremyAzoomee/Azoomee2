@@ -268,7 +268,7 @@ void EditAccountLayer::onEnter()
         _accountTypeLayout->addChild(subDeetsLab);
         
         const std::string& billingProvider = ParentDataProvider::getInstance()->getBillingProvider();
-        if(billingProvider == "APPLE" || billingProvider == "GOOGLE" || billingProvider == "AMAZON")
+        if(billingProvider == ConfigStorage::kBillingProviderApple || billingProvider == ConfigStorage::kBillingProviderGoogle || billingProvider == ConfigStorage::kBillingProviderAmazon)
         {
 			subDeetsLab->setNormalizedPosition(Vec2(0.5f,0.66f));
 			ui::Button* manageButton = ui::Button::create("res/settings/sub_button.png");
@@ -278,9 +278,9 @@ void EditAccountLayer::onEnter()
 				if(eType == ui::Widget::TouchEventType::ENDED)
 				{
 				#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-					openDeeplink("https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/DirectAction/manageSubscriptions");
+					Application::getInstance()->openURL(ConfigStorage::kIOSSubURL);
 				#else
-					openDeeplink("https://play.google.com/store/account/subscriptions");
+					Application::getInstance()->openURL(ConfigStorage::kAndroidSubURL);
 				#endif
 				}
 			});
@@ -375,7 +375,7 @@ void EditAccountLayer::onHttpRequestFailed(const std::string& requestTag, long e
 	{
 		SettingsMessageBoxTryAgain* messageBox = SettingsMessageBoxTryAgain::create();
 		messageBox->setHeading(_("Oops!"));
-		messageBox->setSubHeading(_("The current password you entered doesnt seem to match up with what we’ve got"));
+		messageBox->setSubHeading(_("The current password you entered doesn't seem to match up with what we’ve got"));
 		messageBox->setDelegate(this);
 		Director::getInstance()->getRunningScene()->addChild(messageBox,100);
 	}

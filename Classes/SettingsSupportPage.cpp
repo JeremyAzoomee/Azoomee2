@@ -88,7 +88,7 @@ void SettingsSupportPage::onEnter()
 	supportLinkHolder->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			openDeeplink("http://support.azoomee.com");
+			Application::getInstance()->openURL("http://support.azoomee.com");
 		}
 	});
 	_supportBox->addChild(supportLinkHolder);
@@ -136,7 +136,7 @@ void SettingsSupportPage::onEnter()
 	contactLinkHolder->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			openDeeplink("mailto:help@azoomee.com");
+			Application::getInstance()->openURL("mailto:help@azoomee.com");
 		}
 	});
 	contactLinkHolder->addChild(contactLink);

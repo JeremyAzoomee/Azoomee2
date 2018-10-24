@@ -173,33 +173,11 @@ void FriendRequestLayer::setChildDetails(const std::string& senderName, const st
 void FriendRequestLayer::changeToState(Azoomee::InviteState state)
 {
     _state = state;
-    
-    switch (_state) {
-        case InviteState::PENDING:
-        {
-            _confirmedBanner->setVisible(false);
-            _rejectedBanner->setVisible(false);
-            _rejectButton->setVisible(true);
-            _confirmButton->setVisible(true);
-            break;
-        }
-        case InviteState::CONFIRMED:
-        {
-            _confirmedBanner->setVisible(true);
-            _rejectedBanner->setVisible(false);
-            _rejectButton->setVisible(false);
-            _confirmButton->setVisible(false);
-            break;
-        }
-        case InviteState::REJECTED:
-        {
-            _confirmedBanner->setVisible(false);
-            _rejectedBanner->setVisible(true);
-            _rejectButton->setVisible(false);
-            _confirmButton->setVisible(false);
-            break;
-        }
-    }
+	
+	_confirmedBanner->setVisible(_state == InviteState::CONFIRMED);
+	_rejectedBanner->setVisible(_state == InviteState::REJECTED);
+	_rejectButton->setVisible(_state == InviteState::PENDING);
+	_confirmButton->setVisible(_state == InviteState::PENDING);
 }
 
 // Delegate Functions

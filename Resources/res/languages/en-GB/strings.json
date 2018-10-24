@@ -225,7 +225,7 @@
 	"Renew subscription":"Renew subscription",
 	"Your pin number has been updated!":"Your pin number has been updated!",
 	"Your password has been updated!":"Your password has been updated!",
-	"The current password you entered doesnt seem to match up with what we’ve got":"The current password you entered doesnt seem to match up with what we’ve got",
+	"The current password you entered doesn't seem to match up with what we’ve got":"The current password you entered doesn't seem to match up with what we’ve got",
 	"wants to be friends with":"wants to be friends with",
 	"Reject":"Reject",
 	"Confirm":"Confirm",
@@ -335,4 +335,5 @@
 	"Valid voucher\nExpires on %s":"Valid voucher\nExpires on %s",
 	"Create new account":"Create new account",
 	"Add new voucher":"Add new voucher"
+	"You can't do that right now, this child is currently logged in.":"You can't do that right now, this child is currently logged in."
 }

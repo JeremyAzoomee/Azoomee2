@@ -235,7 +235,7 @@ void KidDetailsLayer::onEnter()
 			if(ChildDataProvider::getInstance()->getIsChildLoggedIn() && ChildDataProvider::getInstance()->getLoggedInChildId() == targetChildId)
 			{
 				SettingsMessageBoxNotification* messageBox = SettingsMessageBoxNotification::create();
-				messageBox->setHeading(_("You Cant do that right now, this child is currently logged in."));
+				messageBox->setHeading(_("You can't do that right now, this child is currently logged in."));
 				messageBox->setDelegate(this);
 				Director::getInstance()->getRunningScene()->addChild(messageBox,100);
 			}
