@@ -218,7 +218,7 @@ void VodacomOnboardingErrorLayer::setupForVoucherError()
 		
 	ui::Layout* contactUsHolder = ui::Layout::create();
 	contactUsHolder->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-	contactUsHolder->setAnchorPoint(Vec2(0.5f,-1.0f));
+	contactUsHolder->setAnchorPoint(Vec2(0.5f,-1.5f));
 	contactUsHolder->setContentSize(Size(needHelp->getContentSize().width + contactUs->getContentSize().width + 20, contactUs->getContentSize().height));
 	contactUsHolder->addChild(needHelp);
 	contactUsHolder->addChild(contactUs);
@@ -305,7 +305,7 @@ void VodacomOnboardingErrorLayer::setupForLoginError()
 			}
 		}
 	});
-	this->addChild(tryAgainButton);
+	_verticalLayout->addChild(tryAgainButton);
 	
 	Label* tryAgainText = Label::createWithTTF(_("Try again"), Style::Font::Regular, tryAgainButton->getContentSize().height * 0.5f);
 	tryAgainText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -350,7 +350,7 @@ void VodacomOnboardingErrorLayer::setupForLoginError()
 	
 	ui::Layout* contactUsHolder = ui::Layout::create();
 	contactUsHolder->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-	contactUsHolder->setAnchorPoint(Vec2(0.5f,-1.0f));
+	contactUsHolder->setAnchorPoint(Vec2(0.5f,-1.5f));
 	contactUsHolder->setContentSize(Size(needHelp->getContentSize().width + contactUs->getContentSize().width + 20, contactUs->getContentSize().height));
 	contactUsHolder->addChild(needHelp);
 	contactUsHolder->addChild(contactUs);
@@ -501,7 +501,7 @@ void VodacomOnboardingErrorLayer::setupForPasswordReset()
 	
 	ui::Layout* contactUsHolder = ui::Layout::create();
 	contactUsHolder->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-	contactUsHolder->setAnchorPoint(Vec2(0.5f,-1.0f));
+	contactUsHolder->setAnchorPoint(Vec2(0.5f,-1.5f));
 	contactUsHolder->setContentSize(Size(needHelp->getContentSize().width + contactUs->getContentSize().width + 20, contactUs->getContentSize().height));
 	contactUsHolder->addChild(needHelp);
 	contactUsHolder->addChild(contactUs);
@@ -633,7 +633,7 @@ void VodacomOnboardingErrorLayer::setupForAlreadyRegistered()
 	
 	ui::Layout* contactUsHolder = ui::Layout::create();
 	contactUsHolder->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-	contactUsHolder->setAnchorPoint(Vec2(0.5f,-1.0f));
+	contactUsHolder->setAnchorPoint(Vec2(0.5f,-1.5f));
 	contactUsHolder->setContentSize(Size(needHelp->getContentSize().width + contactUs->getContentSize().width + 20, contactUs->getContentSize().height));
 	contactUsHolder->addChild(needHelp);
 	contactUsHolder->addChild(contactUs);
@@ -743,7 +743,7 @@ void VodacomOnboardingErrorLayer::setupForAlreadyPremium()
 	
 	ui::Layout* contactUsHolder = ui::Layout::create();
 	contactUsHolder->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-	contactUsHolder->setAnchorPoint(Vec2(0.5f,-1.0f));
+	contactUsHolder->setAnchorPoint(Vec2(0.5f,-1.5f));
 	contactUsHolder->setContentSize(Size(needHelp->getContentSize().width + contactUs->getContentSize().width + 20, contactUs->getContentSize().height));
 	contactUsHolder->addChild(needHelp);
 	contactUsHolder->addChild(contactUs);

@@ -74,7 +74,7 @@ void VodacomOnboardingDetailsLayer::onEnter()
 		bullet->addChild(tick);
 		
 		ui::Layout* holder = ui::Layout::create();
-		holder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(tick->getContentSize().width,100,0,0)));
+		holder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(tick->getContentSize().width * 1.5f,100,0,0)));
 		holder->setContentSize(bullet->getContentSize());
 		_verticalLayout->addChild(holder);
 		holder->addChild(bullet);

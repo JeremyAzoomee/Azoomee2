@@ -188,7 +188,7 @@ void VodacomOnboardingAddChildLayer::onEnter()
 	
 	ui::Layout* contactUsHolder = ui::Layout::create();
 	contactUsHolder->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-	contactUsHolder->setAnchorPoint(Vec2(0.5f,-1.0f));
+	contactUsHolder->setAnchorPoint(Vec2(0.5f,-1.5f));
 	contactUsHolder->setContentSize(Size(needHelp->getContentSize().width + contactUs->getContentSize().width + 20, contactUs->getContentSize().height));
 	contactUsHolder->addChild(needHelp);
 	contactUsHolder->addChild(contactUs);

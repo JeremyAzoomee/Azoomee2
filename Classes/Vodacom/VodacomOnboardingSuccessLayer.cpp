@@ -41,24 +41,12 @@ void VodacomOnboardingSuccessLayer::onEnter()
 	
 	if(ParentDataProvider::getInstance()->isPaidUser())
 	{
-		Label* subHeading = Label::createWithTTF(_("Your voucher has been added,"), Style::Font::Regular, 64);
-		subHeading->setTextColor(Color4B::BLACK);
-		subHeading->setHorizontalAlignment(TextHAlignment::CENTER);
-		subHeading->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-		subHeading->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-		subHeading->setWidth(this->getContentSize().width * 0.75f);
-		
-		ui::Layout* subHeadingHolder = ui::Layout::create();
-		subHeadingHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
-		subHeadingHolder->setContentSize(subHeading->getContentSize());
-		subHeadingHolder->addChild(subHeading);
-		_verticalLayout->addChild(subHeadingHolder);
-		
-		Label* validUntil = Label::createWithTTF(_("valid until") + " " + ParentDataProvider::getInstance()->getBillingDate() , Style::Font::Regular, 64);
+		Label* validUntil = Label::createWithTTF(_("Set up complete. Your voucher is valid until") + " " + ParentDataProvider::getInstance()->getBillingDate() , Style::Font::Regular, 64);
 		validUntil->setTextColor(Color4B::BLACK);
 		validUntil->setHorizontalAlignment(TextHAlignment::CENTER);
 		validUntil->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 		validUntil->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+		validUntil->setWidth(this->getContentSize().width * 0.75f);
 		
 		ui::Layout* validUntilHolder = ui::Layout::create();
 		validUntilHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());

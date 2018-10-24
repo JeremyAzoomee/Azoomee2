@@ -32,7 +32,7 @@ void VodacomMessageBoxExitFlow::onEnter()
 	switch(_state)
 	{
 		case ExitFlowState::VOUCHER:
-			subHeading = _("You’ll need a valid voucher for full access.");
+			subHeading = _("Valid voucher required for full access.");
 			break;
 		case ExitFlowState::ACCOUNT_CREATE:
 			subHeading = _("Your account will not be set up.");
