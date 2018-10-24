@@ -71,28 +71,32 @@ bool TextInputLayer::init()
 
 void TextInputLayer::createEditBoxArea()
 {
+	const Size& contentSize = this->getContentSize();
+	
     Rect spriteRect = Rect(0, 0, 331, 160);
     Rect capInsents = Rect(EDITBOX_CURVE_WIDTH, 80, 1, 1);
     editBoxArea = ui::Scale9Sprite::create("res/login/textField.png", spriteRect, capInsents);
-    editBoxArea->setContentSize(this->getContentSize());
-    editBoxArea->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
+    editBoxArea->setContentSize(contentSize);
+    editBoxArea->setPosition(Vec2(contentSize.width/2, contentSize.height/2));
     editBoxArea->setOpacity(255);
     this->addChild(editBoxArea);
     
     editBoxAreaError = ui::Scale9Sprite::create("res/login/textFieldError.png", spriteRect, capInsents);
-    editBoxAreaError->setContentSize(this->getContentSize());
-    editBoxAreaError->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
+    editBoxAreaError->setContentSize(contentSize);
+    editBoxAreaError->setPosition(Vec2(contentSize.width/2, contentSize.height/2));
     editBoxAreaError->setVisible(false);
     this->addChild(editBoxAreaError);
 }
 
 void TextInputLayer::createEditBox()
 {
-    editBox = ui::EditBox::create(Size(this->getContentSize().width - (2 * EDITBOX_CURVE_WIDTH),this->getContentSize().height - 10), "res/login/editboxBlankFor9Scale.png");
+	const Size& contentSize = this->getContentSize();
+	
+    editBox = ui::EditBox::create(Size(contentSize.width - (2 * EDITBOX_CURVE_WIDTH),contentSize.height - 10), "res/login/editboxBlankFor9Scale.png");
     editBox->moveOnKeyboardDisplayRequired = false;
 
     editBox->setColor(Color3B::WHITE);
-    editBox->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
+    editBox->setPosition(Vec2(contentSize.width/2, contentSize.height/2));
     editBox->setFont(Style::Font::Regular, 70);
     editBox->setFontColor(Color3B::BLACK);
     editBox->setPlaceholderFontColor(Style::Color::telish);
@@ -114,17 +118,19 @@ void TextInputLayer::createEditBox()
     
 void TextInputLayer::createSettingsBoxEditBox(float width)
 {
+	const Size& contentSize = this->getContentSize();
+	
     editBoxArea = ui::Scale9Sprite::create("res/settings/rounded_rect_frame.png");
     editBoxArea->setContentSize(Size(width,160));
-    editBoxArea->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
+    editBoxArea->setPosition(Vec2(contentSize.width/2, contentSize.height/2));
     editBoxArea->setColor(Style::Color::carolinaBlue);
     this->addChild(editBoxArea);
     
-    editBox = ui::EditBox::create(Size(this->getContentSize().width - 40,this->getContentSize().height), "res/settings/rounded_rect.png");
+    editBox = ui::EditBox::create(Size(contentSize.width - 40,contentSize.height), "res/settings/rounded_rect.png");
     editBox->moveOnKeyboardDisplayRequired = false;
     
     editBox->setColor(Color3B::WHITE);
-    editBox->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
+    editBox->setPosition(Vec2(contentSize.width/2, contentSize.height/2));
     editBox->setFont(Style::Font::Regular, 59);
     editBox->setFontColor(Color3B::BLACK);
     editBox->setPlaceholderFontColor(Style::Color::battleshipGrey);
@@ -147,16 +153,18 @@ void TextInputLayer::createSettingsBoxEditBox(float width)
 
 void TextInputLayer::createSettingRoundedEditBox(float width)
 {
+	const Size& contentSize = this->getContentSize();
+	
     editBoxArea = ui::Scale9Sprite::create("res/settings/settings_rounded_frame.png");
     editBoxArea->setContentSize(Size(width,146));
-    editBoxArea->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
+    editBoxArea->setPosition(Vec2(contentSize.width/2, contentSize.height/2));
     this->addChild(editBoxArea);
     
-    editBox = ui::EditBox::create(Size(this->getContentSize().width - (2 * EDITBOX_CURVE_WIDTH),this->getContentSize().height), "res/settings/settings_rounded.png");
+    editBox = ui::EditBox::create(Size(contentSize.width - (2 * EDITBOX_CURVE_WIDTH),contentSize.height), "res/settings/settings_rounded.png");
     editBox->moveOnKeyboardDisplayRequired = false;
     
     editBox->setColor(Color3B::WHITE);
-    editBox->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
+    editBox->setPosition(Vec2(contentSize.width/2, contentSize.height/2));
     editBox->setFont(Style::Font::Regular, 63);
     editBox->setFontColor(Color3B::BLACK);
     editBox->setPlaceholderFontColor(Style::Color::battleshipGrey);
@@ -258,25 +266,20 @@ void TextInputLayer::setupEditBoxUsingType()
     
 void TextInputLayer::createSettingsChatEditBox(float width)
 {
-    //Rect spriteRect = Rect(0, 0, 268, 107);
-    //Rect capInsents = Rect(100, 53, 1, 1);
-    
+	const Size& contentSize = this->getContentSize();
+	
     editBoxArea = ui::Scale9Sprite::create("res/settings/rounded_rect_frame.png");
     editBoxArea->setContentSize(Size(width,160));
-    editBoxArea->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
+    editBoxArea->setPosition(Vec2(contentSize.width/2, contentSize.height/2));
     editBoxArea->setColor(Style::Color::carolinaBlue);
     this->addChild(editBoxArea);
     
-    editBox = ui::EditBox::create(Size(this->getContentSize().width - 20,this->getContentSize().height), "res/settings/rounded_rect.png");
+    editBox = ui::EditBox::create(Size(contentSize.width - 20,contentSize.height), "res/settings/rounded_rect.png");
     editBox->moveOnKeyboardDisplayRequired = false;
     
     editBox->setColor(Color3B::WHITE);
-    editBox->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
-    //editBox->setFont(Style::Font::kidCodeRegular, 84);
+    editBox->setPosition(Vec2(contentSize.width/2, contentSize.height/2));
     editBox->setFontColor(Color3B::BLACK);
-    //editBox->setInputFlag(ui::EditBox::InputFlag::INITIAL_CAPS_ALL_CHARACTERS);
-    //editBox->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
-    //editBox->setMaxLength(8);
     editBox->setTextHorizontalAlignment(TextHAlignment::CENTER);
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)

@@ -225,7 +225,7 @@
 	"Renew subscription":"Renew subscription",
 	"Your pin number has been updated!":"Your pin number has been updated!",
 	"Your password has been updated!":"Your password has been updated!",
-	"The current password you entered doesnt seem to match up with what we’ve got":"The current password you entered doesnt seem to match up with what we’ve got",
+	"The current password you entered doesn't seem to match up with what we’ve got":"The current password you entered doesn't seem to match up with what we’ve got",
 	"wants to be friends with":"wants to be friends with",
 	"Reject":"Reject",
 	"Confirm":"Confirm",
@@ -274,5 +274,5 @@
 	"Contact us directly at":"Contact us directly at",
 	"Or":"Or",
 	"Parents must approve new friendships before any messages can be sent. You can accept or reject friendship requests here.":"Parents must approve new friendships before any messages can be sent. You can accept or reject friendship requests here.",
-	"You Cant do that right now, this child is currently logged in.":"You Cant do that right now, this child is currently logged in."
+	"You can't do that right now, this child is currently logged in.":"You can't do that right now, this child is currently logged in."
 }

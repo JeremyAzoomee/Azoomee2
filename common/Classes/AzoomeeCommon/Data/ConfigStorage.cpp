@@ -58,7 +58,14 @@ static ConfigStorage *_sharedConfigStorage = NULL;
     const std::string ConfigStorage::kArtCacheFolder = "artCache/";
     
     const std::string ConfigStorage::kGameDownloadError = "ERROR";
+	
+	const std::string ConfigStorage::kIOSSubURL = "https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/DirectAction/manageSubscriptions";
+	const std::string ConfigStorage::kAndroidSubURL = "https://play.google.com/store/account/subscriptions";
 
+	const std::string ConfigStorage::kBillingProviderApple = "APPLE";
+	const std::string ConfigStorage::kBillingProviderGoogle = "GOOGLE";
+	const std::string ConfigStorage::kBillingProviderAmazon = "AMAZON";
+	
 ConfigStorage* ConfigStorage::getInstance()
 {
     if (! _sharedConfigStorage)
