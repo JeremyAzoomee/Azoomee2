@@ -192,7 +192,8 @@ void IntroVideoScene::onSizeChanged()
 
 void IntroVideoScene::onForceUpdateCheckFinished(const ForceUpdateResult& result)
 {
-	switch (result) {
+	switch (result)
+	{
 		case ForceUpdateResult::DO_NOTHING:
 		{
 			if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())

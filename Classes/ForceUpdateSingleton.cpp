@@ -79,11 +79,16 @@ bool ForceUpdateSingleton::remoteForceUpdateDataDownloadRequired()
 		return true;
 	}
 	
-	std::map<std::string, std::string> localForceUpdateDataMap = getMapFromForceUpdateJsonData(FileUtils::getInstance()->getStringFromFile(writablePath + forceUpdateFileSubPath));
+	const std::map<std::string, std::string>& localForceUpdateDataMap = getMapFromForceUpdateJsonData(FileUtils::getInstance()->getStringFromFile(writablePath + forceUpdateFileSubPath));
 	
-	if(localForceUpdateDataMap["timeStamp"] == "") return true;
-	if(time(NULL) - atoi(localForceUpdateDataMap["timeStamp"].c_str()) >= timeIntervalForRemoteFileDownloadInSeconds) return true;
-	
+	if(localForceUpdateDataMap.find("timeStamp") == localForceUpdateDataMap.end())
+	{
+		return true;
+	}
+	if(time(NULL) - atoi(localForceUpdateDataMap.at("timeStamp").c_str()) >= timeIntervalForRemoteFileDownloadInSeconds)
+	{
+		return true;
+	}
 	return false;
 }
 
