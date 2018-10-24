@@ -334,6 +334,6 @@
 	"Inactive Voucher\nUnlock all content by adding a voucher":"Inactive Voucher\nUnlock all content by adding a voucher",
 	"Valid voucher\nExpires on %s":"Valid voucher\nExpires on %s",
 	"Create new account":"Create new account",
-	"Add new voucher":"Add new voucher"
+	"Add new voucher":"Add new voucher",
 	"You can't do that right now, this child is currently logged in.":"You can't do that right now, this child is currently logged in."
 }
