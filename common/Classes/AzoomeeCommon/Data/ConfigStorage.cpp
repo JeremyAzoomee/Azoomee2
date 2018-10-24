@@ -99,7 +99,11 @@ bool ConfigStorage::init(void)
         API::TagFriendRequest,
         API::TagFriendRequestReaction,
         API::TagResetReportedChat,
-        API::TagCookieRefresh
+        API::TagCookieRefresh,
+		API::TagAddVoucher,
+		API::TagUpdateParentPassword,
+		API::TagUpdateParentDetails,
+		API::TagUpdateChildNameRequest
     };
     requestTagsRequireImmediateSending = {
         kGroupHQName,

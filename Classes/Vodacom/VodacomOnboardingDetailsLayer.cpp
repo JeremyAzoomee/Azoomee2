@@ -72,7 +72,7 @@ void VodacomOnboardingDetailsLayer::onEnter()
 		
 		Sprite* tick = Sprite::create("res/vodacom/tick.png");
 		tick->setAnchorPoint(Vec2(2.0,0.5));
-		tick->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
+		tick->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 		bullet->addChild(tick);
 		
 		ui::Layout* holder = ui::Layout::create();

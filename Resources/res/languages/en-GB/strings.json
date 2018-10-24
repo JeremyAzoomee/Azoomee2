@@ -331,6 +331,8 @@
 	"Why do we need this?":"Why do we need this?",
 	"We need your child’s age so we can create a profile with age-appropriate content.":"We need your child’s age so we can create a profile with age-appropriate content.",
 	"Profile created for":"Profile created for",
-	"Free Account\nTap Renew to enter a voucher":"Free Account\nTap Renew to enter a voucher",
-	"Premium Subscription\nExpires on %s":"Premium Subscription\nExpires on %s"
+	"Inactive Voucher\nUnlock all content by adding a voucher":"Inactive Voucher\nUnlock all content by adding a voucher",
+	"Valid voucher\nExpires on %s":"Valid voucher\nExpires on %s",
+	"Create new account":"Create new account",
+	"Add new voucher":"Add new voucher"
 }

@@ -10,6 +10,10 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/API/API.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
+#include <AzoomeeCommon/UI/ModalMessages.h>
 #include "SceneManagerScene.h"
 #include "SettingsSupportPage.h"
 #include "SettingsOnlineSafetyPage.h"
@@ -299,6 +303,25 @@ void SettingsHub::AdultPinCancelled(RequestAdultPinLayer* layer)
 void SettingsHub::AdultPinAccepted(RequestAdultPinLayer* layer)
 {
 	layer->removeFromParent();
+	
+	ModalMessages::getInstance()->startLoading();
+	HttpRequestCreator* request = API::getParentDetailsRequest(ParentDataProvider::getInstance()->getLoggedInParentId(), this);
+	request->execute();
+	
+}
+
+void SettingsHub::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
+{
+	ModalMessages::getInstance()->stopLoading();
+	if(requestTag == API::TagGetParentDetails)
+	{
+		ParentDataParser::getInstance()->parseParentDetails(body);
+	}
+}
+
+void SettingsHub::onHttpRequestFailed(const std::string& requestTag, long errorCode)
+{
+	ModalMessages::getInstance()->stopLoading();
 }
 
 NS_AZOOMEE_END

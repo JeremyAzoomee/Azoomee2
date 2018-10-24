@@ -50,7 +50,7 @@ void VodacomOnboardingScene::onEnter()
 
 void VodacomOnboardingScene::exitFlow()
 {
-	if(_flowData->getUserType() == UserType::FREE)
+	if(_flowData->getUserType() == UserType::FREE || _flowData->getUserType() == UserType::REGISTERED)
 	{
 		ModalMessages::getInstance()->startLoading();
 		HttpRequestCreator* request = API::GetAvailableChildrenRequest(this);

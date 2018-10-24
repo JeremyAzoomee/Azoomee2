@@ -162,6 +162,33 @@ void VodacomOnboardingLoginLayer::onEnter()
 	confirmText->setDimensions(_confirmButton->getContentSize().width, _confirmButton->getContentSize().height);
 	_confirmButton->addChild(confirmText);
 	
+	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular, 64);
+	needHelp->setTextColor(Color4B(Style::Color::skyBlue));
+	needHelp->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
+	needHelp->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+	Label* contactUs = Label::createWithTTF(_("Contact us"), Style::Font::Regular, 64);
+	contactUs->setTextColor(Color4B(Style::Color::skyBlue));
+	contactUs->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
+	contactUs->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
+	
+	DrawNode* underline = DrawNode::create();
+	underline->drawRect(Vec2(0, -7), Vec2(contactUs->getContentSize().width, -6), Color4F(Style::Color::skyBlue));
+	contactUs->addChild(underline);
+	
+	ui::Layout* contactUsHolder = ui::Layout::create();
+	contactUsHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	contactUsHolder->setContentSize(Size(needHelp->getContentSize().width + contactUs->getContentSize().width + 20, contactUs->getContentSize().height));
+	contactUsHolder->addChild(needHelp);
+	contactUsHolder->addChild(contactUs);
+	contactUsHolder->setTouchEnabled(true);
+	contactUsHolder->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
+		if(eType == ui::Widget::TouchEventType::ENDED)
+		{
+			Application::getInstance()->openURL("mailto:help@azoomee.com");
+		}
+	});
+	this->addChild(contactUsHolder);
+	
 	Super::onEnter();
 	
 	_emailInput->focusAndShowKeyboard();
