@@ -562,7 +562,7 @@ void VodacomOnboardingErrorLayer::setupForAlreadyRegistered()
 	titleHolder->addChild(title);
 	_verticalLayout->addChild(titleHolder);
 	
-	Label* subHeading = Label::createWithTTF(_("This email address has already been registered. Please create a new account with a new email address or log in using this email address."), Style::Font::Regular, 64);
+	Label* subHeading = Label::createWithTTF(_("This email address has already been registered. Please sign up with a new email address or log in using the same email address."), Style::Font::Regular, 64);
 	subHeading->setTextColor(Color4B::BLACK);
 	subHeading->setHorizontalAlignment(TextHAlignment::CENTER);
 	subHeading->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -588,7 +588,7 @@ void VodacomOnboardingErrorLayer::setupForAlreadyRegistered()
 	});
 	_verticalLayout->addChild(okButton);
 	
-	Label* okText = Label::createWithTTF(_("Create new account"), Style::Font::Regular, okButton->getContentSize().height * 0.5f);
+	Label* okText = Label::createWithTTF(_("Sign up"), Style::Font::Regular, okButton->getContentSize().height * 0.5f);
 	okText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	okText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	okText->setHorizontalAlignment(TextHAlignment::CENTER);

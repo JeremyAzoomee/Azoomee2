@@ -131,7 +131,7 @@ void VodacomOnboardingRegisterLayer::onEnter()
 	_emailInput->addChild(emailError);
 	
 	ui::Layout* inputLayout = ui::Layout::create();
-	inputLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	inputLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
 	inputLayout->setContentSize(_emailInput->getContentSize());
 	inputLayout->addChild(_emailInput);
 	_verticalLayout->addChild(inputLayout);
@@ -162,7 +162,7 @@ void VodacomOnboardingRegisterLayer::onEnter()
 	_confirmEmailInput->addChild(confEmailError);
 	
 	ui::Layout* confEmailLayout = ui::Layout::create();
-	confEmailLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	confEmailLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
 	confEmailLayout->setContentSize(_confirmEmailInput->getContentSize());
 	confEmailLayout->addChild(_confirmEmailInput);
 	_verticalLayout->addChild(confEmailLayout);
@@ -193,7 +193,7 @@ void VodacomOnboardingRegisterLayer::onEnter()
 	_passwordInput->addChild(pwError);
 	
 	ui::Layout* pwInputLayout = ui::Layout::create();
-	pwInputLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	pwInputLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
 	pwInputLayout->setContentSize(_passwordInput->getContentSize());
 	pwInputLayout->addChild(_passwordInput);
 	_verticalLayout->addChild(pwInputLayout);

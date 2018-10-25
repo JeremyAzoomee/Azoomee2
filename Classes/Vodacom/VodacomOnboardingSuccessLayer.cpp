@@ -49,7 +49,7 @@ void VodacomOnboardingSuccessLayer::onEnter()
 		validUntil->setWidth(this->getContentSize().width * 0.75f);
 		
 		ui::Layout* validUntilHolder = ui::Layout::create();
-		validUntilHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+		validUntilHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
 		validUntilHolder->setContentSize(validUntil->getContentSize());
 		validUntilHolder->addChild(validUntil);
 		_verticalLayout->addChild(validUntilHolder);
