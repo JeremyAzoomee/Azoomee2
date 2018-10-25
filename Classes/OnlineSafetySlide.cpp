@@ -29,36 +29,38 @@ bool OnlineSafetySlide::init()
 
 void OnlineSafetySlide::onEnter()
 {
+	const Size& contentSize = this->getContentSize();
+	
     _titleText = Label::createWithTTF(_titleString, Style::Font::Medium, 75);
     _titleText->setHorizontalAlignment(TextHAlignment::CENTER);
     _titleText->setTextColor(Color4B::BLACK);
     _titleText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _titleText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
-    _titleText->setWidth(this->getContentSize().width * 0.9f);
+    _titleText->setWidth(contentSize.width * 0.9f);
     
     ui::Layout* titleLayout = ui::Layout::create();
     titleLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
-    titleLayout->setContentSize(Size(this->getContentSize().width, _titleText->getContentSize().height));
+    titleLayout->setContentSize(Size(contentSize.width, _titleText->getContentSize().height));
     titleLayout->addChild(_titleText);
     this->addChild(titleLayout);
     
     _image = ui::ImageView::create(_imageFilename);
     _image->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,60,0,0)));
-    float scalefactor = (this->getContentSize().height * 0.42f) / _image->getContentSize().height;
+    float scalefactor = (contentSize.height * 0.42f) / _image->getContentSize().height;
     _image->setContentSize(_image->getContentSize() * scalefactor);
     _image->ignoreContentAdaptWithSize(false);
     this->addChild(_image);
     
     _bodyText = Label::createWithTTF(_bodyString, Style::Font::Medium, 59);
     _bodyText->setHorizontalAlignment(TextHAlignment::LEFT);
-    _bodyText->setWidth(this->getContentSize().width * 0.9f);
+    _bodyText->setWidth(contentSize.width * 0.9f);
     _bodyText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _bodyText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
     _bodyText->setTextColor(Color4B::BLACK);
     
     ui::Layout* bodyLayout = ui::Layout::create();
     bodyLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,60,0,0)));
-    bodyLayout->setContentSize(Size(this->getContentSize().width, _bodyText->getContentSize().height));
+    bodyLayout->setContentSize(Size(contentSize.width, _bodyText->getContentSize().height));
     bodyLayout->addChild(_bodyText);
     this->addChild(bodyLayout);
     

@@ -30,13 +30,14 @@ bool FriendRequestLayer::init()
 
 void FriendRequestLayer::onEnter()
 {
+	const Size& contentSize = this->getContentSize();
+	
     ui::Scale9Sprite* stencil = ui::Scale9Sprite::create("res/settings/rounded_rect.png");
 	stencil->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-    stencil->setContentSize(this->getContentSize());
+    stencil->setContentSize(contentSize);
     
     _contentClippingNode = ClippingNode::create(stencil);
-    //_contentClippingNode->addChild(LayerColor::create(Color4B::WHITE, this->getContentSize().width, this->getContentSize().height));
-    _contentClippingNode->setContentSize(this->getContentSize());
+    _contentClippingNode->setContentSize(contentSize);
 	_contentClippingNode->setAlphaThreshold(0.5f);
     
     this->addChild(_contentClippingNode);
@@ -44,7 +45,7 @@ void FriendRequestLayer::onEnter()
 	ui::Layout* contentLayout = ui::Layout::create();
 	contentLayout->setBackGroundColor(Color3B::WHITE);
 	contentLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-	contentLayout->setContentSize(this->getContentSize());
+	contentLayout->setContentSize(contentSize);
 	_contentClippingNode->addChild(contentLayout);
 	
     _senderText = Label::createWithTTF(StringUtils::format("%s\n%s",_senderName.c_str(), _senderInviteCode.c_str()), Style::Font::Medium, 48);
@@ -52,7 +53,6 @@ void FriendRequestLayer::onEnter()
     _senderText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _senderText->setHorizontalAlignment(TextHAlignment::CENTER);
     _senderText->setTextColor(Color4B::BLACK);
-    //this->addChild(_senderText);
     contentLayout->addChild(_senderText);
     
     _recipientText = Label::createWithTTF(StringUtils::format("%s\n%s",_recipientName.c_str(), _recipientInviteCode.c_str()), Style::Font::Medium, 48);
@@ -60,7 +60,6 @@ void FriendRequestLayer::onEnter()
     _recipientText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _recipientText->setHorizontalAlignment(TextHAlignment::CENTER);
     _recipientText->setTextColor(Color4B::BLACK);
-    //this->addChild(_recipientText);
     contentLayout->addChild(_recipientText);
     
     _bodyText = Label::createWithTTF(_("wants to be friends with"), Style::Font::Medium, 48);
@@ -69,15 +68,14 @@ void FriendRequestLayer::onEnter()
     _bodyText->setHorizontalAlignment(TextHAlignment::CENTER);
     _bodyText->setTextColor(Color4B(Style::Color::battleshipGrey));
 	_bodyText->setOverflow(Label::Overflow::SHRINK);
-	_bodyText->setDimensions(this->getContentSize().width * 0.2f, this->getContentSize().height * 0.4f);
-    //this->addChild(_bodyText);
+	_bodyText->setDimensions(contentSize.width * 0.2f, contentSize.height * 0.4f);
     contentLayout->addChild(_bodyText);
     
     
     _rejectButton = ui::Layout::create();
     _rejectButton->setBackGroundColor(Style::Color::watermelon);
     _rejectButton->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _rejectButton->setContentSize(Size((this->getContentSize().width * 0.5f) - 4, this->getContentSize().height * 0.33f));
+    _rejectButton->setContentSize(Size((contentSize.width * 0.5f) - 4, contentSize.height * 0.33f));
     _rejectButton->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     _rejectButton->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_LEFT);
     _rejectButton->setTouchEnabled(true);
@@ -89,7 +87,6 @@ void FriendRequestLayer::onEnter()
             Director::getInstance()->getRunningScene()->addChild(messageBox,100);
         }
     });
-    //this->addChild(_rejectButton);
     contentLayout->addChild(_rejectButton);
     
     Label* rejectLabel = Label::createWithTTF(_("Reject"), Style::Font::Medium, 59);
@@ -102,7 +99,7 @@ void FriendRequestLayer::onEnter()
     _confirmButton = ui::Layout::create();
     _confirmButton->setBackGroundColor(Style::Color::skyBlue);
     _confirmButton->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _confirmButton->setContentSize(Size((this->getContentSize().width * 0.5f) - 4, this->getContentSize().height * 0.33f));
+    _confirmButton->setContentSize(Size((contentSize.width * 0.5f) - 4, contentSize.height * 0.33f));
     _confirmButton->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
     _confirmButton->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_RIGHT);
     _confirmButton->setTouchEnabled(true);
@@ -113,7 +110,6 @@ void FriendRequestLayer::onEnter()
             request->execute();
         }
     });
-    //this->addChild(_confirmButton);
     contentLayout->addChild(_confirmButton);
     
     Label* confirmLabel = Label::createWithTTF(_("Confirm"), Style::Font::Medium, 59);
@@ -126,10 +122,9 @@ void FriendRequestLayer::onEnter()
     _rejectedBanner = ui::Layout::create();
     _rejectedBanner->setBackGroundColor(Style::Color::watermelon);
     _rejectedBanner->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _rejectedBanner->setContentSize(Size(this->getContentSize().width, this->getContentSize().height * 0.33f));
+    _rejectedBanner->setContentSize(Size(contentSize.width, contentSize.height * 0.33f));
     _rejectedBanner->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _rejectedBanner->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-    //this->addChild(_rejectedBanner);
     contentLayout->addChild(_rejectedBanner);
     
     Label* rejectedLabel = Label::createWithTTF(_("This request has been rejected"), Style::Font::Medium, 59);
@@ -142,10 +137,9 @@ void FriendRequestLayer::onEnter()
     _confirmedBanner = ui::Layout::create();
     _confirmedBanner->setBackGroundColor(Style::Color::skyBlue);
     _confirmedBanner->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _confirmedBanner->setContentSize(Size(this->getContentSize().width, this->getContentSize().height * 0.33f));
+    _confirmedBanner->setContentSize(Size(contentSize.width, contentSize.height * 0.33f));
     _confirmedBanner->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _confirmedBanner->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-    //this->addChild(_confirmedBanner);
     contentLayout->addChild(_confirmedBanner);
     
     Label* confirmedLabel = Label::createWithTTF(StringUtils::format(_("%s can now chat with this friend!").c_str(), _recipientName.c_str()) ,Style::Font::Medium , 59);

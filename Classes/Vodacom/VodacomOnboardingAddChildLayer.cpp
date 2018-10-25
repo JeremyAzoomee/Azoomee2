@@ -84,7 +84,7 @@ void VodacomOnboardingAddChildLayer::onEnter()
 	_nameInput->addChild(nameError);
 	
 	ui::Layout* inputLayout = ui::Layout::create();
-	inputLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	inputLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
 	inputLayout->setContentSize(_nameInput->getContentSize());
 	inputLayout->addChild(_nameInput);
 	_verticalLayout->addChild(inputLayout);
@@ -146,7 +146,7 @@ void VodacomOnboardingAddChildLayer::onEnter()
 	_ageInput->addChild(ageError);
 	
 	ui::Layout* ageInputLayout = ui::Layout::create();
-	ageInputLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	ageInputLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
 	ageInputLayout->setContentSize(_ageInput->getContentSize());
 	ageInputLayout->addChild(_ageInput);
 	_verticalLayout->addChild(ageInputLayout);

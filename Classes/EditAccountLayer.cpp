@@ -38,10 +38,12 @@ bool EditAccountLayer::init()
 
 void EditAccountLayer::onEnter()
 {
-    int lowestY = this->getContentSize().height;
+	const Size& contentSize = this->getContentSize();
+	
+    int lowestY = contentSize.height;
     
     _nameLayout = ui::Layout::create();
-    _nameLayout->setContentSize(Size(this->getContentSize().width * 0.6f, 157));
+    _nameLayout->setContentSize(Size(contentSize.width * 0.6f, 157));
     _nameLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,80,0,0)));
     
     this->addChild(_nameLayout);
@@ -52,7 +54,7 @@ void EditAccountLayer::onEnter()
     _editNameLayout->setVisible(false);
     _nameLayout->addChild(_editNameLayout);
     
-    _editNameInput = TextInputLayer::createSettingsRoundedTextInput(this->getContentSize().width * 0.6f, INPUT_IS_CHILD_NAME);
+    _editNameInput = TextInputLayer::createSettingsRoundedTextInput(contentSize.width * 0.6f, INPUT_IS_CHILD_NAME);
     _editNameInput->setCenterPosition(_editNameLayout->getContentSize() / 2);
     _editNameInput->setText(ParentDataProvider::getInstance()->getParentDisplayName());
     _editNameLayout->addChild(_editNameInput);
@@ -118,7 +120,7 @@ void EditAccountLayer::onEnter()
     lowestY -= (_emailText->getContentSize().height + 40);
     
     ui::Layout* pinEditboxLayout = ui::Layout::create();
-    pinEditboxLayout->setContentSize(Size(this->getContentSize().width, 190));
+    pinEditboxLayout->setContentSize(Size(contentSize.width, 190));
     pinEditboxLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,35,0,0)));
     this->addChild(pinEditboxLayout);
     
@@ -131,7 +133,7 @@ void EditAccountLayer::onEnter()
     pinText->setPosition(Vec2(pinEditboxLayout->getContentSize().width * 0.225f, pinEditboxLayout->getContentSize().height / 2));
     pinEditboxLayout->addChild(pinText);
     
-    _pinEditbox = TextInputLayer::createSettingsBoxTextInput(this->getContentSize().width * 0.6f, INPUT_IS_PIN);
+    _pinEditbox = TextInputLayer::createSettingsBoxTextInput(contentSize.width * 0.6f, INPUT_IS_PIN);
     _pinEditbox->setCenterPosition(Vec2(pinEditboxLayout->getContentSize().width * 0.55f, pinEditboxLayout->getContentSize().height / 2));
     _pinEditbox->setText(ParentDataProvider::getInstance()->getParentPin());
     _pinEditbox->setEnabled(false);
@@ -170,7 +172,7 @@ void EditAccountLayer::onEnter()
     pinEditboxLayout->addChild(_editPinButton);
     
     ui::Layout* passwordEditboxLayout = ui::Layout::create();
-    passwordEditboxLayout->setContentSize(Size(this->getContentSize().width, 190));
+    passwordEditboxLayout->setContentSize(Size(contentSize.width, 190));
     passwordEditboxLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     this->addChild(passwordEditboxLayout);
     
@@ -183,7 +185,7 @@ void EditAccountLayer::onEnter()
     passwordText->setPosition(Vec2(passwordEditboxLayout->getContentSize().width * 0.225f, passwordEditboxLayout->getContentSize().height / 2));
     passwordEditboxLayout->addChild(passwordText);
     
-    _passwordEditBox = TextInputLayer::createSettingsBoxTextInput(this->getContentSize().width * 0.6f, INPUT_IS_NEW_PASSWORD);
+    _passwordEditBox = TextInputLayer::createSettingsBoxTextInput(contentSize.width * 0.6f, INPUT_IS_NEW_PASSWORD);
     _passwordEditBox->setCenterPosition(Vec2(passwordEditboxLayout->getContentSize().width * 0.55f, passwordEditboxLayout->getContentSize().height / 2));
 	_passwordEditBox->setText("xxxxxx");
 	_passwordEditBox->setPlaceholderText(_("Change password"));
@@ -250,7 +252,7 @@ void EditAccountLayer::onEnter()
     _accountTypeLayout = ui::Layout::create();
     _accountTypeLayout->setBackGroundImage("res/settings/rounded_rect_half.png");
     _accountTypeLayout->setBackGroundImageColor(Style::Color::skyBlue);
-    _accountTypeLayout->setContentSize(Size(this->getContentSize().width, 400));
+    _accountTypeLayout->setContentSize(Size(contentSize.width, 400));
     _accountTypeLayout->setBackGroundImageScale9Enabled(true);
     _accountTypeLayout->setLayoutParameter(CreateTopLinearLayoutParam(ui::Margin(0,remainingPadding,0,0)));
     
@@ -274,14 +276,21 @@ void EditAccountLayer::onEnter()
 			ui::Button* manageButton = ui::Button::create("res/settings/sub_button.png");
 			manageButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 			manageButton->setNormalizedPosition(Vec2(0.5f,0.33f));
-			manageButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+			manageButton->addTouchEventListener([billingProvider](Ref* pSender, ui::Widget::TouchEventType eType){
 				if(eType == ui::Widget::TouchEventType::ENDED)
 				{
-				#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-					Application::getInstance()->openURL(ConfigStorage::kIOSSubURL);
-				#else
-					Application::getInstance()->openURL(ConfigStorage::kAndroidSubURL);
-				#endif
+					if(billingProvider == ConfigStorage::kBillingProviderApple)
+					{
+						Application::getInstance()->openURL(ConfigStorage::kIOSSubURL);
+					}
+					else if(billingProvider == ConfigStorage::kBillingProviderGoogle)
+					{
+						Application::getInstance()->openURL(ConfigStorage::kAndroidSubURL);
+					}
+					else if(billingProvider == ConfigStorage::kBillingProviderAmazon)
+					{
+						Application::getInstance()->openURL(ConfigStorage::kAmazonSubURL);
+					}
 				}
 			});
 			_accountTypeLayout->addChild(manageButton);

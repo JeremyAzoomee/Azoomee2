@@ -274,7 +274,6 @@
 	"Contact us directly at":"Contact us directly at",
 	"Or":"Or",
 	"Parents must approve new friendships before any messages can be sent. You can accept or reject friendship requests here.":"Parents must approve new friendships before any messages can be sent. You can accept or reject friendship requests here.",
-	"You Cant do that right now, this child is currently logged in.":"You Cant do that right now, this child is currently logged in.",
 	"Unlock everything":"Unlock everything",
 	"Hundreds of games and videos":"Hundreds of games and videos",
 	"No in-app purchases or ads":"No in-app purchases or ads",
@@ -334,5 +333,9 @@
 	"Inactive Voucher\nUnlock all content by adding a voucher":"Inactive Voucher\nUnlock all content by adding a voucher",
 	"Valid voucher\nExpires on %s":"Valid voucher\nExpires on %s",
 	"Add new voucher":"Add new voucher",
-	"You can't do that right now, this child is currently logged in.":"You can't do that right now, this child is currently logged in."
+	"You can't do that right now, this child is currently logged in.":"You can't do that right now, this child is currently logged in.",
+	"help@azoomee.com":"help@azoomee.com",
+	"mailto:help@azoomee.com":"mailto:help@azoomee.com",
+	"support.azoomee.com":"support.azoomee.com",
+	"http://support.azoomee.com":"http://support.azoomee.com"
 }

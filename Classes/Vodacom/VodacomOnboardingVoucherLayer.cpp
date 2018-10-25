@@ -102,7 +102,7 @@ void VodacomOnboardingVoucherLayer::onEnter()
 	_voucherInput->addChild(voucherError);
 	
 	ui::Layout* inputLayout = ui::Layout::create();
-	inputLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	inputLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
 	inputLayout->setContentSize(_voucherInput->getContentSize());
 	inputLayout->addChild(_voucherInput);
 	_verticalLayout->addChild(inputLayout);

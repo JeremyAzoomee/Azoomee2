@@ -61,7 +61,7 @@ void BaseScene::onEnterTransitionDidFinish()
         }, this, 4, 0, 0, false, "enablePush");
     }
     
-    ForceUpdateSingleton::getInstance()->doForceUpdateLogic();
+    //ForceUpdateSingleton::getInstance()->doForceUpdateLogic();
 }
 
 void BaseScene::startBuildingHQs()

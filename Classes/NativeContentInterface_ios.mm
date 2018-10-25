@@ -60,6 +60,23 @@ void NativeContentInterface_ios::loadContentBasedOnUrl(const std::string &url, c
     }
 }
 
+void NativeContentInterface_ios::removeWebViewFromScreen()
+{
+	if(webViewController != nil)
+	{
+		[webViewController removeWebViewWhileInBackground];
+	}
+}
+
+void NativeContentInterface_ios::reAddWebViewToScreen()
+{
+	if(webViewController != nil)
+	{
+		[webViewController addWebViewToScreen];
+		[webViewController createButtons];
+	}
+}
+
 void NativeContentInterface_ios::addMediaPlayerToScreen(const std::string &url)
 {
     UIView *currentView = (UIView*)Director::getInstance()->getOpenGLView()->getEAGLView();

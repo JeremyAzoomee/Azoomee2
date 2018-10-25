@@ -119,7 +119,7 @@ void VodacomOnboardingPinLayer::onEnter()
 	_pinInput->addChild(pinError);
 	
 	ui::Layout* inputLayout = ui::Layout::create();
-	inputLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	inputLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
 	inputLayout->setContentSize(_pinInput->getContentSize());
 	inputLayout->addChild(_pinInput);
 	_verticalLayout->addChild(inputLayout);

@@ -361,15 +361,21 @@ using namespace Azoomee;
 -(void) removeWebViewWhileInBackground
 {
     [backButton removeFromSuperview];
-    
+	backButton = nil;
     if(!isAnonUser())
     {
         [_favButton removeFromSuperview];
+		_favButton = nil;
         if(isChatEntitled())
         {
             [_shareButton removeFromSuperview];
+			_shareButton = nil;
         }
     }
+	
+	[_favContentBanner removeFromSuperview];
+	[_favContentBanner release];
+	_favContentBanner = nil;
     
     if(![urlToLoad hasSuffix:@"html"])
     {

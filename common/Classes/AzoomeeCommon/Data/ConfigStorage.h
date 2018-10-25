@@ -66,6 +66,7 @@ public:
 	
 	static const std::string kIOSSubURL;
 	static const std::string kAndroidSubURL;
+	static const std::string kAmazonSubURL;
 	
 	static const std::string kBillingProviderApple;
 	static const std::string kBillingProviderGoogle;

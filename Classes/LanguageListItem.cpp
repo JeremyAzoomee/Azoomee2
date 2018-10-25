@@ -27,16 +27,18 @@ bool LanguageListItem::init()
 
 void LanguageListItem::onEnter()
 {
+	const Size& contentSize = this->getContentSize();
+	
 	_flag = ui::ImageView::create(_flagFilename);
 	_flag->setNormalizedPosition(Vec2(0,0.5));
 	_flag->setAnchorPoint(Vec2(-0.5,0.5));
-	_flag->setContentSize(Size(this->getContentSize().height * 0.65f, this->getContentSize().height * 0.65f));
+	_flag->setContentSize(Size(contentSize.height * 0.65f, contentSize.height * 0.65f));
 	_flag->ignoreContentAdaptWithSize(false);
 	this->addChild(_flag);
 	
 	_languageText = Label::createWithSystemFont(_language, Style::Font::MediumSystemName, 91);
 	_languageText->setTextColor(Color4B(Style::Color::battleshipGrey));
-	_languageText->setPosition(Vec2(_flag->getContentSize().width * 2.0f, this->getContentSize().height / 2.0f));
+	_languageText->setPosition(Vec2(_flag->getContentSize().width * 2.0f, contentSize.height / 2.0f));
 	_languageText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
 	this->addChild(_languageText);
 	

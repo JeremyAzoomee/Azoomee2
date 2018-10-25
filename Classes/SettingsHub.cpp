@@ -230,7 +230,8 @@ void SettingsHub::changeToPage(SettingsPages page)
     _activeSettingsPageHolder->removeAllChildren();
     switch(page)
     {
-		case SettingsPages::LANGUAGE: {
+		case SettingsPages::LANGUAGE:
+		{
 			auto page = SettingsLanguagePage::create();
 			page->setContentSize(_activeSettingsPageHolder->getContentSize());
 			_activeSettingsPageHolder->addChild(page);

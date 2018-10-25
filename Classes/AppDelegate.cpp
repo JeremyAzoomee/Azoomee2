@@ -58,6 +58,17 @@ bool AppDelegate::applicationDidFinishLaunching()
 // This function will be called when the app is inactive. Note, when receiving a phone call it is invoked.
 void AppDelegate::applicationDidEnterBackground()
 {
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+	if(Director::getInstance()->getRunningScene()->getChildByName("iosWebView"))
+	{
+		NativeContentInterface_ios *webview = dynamic_cast<NativeContentInterface_ios*>(Director::getInstance()->getRunningScene()->getChildByName("iosWebView"));
+		if(webview)
+		{
+			webview->removeWebViewFromScreen();
+		}
+	}
+	
+#endif
     SessionIdManager::getInstance()->registerAppWentBackgroundEvent();
     AnalyticsSingleton::getInstance()->enteredBackgroundEvent();
     
@@ -73,6 +84,18 @@ void AppDelegate::applicationWillEnterForeground()
     SessionIdManager::getInstance()->registerAppCameForegroundEvent();
     
     PushNotificationsHandler::getInstance()->resetExistingNotifications();
+	
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+	if(Director::getInstance()->getRunningScene()->getChildByName("iosWebView"))
+	{
+		NativeContentInterface_ios *webview = dynamic_cast<NativeContentInterface_ios*>(Director::getInstance()->getRunningScene()->getChildByName("iosWebView"));
+		if(webview)
+		{
+			webview->reAddWebViewToScreen();
+		}
+	}
+#endif
+
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     

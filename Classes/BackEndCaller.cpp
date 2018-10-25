@@ -222,19 +222,6 @@ void BackEndCaller::onUpdateBillingDataAnswerReceived(const std::string& respons
     }
 }
 
-//GETTING FORCE UPDATE INFORMATION
-
-void BackEndCaller::getForceUpdateData()
-{
-    HttpRequestCreator* request = API::GetForceUpdateInformationRequest(this);
-    request->execute();
-}
-
-void BackEndCaller::onGetForceUpdateDataAnswerReceived(const std::string& responseString)
-{
-    ForceUpdateSingleton::getInstance()->onForceUpdateDataReceived(responseString);
-}
-
 //UPDATING PARENT DATA--------------------------------------------------------------------------------
 
 void BackEndCaller::updateParentPin(AwaitingAdultPinLayer *callBackTo)
@@ -258,16 +245,6 @@ void BackEndCaller::onUpdateParentPinAnswerReceived(const std::string& responseS
         cocos2d::log("Calling back awaitingsomething");
         checkBack->checkPinAgainstStoredPin();
     }
-}
-
-void BackEndCaller::updateParentDetails(const std::string &displayName, const std::string &pinNumber)
-{
-    
-}
-
-void BackEndCaller::updateParentPassword(const std::string &oldPassword, const std::string &newPassword)
-{
-    
 }
 
 // GETTING PARENT DATA--------------------------------------------------------------------------------
@@ -577,10 +554,6 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     else if(requestTag == API::TagResetPasswordRequest)
         //Dont do anything with a password Request attempt
         return;
-    else if(requestTag == API::TagGetForceUpdateInformation)
-    {
-        onGetForceUpdateDataAnswerReceived(body);
-    }
     else
     {
         std::vector<std::string> hqNames = ConfigStorage::getInstance()->getHqNames();
