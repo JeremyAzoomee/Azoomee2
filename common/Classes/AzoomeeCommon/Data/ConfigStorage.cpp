@@ -61,6 +61,7 @@ static ConfigStorage *_sharedConfigStorage = NULL;
 	
 	const std::string ConfigStorage::kIOSSubURL = "https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/DirectAction/manageSubscriptions";
 	const std::string ConfigStorage::kAndroidSubURL = "https://play.google.com/store/account/subscriptions";
+	const std::string ConfigStorage::kAmazonSubURL = "amzn://apps/library/subscriptions";
 
 	const std::string ConfigStorage::kBillingProviderApple = "APPLE";
 	const std::string ConfigStorage::kBillingProviderGoogle = "GOOGLE";

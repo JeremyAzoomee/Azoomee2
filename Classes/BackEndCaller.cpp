@@ -256,16 +256,6 @@ void BackEndCaller::onUpdateParentPinAnswerReceived(const std::string& responseS
     }
 }
 
-void BackEndCaller::updateParentDetails(const std::string &displayName, const std::string &pinNumber)
-{
-    
-}
-
-void BackEndCaller::updateParentPassword(const std::string &oldPassword, const std::string &newPassword)
-{
-    
-}
-
 // GETTING PARENT DATA--------------------------------------------------------------------------------
 
 void BackEndCaller::getParentDetails()
