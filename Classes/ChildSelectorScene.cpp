@@ -22,6 +22,7 @@
 #include <AzoomeeCommon/UI/PrivacyLayer.h>
 #include "ContentHistoryManager.h"
 #include "DynamicNodeHandler.h"
+#include "ForceUpdateAppLockScene.h"
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 #include <AzoomeeCommon/Utils/ActionBuilder.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
@@ -90,7 +91,10 @@ bool ChildSelectorScene::init()
 void ChildSelectorScene::onEnterTransitionDidFinish()
 {
     OfflineChecker::getInstance()->setDelegate(this);
-    
+	
+	ForceUpdateSingleton::getInstance()->setDelegate(this);
+	ForceUpdateSingleton::getInstance()->doForceUpdateLogic();
+	
     if(FlowDataSingleton::getInstance()->hasError())
     {
         MessageBox::createWith(FlowDataSingleton::getInstance()->getErrorCode(), nullptr);
@@ -479,6 +483,28 @@ void ChildSelectorScene::callDelegateFunction(float dt)
     }
 }
 
+void ChildSelectorScene::onForceUpdateCheckFinished(const ForceUpdateResult& result)
+{
+	switch (result) {
+		case ForceUpdateResult::DO_NOTHING:
+		{
+			break;
+		}
+		case ForceUpdateResult::NOTIFY:
+		{
+			std::vector<std::string> buttonNames = {_("OK"), _("Update")};
+			MessageBox::createWith(_("Update recommended"), _("You should update to the latest version of Azoomee. Ask a grown-up to help you."), buttonNames, this);
+			break;
+		}
+		case ForceUpdateResult::LOCK:
+		{
+			Director::getInstance()->replaceScene(ForceUpdateAppLockScene::create());
+		}
+		default:
+			break;
+	}
+}
+
 void ChildSelectorScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
 {
     if(messageBoxTitle == StringMgr::getInstance()->getErrorMessageWithCode(ERROR_CODE_EMAIL_VARIFICATION_REQUIRED)[ERROR_TITLE] && buttonTitle == StringMgr::getInstance()->getErrorMessageWithCode(ERROR_CODE_EMAIL_VARIFICATION_REQUIRED)[ERROR_BUTTON])
@@ -488,12 +514,20 @@ void ChildSelectorScene::MessageBoxButtonPressed(std::string messageBoxTitle,std
         
         LoginLogicHandler::getInstance()->forceNewLogin();
     }
+	if(messageBoxTitle == _("Update recommended"))
+	{
+		if(buttonTitle == _("Update"))
+		{
+			Application::getInstance()->openURL(ForceUpdateSingleton::getInstance()->getUpdateUrlFromFile());
+		}
+	}
+	
 }
-
 
 void ChildSelectorScene::onExit()
 {
     OfflineChecker::getInstance()->setDelegate(nullptr);
+	ForceUpdateSingleton::getInstance()->setDelegate(nullptr);
     removeAdultPinLayerDelegate();
 
     Super::onExit();
