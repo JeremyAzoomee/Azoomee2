@@ -7,6 +7,7 @@
 #include "LoginLogicHandler.h"
 #include "SceneManagerScene.h"
 #include "BackEndCaller.h"
+#include "ForceUpdateAppLockScene.h"
 
 #if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     #include <AzoomeeCommon/Utils/IosNativeFunctionsSingleton.h>
@@ -89,7 +90,9 @@ void IntroVideoScene::onEnter()
 {
     Super::onEnter();
     BackEndCaller::getInstance()->ipCheck();
-    
+	
+	
+	
 #ifdef novideo
     navigateToNextScene();
 #endif
@@ -114,6 +117,12 @@ void IntroVideoScene::onEnter()
         Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
     }
     
+}
+
+void IntroVideoScene::onExit()
+{
+	ForceUpdateSingleton::getInstance()->setDelegate(nullptr);
+	Super::onExit();
 }
 
 void IntroVideoScene::videoEventCallback(Ref* sender, VideoPlayer::EventType eventType)
@@ -166,15 +175,9 @@ void IntroVideoScene::navigateToNextScene()
         _videoPlayer->setVisible(false);
     }
     AnalyticsSingleton::getInstance()->registerAppVersion();
-    
-    if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
-    {
-        BackEndCaller::getInstance()->anonymousDeviceLogin();
-    }
-    else
-    {
-        LoginLogicHandler::getInstance()->doLoginLogic();
-    }
+	
+	ForceUpdateSingleton::getInstance()->setDelegate(this);
+	ForceUpdateSingleton::getInstance()->doForceUpdateLogic();
 }
 
 void IntroVideoScene::onSizeChanged()
@@ -185,6 +188,56 @@ void IntroVideoScene::onSizeChanged()
         _videoPlayer->setContentSize(visibleRect.size);
         _videoPlayer->setPosition(Vec2(visibleRect.size.width / 2, visibleRect.size.height /2));
     }
+}
+
+void IntroVideoScene::onForceUpdateCheckFinished(const ForceUpdateResult& result)
+{
+	switch (result)
+	{
+		case ForceUpdateResult::DO_NOTHING:
+		{
+			if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
+			{
+				BackEndCaller::getInstance()->anonymousDeviceLogin();
+			}
+			else
+			{
+				LoginLogicHandler::getInstance()->doLoginLogic();
+			}
+			break;
+		}
+		case ForceUpdateResult::NOTIFY:
+		{
+			std::vector<std::string> buttonNames = {StringMgr::getInstance()->getStringForKey(BUTTON_OK), StringMgr::getInstance()->getStringForKey(BUTTON_UPDATE)};
+			MessageBox::createWith(StringMgr::getInstance()->getStringForKey(FORCE_UPDATE_MSG_BOX_TITLE), StringMgr::getInstance()->getStringForKey(FORCE_UPDATE_MSG_BOX_BODY), buttonNames, this);
+			break;
+		}
+		case ForceUpdateResult::LOCK:
+		{
+			Director::getInstance()->replaceScene(ForceUpdateAppLockScene::create());
+		}
+		default:
+			break;
+	}
+}
+
+void IntroVideoScene::MessageBoxButtonPressed(std::string messageBoxTitle, std::string buttonTitle)
+{
+	if(buttonTitle == "Update")
+	{
+		Application::getInstance()->openURL(ForceUpdateSingleton::getInstance()->getUpdateUrlFromFile());
+	}
+	else
+	{
+		if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
+		{
+			BackEndCaller::getInstance()->anonymousDeviceLogin();
+		}
+		else
+		{
+			LoginLogicHandler::getInstance()->doLoginLogic();
+		}
+	}
 }
 
 NS_AZOOMEE_END
