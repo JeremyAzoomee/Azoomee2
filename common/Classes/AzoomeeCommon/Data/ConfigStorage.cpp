@@ -110,7 +110,8 @@ bool ConfigStorage::init(void)
 		API::TagAddVoucher,
 		API::TagUpdateParentPassword,
 		API::TagUpdateParentDetails,
-		API::TagUpdateChildNameRequest
+		API::TagUpdateChildNameRequest,
+		API::TagGetParentDetails
     };
     requestTagsRequireImmediateSending = {
         kGroupHQName,

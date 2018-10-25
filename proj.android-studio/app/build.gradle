@@ -94,7 +94,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'jars')
     compile project(':libcocos2dx')
     compile project(':azoomee_common')
-    compile 'com.mixpanel.android:mixpanel-android:5.+'
+    compile 'com.mixpanel.android:mixpanel-android:5.3.1'
     compile 'com.google.android.gms:play-services-base:11.2.2'
     compile 'com.google.android.gms:play-services-ads:11.2.2'
     // Crashlytics Kit

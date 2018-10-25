@@ -211,7 +211,6 @@ void TextInputLayer::setupEditBoxUsingType()
         }
         case INPUT_IS_CHILD_NAME:
         {
-            editBox->setMaxLength(12);
             editBox->setInputFlag(ui::EditBox::InputFlag::INITIAL_CAPS_WORD);
             editBox->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
             editBox->setPlaceHolder(_("First name or nickname only").c_str());

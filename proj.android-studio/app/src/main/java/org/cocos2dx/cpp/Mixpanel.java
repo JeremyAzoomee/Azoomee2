@@ -2,6 +2,8 @@ package org.cocos2dx.cpp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
+
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
 import org.json.JSONException;
@@ -19,6 +21,7 @@ public class Mixpanel
     {
         this._context = context;
         this._mixpanelAPI = MixpanelAPI.getInstance(_context , kMixpanelAPIKey);
+        Log.d("MixpanelVer",MixpanelAPI.VERSION);
     }
 
     public void identifyMixpanelWithId(String id)
