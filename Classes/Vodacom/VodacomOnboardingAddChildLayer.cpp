@@ -33,6 +33,8 @@ bool VodacomOnboardingAddChildLayer::init()
 
 void VodacomOnboardingAddChildLayer::onEnter()
 {
+	const Size& contentSize = getContentSize();
+	
 	Label* title = Label::createWithTTF(_("Setup a profile"), Style::Font::Regular, 96);
 	title->setTextColor(Color4B::BLACK);
 	title->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -47,7 +49,7 @@ void VodacomOnboardingAddChildLayer::onEnter()
 	
 	Label* subTitle = Label::createWithTTF(_("In order to get going you’ll need to set up a child profile. Don’t worry, you can add more children later."), Style::Font::Regular, 64);
 	subTitle->setTextColor(Color4B::BLACK);
-	subTitle->setWidth(this->getContentSize().width * 0.65f);
+	subTitle->setWidth(contentSize.width * 0.65f);
 	subTitle->setHorizontalAlignment(TextHAlignment::CENTER);
 	subTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	subTitle->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -70,7 +72,7 @@ void VodacomOnboardingAddChildLayer::onEnter()
 	inputTitleHolder->addChild(inputTitle);
 	_verticalLayout->addChild(inputTitleHolder);
 	
-	_nameInput = TextInputLayer::createSettingsRoundedTextInput(this->getContentSize().width * 0.6f, INPUT_IS_CHILD_NAME);
+	_nameInput = TextInputLayer::createSettingsRoundedTextInput(contentSize.width * 0.6f, INPUT_IS_CHILD_NAME);
 	_nameInput->setCenterPosition(_nameInput->getContentSize() / 2.0f);
 	_nameInput->setDelegate(this);
 	_nameInput->setText(_flowData->getChildName());
@@ -104,9 +106,9 @@ void VodacomOnboardingAddChildLayer::onEnter()
 	Label* detailsLink = Label::createWithTTF(_("Why do we need this?"), Style::Font::Regular, 64);
 	detailsLink->setTextColor(Color4B(Style::Color::skyBlue));
 	float textWidth = detailsLink->getContentSize().width;
-	if(textWidth > this->getContentSize().width * 0.65f)
+	if(textWidth > contentSize.width * 0.65f)
 	{
-		detailsLink->setWidth(this->getContentSize().width * 0.65f);
+		detailsLink->setWidth(contentSize.width * 0.65f);
 	}
 	detailsLink->setHorizontalAlignment(TextHAlignment::CENTER);
 	detailsLink->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -132,7 +134,7 @@ void VodacomOnboardingAddChildLayer::onEnter()
 	detailsLinkHolder->addChild(detailsLink);
 	_verticalLayout->addChild(detailsLinkHolder);
 	
-	_ageInput = TextInputLayer::createSettingsRoundedTextInput(this->getContentSize().width * 0.6f, INPUT_IS_AGE);
+	_ageInput = TextInputLayer::createSettingsRoundedTextInput(contentSize.width * 0.6f, INPUT_IS_AGE);
 	_ageInput->setCenterPosition(_ageInput->getContentSize() / 2.0f);
 	_ageInput->setDelegate(this);
 	_ageInput->setText(_flowData->getChildAge());

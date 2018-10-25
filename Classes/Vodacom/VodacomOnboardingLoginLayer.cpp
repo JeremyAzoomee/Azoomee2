@@ -33,6 +33,8 @@ bool VodacomOnboardingLoginLayer::init()
 
 void VodacomOnboardingLoginLayer::onEnter()
 {
+	const Size& contentSize = getContentSize();
+	
 	_closeButton = ui::Button::create("res/vodacom/close.png");
 	_closeButton->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
 	_closeButton->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
@@ -62,7 +64,7 @@ void VodacomOnboardingLoginLayer::onEnter()
 	});
 	
 	ui::Layout* buttonHolder = ui::Layout::create();
-	buttonHolder->setContentSize(Size(this->getContentSize().width, _closeButton->getContentSize().height));
+	buttonHolder->setContentSize(Size(contentSize.width, _closeButton->getContentSize().height));
 	_verticalLayout->addChild(buttonHolder);
 	
 	buttonHolder->addChild(_closeButton);
@@ -92,7 +94,7 @@ void VodacomOnboardingLoginLayer::onEnter()
 	inputTitleHolder->addChild(inputTitle);
 	_verticalLayout->addChild(inputTitleHolder);
 	
-	_emailInput = TextInputLayer::createSettingsRoundedTextInput(this->getContentSize().width * 0.6f, INPUT_IS_EMAIL);
+	_emailInput = TextInputLayer::createSettingsRoundedTextInput(contentSize.width * 0.6f, INPUT_IS_EMAIL);
 	_emailInput->setCenterPosition(_emailInput->getContentSize() / 2.0f);
 	_emailInput->setDelegate(this);
 	_emailInput->setText(_flowData->getEmail());
@@ -123,7 +125,7 @@ void VodacomOnboardingLoginLayer::onEnter()
 	pwInputTitleHolder->addChild(pwInputTitle);
 	_verticalLayout->addChild(pwInputTitleHolder);
 	
-	_passwordInput = TextInputLayer::createSettingsRoundedTextInput(this->getContentSize().width * 0.6f, INPUT_IS_PASSWORD);
+	_passwordInput = TextInputLayer::createSettingsRoundedTextInput(contentSize.width * 0.6f, INPUT_IS_PASSWORD);
 	_passwordInput->setCenterPosition(_passwordInput->getContentSize() / 2.0f);
 	_passwordInput->setDelegate(this);
 	_passwordInput->setText(_flowData->getPassword());

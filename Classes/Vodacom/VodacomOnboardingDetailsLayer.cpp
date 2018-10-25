@@ -26,6 +26,8 @@ bool VodacomOnboardingDetailsLayer::init()
 
 void VodacomOnboardingDetailsLayer::onEnter()
 {
+	const Size& contentSize = getContentSize();
+	
 	_closeButton = ui::Button::create("res/vodacom/close.png");
 	_closeButton->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
 	_closeButton->setLayoutParameter(CreateRightLinearLayoutParam());
@@ -49,7 +51,7 @@ void VodacomOnboardingDetailsLayer::onEnter()
 	title->setTextColor(Color4B::BLACK);
 	title->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	title->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	title->setWidth(this->getContentSize().width * 0.8f);
+	title->setWidth(contentSize.width * 0.8f);
 	
 	ui::Layout* titleHolder = ui::Layout::create();
 	titleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
@@ -66,7 +68,7 @@ void VodacomOnboardingDetailsLayer::onEnter()
 		bullet->setTextColor(Color4B::BLACK);
 		bullet->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 		bullet->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-		bullet->setWidth(this->getContentSize().width * 0.7f);
+		bullet->setWidth(contentSize.width * 0.7f);
 		
 		Sprite* tick = Sprite::create("res/vodacom/tick.png");
 		tick->setAnchorPoint(Vec2(2.0,0.5));

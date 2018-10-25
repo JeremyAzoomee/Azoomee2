@@ -34,6 +34,8 @@ bool VodacomOnboardingPinLayer::init()
 
 void VodacomOnboardingPinLayer::onEnter()
 {
+	const Size& contentSize = getContentSize();
+	
 	_closeButton = ui::Button::create("res/vodacom/close.png");
 	_closeButton->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
 	_closeButton->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
@@ -62,7 +64,7 @@ void VodacomOnboardingPinLayer::onEnter()
 	});
 	
 	ui::Layout* buttonHolder = ui::Layout::create();
-	buttonHolder->setContentSize(Size(this->getContentSize().width, _closeButton->getContentSize().height));
+	buttonHolder->setContentSize(Size(contentSize.width, _closeButton->getContentSize().height));
 	_verticalLayout->addChild(buttonHolder);
 	
 	buttonHolder->addChild(_closeButton);
@@ -82,7 +84,7 @@ void VodacomOnboardingPinLayer::onEnter()
 	
 	Label* subTitle = Label::createWithTTF(_("Create a 4 digit PIN to access your settings."), Style::Font::Regular, 64);
 	subTitle->setTextColor(Color4B::BLACK);
-	subTitle->setWidth(this->getContentSize().width * 0.65f);
+	subTitle->setWidth(contentSize.width * 0.65f);
 	subTitle->setHorizontalAlignment(TextHAlignment::CENTER);
 	subTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	subTitle->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -105,7 +107,7 @@ void VodacomOnboardingPinLayer::onEnter()
 	inputTitleHolder->addChild(inputTitle);
 	_verticalLayout->addChild(inputTitleHolder);
 	
-	_pinInput = TextInputLayer::createSettingsRoundedTextInput(this->getContentSize().width * 0.6f, INPUT_IS_PIN);
+	_pinInput = TextInputLayer::createSettingsRoundedTextInput(contentSize.width * 0.6f, INPUT_IS_PIN);
 	_pinInput->setCenterPosition(_pinInput->getContentSize() / 2.0f);
 	_pinInput->setDelegate(this);
 	_pinInput->setText(_flowData->getPin());

@@ -71,6 +71,8 @@ void VodacomOnboardingErrorLayer::onEnter()
 
 void VodacomOnboardingErrorLayer::setupForVoucherError()
 {
+	const Size& contentSize = getContentSize();
+	
 	if(_flowData->getUserType() == UserType::FREE)
 	{
 		ui::Button* closeButton = ui::Button::create("res/vodacom/close.png");
@@ -103,7 +105,7 @@ void VodacomOnboardingErrorLayer::setupForVoucherError()
 	subHeading->setHorizontalAlignment(TextHAlignment::CENTER);
 	subHeading->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	subHeading->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	subHeading->setWidth(this->getContentSize().width * 0.7f);
+	subHeading->setWidth(contentSize.width * 0.7f);
 	
 	ui::Layout* subHeadingHolder = ui::Layout::create();
 	subHeadingHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
@@ -123,7 +125,7 @@ void VodacomOnboardingErrorLayer::setupForVoucherError()
 	inputTitleHolder->addChild(inputTitle);
 	_verticalLayout->addChild(inputTitleHolder);
 	
-	_voucherInput = TextInputLayer::createSettingsRoundedTextInput(this->getContentSize().width * 0.6f, INPUT_IS_VOUCHER);
+	_voucherInput = TextInputLayer::createSettingsRoundedTextInput(contentSize.width * 0.6f, INPUT_IS_VOUCHER);
 	_voucherInput->setCenterPosition(_voucherInput->getContentSize() / 2.0f);
 	_voucherInput->setDelegate(this);
 	
@@ -236,6 +238,8 @@ void VodacomOnboardingErrorLayer::setupForVoucherError()
 
 void VodacomOnboardingErrorLayer::setupForLoginError()
 {
+	const Size& contentSize = getContentSize();
+	
 	ui::Button* closeButton = ui::Button::create("res/vodacom/close.png");
 	closeButton->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
 	closeButton->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
@@ -263,7 +267,7 @@ void VodacomOnboardingErrorLayer::setupForLoginError()
 	});
 	
 	ui::Layout* buttonHolder = ui::Layout::create();
-	buttonHolder->setContentSize(Size(this->getContentSize().width, closeButton->getContentSize().height));
+	buttonHolder->setContentSize(Size(contentSize.width, closeButton->getContentSize().height));
 	_verticalLayout->addChild(buttonHolder);
 	
 	buttonHolder->addChild(closeButton);
@@ -286,7 +290,7 @@ void VodacomOnboardingErrorLayer::setupForLoginError()
 	subHeading->setHorizontalAlignment(TextHAlignment::CENTER);
 	subHeading->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	subHeading->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	subHeading->setWidth(this->getContentSize().width * 0.7f);
+	subHeading->setWidth(contentSize.width * 0.7f);
 	
 	ui::Layout* subHeadingHolder = ui::Layout::create();
 	subHeadingHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
@@ -366,6 +370,8 @@ void VodacomOnboardingErrorLayer::setupForLoginError()
 
 void VodacomOnboardingErrorLayer::setupForPasswordReset()
 {
+	const Size& contentSize = getContentSize();
+	
 	ui::Button* closeButton = ui::Button::create("res/vodacom/close.png");
 	closeButton->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
 	closeButton->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
@@ -393,7 +399,7 @@ void VodacomOnboardingErrorLayer::setupForPasswordReset()
 	});
 	
 	ui::Layout* buttonHolder = ui::Layout::create();
-	buttonHolder->setContentSize(Size(this->getContentSize().width, closeButton->getContentSize().height));
+	buttonHolder->setContentSize(Size(contentSize.width, closeButton->getContentSize().height));
 	_verticalLayout->addChild(buttonHolder);
 	
 	buttonHolder->addChild(closeButton);
@@ -416,7 +422,7 @@ void VodacomOnboardingErrorLayer::setupForPasswordReset()
 	subHeading->setHorizontalAlignment(TextHAlignment::CENTER);
 	subHeading->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	subHeading->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	subHeading->setWidth(this->getContentSize().width * 0.7f);
+	subHeading->setWidth(contentSize.width * 0.7f);
 	
 	ui::Layout* subHeadingHolder = ui::Layout::create();
 	subHeadingHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
@@ -517,6 +523,8 @@ void VodacomOnboardingErrorLayer::setupForPasswordReset()
 
 void VodacomOnboardingErrorLayer::setupForAlreadyRegistered()
 {
+	const Size& contentSize = getContentSize();
+	
 	ui::Button* closeButton = ui::Button::create("res/vodacom/close.png");
 	closeButton->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
 	closeButton->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
@@ -544,7 +552,7 @@ void VodacomOnboardingErrorLayer::setupForAlreadyRegistered()
 	});
 	
 	ui::Layout* buttonHolder = ui::Layout::create();
-	buttonHolder->setContentSize(Size(this->getContentSize().width, closeButton->getContentSize().height));
+	buttonHolder->setContentSize(Size(contentSize.width, closeButton->getContentSize().height));
 	_verticalLayout->addChild(buttonHolder);
 	
 	buttonHolder->addChild(closeButton);
@@ -567,7 +575,7 @@ void VodacomOnboardingErrorLayer::setupForAlreadyRegistered()
 	subHeading->setHorizontalAlignment(TextHAlignment::CENTER);
 	subHeading->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	subHeading->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	subHeading->setWidth(this->getContentSize().width * 0.7f);
+	subHeading->setWidth(contentSize.width * 0.7f);
 	
 	ui::Layout* subHeadingHolder = ui::Layout::create();
 	subHeadingHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
@@ -649,6 +657,8 @@ void VodacomOnboardingErrorLayer::setupForAlreadyRegistered()
 
 void VodacomOnboardingErrorLayer::setupForAlreadyPremium()
 {
+	const Size& contentSize = getContentSize();
+	
 	ui::Button* closeButton = ui::Button::create("res/vodacom/close.png");
 	closeButton->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
 	closeButton->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
@@ -676,7 +686,7 @@ void VodacomOnboardingErrorLayer::setupForAlreadyPremium()
 	});
 	
 	ui::Layout* buttonHolder = ui::Layout::create();
-	buttonHolder->setContentSize(Size(this->getContentSize().width, closeButton->getContentSize().height));
+	buttonHolder->setContentSize(Size(contentSize.width, closeButton->getContentSize().height));
 	_verticalLayout->addChild(buttonHolder);
 	
 	buttonHolder->addChild(closeButton);
@@ -699,7 +709,7 @@ void VodacomOnboardingErrorLayer::setupForAlreadyPremium()
 	subHeading->setHorizontalAlignment(TextHAlignment::CENTER);
 	subHeading->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	subHeading->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	subHeading->setWidth(this->getContentSize().width * 0.7f);
+	subHeading->setWidth(contentSize.width * 0.7f);
 	
 	ui::Layout* subHeadingHolder = ui::Layout::create();
 	subHeadingHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));

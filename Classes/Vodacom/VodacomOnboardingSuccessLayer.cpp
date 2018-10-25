@@ -27,6 +27,8 @@ bool VodacomOnboardingSuccessLayer::init()
 
 void VodacomOnboardingSuccessLayer::onEnter()
 {
+	const Size& contentSize = getContentSize();
+	
 	Label* title = Label::createWithTTF(_("Success!"), Style::Font::Regular, 96);
 	title->setTextColor(Color4B::BLACK);
 	title->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -46,7 +48,7 @@ void VodacomOnboardingSuccessLayer::onEnter()
 		validUntil->setHorizontalAlignment(TextHAlignment::CENTER);
 		validUntil->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 		validUntil->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-		validUntil->setWidth(this->getContentSize().width * 0.75f);
+		validUntil->setWidth(contentSize.width * 0.75f);
 		
 		ui::Layout* validUntilHolder = ui::Layout::create();
 		validUntilHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
@@ -61,7 +63,7 @@ void VodacomOnboardingSuccessLayer::onEnter()
 		subHeading->setHorizontalAlignment(TextHAlignment::CENTER);
 		subHeading->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 		subHeading->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-		subHeading->setWidth(this->getContentSize().width * 0.75f);
+		subHeading->setWidth(contentSize.width * 0.75f);
 		
 		ui::Layout* subHeadingHolder = ui::Layout::create();
 		subHeadingHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));

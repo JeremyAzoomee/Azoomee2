@@ -30,6 +30,8 @@ bool VodacomOnboardingVoucherLayer::init()
 
 void VodacomOnboardingVoucherLayer::onEnter()
 {
+	const Size& contentSize = getContentSize();
+	
 	_closeButton = ui::Button::create("res/vodacom/close.png");
 	_closeButton->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
 	_closeButton->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
@@ -58,7 +60,7 @@ void VodacomOnboardingVoucherLayer::onEnter()
 	});
 	
 	ui::Layout* buttonHolder = ui::Layout::create();
-	buttonHolder->setContentSize(Size(this->getContentSize().width, _closeButton->getContentSize().height));
+	buttonHolder->setContentSize(Size(contentSize).width, _closeButton->getContentSize().height));
 	_verticalLayout->addChild(buttonHolder);
 	
 	buttonHolder->addChild(_closeButton);
@@ -88,7 +90,7 @@ void VodacomOnboardingVoucherLayer::onEnter()
 	inputTitleHolder->addChild(inputTitle);
 	_verticalLayout->addChild(inputTitleHolder);
 	
-	_voucherInput = TextInputLayer::createSettingsRoundedTextInput(this->getContentSize().width * 0.6f, INPUT_IS_VOUCHER);
+	_voucherInput = TextInputLayer::createSettingsRoundedTextInput(contentSize.width * 0.6f, INPUT_IS_VOUCHER);
 	_voucherInput->setCenterPosition(_voucherInput->getContentSize() / 2.0f);
 	_voucherInput->setDelegate(this);
 	_voucherInput->setText(_flowData->getVoucherCode());
