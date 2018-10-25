@@ -106,6 +106,8 @@ public:
     void resetPasswordRequest(const std::string& emailAddress);
     // Get force update data
     void getForceUpdateData();
+    // Get Parent details
+    void getParentDetails();
 };
 
 NS_AZOOMEE_END

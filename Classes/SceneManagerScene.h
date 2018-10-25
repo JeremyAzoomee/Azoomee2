@@ -20,7 +20,8 @@ enum SceneNameEnum {
     ArtAppEntryPointScene,
     OomeeMakerEntryPointScene,
     SettingsFromChat,
-    Settings,
+    SettingsFromHQ,
+	SettingsFromChildSelect,
     introVideo,
     AddChild,
     AddChildFirstTime

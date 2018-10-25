@@ -916,7 +916,7 @@ void MessageComposer::createMessageEntryUI(cocos2d::ui::Layout* parent)
     const float textEntryLeftMargin = 50.0f;
     
     // TODO: Get text from Strings
-    _messageEntryField = ChatTextField::create("Type a message here...", Style::Font::RegularSystemName, 65.0f);
+    _messageEntryField = ChatTextField::create(_("Type a message here..."), Style::Font::RegularSystemName, 65.0f);
     _messageEntryField->setCursorEnabled(true);
     _messageEntryField->ignoreContentAdaptWithSize(false);
     _messageEntryField->setTextHorizontalAlignment(TextHAlignment::LEFT);

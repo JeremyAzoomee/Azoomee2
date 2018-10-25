@@ -42,6 +42,10 @@ const char* const API::TagCookieRefresh = "cookieRefresh";
 const char* const API::TagGetContentPoolRequest = "getContentPool";
 const char* const API::TagGetHqStructureDataRequest = "getHQStructureData";
 const char* const API::TagUpdateChildAvatar = "updateChildAvatar";
+const char* const API::TagUpdateParentDetails = "updateParentDetails";
+const char* const API::TagUpdateParentPassword = "updateParentPassword";
+const char* const API::TagGetParentDetails = "getParentDetails";
+const char* const API::TagUpdateChildNameRequest = "updateChildNameRequest";
 
 #pragma mark - API Methods
 
@@ -338,6 +342,55 @@ HttpRequestCreator* API::GetHQStructureDataRequest(const std::string& childId, A
     return request;
 }
 
+HttpRequestCreator* API::UpdateParentDetailsRequest(const std::string &parentId,
+                                                    const std::string &displayName,
+                                                    const std::string &pinNumber,
+                                                    Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestBody = StringUtils::format("{\"displayName\":\"%s\",\"pinNumber\":\"%s\"}", displayName.c_str(), pinNumber.c_str());
+    request->requestTag = TagUpdateParentDetails;
+    request->requestPath = StringUtils::format("/api/user/adult/%s",parentId.c_str());
+    request->method = "PATCH";
+    request->encrypted = true;
+    return request;
+};
+
+HttpRequestCreator* API::UpdateParentPasswordRequest(const std::string &parentId,
+                                                     const std::string &oldPassword,
+                                                     const std::string &newPassword,
+                                                     Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestBody = StringUtils::format("{\"oldPassword\":\"%s\",\"newPassword\":\"%s\"}", oldPassword.c_str(), newPassword.c_str());
+    request->requestTag = TagUpdateParentPassword;
+    request->requestPath = StringUtils::format("/api/user/v2/adult/%s/password",parentId.c_str());
+    request->method = "PATCH";
+    request->encrypted = true;
+    return request;
+};
+
+HttpRequestCreator* API::getParentDetailsRequest(const std::string &parentId, Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestTag = TagGetParentDetails;
+    request->requestPath = StringUtils::format("/api/user/adult/%s",parentId.c_str());
+    request->encrypted = true;
+    return request;
+}
+
+HttpRequestCreator* API::UpdateChildNameRequest(const std::string& childId,
+                                                const std::string& newName,
+                                                HttpRequestCreatorResponseDelegate* delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestBody = StringUtils::format("{\"profileName\":\"%s\"}", newName.c_str());
+    request->requestPath = StringUtils::format("/api/user/child/%s",childId.c_str());
+    request->requestTag = TagUpdateChildNameRequest;
+    request->method = "PATCH";
+    request->encrypted = true;
+    return request;
+}
 
 #pragma mark - Sharing
 

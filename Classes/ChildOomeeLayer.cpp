@@ -33,7 +33,7 @@ void ChildOomeeLayer::onEnter()
     bool isPortrait = contentSize.width < contentSize.height;
    
     
-    Label* mainTitle = Label::createWithTTF(StringUtils::format(StringMgr::getInstance()->getStringForKey(ADDCHILD_OOMEE_TITLE).c_str(),_childCreator->getName().c_str()), Style::Font::Regular, 120);
+    Label* mainTitle = Label::createWithTTF(StringUtils::format(_("Here is %s’s Oomee").c_str(),_childCreator->getName().c_str()), Style::Font::Regular, 120);
     mainTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     mainTitle->setPosition(Vec2(contentSize.width / 2, contentSize.height - (mainTitle->getContentSize().height * ((is18x9 && !isPortrait) ? 0.5f : 1.0f))));
     mainTitle->setColor(Style::Color::white);
@@ -56,11 +56,12 @@ void ChildOomeeLayer::onEnter()
     
     saveDefaultOomeeToOomeeMakerFiles();
     
-    Label* subTitle = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(isPortrait ? ADDCHILD_OOMEE_SUB_TITLE_MULTILINE : ADDCHILD_OOMEE_SUB_TITLE), Style::Font::Regular, (is18x9 && !isPortrait) ? 75 : 90);
+    Label* subTitle = Label::createWithTTF(_("Don’t worry if they don’t like it, they can change it anytime in the Oomee Maker."), Style::Font::Regular, (is18x9 && !isPortrait) ? 75 : 90);
     subTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     subTitle->setPosition(_oomee->getPosition() - Vec2(0,oomeeHeight + offset[isPortrait]));
     subTitle->setColor(Color3B::WHITE);
     subTitle->setHorizontalAlignment(TextHAlignment::CENTER);
+	subTitle->setWidth(contentSize.width * 0.75f);
     this->addChild(subTitle);
     
     ui::Button* doneButton = ui::Button::create("res/buttons/MainButton.png");
@@ -81,7 +82,7 @@ void ChildOomeeLayer::onEnter()
     });
     this->addChild(doneButton);
     
-    Label* doneButtonText = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(BUTTON_DONE), Style::Font::Regular, doneButton->getContentSize().height * 0.4f);
+    Label* doneButtonText = Label::createWithTTF(_("Done"), Style::Font::Regular, doneButton->getContentSize().height * 0.4f);
     doneButtonText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     doneButtonText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     doneButtonText->setTextColor(Color4B::BLACK);
@@ -106,7 +107,7 @@ void ChildOomeeLayer::onEnter()
     });
     this->addChild(addAnotherButton);
     
-    Label* addAnotherButtonText = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(BUTTON_ADD_ANOTHE_CHILD), Style::Font::Regular, addAnotherButton->getContentSize().height * 0.4f);
+    Label* addAnotherButtonText = Label::createWithTTF(_("Add another"), Style::Font::Regular, addAnotherButton->getContentSize().height * 0.4f);
     addAnotherButtonText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     addAnotherButtonText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     addAnotherButtonText->setTextColor(Color4B::BLACK);

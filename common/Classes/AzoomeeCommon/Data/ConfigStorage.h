@@ -62,6 +62,14 @@ public:
     static const std::string kArtCacheFolder;
     
     static const std::string kGameDownloadError;
+	
+	static const std::string kIOSSubURL;
+	static const std::string kAndroidSubURL;
+	static const std::string kAmazonSubURL;
+	
+	static const std::string kBillingProviderApple;
+	static const std::string kBillingProviderGoogle;
+	static const std::string kBillingProviderAmazon;
     
     /** Returns the shared instance of the Game Manager */
     static ConfigStorage* getInstance(void);

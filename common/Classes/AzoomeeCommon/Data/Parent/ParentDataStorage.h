@@ -29,6 +29,8 @@ public:
     std::string loggedInParentActorStatus;
     std::string loggedInParentPin;
     std::string loggedInParentAvatarId;
+    std::string loggedInParentDisplayName;
+    std::string loggedInParentEmail;
     std::string loggedInParentBillingStatus;
     std::string loggedInParentBillingDate;
     std::string loggedInParentBillingProvider;

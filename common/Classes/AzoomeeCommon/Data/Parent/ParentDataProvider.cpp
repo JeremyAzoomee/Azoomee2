@@ -63,7 +63,17 @@ std::string ParentDataProvider::getLoggedInParentAvatarId() const
 {
     return ParentDataStorage::getInstance()->loggedInParentAvatarId;
 }
+
+std::string ParentDataProvider::getParentEmail() const
+{
+    return ParentDataStorage::getInstance()->loggedInParentEmail;
+}
     
+std::string ParentDataProvider::getParentDisplayName() const
+{
+    return ParentDataStorage::getInstance()->loggedInParentDisplayName;
+}
+
 std::string ParentDataProvider::getLoggedInParentCountryCode() const
 {
     return ParentDataStorage::getInstance()->loggedInParentCountryCode;
@@ -179,6 +189,28 @@ std::string ParentDataProvider::getIDForAvailableChildren(int childNumber) const
 std::string ParentDataProvider::getInviteCodeForAnAvailableChild(int childNumber) const
 {
     return ParentDataStorage::getInstance()->availableChildren.at(childNumber)["inviteCode"];
+}
+
+int ParentDataProvider::getChildNumberFromId(const std::string &childId) const
+{
+    const auto& childIdMap = ParentDataStorage::getInstance()->availableChildrenById;
+    if(childIdMap.find(childId) != childIdMap.end())
+    {
+        return childIdMap.at(childId);
+    }
+    return -1;
+}
+    
+std::string ParentDataProvider::getInviteCodeForChildName(const std::string& name) const
+{
+    for(auto childDataMap : ParentDataStorage::getInstance()->availableChildren)
+    {
+        if(childDataMap["profileName"] == name)
+        {
+            return childDataMap["inviteCode"];
+        }
+    }
+    return "";
 }
     
 //-----------Pending Friend Requests-------------

@@ -16,11 +16,12 @@
 #include "OomeeMakerDelegate.h"
 #include <AzoomeeOomeeMaker/UI/OomeeSelectScene.h>
 #include "ArtAppDelegate.h"
-#include "EmptySceneForSettings.h"
 #include "WebViewSelector.h"
 #include "IntroVideoScene.h"
 #include "ContentHistoryManager.h"
 #include "AddChildScene.h"
+
+#include "SettingsHub.h"
 
 using namespace cocos2d;
 
@@ -169,21 +170,33 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         case SettingsFromChat:
         {
             HQHistoryManager::getInstance()->updatePrevOrientation();
-            forceToLandscape();
-            cocos2d::Scene* goToScene = EmptySceneForSettings::createScene(SettingsOrigin::CHAT);
+            forceToPortrait();
+			auto* goToScene = SettingsHub::create();
+			goToScene->setOrigin(SettingsOrigin::CHAT);
             AnalyticsSingleton::getInstance()->registerCurrentScene("SETTINGS");
             Director::getInstance()->replaceScene(goToScene);
             break;
         }
-        case Settings:
+        case SettingsFromHQ:
         {
             HQHistoryManager::getInstance()->updatePrevOrientation();
-            forceToLandscape();
-            cocos2d::Scene* goToScene = EmptySceneForSettings::createScene(SettingsOrigin::MAIN_APP);
+            forceToPortrait();
+			auto* goToScene = SettingsHub::create();
+			goToScene->setOrigin(SettingsOrigin::HQ);
             AnalyticsSingleton::getInstance()->registerCurrentScene("SETTINGS");
             Director::getInstance()->replaceScene(goToScene);
             break;
         }
+		case SettingsFromChildSelect:
+		{
+			HQHistoryManager::getInstance()->updatePrevOrientation();
+			forceToPortrait();
+			auto* goToScene = SettingsHub::create();
+			goToScene->setOrigin(SettingsOrigin::CHILD_SELECT);
+			AnalyticsSingleton::getInstance()->registerCurrentScene("SETTINGS");
+			Director::getInstance()->replaceScene(goToScene);
+			break;
+		}
         case WebviewPortrait:
         {
             HQHistoryManager::getInstance()->updatePrevOrientation();

@@ -17,7 +17,7 @@ Layer* MessageBoxChatReportChatLayer::create(Layer* parentLayer)
     auto layer = MessageBoxChatReportChatLayer::create();
     
     layer->_parentLayer = parentLayer;
-    layer->_messageBoxTitle = StringMgr::getInstance()->getStringForKey(CHAT_MESSAGE_BOXES_REPORT_CHAT_TITLE);
+    layer->_messageBoxTitle = _("Do you really want to report this chat to your parents?");
     
     layer->onSizeChanged();
     
@@ -67,11 +67,11 @@ void MessageBoxChatReportChatLayer::createSprite()
 
 void MessageBoxChatReportChatLayer::createButtons()
 {
-    onlineSafetyTipsButton = ElectricDreamsButton::createTextAsButtonAqua(StringMgr::getInstance()->getStringForKey(BUTTON_ONLINE_SAFETY_TIPS), 64, true);
+    onlineSafetyTipsButton = ElectricDreamsButton::createTextAsButtonAqua(_("online safety tips"), 64, true);
     onlineSafetyTipsButton->setMixPanelButtonName("MessageBox-OnlineSafetyTips");
     onlineSafetyTipsButton->setDelegate(this);
     
-    reportButton = ElectricDreamsButton::createButtonWithWidth(StringMgr::getInstance()->getStringForKey(BUTTON_REPORT), onlineSafetyTipsButton->getContentSize().width);
+    reportButton = ElectricDreamsButton::createButtonWithWidth(_("Report"), onlineSafetyTipsButton->getContentSize().width);
     reportButton->setMixPanelButtonName("MessageBox-Report");
     reportButton->setDelegate(this);
 }

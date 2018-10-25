@@ -111,8 +111,8 @@ void ForceUpdateSingleton::onForceUpdateLogicHasLocalFile()
         if(isAppCloseRequired())
         {
 			if(_delegate)
-			{_delegate->onForceUpdateCheckFinished(ForceUpdateResult::LOCK);
-				
+			{
+				_delegate->onForceUpdateCheckFinished(ForceUpdateResult::LOCK);
 			}
         }
         else

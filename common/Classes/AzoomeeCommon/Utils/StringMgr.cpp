@@ -1,6 +1,7 @@
 #include "StringMgr.h"
 #include "../Analytics/AnalyticsSingleton.h"
 #include "StringFunctions.h"
+#include "../Data/Json.h"
 #include <cocos/cocos2d.h>
 
 using namespace cocos2d;
@@ -39,22 +40,27 @@ bool StringMgr::init(void)
 
 std::string StringMgr::getStringForKey(std::string key)
 {
-    return getStringFromJson(splitStringToVector(key, "/"), stringsDocument);
+    return getStringFromJson(key, stringsDocument);
 }
 
 std::map<std::string, std::string> StringMgr::getErrorMessageWithCode(long errorCode)
 {
     std::string errorCodeString = StringUtils::format("%ld",errorCode);
-    
+
     if(!errorMessagesDocument.HasMember(errorCodeString.c_str()))
         errorCodeString = "default";
     
     std::map<std::string, std::string> errorMap;
-    
-    errorMap[ERROR_TITLE] = getStringFromJson(std::vector<std::string>{errorCodeString,ERROR_TITLE}, errorMessagesDocument);
-    errorMap[ERROR_BODY] = getStringFromJson(std::vector<std::string>{errorCodeString,ERROR_BODY}, errorMessagesDocument);
-    errorMap[ERROR_BUTTON] = getStringFromJson(std::vector<std::string>{errorCodeString,ERROR_BUTTON}, errorMessagesDocument);
-    errorMap[ERROR_BUTTON_REFERENCE] = getStringFromJson(std::vector<std::string>{errorCodeString,ERROR_BUTTON_REFERENCE}, errorMessagesDocument);
+	
+	const std::string& titleKey  = getNestedStringFromJson(std::vector<std::string>{errorCodeString,ERROR_TITLE}, errorMessagesDocument);
+	const std::string& bodyKey = getNestedStringFromJson(std::vector<std::string>{errorCodeString,ERROR_BODY}, errorMessagesDocument);
+	const std::string& buttonKey = getNestedStringFromJson(std::vector<std::string>{errorCodeString,ERROR_BUTTON}, errorMessagesDocument);
+	const std::string& buttonRefKey = getNestedStringFromJson(std::vector<std::string>{errorCodeString,ERROR_BUTTON_REFERENCE}, errorMessagesDocument);
+	
+    errorMap[ERROR_TITLE] = getStringFromJson(titleKey, stringsDocument);
+    errorMap[ERROR_BODY] = getStringFromJson(bodyKey, stringsDocument);
+    errorMap[ERROR_BUTTON] = getStringFromJson(buttonKey, stringsDocument);
+    errorMap[ERROR_BUTTON_REFERENCE] = getStringFromJson(buttonRefKey, stringsDocument);
 
     
     return errorMap;
@@ -82,7 +88,7 @@ Document StringMgr::parseFile(std::string languageID, std::string stringFile)
     std::string fileContent = FileUtils::getInstance()->getStringFromFile(filename);
     Document document;
     document.Parse(fileContent.c_str());
-    
+	
     if(document.HasParseError())
     {
         cocos2d::log("Language file parsing error!");
@@ -91,7 +97,7 @@ Document StringMgr::parseFile(std::string languageID, std::string stringFile)
     return document;
 }
 
-std::string StringMgr::getStringFromJson(std::vector<std::string> jsonKeys, rapidjson::Value& sceneJsonDictionary)
+std::string StringMgr::getNestedStringFromJson(std::vector<std::string> jsonKeys, rapidjson::Value& sceneJsonDictionary)
 {
     std::string stringError = "Text not found.";
     
@@ -114,7 +120,7 @@ std::string StringMgr::getStringFromJson(std::vector<std::string> jsonKeys, rapi
     else if(sceneJsonDictionary.HasMember(currentKey.c_str()) && !sceneJsonDictionary[currentKey.c_str()].IsNull())
         {
             jsonKeys.erase(jsonKeys.begin() + 0);
-            return getStringFromJson(jsonKeys,sceneJsonDictionary[currentKey.c_str()]);
+            return getNestedStringFromJson(jsonKeys,sceneJsonDictionary[currentKey.c_str()]);
         }
 
     //Due to Error Button Reference being optional

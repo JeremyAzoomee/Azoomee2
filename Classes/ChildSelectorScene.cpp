@@ -121,7 +121,7 @@ void ChildSelectorScene::addVisualsToScene()
 {
     addBackgroundToScreen();
     
-    auto selectTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(CHILD_SELECTSCENE_TITLE_LABEL));
+    auto selectTitle = createLabelHeader(_("Select your profile"));
     selectTitle->setNormalizedPosition(Vec2(0.5,0.9));
     _contentNode->addChild(selectTitle);
 }
@@ -492,8 +492,8 @@ void ChildSelectorScene::onForceUpdateCheckFinished(const ForceUpdateResult& res
 		}
 		case ForceUpdateResult::NOTIFY:
 		{
-			std::vector<std::string> buttonNames = {StringMgr::getInstance()->getStringForKey(BUTTON_OK), StringMgr::getInstance()->getStringForKey(BUTTON_UPDATE)};
-			MessageBox::createWith(StringMgr::getInstance()->getStringForKey(FORCE_UPDATE_MSG_BOX_TITLE), StringMgr::getInstance()->getStringForKey(FORCE_UPDATE_MSG_BOX_BODY), buttonNames, this);
+			std::vector<std::string> buttonNames = {_("OK"), _("Update")};
+			MessageBox::createWith(_("Update recommended"), _("You should update to the latest version of Azoomee. Ask a grown-up to help you."), buttonNames, this);
 			break;
 		}
 		case ForceUpdateResult::LOCK:
@@ -514,9 +514,9 @@ void ChildSelectorScene::MessageBoxButtonPressed(std::string messageBoxTitle,std
         
         LoginLogicHandler::getInstance()->forceNewLogin();
     }
-	if(messageBoxTitle == StringMgr::getInstance()->getStringForKey(FORCE_UPDATE_MSG_BOX_TITLE))
+	if(messageBoxTitle == _("Update recommended"))
 	{
-		if(buttonTitle == StringMgr::getInstance()->getStringForKey(BUTTON_UPDATE))
+		if(buttonTitle == _("Update"))
 		{
 			Application::getInstance()->openURL(ForceUpdateSingleton::getInstance()->getUpdateUrlFromFile());
 		}

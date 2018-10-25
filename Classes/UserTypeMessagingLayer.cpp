@@ -55,7 +55,7 @@ void UserTypeMessagingLayer::onEnter()
         }
     });
     
-    _startTrialLabel = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(USER_MSG_START_TRIAL), Style::Font::Regular, _startTrialButton->getContentSize().height * ( is18x9 ? 0.35 : 0.4 ));
+    _startTrialLabel = Label::createWithTTF(_("Start 7 Day Free Trial"), Style::Font::Regular, _startTrialButton->getContentSize().height * ( is18x9 ? 0.35 : 0.4 ));
     _startTrialLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _startTrialLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _startTrialLabel->setTextColor(Color4B(246,187,66,255));
@@ -78,7 +78,7 @@ void UserTypeMessagingLayer::onEnter()
         }
     });
     
-    _signInLabel = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(BUTTON_LOG_IN), Style::Font::Regular, _signInButton->getContentSize().height * 0.4);
+    _signInLabel = Label::createWithTTF(_("Log in"), Style::Font::Regular, _signInButton->getContentSize().height * 0.4);
     _signInLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _signInLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _signInLabel->setTextColor(Color4B::WHITE);
@@ -105,7 +105,7 @@ void UserTypeMessagingLayer::onEnter()
         }
     });
     
-    _reactivateLabel = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(USER_MSG_REACTIVATE), Style::Font::Regular, _reactivateButton->getContentSize().height * 0.4);
+    _reactivateLabel = Label::createWithTTF(_("Reactivate your account"), Style::Font::Regular, _reactivateButton->getContentSize().height * 0.4);
     _reactivateLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _reactivateLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _reactivateLabel->setTextColor(Color4B(246,187,66,255));
@@ -113,9 +113,11 @@ void UserTypeMessagingLayer::onEnter()
     
     this->addChild(_reactivateButton);
     
-    _premiumLabel = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(isPortrait ? USER_MSG_PREMIUM_MULTILINE : USER_MSG_PREMIUM), Style::Font::Regular, 72);
+    _premiumLabel = Label::createWithTTF(_("Congratulations! You are now a Premium User"), Style::Font::Regular, 72);
     _premiumLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _premiumLabel->setTextColor(Color4B::WHITE);
+	_premiumLabel->setOverflow(Label::Overflow::SHRINK);
+	_premiumLabel->setDimensions(this->getContentSize().width * 0.8f, this->getContentSize().height * 0.8f);
     this->addChild(_premiumLabel);
     
     switch (_userType) {
@@ -164,7 +166,7 @@ void UserTypeMessagingLayer::repositionElements()
     _reactivateButton->setNormalizedPosition(Vec2(isPortrait ? 0.5 : 0.5, 0.5));
     _reactivateLabel->setBMFontSize(_reactivateButton->getContentSize().height * 0.4);
     
-    _premiumLabel->setString(StringMgr::getInstance()->getStringForKey(isPortrait ? USER_MSG_PREMIUM_MULTILINE : USER_MSG_PREMIUM));
+    _premiumLabel->setString(_("Congratulations! You are now a Premium User"));
 }
 
 NS_AZOOMEE_END

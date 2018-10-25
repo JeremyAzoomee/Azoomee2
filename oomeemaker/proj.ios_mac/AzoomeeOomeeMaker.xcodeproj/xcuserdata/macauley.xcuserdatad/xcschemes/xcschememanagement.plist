@@ -4,11 +4,6 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>AzoomeeOomeeMaker-desktop.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>14</integer>
-		</dict>
 		<key>AzoomeeOomeeMaker-mobile.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -18,11 +13,6 @@
 		<dict>
 			<key>orderHint</key>
 			<integer>14</integer>
-		</dict>
-		<key>libAzoomeeOomeeMaker.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>15</integer>
 		</dict>
 	</dict>
 </dict>

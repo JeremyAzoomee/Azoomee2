@@ -227,7 +227,7 @@ void OomeeMakerScene::onEnter()
         {
             if(_oomee->getUndoStackSize() > 1 || _newOomee)
             {
-                ConfirmCancelMessageBox* messageBox = ConfirmCancelMessageBox::createWithParams(StringMgr::getInstance()->getStringForKey(SAVEQ_LABEL), "res/buttons/confirm_tick_2.png", "res/buttons/confirm_x_2.png");
+                ConfirmCancelMessageBox* messageBox = ConfirmCancelMessageBox::createWithParams(_("Save?"), "res/buttons/confirm_tick_2.png", "res/buttons/confirm_x_2.png");
                 messageBox->setDelegate(this);
                 messageBox->setName(kSavePopupId);
 				messageBox->setPosition(Vec2(-this->getContentSize().width * 0.08f, 0));
@@ -274,7 +274,7 @@ void OomeeMakerScene::onEnter()
     resetOomeeButon->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            ConfirmCancelMessageBox* messageBox = ConfirmCancelMessageBox::createWithParams(StringMgr::getInstance()->getStringForKey(RESETQ_LABEL), "res/buttons/confirm_bin.png", "res/buttons/confirm_x_2.png");
+            ConfirmCancelMessageBox* messageBox = ConfirmCancelMessageBox::createWithParams(_("Reset?"), "res/buttons/confirm_bin.png", "res/buttons/confirm_x_2.png");
             messageBox->setDelegate(this);
             messageBox->setName(kResetPopupId);
 			messageBox->setPosition(Vec2(-this->getContentSize().width * 0.08f, 0));
@@ -447,7 +447,7 @@ void OomeeMakerScene::displayMadeAvatarNotification()
     }),NULL));
     _contentLayer->addChild(banner,10);
     
-    auto bannerLabel = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(OOMEE_MAKER_NEW_AVATAR), Style::Font::Regular, 83);
+    auto bannerLabel = Label::createWithTTF(_("This is your new Oomee!"), Style::Font::Regular, 83);
     bannerLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     bannerLabel->setNormalizedPosition(Vec2(0.5, 0.25));
     bannerLabel->setColor(Color3B::WHITE);

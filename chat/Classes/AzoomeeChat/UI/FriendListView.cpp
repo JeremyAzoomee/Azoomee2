@@ -319,7 +319,7 @@ ui::Layout* FriendListView::createAddFriendButton()
     label->setFontSize(70.0f);
     label->setTextColor(Color4B(Style::Color::white));
     label->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(75.0f, 0, 0, 0)));
-    label->setString(StringMgr::getInstance()->getStringForKey(CHAT_ADD_FRIENDS_BUTTON));
+    label->setString(_("Add Friends"));
     contentLayout->addChild(label);
     
     return addFriendButton;

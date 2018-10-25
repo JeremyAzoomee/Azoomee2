@@ -56,6 +56,8 @@ private:
     void setupEditBoxUsingType();
     
     void createSettingsChatEditBox(float width);
+    void createSettingsBoxEditBox(float width);
+    void createSettingRoundedEditBox(float width);
     
     cocos2d::ui::EditBox* editBox = nullptr;
     cocos2d::ui::Scale9Sprite* editBoxArea = nullptr;
@@ -77,6 +79,10 @@ public:
     
     static TextInputLayer* createSettingsChatTextInput(float width);
     
+    static TextInputLayer* createSettingsBoxTextInput(float width, int textInputType);
+    
+    static TextInputLayer* createSettingsRoundedTextInput(float width, int textInputType);
+    
     void setCenterPosition(cocos2d::Vec2 position);
     
     void focusAndShowKeyboard();
@@ -93,6 +99,10 @@ public:
     std::string getText();
     void setText(std::string newText);
     
+    void setEnabled(bool enabled);
+	
+	void setPlaceholderText(const std::string& placeholder);
+	
     //Editbox Delegate Functions
     void editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text);
     void editBoxReturn(cocos2d::ui::EditBox* editBox);
