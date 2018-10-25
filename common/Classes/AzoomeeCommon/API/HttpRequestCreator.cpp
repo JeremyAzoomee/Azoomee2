@@ -229,7 +229,7 @@ void HttpRequestCreator::handleError(network::HttpResponse *response)
     long errorCode = response->getResponseCode();
     
     cocos2d::log("request tag: %s", requestTag.c_str());
-    cocos2d::log("request body: %s", response->getHttpRequest()->getRequestData());
+    //cocos2d::log("request body: %s", response->getHttpRequest()->getRequestData());
     cocos2d::log("response string: %s", responseDataString.c_str());
     cocos2d::log("response code: %ld", response->getResponseCode());
     
