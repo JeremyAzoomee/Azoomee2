@@ -463,7 +463,7 @@ void VodacomOnboardingErrorLayer::setupForPasswordReset()
 	okText->setDimensions(okButton->getContentSize().width * 0.8f, okButton->getContentSize().height);
 	okButton->addChild(okText);
 	
-	Label* notRecieved = Label::createWithTTF(_("Didin't recieve an email?"), Style::Font::Regular, 64);
+	Label* notRecieved = Label::createWithTTF(_("Didn't recieve an email?"), Style::Font::Regular, 64);
 	notRecieved->setTextColor(Color4B(Style::Color::skyBlue));
 	notRecieved->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	notRecieved->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);

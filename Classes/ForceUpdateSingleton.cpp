@@ -168,12 +168,36 @@ bool ForceUpdateSingleton::isAppCloseRequired()
 
 std::string ForceUpdateSingleton::getAcceptedMinAzoomeeVersion()
 {
-    return getMapFromForceUpdateJsonData(FileUtils::getInstance()->getStringFromFile(writablePath + forceUpdateFileSubPath)).at("acceptedMinAzoomeeVersion");
+	const auto& json = getMapFromForceUpdateJsonData(FileUtils::getInstance()->getStringFromFile(writablePath + forceUpdateFileSubPath));
+#ifdef VODACOM_BUILD
+	if(json.find("acceptedMinAzoomeeVersionVodacom") != json.end())
+	{
+		return json.at("acceptedMinAzoomeeVersionVodacom");
+	}
+#else
+	if(json.find("acceptedMinAzoomeeVersion") != json.end())
+	{
+    	return json.at("acceptedMinAzoomeeVersion");
+	}
+#endif
+	return "0.0.0";
 }
 
 std::string ForceUpdateSingleton::getNotifiedMinAzoomeeVersion()
 {
-    return getMapFromForceUpdateJsonData(FileUtils::getInstance()->getStringFromFile(writablePath + forceUpdateFileSubPath)).at("notifiedMinAzoomeeVersion");
+	const auto& json = getMapFromForceUpdateJsonData(FileUtils::getInstance()->getStringFromFile(writablePath + forceUpdateFileSubPath));
+#ifdef VODACOM_BUILD
+	if(json.find("notifiedMinAzoomeeVersionVodacom") != json.end())
+	{
+		return json.at("notifiedMinAzoomeeVersionVodacom");
+	}
+#else
+	if(json.find("notifiedMinAzoomeeVersion") != json.end())
+	{
+		return json.at("notifiedMinAzoomeeVersion");
+	}
+#endif
+	return "0.0.0";
 }
 
 std::map<std::string, std::string> ForceUpdateSingleton::getMapFromForceUpdateJsonData(const std::string &forceUpdateJsonData)
@@ -204,7 +228,14 @@ std::map<std::string, std::string> ForceUpdateSingleton::getMapFromForceUpdateJs
 std::string ForceUpdateSingleton::getUpdateUrlFromFile()
 {
     const std::map<std::string, std::string> &forceUpdateData = getMapFromForceUpdateJsonData(FileUtils::getInstance()->getStringFromFile(writablePath + forceUpdateFileSubPath));
-    
+#ifdef VODACOM_BUILD
+	if(forceUpdateData.find("vodacomUpdateURL") != forceUpdateData.end())
+	{
+		return forceUpdateData.at("vodacomUpdateURL");
+	}
+	return "";
+#endif
+		
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     
     std::string resultStr = JniHelper::callStaticStringMethod(kAzoomeeActivityJavaClassName, "getOSBuildManufacturer");

@@ -119,7 +119,7 @@ void VodacomOnboardingAddChildLayer::onEnter()
 	detailsLink->addChild(underline);
 	
 	ui::Layout* detailsLinkHolder = ui::Layout::create();
-	detailsLinkHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	detailsLinkHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
 	detailsLinkHolder->setContentSize(detailsLink->getContentSize());
 	detailsLinkHolder->setTouchEnabled(true);
 	detailsLinkHolder->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){

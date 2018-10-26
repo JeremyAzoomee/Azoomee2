@@ -95,7 +95,7 @@ void VodacomOnboardingPinLayer::onEnter()
 	subTitleHolder->addChild(subTitle);
 	_verticalLayout->addChild(subTitleHolder);
 	
-	Label* inputTitle = Label::createWithTTF(_("Pin"), Style::Font::Regular, 64);
+	Label* inputTitle = Label::createWithTTF(_("PIN"), Style::Font::Regular, 64);
 	inputTitle->setTextColor(Color4B::BLACK);
 	inputTitle->setHorizontalAlignment(TextHAlignment::CENTER);
 	inputTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);

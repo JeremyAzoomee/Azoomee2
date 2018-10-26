@@ -126,7 +126,7 @@ void EditAccountLayer::onEnter()
     
     lowestY -= (pinEditboxLayout->getContentSize().height + 35);
     
-    Label* pinText = Label::createWithTTF(_("Pin"), Style::Font::Medium, 59);
+    Label* pinText = Label::createWithTTF(_("PIN"), Style::Font::Medium, 59);
     pinText->setTextColor(Color4B(Style::Color::battleshipGrey));
     pinText->setHorizontalAlignment(TextHAlignment::RIGHT);
     pinText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);

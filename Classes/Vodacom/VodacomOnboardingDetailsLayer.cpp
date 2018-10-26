@@ -103,7 +103,8 @@ void VodacomOnboardingDetailsLayer::onEnter()
 	addVoucherText->setDimensions(_addVoucherButton->getContentSize().width * 0.8f, _addVoucherButton->getContentSize().height);
 	_addVoucherButton->addChild(addVoucherText);
 	
-	Label* voucherLearnMore = Label::createWithTTF(_("Don’t have a voucher?"), Style::Font::Regular, 64);
+	// add this in later when we have a link
+	/*Label* voucherLearnMore = Label::createWithTTF(_("Don’t have a voucher?"), Style::Font::Regular, 64);
 	voucherLearnMore->setTextColor(Color4B(Style::Color::skyBlue));
 	voucherLearnMore->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	voucherLearnMore->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
@@ -121,7 +122,7 @@ void VodacomOnboardingDetailsLayer::onEnter()
 	learnMoreHolder->setContentSize(Size(voucherLearnMore->getContentSize().width + learnMore->getContentSize().width + 20, learnMore->getContentSize().height));
 	learnMoreHolder->addChild(voucherLearnMore);
 	learnMoreHolder->addChild(learnMore);
-	_verticalLayout->addChild(learnMoreHolder);
+	_verticalLayout->addChild(learnMoreHolder);*/
 	
 	Super::onEnter();
 }
