@@ -60,7 +60,7 @@ void VodacomOnboardingVoucherLayer::onEnter()
 	});
 	
 	ui::Layout* buttonHolder = ui::Layout::create();
-	buttonHolder->setContentSize(Size(contentSize).width, _closeButton->getContentSize().height));
+	buttonHolder->setContentSize(Size(contentSize.width, _closeButton->getContentSize().height));
 	_verticalLayout->addChild(buttonHolder);
 	
 	buttonHolder->addChild(_closeButton);
