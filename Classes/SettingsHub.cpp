@@ -147,7 +147,7 @@ bool SettingsHub::init()
     _friendshipsButton->setContentSize(Size(visibleSize.width, buttonHeight));
     _friendshipsButton->setLayoutParameter(CreateTopLinearLayoutParam(ui::Margin(0,0,0,10)));
     _friendshipsButton->setIconFilename("res/settings/friendships_icon_3.png");
-    _friendshipsButton->setTitleText(_("Friendship Requests"));
+    _friendshipsButton->setTitleText(_("Friendships"));
     _friendshipsButton->setSubTitleText(_("Accept or reject new friendship requests"));
     _friendshipsButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
