@@ -236,7 +236,7 @@ void LoginScene::buttonPressed(ElectricDreamsButton* button)
 }
 void LoginScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
 {
-    if(messageBoxTitle == StringMgr::getInstance()->getErrorMessageWithCode(ERROR_CODE_INVALID_CREDENTIALS)[ERROR_TITLE] && buttonTitle == _(MessageBox::kResetPassword))
+    if(messageBoxTitle == StringMgr::getInstance()->getErrorMessageWithCode(ERROR_CODE_INVALID_CREDENTIALS)[ERROR_TITLE] && buttonTitle == MessageBox::kResetPassword)
     {
         BackEndCaller::getInstance()->resetPasswordRequest(_emailTextInput->getText());
         Azoomee::MessageBox::createWith(_("Request Sent"), StringUtils::format(_("Instructions for resetting your password have been sent to:\n\n%s").c_str(),_emailTextInput->getText().c_str()), _("OK") , this);

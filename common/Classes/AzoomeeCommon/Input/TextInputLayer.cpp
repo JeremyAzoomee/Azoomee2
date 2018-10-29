@@ -211,7 +211,6 @@ void TextInputLayer::setupEditBoxUsingType()
         }
         case INPUT_IS_CHILD_NAME:
         {
-            editBox->setMaxLength(12);
             editBox->setInputFlag(ui::EditBox::InputFlag::INITIAL_CAPS_WORD);
             editBox->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
             editBox->setPlaceHolder(_("First name or nickname only").c_str());
@@ -261,6 +260,11 @@ void TextInputLayer::setupEditBoxUsingType()
             editBox->setPlaceHolder(_("Enter Friend's Kid Code").c_str());
             break;
         }
+		case INPUT_IS_VOUCHER:
+		{
+			editBox->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
+			break;
+		}
     }
 }
     
@@ -410,7 +414,11 @@ bool TextInputLayer::inputIsValid()
             }
             break;
         }
-            
+		case INPUT_IS_VOUCHER:
+		{
+			isValidInput = isValidVoucher(editBox->getText());
+			break;
+		}
     }
     
     return isValidInput;

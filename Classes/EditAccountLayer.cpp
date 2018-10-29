@@ -126,7 +126,7 @@ void EditAccountLayer::onEnter()
     
     lowestY -= (pinEditboxLayout->getContentSize().height + 35);
     
-    Label* pinText = Label::createWithTTF(_("Pin"), Style::Font::Medium, 59);
+    Label* pinText = Label::createWithTTF(_("PIN"), Style::Font::Medium, 59);
     pinText->setTextColor(Color4B(Style::Color::battleshipGrey));
     pinText->setHorizontalAlignment(TextHAlignment::RIGHT);
     pinText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
@@ -258,8 +258,11 @@ void EditAccountLayer::onEnter()
     
     if(ParentDataProvider::getInstance()->isPaidUser())
     {
-        //Label* subDeetsLab = Label::createWithTTF(StringUtils::format(_("Premium Subscription\nRenew’s on %s").c_str(),ParentDataProvider::getInstance()->getBillingDate().c_str()), Style::Font::Medium, 59);
+#ifdef VODACOM_BUILD
+        Label* subDeetsLab = Label::createWithTTF(StringUtils::format(_("Valid voucher\nExpires on %s").c_str(),ParentDataProvider::getInstance()->getBillingDate().c_str()), Style::Font::Medium, 59);
+#else
 		Label* subDeetsLab = Label::createWithTTF(_("Premium Subscription"), Style::Font::Medium, 59);
+#endif
         subDeetsLab->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
         subDeetsLab->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         subDeetsLab->setTextColor(Color4B::WHITE);
@@ -302,7 +305,11 @@ void EditAccountLayer::onEnter()
     }
     else
     {
-        Label* subDeetsLab = Label::createWithTTF(_("Free Account\nTap Renew for a special offer"), Style::Font::Medium, 59);
+#ifdef VODACOM_BUILD
+		Label* subDeetsLab = Label::createWithTTF(_("Inactive Voucher\nUnlock all content by adding a voucher"), Style::Font::Medium, 59);
+#else
+		Label* subDeetsLab = Label::createWithTTF(_("Free Account\nTap Renew for a special offer"), Style::Font::Medium, 59);
+#endif
         subDeetsLab->setNormalizedPosition(Vec2(0.5f,0.66f));
         subDeetsLab->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         subDeetsLab->setTextColor(Color4B::WHITE);
@@ -320,7 +327,11 @@ void EditAccountLayer::onEnter()
 		});
 		_accountTypeLayout->addChild(resubButton);
 		
+#ifdef VODACOM_BUILD
+		Label* resubLab = Label::createWithTTF(_("Add new voucher"), Style::Font::Medium, resubButton->getContentSize().height * 0.4f);
+#else
 		Label* resubLab = Label::createWithTTF(_("Renew subscription"), Style::Font::Medium, resubButton->getContentSize().height * 0.4f);
+#endif
 		resubLab->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 		resubLab->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 		resubLab->setTextColor(Color4B::BLACK);

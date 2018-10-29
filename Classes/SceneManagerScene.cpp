@@ -23,6 +23,10 @@
 
 #include "SettingsHub.h"
 
+#ifdef VODACOM_BUILD
+#include "Vodacom/VodacomOnboardingScene.h"
+#endif
+
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
@@ -245,6 +249,15 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             Director::getInstance()->replaceScene(AddChildScene::createWithFlowStage(AddChildFlow::FIRST_TIME_SETUP_NAME));
             break;
         }
+#ifdef VODACOM_BUILD
+		case VodacomOnboarding:
+		{
+			HQHistoryManager::getInstance()->updatePrevOrientation();
+			forceToPortrait();
+			Director::getInstance()->replaceScene(VodacomOnboardingScene::create());
+			break;
+		}
+#endif
         default:
             break;
     }

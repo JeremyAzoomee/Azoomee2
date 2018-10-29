@@ -19,6 +19,15 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+const std::string ForceUpdateSingleton::kAcceptedMinAzVerID = "acceptedMinAzoomeeVersion";
+const std::string ForceUpdateSingleton::kNotifiedMinAzVerID = "notifiedMinAzoomeeVersion";
+const std::string ForceUpdateSingleton::kAcceptedMinAzVerVodaID = "acceptedMinAzoomeeVersionVodacom";
+const std::string ForceUpdateSingleton::kNotifiedMinAzVerVodaID = "notifiedMinAzoomeeVersionVodacom";
+const std::string ForceUpdateSingleton::kUpdateUrlAppleID = "iosUpdateURL";
+const std::string ForceUpdateSingleton::kUpdateUrlGoogleID = "androidUpdateURL";
+const std::string ForceUpdateSingleton::kUpdateUrlAmazonID = "amazonUpdateURL";
+const std::string ForceUpdateSingleton::kUpdateUrlVodaID = "vodacomUpdateURL";
+
 std::auto_ptr<ForceUpdateSingleton> _sharedForceUpdateSingleton;
 const std::string &forceUpdateDirectory = "updateData/";
 const std::string &forceUpdateFileSubPath = forceUpdateDirectory + "updateData.json";
@@ -168,12 +177,36 @@ bool ForceUpdateSingleton::isAppCloseRequired()
 
 std::string ForceUpdateSingleton::getAcceptedMinAzoomeeVersion()
 {
-    return getMapFromForceUpdateJsonData(FileUtils::getInstance()->getStringFromFile(writablePath + forceUpdateFileSubPath)).at("acceptedMinAzoomeeVersion");
+	const auto& json = getMapFromForceUpdateJsonData(FileUtils::getInstance()->getStringFromFile(writablePath + forceUpdateFileSubPath));
+#ifdef VODACOM_BUILD
+	if(json.find(kAcceptedMinAzVerVodaID) != json.end())
+	{
+		return json.at(kAcceptedMinAzVerVodaID);
+	}
+#else
+	if(json.find(kAcceptedMinAzVerID) != json.end())
+	{
+    	return json.at(kAcceptedMinAzVerID);
+	}
+#endif
+	return "0.0.0";
 }
 
 std::string ForceUpdateSingleton::getNotifiedMinAzoomeeVersion()
 {
-    return getMapFromForceUpdateJsonData(FileUtils::getInstance()->getStringFromFile(writablePath + forceUpdateFileSubPath)).at("notifiedMinAzoomeeVersion");
+	const auto& json = getMapFromForceUpdateJsonData(FileUtils::getInstance()->getStringFromFile(writablePath + forceUpdateFileSubPath));
+#ifdef VODACOM_BUILD
+	if(json.find(kNotifiedMinAzVerVodaID) != json.end())
+	{
+		return json.at(kNotifiedMinAzVerVodaID);
+	}
+#else
+	if(json.find(kNotifiedMinAzVerID) != json.end())
+	{
+		return json.at(kNotifiedMinAzVerID);
+	}
+#endif
+	return "0.0.0";
 }
 
 std::map<std::string, std::string> ForceUpdateSingleton::getMapFromForceUpdateJsonData(const std::string &forceUpdateJsonData)
@@ -204,21 +237,28 @@ std::map<std::string, std::string> ForceUpdateSingleton::getMapFromForceUpdateJs
 std::string ForceUpdateSingleton::getUpdateUrlFromFile()
 {
     const std::map<std::string, std::string> &forceUpdateData = getMapFromForceUpdateJsonData(FileUtils::getInstance()->getStringFromFile(writablePath + forceUpdateFileSubPath));
-    
+#ifdef VODACOM_BUILD
+	if(forceUpdateData.find(kUpdateUrlVodaID) != forceUpdateData.end())
+	{
+		return forceUpdateData.at(kUpdateUrlVodaID);
+	}
+	return "";
+#endif
+		
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     
     std::string resultStr = JniHelper::callStaticStringMethod(kAzoomeeActivityJavaClassName, "getOSBuildManufacturer");
     
     if (resultStr == "Amazon")
     {
-        return forceUpdateData.at("amazonUpdateURL");
+        return forceUpdateData.at(kUpdateUrlAmazonID);
     }
     else
     {
-        return forceUpdateData.at("androidUpdateURL");
+        return forceUpdateData.at(kUpdateUrlGoogleID);
     }
 #else
-    return forceUpdateData.at("iosUpdateURL");
+    return forceUpdateData.at(kUpdateUrlAppleID);
 #endif
 }
 

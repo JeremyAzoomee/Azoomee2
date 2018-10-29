@@ -41,9 +41,9 @@ bool AppDelegate::applicationDidFinishLaunching()
     AnalyticsSingleton::getInstance()->firstLaunchEvent();
     
     PushNotificationsHandler::getInstance()->resetExistingNotifications();
-    
+	
     IAPProductDataHandler::getInstance()->fetchProductData();
-    
+	
     const Size& visibleSize = Director::getInstance()->getVisibleSize();
     if(visibleSize.width / visibleSize.height > 1.95)
     {

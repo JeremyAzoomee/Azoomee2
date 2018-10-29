@@ -10,6 +10,7 @@
 
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/Scene.h>
+#include <AzoomeeCommon/API/HttpRequestCreator.h>
 #include <cocos/cocos2d.h>
 #include <ui/CocosGUI.h>
 #include <AzoomeeCommon/UI/RequestAdultPinLayer.h>
@@ -20,7 +21,7 @@ NS_AZOOMEE_BEGIN
 enum class SettingsPages {LANGUAGE, KIDS, FRIENDSHIPS, ACCOUNT, ONLINE_SAFETY, SUPPORT};
 enum class SettingsOrigin {HQ, CHILD_SELECT, CHAT};
 
-class SettingsHub : public Azoomee::Scene, RequestAdultPinLayerDelegate
+class SettingsHub : public Azoomee::Scene, RequestAdultPinLayerDelegate, HttpRequestCreatorResponseDelegate
 {
     typedef Azoomee::Scene Super;
 private:
@@ -60,6 +61,9 @@ public:
 	//delegate functions
 	void AdultPinCancelled(RequestAdultPinLayer* layer) override;
 	void AdultPinAccepted(RequestAdultPinLayer* layer) override;
+	
+	void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body) override;
+	void onHttpRequestFailed(const std::string& requestTag, long errorCode) override;
 };
 
 NS_AZOOMEE_END

@@ -38,7 +38,7 @@ void BaseScene::onEnterTransitionDidFinish()
 {
     this->setName("baseLayer");
     
-    IAPProductDataHandler::getInstance()->fetchProductData();
+	IAPProductDataHandler::getInstance()->fetchProductData();
     
     Director::getInstance()->purgeCachedData();
     

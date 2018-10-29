@@ -67,8 +67,8 @@
     "1004":
     {
         "title":"Wrong PIN",
-        "body":"If you can't remember your PIN,\nplease visit:\n\nhttp://support.azoomee.com",
-        "button":"Try Again"
+        "body":"If you can't remember your PIN, please visit: http://support.azoomee.com",
+        "button":"Try again"
     },
     
     "1005":

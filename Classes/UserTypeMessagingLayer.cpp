@@ -42,7 +42,7 @@ void UserTypeMessagingLayer::onEnter()
     _startTrialButton = ui::Button::create("res/buttons/MainButton.png");
     _startTrialButton->setContentSize(Size(this->getContentSize().width * (isPortrait ? 0.65f : 0.5f), _startTrialButton->getContentSize().height));
     _startTrialButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _startTrialButton->setNormalizedPosition(Vec2(isPortrait ? 0.33 : 0.5, 0.5));
+    _startTrialButton->setNormalizedPosition(Vec2(isPortrait ? 0.35 : 0.5, 0.5));
     _startTrialButton->setSwallowTouches(true);
     _startTrialButton->setColor(Color3B::WHITE);
     _startTrialButton->ignoreContentAdaptWithSize(true);
@@ -54,8 +54,12 @@ void UserTypeMessagingLayer::onEnter()
             DynamicNodeHandler::getInstance()->startIAPFlow();
         }
     });
-    
+	
+#ifdef VODACOM_BUILD
+	_startTrialLabel = Label::createWithTTF(_("Unlock everything"), Style::Font::Regular, _startTrialButton->getContentSize().height * ( is18x9 ? 0.35 : 0.4 ));
+#else
     _startTrialLabel = Label::createWithTTF(_("Start 7 Day Free Trial"), Style::Font::Regular, _startTrialButton->getContentSize().height * ( is18x9 ? 0.35 : 0.4 ));
+#endif
     _startTrialLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _startTrialLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _startTrialLabel->setTextColor(Color4B(246,187,66,255));
@@ -104,8 +108,12 @@ void UserTypeMessagingLayer::onEnter()
             DynamicNodeHandler::getInstance()->startIAPFlow();
         }
     });
-    
+	
+#ifdef VODACOM_BUILD
+	_reactivateLabel = Label::createWithTTF(_("Unlock everything"), Style::Font::Regular, _reactivateButton->getContentSize().height * 0.4);
+#else
     _reactivateLabel = Label::createWithTTF(_("Reactivate your account"), Style::Font::Regular, _reactivateButton->getContentSize().height * 0.4);
+#endif
     _reactivateLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _reactivateLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _reactivateLabel->setTextColor(Color4B(246,187,66,255));
@@ -151,7 +159,7 @@ void UserTypeMessagingLayer::repositionElements()
     _bgSprite->setContentSize(this->getContentSize());
     
     _startTrialButton->setContentSize(Size(this->getContentSize().width * (isPortrait ? 0.65f : 0.5f), _startTrialButton->getContentSize().height));
-    _startTrialButton->setNormalizedPosition(Vec2(isPortrait ? 0.33 : 0.5, 0.5));
+    _startTrialButton->setNormalizedPosition(Vec2(isPortrait ? 0.35 : 0.5, 0.5));
     _startTrialLabel->setBMFontSize(_startTrialButton->getContentSize().height * ( is18x9 ? 0.35 : 0.4 ));
     
     _signInButton->setContentSize(Size(this->getContentSize().width * 0.2f, this->getContentSize().height * 0.65f));
