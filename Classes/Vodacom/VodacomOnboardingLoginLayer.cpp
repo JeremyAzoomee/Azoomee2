@@ -185,7 +185,7 @@ void VodacomOnboardingLoginLayer::onEnter()
 	contactUsHolder->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			Application::getInstance()->openURL("mailto:help@azoomee.com");
+			Application::getInstance()->openURL(_("mailto:help@azoomee.com"));
 		}
 	});
 	this->addChild(contactUsHolder);
@@ -214,7 +214,7 @@ void VodacomOnboardingLoginLayer::onHttpRequestSuccess(const std::string& reques
 		if(ParentDataParser::getInstance()->parseParentLoginData(body))
 		{
 			ConfigStorage::getInstance()->setFirstSlideShowSeen();
-			ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey("X-AZ-COUNTRYCODE", headers));
+			ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headers));
 			AnalyticsSingleton::getInstance()->signInSuccessEvent();
 			AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
 			_flowData->setUserType(UserType::FREE);

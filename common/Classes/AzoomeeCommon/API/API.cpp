@@ -48,6 +48,8 @@ const char* const API::TagGetParentDetails = "getParentDetails";
 const char* const API::TagUpdateChildNameRequest = "updateChildNameRequest";
 const char* const API::TagAddVoucher = "addVoucher";
 
+const std::string API::kAZCountryCodeKey = "X-AZ-COUNTRYCODE";
+
 #pragma mark - API Methods
 
 HttpRequestCreator* API::IpCheck(HttpRequestCreatorResponseDelegate* delegate)

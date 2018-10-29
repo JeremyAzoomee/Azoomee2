@@ -59,7 +59,9 @@ public:
     static const char* const TagGetParentDetails;
     static const char* const TagUpdateChildNameRequest;
 	static const char* const TagAddVoucher;
-    
+	
+	static const std::string kAZCountryCodeKey;
+	
 #pragma mark - API Methods
     
     static HttpRequestCreator* IpCheck(HttpRequestCreatorResponseDelegate* delegate);

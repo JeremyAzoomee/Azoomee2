@@ -51,6 +51,15 @@ private:
 	
 	FileDownloaderRef _fileDownloader = nullptr;
 	ForceUpdateDelegate* _delegate = nullptr;
+	
+	static const std::string kAcceptedMinAzVerID;
+	static const std::string kNotifiedMinAzVerID;
+	static const std::string kAcceptedMinAzVerVodaID;
+	static const std::string kNotifiedMinAzVerVodaID;
+	static const std::string kUpdateUrlAppleID;
+	static const std::string kUpdateUrlGoogleID;
+	static const std::string kUpdateUrlAmazonID;
+	static const std::string kUpdateUrlVodaID;
 };
 
 NS_AZOOMEE_END

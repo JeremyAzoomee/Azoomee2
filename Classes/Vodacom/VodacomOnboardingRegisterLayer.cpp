@@ -245,7 +245,7 @@ void VodacomOnboardingRegisterLayer::onEnter()
 	contactUsHolder->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			Application::getInstance()->openURL("mailto:help@azoomee.com");
+			Application::getInstance()->openURL(_("mailto:help@azoomee.com"));
 		}
 	});
 	this->addChild(contactUsHolder);

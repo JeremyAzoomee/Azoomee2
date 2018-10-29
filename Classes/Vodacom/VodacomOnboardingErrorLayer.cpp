@@ -36,7 +36,10 @@ void VodacomOnboardingErrorLayer::onEnter()
 	{
 		case ErrorType::NONE:
 		{
-			
+			if(_delegate)
+			{
+				_delegate->moveToPreviousState();
+			}
 			break;
 		}
 		case ErrorType::LOGIN:
@@ -228,7 +231,7 @@ void VodacomOnboardingErrorLayer::setupForVoucherError()
 	contactUsHolder->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			Application::getInstance()->openURL("mailto:help@azoomee.com");
+			Application::getInstance()->openURL(_("mailto:help@azoomee.com"));
 		}
 	});
 	this->addChild(contactUsHolder);
@@ -362,7 +365,7 @@ void VodacomOnboardingErrorLayer::setupForLoginError()
 	contactUsHolder->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			Application::getInstance()->openURL("mailto:help@azoomee.com");
+			Application::getInstance()->openURL(_("mailto:help@azoomee.com"));
 		}
 	});
 	this->addChild(contactUsHolder);
@@ -515,7 +518,7 @@ void VodacomOnboardingErrorLayer::setupForPasswordReset()
 	contactUsHolder->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			Application::getInstance()->openURL("mailto:help@azoomee.com");
+			Application::getInstance()->openURL(_("mailto:help@azoomee.com"));
 		}
 	});
 	this->addChild(contactUsHolder);
@@ -649,7 +652,7 @@ void VodacomOnboardingErrorLayer::setupForAlreadyRegistered()
 	contactUsHolder->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			Application::getInstance()->openURL("mailto:help@azoomee.com");
+			Application::getInstance()->openURL(_("mailto:help@azoomee.com"));
 		}
 	});
 	this->addChild(contactUsHolder);
@@ -761,7 +764,7 @@ void VodacomOnboardingErrorLayer::setupForAlreadyPremium()
 	contactUsHolder->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			Application::getInstance()->openURL("mailto:help@azoomee.com");
+			Application::getInstance()->openURL(_("mailto:help@azoomee.com"));
 		}
 	});
 	this->addChild(contactUsHolder);

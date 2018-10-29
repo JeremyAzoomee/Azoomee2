@@ -42,9 +42,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     
     PushNotificationsHandler::getInstance()->resetExistingNotifications();
 	
-#ifndef VODACOM_BUILD
     IAPProductDataHandler::getInstance()->fetchProductData();
-#endif
 	
     const Size& visibleSize = Director::getInstance()->getVisibleSize();
     if(visibleSize.width / visibleSize.height > 1.95)

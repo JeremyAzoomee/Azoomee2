@@ -328,7 +328,7 @@ void EditAccountLayer::onEnter()
 		_accountTypeLayout->addChild(resubButton);
 		
 #ifdef VODACOM_BUILD
-		Label* resubLab = Label::createWithTTF(_("Add new voucher"), Style::Font::Medium, 59);
+		Label* resubLab = Label::createWithTTF(_("Add new voucher"), Style::Font::Medium, resubButton->getContentSize().height * 0.4f);
 #else
 		Label* resubLab = Label::createWithTTF(_("Renew subscription"), Style::Font::Medium, resubButton->getContentSize().height * 0.4f);
 #endif
