@@ -18,7 +18,8 @@ bool isValidChildName(const char *childName);
 bool hasAzoomeeEmailAddress(std::string emailAddress);
 int ageFromDOBString(std::string dobString);
 bool isDateInFuture(std::string dobString);
-  
+bool isValidVoucher(const std::string& voucher);
+	
 }
 
 #endif

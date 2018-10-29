@@ -15,6 +15,8 @@ public:
     virtual bool init();
     virtual void onExit();
     void onEnterTransitionDidFinish();
+	void removeWebViewFromScreen();
+	void reAddWebViewToScreen();
     void addMediaPlayerToScreen(const std::string &url);
     
 private:

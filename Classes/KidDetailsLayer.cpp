@@ -10,6 +10,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/NativeShare/NativeShare.h>
@@ -17,6 +18,7 @@
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "SettingsMessageBoxDeleteChild.h"
 #include "SettingsMessageBoxFREvent.h"
+#include "SettingsMessageBoxNotification.h"
 
 using namespace cocos2d;
 
@@ -38,28 +40,29 @@ bool KidDetailsLayer::init()
 
 void KidDetailsLayer::onEnter()
 {
-    
+	const Size& contentSize = this->getContentSize();
+	
     Sprite* leftWire = Sprite::create("res/settings/wire_left.png");
     leftWire->setAnchorPoint(::Vec2::ANCHOR_MIDDLE_LEFT);
     leftWire->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
-    leftWire->setScale(this->getContentSize().height / leftWire->getContentSize().height);
+    leftWire->setScale(contentSize.height / leftWire->getContentSize().height);
     this->addChild(leftWire);
     
     Sprite* rightWire = Sprite::create("res/settings/wire_right.png");
     rightWire->setAnchorPoint(::Vec2::ANCHOR_MIDDLE_RIGHT);
     rightWire->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
-    rightWire->setScale(this->getContentSize().height / rightWire->getContentSize().height);
+    rightWire->setScale(contentSize.height / rightWire->getContentSize().height);
     this->addChild(rightWire);
     
     ui::Layout* centralContentLayout = ui::Layout::create();
-    centralContentLayout->setContentSize(this->getContentSize());
+    centralContentLayout->setContentSize(contentSize);
     centralContentLayout->setLayoutType(ui::Layout::Type::VERTICAL);
     centralContentLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     centralContentLayout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     this->addChild(centralContentLayout);
     
     _nameLayout = ui::Layout::create();
-    _nameLayout->setContentSize(Size(this->getContentSize().width * 0.6f, 157));
+    _nameLayout->setContentSize(Size(contentSize.width * 0.6f, 157));
     _nameLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,80,0,0)));
     
     centralContentLayout->addChild(_nameLayout);
@@ -70,7 +73,7 @@ void KidDetailsLayer::onEnter()
     _editNameLayout->setVisible(false);
     _nameLayout->addChild(_editNameLayout);
     
-    _editNameInput = TextInputLayer::createSettingsRoundedTextInput(this->getContentSize().width * 0.6f, INPUT_IS_CHILD_NAME);
+    _editNameInput = TextInputLayer::createSettingsRoundedTextInput(contentSize.width * 0.6f, INPUT_IS_CHILD_NAME);
     _editNameInput->setCenterPosition(_editNameLayout->getContentSize() / 2);
     _editNameInput->setText(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(_childNum));
     _editNameLayout->addChild(_editNameInput);
@@ -126,7 +129,7 @@ void KidDetailsLayer::onEnter()
     _displayNameLayout->addChild(_editNameButton);
     
     ui::Layout* oomeeLayout = ui::Layout::create();
-    oomeeLayout->setContentSize(Size(this->getContentSize().height * 0.45f, this->getContentSize().height * 0.45f));
+    oomeeLayout->setContentSize(Size(contentSize.height * 0.45f, contentSize.height * 0.45f));
     oomeeLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
     centralContentLayout->addChild(oomeeLayout);
     
@@ -229,9 +232,20 @@ void KidDetailsLayer::onEnter()
     _deleteButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            SettingsMessageBoxDeleteChild* messageBox = SettingsMessageBoxDeleteChild::create();
-            messageBox->setDelegate(this);
-            Director::getInstance()->getRunningScene()->addChild(messageBox,100);
+			const std::string& targetChildId = ParentDataProvider::getInstance()->getIDForAvailableChildren(_childNum);
+			if(ChildDataProvider::getInstance()->getIsChildLoggedIn() && ChildDataProvider::getInstance()->getLoggedInChildId() == targetChildId)
+			{
+				SettingsMessageBoxNotification* messageBox = SettingsMessageBoxNotification::create();
+				messageBox->setHeading(_("You can't do that right now, this child is currently logged in."));
+				messageBox->setDelegate(this);
+				Director::getInstance()->getRunningScene()->addChild(messageBox,100);
+			}
+			else
+			{
+            	SettingsMessageBoxDeleteChild* messageBox = SettingsMessageBoxDeleteChild::create();
+            	messageBox->setDelegate(this);
+            	Director::getInstance()->getRunningScene()->addChild(messageBox,100);
+			}
         }
     });
     this->addChild(_deleteButton);
@@ -272,18 +286,16 @@ void KidDetailsLayer::onHttpRequestSuccess(const std::string& requestTag, const 
     else if(requestTag == API::TagUpdateChildNameRequest)
     {
         ModalMessages::getInstance()->stopLoading();
-        {
-            rapidjson::Document data;
-            data.Parse(body.c_str());
-            if(!data.HasParseError())
-            {
-                ParentDataParser::getInstance()->parseChildUpdateData(_childNum, body);
-                _nameText->setString(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(_childNum));
-                reduceLabelTextToFitWidth(_nameText, _nameLayout->getContentSize().width * 0.8f);
-                _editNameButton->setPosition((_displayNameLayout->getContentSize() * 0.5) + Size(_nameText->getContentSize().width * 0.5f,0));
-                _editNameInput->setText(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(_childNum));
-            }
-        }
+		rapidjson::Document data;
+		data.Parse(body.c_str());
+		if(!data.HasParseError())
+		{
+			ParentDataParser::getInstance()->parseChildUpdateData(_childNum, body);
+			_nameText->setString(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(_childNum));
+			reduceLabelTextToFitWidth(_nameText, _nameLayout->getContentSize().width * 0.8f);
+			_editNameButton->setPosition((_displayNameLayout->getContentSize() * 0.5) + Size(_nameText->getContentSize().width * 0.5f,0));
+			_editNameInput->setText(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(_childNum));
+		}
     }
 }
 

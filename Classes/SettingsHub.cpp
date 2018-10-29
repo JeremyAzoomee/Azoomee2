@@ -10,6 +10,10 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/API/API.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
+#include <AzoomeeCommon/UI/ModalMessages.h>
 #include "SceneManagerScene.h"
 #include "SettingsSupportPage.h"
 #include "SettingsOnlineSafetyPage.h"
@@ -61,7 +65,18 @@ bool SettingsHub::init()
         {
             if(_inHub)
             {
-                Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+				switch(_origin)
+				{
+					case SettingsOrigin::HQ:
+						Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+						break;
+					case SettingsOrigin::CHILD_SELECT:
+						Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+						break;
+					case SettingsOrigin::CHAT:
+						Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+						break;
+				}
             }
             else
             {
@@ -94,9 +109,11 @@ bool SettingsHub::init()
     _activeSettingsPageHolder->setVisible(false);
     _mainBodyLayout->addChild(_activeSettingsPageHolder);
 	
-	const float buttonHeight = _navigationLayout->getContentSize().height * (1.0f / 6.0f) - 10;
+	const int numButtons = 5;
 	
-	_languageButton = SettingsNavigationButton::create();
+	const float buttonHeight = _navigationLayout->getContentSize().height * (1.0f / numButtons) - 10;
+	
+	/*_languageButton = SettingsNavigationButton::create();
 	_languageButton->setContentSize(Size(visibleSize.width, buttonHeight));
 	_languageButton->setLayoutParameter(CreateTopLinearLayoutParam(ui::Margin(0,0,0,10)));
 	_languageButton->setIconFilename("res/settings/flag_english_uk.png");
@@ -109,7 +126,7 @@ bool SettingsHub::init()
 		}
 	});
 	_languageButton->setTouchEnabled(true);
-	_navigationLayout->addChild(_languageButton);
+	_navigationLayout->addChild(_languageButton);*/
 	
     _kidsButton = SettingsNavigationButton::create();
     _kidsButton->setContentSize(Size(visibleSize.width, buttonHeight));
@@ -130,7 +147,7 @@ bool SettingsHub::init()
     _friendshipsButton->setContentSize(Size(visibleSize.width, buttonHeight));
     _friendshipsButton->setLayoutParameter(CreateTopLinearLayoutParam(ui::Margin(0,0,0,10)));
     _friendshipsButton->setIconFilename("res/settings/friendships_icon_3.png");
-    _friendshipsButton->setTitleText(_("Friendship Requests"));
+    _friendshipsButton->setTitleText(_("Friendships"));
     _friendshipsButton->setSubTitleText(_("Accept or reject new friendship requests"));
     _friendshipsButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
@@ -192,6 +209,9 @@ bool SettingsHub::init()
 
 void SettingsHub::onEnter()
 {
+	RequestAdultPinLayer* pinLayer = RequestAdultPinLayer::create();
+	pinLayer->setDelegate(this);
+	
     Super::onEnter();
 }
 
@@ -200,12 +220,18 @@ void SettingsHub::onSizeChanged()
     
 }
 
+void SettingsHub::setOrigin(SettingsOrigin origin)
+{
+	_origin = origin;
+}
+
 void SettingsHub::changeToPage(SettingsPages page)
 {
     _activeSettingsPageHolder->removeAllChildren();
     switch(page)
     {
-		case SettingsPages::LANGUAGE: {
+		case SettingsPages::LANGUAGE:
+		{
 			auto page = SettingsLanguagePage::create();
 			page->setContentSize(_activeSettingsPageHolder->getContentSize());
 			_activeSettingsPageHolder->addChild(page);
@@ -257,6 +283,46 @@ void SettingsHub::changeToPage(SettingsPages page)
     _navigationLayout->setVisible(false);
     _titleBarButton->loadTextureNormal("res/settings/toggle_switch_white.png");
     _inHub = false;
+}
+
+
+void SettingsHub::AdultPinCancelled(RequestAdultPinLayer* layer)
+{
+	switch(_origin)
+	{
+		case SettingsOrigin::HQ:
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+			break;
+		case SettingsOrigin::CHILD_SELECT:
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+			break;
+		case SettingsOrigin::CHAT:
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+			break;
+	}
+}
+void SettingsHub::AdultPinAccepted(RequestAdultPinLayer* layer)
+{
+	layer->removeFromParent();
+	
+	ModalMessages::getInstance()->startLoading();
+	HttpRequestCreator* request = API::getParentDetailsRequest(ParentDataProvider::getInstance()->getLoggedInParentId(), this);
+	request->execute();
+	
+}
+
+void SettingsHub::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
+{
+	ModalMessages::getInstance()->stopLoading();
+	if(requestTag == API::TagGetParentDetails)
+	{
+		ParentDataParser::getInstance()->parseParentDetails(body);
+	}
+}
+
+void SettingsHub::onHttpRequestFailed(const std::string& requestTag, long errorCode)
+{
+	ModalMessages::getInstance()->stopLoading();
 }
 
 NS_AZOOMEE_END

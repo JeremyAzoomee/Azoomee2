@@ -58,7 +58,15 @@ static ConfigStorage *_sharedConfigStorage = NULL;
     const std::string ConfigStorage::kArtCacheFolder = "artCache/";
     
     const std::string ConfigStorage::kGameDownloadError = "ERROR";
+	
+	const std::string ConfigStorage::kIOSSubURL = "https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/DirectAction/manageSubscriptions";
+	const std::string ConfigStorage::kAndroidSubURL = "https://play.google.com/store/account/subscriptions";
+	const std::string ConfigStorage::kAmazonSubURL = "amzn://apps/library/subscriptions";
 
+	const std::string ConfigStorage::kBillingProviderApple = "APPLE";
+	const std::string ConfigStorage::kBillingProviderGoogle = "GOOGLE";
+	const std::string ConfigStorage::kBillingProviderAmazon = "AMAZON";
+	
 ConfigStorage* ConfigStorage::getInstance()
 {
     if (! _sharedConfigStorage)
@@ -99,7 +107,12 @@ bool ConfigStorage::init(void)
         API::TagFriendRequest,
         API::TagFriendRequestReaction,
         API::TagResetReportedChat,
-        API::TagCookieRefresh
+        API::TagCookieRefresh,
+		API::TagAddVoucher,
+		API::TagUpdateParentPassword,
+		API::TagUpdateParentDetails,
+		API::TagUpdateChildNameRequest,
+		API::TagGetParentDetails
     };
     requestTagsRequireImmediateSending = {
         kGroupHQName,
@@ -218,7 +231,7 @@ std::string ConfigStorage::getPathForTag(const std::string& httpRequestTag)
     if(httpRequestTag == API::TagGetAvailableChildren) return StringUtils::format("/api/user/adult/%s/owns", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
     if(httpRequestTag == API::TagChildLogin) return "/api/auth/switchProfile";
     if(httpRequestTag == API::TagGetGorden) return "/api/porthole/pixel/gordon.png";
-    if(httpRequestTag == API::TagRegisterParent) return "/api/user/v2/adult";
+    if(httpRequestTag == API::TagRegisterParent) return "/api/user/v2/signup";
     if(httpRequestTag == API::TagRegisterChild) return "/api/user/child";
     if(httpRequestTag == API::TagDeleteChild) return "/api/user/child/";
     if(httpRequestTag == API::TagParentPin) return StringUtils::format("/api/user/adult/%s", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());

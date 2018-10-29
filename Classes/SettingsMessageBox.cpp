@@ -27,8 +27,8 @@ bool SettingsMessageBox::init()
     this->addChild(_overlay);
     
     auto listener = EventListenerTouchOneByOne::create();
-    listener->setSwallowTouches(true);
-    listener->onTouchBegan = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
+    listener->setSwallowTouches(true); // set listener to block all touches to layers bellow
+    listener->onTouchBegan = [=](Touch *touch, Event *event)
     {
         return true;
     };

@@ -127,13 +127,13 @@ void BackEndCaller::login(const std::string& username, const std::string& passwo
 
 void BackEndCaller::onLoginAnswerReceived(const std::string& responseString, const std::string& headerString)
 {
-    IAPProductDataHandler::getInstance()->fetchProductData();
+	IAPProductDataHandler::getInstance()->fetchProductData();
     
     cocos2d::log("Response string is: %s", responseString.c_str());
     if(ParentDataParser::getInstance()->parseParentLoginData(responseString))
     {
         ConfigStorage::getInstance()->setFirstSlideShowSeen();
-        ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey("X-AZ-COUNTRYCODE", headerString));
+        ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headerString));
         AnalyticsSingleton::getInstance()->signInSuccessEvent();
         AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
         if(RoutePaymentSingleton::getInstance()->receiptDataFileExists())
@@ -173,13 +173,13 @@ void BackEndCaller::anonymousDeviceLogin()
 
 void BackEndCaller::onAnonymousDeviceLoginAnswerReceived(const std::string &responseString, const std::string& headerString)
 {
-    IAPProductDataHandler::getInstance()->fetchProductData();
+	IAPProductDataHandler::getInstance()->fetchProductData();
     
     cocos2d::log("Response string is: %s", responseString.c_str());
     if(ParentDataParser::getInstance()->parseParentLoginDataFromAnonymousDeviceLogin(responseString))
     {
         AnalyticsSingleton::getInstance()->setIsUserAnonymous(true);
-        ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey("X-AZ-COUNTRYCODE", headerString));
+        ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headerString));
         HQDataParser::getInstance()->parseHQGetContentUrls(responseString);
         DynamicNodeHandler::getInstance()->getCTAFiles();
         getGordon();
@@ -197,7 +197,7 @@ void BackEndCaller::onAnonymousDeviceLoginAnswerReceived(const std::string &resp
 void BackEndCaller::updateBillingData()
 {
     ParentDataParser::getInstance()->setBillingDataAvailable(false);
-    HttpRequestCreator* request = API::UpdateBillingDataRequest(this);
+    HttpRequestCreator* request = API::UpdateBillingDataRequest(ParentDataProvider::getInstance()->getLoggedInParentId(), this);
     request->execute();
 }
 
@@ -216,19 +216,6 @@ void BackEndCaller::onUpdateBillingDataAnswerReceived(const std::string& respons
             }
         }
     }
-}
-
-//GETTING FORCE UPDATE INFORMATION
-
-void BackEndCaller::getForceUpdateData()
-{
-    HttpRequestCreator* request = API::GetForceUpdateInformationRequest(this);
-    request->execute();
-}
-
-void BackEndCaller::onGetForceUpdateDataAnswerReceived(const std::string& responseString)
-{
-    ForceUpdateSingleton::getInstance()->onForceUpdateDataReceived(responseString);
 }
 
 //UPDATING PARENT DATA--------------------------------------------------------------------------------
@@ -254,16 +241,6 @@ void BackEndCaller::onUpdateParentPinAnswerReceived(const std::string& responseS
         cocos2d::log("Calling back awaitingsomething");
         checkBack->checkPinAgainstStoredPin();
     }
-}
-
-void BackEndCaller::updateParentDetails(const std::string &displayName, const std::string &pinNumber)
-{
-    
-}
-
-void BackEndCaller::updateParentPassword(const std::string &oldPassword, const std::string &newPassword)
-{
-    
 }
 
 // GETTING PARENT DATA--------------------------------------------------------------------------------
@@ -325,7 +302,7 @@ void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString
         return;
     }
     HQDataParser::getInstance()->parseHQGetContentUrls(responseString);
-    ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey("X-AZ-COUNTRYCODE", headerString));
+    ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headerString));
     DynamicNodeHandler::getInstance()->getCTAFiles();
     getGordon();
 }
@@ -379,7 +356,8 @@ void BackEndCaller::registerParent(const std::string& emailAddress, const std::s
 
 void BackEndCaller::onRegisterParentAnswerReceived()
 {
-    IAPProductDataHandler::getInstance()->fetchProductData();
+	IAPProductDataHandler::getInstance()->fetchProductData();
+
     ConfigStorage::getInstance()->setFirstSlideShowSeen();
     AnalyticsSingleton::getInstance()->OnboardingAccountCreatedEvent();
     FlowDataSingleton::getInstance()->setSuccessFailPath(SIGNUP_SUCCESS);
@@ -571,10 +549,6 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     else if(requestTag == API::TagResetPasswordRequest)
         //Dont do anything with a password Request attempt
         return;
-    else if(requestTag == API::TagGetForceUpdateInformation)
-    {
-        onGetForceUpdateDataAnswerReceived(body);
-    }
     else
     {
         std::vector<std::string> hqNames = ConfigStorage::getInstance()->getHqNames();

@@ -108,10 +108,6 @@ public:
     void getForceUpdateData();
     // Get Parent details
     void getParentDetails();
-    // update parent password
-    void updateParentPassword(const std::string& oldPassword, const std::string& newPassword);
-    // update parent details
-    void updateParentDetails(const std::string& displayName, const std::string& pinNumber);
 };
 
 NS_AZOOMEE_END

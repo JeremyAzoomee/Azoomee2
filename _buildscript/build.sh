@@ -83,3 +83,8 @@ if [ "$PLATFORM" == "" ] || [ "$PLATFORM" == "ios" ] ; then
   echo -e "\x1b[1;33;44mCreating iOS build. Version number for build: $VERSION ($COMMITID)\x1b[0m"
 	./subbuilder_ios.sh $VERSION $BUILD
 fi
+
+if [ "$PLATFORM" == "vodacom" ] ; then
+	echo -e "\x1b[1;33;44mCreating Vodacom build. Version number for build: $VERSION ($COMMITID)\x1b[0m"
+	./subbuilder_android.sh armeabi-v7a $VERSION $ARMBUILD arm vodacom
+fi

@@ -301,7 +301,7 @@ using namespace Azoomee;
     
     
     UILabel* text = [[UILabel alloc] initWithFrame:CGRectMake(width * 0.25, height * 0.15, width * 0.65, height * 0.7)];
-    [text setText:Azoomee::getNSStringForKey("Native/favContentLabel")];
+    [text setText:Azoomee::getNSStringForKey("Added to favourites")];
     [text setTextColor:[UIColor whiteColor]];
     [text setAdjustsFontSizeToFitWidth:true];
     [text setFont:[UIFont fontWithName:@"SofiaProSoftRegular" size:height * 0.35]];
@@ -361,15 +361,21 @@ using namespace Azoomee;
 -(void) removeWebViewWhileInBackground
 {
     [backButton removeFromSuperview];
-    
+	backButton = nil;
     if(!isAnonUser())
     {
         [_favButton removeFromSuperview];
+		_favButton = nil;
         if(isChatEntitled())
         {
             [_shareButton removeFromSuperview];
+			_shareButton = nil;
         }
     }
+	
+	[_favContentBanner removeFromSuperview];
+	[_favContentBanner release];
+	_favContentBanner = nil;
     
     if(![urlToLoad hasSuffix:@"html"])
     {

@@ -14,6 +14,7 @@
 #include "RoutePaymentSingleton.h"
 #include "FlowDataSingleton.h"
 #include "IAPProductDataHandler.h"
+#include "SceneManagerScene.h"
 #include <dirent.h>
 #include <AzoomeeCommon/Data/Json.h>
 #include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
@@ -161,6 +162,10 @@ void DynamicNodeHandler::startSignupFlow()
 
 void DynamicNodeHandler::startIAPFlow(IAPEntryContext context)
 {
+#ifdef VODACOM_BUILD
+	//boot vodacom signup journey
+	Director::getInstance()->replaceScene(SceneManagerScene::createScene(VodacomOnboarding));
+#else
     if(RoutePaymentSingleton::getInstance()->receiptDataFileExists())
     {
         if(!ParentDataProvider::getInstance()->isUserLoggedIn())
@@ -175,11 +180,11 @@ void DynamicNodeHandler::startIAPFlow(IAPEntryContext context)
             return;
         }
     }
-    
     _flowController = IAPFlowController::createWithContext(context);
     createDynamicNodeByGroupIdWithParams(_flowController->_flowEntryFile, getJSONStringFromMap({
         {"iapPrice",IAPProductDataHandler::getInstance()->getHumanReadableProductPrice()}
     }));
+#endif
 }
 
 void DynamicNodeHandler::startAddChildFlow()

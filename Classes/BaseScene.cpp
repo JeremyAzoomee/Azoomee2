@@ -38,7 +38,7 @@ void BaseScene::onEnterTransitionDidFinish()
 {
     this->setName("baseLayer");
     
-    IAPProductDataHandler::getInstance()->fetchProductData();
+	IAPProductDataHandler::getInstance()->fetchProductData();
     
     Director::getInstance()->purgeCachedData();
     
@@ -59,7 +59,7 @@ void BaseScene::onEnterTransitionDidFinish()
         }, this, 4, 0, 0, false, "enablePush");
     }
     
-    ForceUpdateSingleton::getInstance()->doForceUpdateLogic();
+    //ForceUpdateSingleton::getInstance()->doForceUpdateLogic();
 }
 
 void BaseScene::startBuildingHQs()

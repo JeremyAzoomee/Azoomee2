@@ -54,7 +54,6 @@ bool ParentDataParser::parseParentLoginData(const std::string &responseData)
             parentData->loggedInParentApiSecret = getStringFromJson("apiSecret", parentData->parentLoginData);
             parentData->loggedInParentApiKey = getStringFromJson("apiKey", parentData->parentLoginData);
             parentData->loggedInParentActorStatus = getStringFromJson("actorStatus", parentData->parentLoginData);
-            //parentData->loggedInParentAvatarId = getStringFromJson("avatar", parentData->parentLoginData);
             parentData->loggedInParentPin = getStringFromJson("pinNumber", parentData->parentLoginData);
             parentData->isLoggedInParentAnonymous = false;
             
@@ -289,11 +288,7 @@ void ParentDataParser::addParentLoginDataToUserDefaults()
     def->setStringForKey("loggedInParentApiSecret", parentData->loggedInParentApiSecret);
     def->setStringForKey("loggedInParentApiKey", parentData->loggedInParentApiKey);
     def->setStringForKey("loggedInParentActorStatus", parentData->loggedInParentActorStatus);
-    //def->setStringForKey("loggedInParentAvatarId", parentData->loggedInParentAvatarId);
     def->setBoolForKey("isLoggedInParentAnonymous", parentData->isLoggedInParentAnonymous);
-    //def->setStringForKey("LoggedInParentEmail", parentData->loggedInParentEmail);
-    //def->setStringForKey("LoggedInParentPin", parentData->loggedInParentPin);
-    //def->setStringForKey("LoggedInParentDisplayName", parentData->loggedInParentDisplayName);
     def->flush();
 }
 
@@ -308,7 +303,6 @@ void ParentDataParser::retrieveParentLoginDataFromUserDefaults()
     parentData->loggedInParentApiSecret = def->getStringForKey("loggedInParentApiSecret");
     parentData->loggedInParentApiKey = def->getStringForKey("loggedInParentApiKey");
     parentData->loggedInParentActorStatus = def->getStringForKey("loggedInParentActorStatus");
-    //parentData->loggedInParentAvatarId = def->getStringForKey("loggedInParentAvatarId");
     parentData->isLoggedInParentAnonymous = def->getBoolForKey("isLoggedInParentAnonymous");
     parentData->loggedInParentCountryCode = def->getStringForKey("loggedInParentCountryCode");
     cocos2d::log("loggedInParentId = %s", parentData->loggedInParentId.c_str());

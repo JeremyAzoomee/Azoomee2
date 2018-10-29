@@ -18,7 +18,7 @@ Layer* MessageBoxChatResetModerationLayer::create(const std::map<std::string, st
     layer->_parentLayer = parentLayer;
     layer->_propertiesMap =propertiesMap;
     
-    std::string replaceChild1 = stringReplace(_("Reset %s1 & %s2's Conversation?"), "%s1", layer->_propertiesMap["Child1"]);
+    std::string replaceChild1 = stringReplace(_("Reset %s1 & %s2's conversation?"), "%s1", layer->_propertiesMap["Child1"]);
     
     layer->_messageBoxTitle = stringReplace(replaceChild1, "%s2", layer->_propertiesMap["Child2"]);
     layer->_messageBoxBody = _("If you need some guidance, read the");

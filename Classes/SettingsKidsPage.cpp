@@ -11,6 +11,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
+#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/API/API.h>
 #include "KidDetailsLayer.h"
@@ -59,6 +60,7 @@ void SettingsKidsPage::onEnter()
     _footerBanner->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
+			ChildDataParser::getInstance()->setChildLoggedIn(false);
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(AddChild));
         }
     });

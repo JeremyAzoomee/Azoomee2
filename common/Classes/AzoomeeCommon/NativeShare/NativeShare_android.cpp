@@ -11,9 +11,5 @@ void nativeShareScreenString(const std::string& shareString)
 {
     cocos2d::JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "shareActionProviderWithString", shareString);
 }
-void openDeeplink(const std::string& url)
-{
-	cocos2d::JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "openDeeplinkUrl", url);
-}
 
 }

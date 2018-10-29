@@ -481,7 +481,7 @@ public class NativeViewUI extends Activity {
 
         TextView text = new TextView(this);
         text.setTextSize(bgLayoutParams.height * 0.25f);
-        text.setText(JNICalls.JNIGetStringForKey("Native/favContentLabel"));
+        text.setText(JNICalls.JNIGetStringForKey("Added to favourites"));
         text.setLayoutParams(new android.widget.RelativeLayout.LayoutParams(
                 android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT, android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT));
         text.setX(bgLayoutParams.width * 0.25f);

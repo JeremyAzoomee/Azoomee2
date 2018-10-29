@@ -20,10 +20,14 @@ enum SceneNameEnum {
     ArtAppEntryPointScene,
     OomeeMakerEntryPointScene,
     SettingsFromChat,
-    Settings,
+    SettingsFromHQ,
+	SettingsFromChildSelect,
     introVideo,
     AddChild,
     AddChildFirstTime
+#ifdef VODACOM_BUILD
+	,VodacomOnboarding
+#endif
 };
 
 class SceneManagerScene : public cocos2d::Layer

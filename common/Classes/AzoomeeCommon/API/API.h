@@ -58,7 +58,10 @@ public:
     static const char* const TagUpdateParentPassword;
     static const char* const TagGetParentDetails;
     static const char* const TagUpdateChildNameRequest;
-    
+	static const char* const TagAddVoucher;
+	
+	static const std::string kAZCountryCodeKey;
+	
 #pragma mark - API Methods
     
     static HttpRequestCreator* IpCheck(HttpRequestCreatorResponseDelegate* delegate);
@@ -72,7 +75,8 @@ public:
     static HttpRequestCreator* AnonymousDeviceLoginRequest(const std::string& deviceId,
                                                            HttpRequestCreatorResponseDelegate* delegate);
     
-    static HttpRequestCreator* UpdateBillingDataRequest(HttpRequestCreatorResponseDelegate* delegate);
+	static HttpRequestCreator* UpdateBillingDataRequest(const std::string& parentId,
+														HttpRequestCreatorResponseDelegate* delegate);
     
     static HttpRequestCreator* GetForceUpdateInformationRequest(HttpRequestCreatorResponseDelegate* delegate);
     
@@ -172,6 +176,10 @@ public:
     static HttpRequestCreator* UpdateChildNameRequest(const std::string& childId,
                                                       const std::string& newName,
                                                       HttpRequestCreatorResponseDelegate* delegate);
+	
+	static HttpRequestCreator* AddVoucher(const std::string& parentId,
+										  const std::string& voucherCode,
+										  HttpRequestCreatorResponseDelegate* delegate);
     
 #pragma mark - Friend Requests
     

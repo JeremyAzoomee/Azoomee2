@@ -20,7 +20,6 @@ protected:
 public:
     CREATE_FUNC(SettingsButton);
     static SettingsButton* createSettingsButton(float creationDelay);
-    
 };
 
 NS_AZOOMEE_END

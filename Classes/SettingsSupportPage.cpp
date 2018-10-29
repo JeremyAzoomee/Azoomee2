@@ -70,7 +70,7 @@ void SettingsSupportPage::onEnter()
 	supportHolder->addChild(support);
 	_supportBox->addChild(supportHolder);
 	
-	Label* supportLink = Label::createWithTTF("support.azoomee.com", Style::Font::Medium, 75);
+	Label* supportLink = Label::createWithTTF(_("support.azoomee.com"), Style::Font::Medium, 75);
 	supportLink->setHorizontalAlignment(TextHAlignment::CENTER);
 	supportLink->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	supportLink->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -88,7 +88,7 @@ void SettingsSupportPage::onEnter()
 	supportLinkHolder->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			openDeeplink("http://support.azoomee.com");
+			Application::getInstance()->openURL(_("http://support.azoomee.com"));
 		}
 	});
 	_supportBox->addChild(supportLinkHolder);
@@ -119,7 +119,7 @@ void SettingsSupportPage::onEnter()
 	contactHolder->addChild(contact);
 	_supportBox->addChild(contactHolder);
 	
-	Label* contactLink = Label::createWithTTF("help@azoomee.com", Style::Font::Medium, 75);
+	Label* contactLink = Label::createWithTTF(_("help@azoomee.com"), Style::Font::Medium, 75);
 	contactLink->setHorizontalAlignment(TextHAlignment::CENTER);
 	contactLink->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	contactLink->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -136,7 +136,7 @@ void SettingsSupportPage::onEnter()
 	contactLinkHolder->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			openDeeplink("mailto:help@azoomee.com");
+			Application::getInstance()->openURL(_("mailto:help@azoomee.com"));
 		}
 	});
 	contactLinkHolder->addChild(contactLink);
