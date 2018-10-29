@@ -40,7 +40,7 @@ bool StringMgr::init(void)
 
 std::string StringMgr::getStringForKey(std::string key)
 {
-    return getStringFromJson(key, stringsDocument, key);
+    return getStringFromJson(key, stringsDocument);
 }
 
 std::map<std::string, std::string> StringMgr::getErrorMessageWithCode(long errorCode)
