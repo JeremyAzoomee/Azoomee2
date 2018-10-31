@@ -8,6 +8,16 @@ using namespace cocos2d;
 
 namespace Azoomee
 {
+	
+const std::string StringMgr::kEnglishIdentifier = "en-GB";
+const std::string StringMgr::kSpanishIdentifier = "spa-ES";
+const std::string StringMgr::kFrenchIdentifier = "fre-FR";
+const std::string StringMgr::kPortugueseIdentifier = "por-PT";
+const std::string StringMgr::kItalianIdentifier = "ita-IT";
+const std::string StringMgr::kGermanIdentifier = "ger-DE";
+const std::string StringMgr::kGreekIdentifier = "gre";
+const std::string StringMgr::kTurkishIdentifier = "tur";
+const std::string StringMgr::kAfrikaansIdentifier = "afr";
 
 static StringMgr *_sharedStringMgr = NULL;
 
@@ -34,6 +44,19 @@ bool StringMgr::init(void)
     errorMessagesDocument = parseFile(languageID, "errormessages");
 
     return true;
+}
+	
+void StringMgr::changeLanguage(const std::string &languageID)
+{
+	this->languageID = languageID;
+	stringsDocument = parseFile(languageID, "strings");
+	errorMessagesDocument = parseFile(languageID, "errormessages");
+	UserDefault::getInstance()->setStringForKey("language", languageID);
+}
+	
+std::string StringMgr::getLanguageID() const
+{
+	return languageID;
 }
 
 //--------------- Get Strings Functions ------------------
@@ -70,6 +93,8 @@ std::map<std::string, std::string> StringMgr::getErrorMessageWithCode(long error
 
 void StringMgr::setLanguageIdentifier()
 {
+	languageID = UserDefault::getInstance()->getStringForKey("language", kEnglishIdentifier);
+	/*
     switch(Application::getInstance()->getCurrentLanguage())
     {
         case cocos2d::LanguageType::ENGLISH:
@@ -79,6 +104,7 @@ void StringMgr::setLanguageIdentifier()
             languageID = "en-GB";
             break;
     };
+	*/
 }
 
 Document StringMgr::parseFile(std::string languageID, std::string stringFile)

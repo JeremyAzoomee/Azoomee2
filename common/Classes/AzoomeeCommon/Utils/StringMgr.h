@@ -20,17 +20,30 @@ using namespace rapidjson;
 
 namespace Azoomee
 {
-
+	
 class StringMgr
 {
 public:
+	static const std::string kEnglishIdentifier;
+	static const std::string kSpanishIdentifier;
+	static const std::string kFrenchIdentifier;
+	static const std::string kPortugueseIdentifier;
+	static const std::string kItalianIdentifier;
+	static const std::string kGermanIdentifier;
+	static const std::string kGreekIdentifier;
+	static const std::string kTurkishIdentifier;
+	static const std::string kAfrikaansIdentifier;
+	
+	
     /** Returns the shared instance of the Game Manager */
     static StringMgr* getInstance(void);
     virtual ~StringMgr();
     
     std::string getStringForKey(std::string key);
     std::map<std::string, std::string> getErrorMessageWithCode(long errorCode);
-    
+	
+	void changeLanguage(const std::string& languageID);
+	std::string getLanguageID() const;
 private:
     bool init(void);
     

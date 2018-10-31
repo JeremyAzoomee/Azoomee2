@@ -66,14 +66,26 @@ void SettingsNavigationButton::onEnter()
 void SettingsNavigationButton::setIconFilename(const std::string& filename)
 {
     _iconFilename = filename;
+	if(_icon)
+	{
+		_icon->loadTexture(_iconFilename);
+	}
 }
 void SettingsNavigationButton::setTitleText(const std::string& text)
 {
     _titleTextString = text;
+	if(_titleText)
+	{
+		_titleText->setString(_titleTextString);
+	}
 }
 void SettingsNavigationButton::setSubTitleText(const std::string& text)
 {
     _subTitleTextString = text;
+	if(_subTitleText)
+	{
+		_subTitleText->setString(_subTitleTextString);
+	}
 }
 
 NS_AZOOMEE_END

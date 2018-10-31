@@ -561,6 +561,7 @@
 		921A26BA217DFB54005C8C41 /* VodacomMessageBoxExitFlow.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VodacomMessageBoxExitFlow.cpp; sourceTree = "<group>"; };
 		921A26BC217E0A91005C8C41 /* VodacomMessageBoxNotification.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VodacomMessageBoxNotification.cpp; sourceTree = "<group>"; };
 		921A26BE217E1653005C8C41 /* VodacomMessageBoxInfo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VodacomMessageBoxInfo.cpp; sourceTree = "<group>"; };
+		921C75A22189DF5300EB93D6 /* LanguageSelectScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LanguageSelectScene.h; sourceTree = "<group>"; };
 		9220EACA200F5AF600BD7A90 /* DynamicNodeFlowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DynamicNodeFlowController.h; sourceTree = "<group>"; };
 		9220EAD1200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeFlowController.cpp; sourceTree = "<group>"; };
 		9220EAD3200F64A200BD7A90 /* SignUpFlowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignUpFlowController.h; sourceTree = "<group>"; };
@@ -1505,6 +1506,7 @@
 			children = (
 				D11313491E337D3A00E2C033 /* IntroVideoScene.h */,
 				028DDEB4206CFB69006D7EC5 /* IntroVideoScene.cpp */,
+				921C75A22189DF5300EB93D6 /* LanguageSelectScene.h */,
 			);
 			name = Intro;
 			sourceTree = "<group>";

@@ -84,6 +84,7 @@ bool SettingsHub::init()
                 _navigationLayout->setVisible(true);
                 _titleText->setString(_("Settings"));
                 _titleBarButton->loadTextureNormal("res/settings/exit_button.png");
+				_languageButton->setIconFilename(StringUtils::format("res/settings/flag_%s.png",StringMgr::getInstance()->getLanguageID().c_str()));
                 _inHub = true;
             }
         }
@@ -109,14 +110,14 @@ bool SettingsHub::init()
     _activeSettingsPageHolder->setVisible(false);
     _mainBodyLayout->addChild(_activeSettingsPageHolder);
 	
-	const int numButtons = 5;
+	const int numButtons = 6;
 	
 	const float buttonHeight = _navigationLayout->getContentSize().height * (1.0f / numButtons) - 10;
 	
-	/*_languageButton = SettingsNavigationButton::create();
+	_languageButton = SettingsNavigationButton::create();
 	_languageButton->setContentSize(Size(visibleSize.width, buttonHeight));
 	_languageButton->setLayoutParameter(CreateTopLinearLayoutParam(ui::Margin(0,0,0,10)));
-	_languageButton->setIconFilename("res/settings/flag_english_uk.png");
+	_languageButton->setIconFilename(StringUtils::format("res/settings/flag_%s.png",StringMgr::getInstance()->getLanguageID().c_str()));
 	_languageButton->setTitleText(_("Language"));
 	_languageButton->setSubTitleText(_("Change your language selection"));
 	_languageButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
@@ -126,7 +127,7 @@ bool SettingsHub::init()
 		}
 	});
 	_languageButton->setTouchEnabled(true);
-	_navigationLayout->addChild(_languageButton);*/
+	_navigationLayout->addChild(_languageButton);
 	
     _kidsButton = SettingsNavigationButton::create();
     _kidsButton->setContentSize(Size(visibleSize.width, buttonHeight));
