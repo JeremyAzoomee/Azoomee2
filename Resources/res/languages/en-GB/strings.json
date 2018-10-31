@@ -35,7 +35,7 @@
 	"Log out":"Log out",
 	"Terms of Use":"Terms of Use",
 	"Version Number":"Version Number",
-	"Privacy & Safety":"Privacy & Safety",
+	"PRIVACY & SAFETY":"PRIVACY & SAFETY",
 	"Kid Code:":"Kid Code:",
 	"LAST MESSAGES":"LAST MESSAGES",
 	"MY GALLERY":"MY GALLERY",
@@ -190,7 +190,7 @@
 	"To continue using Azoomee, you must confirm that you are over 18, and that you agree to our Policies.":"To continue using Azoomee, you must confirm that you are over 18, and that you agree to our Policies.",
 	"Safeguarding your privacy":"Safeguarding your privacy",
 	"Azoomee takes the protection and usage of your personal data very seriously. We use your personal data for the following purposes":"Azoomee takes the protection and usage of your personal data very seriously. We use your personal data for the following purposes",
-	"To create a unique Azoomee account •    To contact you when there are important service notifications •    To identify your account should you contact us for support":"To create a unique Azoomee account •    To contact you when there are important service notifications •    To identify your account should you contact us for support",
+	"•    To create a unique Azoomee account\n•    To contact you when there are important service notifications\n•    To identify your account should you contact us for support":"•    To create a unique Azoomee account\n•    To contact you when there are important service notifications\n•    To identify your account should you contact us for support",
 	"If you'd like to learn more about how we use the data you provide us, please read our Privacy Policy":"If you'd like to learn more about how we use the data you provide us, please read our Privacy Policy",
 	"Please confirm that:":"Please confirm that:",
 	"You agree to our Terms of Service, Acceptable Use Policy and Privacy Policy,":"You agree to our Terms of Service, Acceptable Use Policy and Privacy Policy,",
@@ -338,5 +338,11 @@
 	"mailto:help@azoomee.com":"mailto:help@azoomee.com",
 	"support.azoomee.com":"support.azoomee.com",
 	"http://support.azoomee.com":"http://support.azoomee.com",
-	"Added to favourites":"Added to favourites"
+	"Added to favourites":"Added to favourites",
+	"Create your family account":"Create your family account",
+	"Confirm this is your email address":"Confirm this is your email address",
+	"Create a password":"Create a password",
+	"Set up a 4-digit PIN":"Set up a 4-digit PIN",
+	"You are over 18":"You are over 18",
+	"What is <val1> x <val2>?":"What is <val1> x <val2>?"
 }

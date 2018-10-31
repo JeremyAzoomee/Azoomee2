@@ -51,7 +51,11 @@ void UserTypeMessagingLayer::onEnter()
     {
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
+#ifdef ALLOW_UNPAID_SIGNUP
+			DynamicNodeHandler::getInstance()->startSignupFlow();
+#else
             DynamicNodeHandler::getInstance()->startIAPFlow();
+#endif
         }
     });
 	
