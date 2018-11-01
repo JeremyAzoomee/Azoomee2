@@ -9,15 +9,24 @@ using namespace cocos2d;
 namespace Azoomee
 {
 	
-const std::string StringMgr::kEnglishIdentifier = "en-GB";
-const std::string StringMgr::kSpanishIdentifier = "spa-ES";
-const std::string StringMgr::kFrenchIdentifier = "fre-FR";
-const std::string StringMgr::kPortugueseIdentifier = "por-PT";
-const std::string StringMgr::kItalianIdentifier = "ita-IT";
-const std::string StringMgr::kGermanIdentifier = "ger-DE";
-const std::string StringMgr::kGreekIdentifier = "gre";
-const std::string StringMgr::kTurkishIdentifier = "tur";
-const std::string StringMgr::kAfrikaansIdentifier = "afr";
+LanguageParams::LanguageParams(const std::string& identifier, const std::string& name, const std::string& text)
+{
+	_identifier = identifier;
+	_name = name;
+	_text = text;
+}
+	
+const std::vector<LanguageParams> StringMgr::kLanguageParams = {
+	LanguageParams("en-GB", "English", "Hello!"),
+	LanguageParams("spa-ES", "Español", "¡Hola!"),
+	LanguageParams("fre-FR", "Français", "Bonjour!"),
+	LanguageParams("por-PT", "Português", "Olá!"),
+	LanguageParams("ita-IT", "Italiano", "Ciao!"),
+	LanguageParams("ger-DE", "Deutsch", "Hallo!"),
+	LanguageParams("gre", "Ελληνικά", "Γειά σου!"),
+	LanguageParams("tur", "Türk", "Merhaba!"),
+	LanguageParams("afr", "Afrikaans", "Hallo!")
+};
 
 static StringMgr *_sharedStringMgr = NULL;
 
@@ -41,7 +50,9 @@ bool StringMgr::init(void)
     setLanguageIdentifier();
     
     stringsDocument = parseFile(languageID, "strings");
-    errorMessagesDocument = parseFile(languageID, "errormessages");
+	std::string fileContent = FileUtils::getInstance()->getStringFromFile("res/languages/errormessages.json");
+	errorMessagesDocument.Parse(fileContent.c_str());
+    //errorMessagesDocument = parseFile(languageID, "errormessages");
 
     return true;
 }
@@ -50,7 +61,7 @@ void StringMgr::changeLanguage(const std::string &languageID)
 {
 	this->languageID = languageID;
 	stringsDocument = parseFile(languageID, "strings");
-	errorMessagesDocument = parseFile(languageID, "errormessages");
+	//errorMessagesDocument = parseFile(languageID, "errormessages");
 	UserDefault::getInstance()->setStringForKey("language", languageID);
 }
 	
@@ -93,7 +104,7 @@ std::map<std::string, std::string> StringMgr::getErrorMessageWithCode(long error
 
 void StringMgr::setLanguageIdentifier()
 {
-	languageID = UserDefault::getInstance()->getStringForKey("language", kEnglishIdentifier);
+	languageID = UserDefault::getInstance()->getStringForKey("language", kLanguageParams.at(0)._identifier);
 	/*
     switch(Application::getInstance()->getCurrentLanguage())
     {

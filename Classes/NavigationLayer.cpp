@@ -147,10 +147,10 @@ bool NavigationLayer::init()
    
     
     
-    if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
-    {
+    //if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+    //{
         createTopObjects();
-    }
+    //}
     
     return true;
 }
@@ -398,17 +398,19 @@ void NavigationLayer::hideNotificationBadge()
 
 void NavigationLayer::createTopObjects()
 {
-    settingsButton = SettingsButton::createSettingsButton(3.0f);
+    settingsButton = SettingsButton::createSettingsButton(1.0f);
     const Size& settingsButtonSize = settingsButton->getContentSize();
     settingsButton->setPosition(origin.x + visibleSize.width, origin.y + visibleSize.height - settingsButtonSize.height * 1.25);
     this->addChild(settingsButton);
-
-    returnToChildSelectorButton = ElectricDreamsButton::createChildSelectorButton();
-    const Size& childSelectButtonSize = returnToChildSelectorButton->getContentSize();
-    returnToChildSelectorButton->setPosition(Vec2(origin.x - childSelectButtonSize.width, origin.y + visibleSize.height - childSelectButtonSize.height*1.25));
-    returnToChildSelectorButton->setDelegate(this);
-    this->addChild(returnToChildSelectorButton);
-    
+	
+	if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+	{
+    	returnToChildSelectorButton = ElectricDreamsButton::createChildSelectorButton();
+    	const Size& childSelectButtonSize = returnToChildSelectorButton->getContentSize();
+    	returnToChildSelectorButton->setPosition(Vec2(origin.x - childSelectButtonSize.width, origin.y + visibleSize.height - childSelectButtonSize.height*1.25));
+    	returnToChildSelectorButton->setDelegate(this);
+    	this->addChild(returnToChildSelectorButton);
+	}
     topObjectsOnScreen();
 }
 

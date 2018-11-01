@@ -21,19 +21,19 @@ using namespace rapidjson;
 namespace Azoomee
 {
 	
+class LanguageParams
+{
+public:
+	LanguageParams(const std::string& identifier, const std::string& name, const std::string& text);
+	std::string _identifier;
+	std::string _name;
+	std::string _text;
+};
+	
 class StringMgr
 {
 public:
-	static const std::string kEnglishIdentifier;
-	static const std::string kSpanishIdentifier;
-	static const std::string kFrenchIdentifier;
-	static const std::string kPortugueseIdentifier;
-	static const std::string kItalianIdentifier;
-	static const std::string kGermanIdentifier;
-	static const std::string kGreekIdentifier;
-	static const std::string kTurkishIdentifier;
-	static const std::string kAfrikaansIdentifier;
-	
+	static const std::vector<LanguageParams> kLanguageParams;
 	
     /** Returns the shared instance of the Game Manager */
     static StringMgr* getInstance(void);

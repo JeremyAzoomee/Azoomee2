@@ -26,18 +26,6 @@ bool SettingsLanguagePage::init()
 		return false;
 	}
 	
-	_LanguageData = {
-		{"English",StringMgr::kEnglishIdentifier},
-		{"Français",StringMgr::kFrenchIdentifier},
-		{"Deutsch",StringMgr::kGermanIdentifier},
-		{"Español",StringMgr::kSpanishIdentifier},
-		{"Afrikaans",StringMgr::kAfrikaansIdentifier},
-		{"Português",StringMgr::kPortugueseIdentifier},
-		{"Italiano",StringMgr::kItalianIdentifier},
-		{"Ελληνικά",StringMgr::kGreekIdentifier},
-		{"Türk",StringMgr::kTurkishIdentifier}
-	};
-	
 	this->setLayoutType(ui::Layout::Type::VERTICAL);
 	
 	return true;
@@ -55,11 +43,11 @@ void SettingsLanguagePage::onEnter()
 	_languageList->setBottomPadding(0);
 	this->addChild(_languageList);
 	
-	for(auto data : _LanguageData)
+	for(auto data : StringMgr::kLanguageParams)
 	{
 		LanguageListItem* listItem = LanguageListItem::create();
-		listItem->setLanguage(data.first);
-		listItem->setFlagImage(StringUtils::format("res/settings/flag_%s.png",data.second.c_str()));
+		listItem->setLanguage(data._name);
+		listItem->setFlagImage(StringUtils::format("res/settings/flag_%s.png",data._identifier.c_str()));
 		listItem->setContentSize(Size(this->getContentSize().width - 10, 245));
 		listItem->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 		listItem->setTouchEnabled(true);
@@ -79,10 +67,10 @@ void SettingsLanguagePage::onEnter()
 				{
 					selectedItem->setSelected(true);
 				}
-				StringMgr::getInstance()->changeLanguage(data.second);
+				StringMgr::getInstance()->changeLanguage(data._identifier);
 			}
 		});
-		if(data.second == StringMgr::getInstance()->getLanguageID())
+		if(data._identifier == StringMgr::getInstance()->getLanguageID())
 		{
 			listItem->setSelected(true);
 		}
