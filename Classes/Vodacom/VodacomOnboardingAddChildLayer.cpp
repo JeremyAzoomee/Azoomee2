@@ -35,7 +35,7 @@ void VodacomOnboardingAddChildLayer::onEnter()
 {
 	const Size& contentSize = getContentSize();
 	
-	Label* title = Label::createWithTTF(_("Setup a profile"), Style::Font::Regular, 96);
+	Label* title = Label::createWithTTF(_("Setup a profile"), Style::Font::Regular(), 96);
 	title->setTextColor(Color4B::BLACK);
 	title->setHorizontalAlignment(TextHAlignment::CENTER);
 	title->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -47,7 +47,7 @@ void VodacomOnboardingAddChildLayer::onEnter()
 	titleHolder->addChild(title);
 	_verticalLayout->addChild(titleHolder);
 	
-	Label* subTitle = Label::createWithTTF(_("In order to get going you’ll need to set up a child profile. Don’t worry, you can add more children later."), Style::Font::Regular, 64);
+	Label* subTitle = Label::createWithTTF(_("In order to get going you’ll need to set up a child profile. Don’t worry, you can add more children later."), Style::Font::Regular(), 64);
 	subTitle->setTextColor(Color4B::BLACK);
 	subTitle->setWidth(contentSize.width * 0.65f);
 	subTitle->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -60,7 +60,7 @@ void VodacomOnboardingAddChildLayer::onEnter()
 	subTitleHolder->addChild(subTitle);
 	_verticalLayout->addChild(subTitleHolder);
 	
-	Label* inputTitle = Label::createWithTTF(_("Child's name"), Style::Font::Regular, 64);
+	Label* inputTitle = Label::createWithTTF(_("Child's name"), Style::Font::Regular(), 64);
 	inputTitle->setTextColor(Color4B::BLACK);
 	inputTitle->setHorizontalAlignment(TextHAlignment::CENTER);
 	inputTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -77,7 +77,7 @@ void VodacomOnboardingAddChildLayer::onEnter()
 	_nameInput->setDelegate(this);
 	_nameInput->setText(_flowData->getChildName());
 	
-	Label* nameError = Label::createWithTTF(_("*Invalid name"), Style::Font::Regular, 53);
+	Label* nameError = Label::createWithTTF(_("*Invalid name"), Style::Font::Regular(), 53);
 	nameError->setTextColor(Color4B(Style::Color::watermelon));
 	nameError->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
 	nameError->setNormalizedPosition(Vec2(0.1f,-0.1));
@@ -91,7 +91,7 @@ void VodacomOnboardingAddChildLayer::onEnter()
 	inputLayout->addChild(_nameInput);
 	_verticalLayout->addChild(inputLayout);
 	
-	Label* ageInputTitle = Label::createWithTTF(_("Age"), Style::Font::Regular, 64);
+	Label* ageInputTitle = Label::createWithTTF(_("Age"), Style::Font::Regular(), 64);
 	ageInputTitle->setTextColor(Color4B::BLACK);
 	ageInputTitle->setHorizontalAlignment(TextHAlignment::CENTER);
 	ageInputTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -103,7 +103,7 @@ void VodacomOnboardingAddChildLayer::onEnter()
 	ageInputTitleHolder->addChild(ageInputTitle);
 	_verticalLayout->addChild(ageInputTitleHolder);
 	
-	Label* detailsLink = Label::createWithTTF(_("Why do we need this?"), Style::Font::Regular, 64);
+	Label* detailsLink = Label::createWithTTF(_("Why do we need this?"), Style::Font::Regular(), 64);
 	detailsLink->setTextColor(Color4B(Style::Color::skyBlue));
 	float textWidth = detailsLink->getContentSize().width;
 	if(textWidth > contentSize.width * 0.65f)
@@ -139,7 +139,7 @@ void VodacomOnboardingAddChildLayer::onEnter()
 	_ageInput->setDelegate(this);
 	_ageInput->setText(_flowData->getChildAge());
 	
-	Label* ageError = Label::createWithTTF(_("*Invalid age"), Style::Font::Regular, 53);
+	Label* ageError = Label::createWithTTF(_("*Invalid age"), Style::Font::Regular(), 53);
 	ageError->setTextColor(Color4B(Style::Color::watermelon));
 	ageError->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
 	ageError->setNormalizedPosition(Vec2(0.1f,-0.1));
@@ -163,7 +163,7 @@ void VodacomOnboardingAddChildLayer::onEnter()
 	});
 	_verticalLayout->addChild(_confirmButton);
 	
-	Label* confirmText = Label::createWithTTF(_("Complete"), Style::Font::Regular, _confirmButton->getContentSize().height * 0.5f);
+	Label* confirmText = Label::createWithTTF(_("Complete"), Style::Font::Regular(), _confirmButton->getContentSize().height * 0.5f);
 	confirmText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	confirmText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	confirmText->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -175,11 +175,11 @@ void VodacomOnboardingAddChildLayer::onEnter()
 	progressIcon->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,200,0,0)));
 	_verticalLayout->addChild(progressIcon);
 	
-	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular, 64);
+	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular(), 64);
 	needHelp->setTextColor(Color4B(Style::Color::skyBlue));
 	needHelp->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	needHelp->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
-	Label* contactUs = Label::createWithTTF(_("Contact us"), Style::Font::Regular, 64);
+	Label* contactUs = Label::createWithTTF(_("Contact us"), Style::Font::Regular(), 64);
 	contactUs->setTextColor(Color4B(Style::Color::skyBlue));
 	contactUs->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
 	contactUs->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);

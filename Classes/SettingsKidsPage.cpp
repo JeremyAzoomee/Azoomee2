@@ -71,7 +71,7 @@ void SettingsKidsPage::onEnter()
     newProfileImg->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     newProfileImg->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_LEFT);
     
-    Label* newProfileText = Label::createWithTTF(_("Add New Profile"), Style::Font::Medium, 75);
+    Label* newProfileText = Label::createWithTTF(_("Add New Profile"), Style::Font::Medium(), 75);
     newProfileText->setTextColor(Color4B::WHITE);
     newProfileText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
     newProfileText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);

@@ -70,7 +70,7 @@ void VodacomOnboardingPinLayer::onEnter()
 	buttonHolder->addChild(_closeButton);
 	buttonHolder->addChild(_backButton);
 	
-	Label* title = Label::createWithTTF(_("Setup your PIN"), Style::Font::Regular, 96);
+	Label* title = Label::createWithTTF(_("Setup your PIN"), Style::Font::Regular(), 96);
 	title->setTextColor(Color4B::BLACK);
 	title->setHorizontalAlignment(TextHAlignment::CENTER);
 	title->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -82,7 +82,7 @@ void VodacomOnboardingPinLayer::onEnter()
 	titleHolder->addChild(title);
 	_verticalLayout->addChild(titleHolder);
 	
-	Label* subTitle = Label::createWithTTF(_("Create a 4 digit PIN to access your settings."), Style::Font::Regular, 64);
+	Label* subTitle = Label::createWithTTF(_("Create a 4 digit PIN to access your settings."), Style::Font::Regular(), 64);
 	subTitle->setTextColor(Color4B::BLACK);
 	subTitle->setWidth(contentSize.width * 0.65f);
 	subTitle->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -95,7 +95,7 @@ void VodacomOnboardingPinLayer::onEnter()
 	subTitleHolder->addChild(subTitle);
 	_verticalLayout->addChild(subTitleHolder);
 	
-	Label* inputTitle = Label::createWithTTF(_("PIN"), Style::Font::Regular, 64);
+	Label* inputTitle = Label::createWithTTF(_("PIN"), Style::Font::Regular(), 64);
 	inputTitle->setTextColor(Color4B::BLACK);
 	inputTitle->setHorizontalAlignment(TextHAlignment::CENTER);
 	inputTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -112,7 +112,7 @@ void VodacomOnboardingPinLayer::onEnter()
 	_pinInput->setDelegate(this);
 	_pinInput->setText(_flowData->getPin());
 	
-	Label* pinError = Label::createWithTTF(_("*PIN must be 4 numbers only"), Style::Font::Regular, 53);
+	Label* pinError = Label::createWithTTF(_("*PIN must be 4 numbers only"), Style::Font::Regular(), 53);
 	pinError->setTextColor(Color4B(Style::Color::watermelon));
 	pinError->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
 	pinError->setNormalizedPosition(Vec2(0.1f,-0.1));
@@ -136,7 +136,7 @@ void VodacomOnboardingPinLayer::onEnter()
 	});
 	_verticalLayout->addChild(_confirmButton);
 	
-	Label* confirmText = Label::createWithTTF(_("Next Step"), Style::Font::Regular, _confirmButton->getContentSize().height * 0.5f);
+	Label* confirmText = Label::createWithTTF(_("Next Step"), Style::Font::Regular(), _confirmButton->getContentSize().height * 0.5f);
 	confirmText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	confirmText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	confirmText->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -148,11 +148,11 @@ void VodacomOnboardingPinLayer::onEnter()
 	progressIcon->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,200,0,0)));
 	_verticalLayout->addChild(progressIcon);
 	
-	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular, 64);
+	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular(), 64);
 	needHelp->setTextColor(Color4B(Style::Color::skyBlue));
 	needHelp->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	needHelp->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
-	Label* contactUs = Label::createWithTTF(_("Contact us"), Style::Font::Regular, 64);
+	Label* contactUs = Label::createWithTTF(_("Contact us"), Style::Font::Regular(), 64);
 	contactUs->setTextColor(Color4B(Style::Color::skyBlue));
 	contactUs->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
 	contactUs->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);

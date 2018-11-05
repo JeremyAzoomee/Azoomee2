@@ -44,7 +44,7 @@ void SettingsSupportPage::onEnter()
 	_supportBox->setLayoutType(ui::Layout::Type::VERTICAL);
     this->addChild(_supportBox);
 	
-	Label* title = Label::createWithTTF(_("Need some help?"), Style::Font::Medium, 75);
+	Label* title = Label::createWithTTF(_("Need some help?"), Style::Font::Medium(), 75);
 	title->setWidth(_supportBox->getContentSize().width * 0.8f);
 	title->setHorizontalAlignment(TextHAlignment::CENTER);
 	title->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -57,7 +57,7 @@ void SettingsSupportPage::onEnter()
 	titleHolder->addChild(title);
 	_supportBox->addChild(titleHolder);
 	
-	Label* support = Label::createWithTTF(_("Visit our support page at"), Style::Font::Medium, 75);
+	Label* support = Label::createWithTTF(_("Visit our support page at"), Style::Font::Medium(), 75);
 	support->setWidth(_supportBox->getContentSize().width * 0.8f);
 	support->setHorizontalAlignment(TextHAlignment::CENTER);
 	support->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -70,7 +70,7 @@ void SettingsSupportPage::onEnter()
 	supportHolder->addChild(support);
 	_supportBox->addChild(supportHolder);
 	
-	Label* supportLink = Label::createWithTTF(_("support.azoomee.com"), Style::Font::Medium, 75);
+	Label* supportLink = Label::createWithTTF(_("support.azoomee.com"), Style::Font::Medium(), 75);
 	supportLink->setHorizontalAlignment(TextHAlignment::CENTER);
 	supportLink->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	supportLink->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -93,7 +93,7 @@ void SettingsSupportPage::onEnter()
 	});
 	_supportBox->addChild(supportLinkHolder);
 	
-	Label* orText = Label::createWithTTF(_("Or"), Style::Font::Medium, 75);
+	Label* orText = Label::createWithTTF(_("Or"), Style::Font::Medium(), 75);
 	orText->setWidth(_supportBox->getContentSize().width * 0.8f);
 	orText->setHorizontalAlignment(TextHAlignment::CENTER);
 	orText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -106,7 +106,7 @@ void SettingsSupportPage::onEnter()
 	orTextHolder->addChild(orText);
 	_supportBox->addChild(orTextHolder);
 	
-	Label* contact = Label::createWithTTF(_("Contact us directly at"), Style::Font::Medium, 75);
+	Label* contact = Label::createWithTTF(_("Contact us directly at"), Style::Font::Medium(), 75);
 	contact->setWidth(_supportBox->getContentSize().width * 0.8f);
 	contact->setHorizontalAlignment(TextHAlignment::CENTER);
 	contact->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -119,7 +119,7 @@ void SettingsSupportPage::onEnter()
 	contactHolder->addChild(contact);
 	_supportBox->addChild(contactHolder);
 	
-	Label* contactLink = Label::createWithTTF(_("help@azoomee.com"), Style::Font::Medium, 75);
+	Label* contactLink = Label::createWithTTF(_("help@azoomee.com"), Style::Font::Medium(), 75);
 	contactLink->setHorizontalAlignment(TextHAlignment::CENTER);
 	contactLink->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	contactLink->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);

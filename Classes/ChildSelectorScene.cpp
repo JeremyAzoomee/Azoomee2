@@ -353,6 +353,17 @@ ui::Button* ChildSelectorScene::createNewProfileButton()
         addChildButton->setOpacity(0);
         addChildButton->runAction(createBlinkEffect(delayTime, 0.1));
     }
+	
+	Label* buttonText = Label::createWithTTF(_("Add a profile"), Style::Font::Regular(), addChildButton->getContentSize().height * 0.4f);
+	buttonText->setTextColor(Color4B(Style::Color::brightAqua));
+	buttonText->setPosition(Vec2(140,67));
+	buttonText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+	buttonText->setHorizontalAlignment(TextHAlignment::CENTER);
+	buttonText->setVerticalAlignment(TextVAlignment::CENTER);
+	buttonText->setOverflow(Label::Overflow::SHRINK);
+	buttonText->setDimensions(380, 100);
+	addChildButton->addChild(buttonText);
+	
     return addChildButton;
 }
 
@@ -376,7 +387,17 @@ ui::Button* ChildSelectorScene::createParentProfileButton()
             createAdultPinLayerWithDelegate();
         }
     });
-    
+	
+	Label* buttonText = Label::createWithTTF(_("Parent inbox"), Style::Font::Regular(), parentButton->getContentSize().height * 0.4f);
+	buttonText->setTextColor(Color4B(Style::Color::brightAqua));
+	buttonText->setPosition(Vec2(140,67));
+	buttonText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+	buttonText->setHorizontalAlignment(TextHAlignment::CENTER);
+	buttonText->setVerticalAlignment(TextVAlignment::CENTER);
+	buttonText->setOverflow(Label::Overflow::SHRINK);
+	buttonText->setDimensions(380, 100);
+	parentButton->addChild(buttonText);
+	
     return parentButton;
 }
 

@@ -18,11 +18,11 @@ using namespace cocos2d;
 NS_AZOOMEE_BEGIN
 
 const std::vector<std::pair<cocos2d::Color4B, cocos2d::Color4B>> LanguageSelectScene::kGradientList = {
+	{Color4B(0,61,224,255), Color4B(2,150,248,255)},
+	{Color4B(255,109,4,255), Color4B(255,175,30,255)},
 	{Color4B(107,56,186,255), Color4B(168,94,220,255)},
 	{Color4B(0,132,140,255), Color4B(21,229,183,255)},
-	{Color4B(206,3,8,255), Color4B(255,74,99,255)},
-	{Color4B(0,61,224,255), Color4B(2,150,248,255)},
-	{Color4B(255,109,4,255), Color4B(255,175,30,255)}
+	{Color4B(206,3,8,255), Color4B(255,74,99,255)}
 };
 
 bool LanguageSelectScene::init()
@@ -43,7 +43,7 @@ bool LanguageSelectScene::init()
 	_contentLayout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	this->addChild(_contentLayout);
 	
-	Label* title = Label::createWithTTF(_("Pick your language"), Style::Font::Regular, 90);
+	Label* title = Label::createWithTTF(_("Pick your language"), Style::Font::Regular(), 90);
 	title->setWidth(contentSize.width * 0.8f);
 	title->setTextColor(Color4B::WHITE);
 	title->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -109,7 +109,7 @@ void LanguageSelectScene::onSizeChanged()
 	_contentLayout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	this->addChild(_contentLayout);
 	
-	Label* title = Label::createWithTTF(_("Pick your language"), Style::Font::Regular, 90);
+	Label* title = Label::createWithTTF(_("Pick your language"), Style::Font::Regular(), 90);
 	title->setWidth(contentSize.width * 0.8f);
 	title->setTextColor(Color4B::WHITE);
 	title->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -236,7 +236,9 @@ cocos2d::ui::Layout* LanguageSelectScene::createLanguageButton(const LanguagePar
 	gradient->setContentSize(stencil->getContentSize());
 	bubble->addChild(gradient);
 	
-	Label* helloText = Label::createWithTTF(params._text, Style::Font::Regular, 75);
+	const auto& font = params._identifier == "gre" ? Style::Font::ArialRegular : Style::Font::SofiaRegular;
+	
+	Label* helloText = Label::createWithTTF(params._text, font, 75);
 	helloText->setTextColor(Color4B::WHITE);
 	helloText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 	helloText->setNormalizedPosition(Vec2(0.5f,0.85f));
@@ -247,7 +249,7 @@ cocos2d::ui::Layout* LanguageSelectScene::createLanguageButton(const LanguagePar
 	bubbleHolder->addChild(bubble);
 	langButton->addChild(bubbleHolder);
 	
-	Label* nameLabel = Label::createWithTTF(params._name, Style::Font::Regular, 59);
+	Label* nameLabel = Label::createWithTTF(params._name, font, 59);
 	nameLabel->setTextColor(Color4B::WHITE);
 	nameLabel->setOpacity(200);
 	nameLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);

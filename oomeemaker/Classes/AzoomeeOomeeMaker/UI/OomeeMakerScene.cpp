@@ -447,7 +447,7 @@ void OomeeMakerScene::displayMadeAvatarNotification()
     }),NULL));
     _contentLayer->addChild(banner,10);
     
-    auto bannerLabel = Label::createWithTTF(_("This is your new Oomee!"), Style::Font::Regular, 83);
+    auto bannerLabel = Label::createWithTTF(_("This is your new Oomee!"), Style::Font::Regular(), 83);
     bannerLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     bannerLabel->setNormalizedPosition(Vec2(0.5, 0.25));
     bannerLabel->setColor(Color3B::WHITE);

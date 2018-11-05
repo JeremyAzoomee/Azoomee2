@@ -109,7 +109,7 @@ void KidDetailsLayer::onEnter()
     _displayNameLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _nameLayout->addChild(_displayNameLayout);
     
-    _nameText = Label::createWithTTF(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(_childNum), Style::Font::Medium, 107);
+    _nameText = Label::createWithTTF(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(_childNum), Style::Font::Medium(), 107);
     _nameText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _nameText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _nameText->setTextColor(Color4B::BLACK);
@@ -189,7 +189,7 @@ void KidDetailsLayer::onEnter()
     });
     centralContentLayout->addChild(_kidCodeLayout);
     
-    Label* kidCode = Label::createWithTTF(ParentDataProvider::getInstance()->getInviteCodeForAnAvailableChild(_childNum), Style::Font::Medium, 91);
+    Label* kidCode = Label::createWithTTF(ParentDataProvider::getInstance()->getInviteCodeForAnAvailableChild(_childNum), Style::Font::Medium(), 91);
     kidCode->setTextColor(Color4B::WHITE);
     kidCode->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     kidCode->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);

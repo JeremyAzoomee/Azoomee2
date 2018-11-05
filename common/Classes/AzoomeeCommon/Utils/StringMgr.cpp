@@ -18,14 +18,14 @@ LanguageParams::LanguageParams(const std::string& identifier, const std::string&
 	
 const std::vector<LanguageParams> StringMgr::kLanguageParams = {
 	LanguageParams("en-GB", "English", "Hello!"),
-	LanguageParams("spa-ES", "Español", "¡Hola!"),
+	LanguageParams("afr", "Afrikaans", "Hallo!"),
 	LanguageParams("fre-FR", "Français", "Bonjour!"),
+	LanguageParams("spa-ES", "Español", "¡Hola!"),
+	LanguageParams("ger-DE", "Deutsch", "Hallo!"),
 	LanguageParams("por-PT", "Português", "Olá!"),
 	LanguageParams("ita-IT", "Italiano", "Ciao!"),
-	LanguageParams("ger-DE", "Deutsch", "Hallo!"),
 	LanguageParams("gre", "Ελληνικά", "Γειά σου!"),
-	LanguageParams("tur", "Türk", "Merhaba!"),
-	LanguageParams("afr", "Afrikaans", "Hallo!")
+	LanguageParams("tur", "Türk", "Merhaba!")
 };
 
 static StringMgr *_sharedStringMgr = NULL;

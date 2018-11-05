@@ -3,7 +3,7 @@
 
 #include "../Azoomee.h"
 #include <cocos/cocos2d.h>
-
+#include "../Utils/StringMgr.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -157,12 +157,50 @@ namespace Font
     
     // Font for the Kid Code to be More readable
     const char* const kidCodeRegular = "fonts/Inconsolata-Regular.ttf";
+	
+	// Path to the font file
+	const char* const ArialRegular = "fonts/Arial.ttf";
+	// The system name of the font, usually inside the TTF file
+	const char* const ArialRegularSystemName = "Arial";
+	
+	// Path to the font file
+	const char* const ArialBold = "fonts/Arial Bold.ttf";
+	// The system name of the font, usually inside the TTF file
+	const char* const ArialBoldSystemName = "ArialBold";
     
-    const char* const Regular = SofiaRegular;
-    const char* const Medium = SofiaMedium;
-    const char* const Bold = SofiaBold;
-    const char* const Input = SofiaRegular;
-    
+    const char* const Regular()
+	{
+		if(StringMgr::getInstance()->getLanguageID() == "gre")
+		{
+			return ArialRegular;
+		}
+		return SofiaRegular;
+	}
+    const char* const Medium()
+	{
+		if(StringMgr::getInstance()->getLanguageID() == "gre")
+		{
+			return ArialRegular;
+		}
+		return SofiaMedium;
+	}
+    const char* const Bold()
+	{
+		if(StringMgr::getInstance()->getLanguageID() == "gre")
+		{
+			return ArialBold;
+		}
+		return SofiaBold;
+	}
+    const char* const Input()
+	{
+		if(StringMgr::getInstance()->getLanguageID() == "gre")
+		{
+			return ArialRegular;
+		}
+		return SofiaRegular;
+	}
+	
     const char* const RegularSystemName = SofiaRegularSystemName;
     const char* const MediumSystemName = SofiaMediumSystemName;
     const char* const BoldSystemName = SofiaBoldSystemName;

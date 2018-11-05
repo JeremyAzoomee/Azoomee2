@@ -97,10 +97,10 @@ void TextInputLayer::createEditBox()
 
     editBox->setColor(Color3B::WHITE);
     editBox->setPosition(Vec2(contentSize.width/2, contentSize.height/2));
-    editBox->setFont(Style::Font::Regular, 70);
+    editBox->setFont(Style::Font::Regular(), 70);
     editBox->setFontColor(Color3B::BLACK);
     editBox->setPlaceholderFontColor(Style::Color::telish);
-    editBox->setPlaceholderFont(Style::Font::Regular, 70);
+    editBox->setPlaceholderFont(Style::Font::Regular(), 70);
     editBox->setTextHorizontalAlignment(TextHAlignment::CENTER);
    
     #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -131,10 +131,10 @@ void TextInputLayer::createSettingsBoxEditBox(float width)
     
     editBox->setColor(Color3B::WHITE);
     editBox->setPosition(Vec2(contentSize.width/2, contentSize.height/2));
-    editBox->setFont(Style::Font::Regular, 59);
+    editBox->setFont(Style::Font::Regular(), 59);
     editBox->setFontColor(Color3B::BLACK);
     editBox->setPlaceholderFontColor(Style::Color::battleshipGrey);
-    editBox->setPlaceholderFont(Style::Font::Regular, 59);
+    editBox->setPlaceholderFont(Style::Font::Regular(), 59);
     
     editBox->setTextHorizontalAlignment(TextHAlignment::CENTER);
     
@@ -165,10 +165,10 @@ void TextInputLayer::createSettingRoundedEditBox(float width)
     
     editBox->setColor(Color3B::WHITE);
     editBox->setPosition(Vec2(contentSize.width/2, contentSize.height/2));
-    editBox->setFont(Style::Font::Regular, 63);
+    editBox->setFont(Style::Font::Regular(), 63);
     editBox->setFontColor(Color3B::BLACK);
     editBox->setPlaceholderFontColor(Style::Color::battleshipGrey);
-    editBox->setPlaceholderFont(Style::Font::Regular, 63);
+    editBox->setPlaceholderFont(Style::Font::Regular(), 63);
     
     editBox->setTextHorizontalAlignment(TextHAlignment::CENTER);
     

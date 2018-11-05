@@ -90,7 +90,7 @@ bool SettingsHub::init()
         }
     });
     
-    _titleText = ui::Text::create(_("Settings"), Style::Font::Medium, 91);
+    _titleText = ui::Text::create(_("Settings"), Style::Font::Medium(), 91);
     _titleText->setNormalizedPosition(isIphoneX ? Vec2(0.5f,0.25f) : Vec2::ANCHOR_MIDDLE);
     _titleText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _titleText->setTextColor(Color4B::WHITE);

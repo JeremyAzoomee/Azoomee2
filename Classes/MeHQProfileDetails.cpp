@@ -81,7 +81,7 @@ bool MeHQProfileDetails::init()
     _labelLayout->setSizePercent(isPortrait ? Vec2(1.0,0.34) : Vec2(0.5,1.0));
     this->addChild(_labelLayout);
     
-    _nameLabel = Label::createWithTTF(ChildDataProvider::getInstance()->getLoggedInChildName(),Style::Font::Regular , is3x4Device ? 96 : 140);
+    _nameLabel = Label::createWithTTF(ChildDataProvider::getInstance()->getLoggedInChildName(),Style::Font::Regular() , is3x4Device ? 96 : 140);
     _nameLabel->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE : Vec2::ANCHOR_MIDDLE_BOTTOM);
     _nameLabel->setNormalizedPosition(Vec2(0.5,isPortrait ? 0.60 : 0.5));
     _nameLabel->setContentSize(Size(contentSize.width /2, contentSize.height / 3.0f));
@@ -90,7 +90,7 @@ bool MeHQProfileDetails::init()
     
     _labelLayout->addChild(_nameLabel);
     
-    _kidCodeLabel = ui::Text::create(_("Kid Code:") + " " + ParentDataProvider::getInstance()->getInviteCodeForAnAvailableChild(ChildDataProvider::getInstance()->getLoggedInChildNumber()), Style::Font::Regular, is3x4Device ? 67 : 80);
+    _kidCodeLabel = ui::Text::create(_("Kid Code:") + " " + ParentDataProvider::getInstance()->getInviteCodeForAnAvailableChild(ChildDataProvider::getInstance()->getLoggedInChildNumber()), Style::Font::Regular(), is3x4Device ? 67 : 80);
     _kidCodeLabel->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE : Vec2::ANCHOR_MIDDLE_TOP);
     _kidCodeLabel->setNormalizedPosition(Vec2(0.5,isPortrait ? 0.25 : 0.45));
     _kidCodeLabel->setContentSize(Size(contentSize.width /2, contentSize.height / 3.0f));

@@ -54,7 +54,7 @@ bool DynamicNodeText::initWithParams(int fontSize, Color4B fontColour, const rap
     
     fontColour = getColor4BFromJson("colour", params);
     
-    const std::string& fontType = getBoolFromJson("bold", params) ?  Style::Font::Bold : Style::Font::Regular;
+    const std::string& fontType = getBoolFromJson("bold", params) ?  Style::Font::Bold() : Style::Font::Regular();
     
     _text = Label::createWithTTF(text, fontType, fontSize);
     _text->setNormalizedPosition(pos);

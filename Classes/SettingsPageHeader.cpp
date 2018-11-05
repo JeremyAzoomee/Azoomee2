@@ -27,7 +27,7 @@ bool SettingsPageHeader::init()
 
 void SettingsPageHeader::onEnter()
 {
-    _text = Label::createWithTTF(_textString, Style::Font::Medium, 53);
+    _text = Label::createWithTTF(_textString, Style::Font::Medium(), 53);
     _text->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _text->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _text->setHorizontalAlignment(TextHAlignment::CENTER);

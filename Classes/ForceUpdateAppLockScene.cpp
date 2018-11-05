@@ -27,7 +27,7 @@ void ForceUpdateAppLockScene::addVisualComponentsToScene()
 {
     addSideWiresToScreen(this, 0, 1);
     
-    auto titleLabel = Label::createWithTTF(_("Azoomee needs to be updated!"), Style::Font::Regular, 130);
+    auto titleLabel = Label::createWithTTF(_("Azoomee needs to be updated!"), Style::Font::Regular(), 130);
     titleLabel->setColor(Style::Color::brightAqua);
     titleLabel->setAnchorPoint(Vec2(0.5,1.0));
     titleLabel->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -35,7 +35,7 @@ void ForceUpdateAppLockScene::addVisualComponentsToScene()
     titleLabel->setPosition(_visibleSize.width/2, _visibleSize.height - 100);
     this->addChild(titleLabel);
     
-    auto subTitleLabel = Label::createWithTTF(_("It looks like you are using an old version of Azoomee.\nTo continue using Azoomee, please ask a grown-up to update it to the latest version by tapping the button below."), Style::Font::Regular, 76);
+    auto subTitleLabel = Label::createWithTTF(_("It looks like you are using an old version of Azoomee.\nTo continue using Azoomee, please ask a grown-up to update it to the latest version by tapping the button below."), Style::Font::Regular(), 76);
     subTitleLabel->setColor(Color3B::WHITE);
     subTitleLabel->setAnchorPoint(Vec2(0.5,1.0));
     subTitleLabel->setHorizontalAlignment(TextHAlignment::CENTER);

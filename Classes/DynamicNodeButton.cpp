@@ -103,8 +103,10 @@ void DynamicNodeButton::addButtonWithParams(const cocos2d::Size& size, const coc
     button->setScale(DynamicNodeCreator::getInstance()->_sizeMod);
     button->setSwallowTouches(true);
     button->addTouchEventListener(CC_CALLBACK_2(DynamicNodeButtonListener::onButtonPressedCallFunc, DynamicNodeButtonListener::getInstance(),buttonActionData));
-    
-    Label* label = Label::createWithTTF(buttonText, Style::Font::Regular, button->getContentSize().height*0.4);
+	
+	const Size& safeLabelArea = button->getContentSize() * 0.8f;
+	
+    Label* label = Label::createWithTTF(buttonText, Style::Font::Regular(), button->getContentSize().height*0.4);
     label->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     label->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     label->setColor(Color3B::BLACK);
@@ -113,12 +115,12 @@ void DynamicNodeButton::addButtonWithParams(const cocos2d::Size& size, const coc
 	if(underlined)
 	{
 		DrawNode* newDrawNode = DrawNode::create();
-		float heightOffset = button->getContentSize().width < label->getContentSize().width ? 0.0f : (button->getContentSize().height - label->getContentSize().height) / 2.0f;
-		newDrawNode->drawRect(Vec2(button->getContentSize().width / 2 - MIN(label->getContentSize().width / 2, button->getContentSize().width / 2), heightOffset - 7), Vec2(button->getContentSize().width / 2 + MIN(label->getContentSize().width / 2, button->getContentSize().width / 2), heightOffset - 6), Color4F::BLACK);
+		float heightOffset = safeLabelArea.width < label->getContentSize().width ? 0.0f : (safeLabelArea.height - label->getContentSize().height) / 2.0f;
+		newDrawNode->drawRect(Vec2(safeLabelArea.width / 2 - MIN(label->getContentSize().width / 2, safeLabelArea.width / 2), heightOffset - 7), Vec2(safeLabelArea.width / 2 + MIN(label->getContentSize().width / 2, safeLabelArea.width / 2), heightOffset - 6), Color4F::BLACK);
 		label->addChild(newDrawNode);
 	}
 	label->setOverflow(Label::Overflow::SHRINK);
-	label->setDimensions(button->getContentSize().width, button->getContentSize().height);
+	label->setDimensions(safeLabelArea.width, safeLabelArea.height);
     button->addChild(label);
     this->addChild(button);
 }

@@ -132,7 +132,7 @@ void FriendListSceneArtPreview::createContentUI(cocos2d::ui::Layout* parent)
     parent->addChild(paddingLayout);
     
     _artPreviewText = ui::Text::create();
-    _artPreviewText->setFontName(Style::Font::Regular);
+    _artPreviewText->setFontName(Style::Font::Regular());
     _artPreviewText->setFontSize(75.0f);
     _artPreviewText->setTextColor(Color4B(Style::Color::white));
     _artPreviewText->setString(_("Who would you like to share this with?"));

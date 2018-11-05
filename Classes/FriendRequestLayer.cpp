@@ -48,21 +48,21 @@ void FriendRequestLayer::onEnter()
 	contentLayout->setContentSize(contentSize);
 	_contentClippingNode->addChild(contentLayout);
 	
-    _senderText = Label::createWithTTF(StringUtils::format("%s\n%s",_senderName.c_str(), _senderInviteCode.c_str()), Style::Font::Medium, 48);
+    _senderText = Label::createWithTTF(StringUtils::format("%s\n%s",_senderName.c_str(), _senderInviteCode.c_str()), Style::Font::Medium(), 48);
     _senderText->setNormalizedPosition(Vec2(0.25,0.66));
     _senderText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _senderText->setHorizontalAlignment(TextHAlignment::CENTER);
     _senderText->setTextColor(Color4B::BLACK);
     contentLayout->addChild(_senderText);
     
-    _recipientText = Label::createWithTTF(StringUtils::format("%s\n%s",_recipientName.c_str(), _recipientInviteCode.c_str()), Style::Font::Medium, 48);
+    _recipientText = Label::createWithTTF(StringUtils::format("%s\n%s",_recipientName.c_str(), _recipientInviteCode.c_str()), Style::Font::Medium(), 48);
     _recipientText->setNormalizedPosition(Vec2(0.75,0.66));
     _recipientText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _recipientText->setHorizontalAlignment(TextHAlignment::CENTER);
     _recipientText->setTextColor(Color4B::BLACK);
     contentLayout->addChild(_recipientText);
     
-    _bodyText = Label::createWithTTF(_("wants to be friends with"), Style::Font::Medium, 48);
+    _bodyText = Label::createWithTTF(_("wants to be friends with"), Style::Font::Medium(), 48);
     _bodyText->setNormalizedPosition(Vec2(0.5,0.66));
     _bodyText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _bodyText->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -89,7 +89,7 @@ void FriendRequestLayer::onEnter()
     });
     contentLayout->addChild(_rejectButton);
     
-    Label* rejectLabel = Label::createWithTTF(_("Reject"), Style::Font::Medium, 59);
+    Label* rejectLabel = Label::createWithTTF(_("Reject"), Style::Font::Medium(), 59);
     rejectLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     rejectLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     rejectLabel->setTextColor(Color4B::WHITE);
@@ -112,7 +112,7 @@ void FriendRequestLayer::onEnter()
     });
     contentLayout->addChild(_confirmButton);
     
-    Label* confirmLabel = Label::createWithTTF(_("Confirm"), Style::Font::Medium, 59);
+    Label* confirmLabel = Label::createWithTTF(_("Confirm"), Style::Font::Medium(), 59);
     confirmLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     confirmLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     confirmLabel->setTextColor(Color4B::WHITE);
@@ -127,7 +127,7 @@ void FriendRequestLayer::onEnter()
     _rejectedBanner->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
     contentLayout->addChild(_rejectedBanner);
     
-    Label* rejectedLabel = Label::createWithTTF(_("This request has been rejected"), Style::Font::Medium, 59);
+    Label* rejectedLabel = Label::createWithTTF(_("This request has been rejected"), Style::Font::Medium(), 59);
     rejectedLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     rejectedLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     rejectedLabel->setTextColor(Color4B::WHITE);
@@ -142,7 +142,7 @@ void FriendRequestLayer::onEnter()
     _confirmedBanner->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
     contentLayout->addChild(_confirmedBanner);
     
-    Label* confirmedLabel = Label::createWithTTF(StringUtils::format(_("%s can now chat with this friend!").c_str(), _recipientName.c_str()) ,Style::Font::Medium , 59);
+    Label* confirmedLabel = Label::createWithTTF(StringUtils::format(_("%s can now chat with this friend!").c_str(), _recipientName.c_str()) ,Style::Font::Medium() , 59);
     confirmedLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     confirmedLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     confirmedLabel->setTextColor(Color4B::WHITE);

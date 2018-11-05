@@ -66,7 +66,7 @@ void VodacomOnboardingVoucherLayer::onEnter()
 	buttonHolder->addChild(_closeButton);
 	buttonHolder->addChild(_backButton);
 	
-	Label* title = Label::createWithTTF(_("Add a voucher"), Style::Font::Regular, 96);
+	Label* title = Label::createWithTTF(_("Add a voucher"), Style::Font::Regular(), 96);
 	title->setTextColor(Color4B::BLACK);
 	title->setHorizontalAlignment(TextHAlignment::CENTER);
 	title->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -78,7 +78,7 @@ void VodacomOnboardingVoucherLayer::onEnter()
 	titleHolder->addChild(title);
 	_verticalLayout->addChild(titleHolder);
 	
-	Label* inputTitle = Label::createWithTTF(_("Voucher code"), Style::Font::Regular, 64);
+	Label* inputTitle = Label::createWithTTF(_("Voucher code"), Style::Font::Regular(), 64);
 	inputTitle->setTextColor(Color4B::BLACK);
 	inputTitle->setHorizontalAlignment(TextHAlignment::CENTER);
 	inputTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -95,7 +95,7 @@ void VodacomOnboardingVoucherLayer::onEnter()
 	_voucherInput->setDelegate(this);
 	_voucherInput->setText(_flowData->getVoucherCode());
 	
-	Label* voucherError = Label::createWithTTF(_("*Invalid Voucher"), Style::Font::Regular, 53);
+	Label* voucherError = Label::createWithTTF(_("*Invalid Voucher"), Style::Font::Regular(), 53);
 	voucherError->setTextColor(Color4B(Style::Color::watermelon));
 	voucherError->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
 	voucherError->setNormalizedPosition(Vec2(0.1f,-0.1));
@@ -119,7 +119,7 @@ void VodacomOnboardingVoucherLayer::onEnter()
 	});
 	_verticalLayout->addChild(_confirmButton);
 	
-	Label* confirmText = Label::createWithTTF(_("Confirm"), Style::Font::Regular, _confirmButton->getContentSize().height * 0.5f);
+	Label* confirmText = Label::createWithTTF(_("Confirm"), Style::Font::Regular(), _confirmButton->getContentSize().height * 0.5f);
 	confirmText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	confirmText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	confirmText->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -138,11 +138,11 @@ void VodacomOnboardingVoucherLayer::onEnter()
 		_verticalLayout->addChild(progress);
 	}
 	
-	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular, 64);
+	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular(), 64);
 	needHelp->setTextColor(Color4B(Style::Color::skyBlue));
 	needHelp->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	needHelp->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
-	Label* contactUs = Label::createWithTTF(_("Contact us"), Style::Font::Regular, 64);
+	Label* contactUs = Label::createWithTTF(_("Contact us"), Style::Font::Regular(), 64);
 	contactUs->setTextColor(Color4B(Style::Color::skyBlue));
 	contactUs->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
 	contactUs->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);

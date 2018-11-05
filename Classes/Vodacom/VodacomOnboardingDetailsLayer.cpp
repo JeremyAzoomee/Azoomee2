@@ -46,7 +46,7 @@ void VodacomOnboardingDetailsLayer::onEnter()
 	_image->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	_verticalLayout->addChild(_image);
 	
-	Label* title = Label::createWithTTF(_("Unlock everything"), Style::Font::Regular, 96);
+	Label* title = Label::createWithTTF(_("Unlock everything"), Style::Font::Regular(), 96);
 	title->setHorizontalAlignment(TextHAlignment::CENTER);
 	title->setTextColor(Color4B::BLACK);
 	title->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -63,7 +63,7 @@ void VodacomOnboardingDetailsLayer::onEnter()
 	
 	for(const std::string& text : bulletPoints)
 	{
-		Label* bullet = Label::createWithTTF(text, Style::Font::Regular, 64);
+		Label* bullet = Label::createWithTTF(text, Style::Font::Regular(), 64);
 		bullet->setHorizontalAlignment(TextHAlignment::LEFT);
 		bullet->setTextColor(Color4B::BLACK);
 		bullet->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -95,7 +95,7 @@ void VodacomOnboardingDetailsLayer::onEnter()
 	});
 	_verticalLayout->addChild(_addVoucherButton);
 	
-	Label* addVoucherText = Label::createWithTTF(_("Add voucher"), Style::Font::Regular, _addVoucherButton->getContentSize().height * 0.5f);
+	Label* addVoucherText = Label::createWithTTF(_("Add voucher"), Style::Font::Regular(), _addVoucherButton->getContentSize().height * 0.5f);
 	addVoucherText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	addVoucherText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	addVoucherText->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -104,11 +104,11 @@ void VodacomOnboardingDetailsLayer::onEnter()
 	_addVoucherButton->addChild(addVoucherText);
 	
 	// add this in later when we have a link
-	/*Label* voucherLearnMore = Label::createWithTTF(_("Don’t have a voucher?"), Style::Font::Regular, 64);
+	/*Label* voucherLearnMore = Label::createWithTTF(_("Don’t have a voucher?"), Style::Font::Regular(), 64);
 	voucherLearnMore->setTextColor(Color4B(Style::Color::skyBlue));
 	voucherLearnMore->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	voucherLearnMore->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
-	Label* learnMore = Label::createWithTTF(_("Learn more"), Style::Font::Regular, 64);
+	Label* learnMore = Label::createWithTTF(_("Learn more"), Style::Font::Regular(), 64);
 	learnMore->setTextColor(Color4B(Style::Color::skyBlue));
 	learnMore->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
 	learnMore->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);

@@ -61,7 +61,7 @@ bool MeHQDownloads::init()
 	icon->setAnchorPoint(Vec2(1.5f,0.35f));
 	icon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	
-    ui::Text* heading = ui::Text::create((gameList.size() > 0) ? _("AVAILABLE OFFLINE") : _("MY DOWNLOADS"), Style::Font::Regular, 75);
+    ui::Text* heading = ui::Text::create((gameList.size() > 0) ? _("AVAILABLE OFFLINE") : _("MY DOWNLOADS"), Style::Font::Regular(), 75);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(icon->getContentSize().width* 0.75f,0,0,50)));
     heading->setContentSize(Size(visibleSize.width, spaceAboveCarousel));
@@ -226,7 +226,7 @@ void MeHQDownloads::buildEmptyCarousel()
     
     this->addChild(carouselLayer);
     
-    Label* heading = Label::createWithTTF(_("When you play games they'll become available offline."), Style::Font::Regular, 80);
+    Label* heading = Label::createWithTTF(_("When you play games they'll become available offline."), Style::Font::Regular(), 80);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setHorizontalAlignment(TextHAlignment::CENTER);

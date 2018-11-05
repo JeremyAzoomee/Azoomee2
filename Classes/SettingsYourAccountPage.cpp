@@ -51,7 +51,7 @@ void SettingsYourAccountPage::onEnter()
     
     this->addChild(_footerBanner);
     
-    Label* logout = Label::createWithTTF(_("Log out"), Style::Font::Medium, 60);
+    Label* logout = Label::createWithTTF(_("Log out"), Style::Font::Medium(), 60);
     logout->setTextColor(Color4B::WHITE);
     logout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     logout->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -77,7 +77,7 @@ void SettingsYourAccountPage::onEnter()
     
     _footerBanner->addChild(logoutButton);
     
-    Label* privacy = Label::createWithTTF(_("Privacy Policy"), Style::Font::Medium, 60);
+    Label* privacy = Label::createWithTTF(_("Privacy Policy"), Style::Font::Medium(), 60);
     privacy->setTextColor(Color4B::WHITE);
     privacy->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     privacy->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -102,7 +102,7 @@ void SettingsYourAccountPage::onEnter()
     
     _footerBanner->addChild(privacyButton);
     
-    Label* terms = Label::createWithTTF(_("Terms of Use"), Style::Font::Medium, 60);
+    Label* terms = Label::createWithTTF(_("Terms of Use"), Style::Font::Medium(), 60);
     terms->setTextColor(Color4B::WHITE);
     terms->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     terms->setAnchorPoint(Vec2::ANCHOR_MIDDLE);

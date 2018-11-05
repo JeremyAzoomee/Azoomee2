@@ -27,10 +27,12 @@ void ChildNameLayer::onEnter()
 {
     const Size& contentSize = this->getContentSize();
     
-    Label* title = Label::createWithTTF(_("Add another child"), Style::Font::Regular, 150);
+    Label* title = Label::createWithTTF(_("Add another child"), Style::Font::Regular(), 150);
     title->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     title->setPosition(contentSize.width / 2.0f, contentSize.height * 0.9f);
     title->setColor(Color3B::WHITE);
+	title->setWidth(contentSize.width * 0.75f);
+	title->setHorizontalAlignment(TextHAlignment::CENTER);
     this->addChild(title);
     
     _textInput = TextInputLayer::createWithSize(Size(contentSize.width * 0.75f, 160), INPUT_IS_CHILD_NAME);
@@ -42,10 +44,12 @@ void ChildNameLayer::onEnter()
     }
     this->addChild(_textInput);
     
-    Label* textInputTitle = Label::createWithTTF(_("What’s your child’s name?"), Style::Font::Regular, 100);
+    Label* textInputTitle = Label::createWithTTF(_("What’s your child’s name?"), Style::Font::Regular(), 100);
     textInputTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     textInputTitle->setPosition(_textInput->getPosition() + Vec2(_textInput->getContentSize().width / 2, _textInput->getContentSize().height * 1.25f));
     textInputTitle->setColor(Color3B::WHITE);
+	textInputTitle->setWidth(contentSize.width * 0.8f);
+	textInputTitle->setHorizontalAlignment(TextHAlignment::CENTER);
     this->addChild(textInputTitle);
     
     _continueButton = ui::Button::create("res/login/next_btnGreen.png");

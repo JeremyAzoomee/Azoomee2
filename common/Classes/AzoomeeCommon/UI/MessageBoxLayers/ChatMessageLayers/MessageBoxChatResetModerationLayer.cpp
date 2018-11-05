@@ -66,7 +66,7 @@ void MessageBoxChatResetModerationLayer::createTitle()
 
 void MessageBoxChatResetModerationLayer::createBody()
 {
-    messageBodyLabel = createLabelWith(_messageBoxBody, Style::Font::Regular, Style::Color::white, 64);
+    messageBodyLabel = createLabelWith(_messageBoxBody, Style::Font::Regular(), Style::Color::white, 64);
     messageBodyLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     messageBodyLabel->setWidth(textMaxWidth);
 }

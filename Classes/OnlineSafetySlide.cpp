@@ -31,7 +31,7 @@ void OnlineSafetySlide::onEnter()
 {
 	const Size& contentSize = this->getContentSize();
 	
-    _titleText = Label::createWithTTF(_titleString, Style::Font::Medium, 75);
+    _titleText = Label::createWithTTF(_titleString, Style::Font::Medium(), 75);
     _titleText->setHorizontalAlignment(TextHAlignment::CENTER);
     _titleText->setTextColor(Color4B::BLACK);
     _titleText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
@@ -51,7 +51,7 @@ void OnlineSafetySlide::onEnter()
     _image->ignoreContentAdaptWithSize(false);
     this->addChild(_image);
     
-    _bodyText = Label::createWithTTF(_bodyString, Style::Font::Medium, 59);
+    _bodyText = Label::createWithTTF(_bodyString, Style::Font::Medium(), 59);
     _bodyText->setHorizontalAlignment(TextHAlignment::LEFT);
     _bodyText->setWidth(contentSize.width * 0.9f);
     _bodyText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);

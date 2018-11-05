@@ -45,13 +45,13 @@ void SettingsNavigationButton::onEnter()
     _textLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
     this->addChild(_textLayout);
     
-    _titleText = Label::createWithTTF(_titleTextString, Style::Font::Medium, 91);
+    _titleText = Label::createWithTTF(_titleTextString, Style::Font::Medium(), 91);
     _titleText->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     _titleText->setPosition(Vec2(0,(_textLayout->getContentSize().height * 0.5f) + 20));
     _titleText->setTextColor(Color4B(Style::Color::skyBlue));
     _textLayout->addChild(_titleText);
     
-    _subTitleText = Label::createWithTTF(_subTitleTextString, Style::Font::Medium, 49);
+    _subTitleText = Label::createWithTTF(_subTitleTextString, Style::Font::Medium(), 49);
     _subTitleText->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
     _subTitleText->setPosition(Vec2(0,_textLayout->getContentSize().height * 0.5f));
     _subTitleText->setWidth(_textLayout->getContentSize().width);
