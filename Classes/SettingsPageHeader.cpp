@@ -31,8 +31,10 @@ void SettingsPageHeader::onEnter()
     _text->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _text->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _text->setHorizontalAlignment(TextHAlignment::CENTER);
+	_text->setVerticalAlignment(TextVAlignment::CENTER);
     _text->setTextColor(Color4B(Style::Color::white));
-    _text->setWidth(this->getContentSize().width * 0.75);
+	_text->setOverflow(Label::Overflow::SHRINK);
+    _text->setDimensions(this->getContentSize().width * 0.75, this->getContentSize().height * 0.8f);
 	_text->setLineSpacing(20);
     this->addChild(_text);
     

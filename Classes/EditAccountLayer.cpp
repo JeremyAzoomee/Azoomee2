@@ -128,8 +128,11 @@ void EditAccountLayer::onEnter()
     
     Label* pinText = Label::createWithTTF(_("PIN"), Style::Font::Medium(), 59);
     pinText->setTextColor(Color4B(Style::Color::battleshipGrey));
-    pinText->setHorizontalAlignment(TextHAlignment::RIGHT);
-    pinText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
+	pinText->setHorizontalAlignment(TextHAlignment::RIGHT);
+	pinText->setVerticalAlignment(TextVAlignment::CENTER);
+	pinText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
+	pinText->setOverflow(Label::Overflow::SHRINK);
+	pinText->setDimensions(pinEditboxLayout->getContentSize().width * 0.2f, 100);
     pinText->setPosition(Vec2(pinEditboxLayout->getContentSize().width * 0.225f, pinEditboxLayout->getContentSize().height / 2));
     pinEditboxLayout->addChild(pinText);
     
@@ -181,7 +184,10 @@ void EditAccountLayer::onEnter()
     Label* passwordText = Label::createWithTTF(_("Password"), Style::Font::Medium(), 59);
     passwordText->setTextColor(Color4B(Style::Color::battleshipGrey));
     passwordText->setHorizontalAlignment(TextHAlignment::RIGHT);
+	passwordText->setVerticalAlignment(TextVAlignment::CENTER);
     passwordText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
+	passwordText->setOverflow(Label::Overflow::SHRINK);
+	passwordText->setDimensions(passwordEditboxLayout->getContentSize().width * 0.2f, 100);
     passwordText->setPosition(Vec2(passwordEditboxLayout->getContentSize().width * 0.225f, passwordEditboxLayout->getContentSize().height / 2));
     passwordEditboxLayout->addChild(passwordText);
     

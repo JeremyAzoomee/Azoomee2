@@ -53,8 +53,12 @@ void SettingsYourAccountPage::onEnter()
     
     Label* logout = Label::createWithTTF(_("Log out"), Style::Font::Medium(), 60);
     logout->setTextColor(Color4B::WHITE);
-    logout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    logout->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    logout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
+    logout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
+	logout->setHorizontalAlignment(TextHAlignment::RIGHT);
+	logout->setVerticalAlignment(TextVAlignment::CENTER);
+	logout->setOverflow(Label::Overflow::SHRINK);
+	logout->setDimensions(_footerBanner->getContentSize().width * 0.25f, _footerBanner->getContentSize().height * 0.7f);
     
     ui::Button* logoutButton = ui::Button::create();
     logoutButton->setContentSize(logout->getContentSize());
@@ -81,16 +85,20 @@ void SettingsYourAccountPage::onEnter()
     privacy->setTextColor(Color4B::WHITE);
     privacy->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     privacy->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	privacy->setHorizontalAlignment(TextHAlignment::CENTER);
+	privacy->setVerticalAlignment(TextVAlignment::CENTER);
+	privacy->setOverflow(Label::Overflow::SHRINK);
+	privacy->setDimensions(_footerBanner->getContentSize().width * 0.33f, _footerBanner->getContentSize().height * 0.7f);
     
-    DrawNode* privacyDrawNode = DrawNode::create();
-    privacyDrawNode->drawRect(Vec2(0, -7), Vec2(privacy->getContentSize().width, -6), Color4F::WHITE);
-    privacy->addChild(privacyDrawNode);
+    //DrawNode* privacyDrawNode = DrawNode::create();
+    //privacyDrawNode->drawRect(Vec2(0, -7), Vec2(privacy->getContentSize().width, -6), Color4F::WHITE);
+    //privacy->addChild(privacyDrawNode);
     
     ui::Button* privacyButton = ui::Button::create();
     privacyButton->setContentSize(privacy->getContentSize());
     privacyButton->ignoreContentAdaptWithSize(false);
     privacyButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    privacyButton->setPosition(Vec2(_footerBanner->getContentSize().width * 0.5, _footerBanner->getContentSize().height * 0.5f));
+    privacyButton->setPosition(Vec2(_footerBanner->getContentSize().width * 0.5f, _footerBanner->getContentSize().height * 0.5f));
     privacyButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
@@ -106,13 +114,17 @@ void SettingsYourAccountPage::onEnter()
     terms->setTextColor(Color4B::WHITE);
     terms->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     terms->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    
-    DrawNode* termsDrawNode = DrawNode::create();
-    termsDrawNode->drawRect(Vec2(0, -7), Vec2(terms->getContentSize().width, -6), Color4F::WHITE);
-    terms->addChild(termsDrawNode);
+	terms->setHorizontalAlignment(TextHAlignment::LEFT);
+	terms->setVerticalAlignment(TextVAlignment::CENTER);
+	terms->setOverflow(Label::Overflow::SHRINK);
+	terms->setDimensions(_footerBanner->getContentSize().width * 0.33f, _footerBanner->getContentSize().height * 0.7f);
+	
+    //DrawNode* termsDrawNode = DrawNode::create();
+    //termsDrawNode->drawRect(Vec2(0, -7), Vec2(terms->getContentSize().width, -6), Color4F::WHITE);
+    //terms->addChild(termsDrawNode);
     
     ui::Button* termsButton = ui::Button::create();
-    termsButton->setContentSize(privacy->getContentSize());
+    termsButton->setContentSize(terms->getContentSize());
     termsButton->ignoreContentAdaptWithSize(false);
     termsButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
     termsButton->setPosition(Vec2(25, _footerBanner->getContentSize().height * 0.5f));

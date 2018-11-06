@@ -746,8 +746,23 @@ void NavigationLayer::repositionElements()
                 const Size& backButtonSize = backButton->getContentSize();
                 backButton->setPosition(origin.x + backButtonSize.width*.7, origin.y + visibleSize.height - backButtonSize.height*.7);
             }
+			
+			if(settingsButton)
+			{
+				const Size& settingsButtonSize = settingsButton->getContentSize();
+				settingsButton->stopAllActions();
+				settingsButton->setPosition(Vec2(origin.x + visibleSize.width + settingsButtonSize.width*1.25, origin.y + visibleSize.height - settingsButtonSize.height * 1.25));
+			}
         }
-
+		else
+		{
+			if(settingsButton)
+			{
+				const Size& settingsButtonSize = settingsButton->getContentSize();
+				settingsButton->stopAllActions();
+				settingsButton->setPosition(Vec2(origin.x + visibleSize.width - settingsButtonSize.width*1.25, origin.y + visibleSize.height - settingsButtonSize.height * 1.25));
+			}
+		}
     }
     
 }

@@ -49,6 +49,8 @@ void ChildAgeLayer::onEnter()
     textInputTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     textInputTitle->setPosition(_textInput->getPosition() + Vec2(_textInput->getContentSize().width / 2, _textInput->getContentSize().height * 1.25f));
     textInputTitle->setColor(Color3B::WHITE);
+	textInputTitle->setHorizontalAlignment(TextHAlignment::CENTER);
+	textInputTitle->setVerticalAlignment(TextVAlignment::BOTTOM);
 	textInputTitle->setOverflow(Label::Overflow::SHRINK);
 	textInputTitle->setDimensions(contentSize.width * 0.8f, contentSize.height * 0.1f);
     this->addChild(textInputTitle);

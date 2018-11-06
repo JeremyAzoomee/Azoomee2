@@ -53,7 +53,9 @@ void OnlineSafetySlide::onEnter()
     
     _bodyText = Label::createWithTTF(_bodyString, Style::Font::Medium(), 59);
     _bodyText->setHorizontalAlignment(TextHAlignment::LEFT);
-    _bodyText->setWidth(contentSize.width * 0.9f);
+	_bodyText->setVerticalAlignment(TextVAlignment::TOP);
+	_bodyText->setOverflow(Label::Overflow::SHRINK);
+    _bodyText->setDimensions(contentSize.width * 0.9f, contentSize.height * 0.45f);
     _bodyText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _bodyText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
     _bodyText->setTextColor(Color4B::BLACK);

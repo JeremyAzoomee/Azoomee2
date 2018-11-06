@@ -43,10 +43,12 @@ private:
     SettingsNavigationButton* _supportButton = nullptr;
     
     bool _inHub = true;
-    
+	std::string _prevLangCode;
+	
     cocos2d::ui::Layout* _activeSettingsPageHolder = nullptr;
     
     void changeToPage(SettingsPages page);
+	void updateTextForNewLanguage();
     
 public:
     virtual bool init() override;

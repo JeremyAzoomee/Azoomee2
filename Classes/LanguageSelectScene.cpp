@@ -280,7 +280,14 @@ cocos2d::ui::Layout* LanguageSelectScene::createLanguageButton(const LanguagePar
 			}
 			else
 			{
-				LoginLogicHandler::getInstance()->doLoginLogic();
+				if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
+				{
+					Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+				}
+				else
+				{
+					LoginLogicHandler::getInstance()->doLoginLogic();
+				}
 			}
 		}
 	});

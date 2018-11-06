@@ -49,14 +49,21 @@ void SettingsNavigationButton::onEnter()
     _titleText->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     _titleText->setPosition(Vec2(0,(_textLayout->getContentSize().height * 0.5f) + 20));
     _titleText->setTextColor(Color4B(Style::Color::skyBlue));
+	_titleText->setVerticalAlignment(TextVAlignment::BOTTOM);
+	_titleText->setHorizontalAlignment(TextHAlignment::LEFT);
+	_titleText->setOverflow(Label::Overflow::SHRINK);
+	_titleText->setDimensions(_textLayout->getContentSize().width, _textLayout->getContentSize().height * 0.45f);
     _textLayout->addChild(_titleText);
     
     _subTitleText = Label::createWithTTF(_subTitleTextString, Style::Font::Medium(), 49);
     _subTitleText->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
     _subTitleText->setPosition(Vec2(0,_textLayout->getContentSize().height * 0.5f));
-    _subTitleText->setWidth(_textLayout->getContentSize().width);
     _subTitleText->setTextColor(Color4B(Style::Color::battleshipGrey));
 	_subTitleText->setLineSpacing(20.0f);
+	_subTitleText->setVerticalAlignment(TextVAlignment::TOP);
+	_subTitleText->setHorizontalAlignment(TextHAlignment::LEFT);
+	_subTitleText->setOverflow(Label::Overflow::SHRINK);
+	_subTitleText->setDimensions(_textLayout->getContentSize().width, _textLayout->getContentSize().height * 0.45f);
     _textLayout->addChild(_subTitleText);
     
     
@@ -77,6 +84,7 @@ void SettingsNavigationButton::setTitleText(const std::string& text)
 	if(_titleText)
 	{
 		_titleText->setString(_titleTextString);
+		_titleText->setTTFConfig(TTFConfig(Style::Font::Medium(), _titleText->getTTFConfig().fontSize, GlyphCollection::DYNAMIC));
 	}
 }
 void SettingsNavigationButton::setSubTitleText(const std::string& text)
@@ -85,6 +93,7 @@ void SettingsNavigationButton::setSubTitleText(const std::string& text)
 	if(_subTitleText)
 	{
 		_subTitleText->setString(_subTitleTextString);
+		_subTitleText->setTTFConfig(TTFConfig(Style::Font::Medium(), _subTitleText->getTTFConfig().fontSize, GlyphCollection::DYNAMIC));
 	}
 }
 
