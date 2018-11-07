@@ -6,6 +6,10 @@ import io
 import json
 import os
 import re
+import shutil
+import StringIO
+import urllib2
+import zipfile
 
 
 ## - Common
@@ -21,9 +25,15 @@ CODE_DIRS = [
 PARSE_FILES = [ '.cpp', '.mm' ]
 RESERVED_KEYS = [ 'key', 'used' ]
 YES_WORDS = [ 'yes', 'y' ]
+CTA_PACKAGES = [ 
+    'https://media.azoomee.com/static/popups/ios/package.json',
+    'https://media.azoomee.com/static/popups/android/package.json'
+]
+CTA_DOWNLOAD_DIR = 'cta_temp'
 
 QUOTED_STRING_REGEX = re.compile( r"(?P<quote>['\"])(?P<string>.*?)(?<!\\)(?P=quote)" )
 GET_TEXT_REGEX = re.compile( r"_\(\s*(?P<quote>['\"])(?P<string>.*?)(?<!\\)(?P=quote)\s*\)" )
+CTA_TEXT_REGEX = re.compile( r"\"text\"\s*:\s*(?P<quote>['\"])(?P<string>.*?)(?<!\\)(?P=quote)\s*," )
 
 
 def GetLanguagesFromCSV():
@@ -44,13 +54,13 @@ def GetLanguagesFromCSV():
 
         # For each language, map key to the language text
         for row in reader:
-            key = unicode(row['key'], 'utf-8')
+            key = unicode( row['key'], 'utf-8' )
 
             for header in reader.fieldnames:
                 if header in RESERVED_KEYS:
                     continue
                 languageDict = languages[header]
-                languageDict[key] = unicode(row[header], 'utf-8')
+                languageDict[key] = unicode( row[header], 'utf-8' )
     
     return languages
 
@@ -81,6 +91,7 @@ def SaveLanguagesToJSON( languages ):
     for language, stringsDict in languages.iteritems():
         # Make sure language directory exists
         languageDir = os.path.join( INSTALL_DIR, language )
+
         try:
             os.makedirs( languageDir )
         except:
@@ -108,15 +119,13 @@ def GetTextFromSourceCode():
             for file in files:
                 extension = os.path.splitext( file )[1]
                 if extension in PARSE_FILES:
-                    #print( os.path.join( root, file ) )
-
                     fileData = None
                     with open( os.path.join( root, file ), 'r' ) as fh:
                         fileData = fh.read()
                     
                     matches = GET_TEXT_REGEX.findall( fileData )
                     for match in matches:
-                        strings.add( unicode(match[1], 'utf-8') )
+                        strings.add( unicode( match[1], 'utf-8' ) )
     
     return strings
 
@@ -127,7 +136,32 @@ def GetTextFromCTAFiles():
     """
     strings = set()
 
-    # TODO: Implement this
+    for ctaURL in CTA_PACKAGES:
+        # Download package json
+        package = json.loads( urllib2.urlopen( ctaURL ).read() )
+        # Download the zip file
+        zipData = urllib2.urlopen( package['uri'] ).read()
+        # Extract the zip file
+        zipF = zipfile.ZipFile( StringIO.StringIO( zipData ) )
+
+        shutil.rmtree( CTA_DOWNLOAD_DIR, ignore_errors=True )
+
+        zipF.extractall( CTA_DOWNLOAD_DIR )
+
+        # Find all source files to parse
+        for root, dirs, files in os.walk( CTA_DOWNLOAD_DIR ):
+            for file in files:
+                extension = os.path.splitext( file )[1]
+                if extension == '.json':
+                    fileData = None
+                    with open( os.path.join( root, file ), 'r' ) as fh:
+                        fileData = fh.read()
+                    
+                    matches = CTA_TEXT_REGEX.findall( fileData )
+                    for match in matches:
+                        strings.add( unicode( match[1], 'utf-8' ) )
+        
+        shutil.rmtree( CTA_DOWNLOAD_DIR, ignore_errors=True )
 
     return strings
 
