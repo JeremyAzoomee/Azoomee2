@@ -168,38 +168,10 @@ namespace Font
 	// The system name of the font, usually inside the TTF file
 	const char* const ArialBoldSystemName = "ArialBold";
     
-    const char* const Regular()
-	{
-		if(StringMgr::getInstance()->getLanguageID() == "gre")
-		{
-			return ArialRegular;
-		}
-		return SofiaRegular;
-	}
-    const char* const Medium()
-	{
-		if(StringMgr::getInstance()->getLanguageID() == "gre")
-		{
-			return ArialRegular;
-		}
-		return SofiaMedium;
-	}
-    const char* const Bold()
-	{
-		if(StringMgr::getInstance()->getLanguageID() == "gre")
-		{
-			return ArialBold;
-		}
-		return SofiaBold;
-	}
-    const char* const Input()
-	{
-		if(StringMgr::getInstance()->getLanguageID() == "gre")
-		{
-			return ArialRegular;
-		}
-		return SofiaRegular;
-	}
+	const char* const Regular();
+	const char* const Medium();
+	const char* const Bold();
+	const char* const Input();
 	
     const char* const RegularSystemName = SofiaRegularSystemName;
     const char* const MediumSystemName = SofiaMediumSystemName;

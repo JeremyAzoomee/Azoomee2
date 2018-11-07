@@ -74,7 +74,7 @@ void OfflineText::createForOfflineHubWhenOffline()
     if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
     {
         addTextSubTitleToScreen(_("Check your connection and try again"));
-        addTextBodyToScreen(_("In the meantime you can still enjoy these."));
+        addTextBodyToScreen(_("In the meantime you can still enjoy these"));
     }
     else
     {
@@ -90,7 +90,7 @@ void OfflineText::createForOfflineHubWhenOnline()
     
     this->removeAllChildren();
     addOnlineLogoToScreen();
-    addTextTitleToScreen(_("Great news! You are back online."));
+    addTextTitleToScreen(_("Great news! You are back online"));
     addTextSubTitleToScreen("");
     addExitOfflineModeButtonToScreen();
 }
