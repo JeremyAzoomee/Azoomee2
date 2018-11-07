@@ -19,6 +19,8 @@ CODE_DIRS = [
     '../oomeemaker/Classes'
 ]
 PARSE_FILES = [ '.cpp', '.mm' ]
+RESERVED_KEYS = [ 'key', 'used' ]
+YES_WORDS = [ 'yes', 'y' ]
 
 QUOTED_STRING_REGEX = re.compile( r"(?P<quote>['\"])(?P<string>.*?)(?<!\\)(?P=quote)" )
 GET_TEXT_REGEX = re.compile( r"_\(\s*(?P<quote>['\"])(?P<string>.*?)(?<!\\)(?P=quote)\s*\)" )
@@ -36,19 +38,19 @@ def GetLanguagesFromCSV():
         
         # Initialise dictionaries
         for header in reader.fieldnames:
-            if header == 'key':
+            if header in RESERVED_KEYS:
                 continue
             languages[header] = {}
 
         # For each language, map key to the language text
         for row in reader:
+            key = unicode(row['key'], 'utf-8')
+
             for header in reader.fieldnames:
-                if header == 'key':
+                if header in RESERVED_KEYS:
                     continue
                 languageDict = languages[header]
-                key = unicode(row['key'], 'utf-8')
-                languageText = unicode(row[header], 'utf-8')
-                languageDict[key] = languageText
+                languageDict[key] = unicode(row[header], 'utf-8')
     
     return languages
 
@@ -65,9 +67,7 @@ def GetDataFromCSV():
         fieldNames = reader.fieldnames
 
         for row in reader:
-            unicode_row = {}
-            for fieldName in fieldNames:
-                unicode_row[fieldName] = unicode(row[fieldName], 'utf-8')
+            unicode_row = { k: unicode( v, 'utf-8' ) for k,v in row.items() }
             rows.append( unicode_row )
 
     return fieldNames, rows
@@ -90,8 +90,10 @@ def SaveLanguagesToJSON( languages ):
 
         # Create the json file
         with io.open( jsonFilePath, 'w', encoding='utf8' ) as fp:
-            data = json.dumps( stringsDict, ensure_ascii=False, sort_keys=True )
+            data = json.dumps( stringsDict, ensure_ascii=False, sort_keys=True, indent=4, separators=(',',': ') )
             fp.write( data )
+
+            print 'Saved', jsonFilePath
 
 
 def GetTextFromSourceCode():
@@ -106,7 +108,7 @@ def GetTextFromSourceCode():
             for file in files:
                 extension = os.path.splitext( file )[1]
                 if extension in PARSE_FILES:
-                    print( os.path.join( root, file ) )
+                    #print( os.path.join( root, file ) )
 
                     fileData = None
                     with open( os.path.join( root, file ), 'r' ) as fh:
@@ -119,13 +121,24 @@ def GetTextFromSourceCode():
     return strings
 
 
+def GetTextFromCTAFiles():
+    """
+    Parses locale text from CTA files.
+    """
+    strings = set()
+
+    # TODO: Implement this
+
+    return strings
+
+
 ## - Install
 
 def InstallCommand( args ):
     """
     Takes the data from the languages csv file and saves it into the JSON files for use in the app.
     """
-    print 'Install'
+    print '**Install**'
     languages = GetLanguagesFromCSV()
     SaveLanguagesToJSON( languages )
 
@@ -136,32 +149,79 @@ def UpdateCommand( args ):
     """
     Parse the source code and update the languages csv file with new strings.
     """
-    print 'Update'
+    print '**Update**'
 
-    strings = list(GetTextFromSourceCode())
+    # Get strings from source code and cta files
+    strings = GetTextFromSourceCode()
+    ctaStrings = GetTextFromCTAFiles()
+    strings |= ctaStrings;
+
+    # Get existing spreadsheet data
     fieldNames, rows = GetDataFromCSV()
+    hasUsedData = 'used' in fieldNames
+    if not hasUsedData:
+        fieldNames.insert( 1, 'used' )
 
     existing_rows = []
     unused_rows = []
 
     for row in rows:
+        used = 'no'
         if row['key'] in strings:
+            used = 'yes'
+        elif hasUsedData:
+            used = row['used']
+        
+        row['used'] = used
+
+        if used == 'yes' or used == 'dyn':
             existing_rows.append( row )
             strings.remove( row['key'] )
         else:
             unused_rows.append( row )
     
+    new_rows = []
+    for string in strings:
+        new_rows.append( { 'key': string, 'used': 'yes' } )
+    
     print 'Existing rows:', len(existing_rows)
     print 'Unused rows:', len(unused_rows)
-    # for row in unused_rows:
-    #     print row['key']
-    
     print 'New rows:', len(strings)
-    for string in strings:
-        print string
 
-    #for string in strings:
-    #    print string
+    # Write out new CSV file
+    with open( LANGUAGES_FILE, 'w' ) as csvfile:
+        writer = csv.DictWriter( csvfile, fieldnames=fieldNames )
+        writer.writeheader()
+
+        allRows = new_rows + existing_rows + unused_rows
+
+        for row in allRows:
+            writer.writerow( { k: v.encode( 'utf-8' ) if isinstance(v, unicode) else v for k,v in row.items() } )
+    
+
+    # Run report command automatically
+    print ''
+    ReportCommand( args )
+
+
+## - Report
+
+def ReportCommand( args ):
+    """
+    Print a report about the language translations.
+    """
+    print '**Report**'
+
+    languages = GetLanguagesFromCSV()
+
+    print 'Missing Translations:'
+    for language, stringsDict in languages.iteritems():
+        missingTranslationCount = 0
+        for key, value in stringsDict.iteritems():
+            if value is None or value.strip() == "":
+                missingTranslationCount += 1
+        
+        print language + ': ' + str(missingTranslationCount)
 
 
 ## - Main
@@ -169,6 +229,7 @@ def UpdateCommand( args ):
 Commands = {
     'install': InstallCommand,
     'update': UpdateCommand,
+    'report': ReportCommand
 }
 
 def HandleCommands():
