@@ -4,9 +4,9 @@
 //General configuration
 //#define FORCE_RELOAD YES;
 //#define FORGET_USER_DATA YES;
-//#define ALLOW_UNPAID_SIGNUP YES
+#define ALLOW_UNPAID_SIGNUP YES
 //#define USINGCI YES
-#define VODACOM_BUILD YES
+//#define VODACOM_BUILD YES
 
 #include <cocos/cocos2d.h>
 #include "Json.h"
