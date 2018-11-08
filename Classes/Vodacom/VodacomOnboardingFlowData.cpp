@@ -77,6 +77,15 @@ std::string VodacomOnboardingFlowData::getChildAge() const
 	return _childAge;
 }
 
+void VodacomOnboardingFlowData::setAcceptedMarketing(bool accepted)
+{
+	_acceptedMarketing = accepted;
+}
+bool VodacomOnboardingFlowData::getAcceptedMarketing() const
+{
+	return _acceptedMarketing;
+}
+
 void VodacomOnboardingFlowData::setVoucherFailed(bool failed)
 {
 	_voucherFailed = failed;

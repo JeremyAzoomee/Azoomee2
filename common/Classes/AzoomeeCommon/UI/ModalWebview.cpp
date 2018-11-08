@@ -70,7 +70,6 @@ void ModalWebview::createWebView(std::string url)
     _modalWebview->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _modalWebview->setJavascriptInterfaceScheme("");
     _modalWebview->loadURL(url);
-    
     // WebView does not have callback on Amazon
     // Due to Android having different webviews, we choose to be safe
     // and make all non iOS just load directly.

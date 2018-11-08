@@ -14,6 +14,8 @@
 #include "VodacomOnboardingDetailsLayer.h"
 #include "VodacomOnboardingErrorLayer.h"
 #include "VodacomOnboardingPinLayer.h"
+#include "VodacomOnboardingTnCLayer.h"
+#include "VodacomOnboardingDCBWebview.h"
 #include "../SceneManagerScene.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
@@ -99,6 +101,12 @@ void VodacomOnboardingScene::moveToState(const FlowState& targetState)
 			break;
 		case FlowState::ERROR:
 			nextLayer = VodacomOnboardingErrorLayer::create();
+			break;
+		case FlowState::TERMS:
+			nextLayer = VodacomOnboardingTnCLayer::create();
+			break;
+		case FlowState::DCB_WEBVIEW:
+			nextLayer = VodacomOnboardingDCBWebview::create();
 			break;
 	}
 	if(nextLayer)

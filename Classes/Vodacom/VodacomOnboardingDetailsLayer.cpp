@@ -104,6 +104,28 @@ void VodacomOnboardingDetailsLayer::onEnter()
 	addVoucherText->setDimensions(_addVoucherButton->getContentSize().width * 0.8f, _addVoucherButton->getContentSize().height * 0.9f);
 	_addVoucherButton->addChild(addVoucherText);
 	
+	ui::Button* choosePlanButton = ui::Button::create("res/vodacom/main_button.png");
+	choosePlanButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	choosePlanButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+		if(eType == ui::Widget::TouchEventType::ENDED)
+		{
+			if(_delegate)
+			{
+				_delegate->moveToState(FlowState::TERMS);
+			}
+		}
+	});
+	_verticalLayout->addChild(choosePlanButton);
+	
+	Label* choosePlanText = Label::createWithTTF(_("Choose a plan"), Style::Font::Regular(), choosePlanButton->getContentSize().height * 0.5f);
+	choosePlanText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	choosePlanText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	choosePlanText->setHorizontalAlignment(TextHAlignment::CENTER);
+	choosePlanText->setVerticalAlignment(TextVAlignment::CENTER);
+	choosePlanText->setOverflow(Label::Overflow::SHRINK);
+	choosePlanText->setDimensions(choosePlanButton->getContentSize().width * 0.8f, choosePlanButton->getContentSize().height * 0.9f);
+	choosePlanButton->addChild(choosePlanText);
+	
 	// add this in later when we have a link
 	/*Label* voucherLearnMore = Label::createWithTTF(_("Don’t have a voucher?"), Style::Font::Regular(), 64);
 	voucherLearnMore->setTextColor(Color4B(Style::Color::skyBlue));

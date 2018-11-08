@@ -211,7 +211,7 @@ void VodacomOnboardingVoucherLayer::onConfirmPressed()
 		else
 		{
 			_flowData->setVoucherCode(_voucherInput->getText());
-			_delegate->moveToState(FlowState::REGISTER);
+			_delegate->moveToState(FlowState::TERMS);
 		}
 	}
 }

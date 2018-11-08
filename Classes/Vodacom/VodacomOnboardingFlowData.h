@@ -16,7 +16,7 @@
 NS_AZOOMEE_BEGIN
 
 enum class UserType {ANON, FREE, ANON_FREE, REGISTERED}; //ANON = anonymous, FREE = logged in w/o premium, ANON_FREE = anonymous user who has account to log into
-enum class FlowState {EXIT, DETAILS, ADD_VOUCHER, REGISTER, PIN, ADD_CHILD, LOGIN, SUCCESS, ERROR};
+enum class FlowState {EXIT, DETAILS, ADD_VOUCHER, REGISTER, PIN, ADD_CHILD, LOGIN, SUCCESS, ERROR, TERMS, DCB_WEBVIEW};
 enum class ErrorType {NONE, LOGIN, VOUCHER, RESET, ALREADY_PREMIUM, ALREADY_REGISTERED};
 
 class VodacomOnboardingFlowData;
@@ -31,6 +31,8 @@ private:
 	std::string _pin;
 	std::string _childName;
 	std::string _childAge;
+	
+	bool _acceptedMarketing = false;
 	
 	bool _voucherFailed = false;
 	
@@ -62,6 +64,9 @@ public:
 	
 	void setChildAge(const std::string& childAge);
 	std::string getChildAge() const;
+	
+	void setAcceptedMarketing(bool accepted);
+	bool getAcceptedMarketing() const;
 	
 	void setVoucherFailed(bool failed);
 	bool getVoucherFailed() const;
