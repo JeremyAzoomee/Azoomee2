@@ -17,7 +17,7 @@ class VodacomOnboardingDCBWebview : public VodacomOnboardingLayer
 	typedef VodacomOnboardingLayer Super;
 private:
 	cocos2d::ui::Button* _closeButton = nullptr;
-	cocos2d::experimental::ui::WebView* _Webview = nullptr;
+	cocos2d::experimental::ui::WebView* _webview = nullptr;
 	
 public:
 	

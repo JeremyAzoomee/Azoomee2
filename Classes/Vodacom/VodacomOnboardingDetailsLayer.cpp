@@ -111,7 +111,7 @@ void VodacomOnboardingDetailsLayer::onEnter()
 		{
 			if(_delegate)
 			{
-				_delegate->moveToState(FlowState::TERMS);
+				_delegate->moveToState(FlowState::DCB_WEBVIEW);
 			}
 		}
 	});
