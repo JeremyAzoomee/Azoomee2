@@ -619,14 +619,17 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
         AnalyticsSingleton::getInstance()->iapBackEndRequestFailedEvent(errorCode);
         RoutePaymentSingleton::getInstance()->backendRequestFailed(errorCode);
     }
-    else if(requestTag == API::TagResetPasswordRequest || requestTag == API::TagUpdateBillingData || requestTag == API::TagGetForceUpdateInformation) //Dont do anything with a password Request attempt
+	else if(requestTag == API::TagResetPasswordRequest || requestTag == API::TagUpdateBillingData || requestTag == API::TagGetForceUpdateInformation || requestTag == API::TagGetParentDetails) //Dont do anything with a password Request attempt
     {
         return;
     }
     else
     {
-        FlowDataSingleton::getInstance()->setErrorCode(errorCode);
-        LoginLogicHandler::getInstance()->doLoginLogic();
+		if(errorCode != -1)
+		{
+        	FlowDataSingleton::getInstance()->setErrorCode(errorCode);
+        	LoginLogicHandler::getInstance()->doLoginLogic();
+		}
     }
 }
 
