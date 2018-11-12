@@ -105,6 +105,15 @@ UserType VodacomOnboardingFlowData::getUserType() const
 	return _userType;
 }
 
+void VodacomOnboardingFlowData::setPurchaseType(const PurchaseType& purchaseType)
+{
+	_purchaseType = purchaseType;
+}
+PurchaseType VodacomOnboardingFlowData::getPurchaseType() const
+{
+	return _purchaseType;
+}
+
 void VodacomOnboardingFlowData::setErrorType(const ErrorType& errorType)
 {
 	_errorType = errorType;

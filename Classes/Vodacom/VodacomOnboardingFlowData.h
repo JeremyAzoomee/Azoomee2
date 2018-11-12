@@ -15,6 +15,7 @@
 
 NS_AZOOMEE_BEGIN
 
+enum class PurchaseType {UNKNOWN, VOUCHER, DCB};
 enum class UserType {ANON, FREE, ANON_FREE, REGISTERED}; //ANON = anonymous, FREE = logged in w/o premium, ANON_FREE = anonymous user who has account to log into
 enum class FlowState {EXIT, DETAILS, ADD_VOUCHER, REGISTER, PIN, ADD_CHILD, LOGIN, SUCCESS, ERROR, TERMS, DCB_WEBVIEW};
 enum class ErrorType {NONE, LOGIN, VOUCHER, RESET, ALREADY_PREMIUM, ALREADY_REGISTERED};
@@ -38,7 +39,7 @@ private:
 	
 	UserType _userType = UserType::ANON;
 	ErrorType _errorType = ErrorType::NONE;
-	
+	PurchaseType _purchaseType = PurchaseType::UNKNOWN;
 	std::vector<FlowState> _stateStack;
 	
 public:
@@ -76,6 +77,9 @@ public:
 	
 	void setErrorType(const ErrorType& errorType);
 	ErrorType getErrorType() const;
+	
+	void setPurchaseType(const PurchaseType& purchaseType);
+	PurchaseType getPurchaseType() const;
 	
 	void pushState(const FlowState& state);
 	void popState();

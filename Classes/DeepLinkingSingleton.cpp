@@ -16,6 +16,10 @@
 #include "DynamicNodeHandler.h"
 #include "ContentOpener.h"
 
+#ifdef VODACOM_BUILD
+#include "vodacom/VodacomOnboardingScene.h"
+#endif
+
 using namespace cocos2d;
 using namespace Azoomee;
 
@@ -174,7 +178,17 @@ bool DeepLinkingSingleton::actionDeepLink()
             return true;
         }
     }
-    
+#ifdef VODACOM_BUILD
+	else if(path == "vodacom")
+	{
+		VodacomOnboardingScene* vodacomScene = dynamic_cast<VodacomOnboardingScene*>(Director::getInstance()->getRunningScene());
+		if(vodacomScene)
+		{
+			
+		}
+	}
+#endif
+	
     return false;
 }
 
