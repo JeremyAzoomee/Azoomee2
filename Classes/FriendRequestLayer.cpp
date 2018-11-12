@@ -62,14 +62,11 @@ void FriendRequestLayer::onEnter()
     _recipientText->setTextColor(Color4B::BLACK);
     contentLayout->addChild(_recipientText);
     
-    _bodyText = Label::createWithTTF(_("wants to be friends with"), Style::Font::Medium(), 48);
-    _bodyText->setNormalizedPosition(Vec2(0.5,0.66));
-    _bodyText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _bodyText->setHorizontalAlignment(TextHAlignment::CENTER);
-    _bodyText->setTextColor(Color4B(Style::Color::battleshipGrey));
-	_bodyText->setOverflow(Label::Overflow::SHRINK);
-	_bodyText->setDimensions(contentSize.width * 0.2f, contentSize.height * 0.4f);
-    contentLayout->addChild(_bodyText);
+    _arrowIcon = Sprite::create("res/settings/FriendshipIconWhite.png");
+    _arrowIcon->setNormalizedPosition(Vec2(0.5,0.66));
+    _arrowIcon->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _arrowIcon->setColor(Style::Color::battleshipGrey);
+    contentLayout->addChild(_arrowIcon);
     
     
     _rejectButton = ui::Layout::create();
