@@ -213,7 +213,7 @@ void TextInputLayer::setupEditBoxUsingType()
         {
             editBox->setInputFlag(ui::EditBox::InputFlag::INITIAL_CAPS_WORD);
             editBox->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
-            editBox->setPlaceHolder(_("First name or nickname only").c_str());
+            //editBox->setPlaceHolder(_("First name or nickname only").c_str());
             break;
         }
         case INPUT_IS_DAY:
@@ -257,7 +257,7 @@ void TextInputLayer::setupEditBoxUsingType()
             editBox->setInputFlag(ui::EditBox::InputFlag::INITIAL_CAPS_ALL_CHARACTERS);
             editBox->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
             editBox->setMaxLength(8);
-            editBox->setPlaceHolder(_("Enter Friend's Kid Code").c_str());
+            //editBox->setPlaceHolder(_("Enter Friend's Kid Code").c_str());
             break;
         }
 		case INPUT_IS_VOUCHER:

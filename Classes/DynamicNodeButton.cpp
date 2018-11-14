@@ -115,9 +115,10 @@ void DynamicNodeButton::addButtonWithParams(const cocos2d::Size& size, const coc
 	if(underlined)
 	{
 		DrawNode* newDrawNode = DrawNode::create();
-		float heightOffset = safeLabelArea.width < label->getContentSize().width ? 0.0f : (safeLabelArea.height - label->getContentSize().height) / 2.0f;
+		float heightOffset = 0;//safeLabelArea.width < label->getContentSize().width ? 0.0f : (safeLabelArea.height - label->getContentSize().height) / 2.0f;
 		newDrawNode->drawRect(Vec2(safeLabelArea.width / 2 - MIN(label->getContentSize().width / 2, safeLabelArea.width / 2), heightOffset - 7), Vec2(safeLabelArea.width / 2 + MIN(label->getContentSize().width / 2, safeLabelArea.width / 2), heightOffset - 6), Color4F::BLACK);
 		label->addChild(newDrawNode);
+		label->setVerticalAlignment(TextVAlignment::BOTTOM);
 	}
 	label->setOverflow(Label::Overflow::SHRINK);
 	label->setDimensions(safeLabelArea.width, safeLabelArea.height);

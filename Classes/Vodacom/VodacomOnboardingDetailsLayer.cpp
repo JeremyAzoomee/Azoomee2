@@ -101,7 +101,7 @@ void VodacomOnboardingDetailsLayer::onEnter()
 	addVoucherText->setHorizontalAlignment(TextHAlignment::CENTER);
 	addVoucherText->setVerticalAlignment(TextVAlignment::CENTER);
 	addVoucherText->setOverflow(Label::Overflow::SHRINK);
-	addVoucherText->setDimensions(_addVoucherButton->getContentSize().width * 0.8f, _addVoucherButton->getContentSize().height * 0.9f);
+	addVoucherText->setDimensions(_addVoucherButton->getContentSize().width * 0.8f, _addVoucherButton->getContentSize().height * 0.8f);
 	_addVoucherButton->addChild(addVoucherText);
 	
 	// add this in later when we have a link

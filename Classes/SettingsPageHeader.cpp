@@ -34,7 +34,7 @@ void SettingsPageHeader::onEnter()
 	_text->setVerticalAlignment(TextVAlignment::CENTER);
     _text->setTextColor(Color4B(Style::Color::white));
 	_text->setOverflow(Label::Overflow::SHRINK);
-    _text->setDimensions(this->getContentSize().width * 0.75, this->getContentSize().height * 0.8f);
+    _text->setDimensions(this->getContentSize().width * 0.8f, this->getContentSize().height * 0.7f);
 	_text->setLineSpacing(20);
     this->addChild(_text);
     

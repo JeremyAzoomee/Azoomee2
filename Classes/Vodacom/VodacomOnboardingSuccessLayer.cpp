@@ -43,7 +43,7 @@ void VodacomOnboardingSuccessLayer::onEnter()
 	
 	if(ParentDataProvider::getInstance()->isPaidUser())
 	{
-		Label* validUntil = Label::createWithTTF(_("Set up complete. Your voucher is valid until") + " " + ParentDataProvider::getInstance()->getBillingDate() , Style::Font::Regular(), 64);
+		Label* validUntil = Label::createWithTTF(_("Set up complete. Your voucher has been added, valid until") + " " + ParentDataProvider::getInstance()->getBillingDate() , Style::Font::Regular(), 64);
 		validUntil->setTextColor(Color4B::BLACK);
 		validUntil->setHorizontalAlignment(TextHAlignment::CENTER);
 		validUntil->setAnchorPoint(Vec2::ANCHOR_MIDDLE);

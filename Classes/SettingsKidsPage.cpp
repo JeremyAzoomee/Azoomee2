@@ -94,7 +94,7 @@ void SettingsKidsPage::addKidsToScrollView()
     for(int i = 0; i < ParentDataProvider::getInstance()->getAmountOfAvailableChildren(); i++)
     {
         KidDetailsLayer* kidLayer = KidDetailsLayer::create();
-        kidLayer->setContentSize(Size(_kidList->getContentSize().width, 1650));
+        kidLayer->setContentSize(Size(_kidList->getContentSize().width, 1900));
         kidLayer->setChildNum(i);
         kidLayer->setDeleteChildCallback([&](){
             ModalMessages::getInstance()->startLoading();

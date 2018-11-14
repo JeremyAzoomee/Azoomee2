@@ -52,6 +52,7 @@ void OnlineSafetySlide::onEnter()
     this->addChild(_image);
     
     _bodyText = Label::createWithTTF(_bodyString, Style::Font::Medium(), 59);
+	_bodyText->setLineSpacing(20);
     _bodyText->setHorizontalAlignment(TextHAlignment::LEFT);
 	_bodyText->setVerticalAlignment(TextVAlignment::TOP);
 	_bodyText->setOverflow(Label::Overflow::SHRINK);
