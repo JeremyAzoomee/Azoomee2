@@ -12,6 +12,7 @@
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include <AzoomeeCommon/Data/Child/ChildDataParser.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/API/API.h>
 #include "KidDetailsLayer.h"
@@ -44,7 +45,7 @@ void SettingsKidsPage::onEnter()
     _kidList = ui::ListView::create();
     _kidList->setDirection(ui::ScrollView::Direction::VERTICAL);
     _kidList->setBounceEnabled(true);
-    _kidList->setContentSize(Size(this->getContentSize().width - 100, this->getContentSize().height - 456));
+	_kidList->setContentSize(Size(this->getContentSize().width - 100, this->getContentSize().height - 316 - (ConfigStorage::getInstance()->isDeviceIphoneX() ? 200 : 150)));
     _kidList->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _kidList->setItemsMargin(50);
     _kidList->setTopPadding(50);
@@ -54,7 +55,7 @@ void SettingsKidsPage::onEnter()
     addKidsToScrollView();
     
     _footerBanner = ui::Layout::create();
-    _footerBanner->setContentSize(Size(this->getContentSize().width, 150));
+    _footerBanner->setContentSize(Size(this->getContentSize().width, 300));
     _footerBanner->setBackGroundColor(Style::Color::skyBlue);
     _footerBanner->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
     _footerBanner->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
@@ -67,14 +68,14 @@ void SettingsKidsPage::onEnter()
     _footerBanner->setTouchEnabled(true);
     this->addChild(_footerBanner);
     
-    ui::ImageView* newProfileImg = ui::ImageView::create("res/settings/add_new_profile_button.png");
-    newProfileImg->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-    newProfileImg->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_LEFT);
+    ui::ImageView* newProfileImg = ui::ImageView::create("res/settings/plus.png");
+    newProfileImg->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+	newProfileImg->setNormalizedPosition(Vec2(0,0.75f));
     
     Label* newProfileText = Label::createWithTTF(_("Add New Profile"), Style::Font::Medium(), 75);
     newProfileText->setTextColor(Color4B::WHITE);
     newProfileText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
-    newProfileText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
+    newProfileText->setNormalizedPosition(Vec2(1.0f,0.75f));
     
     ui::Layout* centerLayout = ui::Layout::create();
     centerLayout->setContentSize(Size(newProfileImg->getContentSize().width + newProfileText->getContentSize().width + 30,_footerBanner->getContentSize().height));
