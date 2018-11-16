@@ -148,16 +148,16 @@ void UserTypeMessagingLayer::onEnter()
     this->addChild(_premiumLabel);
     
     switch (_userType) {
-        case UserType::ANON:
+        case UserMessagingType::ANON:
             _reactivateButton->setVisible(false);
             _premiumLabel->setVisible(false);
             break;
-        case UserType::LAPSED:
+        case UserMessagingType::LAPSED:
             _signInButton->setVisible(false);
             _startTrialButton->setVisible(false);
             _premiumLabel->setVisible(false);
             break;
-        case UserType::PAID:
+        case UserMessagingType::PAID:
             _reactivateButton->setVisible(false);
             _signInButton->setVisible(false);
             _startTrialButton->setVisible(false);
@@ -166,7 +166,7 @@ void UserTypeMessagingLayer::onEnter()
     
 }
 
-void UserTypeMessagingLayer::setUserType(UserType userType)
+void UserTypeMessagingLayer::setUserType(UserMessagingType userType)
 {
     _userType = userType;
 }

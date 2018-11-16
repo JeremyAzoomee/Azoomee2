@@ -242,14 +242,47 @@ void VodacomOnboardingAddChildLayer::onHttpRequestSuccess(const std::string& req
 			messageBox->removeFromParent();
 			if(_delegate)
 			{
-				_delegate->moveToState(FlowState::SUCCESS);
+				if(_flowData->getPurchaseType() == PurchaseType::DCB)
+				{
+					ModalMessages::getInstance()->startLoading();
+					HttpRequestCreator* request = API::GetVodacomTransactionId(ParentDataProvider::getInstance()->getLoggedInParentId(), this);
+					request->execute();
+				}
+				else
+				{
+					_delegate->moveToState(FlowState::SUCCESS);
+				}
 			}
 		})));
+	}
+	else if(requestTag == API::TagGetVodacomTransactionId)
+	{
+		ModalMessages::getInstance()->stopLoading();
+		if(_delegate)
+		{
+			rapidjson::Document data;
+			data.Parse(body.c_str());
+			if(data.HasParseError())
+			{
+				return;
+			}
+			_flowData->setTransactionId(getStringFromJson("id", data));
+			_delegate->moveToState(FlowState::DCB_WEBVIEW);
+		}
 	}
 }
 void VodacomOnboardingAddChildLayer::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
 	ModalMessages::getInstance()->stopLoading();
+	if(requestTag == API::TagGetVodacomTransactionId)
+	{
+		log("transaction id request failed");
+		_flowData->setErrorType(ErrorType::GENERIC);
+		if(_delegate)
+		{
+			_delegate->moveToState(FlowState::ERROR);
+		}
+	}
 }
 
 void VodacomOnboardingAddChildLayer::textInputIsValid(TextInputLayer* inputLayer, bool isValid)

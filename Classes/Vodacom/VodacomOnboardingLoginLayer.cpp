@@ -246,8 +246,16 @@ void VodacomOnboardingLoginLayer::onHttpRequestSuccess(const std::string& reques
 			this->runAction(Sequence::createWithTwoActions(DelayTime::create(4.0f), CallFunc::create([messageBox, this](){
 				messageBox->removeFromParent();
 				ModalMessages::getInstance()->startLoading();
-				HttpRequestCreator* request = API::AddVoucher(ParentDataProvider::getInstance()->getLoggedInParentId(), _flowData->getVoucherCode(), this);
-				request->execute();
+				if(_flowData->getPurchaseType() == PurchaseType::VOUCHER)
+				{
+					HttpRequestCreator* request = API::AddVoucher(ParentDataProvider::getInstance()->getLoggedInParentId(), _flowData->getVoucherCode(), this);
+					request->execute();
+				}
+				else
+				{
+					HttpRequestCreator* request = API::GetVodacomTransactionId(ParentDataProvider::getInstance()->getLoggedInParentId(), this);
+					request->execute();
+				}
 			})));
 		}
 		else
@@ -276,6 +284,21 @@ void VodacomOnboardingLoginLayer::onHttpRequestSuccess(const std::string& reques
 			_delegate->moveToState(FlowState::SUCCESS);
 		}
 	}
+	else if(requestTag == API::TagGetVodacomTransactionId)
+	{
+		ModalMessages::getInstance()->stopLoading();
+		if(_delegate)
+		{
+			rapidjson::Document data;
+			data.Parse(body.c_str());
+			if(data.HasParseError())
+			{
+				return;
+			}
+			_flowData->setTransactionId(getStringFromJson("id", data));
+			_delegate->moveToState(FlowState::DCB_WEBVIEW);
+		}
+	}
 	
 }
 void VodacomOnboardingLoginLayer::onHttpRequestFailed(const std::string& requestTag, long errorCode)
@@ -291,6 +314,15 @@ void VodacomOnboardingLoginLayer::onHttpRequestFailed(const std::string& request
 	else if(requestTag == API::TagAddVoucher)
 	{
 		_flowData->setErrorType(ErrorType::VOUCHER);
+		if(_delegate)
+		{
+			_delegate->moveToState(FlowState::ERROR);
+		}
+	}
+	else if(requestTag == API::TagGetVodacomTransactionId)
+	{
+		log("transaction id request failed");
+		_flowData->setErrorType(ErrorType::GENERIC);
 		if(_delegate)
 		{
 			_delegate->moveToState(FlowState::ERROR);

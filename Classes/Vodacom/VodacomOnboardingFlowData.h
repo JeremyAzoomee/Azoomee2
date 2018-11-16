@@ -16,9 +16,9 @@
 NS_AZOOMEE_BEGIN
 
 enum class PurchaseType {UNKNOWN, VOUCHER, DCB};
-enum class UserType {ANON, FREE, ANON_FREE, REGISTERED}; //ANON = anonymous, FREE = logged in w/o premium, ANON_FREE = anonymous user who has account to log into
+enum class UserType {ANON, FREE, ANON_FREE, REGISTERED, PAID}; //ANON = anonymous, FREE = logged in w/o premium, ANON_FREE = anonymous user who has account to log into
 enum class FlowState {EXIT, DETAILS, ADD_VOUCHER, REGISTER, PIN, ADD_CHILD, LOGIN, SUCCESS, ERROR, TERMS, DCB_WEBVIEW};
-enum class ErrorType {NONE, LOGIN, VOUCHER, RESET, ALREADY_PREMIUM, ALREADY_REGISTERED};
+enum class ErrorType {NONE, LOGIN, VOUCHER, RESET, ALREADY_PREMIUM, ALREADY_REGISTERED, GENERIC};
 
 class VodacomOnboardingFlowData;
 typedef std::shared_ptr<VodacomOnboardingFlowData> VodacomOnboardingFlowDataRef;
@@ -32,6 +32,8 @@ private:
 	std::string _pin;
 	std::string _childName;
 	std::string _childAge;
+	std::string _productId = "";
+	std::string _tranactionId = "";
 	
 	bool _acceptedMarketing = false;
 	
@@ -65,6 +67,12 @@ public:
 	
 	void setChildAge(const std::string& childAge);
 	std::string getChildAge() const;
+	
+	void setProductId(const std::string& productId);
+	std::string getProductId() const;
+	
+	void setTransactionId(const std::string& transactionId);
+	std::string getTransactionId() const;
 	
 	void setAcceptedMarketing(bool accepted);
 	bool getAcceptedMarketing() const;

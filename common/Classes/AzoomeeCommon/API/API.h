@@ -59,6 +59,7 @@ public:
     static const char* const TagGetParentDetails;
     static const char* const TagUpdateChildNameRequest;
 	static const char* const TagAddVoucher;
+	static const char* const TagGetVodacomTransactionId;
 	
 	static const std::string kAZCountryCodeKey;
 	
@@ -236,7 +237,9 @@ public:
     static HttpRequestCreator* GetTimelineSummary(const std::string& userId,
                                                         HttpRequestCreatorResponseDelegate* delegate);
     
-    
+    // Vodacom API calls
+	static HttpRequestCreator* GetVodacomTransactionId(const std::string& userId,
+													   HttpRequestCreatorResponseDelegate* delegate);
 };
   
 NS_AZOOMEE_END

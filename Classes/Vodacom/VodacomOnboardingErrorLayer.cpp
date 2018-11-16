@@ -67,6 +67,11 @@ void VodacomOnboardingErrorLayer::onEnter()
 			setupForAlreadyRegistered();
 			break;
 		}
+		case ErrorType::GENERIC:
+		{
+			setupForGenericError();
+			break;
+		}
 	}
 	
 	Super::onEnter();
@@ -768,6 +773,74 @@ void VodacomOnboardingErrorLayer::setupForAlreadyPremium()
 		}
 	});
 	this->addChild(contactUsHolder);
+}
+
+void VodacomOnboardingErrorLayer::setupForGenericError()
+{
+	const Size& contentSize = getContentSize();
+	
+	ui::Button* closeButton = ui::Button::create("res/vodacom/close.png");
+	closeButton->setLayoutParameter(CreateRightLinearLayoutParam());
+	closeButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+		if(eType == ui::Widget::TouchEventType::ENDED)
+		{
+			if(_delegate)
+			{
+				_delegate->moveToState(FlowState::EXIT);
+			}
+		}
+	});
+	_verticalLayout->addChild(closeButton);
+
+	Label* title = Label::createWithTTF(_("Oops!"), Style::Font::Regular(), 96);
+	title->setTextColor(Color4B::BLACK);
+	title->setHorizontalAlignment(TextHAlignment::CENTER);
+	title->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	title->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	
+	ui::Layout* titleHolder = ui::Layout::create();
+	titleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,((_flowData->getUserType() == UserType::FREE) ? 0 : 200),0, 0)));
+	titleHolder->setContentSize(title->getContentSize());
+	titleHolder->addChild(title);
+	_verticalLayout->addChild(titleHolder);
+	
+	Label* subHeading = Label::createWithTTF(_("There was a problem. Please try again later or contact customer support"), Style::Font::Regular(), 64);
+	subHeading->setTextColor(Color4B::BLACK);
+	subHeading->setHorizontalAlignment(TextHAlignment::CENTER);
+	subHeading->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	subHeading->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	subHeading->setWidth(contentSize.width * 0.7f);
+	
+	ui::Layout* subHeadingHolder = ui::Layout::create();
+	subHeadingHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	subHeadingHolder->setContentSize(subHeading->getContentSize());
+	subHeadingHolder->addChild(subHeading);
+	_verticalLayout->addChild(subHeadingHolder);
+	
+	Label* helpLink = Label::createWithTTF(_("help@azoomee.com"), Style::Font::Regular(), 64);
+	helpLink->setTextColor(Color4B::BLACK);
+	helpLink->setHorizontalAlignment(TextHAlignment::CENTER);
+	helpLink->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	helpLink->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	
+	DrawNode* contactDrawNode = DrawNode::create();
+	contactDrawNode->drawRect(Vec2(0, -7), Vec2(helpLink->getContentSize().width, -6), Color4F::BLACK);
+	helpLink->addChild(contactDrawNode);
+	
+	helpLink->setWidth(contentSize.width * 0.9f);
+	
+	ui::Layout* helpLinkHolder = ui::Layout::create();
+	helpLinkHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,20,0,0)));
+	helpLinkHolder->setContentSize(helpLink->getContentSize());
+	helpLinkHolder->setTouchEnabled(true);
+	helpLinkHolder->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
+		if(eType == ui::Widget::TouchEventType::ENDED)
+		{
+			Application::getInstance()->openURL(_("mailto:help@azoomee.com"));
+		}
+	});
+	helpLinkHolder->addChild(helpLink);
+	_verticalLayout->addChild(helpLinkHolder);
 }
 
 void VodacomOnboardingErrorLayer::onVoucherEntered()

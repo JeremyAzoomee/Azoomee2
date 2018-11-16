@@ -28,6 +28,8 @@ void VodacomOnboardingDetailsLayer::onEnter()
 {
 	const Size& contentSize = getContentSize();
 	
+	_flowData->setPurchaseType(PurchaseType::UNKNOWN);
+	
 	_closeButton = ui::Button::create("res/vodacom/close.png");
 	_closeButton->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
 	_closeButton->setLayoutParameter(CreateRightLinearLayoutParam());
@@ -89,6 +91,7 @@ void VodacomOnboardingDetailsLayer::onEnter()
 		{
 			if(_delegate)
 			{
+				_flowData->setPurchaseType(PurchaseType::VOUCHER);
 				_delegate->moveToState(FlowState::ADD_VOUCHER);
 			}
 		}
@@ -111,6 +114,7 @@ void VodacomOnboardingDetailsLayer::onEnter()
 		{
 			if(_delegate)
 			{
+				_flowData->setPurchaseType(PurchaseType::DCB);
 				_delegate->moveToState(FlowState::DCB_WEBVIEW);
 			}
 		}

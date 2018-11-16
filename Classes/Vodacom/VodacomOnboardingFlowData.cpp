@@ -77,6 +77,24 @@ std::string VodacomOnboardingFlowData::getChildAge() const
 	return _childAge;
 }
 
+void VodacomOnboardingFlowData::setProductId(const std::string& productId)
+{
+	_productId = productId;
+}
+std::string VodacomOnboardingFlowData::getProductId() const
+{
+	return _productId;
+}
+
+void VodacomOnboardingFlowData::setTransactionId(const std::string& transactionId)
+{
+	_tranactionId = transactionId;
+}
+std::string VodacomOnboardingFlowData::getTransactionId() const
+{
+	return _tranactionId;
+}
+
 void VodacomOnboardingFlowData::setAcceptedMarketing(bool accepted)
 {
 	_acceptedMarketing = accepted;

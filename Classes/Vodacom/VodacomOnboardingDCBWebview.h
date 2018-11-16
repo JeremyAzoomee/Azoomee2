@@ -16,6 +16,9 @@ class VodacomOnboardingDCBWebview : public VodacomOnboardingLayer
 {
 	typedef VodacomOnboardingLayer Super;
 private:
+	static const std::string kVodacomStorefrontUrl;
+	static const std::string kVodacomPurchaseUrl;
+	
 	cocos2d::ui::Button* _closeButton = nullptr;
 	cocos2d::experimental::ui::WebView* _webview = nullptr;
 	

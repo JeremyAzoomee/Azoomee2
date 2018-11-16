@@ -33,6 +33,8 @@ public:
 	
 	CREATE_FUNC(VodacomOnboardingScene);
 	
+	void moveToStateDCBProductSelected(const std::string& productId);
+	
 	//delegate Functions
 	void moveToState(const FlowState& targetState) override;
 	void moveToPreviousState() override;

@@ -14,6 +14,7 @@
 #include "VodacomOnboardingFlowData.h"
 
 NS_AZOOMEE_BEGIN
+
 class VodacomOnboardingLayerDelegate
 {
 public:

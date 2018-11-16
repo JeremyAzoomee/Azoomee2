@@ -28,6 +28,7 @@ private:
 	void setupForPasswordReset();
 	void setupForAlreadyPremium();
 	void setupForAlreadyRegistered();
+	void setupForGenericError();
 	
 	void onVoucherEntered();
 	

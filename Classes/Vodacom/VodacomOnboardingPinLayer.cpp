@@ -188,7 +188,7 @@ void VodacomOnboardingPinLayer::onConfirmPressed()
 		_flowData->setPin(_pinInput->getText());
 		ModalMessages::getInstance()->startLoading();
 		const std::string &sourceDevice = ConfigStorage::getInstance()->getDeviceInformation();
-		HttpRequestCreator* request = API::RegisterParentRequest(_flowData->getEmail(), _flowData->getPassword(), _pinInput->getText(), "VODACOM", sourceDevice, "false", this);
+		HttpRequestCreator* request = API::RegisterParentRequest(_flowData->getEmail(), _flowData->getPassword(), _pinInput->getText(), "VODACOM", sourceDevice, boolToString(_flowData->getAcceptedMarketing()), this);
 		request->execute();
 	}
 }
@@ -219,9 +219,17 @@ void VodacomOnboardingPinLayer::onHttpRequestSuccess(const std::string& requestT
 			Director::getInstance()->getRunningScene()->addChild(messageBox);
 			this->runAction(Sequence::createWithTwoActions(DelayTime::create(4.0f), CallFunc::create([messageBox,this](){
 				messageBox->removeFromParent();
-				ModalMessages::getInstance()->startLoading();
-				HttpRequestCreator* request = API::AddVoucher(ParentDataProvider::getInstance()->getLoggedInParentId(), _flowData->getVoucherCode(), this);
-				request->execute();
+				if(_flowData->getPurchaseType() == PurchaseType::VOUCHER)
+				{
+					ModalMessages::getInstance()->startLoading();
+					HttpRequestCreator* request = API::AddVoucher(ParentDataProvider::getInstance()->getLoggedInParentId(), _flowData->getVoucherCode(), this);
+					request->execute();
+				}
+				else
+				{
+					HttpRequestCreator* request = API::UpdateBillingDataRequest(ParentDataProvider::getInstance()->getLoggedInParentId(), this);
+					request->execute();
+				}
 			})));
 		}
 	}

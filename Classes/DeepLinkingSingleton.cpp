@@ -17,7 +17,7 @@
 #include "ContentOpener.h"
 
 #ifdef VODACOM_BUILD
-#include "vodacom/VodacomOnboardingScene.h"
+#include "Vodacom/VodacomOnboardingScene.h"
 #endif
 
 using namespace cocos2d;
@@ -179,12 +179,13 @@ bool DeepLinkingSingleton::actionDeepLink()
         }
     }
 #ifdef VODACOM_BUILD
-	else if(path == "vodacom")
+	else if(host == "vodacom")
 	{
 		VodacomOnboardingScene* vodacomScene = dynamic_cast<VodacomOnboardingScene*>(Director::getInstance()->getRunningScene());
 		if(vodacomScene)
 		{
-			
+			vodacomScene->moveToStateDCBProductSelected(path);
+			return true;
 		}
 	}
 #endif

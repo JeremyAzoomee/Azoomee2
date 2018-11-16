@@ -17,6 +17,7 @@
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/NativeShare/NativeShare.h>
+#include "SceneManagerScene.h"
 
 using namespace cocos2d;
 
@@ -276,8 +277,14 @@ void EditAccountLayer::onEnter()
         _accountTypeLayout->addChild(subDeetsLab);
         
         const std::string& billingProvider = ParentDataProvider::getInstance()->getBillingProvider();
+#ifdef VODACOM_BUILD
+		if(billingProvider == "VODACOM_SA")
+		{
+			subDeetsLab->setString(StringUtils::format(_("Monthly Subscription\nRenews on %s").c_str(),ParentDataProvider::getInstance()->getBillingDate().c_str()));
+#else
         if(billingProvider == ConfigStorage::kBillingProviderApple || billingProvider == ConfigStorage::kBillingProviderGoogle || billingProvider == ConfigStorage::kBillingProviderAmazon)
         {
+#endif
 			subDeetsLab->setNormalizedPosition(Vec2(0.5f,0.66f));
 			ui::Button* manageButton = ui::Button::create("res/settings/sub_button.png");
 			manageButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -285,6 +292,10 @@ void EditAccountLayer::onEnter()
 			manageButton->addTouchEventListener([billingProvider](Ref* pSender, ui::Widget::TouchEventType eType){
 				if(eType == ui::Widget::TouchEventType::ENDED)
 				{
+#ifdef VODACOM_BUILD
+					Director::getInstance()->replaceScene(SceneManagerScene::createScene(VodacomOnboarding));
+#else
+
 					if(billingProvider == ConfigStorage::kBillingProviderApple)
 					{
 						Application::getInstance()->openURL(ConfigStorage::kIOSSubURL);
@@ -297,11 +308,15 @@ void EditAccountLayer::onEnter()
 					{
 						Application::getInstance()->openURL(ConfigStorage::kAmazonSubURL);
 					}
+#endif
 				}
 			});
 			_accountTypeLayout->addChild(manageButton);
-			
+#ifdef VODACOM_BUILD
+			Label* manageLab = Label::createWithTTF(_("Unsubscribe"), Style::Font::Medium(), manageButton->getContentSize().height * 0.4f);
+#else
 			Label* manageLab = Label::createWithTTF(_("Manage"), Style::Font::Medium(), manageButton->getContentSize().height * 0.4f);
+#endif
 			manageLab->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 			manageLab->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 			manageLab->setTextColor(Color4B::BLACK);
@@ -334,7 +349,7 @@ void EditAccountLayer::onEnter()
 		_accountTypeLayout->addChild(resubButton);
 		
 #ifdef VODACOM_BUILD
-		Label* resubLab = Label::createWithTTF(_("Add new voucher"), Style::Font::Medium(), resubButton->getContentSize().height * 0.4f);
+		Label* resubLab = Label::createWithTTF(_("Unlock everything"), Style::Font::Medium(), resubButton->getContentSize().height * 0.4f);
 #else
 		Label* resubLab = Label::createWithTTF(_("Renew subscription"), Style::Font::Medium(), resubButton->getContentSize().height * 0.4f);
 #endif
