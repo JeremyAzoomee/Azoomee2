@@ -27,7 +27,7 @@ void ChildAgeLayer::onEnter()
 {
     const Size& contentSize = this->getContentSize();
     
-    Label* title = Label::createWithTTF(_("Personalise their experience"), Style::Font::Regular(), 150);
+    Label* title = Label::createWithTTF(_("Personalise their experience"), Style::Font::Regular(), 96);
     title->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     title->setHorizontalAlignment(TextHAlignment::CENTER);
     title->setPosition(contentSize.width / 2.0f, contentSize.height * 0.9f);
@@ -45,7 +45,7 @@ void ChildAgeLayer::onEnter()
     }
     this->addChild(_textInput);
     
-    Label* textInputTitle = Label::createWithTTF(_("How old are they?"), Style::Font::Regular(), 120);
+    Label* textInputTitle = Label::createWithTTF(_("How old are they?"), Style::Font::Regular(), 64);
     textInputTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     textInputTitle->setPosition(_textInput->getPosition() + Vec2(_textInput->getContentSize().width / 2, _textInput->getContentSize().height * 1.25f));
     textInputTitle->setColor(Color3B::WHITE);
@@ -55,7 +55,7 @@ void ChildAgeLayer::onEnter()
 	textInputTitle->setDimensions(contentSize.width * 0.8f, contentSize.height * 0.1f);
     this->addChild(textInputTitle);
     
-    Label* textInputSubTitle = Label::createWithTTF(_("We need this to give them age-appropriate content."), Style::Font::Regular(), 100);
+    Label* textInputSubTitle = Label::createWithTTF(_("We need this to give them age-appropriate content."), Style::Font::Regular(), 64);
     textInputSubTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     textInputSubTitle->setHorizontalAlignment(TextHAlignment::CENTER);
     textInputSubTitle->setPosition(_textInput->getPosition() + Vec2(_textInput->getContentSize().width / 2, -_textInput->getContentSize().height / 2));

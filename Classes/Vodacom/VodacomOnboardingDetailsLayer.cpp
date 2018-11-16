@@ -104,7 +104,7 @@ void VodacomOnboardingDetailsLayer::onEnter()
 	addVoucherText->setHorizontalAlignment(TextHAlignment::CENTER);
 	addVoucherText->setVerticalAlignment(TextVAlignment::CENTER);
 	addVoucherText->setOverflow(Label::Overflow::SHRINK);
-	addVoucherText->setDimensions(_addVoucherButton->getContentSize().width * 0.8f, _addVoucherButton->getContentSize().height * 0.9f);
+	addVoucherText->setDimensions(_addVoucherButton->getContentSize().width * 0.8f, _addVoucherButton->getContentSize().height * 0.8f);
 	_addVoucherButton->addChild(addVoucherText);
 	
 	ui::Button* choosePlanButton = ui::Button::create("res/vodacom/main_button.png");

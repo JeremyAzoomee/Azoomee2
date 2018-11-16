@@ -108,7 +108,7 @@ void VodacomOnboardingErrorLayer::setupForVoucherError()
 	titleHolder->addChild(title);
 	_verticalLayout->addChild(titleHolder);
 	
-	Label* subHeading = Label::createWithTTF(_("The voucher code you entered earlier isn’t valid. Please re-enter it."), Style::Font::Regular(), 64);
+	Label* subHeading = Label::createWithTTF(_("Your voucher code isn’t valid. Please re-enter it."), Style::Font::Regular(), 64);
 	subHeading->setTextColor(Color4B::BLACK);
 	subHeading->setHorizontalAlignment(TextHAlignment::CENTER);
 	subHeading->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -344,7 +344,7 @@ void VodacomOnboardingErrorLayer::setupForLoginError()
 	resetText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	resetText->setHorizontalAlignment(TextHAlignment::CENTER);
 	resetText->setVerticalAlignment(TextVAlignment::CENTER);
-	resetText->setDimensions(resetButton->getContentSize().width * 0.8f, resetButton->getContentSize().height);
+	resetText->setDimensions(resetButton->getContentSize().width * 0.8f, resetButton->getContentSize().height * 0.8f);
 	resetButton->addChild(resetText);
 	
 	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular(), 64);
@@ -578,7 +578,7 @@ void VodacomOnboardingErrorLayer::setupForAlreadyRegistered()
 	titleHolder->addChild(title);
 	_verticalLayout->addChild(titleHolder);
 	
-	Label* subHeading = Label::createWithTTF(_("This email address has already been registered. Please sign up with a new email address or log in using the same email address."), Style::Font::Regular(), 64);
+	Label* subHeading = Label::createWithTTF(_("This email address has already been registered. Please create a new account with a new email address or log in using this email address."), Style::Font::Regular(), 64);
 	subHeading->setTextColor(Color4B::BLACK);
 	subHeading->setHorizontalAlignment(TextHAlignment::CENTER);
 	subHeading->setAnchorPoint(Vec2::ANCHOR_MIDDLE);

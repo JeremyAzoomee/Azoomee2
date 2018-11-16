@@ -52,7 +52,7 @@ void SettingsNavigationButton::onEnter()
 	_titleText->setVerticalAlignment(TextVAlignment::BOTTOM);
 	_titleText->setHorizontalAlignment(TextHAlignment::LEFT);
 	_titleText->setOverflow(Label::Overflow::SHRINK);
-	_titleText->setDimensions(_textLayout->getContentSize().width, _textLayout->getContentSize().height * 0.45f);
+	_titleText->setDimensions(_textLayout->getContentSize().width, _textLayout->getContentSize().height * 0.35f);
     _textLayout->addChild(_titleText);
     
     _subTitleText = Label::createWithTTF(_subTitleTextString, Style::Font::Medium(), 49);
@@ -63,7 +63,7 @@ void SettingsNavigationButton::onEnter()
 	_subTitleText->setVerticalAlignment(TextVAlignment::TOP);
 	_subTitleText->setHorizontalAlignment(TextHAlignment::LEFT);
 	_subTitleText->setOverflow(Label::Overflow::SHRINK);
-	_subTitleText->setDimensions(_textLayout->getContentSize().width, _textLayout->getContentSize().height * 0.45f);
+	_subTitleText->setDimensions(_textLayout->getContentSize().width, _textLayout->getContentSize().height * 0.35f);
     _textLayout->addChild(_subTitleText);
     
     

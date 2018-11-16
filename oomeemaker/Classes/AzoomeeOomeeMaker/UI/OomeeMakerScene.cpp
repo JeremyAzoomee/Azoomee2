@@ -451,6 +451,10 @@ void OomeeMakerScene::displayMadeAvatarNotification()
     bannerLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     bannerLabel->setNormalizedPosition(Vec2(0.5, 0.25));
     bannerLabel->setColor(Color3B::WHITE);
+	bannerLabel->setOverflow(Label::Overflow::SHRINK);
+	bannerLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+	bannerLabel->setVerticalAlignment(TextVAlignment::CENTER);
+	bannerLabel->setDimensions(banner->getContentSize().width * 0.9f, banner->getContentSize().height * 0.35f);
     banner->addChild(bannerLabel);
     
 }

@@ -32,52 +32,7 @@ bool LanguageSelectScene::init()
 		return false;
 	}
 	
-	const Size& contentSize = this->getContentSize();
-	
-	addBackground();
-	
-	_contentLayout = ui::Layout::create();
-	_contentLayout->setContentSize(contentSize);
-	_contentLayout->setLayoutType(ui::Layout::Type::VERTICAL);
-	_contentLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	_contentLayout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	this->addChild(_contentLayout);
-	
-	Label* title = Label::createWithTTF(_("Pick your language"), Style::Font::Regular(), 90);
-	title->setWidth(contentSize.width * 0.8f);
-	title->setTextColor(Color4B::WHITE);
-	title->setHorizontalAlignment(TextHAlignment::CENTER);
-	title->setVerticalAlignment(TextVAlignment::CENTER);
-	title->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	title->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	
-	ui::Layout* titleHolder = ui::Layout::create();
-	titleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
-	titleHolder->setContentSize(title->getContentSize());
-	titleHolder->addChild(title);
-	_contentLayout->addChild(titleHolder);
-	
-	addLanguageScrollView();
-	
-	_scrollButton = ui::Button::create("res/languageSelect/toggle_button_white.png");
-	_scrollButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
-	_scrollButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	_scrollButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
-		if(eType == ui::Widget::TouchEventType::ENDED)
-		{
-			if(_scrollButton->getRotation() >= 180)
-			{
-				_scrollButton->setRotation(0);
-				_languageScrollView->scrollToTop(0.5, true);
-			}
-			else
-			{
-				_scrollButton->setRotation(180);
-				_languageScrollView->scrollToBottom(0.5, true);
-			}
-		}
-	});
-	_contentLayout->addChild(_scrollButton);
+	createUI();
 	
 	return true;
 }
@@ -98,9 +53,18 @@ void LanguageSelectScene::onSizeChanged()
 	
 	removeAllChildrenWithCleanup(true);
 	
+	createUI();
+}
+
+void LanguageSelectScene::createUI()
+{
 	const Size& contentSize = this->getContentSize();
+	const bool isPortait = contentSize.width < contentSize.height;
+	
 	
 	addBackground();
+	
+	float scrollHeight = contentSize.height - (isPortait ? 445 : 100);
 	
 	_contentLayout = ui::Layout::create();
 	_contentLayout->setContentSize(contentSize);
@@ -118,12 +82,16 @@ void LanguageSelectScene::onSizeChanged()
 	title->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	
 	ui::Layout* titleHolder = ui::Layout::create();
-	titleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	titleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,200,0,0)));
 	titleHolder->setContentSize(title->getContentSize());
 	titleHolder->addChild(title);
 	_contentLayout->addChild(titleHolder);
 	
+	scrollHeight -= titleHolder->getContentSize().height + 200;
+	
 	addLanguageScrollView();
+	
+	scrollHeight -= 100;
 	
 	_scrollButton = ui::Button::create("res/languageSelect/toggle_button_white.png");
 	_scrollButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
@@ -134,16 +102,20 @@ void LanguageSelectScene::onSizeChanged()
 			if(_scrollButton->getRotation() >= 180)
 			{
 				_scrollButton->setRotation(0);
-				_languageScrollView->scrollToTop(0.5, true);
+				_languageScrollView->scrollToTop(0.5f, true);
 			}
 			else
 			{
+				_languageScrollView->scrollToBottom(0.5f, true);
 				_scrollButton->setRotation(180);
-				_languageScrollView->scrollToBottom(0.5, true);
 			}
 		}
 	});
 	_contentLayout->addChild(_scrollButton);
+	
+	scrollHeight -= _scrollButton->getContentSize().height + 100;
+	
+	_languageScrollView->setContentSize(Size(_languageScrollView->getContentSize().width, scrollHeight));
 }
 
 void LanguageSelectScene::addBackground()
@@ -257,11 +229,11 @@ cocos2d::ui::Layout* LanguageSelectScene::createLanguageButton(const LanguagePar
 	
 	ui::Layout* nameHolder = ui::Layout::create();
 	nameHolder->setContentSize(nameLabel->getContentSize());
-	nameHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+	nameHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,10,0,0)));
 	nameHolder->addChild(nameLabel);
 	langButton->addChild(nameHolder);
 	
-	langButton->setContentSize(bubbleHolder->getContentSize() + Size(0, nameHolder->getContentSize().height));
+	langButton->setContentSize(bubbleHolder->getContentSize() + Size(0, nameHolder->getContentSize().height + 10));
 	langButton->setTouchEnabled(true);
 	langButton->addTouchEventListener([params](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)

@@ -1576,13 +1576,13 @@
 			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "azoomee2-mobile" */;
 			buildPhases = (
 				029B9A972063D20700D98EF2 /* Copy WebCommAPI from separate repository */,
+				92CD187D20D92B0600E22FB1 /* copy CTA zip from app-content-dynamicnode */,
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
 				43BAE6511E26568700EB8DB0 /* Fabric */,
 				30647A941F13B53600A935C9 /* Carthage Frameworks */,
 				02FFF51A2012197E00111E7B /* Embed App Extensions */,
-				92CD187D20D92B0600E22FB1 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1853,13 +1853,14 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PROJECT_DIR}/Fabric.framework/run\" 3885c5b5aa7470cf4b9263fce3dbf7d6f3c2afc8 79ec75f3c0ed8eccb593d245acdbc2351770496a76f8da2fd96245095eba920c";
 		};
-		92CD187D20D92B0600E22FB1 /* ShellScript */ = {
+		92CD187D20D92B0600E22FB1 /* copy CTA zip from app-content-dynamicnode */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "copy CTA zip from app-content-dynamicnode";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -333,7 +333,7 @@ Point ChildSelectorScene::positionElementOnScrollView(Node *layerToBeAdded)
 
 ui::Button* ChildSelectorScene::createNewProfileButton()
 {
-    ui::Button* addChildButton = ui::Button::create("res/childSelection/add_a_profile_large.png");
+    ui::Button* addChildButton = ui::Button::create("res/childSelection/button.png");
     addChildButton->setName("addChildButton");
     addChildButton->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType)
     {
@@ -356,12 +356,12 @@ ui::Button* ChildSelectorScene::createNewProfileButton()
 	
 	Label* buttonText = Label::createWithTTF(_("Add a profile"), Style::Font::Regular(), addChildButton->getContentSize().height * 0.4f);
 	buttonText->setTextColor(Color4B(Style::Color::brightAqua));
-	buttonText->setPosition(Vec2(140,67));
-	buttonText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+	buttonText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	buttonText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	buttonText->setHorizontalAlignment(TextHAlignment::CENTER);
 	buttonText->setVerticalAlignment(TextVAlignment::CENTER);
 	buttonText->setOverflow(Label::Overflow::SHRINK);
-	buttonText->setDimensions(380, 100);
+	buttonText->setDimensions(addChildButton->getContentSize().width * 0.7f, addChildButton->getContentSize().height * 0.7f);
 	addChildButton->addChild(buttonText);
 	
     return addChildButton;
@@ -369,7 +369,7 @@ ui::Button* ChildSelectorScene::createNewProfileButton()
 
 ui::Button* ChildSelectorScene::createParentProfileButton()
 {
-    auto parentButton = ui::Button::create("res/childSelection/parent_inbox.png");
+    auto parentButton = ui::Button::create("res/childSelection/button.png");
     
     float delayTime = CCRANDOM_0_1() * 0.5;
     if(_firstTime)
@@ -390,12 +390,12 @@ ui::Button* ChildSelectorScene::createParentProfileButton()
 	
 	Label* buttonText = Label::createWithTTF(_("Parent inbox"), Style::Font::Regular(), parentButton->getContentSize().height * 0.4f);
 	buttonText->setTextColor(Color4B(Style::Color::brightAqua));
-	buttonText->setPosition(Vec2(140,67));
-	buttonText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+	buttonText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	buttonText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	buttonText->setHorizontalAlignment(TextHAlignment::CENTER);
 	buttonText->setVerticalAlignment(TextVAlignment::CENTER);
 	buttonText->setOverflow(Label::Overflow::SHRINK);
-	buttonText->setDimensions(380, 100);
+	buttonText->setDimensions(parentButton->getContentSize().width * 0.7f, parentButton->getContentSize().height * 0.7f);
 	parentButton->addChild(buttonText);
 	
     return parentButton;

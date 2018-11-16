@@ -76,12 +76,12 @@ void UserTypeMessagingLayer::onEnter()
     this->addChild(_startTrialButton);
     
     _signInButton = ui::Button::create("res/artapp/white_bg.png");
-    _signInButton->setContentSize(Size(this->getContentSize().width * 0.2f, this->getContentSize().height * 0.65f));
+    _signInButton->setContentSize(Size(this->getContentSize().width * 0.3f, this->getContentSize().height * 0.5f));
     _signInButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _signInButton->setNormalizedPosition(Vec2(isPortrait ? 0.85 : 0.9, 0.5));
     _signInButton->setSwallowTouches(true);
     _signInButton->setColor(Color3B(246,187,66));
-    _signInButton->ignoreContentAdaptWithSize(true);
+    _signInButton->ignoreContentAdaptWithSize(false);
     _signInButton->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType)
     {
         if(eType == ui::Widget::TouchEventType::ENDED)
@@ -91,19 +91,19 @@ void UserTypeMessagingLayer::onEnter()
     });
 	
 	const Size& signInButtonSize = _signInButton->getContentSize();
-    _signInLabel = Label::createWithTTF(_("Log in"), Style::Font::Regular(), signInButtonSize.height * 0.4);
+    _signInLabel = Label::createWithTTF(_("Log in"), Style::Font::Regular(), 70);
     _signInLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _signInLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _signInLabel->setTextColor(Color4B::WHITE);
 	_signInLabel->setHorizontalAlignment(TextHAlignment::CENTER);
 	_signInLabel->setVerticalAlignment(TextVAlignment::CENTER);
-	_signInLabel->setDimensions(signInButtonSize.width, signInButtonSize.height);
 	_signInLabel->setOverflow(Label::Overflow::SHRINK);
 	const Size& signInLabelSize = _signInLabel->getContentSize();
 	DrawNode* underline = DrawNode::create();
 	float heightOffset = signInButtonSize.width < signInLabelSize.width ? 0.0f : (signInButtonSize.height - signInLabelSize.height) / 2.0f;
 	underline->drawRect(Vec2(signInButtonSize.width / 2 - MIN(signInLabelSize.width / 2, signInButtonSize.width / 2), heightOffset - 7), Vec2(signInButtonSize.width / 2 + MIN(signInLabelSize.width / 2, signInButtonSize.width / 2), heightOffset - 6), Color4F::WHITE);
     _signInLabel->addChild(underline);
+	_signInLabel->setDimensions(signInButtonSize.width, signInButtonSize.height);
     _signInButton->addChild(_signInLabel);
     
     this->addChild(_signInButton);
@@ -179,13 +179,13 @@ void UserTypeMessagingLayer::repositionElements()
     
     _startTrialButton->setContentSize(Size(this->getContentSize().width * (isPortrait ? 0.65f : 0.5f), _startTrialButton->getContentSize().height));
     _startTrialButton->setNormalizedPosition(Vec2(isPortrait ? 0.35 : 0.5, 0.5));
-    _startTrialLabel->setDimensions(_startTrialButton->getContentSize().width - 160, _startTrialButton->getContentSize().height * 0.8f);
+    _startTrialLabel->setDimensions(_startTrialButton->getContentSize().width - 160, _startTrialButton->getContentSize().height * 0.7f);
     
-    _signInButton->setContentSize(Size(this->getContentSize().width * 0.2f, this->getContentSize().height * 0.65f));
+    _signInButton->setContentSize(Size(this->getContentSize().width * 0.3f, this->getContentSize().height * 0.5f));
     _signInButton->setNormalizedPosition(Vec2(isPortrait ? 0.85 : 0.9, 0.5));
 	_signInLabel->removeFromParent();
 	const Size& signInButtonSize = _signInButton->getContentSize();
-	_signInLabel = Label::createWithTTF(_("Log in"), Style::Font::Regular(), signInButtonSize.height * 0.4);
+	_signInLabel = Label::createWithTTF(_("Log in"), Style::Font::Regular(), 70);
 	_signInLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_signInLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	_signInLabel->setTextColor(Color4B::WHITE);
@@ -202,7 +202,7 @@ void UserTypeMessagingLayer::repositionElements()
     
     _reactivateButton->setContentSize(Size(this->getContentSize().width * (isPortrait ? (is18x9 ? 0.85 : 0.75f) : 0.5f), _reactivateButton->getContentSize().height));
     _reactivateButton->setNormalizedPosition(Vec2(isPortrait ? 0.5 : 0.5, 0.5));
-    _reactivateLabel->setDimensions(_reactivateButton->getContentSize().width - 160, _reactivateButton->getContentSize().height * 0.8f);
+    _reactivateLabel->setDimensions(_reactivateButton->getContentSize().width - 160, _reactivateButton->getContentSize().height * 0.7f);
     
     _premiumLabel->setDimensions(this->getContentSize().width * 0.8f, this->getContentSize().height * 0.8f);
 }

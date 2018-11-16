@@ -37,12 +37,14 @@ void SettingsSupportPage::onEnter()
     this->addChild(_headerBanner);
     
     _supportBox = ui::Layout::create();
-    _supportBox->setContentSize(Size(this->getContentSize().width - 100, this->getContentSize().height * 0.45f));
+    _supportBox->setContentSize(Size(this->getContentSize().width - 100, 0));
     _supportBox->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
     _supportBox->setBackGroundImage("res/settings/rounded_rect.png");
     _supportBox->setBackGroundImageScale9Enabled(true);
 	_supportBox->setLayoutType(ui::Layout::Type::VERTICAL);
     this->addChild(_supportBox);
+	
+	float backgroundHeight = 0;
 	
 	Label* title = Label::createWithTTF(_("Need some help?"), Style::Font::Medium(), 75);
 	title->setWidth(_supportBox->getContentSize().width * 0.8f);
@@ -57,6 +59,8 @@ void SettingsSupportPage::onEnter()
 	titleHolder->addChild(title);
 	_supportBox->addChild(titleHolder);
 	
+	backgroundHeight += 200 + titleHolder->getContentSize().height;
+	
 	Label* support = Label::createWithTTF(_("Visit our support page at"), Style::Font::Medium(), 75);
 	support->setWidth(_supportBox->getContentSize().width * 0.8f);
 	support->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -69,6 +73,8 @@ void SettingsSupportPage::onEnter()
 	supportHolder->setContentSize(support->getContentSize());
 	supportHolder->addChild(support);
 	_supportBox->addChild(supportHolder);
+	
+	backgroundHeight += 75 + supportHolder->getContentSize().height;
 	
 	Label* supportLink = Label::createWithTTF(_("support.azoomee.com"), Style::Font::Medium(), 75);
 	supportLink->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -93,6 +99,8 @@ void SettingsSupportPage::onEnter()
 	});
 	_supportBox->addChild(supportLinkHolder);
 	
+	backgroundHeight += 25 + supportLinkHolder->getContentSize().height;
+	
 	Label* orText = Label::createWithTTF(_("Or"), Style::Font::Medium(), 75);
 	orText->setWidth(_supportBox->getContentSize().width * 0.8f);
 	orText->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -106,6 +114,8 @@ void SettingsSupportPage::onEnter()
 	orTextHolder->addChild(orText);
 	_supportBox->addChild(orTextHolder);
 	
+	backgroundHeight += 75 + orTextHolder->getContentSize().height;
+	
 	Label* contact = Label::createWithTTF(_("Contact us directly at"), Style::Font::Medium(), 75);
 	contact->setWidth(_supportBox->getContentSize().width * 0.8f);
 	contact->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -118,6 +128,8 @@ void SettingsSupportPage::onEnter()
 	contactHolder->setContentSize(contact->getContentSize());
 	contactHolder->addChild(contact);
 	_supportBox->addChild(contactHolder);
+	
+	backgroundHeight += 75 + contactHolder->getContentSize().height;
 	
 	Label* contactLink = Label::createWithTTF(_("help@azoomee.com"), Style::Font::Medium(), 75);
 	contactLink->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -141,6 +153,10 @@ void SettingsSupportPage::onEnter()
 	});
 	contactLinkHolder->addChild(contactLink);
 	_supportBox->addChild(contactLinkHolder);
+	
+	backgroundHeight += 25 + contactHolder->getContentSize().height + 200;
+	
+	_supportBox->setContentSize(Size(_supportBox->getContentSize().width, backgroundHeight));
 	
     Super::onEnter();
 }

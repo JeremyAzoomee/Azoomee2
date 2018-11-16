@@ -33,7 +33,7 @@ void ChildOomeeLayer::onEnter()
     bool isPortrait = contentSize.width < contentSize.height;
    
     
-    Label* mainTitle = Label::createWithTTF(StringUtils::format(_("Here is %s’s Oomee").c_str(),_childCreator->getName().c_str()), Style::Font::Regular(), 120);
+    Label* mainTitle = Label::createWithTTF(StringUtils::format(_("Here is %s’s Oomee").c_str(),_childCreator->getName().c_str()), Style::Font::Regular(), 96);
     mainTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     mainTitle->setPosition(Vec2(contentSize.width / 2, contentSize.height - (mainTitle->getContentSize().height * ((is18x9 && !isPortrait) ? 0.5f : 1.0f))));
     mainTitle->setColor(Style::Color::white);
@@ -56,7 +56,7 @@ void ChildOomeeLayer::onEnter()
     
     saveDefaultOomeeToOomeeMakerFiles();
     
-    Label* subTitle = Label::createWithTTF(_("Don’t worry if they don’t like it, they can change it anytime in the Oomee Maker."), Style::Font::Regular(), (is18x9 && !isPortrait) ? 75 : 90);
+    Label* subTitle = Label::createWithTTF(_("Don’t worry if they don’t like it, they can change it anytime in the Oomee Maker."), Style::Font::Regular(), 64);
     subTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     subTitle->setPosition(_oomee->getPosition() - Vec2(0,oomeeHeight + offset[isPortrait]));
     subTitle->setColor(Color3B::WHITE);

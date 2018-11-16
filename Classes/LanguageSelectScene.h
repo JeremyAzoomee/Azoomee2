@@ -30,6 +30,8 @@ private:
 	void addLanguageScrollView();
 	cocos2d::ui::Layout* createLanguageButton(const LanguageParams& params, int colourIndex);
 	
+	void createUI();
+	
 protected:
 	virtual void onSizeChanged() override;
 	
