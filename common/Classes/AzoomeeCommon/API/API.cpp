@@ -549,6 +549,7 @@ HttpRequestCreator* API::GetVodacomTransactionId(const std::string& userId,
 	HttpRequestCreator* request = new HttpRequestCreator(delegate);
 	request->requestTag = TagGetVodacomTransactionId;
 	request->requestPath = StringUtils::format("/api/vodasabilling/%s/receipt", userId.c_str());
+	request->requestBody = "{}";
 	request->method = "POST";
 	request->encrypted = true;
 	return request;
