@@ -115,6 +115,11 @@ def SaveLanguagesToJSON( languages ):
         # Create the json file
         with io.open( jsonFilePath, 'w', encoding='utf8' ) as fp:
             data = json.dumps( stringsDict, ensure_ascii=False, sort_keys=True, indent=4, separators=(',',': ') )
+
+            # The app json parser doesn't correctly parse \\n as new lines, even though it should be that way according to the json spec
+            # So we replace them here. It's not ideal but this works for us for now
+            data = data.replace( "\\\\", "\\" )
+
             fp.write( data )
 
             print 'Saved', jsonFilePath
