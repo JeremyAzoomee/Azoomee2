@@ -30,6 +30,7 @@ CTA_PACKAGES = [
     'https://media.azoomee.com/static/popups/android/package.json'
 ]
 CTA_DOWNLOAD_DIR = 'cta_temp'
+CTA_LOCAL_DIR = '../../app-content-dynamicnode'
 ERROR_MESSAGES_FILE = '../Resources/res/languages/errormessages.json'
 
 QUOTED_STRING_REGEX = re.compile( r"(?P<quote>['\"])(?P<string>.*?)(?<!\\)(?P=quote)" )
@@ -148,9 +149,9 @@ def GetTextFromSourceCode():
     return strings
 
 
-def GetTextFromCTAFiles():
+def GetTextFromRemoteCTAFiles():
     """
-    Parses locale text from CTA files.
+    Parses locale text from CTA files on the server.
     """
     strings = set()
 
@@ -181,6 +182,29 @@ def GetTextFromCTAFiles():
                             strings.add( unicode( match[1], 'utf-8' ) )
         
         shutil.rmtree( CTA_DOWNLOAD_DIR, ignore_errors=True )
+
+    return strings
+
+
+def GetTextFromCTAFiles():
+    """
+    Parses locale text from CTA files.
+    """
+    strings = set()
+
+    # Find all source files to parse
+    for root, dirs, files in os.walk( CTA_LOCAL_DIR ):
+        for file in files:
+            extension = os.path.splitext( file )[1]
+            if extension == '.json':
+                fileData = None
+                with open( os.path.join( root, file ), 'r' ) as fh:
+                    fileData = fh.read()
+                
+                for pattern in CTA_TEXT_REGEX:
+                    matches = pattern.findall( fileData )
+                    for match in matches:
+                        strings.add( unicode( match[1], 'utf-8' ) )
 
     return strings
 
