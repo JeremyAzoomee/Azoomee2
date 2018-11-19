@@ -1826,7 +1826,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Check carthage command exists\ncommand -v carthage >/dev/null 2>&1 || { echo >&2 \"Error! carthage not found! Tip - Install using: 'brew install carthage'\"; exit 1; }\n\ncarthage copy-frameworks";
+			shellScript = "# Check carthage command exists\ncommand -v carthage >/dev/null 2>&1 || { echo >&2 \"Error! carthage not found! Tip - Install using: 'brew install carthage'\"; exit 1; }\n\ncarthage copy-frameworks\n";
 			showEnvVarsInLog = 0;
 		};
 		43BAE6511E26568700EB8DB0 /* Fabric */ = {
@@ -1841,7 +1841,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PROJECT_DIR}/Fabric.framework/run\" 3885c5b5aa7470cf4b9263fce3dbf7d6f3c2afc8 79ec75f3c0ed8eccb593d245acdbc2351770496a76f8da2fd96245095eba920c";
+			shellScript = "\"${PROJECT_DIR}/Fabric.framework/run\" 3885c5b5aa7470cf4b9263fce3dbf7d6f3c2afc8 79ec75f3c0ed8eccb593d245acdbc2351770496a76f8da2fd96245095eba920c\n";
 		};
 		92CD187D20D92B0600E22FB1 /* copy CTA zip from app-content-dynamicnode */ = {
 			isa = PBXShellScriptBuildPhase;

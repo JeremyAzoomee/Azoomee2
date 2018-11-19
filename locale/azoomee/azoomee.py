@@ -15,6 +15,9 @@ import zipfile
 ## - Common
 
 LANGUAGES_FILE = 'languages.csv'
+DEFAULT_HEADERS = [
+    'key','used','en-GB','spa-ES','fre-FR','por-PT','ita-IT','ger-DE','gre','tur','afr'
+]
 INSTALL_DIR = '../Resources/res/languages'
 CODE_DIRS = [ 
     '../Classes', 
@@ -30,10 +33,28 @@ CTA_PACKAGES = [
     'https://media.azoomee.com/static/popups/android/package.json'
 ]
 CTA_DOWNLOAD_DIR = 'cta_temp'
+CTA_LOCAL_DIR = '../../app-content-dynamicnode'
+ERROR_MESSAGES_FILE = '../Resources/res/languages/errormessages.json'
 
 QUOTED_STRING_REGEX = re.compile( r"(?P<quote>['\"])(?P<string>.*?)(?<!\\)(?P=quote)" )
 GET_TEXT_REGEX = re.compile( r"_\(\s*(?P<quote>['\"])(?P<string>.*?)(?<!\\)(?P=quote)\s*\)" )
-CTA_TEXT_REGEX = re.compile( r"\"text\"\s*:\s*(?P<quote>['\"])(?P<string>.*?)(?<!\\)(?P=quote)\s*," )
+CTA_TEXT_REGEX = [
+    re.compile( r"\"text\"\s*:\s*(?P<quote>['\"])(?P<string>.*?)(?<!\\)(?P=quote)\s*," ),
+    re.compile( r"\"errorText\"\s*:\s*(?P<quote>['\"])(?P<string>.*?)(?<!\\)(?P=quote)\s*," ),
+    re.compile( r"\"placeholder\"\s*:\s*(?P<quote>['\"])(?P<string>.*?)(?<!\\)(?P=quote)\s*," )
+]
+ERROR_MESSAGES_REGEX = [
+    re.compile( r"\"title\"\s*:\s*(?P<quote>['\"])(?P<string>.*?)(?<!\\)(?P=quote)\s*," ),
+    re.compile( r"\"body\"\s*:\s*(?P<quote>['\"])(?P<string>.*?)(?<!\\)(?P=quote)\s*," ),
+    re.compile( r"\"button\"\s*:\s*(?P<quote>['\"])(?P<string>.*?)(?<!\\)(?P=quote)\s*," ),
+    re.compile( r"\"optionalButtonRefNames\"\s*:\s*(?P<quote>['\"])(?P<string>.*?)(?<!\\)(?P=quote)\s*," )
+]
+# Options fields get split by | after parsing the regex
+ERROR_MESSAGES_OPTIONS_REGEX = []
+
+
+def IsValidLocaleKey( key ):
+    return not key.startswith('<') and not key.endswith('>')
 
 
 def GetLanguagesFromCSV():
@@ -41,6 +62,13 @@ def GetLanguagesFromCSV():
     Return a languages dictionary with data from the language CSV file.
     """
     languages = {}
+
+    # If languages file doesn't exist
+    if not os.path.isfile( LANGUAGES_FILE ):
+        for header in DEFAULT_HEADERS:
+            languages[header] = {}
+        
+        return languages
 
     # Open the csv file and grab the language text
     with open( LANGUAGES_FILE ) as csvfile:
@@ -55,6 +83,9 @@ def GetLanguagesFromCSV():
         # For each language, map key to the language text
         for row in reader:
             key = unicode( row['key'], 'utf-8' )
+
+            if not IsValidLocaleKey( key ):
+                continue
 
             for header in reader.fieldnames:
                 if header in RESERVED_KEYS:
@@ -72,12 +103,18 @@ def GetDataFromCSV():
     rows = []
     fieldNames = []
 
+    # If languages file doesn't exist
+    if not os.path.isfile( LANGUAGES_FILE ):
+        return DEFAULT_HEADERS, rows
+
     with open( LANGUAGES_FILE ) as csvfile:
         reader = csv.DictReader( csvfile )
         fieldNames = reader.fieldnames
 
         for row in reader:
             unicode_row = { k: unicode( v, 'utf-8' ) for k,v in row.items() }
+            if not IsValidLocaleKey( unicode_row['key'] ):
+                continue
             rows.append( unicode_row )
 
     return fieldNames, rows
@@ -102,6 +139,11 @@ def SaveLanguagesToJSON( languages ):
         # Create the json file
         with io.open( jsonFilePath, 'w', encoding='utf8' ) as fp:
             data = json.dumps( stringsDict, ensure_ascii=False, sort_keys=True, indent=4, separators=(',',': ') )
+
+            # The app json parser doesn't correctly parse \\n as new lines, even though it should be that way according to the json spec
+            # So we replace them here. It's not ideal but this works for us for now
+            data = data.replace( "\\\\", "\\" )
+
             fp.write( data )
 
             print 'Saved', jsonFilePath
@@ -125,14 +167,16 @@ def GetTextFromSourceCode():
                     
                     matches = GET_TEXT_REGEX.findall( fileData )
                     for match in matches:
+                        if not IsValidLocaleKey( match[1] ):
+                            continue
                         strings.add( unicode( match[1], 'utf-8' ) )
     
     return strings
 
 
-def GetTextFromCTAFiles():
+def GetTextFromRemoteCTAFiles():
     """
-    Parses locale text from CTA files.
+    Parses locale text from CTA files on the server.
     """
     strings = set()
 
@@ -157,11 +201,69 @@ def GetTextFromCTAFiles():
                     with open( os.path.join( root, file ), 'r' ) as fh:
                         fileData = fh.read()
                     
-                    matches = CTA_TEXT_REGEX.findall( fileData )
-                    for match in matches:
-                        strings.add( unicode( match[1], 'utf-8' ) )
+                    for pattern in CTA_TEXT_REGEX:
+                        matches = pattern.findall( fileData )
+                        for match in matches:
+                            if not IsValidLocaleKey( match[1] ):
+                                continue
+                            strings.add( unicode( match[1], 'utf-8' ) )
         
         shutil.rmtree( CTA_DOWNLOAD_DIR, ignore_errors=True )
+
+    return strings
+
+
+def GetTextFromCTAFiles():
+    """
+    Parses locale text from CTA files.
+    """
+    strings = set()
+
+    # Find all source files to parse
+    for root, dirs, files in os.walk( CTA_LOCAL_DIR ):
+        for file in files:
+            extension = os.path.splitext( file )[1]
+            if extension == '.json':
+                fileData = None
+                with open( os.path.join( root, file ), 'r' ) as fh:
+                    fileData = fh.read()
+                
+                for pattern in CTA_TEXT_REGEX:
+                    matches = pattern.findall( fileData )
+                    for match in matches:
+                        if not IsValidLocaleKey( match[1] ):
+                            continue
+                        strings.add( unicode( match[1], 'utf-8' ) )
+
+    return strings
+
+
+def GetTextFromErrorMessages():
+    """
+    Parses locale text from error message files.
+    """
+    strings = set()
+
+    fileData = None
+    with open( ERROR_MESSAGES_FILE, 'r' ) as fh:
+        fileData = fh.read()
+
+    # Standard fields
+    for pattern in ERROR_MESSAGES_REGEX:
+        matches = pattern.findall( fileData )
+        for match in matches:
+            if not IsValidLocaleKey( match[1] ):
+                continue
+            strings.add( unicode( match[1], 'utf-8' ) )
+    
+    # Options
+    for pattern in ERROR_MESSAGES_OPTIONS_REGEX:
+        matches = pattern.findall( fileData )
+        for match in matches:
+            text = unicode( match[1], 'utf-8' )
+            options = text.split( '|' )
+            for opt in options:
+                strings.add( opt )
 
     return strings
 
@@ -188,7 +290,8 @@ def UpdateCommand( args ):
     # Get strings from source code and cta files
     strings = GetTextFromSourceCode()
     ctaStrings = GetTextFromCTAFiles()
-    strings |= ctaStrings;
+    errorMessageStrings = GetTextFromErrorMessages()
+    strings |= ctaStrings | errorMessageStrings
 
     # Get existing spreadsheet data
     fieldNames, rows = GetDataFromCSV()
