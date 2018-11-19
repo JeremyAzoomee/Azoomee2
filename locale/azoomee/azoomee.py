@@ -30,10 +30,23 @@ CTA_PACKAGES = [
     'https://media.azoomee.com/static/popups/android/package.json'
 ]
 CTA_DOWNLOAD_DIR = 'cta_temp'
+ERROR_MESSAGES_FILE = '../Resources/res/languages/errormessages.json'
 
 QUOTED_STRING_REGEX = re.compile( r"(?P<quote>['\"])(?P<string>.*?)(?<!\\)(?P=quote)" )
 GET_TEXT_REGEX = re.compile( r"_\(\s*(?P<quote>['\"])(?P<string>.*?)(?<!\\)(?P=quote)\s*\)" )
-CTA_TEXT_REGEX = re.compile( r"\"text\"\s*:\s*(?P<quote>['\"])(?P<string>.*?)(?<!\\)(?P=quote)\s*," )
+CTA_TEXT_REGEX = [
+    re.compile( r"\"text\"\s*:\s*(?P<quote>['\"])(?P<string>.*?)(?<!\\)(?P=quote)\s*," ),
+    re.compile( r"\"errorText\"\s*:\s*(?P<quote>['\"])(?P<string>.*?)(?<!\\)(?P=quote)\s*," ),
+    re.compile( r"\"placeholder\"\s*:\s*(?P<quote>['\"])(?P<string>.*?)(?<!\\)(?P=quote)\s*," )
+]
+ERROR_MESSAGES_REGEX = [
+    re.compile( r"\"title\"\s*:\s*(?P<quote>['\"])(?P<string>.*?)(?<!\\)(?P=quote)\s*," ),
+    re.compile( r"\"body\"\s*:\s*(?P<quote>['\"])(?P<string>.*?)(?<!\\)(?P=quote)\s*," ),
+    re.compile( r"\"button\"\s*:\s*(?P<quote>['\"])(?P<string>.*?)(?<!\\)(?P=quote)\s*," ),
+    re.compile( r"\"optionalButtonRefNames\"\s*:\s*(?P<quote>['\"])(?P<string>.*?)(?<!\\)(?P=quote)\s*," )
+]
+# Options fields get split by | after parsing the regex
+ERROR_MESSAGES_OPTIONS_REGEX = []
 
 
 def GetLanguagesFromCSV():
@@ -157,11 +170,40 @@ def GetTextFromCTAFiles():
                     with open( os.path.join( root, file ), 'r' ) as fh:
                         fileData = fh.read()
                     
-                    matches = CTA_TEXT_REGEX.findall( fileData )
-                    for match in matches:
-                        strings.add( unicode( match[1], 'utf-8' ) )
+                    for pattern in CTA_TEXT_REGEX:
+                        matches = pattern.findall( fileData )
+                        for match in matches:
+                            strings.add( unicode( match[1], 'utf-8' ) )
         
         shutil.rmtree( CTA_DOWNLOAD_DIR, ignore_errors=True )
+
+    return strings
+
+
+def GetTextFromErrorMessages():
+    """
+    Parses locale text from error message files.
+    """
+    strings = set()
+
+    fileData = None
+    with open( ERROR_MESSAGES_FILE, 'r' ) as fh:
+        fileData = fh.read()
+
+    # Standard fields
+    for pattern in ERROR_MESSAGES_REGEX:
+        matches = pattern.findall( fileData )
+        for match in matches:
+            strings.add( unicode( match[1], 'utf-8' ) )
+    
+    # Options
+    for pattern in ERROR_MESSAGES_OPTIONS_REGEX:
+        matches = pattern.findall( fileData )
+        for match in matches:
+            text = unicode( match[1], 'utf-8' )
+            options = text.split( '|' )
+            for opt in options:
+                strings.add( opt )
 
     return strings
 
@@ -188,7 +230,8 @@ def UpdateCommand( args ):
     # Get strings from source code and cta files
     strings = GetTextFromSourceCode()
     ctaStrings = GetTextFromCTAFiles()
-    strings |= ctaStrings;
+    errorMessageStrings = GetTextFromErrorMessages()
+    strings |= ctaStrings | errorMessageStrings
 
     # Get existing spreadsheet data
     fieldNames, rows = GetDataFromCSV()
