@@ -45,6 +45,7 @@ void ChildNameLayerFirstTime::onEnter()
     subTitle->setPosition(mainTitle->getPosition() - Vec2(0, mainTitle->getContentSize().height + ((is18x9 && !isPortrait) ? 25 : 50)));
     subTitle->setColor(Color3B::WHITE);
     subTitle->setHorizontalAlignment(TextHAlignment::CENTER);
+	subTitle->setWidth(contentSize.width * 0.8f);
     this->addChild(subTitle);
     
     _textInput = TextInputLayer::createWithSize(Size(contentSize.width * (isPortrait ? 0.75f : 0.5f), 160), INPUT_IS_CHILD_NAME);

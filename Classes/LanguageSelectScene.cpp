@@ -160,7 +160,7 @@ void LanguageSelectScene::addLanguageScrollView()
 	_languageScrollView->setContentSize(Size(contentSize.width * 0.8f,contentSize.height - 700));
 	_languageScrollView->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
 	_languageScrollView->setBounceEnabled(true);
-	_languageScrollView->setItemsMargin(150);
+	_languageScrollView->setItemsMargin(isPortrait ? 150 : 75);
 	_languageScrollView->setTopPadding(50);
 	_languageScrollView->setBottomPadding(50);
 	

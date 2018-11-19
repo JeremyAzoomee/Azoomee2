@@ -22,7 +22,7 @@ private:
     cocos2d::ui::Button* _button = nullptr;
     cocos2d::Label* _buttonText = nullptr;
     
-    void addButtonWithParams(const cocos2d::Size& size, const cocos2d::Vec2& pos, const std::string& buttonText, ButtonActionDataRef buttonActionData, const std::string& btnSpriteStr, bool underlined);
+	void addButtonWithParams(const cocos2d::Size& size, const cocos2d::Vec2& pos, const std::string& buttonText, ButtonActionDataRef buttonActionData, const std::string& btnSpriteStr, bool underlined, const cocos2d::Color4B& buttonColour, const cocos2d::Color4B& textColour);
     
 public:
     virtual bool init() override;

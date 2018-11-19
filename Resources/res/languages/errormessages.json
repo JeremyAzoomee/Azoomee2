@@ -29,8 +29,8 @@
     
     "409":
     {
-        "title":"Already Registered",
-        "body":"The email address has already been registered. Please register with a new email address or log in using this email address.",
+        "title":"Already registered",
+        "body":"This email address has already been registered. Please create a new account with a new email address or log in using this email address.",
         "button": "OK|Log in",
         "optionalButtonRefNames":"OK|Log in"
     },
