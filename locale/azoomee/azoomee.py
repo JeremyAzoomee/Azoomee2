@@ -53,6 +53,10 @@ ERROR_MESSAGES_REGEX = [
 ERROR_MESSAGES_OPTIONS_REGEX = []
 
 
+def IsValidLocaleKey( key ):
+    return not key.startswith('<') and not key.endswith('>')
+
+
 def GetLanguagesFromCSV():
     """
     Return a languages dictionary with data from the language CSV file.
@@ -80,6 +84,9 @@ def GetLanguagesFromCSV():
         for row in reader:
             key = unicode( row['key'], 'utf-8' )
 
+            if not IsValidLocaleKey( key ):
+                continue
+
             for header in reader.fieldnames:
                 if header in RESERVED_KEYS:
                     continue
@@ -106,6 +113,8 @@ def GetDataFromCSV():
 
         for row in reader:
             unicode_row = { k: unicode( v, 'utf-8' ) for k,v in row.items() }
+            if not IsValidLocaleKey( unicode_row['key'] ):
+                continue
             rows.append( unicode_row )
 
     return fieldNames, rows
@@ -158,6 +167,8 @@ def GetTextFromSourceCode():
                     
                     matches = GET_TEXT_REGEX.findall( fileData )
                     for match in matches:
+                        if not IsValidLocaleKey( match[1] ):
+                            continue
                         strings.add( unicode( match[1], 'utf-8' ) )
     
     return strings
@@ -193,6 +204,8 @@ def GetTextFromRemoteCTAFiles():
                     for pattern in CTA_TEXT_REGEX:
                         matches = pattern.findall( fileData )
                         for match in matches:
+                            if not IsValidLocaleKey( match[1] ):
+                                continue
                             strings.add( unicode( match[1], 'utf-8' ) )
         
         shutil.rmtree( CTA_DOWNLOAD_DIR, ignore_errors=True )
@@ -218,6 +231,8 @@ def GetTextFromCTAFiles():
                 for pattern in CTA_TEXT_REGEX:
                     matches = pattern.findall( fileData )
                     for match in matches:
+                        if not IsValidLocaleKey( match[1] ):
+                            continue
                         strings.add( unicode( match[1], 'utf-8' ) )
 
     return strings
@@ -237,6 +252,8 @@ def GetTextFromErrorMessages():
     for pattern in ERROR_MESSAGES_REGEX:
         matches = pattern.findall( fileData )
         for match in matches:
+            if not IsValidLocaleKey( match[1] ):
+                continue
             strings.add( unicode( match[1], 'utf-8' ) )
     
     # Options
