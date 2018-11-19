@@ -15,6 +15,9 @@ import zipfile
 ## - Common
 
 LANGUAGES_FILE = 'languages.csv'
+DEFAULT_HEADERS = [
+    'key','used','en-GB','spa-ES','fre-FR','por-PT','ita-IT','ger-DE','gre','tur','afr'
+]
 INSTALL_DIR = '../Resources/res/languages'
 CODE_DIRS = [ 
     '../Classes', 
@@ -56,6 +59,13 @@ def GetLanguagesFromCSV():
     """
     languages = {}
 
+    # If languages file doesn't exist
+    if not os.path.isfile( LANGUAGES_FILE ):
+        for header in DEFAULT_HEADERS:
+            languages[header] = {}
+        
+        return languages
+
     # Open the csv file and grab the language text
     with open( LANGUAGES_FILE ) as csvfile:
         reader = csv.DictReader( csvfile )
@@ -85,6 +95,10 @@ def GetDataFromCSV():
     """
     rows = []
     fieldNames = []
+
+    # If languages file doesn't exist
+    if not os.path.isfile( LANGUAGES_FILE ):
+        return DEFAULT_HEADERS, rows
 
     with open( LANGUAGES_FILE ) as csvfile:
         reader = csv.DictReader( csvfile )
