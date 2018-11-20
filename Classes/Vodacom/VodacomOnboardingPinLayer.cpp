@@ -227,7 +227,7 @@ void VodacomOnboardingPinLayer::onHttpRequestSuccess(const std::string& requestT
 				}
 				else
 				{
-					HttpRequestCreator* request = API::UpdateBillingDataRequest(ParentDataProvider::getInstance()->getLoggedInParentId(), this);
+					HttpRequestCreator* request = API::GetVodacomTransactionId(ParentDataProvider::getInstance()->getLoggedInParentId(), this);
 					request->execute();
 				}
 			})));
@@ -262,6 +262,21 @@ void VodacomOnboardingPinLayer::onHttpRequestSuccess(const std::string& requestT
 			ModalMessages::getInstance()->stopLoading();
 		}
 	}
+	else if(requestTag == API::TagGetVodacomTransactionId)
+	{
+		ModalMessages::getInstance()->stopLoading();
+		if(_delegate)
+		{
+			rapidjson::Document data;
+			data.Parse(body.c_str());
+			if(data.HasParseError())
+			{
+				return;
+			}
+			_flowData->setTransactionId(getStringFromJson("id", data));
+			_delegate->moveToState(FlowState::DCB_WEBVIEW);
+		}
+	}
 }
 void VodacomOnboardingPinLayer::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
@@ -273,7 +288,6 @@ void VodacomOnboardingPinLayer::onHttpRequestFailed(const std::string& requestTa
 			_flowData->popState(); // set back to return to register screen
 			_delegate->moveToState(FlowState::ERROR);
 		}
-		ModalMessages::getInstance()->stopLoading();
 	}
 	else if(requestTag == API::TagAddVoucher)
 	{
@@ -281,7 +295,17 @@ void VodacomOnboardingPinLayer::onHttpRequestFailed(const std::string& requestTa
 		HttpRequestCreator* request = API::UpdateBillingDataRequest(ParentDataProvider::getInstance()->getLoggedInParentId(), this);
 		request->execute();
 	}
-	
+	else if(requestTag == API::TagGetVodacomTransactionId)
+	{
+		log("transaction id request failed");
+		_flowData->setErrorType(ErrorType::GENERIC);
+		if(_delegate)
+		{
+			_flowData->resetStateStack();
+			_delegate->moveToState(FlowState::ERROR);
+		}
+	}
+	ModalMessages::getInstance()->stopLoading();
 }
 
 //Delegate Functions
