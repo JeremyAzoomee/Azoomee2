@@ -129,6 +129,9 @@ void FriendRequestLayer::onEnter()
     rejectedLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     rejectedLabel->setTextColor(Color4B::WHITE);
     rejectedLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+	rejectedLabel->setVerticalAlignment(TextVAlignment::CENTER);
+	rejectedLabel->setOverflow(Label::Overflow::SHRINK);
+	rejectedLabel->setDimensions(_rejectedBanner->getContentSize().width * 0.8f, _rejectedBanner->getContentSize().height * 0.7f);
     _rejectedBanner->addChild(rejectedLabel);
     
     _confirmedBanner = ui::Layout::create();
@@ -144,6 +147,9 @@ void FriendRequestLayer::onEnter()
     confirmedLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     confirmedLabel->setTextColor(Color4B::WHITE);
     confirmedLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+	confirmedLabel->setVerticalAlignment(TextVAlignment::CENTER);
+	confirmedLabel->setOverflow(Label::Overflow::SHRINK);
+	confirmedLabel->setDimensions(_confirmedBanner->getContentSize().width * 0.8f, _confirmedBanner->getContentSize().height * 0.7f);
     _confirmedBanner->addChild(confirmedLabel);
     
     changeToState(InviteState::PENDING);

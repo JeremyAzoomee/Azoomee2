@@ -59,12 +59,12 @@ void LanguageSelectScene::onSizeChanged()
 void LanguageSelectScene::createUI()
 {
 	const Size& contentSize = this->getContentSize();
-	const bool isPortait = contentSize.width < contentSize.height;
+	const bool isPortrait = contentSize.width < contentSize.height;
 	
 	
 	addBackground();
 	
-	float scrollHeight = contentSize.height - (isPortait ? 445 : 100);
+	float scrollHeight = contentSize.height - (isPortrait ? 445 : 100);
 	
 	_contentLayout = ui::Layout::create();
 	_contentLayout->setContentSize(contentSize);
@@ -82,12 +82,12 @@ void LanguageSelectScene::createUI()
 	title->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	
 	ui::Layout* titleHolder = ui::Layout::create();
-	titleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,200,0,0)));
+	titleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,isPortrait ? 200 : 100,0,0)));
 	titleHolder->setContentSize(title->getContentSize());
 	titleHolder->addChild(title);
 	_contentLayout->addChild(titleHolder);
 	
-	scrollHeight -= titleHolder->getContentSize().height + 200;
+	scrollHeight -= titleHolder->getContentSize().height + (isPortrait ? 200 : 100);
 	
 	addLanguageScrollView();
 	
@@ -160,7 +160,7 @@ void LanguageSelectScene::addLanguageScrollView()
 	_languageScrollView->setContentSize(Size(contentSize.width * 0.8f,contentSize.height - 700));
 	_languageScrollView->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
 	_languageScrollView->setBounceEnabled(true);
-	_languageScrollView->setItemsMargin(isPortrait ? 150 : 75);
+	_languageScrollView->setItemsMargin(isPortrait ? 150 : 100);
 	_languageScrollView->setTopPadding(50);
 	_languageScrollView->setBottomPadding(50);
 	

@@ -320,6 +320,9 @@ void EditAccountLayer::onEnter()
         subDeetsLab->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         subDeetsLab->setTextColor(Color4B::WHITE);
         subDeetsLab->setHorizontalAlignment(TextHAlignment::CENTER);
+		subDeetsLab->setVerticalAlignment(TextVAlignment::CENTER);
+		subDeetsLab->setOverflow(Label::Overflow::SHRINK);
+		subDeetsLab->setDimensions(_accountTypeLayout->getContentSize().width * 0.8f, _accountTypeLayout->getContentSize().height * 0.4f);
         _accountTypeLayout->addChild(subDeetsLab);
 		
 		ui::Button* resubButton = ui::Button::create("res/settings/sub_button.png");
