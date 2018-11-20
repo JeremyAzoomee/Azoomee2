@@ -116,6 +116,7 @@ void LanguageSelectScene::createUI()
 	scrollHeight -= _scrollButton->getContentSize().height + 100;
 	
 	_languageScrollView->setContentSize(Size(_languageScrollView->getContentSize().width, scrollHeight));
+	_languageScrollView->getParent()->setContentSize(_languageScrollView->getContentSize());
 }
 
 void LanguageSelectScene::addBackground()
@@ -158,11 +159,12 @@ void LanguageSelectScene::addLanguageScrollView()
 	
 	_languageScrollView = ui::ListView::create();
 	_languageScrollView->setContentSize(Size(contentSize.width * 0.8f,contentSize.height - 700));
-	_languageScrollView->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	_languageScrollView->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	_languageScrollView->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_languageScrollView->setBounceEnabled(true);
 	_languageScrollView->setItemsMargin(isPortrait ? 150 : 100);
-	_languageScrollView->setTopPadding(50);
-	_languageScrollView->setBottomPadding(50);
+	_languageScrollView->setTopPadding(100);
+	_languageScrollView->setBottomPadding(100);
 	
 	const auto& langsData = StringMgr::kLanguageParams;
 	
@@ -189,7 +191,27 @@ void LanguageSelectScene::addLanguageScrollView()
 		_languageScrollView->pushBackCustomItem(itemRow);
 	}
 	
-	_contentLayout->addChild(_languageScrollView);
+	ui::Layout* langSVHolder = ui::Layout::create();
+	langSVHolder->setContentSize(_languageScrollView->getContentSize());
+	langSVHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	langSVHolder->addChild(_languageScrollView);
+	
+	Sprite* verticalScrollGradientTop = Sprite::create("res/decoration/TopNavGrad.png");
+	verticalScrollGradientTop->setAnchorPoint(Vec2(0.5, 1.0));
+	verticalScrollGradientTop->setScaleX(langSVHolder->getContentSize().width / verticalScrollGradientTop->getContentSize().width);
+	verticalScrollGradientTop->setColor(Color3B::BLACK);
+	verticalScrollGradientTop->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+	langSVHolder->addChild(verticalScrollGradientTop);
+	
+	Sprite* verticalScrollGradientBot = Sprite::create("res/decoration/TopNavGrad.png");
+	verticalScrollGradientBot->setAnchorPoint(Vec2(0.5, 1.0));
+	verticalScrollGradientBot->setRotation(180);
+	verticalScrollGradientBot->setScaleX(langSVHolder->getContentSize().width / verticalScrollGradientBot->getContentSize().width);
+	verticalScrollGradientBot->setColor(Color3B::BLACK);
+	verticalScrollGradientBot->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+	langSVHolder->addChild(verticalScrollGradientBot);
+	
+	_contentLayout->addChild(langSVHolder);
 	
 }
 
