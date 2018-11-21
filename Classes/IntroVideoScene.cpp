@@ -8,6 +8,7 @@
 #include "SceneManagerScene.h"
 #include "BackEndCaller.h"
 #include "ForceUpdateAppLockScene.h"
+#include "LanguageSelectScene.h"
 
 #if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     #include <AzoomeeCommon/Utils/IosNativeFunctionsSingleton.h>
@@ -196,14 +197,22 @@ void IntroVideoScene::onForceUpdateCheckFinished(const ForceUpdateResult& result
 	{
 		case ForceUpdateResult::DO_NOTHING:
 		{
-			if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
+			if(UserDefault::getInstance()->getStringForKey("language", "") == "")
 			{
-				BackEndCaller::getInstance()->anonymousDeviceLogin();
+				Director::getInstance()->replaceScene(LanguageSelectScene::create());
 			}
 			else
 			{
-				LoginLogicHandler::getInstance()->doLoginLogic();
+				if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
+				{
+					BackEndCaller::getInstance()->anonymousDeviceLogin();
+				}
+				else
+				{
+					LoginLogicHandler::getInstance()->doLoginLogic();
+				}
 			}
+			
 			break;
 		}
 		case ForceUpdateResult::NOTIFY:
@@ -229,14 +238,22 @@ void IntroVideoScene::MessageBoxButtonPressed(std::string messageBoxTitle, std::
 	}
 	else
 	{
-		if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
+		if(UserDefault::getInstance()->getStringForKey("language", "") == "")
 		{
-			BackEndCaller::getInstance()->anonymousDeviceLogin();
+			Director::getInstance()->replaceScene(LanguageSelectScene::create());
 		}
 		else
 		{
-			LoginLogicHandler::getInstance()->doLoginLogic();
+			if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
+			{
+				BackEndCaller::getInstance()->anonymousDeviceLogin();
+			}
+			else
+			{
+				LoginLogicHandler::getInstance()->doLoginLogic();
+			}
 		}
+		
 	}
 }
 

@@ -160,10 +160,14 @@ void OomeeSelectScene::toggleMakeAvatarHiglight()
         }),NULL));
         _contentLayer->addChild(banner,10);
         
-        auto bannerLabel = Label::createWithTTF(_("This is your new Oomee!"), Style::Font::Regular, 73);
+        auto bannerLabel = Label::createWithTTF(_("This is your new Oomee!"), Style::Font::Regular(), 73);
         bannerLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         bannerLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
         bannerLabel->setColor(Color3B::BLACK);
+		bannerLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+		bannerLabel->setVerticalAlignment(TextVAlignment::CENTER);
+		bannerLabel->setOverflow(Label::Overflow::SHRINK);
+		bannerLabel->setDimensions(banner->getContentSize().width * 0.9f, banner->getContentSize().height * 0.7f);
         banner->addChild(bannerLabel);
         
     }

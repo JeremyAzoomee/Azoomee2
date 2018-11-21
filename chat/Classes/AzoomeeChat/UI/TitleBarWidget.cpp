@@ -52,7 +52,7 @@ bool TitleBarWidget::init()
     
     // Title
     _titleLabel = ui::Text::create();
-    _titleLabel->setFontName(Style::Font::Regular);
+    _titleLabel->setFontName(Style::Font::Regular());
     _titleLayout->addChild(_titleLabel);
     
     // Image
@@ -84,7 +84,7 @@ bool TitleBarWidget::init()
     _warningImageRight->setAnchorPoint(Vec2(0.5f, 0.5f));
     _reportedChatTitleBar->addChild(_warningImageRight);
     
-    _warningLabel = createLabelWith(_("This chat has been reported. Get your parent to reset it."), Style::Font::Regular, Style::Color::black, 64);
+    _warningLabel = createLabelWith(_("This chat has been reported. Get your parent to reset it."), Style::Font::Regular(), Style::Color::black, 64);
     _warningLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     _reportedChatTitleBar->addChild(_warningLabel);
     
@@ -93,12 +93,14 @@ bool TitleBarWidget::init()
     // TODO: Get from Strings
     _reportResetButton->setTitleText(_("Reset"));
     _reportResetButton->setTitleColor(Style::Color::black);
-    _reportResetButton->setTitleFontName(Style::Font::Regular);
+    _reportResetButton->setTitleFontName(Style::Font::Regular());
     _reportResetButton->setTitleFontSize(45.0f);
     _reportResetButton->setScale9Enabled(true);
     _reportResetButton->setTitleAlignment(TextHAlignment::LEFT, TextVAlignment::CENTER);
     _reportResetButton->setLayoutParameter(CreateRightCenterRelativeLayoutParam(ui::Margin(0.0f, 0.0f, kTitleButtonsEdgePadding, 0.0f)));
     _reportResetButton->setVisible(false);
+	_reportResetButton->setContentSize(Size(_reportResetButton->getTitleLabel()->getContentSize().width + 40, _reportResetButton->getContentSize().height));
+	_reportResetButton->ignoreContentAdaptWithSize(false);
     addChild(_reportResetButton);
     
     // Add friend button
@@ -106,7 +108,7 @@ bool TitleBarWidget::init()
     // TODO: Get from Strings
     _reportButton->setTitleText(_("Report"));
     _reportButton->setTitleColor(Style::Color::brightAqua);
-    _reportButton->setTitleFontName(Style::Font::Regular);
+    _reportButton->setTitleFontName(Style::Font::Regular());
     _reportButton->setTitleFontSize(45.0f);
     _reportButton->setScale9Enabled(true);
     
@@ -122,9 +124,11 @@ bool TitleBarWidget::init()
     // We need some offset because the title doesn't get centered vertically correctly
     // Likely due to font renderering via TTF
     const float lineHeightOffset = -3.0f;
-   _reportButton->getTitleRenderer()->setPosition(Vec2(plusIcon->getPositionX() + (plusIcon->getContentSize().width * 0.5f) + 15.0f, (addFriendButtonSize.height * 0.5f) + lineHeightOffset));
     _reportButton->setLayoutParameter(CreateRightCenterRelativeLayoutParam(ui::Margin(0.0f, 0.0f, kTitleButtonsEdgePadding, 0.0f)));
     _reportButton->setVisible(false);
+	//_reportButton->ignoreContentAdaptWithSize(false);
+	_reportButton->setContentSize(Size(addFriendButtonSize.height + _reportButton->getTitleLabel()->getContentSize().width + 15.0f,_reportButton->getContentSize().height));
+	_reportButton->getTitleRenderer()->setPosition(Vec2(plusIcon->getPositionX() + (plusIcon->getContentSize().width * 0.5f) + 15.0f, (addFriendButtonSize.height * 0.5f) + lineHeightOffset));
     addChild(_reportButton);
     
     return true;

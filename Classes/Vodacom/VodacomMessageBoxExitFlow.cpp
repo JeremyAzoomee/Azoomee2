@@ -19,7 +19,7 @@ void VodacomMessageBoxExitFlow::onEnter()
 	
 	_messageBox->setContentSize(Size(_visibleSize.width - 100, 855));
 	
-	_heading = Label::createWithTTF(_("Are you sure you want to leave?"), Style::Font::Regular, 91);
+	_heading = Label::createWithTTF(_("Are you sure you want to leave?"), Style::Font::Regular(), 91);
 	_heading->setTextColor(Color4B::BLACK);
 	_heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_heading->setNormalizedPosition(Vec2(0.5f,0.66));
@@ -39,7 +39,7 @@ void VodacomMessageBoxExitFlow::onEnter()
 			break;
 	}
 	
-	_subHeading = Label::createWithTTF(subHeading, Style::Font::Regular, 64);
+	_subHeading = Label::createWithTTF(subHeading, Style::Font::Regular(), 64);
 	_subHeading->setTextColor(Color4B::BLACK);
 	_subHeading->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_subHeading->setNormalizedPosition(Vec2(0.5f,0.45));
@@ -58,7 +58,7 @@ void VodacomMessageBoxExitFlow::onEnter()
 	_yesButton->addTouchEventListener(CC_CALLBACK_2(SettingsMessageBox::onButtonPressed, this));
 	_messageBox->addChild(_yesButton);
 	
-	Label* yesLabel = Label::createWithTTF(_("Yes"), Style::Font::Regular, 75);
+	Label* yesLabel = Label::createWithTTF(_("Yes"), Style::Font::Regular(), 75);
 	yesLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	yesLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	_yesButton->addChild(yesLabel);
@@ -73,7 +73,7 @@ void VodacomMessageBoxExitFlow::onEnter()
 	_noButton->addTouchEventListener(CC_CALLBACK_2(SettingsMessageBox::onButtonPressed, this));
 	_messageBox->addChild(_noButton);
 	
-	Label* noLabel = Label::createWithTTF(_("No"), Style::Font::Regular, 75);
+	Label* noLabel = Label::createWithTTF(_("No"), Style::Font::Regular(), 75);
 	noLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	noLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	_noButton->addChild(noLabel);

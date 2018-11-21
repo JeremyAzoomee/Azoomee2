@@ -91,7 +91,7 @@ void VodacomOnboardingErrorLayer::setupForVoucherError()
 		});
 		_verticalLayout->addChild(closeButton);
 	}
-	Label* title = Label::createWithTTF(_("Oops!"), Style::Font::Regular, 96);
+	Label* title = Label::createWithTTF(_("Oops!"), Style::Font::Regular(), 96);
 	title->setTextColor(Color4B::BLACK);
 	title->setHorizontalAlignment(TextHAlignment::CENTER);
 	title->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -103,7 +103,7 @@ void VodacomOnboardingErrorLayer::setupForVoucherError()
 	titleHolder->addChild(title);
 	_verticalLayout->addChild(titleHolder);
 	
-	Label* subHeading = Label::createWithTTF(_("The voucher code you entered earlier isn’t valid. Please re-enter it."), Style::Font::Regular, 64);
+	Label* subHeading = Label::createWithTTF(_("Your voucher code isn’t valid. Please re-enter it."), Style::Font::Regular(), 64);
 	subHeading->setTextColor(Color4B::BLACK);
 	subHeading->setHorizontalAlignment(TextHAlignment::CENTER);
 	subHeading->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -116,7 +116,7 @@ void VodacomOnboardingErrorLayer::setupForVoucherError()
 	subHeadingHolder->addChild(subHeading);
 	_verticalLayout->addChild(subHeadingHolder);
 	
-	Label* inputTitle = Label::createWithTTF(_("Voucher code"), Style::Font::Regular, 64);
+	Label* inputTitle = Label::createWithTTF(_("Voucher code"), Style::Font::Regular(), 64);
 	inputTitle->setTextColor(Color4B::BLACK);
 	inputTitle->setHorizontalAlignment(TextHAlignment::CENTER);
 	inputTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -132,7 +132,7 @@ void VodacomOnboardingErrorLayer::setupForVoucherError()
 	_voucherInput->setCenterPosition(_voucherInput->getContentSize() / 2.0f);
 	_voucherInput->setDelegate(this);
 	
-	Label* voucherError = Label::createWithTTF(_("*Invalid Voucher"), Style::Font::Regular, 53);
+	Label* voucherError = Label::createWithTTF(_("*Invalid Voucher"), Style::Font::Regular(), 53);
 	voucherError->setTextColor(Color4B(Style::Color::watermelon));
 	voucherError->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
 	voucherError->setNormalizedPosition(Vec2(0.1f,-0.1));
@@ -169,7 +169,7 @@ void VodacomOnboardingErrorLayer::setupForVoucherError()
 	});
 	_verticalLayout->addChild(_confirmButton);
 	
-	Label* confirmText = Label::createWithTTF(_("Confirm"), Style::Font::Regular, _confirmButton->getContentSize().height * 0.5f);
+	Label* confirmText = Label::createWithTTF(_("Confirm"), Style::Font::Regular(), _confirmButton->getContentSize().height * 0.5f);
 	confirmText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	confirmText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	confirmText->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -179,7 +179,7 @@ void VodacomOnboardingErrorLayer::setupForVoucherError()
 	
 	if(_flowData->getUserType() == UserType::REGISTERED)
 	{
-		Label* skip = Label::createWithTTF(_("Skip this step"), Style::Font::Regular, 64);
+		Label* skip = Label::createWithTTF(_("Skip this step"), Style::Font::Regular(), 64);
 		skip->setTextColor(Color4B(Style::Color::skyBlue));
 		skip->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 		skip->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -208,11 +208,11 @@ void VodacomOnboardingErrorLayer::setupForVoucherError()
 		_verticalLayout->addChild(skipHolder);
 	}
 	
-	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular, 64);
+	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular(), 64);
 	needHelp->setTextColor(Color4B(Style::Color::skyBlue));
 	needHelp->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	needHelp->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
-	Label* contactUs = Label::createWithTTF(_("Contact us"), Style::Font::Regular, 64);
+	Label* contactUs = Label::createWithTTF(_("Contact us"), Style::Font::Regular(), 64);
 	contactUs->setTextColor(Color4B(Style::Color::skyBlue));
 	contactUs->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
 	contactUs->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
@@ -276,7 +276,7 @@ void VodacomOnboardingErrorLayer::setupForLoginError()
 	buttonHolder->addChild(closeButton);
 	buttonHolder->addChild(backButton);
 	
-	Label* title = Label::createWithTTF(_("Oops!"), Style::Font::Regular, 96);
+	Label* title = Label::createWithTTF(_("Oops!"), Style::Font::Regular(), 96);
 	title->setTextColor(Color4B::BLACK);
 	title->setHorizontalAlignment(TextHAlignment::CENTER);
 	title->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -288,7 +288,7 @@ void VodacomOnboardingErrorLayer::setupForLoginError()
 	titleHolder->addChild(title);
 	_verticalLayout->addChild(titleHolder);
 	
-	Label* subHeading = Label::createWithTTF(_("There was a problem with your email or password."), Style::Font::Regular, 64);
+	Label* subHeading = Label::createWithTTF(_("There was a problem with your email or password."), Style::Font::Regular(), 64);
 	subHeading->setTextColor(Color4B::BLACK);
 	subHeading->setHorizontalAlignment(TextHAlignment::CENTER);
 	subHeading->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -314,7 +314,7 @@ void VodacomOnboardingErrorLayer::setupForLoginError()
 	});
 	_verticalLayout->addChild(tryAgainButton);
 	
-	Label* tryAgainText = Label::createWithTTF(_("Try again"), Style::Font::Regular, tryAgainButton->getContentSize().height * 0.5f);
+	Label* tryAgainText = Label::createWithTTF(_("Try again"), Style::Font::Regular(), tryAgainButton->getContentSize().height * 0.5f);
 	tryAgainText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	tryAgainText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	tryAgainText->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -334,19 +334,19 @@ void VodacomOnboardingErrorLayer::setupForLoginError()
 	});
 	_verticalLayout->addChild(resetButton);
 	
-	Label* resetText = Label::createWithTTF(_("Reset password"), Style::Font::Regular, resetButton->getContentSize().height * 0.5f);
+	Label* resetText = Label::createWithTTF(_("Reset password"), Style::Font::Regular(), resetButton->getContentSize().height * 0.5f);
 	resetText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	resetText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	resetText->setHorizontalAlignment(TextHAlignment::CENTER);
 	resetText->setVerticalAlignment(TextVAlignment::CENTER);
-	resetText->setDimensions(resetButton->getContentSize().width * 0.8f, resetButton->getContentSize().height);
+	resetText->setDimensions(resetButton->getContentSize().width * 0.8f, resetButton->getContentSize().height * 0.8f);
 	resetButton->addChild(resetText);
 	
-	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular, 64);
+	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular(), 64);
 	needHelp->setTextColor(Color4B(Style::Color::skyBlue));
 	needHelp->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	needHelp->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
-	Label* contactUs = Label::createWithTTF(_("Contact us"), Style::Font::Regular, 64);
+	Label* contactUs = Label::createWithTTF(_("Contact us"), Style::Font::Regular(), 64);
 	contactUs->setTextColor(Color4B(Style::Color::skyBlue));
 	contactUs->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
 	contactUs->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
@@ -408,7 +408,7 @@ void VodacomOnboardingErrorLayer::setupForPasswordReset()
 	buttonHolder->addChild(closeButton);
 	buttonHolder->addChild(backButton);
 	
-	Label* title = Label::createWithTTF(_("Reset requested"), Style::Font::Regular, 96);
+	Label* title = Label::createWithTTF(_("Reset requested"), Style::Font::Regular(), 96);
 	title->setTextColor(Color4B::BLACK);
 	title->setHorizontalAlignment(TextHAlignment::CENTER);
 	title->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -420,7 +420,7 @@ void VodacomOnboardingErrorLayer::setupForPasswordReset()
 	titleHolder->addChild(title);
 	_verticalLayout->addChild(titleHolder);
 	
-	Label* subHeading = Label::createWithTTF(_("Instructions for resetting your password have been sent to:"), Style::Font::Regular, 64);
+	Label* subHeading = Label::createWithTTF(_("Instructions for resetting your password have been sent to:"), Style::Font::Regular(), 64);
 	subHeading->setTextColor(Color4B::BLACK);
 	subHeading->setHorizontalAlignment(TextHAlignment::CENTER);
 	subHeading->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -433,7 +433,7 @@ void VodacomOnboardingErrorLayer::setupForPasswordReset()
 	subHeadingHolder->addChild(subHeading);
 	_verticalLayout->addChild(subHeadingHolder);
 	
-	Label* email = Label::createWithTTF(_flowData->getEmail(), Style::Font::Regular, 64);
+	Label* email = Label::createWithTTF(_flowData->getEmail(), Style::Font::Regular(), 64);
 	email->setTextColor(Color4B(Style::Color::skyBlue));
 	email->setHorizontalAlignment(TextHAlignment::CENTER);
 	email->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -458,7 +458,7 @@ void VodacomOnboardingErrorLayer::setupForPasswordReset()
 	});
 	_verticalLayout->addChild(okButton);
 	
-	Label* okText = Label::createWithTTF(_("OK"), Style::Font::Regular, okButton->getContentSize().height * 0.5f);
+	Label* okText = Label::createWithTTF(_("OK"), Style::Font::Regular(), okButton->getContentSize().height * 0.5f);
 	okText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	okText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	okText->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -466,11 +466,11 @@ void VodacomOnboardingErrorLayer::setupForPasswordReset()
 	okText->setDimensions(okButton->getContentSize().width * 0.8f, okButton->getContentSize().height);
 	okButton->addChild(okText);
 	
-	Label* notRecieved = Label::createWithTTF(_("Didn't recieve an email?"), Style::Font::Regular, 64);
+	Label* notRecieved = Label::createWithTTF(_("Didn't recieve an email?"), Style::Font::Regular(), 64);
 	notRecieved->setTextColor(Color4B(Style::Color::skyBlue));
 	notRecieved->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	notRecieved->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
-	Label* sendAgain = Label::createWithTTF(_("Send again"), Style::Font::Regular, 64);
+	Label* sendAgain = Label::createWithTTF(_("Send again"), Style::Font::Regular(), 64);
 	sendAgain->setTextColor(Color4B(Style::Color::skyBlue));
 	sendAgain->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
 	sendAgain->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
@@ -495,11 +495,11 @@ void VodacomOnboardingErrorLayer::setupForPasswordReset()
 	sendAgainHolder->addChild(sendAgain);
 	_verticalLayout->addChild(sendAgainHolder);
 	
-	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular, 64);
+	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular(), 64);
 	needHelp->setTextColor(Color4B(Style::Color::skyBlue));
 	needHelp->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	needHelp->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
-	Label* contactUs = Label::createWithTTF(_("Contact us"), Style::Font::Regular, 64);
+	Label* contactUs = Label::createWithTTF(_("Contact us"), Style::Font::Regular(), 64);
 	contactUs->setTextColor(Color4B(Style::Color::skyBlue));
 	contactUs->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
 	contactUs->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
@@ -561,7 +561,7 @@ void VodacomOnboardingErrorLayer::setupForAlreadyRegistered()
 	buttonHolder->addChild(closeButton);
 	buttonHolder->addChild(backButton);
 	
-	Label* title = Label::createWithTTF(_("Already registered"), Style::Font::Regular, 96);
+	Label* title = Label::createWithTTF(_("Already registered"), Style::Font::Regular(), 96);
 	title->setTextColor(Color4B::BLACK);
 	title->setHorizontalAlignment(TextHAlignment::CENTER);
 	title->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -573,7 +573,7 @@ void VodacomOnboardingErrorLayer::setupForAlreadyRegistered()
 	titleHolder->addChild(title);
 	_verticalLayout->addChild(titleHolder);
 	
-	Label* subHeading = Label::createWithTTF(_("This email address has already been registered. Please sign up with a new email address or log in using the same email address."), Style::Font::Regular, 64);
+	Label* subHeading = Label::createWithTTF(_("This email address has already been registered. Please create a new account with a new email address or log in using this email address."), Style::Font::Regular(), 64);
 	subHeading->setTextColor(Color4B::BLACK);
 	subHeading->setHorizontalAlignment(TextHAlignment::CENTER);
 	subHeading->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -599,7 +599,7 @@ void VodacomOnboardingErrorLayer::setupForAlreadyRegistered()
 	});
 	_verticalLayout->addChild(okButton);
 	
-	Label* okText = Label::createWithTTF(_("Sign up"), Style::Font::Regular, okButton->getContentSize().height * 0.5f);
+	Label* okText = Label::createWithTTF(_("Sign up"), Style::Font::Regular(), okButton->getContentSize().height * 0.5f);
 	okText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	okText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	okText->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -621,7 +621,7 @@ void VodacomOnboardingErrorLayer::setupForAlreadyRegistered()
 	});
 	_verticalLayout->addChild(loginButton);
 	
-	Label* loginText = Label::createWithTTF(_("Log in"), Style::Font::Regular, loginButton->getContentSize().height * 0.5f);
+	Label* loginText = Label::createWithTTF(_("Log in"), Style::Font::Regular(), loginButton->getContentSize().height * 0.5f);
 	loginText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	loginText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	loginText->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -629,11 +629,11 @@ void VodacomOnboardingErrorLayer::setupForAlreadyRegistered()
 	loginText->setDimensions(loginButton->getContentSize().width * 0.8f, loginButton->getContentSize().height);
 	loginButton->addChild(loginText);
 	
-	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular, 64);
+	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular(), 64);
 	needHelp->setTextColor(Color4B(Style::Color::skyBlue));
 	needHelp->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	needHelp->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
-	Label* contactUs = Label::createWithTTF(_("Contact us"), Style::Font::Regular, 64);
+	Label* contactUs = Label::createWithTTF(_("Contact us"), Style::Font::Regular(), 64);
 	contactUs->setTextColor(Color4B(Style::Color::skyBlue));
 	contactUs->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
 	contactUs->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
@@ -695,7 +695,7 @@ void VodacomOnboardingErrorLayer::setupForAlreadyPremium()
 	buttonHolder->addChild(closeButton);
 	buttonHolder->addChild(backButton);
 	
-	Label* title = Label::createWithTTF(_("You Can't Do That"), Style::Font::Regular, 96);
+	Label* title = Label::createWithTTF(_("You Can't Do That"), Style::Font::Regular(), 96);
 	title->setTextColor(Color4B::BLACK);
 	title->setHorizontalAlignment(TextHAlignment::CENTER);
 	title->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -707,7 +707,7 @@ void VodacomOnboardingErrorLayer::setupForAlreadyPremium()
 	titleHolder->addChild(title);
 	_verticalLayout->addChild(titleHolder);
 	
-	Label* subHeading = Label::createWithTTF(_("This account is already Premium, you can't add another voucher at this time."), Style::Font::Regular, 64);
+	Label* subHeading = Label::createWithTTF(_("This account is already Premium, you can't add another voucher at this time."), Style::Font::Regular(), 64);
 	subHeading->setTextColor(Color4B::BLACK);
 	subHeading->setHorizontalAlignment(TextHAlignment::CENTER);
 	subHeading->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -733,7 +733,7 @@ void VodacomOnboardingErrorLayer::setupForAlreadyPremium()
 	});
 	_verticalLayout->addChild(okButton);
 	
-	Label* okText = Label::createWithTTF(_("OK"), Style::Font::Regular, okButton->getContentSize().height * 0.5f);
+	Label* okText = Label::createWithTTF(_("OK"), Style::Font::Regular(), okButton->getContentSize().height * 0.5f);
 	okText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	okText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	okText->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -741,11 +741,11 @@ void VodacomOnboardingErrorLayer::setupForAlreadyPremium()
 	okText->setDimensions(okButton->getContentSize().width * 0.8f, okButton->getContentSize().height);
 	okButton->addChild(okText);
 	
-	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular, 64);
+	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular(), 64);
 	needHelp->setTextColor(Color4B(Style::Color::skyBlue));
 	needHelp->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	needHelp->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
-	Label* contactUs = Label::createWithTTF(_("Contact us"), Style::Font::Regular, 64);
+	Label* contactUs = Label::createWithTTF(_("Contact us"), Style::Font::Regular(), 64);
 	contactUs->setTextColor(Color4B(Style::Color::skyBlue));
 	contactUs->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
 	contactUs->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);

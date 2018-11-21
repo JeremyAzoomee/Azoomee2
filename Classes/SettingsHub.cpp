@@ -34,7 +34,9 @@ bool SettingsHub::init()
     }
     
     const Size& visibleSize = Director::getInstance()->getVisibleSize();
-    
+	
+	_prevLangCode = StringMgr::getInstance()->getLanguageID();
+	
     LayerColor* bgColour = LayerColor::create(Color4B::WHITE, visibleSize.width, visibleSize.height);
     this->addChild(bgColour);
     
@@ -55,7 +57,7 @@ bool SettingsHub::init()
     _contentLayout->addChild(_titleLayout);
     
     _titleBarButton = ui::Button::create("res/settings/exit_button.png");
-    _titleBarButton->setNormalizedPosition(isIphoneX ? Vec2(0,0.75f) : Vec2::ANCHOR_MIDDLE_LEFT);
+    _titleBarButton->setNormalizedPosition(isIphoneX ? Vec2(0,0.33f) : Vec2::ANCHOR_MIDDLE_LEFT);
     _titleBarButton->setAnchorPoint(Vec2(0.0f,0.5f));
 	_titleBarButton->setContentSize(Size(150, 150));
 	_titleBarButton->ignoreContentAdaptWithSize(false);
@@ -84,12 +86,17 @@ bool SettingsHub::init()
                 _navigationLayout->setVisible(true);
                 _titleText->setString(_("Settings"));
                 _titleBarButton->loadTextureNormal("res/settings/exit_button.png");
+				if(_prevLangCode != StringMgr::getInstance()->getLanguageID())
+				{
+					_prevLangCode = StringMgr::getInstance()->getLanguageID();
+					this->updateTextForNewLanguage();
+				}
                 _inHub = true;
             }
         }
     });
     
-    _titleText = ui::Text::create(_("Settings"), Style::Font::Medium, 91);
+    _titleText = ui::Text::create(_("Settings"), Style::Font::Medium(), 91);
     _titleText->setNormalizedPosition(isIphoneX ? Vec2(0.5f,0.25f) : Vec2::ANCHOR_MIDDLE);
     _titleText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _titleText->setTextColor(Color4B::WHITE);
@@ -109,14 +116,14 @@ bool SettingsHub::init()
     _activeSettingsPageHolder->setVisible(false);
     _mainBodyLayout->addChild(_activeSettingsPageHolder);
 	
-	const int numButtons = 5;
+	const int numButtons = 6;
 	
 	const float buttonHeight = _navigationLayout->getContentSize().height * (1.0f / numButtons) - 10;
 	
-	/*_languageButton = SettingsNavigationButton::create();
+	_languageButton = SettingsNavigationButton::create();
 	_languageButton->setContentSize(Size(visibleSize.width, buttonHeight));
 	_languageButton->setLayoutParameter(CreateTopLinearLayoutParam(ui::Margin(0,0,0,10)));
-	_languageButton->setIconFilename("res/settings/flag_english_uk.png");
+	_languageButton->setIconFilename(StringUtils::format("res/settings/flag_%s.png",StringMgr::getInstance()->getLanguageID().c_str()));
 	_languageButton->setTitleText(_("Language"));
 	_languageButton->setSubTitleText(_("Change your language selection"));
 	_languageButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
@@ -126,7 +133,7 @@ bool SettingsHub::init()
 		}
 	});
 	_languageButton->setTouchEnabled(true);
-	_navigationLayout->addChild(_languageButton);*/
+	_navigationLayout->addChild(_languageButton);
 	
     _kidsButton = SettingsNavigationButton::create();
     _kidsButton->setContentSize(Size(visibleSize.width, buttonHeight));
@@ -285,6 +292,32 @@ void SettingsHub::changeToPage(SettingsPages page)
     _inHub = false;
 }
 
+void SettingsHub::updateTextForNewLanguage()
+{
+	_titleText->setString(_("Settings"));
+	_titleText->setFontName(Style::Font::Medium());
+	
+	_languageButton->setIconFilename(StringUtils::format("res/settings/flag_%s.png",StringMgr::getInstance()->getLanguageID().c_str()));
+	_languageButton->setTitleText(_("Language"));
+	_languageButton->setSubTitleText(_("Change your language selection"));
+	
+	_kidsButton->setTitleText(_("Your Kids"));
+	_kidsButton->setSubTitleText(_("Manage your kids’ profiles and add friends using Kid Codes"));
+	
+	_friendshipsButton->setTitleText(_("Friendships"));
+	_friendshipsButton->setSubTitleText(_("Accept or reject new friendship requests"));
+	
+	_yourAccountButton->setTitleText(_("Your Account"));
+	_yourAccountButton->setSubTitleText(_("Update your details and manage your subscription"));
+	
+	_onlineSafetyButton->setTitleText(_("Online Safety"));
+	_onlineSafetyButton->setSubTitleText(_("Tips and tricks to help your family stay safe online"));
+	
+	_supportButton->setTitleText(_("Support"));
+	_supportButton->setSubTitleText(_("Need some help? View our support page or contact us directly"));
+}
+
+// delegate functions
 
 void SettingsHub::AdultPinCancelled(RequestAdultPinLayer* layer)
 {

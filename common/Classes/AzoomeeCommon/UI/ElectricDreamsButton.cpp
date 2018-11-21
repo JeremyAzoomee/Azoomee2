@@ -51,7 +51,7 @@ ElectricDreamsButton* ElectricDreamsButton::createTextAsButton(std::string butto
 {    
     auto layer = ElectricDreamsButton::create();
     
-    Label* textButton = Label::createWithTTF(buttonText, Style::Font::Regular, fontSize);
+    Label* textButton = Label::createWithTTF(buttonText, Style::Font::Regular(), fontSize);
     textButton->setPosition(Vec2(textButton->getContentSize().width/2, textButton->getContentSize().height/2));
     textButton->setHorizontalAlignment(TextHAlignment::CENTER);
     layer->setContentSize(textButton->getContentSize());
@@ -75,7 +75,7 @@ ElectricDreamsButton* ElectricDreamsButton::createTextAsButtonAqua(std::string b
 {
     auto layer = ElectricDreamsButton::create();
     
-    Label* textButton = Label::createWithTTF(buttonText, Style::Font::Regular, fontSize);
+    Label* textButton = Label::createWithTTF(buttonText, Style::Font::Regular(), fontSize);
     textButton->setPosition(Vec2(textButton->getContentSize().width/2, textButton->getContentSize().height/2));
     textButton->setHorizontalAlignment(TextHAlignment::CENTER);
     textButton->setColor(Style::Color::brightAqua);
@@ -101,7 +101,7 @@ ElectricDreamsButton* ElectricDreamsButton::createTextAsButtonWithColor(std::str
 {
     auto layer = ElectricDreamsButton::create();
     
-    Label* textButton = Label::createWithTTF(buttonText, Style::Font::Regular, fontSize);
+    Label* textButton = Label::createWithTTF(buttonText, Style::Font::Regular(), fontSize);
     textButton->setPosition(Vec2(textButton->getContentSize().width/2, textButton->getContentSize().height/2));
     textButton->setHorizontalAlignment(TextHAlignment::CENTER);
     textButton->setColor(color);
@@ -186,7 +186,7 @@ ElectricDreamsButton* ElectricDreamsButton::createPrimaryButton(std::string butt
 
 ElectricDreamsButton* ElectricDreamsButton::createPrimaryGreenButton(std::string buttonText, float textPadding, float minWidth)
 {
-    Label* buttonLabel = createLabelWith(buttonText, Style::Font::Regular, Style::Color::black, 75);
+    Label* buttonLabel = createLabelWith(buttonText, Style::Font::Regular(), Style::Color::black, 75);
     
     Rect spriteRect = Rect(0, 0, 572, 213);
     Rect capInsents = Rect(100, 106, 300, 1);
@@ -275,7 +275,7 @@ ElectricDreamsButton* ElectricDreamsButton::createSecondaryButton(std::string bu
     
 ElectricDreamsButton* ElectricDreamsButton::createSecondaryGreenButton(std::string buttonText, float textPadding, float minWidth)
 {
-    Label* buttonLabel = createLabelWith(buttonText, Style::Font::Regular, Style::Color::black, 75);
+    Label* buttonLabel = createLabelWith(buttonText, Style::Font::Regular(), Style::Color::black, 75);
     
     Rect spriteRect = Rect(0, 0, 572, 213);
     Rect capInsents = Rect(100, 106, 300, 1);

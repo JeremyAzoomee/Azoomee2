@@ -109,7 +109,7 @@ void KidDetailsLayer::onEnter()
     _displayNameLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _nameLayout->addChild(_displayNameLayout);
     
-    _nameText = Label::createWithTTF(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(_childNum), Style::Font::Medium, 107);
+    _nameText = Label::createWithTTF(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(_childNum), Style::Font::Medium(), 107);
     _nameText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _nameText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _nameText->setTextColor(Color4B::BLACK);
@@ -129,7 +129,7 @@ void KidDetailsLayer::onEnter()
     _displayNameLayout->addChild(_editNameButton);
     
     ui::Layout* oomeeLayout = ui::Layout::create();
-    oomeeLayout->setContentSize(Size(contentSize.height * 0.45f, contentSize.height * 0.45f));
+    oomeeLayout->setContentSize(Size(contentSize.height * 0.4f, contentSize.height * 0.4f));
     oomeeLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
     centralContentLayout->addChild(oomeeLayout);
     
@@ -169,13 +169,28 @@ void KidDetailsLayer::onEnter()
     _oomee->setAnchorPoint(Vec2(0.5,0.4));
     _oomee->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     oomeeLayout->addChild(_oomee);
-    
+	
+	Label* kidCodeHeading = Label::createWithTTF(_("Share your kid code"), Style::Font::Medium(), 64);
+	kidCodeHeading->setTextColor(Color4B::BLACK);
+	kidCodeHeading->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	kidCodeHeading->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	kidCodeHeading->setHorizontalAlignment(TextHAlignment::CENTER);
+	kidCodeHeading->setVerticalAlignment(TextVAlignment::CENTER);
+	kidCodeHeading->setOverflow(Label::Overflow::SHRINK);
+	kidCodeHeading->setDimensions(this->getContentSize().width * 0.7f, 100);
+	
+	ui::Layout* kidCodeHeadingHolder = ui::Layout::create();
+	kidCodeHeadingHolder->setContentSize(kidCodeHeading->getContentSize());
+	kidCodeHeadingHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	kidCodeHeadingHolder->addChild(kidCodeHeading);
+	centralContentLayout->addChild(kidCodeHeadingHolder);
+	
     Sprite* kidCodeBackground = Sprite::create("res/settings/kid_code_bg.png");
     kidCodeBackground->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     kidCodeBackground->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     
     _kidCodeLayout = ui::Layout::create();
-    _kidCodeLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+    _kidCodeLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,25,0,0)));
     _kidCodeLayout->setContentSize(kidCodeBackground->getContentSize());
     _kidCodeLayout->addChild(kidCodeBackground);
     _kidCodeLayout->setTouchEnabled(true);
@@ -189,7 +204,7 @@ void KidDetailsLayer::onEnter()
     });
     centralContentLayout->addChild(_kidCodeLayout);
     
-    Label* kidCode = Label::createWithTTF(ParentDataProvider::getInstance()->getInviteCodeForAnAvailableChild(_childNum), Style::Font::Medium, 91);
+    Label* kidCode = Label::createWithTTF(ParentDataProvider::getInstance()->getInviteCodeForAnAvailableChild(_childNum), Style::Font::Medium(), 91);
     kidCode->setTextColor(Color4B::WHITE);
     kidCode->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     kidCode->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -199,10 +214,25 @@ void KidDetailsLayer::onEnter()
     shareButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
     shareButton->setPosition(Vec2(_kidCodeLayout->getContentSize().width - 30, _kidCodeLayout->getContentSize().height * 0.5f));
     _kidCodeLayout->addChild(shareButton);
-    
+	
+	Label* inputHeading = Label::createWithTTF(_("Enter Friend's Kid Code"), Style::Font::Medium(), 64);
+	inputHeading->setTextColor(Color4B::BLACK);
+	inputHeading->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	inputHeading->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	inputHeading->setHorizontalAlignment(TextHAlignment::CENTER);
+	inputHeading->setVerticalAlignment(TextVAlignment::CENTER);
+	inputHeading->setOverflow(Label::Overflow::SHRINK);
+	inputHeading->setDimensions(this->getContentSize().width * 0.7f, 100);
+	
+	ui::Layout* inputHeadingHolder = ui::Layout::create();
+	inputHeadingHolder->setContentSize(inputHeading->getContentSize());
+	inputHeadingHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
+	inputHeadingHolder->addChild(inputHeading);
+	centralContentLayout->addChild(inputHeadingHolder);
+	
     ui::Layout* addFriendInputLayout = ui::Layout::create();
     addFriendInputLayout->setContentSize(Size(_kidCodeLayout->getContentSize().width, 160));
-    addFriendInputLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
+    addFriendInputLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,25,0,0)));
     centralContentLayout->addChild(addFriendInputLayout);
     
     ui::Button* addFriendButton = ui::Button::create("res/settings/add_freind_code_button.png");

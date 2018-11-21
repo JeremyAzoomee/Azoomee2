@@ -1,6 +1,7 @@
 #include "StringMgr.h"
 #include "../Analytics/AnalyticsSingleton.h"
 #include "StringFunctions.h"
+#include "DirectorySearcher.h"
 #include "../Data/Json.h"
 #include <cocos/cocos2d.h>
 
@@ -8,7 +9,33 @@ using namespace cocos2d;
 
 namespace Azoomee
 {
+	
+LanguageParams::LanguageParams(const std::string& identifier, const std::string& name, const std::string& text)
+{
+	_identifier = identifier;
+	_name = name;
+	_text = text;
+}
+	
+const std::vector<LanguageParams> StringMgr::kLanguageParams = {
+	LanguageParams("en-GB", "English", "Hello!"),
+	LanguageParams("afr", "Afrikaans", "Hallo!"),
+	LanguageParams("fre-FR", "Français", "Bonjour!"),
+	LanguageParams("spa-ES", "Español", "¡Hola!"),
+	LanguageParams("ger-DE", "Deutsch", "Hallo!"),
+	LanguageParams("por-PT", "Português", "Olá!"),
+	LanguageParams("ita-IT", "Italiano", "Ciao!"),
+	LanguageParams("gre", "Ελληνικά", "Γειά σου!"),
+	LanguageParams("tur", "Türk", "Merhaba!")
+};
 
+const std::string StringMgr::kLanguagesDir = "languages/";
+#ifdef USINGCI
+	const std::string StringMgr::kLangsZipUrl = "https://media.azoomee.ninja/static/popups/languages/languages.zip";
+#else
+	const std::string StringMgr::kLangsZipUrl = "https://media.azoomee.com/static/popups/languages/languages.zip";
+#endif
+	
 static StringMgr *_sharedStringMgr = NULL;
 
 StringMgr* StringMgr::getInstance()
@@ -31,16 +58,43 @@ bool StringMgr::init(void)
     setLanguageIdentifier();
     
     stringsDocument = parseFile(languageID, "strings");
-    errorMessagesDocument = parseFile(languageID, "errormessages");
-
+	const std::string& fileContent = FileUtils::getInstance()->getStringFromFile("res/languages/errormessages.json");
+	errorMessagesDocument.Parse(fileContent.c_str());
+    //errorMessagesDocument = parseFile(languageID, "errormessages");
+	
+	const std::string& localDir = FileUtils::getInstance()->getWritablePath() + kLanguagesDir;
+	if(!FileUtils::getInstance()->isDirectoryExist(localDir))
+	{
+		FileUtils::getInstance()->createDirectory(localDir);
+	}
+	
+	_langsZipDownloader = FileDownloader::create();
+	_langsZipDownloader->setDelegate(this);
+	_langsZipDownloader->setEtag(getLocalEtag());
+	_langsZipDownloader->downloadFileFromServer(kLangsZipUrl);
+	
     return true;
+}
+	
+void StringMgr::changeLanguage(const std::string &languageID)
+{
+	AnalyticsSingleton::getInstance()->languageChangedEvent(languageID);
+	this->languageID = languageID;
+	stringsDocument = parseFile(languageID, "strings");
+	//errorMessagesDocument = parseFile(languageID, "errormessages");
+	UserDefault::getInstance()->setStringForKey("language", languageID);
+}
+	
+std::string StringMgr::getLanguageID() const
+{
+	return languageID;
 }
 
 //--------------- Get Strings Functions ------------------
 
 std::string StringMgr::getStringForKey(std::string key)
 {
-    return getStringFromJson(key, stringsDocument);
+    return getStringFromJson(key, stringsDocument, key);
 }
 
 std::map<std::string, std::string> StringMgr::getErrorMessageWithCode(long errorCode)
@@ -70,6 +124,8 @@ std::map<std::string, std::string> StringMgr::getErrorMessageWithCode(long error
 
 void StringMgr::setLanguageIdentifier()
 {
+	languageID = UserDefault::getInstance()->getStringForKey("language", kLanguageParams.at(0)._identifier);
+	/*
     switch(Application::getInstance()->getCurrentLanguage())
     {
         case cocos2d::LanguageType::ENGLISH:
@@ -79,13 +135,15 @@ void StringMgr::setLanguageIdentifier()
             languageID = "en-GB";
             break;
     };
+	*/
 }
 
 Document StringMgr::parseFile(std::string languageID, std::string stringFile)
 {
-    std::string filename = StringUtils::format("res/languages/%s/%s.json",languageID.c_str(),stringFile.c_str());
+	const std::string& baseDir = _remoteDataInitialised ? FileUtils::getInstance()->getWritablePath() + kLanguagesDir : "res/languages/";
+	const std::string& filename = baseDir + languageID + "/" + stringFile + ".json";
     
-    std::string fileContent = FileUtils::getInstance()->getStringFromFile(filename);
+    const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(filename);
     Document document;
     document.Parse(fileContent.c_str());
 	
@@ -129,6 +187,77 @@ std::string StringMgr::getNestedStringFromJson(std::vector<std::string> jsonKeys
     
     AnalyticsSingleton::getInstance()->localisedStringErrorEvent(currentKey,languageID);
     return stringError;
+}
+
+std::string StringMgr::getLocalEtag() const
+{
+	const std::string& etagFilePath = FileUtils::getInstance()->getWritablePath() + kLanguagesDir + "etag.txt";
+	if(cocos2d::FileUtils::getInstance()->isFileExist(etagFilePath))
+	{
+		return cocos2d::FileUtils::getInstance()->getStringFromFile(etagFilePath);
+	}
+	return "";
+}
+void StringMgr::setLocalEtag(const std::string& etag)
+{
+	const std::string& etagFilePath = FileUtils::getInstance()->getWritablePath() + kLanguagesDir + "etag.txt";
+	cocos2d::FileUtils::getInstance()->writeStringToFile(etag, etagFilePath);
+}
+
+void StringMgr::removeLocalLanguagesFiles()
+{
+	const std::string& baseLocation = FileUtils::getInstance()->getWritablePath() + kLanguagesDir;
+	const std::vector<std::string>& langsFolders = DirectorySearcher::getInstance()->getFoldersInDirectory(baseLocation);
+	for(const std::string& folder : langsFolders)
+	{
+		if(folder.size() > 2)
+		{
+			FileUtils::getInstance()->removeDirectory(baseLocation + folder);
+		}
+	}
+	FileUtils::getInstance()->removeFile(baseLocation + "errormessages.json");
+	
+}
+	
+// Delegate functions
+	
+void StringMgr::onAsyncUnzipComplete(bool success, const std::string& zipPath, const std::string& dirpath)
+{
+	FileUtils::getInstance()->removeFile(zipPath);
+	if(success)
+	{
+		_remoteDataInitialised = true;
+		parseFile(languageID, "strings");
+		const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(dirpath + "errormessages.json");
+		errorMessagesDocument.Parse(fileContent.c_str());
+	}
+}
+
+void StringMgr::onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode)
+{
+	if(responseCode == 200)
+	{
+		const std::string& baseLocation = FileUtils::getInstance()->getWritablePath() + kLanguagesDir;
+		const std::string& zipLoc = baseLocation + "langs.zip";
+		FileUtils::getInstance()->writeStringToFile(fileString, zipLoc);
+		removeLocalLanguagesFiles();
+		FileZipUtil::getInstance()->asyncUnzip(zipLoc, baseLocation, "", this);
+		setLocalEtag(_langsZipDownloader->getEtag());
+		_langsZipDownloader->setDelegate(nullptr);
+		_langsZipDownloader = nullptr;
+	}
+	else if(responseCode == 304)
+	{
+		const std::string& baseLocation = FileUtils::getInstance()->getWritablePath() + kLanguagesDir;
+		const std::vector<std::string>& langsFolders = DirectorySearcher::getInstance()->getFoldersInDirectory(baseLocation);
+		if(langsFolders.size() > 0)
+		{
+			_remoteDataInitialised = true;
+			parseFile(languageID, "strings");
+			const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(baseLocation + "errormessages.json");
+			errorMessagesDocument.Parse(fileContent.c_str());
+		}
+	}
 }
   
 }

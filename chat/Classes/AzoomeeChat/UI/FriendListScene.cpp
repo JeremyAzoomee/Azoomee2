@@ -213,7 +213,7 @@ void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
     
     //childAvatar->setScale(0.25f);
     
-    auto childInfoLabel = ui::Text::create(displayName, Azoomee::Style::Font::Regular, 48);
+    auto childInfoLabel = ui::Text::create(displayName, Azoomee::Style::Font::Regular(), 48);
     childInfoLabel->setColor(Style::Color::white);
     childInfoLabel->setLayoutParameter(CreateCenterVerticalLinearLayoutParam());
     childInfoLabel->setSizeType(ui::Widget::SizeType::ABSOLUTE);

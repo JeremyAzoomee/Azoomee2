@@ -70,7 +70,7 @@ void VodacomOnboardingLoginLayer::onEnter()
 	buttonHolder->addChild(_closeButton);
 	buttonHolder->addChild(_backButton);
 	
-	Label* title = Label::createWithTTF(_("Log in"), Style::Font::Regular, 96);
+	Label* title = Label::createWithTTF(_("Log in"), Style::Font::Regular(), 96);
 	title->setTextColor(Color4B::BLACK);
 	title->setHorizontalAlignment(TextHAlignment::CENTER);
 	title->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -82,7 +82,7 @@ void VodacomOnboardingLoginLayer::onEnter()
 	titleHolder->addChild(title);
 	_verticalLayout->addChild(titleHolder);
 	
-	Label* inputTitle = Label::createWithTTF(_("Email address"), Style::Font::Regular, 64);
+	Label* inputTitle = Label::createWithTTF(_("Email address"), Style::Font::Regular(), 64);
 	inputTitle->setTextColor(Color4B::BLACK);
 	inputTitle->setHorizontalAlignment(TextHAlignment::CENTER);
 	inputTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -99,7 +99,7 @@ void VodacomOnboardingLoginLayer::onEnter()
 	_emailInput->setDelegate(this);
 	_emailInput->setText(_flowData->getEmail());
 	
-	Label* emailError = Label::createWithTTF(_("*Invalid email address"), Style::Font::Regular, 53);
+	Label* emailError = Label::createWithTTF(_("*Invalid email address"), Style::Font::Regular(), 53);
 	emailError->setTextColor(Color4B(Style::Color::watermelon));
 	emailError->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
 	emailError->setNormalizedPosition(Vec2(0.1f,-0.1));
@@ -113,7 +113,7 @@ void VodacomOnboardingLoginLayer::onEnter()
 	inputLayout->addChild(_emailInput);
 	_verticalLayout->addChild(inputLayout);
 	
-	Label* pwInputTitle = Label::createWithTTF(_("Password"), Style::Font::Regular, 64);
+	Label* pwInputTitle = Label::createWithTTF(_("Password"), Style::Font::Regular(), 64);
 	pwInputTitle->setTextColor(Color4B::BLACK);
 	pwInputTitle->setHorizontalAlignment(TextHAlignment::CENTER);
 	pwInputTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -130,7 +130,7 @@ void VodacomOnboardingLoginLayer::onEnter()
 	_passwordInput->setDelegate(this);
 	_passwordInput->setText(_flowData->getPassword());
 	
-	Label* pwError = Label::createWithTTF(_("*Invalid password"), Style::Font::Regular, 53);
+	Label* pwError = Label::createWithTTF(_("*Invalid password"), Style::Font::Regular(), 53);
 	pwError->setTextColor(Color4B(Style::Color::watermelon));
 	pwError->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
 	pwError->setNormalizedPosition(Vec2(0.1f,-0.1));
@@ -154,7 +154,7 @@ void VodacomOnboardingLoginLayer::onEnter()
 	});
 	_verticalLayout->addChild(_confirmButton);
 	
-	Label* confirmText = Label::createWithTTF(_("Confirm"), Style::Font::Regular, _confirmButton->getContentSize().height * 0.5f);
+	Label* confirmText = Label::createWithTTF(_("Confirm"), Style::Font::Regular(), _confirmButton->getContentSize().height * 0.5f);
 	confirmText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	confirmText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	confirmText->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -162,11 +162,11 @@ void VodacomOnboardingLoginLayer::onEnter()
 	confirmText->setDimensions(_confirmButton->getContentSize().width * 0.8f, _confirmButton->getContentSize().height);
 	_confirmButton->addChild(confirmText);
 	
-	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular, 64);
+	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular(), 64);
 	needHelp->setTextColor(Color4B(Style::Color::skyBlue));
 	needHelp->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	needHelp->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
-	Label* contactUs = Label::createWithTTF(_("Contact us"), Style::Font::Regular, 64);
+	Label* contactUs = Label::createWithTTF(_("Contact us"), Style::Font::Regular(), 64);
 	contactUs->setTextColor(Color4B(Style::Color::skyBlue));
 	contactUs->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
 	contactUs->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
@@ -197,6 +197,17 @@ void VodacomOnboardingLoginLayer::onEnter()
 
 void VodacomOnboardingLoginLayer::onConfirmPressed()
 {
+	auto emailErrorMsg = _emailInput->getChildByName("error");
+	if(emailErrorMsg)
+	{
+		emailErrorMsg->setVisible(!_emailInput->inputIsValid());
+	}
+	auto pwErrorMsg = _passwordInput->getChildByName("error");
+	if(pwErrorMsg)
+	{
+		pwErrorMsg->setVisible(!_passwordInput->inputIsValid());
+	}
+	
 	if(_delegate && _emailInput->inputIsValid() && _passwordInput->inputIsValid())
 	{
 		_flowData->setEmail(_emailInput->getText());

@@ -37,14 +37,16 @@ void SettingsSupportPage::onEnter()
     this->addChild(_headerBanner);
     
     _supportBox = ui::Layout::create();
-    _supportBox->setContentSize(Size(this->getContentSize().width - 100, this->getContentSize().height * 0.45f));
+    _supportBox->setContentSize(Size(this->getContentSize().width - 100, 0));
     _supportBox->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
     _supportBox->setBackGroundImage("res/settings/rounded_rect.png");
     _supportBox->setBackGroundImageScale9Enabled(true);
 	_supportBox->setLayoutType(ui::Layout::Type::VERTICAL);
     this->addChild(_supportBox);
 	
-	Label* title = Label::createWithTTF(_("Need some help?"), Style::Font::Medium, 75);
+	float backgroundHeight = 0;
+	
+	Label* title = Label::createWithTTF(_("Need some help?"), Style::Font::Medium(), 75);
 	title->setWidth(_supportBox->getContentSize().width * 0.8f);
 	title->setHorizontalAlignment(TextHAlignment::CENTER);
 	title->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -57,7 +59,9 @@ void SettingsSupportPage::onEnter()
 	titleHolder->addChild(title);
 	_supportBox->addChild(titleHolder);
 	
-	Label* support = Label::createWithTTF(_("Visit our support page at"), Style::Font::Medium, 75);
+	backgroundHeight += 200 + titleHolder->getContentSize().height;
+	
+	Label* support = Label::createWithTTF(_("Visit our support page at"), Style::Font::Medium(), 75);
 	support->setWidth(_supportBox->getContentSize().width * 0.8f);
 	support->setHorizontalAlignment(TextHAlignment::CENTER);
 	support->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -70,7 +74,9 @@ void SettingsSupportPage::onEnter()
 	supportHolder->addChild(support);
 	_supportBox->addChild(supportHolder);
 	
-	Label* supportLink = Label::createWithTTF(_("support.azoomee.com"), Style::Font::Medium, 75);
+	backgroundHeight += 75 + supportHolder->getContentSize().height;
+	
+	Label* supportLink = Label::createWithTTF(_("support.azoomee.com"), Style::Font::Medium(), 75);
 	supportLink->setHorizontalAlignment(TextHAlignment::CENTER);
 	supportLink->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	supportLink->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -93,7 +99,9 @@ void SettingsSupportPage::onEnter()
 	});
 	_supportBox->addChild(supportLinkHolder);
 	
-	Label* orText = Label::createWithTTF(_("Or"), Style::Font::Medium, 75);
+	backgroundHeight += 25 + supportLinkHolder->getContentSize().height;
+	
+	Label* orText = Label::createWithTTF(_("Or"), Style::Font::Medium(), 75);
 	orText->setWidth(_supportBox->getContentSize().width * 0.8f);
 	orText->setHorizontalAlignment(TextHAlignment::CENTER);
 	orText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -106,7 +114,9 @@ void SettingsSupportPage::onEnter()
 	orTextHolder->addChild(orText);
 	_supportBox->addChild(orTextHolder);
 	
-	Label* contact = Label::createWithTTF(_("Contact us directly at"), Style::Font::Medium, 75);
+	backgroundHeight += 75 + orTextHolder->getContentSize().height;
+	
+	Label* contact = Label::createWithTTF(_("Contact us directly at"), Style::Font::Medium(), 75);
 	contact->setWidth(_supportBox->getContentSize().width * 0.8f);
 	contact->setHorizontalAlignment(TextHAlignment::CENTER);
 	contact->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -119,7 +129,9 @@ void SettingsSupportPage::onEnter()
 	contactHolder->addChild(contact);
 	_supportBox->addChild(contactHolder);
 	
-	Label* contactLink = Label::createWithTTF(_("help@azoomee.com"), Style::Font::Medium, 75);
+	backgroundHeight += 75 + contactHolder->getContentSize().height;
+	
+	Label* contactLink = Label::createWithTTF(_("help@azoomee.com"), Style::Font::Medium(), 75);
 	contactLink->setHorizontalAlignment(TextHAlignment::CENTER);
 	contactLink->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	contactLink->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -141,6 +153,10 @@ void SettingsSupportPage::onEnter()
 	});
 	contactLinkHolder->addChild(contactLink);
 	_supportBox->addChild(contactLinkHolder);
+	
+	backgroundHeight += 25 + contactHolder->getContentSize().height + 200;
+	
+	_supportBox->setContentSize(Size(_supportBox->getContentSize().width, backgroundHeight));
 	
     Super::onEnter();
 }

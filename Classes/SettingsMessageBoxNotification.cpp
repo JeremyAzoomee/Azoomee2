@@ -19,7 +19,7 @@ void SettingsMessageBoxNotification::onEnter()
 	
 	_messageBox->setContentSize(Size(_visibleSize.width - 100, _visibleSize.height * 0.27f));
 	
-	_heading = Label::createWithTTF(_headingStr, Style::Font::Medium, 91);
+	_heading = Label::createWithTTF(_headingStr, Style::Font::Medium(), 91);
 	_heading->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	_heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_heading->setWidth(_messageBox->getContentSize().width * 0.75f);

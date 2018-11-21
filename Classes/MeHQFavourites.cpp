@@ -52,7 +52,7 @@ void MeHQFavourites::onEnter()
 	icon->setAnchorPoint(Vec2(1.5f,0.35f));
 	icon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	
-    ui::Text* heading = ui::Text::create(_("MY FAVOURITES"), Style::Font::Regular, 75);
+    ui::Text* heading = ui::Text::create(_("MY FAVOURITES"), Style::Font::Regular(), 75);
     heading->setTextHorizontalAlignment(TextHAlignment::CENTER);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setContentSize(Size(visibleSize.width, spaceAboveCarousel));

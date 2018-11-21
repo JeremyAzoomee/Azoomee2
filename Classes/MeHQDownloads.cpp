@@ -61,12 +61,25 @@ bool MeHQDownloads::init()
 	icon->setAnchorPoint(Vec2(1.5f,0.35f));
 	icon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	
-    ui::Text* heading = ui::Text::create((gameList.size() > 0) ? _("AVAILABLE OFFLINE") : _("MY DOWNLOADS"), Style::Font::Regular, 75);
+	Label* headingLabel = Label::createWithTTF((gameList.size() > 0) ? _("AVAILABLE OFFLINE") : _("MY DOWNLOADS"), Style::Font::Regular(), 75);
+	headingLabel->setTextColor(Color4B::WHITE);
+	headingLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+	headingLabel->setVerticalAlignment(TextVAlignment::TOP);
+	headingLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+	headingLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+	float widthLimit = visibleSize.width - (3.0f * icon->getContentSize().width);
+	if(headingLabel->getContentSize().width > widthLimit)
+	{
+		headingLabel->setWidth(widthLimit);
+	}
+	
+	ui::Layout* heading = ui::Layout::create();
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(icon->getContentSize().width* 0.75f,0,0,50)));
+    heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(icon->getContentSize().width* 0.75f,0,0,0)));
     heading->setContentSize(Size(visibleSize.width, spaceAboveCarousel));
     this->addChild(heading);
-    heading->addChild(icon);
+    headingLabel->addChild(icon);
+	heading->addChild(headingLabel);
     
     if(gameList.size() > 0)
     {
@@ -226,7 +239,7 @@ void MeHQDownloads::buildEmptyCarousel()
     
     this->addChild(carouselLayer);
     
-    Label* heading = Label::createWithTTF(_("When you play games they'll become available offline."), Style::Font::Regular, 80);
+    Label* heading = Label::createWithTTF(_("When you play games they'll become available offline."), Style::Font::Regular(), 80);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
     heading->setHorizontalAlignment(TextHAlignment::CENTER);

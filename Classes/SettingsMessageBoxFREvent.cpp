@@ -29,7 +29,7 @@ void SettingsMessageBoxFREvent::onEnter()
     _closeButton->addTouchEventListener(CC_CALLBACK_2(SettingsMessageBox::onButtonPressed, this));
     _messageBox->addChild(_closeButton);
     
-    _heading = Label::createWithTTF("", Style::Font::Medium, 91);
+    _heading = Label::createWithTTF("", Style::Font::Medium(), 91);
     _heading->setTextColor(Color4B::BLACK);
     _heading->setHorizontalAlignment(TextHAlignment::CENTER);
     _heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
@@ -38,7 +38,7 @@ void SettingsMessageBoxFREvent::onEnter()
 	_heading->setDimensions(messageBoxSize.width * 0.75f, messageBoxSize.height * 0.1f);
     _messageBox->addChild(_heading);
     
-    _subHeading = Label::createWithTTF("", Style::Font::Medium, 59);
+    _subHeading = Label::createWithTTF("", Style::Font::Medium(), 59);
     _subHeading->setTextColor(Color4B::BLACK);
     _subHeading->setHorizontalAlignment(TextHAlignment::CENTER);
     _subHeading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
@@ -47,7 +47,7 @@ void SettingsMessageBoxFREvent::onEnter()
 	_subHeading->setDimensions(messageBoxSize.width * 0.75f, messageBoxSize.height * 0.19f);
     _messageBox->addChild(_subHeading);
     
-    _textInputHeading = Label::createWithTTF("", Style::Font::Medium, 59);
+    _textInputHeading = Label::createWithTTF("", Style::Font::Medium(), 59);
     _textInputHeading->setTextColor(Color4B::BLACK);
     _textInputHeading->setHorizontalAlignment(TextHAlignment::CENTER);
     _textInputHeading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
@@ -72,7 +72,7 @@ void SettingsMessageBoxFREvent::onEnter()
     _sendButton->setTouchEnabled(_textInput->inputIsValid());
     _messageBox->addChild(_sendButton);
     
-    Label* sendLabel = Label::createWithTTF(_("Send"), Style::Font::Medium, 75);
+    Label* sendLabel = Label::createWithTTF(_("Send"), Style::Font::Medium(), 75);
     sendLabel->setTextColor(Color4B::WHITE);
     sendLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     sendLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);

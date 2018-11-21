@@ -40,7 +40,7 @@ private:
     
     cocos2d::Label* _senderText = nullptr;
     cocos2d::Label* _recipientText = nullptr;
-    cocos2d::Label* _bodyText = nullptr;
+    cocos2d::Sprite* _arrowIcon = nullptr;
     
 public:
     

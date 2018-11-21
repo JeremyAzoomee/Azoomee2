@@ -36,7 +36,7 @@ void LanguageListItem::onEnter()
 	_flag->ignoreContentAdaptWithSize(false);
 	this->addChild(_flag);
 	
-	_languageText = Label::createWithSystemFont(_language, Style::Font::MediumSystemName, 91);
+	_languageText = Label::createWithSystemFont(_language, Style::Font::Medium(), 91);
 	_languageText->setTextColor(Color4B(Style::Color::battleshipGrey));
 	_languageText->setPosition(Vec2(_flag->getContentSize().width * 2.0f, contentSize.height / 2.0f));
 	_languageText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);

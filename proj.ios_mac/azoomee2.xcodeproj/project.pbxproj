@@ -142,6 +142,7 @@
 		921A26BB217DFB55005C8C41 /* VodacomMessageBoxExitFlow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A26BA217DFB54005C8C41 /* VodacomMessageBoxExitFlow.cpp */; };
 		921A26BD217E0A91005C8C41 /* VodacomMessageBoxNotification.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A26BC217E0A91005C8C41 /* VodacomMessageBoxNotification.cpp */; };
 		921A26BF217E1653005C8C41 /* VodacomMessageBoxInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A26BE217E1653005C8C41 /* VodacomMessageBoxInfo.cpp */; };
+		921C75A8218B08D800EB93D6 /* LanguageSelectScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921C75A7218B08D800EB93D6 /* LanguageSelectScene.cpp */; };
 		9220EAD2200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EAD1200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp */; };
 		9220EAD5200F77E200BD7A90 /* SignUpFlowController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EAD4200F77E200BD7A90 /* SignUpFlowController.cpp */; };
 		9220EAD82010C07D00BD7A90 /* IAPFlowController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EAD72010C07D00BD7A90 /* IAPFlowController.cpp */; };
@@ -561,6 +562,8 @@
 		921A26BA217DFB54005C8C41 /* VodacomMessageBoxExitFlow.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VodacomMessageBoxExitFlow.cpp; sourceTree = "<group>"; };
 		921A26BC217E0A91005C8C41 /* VodacomMessageBoxNotification.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VodacomMessageBoxNotification.cpp; sourceTree = "<group>"; };
 		921A26BE217E1653005C8C41 /* VodacomMessageBoxInfo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VodacomMessageBoxInfo.cpp; sourceTree = "<group>"; };
+		921C75A22189DF5300EB93D6 /* LanguageSelectScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LanguageSelectScene.h; sourceTree = "<group>"; };
+		921C75A7218B08D800EB93D6 /* LanguageSelectScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LanguageSelectScene.cpp; sourceTree = "<group>"; };
 		9220EACA200F5AF600BD7A90 /* DynamicNodeFlowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DynamicNodeFlowController.h; sourceTree = "<group>"; };
 		9220EAD1200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeFlowController.cpp; sourceTree = "<group>"; };
 		9220EAD3200F64A200BD7A90 /* SignUpFlowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignUpFlowController.h; sourceTree = "<group>"; };
@@ -1505,6 +1508,8 @@
 			children = (
 				D11313491E337D3A00E2C033 /* IntroVideoScene.h */,
 				028DDEB4206CFB69006D7EC5 /* IntroVideoScene.cpp */,
+				921C75A22189DF5300EB93D6 /* LanguageSelectScene.h */,
+				921C75A7218B08D800EB93D6 /* LanguageSelectScene.cpp */,
 			);
 			name = Intro;
 			sourceTree = "<group>";
@@ -1561,13 +1566,13 @@
 			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "azoomee2-mobile" */;
 			buildPhases = (
 				029B9A972063D20700D98EF2 /* Copy WebCommAPI from separate repository */,
+				92CD187D20D92B0600E22FB1 /* copy CTA zip from app-content-dynamicnode */,
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
 				43BAE6511E26568700EB8DB0 /* Fabric */,
 				30647A941F13B53600A935C9 /* Carthage Frameworks */,
 				02FFF51A2012197E00111E7B /* Embed App Extensions */,
-				92CD187D20D92B0600E22FB1 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1821,7 +1826,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Check carthage command exists\ncommand -v carthage >/dev/null 2>&1 || { echo >&2 \"Error! carthage not found! Tip - Install using: 'brew install carthage'\"; exit 1; }\n\ncarthage copy-frameworks";
+			shellScript = "# Check carthage command exists\ncommand -v carthage >/dev/null 2>&1 || { echo >&2 \"Error! carthage not found! Tip - Install using: 'brew install carthage'\"; exit 1; }\n\ncarthage copy-frameworks\n";
 			showEnvVarsInLog = 0;
 		};
 		43BAE6511E26568700EB8DB0 /* Fabric */ = {
@@ -1836,15 +1841,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PROJECT_DIR}/Fabric.framework/run\" 3885c5b5aa7470cf4b9263fce3dbf7d6f3c2afc8 79ec75f3c0ed8eccb593d245acdbc2351770496a76f8da2fd96245095eba920c";
+			shellScript = "\"${PROJECT_DIR}/Fabric.framework/run\" 3885c5b5aa7470cf4b9263fce3dbf7d6f3c2afc8 79ec75f3c0ed8eccb593d245acdbc2351770496a76f8da2fd96245095eba920c\n";
 		};
-		92CD187D20D92B0600E22FB1 /* ShellScript */ = {
+		92CD187D20D92B0600E22FB1 /* copy CTA zip from app-content-dynamicnode */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "copy CTA zip from app-content-dynamicnode";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1980,6 +1986,7 @@
 				929A9D57206CF9F1009B323D /* FavouritesManager.cpp in Sources */,
 				A19759841DE4931200FEB03C /* HQSceneElement.cpp in Sources */,
 				9220EAD82010C07D00BD7A90 /* IAPFlowController.cpp in Sources */,
+				921C75A8218B08D800EB93D6 /* LanguageSelectScene.cpp in Sources */,
 				921A25FA2164D08B005C8C41 /* SettingsMessageBoxNotification.cpp in Sources */,
 				921A26BD217E0A91005C8C41 /* VodacomMessageBoxNotification.cpp in Sources */,
 				927DF6EB20B2BD010080DFEF /* MeHQMessages.cpp in Sources */,

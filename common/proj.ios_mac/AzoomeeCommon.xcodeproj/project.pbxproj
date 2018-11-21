@@ -147,6 +147,7 @@
 		434A55E41F29F9C800740601 /* MessageBoxLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434A55E21F29F9C800740601 /* MessageBoxLayer.cpp */; };
 		434A55EB1F2A40EE00740601 /* MessageBoxChatResetModerationLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434A55E91F2A40EE00740601 /* MessageBoxChatResetModerationLayer.cpp */; };
 		436007891F22120C000ECBA4 /* ModalWebview.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 436007871F22120C000ECBA4 /* ModalWebview.cpp */; };
+		921C75AA2193225D00EB93D6 /* Style.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921C75A92193225C00EB93D6 /* Style.cpp */; };
 		9220E9C11FFE549500BD7A90 /* AnalyticsProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220E9C01FFE549500BD7A90 /* AnalyticsProperties.cpp */; };
 		9220EBB92021FC9300BD7A90 /* TimeFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EBB82021FC9300BD7A90 /* TimeFunctions.cpp */; };
 		9220EC6A203313CE00BD7A90 /* ActionBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EC69203313CE00BD7A90 /* ActionBuilder.cpp */; };
@@ -451,6 +452,7 @@
 		436007871F22120C000ECBA4 /* ModalWebview.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModalWebview.cpp; sourceTree = "<group>"; };
 		436007881F22120C000ECBA4 /* ModalWebview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModalWebview.h; sourceTree = "<group>"; };
 		4360078A1F2232CC000ECBA4 /* Urls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Urls.h; sourceTree = "<group>"; };
+		921C75A92193225C00EB93D6 /* Style.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Style.cpp; sourceTree = "<group>"; };
 		9220E9BF1FFE44C800BD7A90 /* AnalyticsProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnalyticsProperties.h; sourceTree = "<group>"; };
 		9220E9C01FFE549500BD7A90 /* AnalyticsProperties.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AnalyticsProperties.cpp; sourceTree = "<group>"; };
 		9220EBB72021F9E900BD7A90 /* TimeFunctions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TimeFunctions.h; sourceTree = "<group>"; };
@@ -715,6 +717,7 @@
 				305966971ECCAF76009A7130 /* Scene.cpp */,
 				305966981ECCAF76009A7130 /* Scene.h */,
 				305966801ECC6987009A7130 /* Style.h */,
+				921C75A92193225C00EB93D6 /* Style.cpp */,
 				9271D842204829C700370120 /* LazyLoadingButton.h */,
 				9271D8442048311A00370120 /* LazyLoadingButton.cpp */,
 				9271D84320482E9700370120 /* LazyLoadButtonOnScreenChecker.h */,
@@ -1215,6 +1218,7 @@
 				434A55EB1F2A40EE00740601 /* MessageBoxChatResetModerationLayer.cpp in Sources */,
 				30DD5EF01E96860C0084305B /* ConfigStorage.cpp in Sources */,
 				4349C8271EA8ADEF00FE964B /* MPCATransform3DToNSDictionaryValueTransformer.m in Sources */,
+				921C75AA2193225D00EB93D6 /* Style.cpp in Sources */,
 				4349C8441EA8ADEF00FE964B /* MPSwizzler.m in Sources */,
 				4349C8241EA8ADEF00FE964B /* MPABTestDesignerTweakResponseMessage.m in Sources */,
 				30DD5ED71E965E060084305B /* AnalyticsSingleton.cpp in Sources */,

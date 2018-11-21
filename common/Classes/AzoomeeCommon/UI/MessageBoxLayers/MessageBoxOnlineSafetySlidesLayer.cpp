@@ -64,18 +64,18 @@ void MessageBoxOnlineSafetySlidesLayer::addUIObjects()
 {
     //-------------MAIN TITLE --------------
     if(isParent)
-        titleLabel = createLabelWith(_("Keeping your family safe online"), Style::Font::Regular, Style::Color::black, 70);
+        titleLabel = createLabelWith(_("Keeping your family safe online"), Style::Font::Regular(), Style::Color::black, 70);
     else
-        titleLabel = createLabelWith("", Style::Font::Regular, Style::Color::black, 5);
+        titleLabel = createLabelWith("", Style::Font::Regular(), Style::Color::black, 5);
     
     //------------SLIDE TITLE--------------------
-    slideTitleLabel = createLabelWith(_(StringUtils::format("%s%d", slideTitle.c_str(),currentSlideNumber)), Style::Font::Bold, Style::Color::safetySlideTitleColor, titleFontSize);
+    slideTitleLabel = createLabelWith(_(StringUtils::format("%s%d", slideTitle.c_str(),currentSlideNumber)), Style::Font::Bold(), Style::Color::safetySlideTitleColor, titleFontSize);
     
     //-----------SLIDE IMAGE--------------------
     mainImage = Sprite::create(StringUtils::format("res/onlineSafetySlides/Oomees_SettingsPage-0%d.png",currentSlideNumber));
     
     //-----------SLIDE MAIN TEXT--------------------
-    mainTextLabel = createLabelWith(_(StringUtils::format("%s%d", slideMainText.c_str(),currentSlideNumber)), Style::Font::Regular, Style::Color::black, mainTextFontSize);
+    mainTextLabel = createLabelWith(_(StringUtils::format("%s%d", slideMainText.c_str(),currentSlideNumber)), Style::Font::Regular(), Style::Color::black, mainTextFontSize);
     mainTextLabel->setLineSpacing(textLineSpacing);
     
     //-----------SLIDE NATVIATION--------------------

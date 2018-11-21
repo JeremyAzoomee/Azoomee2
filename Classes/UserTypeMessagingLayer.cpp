@@ -51,29 +51,37 @@ void UserTypeMessagingLayer::onEnter()
     {
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
+#ifdef ALLOW_UNPAID_SIGNUP
+			DynamicNodeHandler::getInstance()->startSignupFlow();
+#else
             DynamicNodeHandler::getInstance()->startIAPFlow();
+#endif
         }
     });
 	
 #ifdef VODACOM_BUILD
-	_startTrialLabel = Label::createWithTTF(_("Unlock everything"), Style::Font::Regular, _startTrialButton->getContentSize().height * ( is18x9 ? 0.35 : 0.4 ));
+	_startTrialLabel = Label::createWithTTF(_("Unlock everything"), Style::Font::Regular(), _startTrialButton->getContentSize().height * ( is18x9 ? 0.35 : 0.4 ));
 #else
-    _startTrialLabel = Label::createWithTTF(_("Start 7 Day Free Trial"), Style::Font::Regular, _startTrialButton->getContentSize().height * ( is18x9 ? 0.35 : 0.4 ));
+    _startTrialLabel = Label::createWithTTF(_("Start 7 Day Free Trial"), Style::Font::Regular(), _startTrialButton->getContentSize().height * ( is18x9 ? 0.35 : 0.4 ));
 #endif
     _startTrialLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _startTrialLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _startTrialLabel->setTextColor(Color4B(246,187,66,255));
+	_startTrialLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+	_startTrialLabel->setVerticalAlignment(TextVAlignment::CENTER);
+	_startTrialLabel->setDimensions(_startTrialButton->getContentSize().width - 160, _startTrialButton->getContentSize().height * 0.8f);
+	_startTrialLabel->setOverflow(Label::Overflow::SHRINK);
     _startTrialButton->addChild(_startTrialLabel);
     
     this->addChild(_startTrialButton);
     
     _signInButton = ui::Button::create("res/artapp/white_bg.png");
-    _signInButton->setContentSize(Size(this->getContentSize().width * 0.2f, this->getContentSize().height * 0.65f));
+    _signInButton->setContentSize(Size(this->getContentSize().width * 0.3f, this->getContentSize().height * 0.5f));
     _signInButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _signInButton->setNormalizedPosition(Vec2(isPortrait ? 0.85 : 0.9, 0.5));
     _signInButton->setSwallowTouches(true);
     _signInButton->setColor(Color3B(246,187,66));
-    _signInButton->ignoreContentAdaptWithSize(true);
+    _signInButton->ignoreContentAdaptWithSize(false);
     _signInButton->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType)
     {
         if(eType == ui::Widget::TouchEventType::ENDED)
@@ -81,14 +89,21 @@ void UserTypeMessagingLayer::onEnter()
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(Login));
         }
     });
-    
-    _signInLabel = Label::createWithTTF(_("Log in"), Style::Font::Regular, _signInButton->getContentSize().height * 0.4);
+	
+	const Size& signInButtonSize = _signInButton->getContentSize();
+    _signInLabel = Label::createWithTTF(_("Log in"), Style::Font::Regular(), 70);
     _signInLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _signInLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _signInLabel->setTextColor(Color4B::WHITE);
-    DrawNode* newDrawNode = DrawNode::create();
-    newDrawNode->drawRect(Vec2(0, -7), Vec2(_signInLabel->getContentSize().width, -6), Color4F::WHITE);
-    _signInLabel->addChild(newDrawNode);
+	_signInLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+	_signInLabel->setVerticalAlignment(TextVAlignment::CENTER);
+	_signInLabel->setOverflow(Label::Overflow::SHRINK);
+	const Size& signInLabelSize = _signInLabel->getContentSize();
+	DrawNode* underline = DrawNode::create();
+	float heightOffset = signInButtonSize.width < signInLabelSize.width ? 0.0f : (signInButtonSize.height - signInLabelSize.height) / 2.0f;
+	underline->drawRect(Vec2(signInButtonSize.width / 2 - MIN(signInLabelSize.width / 2, signInButtonSize.width / 2), heightOffset - 7), Vec2(signInButtonSize.width / 2 + MIN(signInLabelSize.width / 2, signInButtonSize.width / 2), heightOffset - 6), Color4F::WHITE);
+    _signInLabel->addChild(underline);
+	_signInLabel->setDimensions(signInButtonSize.width, signInButtonSize.height);
     _signInButton->addChild(_signInLabel);
     
     this->addChild(_signInButton);
@@ -110,18 +125,22 @@ void UserTypeMessagingLayer::onEnter()
     });
 	
 #ifdef VODACOM_BUILD
-	_reactivateLabel = Label::createWithTTF(_("Unlock everything"), Style::Font::Regular, _reactivateButton->getContentSize().height * 0.4);
+	_reactivateLabel = Label::createWithTTF(_("Unlock everything"), Style::Font::Regular(), _reactivateButton->getContentSize().height * 0.4);
 #else
-    _reactivateLabel = Label::createWithTTF(_("Reactivate your account"), Style::Font::Regular, _reactivateButton->getContentSize().height * 0.4);
+    _reactivateLabel = Label::createWithTTF(_("Reactivate your account"), Style::Font::Regular(), _reactivateButton->getContentSize().height * 0.4);
 #endif
     _reactivateLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _reactivateLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _reactivateLabel->setTextColor(Color4B(246,187,66,255));
+	_reactivateLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+	_reactivateLabel->setVerticalAlignment(TextVAlignment::CENTER);
+	_reactivateLabel->setDimensions(_reactivateButton->getContentSize().width - 160, _reactivateButton->getContentSize().height * 0.8f);
+	_reactivateLabel->setOverflow(Label::Overflow::SHRINK);
     _reactivateButton->addChild(_reactivateLabel);
     
     this->addChild(_reactivateButton);
     
-    _premiumLabel = Label::createWithTTF(_("Congratulations! You are now a Premium User"), Style::Font::Regular, 72);
+    _premiumLabel = Label::createWithTTF(_("Congratulations! You are now a Premium User"), Style::Font::Regular(), 72);
     _premiumLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _premiumLabel->setTextColor(Color4B::WHITE);
 	_premiumLabel->setOverflow(Label::Overflow::SHRINK);
@@ -160,21 +179,32 @@ void UserTypeMessagingLayer::repositionElements()
     
     _startTrialButton->setContentSize(Size(this->getContentSize().width * (isPortrait ? 0.65f : 0.5f), _startTrialButton->getContentSize().height));
     _startTrialButton->setNormalizedPosition(Vec2(isPortrait ? 0.35 : 0.5, 0.5));
-    _startTrialLabel->setBMFontSize(_startTrialButton->getContentSize().height * ( is18x9 ? 0.35 : 0.4 ));
+    _startTrialLabel->setDimensions(_startTrialButton->getContentSize().width - 160, _startTrialButton->getContentSize().height * 0.7f);
     
-    _signInButton->setContentSize(Size(this->getContentSize().width * 0.2f, this->getContentSize().height * 0.65f));
+    _signInButton->setContentSize(Size(this->getContentSize().width * 0.3f, this->getContentSize().height * 0.5f));
     _signInButton->setNormalizedPosition(Vec2(isPortrait ? 0.85 : 0.9, 0.5));
-    _signInLabel->setBMFontSize(_signInButton->getContentSize().height * 0.4);
-    _signInLabel->removeAllChildren();
-    DrawNode* newDrawNode = DrawNode::create();
-    newDrawNode->drawRect(Vec2(0, -7), Vec2(_signInLabel->getContentSize().width, -6), Color4F::WHITE);
-    _signInLabel->addChild(newDrawNode);
+	_signInLabel->removeFromParent();
+	const Size& signInButtonSize = _signInButton->getContentSize();
+	_signInLabel = Label::createWithTTF(_("Log in"), Style::Font::Regular(), 70);
+	_signInLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	_signInLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	_signInLabel->setTextColor(Color4B::WHITE);
+	_signInLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+	_signInLabel->setVerticalAlignment(TextVAlignment::CENTER);
+	const Size& signInLabelSize = _signInLabel->getContentSize();
+	DrawNode* underline = DrawNode::create();
+	float heightOffset = signInButtonSize.width < signInLabelSize.width ? 0.0f : (signInButtonSize.height - signInLabelSize.height) / 2.0f;
+	underline->drawRect(Vec2(signInButtonSize.width / 2 - MIN(signInLabelSize.width / 2, signInButtonSize.width / 2), heightOffset - 7), Vec2(signInButtonSize.width / 2 + MIN(signInLabelSize.width / 2, signInButtonSize.width / 2), heightOffset - 6), Color4F::WHITE);
+	_signInLabel->addChild(underline);
+	_signInLabel->setDimensions(signInButtonSize.width, signInButtonSize.height);
+	_signInLabel->setOverflow(Label::Overflow::SHRINK);
+	_signInButton->addChild(_signInLabel);
     
     _reactivateButton->setContentSize(Size(this->getContentSize().width * (isPortrait ? (is18x9 ? 0.85 : 0.75f) : 0.5f), _reactivateButton->getContentSize().height));
     _reactivateButton->setNormalizedPosition(Vec2(isPortrait ? 0.5 : 0.5, 0.5));
-    _reactivateLabel->setBMFontSize(_reactivateButton->getContentSize().height * 0.4);
+    _reactivateLabel->setDimensions(_reactivateButton->getContentSize().width - 160, _reactivateButton->getContentSize().height * 0.7f);
     
-    _premiumLabel->setString(_("Congratulations! You are now a Premium User"));
+    _premiumLabel->setDimensions(this->getContentSize().width * 0.8f, this->getContentSize().height * 0.8f);
 }
 
 NS_AZOOMEE_END

@@ -90,7 +90,7 @@ void EditAccountLayer::onEnter()
     _displayNameLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _nameLayout->addChild(_displayNameLayout);
     
-    _nameText = ui::Text::create(ParentDataProvider::getInstance()->getParentDisplayName(), Style::Font::Medium, 107);
+    _nameText = ui::Text::create(ParentDataProvider::getInstance()->getParentDisplayName(), Style::Font::Medium(), 107);
     _nameText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _nameText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _nameText->setTextColor(Color4B::BLACK);
@@ -112,7 +112,7 @@ void EditAccountLayer::onEnter()
     lowestY -= (_nameLayout->getContentSize().height + 80);
     
     const std::string& username = ParentDataProvider::getInstance()->getParentEmail();
-    _emailText = ui::Text::create(username, Style::Font::Medium, 59);
+    _emailText = ui::Text::create(username, Style::Font::Medium(), 59);
     _emailText->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,40,0,0)));
     _emailText->setTextColor(Color4B::BLACK);
     this->addChild(_emailText);
@@ -126,10 +126,13 @@ void EditAccountLayer::onEnter()
     
     lowestY -= (pinEditboxLayout->getContentSize().height + 35);
     
-    Label* pinText = Label::createWithTTF(_("PIN"), Style::Font::Medium, 59);
+    Label* pinText = Label::createWithTTF(_("PIN"), Style::Font::Medium(), 59);
     pinText->setTextColor(Color4B(Style::Color::battleshipGrey));
-    pinText->setHorizontalAlignment(TextHAlignment::RIGHT);
-    pinText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
+	pinText->setHorizontalAlignment(TextHAlignment::RIGHT);
+	pinText->setVerticalAlignment(TextVAlignment::CENTER);
+	pinText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
+	pinText->setOverflow(Label::Overflow::SHRINK);
+	pinText->setDimensions(pinEditboxLayout->getContentSize().width * 0.2f, 100);
     pinText->setPosition(Vec2(pinEditboxLayout->getContentSize().width * 0.225f, pinEditboxLayout->getContentSize().height / 2));
     pinEditboxLayout->addChild(pinText);
     
@@ -178,10 +181,13 @@ void EditAccountLayer::onEnter()
     
     lowestY -= passwordEditboxLayout->getContentSize().height;
     
-    Label* passwordText = Label::createWithTTF(_("Password"), Style::Font::Medium, 59);
+    Label* passwordText = Label::createWithTTF(_("Password"), Style::Font::Medium(), 59);
     passwordText->setTextColor(Color4B(Style::Color::battleshipGrey));
     passwordText->setHorizontalAlignment(TextHAlignment::RIGHT);
+	passwordText->setVerticalAlignment(TextVAlignment::CENTER);
     passwordText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
+	passwordText->setOverflow(Label::Overflow::SHRINK);
+	passwordText->setDimensions(passwordEditboxLayout->getContentSize().width * 0.2f, passwordText->getContentSize().height);
     passwordText->setPosition(Vec2(passwordEditboxLayout->getContentSize().width * 0.225f, passwordEditboxLayout->getContentSize().height / 2));
     passwordEditboxLayout->addChild(passwordText);
     
@@ -259,9 +265,9 @@ void EditAccountLayer::onEnter()
     if(ParentDataProvider::getInstance()->isPaidUser())
     {
 #ifdef VODACOM_BUILD
-        Label* subDeetsLab = Label::createWithTTF(StringUtils::format(_("Valid voucher\nExpires on %s").c_str(),ParentDataProvider::getInstance()->getBillingDate().c_str()), Style::Font::Medium, 59);
+        Label* subDeetsLab = Label::createWithTTF(StringUtils::format(_("Valid voucher\nExpires on %s").c_str(),ParentDataProvider::getInstance()->getBillingDate().c_str()), Style::Font::Medium(), 59);
 #else
-		Label* subDeetsLab = Label::createWithTTF(_("Premium Subscription"), Style::Font::Medium, 59);
+		Label* subDeetsLab = Label::createWithTTF(_("Premium Subscription"), Style::Font::Medium(), 59);
 #endif
         subDeetsLab->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
         subDeetsLab->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -295,7 +301,7 @@ void EditAccountLayer::onEnter()
 			});
 			_accountTypeLayout->addChild(manageButton);
 			
-			Label* manageLab = Label::createWithTTF(_("Manage"), Style::Font::Medium, manageButton->getContentSize().height * 0.4f);
+			Label* manageLab = Label::createWithTTF(_("Manage"), Style::Font::Medium(), manageButton->getContentSize().height * 0.4f);
 			manageLab->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 			manageLab->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 			manageLab->setTextColor(Color4B::BLACK);
@@ -306,14 +312,17 @@ void EditAccountLayer::onEnter()
     else
     {
 #ifdef VODACOM_BUILD
-		Label* subDeetsLab = Label::createWithTTF(_("Inactive Voucher\nUnlock all content by adding a voucher"), Style::Font::Medium, 59);
+		Label* subDeetsLab = Label::createWithTTF(_("Inactive Voucher\nUnlock all content by adding a voucher"), Style::Font::Medium(), 59);
 #else
-		Label* subDeetsLab = Label::createWithTTF(_("Free Account\nTap Renew for a special offer"), Style::Font::Medium, 59);
+		Label* subDeetsLab = Label::createWithTTF(_("Free Account\nTap Renew for a special offer"), Style::Font::Medium(), 59);
 #endif
         subDeetsLab->setNormalizedPosition(Vec2(0.5f,0.66f));
         subDeetsLab->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         subDeetsLab->setTextColor(Color4B::WHITE);
         subDeetsLab->setHorizontalAlignment(TextHAlignment::CENTER);
+		subDeetsLab->setVerticalAlignment(TextVAlignment::CENTER);
+		subDeetsLab->setOverflow(Label::Overflow::SHRINK);
+		subDeetsLab->setDimensions(_accountTypeLayout->getContentSize().width * 0.8f, _accountTypeLayout->getContentSize().height * 0.4f);
         _accountTypeLayout->addChild(subDeetsLab);
 		
 		ui::Button* resubButton = ui::Button::create("res/settings/sub_button.png");
@@ -328,9 +337,9 @@ void EditAccountLayer::onEnter()
 		_accountTypeLayout->addChild(resubButton);
 		
 #ifdef VODACOM_BUILD
-		Label* resubLab = Label::createWithTTF(_("Add new voucher"), Style::Font::Medium, resubButton->getContentSize().height * 0.4f);
+		Label* resubLab = Label::createWithTTF(_("Add new voucher"), Style::Font::Medium(), resubButton->getContentSize().height * 0.4f);
 #else
-		Label* resubLab = Label::createWithTTF(_("Renew subscription"), Style::Font::Medium, resubButton->getContentSize().height * 0.4f);
+		Label* resubLab = Label::createWithTTF(_("Renew subscription"), Style::Font::Medium(), resubButton->getContentSize().height * 0.4f);
 #endif
 		resubLab->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 		resubLab->setAnchorPoint(Vec2::ANCHOR_MIDDLE);

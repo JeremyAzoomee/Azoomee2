@@ -29,7 +29,7 @@ void VodacomOnboardingSuccessLayer::onEnter()
 {
 	const Size& contentSize = getContentSize();
 	
-	Label* title = Label::createWithTTF(_("Success!"), Style::Font::Regular, 96);
+	Label* title = Label::createWithTTF(_("Success!"), Style::Font::Regular(), 96);
 	title->setTextColor(Color4B::BLACK);
 	title->setHorizontalAlignment(TextHAlignment::CENTER);
 	title->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -43,7 +43,7 @@ void VodacomOnboardingSuccessLayer::onEnter()
 	
 	if(ParentDataProvider::getInstance()->isPaidUser())
 	{
-		Label* validUntil = Label::createWithTTF(_("Set up complete. Your voucher is valid until") + " " + ParentDataProvider::getInstance()->getBillingDate() , Style::Font::Regular, 64);
+		Label* validUntil = Label::createWithTTF(_("Set up complete. Your voucher has been added, valid until") + " " + ParentDataProvider::getInstance()->getBillingDate() , Style::Font::Regular(), 64);
 		validUntil->setTextColor(Color4B::BLACK);
 		validUntil->setHorizontalAlignment(TextHAlignment::CENTER);
 		validUntil->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -58,7 +58,7 @@ void VodacomOnboardingSuccessLayer::onEnter()
 	}
 	else
 	{
-		Label* subHeading = Label::createWithTTF(_("Set up complete. You’ll need to add a valid voucher later for full access."), Style::Font::Regular, 64);
+		Label* subHeading = Label::createWithTTF(_("Set up complete. You’ll need to add a valid voucher later for full access."), Style::Font::Regular(), 64);
 		subHeading->setTextColor(Color4B::BLACK);
 		subHeading->setHorizontalAlignment(TextHAlignment::CENTER);
 		subHeading->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -86,7 +86,7 @@ void VodacomOnboardingSuccessLayer::onEnter()
 	});
 	_verticalLayout->addChild(letsGoButton);
 	
-	Label* letsGoLabel = Label::createWithTTF(_("Let's go"), Style::Font::Regular, letsGoButton->getContentSize().height * 0.5f);
+	Label* letsGoLabel = Label::createWithTTF(_("Let's go"), Style::Font::Regular(), letsGoButton->getContentSize().height * 0.5f);
 	letsGoLabel->setTextColor(Color4B::WHITE);
 	letsGoLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	letsGoLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
