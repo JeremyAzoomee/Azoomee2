@@ -24,10 +24,8 @@ enum SceneNameEnum {
 	SettingsFromChildSelect,
     introVideo,
     AddChild,
-    AddChildFirstTime
-//#ifdef VODACOM_BUILD
-	,VodacomOnboarding
-//#endif
+    AddChildFirstTime,
+	VodacomOnboarding
 };
 
 class SceneManagerScene : public cocos2d::Layer

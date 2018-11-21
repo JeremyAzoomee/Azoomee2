@@ -187,7 +187,7 @@ void EditAccountLayer::onEnter()
 	passwordText->setVerticalAlignment(TextVAlignment::CENTER);
     passwordText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
 	passwordText->setOverflow(Label::Overflow::SHRINK);
-	passwordText->setDimensions(passwordEditboxLayout->getContentSize().width * 0.2f, 100);
+	passwordText->setDimensions(passwordEditboxLayout->getContentSize().width * 0.2f, passwordText->getContentSize().height);
     passwordText->setPosition(Vec2(passwordEditboxLayout->getContentSize().width * 0.225f, passwordEditboxLayout->getContentSize().height / 2));
     passwordEditboxLayout->addChild(passwordText);
     

@@ -25,6 +25,8 @@ const std::vector<std::pair<cocos2d::Color4B, cocos2d::Color4B>> LanguageSelectS
 	{Color4B(206,3,8,255), Color4B(255,74,99,255)}
 };
 
+const std::string LanguageSelectScene::kGreekLangID = "gre";
+
 bool LanguageSelectScene::init()
 {
 	if(!Super::init())
@@ -164,8 +166,8 @@ void LanguageSelectScene::addLanguageScrollView()
 	_languageScrollView->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_languageScrollView->setBounceEnabled(true);
 	_languageScrollView->setItemsMargin(isPortrait ? 150 : 100);
-	_languageScrollView->setTopPadding(is18x9 ? 0 : 100);
-	_languageScrollView->setBottomPadding(is18x9 ? 0 : 100);
+	_languageScrollView->setTopPadding(is18x9 ? 50 : 100);
+	_languageScrollView->setBottomPadding(is18x9 ? 25 : 100);
 	
 	const auto& langsData = StringMgr::kLanguageParams;
 	
@@ -199,14 +201,14 @@ void LanguageSelectScene::addLanguageScrollView()
 	if(!is18x9)
 	{
 		Sprite* verticalScrollGradientTop = Sprite::create("res/decoration/TopNavGrad.png");
-		verticalScrollGradientTop->setAnchorPoint(Vec2(0.5, 1.0));
+		verticalScrollGradientTop->setAnchorPoint(Vec2(0.5, 0.9));
 		verticalScrollGradientTop->setScaleX(langSVHolder->getContentSize().width / verticalScrollGradientTop->getContentSize().width);
 		verticalScrollGradientTop->setColor(Color3B::BLACK);
 		verticalScrollGradientTop->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
 		langSVHolder->addChild(verticalScrollGradientTop);
 		
 		Sprite* verticalScrollGradientBot = Sprite::create("res/decoration/TopNavGrad.png");
-		verticalScrollGradientBot->setAnchorPoint(Vec2(0.5, 1.0));
+		verticalScrollGradientBot->setAnchorPoint(Vec2(0.5, 0.9));
 		verticalScrollGradientBot->setRotation(180);
 		verticalScrollGradientBot->setScaleX(langSVHolder->getContentSize().width / verticalScrollGradientBot->getContentSize().width);
 		verticalScrollGradientBot->setColor(Color3B::BLACK);
@@ -224,15 +226,19 @@ cocos2d::ui::Layout* LanguageSelectScene::createLanguageButton(const LanguagePar
 	
 	Sprite* stencil = Sprite::create("res/languageSelect/Speech_Bubble_White.png");
 	stencil->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-	ClippingNode* bubble = ClippingNode::create(stencil);
-	bubble->setAlphaThreshold(0.5f);
-	bubble->setContentSize(stencil->getContentSize());
+	BlendFunc blendFunc = BlendFunc();
+	blendFunc.src = GL_ZERO;
+	blendFunc.dst = GL_ONE_MINUS_SRC_ALPHA;
+	stencil->setBlendFunc(blendFunc);
 	
 	LayerGradient* gradient = LayerGradient::create(kGradientList.at(colourIndex).first, kGradientList.at(colourIndex).second, Vec2(0.0f,1.0f));
 	gradient->setContentSize(stencil->getContentSize());
-	bubble->addChild(gradient);
+	BlendFunc blendFunc1 = BlendFunc();
+	blendFunc1.src = GL_ONE_MINUS_DST_ALPHA;
+	blendFunc1.dst = GL_DST_ALPHA;
+	gradient->setBlendFunc(blendFunc1);
 	
-	const auto& font = params._identifier == "gre" ? Style::Font::ArialRegular : Style::Font::SofiaRegular;
+	const auto& font = params._identifier == kGreekLangID ? Style::Font::ArialRegular : Style::Font::SofiaRegular;
 	
 	Label* helloText = Label::createWithTTF(params._text, font, 75);
 	helloText->setTextColor(Color4B::WHITE);
@@ -241,8 +247,9 @@ cocos2d::ui::Layout* LanguageSelectScene::createLanguageButton(const LanguagePar
 	gradient->addChild(helloText);
 	
 	ui::Layout* bubbleHolder = ui::Layout::create();
-	bubbleHolder->setContentSize(bubble->getContentSize());
-	bubbleHolder->addChild(bubble);
+	bubbleHolder->setContentSize(stencil->getContentSize());
+	bubbleHolder->addChild(stencil);
+	bubbleHolder->addChild(gradient);
 	langButton->addChild(bubbleHolder);
 	
 	Label* nameLabel = Label::createWithTTF(params._name, font, 59);

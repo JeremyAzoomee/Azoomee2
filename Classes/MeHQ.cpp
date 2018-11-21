@@ -63,7 +63,7 @@ bool MeHQ::init()
     this->addChild(_contentListView);
     
     Sprite* verticalScrollGradient = Sprite::create("res/decoration/TopNavGrad.png");
-    verticalScrollGradient->setAnchorPoint(Vec2(0.5, 1.0));
+    verticalScrollGradient->setAnchorPoint(Vec2(0.5, 0.9));
     verticalScrollGradient->setScaleX(contentSize.width / verticalScrollGradient->getContentSize().width);
     verticalScrollGradient->setColor(Color3B::BLACK);
     verticalScrollGradient->setPosition(Vec2(contentSize.width / 2, _contentListView->getContentSize().height));

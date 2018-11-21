@@ -145,12 +145,7 @@ bool NavigationLayer::init()
     }
     this->addChild(_userTypeMessagingLayer);
    
-    
-    
-    //if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
-    //{
-        createTopObjects();
-    //}
+	createTopObjects();
     
     return true;
 }
