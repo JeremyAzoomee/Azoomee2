@@ -848,4 +848,11 @@ void AnalyticsSingleton::stickerSelectedEvent(const std::string &stickerFilename
         mixPanelSendEventWithStoredProperties("artAppStickerSelected",{{"stickerCategory",splitString.at(splitString.size() - 2)},{"stickerName",splitString.at(splitString.size() - 1)}} );
     }
 }
+
+//---------------I18n events----------------------------------
+void AnalyticsSingleton::languageChangedEvent(const std::string& languageCode)
+{
+	mixPanelSendEventWithStoredProperties("languageChanged" ,{{"languageCode", languageCode}});
+}
+
 NS_AZOOMEE_END

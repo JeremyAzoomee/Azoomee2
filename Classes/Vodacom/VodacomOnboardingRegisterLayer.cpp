@@ -257,6 +257,22 @@ void VodacomOnboardingRegisterLayer::onEnter()
 
 void VodacomOnboardingRegisterLayer::onConfirmPressed()
 {
+	auto emailErrorMsg = _emailInput->getChildByName("error");
+	if(emailErrorMsg)
+	{
+		emailErrorMsg->setVisible(!_emailInput->inputIsValid());
+	}
+	auto emailConfErrorMsg = _confirmEmailInput->getChildByName("error");
+	if(emailConfErrorMsg)
+	{
+		emailConfErrorMsg->setVisible(_confirmEmailInput->getText() != _emailInput->getText());
+	}
+	auto pwErrorMsg = _passwordInput->getChildByName("error");
+	if(pwErrorMsg)
+	{
+		pwErrorMsg->setVisible(!_passwordInput->inputIsValid());
+	}
+	
 	if(_delegate && _emailInput->inputIsValid() && _passwordInput->inputIsValid() && (_emailInput->getText() == _confirmEmailInput->getText()))
 	{
 		_flowData->setEmail(_emailInput->getText());

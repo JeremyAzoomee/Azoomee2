@@ -183,6 +183,11 @@ void VodacomOnboardingPinLayer::onEnter()
 
 void VodacomOnboardingPinLayer::onConfirmPressed()
 {
+	auto errorMsg = _pinInput->getChildByName("error");
+	if(errorMsg)
+	{
+		errorMsg->setVisible(!_pinInput->inputIsValid());
+	}
 	if(_delegate && _pinInput->inputIsValid())
 	{
 		_flowData->setPin(_pinInput->getText());

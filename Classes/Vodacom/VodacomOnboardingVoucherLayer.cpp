@@ -200,6 +200,11 @@ void VodacomOnboardingVoucherLayer::onHttpRequestFailed(const std::string& reque
 
 void VodacomOnboardingVoucherLayer::onConfirmPressed()
 {
+	auto errorMsg = _voucherInput->getChildByName("error");
+	if(errorMsg)
+	{
+		errorMsg->setVisible(!_voucherInput->inputIsValid());
+	}
 	if(_delegate && _voucherInput->inputIsValid())
 	{
 		if(_flowData->getUserType() == UserType::FREE)

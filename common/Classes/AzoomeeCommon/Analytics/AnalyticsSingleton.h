@@ -183,7 +183,10 @@ public:
     
     //-------------Art app events-------------------------------
     void stickerSelectedEvent(const std::string& stickerFilename);
-    
+	
+	//-------------I18n events----------------------------------
+	void languageChangedEvent(const std::string& languageCode);
+	
 };
   
 }
