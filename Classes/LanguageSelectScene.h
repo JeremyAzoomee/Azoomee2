@@ -21,6 +21,7 @@ class LanguageSelectScene : public Azoomee::Scene
 	typedef Azoomee::Scene Super;
 private:
 	static const std::vector<std::pair<cocos2d::Color4B, cocos2d::Color4B>> kGradientList;
+	static const std::string kGreekLangID;
 	
 	cocos2d::ui::Layout* _contentLayout = nullptr;
 	cocos2d::ui::ListView* _languageScrollView = nullptr;

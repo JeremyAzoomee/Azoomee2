@@ -25,6 +25,8 @@ const std::vector<std::pair<cocos2d::Color4B, cocos2d::Color4B>> LanguageSelectS
 	{Color4B(206,3,8,255), Color4B(255,74,99,255)}
 };
 
+const std::string LanguageSelectScene::kGreekLangID = "gre";
+
 bool LanguageSelectScene::init()
 {
 	if(!Super::init())
@@ -59,12 +61,12 @@ void LanguageSelectScene::onSizeChanged()
 void LanguageSelectScene::createUI()
 {
 	const Size& contentSize = this->getContentSize();
-	const bool isPortait = contentSize.width < contentSize.height;
+	const bool isPortrait = contentSize.width < contentSize.height;
 	
 	
 	addBackground();
 	
-	float scrollHeight = contentSize.height - (isPortait ? 445 : 100);
+	float scrollHeight = contentSize.height - (isPortrait ? 445 : 100);
 	
 	_contentLayout = ui::Layout::create();
 	_contentLayout->setContentSize(contentSize);
@@ -82,12 +84,12 @@ void LanguageSelectScene::createUI()
 	title->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	
 	ui::Layout* titleHolder = ui::Layout::create();
-	titleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,200,0,0)));
+	titleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,isPortrait ? 200 : 100,0,0)));
 	titleHolder->setContentSize(title->getContentSize());
 	titleHolder->addChild(title);
 	_contentLayout->addChild(titleHolder);
 	
-	scrollHeight -= titleHolder->getContentSize().height + 200;
+	scrollHeight -= titleHolder->getContentSize().height + (isPortrait ? 200 : 100);
 	
 	addLanguageScrollView();
 	
@@ -116,6 +118,7 @@ void LanguageSelectScene::createUI()
 	scrollHeight -= _scrollButton->getContentSize().height + 100;
 	
 	_languageScrollView->setContentSize(Size(_languageScrollView->getContentSize().width, scrollHeight));
+	_languageScrollView->getParent()->setContentSize(_languageScrollView->getContentSize());
 }
 
 void LanguageSelectScene::addBackground()
@@ -153,16 +156,18 @@ void LanguageSelectScene::addLanguageScrollView()
 {
 	const Size& contentSize = _contentLayout->getContentSize();
 	bool isPortrait = contentSize.height > contentSize.width;
+	bool is18x9 = ConfigStorage::getInstance()->isDevice18x9();
 	
 	int langsPerRow = isPortrait ? 2 : 3;
 	
 	_languageScrollView = ui::ListView::create();
 	_languageScrollView->setContentSize(Size(contentSize.width * 0.8f,contentSize.height - 700));
-	_languageScrollView->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	_languageScrollView->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	_languageScrollView->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_languageScrollView->setBounceEnabled(true);
-	_languageScrollView->setItemsMargin(150);
-	_languageScrollView->setTopPadding(50);
-	_languageScrollView->setBottomPadding(50);
+	_languageScrollView->setItemsMargin(isPortrait ? 150 : 100);
+	_languageScrollView->setTopPadding(is18x9 ? 50 : 100);
+	_languageScrollView->setBottomPadding(is18x9 ? 25 : 100);
 	
 	const auto& langsData = StringMgr::kLanguageParams;
 	
@@ -189,7 +194,28 @@ void LanguageSelectScene::addLanguageScrollView()
 		_languageScrollView->pushBackCustomItem(itemRow);
 	}
 	
-	_contentLayout->addChild(_languageScrollView);
+	ui::Layout* langSVHolder = ui::Layout::create();
+	langSVHolder->setContentSize(_languageScrollView->getContentSize());
+	langSVHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	langSVHolder->addChild(_languageScrollView);
+	if(!is18x9)
+	{
+		Sprite* verticalScrollGradientTop = Sprite::create("res/decoration/TopNavGrad.png");
+		verticalScrollGradientTop->setAnchorPoint(Vec2(0.5, 0.9));
+		verticalScrollGradientTop->setScaleX(langSVHolder->getContentSize().width / verticalScrollGradientTop->getContentSize().width);
+		verticalScrollGradientTop->setColor(Color3B::BLACK);
+		verticalScrollGradientTop->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+		langSVHolder->addChild(verticalScrollGradientTop);
+		
+		Sprite* verticalScrollGradientBot = Sprite::create("res/decoration/TopNavGrad.png");
+		verticalScrollGradientBot->setAnchorPoint(Vec2(0.5, 0.9));
+		verticalScrollGradientBot->setRotation(180);
+		verticalScrollGradientBot->setScaleX(langSVHolder->getContentSize().width / verticalScrollGradientBot->getContentSize().width);
+		verticalScrollGradientBot->setColor(Color3B::BLACK);
+		verticalScrollGradientBot->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+		langSVHolder->addChild(verticalScrollGradientBot);
+	}
+	_contentLayout->addChild(langSVHolder);
 	
 }
 
@@ -200,15 +226,19 @@ cocos2d::ui::Layout* LanguageSelectScene::createLanguageButton(const LanguagePar
 	
 	Sprite* stencil = Sprite::create("res/languageSelect/Speech_Bubble_White.png");
 	stencil->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-	ClippingNode* bubble = ClippingNode::create(stencil);
-	bubble->setAlphaThreshold(0.5f);
-	bubble->setContentSize(stencil->getContentSize());
+	BlendFunc blendFunc = BlendFunc();
+	blendFunc.src = GL_ZERO;
+	blendFunc.dst = GL_ONE_MINUS_SRC_ALPHA;
+	stencil->setBlendFunc(blendFunc);
 	
 	LayerGradient* gradient = LayerGradient::create(kGradientList.at(colourIndex).first, kGradientList.at(colourIndex).second, Vec2(0.0f,1.0f));
 	gradient->setContentSize(stencil->getContentSize());
-	bubble->addChild(gradient);
+	BlendFunc blendFunc1 = BlendFunc();
+	blendFunc1.src = GL_ONE_MINUS_DST_ALPHA;
+	blendFunc1.dst = GL_DST_ALPHA;
+	gradient->setBlendFunc(blendFunc1);
 	
-	const auto& font = params._identifier == "gre" ? Style::Font::ArialRegular : Style::Font::SofiaRegular;
+	const auto& font = params._identifier == kGreekLangID ? Style::Font::ArialRegular : Style::Font::SofiaRegular;
 	
 	Label* helloText = Label::createWithTTF(params._text, font, 75);
 	helloText->setTextColor(Color4B::WHITE);
@@ -217,8 +247,9 @@ cocos2d::ui::Layout* LanguageSelectScene::createLanguageButton(const LanguagePar
 	gradient->addChild(helloText);
 	
 	ui::Layout* bubbleHolder = ui::Layout::create();
-	bubbleHolder->setContentSize(bubble->getContentSize());
-	bubbleHolder->addChild(bubble);
+	bubbleHolder->setContentSize(stencil->getContentSize());
+	bubbleHolder->addChild(stencil);
+	bubbleHolder->addChild(gradient);
 	langButton->addChild(bubbleHolder);
 	
 	Label* nameLabel = Label::createWithTTF(params._name, font, 59);

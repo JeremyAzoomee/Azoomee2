@@ -56,7 +56,7 @@ void OnlineSafetySlide::onEnter()
     _bodyText->setHorizontalAlignment(TextHAlignment::LEFT);
 	_bodyText->setVerticalAlignment(TextVAlignment::TOP);
 	_bodyText->setOverflow(Label::Overflow::SHRINK);
-    _bodyText->setDimensions(contentSize.width * 0.9f, contentSize.height * 0.45f);
+    _bodyText->setDimensions(contentSize.width * 0.9f, contentSize.height - 200 - _image->getContentSize().height - titleLayout->getContentSize().height);
     _bodyText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _bodyText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
     _bodyText->setTextColor(Color4B::BLACK);

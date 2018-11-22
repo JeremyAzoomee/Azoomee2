@@ -159,7 +159,12 @@ void RequestAdultPinLayer::addUIObjects()
     //---------- MODAL LABEL ------------
     
     enterYourPinTitle = createLabelButtonAdultPrimary(_("Please enter your PIN"));
-    enterYourPinTitle->setPosition(editBox_pin->getPositionX() + enterYourPinTitle->getContentSize().width/2, windowLayer->getContentSize().height*.66+enterYourPinTitle->getContentSize().height/2);
+	enterYourPinTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    enterYourPinTitle->setPosition(windowLayer->getContentSize().width * 0.5f, windowLayer->getContentSize().height * 0.75f);
+	enterYourPinTitle->setOverflow(Label::Overflow::SHRINK);
+	enterYourPinTitle->setHorizontalAlignment(TextHAlignment::CENTER);
+	enterYourPinTitle->setVerticalAlignment(TextVAlignment::CENTER);
+	enterYourPinTitle->setDimensions(windowLayer->getContentSize().width * 0.7f, windowLayer->getContentSize().height * 0.25f);
     windowLayer->addChild(enterYourPinTitle);
     
     //-------- CLOSE BUTTON ----------
@@ -187,8 +192,9 @@ void RequestAdultPinLayer::resizeWindowAndObjects()
     
     acceptButton->setPosition(placeHolderAcceptButton->getPosition());
     
-    enterYourPinTitle->setPosition(editBox_pin->getPositionX() + enterYourPinTitle->getContentSize().width/2, windowLayer->getContentSize().height*.66+enterYourPinTitle->getContentSize().height/2);
-    
+    enterYourPinTitle->setPosition(windowLayer->getContentSize().width * 0.5f, windowLayer->getContentSize().height * 0.75f);
+	enterYourPinTitle->setDimensions(windowLayer->getContentSize().width * 0.7f, windowLayer->getContentSize().height * 0.25f);
+	
     cancelButton->setCenterPosition(Vec2(windowLayer->getContentSize().width-cancelButton->getContentSize().width * 0.75f, windowLayer->getContentSize().height-cancelButton->getContentSize().height * 0.75f));
 }
 

@@ -14,6 +14,7 @@
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include <AzoomeeCommon/NativeShare/NativeShare.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "VodacomMessageBoxExitFlow.h"
 
 using namespace cocos2d;
@@ -866,6 +867,7 @@ void VodacomOnboardingErrorLayer::onHttpRequestSuccess(const std::string& reques
 {
 	if(requestTag == API::TagAddVoucher)
 	{
+		AnalyticsSingleton::getInstance()->vodacomOnboardingVoucherAdded(_flowData->getVoucherCode());
 		HttpRequestCreator* request = API::UpdateBillingDataRequest(ParentDataProvider::getInstance()->getLoggedInParentId(), this);
 		request->execute();
 	}

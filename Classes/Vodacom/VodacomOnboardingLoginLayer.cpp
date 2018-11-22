@@ -197,6 +197,17 @@ void VodacomOnboardingLoginLayer::onEnter()
 
 void VodacomOnboardingLoginLayer::onConfirmPressed()
 {
+	auto emailErrorMsg = _emailInput->getChildByName("error");
+	if(emailErrorMsg)
+	{
+		emailErrorMsg->setVisible(!_emailInput->inputIsValid());
+	}
+	auto pwErrorMsg = _passwordInput->getChildByName("error");
+	if(pwErrorMsg)
+	{
+		pwErrorMsg->setVisible(!_passwordInput->inputIsValid());
+	}
+	
 	if(_delegate && _emailInput->inputIsValid() && _passwordInput->inputIsValid())
 	{
 		_flowData->setEmail(_emailInput->getText());
@@ -271,6 +282,7 @@ void VodacomOnboardingLoginLayer::onHttpRequestSuccess(const std::string& reques
 	}
 	else if(requestTag == API::TagAddVoucher)
 	{
+		AnalyticsSingleton::getInstance()->vodacomOnboardingVoucherAdded(_flowData->getVoucherCode());
 		HttpRequestCreator* request = API::UpdateBillingDataRequest(ParentDataProvider::getInstance()->getLoggedInParentId(), this);
 		request->requestTag = "billingAfterVoucher";
 		request->execute();

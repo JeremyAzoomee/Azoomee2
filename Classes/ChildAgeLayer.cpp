@@ -36,7 +36,7 @@ void ChildAgeLayer::onEnter()
 	title->setDimensions(contentSize.width * 0.75f, contentSize.height * 0.15f);
     this->addChild(title);
     
-    _textInput = TextInputLayer::createWithSize(Size(400, 160), INPUT_IS_AGE);
+    _textInput = TextInputLayer::createWithSize(Size(600, 160), INPUT_IS_AGE);
     _textInput->setCenterPosition(Vec2(contentSize.width / 2.0f, contentSize.height * 0.6f));
     _textInput->setDelegate(this);
     if(_childCreator && _childCreator->getAge() > 0)

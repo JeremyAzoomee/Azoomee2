@@ -208,6 +208,17 @@ void VodacomOnboardingAddChildLayer::onEnter()
 
 void VodacomOnboardingAddChildLayer::onConfirmPressed()
 {
+	auto nameErrorMsg = _nameInput->getChildByName("error");
+	if(nameErrorMsg)
+	{
+		nameErrorMsg->setVisible(!_nameInput->inputIsValid());
+	}
+	auto ageErrorMsg = _ageInput->getChildByName("error");
+	if(ageErrorMsg)
+	{
+		ageErrorMsg->setVisible(!_ageInput->inputIsValid());
+	}
+	
 	if(_delegate && _nameInput->inputIsValid() && _ageInput->inputIsValid())
 	{
 		ChildCreatorRef childCreator = ChildCreator::create();

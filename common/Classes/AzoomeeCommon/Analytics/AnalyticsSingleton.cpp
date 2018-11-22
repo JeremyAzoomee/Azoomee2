@@ -848,4 +848,30 @@ void AnalyticsSingleton::stickerSelectedEvent(const std::string &stickerFilename
         mixPanelSendEventWithStoredProperties("artAppStickerSelected",{{"stickerCategory",splitString.at(splitString.size() - 2)},{"stickerName",splitString.at(splitString.size() - 1)}} );
     }
 }
+
+//---------------I18n events----------------------------------
+void AnalyticsSingleton::languageChangedEvent(const std::string& languageCode)
+{
+	mixPanelSendEventWithStoredProperties("languageChanged" ,{{"languageCode", languageCode}});
+}
+
+//-------------Vodacom events-------------------------------
+void AnalyticsSingleton::vodacomOnboardingFlowStartedEvent()
+{
+	mixPanelSendEventWithStoredProperties("vodacomOnboardingFlowStarted");
+}
+
+void AnalyticsSingleton::vodacomOnboardingFlowExitEvent()
+{
+	mixPanelSendEventWithStoredProperties("vodacomOnboardingFlowFinished");
+}
+void AnalyticsSingleton::vodacomOnboardingFlowMoveToScreen(const std::string& newScreen)
+{
+	mixPanelSendEventWithStoredProperties("vodacomOnboardingMoveToScreen" ,{{"newScreen", newScreen}});
+}
+void AnalyticsSingleton::vodacomOnboardingVoucherAdded(const std::string& voucherCode)
+{
+	mixPanelSendEventWithStoredProperties("vodacomOnboardingVoucherAdded" ,{{"voucherCode", voucherCode}});
+}
+
 NS_AZOOMEE_END

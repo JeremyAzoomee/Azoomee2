@@ -157,7 +157,14 @@ void DynamicNodeCreator::processFile(const rapidjson::Document& configFile)
         const rapidjson::Value& backgroundColour = configFile["backgroundColour"];
         configBackgroundColour(backgroundColour);
     }
-    
+	
+	//config frame colour
+	if(configFile.HasMember("frameColour"))
+	{
+		const rapidjson::Value& frameColour = configFile["frameColour"];
+		configFrameColour(frameColour);
+	}
+	
     //config background image
     if(configFile.HasMember("backgroundImage"))
     {
@@ -297,6 +304,7 @@ void DynamicNodeCreator::initCTANode()
     _popupFrame->setPosition(_windowSize/2);
     _popupFrame->setAnchorPoint(Vec2(0.5,0.5));
     _popupFrame->setContentSize(Size(_windowSize.width*0.75,_windowSize.height*0.67));
+	_popupFrame->setColor(Style::Color::skyBlue);
     _CTANode->addChild(_popupFrame);
     
     _closeButton = ui::Button::create();
@@ -373,6 +381,16 @@ void DynamicNodeCreator::configBackgroundColour(const rapidjson::Value &backgrou
         _bgColour->setColor(newColour);
     }
 }
+
+void DynamicNodeCreator::configFrameColour(const rapidjson::Value &frameColour)
+{
+	if(frameColour.Size() == 3 && frameColour[0].IsInt() && frameColour[1].IsInt() && frameColour[2].IsInt())
+	{
+		const Color3B& newColour = Color3B(frameColour[0].GetInt(), frameColour[1].GetInt(), frameColour[2].GetInt());
+		_popupFrame->setColor(newColour);
+	}
+}
+
 
 void DynamicNodeCreator::configBackgroundImage(const rapidjson::Value &backgroundImageData)
 {

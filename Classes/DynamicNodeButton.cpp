@@ -76,14 +76,17 @@ bool DynamicNodeButton::initWithParams(const rapidjson::Value &params, const coc
     }
     
     bool underlined = getBoolFromJson("underlined", params);
+	
+	const Color4B& buttonColour = getColor4BFromJson("buttonColour", params, Color4B::WHITE);
+	const Color4B& textColour = getColor4BFromJson("textColour", params, Color4B::BLACK);
     
-    addButtonWithParams(Size(size.x * dynamicNodeSize.width, size.y * dynamicNodeSize.height), pos, btnString, actionData, btnSprite, underlined);
+    addButtonWithParams(Size(size.x * dynamicNodeSize.width, size.y * dynamicNodeSize.height), pos, btnString, actionData, btnSprite, underlined, buttonColour, textColour);
     
     return true;
 }
 
 
-void DynamicNodeButton::addButtonWithParams(const cocos2d::Size& size, const cocos2d::Vec2& pos, const std::string& buttonText, ButtonActionDataRef buttonActionData, const std::string& btnSpriteStr, bool underlined)
+void DynamicNodeButton::addButtonWithParams(const cocos2d::Size& size, const cocos2d::Vec2& pos, const std::string& buttonText, ButtonActionDataRef buttonActionData, const std::string& btnSpriteStr, bool underlined, const cocos2d::Color4B& buttonColour, const cocos2d::Color4B& textColour)
 {
     ui::Button* button = ui::Button::create();
     const std::string& btnSpriteFile = FileUtils::getInstance()->getWritablePath() + DynamicNodeCreator::kCTADeviceImageCacheLoc + btnSpriteStr;
@@ -97,6 +100,7 @@ void DynamicNodeButton::addButtonWithParams(const cocos2d::Size& size, const coc
     }
     
     button->setContentSize(size / DynamicNodeCreator::getInstance()->_sizeMod);
+	button->setColor(Color3B(buttonColour));
     button->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     button->setNormalizedPosition(pos);
     button->setScale9Enabled(true);
@@ -109,7 +113,7 @@ void DynamicNodeButton::addButtonWithParams(const cocos2d::Size& size, const coc
     Label* label = Label::createWithTTF(buttonText, Style::Font::Regular(), button->getContentSize().height*0.4);
     label->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     label->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    label->setColor(Color3B::BLACK);
+    label->setTextColor(textColour);
 	label->setHorizontalAlignment(TextHAlignment::CENTER);
 	label->setVerticalAlignment(TextVAlignment::CENTER);
 	if(underlined)

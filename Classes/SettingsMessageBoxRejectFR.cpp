@@ -17,13 +17,13 @@ void SettingsMessageBoxRejectFR::onEnter()
 {
     Super::onEnter();
     
-    _messageBox->setContentSize(Size(_visibleSize.width - 100, 720));
+    _messageBox->setContentSize(Size(_visibleSize.width - 100, 920));
     
     _heading = Label::createWithTTF(_("Are you sure you want to reject this profile?"), Style::Font::Medium(), 91);
     _heading->setTextColor(Color4B::BLACK);
     _heading->setHorizontalAlignment(TextHAlignment::CENTER);
     _heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    _heading->setNormalizedPosition(Vec2(0.5,0.84));
+    _heading->setNormalizedPosition(Vec2(0.5,0.88));
 	_heading->setWidth((_visibleSize.width - 100) * 0.75f);
     _messageBox->addChild(_heading);
     
@@ -31,7 +31,7 @@ void SettingsMessageBoxRejectFR::onEnter()
     _cancelButton->loadTextureNormal("res/settings/rounded_button.png");
     _cancelButton->setColor(Style::Color::skyBlue);
     _cancelButton->setMessageBoxButtonType(SettingsMessageBoxButtonType::CANCEL);
-    _cancelButton->setNormalizedPosition(Vec2(0.29,0.16));
+    _cancelButton->setNormalizedPosition(Vec2(0.5,0.3));
     _cancelButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _cancelButton->addTouchEventListener(CC_CALLBACK_2(SettingsMessageBox::onButtonPressed, this));
     _messageBox->addChild(_cancelButton);
@@ -45,7 +45,7 @@ void SettingsMessageBoxRejectFR::onEnter()
     _rejectButton->loadTextureNormal("res/settings/rounded_button.png");
     _rejectButton->setColor(Style::Color::watermelon);
     _rejectButton->setMessageBoxButtonType(SettingsMessageBoxButtonType::REJECT);
-    _rejectButton->setNormalizedPosition(Vec2(0.71,0.16));
+    _rejectButton->setNormalizedPosition(Vec2(0.5,0.12));
     _rejectButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _rejectButton->addTouchEventListener(CC_CALLBACK_2(SettingsMessageBox::onButtonPressed, this));
     _messageBox->addChild(_rejectButton);

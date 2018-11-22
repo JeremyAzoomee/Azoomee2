@@ -78,6 +78,7 @@ bool StringMgr::init(void)
 	
 void StringMgr::changeLanguage(const std::string &languageID)
 {
+	AnalyticsSingleton::getInstance()->languageChangedEvent(languageID);
 	this->languageID = languageID;
 	stringsDocument = parseFile(languageID, "strings");
 	//errorMessagesDocument = parseFile(languageID, "errormessages");
