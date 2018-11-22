@@ -151,7 +151,16 @@ void VodacomOnboardingScene::sendEventForStateTransition()
 				case ErrorType::ALREADY_REGISTERED:
 					stateString += "Already registered";
 					break;
+				case ErrorType::GENERIC:
+					stateString += "Generic";
+					break;
 			}
+			break;
+		case FlowState::TERMS:
+			stateString = "Terms";
+			break;
+		case FlowState::DCB_WEBVIEW:
+			stateString = "DCB webview";
 			break;
 	}
 	
@@ -276,15 +285,16 @@ void VodacomOnboardingScene::onHttpRequestSuccess(const std::string& requestTag,
 	{
 		ChildDataParser::getInstance()->setChildLoggedIn(false);
 		ParentDataParser::getInstance()->parseAvailableChildren(body);
-		if(_flowData->getPurchaseType() == PurchaseType::DCB && _flowData->getTransactionId() != "" && _flowData->getProductId() != "")
+		/*if(_flowData->getPurchaseType() == PurchaseType::DCB && _flowData->getTransactionId() != "" && _flowData->getProductId() != "")
 		{
+			ModalMessages::getInstance()->startLoading();
 			HttpRequestCreator* request = API::UpdateBillingDataRequest(ParentDataProvider::getInstance()->getLoggedInParentId(), this);
 			request->execute();
 		}
 		else
-		{
+		{*/
 			Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
-		}
+		//}
 	}
 	else if(requestTag == API::TagGetVodacomTransactionId)
 	{
