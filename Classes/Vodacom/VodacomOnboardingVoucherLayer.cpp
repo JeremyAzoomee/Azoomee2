@@ -13,6 +13,7 @@
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
 
@@ -78,18 +79,36 @@ void VodacomOnboardingVoucherLayer::onEnter()
 	titleHolder->addChild(title);
 	_verticalLayout->addChild(titleHolder);
 	
-	Label* inputTitle = Label::createWithTTF(_("Voucher code"), Style::Font::Regular(), 64);
-	inputTitle->setTextColor(Color4B::BLACK);
-	inputTitle->setHorizontalAlignment(TextHAlignment::CENTER);
-	inputTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	inputTitle->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	
-	ui::Layout* inputTitleHolder = ui::Layout::create();
-	inputTitleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
-	inputTitleHolder->setContentSize(inputTitle->getContentSize());
-	inputTitleHolder->addChild(inputTitle);
-	_verticalLayout->addChild(inputTitleHolder);
-	
+	const std::string& promotionString = _("vodacomPromotionalVoucherString");
+	if(promotionString != "" && promotionString != "vodacomPromotionalVoucherString")
+	{
+		Label* inputTitle = Label::createWithTTF(promotionString, Style::Font::Regular(), 64);
+		inputTitle->setTextColor(Color4B::BLACK);
+		inputTitle->setHorizontalAlignment(TextHAlignment::CENTER);
+		inputTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+		inputTitle->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+		inputTitle->setWidth(contentSize.width * 0.8f);
+		
+		ui::Layout* inputTitleHolder = ui::Layout::create();
+		inputTitleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,25,0,0)));
+		inputTitleHolder->setContentSize(inputTitle->getContentSize());
+		inputTitleHolder->addChild(inputTitle);
+		_verticalLayout->addChild(inputTitleHolder);
+	}
+	else
+	{
+		Label* inputTitle = Label::createWithTTF(_("Voucher code"), Style::Font::Regular(), 64);
+		inputTitle->setTextColor(Color4B::BLACK);
+		inputTitle->setHorizontalAlignment(TextHAlignment::CENTER);
+		inputTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+		inputTitle->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+		
+		ui::Layout* inputTitleHolder = ui::Layout::create();
+		inputTitleHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+		inputTitleHolder->setContentSize(inputTitle->getContentSize());
+		inputTitleHolder->addChild(inputTitle);
+		_verticalLayout->addChild(inputTitleHolder);
+	}
 	_voucherInput = TextInputLayer::createSettingsRoundedTextInput(contentSize.width * 0.6f, INPUT_IS_VOUCHER);
 	_voucherInput->setCenterPosition(_voucherInput->getContentSize() / 2.0f);
 	_voucherInput->setDelegate(this);
@@ -175,6 +194,7 @@ void VodacomOnboardingVoucherLayer::onHttpRequestSuccess(const std::string& requ
 {
 	if(requestTag == API::TagAddVoucher)
 	{
+		AnalyticsSingleton::getInstance()->vodacomOnboardingVoucherAdded(_flowData->getVoucherCode());
 		HttpRequestCreator* request = API::UpdateBillingDataRequest(ParentDataProvider::getInstance()->getLoggedInParentId(), this);
 		request->execute();
 	}

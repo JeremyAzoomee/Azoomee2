@@ -274,6 +274,7 @@ void VodacomOnboardingLoginLayer::onHttpRequestSuccess(const std::string& reques
 	}
 	else if(requestTag == API::TagAddVoucher)
 	{
+		AnalyticsSingleton::getInstance()->vodacomOnboardingVoucherAdded(_flowData->getVoucherCode());
 		HttpRequestCreator* request = API::UpdateBillingDataRequest(ParentDataProvider::getInstance()->getLoggedInParentId(), this);
 		request->requestTag = "billingAfterVoucher";
 		request->execute();

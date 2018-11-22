@@ -232,6 +232,7 @@ void VodacomOnboardingPinLayer::onHttpRequestSuccess(const std::string& requestT
 	}
 	else if(requestTag == API::TagAddVoucher)
 	{
+		AnalyticsSingleton::getInstance()->vodacomOnboardingVoucherAdded(_flowData->getVoucherCode());
 		HttpRequestCreator* request = API::UpdateBillingDataRequest(ParentDataProvider::getInstance()->getLoggedInParentId(), this);
 		request->execute();
 	}

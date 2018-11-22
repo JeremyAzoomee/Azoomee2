@@ -25,6 +25,7 @@ private:
 	VodacomOnboardingLayer* _currentLayer = nullptr;
 	
 	void exitFlow();
+	void sendEventForStateTransition();
 	
 public:
 	

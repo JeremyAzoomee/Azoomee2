@@ -187,6 +187,12 @@ public:
 	//-------------I18n events----------------------------------
 	void languageChangedEvent(const std::string& languageCode);
 	
+	//-------------Vodacom events-------------------------------
+	void vodacomOnboardingFlowStartedEvent();
+	void vodacomOnboardingFlowExitEvent();
+	void vodacomOnboardingFlowMoveToScreen(const std::string& newScreen);
+	void vodacomOnboardingVoucherAdded(const std::string& voucherCode);
+	
 };
   
 }
