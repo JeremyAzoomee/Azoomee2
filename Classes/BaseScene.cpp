@@ -142,18 +142,19 @@ void BaseScene::addParticleElementsToBackground()
 
 void BaseScene::addXmasDecoration()
 {
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    
     Sprite* snow1 = Sprite::create("res/xmasdecoration/snowPileLeft.png");
-    snow1->setPosition(origin.x + snow1->getContentSize().width / 2, origin.y - snow1->getContentSize().height / 2);
+	snow1->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+	snow1->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_LEFT);
+	snow1->setScale(0);
     this->addChild(snow1, DECORATION_ZORDER);
-    snow1->runAction(Sequence::create(DelayTime::create(0.3f), EaseOut::create(MoveTo::create(2, Vec2(snow1->getPosition().x, origin.y + snow1->getContentSize().height / 2)), 2.0f), NULL));
+    snow1->runAction(Sequence::create(DelayTime::create(0.3f), EaseOut::create(ScaleTo::create(2.0f, 1.0f), 2.0f), NULL));
     
     Sprite *snow2 = Sprite::create("res/xmasdecoration/snowPileRight.png");
-    snow2->setPosition(origin.x + visibleSize.width - snow2->getContentSize().width / 2, origin.y - snow2->getContentSize().height / 2);
+	snow2->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
+	snow2->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_RIGHT);
+	snow2->setScale(0);
     this->addChild(snow2, DECORATION_ZORDER);
-    snow2->runAction(Sequence::create(DelayTime::create(0.5f), EaseOut::create(MoveTo::create(2, Vec2(snow2->getPosition().x, origin.y + snow2->getContentSize().height / 2)), 2.0f), NULL));
+	snow2->runAction(Sequence::create(DelayTime::create(0.5f), EaseOut::create(ScaleTo::create(2.0f, 1.0f), 2.0f), NULL));
 }
 
 void BaseScene::onSizeChanged()
