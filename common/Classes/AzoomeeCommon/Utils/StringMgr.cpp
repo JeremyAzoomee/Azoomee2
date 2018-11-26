@@ -253,7 +253,7 @@ void StringMgr::onFileDownloadComplete(const std::string& fileString, const std:
 		if(langsFolders.size() > 0)
 		{
 			_remoteDataInitialised = true;
-			parseFile(languageID, "strings");
+			stringsDocument = parseFile(languageID, "strings");
 			const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(baseLocation + "errormessages.json");
 			errorMessagesDocument.Parse(fileContent.c_str());
 		}
