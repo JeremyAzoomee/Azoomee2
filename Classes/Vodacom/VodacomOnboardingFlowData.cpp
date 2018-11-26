@@ -114,6 +114,15 @@ bool VodacomOnboardingFlowData::getVoucherFailed() const
 	return _voucherFailed;
 }
 
+void VodacomOnboardingFlowData::setDCBCompete(bool dcbComplete)
+{
+	_dcbComplete = dcbComplete;
+}
+bool VodacomOnboardingFlowData::getDCBComplete() const
+{
+	return _dcbComplete;
+}
+
 void VodacomOnboardingFlowData::setUserType(const UserType& userType)
 {
 	_userType = userType;

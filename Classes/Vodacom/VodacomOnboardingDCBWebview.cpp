@@ -71,6 +71,7 @@ void VodacomOnboardingDCBWebview::onEnter()
 		{
 			if(ParentDataProvider::getInstance()->isUserLoggedIn())
 			{
+				_flowData->setDCBCompete(true);
 				BackEndCaller::getInstance()->updateBillingData();
 			}
 		}

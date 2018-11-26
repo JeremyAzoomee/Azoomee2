@@ -39,6 +39,8 @@ private:
 	
 	bool _voucherFailed = false;
 	
+	bool _dcbComplete = false;
+	
 	UserType _userType = UserType::ANON;
 	ErrorType _errorType = ErrorType::NONE;
 	PurchaseType _purchaseType = PurchaseType::UNKNOWN;
@@ -79,6 +81,9 @@ public:
 	
 	void setVoucherFailed(bool failed);
 	bool getVoucherFailed() const;
+	
+	void setDCBCompete(bool dcbComplete);
+	bool getDCBComplete() const;
 	
 	void setUserType(const UserType& userType);
 	UserType getUserType() const;
