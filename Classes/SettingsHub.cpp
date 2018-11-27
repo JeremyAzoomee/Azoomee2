@@ -21,6 +21,7 @@
 #include "SettingsFriendshipsPage.h"
 #include "SettingsKidsPage.h"
 #include "SettingsLanguagePage.h"
+#include "HQHistoryManager.h"
 
 using namespace cocos2d;
 
@@ -28,6 +29,7 @@ NS_AZOOMEE_BEGIN
 
 bool SettingsHub::init()
 {
+	cocos2d::log("bug check - SettingsHub::init");
     if(!Super::init())
     {
         return false;
@@ -67,6 +69,7 @@ bool SettingsHub::init()
         {
             if(_inHub)
             {
+				HQHistoryManager::getInstance()->_returnedFromForcedOrientation = true;
 				switch(_origin)
 				{
 					case SettingsOrigin::HQ:
@@ -216,6 +219,7 @@ bool SettingsHub::init()
 
 void SettingsHub::onEnter()
 {
+	cocos2d::log("bug check - SettingsHub::onEnter - pin layer created");
 	RequestAdultPinLayer* pinLayer = RequestAdultPinLayer::create();
 	pinLayer->setDelegate(this);
 	
@@ -321,6 +325,7 @@ void SettingsHub::updateTextForNewLanguage()
 
 void SettingsHub::AdultPinCancelled(RequestAdultPinLayer* layer)
 {
+	HQHistoryManager::getInstance()->_returnedFromForcedOrientation = true;
 	switch(_origin)
 	{
 		case SettingsOrigin::HQ:
