@@ -118,6 +118,8 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         defaultNotificationFactory.setColor(NotificationCompat.COLOR_DEFAULT);
         UAirship airship = UAirship.shared();
         airship.getPushManager().setNotificationFactory(defaultNotificationFactory);
+
+        getGLSurfaceView().setMultipleTouchEnabled(false);
     }
 
     public static void startWebView(String url, String userid, int orientation, float closeButtonAnchorX, float closeButtonAnchorY) {
