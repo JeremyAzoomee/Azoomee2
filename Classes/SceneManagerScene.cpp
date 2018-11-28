@@ -282,7 +282,8 @@ void SceneManagerScene::acceptAnyOrientation()
 
 void SceneManagerScene::returnToPrevOrientation()
 {
-    if(ContentHistoryManager::getInstance()->getReturnedFromContent() || HQHistoryManager::getInstance()->_returnedFromForcedOrientation)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+	if(ContentHistoryManager::getInstance()->getReturnedFromContent() || HQHistoryManager::getInstance()->_returnedFromForcedOrientation)
     {
         if(HQHistoryManager::getInstance()->_prevHQOrientation == Portrait)
         {
@@ -293,6 +294,7 @@ void SceneManagerScene::returnToPrevOrientation()
             forceToLandscape();
         }
     }
+#endif
     HQHistoryManager::getInstance()->_returnedFromForcedOrientation = false;
 }
 
