@@ -29,7 +29,6 @@ NS_AZOOMEE_BEGIN
 
 bool SettingsHub::init()
 {
-	cocos2d::log("bug check - SettingsHub::init");
     if(!Super::init())
     {
         return false;
@@ -219,7 +218,6 @@ bool SettingsHub::init()
 
 void SettingsHub::onEnter()
 {
-	cocos2d::log("bug check - SettingsHub::onEnter - pin layer created");
 	RequestAdultPinLayer* pinLayer = RequestAdultPinLayer::create();
 	pinLayer->setDelegate(this);
 	

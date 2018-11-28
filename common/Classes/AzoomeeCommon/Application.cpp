@@ -119,7 +119,6 @@ void Application::applicationWillEnterForeground()
 
 void Application::applicationScreenSizeChanged(int newWidth, int newHeight)
 {
-	cocos2d::log("bug check - Application::applicationScreenSizeChanged - current Frame size {%f,%f}, new Frame size {%d,%d}", Director::getInstance()->getOpenGLView()->getFrameSize().width, Director::getInstance()->getOpenGLView()->getFrameSize().height, newWidth, newHeight);
     updateResolution(newWidth, newHeight);
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     // Notify the running scene if it's an Azoomee::Scene
@@ -134,7 +133,6 @@ void Application::applicationScreenSizeChanged(int newWidth, int newHeight)
 
 void Application::applicationScreenSizeWillChange(int newWidth, int newHeight, float duration)
 {
-    cocos2d::log("bug check - Application::applicationScreenSizeWillChange - current Frame size {%f,%f}, new Frame size {%d,%d}", Director::getInstance()->getOpenGLView()->getFrameSize().width, Director::getInstance()->getOpenGLView()->getFrameSize().height, newWidth, newHeight);
     updateResolution(newWidth, newHeight);
     
     // Notify the running scene if it's an Azoomee::Scene
@@ -151,7 +149,6 @@ void Application::updateResolution(int newWidth, int newHeight)
     // First tell cocos to use this new size for the GLView
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
-	cocos2d::log("bug check - Application::updateResolution - current Frame size {%f,%f}, new Frame size {%d,%d}", glview->getFrameSize().width, glview->getFrameSize().height, newWidth, newHeight);
     glview->setFrameSize(newWidth, newHeight);
 	
     // Use the correct design resolution
@@ -174,7 +171,6 @@ void Application::setOrientation(Orientation orientation)
     auto director = cocos2d::Director::getInstance();
     auto glView = director->getOpenGLView();
     const auto& frameSize = glView->getFrameSize();
-	cocos2d::log("bug check - Application::setOrientation - start - Frame size {%f,%f}, orientation - %s", frameSize.width, frameSize.height, orientation == Orientation::Portrait ? "portrait" : "landscape");
     // Immediate frame change
     if(orientation == Orientation::Portrait && (int)frameSize.width > (int)frameSize.height)
         cocos2d::Application::getInstance()->applicationScreenSizeChanged((int) frameSize.height, (int) frameSize.width);
@@ -213,7 +209,6 @@ void Application::setOrientation(Orientation orientation)
     }
     
 #endif
-	cocos2d::log("bug check - Application::setOrientation - end - Frame size {%f,%f}, orientation - %s", glView->getFrameSize().width, glView->getFrameSize().height, orientation == Orientation::Portrait ? "portrait" : "landscape");
 }
 
 
