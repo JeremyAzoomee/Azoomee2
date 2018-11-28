@@ -408,17 +408,17 @@ public class NativeViewUI extends Activity {
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-                Bundle extras = getIntent().getExtras();
-                if(extras.getInt("orientation") == _portrait)
-                {
-                    isActivityExitRequested = true;
-                    activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                //Bundle extras = getIntent().getExtras();
+                //if(extras.getInt("orientation") == _portrait)
+                //{
+                //    isActivityExitRequested = true;
+                //    activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                     //cleanUpAndFinishActivity() will be called by the screen orientation change callback
-                }
-                else
-                {
+                //}
+                //else
+                //{
                     cleanUpAndFinishActivity();
-                }
+                //}
             }
         });
         closeButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);

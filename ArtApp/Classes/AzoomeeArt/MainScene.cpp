@@ -103,6 +103,7 @@ void MainScene::addShareButton()
     _shareButton->setAnchorPoint(Vec2(0.5,1));
     _shareButton->loadTextureNormal(kArtAppAssetLoc + "share.png");
     _shareButton->addClickEventListener([this](Ref* but){shareButtonCallBack();});
+	_shareButton->setEnabled(!delegate->isOffline());
     this->addChild(_shareButton,1);
 }
 

@@ -146,13 +146,16 @@ bool isFavContent()
 
 void shareContentInChat()
 {
-    ChatDelegate::getInstance()->_sharedContentId = ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId();
-    ChatDelegate::getInstance()->shareContentInChat();
+	if(!HQHistoryManager::getInstance()->isOffline)
+	{
+    	ChatDelegate::getInstance()->_sharedContentId = ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId();
+    	ChatDelegate::getInstance()->shareContentInChat();
+	}
 }
 
 bool isChatEntitled()
 {
-    return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName)->getHqEntitlement();
+    return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName)->getHqEntitlement()  && !HQHistoryManager::getInstance()->isOffline;
 }
 
 bool isAnonUser()
