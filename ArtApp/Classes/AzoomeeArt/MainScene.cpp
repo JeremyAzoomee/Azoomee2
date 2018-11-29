@@ -22,9 +22,10 @@ Scene* MainScene::createScene()
 {
     // 'scene' is an autorelease object
     auto scene = Scene::create();
-    
+	
     // 'layer' is an autorelease object
     auto layer = MainScene::create();
+	layer->setName("ArtAppMainScene");
     layer->addBackButton();
     layer->addShareButton();
     const std::string& fileNameStr = getTimeStringForFileName();
@@ -43,6 +44,7 @@ Scene* MainScene::createSceneWithDrawing(const std::string& fileName)
     
     // 'layer' is an autorelease object
     auto layer = MainScene::create();
+	layer->setName("ArtAppMainScene");
     layer->addBackButton();
     layer->addShareButton();
     layer->_fileName = fileName;
@@ -177,6 +179,11 @@ void MainScene::saveFile()
     }
     
     _drawingCanvas->saveImage(saveFileName);
+}
+
+void MainScene::reloadRenderTextureObject()
+{
+	_drawingCanvas->reloadRenderTextureObject();
 }
 
 void MainScene::onConfirmPressed(Azoomee::ConfirmCancelMessageBox *pSender)
