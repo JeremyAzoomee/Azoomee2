@@ -14,6 +14,7 @@
 #include "FlowDataSingleton.h"
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/ErrorCodes.h>
 
 using namespace cocos2d;
 
@@ -198,6 +199,10 @@ void AddChildScene::onHttpRequestSuccess(const std::string& requestTag, const st
 
 void AddChildScene::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
+	if(errorCode == 409)
+	{
+		errorCode = ERROR_CODE_NAME_EXISTS;
+	}
     AnalyticsSingleton::getInstance()->childProfileCreatedErrorEvent(errorCode);
     FlowDataSingleton::getInstance()->setErrorCode(errorCode);
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
