@@ -350,12 +350,9 @@ public class NativeMediaPlayer extends Activity {
 
 
         TextView text = new TextView(this);
-        //text.setTextSize(bgLayoutParams.height * 0.25f);
         text.setText(JNICalls.JNIGetStringForKey("Added to favourites"));
         text.setWidth((int)(bgLayoutParams.width * 0.7f));
         text.setHeight((int)(bgLayoutParams.height * 0.6f));
-        //text.setLayoutParams(new android.widget.RelativeLayout.LayoutParams(
-        //        android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT, android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT));
         text.setX(bgLayoutParams.width * 0.25f);
         text.setY(bgLayoutParams.height * 0.2f);
         Typeface face = Typeface.createFromAsset(getAssets(),
