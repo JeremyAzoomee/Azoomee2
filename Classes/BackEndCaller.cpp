@@ -580,7 +580,14 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
         AnalyticsSingleton::getInstance()->OnboardingAccountCreatedErrorEvent(errorCode);
         hideLoadingScreen();
         FlowDataSingleton::getInstance()->setErrorCode(errorCode);
-        MessageBox::createWith(errorCode, nullptr);
+		if(errorCode == 409)
+		{
+			LoginLogicHandler::getInstance()->forceNewLogin();
+		}
+		else
+		{
+        	MessageBox::createWith(errorCode, nullptr);
+		}
     }
     else if(requestTag == API::TagRegisterChild)
     {
