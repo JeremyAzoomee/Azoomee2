@@ -199,7 +199,7 @@ void AddChildScene::onHttpRequestSuccess(const std::string& requestTag, const st
 
 void AddChildScene::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
-	if(errorCode == 409)
+	if(errorCode == ERROR_CODE_ALREADY_REGISTERED)
 	{
 		errorCode = ERROR_CODE_NAME_EXISTS;
 	}
