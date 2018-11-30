@@ -14,6 +14,7 @@
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
 #include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
+#include <AzoomeeCommon/ErrorCodes.h>
 #include "HQDataParser.h"
 #include "HQHistoryManager.h"
 #include "LoginLogicHandler.h"
@@ -580,7 +581,14 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
         AnalyticsSingleton::getInstance()->OnboardingAccountCreatedErrorEvent(errorCode);
         hideLoadingScreen();
         FlowDataSingleton::getInstance()->setErrorCode(errorCode);
-        MessageBox::createWith(errorCode, nullptr);
+		if(errorCode == ERROR_CODE_ALREADY_REGISTERED)
+		{
+			LoginLogicHandler::getInstance()->forceNewLogin();
+		}
+		else
+		{
+        	MessageBox::createWith(errorCode, nullptr);
+		}
     }
     else if(requestTag == API::TagRegisterChild)
     {
@@ -605,7 +613,7 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
     {
 
         FlowDataSingleton::getInstance()->setErrorCode(errorCode);
-        if(errorCode == -1)
+        if(errorCode == ERROR_CODE_OFFLINE)
         {
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineHub));
             return;
@@ -625,7 +633,7 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
     }
     else
     {
-		if(errorCode != -1)
+		if(errorCode != ERROR_CODE_OFFLINE)
 		{
         	FlowDataSingleton::getInstance()->setErrorCode(errorCode);
         	LoginLogicHandler::getInstance()->doLoginLogic();

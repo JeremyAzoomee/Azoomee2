@@ -214,4 +214,22 @@ bool isValidVoucher(const std::string& voucher)
 {
 	return voucher.size() > 0;
 }
+	
+bool isValidAge(const std::string& ageString)
+{
+	int value = std::atoi(ageString.c_str());
+	if(value > 0 && value < kMaxAge)
+	{
+		for(unsigned int i = 0; i < ageString.size(); i++)
+		{
+			if(!isNumber(ageString[i]))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	return false;
+}
 }

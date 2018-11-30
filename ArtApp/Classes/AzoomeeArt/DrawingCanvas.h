@@ -54,6 +54,8 @@ public:
     void changeTool(int index);
     void removeCurrentDrawNode();
     void addNewDrawNode();
+	
+	void reloadRenderTextureObject(); // on background event on android messes with the depth buffer on render texture cus of openGL context getting killed.  needs new renderTex made to reset it to allow for clipping nodes to be baked into the texture. called via AppDelegate
     
 protected:
     static const int _kNumberOfUndos = 3;

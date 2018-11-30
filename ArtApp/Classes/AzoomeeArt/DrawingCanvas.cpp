@@ -272,7 +272,7 @@ void DrawingCanvas::setupTouchHandling()
         
         _drawingStack.push_back(_activeBrush->getDrawNode());
         this->addChild(_activeBrush->addDrawNode(Director::getInstance()->getVisibleSize()));
-        
+		
         if(_drawingStack.size()>_kNumberOfUndos)
         {
             Node* mergingLayer = _drawingStack[0];
@@ -320,5 +320,24 @@ void DrawingCanvas::addBrushes()
     this->addChild(_activeBrush->getDrawNode());
 }
 
+void DrawingCanvas::reloadRenderTextureObject()
+{
+	const Size& visibleSize = Director::getInstance()->getWinSize();
+	
+	Sprite* drawingSprite = Sprite::createWithTexture(_drawing->getSprite()->getTexture());
+	drawingSprite->setAnchorPoint(Vec2(0,0));
+	drawingSprite->setFlippedY(true);
+	
+	auto newDrawing = RenderTexture::create(visibleSize.width, visibleSize.height, Texture2D::PixelFormat::RGBA8888, GL_DEPTH24_STENCIL8);
+	newDrawing->setAnchorPoint(Vec2(0.5,0.5));
+	newDrawing->setPosition(visibleSize/2);
+	newDrawing->beginWithClear(Style::Color_4F::pureWhite.r, Style::Color_4F::pureWhite.g, Style::Color_4F::pureWhite.b, Style::Color_4F::pureWhite.a);
+	drawingSprite->visit();
+	newDrawing->end();
+	
+	_drawing->removeFromParent();
+	_drawing = newDrawing;
+	this->addChild(_drawing, -1);
+}
 
 NS_AZOOMEE_AA_END

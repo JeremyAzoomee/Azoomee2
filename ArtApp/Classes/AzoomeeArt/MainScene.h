@@ -32,7 +32,9 @@ public:
     
     void backButtonCallBack();
     void shareButtonCallBack();
-    
+	
+	void reloadRenderTextureObject(); // on background event on android messes with the depth buffer on render texture cus of openGL context getting killed.  needs new renderTex made to reset it to allow for clipping nodes to be baked into the texture. called via AppDelegate
+	
     void saveFileAndExit();
     void saveAndSendFile();
     // implement the "static create()" method manually

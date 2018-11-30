@@ -137,7 +137,7 @@ void OfflineText::addExitOfflineModeButtonToScreen()
     
     enterButton->setDelegate(this);
     enterButton->setName("enterButton");
-    enterButton->setCenterPosition(Vec2(visibleOrigin.x + visibleSize.width * 0.5f, visibleOrigin.y + visibleSize.height * 0.66f));
+    enterButton->setCenterPosition(Vec2(visibleOrigin.x + visibleSize.width * 0.5f, visibleOrigin.y + visibleSize.height * 0.63f));
     enterButton->setCascadeOpacityEnabled(true);
     enterButton->setMixPanelButtonName("OfflineLetsGoButton");
     this->addChild(enterButton);
@@ -198,7 +198,7 @@ void OfflineText::addRetryButtonToScreen()
     retryButton->setDelegate(this);
     retryButton->setName("retryButton");
     retryButton->setMixPanelButtonName("OfflineRetryButton");
-    retryButton->setCenterPosition(Vec2(visibleOrigin.x + visibleSize.width * 0.5f, visibleOrigin.y + visibleSize.height * 0.66f));
+    retryButton->setCenterPosition(Vec2(visibleOrigin.x + visibleSize.width * 0.5f, visibleOrigin.y + visibleSize.height * 0.63f));
     
     retryButton->setCascadeOpacityEnabled(true);
     this->addChild(retryButton);

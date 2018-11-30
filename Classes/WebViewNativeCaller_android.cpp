@@ -340,7 +340,10 @@ extern "C"
 
 JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIShareInChat(JNIEnv* env, jobject thiz)
 {
-    ChatDelegate::getInstance()->_sharedContentId = ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId();
+	if(!HQHistoryManager::getInstance()->isOffline)
+	{
+    	ChatDelegate::getInstance()->_sharedContentId = ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId();
+	}
 }
 
 #endif
@@ -354,7 +357,7 @@ extern "C"
 
 JNIEXPORT bool JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIIsChatEntitled(JNIEnv* env, jobject thiz)
 {
-    return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName)->getHqEntitlement();
+    return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName)->getHqEntitlement() && !HQHistoryManager::getInstance()->isOffline;
 }
 
 #endif
