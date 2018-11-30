@@ -160,7 +160,7 @@ void TextInputLayer::createSettingRoundedEditBox(float width)
     editBoxArea->setPosition(Vec2(contentSize.width/2, contentSize.height/2));
     this->addChild(editBoxArea);
     
-    editBox = ui::EditBox::create(Size(contentSize.width - (2 * EDITBOX_CURVE_WIDTH),contentSize.height), "res/settings/settings_rounded.png");
+    editBox = ui::EditBox::create(Size(contentSize.width - (3 * EDITBOX_CURVE_WIDTH),contentSize.height), "res/settings/settings_rounded.png");
     editBox->moveOnKeyboardDisplayRequired = false;
     
     editBox->setColor(Color3B::WHITE);
