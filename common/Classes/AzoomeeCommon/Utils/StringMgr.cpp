@@ -114,7 +114,7 @@ std::map<std::string, std::string> StringMgr::getErrorMessageWithCode(long error
     errorMap[ERROR_TITLE] = getStringFromJson(titleKey, stringsDocument);
     errorMap[ERROR_BODY] = getStringFromJson(bodyKey, stringsDocument);
     errorMap[ERROR_BUTTON] = getStringFromJson(buttonKey, stringsDocument);
-    errorMap[ERROR_BUTTON_REFERENCE] = getStringFromJson(buttonRefKey, stringsDocument);
+	errorMap[ERROR_BUTTON_REFERENCE] = buttonRefKey;
 
     
     return errorMap;

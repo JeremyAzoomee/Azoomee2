@@ -232,7 +232,7 @@ void IntroVideoScene::onForceUpdateCheckFinished(const ForceUpdateResult& result
 
 void IntroVideoScene::MessageBoxButtonPressed(std::string messageBoxTitle, std::string buttonTitle)
 {
-	if(buttonTitle == "Update")
+	if(buttonTitle == _("Update"))
 	{
 		Application::getInstance()->openURL(ForceUpdateSingleton::getInstance()->getUpdateUrlFromFile());
 	}
