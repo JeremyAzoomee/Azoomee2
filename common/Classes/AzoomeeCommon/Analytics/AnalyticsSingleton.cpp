@@ -174,6 +174,21 @@ void AnalyticsSingleton::setIsUserAnonymous(bool isUserAnonymous)
     mixPanelRegisterSuperProperties("isUserAnonymous", isUserAnonymousString);
 }
 
+void AnalyticsSingleton::registerAlias(const std::string& newId)
+{
+	const std::string& newIdHash = HMACSHA256::getInstance()->getHMACSHA256Hash(newId, newId);
+	mixPanelRegisterSuperProperties("parentID", newIdHash);
+	mixPanelRegisterAlias(newIdHash);
+	mixPanelUpdatePeopleProfileData(_analyticsProperties->getStoredGeneralProperties());
+}
+
+void AnalyticsSingleton::registerBillingData(const BillingDataRef& billingData)
+{
+	mixPanelRegisterSuperProperties("billingProvider",billingData->getPaymentProvider());
+	mixPanelRegisterSuperProperties("billingStatus",billingData->getBillingStatusStr());
+	mixPanelUpdatePeopleProfileData(_analyticsProperties->getStoredGeneralProperties());
+}
+
 //-------------logout events-----------------
 
 void AnalyticsSingleton::logoutChildEvent()

@@ -60,6 +60,23 @@ void AnalyticsSingleton::mixPanelRegisterIdentity(const std::string& parentID, c
     [[Mixpanel sharedInstance] identify:[NSString stringWithUTF8String:parentID.c_str()]];
     [[Mixpanel sharedInstance].people set:mapToNSDictionary(name)];
 }
+	
+void AnalyticsSingleton::mixPanelRegisterAlias(const std::string &newId)
+{
+#ifdef USINGCI
+	return;
+#endif
+	[[Mixpanel sharedInstance] createAlias:[NSString stringWithUTF8String:newId.c_str()] forDistinctID:[Mixpanel sharedInstance].distinctId];
+	[[Mixpanel sharedInstance] identify:[Mixpanel sharedInstance].distinctId];
+}
+	
+void AnalyticsSingleton::mixPanelUpdatePeopleProfileData(const std::map<std::string, std::string>& profileData)
+{
+#ifdef USINGCI
+	return;
+#endif
+	[[Mixpanel sharedInstance].people set:mapToNSDictionary(profileData)];
+}
 
 //--------------- APPSFLYER ---------------
 

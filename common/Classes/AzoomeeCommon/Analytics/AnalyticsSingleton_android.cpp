@@ -68,6 +68,22 @@ void AnalyticsSingleton::mixPanelRegisterIdentity(const std::string& parentID, c
     androidJNIHelper(parentID, "sendMixPanelPeopleProperties");
 }
 
+void AnalyticsSingleton::mixPanelRegisterAlias(const std::string &newId)
+{
+#ifdef USINGCI
+	return;
+#endif
+	androidJNIHelper(newId, "setMixpanelAlias");
+}
+	
+void AnalyticsSingleton::mixPanelUpdatePeopleProfileData(const std::map<std::string, std::string>& profileData)
+{
+#ifdef USINGCI
+	return;
+#endif
+	androidJNIHelper(convertMapToJSONString(profileData), "updateMixpanelPeopleProperties");
+}
+	
 //------------- APPSFLYER -------
 
 void AnalyticsSingleton::appsFlyerSendEvent(const std::string& eventID)
