@@ -19,7 +19,7 @@ const char* const BiometricAuthenticationHandler::kBiometricValidationFailure = 
 const char* const BiometricAuthenticationHandler::kBiometricValidation = "biometricValidation";
 
 const char* const BiometricAuthenticationHandler::kAuthFailedDialogTitle = "Authentication Failed";
-const char* const BiometricAuthenticationHandler::kAuthFailedDialogBody = "Ooops! Biometric authentication failed.";
+const char* const BiometricAuthenticationHandler::kAuthFailedDialogBody = "Oops! Biometric authentication failed.";
 const std::vector<std::string> BiometricAuthenticationHandler::kAuthFailedDialogButtons = {"Retry", "Cancel"};
 
 const char* const BiometricAuthenticationHandler::kStartBiometricDialogTitle = "Biometric Authentication";
@@ -78,7 +78,7 @@ void BiometricAuthenticationHandler::startBiometricAuthentication()
 #if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     IosNativeFunctionsSingleton::getInstance()->doBiometricValidation(false);
 #elif(CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    _waitingForFingerPrint = MessageBox::createWith(kBiometricDialogTitle, kBiometricDialogImage, kBiometricDialogBody, kBiometricDialogCancelButtonTitle, this);
+    _waitingForFingerPrint = MessageBox::createWith(_("Waiting for authentication"), kBiometricDialogImage, _("Please authenticate yourself to access parents area"), _("Cancel"), this);
     JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, kBiometricStartJavaMethodName);
 #endif
 }
