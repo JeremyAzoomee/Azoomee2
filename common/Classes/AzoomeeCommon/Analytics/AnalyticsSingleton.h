@@ -60,6 +60,7 @@ public:
     void setIsUserAnonymous(bool isUserAnonymous);
 	void registerAlias(const std::string& newId);
 	void registerBillingData(const BillingDataRef& billingData);
+	void registerLanguageCode(const std::string& languageCode);
 	
     void registerChildGenderAndAge(int childNumber);
 

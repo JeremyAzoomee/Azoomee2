@@ -78,6 +78,7 @@ bool StringMgr::init(void)
 	
 void StringMgr::changeLanguage(const std::string &languageID)
 {
+	AnalyticsSingleton::getInstance()->registerLanguageCode(languageID);
 	AnalyticsSingleton::getInstance()->languageChangedEvent(languageID);
 	this->languageID = languageID;
 	stringsDocument = parseFile(languageID, "strings");
@@ -125,17 +126,7 @@ std::map<std::string, std::string> StringMgr::getErrorMessageWithCode(long error
 void StringMgr::setLanguageIdentifier()
 {
 	languageID = UserDefault::getInstance()->getStringForKey("language", kLanguageParams.at(0)._identifier);
-	/*
-    switch(Application::getInstance()->getCurrentLanguage())
-    {
-        case cocos2d::LanguageType::ENGLISH:
-            languageID = "en-GB";
-            break;
-        default:
-            languageID = "en-GB";
-            break;
-    };
-	*/
+	AnalyticsSingleton::getInstance()->registerLanguageCode(languageID);
 }
 
 Document StringMgr::parseFile(std::string languageID, std::string stringFile)

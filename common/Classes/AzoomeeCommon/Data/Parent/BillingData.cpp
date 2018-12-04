@@ -30,6 +30,18 @@ BillingDataRef BillingData::createWithJson(const rapidjson::Document& billingDat
 	{
 		data->_billingStatus = BillingStatus::SUBSCRIBED;
 	}
+	else if(_billingStatusStr == "FREE_TRIAL")
+	{
+		data->_billingStatus = BillingStatus::FREE_TRIAL;
+	}
+	else if(_billingStatusStr == "FREE_REGISTERED")
+	{
+		data->_billingStatus = BillingStatus::FREE_REGISTERED;
+	}
+	else
+	{
+		data->_billingStatus = BillingStatus::ANON;
+	}
 	const rapidjson::Value& purchases = billingData["purchases"];
 	if(purchases.Size() > 1)
 	{
@@ -53,8 +65,14 @@ BillingDataRef BillingData::createWithJson(const rapidjson::Document& billingDat
 std::string BillingData::getBillingStatusStr() const
 {
 	switch (_billingStatus) {
+		case BillingStatus::ANON:
+			return "ANON";
+		case BillingStatus::FREE_REGISTERED:
+			return "FREE_REGISTERED";
 		case BillingStatus::SUBSCRIBED:
 			return "SUBSCRIBED";
+		case BillingStatus::FREE_TRIAL:
+			return "FREE_TRIAL";
 	}
 }
 

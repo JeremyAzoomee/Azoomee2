@@ -18,7 +18,7 @@ NS_AZOOMEE_BEGIN
 class BillingData;
 typedef std::shared_ptr<BillingData> BillingDataRef;
 
-enum class BillingStatus {SUBSCRIBED};
+enum class BillingStatus {ANON, FREE_REGISTERED, SUBSCRIBED, FREE_TRIAL};
 
 class BillingData
 {

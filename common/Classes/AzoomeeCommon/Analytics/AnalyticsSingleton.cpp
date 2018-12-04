@@ -189,6 +189,11 @@ void AnalyticsSingleton::registerBillingData(const BillingDataRef& billingData)
 	mixPanelUpdatePeopleProfileData(_analyticsProperties->getStoredGeneralProperties());
 }
 
+void AnalyticsSingleton::registerLanguageCode(const std::string& languageCode)
+{
+	mixPanelRegisterSuperProperties("language", languageCode);
+}
+
 //-------------logout events-----------------
 
 void AnalyticsSingleton::logoutChildEvent()
