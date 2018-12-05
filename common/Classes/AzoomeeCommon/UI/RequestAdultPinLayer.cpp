@@ -35,7 +35,7 @@ bool RequestAdultPinLayer::init()
     addListenerToBiometricValidationSuccess();
     addListenerToBiometricValidationFailure();
     
-    if(BiometricAuthenticationHandler::getInstance()->biometricAuthenticationSet())
+    if(BiometricAuthenticationHandler::getInstance()->biometricAuthenticationAvailable() && BiometricAuthenticationHandler::getInstance()->biometricAuthenticationSet())
     {
         BiometricAuthenticationHandler::getInstance()->startBiometricAuthentication();
     }
@@ -80,7 +80,8 @@ void RequestAdultPinLayer::addListenerToBiometricValidationFailure()
 {
     _biometricValidationFailureListener = cocos2d::EventListenerCustom::create(BiometricAuthenticationHandler::kBiometricValidationFailure, [=](EventCustom* event) {
         auto funcCallAction = CallFunc::create([=](){
-            MessageBox::createWith(_("Authentication Failed"), _("Oops! Biometric authentication failed."), {_("Retry"), _("Cancel")}, this);
+			const std::vector<std::string>& buttons = {_("Retry"), _("Cancel")};
+			MessageBox::createWith(_("Authentication Failed"), _("Oops! Biometric authentication failed."), buttons, this);
         });
         
         this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));

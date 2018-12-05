@@ -70,7 +70,7 @@ bool BiometricAuthenticationHandler::biometricAuthenticationAvailable() const
 
 bool BiometricAuthenticationHandler::biometricAuthenticationSet() const
 {
-    return UserDefault::getInstance()->getIntegerForKey(kBiometricValidation) == 1;
+    return UserDefault::getInstance()->getIntegerForKey(kBiometricValidation, 1) == 1;
 }
 
 void BiometricAuthenticationHandler::startBiometricAuthentication()
@@ -133,7 +133,7 @@ void BiometricAuthenticationHandler::biometricAuthenticationNotNeeded()
 void BiometricAuthenticationHandler::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
 {
 #if(CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    if(buttonTitle == kBiometricDialogCancelButtonTitle)
+    if(buttonTitle == _("Cancel"))
     {
         JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, kBiometricStopJavaMethodName);
     }
