@@ -17,7 +17,8 @@
 #include "FavouritesManager.h"
 #include "ChatDelegate.h"
 #include "VideoPlaylistManager.h"
-
+#include "BackEndCaller.h"
+#include "RecentlyPlayedManager.h"
 
 using namespace cocos2d;
 NS_AZOOMEE_BEGIN
@@ -161,6 +162,19 @@ bool isChatEntitled()
 bool isAnonUser()
 {
     return ParentDataProvider::getInstance()->isLoggedInParentAnonymous();
+}
+
+void sendVideoProgress(int playlistIndex , int videoProgressSeconds)
+{
+	BackEndCaller::getInstance()->updateVideoProgress(VideoPlaylistManager::getInstance()->getContentItemDataForPlaylistElement(playlistIndex)->getContentItemId(), videoProgressSeconds);
+}
+
+void newVideoOpened(int playlistIndex)
+{
+	const auto& contentItem = VideoPlaylistManager::getInstance()->getContentItemDataForPlaylistElement(playlistIndex);
+	RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kVideoHQName);
+	RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kMeHQName);
+	ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
 }
 
 NSString* getPlaylistString()

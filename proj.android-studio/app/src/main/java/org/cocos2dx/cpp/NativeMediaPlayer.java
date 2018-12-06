@@ -92,6 +92,8 @@ public class NativeMediaPlayer extends Activity {
         videoview.requestFocus();
         videoview.start();
 
+        videoview.seekTo(extras.getInt("videoProgressSeconds") * 1000);
+
         JNICalls.sendMediaPlayerData("video.play", "");
 
         _eventTimer = new Timer();
@@ -155,9 +157,18 @@ public class NativeMediaPlayer extends Activity {
                 }
                 else
                 {
+                    currentlyPlayedUri = nextItem;
                     Uri uri = Uri.parse(nextItem);
                     videoview.setVideoURI(uri);
                     videoview.start();
+                    JNICalls.JNINewVideoOpened(getCurrentItemPlaylistIndex());
+                    if(!JNICalls.JNIIsAnonUser()) {
+                        if (JNICalls.JNIIsInFavourites()) {
+                            favButtonStatic.setImageResource(R.drawable.favourite_selected_v2);
+                        } else {
+                            favButtonStatic.setImageResource(R.drawable.favourite_unelected_v2);
+                        }
+                    }
                 }
             }
         });
@@ -402,6 +413,7 @@ public class NativeMediaPlayer extends Activity {
                 String elementUri = playlistObject.getJSONArray("Elements").getJSONObject(i).getString("uri");
                 if(elementUri.equals(currentlyPlayedUri))
                 {
+                    JNICalls.JNISendVideoProgress(i, 0);
                     if(i < playlistObject.getJSONArray("Elements").length())
                     {
                         String returnString = playlistObject.getJSONArray("Elements").getJSONObject(i + 1).getString("uri");
@@ -606,6 +618,25 @@ public class NativeMediaPlayer extends Activity {
         _paddedWindowHeight = metrics.heightPixels - (_buttonWidth * 1.25f);
     }
 
+    int getCurrentItemPlaylistIndex()
+    {
+        try
+        {
+            for(int i = 0; i < playlistObject.getJSONArray("Elements").length(); i++)
+            {
+                String elementUri = playlistObject.getJSONArray("Elements").getJSONObject(i).getString("uri");
+                if(elementUri.equals(currentlyPlayedUri))
+                {
+                    return i;
+                }
+            }
+        }
+        catch (JSONException e)
+        {
+            return 0;
+        }
+        return 0;
+    }
 
     public void exitMediaplayer()
     {
@@ -615,6 +646,7 @@ public class NativeMediaPlayer extends Activity {
 
         if(videoview != null && videoview.isPlaying())
         {
+            JNICalls.JNISendVideoProgress(getCurrentItemPlaylistIndex(), videoview.getCurrentPosition() / 1000);
             videoview.stopPlayback();
         }
 

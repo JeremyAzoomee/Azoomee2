@@ -34,7 +34,7 @@ using namespace Azoomee;
     // Do any additional setup after loading the view, typically from a nib.
 }
 
--(void)startBuildingMediaPlayer:(NSString*)url
+-(void)startBuildingMediaPlayer:(NSString*)url progressSeconds:(int)videoProgressSeconds
 {
     NSString* playlistString = Azoomee::getPlaylistString();
     NSArray* playlistUrls = [playlistString componentsSeparatedByString:@"|"];
@@ -83,9 +83,12 @@ using namespace Azoomee;
     {
         [self.queuePlayer advanceToNextItem];
     }
-    
+	_currentItemIndex = startPlaylistElementIndex;
     [self.queuePlayer play];
-    
+
+	CMTime startTime = CMTimeMakeWithSeconds(videoProgressSeconds, NSEC_PER_SEC);
+	[_queuePlayer seekToTime:startTime];
+	
     [self createButtons];
     [self createFavBanner];
 }
@@ -276,13 +279,20 @@ using namespace Azoomee;
 -(void) playerItemDidReachEnd:(NSNotification*)notification
 {
     Azoomee::sendMixPanelData("video.complete", "");
-    
+	Azoomee::sendVideoProgress(_currentItemIndex , 0);
     if(self.queuePlayer.currentItem == self.queuePlayer.items.lastObject)
     {
         Azoomee::sendMixPanelData("video.playlistComplete", "");
         
         [self cleanupAndExit];
     }
+	
+	_currentItemIndex++;
+	Azoomee::newVideoOpened(_currentItemIndex);
+	if(!isAnonUser())
+	{
+		[_favButton setSelected: isFavContent()];
+	}
 }
 
 #pragma mark loading screen ---------------------------------------------------------------------------------------------------------
@@ -352,6 +362,9 @@ using namespace Azoomee;
     }
     
     exitRequested = true;
+	
+	Azoomee::sendVideoProgress(_currentItemIndex , CMTimeGetSeconds(_queuePlayer.currentItem.currentTime));
+	
     [self.backButton removeFromSuperview];
     if(!isAnonUser())
     {

@@ -59,6 +59,8 @@ public:
     static const char* const TagGetParentDetails;
     static const char* const TagUpdateChildNameRequest;
 	static const char* const TagAddVoucher;
+	static const char* const TagGetVideoProgress;
+	static const char* const TagUpdateVideoProgress;
 	
 	static const std::string kAZCountryCodeKey;
 	
@@ -180,7 +182,16 @@ public:
 	static HttpRequestCreator* AddVoucher(const std::string& parentId,
 										  const std::string& voucherCode,
 										  HttpRequestCreatorResponseDelegate* delegate);
-    
+	
+	static HttpRequestCreator* GetVideoProgress(const std::string& childId,
+												const std::string& videoId,
+												HttpRequestCreatorResponseDelegate* delegate);
+	
+	static HttpRequestCreator* UpdateVideoProgress(const std::string& childId,
+												   const std::string& videoId,
+												   int videoProgressSeconds,
+												   HttpRequestCreatorResponseDelegate* delegate);
+	
 #pragma mark - Friend Requests
     
     static HttpRequestCreator* FriendRequest(const std::string& senderChildId,
