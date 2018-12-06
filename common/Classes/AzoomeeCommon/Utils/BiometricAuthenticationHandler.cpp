@@ -1,5 +1,6 @@
 #include "BiometricAuthenticationHandler.h"
 #include "../Data/ConfigStorage.h"
+#include "../Strings.h"
 
 #if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "IosNativeFunctionsSingleton.h"
@@ -18,22 +19,10 @@ const char* const BiometricAuthenticationHandler::kBiometricValidationSuccess = 
 const char* const BiometricAuthenticationHandler::kBiometricValidationFailure = "biometricValidationFailure";
 const char* const BiometricAuthenticationHandler::kBiometricValidation = "biometricValidation";
 
-const char* const BiometricAuthenticationHandler::kAuthFailedDialogTitle = "Authentication Failed";
-const char* const BiometricAuthenticationHandler::kAuthFailedDialogBody = "Oops! Biometric authentication failed.";
-const std::vector<std::string> BiometricAuthenticationHandler::kAuthFailedDialogButtons = {"Retry", "Cancel"};
-
-const char* const BiometricAuthenticationHandler::kStartBiometricDialogTitle = "Biometric Authentication";
-const char* const BiometricAuthenticationHandler::kStartBiometricDialogBody = "Do you want to use your fingerprint or facial ID to enter your PIN in the future?";
-const std::vector<std::string> BiometricAuthenticationHandler::kStartBiometricDialogButtons = {"Yes", "No"};
-
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 const char* const kFingerPrintAuthenticationAvailableJavaMethodName = "fingerPrintAuthenticationAvailable";
 const char* const kBiometricStartJavaMethodName = "startFingerprintAuthentication";
 const char* const kBiometricStopJavaMethodName = "stopFingerprintAuthentication";
-
-const char* const kBiometricDialogTitle = "Waiting for authentication";
-const char* const kBiometricDialogBody = "Please authenticate yourself to access parents area";
-const char* const kBiometricDialogCancelButtonTitle = "Cancel";
 
 const char* const kBiometricDialogImage = "res/settings/fingerprint.png";
 #endif
