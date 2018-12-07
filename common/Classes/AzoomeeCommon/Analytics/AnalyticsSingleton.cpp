@@ -186,6 +186,10 @@ void AnalyticsSingleton::registerBillingData(const BillingDataRef& billingData)
 {
 	mixPanelRegisterSuperProperties("billingProvider",billingData->getPaymentProvider());
 	mixPanelRegisterSuperProperties("billingStatus",billingData->getBillingStatusStr());
+	mixPanelRegisterSuperProperties("billingRenewDate", billingData->getNextBillDate());
+	mixPanelRegisterSuperProperties("billingVoucherCode", billingData->getVoucherCode());
+	mixPanelRegisterSuperProperties("billingVoucherCampaign", billingData->getCampaign());
+	mixPanelRegisterSuperProperties("billingVoucherOrganisation", billingData->getOrganisation());
 	mixPanelUpdatePeopleProfileData(_analyticsProperties->getStoredGeneralProperties());
 }
 

@@ -28,7 +28,12 @@ private:
 	std::string _endDate;
 	std::string _nextBillDate;
 	std::string _paymentProvider;
-	std::string _duration;
+	int _duration;
+	
+	std::string _voucherCode;
+	std::string _campaign;
+	std::string _organisation;
+	int _voucherDuration;
 	
 	BillingData();
 public:
@@ -41,8 +46,12 @@ public:
 	std::string getEndDate() const;
 	std::string getNextBillDate() const;
 	std::string getPaymentProvider() const;
-	std::string getDuration() const;
+	int getDuration() const;
 	
+	std::string getVoucherCode() const;
+	std::string getCampaign() const;
+	std::string getOrganisation() const;
+	int getVoucherDuration() const;
 };
 
 NS_AZOOMEE_END

@@ -45,19 +45,48 @@ BillingDataRef BillingData::createWithJson(const rapidjson::Document& billingDat
 	const rapidjson::Value& purchases = billingData["purchases"];
 	if(purchases.Size() > 1)
 	{
-		std::string nextBillingDate = getStringFromJson("nextBillDate", purchases[0]);
+		std::string nextBillingDate = getStringFromJson("nextBillDate", purchases[1]);
+		std::string paymentProvider = getStringFromJson("paymentProvider", purchases[1]);
+		
 		for(int i = 1; i < purchases.Size(); i++)
 		{
 			if(nextBillingDate.compare(getStringFromJson("nextBillDate", purchases[i])) > 0)
 			{
 				nextBillingDate = getStringFromJson("nextBillDate", purchases[i]);
+				paymentProvider = getStringFromJson("paymentProvider", purchases[i]);
 			}
 		}
 		
 		data->_nextBillDate = nextBillingDate;
+		data->_paymentProvider = paymentProvider;
+	}
+	if(billingData.HasMember("vouchers"))
+	{
+		const rapidjson::Value& vouchers = billingData["vouchers"];
+		if(vouchers.IsArray() && vouchers.Size() > 0)
+		{
+			int endDate = getIntFromJson("endDate", vouchers[0]);
+			std::string code = getStringFromJson("voucherCode", vouchers[0]);
+			std::string campaign = getStringFromJson("campaign", vouchers[0]);
+			std::string organization = getStringFromJson("organization", vouchers[0]);
+			for(int i = 0; i < vouchers.Size(); i++)
+			{
+				int newDate = getIntFromJson("endDate", vouchers[i]);
+				if(endDate < newDate)
+				{
+					endDate = newDate;
+					code = getStringFromJson("voucherCode", vouchers[i]);
+					campaign = getStringFromJson("campaign", vouchers[i]);
+					organization = getStringFromJson("organization", vouchers[i]);
+				}
+			}
+			data->_voucherCode = code;
+			data->_campaign = campaign;
+			data->_organisation = organization;
+		}
 	}
 	
-	data->_paymentProvider = getStringFromJson("paymentProvider", billingData);
+	//data->_paymentProvider = getStringFromJson("paymentProvider", billingData);
 	
 	return data;
 }
@@ -96,9 +125,26 @@ std::string BillingData::getPaymentProvider() const
 {
 	return _paymentProvider;
 }
-std::string BillingData::getDuration() const
+int BillingData::getDuration() const
 {
 	return _duration;
+}
+
+std::string BillingData::getVoucherCode() const
+{
+	return _voucherCode;
+}
+std::string BillingData::getCampaign() const
+{
+	return _campaign;
+}
+std::string BillingData::getOrganisation() const
+{
+	return _organisation;
+}
+int BillingData::getVoucherDuration() const
+{
+	return _voucherDuration;
 }
 
 NS_AZOOMEE_END
