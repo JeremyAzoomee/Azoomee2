@@ -16,14 +16,6 @@ public:
     static const char* const kBiometricValidation;
     static const char* const kBiometricValidationFailure;
     
-    static const char* const kAuthFailedDialogTitle;
-    static const char* const kAuthFailedDialogBody;
-    static const std::vector<std::string> kAuthFailedDialogButtons;
-    
-    static const char* const kStartBiometricDialogTitle;
-    static const char* const kStartBiometricDialogBody;
-    static const std::vector<std::string> kStartBiometricDialogButtons;
-    
     static BiometricAuthenticationHandler* getInstance();
     virtual ~BiometricAuthenticationHandler();
     

@@ -35,7 +35,7 @@ bool RequestAdultPinLayer::init()
     addListenerToBiometricValidationSuccess();
     addListenerToBiometricValidationFailure();
     
-    if(BiometricAuthenticationHandler::getInstance()->biometricAuthenticationSet())
+    if(BiometricAuthenticationHandler::getInstance()->biometricAuthenticationAvailable() && BiometricAuthenticationHandler::getInstance()->biometricAuthenticationSet())
     {
         BiometricAuthenticationHandler::getInstance()->startBiometricAuthentication();
     }
@@ -80,7 +80,8 @@ void RequestAdultPinLayer::addListenerToBiometricValidationFailure()
 {
     _biometricValidationFailureListener = cocos2d::EventListenerCustom::create(BiometricAuthenticationHandler::kBiometricValidationFailure, [=](EventCustom* event) {
         auto funcCallAction = CallFunc::create([=](){
-            MessageBox::createWith(BiometricAuthenticationHandler::kAuthFailedDialogTitle, BiometricAuthenticationHandler::kAuthFailedDialogBody, BiometricAuthenticationHandler::kAuthFailedDialogButtons, this);
+			const std::vector<std::string>& buttons = {_("Retry"), _("Cancel")};
+			MessageBox::createWith(_("Authentication Failed"), _("Oops! Biometric authentication failed."), buttons, this);
         });
         
         this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
@@ -306,14 +307,14 @@ void RequestAdultPinLayer::buttonPressed(ElectricDreamsButton* button)
 
 void RequestAdultPinLayer::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
 {
-    if(messageBoxTitle == BiometricAuthenticationHandler::kStartBiometricDialogTitle)
+    if(messageBoxTitle == _("Biometric Authentication"))
     {
-        if(buttonTitle == BiometricAuthenticationHandler::kStartBiometricDialogButtons.at(0))
+        if(buttonTitle == _("Yes"))
         {
             BiometricAuthenticationHandler::getInstance()->startBiometricAuthentication();
         }
         
-        if(buttonTitle == BiometricAuthenticationHandler::kStartBiometricDialogButtons.at(1))
+        if(buttonTitle == _("No"))
         {
             BiometricAuthenticationHandler::getInstance()->biometricAuthenticationNotNeeded();
         }
@@ -322,15 +323,15 @@ void RequestAdultPinLayer::MessageBoxButtonPressed(std::string messageBoxTitle,s
         return;
     }
     
-    if(messageBoxTitle == BiometricAuthenticationHandler::kAuthFailedDialogTitle)
+    if(messageBoxTitle == _("Authentication Failed"))
     {
-        if(buttonTitle == BiometricAuthenticationHandler::kAuthFailedDialogButtons.at(0))
+        if(buttonTitle == _("Retry"))
         {
             BiometricAuthenticationHandler::getInstance()->startBiometricAuthentication();
             return;
         }
         
-        if(buttonTitle == BiometricAuthenticationHandler::kAuthFailedDialogButtons.at(1))
+        if(buttonTitle == _("Cancel"))
         {
             editBox_pin->focusAndShowKeyboard();
             return;
