@@ -190,6 +190,7 @@ void AnalyticsSingleton::registerBillingData(const BillingDataRef& billingData)
 	mixPanelRegisterSuperProperties("billingVoucherCode", billingData->getVoucherCode());
 	mixPanelRegisterSuperProperties("billingVoucherCampaign", billingData->getCampaign());
 	mixPanelRegisterSuperProperties("billingVoucherOrganisation", billingData->getOrganisation());
+	mixPanelRegisterSuperProperties("billingSubscribedDuration", cocos2d::StringUtils::format("%d",billingData->getDuration()));
 	mixPanelUpdatePeopleProfileData(_analyticsProperties->getStoredGeneralProperties());
 }
 

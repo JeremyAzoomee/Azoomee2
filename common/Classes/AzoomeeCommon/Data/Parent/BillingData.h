@@ -33,7 +33,6 @@ private:
 	std::string _voucherCode;
 	std::string _campaign;
 	std::string _organisation;
-	int _voucherDuration;
 	
 	BillingData();
 public:
@@ -51,7 +50,6 @@ public:
 	std::string getVoucherCode() const;
 	std::string getCampaign() const;
 	std::string getOrganisation() const;
-	int getVoucherDuration() const;
 };
 
 NS_AZOOMEE_END

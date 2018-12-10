@@ -86,6 +86,7 @@ BillingDataRef BillingData::createWithJson(const rapidjson::Document& billingDat
 		}
 	}
 	
+	data->_duration = getIntFromJson("totalSubscriptionDurationHours", billingData, 0);
 	//data->_paymentProvider = getStringFromJson("paymentProvider", billingData);
 	
 	return data;
@@ -141,10 +142,6 @@ std::string BillingData::getCampaign() const
 std::string BillingData::getOrganisation() const
 {
 	return _organisation;
-}
-int BillingData::getVoucherDuration() const
-{
-	return _voucherDuration;
 }
 
 NS_AZOOMEE_END
