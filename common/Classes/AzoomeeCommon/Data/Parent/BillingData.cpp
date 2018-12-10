@@ -9,6 +9,13 @@
 
 NS_AZOOMEE_BEGIN
 
+const std::map<BillingStatus, std::string> BillingData::kBillingStatusToStringMap = {
+	{BillingStatus::ANON, "ANON"},
+	{BillingStatus::FREE_REGISTERED, "FREE_REGISTERED"},
+	{BillingStatus::FREE_TRIAL, "FREE_TRIAL"},
+	{BillingStatus::SUBSCRIBED, "SUBSCRIBED"}
+};
+
 BillingData::BillingData()
 {
 	
@@ -21,44 +28,46 @@ BillingDataRef BillingData::createWithJson(const rapidjson::Document& billingDat
 	if(billingData.HasParseError())
 	{
 		cocos2d::log("Billing Parse Error");
+		data->_billingStatus = BillingStatus::ANON;
 		return data;
 	}
 	
 	
-	const std::string& _billingStatusStr = getStringFromJson("billingStatus", billingData);
-	if(_billingStatusStr == "SUBSCRIBED")
+	const std::string& billingStatusStr = getStringFromJson("billingStatus", billingData);
+	for(const auto& pair : kBillingStatusToStringMap)
 	{
-		data->_billingStatus = BillingStatus::SUBSCRIBED;
-	}
-	else if(_billingStatusStr == "FREE_TRIAL")
-	{
-		data->_billingStatus = BillingStatus::FREE_TRIAL;
-	}
-	else if(_billingStatusStr == "FREE_REGISTERED")
-	{
-		data->_billingStatus = BillingStatus::FREE_REGISTERED;
-	}
-	else
-	{
-		data->_billingStatus = BillingStatus::ANON;
-	}
-	const rapidjson::Value& purchases = billingData["purchases"];
-	if(purchases.Size() > 1)
-	{
-		std::string nextBillingDate = getStringFromJson("nextBillDate", purchases[1]);
-		std::string paymentProvider = getStringFromJson("paymentProvider", purchases[1]);
-		
-		for(int i = 1; i < purchases.Size(); i++)
+		if(billingStatusStr == pair.second)
 		{
-			if(nextBillingDate.compare(getStringFromJson("nextBillDate", purchases[i])) > 0)
-			{
-				nextBillingDate = getStringFromJson("nextBillDate", purchases[i]);
-				paymentProvider = getStringFromJson("paymentProvider", purchases[i]);
-			}
+			data->_billingStatus = pair.first;
+			break;
 		}
-		
-		data->_nextBillDate = nextBillingDate;
-		data->_paymentProvider = paymentProvider;
+		else
+		{
+			data->_billingStatus = BillingStatus::ANON;
+		}
+	}
+	
+	if(billingData.HasMember("purchases"))
+	{
+		const rapidjson::Value& purchases = billingData["purchases"];
+		if(purchases.IsArray() && purchases.Size() > 1)
+		{
+			std::string nextBillingDate = getStringFromJson("nextBillDate", purchases[1]);
+			std::string paymentProvider = getStringFromJson("paymentProvider", purchases[1]);
+			
+			for(int i = 1; i < purchases.Size(); i++)
+			{
+				const std::string& billDate = getStringFromJson("nextBillDate", purchases[i]);
+				if(nextBillingDate.compare(billDate) > 0)
+				{
+					nextBillingDate = billDate;
+					paymentProvider = getStringFromJson("paymentProvider", purchases[i]);
+				}
+			}
+			
+			data->_nextBillDate = nextBillingDate;
+			data->_paymentProvider = paymentProvider;
+		}
 	}
 	if(billingData.HasMember("vouchers"))
 	{
@@ -87,23 +96,13 @@ BillingDataRef BillingData::createWithJson(const rapidjson::Document& billingDat
 	}
 	
 	data->_duration = getIntFromJson("totalSubscriptionDurationHours", billingData, 0);
-	//data->_paymentProvider = getStringFromJson("paymentProvider", billingData);
 	
 	return data;
 }
 
 std::string BillingData::getBillingStatusStr() const
 {
-	switch (_billingStatus) {
-		case BillingStatus::ANON:
-			return "ANON";
-		case BillingStatus::FREE_REGISTERED:
-			return "FREE_REGISTERED";
-		case BillingStatus::SUBSCRIBED:
-			return "SUBSCRIBED";
-		case BillingStatus::FREE_TRIAL:
-			return "FREE_TRIAL";
-	}
+	return kBillingStatusToStringMap.at(_billingStatus);
 }
 
 BillingStatus BillingData::getBillingStatus() const

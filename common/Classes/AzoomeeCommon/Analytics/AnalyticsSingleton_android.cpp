@@ -54,52 +54,52 @@ void androidJNIHelper(const std::string& propertiesJSONString, const std::string
 //-------------MIX PANEL ----------
 void AnalyticsSingleton::mixPanelSendEventNative(const std::string& eventID, const std::map<std::string, std::string>& map)
 {
-#ifdef USINGCI
-    return;
-#endif
+#ifndef USINGCI
     androidJNIHelper(eventID, convertMapToJSONString(map), "sendMixPanelWithEventID");
+#endif
+	
 }
 
 void AnalyticsSingleton::mixPanelRegisterIdentity(const std::string& parentID, const std::map<std::string, std::string>& name)
 {
-#ifdef USINGCI
-    return;
-#endif
+#ifndef USINGCI
     androidJNIHelper(parentID, "sendMixPanelPeopleProperties");
+#endif
+	
 }
 
 void AnalyticsSingleton::mixPanelRegisterAlias(const std::string &newId)
 {
-#ifdef USINGCI
-	return;
-#endif
+#ifndef USINGCI
 	androidJNIHelper(newId, "setMixpanelAlias");
+#endif
+	
 }
 	
 void AnalyticsSingleton::mixPanelUpdatePeopleProfileData(const std::map<std::string, std::string>& profileData)
 {
-#ifdef USINGCI
-	return;
-#endif
+#ifndef USINGCI
 	androidJNIHelper(convertMapToJSONString(profileData), "updateMixpanelPeopleProperties");
+#endif
+	
 }
 	
 //------------- APPSFLYER -------
 
 void AnalyticsSingleton::appsFlyerSendEvent(const std::string& eventID)
 {
-#ifdef USINGCI
-    return;
+#ifndef USINGCI
+    androidJNIHelper(eventID, "", "sendAppsFlyerEvent");
 #endif
-     androidJNIHelper(eventID, "", "sendAppsFlyerEvent");
+	
 }
 
 void AnalyticsSingleton::appsFlyerSendEvent(const std::string& eventID, const std::map<std::string, std::string>& map)
 {
-#ifdef USINGCI
-    return;
-#endif
+#ifndef USINGCI
     androidJNIHelper(eventID, convertMapToJSONString(map), "sendAppsFlyerEvent");
+#endif
+	
 }
   
 }

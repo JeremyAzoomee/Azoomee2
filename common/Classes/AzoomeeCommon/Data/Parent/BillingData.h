@@ -23,6 +23,8 @@ enum class BillingStatus {ANON, FREE_REGISTERED, SUBSCRIBED, FREE_TRIAL};
 class BillingData
 {
 private:
+	static const std::map<BillingStatus, std::string> kBillingStatusToStringMap;
+
 	BillingStatus _billingStatus;
 	std::string _startDate;
 	std::string _endDate;
