@@ -52,6 +52,7 @@ BillingDataRef BillingData::createWithJson(const rapidjson::Document& billingDat
 		const rapidjson::Value& purchases = billingData["purchases"];
 		if(purchases.IsArray() && purchases.Size() > 1)
 		{
+			// purchases[0] will always be the default FREE purchase object with free content entitlements, so start at element purchases[1]
 			std::string nextBillingDate = getStringFromJson("nextBillDate", purchases[1]);
 			std::string paymentProvider = getStringFromJson("paymentProvider", purchases[1]);
 			
