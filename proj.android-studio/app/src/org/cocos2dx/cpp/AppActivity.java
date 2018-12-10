@@ -257,6 +257,24 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         mAppActivity.mixpanel.sendMixPanelPeopleProperties(parentID);
     }
 
+    public static void setMixpanelAlias(String newID) {
+        if(mAppActivity.mixpanel == null)
+        {
+            return;
+        }
+
+        mAppActivity.mixpanel.setMixpanelAlias(newID);
+    }
+
+    public static void updateMixpanelPeopleProperties(String jsonPropertiesString) {
+        if(mAppActivity.mixpanel == null)
+        {
+            return;
+        }
+
+        mAppActivity.mixpanel.updateMixpanelPeopleProperties(jsonPropertiesString);
+    }
+
     public static void showMixpanelNotification() {
         if(mAppActivity.mixpanel == null)
         {

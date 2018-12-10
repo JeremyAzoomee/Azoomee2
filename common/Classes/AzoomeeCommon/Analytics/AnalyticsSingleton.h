@@ -6,6 +6,7 @@
 #include <time.h>
 #include "../Data/HQDataObject/HQContentItemObject.h"
 #include "AnalyticsProperties.h"
+#include "../Data/Parent/BillingData.h"
 
 #define NUMBER_IDENTIFIER "NUMBER|"
 
@@ -24,7 +25,11 @@ private:
     
     void mixPanelRegisterSuperProperties(const std::string& key, const std::string& property);
     void mixPanelRegisterIdentity(const std::string& parentID, const std::map<std::string, std::string>& map);
-    
+	
+	void mixPanelUpdatePeopleProfileData(const std::map<std::string, std::string>& profileData);
+	
+	void mixPanelRegisterAlias(const std::string& newId);
+	
     void appsFlyerSendEvent(const std::string& eventID);
     void appsFlyerSendEvent(const std::string& eventID, const std::map<std::string, std::string>& map);
     
@@ -53,7 +58,10 @@ public:
     void setNumberOfChatFriends(int noOfChildren);
     void setChatFriendIsParent(bool chatFriendIsParent);
     void setIsUserAnonymous(bool isUserAnonymous);
-    
+	void registerAlias(const std::string& newId);
+	void registerBillingData(const BillingDataRef& billingData);
+	void registerLanguageCode(const std::string& languageCode);
+	
     void registerChildGenderAndAge(int childNumber);
 
     void logoutChildEvent();

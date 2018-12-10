@@ -81,17 +81,29 @@ std::string ParentDataProvider::getLoggedInParentCountryCode() const
 
 std::string ParentDataProvider::getBillingStatus() const
 {
-    return ParentDataStorage::getInstance()->loggedInParentBillingStatus;
+	if(ParentDataStorage::getInstance()->_billingData)
+	{
+    	return ParentDataStorage::getInstance()->_billingData->getBillingStatusStr();
+	}
+	return "";
 }
 
 std::string ParentDataProvider::getBillingDate() const
 {
-    return ParentDataStorage::getInstance()->loggedInParentBillingDate;
+	if(ParentDataStorage::getInstance()->_billingData)
+	{
+    	return ParentDataStorage::getInstance()->_billingData->getNextBillDate();
+	}
+	return "";
 }
 
 std::string ParentDataProvider::getBillingProvider() const
 {
-    return ParentDataStorage::getInstance()->loggedInParentBillingProvider;
+	if(ParentDataStorage::getInstance()->_billingData)
+	{
+    	return ParentDataStorage::getInstance()->_billingData->getPaymentProvider();
+	}
+	return "";
 }
     
 bool ParentDataProvider::isLoggedInParentAnonymous()
@@ -106,7 +118,11 @@ bool ParentDataProvider::isBillingDataAvailable()
     
 bool ParentDataProvider::isPaidUser()
 {
-    return (ParentDataStorage::getInstance()->loggedInParentBillingStatus == "SUBSCRIBED") || (ParentDataStorage::getInstance()->loggedInParentBillingStatus == "FREE_TRIAL");
+	if(ParentDataStorage::getInstance()->_billingData)
+	{
+    	return (ParentDataStorage::getInstance()->_billingData->getBillingStatusStr() == "SUBSCRIBED") || (ParentDataStorage::getInstance()->_billingData->getBillingStatusStr() == "FREE_TRIAL");
+	}
+	return false;
 }
 
 bool ParentDataProvider::emailRequiresVerification()
