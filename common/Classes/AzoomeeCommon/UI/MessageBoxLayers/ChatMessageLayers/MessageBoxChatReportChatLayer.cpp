@@ -192,9 +192,6 @@ void MessageBoxChatReportChatLayer::onSizeChanged()
         createMessageWindowPortrait();
         addObjectsToWindowPortrait();
     }
-    
-    if(onlineSafetySlides)
-        onlineSafetySlides->onSizeChanged();
 
 }
 
@@ -206,7 +203,7 @@ void MessageBoxChatReportChatLayer::buttonPressed(ElectricDreamsButton* button)
         dynamic_cast<MessageBox*>(_parentLayer)->sendDelegateMessageBoxButtonPressed(_messageBoxTitle, MessageBox::kCancel);
     else if(button == onlineSafetyTipsButton)
     {
-        onlineSafetySlides = MessageBox::createWithLayer(OnlineSafetySlidesChild, nullptr);
+        MessageBox::createWithLayer(OnlineSafetySlidesChild, nullptr);
     }
     else if(button == reportButton)
         dynamic_cast<MessageBox*>(_parentLayer)->sendDelegateMessageBoxButtonPressed(_messageBoxTitle, MessageBox::kReport);
