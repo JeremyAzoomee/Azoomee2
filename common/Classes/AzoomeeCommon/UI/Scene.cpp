@@ -112,10 +112,18 @@ void Scene::onSizeChanged()
     // Do nothing for the in herited scene by default
     // However, incase the scene has a MessageBox overlay, then trigger the
     // MessageBox onSizeChanged, if the orientation has changed.
-    
-    MessageBox* messageBoxLayer = dynamic_cast<MessageBox*>(this->getChildByName("MessageBoxLayer"));
-    if(messageBoxLayer)
-        messageBoxLayer->onSizeChanged();
+	
+	for(auto messageBox : this->getChildren())
+	{
+		if(messageBox->getName() == "MessageBoxLayer")
+		{
+			MessageBox* messageBoxLayer = dynamic_cast<MessageBox*>(messageBox);
+			if(messageBoxLayer)
+			{
+				messageBoxLayer->onSizeChanged();
+			}
+		}
+	}
     
     RequestAdultPinLayer* adultPinLayer = dynamic_cast<RequestAdultPinLayer*>(this->getChildByName("RequestPinLayer"));
     if(adultPinLayer)

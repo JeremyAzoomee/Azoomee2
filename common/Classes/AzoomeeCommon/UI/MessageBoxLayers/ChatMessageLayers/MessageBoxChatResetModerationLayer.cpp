@@ -212,8 +212,6 @@ void MessageBoxChatResetModerationLayer::onSizeChanged()
         addObjectsToWindowPortrait();
     }
 
-    if(onlineSafetySlides)
-        onlineSafetySlides->onSizeChanged();
 }
 
 //----------------------- Delegate Functions ----------------------------
@@ -224,7 +222,7 @@ void MessageBoxChatResetModerationLayer::buttonPressed(ElectricDreamsButton* but
         dynamic_cast<MessageBox*>(_parentLayer)->sendDelegateMessageBoxButtonPressed(_messageBoxTitle, MessageBox::kCancel);
     else if(button == onlineSafetyTipsButton)
     {
-        onlineSafetySlides = MessageBox::createWithLayer(OnlineSafetySlidesAdult, nullptr);
+        MessageBox::createWithLayer(OnlineSafetySlidesAdult, nullptr);
 
     }
     else if(button == resetButton)
