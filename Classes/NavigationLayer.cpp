@@ -73,7 +73,8 @@ bool NavigationLayer::init()
     
     this->setAnchorPoint(Vec2(0.5, 0.5));
     
-    const std::vector<std::string>& hqNames = ConfigStorage::getInstance()->getHqNames();
+	std::vector<std::string> hqNames = ConfigStorage::getInstance()->getHqNames();
+	hqNames.push_back("TEST");
     int numItems = (int)hqNames.size();
     
     _hqButtonHolder = Node::create();
@@ -173,7 +174,14 @@ void NavigationLayer::changeToScene(const std::string& hqName, float duration)
         }
         return;
     }
-    
+	if(hqName == "TEST")
+	{
+		if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+		{
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(InteractiveContentFeed));
+		}
+		return;
+	}
     //CHECK IF THE ENTITLEMENT FOR THAT SPECIFIC HQ IS ENABLED
     
     const HQDataObjectRef &currentObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName);

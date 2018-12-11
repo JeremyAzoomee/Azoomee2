@@ -1,0 +1,64 @@
+{
+	"background" : {
+		"images": [
+			"res/testAssets/img_0897.png"
+		],
+		"slideInterval": 1.0,
+		"colour": [200,200,200,255]
+	},
+	"sprites":
+	[
+		{
+			"filename": "res/testAssets/swipe_right.png",
+			"id": "swipe",
+			"anchor": [0.5,0.5],
+			"position": [0.5,0.25],
+			"size": [0.25,-1.0],
+			"rotation": 0.0
+		}
+	],
+	"text":
+	[
+		{
+			"id": "text2",
+			"position": [0.5,0.9],
+            "text": "HOMEWORK?\nDONE!",
+            "alignment": "centre",
+            "fontSize": 174,
+            "bold": true,
+            "colour": [0,0,0,255],
+            "rotation": -15.0
+		},
+		{
+			"id": "text1",
+			"position": [0.5,0.15],
+            "text": "Swipe right to watch\nMily Miss Questions",
+            "alignment": "centre",
+            "fontSize": 134,
+            "colour": [255,255,255,255],
+            "rotation": 0.0
+		}
+	],
+	"animations":
+	[
+		{
+			"target": "swipe",
+			"loop": true,
+			"sequence":
+			[
+				{	
+					"type": "translate",
+					"startPos": [0.35,0.25],
+					"endPos": [0.65, 0.25],
+					"duration": 0.75
+				},
+				{	
+					"type": "translate",
+					"startPos": [0.65,0.25],
+					"endPos": [0.35, 0.25],
+					"duration": 0.5
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,99 @@
+{
+	"background" : {
+		"images": [
+			"res/testAssets/transparent.png"
+		],
+		"slideInterval": 1.0,
+		"colour": [200,200,200,255]
+	},
+	"sprites":
+	[
+		{
+			"filename": "res/testAssets/group.png",
+			"id": "face",
+			"anchor": [0.5,1.0],
+			"position": [0.5,1.0],
+			"size": [1.0,-1.0],
+			"rotation": 0.0
+		},
+		{
+			"filename": "res/testAssets/swipe_right.png",
+			"id": "swipe",
+			"anchor": [0.5,0.5],
+			"position": [0.5,0.25],
+			"size": [0.25,-1.0],
+			"rotation": 0.0
+		}
+	],
+	"text":
+	[
+		{
+			"id": "ouch",
+			"position": [0.65,0.9],
+            "text": "OUCH!!",
+            "alignment": "centre",
+            "fontSize": 194,
+            "colour": [255,255,255,255],
+            "rotation": -15.0
+		},
+		{
+			"id": "title",
+			"position": [0.5,0.5],
+            "text": "THATS GOTTA HURT",
+            "alignment": "centre",
+            "fontSize": 144,
+            "colour": [255,255,255,255],
+            "rotation": 0.0
+		},
+		{
+			"id": "text1",
+			"position": [0.5,0.15],
+            "text": "Swipe right to watch",
+            "alignment": "centre",
+            "fontSize": 134,
+            "colour": [255,255,255,255],
+            "rotation": 0.0
+		}
+	],
+	"animations":
+	[
+		{
+			"target": "swipe",
+			"loop": true,
+			"sequence":
+			[
+				{	
+					"type": "translate",
+					"startPos": [0.35,0.25],
+					"endPos": [0.65, 0.25],
+					"duration": 0.75
+				},
+				{	
+					"type": "translate",
+					"startPos": [0.65,0.25],
+					"endPos": [0.35, 0.25],
+					"duration": 0.5
+				}
+			]
+		},
+		{
+			"target": "ouch",
+			"loop": true,
+			"sequence":
+			[
+				{	
+					"type": "scale",
+					"startScale": [0.8,0.8],
+					"endScale": [1.2, 1.2],
+					"duration": 0.5
+				},
+				{	
+					"type": "scale",
+					"startScale": [1.2,1.2],
+					"endScale": [0.8, 0.8],
+					"duration": 0.5
+				}
+			]
+		}
+	]
+}

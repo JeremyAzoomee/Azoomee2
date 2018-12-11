@@ -20,6 +20,7 @@
 #include "IntroVideoScene.h"
 #include "ContentHistoryManager.h"
 #include "AddChildScene.h"
+#include "InteractiveFeedScene.h"
 
 #include "SettingsHub.h"
 
@@ -258,6 +259,13 @@ void SceneManagerScene::onEnterTransitionDidFinish()
 			break;
 		}
 #endif
+		case InteractiveContentFeed:
+		{
+			HQHistoryManager::getInstance()->updatePrevOrientation();
+			forceToPortrait();
+			Director::getInstance()->replaceScene(InteractiveFeedScene::create());
+			break;
+		}
         default:
             break;
     }

@@ -1,0 +1,120 @@
+{
+	"background" : {
+		"images": [
+			"res/testAssets/transparent.png"
+		],
+		"slideInterval": 1.0,
+		"gradient": {
+			"startColour":[0,0,0,255],
+			"endColour":[236,81,102,255],
+			"direction":[0.0,1.0]
+		}
+	},
+	"sprites":
+	[
+		{
+			"filename": "res/testAssets/screen_shot_2018_08_06_at_18_12_43.png",
+			"id": "game",
+			"anchor": [0.5,0.5],
+			"position": [0.5,0.5],
+			"size": [1.0,-1.0],
+			"rotation": 0.0
+		},
+		{
+			"filename": "res/testAssets/Friendship_03_SavageScore.png",
+			"id": "savageScore",
+			"anchor": [0.5,1.0],
+			"position": [0.5,1.0],
+			"size": [-1.0,0.4],
+			"rotation": 0.0
+		},
+		{
+			"filename": "res/testAssets/group_2.png",
+			"id": "base",
+			"anchor": [0.5,0.0],
+			"position": [0.5,0.0],
+			"size": [1.0,-1.0],
+			"rotation": 0.0
+		},
+		{
+			"filename": "res/testAssets/swipe_right.png",
+			"id": "swipe",
+			"anchor": [0.5,0.5],
+			"position": [0.5,0.2],
+			"size": [0.25,-1.0],
+			"rotation": 0.0
+		},
+		{
+			"filename": "res/testAssets/content_title_frame.png",
+			"id": "swipe",
+			"anchor": [0.5,0.5],
+			"position": [0.5,0.07],
+			"size": [-1.0,0.06],
+			"rotation": 0.0,
+			"colour": [84,174,255,255]
+		}
+	],
+	"text":
+	[
+		{
+			"id": "text1",
+			"position": [0.5,0.13],
+            "text": "Swipe right to play",
+            "alignment": "centre",
+            "fontSize": 85,
+            "colour": [0,0,0,255],
+            "rotation": 0.0
+		},
+		{
+			"id": "text2",
+			"position": [0.5,0.085],
+            "text": "Skytte",
+            "alignment": "centre",
+            "fontSize": 80,
+            "colour": [255,255,255,255],
+            "rotation": 0.0
+		}
+	],
+	"animations":
+	[
+		{
+			"target": "swipe",
+			"loop": true,
+			"sequence":
+			[
+				{	
+					"type": "translate",
+					"startPos": [0.35,0.25],
+					"endPos": [0.65, 0.25],
+					"duration": 0.75
+				},
+				{	
+					"type": "translate",
+					"startPos": [0.65,0.25],
+					"endPos": [0.35, 0.25],
+					"duration": 0.5
+				}
+			]
+		},
+		{
+			"target": "savageScore",
+			"loop": true,
+			"sequence":
+			[
+				{
+					"type": "scale",
+					"startScale": [0.8,0.8],
+					"endScale": [1.2,1.2],
+					"duration": 0.5
+				},
+				{
+					"type": "scale",
+					"startScale": [1.2,1.2],
+					"endScale": [0.8,0.8],
+					"duration": 0.5
+				}
+			]
+			
+		}
+	]
+}

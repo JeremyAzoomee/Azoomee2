@@ -121,6 +121,9 @@
 		521A8EAA19F11F5000D177D7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
 		52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B47A461A53D09B004E4C60 /* Security.framework */; };
 		8262943E1AAF051F00CB7CF7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8262943D1AAF051F00CB7CF7 /* Security.framework */; };
+		92084F2321BFCED200DACCEB /* InfinitePageView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92084F2021BFCED200DACCEB /* InfinitePageView.cpp */; };
+		92084F2421BFCED200DACCEB /* ActionPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92084F2221BFCED200DACCEB /* ActionPage.cpp */; };
+		92084F2721BFD41C00DACCEB /* InteractiveFeedScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92084F2621BFD41C00DACCEB /* InteractiveFeedScene.cpp */; };
 		920F6FDE213EB76300B7BB76 /* SettingsFriendshipsPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920F6FDD213EB76300B7BB76 /* SettingsFriendshipsPage.cpp */; };
 		920F6FE1213FD53900B7BB76 /* FriendRequestLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920F6FE0213FD53900B7BB76 /* FriendRequestLayer.cpp */; };
 		920F6FE52140472A00B7BB76 /* SettingsMessageBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920F6FE42140472A00B7BB76 /* SettingsMessageBox.cpp */; };
@@ -520,6 +523,12 @@
 		521A8EA819F11F5000D177D7 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		52B47A461A53D09B004E4C60 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		8262943D1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		92084F1F21BFCED200DACCEB /* InfinitePageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfinitePageView.h; sourceTree = "<group>"; };
+		92084F2021BFCED200DACCEB /* InfinitePageView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InfinitePageView.cpp; sourceTree = "<group>"; };
+		92084F2121BFCED200DACCEB /* ActionPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionPage.h; sourceTree = "<group>"; };
+		92084F2221BFCED200DACCEB /* ActionPage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ActionPage.cpp; sourceTree = "<group>"; };
+		92084F2521BFCF6000DACCEB /* InteractiveFeedScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InteractiveFeedScene.h; sourceTree = "<group>"; };
+		92084F2621BFD41C00DACCEB /* InteractiveFeedScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = InteractiveFeedScene.cpp; sourceTree = "<group>"; };
 		920F6FD8213EB4DA00B7BB76 /* SettingsFriendshipsPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsFriendshipsPage.h; sourceTree = "<group>"; };
 		920F6FDD213EB76300B7BB76 /* SettingsFriendshipsPage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsFriendshipsPage.cpp; sourceTree = "<group>"; };
 		920F6FDF213EDE4C00B7BB76 /* FriendRequestLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FriendRequestLayer.h; sourceTree = "<group>"; };
@@ -1156,6 +1165,7 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				92084F1A21BFCEA000DACCEB /* interactiveFeed */,
 				921A265B216E2775005C8C41 /* Vodacom */,
 				923EA8D220EBA6C200283342 /* addChild */,
 				929A9CF92063CD76009B323D /* MeArea */,
@@ -1216,6 +1226,19 @@
 			name = Icons;
 			path = ios;
 			sourceTree = SOURCE_ROOT;
+		};
+		92084F1A21BFCEA000DACCEB /* interactiveFeed */ = {
+			isa = PBXGroup;
+			children = (
+				92084F2221BFCED200DACCEB /* ActionPage.cpp */,
+				92084F2121BFCED200DACCEB /* ActionPage.h */,
+				92084F2021BFCED200DACCEB /* InfinitePageView.cpp */,
+				92084F1F21BFCED200DACCEB /* InfinitePageView.h */,
+				92084F2521BFCF6000DACCEB /* InteractiveFeedScene.h */,
+				92084F2621BFD41C00DACCEB /* InteractiveFeedScene.cpp */,
+			);
+			name = interactiveFeed;
+			sourceTree = "<group>";
 		};
 		921A265B216E2775005C8C41 /* Vodacom */ = {
 			isa = PBXGroup;
@@ -1907,6 +1930,8 @@
 				02D644692087826800FF17B4 /* MediaPlayer_ios.mm in Sources */,
 				926173A71F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp in Sources */,
 				9289DA0A1FBDD6EB00B12435 /* ContentHistoryManager.cpp in Sources */,
+				92084F2721BFD41C00DACCEB /* InteractiveFeedScene.cpp in Sources */,
+				92084F2321BFCED200DACCEB /* InfinitePageView.cpp in Sources */,
 				920F6FE1213FD53900B7BB76 /* FriendRequestLayer.cpp in Sources */,
 				9220EADB2010F08200BD7A90 /* AddChildFlowController.cpp in Sources */,
 				025BE95F1E3BD1F800EF76D1 /* WebViewNativeCaller_android.cpp in Sources */,
@@ -1931,6 +1956,7 @@
 				0253C9871EC053B5005037EB /* VideoPlaylistManager.cpp in Sources */,
 				0243B8DB1F1F5D5C005D3734 /* ChatNotificationsSingleton.cpp in Sources */,
 				921A266B216F7307005C8C41 /* VodacomOnboardingScene.cpp in Sources */,
+				92084F2421BFCED200DACCEB /* ActionPage.cpp in Sources */,
 				92951513208895D200F43AEC /* DynamicNodeCheckBox.cpp in Sources */,
 				9289DAF61FCEEFF000B12435 /* DynamicNodeTextInput.cpp in Sources */,
 				920F6FE52140472A00B7BB76 /* SettingsMessageBox.cpp in Sources */,

@@ -1,0 +1,85 @@
+{
+	"background" : {
+		"images": [
+			"res/testAssets/img_0897.png"
+		],
+		"slideInterval": 1.0,
+		"colour": [200,200,200,255]
+	},
+	"sprites":
+	[
+		{
+			"filename": "res/testAssets/swipe_right.png",
+			"id": "swipe",
+			"anchor": [0.5,0.5],
+			"position": [0.5,0.25],
+			"size": [0.25,-1.0],
+			"rotation": 0.0
+		},
+		{
+			"filename": "res/testAssets/OomiesDoingThings_01_Score.png",
+			"id": "oomee",
+			"anchor": [0.5,0.5],
+			"position": [0.5,0.55],
+			"size": [0.75,-1.0],
+			"rotation": 0.0
+		}
+	],
+	"text":
+	[
+		{
+			"id": "text2",
+			"position": [0.5,1.0],
+            "text": "This Oomee scored 641\npoints in Penalty Kicks",
+            "alignment": "centre",
+            "fontSize": 144,
+            "bold": true,
+            "colour": [0,0,0,255],
+            "rotation": 0.0
+		},
+		{
+			"id": "text1",
+			"position": [0.5,0.15],
+            "text": "Swipe right to beat him",
+            "alignment": "centre",
+            "fontSize": 134,
+            "colour": [255,255,255,255],
+            "rotation": 0.0
+		}
+	],
+	"animations":
+	[
+		{
+			"target": "swipe",
+			"loop": true,
+			"sequence":
+			[
+				{	
+					"type": "translate",
+					"startPos": [0.35,0.25],
+					"endPos": [0.65, 0.25],
+					"duration": 0.75
+				},
+				{	
+					"type": "translate",
+					"startPos": [0.65,0.25],
+					"endPos": [0.35, 0.25],
+					"duration": 0.5
+				}
+			]
+		},
+		{
+			"target": "oomee",
+			"loop": true,
+			"sequence":
+			[
+				{	
+					"type": "translate",
+					"startPos": [1.4,0.5],
+					"endPos": [-0.4, 0.5],
+					"duration": 1.5
+				}
+			]
+		}
+	]
+}
