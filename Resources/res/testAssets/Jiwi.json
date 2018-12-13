@@ -4,10 +4,30 @@
 			"res/testAssets/transparent.png"
 		],
 		"slideInterval": 1.0,
-		"colour": [200,200,200,255]
+		"gradient": {
+			"startColour":[26,17,34,255],
+			"endColour":[136,96,172,255],
+			"direction":[0.0,1.0]
+		}
 	},
 	"sprites":
 	[
+		{
+			"filename": "res/testAssets/left wires.png",
+			"id": "leftWire",
+			"anchor": [0.0,1.0],
+			"position": [0.0,0.8],
+			"size": [0.25,-1.0],
+			"rotation": 0.0
+		},
+		{
+			"filename": "res/testAssets/right wires.png",
+			"id": "rightWire",
+			"anchor": [1.0,1.0],
+			"position": [1.0,1.0],
+			"size": [0.25,-1.0],
+			"rotation": 0.0
+		},
 		{
 			"filename": "res/testAssets/screen_shot_2018_08_07_at_14_37_24.png",
 			"id": "game",
@@ -20,36 +40,63 @@
 			"filename": "res/testAssets/Oomojies_02_CryLaugh.png",
 			"id": "emoji",
 			"anchor": [0.5,0.5],
-			"position": [0.5,0.8],
-			"size": [-1.0,0.4],
+			"position": [0.5,0.75],
+			"size": [-1.0,0.15],
+			"rotation": 0.0
+		},
+		{
+			"filename": "res/testAssets/group_2.png",
+			"id": "base",
+			"anchor": [0.5,0.0],
+			"position": [0.5,0.0],
+			"size": [1.0,-1.0],
 			"rotation": 0.0
 		},
 		{
 			"filename": "res/testAssets/swipe_right.png",
 			"id": "swipe",
 			"anchor": [0.5,0.5],
-			"position": [0.5,0.25],
+			"position": [0.5,0.2],
 			"size": [0.25,-1.0],
 			"rotation": 0.0
+		},
+		{
+			"filename": "res/testAssets/content_title_frame.png",
+			"id": "swipe",
+			"anchor": [0.5,0.5],
+			"position": [0.5,0.07],
+			"size": [-1.0,0.06],
+			"rotation": 0.0,
+			"colour": [249, 74, 91,255]
 		}
 	],
 	"text":
 	[
 		{
-			"id": "text2",
-			"position": [0.5,1.0],
-            "text": "How did THAT happen?",
+			"id": "title",
+			"position": [0.5,0.9],
+            "text": "HOW DID THAT\nHAPPEN?",
             "alignment": "centre",
             "fontSize": 134,
             "colour": [255,255,255,255],
-            "rotation": 0.0
+            "rotation": 0.0,
+            "bold": true
 		},
 		{
 			"id": "text1",
-			"position": [0.5,0.2],
-            "text": "Swipe right to watch\nJiwi's Machines",
+			"position": [0.5,0.13],
+            "text": "Swipe right to watch",
             "alignment": "centre",
-            "fontSize": 134,
+            "fontSize": 85,
+            "colour": [0,0,0,255],
+            "rotation": 0.0
+		},
+		{
+			"id": "text2",
+			"position": [0.5,0.085],
+            "text": "Jiwi's Machines",
+            "alignment": "centre",
+            "fontSize": 80,
             "colour": [255,255,255,255],
             "rotation": 0.0
 		}

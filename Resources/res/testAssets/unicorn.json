@@ -1,13 +1,49 @@
 {
 	"background" : {
 		"images": [
-			"res/testAssets/img_0898.png"
+			"res/testAssets/transparent.png"
 		],
 		"slideInterval": 1.0,
-		"colour": [200,200,200,255]
+		"gradient": {
+			"startColour":[26,17,34,255],
+			"endColour":[136,96,172,255],
+			"direction":[0.0,1.0]
+		}
 	},
 	"sprites":
 	[
+		{
+			"filename": "res/testAssets/left wires.png",
+			"id": "leftWire",
+			"anchor": [0.0,1.0],
+			"position": [0.0,0.8],
+			"size": [0.25,-1.0],
+			"rotation": 0.0
+		},
+		{
+			"filename": "res/testAssets/right wires.png",
+			"id": "rightWire",
+			"anchor": [1.0,1.0],
+			"position": [1.0,1.0],
+			"size": [0.25,-1.0],
+			"rotation": 0.0
+		},
+		{
+			"filename": "res/testAssets/img_0898.png",
+			"id": "uni",
+			"anchor": [0.5,0.5],
+			"position": [0.5,0.4],
+			"size": [1.0,-1.0],
+			"rotation": 0.0
+		},
+		{
+			"filename": "res/testAssets/group_2.png",
+			"id": "base",
+			"anchor": [0.5,0.0],
+			"position": [0.5,0.0],
+			"size": [1.0,-1.0],
+			"rotation": 0.0
+		},
 		{
 			"filename": "res/testAssets/OomiesDoingThings_06_Celebrating.png",
 			"id": "oomee",
@@ -21,12 +57,13 @@
 	[
 		{
 			"id": "text2",
-			"position": [0.5,0.95],
+			"position": [0.5,0.85],
             "text": "HAPPY NATIONAL\nUNICORN DAY",
             "alignment": "centre",
-            "fontSize": 174,
-            "colour": [0,0,0,255],
-            "rotation": 0.0
+            "fontSize": 128,
+            "colour": [255,255,255,255],
+            "rotation": 0.0,
+            "bold": true
 		}
 	],
 	"animations":

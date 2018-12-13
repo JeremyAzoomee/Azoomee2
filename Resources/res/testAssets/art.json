@@ -4,10 +4,30 @@
 			"res/testAssets/transparent.png"
 		],
 		"slideInterval": 1.0,
-		"colour": [200,200,200,255]
+		"gradient": {
+			"startColour":[26, 17, 34,255],
+			"endColour":[84, 174, 255,255],
+			"direction":[0.0,1.0]
+		}
 	},
 	"sprites":
 	[
+		{
+			"filename": "res/testAssets/left wires.png",
+			"id": "leftWire",
+			"anchor": [0.0,1.0],
+			"position": [0.0,0.8],
+			"size": [0.25,-1.0],
+			"rotation": 0.0
+		},
+		{
+			"filename": "res/testAssets/right wires.png",
+			"id": "rightWire",
+			"anchor": [1.0,1.0],
+			"position": [1.0,1.0],
+			"size": [0.25,-1.0],
+			"rotation": 0.0
+		},
 		{
 			"filename": "res/testAssets/art.png",
 			"id": "art",
@@ -17,11 +37,27 @@
 			"rotation": 0.0
 		},
 		{
-			"filename": "res/testAssets/cta_1.png",
+			"filename": "res/testAssets/button_cta.png",
 			"id": "button",
 			"anchor": [0.5,0.5],
-			"position": [0.5,0.2],
+			"position": [0.5,0.3],
 			"size": [0.8,-1.0],
+			"rotation": 0.0
+		},
+		{
+			"filename": "res/testAssets/group_2.png",
+			"id": "base",
+			"anchor": [0.5,0.0],
+			"position": [0.5,0.0],
+			"size": [1.0,-1.0],
+			"rotation": 0.0
+		},
+		{
+			"filename": "res/testAssets/tap_above.png",
+			"id": "swipe",
+			"anchor": [0.5,0.5],
+			"position": [0.5,0.2],
+			"size": [0.25,-1.0],
 			"rotation": 0.0
 		}
 	],
@@ -29,15 +65,44 @@
 	[
 		{
 			"id": "text1",
-			"position": [0.5,0.95],
-            "text": "How well can you\ndraw an Oomee\nsurfing on a giant\nslice of pizza?",
+			"position": [0.5,0.9],
+            "text": "HOW WELL CAN YOU\nDRAW AN OOMEE\nSURFING ON A GIANT\nSLICE OF PIZZA?",
             "alignment": "centre",
-            "fontSize": 134,
+            "fontSize": 128,
             "colour": [255,255,255,255],
+            "rotation": 0.0,
+            "bold": true
+		},
+		{
+			"id": "text1",
+			"position": [0.5,0.13],
+            "text": "Tap the button to start drawing!",
+            "alignment": "centre",
+            "fontSize": 85,
+            "colour": [0,0,0,255],
             "rotation": 0.0
 		}
 	],
 	"animations":
 	[
+		{
+			"target": "swipe",
+			"loop": true,
+			"sequence":
+			[
+				{	
+					"type": "scale",
+					"startScale": [1.0,1.0],
+					"endScale": [1.2, 1.2],
+					"duration": 0.75
+				},
+				{	
+					"type": "scale",
+					"startScale": [1.2,1.2],
+					"endScale": [1.0, 1.0],
+					"duration": 0.75
+				}
+			]
+		}
 	]
 }

@@ -6,6 +6,7 @@
 //
 
 #include "ActionPage.h"
+#include <AzoomeeCommon/UI/Style.h>
 
 using namespace cocos2d;
 
@@ -158,7 +159,7 @@ void ActionPage::setData(const std::string& dataString)
             
             Color4B fontColour = getColor4BFromJson("colour", params);
             
-            const std::string& fontType = getBoolFromJson("bold", params) ?  "fonts/Sofia Pro Soft Bold.otf" : "fonts/Sofia Pro Soft Regular.otf";
+            const std::string& fontType = getBoolFromJson("bold", params) ?  "fonts/Objectivity-ExtraBold.otf" : "fonts/Sofia Pro Soft Regular.otf";
             
             const std::string& id = getStringFromJson("id", params);
             
@@ -184,6 +185,9 @@ void ActionPage::setData(const std::string& dataString)
                 label->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
                 label->setHorizontalAlignment(TextHAlignment::CENTER);
             }
+			label->enableGlow(Color4B::RED);
+			//label->enableShadow(fontColour, Size(5,-5), 100);
+			//label->enableOutline(Color4B::RED, 10);
 			/*
 			Label* label2 = Label::createWithTTF(text, "fonts/Sofia Pro Soft Bold.otf", fontSize);
 			label2->setName(id);
@@ -193,16 +197,15 @@ void ActionPage::setData(const std::string& dataString)
 			label2->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 			label2->setHorizontalAlignment(label->getHorizontalAlignment());
 			//label2->setRotation(label->getRotation());
-			for(int i = 0; i < label2->getStringLength(); i++)
+			for(int i = 0; i < label->getStringLength(); i++)
 			{
-				auto letter = label2->getLetter(i);
+				auto letter = label->getLetter(i);
 				if(letter)
 				{
-					letter->setOpacity(75);
-					letter->setScale(1.3f);
+					letter->runAction(Sequence::create(DelayTime::create(RandomHelper::random_real(0.1f, 1.0f)),FadeIn::create(1),FadeOut::create(1),FadeIn::create(1),FadeOut::create(1),FadeIn::create(1) NULL));
 				}
 			}
-			label->addChild(label2, -1);*/
+			//label->addChild(label2, -1);*/
             _contentNode->addChild(label);
             _text[id] = label;
         }
@@ -261,7 +264,7 @@ void ActionPage::startAnimations()
     {
         return;
     }
-    
+	
     if(data.HasMember("animations"))
     {
         const rapidjson::Value& animData = data["animations"];

@@ -1,20 +1,65 @@
 {
 	"background" : {
 		"images": [
-			"res/testAssets/img_0897.png"
+			"res/testAssets/transparent.png"
 		],
 		"slideInterval": 1.0,
-		"colour": [200,200,200,255]
+		"gradient": {
+			"startColour":[249, 74, 91,255],
+			"endColour":[246, 187, 66,255],
+			"direction":[0.0,1.0]
+		}
 	},
 	"sprites":
 	[
 		{
+			"filename": "res/testAssets/left wires.png",
+			"id": "leftWire",
+			"anchor": [0.0,1.0],
+			"position": [0.0,0.8],
+			"size": [0.25,-1.0],
+			"rotation": 0.0
+		},
+		{
+			"filename": "res/testAssets/right wires.png",
+			"id": "rightWire",
+			"anchor": [1.0,1.0],
+			"position": [1.0,1.0],
+			"size": [0.25,-1.0],
+			"rotation": 0.0
+		},
+		{
+			"filename": "res/testAssets/img_0897.png",
+			"id": "game",
+			"anchor": [0.5,0.5],
+			"position": [0.5,0.5],
+			"size": [1.0,-1.0],
+			"rotation": 0.0
+		},
+		{
+			"filename": "res/testAssets/group_2.png",
+			"id": "base",
+			"anchor": [0.5,0.0],
+			"position": [0.5,0.0],
+			"size": [1.0,-1.0],
+			"rotation": 0.0
+		},
+		{
 			"filename": "res/testAssets/swipe_right.png",
 			"id": "swipe",
 			"anchor": [0.5,0.5],
-			"position": [0.5,0.25],
+			"position": [0.5,0.2],
 			"size": [0.25,-1.0],
 			"rotation": 0.0
+		},
+		{
+			"filename": "res/testAssets/content_title_frame.png",
+			"id": "swipe",
+			"anchor": [0.5,0.5],
+			"position": [0.5,0.07],
+			"size": [-1.0,0.06],
+			"rotation": 0.0,
+			"colour": [249, 74, 91,255]
 		}
 	],
 	"text":
@@ -22,19 +67,40 @@
 		{
 			"id": "text2",
 			"position": [0.5,0.9],
-            "text": "HOMEWORK?\nDONE!",
+            "text": "HOMEWORK?",
             "alignment": "centre",
-            "fontSize": 174,
+            "fontSize": 128,
             "bold": true,
-            "colour": [0,0,0,255],
-            "rotation": -15.0
+            "colour": [255,255,255,255],
+            "rotation": 0.0,
+            "bold": true
+		},
+		{
+			"id": "text2",
+			"position": [0.5,0.85],
+            "text": "DONE",
+            "alignment": "centre",
+            "fontSize": 178,
+            "bold": true,
+            "colour": [255,255,255,255],
+            "rotation": 0.0,
+            "bold": true
 		},
 		{
 			"id": "text1",
-			"position": [0.5,0.15],
-            "text": "Swipe right to watch\nMily Miss Questions",
+			"position": [0.5,0.13],
+            "text": "Swipe right to watch",
             "alignment": "centre",
-            "fontSize": 134,
+            "fontSize": 85,
+            "colour": [0,0,0,255],
+            "rotation": 0.0
+		},
+		{
+			"id": "text2",
+			"position": [0.5,0.085],
+            "text": "Mily Miss Questions",
+            "alignment": "centre",
+            "fontSize": 80,
             "colour": [255,255,255,255],
             "rotation": 0.0
 		}

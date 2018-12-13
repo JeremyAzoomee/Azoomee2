@@ -13,6 +13,22 @@
 	"sprites":
 	[
 		{
+			"filename": "res/testAssets/left wires.png",
+			"id": "leftWire",
+			"anchor": [0.0,1.0],
+			"position": [0.0,0.8],
+			"size": [0.25,-1.0],
+			"rotation": 0.0
+		},
+		{
+			"filename": "res/testAssets/right wires.png",
+			"id": "rightWire",
+			"anchor": [1.0,1.0],
+			"position": [1.0,1.0],
+			"size": [0.25,-1.0],
+			"rotation": 0.0
+		},
+		{
 			"filename": "res/testAssets/screen_shot_2018_08_06_at_18_12_43.png",
 			"id": "game",
 			"anchor": [0.5,0.5],

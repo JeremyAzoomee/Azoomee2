@@ -4,15 +4,43 @@
 			"res/testAssets/transparent.png"
 		],
 		"slideInterval": 1.0,
-		"colour": [200,200,200,255]
+		"gradient": {
+			"startColour":[26,17,34,255],
+			"endColour":[136,96,172,255],
+			"direction":[0.0,1.0]
+		}
 	},
 	"sprites":
 	[
 		{
+			"filename": "res/testAssets/left wires.png",
+			"id": "leftWire",
+			"anchor": [0.0,1.0],
+			"position": [0.0,0.8],
+			"size": [0.25,-1.0],
+			"rotation": 0.0
+		},
+		{
+			"filename": "res/testAssets/right wires.png",
+			"id": "rightWire",
+			"anchor": [1.0,1.0],
+			"position": [1.0,1.0],
+			"size": [0.25,-1.0],
+			"rotation": 0.0
+		},
+		{
 			"filename": "res/testAssets/group.png",
 			"id": "face",
-			"anchor": [0.5,1.0],
-			"position": [0.5,1.0],
+			"anchor": [0.5,0.5],
+			"position": [0.5,0.5],
+			"size": [1.0,-1.0],
+			"rotation": 0.0
+		},
+		{
+			"filename": "res/testAssets/group_2.png",
+			"id": "base",
+			"anchor": [0.5,0.0],
+			"position": [0.5,0.0],
 			"size": [1.0,-1.0],
 			"rotation": 0.0
 		},
@@ -20,37 +48,57 @@
 			"filename": "res/testAssets/swipe_right.png",
 			"id": "swipe",
 			"anchor": [0.5,0.5],
-			"position": [0.5,0.25],
+			"position": [0.5,0.2],
 			"size": [0.25,-1.0],
 			"rotation": 0.0
+		},
+		{
+			"filename": "res/testAssets/content_title_frame.png",
+			"id": "swipe",
+			"anchor": [0.5,0.5],
+			"position": [0.5,0.07],
+			"size": [-1.0,0.06],
+			"rotation": 0.0,
+			"colour": [249, 74, 91,255]
 		}
 	],
 	"text":
 	[
 		{
-			"id": "ouch",
-			"position": [0.65,0.9],
+			"id": "OUCH!!",
+			"position": [0.65,0.75],
             "text": "OUCH!!",
             "alignment": "centre",
-            "fontSize": 194,
+            "fontSize": 128,
             "colour": [255,255,255,255],
-            "rotation": -15.0
+            "rotation": -15.0,
+            "bold": true
 		},
 		{
 			"id": "title",
-			"position": [0.5,0.5],
+			"position": [0.5,0.9],
             "text": "THATS GOTTA HURT",
             "alignment": "centre",
-            "fontSize": 144,
+            "fontSize": 128,
             "colour": [255,255,255,255],
-            "rotation": 0.0
+            "rotation": 0.0,
+            "bold": true
 		},
 		{
 			"id": "text1",
-			"position": [0.5,0.15],
+			"position": [0.5,0.13],
             "text": "Swipe right to watch",
             "alignment": "centre",
-            "fontSize": 134,
+            "fontSize": 85,
+            "colour": [0,0,0,255],
+            "rotation": 0.0
+		},
+		{
+			"id": "text2",
+			"position": [0.5,0.085],
+            "text": "Guinness World Records",
+            "alignment": "centre",
+            "fontSize": 80,
             "colour": [255,255,255,255],
             "rotation": 0.0
 		}
