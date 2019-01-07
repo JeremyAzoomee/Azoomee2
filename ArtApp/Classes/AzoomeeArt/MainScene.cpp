@@ -130,7 +130,7 @@ void MainScene::backButtonCallBack()
 
 void MainScene::shareButtonCallBack()
 {
-    if(_drawingCanvas->_actionCounter > 0 || _fileName == "")
+	if(_drawingCanvas->_actionCounter > 0 || !FileUtils::getInstance()->isFileExist(_fileName))
     {
         ModalMessages::getInstance()->startSaving();
         
