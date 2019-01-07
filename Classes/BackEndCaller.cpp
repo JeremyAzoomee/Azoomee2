@@ -137,6 +137,14 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString, con
         ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headerString));
         AnalyticsSingleton::getInstance()->signInSuccessEvent();
         AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
+		if(FlowDataSingleton::getInstance()->isSignupFlow())
+		{
+			AnalyticsSingleton::getInstance()->registerAlias(ParentDataProvider::getInstance()->getLoggedInParentId());
+		}
+		else
+		{
+			AnalyticsSingleton::getInstance()->registerIdentifier(ParentDataProvider::getInstance()->getLoggedInParentId());
+		}
         if(RoutePaymentSingleton::getInstance()->receiptDataFileExists())
         {
             Director::getInstance()->getScheduler()->schedule([&](float dt){
@@ -265,7 +273,7 @@ void BackEndCaller::getAvailableChildren()
 void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseString)
 {
     ModalMessages::getInstance()->stopLoading();
-    AnalyticsSingleton::getInstance()->registerIdentifier(ParentDataProvider::getInstance()->getLoggedInParentId());
+    //AnalyticsSingleton::getInstance()->registerIdentifier(ParentDataProvider::getInstance()->getLoggedInParentId());
     ParentDataParser::getInstance()->parseAvailableChildren(responseString);
     if(ParentDataProvider::getInstance()->getAmountOfAvailableChildren() == 0)
     {

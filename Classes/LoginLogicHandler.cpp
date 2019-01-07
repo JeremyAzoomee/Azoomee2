@@ -1,6 +1,8 @@
 #include "LoginLogicHandler.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Data/Child/ChildDataParser.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "BackEndCaller.h"
 #include "DeepLinkingSingleton.h"
 #include "SceneManagerScene.h"
@@ -45,6 +47,7 @@ void LoginLogicHandler::doLoginLogic()
         BackEndCaller::getInstance()->getAvailableChildren();
         BackEndCaller::getInstance()->updateBillingData();
         BackEndCaller::getInstance()->getParentDetails();
+		AnalyticsSingleton::getInstance()->registerIdentifier(ParentDataProvider::getInstance()->getLoggedInParentId());
         return;
     }
     else if(DeepLinkingSingleton::getInstance()->actionDeepLink())

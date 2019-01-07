@@ -26,8 +26,6 @@ private:
 
     cocos2d::Layer* windowLayer = nullptr;
     
-    MessageBox* onlineSafetySlides = nullptr;
-    
     float textMaxWidth;
     float buttonSpaceWidth;
 

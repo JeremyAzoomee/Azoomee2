@@ -78,6 +78,32 @@ public class Mixpanel
         _mixpanelAPI.getPeople().set("parentID", parentID);
     }
 
+    public void setMixpanelAlias(String newID) {
+        if(!isMixpanelContextAvailable())
+        {
+            return;
+        }
+        _mixpanelAPI.alias(newID, null);
+        _mixpanelAPI.getPeople().identify(_mixpanelAPI.getDistinctId());
+    }
+
+    public void updateMixpanelPeopleProperties(String jsonPropertiesString) {
+        if(!isMixpanelContextAvailable())
+        {
+            return;
+        }
+        JSONObject mixPanelProperties = null;
+        try
+        {
+            mixPanelProperties = new JSONObject(jsonPropertiesString);
+        }
+        catch (JSONException e)
+        {
+            mixPanelProperties = null;
+        }
+        _mixpanelAPI.getPeople().set(mixPanelProperties);
+    }
+
     public void showMixpanelNotification()
     {
         if(!isMixpanelContextAvailable())

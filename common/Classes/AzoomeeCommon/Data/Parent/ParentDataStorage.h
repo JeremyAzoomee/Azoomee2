@@ -3,6 +3,7 @@
 
 #include <cocos/cocos2d.h>
 #include "../Json.h"
+#include "BillingData.h"
 #include <map>
 
 
@@ -31,9 +32,10 @@ public:
     std::string loggedInParentAvatarId;
     std::string loggedInParentDisplayName;
     std::string loggedInParentEmail;
-    std::string loggedInParentBillingStatus;
-    std::string loggedInParentBillingDate;
-    std::string loggedInParentBillingProvider;
+    //std::string loggedInParentBillingStatus;
+    //std::string loggedInParentBillingDate;
+    //std::string loggedInParentBillingProvider;
+	BillingDataRef _billingData = nullptr;
     std::string loggedInParentCountryCode;
     bool isLoggedInParentAnonymous = false;
     bool isBillingDataAvailable = false;

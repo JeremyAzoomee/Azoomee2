@@ -147,6 +147,7 @@
 		434A55E41F29F9C800740601 /* MessageBoxLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434A55E21F29F9C800740601 /* MessageBoxLayer.cpp */; };
 		434A55EB1F2A40EE00740601 /* MessageBoxChatResetModerationLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434A55E91F2A40EE00740601 /* MessageBoxChatResetModerationLayer.cpp */; };
 		436007891F22120C000ECBA4 /* ModalWebview.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 436007871F22120C000ECBA4 /* ModalWebview.cpp */; };
+		92084F0B21B5877B00DACCEB /* BillingData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92084F0A21B5877B00DACCEB /* BillingData.cpp */; };
 		921C75AA2193225D00EB93D6 /* Style.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921C75A92193225C00EB93D6 /* Style.cpp */; };
 		9220E9C11FFE549500BD7A90 /* AnalyticsProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220E9C01FFE549500BD7A90 /* AnalyticsProperties.cpp */; };
 		9220EBB92021FC9300BD7A90 /* TimeFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EBB82021FC9300BD7A90 /* TimeFunctions.cpp */; };
@@ -452,6 +453,8 @@
 		436007871F22120C000ECBA4 /* ModalWebview.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModalWebview.cpp; sourceTree = "<group>"; };
 		436007881F22120C000ECBA4 /* ModalWebview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModalWebview.h; sourceTree = "<group>"; };
 		4360078A1F2232CC000ECBA4 /* Urls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Urls.h; sourceTree = "<group>"; };
+		92084F0921B562C500DACCEB /* BillingData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BillingData.h; sourceTree = "<group>"; };
+		92084F0A21B5877B00DACCEB /* BillingData.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BillingData.cpp; sourceTree = "<group>"; };
 		921C75A92193225C00EB93D6 /* Style.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Style.cpp; sourceTree = "<group>"; };
 		9220E9BF1FFE44C800BD7A90 /* AnalyticsProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnalyticsProperties.h; sourceTree = "<group>"; };
 		9220E9C01FFE549500BD7A90 /* AnalyticsProperties.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AnalyticsProperties.cpp; sourceTree = "<group>"; };
@@ -613,6 +616,8 @@
 				3012ED551E969BBB0009027D /* ParentDataProvider.h */,
 				3012ED561E969BBB0009027D /* ParentDataStorage.cpp */,
 				3012ED571E969BBB0009027D /* ParentDataStorage.h */,
+				92084F0921B562C500DACCEB /* BillingData.h */,
+				92084F0A21B5877B00DACCEB /* BillingData.cpp */,
 			);
 			path = Parent;
 			sourceTree = "<group>";
@@ -1201,6 +1206,7 @@
 				929E8B6B2153F06E0078C983 /* ConfirmCancelMessageBox.cpp in Sources */,
 				4349C8151EA8ADEF00FE964B /* MixpanelExceptionHandler.m in Sources */,
 				9220EC6A203313CE00BD7A90 /* ActionBuilder.cpp in Sources */,
+				92084F0B21B5877B00DACCEB /* BillingData.cpp in Sources */,
 				3012ED9F1E97E6A40009027D /* RemoteImageSprite.cpp in Sources */,
 				3012ED631E969BF60009027D /* ChildDataStorage.cpp in Sources */,
 				92B1EC8D20A209CC007A58C0 /* ContentItemPoolParser.cpp in Sources */,
