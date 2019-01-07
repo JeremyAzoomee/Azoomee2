@@ -86,8 +86,11 @@ using namespace Azoomee;
 	_currentItemIndex = startPlaylistElementIndex;
     [self.queuePlayer play];
 
-	CMTime startTime = CMTimeMakeWithSeconds(videoProgressSeconds, NSEC_PER_SEC);
-	[_queuePlayer seekToTime:startTime];
+	if(videoProgressSeconds > 0)
+	{
+		CMTime startTime = CMTimeMakeWithSeconds(videoProgressSeconds, NSEC_PER_SEC);
+		[_queuePlayer seekToTime:startTime];
+	}
 	
     [self createButtons];
     [self createFavBanner];

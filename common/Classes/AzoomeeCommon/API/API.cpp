@@ -431,7 +431,7 @@ HttpRequestCreator* API::UpdateVideoProgress(const std::string &childId,
 {
 	HttpRequestCreator* request = new HttpRequestCreator(delegate);
 	request->requestPath = StringUtils::format("/api/videoprogress/progress/%s",childId.c_str());
-	request->requestBody = StringUtils::format("{\"videoId\":\"%s\",\"userId\":\"%s\",\"videoProgressSeconds\":%d}",videoId.c_str(), childId.c_str(), videoProgressSeconds);
+	request->requestBody = StringUtils::format("{\"videoId\":\"%s\",\"videoProgressSeconds\":%d}",videoId.c_str(), videoProgressSeconds);
 	request->requestTag = TagUpdateVideoProgress;
 	request->method = "POST";
 	request->encrypted = true;

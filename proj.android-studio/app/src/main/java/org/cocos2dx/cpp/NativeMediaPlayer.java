@@ -92,8 +92,11 @@ public class NativeMediaPlayer extends Activity {
         videoview.requestFocus();
         videoview.start();
 
-        videoview.seekTo(extras.getInt("videoProgressSeconds") * 1000);
-
+        int vidProgress = extras.getInt("videoProgressSeconds") * 1000;
+        if(vidProgress > 0)
+        {
+            videoview.seekTo(vidProgress);
+        }
         JNICalls.sendMediaPlayerData("video.play", "");
 
         _eventTimer = new Timer();
