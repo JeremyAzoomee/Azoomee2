@@ -121,6 +121,30 @@ void RoutePaymentSingleton::refreshAppleReceiptFromButton()
     #endif
 }
 
+void RoutePaymentSingleton::restorePayment()
+{
+	if(osIsIos())
+	{
+		refreshAppleReceiptFromButton();
+	}
+	else if(osIsAndroid())
+	{
+	#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+		pressedIAPStartButton = false;
+		pressedRestorePurchaseButton = true;
+		ModalMessages::getInstance()->startLoading();
+		GooglePaymentSingleton::getInstance()->startRestorePurchase();
+	#endif
+	}
+	else
+	{
+		pressedIAPStartButton = true;
+		pressedRestorePurchaseButton = false;
+		ModalMessages::getInstance()->startLoading();
+		AmazonPaymentSingleton::getInstance()->startIAPPayment();
+	}
+}
+
 void RoutePaymentSingleton::backendRequestFailed(long errorCode)
 {
     if(errorCode == 409 || errorCode == 422) //409 means the user was already upgraded, so we can remove the local receipt file.

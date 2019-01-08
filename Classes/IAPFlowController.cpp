@@ -269,7 +269,8 @@ void IAPFlowController::AdultPinAccepted(RequestAdultPinLayer* layer)
         if(path == kPathRestore)
         {
             AnalyticsSingleton::getInstance()->ctaButtonPressed("refreshPayment");
-            RoutePaymentSingleton::getInstance()->refreshAppleReceiptFromButton();
+			RoutePaymentSingleton::getInstance()->restorePayment();
+            //RoutePaymentSingleton::getInstance()->refreshAppleReceiptFromButton();
             exitFlow();
         }
         else if(path == kPathIAP)

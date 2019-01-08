@@ -32,6 +32,8 @@ public:
     bool osIsAmazon();
     
     void refreshAppleReceiptFromButton();
+	
+	void restorePayment();
     
     void backendRequestFailed(long errorCode);
     

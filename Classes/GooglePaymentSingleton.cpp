@@ -140,6 +140,15 @@ void GooglePaymentSingleton::startIABPayment()
 #endif
 }
 
+void GooglePaymentSingleton::startRestorePurchase()
+{
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+	
+	JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "startGoogleRestorePurchase");
+	
+#endif
+}
+
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 
 extern "C"
