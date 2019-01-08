@@ -111,38 +111,29 @@ bool RoutePaymentSingleton::osIsAmazon()
     return (ConfigStorage::getInstance()->getOSManufacturer() == "Amazon");
 }
 
-void RoutePaymentSingleton::refreshAppleReceiptFromButton()
-{
-    #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-        pressedIAPStartButton = false;
-        pressedRestorePurchaseButton = true;
-        ModalMessages::getInstance()->startLoading();
-        ApplePaymentSingleton::getInstance()->refreshReceipt(true);
-    #endif
-}
-
 void RoutePaymentSingleton::restorePayment()
 {
+	pressedIAPStartButton = false;
+	pressedRestorePurchaseButton = true;
 	if(osIsIos())
 	{
-		refreshAppleReceiptFromButton();
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+		ApplePaymentSingleton::getInstance()->refreshReceipt(true);
+#endif
 	}
 	else if(osIsAndroid())
 	{
 	#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-		pressedIAPStartButton = false;
-		pressedRestorePurchaseButton = true;
-		ModalMessages::getInstance()->startLoading();
 		GooglePaymentSingleton::getInstance()->startRestorePurchase();
 	#endif
 	}
-	else
+	else if(osIsAmazon())
 	{
 		pressedIAPStartButton = true;
 		pressedRestorePurchaseButton = false;
-		ModalMessages::getInstance()->startLoading();
 		AmazonPaymentSingleton::getInstance()->startIAPPayment();
 	}
+	ModalMessages::getInstance()->startLoading();
 }
 
 void RoutePaymentSingleton::backendRequestFailed(long errorCode)

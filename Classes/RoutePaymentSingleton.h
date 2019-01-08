@@ -30,8 +30,6 @@ public:
     bool osIsIos();
     bool osIsAndroid();
     bool osIsAmazon();
-    
-    void refreshAppleReceiptFromButton();
 	
 	void restorePayment();
     

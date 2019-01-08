@@ -447,15 +447,14 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         else
         {
             try {
-                String[] moreSkus = {getGoogleSku(), "SKU_ITEMONE"}; //fake skus required by queryInventoryAsync...
-                String[] moreSubSkus = {getGoogleSku(), "SUB_ITEMONE", "SUB_ITEMTWO"}; //fake skus required by queryInventoryAsync...
+                String googleSku = getGoogleSku();
+                String[] moreSkus = {googleSku, "SKU_ITEMONE"}; //fake skus required by queryInventoryAsync...
+                String[] moreSubSkus = {googleSku, "SUB_ITEMONE", "SUB_ITEMTWO"}; //fake skus required by queryInventoryAsync...
                 Inventory inv = currentActivity.mHelper.queryInventory(true, Arrays.asList(moreSkus), Arrays.asList(moreSubSkus));
                 // Do we have the premium upgrade?
-                Purchase premiumPurchase = inv.getPurchase(getGoogleSku());
+                Purchase premiumPurchase = inv.getPurchase(googleSku);
                 currentActivity.mIsPremium = (premiumPurchase != null);
                 Log.d("GOOGLEPLAY", "User is " + (currentActivity.mIsPremium ? "PREMIUM" : "NOT PREMIUM"));
-
-                currentActivity.IABHelperSetupComplete = true;
 
                 if(currentActivity._restorePurchase)
                 {
@@ -471,6 +470,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
                 }
             } catch (IabException e) {
                 Log.d("GOOGLEPAY", "Error querying inventory.");
+                googlePurchaseFailed();
             }
         }
     }
