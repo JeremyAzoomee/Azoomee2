@@ -162,7 +162,7 @@ void HQScene2::startBuildingScrollView()
     _carouselStorage.clear();
     float totalHeightOfCarousels = 0;
     
-    addRecentlyPlayedCarousel();
+    //addRecentlyPlayedCarousel();
     
     for(int rowIndex = 0; rowIndex < HQDataProvider::getInstance()->getNumberOfRowsForHQ(_hqCategory); rowIndex++)
     {

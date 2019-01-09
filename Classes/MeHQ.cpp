@@ -27,6 +27,7 @@
 #include "MeHQDownloads.h"
 #include "MeHQFavourites.h"
 #include "MeHQMessages.h"
+#include "MeHQRecentlyPlayed.h"
 
 using namespace cocos2d;
 
@@ -37,6 +38,7 @@ const std::string MeHQ::kGalleryLayerName = "gallery";
 const std::string MeHQ::kMessagesLayerName = "messages";
 const std::string MeHQ::kDownloadsLayerName = "downloads";
 const std::string MeHQ::kFavoritesLayerName = "favourites";
+const std::string MeHQ::kRecentlyPlayedLayerName = "recentlyPlayed";
 
 std::string MeHQ::_previousLayer = kProfileLayerName;
 
@@ -103,7 +105,13 @@ bool MeHQ::init()
     favouriteLayout->setName(kFavoritesLayerName);
     _contentListView->pushBackCustomItem(favouriteLayout);
     _sectionIndexMap[kFavoritesLayerName] = indexNum++;
-    
+	
+	auto recentlyPlayed = MeHQRecentlyPlayed::create();
+	recentlyPlayed->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
+	recentlyPlayed->setName(kRecentlyPlayedLayerName);
+	_contentListView->pushBackCustomItem(recentlyPlayed);
+	_sectionIndexMap[kRecentlyPlayedLayerName] = indexNum++;
+	
     auto downloadsLayout = MeHQDownloads::create();
     downloadsLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
     downloadsLayout->setName(kDownloadsLayerName);
