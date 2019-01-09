@@ -127,11 +127,9 @@ void RoutePaymentSingleton::restorePayment()
 		GooglePaymentSingleton::getInstance()->startRestorePurchase();
 	#endif
 	}
-	else if(osIsAmazon())
+	else
 	{
-		pressedIAPStartButton = true;
-		pressedRestorePurchaseButton = false;
-		AmazonPaymentSingleton::getInstance()->startIAPPayment();
+		return;
 	}
 	ModalMessages::getInstance()->startLoading();
 }
@@ -173,6 +171,13 @@ void RoutePaymentSingleton::doublePurchaseMessage()
     AnalyticsSingleton::getInstance()->iapSubscriptionDoublePurchaseEvent();
     Azoomee::ModalMessages::getInstance()->stopLoading();
     MessageBox::createWith(ERROR_CODE_PURCHASE_DOUBLE, nullptr);
+}
+
+void RoutePaymentSingleton::failedRestoreMessage()
+{
+	AnalyticsSingleton::getInstance()->iapSubscriptionErrorEvent("failed restore - no purchase");
+	Azoomee::ModalMessages::getInstance()->stopLoading();
+	MessageBox::createWith(ERROR_CODE_APPLE_NO_PREVIOUS_PURCHASE, nullptr);
 }
 
 void RoutePaymentSingleton::inAppPaymentSuccess()

@@ -465,7 +465,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
                     }
                     else
                     {
-                        currentActivity.startGoogleSubscriptionProcess();
+                        googleNoPurchaseFound();
                     }
                 }
             } catch (IabException e) {
@@ -575,7 +575,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
                 }
                 else
                 {
-                    startGoogleSubscriptionProcess();
+                    googleNoPurchaseFound();
                 }
             }
             else if(_purchaseRequiredAfterSetup)
@@ -665,6 +665,8 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     public static native void googlePurchaseHappened(String developerPayload, String orderId, String token);
 
     public static native void googlePurchaseFailed();
+
+    public static native void googleNoPurchaseFound();
 
     public static native void googlePurchaseFailedAlreadyPurchased();
 

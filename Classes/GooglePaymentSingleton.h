@@ -19,6 +19,7 @@ public:
     void startBackEndPaymentVerification(std::string developerPayload, std::string orderId, std::string token);
     void purchaseFailedBeforeFulfillment();
     void purchaseFailedAlreadyPurchased();
+	void restoreFailedNoPurchase();
     void onGooglePaymentVerificationAnswerReceived(std::string responseDataString);
     
 private:
