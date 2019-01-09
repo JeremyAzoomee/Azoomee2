@@ -11,12 +11,12 @@ NS_AZOOMEE_BEGIN
 
 WebViewController *webViewController = nil;
 
-cocos2d::Scene* NativeContentInterface_ios::createSceneWithURL(const std::string &url, const Vec2& closeButtonAnchor)
+cocos2d::Scene* NativeContentInterface_ios::createSceneWithURL(const std::string &url, const Vec2& closeButtonAnchor, int videoProgressSeconds)
 {
     auto scene = cocos2d::Scene::create();
     auto layer = NativeContentInterface_ios::create();
     scene->addChild(layer);
-    layer->loadContentBasedOnUrl(url, closeButtonAnchor);
+    layer->loadContentBasedOnUrl(url, closeButtonAnchor, videoProgressSeconds);
 
     return scene;
 }
@@ -48,7 +48,7 @@ void NativeContentInterface_ios::onExit()
 
 //-------------------------------------------All methods are private after this line---------------------------------------
 
-void NativeContentInterface_ios::loadContentBasedOnUrl(const std::string &url, const Vec2& closeButtonAnchor)
+void NativeContentInterface_ios::loadContentBasedOnUrl(const std::string &url, const Vec2& closeButtonAnchor, int videoProgressSeconds)
 {
     if(stringEndsWith(url, "html"))
     {
@@ -56,7 +56,7 @@ void NativeContentInterface_ios::loadContentBasedOnUrl(const std::string &url, c
     }
     else if(stringEndsWith(url, "m3u8"))
     {
-        addMediaPlayerToScreen(url);
+        addMediaPlayerToScreen(url, videoProgressSeconds);
     }
 }
 
@@ -77,7 +77,7 @@ void NativeContentInterface_ios::reAddWebViewToScreen()
 	}
 }
 
-void NativeContentInterface_ios::addMediaPlayerToScreen(const std::string &url)
+void NativeContentInterface_ios::addMediaPlayerToScreen(const std::string &url, int videoProgressSeconds)
 {
     UIView *currentView = (UIView*)Director::getInstance()->getOpenGLView()->getEAGLView();
     
@@ -85,7 +85,8 @@ void NativeContentInterface_ios::addMediaPlayerToScreen(const std::string &url)
     [currentView addSubview:mediaPlayer.view];
     
     NSString *iosurl = [NSString stringWithCString:url.c_str() encoding:[NSString defaultCStringEncoding]];
-    [mediaPlayer startBuildingMediaPlayer:iosurl];
+	
+	[mediaPlayer startBuildingMediaPlayer:iosurl progressSeconds:videoProgressSeconds];
     [mediaPlayer release];
 }
 

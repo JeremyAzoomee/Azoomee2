@@ -465,6 +465,12 @@ void BackEndCaller::resetPasswordRequest(const std::string& emailAddress)
     request->execute();
 }
 
+void BackEndCaller::updateVideoProgress(const std::string& contentId, int videoProgressSeconds)
+{
+	HttpRequestCreator* request = API::UpdateVideoProgress(ChildDataProvider::getInstance()->getLoggedInChildId(),contentId, videoProgressSeconds, nullptr);
+	request->execute();
+}
+
 
 //HttpRequestCreatorResponseDelegate--------------------------------------------------------
 void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)

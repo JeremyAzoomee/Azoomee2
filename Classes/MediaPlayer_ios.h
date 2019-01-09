@@ -13,7 +13,9 @@
 
 @interface MediaPlayerController: UIViewController {
     bool exitRequested;
-    
+	
+	int _currentItemIndex;
+	
     float _videoTimeSent;
     float _previousRate;
     float _buttonWidth;
@@ -30,7 +32,7 @@
 @property (nonatomic, retain) AVPlayerItem* lastPlayedItem;
 
 -(id)init;
--(void)startBuildingMediaPlayer:(NSString*)url;
+-(void)startBuildingMediaPlayer:(NSString*)url progressSeconds:(int)videoProgressSeconds;
 -(void)createButtons;
 - (void)createFavBanner;
 -(void)favAnimation;

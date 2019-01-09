@@ -73,8 +73,7 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
     }
     else if(contentItem->getType()  == ConfigStorage::kContentTypeVideo || contentItem->getType()  == ConfigStorage::kContentTypeAudio)
     {
-        const std::string& hqName = contentItem->getType()  == ConfigStorage::kContentTypeVideo ? ConfigStorage::kVideoHQName : ConfigStorage::kAudioHQName;
-        RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), hqName);
+        RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kVideoHQName);
         RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kMeHQName);
         ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
         Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Orientation::Landscape, contentItem->getUri(),Vec2(0,0)));

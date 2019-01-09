@@ -5,7 +5,9 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/API/API.h>
+#include <AzoomeeCommon/ErrorCodes.h>
 #include "SceneManagerScene.h"
+#include "ContentHistoryManager.h"
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "NativeContentInterface_ios.h"
 #endif
@@ -70,8 +72,8 @@ void WebViewSelector::loadWebView(const std::string& url, Orientation orientatio
     {
         const std::string& userSessionId = ChildDataProvider::getInstance()->getParentOrChildCdnSessionId();
         _targetUrl = replaceAll(_targetUrl, "{sessionId}", userSessionId);
-        HttpRequestCreator* offlineCheck = API::OfflineCheck(this);
-        offlineCheck->execute();
+		HttpRequestCreator* progressCheck = API::GetVideoProgress(ChildDataProvider::getInstance()->getLoggedInChildId(), ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId(),this);
+        progressCheck->execute();
     }
     else
     {
@@ -117,25 +119,37 @@ void WebViewSelector::setParams(const std::string &url, Azoomee::Orientation ori
 
 void WebViewSelector::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
-    if(requestTag == API::TagOfflineCheck)
+    if(requestTag == API::TagGetVideoProgress)
     {
+		rapidjson::Document data;
+		data.Parse(body.c_str());
+		int progress = 0;
+		if(!data.HasParseError())
+		{
+			progress = getIntFromJson("videoProgressSeconds", data, 0);
+		}
+		
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-        auto iosWebView = NativeContentInterface_ios::createSceneWithURL(_targetUrl, _closeButtonAnchor);
+        auto iosWebView = NativeContentInterface_ios::createSceneWithURL(_targetUrl, _closeButtonAnchor, progress);
         Director::getInstance()->replaceScene(iosWebView);
 #endif
         
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-        auto androidWebViewCaller = WebViewNativeCaller_android::createSceneWithUrl(_targetUrl, _orientation, _closeButtonAnchor);
+        auto androidWebViewCaller = WebViewNativeCaller_android::createSceneWithUrl(_targetUrl, _orientation, _closeButtonAnchor, progress);
         Director::getInstance()->replaceScene(androidWebViewCaller);
 #endif
     }
 }
 void WebViewSelector::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
-    if(requestTag == API::TagOfflineCheck)
-    {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineHub));
-    }
+	if(errorCode == ERROR_CODE_OFFLINE)
+	{
+		Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineHub));
+	}
+	else
+	{
+		onHttpRequestSuccess(requestTag, "", "");
+	}
 }
 
 

@@ -122,7 +122,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         getGLSurfaceView().setMultipleTouchEnabled(false);
     }
 
-    public static void startWebView(String url, String userid, int orientation, float closeButtonAnchorX, float closeButtonAnchorY) {
+    public static void startWebView(String url, String userid, int orientation, float closeButtonAnchorX, float closeButtonAnchorY, int videoProgressSeconds) {
         Intent nvw;
         if (url.substring(url.length() - 4).equals("m3u8"))
         {
@@ -139,6 +139,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         nvw.putExtra("orientation", orientation);
         nvw.putExtra("closeAnchorX", closeButtonAnchorX);
         nvw.putExtra("closeAnchorY", closeButtonAnchorY);
+        nvw.putExtra("videoProgressSeconds", videoProgressSeconds);
 
         mContext.startActivity(nvw);
 
