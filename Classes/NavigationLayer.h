@@ -29,6 +29,11 @@ public:
     void hideNotificationBadge();
     
     void repositionElements();
+	
+	//guided experiance controls
+	void dissableButtons();
+	void highlightAndEnableButton(const std::string& hqName);
+	void enableButtons();
     
 private:
     cocos2d::Size visibleSize;

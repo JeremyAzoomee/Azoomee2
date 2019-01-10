@@ -121,6 +121,7 @@
 		521A8EAA19F11F5000D177D7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
 		52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B47A461A53D09B004E4C60 /* Security.framework */; };
 		8262943E1AAF051F00CB7CF7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8262943D1AAF051F00CB7CF7 /* Security.framework */; };
+		92084F7821E7AE4500DACCEB /* TutorialController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92084F7721E7AE4500DACCEB /* TutorialController.cpp */; };
 		920F6FDE213EB76300B7BB76 /* SettingsFriendshipsPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920F6FDD213EB76300B7BB76 /* SettingsFriendshipsPage.cpp */; };
 		920F6FE1213FD53900B7BB76 /* FriendRequestLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920F6FE0213FD53900B7BB76 /* FriendRequestLayer.cpp */; };
 		920F6FE52140472A00B7BB76 /* SettingsMessageBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920F6FE42140472A00B7BB76 /* SettingsMessageBox.cpp */; };
@@ -520,6 +521,8 @@
 		521A8EA819F11F5000D177D7 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		52B47A461A53D09B004E4C60 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		8262943D1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		92084F7621E7931300DACCEB /* TutorialController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TutorialController.h; sourceTree = "<group>"; };
+		92084F7721E7AE4500DACCEB /* TutorialController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TutorialController.cpp; sourceTree = "<group>"; };
 		920F6FD8213EB4DA00B7BB76 /* SettingsFriendshipsPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsFriendshipsPage.h; sourceTree = "<group>"; };
 		920F6FDD213EB76300B7BB76 /* SettingsFriendshipsPage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsFriendshipsPage.cpp; sourceTree = "<group>"; };
 		920F6FDF213EDE4C00B7BB76 /* FriendRequestLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FriendRequestLayer.h; sourceTree = "<group>"; };
@@ -1156,6 +1159,7 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				92084F7121E78FB600DACCEB /* Tutorial */,
 				921A265B216E2775005C8C41 /* Vodacom */,
 				923EA8D220EBA6C200283342 /* addChild */,
 				929A9CF92063CD76009B323D /* MeArea */,
@@ -1216,6 +1220,15 @@
 			name = Icons;
 			path = ios;
 			sourceTree = SOURCE_ROOT;
+		};
+		92084F7121E78FB600DACCEB /* Tutorial */ = {
+			isa = PBXGroup;
+			children = (
+				92084F7621E7931300DACCEB /* TutorialController.h */,
+				92084F7721E7AE4500DACCEB /* TutorialController.cpp */,
+			);
+			name = Tutorial;
+			sourceTree = "<group>";
 		};
 		921A265B216E2775005C8C41 /* Vodacom */ = {
 			isa = PBXGroup;
@@ -1959,6 +1972,7 @@
 				02E595C31E5D9EE70052F395 /* OfflineText.cpp in Sources */,
 				02A11FF81EA6375D007EDD95 /* RoutePaymentSingleton.cpp in Sources */,
 				D13C40151E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm in Sources */,
+				92084F7821E7AE4500DACCEB /* TutorialController.cpp in Sources */,
 				924E8450214117D9004590FD /* SettingsMessageBoxRejectFR.cpp in Sources */,
 				02E595861E55DE670052F395 /* OfflineHubScene.cpp in Sources */,
 				02E595CA1E66E2160052F395 /* HQSceneArtsApp.cpp in Sources */,
