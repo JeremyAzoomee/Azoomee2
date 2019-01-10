@@ -12,6 +12,7 @@
 #include "RecentlyPlayedManager.h"
 #include "HQScene2ElementPositioner.h"
 #include "FavouritesManager.h"
+#include "RecentlyPlayedManager.h"
 #include "HQDataProvider.h"
 #include "HQScene2CarouselTitle.h"
 #include "PrivacyAndTermsLayer.h"
@@ -78,7 +79,16 @@ bool MeHQ::init()
     profileLayout->setName(kProfileLayerName);
     _contentListView->pushBackCustomItem(profileLayout);
     _sectionIndexMap[kProfileLayerName] = indexNum++;
-    
+	
+	if(RecentlyPlayedManager::getInstance()->getRecentlyPlayedContentForHQ(ConfigStorage::kMeHQName).size() > 0)
+	{
+		auto recentlyPlayed = MeHQRecentlyPlayed::create();
+		recentlyPlayed->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
+		recentlyPlayed->setName(kRecentlyPlayedLayerName);
+		_contentListView->pushBackCustomItem(recentlyPlayed);
+		_sectionIndexMap[kRecentlyPlayedLayerName] = indexNum++;
+	}
+	
     auto messageList = MeHQMessages::create();
     messageList->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
     messageList->setRefreshCallback([this](){
@@ -105,12 +115,6 @@ bool MeHQ::init()
     favouriteLayout->setName(kFavoritesLayerName);
     _contentListView->pushBackCustomItem(favouriteLayout);
     _sectionIndexMap[kFavoritesLayerName] = indexNum++;
-	
-	auto recentlyPlayed = MeHQRecentlyPlayed::create();
-	recentlyPlayed->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
-	recentlyPlayed->setName(kRecentlyPlayedLayerName);
-	_contentListView->pushBackCustomItem(recentlyPlayed);
-	_sectionIndexMap[kRecentlyPlayedLayerName] = indexNum++;
 	
     auto downloadsLayout = MeHQDownloads::create();
     downloadsLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
