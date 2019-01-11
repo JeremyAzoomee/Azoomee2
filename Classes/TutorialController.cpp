@@ -22,7 +22,7 @@ const std::string TutorialController::kFTUSpendRewards = "ftu.spendrewards";
 const std::string TutorialController::kFTUEarnMoreRewards = "ftu.earnmorerewards";
 const std::string TutorialController::kTutorialEnded = "tutorialend";
 
-const std::vector<std::string> TutorialController::kFTUNavTutorial = {kFTUGameHQNav,kFTUGameHQContent,kFTURewards,kFTUVideoHQNav,kFTUVideoHQContent,kFTUGroupHQContent,kFTUGroupHQBack,kFTUSpendRewards,kFTUEarnMoreRewards};
+const std::vector<std::string> TutorialController::kFTUNavTutorial = {kFTUGameHQNav,kFTUGameHQContent,kFTUVideoHQNav,kFTUVideoHQContent,kFTUGroupHQContent,kFTUGroupHQBack};
 
 TutorialController* TutorialController::getInstance()
 {

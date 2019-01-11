@@ -663,7 +663,8 @@ void BackEndCaller::onContentDownloadComplete()
 
 void BackEndCaller::onFeedDownloadComplete()
 {
-     Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
+	Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
+	TutorialController::getInstance()->startTutorial();
 }
 
 NS_AZOOMEE_END

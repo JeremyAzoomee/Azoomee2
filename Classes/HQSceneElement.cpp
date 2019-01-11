@@ -27,6 +27,7 @@
 #include "ContentOpener.h"
 #include "VideoPlaylistManager.h"
 #include "IAPFlowController.h"
+#include "TutorialController.h"
 
 using namespace cocos2d;
 using namespace network;
@@ -82,6 +83,16 @@ void HQSceneElement::setMargin(float margin)
     _margin = margin;
 }
 
+int HQSceneElement::getElementRow() const
+{
+	return _elementRowNumber;
+}
+
+int HQSceneElement::getElementIndex() const
+{
+	return _elementIndex;
+}
+
 void HQSceneElement::deleteButtonVisible(bool visible)
 {
     _showDeleteButton = visible;
@@ -94,6 +105,29 @@ void HQSceneElement::deleteButtonVisible(bool visible)
 void HQSceneElement::setDeleteButtonCallback(const HQSceneElement::DeleteButtonCallback &callback)
 {
     _deleteButtonCallback = callback;
+}
+
+void HQSceneElement::setTouchDisabled(bool disabled)
+{
+	_touchDisabled = disabled;
+}
+
+void HQSceneElement::enableHighlight(bool enable)
+{
+	_showHighlight = enable;
+	if(_showHighlight && _elementVisual)
+	{
+		Sprite* glow = Sprite::create("res/childSelection/glow.png");
+		glow->setContentSize(this->getContentSize());
+		glow->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+		glow->runAction(RepeatForever::create(Sequence::createWithTwoActions(ScaleTo::create(1.0f, 2.0f), ScaleTo::create(1.0f, 1.0f))));
+		glow->setName("glow");
+		this->addChild(glow, -1);
+	}
+	else
+	{
+		removeChildByName("glow");
+	}
 }
 
 void HQSceneElement::addHQSceneElement() //This method is being called by HQScene.cpp with all variables.
@@ -128,7 +162,17 @@ void HQSceneElement::addHQSceneElement() //This method is being called by HQScen
     
     this->addChild(_elementVisual);
     this->setContentSize(_elementVisual->getContentSize());
-    
+	
+	if(_showHighlight)
+	{
+		Sprite* glow = Sprite::create("res/childSelection/glow.png");
+		glow->setContentSize(this->getContentSize());
+		glow->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+		glow->runAction(RepeatForever::create(Sequence::createWithTwoActions(ScaleTo::create(1.0f, 2.0f), ScaleTo::create(1.0f, 1.0f))));
+		glow->setName("glow");
+		this->addChild(glow, -1);
+	}
+	
     _deleteButton = createDeleteButton();
     _deleteButton->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
     _deleteButton->setPosition(Vec2(_deleteButton->getContentSize().width * 0.2, this->getContentSize().height - _deleteButton->getContentSize().width * 0.2));
@@ -145,6 +189,11 @@ void HQSceneElement::addListenerToElement()
     listener->setSwallowTouches(false);
     listener->onTouchBegan = [=](Touch *touch, Event *event)
     {
+		if(_touchDisabled)
+		{
+			return false;
+		}
+		
         auto target = static_cast<Node*>(event->getCurrentTarget());
         
         Point locationInNode = target->convertToNodeSpace(touch->getLocation());
@@ -184,6 +233,14 @@ void HQSceneElement::addListenerToElement()
     
     listener->onTouchEnded = [=](Touch *touch, Event *event)
     {
+		if(TutorialController::getInstance()->isTutorialActive())
+		{
+			if(_showHighlight)
+			{
+				TutorialController::getInstance()->nextStep();
+			}
+		}
+		
         if(_iamtouched)
         {
             if(_elementVisual->_overlayWhenTouched) _elementVisual->_overlayWhenTouched->setOpacity(0);
@@ -222,6 +279,7 @@ void HQSceneElement::addListenerToElement()
                 
             AnalyticsSingleton::getInstance()->contentItemSelectedEvent(_elementItemData, _elementRowNumber, _elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(_elementCategory, _elementRowNumber, _elementIndex));
             startUpElementDependingOnType();
+			
             return true;
         }
         

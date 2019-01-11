@@ -26,7 +26,13 @@ public:
     void setMargin(float margin);
     void deleteButtonVisible(bool visible);
     void setDeleteButtonCallback(const DeleteButtonCallback& callback);
-    
+	
+	int getElementRow() const;
+	int getElementIndex() const;
+	
+	void setTouchDisabled(bool disabled);
+	void enableHighlight(bool enable);
+	
     void addHQSceneElement();
     
 private:
@@ -37,6 +43,9 @@ private:
     float _manualSizeMultiplier = 0.0f;
     float _margin = 0.0f;
     bool _showDeleteButton = false;
+	
+	bool _touchDisabled = false;
+	bool _showHighlight = false;
     
     HQSceneElementVisual* _elementVisual = nullptr;
     cocos2d::ui::Button* _deleteButton = nullptr;

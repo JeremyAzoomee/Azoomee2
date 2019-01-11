@@ -20,9 +20,7 @@ public:
 
 class TutorialController
 {
-private:
-	static const std::vector<std::string> kFTUNavTutorial;
-	
+public:
 	static const std::string kFTUGameHQNav;
 	static const std::string kFTUGameHQContent;
 	static const std::string kFTUVideoHQNav;
@@ -33,6 +31,9 @@ private:
 	static const std::string kFTUSpendRewards;
 	static const std::string kFTUEarnMoreRewards;
 	static const std::string kTutorialEnded;
+	
+private:
+	static const std::vector<std::string> kFTUNavTutorial;
 	
 	std::vector<TutorialDelegate*> _delegates;
 	bool _tutorialActive = false;

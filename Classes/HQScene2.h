@@ -5,10 +5,11 @@
 #include "ui/UIScrollView.h"
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
+#include "TutorialController.h"
 
 NS_AZOOMEE_BEGIN
 
-class HQScene2 : public cocos2d::Layer
+class HQScene2 : public cocos2d::Layer, public TutorialDelegate
 {
 public:
     static const float kSpaceForPrivacyPolicy;
@@ -18,7 +19,9 @@ public:
     static const float kGroupContentItemImagePlaceholder;
     
     CREATE_FUNC(HQScene2);
-    virtual bool init();
+    virtual bool init() override;
+	virtual void onEnter() override;
+	virtual void onExit() override;
     void startBuildingScrollView();
     void rebuildScrollView();
     
@@ -27,6 +30,8 @@ public:
     
     static cocos2d::Scene* createSceneForOfflineArtsAppHQ();
 
+	virtual void onTutorialStateChanged(const std::string& stateId) override;
+	
 private:
     cocos2d::Vec2 _origin;
     cocos2d::Size _visibleSize;
@@ -54,6 +59,11 @@ private:
     
     bool showingPostContentCTARequired();
     bool startingReviewProcessRequired();
+	
+	//tutorial controls
+	void highlightFirstElement();
+	void disableContent();
+	void enableContent();
 };
 
 NS_AZOOMEE_END

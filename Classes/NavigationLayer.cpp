@@ -95,13 +95,13 @@ bool NavigationLayer::init()
         }
         addMenuItemInactive(hqName, menuItemHolder);                                  //Inactive menuItem is visible, when another menuItem is the selected one. The menu works as a set of radio buttons.
         addMenuItemActive(hqName, menuItemHolder);                                    //Active menuItem is visible, when we are in the given menu
-        
+		
         if(SpecialCalendarEventManager::getInstance()->isXmasTime())
         {
             addXmasDecorationToMenuItem(hqName, menuItemHolder);
         }
         
-        addListenerToMenuItem(menuItemHolder);
+        //addListenerToMenuItem(menuItemHolder);
         
         if(!HQHistoryManager::getInstance()->noHistory())
         {
@@ -112,7 +112,7 @@ bool NavigationLayer::init()
             runDisplayAnimationForMenuItem(menuItemHolder, false);        //Animation for two items has to be handled separately, because opacity must not be in a parent-child relationship.
         }
     }
-    
+	
     _userTypeMessagingLayer = UserTypeMessagingLayer::create();
     _userTypeMessagingLayer->setContentSize(Size(visibleSize.width, 300));
     _userTypeMessagingLayer->setPosition(origin - Vec2(0,300));
@@ -146,6 +146,11 @@ bool NavigationLayer::init()
     this->addChild(_userTypeMessagingLayer);
    
 	createTopObjects();
+	
+	if(TutorialController::getInstance()->isTutorialActive())
+	{
+		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
+	}
     
     return true;
 }
@@ -242,6 +247,7 @@ void NavigationLayer::changeToScene(const std::string& hqName, float duration)
 void NavigationLayer::onEnter()
 {
     DeepLinkingSingleton::getInstance()->actionDeepLink();
+	TutorialController::getInstance()->registerDelegate(this);
     
     Node::onEnter();
 }
@@ -299,13 +305,42 @@ void NavigationLayer::startLoadingHQScene(const std::string& hqName)
     this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction2, NULL));
 }
 
-Sprite* NavigationLayer::addMenuItemHolder(const std::string& hqName, float pos)
+ui::Button* NavigationLayer::addMenuItemHolder(const std::string& hqName, float pos)
 {
-    auto menuItemHolder = Sprite::create();
+	Color4B colour = ConfigStorage::getInstance()->getColourForMenuItem(hqName);
+	
+	auto menuItemHolder = ui::Button::create("res/navigation/outer_circle.png");
     menuItemHolder->setName(hqName);
     menuItemHolder->setCascadeOpacityEnabled(true);
     menuItemHolder->setOpacity(0);
     menuItemHolder->setNormalizedPosition(Vec2(pos,0.5));
+	menuItemHolder->setColor(Color3B(colour.r, colour.g, colour.b));
+	menuItemHolder->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+		if(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName)->getNumberOfRunningActions() > 0)
+		{
+			return;
+		}
+		if(eType == ui::Widget::TouchEventType::ENDED)
+		{
+			ui::Button* button = dynamic_cast<ui::Button*>(pSender);
+			if(button)
+			{
+				if(TutorialController::getInstance()->isTutorialActive())
+				{
+					
+					if(button->getChildByName("glow"))
+					{
+						button->removeChildByName("glow");
+						TutorialController::getInstance()->nextStep();
+					}
+				}
+				
+				AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+				AnalyticsSingleton::getInstance()->navSelectionEvent("",button->getName());
+				this->changeToScene(button->getName(), 0.5);
+			}
+		}
+	});
     _hqButtonHolder->addChild(menuItemHolder);
     
     return menuItemHolder;
@@ -480,8 +515,6 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
 
 void NavigationLayer::runDisplayAnimationForMenuItem(cocos2d::Node* node1, bool quick)
 {
-    Color4B colour = ConfigStorage::getInstance()->getColourForMenuItem(node1->getName());
-    
     float randomDelay = 0;
     float blinkDelay = 0.0;
     
@@ -553,15 +586,57 @@ void NavigationLayer::moveMenuPointsToHorizontalStateInGroupHQ(float duration)
 
 void NavigationLayer::addBackButtonToNavigation()
 {
-    auto backButtonImage = Sprite::create("res/hqscene/back_btn.png");
-    backButtonImage->setPosition(origin.x +backButtonImage->getContentSize().width*.7, origin.y + visibleSize.height - backButtonImage->getContentSize().height*.7);
+	auto backButtonImage = ui::Button::create("res/hqscene/back_btn.png");
+    backButtonImage->setPosition(Vec2(origin.x + backButtonImage->getContentSize().width * 0.7f, origin.y + visibleSize.height - backButtonImage->getContentSize().height * 0.7f));
     backButtonImage->setOpacity(0);
     backButtonImage->setName("backButton");
+	backButtonImage->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+		if(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName)->getNumberOfRunningActions() > 0)
+		{
+			return;
+		}
+		if(eType == ui::Widget::TouchEventType::ENDED)
+		{
+			ui::Button* button = dynamic_cast<ui::Button*>(pSender);
+			if(button)
+			{
+				
+				button->removeChildByName("glow");
+				if(TutorialController::getInstance()->isTutorialActive())
+				{
+					if(TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUGroupHQBack)
+					{
+						TutorialController::getInstance()->nextStep();
+					}
+				}
+				
+				AnalyticsSingleton::getInstance()->genericButtonPressEvent("groupBackButton");
+				AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
+				cocos2d::Scene *runningScene = Director::getInstance()->getRunningScene();
+				Node *contentLayer = runningScene->getChildByName(ConfigStorage::kContentLayerName);
+				
+				HQHistoryManager::getInstance()->getHistoryLog();
+				
+				if(HQHistoryManager::getInstance()->getPreviousHQ() != ConfigStorage::kHomeHQName)
+				{
+					
+					HQScene2 *hqLayer2 = (HQScene2 *)contentLayer->getChildByName(HQHistoryManager::getInstance()->getPreviousHQ());
+					
+					auto funcCallAction = CallFunc::create([=](){
+						hqLayer2->rebuildScrollView();
+					});
+					
+					this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
+				}
+				
+				this->changeToScene(HQHistoryManager::getInstance()->getPreviousHQ(), 0.5);
+
+			}
+		}
+	});
     this->addChild(backButtonImage);
     
     backButtonImage->runAction(Sequence::create(DelayTime::create(1), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
-    
-    addListenerToBackButton(backButtonImage);
 }
 
 void NavigationLayer::removeBackButtonFromNavigation()
@@ -618,6 +693,77 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), toBeAddedTo);
 }
 
+//guided experiance controls
+void NavigationLayer::dissableButtons()
+{
+	auto buttons = _hqButtonHolder->getChildren();
+	for(auto button : buttons)
+	{
+		ui::Button* hqButton = dynamic_cast<ui::Button*>(button);
+		if(hqButton)
+		{
+			hqButton->setEnabled(false);
+			//hqButton->setTouchEnabled(false);
+		}
+	}
+	auto backButton = dynamic_cast<ui::Button*>(this->getChildByName("backButton"));
+	if(backButton)
+	{
+		backButton->setEnabled(false);
+	}
+	
+}
+void NavigationLayer::highlightButton(const std::string& hqName)
+{
+	auto buttons = _hqButtonHolder->getChildren();
+	for(auto button : buttons)
+	{
+		if(button->getName() == hqName)
+		{
+			ui::Button* hqButton = dynamic_cast<ui::Button*>(button);
+			if(hqButton)
+			{
+				hqButton->setEnabled(true);
+				Sprite* glow = Sprite::create("res/childSelection/glow.png");
+				glow->setContentSize(hqButton->getContentSize());
+				glow->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+				glow->runAction(RepeatForever::create(Sequence::createWithTwoActions(ScaleTo::create(1.0f, 2.0f), ScaleTo::create(1.0f, 1.0f))));
+				glow->setName("glow");
+				hqButton->addChild(glow, -1);
+				return;
+			}
+		}
+	}
+	auto backButton = dynamic_cast<ui::Button*>(this->getChildByName("backButton"));
+	if(backButton)
+	{
+		backButton->setEnabled(true);
+		Sprite* glow = Sprite::create("res/childSelection/glow.png");
+		glow->setContentSize(backButton->getContentSize());
+		glow->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+		glow->runAction(RepeatForever::create(Sequence::createWithTwoActions(ScaleTo::create(1.0f, 2.0f), ScaleTo::create(1.0f, 1.0f))));
+		glow->setName("glow");
+		backButton->addChild(glow, -1);
+	}
+}
+void NavigationLayer::enableButtons()
+{
+	auto buttons = _hqButtonHolder->getChildren();
+	for(auto button : buttons)
+	{
+		ui::Button* hqButton = dynamic_cast<ui::Button*>(button);
+		if(hqButton)
+		{
+			hqButton->setEnabled(true);
+		}
+	}
+	auto backButton = dynamic_cast<ui::Button*>(this->getChildByName("backButton"));
+	if(backButton)
+	{
+		backButton->setEnabled(true);
+	}
+}
+
 
 //-------------- DELEGATE FUNCTIONS ---------------
 
@@ -653,6 +799,7 @@ void NavigationLayer::cleanUpPreviousHQ()
 void NavigationLayer::onExit()
 {
     ChatNotificationsSingleton::getInstance()->setNavigationLayer(NULL);
+	TutorialController::getInstance()->unRegisterDelegate(this);
     Node::onExit();
 }
 
@@ -760,6 +907,41 @@ void NavigationLayer::repositionElements()
 		}
     }
     
+}
+
+void NavigationLayer::onTutorialStateChanged(const std::string& stateId)
+{
+	if(stateId == TutorialController::kFTUGameHQNav)
+	{
+		dissableButtons();
+		highlightButton(ConfigStorage::kGameHQName);
+	}
+	else if(stateId == TutorialController::kFTUVideoHQNav)
+	{
+		dissableButtons();
+		highlightButton(ConfigStorage::kVideoHQName);
+	}
+	else if(stateId == TutorialController::kFTUGameHQContent)
+	{
+		dissableButtons();
+	}
+	else if(stateId == TutorialController::kFTUVideoHQContent)
+	{
+		dissableButtons();
+	}
+	else if(stateId == TutorialController::kFTUGroupHQBack)
+	{
+		dissableButtons();
+		highlightButton(ConfigStorage::kGroupHQName);
+	}
+	else if(stateId == TutorialController::kFTUGroupHQContent)
+	{
+		dissableButtons();
+	}
+	else
+	{
+		enableButtons();
+	}
 }
 
 NS_AZOOMEE_END

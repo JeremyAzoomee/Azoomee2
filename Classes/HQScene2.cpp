@@ -79,6 +79,18 @@ bool HQScene2::init()
     return true;
 }
 
+void HQScene2::onEnter()
+{
+	TutorialController::getInstance()->registerDelegate(this);
+	Layer::onEnter();
+}
+
+void HQScene2::onExit()
+{
+	TutorialController::getInstance()->unRegisterDelegate(this);
+	Layer::onExit();
+}
+
 void HQScene2::setHQCategory(const std::string &hqCategory)
 {
     _hqCategory = hqCategory;
@@ -256,7 +268,12 @@ void HQScene2::startBuildingScrollView()
     {
         addGroupHQLogo();
     }
-    
+	
+	if(TutorialController::getInstance()->isTutorialActive())
+	{
+		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
+	}
+	
     //show post content cta if necessary
     
     //if(showingPostContentCTARequired())
@@ -495,5 +512,104 @@ void HQScene2::addGroupHQLogo()
     }
 }
 
+//tutorial controls
+void HQScene2::highlightFirstElement()
+{
+	if(_hqCategory == ConfigStorage::kGameHQName || _hqCategory == ConfigStorage::kVideoHQName || _hqCategory == ConfigStorage::kGroupHQName)
+	{
+		if(_carouselStorage.size() > 0)
+		{
+			for(auto carousel : _carouselStorage)
+			{
+				for(auto item : carousel->getChildren())
+				{
+					HQSceneElement* contentIcon = dynamic_cast<HQSceneElement*>(item);
+					if(contentIcon)
+					{
+						contentIcon->setTouchDisabled(false);
+						contentIcon->enableHighlight(true);
+						return;
+					}
+				}
+			}
+		}
+	}
+}
+void HQScene2::disableContent()
+{
+	if(_hqCategory == ConfigStorage::kGameHQName || _hqCategory == ConfigStorage::kVideoHQName || _hqCategory == ConfigStorage::kGroupHQName)
+	{
+		if(_carouselStorage.size() > 0)
+		{
+			for(auto carousel : _carouselStorage)
+			{
+				for(auto item : carousel->getChildren())
+				{
+					HQSceneElement* contentIcon = dynamic_cast<HQSceneElement*>(item);
+					if(contentIcon)
+					{
+						contentIcon->setTouchDisabled(true);
+					}
+				}
+			}
+		}
+	}
+}
+void HQScene2::enableContent()
+{
+	if(_hqCategory == ConfigStorage::kGameHQName || _hqCategory == ConfigStorage::kVideoHQName || _hqCategory == ConfigStorage::kGroupHQName)
+	{
+		if(_carouselStorage.size() > 0)
+		{
+			for(auto carousel : _carouselStorage)
+			{
+				for(auto item : carousel->getChildren())
+				{
+					HQSceneElement* contentIcon = dynamic_cast<HQSceneElement*>(item);
+					if(contentIcon)
+					{
+						contentIcon->setTouchDisabled(false);
+					}
+				}
+			}
+		}
+	}
+}
+
+void HQScene2::onTutorialStateChanged(const std::string& stateId)
+{
+	if(stateId == TutorialController::kFTUGameHQNav || stateId == TutorialController::kFTUVideoHQNav || stateId == TutorialController::kFTUGroupHQBack)
+	{
+		disableContent();
+	}
+	else if(stateId == TutorialController::kFTUGameHQContent)
+	{
+		if(_hqCategory == ConfigStorage::kGameHQName)
+		{
+			disableContent();
+			highlightFirstElement();
+		}
+	}
+	else if(stateId == TutorialController::kFTUVideoHQContent)
+	{
+		if(_hqCategory == ConfigStorage::kVideoHQName)
+		{
+			disableContent();
+			highlightFirstElement();
+		}
+	}
+	else if(stateId == TutorialController::kFTUGroupHQContent)
+	{
+		if(_hqCategory == ConfigStorage::kGroupHQName)
+		{
+			disableContent();
+			highlightFirstElement();
+		}
+	}
+	else
+	{
+		enableContent();
+	}
+}
 
 NS_AZOOMEE_END
