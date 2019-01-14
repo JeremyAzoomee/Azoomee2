@@ -81,7 +81,6 @@ bool HQScene2::init()
 
 void HQScene2::onEnter()
 {
-	TutorialController::getInstance()->registerDelegate(this);
 	Layer::onEnter();
 }
 
@@ -99,6 +98,7 @@ void HQScene2::setHQCategory(const std::string &hqCategory)
 
 void HQScene2::startBuildingScrollView()
 {
+	TutorialController::getInstance()->registerDelegate(this);
     _visibleSize = Director::getInstance()->getVisibleSize();
     _origin = Vec2(0,0);//Director::getInstance()->getVisibleOrigin();
     
@@ -174,7 +174,7 @@ void HQScene2::startBuildingScrollView()
     _carouselStorage.clear();
     float totalHeightOfCarousels = 0;
     
-    addRecentlyPlayedCarousel();
+    //addRecentlyPlayedCarousel();
     
     for(int rowIndex = 0; rowIndex < HQDataProvider::getInstance()->getNumberOfRowsForHQ(_hqCategory); rowIndex++)
     {

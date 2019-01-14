@@ -146,11 +146,6 @@ bool NavigationLayer::init()
     this->addChild(_userTypeMessagingLayer);
    
 	createTopObjects();
-	
-	if(TutorialController::getInstance()->isTutorialActive())
-	{
-		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
-	}
     
     return true;
 }
@@ -242,6 +237,11 @@ void NavigationLayer::changeToScene(const std::string& hqName, float duration)
     {
         moveMenuPointsToHorizontalState(duration);
     }
+	
+	if(TutorialController::getInstance()->isTutorialActive())
+	{
+		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
+	}
 }
 
 void NavigationLayer::onEnter()
@@ -787,6 +787,7 @@ void NavigationLayer::cleanUpPreviousHQ()
         HQScene2* lastHQLayer = (HQScene2 *)Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName)->getChildByName(previousHqName);
         
         auto funcCallAction = CallFunc::create([=](){
+			TutorialController::getInstance()->unRegisterDelegate(lastHQLayer);
             lastHQLayer->removeAllChildrenWithCleanup(true);
             Director::getInstance()->purgeCachedData();
         });

@@ -120,9 +120,9 @@ void HQSceneElement::enableHighlight(bool enable)
 		Sprite* glow = Sprite::create("res/childSelection/glow.png");
 		glow->setContentSize(this->getContentSize());
 		glow->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-		glow->runAction(RepeatForever::create(Sequence::createWithTwoActions(ScaleTo::create(1.0f, 2.0f), ScaleTo::create(1.0f, 1.0f))));
+		glow->runAction(RepeatForever::create(Sequence::createWithTwoActions(ScaleTo::create(1.0f, 0.25f), ScaleTo::create(1.0f, 1.25f))));
 		glow->setName("glow");
-		this->addChild(glow, -1);
+		this->addChild(glow);
 	}
 	else
 	{
@@ -167,10 +167,10 @@ void HQSceneElement::addHQSceneElement() //This method is being called by HQScen
 	{
 		Sprite* glow = Sprite::create("res/childSelection/glow.png");
 		glow->setContentSize(this->getContentSize());
-		glow->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-		glow->runAction(RepeatForever::create(Sequence::createWithTwoActions(ScaleTo::create(1.0f, 2.0f), ScaleTo::create(1.0f, 1.0f))));
+		glow->setPosition(this->getContentSize() / 2);
+		glow->runAction(RepeatForever::create(Sequence::createWithTwoActions(ScaleTo::create(1.0f, 0.25f), ScaleTo::create(1.0f, 1.25f))));
 		glow->setName("glow");
-		this->addChild(glow, -1);
+		this->addChild(glow);
 	}
 	
     _deleteButton = createDeleteButton();
@@ -233,14 +233,6 @@ void HQSceneElement::addListenerToElement()
     
     listener->onTouchEnded = [=](Touch *touch, Event *event)
     {
-		if(TutorialController::getInstance()->isTutorialActive())
-		{
-			if(_showHighlight)
-			{
-				TutorialController::getInstance()->nextStep();
-			}
-		}
-		
         if(_iamtouched)
         {
             if(_elementVisual->_overlayWhenTouched) _elementVisual->_overlayWhenTouched->setOpacity(0);
@@ -258,7 +250,15 @@ void HQSceneElement::addListenerToElement()
                 ManualGameInputLayer::create();
                 return true;
             }
-            
+			
+			if(TutorialController::getInstance()->isTutorialActive())
+			{
+				if(_showHighlight)
+				{
+					TutorialController::getInstance()->nextStep();
+				}
+			}
+			
             if(!_elementItemData->isEntitled())
             {
                 AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);

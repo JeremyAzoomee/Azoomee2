@@ -16,6 +16,7 @@
 #include "HQScene2CarouselTitle.h"
 #include "PrivacyAndTermsLayer.h"
 #include "HQHistoryManager.h"
+#include "TutorialController.h"
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
@@ -61,7 +62,7 @@ bool MeHQ::init()
     _contentListView->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     _contentListView->setSwallowTouches(true);
     this->addChild(_contentListView);
-    
+	
     Sprite* verticalScrollGradient = Sprite::create("res/decoration/TopNavGrad.png");
     verticalScrollGradient->setAnchorPoint(Vec2(0.5, 0.9));
     verticalScrollGradient->setScaleX(contentSize.width / verticalScrollGradient->getContentSize().width);
