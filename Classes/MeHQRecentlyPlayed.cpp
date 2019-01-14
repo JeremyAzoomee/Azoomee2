@@ -50,9 +50,9 @@ bool MeHQRecentlyPlayed::init()
 		heading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,50)));
 		this->addChild(heading);
 		
-		Size contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kGameHQName);
-		float unitWidth = (visibleSize.width - 2 * sideMargin - contentItemMargin / 2.0f) / unitsOnScreen;
-		float unitMultiplier = unitWidth / contentItemSize.width;
+		const Size& contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kGameHQName);
+		const float unitWidth = (visibleSize.width - 2 * sideMargin - contentItemMargin / 2.0f) / unitsOnScreen;
+		const float unitMultiplier = unitWidth / contentItemSize.width;
 		
 		
 		_carouselLayout = ui::Layout::create();
@@ -60,6 +60,8 @@ bool MeHQRecentlyPlayed::init()
 		_carouselLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 		
 		float lowestElementYPosition = 0;
+		
+		const Vec2& elementShape = Vec2(1,1);
 		
 		for(int elementIndex = 0; elementIndex < itemList.size(); elementIndex++)
 		{
@@ -72,8 +74,6 @@ bool MeHQRecentlyPlayed::init()
 			hqSceneElement->setManualSizeMultiplier(unitMultiplier); //overriding default configuration contentItem sizes. Ideally this *should* go away when only the new hub is present everywhere.
 			
 			hqSceneElement->addHQSceneElement();
-			
-			Vec2 elementShape = Vec2(1,1);
 			
 			HQScene2ElementPositioner hqScene2ElementPositioner;
 			hqScene2ElementPositioner.setElement(hqSceneElement);
@@ -93,10 +93,15 @@ bool MeHQRecentlyPlayed::init()
 		}
 		
 		int numPlaceholders = (unitsOnScreen * ceil((double)(itemList.size()) / (double)unitsOnScreen)) - itemList.size();
+		Size placeholderSize;
 		for(int i = 0; i < numPlaceholders; i++)
 		{
 			Sprite* placeholder = Sprite::create("res/contentPlaceholders/placeholder_thumbnail_1_1.png");
-			placeholder->setContentSize(placeholder->getContentSize() * (((contentItemSize.width - contentItemMargin) * unitMultiplier) / placeholder->getContentSize().width));
+			if(i == 0)
+			{
+				placeholderSize = placeholder->getContentSize() * (((contentItemSize.width - contentItemMargin) * unitMultiplier) / placeholder->getContentSize().width);
+			}
+			placeholder->setContentSize(placeholderSize);
 			placeholder->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 			
 			HQScene2ElementPositioner hqScene2ElementPositioner;
