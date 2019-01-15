@@ -338,6 +338,7 @@ ui::Button* ChildSelectorScene::createNewProfileButton()
     {
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
+			AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
             AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChildSelector - AddChild");
             
             createAdultPinLayerWithDelegate();
@@ -380,6 +381,7 @@ ui::Button* ChildSelectorScene::createParentProfileButton()
     parentButton->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
+			AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
             AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChildSelector - ParentOomee");
             _parentIconSelected = true;
             
