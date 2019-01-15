@@ -21,6 +21,7 @@ public:
 class TutorialController
 {
 public:
+	// Tutorial step ids
 	static const std::string kFTUGameHQNav;
 	static const std::string kFTUGameHQContent;
 	static const std::string kFTUVideoHQNav;
@@ -31,9 +32,14 @@ public:
 	static const std::string kFTUSpendRewards;
 	static const std::string kFTUEarnMoreRewards;
 	static const std::string kTutorialEnded;
+	//Tutorial ids
+	static const std::string kFTUNavTutorialID;
 	
 private:
+	// Tutorials
 	static const std::vector<std::string> kFTUNavTutorial;
+	// Tutorial storage map
+	static const std::map<std::string,std::vector<std::string>> kTutorialMap;
 	
 	std::vector<TutorialDelegate*> _delegates;
 	bool _tutorialActive = false;
@@ -44,7 +50,7 @@ public:
 	virtual ~TutorialController();
 	bool init(void);
 	
-	void startTutorial();
+	void startTutorial(const std::string& tutorialID);
 	void nextStep();
 	void endTutorial();
 	

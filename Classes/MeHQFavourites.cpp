@@ -172,6 +172,12 @@ void MeHQFavourites::onEnter()
     {
         buildEmptyCarousel();
     }
+	
+	TutorialController::getInstance()->registerDelegate(this);
+	if(TutorialController::getInstance()->isTutorialActive())
+	{
+		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
+	}
 }
 
 void MeHQFavourites::buildEmptyCarousel()
@@ -262,6 +268,7 @@ void MeHQFavourites::buildEmptyCarousel()
 
 void MeHQFavourites::onExit()
 {
+	TutorialController::getInstance()->unRegisterDelegate(this);
 	_targetDeleteItem = nullptr;
 	if(_deleteItemMessageBox)
 	{
@@ -311,6 +318,11 @@ void MeHQFavourites::onCancelPressed(ConfirmCancelMessageBox *pSender)
 	_targetDeleteItem = nullptr;
 	_deleteItemMessageBox = nullptr;
 	pSender->removeFromParent();
+}
+
+void MeHQFavourites::onTutorialStateChanged(const std::string& stateId)
+{
+
 }
 
 NS_AZOOMEE_END

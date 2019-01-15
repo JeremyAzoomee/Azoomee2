@@ -12,10 +12,11 @@
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/UI/ConfirmCancelMessageBox.h>
+#include "TutorialController.h"
 
 NS_AZOOMEE_BEGIN
 
-class MeHQGallery : public cocos2d::ui::Layout, ConfirmCancelMessageBoxDelegate
+class MeHQGallery : public cocos2d::ui::Layout, ConfirmCancelMessageBoxDelegate, TutorialDelegate
 {
     typedef cocos2d::ui::Layout Super;
     typedef std::function<void()> RefreshLayoutCallback;
@@ -25,10 +26,18 @@ private:
     cocos2d::ui::Layout* _carouselLayout = nullptr;
     RefreshLayoutCallback _refreshCallback = nullptr;
 	
+	cocos2d::ui::Button* _newArt = nullptr;
+	cocos2d::ui::Button* _editButton = nullptr;
+	cocos2d::ui::Button* _foldButton = nullptr;
+	
 	std::string _targetDeleteFilename;
 	ConfirmCancelMessageBox* _deleteItemMessageBox = nullptr;
 	bool _editEnabled = false;
-    
+	
+	void disableButtons();
+	void highlightNewArtButton();
+	void enableButtons();
+	
 protected:
     virtual void onSizeChanged() override;
     
@@ -49,6 +58,8 @@ public:
 	// Delegate functions
 	virtual void onConfirmPressed(ConfirmCancelMessageBox* pSender) override;
 	virtual void onCancelPressed(ConfirmCancelMessageBox* pSender) override;
+	
+	virtual void onTutorialStateChanged(const std::string& stateId) override;
 };
 
 NS_AZOOMEE_END

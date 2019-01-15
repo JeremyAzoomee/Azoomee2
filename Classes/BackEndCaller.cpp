@@ -664,7 +664,7 @@ void BackEndCaller::onContentDownloadComplete()
 void BackEndCaller::onFeedDownloadComplete()
 {
 	Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
-	TutorialController::getInstance()->startTutorial();
+	TutorialController::getInstance()->startTutorial(TutorialController::kFTUNavTutorialID);
 }
 
 NS_AZOOMEE_END

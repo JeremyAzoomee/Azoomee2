@@ -11,6 +11,7 @@ NS_AZOOMEE_BEGIN
 
 static std::auto_ptr<TutorialController> sTutorialContollerSharedInstance;
 
+// Tutorial step ids
 const std::string TutorialController::kFTUGameHQNav = "ftu.gamehq.nav";
 const std::string TutorialController::kFTUGameHQContent = "ftu.gamehq.content";
 const std::string TutorialController::kFTUVideoHQNav = "ftu.videohq.nav";
@@ -21,8 +22,12 @@ const std::string TutorialController::kFTURewards = "ftu.rewards";
 const std::string TutorialController::kFTUSpendRewards = "ftu.spendrewards";
 const std::string TutorialController::kFTUEarnMoreRewards = "ftu.earnmorerewards";
 const std::string TutorialController::kTutorialEnded = "tutorialend";
-
+// Tutorial ids
+const std::string TutorialController::kFTUNavTutorialID = "FTUNavTutorial";
+// Tutorials
 const std::vector<std::string> TutorialController::kFTUNavTutorial = {kFTUGameHQNav,kFTUGameHQContent,kFTUVideoHQNav,kFTUVideoHQContent,kFTUGroupHQContent,kFTUGroupHQBack};
+// Tutorial storage map
+const std::map<std::string, std::vector<std::string>> TutorialController::kTutorialMap = {{kFTUNavTutorialID,kFTUNavTutorial}};
 
 TutorialController* TutorialController::getInstance()
 {
@@ -44,13 +49,16 @@ bool TutorialController::init(void)
 	return true;
 }
 
-void TutorialController::startTutorial()
+void TutorialController::startTutorial(const std::string& tutorialID)
 {
-	_tutorialActive = true;
-	_activeTutorialStates = kFTUNavTutorial;
-	for(auto delegate : _delegates)
+	if(kTutorialMap.find(tutorialID) != kTutorialMap.end())
 	{
-		delegate->onTutorialStateChanged(_activeTutorialStates.front());
+		_tutorialActive = true;
+		_activeTutorialStates = kTutorialMap.at(tutorialID);
+		for(auto delegate : _delegates)
+		{
+			delegate->onTutorialStateChanged(_activeTutorialStates.front());
+		}
 	}
 }
 void TutorialController::nextStep()
@@ -59,7 +67,7 @@ void TutorialController::nextStep()
 	{
 		_activeTutorialStates.erase(_activeTutorialStates.begin());
 		
-		//do tut visual update here
+		//do tut visual overlay update here
 		
 		for(auto delegate : _delegates)
 		{

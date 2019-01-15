@@ -257,11 +257,17 @@ void MeHQDownloads::buildEmptyCarousel()
 
 void MeHQDownloads::onEnter()
 {
+	TutorialController::getInstance()->registerDelegate(this);
+	if(TutorialController::getInstance()->isTutorialActive())
+	{
+		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
+	}
     Super::onEnter();
 }
 
 void MeHQDownloads::onExit()
 {
+	TutorialController::getInstance()->unRegisterDelegate(this);
     Super::onExit();
 }
 
@@ -307,5 +313,9 @@ std::string MeHQDownloads::getStartFileFromJson(const std::string &gameId) const
     }
 }
 
+void MeHQDownloads::onTutorialStateChanged(const std::string& stateId)
+{
+
+}
 
 NS_AZOOMEE_END
