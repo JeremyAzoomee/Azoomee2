@@ -27,6 +27,7 @@ private:
     static const std::string kMessagesLayerName;
     static const std::string kDownloadsLayerName;
     static const std::string kFavoritesLayerName;
+	static const std::string kRecentlyPlayedLayerName;
     
     static std::string _previousLayer;
     

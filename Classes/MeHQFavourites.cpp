@@ -64,9 +64,9 @@ void MeHQFavourites::onEnter()
     
     if(favList.size() > 0)
     {
-        Size contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kGameHQName);
-        float unitWidth = (visibleSize.width - 2 * sideMargin - contentItemMargin / 2.0f) / unitsOnScreen;
-        float unitMultiplier = unitWidth / contentItemSize.width;
+        const Size& contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kGameHQName);
+        const float unitWidth = (visibleSize.width - 2 * sideMargin - contentItemMargin / 2.0f) / unitsOnScreen;
+        const float unitMultiplier = unitWidth / contentItemSize.width;
 
     
         _carouselLayout = ui::Layout::create();
@@ -74,7 +74,7 @@ void MeHQFavourites::onEnter()
         _carouselLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     
         float lowestElementYPosition = 0;
-    
+    	const Vec2& elementShape = Vec2(1,1);
         for(int elementIndex = 0; elementIndex < favList.size(); elementIndex++)
         {
             auto hqSceneElement = HQSceneElement::create();
@@ -94,8 +94,6 @@ void MeHQFavourites::onEnter()
             
             hqSceneElement->addHQSceneElement();
             
-            Vec2 elementShape = Vec2(1,1);
-            
             HQScene2ElementPositioner hqScene2ElementPositioner;
             hqScene2ElementPositioner.setElement(hqSceneElement);
             hqScene2ElementPositioner.setCarouselLayer(_carouselLayout);
@@ -114,10 +112,15 @@ void MeHQFavourites::onEnter()
         }
     
         int numPlaceholders = (unitsOnScreen * ceil((double)(favList.size()) / (double)unitsOnScreen)) - favList.size();
+		Size placeholderSize;
         for(int i = 0; i < numPlaceholders; i++)
         {
             Sprite* placeholder = Sprite::create("res/contentPlaceholders/placeholder_thumbnail_1_1.png");
-            placeholder->setContentSize(placeholder->getContentSize() * (((contentItemSize.width - contentItemMargin) * unitMultiplier) / placeholder->getContentSize().width));
+			if(i == 0)
+			{
+				placeholderSize = placeholder->getContentSize() * (((contentItemSize.width - contentItemMargin) * unitMultiplier) / placeholder->getContentSize().width);
+			}
+			placeholder->setContentSize(placeholderSize);
             placeholder->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
             
             HQScene2ElementPositioner hqScene2ElementPositioner;
@@ -183,20 +186,24 @@ void MeHQFavourites::buildEmptyCarousel()
     const int unitsOnScreen = HQDataProvider::getInstance()->getUnitsOnScreenMeHQ();
     const float contentItemMargin = HQDataProvider::getInstance()->getContentItemMargin();
     
-    Size contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kGameHQName);
-    float unitWidth = (visibleSize.width - 2 * sideMargin - contentItemMargin / 2.0f) / unitsOnScreen;
-    float unitMultiplier = unitWidth / contentItemSize.width;
+    const Size& contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kGameHQName);
+    const float unitWidth = (visibleSize.width - 2 * sideMargin - contentItemMargin / 2.0f) / unitsOnScreen;
+    const float unitMultiplier = unitWidth / contentItemSize.width;
     
     cocos2d::ui::Layout* carouselLayer = ui::Layout::create();
     carouselLayer->setContentSize(Size(visibleSize.width - 2 * sideMargin, 0));
     carouselLayer->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     
     float lowestElementYPosition = 0;
-    
+    Size placeholderSize;
     for(int elementIndex = 0; elementIndex < unitsOnScreen - 1; elementIndex++)
     {
         Sprite* placeholder = Sprite::create("res/contentPlaceholders/placeholder_thumbnail_1_1.png");
-        placeholder->setContentSize(placeholder->getContentSize() * (((contentItemSize.width - contentItemMargin) * unitMultiplier) / placeholder->getContentSize().width));
+		if(elementIndex == 0)
+		{
+			placeholderSize = placeholder->getContentSize() * (((contentItemSize.width - contentItemMargin) * unitMultiplier) / placeholder->getContentSize().width);
+		}
+		placeholder->setContentSize(placeholderSize);
         placeholder->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
         
         HQScene2ElementPositioner hqScene2ElementPositioner;
