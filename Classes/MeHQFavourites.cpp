@@ -193,9 +193,9 @@ void MeHQFavourites::buildEmptyCarousel()
     float unitWidth = (visibleSize.width - 2 * sideMargin - contentItemMargin / 2.0f) / unitsOnScreen;
     float unitMultiplier = unitWidth / contentItemSize.width;
     
-    cocos2d::ui::Layout* carouselLayer = ui::Layout::create();
-    carouselLayer->setContentSize(Size(visibleSize.width - 2 * sideMargin, 0));
-    carouselLayer->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+    _carouselLayout = ui::Layout::create();
+    _carouselLayout->setContentSize(Size(visibleSize.width - 2 * sideMargin, 0));
+    _carouselLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     
     float lowestElementYPosition = 0;
     
@@ -207,14 +207,14 @@ void MeHQFavourites::buildEmptyCarousel()
         
         HQScene2ElementPositioner hqScene2ElementPositioner;
         hqScene2ElementPositioner.setElement(placeholder);
-        hqScene2ElementPositioner.setCarouselLayer(carouselLayer);
+        hqScene2ElementPositioner.setCarouselLayer(_carouselLayout);
         hqScene2ElementPositioner.setHighlightData(Vec2(1,1));
         hqScene2ElementPositioner.setBaseUnitSize(contentItemSize * unitMultiplier);
         
         const cocos2d::Point &elementPosition = hqScene2ElementPositioner.positionHQSceneElement();
         float offset = contentItemMargin/2;
         placeholder->setPosition(elementPosition + Vec2(offset, offset));
-        carouselLayer->addChild(placeholder);
+        _carouselLayout->addChild(placeholder);
         
         if(elementPosition.y < lowestElementYPosition)
         {
@@ -244,23 +244,23 @@ void MeHQFavourites::buildEmptyCarousel()
     
     HQScene2ElementPositioner hqScene2ElementPositioner;
     hqScene2ElementPositioner.setElement(playGamesButton);
-    hqScene2ElementPositioner.setCarouselLayer(carouselLayer);
+    hqScene2ElementPositioner.setCarouselLayer(_carouselLayout);
     hqScene2ElementPositioner.setHighlightData(Vec2(1,1));
     hqScene2ElementPositioner.setBaseUnitSize(contentItemSize * unitMultiplier);
     
     const cocos2d::Point &elementPosition = hqScene2ElementPositioner.positionHQSceneElement();
     float offset = contentItemMargin/2;
     playGamesButton->setPosition(elementPosition + Vec2(offset, offset));
-    carouselLayer->addChild(playGamesButton);
+    _carouselLayout->addChild(playGamesButton);
     
-    for(auto item : carouselLayer->getChildren())
+    for(auto item : _carouselLayout->getChildren())
     {
         item->setPosition(item->getPosition() - Vec2(0,lowestElementYPosition));
     }
     
-    carouselLayer->setContentSize(Size(carouselLayer->getContentSize().width, -lowestElementYPosition));
+    _carouselLayout->setContentSize(Size(_carouselLayout->getContentSize().width, -lowestElementYPosition));
     
-    this->addChild(carouselLayer);
+    this->addChild(_carouselLayout);
     
     this->setContentSize(Size(visibleSize.width, -lowestElementYPosition + spaceAboveCarousel + 50));
     
@@ -298,6 +298,51 @@ bool MeHQFavourites::getEditEnabled() const
     return _editEnabled;
 }
 
+void MeHQFavourites::enableButtons()
+{
+	if(_carouselLayout)
+	{
+		for(auto item : _carouselLayout->getChildren())
+		{
+			HQSceneElement* content = dynamic_cast<HQSceneElement*>(item);
+			if(content)
+			{
+				content->setTouchDisabled(false);
+			}
+			else
+			{
+				ui::Button* button = dynamic_cast<ui::Button*>(item);
+				if(button)
+				{
+					button->setTouchEnabled(true);
+				}
+			}
+		}
+	}
+}
+void MeHQFavourites::disableButtons()
+{
+	if(_carouselLayout)
+	{
+		for(auto item : _carouselLayout->getChildren())
+		{
+			HQSceneElement* content = dynamic_cast<HQSceneElement*>(item);
+			if(content)
+			{
+				content->setTouchDisabled(true);
+			}
+			else
+			{
+				ui::Button* button = dynamic_cast<ui::Button*>(item);
+				if(button)
+				{
+					button->setTouchEnabled(false);
+				}
+			}
+		}
+	}
+}
+
 // delegate functions
 
 void MeHQFavourites::onConfirmPressed(ConfirmCancelMessageBox *pSender)
@@ -322,7 +367,14 @@ void MeHQFavourites::onCancelPressed(ConfirmCancelMessageBox *pSender)
 
 void MeHQFavourites::onTutorialStateChanged(const std::string& stateId)
 {
-
+	if(stateId == TutorialController::kTutorialEnded)
+	{
+		enableButtons();
+	}
+	else
+	{
+		disableButtons();
+	}
 }
 
 NS_AZOOMEE_END

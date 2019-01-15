@@ -281,6 +281,14 @@ void MeHQGallery::disableButtons()
 	{
 		setTouchEnabled(false);
 	}
+	for(auto item : _carouselLayout->getChildren())
+	{
+		ArtsAppHQElement* art = dynamic_cast<ArtsAppHQElement*>(item);
+		if(art)
+		{
+			art->setTouchEnabled(false);
+		}
+	}
 }
 void MeHQGallery::highlightNewArtButton()
 {
@@ -303,6 +311,14 @@ void MeHQGallery::enableButtons()
 	if(_foldButton)
 	{
 		setTouchEnabled(true);
+	}
+	for(auto item : _carouselLayout->getChildren())
+	{
+		ArtsAppHQElement* art = dynamic_cast<ArtsAppHQElement*>(item);
+		if(art)
+		{
+			art->setTouchEnabled(true);
+		}
 	}
 }
 

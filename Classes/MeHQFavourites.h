@@ -33,6 +33,9 @@ private:
     bool _editEnabled = false;
     
     void buildEmptyCarousel();
+	
+	void enableButtons();
+	void disableButtons();
     
 protected:
     virtual void onSizeChanged() override;

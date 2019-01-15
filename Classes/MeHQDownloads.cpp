@@ -87,9 +87,9 @@ bool MeHQDownloads::init()
         float unitWidth = (visibleSize.width - 2 * sideMargin - contentItemMargin / 2.0f) / unitsOnScreen;
         float unitMultiplier = unitWidth / contentItemSize.width;
         
-        cocos2d::ui::Layout* carouselLayer = ui::Layout::create();
-        carouselLayer->setContentSize(Size(visibleSize.width - 2 * sideMargin, 0));
-        carouselLayer->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+        _carouselLayer = ui::Layout::create();
+        _carouselLayer->setContentSize(Size(visibleSize.width - 2 * sideMargin, 0));
+        _carouselLayer->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
         
         float lowestElementYPosition = 0;
         
@@ -110,14 +110,14 @@ bool MeHQDownloads::init()
             
             HQScene2ElementPositioner hqScene2ElementPositioner;
             hqScene2ElementPositioner.setElement(hqSceneElement);
-            hqScene2ElementPositioner.setCarouselLayer(carouselLayer);
+            hqScene2ElementPositioner.setCarouselLayer(_carouselLayer);
             hqScene2ElementPositioner.setHighlightData(elementShape);
             hqScene2ElementPositioner.setBaseUnitSize(hqSceneElement->getContentSize());
             
             const cocos2d::Point &elementPosition = hqScene2ElementPositioner.positionHQSceneElement();
             
             hqSceneElement->setPosition(elementPosition);
-            carouselLayer->addChild(hqSceneElement);
+            _carouselLayer->addChild(hqSceneElement);
             
             if(elementPosition.y < lowestElementYPosition)
             {
@@ -134,19 +134,19 @@ bool MeHQDownloads::init()
             
             HQScene2ElementPositioner hqScene2ElementPositioner;
             hqScene2ElementPositioner.setElement(placeholder);
-            hqScene2ElementPositioner.setCarouselLayer(carouselLayer);
+            hqScene2ElementPositioner.setCarouselLayer(_carouselLayer);
             hqScene2ElementPositioner.setHighlightData(Vec2(1,1));
             hqScene2ElementPositioner.setBaseUnitSize(contentItemSize * unitMultiplier);
             
             const cocos2d::Point &elementPosition = hqScene2ElementPositioner.positionHQSceneElement();
             float offset = contentItemMargin/2;
             placeholder->setPosition(elementPosition + Vec2(offset, offset));
-            carouselLayer->addChild(placeholder);
+            _carouselLayer->addChild(placeholder);
         }
         
-        carouselLayer->setPosition(Vec2(sideMargin, -lowestElementYPosition));
+        _carouselLayer->setPosition(Vec2(sideMargin, -lowestElementYPosition));
         
-        this->addChild(carouselLayer);
+        this->addChild(_carouselLayer);
         
         this->setContentSize(Size(visibleSize.width, -lowestElementYPosition + spaceAboveCarousel));
     }
@@ -170,9 +170,9 @@ void MeHQDownloads::buildEmptyCarousel()
     float unitWidth = (visibleSize.width - 2 * sideMargin) / unitsOnScreen;
     float unitMultiplier = unitWidth / contentItemSize.width;
     
-    cocos2d::ui::Layout* carouselLayer = ui::Layout::create();
-    carouselLayer->setContentSize(Size(visibleSize.width - 2 * sideMargin - contentItemMargin / 2.0f, 0));
-    carouselLayer->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+    _carouselLayer = ui::Layout::create();
+    _carouselLayer->setContentSize(Size(visibleSize.width - 2 * sideMargin - contentItemMargin / 2.0f, 0));
+    _carouselLayer->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     
     float lowestElementYPosition = 0;
     
@@ -184,14 +184,14 @@ void MeHQDownloads::buildEmptyCarousel()
         
         HQScene2ElementPositioner hqScene2ElementPositioner;
         hqScene2ElementPositioner.setElement(placeholder);
-        hqScene2ElementPositioner.setCarouselLayer(carouselLayer);
+        hqScene2ElementPositioner.setCarouselLayer(_carouselLayer);
         hqScene2ElementPositioner.setHighlightData(Vec2(1,1));
         hqScene2ElementPositioner.setBaseUnitSize(contentItemSize * unitMultiplier);
         
         const cocos2d::Point &elementPosition = hqScene2ElementPositioner.positionHQSceneElement();
         float offset = contentItemMargin/2;
         placeholder->setPosition(elementPosition + Vec2(offset, offset));
-        carouselLayer->addChild(placeholder);
+        _carouselLayer->addChild(placeholder);
         
         if(elementPosition.y < lowestElementYPosition)
         {
@@ -221,23 +221,23 @@ void MeHQDownloads::buildEmptyCarousel()
     
     HQScene2ElementPositioner hqScene2ElementPositioner;
     hqScene2ElementPositioner.setElement(playGamesButton);
-    hqScene2ElementPositioner.setCarouselLayer(carouselLayer);
+    hqScene2ElementPositioner.setCarouselLayer(_carouselLayer);
     hqScene2ElementPositioner.setHighlightData(Vec2(1,1));
     hqScene2ElementPositioner.setBaseUnitSize(contentItemSize * unitMultiplier);
     
     const cocos2d::Point &elementPosition = hqScene2ElementPositioner.positionHQSceneElement();
     float offset = contentItemMargin/2;
     playGamesButton->setPosition(elementPosition + Vec2(offset, offset));
-    carouselLayer->addChild(playGamesButton);
+    _carouselLayer->addChild(playGamesButton);
     
-    for(auto item : carouselLayer->getChildren())
+    for(auto item : _carouselLayer->getChildren())
     {
         item->setPosition(item->getPosition() - Vec2(0,lowestElementYPosition));
     }
     
-    carouselLayer->setContentSize(Size(carouselLayer->getContentSize().width, -lowestElementYPosition));
+    _carouselLayer->setContentSize(Size(_carouselLayer->getContentSize().width, -lowestElementYPosition));
     
-    this->addChild(carouselLayer);
+    this->addChild(_carouselLayer);
     
     Label* heading = Label::createWithTTF(_("When you play games they'll become available offline."), Style::Font::Regular(), 80);
     heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
@@ -274,6 +274,51 @@ void MeHQDownloads::onExit()
 void MeHQDownloads::onSizeChanged()
 {
     Super::onSizeChanged();
+}
+
+void MeHQDownloads::enableButtons()
+{
+	if(_carouselLayer)
+	{
+		for(auto item : _carouselLayer->getChildren())
+		{
+			HQSceneElement* content = dynamic_cast<HQSceneElement*>(item);
+			if(content)
+			{
+				content->setTouchDisabled(false);
+			}
+			else
+			{
+				ui::Button* button = dynamic_cast<ui::Button*>(item);
+				if(button)
+				{
+					button->setTouchEnabled(true);
+				}
+			}
+		}
+	}
+}
+void MeHQDownloads::disableButtons()
+{
+	if(_carouselLayer)
+	{
+		for(auto item : _carouselLayer->getChildren())
+		{
+			HQSceneElement* content = dynamic_cast<HQSceneElement*>(item);
+			if(content)
+			{
+				content->setTouchDisabled(true);
+			}
+			else
+			{
+				ui::Button* button = dynamic_cast<ui::Button*>(item);
+				if(button)
+				{
+					button->setTouchEnabled(false);
+				}
+			}
+		}
+	}
 }
 
 std::vector<std::string> MeHQDownloads::getJsonFileListFromDir() const
@@ -315,7 +360,14 @@ std::string MeHQDownloads::getStartFileFromJson(const std::string &gameId) const
 
 void MeHQDownloads::onTutorialStateChanged(const std::string& stateId)
 {
-
+	if(stateId == TutorialController::kTutorialEnded)
+	{
+		enableButtons();
+	}
+	else
+	{
+		disableButtons();
+	}
 }
 
 NS_AZOOMEE_END

@@ -22,13 +22,17 @@ class MeHQDownloads : public cocos2d::ui::Layout, TutorialDelegate
 private:
     
     cocos2d::ui::Layout* _contentLayer = nullptr;
+	cocos2d::ui::Layout* _carouselLayer = nullptr;
     
     std::vector<std::string> getJsonFileListFromDir() const;
     bool isStarterFileExists(const std::string &gameId) const;
     std::string getStartFileFromJson(const std::string &gameId) const;
     
     void buildEmptyCarousel();
-    
+	
+	void enableButtons();
+	void disableButtons();
+	
 protected:
     virtual void onSizeChanged() override;
     
