@@ -22,9 +22,10 @@ Scene* MainScene::createScene()
 {
     // 'scene' is an autorelease object
     auto scene = Scene::create();
-    
+	
     // 'layer' is an autorelease object
     auto layer = MainScene::create();
+	layer->setName("ArtAppMainScene");
     layer->addBackButton();
     layer->addShareButton();
     const std::string& fileNameStr = getTimeStringForFileName();
@@ -43,6 +44,7 @@ Scene* MainScene::createSceneWithDrawing(const std::string& fileName)
     
     // 'layer' is an autorelease object
     auto layer = MainScene::create();
+	layer->setName("ArtAppMainScene");
     layer->addBackButton();
     layer->addShareButton();
     layer->_fileName = fileName;
@@ -103,6 +105,7 @@ void MainScene::addShareButton()
     _shareButton->setAnchorPoint(Vec2(0.5,1));
     _shareButton->loadTextureNormal(kArtAppAssetLoc + "share.png");
     _shareButton->addClickEventListener([this](Ref* but){shareButtonCallBack();});
+	_shareButton->setEnabled(!delegate->isOffline());
     this->addChild(_shareButton,1);
 }
 
@@ -127,7 +130,7 @@ void MainScene::backButtonCallBack()
 
 void MainScene::shareButtonCallBack()
 {
-    if(_drawingCanvas->_actionCounter > 0 || _fileName == "")
+	if(_drawingCanvas->_actionCounter > 0 || !FileUtils::getInstance()->isFileExist(_fileName))
     {
         ModalMessages::getInstance()->startSaving();
         
@@ -176,6 +179,11 @@ void MainScene::saveFile()
     }
     
     _drawingCanvas->saveImage(saveFileName);
+}
+
+void MainScene::reloadRenderTextureObject()
+{
+	_drawingCanvas->reloadRenderTextureObject();
 }
 
 void MainScene::onConfirmPressed(Azoomee::ConfirmCancelMessageBox *pSender)

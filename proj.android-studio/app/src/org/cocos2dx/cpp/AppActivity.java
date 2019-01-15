@@ -118,9 +118,11 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         defaultNotificationFactory.setColor(NotificationCompat.COLOR_DEFAULT);
         UAirship airship = UAirship.shared();
         airship.getPushManager().setNotificationFactory(defaultNotificationFactory);
+
+        getGLSurfaceView().setMultipleTouchEnabled(false);
     }
 
-    public static void startWebView(String url, String userid, int orientation, float closeButtonAnchorX, float closeButtonAnchorY) {
+    public static void startWebView(String url, String userid, int orientation, float closeButtonAnchorX, float closeButtonAnchorY, int videoProgressSeconds) {
         Intent nvw;
         if (url.substring(url.length() - 4).equals("m3u8"))
         {
@@ -137,6 +139,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         nvw.putExtra("orientation", orientation);
         nvw.putExtra("closeAnchorX", closeButtonAnchorX);
         nvw.putExtra("closeAnchorY", closeButtonAnchorY);
+        nvw.putExtra("videoProgressSeconds", videoProgressSeconds);
 
         mContext.startActivity(nvw);
 
@@ -253,6 +256,24 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         }
 
         mAppActivity.mixpanel.sendMixPanelPeopleProperties(parentID);
+    }
+
+    public static void setMixpanelAlias(String newID) {
+        if(mAppActivity.mixpanel == null)
+        {
+            return;
+        }
+
+        mAppActivity.mixpanel.setMixpanelAlias(newID);
+    }
+
+    public static void updateMixpanelPeopleProperties(String jsonPropertiesString) {
+        if(mAppActivity.mixpanel == null)
+        {
+            return;
+        }
+
+        mAppActivity.mixpanel.updateMixpanelPeopleProperties(jsonPropertiesString);
     }
 
     public static void showMixpanelNotification() {

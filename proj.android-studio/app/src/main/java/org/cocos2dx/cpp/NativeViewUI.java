@@ -8,8 +8,10 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.widget.TextViewCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -408,17 +410,7 @@ public class NativeViewUI extends Activity {
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-                Bundle extras = getIntent().getExtras();
-                if(extras.getInt("orientation") == _portrait)
-                {
-                    isActivityExitRequested = true;
-                    activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-                    //cleanUpAndFinishActivity() will be called by the screen orientation change callback
-                }
-                else
-                {
-                    cleanUpAndFinishActivity();
-                }
+                cleanUpAndFinishActivity();
             }
         });
         closeButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
@@ -480,15 +472,17 @@ public class NativeViewUI extends Activity {
         _favBanner.addView(heart, heartLayoutParams);
 
         TextView text = new TextView(this);
-        text.setTextSize(bgLayoutParams.height * 0.25f);
         text.setText(JNICalls.JNIGetStringForKey("Added to favourites"));
-        text.setLayoutParams(new android.widget.RelativeLayout.LayoutParams(
-                android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT, android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT));
+        text.setWidth((int)(bgLayoutParams.width * 0.7f));
+        text.setHeight((int)(bgLayoutParams.height * 0.6f));
         text.setX(bgLayoutParams.width * 0.25f);
         text.setY(bgLayoutParams.height * 0.2f);
         Typeface face = Typeface.createFromAsset(getAssets(),
-            "fonts/azoomee.ttf");
+                "fonts/azoomee.ttf");
         text.setTypeface(face);
+
+        TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(text,(int)(bgLayoutParams.height * 0.1f),(int)(bgLayoutParams.height),2, TypedValue.COMPLEX_UNIT_DIP);
+
         _favBanner.addView(text);
     }
 

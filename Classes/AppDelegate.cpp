@@ -15,6 +15,7 @@
 #include "IAPProductDataHandler.h"
 #include "ChatDelegate.h"
 #include "SceneManagerScene.h"
+#include "../artapp/Classes/AzoomeeArt/MainScene.h"
 
 using namespace cocos2d;
 using namespace Azoomee;
@@ -80,7 +81,7 @@ void AppDelegate::applicationWillEnterForeground()
     
     AnalyticsSingleton::getInstance()->enteredForegroundEvent();
     SessionIdManager::getInstance()->registerAppCameForegroundEvent();
-    
+	
     PushNotificationsHandler::getInstance()->resetExistingNotifications();
 	
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -129,7 +130,17 @@ void AppDelegate::applicationWillEnterForeground()
         
         cocos2d::Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
     }
-
+	else
+	{
+		Azoomee::ArtApp::MainScene* artAppScene = dynamic_cast<Azoomee::ArtApp::MainScene*>(Director::getInstance()->getRunningScene()->getChildByName("ArtAppMainScene"));
+		if(artAppScene)
+		{
+			artAppScene->runAction(Sequence::create(DelayTime::create(0.25f), CallFunc::create([artAppScene](){
+				artAppScene->reloadRenderTextureObject();
+			}),NULL));
+		}
+	}
+	
 #endif
 }
 

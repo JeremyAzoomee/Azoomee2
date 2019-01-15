@@ -9,12 +9,14 @@
 #include "VideoPlaylistManager.h"
 #include "FavouritesManager.h"
 #include "ContentHistoryManager.h"
+#include "RecentlyPlayedManager.h"
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
 #include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
 #include <AzoomeeCommon/Strings.h>
 #include "ChatDelegate.h"
+#include "BackEndCaller.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/jni/JniHelper.h"
@@ -28,7 +30,7 @@ using namespace Azoomee;
 
 NS_AZOOMEE_BEGIN
 
-cocos2d::Scene* WebViewNativeCaller_android::createSceneWithUrl(const std::string& url, Orientation orientation, Vec2 closeButtonAnchor)
+cocos2d::Scene* WebViewNativeCaller_android::createSceneWithUrl(const std::string& url, Orientation orientation, Vec2 closeButtonAnchor, int videoProgressSeconds)
 {
     auto scene = cocos2d::Scene::create();
     auto layer = WebViewNativeCaller_android::create();
@@ -37,7 +39,7 @@ cocos2d::Scene* WebViewNativeCaller_android::createSceneWithUrl(const std::strin
     layer->loadUrl = url;
     layer->_orientation = orientation;
     layer->_closeButtonAnchor = closeButtonAnchor;
-
+	layer->_videoProgressSeconds = videoProgressSeconds;
     return scene;
 }
 
@@ -126,7 +128,7 @@ void WebViewNativeCaller_android::onEnterTransitionDidFinish()
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     SessionIdManager::getInstance()->registerAndroidSceneChangeEvent();
-    JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "startWebView", loadUrl,ChildDataProvider::getInstance()->getLoggedInChildId(),(int)_orientation, _closeButtonAnchor.x, _closeButtonAnchor.y);
+    JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "startWebView", loadUrl,ChildDataProvider::getInstance()->getLoggedInChildId(),(int)_orientation, _closeButtonAnchor.x, _closeButtonAnchor.y, _videoProgressSeconds);
         
 #endif
 }
@@ -340,7 +342,10 @@ extern "C"
 
 JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIShareInChat(JNIEnv* env, jobject thiz)
 {
-    ChatDelegate::getInstance()->_sharedContentId = ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId();
+	if(!HQHistoryManager::getInstance()->isOffline)
+	{
+    	ChatDelegate::getInstance()->_sharedContentId = ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId();
+	}
 }
 
 #endif
@@ -354,7 +359,7 @@ extern "C"
 
 JNIEXPORT bool JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIIsChatEntitled(JNIEnv* env, jobject thiz)
 {
-    return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName)->getHqEntitlement();
+    return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName)->getHqEntitlement() && !HQHistoryManager::getInstance()->isOffline;
 }
 
 #endif
@@ -369,6 +374,37 @@ extern "C"
 JNIEXPORT bool JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIIsAnonUser(JNIEnv* env, jobject thiz)
 {
     return ParentDataProvider::getInstance()->isLoggedInParentAnonymous();
+}
+
+#endif
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+
+extern "C"
+{
+	JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNISendVideoProgress(JNIEnv* env, jobject thiz, int playlistIndex, int progressSeconds);
+};
+
+JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNISendVideoProgress(JNIEnv* env, jobject thiz, int playlistIndex, int progressSeconds)
+{
+	 BackEndCaller::getInstance()->updateVideoProgress(VideoPlaylistManager::getInstance()->getContentItemDataForPlaylistElement(playlistIndex)->getContentItemId(), progressSeconds);
+}
+
+#endif
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+
+extern "C"
+{
+	JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNINewVideoOpened(JNIEnv* env, jobject thiz, int playlistIndex);
+};
+
+JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNINewVideoOpened(JNIEnv* env, jobject thiz, int playlistIndex)
+{
+	const auto& contentItem = VideoPlaylistManager::getInstance()->getContentItemDataForPlaylistElement(playlistIndex);
+	RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kVideoHQName);
+	RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kMeHQName);
+	ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
 }
 
 #endif

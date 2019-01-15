@@ -48,6 +48,8 @@ const char* const API::TagGetParentDetails = "getParentDetails";
 const char* const API::TagUpdateChildNameRequest = "updateChildNameRequest";
 const char* const API::TagAddVoucher = "addVoucher";
 const char* const API::TagGetVodacomTransactionId = "vodacomTransactionId";
+const char* const API::TagGetVideoProgress = "getVideoProgress";
+const char* const API::TagUpdateVideoProgress = "updateVideoProgress";
 
 const std::string API::kAZCountryCodeKey = "X-AZ-COUNTRYCODE";
 
@@ -408,6 +410,31 @@ HttpRequestCreator* API::AddVoucher(const std::string &parentId,
 	request->requestPath = StringUtils::format("/api/billing/user/%s/voucher",parentId.c_str());
 	request->requestTag = TagAddVoucher;
 	request->method = "PATCH";
+	request->encrypted = true;
+	return request;
+}
+
+HttpRequestCreator* API::GetVideoProgress(const std::string &childId,
+										  const std::string &videoId,
+										  HttpRequestCreatorResponseDelegate *delegate)
+{
+	HttpRequestCreator* request = new HttpRequestCreator(delegate);
+	request->requestPath = StringUtils::format("/api/videoprogress/progress/%s/%s",childId.c_str(), videoId.c_str());
+	request->requestTag = TagGetVideoProgress;
+	request->encrypted = true;
+	return request;
+}
+
+HttpRequestCreator* API::UpdateVideoProgress(const std::string &childId,
+											 const std::string &videoId,
+											 int videoProgressSeconds,
+											 HttpRequestCreatorResponseDelegate *delegate)
+{
+	HttpRequestCreator* request = new HttpRequestCreator(delegate);
+	request->requestPath = StringUtils::format("/api/videoprogress/progress/%s",childId.c_str());
+	request->requestBody = StringUtils::format("{\"videoId\":\"%s\",\"videoProgressSeconds\":%d}",videoId.c_str(), videoProgressSeconds);
+	request->requestTag = TagUpdateVideoProgress;
+	request->method = "POST";
 	request->encrypted = true;
 	return request;
 }

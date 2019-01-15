@@ -24,6 +24,9 @@ extern "C" {
     void shareContentInChat();
     bool isChatEntitled();
     bool isAnonUser();
+	
+	void sendVideoProgress(int playlistIndex , int videoProgressSeconds);
+	void newVideoOpened(int playlistIndex);
     
     NSString* getNSStringForKey(const char* key);
     

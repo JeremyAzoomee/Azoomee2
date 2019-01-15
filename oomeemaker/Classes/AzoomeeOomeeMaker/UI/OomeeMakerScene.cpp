@@ -140,6 +140,8 @@ void OomeeMakerScene::onEnter()
         CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/CategorySelection_Button.mp3");
         _categoryList->setSelectedButton(data);
         this->setItemsListForCategory(data);
+		_itemSlider->setPercent(0);
+		_itemList->scrollToPercentVertical(MAX(_itemSlider->getPercent(),1), 0, false);
     });
     _categoryList->setCategories(categoryData);
     

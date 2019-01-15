@@ -239,7 +239,6 @@ ui::Button *ChildSelectorScene::createChildProfileButton(const std::string& prof
         {
             AudioMixer::getInstance()->playEffect(SELECT_OOMEE_AUDIO_EFFECT);
             _parentIconSelected = false;
-            OfflineChecker::getInstance()->setDelegate(nullptr);
             int childNumber = ((Node*)pSender)->getTag();
             AnalyticsSingleton::getInstance()->registerChildGenderAndAge(childNumber);
             BackEndCaller::getInstance()->childLogin(childNumber);

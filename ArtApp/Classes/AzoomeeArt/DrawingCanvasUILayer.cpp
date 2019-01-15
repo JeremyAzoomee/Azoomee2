@@ -168,6 +168,7 @@ void DrawingCanvasUILayer::addClearButton(const Size& visibleSize, const Point& 
     _clearButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _clearButton->loadTextures(kArtAppAssetLoc + "delete.png", kArtAppAssetLoc + "delete.png");
     _clearButton->setPosition(Vec2(_saveButton->getPosition().x - _clearButton->getContentSize().width * 1.5f, _saveButton->getPosition().y));
+	_clearButton->setPressedActionEnabled(true);
     _clearButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
@@ -187,6 +188,7 @@ void DrawingCanvasUILayer::addClearButton(const Size& visibleSize, const Point& 
     _undoButton->setPosition(Vec2(_clearButton->getPosition().x - _undoButton->getContentSize().width * 1.5f, _clearButton->getPosition().y));
     _undoButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onUndoButtonPressed, this));
     _undoButton->setFlippedX(true);
+	_undoButton->setPressedActionEnabled(true);
     this->addChild(_undoButton,MAIN_UI_LAYER);
     
     

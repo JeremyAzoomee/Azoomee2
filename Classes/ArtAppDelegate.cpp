@@ -69,6 +69,11 @@ void ArtAppDelegate::onArtAppShareImage()
     }
 }
 
+bool ArtAppDelegate::isOffline()
+{
+	return HQHistoryManager::getInstance()->isOffline;
+}
+
 void ArtAppDelegate::setSecondsSpentInArtApp(long seconds)
 {
     _secondsSpentInArtApp = seconds;

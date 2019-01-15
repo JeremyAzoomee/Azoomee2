@@ -174,6 +174,31 @@ void AnalyticsSingleton::setIsUserAnonymous(bool isUserAnonymous)
     mixPanelRegisterSuperProperties("isUserAnonymous", isUserAnonymousString);
 }
 
+void AnalyticsSingleton::registerAlias(const std::string& newId)
+{
+	const std::string& newIdHash = HMACSHA256::getInstance()->getHMACSHA256Hash(newId, newId);
+	mixPanelRegisterSuperProperties("parentID", newIdHash);
+	mixPanelRegisterAlias(newIdHash);
+	mixPanelUpdatePeopleProfileData(_analyticsProperties->getStoredGeneralProperties());
+}
+
+void AnalyticsSingleton::registerBillingData(const BillingDataRef& billingData)
+{
+	mixPanelRegisterSuperProperties("billingProvider",billingData->getPaymentProvider());
+	mixPanelRegisterSuperProperties("billingStatus",billingData->getBillingStatusStr());
+	mixPanelRegisterSuperProperties("billingRenewDate", billingData->getNextBillDate());
+	mixPanelRegisterSuperProperties("billingVoucherCode", billingData->getVoucherCode());
+	mixPanelRegisterSuperProperties("billingVoucherCampaign", billingData->getCampaign());
+	mixPanelRegisterSuperProperties("billingVoucherOrganisation", billingData->getOrganisation());
+	mixPanelRegisterSuperProperties("billingSubscribedDuration", cocos2d::StringUtils::format("%d",billingData->getDuration()));
+	mixPanelUpdatePeopleProfileData(_analyticsProperties->getStoredGeneralProperties());
+}
+
+void AnalyticsSingleton::registerLanguageCode(const std::string& languageCode)
+{
+	mixPanelRegisterSuperProperties("language", languageCode);
+}
+
 //-------------logout events-----------------
 
 void AnalyticsSingleton::logoutChildEvent()

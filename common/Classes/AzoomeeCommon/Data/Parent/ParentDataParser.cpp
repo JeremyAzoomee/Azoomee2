@@ -174,8 +174,14 @@ void ParentDataParser::parseParentBillingData(const std::string &responseData)
 {
     rapidjson::Document billingData;
     billingData.Parse(responseData.c_str());
-    
-    if(billingData.HasParseError())
+	
+	ParentDataStorage* parentData = ParentDataStorage::getInstance();
+	
+	parentData->_billingData = BillingData::createWithJson(billingData);
+	
+	AnalyticsSingleton::getInstance()->registerBillingData(parentData->_billingData);
+	
+    /*if(billingData.HasParseError())
     {
         cocos2d::log("Billing Parse Error");
         return;
@@ -202,8 +208,9 @@ void ParentDataParser::parseParentBillingData(const std::string &responseData)
     
     parentData->loggedInParentBillingProvider = getStringFromJson("paymentProvider", billingData);
     AnalyticsSingleton::getInstance()->registerBillingProvider(parentData->loggedInParentBillingProvider);
-    
+    */
     parentData->isBillingDataAvailable = true;
+	
 }
 
     void ParentDataParser::parseParentSessionData(const std::string &responseData)
@@ -226,7 +233,7 @@ void ParentDataParser::parseParentBillingData(const std::string &responseData)
     
     UserDefault* def = UserDefault::getInstance();
     def->setStringForKey("loggedInParentCdnSessionId", parentData->loggedInParentCdnSessionId);
-    
+	 
 }
 
 void ParentDataParser::parseParentDetails(const std::string &responseData)

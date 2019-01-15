@@ -9,9 +9,11 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.widget.TextViewCompat;
 import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -90,6 +92,11 @@ public class NativeMediaPlayer extends Activity {
         videoview.requestFocus();
         videoview.start();
 
+        int vidProgress = extras.getInt("videoProgressSeconds") * 1000;
+        if(vidProgress > 0)
+        {
+            videoview.seekTo(vidProgress);
+        }
         JNICalls.sendMediaPlayerData("video.play", "");
 
         _eventTimer = new Timer();
@@ -153,9 +160,18 @@ public class NativeMediaPlayer extends Activity {
                 }
                 else
                 {
+                    currentlyPlayedUri = nextItem;
                     Uri uri = Uri.parse(nextItem);
                     videoview.setVideoURI(uri);
                     videoview.start();
+                    JNICalls.JNINewVideoOpened(getCurrentItemPlaylistIndex());
+                    if(!JNICalls.JNIIsAnonUser()) {
+                        if (JNICalls.JNIIsInFavourites()) {
+                            favButtonStatic.setImageResource(R.drawable.favourite_selected_v2);
+                        } else {
+                            favButtonStatic.setImageResource(R.drawable.favourite_unelected_v2);
+                        }
+                    }
                 }
             }
         });
@@ -345,16 +361,20 @@ public class NativeMediaPlayer extends Activity {
 
         _favBanner.addView(heart, heartLayoutParams);
 
+
+
         TextView text = new TextView(this);
-        text.setTextSize(bgLayoutParams.height * 0.25f);
         text.setText(JNICalls.JNIGetStringForKey("Added to favourites"));
-        text.setLayoutParams(new android.widget.RelativeLayout.LayoutParams(
-                android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT, android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT));
+        text.setWidth((int)(bgLayoutParams.width * 0.7f));
+        text.setHeight((int)(bgLayoutParams.height * 0.6f));
         text.setX(bgLayoutParams.width * 0.25f);
         text.setY(bgLayoutParams.height * 0.2f);
         Typeface face = Typeface.createFromAsset(getAssets(),
                 "fonts/azoomee.ttf");
         text.setTypeface(face);
+
+        TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(text,(int)(bgLayoutParams.height * 0.1f),(int)(bgLayoutParams.height),2, TypedValue.COMPLEX_UNIT_DIP);
+
         _favBanner.addView(text);
     }
 
@@ -396,6 +416,7 @@ public class NativeMediaPlayer extends Activity {
                 String elementUri = playlistObject.getJSONArray("Elements").getJSONObject(i).getString("uri");
                 if(elementUri.equals(currentlyPlayedUri))
                 {
+                    JNICalls.JNISendVideoProgress(i, 0);
                     if(i < playlistObject.getJSONArray("Elements").length())
                     {
                         String returnString = playlistObject.getJSONArray("Elements").getJSONObject(i + 1).getString("uri");
@@ -600,6 +621,25 @@ public class NativeMediaPlayer extends Activity {
         _paddedWindowHeight = metrics.heightPixels - (_buttonWidth * 1.25f);
     }
 
+    int getCurrentItemPlaylistIndex()
+    {
+        try
+        {
+            for(int i = 0; i < playlistObject.getJSONArray("Elements").length(); i++)
+            {
+                String elementUri = playlistObject.getJSONArray("Elements").getJSONObject(i).getString("uri");
+                if(elementUri.equals(currentlyPlayedUri))
+                {
+                    return i;
+                }
+            }
+        }
+        catch (JSONException e)
+        {
+            return 0;
+        }
+        return 0;
+    }
 
     public void exitMediaplayer()
     {
@@ -609,6 +649,7 @@ public class NativeMediaPlayer extends Activity {
 
         if(videoview != null && videoview.isPlaying())
         {
+            JNICalls.JNISendVideoProgress(getCurrentItemPlaylistIndex(), videoview.getCurrentPosition() / 1000);
             videoview.stopPlayback();
         }
 

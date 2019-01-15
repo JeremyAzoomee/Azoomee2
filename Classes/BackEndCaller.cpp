@@ -14,6 +14,7 @@
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
 #include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
+#include <AzoomeeCommon/ErrorCodes.h>
 #include "HQDataParser.h"
 #include "HQHistoryManager.h"
 #include "LoginLogicHandler.h"
@@ -136,6 +137,14 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString, con
         ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headerString));
         AnalyticsSingleton::getInstance()->signInSuccessEvent();
         AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
+		if(FlowDataSingleton::getInstance()->isSignupFlow())
+		{
+			AnalyticsSingleton::getInstance()->registerAlias(ParentDataProvider::getInstance()->getLoggedInParentId());
+		}
+		else
+		{
+			AnalyticsSingleton::getInstance()->registerIdentifier(ParentDataProvider::getInstance()->getLoggedInParentId());
+		}
         if(RoutePaymentSingleton::getInstance()->receiptDataFileExists())
         {
             Director::getInstance()->getScheduler()->schedule([&](float dt){
@@ -264,7 +273,7 @@ void BackEndCaller::getAvailableChildren()
 void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseString)
 {
     ModalMessages::getInstance()->stopLoading();
-    AnalyticsSingleton::getInstance()->registerIdentifier(ParentDataProvider::getInstance()->getLoggedInParentId());
+    //AnalyticsSingleton::getInstance()->registerIdentifier(ParentDataProvider::getInstance()->getLoggedInParentId());
     ParentDataParser::getInstance()->parseAvailableChildren(responseString);
     if(ParentDataProvider::getInstance()->getAmountOfAvailableChildren() == 0)
     {
@@ -456,6 +465,12 @@ void BackEndCaller::resetPasswordRequest(const std::string& emailAddress)
     request->execute();
 }
 
+void BackEndCaller::updateVideoProgress(const std::string& contentId, int videoProgressSeconds)
+{
+	HttpRequestCreator* request = API::UpdateVideoProgress(ChildDataProvider::getInstance()->getLoggedInChildId(),contentId, videoProgressSeconds, nullptr);
+	request->execute();
+}
+
 
 //HttpRequestCreatorResponseDelegate--------------------------------------------------------
 void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
@@ -580,7 +595,14 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
         AnalyticsSingleton::getInstance()->OnboardingAccountCreatedErrorEvent(errorCode);
         hideLoadingScreen();
         FlowDataSingleton::getInstance()->setErrorCode(errorCode);
-        MessageBox::createWith(errorCode, nullptr);
+		if(errorCode == ERROR_CODE_ALREADY_REGISTERED)
+		{
+			LoginLogicHandler::getInstance()->forceNewLogin();
+		}
+		else
+		{
+        	MessageBox::createWith(errorCode, nullptr);
+		}
     }
     else if(requestTag == API::TagRegisterChild)
     {
@@ -605,7 +627,7 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
     {
 
         FlowDataSingleton::getInstance()->setErrorCode(errorCode);
-        if(errorCode == -1)
+        if(errorCode == ERROR_CODE_OFFLINE)
         {
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineHub));
             return;
@@ -625,7 +647,7 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
     }
     else
     {
-		if(errorCode != -1)
+		if(errorCode != ERROR_CODE_OFFLINE)
 		{
         	FlowDataSingleton::getInstance()->setErrorCode(errorCode);
         	LoginLogicHandler::getInstance()->doLoginLogic();

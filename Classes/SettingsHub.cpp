@@ -21,6 +21,7 @@
 #include "SettingsFriendshipsPage.h"
 #include "SettingsKidsPage.h"
 #include "SettingsLanguagePage.h"
+#include "HQHistoryManager.h"
 
 using namespace cocos2d;
 
@@ -67,6 +68,7 @@ bool SettingsHub::init()
         {
             if(_inHub)
             {
+				HQHistoryManager::getInstance()->_returnedFromForcedOrientation = true;
 				switch(_origin)
 				{
 					case SettingsOrigin::HQ:
@@ -321,6 +323,7 @@ void SettingsHub::updateTextForNewLanguage()
 
 void SettingsHub::AdultPinCancelled(RequestAdultPinLayer* layer)
 {
+	HQHistoryManager::getInstance()->_returnedFromForcedOrientation = true;
 	switch(_origin)
 	{
 		case SettingsOrigin::HQ:
