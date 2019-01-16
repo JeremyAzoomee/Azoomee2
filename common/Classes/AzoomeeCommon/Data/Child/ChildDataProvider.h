@@ -3,6 +3,7 @@
 
 #include <cocos/cocos2d.h>
 #include "../Json.h"
+#include "Child.h"
 
 namespace Azoomee
 {
@@ -19,14 +20,15 @@ public:
     std::string getLoggedInChildName() const;
     std::string getLoggedInChildId() const;
     std::string getLoggedInChildAvatarId() const;
-    int getLoggedInChildNumber();
     
     std::string getParentOrChildId() const;
     std::string getParentOrChildCdnSessionId() const;
     std::string getParentOrChildApiSecret() const;
     std::string getParentOrChildApiKey() const;
     std::string getParentOrChildAvatarId() const;
-    
+	
+	ChildRef getLoggedInChild() const;
+	
     bool getIsChildLoggedIn();
 };
   

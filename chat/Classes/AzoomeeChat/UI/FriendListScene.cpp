@@ -192,7 +192,7 @@ void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
     if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
     {
         oomeeFileName = ChildDataProvider::getInstance()->getParentOrChildAvatarId();
-        displayName = "   " + ChildDataProvider::getInstance()->getLoggedInChildName() + " (" + _("Kid Code:") + " " + ParentDataProvider::getInstance()->getInviteCodeForAnAvailableChild(ChildDataProvider::getInstance()->getLoggedInChildNumber()) + ")";
+		displayName = "   " + ChildDataProvider::getInstance()->getLoggedInChildName() + " (" + _("Kid Code:") + " " + ChildDataProvider::getInstance()->getLoggedInChild()->getInviteCode() + ")";
         auto childAvatarSprite = RemoteImageSprite::create();
         childAvatarSprite->setKeepAspectRatio(true);
         childAvatarSprite->initWithUrlAndSizeWithoutPlaceholder(oomeeFileName, Size(128,128));

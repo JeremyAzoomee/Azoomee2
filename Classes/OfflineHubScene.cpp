@@ -31,13 +31,12 @@ bool OfflineHubScene::init()
     ChildDataParser::getInstance()->setChildLoggedIn(false);
     HQHistoryManager::getInstance()->isOffline = true;
     UserDefault* def = UserDefault::getInstance();
-    std::string lastLoggedInChildId = def->getStringForKey("lastLoggedInChildId");
+    const std::string& lastLoggedInChildId = def->getStringForKey("lastLoggedInChildId");
     def->flush();
     
     if(lastLoggedInChildId != "")
     {
-        ChildDataParser::getInstance()->setChildLoggedIn(true);
-        ChildDataParser::getInstance()->setLoggedInChildId(lastLoggedInChildId);
+		ChildDataParser::getInstance()->loginChildOffline(lastLoggedInChildId);
     }
     
     return true;

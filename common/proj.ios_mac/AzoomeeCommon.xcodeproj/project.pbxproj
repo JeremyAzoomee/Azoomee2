@@ -154,6 +154,7 @@
 		9220EC6A203313CE00BD7A90 /* ActionBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EC69203313CE00BD7A90 /* ActionBuilder.cpp */; };
 		9224C00C1F7CFD7E00108553 /* FileZipUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224C00B1F7CFD7E00108553 /* FileZipUtil.cpp */; };
 		9224C00F1F7D13F000108553 /* DirectorySearcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224C00E1F7D13F000108553 /* DirectorySearcher.cpp */; };
+		92448AC121EF771400E88C9D /* Child.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92448AC021EF771300E88C9D /* Child.cpp */; };
 		924ACE0820A46C50007A5550 /* ContentItemPoolHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924ACE0720A46C50007A5550 /* ContentItemPoolHandler.cpp */; };
 		924ACE0A20A48528007A5550 /* HQStructureParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924ACE0920A48528007A5550 /* HQStructureParser.cpp */; };
 		924ACE0C20A4A073007A5550 /* HQStructureHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924ACE0B20A4A073007A5550 /* HQStructureHandler.cpp */; };
@@ -466,6 +467,8 @@
 		9224C00B1F7CFD7E00108553 /* FileZipUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileZipUtil.cpp; sourceTree = "<group>"; };
 		9224C00D1F7D11F400108553 /* DirectorySearcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectorySearcher.h; sourceTree = "<group>"; };
 		9224C00E1F7D13F000108553 /* DirectorySearcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DirectorySearcher.cpp; sourceTree = "<group>"; };
+		92448ABF21EF5D0800E88C9D /* Child.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Child.h; sourceTree = "<group>"; };
+		92448AC021EF771300E88C9D /* Child.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Child.cpp; sourceTree = "<group>"; };
 		924ACE0720A46C50007A5550 /* ContentItemPoolHandler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ContentItemPoolHandler.cpp; path = HQDataObject/ContentItemPoolHandler.cpp; sourceTree = "<group>"; };
 		924ACE0920A48528007A5550 /* HQStructureParser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = HQStructureParser.cpp; path = HQDataObject/HQStructureParser.cpp; sourceTree = "<group>"; };
 		924ACE0B20A4A073007A5550 /* HQStructureHandler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = HQStructureHandler.cpp; path = HQDataObject/HQStructureHandler.cpp; sourceTree = "<group>"; };
@@ -631,6 +634,8 @@
 				3012ED5E1E969BF60009027D /* ChildDataProvider.h */,
 				3012ED5F1E969BF60009027D /* ChildDataStorage.cpp */,
 				3012ED601E969BF60009027D /* ChildDataStorage.h */,
+				92448ABF21EF5D0800E88C9D /* Child.h */,
+				92448AC021EF771300E88C9D /* Child.cpp */,
 			);
 			path = Child;
 			sourceTree = "<group>";
@@ -1205,6 +1210,7 @@
 				30E094C01EDF0F2B00555891 /* Utils.cpp in Sources */,
 				929E8B6B2153F06E0078C983 /* ConfirmCancelMessageBox.cpp in Sources */,
 				4349C8151EA8ADEF00FE964B /* MixpanelExceptionHandler.m in Sources */,
+				92448AC121EF771400E88C9D /* Child.cpp in Sources */,
 				9220EC6A203313CE00BD7A90 /* ActionBuilder.cpp in Sources */,
 				92084F0B21B5877B00DACCEB /* BillingData.cpp in Sources */,
 				3012ED9F1E97E6A40009027D /* RemoteImageSprite.cpp in Sources */,

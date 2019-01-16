@@ -4,6 +4,7 @@
 #include <cocos/cocos2d.h>
 #include "../Json.h"
 #include "BillingData.h"
+#include "../Child/Child.h"
 #include <map>
 
 
@@ -20,7 +21,7 @@ public:
     bool init(void);
     
     rapidjson::Document parentLoginData;
-    rapidjson::Document availableChildrenData;
+    //rapidjson::Document availableChildrenData;
     rapidjson::Document pendingFriendRequestData;
     
     std::string loggedInParentId;
@@ -40,10 +41,13 @@ public:
     bool isLoggedInParentAnonymous = false;
     bool isBillingDataAvailable = false;
     
-    std::vector<std::map<std::string, std::string>> availableChildren;          //array of maps, where each child has profileName and avatar keys
+    //std::vector<std::map<std::string, std::string>> availableChildren;          //array of maps, where each child has profileName and avatar keys
     // Index map of childId to index in availableChildren
-    std::map<std::string, int> availableChildrenById;
-    
+    //std::map<std::string, int> availableChildrenById;
+	std::vector<ChildRef> _availableChildren;
+	std::map<std::string, ChildRef> _availableChildrenById;
+	
+	
     std::vector<std::map<std::string, std::string>> pendingFriendRequests;
 };
 

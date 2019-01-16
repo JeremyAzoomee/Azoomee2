@@ -299,8 +299,8 @@ void BackEndCaller::childLogin(int childNumber)
     HttpRequestCreator* request = API::ChildLoginRequest(profileName, this);
     request->execute();
     
-    ChildDataParser::getInstance()->setLoggedInChildName(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(childNumber));
-    ChildDataParser::getInstance()->setLoggedInChildNumber(childNumber);
+    //ChildDataParser::getInstance()->setLoggedInChildName(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(childNumber));
+    //ChildDataParser::getInstance()->setLoggedInChildNumber(childNumber);
 }
 
 void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString, const std::string& headerString)
@@ -453,7 +453,7 @@ void BackEndCaller::getElectricDreamsContent(const std::string& requestId, const
 {
     if(ChildDataStorage::getInstance()->childLoggedIn)
     {
-        HttpRequestCreator* request = API::GetElectricDreamsContent(requestId, ChildDataStorage::getInstance()->loggedInChildId, contentID, this);
+        HttpRequestCreator* request = API::GetElectricDreamsContent(requestId, ChildDataStorage::getInstance()->_loggedInChild->getId(), contentID, this);
         request->execute();
     }
 }
@@ -512,7 +512,8 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     {
         rapidjson::Document json;
         json.Parse(body.c_str());
-        ChildDataParser::getInstance()->setLoggedInChildAvatarId(getStringFromJson("avatar", json));
+		ChildRef child = ChildDataProvider::getInstance()->getLoggedInChild();
+		child->setAvatar(getStringFromJson("avatar", json));
         ImageDownloaderRef imageDownloader = ImageDownloader::create("imageCache/", ImageDownloader::CacheMode::File );
         imageDownloader->downloadImage(nullptr, getStringFromJson("avatar", json), true);
         hideLoadingScreen();

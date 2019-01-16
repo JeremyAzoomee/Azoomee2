@@ -137,34 +137,26 @@ bool ParentDataParser::parseUpdateParentData(const std::string &responseData)
 bool ParentDataParser::parseAvailableChildren(const std::string &responseData)
 {
     ParentDataStorage* parentData = ParentDataStorage::getInstance();
-    parentData->availableChildrenData.Parse(responseData.c_str());
+	rapidjson::Document childData;
+	childData.Parse(responseData.c_str());
     
-    if(parentData->availableChildrenData.HasParseError())
+    if(childData.HasParseError())
     {
         return false;
     }
     
-    parentData->availableChildren.clear();
-    parentData->availableChildrenById.clear();
+    parentData->_availableChildren.clear();
+    parentData->_availableChildrenById.clear();
     parentData->isLoggedInParentAnonymous = false; //if user has children, it must be non-anonymous
     
-    for(int i = 0; i < parentData->availableChildrenData.Size(); i++)
+    for(int i = 0; i < childData.Size(); i++)
     {
-        const rapidjson::Value &currentKidObj = parentData->availableChildrenData[i];
+        const rapidjson::Value &currentKidObj = childData[i];
         
-        std::map<std::string, std::string> currentChild;
+		ChildRef child = Child::createWithJson(currentKidObj);
         
-        currentChild["profileName"] = getStringFromJson("profileName", currentKidObj);
-        currentChild["avatar"] = getStringFromJson("avatar", currentKidObj);
-        currentChild["inviteCode"] = getStringFromJson("inviteCode", currentKidObj);
-        currentChild["sex"] = getStringFromJson("sex", currentKidObj);
-        currentChild["dob"] = getStringFromJson("dob", currentKidObj);
-        currentChild["id"] = getStringFromJson("id", currentKidObj);
-        
-        parentData->availableChildren.push_back(currentChild);
-        
-        const std::string& childId = currentChild["id"];
-        parentData->availableChildrenById[childId] = i;
+        parentData->_availableChildren.push_back(child);
+        parentData->_availableChildrenById[child->getId()] = child;
     }
     
     return true;
@@ -265,19 +257,10 @@ void ParentDataParser::parseChildUpdateData(int childNum, const std::string &res
     
     ParentDataStorage* parentData = ParentDataStorage::getInstance();
     
-    std::map<std::string, std::string> currentChild;
+	ChildRef child = Child::createWithJson(childData);
     
-    currentChild["profileName"] = getStringFromJson("profileName", childData);
-    currentChild["avatar"] = getStringFromJson("avatar", childData);
-    currentChild["inviteCode"] = getStringFromJson("inviteCode", childData);
-    currentChild["sex"] = getStringFromJson("sex", childData);
-    currentChild["dob"] = getStringFromJson("dob", childData);
-    currentChild["id"] = getStringFromJson("id", childData);
-    
-    parentData->availableChildren[childNum] = currentChild;
-    
-    const std::string& childId = currentChild["id"];
-    parentData->availableChildrenById[childId] = childNum;
+    parentData->_availableChildren[childNum] = child;
+    parentData->_availableChildrenById[child->getId()] = child;
 }
     
 void ParentDataParser::logoutChild()
