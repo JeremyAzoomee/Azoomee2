@@ -5,6 +5,7 @@
 #include "../Json.h"
 #include "BillingData.h"
 #include "../Child/Child.h"
+#include "Parent.h"
 #include <map>
 
 
@@ -20,25 +21,27 @@ public:
     virtual ~ParentDataStorage();
     bool init(void);
     
-    rapidjson::Document parentLoginData;
+    //rapidjson::Document parentLoginData;
     //rapidjson::Document availableChildrenData;
     rapidjson::Document pendingFriendRequestData;
     
-    std::string loggedInParentId;
-    std::string loggedInParentCdnSessionId;
-    std::string loggedInParentApiSecret;
-    std::string loggedInParentApiKey;
-    std::string loggedInParentActorStatus;
-    std::string loggedInParentPin;
-    std::string loggedInParentAvatarId;
-    std::string loggedInParentDisplayName;
-    std::string loggedInParentEmail;
+    //std::string loggedInParentId;
+    //std::string loggedInParentCdnSessionId;
+    //std::string loggedInParentApiSecret;
+    //std::string loggedInParentApiKey;
+    //std::string loggedInParentActorStatus;
+    //std::string loggedInParentPin;
+    //std::string loggedInParentAvatarId;
+    //std::string loggedInParentDisplayName;
+    //std::string loggedInParentEmail;
     //std::string loggedInParentBillingStatus;
     //std::string loggedInParentBillingDate;
     //std::string loggedInParentBillingProvider;
 	BillingDataRef _billingData = nullptr;
-    std::string loggedInParentCountryCode;
-    bool isLoggedInParentAnonymous = false;
+    //std::string loggedInParentCountryCode;
+    //bool isLoggedInParentAnonymous = false;
+	ParentRef _parent = nullptr;
+	
     bool isBillingDataAvailable = false;
     
     //std::vector<std::map<std::string, std::string>> availableChildren;          //array of maps, where each child has profileName and avatar keys

@@ -38,7 +38,7 @@ std::string ChildDataProvider::getParentOrChildId() const
     }
     else
     {
-        return ParentDataStorage::getInstance()->loggedInParentId;
+        return ParentDataStorage::getInstance()->_parent->getId();
     }
 }
 
@@ -50,7 +50,7 @@ std::string ChildDataProvider::getParentOrChildCdnSessionId() const
     }
     else
     {
-        return ParentDataStorage::getInstance()->loggedInParentCdnSessionId;
+        return ParentDataStorage::getInstance()->_parent->getCDNSessionId();
     }
 }
 
@@ -62,7 +62,7 @@ std::string ChildDataProvider::getParentOrChildApiSecret() const
     }
     else
     {
-        return ParentDataStorage::getInstance()->loggedInParentApiSecret;
+        return ParentDataStorage::getInstance()->_parent->getAPISecret();
     }
 }
 
@@ -74,7 +74,7 @@ std::string ChildDataProvider::getParentOrChildApiKey() const
     }
     else
     {
-        return ParentDataStorage::getInstance()->loggedInParentApiKey;
+        return ParentDataStorage::getInstance()->_parent->getAPIKey();
     }
 }
     
@@ -86,23 +86,35 @@ std::string ChildDataProvider::getParentOrChildAvatarId() const
     }
     else
     {
-        return ParentDataStorage::getInstance()->loggedInParentAvatarId;
+        return ParentDataStorage::getInstance()->_parent->getAvatar();
     }
 }
 
 std::string ChildDataProvider::getLoggedInChildName() const
 {
-    return ChildDataStorage::getInstance()->_loggedInChild->getProfileName();
+	if(ChildDataStorage::getInstance()->_loggedInChild)
+	{
+    	return ChildDataStorage::getInstance()->_loggedInChild->getProfileName();
+	}
+	return "";
 }
 
 std::string ChildDataProvider::getLoggedInChildId() const
 {
-    return ChildDataStorage::getInstance()->_loggedInChild->getId();
+	if(ChildDataStorage::getInstance()->_loggedInChild)
+	{
+    	return ChildDataStorage::getInstance()->_loggedInChild->getId();
+	}
+	return "";
 }
 
 std::string ChildDataProvider::getLoggedInChildAvatarId() const
 {
-    return ChildDataStorage::getInstance()->_loggedInChild->getAvatar();
+	if(ChildDataStorage::getInstance()->_loggedInChild)
+	{
+    	return ChildDataStorage::getInstance()->_loggedInChild->getAvatar();
+	}
+	return "";
 }
 
 bool ChildDataProvider::getIsChildLoggedIn()

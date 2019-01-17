@@ -179,9 +179,6 @@ void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
     childDataLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
     childDataLayout->setBackGroundColor(Style::Color::dark);
     
-    // Add the current user's avatar to the subtitle bar
-    ChildDataProvider::getInstance()->getLoggedInChildAvatarId();
-    
     std::string oomeeFileName;
     std::string displayName;
     

@@ -155,6 +155,7 @@
 		9224C00C1F7CFD7E00108553 /* FileZipUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224C00B1F7CFD7E00108553 /* FileZipUtil.cpp */; };
 		9224C00F1F7D13F000108553 /* DirectorySearcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224C00E1F7D13F000108553 /* DirectorySearcher.cpp */; };
 		92448AC121EF771400E88C9D /* Child.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92448AC021EF771300E88C9D /* Child.cpp */; };
+		92448AC421F0ABC000E88C9D /* Parent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92448AC321F0ABC000E88C9D /* Parent.cpp */; };
 		924ACE0820A46C50007A5550 /* ContentItemPoolHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924ACE0720A46C50007A5550 /* ContentItemPoolHandler.cpp */; };
 		924ACE0A20A48528007A5550 /* HQStructureParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924ACE0920A48528007A5550 /* HQStructureParser.cpp */; };
 		924ACE0C20A4A073007A5550 /* HQStructureHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924ACE0B20A4A073007A5550 /* HQStructureHandler.cpp */; };
@@ -469,6 +470,8 @@
 		9224C00E1F7D13F000108553 /* DirectorySearcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DirectorySearcher.cpp; sourceTree = "<group>"; };
 		92448ABF21EF5D0800E88C9D /* Child.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Child.h; sourceTree = "<group>"; };
 		92448AC021EF771300E88C9D /* Child.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Child.cpp; sourceTree = "<group>"; };
+		92448AC221F09CD700E88C9D /* Parent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Parent.h; sourceTree = "<group>"; };
+		92448AC321F0ABC000E88C9D /* Parent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Parent.cpp; sourceTree = "<group>"; };
 		924ACE0720A46C50007A5550 /* ContentItemPoolHandler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ContentItemPoolHandler.cpp; path = HQDataObject/ContentItemPoolHandler.cpp; sourceTree = "<group>"; };
 		924ACE0920A48528007A5550 /* HQStructureParser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = HQStructureParser.cpp; path = HQDataObject/HQStructureParser.cpp; sourceTree = "<group>"; };
 		924ACE0B20A4A073007A5550 /* HQStructureHandler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = HQStructureHandler.cpp; path = HQDataObject/HQStructureHandler.cpp; sourceTree = "<group>"; };
@@ -621,6 +624,8 @@
 				3012ED571E969BBB0009027D /* ParentDataStorage.h */,
 				92084F0921B562C500DACCEB /* BillingData.h */,
 				92084F0A21B5877B00DACCEB /* BillingData.cpp */,
+				92448AC221F09CD700E88C9D /* Parent.h */,
+				92448AC321F0ABC000E88C9D /* Parent.cpp */,
 			);
 			path = Parent;
 			sourceTree = "<group>";
@@ -1285,6 +1290,7 @@
 				9271D8452048311A00370120 /* LazyLoadingButton.cpp in Sources */,
 				3012EDB01E97E8450009027D /* HMACSHA256_ios.mm in Sources */,
 				021564901FC5F3DC00641C14 /* SpecialCalendarEventManager.cpp in Sources */,
+				92448AC421F0ABC000E88C9D /* Parent.cpp in Sources */,
 				4349C82A1EA8ADEF00FE964B /* MPCGPointToNSDictionaryValueTransformer.m in Sources */,
 				4349C81F1EA8ADEF00FE964B /* MPABTestDesignerDeviceInfoResponseMessage.m in Sources */,
 				4318E13A1F289DD500778E9A /* RequestAdultPinLayer.cpp in Sources */,

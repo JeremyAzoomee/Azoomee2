@@ -29,54 +29,94 @@ bool ParentDataProvider::init(void)
 
 std::string ParentDataProvider::getLoggedInParentActorStatus() const
 {
-    return ParentDataStorage::getInstance()->loggedInParentActorStatus;
+	if(ParentDataStorage::getInstance()->_parent)
+	{
+    	return ParentDataStorage::getInstance()->_parent->getActorStatus();
+	}
+	return "";
 }
 
 
 std::string ParentDataProvider::getLoggedInParentId() const
 {
-    return ParentDataStorage::getInstance()->loggedInParentId;
+	if(ParentDataStorage::getInstance()->_parent)
+	{
+    	return ParentDataStorage::getInstance()->_parent->getId();
+	}
+	return "";
 }
     
 std::string ParentDataProvider::getLoggedInParentCdnSessionId() const
 {
-    return ParentDataStorage::getInstance()->loggedInParentCdnSessionId;
+	if(ParentDataStorage::getInstance()->_parent)
+	{
+    	return ParentDataStorage::getInstance()->_parent->getCDNSessionId();
+	}
+	return "";
 }
 
 
 std::string ParentDataProvider::getLoggedInParentApiKey() const
 {
-    return ParentDataStorage::getInstance()->loggedInParentApiKey;
+	if(ParentDataStorage::getInstance()->_parent)
+	{
+    	return ParentDataStorage::getInstance()->_parent->getAPIKey();
+	}
+	return "";
 }
 
 std::string ParentDataProvider::getParentPin() const
 {
-    return ParentDataStorage::getInstance()->loggedInParentPin;
+	if(ParentDataStorage::getInstance()->_parent)
+	{
+    	return ParentDataStorage::getInstance()->_parent->getPin();
+	}
+	return "";
 }
 
 std::string ParentDataProvider::getLoggedInParentApiSecret() const
 {
-    return ParentDataStorage::getInstance()->loggedInParentApiSecret;
+	if(ParentDataStorage::getInstance()->_parent)
+	{
+    	return ParentDataStorage::getInstance()->_parent->getAPISecret();
+	}
+	return "";
 }
     
 std::string ParentDataProvider::getLoggedInParentAvatarId() const
 {
-    return ParentDataStorage::getInstance()->loggedInParentAvatarId;
+	if(ParentDataStorage::getInstance()->_parent)
+	{
+    	return ParentDataStorage::getInstance()->_parent->getAvatar();
+	}
+	return "";
 }
 
 std::string ParentDataProvider::getParentEmail() const
 {
-    return ParentDataStorage::getInstance()->loggedInParentEmail;
+	if(ParentDataStorage::getInstance()->_parent)
+	{
+    	return ParentDataStorage::getInstance()->_parent->getEmail();
+	}
+	return "";
 }
     
 std::string ParentDataProvider::getParentDisplayName() const
 {
-    return ParentDataStorage::getInstance()->loggedInParentDisplayName;
+	if(ParentDataStorage::getInstance()->_parent)
+	{
+    	return ParentDataStorage::getInstance()->_parent->getDisplayName();
+	}
+	return "";
 }
 
 std::string ParentDataProvider::getLoggedInParentCountryCode() const
 {
-    return ParentDataStorage::getInstance()->loggedInParentCountryCode;
+	if(ParentDataStorage::getInstance()->_parent)
+	{
+    	return ParentDataStorage::getInstance()->_parent->getCountryCode();
+	}
+	return "";
 }
 
 std::string ParentDataProvider::getBillingStatus() const
@@ -108,7 +148,11 @@ std::string ParentDataProvider::getBillingProvider() const
     
 bool ParentDataProvider::isLoggedInParentAnonymous()
 {
-    return ParentDataStorage::getInstance()->isLoggedInParentAnonymous;
+	if(ParentDataStorage::getInstance()->_parent)
+	{
+    	return ParentDataStorage::getInstance()->_parent->isAnonymous();
+	}
+	return true;
 }
 
 bool ParentDataProvider::isBillingDataAvailable()
@@ -127,7 +171,11 @@ bool ParentDataProvider::isPaidUser()
 
 bool ParentDataProvider::emailRequiresVerification()
 {
-    return (ParentDataStorage::getInstance()->loggedInParentActorStatus != "VERIFIED") && (ParentDataStorage::getInstance()->loggedInParentActorStatus != "ACTIVE");
+	if(ParentDataStorage::getInstance()->_parent)
+	{
+    	return (ParentDataStorage::getInstance()->_parent->getActorStatus() != "VERIFIED") && (ParentDataStorage::getInstance()->_parent->getActorStatus() != "ACTIVE");
+	}
+	return false;
 }
     
 bool ParentDataProvider::isUserLoggedIn()

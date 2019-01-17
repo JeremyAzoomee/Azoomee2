@@ -185,7 +185,7 @@ void BackEndCaller::onAnonymousDeviceLoginAnswerReceived(const std::string &resp
 	IAPProductDataHandler::getInstance()->fetchProductData();
     
     cocos2d::log("Response string is: %s", responseString.c_str());
-    if(ParentDataParser::getInstance()->parseParentLoginDataFromAnonymousDeviceLogin(responseString))
+    if(ParentDataParser::getInstance()->parseParentLoginData(responseString))
     {
         AnalyticsSingleton::getInstance()->setIsUserAnonymous(true);
         ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headerString));
