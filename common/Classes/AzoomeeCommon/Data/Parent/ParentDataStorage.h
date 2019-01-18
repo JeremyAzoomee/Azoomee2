@@ -6,6 +6,7 @@
 #include "BillingData.h"
 #include "../Child/Child.h"
 #include "Parent.h"
+#include "FriendRequest.h"
 #include <map>
 
 
@@ -23,7 +24,7 @@ public:
     
     //rapidjson::Document parentLoginData;
     //rapidjson::Document availableChildrenData;
-    rapidjson::Document pendingFriendRequestData;
+    //rapidjson::Document pendingFriendRequestData;
     
     //std::string loggedInParentId;
     //std::string loggedInParentCdnSessionId;
@@ -51,7 +52,7 @@ public:
 	std::map<std::string, ChildRef> _availableChildrenById;
 	
 	
-    std::vector<std::map<std::string, std::string>> pendingFriendRequests;
+    std::vector<FriendRequestRef> _pendingFriendRequests;
 };
 
 }

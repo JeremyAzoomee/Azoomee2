@@ -288,43 +288,61 @@ std::string ParentDataProvider::getInviteCodeForChildName(const std::string& nam
 //-----------Pending Friend Requests-------------
 int ParentDataProvider::getNoOfPendingFriendRequest()
 {
-    ParentDataStorage* parentData = ParentDataStorage::getInstance();
-    // If this is called before any data is parsed
-    if(!parentData->pendingFriendRequestData.IsArray())
-    {
-        return 0;
-    }
-    return (int)parentData->pendingFriendRequestData.Size();
+	return (int)ParentDataStorage::getInstance()->_pendingFriendRequests.size();
 }
     
 std::string ParentDataProvider::getPendingFriendRequestSenderName(int pendingFriendRequestNo) const
 {
-    return ParentDataStorage::getInstance()->pendingFriendRequests.at(pendingFriendRequestNo)["senderName"];
+	if(pendingFriendRequestNo >= ParentDataStorage::getInstance()->_pendingFriendRequests.size())
+	{
+		return "";
+	}
+    return ParentDataStorage::getInstance()->_pendingFriendRequests.at(pendingFriendRequestNo)->getSenderName();
 }
 
 std::string ParentDataProvider::getPendingFriendRequestFriendName(int pendingFriendRequestNo) const
 {
-    return ParentDataStorage::getInstance()->pendingFriendRequests.at(pendingFriendRequestNo)["friendName"];
+	if(pendingFriendRequestNo >= ParentDataStorage::getInstance()->_pendingFriendRequests.size())
+	{
+		return "";
+	}
+    return ParentDataStorage::getInstance()->_pendingFriendRequests.at(pendingFriendRequestNo)->getFriendName();
 }
     
 std::string ParentDataProvider::getPendingFriendRequestInviteCode(int pendingFriendRequestNo) const
 {
-    return ParentDataStorage::getInstance()->pendingFriendRequests.at(pendingFriendRequestNo)["inviteeCode"];
+	if(pendingFriendRequestNo >= ParentDataStorage::getInstance()->_pendingFriendRequests.size())
+	{
+		return "";
+	}
+    return ParentDataStorage::getInstance()->_pendingFriendRequests.at(pendingFriendRequestNo)->getInviteeCode();
 }
     
 std::string ParentDataProvider::getPendingFriendRequestRequestID(int pendingFriendRequestNo) const
 {
-    return ParentDataStorage::getInstance()->pendingFriendRequests.at(pendingFriendRequestNo)["id"];
+	if(pendingFriendRequestNo >= ParentDataStorage::getInstance()->_pendingFriendRequests.size())
+	{
+		return "";
+	}
+    return ParentDataStorage::getInstance()->_pendingFriendRequests.at(pendingFriendRequestNo)->getId();
 }
     
 std::string ParentDataProvider::getPendingFriendRequestSenderID(int pendingFriendRequestNo) const
 {
-    return ParentDataStorage::getInstance()->pendingFriendRequests.at(pendingFriendRequestNo)["senderId"];
+	if(pendingFriendRequestNo >= ParentDataStorage::getInstance()->_pendingFriendRequests.size())
+	{
+		return "";
+	}
+    return ParentDataStorage::getInstance()->_pendingFriendRequests.at(pendingFriendRequestNo)->getSenderId();
 }
 
 std::string ParentDataProvider::getPendingFriendRequestRespondentID(int pendingFriendRequestNo) const
 {
-    return ParentDataStorage::getInstance()->pendingFriendRequests.at(pendingFriendRequestNo)["respondentId"];
+	if(pendingFriendRequestNo >= ParentDataStorage::getInstance()->_pendingFriendRequests.size())
+	{
+		return "";
+	}
+    return ParentDataStorage::getInstance()->_pendingFriendRequests.at(pendingFriendRequestNo)->getRespondentId();
 }
     
 }

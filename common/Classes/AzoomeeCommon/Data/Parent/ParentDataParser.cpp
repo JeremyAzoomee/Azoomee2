@@ -269,31 +269,25 @@ void ParentDataParser::clearParentLoginDataFromUserDefaults()
     
 bool ParentDataParser::parsePendingFriendRequests(const std::string &responseData)
 {
-    ParentDataStorage* parentData = ParentDataStorage::getInstance();
-    parentData->pendingFriendRequests.clear();
-    
-    parentData->pendingFriendRequestData.Parse(responseData.c_str());
-    if(parentData->pendingFriendRequestData.HasParseError())
+	rapidjson::Document pendingRequestData;
+	pendingRequestData.Parse(responseData.c_str());
+    if(pendingRequestData.HasParseError() || !pendingRequestData.IsArray())
     {
         return false;
     }
-    
-    for(int i = 0; i < parentData->pendingFriendRequestData.Size(); i++)
+	
+	std::vector<FriendRequestRef> pendingRequests;
+	
+    for(int i = 0; i < pendingRequestData.Size(); i++)
     {
-        const rapidjson::Value &currentFriendRequestObj = parentData->pendingFriendRequestData[i];
+        const rapidjson::Value &currentFriendRequestObj =pendingRequestData[i];
         
-        std::map<std::string, std::string> currentPendingFriendRequest;
-        
-        currentPendingFriendRequest["senderName"] = getStringFromJson("senderName", currentFriendRequestObj);
-        currentPendingFriendRequest["friendName"] = getStringFromJson("friendName", currentFriendRequestObj);
-        currentPendingFriendRequest["inviteeCode"] = getStringFromJson("inviteeCode", currentFriendRequestObj);
-        currentPendingFriendRequest["id"] = getStringFromJson("id", currentFriendRequestObj);
-        currentPendingFriendRequest["senderId"] = getStringFromJson("senderId", currentFriendRequestObj);
-        currentPendingFriendRequest["respondentId"] = getStringFromJson("respondentId", currentFriendRequestObj);
+		FriendRequestRef friendRequest = FriendRequest::createWithJson(currentFriendRequestObj);
 
-        parentData->pendingFriendRequests.push_back(currentPendingFriendRequest);
+		pendingRequests.push_back(friendRequest);
     }
-    
+	
+	ParentDataStorage::getInstance()->_pendingFriendRequests = pendingRequests;
     return true;
 }
     
