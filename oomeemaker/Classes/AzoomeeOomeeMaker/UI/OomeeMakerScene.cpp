@@ -163,6 +163,7 @@ void OomeeMakerScene::onEnter()
     });
     _itemList->setColourSelectedCallback([this](const OomeeColourRef& colour){
         _oomee->setColour(colour);
+		CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Item_Drop.wav");
         const OomeeRef& oomee = OomeeMakerDataStorage::getInstance()->getOomeeForKey(colour->getId());
         if(oomee)
         {

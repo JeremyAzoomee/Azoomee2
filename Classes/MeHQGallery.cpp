@@ -19,6 +19,7 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
+#include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "MeHQ.h"
 
 using namespace cocos2d;
@@ -139,6 +140,7 @@ void MeHQGallery::onEnter()
     _newArt->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
+			AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
             ArtAppDelegate::getInstance()->setFileName("");
             AnalyticsSingleton::getInstance()->contentItemSelectedEvent("NewArt");
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(ArtAppEntryPointScene));

@@ -7,6 +7,7 @@
 
 #include "OomeeItemButton.h"
 #include "DragAndDropController.h"
+#include "SimpleAudioEngine.h"
 #include "../DataObjects/OomeeMakerDataHandler.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
@@ -30,6 +31,7 @@ void OomeeItemButton::setItemData(const OomeeItemRef& itemdata)
         }
         else if(eType == ui::Widget::TouchEventType::ENDED)
         {
+			CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Item_Drop.wav");
             if(_itemSelectedCallback)
             {
                 AnalyticsSingleton::getInstance()->accessorySelectedEvent("TAP");

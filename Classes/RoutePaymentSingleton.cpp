@@ -111,14 +111,27 @@ bool RoutePaymentSingleton::osIsAmazon()
     return (ConfigStorage::getInstance()->getOSManufacturer() == "Amazon");
 }
 
-void RoutePaymentSingleton::refreshAppleReceiptFromButton()
+void RoutePaymentSingleton::restorePayment()
 {
-    #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-        pressedIAPStartButton = false;
-        pressedRestorePurchaseButton = true;
-        ModalMessages::getInstance()->startLoading();
-        ApplePaymentSingleton::getInstance()->refreshReceipt(true);
-    #endif
+	pressedIAPStartButton = false;
+	pressedRestorePurchaseButton = true;
+	if(osIsIos())
+	{
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+		ApplePaymentSingleton::getInstance()->refreshReceipt(true);
+#endif
+	}
+	else if(osIsAndroid())
+	{
+	#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+		GooglePaymentSingleton::getInstance()->startRestorePurchase();
+	#endif
+	}
+	else
+	{
+		return;
+	}
+	ModalMessages::getInstance()->startLoading();
 }
 
 void RoutePaymentSingleton::backendRequestFailed(long errorCode)
@@ -158,6 +171,13 @@ void RoutePaymentSingleton::doublePurchaseMessage()
     AnalyticsSingleton::getInstance()->iapSubscriptionDoublePurchaseEvent();
     Azoomee::ModalMessages::getInstance()->stopLoading();
     MessageBox::createWith(ERROR_CODE_PURCHASE_DOUBLE, nullptr);
+}
+
+void RoutePaymentSingleton::failedRestoreMessage()
+{
+	AnalyticsSingleton::getInstance()->iapSubscriptionErrorEvent("failed restore - no purchase");
+	Azoomee::ModalMessages::getInstance()->stopLoading();
+	MessageBox::createWith(ERROR_CODE_APPLE_NO_PREVIOUS_PURCHASE, nullptr);
 }
 
 void RoutePaymentSingleton::inAppPaymentSuccess()
