@@ -17,19 +17,20 @@ public:
     virtual ~ChildDataProvider();
     bool init(void);
     
-    std::string getLoggedInChildName() const;
-    std::string getLoggedInChildId() const;
-    std::string getLoggedInChildAvatarId() const;
+    //std::string getLoggedInChildName() const;
+    //std::string getLoggedInChildId() const;
+    //std::string getLoggedInChildAvatarId() const;
     
     std::string getParentOrChildId() const;
     std::string getParentOrChildCdnSessionId() const;
     std::string getParentOrChildApiSecret() const;
     std::string getParentOrChildApiKey() const;
     std::string getParentOrChildAvatarId() const;
+	std::string getParentOrChildName() const;
 	
 	ChildRef getLoggedInChild() const;
 	
-    bool getIsChildLoggedIn();
+    bool getIsChildLoggedIn() const;
 };
   
 }

@@ -39,6 +39,7 @@ public:
 	static ChildRef create();
 	
 	void parseLoginData(const rapidjson::Document& loginData);
+	void parseChildData(const rapidjson::Value& childData);
 	
 	void setAvatar(const std::string& avatarUrl);
 	void setId(const std::string& childId);

@@ -113,11 +113,15 @@ void AnalyticsSingleton::registerBillingProvider(std::string provider)
 
 void AnalyticsSingleton::registerChildGenderAndAge(int childNumber)
 {
-    mixPanelRegisterSuperProperties("sex",ParentDataProvider::getInstance()->getSexForAnAvailableChild(childNumber));
+	const ChildRef& child = ParentDataProvider::getInstance()->getChild(childNumber);
+	if(child)
+	{
+    	mixPanelRegisterSuperProperties("sex",child->getSex());
     
-    int childAge = ageFromDOBString(ParentDataProvider::getInstance()->getDOBForAnAvailableChild(childNumber));
+    	int childAge = ageFromDOBString(child->getDOB());
     
-    mixPanelRegisterSuperProperties("age",cocos2d::StringUtils::format("%s%d",NUMBER_IDENTIFIER, childAge));
+    	mixPanelRegisterSuperProperties("age",cocos2d::StringUtils::format("%s%d",NUMBER_IDENTIFIER, childAge));
+	}
 }
     
 void AnalyticsSingleton::registerSessionId(std::string sessionId)

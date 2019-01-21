@@ -80,7 +80,7 @@ void FriendListScene::onEnter()
     
     // Create a friend object which represents the current user
     const std::string& childId = ChildDataProvider::getInstance()->getParentOrChildId();
-    const std::string& childName = ChildDataProvider::getInstance()->getLoggedInChildName();
+    const std::string& childName = ChildDataProvider::getInstance()->getParentOrChildName();
     const std::string& childAvatar = ChildDataProvider::getInstance()->getParentOrChildAvatarId();
     _currentUser = Friend::create(childId, childName, childAvatar);
     
@@ -189,7 +189,7 @@ void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
     if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
     {
         oomeeFileName = ChildDataProvider::getInstance()->getParentOrChildAvatarId();
-		displayName = "   " + ChildDataProvider::getInstance()->getLoggedInChildName() + " (" + _("Kid Code:") + " " + ChildDataProvider::getInstance()->getLoggedInChild()->getInviteCode() + ")";
+		displayName = "   " + ChildDataProvider::getInstance()->getParentOrChildName() + " (" + _("Kid Code:") + " " + ChildDataProvider::getInstance()->getLoggedInChild()->getInviteCode() + ")";
         auto childAvatarSprite = RemoteImageSprite::create();
         childAvatarSprite->setKeepAspectRatio(true);
         childAvatarSprite->initWithUrlAndSizeWithoutPlaceholder(oomeeFileName, Size(128,128));

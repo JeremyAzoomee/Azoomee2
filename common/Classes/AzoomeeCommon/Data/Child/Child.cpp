@@ -18,12 +18,7 @@ ChildRef Child::createWithJson(const rapidjson::Value& childData)
 {
 	ChildRef child = ChildRef(new Child());
 	
-	child->_profileName = getStringFromJson("profileName", childData);
-	child->_avatar = getStringFromJson("avatar", childData);
-	child->_inviteCode = getStringFromJson("inviteCode", childData);
-	child->_sex = getStringFromJson("sex", childData);
-	child->_dob = getStringFromJson("dob", childData);
-	child->_id = getStringFromJson("id", childData);
+	child->parseChildData(childData);
 	
 	return child;
 }
@@ -38,6 +33,16 @@ void Child::parseLoginData(const rapidjson::Document& loginData)
 	_cdnSessionId = getStringFromJson("cdn-sessionid", loginData);
 	_apiSecret = getStringFromJson("apiSecret", loginData);
 	_apiKey = getStringFromJson("apiKey", loginData);
+}
+
+void Child::parseChildData(const rapidjson::Value& childData)
+{
+	_profileName = getStringFromJson("profileName", childData);
+	_avatar = getStringFromJson("avatar", childData);
+	_inviteCode = getStringFromJson("inviteCode", childData);
+	_sex = getStringFromJson("sex", childData);
+	_dob = getStringFromJson("dob", childData);
+	_id = getStringFromJson("id", childData);
 }
 
 void Child::setAvatar(const std::string &avatarUrl)

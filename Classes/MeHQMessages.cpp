@@ -304,7 +304,7 @@ void MeHQMessages::createMessageList()
                     AnalyticsSingleton::getInstance()->contentItemSelectedEvent("CHAT");
                     
                     const std::string& childId = ChildDataProvider::getInstance()->getParentOrChildId();
-                    const std::string& childName = ChildDataProvider::getInstance()->getLoggedInChildName();
+                    const std::string& childName = ChildDataProvider::getInstance()->getParentOrChildName();
                     const std::string& childAvatar = ChildDataProvider::getInstance()->getParentOrChildAvatarId();
                     Chat::FriendRef currentUser = Chat::Friend::create(childId, childName, childAvatar);
                     

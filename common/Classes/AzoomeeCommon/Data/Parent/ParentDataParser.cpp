@@ -44,23 +44,22 @@ bool ParentDataParser::parseParentLoginData(const std::string &responseData)
     {
         return false;
     }
-    
-    if(parentData.HasMember("code"))
-    {
-        if(parentData["code"] != "INVALID_CREDENTIALS")
-        {
-			ParentRef parent = Parent::createWithJson(parentData);
-            ParentDataStorage::getInstance()->_parent = parent;
-            addParentLoginDataToUserDefaults();
-            
-            createCrashlyticsUserInfo(parent->getId(), "");
-            AnalyticsSingleton::getInstance()->registerAccountStatus(parent->getActorStatus());
-            
-            PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel(parent->getId());
-            
-            return true;
-        }
-    }
+	
+	if(getStringFromJson("code", parentData) != "INVALID_CREDENTIALS")
+	{
+		ParentRef parent = Parent::createWithJson(parentData);
+		ParentDataStorage::getInstance()->_parent = parent;
+		if(!parent->isAnonymous())
+		{
+			addParentLoginDataToUserDefaults();
+		}
+		createCrashlyticsUserInfo(parent->getId(), "");
+		AnalyticsSingleton::getInstance()->registerAccountStatus(parent->getActorStatus());
+		
+		PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel(parent->getId());
+		
+		return true;
+	}
     
     return false;
 }
@@ -182,7 +181,7 @@ void ParentDataParser::parseParentDetails(const std::string &responseData)
     
 }
     
-void ParentDataParser::parseChildUpdateData(int childNum, const std::string &responseData)
+void ParentDataParser::parseChildUpdateData(const ChildRef& child, const std::string &responseData)
 {
     rapidjson::Document childData;
     childData.Parse(responseData.c_str());
@@ -190,13 +189,7 @@ void ParentDataParser::parseChildUpdateData(int childNum, const std::string &res
     {
         return;
     }
-    
-    ParentDataStorage* parentData = ParentDataStorage::getInstance();
-    
-	ChildRef child = Child::createWithJson(childData);
-    
-    parentData->_availableChildren[childNum] = child;
-    parentData->_availableChildrenById[child->getId()] = child;
+	child->parseChildData(childData);
 }
     
 void ParentDataParser::logoutChild()

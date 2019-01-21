@@ -32,7 +32,7 @@ bool ChildDataProvider::init(void)
 
 std::string ChildDataProvider::getParentOrChildId() const
 {
-    if(ChildDataStorage::getInstance()->childLoggedIn)
+    if(getIsChildLoggedIn())
     {
         return ChildDataStorage::getInstance()->_loggedInChild->getId();
     }
@@ -44,7 +44,7 @@ std::string ChildDataProvider::getParentOrChildId() const
 
 std::string ChildDataProvider::getParentOrChildCdnSessionId() const
 {
-    if(ChildDataStorage::getInstance()->childLoggedIn)
+    if(getIsChildLoggedIn())
     {
         return ChildDataStorage::getInstance()->_loggedInChild->getCDNSessionId();
     }
@@ -56,7 +56,7 @@ std::string ChildDataProvider::getParentOrChildCdnSessionId() const
 
 std::string ChildDataProvider::getParentOrChildApiSecret() const
 {
-    if(ChildDataStorage::getInstance()->childLoggedIn)
+    if(getIsChildLoggedIn())
     {
         return ChildDataStorage::getInstance()->_loggedInChild->getAPISecret();
     }
@@ -68,7 +68,7 @@ std::string ChildDataProvider::getParentOrChildApiSecret() const
 
 std::string ChildDataProvider::getParentOrChildApiKey() const
 {
-    if(ChildDataStorage::getInstance()->childLoggedIn)
+    if(getIsChildLoggedIn())
     {
         return ChildDataStorage::getInstance()->_loggedInChild->getAPIKey();
     }
@@ -80,7 +80,7 @@ std::string ChildDataProvider::getParentOrChildApiKey() const
     
 std::string ChildDataProvider::getParentOrChildAvatarId() const
 {
-    if(ChildDataStorage::getInstance()->childLoggedIn)
+    if(getIsChildLoggedIn())
     {
         return ChildDataStorage::getInstance()->_loggedInChild->getAvatar();
     }
@@ -90,6 +90,18 @@ std::string ChildDataProvider::getParentOrChildAvatarId() const
     }
 }
 
+std::string ChildDataProvider::getParentOrChildName() const
+{
+	if(getIsChildLoggedIn())
+	{
+		return ChildDataStorage::getInstance()->_loggedInChild->getProfileName();
+	}
+	else
+	{
+		return ParentDataStorage::getInstance()->_parent->getDisplayName();
+	}
+}
+/*
 std::string ChildDataProvider::getLoggedInChildName() const
 {
 	if(ChildDataStorage::getInstance()->_loggedInChild)
@@ -116,10 +128,10 @@ std::string ChildDataProvider::getLoggedInChildAvatarId() const
 	}
 	return "";
 }
-
-bool ChildDataProvider::getIsChildLoggedIn()
+*/
+bool ChildDataProvider::getIsChildLoggedIn() const
 {
-    return ChildDataStorage::getInstance()->childLoggedIn;
+	return ChildDataStorage::getInstance()->childLoggedIn && ChildDataStorage::getInstance()->_loggedInChild;
 }
 
 ChildRef ChildDataProvider::getLoggedInChild() const

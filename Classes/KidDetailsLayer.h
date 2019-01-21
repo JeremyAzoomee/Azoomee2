@@ -12,6 +12,7 @@
 #include <AzoomeeCommon/API/HttpRequestCreator.h>
 #include <AzoomeeCommon/Input/TextInputLayer.h>
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
+#include <AzoomeeCommon/Data/Child/Child.h>
 #include <cocos/cocos2d.h>
 #include <ui/CocosGUI.h>
 #include "SettingsMessageBox.h"
@@ -41,7 +42,7 @@ private:
     
     DeleteChildCallback _deleteCallback = nullptr;
     
-    int _childNum;
+    ChildRef _child;
     
 public:
     
@@ -50,7 +51,7 @@ public:
     
     CREATE_FUNC(KidDetailsLayer);
     
-    void setChildNum(int childNum);
+    void setChild(const ChildRef& child);
     void setDeleteChildCallback(const DeleteChildCallback& callback);
     
     //Delegate Functions

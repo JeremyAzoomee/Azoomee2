@@ -209,140 +209,21 @@ int ParentDataProvider::getAmountOfAvailableChildren()
 {
     ParentDataStorage* parentData = ParentDataStorage::getInstance();
 	return (int)parentData->_availableChildren.size();
-    // If this is called before any data is parsed
-    //if(!parentData->availableChildrenData.IsArray())
-    //{
-    //    return 0;
-    //}
-    //return (int)parentData->availableChildrenData.Size();
 }
 
-std::string ParentDataProvider::getProfileNameForAnAvailableChild(int childNumber) const
-{
-    return ParentDataStorage::getInstance()->_availableChildren.at(childNumber)->getProfileName();
-}
-    
-std::string ParentDataProvider::getProfileNameForAnAvailableChildById(const std::string& childId) const
-{
-    ParentDataStorage* data = ParentDataStorage::getInstance();
-    auto it = data->_availableChildrenById.find(childId);
-    if(it != data->_availableChildrenById.end())
-    {
-		return it->second->getProfileName();
-    }
-    // No child with childId found
-    cocos2d::log("Warning: no child found with id: %s", childId.c_str());
-    return "";
-}
-
-std::string ParentDataProvider::getAvatarForAnAvailableChild(int childNumber) const
-{
-    return ParentDataStorage::getInstance()->_availableChildren.at(childNumber)->getAvatar();
-}
-    
-std::string ParentDataProvider::getAvatarForAnAvailableChildById(const std::string& childId) const
-{
-    ParentDataStorage* data = ParentDataStorage::getInstance();
-    auto it = data->_availableChildrenById.find(childId);
-    if(it != data->_availableChildrenById.end())
-    {
-		return it->second->getAvatar();
-    }
-    // No child with childId found
-    cocos2d::log("Warning: no child found with id: %s", childId.c_str());
-    return "";
-}
-
-std::string ParentDataProvider::getDOBForAnAvailableChild(int childNumber) const
-{
-    return ParentDataStorage::getInstance()->_availableChildren.at(childNumber)->getDOB();
-}
-
-std::string ParentDataProvider::getSexForAnAvailableChild(int childNumber) const
-{
-    return ParentDataStorage::getInstance()->_availableChildren.at(childNumber)->getSex();
-}
-    
-std::string ParentDataProvider::getIDForAvailableChildren(int childNumber) const
-{
-    return ParentDataStorage::getInstance()->_availableChildren.at(childNumber)->getId();
-}
-    
-std::string ParentDataProvider::getInviteCodeForAnAvailableChild(int childNumber) const
-{
-    return ParentDataStorage::getInstance()->_availableChildren.at(childNumber)->getInviteCode();
-}
-    
-std::string ParentDataProvider::getInviteCodeForChildName(const std::string& name) const
-{
-    for(auto child : ParentDataStorage::getInstance()->_availableChildren)
-    {
-        if(child->getProfileName() == name)
-        {
-            return child->getInviteCode();
-        }
-    }
-    return "";
-}
-    
 //-----------Pending Friend Requests-------------
 int ParentDataProvider::getNoOfPendingFriendRequest()
 {
 	return (int)ParentDataStorage::getInstance()->_pendingFriendRequests.size();
 }
-    
-std::string ParentDataProvider::getPendingFriendRequestSenderName(int pendingFriendRequestNo) const
+	
+FriendRequestRef ParentDataProvider::getPendingFriendRequest(int pendingFriendRequestNo) const
 {
 	if(pendingFriendRequestNo >= ParentDataStorage::getInstance()->_pendingFriendRequests.size())
 	{
-		return "";
+		return nullptr;
 	}
-    return ParentDataStorage::getInstance()->_pendingFriendRequests.at(pendingFriendRequestNo)->getSenderName();
+	return ParentDataStorage::getInstance()->_pendingFriendRequests.at(pendingFriendRequestNo);
 }
 
-std::string ParentDataProvider::getPendingFriendRequestFriendName(int pendingFriendRequestNo) const
-{
-	if(pendingFriendRequestNo >= ParentDataStorage::getInstance()->_pendingFriendRequests.size())
-	{
-		return "";
-	}
-    return ParentDataStorage::getInstance()->_pendingFriendRequests.at(pendingFriendRequestNo)->getFriendName();
-}
-    
-std::string ParentDataProvider::getPendingFriendRequestInviteCode(int pendingFriendRequestNo) const
-{
-	if(pendingFriendRequestNo >= ParentDataStorage::getInstance()->_pendingFriendRequests.size())
-	{
-		return "";
-	}
-    return ParentDataStorage::getInstance()->_pendingFriendRequests.at(pendingFriendRequestNo)->getInviteeCode();
-}
-    
-std::string ParentDataProvider::getPendingFriendRequestRequestID(int pendingFriendRequestNo) const
-{
-	if(pendingFriendRequestNo >= ParentDataStorage::getInstance()->_pendingFriendRequests.size())
-	{
-		return "";
-	}
-    return ParentDataStorage::getInstance()->_pendingFriendRequests.at(pendingFriendRequestNo)->getId();
-}
-    
-std::string ParentDataProvider::getPendingFriendRequestSenderID(int pendingFriendRequestNo) const
-{
-	if(pendingFriendRequestNo >= ParentDataStorage::getInstance()->_pendingFriendRequests.size())
-	{
-		return "";
-	}
-    return ParentDataStorage::getInstance()->_pendingFriendRequests.at(pendingFriendRequestNo)->getSenderId();
-}
-
-std::string ParentDataProvider::getPendingFriendRequestRespondentID(int pendingFriendRequestNo) const
-{
-	if(pendingFriendRequestNo >= ParentDataStorage::getInstance()->_pendingFriendRequests.size())
-	{
-		return "";
-	}
-    return ParentDataStorage::getInstance()->_pendingFriendRequests.at(pendingFriendRequestNo)->getRespondentId();
-}
-    
 }

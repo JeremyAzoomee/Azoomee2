@@ -73,17 +73,14 @@ void SettingsFriendshipsPage::addFriendRequestsToScrollView()
 {
     for(int i = 0; i < ParentDataProvider::getInstance()->getNoOfPendingFriendRequest(); i++)
     {
-        const std::string& senderName = ParentDataProvider::getInstance()->getPendingFriendRequestSenderName(i);
-        const std::string& senderCode = "";
-        const std::string& recipientName = ParentDataProvider::getInstance()->getPendingFriendRequestFriendName(i);
-        const std::string& recipientCode = ParentDataProvider::getInstance()->getPendingFriendRequestInviteCode(i);
-        const std::string& respondentId = ParentDataProvider::getInstance()->getPendingFriendRequestRespondentID(i);
-        const std::string& requestId = ParentDataProvider::getInstance()->getPendingFriendRequestRequestID(i);
-        
-        FriendRequestLayer* friendRequest = FriendRequestLayer::create();
-        friendRequest->setContentSize(Size(_friendRequestList->getContentSize().width, 500));
-        friendRequest->setChildDetails(senderName, senderCode, recipientName, recipientCode, respondentId, requestId);
-        _friendRequestList->pushBackCustomItem(friendRequest);
+		FriendRequestRef fr = ParentDataProvider::getInstance()->getPendingFriendRequest(i);
+		if(fr)
+		{
+			FriendRequestLayer* friendRequest = FriendRequestLayer::create();
+			friendRequest->setContentSize(Size(_friendRequestList->getContentSize().width, 500));
+			friendRequest->setChildDetails(fr);
+			_friendRequestList->pushBackCustomItem(friendRequest);
+		}
         
     }
 }

@@ -72,7 +72,7 @@ void WebViewSelector::loadWebView(const std::string& url, Orientation orientatio
     {
         const std::string& userSessionId = ChildDataProvider::getInstance()->getParentOrChildCdnSessionId();
         _targetUrl = replaceAll(_targetUrl, "{sessionId}", userSessionId);
-		HttpRequestCreator* progressCheck = API::GetVideoProgress(ChildDataProvider::getInstance()->getLoggedInChildId(), ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId(),this);
+		HttpRequestCreator* progressCheck = API::GetVideoProgress(ChildDataProvider::getInstance()->getParentOrChildId(), ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId(),this);
         progressCheck->execute();
     }
     else
