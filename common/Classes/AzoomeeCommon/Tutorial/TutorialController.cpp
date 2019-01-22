@@ -22,12 +22,18 @@ const std::string TutorialController::kFTURewards = "ftu.rewards";
 const std::string TutorialController::kFTUSpendRewards = "ftu.spendrewards";
 const std::string TutorialController::kFTUEarnMoreRewards = "ftu.earnmorerewards";
 const std::string TutorialController::kTutorialEnded = "tutorialend";
+const std::string TutorialController::kCreateOomee = "om.create";
+const std::string TutorialController::kConfirmOomee = "om.confirm";
+const std::string TutorialController::kNameEntry = "child.name";
+const std::string TutorialController::kAgeEntry = "child.age";
 // Tutorial ids
 const std::string TutorialController::kFTUNavTutorialID = "FTUNavTutorial";
+const std::string TutorialController::kFTUOomeeTutorialID = "FTUOomeeTutorial";
 // Tutorials
 const std::vector<std::string> TutorialController::kFTUNavTutorial = {kFTUGameHQNav,kFTUGameHQContent,kFTUVideoHQNav,kFTUVideoHQContent,kFTUGroupHQContent,kFTUGroupHQBack};
+const std::vector<std::string> TutorialController::kFTUOomeeTutorial = {kCreateOomee, kConfirmOomee, kNameEntry, kAgeEntry};
 // Tutorial storage map
-const std::map<std::string, std::vector<std::string>> TutorialController::kTutorialMap = {{kFTUNavTutorialID,kFTUNavTutorial}};
+const std::map<std::string, std::vector<std::string>> TutorialController::kTutorialMap = {{kFTUNavTutorialID,kFTUNavTutorial},{kFTUOomeeTutorialID,kFTUOomeeTutorial}};
 
 TutorialController* TutorialController::getInstance()
 {

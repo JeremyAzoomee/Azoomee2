@@ -17,7 +17,7 @@
 #include "HQScene2CarouselTitle.h"
 #include "PrivacyAndTermsLayer.h"
 #include "HQHistoryManager.h"
-#include "TutorialController.h"
+#include <AzoomeeCommon/Tutorial/TutorialController.h>
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>

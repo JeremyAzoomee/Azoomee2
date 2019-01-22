@@ -56,11 +56,11 @@ bool OomeeSelectScene::init()
     setCarouselData();
     _contentLayer->addChild(_oomeeCarousel);
     
-    ui::Button* exitButton = ui::Button::create();
-    exitButton->loadTextureNormal("res/oomeeMaker/close_button.png");
-    exitButton->setAnchorPoint(Vec2(-0.25,1.25));
-    exitButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
-    exitButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+    _exitButton = ui::Button::create();
+    _exitButton->loadTextureNormal("res/oomeeMaker/close_button.png");
+    _exitButton->setAnchorPoint(Vec2(-0.25,1.25));
+    _exitButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
+    _exitButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
             CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Undo_Exit_Buttons.mp3");
@@ -70,7 +70,7 @@ bool OomeeSelectScene::init()
             }
         }
     });
-    _contentLayer->addChild(exitButton);
+    _contentLayer->addChild(_exitButton);
     
     _newOomeeButton = ui::Button::create();
     _newOomeeButton->loadTextureNormal("res/oomeeMaker/new_oomee_button.png");
@@ -114,12 +114,23 @@ bool OomeeSelectScene::init()
 void OomeeSelectScene::onEnter()
 {
     Super::onEnter();
+	TutorialController::getInstance()->registerDelegate(this);
+	if(TutorialController::getInstance()->isTutorialActive())
+	{
+		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
+	}
     OomeeMakerDataHandler::getInstance()->getConfigFilesIfNeeded();
 }
 
 void OomeeSelectScene::onEnterTransitionDidFinish()
 {
     Super::onEnterTransitionDidFinish();
+}
+
+void OomeeSelectScene::onExit()
+{
+	TutorialController::getInstance()->unRegisterDelegate(this);
+	Super::onExit();
 }
 
 void OomeeSelectScene::setCarouselData()
@@ -233,6 +244,18 @@ void OomeeSelectScene::onConfirmPressed(Azoomee::ConfirmCancelMessageBox *pSende
 void OomeeSelectScene::onCancelPressed(Azoomee::ConfirmCancelMessageBox *pSender)
 {
     pSender->removeFromParent();
+}
+
+void OomeeSelectScene::onTutorialStateChanged(const std::string &stateId)
+{
+	if(stateId == TutorialController::kCreateOomee)
+	{
+		_exitButton->setVisible(false);
+	}
+	else
+	{
+		_exitButton->setVisible(true);
+	}
 }
 
 NS_AZOOMEE_OM_END

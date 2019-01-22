@@ -664,8 +664,15 @@ void BackEndCaller::onContentDownloadComplete()
 
 void BackEndCaller::onFeedDownloadComplete()
 {
-	Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
-	TutorialController::getInstance()->startTutorial(TutorialController::kFTUNavTutorialID);
+	if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous() && !ChildDataProvider::getInstance()->getIsChildLoggedIn())
+	{
+		Director::getInstance()->replaceScene(SceneManagerScene::createScene(WelcomeScene));
+	}
+	else
+	{
+		Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
+	}
+	//TutorialController::getInstance()->startTutorial(TutorialController::kFTUNavTutorialID);
 }
 
 NS_AZOOMEE_END

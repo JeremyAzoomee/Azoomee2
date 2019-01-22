@@ -8,7 +8,7 @@
 #include <AzoomeeChat/ChatAPI.h>
 #include <AzoomeeChat/Data/Message.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include "TutorialController.h"
+#include <AzoomeeCommon/Tutorial/TutorialController.h>
 
 NS_AZOOMEE_BEGIN
 

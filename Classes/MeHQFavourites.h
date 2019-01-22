@@ -13,7 +13,7 @@
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/UI/ConfirmCancelMessageBox.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
-#include "TutorialController.h"
+#include <AzoomeeCommon/Tutorial/TutorialController.h>
 
 NS_AZOOMEE_BEGIN
 

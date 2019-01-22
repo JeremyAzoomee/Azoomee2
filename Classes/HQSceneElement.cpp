@@ -27,7 +27,7 @@
 #include "ContentOpener.h"
 #include "VideoPlaylistManager.h"
 #include "IAPFlowController.h"
-#include "TutorialController.h"
+#include <AzoomeeCommon/Tutorial/TutorialController.h>
 
 using namespace cocos2d;
 using namespace network;

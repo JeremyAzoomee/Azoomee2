@@ -246,22 +246,22 @@ void OomeeMakerScene::onEnter()
     });
     _contentLayer->addChild(exitButton);
     
-    ui::Button* makeAvatarButon = ui::Button::create();
-    makeAvatarButon->loadTextureNormal("res/oomeeMaker/make_oomee_button.png");
-    makeAvatarButon->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    makeAvatarButon->setPosition(Vec2(contentSize.width * 0.42, makeAvatarButon->getContentSize().height));
-    makeAvatarButon->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+	_makeAvatarButton = ui::Button::create();
+    _makeAvatarButton->loadTextureNormal("res/oomeeMaker/make_oomee_button.png");
+    _makeAvatarButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _makeAvatarButton->setPosition(Vec2(contentSize.width * 0.42, _makeAvatarButton->getContentSize().height));
+    _makeAvatarButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
             this->makeAvatar();
         }
     });
-    _contentLayer->addChild(makeAvatarButon);
+    _contentLayer->addChild(_makeAvatarButton);
     
     _undoButton = ui::Button::create();
     _undoButton->loadTextureNormal("res/oomeeMaker/undo.png");
     _undoButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _undoButton->setPosition(makeAvatarButon->getPosition() - Vec2(makeAvatarButon->getContentSize().width * 1.25f,0));
+    _undoButton->setPosition(_makeAvatarButton->getPosition() - Vec2(_makeAvatarButton->getContentSize().width * 1.25f,0));
     _undoButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
@@ -273,7 +273,7 @@ void OomeeMakerScene::onEnter()
     ui::Button* resetOomeeButon = ui::Button::create();
     resetOomeeButon->loadTextureNormal("res/oomeeMaker/bin_2.png");
     resetOomeeButon->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    resetOomeeButon->setPosition(makeAvatarButon->getPosition() + Vec2(makeAvatarButon->getContentSize().width * 1.25f, 0));
+    resetOomeeButon->setPosition(makeAvatarButton->getPosition() + Vec2(makeAvatarButton->getContentSize().width * 1.25f, 0));
     resetOomeeButon->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
@@ -489,6 +489,18 @@ void OomeeMakerScene::onCancelPressed(Azoomee::ConfirmCancelMessageBox *pSender)
         Director::getInstance()->replaceScene(scene);
     }
     pSender->removeFromParent();
+}
+
+void OomeeMakerScene::onTutorialStateChanged(const std::string &stateId)
+{
+	if(stateId == TutorialController::kConfirmOomee)
+	{
+		
+	}
+	else
+	{
+		
+	}
 }
 
 NS_AZOOMEE_OM_END

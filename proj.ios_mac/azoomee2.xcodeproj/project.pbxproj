@@ -121,7 +121,6 @@
 		521A8EAA19F11F5000D177D7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
 		52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B47A461A53D09B004E4C60 /* Security.framework */; };
 		8262943E1AAF051F00CB7CF7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8262943D1AAF051F00CB7CF7 /* Security.framework */; };
-		92084F7821E7AE4500DACCEB /* TutorialController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92084F7721E7AE4500DACCEB /* TutorialController.cpp */; };
 		92084F6421E644D800DACCEB /* MeHQRecentlyPlayed.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92084F6321E644D800DACCEB /* MeHQRecentlyPlayed.cpp */; };
 		920F6FDE213EB76300B7BB76 /* SettingsFriendshipsPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920F6FDD213EB76300B7BB76 /* SettingsFriendshipsPage.cpp */; };
 		920F6FE1213FD53900B7BB76 /* FriendRequestLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920F6FE0213FD53900B7BB76 /* FriendRequestLayer.cpp */; };
@@ -153,6 +152,7 @@
 		9224BFB11F7908D400108553 /* DynamicNodeButtonListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB01F7908D400108553 /* DynamicNodeButtonListener.cpp */; };
 		9224BFB41F7932D200108553 /* ButtonActionData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB31F7932D200108553 /* ButtonActionData.cpp */; };
 		9224BFB71F794BFA00108553 /* DynamicNodeHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB61F794BFA00108553 /* DynamicNodeHandler.cpp */; };
+		92448AE621F73AEF00E88C9D /* WelcomeScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92448AE521F73AEF00E88C9D /* WelcomeScene.cpp */; };
 		924ACE3720A9C541007A5550 /* MeHQProfileDetails.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924ACE3620A9C541007A5550 /* MeHQProfileDetails.cpp */; };
 		924E8450214117D9004590FD /* SettingsMessageBoxRejectFR.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924E844F214117D9004590FD /* SettingsMessageBoxRejectFR.cpp */; };
 		924E845221412D70004590FD /* SettingsKidsPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924E845121412D70004590FD /* SettingsKidsPage.cpp */; };
@@ -522,8 +522,6 @@
 		521A8EA819F11F5000D177D7 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		52B47A461A53D09B004E4C60 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		8262943D1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		92084F7621E7931300DACCEB /* TutorialController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TutorialController.h; sourceTree = "<group>"; };
-		92084F7721E7AE4500DACCEB /* TutorialController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TutorialController.cpp; sourceTree = "<group>"; };
 		92084F5E21E6438000DACCEB /* MeHQRecentlyPlayed.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeHQRecentlyPlayed.h; sourceTree = "<group>"; };
 		92084F6321E644D800DACCEB /* MeHQRecentlyPlayed.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MeHQRecentlyPlayed.cpp; sourceTree = "<group>"; };
 		920F6FD8213EB4DA00B7BB76 /* SettingsFriendshipsPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsFriendshipsPage.h; sourceTree = "<group>"; };
@@ -586,6 +584,8 @@
 		9224BFB31F7932D200108553 /* ButtonActionData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ButtonActionData.cpp; sourceTree = "<group>"; };
 		9224BFB51F7949E100108553 /* DynamicNodeHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicNodeHandler.h; sourceTree = "<group>"; };
 		9224BFB61F794BFA00108553 /* DynamicNodeHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeHandler.cpp; sourceTree = "<group>"; };
+		92448AE021F7378400E88C9D /* WelcomeScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WelcomeScene.h; sourceTree = "<group>"; };
+		92448AE521F73AEF00E88C9D /* WelcomeScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = WelcomeScene.cpp; sourceTree = "<group>"; };
 		9246EDCF1F0403A8008CD359 /* azoomee2_ArtApp.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = azoomee2_ArtApp.xcodeproj; path = ../ArtApp/proj.ios_mac/azoomee2_ArtApp.xcodeproj; sourceTree = "<group>"; };
 		924ACE1A20A9A476007A5550 /* MeHQProfileDetails.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeHQProfileDetails.h; sourceTree = "<group>"; };
 		924ACE1F20A9A543007A5550 /* MeHQGallery.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeHQGallery.h; sourceTree = "<group>"; };
@@ -1227,8 +1227,6 @@
 		92084F7121E78FB600DACCEB /* Tutorial */ = {
 			isa = PBXGroup;
 			children = (
-				92084F7621E7931300DACCEB /* TutorialController.h */,
-				92084F7721E7AE4500DACCEB /* TutorialController.cpp */,
 			);
 			name = Tutorial;
 			sourceTree = "<group>";
@@ -1528,6 +1526,8 @@
 				028DDEB4206CFB69006D7EC5 /* IntroVideoScene.cpp */,
 				921C75A22189DF5300EB93D6 /* LanguageSelectScene.h */,
 				921C75A7218B08D800EB93D6 /* LanguageSelectScene.cpp */,
+				92448AE021F7378400E88C9D /* WelcomeScene.h */,
+				92448AE521F73AEF00E88C9D /* WelcomeScene.cpp */,
 			);
 			name = Intro;
 			sourceTree = "<group>";
@@ -1958,6 +1958,7 @@
 				9224BFB41F7932D200108553 /* ButtonActionData.cpp in Sources */,
 				928A6E8B20EE62270053E793 /* ChildOomeeLayer.cpp in Sources */,
 				921A267B216FA05A005C8C41 /* VodacomOnboardingPinLayer.cpp in Sources */,
+				92448AE621F73AEF00E88C9D /* WelcomeScene.cpp in Sources */,
 				921A2673216F9FA1005C8C41 /* VodacomOnboardingLoginLayer.cpp in Sources */,
 				926A2B3921356C2000AE7964 /* EditAccountLayer.cpp in Sources */,
 				9271D7D32040557D00370120 /* OomeeMakerDelegate.cpp in Sources */,
@@ -1977,7 +1978,6 @@
 				02E595C31E5D9EE70052F395 /* OfflineText.cpp in Sources */,
 				02A11FF81EA6375D007EDD95 /* RoutePaymentSingleton.cpp in Sources */,
 				D13C40151E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm in Sources */,
-				92084F7821E7AE4500DACCEB /* TutorialController.cpp in Sources */,
 				924E8450214117D9004590FD /* SettingsMessageBoxRejectFR.cpp in Sources */,
 				02E595861E55DE670052F395 /* OfflineHubScene.cpp in Sources */,
 				02E595CA1E66E2160052F395 /* HQSceneArtsApp.cpp in Sources */,

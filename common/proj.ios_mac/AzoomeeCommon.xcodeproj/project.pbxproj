@@ -157,6 +157,7 @@
 		92448AC121EF771400E88C9D /* Child.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92448AC021EF771300E88C9D /* Child.cpp */; };
 		92448AC421F0ABC000E88C9D /* Parent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92448AC321F0ABC000E88C9D /* Parent.cpp */; };
 		92448AC721F1FADE00E88C9D /* FriendRequest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92448AC621F1FADE00E88C9D /* FriendRequest.cpp */; };
+		92448AEE21F77F5400E88C9D /* TutorialController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92448AEC21F77F5300E88C9D /* TutorialController.cpp */; };
 		924ACE0820A46C50007A5550 /* ContentItemPoolHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924ACE0720A46C50007A5550 /* ContentItemPoolHandler.cpp */; };
 		924ACE0A20A48528007A5550 /* HQStructureParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924ACE0920A48528007A5550 /* HQStructureParser.cpp */; };
 		924ACE0C20A4A073007A5550 /* HQStructureHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924ACE0B20A4A073007A5550 /* HQStructureHandler.cpp */; };
@@ -475,6 +476,8 @@
 		92448AC321F0ABC000E88C9D /* Parent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Parent.cpp; sourceTree = "<group>"; };
 		92448AC521F1DDAC00E88C9D /* FriendRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FriendRequest.h; sourceTree = "<group>"; };
 		92448AC621F1FADE00E88C9D /* FriendRequest.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FriendRequest.cpp; sourceTree = "<group>"; };
+		92448AEC21F77F5300E88C9D /* TutorialController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TutorialController.cpp; sourceTree = "<group>"; };
+		92448AED21F77F5400E88C9D /* TutorialController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialController.h; sourceTree = "<group>"; };
 		924ACE0720A46C50007A5550 /* ContentItemPoolHandler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ContentItemPoolHandler.cpp; path = HQDataObject/ContentItemPoolHandler.cpp; sourceTree = "<group>"; };
 		924ACE0920A48528007A5550 /* HQStructureParser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = HQStructureParser.cpp; path = HQDataObject/HQStructureParser.cpp; sourceTree = "<group>"; };
 		924ACE0B20A4A073007A5550 /* HQStructureHandler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = HQStructureHandler.cpp; path = HQDataObject/HQStructureHandler.cpp; sourceTree = "<group>"; };
@@ -834,6 +837,7 @@
 				43087FD41F03AC0C00E199EA /* NativeShare */,
 				30E094BA1EDF0F2B00555891 /* Net */,
 				3000FF6D1ED5AB7000E9717C /* Platform */,
+				92448AE821F77E3200E88C9D /* Tutorial */,
 				3012ED861E97DB450009027D /* UI */,
 				3012ED6A1E96A3140009027D /* Utils */,
 			);
@@ -1098,6 +1102,15 @@
 			name = ChatMessageLayers;
 			sourceTree = "<group>";
 		};
+		92448AE821F77E3200E88C9D /* Tutorial */ = {
+			isa = PBXGroup;
+			children = (
+				92448AEC21F77F5300E88C9D /* TutorialController.cpp */,
+				92448AED21F77F5400E88C9D /* TutorialController.h */,
+			);
+			path = Tutorial;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1317,6 +1330,7 @@
 				4349C83A1EA8ADEF00FE964B /* MPObjectIdentityProvider.m in Sources */,
 				4349C8301EA8ADEF00FE964B /* MPDesignerTrackMessage.m in Sources */,
 				4349C8141EA8ADEF00FE964B /* Mixpanel.m in Sources */,
+				92448AEE21F77F5400E88C9D /* TutorialController.cpp in Sources */,
 				3012ED901E97DCC00009027D /* ElectricDreamsDecoration.cpp in Sources */,
 				4349C81E1EA8ADEF00FE964B /* MPABTestDesignerDeviceInfoRequestMessage.m in Sources */,
 				4349C8131EA8ADEF00FE964B /* Mixpanel+AutomaticEvents.m in Sources */,

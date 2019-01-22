@@ -20,6 +20,7 @@
 #include "IntroVideoScene.h"
 #include "ContentHistoryManager.h"
 #include "AddChildScene.h"
+#include "WelcomeScene.h"
 
 #include "SettingsHub.h"
 
@@ -249,6 +250,12 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             Director::getInstance()->replaceScene(AddChildScene::createWithFlowStage(AddChildFlow::FIRST_TIME_SETUP_NAME));
             break;
         }
+		case WelcomeScene:
+		{
+			acceptAnyOrientation();
+			HQHistoryManager::getInstance()->updatePrevOrientation();
+			Director::getInstance()->replaceScene(WelcomeScene::create());
+		}
 #ifdef VODACOM_BUILD
 		case VodacomOnboarding:
 		{

@@ -8,7 +8,11 @@
 #ifndef TutorialController_h
 #define TutorialController_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include "../Azoomee.h"
+#include <string>
+#include <memory>
+#include <vector>
+#include <map>
 
 NS_AZOOMEE_BEGIN
 
@@ -32,12 +36,18 @@ public:
 	static const std::string kFTUSpendRewards;
 	static const std::string kFTUEarnMoreRewards;
 	static const std::string kTutorialEnded;
+	static const std::string kCreateOomee;
+	static const std::string kConfirmOomee;
+	static const std::string kNameEntry;
+	static const std::string kAgeEntry;
 	//Tutorial ids
 	static const std::string kFTUNavTutorialID;
+	static const std::string kFTUOomeeTutorialID;
 	
 private:
 	// Tutorials
 	static const std::vector<std::string> kFTUNavTutorial;
+	static const std::vector<std::string> kFTUOomeeTutorial;
 	// Tutorial storage map
 	static const std::map<std::string,std::vector<std::string>> kTutorialMap;
 	

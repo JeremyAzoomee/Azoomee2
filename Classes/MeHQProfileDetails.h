@@ -13,7 +13,7 @@
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeOomeeMaker/UI/OomeeCarouselButton.h>
 #include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
-#include "TutorialController.h"
+#include <AzoomeeCommon/Tutorial/TutorialController.h>
 
 NS_AZOOMEE_BEGIN
 

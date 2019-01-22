@@ -5,7 +5,7 @@
 #include "ui/UIScrollView.h"
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
-#include "TutorialController.h"
+#include <AzoomeeCommon/Tutorial/TutorialController.h>
 
 NS_AZOOMEE_BEGIN
 
