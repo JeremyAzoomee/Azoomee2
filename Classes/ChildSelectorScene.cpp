@@ -201,7 +201,7 @@ void ChildSelectorScene::addProfilesToScrollView()
     
     for(int i = 0; i < ParentDataProvider::getInstance()->getAmountOfAvailableChildren(); i++)
     {
-        auto profileLayer = createChildProfileButton(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(i), i);
+        auto profileLayer = createChildProfileButton(ParentDataProvider::getInstance()->getChild(i)->getProfileName(), i);
         profileLayer->setTag(i);
         profileLayer->setPosition(positionElementOnScrollView(profileLayer));
         _scrollView->addChild(profileLayer);
@@ -258,7 +258,7 @@ ui::Button *ChildSelectorScene::createChildProfileButton(const std::string& prof
     });
     
     auto oomee = RemoteImageSprite::create();
-    oomee->initWithUrlAndSizeWithoutPlaceholder(ParentDataProvider::getInstance()->getAvatarForAnAvailableChild(childNum), Size(320, 320));
+    oomee->initWithUrlAndSizeWithoutPlaceholder(ParentDataProvider::getInstance()->getChild(childNum)->getAvatar(), Size(320, 320));
     oomee->setKeepAspectRatio(true);
     oomee->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     oomee->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);

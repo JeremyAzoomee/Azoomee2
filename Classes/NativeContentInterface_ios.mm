@@ -99,7 +99,7 @@ void NativeContentInterface_ios::addWebViewToScreen(const std::string &url, cons
         NSLog(@"Cookies in storage: %@", each);
     }
     
-    std::string userid = ChildDataProvider::getInstance()->getLoggedInChildId();
+    std::string userid = ChildDataProvider::getInstance()->getParentOrChildId();
     
     //If game is called, open the game directly, if video / audio, we open up jw player with the given url
     

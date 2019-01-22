@@ -32,87 +32,111 @@ bool ChildDataProvider::init(void)
 
 std::string ChildDataProvider::getParentOrChildId() const
 {
-    if(ChildDataStorage::getInstance()->childLoggedIn)
+    if(getIsChildLoggedIn())
     {
-        return ChildDataStorage::getInstance()->loggedInChildId;
+        return ChildDataStorage::getInstance()->_loggedInChild->getId();
     }
     else
     {
-        return ParentDataStorage::getInstance()->loggedInParentId;
+        return ParentDataStorage::getInstance()->_parent->getId();
     }
 }
 
 std::string ChildDataProvider::getParentOrChildCdnSessionId() const
 {
-    if(ChildDataStorage::getInstance()->childLoggedIn)
+    if(getIsChildLoggedIn())
     {
-        return ChildDataStorage::getInstance()->loggedInChildCdnSessionId;
+        return ChildDataStorage::getInstance()->_loggedInChild->getCDNSessionId();
     }
     else
     {
-        return ParentDataStorage::getInstance()->loggedInParentCdnSessionId;
+        return ParentDataStorage::getInstance()->_parent->getCDNSessionId();
     }
 }
 
 std::string ChildDataProvider::getParentOrChildApiSecret() const
 {
-    if(ChildDataStorage::getInstance()->childLoggedIn)
+    if(getIsChildLoggedIn())
     {
-        return ChildDataStorage::getInstance()->loggedInChildApiSecret;
+        return ChildDataStorage::getInstance()->_loggedInChild->getAPISecret();
     }
     else
     {
-        return ParentDataStorage::getInstance()->loggedInParentApiSecret;
+        return ParentDataStorage::getInstance()->_parent->getAPISecret();
     }
 }
 
 std::string ChildDataProvider::getParentOrChildApiKey() const
 {
-    if(ChildDataStorage::getInstance()->childLoggedIn)
+    if(getIsChildLoggedIn())
     {
-        return ChildDataStorage::getInstance()->loggedInChildApiKey;
+        return ChildDataStorage::getInstance()->_loggedInChild->getAPIKey();
     }
     else
     {
-        return ParentDataStorage::getInstance()->loggedInParentApiKey;
+        return ParentDataStorage::getInstance()->_parent->getAPIKey();
     }
 }
     
 std::string ChildDataProvider::getParentOrChildAvatarId() const
 {
-    if(ChildDataStorage::getInstance()->childLoggedIn)
+    if(getIsChildLoggedIn())
     {
-        return ChildDataStorage::getInstance()->loggedInChildAvatarId;
+        return ChildDataStorage::getInstance()->_loggedInChild->getAvatar();
     }
     else
     {
-        return ParentDataStorage::getInstance()->loggedInParentAvatarId;
+        return ParentDataStorage::getInstance()->_parent->getAvatar();
     }
 }
 
+std::string ChildDataProvider::getParentOrChildName() const
+{
+	if(getIsChildLoggedIn())
+	{
+		return ChildDataStorage::getInstance()->_loggedInChild->getProfileName();
+	}
+	else
+	{
+		return ParentDataStorage::getInstance()->_parent->getDisplayName();
+	}
+}
+/*
 std::string ChildDataProvider::getLoggedInChildName() const
 {
-    return ChildDataStorage::getInstance()->loggedInChildName;
+	if(ChildDataStorage::getInstance()->_loggedInChild)
+	{
+    	return ChildDataStorage::getInstance()->_loggedInChild->getProfileName();
+	}
+	return "";
 }
 
 std::string ChildDataProvider::getLoggedInChildId() const
 {
-    return ChildDataStorage::getInstance()->loggedInChildId;
+	if(ChildDataStorage::getInstance()->_loggedInChild)
+	{
+    	return ChildDataStorage::getInstance()->_loggedInChild->getId();
+	}
+	return "";
 }
 
 std::string ChildDataProvider::getLoggedInChildAvatarId() const
 {
-    return ChildDataStorage::getInstance()->loggedInChildAvatarId;
+	if(ChildDataStorage::getInstance()->_loggedInChild)
+	{
+    	return ChildDataStorage::getInstance()->_loggedInChild->getAvatar();
+	}
+	return "";
+}
+*/
+bool ChildDataProvider::getIsChildLoggedIn() const
+{
+	return ChildDataStorage::getInstance()->childLoggedIn && ChildDataStorage::getInstance()->_loggedInChild;
 }
 
-int ChildDataProvider::getLoggedInChildNumber()
+ChildRef ChildDataProvider::getLoggedInChild() const
 {
-    return ChildDataStorage::getInstance()->loggedInChildNumber;
+	return ChildDataStorage::getInstance()->_loggedInChild;
 }
 
-bool ChildDataProvider::getIsChildLoggedIn()
-{
-    return ChildDataStorage::getInstance()->childLoggedIn;
-}
-  
 }

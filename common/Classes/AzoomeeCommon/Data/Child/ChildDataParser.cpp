@@ -37,78 +37,44 @@ bool ChildDataParser::parseChildLoginData(const std::string &responseData)
 {
     auto childDataStorage = ChildDataStorage::getInstance();
     
-    childDataStorage->childLoginData.Parse(responseData.c_str());
-    if(childDataStorage->childLoginData.HasParseError())
+	rapidjson::Document data;
+	data.Parse(responseData.c_str());
+    if(data.HasParseError())
     {
         return false;
     }
+	
+	ChildRef child = ParentDataProvider::getInstance()->getChildForId(getStringFromJson("id", data));
+	if(!child)
+	{
+		return false;
+	}
+	
+	child->parseLoginData(data);
     
-    childDataStorage->loggedInChildCdnSessionId = getStringFromJson("cdn-sessionid", childDataStorage->childLoginData);
-    childDataStorage->loggedInChildApiSecret = getStringFromJson("apiSecret", childDataStorage->childLoginData);
-    childDataStorage->loggedInChildApiKey = getStringFromJson("apiKey", childDataStorage->childLoginData);
-    
-    setLoggedInChildId(getStringFromJson("id", childDataStorage->childLoginData));
+	childDataStorage->_loggedInChild = child;
     
     UserDefault* def = UserDefault::getInstance();
-    def->setStringForKey("lastLoggedInChildId", childDataStorage->loggedInChildId);
+    def->setStringForKey("lastLoggedInChildId", child->getId());
     def->flush();
     
-    createCrashlyticsUserInfo(ParentDataProvider::getInstance()->getLoggedInParentId(), childDataStorage->loggedInChildId);
+    createCrashlyticsUserInfo(ParentDataProvider::getInstance()->getLoggedInParentId(), child->getId());
     
     childDataStorage->childLoggedIn = true;
     return true;
-}
-
-void ChildDataParser::parseOomeeData(const std::string &responseData)
-{
-    rapidjson::Document hqData;
-    hqData.Parse(responseData.c_str());
-    
-    if(hqData.HasParseError() || !hqData.HasMember("oomee"))
-    {
-        return;
-    }
-    
-    const rapidjson::Value &oomeeData = hqData["oomee"];
-    
-    setLoggedInChildName(getStringFromJson("name", oomeeData));
-    setLoggedInChildAvatarId(getStringFromJson("avatar", oomeeData));
-}
-
-void ChildDataParser::setLoggedInChildName(const std::string &childName)
-{
-    ChildDataStorage::getInstance()->loggedInChildName = childName;
-}
-
-void ChildDataParser::setLoggedInChildAvatarId(const std::string &avatarId)
-{
-    ChildDataStorage::getInstance()->loggedInChildAvatarId = avatarId;
-}
-
-void ChildDataParser::setLoggedInChildId(const std::string &id)
-{
-    ChildDataStorage* data = ChildDataStorage::getInstance();
-    data->loggedInChildId = id;
-    if(id.empty())
-    {
-        data->loggedInChildName = "";
-        data->loggedInChildAvatarId = "";
-    }
-    else
-    {
-        data->loggedInChildName = ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildById(data->loggedInChildId);
-        data->loggedInChildAvatarId = ParentDataProvider::getInstance()->getAvatarForAnAvailableChildById(data->loggedInChildId);
-    }
-}
-
-void ChildDataParser::setLoggedInChildNumber(int childNumber)
-{
-    ChildDataStorage::getInstance()->loggedInChildNumber = childNumber;
 }
 
 void ChildDataParser::setChildLoggedIn(bool loggedIn)
 {
     ChildDataStorage::getInstance()->childLoggedIn = loggedIn;
 }
-  
+
+void ChildDataParser::loginChildOffline(const std::string &childId)
+	{
+		auto childDataStorage = ChildDataStorage::getInstance();
+		childDataStorage->childLoggedIn = true;
+		ChildRef offlineChild = Child::create();
+		offlineChild->setId(childId);
+		childDataStorage->_loggedInChild = offlineChild;
+	}
 }

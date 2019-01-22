@@ -185,7 +185,7 @@ void BackEndCaller::onAnonymousDeviceLoginAnswerReceived(const std::string &resp
 	IAPProductDataHandler::getInstance()->fetchProductData();
     
     cocos2d::log("Response string is: %s", responseString.c_str());
-    if(ParentDataParser::getInstance()->parseParentLoginDataFromAnonymousDeviceLogin(responseString))
+    if(ParentDataParser::getInstance()->parseParentLoginData(responseString))
     {
         AnalyticsSingleton::getInstance()->setIsUserAnonymous(true);
         ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headerString));
@@ -295,12 +295,12 @@ void BackEndCaller::childLogin(int childNumber)
 {
     displayLoadingScreen();
     
-    const std::string& profileName = ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(childNumber);
+    const std::string& profileName = ParentDataProvider::getInstance()->getChild(childNumber)->getProfileName();
     HttpRequestCreator* request = API::ChildLoginRequest(profileName, this);
     request->execute();
     
-    ChildDataParser::getInstance()->setLoggedInChildName(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(childNumber));
-    ChildDataParser::getInstance()->setLoggedInChildNumber(childNumber);
+    //ChildDataParser::getInstance()->setLoggedInChildName(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(childNumber));
+    //ChildDataParser::getInstance()->setLoggedInChildNumber(childNumber);
 }
 
 void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString, const std::string& headerString)
@@ -453,7 +453,7 @@ void BackEndCaller::getElectricDreamsContent(const std::string& requestId, const
 {
     if(ChildDataStorage::getInstance()->childLoggedIn)
     {
-        HttpRequestCreator* request = API::GetElectricDreamsContent(requestId, ChildDataStorage::getInstance()->loggedInChildId, contentID, this);
+        HttpRequestCreator* request = API::GetElectricDreamsContent(requestId, ChildDataStorage::getInstance()->_loggedInChild->getId(), contentID, this);
         request->execute();
     }
 }
@@ -467,7 +467,7 @@ void BackEndCaller::resetPasswordRequest(const std::string& emailAddress)
 
 void BackEndCaller::updateVideoProgress(const std::string& contentId, int videoProgressSeconds)
 {
-	HttpRequestCreator* request = API::UpdateVideoProgress(ChildDataProvider::getInstance()->getLoggedInChildId(),contentId, videoProgressSeconds, nullptr);
+	HttpRequestCreator* request = API::UpdateVideoProgress(ChildDataProvider::getInstance()->getParentOrChildId(),contentId, videoProgressSeconds, nullptr);
 	request->execute();
 }
 
@@ -512,7 +512,8 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     {
         rapidjson::Document json;
         json.Parse(body.c_str());
-        ChildDataParser::getInstance()->setLoggedInChildAvatarId(getStringFromJson("avatar", json));
+		ChildRef child = ChildDataProvider::getInstance()->getLoggedInChild();
+		child->setAvatar(getStringFromJson("avatar", json));
         ImageDownloaderRef imageDownloader = ImageDownloader::create("imageCache/", ImageDownloader::CacheMode::File );
         imageDownloader->downloadImage(nullptr, getStringFromJson("avatar", json), true);
         hideLoadingScreen();

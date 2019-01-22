@@ -3,6 +3,7 @@
 
 #include <cocos/cocos2d.h>
 #include "../Json.h"
+#include "../Child/Child.h"
 
 
 namespace Azoomee
@@ -18,13 +19,12 @@ public:
     bool init(void);
     
     bool parseParentLoginData(const std::string &responseData);
-    bool parseParentLoginDataFromAnonymousDeviceLogin(const std::string &responseData);
     bool parseAvailableChildren(const std::string &responseData);
     bool parseUpdateParentData(const std::string &responseData);
     void parseParentBillingData(const std::string &responseData);
     void parseParentSessionData(const std::string &responseData);
     void parseParentDetails(const std::string &responseData);
-    void parseChildUpdateData(int childNum, const std::string& responseData);
+    void parseChildUpdateData(const ChildRef& child, const std::string& responseData);
     void logoutChild();
     void retrieveParentLoginDataFromUserDefaults();
     bool hasParentLoginDataInUserDefaults();

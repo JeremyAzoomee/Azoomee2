@@ -49,7 +49,11 @@ FriendRef Friend::createFromJson(const rapidjson::Value& json)
     // If the avatar is empty, see if we have one already we have use
     if(avatarURL.empty())
     {
-        avatarURL = ParentDataProvider::getInstance()->getAvatarForAnAvailableChildById(friendId);
+		const ChildRef& child = ParentDataProvider::getInstance()->getChildForId(friendId);
+		if(child)
+		{
+        	avatarURL = child->getAvatar();
+		}
     }
     
     return Friend::create(friendId, friendName, avatarURL, unreadMessages, inModeration);

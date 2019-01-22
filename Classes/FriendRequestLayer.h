@@ -10,6 +10,7 @@
 
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/API/HttpRequestCreator.h>
+#include <AzoomeeCommon/Data/Parent/FriendRequest.h>
 #include <cocos/cocos2d.h>
 #include <ui/CocosGUI.h>
 #include "SettingsMessageBoxRejectFR.h"
@@ -22,13 +23,7 @@ class FriendRequestLayer : public cocos2d::ui::Layout, public Azoomee::HttpReque
 {
     typedef cocos2d::ui::Layout Super;
 private:
-    
-    std::string _senderName;
-    std::string _recipientName;
-    std::string _senderInviteCode;
-    std::string _recipientInviteCode;
-    std::string _respondentId;
-    std::string _requestId;
+	FriendRequestRef _friendRequest = nullptr;
     
     InviteState _state = InviteState::PENDING;
     
@@ -48,7 +43,7 @@ public:
     virtual void onEnter() override;
     
     void changeToState(InviteState state);
-    void setChildDetails(const std::string& senderName, const std::string& senderInviteCode, const std::string& recipientName, const std::string& recipientInviteCode, const std::string& respondentId, const std::string& requestId);
+    void setChildDetails(const FriendRequestRef& friendRequest);
     
     CREATE_FUNC(FriendRequestLayer);
     

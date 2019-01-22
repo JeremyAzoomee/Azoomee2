@@ -154,6 +154,9 @@
 		9220EC6A203313CE00BD7A90 /* ActionBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EC69203313CE00BD7A90 /* ActionBuilder.cpp */; };
 		9224C00C1F7CFD7E00108553 /* FileZipUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224C00B1F7CFD7E00108553 /* FileZipUtil.cpp */; };
 		9224C00F1F7D13F000108553 /* DirectorySearcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224C00E1F7D13F000108553 /* DirectorySearcher.cpp */; };
+		92448AC121EF771400E88C9D /* Child.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92448AC021EF771300E88C9D /* Child.cpp */; };
+		92448AC421F0ABC000E88C9D /* Parent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92448AC321F0ABC000E88C9D /* Parent.cpp */; };
+		92448AC721F1FADE00E88C9D /* FriendRequest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92448AC621F1FADE00E88C9D /* FriendRequest.cpp */; };
 		924ACE0820A46C50007A5550 /* ContentItemPoolHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924ACE0720A46C50007A5550 /* ContentItemPoolHandler.cpp */; };
 		924ACE0A20A48528007A5550 /* HQStructureParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924ACE0920A48528007A5550 /* HQStructureParser.cpp */; };
 		924ACE0C20A4A073007A5550 /* HQStructureHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924ACE0B20A4A073007A5550 /* HQStructureHandler.cpp */; };
@@ -466,6 +469,12 @@
 		9224C00B1F7CFD7E00108553 /* FileZipUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileZipUtil.cpp; sourceTree = "<group>"; };
 		9224C00D1F7D11F400108553 /* DirectorySearcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectorySearcher.h; sourceTree = "<group>"; };
 		9224C00E1F7D13F000108553 /* DirectorySearcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DirectorySearcher.cpp; sourceTree = "<group>"; };
+		92448ABF21EF5D0800E88C9D /* Child.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Child.h; sourceTree = "<group>"; };
+		92448AC021EF771300E88C9D /* Child.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Child.cpp; sourceTree = "<group>"; };
+		92448AC221F09CD700E88C9D /* Parent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Parent.h; sourceTree = "<group>"; };
+		92448AC321F0ABC000E88C9D /* Parent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Parent.cpp; sourceTree = "<group>"; };
+		92448AC521F1DDAC00E88C9D /* FriendRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FriendRequest.h; sourceTree = "<group>"; };
+		92448AC621F1FADE00E88C9D /* FriendRequest.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FriendRequest.cpp; sourceTree = "<group>"; };
 		924ACE0720A46C50007A5550 /* ContentItemPoolHandler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ContentItemPoolHandler.cpp; path = HQDataObject/ContentItemPoolHandler.cpp; sourceTree = "<group>"; };
 		924ACE0920A48528007A5550 /* HQStructureParser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = HQStructureParser.cpp; path = HQDataObject/HQStructureParser.cpp; sourceTree = "<group>"; };
 		924ACE0B20A4A073007A5550 /* HQStructureHandler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = HQStructureHandler.cpp; path = HQDataObject/HQStructureHandler.cpp; sourceTree = "<group>"; };
@@ -618,6 +627,10 @@
 				3012ED571E969BBB0009027D /* ParentDataStorage.h */,
 				92084F0921B562C500DACCEB /* BillingData.h */,
 				92084F0A21B5877B00DACCEB /* BillingData.cpp */,
+				92448AC221F09CD700E88C9D /* Parent.h */,
+				92448AC321F0ABC000E88C9D /* Parent.cpp */,
+				92448AC521F1DDAC00E88C9D /* FriendRequest.h */,
+				92448AC621F1FADE00E88C9D /* FriendRequest.cpp */,
 			);
 			path = Parent;
 			sourceTree = "<group>";
@@ -631,6 +644,8 @@
 				3012ED5E1E969BF60009027D /* ChildDataProvider.h */,
 				3012ED5F1E969BF60009027D /* ChildDataStorage.cpp */,
 				3012ED601E969BF60009027D /* ChildDataStorage.h */,
+				92448ABF21EF5D0800E88C9D /* Child.h */,
+				92448AC021EF771300E88C9D /* Child.cpp */,
 			);
 			path = Child;
 			sourceTree = "<group>";
@@ -1205,6 +1220,7 @@
 				30E094C01EDF0F2B00555891 /* Utils.cpp in Sources */,
 				929E8B6B2153F06E0078C983 /* ConfirmCancelMessageBox.cpp in Sources */,
 				4349C8151EA8ADEF00FE964B /* MixpanelExceptionHandler.m in Sources */,
+				92448AC121EF771400E88C9D /* Child.cpp in Sources */,
 				9220EC6A203313CE00BD7A90 /* ActionBuilder.cpp in Sources */,
 				92084F0B21B5877B00DACCEB /* BillingData.cpp in Sources */,
 				3012ED9F1E97E6A40009027D /* RemoteImageSprite.cpp in Sources */,
@@ -1260,6 +1276,7 @@
 				4349C8171EA8ADEF00FE964B /* MixpanelWatchProperties.m in Sources */,
 				4349C83E1EA8ADEF00FE964B /* MPObjectSerializerContext.m in Sources */,
 				4349C8281EA8ADEF00FE964B /* MPCGAffineTransformToNSDictionaryValueTransformer.m in Sources */,
+				92448AC721F1FADE00E88C9D /* FriendRequest.cpp in Sources */,
 				43087FD91F03AC4C00E199EA /* NativeShare_ios.mm in Sources */,
 				4349C84E1EA8ADEF00FE964B /* MPUIControlBinding.m in Sources */,
 				3012EDA01E97E6A40009027D /* ImageDownloaderCacheCleanerLogic.cpp in Sources */,
@@ -1279,6 +1296,7 @@
 				9271D8452048311A00370120 /* LazyLoadingButton.cpp in Sources */,
 				3012EDB01E97E8450009027D /* HMACSHA256_ios.mm in Sources */,
 				021564901FC5F3DC00641C14 /* SpecialCalendarEventManager.cpp in Sources */,
+				92448AC421F0ABC000E88C9D /* Parent.cpp in Sources */,
 				4349C82A1EA8ADEF00FE964B /* MPCGPointToNSDictionaryValueTransformer.m in Sources */,
 				4349C81F1EA8ADEF00FE964B /* MPABTestDesignerDeviceInfoResponseMessage.m in Sources */,
 				4318E13A1F289DD500778E9A /* RequestAdultPinLayer.cpp in Sources */,

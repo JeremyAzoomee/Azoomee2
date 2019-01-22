@@ -75,7 +75,7 @@ void KidDetailsLayer::onEnter()
     
     _editNameInput = TextInputLayer::createSettingsRoundedTextInput(contentSize.width * 0.6f, INPUT_IS_CHILD_NAME);
     _editNameInput->setCenterPosition(_editNameLayout->getContentSize() / 2);
-    _editNameInput->setText(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(_childNum));
+    _editNameInput->setText(_child->getProfileName());
     _editNameLayout->addChild(_editNameInput);
     
     ui::Button* confirmNameEditButton = ui::Button::create("res/settings/tick_button.png");
@@ -89,7 +89,7 @@ void KidDetailsLayer::onEnter()
                 if(_editNameInput->inputIsValid())
                 {
                     ModalMessages::getInstance()->startLoading();
-                    HttpRequestCreator* request = API::UpdateChildNameRequest(ParentDataProvider::getInstance()->getIDForAvailableChildren(_childNum), _editNameInput->getText(), this);
+                    HttpRequestCreator* request = API::UpdateChildNameRequest(_child->getId(), _editNameInput->getText(), this);
                     request->execute();
                     _displayNameLayout->setVisible(true);
                     _editNameLayout->setVisible(false);
@@ -109,7 +109,7 @@ void KidDetailsLayer::onEnter()
     _displayNameLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _nameLayout->addChild(_displayNameLayout);
     
-    _nameText = Label::createWithTTF(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(_childNum), Style::Font::Medium(), 107);
+    _nameText = Label::createWithTTF(_child->getProfileName(), Style::Font::Medium(), 107);
     _nameText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _nameText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _nameText->setTextColor(Color4B::BLACK);
@@ -164,7 +164,7 @@ void KidDetailsLayer::onEnter()
     bgCircle2->runAction(rotate2);
     
     _oomee = RemoteImageSprite::create();
-    _oomee->initWithUrlAndSizeWithoutPlaceholder(ParentDataProvider::getInstance()->getAvatarForAnAvailableChild(_childNum), oomeeLayout->getContentSize());
+    _oomee->initWithUrlAndSizeWithoutPlaceholder(_child->getAvatar(), oomeeLayout->getContentSize());
     _oomee->setKeepAspectRatio(true);
     _oomee->setAnchorPoint(Vec2(0.5,0.4));
     _oomee->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -197,14 +197,14 @@ void KidDetailsLayer::onEnter()
     _kidCodeLayout->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            const std::string& childsName = ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(_childNum);
+			const std::string& childsName = _child->getProfileName();
             
-            nativeShareScreenString(StringUtils::format(_("%s uses Azoomee to chat safely with family & friends. Enter %s's Kid Code %s in Azoomee to start chatting with your child.\nDownload Azoomee here: http://bit.ly/azoomeekids").c_str(),childsName.c_str(),childsName.c_str(),ParentDataProvider::getInstance()->getInviteCodeForAnAvailableChild(_childNum).c_str()));
+            nativeShareScreenString(StringUtils::format(_("%s uses Azoomee to chat safely with family & friends. Enter %s's Kid Code %s in Azoomee to start chatting with your child.\nDownload Azoomee here: http://bit.ly/azoomeekids").c_str(),childsName.c_str(),childsName.c_str(),_child->getInviteCode().c_str()));
         }
     });
     centralContentLayout->addChild(_kidCodeLayout);
     
-    Label* kidCode = Label::createWithTTF(ParentDataProvider::getInstance()->getInviteCodeForAnAvailableChild(_childNum), Style::Font::Medium(), 91);
+    Label* kidCode = Label::createWithTTF(_child->getInviteCode(), Style::Font::Medium(), 91);
     kidCode->setTextColor(Color4B::WHITE);
     kidCode->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     kidCode->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -245,7 +245,7 @@ void KidDetailsLayer::onEnter()
             if(_kidCodeInput->inputIsValid())
             {
                 ModalMessages::getInstance()->startLoading();
-                HttpRequestCreator* request = API::FriendRequest(ParentDataProvider::getInstance()->getIDForAvailableChildren(_childNum), ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(_childNum), _kidCodeInput->getText(), this);
+                HttpRequestCreator* request = API::FriendRequest(_child->getId(), _child->getProfileName(), _kidCodeInput->getText(), this);
                 request->execute();
             }
         }
@@ -262,8 +262,8 @@ void KidDetailsLayer::onEnter()
     _deleteButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-			const std::string& targetChildId = ParentDataProvider::getInstance()->getIDForAvailableChildren(_childNum);
-			if(ChildDataProvider::getInstance()->getIsChildLoggedIn() && ChildDataProvider::getInstance()->getLoggedInChildId() == targetChildId)
+			const std::string& targetChildId = _child->getId();
+			if(ChildDataProvider::getInstance()->getIsChildLoggedIn() && ChildDataProvider::getInstance()->getParentOrChildId() == targetChildId)
 			{
 				SettingsMessageBoxNotification* messageBox = SettingsMessageBoxNotification::create();
 				messageBox->setHeading(_("You can't do that right now, this child is currently logged in."));
@@ -283,9 +283,9 @@ void KidDetailsLayer::onEnter()
     Super::onEnter();
 }
 
-void KidDetailsLayer::setChildNum(int childNum)
+void KidDetailsLayer::setChild(const ChildRef& child)
 {
-    _childNum = childNum;
+    _child = child;
 }
 
 void KidDetailsLayer::setDeleteChildCallback(const Azoomee::KidDetailsLayer::DeleteChildCallback &callback)
@@ -320,11 +320,12 @@ void KidDetailsLayer::onHttpRequestSuccess(const std::string& requestTag, const 
 		data.Parse(body.c_str());
 		if(!data.HasParseError())
 		{
-			ParentDataParser::getInstance()->parseChildUpdateData(_childNum, body);
-			_nameText->setString(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(_childNum));
+			
+			ParentDataParser::getInstance()->parseChildUpdateData(_child, body);
+			_nameText->setString(_child->getProfileName());
 			reduceLabelTextToFitWidth(_nameText, _nameLayout->getContentSize().width * 0.8f);
 			_editNameButton->setPosition((_displayNameLayout->getContentSize() * 0.5) + Size(_nameText->getContentSize().width * 0.5f,0));
-			_editNameInput->setText(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(_childNum));
+			_editNameInput->setText(_child->getProfileName());
 		}
     }
 }
@@ -354,9 +355,9 @@ void KidDetailsLayer::onButtonPressed(SettingsMessageBox* pSender, SettingsMessa
         {
             pSender->removeFromParent();
             ModalMessages::getInstance()->startLoading();
-            HttpRequestCreator* request = API::DeleteChild(ParentDataProvider::getInstance()->getIDForAvailableChildren(_childNum),
-                                                           ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(_childNum),
-                                                           ParentDataProvider::getInstance()->getSexForAnAvailableChild(_childNum),
+            HttpRequestCreator* request = API::DeleteChild(_child->getId(),
+                                                           _child->getProfileName(),
+                                                           _child->getSex(),
                                                            this);
             request->execute();
             break;
@@ -372,7 +373,7 @@ void KidDetailsLayer::onButtonPressed(SettingsMessageBox* pSender, SettingsMessa
             if(messageBox)
             {
                 ModalMessages::getInstance()->startLoading();
-                HttpRequestCreator* request = API::FriendRequest(ParentDataProvider::getInstance()->getIDForAvailableChildren(_childNum), ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(_childNum), messageBox->getInputString(), this);
+                HttpRequestCreator* request = API::FriendRequest(_child->getId(), _child->getProfileName(), messageBox->getInputString(), this);
                 request->execute();
             }
             pSender->removeFromParent();
