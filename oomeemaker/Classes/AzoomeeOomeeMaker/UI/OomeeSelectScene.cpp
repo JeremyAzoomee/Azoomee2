@@ -31,6 +31,14 @@ void OomeeSelectScene::newOomee()
     makerScene->setFilename(fileNameStr);
     makerScene->setIsNewOomee(true);
     Director::getInstance()->replaceScene(makerScene);
+	
+	if(TutorialController::getInstance()->isTutorialActive())
+	{
+		if(TutorialController::getInstance()->getCurrentState() == TutorialController::kCreateOomee)
+		{
+			TutorialController::getInstance()->nextStep();
+		}
+	}
 }
 
 bool OomeeSelectScene::init()
@@ -113,13 +121,13 @@ bool OomeeSelectScene::init()
 
 void OomeeSelectScene::onEnter()
 {
-    Super::onEnter();
 	TutorialController::getInstance()->registerDelegate(this);
 	if(TutorialController::getInstance()->isTutorialActive())
 	{
 		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
 	}
     OomeeMakerDataHandler::getInstance()->getConfigFilesIfNeeded();
+	Super::onEnter();
 }
 
 void OomeeSelectScene::onEnterTransitionDidFinish()

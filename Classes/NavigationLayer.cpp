@@ -51,7 +51,7 @@ bool NavigationLayer::init()
     {
         return false;
     }
-    if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+    if(!ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
     {
         ModalMessages::getInstance()->showMixpanelNotification();
     }
@@ -178,7 +178,7 @@ void NavigationLayer::changeToScene(const std::string& hqName, float duration)
     
     const HQDataObjectRef &currentObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName);
     
-    if((hqName == ConfigStorage::kMeHQName && ParentDataProvider::getInstance()->isLoggedInParentAnonymous()) || (hqName != ConfigStorage::kMeHQName && !currentObject->getHqEntitlement()))
+	if((hqName == ConfigStorage::kMeHQName && ParentDataProvider::getInstance()->isLoggedInParentAnonymous() && !ChildDataProvider::getInstance()->getIsChildLoggedIn()) || (hqName != ConfigStorage::kMeHQName && !currentObject->getHqEntitlement()))
     {
         AnalyticsSingleton::getInstance()->registerCTASource("lockedHQ","",currentObject->getHqType());
         IAPEntryContext context = IAPEntryContext::DEFAULT;
@@ -398,7 +398,7 @@ void NavigationLayer::addNotificationBadgeToChatIcon(cocos2d::Node* chatIcon)
     notificationBadge->setScale(0.0);
     chatIcon->addChild(notificationBadge, 9);
     
-    if(!ChildDataProvider::getInstance()->getIsChildLoggedIn())
+	if(!ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
     {
         return; //not adding notifications in preview mode
     }
@@ -433,7 +433,7 @@ void NavigationLayer::createTopObjects()
     settingsButton->setPosition(origin.x + visibleSize.width, origin.y + visibleSize.height - settingsButtonSize.height * 1.25);
     this->addChild(settingsButton);
 	
-	if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+	if(!ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
 	{
     	returnToChildSelectorButton = ElectricDreamsButton::createChildSelectorButton();
     	const Size& childSelectButtonSize = returnToChildSelectorButton->getContentSize();

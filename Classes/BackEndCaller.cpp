@@ -190,6 +190,7 @@ void BackEndCaller::onAnonymousDeviceLoginAnswerReceived(const std::string &resp
         AnalyticsSingleton::getInstance()->setIsUserAnonymous(true);
         ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headerString));
         HQDataParser::getInstance()->parseHQGetContentUrls(responseString);
+		ChildDataParser::getInstance()->loginAnonChild(responseString);
         DynamicNodeHandler::getInstance()->getCTAFiles();
         getGordon();
     }
@@ -670,9 +671,10 @@ void BackEndCaller::onFeedDownloadComplete()
 	}
 	else
 	{
+		TutorialController::getInstance()->startTutorial(TutorialController::kFTUNavTutorialID);
 		Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
 	}
-	//TutorialController::getInstance()->startTutorial(TutorialController::kFTUNavTutorialID);
+	
 }
 
 NS_AZOOMEE_END

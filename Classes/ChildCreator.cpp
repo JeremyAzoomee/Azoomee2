@@ -95,4 +95,41 @@ bool ChildCreator::addChild()
     return true;
 }
 
+bool ChildCreator::addLocalAnonChild()
+{
+	if(_age <= 0 || !isValidChildName(_childName.c_str()))
+	{
+		return false;
+	}
+	
+	int year = birthYearFromAge(_age);
+	
+	const std::string& DOB = StringUtils::format("%04d-%02d-%02d",year,1,1);
+	const std::string& gender = "MALE";
+	if(!isDate(1, 1, year))
+	{
+		return false;
+	}
+	
+	const std::string& localChildPath = FileUtils::getInstance()->getWritablePath() + "anonLocalChild/";
+	const std::string& avatarImgPath = "anonLocalChild/avatar.png";
+	
+	const std::string& dataStr = StringUtils::format("{\"profileName\":\"%s\",\"sex\":\"%s\",\"dob\":\"%s\",\"avatar\":\"%s\"}",_childName.c_str(),gender.c_str(),DOB.c_str(),avatarImgPath.c_str());
+	
+	if(!FileUtils::getInstance()->isDirectoryExist(localChildPath))
+	{
+		FileUtils::getInstance()->createDirectory(localChildPath);
+	}
+	
+	FileUtils::getInstance()->writeStringToFile(dataStr, localChildPath + "childData.json");
+	
+	if(!FileUtils::getInstance()->isFileExist(avatarImgPath))
+	{
+		FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/defaultOomees/oomee_11.png"), FileUtils::getInstance()->getWritablePath() + avatarImgPath);
+		FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/defaultOomees/oomee_11.oomee"), localChildPath + "avatar.oomee");
+	}
+	
+	return true;
+}
+
 NS_AZOOMEE_END

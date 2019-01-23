@@ -78,3 +78,36 @@ void ChildDataParser::loginChildOffline(const std::string &childId)
 		childDataStorage->_loggedInChild = offlineChild;
 	}
 }
+
+void ChildDataParser::loginAnonChild(const std::string& loginDataStr)
+{
+	const std::string& localChildPath = FileUtils::getInstance()->getWritablePath() + "anonLocalChild/childData.json";
+	if(!FileUtils::getInstance()->isFileExist(localChildPath))
+	{
+		return;
+	}
+	
+	auto childDataStorage = ChildDataStorage::getInstance();
+	
+	rapidjson::Document childData;
+	childData.Parse(FileUtils::getInstance()->getStringFromFile(localChildPath).c_str());
+	if(childData.HasParseError())
+	{
+		return;
+	}
+	
+	ChildRef child = Child::createWithJson(childData);
+	
+	rapidjson::Document loginData;
+	loginData.Parse(loginDataStr.c_str());
+	if(loginData.HasParseError())
+	{
+		return;
+	}
+	
+	child->parseLoginData(loginData);
+	
+	child->setId(getStringFromJson("id",loginData));
+	childDataStorage->_loggedInChild = child;
+	childDataStorage->childLoggedIn = true;
+}

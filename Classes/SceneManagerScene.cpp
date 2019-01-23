@@ -250,6 +250,13 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             Director::getInstance()->replaceScene(AddChildScene::createWithFlowStage(AddChildFlow::FIRST_TIME_SETUP_NAME));
             break;
         }
+		case AddChildAnon:
+		{
+			acceptAnyOrientation();
+			HQHistoryManager::getInstance()->updatePrevOrientation();
+			Director::getInstance()->replaceScene(AddChildScene::createWithFlowStage(AddChildFlow::ANON_NAME));
+			break;
+		}
 		case WelcomeScene:
 		{
 			acceptAnyOrientation();

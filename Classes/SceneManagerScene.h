@@ -25,6 +25,7 @@ enum SceneNameEnum {
     introVideo,
     AddChild,
     AddChildFirstTime,
+	AddChildAnon,
 	VodacomOnboarding,
 	WelcomeScene
 };

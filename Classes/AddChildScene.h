@@ -15,7 +15,7 @@
 
 NS_AZOOMEE_BEGIN
 
-enum class AddChildFlow {FIRST_TIME_SETUP_NAME, ADDITIONAL_NAME, AGE, OOMEE};
+enum class AddChildFlow {FIRST_TIME_SETUP_NAME, ADDITIONAL_NAME, AGE, OOMEE, ANON_NAME, ANON_AGE};
 
 class AddChildSceneDelegate
 {
@@ -37,6 +37,7 @@ private:
     void setSceneForFlow();
     
     bool _addingFirstChild = false;
+	bool _addingAnonChild = false;
     
 public:
     

@@ -11,11 +11,13 @@
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Child/ChildDataParser.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeOomeeMaker/UI/OomeeMakerScene.h>
 #include <AzoomeeOomeeMaker/UI/OomeeSelectScene.h>
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Tutorial/TutorialController.h>
 
 USING_NS_CC;
 
@@ -63,13 +65,42 @@ void OomeeMakerDelegate::onOomeeMakerShareOomee(const std::string& filename)
 
 void OomeeMakerDelegate::onOomeeMakerUpdateAvatar(const std::string &filename)
 {
-    ModalMessages::getInstance()->startLoading();
-    const std::string& imageData = FileUtils::getInstance()->getStringFromFile(filename);
-    char* str = nullptr;
-    base64Encode((unsigned char*)imageData.c_str(), (unsigned int)imageData.length(), &str);
-    
-    HttpRequestCreator* request = API::UpdateChildAvatar(ChildDataProvider::getInstance()->getParentOrChildId(), str, this);
-    request->execute();
+	if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
+	{
+		const std::string& localChildPath = FileUtils::getInstance()->getWritablePath() + "anonLocalChild/";
+		
+		if(!FileUtils::getInstance()->isDirectoryExist(localChildPath))
+		{
+			FileUtils::getInstance()->createDirectory(localChildPath);
+		}
+		
+		const std::string& avatarImgPath = localChildPath + "avatar.png";
+		const std::string& avatarDataPath = localChildPath + "avatar.oomee";
+		
+		const std::string& imageData = FileUtils::getInstance()->getStringFromFile(filename);
+		FileUtils::getInstance()->writeStringToFile(imageData, avatarImgPath);
+		const std::string& oomeeData = FileUtils::getInstance()->getStringFromFile(filename.substr(0,filename.length() - 3) + "oomee");
+		FileUtils::getInstance()->writeStringToFile(oomeeData, avatarDataPath);
+		
+		if(TutorialController::getInstance()->isTutorialActive())
+		{
+			if(TutorialController::getInstance()->getCurrentState() == TutorialController::kConfirmOomee)
+			{
+				TutorialController::getInstance()->nextStep();
+				Director::getInstance()->replaceScene(SceneManagerScene::createScene(AddChildAnon));
+			}
+		}
+	}
+	else
+	{
+		ModalMessages::getInstance()->startLoading();
+		const std::string& imageData = FileUtils::getInstance()->getStringFromFile(filename);
+		char* str = nullptr;
+		base64Encode((unsigned char*)imageData.c_str(), (unsigned int)imageData.length(), &str);
+		
+		HttpRequestCreator* request = API::UpdateChildAvatar(ChildDataProvider::getInstance()->getParentOrChildId(), str, this);
+		request->execute();
+	}
 }
 
 void OomeeMakerDelegate::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)

@@ -64,6 +64,10 @@ Azoomee::Scene* AddChildScene::createWithFlowStage(const AddChildFlow& flowStage
     {
         scene->_addingFirstChild = true;
     }
+	else if(flowStage == AddChildFlow::ANON_NAME)
+	{
+		scene->_addingAnonChild = true;
+	}
     return scene;
 }
 
@@ -117,6 +121,16 @@ void AddChildScene::setSceneForFlow()
             nextLayer = ChildOomeeLayer::create();
             break;
         }
+		case AddChildFlow::ANON_NAME:
+		{
+			nextLayer = ChildNameLayer::create();
+			break;
+		}
+		case AddChildFlow::ANON_AGE:
+		{
+			nextLayer = ChildAgeLayer::create();
+			break;
+		}
         default:
         break;
     }
@@ -153,6 +167,19 @@ void AddChildScene::nextLayer()
             BackEndCaller::getInstance()->getAvailableChildren();
             break;
         }
+		case AddChildFlow::ANON_NAME:
+		{
+			_currentFlowStage = AddChildFlow::ANON_AGE;
+			setSceneForFlow();
+		}
+		case AddChildFlow::ANON_AGE:
+		{
+			if(_childCreator->addLocalAnonChild())
+			{
+				BackEndCaller::getInstance()->anonymousDeviceLogin();
+			}
+			break;
+		}
         default:
         break;
     }
@@ -185,6 +212,11 @@ void AddChildScene::prevLayer()
             setSceneForFlow();
             break;
         }
+		case AddChildFlow::ANON_AGE:
+		{
+			_currentFlowStage = AddChildFlow::ANON_NAME;
+			setSceneForFlow();
+		}
         default:
             break;
     }

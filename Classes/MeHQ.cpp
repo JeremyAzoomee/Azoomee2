@@ -23,6 +23,7 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 
 #include "MeHQProfileDetails.h"
 #include "MeHQGallery.h"
@@ -90,15 +91,18 @@ bool MeHQ::init()
 		_sectionIndexMap[kRecentlyPlayedLayerName] = indexNum++;
 	}
 	
-    auto messageList = MeHQMessages::create();
-    messageList->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
-    messageList->setRefreshCallback([this](){
-        this->refreshMessagesLayout();
-    });
-    messageList->setName(kMessagesLayerName);
-    _contentListView->addChild(messageList);
-    _sectionIndexMap[kMessagesLayerName] = indexNum++;
-    
+	if(!ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
+	{
+		auto messageList = MeHQMessages::create();
+		messageList->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
+		messageList->setRefreshCallback([this](){
+			this->refreshMessagesLayout();
+		});
+		messageList->setName(kMessagesLayerName);
+		_contentListView->addChild(messageList);
+		_sectionIndexMap[kMessagesLayerName] = indexNum++;
+	}
+	
     auto galleryLayout = MeHQGallery::create();
     galleryLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
     galleryLayout->setName(kGalleryLayerName);

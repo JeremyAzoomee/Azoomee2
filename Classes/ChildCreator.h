@@ -44,6 +44,7 @@ public:
     void setHttpRespnseDelegate(HttpRequestCreatorResponseDelegate* delegate);
     
     bool addChild();
+	bool addLocalAnonChild();
 };
 
 NS_AZOOMEE_END
