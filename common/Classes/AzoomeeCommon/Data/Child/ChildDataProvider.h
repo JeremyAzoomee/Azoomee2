@@ -30,7 +30,7 @@ public:
 	
 	ChildRef getLoggedInChild() const;
 	
-    bool getIsChildLoggedIn() const;
+    bool isChildLoggedIn() const;
 };
   
 }

@@ -451,9 +451,9 @@ void BackEndCaller::getHQContent(const std::string& url, const std::string& cate
 // DEEPLINK CONTENT DETAILS REQUEST ----------------------------------------------------------------
 void BackEndCaller::getElectricDreamsContent(const std::string& requestId, const std::string& contentID)
 {
-    if(ChildDataStorage::getInstance()->childLoggedIn)
+    if(ChildDataStorage::getInstance()->isChildLoggedIn())
     {
-        HttpRequestCreator* request = API::GetElectricDreamsContent(requestId, ChildDataStorage::getInstance()->_loggedInChild->getId(), contentID, this);
+        HttpRequestCreator* request = API::GetElectricDreamsContent(requestId, ChildDataStorage::getInstance()->getLoggedInChild()->getId(), contentID, this);
         request->execute();
     }
 }
@@ -512,7 +512,7 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     {
         rapidjson::Document json;
         json.Parse(body.c_str());
-		ChildRef child = ChildDataProvider::getInstance()->getLoggedInChild();
+		const ChildRef& child = ChildDataProvider::getInstance()->getLoggedInChild();
 		child->setAvatar(getStringFromJson("avatar", json));
         ImageDownloaderRef imageDownloader = ImageDownloader::create("imageCache/", ImageDownloader::CacheMode::File );
         imageDownloader->downloadImage(nullptr, getStringFromJson("avatar", json), true);

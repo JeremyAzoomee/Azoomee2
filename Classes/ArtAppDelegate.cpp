@@ -57,7 +57,7 @@ void ArtAppDelegate::onArtAppShareImage()
 {
     if(filename != "")
     {
-        if(!HQHistoryManager::getInstance()->isOffline && ChildDataProvider::getInstance()->getIsChildLoggedIn())
+        if(!HQHistoryManager::getInstance()->isOffline && ChildDataProvider::getInstance()->isChildLoggedIn())
         {
             AnalyticsSingleton::getInstance()->contentItemClosedEvent();
             ChatDelegate::getInstance()->_imageFileName = filename;

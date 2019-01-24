@@ -263,7 +263,7 @@ void KidDetailsLayer::onEnter()
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
 			const std::string& targetChildId = _child->getId();
-			if(ChildDataProvider::getInstance()->getIsChildLoggedIn() && ChildDataProvider::getInstance()->getParentOrChildId() == targetChildId)
+			if(ChildDataProvider::getInstance()->isChildLoggedIn() && ChildDataProvider::getInstance()->getParentOrChildId() == targetChildId)
 			{
 				SettingsMessageBoxNotification* messageBox = SettingsMessageBoxNotification::create();
 				messageBox->setHeading(_("You can't do that right now, this child is currently logged in."));

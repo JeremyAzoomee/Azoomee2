@@ -17,8 +17,15 @@ public:
 
     virtual ~ChildDataStorage();
     bool init(void);
-    
-    bool childLoggedIn = false;
+	
+	void setChildLoggedIn(bool loggedIn);
+	bool isChildLoggedIn() const;
+	
+	void setLoggedInChild(const ChildRef& child);
+	ChildRef getLoggedInChild() const;
+	
+private:
+    bool _childLoggedIn = false;
 	ChildRef _loggedInChild = nullptr;
 };
 

@@ -32,111 +32,84 @@ bool ChildDataProvider::init(void)
 
 std::string ChildDataProvider::getParentOrChildId() const
 {
-    if(getIsChildLoggedIn())
+    if(isChildLoggedIn())
     {
-        return ChildDataStorage::getInstance()->_loggedInChild->getId();
+        return ChildDataStorage::getInstance()->getLoggedInChild()->getId();
     }
     else
     {
-        return ParentDataStorage::getInstance()->_parent->getId();
+        return ParentDataStorage::getInstance()->getParent()->getId();
     }
 }
 
 std::string ChildDataProvider::getParentOrChildCdnSessionId() const
 {
-    if(getIsChildLoggedIn())
+    if(isChildLoggedIn())
     {
-        return ChildDataStorage::getInstance()->_loggedInChild->getCDNSessionId();
+        return ChildDataStorage::getInstance()->getLoggedInChild()->getCDNSessionId();
     }
     else
     {
-        return ParentDataStorage::getInstance()->_parent->getCDNSessionId();
+        return ParentDataStorage::getInstance()->getParent()->getCDNSessionId();
     }
 }
 
 std::string ChildDataProvider::getParentOrChildApiSecret() const
 {
-    if(getIsChildLoggedIn())
+    if(isChildLoggedIn())
     {
-        return ChildDataStorage::getInstance()->_loggedInChild->getAPISecret();
+        return ChildDataStorage::getInstance()->getLoggedInChild()->getAPISecret();
     }
     else
     {
-        return ParentDataStorage::getInstance()->_parent->getAPISecret();
+        return ParentDataStorage::getInstance()->getParent()->getAPISecret();
     }
 }
 
 std::string ChildDataProvider::getParentOrChildApiKey() const
 {
-    if(getIsChildLoggedIn())
+    if(isChildLoggedIn())
     {
-        return ChildDataStorage::getInstance()->_loggedInChild->getAPIKey();
+        return ChildDataStorage::getInstance()->getLoggedInChild()->getAPIKey();
     }
     else
     {
-        return ParentDataStorage::getInstance()->_parent->getAPIKey();
+        return ParentDataStorage::getInstance()->getParent()->getAPIKey();
     }
 }
     
 std::string ChildDataProvider::getParentOrChildAvatarId() const
 {
-    if(getIsChildLoggedIn())
+    if(isChildLoggedIn())
     {
-        return ChildDataStorage::getInstance()->_loggedInChild->getAvatar();
+        return ChildDataStorage::getInstance()->getLoggedInChild()->getAvatar();
     }
     else
     {
-        return ParentDataStorage::getInstance()->_parent->getAvatar();
+        return ParentDataStorage::getInstance()->getParent()->getAvatar();
     }
 }
 
 std::string ChildDataProvider::getParentOrChildName() const
 {
-	if(getIsChildLoggedIn())
+	if(isChildLoggedIn())
 	{
-		return ChildDataStorage::getInstance()->_loggedInChild->getProfileName();
+		return ChildDataStorage::getInstance()->getLoggedInChild()->getProfileName();
 	}
 	else
 	{
-		return ParentDataStorage::getInstance()->_parent->getDisplayName();
+		return ParentDataStorage::getInstance()->getParent()->getDisplayName();
 	}
-}
-/*
-std::string ChildDataProvider::getLoggedInChildName() const
-{
-	if(ChildDataStorage::getInstance()->_loggedInChild)
-	{
-    	return ChildDataStorage::getInstance()->_loggedInChild->getProfileName();
-	}
-	return "";
 }
 
-std::string ChildDataProvider::getLoggedInChildId() const
+bool ChildDataProvider::isChildLoggedIn() const
 {
-	if(ChildDataStorage::getInstance()->_loggedInChild)
-	{
-    	return ChildDataStorage::getInstance()->_loggedInChild->getId();
-	}
-	return "";
-}
-
-std::string ChildDataProvider::getLoggedInChildAvatarId() const
-{
-	if(ChildDataStorage::getInstance()->_loggedInChild)
-	{
-    	return ChildDataStorage::getInstance()->_loggedInChild->getAvatar();
-	}
-	return "";
-}
-*/
-bool ChildDataProvider::getIsChildLoggedIn() const
-{
-	return ChildDataStorage::getInstance()->childLoggedIn && ChildDataStorage::getInstance()->_loggedInChild;
+	return ChildDataStorage::getInstance()->isChildLoggedIn() && ChildDataStorage::getInstance()->getLoggedInChild();
 }
 
 ChildRef ChildDataProvider::getLoggedInChild() const
 {
-	return ChildDataStorage::getInstance()->_loggedInChild;
+	return ChildDataStorage::getInstance()->getLoggedInChild();
 }
 
 }

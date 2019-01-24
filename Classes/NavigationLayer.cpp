@@ -51,7 +51,7 @@ bool NavigationLayer::init()
     {
         return false;
     }
-    if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+    if(ChildDataProvider::getInstance()->isChildLoggedIn())
     {
         ModalMessages::getInstance()->showMixpanelNotification();
     }
@@ -167,7 +167,7 @@ void NavigationLayer::changeToScene(const std::string& hqName, float duration)
     
     if(hqName == "OOMEE_MAKER")
     {
-        if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+        if(ChildDataProvider::getInstance()->isChildLoggedIn())
         {
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(OomeeMakerEntryPointScene));
         }
@@ -195,7 +195,7 @@ void NavigationLayer::changeToScene(const std::string& hqName, float duration)
     if(hqName == ConfigStorage::kChatHQName)
     {
         this->hideNotificationBadge();
-        if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+        if(ChildDataProvider::getInstance()->isChildLoggedIn())
         {
             AnalyticsSingleton::getInstance()->navSelectionEvent("",hqName);
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
@@ -363,7 +363,7 @@ void NavigationLayer::addNotificationBadgeToChatIcon(cocos2d::Node* chatIcon)
     notificationBadge->setScale(0.0);
     chatIcon->addChild(notificationBadge, 9);
     
-    if(!ChildDataProvider::getInstance()->getIsChildLoggedIn())
+    if(!ChildDataProvider::getInstance()->isChildLoggedIn())
     {
         return; //not adding notifications in preview mode
     }
@@ -398,7 +398,7 @@ void NavigationLayer::createTopObjects()
     settingsButton->setPosition(origin.x + visibleSize.width, origin.y + visibleSize.height - settingsButtonSize.height * 1.25);
     this->addChild(settingsButton);
 	
-	if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+	if(ChildDataProvider::getInstance()->isChildLoggedIn())
 	{
     	returnToChildSelectorButton = ElectricDreamsButton::createChildSelectorButton();
     	const Size& childSelectButtonSize = returnToChildSelectorButton->getContentSize();
@@ -688,7 +688,7 @@ void NavigationLayer::repositionElements()
         }
     }
     
-    if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+    if(ChildDataProvider::getInstance()->isChildLoggedIn())
     {
         if(HQHistoryManager::getInstance()->getCurrentHQ() == ConfigStorage::kGroupHQName)
         {
