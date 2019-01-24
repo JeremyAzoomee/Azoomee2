@@ -48,7 +48,7 @@ void FriendRequestLayer::onEnter()
 	contentLayout->setContentSize(contentSize);
 	_contentClippingNode->addChild(contentLayout);
 	
-    _senderText = Label::createWithTTF(StringUtils::format("%s\n%s",_friendRequest->getSenderName().c_str(), ""), Style::Font::Medium(), 48);
+    _senderText = Label::createWithTTF(StringUtils::format("%s\n%s",_friendRequest->getSenderName().c_str(), ""), Style::Font::Medium(), 48);//sender code not available in friend request obj, leave as empty string for formatting, might go in at some point.
     _senderText->setNormalizedPosition(Vec2(0.25,0.66));
     _senderText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _senderText->setHorizontalAlignment(TextHAlignment::CENTER);
