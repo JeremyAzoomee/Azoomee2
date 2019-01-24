@@ -7,6 +7,7 @@
 #include "../Data/HQDataObject/HQContentItemObject.h"
 #include "AnalyticsProperties.h"
 #include "../Data/Parent/BillingData.h"
+#include "../Data/Child/Child.h"
 
 #define NUMBER_IDENTIFIER "NUMBER|"
 
@@ -62,7 +63,7 @@ public:
 	void registerBillingData(const BillingDataRef& billingData);
 	void registerLanguageCode(const std::string& languageCode);
 	
-    void registerChildGenderAndAge(int childNumber);
+    void registerChildGenderAndAge(const ChildRef& child);
 
     void logoutChildEvent();
     void logoutParentEvent();

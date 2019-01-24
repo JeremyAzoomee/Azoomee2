@@ -53,7 +53,7 @@ void OomeeMakerDelegate::onOomeeMakerShareOomee(const std::string& filename)
     ChatDelegate::getInstance()->_imageFileName = filename;
     if(filename != "")
     {
-        if(!HQHistoryManager::getInstance()->isOffline && ChildDataProvider::getInstance()->getIsChildLoggedIn())
+        if(!HQHistoryManager::getInstance()->isOffline && ChildDataProvider::getInstance()->isChildLoggedIn())
         {
             HQHistoryManager::getInstance()->_returnedFromForcedOrientation = true;
             Director::getInstance()->getTextureCache()->reloadTexture(filename);

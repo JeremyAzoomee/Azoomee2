@@ -130,7 +130,7 @@ void HQStructureHandler::parseNavigationData(const std::string &data)
         hqNames.push_back(hqName);
         if(getBoolFromJson("default", value, false))
         {
-			if(!ChildDataProvider::getInstance()->getIsChildLoggedIn())
+			if(!ChildDataProvider::getInstance()->isChildLoggedIn())
 			{
             	ConfigStorage::getInstance()->setDefaultHQ(hqNames.back());
 			}

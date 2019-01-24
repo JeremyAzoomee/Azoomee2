@@ -29,7 +29,7 @@ ChildDataParser::~ChildDataParser(void)
 
 bool ChildDataParser::init(void)
 {
-    ChildDataStorage::getInstance()->childLoggedIn = false;
+    ChildDataStorage::getInstance()->setChildLoggedIn(false);
     return true;
 }
 
@@ -52,7 +52,7 @@ bool ChildDataParser::parseChildLoginData(const std::string &responseData)
 	
 	child->parseLoginData(data);
     
-	childDataStorage->_loggedInChild = child;
+	childDataStorage->setLoggedInChild(child);
     
     UserDefault* def = UserDefault::getInstance();
     def->setStringForKey("lastLoggedInChildId", child->getId());
@@ -60,22 +60,22 @@ bool ChildDataParser::parseChildLoginData(const std::string &responseData)
     
     createCrashlyticsUserInfo(ParentDataProvider::getInstance()->getLoggedInParentId(), child->getId());
     
-    childDataStorage->childLoggedIn = true;
+    childDataStorage->setChildLoggedIn(true);
     return true;
 }
 
 void ChildDataParser::setChildLoggedIn(bool loggedIn)
 {
-    ChildDataStorage::getInstance()->childLoggedIn = loggedIn;
+    ChildDataStorage::getInstance()->setChildLoggedIn(loggedIn);
 }
 
 void ChildDataParser::loginChildOffline(const std::string &childId)
 	{
 		auto childDataStorage = ChildDataStorage::getInstance();
-		childDataStorage->childLoggedIn = true;
+		childDataStorage->setChildLoggedIn(true);
 		ChildRef offlineChild = Child::create();
 		offlineChild->setId(childId);
-		childDataStorage->_loggedInChild = offlineChild;
+		childDataStorage->setLoggedInChild(offlineChild);
 	}
 }
 
@@ -108,6 +108,6 @@ void ChildDataParser::loginAnonChild(const std::string& loginDataStr)
 	child->parseLoginData(loginData);
 	
 	child->setId(getStringFromJson("id",loginData));
-	childDataStorage->_loggedInChild = child;
-	childDataStorage->childLoggedIn = true;
+	childDataStorage->setLoggedInChild(child);
+	childDataStorage->setChildLoggedIn(true);
 }

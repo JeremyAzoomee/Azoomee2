@@ -24,9 +24,26 @@ ChildDataStorage::~ChildDataStorage(void)
 
 bool ChildDataStorage::init(void)
 {
-    childLoggedIn = false;
+    _childLoggedIn = false;
     
     return true;
 }
 
+void ChildDataStorage::setChildLoggedIn(bool loggedIn)
+{
+	_childLoggedIn = loggedIn;
+}
+bool ChildDataStorage::isChildLoggedIn() const
+{
+	return _childLoggedIn;
+}
+	
+void ChildDataStorage::setLoggedInChild(const ChildRef& child)
+{
+	_loggedInChild = child;
+}
+ChildRef ChildDataStorage::getLoggedInChild() const
+{
+	return _loggedInChild;
+}
 }

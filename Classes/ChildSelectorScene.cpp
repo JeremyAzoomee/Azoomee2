@@ -240,7 +240,7 @@ ui::Button *ChildSelectorScene::createChildProfileButton(const std::string& prof
             AudioMixer::getInstance()->playEffect(SELECT_OOMEE_AUDIO_EFFECT);
             _parentIconSelected = false;
             int childNumber = ((Node*)pSender)->getTag();
-            AnalyticsSingleton::getInstance()->registerChildGenderAndAge(childNumber);
+            AnalyticsSingleton::getInstance()->registerChildGenderAndAge(ParentDataProvider::getInstance()->getChild(childNumber));
             BackEndCaller::getInstance()->childLogin(childNumber);
         }
         else if(eType == ui::Widget::TouchEventType::CANCELED)

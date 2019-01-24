@@ -47,7 +47,7 @@ void OfflineHubScene::onEnterTransitionDidFinish()
     addVisuals();
     addOfflineText();
     
-    if(ChildDataProvider::getInstance()->getIsChildLoggedIn()) addHubHQ();
+    if(ChildDataProvider::getInstance()->isChildLoggedIn()) addHubHQ();
 }
 
 //All calls are private below this line

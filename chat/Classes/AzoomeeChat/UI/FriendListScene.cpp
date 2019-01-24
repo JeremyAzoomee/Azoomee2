@@ -186,7 +186,7 @@ void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
     childAvatar->setLayoutParameter(CreateCenterVerticalLinearLayoutParam());
     childAvatar->setSizeType(ui::Widget::SizeType::ABSOLUTE);
     
-    if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+    if(ChildDataProvider::getInstance()->isChildLoggedIn())
     {
         oomeeFileName = ChildDataProvider::getInstance()->getParentOrChildAvatarId();
 		displayName = "   " + ChildDataProvider::getInstance()->getParentOrChildName() + " (" + _("Kid Code:") + " " + ChildDataProvider::getInstance()->getLoggedInChild()->getInviteCode() + ")";

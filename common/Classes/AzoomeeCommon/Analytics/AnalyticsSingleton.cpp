@@ -111,9 +111,8 @@ void AnalyticsSingleton::registerBillingProvider(std::string provider)
     mixPanelRegisterSuperProperties("billingProvider",provider);
 }
 
-void AnalyticsSingleton::registerChildGenderAndAge(int childNumber)
+void AnalyticsSingleton::registerChildGenderAndAge(const ChildRef& child)
 {
-	const ChildRef& child = ParentDataProvider::getInstance()->getChild(childNumber);
 	if(child)
 	{
     	mixPanelRegisterSuperProperties("sex",child->getSex());

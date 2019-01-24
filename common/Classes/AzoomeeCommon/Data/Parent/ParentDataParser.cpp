@@ -47,8 +47,8 @@ bool ParentDataParser::parseParentLoginData(const std::string &responseData)
 	
 	if(getStringFromJson("code", parentData) != "INVALID_CREDENTIALS")
 	{
-		ParentRef parent = Parent::createWithJson(parentData);
-		ParentDataStorage::getInstance()->_parent = parent;
+		const ParentRef& parent = Parent::createWithJson(parentData);
+		ParentDataStorage::getInstance()->setParent(parent);
 		if(!parent->isAnonymous())
 		{
 			addParentLoginDataToUserDefaults();
@@ -74,7 +74,7 @@ bool ParentDataParser::parseUpdateParentData(const std::string &responseData)
         return false;
     }
     
-    ParentRef parentData = ParentDataStorage::getInstance()->_parent;
+    const ParentRef& parentData = ParentDataStorage::getInstance()->getParent();
     if(!parentData)
 	{
 		return false;
@@ -104,9 +104,7 @@ bool ParentDataParser::parseAvailableChildren(const std::string &responseData)
         return false;
     }
     
-    parentData->_availableChildren.clear();
-    parentData->_availableChildrenById.clear();
-    //parentData->isLoggedInParentAnonymous = false; //if user has children, it must be non-anonymous
+	parentData->clearAvailableChildren();
     
     for(int i = 0; i < childData.Size(); i++)
     {
@@ -114,8 +112,7 @@ bool ParentDataParser::parseAvailableChildren(const std::string &responseData)
         
 		ChildRef child = Child::createWithJson(currentKidObj);
         
-        parentData->_availableChildren.push_back(child);
-        parentData->_availableChildrenById[child->getId()] = child;
+		parentData->addChild(child);
     }
     
     return true;
@@ -128,11 +125,16 @@ void ParentDataParser::parseParentBillingData(const std::string &responseData)
 	
 	ParentDataStorage* parentData = ParentDataStorage::getInstance();
 	
-	parentData->_billingData = BillingData::createWithJson(billingData);
+	const BillingDataRef& billing = BillingData::createWithJson(billingData);
+	if(!billing)
+	{
+		return;
+	}
+	parentData->setBillingData(billing);
 	
-	AnalyticsSingleton::getInstance()->registerBillingData(parentData->_billingData);
+	AnalyticsSingleton::getInstance()->registerBillingData(billing);
 	
-    parentData->isBillingDataAvailable = true;
+    parentData->setBillingDataAvailable(true);
 	
 }
 
@@ -151,7 +153,7 @@ void ParentDataParser::parseParentBillingData(const std::string &responseData)
         return;
     }
     
-    ParentRef parentData = ParentDataStorage::getInstance()->_parent;
+    const ParentRef& parentData = ParentDataStorage::getInstance()->getParent();
 	if(!parentData)
 	{
 		return;
@@ -172,7 +174,7 @@ void ParentDataParser::parseParentDetails(const std::string &responseData)
         return;
     }
     
-    ParentRef parentDataStorage = ParentDataStorage::getInstance()->_parent;
+    const ParentRef& parentDataStorage = ParentDataStorage::getInstance()->getParent();
     parentDataStorage->setEmail(getStringFromJson("emailAddress", parentData));
     parentDataStorage->setDisplayName(getStringFromJson("displayName", parentData));
     parentDataStorage->setPin(getStringFromJson("pinNumber", parentData));
@@ -194,12 +196,12 @@ void ParentDataParser::parseChildUpdateData(const ChildRef& child, const std::st
     
 void ParentDataParser::logoutChild()
 {
-    ChildDataStorage::getInstance()->childLoggedIn = false;
+    ChildDataStorage::getInstance()->setChildLoggedIn(false);
 }
 
 void ParentDataParser::addParentLoginDataToUserDefaults()
 {
-    ParentRef parentData = ParentDataStorage::getInstance()->_parent;
+    const ParentRef& parentData = ParentDataStorage::getInstance()->getParent();
 	if(!parentData)
 	{
 		return;
@@ -216,7 +218,7 @@ void ParentDataParser::addParentLoginDataToUserDefaults()
 
 void ParentDataParser::retrieveParentLoginDataFromUserDefaults()
 {
-	ParentRef parent = Parent::create();
+	const ParentRef& parent = Parent::create();
 	
     UserDefault* def = UserDefault::getInstance();
     parent->setId(def->getStringForKey("loggedInParentId"));
@@ -228,7 +230,7 @@ void ParentDataParser::retrieveParentLoginDataFromUserDefaults()
     parent->setCountryCode(def->getStringForKey("loggedInParentCountryCode"));
 	parent->setEmail(def->getStringForKey("username"));
 	
-	ParentDataStorage::getInstance()->_parent = parent;
+	ParentDataStorage::getInstance()->setParent(parent);
 	
     createCrashlyticsUserInfo(parent->getId(), "");
     AnalyticsSingleton::getInstance()->registerAccountStatus(parent->getActorStatus());
@@ -280,20 +282,20 @@ bool ParentDataParser::parsePendingFriendRequests(const std::string &responseDat
 		pendingRequests.push_back(friendRequest);
     }
 	
-	ParentDataStorage::getInstance()->_pendingFriendRequests = pendingRequests;
+	ParentDataStorage::getInstance()->setPendingFriendRequests(pendingRequests);
     return true;
 }
     
 void ParentDataParser::setBillingDataAvailable(bool isAvailable)
 {
-    ParentDataStorage::getInstance()->isBillingDataAvailable = isAvailable;
+    ParentDataStorage::getInstance()->setBillingDataAvailable(isAvailable);
 }
 
 void ParentDataParser::setLoggedInParentCountryCode(const std::string &countryCode)
 {
-	if(ParentDataStorage::getInstance()->_parent)
+	if(ParentDataStorage::getInstance()->getParent())
 	{
-    	ParentDataStorage::getInstance()->_parent->setCountryCode(countryCode);
+    	ParentDataStorage::getInstance()->getParent()->setCountryCode(countryCode);
     	UserDefault::getInstance()->setStringForKey("loggedInParentCountryCode", countryCode);
 	}
 }

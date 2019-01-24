@@ -104,7 +104,7 @@ bool DeepLinkingSingleton::actionDeepLink()
         return false;
     }
     
-    if(host == "content" && ChildDataProvider::getInstance()->getIsChildLoggedIn())
+    if(host == "content" && ChildDataProvider::getInstance()->isChildLoggedIn())
     {
         AnalyticsSingleton::getInstance()->deepLinkingContentEvent();
         
@@ -125,7 +125,7 @@ bool DeepLinkingSingleton::actionDeepLink()
     }
     else if(host == "moveto")
     {
-        if(path == "signup" && !ChildDataProvider::getInstance()->getIsChildLoggedIn() && !ParentDataParser::getInstance()->hasParentLoginDataInUserDefaults())
+        if(path == "signup" && !ChildDataProvider::getInstance()->isChildLoggedIn() && !ParentDataParser::getInstance()->hasParentLoginDataInUserDefaults())
         {
             AnalyticsSingleton::getInstance()->deepLinkingMoveToEvent(path);
             
@@ -135,7 +135,7 @@ bool DeepLinkingSingleton::actionDeepLink()
             return true;
         }
         
-        if(!ChildDataProvider::getInstance()->getIsChildLoggedIn())
+        if(!ChildDataProvider::getInstance()->isChildLoggedIn())
         {
             return false;
         }
