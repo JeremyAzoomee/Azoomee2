@@ -70,44 +70,12 @@ void ChildDataParser::setChildLoggedIn(bool loggedIn)
 }
 
 void ChildDataParser::loginChildOffline(const std::string &childId)
-	{
-		auto childDataStorage = ChildDataStorage::getInstance();
-		childDataStorage->setChildLoggedIn(true);
-		ChildRef offlineChild = Child::create();
-		offlineChild->setId(childId);
-		childDataStorage->setLoggedInChild(offlineChild);
-	}
+{
+	auto childDataStorage = ChildDataStorage::getInstance();
+	childDataStorage->setChildLoggedIn(true);
+	ChildRef offlineChild = Child::create();
+	offlineChild->setId(childId);
+	childDataStorage->setLoggedInChild(offlineChild);
+}
 }
 
-void ChildDataParser::loginAnonChild(const std::string& loginDataStr)
-{
-	const std::string& localChildPath = FileUtils::getInstance()->getWritablePath() + "anonLocalChild/childData.json";
-	if(!FileUtils::getInstance()->isFileExist(localChildPath))
-	{
-		return;
-	}
-	
-	auto childDataStorage = ChildDataStorage::getInstance();
-	
-	rapidjson::Document childData;
-	childData.Parse(FileUtils::getInstance()->getStringFromFile(localChildPath).c_str());
-	if(childData.HasParseError())
-	{
-		return;
-	}
-	
-	ChildRef child = Child::createWithJson(childData);
-	
-	rapidjson::Document loginData;
-	loginData.Parse(loginDataStr.c_str());
-	if(loginData.HasParseError())
-	{
-		return;
-	}
-	
-	child->parseLoginData(loginData);
-	
-	child->setId(getStringFromJson("id",loginData));
-	childDataStorage->setLoggedInChild(child);
-	childDataStorage->setChildLoggedIn(true);
-}

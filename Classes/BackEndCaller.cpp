@@ -4,6 +4,7 @@
 #include <AzoomeeCommon/Data/Child/ChildDataParser.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
+#include <AzoomeeCommon/Data/Child/AnonChildHandler.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Data/Cookie/CookieDataParser.h>
@@ -29,6 +30,7 @@
 #include "OfflineChecker.h"
 #include "ForceUpdateSingleton.h"
 #include "IAPProductDataHandler.h"
+#include "ChildCreator.h"
 
 #include "DynamicNodeHandler.h"
 
@@ -190,7 +192,7 @@ void BackEndCaller::onAnonymousDeviceLoginAnswerReceived(const std::string &resp
         AnalyticsSingleton::getInstance()->setIsUserAnonymous(true);
         ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headerString));
         HQDataParser::getInstance()->parseHQGetContentUrls(responseString);
-		ChildDataParser::getInstance()->loginAnonChild(responseString);
+		AnonChildHandler::getInstance()->loginAnonChild(responseString);
         DynamicNodeHandler::getInstance()->getCTAFiles();
         getGordon();
     }
@@ -273,12 +275,18 @@ void BackEndCaller::getAvailableChildren()
 
 void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseString)
 {
-    ModalMessages::getInstance()->stopLoading();
-    //AnalyticsSingleton::getInstance()->registerIdentifier(ParentDataProvider::getInstance()->getLoggedInParentId());
+    
     ParentDataParser::getInstance()->parseAvailableChildren(responseString);
     if(ParentDataProvider::getInstance()->getAmountOfAvailableChildren() == 0)
     {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(AddChildFirstTime));
+		if(AnonChildHandler::getInstance()->localAnonChildExists())
+		{
+			
+		}
+		else
+		{
+        	Director::getInstance()->replaceScene(SceneManagerScene::createScene(AddChildFirstTime));
+		}
     }
     else
     {
@@ -288,6 +296,7 @@ void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseStrin
             DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
         }, this, 0.5, 0, 0, false, "eventHandler");
     }
+	ModalMessages::getInstance()->stopLoading();
 }
 
 //CHILDREN LOGIN----------------------------------------------------------------------------------------

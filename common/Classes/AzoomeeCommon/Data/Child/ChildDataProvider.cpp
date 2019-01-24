@@ -111,5 +111,5 @@ ChildRef ChildDataProvider::getLoggedInChild() const
 {
 	return ChildDataStorage::getInstance()->getLoggedInChild();
 }
-
+	
 }

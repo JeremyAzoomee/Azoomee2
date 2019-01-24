@@ -22,8 +22,6 @@ public:
     void setChildLoggedIn(bool loggedIn);
 	
 	void loginChildOffline(const std::string& childId);
-	
-	void loginAnonChild(const std::string& loginDataStr);
 };
 
 }
