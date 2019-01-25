@@ -4,8 +4,8 @@
 //General configuration
 //#define FORCE_RELOAD YES;
 //#define FORGET_USER_DATA YES;
-//#define ALLOW_UNPAID_SIGNUP YES
-//#define USINGCI YES
+#define ALLOW_UNPAID_SIGNUP YES
+#define USINGCI YES
 //#define VODACOM_BUILD YES
 
 #include <cocos/cocos2d.h>
@@ -61,6 +61,7 @@ public:
     static const char* const kEstimatedKeyboardHeightLandscape;
     
     static const std::string kArtCacheFolder;
+	static const std::string kOomeeMakerCacheFolder;
     
     static const std::string kGameDownloadError;
 	

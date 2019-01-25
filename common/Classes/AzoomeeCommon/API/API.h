@@ -108,6 +108,12 @@ public:
                                                     const std::string& childDOB,
                                                     const std::string& avatar,
                                                     HttpRequestCreatorResponseDelegate* delegate);
+	
+	static HttpRequestCreator* RegisterChildRequestWithAvatarData(const std::string& childProfileName,
+													const std::string& childGender,
+													const std::string& childDOB,
+													const std::string& imgData,
+													HttpRequestCreatorResponseDelegate* delegate);
     
     static HttpRequestCreator* UpdateChildRequest(const std::string& url,
                                                     const std::string& childId,

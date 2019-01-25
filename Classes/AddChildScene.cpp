@@ -16,6 +16,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/ErrorCodes.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <AzoomeeCommon/Tutorial/TutorialController.h>
 
 using namespace cocos2d;
 
@@ -169,6 +170,13 @@ void AddChildScene::nextLayer()
         }
 		case AddChildFlow::ANON_NAME:
 		{
+			if(TutorialController::getInstance()->isTutorialActive())
+			{
+				if(TutorialController::getInstance()->getCurrentState() == TutorialController::kNameEntry)
+				{
+					TutorialController::getInstance()->nextStep();
+				}
+			}
 			_currentFlowStage = AddChildFlow::ANON_AGE;
 			setSceneForFlow();
 		}
@@ -176,6 +184,13 @@ void AddChildScene::nextLayer()
 		{
 			if(_childCreator->addLocalAnonChild())
 			{
+				if(TutorialController::getInstance()->isTutorialActive())
+				{
+					if(TutorialController::getInstance()->getCurrentState() == TutorialController::kAgeEntry)
+					{
+						TutorialController::getInstance()->nextStep();
+					}
+				}
 				BackEndCaller::getInstance()->anonymousDeviceLogin();
 			}
 			break;

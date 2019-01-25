@@ -281,7 +281,17 @@ void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseStrin
     {
 		if(AnonChildHandler::getInstance()->localAnonChildExists())
 		{
-			
+			AnonChildHandler::getInstance()->registerAnonChildToUser([this](bool success)
+			{
+				if(success)
+				{
+					this->getAvailableChildren();
+				}
+				else
+				{
+					Director::getInstance()->replaceScene(SceneManagerScene::createScene(AddChildFirstTime));
+				}
+			});
 		}
 		else
 		{
@@ -680,7 +690,7 @@ void BackEndCaller::onFeedDownloadComplete()
 	}
 	else
 	{
-		TutorialController::getInstance()->startTutorial(TutorialController::kFTUNavTutorialID);
+		//TutorialController::getInstance()->startTutorial(TutorialController::kFTUNavTutorialID);
 		Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
 	}
 	

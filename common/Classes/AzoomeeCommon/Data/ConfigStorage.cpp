@@ -56,6 +56,7 @@ static ConfigStorage *_sharedConfigStorage = NULL;
     const char* const ConfigStorage::kEstimatedKeyboardHeightLandscape = "Azoomee::MessageComposer::EstimatedKeyboardHeight/Landscape";
     
     const std::string ConfigStorage::kArtCacheFolder = "artCache/";
+	const std::string ConfigStorage::kOomeeMakerCacheFolder = "oomeeMaker/";
     
     const std::string ConfigStorage::kGameDownloadError = "ERROR";
 	

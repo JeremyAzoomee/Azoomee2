@@ -22,6 +22,10 @@ class AnonChildHandler: public HttpRequestCreatorResponseDelegate
 	
 private:
 	RegisterAnonChildCallback _registerAnonChildCallback = nullptr;
+	std::string _newChildId;
+	std::string _oldAnonId;
+	
+	void copyAnonUserData();
 	
 public:
 	static AnonChildHandler* getInstance(void);

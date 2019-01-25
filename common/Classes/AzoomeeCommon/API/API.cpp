@@ -205,6 +205,20 @@ HttpRequestCreator* API::RegisterChildRequest(const std::string& childProfileNam
     return request;
 }
 
+HttpRequestCreator* API::RegisterChildRequestWithAvatarData(const std::string& childProfileName,
+													   		const std::string& childGender,
+													   		const std::string& childDOB,
+													   		const std::string& imgData,
+													   		HttpRequestCreatorResponseDelegate* delegate)
+{
+	HttpRequestCreator* request = new HttpRequestCreator(delegate);
+	request->requestBody = "{\"profileName\":\"" + childProfileName + "\",\"dob\":\"" + childDOB + "\",\"sex\":\"" + childGender + "\",\"avatarImageData\":\"" + imgData + "\",\"password\":\"\"}";
+	request->requestTag = TagRegisterChild;
+	request->method = "POST";
+	request->encrypted = true;
+	return request;
+}
+
 HttpRequestCreator* API::UpdateChildRequest(const std::string& url,
                                               const std::string& childId,
                                               const std::string& childProfileName,
