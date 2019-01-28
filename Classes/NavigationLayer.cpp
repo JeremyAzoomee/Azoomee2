@@ -114,8 +114,8 @@ bool NavigationLayer::init()
     }
     
     _userTypeMessagingLayer = UserTypeMessagingLayer::create();
-    _userTypeMessagingLayer->setContentSize(Size(visibleSize.width, 300));
-    _userTypeMessagingLayer->setPosition(origin - Vec2(0,300));
+    _userTypeMessagingLayer->setContentSize(Size(visibleSize.width, 350));
+    _userTypeMessagingLayer->setPosition(origin - Vec2(0,350));
     _userTypeMessagingLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     UserType userType = UserType::ANON;
     if(!ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
@@ -661,7 +661,7 @@ void NavigationLayer::repositionElements()
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Vec2(0,0);
     
-    _userTypeMessagingLayer->setContentSize(Size(visibleSize.width, 300));
+    _userTypeMessagingLayer->setContentSize(Size(visibleSize.width, 350));
     _userTypeMessagingLayer->setPositionX(origin.x);
     
     _userTypeMessagingLayer->repositionElements();

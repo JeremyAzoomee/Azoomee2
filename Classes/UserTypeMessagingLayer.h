@@ -28,6 +28,7 @@ private:
     cocos2d::Label* _startTrialLabel = nullptr;
     cocos2d::Label* _reactivateLabel = nullptr;
     cocos2d::Label* _premiumLabel = nullptr;
+	cocos2d::Label* _smallprintLabel = nullptr;
     
     UserType _userType;
 public:
