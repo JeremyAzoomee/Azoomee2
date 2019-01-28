@@ -15,7 +15,7 @@ NS_AZOOMEE_BEGIN
 
 class NavigationScene : public Azoomee::Scene
 {
-	typedef Azoomee:::Scene Super;
+	typedef Azoomee::Scene Super;
 private:
 	
 	cocos2d::ui::Button* _gamesNavButton = nullptr;
@@ -33,7 +33,7 @@ public:
 	bool init() override;
 	void onEnter() override;
 	
-	CREAT_FUNC(NavigationScene);
+	CREATE_FUNC(NavigationScene);
 };
 
 NS_AZOOMEE_END
