@@ -152,6 +152,7 @@
 		9224BFB11F7908D400108553 /* DynamicNodeButtonListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB01F7908D400108553 /* DynamicNodeButtonListener.cpp */; };
 		9224BFB41F7932D200108553 /* ButtonActionData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB31F7932D200108553 /* ButtonActionData.cpp */; };
 		9224BFB71F794BFA00108553 /* DynamicNodeHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB61F794BFA00108553 /* DynamicNodeHandler.cpp */; };
+		923D5B7421FF0BBA008C13D0 /* NavigationScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5B7321FF0BBA008C13D0 /* NavigationScene.cpp */; };
 		92448AE621F73AEF00E88C9D /* WelcomeScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92448AE521F73AEF00E88C9D /* WelcomeScene.cpp */; };
 		924ACE3720A9C541007A5550 /* MeHQProfileDetails.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924ACE3620A9C541007A5550 /* MeHQProfileDetails.cpp */; };
 		924E8450214117D9004590FD /* SettingsMessageBoxRejectFR.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924E844F214117D9004590FD /* SettingsMessageBoxRejectFR.cpp */; };
@@ -584,6 +585,9 @@
 		9224BFB31F7932D200108553 /* ButtonActionData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ButtonActionData.cpp; sourceTree = "<group>"; };
 		9224BFB51F7949E100108553 /* DynamicNodeHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicNodeHandler.h; sourceTree = "<group>"; };
 		9224BFB61F794BFA00108553 /* DynamicNodeHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeHandler.cpp; sourceTree = "<group>"; };
+		923D5B6D21FB57CF008C13D0 /* NavigationScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NavigationScene.h; sourceTree = "<group>"; };
+		923D5B7221FB5BA9008C13D0 /* HQScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HQScene.h; sourceTree = "<group>"; };
+		923D5B7321FF0BBA008C13D0 /* NavigationScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NavigationScene.cpp; sourceTree = "<group>"; };
 		92448AE021F7378400E88C9D /* WelcomeScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WelcomeScene.h; sourceTree = "<group>"; };
 		92448AE521F73AEF00E88C9D /* WelcomeScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = WelcomeScene.cpp; sourceTree = "<group>"; };
 		9246EDCF1F0403A8008CD359 /* azoomee2_ArtApp.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = azoomee2_ArtApp.xcodeproj; path = ../ArtApp/proj.ios_mac/azoomee2_ArtApp.xcodeproj; sourceTree = "<group>"; };
@@ -1476,6 +1480,7 @@
 		A19759861DE4931600FEB03C /* HQScene */ = {
 			isa = PBXGroup;
 			children = (
+				923D5B7221FB5BA9008C13D0 /* HQScene.h */,
 				021564701FC4A8F100641C14 /* HQScene2 */,
 				02E595C81E66E2160052F395 /* HQSceneArtsApp.cpp */,
 				02E595C91E66E2160052F395 /* HQSceneArtsApp.h */,
@@ -1515,6 +1520,8 @@
 				A198621E1DD3836D0090F053 /* NavigationLayer.h */,
 				929515862091D04800F43AEC /* UserTypeMessagingLayer.h */,
 				9295158A2091D48700F43AEC /* UserTypeMessagingLayer.cpp */,
+				923D5B6D21FB57CF008C13D0 /* NavigationScene.h */,
+				923D5B7321FF0BBA008C13D0 /* NavigationScene.cpp */,
 			);
 			name = Navigation;
 			sourceTree = "<group>";
@@ -1990,6 +1997,7 @@
 				921A25F72162830A005C8C41 /* LanguageListItem.cpp in Sources */,
 				02D4FCD41FCF0D0C005BA020 /* IAPProductDataHandler.cpp in Sources */,
 				929D46671F73F04D006E40CE /* DynamicNodeCreator.cpp in Sources */,
+				923D5B7421FF0BBA008C13D0 /* NavigationScene.cpp in Sources */,
 				9289DAF31FCEDB1F00B12435 /* DynamicNodeDataInputStorage.cpp in Sources */,
 				02E5959C1E56FC3A0052F395 /* OfflineChecker.cpp in Sources */,
 				02E595B91E5CA2690052F395 /* OfflineHubBackButton.cpp in Sources */,
