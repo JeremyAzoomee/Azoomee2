@@ -8,6 +8,7 @@
 
 #include "HQScene2.h"
 #include "BackEndCaller.h"
+#include "SceneManagerScene.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
@@ -43,16 +44,17 @@ void HQDataProvider::startBuildingHQ(const std::string &hqName)
 {
     hideLoadingScreen();
     
-    Scene *runningScene = Director::getInstance()->getRunningScene();
+    //Scene *runningScene = Director::getInstance()->getRunningScene();
 
-    Node *contentLayer = runningScene->getChildByName(ConfigStorage::kContentLayerName);
-    if(contentLayer == nullptr)
-    {
-        return;
-    }
+    //Node *contentLayer = runningScene->getChildByName(ConfigStorage::kContentLayerName);
+    //if(contentLayer == nullptr)
+    //{
+    //    return;
+    //}
     
-    HQScene2 *hqLayer = (HQScene2 *)contentLayer->getChildByName(hqName.c_str());
-    hqLayer->startBuildingScrollView();
+    //HQScene2 *hqLayer = (HQScene2 *)contentLayer->getChildByName(hqName.c_str());
+    //hqLayer->startBuildingScrollView();
+	Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
     
 }
 

@@ -21,6 +21,7 @@
 #include "ContentHistoryManager.h"
 #include "AddChildScene.h"
 #include "WelcomeScene.h"
+#include "NavigationScene.h"
 
 #include "SettingsHub.h"
 
@@ -88,7 +89,17 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             returnToPrevOrientation();
             acceptAnyOrientation();
             HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
-            Azoomee::Scene* goToScene = BaseScene::create();
+			cocos2d::Scene* goToScene = NavigationScene::create();
+			if(HQHistoryManager::getInstance()->getCurrentHQ() != "Navigation")
+			{
+				goToScene = cocos2d::Scene::create();
+				HQScene2* hq = HQScene2::create();
+				hq->setPosition(Director::getInstance()->getVisibleOrigin());
+				hq->setHQCategory(HQHistoryManager::getInstance()->getCurrentHQ());
+				hq->startBuildingScrollView();
+				goToScene->addChild(hq);
+			}
+            //Azoomee::Scene* goToScene = BaseScene::create();
             Director::getInstance()->replaceScene(goToScene);
             break;
         }
@@ -98,7 +109,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             returnToPrevOrientation();
             acceptAnyOrientation();
             HQHistoryManager::getInstance()->emptyHistory();
-            cocos2d::Scene* goToScene = BaseScene::create();
+            cocos2d::Scene* goToScene = NavigationScene::create();
             Director::getInstance()->replaceScene(goToScene);
             break;
         }

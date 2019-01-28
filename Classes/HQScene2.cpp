@@ -12,6 +12,7 @@
 #include "OfflineHubBackButton.h"
 #include "RecentlyPlayedManager.h"
 #include "ArtAppDelegate.h"
+#include "SceneManagerScene.h"
 #include <AzoomeeCommon/UI/PrivacyLayer.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
@@ -269,6 +270,19 @@ void HQScene2::startBuildingScrollView()
         addGroupHQLogo();
     }
 	
+	ui::Button* backButton = ui::Button::create("res/navigation/back_button.png");
+	backButton->setAnchorPoint(Vec2(-0.25,1.25));
+	backButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
+	backButton->addTouchEventListener([&](Ref* pSender, ui::Button::TouchEventType eType){
+		if(eType == ui::Button::TouchEventType::ENDED)
+		{
+			HQHistoryManager::getInstance()->popHQ();
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+		}
+	});
+	
+	this->addChild(backButton);
+	
 	if(TutorialController::getInstance()->isTutorialActive())
 	{
 		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
@@ -422,7 +436,7 @@ cocos2d::ui::ScrollView* HQScene2::createScrollView()
 {
     float sideMargin = HQDataProvider::getInstance()->getSideMargin();
     
-    Size vScrollFrameSize = Size(_visibleSize.width - sideMargin * 2, _visibleSize.height - 300.0f);
+    Size vScrollFrameSize = Size(_visibleSize.width - sideMargin * 2, _visibleSize.height - 200.0f);
     
     cocos2d::ui::ScrollView *vScrollView = cocos2d::ui::ScrollView::create();
     vScrollView->setContentSize(vScrollFrameSize);

@@ -23,6 +23,8 @@ public:
     std::string getBeforePreviousHQ();           //we might need the previous before the previous, so we can add value to the back button.
     bool noHistory();
     void emptyHistory();
+	
+	void popHQ();
     
     void addDefaultHQIfHistoryEmpty();
     void getHistoryLog();

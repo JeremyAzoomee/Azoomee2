@@ -82,24 +82,15 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
     {
         ModalMessages::getInstance()->stopLoading();
         
-        auto baseLayer = Director::getInstance()->getRunningScene();
-        if(baseLayer)
-        {
-            NavigationLayer *navigationLayer = (NavigationLayer *)baseLayer->getChildByName(ConfigStorage::kNavigationLayerName);
-            
-            if(navigationLayer)
-            {
-                navigationLayer->startLoadingGroupHQ(contentItem->getUri());
+        HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kGroupHQName);
                 
-                HQHistoryManager::getInstance()->setGroupHQSourceId(contentItem->getContentItemId());
+		HQHistoryManager::getInstance()->setGroupHQSourceId(contentItem->getContentItemId());
                 
-                auto funcCallAction = CallFunc::create([=](){
-                    HQDataProvider::getInstance()->getDataForGroupHQ(contentItem->getUri());
-                });
+		//auto funcCallAction = CallFunc::create([=](){
+			HQDataProvider::getInstance()->getDataForGroupHQ(contentItem->getUri());
+		//});
                 
-                Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
-            }
-        }
+		//Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
     }
     else if(contentItem->getType() == ConfigStorage::kContentTypeInternal)
     {
