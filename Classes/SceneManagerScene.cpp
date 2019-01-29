@@ -22,6 +22,8 @@
 #include "AddChildScene.h"
 #include "WelcomeScene.h"
 #include "NavigationScene.h"
+#include "ContentFeedHQScene.h"
+#include "LocalContentHQScene.h"
 
 #include "SettingsHub.h"
 
@@ -90,14 +92,30 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             acceptAnyOrientation();
             HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
 			cocos2d::Scene* goToScene = NavigationScene::create();
-			if(HQHistoryManager::getInstance()->getCurrentHQ() != "Navigation")
+			const std::string& currentHQ = HQHistoryManager::getInstance()->getCurrentHQ();
+			if(currentHQ != "Navigation")
 			{
-				goToScene = cocos2d::Scene::create();
-				HQScene2* hq = HQScene2::create();
-				hq->setPosition(Director::getInstance()->getVisibleOrigin());
-				hq->setHQCategory(HQHistoryManager::getInstance()->getCurrentHQ());
-				hq->startBuildingScrollView();
-				goToScene->addChild(hq);
+				if(currentHQ == ConfigStorage::kGameHQName || currentHQ == ConfigStorage::kVideoHQName || currentHQ == ConfigStorage::kGroupHQName)
+				{
+					ContentFeedHQScene* hqScene = ContentFeedHQScene::create();
+					hqScene->setHQCategory(currentHQ);
+					goToScene = hqScene;
+				}
+				else if(currentHQ == ConfigStorage::kMeHQName)
+				{
+					LocalContentHQScene* hqScene = LocalContentHQScene::create();
+					hqScene->setHQCategory(currentHQ);
+					goToScene = hqScene;
+				}
+				else
+				{
+					goToScene = cocos2d::Scene::create();
+					HQScene2* hq = HQScene2::create();
+					hq->setPosition(Director::getInstance()->getVisibleOrigin());
+					hq->setHQCategory(HQHistoryManager::getInstance()->getCurrentHQ());
+					hq->startBuildingScrollView();
+					goToScene->addChild(hq);
+				}
 			}
             //Azoomee::Scene* goToScene = BaseScene::create();
             Director::getInstance()->replaceScene(goToScene);

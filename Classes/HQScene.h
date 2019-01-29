@@ -10,31 +10,40 @@
 
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/Scene.h>
+#include <AzoomeeCommon/Tutorial/TutorialController.h>
 #include "HQSceneElement.h"
 
 NS_AZOOMEE_BEGIN
 
-class HQScene : public Azoomee::Scene
+enum class HQSceneType {CONTENT_FEED_HQ, LOCAL_CONTENT_HQ, ART_HQ, STORE_HQ, QUESTS_HQ, DEFAULT};
+
+class HQScene : public Azoomee::Scene, TutorialDelegate
 {
-	typedef Azoomee:::Scene Super;
+	typedef Azoomee::Scene Super;
 private:
+	void buildCoreUI();
+	
+protected:
+	HQSceneType _type = HQSceneType::DEFAULT;
+	
 	std::string _hqCategory;
-	cocos2d::ui::ScrollView* _contentScrollView = nullptr;
-	std::vector<std::vector<HQSceneElement*>> _contentItems;
 	
 	cocos2d::ui::Button* _homeButton = nullptr;
 	
-	void buildCoreUI();
-	void buildScrollView();
-	
 public:
 	
-	bool init() override;
-	void onEnter() override;
+	virtual bool init() override;
+	virtual void onEnter() override;
+	virtual void onExit() override;
 	
 	void setHQCategory(const std::string &hqCategory);
 	
-	CREAT_FUNC(HQScene);
+	HQSceneType getSceneType() const;
+	
+	CREATE_FUNC(HQScene);
+	
+	//delegate functions
+	virtual void onTutorialStateChanged(const std::string& stateId) override;
 };
 
 NS_AZOOMEE_END
