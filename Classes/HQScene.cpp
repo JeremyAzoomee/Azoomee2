@@ -8,6 +8,7 @@
 #include "HQScene.h"
 #include "SceneManagerScene.h"
 #include "HQHistoryManager.h"
+#include "CoinDisplay.h"
 
 using namespace cocos2d;
 
@@ -65,7 +66,11 @@ void HQScene::buildCoreUI()
 	this->addChild(_homeButton,1);
 	
 	// add coin counter
-	
+	CoinDisplay* coinDisplay = CoinDisplay::create();
+	coinDisplay->setCoinCount(1150);
+	coinDisplay->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
+	coinDisplay->setAnchorPoint(Vec2(1.2,1.5));
+	this->addChild(coinDisplay);
 	
 }
 

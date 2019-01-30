@@ -19,6 +19,7 @@
 #include "VideoPlaylistManager.h"
 #include "BackEndCaller.h"
 #include "RecentlyPlayedManager.h"
+#include "RewardScene.h"
 
 using namespace cocos2d;
 NS_AZOOMEE_BEGIN
@@ -36,7 +37,8 @@ void navigateToBaseScene()
     {
         ContentHistoryManager::getInstance()->setReturnedFromContent(true);
     }
-    Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+    //Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+	Director::getInstance()->replaceScene(RewardScene::create());
 }
 
 void navigateToLoginScene()

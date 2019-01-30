@@ -157,6 +157,8 @@
 		923D5BC522008BF1008C13D0 /* ContentFeedHQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BC422008BF1008C13D0 /* ContentFeedHQScene.cpp */; };
 		923D5BC82200BCC1008C13D0 /* LocalContentHQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BC72200BCC1008C13D0 /* LocalContentHQScene.cpp */; };
 		923D5BE72201C230008C13D0 /* GalleryHQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BE62201C230008C13D0 /* GalleryHQScene.cpp */; };
+		923D5BED2201F126008C13D0 /* RewardScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BEC2201F125008C13D0 /* RewardScene.cpp */; };
+		923D5BF022020475008C13D0 /* CoinDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BEF22020475008C13D0 /* CoinDisplay.cpp */; };
 		92448AE621F73AEF00E88C9D /* WelcomeScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92448AE521F73AEF00E88C9D /* WelcomeScene.cpp */; };
 		924ACE3720A9C541007A5550 /* MeHQProfileDetails.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924ACE3620A9C541007A5550 /* MeHQProfileDetails.cpp */; };
 		924E8450214117D9004590FD /* SettingsMessageBoxRejectFR.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924E844F214117D9004590FD /* SettingsMessageBoxRejectFR.cpp */; };
@@ -599,6 +601,10 @@
 		923D5BC72200BCC1008C13D0 /* LocalContentHQScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LocalContentHQScene.cpp; sourceTree = "<group>"; };
 		923D5BE12201C1FB008C13D0 /* GalleryHQScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GalleryHQScene.h; sourceTree = "<group>"; };
 		923D5BE62201C230008C13D0 /* GalleryHQScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GalleryHQScene.cpp; sourceTree = "<group>"; };
+		923D5BEB2201E287008C13D0 /* RewardScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RewardScene.h; sourceTree = "<group>"; };
+		923D5BEC2201F125008C13D0 /* RewardScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RewardScene.cpp; sourceTree = "<group>"; };
+		923D5BEE2202012C008C13D0 /* CoinDisplay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoinDisplay.h; sourceTree = "<group>"; };
+		923D5BEF22020475008C13D0 /* CoinDisplay.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CoinDisplay.cpp; sourceTree = "<group>"; };
 		92448AE021F7378400E88C9D /* WelcomeScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WelcomeScene.h; sourceTree = "<group>"; };
 		92448AE521F73AEF00E88C9D /* WelcomeScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = WelcomeScene.cpp; sourceTree = "<group>"; };
 		9246EDCF1F0403A8008CD359 /* azoomee2_ArtApp.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = azoomee2_ArtApp.xcodeproj; path = ../ArtApp/proj.ios_mac/azoomee2_ArtApp.xcodeproj; sourceTree = "<group>"; };
@@ -1177,6 +1183,7 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				923D5BEA2201E18A008C13D0 /* Rewards */,
 				92084F7121E78FB600DACCEB /* Tutorial */,
 				921A265B216E2775005C8C41 /* Vodacom */,
 				923EA8D220EBA6C200283342 /* addChild */,
@@ -1328,6 +1335,17 @@
 				9220EADA2010F08200BD7A90 /* AddChildFlowController.cpp */,
 			);
 			name = DynamicNodeFlowControllers;
+			sourceTree = "<group>";
+		};
+		923D5BEA2201E18A008C13D0 /* Rewards */ = {
+			isa = PBXGroup;
+			children = (
+				923D5BEB2201E287008C13D0 /* RewardScene.h */,
+				923D5BEC2201F125008C13D0 /* RewardScene.cpp */,
+				923D5BEE2202012C008C13D0 /* CoinDisplay.h */,
+				923D5BEF22020475008C13D0 /* CoinDisplay.cpp */,
+			);
+			name = Rewards;
 			sourceTree = "<group>";
 		};
 		923EA8D220EBA6C200283342 /* addChild */ = {
@@ -1912,6 +1930,7 @@
 				02D6446B2087828800FF17B4 /* WebViewController_ios.mm in Sources */,
 				02E595901E55F9960052F395 /* OfflineHubHQ.cpp in Sources */,
 				0281F5C71E89210C001FCE60 /* LoginLogicHandler.cpp in Sources */,
+				923D5BF022020475008C13D0 /* CoinDisplay.cpp in Sources */,
 				A19862221DD3836D0090F053 /* ChildSelectorScene.cpp in Sources */,
 				025BE9491E3A1E0000EF76D1 /* ArtsAppHQElement.cpp in Sources */,
 				025633791F3B0F5C0053FF26 /* ForceUpdateAppLockScene.cpp in Sources */,
@@ -2022,6 +2041,7 @@
 				923D5B7421FF0BBA008C13D0 /* NavigationScene.cpp in Sources */,
 				9289DAF31FCEDB1F00B12435 /* DynamicNodeDataInputStorage.cpp in Sources */,
 				02E5959C1E56FC3A0052F395 /* OfflineChecker.cpp in Sources */,
+				923D5BED2201F126008C13D0 /* RewardScene.cpp in Sources */,
 				02E595B91E5CA2690052F395 /* OfflineHubBackButton.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				A134ADCE1E0C0F420030BE98 /* HQSceneElementPositioner.cpp in Sources */,
