@@ -37,7 +37,7 @@ void NavigationScene::onEnter()
 			Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
 		}
 	});
-	_gamesNavButton->setNormalizedPosition(Vec2(0.25,0.75));
+	_gamesNavButton->setNormalizedPosition(Vec2(0.25,0.8));
 	this->addChild(_gamesNavButton);
 	
 	_videosNavButton = createNavButton("Videos");
@@ -48,7 +48,7 @@ void NavigationScene::onEnter()
 			Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
 		}
 	});
-	_videosNavButton->setNormalizedPosition(Vec2(0.5,0.75));
+	_videosNavButton->setNormalizedPosition(Vec2(0.5,0.85));
 	this->addChild(_videosNavButton);
 	
 	_chatNavButton = createNavButton("Chat");
@@ -58,7 +58,7 @@ void NavigationScene::onEnter()
 			Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
 		}
 	});
-	_chatNavButton->setNormalizedPosition(Vec2(0.75,0.75));
+	_chatNavButton->setNormalizedPosition(Vec2(0.75,0.8));
 	this->addChild(_chatNavButton);
 	
 	_shopNavButton = createNavButton("Shop");
@@ -68,18 +68,18 @@ void NavigationScene::onEnter()
 			
 		}
 	});
-	_shopNavButton->setNormalizedPosition(Vec2(0.25,0.5));
+	_shopNavButton->setNormalizedPosition(Vec2(0.25,0.55));
 	this->addChild(_shopNavButton);
 	
 	_galleryNavButton = createNavButton("Gallery");
 	_galleryNavButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Button::TouchEventType::ENDED)
 		{
-			HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kMeHQName);
+			HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kArtAppHQName);
 			Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
 		}
 	});
-	_galleryNavButton->setNormalizedPosition(Vec2(0.5,0.5));
+	_galleryNavButton->setNormalizedPosition(Vec2(0.5,0.6));
 	this->addChild(_galleryNavButton);
 	
 	_oomeeMakerNavButton = createNavButton("Oomee Maker");
@@ -89,8 +89,29 @@ void NavigationScene::onEnter()
 			Director::getInstance()->replaceScene(SceneManagerScene::createScene(OomeeMakerEntryPointScene));
 		}
 	});
-	_oomeeMakerNavButton->setNormalizedPosition(Vec2(0.75,0.5));
+	_oomeeMakerNavButton->setNormalizedPosition(Vec2(0.75,0.55));
 	this->addChild(_oomeeMakerNavButton);
+	
+	_favouritesNavButton = createNavButton("Favourites");
+	_favouritesNavButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+		if(eType == ui::Button::TouchEventType::ENDED)
+		{
+			HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kMeHQName);
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+		}
+	});
+	_favouritesNavButton->setNormalizedPosition(Vec2(0.25,0.3));
+	this->addChild(_favouritesNavButton);
+	
+	_questsNavButton = createNavButton("Quests");
+	_questsNavButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+		if(eType == ui::Button::TouchEventType::ENDED)
+		{
+			
+		}
+	});
+	_questsNavButton->setNormalizedPosition(Vec2(0.75,0.3));
+	this->addChild(_questsNavButton);
 	
 	Super::onEnter();
 }

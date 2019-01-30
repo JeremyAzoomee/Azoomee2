@@ -156,6 +156,7 @@
 		923D5BBE220064B9008C13D0 /* HQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BBD220064B9008C13D0 /* HQScene.cpp */; };
 		923D5BC522008BF1008C13D0 /* ContentFeedHQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BC422008BF1008C13D0 /* ContentFeedHQScene.cpp */; };
 		923D5BC82200BCC1008C13D0 /* LocalContentHQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BC72200BCC1008C13D0 /* LocalContentHQScene.cpp */; };
+		923D5BE72201C230008C13D0 /* GalleryHQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BE62201C230008C13D0 /* GalleryHQScene.cpp */; };
 		92448AE621F73AEF00E88C9D /* WelcomeScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92448AE521F73AEF00E88C9D /* WelcomeScene.cpp */; };
 		924ACE3720A9C541007A5550 /* MeHQProfileDetails.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924ACE3620A9C541007A5550 /* MeHQProfileDetails.cpp */; };
 		924E8450214117D9004590FD /* SettingsMessageBoxRejectFR.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924E844F214117D9004590FD /* SettingsMessageBoxRejectFR.cpp */; };
@@ -596,6 +597,8 @@
 		923D5BC422008BF1008C13D0 /* ContentFeedHQScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ContentFeedHQScene.cpp; sourceTree = "<group>"; };
 		923D5BC62200B979008C13D0 /* LocalContentHQScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocalContentHQScene.h; sourceTree = "<group>"; };
 		923D5BC72200BCC1008C13D0 /* LocalContentHQScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LocalContentHQScene.cpp; sourceTree = "<group>"; };
+		923D5BE12201C1FB008C13D0 /* GalleryHQScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GalleryHQScene.h; sourceTree = "<group>"; };
+		923D5BE62201C230008C13D0 /* GalleryHQScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GalleryHQScene.cpp; sourceTree = "<group>"; };
 		92448AE021F7378400E88C9D /* WelcomeScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WelcomeScene.h; sourceTree = "<group>"; };
 		92448AE521F73AEF00E88C9D /* WelcomeScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = WelcomeScene.cpp; sourceTree = "<group>"; };
 		9246EDCF1F0403A8008CD359 /* azoomee2_ArtApp.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = azoomee2_ArtApp.xcodeproj; path = ../ArtApp/proj.ios_mac/azoomee2_ArtApp.xcodeproj; sourceTree = "<group>"; };
@@ -1494,6 +1497,8 @@
 				923D5BC422008BF1008C13D0 /* ContentFeedHQScene.cpp */,
 				923D5BC62200B979008C13D0 /* LocalContentHQScene.h */,
 				923D5BC72200BCC1008C13D0 /* LocalContentHQScene.cpp */,
+				923D5BE12201C1FB008C13D0 /* GalleryHQScene.h */,
+				923D5BE62201C230008C13D0 /* GalleryHQScene.cpp */,
 				021564701FC4A8F100641C14 /* HQScene2 */,
 				02E595C81E66E2160052F395 /* HQSceneArtsApp.cpp */,
 				02E595C91E66E2160052F395 /* HQSceneArtsApp.h */,
@@ -1956,6 +1961,7 @@
 				432A6C0D1EA8E2A200C5842B /* ManualGameInputLayer.cpp in Sources */,
 				021564761FC4C79C00641C14 /* HQScene2CarouselTitle.cpp in Sources */,
 				02D4FCD21FCEE5E2005BA020 /* IAPProductDataHandler.mm in Sources */,
+				923D5BE72201C230008C13D0 /* GalleryHQScene.cpp in Sources */,
 				9220EAD2200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp in Sources */,
 				928A6E8720EE58A70053E793 /* ChildNameLayer.cpp in Sources */,
 				025BE9571E3B591C00EF76D1 /* PreviewLoginSignupMessageBox.cpp in Sources */,

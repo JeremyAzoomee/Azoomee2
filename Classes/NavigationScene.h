@@ -25,6 +25,7 @@ private:
 	cocos2d::ui::Button* _favouritesNavButton = nullptr;
 	cocos2d::ui::Button* _oomeeMakerNavButton = nullptr;
 	cocos2d::ui::Button* _shopNavButton = nullptr;
+	cocos2d::ui::Button* _questsNavButton = nullptr;
 	
 	cocos2d::ui::Button* createNavButton(const std::string& buttonText);
 	

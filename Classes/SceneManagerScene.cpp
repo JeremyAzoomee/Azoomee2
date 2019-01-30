@@ -24,6 +24,7 @@
 #include "NavigationScene.h"
 #include "ContentFeedHQScene.h"
 #include "LocalContentHQScene.h"
+#include "GalleryHQScene.h"
 
 #include "SettingsHub.h"
 
@@ -104,6 +105,12 @@ void SceneManagerScene::onEnterTransitionDidFinish()
 				else if(currentHQ == ConfigStorage::kMeHQName)
 				{
 					LocalContentHQScene* hqScene = LocalContentHQScene::create();
+					hqScene->setHQCategory(currentHQ);
+					goToScene = hqScene;
+				}
+				else if(currentHQ == ConfigStorage::kArtAppHQName)
+				{
+					GalleryHQScene* hqScene = GalleryHQScene::create();
 					hqScene->setHQCategory(currentHQ);
 					goToScene = hqScene;
 				}
