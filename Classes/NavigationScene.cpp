@@ -9,9 +9,13 @@
 #include "SceneManagerScene.h"
 #include "HQScene2.h"
 #include "HQHistoryManager.h"
-#include <AzoomeeCommon/Data/ConfigStorage.h>
+#include "DynamicNodeHandler.h"
 #include "CoinDisplay.h"
+#include "SettingsButton.h"
+#include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
 
 using namespace cocos2d;
 
@@ -60,6 +64,16 @@ void NavigationScene::onEnter()
 			if(!ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
 			{
 				Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+			}
+			else
+			{
+				AnalyticsSingleton::getInstance()->registerCTASource("lockedHQ","",ConfigStorage::kChatHQName);
+				IAPEntryContext context = IAPEntryContext::LOCKED_CHAT;
+#ifndef ALLOW_UNPAID_SIGNUP
+				DynamicNodeHandler::getInstance()->startIAPFlow(context);
+#else
+				DynamicNodeHandler::getInstance()->startSignupFlow();
+#endif
 			}
 		}
 	});
@@ -123,6 +137,26 @@ void NavigationScene::onEnter()
 	coinDisplay->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
 	coinDisplay->setAnchorPoint(Vec2(1.2,1.5));
 	this->addChild(coinDisplay);
+	
+	SettingsButton* settingsButton = SettingsButton::create();
+	const Size& settingsButtonSize = settingsButton->getContentSize();
+	settingsButton->setPosition(this->getContentSize().width - settingsButtonSize.width * 1.25f, settingsButtonSize.height * 0.25f);
+	this->addChild(settingsButton);
+	
+	if(!ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
+	{
+		ui::Button* childSelectButton = ui::Button::create("res/navigation/menu_childSelect.png");
+		childSelectButton->setAnchorPoint(Vec2(-0.25,1.25));
+		childSelectButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
+		childSelectButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+			if(eType == ui::Button::TouchEventType::ENDED)
+			{
+				ChildDataParser::getInstance()->setChildLoggedIn(false);
+				Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+			}
+		});
+		this->addChild(childSelectButton);
+	}
 	
 	Super::onEnter();
 }
