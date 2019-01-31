@@ -281,13 +281,6 @@ void ArtsAppHQElement::addListenerToElement()
     listener->onTouchEnded = [=](Touch *touch, Event *event)
     {
 		AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
-        if(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName))
-        {
-            if(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName)->getNumberOfRunningActions() > 0)
-            {
-                return false;
-            }
-        }
         
         if(_iamtouched)
         {

@@ -34,44 +34,54 @@ void HQHistoryManager::addHQToHistoryManager(std::string hqName)
     
     Azoomee::AnalyticsSingleton::getInstance()->registerCurrentScene(hqName);
     
-    hqNames.push_back(hqName);
+    _hqNames.push_back(hqName);
     
-    while (hqNames.size() > 3)
+    while (_hqNames.size() > 3)
     {
-        hqNames.erase(hqNames.begin());
+        _hqNames.erase(_hqNames.begin());
     }
 }
 
 std::string HQHistoryManager::getCurrentHQ()
 {
-    if(hqNames.size() > 0) return hqNames.at(hqNames.size() - 1);
-    else return "";
+    if(_hqNames.size() > 0)
+	{
+		return _hqNames.at(_hqNames.size() - 1);
+	}
+	return "";
 }
 
 std::string HQHistoryManager::getPreviousHQ()
 {
-    if(hqNames.size() > 1) return hqNames.at(hqNames.size() - 2);
-    else return ConfigStorage::getInstance()->getDefaultHQ();
+    if(_hqNames.size() > 1)
+	{
+		return _hqNames.at(_hqNames.size() - 2);
+	}
+	
+	return ConfigStorage::getInstance()->getDefaultHQ();
 }
 
 std::string HQHistoryManager::getBeforePreviousHQ()
 {
-    if(hqNames.size() > 2) return hqNames.at(hqNames.size() - 3);
-    else return "";
+    if(_hqNames.size() > 2)
+	{
+		return _hqNames.at(_hqNames.size() - 3);
+	}
+	return "";
 }
 
 bool HQHistoryManager::noHistory()
 {
-    if(hqNames.size() == 0) return true;
-    else return false;
+	return _hqNames.size() == 0;
+
 }
 
 void HQHistoryManager::addDefaultHQIfHistoryEmpty()
 {
-    if(hqNames.size() == 0)
+    if(_hqNames.size() == 0)
     {
         Azoomee::AnalyticsSingleton::getInstance()->registerCurrentScene(ConfigStorage::getInstance()->getDefaultHQ());
-        hqNames.push_back(ConfigStorage::getInstance()->getDefaultHQ());
+        _hqNames.push_back(ConfigStorage::getInstance()->getDefaultHQ());
     }
     else
     {
@@ -82,21 +92,21 @@ void HQHistoryManager::addDefaultHQIfHistoryEmpty()
 void HQHistoryManager::getHistoryLog()
 {
     cocos2d::log("Currently in history:");
-    for(int i = 0; i < hqNames.size(); i++)
+    for(int i = 0; i < _hqNames.size(); i++)
     {
-        cocos2d::log("Element %d : %s", i, hqNames.at(i).c_str());
+        cocos2d::log("Element %d : %s", i, _hqNames.at(i).c_str());
     }
     cocos2d::log("End of history");
 }
 
 void HQHistoryManager::emptyHistory()
 {
-    hqNames.clear();
+    _hqNames.clear();
 }
 
 void HQHistoryManager::popHQ()
 {
-	hqNames.pop_back();
+	_hqNames.pop_back();
 }
 
 //set last group hq sender id, so we can "remember" the group logo after rebuilding the scene in a group hq
