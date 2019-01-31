@@ -11,6 +11,7 @@
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "CoinDisplay.h"
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 
 using namespace cocos2d;
 
@@ -56,7 +57,10 @@ void NavigationScene::onEnter()
 	_chatNavButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Button::TouchEventType::ENDED)
 		{
-			Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+			if(!ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
+			{
+				Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+			}
 		}
 	});
 	_chatNavButton->setNormalizedPosition(Vec2(0.75,0.8));

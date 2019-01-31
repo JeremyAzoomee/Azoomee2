@@ -31,7 +31,7 @@ public:
     
     void updatePrevOrientation();
     
-    std::vector<std::string> hqNames;
+    std::vector<std::string> _hqNames;
     
     //Adding last group source ID
     
@@ -39,8 +39,8 @@ public:
     std::string getGroupHQSourceId();
     std::string lastGroupHQSourceId;
     
-    bool thereWasAnError = false;
-    bool isOffline = false;
+    bool _thereWasAnError = false;
+    bool _isOffline = false;
     
     bool _returnedFromForcedOrientation = false;
     

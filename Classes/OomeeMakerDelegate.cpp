@@ -38,7 +38,7 @@ void OomeeMakerDelegate::onOomeeMakerNavigationBack()
 {
     HQHistoryManager::getInstance()->_returnedFromForcedOrientation = true;
     AnalyticsSingleton::getInstance()->contentItemClosedEvent();
-    if(!HQHistoryManager::getInstance()->isOffline)
+    if(!HQHistoryManager::getInstance()->_isOffline)
     {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
     }
@@ -53,7 +53,7 @@ void OomeeMakerDelegate::onOomeeMakerShareOomee(const std::string& filename)
     ChatDelegate::getInstance()->_imageFileName = filename;
     if(filename != "")
     {
-        if(!HQHistoryManager::getInstance()->isOffline && ChildDataProvider::getInstance()->isChildLoggedIn())
+        if(!HQHistoryManager::getInstance()->_isOffline && ChildDataProvider::getInstance()->isChildLoggedIn())
         {
             HQHistoryManager::getInstance()->_returnedFromForcedOrientation = true;
             Director::getInstance()->getTextureCache()->reloadTexture(filename);

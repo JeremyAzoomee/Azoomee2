@@ -28,7 +28,7 @@ void navigateToBaseScene()
 {
     AnalyticsSingleton::getInstance()->contentItemClosedEvent();
     
-    if(HQHistoryManager::getInstance()->isOffline)
+    if(HQHistoryManager::getInstance()->_isOffline)
     {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineHub));
         return;
@@ -149,7 +149,7 @@ bool isFavContent()
 
 void shareContentInChat()
 {
-	if(!HQHistoryManager::getInstance()->isOffline)
+	if(!HQHistoryManager::getInstance()->_isOffline)
 	{
     	ChatDelegate::getInstance()->_sharedContentId = ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId();
     	ChatDelegate::getInstance()->shareContentInChat();
@@ -158,7 +158,7 @@ void shareContentInChat()
 
 bool isChatEntitled()
 {
-    return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName)->getHqEntitlement()  && !HQHistoryManager::getInstance()->isOffline;
+    return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName)->getHqEntitlement()  && !HQHistoryManager::getInstance()->_isOffline;
 }
 
 bool isAnonUser()

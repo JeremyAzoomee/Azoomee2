@@ -94,7 +94,7 @@ void GameDataManager::startProcessingGame(const HQContentItemObjectRef &itemData
     
     if(checkIfFileExists(basePath + fileName))
     {
-        if(HQHistoryManager::getInstance()->isOffline)
+        if(HQHistoryManager::getInstance()->_isOffline)
         {
             JSONFileIsPresent(itemId);
         }
@@ -111,7 +111,7 @@ void GameDataManager::startProcessingGame(const HQContentItemObjectRef &itemData
 
 void GameDataManager::saveFeedDataToFile(const HQContentItemObjectRef &itemData)
 {
-    if(HQHistoryManager::getInstance()->isOffline)
+    if(HQHistoryManager::getInstance()->_isOffline)
     {
         return;
     }
@@ -142,7 +142,7 @@ void GameDataManager::JSONFileIsPresent(const std::string &itemId)
     {
         startGame(basePath, startFile);
     }
-    else if(!HQHistoryManager::getInstance()->isOffline)
+    else if(!HQHistoryManager::getInstance()->_isOffline)
     {
         streamGameIfPossible(basePathWithFileName);
         

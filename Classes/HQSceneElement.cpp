@@ -237,11 +237,6 @@ void HQSceneElement::addListenerToElement()
         {
             if(_elementVisual->_overlayWhenTouched) _elementVisual->_overlayWhenTouched->setOpacity(0);
             
-            //if(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName)->getNumberOfRunningActions() > 0)
-            //{
-            //    return false;
-            //}
-            
             AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
             _iamtouched = false;
             

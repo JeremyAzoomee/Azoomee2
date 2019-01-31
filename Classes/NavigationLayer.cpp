@@ -316,10 +316,6 @@ ui::Button* NavigationLayer::addMenuItemHolder(const std::string& hqName, float 
     menuItemHolder->setNormalizedPosition(Vec2(pos,0.5));
 	menuItemHolder->setColor(Color3B(colour.r, colour.g, colour.b));
 	menuItemHolder->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
-		if(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName)->getNumberOfRunningActions() > 0)
-		{
-			return;
-		}
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
 			ui::Button* button = dynamic_cast<ui::Button*>(pSender);
@@ -694,7 +690,7 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
 }
 
 //guided experiance controls
-void NavigationLayer::dissableButtons()
+void NavigationLayer::disableButtons()
 {
 	auto buttons = _hqButtonHolder->getChildren();
 	for(auto button : buttons)
@@ -914,30 +910,30 @@ void NavigationLayer::onTutorialStateChanged(const std::string& stateId)
 {
 	if(stateId == TutorialController::kFTUGameHQNav)
 	{
-		dissableButtons();
+		disableButtons();
 		highlightButton(ConfigStorage::kGameHQName);
 	}
 	else if(stateId == TutorialController::kFTUVideoHQNav)
 	{
-		dissableButtons();
+		disableButtons();
 		highlightButton(ConfigStorage::kVideoHQName);
 	}
 	else if(stateId == TutorialController::kFTUGameHQContent)
 	{
-		dissableButtons();
+		disableButtons();
 	}
 	else if(stateId == TutorialController::kFTUVideoHQContent)
 	{
-		dissableButtons();
+		disableButtons();
 	}
 	else if(stateId == TutorialController::kFTUGroupHQBack)
 	{
-		dissableButtons();
+		disableButtons();
 		highlightButton(ConfigStorage::kGroupHQName);
 	}
 	else if(stateId == TutorialController::kFTUGroupHQContent)
 	{
-		dissableButtons();
+		disableButtons();
 	}
 	else
 	{

@@ -281,7 +281,7 @@ void MeHQGallery::disableButtons()
 	}
 	if(_foldButton)
 	{
-		setTouchEnabled(false);
+		_foldButton->setTouchEnabled(false);
 	}
 	for(auto item : _carouselLayout->getChildren())
 	{
@@ -312,7 +312,7 @@ void MeHQGallery::enableButtons()
 	}
 	if(_foldButton)
 	{
-		setTouchEnabled(true);
+		_foldButton->setTouchEnabled(true);
 	}
 	for(auto item : _carouselLayout->getChildren())
 	{

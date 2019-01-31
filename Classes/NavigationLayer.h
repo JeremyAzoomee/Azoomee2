@@ -33,7 +33,7 @@ public:
     void repositionElements();
 	
 	//guided experiance controls
-	void dissableButtons();
+	void disableButtons();
 	void highlightButton(const std::string& hqName);
 	void enableButtons();
 	

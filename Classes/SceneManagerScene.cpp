@@ -298,6 +298,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
 			acceptAnyOrientation();
 			HQHistoryManager::getInstance()->updatePrevOrientation();
 			Director::getInstance()->replaceScene(WelcomeScene::create());
+			break;
 		}
 #ifdef VODACOM_BUILD
 		case VodacomOnboarding:
