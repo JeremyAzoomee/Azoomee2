@@ -41,7 +41,7 @@ void ArtAppDelegate::setFileName(const std::string& filename)
 void ArtAppDelegate::onArtAppNavigationBack()
 {
     ArtAppRunning = false;
-    if(HQHistoryManager::getInstance()->isOffline)
+    if(HQHistoryManager::getInstance()->_isOffline)
     {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineArtsAppHQ));
     }
@@ -57,7 +57,7 @@ void ArtAppDelegate::onArtAppShareImage()
 {
     if(filename != "")
     {
-        if(!HQHistoryManager::getInstance()->isOffline && ChildDataProvider::getInstance()->isChildLoggedIn())
+        if(!HQHistoryManager::getInstance()->_isOffline && ChildDataProvider::getInstance()->isChildLoggedIn())
         {
             AnalyticsSingleton::getInstance()->contentItemClosedEvent();
             ChatDelegate::getInstance()->_imageFileName = filename;
@@ -71,7 +71,7 @@ void ArtAppDelegate::onArtAppShareImage()
 
 bool ArtAppDelegate::isOffline()
 {
-	return HQHistoryManager::getInstance()->isOffline;
+	return HQHistoryManager::getInstance()->_isOffline;
 }
 
 void ArtAppDelegate::setSecondsSpentInArtApp(long seconds)
