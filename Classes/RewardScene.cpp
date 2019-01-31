@@ -49,6 +49,21 @@ void RewardScene::onEnter()
 		Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
 	})));
 	
+	ui::RichText* richText = ui::RichText::create();
+	richText->ignoreContentAdaptWithSize(false);
+	richText->setContentSize(Size(10,10));
+	richText->setHorizontalAlignment(ui::RichText::HorizontalAlignment::CENTER);
+	richText->setNormalizedPosition(Vec2(0.5,0.9));
+	richText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+	
+	richText->pushBackElement(ui::RichElementText::create(1, Color3B::WHITE, 255, "You won", Style::Font::Regular(), 100));
+	richText->pushBackElement(ui::RichElementNewLine::create(2, Color3B::WHITE, 255));
+	richText->pushBackElement(ui::RichElementText::create(3, Color3B::YELLOW, 255, StringUtils::format("%d",_rewardValue), Style::Font::Bold(), 200));
+	richText->pushBackElement(ui::RichElementNewLine::create(4, Color3B::WHITE, 255));
+	richText->pushBackElement(ui::RichElementText::create(5, Color3B::WHITE, 255, "coins", Style::Font::Regular(), 100));
+	
+	this->addChild(richText);
+	
 	Super::onEnter();
 }
 
