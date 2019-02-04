@@ -166,6 +166,7 @@
 		924E8455214141DC004590FD /* KidDetailsLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924E8454214141DC004590FD /* KidDetailsLayer.cpp */; };
 		924E845821427C05004590FD /* SettingsMessageBoxDeleteChild.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924E845721427C05004590FD /* SettingsMessageBoxDeleteChild.cpp */; };
 		924E84772147FE2B004590FD /* SettingsMessageBoxFREvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924E84762147FE2B004590FD /* SettingsMessageBoxFREvent.cpp */; };
+		925B249E22084B940000D7D2 /* CoinCollectLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 925B249D22084B940000D7D2 /* CoinCollectLayer.cpp */; };
 		926173A71F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926173A61F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp */; };
 		926A2AE1212D6F5500AE7964 /* SettingsHub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926A2AE0212D6F5500AE7964 /* SettingsHub.cpp */; };
 		926A2B0C212EABB000AE7964 /* SettingsNavigationButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926A2B0B212EABB000AE7964 /* SettingsNavigationButton.cpp */; };
@@ -622,6 +623,8 @@
 		924E845721427C05004590FD /* SettingsMessageBoxDeleteChild.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsMessageBoxDeleteChild.cpp; sourceTree = "<group>"; };
 		924E84712147FCDA004590FD /* SettingsMessageBoxFREvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsMessageBoxFREvent.h; sourceTree = "<group>"; };
 		924E84762147FE2B004590FD /* SettingsMessageBoxFREvent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsMessageBoxFREvent.cpp; sourceTree = "<group>"; };
+		925B249822084B7B0000D7D2 /* CoinCollectLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoinCollectLayer.h; sourceTree = "<group>"; };
+		925B249D22084B940000D7D2 /* CoinCollectLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CoinCollectLayer.cpp; sourceTree = "<group>"; };
 		926173A11F2A4CC5008E3F9D /* ArtImageOnScreenChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtImageOnScreenChecker.h; sourceTree = "<group>"; };
 		926173A61F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtImageOnScreenChecker.cpp; sourceTree = "<group>"; };
 		926A2ADB212D5D0300AE7964 /* SettingsHub.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsHub.h; sourceTree = "<group>"; };
@@ -1342,6 +1345,8 @@
 			children = (
 				923D5BEB2201E287008C13D0 /* RewardScene.h */,
 				923D5BEC2201F125008C13D0 /* RewardScene.cpp */,
+				925B249822084B7B0000D7D2 /* CoinCollectLayer.h */,
+				925B249D22084B940000D7D2 /* CoinCollectLayer.cpp */,
 				923D5BEE2202012C008C13D0 /* CoinDisplay.h */,
 				923D5BEF22020475008C13D0 /* CoinDisplay.cpp */,
 			);
@@ -2020,6 +2025,7 @@
 				924ACE3720A9C541007A5550 /* MeHQProfileDetails.cpp in Sources */,
 				A19862271DD3836D0090F053 /* NavigationLayer.cpp in Sources */,
 				A198622B1DD383BD0090F053 /* AppDelegate.cpp in Sources */,
+				925B249E22084B940000D7D2 /* CoinCollectLayer.cpp in Sources */,
 				923D5BC522008BF1008C13D0 /* ContentFeedHQScene.cpp in Sources */,
 				9220EAD5200F77E200BD7A90 /* SignUpFlowController.cpp in Sources */,
 				02E595C31E5D9EE70052F395 /* OfflineText.cpp in Sources */,
