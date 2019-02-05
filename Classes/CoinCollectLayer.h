@@ -18,8 +18,11 @@ class CoinCollectLayer : public cocos2d::Node
 	typedef cocos2d::Node Super;
 private:
 	int _rewardAmount;
-	int _incPerSec;
-	int _displayValue;
+	float _incPerSec;
+	float _displayValue;
+	cocos2d::Label* _valueLabel = nullptr;
+	
+	cocos2d::Sprite* _oomee = nullptr;
 	
 	float _animDuration;
 	

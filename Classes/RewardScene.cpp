@@ -8,6 +8,7 @@
 #include "RewardScene.h"
 #include "SceneManagerScene.h"
 #include "CoinCollectLayer.h"
+#include "AwesomeLayer.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 
 using namespace cocos2d;
@@ -33,15 +34,20 @@ bool RewardScene::init()
 
 void RewardScene::onEnter()
 {
+	int reward = RandomHelper::random_int(200, 1000);
 	CoinCollectLayer* coinCollect = CoinCollectLayer::create();
-	coinCollect->setAnimDuration(8.0f);
+	coinCollect->setAnimDuration(reward / 100);
 	coinCollect->setOomeeFilepath(ChildDataProvider::getInstance()->getLoggedInChild()->getAvatar());
-	coinCollect->setRewardAmount(RandomHelper::random_int(100, 1000));
+	coinCollect->setRewardAmount(reward);
 	this->addChild(coinCollect);
 	
-	this->runAction(Sequence::createWithTwoActions(DelayTime::create(15),CallFunc::create([](){
+	this->runAction(Sequence::create(DelayTime::create(15),CallFunc::create([this, coinCollect](){
+		this->removeChild(coinCollect);
+		AwesomeLayer* awesomeLayer = AwesomeLayer::create();
+		this->addChild(awesomeLayer);
+	}),DelayTime::create(10),CallFunc::create([](){
 		Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
-	})));
+	}),NULL));
 	
 	Super::onEnter();
 }
