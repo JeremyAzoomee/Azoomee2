@@ -57,23 +57,13 @@ using namespace Azoomee;
     }
     webview = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, width, height)];
     
-    NSString *urlToCall;
-    
-    
-    //if([urlToLoad hasPrefix:@"http"]) //game is loaded remotely
-    //{
-    //    urlToCall = [NSString stringWithFormat:@"%@%@", getRemoteWebGameAPIPath(), @"index_ios.html"];
-    //}
-    //else //game is loaded locally
-    //{
-        urlToCall = [[NSBundle mainBundle] pathForResource:@"res/webcommApi/index_ios" ofType:@"html"];
-    //}
+    NSString *urlToCall = [[NSBundle mainBundle] pathForResource:@"res/webcommApi/index_ios" ofType:@"html"];
     
     NSURL *nsurl=[NSURL URLWithString:urlToCall];
     NSURLRequest *nsrequest = [NSURLRequest requestWithURL:nsurl];
     
-    //[webview setAllowsInlineMediaPlayback:YES];
-    //[webview setMediaPlaybackRequiresUserAction:NO];
+    [webview setAllowsInlineMediaPlayback:YES];
+    [webview setMediaPlaybackRequiresUserAction:NO];
     [webview scrollView].scrollEnabled = NO;
     [webview scrollView].bounces = NO;
     [webview setDelegate:self];
@@ -165,13 +155,13 @@ using namespace Azoomee;
     if(!iframeloaded)
     {
 
-        //[webView stringByEvaluatingJavaScriptFromString:@"clearLocalStorage()"];
+        [webView stringByEvaluatingJavaScriptFromString:@"clearLocalStorage()"];
             
-        //NSString *localStorageData = [NSString stringWithFormat: @"%s", getLocalStorageForGame()];
+        NSString *localStorageData = [NSString stringWithFormat: @"%s", getLocalStorageForGame()];
             
-        //NSString *addDataString = [NSString stringWithFormat:@"addDataToLocalStorage(\"%@\")", localStorageData];
-        //NSLog(@"addDataString: %@", addDataString);
-        //[webView stringByEvaluatingJavaScriptFromString:addDataString];
+        NSString *addDataString = [NSString stringWithFormat:@"addDataToLocalStorage(\"%@\")", localStorageData];
+        NSLog(@"addDataString: %@", addDataString);
+        [webView stringByEvaluatingJavaScriptFromString:addDataString];
             
         NSString *loadString = [NSString stringWithFormat:@"addFrameWithUrl(\"%@\")", urlToLoad];
         [webView stringByEvaluatingJavaScriptFromString:loadString];

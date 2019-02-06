@@ -128,7 +128,7 @@ void ManualGameInputLayer::buttonPressed(ElectricDreamsButton* button)
 				HQContentItemObjectRef contentItem = HQContentItemObject::create();
 				contentItem->setContentItemId(GameDataManager::kManualGameId);
 				ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
-                Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Landscape, uriTextInput->getText()));
+				Director::getInstance()->replaceScene(SceneManagerScene::createWebview(visibleSize.width > visibleSize.height ? Landscape : Portrait, uriTextInput->getText()));
             }
         }
         else
