@@ -63,7 +63,17 @@ std::string ParentDataProvider::getLoggedInParentAvatarId() const
 {
     return ParentDataStorage::getInstance()->loggedInParentAvatarId;
 }
+
+std::string ParentDataProvider::getParentEmail() const
+{
+    return ParentDataStorage::getInstance()->loggedInParentEmail;
+}
     
+std::string ParentDataProvider::getParentDisplayName() const
+{
+    return ParentDataStorage::getInstance()->loggedInParentDisplayName;
+}
+
 std::string ParentDataProvider::getLoggedInParentCountryCode() const
 {
     return ParentDataStorage::getInstance()->loggedInParentCountryCode;
@@ -71,17 +81,29 @@ std::string ParentDataProvider::getLoggedInParentCountryCode() const
 
 std::string ParentDataProvider::getBillingStatus() const
 {
-    return ParentDataStorage::getInstance()->loggedInParentBillingStatus;
+	if(ParentDataStorage::getInstance()->_billingData)
+	{
+    	return ParentDataStorage::getInstance()->_billingData->getBillingStatusStr();
+	}
+	return "";
 }
 
 std::string ParentDataProvider::getBillingDate() const
 {
-    return ParentDataStorage::getInstance()->loggedInParentBillingDate;
+	if(ParentDataStorage::getInstance()->_billingData)
+	{
+    	return ParentDataStorage::getInstance()->_billingData->getNextBillDate();
+	}
+	return "";
 }
 
 std::string ParentDataProvider::getBillingProvider() const
 {
-    return ParentDataStorage::getInstance()->loggedInParentBillingProvider;
+	if(ParentDataStorage::getInstance()->_billingData)
+	{
+    	return ParentDataStorage::getInstance()->_billingData->getPaymentProvider();
+	}
+	return "";
 }
     
 bool ParentDataProvider::isLoggedInParentAnonymous()
@@ -96,7 +118,11 @@ bool ParentDataProvider::isBillingDataAvailable()
     
 bool ParentDataProvider::isPaidUser()
 {
-    return (ParentDataStorage::getInstance()->loggedInParentBillingStatus == "SUBSCRIBED") || (ParentDataStorage::getInstance()->loggedInParentBillingStatus == "FREE_TRIAL");
+	if(ParentDataStorage::getInstance()->_billingData)
+	{
+    	return (ParentDataStorage::getInstance()->_billingData->getBillingStatusStr() == "SUBSCRIBED") || (ParentDataStorage::getInstance()->_billingData->getBillingStatusStr() == "FREE_TRIAL");
+	}
+	return false;
 }
 
 bool ParentDataProvider::emailRequiresVerification()
@@ -179,6 +205,28 @@ std::string ParentDataProvider::getIDForAvailableChildren(int childNumber) const
 std::string ParentDataProvider::getInviteCodeForAnAvailableChild(int childNumber) const
 {
     return ParentDataStorage::getInstance()->availableChildren.at(childNumber)["inviteCode"];
+}
+
+int ParentDataProvider::getChildNumberFromId(const std::string &childId) const
+{
+    const auto& childIdMap = ParentDataStorage::getInstance()->availableChildrenById;
+    if(childIdMap.find(childId) != childIdMap.end())
+    {
+        return childIdMap.at(childId);
+    }
+    return -1;
+}
+    
+std::string ParentDataProvider::getInviteCodeForChildName(const std::string& name) const
+{
+    for(auto childDataMap : ParentDataStorage::getInstance()->availableChildren)
+    {
+        if(childDataMap["profileName"] == name)
+        {
+            return childDataMap["inviteCode"];
+        }
+    }
+    return "";
 }
     
 //-----------Pending Friend Requests-------------

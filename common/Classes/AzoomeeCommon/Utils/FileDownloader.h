@@ -26,9 +26,12 @@ struct FileDownloaderDelegate
 class FileDownloader : public std::enable_shared_from_this<FileDownloader>
 {
 private:
+    static const std::string kEtagName;
+    
     FileDownloaderDelegate* _delegate = nullptr;
     cocos2d::network::HttpRequest* _downloadRequest = nullptr;
     std::string _url;
+    std::string _etag = "";
     
 public:
     static FileDownloaderRef create();
@@ -36,6 +39,8 @@ public:
     virtual ~FileDownloader();
     /// Set delegate
     void setDelegate(FileDownloaderDelegate* delegate);
+    void setEtag(const std::string& etag);
+    std::string getEtag() const;
     
     void downloadFileFromServer(const std::string& url, const std::string& tag = "");
     void downloadFileFromServerAnswerReceived(cocos2d::network::HttpClient* sender, cocos2d::network::HttpResponse* response);

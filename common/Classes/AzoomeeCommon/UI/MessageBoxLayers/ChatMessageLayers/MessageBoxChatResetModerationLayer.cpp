@@ -18,10 +18,10 @@ Layer* MessageBoxChatResetModerationLayer::create(const std::map<std::string, st
     layer->_parentLayer = parentLayer;
     layer->_propertiesMap =propertiesMap;
     
-    std::string replaceChild1 = stringReplace(StringMgr::getInstance()->getStringForKey(CHAT_MESSAGE_BOXES_RESET_CHAT_TITLE), "%s1", layer->_propertiesMap["Child1"]);
+    std::string replaceChild1 = stringReplace(_("Reset %s1 & %s2's conversation?"), "%s1", layer->_propertiesMap["Child1"]);
     
     layer->_messageBoxTitle = stringReplace(replaceChild1, "%s2", layer->_propertiesMap["Child2"]);
-    layer->_messageBoxBody = StringMgr::getInstance()->getStringForKey(CHAT_MESSAGE_BOXES_RESET_CHAT_BODY);
+    layer->_messageBoxBody = _("If you need some guidance, read the");
     
     layer->onSizeChanged();
     
@@ -66,23 +66,23 @@ void MessageBoxChatResetModerationLayer::createTitle()
 
 void MessageBoxChatResetModerationLayer::createBody()
 {
-    messageBodyLabel = createLabelWith(_messageBoxBody, Style::Font::Regular, Style::Color::white, 64);
+    messageBodyLabel = createLabelWith(_messageBoxBody, Style::Font::Regular(), Style::Color::white, 64);
     messageBodyLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     messageBodyLabel->setWidth(textMaxWidth);
 }
     
 void MessageBoxChatResetModerationLayer::createSprite()
 {
-    oomeeSprite = Sprite::create("res/chat/ui/messageBoxes/thoughtfullOomee.png");
+    oomeeSprite = Sprite::create("res/chat/ui/messageBoxes/Oomee_Reset_Conversation.png");
 }
 
 void MessageBoxChatResetModerationLayer::createButtons()
 {
-    onlineSafetyTipsButton = ElectricDreamsButton::createTextAsButtonAqua(StringMgr::getInstance()->getStringForKey(BUTTON_ONLINE_SAFETY_TIPS), 64, true);
+    onlineSafetyTipsButton = ElectricDreamsButton::createTextAsButtonAqua(_("online safety tips"), 64, true);
     onlineSafetyTipsButton->setMixPanelButtonName("MessageBox-OnlineSafetyTips");
     onlineSafetyTipsButton->setDelegate(this);
     
-    resetButton = ElectricDreamsButton::createButtonWithWidth(StringMgr::getInstance()->getStringForKey(BUTTON_RESET), onlineSafetyTipsButton->getContentSize().width);
+    resetButton = ElectricDreamsButton::createButtonWithWidth(_("Reset"), onlineSafetyTipsButton->getContentSize().width);
     resetButton->setMixPanelButtonName("MessageBox-Reset");
     resetButton->setDelegate(this);
 }
@@ -212,8 +212,6 @@ void MessageBoxChatResetModerationLayer::onSizeChanged()
         addObjectsToWindowPortrait();
     }
 
-    if(onlineSafetySlides)
-        onlineSafetySlides->onSizeChanged();
 }
 
 //----------------------- Delegate Functions ----------------------------
@@ -224,7 +222,7 @@ void MessageBoxChatResetModerationLayer::buttonPressed(ElectricDreamsButton* but
         dynamic_cast<MessageBox*>(_parentLayer)->sendDelegateMessageBoxButtonPressed(_messageBoxTitle, MessageBox::kCancel);
     else if(button == onlineSafetyTipsButton)
     {
-        onlineSafetySlides = MessageBox::createWithLayer(OnlineSafetySlidesAdult, nullptr);
+        MessageBox::createWithLayer(OnlineSafetySlidesAdult, nullptr);
 
     }
     else if(button == resetButton)

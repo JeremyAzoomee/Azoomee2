@@ -39,5 +39,4 @@ void nativeShareScreenString(const std::string& shareString)
         [rootViewController presentViewController:activityVC animated:YES completion:nil];
     }
 }
-  
 }

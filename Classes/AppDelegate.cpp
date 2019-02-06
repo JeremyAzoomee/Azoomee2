@@ -13,7 +13,9 @@
 #include <AzoomeeCommon/ErrorCodes.h>
 #include "ContentHistoryManager.h"
 #include "IAPProductDataHandler.h"
+#include "ChatDelegate.h"
 #include "SceneManagerScene.h"
+#include "../artapp/Classes/AzoomeeArt/MainScene.h"
 
 using namespace cocos2d;
 using namespace Azoomee;
@@ -33,7 +35,6 @@ bool AppDelegate::applicationDidFinishLaunching()
     register_all_packages();
     
     // create a scene. it's an autorelease object
-    auto scene = IntroVideoScene::create();
     Director::getInstance()->runWithScene(SceneManagerScene::createScene(introVideo));
     
     SessionIdManager::getInstance();
@@ -41,8 +42,14 @@ bool AppDelegate::applicationDidFinishLaunching()
     AnalyticsSingleton::getInstance()->firstLaunchEvent();
     
     PushNotificationsHandler::getInstance()->resetExistingNotifications();
-    
+	
     IAPProductDataHandler::getInstance()->fetchProductData();
+	
+    const Size& visibleSize = Director::getInstance()->getVisibleSize();
+    if(visibleSize.width / visibleSize.height > 1.95)
+    {
+        ConfigStorage::getInstance()->setIsDevice18x9(true);
+    }
 
     return true;
 }
@@ -51,17 +58,16 @@ bool AppDelegate::applicationDidFinishLaunching()
 void AppDelegate::applicationDidEnterBackground()
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    if(Director::getInstance()->getRunningScene()->getChildByName("iosWebView"))
-    {
-        NativeContentInterface_ios *webview = dynamic_cast<NativeContentInterface_ios*>(Director::getInstance()->getRunningScene()->getChildByName("iosWebView"));
-        if(webview)
-        {
-            webview->removeWebViewFromScreen();
-        }
-    }
-    
+	if(Director::getInstance()->getRunningScene()->getChildByName("iosWebView"))
+	{
+		NativeContentInterface_ios *webview = dynamic_cast<NativeContentInterface_ios*>(Director::getInstance()->getRunningScene()->getChildByName("iosWebView"));
+		if(webview)
+		{
+			webview->removeWebViewFromScreen();
+		}
+	}
+	
 #endif
-    
     SessionIdManager::getInstance()->registerAppWentBackgroundEvent();
     AnalyticsSingleton::getInstance()->enteredBackgroundEvent();
     
@@ -75,19 +81,20 @@ void AppDelegate::applicationWillEnterForeground()
     
     AnalyticsSingleton::getInstance()->enteredForegroundEvent();
     SessionIdManager::getInstance()->registerAppCameForegroundEvent();
-    
+	
     PushNotificationsHandler::getInstance()->resetExistingNotifications();
-    
+	
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    if(Director::getInstance()->getRunningScene()->getChildByName("iosWebView"))
-    {
-        NativeContentInterface_ios *webview = dynamic_cast<NativeContentInterface_ios*>(Director::getInstance()->getRunningScene()->getChildByName("iosWebView"));
-        if(webview)
-        {
-            webview->reAddWebViewToScreen();
-        }
-    }
+	if(Director::getInstance()->getRunningScene()->getChildByName("iosWebView"))
+	{
+		NativeContentInterface_ios *webview = dynamic_cast<NativeContentInterface_ios*>(Director::getInstance()->getRunningScene()->getChildByName("iosWebView"));
+		if(webview)
+		{
+			webview->reAddWebViewToScreen();
+		}
+	}
 #endif
+
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     
@@ -112,11 +119,28 @@ void AppDelegate::applicationWillEnterForeground()
         {
             ContentHistoryManager::getInstance()->setReturnedFromContent(true);
         }
+        
+        if(ChatDelegate::getInstance()->_sharedContentId != "")
+        {
+            ChatDelegate::getInstance()->shareContentInChat();
+            return;
+        }
+        
         HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
         
         cocos2d::Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
     }
-
+	else
+	{
+		Azoomee::ArtApp::MainScene* artAppScene = dynamic_cast<Azoomee::ArtApp::MainScene*>(Director::getInstance()->getRunningScene()->getChildByName("ArtAppMainScene"));
+		if(artAppScene)
+		{
+			artAppScene->runAction(Sequence::create(DelayTime::create(0.25f), CallFunc::create([artAppScene](){
+				artAppScene->reloadRenderTextureObject();
+			}),NULL));
+		}
+	}
+	
 #endif
 }
 

@@ -5,10 +5,11 @@
 #include "DrawingCanvas.h"
 #include "AzoomeeArtApp.h"
 #include "DrawingCanvasUILayer.h"
+#include <AzoomeeCommon/UI/ConfirmCancelMessageBox.h>
 
 NS_AZOOMEE_AA_BEGIN
 
-class MainScene : public cocos2d::Layer
+class MainScene : public cocos2d::Layer, ConfirmCancelMessageBoxDelegate
 {
     typedef cocos2d::Layer Super;
 private:
@@ -23,18 +24,25 @@ private:
 public:
     static cocos2d::Scene* createScene();
     static cocos2d::Scene* createSceneWithDrawing(const std::string& fileName);
-    virtual bool init();
+    virtual bool init() override;
+    virtual void onEnter() override;
     
     void addBackButton();
     void addShareButton();
     
     void backButtonCallBack();
     void shareButtonCallBack();
-    
+	
+	void reloadRenderTextureObject(); // on background event on android messes with the depth buffer on render texture cus of openGL context getting killed.  needs new renderTex made to reset it to allow for clipping nodes to be baked into the texture. called via AppDelegate
+	
     void saveFileAndExit();
     void saveAndSendFile();
     // implement the "static create()" method manually
     CREATE_FUNC(MainScene);
+    
+    //delegate functions
+    void onConfirmPressed(ConfirmCancelMessageBox* pSender) override;
+    void onCancelPressed(ConfirmCancelMessageBox* pSender) override;
 };
 
 NS_AZOOMEE_AA_END

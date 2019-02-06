@@ -18,6 +18,17 @@ extern "C" {
     NSString* getVideoPlaylist();
     NSString* getRemoteWebGameAPIPath();
     bool isDeviceIphoneX();
+    void favContent();
+    void unFavContent();
+    bool isFavContent();
+    void shareContentInChat();
+    bool isChatEntitled();
+    bool isAnonUser();
+	
+	void sendVideoProgress(int playlistIndex , int videoProgressSeconds);
+	void newVideoOpened(int playlistIndex);
+    
+    NSString* getNSStringForKey(const char* key);
     
     NSString* getPlaylistString();
     

@@ -9,10 +9,17 @@
 #include "../Data/Cookie/CookieDataProvider.h"
 #include "../Data/ConfigStorage.h"
 #include "../Data/Parent/ParentDataProvider.h"
+#include "StringFunctions.h"
 
 using namespace cocos2d::network;
 
 NS_AZOOMEE_BEGIN
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+const std::string FileDownloader::kEtagName = "ETag";
+#else
+const std::string FileDownloader::kEtagName = "Etag";
+#endif
 
 FileDownloaderRef FileDownloader::create()
 {
@@ -40,6 +47,16 @@ void FileDownloader::setDelegate(FileDownloaderDelegate* delegate)
     _delegate = delegate;
 }
 
+void FileDownloader::setEtag(const std::string &etag)
+{
+    _etag = etag;
+}
+
+std::string FileDownloader::getEtag() const
+{
+    return _etag;
+}
+
 void FileDownloader::downloadFileFromServer(const std::string& url, const std::string& tag)
 {
     _downloadRequest = new HttpRequest();
@@ -50,6 +67,10 @@ void FileDownloader::downloadFileFromServer(const std::string& url, const std::s
         "Cookie: " + CookieDataProvider::getInstance()->getCookiesForRequest(url),
         "X-AZ-COUNTRYCODE: " + ParentDataProvider::getInstance()->getLoggedInParentCountryCode()
     };
+    if(_etag != "")
+    {
+        headers.push_back("If-None-Match: " + _etag);
+    }
     _downloadRequest->setHeaders(headers);
     
     _downloadRequest->setResponseCallback(CC_CALLBACK_2(FileDownloader::downloadFileFromServerAnswerReceived, this));
@@ -63,6 +84,7 @@ void FileDownloader::downloadFileFromServerAnswerReceived(cocos2d::network::Http
     {
         if(response && response->getResponseData())
         {
+            _etag = getValueFromHttpResponseHeaderForKey(kEtagName, std::string(response->getResponseHeader()->begin(), response->getResponseHeader()->end()));
             std::vector<char> myResponse = *response->getResponseData();
             const std::string& responseString = std::string(myResponse.begin(), myResponse.end());
             if(_delegate)

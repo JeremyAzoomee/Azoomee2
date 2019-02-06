@@ -30,14 +30,15 @@ public:
     bool osIsIos();
     bool osIsAndroid();
     bool osIsAmazon();
-    
-    void refreshAppleReceiptFromButton();
+	
+	void restorePayment();
     
     void backendRequestFailed(long errorCode);
     
     void purchaseFailureErrorMessage(const std::string& failureDetails);
     void doublePurchaseMessage();
-    
+	void failedRestoreMessage();
+	
     void writeReceiptDataToFile(const std::string &receiptData);
     void writeAndroidReceiptDataToFile(const std::string& developerPayload, const std::string& orderId, const std::string& token);
     void writeAmazonReceiptDataToFile(const std::string& requestId, const std::string& receiptId, const std::string& amazonUserId);

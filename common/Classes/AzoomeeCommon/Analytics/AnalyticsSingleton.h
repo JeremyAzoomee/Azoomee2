@@ -6,6 +6,7 @@
 #include <time.h>
 #include "../Data/HQDataObject/HQContentItemObject.h"
 #include "AnalyticsProperties.h"
+#include "../Data/Parent/BillingData.h"
 
 #define NUMBER_IDENTIFIER "NUMBER|"
 
@@ -24,7 +25,11 @@ private:
     
     void mixPanelRegisterSuperProperties(const std::string& key, const std::string& property);
     void mixPanelRegisterIdentity(const std::string& parentID, const std::map<std::string, std::string>& map);
-    
+	
+	void mixPanelUpdatePeopleProfileData(const std::map<std::string, std::string>& profileData);
+	
+	void mixPanelRegisterAlias(const std::string& newId);
+	
     void appsFlyerSendEvent(const std::string& eventID);
     void appsFlyerSendEvent(const std::string& eventID, const std::map<std::string, std::string>& map);
     
@@ -53,7 +58,10 @@ public:
     void setNumberOfChatFriends(int noOfChildren);
     void setChatFriendIsParent(bool chatFriendIsParent);
     void setIsUserAnonymous(bool isUserAnonymous);
-    
+	void registerAlias(const std::string& newId);
+	void registerBillingData(const BillingDataRef& billingData);
+	void registerLanguageCode(const std::string& languageCode);
+	
     void registerChildGenderAndAge(int childNumber);
 
     void logoutChildEvent();
@@ -78,15 +86,13 @@ public:
     void childProdileNameErrorEvent();
     void childProfileDOBEvent();
     void childProfileDOBErrorEvent(); // NO DOB CHECKING IS COMPLETED
-    void childProfileOomeeEvent(int oomeeNumber);
-    void childProfileCreatedSuccessEvent(int oomeeNumber);
+    void childProfileCreatedSuccessEvent();
     void childProfileCreatedErrorEvent(long errorCode);
     void childProfileUpdateErrorEvent(long errorCode);
 
-    void childProfileCreatedEvent(int age, int oomeeNum);
+    void childProfileCreatedEvent(int age);
     
     //-------------HUB ACTIONS-------------------
-    void hubTapOomeeEvent(int oomeeNumber, std::string oomeeAction);
     void navSelectionEvent(std::string hubOrTop, const std::string& buttonName);
     
     //-------------CONTENTITEM EVENTS----------
@@ -161,11 +167,40 @@ public:
     void unreadMessagesNotificationReceived();
     void chatReportedEvent();
     void chatResetReportedEvent();
+    void chatOpenSharedContentEvent(const std::string& contentId);
     
     //---------------CTA EVENTS----------------------------------
     void ctaButtonPressed(const std::string &buttonId, const std::string &title = "");
     void ctaWindowAppeared(const std::string &groupId, const std::string &nodeId);
-    void registerCTASource(const std::string& buttonId, const std::string& contentId, const std::string& mediaType);
+    void registerCTASource(const std::string& buttonId, const std::string& contentId, const std::string& mediaType, const std::string& recommendedContentId = "");
+    
+    //--------------ME HQ Events--------------------------------
+    void favouriteContentItem(const std::string& contentItemId);
+    void unFavouriteContentItem(const std::string& contentItemId);
+    void shareContentItemButtonPressed(const std::string& contentItemId);
+    
+    //-------------OomeeMaker Events----------------------------
+    void makeAvatarSuccess(const std::string& origin);
+    void shareOomee();
+    void editOomee();
+    void deleteOomee();
+    void newOomee();
+    void saveOomee(const std::string& oomeeDataString);
+    void reportNumberOfOomees(int numOomees);
+    void accessorySelectedEvent(const std::string& method);
+    
+    //-------------Art app events-------------------------------
+    void stickerSelectedEvent(const std::string& stickerFilename);
+	
+	//-------------I18n events----------------------------------
+	void languageChangedEvent(const std::string& languageCode);
+	
+	//-------------Vodacom events-------------------------------
+	void vodacomOnboardingFlowStartedEvent();
+	void vodacomOnboardingFlowExitEvent();
+	void vodacomOnboardingFlowMoveToScreen(const std::string& newScreen);
+	void vodacomOnboardingVoucherAdded(const std::string& voucherCode);
+	
 };
   
 }

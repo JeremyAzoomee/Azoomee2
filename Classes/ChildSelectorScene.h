@@ -9,10 +9,11 @@
 #include <AzoomeeCommon/UI/MessageBox.h>
 #include <AzoomeeCommon/API/HttpRequestCreator.h>
 #include <AzoomeeCommon/UI/Scene.h>
+#include "ForceUpdateSingleton.h"
 
 NS_AZOOMEE_BEGIN
 
-class ChildSelectorScene : public Azoomee::Scene, public RequestAdultPinLayerDelegate, public OfflineCheckerDelegate, public MessageBoxDelegate, public Azoomee::HttpRequestCreatorResponseDelegate
+class ChildSelectorScene : public Azoomee::Scene, public RequestAdultPinLayerDelegate, public OfflineCheckerDelegate, public MessageBoxDelegate, public Azoomee::HttpRequestCreatorResponseDelegate, public ForceUpdateDelegate
 {
     typedef Azoomee::Scene Super;
 public:
@@ -30,6 +31,7 @@ public:
     void AdultPinAccepted(RequestAdultPinLayer* layer) override;
     void callDelegateFunction(float dt);
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle) override;
+	void onForceUpdateCheckFinished(const ForceUpdateResult& result) override;
     
     void connectivityStateChanged(bool online) override;
     
@@ -57,10 +59,12 @@ private:
     void createSettingsButton();
     void addProfilesToScrollView();
     void addPrivacyButton();
+
     cocos2d::ui::Button* createChildProfileButton(const std::string& profileName, int oomeeNumber);
     cocos2d::Point positionElementOnScrollView(cocos2d::Node *layerToBeAdded);
     
     cocos2d::ui::Button* createNewProfileButton();
+
     void addChildButtonPressed(cocos2d::Node* target);
     
     cocos2d::ui::Button* createParentProfileButton();

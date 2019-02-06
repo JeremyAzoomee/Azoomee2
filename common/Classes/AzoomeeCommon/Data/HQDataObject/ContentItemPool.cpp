@@ -72,6 +72,16 @@ HQContentItemObjectRef ContentItemPool::getContentItemForId(const std::string &c
     }
 }
 
+bool ContentItemPool::isSameContentPool(const std::string &etag)
+{
+    return _currentPoolEtag == etag;
+}
+
+void ContentItemPool::setPoolEtag(const std::string &etag)
+{
+    _currentPoolEtag = etag;
+}
+
 void ContentItemPool::backupContentItemPool()
 {
     const std::string &contentPath = FileUtils::getInstance()->getWritablePath() + "contentCache/" + ChildDataProvider::getInstance()->getParentOrChildId() + "/";

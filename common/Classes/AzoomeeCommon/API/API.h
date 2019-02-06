@@ -48,9 +48,22 @@ public:
     static const char* const TagGetPendingFriendRequests;
     static const char* const TagReportChat;
     static const char* const TagResetReportedChat;
+    static const char* const TagGetTimelineSummary;
     static const char* const TagGetForceUpdateInformation;
     static const char* const TagCookieRefresh;
-    
+    static const char* const TagGetContentPoolRequest;
+    static const char* const TagGetHqStructureDataRequest;
+    static const char* const TagUpdateChildAvatar;
+    static const char* const TagUpdateParentDetails;
+    static const char* const TagUpdateParentPassword;
+    static const char* const TagGetParentDetails;
+    static const char* const TagUpdateChildNameRequest;
+	static const char* const TagAddVoucher;
+	static const char* const TagGetVideoProgress;
+	static const char* const TagUpdateVideoProgress;
+	
+	static const std::string kAZCountryCodeKey;
+	
 #pragma mark - API Methods
     
     static HttpRequestCreator* IpCheck(HttpRequestCreatorResponseDelegate* delegate);
@@ -64,7 +77,8 @@ public:
     static HttpRequestCreator* AnonymousDeviceLoginRequest(const std::string& deviceId,
                                                            HttpRequestCreatorResponseDelegate* delegate);
     
-    static HttpRequestCreator* UpdateBillingDataRequest(HttpRequestCreatorResponseDelegate* delegate);
+	static HttpRequestCreator* UpdateBillingDataRequest(const std::string& parentId,
+														HttpRequestCreatorResponseDelegate* delegate);
     
     static HttpRequestCreator* GetForceUpdateInformationRequest(HttpRequestCreatorResponseDelegate* delegate);
     
@@ -109,6 +123,10 @@ public:
                                            const std::string& childGender,
                                            HttpRequestCreatorResponseDelegate* delegate);
     
+    static HttpRequestCreator* UpdateChildAvatar(const std::string& childId,
+                                                 const std::string& imageData,
+                                                 HttpRequestCreatorResponseDelegate* delegate);
+    
     static HttpRequestCreator* VerifyGooglePaymentRequest(const std::string& orderId,
                                                           const std::string& iapSku,
                                                           const std::string& purchaseToken,
@@ -138,6 +156,42 @@ public:
     static HttpRequestCreator* ResetPaswordRequest(const std::string& forEmailAddress,
                                                    HttpRequestCreatorResponseDelegate* delegate);
     
+    static HttpRequestCreator* GetContentPoolRequest(const std::string& childId,
+                                                     HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* GetHQStructureDataRequest(const std::string& childId,
+                                                         HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* UpdateParentDetailsRequest(const std::string& parentId,
+                                                          const std::string& displayName,
+                                                          const std::string& pinNumber,
+                                                          HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* UpdateParentPasswordRequest(const std::string& parentId,
+                                                          const std::string& oldPassword,
+                                                          const std::string& newPassword,
+                                                          HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* getParentDetailsRequest(const std::string& parentId,
+                                                       HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* UpdateChildNameRequest(const std::string& childId,
+                                                      const std::string& newName,
+                                                      HttpRequestCreatorResponseDelegate* delegate);
+	
+	static HttpRequestCreator* AddVoucher(const std::string& parentId,
+										  const std::string& voucherCode,
+										  HttpRequestCreatorResponseDelegate* delegate);
+	
+	static HttpRequestCreator* GetVideoProgress(const std::string& childId,
+												const std::string& videoId,
+												HttpRequestCreatorResponseDelegate* delegate);
+	
+	static HttpRequestCreator* UpdateVideoProgress(const std::string& childId,
+												   const std::string& videoId,
+												   int videoProgressSeconds,
+												   HttpRequestCreatorResponseDelegate* delegate);
+	
 #pragma mark - Friend Requests
     
     static HttpRequestCreator* FriendRequest(const std::string& senderChildId,
@@ -190,6 +244,8 @@ public:
                                                      const std::string& friendId,
                                                      HttpRequestCreatorResponseDelegate* delegate);
     
+    static HttpRequestCreator* GetTimelineSummary(const std::string& userId,
+                                                        HttpRequestCreatorResponseDelegate* delegate);
     
     
 };

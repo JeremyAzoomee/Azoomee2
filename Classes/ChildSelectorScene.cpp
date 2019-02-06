@@ -22,11 +22,15 @@
 #include <AzoomeeCommon/UI/PrivacyLayer.h>
 #include "ContentHistoryManager.h"
 #include "DynamicNodeHandler.h"
+#include "ForceUpdateAppLockScene.h"
+#include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
+#include <AzoomeeCommon/Utils/ActionBuilder.h>
+#include <AzoomeeCommon/Utils/StringFunctions.h>
 
-#define OOMEE_LAYER_WIDTH 300
-#define OOMEE_LAYER_HEIGHT 450
+#define OOMEE_LAYER_WIDTH 400
+#define OOMEE_LAYER_HEIGHT 400
 #define OOMEE_LAYER_GAP 100
-#define OOMEE_LAYER_GAP_PORTRAIT 50
+#define OOMEE_LAYER_GAP_PORTRAIT 100
 
 using namespace cocos2d;
 
@@ -87,7 +91,10 @@ bool ChildSelectorScene::init()
 void ChildSelectorScene::onEnterTransitionDidFinish()
 {
     OfflineChecker::getInstance()->setDelegate(this);
-    
+	
+	ForceUpdateSingleton::getInstance()->setDelegate(this);
+	ForceUpdateSingleton::getInstance()->doForceUpdateLogic();
+	
     if(FlowDataSingleton::getInstance()->hasError())
     {
         MessageBox::createWith(FlowDataSingleton::getInstance()->getErrorCode(), nullptr);
@@ -100,6 +107,11 @@ void ChildSelectorScene::onEnterTransitionDidFinish()
             setParentButtonVisible(true);
         }
     }
+    
+    if(ParentDataProvider::getInstance()->getAmountOfAvailableChildren() == 0)
+    {
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(AddChildFirstTime));
+    }
     Super::onEnterTransitionDidFinish();
 }
 
@@ -109,7 +121,7 @@ void ChildSelectorScene::addVisualsToScene()
 {
     addBackgroundToScreen();
     
-    auto selectTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(CHILD_SELECTSCENE_TITLE_LABEL));
+    auto selectTitle = createLabelHeader(_("Select your profile"));
     selectTitle->setNormalizedPosition(Vec2(0.5,0.9));
     _contentNode->addChild(selectTitle);
 }
@@ -189,10 +201,7 @@ void ChildSelectorScene::addProfilesToScrollView()
     
     for(int i = 0; i < ParentDataProvider::getInstance()->getAmountOfAvailableChildren(); i++)
     {
-        const std::string& oomeeUrl = ParentDataProvider::getInstance()->getAvatarForAnAvailableChild(i);
-        int oomeeNr = ConfigStorage::getInstance()->getOomeeNumberForUrl(oomeeUrl);
-        
-        auto profileLayer = createChildProfileButton(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(i), oomeeNr);
+        auto profileLayer = createChildProfileButton(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(i), i);
         profileLayer->setTag(i);
         profileLayer->setPosition(positionElementOnScrollView(profileLayer));
         _scrollView->addChild(profileLayer);
@@ -205,7 +214,7 @@ void ChildSelectorScene::addProfilesToScrollView()
     
 }
 
-ui::Button *ChildSelectorScene::createChildProfileButton(const std::string& profileName, int oomeeNumber)
+ui::Button *ChildSelectorScene::createChildProfileButton(const std::string& profileName, int childNum)
 {
     auto button = ui::Button::create();
     button->setContentSize(Size(OOMEE_LAYER_WIDTH,OOMEE_LAYER_HEIGHT));
@@ -230,7 +239,6 @@ ui::Button *ChildSelectorScene::createChildProfileButton(const std::string& prof
         {
             AudioMixer::getInstance()->playEffect(SELECT_OOMEE_AUDIO_EFFECT);
             _parentIconSelected = false;
-            OfflineChecker::getInstance()->setDelegate(nullptr);
             int childNumber = ((Node*)pSender)->getTag();
             AnalyticsSingleton::getInstance()->registerChildGenderAndAge(childNumber);
             BackEndCaller::getInstance()->childLogin(childNumber);
@@ -249,7 +257,10 @@ ui::Button *ChildSelectorScene::createChildProfileButton(const std::string& prof
         }
     });
     
-    auto oomee = Sprite::create(StringUtils::format("res/childSelection/%s.png", ConfigStorage::getInstance()->getNameForOomee(oomeeNumber).c_str()));
+    auto oomee = RemoteImageSprite::create();
+    oomee->initWithUrlAndSizeWithoutPlaceholder(ParentDataProvider::getInstance()->getAvatarForAnAvailableChild(childNum), Size(320, 320));
+    oomee->setKeepAspectRatio(true);
+    oomee->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     oomee->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     oomee->setName(kOomeeLayerName);
     button->addChild(oomee);
@@ -258,7 +269,7 @@ ui::Button *ChildSelectorScene::createChildProfileButton(const std::string& prof
     if(_firstTime)
     {
         oomee->setOpacity(0);
-        oomee->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+        oomee->runAction(createBlinkEffect(delayTime, 0.1));
     }
     
     auto glow = Sprite::create("res/childSelection/glow.png");
@@ -268,19 +279,21 @@ ui::Button *ChildSelectorScene::createChildProfileButton(const std::string& prof
     if(_firstTime)
     {
         glow->setOpacity(0);
-        glow->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+        glow->runAction(createBlinkEffect(delayTime, 0.1));
     }
     
     auto profileLabel = createLabelChildName(profileName);
-    profileLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    profileLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     profileLabel->setNormalizedPosition(Vec2(0.5,0));
     reduceLabelTextToFitWidth(profileLabel,OOMEE_LAYER_WIDTH);
     button->addChild(profileLabel);
+    
     if(_firstTime)
     {
         profileLabel->setOpacity(0);
-        profileLabel->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+        profileLabel->runAction(createBlinkEffect(delayTime, 0.1));
     }
+
     return button;
 }
 
@@ -319,12 +332,13 @@ Point ChildSelectorScene::positionElementOnScrollView(Node *layerToBeAdded)
 
 ui::Button* ChildSelectorScene::createNewProfileButton()
 {
-    ui::Button* addChildButton = ui::Button::create("res/childSelection/add_a_profile_large.png");
+    ui::Button* addChildButton = ui::Button::create("res/childSelection/button.png");
     addChildButton->setName("addChildButton");
     addChildButton->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType)
     {
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
+			AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
             AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChildSelector - AddChild");
             
             createAdultPinLayerWithDelegate();
@@ -337,33 +351,54 @@ ui::Button* ChildSelectorScene::createNewProfileButton()
     if(_firstTime)
     {
         addChildButton->setOpacity(0);
-        addChildButton->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+        addChildButton->runAction(createBlinkEffect(delayTime, 0.1));
     }
-    
+	
+	Label* buttonText = Label::createWithTTF(_("Add a profile"), Style::Font::Regular(), addChildButton->getContentSize().height * 0.4f);
+	buttonText->setTextColor(Color4B(Style::Color::brightAqua));
+	buttonText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	buttonText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	buttonText->setHorizontalAlignment(TextHAlignment::CENTER);
+	buttonText->setVerticalAlignment(TextVAlignment::CENTER);
+	buttonText->setOverflow(Label::Overflow::SHRINK);
+	buttonText->setDimensions(addChildButton->getContentSize().width * 0.7f, addChildButton->getContentSize().height * 0.7f);
+	addChildButton->addChild(buttonText);
+	
     return addChildButton;
 }
 
 ui::Button* ChildSelectorScene::createParentProfileButton()
 {
-    auto parentButton = ui::Button::create("res/childSelection/parent_inbox.png");
+    auto parentButton = ui::Button::create("res/childSelection/button.png");
     
     float delayTime = CCRANDOM_0_1() * 0.5;
     if(_firstTime)
     {
         parentButton->setOpacity(0);
-        parentButton->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+        parentButton->runAction(createBlinkEffect(delayTime,0.1));
     }
     
     parentButton->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
+			AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
             AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChildSelector - ParentOomee");
             _parentIconSelected = true;
             
             createAdultPinLayerWithDelegate();
         }
     });
-    
+	
+	Label* buttonText = Label::createWithTTF(_("Parent inbox"), Style::Font::Regular(), parentButton->getContentSize().height * 0.4f);
+	buttonText->setTextColor(Color4B(Style::Color::brightAqua));
+	buttonText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	buttonText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	buttonText->setHorizontalAlignment(TextHAlignment::CENTER);
+	buttonText->setVerticalAlignment(TextVAlignment::CENTER);
+	buttonText->setOverflow(Label::Overflow::SHRINK);
+	buttonText->setDimensions(parentButton->getContentSize().width * 0.7f, parentButton->getContentSize().height * 0.7f);
+	parentButton->addChild(buttonText);
+	
     return parentButton;
 }
 
@@ -460,8 +495,36 @@ void ChildSelectorScene::connectivityStateChanged(bool online)
 
 void ChildSelectorScene::callDelegateFunction(float dt)
 {
-    FlowDataSingleton::getInstance()->setFlowToNewProfile();
-    DynamicNodeHandler::getInstance()->startAddChildFlow();
+    if(ParentDataProvider::getInstance()->getAmountOfAvailableChildren() == 0)
+    {
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(AddChildFirstTime));
+    }
+    else
+    {
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(AddChild));
+    }
+}
+
+void ChildSelectorScene::onForceUpdateCheckFinished(const ForceUpdateResult& result)
+{
+	switch (result) {
+		case ForceUpdateResult::DO_NOTHING:
+		{
+			break;
+		}
+		case ForceUpdateResult::NOTIFY:
+		{
+			std::vector<std::string> buttonNames = {_("OK"), _("Update")};
+			MessageBox::createWith(_("Update recommended"), _("You should update to the latest version of Azoomee. Ask a grown-up to help you."), buttonNames, this);
+			break;
+		}
+		case ForceUpdateResult::LOCK:
+		{
+			Director::getInstance()->replaceScene(ForceUpdateAppLockScene::create());
+		}
+		default:
+			break;
+	}
 }
 
 void ChildSelectorScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
@@ -473,12 +536,20 @@ void ChildSelectorScene::MessageBoxButtonPressed(std::string messageBoxTitle,std
         
         LoginLogicHandler::getInstance()->forceNewLogin();
     }
+	if(messageBoxTitle == _("Update recommended"))
+	{
+		if(buttonTitle == _("Update"))
+		{
+			Application::getInstance()->openURL(ForceUpdateSingleton::getInstance()->getUpdateUrlFromFile());
+		}
+	}
+	
 }
-
 
 void ChildSelectorScene::onExit()
 {
     OfflineChecker::getInstance()->setDelegate(nullptr);
+	ForceUpdateSingleton::getInstance()->setDelegate(nullptr);
     removeAdultPinLayerDelegate();
 
     Super::onExit();

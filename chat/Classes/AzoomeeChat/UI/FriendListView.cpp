@@ -1,5 +1,6 @@
 #include "FriendListView.h"
 #include "FriendListViewItem.h"
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 
@@ -314,11 +315,11 @@ ui::Layout* FriendListView::createAddFriendButton()
     buttonImageLayout->addChild(buttonImage);
     
     ui::Text* label = ui::Text::create();
-    label->setFontName(Style::Font::Regular);
+    label->setFontName(Style::Font::Regular());
     label->setFontSize(70.0f);
     label->setTextColor(Color4B(Style::Color::white));
-    label->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(75.0f, 0, 0, 0)));
-    label->setString("Add Friends");
+    label->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(150.0f, 0, 0, 0)));
+    label->setString(_("Add Friends"));
     contentLayout->addChild(label);
     
     return addFriendButton;

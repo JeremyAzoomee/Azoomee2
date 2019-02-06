@@ -11,6 +11,7 @@ enum MessageBoxLayerEnum {
     OnlineSafetySlidesAdult,
     OnlineSafetySlidesChild,
     ChatResetModeration
+    
 };
 
 namespace Azoomee

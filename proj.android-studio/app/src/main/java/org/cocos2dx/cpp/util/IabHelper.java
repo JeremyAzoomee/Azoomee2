@@ -512,6 +512,10 @@ public class IabHelper {
                 catch (IabException ex) {
                     result = ex.getResult();
                 }
+                catch (Exception e)
+                {
+                    result = new IabResult(BILLING_RESPONSE_RESULT_ERROR, "Something went wrong.");
+                }
 
                 flagEndAsync();
 

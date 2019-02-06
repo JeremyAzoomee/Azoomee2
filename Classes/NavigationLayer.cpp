@@ -26,6 +26,7 @@
 #include "DynamicNodeHandler.h"
 #include "IAPFlowController.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/Utils/ActionBuilder.h>
 #include "FlowDataSingleton.h"
 
 using namespace cocos2d;
@@ -113,8 +114,8 @@ bool NavigationLayer::init()
     }
     
     _userTypeMessagingLayer = UserTypeMessagingLayer::create();
-    _userTypeMessagingLayer->setContentSize(Size(visibleSize.width, 300));
-    _userTypeMessagingLayer->setPosition(origin - Vec2(0,300));
+    _userTypeMessagingLayer->setContentSize(Size(visibleSize.width, 350));
+    _userTypeMessagingLayer->setPosition(origin - Vec2(0,350));
     _userTypeMessagingLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     UserType userType = UserType::ANON;
     if(!ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
@@ -144,12 +145,7 @@ bool NavigationLayer::init()
     }
     this->addChild(_userTypeMessagingLayer);
    
-    
-    
-    if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
-    {
-        createTopObjects();
-    }
+	createTopObjects();
     
     return true;
 }
@@ -168,11 +164,21 @@ void NavigationLayer::startLoadingGroupHQ(std::string uri)
 
 void NavigationLayer::changeToScene(const std::string& hqName, float duration)
 {
+    
+    if(hqName == "OOMEE_MAKER")
+    {
+        if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+        {
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(OomeeMakerEntryPointScene));
+        }
+        return;
+    }
+    
     //CHECK IF THE ENTITLEMENT FOR THAT SPECIFIC HQ IS ENABLED
     
     const HQDataObjectRef &currentObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName);
     
-    if(!currentObject->getHqEntitlement())
+    if((hqName == ConfigStorage::kMeHQName && ParentDataProvider::getInstance()->isLoggedInParentAnonymous()) || (hqName != ConfigStorage::kMeHQName && !currentObject->getHqEntitlement()))
     {
         AnalyticsSingleton::getInstance()->registerCTASource("lockedHQ","",currentObject->getHqType());
         IAPEntryContext context = IAPEntryContext::DEFAULT;
@@ -252,6 +258,17 @@ void NavigationLayer::loadArtsAppHQ()
     hqLayer->startBuildingScrollView();
 }
 
+void NavigationLayer::loadMeHQ()
+{
+    HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kMeHQName);
+    
+    cocos2d::Scene *runningScene = Director::getInstance()->getRunningScene();
+    Node *contentLayer = runningScene->getChildByName("contentLayer");
+    HQScene2 *hqLayer = (HQScene2 *)contentLayer->getChildByName(ConfigStorage::kMeHQName);
+    
+    hqLayer->startBuildingScrollView();
+}
+
 void NavigationLayer::startLoadingHQScene(const std::string& hqName)
 {
     if(hqName == ConfigStorage::kArtAppHQName)
@@ -262,6 +279,17 @@ void NavigationLayer::startLoadingHQScene(const std::string& hqName)
         
         this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
 
+        return;
+    }
+    
+    if(hqName == ConfigStorage::kMeHQName)
+    {
+        auto funcCallAction = CallFunc::create([=](){
+            this->loadMeHQ();
+        });
+        
+        this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
+        
         return;
     }
     
@@ -365,17 +393,19 @@ void NavigationLayer::hideNotificationBadge()
 
 void NavigationLayer::createTopObjects()
 {
-    settingsButton = SettingsButton::createSettingsButton(3.0f);
+    settingsButton = SettingsButton::createSettingsButton(1.0f);
     const Size& settingsButtonSize = settingsButton->getContentSize();
     settingsButton->setPosition(origin.x + visibleSize.width, origin.y + visibleSize.height - settingsButtonSize.height * 1.25);
     this->addChild(settingsButton);
-
-    returnToChildSelectorButton = ElectricDreamsButton::createChildSelectorButton();
-    const Size& childSelectButtonSize = returnToChildSelectorButton->getContentSize();
-    returnToChildSelectorButton->setPosition(Vec2(origin.x - childSelectButtonSize.width, origin.y + visibleSize.height - childSelectButtonSize.height*1.25));
-    returnToChildSelectorButton->setDelegate(this);
-    this->addChild(returnToChildSelectorButton);
-    
+	
+	if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+	{
+    	returnToChildSelectorButton = ElectricDreamsButton::createChildSelectorButton();
+    	const Size& childSelectButtonSize = returnToChildSelectorButton->getContentSize();
+    	returnToChildSelectorButton->setPosition(Vec2(origin.x - childSelectButtonSize.width, origin.y + visibleSize.height - childSelectButtonSize.height*1.25));
+    	returnToChildSelectorButton->setDelegate(this);
+    	this->addChild(returnToChildSelectorButton);
+	}
     topObjectsOnScreen();
 }
 
@@ -461,7 +491,7 @@ void NavigationLayer::runDisplayAnimationForMenuItem(cocos2d::Node* node1, bool 
         blinkDelay = 0.1;
     }
     
-    node1->runAction(Sequence::create(DelayTime::create(randomDelay), FadeTo::create(0, colour.a), DelayTime::create(blinkDelay), FadeTo::create(0, 0), DelayTime::create(blinkDelay), FadeTo::create(0, colour.a), NULL));
+    node1->runAction(createBlinkEffect(randomDelay, blinkDelay));
 }
 
 
@@ -604,8 +634,9 @@ void NavigationLayer::buttonPressed(ElectricDreamsButton* button)
 void NavigationLayer::cleanUpPreviousHQ()
 {
     cocos2d::log("previous hq is: %s", HQHistoryManager::getInstance()->getPreviousHQ().c_str());
+    cocos2d::log("current hq is: %s", HQHistoryManager::getInstance()->getCurrentHQ().c_str());
     const std::string& previousHqName = HQHistoryManager::getInstance()->getPreviousHQ();
-    if(previousHqName != ConfigStorage::kHomeHQName)
+    if(!(previousHqName == ConfigStorage::kMeHQName && HQHistoryManager::getInstance()->getCurrentHQ() == ConfigStorage::kMeHQName))
     {
         HQScene2* lastHQLayer = (HQScene2 *)Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName)->getChildByName(previousHqName);
         
@@ -630,7 +661,7 @@ void NavigationLayer::repositionElements()
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Vec2(0,0);
     
-    _userTypeMessagingLayer->setContentSize(Size(visibleSize.width, 300));
+    _userTypeMessagingLayer->setContentSize(Size(visibleSize.width, 350));
     _userTypeMessagingLayer->setPositionX(origin.x);
     
     _userTypeMessagingLayer->repositionElements();
@@ -710,8 +741,23 @@ void NavigationLayer::repositionElements()
                 const Size& backButtonSize = backButton->getContentSize();
                 backButton->setPosition(origin.x + backButtonSize.width*.7, origin.y + visibleSize.height - backButtonSize.height*.7);
             }
+			
+			if(settingsButton)
+			{
+				const Size& settingsButtonSize = settingsButton->getContentSize();
+				settingsButton->stopAllActions();
+				settingsButton->setPosition(Vec2(origin.x + visibleSize.width + settingsButtonSize.width*1.25, origin.y + visibleSize.height - settingsButtonSize.height * 1.25));
+			}
         }
-
+		else
+		{
+			if(settingsButton)
+			{
+				const Size& settingsButtonSize = settingsButton->getContentSize();
+				settingsButton->stopAllActions();
+				settingsButton->setPosition(Vec2(origin.x + visibleSize.width - settingsButtonSize.width*1.25, origin.y + visibleSize.height - settingsButtonSize.height * 1.25));
+			}
+		}
     }
     
 }

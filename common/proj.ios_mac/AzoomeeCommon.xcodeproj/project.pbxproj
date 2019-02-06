@@ -41,7 +41,6 @@
 		3012ED891E97DB450009027D /* ModalMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED871E97DB450009027D /* ModalMessages.cpp */; };
 		3012ED901E97DCC00009027D /* ElectricDreamsDecoration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED8A1E97DCC00009027D /* ElectricDreamsDecoration.cpp */; };
 		3012ED911E97DCC00009027D /* ElectricDreamsTextStyles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED8C1E97DCC00009027D /* ElectricDreamsTextStyles.cpp */; };
-		3012ED921E97DCC00009027D /* OomeeButtonLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED8E1E97DCC00009027D /* OomeeButtonLayer.cpp */; };
 		3012ED951E97E5260009027D /* TextInputLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED931E97E5260009027D /* TextInputLayer.cpp */; };
 		3012ED9F1E97E6A40009027D /* RemoteImageSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED971E97E6A40009027D /* RemoteImageSprite.cpp */; };
 		3012EDA01E97E6A40009027D /* ImageDownloaderCacheCleanerLogic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED991E97E6A40009027D /* ImageDownloaderCacheCleanerLogic.cpp */; };
@@ -148,13 +147,24 @@
 		434A55E41F29F9C800740601 /* MessageBoxLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434A55E21F29F9C800740601 /* MessageBoxLayer.cpp */; };
 		434A55EB1F2A40EE00740601 /* MessageBoxChatResetModerationLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434A55E91F2A40EE00740601 /* MessageBoxChatResetModerationLayer.cpp */; };
 		436007891F22120C000ECBA4 /* ModalWebview.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 436007871F22120C000ECBA4 /* ModalWebview.cpp */; };
+		92084F0B21B5877B00DACCEB /* BillingData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92084F0A21B5877B00DACCEB /* BillingData.cpp */; };
+		921C75AA2193225D00EB93D6 /* Style.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921C75A92193225C00EB93D6 /* Style.cpp */; };
 		9220E9C11FFE549500BD7A90 /* AnalyticsProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220E9C01FFE549500BD7A90 /* AnalyticsProperties.cpp */; };
 		9220EBB92021FC9300BD7A90 /* TimeFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EBB82021FC9300BD7A90 /* TimeFunctions.cpp */; };
 		9220EC6A203313CE00BD7A90 /* ActionBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EC69203313CE00BD7A90 /* ActionBuilder.cpp */; };
 		9224C00C1F7CFD7E00108553 /* FileZipUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224C00B1F7CFD7E00108553 /* FileZipUtil.cpp */; };
 		9224C00F1F7D13F000108553 /* DirectorySearcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224C00E1F7D13F000108553 /* DirectorySearcher.cpp */; };
+		924ACE0820A46C50007A5550 /* ContentItemPoolHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924ACE0720A46C50007A5550 /* ContentItemPoolHandler.cpp */; };
+		924ACE0A20A48528007A5550 /* HQStructureParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924ACE0920A48528007A5550 /* HQStructureParser.cpp */; };
+		924ACE0C20A4A073007A5550 /* HQStructureHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924ACE0B20A4A073007A5550 /* HQStructureHandler.cpp */; };
 		9261739F1F2A3E4A008E3F9D /* OnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9261739E1F2A3E4A008E3F9D /* OnScreenChecker.cpp */; };
+		9271D8452048311A00370120 /* LazyLoadingButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D8442048311A00370120 /* LazyLoadingButton.cpp */; };
+		9271D84720483C0D00370120 /* LazyLoadButtonOnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D84620483C0D00370120 /* LazyLoadButtonOnScreenChecker.cpp */; };
+		9271D888204EE7EE00370120 /* SpriteUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D887204EE7EE00370120 /* SpriteUtils.cpp */; };
+		9271D88B2051725C00370120 /* CCSpriteWithHue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D8892051725800370120 /* CCSpriteWithHue.cpp */; };
 		92759E9E1FE410BB00639190 /* FileDownloader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92759E9D1FE410BB00639190 /* FileDownloader.cpp */; };
+		929E8B6B2153F06E0078C983 /* ConfirmCancelMessageBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929E8B6A2153F06E0078C983 /* ConfirmCancelMessageBox.cpp */; };
+		92B1EC8D20A209CC007A58C0 /* ContentItemPoolParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92B1EC8C20A209CC007A58C0 /* ContentItemPoolParser.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -229,8 +239,6 @@
 		3012ED8B1E97DCC00009027D /* ElectricDreamsDecoration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElectricDreamsDecoration.h; sourceTree = "<group>"; };
 		3012ED8C1E97DCC00009027D /* ElectricDreamsTextStyles.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ElectricDreamsTextStyles.cpp; sourceTree = "<group>"; };
 		3012ED8D1E97DCC00009027D /* ElectricDreamsTextStyles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElectricDreamsTextStyles.h; sourceTree = "<group>"; };
-		3012ED8E1E97DCC00009027D /* OomeeButtonLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeButtonLayer.cpp; sourceTree = "<group>"; };
-		3012ED8F1E97DCC00009027D /* OomeeButtonLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OomeeButtonLayer.h; sourceTree = "<group>"; };
 		3012ED931E97E5260009027D /* TextInputLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextInputLayer.cpp; sourceTree = "<group>"; };
 		3012ED941E97E5260009027D /* TextInputLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextInputLayer.h; sourceTree = "<group>"; };
 		3012ED971E97E6A40009027D /* RemoteImageSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RemoteImageSprite.cpp; sourceTree = "<group>"; };
@@ -445,6 +453,9 @@
 		436007871F22120C000ECBA4 /* ModalWebview.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModalWebview.cpp; sourceTree = "<group>"; };
 		436007881F22120C000ECBA4 /* ModalWebview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModalWebview.h; sourceTree = "<group>"; };
 		4360078A1F2232CC000ECBA4 /* Urls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Urls.h; sourceTree = "<group>"; };
+		92084F0921B562C500DACCEB /* BillingData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BillingData.h; sourceTree = "<group>"; };
+		92084F0A21B5877B00DACCEB /* BillingData.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BillingData.cpp; sourceTree = "<group>"; };
+		921C75A92193225C00EB93D6 /* Style.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Style.cpp; sourceTree = "<group>"; };
 		9220E9BF1FFE44C800BD7A90 /* AnalyticsProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnalyticsProperties.h; sourceTree = "<group>"; };
 		9220E9C01FFE549500BD7A90 /* AnalyticsProperties.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AnalyticsProperties.cpp; sourceTree = "<group>"; };
 		9220EBB72021F9E900BD7A90 /* TimeFunctions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TimeFunctions.h; sourceTree = "<group>"; };
@@ -455,10 +466,28 @@
 		9224C00B1F7CFD7E00108553 /* FileZipUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileZipUtil.cpp; sourceTree = "<group>"; };
 		9224C00D1F7D11F400108553 /* DirectorySearcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectorySearcher.h; sourceTree = "<group>"; };
 		9224C00E1F7D13F000108553 /* DirectorySearcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DirectorySearcher.cpp; sourceTree = "<group>"; };
+		924ACE0720A46C50007A5550 /* ContentItemPoolHandler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ContentItemPoolHandler.cpp; path = HQDataObject/ContentItemPoolHandler.cpp; sourceTree = "<group>"; };
+		924ACE0920A48528007A5550 /* HQStructureParser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = HQStructureParser.cpp; path = HQDataObject/HQStructureParser.cpp; sourceTree = "<group>"; };
+		924ACE0B20A4A073007A5550 /* HQStructureHandler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = HQStructureHandler.cpp; path = HQDataObject/HQStructureHandler.cpp; sourceTree = "<group>"; };
 		9261739D1F2A3D34008E3F9D /* OnScreenChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnScreenChecker.h; sourceTree = "<group>"; };
 		9261739E1F2A3E4A008E3F9D /* OnScreenChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OnScreenChecker.cpp; sourceTree = "<group>"; };
+		9271D842204829C700370120 /* LazyLoadingButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LazyLoadingButton.h; sourceTree = "<group>"; };
+		9271D84320482E9700370120 /* LazyLoadButtonOnScreenChecker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LazyLoadButtonOnScreenChecker.h; sourceTree = "<group>"; };
+		9271D8442048311A00370120 /* LazyLoadingButton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LazyLoadingButton.cpp; sourceTree = "<group>"; };
+		9271D84620483C0D00370120 /* LazyLoadButtonOnScreenChecker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LazyLoadButtonOnScreenChecker.cpp; sourceTree = "<group>"; };
+		9271D886204EE6AD00370120 /* SpriteUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpriteUtils.h; sourceTree = "<group>"; };
+		9271D887204EE7EE00370120 /* SpriteUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SpriteUtils.cpp; sourceTree = "<group>"; };
+		9271D8892051725800370120 /* CCSpriteWithHue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSpriteWithHue.cpp; sourceTree = "<group>"; };
+		9271D88A2051725B00370120 /* CCSpriteWithHue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSpriteWithHue.h; sourceTree = "<group>"; };
 		92759E9C1FE3DDCA00639190 /* FileDownloader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileDownloader.h; sourceTree = "<group>"; };
 		92759E9D1FE410BB00639190 /* FileDownloader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FileDownloader.cpp; sourceTree = "<group>"; };
+		929E8B692153E85C0078C983 /* ConfirmCancelMessageBox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfirmCancelMessageBox.h; sourceTree = "<group>"; };
+		929E8B6A2153F06E0078C983 /* ConfirmCancelMessageBox.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ConfirmCancelMessageBox.cpp; sourceTree = "<group>"; };
+		92B1EC8820A209CB007A58C0 /* ContentItemPoolHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContentItemPoolHandler.h; path = HQDataObject/ContentItemPoolHandler.h; sourceTree = "<group>"; };
+		92B1EC8920A209CB007A58C0 /* HQStructureHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HQStructureHandler.h; path = HQDataObject/HQStructureHandler.h; sourceTree = "<group>"; };
+		92B1EC8A20A209CB007A58C0 /* HQStructureParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HQStructureParser.h; path = HQDataObject/HQStructureParser.h; sourceTree = "<group>"; };
+		92B1EC8B20A209CC007A58C0 /* ContentItemPoolParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContentItemPoolParser.h; path = HQDataObject/ContentItemPoolParser.h; sourceTree = "<group>"; };
+		92B1EC8C20A209CC007A58C0 /* ContentItemPoolParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContentItemPoolParser.cpp; path = HQDataObject/ContentItemPoolParser.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -480,6 +509,10 @@
 		021B1FC01F8389FC0044DCF7 /* HQDataObject */ = {
 			isa = PBXGroup;
 			children = (
+				92B1EC8B20A209CC007A58C0 /* ContentItemPoolParser.h */,
+				92B1EC8C20A209CC007A58C0 /* ContentItemPoolParser.cpp */,
+				92B1EC8820A209CB007A58C0 /* ContentItemPoolHandler.h */,
+				924ACE0720A46C50007A5550 /* ContentItemPoolHandler.cpp */,
 				02BEDF2C1FE1327500D4C9B3 /* ContentItemPool.cpp */,
 				02BEDF2D1FE1327500D4C9B3 /* ContentItemPool.h */,
 				021B1FC11F838A0A0044DCF7 /* HQCarouselObject.cpp */,
@@ -490,6 +523,10 @@
 				021B1FC61F838A0A0044DCF7 /* HQDataObject.h */,
 				021B1FC71F838A0A0044DCF7 /* HQDataObjectStorage.cpp */,
 				021B1FC81F838A0A0044DCF7 /* HQDataObjectStorage.h */,
+				92B1EC8920A209CB007A58C0 /* HQStructureHandler.h */,
+				924ACE0B20A4A073007A5550 /* HQStructureHandler.cpp */,
+				92B1EC8A20A209CB007A58C0 /* HQStructureParser.h */,
+				924ACE0920A48528007A5550 /* HQStructureParser.cpp */,
 			);
 			name = HQDataObject;
 			sourceTree = "<group>";
@@ -579,6 +616,8 @@
 				3012ED551E969BBB0009027D /* ParentDataProvider.h */,
 				3012ED561E969BBB0009027D /* ParentDataStorage.cpp */,
 				3012ED571E969BBB0009027D /* ParentDataStorage.h */,
+				92084F0921B562C500DACCEB /* BillingData.h */,
+				92084F0A21B5877B00DACCEB /* BillingData.cpp */,
 			);
 			path = Parent;
 			sourceTree = "<group>";
@@ -636,6 +675,8 @@
 				0240FC932016538A00E88157 /* BiometricAuthenticationHandler.h */,
 				9220EBB72021F9E900BD7A90 /* TimeFunctions.h */,
 				9220EBB82021FC9300BD7A90 /* TimeFunctions.cpp */,
+				9271D886204EE6AD00370120 /* SpriteUtils.h */,
+				9271D887204EE7EE00370120 /* SpriteUtils.cpp */,
 				9220EC6820330FE000BD7A90 /* ActionBuilder.h */,
 				9220EC69203313CE00BD7A90 /* ActionBuilder.cpp */,
 			);
@@ -681,8 +722,15 @@
 				305966971ECCAF76009A7130 /* Scene.cpp */,
 				305966981ECCAF76009A7130 /* Scene.h */,
 				305966801ECC6987009A7130 /* Style.h */,
-				3012ED8E1E97DCC00009027D /* OomeeButtonLayer.cpp */,
-				3012ED8F1E97DCC00009027D /* OomeeButtonLayer.h */,
+				921C75A92193225C00EB93D6 /* Style.cpp */,
+				9271D842204829C700370120 /* LazyLoadingButton.h */,
+				9271D8442048311A00370120 /* LazyLoadingButton.cpp */,
+				9271D84320482E9700370120 /* LazyLoadButtonOnScreenChecker.h */,
+				9271D84620483C0D00370120 /* LazyLoadButtonOnScreenChecker.cpp */,
+				9271D8892051725800370120 /* CCSpriteWithHue.cpp */,
+				9271D88A2051725B00370120 /* CCSpriteWithHue.h */,
+				929E8B692153E85C0078C983 /* ConfirmCancelMessageBox.h */,
+				929E8B6A2153F06E0078C983 /* ConfirmCancelMessageBox.cpp */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1141,6 +1189,7 @@
 				30DD5ED61E965E060084305B /* AnalyticsSingleton_ios.mm in Sources */,
 				4349C8361EA8ADEF00FE964B /* MPNotificationButton.m in Sources */,
 				4349C8591EA8ADEF00FE964B /* UIApplication+AutomaticEvents.m in Sources */,
+				924ACE0A20A48528007A5550 /* HQStructureParser.cpp in Sources */,
 				02AE88E31F83CBC3005C0FC8 /* AutomaticEvents.m in Sources */,
 				3012ED591E969BBB0009027D /* ParentDataStorage.cpp in Sources */,
 				436007891F22120C000ECBA4 /* ModalWebview.cpp in Sources */,
@@ -1152,11 +1201,15 @@
 				4318E13E1F28E65400778E9A /* MessageBoxTextLayer.cpp in Sources */,
 				4349C8561EA8ADEF00FE964B /* NSNotificationCenter+AutomaticEvents.m in Sources */,
 				4349C8041EA8ADEF00FE964B /* _MPTweakBindObserver.m in Sources */,
+				924ACE0820A46C50007A5550 /* ContentItemPoolHandler.cpp in Sources */,
 				30E094C01EDF0F2B00555891 /* Utils.cpp in Sources */,
+				929E8B6B2153F06E0078C983 /* ConfirmCancelMessageBox.cpp in Sources */,
 				4349C8151EA8ADEF00FE964B /* MixpanelExceptionHandler.m in Sources */,
 				9220EC6A203313CE00BD7A90 /* ActionBuilder.cpp in Sources */,
+				92084F0B21B5877B00DACCEB /* BillingData.cpp in Sources */,
 				3012ED9F1E97E6A40009027D /* RemoteImageSprite.cpp in Sources */,
 				3012ED631E969BF60009027D /* ChildDataStorage.cpp in Sources */,
+				92B1EC8D20A209CC007A58C0 /* ContentItemPoolParser.cpp in Sources */,
 				302E847A1ED1B992006A498C /* SplitLayout.cpp in Sources */,
 				3000FF7B1ED5BBB700E9717C /* Application.cpp in Sources */,
 				4349C84F1EA8ADEF00FE964B /* MPUIEdgeInsetsToNSDictionaryValueTransformer.m in Sources */,
@@ -1171,6 +1224,7 @@
 				434A55EB1F2A40EE00740601 /* MessageBoxChatResetModerationLayer.cpp in Sources */,
 				30DD5EF01E96860C0084305B /* ConfigStorage.cpp in Sources */,
 				4349C8271EA8ADEF00FE964B /* MPCATransform3DToNSDictionaryValueTransformer.m in Sources */,
+				921C75AA2193225D00EB93D6 /* Style.cpp in Sources */,
 				4349C8441EA8ADEF00FE964B /* MPSwizzler.m in Sources */,
 				4349C8241EA8ADEF00FE964B /* MPABTestDesignerTweakResponseMessage.m in Sources */,
 				30DD5ED71E965E060084305B /* AnalyticsSingleton.cpp in Sources */,
@@ -1178,7 +1232,6 @@
 				30E094BF1EDF0F2B00555891 /* URI.cpp in Sources */,
 				92759E9E1FE410BB00639190 /* FileDownloader.cpp in Sources */,
 				4349C81B1EA8ADEF00FE964B /* MPABTestDesignerClearRequestMessage.m in Sources */,
-				3012ED921E97DCC00009027D /* OomeeButtonLayer.cpp in Sources */,
 				9224C00C1F7CFD7E00108553 /* FileZipUtil.cpp in Sources */,
 				4349C8321EA8ADEF00FE964B /* MPEventBinding.m in Sources */,
 				4349C8291EA8ADEF00FE964B /* MPCGColorRefToNSStringValueTransformer.m in Sources */,
@@ -1199,6 +1252,7 @@
 				4349C8201EA8ADEF00FE964B /* MPABTestDesignerDisconnectMessage.m in Sources */,
 				02AE88E01F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.mm in Sources */,
 				3012ED6F1E96A3140009027D /* TextInputChecker.cpp in Sources */,
+				9271D88B2051725C00370120 /* CCSpriteWithHue.cpp in Sources */,
 				4349C8391EA8ADEF00FE964B /* MPNSNumberToCGFloatValueTransformer.m in Sources */,
 				4349C83D1EA8ADEF00FE964B /* MPObjectSerializerConfig.m in Sources */,
 				0240FC952016538C00E88157 /* BiometricAuthenticationHandler.cpp in Sources */,
@@ -1222,11 +1276,13 @@
 				4349C8531EA8ADEF00FE964B /* MPVariant.m in Sources */,
 				434A55E41F29F9C800740601 /* MessageBoxLayer.cpp in Sources */,
 				4349C8551EA8ADEF00FE964B /* NSInvocation+MPHelpers.m in Sources */,
+				9271D8452048311A00370120 /* LazyLoadingButton.cpp in Sources */,
 				3012EDB01E97E8450009027D /* HMACSHA256_ios.mm in Sources */,
 				021564901FC5F3DC00641C14 /* SpecialCalendarEventManager.cpp in Sources */,
 				4349C82A1EA8ADEF00FE964B /* MPCGPointToNSDictionaryValueTransformer.m in Sources */,
 				4349C81F1EA8ADEF00FE964B /* MPABTestDesignerDeviceInfoResponseMessage.m in Sources */,
 				4318E13A1F289DD500778E9A /* RequestAdultPinLayer.cpp in Sources */,
+				924ACE0C20A4A073007A5550 /* HQStructureHandler.cpp in Sources */,
 				02A120251EAF83E0007EDD95 /* VersionChecker.cpp in Sources */,
 				4349C84D1EA8ADEF00FE964B /* MPUIColorToNSStringValueTransformer.m in Sources */,
 				3012ED521E969AE40009027D /* CookieDataStorage.cpp in Sources */,
@@ -1236,6 +1292,7 @@
 				4349C85B1EA8ADEF00FE964B /* UIImage+MPAverageColor.m in Sources */,
 				4349C8511EA8ADEF00FE964B /* MPUIImageToNSDictionaryValueTransformer.m in Sources */,
 				4349C83F1EA8ADEF00FE964B /* MPPassThroughValueTransformer.m in Sources */,
+				9271D84720483C0D00370120 /* LazyLoadButtonOnScreenChecker.cpp in Sources */,
 				3012ED511E969AE40009027D /* CookieDataProvider.cpp in Sources */,
 				4349C84A1EA8ADEF00FE964B /* MPTweakInline.m in Sources */,
 				3092BCF01EB10524006D6F4C /* HttpRequestCreator.cpp in Sources */,
@@ -1258,6 +1315,7 @@
 				4349C8351EA8ADEF00FE964B /* MPNotification.m in Sources */,
 				4313697E1F2B6882002BEA8C /* MessageBoxOnlineSafetySlidesLayer.cpp in Sources */,
 				4349C8431EA8ADEF00FE964B /* MPSwizzle.m in Sources */,
+				9271D888204EE7EE00370120 /* SpriteUtils.cpp in Sources */,
 				4349C82D1EA8ADEF00FE964B /* MPClassDescription.m in Sources */,
 				9220EBB92021FC9300BD7A90 /* TimeFunctions.cpp in Sources */,
 				3012EDA11E97E6A40009027D /* ImageDownloader.cpp in Sources */,

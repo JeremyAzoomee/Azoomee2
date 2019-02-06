@@ -6,13 +6,15 @@
 #include <external/json/document.h>
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/API/HttpRequestCreator.h>
+#include <AzoomeeCommon/Data/HQDataObject/ContentItemPoolHandler.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQStructureHandler.h>
 
 NS_AZOOMEE_BEGIN
 
 // forward ref
 class AwaitingAdultPinLayer;
 
-class BackEndCaller : public cocos2d::Ref, public Azoomee::HttpRequestCreatorResponseDelegate
+class BackEndCaller : public cocos2d::Ref, public Azoomee::HttpRequestCreatorResponseDelegate, Azoomee::ContentPoolDelegate, Azoomee::HQFeedDelegate
 {
 private:
     
@@ -51,6 +53,10 @@ private:
     void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body) override;
     void onHttpRequestFailed(const std::string& requestTag, long errorCode) override;
     
+    //-ContentPoolDelegate
+    void onContentDownloadComplete() override;
+    //-HQFeedDelegate
+    void onFeedDownloadComplete() override;
     
 public:
     
@@ -82,6 +88,8 @@ public:
     void registerChild(const std::string& childProfileName, const std::string& childGender, const std::string& childDOB, int oomeeNumber);
     // Update a child profile
     void updateChild(const std::string& childId, const std::string& childProfileName, const std::string& childGender, const std::string& childDOB, int oomeeNumber);
+    // Update child avatar
+    void updateChildAvatar(const std::string& childId, const std::string& imageData);
     // Get gorden. Good gorden.
     void getGordon();
     // Verify a google payment
@@ -98,6 +106,10 @@ public:
     void resetPasswordRequest(const std::string& emailAddress);
     // Get force update data
     void getForceUpdateData();
+    // Get Parent details
+    void getParentDetails();
+	// update video progress
+	void updateVideoProgress(const std::string& contentId, int videoProgressSeconds);
 };
 
 NS_AZOOMEE_END

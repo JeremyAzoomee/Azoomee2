@@ -32,7 +32,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>0</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -54,11 +54,17 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Please use Face ID to enter your PIN in the future.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>fonts/Sofia Pro Soft Bold.otf</string>
 		<string>fonts/Sofia Pro Soft Medium.otf</string>
 		<string>fonts/Sofia Pro Soft Regular.otf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
 	</array>
 	<key>UIPrerenderedIcon</key>
 	<true/>
@@ -68,12 +74,6 @@
 	<true/>
 	<key>UIStatusBarHidden~ipad</key>
 	<true/>
-	<key>NSFaceIDUsageDescription</key>
-	<string>Please use Face ID to enter your PIN in the future.</string>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>remote-notification</string>
-	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

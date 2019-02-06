@@ -1,5 +1,6 @@
 #include "IosNativeFunctionsSingleton.h"
 #include "../Data/ConfigStorage.h"
+#include "../Strings.h"
 #include "BiometricAuthenticationHandler.h"
 #import <AdSupport/ASIdentifierManager.h>
 #import <LocalAuthentication/LocalAuthentication.h>
@@ -69,7 +70,7 @@ bool IosNativeFunctionsSingleton::doBiometricValidation(bool precheck)
 {
     LAContext *myContext = [[LAContext alloc] init];
     NSError *authError = nil;
-    NSString *myLocalizedReasonString = @"Please use Touch ID or Face ID to enter your PIN.";
+    NSString *myLocalizedReasonString = [NSString stringWithUTF8String: _("Please use Touch ID or Face ID to enter your PIN.").c_str()];
     if ([myContext canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&authError]) {
         
         if(precheck)
@@ -83,11 +84,11 @@ bool IosNativeFunctionsSingleton::doBiometricValidation(bool precheck)
                                 if (success) {
                                     BiometricAuthenticationHandler::getInstance()->biometricAuthenticationSuccess();
                                 } else {
-                                    if([error code] == -6)
+                                    if([error code] == -2)
                                     {
                                         BiometricAuthenticationHandler::getInstance()->biometricAuthenticationNotNeeded(); //cancel pressed on faceid
                                     }
-                                    else if([error code] != -2)
+                                    else
                                     {
                                         BiometricAuthenticationHandler::getInstance()->biometricAuthenticationFailure();
                                     }

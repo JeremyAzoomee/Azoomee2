@@ -7,6 +7,7 @@
 //
 
 #include "FileZipUtil.h"
+#include "StringFunctions.h"
 
 using namespace cocos2d;
 
@@ -58,10 +59,27 @@ namespace Azoomee {
                 char szFilePathA[260];
                 nRet = unzGetCurrentFileInfo(pFile, &FileInfo, szFilePathA, sizeof(szFilePathA), NULL, 0, NULL, 0);
                 CC_BREAK_IF(UNZ_OK != nRet);
+                
+                auto dirs = splitStringToVector(szFilePathA,"/");
+                std::string combinedDir = std::string(dirpath) + "/";
+                for (int i = 0; i < dirs.size(); i++)
+                {
+                    
+                    if(i == dirs.size() - 1)
+                    {
+                        continue;
+                    }
+                    combinedDir += dirs[i] + "/";
+                    if(!FileUtils::getInstance()->isDirectoryExist(combinedDir))
+                    {
+                        FileUtils::getInstance()->createDirectory(combinedDir);
+                    }
+                }
+                
                 std::string newName = std::string(dirpath)+"/"+szFilePathA;
                 if (newName[newName.length()-1]=='/')
                 {
-                    FileUtils::getInstance()->createDirectory(newName.c_str());
+                    //FileUtils::getInstance()->createDirectory(newName.c_str());
                     continue;
                 }
                 

@@ -7,6 +7,7 @@
 
 #include "DynamicNodeTextInput.h"
 #include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/Strings.h>
 #include "DynamicNodeCreator.h"
 
 using namespace cocos2d;
@@ -54,7 +55,7 @@ void DynamicNodeTextInput::initWithParams(const rapidjson::Value &params, const 
     
     int inputType = getIntFromJson("inputType", params);
     
-    std::string placeholder = getStringFromJson("placeholder", params);
+    std::string placeholder = _(getStringFromJson("placeholder", params));
     if(usingExternParams)
     {
         placeholder = DynamicNodeCreator::addExternalParamsToString(placeholder);
@@ -68,10 +69,12 @@ void DynamicNodeTextInput::initWithParams(const rapidjson::Value &params, const 
     _textInput->setText(placeholder);
     this->addChild(_textInput);
     
-    _errorText = createLabelBodyCentred(getStringFromJson("errorText", params), Style::Color::watermelon);
+    _errorText = createLabelBodyCentred(_(getStringFromJson("errorText", params)), Style::Color::watermelon);
     _errorText->setLineSpacing(20);
     _errorText->setPosition(Vec2(pos.x * dynamicNodeSize.width, pos.y * dynamicNodeSize.height - _textInput->getContentSize().height/2 - _errorText->getContentSize().height/2));
     _errorText->setVisible(false);
+	_errorText->setOverflow(Label::Overflow::SHRINK);
+	_errorText->setDimensions(_textInput->getContentSize().width, _textInput->getContentSize().height);
     
     this->addChild(_errorText);
     

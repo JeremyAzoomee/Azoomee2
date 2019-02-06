@@ -15,6 +15,7 @@
 #include "NavigationLayer.h"
 #include "RecentlyPlayedManager.h"
 #include "HQHistoryManager.h"
+#include "ArtAppDelegate.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
@@ -66,15 +67,14 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
     if(contentItem->getType() == ConfigStorage::kContentTypeGame)
     {
         RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(),ConfigStorage::kGameHQName);
-        RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kMixHQName);
+        RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kMeHQName);
         ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
         GameDataManager::getInstance()->startProcessingGame(contentItem);
     }
     else if(contentItem->getType()  == ConfigStorage::kContentTypeVideo || contentItem->getType()  == ConfigStorage::kContentTypeAudio)
     {
-        const std::string& hqName = contentItem->getType()  == ConfigStorage::kContentTypeVideo ? ConfigStorage::kVideoHQName : ConfigStorage::kAudioHQName;
-        RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), hqName);
-        RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kMixHQName);
+        RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kVideoHQName);
+        RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kMeHQName);
         ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
         Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Orientation::Landscape, contentItem->getUri(),Vec2(0,0)));
     }
@@ -99,6 +99,18 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
                 
                 Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
             }
+        }
+    }
+    else if(contentItem->getType() == ConfigStorage::kContentTypeInternal)
+    {
+        if(contentItem->getUri() == ConfigStorage::kOomeeMakerURI)
+        {
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(OomeeMakerEntryPointScene));
+        }
+        else if(contentItem->getUri() == ConfigStorage::kArtAppURI)
+        {
+            ArtAppDelegate::getInstance()->setFileName("");
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ArtAppEntryPointScene));
         }
     }
 }

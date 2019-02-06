@@ -9,6 +9,8 @@
 #import "MediaPlayer_ios.h"
 #import "ios_Cocos2d_Callbacks.h"
 
+using namespace Azoomee;
+
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
 @implementation MediaPlayerController
@@ -32,7 +34,7 @@
     // Do any additional setup after loading the view, typically from a nib.
 }
 
--(void)startBuildingMediaPlayer:(NSString*)url
+-(void)startBuildingMediaPlayer:(NSString*)url progressSeconds:(int)videoProgressSeconds
 {
     NSString* playlistString = Azoomee::getPlaylistString();
     NSArray* playlistUrls = [playlistString componentsSeparatedByString:@"|"];
@@ -81,31 +83,141 @@
     {
         [self.queuePlayer advanceToNextItem];
     }
-    
+	_currentItemIndex = startPlaylistElementIndex;
     [self.queuePlayer play];
-    
-    [self addBackButton];
+
+	if(videoProgressSeconds > 0)
+	{
+		CMTime startTime = CMTimeMakeWithSeconds(videoProgressSeconds, NSEC_PER_SEC);
+		[_queuePlayer seekToTime:startTime];
+	}
+	
+    [self createButtons];
+    [self createFavBanner];
 }
 
--(void)addBackButton
+- (void) createButtons
 {
+    CGFloat buttonWidth = 0.0f;
     CGSize screenSize = [[UIScreen mainScreen] bounds].size;
-    CGFloat buttonWidth = screenSize.width * 0.05;
     
-    self.backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.backButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [self.backButton setFrame:CGRectMake(buttonWidth / 4.0f, buttonWidth / 4.0f, buttonWidth, buttonWidth)];
-    [self.backButton setExclusiveTouch:YES];
-    [self.backButton setImage:[UIImage imageNamed:@"res/navigation/back_button.png"] forState:UIControlStateNormal];
+    buttonWidth = (screenSize.width > screenSize.height) ? screenSize.width / 15.0f : screenSize.height / 15.0f;
     
-    [self.view addSubview:self.backButton];
+    _buttonWidth = buttonWidth;
+    
+    screenSize.width -= buttonWidth * 1.5f;
+    screenSize.height -= buttonWidth * 1.5f;
+    
+    _backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_backButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [_backButton setFrame:CGRectMake(buttonWidth/4, buttonWidth/4, buttonWidth, buttonWidth)];
+    [_backButton setExclusiveTouch:YES];
+    [_backButton setImage:[UIImage imageNamed:@"res/webview_buttons/close_unelected_v2.png"] forState:UIControlStateNormal];
+    
+    if(!isAnonUser())
+    {
+        _favButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_favButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [_favButton setFrame:CGRectMake(buttonWidth/4, buttonWidth/4 + buttonWidth, buttonWidth, buttonWidth)];
+        [_favButton setExclusiveTouch:YES];
+        [_favButton setImage:[UIImage imageNamed:@"res/webview_buttons/favourite_unelected_v2.png"] forState:UIControlStateNormal];
+        [_favButton setImage:[UIImage imageNamed:@"res/webview_buttons/favourite_selected_v2.png"] forState:UIControlStateSelected];
+        if(isFavContent())
+        {
+            [_favButton setSelected: true];
+        }
+        if(isChatEntitled())
+        {
+            _shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            [_shareButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
+            [_shareButton setFrame:CGRectMake(buttonWidth/4, buttonWidth/4 + (2 * buttonWidth), buttonWidth, buttonWidth)];
+            [_shareButton setExclusiveTouch:YES];
+            [_shareButton setImage:[UIImage imageNamed:@"res/webview_buttons/share_unelected_v2.png"] forState:UIControlStateNormal];
+            
+            [self.view addSubview:_shareButton];
+        }
+        [self.view addSubview:_favButton];
+    }
+    [self.view addSubview:_backButton];
+    
+    _uiExpanded = false;
+}
+
+-(void) createFavBanner
+{
+    CGRect bounds = [[UIScreen mainScreen] bounds];
+    CGSize size = bounds.size;
+    
+    CGFloat width = MAX(size.width * 0.334f, size.height * 0.334f);
+    CGFloat height = MIN(size.height * 0.105f, size.width * 0.105f);
+    
+    _favContentBanner = [[UIView alloc] initWithFrame:CGRectMake((size.width / 2) - (width / 2), -height, width, height)];
+    [self.view addSubview:_favContentBanner];
+    
+    //layer with bg
+    UIImageView* bg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"res/webview_buttons/fav_banner.png"]];
+    [bg setFrame:CGRectMake(0, 0, width, height)];
+    [_favContentBanner addSubview:bg];
+    
+    //layer with heart
+    UIImageView* heart = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"res/webview_buttons/heart.png"]];
+    [heart setFrame:CGRectMake(width * 0.07, height * 0.28 , width * 0.107, height * 0.44)];
+    [_favContentBanner addSubview:heart];
+    
+    
+    UILabel* text = [[UILabel alloc] initWithFrame:CGRectMake(width * 0.25, height * 0.15, width * 0.65, height * 0.7)];
+    [text setText:Azoomee::getNSStringForKey("Added to favourites")];
+    [text setTextColor:[UIColor whiteColor]];
+    [text setAdjustsFontSizeToFitWidth:true];
+    [text setFont:[UIFont fontWithName:@"SofiaProSoftRegular" size: height * 0.35]];
+    [_favContentBanner addSubview:text];
+    
+    [bg release];
+    [heart release];
+    [text release];
 }
 
 -(void) buttonClicked:(UIButton*)sender
 {
-    [self cleanupAndExit];
+    [sender setSelected: !sender.isSelected];
+    
+    if(sender == _backButton)
+    {
+        [self cleanupAndExit];
+    }
+    else if(sender == _favButton)
+    {
+        if(isFavContent())
+        {
+            unFavContent();
+        }
+        else
+        {
+            favContent();
+            [self favAnimation];
+        }
+    }
+    else if(sender == _shareButton)
+    {
+        [self cleanupAndExit];
+        shareContentInChat();
+    }
     
 }
+
+-(void) favAnimation
+{
+    [UIView animateWithDuration:0.5 animations:^{ _favContentBanner.frame = CGRectMake(_favContentBanner.frame.origin.x, 0, _favContentBanner.frame.size.width, _favContentBanner.frame.size.height);}];
+    [NSTimer scheduledTimerWithTimeInterval:2.0f
+                                     target:self selector:@selector(closePopup:) userInfo:nil repeats:NO];
+    
+}
+
+- (void) closePopup:(NSTimer *)timer
+{
+    [UIView animateWithDuration:0.5 animations:^{ _favContentBanner.frame = CGRectMake(_favContentBanner.frame.origin.x, -_favContentBanner.frame.size.height, _favContentBanner.frame.size.width, _favContentBanner.frame.size.height);}];
+}
+
 
 #pragma mark Event listeners ------------------------------------------------------------------------------------------------------
 
@@ -170,13 +282,20 @@
 -(void) playerItemDidReachEnd:(NSNotification*)notification
 {
     Azoomee::sendMixPanelData("video.complete", "");
-    
+	Azoomee::sendVideoProgress(_currentItemIndex , 0);
     if(self.queuePlayer.currentItem == self.queuePlayer.items.lastObject)
     {
         Azoomee::sendMixPanelData("video.playlistComplete", "");
         
         [self cleanupAndExit];
     }
+	
+	_currentItemIndex++;
+	Azoomee::newVideoOpened(_currentItemIndex);
+	if(!isAnonUser())
+	{
+		[_favButton setSelected: isFavContent()];
+	}
 }
 
 #pragma mark loading screen ---------------------------------------------------------------------------------------------------------
@@ -246,9 +365,24 @@
     }
     
     exitRequested = true;
+	
+	Azoomee::sendVideoProgress(_currentItemIndex , CMTimeGetSeconds(_queuePlayer.currentItem.currentTime));
+	
     [self.backButton removeFromSuperview];
+    if(!isAnonUser())
+    {
+        [self.favButton removeFromSuperview];
+        if(isChatEntitled())
+        {
+            [self.shareButton removeFromSuperview];
+        }
+    }
     [self.queuePlayer pause];
     [self.playerController.view removeFromSuperview];
+    
+    [_favContentBanner removeFromSuperview];
+    [_favContentBanner release];
+    _favContentBanner = nil;
     
     if(self.loadingLayer != nil)
     {
@@ -258,7 +392,6 @@
     
     self.queuePlayer = nil;
     self.playerController = nil;
-    self.backButton = nil;
     self.lastPlayedItem = nil;
     
     Azoomee::navigateToBaseScene();

@@ -66,10 +66,10 @@ bool FriendListViewItem::init()
     
     // Name
     _nameLabel = ui::Text::create();
-    _nameLabel->setFontName(Style::Font::Regular);
+    _nameLabel->setFontName(Style::Font::Regular());
     _nameLabel->setFontSize(70.0f);
     _nameLabel->setTextColor(Color4B(Style::Color::white));
-    _nameLabel->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(75.0f, 0, 0, 0)));
+    _nameLabel->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(150.0f, 0, 0, 0)));
     _contentLayout->addChild(_nameLabel);
     
     

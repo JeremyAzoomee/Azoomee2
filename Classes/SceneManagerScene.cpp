@@ -13,11 +13,19 @@
 #include "ChatDelegate.h"
 #include "../ArtApp/Classes/AzoomeeArt/MainScene.h"
 #include "../ArtApp/Classes/AzoomeeArt/AzoomeeArtApp.h"
+#include "OomeeMakerDelegate.h"
+#include <AzoomeeOomeeMaker/UI/OomeeSelectScene.h>
 #include "ArtAppDelegate.h"
-#include "EmptySceneForSettings.h"
 #include "WebViewSelector.h"
 #include "IntroVideoScene.h"
 #include "ContentHistoryManager.h"
+#include "AddChildScene.h"
+
+#include "SettingsHub.h"
+
+#ifdef VODACOM_BUILD
+#include "Vodacom/VodacomOnboardingScene.h"
+#endif
 
 using namespace cocos2d;
 
@@ -154,24 +162,45 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             Director::getInstance()->replaceScene(TransitionSlideInR::create(0.25f, goToScene));
             break;
         }
+        case OomeeMakerEntryPointScene:
+        {
+            HQHistoryManager::getInstance()->updatePrevOrientation();
+            Azoomee::OomeeMaker::delegate = OomeeMakerDelegate::getInstance();
+            forceToLandscape();
+            cocos2d::Scene* goToScene = Azoomee::OomeeMaker::OomeeSelectScene::create();
+            Director::getInstance()->replaceScene(goToScene);
+            break;
+        }
         case SettingsFromChat:
         {
             HQHistoryManager::getInstance()->updatePrevOrientation();
-            forceToLandscape();
-            cocos2d::Scene* goToScene = EmptySceneForSettings::createScene(SettingsOrigin::CHAT);
+            forceToPortrait();
+			auto* goToScene = SettingsHub::create();
+			goToScene->setOrigin(SettingsOrigin::CHAT);
             AnalyticsSingleton::getInstance()->registerCurrentScene("SETTINGS");
             Director::getInstance()->replaceScene(goToScene);
             break;
         }
-        case Settings:
+        case SettingsFromHQ:
         {
             HQHistoryManager::getInstance()->updatePrevOrientation();
-            forceToLandscape();
-            cocos2d::Scene* goToScene = EmptySceneForSettings::createScene(SettingsOrigin::MAIN_APP);
+            forceToPortrait();
+			auto* goToScene = SettingsHub::create();
+			goToScene->setOrigin(SettingsOrigin::HQ);
             AnalyticsSingleton::getInstance()->registerCurrentScene("SETTINGS");
             Director::getInstance()->replaceScene(goToScene);
             break;
         }
+		case SettingsFromChildSelect:
+		{
+			HQHistoryManager::getInstance()->updatePrevOrientation();
+			forceToPortrait();
+			auto* goToScene = SettingsHub::create();
+			goToScene->setOrigin(SettingsOrigin::CHILD_SELECT);
+			AnalyticsSingleton::getInstance()->registerCurrentScene("SETTINGS");
+			Director::getInstance()->replaceScene(goToScene);
+			break;
+		}
         case WebviewPortrait:
         {
             HQHistoryManager::getInstance()->updatePrevOrientation();
@@ -179,7 +208,8 @@ void SceneManagerScene::onEnterTransitionDidFinish()
                 forceToPortrait();
             #endif
             AnalyticsSingleton::getInstance()->registerCurrentScene("WEBVIEWPORTRAIT");
-            WebViewSelector::createSceneWithUrl(webviewURL, Orientation::Portrait, _closeButtonAnchor);
+            cocos2d::Scene* goToScene = WebViewSelector::createSceneWithUrl(webviewURL, Orientation::Portrait, _closeButtonAnchor);
+            Director::getInstance()->replaceScene(goToScene);
             break;
         }
         case WebviewLandscape:
@@ -187,7 +217,8 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             HQHistoryManager::getInstance()->updatePrevOrientation();
             forceToLandscape();
             AnalyticsSingleton::getInstance()->registerCurrentScene("WEBVIEWLANDSCAPE");
-            WebViewSelector::createSceneWithUrl(webviewURL, Orientation::Landscape, _closeButtonAnchor);
+            cocos2d::Scene* goToScene = WebViewSelector::createSceneWithUrl(webviewURL, Orientation::Landscape, _closeButtonAnchor);
+            Director::getInstance()->replaceScene(goToScene);
             break;
         }
         case introVideo:
@@ -204,6 +235,29 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             Director::getInstance()->replaceScene(IntroVideoScene::create());
             break;
         }
+        case AddChild:
+        {
+            acceptAnyOrientation();
+            HQHistoryManager::getInstance()->updatePrevOrientation();
+            Director::getInstance()->replaceScene(AddChildScene::createWithFlowStage(AddChildFlow::ADDITIONAL_NAME));
+            break;
+        }
+        case AddChildFirstTime:
+        {
+            acceptAnyOrientation();
+            HQHistoryManager::getInstance()->updatePrevOrientation();
+            Director::getInstance()->replaceScene(AddChildScene::createWithFlowStage(AddChildFlow::FIRST_TIME_SETUP_NAME));
+            break;
+        }
+#ifdef VODACOM_BUILD
+		case VodacomOnboarding:
+		{
+			HQHistoryManager::getInstance()->updatePrevOrientation();
+			forceToPortrait();
+			Director::getInstance()->replaceScene(VodacomOnboardingScene::create());
+			break;
+		}
+#endif
         default:
             break;
     }
@@ -228,7 +282,8 @@ void SceneManagerScene::acceptAnyOrientation()
 
 void SceneManagerScene::returnToPrevOrientation()
 {
-    if(ContentHistoryManager::getInstance()->getReturnedFromContent() || HQHistoryManager::getInstance()->_returnedFromForcedOrientation)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+	if(ContentHistoryManager::getInstance()->getReturnedFromContent() || HQHistoryManager::getInstance()->_returnedFromForcedOrientation)
     {
         if(HQHistoryManager::getInstance()->_prevHQOrientation == Portrait)
         {
@@ -239,6 +294,7 @@ void SceneManagerScene::returnToPrevOrientation()
             forceToLandscape();
         }
     }
+#endif
     HQHistoryManager::getInstance()->_returnedFromForcedOrientation = false;
 }
 

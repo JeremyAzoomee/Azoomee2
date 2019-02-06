@@ -1,4 +1,5 @@
 #include "FriendListScene.h"
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
@@ -7,6 +8,7 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 #include "MessageScene.h"
 
 using namespace cocos2d;
@@ -183,26 +185,35 @@ void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
     std::string oomeeFileName;
     std::string displayName;
     
+    auto childAvatar = ui::Layout::create();
+    childAvatar->setLayoutParameter(CreateCenterVerticalLinearLayoutParam());
+    childAvatar->setSizeType(ui::Widget::SizeType::ABSOLUTE);
+    
     if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
     {
-        int oomeeNumber = ConfigStorage::getInstance()->getOomeeNumberForUrl(ChildDataProvider::getInstance()->getLoggedInChildAvatarId());
-        
-        oomeeFileName = StringUtils::format("res/childSelection/%s.png", ConfigStorage::getInstance()->getNameForOomee(oomeeNumber).c_str());
-        displayName = "   " + ChildDataProvider::getInstance()->getLoggedInChildName() + " (Kid Code: " + ParentDataProvider::getInstance()->getInviteCodeForAnAvailableChild(ChildDataProvider::getInstance()->getLoggedInChildNumber()) + ")";
+        oomeeFileName = ChildDataProvider::getInstance()->getParentOrChildAvatarId();
+        displayName = "   " + ChildDataProvider::getInstance()->getLoggedInChildName() + " (" + _("Kid Code:") + " " + ParentDataProvider::getInstance()->getInviteCodeForAnAvailableChild(ChildDataProvider::getInstance()->getLoggedInChildNumber()) + ")";
+        auto childAvatarSprite = RemoteImageSprite::create();
+        childAvatarSprite->setKeepAspectRatio(true);
+        childAvatarSprite->initWithUrlAndSizeWithoutPlaceholder(oomeeFileName, Size(128,128));
+        childAvatarSprite->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+        childAvatar->setContentSize(Size(128,128));
+        childAvatar->addChild(childAvatarSprite);
     }
     else
     {
         oomeeFileName = "res/childSelection/om_GenericParent.png";
-        displayName = "   Parent";
+        displayName = "   " + _("Parent");
+        auto parentAvatar = Sprite::create(oomeeFileName);
+        parentAvatar->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+        childAvatar->setContentSize(parentAvatar->getContentSize());
+        childAvatar->addChild(parentAvatar);
+        childAvatar->setScale(0.25);
     }
     
-    auto childAvatar = ui::ImageView::create(oomeeFileName);
+    //childAvatar->setScale(0.25f);
     
-    childAvatar->setLayoutParameter(CreateCenterVerticalLinearLayoutParam());
-    childAvatar->setSizeType(ui::Widget::SizeType::ABSOLUTE);
-    childAvatar->setScale(0.25f);
-    
-    auto childInfoLabel = ui::Text::create(displayName, Azoomee::Style::Font::Regular, 48);
+    auto childInfoLabel = ui::Text::create(displayName, Azoomee::Style::Font::Regular(), 48);
     childInfoLabel->setColor(Style::Color::white);
     childInfoLabel->setLayoutParameter(CreateCenterVerticalLinearLayoutParam());
     childInfoLabel->setSizeType(ui::Widget::SizeType::ABSOLUTE);

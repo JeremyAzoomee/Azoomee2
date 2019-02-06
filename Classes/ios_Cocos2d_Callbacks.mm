@@ -9,9 +9,16 @@
 #include "LoginLogicHandler.h"
 #include "FlowDataSingleton.h"
 #include <AzoomeeCommon/ErrorCodes.h>
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
 #include "ContentHistoryManager.h"
+#include "FavouritesManager.h"
+#include "ChatDelegate.h"
 #include "VideoPlaylistManager.h"
+#include "BackEndCaller.h"
+#include "RecentlyPlayedManager.h"
 
 using namespace cocos2d;
 NS_AZOOMEE_BEGIN
@@ -123,9 +130,61 @@ bool isDeviceIphoneX()
     return ConfigStorage::getInstance()->isDeviceIphoneX();
 }
 
+void favContent()
+{
+    FavouritesManager::getInstance()->addToFavourites(ContentHistoryManager::getInstance()->getLastOpenedContent());
+}
+
+void unFavContent()
+{
+    FavouritesManager::getInstance()->removeFromFavourites(ContentHistoryManager::getInstance()->getLastOpenedContent());
+}
+
+bool isFavContent()
+{
+    return FavouritesManager::getInstance()->isFavouriteContent(ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId());
+}
+
+void shareContentInChat()
+{
+	if(!HQHistoryManager::getInstance()->isOffline)
+	{
+    	ChatDelegate::getInstance()->_sharedContentId = ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId();
+    	ChatDelegate::getInstance()->shareContentInChat();
+	}
+}
+
+bool isChatEntitled()
+{
+    return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName)->getHqEntitlement()  && !HQHistoryManager::getInstance()->isOffline;
+}
+
+bool isAnonUser()
+{
+    return ParentDataProvider::getInstance()->isLoggedInParentAnonymous();
+}
+
+void sendVideoProgress(int playlistIndex , int videoProgressSeconds)
+{
+	BackEndCaller::getInstance()->updateVideoProgress(VideoPlaylistManager::getInstance()->getContentItemDataForPlaylistElement(playlistIndex)->getContentItemId(), videoProgressSeconds);
+}
+
+void newVideoOpened(int playlistIndex)
+{
+	const auto& contentItem = VideoPlaylistManager::getInstance()->getContentItemDataForPlaylistElement(playlistIndex);
+	RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kVideoHQName);
+	RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kMeHQName);
+	ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
+}
+
 NSString* getPlaylistString()
 {
     return [NSString stringWithUTF8String:VideoPlaylistManager::getInstance()->getPlaylistForIosNativePlayer().c_str()];
+}
+
+NSString* getNSStringForKey(const char* key)
+{
+    return [NSString stringWithUTF8String:StringMgr::getInstance()->getStringForKey(key).c_str()];
 }
 
 NS_AZOOMEE_END

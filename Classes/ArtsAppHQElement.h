@@ -2,6 +2,7 @@
 #define __ARTSAPPHQELEMENT_H__
 
 #include <cocos/cocos2d.h>
+#include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/Azoomee.h>
 #include "ArtImageOnScreenChecker.h"
 
@@ -10,12 +11,17 @@ NS_AZOOMEE_BEGIN
 class ArtsAppHQElement : public cocos2d::Layer
 {
 public:
+	typedef std::function<void(const std::string&)> DeleteButtonCallback;
+	
     CREATE_FUNC(ArtsAppHQElement);
     virtual bool initWithURLAndSize(const std::string& filePath, const cocos2d::Size& size, bool deletable, bool newImage, bool preload = true);
     void enableOnScreenChecker();
     void addImage(cocos2d::Texture2D* tex);
     void addPlaceHolder();
     void loadImageTex();
+	
+	void setDeleteButtonCallback(const DeleteButtonCallback& callback);
+	void deleteButtonVisible(bool visible);
     
 private:
     void createImageBorder();
@@ -24,20 +30,17 @@ private:
     void addListenerToElement();
     void addLockToElement();
     bool _elementActive = false;
+    bool _newImage = false;
+	bool _showDeleteButton = false;
     
-    cocos2d::Sprite *addDeleteButton();
-    cocos2d::Sprite *_deleteButton;
-    void addListenerToDeleteButton(cocos2d::Sprite *toBeAddedTo);
-    void showDeleteButton(float dt);
-    void hideDeleteButton();
-    bool deleteButtonIsShown();
-    void scheduleShowingDeleteButton();
-    void unscheduleShowingDeleteButton();
+	cocos2d::ui::Button* addDeleteButton();
+	cocos2d::ui::Button* _deleteButton = nullptr;
+	DeleteButtonCallback _deleteCallback = nullptr;
     
     void onExit() override;
     
-    cocos2d::LayerColor *_baseLayer;
-    cocos2d::LayerColor *_overlayWhenTouched;
+    cocos2d::LayerColor *_baseLayer = nullptr;
+    cocos2d::LayerColor *_overlayWhenTouched = nullptr;
     bool _movedAway = false;
     bool _iamtouched = false;
     cocos2d::Point _touchPoint;

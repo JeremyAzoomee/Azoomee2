@@ -43,18 +43,18 @@ bool PrivacyAndTermsLayer::init()
 
 void PrivacyAndTermsLayer::createButtons()
 {
-    privacyButton = ElectricDreamsButton::createTextAsButtonWithColor(StringMgr::getInstance()->getStringForKey(T_and_C_Privacy_Button), 50, true, textColor);
+    privacyButton = ElectricDreamsButton::createTextAsButtonWithColor(_("Privacy Policy"), 50, true, textColor);
     privacyButton->setMixPanelButtonName("PrivacyPolicyButton");
     privacyButton->setDelegate(this);
     
-    termsButton = ElectricDreamsButton::createTextAsButtonWithColor(StringMgr::getInstance()->getStringForKey(T_and_C_Terms_Button), 50, true,textColor);
+    termsButton = ElectricDreamsButton::createTextAsButtonWithColor(_("Terms of Use"), 50, true,textColor);
     termsButton->setMixPanelButtonName("TermsButton");
     termsButton->setDelegate(this);
 }
 
 void PrivacyAndTermsLayer::createLabel()
 {
-    andLabel = createLabelContentDescription(StringMgr::getInstance()->getStringForKey(T_and_C_And));
+    andLabel = createLabelContentDescription(_("and"));
     andLabel->setColor(textColor);
 }
 

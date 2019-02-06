@@ -8,6 +8,7 @@
 #include "../Net/Utils.h"
 #include "Json.h"
 #include "../Utils/StringFunctions.h"
+#include "../Strings.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/jni/JniHelper.h"
@@ -30,9 +31,9 @@ static ConfigStorage *_sharedConfigStorage = NULL;
     const char* const ConfigStorage::kGroupHQName = "GROUP HQ";
     const char* const ConfigStorage::kHomeHQName = "HOME";
     const char* const ConfigStorage::kArtAppHQName = "ARTS APP";
-    const char* const ConfigStorage::kMixHQName = "MIX HQ";
+    const char* const ConfigStorage::kMeHQName = "ME HQ";
     
-    const char* const ConfigStorage::kDefaultHQName = kGameHQName;
+    std::string ConfigStorage::kDefaultHQName = ConfigStorage::kMeHQName;
     
     const char* const ConfigStorage::kRecentlyPlayedCarouselName = "LAST PLAYED";
     
@@ -46,14 +47,26 @@ static ConfigStorage *_sharedConfigStorage = NULL;
     const char* const ConfigStorage::kContentTypeGroup = "GROUP";
     const char* const ConfigStorage::kContentTypeAudioGroup = "AUDIOGROUP";
     const char* const ConfigStorage::kContentTypeManual = "MANUAL";
+    const char* const ConfigStorage::kContentTypeInternal = "INTERNAL";
+    
+    const char* const ConfigStorage::kOomeeMakerURI = "OOMEE_MAKER";
+    const char* const ConfigStorage::kArtAppURI = "AZOOMEE_ART";
     
     const char* const ConfigStorage::kEstimatedKeyboardHeightPortrait = "Azoomee::MessageComposer::EstimatedKeyboardHeight/Portrait";
     const char* const ConfigStorage::kEstimatedKeyboardHeightLandscape = "Azoomee::MessageComposer::EstimatedKeyboardHeight/Landscape";
     
     const std::string ConfigStorage::kArtCacheFolder = "artCache/";
     
-    
+    const std::string ConfigStorage::kGameDownloadError = "ERROR";
+	
+	const std::string ConfigStorage::kIOSSubURL = "https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/DirectAction/manageSubscriptions";
+	const std::string ConfigStorage::kAndroidSubURL = "https://play.google.com/store/account/subscriptions";
+	const std::string ConfigStorage::kAmazonSubURL = "amzn://apps/library/subscriptions";
 
+	const std::string ConfigStorage::kBillingProviderApple = "APPLE";
+	const std::string ConfigStorage::kBillingProviderGoogle = "GOOGLE";
+	const std::string ConfigStorage::kBillingProviderAmazon = "AMAZON";
+	
 ConfigStorage* ConfigStorage::getInstance()
 {
     if (! _sharedConfigStorage)
@@ -94,7 +107,12 @@ bool ConfigStorage::init(void)
         API::TagFriendRequest,
         API::TagFriendRequestReaction,
         API::TagResetReportedChat,
-        API::TagCookieRefresh
+        API::TagCookieRefresh,
+		API::TagAddVoucher,
+		API::TagUpdateParentPassword,
+		API::TagUpdateParentDetails,
+		API::TagUpdateChildNameRequest,
+		API::TagGetParentDetails
     };
     requestTagsRequireImmediateSending = {
         kGroupHQName,
@@ -124,6 +142,16 @@ std::string ConfigStorage::getFileNameFromUrl(const std::string& url)
     int subLength = endPoint - startPoint;
     
     return url.substr(startPoint, subLength);
+}
+    
+std::string ConfigStorage::getGameCachePath()
+{
+    return FileUtils::getInstance()->getWritablePath() + "gameCache/";
+}
+    
+std::string ConfigStorage::getDefaultHQ()
+{
+    return kDefaultHQName;
 }
 
 //-------------------------PRIVATE METHOD TO PARSE CONFIG JSON FILE--------
@@ -156,7 +184,7 @@ rapidjson::Document ConfigStorage::parseJsonConfigurationFile(const std::string&
 std::string ConfigStorage::getServerHost()
 {
 #ifdef USINGCI
-    return "api.elb.ci.azoomee.ninja";
+    return "api.azoomee.ninja";
 #endif
     return "api.azoomee.com";
 }
@@ -203,7 +231,7 @@ std::string ConfigStorage::getPathForTag(const std::string& httpRequestTag)
     if(httpRequestTag == API::TagGetAvailableChildren) return StringUtils::format("/api/user/adult/%s/owns", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
     if(httpRequestTag == API::TagChildLogin) return "/api/auth/switchProfile";
     if(httpRequestTag == API::TagGetGorden) return "/api/porthole/pixel/gordon.png";
-    if(httpRequestTag == API::TagRegisterParent) return "/api/user/v2/adult";
+    if(httpRequestTag == API::TagRegisterParent) return "/api/user/v2/signup";
     if(httpRequestTag == API::TagRegisterChild) return "/api/user/child";
     if(httpRequestTag == API::TagDeleteChild) return "/api/user/child/";
     if(httpRequestTag == API::TagParentPin) return StringUtils::format("/api/user/adult/%s", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
@@ -239,25 +267,31 @@ bool ConfigStorage::isImmediateRequestSendingRequired(const std::string& request
 }
 
 //-------------------------Oomee settings---------------------------
-std::string ConfigStorage::getNameForOomee(int number)
-{
-    std::string keyName = StringUtils::format("%d", number);
-    const rapidjson::Value &oomeenames = OomeeConfiguration["nameForOomee"];
-    return getStringFromJson(keyName, oomeenames);
-}
-
-std::string ConfigStorage::getHumanReadableNameForOomee(int number)
-{
-    std::string keyName = StringUtils::format("%d", number);
-    const rapidjson::Value &oomeenames = OomeeConfiguration["humanReadableNameForOomee"];
-    return getStringFromJson(keyName, oomeenames);
-}
-
 std::string ConfigStorage::getUrlForOomee(int number)
 {
     std::string keyName = StringUtils::format("%d", number);
     const rapidjson::Value &oomeeurls = OomeeConfiguration["urlForOomee"];
     return getStringFromJson(keyName, oomeeurls);
+}
+
+std::string ConfigStorage::getConfigUrlForOomee(int number)
+{
+    std::string keyName = StringUtils::format("%d", number);
+    const rapidjson::Value &configurls = OomeeConfiguration["configForOomee"];
+    return getStringFromJson(keyName, configurls);
+}
+std::string ConfigStorage::getLocalImageForOomee(int number)
+{
+    std::string keyName = StringUtils::format("%d", number);
+    const rapidjson::Value &oomeeurls = OomeeConfiguration["localImageForOomee"];
+    return getStringFromJson(keyName, oomeeurls);
+}
+    
+std::string ConfigStorage::getLocalConfigForOomee(int number)
+{
+    std::string keyName = StringUtils::format("%d", number);
+    const rapidjson::Value &configurls = OomeeConfiguration["localConfigForOomee"];
+    return getStringFromJson(keyName, configurls);
 }
 
 int ConfigStorage::getOomeeNumberForUrl(const std::string& url)
@@ -486,10 +520,23 @@ Point ConfigStorage::getTargetPositionForMove(const std::string& hqName) const
     
 std::vector<std::string> ConfigStorage::getHqNames() const
 {
+    if(_navigationHQs.size() > 0)
+    {
+        return _navigationHQs;
+    }
     return getStringArrayFromJson(NavigationConfiguration["namesForMenuItems"]);
 }
 
+void ConfigStorage::setNavigationHQs(const std::vector<std::string>& hqs)
+{
+    _navigationHQs = hqs;
+}
 
+void ConfigStorage::setDefaultHQ(const std::string &defaultHq)
+{
+    kDefaultHQName = defaultHq;
+}
+    
 //-----------------------------------OOMEE animation identifier configuration----------------------------------
 
 std::string ConfigStorage::getGreetingAnimation()
@@ -545,7 +592,7 @@ std::string ConfigStorage::getVersionNumberWithPlatform()
 
 std::string ConfigStorage::getVersionNumberToDisplay()
 {
-    return "Version Number " + getVersionNumber();
+    return _("Version Number") + " " + getVersionNumber();
 }
     
 std::string ConfigStorage::getVersionInformationForRequestHeader()
@@ -644,6 +691,16 @@ void ConfigStorage::setIsDeviceIphoneX(bool isDeviceIphoneX)
 bool ConfigStorage::isDeviceIphoneX() const
 {
     return _isDeviceIphoneX;
+}
+    
+void ConfigStorage::setIsDevice18x9(bool isDevice18x9)
+{
+    _isDevice18x9 = isDevice18x9;
+}
+    
+bool ConfigStorage::isDevice18x9() const
+{
+    return _isDevice18x9;
 }
 
 //------------------------- Set estimated keyboard height for chat ---------------------------

@@ -5,7 +5,11 @@
 #include "HQHistoryManager.h"
 #include "FlowDataSingleton.h"
 #include "LoginLogicHandler.h"
+#include "ContentHistoryManager.h"
+#include "HQDataProvider.h"
+#include "ContentOpener.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
 
@@ -20,6 +24,17 @@ ChatDelegate* ChatDelegate::getInstance()
         sChatDelegateSharedInstance.reset(new ChatDelegate());
     }
     return sChatDelegateSharedInstance.get();
+}
+
+void ChatDelegate::shareContentInChat()
+{
+    if(_sharedContentId != "")
+    {
+        AnalyticsSingleton::getInstance()->shareContentItemButtonPressed(_sharedContentId);
+        const std::string& fileurl = HQDataProvider::getInstance()->getThumbnailUrlForItem(_sharedContentId);
+        ImageDownloaderRef imgDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
+        imgDownloader->downloadImage(this, fileurl);
+    }
 }
 
 #pragma mark - Azoomee::Chat::Delegate
@@ -49,5 +64,38 @@ void ChatDelegate::onChatAuthorizationError(const std::string& requestTag, long 
     FlowDataSingleton::getInstance()->setErrorCode(errorCode);
     LoginLogicHandler::getInstance()->doLoginLogic();
 }
+
+void ChatDelegate::onChatNavigateToContent(const std::string &contentId)
+{
+    AnalyticsSingleton::getInstance()->chatOpenSharedContentEvent(contentId);
+    ContentOpener::getInstance()->openContentById(contentId);
+}
+
+// delegate functions
+void ChatDelegate::onImageDownloadComplete(const ImageDownloaderRef& downloader)
+{
+    _imageFileName = downloader->getLocalImagePath();
+    Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+    
+}
+
+void ChatDelegate::onImageDownloadFailed()
+{
+    if(_sharedContentId != "")
+    {
+        const auto& item = HQDataProvider::getInstance()->getItemDataForSpecificItem(_sharedContentId);
+        if(item)
+        {
+            std::string filename = "res/contentPlaceholders/Games1X1.png";
+            if(item->getType() == ConfigStorage::kContentTypeVideo)
+            {
+                filename = "res/contentPlaceholders/Video1X1.png";
+            }
+            _imageFileName = filename;
+        }
+    }
+    Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+}
+
 
 NS_AZOOMEE_END

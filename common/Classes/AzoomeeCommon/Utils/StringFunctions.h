@@ -21,6 +21,7 @@ std::string& trim(std::string& string);
 std::string shortenString(const std::string& string, int maxLength);
 std::string joinStrings(const std::vector<std::string>& stringList, const std::string& divider);
 std::string convertStringToAssetSafeString(const std::string& string);
+std::string convertToHQNameString(const std::string& string);
 bool stringEndsWith(const std::string &strToTest, const std::string &endStr);
     
 bool stringToBool(const std::string& string);
@@ -32,7 +33,7 @@ std::string ltrim(const std::string& s);
 std::string rtrim(const std::string& s);
 /// Trim whitespace from the start and end of string
 std::string trim(const std::string& s);
-  
+
 } // Azoomee
 
 #endif

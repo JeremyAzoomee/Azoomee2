@@ -1,4 +1,5 @@
 #include "FriendListSceneArtPreview.h"
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
@@ -131,10 +132,10 @@ void FriendListSceneArtPreview::createContentUI(cocos2d::ui::Layout* parent)
     parent->addChild(paddingLayout);
     
     _artPreviewText = ui::Text::create();
-    _artPreviewText->setFontName(Style::Font::Regular);
+    _artPreviewText->setFontName(Style::Font::Regular());
     _artPreviewText->setFontSize(75.0f);
     _artPreviewText->setTextColor(Color4B(Style::Color::white));
-    _artPreviewText->setString("Who would you like to share this picture with?");
+    _artPreviewText->setString(_("Who would you like to share this with?"));
     _artPreviewText->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
     paddingLayout->addChild(_artPreviewText);
     paddingLayout->setContentSize(Size(Director::getInstance()->getVisibleSize().width, _artPreviewText->getContentSize().height * 1.5f));
@@ -206,6 +207,7 @@ void FriendListSceneArtPreview::onBackButtonPressed()
     // Reset the polling time
     ChatAPI::getInstance()->scheduleFriendListPoll( ChatAPI::kScheduleRateLow );
     Azoomee::Chat::delegate->_imageFileName = "";
+    Azoomee::Chat::delegate->_sharedContentId = "";
     Azoomee::Chat::delegate->onChatNavigationBack();
 }
 

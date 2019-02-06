@@ -66,8 +66,8 @@ bool AvatarWidget::init()
                                   clipSize.width * 0.5f, 0.0f, circleResolution,
                                   Color4F::GREEN);
     // A rect above the circle half way point, since some oomees have ears sticking outside the circle
-    _stencilMask->drawSolidRect(Vec2(clipSize.width * -0.5f, clipSize.height * 0.5f),
-                                Vec2(clipSize.width * 2.0f, clipSize.height * 1.5f),
+    _stencilMask->drawSolidRect(Vec2(clipSize.width * 0.0f, clipSize.height * 0.5f),
+                                Vec2(clipSize.width * 1.0f, clipSize.height * 1.5f),
                                 Color4F::GREEN);
     _clippingNode->setStencil(_stencilMask);
     
@@ -75,8 +75,8 @@ bool AvatarWidget::init()
     _avatarImage = ui::ImageView::create();
     _avatarImage->ignoreContentAdaptWithSize(false); // stretch the image
     _avatarImage->setAnchorPoint(Vec2(0.5f, 0.5f));
-    _avatarImage->setPosition(Vec2(clipSize.width * 0.5f, clipSize.height * 0.6f));
-    _avatarImage->setScale(0.55f); //0.865f);
+    _avatarImage->setPosition(Vec2(clipSize.width * 0.5f, clipSize.height * 0.45f));
+    _avatarImage->setScale(0.4f); //0.865f);
     _clippingNode->addChild(_avatarImage);
     
     
@@ -134,7 +134,7 @@ void AvatarWidget::onSizeChanged()
 
 #pragma mark - Public
 
-void AvatarWidget::setAvatarForFriend(const FriendRef& friendData)
+void AvatarWidget::setAvatarForFriend(const FriendRef& friendData, bool forceImageReload)
 {
     const std::string& avatarURL = (friendData) ? friendData->avatarURL() : "";
     _avatarPlaceholder->setVisible(avatarURL.empty());
@@ -150,7 +150,7 @@ void AvatarWidget::setAvatarForFriend(const FriendRef& friendData)
     if(!avatarURL.empty())
     {
         _avatarDownloader = ImageDownloader::create("avatars", ImageDownloader::CacheMode::File);
-        _avatarDownloader->downloadImage(this, avatarURL);
+        _avatarDownloader->downloadImage(this, avatarURL, forceImageReload);
     }
 }
 
@@ -159,7 +159,17 @@ void AvatarWidget::setAvatarForFriend(const FriendRef& friendData)
 void AvatarWidget::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {
     _avatarImage->loadTexture(downloader->getLocalImagePath());
+    _avatarImage->setContentSize(Size(600,600));
     
+    if(_avatarDownloader)
+    {
+        _avatarDownloader->setDelegate(nullptr);
+        _avatarDownloader.reset();
+    }
+}
+
+void AvatarWidget::onImageDownloadFailed()
+{
     if(_avatarDownloader)
     {
         _avatarDownloader->setDelegate(nullptr);

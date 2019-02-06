@@ -127,6 +127,15 @@ void GooglePaymentSingleton::purchaseFailedAlreadyPurchased()
     Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL)); //need time to get focus back from google window, otherwise the app will crash
 }
 
+void GooglePaymentSingleton::restoreFailedNoPurchase()
+{
+	auto funcCallAction = CallFunc::create([=](){
+		RoutePaymentSingleton::getInstance()->failedRestoreMessage();
+	});
+	
+	Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL)); //need time to get focus back from google window, otherwise the app will crash
+}
+
 //--------------------PAYMENT FUNCTIONS------------------
 
 void GooglePaymentSingleton::startIABPayment()
@@ -137,6 +146,15 @@ void GooglePaymentSingleton::startIABPayment()
 
     JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "startGooglePurchase");
     
+#endif
+}
+
+void GooglePaymentSingleton::startRestorePurchase()
+{
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+	
+	JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "startGoogleRestorePurchase");
+	
 #endif
 }
 
@@ -167,6 +185,17 @@ extern "C"
 JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_googlePurchaseFailed(JNIEnv* env, jobject thiz)
 {
     GooglePaymentSingleton::getInstance()->purchaseFailedBeforeFulfillment();
+}
+
+extern "C"
+
+{
+	JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_googleNoPurchaseFound(JNIEnv* env, jobject thiz);
+};
+
+JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_googleNoPurchaseFound(JNIEnv* env, jobject thiz)
+{
+	GooglePaymentSingleton::getInstance()->restoreFailedNoPurchase();
 }
 
 extern "C"

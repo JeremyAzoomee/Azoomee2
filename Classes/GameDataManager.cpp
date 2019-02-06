@@ -375,12 +375,12 @@ void GameDataManager::startGame(const std::string &basePath, const std::string &
 
 std::string GameDataManager::getGameIdPath(const std::string &gameId)
 {
-    return FileUtils::getInstance()->getWritablePath() + "gameCache/" + gameId + "/";
+    return ConfigStorage::getInstance()->getGameCachePath() + gameId + "/";
 }
 
 std::string GameDataManager::getGameCachePath()
 {
-    return FileUtils::getInstance()->getWritablePath() + "gameCache/";
+    return ConfigStorage::getInstance()->getGameCachePath();
 }
 
 Orientation GameDataManager::getGameOrientation(const std::string& jsonFileName)
@@ -409,7 +409,7 @@ void GameDataManager::displayLoadingScreen()
     cancelButton->setCenterPosition(Vec2(origin.x + size.width - cancelButton->getContentSize().width, origin.y + size.height - cancelButton->getContentSize().height));
     cancelButton->setDelegate(this);
     cancelButton->setMixPanelButtonName("CancelGameLoading");
-    Director::getInstance()->getRunningScene()->addChild(cancelButton);
+    Director::getInstance()->getRunningScene()->addChild(cancelButton, 9999);
 }
 void GameDataManager::hideLoadingScreen()
 {

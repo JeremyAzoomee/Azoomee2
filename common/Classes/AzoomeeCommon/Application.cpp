@@ -119,7 +119,6 @@ void Application::applicationWillEnterForeground()
 
 void Application::applicationScreenSizeChanged(int newWidth, int newHeight)
 {
-
     updateResolution(newWidth, newHeight);
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     // Notify the running scene if it's an Azoomee::Scene
@@ -134,7 +133,6 @@ void Application::applicationScreenSizeChanged(int newWidth, int newHeight)
 
 void Application::applicationScreenSizeWillChange(int newWidth, int newHeight, float duration)
 {
-    
     updateResolution(newWidth, newHeight);
     
     // Notify the running scene if it's an Azoomee::Scene
@@ -152,7 +150,7 @@ void Application::updateResolution(int newWidth, int newHeight)
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
     glview->setFrameSize(newWidth, newHeight);
-    
+	
     // Use the correct design resolution
     // Landscape
     if(newWidth > newHeight)
@@ -173,10 +171,9 @@ void Application::setOrientation(Orientation orientation)
     auto director = cocos2d::Director::getInstance();
     auto glView = director->getOpenGLView();
     const auto& frameSize = glView->getFrameSize();
-    
     // Immediate frame change
-    if(orientation == Orientation::Portrait && (int)frameSize.width < (int)frameSize.height)
-        cocos2d::Application::getInstance()->applicationScreenSizeChanged((int) frameSize.width, (int) frameSize.height);
+    if(orientation == Orientation::Portrait && (int)frameSize.width > (int)frameSize.height)
+        cocos2d::Application::getInstance()->applicationScreenSizeChanged((int) frameSize.height, (int) frameSize.width);
     else if(orientation == Orientation::Landscape && (int)frameSize.height > (int)frameSize.width)
         cocos2d::Application::getInstance()->applicationScreenSizeChanged((int) frameSize.height, (int) frameSize.width);
     

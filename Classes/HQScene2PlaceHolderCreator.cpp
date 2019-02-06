@@ -32,11 +32,19 @@ void HQScene2PlaceHolderCreator::setVerticalImageOffset(float offset)
     _verticalImageOffset = offset;
 }
 
+void HQScene2PlaceHolderCreator::setUseWirePlaceholder(bool useWirePlaceholder)
+{
+    _useWirePlaceholder = useWirePlaceholder;
+}
+
 void HQScene2PlaceHolderCreator::addPlaceHoldersToCarousel()
 {
-    addPlaceHoldersToCarouselInGivenSize(cocos2d::Vec2(2.0f, 2.0f)); //adding placeholders from bigger sizes to smaller to make sure that there are no multiple 1x1 placeholders right next to eachother
-    addPlaceHoldersToCarouselInGivenSize(cocos2d::Vec2(1.0f, 2.0f));
-    addPlaceHoldersToCarouselInGivenSize(cocos2d::Vec2(2.0f, 1.0f));
+    if(!_useWirePlaceholder)
+    {
+        addPlaceHoldersToCarouselInGivenSize(cocos2d::Vec2(2.0f, 2.0f)); //adding placeholders from bigger sizes to smaller to make sure that there are no multiple 1x1 placeholders right next to eachother
+        addPlaceHoldersToCarouselInGivenSize(cocos2d::Vec2(1.0f, 2.0f));
+        addPlaceHoldersToCarouselInGivenSize(cocos2d::Vec2(2.0f, 1.0f));
+    }
     addPlaceHoldersToCarouselInGivenSize(cocos2d::Vec2(1.0f, 1.0f));
 }
 
@@ -81,6 +89,11 @@ void HQScene2PlaceHolderCreator::addPlaceHolderImageToLayer(cocos2d::Layer *plac
     if(!FileUtils::getInstance()->isFileExist(fileName))
     {
         fileName = "res/hqscene/placeholder11.jpg";
+    }
+    
+    if(_useWirePlaceholder)
+    {
+        fileName = "res/contentPlaceholders/placeholder_thumbnail_1_1.png";
     }
     
     cocos2d::Sprite* placeHolderImage = cocos2d::Sprite::create(fileName);

@@ -3,7 +3,7 @@
 
 #include "../Azoomee.h"
 #include <cocos/cocos2d.h>
-
+#include "../Utils/StringMgr.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -41,6 +41,11 @@ namespace Color
     const cocos2d::Color3B lightTealTwo(108, 224, 215);
     const cocos2d::Color3B blueGreen(16, 117, 114);
     const cocos2d::Color3B telish(38, 192, 180);
+    const cocos2d::Color3B greyBlue(124, 172, 179);
+    const cocos2d::Color3B darkGreenBlue(21, 88, 98);
+    const cocos2d::Color3B darkTeal(1, 46, 46);
+    const cocos2d::Color3B battleshipGrey(111,115,116);
+    const cocos2d::Color3B carolinaBlue(133, 196, 255);
     
     // These colors below don't have exact names in Zeplin.
     // So the names have been chosen to be close enough to other Zeplin colors.
@@ -54,6 +59,7 @@ namespace Color
     const cocos2d::Color3B chatEnterTextColor(135, 135, 135);
     const cocos2d::Color3B greenish(38,192,180);
     const cocos2d::Color3B bluegreenish(0,132,132);
+    const cocos2d::Color3B oomeeGreen(28, 128, 95);
 }
    
 /**
@@ -151,12 +157,22 @@ namespace Font
     
     // Font for the Kid Code to be More readable
     const char* const kidCodeRegular = "fonts/Inconsolata-Regular.ttf";
+	
+	// Path to the font file
+	const char* const ArialRegular = "fonts/Arial.ttf";
+	// The system name of the font, usually inside the TTF file
+	const char* const ArialRegularSystemName = "Arial";
+	
+	// Path to the font file
+	const char* const ArialBold = "fonts/Arial Bold.ttf";
+	// The system name of the font, usually inside the TTF file
+	const char* const ArialBoldSystemName = "ArialBold";
     
-    const char* const Regular = SofiaRegular;
-    const char* const Medium = SofiaMedium;
-    const char* const Bold = SofiaBold;
-    const char* const Input = SofiaRegular;
-    
+	const char* const Regular();
+	const char* const Medium();
+	const char* const Bold();
+	const char* const Input();
+	
     const char* const RegularSystemName = SofiaRegularSystemName;
     const char* const MediumSystemName = SofiaMediumSystemName;
     const char* const BoldSystemName = SofiaBoldSystemName;

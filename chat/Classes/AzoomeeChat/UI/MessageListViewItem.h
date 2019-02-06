@@ -49,6 +49,8 @@ private:
     cocos2d::ui::Scale9Sprite* _imageStencil = nullptr;
     
     
+    bool _userIsParent = false;
+    
     /// Resize the item height to fit the contents
     void resizeItemContents();
     
@@ -67,6 +69,9 @@ public:
     void setAlignment(const Alignment& alignment);
     /// Set the margin from the edge
     void setEdgeMargin(float margin);
+    
+    void setUserIsParent(bool isParent);
+    bool getUserIsParent() const;
     
     virtual bool init() override;
     virtual void onEnter() override;

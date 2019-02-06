@@ -13,3 +13,5 @@ proj.win32/
 !proj.android-studio/app/src/
 cocos2d
 Resources/res/webcommApi
+Resources/res/cta_assets/CTAFiles.zip
+*.pyc

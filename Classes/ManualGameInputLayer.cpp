@@ -5,6 +5,7 @@
 #include "GameDataManager.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include "ContentHistoryManager.h"
 
 using namespace cocos2d;
 
@@ -80,7 +81,7 @@ void ManualGameInputLayer::addButtons()
     _streamGameCheckbox->setPosition(Vec2(backgroundLayer->getContentSize().width / 2.0f, backgroundLayer->getContentSize().height / 3.0f));
     backgroundLayer->addChild(_streamGameCheckbox);
     
-    Label* checkboxLabel = Label::createWithTTF("Stream Game?", Style::Font::Regular, 72);
+    Label* checkboxLabel = Label::createWithTTF("Stream Game?", Style::Font::Regular(), 72);
     checkboxLabel->setTextColor(Color4B::WHITE);
     checkboxLabel->setAnchorPoint(Vec2(0.5, -0.5));
     checkboxLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
@@ -119,11 +120,14 @@ void ManualGameInputLayer::buttonPressed(ElectricDreamsButton* button)
         UserDefault* def = UserDefault::getInstance();
         def->setStringForKey("GameURI", uriTextInput->getText());
         def->flush();
-        
+		
         if(_streamGameCheckbox->isSelected())
         {
             if(uriTextInput->getText().size() > 4)
             {
+				HQContentItemObjectRef contentItem = HQContentItemObject::create();
+				contentItem->setContentItemId(GameDataManager::kManualGameId);
+				ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
                 Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Landscape, uriTextInput->getText()));
             }
         }
@@ -137,7 +141,10 @@ void ManualGameInputLayer::buttonPressed(ElectricDreamsButton* button)
                 FileUtils::getInstance()->removeDirectory(manualGamePath);
 
             FileUtils::getInstance()->createDirectory(manualGamePath);
-            
+			HQContentItemObjectRef contentItem = HQContentItemObject::create();
+			contentItem->setContentItemId(GameDataManager::kManualGameId);
+			ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
+			
             GameDataManager::getInstance()->getJSONGameData(uriTextInput->getText().c_str(), GameDataManager::kManualGameId);
         }
     }

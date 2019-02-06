@@ -6,7 +6,8 @@
 
 namespace Azoomee
 {
-
+const int kMaxAge = 99;
+	
 bool isCharacter(const char Character);
 bool isNumber(const char Character);
 bool isValidEmailAddress(const char* EmailAddress);
@@ -18,7 +19,9 @@ bool isValidChildName(const char *childName);
 bool hasAzoomeeEmailAddress(std::string emailAddress);
 int ageFromDOBString(std::string dobString);
 bool isDateInFuture(std::string dobString);
-  
+bool isValidVoucher(const std::string& voucher);
+bool isValidAge(const std::string& ageString);
+	
 }
 
 #endif

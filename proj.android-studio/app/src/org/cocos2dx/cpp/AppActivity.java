@@ -37,6 +37,7 @@ import javax.crypto.spec.SecretKeySpec;
 import android.util.Base64;
 
 import org.cocos2dx.cpp.util.IabBroadcastReceiver;
+import org.cocos2dx.cpp.util.IabException;
 import org.cocos2dx.cpp.util.IabHelper;
 import org.cocos2dx.cpp.util.IabResult;
 import org.cocos2dx.cpp.util.Inventory;
@@ -81,6 +82,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     private Appsflyer appsflyer;
 
     private boolean _purchaseRequiredAfterSetup = false;
+    private boolean _restorePurchase = false;
 
     //variables for google payment
     private IabHelper mHelper;
@@ -113,16 +115,17 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
         //setting up urban airship push notification icons
         DefaultNotificationFactory defaultNotificationFactory = new DefaultNotificationFactory(getApplicationContext());
-        defaultNotificationFactory.setSmallIconId(R.drawable.ic_launcher);
-        defaultNotificationFactory.setLargeIcon(R.drawable.ic_launcher);
+        defaultNotificationFactory.setSmallIconId(R.mipmap.ic_launcher);
+        defaultNotificationFactory.setLargeIcon(R.mipmap.ic_launcher);
         defaultNotificationFactory.setColor(NotificationCompat.COLOR_DEFAULT);
         UAirship airship = UAirship.shared();
         airship.getPushManager().setNotificationFactory(defaultNotificationFactory);
+
+        getGLSurfaceView().setMultipleTouchEnabled(false);
     }
 
-    public static void startWebView(String url, String userid, int orientation, float closeButtonAnchorX, float closeButtonAnchorY) {
+    public static void startWebView(String url, String userid, int orientation, float closeButtonAnchorX, float closeButtonAnchorY, int videoProgressSeconds) {
         Intent nvw;
-
         if (url.substring(url.length() - 4).equals("m3u8"))
         {
             nvw = new Intent(mContext, NativeMediaPlayer.class);
@@ -138,6 +141,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         nvw.putExtra("orientation", orientation);
         nvw.putExtra("closeAnchorX", closeButtonAnchorX);
         nvw.putExtra("closeAnchorY", closeButtonAnchorY);
+        nvw.putExtra("videoProgressSeconds", videoProgressSeconds);
 
         mContext.startActivity(nvw);
 
@@ -254,6 +258,24 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         }
 
         mAppActivity.mixpanel.sendMixPanelPeopleProperties(parentID);
+    }
+
+    public static void setMixpanelAlias(String newID) {
+        if(mAppActivity.mixpanel == null)
+        {
+            return;
+        }
+
+        mAppActivity.mixpanel.setMixpanelAlias(newID);
+    }
+
+    public static void updateMixpanelPeopleProperties(String jsonPropertiesString) {
+        if(mAppActivity.mixpanel == null)
+        {
+            return;
+        }
+
+        mAppActivity.mixpanel.updateMixpanelPeopleProperties(jsonPropertiesString);
     }
 
     public static void showMixpanelNotification() {
@@ -415,6 +437,46 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         }
     }
 
+    public static void startGoogleRestorePurchase()
+    {
+        AppActivity currentActivity = mAppActivity;
+        currentActivity._restorePurchase = true;
+        if(currentActivity.mHelper == null)
+        {
+            currentActivity.setupGoogleIAB();
+        }
+        else
+        {
+            try {
+                String googleSku = getGoogleSku();
+                String[] moreSkus = {googleSku, "SKU_ITEMONE"}; //fake skus required by queryInventoryAsync...
+                String[] moreSubSkus = {googleSku, "SUB_ITEMONE", "SUB_ITEMTWO"}; //fake skus required by queryInventoryAsync...
+                Inventory inv = currentActivity.mHelper.queryInventory(true, Arrays.asList(moreSkus), Arrays.asList(moreSubSkus));
+                // Do we have the premium upgrade?
+                Purchase premiumPurchase = inv.getPurchase(googleSku);
+                currentActivity.mIsPremium = (premiumPurchase != null);
+                Log.d("GOOGLEPLAY", "User is " + (currentActivity.mIsPremium ? "PREMIUM" : "NOT PREMIUM"));
+
+                if(currentActivity._restorePurchase)
+                {
+                    currentActivity._restorePurchase = false;
+                    if(currentActivity.mIsPremium)
+                    {
+                        googlePurchaseHappened(premiumPurchase.getDeveloperPayload(), premiumPurchase.getOrderId(), premiumPurchase.getToken());
+                    }
+                    else
+                    {
+                        googleNoPurchaseFound();
+                    }
+                }
+            } catch (IabException e) {
+                Log.d("GOOGLEPAY", "Error querying inventory.");
+                googlePurchaseFailed();
+            }
+        }
+    }
+
+
     public void setupGoogleIAB() {
         String base64EncodedPublicKey = getDeveloperKey();
 
@@ -433,6 +495,10 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
                 Log.d("GOOGLEPAY", "Setup successful. Querying inventory.");
                 try {
+                    mBroadcastReceiver = new IabBroadcastReceiver(mAppActivity);
+                    IntentFilter broadcastFilter = new IntentFilter(IabBroadcastReceiver.ACTION);
+                    registerReceiver(mBroadcastReceiver, broadcastFilter);
+
                     if(!mHelper.mSetupDone)
                     {
                         googlePurchaseFailed();
@@ -447,10 +513,6 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
                 }
             }
         });
-
-        mBroadcastReceiver = new IabBroadcastReceiver(this);
-        IntentFilter broadcastFilter = new IntentFilter(IabBroadcastReceiver.ACTION);
-        registerReceiver(mBroadcastReceiver, broadcastFilter);
 
     }
 
@@ -505,7 +567,19 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
             IABHelperSetupComplete = true;
 
-            if(_purchaseRequiredAfterSetup)
+            if(_restorePurchase)
+            {
+                _restorePurchase = false;
+                if(mIsPremium)
+                {
+                    googlePurchaseHappened(premiumPurchase.getDeveloperPayload(), premiumPurchase.getOrderId(), premiumPurchase.getToken());
+                }
+                else
+                {
+                    googleNoPurchaseFound();
+                }
+            }
+            else if(_purchaseRequiredAfterSetup)
             {
                 startGoogleSubscriptionProcess();
             }
@@ -592,6 +666,8 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     public static native void googlePurchaseHappened(String developerPayload, String orderId, String token);
 
     public static native void googlePurchaseFailed();
+
+    public static native void googleNoPurchaseFound();
 
     public static native void googlePurchaseFailedAlreadyPurchased();
 

@@ -13,20 +13,29 @@
 
 @interface MediaPlayerController: UIViewController {
     bool exitRequested;
-    
+	
+	int _currentItemIndex;
+	
     float _videoTimeSent;
     float _previousRate;
-    
+    float _buttonWidth;
+    bool _uiExpanded;
+    UIView *_favContentBanner;
 }
 
 @property (nonatomic, retain) AVQueuePlayer* queuePlayer;
 @property (nonatomic, retain) AVPlayerViewController* playerController;
 @property (nonatomic, retain) UIButton* backButton;
+@property (nonatomic, retain) UIButton* favButton;
+@property (nonatomic, retain) UIButton* shareButton;
 @property (nonatomic, retain) CALayer *loadingLayer;
 @property (nonatomic, retain) AVPlayerItem* lastPlayedItem;
 
 -(id)init;
--(void)startBuildingMediaPlayer:(NSString*)url;
--(void)addBackButton;
+-(void)startBuildingMediaPlayer:(NSString*)url progressSeconds:(int)videoProgressSeconds;
+-(void)createButtons;
+- (void)createFavBanner;
+-(void)favAnimation;
+- (void) closePopup:(NSTimer *)timer;
 
 @end

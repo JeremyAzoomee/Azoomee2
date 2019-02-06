@@ -2,8 +2,10 @@
 #include "BackEndCaller.h"
 
 #include <external/json/document.h>
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Utils/VersionChecker.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
+#include <AzoomeeCommon/UI/ModalMessages.h>
 #include "ForceUpdateAppLockScene.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -17,10 +19,19 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+const std::string ForceUpdateSingleton::kAcceptedMinAzVerID = "acceptedMinAzoomeeVersion";
+const std::string ForceUpdateSingleton::kNotifiedMinAzVerID = "notifiedMinAzoomeeVersion";
+const std::string ForceUpdateSingleton::kAcceptedMinAzVerVodaID = "acceptedMinAzoomeeVersionVodacom";
+const std::string ForceUpdateSingleton::kNotifiedMinAzVerVodaID = "notifiedMinAzoomeeVersionVodacom";
+const std::string ForceUpdateSingleton::kUpdateUrlAppleID = "iosUpdateURL";
+const std::string ForceUpdateSingleton::kUpdateUrlGoogleID = "androidUpdateURL";
+const std::string ForceUpdateSingleton::kUpdateUrlAmazonID = "amazonUpdateURL";
+const std::string ForceUpdateSingleton::kUpdateUrlVodaID = "vodacomUpdateURL";
+
 std::auto_ptr<ForceUpdateSingleton> _sharedForceUpdateSingleton;
 const std::string &forceUpdateDirectory = "updateData/";
 const std::string &forceUpdateFileSubPath = forceUpdateDirectory + "updateData.json";
-const int timeIntervalForRemoteFileDownloadInSeconds = 259200; //we check for new remote file every 3rd day
+const int timeIntervalForRemoteFileDownloadInSeconds = 3600; //we check for new remote file every hour
 
 ForceUpdateSingleton* ForceUpdateSingleton::getInstance()
 {
@@ -41,42 +52,94 @@ ForceUpdateSingleton::ForceUpdateSingleton()
     writablePath = FileUtils::getInstance()->getWritablePath();
 }
 
-void ForceUpdateSingleton::doForceUpdateLogic() //part 1, we check if we have local file. If we have, we go to part 2 (onForceUpdateLogicHasLocalFile(), otherwise we start downloading the file, writing it to disk and getting back to the same method)
+void ForceUpdateSingleton::setDelegate(ForceUpdateDelegate *delegate)
 {
-    if(remoteForceUpdateDataDownloadRequired()) getRemoteForceUpdateData();
-    else onForceUpdateLogicHasLocalFile();
+	_delegate = delegate;
 }
 
-void ForceUpdateSingleton::onForceUpdateLogicHasLocalFile()
+void ForceUpdateSingleton::doForceUpdateLogic()
 {
-    if(isNotificationRequired())
-    {
-        if(isAppCloseRequired())
-        {
-            Director::getInstance()->replaceScene(ForceUpdateAppLockScene::createScene());
-        }
-        else
-        {
-            std::vector<std::string> buttonNames = {"OK", "Update"};
-            MessageBox::createWith("Update recommended", "You should update to the\nlatest version of Azoomee.\nAsk a grown-up to help you.", buttonNames, this);
-        }
-    }
+	if(remoteForceUpdateDataDownloadRequired())
+	{
+		ModalMessages::getInstance()->startLoading();
+		_fileDownloader = FileDownloader::create();
+		_fileDownloader->setEtag(getLocalEtag());
+		_fileDownloader->setDelegate(this);
+		
+		std::string url = "https://versions.azoomee.com";
+		
+	#ifdef USINGCI
+		url = "http://versions.azoomee.ninja";
+	#endif
+		
+		_fileDownloader->downloadFileFromServer(url);
+	}
+	else
+	{
+		onForceUpdateLogicHasLocalFile();
+	}
 }
 
 bool ForceUpdateSingleton::remoteForceUpdateDataDownloadRequired()
 {
-    if(!FileUtils::getInstance()->isFileExist(writablePath + forceUpdateFileSubPath))
+	if(!FileUtils::getInstance()->isFileExist(writablePath + forceUpdateFileSubPath))
+	{
+		createUpdateDirectory();
+		return true;
+	}
+	
+	const std::map<std::string, std::string>& localForceUpdateDataMap = getMapFromForceUpdateJsonData(FileUtils::getInstance()->getStringFromFile(writablePath + forceUpdateFileSubPath));
+	
+	if(localForceUpdateDataMap.find("timeStamp") == localForceUpdateDataMap.end())
+	{
+		return true;
+	}
+	if(time(NULL) - atoi(localForceUpdateDataMap.at("timeStamp").c_str()) >= timeIntervalForRemoteFileDownloadInSeconds)
+	{
+		return true;
+	}
+	return false;
+}
+
+bool ForceUpdateSingleton::parseAndSaveForceUpdateData(const std::string &jsonString)
+{
+	    std::map<std::string, std::string> forceUpdateData = getMapFromForceUpdateJsonData(jsonString);
+	    forceUpdateData["timeStamp"] = StringUtils::format("%ld", time(NULL));
+	    const std::string &jsonStringToBeWritten = getJSONStringFromMap(forceUpdateData);
+	
+	    FileUtils::getInstance()->writeStringToFile(jsonStringToBeWritten, writablePath + forceUpdateFileSubPath);
+	
+	    return true;
+}
+
+void ForceUpdateSingleton::onForceUpdateLogicHasLocalFile()
+{
+	ModalMessages::getInstance()->stopLoading();
+    if(isNotificationRequired())
     {
-        createUpdateDirectory();
-        return true;
+        if(isAppCloseRequired())
+        {
+			if(_delegate)
+			{
+				_delegate->onForceUpdateCheckFinished(ForceUpdateResult::LOCK);
+			}
+        }
+        else
+        {
+			if(_delegate)
+			{
+				_delegate->onForceUpdateCheckFinished(ForceUpdateResult::NOTIFY);
+			}
+        }
     }
-    
-    std::map<std::string, std::string> localForceUpdateDataMap = getMapFromForceUpdateJsonData(FileUtils::getInstance()->getStringFromFile(writablePath + forceUpdateFileSubPath));
-    
-    if(localForceUpdateDataMap["timeStamp"] == "") return true;
-    if(time(NULL) - atoi(localForceUpdateDataMap["timeStamp"].c_str()) >= timeIntervalForRemoteFileDownloadInSeconds) return true;
-    
-    return false;
+	else
+	{
+		if(_delegate)
+		{
+			_delegate->onForceUpdateCheckFinished(ForceUpdateResult::DO_NOTHING);
+		}
+	}
+	_delegate = nullptr;
 }
 
 void ForceUpdateSingleton::createUpdateDirectory()
@@ -87,28 +150,19 @@ void ForceUpdateSingleton::createUpdateDirectory()
     }
 }
 
-void ForceUpdateSingleton::getRemoteForceUpdateData()
+std::string ForceUpdateSingleton::getLocalEtag() const
 {
-    BackEndCaller::getInstance()->getForceUpdateData();
+	const std::string& etagFilePath = writablePath + forceUpdateDirectory + "etag.txt";
+	if(cocos2d::FileUtils::getInstance()->isFileExist(etagFilePath))
+	{
+		return cocos2d::FileUtils::getInstance()->getStringFromFile(etagFilePath);
+	}
+	return "";
 }
-
-void ForceUpdateSingleton::onForceUpdateDataReceived(const std::string &responseString)
+void ForceUpdateSingleton::setLocalEtag(const std::string& etag)
 {
-    if(parseAndSaveForceUpdateData(responseString))
-    {
-        onForceUpdateLogicHasLocalFile();
-    }
-}
-
-bool ForceUpdateSingleton::parseAndSaveForceUpdateData(const std::string &jsonString)
-{
-    std::map<std::string, std::string> forceUpdateData = getMapFromForceUpdateJsonData(jsonString);
-    forceUpdateData["timeStamp"] = StringUtils::format("%ld", time(NULL));
-    const std::string &jsonStringToBeWritten = getJSONStringFromMap(forceUpdateData);
-    
-    FileUtils::getInstance()->writeStringToFile(jsonStringToBeWritten, writablePath + forceUpdateFileSubPath);
-    
-    return true;
+	const std::string& etagFilePath = writablePath + forceUpdateDirectory + "etag.txt";
+	cocos2d::FileUtils::getInstance()->writeStringToFile(etag, etagFilePath);
 }
 
 bool ForceUpdateSingleton::isNotificationRequired()
@@ -123,12 +177,36 @@ bool ForceUpdateSingleton::isAppCloseRequired()
 
 std::string ForceUpdateSingleton::getAcceptedMinAzoomeeVersion()
 {
-    return getMapFromForceUpdateJsonData(FileUtils::getInstance()->getStringFromFile(writablePath + forceUpdateFileSubPath)).at("acceptedMinAzoomeeVersion");
+	const auto& json = getMapFromForceUpdateJsonData(FileUtils::getInstance()->getStringFromFile(writablePath + forceUpdateFileSubPath));
+#ifdef VODACOM_BUILD
+	if(json.find(kAcceptedMinAzVerVodaID) != json.end())
+	{
+		return json.at(kAcceptedMinAzVerVodaID);
+	}
+#else
+	if(json.find(kAcceptedMinAzVerID) != json.end())
+	{
+    	return json.at(kAcceptedMinAzVerID);
+	}
+#endif
+	return "0.0.0";
 }
 
 std::string ForceUpdateSingleton::getNotifiedMinAzoomeeVersion()
 {
-    return getMapFromForceUpdateJsonData(FileUtils::getInstance()->getStringFromFile(writablePath + forceUpdateFileSubPath)).at("notifiedMinAzoomeeVersion");
+	const auto& json = getMapFromForceUpdateJsonData(FileUtils::getInstance()->getStringFromFile(writablePath + forceUpdateFileSubPath));
+#ifdef VODACOM_BUILD
+	if(json.find(kNotifiedMinAzVerVodaID) != json.end())
+	{
+		return json.at(kNotifiedMinAzVerVodaID);
+	}
+#else
+	if(json.find(kNotifiedMinAzVerID) != json.end())
+	{
+		return json.at(kNotifiedMinAzVerID);
+	}
+#endif
+	return "0.0.0";
 }
 
 std::map<std::string, std::string> ForceUpdateSingleton::getMapFromForceUpdateJsonData(const std::string &forceUpdateJsonData)
@@ -159,28 +237,40 @@ std::map<std::string, std::string> ForceUpdateSingleton::getMapFromForceUpdateJs
 std::string ForceUpdateSingleton::getUpdateUrlFromFile()
 {
     const std::map<std::string, std::string> &forceUpdateData = getMapFromForceUpdateJsonData(FileUtils::getInstance()->getStringFromFile(writablePath + forceUpdateFileSubPath));
-    
+#ifdef VODACOM_BUILD
+	if(forceUpdateData.find(kUpdateUrlVodaID) != forceUpdateData.end())
+	{
+		return forceUpdateData.at(kUpdateUrlVodaID);
+	}
+	return "";
+#endif
+		
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     
     std::string resultStr = JniHelper::callStaticStringMethod(kAzoomeeActivityJavaClassName, "getOSBuildManufacturer");
     
     if (resultStr == "Amazon")
     {
-        return forceUpdateData.at("amazonUpdateURL");
+        return forceUpdateData.at(kUpdateUrlAmazonID);
     }
     else
     {
-        return forceUpdateData.at("androidUpdateURL");
+        return forceUpdateData.at(kUpdateUrlGoogleID);
     }
 #else
-    return forceUpdateData.at("iosUpdateURL");
+    return forceUpdateData.at(kUpdateUrlAppleID);
 #endif
 }
 
-void ForceUpdateSingleton::MessageBoxButtonPressed(std::string messageBoxTitle, std::string buttonTitle)
+void ForceUpdateSingleton::onFileDownloadComplete(const std::string &fileString, const std::string &tag, long responseCode)
 {
-    if(buttonTitle == "Update") Application::getInstance()->openURL(getUpdateUrlFromFile());
+	if(responseCode == 200)
+	{
+		parseAndSaveForceUpdateData(fileString);
+		setLocalEtag(_fileDownloader->getEtag());
+	}
+	onForceUpdateLogicHasLocalFile();
+	
 }
-
 
 NS_AZOOMEE_END

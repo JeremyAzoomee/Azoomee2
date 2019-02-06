@@ -12,6 +12,8 @@
 #include "HQHistoryManager.h"
 #include "HQSceneArtsApp.h"
 #include "HQScene2.h"
+#include "MeHQ.h"
+#include <AzoomeeCommon/Audio/AudioMixer.h>
 
 using namespace cocos2d;
 
@@ -25,6 +27,7 @@ bool ArtsAppHQElement::initWithURLAndSize(const std::string& filePath, const Siz
     }
     
     _elementActive = true;
+    _newImage = newImage;
     
     this->setCascadeOpacityEnabled(true);
     this->setContentSize(size);
@@ -52,10 +55,9 @@ bool ArtsAppHQElement::initWithURLAndSize(const std::string& filePath, const Siz
     
     addOverlay();
     
-    if(deletable == true)
+    if(deletable)
     {
         _deleteButton = addDeleteButton();
-        addListenerToDeleteButton(_deleteButton);
     }
         
     addListenerToElement();
@@ -141,22 +143,22 @@ void ArtsAppHQElement::addPlaceHolder()
 
 void ArtsAppHQElement::createImageBorder()
 {
-    _baseLayer = LayerColor::create(ConfigStorage::getInstance()->getColourForElementType(ConfigStorage::kArtAppHQName), this->getContentSize().width - 20, this->getContentSize().height - 20);
-    _baseLayer->setPosition(10,10);
+    _baseLayer = LayerColor::create(ConfigStorage::getInstance()->getColourForElementType(ConfigStorage::kArtAppHQName), this->getContentSize().width, this->getContentSize().height);
+    //_baseLayer->setPosition(10,10);
     this->addChild(_baseLayer);
 }
 
 void ArtsAppHQElement::createWhiteBackground()
 {
-    auto whiteBackground = LayerColor::create(Color4B(255,255,255,255), this->getContentSize().width - 40, this->getContentSize().height - 40);
-    whiteBackground->setPosition(20,20);
+    auto whiteBackground = LayerColor::create(Color4B(255,255,255,255), this->getContentSize().width - 20, this->getContentSize().height - 20);
+    whiteBackground->setPosition(10,10);
     this->addChild(whiteBackground);
 }
 
 void ArtsAppHQElement::addOverlay()
 {
-    _overlayWhenTouched = LayerColor::create(ConfigStorage::getInstance()->getColourForElementType(ConfigStorage::kArtAppHQName), this->getContentSize().width - 20, this->getContentSize().height - 20);
-    _overlayWhenTouched->setPosition(10,10);
+    _overlayWhenTouched = LayerColor::create(ConfigStorage::getInstance()->getColourForElementType(ConfigStorage::kArtAppHQName), this->getContentSize().width, this->getContentSize().height);
+    //_overlayWhenTouched->setPosition(10,10);
     _overlayWhenTouched->setOpacity(0);
     this->addChild(_overlayWhenTouched,1);
 }
@@ -174,52 +176,39 @@ void ArtsAppHQElement::addLockToElement()
     this->addChild(lockImage,1);
 }
 
-Sprite* ArtsAppHQElement::addDeleteButton()
+ui::Button* ArtsAppHQElement::addDeleteButton()
 {
-    auto delButton = Sprite::create("res/arthqscene/delete.png");
-    delButton->setPosition(this->getContentSize().width - 80, this->getContentSize().height - 80);
-    delButton->setOpacity(0);
-    this->addChild(delButton,1);
-    
-    return delButton;
+	ui::Button* deleteButton = ui::Button::create("res/buttons/delete_button_favourites.png");
+	deleteButton->setContentSize(Size(this->getContentSize().width * 0.25f, this->getContentSize().width * 0.25f));
+	deleteButton->ignoreContentAdaptWithSize(false);
+	deleteButton->setAnchorPoint(Vec2(-0.25,1.25));
+	deleteButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
+	deleteButton->setVisible(_showDeleteButton);
+	deleteButton->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType){
+		if(eType == ui::Widget::TouchEventType::ENDED)
+		{
+			if(_deleteCallback)
+			{
+				_deleteCallback(_imageURL);
+			}
+		}
+	});
+	this->addChild(deleteButton,2);
+    return deleteButton;
 }
 
-void ArtsAppHQElement::showDeleteButton(float dt)
+void ArtsAppHQElement::deleteButtonVisible(bool visible)
 {
-    if(_deleteButton)
-    {
-        _deleteButton->setOpacity(255);
-    }
+	_showDeleteButton = visible;
+	if(_deleteButton)
+	{
+		_deleteButton->setVisible(visible);
+	}
 }
 
-void ArtsAppHQElement::hideDeleteButton()
+void ArtsAppHQElement::setDeleteButtonCallback(const ArtsAppHQElement::DeleteButtonCallback &callback)
 {
-    if(_deleteButton)
-    {
-        _deleteButton->setOpacity(0);
-        _overlayWhenTouched->setOpacity(0);
-    }
-}
-
-void ArtsAppHQElement::scheduleShowingDeleteButton()
-{
-    if(_deleteButton)
-    {
-        this->scheduleOnce(schedule_selector(ArtsAppHQElement::showDeleteButton), 1);
-    }
-}
-
-void ArtsAppHQElement::unscheduleShowingDeleteButton()
-{
-    if(_deleteButton)
-    {
-        this->unschedule(schedule_selector(ArtsAppHQElement::showDeleteButton));
-    }
-}
-
-bool ArtsAppHQElement::deleteButtonIsShown()
-{
-    return (_deleteButton && _deleteButton->getOpacity() > 0);
+	_deleteCallback = callback;
 }
 
 void ArtsAppHQElement::onExit()
@@ -240,7 +229,7 @@ void ArtsAppHQElement::onExit()
     Layer::onExit();
 }
 
-void ArtsAppHQElement::addListenerToDeleteButton(cocos2d::Sprite *toBeAddedTo)
+/*void ArtsAppHQElement::addListenerToDeleteButton(cocos2d::Sprite *toBeAddedTo)
 {
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(true);
@@ -256,14 +245,43 @@ void ArtsAppHQElement::addListenerToDeleteButton(cocos2d::Sprite *toBeAddedTo)
         {
             if(rect.containsPoint(locationInNode))
             {
+                return true;
+            }
+        }
+        return false;
+    };
+    
+    listener->onTouchEnded = [=](Touch *touch, Event *event)
+    {
+        auto target = static_cast<Node*>(event->getCurrentTarget());
+        
+        Point locationInNode = target->convertToNodeSpace(touch->getLocation());
+        Size s = target->getBoundingBox().size;//getContentSize();
+        Rect rect = Rect(0,0,s.width, s.height);
+        
+        if(target->getOpacity() == 255)
+        {
+            if(rect.containsPoint(locationInNode))
+            {
                 AnalyticsSingleton::getInstance()->genericButtonPressEvent("artsAppDeleteButton");
                 FileUtils::getInstance()->removeFile(_imageURL);
                 if(!HQHistoryManager::getInstance()->isOffline)
                 {
-                    HQScene2 *hqScene = (HQScene2 *)Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName)->getChildByName(ConfigStorage::kArtAppHQName);
-                    hqScene->removeAllChildren();
-                    Director::getInstance()->purgeCachedData();
-                    hqScene->startBuildingScrollView();
+                    if(HQHistoryManager::getInstance()->getCurrentHQ() == ConfigStorage::kArtAppHQName)
+                    {
+                        HQScene2 *hqScene = (HQScene2 *)Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName)->getChildByName(ConfigStorage::kArtAppHQName);
+                        hqScene->removeAllChildren();
+                        Director::getInstance()->purgeCachedData();
+                        hqScene->startBuildingScrollView();
+                    }
+                    else
+                    {
+                        MeHQ *hqScene = dynamic_cast<MeHQ*>(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName)->getChildByName(ConfigStorage::kMeHQName)->getChildByName(ConfigStorage::kMeHQName));
+                        if(hqScene)
+                        {
+                            hqScene->refreshGalleryLayout();
+                        }
+                    }
                 }
                 else
                 {
@@ -274,15 +292,12 @@ void ArtsAppHQElement::addListenerToDeleteButton(cocos2d::Sprite *toBeAddedTo)
                     offlineArtsAppScrollView->setName(HQScene2::kArtScrollViewName);
                     hqScene->addChild(offlineArtsAppScrollView);
                 }
-                return true;
             }
         }
-        
-        return false;
     };
     
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), toBeAddedTo);
-}
+}*/
 
 void ArtsAppHQElement::addListenerToElement()
 {
@@ -296,18 +311,13 @@ void ArtsAppHQElement::addListenerToElement()
         Size s = target->getBoundingBox().size;//getContentSize();
         Rect rect = Rect(0,0,s.width, s.height);
         
-        this->hideDeleteButton();
-        
         if(rect.containsPoint(locationInNode))
         {
-            AnalyticsSingleton::getInstance()->contentItemSelectedEvent(ConfigStorage::kArtAppHQName, "1,1");
 
             _overlayWhenTouched->setOpacity(150);
             _iamtouched = true;
             _movedAway = false;
             _touchPoint = touch->getLocation();
-            
-            this->scheduleShowingDeleteButton();
             
             return true;
         }
@@ -323,9 +333,6 @@ void ArtsAppHQElement::addListenerToElement()
             _iamtouched = false;
             _overlayWhenTouched->stopAllActions();
             _overlayWhenTouched->setOpacity(0);
-            
-            this->unscheduleShowingDeleteButton();
-            this->hideDeleteButton();
         }
         
         return true;
@@ -333,6 +340,7 @@ void ArtsAppHQElement::addListenerToElement()
     
     listener->onTouchEnded = [=](Touch *touch, Event *event)
     {
+		AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
         if(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName))
         {
             if(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName)->getNumberOfRunningActions() > 0)
@@ -341,24 +349,21 @@ void ArtsAppHQElement::addListenerToElement()
             }
         }
         
-        if(deleteButtonIsShown())
-        {
-            return true;
-        }
-        
         if(_iamtouched)
         {
             _iamtouched = false;
             _overlayWhenTouched->setOpacity(0);
             _overlayWhenTouched->stopAllActions();
             
-            if(_imageURL.substr(_imageURL.length() - 7) == "new.png")
+            if(_newImage)
             {
                 ArtAppDelegate::getInstance()->setFileName("");
+                AnalyticsSingleton::getInstance()->contentItemSelectedEvent("NewArt");
             }
             else
             {
                 ArtAppDelegate::getInstance()->setFileName(_imageURL);
+                AnalyticsSingleton::getInstance()->contentItemSelectedEvent("EditArt");
             }
             
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(ArtAppEntryPointScene));

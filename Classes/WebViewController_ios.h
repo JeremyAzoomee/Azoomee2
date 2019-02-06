@@ -15,14 +15,22 @@
     bool iframeloaded;
     UIWebView *webview;
     UIButton* backButton;
+    UIButton* _favButton;
+    UIButton* _shareButton;
+    UIView* _favContentBanner;
     float _closeButtonAnchorX;
     float _closeButtonAnchorY;
+    float _buttonWidth;
+    bool _uiExpanded;
 }
 
 -(id)init;
 - (void)startBuildingWebView:(NSString*)url userid:(NSString *)userid closeButtonAnchorX:(float)closeButtonAnchorX closeButtonAnchorY:(float)closeButtonAnchorY;
 - (void)removeWebViewWhileInBackground;
 - (void)addWebViewToScreen;
-- (void)createButton;
+- (void)createButtons;
+- (void)createFavBanner;
+- (void)favAnimation;
+- (void) closePopup:(NSTimer *)timer;
 
 @end

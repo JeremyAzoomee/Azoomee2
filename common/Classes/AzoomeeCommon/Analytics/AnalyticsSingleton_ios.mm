@@ -43,42 +43,52 @@ NSDictionary* mapToNSDictionary(const std::map<std::string, std::string>& map)
 
 void AnalyticsSingleton::mixPanelSendEventNative(const std::string& eventID,const std::map<std::string, std::string>& map)
 {
-#ifdef USINGCI
-    return;
+#ifndef USINGCI
+	 [[Mixpanel sharedInstance] track:[NSString stringWithUTF8String:eventID.c_str()]
+						  properties:mapToNSDictionary(map)];
 #endif
-    
-    [[Mixpanel sharedInstance] track:[NSString stringWithUTF8String:eventID.c_str()]
-         properties:mapToNSDictionary(map)];
+	
 }
 
 void AnalyticsSingleton::mixPanelRegisterIdentity(const std::string& parentID, const std::map<std::string, std::string>& name)
 {
-#ifdef USINGCI
-    return;
+#ifndef USINGCI
+	[[Mixpanel sharedInstance] identify:[NSString stringWithUTF8String:parentID.c_str()]];
+	[[Mixpanel sharedInstance].people set:mapToNSDictionary(name)];
 #endif
-    
-    [[Mixpanel sharedInstance] identify:[NSString stringWithUTF8String:parentID.c_str()]];
-    [[Mixpanel sharedInstance].people set:mapToNSDictionary(name)];
+}
+	
+void AnalyticsSingleton::mixPanelRegisterAlias(const std::string &newId)
+{
+#ifndef USINGCI
+	[[Mixpanel sharedInstance] createAlias:[NSString stringWithUTF8String:newId.c_str()] forDistinctID:[Mixpanel sharedInstance].distinctId];
+	[[Mixpanel sharedInstance] identify:[Mixpanel sharedInstance].distinctId];
+#endif
+	
+}
+	
+void AnalyticsSingleton::mixPanelUpdatePeopleProfileData(const std::map<std::string, std::string>& profileData)
+{
+#ifndef USINGCI
+	[[Mixpanel sharedInstance].people set:mapToNSDictionary(profileData)];
+#endif
+	
 }
 
 //--------------- APPSFLYER ---------------
 
 void AnalyticsSingleton::appsFlyerSendEvent(const std::string& eventID, const std::map<std::string, std::string>& map)
 {
-#ifdef USINGCI
-    return;
-#endif
-    
+#ifndef USINGCI
     [[AppsFlyerTracker sharedTracker] trackEvent: [NSString stringWithUTF8String:eventID.c_str()] withValues:mapToNSDictionary(map)];
+#endif
 }
 
 void AnalyticsSingleton::appsFlyerSendEvent(const std::string& eventID)
 {
-#ifdef USINGCI
-    return;
+#ifndef USINGCI
+	[[AppsFlyerTracker sharedTracker] trackEvent: [NSString stringWithUTF8String:eventID.c_str()] withValues:NULL];
 #endif
-    
-    [[AppsFlyerTracker sharedTracker] trackEvent: [NSString stringWithUTF8String:eventID.c_str()] withValues:NULL];
 }
   
 }

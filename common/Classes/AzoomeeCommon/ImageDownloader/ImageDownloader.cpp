@@ -43,14 +43,14 @@ ImageDownloader::~ImageDownloader()
     }*/
 }
 
-void ImageDownloader::downloadImage(ImageDownloaderDelegate* delegate, const std::string& url)
+void ImageDownloader::downloadImage(ImageDownloaderDelegate* delegate, const std::string& url, bool forceOverride)
 {
     _delegate = delegate;
     _filename = getFileNameFromURL(url);
     _category = getCategoryFromUrl(url);
     
     bool localFileExists = localImageExists();
-    if(localFileExists && !hasCacheExpired())
+    if(localFileExists && !hasCacheExpired() && !forceOverride)
     {
         loadFileFromLocalCacheAsync();
     }
@@ -212,12 +212,18 @@ void ImageDownloader::onFileDownloadComplete(const std::string& fileString, cons
         }
         else
         {
-            // TODO: Failed callback
+            if(_delegate)
+            {
+                _delegate->onImageDownloadFailed();
+            }
         }
     }
     else
     {
-        // TODO: Failed callback
+        if(_delegate)
+        {
+            _delegate->onImageDownloadFailed();
+        }
     }
     _downloadingImagePool.erase(std::find(_downloadingImagePool.begin(), _downloadingImagePool.end(), shared_from_this()));
 }

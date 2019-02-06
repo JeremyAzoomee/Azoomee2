@@ -35,7 +35,7 @@ bool RequestAdultPinLayer::init()
     addListenerToBiometricValidationSuccess();
     addListenerToBiometricValidationFailure();
     
-    if(BiometricAuthenticationHandler::getInstance()->biometricAuthenticationSet())
+    if(BiometricAuthenticationHandler::getInstance()->biometricAuthenticationAvailable() && BiometricAuthenticationHandler::getInstance()->biometricAuthenticationSet())
     {
         BiometricAuthenticationHandler::getInstance()->startBiometricAuthentication();
     }
@@ -80,7 +80,8 @@ void RequestAdultPinLayer::addListenerToBiometricValidationFailure()
 {
     _biometricValidationFailureListener = cocos2d::EventListenerCustom::create(BiometricAuthenticationHandler::kBiometricValidationFailure, [=](EventCustom* event) {
         auto funcCallAction = CallFunc::create([=](){
-            MessageBox::createWith(BiometricAuthenticationHandler::kAuthFailedDialogTitle, BiometricAuthenticationHandler::kAuthFailedDialogBody, BiometricAuthenticationHandler::kAuthFailedDialogButtons, this);
+			const std::vector<std::string>& buttons = {_("Retry"), _("Cancel")};
+			MessageBox::createWith(_("Authentication Failed"), _("Oops! Biometric authentication failed."), buttons, this);
         });
         
         this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
@@ -158,8 +159,13 @@ void RequestAdultPinLayer::addUIObjects()
     
     //---------- MODAL LABEL ------------
     
-    enterYourPinTitle = createLabelButtonAdultPrimary(StringMgr::getInstance()->getStringForKey(PIN_REQUEST_LABEL));
-    enterYourPinTitle->setPosition(editBox_pin->getPositionX() + enterYourPinTitle->getContentSize().width/2, windowLayer->getContentSize().height*.66+enterYourPinTitle->getContentSize().height/2);
+    enterYourPinTitle = createLabelButtonAdultPrimary(_("Please enter your PIN"));
+	enterYourPinTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    enterYourPinTitle->setPosition(windowLayer->getContentSize().width * 0.5f, windowLayer->getContentSize().height * 0.75f);
+	enterYourPinTitle->setOverflow(Label::Overflow::SHRINK);
+	enterYourPinTitle->setHorizontalAlignment(TextHAlignment::CENTER);
+	enterYourPinTitle->setVerticalAlignment(TextVAlignment::CENTER);
+	enterYourPinTitle->setDimensions(windowLayer->getContentSize().width * 0.7f, windowLayer->getContentSize().height * 0.25f);
     windowLayer->addChild(enterYourPinTitle);
     
     //-------- CLOSE BUTTON ----------
@@ -187,8 +193,9 @@ void RequestAdultPinLayer::resizeWindowAndObjects()
     
     acceptButton->setPosition(placeHolderAcceptButton->getPosition());
     
-    enterYourPinTitle->setPosition(editBox_pin->getPositionX() + enterYourPinTitle->getContentSize().width/2, windowLayer->getContentSize().height*.66+enterYourPinTitle->getContentSize().height/2);
-    
+    enterYourPinTitle->setPosition(windowLayer->getContentSize().width * 0.5f, windowLayer->getContentSize().height * 0.75f);
+	enterYourPinTitle->setDimensions(windowLayer->getContentSize().width * 0.7f, windowLayer->getContentSize().height * 0.25f);
+	
     cancelButton->setCenterPosition(Vec2(windowLayer->getContentSize().width-cancelButton->getContentSize().width * 0.75f, windowLayer->getContentSize().height-cancelButton->getContentSize().height * 0.75f));
 }
 
@@ -300,14 +307,14 @@ void RequestAdultPinLayer::buttonPressed(ElectricDreamsButton* button)
 
 void RequestAdultPinLayer::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
 {
-    if(messageBoxTitle == BiometricAuthenticationHandler::kStartBiometricDialogTitle)
+    if(messageBoxTitle == _("Biometric Authentication"))
     {
-        if(buttonTitle == BiometricAuthenticationHandler::kStartBiometricDialogButtons.at(0))
+        if(buttonTitle == _("Yes"))
         {
             BiometricAuthenticationHandler::getInstance()->startBiometricAuthentication();
         }
         
-        if(buttonTitle == BiometricAuthenticationHandler::kStartBiometricDialogButtons.at(1))
+        if(buttonTitle == _("No"))
         {
             BiometricAuthenticationHandler::getInstance()->biometricAuthenticationNotNeeded();
         }
@@ -316,15 +323,15 @@ void RequestAdultPinLayer::MessageBoxButtonPressed(std::string messageBoxTitle,s
         return;
     }
     
-    if(messageBoxTitle == BiometricAuthenticationHandler::kAuthFailedDialogTitle)
+    if(messageBoxTitle == _("Authentication Failed"))
     {
-        if(buttonTitle == BiometricAuthenticationHandler::kAuthFailedDialogButtons.at(0))
+        if(buttonTitle == _("Retry"))
         {
             BiometricAuthenticationHandler::getInstance()->startBiometricAuthentication();
             return;
         }
         
-        if(buttonTitle == BiometricAuthenticationHandler::kAuthFailedDialogButtons.at(1))
+        if(buttonTitle == _("Cancel"))
         {
             editBox_pin->focusAndShowKeyboard();
             return;

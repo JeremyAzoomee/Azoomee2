@@ -28,6 +28,26 @@ TextInputLayer* TextInputLayer::createWithSize(Size inputBoxSize, int textInputT
     
     return layer;
 }
+
+TextInputLayer* TextInputLayer::createSettingsBoxTextInput(float width, int textInputType)
+{
+    auto layer = TextInputLayer::create();
+    layer->setContentSize(Size(width,150));
+    layer->textInputType = textInputType;
+    layer->createSettingsBoxEditBox(width);
+    
+    return layer;
+}
+    
+TextInputLayer* TextInputLayer::createSettingsRoundedTextInput(float width, int textInputType)
+{
+    auto layer = TextInputLayer::create();
+    layer->setContentSize(Size(width,136));
+    layer->textInputType = textInputType;
+    layer->createSettingRoundedEditBox(width);
+    
+    return layer;
+}
     
 TextInputLayer* TextInputLayer::createSettingsChatTextInput(float width)
 {
@@ -51,32 +71,36 @@ bool TextInputLayer::init()
 
 void TextInputLayer::createEditBoxArea()
 {
+	const Size& contentSize = this->getContentSize();
+	
     Rect spriteRect = Rect(0, 0, 331, 160);
     Rect capInsents = Rect(EDITBOX_CURVE_WIDTH, 80, 1, 1);
     editBoxArea = ui::Scale9Sprite::create("res/login/textField.png", spriteRect, capInsents);
-    editBoxArea->setContentSize(this->getContentSize());
-    editBoxArea->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
+    editBoxArea->setContentSize(contentSize);
+    editBoxArea->setPosition(Vec2(contentSize.width/2, contentSize.height/2));
     editBoxArea->setOpacity(255);
     this->addChild(editBoxArea);
     
     editBoxAreaError = ui::Scale9Sprite::create("res/login/textFieldError.png", spriteRect, capInsents);
-    editBoxAreaError->setContentSize(this->getContentSize());
-    editBoxAreaError->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
+    editBoxAreaError->setContentSize(contentSize);
+    editBoxAreaError->setPosition(Vec2(contentSize.width/2, contentSize.height/2));
     editBoxAreaError->setVisible(false);
     this->addChild(editBoxAreaError);
 }
 
 void TextInputLayer::createEditBox()
 {
-    editBox = ui::EditBox::create(Size(this->getContentSize().width - (2 * EDITBOX_CURVE_WIDTH),this->getContentSize().height - 10), "res/login/editboxBlankFor9Scale.png");
+	const Size& contentSize = this->getContentSize();
+	
+    editBox = ui::EditBox::create(Size(contentSize.width - (2 * EDITBOX_CURVE_WIDTH),contentSize.height - 10), "res/login/editboxBlankFor9Scale.png");
     editBox->moveOnKeyboardDisplayRequired = false;
 
     editBox->setColor(Color3B::WHITE);
-    editBox->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
-    editBox->setFont(Style::Font::Input, INPUT_STYLE_SIZE);
+    editBox->setPosition(Vec2(contentSize.width/2, contentSize.height/2));
+    editBox->setFont(Style::Font::Regular(), 70);
     editBox->setFontColor(Color3B::BLACK);
-    editBox->setPlaceholderFontColor(Color3B::GRAY);
-    editBox->setPlaceholderFont(Style::Font::Input, 70);
+    editBox->setPlaceholderFontColor(Style::Color::telish);
+    editBox->setPlaceholderFont(Style::Font::Regular(), 70);
     editBox->setTextHorizontalAlignment(TextHAlignment::CENTER);
    
     #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -91,11 +115,79 @@ void TextInputLayer::createEditBox()
     
     this->addChild(editBox);
 }
+    
+void TextInputLayer::createSettingsBoxEditBox(float width)
+{
+	const Size& contentSize = this->getContentSize();
+	
+    editBoxArea = ui::Scale9Sprite::create("res/settings/rounded_rect_frame.png");
+    editBoxArea->setContentSize(Size(width,160));
+    editBoxArea->setPosition(Vec2(contentSize.width/2, contentSize.height/2));
+    editBoxArea->setColor(Style::Color::carolinaBlue);
+    this->addChild(editBoxArea);
+    
+    editBox = ui::EditBox::create(Size(contentSize.width - 40,contentSize.height), "res/settings/rounded_rect.png");
+    editBox->moveOnKeyboardDisplayRequired = false;
+    
+    editBox->setColor(Color3B::WHITE);
+    editBox->setPosition(Vec2(contentSize.width/2, contentSize.height/2));
+    editBox->setFont(Style::Font::Regular(), 59);
+    editBox->setFontColor(Color3B::BLACK);
+    editBox->setPlaceholderFontColor(Style::Color::battleshipGrey);
+    editBox->setPlaceholderFont(Style::Font::Regular(), 59);
+    
+    editBox->setTextHorizontalAlignment(TextHAlignment::CENTER);
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    editBox->setReturnType(ui::EditBox::KeyboardReturnType::GO);
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    editBox->setReturnType(ui::EditBox::KeyboardReturnType::NEXT);
+#endif
+    
+    editBox->setDelegate(this);
+    
+    this->setupEditBoxUsingType();
+    
+    this->addChild(editBox);
+}
 
+void TextInputLayer::createSettingRoundedEditBox(float width)
+{
+	const Size& contentSize = this->getContentSize();
+	
+    editBoxArea = ui::Scale9Sprite::create("res/settings/settings_rounded_frame.png");
+    editBoxArea->setContentSize(Size(width,146));
+    editBoxArea->setPosition(Vec2(contentSize.width/2, contentSize.height/2));
+    this->addChild(editBoxArea);
+    
+    editBox = ui::EditBox::create(Size(contentSize.width - (3 * EDITBOX_CURVE_WIDTH),contentSize.height), "res/settings/settings_rounded.png");
+    editBox->moveOnKeyboardDisplayRequired = false;
+    
+    editBox->setColor(Color3B::WHITE);
+    editBox->setPosition(Vec2(contentSize.width/2, contentSize.height/2));
+    editBox->setFont(Style::Font::Regular(), 63);
+    editBox->setFontColor(Color3B::BLACK);
+    editBox->setPlaceholderFontColor(Style::Color::battleshipGrey);
+    editBox->setPlaceholderFont(Style::Font::Regular(), 63);
+    
+    editBox->setTextHorizontalAlignment(TextHAlignment::CENTER);
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    editBox->setReturnType(ui::EditBox::KeyboardReturnType::GO);
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    editBox->setReturnType(ui::EditBox::KeyboardReturnType::NEXT);
+#endif
+    
+    editBox->setDelegate(this);
+    
+    this->setupEditBoxUsingType();
+	
+    this->addChild(editBox);
+}
+    
 void TextInputLayer::setupEditBoxUsingType()
 {
     switch (textInputType)
-    
     {
         case INPUT_IS_EMAIL:
         {
@@ -119,31 +211,29 @@ void TextInputLayer::setupEditBoxUsingType()
         }
         case INPUT_IS_CHILD_NAME:
         {
-            editBox->setMaxLength(12);
             editBox->setInputFlag(ui::EditBox::InputFlag::INITIAL_CAPS_WORD);
             editBox->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
-            //PLACEHOLDER TEXT WILL CHANGE/REMOVE WITH NEXT RELEASE AND CHANGE TO SIGNUP
-            editBox->setPlaceHolder("First name or nickname only");
+            //editBox->setPlaceHolder(_("First name or nickname only").c_str());
             break;
         }
         case INPUT_IS_DAY:
         {
             editBox->setMaxLength(2);
-            editBox->setPlaceHolder(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_DOB_DAY_PLACEHOLDER).c_str());
+            editBox->setPlaceHolder(_("DD").c_str());
             editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
             break;
         }
         case INPUT_IS_MONTH:
         {
             editBox->setMaxLength(2);
-            editBox->setPlaceHolder(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_DOB_MONTH_PLACEHOLDER).c_str());
+            editBox->setPlaceHolder(_("MM").c_str());
             editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
             break;
         }
         case INPUT_IS_YEAR:
         {
             editBox->setMaxLength(4);
-            editBox->setPlaceHolder(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_DOB_YEAR_PLACEHOLDER).c_str());
+            editBox->setPlaceHolder(_("YYYY").c_str());
             editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
             break;
         }
@@ -152,39 +242,48 @@ void TextInputLayer::setupEditBoxUsingType()
             editBox->setMaxLength(50);
             editBox->setInputFlag(ui::EditBox::InputFlag::PASSWORD);
             editBox->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
-            //PLACEHOLDER TEXT WILL CHANGE/REMOVE WITH NEXT RELEASE AND CHANGE TO SIGNUP
-            editBox->setPlaceHolder("Minimum 6 characters");
+            editBox->setPlaceHolder(_("Minimum 6 characters").c_str());
             break;
         }
         case INPUT_IS_AGE:
         {
-            editBox->setMaxLength(3);
+            editBox->setMaxLength(2);
             editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
-            editBox->setPlaceHolder("Age");
+            editBox->setPlaceHolder(_("Age").c_str());
             break;
         }
+        case INPUT_IS_KIDS_CODE:
+        {
+            editBox->setInputFlag(ui::EditBox::InputFlag::INITIAL_CAPS_ALL_CHARACTERS);
+            editBox->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
+            editBox->setMaxLength(8);
+            //editBox->setPlaceHolder(_("Enter Friend's Kid Code").c_str());
+            break;
+        }
+		case INPUT_IS_VOUCHER:
+		{
+			editBox->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
+			break;
+		}
     }
 }
     
 void TextInputLayer::createSettingsChatEditBox(float width)
 {
-    Rect spriteRect = Rect(0, 0, 268, 107);
-    Rect capInsents = Rect(100, 53, 1, 1);
-    
-    editBoxArea = ui::Scale9Sprite::create("res/settings/textEntry.png", spriteRect, capInsents);
-    editBoxArea->setContentSize(Size(width,107));
-    editBoxArea->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
+	const Size& contentSize = this->getContentSize();
+	
+    editBoxArea = ui::Scale9Sprite::create("res/settings/rounded_rect_frame.png");
+    editBoxArea->setContentSize(Size(width,160));
+    editBoxArea->setPosition(Vec2(contentSize.width/2, contentSize.height/2));
+    editBoxArea->setColor(Style::Color::carolinaBlue);
     this->addChild(editBoxArea);
     
-    editBox = ui::EditBox::create(Size(this->getContentSize().width - 100,this->getContentSize().height), "res/settings/textEntry.png");
+    editBox = ui::EditBox::create(Size(contentSize.width - 20,contentSize.height), "res/settings/rounded_rect.png");
     editBox->moveOnKeyboardDisplayRequired = false;
     
     editBox->setColor(Color3B::WHITE);
-    editBox->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
-    editBox->setFont(Style::Font::kidCodeRegular, 84);
+    editBox->setPosition(Vec2(contentSize.width/2, contentSize.height/2));
     editBox->setFontColor(Color3B::BLACK);
-    editBox->setInputFlag(ui::EditBox::InputFlag::INITIAL_CAPS_ALL_CHARACTERS);
-    
     editBox->setTextHorizontalAlignment(TextHAlignment::CENTER);
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -195,8 +294,6 @@ void TextInputLayer::createSettingsChatEditBox(float width)
     
     editBox->setDelegate(this);
     
-    editBox->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
-    editBox->setMaxLength(8);
     
     this->addChild(editBox);
 }
@@ -310,14 +407,14 @@ bool TextInputLayer::inputIsValid()
         }
         case INPUT_IS_AGE:
         {
-            int value = std::atoi(editBox->getText());
-            if(value > 0 && value < 112)
-            {
-                isValidInput = true;
-            }
+			isValidInput = isValidAge(editBox->getText());
             break;
         }
-            
+		case INPUT_IS_VOUCHER:
+		{
+			isValidInput = isValidVoucher(editBox->getText());
+			break;
+		}
     }
     
     return isValidInput;
@@ -357,6 +454,16 @@ void TextInputLayer::setNewWidth(float newWidth)
     editBoxArea->setPosition(Vec2(this->getContentSize().width/2,this->getContentSize().height/2));
     
 }
+    
+void TextInputLayer::setEnabled(bool enabled)
+{
+    editBox->setEnabled(enabled);
+}
+	
+void TextInputLayer::setPlaceholderText(const std::string &placeholder)
+{
+	editBox->setPlaceHolder(placeholder.c_str());
+}
 
 //--------------- EditBox Delegate Fuctions --------------------------------
 
@@ -377,6 +484,7 @@ void TextInputLayer::editBoxReturn(cocos2d::ui::EditBox* editBox)
     
 void TextInputLayer::editBoxEditingDidEndWithAction(cocos2d::ui::EditBox* editBox, EditBoxEndAction action)
 {
+    Director::getInstance()->getRunningScene()->setPositionY(0);
     #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
         if(action == EditBoxEndAction::RETURN)
     #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -394,6 +502,14 @@ void TextInputLayer::editBoxEditingDidEndWithAction(cocos2d::ui::EditBox* editBo
     
 void TextInputLayer::editBoxEditingDidBegin(cocos2d::ui::EditBox* editBox)
 {
+    auto pos = editBox->convertToWorldSpace(editBox->getPosition());
+    pos.y -= editBox->getContentSize().height;
+    bool isPortrait = Director::getInstance()->getVisibleSize().width < Director::getInstance()->getVisibleSize().height;
+    float height = UserDefault::getInstance()->getFloatForKey(isPortrait ? ConfigStorage::kEstimatedKeyboardHeightPortrait : ConfigStorage::kEstimatedKeyboardHeightLandscape);
+    if(pos.y < height)
+    {
+        Director::getInstance()->getRunningScene()->setPositionY(height - pos.y);
+    }
     if(this->getDelegate())
     {
         //Inform Delegates if input is valid
@@ -403,6 +519,7 @@ void TextInputLayer::editBoxEditingDidBegin(cocos2d::ui::EditBox* editBox)
     
 void TextInputLayer::editBoxEditingDidEnd(cocos2d::ui::EditBox* editBox)
 {
+    Director::getInstance()->getRunningScene()->setPositionY(0); // move scene back to origin height, in case it was shifted up to accomodate for keyboard overlapping text input
     if(this->getDelegate())
     {
         //Inform Delegates if input is valid

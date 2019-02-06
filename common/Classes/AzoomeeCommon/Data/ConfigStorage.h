@@ -6,6 +6,7 @@
 //#define FORGET_USER_DATA YES;
 //#define ALLOW_UNPAID_SIGNUP YES
 //#define USINGCI YES
+//#define VODACOM_BUILD YES
 
 #include <cocos/cocos2d.h>
 #include "Json.h"
@@ -22,7 +23,7 @@ public:
         CHAT = 0,
         VIDEO_HQ,
         AUDIO_HQ,
-        MIX_HQ,
+        ME_HQ,
         GAME_HQ,
         ARTS_APP,
         GROUP_HQ
@@ -35,9 +36,9 @@ public:
     static const char* const kGroupHQName;
     static const char* const kHomeHQName;
     static const char* const kArtAppHQName;
-    static const char* const kMixHQName;
+    static const char* const kMeHQName;
     
-    static const char* const kDefaultHQName;
+    static std::string kDefaultHQName;
     
     static const char* const kRecentlyPlayedCarouselName;
     
@@ -51,11 +52,25 @@ public:
     static const char* const kContentTypeGroup;
     static const char* const kContentTypeAudioGroup;
     static const char* const kContentTypeManual;
+    static const char* const kContentTypeInternal;
+    
+    static const char* const kOomeeMakerURI;
+    static const char* const kArtAppURI;
     
     static const char* const kEstimatedKeyboardHeightPortrait;
     static const char* const kEstimatedKeyboardHeightLandscape;
     
     static const std::string kArtCacheFolder;
+    
+    static const std::string kGameDownloadError;
+	
+	static const std::string kIOSSubURL;
+	static const std::string kAndroidSubURL;
+	static const std::string kAmazonSubURL;
+	
+	static const std::string kBillingProviderApple;
+	static const std::string kBillingProviderGoogle;
+	static const std::string kBillingProviderAmazon;
     
     /** Returns the shared instance of the Game Manager */
     static ConfigStorage* getInstance(void);
@@ -63,6 +78,9 @@ public:
     bool init(void);
     
     std::string getFileNameFromUrl(const std::string& url);
+    
+    std::string getGameCachePath();
+    std::string getDefaultHQ();
     
     //Backend caller configuration
     std::string getServerHost();
@@ -76,9 +94,10 @@ public:
     bool isImmediateRequestSendingRequired(const std::string& requestTag);
     
     //ChildAccountScene settings
-    std::string getNameForOomee(int number);
-    std::string getHumanReadableNameForOomee(int number);
     std::string getUrlForOomee(int number);
+    std::string getConfigUrlForOomee(int number);
+    std::string getLocalImageForOomee(int number);
+    std::string getLocalConfigForOomee(int number);
     int getOomeeNumberForUrl(const std::string& url);
     
     //BaseScene configuration
@@ -105,6 +124,8 @@ public:
     std::string getNameForMenuItem(const std::string& hqName) const;
     cocos2d::Point getTargetPositionForMove(const std::string& hqName) const;
     std::vector<std::string> getHqNames() const;
+    void setNavigationHQs(const std::vector<std::string>& hqs);
+    void setDefaultHQ(const std::string& defaultHq);
     
     //MainHubScene configuration
     std::vector<cocos2d::Point> getMainHubPositionForHighlightElements(const std::string& categoryName);
@@ -139,6 +160,8 @@ public:
     //Device-resolution-specific information
     void setIsDeviceIphoneX(bool isDeviceIphoneX);
     bool isDeviceIphoneX() const;
+    void setIsDevice18x9(bool isDevice18x9);
+    bool isDevice18x9() const;
     
     //Set keyboard height for chat
     void setEstimatedKeyboardHeight(float size);
@@ -161,7 +184,10 @@ private:
     std::vector<std::string> requestTagsRequireImmediateSending;
     std::vector<std::string> parentSignedRequestTags;
     
+    std::vector<std::string> _navigationHQs;
+    
     bool _isDeviceIphoneX = false;
+    bool _isDevice18x9 = false;
     
     std::string _osManufacturer = "";
     std::string _clientIp = "";

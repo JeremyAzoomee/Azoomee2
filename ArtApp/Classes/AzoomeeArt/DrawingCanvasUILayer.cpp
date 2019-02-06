@@ -7,9 +7,13 @@
 //
 
 #include "DrawingCanvasUILayer.h"
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/Utils/DirectorySearcher.h>
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Utils/SpecialCalendarEventManager.h>
+#include <AzoomeeCommon/UI/ModalMessages.h>
 
 using namespace cocos2d;
 
@@ -52,6 +56,9 @@ const std::vector<std::pair<std::string, std::string>> DrawingCanvasUILayer::_kP
     std::pair<std::string, std::string>(kArtAppAssetLoc + "patterns/glitter_blue_btn.png","blue"),
     std::pair<std::string, std::string>(kArtAppAssetLoc + "patterns/glitter_green_btn.png","green")
 };
+
+const std::string DrawingCanvasUILayer::kSavePopupName = "save";
+const std::string DrawingCanvasUILayer::kClearPopupName = "clear";
 
 bool DrawingCanvasUILayer::init()
 {
@@ -104,6 +111,23 @@ void DrawingCanvasUILayer::setDrawingCanvas(DrawingCanvas *drawingCanvas)
     this->_drawingCanvas = drawingCanvas;
 }
 
+void DrawingCanvasUILayer::setFilename(const std::string &filename)
+{
+    _filename = filename;
+}
+
+void DrawingCanvasUILayer::saveImage()
+{
+    ModalMessages::getInstance()->startSaving();
+    
+    const std::string scheduleKey = "save";
+    Director::getInstance()->getScheduler()->schedule([&](float dt){
+        const std::string& truncatedPath = _filename.substr(_filename.find(ConfigStorage::kArtCacheFolder));
+        _drawingCanvas->saveImage(truncatedPath);
+        ModalMessages::getInstance()->stopSaving();
+    }, this, 0.5, 0, 0, false, scheduleKey);
+}
+
 //UI LOADING
 
 void DrawingCanvasUILayer::addBackgroundFrame(const Size& visibleSize, const Point& visibleOrigin)
@@ -124,71 +148,48 @@ void DrawingCanvasUILayer::addBackgroundFrame(const Size& visibleSize, const Poi
 
 void DrawingCanvasUILayer::addClearButton(const Size& visibleSize, const Point& visibleOrigin)
 {
+    _saveButton = ui::Button::create(kArtAppAssetLoc + "save_button.png");
+    _saveButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _saveButton->setPosition(Vec2(visibleSize.width - _saveButton->getContentSize().width, visibleOrigin.y + visibleSize.height * 0.0825f));
+    _saveButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+			const Size& visibleSize = Director::getInstance()->getVisibleSize();
+            ConfirmCancelMessageBox* messageBox = ConfirmCancelMessageBox::createWithParams(_("Save?"), "res/buttons/confirm_tick_2.png", "res/buttons/confirm_x_2.png", Color3B::BLACK, Color4B::WHITE);
+            messageBox->setName(kSavePopupName);
+            messageBox->setDelegate(this);
+            messageBox->setPosition(Director::getInstance()->getVisibleOrigin() + Vec2(visibleSize.width * 0.09f/2.0f,visibleSize.height * 0.175f/2.0f));
+            Director::getInstance()->getRunningScene()->addChild(messageBox,POPUP_UI_LAYER);
+        }
+    });
+    this->addChild(_saveButton, MAIN_UI_LAYER);
+    
     _clearButton = ui::Button::create();
-    _clearButton->setAnchorPoint(Vec2(0.5,0.5));
+    _clearButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _clearButton->loadTextures(kArtAppAssetLoc + "delete.png", kArtAppAssetLoc + "delete.png");
-    _clearButton->setPosition(Vec2(visibleSize.width - _clearButton->getContentSize().width * 2.5, visibleOrigin.y + visibleSize.height * 0.0825f));
-    _clearButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onClearButtonPressed, this));
+    _clearButton->setPosition(Vec2(_saveButton->getPosition().x - _clearButton->getContentSize().width * 1.5f, _saveButton->getPosition().y));
+	_clearButton->setPressedActionEnabled(true);
+    _clearButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+			const Size& visibleSize = Director::getInstance()->getVisibleSize();
+            ConfirmCancelMessageBox* messageBox = ConfirmCancelMessageBox::createWithParams(_("Delete?"), "res/buttons/confirm_bin.png", "res/buttons/confirm_x_2.png", Color3B::BLACK, Color4B::WHITE);
+            messageBox->setName(kClearPopupName);
+            messageBox->setDelegate(this);
+            messageBox->setPosition(Director::getInstance()->getVisibleOrigin() + Vec2(visibleSize.width * 0.09f/2.0f,visibleSize.height * 0.175f/2.0f));
+            Director::getInstance()->getRunningScene()->addChild(messageBox,POPUP_UI_LAYER);
+        }
+    });
     this->addChild(_clearButton,MAIN_UI_LAYER);
     
     _undoButton = ui::Button::create();
-    _undoButton->setAnchorPoint(Vec2(0.5,0.5));
+    _undoButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _undoButton->loadTextures(kArtAppAssetLoc + "redo.png", kArtAppAssetLoc + "redo.png");
-    _undoButton->setPosition(Vec2(visibleSize.width - _undoButton->getContentSize().width, _clearButton->getPosition().y));
+    _undoButton->setPosition(Vec2(_clearButton->getPosition().x - _undoButton->getContentSize().width * 1.5f, _clearButton->getPosition().y));
     _undoButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onUndoButtonPressed, this));
+    _undoButton->setFlippedX(true);
+	_undoButton->setPressedActionEnabled(true);
     this->addChild(_undoButton,MAIN_UI_LAYER);
-    
-    _confirmDeleteImagePopup = Node::create();
-    _confirmDeleteImagePopup->setContentSize(Size(visibleSize.width*0.6, visibleSize.height*0.53));
-    _confirmDeleteImagePopup->setPosition(visibleOrigin + Vec2(visibleSize.width * 0.5,visibleSize.height * 0.5625));
-    _confirmDeleteImagePopup->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    
-    ui::Scale9Sprite* backgroundFrame = ui::Scale9Sprite::create(kArtAppAssetLoc + "gallery/art_painting_placeholder.png");
-    backgroundFrame->setContentSize(_confirmDeleteImagePopup->getContentSize());
-    backgroundFrame->setAnchorPoint(Vec2(0.5,0.5));
-    backgroundFrame->setNormalizedPosition(Vec2(0.5,0.5));
-    backgroundFrame->setColor(Color3B(Style::Color_4F::brightAqua));
-    _confirmDeleteImagePopup->addChild(backgroundFrame);
-    
-    ui::Scale9Sprite* background = ui::Scale9Sprite::create(kArtAppAssetLoc + "gallery/art_painting_placeholder.png");
-    background->setContentSize(_confirmDeleteImagePopup->getContentSize() - Size(24,24));
-    background->setAnchorPoint(Vec2(0.5,0.5));
-    background->setNormalizedPosition(Vec2(0.5,0.5));
-    background->setColor(Color3B(Style::Color_4F::black));
-    _confirmDeleteImagePopup->addChild(background);
-    
-    Sprite* oomee = Sprite::create(kArtAppAssetLoc + "you_sure_4_x_8.png");
-    oomee->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    oomee->setNormalizedPosition(Vec2(0.23,0.5));
-    _confirmDeleteImagePopup->addChild(oomee);
-    
-    Label* text = Label::createWithTTF("Are you sure you\nwant to delete\nyour picture?", Style::Font::Regular, 100);
-    text->setAnchorPoint(Vec2(0,1));
-    text->setNormalizedPosition(Vec2(0.45,0.88));
-    text->setColor(Color3B(Style::Color_4F::brightAqua));
-    text->setLineSpacing(20);
-    
-    _confirmDeleteImagePopup->addChild(text);
-    
-    _confrimDeleteButton = ui::Button::create();
-    _confrimDeleteButton->loadTextures(kArtAppAssetLoc + "yes.png", kArtAppAssetLoc + "yes.png");
-    _confrimDeleteButton->setAnchorPoint(Vec2(0.5,0.5));
-    _confrimDeleteButton->setNormalizedPosition(Vec2(0.779,0.275));
-    _confrimDeleteButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onConfirmDeletePressed, this));
-    
-    _confirmDeleteImagePopup->addChild(_confrimDeleteButton);
-    
-    _cancelDeleteButton = ui::Button::create();
-    _cancelDeleteButton->loadTextures(kArtAppAssetLoc + "no.png", kArtAppAssetLoc + "no.png");
-    _cancelDeleteButton->setAnchorPoint(Vec2(0.5,0.5));
-    _cancelDeleteButton->setNormalizedPosition(Vec2(0.526,0.275));
-    _cancelDeleteButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onCancelDeletePressed, this));
-    
-    _confirmDeleteImagePopup->addChild(_cancelDeleteButton);
-    
-    _confirmDeleteImagePopup->setVisible(false);
-    
-    this->addChild(_confirmDeleteImagePopup,POPUP_UI_LAYER);
     
     
 }
@@ -304,9 +305,9 @@ void DrawingCanvasUILayer::addToolSelectButtons(const Size& visibleSize, const P
 {
     
     _toolButtonLayout = Node::create();
-    _toolButtonLayout->setContentSize(Size(visibleSize.width*0.6f,visibleSize.height*0.175f));
+    _toolButtonLayout->setContentSize(Size(visibleSize.width*0.5f,visibleSize.height*0.175f));
     _toolButtonLayout->setAnchorPoint(Vec2(0.5,0));
-    _toolButtonLayout->setPosition(Vec2(visibleOrigin.x + visibleSize.width/2,visibleOrigin.y));
+    _toolButtonLayout->setPosition(Vec2(visibleOrigin.x + visibleSize.width * 0.45,visibleOrigin.y));
     this->addChild(_toolButtonLayout,MAIN_UI_LAYER);
     
     addBrushTool(kArtAppAssetLoc + "pencil_frame.png", kArtAppAssetLoc + "pencil.png", PEN, Vec2(0.1,0), true);
@@ -328,7 +329,7 @@ void DrawingCanvasUILayer::addStickerSelectButtons(const Size& visibleSize, cons
 {
     _addStickerButton = ui::Button::create();
     _addStickerButton->setAnchorPoint(Vec2(0.5,0.5));
-    _addStickerButton->loadTextures(kArtAppAssetLoc + "star_3.png", kArtAppAssetLoc + "star_3.png");
+    _addStickerButton->loadTextures(kArtAppAssetLoc + "Sticker_Button.png", kArtAppAssetLoc + "Sticker_Button.png");
     _addStickerButton->setPosition(Vec2(_addStickerButton->getContentSize().width, _colourSelectButton->getPosition().y));
     _addStickerButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onAddStickerButtonPressed,this));
     
@@ -403,7 +404,7 @@ void DrawingCanvasUILayer::addStickerSelectButtons(const Size& visibleSize, cons
     for(int i = 0; i < _stickerCats.size(); i++)
     {
         ui::Button* stickerCatButton = ui::Button::create();
-        stickerCatButton->loadTextures(kStickerLoc + _stickerCats[i]->first, kStickerLoc + _stickerCats[i]->first);
+        stickerCatButton->loadTextures(_stickerCats[i]->first, _stickerCats[i]->first);
         stickerCatButton->setAnchorPoint(Vec2(0.5,0.5));
         stickerCatButton->setNormalizedPosition(Vec2((i+0.5f)/(float)_stickerCats.size(),0.5));
         stickerCatButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onStickerCategoryChangePressed, this,i));
@@ -506,20 +507,6 @@ void DrawingCanvasUILayer::addBrushTool(const std::string &buttonFilename, const
 /*************************************************************************************
  ***********************   BUTTON CALLBACKS   ****************************************
  *************************************************************************************/
-
-void DrawingCanvasUILayer::onClearButtonPressed(Ref *pSender, ui::Widget::TouchEventType eEventType)
-{
-    if(eEventType == ui::Widget::TouchEventType::BEGAN)
-    {
-        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
-    }
-    else if(eEventType == ui::Widget::TouchEventType::ENDED)
-    {
-        _drawingCanvas->setListenerEnabled(false);
-        _confirmDeleteImagePopup->setVisible(true);
-        setUIEnabled(false);
-    }
-}
 
 void DrawingCanvasUILayer::onUndoButtonPressed(Ref *pSender, ui::Widget::TouchEventType eEventType)
 {
@@ -660,7 +647,7 @@ void DrawingCanvasUILayer::onAddStickerPressed(Ref *pSender, ui::Widget::TouchEv
         pressedButton->setScale(baseScale / 0.85f);
         setStickerPopupVisible(false);
 
-        _drawingCanvas->setupStickerNode(pressedButton->getNormalFile().file);
+        _drawingCanvas->setupStickerNode(pressedButton->getNormalFile().file, pressedButton->getName());
 
         setStickerUIEnabled(true);
     }
@@ -737,7 +724,7 @@ void DrawingCanvasUILayer::onConfirmStickerPressed(Ref *pSender, ui::Widget::Tou
         _drawingCanvas->setListenerEnabled(true);
         
         //add sticker as node in drawing scene on undo stack
-        
+
         _drawingCanvas->addStickerToDrawing();
         
     }
@@ -761,54 +748,6 @@ void DrawingCanvasUILayer::onCancelStickerPressed(Ref *pSender, ui::Widget::Touc
     {
         pressedButton->setScale(baseScale / 0.85f);
         setStickerUIEnabled(false);
-        _drawingCanvas->setListenerEnabled(true);
-        
-    }
-    else if(eEventType == ui::Widget::TouchEventType::CANCELED)
-    {
-        pressedButton->setScale(baseScale / 0.85f);
-    }
-}
-
-void DrawingCanvasUILayer::onConfirmDeletePressed(Ref *pSender, ui::Widget::TouchEventType eEventType)
-{
-    ui::Button* pressedButton = static_cast<ui::Button*>(pSender);
-    float baseScale = pressedButton->getScale();
-    
-    if(eEventType == ui::Widget::TouchEventType::BEGAN)
-    {
-        pressedButton->setScale(baseScale * 0.85f);
-        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
-    }
-    else if(eEventType == ui::Widget::TouchEventType::ENDED)
-    {
-        pressedButton->setScale(baseScale / 0.85f);
-        _confirmDeleteImagePopup->setVisible(false);
-        setUIEnabled(true);
-        _drawingCanvas->setListenerEnabled(true);
-        _drawingCanvas->clearDrawing();
-    }
-    else if(eEventType == ui::Widget::TouchEventType::CANCELED)
-    {
-        pressedButton->setScale(baseScale / 0.85f);
-    }
-}
-
-void DrawingCanvasUILayer::onCancelDeletePressed(Ref *pSender, ui::Widget::TouchEventType eEventType)
-{
-    ui::Button* pressedButton = static_cast<ui::Button*>(pSender);
-    float baseScale = pressedButton->getScale();
-    
-    if(eEventType == ui::Widget::TouchEventType::BEGAN)
-    {
-        pressedButton->setScale(baseScale * 0.85f);
-        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
-    }
-    else if(eEventType == ui::Widget::TouchEventType::ENDED)
-    {
-        pressedButton->setScale(baseScale / 0.85f);
-        _confirmDeleteImagePopup->setVisible(false);
-        setUIEnabled(true);
         _drawingCanvas->setListenerEnabled(true);
         
     }
@@ -899,8 +838,10 @@ void DrawingCanvasUILayer::onStickerCategoryChangePressed(Ref *pSender, ui::Widg
         {
             ui::Button* temp = ui::Button::create();
             temp->setAnchorPoint(Vec2(0.5,0.5));
-            temp->loadTextures(kStickerLoc + _stickerCats[index]->second[i],kStickerLoc + _stickerCats[index]->second[i]);
+            temp->loadTextures(_stickerCats[index]->second[i].first, _stickerCats[index]->second[i].first);
+            temp->setName(_stickerCats[index]->second[i].second);
             temp->setPosition(Vec2(_stickerScrollView->getInnerContainerSize().width*((i+1.0f)/(numStickers+1)),_stickerScrollView->getInnerContainerSize().height*0.8));
+            temp->setScale(271.0f/temp->getContentSize().height);
             temp->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onAddStickerPressed, this));
             _stickerScrollView->addChild(temp);
             
@@ -908,8 +849,10 @@ void DrawingCanvasUILayer::onStickerCategoryChangePressed(Ref *pSender, ui::Widg
             {
                 ui::Button* temp2 = ui::Button::create();
                 temp2->setAnchorPoint(Vec2(0.5,0.5));
-                temp2->loadTextures(kStickerLoc + _stickerCats[index]->second[i+1],kStickerLoc + _stickerCats[index]->second[i+1]);
+                temp2->loadTextures( _stickerCats[index]->second[i+1].first, _stickerCats[index]->second[i+1].first);
+                temp2->setName(_stickerCats[index]->second[i+1].second);
                 temp2->setPosition(Vec2(_stickerScrollView->getInnerContainerSize().width*((i+1.0f)/(numStickers+1)),_stickerScrollView->getInnerContainerSize().height*0.4));
+                temp2->setScale(271.0f/temp2->getContentSize().height);
                 temp2->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onAddStickerPressed, this));
                 _stickerScrollView->addChild(temp2);
             }
@@ -930,6 +873,7 @@ void DrawingCanvasUILayer::setUIVisible(bool isVisible)
     _addStickerButton->setVisible(isVisible);
     _clearButton->setVisible(isVisible);
     _undoButton->setVisible(isVisible);
+    _saveButton->setVisible(isVisible);
     _brushSizeSlider->setVisible(isVisible);
 }
 
@@ -946,6 +890,7 @@ void DrawingCanvasUILayer::setUIEnabled(bool isEnabled)
     _addStickerButton->setEnabled(isEnabled);
     _clearButton->setEnabled(isEnabled);
     _undoButton->setEnabled(isEnabled);
+    _saveButton->setEnabled(isEnabled);
     _brushSizeSlider->setEnabled(isEnabled);
     _overlay->setVisible(!isEnabled);
     if(isEnabled)
@@ -992,6 +937,7 @@ void DrawingCanvasUILayer::setStickerUIEnabled(bool isEnabled)
     
     _clearButton->setVisible(!isEnabled);
     _undoButton->setVisible(!isEnabled);
+    _saveButton->setVisible(!isEnabled);
     
     auto toolButtons = _toolButtonLayout->getChildren();
     
@@ -1004,6 +950,7 @@ void DrawingCanvasUILayer::setStickerUIEnabled(bool isEnabled)
     _addStickerButton->setEnabled(!isEnabled);
     _clearButton->setEnabled(!isEnabled);
     _undoButton->setEnabled(!isEnabled);
+    _saveButton->setEnabled(!isEnabled);
     _brushSizeSlider->setEnabled(!isEnabled);
     
     if(isEnabled)
@@ -1049,7 +996,25 @@ void DrawingCanvasUILayer::setButtonBodyPattern(cocos2d::ui::Button *button, con
 
 void DrawingCanvasUILayer::getStickerFilesFromJSON()
 {
+    _stickerCats.clear();
+    const std::string& oomeeStoragePath = FileUtils::getInstance()->getWritablePath() + "oomeeMaker/" + ChildDataProvider::getInstance()->getParentOrChildId();
+    const std::vector<std::string>& oomeeImages = DirectorySearcher::getInstance()->getImagesInDirectory(oomeeStoragePath);
     
+    if(oomeeImages.size() != 0)
+    {
+		std::vector<std::pair<std::string,std::string>> fullFilenames;
+		for(const std::string& img : oomeeImages)
+		{
+			fullFilenames.push_back(std::pair<std::string, std::string>(oomeeStoragePath + "/" + img,"myOomees/" + img));
+		}
+		
+		StickerSetRef oomeeCat = std::make_shared<StickerSet>();
+		oomeeCat->first = kStickerLoc + "Category_MyOomees.png";
+		oomeeCat->second = fullFilenames;
+		
+		_stickerCats.push_back(oomeeCat);
+	}
+	
     const std::string& fullFileText = FileUtils::getInstance()->getStringFromFile(kStickerLoc + "catalogue.json");
     
     rapidjson::Document json;
@@ -1058,7 +1023,7 @@ void DrawingCanvasUILayer::getStickerFilesFromJSON()
     const rapidjson::Value& categories = json["categories"];
     for(auto it = categories.Begin(); it != categories.End(); ++it)
     {
-        std::vector<std::string> catStickers;
+        std::vector<std::pair<std::string,std::string>> catStickers;
         const auto& jsonCatEntry = *it;
         
         if(!SpecialCalendarEventManager::getInstance()->checkIfInSeason(SpecialCalendarEventManager::getInstance()->getSeasonFromString(getStringFromJson("season", jsonCatEntry, "any"))))
@@ -1072,17 +1037,39 @@ void DrawingCanvasUILayer::getStickerFilesFromJSON()
         for(auto it = stickersJson.Begin(); it != stickersJson.End(); ++it)
         {
             const auto& jsonStickEntry = *it;
-            const std::string& sticker = jsonStickEntry.GetString();
-            catStickers.push_back(sticker);
+            const std::string& sticker = kStickerLoc + jsonStickEntry.GetString();
+            const std::string& identifier = jsonStickEntry.GetString();
+            catStickers.push_back(std::pair<std::string,std::string>(sticker,identifier));
         }
         
         StickerSetRef categorySet = std::make_shared<StickerSet>();
-        categorySet->first = catName;
+        categorySet->first = kStickerLoc + catName;
         categorySet->second = catStickers;
         
         _stickerCats.push_back(categorySet);
         
     }
+    
+}
+
+// delegate functions
+
+void DrawingCanvasUILayer::onConfirmPressed(Azoomee::ConfirmCancelMessageBox *pSender)
+{
+    if(pSender->getName() == kSavePopupName)
+    {
+        saveImage();
+    }
+    else if(pSender->getName() == kClearPopupName)
+    {
+        _drawingCanvas->clearDrawing();
+    }
+    pSender->removeFromParent();
+}
+
+void DrawingCanvasUILayer::onCancelPressed(Azoomee::ConfirmCancelMessageBox *pSender)
+{
+    pSender->removeFromParent();
 }
 
 

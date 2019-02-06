@@ -8,8 +8,7 @@
 #include "../Crashlytics/CrashlyticsConfig.h"
 #include "../JWTSigner/HMACSHA256/HMACSHA256.h"
 
-namespace Azoomee
-{
+NS_AZOOMEE_BEGIN
 
 static AnalyticsSingleton *_sharedAnalyticsSingleton = NULL;
 
@@ -175,6 +174,31 @@ void AnalyticsSingleton::setIsUserAnonymous(bool isUserAnonymous)
     mixPanelRegisterSuperProperties("isUserAnonymous", isUserAnonymousString);
 }
 
+void AnalyticsSingleton::registerAlias(const std::string& newId)
+{
+	const std::string& newIdHash = HMACSHA256::getInstance()->getHMACSHA256Hash(newId, newId);
+	mixPanelRegisterSuperProperties("parentID", newIdHash);
+	mixPanelRegisterAlias(newIdHash);
+	mixPanelUpdatePeopleProfileData(_analyticsProperties->getStoredGeneralProperties());
+}
+
+void AnalyticsSingleton::registerBillingData(const BillingDataRef& billingData)
+{
+	mixPanelRegisterSuperProperties("billingProvider",billingData->getPaymentProvider());
+	mixPanelRegisterSuperProperties("billingStatus",billingData->getBillingStatusStr());
+	mixPanelRegisterSuperProperties("billingRenewDate", billingData->getNextBillDate());
+	mixPanelRegisterSuperProperties("billingVoucherCode", billingData->getVoucherCode());
+	mixPanelRegisterSuperProperties("billingVoucherCampaign", billingData->getCampaign());
+	mixPanelRegisterSuperProperties("billingVoucherOrganisation", billingData->getOrganisation());
+	mixPanelRegisterSuperProperties("billingSubscribedDuration", cocos2d::StringUtils::format("%d",billingData->getDuration()));
+	mixPanelUpdatePeopleProfileData(_analyticsProperties->getStoredGeneralProperties());
+}
+
+void AnalyticsSingleton::registerLanguageCode(const std::string& languageCode)
+{
+	mixPanelRegisterSuperProperties("language", languageCode);
+}
+
 //-------------logout events-----------------
 
 void AnalyticsSingleton::logoutChildEvent()
@@ -255,19 +279,10 @@ void AnalyticsSingleton::childProfileDOBErrorEvent()
     //mixPanelSendEvent("childProfileDOBError");
 }
 
-void AnalyticsSingleton::childProfileOomeeEvent(int oomeeNumber)
-{
-    std::map<std::string, std::string> mixPanelProperties;
-    mixPanelProperties["SelectedOomee"] = ConfigStorage::getInstance()->getHumanReadableNameForOomee(oomeeNumber);
-    
-    mixPanelSendEventWithStoredProperties("childProfileOomee", mixPanelProperties);
-}
-
-void AnalyticsSingleton::childProfileCreatedSuccessEvent(int oomeeNumber)
+void AnalyticsSingleton::childProfileCreatedSuccessEvent()
 {
     std::map<std::string, std::string> mixPanelProperties;
     mixPanelProperties["Method"] = "App";
-    mixPanelProperties["SelectedOomee"] = ConfigStorage::getInstance()->getHumanReadableNameForOomee(oomeeNumber);
     
     mixPanelSendEventWithStoredProperties("childProfileCreatedSuccess", mixPanelProperties);
 }
@@ -288,25 +303,16 @@ void AnalyticsSingleton::childProfileUpdateErrorEvent(long errorCode)
     mixPanelSendEventWithStoredProperties("childProfileUpdateError", mixPanelProperties);
 }
     
-void AnalyticsSingleton::childProfileCreatedEvent(int age, int oomeeNum)
+void AnalyticsSingleton::childProfileCreatedEvent(int age)
 {
     std::map<std::string, std::string> mixPanelProperties;
     mixPanelProperties["Method"] = "App";
-    mixPanelProperties["SelectedOomee"] = ConfigStorage::getInstance()->getHumanReadableNameForOomee(oomeeNum);
     mixPanelProperties["Age"] = age;
     
     mixPanelSendEventWithStoredProperties("childProfileCreatedEvent", mixPanelProperties);
 }
 
 //-------------HUB ACTIONS-------------------
-void AnalyticsSingleton::hubTapOomeeEvent(int oomeeNumber, std::string oomeeAction)
-{
-    std::map<std::string, std::string> mixPanelProperties;
-    mixPanelProperties["SelectedOomee"] = ConfigStorage::getInstance()->getHumanReadableNameForOomee(oomeeNumber);
-    mixPanelProperties["OomeeAnimation"] = oomeeAction;
-    
-    mixPanelSendEventWithStoredProperties("tapOomee", mixPanelProperties);
-}
 
     void AnalyticsSingleton::navSelectionEvent(std::string hubOrTop, const std::string& buttonName)
 {
@@ -763,6 +769,11 @@ void AnalyticsSingleton::deepLinkingContentEvent()
         mixPanelSendEventWithStoredProperties("chatResetReportedEvent");
     }
 
+void AnalyticsSingleton::chatOpenSharedContentEvent(const std::string& contentId)
+{
+    mixPanelSendEventWithStoredProperties("chatOpenSharedContentEvent", {{"contentId", contentId}});
+}
+
 //-------------------------------------CTA ACTIONS-----------------------------
     
 void AnalyticsSingleton::ctaButtonPressed(const std::string &buttonId, const std::string &title)
@@ -786,18 +797,106 @@ void AnalyticsSingleton::ctaWindowAppeared(const std::string &groupId, const std
         {"nodeId", nodeId},
         {"sourceButton", _analyticsProperties->getCtaSourceButton()},
         {"sourceContentId", _analyticsProperties->getCtaSourceContentId()},
-        {"sourceMediaType", _analyticsProperties->getCtaSourceMediaType()}
+        {"sourceMediaType", _analyticsProperties->getCtaSourceMediaType()},
+        {"recommendedContentId", _analyticsProperties->getCtaRecommendedContentId()}
     };
     
     mixPanelSendEventWithStoredProperties("ctaWindowAppeared", mixPanelProperties);
 }
     
-void AnalyticsSingleton::registerCTASource(const std::string& buttonId, const std::string& contentId, const std::string& mediaType)
+void AnalyticsSingleton::registerCTASource(const std::string& buttonId, const std::string& contentId, const std::string& mediaType, const std::string& recommendedContentId)
 {
     _analyticsProperties->setCtaSourceButton(buttonId);
     _analyticsProperties->setCtaSourceContentId(contentId);
     _analyticsProperties->setCtaSourceMediaType(mediaType);
+    _analyticsProperties->setCtaRecommendedContentId(recommendedContentId);
 }
 
+//--------------ME HQ Events--------------------------------
 
+void AnalyticsSingleton::favouriteContentItem(const std::string& contentItemId)
+{
+    mixPanelSendEventWithStoredProperties("contentItemFavourited", {{"favItemId",contentItemId}});
 }
+void AnalyticsSingleton::unFavouriteContentItem(const std::string& contentItemId)
+{
+    mixPanelSendEventWithStoredProperties("contentItemUnfavourited", {{"unfavItemId",contentItemId}});
+}
+void AnalyticsSingleton::shareContentItemButtonPressed(const std::string& contentItemId)
+{
+    mixPanelSendEventWithStoredProperties("shareContentItemButtonPressed", {{"sharedItemId",contentItemId}});
+}
+
+//-------------OomeeMaker Events----------------------------
+
+void AnalyticsSingleton::makeAvatarSuccess(const std::string& origin)
+{
+    mixPanelSendEventWithStoredProperties("makeAvatarSuccess", {{"origin",origin}});
+}
+void AnalyticsSingleton::shareOomee()
+{
+    mixPanelSendEventWithStoredProperties("shareOomee");
+}
+void AnalyticsSingleton::editOomee()
+{
+    mixPanelSendEventWithStoredProperties("editOomee");
+}
+void AnalyticsSingleton::deleteOomee()
+{
+    mixPanelSendEventWithStoredProperties("deleteOomee");
+}
+void AnalyticsSingleton::newOomee()
+{
+    mixPanelSendEventWithStoredProperties("newOomee");
+}
+void AnalyticsSingleton::saveOomee(const std::string& oomeeDataString)
+{
+    mixPanelSendEventWithStoredProperties("saveOomee",{{"oomeeData",oomeeDataString}});
+}
+void AnalyticsSingleton::reportNumberOfOomees(int numOomees)
+{
+    mixPanelSendEventWithStoredProperties("reportNumOomeesEvent",{{"numOomees", cocos2d::StringUtils::format("%d", numOomees)}});
+}
+
+void AnalyticsSingleton::accessorySelectedEvent(const std::string& method)
+{
+    mixPanelSendEventWithStoredProperties("accessorySelected" ,{{"method", method}});
+}
+
+//----------------Art app events------------------------------
+
+void AnalyticsSingleton::stickerSelectedEvent(const std::string &stickerFilename)
+{
+    auto splitString = splitStringToVector(stickerFilename, "/");
+    if(splitString.size() >= 2)
+    {
+        mixPanelSendEventWithStoredProperties("artAppStickerSelected",{{"stickerCategory",splitString.at(splitString.size() - 2)},{"stickerName",splitString.at(splitString.size() - 1)}} );
+    }
+}
+
+//---------------I18n events----------------------------------
+void AnalyticsSingleton::languageChangedEvent(const std::string& languageCode)
+{
+	mixPanelSendEventWithStoredProperties("languageChanged" ,{{"languageCode", languageCode}});
+}
+
+//-------------Vodacom events-------------------------------
+void AnalyticsSingleton::vodacomOnboardingFlowStartedEvent()
+{
+	mixPanelSendEventWithStoredProperties("vodacomOnboardingFlowStarted");
+}
+
+void AnalyticsSingleton::vodacomOnboardingFlowExitEvent()
+{
+	mixPanelSendEventWithStoredProperties("vodacomOnboardingFlowFinished");
+}
+void AnalyticsSingleton::vodacomOnboardingFlowMoveToScreen(const std::string& newScreen)
+{
+	mixPanelSendEventWithStoredProperties("vodacomOnboardingMoveToScreen" ,{{"newScreen", newScreen}});
+}
+void AnalyticsSingleton::vodacomOnboardingVoucherAdded(const std::string& voucherCode)
+{
+	mixPanelSendEventWithStoredProperties("vodacomOnboardingVoucherAdded" ,{{"voucherCode", voucherCode}});
+}
+
+NS_AZOOMEE_END

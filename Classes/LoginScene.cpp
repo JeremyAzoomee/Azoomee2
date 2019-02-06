@@ -99,9 +99,10 @@ void LoginScene::addLabelToScene()
     _versionLabel = createLabelAppVerison(ConfigStorage::getInstance()->getVersionNumberToDisplay());
     this->addChild(_versionLabel);
 
-    _title = createLabelFlowMainTitle(StringMgr::getInstance()->getStringForKey(LOGINSCENE_EMAIL_LABEL));
+    _title = createLabelFlowMainTitle(_("Log in. Please enter your email."));
     _title->setPositionY(_visibleSize.height * 0.9f);
     _title->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+	_title->setWidth(_visibleSize.width * 0.75f);
     this->addChild(_title);
 }
 
@@ -139,7 +140,7 @@ void LoginScene::addButtonsScene()
 //------------CHANGE SCREEN VISUALS ON BUTTON PRESS----------------------
 void LoginScene::changeElementsToPasswordScreen()
 {
-    _title->setString(StringMgr::getInstance()->getStringForKey(LOGINSCENE_PASSWORD_LABEL));
+    _title->setString(_("Password"));
     _storedUsername = _emailTextInput->getText();
     AnalyticsSingleton::getInstance()->registerAzoomeeEmail(_storedUsername);
     _emailTextInput->setEditboxVisibility(false);
@@ -151,7 +152,7 @@ void LoginScene::changeElementsToPasswordScreen()
 
 void LoginScene::changeElementsToEmailScreen()
 {
-    _title->setString(StringMgr::getInstance()->getStringForKey(LOGINSCENE_EMAIL_LABEL));
+    _title->setString(_("Log in. Please enter your email."));
     _passwordTextInput->setEditboxVisibility(false);
     _passwordTextInput->setText("");
     _emailTextInput->setEditboxVisibility(true);
@@ -238,7 +239,7 @@ void LoginScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string
     if(messageBoxTitle == StringMgr::getInstance()->getErrorMessageWithCode(ERROR_CODE_INVALID_CREDENTIALS)[ERROR_TITLE] && buttonTitle == MessageBox::kResetPassword)
     {
         BackEndCaller::getInstance()->resetPasswordRequest(_emailTextInput->getText());
-        Azoomee::MessageBox::createWith("Request Sent", StringUtils::format("Instructions for resetting your password have been sent to:\n\n%s",_emailTextInput->getText().c_str()), "OK", this);
+        Azoomee::MessageBox::createWith(_("Reset requested"), StringUtils::format((_("Instructions for resetting your password have been sent to:") + "\n\n%s").c_str(),_emailTextInput->getText().c_str()), _("OK") , this);
     }
     else
     {

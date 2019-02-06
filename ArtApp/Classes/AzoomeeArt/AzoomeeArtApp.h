@@ -32,6 +32,7 @@ struct Delegate {
     virtual std::string getFileName() const = 0;
     virtual void setFileName(const std::string& fileName) = 0;
     virtual void setSecondsSpentInArtApp(long seconds) = 0;
+	virtual bool isOffline() = 0;
     bool ArtAppRunning = false;
     std::string filename = "";
     // TODO: On error callbacks

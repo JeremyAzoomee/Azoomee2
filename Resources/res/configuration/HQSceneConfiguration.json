@@ -23,6 +23,10 @@
     "MIX HQ": {
       "width": 590,
       "height": 442
+    },
+    "ME HQ": {
+      "width": 590,
+      "height": 442
     }
   },
 
@@ -32,7 +36,8 @@
     "GAME": "res/contentPlaceholders/Games",
     "ARTS APP": "res/contentPlaceholders/Create",
     "GROUP": "res/contentPlaceholders/Video",
-      "MANUAL": "res/contentPlaceholders/Games"
+    "MANUAL": "res/contentPlaceholders/Games",
+    "INTERNAL": "res/contentPlaceholders/Games"
   },
 
   "scrollViewTextHeight": 85,
@@ -139,6 +144,12 @@
             "g": 187,
             "b": 66,
             "a": 150
+        },
+        "INTERNAL": {
+            "r": 84,
+            "g": 174,
+            "b": 255,
+            "a": 150
         }
   },
 
@@ -148,6 +159,7 @@
         "AUDIO": "res/hqscene/icon_listen.png",
         "AUDIOGROUP": "res/hqscene/icon_listen.png",
         "GAME": "res/hqscene/icon_play.png",
-        "MANUAL": "res/hqscene/icon_play.png"
+        "MANUAL": "res/hqscene/icon_play.png",
+        "INTERNAL": "res/hqscene/icon_play.png"
   }
 }

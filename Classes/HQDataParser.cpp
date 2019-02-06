@@ -165,8 +165,6 @@ bool HQDataParser::parseHQStructure(const std::string &responseString, const cha
 
 bool HQDataParser::parseHQGetContentUrls(const std::string &responseString)
 {
-    HQDataObjectStorage::getInstance()->clearAllHQData();
-    
     rapidjson::Document contentData;
     contentData.Parse(responseString.c_str());
     

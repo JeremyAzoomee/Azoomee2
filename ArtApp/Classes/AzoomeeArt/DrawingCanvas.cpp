@@ -8,6 +8,7 @@
 
 #include "DrawingCanvas.h"
 #include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <dirent.h>
 #include <math.h>
 
@@ -143,9 +144,10 @@ void DrawingCanvas::setStickerNodeVisible(bool isVisible)
     _stickerNode->setTouchListenerEnabled(isVisible);
 }
 
-void DrawingCanvas::setupStickerNode(const std::string& stickerFile)
+void DrawingCanvas::setupStickerNode(const std::string& stickerFile, const std::string& identifier)
 {
     Sprite* newSticker = Sprite::create(stickerFile);
+    newSticker->setName(identifier);
     newSticker->setAnchorPoint(Vec2(0.5,0.5));
     newSticker->setPosition(Director::getInstance()->getVisibleOrigin() + Director::getInstance()->getVisibleSize()/2);
     _stickerNode->reset();
@@ -154,6 +156,7 @@ void DrawingCanvas::setupStickerNode(const std::string& stickerFile)
 
 void DrawingCanvas::addStickerToDrawing()
 {
+    AnalyticsSingleton::getInstance()->stickerSelectedEvent(_stickerNode->getSticker()->getName());
     _drawingStack.push_back(_stickerNode->getSticker());
     Sprite* temp = _stickerNode->getSticker();
     temp->retain(); //move sticker from sticker node to drawing canvas
@@ -269,7 +272,7 @@ void DrawingCanvas::setupTouchHandling()
         
         _drawingStack.push_back(_activeBrush->getDrawNode());
         this->addChild(_activeBrush->addDrawNode(Director::getInstance()->getVisibleSize()));
-        
+		
         if(_drawingStack.size()>_kNumberOfUndos)
         {
             Node* mergingLayer = _drawingStack[0];
@@ -317,5 +320,24 @@ void DrawingCanvas::addBrushes()
     this->addChild(_activeBrush->getDrawNode());
 }
 
+void DrawingCanvas::reloadRenderTextureObject()
+{
+	const Size& visibleSize = Director::getInstance()->getWinSize();
+	
+	Sprite* drawingSprite = Sprite::createWithTexture(_drawing->getSprite()->getTexture());
+	drawingSprite->setAnchorPoint(Vec2(0,0));
+	drawingSprite->setFlippedY(true);
+	
+	auto newDrawing = RenderTexture::create(visibleSize.width, visibleSize.height, Texture2D::PixelFormat::RGBA8888, GL_DEPTH24_STENCIL8);
+	newDrawing->setAnchorPoint(Vec2(0.5,0.5));
+	newDrawing->setPosition(visibleSize/2);
+	newDrawing->beginWithClear(Style::Color_4F::pureWhite.r, Style::Color_4F::pureWhite.g, Style::Color_4F::pureWhite.b, Style::Color_4F::pureWhite.a);
+	drawingSprite->visit();
+	newDrawing->end();
+	
+	_drawing->removeFromParent();
+	_drawing = newDrawing;
+	this->addChild(_drawing, -1);
+}
 
 NS_AZOOMEE_AA_END

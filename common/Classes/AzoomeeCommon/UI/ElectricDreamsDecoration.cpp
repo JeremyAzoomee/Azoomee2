@@ -8,7 +8,7 @@ using namespace cocos2d;
 namespace Azoomee
 {
 
-void addSideWiresToScreen(Node* parentLayer, float withDelay, float withDuration)
+void addSideWiresToScreen(Node* parentLayer, float withDelay, float withDuration, float opacity)
 {
     auto visibleSize = Director::getInstance()->getVisibleSize();
     auto origin = dynamic_cast<Azoomee::Scene*>(Director::getInstance()->getRunningScene()) ? Vec2(0,0) : Director::getInstance()->getVisibleOrigin();
@@ -16,11 +16,13 @@ void addSideWiresToScreen(Node* parentLayer, float withDelay, float withDuration
     auto wireLeft = Sprite::create("res/decoration/wireLeft.png");
     wireLeft->setName("Wire");
     wireLeft->setPosition(wireLeft->getContentSize().width / -2 + origin.x, visibleSize.height / 2 + origin.y);
+    wireLeft->setOpacity(255 * opacity);
     parentLayer->addChild(wireLeft);
     
     auto wireRight = Sprite::create("res/decoration/wireRight.png");
     wireRight->setName("Wire");
     wireRight->setPosition(wireRight->getContentSize().width / 2 + visibleSize.width + origin.x, visibleSize.height / 2 + origin.y);
+    wireRight->setOpacity(255 * opacity);
     parentLayer->addChild(wireRight);
     
     wireLeft->runAction(Sequence::create(DelayTime::create(withDelay), EaseOut::create(MoveTo::create(1, Vec2(wireLeft->getContentSize().width / 2+ origin.x, visibleSize.height / 2 + origin.y)), withDuration), NULL));
@@ -43,43 +45,6 @@ void addSideWiresToScreen(Node* parentLayer)
     wireRight->setName("Wire");
     wireRight->setPosition(visibleSize.width - wireRight->getContentSize().width / 2, visibleSize.height / 2 + origin.y);
     parentLayer->addChild(wireRight);
-}
-    
-void addMainHubSideWiresToScreen(cocos2d::Node* parentLayer, float withDelay, float withDuration)
-{
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-    auto origin = dynamic_cast<Azoomee::Scene*>(Director::getInstance()->getRunningScene()) ? Vec2(0,0) : Director::getInstance()->getVisibleOrigin();
-    
-    auto wireLeft = Sprite::create("res/decoration/wireLeft_MainHub.png");
-    wireLeft->setName("Wire");
-    wireLeft->setPosition(wireLeft->getContentSize().width / -2 + origin.x, visibleSize.height / 2 + origin.y);
-    parentLayer->addChild(wireLeft, 0);
-    
-    auto wireRight = Sprite::create("res/decoration/wireRight_MainHub.png");
-    wireRight->setName("Wire");
-    wireRight->setPosition(wireRight->getContentSize().width / 2 + visibleSize.width + origin.x, visibleSize.height / 2 + origin.y);
-    parentLayer->addChild(wireRight, 0);
-    
-    wireLeft->runAction(Sequence::create(DelayTime::create(withDelay), EaseOut::create(MoveTo::create(1, Vec2(wireLeft->getContentSize().width / 2+ origin.x, visibleSize.height / 2 + origin.y)), withDuration), NULL));
-    
-    wireRight->runAction(Sequence::create(DelayTime::create(withDelay), EaseOut::create(MoveTo::create(1, Vec2(visibleSize.width - wireRight->getContentSize().width / 2+ origin.x, visibleSize.height / 2 + origin.y)), withDuration), NULL));
-}
-
-void addMainHubSideWiresToScreen(cocos2d::Node* parentLayer)
-{
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-    auto origin = dynamic_cast<Azoomee::Scene*>(Director::getInstance()->getRunningScene()) ? Vec2(0,0) : Director::getInstance()->getVisibleOrigin();
-    
-    auto wireLeft = Sprite::create("res/decoration/wireLeft_MainHub.png");
-    wireLeft->setName("Wire");
-    wireLeft->setPosition(wireLeft->getContentSize().width / 2, visibleSize.height / 2 + origin.y);
-    parentLayer->addChild(wireLeft, 0);
-    
-    auto wireRight = Sprite::create("res/decoration/wireRight_MainHub.png");
-    wireRight->setName("Wire");
-    wireRight->setPosition(visibleSize.width - wireRight->getContentSize().width / 2, visibleSize.height / 2 + origin.y);
-    parentLayer->addChild(wireRight, 0);
-
 }
     
 void removeWiresFromScreen(cocos2d::Node* parentLayer)

@@ -13,4 +13,14 @@ public class JNICalls {
     public static native String JNISendAPIRequest(String method, String responseID, String sendData);
     public static native String JNIGetVideoPlaylist();
     public static native String JNIGetRemoteWebGameAPIPath();
+    public static native String JNIGetStringForKey(String key);
+    public static native void JNISendVideoProgress(int playlistIndex, int progressSeconds);
+    public static native void JNINewVideoOpened(int playlistIndex);
+
+    public static native void JNIAddToFavourites();
+    public static native void JNIRemoveFromFavourites();
+    public static native boolean JNIIsInFavourites();
+    public static native void JNIShareInChat();
+    public static native boolean JNIIsChatEntitled();
+    public static native boolean JNIIsAnonUser();
 }

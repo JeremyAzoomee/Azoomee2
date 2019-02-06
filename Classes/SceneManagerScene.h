@@ -18,9 +18,14 @@ enum SceneNameEnum {
     WebviewPortrait,
     WebviewLandscape,
     ArtAppEntryPointScene,
+    OomeeMakerEntryPointScene,
     SettingsFromChat,
-    Settings,
-    introVideo
+    SettingsFromHQ,
+	SettingsFromChildSelect,
+    introVideo,
+    AddChild,
+    AddChildFirstTime,
+	VodacomOnboarding
 };
 
 class SceneManagerScene : public cocos2d::Layer

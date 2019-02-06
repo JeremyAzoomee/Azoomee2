@@ -4,10 +4,19 @@
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
+#include <AzoomeeCommon/Utils/FileDownloader.h>
 
 NS_AZOOMEE_BEGIN
 
-class ForceUpdateSingleton : public cocos2d::Ref, public MessageBoxDelegate
+enum class ForceUpdateResult {DO_NOTHING, NOTIFY, LOCK};
+
+class ForceUpdateDelegate
+{
+public:
+	virtual void onForceUpdateCheckFinished(const ForceUpdateResult& result) = 0;
+};
+
+class ForceUpdateSingleton : public cocos2d::Ref, FileDownloaderDelegate
 {
     
 public:
@@ -15,21 +24,22 @@ public:
     virtual ~ForceUpdateSingleton();
 
     void doForceUpdateLogic();
-    
-    //Communication methods
-    void onForceUpdateDataReceived(const std::string &responseString);
+	
+	void setDelegate(ForceUpdateDelegate* delegate);
     
     std::string getUpdateUrlFromFile();
-    void MessageBoxButtonPressed(std::string messageBoxTitle, std::string buttonTitle);
+	
+	void onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode) override;
     
 private:
     ForceUpdateSingleton();
     void onForceUpdateLogicHasLocalFile();
-    
-    bool remoteForceUpdateDataDownloadRequired();
-    void getRemoteForceUpdateData();
-    bool parseAndSaveForceUpdateData(const std::string &jsonString);
-    bool checkForRequiredAction();
+	bool remoteForceUpdateDataDownloadRequired();
+	bool parseAndSaveForceUpdateData(const std::string &jsonString);
+	
+	std::string getLocalEtag() const;
+	void setLocalEtag(const std::string& etag);
+	
     bool isNotificationRequired();
     bool isAppCloseRequired();
     std::string getAcceptedMinAzoomeeVersion();
@@ -38,6 +48,18 @@ private:
     void createUpdateDirectory();
     
     std::string writablePath;
+	
+	FileDownloaderRef _fileDownloader = nullptr;
+	ForceUpdateDelegate* _delegate = nullptr;
+	
+	static const std::string kAcceptedMinAzVerID;
+	static const std::string kNotifiedMinAzVerID;
+	static const std::string kAcceptedMinAzVerVodaID;
+	static const std::string kNotifiedMinAzVerVodaID;
+	static const std::string kUpdateUrlAppleID;
+	static const std::string kUpdateUrlGoogleID;
+	static const std::string kUpdateUrlAmazonID;
+	static const std::string kUpdateUrlVodaID;
 };
 
 NS_AZOOMEE_END

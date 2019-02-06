@@ -36,8 +36,21 @@ const char* const API::TagFriendRequestReaction = "friendRequestReaction";
 const char* const API::TagGetPendingFriendRequests = "getPendingFriendRequests";
 const char* const API::TagReportChat = "chat.report";
 const char* const API::TagResetReportedChat = "chat.resetReported";
+const char* const API::TagGetTimelineSummary = "chat.getTimelineSummary";
 const char* const API::TagGetForceUpdateInformation = "forceUpdate";
 const char* const API::TagCookieRefresh = "cookieRefresh";
+const char* const API::TagGetContentPoolRequest = "getContentPool";
+const char* const API::TagGetHqStructureDataRequest = "getHQStructureData";
+const char* const API::TagUpdateChildAvatar = "updateChildAvatar";
+const char* const API::TagUpdateParentDetails = "updateParentDetails";
+const char* const API::TagUpdateParentPassword = "updateParentPassword";
+const char* const API::TagGetParentDetails = "getParentDetails";
+const char* const API::TagUpdateChildNameRequest = "updateChildNameRequest";
+const char* const API::TagAddVoucher = "addVoucher";
+const char* const API::TagGetVideoProgress = "getVideoProgress";
+const char* const API::TagUpdateVideoProgress = "updateVideoProgress";
+
+const std::string API::kAZCountryCodeKey = "X-AZ-COUNTRYCODE";
 
 #pragma mark - API Methods
 
@@ -90,10 +103,12 @@ HttpRequestCreator* API::AnonymousDeviceLoginRequest(const std::string &deviceId
     return request;
 }
 
-HttpRequestCreator* API::UpdateBillingDataRequest(HttpRequestCreatorResponseDelegate* delegate)
+HttpRequestCreator* API::UpdateBillingDataRequest(const std::string& parentId,
+												  HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->requestTag = TagUpdateBillingData;
+	request->requestPath = StringUtils::format("/api/billing/user/%s/billingStatus", parentId.c_str());
     request->encrypted = true;
     return request;
 }
@@ -170,6 +185,7 @@ HttpRequestCreator* API::RegisterParentRequest(const std::string& emailAddress,
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->requestBody = StringUtils::format("{\"emailAddress\":\"%s\",\"over18\":\"true\",\"termsAccepted\":\"true\",\"marketingAccepted\":\"%s\",\"password\":\"%s\",\"source\":\"%s\",\"pinNumber\":\"%s\", \"sourceDevice\":\"%s\"}", emailAddress.c_str(), marketingAccepted.c_str(), password.c_str(), source.c_str(), pinNumber.c_str(), sourceDevice.c_str());
+	request->urlParameters = "defaultChild=false";
     request->requestTag = TagRegisterParent;
     request->method = "POST";
     return request;
@@ -218,6 +234,20 @@ HttpRequestCreator* API::DeleteChild(const std::string& childId,
     request->url = ConfigStorage::getInstance()->getServerUrl() + ConfigStorage::getInstance()->getPathForTag(TagDeleteChild) + childId;
     request->method = "PATCH";
     request->encrypted = true;
+    return request;
+}
+
+HttpRequestCreator* API::UpdateChildAvatar(const std::string &childId,
+                                           const std::string &imageData,
+                                           Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestTag = TagUpdateChildAvatar;
+    request->requestPath = StringUtils::format("/api/user/child/%s/avatar", childId.c_str());
+    request->method = "PATCH";
+    request->encrypted = true;
+    
+    request->requestBody = "{\"userId\":\"" + childId + "\", \"data\":\"" + imageData + "\"}";
     return request;
 }
 
@@ -301,6 +331,113 @@ HttpRequestCreator* API::ResetPaswordRequest(const std::string& forEmailAddress,
     return request;
 }
 
+HttpRequestCreator* API::GetContentPoolRequest(const std::string& childId, Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestTag = TagGetContentPoolRequest;
+    request->requestPath = StringUtils::format("/api/electricdreams/v3/%s/items",childId.c_str());
+    request->method = "GET";
+    request->encrypted = true;
+    return request;
+}
+
+HttpRequestCreator* API::GetHQStructureDataRequest(const std::string& childId, Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestTag = TagGetHqStructureDataRequest;
+    request->requestPath = StringUtils::format("/api/electricdreams/v3/%s/feeds",childId.c_str());
+    request->encrypted = true;
+    return request;
+}
+
+HttpRequestCreator* API::UpdateParentDetailsRequest(const std::string &parentId,
+                                                    const std::string &displayName,
+                                                    const std::string &pinNumber,
+                                                    Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestBody = StringUtils::format("{\"displayName\":\"%s\",\"pinNumber\":\"%s\"}", displayName.c_str(), pinNumber.c_str());
+    request->requestTag = TagUpdateParentDetails;
+    request->requestPath = StringUtils::format("/api/user/adult/%s",parentId.c_str());
+    request->method = "PATCH";
+    request->encrypted = true;
+    return request;
+};
+
+HttpRequestCreator* API::UpdateParentPasswordRequest(const std::string &parentId,
+                                                     const std::string &oldPassword,
+                                                     const std::string &newPassword,
+                                                     Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestBody = StringUtils::format("{\"oldPassword\":\"%s\",\"newPassword\":\"%s\"}", oldPassword.c_str(), newPassword.c_str());
+    request->requestTag = TagUpdateParentPassword;
+    request->requestPath = StringUtils::format("/api/user/v2/adult/%s/password",parentId.c_str());
+    request->method = "PATCH";
+    request->encrypted = true;
+    return request;
+};
+
+HttpRequestCreator* API::getParentDetailsRequest(const std::string &parentId, Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestTag = TagGetParentDetails;
+    request->requestPath = StringUtils::format("/api/user/adult/%s",parentId.c_str());
+    request->encrypted = true;
+    return request;
+}
+
+HttpRequestCreator* API::UpdateChildNameRequest(const std::string& childId,
+                                                const std::string& newName,
+                                                HttpRequestCreatorResponseDelegate* delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestBody = StringUtils::format("{\"profileName\":\"%s\"}", newName.c_str());
+    request->requestPath = StringUtils::format("/api/user/child/%s",childId.c_str());
+    request->requestTag = TagUpdateChildNameRequest;
+    request->method = "PATCH";
+    request->encrypted = true;
+    return request;
+}
+
+HttpRequestCreator* API::AddVoucher(const std::string &parentId,
+									const std::string &voucherCode,
+									HttpRequestCreatorResponseDelegate *delegate)
+{
+	HttpRequestCreator* request = new HttpRequestCreator(delegate);
+	request->requestBody = StringUtils::format("{\"voucherCode\":\"%s\"}", voucherCode.c_str());
+	request->requestPath = StringUtils::format("/api/billing/user/%s/voucher",parentId.c_str());
+	request->requestTag = TagAddVoucher;
+	request->method = "PATCH";
+	request->encrypted = true;
+	return request;
+}
+
+HttpRequestCreator* API::GetVideoProgress(const std::string &childId,
+										  const std::string &videoId,
+										  HttpRequestCreatorResponseDelegate *delegate)
+{
+	HttpRequestCreator* request = new HttpRequestCreator(delegate);
+	request->requestPath = StringUtils::format("/api/videoprogress/progress/%s/%s",childId.c_str(), videoId.c_str());
+	request->requestTag = TagGetVideoProgress;
+	request->encrypted = true;
+	return request;
+}
+
+HttpRequestCreator* API::UpdateVideoProgress(const std::string &childId,
+											 const std::string &videoId,
+											 int videoProgressSeconds,
+											 HttpRequestCreatorResponseDelegate *delegate)
+{
+	HttpRequestCreator* request = new HttpRequestCreator(delegate);
+	request->requestPath = StringUtils::format("/api/videoprogress/progress/%s",childId.c_str());
+	request->requestBody = StringUtils::format("{\"videoId\":\"%s\",\"videoProgressSeconds\":%d}",videoId.c_str(), videoProgressSeconds);
+	request->requestTag = TagUpdateVideoProgress;
+	request->method = "POST";
+	request->encrypted = true;
+	return request;
+}
+
 #pragma mark - Sharing
 
 HttpRequestCreator* API::GetChatListRequest(const std::string& userId,
@@ -381,6 +518,15 @@ HttpRequestCreator* API::ResetReportedChatRequest(const std::string &userId, con
     request->method = "PATCH";
     request->encrypted = true;
     
+    return request;
+}
+
+HttpRequestCreator* API::GetTimelineSummary(const std::string &userId, Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestTag = TagGetTimelineSummary;
+    request->requestPath = StringUtils::format("/api/share/v2/%s/summary", userId.c_str());
+    request->encrypted = true;
     return request;
 }
 

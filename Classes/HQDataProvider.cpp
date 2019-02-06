@@ -63,20 +63,7 @@ void HQDataProvider::getDataForHQ(const std::string &hqName)
 #ifdef FORCE_RELOAD
         HQDataStorage::getInstance()->HQData.erase(hqName.c_str());
 #endif
-    
-    const HQDataObjectRef &objectToBeLoaded = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName);
-        
-    if(objectToBeLoaded->getHqType() != "")
-    {
-        startBuildingHQ(hqName);
-    }
-    else
-    {
-        if(objectToBeLoaded->getHqUrl() != "")
-        {
-            BackEndCaller::getInstance()->getHQContent(objectToBeLoaded->getHqUrl(), hqName);
-        }
-    }
+    startBuildingHQ(hqName);
 }
 
 void HQDataProvider::getDataForGroupHQ(const std::string &uri)
@@ -87,7 +74,9 @@ void HQDataProvider::getDataForGroupHQ(const std::string &uri)
     groupHQObject->clearData();
     
     HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kGroupHQName)->setHqEntitlement(true); //group hq entitlement is not in the initial login feed, so we have to make it enabled manually.
-    BackEndCaller::getInstance()->getHQContent(uri, ConfigStorage::kGroupHQName);
+    HQStructureHandler::getInstance()->loadGroupHQData(uri);
+    startBuildingHQ(ConfigStorage::kGroupHQName);
+    //BackEndCaller::getInstance()->getHQContent(uri, ConfigStorage::kGroupHQName);
 }
 
 int HQDataProvider::getNumberOfRowsForHQ(const std::string &hqName) const
@@ -265,8 +254,115 @@ void HQDataProvider::hideLoadingScreen()
 const std::map<std::string, std::string> HQDataProvider::kLockFiles = {
     { ConfigStorage::kContentTypeVideo, "res/hqscene/locked_video.png" },
     { ConfigStorage::kContentTypeAudio, "res/hqscene/locked_audio_books.png" },
+    { ConfigStorage::kContentTypeGroup, "res/hqscene/locked_video.png" },
+    { ConfigStorage::kContentTypeAudioGroup, "res/hqscene/locked_audio_books.png" },
     { ConfigStorage::kContentTypeGame, "res/hqscene/locked_games.png" },
     { "", "res/hqscene/locked.png" }
 };
 
+// hq size/layout params
+// Format:
+//          [18:9/16:9] [Landscape,Portrait],
+//          [16:10] [Landscape, Portrait],
+//          [4:3] [Landscape, Portrait]]
+//
+const float HQDataProvider::kSideMarginSize[3][2] = {{20,10},{20,10},{20,10}};
+const float HQDataProvider::kSpaceAboveCarousel[3][2] = {{200,200},{200,200},{200,200}};
+const int HQDataProvider::kUnitsOnScreen[3][2] = {{4,2},{4,2},{4,4}};
+const int HQDataProvider::kUnitsOnScreenMeHQ[3][2] = {{4,3},{4,3},{4,4}};
+const float HQDataProvider::kContentItemMargin[3][2] = {{20,20},{20,20},{20,20}};
+
+float HQDataProvider::getSideMargin() const
+{
+    const Size& visibleSize = Director::getInstance()->getVisibleSize();
+    int isPortrait = visibleSize.width < visibleSize.height;
+    float screenRatio =  isPortrait ? (visibleSize.height / visibleSize.width) : (visibleSize.width / visibleSize.height);
+        
+    int screenIndex = 0;
+    if(screenRatio < k16x10UpperBound)
+    {
+        screenIndex++;
+    }
+    if(screenRatio < k16x10LowerBound)
+    {
+        screenIndex++;
+    }
+    return kSideMarginSize[screenIndex][isPortrait];
+    
+}
+
+float HQDataProvider::getSpaceAboveCarousel() const
+{
+    const Size& visibleSize = Director::getInstance()->getVisibleSize();
+    int isPortrait = visibleSize.width < visibleSize.height;
+    float screenRatio =  isPortrait ? (visibleSize.height / visibleSize.width) : (visibleSize.width / visibleSize.height);
+    
+    int screenIndex = 0;
+    if(screenRatio < (16.0/9.5))
+    {
+        screenIndex++;
+    }
+    if(screenRatio < (16.0/10.5))
+    {
+        screenIndex++;
+    }
+    return kSpaceAboveCarousel[screenIndex][isPortrait];
+}
+
+int HQDataProvider::getUnitsOnScreen() const
+{
+    const Size& visibleSize = Director::getInstance()->getVisibleSize();
+    int isPortrait = visibleSize.width < visibleSize.height;
+    float screenRatio =  isPortrait ? (visibleSize.height / visibleSize.width) : (visibleSize.width / visibleSize.height);
+    
+    int screenIndex = 0;
+    if(screenRatio < (16.0/9.5))
+    {
+        screenIndex++;
+    }
+    if(screenRatio < (16.0/10.5))
+    {
+        screenIndex++;
+    }
+    return kUnitsOnScreen[screenIndex][isPortrait];
+    
+}
+
+int HQDataProvider::getUnitsOnScreenMeHQ() const
+{
+	const Size& visibleSize = Director::getInstance()->getVisibleSize();
+	int isPortrait = visibleSize.width < visibleSize.height;
+	float screenRatio =  isPortrait ? (visibleSize.height / visibleSize.width) : (visibleSize.width / visibleSize.height);
+	
+	int screenIndex = 0;
+	if(screenRatio < (16.0/9.5))
+	{
+		screenIndex++;
+	}
+	if(screenRatio < (16.0/10.5))
+	{
+		screenIndex++;
+	}
+	return kUnitsOnScreenMeHQ[screenIndex][isPortrait];
+	
+}
+
+float HQDataProvider::getContentItemMargin() const
+{
+    const Size& visibleSize = Director::getInstance()->getVisibleSize();
+    int isPortrait = visibleSize.width < visibleSize.height;
+    float screenRatio =  isPortrait ? (visibleSize.height / visibleSize.width) : (visibleSize.width / visibleSize.height);
+    
+    int screenIndex = 0;
+    if(screenRatio < (16.0/9.5))
+    {
+        screenIndex++;
+    }
+    if(screenRatio < (16.0/10.5))
+    {
+        screenIndex++;
+    }
+    return kContentItemMargin[screenIndex][isPortrait];
+    
+}
 NS_AZOOMEE_END

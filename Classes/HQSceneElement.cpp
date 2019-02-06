@@ -82,13 +82,35 @@ void HQSceneElement::setMargin(float margin)
     _margin = margin;
 }
 
+void HQSceneElement::deleteButtonVisible(bool visible)
+{
+    _showDeleteButton = visible;
+    if(_deleteButton)
+    {
+        _deleteButton->setVisible(visible);
+    }
+}
+
+void HQSceneElement::setDeleteButtonCallback(const HQSceneElement::DeleteButtonCallback &callback)
+{
+    _deleteButtonCallback = callback;
+}
+
 void HQSceneElement::addHQSceneElement() //This method is being called by HQScene.cpp with all variables.
 {
     _elementVisual = HQSceneElementVisual::create();
     _elementVisual->setCategory(_elementCategory);
     _elementVisual->setItemData(_elementItemData);
-    _elementVisual->setShape(HQDataProvider::getInstance()->getHighlightDataForSpecificItem(_elementCategory, _elementRowNumber, _elementIndex));
-    _elementVisual->setThumbUrl(HQDataProvider::getInstance()->getThumbnailUrlForItem(_elementCategory, _elementRowNumber, _elementIndex));
+    if(_elementRowNumber > -1)
+    {
+        _elementVisual->setShape(HQDataProvider::getInstance()->getHighlightDataForSpecificItem(_elementCategory, _elementRowNumber, _elementIndex));
+        _elementVisual->setThumbUrl(HQDataProvider::getInstance()->getThumbnailUrlForItem(_elementCategory, _elementRowNumber, _elementIndex));
+    }
+    else
+    {
+        _elementVisual->setShape(Vec2(1,1));
+        _elementVisual->setThumbUrl(HQDataProvider::getInstance()->getThumbnailUrlForItem(_elementItemData->getContentItemId()));
+    }
     _elementVisual->setDelay(_elementRowNumber * 0.5 + _elementIndex * 0.1);
     _elementVisual->setCreatedForOffline(false);
     
@@ -106,6 +128,12 @@ void HQSceneElement::addHQSceneElement() //This method is being called by HQScen
     
     this->addChild(_elementVisual);
     this->setContentSize(_elementVisual->getContentSize());
+    
+    _deleteButton = createDeleteButton();
+    _deleteButton->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+    _deleteButton->setPosition(Vec2(_deleteButton->getContentSize().width * 0.2, this->getContentSize().height - _deleteButton->getContentSize().width * 0.2));
+    _deleteButton->setVisible(_showDeleteButton);
+    this->addChild(_deleteButton);
     
     addListenerToElement();
 }
@@ -203,12 +231,40 @@ void HQSceneElement::addListenerToElement()
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), _elementVisual->_baseLayer);
 }
 
+ui::Button* HQSceneElement::createDeleteButton()
+{
+    ui::Button* deleteButton = ui::Button::create("res/buttons/delete_button_favourites.png");
+    deleteButton->setContentSize(Size(this->getContentSize().width * 0.25f, this->getContentSize().width * 0.25f));
+    deleteButton->ignoreContentAdaptWithSize(false);
+    deleteButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    deleteButton->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            if(_deleteButtonCallback)
+            {
+                _deleteButtonCallback(_elementItemData);
+            }
+        }
+    });
+    
+    return deleteButton;
+}
+
 void HQSceneElement::startUpElementDependingOnType()
 {
     this->getParent()->getParent()->getParent()->stopAllActions();
     if(_elementItemData->getType() == ConfigStorage::kContentTypeVideo || _elementItemData->getType() == ConfigStorage::kContentTypeAudio)
     {
-        VideoPlaylistManager::getInstance()->setPlaylist(HQDataObjectStorage::getInstance()->getHQDataObjectForKey(_elementCategory)->getHqCarousels().at(_elementRowNumber));
+        if(_elementCategory == ConfigStorage::kGroupHQName)
+        {
+            VideoPlaylistManager::getInstance()->setPlaylist(HQDataObjectStorage::getInstance()->getHQDataObjectForKey(_elementCategory)->getHqCarousels().at(_elementRowNumber));
+        }
+        else
+        {
+            HQCarouselObjectRef carousel = HQCarouselObject::create();
+            carousel->addContentItemToCarousel(_elementItemData);
+            VideoPlaylistManager::getInstance()->setPlaylist(carousel);
+        }
     }
     ContentOpener::getInstance()->openContentObject(_elementItemData);
 }

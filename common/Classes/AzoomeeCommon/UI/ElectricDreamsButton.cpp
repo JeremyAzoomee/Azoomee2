@@ -51,7 +51,7 @@ ElectricDreamsButton* ElectricDreamsButton::createTextAsButton(std::string butto
 {    
     auto layer = ElectricDreamsButton::create();
     
-    Label* textButton = Label::createWithTTF(buttonText, Style::Font::Regular, fontSize);
+    Label* textButton = Label::createWithTTF(buttonText, Style::Font::Regular(), fontSize);
     textButton->setPosition(Vec2(textButton->getContentSize().width/2, textButton->getContentSize().height/2));
     textButton->setHorizontalAlignment(TextHAlignment::CENTER);
     layer->setContentSize(textButton->getContentSize());
@@ -75,7 +75,7 @@ ElectricDreamsButton* ElectricDreamsButton::createTextAsButtonAqua(std::string b
 {
     auto layer = ElectricDreamsButton::create();
     
-    Label* textButton = Label::createWithTTF(buttonText, Style::Font::Regular, fontSize);
+    Label* textButton = Label::createWithTTF(buttonText, Style::Font::Regular(), fontSize);
     textButton->setPosition(Vec2(textButton->getContentSize().width/2, textButton->getContentSize().height/2));
     textButton->setHorizontalAlignment(TextHAlignment::CENTER);
     textButton->setColor(Style::Color::brightAqua);
@@ -101,7 +101,7 @@ ElectricDreamsButton* ElectricDreamsButton::createTextAsButtonWithColor(std::str
 {
     auto layer = ElectricDreamsButton::create();
     
-    Label* textButton = Label::createWithTTF(buttonText, Style::Font::Regular, fontSize);
+    Label* textButton = Label::createWithTTF(buttonText, Style::Font::Regular(), fontSize);
     textButton->setPosition(Vec2(textButton->getContentSize().width/2, textButton->getContentSize().height/2));
     textButton->setHorizontalAlignment(TextHAlignment::CENTER);
     textButton->setColor(color);
@@ -186,7 +186,7 @@ ElectricDreamsButton* ElectricDreamsButton::createPrimaryButton(std::string butt
 
 ElectricDreamsButton* ElectricDreamsButton::createPrimaryGreenButton(std::string buttonText, float textPadding, float minWidth)
 {
-    Label* buttonLabel = createLabelWith(buttonText, Style::Font::Regular, Style::Color::black, 75);
+    Label* buttonLabel = createLabelWith(buttonText, Style::Font::Regular(), Style::Color::black, 75);
     
     Rect spriteRect = Rect(0, 0, 572, 213);
     Rect capInsents = Rect(100, 106, 300, 1);
@@ -275,7 +275,7 @@ ElectricDreamsButton* ElectricDreamsButton::createSecondaryButton(std::string bu
     
 ElectricDreamsButton* ElectricDreamsButton::createSecondaryGreenButton(std::string buttonText, float textPadding, float minWidth)
 {
-    Label* buttonLabel = createLabelWith(buttonText, Style::Font::Regular, Style::Color::black, 75);
+    Label* buttonLabel = createLabelWith(buttonText, Style::Font::Regular(), Style::Color::black, 75);
     
     Rect spriteRect = Rect(0, 0, 572, 213);
     Rect capInsents = Rect(100, 106, 300, 1);
@@ -442,15 +442,6 @@ ElectricDreamsButton* ElectricDreamsButton::createWhiteWindowCloselButton()
     auto layer = ElectricDreamsButton::create();
     Sprite* cancelButton = layer->createSpriteButton("res/buttons/whiteWindowCloseButton.png", CANCEL_BUTTON_AUDIO_EFFECT );
     layer->addChild(cancelButton);
-    layer->addListener();
-    
-    return layer;
-}
-
-ElectricDreamsButton* ElectricDreamsButton::createAddButton()
-{
-    auto layer = ElectricDreamsButton::create();
-    layer->addChild(layer->createSpriteButton("res/childSelection/button_add_child.png", NEXT_BUTTON_AUDIO_EFFECT ));
     layer->addListener();
     
     return layer;
@@ -677,64 +668,6 @@ ElectricDreamsButton* ElectricDreamsButton::createSendButton()
     layer->addListener();
     
     return layer;
-}
-
-//-------------OOMEE BUTTONS AND FUNCTIONS---------------------
-
-ElectricDreamsButton* ElectricDreamsButton::createOomeeButtonWithOutline(int oomeeNumber, std::string oomeeName)
-{
-    auto layer = ElectricDreamsButton::create();
-    layer->addChild(layer->createSpriteButton("res/buttons/rectangle2.png", "" ));
-    layer->addListener();
-    
-    Sprite* glow = createGlow();
-    glow->setPosition(layer->getContentSize().width/2, layer->getContentSize().height*.6);
-    glow->setScale(.3);
-    layer->addChild(glow);
-    
-    layer->oomeeLayer = OomeeButtonLayer::createOomeeLayer(oomeeNumber);
-    layer->oomeeLayer->setPosition(layer->getContentSize().width/2, layer->getContentSize().height *.30);
-    layer->addChild(layer->oomeeLayer);
-    
-    auto oomeeNameLabel = createLabelBody(oomeeName);
-    oomeeNameLabel->setPosition(layer->getContentSize().width/2, layer->getContentSize().height *.15);
-    layer->addChild(oomeeNameLabel);
-    
-    layer->setMixPanelButtonName(StringUtils::format("oomeeButton|%d",oomeeNumber));
-    
-    return layer;
-}
-
-ElectricDreamsButton* ElectricDreamsButton::createOomeeAsButton(int oomeeNumber)
-{
-    auto layer = ElectricDreamsButton::create();
-    layer->setContentSize(Size(300,300));
-    layer->oomeeLayer = OomeeButtonLayer::createOomeeLayer(oomeeNumber);
-    layer->oomeeLayer->setPosition(layer->getContentSize().width/2, 0);
-    layer->addChild(layer->oomeeLayer);
-    
-    layer->setTag(oomeeNumber);
-    
-    layer->addListener();
-    
-    layer->setMixPanelButtonName(StringUtils::format("oomeeButton|%d",oomeeNumber));
-    
-    return layer;
-}
-
-void ElectricDreamsButton::playOomeeAnimation(std::string OomeeAnimation, bool loop)
-{
-    oomeeLayer->playAnimation(OomeeAnimation, loop);
-}
-
-void ElectricDreamsButton::playOomeeAnimationNoSound(std::string OomeeAnimation)
-{
-    oomeeLayer->playAnimationNoSound(OomeeAnimation);
-}
-
-void ElectricDreamsButton::hideOomee()
-{
-    oomeeLayer->hideOomee();
 }
 
 

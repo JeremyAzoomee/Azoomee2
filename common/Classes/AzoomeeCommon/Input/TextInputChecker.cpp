@@ -118,23 +118,43 @@ bool childNameExists(std::string newChildsName)
 
 bool isValidChildName(const char * childName)
 {
-    if(!childName) return 0;
-    if(strlen(childName) < 2) return 0;
-    
+    if(!childName)
+	{
+		return false;
+	}
+    if(strlen(childName) < 2)
+	{
+		return false;
+	}
+	if(strlen(childName) > 12)
+	{
+		return false;
+	}
     bool childNameOK = true;
     int NoOfSpaces = 0;
     
     for(unsigned int i = 0; i < strlen(childName); i++)
     {
-        if(childName[i] == '\n') childNameOK = false;
-        else if(childName[i] == '\t') childNameOK = false;
-        
-        if(childName[i] == ' ') NoOfSpaces++;
+        if(childName[i] == '\n')
+		{
+			childNameOK = false;
+		}
+        else if(childName[i] == '\t')
+		{
+			childNameOK = false;
+		}
+        if(childName[i] == ' ')
+		{
+			NoOfSpaces++;
+		}
     }
     
-    if(NoOfSpaces == strlen(childName)) return false;
-    else if(childNameOK) return 1;
-    else return 0;
+    if(NoOfSpaces == strlen(childName))
+	{
+		return false;
+	}
+	return childNameOK;
+		
 }
 
 bool hasAzoomeeEmailAddress(std::string emailAddress)
@@ -189,5 +209,27 @@ bool isDateInFuture(std::string dobstring)
     
     return(ts >= time(NULL) || ts==-1);
 }
-  
+	
+bool isValidVoucher(const std::string& voucher)
+{
+	return voucher.size() > 0;
+}
+	
+bool isValidAge(const std::string& ageString)
+{
+	int value = std::atoi(ageString.c_str());
+	if(value > 0 && value < kMaxAge)
+	{
+		for(unsigned int i = 0; i < ageString.size(); i++)
+		{
+			if(!isNumber(ageString[i]))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	return false;
+}
 }

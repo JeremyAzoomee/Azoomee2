@@ -58,6 +58,7 @@ private:
     void configNodeSize(const rapidjson::Value& sizePercentages);
     void configCloseButton(const rapidjson::Value& closeButtonToggle);
     void configBackgroundColour(const rapidjson::Value& backgroundColour);
+	void configFrameColour(const rapidjson::Value& frameColour);
     void configBackgroundImage(const rapidjson::Value& backgroundImageData);
     void configButtons(const rapidjson::Value& buttonsList);
     void configExtraImages(const rapidjson::Value& imageList);

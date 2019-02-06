@@ -27,6 +27,8 @@ public:
     std::string getSexForAnAvailableChild(int childNumber) const;
     std::string getIDForAvailableChildren(int childNumber) const;
     std::string getInviteCodeForAnAvailableChild(int childNumber) const;
+    int getChildNumberFromId(const std::string& childId) const;
+    std::string getInviteCodeForChildName(const std::string& name) const;
     
     std::string getLoggedInParentActorStatus() const;
     std::string getLoggedInParentId() const;
@@ -36,6 +38,8 @@ public:
     std::string getLoggedInParentAvatarId() const;
     std::string getLoggedInParentCountryCode() const;
     std::string getParentPin() const;
+    std::string getParentDisplayName() const;
+    std::string getParentEmail() const;
     std::string getBillingStatus() const;
     std::string getBillingDate() const;
     std::string getBillingProvider() const;

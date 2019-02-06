@@ -107,6 +107,8 @@ private:
     void sendMessage(const StickerRef& sticker);
     /// Send a message (Art type) via the delegate
     void sendArtMessage(const std::string& artFile);
+    /// Send a message (Content type) via the delegate
+    void sendContentMessage(const std::string& contentId);
     
     /// Called when we should resize UI elements to fit a keyboard
     /// If a duration > 0 is provided, it will be animated

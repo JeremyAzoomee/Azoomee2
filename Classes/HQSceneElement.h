@@ -2,6 +2,7 @@
 #define __HQSCENEELEMENT_SCENE_H__
 
 #include <cocos/cocos2d.h>
+#include <cocos/ui/CocosGUI.h>
 #include "network/HttpClient.h"
 #include <AzoomeeCommon/Azoomee.h>
 #include "HQSceneElementVisual.h"
@@ -11,7 +12,7 @@ NS_AZOOMEE_BEGIN
 
 class HQSceneElement : public cocos2d::Layer
 {
-
+    typedef std::function<void(const HQContentItemObjectRef&)> DeleteButtonCallback;
 public:
     CREATE_FUNC(HQSceneElement);
     static cocos2d::Scene* createScene();
@@ -23,6 +24,8 @@ public:
     void setElementIndex(int index);
     void setManualSizeMultiplier(float multiplier);
     void setMargin(float margin);
+    void deleteButtonVisible(bool visible);
+    void setDeleteButtonCallback(const DeleteButtonCallback& callback);
     
     void addHQSceneElement();
     
@@ -33,10 +36,16 @@ private:
     int _elementIndex;
     float _manualSizeMultiplier = 0.0f;
     float _margin = 0.0f;
+    bool _showDeleteButton = false;
     
     HQSceneElementVisual* _elementVisual = nullptr;
+    cocos2d::ui::Button* _deleteButton = nullptr;
+    DeleteButtonCallback _deleteButtonCallback = nullptr;
     
     void addListenerToElement();
+    
+    cocos2d::ui::Button* createDeleteButton();
+    
     void startUpElementDependingOnType();
     
     cocos2d::Point _touchPoint;

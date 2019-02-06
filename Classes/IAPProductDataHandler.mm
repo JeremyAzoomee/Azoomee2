@@ -7,11 +7,12 @@ NS_AZOOMEE_BEGIN
 
 void IAPProductDataHandler::fetchProductData()
 {
+#ifndef VODACOM_BUILD
     if(!isProductDataFetched())
     {
         [[PaymentViewController sharedPayment_ios] startProductPriceQuery];
     }
-    
+#endif
 }
 
 NS_AZOOMEE_END
