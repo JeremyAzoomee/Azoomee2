@@ -81,6 +81,8 @@ void AwesomeLayer::update(float deltaT)
 		
 		this->addChild(ps,-1);
 	}
+	
+	Super::update(deltaT);
 }
 
 void AwesomeLayer::addAwsomeText()
