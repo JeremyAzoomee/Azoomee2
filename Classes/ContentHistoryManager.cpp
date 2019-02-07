@@ -6,6 +6,7 @@
 //
 
 #include "ContentHistoryManager.h"
+#include <AzoomeeCommon/Utils/SessionIdManager.h>
 
 using namespace cocos2d;
 
@@ -53,5 +54,19 @@ bool ContentHistoryManager::getReturnedFromContent()
     return _returnedFromContent;
 }
 
+void ContentHistoryManager::contentOpened()
+{
+	_contentOpenedTime = time(NULL);
+	SessionIdManager::getInstance()->resetBackgroundTimeInContent();
+	_timeInContent = 0;
+}
+void ContentHistoryManager::contentClosed()
+{
+	_timeInContent = difftime(time(NULL),_contentOpenedTime) - SessionIdManager::getInstance()->getBackgroundTimeInContent();
+}
+long ContentHistoryManager::getTimeInContent()
+{
+	return _timeInContent;
+}
 
 NS_AZOOMEE_END

@@ -28,6 +28,8 @@
 
 #include "SettingsHub.h"
 
+#include "CoinCollectLayer.h"
+
 #ifdef VODACOM_BUILD
 #include "Vodacom/VodacomOnboardingScene.h"
 #endif
@@ -113,6 +115,16 @@ void SceneManagerScene::onEnterTransitionDidFinish()
 					GalleryHQScene* hqScene = GalleryHQScene::create();
 					hqScene->setHQCategory(currentHQ);
 					goToScene = hqScene;
+					
+					CoinCollectLayer* coinCollect = CoinCollectLayer::create();
+					coinCollect->setAnimDuration(20);
+					//coinCollect->setOomeeFilepath(ChildDataProvider::getInstance()->getLoggedInChild()->getAvatar());
+					coinCollect->setRewardAmount(300);
+					coinCollect->runAction(Sequence::createWithTwoActions(DelayTime::create(20), CallFunc::create([](){
+						Director::getInstance()->setNotificationNode(nullptr);
+					})));
+					Director::getInstance()->setNotificationNode(coinCollect);
+					
 				}
 				else
 				{

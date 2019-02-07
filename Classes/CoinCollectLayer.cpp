@@ -19,7 +19,7 @@ bool CoinCollectLayer::init()
 		return false;
 	}
 	
-	this->setContentSize(Director::getInstance()->getVisibleSize());
+	this->setContentSize(Director::getInstance()->getWinSize());
 	
 	return true;
 }
@@ -31,7 +31,24 @@ void CoinCollectLayer::onEnter()
 	
 	this->scheduleUpdate();
 	
+	_passingTouchBlocker = EventListenerTouchOneByOne::create();
+	_passingTouchBlocker->setSwallowTouches(true);
+	_passingTouchBlocker->onTouchBegan = [](Touch* touch, Event* event){ return true; };
+	_passingTouchBlocker->onTouchEnded = [this](Touch* touch, Event* event){
+		// Do your stuff here
+	};
+	_eventDispatcher->addEventListenerWithFixedPriority(_passingTouchBlocker, -1); // less than zero
+	
+	
+	
 	Super::onEnter();
+}
+
+void CoinCollectLayer::onExit()
+{
+	_eventDispatcher->removeEventListener(_passingTouchBlocker);
+	_passingTouchBlocker = nullptr;
+	Super::onExit();
 }
 
 void CoinCollectLayer::update(float deltaT)

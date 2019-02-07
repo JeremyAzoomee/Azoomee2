@@ -30,6 +30,8 @@ private:
 	
 	std::string _oomeeFilepath;
 	
+	cocos2d::EventListenerTouchOneByOne* _passingTouchBlocker = nullptr;;
+	
 	void addBackground();
 	void addHeading();
 	void addPlinth();
@@ -39,6 +41,7 @@ public:
 	
 	bool init() override;
 	void onEnter() override;
+	void onExit() override;
 	void update(float deltaT) override;
 	
 	void setRewardAmount(int rewardAmount);

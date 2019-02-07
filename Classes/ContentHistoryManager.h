@@ -19,6 +19,9 @@ class ContentHistoryManager : public cocos2d::Ref
 private:
     HQContentItemObjectRef _lastOpenedContent = nullptr;
     bool _returnedFromContent = false;
+	
+	time_t _contentOpenedTime;
+	long _timeInContent = 0;
     
 public:
     static ContentHistoryManager* getInstance(void);
@@ -31,7 +34,11 @@ public:
     
     void setReturnedFromContent(bool returnedFromContent);
     bool getReturnedFromContent();
-    
+	
+	void contentOpened();
+	void contentClosed();
+	long getTimeInContent();
+	
     
 };
 
