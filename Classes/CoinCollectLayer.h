@@ -10,12 +10,13 @@
 
 #include <AzoomeeCommon/Azoomee.h>
 #include <cocos/cocos2d.h>
+#include "RewardScreen.h"
 
 NS_AZOOMEE_BEGIN
 
-class CoinCollectLayer : public cocos2d::Node
+class CoinCollectLayer : public RewardScreen
 {
-	typedef cocos2d::Node Super;
+	typedef RewardScreen Super;
 private:
 	int _rewardAmount;
 	float _incPerSec;

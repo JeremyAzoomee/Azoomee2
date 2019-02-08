@@ -20,8 +20,6 @@ bool CoinChestLayer::init()
 		return false;
 	}
 	
-	this->setContentSize(Director::getInstance()->getVisibleSize());
-	
 	return true;
 }
 void CoinChestLayer::onEnter()

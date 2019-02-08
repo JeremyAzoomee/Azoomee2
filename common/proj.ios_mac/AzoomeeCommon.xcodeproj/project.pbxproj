@@ -170,6 +170,7 @@
 		92759E9E1FE410BB00639190 /* FileDownloader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92759E9D1FE410BB00639190 /* FileDownloader.cpp */; };
 		929E8B6B2153F06E0078C983 /* ConfirmCancelMessageBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929E8B6A2153F06E0078C983 /* ConfirmCancelMessageBox.cpp */; };
 		92B1EC8D20A209CC007A58C0 /* ContentItemPoolParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92B1EC8C20A209CC007A58C0 /* ContentItemPoolParser.cpp */; };
+		92E58566220DD3F00015A4FA /* RewardCallbackHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E58565220DD3F00015A4FA /* RewardCallbackHandler.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -503,6 +504,9 @@
 		92B1EC8A20A209CB007A58C0 /* HQStructureParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HQStructureParser.h; path = HQDataObject/HQStructureParser.h; sourceTree = "<group>"; };
 		92B1EC8B20A209CC007A58C0 /* ContentItemPoolParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContentItemPoolParser.h; path = HQDataObject/ContentItemPoolParser.h; sourceTree = "<group>"; };
 		92B1EC8C20A209CC007A58C0 /* ContentItemPoolParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContentItemPoolParser.cpp; path = HQDataObject/ContentItemPoolParser.cpp; sourceTree = "<group>"; };
+		92E5855F220D8ED30015A4FA /* RewardCallbackHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RewardCallbackHandler.h; sourceTree = "<group>"; };
+		92E58565220DD3F00015A4FA /* RewardCallbackHandler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RewardCallbackHandler.cpp; sourceTree = "<group>"; };
+		92E58569220DD6A40015A4FA /* RewardItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RewardItem.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -856,6 +860,8 @@
 				301CCA991EB14280009ADA0C /* API.h */,
 				3092BCEE1EB10524006D6F4C /* HttpRequestCreator.cpp */,
 				3092BCEF1EB10524006D6F4C /* HttpRequestCreator.h */,
+				92E5855F220D8ED30015A4FA /* RewardCallbackHandler.h */,
+				92E58565220DD3F00015A4FA /* RewardCallbackHandler.cpp */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -900,6 +906,7 @@
 		30DD5EDF1E96841D0084305B /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				92E58567220DD64D0015A4FA /* Rewards */,
 				021B1FC01F8389FC0044DCF7 /* HQDataObject */,
 				3012ED5A1E969BF60009027D /* Child */,
 				3012ED531E969BBB0009027D /* Parent */,
@@ -1116,6 +1123,14 @@
 			path = Tutorial;
 			sourceTree = "<group>";
 		};
+		92E58567220DD64D0015A4FA /* Rewards */ = {
+			isa = PBXGroup;
+			children = (
+				92E58569220DD6A40015A4FA /* RewardItem.h */,
+			);
+			path = Rewards;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1214,6 +1229,7 @@
 				301CCA8D1EB13151009ADA0C /* MessageBox.cpp in Sources */,
 				4349C8501EA8ADEF00FE964B /* MPUIFontToNSDictionaryValueTransformer.m in Sources */,
 				02BF05F21F98BAAF00E7D086 /* PushNotificationsHandler_ios.mm in Sources */,
+				92E58566220DD3F00015A4FA /* RewardCallbackHandler.cpp in Sources */,
 				3012ED501E969AE40009027D /* CookieDataParser.cpp in Sources */,
 				4349C81A1EA8ADEF00FE964B /* MPABTestDesignerChangeResponseMessage.m in Sources */,
 				021B1FC91F838A0A0044DCF7 /* HQCarouselObject.cpp in Sources */,

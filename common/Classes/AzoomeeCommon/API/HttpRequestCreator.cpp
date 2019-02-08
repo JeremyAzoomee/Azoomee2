@@ -5,6 +5,7 @@
 #include "../Analytics/AnalyticsSingleton.h"
 #include "../Utils/StringFunctions.h"
 #include "../Data/Parent/ParentDataProvider.h"
+#include "RewardCallbackHandler.h"
 
 using namespace cocos2d;
 using namespace cocos2d::network;
@@ -207,9 +208,14 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
     cocos2d::log("Response code: %ld", response->getResponseCode());
     cocos2d::log("Response header: %s", responseHeaderString.c_str());
     cocos2d::log("Response string: %s", responseDataString.c_str());
-    
+	
     if((response->getResponseCode() == 200)||(response->getResponseCode() == 201)||(response->getResponseCode() == 204))
     {
+		if(responseDataString.find("rewardCallback") != responseDataString.npos)
+		{
+			RewardCallbackHandler::getInstance()->sendRewardCallback(responseDataString);
+		}
+		
         if(delegate != nullptr)
         {
             delegate->onHttpRequestSuccess(requestTag, responseHeaderString, responseDataString);

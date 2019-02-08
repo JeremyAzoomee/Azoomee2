@@ -10,12 +10,13 @@
 
 #include <AzoomeeCommon/Azoomee.h>
 #include <cocos/cocos2d.h>
+#include "RewardScreen.h"
 
 NS_AZOOMEE_BEGIN
 
-class AwesomeLayer : public cocos2d::Node
+class AwesomeLayer : public RewardScreen
 {
-	typedef cocos2d::Node Super;
+	typedef RewardScreen Super;
 private:
 	static const std::vector<cocos2d::Color4F> kColours;
 	float _nextParticleEmit = 0;

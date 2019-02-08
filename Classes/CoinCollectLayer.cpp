@@ -19,8 +19,6 @@ bool CoinCollectLayer::init()
 		return false;
 	}
 	
-	this->setContentSize(Director::getInstance()->getWinSize());
-	
 	return true;
 }
 void CoinCollectLayer::onEnter()
@@ -38,8 +36,6 @@ void CoinCollectLayer::onEnter()
 		// Do your stuff here
 	};
 	_eventDispatcher->addEventListenerWithFixedPriority(_passingTouchBlocker, -1); // less than zero
-	
-	
 	
 	Super::onEnter();
 }
@@ -253,7 +249,7 @@ void CoinCollectLayer::addCoinCounter()
 	_valueLabel->setDimensions(counterFrame->getContentSize().width * 0.8f, counterFrame->getContentSize().height * 0.8f);
 	counterFrame->addChild(_valueLabel);
 	
-	_incPerSec = _rewardAmount / _animDuration;
+	_incPerSec = _rewardAmount / (_duration * 0.75f);
 	_displayValue = 0;
 	
 	for(int i = 0; i < _animDuration; i++)

@@ -21,8 +21,6 @@ bool AwesomeLayer::init()
 		return false;
 	}
 	
-	this->setContentSize(Director::getInstance()->getVisibleSize());
-	
 	return true;
 }
 void AwesomeLayer::onEnter()
