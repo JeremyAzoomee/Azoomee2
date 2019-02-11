@@ -49,6 +49,11 @@ const char* const API::TagUpdateChildNameRequest = "updateChildNameRequest";
 const char* const API::TagAddVoucher = "addVoucher";
 const char* const API::TagGetVideoProgress = "getVideoProgress";
 const char* const API::TagUpdateVideoProgress = "updateVideoProgress";
+const char* const API::TagRewardCallback = "rewardCallback";
+const char* const API::TagRedeemReward = "redeemReward";
+const char* const API::TagGetPendingRewards = "getPendingRewards";
+const char* const API::TagGetInventory = "getInventory";
+const char* const API::TagBuyReward = "buyReward";
 
 const std::string API::kAZCountryCodeKey = "X-AZ-COUNTRYCODE";
 
@@ -582,5 +587,50 @@ HttpRequestCreator* API::FriendRequestReaction(bool confirmed, const std::string
     return request;
 }
 
+#pragma mark - Rewards
+
+HttpRequestCreator* API::RedeemReward(const std::string& rewardId,
+										HttpRequestCreatorResponseDelegate* delegate)
+{
+	HttpRequestCreator* request = new HttpRequestCreator(delegate);
+	request->requestPath = StringUtils::format("/api/rewards/%s",rewardId.c_str());
+	request->requestBody = "{\"status\": \"REDEEMED\"}";
+	request->method = "PATCH";
+	request->requestTag = TagRedeemReward;
+	request->encrypted = true;
+	return request;
+}
+
+HttpRequestCreator* API::GetPendingRewards(const std::string& userId,
+											 HttpRequestCreatorResponseDelegate* delegate)
+{
+	HttpRequestCreator* request = new HttpRequestCreator(delegate);
+	request->requestPath = StringUtils::format("/api/rewards?userId=%s&status=PENDING",userId.c_str());
+	request->requestTag = TagGetInventory;
+	request->encrypted = true;
+	return request;
+}
+
+HttpRequestCreator* API::BuyReward(const std::string& itemId,
+									 const std::string& userId,
+									 HttpRequestCreatorResponseDelegate* delegate)
+{
+	HttpRequestCreator* request = new HttpRequestCreator(delegate);
+	request->requestPath = StringUtils::format("/api/rewards/spend?itemId=%s&userId=%s",itemId.c_str(),userId.c_str());
+	request->requestTag = TagBuyReward;
+	request->method = "POST";
+	request->encrypted = true;
+	return request;
+}
+
+HttpRequestCreator* API::GetInventory(const std::string& userId,
+										HttpRequestCreatorResponseDelegate* delegate)
+{
+	HttpRequestCreator* request = new HttpRequestCreator(delegate);
+	request->requestPath = StringUtils::format("/api/inventory%s",userId.c_str());
+	request->requestTag = TagGetInventory;
+	request->encrypted = true;
+	return request;
+}
 
 NS_AZOOMEE_END

@@ -211,7 +211,7 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
 	
     if((response->getResponseCode() == 200)||(response->getResponseCode() == 201)||(response->getResponseCode() == 204))
     {
-		if(responseDataString.find("rewardCallback") != responseDataString.npos)
+		if(responseDataString.find("rewardLocation") != responseDataString.npos)
 		{
 			RewardCallbackHandler::getInstance()->sendRewardCallback(responseDataString);
 		}

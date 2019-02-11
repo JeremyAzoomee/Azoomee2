@@ -6,6 +6,9 @@
 //
 
 #include "RewardCallbackHandler.h"
+#include "../Data/Child/ChildDataProvider.h"
+
+using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
@@ -28,11 +31,24 @@ RewardCallbackHandler::RewardCallbackHandler()
 
 void RewardCallbackHandler::sendRewardCallback(const std::string& callbackData)
 {
-	// break down required params, create body string for the required params,
-	// call sendRewardCallback(const std::string& callbackUrl, const std::string& callbackBody) with values
-}
-void RewardCallbackHandler::sendRewardCallback(const std::string& callbackUrl, const std::string& callbackBody)
-{
+	rapidjson::Document data;
+	data.Parse(callbackData.c_str());
+	if(data.HasParseError())
+	{
+		return;
+	}
+	const std::string url = getStringFromJson("rewardLocation", data);
+	if(url == "")
+	{
+		return;
+	}
+	
+	HttpRequestCreator* request = new HttpRequestCreator(this);
+	request->requestPath = url;
+	request->requestTag = API::TagRewardCallback;
+	request->encrypted = true;
+	
+	request->execute();
 	
 }
 
@@ -44,9 +60,20 @@ void RewardCallbackHandler::setDelegate(RewardCallbackDelegate* delegate)
 //delegate functions
 void RewardCallbackHandler::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
-	if(_delegate)
+	rapidjson::Document data;
+	data.Parse(body.c_str());
+	if(data.HasParseError())
 	{
-		//send data response to delegate
+		return;
+	}
+	RewardItemRef reward = RewardItem::createWithJson(data);
+	if(reward->getStatus() == "PENDING")
+	{
+		if(_delegate)
+		{
+			//send data response to delegate
+			_delegate->onRewardSuccess(reward);
+		}
 	}
 }
 void RewardCallbackHandler::onHttpRequestFailed(const std::string& requestTag, long errorCode)

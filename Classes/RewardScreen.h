@@ -11,13 +11,14 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
+#include <AzoomeeCommon/Data/Rewards/RewardItem.h>
 
 NS_AZOOMEE_BEGIN
 
 class RewardScreenDelegate
 {
 public:
-	virtual void onAnimationComplete() = 0;
+	virtual void onAnimationComplete(const RewardItemRef& reward) = 0;
 };
 
 // layers that extent RewardScreen will be used to diaplay reward animations on the notifications node, set by Director::getInstance()->setNotificationNode(Node);
@@ -32,6 +33,7 @@ private:
 	
 protected:
 	float _duration = 0;
+	RewardItemRef _rewardData = nullptr;
 	
 public:
 	
@@ -42,6 +44,7 @@ public:
 	
 	void setDeleagte(RewardScreenDelegate* delegate);
 	void setDuration(float duration);
+	void setRewardData(const RewardItemRef& reward);
 	
 	CREATE_FUNC(RewardScreen);
 };

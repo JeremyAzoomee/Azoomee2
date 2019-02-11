@@ -22,11 +22,15 @@ class RewardItem
 {
 private:
 	std::string _id;
+	std::string _userId;
+	std::string _description;
+	int _itemPrice;
+	std::string _status;
+	
+	std::string _itemId;
 	std::string _type;
 	std::string _name;
-	std::string _description;
-	
-	int _value;
+	std::string _uri;
 	
 	RewardItem();
 public:
@@ -34,13 +38,17 @@ public:
 	static RewardItemRef createWithJson(const rapidjson::Value& rewardData);
 	static RewardItemRef create();
 	
-	void parseRewardData(const rapidjson::Document& rewardData);
+	void parseRewardData(const rapidjson::Value& rewardData);
 	
 	std::string getId() const;
 	std::string getType() const;
-	std::string getName() const;
+	std::string getUserId() const;
+	std::string getItemId() const;
 	std::string getDescription() const;
-	int getValue() const;
+	std::string getUri() const;
+	int getItemPrice() const;
+	std::string getStatus() const;
+	std::string getName() const;
 	
 };
 

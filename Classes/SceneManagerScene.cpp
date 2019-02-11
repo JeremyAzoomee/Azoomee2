@@ -29,6 +29,7 @@
 #include "SettingsHub.h"
 
 #include "CoinCollectLayer.h"
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 
 #ifdef VODACOM_BUILD
 #include "Vodacom/VodacomOnboardingScene.h"
@@ -117,12 +118,9 @@ void SceneManagerScene::onEnterTransitionDidFinish()
 					goToScene = hqScene;
 					
 					CoinCollectLayer* coinCollect = CoinCollectLayer::create();
-					coinCollect->setAnimDuration(20);
-					//coinCollect->setOomeeFilepath(ChildDataProvider::getInstance()->getLoggedInChild()->getAvatar());
-					coinCollect->setRewardAmount(300);
-					coinCollect->runAction(Sequence::createWithTwoActions(DelayTime::create(20), CallFunc::create([](){
-						Director::getInstance()->setNotificationNode(nullptr);
-					})));
+					coinCollect->setDuration(8);
+					coinCollect->setOomeeFilepath(ChildDataProvider::getInstance()->getLoggedInChild()->getAvatar());
+					//coinCollect->setRewardAmount(300);
 					Director::getInstance()->setNotificationNode(coinCollect);
 					
 				}

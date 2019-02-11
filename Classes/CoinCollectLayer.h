@@ -23,9 +23,7 @@ private:
 	float _displayValue;
 	cocos2d::Label* _valueLabel = nullptr;
 	
-	cocos2d::Sprite* _oomee = nullptr;
-	
-	float _animDuration;
+	cocos2d::Sprite* _plinth = nullptr;
 	
 	float _nextParticleEmit = 0;
 	
@@ -45,8 +43,6 @@ public:
 	void onExit() override;
 	void update(float deltaT) override;
 	
-	void setRewardAmount(int rewardAmount);
-	void setAnimDuration(float secs);
 	void setOomeeFilepath(const std::string& oomeeFilepath);
 	
 	CREATE_FUNC(CoinCollectLayer);

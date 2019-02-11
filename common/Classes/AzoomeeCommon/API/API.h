@@ -61,6 +61,11 @@ public:
 	static const char* const TagAddVoucher;
 	static const char* const TagGetVideoProgress;
 	static const char* const TagUpdateVideoProgress;
+	static const char* const TagRewardCallback;
+	static const char* const TagRedeemReward;
+	static const char* const TagGetPendingRewards;
+	static const char* const TagGetInventory;
+	static const char* const TagBuyReward;
 	
 	static const std::string kAZCountryCodeKey;
 	
@@ -253,7 +258,21 @@ public:
     static HttpRequestCreator* GetTimelineSummary(const std::string& userId,
                                                         HttpRequestCreatorResponseDelegate* delegate);
     
-    
+#pragma mark - Rewards
+	
+	static HttpRequestCreator* RedeemReward(const std::string& rewardId,
+											HttpRequestCreatorResponseDelegate* delegate);
+	
+	static HttpRequestCreator* GetPendingRewards(const std::string& userId,
+												 HttpRequestCreatorResponseDelegate* delegate);
+	
+	static HttpRequestCreator* BuyReward(const std::string& itemId,
+										 const std::string& userId,
+										 HttpRequestCreatorResponseDelegate* delegate);
+	
+	static HttpRequestCreator* GetInventory(const std::string& userId,
+											HttpRequestCreatorResponseDelegate* delegate);
+	
 };
   
 NS_AZOOMEE_END

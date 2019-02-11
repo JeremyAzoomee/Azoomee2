@@ -6,7 +6,11 @@
 //
 
 #include "RewardDisplayHandler.h"
-#include <AzoomeeCommon/API/RewardCallbackHandler.h>
+#include <AzoomeeCommon/API/API.h>
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include "CoinCollectLayer.h"
+
+using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
@@ -31,19 +35,95 @@ RewardDisplayHandler::RewardDisplayHandler()
 	RewardCallbackHandler::getInstance()->setDelegate(this);
 }
 
-void showReward(const std::string& reward)
+void RewardDisplayHandler::showReward(const RewardItemRef& reward)
 {
-	
+	if(reward->getItemPrice() < 0)
+	{
+		CoinCollectLayer* coinCollect = CoinCollectLayer::create();
+		coinCollect->setDuration(8.0f);
+		coinCollect->setRewardData(reward);
+		coinCollect->setOomeeFilepath(ChildDataProvider::getInstance()->getLoggedInChild()->getAvatar());
+		Director::getInstance()->setNotificationNode(coinCollect);
+	}
+}
+
+bool RewardDisplayHandler::isRunningAnimationPossible()
+{
+	const auto& scene = Director::getInstance()->getRunningScene();
+	if(!scene)
+	{
+		return false;
+	}
+	if(scene->getChildByName("iosWebView") || scene->getChildByName("androidWebView"))
+	{
+		return false;
+	}
+	return true;
+}
+
+void RewardDisplayHandler::getPendingRewards()
+{
+	HttpRequestCreator* request = API::GetPendingRewards(ChildDataProvider::getInstance()->getLoggedInChild()->getId(), this);
+	request->execute();
 }
 
 //Delegate functions
-void onRewardSuccess(const std::string& responseData)
+void RewardDisplayHandler::onRewardSuccess(const RewardItemRef& reward)
 {
 	// add data to queue, if nothing playing, call show reward
+	_rewardQueue.push(reward);
+	if(!_rewardDisplayRunning)
+	{
+		if(isRunningAnimationPossible())
+		{
+			showReward(_rewardQueue.front());
+			_rewardQueue.pop();
+		}
+	}
+	
 }
-void onAnimationComplete()
+void RewardDisplayHandler::onAnimationComplete(const RewardItemRef& reward)
 {
-	// remove reward layer, if other in the queue, play next item
+	HttpRequestCreator* request = API::RedeemReward(reward->getId(), nullptr);
+	request->execute();
+	
+	if(_rewardQueue.size() > 0)
+	{
+		showReward(_rewardQueue.front());
+		_rewardQueue.pop();
+	}
+	else
+	{
+		_rewardDisplayRunning = false;
+	}
+}
+
+void RewardDisplayHandler::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
+{
+	rapidjson::Document data;
+	data.Parse(body.c_str());
+	if(data.HasParseError())
+	{
+		return;
+	}
+	
+	if(data.IsArray())
+	{
+		for(int i = 0; i < data.Size(); i++)
+		{
+			const rapidjson::Value& rewardData = data[i];
+			RewardItemRef reward = RewardItem::createWithJson(rewardData);
+			if(reward->getType() == "PENDING") // sanity check that parsing worked
+			{
+				onRewardSuccess(reward);
+			}
+		}
+	}
+	
+}
+void RewardDisplayHandler::onHttpRequestFailed(const std::string& requestTag, long errorCode)
+{
+	//do nothing
 }
 
 NS_AZOOMEE_END

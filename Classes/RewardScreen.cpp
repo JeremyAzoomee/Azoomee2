@@ -27,7 +27,7 @@ void RewardScreen::onEnter()
 	this->runAction(Sequence::createWithTwoActions(DelayTime::create(_duration), CallFunc::create([this](){
 		if(this->_delegate)
 		{
-			this->_delegate->onAnimationComplete();
+			this->_delegate->onAnimationComplete(_rewardData);
 		}
 	})));
 	
@@ -35,7 +35,7 @@ void RewardScreen::onEnter()
 }
 void RewardScreen::onExit()
 {
-	
+	Super::onExit();
 }
 void RewardScreen::update(float deltaT)
 {
@@ -49,6 +49,11 @@ void RewardScreen::setDeleagte(RewardScreenDelegate* delegate)
 void RewardScreen::setDuration(float duration)
 {
 	_duration = duration;
+}
+
+void RewardScreen::setRewardData(const RewardItemRef &reward)
+{
+	_rewardData = reward;
 }
 
 NS_AZOOMEE_END

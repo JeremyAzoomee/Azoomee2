@@ -11,29 +11,29 @@
 #include "../Azoomee.h"
 #include "API.h"
 #include <memory>
+#include "../Data/Json.h"
+#include "../Data/Rewards/RewardItem.h"
 
 NS_AZOOMEE_BEGIN
 
 class RewardCallbackDelegate
 {
-	virtual void onRewardSuccess(const std::string& responseData) = 0;
+public:
+	virtual void onRewardSuccess(const RewardItemRef& reward) = 0;
 };
 
-class RewardCallbackHandler : public HttpRequestCreatorDelegate
+class RewardCallbackHandler : public HttpRequestCreatorResponseDelegate
 {
 private:
 	RewardCallbackHandler();
 	
 	RewardCallbackDelegate* _delegate = nullptr;
 	
-	std::string generateResponseBody(const std::vector<std::string>& paramIds);
-	
 public:
 	static RewardCallbackHandler* getInstance();
 	virtual ~RewardCallbackHandler();
 	
 	void sendRewardCallback(const std::string& callbackData);
-	void sendRewardCallback(const std::string& callbackUrl, const std::string& callbackBody);
 	
 	void setDelegate(RewardCallbackDelegate* delegate);
 	

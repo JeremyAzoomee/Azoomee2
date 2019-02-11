@@ -37,9 +37,7 @@ void RewardScene::onEnter()
 {
 	_rewardValue = RandomHelper::random_int(200, 1000);
 	CoinCollectLayer* coinCollect = CoinCollectLayer::create();
-	coinCollect->setAnimDuration(_rewardValue / 100);
 	coinCollect->setOomeeFilepath(ChildDataProvider::getInstance()->getLoggedInChild()->getAvatar());
-	coinCollect->setRewardAmount(_rewardValue);
 	this->addChild(coinCollect);
 	
 	this->runAction(Sequence::create(DelayTime::create(15),CallFunc::create([this, coinCollect](){
