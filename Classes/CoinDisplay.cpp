@@ -8,10 +8,16 @@
 #include "CoinDisplay.h"
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
+
+float CoinDisplay::sCoinCount = 0;
+bool CoinDisplay::sAnimating = false;
+float CoinDisplay::sIncPerSec = 0;
+int CoinDisplay::sTargetVal = 0;
 
 bool CoinDisplay::init()
 {
@@ -38,7 +44,7 @@ void CoinDisplay::onEnter()
 	_valueBG->setContentSize(stencil->getContentSize());
 	_valueFrame->addChild(_valueBG);
 	
-	_coinsLabel = Label::createWithTTF(StringUtils::format("%d",_coinCount), Style::Font::Bold(), 75);
+	_coinsLabel = Label::createWithTTF(StringUtils::format("%d",(int)sCoinCount), Style::Font::Bold(), 75);
 	_coinsLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_coinsLabel->setNormalizedPosition(Vec2(0.6,0.5));
 	_coinsLabel->setTextColor(Color4B::WHITE);
@@ -52,16 +58,34 @@ void CoinDisplay::onEnter()
 	_coinSprite->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	this->addChild(_coinSprite);
 	
+	scheduleUpdate();
+	
 	Super::onEnter();
 }
 
-void CoinDisplay::setCoinCount(int coinCount)
+void CoinDisplay::update(float deltaT)
 {
-	_coinCount = coinCount;
-	if(_coinsLabel)
+	if(sAnimating)
 	{
-		_coinsLabel->setString(StringUtils::format("%d",coinCount));
+		sCoinCount += sIncPerSec * deltaT;
+		if(sCoinCount >= sTargetVal)
+		{
+			sCoinCount = sTargetVal;
+			sAnimating = false;
+		}
+		_coinsLabel->setString(StringUtils::format("%d",(int)sCoinCount));
 	}
+	else
+	{
+		sTargetVal = ChildDataProvider::getInstance()->getLoggedInChild()->_coins;
+		if(sTargetVal != sCoinCount)
+		{
+			sIncPerSec = (sTargetVal - sCoinCount) / 5.0f;
+			sAnimating = true;
+		}
+	}
+	
+	Super::update(deltaT);
 }
 
 NS_AZOOMEE_END

@@ -57,6 +57,8 @@ public:
 	std::string getAPISecret() const;
 	std::string getAPIKey() const;
 	
+	int _coins = 0;
+	
 };
 
 NS_AZOOMEE_END

@@ -133,7 +133,6 @@ void NavigationScene::onEnter()
 	this->addChild(_questsNavButton);
 	
 	CoinDisplay* coinDisplay = CoinDisplay::create();
-	coinDisplay->setCoinCount(1150);
 	coinDisplay->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
 	coinDisplay->setAnchorPoint(Vec2(1.2,1.5));
 	this->addChild(coinDisplay);

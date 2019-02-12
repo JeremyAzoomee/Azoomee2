@@ -691,7 +691,7 @@ void BackEndCaller::onFeedDownloadComplete()
 	else
 	{
 		//TutorialController::getInstance()->startTutorial(TutorialController::kFTUNavTutorialID);
-		Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
+		Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
 	}
 	
 }

@@ -194,7 +194,7 @@ void BaseScene::onSizeChanged()
     NavigationLayer* navigation = dynamic_cast<NavigationLayer*>(navLayer);
     if(navigation)
     {
-        navigation->repositionElements();
+        //navigation->repositionElements();
     }
     
     auto gameDownloadCancelButton = dynamic_cast<ElectricDreamsButton*>(this->getChildByName("cancelButton"));

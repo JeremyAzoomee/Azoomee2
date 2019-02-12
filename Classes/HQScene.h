@@ -11,7 +11,7 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/Scene.h>
 #include <AzoomeeCommon/Tutorial/TutorialController.h>
-#include "HQSceneElement.h"
+#include "NavigationLayer.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -29,6 +29,8 @@ protected:
 	std::string _hqCategory;
 	
 	cocos2d::ui::Button* _homeButton = nullptr;
+	
+	NavigationLayer* _navLayer = nullptr;
 	
 public:
 	

@@ -18,7 +18,8 @@ bool RewardScreen::init()
 		return false;
 	}
 	
-	this->setContentSize(Director::getInstance()->getWinSize());
+	this->setContentSize(Director::getInstance()->getVisibleSize());
+	this->setScale(Director::getInstance()->getWinSize().width / Director::getInstance()->getVisibleSize().width, Director::getInstance()->getWinSize().height / Director::getInstance()->getVisibleSize().height);
 	
 	return true;
 }

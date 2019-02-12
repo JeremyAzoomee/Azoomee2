@@ -43,6 +43,7 @@ void RewardDisplayHandler::showReward(const RewardItemRef& reward)
 		coinCollect->setDuration(8.0f);
 		coinCollect->setRewardData(reward);
 		coinCollect->setOomeeFilepath(ChildDataProvider::getInstance()->getLoggedInChild()->getAvatar());
+		coinCollect->setDeleagte(this);
 		Director::getInstance()->setNotificationNode(coinCollect);
 	}
 }
@@ -95,6 +96,12 @@ void RewardDisplayHandler::onAnimationComplete(const RewardItemRef& reward)
 	else
 	{
 		_rewardDisplayRunning = false;
+		Node* rewardLayer = Director::getInstance()->getNotificationNode();
+		rewardLayer->setCascadeOpacityEnabled(true);
+		rewardLayer->runAction(Sequence::createWithTwoActions(FadeOut::create(1), CallFunc::create([reward](){
+			Director::getInstance()->setNotificationNode(nullptr);
+			ChildDataProvider::getInstance()->getLoggedInChild()->_coins -= reward->getItemPrice();
+		})));
 	}
 }
 

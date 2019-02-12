@@ -136,11 +136,11 @@ void ContentFeedHQScene::createContentScrollview()
 	}
 	
 	//we have all carousels in a vector, time to resize the scrollview and add them one by one
-	Size vScrollFrameSize = Size(visibleSize.width - sideMargin * 2, visibleSize.height - 200.0f);
+	Size vScrollFrameSize = Size(visibleSize.width - sideMargin * 2, visibleSize.height - 500.0f);
 	
 	_contentScrollview = cocos2d::ui::ScrollView::create();
 	_contentScrollview->setContentSize(vScrollFrameSize);
-	_contentScrollview->setPosition(Point(sideMargin, 0));
+	_contentScrollview->setPosition(Point(sideMargin, 300));
 	_contentScrollview->setDirection(cocos2d::ui::ScrollView::Direction::VERTICAL);
 	_contentScrollview->setTouchEnabled(true);
 	_contentScrollview->setBounceEnabled(true);
@@ -180,7 +180,7 @@ void ContentFeedHQScene::createContentScrollview()
 	//add gradient on top of scrollView
 	
 	cocos2d::Sprite* gradient = createGradientForScrollView(_contentScrollview->getContentSize().width);
-	gradient->setPosition(_contentScrollview->getContentSize().width / 2 + _contentScrollview->getPosition().x, _contentScrollview->getPosition().y + _contentScrollview->getContentSize().height - gradient->getContentSize().width / 2 + 5);
+	gradient->setPosition(_contentScrollview->getContentSize().width / 2 + _contentScrollview->getPosition().x, _contentScrollview->getPosition().y + _contentScrollview->getContentSize().height);
 	this->addChild(gradient);
 	
 	//add group hq logo if necessary

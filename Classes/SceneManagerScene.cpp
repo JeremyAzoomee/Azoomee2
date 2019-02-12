@@ -95,44 +95,23 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             returnToPrevOrientation();
             acceptAnyOrientation();
             HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
-			cocos2d::Scene* goToScene = NavigationScene::create();
 			const std::string& currentHQ = HQHistoryManager::getInstance()->getCurrentHQ();
-			if(currentHQ != "Navigation")
+			
+			ContentFeedHQScene* hqScene = ContentFeedHQScene::create();
+			hqScene->setHQCategory(currentHQ);
+			cocos2d::Scene* goToScene = hqScene;
+			
+			if(currentHQ == ConfigStorage::kMeHQName)
 			{
-				if(currentHQ == ConfigStorage::kGameHQName || currentHQ == ConfigStorage::kVideoHQName || currentHQ == ConfigStorage::kGroupHQName)
-				{
-					ContentFeedHQScene* hqScene = ContentFeedHQScene::create();
-					hqScene->setHQCategory(currentHQ);
-					goToScene = hqScene;
-				}
-				else if(currentHQ == ConfigStorage::kMeHQName)
-				{
-					LocalContentHQScene* hqScene = LocalContentHQScene::create();
-					hqScene->setHQCategory(currentHQ);
-					goToScene = hqScene;
-				}
-				else if(currentHQ == ConfigStorage::kArtAppHQName)
-				{
-					GalleryHQScene* hqScene = GalleryHQScene::create();
-					hqScene->setHQCategory(currentHQ);
-					goToScene = hqScene;
-					
-					CoinCollectLayer* coinCollect = CoinCollectLayer::create();
-					coinCollect->setDuration(8);
-					coinCollect->setOomeeFilepath(ChildDataProvider::getInstance()->getLoggedInChild()->getAvatar());
-					//coinCollect->setRewardAmount(300);
-					Director::getInstance()->setNotificationNode(coinCollect);
-					
-				}
-				else
-				{
-					goToScene = cocos2d::Scene::create();
-					HQScene2* hq = HQScene2::create();
-					hq->setPosition(Director::getInstance()->getVisibleOrigin());
-					hq->setHQCategory(HQHistoryManager::getInstance()->getCurrentHQ());
-					hq->startBuildingScrollView();
-					goToScene->addChild(hq);
-				}
+				LocalContentHQScene* hqScene = LocalContentHQScene::create();
+				hqScene->setHQCategory(currentHQ);
+				goToScene = hqScene;
+			}
+			else if(currentHQ == ConfigStorage::kArtAppHQName)
+			{
+				GalleryHQScene* hqScene = GalleryHQScene::create();
+				hqScene->setHQCategory(currentHQ);
+				goToScene = hqScene;
 			}
             //Azoomee::Scene* goToScene = BaseScene::create();
             Director::getInstance()->replaceScene(goToScene);

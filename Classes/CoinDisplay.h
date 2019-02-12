@@ -17,7 +17,10 @@ class CoinDisplay : public cocos2d::Node
 {
 	typedef cocos2d::Node Super;
 private:
-	int _coinCount;
+	static float sCoinCount;
+	static bool sAnimating;
+	static float sIncPerSec;
+	static int sTargetVal;
 	
 	cocos2d::Label* _coinsLabel = nullptr;
 	cocos2d::LayerGradient* _valueBG = nullptr;
@@ -27,8 +30,7 @@ private:
 public:
 	bool init() override;
 	void onEnter() override;
-	
-	void setCoinCount(int coinCount);
+	void update(float deltaT) override;
 	
 	CREATE_FUNC(CoinDisplay);
 };

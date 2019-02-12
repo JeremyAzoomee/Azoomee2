@@ -21,10 +21,9 @@ public:
 	virtual void onAnimationComplete(const RewardItemRef& reward) = 0;
 };
 
-// layers that extent RewardScreen will be used to diaplay reward animations on the notifications node, set by Director::getInstance()->setNotificationNode(Node);
+// layers that extend RewardScreen will be used to diaplay reward animations on the notifications node, set by Director::getInstance()->setNotificationNode(Node);
 // notification nodes exists above all normal scene layers, so isnt impacted by scene transitions, allowing it to work with the async nature of the rewards mechanic.
-// Notification nodes are rendered outside of the normal pipeline, and thus dont have the normal matrix stack applied, meaning they treat the visible screen area as
-// the full design resolution, not trimmed for visible screen size.
+// Notification nodes are rendered outside of the normal pipeline, and thus dont have the normal matrix stack applied, this class scales the node to work like normal.
 class RewardScreen : public cocos2d::Node
 {
 	typedef cocos2d::Node Super;

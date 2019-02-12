@@ -9,6 +9,7 @@
 #define ContentFeedHQScene_h
 
 #include "HQScene.h"
+#include "HQSceneElement.h"
 
 NS_AZOOMEE_BEGIN
 

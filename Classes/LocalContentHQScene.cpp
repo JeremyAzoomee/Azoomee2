@@ -40,8 +40,9 @@ void LocalContentHQScene::onEnter()
 	_contentListView->setItemsMargin(150.0f);
 	_contentListView->setTopPadding(100.0f);
 	_contentListView->setBottomPadding(100.0f);
-	_contentListView->setContentSize(Size(contentSize.width, contentSize.height - ((ConfigStorage::getInstance()->isDeviceIphoneX() && contentSize.width < contentSize.height) ? 400 : 300)));
+	_contentListView->setContentSize(Size(contentSize.width, contentSize.height - ((ConfigStorage::getInstance()->isDeviceIphoneX() && contentSize.width < contentSize.height) ? 600 : 500)));
 	_contentListView->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+	_contentListView->setPosition(Vec2(0,300));
 	_contentListView->setSwallowTouches(true);
 	this->addChild(_contentListView);
 	
@@ -49,7 +50,7 @@ void LocalContentHQScene::onEnter()
 	verticalScrollGradient->setAnchorPoint(Vec2(0.5, 0.9));
 	verticalScrollGradient->setScaleX(contentSize.width / verticalScrollGradient->getContentSize().width);
 	verticalScrollGradient->setColor(Color3B::BLACK);
-	verticalScrollGradient->setPosition(Vec2(contentSize.width / 2, _contentListView->getContentSize().height));
+	verticalScrollGradient->setPosition(Vec2(contentSize.width / 2, _contentListView->getContentSize().height + 300));
 	this->addChild(verticalScrollGradient);
 	
 	if(RecentlyPlayedManager::getInstance()->getRecentlyPlayedContentForHQ(ConfigStorage::kMeHQName).size() > 0)
