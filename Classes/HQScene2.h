@@ -2,7 +2,7 @@
 #define __HQSCENE2_H__
 
 #include <cocos/cocos2d.h>
-#include "ui/UIScrollView.h"
+#include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
 #include <AzoomeeCommon/Tutorial/TutorialController.h>
@@ -42,7 +42,7 @@ private:
     cocos2d::Size _contentItemSize;
 
     cocos2d::ui::ScrollView* createScrollView();
-    cocos2d::Layer* createElementForCarousel(cocos2d::Node *toBeAddedTo, const HQContentItemObjectRef &itemData, int rowNumber, int elementIndex);
+	cocos2d::Node* createElementForCarousel(cocos2d::Node *toBeAddedTo, const HQContentItemObjectRef &itemData, int rowNumber, int elementIndex);
     
     cocos2d::Sprite* createGradientForScrollView(float scrollViewWith);
     

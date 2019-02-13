@@ -186,7 +186,7 @@ void HQScene2::startBuildingScrollView()
         
         for(int elementIndex = 0; elementIndex < elementsForRow.size(); elementIndex++)
         {
-            cocos2d::Layer* currentElement = createElementForCarousel(carouselLayer, elementsForRow.at(elementIndex), rowIndex, elementIndex);
+            auto* currentElement = createElementForCarousel(carouselLayer, elementsForRow.at(elementIndex), rowIndex, elementIndex);
             cocos2d::Vec2 elementShape = HQDataProvider::getInstance()->getHighlightDataForSpecificItem(_hqCategory, rowIndex, elementIndex);
             
             HQScene2ElementPositioner hqScene2ElementPositioner;
@@ -461,7 +461,7 @@ Sprite* HQScene2::createGradientForScrollView(float scrollViewWith)
     return verticalScrollGradient;
 }
 
-cocos2d::Layer* HQScene2::createElementForCarousel(cocos2d::Node *toBeAddedTo, const HQContentItemObjectRef &itemData, int rowNumber, int elementIndex)
+cocos2d::Node* HQScene2::createElementForCarousel(cocos2d::Node *toBeAddedTo, const HQContentItemObjectRef &itemData, int rowNumber, int elementIndex)
 {
     float contentItemMargin = HQDataProvider::getInstance()->getContentItemMargin();
     

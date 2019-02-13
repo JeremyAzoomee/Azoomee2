@@ -27,10 +27,9 @@ public:
 class RewardScreen : public cocos2d::Node
 {
 	typedef cocos2d::Node Super;
-private:
+protected:
 	RewardScreenDelegate* _delegate = nullptr;
 	
-protected:
 	float _duration = 0;
 	RewardItemRef _rewardData = nullptr;
 	

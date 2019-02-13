@@ -262,16 +262,24 @@ void NavigationLayer::turnOffAllMenuItems()
     
     for(const std::string& hqName : hqNames)
     {
-        this->getChildByName(hqName)->getChildByName("circle")->setOpacity(255);
-        this->getChildByName(hqName)->getChildByName("on")->stopAllActions();
-        this->getChildByName(hqName)->getChildByName("on")->setOpacity(0);
+		auto button = this->getChildByName(hqName);
+		if(button)
+		{
+        	button->getChildByName("circle")->setOpacity(255);
+        	button->getChildByName("on")->stopAllActions();
+        	button->getChildByName("on")->setOpacity(0);
+		}
     }
 }
 
 void NavigationLayer::turnOnMenuItem(const std::string& hqName)
 {
-    this->getChildByName(hqName)->getChildByName("on")->runAction(Sequence::create(FadeTo::create(0, 255), DelayTime::create(0.1), FadeTo::create(0,0), DelayTime::create(0.1), FadeTo::create(0, 255), NULL));
-    this->getChildByName(hqName)->getChildByName("circle")->setOpacity(0);
+	auto button = this->getChildByName(hqName);
+	if(button)
+	{
+    	button->getChildByName("on")->runAction(Sequence::create(FadeTo::create(0, 255), DelayTime::create(0.1), FadeTo::create(0,0), DelayTime::create(0.1), FadeTo::create(0, 255), NULL));
+    	button->getChildByName("circle")->setOpacity(0);
+	}
 }
 
 void NavigationLayer::delayedSetButtonOn(float dt)
@@ -281,8 +289,12 @@ void NavigationLayer::delayedSetButtonOn(float dt)
 
 void NavigationLayer::setButtonOn(const std::string& hqName)
 {
-    this->getChildByName(hqName)->getChildByName("on")->setOpacity(255);
-    this->getChildByName(hqName)->getChildByName("circle")->setOpacity(0);
+	auto button = this->getChildByName(hqName);
+	if(button)
+	{
+    	button->getChildByName("on")->setOpacity(255);
+    	button->getChildByName("circle")->setOpacity(0);
+	}
 }
 
 void NavigationLayer::onExit()

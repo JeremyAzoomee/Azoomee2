@@ -168,8 +168,8 @@ void CoinCollectLayer::addHeading()
 	heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 	heading->setNormalizedPosition(Vec2(0.5,0.9));
 	heading->enableGlow(Color4B::WHITE);
-	heading->setScale(0);
-	heading->runAction(EaseBackOut::create(ScaleTo::create(2, 1)));
+	heading->setScale(0.5);
+	heading->runAction(EaseBackOut::create(ScaleTo::create(_duration * 0.5f, 1)));
 	this->addChild(heading);
 }
 void CoinCollectLayer::addPlinth()
@@ -182,11 +182,13 @@ void CoinCollectLayer::addPlinth()
 	oomee->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 	oomee->setNormalizedPosition(Vec2(0.5,0.8));
 	
+	const float animDur = _duration * 0.25f;
+	
 	_plinth = Sprite::create("res/rewards/podium.png");
 	_plinth->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 	_plinth->setPosition(Vec2(visibleSize.width * (isPortrait ? 0.5 : 0.25), -_plinth->getContentSize().height * 1.5));
-	_plinth->runAction(Sequence::createWithTwoActions(MoveBy::create(2, Vec2(0,_plinth->getContentSize().height * 1.5)),CallFunc::create([this](){this->addCoinCounter();})));
-	_plinth->runAction(Repeat::create(Sequence::create(EaseBounceInOut::create(MoveBy::create(0.125, Vec2(5,0))),EaseBounceInOut::create(MoveBy::create(0.25, Vec2(-10,0))), EaseBounceInOut::create(MoveBy::create(0.125, Vec2(5,0))), NULL), 4));
+	_plinth->runAction(Sequence::createWithTwoActions(MoveBy::create(animDur, Vec2(0,_plinth->getContentSize().height * 1.5)),CallFunc::create([this](){this->addCoinCounter();})));
+	_plinth->runAction(Repeat::create(Sequence::create(EaseBounceInOut::create(MoveBy::create(0.125, Vec2(5,0))),EaseBounceInOut::create(MoveBy::create(0.25, Vec2(-10,0))), EaseBounceInOut::create(MoveBy::create(0.125, Vec2(5,0))), NULL), ceil(animDur)));
 	_plinth->addChild(oomee);
 	this->addChild(_plinth);
 	
@@ -245,12 +247,12 @@ void CoinCollectLayer::addCoinCounter()
 	_valueLabel->setDimensions(counterFrame->getContentSize().width * 0.8f, counterFrame->getContentSize().height * 0.8f);
 	counterFrame->addChild(_valueLabel);
 	
-	const float animDur = (_duration - 2.0f) * 0.75f;
+	const float animDur = _duration * 0.65f;
 	
 	_incPerSec = _rewardAmount / animDur;
 	_displayValue = 0;
 	
-	for(int i = 0; i < animDur; i++)
+	for(int i = 0; i < animDur - 1; i++)
 	{
 		Sprite* coin1 = Sprite::create("res/rewards/coin.png");
 		coin1->setScale(0);
@@ -259,19 +261,24 @@ void CoinCollectLayer::addCoinCounter()
 		coin1->runAction(Sequence::createWithTwoActions(DelayTime::create(i), ScaleTo::create(1, 2.5)));
 		this->addChild(coin1);
 		
-		Sprite* coin2 = Sprite::create("res/rewards/coin.png");
-		coin2->setScale(0);
-		coin2->setPosition(oomeeWorldPos);
-		coin2->runAction(Sequence::createWithTwoActions(DelayTime::create(i + 0.33),MoveTo::create(1, mainCoin->getPosition())));
-		coin2->runAction(Sequence::createWithTwoActions(DelayTime::create(i + 0.33), ScaleTo::create(1, 2.5)));
-		this->addChild(coin2);
-		
-		Sprite* coin3 = Sprite::create("res/rewards/coin.png");
-		coin3->setScale(0);
-		coin3->setPosition(oomeeWorldPos);
-		coin3->runAction(Sequence::createWithTwoActions(DelayTime::create(i + 0.66),MoveTo::create(1, mainCoin->getPosition())));
-		coin3->runAction(Sequence::createWithTwoActions(DelayTime::create(i + 0.66), ScaleTo::create(1, 2.5)));
-		this->addChild(coin3);
+		if(i + 1.33 < animDur)
+		{
+			Sprite* coin2 = Sprite::create("res/rewards/coin.png");
+			coin2->setScale(0);
+			coin2->setPosition(oomeeWorldPos);
+			coin2->runAction(Sequence::createWithTwoActions(DelayTime::create(i + 0.33),MoveTo::create(1, mainCoin->getPosition())));
+			coin2->runAction(Sequence::createWithTwoActions(DelayTime::create(i + 0.33), ScaleTo::create(1, 2.5)));
+			this->addChild(coin2);
+		}
+		if(i + 1.66 < animDur)
+		{
+			Sprite* coin3 = Sprite::create("res/rewards/coin.png");
+			coin3->setScale(0);
+			coin3->setPosition(oomeeWorldPos);
+			coin3->runAction(Sequence::createWithTwoActions(DelayTime::create(i + 0.66),MoveTo::create(1, mainCoin->getPosition())));
+			coin3->runAction(Sequence::createWithTwoActions(DelayTime::create(i + 0.66), ScaleTo::create(1, 2.5)));
+			this->addChild(coin3);
+		}
 	}
 }
 NS_AZOOMEE_END

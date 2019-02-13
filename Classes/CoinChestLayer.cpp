@@ -24,14 +24,17 @@ bool CoinChestLayer::init()
 }
 void CoinChestLayer::onEnter()
 {
+	LayerColor* bgColour = LayerColor::create(Color4B(0,7,4,255));
+	this->addChild(bgColour, -1);
+	
 	ui::Scale9Sprite* wires = ui::Scale9Sprite::create("res/rewards/wires.png");
 	wires->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	wires->setCapInsets(Rect(wires->getContentSize()/2,Size(1,1)));
 	wires->setContentSize(this->getContentSize());
 	this->addChild(wires, -1);
 	
-	addText();
 	addChest();
+	addText();
 	
 	this->scheduleUpdate();
 	
@@ -41,11 +44,6 @@ void CoinChestLayer::onEnter()
 void CoinChestLayer::update(float deltaT)
 {
 	Super::update(deltaT);
-}
-
-void CoinChestLayer::setRewardValue(int rewardValue)
-{
-	_rewardValue = rewardValue;
 }
 
 void CoinChestLayer::addText()
@@ -60,7 +58,7 @@ void CoinChestLayer::addText()
 	youWon->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	text->addChild(youWon);
 	
-	ui::Text* value = ui::Text::create(StringUtils::format("%d",_rewardValue), Style::Font::Bold(), 360);
+	ui::Text* value = ui::Text::create(StringUtils::format("%d",-_rewardData->getItemPrice()), Style::Font::Bold(), 360);
 	value->setTextColor(Color4B(Style::Color::macaroniAndCheese));
 	value->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	text->addChild(value);
@@ -81,8 +79,9 @@ void CoinChestLayer::addChest()
 	
 	Sprite* bgLights = Sprite::create("res/rewards/wow_bg.png");
 	bgLights->setNormalizedPosition(isPortrait ? Vec2(0.5,0.33) : Vec2(0.33,0.5));
+	bgLights->setScale(1.8f);
 	bgLights->runAction(RepeatForever::create(RotateBy::create(1.0,90)));
-	bgLights->runAction(RepeatForever::create(Sequence::create(ScaleTo::create(1, 0.85), ScaleTo::create(2, 1.15), ScaleTo::create(1, 1), NULL)));
+	bgLights->runAction(RepeatForever::create(Sequence::create(ScaleTo::create(1, 1.45), ScaleTo::create(2, 2.15), ScaleTo::create(1, 1), NULL)));
 	this->addChild(bgLights);
 	
 	Texture2D* particleTex = Director::getInstance()->getTextureCache()->addImage("res/rewards/star.png");
@@ -119,8 +118,8 @@ void CoinChestLayer::addChest()
 	Sprite* chest = Sprite::create("res/rewards/chest_of_coins.png");
 	chest->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	chest->setNormalizedPosition(isPortrait ? Vec2(0.5,0.33) : Vec2(0.33,0.5));
-	chest->setScale(0);
-	chest->runAction(EaseBackOut::create(ScaleTo::create(2, 1)));
+	chest->setScale(0.5);
+	chest->runAction(EaseBackOut::create(ScaleTo::create(_duration * 0.5f, 1)));
 	this->addChild(chest);
 }
 

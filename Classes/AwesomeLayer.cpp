@@ -25,6 +25,9 @@ bool AwesomeLayer::init()
 }
 void AwesomeLayer::onEnter()
 {
+	LayerColor* bgColour = LayerColor::create(Color4B(0,7,4,255));
+	this->addChild(bgColour, -1);
+	
 	addStars();
 	addAwsomeText();
 	
@@ -87,15 +90,16 @@ void AwesomeLayer::addAwsomeText()
 {
 	Sprite* bgLights = Sprite::create("res/rewards/wow_bg.png");
 	bgLights->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	bgLights->setScale(1.8f);
 	bgLights->runAction(RepeatForever::create(RotateBy::create(1.0,90)));
-	bgLights->runAction(RepeatForever::create(Sequence::create(ScaleTo::create(1, 0.85), ScaleTo::create(2, 1.15), ScaleTo::create(1, 1), NULL)));
+	bgLights->runAction(RepeatForever::create(Sequence::create(ScaleTo::create(1, 1.45), ScaleTo::create(2, 2.15), ScaleTo::create(1, 1), NULL)));
 	this->addChild(bgLights);
 	
 	Label* text = Label::createWithTTF("AWESOME", Style::Font::Bold(), 200);
 	text->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	text->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	text->setScale(0);
-	text->runAction(EaseBackOut::create(ScaleTo::create(2, 1)));
+	text->setScale(0.5);
+	text->runAction(EaseBackOut::create(ScaleTo::create(_duration * 0.5f, 1)));
 	this->addChild(text);
 }
 void AwesomeLayer::addStars()

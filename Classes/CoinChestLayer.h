@@ -20,8 +20,6 @@ class CoinChestLayer : public RewardScreen
 	typedef RewardScreen Super;
 private:
 	
-	int _rewardValue;
-	
 	void addText();
 	void addChest();
 	
@@ -30,8 +28,6 @@ public:
 	bool init() override;
 	void onEnter() override;
 	void update(float deltaT) override;
-	
-	void setRewardValue(int rewardValue);
 	
 	CREATE_FUNC(CoinChestLayer);
 };

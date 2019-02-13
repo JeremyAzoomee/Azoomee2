@@ -9,7 +9,6 @@
 #include "SceneManagerScene.h"
 #include "HQHistoryManager.h"
 #include "CoinDisplay.h"
-#include "SettingsButton.h"
 
 #include "ContentHistoryManager.h"
 #include "RewardDisplayHandler.h"
@@ -58,33 +57,21 @@ HQSceneType HQScene::getSceneType() const
 
 void HQScene::buildCoreUI()
 {
-	/*_homeButton = ui::Button::create("res/navigation/back_button.png");
-	_homeButton->setAnchorPoint(Vec2(-0.25, 1.25));
-	_homeButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
-	_homeButton->addTouchEventListener([&](Ref* pSender, ui::Button::TouchEventType eType){
-		if(eType == ui::Button::TouchEventType::ENDED)
-		{
-			HQHistoryManager::getInstance()->popHQ();
-			Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
-		}
-	});
-	this->addChild(_homeButton,1);*/
-	
-	SettingsButton* settingsButton = SettingsButton::create();
-	const Size& settingsButtonSize = settingsButton->getContentSize();
-	settingsButton->setPosition(settingsButtonSize.width * 0.25f, this->getContentSize().height - settingsButtonSize.height * 1.25f);
-	this->addChild(settingsButton);
+	_settingsButton = SettingsButton::create();
+	const Size& settingsButtonSize = _settingsButton->getContentSize();
+	_settingsButton->setPosition(settingsButtonSize.width * 0.25f, this->getContentSize().height - settingsButtonSize.height * 1.25f);
+	this->addChild(_settingsButton,1);
 	
 	// add coin counter
 	CoinDisplay* coinDisplay = CoinDisplay::create();
 	coinDisplay->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
 	coinDisplay->setAnchorPoint(Vec2(1.2,1.5));
-	this->addChild(coinDisplay);
+	this->addChild(coinDisplay, 1);
 	
 	_navLayer = NavigationLayer::create();
 	_navLayer->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
 	_navLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-	this->addChild(_navLayer);
+	this->addChild(_navLayer, 1);
 	
 	if(ContentHistoryManager::getInstance()->getReturnedFromContent())
 	{
@@ -95,6 +82,7 @@ void HQScene::buildCoreUI()
 		
 		RewardItemRef reward = RewardItem::createWithJson(data);
 		RewardDisplayHandler::getInstance()->onRewardSuccess(reward);
+		ContentHistoryManager::getInstance()->setReturnedFromContent(false);
 	}
 }
 

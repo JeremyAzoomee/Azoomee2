@@ -13,6 +13,7 @@
 #include "HQScene2CarouselTitle.h"
 #include "ArtAppDelegate.h"
 #include "HQHistoryManager.h"
+#include "SceneManagerScene.h"
 #include <AzoomeeCommon/UI/PrivacyLayer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
@@ -136,16 +137,18 @@ void ContentFeedHQScene::createContentScrollview()
 	}
 	
 	//we have all carousels in a vector, time to resize the scrollview and add them one by one
-	Size vScrollFrameSize = Size(visibleSize.width - sideMargin * 2, visibleSize.height - 500.0f);
+	bool isGroupHQ = _hqCategory == ConfigStorage::kGroupHQName;
+	
+	Size vScrollFrameSize = Size(visibleSize.width - sideMargin * 2, visibleSize.height - (isGroupHQ ? 200.0f : 500.0f));
 	
 	_contentScrollview = cocos2d::ui::ScrollView::create();
 	_contentScrollview->setContentSize(vScrollFrameSize);
-	_contentScrollview->setPosition(Point(sideMargin, 300));
+	_contentScrollview->setPosition(Point(sideMargin, isGroupHQ ? 0 : 300));
 	_contentScrollview->setDirection(cocos2d::ui::ScrollView::Direction::VERTICAL);
 	_contentScrollview->setTouchEnabled(true);
 	_contentScrollview->setBounceEnabled(true);
 	_contentScrollview->setScrollBarEnabled(false);
-	_contentScrollview->setSwallowTouches(false);
+	_contentScrollview->setSwallowTouches(true);
 	_contentScrollview->setInnerContainerSize(cocos2d::Size(visibleSize.width - 2 * sideMargin, totalHeightOfCarousels + kSpaceForPrivacyPolicy));
 	
 	float lastCarouselPosition = _contentScrollview->getInnerContainerSize().height;
@@ -185,9 +188,22 @@ void ContentFeedHQScene::createContentScrollview()
 	
 	//add group hq logo if necessary
 	
-	if(_hqCategory == ConfigStorage::kGroupHQName)
+	if(isGroupHQ)
 	{
 		addGroupHQLogo();
+		_navLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+		_settingsButton->setVisible(false);
+		ui::Button* backButton = ui::Button::create("res/navigation/back_button.png");
+		backButton->setAnchorPoint(Vec2(-0.25, 1.25));
+		backButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
+		backButton->addTouchEventListener([&](Ref* pSender, ui::Button::TouchEventType eType){
+			if(eType == ui::Button::TouchEventType::ENDED)
+			{
+				HQHistoryManager::getInstance()->popHQ();
+				Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+			}
+		 });
+		 this->addChild(backButton,1);
 	}
 }
 

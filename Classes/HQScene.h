@@ -12,6 +12,7 @@
 #include <AzoomeeCommon/UI/Scene.h>
 #include <AzoomeeCommon/Tutorial/TutorialController.h>
 #include "NavigationLayer.h"
+#include "SettingsButton.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -28,7 +29,7 @@ protected:
 	
 	std::string _hqCategory;
 	
-	cocos2d::ui::Button* _homeButton = nullptr;
+	SettingsButton* _settingsButton = nullptr;
 	
 	NavigationLayer* _navLayer = nullptr;
 	

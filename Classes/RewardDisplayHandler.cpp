@@ -9,6 +9,7 @@
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "CoinCollectLayer.h"
+#include "RewardScene.h"
 
 using namespace cocos2d;
 
@@ -39,12 +40,17 @@ void RewardDisplayHandler::showReward(const RewardItemRef& reward)
 {
 	if(reward->getItemPrice() < 0)
 	{
-		CoinCollectLayer* coinCollect = CoinCollectLayer::create();
-		coinCollect->setDuration(8.0f);
-		coinCollect->setRewardData(reward);
-		coinCollect->setOomeeFilepath(ChildDataProvider::getInstance()->getLoggedInChild()->getAvatar());
-		coinCollect->setDeleagte(this);
-		Director::getInstance()->setNotificationNode(coinCollect);
+		RewardScene* rewardScene = RewardScene::create();
+		rewardScene->setDuration(8.0f);
+		rewardScene->setRewardData(reward);
+		rewardScene->setDeleagte(this);
+		Director::getInstance()->setNotificationNode(rewardScene);
+		//CoinCollectLayer* coinCollect = CoinCollectLayer::create();
+		//coinCollect->setDuration(8.0f);
+		//coinCollect->setRewardData(reward);
+		//coinCollect->setOomeeFilepath(ChildDataProvider::getInstance()->getLoggedInChild()->getAvatar());
+		//coinCollect->setDeleagte(this);
+		//Director::getInstance()->setNotificationNode(coinCollect);
 	}
 }
 

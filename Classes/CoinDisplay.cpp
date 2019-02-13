@@ -71,6 +71,7 @@ void CoinDisplay::update(float deltaT)
 		if(sCoinCount >= sTargetVal)
 		{
 			sCoinCount = sTargetVal;
+			_coinsLabel->setScale(1);
 			sAnimating = false;
 		}
 		_coinsLabel->setString(StringUtils::format("%d",(int)sCoinCount));
@@ -80,7 +81,8 @@ void CoinDisplay::update(float deltaT)
 		sTargetVal = ChildDataProvider::getInstance()->getLoggedInChild()->_coins;
 		if(sTargetVal != sCoinCount)
 		{
-			sIncPerSec = (sTargetVal - sCoinCount) / 5.0f;
+			sIncPerSec = (sTargetVal - sCoinCount) / 2.0f;
+			_coinsLabel->setScale(1.2f);
 			sAnimating = true;
 		}
 	}

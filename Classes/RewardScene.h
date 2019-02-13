@@ -10,24 +10,24 @@
 
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/Scene.h>
+#include "RewardScreen.h"
 
 NS_AZOOMEE_BEGIN
 
-class RewardScene : public Azoomee::Scene
+class RewardScene : public RewardScreen, RewardScreenDelegate
 {
-	typedef Azoomee::Scene Super;
+	typedef RewardScreen Super;
 private:
-	int _rewardValue;
+	std::vector<RewardScreen*> _screenSequence;
 	
 public:
-	static RewardScene* createWithValue(int rewardValue);
 	
 	bool init() override;
 	void onEnter() override;
 	
-	void setRewardValue(int value);
-	
 	CREATE_FUNC(RewardScene);
+	
+	void onAnimationComplete(const RewardItemRef& reward);
 };
 
 NS_AZOOMEE_END
