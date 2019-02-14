@@ -8,7 +8,7 @@
 #include "ContentHistoryManager.h"
 #include "DynamicNodeHandler.h"
 #include "HQSceneArtsApp.h"
-#include "MeHQ.h"
+//#include "MeHQ.h"
 #include "OfflineHubBackButton.h"
 #include "RecentlyPlayedManager.h"
 #include "ArtAppDelegate.h"
@@ -151,9 +151,9 @@ void HQScene2::startBuildingScrollView()
         auto meHQ = this->getChildByName(ConfigStorage::kMeHQName);
         if(!meHQ)
         {
-            auto meHQLayer = MeHQ::create();
-            meHQLayer->setName(ConfigStorage::kMeHQName);
-            this->addChild(meHQLayer);
+            //auto meHQLayer = MeHQ::create();
+            //meHQLayer->setName(ConfigStorage::kMeHQName);
+            //this->addChild(meHQLayer);
         }
         return;
     }

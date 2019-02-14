@@ -49,7 +49,7 @@ void ChatDelegate::onChatNavigationBack()
     }
     else
     {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SettingsFromChat));
     }
     
 }

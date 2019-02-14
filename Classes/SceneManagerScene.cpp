@@ -25,8 +25,10 @@
 #include "ContentFeedHQScene.h"
 #include "LocalContentHQScene.h"
 #include "GalleryHQScene.h"
+#include "MeHQ.h"
 
 #include "SettingsHub.h"
+#include "ChildSettingsScene.h"
 
 #include "CoinCollectLayer.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
@@ -103,7 +105,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
 			
 			if(currentHQ == ConfigStorage::kMeHQName)
 			{
-				LocalContentHQScene* hqScene = LocalContentHQScene::create();
+				MeHQ* hqScene = MeHQ::create();
 				hqScene->setHQCategory(currentHQ);
 				goToScene = hqScene;
 			}
@@ -287,6 +289,13 @@ void SceneManagerScene::onEnterTransitionDidFinish()
 			acceptAnyOrientation();
 			HQHistoryManager::getInstance()->updatePrevOrientation();
 			Director::getInstance()->replaceScene(WelcomeScene::create());
+			break;
+		}
+		case ChildSettingsHub:
+		{
+			acceptAnyOrientation();
+			HQHistoryManager::getInstance()->updatePrevOrientation();
+			Director::getInstance()->replaceScene(ChildSettingsScene::create());
 			break;
 		}
 #ifdef VODACOM_BUILD

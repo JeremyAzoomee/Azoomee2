@@ -47,7 +47,7 @@ void SettingsButton::onButtonPressed()
 	}
 	else
 	{
-		Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildDataProvider::getInstance()->isChildLoggedIn() ? SettingsFromHQ : SettingsFromChildSelect));
+		Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildDataProvider::getInstance()->isChildLoggedIn() ? ChildSettingsHub : SettingsFromChildSelect));
 	}
 }
 

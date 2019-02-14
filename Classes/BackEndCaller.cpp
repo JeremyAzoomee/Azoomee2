@@ -217,7 +217,7 @@ void BackEndCaller::onUpdateBillingDataAnswerReceived(const std::string& respons
 {
     ParentDataParser::getInstance()->parseParentBillingData(responseString);
     // fire event to add parent button to child select scene if paid account
-    if(Director::getInstance()->getRunningScene()->getName() == ChildSelectorScene::kSceneName)
+    /*if(Director::getInstance()->getRunningScene()->getName() == ChildSelectorScene::kSceneName)
     {
         if(ParentDataProvider::getInstance()->isPaidUser())
         {
@@ -227,7 +227,7 @@ void BackEndCaller::onUpdateBillingDataAnswerReceived(const std::string& respons
                 childSelectScene->setParentButtonVisible(true);
             }
         }
-    }
+    }*/
 }
 
 //UPDATING PARENT DATA--------------------------------------------------------------------------------

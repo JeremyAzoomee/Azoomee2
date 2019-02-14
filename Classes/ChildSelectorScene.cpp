@@ -27,10 +27,10 @@
 #include <AzoomeeCommon/Utils/ActionBuilder.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 
-#define OOMEE_LAYER_WIDTH 400
-#define OOMEE_LAYER_HEIGHT 400
+#define OOMEE_LAYER_WIDTH 450
+#define OOMEE_LAYER_HEIGHT 450
 #define OOMEE_LAYER_GAP 100
-#define OOMEE_LAYER_GAP_PORTRAIT 100
+#define OOMEE_LAYER_GAP_PORTRAIT 150
 
 using namespace cocos2d;
 
@@ -74,16 +74,16 @@ bool ChildSelectorScene::init()
     _firstTime = true;
     
     addVisualsToScene();
-    createSettingsButton();
+    //createSettingsButton();
     addScrollViewForProfiles();
     addProfilesToScrollView();
     addPrivacyButton();
     
     _firstTime = false;
     
-    _addChildButton= createNewProfileButton();
-    _addChildButton->setPosition(Vec2(_visibleSize.width * 0.5, _addChildButton->getContentSize().height * (_isPortrait ? 3.0f : 1.5f)));
-    _contentNode->addChild(_addChildButton);
+    //_addChildButton= createNewProfileButton();
+    //_addChildButton->setPosition(Vec2(_visibleSize.width * 0.5, _addChildButton->getContentSize().height * (_isPortrait ? 3.0f : 1.5f)));
+    //_contentNode->addChild(_addChildButton);
 
     return true;
 }
@@ -120,25 +120,54 @@ void ChildSelectorScene::onEnterTransitionDidFinish()
 void ChildSelectorScene::addVisualsToScene()
 {
     addBackgroundToScreen();
-    
-    auto selectTitle = createLabelHeader(_("Select your profile"));
-    selectTitle->setNormalizedPosition(Vec2(0.5,0.9));
-    _contentNode->addChild(selectTitle);
+	
+	const bool isIphoneX = ConfigStorage::getInstance()->isDeviceIphoneX();
+	
+	ui::Layout* titleLayout = ui::Layout::create();
+	titleLayout->setContentSize(Size(_visibleSize.width, (isIphoneX && _isPortrait) ? 250 : 150));
+	titleLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+	titleLayout->setBackGroundColor(Style::Color::skyBlue);
+	titleLayout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+	titleLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+	_contentNode->addChild(titleLayout);
+	
+	ui::Text* titleText = ui::Text::create(_("Switch Profile"), Style::Font::Medium(), 91);
+	titleText->setNormalizedPosition(isIphoneX ? Vec2(0.5f,0.25f) : Vec2::ANCHOR_MIDDLE);
+	titleText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	titleText->setTextColor(Color4B::WHITE);
+	titleLayout->addChild(titleText);
+	
+	if(_isPortrait)
+	{
+		auto selectTitle = Label::createWithTTF(_("Select your profile"), Style::Font::Regular(), 65);
+		selectTitle->setHorizontalAlignment(TextHAlignment::CENTER);
+		selectTitle->setTextColor(Color4B::BLACK);
+		selectTitle->setPosition(_visibleSize.width / 2, _visibleSize.height - titleLayout->getContentSize().height * (isIphoneX ? 1.5f : 2.0f));
+		selectTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+		_contentNode->addChild(selectTitle);
+	}
 }
 
 void ChildSelectorScene::addBackgroundToScreen()
 {
+	LayerColor* bgColour = LayerColor::create(Color4B::WHITE);
+	this->addChild(bgColour, -2);
+	
     auto wireLeft = Sprite::create(StringUtils::format("res/childSelection/wireLeft%s.png", _isPortrait ? "_portrait" : ""));
     wireLeft->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
     wireLeft->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
     wireLeft->setScale(_visibleSize.height / wireLeft->getContentSize().height);
-    _contentNode->addChild(wireLeft);
+	wireLeft->setColor(Color3B::BLACK);
+	wireLeft->setOpacity(125);
+    _contentNode->addChild(wireLeft, -2);
     
     auto wireRight = Sprite::create(StringUtils::format("res/childSelection/wireRight%s.png", _isPortrait ? "_portrait" : ""));
     wireRight->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
     wireRight->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
     wireRight->setScale(_visibleSize.height / wireRight->getContentSize().height);
-    _contentNode->addChild(wireRight);
+	wireRight->setColor(Color3B::BLACK);
+	wireRight->setOpacity(125);
+    _contentNode->addChild(wireRight, -2);
 }
 
 void ChildSelectorScene::createSettingsButton()
@@ -172,14 +201,14 @@ void ChildSelectorScene::addScrollViewForProfiles()
     Sprite* verticalScrollGradientTop = Sprite::create("res/decoration/TopNavGrad.png");
     verticalScrollGradientTop->setAnchorPoint(Vec2(0.5, 1.0));
     verticalScrollGradientTop->setScaleX(_visibleSize.width * 0.75 / verticalScrollGradientTop->getContentSize().width);
-    verticalScrollGradientTop->setColor(Color3B::BLACK);
+    verticalScrollGradientTop->setColor(Color3B::WHITE);
     verticalScrollGradientTop->setPosition(Vec2(_visibleSize.width / 2, _scrollView->getPosition().y + _scrollView->getContentSize().height));
     _contentNode->addChild(verticalScrollGradientTop,1);
     
     Sprite* verticalScrollGradientBottom = Sprite::create("res/decoration/TopNavGrad.png");
     verticalScrollGradientBottom->setAnchorPoint(Vec2(0.5, 1.0));
     verticalScrollGradientBottom->setScaleX(_visibleSize.width * 0.75 / verticalScrollGradientBottom->getContentSize().width);
-    verticalScrollGradientBottom->setColor(Color3B::BLACK);
+    verticalScrollGradientBottom->setColor(Color3B::WHITE);
     verticalScrollGradientBottom->setRotation(180);
     verticalScrollGradientBottom->setPosition(Vec2(_visibleSize.width / 2, _scrollView->getPosition().y));
     _contentNode->addChild(verticalScrollGradientBottom,1);
@@ -208,14 +237,20 @@ void ChildSelectorScene::addProfilesToScrollView()
     }
     
     _parentButton = createParentProfileButton();
-    setParentButtonVisible(false);
-    _parentButton->setPosition(Vec2(_visibleSize.width * (_isPortrait ? 0.5f : 0.35f), _parentButton->getContentSize().height * 1.7f));
+	if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
+	{
+    	setParentButtonVisible(false);
+	}
+    //_parentButton->setPosition(Vec2(_visibleSize.width * (_isPortrait ? 0.5f : 0.35f), _parentButton->getContentSize().height * 1.7f));
+	_parentButton->setPosition(Vec2(_visibleSize.width * 0.5f, _parentButton->getContentSize().height * (_isPortrait ? 1.7f : 1.2)));
     _contentNode->addChild(_parentButton);
     
 }
 
 ui::Button *ChildSelectorScene::createChildProfileButton(const std::string& profileName, int childNum)
 {
+	const Size& oomeeSize = Size(370,370);
+	
     auto button = ui::Button::create();
     button->setContentSize(Size(OOMEE_LAYER_WIDTH,OOMEE_LAYER_HEIGHT));
     button->ignoreContentAdaptWithSize(false);
@@ -256,11 +291,41 @@ ui::Button *ChildSelectorScene::createChildProfileButton(const std::string& prof
             }
         }
     });
-    
+	
+	Sprite* bgCircle1 = Sprite::create("res/oomeeMaker/circle_0.png");
+	bgCircle1->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	bgCircle1->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	bgCircle1->setScale(0);
+	bgCircle1->setOpacity(25);
+	bgCircle1->setRotation(RandomHelper::random_real(0.0,M_PI));
+	bgCircle1->setColor(Style::Color::darkTeal);
+	button->addChild(bgCircle1, -1);
+	
+	auto popIn1 = EaseBackOut::create(ScaleTo::create(0.5, ((oomeeSize.height * 0.85) / bgCircle1->getContentSize().height)));
+	auto rotate1 = RepeatForever::create(RotateBy::create(30 + CCRANDOM_0_1() * 30, 360));
+	
+	bgCircle1->runAction(popIn1);
+	bgCircle1->runAction(rotate1);
+	
+	Sprite* bgCircle2 = Sprite::create("res/oomeeMaker/circle_1.png");
+	bgCircle2->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	bgCircle2->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	bgCircle2->setScale(0);
+	bgCircle2->setOpacity(25);
+	bgCircle2->setRotation(RandomHelper::random_real(0.0,M_PI));
+	bgCircle2->setColor(Style::Color::darkTeal);
+	button->addChild(bgCircle2, -1);
+	
+	auto popIn2 = EaseBackOut::create(ScaleTo::create(0.5, ((oomeeSize.height * 1.15f) / bgCircle2->getContentSize().height)));
+	auto rotate2 = RepeatForever::create(RotateBy::create(30 +  CCRANDOM_0_1() * 30, -360));
+	
+	bgCircle2->runAction(popIn2);
+	bgCircle2->runAction(rotate2);
+	
     auto oomee = RemoteImageSprite::create();
-    oomee->initWithUrlAndSizeWithoutPlaceholder(ParentDataProvider::getInstance()->getChild(childNum)->getAvatar(), Size(320, 320));
+    oomee->initWithUrlAndSizeWithoutPlaceholder(ParentDataProvider::getInstance()->getChild(childNum)->getAvatar(), oomeeSize);
     oomee->setKeepAspectRatio(true);
-    oomee->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    oomee->setAnchorPoint(Vec2(0.5,0.4));
     oomee->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     oomee->setName(kOomeeLayerName);
     button->addChild(oomee);
@@ -272,19 +337,20 @@ ui::Button *ChildSelectorScene::createChildProfileButton(const std::string& prof
         oomee->runAction(createBlinkEffect(delayTime, 0.1));
     }
     
-    auto glow = Sprite::create("res/childSelection/glow.png");
-    glow->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    oomee->addChild(glow, -1);
+    //auto glow = Sprite::create("res/childSelection/glow.png");
+    //glow->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    //oomee->addChild(glow, -1);
     
-    if(_firstTime)
-    {
-        glow->setOpacity(0);
-        glow->runAction(createBlinkEffect(delayTime, 0.1));
-    }
+    //if(_firstTime)
+    //{
+    //    glow->setOpacity(0);
+    //    glow->runAction(createBlinkEffect(delayTime, 0.1));
+    //}
     
     auto profileLabel = createLabelChildName(profileName);
     profileLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     profileLabel->setNormalizedPosition(Vec2(0.5,0));
+	profileLabel->setTextColor(Color4B::BLACK);
     reduceLabelTextToFitWidth(profileLabel,OOMEE_LAYER_WIDTH);
     button->addChild(profileLabel);
     
@@ -369,6 +435,39 @@ ui::Button* ChildSelectorScene::createNewProfileButton()
 
 ui::Button* ChildSelectorScene::createParentProfileButton()
 {
+	Sprite* icon = Sprite::create("res/settings/parents_area_icon.png");
+	icon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
+	icon->setAnchorPoint(Vec2(-0.125,0.5));
+	
+	auto parentButton = ui::Button::create("res/settings/rounded_button.png");
+	
+	float scale = (icon->getContentSize().height * 1.25) / parentButton->getContentSize().height;
+	
+	parentButton->setContentSize(parentButton->getContentSize() * scale);
+	parentButton->ignoreContentAdaptWithSize(false);
+	parentButton->setColor(Style::Color::skyBlue);
+	parentButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
+	parentButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	parentButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+		if(eType == ui::Widget::TouchEventType::ENDED)
+		{
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SettingsFromChildSelect));
+		}
+	});
+	
+	parentButton->addChild(icon);
+	
+	Label* parentAreaText = Label::createWithTTF(_("Parents' Zone"), Style::Font::Regular(), 70);
+	parentAreaText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	parentAreaText->setColor(Color3B::WHITE);
+	parentAreaText->setHorizontalAlignment(TextHAlignment::CENTER);
+	parentAreaText->setVerticalAlignment(TextVAlignment::CENTER);
+	parentAreaText->setOverflow(Label::Overflow::SHRINK);
+	parentAreaText->setDimensions(parentButton->getContentSize().width * 0.6f, parentButton->getContentSize().height * 0.6f);
+	parentAreaText->setNormalizedPosition(Vec2(0.6,0.5));
+	parentButton->addChild(parentAreaText);
+	
+	/*
     auto parentButton = ui::Button::create("res/childSelection/button.png");
     
     float delayTime = CCRANDOM_0_1() * 0.5;
@@ -398,7 +497,7 @@ ui::Button* ChildSelectorScene::createParentProfileButton()
 	buttonText->setOverflow(Label::Overflow::SHRINK);
 	buttonText->setDimensions(parentButton->getContentSize().width * 0.7f, parentButton->getContentSize().height * 0.7f);
 	parentButton->addChild(buttonText);
-	
+	*/
     return parentButton;
 }
 
@@ -407,10 +506,10 @@ void ChildSelectorScene::setParentButtonVisible(bool visible)
     if(_parentButton)
     {
         _parentButton->setVisible(visible);
-        if(visible && !_isPortrait && _addChildButton)
-        {
-            _addChildButton->setPosition(Vec2(_visibleSize.width * 0.65, _addChildButton->getContentSize().height * (_isPortrait ? 3.2f : 1.7f)));
-        }
+        //if(visible && !_isPortrait && _addChildButton)
+        //{
+        //    _addChildButton->setPosition(Vec2(_visibleSize.width * 0.65, _addChildButton->getContentSize().height * (_isPortrait ? 3.2f : 1.7f)));
+        //}
     }
 }
 
@@ -577,14 +676,14 @@ void ChildSelectorScene::onSizeChanged()
     this->addChild(_contentNode, -1, ConfigStorage::kContentNodeName);
     
     addVisualsToScene();
-    createSettingsButton();
+    //createSettingsButton();
     addScrollViewForProfiles();
     addProfilesToScrollView();
     addPrivacyButton();
     
-    _addChildButton = createNewProfileButton();
-    _addChildButton->setPosition(Vec2(_visibleSize.width * 0.5, _addChildButton->getContentSize().height * (_isPortrait ? 3.2f : 1.7f)));
-    _contentNode->addChild(_addChildButton);
+    //_addChildButton = createNewProfileButton();
+    //_addChildButton->setPosition(Vec2(_visibleSize.width * 0.5, _addChildButton->getContentSize().height * (_isPortrait ? 3.2f : 1.7f)));
+    //_contentNode->addChild(_addChildButton);
     
     setParentButtonVisible(parentButtonVisible);
     

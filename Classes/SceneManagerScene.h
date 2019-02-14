@@ -27,7 +27,8 @@ enum SceneNameEnum {
     AddChildFirstTime,
 	AddChildAnon,
 	VodacomOnboarding,
-	WelcomeScene
+	WelcomeScene,
+	ChildSettingsHub
 };
 
 class SceneManagerScene : public cocos2d::Layer

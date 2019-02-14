@@ -52,9 +52,9 @@ bool MeHQ::init()
         return false;
     }
     
-    const Size& contentSize = Director::getInstance()->getVisibleSize();
+	const Size& contentSize = this->getContentSize();//Director::getInstance()->getVisibleSize();
     
-    this->setContentSize(contentSize);
+    //this->setContentSize(contentSize);
     
     _contentListView = ui::ListView::create();
     _contentListView->setDirection(ui::ScrollView::Direction::VERTICAL);
@@ -62,8 +62,9 @@ bool MeHQ::init()
     _contentListView->setGravity(ui::ListView::Gravity::CENTER_HORIZONTAL);
     _contentListView->setItemsMargin(150.0f);
     _contentListView->setBottomPadding(100.0f);
-    _contentListView->setContentSize(Size(contentSize.width, contentSize.height - ((ConfigStorage::getInstance()->isDeviceIphoneX() && contentSize.width < contentSize.height) ? 400 : 300)));
+    _contentListView->setContentSize(Size(contentSize.width, contentSize.height - ((ConfigStorage::getInstance()->isDeviceIphoneX() && contentSize.width < contentSize.height) ? 600 : 500)));
     _contentListView->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+	_contentListView->setPosition(Vec2(0,300));
     _contentListView->setSwallowTouches(true);
     this->addChild(_contentListView);
 	
@@ -71,7 +72,7 @@ bool MeHQ::init()
     verticalScrollGradient->setAnchorPoint(Vec2(0.5, 0.9));
     verticalScrollGradient->setScaleX(contentSize.width / verticalScrollGradient->getContentSize().width);
     verticalScrollGradient->setColor(Color3B::BLACK);
-    verticalScrollGradient->setPosition(Vec2(contentSize.width / 2, _contentListView->getContentSize().height));
+    verticalScrollGradient->setPosition(Vec2(contentSize.width / 2, _contentListView->getPositionY() + _contentListView->getContentSize().height));
     this->addChild(verticalScrollGradient);
     
     int indexNum = 0;
