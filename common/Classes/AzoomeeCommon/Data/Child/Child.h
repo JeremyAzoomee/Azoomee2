@@ -12,6 +12,7 @@
 #include <string>
 #include <memory>
 #include "../Json.h"
+#include "../Rewards/Inventory.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -32,6 +33,8 @@ private:
 	std::string _apiSecret;
 	std::string _apiKey;
 	
+	InventoryRef _inventory = nullptr;
+	
 	Child();
 public:
 	
@@ -40,6 +43,8 @@ public:
 	
 	void parseLoginData(const rapidjson::Document& loginData);
 	void parseChildData(const rapidjson::Value& childData);
+	
+	void setInventory(const InventoryRef& inventory);
 	
 	void setAvatar(const std::string& avatarUrl);
 	void setId(const std::string& childId);
@@ -57,7 +62,7 @@ public:
 	std::string getAPISecret() const;
 	std::string getAPIKey() const;
 	
-	int _coins = 0;
+	InventoryRef getInventory() const;
 	
 };
 

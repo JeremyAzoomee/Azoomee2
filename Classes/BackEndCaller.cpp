@@ -333,6 +333,7 @@ void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString
     HQDataParser::getInstance()->parseHQGetContentUrls(responseString);
     ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headerString));
     DynamicNodeHandler::getInstance()->getCTAFiles();
+	getChildInventory();
     getGordon();
 }
 
@@ -491,6 +492,15 @@ void BackEndCaller::updateVideoProgress(const std::string& contentId, int videoP
 	request->execute();
 }
 
+void BackEndCaller::getChildInventory()
+{
+	if(ChildDataProvider::getInstance()->getLoggedInChild())
+	{
+		HttpRequestCreator* request = API::GetInventory(ChildDataProvider::getInstance()->getLoggedInChild()->getId(), this);
+		request->execute();
+	}
+}
+
 
 //HttpRequestCreatorResponseDelegate--------------------------------------------------------
 void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
@@ -508,6 +518,10 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     {
         onChildLoginAnswerReceived(body, headers);
     }
+	else if(requestTag == API::TagGetInventory)
+	{
+		ChildDataParser::getInstance()->parseChildInventory(body);
+	}
     else if(requestTag == API::TagGetAvailableChildren)
     {
         onGetChildrenAnswerReceived(body);
@@ -662,7 +676,7 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
         AnalyticsSingleton::getInstance()->iapBackEndRequestFailedEvent(errorCode);
         RoutePaymentSingleton::getInstance()->backendRequestFailed(errorCode);
     }
-	else if(requestTag == API::TagResetPasswordRequest || requestTag == API::TagUpdateBillingData || requestTag == API::TagGetForceUpdateInformation || requestTag == API::TagGetParentDetails) //Dont do anything with a password Request attempt
+	else if(requestTag == API::TagResetPasswordRequest || requestTag == API::TagUpdateBillingData || requestTag == API::TagGetForceUpdateInformation || requestTag == API::TagGetParentDetails || requestTag == API::TagGetInventory) //Dont do anything with a password Request attempt
     {
         return;
     }

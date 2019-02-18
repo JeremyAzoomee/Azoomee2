@@ -43,7 +43,8 @@ void SettingsButton::onButtonPressed()
 {
 	if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
 	{
-		Director::getInstance()->replaceScene(LanguageSelectScene::create());
+		//Director::getInstance()->replaceScene(LanguageSelectScene::create());
+		Director::getInstance()->replaceScene(SceneManagerScene::createScene(Login));
 	}
 	else
 	{

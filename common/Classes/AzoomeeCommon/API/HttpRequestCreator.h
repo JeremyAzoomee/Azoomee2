@@ -31,9 +31,15 @@ public:
     cocos2d::network::HttpRequest* buildHttpRequest();
     // Send the specified request
     void sendRequest(cocos2d::network::HttpRequest* request, float timeout = 10.0f);
-    
+	
+	void resendRequest();
+	
     void clearDelegate();
-    
+	
+	void setRequestCallback(const cocos2d::network::ccHttpRequestCallback& requestCallback);
+	
+	int getAmountOfFails() const;
+	
     std::string requestBody = "";
     std::string urlParameters = "";
     std::string requestTag = "";
@@ -45,7 +51,7 @@ public:
 private:
     // The delegate for callbacks on success/failure
     HttpRequestCreatorResponseDelegate* delegate = nullptr;
-    
+	cocos2d::network::ccHttpRequestCallback _requestCallback = nullptr;
     std::string getDateFormatString();
     std::string addLeadingZeroToDateElement(int input);
     

@@ -30,6 +30,7 @@ bool HQScene::init()
 }
 void HQScene::onEnter()
 {
+	RewardDisplayHandler::getInstance()->getPendingRewards();
 	TutorialController::getInstance()->registerDelegate(this);
 	if(TutorialController::getInstance()->isTutorialActive())
 	{
@@ -75,13 +76,14 @@ void HQScene::buildCoreUI()
 	
 	if(ContentHistoryManager::getInstance()->getReturnedFromContent())
 	{
-		const std::string& fakeData = "{\"id\": \"id\",\"userId\":  \"99999999-7848-46ce-b7d3-9999999999\",\"item\": {\"id\": \"ID1\",\"name\": \"test\",\"uri\": \"test\",\"type\": \"COIN\"},\"itemPrice\":" + StringUtils::format("%d",-RandomHelper::random_int(100, 500)) + " ,\"description\": \"Played Yeti\",\"status\": \"PENDING\"}";
-		
-		rapidjson::Document data;
-		data.Parse(fakeData.c_str());
-		
-		RewardItemRef reward = RewardItem::createWithJson(data);
-		RewardDisplayHandler::getInstance()->onRewardSuccess(reward);
+		//const std::string& fakeData = "{\"id\": \"id\",\"userId\":  \"99999999-7848-46ce-b7d3-9999999999\",\"item\": {\"id\": \"ID1\",\"name\": \"test\",\"uri\": \"test\",\"type\": \"COIN\"},\"itemPrice\":" + StringUtils::format("%d",-RandomHelper::random_int(100, 500)) + " ,\"description\": \"Played Yeti\",\"status\": \"PENDING\"}";
+		const std::string& data = "http://api.azoomee.ninja/api/rewards/a60d7d7a-6c12-4180-8345-bfa8f534bc81";
+		RewardCallbackHandler::getInstance()->sendRewardCallback(data);
+		//rapidjson::Document data;
+		//data.Parse(fakeData.c_str());
+		auto time = ContentHistoryManager::getInstance()->getTimeInContent();
+		//RewardItemRef reward = RewardItem::createWithJson(data);
+		//RewardDisplayHandler::getInstance()->onRewardSuccess(reward);
 		ContentHistoryManager::getInstance()->setReturnedFromContent(false);
 	}
 }

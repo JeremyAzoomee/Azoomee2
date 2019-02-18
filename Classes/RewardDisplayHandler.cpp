@@ -8,6 +8,7 @@
 #include "RewardDisplayHandler.h"
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
 #include "CoinCollectLayer.h"
 #include "RewardScene.h"
 
@@ -85,13 +86,14 @@ void RewardDisplayHandler::onRewardSuccess(const RewardItemRef& reward)
 		{
 			showReward(_rewardQueue.front());
 			_rewardQueue.pop();
+			
 		}
 	}
 	
 }
 void RewardDisplayHandler::onAnimationComplete(const RewardItemRef& reward)
 {
-	HttpRequestCreator* request = API::RedeemReward(reward->getId(), nullptr);
+	HttpRequestCreator* request = API::RedeemReward(reward->getId(), this);
 	request->execute();
 	
 	if(_rewardQueue.size() > 0)
@@ -106,31 +108,42 @@ void RewardDisplayHandler::onAnimationComplete(const RewardItemRef& reward)
 		rewardLayer->setCascadeOpacityEnabled(true);
 		rewardLayer->runAction(Sequence::createWithTwoActions(FadeOut::create(1), CallFunc::create([reward](){
 			Director::getInstance()->setNotificationNode(nullptr);
-			ChildDataProvider::getInstance()->getLoggedInChild()->_coins -= reward->getItemPrice();
 		})));
 	}
 }
 
 void RewardDisplayHandler::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
-	rapidjson::Document data;
-	data.Parse(body.c_str());
-	if(data.HasParseError())
+	if(requestTag == API::TagGetPendingRewards)
 	{
-		return;
-	}
-	
-	if(data.IsArray())
-	{
-		for(int i = 0; i < data.Size(); i++)
+		rapidjson::Document data;
+		data.Parse(body.c_str());
+		if(data.HasParseError())
 		{
-			const rapidjson::Value& rewardData = data[i];
-			RewardItemRef reward = RewardItem::createWithJson(rewardData);
-			if(reward->getType() == "PENDING") // sanity check that parsing worked
+			return;
+		}
+		
+		if(data.IsArray())
+		{
+			for(int i = 0; i < data.Size(); i++)
 			{
-				onRewardSuccess(reward);
+				const rapidjson::Value& rewardData = data[i];
+				RewardItemRef reward = RewardItem::createWithJson(rewardData);
+				if(reward->getType() == "PENDING") // sanity check that parsing worked
+				{
+					onRewardSuccess(reward);
+				}
 			}
 		}
+	}
+	else if(requestTag == API::TagRedeemReward)
+	{
+		HttpRequestCreator* getInvReq = API::GetInventory(ChildDataProvider::getInstance()->getLoggedInChild()->getId(), this);
+		getInvReq->execute();
+	}
+	else if(requestTag == API::TagGetInventory)
+	{
+		ChildDataParser::getInstance()->parseChildInventory(body);
 	}
 	
 }

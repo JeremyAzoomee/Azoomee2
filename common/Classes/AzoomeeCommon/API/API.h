@@ -70,6 +70,9 @@ public:
 	static const std::string kAZCountryCodeKey;
 	
 #pragma mark - API Methods
+	
+	static void HandleAPIResponse(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response, HttpRequestCreatorResponseDelegate* delegate, HttpRequestCreator* request);
+	static void HandleAPIError(cocos2d::network::HttpResponse *response, HttpRequestCreatorResponseDelegate* delegate, HttpRequestCreator* request);
     
     static HttpRequestCreator* IpCheck(HttpRequestCreatorResponseDelegate* delegate);
     
@@ -273,6 +276,8 @@ public:
 	static HttpRequestCreator* GetInventory(const std::string& userId,
 											HttpRequestCreatorResponseDelegate* delegate);
 	
+	static HttpRequestCreator* RewardCallback(const std::string& url,
+											  HttpRequestCreatorResponseDelegate* delegate);
 };
   
 NS_AZOOMEE_END

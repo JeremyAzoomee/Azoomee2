@@ -66,6 +66,7 @@ std::string WebViewSelector::getUrlWithoutPath(std::string url)
 void WebViewSelector::loadWebView(const std::string& url, Orientation orientation, const Vec2& closeButtonAnchor)
 {
     AnalyticsSingleton::getInstance()->contentItemWebviewStartedEvent();
+	ContentHistoryManager::getInstance()->contentOpened();
     AudioMixer::getInstance()->stopBackgroundMusic();
     
     if(stringEndsWith(_targetUrl, "m3u8")) //this if clause will probably need changes for later

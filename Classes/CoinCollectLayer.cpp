@@ -223,7 +223,7 @@ void CoinCollectLayer::addCoinCounter()
 	const Size& visibleSize = this->getContentSize();
 	bool isPortrait = visibleSize.width < visibleSize.height;
 	
-	const Vec2& oomeeWorldPos = _plinth->getPosition() + Vec2(0,_plinth->getContentSize().height);
+	const Vec2& oomeeWorldPos = _plinth->getPosition() + Vec2(0,_plinth->getContentSize().height + 200);
 	
 	Sprite* mainCoin = Sprite::create("res/rewards/coin.png");
 	mainCoin->setPosition(isPortrait ? Vec2(visibleSize.width * 0.5f,visibleSize.height * 0.5f) : Vec2(visibleSize.width * 0.75f, oomeeWorldPos.y));
@@ -235,8 +235,9 @@ void CoinCollectLayer::addCoinCounter()
 	mainCoin->addChild(coinGlow,-1);
 	
 	Sprite* counterFrame = Sprite::create("res/rewards/value_frame.png");
-	counterFrame->setNormalizedPosition(Vec2(isPortrait ? 0.5f : 0.75f, isPortrait ? 0.7f : 0.2f));
-	this->addChild(counterFrame);
+	counterFrame->setNormalizedPosition(isPortrait ? Vec2::ANCHOR_MIDDLE_TOP : Vec2::ANCHOR_MIDDLE_BOTTOM);
+	counterFrame->setAnchorPoint(Vec2(0.5,1.5));
+	mainCoin->addChild(counterFrame);
 	
 	_valueLabel = Label::createWithTTF("0", Style::Font::Bold(), counterFrame->getContentSize().height * 0.8f);
 	_valueLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);

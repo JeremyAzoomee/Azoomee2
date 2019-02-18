@@ -64,6 +64,27 @@ bool ChildDataParser::parseChildLoginData(const std::string &responseData)
     return true;
 }
 
+void ChildDataParser::parseChildInventory(const std::string &inventoryData)
+{
+	rapidjson::Document data;
+	data.Parse(inventoryData.c_str());
+	if(data.HasParseError())
+	{
+		return;
+	}
+	
+	ChildRef child = ChildDataStorage::getInstance()->getLoggedInChild();
+	if(!child)
+	{
+		return;
+	}
+	
+	InventoryRef inventory = Inventory::createWithJson(data);
+	
+	child->setInventory(inventory);
+	
+}
+	
 void ChildDataParser::setChildLoggedIn(bool loggedIn)
 {
     ChildDataStorage::getInstance()->setChildLoggedIn(loggedIn);

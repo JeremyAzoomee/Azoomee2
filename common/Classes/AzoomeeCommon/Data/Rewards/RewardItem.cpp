@@ -37,10 +37,7 @@ void RewardItem::parseRewardData(const rapidjson::Value& rewardData)
 	{
 		const rapidjson::Value& rewardItem = rewardData["item"];
 	
-		_itemId = getStringFromJson("itemId", rewardItem);
-		_type = getStringFromJson("type", rewardItem);
-		_uri = getStringFromJson("uri", rewardItem);
-		_name = getStringFromJson("name", rewardItem);
+		_item = InventoryItem::createWithJson(rewardItem);
 	}
 }
 
@@ -50,7 +47,7 @@ std::string RewardItem::getId() const
 }
 std::string RewardItem::getType() const
 {
-	return _type;
+	return _item->getType();
 }
 std::string RewardItem::getUserId() const
 {
@@ -58,7 +55,7 @@ std::string RewardItem::getUserId() const
 }
 std::string RewardItem::getItemId() const
 {
-	return _itemId;
+	return _item->getItemId();
 }
 std::string RewardItem::getDescription() const
 {
@@ -74,11 +71,11 @@ std::string RewardItem::getStatus() const
 }
 std::string RewardItem::getUri() const
 {
-	return _uri;
+	return _item->getUri();
 }
 std::string RewardItem::getName() const
 {
-	return _name;
+	return _item->getName();
 }
 
 NS_AZOOMEE_END

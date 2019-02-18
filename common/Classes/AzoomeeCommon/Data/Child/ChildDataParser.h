@@ -19,6 +19,8 @@ public:
     
     bool parseChildLoginData(const std::string &responseData);
 	
+	void parseChildInventory(const std::string& inventoryData);
+	
     void setChildLoggedIn(bool loggedIn);
 	
 	void loginChildOffline(const std::string& childId);

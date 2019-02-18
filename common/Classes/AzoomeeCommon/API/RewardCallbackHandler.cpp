@@ -7,6 +7,7 @@
 
 #include "RewardCallbackHandler.h"
 #include "../Data/Child/ChildDataProvider.h"
+#include "../Utils/StringFunctions.h"
 
 using namespace cocos2d;
 
@@ -31,25 +32,13 @@ RewardCallbackHandler::RewardCallbackHandler()
 
 void RewardCallbackHandler::sendRewardCallback(const std::string& callbackData)
 {
-	rapidjson::Document data;
-	data.Parse(callbackData.c_str());
-	if(data.HasParseError())
+	const std::vector<std::string> urls = splitStringToVector(callbackData, ";");
+	
+	for(const std::string& url : urls)
 	{
-		return;
+		HttpRequestCreator* request = API::RewardCallback(url, this);
+		request->execute();
 	}
-	const std::string url = getStringFromJson("rewardLocation", data);
-	if(url == "")
-	{
-		return;
-	}
-	
-	HttpRequestCreator* request = new HttpRequestCreator(this);
-	request->requestPath = url;
-	request->requestTag = API::TagRewardCallback;
-	request->encrypted = true;
-	
-	request->execute();
-	
 }
 
 void RewardCallbackHandler::setDelegate(RewardCallbackDelegate* delegate)

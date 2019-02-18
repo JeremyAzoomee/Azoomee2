@@ -20,6 +20,8 @@ ChildRef Child::createWithJson(const rapidjson::Value& childData)
 	
 	child->parseChildData(childData);
 	
+	child->setInventory(Inventory::create());
+	
 	return child;
 }
 
@@ -43,6 +45,11 @@ void Child::parseChildData(const rapidjson::Value& childData)
 	_sex = getStringFromJson("sex", childData);
 	_dob = getStringFromJson("dob", childData);
 	_id = getStringFromJson("id", childData);
+}
+
+void Child::setInventory(const InventoryRef &inventory)
+{
+	_inventory = inventory;
 }
 
 void Child::setAvatar(const std::string &avatarUrl)
@@ -104,6 +111,11 @@ std::string Child::getAPISecret() const
 std::string Child::getAPIKey() const
 {
 	return _apiKey;
+}
+
+InventoryRef Child::getInventory() const
+{
+	return _inventory;
 }
 
 NS_AZOOMEE_END

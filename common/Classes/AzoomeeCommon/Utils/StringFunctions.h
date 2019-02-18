@@ -34,6 +34,7 @@ std::string rtrim(const std::string& s);
 /// Trim whitespace from the start and end of string
 std::string trim(const std::string& s);
 
+int findPositionOfNthString(std::string string, std::string whatToFind, int whichOne);
 } // Azoomee
 
 #endif

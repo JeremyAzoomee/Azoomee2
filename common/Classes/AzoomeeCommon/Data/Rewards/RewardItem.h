@@ -12,6 +12,7 @@
 #include <string>
 #include <memory>
 #include "../Json.h"
+#include "InventoryItem.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -27,10 +28,7 @@ private:
 	int _itemPrice;
 	std::string _status;
 	
-	std::string _itemId;
-	std::string _type;
-	std::string _name;
-	std::string _uri;
+	InventoryItemRef _item = nullptr;
 	
 	RewardItem();
 public:

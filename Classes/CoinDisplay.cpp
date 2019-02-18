@@ -78,7 +78,7 @@ void CoinDisplay::update(float deltaT)
 	}
 	else
 	{
-		sTargetVal = ChildDataProvider::getInstance()->getLoggedInChild()->_coins;
+		sTargetVal = ChildDataProvider::getInstance()->getLoggedInChild()->getInventory()->getCoins();
 		if(sTargetVal != sCoinCount)
 		{
 			sIncPerSec = (sTargetVal - sCoinCount) / 2.0f;

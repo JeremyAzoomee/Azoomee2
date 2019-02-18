@@ -36,7 +36,7 @@ void navigateToBaseScene()
     {
         ContentHistoryManager::getInstance()->setReturnedFromContent(true);
     }
-	
+	ContentHistoryManager::getInstance()->contentClosed();
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
 }
 

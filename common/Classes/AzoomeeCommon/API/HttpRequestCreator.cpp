@@ -5,7 +5,6 @@
 #include "../Analytics/AnalyticsSingleton.h"
 #include "../Utils/StringFunctions.h"
 #include "../Data/Parent/ParentDataProvider.h"
-#include "RewardCallbackHandler.h"
 
 using namespace cocos2d;
 using namespace cocos2d::network;
@@ -26,9 +25,26 @@ void HttpRequestCreator::execute(float timeout)
     sendRequest(request, timeout);
 }
 
+void HttpRequestCreator::resendRequest()
+{
+	amountOfFails++;
+	HttpRequest* request = buildHttpRequest();
+	sendRequest(request);
+}
+
 void HttpRequestCreator::clearDelegate()
 {
     delegate = nullptr;
+}
+
+void HttpRequestCreator::setRequestCallback(const cocos2d::network::ccHttpRequestCallback& requestCallback)
+{
+	_requestCallback = requestCallback;
+}
+
+int HttpRequestCreator::getAmountOfFails() const
+{
+	return amountOfFails;
 }
 
 //-----------------------------------------------------All requests below this line are used internally-------------------------------------------------------
@@ -183,7 +199,8 @@ cocos2d::network::HttpRequest* HttpRequestCreator::buildHttpRequest()           
         cocos2d::log("HEADERS %s", request->getHeaders().at(i).c_str());
     }
     
-    request->setResponseCallback(CC_CALLBACK_2(HttpRequestCreator::onHttpRequestAnswerReceived, this));
+    //request->setResponseCallback(CC_CALLBACK_2(HttpRequestCreator::onHttpRequestAnswerReceived, this));
+	request->setResponseCallback(_requestCallback);
     request->setTag(requestTag);
     
     return request;
@@ -199,7 +216,7 @@ void HttpRequestCreator::sendRequest(cocos2d::network::HttpRequest* request, flo
 }
 
 void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
-{
+{	
     std::string responseHeaderString  = std::string(response->getResponseHeader()->begin(), response->getResponseHeader()->end());
     std::string responseDataString = std::string(response->getResponseData()->begin(), response->getResponseData()->end());
     std::string requestTag = response->getHttpRequest()->getTag();
@@ -213,7 +230,7 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
     {
 		if(responseDataString.find("rewardLocation") != responseDataString.npos)
 		{
-			RewardCallbackHandler::getInstance()->sendRewardCallback(responseDataString);
+			//RewardCallbackHandler::getInstance()->sendRewardCallback(responseDataString);
 		}
 		
         if(delegate != nullptr)
