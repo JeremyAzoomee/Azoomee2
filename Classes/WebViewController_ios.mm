@@ -404,7 +404,9 @@ using namespace Azoomee;
     
     
     [webview removeFromSuperview];
-    
+	
+	Azoomee::sendProgressMetaDataGame();
+	
     [backButton removeFromSuperview];
     backButton = nil;
     if(!isAnonUser())

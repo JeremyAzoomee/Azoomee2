@@ -101,7 +101,7 @@ void AppDelegate::applicationWillEnterForeground()
     if(Director::getInstance()->getRunningScene()->getChildByName("androidWebView"))
     {
         AnalyticsSingleton::getInstance()->contentItemClosedEvent();
-		ContentHistoryManager::getInstance()->contentClosed();
+		//ContentHistoryManager::getInstance()->contentClosed();
         if(HQHistoryManager::getInstance()->thereWasAnError)
         {
             HQHistoryManager::getInstance()->thereWasAnError = false;
@@ -119,8 +119,6 @@ void AppDelegate::applicationWillEnterForeground()
         {
             ContentHistoryManager::getInstance()->setReturnedFromContent(true);
         }
-		
-		//send meta data to BE
 		
         if(ChatDelegate::getInstance()->_sharedContentId != "")
         {

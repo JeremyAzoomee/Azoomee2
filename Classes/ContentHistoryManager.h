@@ -39,8 +39,8 @@ public:
 	void contentOpened();
 	void contentClosed();
 	long getTimeInContent() const;
-	time_t getContnetOpenedTime() const;
-	time_t getContnetClosedTime() const;
+	time_t getContentOpenedTime() const;
+	time_t getContentClosedTime() const;
 	
     
 };

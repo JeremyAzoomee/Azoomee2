@@ -71,11 +71,11 @@ long ContentHistoryManager::getTimeInContent() const
 	return _timeInContent;
 }
 
-time_t ContentHistoryManager::getContnetOpenedTime() const
+time_t ContentHistoryManager::getContentOpenedTime() const
 {
 	return _contentOpenedTime;
 }
-time_t ContentHistoryManager::getContnetClosedTime() const
+time_t ContentHistoryManager::getContentClosedTime() const
 {
 	return _contentClosedTime;
 }

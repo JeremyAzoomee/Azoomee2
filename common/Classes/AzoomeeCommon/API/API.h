@@ -206,6 +206,10 @@ public:
 												   int videoProgressSeconds,
 												   HttpRequestCreatorResponseDelegate* delegate);
 	
+	static HttpRequestCreator* UpdateContentProgressMeta(const std::string& childId,
+														 const std::string& metaBody,
+														 HttpRequestCreatorResponseDelegate* delegate);
+	
 #pragma mark - Friend Requests
     
     static HttpRequestCreator* FriendRequest(const std::string& senderChildId,

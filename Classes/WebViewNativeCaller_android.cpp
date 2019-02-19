@@ -396,6 +396,42 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNISendVideoProgress(JNIEn
 
 extern "C"
 {
+	JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNISendProgressMetaDataVideo(JNIEnv* env, jobject thiz, int videoProgressSeconds, int videoDuration);
+};
+
+JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNISendProgressMetaDataVideo(JNIEnv* env, jobject thiz, int videoProgressSeconds, int videoDuration)
+{
+	ContentHistoryManager::getInstance()->contentClosed();
+	const auto& contentItem = ContentHistoryManager::getInstance()->getLastOpenedContent();
+	const std::string& data = StringUtils::format("{\"contentId\":\"%s\", \"contentMeta\":{\"contentType\":\"%s\", \"contentLength\":%d, \"unit\":\"SECONDS\", \"duration\":%ld, \"contentProgress\":%d \"lastPlayedMeta\": [{\"start\":%ld,\"end\":%ld}]}}",contentItem->getContentItemId().c_str(), contentItem->getType().c_str(), videoDuration, videoProgressSeconds ,ContentHistoryManager::getInstance()->getTimeInContent(), ContentHistoryManager::getInstance()->getContentOpenedTime(), ContentHistoryManager::getInstance()->getContentClosedTime());
+	HttpRequestCreator* request = API::UpdateContentProgressMeta(ChildDataProvider::getInstance()->getParentOrChildId(), data, nullptr);
+	request->execute();
+}
+
+#endif
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+
+extern "C"
+{
+	JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNISendProgressMetaDataGame(JNIEnv* env, jobject thiz);
+};
+
+JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNISendProgressMetaDataGame(JNIEnv* env, jobject thiz)
+{
+	ContentHistoryManager::getInstance()->contentClosed();
+	const auto& contentItem = ContentHistoryManager::getInstance()->getLastOpenedContent();
+	const std::string& data = StringUtils::format("{\"contentId\":\"%s\", \"contentMeta\":{\"contentType\":\"%s\", \"unit\":\"SECONDS\", \"duration\":%ld, \"lastPlayedMeta\": [{\"start\":%ld,\"end\":%ld}]}}",contentItem->getContentItemId().c_str(), contentItem->getType().c_str(), ContentHistoryManager::getInstance()->getTimeInContent(), ContentHistoryManager::getInstance()->getContentOpenedTime(), ContentHistoryManager::getInstance()->getContentClosedTime());
+	HttpRequestCreator* request = API::UpdateContentProgressMeta(ChildDataProvider::getInstance()->getParentOrChildId(), data, nullptr);
+	request->execute();
+}
+
+#endif
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+
+extern "C"
+{
 	JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNINewVideoOpened(JNIEnv* env, jobject thiz, int playlistIndex);
 };
 

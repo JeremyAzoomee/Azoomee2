@@ -73,7 +73,7 @@ void API::HandleAPIResponse(cocos2d::network::HttpClient *sender, cocos2d::netwo
 	
 	if((response->getResponseCode() == 200)||(response->getResponseCode() == 201)||(response->getResponseCode() == 204))
 	{
-		const std::string& rewardData = getValueFromHttpResponseHeaderForKey("x-az-rewards", responseHeaderString);
+		const std::string& rewardData = getValueFromHttpResponseHeaderForKey("X-AZ-REWARDS", responseHeaderString);
 		if(rewardData != "")
 		{
 			RewardCallbackHandler::getInstance()->sendRewardCallback(rewardData);
@@ -617,6 +617,22 @@ HttpRequestCreator* API::UpdateVideoProgress(const std::string &childId,
 	HttpRequestCreator* request = new HttpRequestCreator(delegate);
 	request->requestPath = StringUtils::format("/api/videoprogress/progress/%s",childId.c_str());
 	request->requestBody = StringUtils::format("{\"videoId\":\"%s\",\"videoProgressSeconds\":%d}",videoId.c_str(), videoProgressSeconds);
+	request->requestTag = TagUpdateVideoProgress;
+	request->method = "POST";
+	request->encrypted = true;
+	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
+		HandleAPIResponse(sender, response, delegate, request);
+	});
+	return request;
+}
+
+HttpRequestCreator* API::UpdateContentProgressMeta(const std::string& childId,
+											  const std::string& metaBody,
+											  HttpRequestCreatorResponseDelegate* delegate)
+{
+	HttpRequestCreator* request = new HttpRequestCreator(delegate);
+	request->requestPath = StringUtils::format("/api/contentProgress/progress/%s",childId.c_str());
+	request->requestBody = metaBody;
 	request->requestTag = TagUpdateVideoProgress;
 	request->method = "POST";
 	request->encrypted = true;

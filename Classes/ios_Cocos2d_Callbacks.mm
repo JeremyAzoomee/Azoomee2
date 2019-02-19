@@ -20,6 +20,9 @@
 #include "BackEndCaller.h"
 #include "RecentlyPlayedManager.h"
 
+#include <AzoomeeCommon/API/API.h>
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+
 using namespace cocos2d;
 NS_AZOOMEE_BEGIN
 
@@ -36,9 +39,6 @@ void navigateToBaseScene()
     {
         ContentHistoryManager::getInstance()->setReturnedFromContent(true);
     }
-	ContentHistoryManager::getInstance()->contentClosed();
-	
-	// send meta data to BE
 	
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
 }
@@ -171,6 +171,25 @@ bool isAnonUser()
 void sendVideoProgress(int playlistIndex , int videoProgressSeconds)
 {
 	BackEndCaller::getInstance()->updateVideoProgress(VideoPlaylistManager::getInstance()->getContentItemDataForPlaylistElement(playlistIndex)->getContentItemId(), videoProgressSeconds);
+}
+
+void sendProgressMetaDataVideo(int videoProgressSeconds, int videoDuration)
+{
+	ContentHistoryManager::getInstance()->contentClosed();
+	const auto& contentItem = ContentHistoryManager::getInstance()->getLastOpenedContent();
+	const std::string& data = StringUtils::format("{\"contentId\":\"%s\", \"contentMeta\":{\"contentType\":\"%s\", \"contentLength\":%d, \"unit\":\"SECONDS\", \"duration\":%d, \"contentProgress\":%ld \"lastPlayedMeta\": [{\"start\":%ld,\"end\":%ld}]}}",contentItem->getContentItemId().c_str(), contentItem->getType().c_str(), videoDuration, videoProgressSeconds ,ContentHistoryManager::getInstance()->getTimeInContent(), ContentHistoryManager::getInstance()->getContentOpenedTime(), ContentHistoryManager::getInstance()->getContentClosedTime());
+	HttpRequestCreator* request = API::UpdateContentProgressMeta(ChildDataProvider::getInstance()->getParentOrChildId(), data, nullptr);
+	request->execute();
+	
+}
+
+void sendProgressMetaDataGame()
+{
+	ContentHistoryManager::getInstance()->contentClosed();
+	const auto& contentItem = ContentHistoryManager::getInstance()->getLastOpenedContent();
+	const std::string& data = StringUtils::format("{\"contentId\":\"%s\", \"contentMeta\":{\"contentType\":\"%s\", \"unit\":\"SECONDS\", \"duration\":%ld, \"lastPlayedMeta\": [{\"start\":%ld,\"end\":%ld}]}}",contentItem->getContentItemId().c_str(), contentItem->getType().c_str(), ContentHistoryManager::getInstance()->getTimeInContent(), ContentHistoryManager::getInstance()->getContentOpenedTime(), ContentHistoryManager::getInstance()->getContentClosedTime());
+	HttpRequestCreator* request = API::UpdateContentProgressMeta(ChildDataProvider::getInstance()->getParentOrChildId(), data, nullptr);
+	request->execute();
 }
 
 void newVideoOpened(int playlistIndex)
