@@ -57,16 +57,27 @@ bool ContentHistoryManager::getReturnedFromContent()
 void ContentHistoryManager::contentOpened()
 {
 	_contentOpenedTime = time(NULL);
+	_contentClosedTime = _contentOpenedTime;
 	SessionIdManager::getInstance()->resetBackgroundTimeInContent();
 	_timeInContent = 0;
 }
 void ContentHistoryManager::contentClosed()
 {
-	_timeInContent = difftime(time(NULL),_contentOpenedTime) - SessionIdManager::getInstance()->getBackgroundTimeInContent();
+	_contentClosedTime = time(NULL);
+	_timeInContent = difftime(_contentClosedTime,_contentOpenedTime) - SessionIdManager::getInstance()->getBackgroundTimeInContent();
 }
-long ContentHistoryManager::getTimeInContent()
+long ContentHistoryManager::getTimeInContent() const
 {
 	return _timeInContent;
+}
+
+time_t ContentHistoryManager::getContnetOpenedTime() const
+{
+	return _contentOpenedTime;
+}
+time_t ContentHistoryManager::getContnetClosedTime() const
+{
+	return _contentClosedTime;
 }
 
 NS_AZOOMEE_END

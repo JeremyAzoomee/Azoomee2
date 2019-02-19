@@ -21,6 +21,7 @@ private:
     bool _returnedFromContent = false;
 	
 	time_t _contentOpenedTime;
+	time_t _contentClosedTime;
 	long _timeInContent = 0;
     
 public:
@@ -37,7 +38,9 @@ public:
 	
 	void contentOpened();
 	void contentClosed();
-	long getTimeInContent();
+	long getTimeInContent() const;
+	time_t getContnetOpenedTime() const;
+	time_t getContnetClosedTime() const;
 	
     
 };

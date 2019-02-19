@@ -37,6 +37,9 @@ void navigateToBaseScene()
         ContentHistoryManager::getInstance()->setReturnedFromContent(true);
     }
 	ContentHistoryManager::getInstance()->contentClosed();
+	
+	// send meta data to BE
+	
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
 }
 
@@ -176,6 +179,8 @@ void newVideoOpened(int playlistIndex)
 	RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kVideoHQName);
 	RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kMeHQName);
 	ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
+	ContentHistoryManager::getInstance()->contentOpened();
+	
 }
 
 NSString* getPlaylistString()

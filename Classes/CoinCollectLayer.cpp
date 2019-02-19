@@ -236,7 +236,7 @@ void CoinCollectLayer::addCoinCounter()
 	
 	Sprite* counterFrame = Sprite::create("res/rewards/value_frame.png");
 	counterFrame->setNormalizedPosition(isPortrait ? Vec2::ANCHOR_MIDDLE_TOP : Vec2::ANCHOR_MIDDLE_BOTTOM);
-	counterFrame->setAnchorPoint(Vec2(0.5,1.5));
+	counterFrame->setAnchorPoint(isPortrait ? Vec2(0.5,-0.5) : Vec2(0.5,1.5));
 	mainCoin->addChild(counterFrame);
 	
 	_valueLabel = Label::createWithTTF("0", Style::Font::Bold(), counterFrame->getContentSize().height * 0.8f);

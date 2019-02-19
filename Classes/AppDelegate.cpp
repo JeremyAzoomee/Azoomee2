@@ -119,7 +119,9 @@ void AppDelegate::applicationWillEnterForeground()
         {
             ContentHistoryManager::getInstance()->setReturnedFromContent(true);
         }
-        
+		
+		//send meta data to BE
+		
         if(ChatDelegate::getInstance()->_sharedContentId != "")
         {
             ChatDelegate::getInstance()->shareContentInChat();
