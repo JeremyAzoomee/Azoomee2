@@ -58,7 +58,7 @@ void CoinChestLayer::addText()
 	youWon->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	text->addChild(youWon);
 	
-	ui::Text* value = ui::Text::create(StringUtils::format("%d",-_rewardData->getItemPrice()), Style::Font::Bold(), 360);
+	ui::Text* value = ui::Text::create(StringUtils::format("%d",abs(_rewardData->getItemPrice())), Style::Font::Bold(), 360);
 	value->setTextColor(Color4B(Style::Color::macaroniAndCheese));
 	value->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	text->addChild(value);

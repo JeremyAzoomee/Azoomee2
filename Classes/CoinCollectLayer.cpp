@@ -24,7 +24,7 @@ bool CoinCollectLayer::init()
 }
 void CoinCollectLayer::onEnter()
 {
-	_rewardAmount = _rewardData ? -_rewardData->getItemPrice() : 0;
+	_rewardAmount = _rewardData ? abs(_rewardData->getItemPrice()) : 0;
 	
 	addBackground();
 	addHeading();

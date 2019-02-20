@@ -40,13 +40,14 @@ RewardDisplayHandler::RewardDisplayHandler()
 
 void RewardDisplayHandler::showReward(const RewardItemRef& reward)
 {
-	if(reward->getItemPrice() < 0)
+	if(reward->getType() == "COIN")
 	{
 		RewardScene* rewardScene = RewardScene::create();
 		rewardScene->setDuration(8.0f);
 		rewardScene->setRewardData(reward);
 		rewardScene->setDeleagte(this);
 		Director::getInstance()->setNotificationNode(rewardScene);
+		_rewardDisplayRunning = true;
 		//CoinCollectLayer* coinCollect = CoinCollectLayer::create();
 		//coinCollect->setDuration(8.0f);
 		//coinCollect->setRewardData(reward);
@@ -76,35 +77,48 @@ void RewardDisplayHandler::getPendingRewards()
 	request->execute();
 }
 
-//Delegate functions
-void RewardDisplayHandler::onRewardSuccess(const RewardItemRef& reward)
+void RewardDisplayHandler::addRewardToQueue(const RewardItemRef& reward)
 {
-	if(reward->getType() == "COIN")
+	if(reward->getStatus() == "PENDING") // only add pending rewards
 	{
-		auto pos = std::find_if(_rewardQueue.begin(), _rewardQueue.end(), [](const RewardItemRef& r){return r->getType() == "COIN";});
-		if(pos != _rewardQueue.end())
+		if(std::find_if(_rewardQueue.begin(), _rewardQueue.end(), [reward](const RewardItemRef& r){return r->getId() == reward->getId();}) != _rewardQueue.end())
 		{
-			pos->get()->mergeRewards(reward);
+			return; // reward already in queue
+		}
+		
+		if(reward->getType() == "COIN")
+		{
+			auto pos = std::find_if(_rewardQueue.begin(), _rewardQueue.end(), [](const RewardItemRef& r){return r->getType() == "COIN";});
+			if(pos != _rewardQueue.end())
+			{
+				pos->get()->mergeRewards(reward);
+			}
+			else
+			{
+				_rewardQueue.push_back(reward);
+			}
 		}
 		else
 		{
 			_rewardQueue.push_back(reward);
 		}
 	}
-	else
+}
+
+void RewardDisplayHandler::showNextReward()
+{
+	if(!_rewardDisplayRunning && isRunningAnimationPossible() && _rewardQueue.size() > 0)
 	{
-		_rewardQueue.push_back(reward);
+		showReward(_rewardQueue.front());
+		_rewardQueue.erase(_rewardQueue.begin());
 	}
-	
-	if(!_rewardDisplayRunning)
-	{
-		if(isRunningAnimationPossible())
-		{
-			showReward(_rewardQueue.front());
-			_rewardQueue.erase(_rewardQueue.begin());
-			
-		}
-	}
+}
+
+//Delegate functions
+void RewardDisplayHandler::onRewardSuccess(const RewardItemRef& reward)
+{
+	addRewardToQueue(reward);
+	showNextReward();
 	
 }
 void RewardDisplayHandler::onAnimationComplete(const RewardItemRef& reward)
@@ -144,17 +158,15 @@ void RewardDisplayHandler::onHttpRequestSuccess(const std::string& requestTag, c
 			return;
 		}
 		
-		if(data.IsArray())
+		if(data.IsArray() && data.Size() > 0)
 		{
 			for(int i = 0; i < data.Size(); i++)
 			{
 				const rapidjson::Value& rewardData = data[i];
 				RewardItemRef reward = RewardItem::createWithJson(rewardData);
-				if(reward->getType() == "PENDING") // sanity check that parsing worked
-				{
-					onRewardSuccess(reward);
-				}
+				addRewardToQueue(reward);
 			}
+			showNextReward();
 		}
 	}
 	else if(requestTag == API::TagRedeemReward)

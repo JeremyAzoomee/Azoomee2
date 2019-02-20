@@ -27,6 +27,9 @@ private:
 	
 	void showReward(const RewardItemRef& reward);
 	
+	void addRewardToQueue(const RewardItemRef& reward);
+	void showNextReward();
+	
 	bool isRunningAnimationPossible();
 	
 public:
