@@ -9,6 +9,7 @@
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Child/ChildDataParser.h>
+#include <AzoomeeCommon/Utils/StringFunctions.h>
 #include "CoinCollectLayer.h"
 #include "RewardScene.h"
 
@@ -78,14 +79,29 @@ void RewardDisplayHandler::getPendingRewards()
 //Delegate functions
 void RewardDisplayHandler::onRewardSuccess(const RewardItemRef& reward)
 {
-	// add data to queue, if nothing playing, call show reward
-	_rewardQueue.push(reward);
+	if(reward->getType() == "COIN")
+	{
+		auto pos = std::find_if(_rewardQueue.begin(), _rewardQueue.end(), [](const RewardItemRef& r){return r->getType() == "COIN";});
+		if(pos != _rewardQueue.end())
+		{
+			pos->get()->mergeRewards(reward);
+		}
+		else
+		{
+			_rewardQueue.push_back(reward);
+		}
+	}
+	else
+	{
+		_rewardQueue.push_back(reward);
+	}
+	
 	if(!_rewardDisplayRunning)
 	{
 		if(isRunningAnimationPossible())
 		{
 			showReward(_rewardQueue.front());
-			_rewardQueue.pop();
+			_rewardQueue.erase(_rewardQueue.begin());
 			
 		}
 	}
@@ -93,13 +109,18 @@ void RewardDisplayHandler::onRewardSuccess(const RewardItemRef& reward)
 }
 void RewardDisplayHandler::onAnimationComplete(const RewardItemRef& reward)
 {
-	HttpRequestCreator* request = API::RedeemReward(reward->getId(), this);
-	request->execute();
+	const std::vector<std::string>& ids = splitStringToVector(reward->getId(), ";");
+	
+	for(const std::string& id : ids)
+	{
+		HttpRequestCreator* request = API::RedeemReward(id, this);
+		request->execute();
+	}
 	
 	if(_rewardQueue.size() > 0)
 	{
 		showReward(_rewardQueue.front());
-		_rewardQueue.pop();
+		_rewardQueue.erase(_rewardQueue.begin());
 	}
 	else
 	{

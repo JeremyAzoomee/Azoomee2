@@ -631,7 +631,7 @@ HttpRequestCreator* API::UpdateContentProgressMeta(const std::string& childId,
 											  HttpRequestCreatorResponseDelegate* delegate)
 {
 	HttpRequestCreator* request = new HttpRequestCreator(delegate);
-	request->requestPath = StringUtils::format("/api/contentProgress/progress/%s",childId.c_str());
+	request->requestPath = StringUtils::format("/api/useractivity/progress/%s",childId.c_str());
 	request->requestBody = metaBody;
 	request->requestTag = TagUpdateVideoProgress;
 	request->method = "POST";

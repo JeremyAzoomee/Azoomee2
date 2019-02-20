@@ -21,7 +21,7 @@ class RewardDisplayHandler : public RewardCallbackDelegate, RewardScreenDelegate
 private:
 	bool _rewardDisplayRunning = false;
 	
-	std::queue<RewardItemRef> _rewardQueue;
+	std::vector<RewardItemRef> _rewardQueue;
 	
 	RewardDisplayHandler();
 	

@@ -21,7 +21,7 @@ typedef std::shared_ptr<RewardItem> RewardItemRef;
 
 class RewardItem
 {
-private:
+protected:
 	std::string _id;
 	std::string _userId;
 	std::string _description;
@@ -37,6 +37,7 @@ public:
 	static RewardItemRef create();
 	
 	void parseRewardData(const rapidjson::Value& rewardData);
+	void mergeRewards(const RewardItemRef& reward);
 	
 	std::string getId() const;
 	std::string getType() const;
