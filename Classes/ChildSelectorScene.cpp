@@ -172,8 +172,9 @@ void ChildSelectorScene::addBackgroundToScreen()
 
 void ChildSelectorScene::createSettingsButton()
 {
-    auto settingsButton = SettingsButton::createSettingsButton(0.0f);
-    settingsButton->setCenterPosition(Vec2(_visibleSize.width - settingsButton->getContentSize().width,_visibleSize.height - settingsButton->getContentSize().height));
+    auto settingsButton = SettingsButton::create();
+	settingsButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
+	settingsButton->setAnchorPoint(Vec2(-0.25,1.25));
     _contentNode->addChild(settingsButton);
 }
 

@@ -20,6 +20,8 @@ private:
 	static const float kSpaceForPrivacyPolicy;
 	static const std::string kGroupLogoName;
 	
+	cocos2d::Node* _contentNode = nullptr;
+	
 	cocos2d::ui::ScrollView* _contentScrollview = nullptr;
 	std::vector<std::vector<HQSceneElement>> _contentIcons;
 	
@@ -35,6 +37,7 @@ private:
 public:
 	virtual bool init() override;
 	virtual void onEnter() override;
+	virtual void onSizeChanged() override;
 	
 	CREATE_FUNC(ContentFeedHQScene);
 	

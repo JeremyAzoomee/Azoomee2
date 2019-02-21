@@ -138,8 +138,8 @@ void NavigationScene::onEnter()
 	this->addChild(coinDisplay);
 	
 	SettingsButton* settingsButton = SettingsButton::create();
-	const Size& settingsButtonSize = settingsButton->getContentSize();
-	settingsButton->setPosition(this->getContentSize().width - settingsButtonSize.width * 1.25f, settingsButtonSize.height * 0.25f);
+	settingsButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
+	settingsButton->setAnchorPoint(Vec2(-0.25,1.25));
 	this->addChild(settingsButton);
 	
 	if(!ParentDataProvider::getInstance()->isLoggedInParentAnonymous())

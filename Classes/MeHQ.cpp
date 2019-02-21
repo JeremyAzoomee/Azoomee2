@@ -51,82 +51,12 @@ bool MeHQ::init()
     {
         return false;
     }
-    
-	const Size& contentSize = this->getContentSize();//Director::getInstance()->getVisibleSize();
-    
-    //this->setContentSize(contentSize);
-    
-    _contentListView = ui::ListView::create();
-    _contentListView->setDirection(ui::ScrollView::Direction::VERTICAL);
-    _contentListView->setBounceEnabled(true);
-    _contentListView->setGravity(ui::ListView::Gravity::CENTER_HORIZONTAL);
-    _contentListView->setItemsMargin(150.0f);
-    _contentListView->setBottomPadding(100.0f);
-    _contentListView->setContentSize(Size(contentSize.width, contentSize.height - ((ConfigStorage::getInstance()->isDeviceIphoneX() && contentSize.width < contentSize.height) ? 600 : 500)));
-    _contentListView->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-	_contentListView->setPosition(Vec2(0,300));
-    _contentListView->setSwallowTouches(true);
-    this->addChild(_contentListView);
 	
-    Sprite* verticalScrollGradient = Sprite::create("res/decoration/TopNavGrad.png");
-    verticalScrollGradient->setAnchorPoint(Vec2(0.5, 0.9));
-    verticalScrollGradient->setScaleX(contentSize.width / verticalScrollGradient->getContentSize().width);
-    verticalScrollGradient->setColor(Color3B::BLACK);
-    verticalScrollGradient->setPosition(Vec2(contentSize.width / 2, _contentListView->getPositionY() + _contentListView->getContentSize().height));
-    this->addChild(verticalScrollGradient);
+	_contentNode = Node::create();
+	_contentNode->setContentSize(this->getContentSize());
+	this->addChild(_contentNode);
     
-    int indexNum = 0;
-    
-    auto profileLayout = MeHQProfileDetails::create();
-    profileLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
-    profileLayout->setName(kProfileLayerName);
-    _contentListView->pushBackCustomItem(profileLayout);
-    _sectionIndexMap[kProfileLayerName] = indexNum++;
-	
-	if(RecentlyPlayedManager::getInstance()->getRecentlyPlayedContentForHQ(ConfigStorage::kMeHQName).size() > 0)
-	{
-		auto recentlyPlayed = MeHQRecentlyPlayed::create();
-		recentlyPlayed->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
-		recentlyPlayed->setName(kRecentlyPlayedLayerName);
-		_contentListView->pushBackCustomItem(recentlyPlayed);
-		_sectionIndexMap[kRecentlyPlayedLayerName] = indexNum++;
-	}
-	
-	if(!ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
-	{
-		auto messageList = MeHQMessages::create();
-		messageList->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
-		messageList->setRefreshCallback([this](){
-			this->refreshMessagesLayout();
-		});
-		messageList->setName(kMessagesLayerName);
-		_contentListView->addChild(messageList);
-		_sectionIndexMap[kMessagesLayerName] = indexNum++;
-	}
-	
-    auto galleryLayout = MeHQGallery::create();
-    galleryLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
-    galleryLayout->setName(kGalleryLayerName);
-	galleryLayout->setRefreshCallback([this](){
-		this->refreshGalleryLayout();
-	});
-    _contentListView->pushBackCustomItem(galleryLayout);
-    _sectionIndexMap[kGalleryLayerName] = indexNum++;
-    
-    auto favouriteLayout = MeHQFavourites::create();
-    favouriteLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
-    favouriteLayout->setRefreshCallback([this](){
-        this->refreshFavouritesLayout();
-    });
-    favouriteLayout->setName(kFavoritesLayerName);
-    _contentListView->pushBackCustomItem(favouriteLayout);
-    _sectionIndexMap[kFavoritesLayerName] = indexNum++;
-	
-    auto downloadsLayout = MeHQDownloads::create();
-    downloadsLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
-    downloadsLayout->setName(kDownloadsLayerName);
-    _contentListView->pushBackCustomItem(downloadsLayout);
-    _sectionIndexMap[kDownloadsLayerName] = indexNum++;
+	buildListView();
     
     return true;
 }
@@ -149,6 +79,102 @@ void MeHQ::onExit()
     _previousLayer = _contentListView->getCenterItemInCurrentView()->getName();
     cocos2d::log("Center Layer: %s",_previousLayer.c_str());
     Super::onExit();
+}
+
+void MeHQ::onSizeChanged()
+{
+	float scrollPercent = _contentListView->getScrolledPercentVertical();
+	if(isnan(scrollPercent))
+	{
+		scrollPercent = 0.1f;
+	}
+	Super::onSizeChanged();
+	
+	
+	_contentNode->removeAllChildren();
+	
+	buildListView();
+	Director::getInstance()->getScheduler()->schedule([=](float deltat)
+	{
+		_contentListView->scrollToPercentVertical(scrollPercent, 0, true);
+	}, this, 0, 0, 0, false, "scroll");
+}
+
+void MeHQ::buildListView()
+{
+	const Size& contentSize = this->getContentSize();
+	
+	_contentListView = ui::ListView::create();
+	_contentListView->setDirection(ui::ScrollView::Direction::VERTICAL);
+	_contentListView->setBounceEnabled(true);
+	_contentListView->setGravity(ui::ListView::Gravity::CENTER_HORIZONTAL);
+	_contentListView->setItemsMargin(150.0f);
+	_contentListView->setBottomPadding(100.0f);
+	_contentListView->setContentSize(Size(contentSize.width, contentSize.height - ((ConfigStorage::getInstance()->isDeviceIphoneX() && contentSize.width < contentSize.height) ? 600 : 500)));
+	_contentListView->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+	_contentListView->setPosition(Vec2(0,300));
+	_contentListView->setSwallowTouches(true);
+	_contentNode->addChild(_contentListView);
+	
+	Sprite* verticalScrollGradient = Sprite::create("res/decoration/TopNavGrad.png");
+	verticalScrollGradient->setAnchorPoint(Vec2(0.5, 0.9));
+	verticalScrollGradient->setScaleX(contentSize.width / verticalScrollGradient->getContentSize().width);
+	verticalScrollGradient->setColor(Color3B::BLACK);
+	verticalScrollGradient->setPosition(Vec2(contentSize.width / 2, _contentListView->getPositionY() + _contentListView->getContentSize().height));
+	_contentNode->addChild(verticalScrollGradient);
+	
+	int indexNum = 0;
+	
+	auto profileLayout = MeHQProfileDetails::create();
+	profileLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
+	profileLayout->setName(kProfileLayerName);
+	_contentListView->pushBackCustomItem(profileLayout);
+	_sectionIndexMap[kProfileLayerName] = indexNum++;
+	
+	if(RecentlyPlayedManager::getInstance()->getRecentlyPlayedContentForHQ(ConfigStorage::kMeHQName).size() > 0)
+	{
+		auto recentlyPlayed = MeHQRecentlyPlayed::create();
+		recentlyPlayed->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
+		recentlyPlayed->setName(kRecentlyPlayedLayerName);
+		_contentListView->pushBackCustomItem(recentlyPlayed);
+		_sectionIndexMap[kRecentlyPlayedLayerName] = indexNum++;
+	}
+	
+	if(!ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
+	{
+		auto messageList = MeHQMessages::create();
+		messageList->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
+		messageList->setRefreshCallback([this](){
+			this->refreshMessagesLayout();
+		});
+		messageList->setName(kMessagesLayerName);
+		_contentListView->addChild(messageList);
+		_sectionIndexMap[kMessagesLayerName] = indexNum++;
+	}
+	
+	auto galleryLayout = MeHQGallery::create();
+	galleryLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
+	galleryLayout->setName(kGalleryLayerName);
+	galleryLayout->setRefreshCallback([this](){
+		this->refreshGalleryLayout();
+	});
+	_contentListView->pushBackCustomItem(galleryLayout);
+	_sectionIndexMap[kGalleryLayerName] = indexNum++;
+	
+	auto favouriteLayout = MeHQFavourites::create();
+	favouriteLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
+	favouriteLayout->setRefreshCallback([this](){
+		this->refreshFavouritesLayout();
+	});
+	favouriteLayout->setName(kFavoritesLayerName);
+	_contentListView->pushBackCustomItem(favouriteLayout);
+	_sectionIndexMap[kFavoritesLayerName] = indexNum++;
+	
+	auto downloadsLayout = MeHQDownloads::create();
+	downloadsLayout->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
+	downloadsLayout->setName(kDownloadsLayerName);
+	_contentListView->pushBackCustomItem(downloadsLayout);
+	_sectionIndexMap[kDownloadsLayerName] = indexNum++;
 }
 
 void MeHQ::refreshFavouritesLayout()

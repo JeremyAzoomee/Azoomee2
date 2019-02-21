@@ -31,18 +31,23 @@ private:
 	static const std::string kRecentlyPlayedLayerName;
     
     static std::string _previousLayer;
-    
+	
+	cocos2d::Node* _contentNode = nullptr;
+	
     cocos2d::ui::ListView* _contentListView = nullptr;
     
     std::map<std::string, int> _sectionIndexMap;
     
     std::string _hqCategory = ConfigStorage::kMeHQName;
+	
+	void buildListView();
 public:
     
     virtual bool init() override;
     virtual void onEnter() override;
     virtual void onExit() override;
-    
+	virtual void onSizeChanged() override;
+	
     CREATE_FUNC(MeHQ);
     
     void refreshFavouritesLayout();

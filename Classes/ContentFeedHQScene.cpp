@@ -37,6 +37,9 @@ bool ContentFeedHQScene::init()
 	}
 	
 	_type = HQSceneType::CONTENT_FEED_HQ;
+	_contentNode = Node::create();
+	_contentNode->setContentSize(this->getContentSize());
+	this->addChild(_contentNode);
 	
 	return true;
 }
@@ -178,13 +181,13 @@ void ContentFeedHQScene::createContentScrollview()
 	privacyLayer->setCenterPosition(Vec2(_contentScrollview->getContentSize().width / 2, lastCarouselPosition + privacyLayer->getContentSize().height));
 	_contentScrollview->addChild(privacyLayer);
 	
-	this->addChild(_contentScrollview);
+	_contentNode->addChild(_contentScrollview);
 	
 	//add gradient on top of scrollView
 	
 	cocos2d::Sprite* gradient = createGradientForScrollView(_contentScrollview->getContentSize().width);
 	gradient->setPosition(_contentScrollview->getContentSize().width / 2 + _contentScrollview->getPosition().x, _contentScrollview->getPosition().y + _contentScrollview->getContentSize().height);
-	this->addChild(gradient);
+	_contentNode->addChild(gradient);
 	
 	//add group hq logo if necessary
 	
@@ -203,7 +206,7 @@ void ContentFeedHQScene::createContentScrollview()
 				Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
 			}
 		 });
-		 this->addChild(backButton,1);
+		 _contentNode->addChild(backButton,1);
 	}
 }
 
@@ -276,8 +279,26 @@ void ContentFeedHQScene::addGroupHQLogo()
 		groupLogo->setScale(0.8);
 		groupLogo->setPosition(visibleSize.width / 2, visibleSize.height - groupLogo->getBoundingBox().size.height * 0.55);
 		groupLogo->setName(kGroupLogoName);
-		this->addChild(groupLogo);
+		_contentNode->addChild(groupLogo);
 	}
+}
+
+void ContentFeedHQScene::onSizeChanged()
+{
+	float scrollPerc = 0.1f;
+	if(_contentScrollview)
+	{
+		scrollPerc = _contentScrollview->getScrolledPercentVertical();
+	}
+	Super::onSizeChanged();
+	_contentNode->removeAllChildren();
+	_contentNode->setContentSize(this->getContentSize());
+	createContentScrollview();
+	
+	Director::getInstance()->getScheduler()->schedule([=](float deltat)
+	{
+		 _contentScrollview->scrollToPercentVertical(scrollPerc, 0, true);
+	}, this, 0, 0, 0, false, "scroll");
 }
 
 void ContentFeedHQScene::onTutorialStateChanged(const std::string& stateId)

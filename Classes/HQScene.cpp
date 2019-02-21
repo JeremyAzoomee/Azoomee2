@@ -46,6 +46,11 @@ void HQScene::onExit()
 	Super::onExit();
 }
 
+void HQScene::onSizeChanged()
+{
+	Super::onSizeChanged();
+}
+
 void HQScene::setHQCategory(const std::string &hqCategory)
 {
 	_hqCategory = hqCategory;
@@ -59,8 +64,8 @@ HQSceneType HQScene::getSceneType() const
 void HQScene::buildCoreUI()
 {
 	_settingsButton = SettingsButton::create();
-	const Size& settingsButtonSize = _settingsButton->getContentSize();
-	_settingsButton->setPosition(settingsButtonSize.width * 0.25f, this->getContentSize().height - settingsButtonSize.height * 1.25f);
+	_settingsButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
+	_settingsButton->setAnchorPoint(Vec2(-0.25,1.25));
 	this->addChild(_settingsButton,1);
 	
 	// add coin counter
