@@ -33,27 +33,45 @@ void RewardScene::onEnter()
 	this->setScale(1);
 	
 	CoinChestLayer* coinChestLayer = CoinChestLayer::create();
-	coinChestLayer->setDuration(5.0f);
+	coinChestLayer->setDuration(_duration * 0.3f);
 	coinChestLayer->setRewardData(_rewardData);
 	coinChestLayer->setDeleagte(this);
 	coinChestLayer->retain();
 	_screenSequence.push_back(coinChestLayer);
 	
 	AwesomeLayer* awesomeLayer = AwesomeLayer::create();
-	awesomeLayer->setDuration(5.0f);
+	awesomeLayer->setDuration(_duration * 0.3f);
 	awesomeLayer->setRewardData(_rewardData);
 	awesomeLayer->setDeleagte(this);
 	awesomeLayer->retain();
 	_screenSequence.push_back(awesomeLayer);
 	
 	CoinCollectLayer* coinCollect = CoinCollectLayer::create();
-	coinCollect->setDuration(8.0f);
+	coinCollect->setDuration(_duration * 0.4f);
 	coinCollect->setRewardData(_rewardData);
 	coinCollect->setOomeeFilepath(ChildDataProvider::getInstance()->getLoggedInChild()->getAvatar());
 	coinCollect->setDeleagte(this);
 	this->addChild(coinCollect);
 	
 	Node::onEnter(); // skip RewardScreen onEnter which schedules callback
+}
+
+void RewardScene::onSizeChanged()
+{
+	Super::onSizeChanged();
+	setScale(1);
+	for (auto layer : getChildren())
+	{
+		RewardScreen* screen = dynamic_cast<RewardScreen*>(layer);
+		if(screen)
+		{
+			screen->onSizeChanged();
+		}
+	}
+	for(RewardScreen* screen : _screenSequence)
+	{
+		screen->onSizeChanged();
+	}
 }
 
 void RewardScene::onAnimationComplete(const RewardItemRef& reward)

@@ -43,7 +43,7 @@ void RewardDisplayHandler::showReward(const RewardItemRef& reward)
 	if(reward->getType() == "COIN")
 	{
 		RewardScene* rewardScene = RewardScene::create();
-		rewardScene->setDuration(18.0f);
+		rewardScene->setDuration(8.0f);
 		rewardScene->setRewardData(reward);
 		rewardScene->setDeleagte(this);
 		Director::getInstance()->setNotificationNode(rewardScene);

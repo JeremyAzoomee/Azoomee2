@@ -23,7 +23,15 @@ private:
 	float _displayValue;
 	cocos2d::Label* _valueLabel = nullptr;
 	
+	cocos2d::LayerColor* _bgColour = nullptr;
+	cocos2d::ui::Scale9Sprite* _wires = nullptr;
+	cocos2d::Sprite* _bottomGradient = nullptr;
+	
 	cocos2d::Sprite* _plinth = nullptr;
+	cocos2d::ParticleMeteor* _smoke = nullptr;
+	
+	cocos2d::Sprite* _mainCoin = nullptr;
+	cocos2d::Sprite* _counterFrame = nullptr;
 	
 	float _nextParticleEmit = 0;
 	
@@ -42,6 +50,7 @@ public:
 	void onEnter() override;
 	void onExit() override;
 	void update(float deltaT) override;
+	void onSizeChanged() override;
 	
 	void setOomeeFilepath(const std::string& oomeeFilepath);
 	

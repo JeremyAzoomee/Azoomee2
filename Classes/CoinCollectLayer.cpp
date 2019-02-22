@@ -103,6 +103,66 @@ void CoinCollectLayer::update(float deltaT)
 	Super::update(deltaT);
 }
 
+void CoinCollectLayer::onSizeChanged()
+{
+	Super::onSizeChanged();
+	const Size& visibleSize = this->getContentSize();
+	bool isPortrait = visibleSize.width < visibleSize.height;
+	
+	auto children = this->getChildren();
+	
+	for(auto child : children)
+	{
+		if(child->getName() == "coin")
+		{
+			child->stopAllActions();
+			child->removeFromParent();
+		}
+	}
+	
+	if(_bgColour)
+	{
+		_bgColour->setContentSize(visibleSize);
+	}
+	if(_bottomGradient)
+	{
+		_bottomGradient->setContentSize(Size(visibleSize.width, 400));
+	}
+	if(_wires)
+	{
+		_wires->setContentSize(visibleSize);
+	}
+	
+	if(_plinth)
+	{
+		_plinth->stopAllActions();
+		_plinth->setPosition(Vec2(visibleSize.width * (isPortrait ? 0.5 : 0.25), 0));
+		if(!_mainCoin)
+		{
+			addCoinCounter();
+		}
+	}
+	
+	if(_smoke)
+	{
+		_smoke->setPosition(_plinth->getPositionX(), 0);
+	}
+	
+	if(_mainCoin)
+	{
+		const Vec2& oomeeWorldPos = _plinth->getPosition() + Vec2(0,_plinth->getContentSize().height + 200);
+		_mainCoin->setPosition(isPortrait ? Vec2(visibleSize.width * 0.5f,visibleSize.height * 0.5f) : Vec2(visibleSize.width * 0.75f, oomeeWorldPos.y));
+	}
+	
+	if(_counterFrame)
+	{
+		_counterFrame->setNormalizedPosition(isPortrait ? Vec2::ANCHOR_MIDDLE_TOP : Vec2::ANCHOR_MIDDLE_BOTTOM);
+		_counterFrame->setAnchorPoint(isPortrait ? Vec2(0.5,-0.5) : Vec2(0.5,1.5));
+	}
+	
+	
+}
+
 void CoinCollectLayer::setOomeeFilepath(const std::string& oomeeFilepath)
 {
 	_oomeeFilepath = oomeeFilepath;
@@ -110,22 +170,22 @@ void CoinCollectLayer::setOomeeFilepath(const std::string& oomeeFilepath)
 
 void CoinCollectLayer::addBackground()
 {
-	LayerColor* bgColour = LayerColor::create(Color4B(0,7,4,255));
-	this->addChild(bgColour, -1);
+	_bgColour = LayerColor::create(Color4B(0,7,4,255));
+	this->addChild(_bgColour, -1);
 	
-	Sprite* bottomGradient = Sprite::create("res/decoration/TopNavGrad.png");
-	bottomGradient->setContentSize(Size(this->getContentSize().width, 400));
-	bottomGradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	bottomGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-	bottomGradient->setColor(Style::Color::skyBlue);
-	bottomGradient->setRotation(180);
-	this->addChild(bottomGradient, -1);
+	_bottomGradient = Sprite::create("res/decoration/TopNavGrad.png");
+	_bottomGradient->setContentSize(Size(this->getContentSize().width, 400));
+	_bottomGradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	_bottomGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+	_bottomGradient->setColor(Style::Color::skyBlue);
+	_bottomGradient->setRotation(180);
+	this->addChild(_bottomGradient, -1);
 	
-	ui::Scale9Sprite* wires = ui::Scale9Sprite::create("res/rewards/wires.png");
-	wires->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	wires->setCapInsets(Rect(wires->getContentSize()/2,Size(1,1)));
-	wires->setContentSize(this->getContentSize());
-	this->addChild(wires, -1);
+	_wires = ui::Scale9Sprite::create("res/rewards/wires.png");
+	_wires->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	_wires->setCapInsets(Rect(_wires->getContentSize()/2,Size(1,1)));
+	_wires->setContentSize(this->getContentSize());
+	this->addChild(_wires, -1);
 	
 }
 void CoinCollectLayer::addHeading()
@@ -160,7 +220,7 @@ void CoinCollectLayer::addHeading()
 	sparkle->setEndSpin(0);
 	sparkle->setEndSpinVar(50);
 	sparkle->setAutoRemoveOnFinish(true);
-	sparkle->setPosition(Vec2(visibleSize.width * 0.5, visibleSize.height));
+	sparkle->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
 	sparkle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 	this->addChild(sparkle);
 	
@@ -193,30 +253,30 @@ void CoinCollectLayer::addPlinth()
 	this->addChild(_plinth);
 	
 	Texture2D* particleTex = Director::getInstance()->getTextureCache()->addImage("res/rewards/smoke.png");
-	ParticleMeteor* smoke = ParticleMeteor::createWithTotalParticles(150);
-	smoke->setBlendFunc(BlendFunc::ALPHA_PREMULTIPLIED);
-	smoke->setEndColor(Color4F(0.9, 0.85, 0.85,0));
-	smoke->setEndColorVar(Color4F(0,0,0,0.1));
-	smoke->setStartColor(Color4F(1.0, 0.95, 0.95,0.3));
-	smoke->setStartColorVar(Color4F(0,0,0,0.1));
-	smoke->setTexture(particleTex);
-	smoke->setLife(2.5);
-	smoke->setLifeVar(0.5);
-	smoke->setGravity(Vec2(0,-25));
-	smoke->setStartSize(150);
-	smoke->setStartSizeVar(25);
-	smoke->setEndSize(175);
-	smoke->setEndSizeVar(25);
-	smoke->setPosVar(Vec2(_plinth->getContentSize().width / 1.5,50));
-	smoke->setAngleVar(20);
-	smoke->setAngle(90);
-	smoke->setEmissionRate(75);
-	smoke->setDuration(2);
-	smoke->setSpeed(90);
-	smoke->setSpeedVar(25);
-	smoke->setAutoRemoveOnFinish(true);
-	smoke->setPosition(Vec2(_plinth->getPositionX(), 0));
-	this->addChild(smoke);
+	_smoke = ParticleMeteor::createWithTotalParticles(150);
+	_smoke->setBlendFunc(BlendFunc::ALPHA_PREMULTIPLIED);
+	_smoke->setEndColor(Color4F(0.9, 0.85, 0.85,0));
+	_smoke->setEndColorVar(Color4F(0,0,0,0.1));
+	_smoke->setStartColor(Color4F(1.0, 0.95, 0.95,0.3));
+	_smoke->setStartColorVar(Color4F(0,0,0,0.1));
+	_smoke->setTexture(particleTex);
+	_smoke->setLife(2.5);
+	_smoke->setLifeVar(0.5);
+	_smoke->setGravity(Vec2(0,-25));
+	_smoke->setStartSize(150);
+	_smoke->setStartSizeVar(25);
+	_smoke->setEndSize(175);
+	_smoke->setEndSizeVar(25);
+	_smoke->setPosVar(Vec2(_plinth->getContentSize().width / 1.5,50));
+	_smoke->setAngleVar(20);
+	_smoke->setAngle(90);
+	_smoke->setEmissionRate(75);
+	_smoke->setDuration(2);
+	_smoke->setSpeed(90);
+	_smoke->setSpeedVar(25);
+	//smoke->setAutoRemoveOnFinish(true);
+	_smoke->setPosition(Vec2(_plinth->getPositionX(), 0));
+	this->addChild(_smoke);
 }
 void CoinCollectLayer::addCoinCounter()
 {
@@ -225,28 +285,28 @@ void CoinCollectLayer::addCoinCounter()
 	
 	const Vec2& oomeeWorldPos = _plinth->getPosition() + Vec2(0,_plinth->getContentSize().height + 200);
 	
-	Sprite* mainCoin = Sprite::create("res/rewards/coin.png");
-	mainCoin->setPosition(isPortrait ? Vec2(visibleSize.width * 0.5f,visibleSize.height * 0.5f) : Vec2(visibleSize.width * 0.75f, oomeeWorldPos.y));
-	mainCoin->setContentSize(mainCoin->getContentSize() * 2.5f);
-	this->addChild(mainCoin,1);
+	_mainCoin = Sprite::create("res/rewards/coin.png");
+	_mainCoin->setPosition(isPortrait ? Vec2(visibleSize.width * 0.5f,visibleSize.height * 0.5f) : Vec2(visibleSize.width * 0.75f, oomeeWorldPos.y));
+	_mainCoin->setContentSize(_mainCoin->getContentSize() * 2.5f);
+	this->addChild(_mainCoin,1);
 	
 	Sprite* coinGlow = Sprite::create("res/rewards/coin_glow.png");
 	coinGlow->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	mainCoin->addChild(coinGlow,-1);
+	_mainCoin->addChild(coinGlow,-1);
 	
-	Sprite* counterFrame = Sprite::create("res/rewards/value_frame.png");
-	counterFrame->setNormalizedPosition(isPortrait ? Vec2::ANCHOR_MIDDLE_TOP : Vec2::ANCHOR_MIDDLE_BOTTOM);
-	counterFrame->setAnchorPoint(isPortrait ? Vec2(0.5,-0.5) : Vec2(0.5,1.5));
-	mainCoin->addChild(counterFrame);
+	_counterFrame = Sprite::create("res/rewards/value_frame.png");
+	_counterFrame->setNormalizedPosition(isPortrait ? Vec2::ANCHOR_MIDDLE_TOP : Vec2::ANCHOR_MIDDLE_BOTTOM);
+	_counterFrame->setAnchorPoint(isPortrait ? Vec2(0.5,-0.5) : Vec2(0.5,1.5));
+	_mainCoin->addChild(_counterFrame);
 	
-	_valueLabel = Label::createWithTTF("0", Style::Font::Bold(), counterFrame->getContentSize().height * 0.8f);
+	_valueLabel = Label::createWithTTF("0", Style::Font::Bold(), _counterFrame->getContentSize().height * 0.8f);
 	_valueLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	_valueLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_valueLabel->setHorizontalAlignment(TextHAlignment::CENTER);
 	_valueLabel->setVerticalAlignment(TextVAlignment::CENTER);
 	_valueLabel->setOverflow(Label::Overflow::SHRINK);
-	_valueLabel->setDimensions(counterFrame->getContentSize().width * 0.8f, counterFrame->getContentSize().height * 0.8f);
-	counterFrame->addChild(_valueLabel);
+	_valueLabel->setDimensions(_counterFrame->getContentSize().width * 0.8f, _counterFrame->getContentSize().height * 0.8f);
+	_counterFrame->addChild(_valueLabel);
 	
 	const float animDur = _duration * 0.65f;
 	
@@ -258,8 +318,9 @@ void CoinCollectLayer::addCoinCounter()
 		Sprite* coin1 = Sprite::create("res/rewards/coin.png");
 		coin1->setScale(0);
 		coin1->setPosition(oomeeWorldPos);
-		coin1->runAction(Sequence::createWithTwoActions(DelayTime::create(i),MoveTo::create(1, mainCoin->getPosition())));
+		coin1->runAction(Sequence::createWithTwoActions(DelayTime::create(i),MoveTo::create(1, _mainCoin->getPosition())));
 		coin1->runAction(Sequence::createWithTwoActions(DelayTime::create(i), ScaleTo::create(1, 2.5)));
+		coin1->setName("coin");
 		this->addChild(coin1);
 		
 		if(i + 1.33 < animDur)
@@ -267,8 +328,9 @@ void CoinCollectLayer::addCoinCounter()
 			Sprite* coin2 = Sprite::create("res/rewards/coin.png");
 			coin2->setScale(0);
 			coin2->setPosition(oomeeWorldPos);
-			coin2->runAction(Sequence::createWithTwoActions(DelayTime::create(i + 0.33),MoveTo::create(1, mainCoin->getPosition())));
+			coin2->runAction(Sequence::createWithTwoActions(DelayTime::create(i + 0.33),MoveTo::create(1, _mainCoin->getPosition())));
 			coin2->runAction(Sequence::createWithTwoActions(DelayTime::create(i + 0.33), ScaleTo::create(1, 2.5)));
+			coin2->setName("coin");
 			this->addChild(coin2);
 		}
 		if(i + 1.66 < animDur)
@@ -276,8 +338,9 @@ void CoinCollectLayer::addCoinCounter()
 			Sprite* coin3 = Sprite::create("res/rewards/coin.png");
 			coin3->setScale(0);
 			coin3->setPosition(oomeeWorldPos);
-			coin3->runAction(Sequence::createWithTwoActions(DelayTime::create(i + 0.66),MoveTo::create(1, mainCoin->getPosition())));
+			coin3->runAction(Sequence::createWithTwoActions(DelayTime::create(i + 0.66),MoveTo::create(1, _mainCoin->getPosition())));
 			coin3->runAction(Sequence::createWithTwoActions(DelayTime::create(i + 0.66), ScaleTo::create(1, 2.5)));
+			coin3->setName("coin");
 			this->addChild(coin3);
 		}
 	}

@@ -25,8 +25,8 @@ bool AwesomeLayer::init()
 }
 void AwesomeLayer::onEnter()
 {
-	LayerColor* bgColour = LayerColor::create(Color4B(0,7,4,255));
-	this->addChild(bgColour, -1);
+	_bgColour = LayerColor::create(Color4B(0,7,4,255));
+	this->addChild(_bgColour, -1);
 	
 	addStars();
 	addAwsomeText();
@@ -86,6 +86,17 @@ void AwesomeLayer::update(float deltaT)
 	Super::update(deltaT);
 }
 
+void AwesomeLayer::onSizeChanged()
+{
+	Super::onSizeChanged();
+	if(_bgColour)
+	{
+		_bgColour->removeFromParent();
+	}
+	_bgColour = LayerColor::create(Color4B(0,7,4,255));
+	this->addChild(_bgColour, -1);
+}
+
 void AwesomeLayer::addAwsomeText()
 {
 	Sprite* bgLights = Sprite::create("res/rewards/wow_bg.png");
@@ -138,7 +149,7 @@ void AwesomeLayer::addStars()
 		sparkle->setEndSpin(0);
 		sparkle->setEndSpinVar(50);
 		sparkle->setAutoRemoveOnFinish(true);
-		sparkle->setPosition(Vec2(visibleSize.width * 0.5, visibleSize.height));
+		sparkle->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
 		sparkle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 		this->addChild(sparkle);
 	}

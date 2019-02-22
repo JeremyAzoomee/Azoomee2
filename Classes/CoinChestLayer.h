@@ -20,6 +20,11 @@ class CoinChestLayer : public RewardScreen
 	typedef RewardScreen Super;
 private:
 	
+	cocos2d::LayerColor* _bgColour = nullptr;
+	cocos2d::ui::Scale9Sprite* _wires = nullptr;
+	cocos2d::ui::Layout* _text = nullptr;
+	cocos2d::Node* _chestNode = nullptr;
+	
 	void addText();
 	void addChest();
 	
@@ -28,6 +33,7 @@ public:
 	bool init() override;
 	void onEnter() override;
 	void update(float deltaT) override;
+	void onSizeChanged() override;
 	
 	CREATE_FUNC(CoinChestLayer);
 };

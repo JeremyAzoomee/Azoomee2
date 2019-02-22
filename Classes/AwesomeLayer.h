@@ -21,6 +21,8 @@ private:
 	static const std::vector<cocos2d::Color4F> kColours;
 	float _nextParticleEmit = 0;
 	
+	cocos2d::LayerColor* _bgColour = nullptr;
+	
 	void addAwsomeText();
 	void addStars();
 	
@@ -29,6 +31,7 @@ public:
 	bool init() override;
 	void onEnter() override;
 	void update(float deltaT) override;
+	void onSizeChanged() override;
 	
 	CREATE_FUNC(AwesomeLayer);
 };

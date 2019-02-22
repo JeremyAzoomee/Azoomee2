@@ -24,10 +24,11 @@ public:
 	
 	bool init() override;
 	void onEnter() override;
+	void onSizeChanged() override;
 	
 	CREATE_FUNC(RewardScene);
 	
-	void onAnimationComplete(const RewardItemRef& reward);
+	void onAnimationComplete(const RewardItemRef& reward) override;
 };
 
 NS_AZOOMEE_END

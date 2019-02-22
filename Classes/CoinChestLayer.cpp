@@ -24,14 +24,14 @@ bool CoinChestLayer::init()
 }
 void CoinChestLayer::onEnter()
 {
-	LayerColor* bgColour = LayerColor::create(Color4B(0,7,4,255));
-	this->addChild(bgColour, -1);
+	_bgColour = LayerColor::create(Color4B(0,7,4,255));
+	this->addChild(_bgColour, -1);
 	
-	ui::Scale9Sprite* wires = ui::Scale9Sprite::create("res/rewards/wires.png");
-	wires->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	wires->setCapInsets(Rect(wires->getContentSize()/2,Size(1,1)));
-	wires->setContentSize(this->getContentSize());
-	this->addChild(wires, -1);
+	_wires = ui::Scale9Sprite::create("res/rewards/wires.png");
+	_wires->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	_wires->setCapInsets(Rect(_wires->getContentSize()/2,Size(1,1)));
+	_wires->setContentSize(this->getContentSize());
+	this->addChild(_wires, -1);
 	
 	addChest();
 	addText();
@@ -46,43 +46,70 @@ void CoinChestLayer::update(float deltaT)
 	Super::update(deltaT);
 }
 
+void CoinChestLayer::onSizeChanged()
+{
+	Super::onSizeChanged();
+	const Size& visibleSize = this->getContentSize();
+	bool isPortrait = visibleSize.width < visibleSize.height;
+	if(_text)
+	{
+		_text->setNormalizedPosition(isPortrait ? Vec2(0.5,0.75) : Vec2(0.70,0.5));
+	}
+	if(_chestNode)
+	{
+		_chestNode->setNormalizedPosition(isPortrait ? Vec2(0.5,0.33) : Vec2(0.33,0.5));
+	}
+	if(_bgColour)
+	{
+		_bgColour->setContentSize(visibleSize);
+	}
+	if(_wires)
+	{
+		_wires->setContentSize(visibleSize);
+	}
+}
+
 void CoinChestLayer::addText()
 {
 	const Size& visibleSize = this->getContentSize();
 	bool isPortrait = visibleSize.width < visibleSize.height;
 	
-	ui::Layout* text = ui::Layout::create();
-	text->setLayoutType(ui::Layout::Type::VERTICAL);
+	_text = ui::Layout::create();
+	_text->setLayoutType(ui::Layout::Type::VERTICAL);
 	
 	ui::Text* youWon = ui::Text::create("YOU WON", Style::Font::Regular(), 120);
 	youWon->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
-	text->addChild(youWon);
+	_text->addChild(youWon);
 	
 	ui::Text* value = ui::Text::create(StringUtils::format("%d",abs(_rewardData->getItemPrice())), Style::Font::Bold(), 360);
 	value->setTextColor(Color4B(Style::Color::macaroniAndCheese));
 	value->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
-	text->addChild(value);
+	_text->addChild(value);
 	
 	ui::Text* coins = ui::Text::create("COINS", Style::Font::Regular(), 120);
 	coins->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
-	text->addChild(coins);
+	_text->addChild(coins);
 	
-	text->setContentSize(Size(value->getContentSize().width, youWon->getContentSize().height + value->getContentSize().height + coins->getContentSize().height));
-	text->setNormalizedPosition(isPortrait ? Vec2(0.5,0.75) : Vec2(0.70,0.5));
-	text->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	this->addChild(text);
+	_text->setContentSize(Size(value->getContentSize().width, youWon->getContentSize().height + value->getContentSize().height + coins->getContentSize().height));
+	_text->setNormalizedPosition(isPortrait ? Vec2(0.5,0.75) : Vec2(0.70,0.5));
+	_text->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	this->addChild(_text);
 }
 void CoinChestLayer::addChest()
 {
 	const Size& visibleSize = this->getContentSize();
 	bool isPortrait = visibleSize.width < visibleSize.height;
 	
+	_chestNode = Node::create();
+	_chestNode->setNormalizedPosition(isPortrait ? Vec2(0.5,0.33) : Vec2(0.33,0.5));
+	this->addChild(_chestNode);
+	
 	Sprite* bgLights = Sprite::create("res/rewards/wow_bg.png");
-	bgLights->setNormalizedPosition(isPortrait ? Vec2(0.5,0.33) : Vec2(0.33,0.5));
+	bgLights->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	bgLights->setScale(1.8f);
 	bgLights->runAction(RepeatForever::create(RotateBy::create(1.0,90)));
 	bgLights->runAction(RepeatForever::create(Sequence::create(ScaleTo::create(1, 1.45), ScaleTo::create(2, 2.15), ScaleTo::create(1, 1), NULL)));
-	this->addChild(bgLights);
+	_chestNode->addChild(bgLights);
 	
 	Texture2D* particleTex = Director::getInstance()->getTextureCache()->addImage("res/rewards/star.png");
 	ParticleSystemQuad* sparkle = ParticleSystemQuad::createWithTotalParticles(15);
@@ -111,16 +138,16 @@ void CoinChestLayer::addChest()
 	sparkle->setEndSpin(0);
 	sparkle->setEndSpinVar(50);
 	sparkle->setAutoRemoveOnFinish(true);
-	sparkle->setPosition(isPortrait ? Vec2(visibleSize.width * 0.5, visibleSize.height * 0.33) : Vec2(visibleSize.width * 0.33, visibleSize.height * 0.5));
-	sparkle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-	this->addChild(sparkle);
+	sparkle->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	sparkle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	_chestNode->addChild(sparkle);
 	
 	Sprite* chest = Sprite::create("res/rewards/chest_of_coins.png");
 	chest->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	chest->setNormalizedPosition(isPortrait ? Vec2(0.5,0.33) : Vec2(0.33,0.5));
+	chest->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	chest->setScale(0.5);
 	chest->runAction(EaseBackOut::create(ScaleTo::create(_duration * 0.5f, 1)));
-	this->addChild(chest);
+	_chestNode->addChild(chest);
 }
 
 NS_AZOOMEE_END
