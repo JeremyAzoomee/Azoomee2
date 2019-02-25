@@ -4,7 +4,7 @@
 //
 //  Created by Macauley on 22/10/2018.
 //
-
+#ifdef VODACOM_BUILD
 #ifndef VodacomMessageBoxExitFlow_h
 #define VodacomMessageBoxExitFlow_h
 
@@ -35,3 +35,4 @@ public:
 NS_AZOOMEE_END
 
 #endif /* VodacomMessageBoxExitFlow_h */
+#endif

@@ -4,7 +4,7 @@
 //
 //  Created by Macauley on 22/10/2018.
 //
-
+#ifdef VODACOM_BUILD
 #ifndef VodacomMessageBoxInfo_h
 #define VodacomMessageBoxInfo_h
 
@@ -32,3 +32,4 @@ NS_AZOOMEE_END
 
 
 #endif /* VodacomMessageBoxInfo_h */
+#endif

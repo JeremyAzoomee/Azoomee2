@@ -47,6 +47,7 @@ const char* const API::TagUpdateParentPassword = "updateParentPassword";
 const char* const API::TagGetParentDetails = "getParentDetails";
 const char* const API::TagUpdateChildNameRequest = "updateChildNameRequest";
 const char* const API::TagAddVoucher = "addVoucher";
+const char* const API::TagGetVodacomTransactionId = "vodacomTransactionId";
 const char* const API::TagGetVideoProgress = "getVideoProgress";
 const char* const API::TagUpdateVideoProgress = "updateVideoProgress";
 
@@ -566,6 +567,19 @@ HttpRequestCreator* API::FriendRequestReaction(bool confirmed, const std::string
     request->requestTag = TagFriendRequestReaction;
     request->encrypted = true;
     return request;
+}
+
+// Vodacom API calls
+HttpRequestCreator* API::GetVodacomTransactionId(const std::string& userId,
+											HttpRequestCreatorResponseDelegate* delegate)
+{
+	HttpRequestCreator* request = new HttpRequestCreator(delegate);
+	request->requestTag = TagGetVodacomTransactionId;
+	request->requestPath = StringUtils::format("/api/vodasabilling/%s/receipt", userId.c_str());
+	request->requestBody = "{}";
+	request->method = "POST";
+	request->encrypted = true;
+	return request;
 }
 
 
