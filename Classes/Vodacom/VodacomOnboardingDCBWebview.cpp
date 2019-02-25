@@ -19,8 +19,6 @@ NS_AZOOMEE_BEGIN
 const std::string VodacomOnboardingDCBWebview::kVodacomStorefrontUrl = "http://vodacom.azoomeepartners.ninja/purchase";
 const std::string VodacomOnboardingDCBWebview::kVodacomPurchaseUrl = "http://vodacom.azoomeepartners.ninja/purchase?txnId=%s&productId=%s";
 const std::string VodacomOnboardingDCBWebview::kVodacomPurchaseRedirectUrlStart = "http://vodacom.azoomeepartners.ninja/purchase-redirect";
-//const std::string VodacomOnboardingDCBWebview::kVodacomStorefrontUrl = "http://b8867b46.ngrok.io/purchase?on-network=true";
-//const std::string VodacomOnboardingDCBWebview::kVodacomPurchaseUrl = "http://b8867b46.ngrok.io/purchase?txnId=%s&productId=%s?on-network=true";
 #else
 const std::string VodacomOnboardingDCBWebview::kVodacomStorefrontUrl = "http://vodacom.azoomeepartners.com/purchase";
 const std::string VodacomOnboardingDCBWebview::kVodacomPurchaseUrl = "http://vodacom.azoomeepartners.com/purchase?txnId=%s&productId=%s";

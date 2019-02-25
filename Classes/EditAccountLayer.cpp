@@ -280,7 +280,7 @@ void EditAccountLayer::onEnter()
 #ifdef VODACOM_BUILD
 		if(billingProvider == "VODACOM_SA")
 		{
-			subDeetsLab->setString(StringUtils::format(_("Monthly Subscription\nRenews on %s").c_str(),ParentDataProvider::getInstance()->getBillingDate().c_str()));
+			subDeetsLab->setString(StringUtils::format(_("Subscribed.\nRenews on %s").c_str(),ParentDataProvider::getInstance()->getBillingDate().c_str()));
 #else
         if(billingProvider == ConfigStorage::kBillingProviderApple || billingProvider == ConfigStorage::kBillingProviderGoogle || billingProvider == ConfigStorage::kBillingProviderAmazon)
         {

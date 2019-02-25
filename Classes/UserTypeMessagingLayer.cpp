@@ -43,7 +43,11 @@ void UserTypeMessagingLayer::onEnter()
     _startTrialButton = ui::Button::create("res/buttons/MainButton.png");
     _startTrialButton->setContentSize(Size(this->getContentSize().width * (isPortrait ? 0.65f : 0.5f), _startTrialButton->getContentSize().height));
     _startTrialButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+#ifndef VODACOM_BUILD
     _startTrialButton->setNormalizedPosition(Vec2(isPortrait ? 0.35 : 0.5, 0.4));
+#else
+	_startTrialButton->setNormalizedPosition(Vec2(isPortrait ? 0.35 : 0.5, 0.5));
+#endif
     _startTrialButton->setSwallowTouches(true);
     _startTrialButton->setColor(Color3B::WHITE);
     _startTrialButton->ignoreContentAdaptWithSize(true);
@@ -76,6 +80,7 @@ void UserTypeMessagingLayer::onEnter()
     
     this->addChild(_startTrialButton);
 	
+#ifndef VODACOM_BUILD
 	_smallprintLabel = Label::createWithTTF(StringUtils::format(_("Plan automatically renews for %s/month after trial ends").c_str(),IAPProductDataHandler::getInstance()->getHumanReadableProductPrice().c_str()), Style::Font::Regular(), 50);
 	_smallprintLabel->setAnchorPoint(Vec2(0.5,-0.1));
 	_smallprintLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
@@ -85,6 +90,7 @@ void UserTypeMessagingLayer::onEnter()
 	_smallprintLabel->setDimensions(_startTrialButton->getContentSize().width - 160, 60);
 	_smallprintLabel->setOverflow(Label::Overflow::SHRINK);
 	_startTrialButton->addChild(_smallprintLabel);
+#endif
 	
     _signInButton = ui::Button::create("res/artapp/white_bg.png");
     _signInButton->setContentSize(Size(this->getContentSize().width * 0.3f, this->getContentSize().height * 0.5f));
@@ -189,9 +195,16 @@ void UserTypeMessagingLayer::repositionElements()
     _bgSprite->setContentSize(this->getContentSize());
     
     _startTrialButton->setContentSize(Size(this->getContentSize().width * (isPortrait ? 0.65f : 0.5f), _startTrialButton->getContentSize().height));
-    _startTrialButton->setNormalizedPosition(Vec2(isPortrait ? 0.35 : 0.5, 0.4));
+#ifndef VODACOM_BUILD
+	_startTrialButton->setNormalizedPosition(Vec2(isPortrait ? 0.35 : 0.5, 0.4));
+#else
+	_startTrialButton->setNormalizedPosition(Vec2(isPortrait ? 0.35 : 0.5, 0.5));
+#endif
     _startTrialLabel->setDimensions(_startTrialButton->getContentSize().width - 160, _startTrialButton->getContentSize().height * 0.7f);
-	_smallprintLabel->setDimensions(_startTrialButton->getContentSize().width - 160, 60);
+	if(_smallprintLabel)
+	{
+		_smallprintLabel->setDimensions(_startTrialButton->getContentSize().width - 160, 60);
+	}
     
     _signInButton->setContentSize(Size(this->getContentSize().width * 0.3f, this->getContentSize().height * 0.5f));
     _signInButton->setNormalizedPosition(Vec2(isPortrait ? 0.85 : 0.9, 0.5));
