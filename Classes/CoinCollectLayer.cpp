@@ -78,15 +78,15 @@ void CoinCollectLayer::update(float deltaT)
 		ps->setAutoRemoveOnFinish(true);
 		ps->setPositionType(ParticleSystem::PositionType::GROUPED);
 		
-		const Vec2& vel = Vec2(RandomHelper::random_int(-MAX(visibleSize.height,visibleSize.width) * 1.3f, -MAX(visibleSize.height,visibleSize.width) * 1.1f), //distance X
-							   RandomHelper::random_int(-MIN(visibleSize.height,visibleSize.width) * 1.0f, -MIN(visibleSize.height,visibleSize.width) * 0.4f)); //distance Y
+		const Vec2& vel = Vec2(RandomHelper::random_int((int)(-MAX(visibleSize.height,visibleSize.width) * 1.3f), (int)(-MAX(visibleSize.height,visibleSize.width) * 1.1f)), //distance X
+							   RandomHelper::random_int((int)(-MIN(visibleSize.height,visibleSize.width) * 1.0f), (int)(-MIN(visibleSize.height,visibleSize.width) * 0.4f))); //distance Y
 		ps->setSpeed(-vel.length() / 5);
 		ps->setAngle(CC_RADIANS_TO_DEGREES(vel.getAngle()));
 		float duration = RandomHelper::random_real(3.0, 4.0);
 		ps->setDuration(duration);
 		ps->runAction(EaseOut::create(MoveBy::create(duration, vel), 0.3f));
-		ps->setPosition(Vec2(RandomHelper::random_int(visibleSize.width * 1.1f, visibleSize.width * 1.3f), //distance X
-							 RandomHelper::random_int(visibleSize.height * 0.6f, visibleSize.height * 1.2f))); //distance Y
+		ps->setPosition(Vec2(RandomHelper::random_int((int)(visibleSize.width * 1.1f), (int)(visibleSize.width * 1.3f)), //distance X
+							 RandomHelper::random_int((int)(visibleSize.height * 0.6f), (int)(visibleSize.height * 1.2f)))); //distance Y
 	
 		this->addChild(ps,-1);
 	}

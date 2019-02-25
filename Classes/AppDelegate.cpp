@@ -102,15 +102,15 @@ void AppDelegate::applicationWillEnterForeground()
     {
         AnalyticsSingleton::getInstance()->contentItemClosedEvent();
 		//ContentHistoryManager::getInstance()->contentClosed();
-        if(HQHistoryManager::getInstance()->thereWasAnError)
+        if(HQHistoryManager::getInstance()->_thereWasAnError)
         {
-            HQHistoryManager::getInstance()->thereWasAnError = false;
+            HQHistoryManager::getInstance()->_thereWasAnError = false;
             FlowDataSingleton::getInstance()->setErrorCode(ERROR_CODE_SOMETHING_WENT_WRONG);
             LoginLogicHandler::getInstance()->doLoginLogic();
             return;
         }
         
-        if(HQHistoryManager::getInstance()->isOffline == true)
+        if(HQHistoryManager::getInstance()->_isOffline == true)
         {
             Director::getInstance()->replaceScene(OfflineHubScene::createScene());
             return;

@@ -17,6 +17,7 @@
 #include <AzoomeeCommon/Strings.h>
 #include "ChatDelegate.h"
 #include "BackEndCaller.h"
+#include <AzoomeeCommon/API/API.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/jni/JniHelper.h"
@@ -128,7 +129,7 @@ void WebViewNativeCaller_android::onEnterTransitionDidFinish()
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     SessionIdManager::getInstance()->registerAndroidSceneChangeEvent();
-    JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "startWebView", loadUrl,ChildDataProvider::getInstance()->getLoggedInChildId(),(int)_orientation, _closeButtonAnchor.x, _closeButtonAnchor.y, _videoProgressSeconds);
+    JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "startWebView", loadUrl,ChildDataProvider::getInstance()->getParentOrChildId(),(int)_orientation, _closeButtonAnchor.x, _closeButtonAnchor.y, _videoProgressSeconds);
         
 #endif
 }
@@ -156,7 +157,7 @@ extern "C"
 
 JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_getBackToLoginScreen(JNIEnv* env, jobject thiz)
 {
-    HQHistoryManager::getInstance()->thereWasAnError = true;
+    HQHistoryManager::getInstance()->_thereWasAnError = true;
 }
 
 #endif
@@ -342,7 +343,7 @@ extern "C"
 
 JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIShareInChat(JNIEnv* env, jobject thiz)
 {
-	if(!HQHistoryManager::getInstance()->isOffline)
+	if(!HQHistoryManager::getInstance()->_isOffline)
 	{
     	ChatDelegate::getInstance()->_sharedContentId = ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId();
 	}
@@ -359,7 +360,7 @@ extern "C"
 
 JNIEXPORT bool JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIIsChatEntitled(JNIEnv* env, jobject thiz)
 {
-    return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName)->getHqEntitlement() && !HQHistoryManager::getInstance()->isOffline;
+    return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName)->getHqEntitlement() && !HQHistoryManager::getInstance()->_isOffline;
 }
 
 #endif
