@@ -4,7 +4,7 @@
 //
 //  Created by Macauley on 08/11/2018.
 //
-
+#ifdef VODACOM_BUILD
 #include "VodacomOnboardingDCBWebview.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
@@ -107,3 +107,4 @@ void VodacomOnboardingDCBWebview::onEnter()
 }
 
 NS_AZOOMEE_END
+#endif

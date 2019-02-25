@@ -4,7 +4,7 @@
 //
 //  Created by Macauley on 10/10/2018.
 //
-
+#ifdef VODACOM_BUILD
 #ifndef VodacomOnboardingFlowData_h
 #define VodacomOnboardingFlowData_h
 
@@ -103,3 +103,4 @@ public:
 NS_AZOOMEE_END
 
 #endif /* VodacomOnboardingFlowData_h */
+#endif

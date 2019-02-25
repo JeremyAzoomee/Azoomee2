@@ -247,7 +247,6 @@ public:
     
     static HttpRequestCreator* GetTimelineSummary(const std::string& userId,
                                                         HttpRequestCreatorResponseDelegate* delegate);
-    
     // Vodacom API calls
 	static HttpRequestCreator* GetVodacomTransactionId(const std::string& userId,
 													   HttpRequestCreatorResponseDelegate* delegate);

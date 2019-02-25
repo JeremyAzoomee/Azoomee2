@@ -117,17 +117,17 @@ bool NavigationLayer::init()
     _userTypeMessagingLayer->setContentSize(Size(visibleSize.width, 350));
     _userTypeMessagingLayer->setPosition(origin - Vec2(0,350));
     _userTypeMessagingLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-    UserMessagingType userType = UserMessagingType::ANON;
+    UserBillingType userType = UserBillingType::ANON;
     if(!ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
     {
-        userType = UserMessagingType::LAPSED;
+        userType = UserBillingType::LAPSED;
         if(ParentDataProvider::getInstance()->isPaidUser())
         {
-            userType = UserMessagingType::PAID;
+            userType = UserBillingType::PAID;
         }
     }
     _userTypeMessagingLayer->setUserType(userType);
-    if(userType == UserMessagingType::PAID)
+    if(userType == UserBillingType::PAID)
     {
         if(FlowDataSingleton::getInstance()->getDisplayUserPaidFlag())
         {

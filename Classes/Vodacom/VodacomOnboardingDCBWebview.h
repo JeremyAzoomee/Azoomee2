@@ -4,7 +4,7 @@
 //
 //  Created by Macauley on 08/11/2018.
 //
-
+#ifdef VODACOM_BUILD
 #ifndef VodacomOnboardingDCBWebview_h
 #define VodacomOnboardingDCBWebview_h
 
@@ -35,3 +35,4 @@ NS_AZOOMEE_END
 
 
 #endif /* VodacomOnboardingDCBWebview_h */
+#endif

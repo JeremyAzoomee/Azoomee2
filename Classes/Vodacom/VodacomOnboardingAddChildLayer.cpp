@@ -4,7 +4,7 @@
 //
 //  Created by Macauley on 11/10/2018.
 //
-
+#ifdef VODACOM_BUILD
 #include "VodacomOnboardingAddChildLayer.h"
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/Style.h>
@@ -342,3 +342,4 @@ void VodacomOnboardingAddChildLayer::onButtonPressed(SettingsMessageBox *pSender
 }
 
 NS_AZOOMEE_END
+#endif

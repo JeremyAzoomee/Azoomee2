@@ -14,7 +14,7 @@
 
 NS_AZOOMEE_BEGIN
 
-enum class UserMessagingType {ANON, LAPSED, PAID};
+enum class UserBillingType {ANON, LAPSED, PAID};
 
 class UserTypeMessagingLayer : public cocos2d::Layer
 {
@@ -30,13 +30,13 @@ private:
     cocos2d::Label* _premiumLabel = nullptr;
 	cocos2d::Label* _smallprintLabel = nullptr;
     
-    UserMessagingType _userType;
+    UserBillingType _userType;
 public:
     
     virtual bool init() override;
     virtual void onEnter() override;
     
-    void setUserType(UserMessagingType userType);
+    void setUserType(UserBillingType userType);
     
     void repositionElements();
     

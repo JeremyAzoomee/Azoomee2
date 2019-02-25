@@ -4,7 +4,7 @@
 //
 //  Created by Macauley on 11/10/2018.
 //
-
+#ifdef VODACOM_BUILD
 #include "VodacomOnboardingFlowData.h"
 
 NS_AZOOMEE_BEGIN
@@ -181,3 +181,4 @@ FlowState VodacomOnboardingFlowData::getCurrentState() const
 }
 
 NS_AZOOMEE_END
+#endif

@@ -6,7 +6,6 @@
 //#define FORGET_USER_DATA YES;
 //#define ALLOW_UNPAID_SIGNUP YES
 //#define USINGCI YES
-//#define VODACOM_BUILD YES
 
 #include <cocos/cocos2d.h>
 #include "Json.h"
@@ -71,6 +70,7 @@ public:
 	static const std::string kBillingProviderApple;
 	static const std::string kBillingProviderGoogle;
 	static const std::string kBillingProviderAmazon;
+	static const std::string kBillingProviderVodacomSA;
     
     /** Returns the shared instance of the Game Manager */
     static ConfigStorage* getInstance(void);

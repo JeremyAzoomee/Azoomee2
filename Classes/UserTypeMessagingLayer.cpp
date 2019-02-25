@@ -43,10 +43,10 @@ void UserTypeMessagingLayer::onEnter()
     _startTrialButton = ui::Button::create("res/buttons/MainButton.png");
     _startTrialButton->setContentSize(Size(this->getContentSize().width * (isPortrait ? 0.65f : 0.5f), _startTrialButton->getContentSize().height));
     _startTrialButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-#ifndef VODACOM_BUILD
-    _startTrialButton->setNormalizedPosition(Vec2(isPortrait ? 0.35 : 0.5, 0.4));
+#ifdef VODACOM_BUILD
+    _startTrialButton->setNormalizedPosition(Vec2(isPortrait ? 0.35 : 0.5, 0.5));
 #else
-	_startTrialButton->setNormalizedPosition(Vec2(isPortrait ? 0.35 : 0.5, 0.5));
+	_startTrialButton->setNormalizedPosition(Vec2(isPortrait ? 0.35 : 0.5, 0.4));
 #endif
     _startTrialButton->setSwallowTouches(true);
     _startTrialButton->setColor(Color3B::WHITE);
@@ -165,16 +165,16 @@ void UserTypeMessagingLayer::onEnter()
     this->addChild(_premiumLabel);
     
     switch (_userType) {
-        case UserMessagingType::ANON:
+        case UserBillingType::ANON:
             _reactivateButton->setVisible(false);
             _premiumLabel->setVisible(false);
             break;
-        case UserMessagingType::LAPSED:
+        case UserBillingType::LAPSED:
             _signInButton->setVisible(false);
             _startTrialButton->setVisible(false);
             _premiumLabel->setVisible(false);
             break;
-        case UserMessagingType::PAID:
+        case UserBillingType::PAID:
             _reactivateButton->setVisible(false);
             _signInButton->setVisible(false);
             _startTrialButton->setVisible(false);
@@ -183,7 +183,7 @@ void UserTypeMessagingLayer::onEnter()
     
 }
 
-void UserTypeMessagingLayer::setUserType(UserMessagingType userType)
+void UserTypeMessagingLayer::setUserType(UserBillingType userType)
 {
     _userType = userType;
 }
@@ -195,10 +195,10 @@ void UserTypeMessagingLayer::repositionElements()
     _bgSprite->setContentSize(this->getContentSize());
     
     _startTrialButton->setContentSize(Size(this->getContentSize().width * (isPortrait ? 0.65f : 0.5f), _startTrialButton->getContentSize().height));
-#ifndef VODACOM_BUILD
-	_startTrialButton->setNormalizedPosition(Vec2(isPortrait ? 0.35 : 0.5, 0.4));
-#else
+#ifdef VODACOM_BUILD
 	_startTrialButton->setNormalizedPosition(Vec2(isPortrait ? 0.35 : 0.5, 0.5));
+#else
+	_startTrialButton->setNormalizedPosition(Vec2(isPortrait ? 0.35 : 0.5, 0.4));
 #endif
     _startTrialLabel->setDimensions(_startTrialButton->getContentSize().width - 160, _startTrialButton->getContentSize().height * 0.7f);
 	if(_smallprintLabel)

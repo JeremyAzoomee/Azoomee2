@@ -4,7 +4,7 @@
 //
 //  Created by Macauley on 22/10/2018.
 //
-
+#ifdef VODACOM_BUILD
 #include "VodacomMessageBoxExitFlow.h"
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/Style.h>
@@ -97,3 +97,4 @@ void VodacomMessageBoxExitFlow::setState(const ExitFlowState &state)
 }
 
 NS_AZOOMEE_END
+#endif

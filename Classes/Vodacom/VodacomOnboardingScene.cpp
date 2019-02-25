@@ -4,7 +4,7 @@
 //
 //  Created by Macauley on 11/10/2018.
 //
-
+#ifdef VODACOM_BUILD
 #include "VodacomOnboardingScene.h"
 #include "VodacomOnboardingAddChildLayer.h"
 #include "VodacomOnboardingRegisterLayer.h"
@@ -327,3 +327,4 @@ void VodacomOnboardingScene::onHttpRequestFailed(const std::string& requestTag, 
 }
 
 NS_AZOOMEE_END
+#endif

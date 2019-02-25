@@ -278,7 +278,7 @@ void EditAccountLayer::onEnter()
         
         const std::string& billingProvider = ParentDataProvider::getInstance()->getBillingProvider();
 #ifdef VODACOM_BUILD
-		if(billingProvider == "VODACOM_SA")
+		if(billingProvider == ConfigStorage::kBillingProviderVodacomSA)
 		{
 			subDeetsLab->setString(StringUtils::format(_("Subscribed.\nRenews on %s").c_str(),ParentDataProvider::getInstance()->getBillingDate().c_str()));
 #else
@@ -312,11 +312,14 @@ void EditAccountLayer::onEnter()
 				}
 			});
 			_accountTypeLayout->addChild(manageButton);
+			
+			
 #ifdef VODACOM_BUILD
-			Label* manageLab = Label::createWithTTF(_("Unsubscribe"), Style::Font::Medium(), manageButton->getContentSize().height * 0.4f);
+			const std::string& buttonLab = _("Unsubscribe");
 #else
-			Label* manageLab = Label::createWithTTF(_("Manage"), Style::Font::Medium(), manageButton->getContentSize().height * 0.4f);
+			const std::string& buttonLab = _("Manage");
 #endif
+			Label* manageLab = Label::createWithTTF(buttonLab, Style::Font::Medium(), manageButton->getContentSize().height * 0.4f);
 			manageLab->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 			manageLab->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 			manageLab->setTextColor(Color4B::BLACK);
@@ -326,11 +329,13 @@ void EditAccountLayer::onEnter()
     }
     else
     {
+		
 #ifdef VODACOM_BUILD
-		Label* subDeetsLab = Label::createWithTTF(_("Inactive Voucher\nUnlock all content by adding a voucher"), Style::Font::Medium(), 59);
+		const std::string& subLab = _("Inactive Voucher\nUnlock all content by adding a voucher");
 #else
-		Label* subDeetsLab = Label::createWithTTF(_("Free Account\nTap Renew for a special offer"), Style::Font::Medium(), 59);
+		const std::string& subLab = _("Free Account\nTap Renew for a special offer");
 #endif
+		Label* subDeetsLab = Label::createWithTTF(subLab, Style::Font::Medium(), 59);
         subDeetsLab->setNormalizedPosition(Vec2(0.5f,0.66f));
         subDeetsLab->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         subDeetsLab->setTextColor(Color4B::WHITE);
@@ -352,10 +357,11 @@ void EditAccountLayer::onEnter()
 		_accountTypeLayout->addChild(resubButton);
 		
 #ifdef VODACOM_BUILD
-		Label* resubLab = Label::createWithTTF(_("Unlock everything"), Style::Font::Medium(), resubButton->getContentSize().height * 0.4f);
+		const std::string& buttonLab = _("Unlock everything");
 #else
-		Label* resubLab = Label::createWithTTF(_("Renew subscription"), Style::Font::Medium(), resubButton->getContentSize().height * 0.4f);
+		const std::string& buttonLab = _("Renew subscription");
 #endif
+		Label* resubLab = Label::createWithTTF(buttonLab, Style::Font::Medium(), resubButton->getContentSize().height * 0.4f);
 		resubLab->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 		resubLab->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 		resubLab->setTextColor(Color4B::BLACK);

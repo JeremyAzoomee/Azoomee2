@@ -4,7 +4,7 @@
 //
 //  Created by Macauley on 08/11/2018.
 //
-
+#ifdef VODACOM_BUILD
 #include "VodacomOnboardingTnCLayer.h"
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Strings.h>
@@ -256,3 +256,4 @@ void VodacomOnboardingTnCLayer::onConfirmPressed()
 }
 
 NS_AZOOMEE_END
+#endif

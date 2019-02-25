@@ -4,7 +4,7 @@
 //
 //  Created by Macauley on 11/10/2018.
 //
-
+#ifdef VODACOM_BUILD
 #include "VodacomOnboardingPinLayer.h"
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/Style.h>
@@ -354,3 +354,4 @@ void VodacomOnboardingPinLayer::onButtonPressed(SettingsMessageBox *pSender, Set
 }
 
 NS_AZOOMEE_END
+#endif

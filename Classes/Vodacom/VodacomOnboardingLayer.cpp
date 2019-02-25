@@ -4,7 +4,7 @@
 //
 //  Created by Macauley on 11/10/2018.
 //
-
+#ifdef VODACOM_BUILD
 #include "VodacomOnboardingLayer.h"
 
 using namespace cocos2d;
@@ -41,3 +41,4 @@ void VodacomOnboardingLayer::setDelegate(VodacomOnboardingLayerDelegate* delegat
 }
 
 NS_AZOOMEE_END
+#endif

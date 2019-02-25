@@ -4,7 +4,7 @@
 //
 //  Created by Macauley on 11/10/2018.
 //
-
+#ifdef VODACOM_BUILD
 #include "VodacomOnboardingLoginLayer.h"
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/Style.h>
@@ -385,3 +385,4 @@ void VodacomOnboardingLoginLayer::editBoxEditingDidEnd(TextInputLayer* inputLaye
 }
 
 NS_AZOOMEE_END
+#endif
