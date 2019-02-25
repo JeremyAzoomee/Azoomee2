@@ -5,6 +5,7 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 #include <AzoomeeCommon/Input/TextInputLayer.h>
+#include "ui/CocosGUI.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -17,6 +18,8 @@ private:
     
     ElectricDreamsButton* backButton;
     ElectricDreamsButton* startGameButton;
+    
+    cocos2d::ui::CheckBox* _streamGameCheckbox = nullptr;
     
     TextInputLayer *uriTextInput;
     

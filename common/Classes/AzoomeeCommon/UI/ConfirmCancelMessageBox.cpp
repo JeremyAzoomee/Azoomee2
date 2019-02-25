@@ -7,6 +7,7 @@
 
 #include "ConfirmCancelMessageBox.h"
 #include "Style.h"
+#include "../Audio/AudioMixer.h"
 
 using namespace cocos2d;
 
@@ -63,6 +64,7 @@ bool ConfirmCancelMessageBox::init()
     _confirmButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
+			AudioMixer::getInstance()->playEffect(NEXT_BUTTON_AUDIO_EFFECT);
             if(_delegate)
             {
                 _delegate->onConfirmPressed(this);
@@ -77,6 +79,7 @@ bool ConfirmCancelMessageBox::init()
     _cancelButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
+			AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
             if(_delegate)
             {
                 _delegate->onCancelPressed(this);

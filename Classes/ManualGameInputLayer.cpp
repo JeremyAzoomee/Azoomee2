@@ -75,6 +75,17 @@ void ManualGameInputLayer::addButtons()
     startGameButton->setDelegate(this);
     startGameButton->setMixPanelButtonName("ManualGameInputStartGameButton");
     backgroundLayer->addChild(startGameButton);
+    
+    _streamGameCheckbox = ui::CheckBox::create("res/buttons/check-box-empty-white.png", "res/buttons/correct-symbol-white.png");
+    _streamGameCheckbox->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _streamGameCheckbox->setPosition(Vec2(backgroundLayer->getContentSize().width / 2.0f, backgroundLayer->getContentSize().height / 3.0f));
+    backgroundLayer->addChild(_streamGameCheckbox);
+    
+    Label* checkboxLabel = Label::createWithTTF("Stream Game?", Style::Font::Regular(), 72);
+    checkboxLabel->setTextColor(Color4B::WHITE);
+    checkboxLabel->setAnchorPoint(Vec2(0.5, -0.5));
+    checkboxLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+    _streamGameCheckbox->addChild(checkboxLabel);
 }
 
 void ManualGameInputLayer::addTextBox()
@@ -106,22 +117,36 @@ void ManualGameInputLayer::buttonPressed(ElectricDreamsButton* button)
     }
     else if(button == startGameButton)
     {
-        ModalMessages::getInstance()->startLoading();
-        
         UserDefault* def = UserDefault::getInstance();
         def->setStringForKey("GameURI", uriTextInput->getText());
         def->flush();
-        
-        std::string manualGamePath = ConfigStorage::getInstance()->getGameCachePath() + GameDataManager::kManualGameId;
-        
-        if(FileUtils::getInstance()->isDirectoryExist(manualGamePath))
-            FileUtils::getInstance()->removeDirectory(manualGamePath);
+		
+        if(_streamGameCheckbox->isSelected())
+        {
+            if(uriTextInput->getText().size() > 4)
+            {
+				HQContentItemObjectRef contentItem = HQContentItemObject::create();
+				contentItem->setContentItemId(GameDataManager::kManualGameId);
+				ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
+				Director::getInstance()->replaceScene(SceneManagerScene::createWebview(visibleSize.width > visibleSize.height ? Landscape : Portrait, uriTextInput->getText()));
+            }
+        }
+        else
+        {
+            ModalMessages::getInstance()->startLoading();
+            
+            std::string manualGamePath = FileUtils::getInstance()->getWritablePath() + "gameCache/" + GameDataManager::kManualGameId;
+            
+            if(FileUtils::getInstance()->isDirectoryExist(manualGamePath))
+                FileUtils::getInstance()->removeDirectory(manualGamePath);
 
-        FileUtils::getInstance()->createDirectory(manualGamePath);
-        HQContentItemObjectRef contentItem = HQContentItemObject::create();
-        contentItem->setContentItemId(GameDataManager::kManualGameId);
-        ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
-        GameDataManager::getInstance()->getJSONGameData(uriTextInput->getText().c_str(), GameDataManager::kManualGameId);
+            FileUtils::getInstance()->createDirectory(manualGamePath);
+			HQContentItemObjectRef contentItem = HQContentItemObject::create();
+			contentItem->setContentItemId(GameDataManager::kManualGameId);
+			ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
+			
+            GameDataManager::getInstance()->getJSONGameData(uriTextInput->getText().c_str(), GameDataManager::kManualGameId);
+        }
     }
 }
 

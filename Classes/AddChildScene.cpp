@@ -15,6 +15,7 @@
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/ErrorCodes.h>
+#include <AzoomeeCommon/Audio/AudioMixer.h>
 
 using namespace cocos2d;
 
@@ -132,6 +133,7 @@ void AddChildScene::setSceneForFlow()
 // Delegate Functions
 void AddChildScene::nextLayer()
 {
+	AudioMixer::getInstance()->playEffect(NEXT_BUTTON_AUDIO_EFFECT);
     switch(_currentFlowStage)
     {
         case AddChildFlow::FIRST_TIME_SETUP_NAME:
@@ -158,6 +160,7 @@ void AddChildScene::nextLayer()
 
 void AddChildScene::prevLayer()
 {
+	AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
     switch(_currentFlowStage)
     {
         case AddChildFlow::FIRST_TIME_SETUP_NAME:

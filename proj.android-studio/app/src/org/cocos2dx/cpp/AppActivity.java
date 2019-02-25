@@ -37,6 +37,7 @@ import javax.crypto.spec.SecretKeySpec;
 import android.util.Base64;
 
 import org.cocos2dx.cpp.util.IabBroadcastReceiver;
+import org.cocos2dx.cpp.util.IabException;
 import org.cocos2dx.cpp.util.IabHelper;
 import org.cocos2dx.cpp.util.IabResult;
 import org.cocos2dx.cpp.util.Inventory;
@@ -81,6 +82,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     private Appsflyer appsflyer;
 
     private boolean _purchaseRequiredAfterSetup = false;
+    private boolean _restorePurchase = false;
 
     //variables for google payment
     private IabHelper mHelper;
@@ -435,6 +437,46 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         }
     }
 
+    public static void startGoogleRestorePurchase()
+    {
+        AppActivity currentActivity = mAppActivity;
+        currentActivity._restorePurchase = true;
+        if(currentActivity.mHelper == null)
+        {
+            currentActivity.setupGoogleIAB();
+        }
+        else
+        {
+            try {
+                String googleSku = getGoogleSku();
+                String[] moreSkus = {googleSku, "SKU_ITEMONE"}; //fake skus required by queryInventoryAsync...
+                String[] moreSubSkus = {googleSku, "SUB_ITEMONE", "SUB_ITEMTWO"}; //fake skus required by queryInventoryAsync...
+                Inventory inv = currentActivity.mHelper.queryInventory(true, Arrays.asList(moreSkus), Arrays.asList(moreSubSkus));
+                // Do we have the premium upgrade?
+                Purchase premiumPurchase = inv.getPurchase(googleSku);
+                currentActivity.mIsPremium = (premiumPurchase != null);
+                Log.d("GOOGLEPLAY", "User is " + (currentActivity.mIsPremium ? "PREMIUM" : "NOT PREMIUM"));
+
+                if(currentActivity._restorePurchase)
+                {
+                    currentActivity._restorePurchase = false;
+                    if(currentActivity.mIsPremium)
+                    {
+                        googlePurchaseHappened(premiumPurchase.getDeveloperPayload(), premiumPurchase.getOrderId(), premiumPurchase.getToken());
+                    }
+                    else
+                    {
+                        googleNoPurchaseFound();
+                    }
+                }
+            } catch (IabException e) {
+                Log.d("GOOGLEPAY", "Error querying inventory.");
+                googlePurchaseFailed();
+            }
+        }
+    }
+
+
     public void setupGoogleIAB() {
         String base64EncodedPublicKey = getDeveloperKey();
 
@@ -525,7 +567,19 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
             IABHelperSetupComplete = true;
 
-            if(_purchaseRequiredAfterSetup)
+            if(_restorePurchase)
+            {
+                _restorePurchase = false;
+                if(mIsPremium)
+                {
+                    googlePurchaseHappened(premiumPurchase.getDeveloperPayload(), premiumPurchase.getOrderId(), premiumPurchase.getToken());
+                }
+                else
+                {
+                    googleNoPurchaseFound();
+                }
+            }
+            else if(_purchaseRequiredAfterSetup)
             {
                 startGoogleSubscriptionProcess();
             }
@@ -612,6 +666,8 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     public static native void googlePurchaseHappened(String developerPayload, String orderId, String token);
 
     public static native void googlePurchaseFailed();
+
+    public static native void googleNoPurchaseFound();
 
     public static native void googlePurchaseFailedAlreadyPurchased();
 

@@ -121,6 +121,7 @@
 		521A8EAA19F11F5000D177D7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
 		52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B47A461A53D09B004E4C60 /* Security.framework */; };
 		8262943E1AAF051F00CB7CF7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8262943D1AAF051F00CB7CF7 /* Security.framework */; };
+		92084F6421E644D800DACCEB /* MeHQRecentlyPlayed.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92084F6321E644D800DACCEB /* MeHQRecentlyPlayed.cpp */; };
 		920F6FDE213EB76300B7BB76 /* SettingsFriendshipsPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920F6FDD213EB76300B7BB76 /* SettingsFriendshipsPage.cpp */; };
 		920F6FE1213FD53900B7BB76 /* FriendRequestLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920F6FE0213FD53900B7BB76 /* FriendRequestLayer.cpp */; };
 		920F6FE52140472A00B7BB76 /* SettingsMessageBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920F6FE42140472A00B7BB76 /* SettingsMessageBox.cpp */; };
@@ -522,6 +523,8 @@
 		521A8EA819F11F5000D177D7 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		52B47A461A53D09B004E4C60 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		8262943D1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		92084F5E21E6438000DACCEB /* MeHQRecentlyPlayed.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeHQRecentlyPlayed.h; sourceTree = "<group>"; };
+		92084F6321E644D800DACCEB /* MeHQRecentlyPlayed.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MeHQRecentlyPlayed.cpp; sourceTree = "<group>"; };
 		920F6FD8213EB4DA00B7BB76 /* SettingsFriendshipsPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsFriendshipsPage.h; sourceTree = "<group>"; };
 		920F6FDD213EB76300B7BB76 /* SettingsFriendshipsPage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsFriendshipsPage.cpp; sourceTree = "<group>"; };
 		920F6FDF213EDE4C00B7BB76 /* FriendRequestLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FriendRequestLayer.h; sourceTree = "<group>"; };
@@ -1383,6 +1386,8 @@
 				927DF6E820AEF3C50080DFEF /* MeHQDownloads.cpp */,
 				927DF71E20B590800080DFEF /* MeHQFavourites.h */,
 				927DF72320B593600080DFEF /* MeHQFavourites.cpp */,
+				92084F5E21E6438000DACCEB /* MeHQRecentlyPlayed.h */,
+				92084F6321E644D800DACCEB /* MeHQRecentlyPlayed.cpp */,
 			);
 			name = MeArea;
 			sourceTree = "<group>";
@@ -1988,6 +1993,7 @@
 				02E595B91E5CA2690052F395 /* OfflineHubBackButton.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				A134ADCE1E0C0F420030BE98 /* HQSceneElementPositioner.cpp in Sources */,
+				92084F6421E644D800DACCEB /* MeHQRecentlyPlayed.cpp in Sources */,
 				301CCA941EB139C1009ADA0C /* SettingsButton.cpp in Sources */,
 				928A6DCB20EBB9650053E793 /* ChildCreator.cpp in Sources */,
 				02E595931E55F9BB0052F395 /* OfflineHubHQElement.cpp in Sources */,

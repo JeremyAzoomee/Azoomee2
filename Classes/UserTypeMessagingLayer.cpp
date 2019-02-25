@@ -8,6 +8,7 @@
 #include "UserTypeMessagingLayer.h"
 #include "DynamicNodeHandler.h"
 #include "SceneManagerScene.h"
+#include "IAPProductDataHandler.h"
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/Style.h>
@@ -42,7 +43,7 @@ void UserTypeMessagingLayer::onEnter()
     _startTrialButton = ui::Button::create("res/buttons/MainButton.png");
     _startTrialButton->setContentSize(Size(this->getContentSize().width * (isPortrait ? 0.65f : 0.5f), _startTrialButton->getContentSize().height));
     _startTrialButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _startTrialButton->setNormalizedPosition(Vec2(isPortrait ? 0.35 : 0.5, 0.5));
+    _startTrialButton->setNormalizedPosition(Vec2(isPortrait ? 0.35 : 0.5, 0.4));
     _startTrialButton->setSwallowTouches(true);
     _startTrialButton->setColor(Color3B::WHITE);
     _startTrialButton->ignoreContentAdaptWithSize(true);
@@ -62,7 +63,7 @@ void UserTypeMessagingLayer::onEnter()
 #ifdef VODACOM_BUILD
 	_startTrialLabel = Label::createWithTTF(_("Unlock everything"), Style::Font::Regular(), _startTrialButton->getContentSize().height * ( is18x9 ? 0.35 : 0.4 ));
 #else
-    _startTrialLabel = Label::createWithTTF(_("Start 7 Day Free Trial"), Style::Font::Regular(), _startTrialButton->getContentSize().height * ( is18x9 ? 0.35 : 0.4 ));
+    _startTrialLabel = Label::createWithTTF(_("Get 7 Days free"), Style::Font::Regular(), _startTrialButton->getContentSize().height * ( is18x9 ? 0.35 : 0.4 ));
 #endif
     _startTrialLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _startTrialLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -74,7 +75,17 @@ void UserTypeMessagingLayer::onEnter()
     _startTrialButton->addChild(_startTrialLabel);
     
     this->addChild(_startTrialButton);
-    
+	
+	_smallprintLabel = Label::createWithTTF(StringUtils::format(_("Plan automatically renews for %s/month after trial ends").c_str(),IAPProductDataHandler::getInstance()->getHumanReadableProductPrice().c_str()), Style::Font::Regular(), 50);
+	_smallprintLabel->setAnchorPoint(Vec2(0.5,-0.1));
+	_smallprintLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+	_smallprintLabel->setTextColor(Color4B(255,255,255,255));
+	_smallprintLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+	_smallprintLabel->setVerticalAlignment(TextVAlignment::CENTER);
+	_smallprintLabel->setDimensions(_startTrialButton->getContentSize().width - 160, 60);
+	_smallprintLabel->setOverflow(Label::Overflow::SHRINK);
+	_startTrialButton->addChild(_smallprintLabel);
+	
     _signInButton = ui::Button::create("res/artapp/white_bg.png");
     _signInButton->setContentSize(Size(this->getContentSize().width * 0.3f, this->getContentSize().height * 0.5f));
     _signInButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -178,8 +189,9 @@ void UserTypeMessagingLayer::repositionElements()
     _bgSprite->setContentSize(this->getContentSize());
     
     _startTrialButton->setContentSize(Size(this->getContentSize().width * (isPortrait ? 0.65f : 0.5f), _startTrialButton->getContentSize().height));
-    _startTrialButton->setNormalizedPosition(Vec2(isPortrait ? 0.35 : 0.5, 0.5));
+    _startTrialButton->setNormalizedPosition(Vec2(isPortrait ? 0.35 : 0.5, 0.4));
     _startTrialLabel->setDimensions(_startTrialButton->getContentSize().width - 160, _startTrialButton->getContentSize().height * 0.7f);
+	_smallprintLabel->setDimensions(_startTrialButton->getContentSize().width - 160, 60);
     
     _signInButton->setContentSize(Size(this->getContentSize().width * 0.3f, this->getContentSize().height * 0.5f));
     _signInButton->setNormalizedPosition(Vec2(isPortrait ? 0.85 : 0.9, 0.5));
