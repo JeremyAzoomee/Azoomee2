@@ -4,7 +4,7 @@
 //
 //  Created by Macauley on 11/10/2018.
 //
-
+#ifdef VODACOM_BUILD
 #include "VodacomOnboardingFlowData.h"
 
 NS_AZOOMEE_BEGIN
@@ -77,6 +77,33 @@ std::string VodacomOnboardingFlowData::getChildAge() const
 	return _childAge;
 }
 
+void VodacomOnboardingFlowData::setProductId(const std::string& productId)
+{
+	_productId = productId;
+}
+std::string VodacomOnboardingFlowData::getProductId() const
+{
+	return _productId;
+}
+
+void VodacomOnboardingFlowData::setTransactionId(const std::string& transactionId)
+{
+	_tranactionId = transactionId;
+}
+std::string VodacomOnboardingFlowData::getTransactionId() const
+{
+	return _tranactionId;
+}
+
+void VodacomOnboardingFlowData::setAcceptedMarketing(bool accepted)
+{
+	_acceptedMarketing = accepted;
+}
+bool VodacomOnboardingFlowData::getAcceptedMarketing() const
+{
+	return _acceptedMarketing;
+}
+
 void VodacomOnboardingFlowData::setVoucherFailed(bool failed)
 {
 	_voucherFailed = failed;
@@ -87,6 +114,15 @@ bool VodacomOnboardingFlowData::getVoucherFailed() const
 	return _voucherFailed;
 }
 
+void VodacomOnboardingFlowData::setDCBCompete(bool dcbComplete)
+{
+	_dcbComplete = dcbComplete;
+}
+bool VodacomOnboardingFlowData::getDCBComplete() const
+{
+	return _dcbComplete;
+}
+
 void VodacomOnboardingFlowData::setUserType(const UserType& userType)
 {
 	_userType = userType;
@@ -94,6 +130,15 @@ void VodacomOnboardingFlowData::setUserType(const UserType& userType)
 UserType VodacomOnboardingFlowData::getUserType() const
 {
 	return _userType;
+}
+
+void VodacomOnboardingFlowData::setPurchaseType(const PurchaseType& purchaseType)
+{
+	_purchaseType = purchaseType;
+}
+PurchaseType VodacomOnboardingFlowData::getPurchaseType() const
+{
+	return _purchaseType;
 }
 
 void VodacomOnboardingFlowData::setErrorType(const ErrorType& errorType)
@@ -136,3 +181,4 @@ FlowState VodacomOnboardingFlowData::getCurrentState() const
 }
 
 NS_AZOOMEE_END
+#endif

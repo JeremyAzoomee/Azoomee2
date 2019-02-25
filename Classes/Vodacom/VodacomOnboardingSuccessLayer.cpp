@@ -4,7 +4,7 @@
 //
 //  Created by Macauley on 11/10/2018.
 //
-
+#ifdef VODACOM_BUILD
 #include "VodacomOnboardingSuccessLayer.h"
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
@@ -104,3 +104,4 @@ void VodacomOnboardingSuccessLayer::onEnter()
 }
 
 NS_AZOOMEE_END
+#endif

@@ -4,7 +4,7 @@
 //
 //  Created by Macauley on 10/10/2018.
 //
-
+#ifdef VODACOM_BUILD
 #ifndef VodacomOnboardingErrorLayer_h
 #define VodacomOnboardingErrorLayer_h
 
@@ -28,6 +28,7 @@ private:
 	void setupForPasswordReset();
 	void setupForAlreadyPremium();
 	void setupForAlreadyRegistered();
+	void setupForGenericError();
 	
 	void onVoucherEntered();
 	
@@ -53,3 +54,4 @@ public:
 NS_AZOOMEE_END
 
 #endif /* VodacomOnboardingErrorLayer_h */
+#endif

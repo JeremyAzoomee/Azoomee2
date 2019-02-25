@@ -4,7 +4,7 @@
 //
 //  Created by Macauley on 11/10/2018.
 //
-
+#ifdef VODACOM_BUILD
 #include "VodacomOnboardingScene.h"
 #include "VodacomOnboardingAddChildLayer.h"
 #include "VodacomOnboardingRegisterLayer.h"
@@ -14,6 +14,8 @@
 #include "VodacomOnboardingDetailsLayer.h"
 #include "VodacomOnboardingErrorLayer.h"
 #include "VodacomOnboardingPinLayer.h"
+#include "VodacomOnboardingTnCLayer.h"
+#include "VodacomOnboardingDCBWebview.h"
 #include "../SceneManagerScene.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
@@ -45,16 +47,24 @@ void VodacomOnboardingScene::onEnter()
 {
 	AnalyticsSingleton::getInstance()->vodacomOnboardingFlowStartedEvent();
 	_flowData = VodacomOnboardingFlowData::create();
-	_flowData->setUserType(ParentDataProvider::getInstance()->isLoggedInParentAnonymous() ? UserType::ANON : UserType::FREE);
 	_flowData->pushState(FlowState::EXIT);
-	moveToState((_flowData->getUserType() == UserType::FREE) ? FlowState::ADD_VOUCHER : FlowState::DETAILS);
+	if(ParentDataProvider::getInstance()->isPaidUser())
+	{
+		_flowData->setUserType(UserType::REGISTERED);
+		moveToState(FlowState::DCB_WEBVIEW);
+	}       
+	else
+	{
+		_flowData->setUserType(ParentDataProvider::getInstance()->isLoggedInParentAnonymous() ? UserType::ANON : UserType::FREE);
+		moveToState(FlowState::DETAILS);
+	}
 	Super::onEnter();
 }
 
 void VodacomOnboardingScene::exitFlow()
 {
 	AnalyticsSingleton::getInstance()->vodacomOnboardingFlowExitEvent();
-	if(_flowData->getUserType() == UserType::FREE || _flowData->getUserType() == UserType::REGISTERED)
+	if(ParentDataProvider::getInstance()->isUserLoggedIn())
 	{
 		ModalMessages::getInstance()->startLoading();
 		HttpRequestCreator* request = API::GetAvailableChildrenRequest(this);
@@ -63,6 +73,22 @@ void VodacomOnboardingScene::exitFlow()
 	else
 	{
 		Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+	}
+	
+}
+
+void VodacomOnboardingScene::moveToStateDCBProductSelected(const std::string& productId)
+{
+	_flowData->setProductId(productId);
+	if(_flowData->getUserType() != UserType::FREE)
+	{
+		moveToState(FlowState::TERMS);
+	}
+	else
+	{
+		ModalMessages::getInstance()->startLoading();
+		HttpRequestCreator* request = API::GetVodacomTransactionId(ParentDataProvider::getInstance()->getLoggedInParentId(), this);
+		request->execute();
 	}
 	
 }
@@ -125,7 +151,16 @@ void VodacomOnboardingScene::sendEventForStateTransition()
 				case ErrorType::ALREADY_REGISTERED:
 					stateString += "Already registered";
 					break;
+				case ErrorType::GENERIC:
+					stateString += "Generic";
+					break;
 			}
+			break;
+		case FlowState::TERMS:
+			stateString = "Terms";
+			break;
+		case FlowState::DCB_WEBVIEW:
+			stateString = "DCB webview";
 			break;
 	}
 	
@@ -168,6 +203,12 @@ void VodacomOnboardingScene::moveToState(const FlowState& targetState)
 			break;
 		case FlowState::ERROR:
 			nextLayer = VodacomOnboardingErrorLayer::create();
+			break;
+		case FlowState::TERMS:
+			nextLayer = VodacomOnboardingTnCLayer::create();
+			break;
+		case FlowState::DCB_WEBVIEW:
+			nextLayer = VodacomOnboardingDCBWebview::create();
 			break;
 	}
 	if(nextLayer)
@@ -219,6 +260,12 @@ void VodacomOnboardingScene::moveToPreviousState()
 		case FlowState::ERROR:
 			nextLayer = VodacomOnboardingErrorLayer::create();
 			break;
+		case FlowState::TERMS:
+			nextLayer = VodacomOnboardingTnCLayer::create();
+			break;
+		case FlowState::DCB_WEBVIEW:
+			nextLayer = VodacomOnboardingDCBWebview::create();
+			break;
 	}
 	if(nextLayer)
 	{
@@ -234,15 +281,50 @@ void VodacomOnboardingScene::moveToPreviousState()
 void VodacomOnboardingScene::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
 	ModalMessages::getInstance()->stopLoading();
-	ChildDataParser::getInstance()->setChildLoggedIn(false);
-	ParentDataParser::getInstance()->parseAvailableChildren(body);
-	Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+	if(requestTag == API::TagGetAvailableChildren)
+	{
+		ParentDataParser::getInstance()->parseAvailableChildren(body);
+		if(_flowData->getDCBComplete())
+		{
+			ModalMessages::getInstance()->startLoading();
+			this->runAction(Sequence::createWithTwoActions(DelayTime::create(4.0f), CallFunc::create([this](){
+				HttpRequestCreator* request = API::UpdateBillingDataRequest(ParentDataProvider::getInstance()->getLoggedInParentId(), this);
+				request->execute();
+			})));
+		}
+		else
+		{
+			ChildDataParser::getInstance()->setChildLoggedIn(false);
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+		}
+	}
+	else if(requestTag == API::TagGetVodacomTransactionId)
+	{
+		rapidjson::Document data;
+		data.Parse(body.c_str());
+		if(data.HasParseError())
+		{
+			return;
+		}
+		_flowData->setTransactionId(getStringFromJson("id", data));
+		moveToState(FlowState::DCB_WEBVIEW);
+	}
+	else if(requestTag == API::TagUpdateBillingData)
+	{
+		ChildDataParser::getInstance()->setChildLoggedIn(false);
+		ParentDataParser::getInstance()->parseParentBillingData(body);
+		Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+	}
 }
 void VodacomOnboardingScene::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
 	ModalMessages::getInstance()->stopLoading();
-	ChildDataParser::getInstance()->setChildLoggedIn(false);
-	Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+	if(requestTag == API::TagGetAvailableChildren || requestTag == API::TagUpdateBillingData)
+	{
+		ChildDataParser::getInstance()->setChildLoggedIn(false);
+		Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+	}
 }
 
 NS_AZOOMEE_END
+#endif

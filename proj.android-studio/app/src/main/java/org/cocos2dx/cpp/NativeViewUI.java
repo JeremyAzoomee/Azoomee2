@@ -124,6 +124,7 @@ public class NativeViewUI extends Activity {
         addContentView(uiWebView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
 
+
         uiWebView.setWebViewClient(new WebViewClient(){
 
             @Override public void onReceivedError(WebView view, WebResourceRequest request,
@@ -211,23 +212,8 @@ public class NativeViewUI extends Activity {
         }
 
         Log.d("urlToBeLoaded", myUrl);
-        final String urlToBeLoaded;
+        final String urlToBeLoaded = "file:///android_asset/res/webcommApi/index_android.html?contentUrl=" + myUrl;
 
-        if(myUrl.endsWith("html"))
-        {
-            if(myUrl.startsWith("http")) //content is game loaded remotely
-            {
-                urlToBeLoaded = JNICalls.JNIGetRemoteWebGameAPIPath() + "index_android.html?contentUrl=" + myUrl;
-            }
-            else //game is loaded locally
-            {
-                urlToBeLoaded = "file:///android_asset/res/webcommApi/index_android.html?contentUrl=" + myUrl;
-            }
-        }
-        else
-        {
-            urlToBeLoaded = "file:///android_asset/res/jwplayer/index_android.html?contentUrl=" + myUrl;
-        }
 
         CookieManager uiWebviewCookieManager = CookieManager.getInstance();
         if (Build.VERSION.SDK_INT >= 21)

@@ -4,7 +4,7 @@
 //
 //  Created by Macauley on 11/10/2018.
 //
-
+#ifdef VODACOM_BUILD
 #include "VodacomOnboardingDetailsLayer.h"
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Strings.h>
@@ -27,6 +27,8 @@ bool VodacomOnboardingDetailsLayer::init()
 void VodacomOnboardingDetailsLayer::onEnter()
 {
 	const Size& contentSize = getContentSize();
+	
+	_flowData->setPurchaseType(PurchaseType::UNKNOWN);
 	
 	_closeButton = ui::Button::create("res/vodacom/close.png");
 	_closeButton->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
@@ -89,6 +91,7 @@ void VodacomOnboardingDetailsLayer::onEnter()
 		{
 			if(_delegate)
 			{
+				_flowData->setPurchaseType(PurchaseType::VOUCHER);
 				_delegate->moveToState(FlowState::ADD_VOUCHER);
 			}
 		}
@@ -103,6 +106,29 @@ void VodacomOnboardingDetailsLayer::onEnter()
 	addVoucherText->setOverflow(Label::Overflow::SHRINK);
 	addVoucherText->setDimensions(_addVoucherButton->getContentSize().width * 0.8f, _addVoucherButton->getContentSize().height * 0.8f);
 	_addVoucherButton->addChild(addVoucherText);
+	
+	ui::Button* choosePlanButton = ui::Button::create("res/vodacom/main_button.png");
+	choosePlanButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,0)));
+	choosePlanButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+		if(eType == ui::Widget::TouchEventType::ENDED)
+		{
+			if(_delegate)
+			{
+				_flowData->setPurchaseType(PurchaseType::DCB);
+				_delegate->moveToState(FlowState::DCB_WEBVIEW);
+			}
+		}
+	});
+	_verticalLayout->addChild(choosePlanButton);
+	
+	Label* choosePlanText = Label::createWithTTF(_("Choose a plan"), Style::Font::Regular(), choosePlanButton->getContentSize().height * 0.5f);
+	choosePlanText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	choosePlanText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	choosePlanText->setHorizontalAlignment(TextHAlignment::CENTER);
+	choosePlanText->setVerticalAlignment(TextVAlignment::CENTER);
+	choosePlanText->setOverflow(Label::Overflow::SHRINK);
+	choosePlanText->setDimensions(choosePlanButton->getContentSize().width * 0.8f, choosePlanButton->getContentSize().height * 0.9f);
+	choosePlanButton->addChild(choosePlanText);
 	
 	// add this in later when we have a link
 	/*Label* voucherLearnMore = Label::createWithTTF(_("Don’t have a voucher?"), Style::Font::Regular(), 64);
@@ -129,3 +155,4 @@ void VodacomOnboardingDetailsLayer::onEnter()
 }
 
 NS_AZOOMEE_END
+#endif

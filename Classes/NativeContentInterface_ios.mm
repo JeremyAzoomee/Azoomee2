@@ -50,13 +50,13 @@ void NativeContentInterface_ios::onExit()
 
 void NativeContentInterface_ios::loadContentBasedOnUrl(const std::string &url, const Vec2& closeButtonAnchor, int videoProgressSeconds)
 {
-    if(stringEndsWith(url, "html"))
-    {
-        addWebViewToScreen(url, closeButtonAnchor);
-    }
-    else if(stringEndsWith(url, "m3u8"))
+    if(stringEndsWith(url, "m3u8"))
     {
         addMediaPlayerToScreen(url, videoProgressSeconds);
+    }
+    else
+    {
+        addWebViewToScreen(url, closeButtonAnchor);
     }
 }
 

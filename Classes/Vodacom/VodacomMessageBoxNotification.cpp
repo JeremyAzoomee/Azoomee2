@@ -4,7 +4,7 @@
 //
 //  Created by Macauley on 22/10/2018.
 //
-
+#ifdef VODACOM_BUILD
 #include "VodacomMessageBoxNotification.h"
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/Style.h>
@@ -49,3 +49,4 @@ void VodacomMessageBoxNotification::setHeading(const std::string &heading)
 }
 
 NS_AZOOMEE_END
+#endif

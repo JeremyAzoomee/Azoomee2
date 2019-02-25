@@ -59,6 +59,7 @@ public:
     static const char* const TagGetParentDetails;
     static const char* const TagUpdateChildNameRequest;
 	static const char* const TagAddVoucher;
+	static const char* const TagGetVodacomTransactionId;
 	static const char* const TagGetVideoProgress;
 	static const char* const TagUpdateVideoProgress;
 	static const char* const TagRewardCallback;
@@ -282,6 +283,10 @@ public:
 	
 	static HttpRequestCreator* RewardCallback(const std::string& url,
 											  HttpRequestCreatorResponseDelegate* delegate);
+	
+#pragma mark - Vodacom
+	static HttpRequestCreator* GetVodacomTransactionId(const std::string& userId,
+													   HttpRequestCreatorResponseDelegate* delegate);
 };
   
 NS_AZOOMEE_END

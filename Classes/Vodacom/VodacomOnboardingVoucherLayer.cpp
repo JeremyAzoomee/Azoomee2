@@ -4,7 +4,7 @@
 //
 //  Created by Macauley on 11/10/2018.
 //
-
+#ifdef VODACOM_BUILD
 #include "VodacomOnboardingVoucherLayer.h"
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/UI/Style.h>
@@ -236,7 +236,7 @@ void VodacomOnboardingVoucherLayer::onConfirmPressed()
 		else
 		{
 			_flowData->setVoucherCode(_voucherInput->getText());
-			_delegate->moveToState(FlowState::REGISTER);
+			_delegate->moveToState(FlowState::TERMS);
 		}
 	}
 }
@@ -269,3 +269,4 @@ void VodacomOnboardingVoucherLayer::editBoxEditingDidEnd(TextInputLayer* inputLa
 }
 
 NS_AZOOMEE_END
+#endif

@@ -76,7 +76,6 @@ bool NavigationLayer::init()
             runDisplayAnimationForMenuItem(menuItemHolder, false);        //Animation for two items has to be handled separately, because opacity must not be in a parent-child relationship.
         }
     }
-	
     return true;
 }
 

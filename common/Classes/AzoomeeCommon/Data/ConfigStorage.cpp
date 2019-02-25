@@ -67,6 +67,7 @@ static ConfigStorage *_sharedConfigStorage = NULL;
 	const std::string ConfigStorage::kBillingProviderApple = "APPLE";
 	const std::string ConfigStorage::kBillingProviderGoogle = "GOOGLE";
 	const std::string ConfigStorage::kBillingProviderAmazon = "AMAZON";
+	const std::string ConfigStorage::kBillingProviderVodacomSA = "VODACOM_SA";
 	
 ConfigStorage* ConfigStorage::getInstance()
 {
@@ -113,7 +114,8 @@ bool ConfigStorage::init(void)
 		API::TagUpdateParentPassword,
 		API::TagUpdateParentDetails,
 		API::TagUpdateChildNameRequest,
-		API::TagGetParentDetails
+		API::TagGetParentDetails,
+		API::TagGetVodacomTransactionId
     };
     requestTagsRequireImmediateSending = {
         kGroupHQName,

@@ -4,7 +4,7 @@
 //
 //  Created by Macauley on 10/10/2018.
 //
-
+#ifdef VODACOM_BUILD
 #ifndef VodacomOnboardingLayer_h
 #define VodacomOnboardingLayer_h
 
@@ -14,6 +14,7 @@
 #include "VodacomOnboardingFlowData.h"
 
 NS_AZOOMEE_BEGIN
+
 class VodacomOnboardingLayerDelegate
 {
 public:
@@ -45,3 +46,4 @@ public:
 NS_AZOOMEE_END
 
 #endif /* VodacomOnboardingLayer_h */
+#endif

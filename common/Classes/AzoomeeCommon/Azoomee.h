@@ -6,5 +6,6 @@
 #define NS_AZOOMEE_BEGIN namespace Azoomee {
 #define NS_AZOOMEE_END }
 
+//#define VODACOM_BUILD YES
 
 #endif

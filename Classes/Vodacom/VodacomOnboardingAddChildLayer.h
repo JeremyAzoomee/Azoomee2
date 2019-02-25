@@ -4,7 +4,7 @@
 //
 //  Created by Macauley on 10/10/2018.
 //
-
+#ifdef VODACOM_BUILD
 #ifndef VodacomOnboardingAddChildLayer_h
 #define VodacomOnboardingAddChildLayer_h
 
@@ -50,3 +50,4 @@ NS_AZOOMEE_END
 
 
 #endif /* VodacomOnboardingAddChildLayer_h */
+#endif

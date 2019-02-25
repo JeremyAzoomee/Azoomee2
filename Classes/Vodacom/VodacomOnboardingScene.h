@@ -4,7 +4,7 @@
 //
 //  Created by Macauley on 10/10/2018.
 //
-
+#ifdef VODACOM_BUILD
 #ifndef VodacomOnboardingScene_h
 #define VodacomOnboardingScene_h
 
@@ -34,6 +34,8 @@ public:
 	
 	CREATE_FUNC(VodacomOnboardingScene);
 	
+	void moveToStateDCBProductSelected(const std::string& productId);
+	
 	//delegate Functions
 	void moveToState(const FlowState& targetState) override;
 	void moveToPreviousState() override;
@@ -45,3 +47,4 @@ public:
 NS_AZOOMEE_END
 
 #endif /* VodacomOnboardingScene_h */
+#endif
