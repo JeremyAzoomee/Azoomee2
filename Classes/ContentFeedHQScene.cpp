@@ -142,7 +142,7 @@ void ContentFeedHQScene::createContentScrollview()
 	//we have all carousels in a vector, time to resize the scrollview and add them one by one
 	bool isGroupHQ = _hqCategory == ConfigStorage::kGroupHQName;
 	
-	Size vScrollFrameSize = Size(visibleSize.width - sideMargin * 2, visibleSize.height - (isGroupHQ ? 200.0f : 500.0f));
+	const Size& vScrollFrameSize = Size(visibleSize.width - sideMargin * 2, visibleSize.height - (isGroupHQ ? 200.0f : 500.0f));
 	
 	_contentScrollview = cocos2d::ui::ScrollView::create();
 	_contentScrollview->setContentSize(vScrollFrameSize);
@@ -285,12 +285,12 @@ void ContentFeedHQScene::addGroupHQLogo()
 
 void ContentFeedHQScene::onSizeChanged()
 {
+	Super::onSizeChanged();
 	float scrollPerc = 0.1f;
 	if(_contentScrollview)
 	{
 		scrollPerc = _contentScrollview->getScrolledPercentVertical();
 	}
-	Super::onSizeChanged();
 	_contentNode->removeAllChildren();
 	_contentNode->setContentSize(this->getContentSize());
 	createContentScrollview();

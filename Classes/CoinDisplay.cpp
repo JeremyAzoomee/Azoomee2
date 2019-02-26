@@ -26,10 +26,6 @@ bool CoinDisplay::init()
 		return false;
 	}
 	
-	return true;
-}
-void CoinDisplay::onEnter()
-{
 	ui::Scale9Sprite* stencil = ui::Scale9Sprite::create("res/meHQ/chat_bg.png");
 	stencil->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	stencil->setContentSize(Size(350,100));
@@ -58,8 +54,11 @@ void CoinDisplay::onEnter()
 	_coinSprite->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	this->addChild(_coinSprite);
 	
+	return true;
+}
+void CoinDisplay::onEnter()
+{
 	scheduleUpdate();
-	
 	Super::onEnter();
 }
 

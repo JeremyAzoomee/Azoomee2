@@ -54,14 +54,14 @@ bool ContentHistoryManager::getReturnedFromContent()
     return _returnedFromContent;
 }
 
-void ContentHistoryManager::contentOpened()
+void ContentHistoryManager::onContentOpened()
 {
 	_contentOpenedTime = time(NULL);
 	_contentClosedTime = _contentOpenedTime;
 	SessionIdManager::getInstance()->resetBackgroundTimeInContent();
 	_timeInContent = 0;
 }
-void ContentHistoryManager::contentClosed()
+void ContentHistoryManager::onContentClosed()
 {
 	_contentClosedTime = time(NULL);
 	_timeInContent = difftime(_contentClosedTime,_contentOpenedTime) - SessionIdManager::getInstance()->getBackgroundTimeInContent();

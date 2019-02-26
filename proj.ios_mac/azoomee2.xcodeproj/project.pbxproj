@@ -251,7 +251,6 @@
 		92E5865A222425360015A4FA /* PrivacyAndTermsLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 439694821EAA4A08003C17E6 /* PrivacyAndTermsLayer.cpp */; };
 		92E5865B222425360015A4FA /* VodacomOnboardingVoucherLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A2670216F9F85005C8C41 /* VodacomOnboardingVoucherLayer.cpp */; };
 		92E5865C222425360015A4FA /* GooglePaymentSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02A11FF21EA6375D007EDD95 /* GooglePaymentSingleton.cpp */; };
-		92E5865D222425360015A4FA /* BaseScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A198622C1DD480A60090F053 /* BaseScene.cpp */; };
 		92E5865E222425360015A4FA /* DeepLinkingSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4343CB9A1EBB826600247549 /* DeepLinkingSingleton.cpp */; };
 		92E5865F222425360015A4FA /* ForceUpdateSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025633721F39AB5D0053FF26 /* ForceUpdateSingleton.cpp */; };
 		92E58660222425360015A4FA /* IntroVideoScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 028DDEB4206CFB69006D7EC5 /* IntroVideoScene.cpp */; };
@@ -415,7 +414,6 @@
 		A19862221DD3836D0090F053 /* ChildSelectorScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19862131DD3836D0090F053 /* ChildSelectorScene.cpp */; };
 		A19862271DD3836D0090F053 /* NavigationLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A198621D1DD3836D0090F053 /* NavigationLayer.cpp */; };
 		A198622B1DD383BD0090F053 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19862291DD383BD0090F053 /* AppDelegate.cpp */; };
-		A198622E1DD480A60090F053 /* BaseScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A198622C1DD480A60090F053 /* BaseScene.cpp */; };
 		A1CC0C241E141B47008B469E /* HQDataParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1CC0C201E141B47008B469E /* HQDataParser.cpp */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
@@ -983,8 +981,6 @@
 		A198621E1DD3836D0090F053 /* NavigationLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationLayer.h; sourceTree = "<group>"; };
 		A19862291DD383BD0090F053 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate.cpp; sourceTree = "<group>"; };
 		A198622A1DD383BD0090F053 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		A198622C1DD480A60090F053 /* BaseScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaseScene.cpp; sourceTree = "<group>"; };
-		A198622D1DD480A60090F053 /* BaseScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseScene.h; sourceTree = "<group>"; };
 		A1CC0C201E141B47008B469E /* HQDataParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQDataParser.cpp; sourceTree = "<group>"; };
 		A1CC0C211E141B47008B469E /* HQDataParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQDataParser.h; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -1527,7 +1523,6 @@
 				A1CC0C261E156882008B469E /* Intro */,
 				0243B9B01F387C43005D3734 /* ForceUpdate */,
 				A15B2FA41DEC73B800D25334 /* Login */,
-				A1CC0C141E1407B2008B469E /* BaseScene */,
 				300742F61EF93433005525AE /* Chat */,
 				A1CC0C161E1407BF008B469E /* Navigation */,
 				A19759861DE4931600FEB03C /* HQScene */,
@@ -1877,15 +1872,6 @@
 				A15B2FC91DFACF3800D25334 /* HQDataProvider.h */,
 			);
 			name = HQData;
-			sourceTree = "<group>";
-		};
-		A1CC0C141E1407B2008B469E /* BaseScene */ = {
-			isa = PBXGroup;
-			children = (
-				A198622C1DD480A60090F053 /* BaseScene.cpp */,
-				A198622D1DD480A60090F053 /* BaseScene.h */,
-			);
-			name = BaseScene;
 			sourceTree = "<group>";
 		};
 		A1CC0C161E1407BF008B469E /* Navigation */ = {
@@ -2405,7 +2391,6 @@
 				439694841EAA4A08003C17E6 /* PrivacyAndTermsLayer.cpp in Sources */,
 				921A2671216F9F85005C8C41 /* VodacomOnboardingVoucherLayer.cpp in Sources */,
 				02A11FF71EA6375D007EDD95 /* GooglePaymentSingleton.cpp in Sources */,
-				A198622E1DD480A60090F053 /* BaseScene.cpp in Sources */,
 				925B24A12209D9480000D7D2 /* AwesomeLayer.cpp in Sources */,
 				4343CB9C1EBB826600247549 /* DeepLinkingSingleton.cpp in Sources */,
 				025633741F39AB5D0053FF26 /* ForceUpdateSingleton.cpp in Sources */,
@@ -2561,7 +2546,6 @@
 				92E5865A222425360015A4FA /* PrivacyAndTermsLayer.cpp in Sources */,
 				92E5865B222425360015A4FA /* VodacomOnboardingVoucherLayer.cpp in Sources */,
 				92E5865C222425360015A4FA /* GooglePaymentSingleton.cpp in Sources */,
-				92E5865D222425360015A4FA /* BaseScene.cpp in Sources */,
 				92E5865E222425360015A4FA /* DeepLinkingSingleton.cpp in Sources */,
 				92E5865F222425360015A4FA /* ForceUpdateSingleton.cpp in Sources */,
 				92E58660222425360015A4FA /* IntroVideoScene.cpp in Sources */,

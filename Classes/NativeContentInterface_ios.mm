@@ -1,7 +1,7 @@
 #include "NativeContentInterface_ios.h"
-#include "BaseScene.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "WebViewController_ios.h"
 #include "MediaPlayer_ios.h"
 
@@ -33,7 +33,7 @@ bool NativeContentInterface_ios::init()
 void NativeContentInterface_ios::onEnterTransitionDidFinish()
 {
     Director::getInstance()->purgeCachedData();
-    this->setName("iosWebView");
+    this->setName(ConfigStorage::kIosWebviewName);
 }
 
 void NativeContentInterface_ios::onExit()

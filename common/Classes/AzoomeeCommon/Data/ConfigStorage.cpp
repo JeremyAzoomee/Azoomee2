@@ -40,6 +40,8 @@ static ConfigStorage *_sharedConfigStorage = NULL;
     const char* const ConfigStorage::kContentNodeName = "contentNode";
     const char* const ConfigStorage::kContentLayerName = "contentLayer";
     const char* const ConfigStorage::kNavigationLayerName = "NavigationLayer";
+	const char* const ConfigStorage::kIosWebviewName = "iosWebView";
+	const char* const ConfigStorage::kAndroidWebviewName = "androidWebView";
     
     const char* const ConfigStorage::kContentTypeVideo = "VIDEO";
     const char* const ConfigStorage::kContentTypeAudio = "AUDIO";

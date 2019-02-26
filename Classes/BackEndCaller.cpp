@@ -20,7 +20,6 @@
 #include "HQHistoryManager.h"
 #include "LoginLogicHandler.h"
 #include "ChildSelectorScene.h"
-#include "BaseScene.h"
 #include <AzoomeeCommon/UI/RequestAdultPinLayer.h>
 #include "RoutePaymentSingleton.h"
 #include "SceneManagerScene.h"
@@ -218,18 +217,6 @@ void BackEndCaller::updateBillingData()
 void BackEndCaller::onUpdateBillingDataAnswerReceived(const std::string& responseString)
 {
     ParentDataParser::getInstance()->parseParentBillingData(responseString);
-    // fire event to add parent button to child select scene if paid account
-    /*if(Director::getInstance()->getRunningScene()->getName() == ChildSelectorScene::kSceneName)
-    {
-        if(ParentDataProvider::getInstance()->isPaidUser())
-        {
-            ChildSelectorScene* childSelectScene = dynamic_cast<ChildSelectorScene*>(Director::getInstance()->getRunningScene()->getChildByName(ChildSelectorScene::kSceneName));
-            if(childSelectScene)
-            {
-                childSelectScene->setParentButtonVisible(true);
-            }
-        }
-    }*/
 }
 
 //UPDATING PARENT DATA--------------------------------------------------------------------------------
@@ -496,9 +483,10 @@ void BackEndCaller::updateVideoProgress(const std::string& contentId, int videoP
 
 void BackEndCaller::getChildInventory()
 {
-	if(ChildDataProvider::getInstance()->getLoggedInChild())
+	const ChildRef& child = ChildDataProvider::getInstance()->getLoggedInChild();
+	if(child)
 	{
-		HttpRequestCreator* request = API::GetInventory(ChildDataProvider::getInstance()->getLoggedInChild()->getId(), this);
+		HttpRequestCreator* request = API::GetInventory(child->getId(), this);
 		request->execute();
 	}
 }

@@ -36,8 +36,8 @@ public:
     void setReturnedFromContent(bool returnedFromContent);
     bool getReturnedFromContent();
 	
-	void contentOpened();
-	void contentClosed();
+	void onContentOpened();
+	void onContentClosed();
 	long getTimeInContent() const;
 	time_t getContentOpenedTime() const;
 	time_t getContentClosedTime() const;

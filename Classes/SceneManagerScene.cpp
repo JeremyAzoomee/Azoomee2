@@ -1,6 +1,5 @@
 #include "SceneManagerScene.h"
 #include "HQHistoryManager.h"
-#include "BaseScene.h"
 #include "ChildSelectorScene.h"
 #include "LoginScene.h"
 #include "OfflineHubScene.h"
@@ -332,9 +331,9 @@ void SceneManagerScene::acceptAnyOrientation()
 void SceneManagerScene::returnToPrevOrientation()
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-	if(ContentHistoryManager::getInstance()->getReturnedFromContent() || HQHistoryManager::getInstance()->_returnedFromForcedOrientation)
+	if(ContentHistoryManager::getInstance()->getReturnedFromContent() || HQHistoryManager::getInstance()->hasReturnedFromForcedOrientation())
     {
-        if(HQHistoryManager::getInstance()->_prevHQOrientation == Portrait)
+        if(HQHistoryManager::getInstance()->getPrevHQOrientation() == Portrait)
         {
             forceToPortrait();
         }
@@ -344,7 +343,7 @@ void SceneManagerScene::returnToPrevOrientation()
         }
     }
 #endif
-    HQHistoryManager::getInstance()->_returnedFromForcedOrientation = false;
+    HQHistoryManager::getInstance()->setReturnedFromForcedOrientation(false);
 }
 
 NS_AZOOMEE_END

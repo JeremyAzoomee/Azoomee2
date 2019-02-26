@@ -20,10 +20,6 @@ bool CoinChestLayer::init()
 		return false;
 	}
 	
-	return true;
-}
-void CoinChestLayer::onEnter()
-{
 	_bgColour = LayerColor::create(Color4B(0,7,4,255));
 	this->addChild(_bgColour, -1);
 	
@@ -33,12 +29,22 @@ void CoinChestLayer::onEnter()
 	_wires->setContentSize(this->getContentSize());
 	this->addChild(_wires, -1);
 	
+	return true;
+}
+void CoinChestLayer::onEnter()
+{
 	addChest();
 	addText();
 	
 	this->scheduleUpdate();
 	
 	Super::onEnter();
+}
+
+void CoinChestLayer::onExit()
+{
+	unscheduleUpdate();
+	Super::onExit();
 }
 
 void CoinChestLayer::update(float deltaT)

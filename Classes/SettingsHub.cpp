@@ -71,7 +71,7 @@ bool SettingsHub::init()
         {
             if(_inHub)
             {
-				HQHistoryManager::getInstance()->_returnedFromForcedOrientation = true;
+				HQHistoryManager::getInstance()->setReturnedFromForcedOrientation(true);
 				switch(_origin)
 				{
 					case SettingsOrigin::HQ:
@@ -360,7 +360,7 @@ void SettingsHub::updateTextForNewLanguage()
 
 void SettingsHub::AdultPinCancelled(RequestAdultPinLayer* layer)
 {
-	HQHistoryManager::getInstance()->_returnedFromForcedOrientation = true;
+	HQHistoryManager::getInstance()->setReturnedFromForcedOrientation(true);
 	switch(_origin)
 	{
 		case SettingsOrigin::HQ:

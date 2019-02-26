@@ -44,6 +44,8 @@ public:
     static const char* const kContentNodeName;
     static const char* const kContentLayerName;
     static const char* const kNavigationLayerName;
+	static const char* const kIosWebviewName;
+	static const char* const kAndroidWebviewName;
     
     static const char* const kContentTypeVideo;
     static const char* const kContentTypeAudio;

@@ -32,6 +32,7 @@ public:
 	
 	bool init() override;
 	void onEnter() override;
+	void onExit() override;
 	void update(float deltaT) override;
 	void onSizeChanged() override;
 	

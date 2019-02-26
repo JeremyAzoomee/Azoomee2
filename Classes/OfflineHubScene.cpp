@@ -29,7 +29,7 @@ bool OfflineHubScene::init()
     }
     
     ChildDataParser::getInstance()->setChildLoggedIn(false);
-    HQHistoryManager::getInstance()->_isOffline = true;
+    HQHistoryManager::getInstance()->setIsOffline(true);
     UserDefault* def = UserDefault::getInstance();
     const std::string& lastLoggedInChildId = def->getStringForKey("lastLoggedInChildId");
     def->flush();

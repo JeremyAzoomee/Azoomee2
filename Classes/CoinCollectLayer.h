@@ -28,7 +28,7 @@ private:
 	cocos2d::Sprite* _bottomGradient = nullptr;
 	
 	cocos2d::Sprite* _plinth = nullptr;
-	cocos2d::ParticleMeteor* _smoke = nullptr;
+	cocos2d::ParticleSystemQuad* _smoke = nullptr;
 	
 	cocos2d::Sprite* _mainCoin = nullptr;
 	cocos2d::Sprite* _counterFrame = nullptr;
@@ -43,6 +43,12 @@ private:
 	void addHeading();
 	void addPlinth();
 	void addCoinCounter();
+	
+	cocos2d::ParticleSystemQuad* createSparkleParticles(const cocos2d::Vec2& emissionArea);
+	cocos2d::ParticleSystemQuad* createSmokeParticles(const cocos2d::Vec2& emissionArea);
+	cocos2d::ParticleSystemQuad* createMeteorParticles();
+	
+	cocos2d::Sprite* createCoinWithDelay(float delay);
 	
 public:
 	

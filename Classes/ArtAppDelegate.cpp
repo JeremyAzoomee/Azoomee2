@@ -41,13 +41,13 @@ void ArtAppDelegate::setFileName(const std::string& filename)
 void ArtAppDelegate::onArtAppNavigationBack()
 {
     ArtAppRunning = false;
-    if(HQHistoryManager::getInstance()->_isOffline)
+    if(HQHistoryManager::getInstance()->isOffline())
     {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineArtsAppHQ));
     }
     else
     {
-        HQHistoryManager::getInstance()->_returnedFromForcedOrientation = true;
+        HQHistoryManager::getInstance()->setReturnedFromForcedOrientation(true);
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
     }
     
@@ -57,12 +57,12 @@ void ArtAppDelegate::onArtAppShareImage()
 {
     if(filename != "")
     {
-        if(!HQHistoryManager::getInstance()->_isOffline && ChildDataProvider::getInstance()->isChildLoggedIn())
+        if(!HQHistoryManager::getInstance()->isOffline() && ChildDataProvider::getInstance()->isChildLoggedIn())
         {
             AnalyticsSingleton::getInstance()->contentItemClosedEvent();
             ChatDelegate::getInstance()->_imageFileName = filename;
             ArtAppRunning = false;
-            HQHistoryManager::getInstance()->_returnedFromForcedOrientation = true;
+            HQHistoryManager::getInstance()->setReturnedFromForcedOrientation(true);
             Director::getInstance()->getTextureCache()->reloadTexture(filename);
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
         }
@@ -71,7 +71,7 @@ void ArtAppDelegate::onArtAppShareImage()
 
 bool ArtAppDelegate::isOffline()
 {
-	return HQHistoryManager::getInstance()->_isOffline;
+	return HQHistoryManager::getInstance()->isOffline();
 }
 
 void ArtAppDelegate::setSecondsSpentInArtApp(long seconds)

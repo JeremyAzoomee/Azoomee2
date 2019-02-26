@@ -74,16 +74,11 @@ bool ChildSelectorScene::init()
     _firstTime = true;
     
     addVisualsToScene();
-    //createSettingsButton();
     addScrollViewForProfiles();
     addProfilesToScrollView();
     addPrivacyButton();
     
     _firstTime = false;
-    
-    //_addChildButton= createNewProfileButton();
-    //_addChildButton->setPosition(Vec2(_visibleSize.width * 0.5, _addChildButton->getContentSize().height * (_isPortrait ? 3.0f : 1.5f)));
-    //_contentNode->addChild(_addChildButton);
 
     return true;
 }
@@ -242,7 +237,6 @@ void ChildSelectorScene::addProfilesToScrollView()
 	{
     	setParentButtonVisible(false);
 	}
-    //_parentButton->setPosition(Vec2(_visibleSize.width * (_isPortrait ? 0.5f : 0.35f), _parentButton->getContentSize().height * 1.7f));
 	_parentButton->setPosition(Vec2(_visibleSize.width * 0.5f, _parentButton->getContentSize().height * (_isPortrait ? 1.7f : 1.2)));
     _contentNode->addChild(_parentButton);
     
@@ -337,17 +331,7 @@ ui::Button *ChildSelectorScene::createChildProfileButton(const std::string& prof
         oomee->setOpacity(0);
         oomee->runAction(createBlinkEffect(delayTime, 0.1));
     }
-    
-    //auto glow = Sprite::create("res/childSelection/glow.png");
-    //glow->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    //oomee->addChild(glow, -1);
-    
-    //if(_firstTime)
-    //{
-    //    glow->setOpacity(0);
-    //    glow->runAction(createBlinkEffect(delayTime, 0.1));
-    //}
-    
+	
     auto profileLabel = createLabelChildName(profileName);
     profileLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     profileLabel->setNormalizedPosition(Vec2(0.5,0));
@@ -468,37 +452,6 @@ ui::Button* ChildSelectorScene::createParentProfileButton()
 	parentAreaText->setNormalizedPosition(Vec2(0.6,0.5));
 	parentButton->addChild(parentAreaText);
 	
-	/*
-    auto parentButton = ui::Button::create("res/childSelection/button.png");
-    
-    float delayTime = CCRANDOM_0_1() * 0.5;
-    if(_firstTime)
-    {
-        parentButton->setOpacity(0);
-        parentButton->runAction(createBlinkEffect(delayTime,0.1));
-    }
-    
-    parentButton->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType){
-        if(eType == ui::Widget::TouchEventType::ENDED)
-        {
-			AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
-            AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChildSelector - ParentOomee");
-            _parentIconSelected = true;
-            
-            createAdultPinLayerWithDelegate();
-        }
-    });
-	
-	Label* buttonText = Label::createWithTTF(_("Parent inbox"), Style::Font::Regular(), parentButton->getContentSize().height * 0.4f);
-	buttonText->setTextColor(Color4B(Style::Color::brightAqua));
-	buttonText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	buttonText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	buttonText->setHorizontalAlignment(TextHAlignment::CENTER);
-	buttonText->setVerticalAlignment(TextVAlignment::CENTER);
-	buttonText->setOverflow(Label::Overflow::SHRINK);
-	buttonText->setDimensions(parentButton->getContentSize().width * 0.7f, parentButton->getContentSize().height * 0.7f);
-	parentButton->addChild(buttonText);
-	*/
     return parentButton;
 }
 
@@ -507,10 +460,6 @@ void ChildSelectorScene::setParentButtonVisible(bool visible)
     if(_parentButton)
     {
         _parentButton->setVisible(visible);
-        //if(visible && !_isPortrait && _addChildButton)
-        //{
-        //    _addChildButton->setPosition(Vec2(_visibleSize.width * 0.65, _addChildButton->getContentSize().height * (_isPortrait ? 3.2f : 1.7f)));
-        //}
     }
 }
 
@@ -677,14 +626,9 @@ void ChildSelectorScene::onSizeChanged()
     this->addChild(_contentNode, -1, ConfigStorage::kContentNodeName);
     
     addVisualsToScene();
-    //createSettingsButton();
     addScrollViewForProfiles();
     addProfilesToScrollView();
     addPrivacyButton();
-    
-    //_addChildButton = createNewProfileButton();
-    //_addChildButton->setPosition(Vec2(_visibleSize.width * 0.5, _addChildButton->getContentSize().height * (_isPortrait ? 3.2f : 1.7f)));
-    //_contentNode->addChild(_addChildButton);
     
     setParentButtonVisible(parentButtonVisible);
     

@@ -51,7 +51,10 @@ void RewardScene::onEnter()
 	coinCollect->setRewardData(_rewardData);
 	coinCollect->setOomeeFilepath(ChildDataProvider::getInstance()->getLoggedInChild()->getAvatar());
 	coinCollect->setDeleagte(this);
-	this->addChild(coinCollect);
+	coinCollect->retain();
+	_screenSequence.push_back(coinCollect);
+	
+	onAnimationComplete(_rewardData);
 	
 	Node::onEnter(); // skip RewardScreen onEnter which schedules callback
 }
@@ -60,14 +63,6 @@ void RewardScene::onSizeChanged()
 {
 	Super::onSizeChanged();
 	setScale(1);
-	for (auto layer : getChildren())
-	{
-		RewardScreen* screen = dynamic_cast<RewardScreen*>(layer);
-		if(screen)
-		{
-			screen->onSizeChanged();
-		}
-	}
 	for(RewardScreen* screen : _screenSequence)
 	{
 		screen->onSizeChanged();
@@ -77,12 +72,12 @@ void RewardScene::onSizeChanged()
 void RewardScene::onAnimationComplete(const RewardItemRef& reward)
 {
 	removeAllChildren();
+	_screenSequence.pop_back();
 	if(_screenSequence.size() > 0)
 	{
 		auto nextLayer = _screenSequence.back();
 		this->addChild(nextLayer);
 		nextLayer->release();
-		_screenSequence.pop_back();
 	}
 	else
 	{
