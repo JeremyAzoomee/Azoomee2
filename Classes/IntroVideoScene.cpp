@@ -244,7 +244,7 @@ void IntroVideoScene::MessageBoxButtonPressed(std::string messageBoxTitle, std::
 		}
 		else
 		{
-			if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
+			if(!ParentDataParser::getInstance()->hasParentLoginDataInUserDefaults())
 			{
 				BackEndCaller::getInstance()->anonymousDeviceLogin();
 			}

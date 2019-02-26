@@ -179,7 +179,16 @@ void BackEndCaller::anonymousDeviceLogin()
     std::string deviceId = ConfigStorage::getInstance()->getDeviceAdvertisingId();
     
     if(deviceId == "") deviceId = "SESSID:" + SessionIdManager::getInstance()->getCurrentSessionId();
-    
+	
+	UserDefault* userDefault = UserDefault::getInstance();
+	const std::string& anonEmail = userDefault->getStringForKey("anonEmail", "");
+	const std::string& anonPW = userDefault->getStringForKey("anonPW", "");
+	
+	if(anonEmail == "")
+	{
+		//get anon creds from BE
+	}
+	
     HttpRequestCreator* request = API::AnonymousDeviceLoginRequest(deviceId, this);
     request->execute();
 }
@@ -700,7 +709,10 @@ void BackEndCaller::onContentDownloadComplete()
 
 void BackEndCaller::onFeedDownloadComplete()
 {
-	if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous() && !ChildDataProvider::getInstance()->isChildLoggedIn())
+	UserDefault* userDefault = UserDefault::getInstance();
+	bool anonOnboardingComplete = userDefault->getBoolForKey("anonOnboardingComplete", false);
+	//if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous() && !ChildDataProvider::getInstance()->isChildLoggedIn())
+	if(!anonOnboardingComplete)
 	{
 		Director::getInstance()->replaceScene(SceneManagerScene::createScene(WelcomeScene));
 	}

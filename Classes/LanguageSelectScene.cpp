@@ -9,6 +9,7 @@
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataStorage.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include "SceneManagerScene.h"
 #include "BackEndCaller.h"
 #include "LoginLogicHandler.h"
@@ -270,7 +271,7 @@ cocos2d::ui::Layout* LanguageSelectScene::createLanguageButton(const LanguagePar
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
 			StringMgr::getInstance()->changeLanguage(params._identifier);
-			if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
+			if(!ParentDataParser::getInstance()->hasParentLoginDataInUserDefaults())
 			{
 				if(ParentDataStorage::getInstance()->getParent())
 				{
