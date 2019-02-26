@@ -30,7 +30,7 @@ bool HQScene::init()
 }
 void HQScene::onEnter()
 {
-	RewardDisplayHandler::getInstance()->getPendingRewards();
+	//RewardDisplayHandler::getInstance()->getPendingRewards();
 	TutorialController::getInstance()->registerDelegate(this);
 	if(TutorialController::getInstance()->isTutorialActive())
 	{

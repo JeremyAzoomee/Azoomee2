@@ -6,6 +6,7 @@
 //
 
 #include "TutorialController.h"
+#include <algorithm>
 
 NS_AZOOMEE_BEGIN
 

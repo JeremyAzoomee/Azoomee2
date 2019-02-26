@@ -34,6 +34,8 @@
 
 #include "DynamicNodeHandler.h"
 
+#include "RewardDisplayHandler.h"
+
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "ApplePaymentSingleton.h"
 #include <AzoomeeCommon/Utils/IosNativeFunctionsSingleton.h>
@@ -705,6 +707,7 @@ void BackEndCaller::onFeedDownloadComplete()
 	else
 	{
 		//TutorialController::getInstance()->startTutorial(TutorialController::kFTUNavTutorialID);
+		RewardDisplayHandler::getInstance()->getPendingRewards();
 		Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
 	}
 	
