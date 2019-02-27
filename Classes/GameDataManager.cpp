@@ -15,7 +15,6 @@
 #include "LoginLogicHandler.h"
 #include <AzoomeeCommon/UI/MessageBox.h>
 #include "HQHistoryManager.h"
-#include "BaseScene.h"
 #include <AzoomeeCommon/Strings.h>
 #include "WebGameAPIDataManager.h"
 #include <AzoomeeCommon/Utils/VersionChecker.h>
@@ -94,7 +93,7 @@ void GameDataManager::startProcessingGame(const HQContentItemObjectRef &itemData
     
     if(checkIfFileExists(basePath + fileName))
     {
-        if(HQHistoryManager::getInstance()->_isOffline)
+        if(HQHistoryManager::getInstance()->isOffline())
         {
             JSONFileIsPresent(itemId);
         }
@@ -111,7 +110,7 @@ void GameDataManager::startProcessingGame(const HQContentItemObjectRef &itemData
 
 void GameDataManager::saveFeedDataToFile(const HQContentItemObjectRef &itemData)
 {
-    if(HQHistoryManager::getInstance()->_isOffline)
+    if(HQHistoryManager::getInstance()->isOffline())
     {
         return;
     }
@@ -142,7 +141,7 @@ void GameDataManager::JSONFileIsPresent(const std::string &itemId)
     {
         startGame(basePath, startFile);
     }
-    else if(!HQHistoryManager::getInstance()->_isOffline)
+    else if(!HQHistoryManager::getInstance()->isOffline())
     {
         streamGameIfPossible(basePathWithFileName);
         

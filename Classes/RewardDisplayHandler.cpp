@@ -10,6 +10,7 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Child/ChildDataParser.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "CoinCollectLayer.h"
 #include "RewardScene.h"
 
@@ -64,7 +65,7 @@ bool RewardDisplayHandler::isRunningAnimationPossible()
 	{
 		return false;
 	}
-	if(scene->getChildByName("iosWebView") || scene->getChildByName("androidWebView"))
+	if(scene->getChildByName(ConfigStorage::kIosWebviewName) || scene->getChildByName(ConfigStorage::kAndroidWebviewName))
 	{
 		return false;
 	}
@@ -109,8 +110,9 @@ void RewardDisplayHandler::showNextReward()
 {
 	if(!_rewardDisplayRunning && isRunningAnimationPossible() && _rewardQueue.size() > 0)
 	{
-		showReward(_rewardQueue.front());
-		_rewardQueue.erase(_rewardQueue.begin());
+		const auto& firstItemIt = _rewardQueue.begin();
+		showReward(*firstItemIt);
+		_rewardQueue.erase(firstItemIt);
 	}
 }
 
@@ -133,8 +135,9 @@ void RewardDisplayHandler::onAnimationComplete(const RewardItemRef& reward)
 	
 	if(_rewardQueue.size() > 0)
 	{
-		showReward(_rewardQueue.front());
-		_rewardQueue.erase(_rewardQueue.begin());
+		const auto& firstItemIt = _rewardQueue.begin();
+		showReward(*firstItemIt);
+		_rewardQueue.erase(firstItemIt);
 	}
 	else
 	{

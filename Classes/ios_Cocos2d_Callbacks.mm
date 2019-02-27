@@ -1,5 +1,4 @@
 #include "ios_Cocos2d_Callbacks.h"
-#include "BaseScene.h"
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "OfflineHubScene.h"
@@ -30,7 +29,7 @@ void navigateToBaseScene()
 {
     AnalyticsSingleton::getInstance()->contentItemClosedEvent();
     
-    if(HQHistoryManager::getInstance()->_isOffline)
+    if(HQHistoryManager::getInstance()->isOffline())
     {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineHub));
         return;
@@ -151,7 +150,7 @@ bool isFavContent()
 
 void shareContentInChat()
 {
-	if(!HQHistoryManager::getInstance()->_isOffline)
+	if(!HQHistoryManager::getInstance()->isOffline())
 	{
     	ChatDelegate::getInstance()->_sharedContentId = ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId();
     	ChatDelegate::getInstance()->shareContentInChat();
@@ -160,7 +159,7 @@ void shareContentInChat()
 
 bool isChatEntitled()
 {
-    return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName)->getHqEntitlement()  && !HQHistoryManager::getInstance()->_isOffline;
+    return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName)->getHqEntitlement()  && !HQHistoryManager::getInstance()->isOffline();
 }
 
 bool isAnonUser()
@@ -175,7 +174,7 @@ void sendVideoProgress(int playlistIndex , int videoProgressSeconds)
 
 void sendProgressMetaDataVideo(int videoProgressSeconds, int videoDuration)
 {
-	ContentHistoryManager::getInstance()->contentClosed();
+	ContentHistoryManager::getInstance()->onContentClosed();
 	const auto& contentItem = ContentHistoryManager::getInstance()->getLastOpenedContent();
 	const std::string& data = StringUtils::format("{\"contentId\":\"%s\", \"contentMeta\":{\"contentType\":\"%s\", \"contentLength\":%d, \"unit\":\"SECONDS\", \"contentProgress\":%d, \"duration\":%ld, \"lastPlayedMeta\": [{\"start\":%ld,\"end\":%ld}]}}",contentItem->getContentItemId().c_str(), contentItem->getType().c_str(), videoDuration, videoProgressSeconds ,ContentHistoryManager::getInstance()->getTimeInContent(), ContentHistoryManager::getInstance()->getContentOpenedTime(), ContentHistoryManager::getInstance()->getContentClosedTime());
 	HttpRequestCreator* request = API::UpdateContentProgressMeta(ChildDataProvider::getInstance()->getParentOrChildId(), data, nullptr);
@@ -185,7 +184,7 @@ void sendProgressMetaDataVideo(int videoProgressSeconds, int videoDuration)
 
 void sendProgressMetaDataGame()
 {
-	ContentHistoryManager::getInstance()->contentClosed();
+	ContentHistoryManager::getInstance()->onContentClosed();
 	const auto& contentItem = ContentHistoryManager::getInstance()->getLastOpenedContent();
 	const std::string& data = StringUtils::format("{\"contentId\":\"%s\", \"contentMeta\":{\"contentType\":\"%s\", \"unit\":\"SECONDS\", \"duration\":%ld, \"lastPlayedMeta\": [{\"start\":%ld,\"end\":%ld}]}}",contentItem->getContentItemId().c_str(), contentItem->getType().c_str(), ContentHistoryManager::getInstance()->getTimeInContent(), ContentHistoryManager::getInstance()->getContentOpenedTime(), ContentHistoryManager::getInstance()->getContentClosedTime());
 	HttpRequestCreator* request = API::UpdateContentProgressMeta(ChildDataProvider::getInstance()->getParentOrChildId(), data, nullptr);
@@ -198,7 +197,7 @@ void newVideoOpened(int playlistIndex)
 	RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kVideoHQName);
 	RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kMeHQName);
 	ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
-	ContentHistoryManager::getInstance()->contentOpened();
+	ContentHistoryManager::getInstance()->onContentOpened();
 	
 }
 

@@ -147,7 +147,7 @@ void OfflineText::buttonPressed(ElectricDreamsButton *button)
 {
     OfflineChecker::getInstance()->setDelegate(nullptr);
     ChildDataParser::getInstance()->setChildLoggedIn(false);
-    HQHistoryManager::getInstance()->_isOffline = false;
+    HQHistoryManager::getInstance()->setIsOffline(false);
     FlowDataSingleton::getInstance()->clearData();
     LoginLogicHandler::getInstance()->doLoginLogic();
 }

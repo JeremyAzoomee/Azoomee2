@@ -1,6 +1,5 @@
 #include "NavigationLayer.h"
 
-#include "BaseScene.h"
 #include "HQDataProvider.h"
 #include "HQScene2.h"
 #include "HQSceneArtsApp.h"

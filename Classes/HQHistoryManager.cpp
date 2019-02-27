@@ -126,4 +126,33 @@ void HQHistoryManager::updatePrevOrientation()
     _prevHQOrientation = (Director::getInstance()->getVisibleSize().width < Director::getInstance()->getVisibleSize().height) ? Portrait : Landscape;
 }
 
+void HQHistoryManager::setHasError(bool hasError)
+{
+	_thereWasAnError = hasError;
+}
+void HQHistoryManager::setIsOffline(bool offline)
+{
+	_isOffline = offline;
+}
+void HQHistoryManager::setReturnedFromForcedOrientation(bool returnedFromForcedOrientation)
+{
+	_returnedFromForcedOrientation = returnedFromForcedOrientation;
+}
+
+bool HQHistoryManager::hasError() const
+{
+	return _thereWasAnError;
+}
+bool HQHistoryManager::isOffline() const
+{
+	return _isOffline;
+}
+bool HQHistoryManager::hasReturnedFromForcedOrientation() const
+{
+	return _returnedFromForcedOrientation;
+}
+Orientation HQHistoryManager::getPrevHQOrientation() const
+{
+	return _prevHQOrientation;
+}
 NS_AZOOMEE_END

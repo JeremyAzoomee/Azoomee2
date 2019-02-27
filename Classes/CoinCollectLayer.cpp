@@ -19,14 +19,13 @@ bool CoinCollectLayer::init()
 	{
 		return false;
 	}
-	
+	addBackground();
 	return true;
 }
 void CoinCollectLayer::onEnter()
 {
 	_rewardAmount = _rewardData ? abs(_rewardData->getItemPrice()) : 0;
 	
-	addBackground();
 	addHeading();
 	addPlinth();
 	
@@ -47,6 +46,7 @@ void CoinCollectLayer::onExit()
 {
 	_eventDispatcher->removeEventListener(_passingTouchBlocker);
 	_passingTouchBlocker = nullptr;
+	unscheduleUpdate();
 	Super::onExit();
 }
 
@@ -57,26 +57,7 @@ void CoinCollectLayer::update(float deltaT)
 	{
 		const Size& visibleSize = this->getContentSize();
 		_nextParticleEmit = RandomHelper::random_real(0.5f, 0.75f);
-		Texture2D* particleTex = Director::getInstance()->getTextureCache()->addImage("res/rewards/meteor.png");
-		ParticleMeteor* ps = ParticleMeteor::createWithTotalParticles(300);
-		ps->setBlendFunc(BlendFunc::ADDITIVE);
-		ps->setEndColor(Color4F(0.32, 0.67, 1,0));
-		ps->setEndColorVar(Color4F(0.32, 0.67, 1,0.1));
-		ps->setStartColor(Color4F(0.32, 0.67, 1,0.3));
-		ps->setStartColorVar(Color4F(0.32, 0.67, 1,0.1));
-		ps->setTexture(particleTex);
-		ps->setLife(0.4);
-		ps->setLifeVar(0.05);
-		ps->setGravity(Vec2(0,0));
-		ps->setStartSize(65);
-		ps->setStartSizeVar(15);
-		ps->setEndSize(40);
-		ps->setEndSizeVar(5);
-		ps->setPosVar(Vec2(5,5));
-		ps->setAngleVar(0);
-		ps->setEmissionRate(300);
-		ps->setAutoRemoveOnFinish(true);
-		ps->setPositionType(ParticleSystem::PositionType::GROUPED);
+		ParticleSystemQuad* ps = createMeteorParticles();
 		
 		const Vec2& vel = Vec2(RandomHelper::random_int((int)(-MAX(visibleSize.height,visibleSize.width) * 1.3f), (int)(-MAX(visibleSize.height,visibleSize.width) * 1.1f)), //distance X
 							   RandomHelper::random_int((int)(-MIN(visibleSize.height,visibleSize.width) * 1.0f), (int)(-MIN(visibleSize.height,visibleSize.width) * 0.4f))); //distance Y
@@ -191,35 +172,8 @@ void CoinCollectLayer::addBackground()
 void CoinCollectLayer::addHeading()
 {
 	const Size& visibleSize = this->getContentSize();
-	//bool isPortrait = visibleSize.width < visibleSize.height;
 	
-	Texture2D* particleTex = Director::getInstance()->getTextureCache()->addImage("res/rewards/star.png");
-	ParticleSystemQuad* sparkle = ParticleSystemQuad::createWithTotalParticles(30);
-	sparkle->setBlendFunc(BlendFunc::ALPHA_PREMULTIPLIED);
-	sparkle->setEndColor(Color4F(1, 0.81, 0.06,0.1));
-	sparkle->setEndColorVar(Color4F(0,0,0,0.1));
-	sparkle->setStartColor(Color4F(1, 0.81, 0.06,1));
-	sparkle->setStartColorVar(Color4F(0,0,0,0.1));
-	sparkle->setTexture(particleTex);
-	sparkle->setLife(3.0);
-	sparkle->setLifeVar(1.0);
-	sparkle->setGravity(Vec2(0,0));
-	sparkle->setStartSize(75);
-	sparkle->setStartSizeVar(25);
-	sparkle->setEndSize(225);
-	sparkle->setEndSizeVar(50);
-	sparkle->setPosVar(Vec2(visibleSize.width * 0.6f, visibleSize.height * 0.25f));
-	sparkle->setAngleVar(0);
-	sparkle->setAngle(0);
-	sparkle->setEmissionRate(10);
-	sparkle->setDuration(-1);
-	sparkle->setSpeed(0);
-	sparkle->setSpeedVar(0);
-	sparkle->setStartSpin(0);
-	sparkle->setStartSpinVar(50);
-	sparkle->setEndSpin(0);
-	sparkle->setEndSpinVar(50);
-	sparkle->setAutoRemoveOnFinish(true);
+	ParticleSystemQuad* sparkle = createSparkleParticles(Vec2(visibleSize.width * 0.6f, visibleSize.height * 0.25f));
 	sparkle->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
 	sparkle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 	this->addChild(sparkle);
@@ -252,29 +206,7 @@ void CoinCollectLayer::addPlinth()
 	_plinth->addChild(oomee);
 	this->addChild(_plinth);
 	
-	Texture2D* particleTex = Director::getInstance()->getTextureCache()->addImage("res/rewards/smoke.png");
-	_smoke = ParticleMeteor::createWithTotalParticles(150);
-	_smoke->setBlendFunc(BlendFunc::ALPHA_PREMULTIPLIED);
-	_smoke->setEndColor(Color4F(0.9, 0.85, 0.85,0));
-	_smoke->setEndColorVar(Color4F(0,0,0,0.1));
-	_smoke->setStartColor(Color4F(1.0, 0.95, 0.95,0.3));
-	_smoke->setStartColorVar(Color4F(0,0,0,0.1));
-	_smoke->setTexture(particleTex);
-	_smoke->setLife(2.5);
-	_smoke->setLifeVar(0.5);
-	_smoke->setGravity(Vec2(0,-25));
-	_smoke->setStartSize(150);
-	_smoke->setStartSizeVar(25);
-	_smoke->setEndSize(175);
-	_smoke->setEndSizeVar(25);
-	_smoke->setPosVar(Vec2(_plinth->getContentSize().width / 1.5,50));
-	_smoke->setAngleVar(20);
-	_smoke->setAngle(90);
-	_smoke->setEmissionRate(75);
-	_smoke->setDuration(2);
-	_smoke->setSpeed(90);
-	_smoke->setSpeedVar(25);
-	//smoke->setAutoRemoveOnFinish(true);
+	_smoke = createSmokeParticles(Vec2(_plinth->getContentSize().width / 1.5,50));
 	_smoke->setPosition(Vec2(_plinth->getPositionX(), 0));
 	this->addChild(_smoke);
 }
@@ -313,36 +245,109 @@ void CoinCollectLayer::addCoinCounter()
 	_incPerSec = _rewardAmount / animDur;
 	_displayValue = 0;
 	
+	const float delays[3] = {0.0f,0.33f,0.66f};
+	
 	for(int i = 0; i < animDur - 1; i++)
 	{
-		Sprite* coin1 = Sprite::create("res/rewards/coin.png");
-		coin1->setScale(0);
-		coin1->setPosition(oomeeWorldPos);
-		coin1->runAction(Sequence::createWithTwoActions(DelayTime::create(i),MoveTo::create(1, _mainCoin->getPosition())));
-		coin1->runAction(Sequence::createWithTwoActions(DelayTime::create(i), ScaleTo::create(1, 2.5)));
-		coin1->setName("coin");
-		this->addChild(coin1);
-		
-		if(i + 1.33 < animDur)
+		for(float delay : delays)
 		{
-			Sprite* coin2 = Sprite::create("res/rewards/coin.png");
-			coin2->setScale(0);
-			coin2->setPosition(oomeeWorldPos);
-			coin2->runAction(Sequence::createWithTwoActions(DelayTime::create(i + 0.33),MoveTo::create(1, _mainCoin->getPosition())));
-			coin2->runAction(Sequence::createWithTwoActions(DelayTime::create(i + 0.33), ScaleTo::create(1, 2.5)));
-			coin2->setName("coin");
-			this->addChild(coin2);
-		}
-		if(i + 1.66 < animDur)
-		{
-			Sprite* coin3 = Sprite::create("res/rewards/coin.png");
-			coin3->setScale(0);
-			coin3->setPosition(oomeeWorldPos);
-			coin3->runAction(Sequence::createWithTwoActions(DelayTime::create(i + 0.66),MoveTo::create(1, _mainCoin->getPosition())));
-			coin3->runAction(Sequence::createWithTwoActions(DelayTime::create(i + 0.66), ScaleTo::create(1, 2.5)));
-			coin3->setName("coin");
-			this->addChild(coin3);
+			Sprite* coin = createCoinWithDelay((float)i + delay);
+			coin->setPosition(oomeeWorldPos);
+			this->addChild(coin);
 		}
 	}
 }
+
+cocos2d::ParticleSystemQuad* CoinCollectLayer::createSparkleParticles(const Vec2& emissionArea)
+{
+	Texture2D* particleTex = Director::getInstance()->getTextureCache()->addImage("res/rewards/star.png");
+	ParticleSystemQuad* sparkle = ParticleSystemQuad::createWithTotalParticles(30);
+	sparkle->setBlendFunc(BlendFunc::ALPHA_PREMULTIPLIED);
+	sparkle->setEndColor(Color4F(1, 0.81, 0.06,0.1));
+	sparkle->setEndColorVar(Color4F(0,0,0,0.1));
+	sparkle->setStartColor(Color4F(1, 0.81, 0.06,1));
+	sparkle->setStartColorVar(Color4F(0,0,0,0.1));
+	sparkle->setTexture(particleTex);
+	sparkle->setLife(3.0);
+	sparkle->setLifeVar(1.0);
+	sparkle->setGravity(Vec2(0,0));
+	sparkle->setStartSize(75);
+	sparkle->setStartSizeVar(25);
+	sparkle->setEndSize(225);
+	sparkle->setEndSizeVar(50);
+	sparkle->setPosVar(emissionArea);
+	sparkle->setAngleVar(0);
+	sparkle->setAngle(0);
+	sparkle->setEmissionRate(10);
+	sparkle->setDuration(-1);
+	sparkle->setSpeed(0);
+	sparkle->setSpeedVar(0);
+	sparkle->setStartSpin(0);
+	sparkle->setStartSpinVar(50);
+	sparkle->setEndSpin(0);
+	sparkle->setEndSpinVar(50);
+	sparkle->setAutoRemoveOnFinish(true);
+	return sparkle;
+}
+cocos2d::ParticleSystemQuad* CoinCollectLayer::createSmokeParticles(const Vec2& emissionArea)
+{
+	Texture2D* particleTex = Director::getInstance()->getTextureCache()->addImage("res/rewards/smoke.png");
+	ParticleSystemQuad* smoke = ParticleMeteor::createWithTotalParticles(150);
+	smoke->setBlendFunc(BlendFunc::ALPHA_PREMULTIPLIED);
+	smoke->setEndColor(Color4F(0.9, 0.85, 0.85,0));
+	smoke->setEndColorVar(Color4F(0,0,0,0.1));
+	smoke->setStartColor(Color4F(1.0, 0.95, 0.95,0.3));
+	smoke->setStartColorVar(Color4F(0,0,0,0.1));
+	smoke->setTexture(particleTex);
+	smoke->setLife(2.5);
+	smoke->setLifeVar(0.5);
+	smoke->setGravity(Vec2(0,-25));
+	smoke->setStartSize(150);
+	smoke->setStartSizeVar(25);
+	smoke->setEndSize(175);
+	smoke->setEndSizeVar(25);
+	smoke->setPosVar(emissionArea);
+	smoke->setAngleVar(20);
+	smoke->setAngle(90);
+	smoke->setEmissionRate(75);
+	smoke->setDuration(2);
+	smoke->setSpeed(90);
+	smoke->setSpeedVar(25);
+	return smoke;
+}
+cocos2d::ParticleSystemQuad* CoinCollectLayer::createMeteorParticles()
+{
+	Texture2D* particleTex = Director::getInstance()->getTextureCache()->addImage("res/rewards/meteor.png");
+	ParticleMeteor* ps = ParticleMeteor::createWithTotalParticles(300);
+	ps->setBlendFunc(BlendFunc::ADDITIVE);
+	ps->setEndColor(Color4F(0.32, 0.67, 1,0));
+	ps->setEndColorVar(Color4F(0.32, 0.67, 1,0.1));
+	ps->setStartColor(Color4F(0.32, 0.67, 1,0.3));
+	ps->setStartColorVar(Color4F(0.32, 0.67, 1,0.1));
+	ps->setTexture(particleTex);
+	ps->setLife(0.4);
+	ps->setLifeVar(0.05);
+	ps->setGravity(Vec2(0,0));
+	ps->setStartSize(65);
+	ps->setStartSizeVar(15);
+	ps->setEndSize(40);
+	ps->setEndSizeVar(5);
+	ps->setPosVar(Vec2(5,5));
+	ps->setAngleVar(0);
+	ps->setEmissionRate(300);
+	ps->setAutoRemoveOnFinish(true);
+	ps->setPositionType(ParticleSystem::PositionType::GROUPED);
+	return ps;
+}
+
+Sprite* CoinCollectLayer::createCoinWithDelay(float delay)
+{
+	Sprite* coin = Sprite::create("res/rewards/coin.png");
+	coin->setScale(0);
+	coin->runAction(Sequence::createWithTwoActions(DelayTime::create(delay),MoveTo::create(1, _mainCoin->getPosition())));
+	coin->runAction(Sequence::createWithTwoActions(DelayTime::create(delay), ScaleTo::create(1, 2.5)));
+	coin->setName("coin");
+	return coin;
+}
+
 NS_AZOOMEE_END

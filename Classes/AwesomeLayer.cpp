@@ -12,7 +12,11 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-const std::vector<cocos2d::Color4F> AwesomeLayer::kColours = {cocos2d::Color4F(1, 0.81, 0.06, 1), cocos2d::Color4F(1, 0.43, 0.01, 1), cocos2d::Color4F(0.42, 0.22, 0.73, 1), cocos2d::Color4F(0.13, 0.58, 0.87, 1)};
+const std::vector<cocos2d::Color4F> AwesomeLayer::kColours = {
+	cocos2d::Color4F(1, 0.81, 0.06, 1),
+	cocos2d::Color4F(1, 0.43, 0.01, 1),
+	cocos2d::Color4F(0.42, 0.22, 0.73, 1),
+	cocos2d::Color4F(0.13, 0.58, 0.87, 1)};
 
 bool AwesomeLayer::init()
 {
@@ -21,19 +25,25 @@ bool AwesomeLayer::init()
 		return false;
 	}
 	
+	_bgColour = LayerColor::create(Color4B(0,7,4,255));
+	this->addChild(_bgColour, -1);
+	
 	return true;
 }
 void AwesomeLayer::onEnter()
 {
-	_bgColour = LayerColor::create(Color4B(0,7,4,255));
-	this->addChild(_bgColour, -1);
-	
 	addStars();
 	addAwsomeText();
 	
 	this->scheduleUpdate();
 	
 	Super::onEnter();
+}
+
+void AwesomeLayer::onExit()
+{
+	unscheduleUpdate();
+	Super::onExit();
 }
 
 void AwesomeLayer::update(float deltaT)

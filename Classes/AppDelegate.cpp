@@ -1,5 +1,4 @@
 #include "AppDelegate.h"
-#include "BaseScene.h"
 #include "IntroVideoScene.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "HQHistoryManager.h"
@@ -58,9 +57,9 @@ bool AppDelegate::applicationDidFinishLaunching()
 void AppDelegate::applicationDidEnterBackground()
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-	if(Director::getInstance()->getRunningScene()->getChildByName("iosWebView"))
+	if(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kIosWebviewName))
 	{
-		NativeContentInterface_ios *webview = dynamic_cast<NativeContentInterface_ios*>(Director::getInstance()->getRunningScene()->getChildByName("iosWebView"));
+		NativeContentInterface_ios *webview = dynamic_cast<NativeContentInterface_ios*>(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kIosWebviewName));
 		if(webview)
 		{
 			webview->removeWebViewFromScreen();
@@ -85,9 +84,9 @@ void AppDelegate::applicationWillEnterForeground()
     PushNotificationsHandler::getInstance()->resetExistingNotifications();
 	
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-	if(Director::getInstance()->getRunningScene()->getChildByName("iosWebView"))
+	if(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kIosWebviewName))
 	{
-		NativeContentInterface_ios *webview = dynamic_cast<NativeContentInterface_ios*>(Director::getInstance()->getRunningScene()->getChildByName("iosWebView"));
+		NativeContentInterface_ios *webview = dynamic_cast<NativeContentInterface_ios*>(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kIosWebviewName));
 		if(webview)
 		{
 			webview->reAddWebViewToScreen();
@@ -98,19 +97,18 @@ void AppDelegate::applicationWillEnterForeground()
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     
-    if(Director::getInstance()->getRunningScene()->getChildByName("androidWebView"))
+    if(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kAndroidWebviewName))
     {
         AnalyticsSingleton::getInstance()->contentItemClosedEvent();
-		//ContentHistoryManager::getInstance()->contentClosed();
-        if(HQHistoryManager::getInstance()->_thereWasAnError)
+        if(HQHistoryManager::getInstance()->hasError())
         {
-            HQHistoryManager::getInstance()->_thereWasAnError = false;
+            HQHistoryManager::getInstance()->setHasError(false);
             FlowDataSingleton::getInstance()->setErrorCode(ERROR_CODE_SOMETHING_WENT_WRONG);
             LoginLogicHandler::getInstance()->doLoginLogic();
             return;
         }
         
-        if(HQHistoryManager::getInstance()->_isOffline == true)
+        if(HQHistoryManager::getInstance()->isOffline())
         {
             Director::getInstance()->replaceScene(OfflineHubScene::createScene());
             return;

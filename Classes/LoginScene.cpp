@@ -3,7 +3,6 @@
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 #include <AzoomeeCommon/Strings.h>
-#include "BaseScene.h"
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/Input/TextInputChecker.h>
 #include "OfflineHubScene.h"
