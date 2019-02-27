@@ -191,6 +191,17 @@ HttpRequestCreator* API::AnonymousDeviceLoginRequest(const std::string &deviceId
     return request;
 }
 
+HttpRequestCreator* API::GetAnonCredentials(HttpRequestCreatorResponseDelegate* delegate)
+{
+	HttpRequestCreator* request = new HttpRequestCreator(delegate);
+	request->requestTag = TagGetAnonCredentials;
+	request->requestPath = "/api/user/getYobo";
+	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
+		HandleAPIResponse(sender, response, delegate, request);
+	});
+	return request;
+}
+
 HttpRequestCreator* API::UpdateBillingDataRequest(const std::string& parentId,
 												  HttpRequestCreatorResponseDelegate* delegate)
 {

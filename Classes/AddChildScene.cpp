@@ -182,7 +182,7 @@ void AddChildScene::nextLayer()
 		}
 		case AddChildFlow::ANON_AGE:
 		{
-			if(_childCreator->addLocalAnonChild())
+			if(_childCreator->addLocalAnonChild()) // change to patch child 0
 			{
 				if(TutorialController::getInstance()->isTutorialActive())
 				{
@@ -191,6 +191,7 @@ void AddChildScene::nextLayer()
 						TutorialController::getInstance()->nextStep();
 					}
 				}
+				UserDefault::getInstance()->setBoolForKey("anonOnboardingComplete", true);
 				BackEndCaller::getInstance()->anonymousDeviceLogin();
 			}
 			break;

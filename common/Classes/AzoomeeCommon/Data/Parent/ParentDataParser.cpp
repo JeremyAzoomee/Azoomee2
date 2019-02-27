@@ -9,8 +9,7 @@
 
 using namespace cocos2d;
 
-namespace Azoomee
-{
+NS_AZOOMEE_BEGIN
 
 static ParentDataParser *_sharedParentDataParser = NULL;
 
@@ -300,5 +299,11 @@ void ParentDataParser::setLoggedInParentCountryCode(const std::string &countryCo
 	}
 }
     
-
+void ParentDataParser::saveAnonCredentialsToDevice(const std::string &userId)
+{
+	UserDefault* userDefault = UserDefault::getInstance();
+	userDefault->setStringForKey("anonEmail", userId);
+	
 }
+	
+NS_AZOOMEE_END

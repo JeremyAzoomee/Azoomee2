@@ -74,6 +74,8 @@ public:
 	static const std::string kBillingProviderGoogle;
 	static const std::string kBillingProviderAmazon;
 	static const std::string kBillingProviderVodacomSA;
+	
+	static const std::string kAnonLoginPW;
     
     /** Returns the shared instance of the Game Manager */
     static ConfigStorage* getInstance(void);

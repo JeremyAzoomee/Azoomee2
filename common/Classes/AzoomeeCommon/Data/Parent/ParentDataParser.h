@@ -32,6 +32,8 @@ public:
     bool parsePendingFriendRequests(const std::string &responseData);
     void setBillingDataAvailable(bool isAvailable);
     void setLoggedInParentCountryCode(const std::string &countryCode);
+	
+	void saveAnonCredentialsToDevice(const std::string& userId);
     
 private:
     void addParentLoginDataToUserDefaults();

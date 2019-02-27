@@ -136,31 +136,41 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString, con
     cocos2d::log("Response string is: %s", responseString.c_str());
     if(ParentDataParser::getInstance()->parseParentLoginData(responseString))
     {
-        ConfigStorage::getInstance()->setFirstSlideShowSeen();
-        ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headerString));
-        AnalyticsSingleton::getInstance()->signInSuccessEvent();
-        AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
-		if(FlowDataSingleton::getInstance()->isSignupFlow())
+		ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headerString));
+		if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
 		{
-			AnalyticsSingleton::getInstance()->registerAlias(ParentDataProvider::getInstance()->getLoggedInParentId());
+			AnalyticsSingleton::getInstance()->setIsUserAnonymous(true);
+			getAvailableChildren();
 		}
 		else
 		{
-			AnalyticsSingleton::getInstance()->registerIdentifier(ParentDataProvider::getInstance()->getLoggedInParentId());
+			AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
+			AnalyticsSingleton::getInstance()->signInSuccessEvent();
+			if(FlowDataSingleton::getInstance()->isSignupFlow())
+			{
+				AnalyticsSingleton::getInstance()->registerAlias(ParentDataProvider::getInstance()->getLoggedInParentId());
+			}
+			else
+			{
+				AnalyticsSingleton::getInstance()->registerIdentifier(ParentDataProvider::getInstance()->getLoggedInParentId());
+			}
+			if(RoutePaymentSingleton::getInstance()->receiptDataFileExists())
+			{
+				Director::getInstance()->getScheduler()->schedule([&](float dt){
+					RoutePaymentSingleton::getInstance()->retryReceiptValidation();
+				}, this, 1.0, 0, 0, false, "receiptValidation");
+				
+			}
+			else
+			{
+				getAvailableChildren();
+				updateBillingData();
+			}
+			getParentDetails();
 		}
-        if(RoutePaymentSingleton::getInstance()->receiptDataFileExists())
-        {
-            Director::getInstance()->getScheduler()->schedule([&](float dt){
-                RoutePaymentSingleton::getInstance()->retryReceiptValidation();
-            }, this, 1.0, 0, 0, false, "receiptValidation");
-            
-        }
-        else
-        {
-            getAvailableChildren();
-            updateBillingData();
-        }
-        getParentDetails();
+        ConfigStorage::getInstance()->setFirstSlideShowSeen();
+		
+		
     }
     else
     {
@@ -181,15 +191,18 @@ void BackEndCaller::anonymousDeviceLogin()
 	
 	UserDefault* userDefault = UserDefault::getInstance();
 	const std::string& anonEmail = userDefault->getStringForKey("anonEmail", "");
-	const std::string& anonPW = userDefault->getStringForKey("anonPW", "");
 	
 	if(anonEmail == "")
 	{
-		//get anon creds from BE
+		HttpRequestCreator* request = API::GetAnonCredentials(this);
+		request->execute();
 	}
-	
-    HttpRequestCreator* request = API::AnonymousDeviceLoginRequest(deviceId, this);
-    request->execute();
+	else
+	{
+		login(anonEmail, ConfigStorage::kAnonLoginPW)
+	}
+    //HttpRequestCreator* request = API::AnonymousDeviceLoginRequest(deviceId, this);
+    //request->execute();
 }
 
 void BackEndCaller::onAnonymousDeviceLoginAnswerReceived(const std::string &responseString, const std::string& headerString)
@@ -277,6 +290,7 @@ void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseStrin
     ParentDataParser::getInstance()->parseAvailableChildren(responseString);
     if(ParentDataProvider::getInstance()->getAmountOfAvailableChildren() == 0)
     {
+		/*
 		if(AnonChildHandler::getInstance()->localAnonChildExists())
 		{
 			AnonChildHandler::getInstance()->registerAnonChildToUser([this](bool success)
@@ -292,17 +306,24 @@ void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseStrin
 			});
 		}
 		else
-		{
+		{*/
         	Director::getInstance()->replaceScene(SceneManagerScene::createScene(AddChildFirstTime));
-		}
+		//}
     }
     else
     {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
-        
-        Director::getInstance()->getScheduler()->schedule([&](float dt){
-            DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
-        }, this, 0.5, 0, 0, false, "eventHandler");
+		if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
+		{
+			childLogin(0);
+		}
+		else
+		{
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+			
+			Director::getInstance()->getScheduler()->schedule([&](float dt){
+				DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
+			}, this, 0.5, 0, 0, false, "eventHandler");
+		}
     }
 	ModalMessages::getInstance()->stopLoading();
 }

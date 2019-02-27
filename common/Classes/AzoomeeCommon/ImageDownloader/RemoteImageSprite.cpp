@@ -163,7 +163,7 @@ void RemoteImageSprite::imageAddedToCache(Texture2D* resulting_texture)
         
         auto finalImage = Sprite::createWithTexture( resulting_texture );
         finalImage->setPosition(holderContentSize / 2);
-        finalImage->setOpacity(0);
+        //finalImage->setOpacity(0);
         if(!_keepAspectRatio)
         {
             finalImage->setScaleX(holderContentSize.width / finalImage->getContentSize().width);
@@ -187,7 +187,7 @@ void RemoteImageSprite::imageAddedToCache(Texture2D* resulting_texture)
             this->addChild(loadedImage);
         }
         
-        finalImage->runAction(FadeIn::create(0.1));
+        //finalImage->runAction(FadeIn::create(0.1));
     }
     this->release();
 }

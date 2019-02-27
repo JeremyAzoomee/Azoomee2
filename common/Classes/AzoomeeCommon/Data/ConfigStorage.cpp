@@ -71,6 +71,8 @@ static ConfigStorage *_sharedConfigStorage = NULL;
 	const std::string ConfigStorage::kBillingProviderAmazon = "AMAZON";
 	const std::string ConfigStorage::kBillingProviderVodacomSA = "VODACOM_SA";
 	
+	const std::string ConfigStorage::kAnonLoginPW = "ToBeDecided";
+	
 ConfigStorage* ConfigStorage::getInstance()
 {
     if (! _sharedConfigStorage)

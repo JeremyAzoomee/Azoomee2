@@ -23,6 +23,7 @@ public:
     static const char* const TagIpCheck;
     static const char* const TagLogin;
     static const char* const TagAnonymousDeviceLogin;
+	static const char* const TagGetAnonCredentials;
     static const char* const TagUpdateBillingData;
     static const char* const TagParentPin;
     static const char* const TagGetAvailableChildren;
@@ -85,6 +86,8 @@ public:
     
     static HttpRequestCreator* AnonymousDeviceLoginRequest(const std::string& deviceId,
                                                            HttpRequestCreatorResponseDelegate* delegate);
+	
+	static HttpRequestCreator* GetAnonCredentials(HttpRequestCreatorResponseDelegate* delegate);
     
 	static HttpRequestCreator* UpdateBillingDataRequest(const std::string& parentId,
 														HttpRequestCreatorResponseDelegate* delegate);
