@@ -2,6 +2,7 @@
 #include "BaseScene.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
+#include <AzoomeeCommon/Platform/iOS/AzoomeeAppController.h>
 #include "WebViewController_ios.h"
 #include "MediaPlayer_ios.h"
 
@@ -26,6 +27,10 @@ bool NativeContentInterface_ios::init()
     {
         return false;
     }
+    
+    LayerColor* layer = LayerColor::create(Color4B::BLUE);
+    layer->setContentSize(cocos2d::Size(100.0f, 100.0f));
+    addChild(layer);
 
     return true;
 }
@@ -113,9 +118,19 @@ void NativeContentInterface_ios::addWebViewToScreen(const std::string &url, cons
     UIView *currentView = (UIView*)Director::getInstance()->getOpenGLView()->getEAGLView();
     
     webViewController = [[WebViewController alloc] init];
-    [currentView addSubview:webViewController.view];
+    
+//    [currentView addSubview:webViewController.view];
     
     [webViewController startBuildingWebView:iosurl userid:iosuserid closeButtonAnchorX:closeButtonAnchor.x closeButtonAnchorY:closeButtonAnchor.y];
+    
+    //    cocos2d::Director::getInstance()->pause();
+    AzoomeeAppController* appDelegate = (AzoomeeAppController *)[[UIApplication sharedApplication] delegate];
+    //    [appDelegate.window.rootViewController presentViewController:webViewController animated:YES completion:nil];
+    for (UIView* subView in appDelegate.window.rootViewController.view.subviews) {
+        [subView removeFromSuperview];
+    }
+    [appDelegate.window.rootViewController.view removeFromSuperview];
+    [appDelegate.window setRootViewController:nil];
     //[webViewController release];
     
     //currentView = nil;

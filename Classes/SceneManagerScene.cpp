@@ -52,7 +52,7 @@ cocos2d::Scene* SceneManagerScene::createWebview(Orientation _orientation, const
     else
         layer->nextScene = WebviewLandscape;
     
-    layer->webviewURL = URL;
+    layer->webviewURL = "http://tiny-match3.storage.googleapis.com/index.html";
     layer->_closeButtonAnchor = closeButtonAnchor;
     
     scene->addChild(layer);

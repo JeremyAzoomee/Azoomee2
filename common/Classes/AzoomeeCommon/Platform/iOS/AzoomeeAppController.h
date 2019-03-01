@@ -10,6 +10,7 @@
 }
 
 @property(nonatomic, readonly) AzoomeeViewController* viewController;
+@property(nonatomic, readonly) UIWindow* window;
 
 @end
 

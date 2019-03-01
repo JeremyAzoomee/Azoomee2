@@ -156,13 +156,13 @@ using namespace Azoomee;
     {
 
         [webView stringByEvaluatingJavaScriptFromString:@"clearLocalStorage()"];
-            
+
         NSString *localStorageData = [NSString stringWithFormat: @"%s", getLocalStorageForGame()];
-            
+
         NSString *addDataString = [NSString stringWithFormat:@"addDataToLocalStorage(\"%@\")", localStorageData];
         NSLog(@"addDataString: %@", addDataString);
         [webView stringByEvaluatingJavaScriptFromString:addDataString];
-            
+
         NSString *loadString = [NSString stringWithFormat:@"addFrameWithUrl(\"%@\")", urlToLoad];
         [webView stringByEvaluatingJavaScriptFromString:loadString];
    

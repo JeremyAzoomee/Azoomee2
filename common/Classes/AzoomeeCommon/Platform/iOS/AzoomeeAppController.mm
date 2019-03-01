@@ -30,7 +30,7 @@
 
 @implementation AzoomeeAppController
 
-@synthesize window;
+//@synthesize window;
 
 #pragma mark -
 #pragma mark Application lifecycle
@@ -41,7 +41,7 @@
     [Fabric with:@[[Crashlytics class]]];
 
     // Add the view controller's view to the window and display.
-    window = [[UIWindow alloc] initWithFrame: [[UIScreen mainScreen] bounds]];
+    _window = [[UIWindow alloc] initWithFrame: [[UIScreen mainScreen] bounds]];
 
     // Use RootViewController to manage CCEAGLView
     _viewController = [AzoomeeViewController sharedInstance];
@@ -51,15 +51,15 @@
     if ( [[UIDevice currentDevice].systemVersion floatValue] < 6.0)
     {
         // warning: addSubView doesn't work on iOS6
-        [window addSubview: _viewController.view];
+        [_window addSubview: _viewController.view];
     }
     else
     {
         // use this method on ios6+
-        [window setRootViewController:_viewController];
+        [_window setRootViewController:_viewController];
     }
 
-    [window makeKeyAndVisible];
+    [_window makeKeyAndVisible];
 
     [[UIApplication sharedApplication] setStatusBarHidden:true];
 
