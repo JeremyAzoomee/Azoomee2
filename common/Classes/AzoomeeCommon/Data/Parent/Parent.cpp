@@ -24,7 +24,8 @@ ParentRef Parent::createWithJson(const rapidjson::Document& parentData)
 	parent->_apiKey = getStringFromJson("apiKey", parentData);
 	parent->_actorStatus = getStringFromJson("actorStatus", parentData);
 	parent->_pin = getStringFromJson("pinNumber", parentData);
-	parent->_anonymous = getStringFromJson("userType", parentData) == "ANONYMOUS";
+	//parent->_anonymous = getStringFromJson("userType", parentData) == "ADULT";
+	parent->_anonymous = getBoolFromJson("isAnonymous", parentData, false);
 	
 	return parent;
 	

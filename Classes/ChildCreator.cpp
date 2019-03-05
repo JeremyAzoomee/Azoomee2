@@ -95,7 +95,7 @@ bool ChildCreator::addChild()
     return true;
 }
 
-bool ChildCreator::addLocalAnonChild()
+bool ChildCreator::updateChild(const ChildRef &child)
 {
 	if(_age <= 0 || !isValidChildName(_childName.c_str()))
 	{
@@ -111,23 +111,10 @@ bool ChildCreator::addLocalAnonChild()
 		return false;
 	}
 	
-	const std::string& localChildPath = FileUtils::getInstance()->getWritablePath() + "anonLocalChild/";
-	const std::string& avatarImgPath = "anonLocalChild/avatar.png";
+	const std::string& ownerId = ParentDataProvider::getInstance()->getLoggedInParentId();
 	
-	const std::string& dataStr = StringUtils::format("{\"profileName\":\"%s\",\"sex\":\"%s\",\"dob\":\"%s\",\"avatar\":\"%s\"}",_childName.c_str(),gender.c_str(),DOB.c_str(),avatarImgPath.c_str());
-	
-	if(!FileUtils::getInstance()->isDirectoryExist(localChildPath))
-	{
-		FileUtils::getInstance()->createDirectory(localChildPath);
-	}
-	
-	FileUtils::getInstance()->writeStringToFile(dataStr, localChildPath + "childData.json");
-	
-	if(!FileUtils::getInstance()->isFileExist(avatarImgPath))
-	{
-		FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/defaultOomees/oomee_11.png"), FileUtils::getInstance()->getWritablePath() + avatarImgPath);
-		FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/defaultOomees/oomee_11.oomee"), localChildPath + "avatar.oomee");
-	}
+	HttpRequestCreator* request = API::UpdateChildRequest(child->getId(),_childName, child->getSex(), DOB, child->getAvatar(), ownerId, _delegate);
+	request->execute();
 	
 	return true;
 }

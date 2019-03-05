@@ -16,6 +16,7 @@ NS_AZOOMEE_BEGIN
 const char* const API::TagIpCheck = "ipCheck";
 const char* const API::TagLogin = "parentLogin";
 const char* const API::TagAnonymousDeviceLogin = "anonymousDeviceLogin";
+const char* const API::TagGetAnonCredentials = "getAnonCredentials";
 const char* const API::TagUpdateBillingData = "updateBilling";
 const char* const API::TagParentPin = "updateParentPin";
 const char* const API::TagGetAvailableChildren = "getChildren";
@@ -195,7 +196,8 @@ HttpRequestCreator* API::GetAnonCredentials(HttpRequestCreatorResponseDelegate* 
 {
 	HttpRequestCreator* request = new HttpRequestCreator(delegate);
 	request->requestTag = TagGetAnonCredentials;
-	request->requestPath = "/api/user/getYobo";
+	request->requestPath = "/api/user/anonymous/signup";
+	request->requestBody = "{}";
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -295,7 +297,8 @@ HttpRequestCreator* API::RefreshParentCookiesRequest(Azoomee::HttpRequestCreator
     return request;
 }
 
-HttpRequestCreator* API::RegisterParentRequest(const std::string& emailAddress,
+HttpRequestCreator* API::RegisterParentRequest(const std::string& parentId,
+											   const std::string& emailAddress,
                                                const std::string& password,
                                                const std::string& pinNumber,
                                                const std::string& source,
@@ -305,9 +308,11 @@ HttpRequestCreator* API::RegisterParentRequest(const std::string& emailAddress,
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->requestBody = StringUtils::format("{\"emailAddress\":\"%s\",\"over18\":\"true\",\"termsAccepted\":\"true\",\"marketingAccepted\":\"%s\",\"password\":\"%s\",\"source\":\"%s\",\"pinNumber\":\"%s\", \"sourceDevice\":\"%s\"}", emailAddress.c_str(), marketingAccepted.c_str(), password.c_str(), source.c_str(), pinNumber.c_str(), sourceDevice.c_str());
-	request->urlParameters = "defaultChild=false";
+	//request->urlParameters = "defaultChild=false";
+	request->requestPath = StringUtils::format("/api/user/anonymous/adult/%s",parentId.c_str());
     request->requestTag = TagRegisterParent;
-    request->method = "POST";
+    request->method = "PATCH";
+	request->encrypted = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -348,8 +353,7 @@ HttpRequestCreator* API::RegisterChildRequestWithAvatarData(const std::string& c
 	return request;
 }
 
-HttpRequestCreator* API::UpdateChildRequest(const std::string& url,
-                                              const std::string& childId,
+HttpRequestCreator* API::UpdateChildRequest(const std::string& childId,
                                               const std::string& childProfileName,
                                               const std::string& childGender,
                                               const std::string& childDOB,
@@ -360,7 +364,7 @@ HttpRequestCreator* API::UpdateChildRequest(const std::string& url,
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->requestBody = StringUtils::format("{\"id\":\"%s\",\"profileName\":\"%s\",\"dob\":\"%s\",\"sex\":\"%s\",\"avatar\":\"%s\",\"ownerId\":\"%s\"}", childId.c_str(), childProfileName.c_str(), childDOB.c_str(), childGender.c_str(), avatar.c_str(), ownerId.c_str());
     request->requestTag = TagUpdateChild;
-    request->url = 	url;
+	request->requestPath = "/api/user/child/" + childId;
     request->method = "PATCH";
     request->encrypted = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){

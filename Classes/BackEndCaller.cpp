@@ -119,11 +119,13 @@ void BackEndCaller::login(const std::string& username, const std::string& passwo
     displayLoadingScreen();
     
     HttpRequestCreator* request = API::LoginRequest(username, password, this);
-    
-    UserDefault* def = UserDefault::getInstance();
-    def->setStringForKey("username", username);
-    def->flush();
-    
+	
+	if(password != ConfigStorage::kAnonLoginPW)
+	{
+    	UserDefault* def = UserDefault::getInstance();
+    	def->setStringForKey("username", username);
+    	def->flush();
+	}
     AnalyticsSingleton::getInstance()->registerAzoomeeEmail(username);
     
     request->execute();
@@ -146,14 +148,14 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString, con
 		{
 			AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
 			AnalyticsSingleton::getInstance()->signInSuccessEvent();
-			if(FlowDataSingleton::getInstance()->isSignupFlow())
+			/*if(FlowDataSingleton::getInstance()->isSignupFlow())
 			{
 				AnalyticsSingleton::getInstance()->registerAlias(ParentDataProvider::getInstance()->getLoggedInParentId());
 			}
 			else
 			{
 				AnalyticsSingleton::getInstance()->registerIdentifier(ParentDataProvider::getInstance()->getLoggedInParentId());
-			}
+			}*/
 			if(RoutePaymentSingleton::getInstance()->receiptDataFileExists())
 			{
 				Director::getInstance()->getScheduler()->schedule([&](float dt){
@@ -167,8 +169,9 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString, con
 				updateBillingData();
 			}
 			getParentDetails();
+			ConfigStorage::getInstance()->setFirstSlideShowSeen();
 		}
-        ConfigStorage::getInstance()->setFirstSlideShowSeen();
+		
 		
 		
     }
@@ -185,9 +188,9 @@ void BackEndCaller::anonymousDeviceLogin()
 {
     displayLoadingScreen();
     
-    std::string deviceId = ConfigStorage::getInstance()->getDeviceAdvertisingId();
+    //std::string deviceId = ConfigStorage::getInstance()->getDeviceAdvertisingId();
     
-    if(deviceId == "") deviceId = "SESSID:" + SessionIdManager::getInstance()->getCurrentSessionId();
+    //if(deviceId == "") deviceId = "SESSID:" + SessionIdManager::getInstance()->getCurrentSessionId();
 	
 	UserDefault* userDefault = UserDefault::getInstance();
 	const std::string& anonEmail = userDefault->getStringForKey("anonEmail", "");
@@ -199,7 +202,7 @@ void BackEndCaller::anonymousDeviceLogin()
 	}
 	else
 	{
-		login(anonEmail, ConfigStorage::kAnonLoginPW)
+		login(anonEmail, ConfigStorage::kAnonLoginPW);
 	}
     //HttpRequestCreator* request = API::AnonymousDeviceLoginRequest(deviceId, this);
     //request->execute();
@@ -397,7 +400,7 @@ void BackEndCaller::registerParent(const std::string& emailAddress, const std::s
     source = "ANDROID_INAPP";
 #endif
     
-    HttpRequestCreator* request = API::RegisterParentRequest(emailAddress, password, pinNumber, source, sourceDevice, marketingAccepted, this);
+	HttpRequestCreator* request = API::RegisterParentRequest(ParentDataProvider::getInstance()->getLoggedInParentId(),emailAddress, password, pinNumber, source, sourceDevice, marketingAccepted, this);
     request->execute();
     
     displayLoadingScreen();
@@ -406,7 +409,9 @@ void BackEndCaller::registerParent(const std::string& emailAddress, const std::s
 void BackEndCaller::onRegisterParentAnswerReceived()
 {
 	IAPProductDataHandler::getInstance()->fetchProductData();
-
+	UserDefault* userDefault = UserDefault::getInstance();
+	userDefault->setBoolForKey("anonOnboardingComplete", false);
+	userDefault->setStringForKey("anonEmail", "");
     ConfigStorage::getInstance()->setFirstSlideShowSeen();
     AnalyticsSingleton::getInstance()->OnboardingAccountCreatedEvent();
     FlowDataSingleton::getInstance()->setSuccessFailPath(SIGNUP_SUCCESS);
@@ -442,8 +447,7 @@ void BackEndCaller::updateChild(const std::string& childId, const std::string& c
     
     const std::string& oomeeUrl = ConfigStorage::getInstance()->getUrlForOomee(oomeeNumber);
     const std::string& ownerId = ParentDataProvider::getInstance()->getLoggedInParentId();
-    const std::string& url = ConfigStorage::getInstance()->getServerUrl() + "/api/user/child/" + childId;
-    HttpRequestCreator* request = API::UpdateChildRequest(url, childId, childProfileName, childGender, childDOB, oomeeUrl, ownerId, this);
+    HttpRequestCreator* request = API::UpdateChildRequest(childId, childProfileName, childGender, childDOB, oomeeUrl, ownerId, this);
     request->execute();
 }
 
@@ -550,6 +554,14 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     {
         onLoginAnswerReceived(body, headers);
     }
+	else if(requestTag == API::TagGetAnonCredentials)
+	{
+		rapidjson::Document json;
+		json.Parse(body.c_str());
+		const std::string& userId = getStringFromJson("id", json);
+		ParentDataParser::getInstance()->saveAnonCredentialsToDevice(userId);
+		login(userId, ConfigStorage::kAnonLoginPW);
+	}
     else if(requestTag == API::TagAnonymousDeviceLogin)
     {
         onAnonymousDeviceLoginAnswerReceived(body, headers);
@@ -721,7 +733,7 @@ void BackEndCaller::onFeedDownloadComplete()
 	UserDefault* userDefault = UserDefault::getInstance();
 	bool anonOnboardingComplete = userDefault->getBoolForKey("anonOnboardingComplete", false);
 	//if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous() && !ChildDataProvider::getInstance()->isChildLoggedIn())
-	if(!anonOnboardingComplete)
+	if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous() && !anonOnboardingComplete)
 	{
 		Director::getInstance()->replaceScene(SceneManagerScene::createScene(WelcomeScene));
 	}

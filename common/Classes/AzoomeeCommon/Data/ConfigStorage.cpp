@@ -119,7 +119,8 @@ bool ConfigStorage::init(void)
 		API::TagUpdateParentDetails,
 		API::TagUpdateChildNameRequest,
 		API::TagGetParentDetails,
-		API::TagGetVodacomTransactionId
+		API::TagGetVodacomTransactionId,
+		API::TagRegisterParent
     };
     requestTagsRequireImmediateSending = {
         kGroupHQName,

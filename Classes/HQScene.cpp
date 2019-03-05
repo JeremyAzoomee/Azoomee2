@@ -10,6 +10,10 @@
 #include "HQHistoryManager.h"
 #include "CoinDisplay.h"
 
+#include "DynamicNodeHandler.h"
+
+#include <AzoomeeCommon/Utils/SpecialCalendarEventManager.h>
+
 #include "ContentHistoryManager.h"
 #include "RewardDisplayHandler.h"
 
@@ -49,6 +53,9 @@ void HQScene::onExit()
 void HQScene::onSizeChanged()
 {
 	Super::onSizeChanged();
+	
+	DynamicNodeHandler::getInstance()->rebuildCurrentCTA();
+
 }
 
 void HQScene::setHQCategory(const std::string &hqCategory)
@@ -79,6 +86,14 @@ void HQScene::buildCoreUI()
 	_navLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 	this->addChild(_navLayer, 1);
 	
+	addParticleElementsToBackground();
+	
+	if(SpecialCalendarEventManager::getInstance()->isXmasTime())
+	{
+		addXmasDecoration();
+	}
+
+	
 	ContentHistoryManager::getInstance()->setReturnedFromContent(false);
 	/*
 	const std::string& fakeData = "{\"id\": \"id\",\"userId\":  \"99999999-7848-46ce-b7d3-9999999999\",\"item\": {\"id\": \"ID1\",\"name\": \"test\",\"uri\": \"test\",\"type\": \"COIN\"},\"itemPrice\":" + StringUtils::format("%d",-RandomHelper::random_int(100, 500)) + " ,\"description\": \"Played Yeti\",\"status\": \"PENDING\"}";
@@ -90,6 +105,46 @@ void HQScene::buildCoreUI()
 	RewardDisplayHandler::getInstance()->onRewardSuccess(reward);
 	 */
 }
+
+void HQScene::addParticleElementsToBackground()
+{
+	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	
+	auto myParticle = ParticleMeteor::create();
+	
+	if(SpecialCalendarEventManager::getInstance()->isXmasTime())
+	{
+		myParticle->setColor(cocos2d::Color3B::WHITE);
+		myParticle->setStartColor(cocos2d::Color4F::WHITE);
+		myParticle->setEndColor(cocos2d::Color4F::WHITE);
+		myParticle->setLife(20.0f);
+	}
+	
+	myParticle->setSpeed(30);
+	myParticle->setGravity(Vec2(0, -20));
+	myParticle->setScale(1);
+	myParticle->setPosVar(Vec2(2732, 5192));
+	this->addChild(myParticle, 0);
+}
+
+void HQScene::addXmasDecoration()
+{
+	Sprite* snow1 = Sprite::create("res/xmasdecoration/snowPileLeft.png");
+	snow1->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+	snow1->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_LEFT);
+	snow1->setScale(0);
+	this->addChild(snow1, DECORATION_ZORDER);
+	snow1->runAction(Sequence::create(DelayTime::create(0.3f), EaseOut::create(ScaleTo::create(2.0f, 1.0f), 2.0f), NULL));
+	
+	Sprite *snow2 = Sprite::create("res/xmasdecoration/snowPileRight.png");
+	snow2->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
+	snow2->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_RIGHT);
+	snow2->setScale(0);
+	this->addChild(snow2, DECORATION_ZORDER);
+	snow2->runAction(Sequence::create(DelayTime::create(0.5f), EaseOut::create(ScaleTo::create(2.0f, 1.0f), 2.0f), NULL));
+}
+
+
 
 // Delegate Functions
 

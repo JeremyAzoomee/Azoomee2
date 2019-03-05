@@ -17,6 +17,8 @@
 #include <AzoomeeCommon/ErrorCodes.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Tutorial/TutorialController.h>
+#include <AzoomeeCommon/API/API.h>
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 
 using namespace cocos2d;
 
@@ -182,18 +184,7 @@ void AddChildScene::nextLayer()
 		}
 		case AddChildFlow::ANON_AGE:
 		{
-			if(_childCreator->addLocalAnonChild()) // change to patch child 0
-			{
-				if(TutorialController::getInstance()->isTutorialActive())
-				{
-					if(TutorialController::getInstance()->getCurrentState() == TutorialController::kAgeEntry)
-					{
-						TutorialController::getInstance()->nextStep();
-					}
-				}
-				UserDefault::getInstance()->setBoolForKey("anonOnboardingComplete", true);
-				BackEndCaller::getInstance()->anonymousDeviceLogin();
-			}
+			_childCreator->updateChild(ChildDataProvider::getInstance()->getLoggedInChild());
 			break;
 		}
         default:
@@ -240,12 +231,29 @@ void AddChildScene::prevLayer()
 
 void AddChildScene::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
-    AnalyticsSingleton::getInstance()->childProfileCreatedSuccessEvent();
-    rapidjson::Document data;
-    data.Parse(body.c_str());
-    _childCreator->setCreatedChildId(getStringFromJson("id", data));
-    _currentFlowStage = AddChildFlow::OOMEE;
-    setSceneForFlow();
+	if(requestTag == API::TagRegisterChild)
+	{
+		AnalyticsSingleton::getInstance()->childProfileCreatedSuccessEvent();
+		rapidjson::Document data;
+		data.Parse(body.c_str());
+		_childCreator->setCreatedChildId(getStringFromJson("id", data));
+		_currentFlowStage = AddChildFlow::OOMEE;
+		setSceneForFlow();
+	}
+	else if(requestTag == API::TagUpdateChild)
+	{
+		
+		if(TutorialController::getInstance()->isTutorialActive())
+		{
+			if(TutorialController::getInstance()->getCurrentState() == TutorialController::kAgeEntry)
+			{
+				TutorialController::getInstance()->nextStep();
+			}
+		}
+		UserDefault::getInstance()->setBoolForKey("anonOnboardingComplete", true);
+		BackEndCaller::getInstance()->anonymousDeviceLogin();
+		
+	}
 }
 
 void AddChildScene::onHttpRequestFailed(const std::string& requestTag, long errorCode)

@@ -65,7 +65,7 @@ void OomeeMakerDelegate::onOomeeMakerShareOomee(const std::string& filename)
 
 void OomeeMakerDelegate::onOomeeMakerUpdateAvatar(const std::string &filename)
 {
-	if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
+	/*if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
 	{
 		const std::string& localChildPath = FileUtils::getInstance()->getWritablePath() + "anonLocalChild/";
 		
@@ -90,9 +90,9 @@ void OomeeMakerDelegate::onOomeeMakerUpdateAvatar(const std::string &filename)
 				Director::getInstance()->replaceScene(SceneManagerScene::createScene(AddChildAnon));
 			}
 		}
-	}
-	else
-	{
+	}*/
+	//else
+	//{
 		ModalMessages::getInstance()->startLoading();
 		const std::string& imageData = FileUtils::getInstance()->getStringFromFile(filename);
 		char* str = nullptr;
@@ -100,7 +100,7 @@ void OomeeMakerDelegate::onOomeeMakerUpdateAvatar(const std::string &filename)
 		
 		HttpRequestCreator* request = API::UpdateChildAvatar(ChildDataProvider::getInstance()->getParentOrChildId(), str, this);
 		request->execute();
-	}
+	//}
 }
 
 void OomeeMakerDelegate::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
@@ -127,6 +127,14 @@ void OomeeMakerDelegate::onHttpRequestSuccess(const std::string& requestTag, con
         {
             AnalyticsSingleton::getInstance()->makeAvatarSuccess("OOMEE_MAKER");
             makerScene->displayMadeAvatarNotification();
+			if(TutorialController::getInstance()->isTutorialActive())
+			{
+				if(TutorialController::getInstance()->getCurrentState() == TutorialController::kConfirmOomee)
+				{
+					TutorialController::getInstance()->nextStep();
+					Director::getInstance()->replaceScene(SceneManagerScene::createScene(AddChildAnon));
+				}
+			}
         }
     }
 }

@@ -107,7 +107,8 @@ public:
     
     static HttpRequestCreator* RefreshParentCookiesRequest(HttpRequestCreatorResponseDelegate* delegate);
     
-    static HttpRequestCreator* RegisterParentRequest(const std::string& emailAddress,
+    static HttpRequestCreator* RegisterParentRequest(const std::string& parentId,
+													 const std::string& emailAddress,
                                                      const std::string& password,
                                                      const std::string& pinNumber,
                                                      const std::string& source,
@@ -127,8 +128,7 @@ public:
 													const std::string& imgData,
 													HttpRequestCreatorResponseDelegate* delegate);
     
-    static HttpRequestCreator* UpdateChildRequest(const std::string& url,
-                                                    const std::string& childId,
+    static HttpRequestCreator* UpdateChildRequest(const std::string& childId,
                                                     const std::string& childProfileName,
                                                     const std::string& childGender,
                                                     const std::string& childDOB,

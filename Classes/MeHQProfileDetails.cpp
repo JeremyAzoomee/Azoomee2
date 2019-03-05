@@ -65,17 +65,9 @@ bool MeHQProfileDetails::init()
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(OomeeMakerEntryPointScene));
         }
     });
-	if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
-	{
-		Size prevSize = _avatar->getContentSize();
-		_avatar->setMainImage(FileUtils::getInstance()->getWritablePath() + ChildDataProvider::getInstance()->getLoggedInChild()->getAvatar());
-		_avatar->setContentSize(prevSize);
-	}
-	else
-	{
-    	_profileImageDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
-    	_profileImageDownloader->downloadImage(this, ChildDataProvider::getInstance()->getParentOrChildAvatarId());
-	}
+	
+	_profileImageDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
+	_profileImageDownloader->downloadImage(this, ChildDataProvider::getInstance()->getParentOrChildAvatarId());
     avatarLayout->addChild(_avatar);
     
     Sprite* editIcon = Sprite::create("res/oomeeMaker/edit_button.png");

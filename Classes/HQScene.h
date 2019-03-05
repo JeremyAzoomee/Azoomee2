@@ -23,6 +23,10 @@ class HQScene : public Azoomee::Scene, TutorialDelegate
 	typedef Azoomee::Scene Super;
 private:
 	void buildCoreUI();
+	void addParticleElementsToBackground();
+	void addXmasDecoration();
+
+	
 	
 protected:
 	HQSceneType _type = HQSceneType::DEFAULT;

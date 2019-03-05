@@ -84,7 +84,8 @@ void NavigationLayer::changeToScene(const std::string& hqName, float duration)
     
     const HQDataObjectRef &currentObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName);
     
-	if((hqName == ConfigStorage::kMeHQName && ParentDataProvider::getInstance()->isLoggedInParentAnonymous() && !ChildDataProvider::getInstance()->isChildLoggedIn()) || (hqName != ConfigStorage::kMeHQName && !currentObject->getHqEntitlement()))
+	//if((hqName == ConfigStorage::kMeHQName && ParentDataProvider::getInstance()->isLoggedInParentAnonymous() && !ChildDataProvider::getInstance()->isChildLoggedIn()) || (hqName != ConfigStorage::kMeHQName && !currentObject->getHqEntitlement()))
+	if(!currentObject->getHqEntitlement())
     {
         AnalyticsSingleton::getInstance()->registerCTASource("lockedHQ","",currentObject->getHqType());
         IAPEntryContext context = IAPEntryContext::DEFAULT;
@@ -92,7 +93,11 @@ void NavigationLayer::changeToScene(const std::string& hqName, float duration)
         {
             context = IAPEntryContext::LOCKED_CHAT;
         }
-        DynamicNodeHandler::getInstance()->startIAPFlow(context);
+#ifndef ALLOW_UNPAID_SIGNUP
+		DynamicNodeHandler::getInstance()->startIAPFlow(context);
+#else
+		DynamicNodeHandler::getInstance()->startSignupFlow();
+#endif
         return;
     }
     
@@ -103,16 +108,6 @@ void NavigationLayer::changeToScene(const std::string& hqName, float duration)
 		if(!ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
 		{
 			Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
-		}
-		else
-		{
-			AnalyticsSingleton::getInstance()->registerCTASource("lockedHQ","",ConfigStorage::kChatHQName);
-			IAPEntryContext context = IAPEntryContext::LOCKED_CHAT;
-#ifndef ALLOW_UNPAID_SIGNUP
-			DynamicNodeHandler::getInstance()->startIAPFlow(context);
-#else
-			DynamicNodeHandler::getInstance()->startSignupFlow();
-#endif
 		}
 		return;
     }

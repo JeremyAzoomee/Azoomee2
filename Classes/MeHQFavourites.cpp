@@ -11,6 +11,8 @@
 #include "FavouritesManager.h"
 #include "NavigationLayer.h"
 #include "HQDataProvider.h"
+#include "SceneManagerScene.h"
+#include "HQHistoryManager.h"
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
@@ -236,16 +238,8 @@ void MeHQFavourites::buildEmptyCarousel()
     playGamesButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            auto baseLayer = Director::getInstance()->getRunningScene();
-            if(baseLayer)
-            {
-                NavigationLayer *navigationLayer = dynamic_cast<NavigationLayer*>(baseLayer->getChildByName("NavigationLayer"));
-                
-                if(navigationLayer)
-                {
-                    navigationLayer->changeToScene(ConfigStorage::kVideoHQName, 0.5);
-                }
-            }
+			HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kVideoHQName);
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
         }
     });
     
