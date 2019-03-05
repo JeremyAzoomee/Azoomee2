@@ -14,6 +14,7 @@
 #include <vector>
 #include "AzoomeeArtApp.h"
 #include <AzoomeeCommon/Gestures/PinchGestureRecognizer.h>
+#include <AzoomeeCommon/Gestures/PanGestureRecognizer.h>
 
 NS_AZOOMEE_AA_BEGIN
 
@@ -21,9 +22,8 @@ class StickerPlacementNode : public cocos2d::Node
 {
     typedef cocos2d::Node Super;
 private:
-    enum ControlMode {NONE = -1, MOVE = 0, ROTATE = 1, SCALE = 2};
     cocos2d::Sprite* _sticker = nullptr;
-//    cocos2d::EventListenerTouchAllAtOnce* _touchListener = nullptr;
+    cocos2d::PanGestureRecognizer* _panGesture = nullptr;
     cocos2d::PinchGestureRecognizer* _pinchGesture = nullptr;
     
     float _scaleFactor;
@@ -34,6 +34,7 @@ private:
     cocos2d::ui::Scale9Sprite* _stickerFrame = nullptr;
     
     void onPinch(cocos2d::PinchGestureRecognizer* recognizer);
+    void onPan(cocos2d::PanGestureRecognizer* recognizer);
     void addGestureRecognizers();
     
 public:
@@ -45,7 +46,6 @@ public:
     
     void setTouchListenerEnabled(bool enabled);
     
-    void setupTouchHandling();
     void setSticker(cocos2d::Sprite* sticker);
     cocos2d::Sprite* getSticker();
     void reset();

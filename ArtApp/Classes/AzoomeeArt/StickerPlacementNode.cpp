@@ -57,7 +57,6 @@ void StickerPlacementNode::onEnter()
     _stickerFrame->setContentSize(_sticker->getContentSize() + _stickerButton_rotate->getContentSize());
     _stickerFrame->setPosition(_sticker->getPosition());
     
-//    setupTouchHandling();
     addGestureRecognizers();
 }
 
@@ -71,15 +70,20 @@ void StickerPlacementNode::addGestureRecognizers()
     _pinchGesture = PinchGestureRecognizer::create();
     _pinchGesture->onPinch = CC_CALLBACK_1(StickerPlacementNode::onPinch, this);
     addChild(_pinchGesture);
+    
+    const float fingers = 1;
+    _panGesture = PanGestureRecognizer::create(fingers);
+    _panGesture->onPan = CC_CALLBACK_1(StickerPlacementNode::onPan, this);
+    addChild(_panGesture);
 }
 
 void StickerPlacementNode::onPinch(PinchGestureRecognizer* recognizer)
 {
-    auto stato = recognizer->getStatus();
+    auto state = recognizer->getStatus();
     auto location = recognizer->getGestureLocation();
     
     static bool filterTouch = true;
-    if(stato == GestureStatus::BEGAN)
+    if(state == GestureStatus::BEGAN)
     {
         filterTouch = false;
         // TODO: filterTouch = true if touch is outside canvas?
@@ -89,20 +93,20 @@ void StickerPlacementNode::onPinch(PinchGestureRecognizer* recognizer)
 //            filterTouch = !nodeContainsThePoint(sprite, location);
 //        }
     }
-    else if(stato == GestureStatus::CHANGED)
+    else if(state == GestureStatus::CHANGED)
     {
         auto factor = recognizer->getPinchFactor();
         auto angle  = recognizer->getPinchRotation();
-        auto trasl  = recognizer->getPinchTraslation();
+//        auto trasl  = recognizer->getPinchTraslation();
         if(_sticker && !filterTouch)
         {
             _scaleFactor = _sticker->getScale() * factor;
             _sticker->setScale(_scaleFactor);
             _rotationAngle = _sticker->getRotation() + angle;
             _sticker->setRotation(_rotationAngle);
-            _sticker->setPosition(_sticker->getPosition() + trasl);
+//            _sticker->setPosition(_sticker->getPosition() + trasl);
             
-            _stickerFrame->setPosition(_sticker->getPosition());
+//            _stickerFrame->setPosition(_sticker->getPosition());
             _stickerButton_rotate->setRotation(_rotationAngle);
             _stickerButton_scale->setRotation(_rotationAngle);
             _stickerFrame->setRotation(_rotationAngle);
@@ -110,104 +114,44 @@ void StickerPlacementNode::onPinch(PinchGestureRecognizer* recognizer)
             this->updateStickerControls();
         }
     }
-    else if(stato == GestureStatus::RECOGNIZED)
+    else if(state == GestureStatus::RECOGNIZED)
     {
         filterTouch = true;
     }
 }
 
-//void StickerPlacementNode::setupTouchHandling()
-//{
-//    static bool touchDetected = false;
-//    static ControlMode mode = NONE;
-//
-//    _touchListener = EventListenerTouchAllAtOnce::create();
-//
-//    _touchListener->onTouchesBegan = [=](const std::vector<Touch*>& touches, Event* event)
-//    {
-//        cocos2d::log( "onTouchesBegan: %lu", touches.size() );
-//        if(touchDetected)
-//        {
-//            return false;
-//        }
-//
-//        if(_stickerButton_rotate->getBoundingBox().containsPoint(touches[0]->getLocation()))
-//        {
-//            mode = ROTATE;
-//        }
-//        else if(_stickerButton_scale->getBoundingBox().containsPoint(touches[0]->getLocation()))
-//        {
-//            mode = SCALE;
-//        }
-//        else if(_sticker->getBoundingBox().containsPoint(touches[0]->getLocation()))
-//        {
-//            mode = MOVE;
-//        }
-//        else
-//        {
-//            return false;
-//        }
-//
-//        touchDetected = true;
-//
-//        return true;
-//    };
-//
-//    _touchListener->onTouchesMoved = [=](const std::vector<Touch*>& touches, Event* event)
-//    {
-//        cocos2d::log( "onTouchesMoved: %lu", touches.size() );
-//        switch(mode)
-//        {
-//            case MOVE:
-//            {
-//                const Vec2& moveVec = touches[0]->getLocation() - touches[0]->getPreviousLocation();
-//                _sticker->setPosition(_sticker->getPosition() + moveVec);
-//                _stickerFrame->setPosition(_sticker->getPosition());
-//                break;
-//            }
-//            case ROTATE:
-//            {
-//                const Vec2& touchVec = _sticker->getPosition() - touches[0]->getLocation();
-//                _rotationAngle = CC_RADIANS_TO_DEGREES(-touchVec.getAngle()) + 45;
-//                _sticker->setRotation(_rotationAngle);
-//                _stickerButton_rotate->setRotation(_rotationAngle);
-//                _stickerButton_scale->setRotation(_rotationAngle);
-//                _stickerFrame->setRotation(_rotationAngle);
-//                break;
-//            }
-//
-//            case SCALE:
-//            {
-//                const Vec2& baseStickerSize = _sticker->getContentSize()/2;
-//                const Vec2& midToTouchLength = touches[0]->getLocation() - _sticker->getPosition();
-//                _scaleFactor = midToTouchLength.length()/baseStickerSize.length();
-//                _sticker->setScale(_scaleFactor);
-//                break;
-//            }
-//            case NONE:
-//            {
-//                break;
-//            }
-//        }
-//
-//        this->updateStickerControls();
-//    };
-//
-//    _touchListener->onTouchesEnded = [=](const std::vector<Touch*>& touches, Event* event)
-//    {
-//        cocos2d::log( "onTouchesEnded: %lu", touches.size() );
-//        touchDetected = false;
-//    };
-//
-//    _touchListener->onTouchesCancelled = _touchListener->onTouchesEnded;
-//
-//    this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_touchListener, this);
-//
-//}
+void StickerPlacementNode::onPan(PanGestureRecognizer *recognizer)
+{
+    auto state = recognizer->getStatus();
+    auto location = recognizer->getGestureLocation();
+    
+    static bool filterTouch = true;
+    if(state == GestureStatus::BEGAN)
+    {
+        if(_sticker)
+        {
+            filterTouch = !nodeContainsThePoint(_sticker, location);
+        }
+    }
+    else if(state == GestureStatus::CHANGED)
+    {
+        if(_sticker && !filterTouch)
+        {
+            _sticker->setPosition(_sticker->getPosition() + recognizer->getTraslation());
+            _stickerFrame->setPosition(_sticker->getPosition());
+            
+            this->updateStickerControls();
+        }
+    }
+    else if(state == GestureStatus::RECOGNIZED)
+    {
+        filterTouch = true;
+    }
+}
 
 void StickerPlacementNode::setTouchListenerEnabled(bool enabled)
 {
-//    _touchListener->setEnabled(enabled);
+    _panGesture->setEnabled(enabled);
     _pinchGesture->setEnabled(enabled);
     Azoomee::Application::setMultipleTouchEnabled(enabled);
 }
