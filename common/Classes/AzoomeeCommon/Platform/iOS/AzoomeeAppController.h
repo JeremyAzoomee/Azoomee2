@@ -6,7 +6,7 @@
 @class AzoomeeViewController;
 
 @interface AzoomeeAppController : NSObject <UIApplicationDelegate> {
-
+    
 }
 
 @property(nonatomic, readonly) AzoomeeViewController* viewController;

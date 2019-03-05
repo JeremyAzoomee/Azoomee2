@@ -47,6 +47,7 @@ public:
     virtual void onVirtualKeyboardShown(bool shown, int height);
 #endif
     
+    static void setMultipleTouchEnabled(bool enabled);
     
     /// Orientation mode
     enum Orientation {

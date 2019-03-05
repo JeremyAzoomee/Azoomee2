@@ -166,6 +166,16 @@ void Application::updateResolution(int newWidth, int newHeight)
     }
 }
 
+void Application::setMultipleTouchEnabled(bool enabled)
+{
+    cocos2d::log("Application::setMultipleTouchEnabled: %s", enabled ? "true" : "false");
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    [AzoomeeViewController.sharedInstance setMultipleTouchEnabled:enabled];
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    
+#endif
+}
+
 void Application::setOrientation(Orientation orientation)
 {
     auto director = cocos2d::Director::getInstance();

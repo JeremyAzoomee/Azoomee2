@@ -20,8 +20,8 @@
 }
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView {
-    
+- (void)loadView
+{
     _forcePortrait = false;
     _anyOrientation = false;
     cocos2d::Application *app = cocos2d::Application::getInstance();
@@ -62,19 +62,25 @@
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
+- (void) viewDidLoad
+{
     [super viewDidLoad];
-
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void) viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
+- (void) viewDidDisappear:(BOOL)animated
+{
     [super viewDidDisappear:animated];
 }
 
+- (void) setMultipleTouchEnabled:(BOOL)enabled
+{
+    [self.view setMultipleTouchEnabled:enabled];
+}
 
 - (NSUInteger) supportedInterfaceOrientations
 {

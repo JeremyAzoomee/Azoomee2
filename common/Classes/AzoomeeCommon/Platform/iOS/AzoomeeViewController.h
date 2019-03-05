@@ -7,11 +7,16 @@
     bool _forcePortrait;
     bool _anyOrientation;
 }
+
+@property(nonatomic, readonly) AzoomeeViewController* viewController;
+
 - (BOOL) prefersStatusBarHidden;
 
 - (void) setOrientationToPortrait;
 - (void) setOrientationToLandscape;
 - (void) setOrientationToAny;
+
+- (void) setMultipleTouchEnabled:(BOOL)enabled;
 
 + (AzoomeeViewController*) sharedInstance;
 
