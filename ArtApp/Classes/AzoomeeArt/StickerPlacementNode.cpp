@@ -8,6 +8,7 @@
 
 #include "StickerPlacementNode.h"
 #include "DrawingCanvas.h"
+#include <AzoomeeCommon/Application.h>
 
 using namespace cocos2d;
 
@@ -68,24 +69,25 @@ void StickerPlacementNode::setupTouchHandling()
     static bool touchDetected = false;
     static ControlMode mode = NONE;
     
-    _touchListener = EventListenerTouchOneByOne::create();
+    _touchListener = EventListenerTouchAllAtOnce::create();
     
-    _touchListener->onTouchBegan = [=](Touch* touch, Event* event)
+    _touchListener->onTouchesBegan = [=](const std::vector<Touch*>& touches, Event* event)
     {
+        cocos2d::log( "onTouchesBegan: %lu", touches.size() );
         if(touchDetected)
         {
             return false;
         }
         
-        if(_stickerButton_rotate->getBoundingBox().containsPoint(touch->getLocation()))
+        if(_stickerButton_rotate->getBoundingBox().containsPoint(touches[0]->getLocation()))
         {
             mode = ROTATE;
         }
-        else if(_stickerButton_scale->getBoundingBox().containsPoint(touch->getLocation()))
+        else if(_stickerButton_scale->getBoundingBox().containsPoint(touches[0]->getLocation()))
         {
             mode = SCALE;
         }
-        else if(_sticker->getBoundingBox().containsPoint(touch->getLocation()))
+        else if(_sticker->getBoundingBox().containsPoint(touches[0]->getLocation()))
         {
             mode = MOVE;
         }
@@ -99,21 +101,21 @@ void StickerPlacementNode::setupTouchHandling()
         return true;
     };
     
-    _touchListener->onTouchMoved = [=](Touch* touch, Event* event)
+    _touchListener->onTouchesMoved = [=](const std::vector<Touch*>& touches, Event* event)
     {
-        
+        cocos2d::log( "onTouchesMoved: %lu", touches.size() );
         switch(mode)
         {
             case MOVE:
             {
-                const Vec2& moveVec = touch->getLocation() - touch->getPreviousLocation();
+                const Vec2& moveVec = touches[0]->getLocation() - touches[0]->getPreviousLocation();
                 _sticker->setPosition(_sticker->getPosition() + moveVec);
                 _stickerFrame->setPosition(_sticker->getPosition());
                 break;
             }
             case ROTATE:
             {
-                const Vec2& touchVec = _sticker->getPosition() - touch->getLocation();
+                const Vec2& touchVec = _sticker->getPosition() - touches[0]->getLocation();
                 _rotationAngle = CC_RADIANS_TO_DEGREES(-touchVec.getAngle()) + 45;
                 _sticker->setRotation(_rotationAngle);
                 _stickerButton_rotate->setRotation(_rotationAngle);
@@ -125,7 +127,7 @@ void StickerPlacementNode::setupTouchHandling()
             case SCALE:
             {
                 const Vec2& baseStickerSize = _sticker->getContentSize()/2;
-                const Vec2& midToTouchLength = touch->getLocation() - _sticker->getPosition();
+                const Vec2& midToTouchLength = touches[0]->getLocation() - _sticker->getPosition();
                 _scaleFactor = midToTouchLength.length()/baseStickerSize.length();
                 _sticker->setScale(_scaleFactor);
                 break;
@@ -137,17 +139,15 @@ void StickerPlacementNode::setupTouchHandling()
         }
         
         this->updateStickerControls();
-        
     };
     
-    _touchListener->onTouchEnded = [=](Touch* touch, Event* event)
+    _touchListener->onTouchesEnded = [=](const std::vector<Touch*>& touches, Event* event)
     {
-        
+        cocos2d::log( "onTouchesEnded: %lu", touches.size() );
         touchDetected = false;
-        
     };
     
-    _touchListener->onTouchCancelled = _touchListener->onTouchEnded;
+    _touchListener->onTouchesCancelled = _touchListener->onTouchesEnded;
     
     this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_touchListener, this);
     
@@ -156,6 +156,7 @@ void StickerPlacementNode::setupTouchHandling()
 void StickerPlacementNode::setTouchListenerEnabled(bool enabled)
 {
     _touchListener->setEnabled(enabled);
+    Azoomee::Application::setMultipleTouchEnabled(enabled);
 }
 
 void StickerPlacementNode::setSticker(Sprite *sticker)

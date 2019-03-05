@@ -22,7 +22,7 @@ class StickerPlacementNode : public cocos2d::Node
 private:
     enum ControlMode {NONE = -1, MOVE = 0, ROTATE = 1, SCALE = 2};
     cocos2d::Sprite* _sticker = nullptr;
-    cocos2d::EventListenerTouchOneByOne* _touchListener = nullptr;
+    cocos2d::EventListenerTouchAllAtOnce* _touchListener = nullptr;
     
     float _scaleFactor;
     float _rotationAngle;

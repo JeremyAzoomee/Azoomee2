@@ -25,6 +25,13 @@
 		3000FF761ED5AB7100E9717C /* AzoomeeViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3000FF731ED5AB7000E9717C /* AzoomeeViewController.mm */; };
 		3000FF7B1ED5BBB700E9717C /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3000FF791ED5BBB700E9717C /* Application.cpp */; };
 		300743551EFC13B7005525AE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 300743541EFC13B7005525AE /* Foundation.framework */; };
+		30081DC7222ECA4F008766F4 /* PanGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30081DB8222ECA4F008766F4 /* PanGestureRecognizer.cpp */; };
+		30081DC8222ECA4F008766F4 /* TapGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30081DB9222ECA4F008766F4 /* TapGestureRecognizer.cpp */; };
+		30081DC9222ECA4F008766F4 /* GestureRecognizerUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30081DBC222ECA4F008766F4 /* GestureRecognizerUtils.cpp */; };
+		30081DCA222ECA4F008766F4 /* PinchGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30081DBE222ECA4F008766F4 /* PinchGestureRecognizer.cpp */; };
+		30081DCC222ECA4F008766F4 /* LongPressGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30081DC0222ECA4F008766F4 /* LongPressGestureRecognizer.cpp */; };
+		30081DCD222ECA4F008766F4 /* SwipeGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30081DC2222ECA4F008766F4 /* SwipeGestureRecognizer.cpp */; };
+		30081DCE222ECA4F008766F4 /* GestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30081DC4222ECA4F008766F4 /* GestureRecognizer.cpp */; };
 		3012ED481E969A180009027D /* AudioMixer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED461E969A180009027D /* AudioMixer.cpp */; };
 		3012ED501E969AE40009027D /* CookieDataParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED4A1E969AE40009027D /* CookieDataParser.cpp */; };
 		3012ED511E969AE40009027D /* CookieDataProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED4C1E969AE40009027D /* CookieDataProvider.cpp */; };
@@ -202,6 +209,21 @@
 		3000FF791ED5BBB700E9717C /* Application.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = Application.cpp; sourceTree = "<group>"; };
 		3000FF7A1ED5BBB700E9717C /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
 		300743541EFC13B7005525AE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		30081DB8222ECA4F008766F4 /* PanGestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PanGestureRecognizer.cpp; sourceTree = "<group>"; };
+		30081DB9222ECA4F008766F4 /* TapGestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TapGestureRecognizer.cpp; sourceTree = "<group>"; };
+		30081DBA222ECA4F008766F4 /* PanGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PanGestureRecognizer.h; sourceTree = "<group>"; };
+		30081DBB222ECA4F008766F4 /* GestureRecognizerUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GestureRecognizerUtils.h; sourceTree = "<group>"; };
+		30081DBC222ECA4F008766F4 /* GestureRecognizerUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GestureRecognizerUtils.cpp; sourceTree = "<group>"; };
+		30081DBD222ECA4F008766F4 /* GestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GestureRecognizer.h; sourceTree = "<group>"; };
+		30081DBE222ECA4F008766F4 /* PinchGestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PinchGestureRecognizer.cpp; sourceTree = "<group>"; };
+		30081DBF222ECA4F008766F4 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		30081DC0222ECA4F008766F4 /* LongPressGestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LongPressGestureRecognizer.cpp; sourceTree = "<group>"; };
+		30081DC1222ECA4F008766F4 /* PinchGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PinchGestureRecognizer.h; sourceTree = "<group>"; };
+		30081DC2222ECA4F008766F4 /* SwipeGestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SwipeGestureRecognizer.cpp; sourceTree = "<group>"; };
+		30081DC3222ECA4F008766F4 /* LongPressGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LongPressGestureRecognizer.h; sourceTree = "<group>"; };
+		30081DC4222ECA4F008766F4 /* GestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GestureRecognizer.cpp; sourceTree = "<group>"; };
+		30081DC5222ECA4F008766F4 /* SwipeGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwipeGestureRecognizer.h; sourceTree = "<group>"; };
+		30081DC6222ECA4F008766F4 /* TapGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TapGestureRecognizer.h; sourceTree = "<group>"; };
 		300AD5B01F0B96310049A24F /* 37AC06B0-9318-301A-8C99-C6730DD89152.bcsymbolmap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "37AC06B0-9318-301A-8C99-C6730DD89152.bcsymbolmap"; sourceTree = "<group>"; };
 		300AD5B11F0B96310049A24F /* 5CA1B21D-FB96-3675-9651-7D94826701AB.bcsymbolmap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "5CA1B21D-FB96-3675-9651-7D94826701AB.bcsymbolmap"; sourceTree = "<group>"; };
 		3012ED461E969A180009027D /* AudioMixer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioMixer.cpp; sourceTree = "<group>"; };
@@ -550,6 +572,28 @@
 			path = iOS;
 			sourceTree = "<group>";
 		};
+		30081DB7222ECA4F008766F4 /* Gestures */ = {
+			isa = PBXGroup;
+			children = (
+				30081DB8222ECA4F008766F4 /* PanGestureRecognizer.cpp */,
+				30081DBA222ECA4F008766F4 /* PanGestureRecognizer.h */,
+				30081DBE222ECA4F008766F4 /* PinchGestureRecognizer.cpp */,
+				30081DC1222ECA4F008766F4 /* PinchGestureRecognizer.h */,
+				30081DB9222ECA4F008766F4 /* TapGestureRecognizer.cpp */,
+				30081DC6222ECA4F008766F4 /* TapGestureRecognizer.h */,
+				30081DC0222ECA4F008766F4 /* LongPressGestureRecognizer.cpp */,
+				30081DC3222ECA4F008766F4 /* LongPressGestureRecognizer.h */,
+				30081DC2222ECA4F008766F4 /* SwipeGestureRecognizer.cpp */,
+				30081DC5222ECA4F008766F4 /* SwipeGestureRecognizer.h */,
+				30081DBB222ECA4F008766F4 /* GestureRecognizerUtils.h */,
+				30081DBC222ECA4F008766F4 /* GestureRecognizerUtils.cpp */,
+				30081DC4222ECA4F008766F4 /* GestureRecognizer.cpp */,
+				30081DBD222ECA4F008766F4 /* GestureRecognizer.h */,
+				30081DBF222ECA4F008766F4 /* README.md */,
+			);
+			path = Gestures;
+			sourceTree = "<group>";
+		};
 		300AD5AC1F0B96310049A24F /* Carthage */ = {
 			isa = PBXGroup;
 			children = (
@@ -812,6 +856,7 @@
 				3012ED451E969A180009027D /* Audio */,
 				30DD5EBE1E96571F0084305B /* Crashlytics */,
 				30DD5EDF1E96841D0084305B /* Data */,
+				30081DB7222ECA4F008766F4 /* Gestures */,
 				3012ED961E97E6A40009027D /* ImageDownloader */,
 				3012ED651E96A3140009027D /* Input */,
 				3012EDA31E97E8450009027D /* JWTSigner */,
@@ -1193,6 +1238,7 @@
 				02AE88E31F83CBC3005C0FC8 /* AutomaticEvents.m in Sources */,
 				3012ED591E969BBB0009027D /* ParentDataStorage.cpp in Sources */,
 				436007891F22120C000ECBA4 /* ModalWebview.cpp in Sources */,
+				30081DC9222ECA4F008766F4 /* GestureRecognizerUtils.cpp in Sources */,
 				4349C8211EA8ADEF00FE964B /* MPABTestDesignerSnapshotRequestMessage.m in Sources */,
 				4349C81C1EA8ADEF00FE964B /* MPABTestDesignerClearResponseMessage.m in Sources */,
 				4349C82E1EA8ADEF00FE964B /* MPDesignerEventBindingRequestMesssage.m in Sources */,
@@ -1210,6 +1256,7 @@
 				3012ED9F1E97E6A40009027D /* RemoteImageSprite.cpp in Sources */,
 				3012ED631E969BF60009027D /* ChildDataStorage.cpp in Sources */,
 				92B1EC8D20A209CC007A58C0 /* ContentItemPoolParser.cpp in Sources */,
+				30081DC8222ECA4F008766F4 /* TapGestureRecognizer.cpp in Sources */,
 				302E847A1ED1B992006A498C /* SplitLayout.cpp in Sources */,
 				3000FF7B1ED5BBB700E9717C /* Application.cpp in Sources */,
 				4349C84F1EA8ADEF00FE964B /* MPUIEdgeInsetsToNSDictionaryValueTransformer.m in Sources */,
@@ -1246,6 +1293,7 @@
 				4349C85E1EA8ADEF00FE964B /* UIViewController+AutomaticEvents.m in Sources */,
 				4349C8191EA8ADEF00FE964B /* MPABTestDesignerChangeRequestMessage.m in Sources */,
 				022218CC1ECF203000AD167F /* SessionIdManager.cpp in Sources */,
+				30081DC7222ECA4F008766F4 /* PanGestureRecognizer.cpp in Sources */,
 				02BEDF2E1FE1327500D4C9B3 /* ContentItemPool.cpp in Sources */,
 				301CCA9A1EB14280009ADA0C /* API.cpp in Sources */,
 				3012ED711E96A3140009027D /* StringMgr.cpp in Sources */,
@@ -1264,6 +1312,7 @@
 				4349C84E1EA8ADEF00FE964B /* MPUIControlBinding.m in Sources */,
 				3012EDA01E97E6A40009027D /* ImageDownloaderCacheCleanerLogic.cpp in Sources */,
 				4349C83C1EA8ADEF00FE964B /* MPObjectSerializer.m in Sources */,
+				30081DCA222ECA4F008766F4 /* PinchGestureRecognizer.cpp in Sources */,
 				4349C8181EA8ADEF00FE964B /* MPAbstractABTestDesignerMessage.m in Sources */,
 				4349C82C1EA8ADEF00FE964B /* MPCGSizeToNSDictionaryValueTransformer.m in Sources */,
 				4349C8261EA8ADEF00FE964B /* MPBOOLToNSNumberValueTransformer.m in Sources */,
@@ -1301,8 +1350,10 @@
 				4349C8141EA8ADEF00FE964B /* Mixpanel.m in Sources */,
 				3012ED901E97DCC00009027D /* ElectricDreamsDecoration.cpp in Sources */,
 				4349C81E1EA8ADEF00FE964B /* MPABTestDesignerDeviceInfoRequestMessage.m in Sources */,
+				30081DCC222ECA4F008766F4 /* LongPressGestureRecognizer.cpp in Sources */,
 				4349C8131EA8ADEF00FE964B /* Mixpanel+AutomaticEvents.m in Sources */,
 				4349C82F1EA8ADEF00FE964B /* MPDesignerEventBindingResponseMesssage.m in Sources */,
+				30081DCE222ECA4F008766F4 /* GestureRecognizer.cpp in Sources */,
 				30DD5EC61E96571F0084305B /* CrashlyticsConfig_ios.mm in Sources */,
 				4349C81D1EA8ADEF00FE964B /* MPABTestDesignerConnection.m in Sources */,
 				4349C8251EA8ADEF00FE964B /* MPApplicationStateSerializer.m in Sources */,
@@ -1318,6 +1369,7 @@
 				9271D888204EE7EE00370120 /* SpriteUtils.cpp in Sources */,
 				4349C82D1EA8ADEF00FE964B /* MPClassDescription.m in Sources */,
 				9220EBB92021FC9300BD7A90 /* TimeFunctions.cpp in Sources */,
+				30081DCD222ECA4F008766F4 /* SwipeGestureRecognizer.cpp in Sources */,
 				3012EDA11E97E6A40009027D /* ImageDownloader.cpp in Sources */,
 				302E84791ED1B992006A498C /* ObservableLayout.cpp in Sources */,
 				3012ED851E97A8F50009027D /* Notifications_ios.mm in Sources */,
