@@ -4,7 +4,6 @@
 #include <AzoomeeCommon/Data/Child/ChildDataParser.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
-#include <AzoomeeCommon/Data/Child/AnonChildHandler.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Data/Cookie/CookieDataParser.h>
