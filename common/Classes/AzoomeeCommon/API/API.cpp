@@ -15,7 +15,6 @@ NS_AZOOMEE_BEGIN
 
 const char* const API::TagIpCheck = "ipCheck";
 const char* const API::TagLogin = "parentLogin";
-const char* const API::TagAnonymousDeviceLogin = "anonymousDeviceLogin";
 const char* const API::TagGetAnonCredentials = "getAnonCredentials";
 const char* const API::TagUpdateBillingData = "updateBilling";
 const char* const API::TagParentPin = "updateParentPin";
@@ -171,20 +170,6 @@ HttpRequestCreator* API::LoginRequest(const std::string& username,
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->requestBody = StringUtils::format("{\"password\": \"%s\",\"userName\": \"%s\",\"appType\": \"CHILD_APP\"}", password.c_str(), username.c_str());
     request->requestTag = TagLogin;
-    request->method = "POST";
-	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
-		HandleAPIResponse(sender, response, delegate, request);
-	});
-    return request;
-}
-
-HttpRequestCreator* API::AnonymousDeviceLoginRequest(const std::string &deviceId,
-                                                     HttpRequestCreatorResponseDelegate* delegate)
-{
-    HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestBody = StringUtils::format("{\"deviceId\": \"%s\"}", deviceId.c_str());
-    request->requestTag = TagAnonymousDeviceLogin;
-    request->urlParameters = "hqs=true";
     request->method = "POST";
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);

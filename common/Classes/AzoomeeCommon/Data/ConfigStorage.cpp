@@ -235,7 +235,6 @@ std::string ConfigStorage::getMediaPrefixForXwalkCookies()
 std::string ConfigStorage::getPathForTag(const std::string& httpRequestTag)
 {
     if(httpRequestTag == API::TagLogin) return "/api/auth/login";
-    if(httpRequestTag == API::TagAnonymousDeviceLogin) return "/api/anonymoususer/auth/login";
     if(httpRequestTag == API::TagGetAvailableChildren) return StringUtils::format("/api/user/adult/%s/owns", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
     if(httpRequestTag == API::TagChildLogin) return "/api/auth/switchProfile";
     if(httpRequestTag == API::TagGetGorden) return "/api/porthole/pixel/gordon.png";

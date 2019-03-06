@@ -54,7 +54,9 @@ void RewardScene::onEnter()
 	coinCollect->retain();
 	_screenSequence.push_back(coinCollect);
 	
-	onAnimationComplete(_rewardData);
+	auto nextLayer = _screenSequence.back();
+	this->addChild(nextLayer);
+	nextLayer->release();
 	
 	Node::onEnter(); // skip RewardScreen onEnter which schedules callback
 }

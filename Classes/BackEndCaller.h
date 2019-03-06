@@ -24,8 +24,6 @@ private:
     
     // Login API success
     void onLoginAnswerReceived(const std::string& responseString, const std::string& headerString);
-    // Anonymous device login
-    void onAnonymousDeviceLoginAnswerReceived(const std::string& responseString, const std::string& headerString);
     // Update billing API success
     void onUpdateBillingDataAnswerReceived(const std::string& responseString);
     // Update parent PIN API success

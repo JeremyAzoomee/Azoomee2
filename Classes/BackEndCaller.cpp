@@ -187,10 +187,6 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString, con
 void BackEndCaller::anonymousDeviceLogin()
 {
     displayLoadingScreen();
-    
-    //std::string deviceId = ConfigStorage::getInstance()->getDeviceAdvertisingId();
-    
-    //if(deviceId == "") deviceId = "SESSID:" + SessionIdManager::getInstance()->getCurrentSessionId();
 	
 	UserDefault* userDefault = UserDefault::getInstance();
 	const std::string& anonEmail = userDefault->getStringForKey("anonEmail", "");
@@ -204,31 +200,8 @@ void BackEndCaller::anonymousDeviceLogin()
 	{
 		login(anonEmail, ConfigStorage::kAnonLoginPW);
 	}
-    //HttpRequestCreator* request = API::AnonymousDeviceLoginRequest(deviceId, this);
-    //request->execute();
 }
 
-void BackEndCaller::onAnonymousDeviceLoginAnswerReceived(const std::string &responseString, const std::string& headerString)
-{
-	IAPProductDataHandler::getInstance()->fetchProductData();
-    
-    cocos2d::log("Response string is: %s", responseString.c_str());
-    if(ParentDataParser::getInstance()->parseParentLoginData(responseString))
-    {
-        AnalyticsSingleton::getInstance()->setIsUserAnonymous(true);
-        ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headerString));
-        HQDataParser::getInstance()->parseHQGetContentUrls(responseString);
-		AnonChildHandler::getInstance()->loginAnonChild(responseString);
-        DynamicNodeHandler::getInstance()->getCTAFiles();
-        getGordon();
-    }
-    else
-    {
-        AnalyticsSingleton::getInstance()->signInFailEvent(0);
-        FlowDataSingleton::getInstance()->setErrorCode(ERROR_CODE_INVALID_CREDENTIALS);
-        getBackToLoginScreen(ERROR_CODE_INVALID_CREDENTIALS);
-    }
-}
 
 //UPDATING BILLING DATA-------------------------------------------------------------------------------
 
@@ -293,31 +266,13 @@ void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseStrin
     ParentDataParser::getInstance()->parseAvailableChildren(responseString);
     if(ParentDataProvider::getInstance()->getAmountOfAvailableChildren() == 0)
     {
-		/*
-		if(AnonChildHandler::getInstance()->localAnonChildExists())
-		{
-			AnonChildHandler::getInstance()->registerAnonChildToUser([this](bool success)
-			{
-				if(success)
-				{
-					this->getAvailableChildren();
-				}
-				else
-				{
-					Director::getInstance()->replaceScene(SceneManagerScene::createScene(AddChildFirstTime));
-				}
-			});
-		}
-		else
-		{*/
-        	Director::getInstance()->replaceScene(SceneManagerScene::createScene(AddChildFirstTime));
-		//}
+		Director::getInstance()->replaceScene(SceneManagerScene::createScene(AddChildFirstTime));
     }
     else
     {
 		if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
 		{
-			childLogin(0);
+			childLogin(0); // auto login default child
 		}
 		else
 		{
@@ -340,9 +295,6 @@ void BackEndCaller::childLogin(int childNumber)
     const std::string& profileName = ParentDataProvider::getInstance()->getChild(childNumber)->getProfileName();
     HttpRequestCreator* request = API::ChildLoginRequest(profileName, this);
     request->execute();
-    
-    //ChildDataParser::getInstance()->setLoggedInChildName(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(childNumber));
-    //ChildDataParser::getInstance()->setLoggedInChildNumber(childNumber);
 }
 
 void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString, const std::string& headerString)
@@ -562,10 +514,6 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
 		ParentDataParser::getInstance()->saveAnonCredentialsToDevice(userId);
 		login(userId, ConfigStorage::kAnonLoginPW);
 	}
-    else if(requestTag == API::TagAnonymousDeviceLogin)
-    {
-        onAnonymousDeviceLoginAnswerReceived(body, headers);
-    }
     else if(requestTag == API::TagRegisterChild)
     {
         onRegisterChildAnswerReceived();

@@ -154,7 +154,6 @@
 		9220EC6A203313CE00BD7A90 /* ActionBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EC69203313CE00BD7A90 /* ActionBuilder.cpp */; };
 		9224C00C1F7CFD7E00108553 /* FileZipUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224C00B1F7CFD7E00108553 /* FileZipUtil.cpp */; };
 		9224C00F1F7D13F000108553 /* DirectorySearcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224C00E1F7D13F000108553 /* DirectorySearcher.cpp */; };
-		923D5B5421FA1D3A008C13D0 /* AnonChildHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5B5321FA1D3A008C13D0 /* AnonChildHandler.cpp */; };
 		92448AC121EF771400E88C9D /* Child.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92448AC021EF771300E88C9D /* Child.cpp */; };
 		92448AC421F0ABC000E88C9D /* Parent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92448AC321F0ABC000E88C9D /* Parent.cpp */; };
 		92448AC721F1FADE00E88C9D /* FriendRequest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92448AC621F1FADE00E88C9D /* FriendRequest.cpp */; };
@@ -476,8 +475,6 @@
 		9224C00B1F7CFD7E00108553 /* FileZipUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileZipUtil.cpp; sourceTree = "<group>"; };
 		9224C00D1F7D11F400108553 /* DirectorySearcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectorySearcher.h; sourceTree = "<group>"; };
 		9224C00E1F7D13F000108553 /* DirectorySearcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DirectorySearcher.cpp; sourceTree = "<group>"; };
-		923D5B5221FA1AC6008C13D0 /* AnonChildHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnonChildHandler.h; sourceTree = "<group>"; };
-		923D5B5321FA1D3A008C13D0 /* AnonChildHandler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AnonChildHandler.cpp; sourceTree = "<group>"; };
 		92448ABF21EF5D0800E88C9D /* Child.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Child.h; sourceTree = "<group>"; };
 		92448AC021EF771300E88C9D /* Child.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Child.cpp; sourceTree = "<group>"; };
 		92448AC221F09CD700E88C9D /* Parent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Parent.h; sourceTree = "<group>"; };
@@ -667,8 +664,6 @@
 				3012ED601E969BF60009027D /* ChildDataStorage.h */,
 				92448ABF21EF5D0800E88C9D /* Child.h */,
 				92448AC021EF771300E88C9D /* Child.cpp */,
-				923D5B5221FA1AC6008C13D0 /* AnonChildHandler.h */,
-				923D5B5321FA1D3A008C13D0 /* AnonChildHandler.cpp */,
 			);
 			path = Child;
 			sourceTree = "<group>";
@@ -1325,7 +1320,6 @@
 				9271D88B2051725C00370120 /* CCSpriteWithHue.cpp in Sources */,
 				4349C8391EA8ADEF00FE964B /* MPNSNumberToCGFloatValueTransformer.m in Sources */,
 				4349C83D1EA8ADEF00FE964B /* MPObjectSerializerConfig.m in Sources */,
-				923D5B5421FA1D3A008C13D0 /* AnonChildHandler.cpp in Sources */,
 				0240FC952016538C00E88157 /* BiometricAuthenticationHandler.cpp in Sources */,
 				305966991ECCAF76009A7130 /* Scene.cpp in Sources */,
 				4349C8171EA8ADEF00FE964B /* MixpanelWatchProperties.m in Sources */,

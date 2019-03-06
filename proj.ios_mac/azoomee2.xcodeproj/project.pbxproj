@@ -153,7 +153,6 @@
 		9224BFB11F7908D400108553 /* DynamicNodeButtonListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB01F7908D400108553 /* DynamicNodeButtonListener.cpp */; };
 		9224BFB41F7932D200108553 /* ButtonActionData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB31F7932D200108553 /* ButtonActionData.cpp */; };
 		9224BFB71F794BFA00108553 /* DynamicNodeHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB61F794BFA00108553 /* DynamicNodeHandler.cpp */; };
-		923D5B7421FF0BBA008C13D0 /* NavigationScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5B7321FF0BBA008C13D0 /* NavigationScene.cpp */; };
 		923D5BBE220064B9008C13D0 /* HQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BBD220064B9008C13D0 /* HQScene.cpp */; };
 		923D5BC522008BF1008C13D0 /* ContentFeedHQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BC422008BF1008C13D0 /* ContentFeedHQScene.cpp */; };
 		923D5BC82200BCC1008C13D0 /* LocalContentHQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BC72200BCC1008C13D0 /* LocalContentHQScene.cpp */; };
@@ -847,9 +846,7 @@
 		9224BFB31F7932D200108553 /* ButtonActionData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ButtonActionData.cpp; sourceTree = "<group>"; };
 		9224BFB51F7949E100108553 /* DynamicNodeHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicNodeHandler.h; sourceTree = "<group>"; };
 		9224BFB61F794BFA00108553 /* DynamicNodeHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeHandler.cpp; sourceTree = "<group>"; };
-		923D5B6D21FB57CF008C13D0 /* NavigationScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NavigationScene.h; sourceTree = "<group>"; };
 		923D5B7221FB5BA9008C13D0 /* HQScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HQScene.h; sourceTree = "<group>"; };
-		923D5B7321FF0BBA008C13D0 /* NavigationScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NavigationScene.cpp; sourceTree = "<group>"; };
 		923D5BBD220064B9008C13D0 /* HQScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HQScene.cpp; sourceTree = "<group>"; };
 		923D5BC322007473008C13D0 /* ContentFeedHQScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContentFeedHQScene.h; sourceTree = "<group>"; };
 		923D5BC422008BF1008C13D0 /* ContentFeedHQScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ContentFeedHQScene.cpp; sourceTree = "<group>"; };
@@ -1881,8 +1878,6 @@
 				A198621E1DD3836D0090F053 /* NavigationLayer.h */,
 				929515862091D04800F43AEC /* UserTypeMessagingLayer.h */,
 				9295158A2091D48700F43AEC /* UserTypeMessagingLayer.cpp */,
-				923D5B6D21FB57CF008C13D0 /* NavigationScene.h */,
-				923D5B7321FF0BBA008C13D0 /* NavigationScene.cpp */,
 			);
 			name = Navigation;
 			sourceTree = "<group>";
@@ -2489,7 +2484,6 @@
 				921A25F72162830A005C8C41 /* LanguageListItem.cpp in Sources */,
 				02D4FCD41FCF0D0C005BA020 /* IAPProductDataHandler.cpp in Sources */,
 				929D46671F73F04D006E40CE /* DynamicNodeCreator.cpp in Sources */,
-				923D5B7421FF0BBA008C13D0 /* NavigationScene.cpp in Sources */,
 				9289DAF31FCEDB1F00B12435 /* DynamicNodeDataInputStorage.cpp in Sources */,
 				02E5959C1E56FC3A0052F395 /* OfflineChecker.cpp in Sources */,
 				923D5BED2201F126008C13D0 /* RewardScene.cpp in Sources */,

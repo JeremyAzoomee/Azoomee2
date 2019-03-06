@@ -184,6 +184,13 @@ void AddChildScene::nextLayer()
 		}
 		case AddChildFlow::ANON_AGE:
 		{
+			if(TutorialController::getInstance()->isTutorialActive())
+			{
+				if(TutorialController::getInstance()->getCurrentState() == TutorialController::kAgeEntry)
+				{
+					TutorialController::getInstance()->nextStep();
+				}
+			}
 			_childCreator->updateChild(ChildDataProvider::getInstance()->getLoggedInChild());
 			break;
 		}
