@@ -27,6 +27,7 @@
 
 #include "SettingsHub.h"
 #include "ChildSettingsScene.h"
+#include "ShopScene.h"
 
 #include "CoinCollectLayer.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
@@ -311,6 +312,13 @@ void SceneManagerScene::onEnterTransitionDidFinish()
 			acceptAnyOrientation();
 			HQHistoryManager::getInstance()->updatePrevOrientation();
 			Director::getInstance()->replaceScene(ChildSettingsScene::create());
+			break;
+		}
+		case Shop:
+		{
+			acceptAnyOrientation();
+			HQHistoryManager::getInstance()->updatePrevOrientation();
+			Director::getInstance()->replaceScene(ShopScene::create());
 			break;
 		}
 #ifdef VODACOM_BUILD

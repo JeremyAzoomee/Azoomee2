@@ -174,6 +174,9 @@
 		92E58571221AC47C0015A4FA /* InventoryItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E58570221AC47C0015A4FA /* InventoryItem.cpp */; };
 		92E58574221ACFE40015A4FA /* Inventory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E58573221ACFE40015A4FA /* Inventory.cpp */; };
 		92E58607221F05B10015A4FA /* NotificationNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E58606221F05B10015A4FA /* NotificationNode.cpp */; };
+		92EC0C57223177C200B02F20 /* Shop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92EC0C56223177C200B02F20 /* Shop.cpp */; };
+		92EC0C59223177D500B02F20 /* ShopDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92EC0C58223177D500B02F20 /* ShopDisplay.cpp */; };
+		92EC0C5B223177E700B02F20 /* ShopDisplayItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92EC0C5A223177E700B02F20 /* ShopDisplayItem.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -515,6 +518,13 @@
 		92E58573221ACFE40015A4FA /* Inventory.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Inventory.cpp; sourceTree = "<group>"; };
 		92E58605221F049E0015A4FA /* NotificationNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationNode.h; sourceTree = "<group>"; };
 		92E58606221F05B10015A4FA /* NotificationNode.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NotificationNode.cpp; sourceTree = "<group>"; };
+		92EC0C522231610D00B02F20 /* Shop.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Shop.h; sourceTree = "<group>"; };
+		92EC0C532231611D00B02F20 /* ShopDisplay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShopDisplay.h; sourceTree = "<group>"; };
+		92EC0C542231612C00B02F20 /* ShopDisplayItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShopDisplayItem.h; sourceTree = "<group>"; };
+		92EC0C552231678700B02F20 /* ShopDataHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShopDataHandler.h; sourceTree = "<group>"; };
+		92EC0C56223177C200B02F20 /* Shop.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Shop.cpp; sourceTree = "<group>"; };
+		92EC0C58223177D500B02F20 /* ShopDisplay.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShopDisplay.cpp; sourceTree = "<group>"; };
+		92EC0C5A223177E700B02F20 /* ShopDisplayItem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShopDisplayItem.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -914,6 +924,7 @@
 		30DD5EDF1E96841D0084305B /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				92EC0C5122315CAF00B02F20 /* Shop */,
 				92E58567220DD64D0015A4FA /* Rewards */,
 				021B1FC01F8389FC0044DCF7 /* HQDataObject */,
 				3012ED5A1E969BF60009027D /* Child */,
@@ -1144,6 +1155,20 @@
 			path = Rewards;
 			sourceTree = "<group>";
 		};
+		92EC0C5122315CAF00B02F20 /* Shop */ = {
+			isa = PBXGroup;
+			children = (
+				92EC0C552231678700B02F20 /* ShopDataHandler.h */,
+				92EC0C522231610D00B02F20 /* Shop.h */,
+				92EC0C56223177C200B02F20 /* Shop.cpp */,
+				92EC0C532231611D00B02F20 /* ShopDisplay.h */,
+				92EC0C58223177D500B02F20 /* ShopDisplay.cpp */,
+				92EC0C542231612C00B02F20 /* ShopDisplayItem.h */,
+				92EC0C5A223177E700B02F20 /* ShopDisplayItem.cpp */,
+			);
+			path = Shop;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1259,6 +1284,7 @@
 				4349C81C1EA8ADEF00FE964B /* MPABTestDesignerClearResponseMessage.m in Sources */,
 				4349C82E1EA8ADEF00FE964B /* MPDesignerEventBindingRequestMesssage.m in Sources */,
 				92E58574221ACFE40015A4FA /* Inventory.cpp in Sources */,
+				92EC0C57223177C200B02F20 /* Shop.cpp in Sources */,
 				4349C8401EA8ADEF00FE964B /* MPPropertyDescription.m in Sources */,
 				4349C8341EA8ADEF00FE964B /* MPNetwork.m in Sources */,
 				4318E13E1F28E65400778E9A /* MessageBoxTextLayer.cpp in Sources */,
@@ -1369,10 +1395,12 @@
 				4349C8141EA8ADEF00FE964B /* Mixpanel.m in Sources */,
 				92448AEE21F77F5400E88C9D /* TutorialController.cpp in Sources */,
 				3012ED901E97DCC00009027D /* ElectricDreamsDecoration.cpp in Sources */,
+				92EC0C59223177D500B02F20 /* ShopDisplay.cpp in Sources */,
 				4349C81E1EA8ADEF00FE964B /* MPABTestDesignerDeviceInfoRequestMessage.m in Sources */,
 				4349C8131EA8ADEF00FE964B /* Mixpanel+AutomaticEvents.m in Sources */,
 				4349C82F1EA8ADEF00FE964B /* MPDesignerEventBindingResponseMesssage.m in Sources */,
 				30DD5EC61E96571F0084305B /* CrashlyticsConfig_ios.mm in Sources */,
+				92EC0C5B223177E700B02F20 /* ShopDisplayItem.cpp in Sources */,
 				4349C81D1EA8ADEF00FE964B /* MPABTestDesignerConnection.m in Sources */,
 				4349C8251EA8ADEF00FE964B /* MPApplicationStateSerializer.m in Sources */,
 				3012EDA21E97E6A40009027D /* ImageDownloaderOnScreenChecker.cpp in Sources */,

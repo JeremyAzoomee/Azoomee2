@@ -107,7 +107,8 @@ void NavigationLayer::changeToScene(const std::string& hqName, float duration)
     {
 		if(!ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
 		{
-			Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+			//Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(Shop));
 		}
 		return;
     }

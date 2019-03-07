@@ -404,6 +404,8 @@
 		92E586F6222425360015A4FA /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620D132DFF430009C878 /* AVFoundation.framework */; };
 		92E586F7222425360015A4FA /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620F132DFF4E0009C878 /* AudioToolbox.framework */; };
 		92E586FB222425360015A4FA /* stickers.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 0240FC45201224AC00E88157 /* stickers.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		92EC0C4F22312EA800B02F20 /* ShopScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92EC0C4E22312EA800B02F20 /* ShopScene.cpp */; };
+		92EC0C5022312F6F00B02F20 /* ShopScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92EC0C4E22312EA800B02F20 /* ShopScene.cpp */; };
 		A134ADCE1E0C0F420030BE98 /* HQSceneElementPositioner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A134ADCC1E0C0F420030BE98 /* HQSceneElementPositioner.cpp */; };
 		A154CC521DFEE7440008A626 /* GameDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A154CC501DFEE7440008A626 /* GameDataManager.cpp */; };
 		A15B2F991DE74F6400D25334 /* WebViewSelector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A15B2F971DE74F6400D25334 /* WebViewSelector.cpp */; };
@@ -960,6 +962,14 @@
 		92E5856D221475120015A4FA /* ChildSettingsScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChildSettingsScene.cpp; sourceTree = "<group>"; };
 		92E586FF222425360015A4FA /* azoomee2-mobile-Voda.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "azoomee2-mobile-Voda.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		92E58700222425380015A4FA /* azoomee2-mobile-Voda-info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "azoomee2-mobile-Voda-info.plist"; path = "/Users/macauley/Documents/cocos2d-x/azoomee2/proj.ios_mac/azoomee2-mobile-Voda-info.plist"; sourceTree = "<absolute>"; };
+		92EC0C46223027D300B02F20 /* ShopScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShopScene.h; sourceTree = "<group>"; };
+		92EC0C4822302AC000B02F20 /* ShopCarousel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShopCarousel.h; sourceTree = "<group>"; };
+		92EC0C4922302AD700B02F20 /* ShopItemPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShopItemPage.h; sourceTree = "<group>"; };
+		92EC0C4A22302AE400B02F20 /* ShopItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShopItem.h; sourceTree = "<group>"; };
+		92EC0C4B22302B3400B02F20 /* ShopItemPurchasePopup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShopItemPurchasePopup.h; sourceTree = "<group>"; };
+		92EC0C4C22302B4F00B02F20 /* ShopItemPurchaedAnimation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShopItemPurchaedAnimation.h; sourceTree = "<group>"; };
+		92EC0C4D22302B7100B02F20 /* ShopOomeeItemPreview.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShopOomeeItemPreview.h; sourceTree = "<group>"; };
+		92EC0C4E22312EA800B02F20 /* ShopScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShopScene.cpp; sourceTree = "<group>"; };
 		A134ADCC1E0C0F420030BE98 /* HQSceneElementPositioner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQSceneElementPositioner.cpp; sourceTree = "<group>"; };
 		A134ADCD1E0C0F420030BE98 /* HQSceneElementPositioner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQSceneElementPositioner.h; sourceTree = "<group>"; };
 		A154CC501DFEE7440008A626 /* GameDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameDataManager.cpp; sourceTree = "<group>"; };
@@ -1501,6 +1511,7 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				92EC0C47223027DF00B02F20 /* Shop */,
 				923D5BEA2201E18A008C13D0 /* Rewards */,
 				92084F7121E78FB600DACCEB /* Tutorial */,
 				921A265B216E2775005C8C41 /* Vodacom */,
@@ -1778,6 +1789,21 @@
 				926173A61F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp */,
 			);
 			name = ArtApp;
+			sourceTree = "<group>";
+		};
+		92EC0C47223027DF00B02F20 /* Shop */ = {
+			isa = PBXGroup;
+			children = (
+				92EC0C46223027D300B02F20 /* ShopScene.h */,
+				92EC0C4E22312EA800B02F20 /* ShopScene.cpp */,
+				92EC0C4822302AC000B02F20 /* ShopCarousel.h */,
+				92EC0C4922302AD700B02F20 /* ShopItemPage.h */,
+				92EC0C4A22302AE400B02F20 /* ShopItem.h */,
+				92EC0C4B22302B3400B02F20 /* ShopItemPurchasePopup.h */,
+				92EC0C4C22302B4F00B02F20 /* ShopItemPurchaedAnimation.h */,
+				92EC0C4D22302B7100B02F20 /* ShopOomeeItemPreview.h */,
+			);
+			name = Shop;
 			sourceTree = "<group>";
 		};
 		A15B2F9A1DE74F6900D25334 /* ContentPlaybackComponents */ = {
@@ -2483,6 +2509,7 @@
 				4396947D1EAA4855003C17E6 /* ApplePaymentSingleton.mm in Sources */,
 				921A25F72162830A005C8C41 /* LanguageListItem.cpp in Sources */,
 				02D4FCD41FCF0D0C005BA020 /* IAPProductDataHandler.cpp in Sources */,
+				92EC0C4F22312EA800B02F20 /* ShopScene.cpp in Sources */,
 				929D46671F73F04D006E40CE /* DynamicNodeCreator.cpp in Sources */,
 				9289DAF31FCEDB1F00B12435 /* DynamicNodeDataInputStorage.cpp in Sources */,
 				02E5959C1E56FC3A0052F395 /* OfflineChecker.cpp in Sources */,
@@ -2570,6 +2597,7 @@
 				92E58679222425360015A4FA /* WebViewNativeCaller_android.cpp in Sources */,
 				92E5867A222425360015A4FA /* MeHQ.cpp in Sources */,
 				92E5867B222425360015A4FA /* SettingsKidsPage.cpp in Sources */,
+				92EC0C5022312F6F00B02F20 /* ShopScene.cpp in Sources */,
 				92E5867C222425360015A4FA /* ChatDelegate.cpp in Sources */,
 				92E5867D222425360015A4FA /* ChildNameLayerFirstTime.cpp in Sources */,
 				92E5867E222425360015A4FA /* ManualGameInputLayer.cpp in Sources */,
