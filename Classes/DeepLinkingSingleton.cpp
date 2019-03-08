@@ -148,7 +148,7 @@ bool DeepLinkingSingleton::actionDeepLink()
         {
             AnalyticsSingleton::getInstance()->deepLinkingMoveToEvent(path);
             
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
             
             resetDeepLink();
             return true;
@@ -157,7 +157,7 @@ bool DeepLinkingSingleton::actionDeepLink()
         {
             AnalyticsSingleton::getInstance()->deepLinkingMoveToEvent(path);
             
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ArtAppEntryPointScene));
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ArtAppEntryPointScene));
             
             resetDeepLink();
             return true;

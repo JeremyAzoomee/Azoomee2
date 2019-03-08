@@ -66,7 +66,7 @@ void OfflineHubBackButton::addListenerToBackButton(Sprite* toBeAddedTo)
         {
             AnalyticsSingleton::getInstance()->genericButtonPressEvent("offlineHubBackButton");
             AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineHub));
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OfflineHub));
             
             return true;
         }

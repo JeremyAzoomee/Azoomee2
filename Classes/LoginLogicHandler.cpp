@@ -56,7 +56,7 @@ void LoginLogicHandler::doLoginLogic()
     }
     else
     {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Login));
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
     }
 }
 
@@ -64,7 +64,7 @@ void LoginLogicHandler::forceNewLogin()
 {
     Azoomee::ParentDataParser::getInstance()->clearParentLoginDataFromUserDefaults();
     
-    Director::getInstance()->replaceScene(SceneManagerScene::createScene(Login));
+    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
 }
 
 NS_AZOOMEE_END

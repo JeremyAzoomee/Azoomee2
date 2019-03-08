@@ -203,7 +203,7 @@ void ContentFeedHQScene::createContentScrollview()
 			if(eType == ui::Button::TouchEventType::ENDED)
 			{
 				HQHistoryManager::getInstance()->popHQ();
-				Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+				Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
 			}
 		 });
 		 _contentNode->addChild(backButton,1);

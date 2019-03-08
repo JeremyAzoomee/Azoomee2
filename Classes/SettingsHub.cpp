@@ -75,13 +75,13 @@ bool SettingsHub::init()
 				switch(_origin)
 				{
 					case SettingsOrigin::HQ:
-						Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+						Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
 						break;
 					case SettingsOrigin::CHILD_SELECT:
-						Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+						Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChildSelector));
 						break;
 					case SettingsOrigin::CHAT:
-						Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+						Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
 						break;
 				}
             }
@@ -364,13 +364,13 @@ void SettingsHub::AdultPinCancelled(RequestAdultPinLayer* layer)
 	switch(_origin)
 	{
 		case SettingsOrigin::HQ:
-			Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
 			break;
 		case SettingsOrigin::CHILD_SELECT:
-			Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChildSelector));
 			break;
 		case SettingsOrigin::CHAT:
-			Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
 			break;
 	}
 }
@@ -406,7 +406,7 @@ void SettingsHub::onHttpRequestSuccess(const std::string& requestTag, const std:
 		ChildDataParser::getInstance()->setChildLoggedIn(false);// make sure we log out child if entering parent chat
 		if(CookieDataParser::getInstance()->parseDownloadCookies(headers))
 		{
-			Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
 		}
 	}
 }

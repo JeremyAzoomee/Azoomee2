@@ -71,7 +71,7 @@ bool ChildSettingsScene::init()
 	_titleBarButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
 		}
 	});
 	
@@ -98,7 +98,7 @@ bool ChildSettingsScene::init()
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
 			ChildDataParser::getInstance()->setChildLoggedIn(false);
-			Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChildSelector));
 		}
 	});
 	_contentLayout->addChild(_childSelect);
@@ -124,7 +124,7 @@ bool ChildSettingsScene::init()
 	_parentsArea->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SettingsFromHQ));
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::SettingsFromHQ));
 		}
 	});
 	_contentLayout->addChild(_parentsArea);

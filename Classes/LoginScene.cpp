@@ -251,7 +251,7 @@ void LoginScene::connectivityStateChanged(bool online)
 {
     if(!online)
     {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineHub));
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OfflineHub));
     }
 }
 

@@ -277,7 +277,7 @@ void HQScene2::startBuildingScrollView()
 		if(eType == ui::Button::TouchEventType::ENDED)
 		{
 			HQHistoryManager::getInstance()->popHQ();
-			Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
 		}
 	});
 	

@@ -145,7 +145,7 @@ void WebViewSelector::onHttpRequestFailed(const std::string& requestTag, long er
 {
 	if(errorCode == ERROR_CODE_OFFLINE)
 	{
-		Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineHub));
+		Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OfflineHub));
 	}
 	else
 	{

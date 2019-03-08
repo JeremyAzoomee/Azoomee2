@@ -107,14 +107,14 @@ void NavigationLayer::changeToScene(const std::string& hqName, float duration)
     {
 		if(!ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
 		{
-			//Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
-			Director::getInstance()->replaceScene(SceneManagerScene::createScene(Shop));
+			//Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Shop));
 		}
 		return;
     }
     
     HQHistoryManager::getInstance()->addHQToHistoryManager(hqName);
-	Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+	Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
 	
 }
 

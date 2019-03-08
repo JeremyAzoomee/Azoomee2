@@ -92,7 +92,7 @@ void WelcomeScene::createOomeeGuideUI()
 	_oomeeGuideLayout->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			Director::getInstance()->replaceScene(SceneManagerScene::createScene(OomeeMakerEntryPointScene));
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OomeeMakerEntryPointScene));
 			TutorialController::getInstance()->startTutorial(TutorialController::kFTUOomeeTutorialID);
 		}
 	});

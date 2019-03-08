@@ -143,7 +143,7 @@ void MeHQGallery::onEnter()
 			AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
             ArtAppDelegate::getInstance()->setFileName("");
             AnalyticsSingleton::getInstance()->contentItemSelectedEvent("NewArt");
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ArtAppEntryPointScene));
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ArtAppEntryPointScene));
         }
     });
     

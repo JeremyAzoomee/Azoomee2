@@ -34,7 +34,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     register_all_packages();
     
     // create a scene. it's an autorelease object
-    Director::getInstance()->runWithScene(SceneManagerScene::createScene(introVideo));
+    Director::getInstance()->runWithScene(SceneManagerScene::createScene(SceneNameEnum::introVideo));
     
     SessionIdManager::getInstance();
     AnalyticsSingleton::getInstance()->setLandscapeOrientation();
@@ -126,7 +126,7 @@ void AppDelegate::applicationWillEnterForeground()
         
         HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
         
-        cocos2d::Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+        cocos2d::Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
     }
 	else
 	{

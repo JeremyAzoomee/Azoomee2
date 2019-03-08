@@ -105,7 +105,7 @@ void ChildSelectorScene::onEnterTransitionDidFinish()
     
     if(ParentDataProvider::getInstance()->getAmountOfAvailableChildren() == 0)
     {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(AddChildFirstTime));
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::AddChildFirstTime));
     }
     Super::onEnterTransitionDidFinish();
 }
@@ -436,7 +436,7 @@ ui::Button* ChildSelectorScene::createParentProfileButton()
 	parentButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SettingsFromChildSelect));
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::SettingsFromChildSelect));
 		}
 	});
 	
@@ -525,7 +525,7 @@ void ChildSelectorScene::onHttpRequestSuccess(const std::string& requestTag, con
     
     if(CookieDataParser::getInstance()->parseDownloadCookies(headers))
     {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
     }
 }
 
@@ -538,7 +538,7 @@ void ChildSelectorScene::connectivityStateChanged(bool online)
 {
     if(!online)
     {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineHub));
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OfflineHub));
     }
 }
 
@@ -546,11 +546,11 @@ void ChildSelectorScene::callDelegateFunction(float dt)
 {
     if(ParentDataProvider::getInstance()->getAmountOfAvailableChildren() == 0)
     {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(AddChildFirstTime));
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::AddChildFirstTime));
     }
     else
     {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(AddChild));
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::AddChild));
     }
 }
 

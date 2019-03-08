@@ -174,9 +174,9 @@
 		92E58571221AC47C0015A4FA /* InventoryItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E58570221AC47C0015A4FA /* InventoryItem.cpp */; };
 		92E58574221ACFE40015A4FA /* Inventory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E58573221ACFE40015A4FA /* Inventory.cpp */; };
 		92E58607221F05B10015A4FA /* NotificationNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E58606221F05B10015A4FA /* NotificationNode.cpp */; };
-		92EC0C57223177C200B02F20 /* Shop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92EC0C56223177C200B02F20 /* Shop.cpp */; };
 		92EC0C59223177D500B02F20 /* ShopDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92EC0C58223177D500B02F20 /* ShopDisplay.cpp */; };
 		92EC0C5B223177E700B02F20 /* ShopDisplayItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92EC0C5A223177E700B02F20 /* ShopDisplayItem.cpp */; };
+		92EC0C732232C9F400B02F20 /* Shop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92EC0C712232C9F300B02F20 /* Shop.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -518,13 +518,13 @@
 		92E58573221ACFE40015A4FA /* Inventory.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Inventory.cpp; sourceTree = "<group>"; };
 		92E58605221F049E0015A4FA /* NotificationNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationNode.h; sourceTree = "<group>"; };
 		92E58606221F05B10015A4FA /* NotificationNode.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NotificationNode.cpp; sourceTree = "<group>"; };
-		92EC0C522231610D00B02F20 /* Shop.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Shop.h; sourceTree = "<group>"; };
 		92EC0C532231611D00B02F20 /* ShopDisplay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShopDisplay.h; sourceTree = "<group>"; };
 		92EC0C542231612C00B02F20 /* ShopDisplayItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShopDisplayItem.h; sourceTree = "<group>"; };
 		92EC0C552231678700B02F20 /* ShopDataHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShopDataHandler.h; sourceTree = "<group>"; };
-		92EC0C56223177C200B02F20 /* Shop.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Shop.cpp; sourceTree = "<group>"; };
 		92EC0C58223177D500B02F20 /* ShopDisplay.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShopDisplay.cpp; sourceTree = "<group>"; };
 		92EC0C5A223177E700B02F20 /* ShopDisplayItem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShopDisplayItem.cpp; sourceTree = "<group>"; };
+		92EC0C712232C9F300B02F20 /* Shop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shop.cpp; sourceTree = "<group>"; };
+		92EC0C722232C9F400B02F20 /* Shop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shop.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1158,9 +1158,9 @@
 		92EC0C5122315CAF00B02F20 /* Shop */ = {
 			isa = PBXGroup;
 			children = (
+				92EC0C722232C9F400B02F20 /* Shop.h */,
+				92EC0C712232C9F300B02F20 /* Shop.cpp */,
 				92EC0C552231678700B02F20 /* ShopDataHandler.h */,
-				92EC0C522231610D00B02F20 /* Shop.h */,
-				92EC0C56223177C200B02F20 /* Shop.cpp */,
 				92EC0C532231611D00B02F20 /* ShopDisplay.h */,
 				92EC0C58223177D500B02F20 /* ShopDisplay.cpp */,
 				92EC0C542231612C00B02F20 /* ShopDisplayItem.h */,
@@ -1284,7 +1284,6 @@
 				4349C81C1EA8ADEF00FE964B /* MPABTestDesignerClearResponseMessage.m in Sources */,
 				4349C82E1EA8ADEF00FE964B /* MPDesignerEventBindingRequestMesssage.m in Sources */,
 				92E58574221ACFE40015A4FA /* Inventory.cpp in Sources */,
-				92EC0C57223177C200B02F20 /* Shop.cpp in Sources */,
 				4349C8401EA8ADEF00FE964B /* MPPropertyDescription.m in Sources */,
 				4349C8341EA8ADEF00FE964B /* MPNetwork.m in Sources */,
 				4318E13E1F28E65400778E9A /* MessageBoxTextLayer.cpp in Sources */,
@@ -1313,6 +1312,7 @@
 				3000FF751ED5AB7100E9717C /* AzoomeeAppController.mm in Sources */,
 				434A55EB1F2A40EE00740601 /* MessageBoxChatResetModerationLayer.cpp in Sources */,
 				30DD5EF01E96860C0084305B /* ConfigStorage.cpp in Sources */,
+				92EC0C732232C9F400B02F20 /* Shop.cpp in Sources */,
 				4349C8271EA8ADEF00FE964B /* MPCATransform3DToNSDictionaryValueTransformer.m in Sources */,
 				921C75AA2193225D00EB93D6 /* Style.cpp in Sources */,
 				4349C8441EA8ADEF00FE964B /* MPSwizzler.m in Sources */,

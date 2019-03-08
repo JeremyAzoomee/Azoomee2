@@ -532,7 +532,7 @@ void GameDataManager::MessageBoxButtonPressed(std::string messageBoxTitle,std::s
 
     if(messageBoxTitle == errorStringMap[ERROR_TITLE] && buttonTitle == errorStringMap[ERROR_BUTTON])
     {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
     }
 }
 

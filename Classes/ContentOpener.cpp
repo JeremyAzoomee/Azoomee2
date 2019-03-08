@@ -96,12 +96,12 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
     {
         if(contentItem->getUri() == ConfigStorage::kOomeeMakerURI)
         {
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(OomeeMakerEntryPointScene));
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OomeeMakerEntryPointScene));
         }
         else if(contentItem->getUri() == ConfigStorage::kArtAppURI)
         {
             ArtAppDelegate::getInstance()->setFileName("");
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ArtAppEntryPointScene));
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ArtAppEntryPointScene));
         }
     }
 }

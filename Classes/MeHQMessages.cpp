@@ -115,7 +115,7 @@ void MeHQMessages::buildEmptyCarousel()
             }
             else
             {
-                Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+                Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
             }
         }
     });
@@ -177,7 +177,7 @@ void MeHQMessages::buildEmptyCarousel()
                 }
                 else
                 {
-                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
                 }
             }
         });

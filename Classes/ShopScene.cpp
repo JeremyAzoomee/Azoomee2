@@ -30,7 +30,7 @@ bool ShopScene::init()
 	Sprite* wires = Sprite::create("res/shop/wires.png");
 	wires->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	wires->setScale(visibleSize.width / wires->getContentSize().width);
-	wires->setOpacity(60);
+	//wires->setOpacity(60);
 	this->addChild(wires);
 	
 	Sprite* gradient = Sprite::create("res/shop/gradient_haze.png");
@@ -45,7 +45,7 @@ bool ShopScene::init()
 	backButton->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
 		}
 	});
 	this->addChild(backButton,1);
@@ -54,6 +54,9 @@ bool ShopScene::init()
 	coinDisplay->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
 	coinDisplay->setAnchorPoint(Vec2(1.2,1.5));
 	this->addChild(coinDisplay, 1);
+	
+	_shopCarousel = ShopCarousel::create();
+	this->addChild(_shopCarousel);
 	
 	return true;
 }

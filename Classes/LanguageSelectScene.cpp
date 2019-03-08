@@ -275,7 +275,7 @@ cocos2d::ui::Layout* LanguageSelectScene::createLanguageButton(const LanguagePar
 			{
 				if(ParentDataStorage::getInstance()->getParent())
 				{
-					Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+					Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
 				}
 				else
 				{
@@ -286,7 +286,7 @@ cocos2d::ui::Layout* LanguageSelectScene::createLanguageButton(const LanguagePar
 			{
 				if(ParentDataStorage::getInstance()->getParent())
 				{
-					Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+					Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
 				}
 				else
 				{

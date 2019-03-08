@@ -43,12 +43,12 @@ void ArtAppDelegate::onArtAppNavigationBack()
     ArtAppRunning = false;
     if(HQHistoryManager::getInstance()->isOffline())
     {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineArtsAppHQ));
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OfflineArtsAppHQ));
     }
     else
     {
         HQHistoryManager::getInstance()->setReturnedFromForcedOrientation(true);
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
     }
     
 }
@@ -64,7 +64,7 @@ void ArtAppDelegate::onArtAppShareImage()
             ArtAppRunning = false;
             HQHistoryManager::getInstance()->setReturnedFromForcedOrientation(true);
             Director::getInstance()->getTextureCache()->reloadTexture(filename);
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
         }
     }
 }

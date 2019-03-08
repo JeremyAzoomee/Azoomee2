@@ -43,7 +43,7 @@ bool HQDataProvider::init(void)
 void HQDataProvider::startBuildingHQ(const std::string &hqName)
 {
     hideLoadingScreen();
-	Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+	Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
 }
 
 void HQDataProvider::getDataForHQ(const std::string &hqName)

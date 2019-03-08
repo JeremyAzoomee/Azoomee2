@@ -299,7 +299,7 @@ void ArtsAppHQElement::addListenerToElement()
                 AnalyticsSingleton::getInstance()->contentItemSelectedEvent("EditArt");
             }
             
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ArtAppEntryPointScene));
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ArtAppEntryPointScene));
             return true;
         }
         

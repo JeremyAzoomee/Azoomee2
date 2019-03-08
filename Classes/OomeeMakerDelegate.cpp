@@ -40,11 +40,11 @@ void OomeeMakerDelegate::onOomeeMakerNavigationBack()
     AnalyticsSingleton::getInstance()->contentItemClosedEvent();
     if(!HQHistoryManager::getInstance()->isOffline())
     {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
     }
     else
     {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineHub));
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OfflineHub));
     }
 }
 
@@ -57,7 +57,7 @@ void OomeeMakerDelegate::onOomeeMakerShareOomee(const std::string& filename)
         {
             HQHistoryManager::getInstance()->setReturnedFromForcedOrientation(true);
             Director::getInstance()->getTextureCache()->reloadTexture(filename);
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
             AnalyticsSingleton::getInstance()->shareOomee();
         }
     }
@@ -87,7 +87,7 @@ void OomeeMakerDelegate::onOomeeMakerUpdateAvatar(const std::string &filename)
 			if(TutorialController::getInstance()->getCurrentState() == TutorialController::kConfirmOomee)
 			{
 				TutorialController::getInstance()->nextStep();
-				Director::getInstance()->replaceScene(SceneManagerScene::createScene(AddChildAnon));
+				Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::AddChildAnon));
 			}
 		}
 	}*/
@@ -132,7 +132,7 @@ void OomeeMakerDelegate::onHttpRequestSuccess(const std::string& requestTag, con
 				if(TutorialController::getInstance()->getCurrentState() == TutorialController::kConfirmOomee)
 				{
 					TutorialController::getInstance()->nextStep();
-					Director::getInstance()->replaceScene(SceneManagerScene::createScene(AddChildAnon));
+					Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::AddChildAnon));
 				}
 			}
         }

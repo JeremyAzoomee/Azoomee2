@@ -265,7 +265,7 @@ void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseStrin
     ParentDataParser::getInstance()->parseAvailableChildren(responseString);
     if(ParentDataProvider::getInstance()->getAmountOfAvailableChildren() == 0)
     {
-		Director::getInstance()->replaceScene(SceneManagerScene::createScene(AddChildFirstTime));
+		Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::AddChildFirstTime));
     }
     else
     {
@@ -275,7 +275,7 @@ void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseStrin
 		}
 		else
 		{
-			Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChildSelector));
 			
 			Director::getInstance()->getScheduler()->schedule([&](float dt){
 				DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
@@ -331,7 +331,7 @@ void BackEndCaller::onGetGordonAnswerReceived(const std::string& responseString)
 {
     if(CookieDataParser::getInstance()->parseDownloadCookies(responseString))
     {
-        //Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
+        //Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::BaseWithNoHistory));
         ContentItemPoolHandler::getInstance()->setContentPoolDelegate(this);
         ContentItemPoolHandler::getInstance()->getLatestContentPool();
     }
@@ -643,7 +643,7 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
         FlowDataSingleton::getInstance()->setErrorCode(errorCode);
         if(errorCode == ERROR_CODE_OFFLINE)
         {
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineHub));
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OfflineHub));
             return;
         }
         
@@ -682,13 +682,13 @@ void BackEndCaller::onFeedDownloadComplete()
 	//if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous() && !ChildDataProvider::getInstance()->isChildLoggedIn())
 	if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous() && !anonOnboardingComplete)
 	{
-		Director::getInstance()->replaceScene(SceneManagerScene::createScene(WelcomeScene));
+		Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::WelcomeScene));
 	}
 	else
 	{
 		//TutorialController::getInstance()->startTutorial(TutorialController::kFTUNavTutorialID);
 		RewardDisplayHandler::getInstance()->getPendingRewards();
-		Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+		Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
 	}
 	
 }

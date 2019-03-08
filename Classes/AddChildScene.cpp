@@ -271,7 +271,7 @@ void AddChildScene::onHttpRequestFailed(const std::string& requestTag, long erro
 	}
     AnalyticsSingleton::getInstance()->childProfileCreatedErrorEvent(errorCode);
     FlowDataSingleton::getInstance()->setErrorCode(errorCode);
-    Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChildSelector));
 }
 
 NS_AZOOMEE_END

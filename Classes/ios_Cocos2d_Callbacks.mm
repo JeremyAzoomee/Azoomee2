@@ -31,7 +31,7 @@ void navigateToBaseScene()
     
     if(HQHistoryManager::getInstance()->isOffline())
     {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineHub));
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OfflineHub));
         return;
     }
     if(HQHistoryManager::getInstance()->getCurrentHQ() != ConfigStorage::kHomeHQName && !(HQHistoryManager::getInstance()->getCurrentHQ() == ConfigStorage::kGroupHQName && HQHistoryManager::getInstance()->getPreviousHQ() == ConfigStorage::kHomeHQName))
@@ -39,7 +39,7 @@ void navigateToBaseScene()
         ContentHistoryManager::getInstance()->setReturnedFromContent(true);
     }
 	
-    Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
 }
 
 void navigateToLoginScene()

@@ -62,7 +62,7 @@ void SettingsKidsPage::onEnter()
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
 			ChildDataParser::getInstance()->setChildLoggedIn(false);
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(AddChild));
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::AddChild));
         }
     });
     _footerBanner->setTouchEnabled(true);

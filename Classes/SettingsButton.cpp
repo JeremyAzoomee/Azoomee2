@@ -27,11 +27,11 @@ bool SettingsButton::init()
 			if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
 			{
 				//Director::getInstance()->replaceScene(LanguageSelectScene::create());
-				Director::getInstance()->replaceScene(SceneManagerScene::createScene(Login));
+				Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
 			}
 			else
 			{
-				Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildDataProvider::getInstance()->isChildLoggedIn() ? ChildSettingsHub : SettingsFromChildSelect));
+				Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildDataProvider::getInstance()->isChildLoggedIn() ? SceneNameEnum::ChildSettingsHub : SceneNameEnum::SettingsFromChildSelect));
 			}
 		}
 	});

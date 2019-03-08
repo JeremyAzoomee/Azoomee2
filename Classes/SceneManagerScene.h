@@ -7,7 +7,7 @@
 
 NS_AZOOMEE_BEGIN
 
-enum SceneNameEnum {
+enum class SceneNameEnum {
     Login,
     Base,
     BaseWithNoHistory,

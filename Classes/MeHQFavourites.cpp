@@ -239,7 +239,7 @@ void MeHQFavourites::buildEmptyCarousel()
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
 			HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kVideoHQName);
-			Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
         }
     });
     

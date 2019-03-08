@@ -12,6 +12,7 @@
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/UI/Scene.h>
+#include "ShopCarousel.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -19,7 +20,7 @@ class ShopScene : public Azoomee::Scene
 {
 	typedef Azoomee::Scene Super;
 private:
-	
+	ShopCarousel* _shopCarousel = nullptr;
 	
 public:
 	
