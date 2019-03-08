@@ -87,6 +87,7 @@ private:
     void onChatAPISendMessage(const MessageRef& sentMessage) override;
     void onChatAPIErrorRecieved(const std::string& requestTag, long errorCode) override;
     void onChatAPIGetFriendList(const FriendList& friendList, int amountOfNewMessages) override;
+    void onChatAPIModerationStatusChanged(const FriendRef& friendObj) override;
     
     // - MessageComposer::Delegate
     void onMessageComposerSendMessage(const MessageRef& message) override;

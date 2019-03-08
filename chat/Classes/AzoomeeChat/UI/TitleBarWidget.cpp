@@ -32,9 +32,9 @@ bool TitleBarWidget::init()
     _backButton->ignoreContentAdaptWithSize(false);
     _backButton->setSizePercent(Vec2(0.0f, 0.624f));
     _backButton->setSizeType(ui::Widget::SizeType::PERCENT);
-    _backButton->getRendererNormal()->setStrechEnabled(true);
-    _backButton->getRendererClicked()->setStrechEnabled(true);
-    _backButton->getRendererDisabled()->setStrechEnabled(true);
+    _backButton->getRendererNormal()->setStretchEnabled(true);
+    _backButton->getRendererClicked()->setStretchEnabled(true);
+    _backButton->getRendererDisabled()->setStretchEnabled(true);
     _backButton->setLayoutParameter(CreateLeftCenterRelativeLayoutParam(ui::Margin(kTitleButtonsEdgePadding, 0.0f, 0.0f, 0.0f)));
     addChild(_backButton);
     
