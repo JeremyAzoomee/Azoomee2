@@ -28,6 +28,7 @@ void ShopDisplayItem::parseShopDisplayItemData(const rapidjson::Value& shopDispl
 	_onPeriodDays = getIntFromJson("onPeriodDays", shopDisplayItemData);
 	_offPeriodDays = getIntFromJson("offPeriodDays", shopDisplayItemData);
 	_repeatable = getBoolFromJson("repeatable", shopDisplayItemData);
+	_price = getIntFromJson("price", shopDisplayItemData);
 	if(shopDisplayItemData.HasMember("item"))
 	{
 		_inventoryItem = InventoryItem::createWithJson(shopDisplayItemData["item"]);
@@ -74,6 +75,10 @@ bool ShopDisplayItem::isRepeatable() const
 std::string ShopDisplayItem::getEntitlement() const
 {
 	return _entitlement;
+}
+int ShopDisplayItem::getPrice() const
+{
+	return _price;
 }
 
 NS_AZOOMEE_END

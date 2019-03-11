@@ -23,7 +23,7 @@ private:
 	static int sTargetVal;
 	
 	cocos2d::Label* _coinsLabel = nullptr;
-	cocos2d::LayerGradient* _valueBG = nullptr;
+	cocos2d::LayerColor* _valueBG = nullptr;
 	cocos2d::ClippingNode* _valueFrame = nullptr;
 	cocos2d::Sprite* _coinSprite = nullptr;
 	

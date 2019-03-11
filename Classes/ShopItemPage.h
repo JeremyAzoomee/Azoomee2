@@ -17,21 +17,25 @@
 
 NS_AZOOMEE_BEGIN
 
-class ShopItemPage : cocos2d::ui::Layout
+class ShopItemPage : public cocos2d::ui::Layout
 {
 	typedef cocos2d::ui::Layout Super;
+	typedef std::function<void(const ShopDisplayItemRef&)> ItemSelectedCallback;
 private:
 	ShopDisplayRef _displayData = nullptr;
 	
-	std::vector<ShopItem> _itemTiles;
+	std::vector<ShopItem*> _itemTiles;
 	
-	
+	ItemSelectedCallback _itemSelectedCallback = nullptr;
 	
 public:
 	
 	bool init() override;
 	void onEnter() override;
 	void onExit() override;
+	
+	void setDisplayData(const ShopDisplayRef& displayData);
+	void setItemSelectedCallback(const ItemSelectedCallback& callback);
 	
 	CREATE_FUNC(ShopItemPage);
 };

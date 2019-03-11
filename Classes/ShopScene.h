@@ -19,6 +19,7 @@ NS_AZOOMEE_BEGIN
 class ShopScene : public Azoomee::Scene
 {
 	typedef Azoomee::Scene Super;
+	
 private:
 	ShopCarousel* _shopCarousel = nullptr;
 	

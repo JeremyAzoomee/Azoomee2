@@ -36,7 +36,7 @@ bool CoinDisplay::init()
 	_valueFrame->setAlphaThreshold(0.5);
 	this->addChild(_valueFrame);
 	
-	_valueBG = LayerGradient::create(Color4B(33, 147, 221, 255), Color4B(23, 214, 249,255), Vec2(1.0,0.25));
+	_valueBG = LayerColor::create(Color4B(30, 74, 123, 65));
 	_valueBG->setContentSize(stencil->getContentSize());
 	_valueFrame->addChild(_valueBG);
 	

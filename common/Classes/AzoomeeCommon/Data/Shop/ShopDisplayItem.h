@@ -31,6 +31,7 @@ protected:
 	int _offPeriodDays;
 	std::string _entitlement;
 	bool _repeatable;
+	int _price;
 	
 	ShopDisplayItem();
 public:
@@ -48,6 +49,7 @@ public:
 	int getOffperiodDays() const;
 	bool isRepeatable() const;
 	std::string getEntitlement() const;
+	int getPrice() const;
 	
 };
 

@@ -10,6 +10,7 @@
 #include "CoinDisplay.h"
 #include "DynamicNodeHandler.h"
 #include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/Data/Shop/ShopDisplayItem.h>
 
 using namespace cocos2d;
 
@@ -55,7 +56,20 @@ bool ShopScene::init()
 	coinDisplay->setAnchorPoint(Vec2(1.2,1.5));
 	this->addChild(coinDisplay, 1);
 	
+	const std::string& shopString = FileUtils::getInstance()->getStringFromFile("res/shop/testShop.json");
+	rapidjson::Document shopJson;
+	shopJson.Parse(shopString.c_str());
+	ShopRef shop = nullptr;
+	if(!shopJson.HasParseError())
+	{
+		shop = Shop::createWithJson(shopJson);
+	}
+	
 	_shopCarousel = ShopCarousel::create();
+	_shopCarousel->setShopData(shop);
+	_shopCarousel->setItemSelectedCallback([](const ShopDisplayItemRef& item){
+		//toggle purchase screen for item
+	});
 	this->addChild(_shopCarousel);
 	
 	return true;
