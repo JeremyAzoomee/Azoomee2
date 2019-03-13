@@ -32,7 +32,7 @@ bool ShopItem::init()
 	this->addChild(_bgFrame, -1);
 	
 	_assetBg = Sprite::create("res/shop/glow.png");
-	_assetBg->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	_assetBg->setNormalizedPosition(Vec2(0.5,0.6));
 	_assetBg->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	this->addChild(_assetBg);
 	
@@ -59,13 +59,13 @@ bool ShopItem::init()
 	this->addChild(_costValue);
 	
 	_ownedTick = Sprite::create("res/shop/tick.png");
-	_ownedTick->setAnchorPoint(Vec2(0.5,-0.25));
+	_ownedTick->setAnchorPoint(Vec2(0.5,-0.75));
 	_ownedTick->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
 	this->addChild(_ownedTick);
 	
 	_assetImage = RemoteImageSprite::create();
 	_assetImage->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	_assetImage->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	_assetImage->setNormalizedPosition(Vec2(0.5,0.6));
 	_assetImage->setKeepAspectRatio(true);
 	this->addChild(_assetImage);
 	
@@ -82,7 +82,7 @@ void ShopItem::onEnter()
 			_assetBg->setTexture("res/shop/glow_big.png");
 		}
 		addFeaturedAnim();
-		_assetImage->initWithUrlAndSizeWithoutPlaceholder(_itemData->getInventoryItem()->getUri(), Size(this->getContentSize().width * 0.8f, this->getContentSize().height * 0.7f));
+		_assetImage->initWithUrlAndSizeWithoutPlaceholder(_itemData->getInventoryItem()->getUri(), Size(this->getContentSize().width * 0.8f, this->getContentSize().height - 160));
 		_costValue->setString(StringUtils::format("%d",_itemData->getPrice()));
 		const auto& tags = _itemData->getTags();
 		enableNewIcon(std::find(tags.begin(), tags.end(), "NEW") != tags.end());
@@ -164,6 +164,7 @@ void ShopItem::enableLockedIcon(bool enable)
 	{
 		_lockedIcon->setVisible(enable);
 	}
+	_locked = enable;
 }
 void ShopItem::enableFeaturedAnimation(bool enable)
 {
@@ -186,6 +187,7 @@ void ShopItem::enableOwnedIcon(bool enable)
 	{
 		_costValue->setVisible(!enable);
 	}
+	_owned = enable;
 }
 void ShopItem::setAffordable(bool affordable)
 {
@@ -193,6 +195,20 @@ void ShopItem::setAffordable(bool affordable)
 	{
 		_costValue->setOpacity(affordable ? 255 : 127);
 	}
+	_affordable = affordable;
+}
+
+bool ShopItem::isLocked() const
+{
+	return _locked;
+}
+bool ShopItem::isAffordable() const
+{
+	return _affordable;
+}
+bool ShopItem::isOwned() const
+{
+	return _owned;
 }
 
 NS_AZOOMEE_END

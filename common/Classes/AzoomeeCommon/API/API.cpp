@@ -58,6 +58,7 @@ const char* const API::TagRedeemReward = "redeemReward";
 const char* const API::TagGetPendingRewards = "getPendingRewards";
 const char* const API::TagGetInventory = "getInventory";
 const char* const API::TagBuyReward = "buyReward";
+const char* const API::TagGetShopFeed = "getShopFeed";
 
 const std::string API::kAZCountryCodeKey = "X-AZ-COUNTRYCODE";
 
@@ -834,14 +835,13 @@ HttpRequestCreator* API::GetPendingRewards(const std::string& userId,
 	return request;
 }
 
-HttpRequestCreator* API::BuyReward(const std::string& itemId,
-									 const std::string& userId,
+HttpRequestCreator* API::BuyReward(const std::string& purchaseUrl,
 									 HttpRequestCreatorResponseDelegate* delegate)
 {
 	HttpRequestCreator* request = new HttpRequestCreator(delegate);
-	request->requestPath = "api/rewards/";
-	request->urlParameters = StringUtils::format("/api/rewards/spend?itemId=%s&userId=%s",itemId.c_str(),userId.c_str());
+	request->url = ConfigStorage::getInstance()->getServerUrl() + purchaseUrl;
 	request->requestTag = TagBuyReward;
+	request->requestBody = "{}";
 	request->method = "POST";
 	request->encrypted = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
@@ -869,6 +869,18 @@ HttpRequestCreator* API::RewardCallback(const std::string& url,
 	HttpRequestCreator* request = new HttpRequestCreator(delegate);
 	request->url = url;
 	request->requestTag = TagRewardCallback;
+	request->encrypted = true;
+	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
+		HandleAPIResponse(sender, response, delegate, request);
+	});
+	return request;
+}
+
+HttpRequestCreator* API::GetShopFeed(HttpRequestCreatorResponseDelegate* delegate)
+{
+	HttpRequestCreator* request = new HttpRequestCreator(delegate);
+	request->requestPath = "/api/shopfront/feed";
+	request->requestTag = TagGetShopFeed;
 	request->encrypted = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);

@@ -29,6 +29,7 @@ void ShopDisplayItem::parseShopDisplayItemData(const rapidjson::Value& shopDispl
 	_offPeriodDays = getIntFromJson("offPeriodDays", shopDisplayItemData);
 	_repeatable = getBoolFromJson("repeatable", shopDisplayItemData);
 	_price = getIntFromJson("price", shopDisplayItemData);
+	_purchaseUrl = getStringFromJson("purchaseUrl", shopDisplayItemData);
 	if(shopDisplayItemData.HasMember("item"))
 	{
 		_inventoryItem = InventoryItem::createWithJson(shopDisplayItemData["item"]);
@@ -79,6 +80,10 @@ std::string ShopDisplayItem::getEntitlement() const
 int ShopDisplayItem::getPrice() const
 {
 	return _price;
+}
+std::string ShopDisplayItem::getPurchaseUrl() const
+{
+	return _purchaseUrl;
 }
 
 NS_AZOOMEE_END

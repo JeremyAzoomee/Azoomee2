@@ -12,16 +12,23 @@
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/UI/Scene.h>
+#include <AzoomeeCommon/API/API.h>
 #include "ShopCarousel.h"
+#include "ShopItemPurchasePopup.h"
 
 NS_AZOOMEE_BEGIN
 
-class ShopScene : public Azoomee::Scene
+class ShopScene : public Azoomee::Scene, HttpRequestCreatorResponseDelegate
 {
 	typedef Azoomee::Scene Super;
 	
 private:
 	ShopCarousel* _shopCarousel = nullptr;
+	ShopItemPurchasePopup* _purchasePopup = nullptr;
+	
+	cocos2d::LayerColor* _bgColour = nullptr;
+	cocos2d::Sprite* _wires = nullptr;
+	cocos2d::Sprite* _gradient = nullptr;
 	
 public:
 	
@@ -31,6 +38,9 @@ public:
 	virtual void onSizeChanged() override;
 	
 	CREATE_FUNC(ShopScene);
+	
+	void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body) override;
+	void onHttpRequestFailed(const std::string& requestTag, long errorCode) override;
 };
 
 NS_AZOOMEE_END

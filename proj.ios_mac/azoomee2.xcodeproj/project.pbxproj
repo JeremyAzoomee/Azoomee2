@@ -219,6 +219,10 @@
 		92BDD4C222366D3100DA56F3 /* ShopItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4C022366D3100DA56F3 /* ShopItem.cpp */; };
 		92BDD4C42236AE4E00DA56F3 /* ShopItemPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4C32236AE4E00DA56F3 /* ShopItemPage.cpp */; };
 		92BDD4C52236AE4E00DA56F3 /* ShopItemPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4C32236AE4E00DA56F3 /* ShopItemPage.cpp */; };
+		92BDD4CC22380D4700DA56F3 /* ShopItemPurchasePopup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4CB22380D4700DA56F3 /* ShopItemPurchasePopup.cpp */; };
+		92BDD4CD22380D4700DA56F3 /* ShopItemPurchasePopup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4CB22380D4700DA56F3 /* ShopItemPurchasePopup.cpp */; };
+		92BDD4CF223926CD00DA56F3 /* ShopItemPurchasedAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4CE223926CD00DA56F3 /* ShopItemPurchasedAnimation.cpp */; };
+		92BDD4D0223926CD00DA56F3 /* ShopItemPurchasedAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4CE223926CD00DA56F3 /* ShopItemPurchasedAnimation.cpp */; };
 		92E58562220DB49F0015A4FA /* RewardScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E58561220DB49F0015A4FA /* RewardScreen.cpp */; };
 		92E58564220DC7580015A4FA /* RewardDisplayHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E58563220DC7580015A4FA /* RewardDisplayHandler.cpp */; };
 		92E5856E221475120015A4FA /* ChildSettingsScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E5856D221475120015A4FA /* ChildSettingsScene.cpp */; };
@@ -970,6 +974,8 @@
 		92A9A0A81F0D1775008A19EB /* ArtAppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtAppDelegate.cpp; sourceTree = "<group>"; };
 		92BDD4C022366D3100DA56F3 /* ShopItem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShopItem.cpp; sourceTree = "<group>"; };
 		92BDD4C32236AE4E00DA56F3 /* ShopItemPage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShopItemPage.cpp; sourceTree = "<group>"; };
+		92BDD4CB22380D4700DA56F3 /* ShopItemPurchasePopup.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShopItemPurchasePopup.cpp; sourceTree = "<group>"; };
+		92BDD4CE223926CD00DA56F3 /* ShopItemPurchasedAnimation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShopItemPurchasedAnimation.cpp; sourceTree = "<group>"; };
 		92E5855A220D83AB0015A4FA /* RewardDisplayHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RewardDisplayHandler.h; sourceTree = "<group>"; };
 		92E58560220DA5740015A4FA /* RewardScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RewardScreen.h; sourceTree = "<group>"; };
 		92E58561220DB49F0015A4FA /* RewardScreen.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RewardScreen.cpp; sourceTree = "<group>"; };
@@ -983,7 +989,7 @@
 		92EC0C4922302AD700B02F20 /* ShopItemPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShopItemPage.h; sourceTree = "<group>"; };
 		92EC0C4A22302AE400B02F20 /* ShopItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShopItem.h; sourceTree = "<group>"; };
 		92EC0C4B22302B3400B02F20 /* ShopItemPurchasePopup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShopItemPurchasePopup.h; sourceTree = "<group>"; };
-		92EC0C4C22302B4F00B02F20 /* ShopItemPurchaedAnimation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShopItemPurchaedAnimation.h; sourceTree = "<group>"; };
+		92EC0C4C22302B4F00B02F20 /* ShopItemPurchasedAnimation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShopItemPurchasedAnimation.h; sourceTree = "<group>"; };
 		92EC0C4D22302B7100B02F20 /* ShopOomeeItemPreview.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShopOomeeItemPreview.h; sourceTree = "<group>"; };
 		92EC0C4E22312EA800B02F20 /* ShopScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShopScene.cpp; sourceTree = "<group>"; };
 		92EC0C5C2232805D00B02F20 /* ShopCarousel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShopCarousel.cpp; sourceTree = "<group>"; };
@@ -1820,7 +1826,9 @@
 				92EC0C4A22302AE400B02F20 /* ShopItem.h */,
 				92BDD4C022366D3100DA56F3 /* ShopItem.cpp */,
 				92EC0C4B22302B3400B02F20 /* ShopItemPurchasePopup.h */,
-				92EC0C4C22302B4F00B02F20 /* ShopItemPurchaedAnimation.h */,
+				92BDD4CB22380D4700DA56F3 /* ShopItemPurchasePopup.cpp */,
+				92EC0C4C22302B4F00B02F20 /* ShopItemPurchasedAnimation.h */,
+				92BDD4CE223926CD00DA56F3 /* ShopItemPurchasedAnimation.cpp */,
 				92EC0C4D22302B7100B02F20 /* ShopOomeeItemPreview.h */,
 			);
 			name = Shop;
@@ -2529,6 +2537,7 @@
 				9289DB471FD8414F00B12435 /* DynamicNodeText.cpp in Sources */,
 				43BCD71E1EC9FD4E00A07737 /* SceneManagerScene.cpp in Sources */,
 				92A9A0A91F0D1775008A19EB /* ArtAppDelegate.cpp in Sources */,
+				92BDD4CC22380D4700DA56F3 /* ShopItemPurchasePopup.cpp in Sources */,
 				4396947D1EAA4855003C17E6 /* ApplePaymentSingleton.mm in Sources */,
 				921A25F72162830A005C8C41 /* LanguageListItem.cpp in Sources */,
 				02D4FCD41FCF0D0C005BA020 /* IAPProductDataHandler.cpp in Sources */,
@@ -2536,6 +2545,7 @@
 				929D46671F73F04D006E40CE /* DynamicNodeCreator.cpp in Sources */,
 				9289DAF31FCEDB1F00B12435 /* DynamicNodeDataInputStorage.cpp in Sources */,
 				02E5959C1E56FC3A0052F395 /* OfflineChecker.cpp in Sources */,
+				92BDD4CF223926CD00DA56F3 /* ShopItemPurchasedAnimation.cpp in Sources */,
 				923D5BED2201F126008C13D0 /* RewardScene.cpp in Sources */,
 				02E595B91E5CA2690052F395 /* OfflineHubBackButton.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
@@ -2623,6 +2633,7 @@
 				92E58679222425360015A4FA /* WebViewNativeCaller_android.cpp in Sources */,
 				92E5867A222425360015A4FA /* MeHQ.cpp in Sources */,
 				92E5867B222425360015A4FA /* SettingsKidsPage.cpp in Sources */,
+				92BDD4D0223926CD00DA56F3 /* ShopItemPurchasedAnimation.cpp in Sources */,
 				92EC0C5022312F6F00B02F20 /* ShopScene.cpp in Sources */,
 				92E5867C222425360015A4FA /* ChatDelegate.cpp in Sources */,
 				92E5867D222425360015A4FA /* ChildNameLayerFirstTime.cpp in Sources */,
@@ -2707,6 +2718,7 @@
 				92E586C8222425360015A4FA /* IAPFlowController.cpp in Sources */,
 				92BDD4BA2232CCA700DA56F3 /* CoinCollectLayer.cpp in Sources */,
 				92E586C9222425360015A4FA /* LanguageSelectScene.cpp in Sources */,
+				92BDD4CD22380D4700DA56F3 /* ShopItemPurchasePopup.cpp in Sources */,
 				92E586CA222425360015A4FA /* SettingsMessageBoxNotification.cpp in Sources */,
 				92E586CB222425360015A4FA /* VodacomMessageBoxNotification.cpp in Sources */,
 				92E586CC222425360015A4FA /* MeHQMessages.cpp in Sources */,

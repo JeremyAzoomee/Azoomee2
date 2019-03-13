@@ -19,14 +19,15 @@ bool ShopCarousel::init()
 	}
 	
 	const Size& visibleSize = Director::getInstance()->getVisibleSize();
+	bool isPortrait = visibleSize.width < visibleSize.height;
 	this->setContentSize(visibleSize);
+	
+	float minDimSize = MIN(visibleSize.height, visibleSize.width);
 	
 	_shopWindow = ui::PageView::create();
 	_shopWindow->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_shopWindow->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	_shopWindow->setContentSize(Size(visibleSize.height * 1.2f, visibleSize.height * 0.6f));
-	//_shopWindow->setBackGroundColor(Color3B::RED);
-	//_shopWindow->setBackGroundColorType(BackGroundColorType::SOLID);
+	_shopWindow->setContentSize(Size(minDimSize * (isPortrait ? 0.6f : 1.2f), minDimSize * (isPortrait ? 1.2f : 0.6f)));
 	_shopWindow->setDirection(ui::PageView::Direction::HORIZONTAL);
 	_shopWindow->setTouchEnabled(false);
 	_shopWindow->setSwallowTouches(false);
@@ -45,27 +46,6 @@ bool ShopCarousel::init()
 			_pageLeft->runAction(FadeTo::create(0.5,_shopWindow->getCurrentPageIndex() == 0 ? 125 : 255));
 		}
 	});
-	
-	/*std::vector<Color3B> colours = {Color3B::BLUE, Color3B::GREEN, Color3B::YELLOW};
-	for(int i = 0; i < colours.size(); i++)
-	{
-		ui::Layout* page = ui::Layout::create();
-		page->setBackGroundColor(colours.at(i));
-		page->setBackGroundColorType(BackGroundColorType::SOLID);
-		page->setContentSize(_shopDisplay->getContentSize());
-		page->setTouchEnabled(true);
-		page->addTouchEventListener([this, colours, i, page](Ref* pSender, ui::Widget::TouchEventType eType){
-			if(eType == TouchEventType::BEGAN)
-			{
-				page->setBackGroundColor(Color3B::RED);
-			}
-			else if(eType == TouchEventType::ENDED)
-			{
-				page->setBackGroundColor(colours.at(i));
-			}
-		});
-		_shopDisplay->addPage(page);
-	}*/
 	
 	this->addChild(_shopWindow);
 	
@@ -97,21 +77,48 @@ bool ShopCarousel::init()
 	_pageIndicator = ui::Layout::create();
 	_pageIndicator->setContentSize(Size(160 * _shopWindow->getItems().size(), 160));
 	_pageIndicator->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-	_pageIndicator->setNormalizedPosition(Vec2(0.5,0.2));
+	_pageIndicator->setNormalizedPosition(Vec2(0.5,isPortrait? 0.15 : 0.2));
 	this->addChild(_pageIndicator);
-	
-	/*for(int i = 0; i < colours.size(); i++)
-	{
-		Sprite* sprite = Sprite::create(i == _shopDisplay->getCurrentPageIndex() ? "res/shop/dot_active.png" : "res/shop/dot_inactive.png");
-		sprite->setNormalizedPosition(Vec2((i+0.5)/(float)colours.size(),0.5));
-		sprite->setTag(i);
-		_pageIndicator->addChild(sprite);
-	}*/
 	
 	return true;
 }
 void ShopCarousel::onEnter()
 {
+	Super::onEnter();
+}
+void ShopCarousel::onExit()
+{
+	Super::onExit();
+}
+void ShopCarousel::update(float deltaT)
+{
+	Super::update(deltaT);
+}
+
+void ShopCarousel::setShopData(const ShopRef& shopData)
+{
+	_shop = shopData;
+	refreshUI();
+}
+
+void ShopCarousel::setItemSelectedCallback(const ItemSelectedCallback& callback)
+{
+	_itemSelectedCallback = callback;
+}
+
+void ShopCarousel::refreshUI()
+{
+	const Size& visibleSize = Director::getInstance()->getVisibleSize();
+	bool isPortrait = visibleSize.width < visibleSize.height;
+	this->setContentSize(visibleSize);
+	
+	float minDimSize = MIN(visibleSize.height, visibleSize.width);
+	
+	_shopWindow->setContentSize(Size(minDimSize * (isPortrait ? 0.6f : 1.2f), minDimSize * (isPortrait ? 1.2f : 0.6f)));
+	_pageIndicator->setNormalizedPosition(Vec2(0.5,isPortrait? 0.15 : 0.2));
+	
+	_shopWindow->removeAllPages();
+	_pageIndicator->removeAllChildren();
 	if(_shop)
 	{
 		_pageIndicator->setContentSize(Size(160 * _shop->getDisplays().size(), 160));
@@ -132,27 +139,8 @@ void ShopCarousel::onEnter()
 		}
 		
 		_pageLeft->setOpacity(_shopWindow->getCurrentPageIndex() == 0 ? 125 : 255);
+		_pageRight->setOpacity(_shopWindow->getCurrentPageIndex() == (_shopWindow->getItems().size() - 1) ? 125 : 255);
 	}
-	
-	Super::onEnter();
-}
-void ShopCarousel::onExit()
-{
-	Super::onExit();
-}
-void ShopCarousel::update(float deltaT)
-{
-	Super::update(deltaT);
-}
-
-void ShopCarousel::setShopData(const ShopRef& shopData)
-{
-	_shop = shopData;
-}
-
-void ShopCarousel::setItemSelectedCallback(const ItemSelectedCallback& callback)
-{
-	_itemSelectedCallback = callback;
 }
 
 NS_AZOOMEE_END

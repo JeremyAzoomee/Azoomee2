@@ -6,6 +6,7 @@
 //
 
 #include "ShopItemPage.h"
+#include "DynamicNodeHandler.h"
 
 using namespace cocos2d;
 
@@ -93,9 +94,16 @@ void ShopItemPage::onEnter()
 				}
 				if(eType == TouchEventType::ENDED)
 				{
-					if(_itemSelectedCallback)
+					if(shopItem->isLocked())
 					{
-						_itemSelectedCallback(item);
+						DynamicNodeHandler::getInstance()->startIAPFlow();
+					}
+					else if(shopItem->isAffordable() && !shopItem->isOwned())
+					{
+						if(_itemSelectedCallback)
+						{
+							_itemSelectedCallback(item);
+						}
 					}
 				}
 			});

@@ -67,7 +67,8 @@ void CoinDisplay::update(float deltaT)
 	if(sAnimating)
 	{
 		sCoinCount += sIncPerSec * deltaT;
-		if(sCoinCount >= sTargetVal)
+		//if(sCoinCount >= sTargetVal)
+		if(abs(sCoinCount - sTargetVal) < abs(sIncPerSec))
 		{
 			sCoinCount = sTargetVal;
 			_coinsLabel->setScale(1);

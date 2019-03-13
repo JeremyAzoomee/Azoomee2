@@ -32,6 +32,7 @@ protected:
 	std::string _entitlement;
 	bool _repeatable;
 	int _price;
+	std::string _purchaseUrl;
 	
 	ShopDisplayItem();
 public:
@@ -50,6 +51,7 @@ public:
 	bool isRepeatable() const;
 	std::string getEntitlement() const;
 	int getPrice() const;
+	std::string getPurchaseUrl() const;
 	
 };
 

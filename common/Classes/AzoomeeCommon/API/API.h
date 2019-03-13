@@ -67,6 +67,7 @@ public:
 	static const char* const TagGetPendingRewards;
 	static const char* const TagGetInventory;
 	static const char* const TagBuyReward;
+	static const char* const TagGetShopFeed;
 	
 	static const std::string kAZCountryCodeKey;
 	
@@ -273,8 +274,7 @@ public:
 	static HttpRequestCreator* GetPendingRewards(const std::string& userId,
 												 HttpRequestCreatorResponseDelegate* delegate);
 	
-	static HttpRequestCreator* BuyReward(const std::string& itemId,
-										 const std::string& userId,
+	static HttpRequestCreator* BuyReward(const std::string& purchaseUrl,
 										 HttpRequestCreatorResponseDelegate* delegate);
 	
 	static HttpRequestCreator* GetInventory(const std::string& userId,
@@ -282,6 +282,8 @@ public:
 	
 	static HttpRequestCreator* RewardCallback(const std::string& url,
 											  HttpRequestCreatorResponseDelegate* delegate);
+	
+	static HttpRequestCreator* GetShopFeed(HttpRequestCreatorResponseDelegate* delegate);
 	
 #pragma mark - Vodacom
 	static HttpRequestCreator* GetVodacomTransactionId(const std::string& userId,

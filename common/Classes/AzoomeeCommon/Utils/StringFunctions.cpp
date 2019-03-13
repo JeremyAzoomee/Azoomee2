@@ -144,7 +144,7 @@ std::string getValueFromHttpResponseHeaderForKey(const std::string &key, const s
     {
         if(currentKey.compare(0, key.length(), key) == 0)
         {
-			return ltrim(currentKey.substr(currentKey.find_first_of(":")));
+			return ltrim(currentKey.substr(currentKey.find_first_of(":") + 1));
         }
     }
     

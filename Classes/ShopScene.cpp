@@ -9,8 +9,14 @@
 #include "SceneManagerScene.h"
 #include "CoinDisplay.h"
 #include "DynamicNodeHandler.h"
+#include "ShopItemPurchasedAnimation.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Data/Shop/ShopDisplayItem.h>
+#include <AzoomeeCommon/Data/Shop/ShopDataHandler.h>
+#include <AzoomeeCommon/UI/ModalMessages.h>
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
+
 
 using namespace cocos2d;
 
@@ -25,20 +31,60 @@ bool ShopScene::init()
 	
 	const Size& visibleSize = this->getContentSize();
 	
-	LayerColor* bgColour = LayerColor::create(Color4B(3, 36, 78,60));
-	this->addChild(bgColour);
+	_bgColour = LayerColor::create(Color4B(3, 36, 78,60));
+	this->addChild(_bgColour);
 	
-	Sprite* wires = Sprite::create("res/shop/wires.png");
-	wires->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	wires->setScale(visibleSize.width / wires->getContentSize().width);
-	//wires->setOpacity(60);
-	this->addChild(wires);
+	_wires = Sprite::create("res/shop/wires.png");
+	_wires->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	_wires->setScale(MAX(visibleSize.width, visibleSize.height) / _wires->getContentSize().width);
+	this->addChild(_wires);
 	
-	Sprite* gradient = Sprite::create("res/shop/gradient_haze.png");
-	gradient->setScaleX(visibleSize.width / gradient->getContentSize().width);
-	gradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-	gradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-	this->addChild(gradient);
+	_gradient = Sprite::create("res/shop/gradient_haze.png");
+	_gradient->setScaleX(visibleSize.width / _gradient->getContentSize().width);
+	_gradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+	_gradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+	this->addChild(_gradient);
+	
+	_shopCarousel = ShopCarousel::create();
+	_shopCarousel->setItemSelectedCallback([this](const ShopDisplayItemRef& item){
+		//toggle purchase screen for item
+		_shopCarousel->setVisible(false);
+		_purchasePopup->setVisible(true);
+		_purchasePopup->setItemData(item);
+		
+	});
+	this->addChild(_shopCarousel);
+	
+	_purchasePopup = ShopItemPurchasePopup::create();
+	_purchasePopup->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	_purchasePopup->setPosition(visibleSize / 2);
+	_purchasePopup->setPurchaseCallback([this](const ShopDisplayItemRef& item, bool purchased){
+		if(purchased)
+		{
+			ModalMessages::getInstance()->startLoading();
+			HttpRequestCreator* request = API::BuyReward(item->getPurchaseUrl(), this);
+			request->execute();
+			/*
+			_purchasePopup->setVisible(false);
+			_shopCarousel->setVisible(false);
+			ShopItemPurchasedAnimation* anim = ShopItemPurchasedAnimation::create();
+			anim->setItemData(_purchasePopup->getItemData());
+			anim->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+			anim->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+			anim->setOnCompleteCallback([this, anim](){
+				anim->removeFromParent();
+				_shopCarousel->setVisible(true);
+				_shopCarousel->refreshUI();
+				_purchasePopup->setItemData(nullptr);
+			});
+			this->addChild(anim);
+			 */
+		}
+		_purchasePopup->setVisible(false);
+		_shopCarousel->setVisible(true);
+	});
+	_purchasePopup->setVisible(false);
+	this->addChild(_purchasePopup);
 	
 	ui::Button* backButton = ui::Button::create("res/shop/back_white_v_2.png");
 	backButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
@@ -56,37 +102,73 @@ bool ShopScene::init()
 	coinDisplay->setAnchorPoint(Vec2(1.2,1.5));
 	this->addChild(coinDisplay, 1);
 	
-	const std::string& shopString = FileUtils::getInstance()->getStringFromFile("res/shop/testShop.json");
-	rapidjson::Document shopJson;
-	shopJson.Parse(shopString.c_str());
-	ShopRef shop = nullptr;
-	if(!shopJson.HasParseError())
-	{
-		shop = Shop::createWithJson(shopJson);
-	}
-	
-	_shopCarousel = ShopCarousel::create();
-	_shopCarousel->setShopData(shop);
-	_shopCarousel->setItemSelectedCallback([](const ShopDisplayItemRef& item){
-		//toggle purchase screen for item
-	});
-	this->addChild(_shopCarousel);
-	
 	return true;
 }
 void ShopScene::onEnter()
 {
+	ShopDataHandler::getInstance()->getLatestData([this](bool success){
+		if(success)
+		{
+			_shopCarousel->setShopData(ShopDataHandler::getInstance()->getShop());
+		}
+	});
 	Super::onEnter();
 }
 void ShopScene::onExit()
 {
+	ShopDataHandler::getInstance()->setOnCompleteCallback(nullptr);
 	Super::onExit();
 }
 void ShopScene::onSizeChanged()
 {
 	Super::onSizeChanged();
-	
+	const Size& visibleSize = this->getContentSize();
+	if(_shopCarousel)
+	{
+		_shopCarousel->refreshUI();
+	}
+	_purchasePopup->setPosition(visibleSize / 2);
+	_bgColour->setContentSize(visibleSize);
+	_wires->setScale(MAX(visibleSize.width, visibleSize.height) / _wires->getContentSize().width);
+	_wires->setRotation(visibleSize.width < visibleSize.height ? 90 : 0);
+	_gradient->setScaleX(visibleSize.width / _gradient->getContentSize().width);
 	DynamicNodeHandler::getInstance()->rebuildCurrentCTA();
+}
+
+void ShopScene::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
+{
+	if(requestTag == API::TagBuyReward)
+	{
+		HttpRequestCreator* request = API::GetInventory(ChildDataProvider::getInstance()->getParentOrChildId(), this);
+		request->execute();
+	}
+	else if(requestTag == API::TagGetInventory)
+	{
+		ModalMessages::getInstance()->stopLoading();
+		ChildDataParser::getInstance()->parseChildInventory(body);
+		_purchasePopup->setVisible(false);
+		_shopCarousel->setVisible(false);
+		ShopItemPurchasedAnimation* anim = ShopItemPurchasedAnimation::create();
+		anim->setItemData(_purchasePopup->getItemData());
+		anim->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+		anim->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+		anim->setOnCompleteCallback([this, anim](){
+			anim->removeFromParent();
+			_shopCarousel->setVisible(true);
+			_shopCarousel->refreshUI();
+			_purchasePopup->setItemData(nullptr);
+		});
+		this->addChild(anim);
+	}
+	else
+	{
+		ModalMessages::getInstance()->stopLoading();
+	}
+}
+void ShopScene::onHttpRequestFailed(const std::string& requestTag, long errorCode)
+{
+	ModalMessages::getInstance()->stopLoading();
+	_shopCarousel->refreshUI();
 }
 
 NS_AZOOMEE_END

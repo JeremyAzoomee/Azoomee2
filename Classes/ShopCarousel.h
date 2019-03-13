@@ -43,6 +43,8 @@ public:
 	void setShopData(const ShopRef& shopData);
 	void setItemSelectedCallback(const ItemSelectedCallback& callback);
 	
+	void refreshUI();
+	
 	CREATE_FUNC(ShopCarousel);
 	
 };

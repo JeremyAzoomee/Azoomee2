@@ -34,6 +34,10 @@ private:
 	
 	cocos2d::Node* _featuredAnim = nullptr;
 	
+	bool _locked = false;
+	bool _affordable = false;
+	bool _owned = false;
+	
 	void enableNewIcon(bool enable);
 	void enableLockedIcon(bool enable);
 	void enableFeaturedAnimation(bool enable);
@@ -49,6 +53,10 @@ public:
 	void onExit() override;
 	
 	void setShopItemData(const ShopDisplayItemRef& shopItemData);
+	
+	bool isLocked() const;
+	bool isAffordable() const;
+	bool isOwned() const;
 	
 	CREATE_FUNC(ShopItem);
 };
