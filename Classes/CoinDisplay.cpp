@@ -9,6 +9,7 @@
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include "SceneManagerScene.h"
 
 using namespace cocos2d;
 
@@ -53,6 +54,14 @@ bool CoinDisplay::init()
 	_coinSprite = Sprite::create("res/rewards/coin.png");
 	_coinSprite->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	this->addChild(_coinSprite);
+	
+	this->setTouchEnabled(true);
+	this->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
+		if(eType == ui::Widget::TouchEventType::ENDED)
+		{
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Shop));
+		}
+	});
 	
 	return true;
 }

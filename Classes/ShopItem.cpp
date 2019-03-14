@@ -87,13 +87,13 @@ void ShopItem::onEnter()
 		const auto& tags = _itemData->getTags();
 		enableNewIcon(std::find(tags.begin(), tags.end(), "NEW") != tags.end());
 		enableFeaturedAnimation(std::find(tags.begin(), tags.end(), "FEATURED") != tags.end());
-		enableLockedIcon(!(ParentDataProvider::getInstance()->isPaidUser() || _itemData->getEntitlement() == "AZ_FREE"));
 		const InventoryRef& inv = ChildDataProvider::getInstance()->getLoggedInChild()->getInventory();
 		const auto& invItems = inv->getItems();
 		enableOwnedIcon(std::find_if(invItems.begin(), invItems.end(), [this](const InventoryItemRef& item){
 			return item->getItemId() == _itemData->getInventoryItem()->getItemId();
 		}) != invItems.end());
 		setAffordable(inv->getCoins() >= _itemData->getPrice());
+		enableLockedIcon(!(ParentDataProvider::getInstance()->isPaidUser() || _itemData->getEntitlement() == "AZ_FREE"));
 	}
 	
 	Super::onEnter();
@@ -164,6 +164,14 @@ void ShopItem::enableLockedIcon(bool enable)
 	if(_lockedIcon)
 	{
 		_lockedIcon->setVisible(enable);
+	}
+	if(_costValue)
+	{
+		_costValue->setOpacity((enable || !_affordable) ? 127 : 255);
+	}
+	if(_assetImage)
+	{
+		_assetImage->setOpacity(enable ? 127 : 255);
 	}
 	_locked = enable;
 }

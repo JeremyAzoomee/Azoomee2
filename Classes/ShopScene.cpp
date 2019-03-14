@@ -100,6 +100,7 @@ bool ShopScene::init()
 	CoinDisplay* coinDisplay = CoinDisplay::create();
 	coinDisplay->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
 	coinDisplay->setAnchorPoint(Vec2(1.2,1.5));
+	coinDisplay->setTouchEnabled(false);
 	this->addChild(coinDisplay, 1);
 	
 	return true;

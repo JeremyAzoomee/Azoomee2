@@ -10,12 +10,13 @@
 
 #include <AzoomeeCommon/Azoomee.h>
 #include <cocos/cocos2d.h>
+#include <cocos/ui/CocosGUI.h>
 
 NS_AZOOMEE_BEGIN
 
-class CoinDisplay : public cocos2d::Node
+class CoinDisplay : public cocos2d::ui::Layout
 {
-	typedef cocos2d::Node Super;
+	typedef cocos2d::ui::Layout Super;
 private:
 	static float sCoinCount;
 	static bool sAnimating;
