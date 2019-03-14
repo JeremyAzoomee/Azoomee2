@@ -92,6 +92,8 @@ void NavigationLayer::changeToScene(const std::string& hqName, float duration)
         if(hqName == ConfigStorage::kChatHQName)
         {
             context = IAPEntryContext::LOCKED_CHAT;
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Shop));
+			return;
         }
 #ifndef ALLOW_UNPAID_SIGNUP
 		DynamicNodeHandler::getInstance()->startIAPFlow(context);

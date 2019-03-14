@@ -74,7 +74,7 @@ std::string RewardItem::getUserId() const
 {
 	return _userId;
 }
-std::string RewardItem::getItemId() const
+int RewardItem::getItemId() const
 {
 	return _item->getItemId();
 }

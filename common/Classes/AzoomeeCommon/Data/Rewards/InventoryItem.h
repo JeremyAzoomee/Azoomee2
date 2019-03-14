@@ -21,7 +21,7 @@ typedef std::shared_ptr<InventoryItem> InventoryItemRef;
 class InventoryItem
 {
 private:
-	std::string _itemId;
+	int _itemId;
 	std::string _type;
 	std::string _name;
 	std::string _uri;
@@ -35,7 +35,7 @@ public:
 	void parseInventoryItemData(const rapidjson::Value& InventoryItem);
 	
 	std::string getType() const;
-	std::string getItemId() const;
+	int getItemId() const;
 	std::string getUri() const;
 	std::string getName() const;
 	

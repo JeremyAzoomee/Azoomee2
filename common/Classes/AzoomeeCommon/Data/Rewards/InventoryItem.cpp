@@ -27,7 +27,7 @@ InventoryItem::InventoryItem()
 
 void InventoryItem::parseInventoryItemData(const rapidjson::Value& inventoryItem)
 {
-	_itemId = getStringFromJson("itemId", inventoryItem);
+	_itemId = getIntFromJson("id", inventoryItem);
 	_type = getStringFromJson("type", inventoryItem);
 	_uri = getStringFromJson("uri", inventoryItem);
 	_name = getStringFromJson("name", inventoryItem);
@@ -37,7 +37,7 @@ std::string InventoryItem::getType() const
 {
 	return _type;
 }
-std::string InventoryItem::getItemId() const
+int InventoryItem::getItemId() const
 {
 	return _itemId;
 }

@@ -38,7 +38,7 @@ bool ShopItem::init()
 	
 	_lockedIcon = Sprite::create("res/shop/padlock_2.png");
 	_lockedIcon->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
-	_lockedIcon->setAnchorPoint(Vec2(1.25,1.25));
+	_lockedIcon->setAnchorPoint(Vec2(1.35,1.25));
 	this->addChild(_lockedIcon);
 	
 	_newIcon = Sprite::create("res/shop/new_star.png");
@@ -89,9 +89,10 @@ void ShopItem::onEnter()
 		enableFeaturedAnimation(std::find(tags.begin(), tags.end(), "FEATURED") != tags.end());
 		enableLockedIcon(!(ParentDataProvider::getInstance()->isPaidUser() || _itemData->getEntitlement() == "AZ_FREE"));
 		const InventoryRef& inv = ChildDataProvider::getInstance()->getLoggedInChild()->getInventory();
-		enableOwnedIcon(std::find_if(inv->getItems().begin(), inv->getItems().end(), [this](const InventoryItemRef& item){
+		const auto& invItems = inv->getItems();
+		enableOwnedIcon(std::find_if(invItems.begin(), invItems.end(), [this](const InventoryItemRef& item){
 			return item->getItemId() == _itemData->getInventoryItem()->getItemId();
-		}) != inv->getItems().end());
+		}) != invItems.end());
 		setAffordable(inv->getCoins() >= _itemData->getPrice());
 	}
 	

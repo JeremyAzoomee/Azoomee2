@@ -42,7 +42,7 @@ public:
 	std::string getId() const;
 	std::string getType() const;
 	std::string getUserId() const;
-	std::string getItemId() const;
+	int getItemId() const;
 	std::string getDescription() const;
 	std::string getUri() const;
 	int getItemPrice() const;
