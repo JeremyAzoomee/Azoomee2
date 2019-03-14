@@ -12,20 +12,19 @@
 #include "OomeeMakerDataStorage.h"
 #include <AzoomeeCommon/Utils/FileDownloader.h>
 #include <AzoomeeCommon/Utils/FileZipUtil.h>
+#include <AzoomeeCommon/Data/DataDownloadHandler.h>
 
 NS_AZOOMEE_OM_BEGIN
 
-class OomeeMakerDataHandler : public FileDownloaderDelegate, public FileZipDelegate
+class OomeeMakerDataHandler : public DataDownloadHandler, public FileZipDelegate
 {
 private:
     const std::string kBaseFolderName = "oomeeMaker/";
-    
-    FileDownloaderRef _fileDownloader = nullptr;
+	
     OomeeMakerDataStorage* _dataStorage = nullptr;
-    
-    void getPackageJson();
-    void getConfigDataZip();
-    
+	
+	std::string getCachePath() const override;
+	
     void unzipBundledAssets();
     void removeExistingAssets();
     
@@ -42,7 +41,9 @@ public:
     void init();
     
     void getConfigFilesIfNeeded();
-    
+	
+	void getLatestData(const OnCompleteCallback& callback = nullptr) override;
+	
     std::string getFullSaveDir() const;
     std::string getLocalSaveDir() const;
     std::string getAssetDir() const;
@@ -50,8 +51,10 @@ public:
     bool deleteOomee(const std::string& oomeeName );
     
     // Delegate functions
-    void onAsyncUnzipComplete(bool success, const std::string& zipPath, const std::string& dirpath);
-    void onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode);
+    void onAsyncUnzipComplete(bool success, const std::string& zipPath, const std::string& dirpath) override;
+    void onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode) override;
+	void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body) override;
+	void onHttpRequestFailed(const std::string& requestTag, long errorCode) override;
     
 };
 

@@ -61,7 +61,7 @@ public:
 	static const char* const TagAddVoucher;
 	static const char* const TagGetVodacomTransactionId;
 	static const char* const TagGetVideoProgress;
-	static const char* const TagUpdateVideoProgress;
+	static const char* const TagUpdateProgressMeta;
 	static const char* const TagRewardCallback;
 	static const char* const TagRedeemReward;
 	static const char* const TagGetPendingRewards;

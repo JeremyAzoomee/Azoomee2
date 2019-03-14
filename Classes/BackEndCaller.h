@@ -14,7 +14,7 @@ NS_AZOOMEE_BEGIN
 // forward ref
 class AwaitingAdultPinLayer;
 
-class BackEndCaller : public cocos2d::Ref, public Azoomee::HttpRequestCreatorResponseDelegate, Azoomee::ContentPoolDelegate, Azoomee::HQFeedDelegate
+class BackEndCaller : public cocos2d::Ref, public Azoomee::HttpRequestCreatorResponseDelegate
 {
 private:
     
@@ -50,11 +50,6 @@ private:
     //-HttpRequestCreatorResponseDelegate
     void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body) override;
     void onHttpRequestFailed(const std::string& requestTag, long errorCode) override;
-    
-    //-ContentPoolDelegate
-    void onContentDownloadComplete() override;
-    //-HQFeedDelegate
-    void onFeedDownloadComplete() override;
     
 public:
     

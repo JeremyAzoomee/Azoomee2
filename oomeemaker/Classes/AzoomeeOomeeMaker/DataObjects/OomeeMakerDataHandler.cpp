@@ -60,16 +60,10 @@ void OomeeMakerDataHandler::removeExistingAssets()
     }
 }
 
-void OomeeMakerDataHandler::getPackageJson()
+void OomeeMakerDataHandler::getLatestData(const OnCompleteCallback& callback)
 {
-    
+	getConfigFilesIfNeeded();
 }
-
-void OomeeMakerDataHandler::getConfigDataZip()
-{
-    
-}
-
 
 void OomeeMakerDataHandler::parseOomeeData()
 {
@@ -221,6 +215,11 @@ bool OomeeMakerDataHandler::deleteOomee(const std::string& oomeeName)
     return false;
 }
 
+std::string OomeeMakerDataHandler::getCachePath() const
+{
+	return kBaseFolderName;
+}
+
 // Delegate functions
 void OomeeMakerDataHandler::onAsyncUnzipComplete(bool success, const std::string& zipPath, const std::string& dirpath)
 {
@@ -242,6 +241,15 @@ void OomeeMakerDataHandler::onAsyncUnzipComplete(bool success, const std::string
 void OomeeMakerDataHandler::onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode)
 {
     
+}
+
+void OomeeMakerDataHandler::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
+{
+	
+}
+void OomeeMakerDataHandler::onHttpRequestFailed(const std::string& requestTag, long errorCode)
+{
+	
 }
 
 NS_AZOOMEE_OM_END

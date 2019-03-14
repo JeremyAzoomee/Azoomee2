@@ -331,9 +331,36 @@ void BackEndCaller::onGetGordonAnswerReceived(const std::string& responseString)
 {
     if(CookieDataParser::getInstance()->parseDownloadCookies(responseString))
     {
-        //Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::BaseWithNoHistory));
-        ContentItemPoolHandler::getInstance()->setContentPoolDelegate(this);
-        ContentItemPoolHandler::getInstance()->getLatestContentPool();
+		ContentItemPoolHandler::getInstance()->getLatestData([](bool success){ //on complete
+			if(success)
+			{
+				HQStructureHandler::getInstance()->getLatestData([](bool success){ //on complete
+					if(success)
+					{
+						UserDefault* userDefault = UserDefault::getInstance();
+						bool anonOnboardingComplete = userDefault->getBoolForKey("anonOnboardingComplete", false);
+						if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous() && !anonOnboardingComplete)
+						{
+							Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::WelcomeScene));
+						}
+						else
+						{
+							//TutorialController::getInstance()->startTutorial(TutorialController::kFTUNavTutorialID);
+							RewardDisplayHandler::getInstance()->getPendingRewards();
+							Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
+						}
+					}
+					else
+					{
+						LoginLogicHandler::getInstance()->doLoginLogic();
+					}
+				});
+			}
+			else
+			{
+				LoginLogicHandler::getInstance()->doLoginLogic();
+			}
+		});
     }
 }
 
@@ -669,28 +696,5 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
     }
 }
 
-void BackEndCaller::onContentDownloadComplete()
-{
-    HQStructureHandler::getInstance()->setHQFeedDelegate(this);
-    HQStructureHandler::getInstance()->getLatestHQStructureFeed();
-}
-
-void BackEndCaller::onFeedDownloadComplete()
-{
-	UserDefault* userDefault = UserDefault::getInstance();
-	bool anonOnboardingComplete = userDefault->getBoolForKey("anonOnboardingComplete", false);
-	//if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous() && !ChildDataProvider::getInstance()->isChildLoggedIn())
-	if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous() && !anonOnboardingComplete)
-	{
-		Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::WelcomeScene));
-	}
-	else
-	{
-		//TutorialController::getInstance()->startTutorial(TutorialController::kFTUNavTutorialID);
-		RewardDisplayHandler::getInstance()->getPendingRewards();
-		Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
-	}
-	
-}
 
 NS_AZOOMEE_END
