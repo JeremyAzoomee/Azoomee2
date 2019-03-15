@@ -61,41 +61,24 @@ void OomeeBody::setOomeeData(const OomeeRef& oomeeData)
     
     for(auto spriteData : _oomeeData->getAssetSet())
     {
-        Sprite* spriteLayer = Sprite::create(OomeeMakerDataHandler::getInstance()->getAssetDir() + spriteData.second.first);
+        Sprite* spriteLayer = Sprite::create(OomeeMakerDataHandler::getInstance()->getAssetDir() + spriteData.getLocation());
         spriteLayer->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
         
-        if(spriteData.second.second < lowestZOrder)
+        if(spriteData.getZOrder() < lowestZOrder)
         {
-            lowestZOrder = spriteData.second.second;
+            lowestZOrder = spriteData.getZOrder();
             this->setContentSize(spriteLayer->getContentSize());
             //this->setContentSize(Size(MAX(spriteLayer->getContentSize().width,this->getContentSize().width),MAX(spriteLayer->getContentSize().height, this->getContentSize().height)));
         }
         
-        if(_colours && spriteData.first != "none")
+        if(spriteData.getTag() != "none")
         {
-            spriteLayer->setColor(Color3B(_colours->getColours().at(spriteData.first)));
+            spriteLayer->setColor(Color3B(_oomeeData->getColour()->getColours().at(spriteData.getTag())));
         }
-        _sprites[spriteData.first] = spriteLayer;
-        this->addChild(spriteLayer, spriteData.second.second);
+        _sprites[spriteData.getTag()] = spriteLayer;
+        this->addChild(spriteLayer, spriteData.getZOrder());
         
     }
-}
-
-void OomeeBody::setColourData(const OomeeColourRef& colourData)
-{
-    _colours = colourData;
-    
-    if(_oomeeData)
-    {
-        for(auto sprite : _sprites)
-        {
-            if(sprite.first != "none")
-            {
-                sprite.second->setColor(Color3B(_colours->getColours().at(sprite.first)));
-            }
-        }
-    }
-    
 }
 
 int OomeeBody::transformZOrder(int zOrder)

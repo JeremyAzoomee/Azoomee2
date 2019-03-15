@@ -23,10 +23,10 @@ private:
     std::map<std::string, OomeeRef> _oomeeData;
     std::map<std::string, ItemCategoryRef> _categoryData;
     std::map<std::string, OomeeItemRef> _oomeeItemData;
-    std::map<std::string, OomeeColourRef> _oomeeColourData;
+    //std::map<std::string, OomeeColourRef> _oomeeColourData;
     std::map<std::string, std::vector<OomeeItemRef>> _oomeeItemsInCategoryData;
     std::vector<ItemCategoryRef> _itemCategoryList;
-    std::vector<OomeeColourRef> _oomeeColourList;
+    //std::vector<OomeeColourRef> _oomeeColourList;
     
 public:
     static OomeeMakerDataStorage* getInstance(void);
@@ -36,18 +36,18 @@ public:
     void clearOomeeData();
     void clearCategoryData();
     void clearOomeeItemData();
-    void clearColourData();
+    //void clearColourData();
     
     void addOomee(const OomeeRef& oomee);
     void addItemCategory(const ItemCategoryRef& itemCategory);
     void addOomeeItem(const OomeeItemRef& oomeeItem);
-    void addColour(const OomeeColourRef& colour);
+    //void addColour(const OomeeColourRef& colour);
     
     std::map<std::string, OomeeRef> getOomeedata();
     std::map<std::string, ItemCategoryRef> getItemCategoryData();
     std::map<std::string, OomeeItemRef> getOomeeitemData();
     std::map<std::string, std::vector<OomeeItemRef>> getItemsInCategoryData();
-    std::map<std::string, OomeeColourRef> getColourData();
+    //std::map<std::string, OomeeColourRef> getColourData();
     
     std::vector<ItemCategoryRef> getItemCategoryList();
     std::vector<OomeeColourRef> getColourList();
@@ -56,7 +56,7 @@ public:
     ItemCategoryRef getItemCategoryForKey(const std::string& key) const;
     OomeeItemRef getOomeeItemForKey(const std::string& key) const;
     std::vector<OomeeItemRef> getItemsForCategory(const std::string& key) const;
-    OomeeColourRef getColourForKey(const std::string& key) const;
+    //OomeeColourRef getColourForKey(const std::string& key) const;
     
     std::vector<OomeeItemRef> getFilteredItemsForCategory(const std::string& key, const OomeeRef& activeOomee);
     

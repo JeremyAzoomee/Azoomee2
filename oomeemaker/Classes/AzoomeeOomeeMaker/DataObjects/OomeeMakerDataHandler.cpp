@@ -74,8 +74,14 @@ void OomeeMakerDataHandler::parseOomeeData()
         oomeeConfig.Parse(cocos2d::FileUtils::getInstance()->getStringFromFile(getAssetDir() + filename).c_str());
         if(!oomeeConfig.HasParseError())
         {
-            const OomeeRef& oomee = Oomee::createWithData(oomeeConfig);
-            _dataStorage->addOomee(oomee);
+			if(oomeeConfig.IsArray())
+			{
+				for (int i = 0; i < oomeeConfig.Size(); i++)
+				{
+					const OomeeRef& oomee = Oomee::createWithData(oomeeConfig[i]);
+					_dataStorage->addOomee(oomee);
+				}
+			}
         }
     }
 }
@@ -89,8 +95,14 @@ void OomeeMakerDataHandler::parseCategoryData()
         catConfig.Parse(cocos2d::FileUtils::getInstance()->getStringFromFile(getAssetDir() + filename).c_str());
         if(!catConfig.HasParseError())
         {
-            const ItemCategoryRef& category = ItemCategory::createWithData(catConfig);
-            _dataStorage->addItemCategory(category);
+			if(catConfig.IsArray())
+			{
+				for (int i = 0; i < catConfig.Size(); i++)
+				{
+					const ItemCategoryRef& category = ItemCategory::createWithData(catConfig[i]);
+					_dataStorage->addItemCategory(category);
+				}
+			}
         }
     }
 }
@@ -104,11 +116,11 @@ void OomeeMakerDataHandler::parseOomeeItemData()
         itemConfig.Parse(cocos2d::FileUtils::getInstance()->getStringFromFile(getAssetDir() + filename).c_str());
         if(!itemConfig.HasParseError())
         {
-            if(itemConfig.HasMember("items") && itemConfig["items"].IsArray())
+            if(itemConfig.IsArray())
             {
-                for (int i = 0; i < itemConfig["items"].Size(); i++)
+                for (int i = 0; i < itemConfig.Size(); i++)
                 {
-                    const OomeeItemRef& item = OomeeItem::createWithData(itemConfig["items"][i]);
+                    const OomeeItemRef& item = OomeeItem::createWithData(itemConfig[i]);
                     _dataStorage->addOomeeItem(item);
                 }
             }
@@ -117,27 +129,27 @@ void OomeeMakerDataHandler::parseOomeeItemData()
     }
 }
 
-void OomeeMakerDataHandler::parseOomeeColourData()
-{
-    const std::vector<std::string>& colourConfigs = getConfigFilesForType("colourConfigs");
-    for(const std::string& filename : colourConfigs)
-    {
-        rapidjson::Document itemConfig;
-        itemConfig.Parse(cocos2d::FileUtils::getInstance()->getStringFromFile(getAssetDir() + filename).c_str());
-        if(!itemConfig.HasParseError())
-        {
-            if(itemConfig.HasMember("items") && itemConfig["items"].IsArray())
-            {
-                for (int i = 0; i < itemConfig["items"].Size(); i++)
-                {
-                    const OomeeColourRef& item = OomeeColour::createWithData(itemConfig["items"][i]);
-                    _dataStorage->addColour(item);
-                }
-            }
-            
-        }
-    }
-}
+//void OomeeMakerDataHandler::parseOomeeColourData()
+//{
+//   const std::vector<std::string>& colourConfigs = getConfigFilesForType("colourConfigs");
+//    for(const std::string& filename : colourConfigs)
+//    {
+//        rapidjson::Document itemConfig;
+//        itemConfig.Parse(cocos2d::FileUtils::getInstance()->getStringFromFile(getAssetDir() + filename).c_str());
+//        if(!itemConfig.HasParseError())
+//        {
+//            if(itemConfig.HasMember("items") && itemConfig["items"].IsArray())
+//            {
+//                for (int i = 0; i < itemConfig["items"].Size(); i++)
+//                {
+//                    const OomeeColourRef& item = OomeeColour::createWithData(itemConfig["items"][i]);
+//                    _dataStorage->addColour(item);
+//                }
+//            }
+//
+//        }
+//   }
+//}
 
 std::vector<std::string> OomeeMakerDataHandler::getConfigFilesForType(const std::string& listType) const
 {
@@ -228,7 +240,7 @@ void OomeeMakerDataHandler::onAsyncUnzipComplete(bool success, const std::string
     parseOomeeData();
     parseCategoryData();
     parseOomeeItemData();
-    parseOomeeColourData();
+    //parseOomeeColourData();
     OomeeMakerDataStorage::getInstance()->_initialised = true;
     ModalMessages::getInstance()->stopLoading();
 	

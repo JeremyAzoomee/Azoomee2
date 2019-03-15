@@ -14,7 +14,7 @@ ItemCategoryRef ItemCategory::create()
     return std::make_shared<ItemCategory>();
 }
 
-ItemCategoryRef ItemCategory::createWithData(const rapidjson::Document& categoryConfig)
+ItemCategoryRef ItemCategory::createWithData(const rapidjson::Value& categoryConfig)
 {
     ItemCategoryRef category = std::make_shared<ItemCategory>();
     category->initWithData(categoryConfig);
@@ -26,7 +26,7 @@ ItemCategory::ItemCategory()
     
 }
 
-void ItemCategory::initWithData(const rapidjson::Document& categoryConfig)
+void ItemCategory::initWithData(const rapidjson::Value& categoryConfig)
 {
     setId(getStringFromJson("id", categoryConfig));
     setIconFilenameSelected(getStringFromJson("iconFilenameSelected", categoryConfig));

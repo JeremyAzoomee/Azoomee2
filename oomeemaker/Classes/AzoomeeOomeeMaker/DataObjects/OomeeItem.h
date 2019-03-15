@@ -11,6 +11,7 @@
 #include "../AzoomeeOomeeMaker.h"
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Data/Json.h>
+#include "AssetData.h"
 
 NS_AZOOMEE_OM_BEGIN
 
@@ -19,7 +20,7 @@ typedef std::shared_ptr<OomeeItem> OomeeItemRef;
 
 class OomeeItem
 {
-    typedef std::map<std::string, std::pair<std::string, int>> AssetMap; // {colour id key, {asset name, zorder}}
+    //typedef std::map<std::string, std::pair<std::string, int>> AssetMap; // {colour id key, {asset name, zorder}}
 private:
     std::string _id;
     std::string _targetAnchor;
@@ -30,7 +31,7 @@ private:
     float _targetScale;
     int _zOrder;
     std::string _categoryId;
-    AssetMap _assetSet;
+    AssetSet _assetSet;
     std::string _iconFilename;
     bool _useColourHue;
     std::vector<std::string> _dependancies;
@@ -60,8 +61,8 @@ public:
     int getZOrder() const;
     void setCategoryId(const std::string& categoryId);
     std::string getCategoryId() const;
-    void setAssetSet(const AssetMap& assetSet);
-    AssetMap getAssetSet() const;
+    void setAssetSet(const AssetSet& assetSet);
+    AssetSet getAssetSet() const;
     void setIconFilename(const std::string& iconFilename);
     std::string getIconFilename() const;
     void setUseColourHue(bool useColourHue);

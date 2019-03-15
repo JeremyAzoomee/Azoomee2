@@ -34,10 +34,10 @@ private:
     
 public:
     static ItemCategoryRef create();
-    static ItemCategoryRef createWithData(const rapidjson::Document& categoryConfig);
+    static ItemCategoryRef createWithData(const rapidjson::Value& categoryConfig);
     ItemCategory();
     
-    void initWithData(const rapidjson::Document& categoryConfig);
+    void initWithData(const rapidjson::Value& categoryConfig);
     
     void setId(const std::string& id);
     std::string getId() const;

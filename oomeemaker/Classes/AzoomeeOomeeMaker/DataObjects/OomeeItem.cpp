@@ -30,7 +30,7 @@ void OomeeItem::initWithData(const rapidjson::Value& itemConfig)
 {
     setId(getStringFromJson("id", itemConfig));
     setTargetAnchor(getStringFromJson("targetAnchor", itemConfig));
-    setOffset(getVec2FromJson("offset", itemConfig, cocos2d::Vec2(0,0)));
+    setOffset(getVec2FromJson("positionOffset", itemConfig, cocos2d::Vec2(0,0)));
     setSnapRange(getVec2FromJson("snapRange", itemConfig, cocos2d::Vec2(500,500)));
     setMenuScale(getFloatFromJson("menuScale", itemConfig, 1.0f));
     setDragScale(getFloatFromJson("dragScale", itemConfig, 1.0f));
@@ -39,7 +39,7 @@ void OomeeItem::initWithData(const rapidjson::Value& itemConfig)
     setCategoryId(getStringFromJson("categoryId", itemConfig));
     if(itemConfig.HasMember("assetSet"))
     {
-        setAssetSet(getAssetMapFromJson(itemConfig["assetSet"]));
+		setAssetSet(AssetData::createAssetSet(itemConfig["assetSet"]));
     }
     setIconFilename(getStringFromJson("iconFilename", itemConfig));
     setUseColourHue(getBoolFromJson("useColourHue", itemConfig));
@@ -132,12 +132,12 @@ std::string OomeeItem::getCategoryId() const
     return _categoryId;
 }
 
-void OomeeItem::setAssetSet(const AssetMap& assetSet)
+void OomeeItem::setAssetSet(const AssetSet& assetSet)
 {
     _assetSet = assetSet;
 }
 
-OomeeItem::AssetMap OomeeItem::getAssetSet() const
+AssetSet OomeeItem::getAssetSet() const
 {
     return _assetSet;
 }

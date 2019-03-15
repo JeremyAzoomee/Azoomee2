@@ -14,7 +14,7 @@ OomeeRef Oomee::create()
     return std::make_shared<Oomee>();
 }
 
-OomeeRef Oomee::createWithData(const rapidjson::Document& oomeeConfig)
+OomeeRef Oomee::createWithData(const rapidjson::Value& oomeeConfig)
 {
     OomeeRef oomee = std::make_shared<Oomee>();
     oomee->initWithData(oomeeConfig);
@@ -26,7 +26,7 @@ Oomee::Oomee()
     
 }
 
-void Oomee::initWithData(const rapidjson::Document& oomeeConfig)
+void Oomee::initWithData(const rapidjson::Value& oomeeConfig)
 {
     setId(getStringFromJson("id", oomeeConfig));
     if(oomeeConfig.HasMember("anchorPoints"))
@@ -50,8 +50,12 @@ void Oomee::initWithData(const rapidjson::Document& oomeeConfig)
     setSizeMultiplier(getFloatFromJson("sizeMultiplier", oomeeConfig));
     if(oomeeConfig.HasMember("assetSet"))
     {
-        setAssetSet(getAssetMapFromJson(oomeeConfig["assetSet"]));
+		setAssetSet(AssetData::createAssetSet(oomeeConfig["assetSet"]));
     }
+	if(oomeeConfig.HasMember("colours"))
+	{
+		_colour = OomeeColour::createWithData(oomeeConfig);
+	}
 }
 
 // GETTERS AND SETTERS
@@ -128,14 +132,19 @@ float Oomee::getSizeMultiplier() const
     return _sizeMultiplier;
 }
 
-void Oomee::setAssetSet(const AssetMap& assetSet)
+void Oomee::setAssetSet(const AssetSet& assetSet)
 {
     _assetSet = assetSet;
 }
 
-Oomee::AssetMap Oomee::getAssetSet() const
+AssetSet Oomee::getAssetSet() const
 {
     return _assetSet;
+}
+
+OomeeColourRef Oomee::getColour() const
+{
+	return _colour;
 }
 
 NS_AZOOMEE_OM_END

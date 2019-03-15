@@ -116,7 +116,7 @@ void OomeeMakerScene::onEnter()
     _oomee = OomeeFigure::create();
     _oomee->setContentSize(Size(contentSize.width * 0.585, contentSize.height));
     _oomee->setPosition(Vec2(contentSize.width * 0.165, 0));
-    _oomee->setColour(OomeeMakerDataStorage::getInstance()->getColourForKey(kDefaultOomeeId));
+    //_oomee->setColour(OomeeMakerDataStorage::getInstance()->getColourForKey(kDefaultOomeeId));
     _oomee->setOomeeData(oomeeData);
     _oomee->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     _oomee->setEditable(true);
@@ -127,7 +127,7 @@ void OomeeMakerScene::onEnter()
         if(!_oomee->initWithOomeeFigureData(data))
         {
             _oomee->setOomeeData(oomeeData);
-            _oomee->setColour(OomeeMakerDataStorage::getInstance()->getColourForKey(kDefaultOomeeId));
+            //_oomee->setColour(OomeeMakerDataStorage::getInstance()->getColourForKey(kDefaultOomeeId));
         }
     }
     _contentLayer->addChild(_oomee);
@@ -162,7 +162,7 @@ void OomeeMakerScene::onEnter()
         this->addAccessoryToOomee(data);
     });
     _itemList->setColourSelectedCallback([this](const OomeeColourRef& colour){
-        _oomee->setColour(colour);
+        //_oomee->setColour(colour);
 		CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Item_Drop.wav");
         const OomeeRef& oomee = OomeeMakerDataStorage::getInstance()->getOomeeForKey(colour->getId());
         if(oomee)
@@ -404,9 +404,9 @@ void OomeeMakerScene::makeAvatar()
 
 void OomeeMakerScene::resetOomee()
 {
-	const OomeeColourRef& colour = OomeeMakerDataStorage::getInstance()->getColourForKey(kDefaultOomeeId);
-	_oomee->setColour(colour);
-	const OomeeRef& oomee = OomeeMakerDataStorage::getInstance()->getOomeeForKey(colour->getId());
+	//const OomeeColourRef& colour = OomeeMakerDataStorage::getInstance()->getColourForKey(kDefaultOomeeId);
+	//_oomee->setColour(colour);
+	const OomeeRef& oomee = OomeeMakerDataStorage::getInstance()->getOomeeForKey(kDefaultOomeeId);
 	if(oomee)
 	{
 		_oomee->setOomeeData(oomee);

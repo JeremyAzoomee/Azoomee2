@@ -22,7 +22,7 @@ private:
     static const std::map<std::string,int> kLayerOrderMap;
     
     OomeeRef _oomeeData = nullptr;
-    OomeeColourRef _colours = nullptr;
+    //OomeeColourRef _colours = nullptr;
     std::map<std::string,cocos2d::Sprite*> _sprites;
     
 public:
@@ -32,7 +32,7 @@ public:
     virtual void onExit() override;
     
     void setOomeeData(const OomeeRef& oomeeData);
-    void setColourData(const OomeeColourRef& colourData);
+    //void setColourData(const OomeeColourRef& colourData);
     
     int transformZOrder(int zOrder);
     
