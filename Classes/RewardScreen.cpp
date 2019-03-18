@@ -18,6 +18,8 @@ bool RewardScreen::init()
 		return false;
 	}
 	
+	this->setContentSize(Director::getInstance()->getVisibleSize());
+	
 	return true;
 }
 void RewardScreen::onEnter()
@@ -38,6 +40,10 @@ void RewardScreen::onExit()
 void RewardScreen::update(float deltaT)
 {
 	Super::update(deltaT);
+}
+void RewardScreen::onSizeChanged()
+{
+	this->setContentSize(Director::getInstance()->getVisibleSize());
 }
 
 void RewardScreen::setDeleagte(RewardScreenDelegate* delegate)

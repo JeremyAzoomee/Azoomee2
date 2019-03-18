@@ -171,6 +171,7 @@
 		92B1EC8D20A209CC007A58C0 /* ContentItemPoolParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92B1EC8C20A209CC007A58C0 /* ContentItemPoolParser.cpp */; };
 		92BDD4C72237BC0800DA56F3 /* ShopDataHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4C62237BC0800DA56F3 /* ShopDataHandler.cpp */; };
 		92BDD4CA2237D39E00DA56F3 /* DataDownloadHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4C92237D39E00DA56F3 /* DataDownloadHandler.cpp */; };
+		92BDD4DC223FB8C100DA56F3 /* NotificationNodeDisplayManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4DB223FB8C100DA56F3 /* NotificationNodeDisplayManager.cpp */; };
 		92E58566220DD3F00015A4FA /* RewardCallbackHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E58565220DD3F00015A4FA /* RewardCallbackHandler.cpp */; };
 		92E5856B2211A4E80015A4FA /* RewardItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E5856A2211A4E80015A4FA /* RewardItem.cpp */; };
 		92E58571221AC47C0015A4FA /* InventoryItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E58570221AC47C0015A4FA /* InventoryItem.cpp */; };
@@ -513,6 +514,9 @@
 		92BDD4C62237BC0800DA56F3 /* ShopDataHandler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShopDataHandler.cpp; sourceTree = "<group>"; };
 		92BDD4C82237D27D00DA56F3 /* DataDownloadHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataDownloadHandler.h; sourceTree = "<group>"; };
 		92BDD4C92237D39E00DA56F3 /* DataDownloadHandler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DataDownloadHandler.cpp; sourceTree = "<group>"; };
+		92BDD4DA223FAAFF00DA56F3 /* NotificationNodeDisplayManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationNodeDisplayManager.h; sourceTree = "<group>"; };
+		92BDD4DB223FB8C100DA56F3 /* NotificationNodeDisplayManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NotificationNodeDisplayManager.cpp; sourceTree = "<group>"; };
+		92BDD4DD223FC3E100DA56F3 /* ResizeNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResizeNode.h; sourceTree = "<group>"; };
 		92E5855F220D8ED30015A4FA /* RewardCallbackHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RewardCallbackHandler.h; sourceTree = "<group>"; };
 		92E58565220DD3F00015A4FA /* RewardCallbackHandler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RewardCallbackHandler.cpp; sourceTree = "<group>"; };
 		92E58569220DD6A40015A4FA /* RewardItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RewardItem.h; sourceTree = "<group>"; };
@@ -781,6 +785,9 @@
 				929E8B6A2153F06E0078C983 /* ConfirmCancelMessageBox.cpp */,
 				92E58605221F049E0015A4FA /* NotificationNode.h */,
 				92E58606221F05B10015A4FA /* NotificationNode.cpp */,
+				92BDD4DA223FAAFF00DA56F3 /* NotificationNodeDisplayManager.h */,
+				92BDD4DB223FB8C100DA56F3 /* NotificationNodeDisplayManager.cpp */,
+				92BDD4DD223FC3E100DA56F3 /* ResizeNode.h */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1274,6 +1281,7 @@
 				4349C8311EA8ADEF00FE964B /* MPEnumDescription.m in Sources */,
 				301CCA8D1EB13151009ADA0C /* MessageBox.cpp in Sources */,
 				4349C8501EA8ADEF00FE964B /* MPUIFontToNSDictionaryValueTransformer.m in Sources */,
+				92BDD4DC223FB8C100DA56F3 /* NotificationNodeDisplayManager.cpp in Sources */,
 				02BF05F21F98BAAF00E7D086 /* PushNotificationsHandler_ios.mm in Sources */,
 				92E58566220DD3F00015A4FA /* RewardCallbackHandler.cpp in Sources */,
 				3012ED501E969AE40009027D /* CookieDataParser.cpp in Sources */,

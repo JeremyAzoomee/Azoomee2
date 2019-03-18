@@ -2,6 +2,7 @@
 #include "UI/Scene.h"
 #include "UI/NotificationNode.h"
 #include "Analytics/AnalyticsSingleton.h"
+#include "UI/NotificationNodeDisplayManager.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 
@@ -129,11 +130,12 @@ void Application::applicationScreenSizeChanged(int newWidth, int newHeight)
     {
         scene->screenSizeDidChange();
     }
-	Azoomee::NotificationNode* notificationNode = dynamic_cast<Azoomee::NotificationNode*>(director->getNotificationNode());
-	if(notificationNode)
-	{
-		notificationNode->onSizeChanged();
-	}
+	NotificationNodeDisplayManager::getInstance()->onSizeChanged();
+	//Azoomee::NotificationNode* notificationNode = dynamic_cast<Azoomee::NotificationNode*>(director->getNotificationNode());
+	//if(notificationNode)
+	//{
+	//	notificationNode->onSizeChanged();
+	//}
 #endif
 }
 
@@ -148,11 +150,12 @@ void Application::applicationScreenSizeWillChange(int newWidth, int newHeight, f
     {
         scene->screenSizeWillChange(duration);
     }
-	Azoomee::NotificationNode* notificationNode = dynamic_cast<Azoomee::NotificationNode*>(director->getNotificationNode());
-	if(notificationNode)
-	{
-		notificationNode->onSizeChanged();
-	}
+	NotificationNodeDisplayManager::getInstance()->onSizeChanged();
+	//Azoomee::NotificationNode* notificationNode = dynamic_cast<Azoomee::NotificationNode*>(director->getNotificationNode());
+	//if(notificationNode)
+	//{
+	//	notificationNode->onSizeChanged();
+	//}
 	
 }
 

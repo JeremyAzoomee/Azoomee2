@@ -11,6 +11,7 @@
 #include <AzoomeeCommon/Data/Child/ChildDataParser.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/UI/NotificationNodeDisplayManager.h>
 #include "CoinCollectLayer.h"
 #include "RewardScene.h"
 
@@ -47,7 +48,7 @@ void RewardDisplayHandler::showReward(const RewardItemRef& reward)
 		rewardScene->setDuration(8.0f);
 		rewardScene->setRewardData(reward);
 		rewardScene->setDeleagte(this);
-		Director::getInstance()->setNotificationNode(rewardScene);
+		NotificationNodeDisplayManager::getInstance()->addRewardNode(rewardScene);
 		_rewardDisplayRunning = true;
 		//CoinCollectLayer* coinCollect = CoinCollectLayer::create();
 		//coinCollect->setDuration(8.0f);
@@ -145,7 +146,7 @@ void RewardDisplayHandler::onAnimationComplete(const RewardItemRef& reward)
 		Node* rewardLayer = Director::getInstance()->getNotificationNode();
 		rewardLayer->setCascadeOpacityEnabled(true);
 		rewardLayer->runAction(Sequence::createWithTwoActions(FadeOut::create(1), CallFunc::create([reward](){
-			Director::getInstance()->setNotificationNode(nullptr);
+			NotificationNodeDisplayManager::getInstance()->clearRewardLayer();
 		})));
 	}
 }

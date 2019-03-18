@@ -30,7 +30,7 @@ bool RewardScene::init()
 
 void RewardScene::onEnter()
 {
-	this->setScale(1);
+	//this->setScale(1);
 	
 	CoinChestLayer* coinChestLayer = CoinChestLayer::create();
 	coinChestLayer->setDuration(_duration * 0.3f);
@@ -64,7 +64,7 @@ void RewardScene::onEnter()
 void RewardScene::onSizeChanged()
 {
 	Super::onSizeChanged();
-	setScale(1);
+	//setScale(1);
 	for(RewardScreen* screen : _screenSequence)
 	{
 		screen->onSizeChanged();
