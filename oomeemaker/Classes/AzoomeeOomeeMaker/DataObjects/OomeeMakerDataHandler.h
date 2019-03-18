@@ -27,7 +27,9 @@ private:
 	
     void unzipBundledAssets();
     void removeExistingAssets();
-    
+	
+	void loadLocalData();
+	
     void parseOomeeData();
     void parseCategoryData();
     void parseOomeeItemData();
