@@ -35,6 +35,7 @@ private:
     std::string _iconFilename;
     bool _useColourHue;
     std::vector<std::string> _dependancies;
+	bool _defaultItem;
     
 public:
     static OomeeItemRef create();
@@ -69,6 +70,8 @@ public:
     bool isUsingColourHue() const;
     void setDependancies(const std::vector<std::string>& dependancies);
     std::vector<std::string> getDependancies() const;
+	void setDefaultItem(bool defaultItem);
+	bool isDefaultItem() const;
     
 };
 

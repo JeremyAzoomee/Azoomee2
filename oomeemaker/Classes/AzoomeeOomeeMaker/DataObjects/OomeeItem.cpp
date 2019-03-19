@@ -47,6 +47,7 @@ void OomeeItem::initWithData(const rapidjson::Value& itemConfig)
     {
         setDependancies(getStringArrayFromJson(itemConfig["dependancies"]));
     }
+	setDefaultItem(getBoolFromJson("defaultItem", itemConfig, false));
 }
 
 // GETTERS AND SETTERS
@@ -169,6 +170,15 @@ void OomeeItem::setDependancies(const std::vector<std::string> &dependancies)
 std::vector<std::string> OomeeItem::getDependancies() const
 {
     return _dependancies;
+}
+
+void OomeeItem::setDefaultItem(bool defaultItem)
+{
+	_defaultItem = defaultItem;
+}
+bool OomeeItem::isDefaultItem() const
+{
+	return _defaultItem;
 }
 
 NS_AZOOMEE_OM_END

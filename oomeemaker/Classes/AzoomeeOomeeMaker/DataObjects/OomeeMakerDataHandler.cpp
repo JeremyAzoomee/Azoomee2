@@ -87,6 +87,10 @@ void OomeeMakerDataHandler::parseOomeeData()
 				{
 					const OomeeRef& oomee = Oomee::createWithData(oomeeConfig["oomees"][i]);
 					_dataStorage->addOomee(oomee);
+					if(getBoolFromJson("default", oomeeConfig["oomees"][i]))
+					{
+						_dataStorage->setDefaultOomeeId(oomee->getId());
+					}
 				}
 			}
         }
@@ -108,6 +112,10 @@ void OomeeMakerDataHandler::parseCategoryData()
 				{
 					const ItemCategoryRef& category = ItemCategory::createWithData(catConfig["categories"][i]);
 					_dataStorage->addItemCategory(category);
+					if(getBoolFromJson("default", catConfig["categories"][i]))
+					{
+						_dataStorage->setDefaultCategoryId(category->getId());
+					}
 				}
 			}
         }
@@ -134,40 +142,6 @@ void OomeeMakerDataHandler::parseOomeeItemData()
             
         }
     }
-}
-
-//void OomeeMakerDataHandler::parseOomeeColourData()
-//{
-//   const std::vector<std::string>& colourConfigs = getConfigFilesForType("colourConfigs");
-//    for(const std::string& filename : colourConfigs)
-//    {
-//        rapidjson::Document itemConfig;
-//        itemConfig.Parse(cocos2d::FileUtils::getInstance()->getStringFromFile(getAssetDir() + filename).c_str());
-//        if(!itemConfig.HasParseError())
-//        {
-//            if(itemConfig.HasMember("items") && itemConfig["items"].IsArray())
-//            {
-//                for (int i = 0; i < itemConfig["items"].Size(); i++)
-//                {
-//                    const OomeeColourRef& item = OomeeColour::createWithData(itemConfig["items"][i]);
-//                    _dataStorage->addColour(item);
-//                }
-//            }
-//
-//        }
-//   }
-//}
-
-std::vector<std::string> OomeeMakerDataHandler::getConfigFilesForType(const std::string& listType) const
-{
-    rapidjson::Document configFilesList;
-    configFilesList.Parse(cocos2d::FileUtils::getInstance()->getStringFromFile(getAssetDir() + "configs/configFileLists.json").c_str());
-    if(configFilesList.HasParseError())
-    {
-        return std::vector<std::string>();
-    }
-    
-    return getStringArrayFromJson(configFilesList[listType.c_str()]);
 }
 
 void OomeeMakerDataHandler::unzipBundledAssets()
@@ -243,17 +217,88 @@ void OomeeMakerDataHandler::loadLocalData()
 {
 	if(FileUtils::getInstance()->isDirectoryExist(getAssetDir() + "configs"))
 	{
-		ModalMessages::getInstance()->stopLoading();
 		_dataStorage->clearAllData();
 		parseOomeeData();
 		parseCategoryData();
 		parseOomeeItemData();
 		_dataStorage->_initialised = true;
+		
+		if(!UserDefault::getInstance()->getBoolForKey("updatedExitsingOomeeFile", false))
+		{
+			updateExistingOomeeFilesToNewIds();
+			UserDefault::getInstance()->setBoolForKey("updatedExitsingOomeeFile", true);
+		}
+		
+		ModalMessages::getInstance()->stopLoading();
+		
 		sendCallback(true);
 	}
 	else
 	{
 		unzipBundledAssets();
+	}
+}
+
+void OomeeMakerDataHandler::updateExistingOomeeFilesToNewIds()
+{
+	const std::string& lookupFilename = "res/oomeeMaker/idConvLookup.json";
+	rapidjson::Document lookupJson;
+	lookupJson.Parse(FileUtils::getInstance()->getStringFromFile(lookupFilename).c_str());
+	if(lookupJson.HasParseError())
+	{
+		return;
+	}
+	const std::map<std::string, std::string> lookupMap = getStringMapFromJson(lookupJson);
+	
+	const auto& dirFolders = DirectorySearcher::getInstance()->getFoldersInDirectory(getAssetDir());
+	for(const auto& folder : dirFolders)
+	{
+		const auto& oomeeFiles = DirectorySearcher::getInstance()->getFilesInDirectoryWithExtention(getAssetDir() + folder, ".oomee");
+		for(const auto& file : oomeeFiles)
+		{
+			rapidjson::Document data;
+			data.Parse(FileUtils::getInstance()->getStringFromFile(getAssetDir() + folder + "/" + file).c_str());
+			if(data.HasParseError())
+			{
+				continue;
+			}
+			
+			const auto& lookupFunc = [lookupMap](const std::string& key){
+				if(lookupMap.find(key) != lookupMap.end())
+				{
+					return lookupMap.at(key);
+				}
+				return key;
+			};
+			
+			const std::string& oomeeKey = getStringFromJson("oomee", data);
+			const std::string& newOomeeKey = lookupFunc(oomeeKey);
+			
+			std::vector<std::string> newItemKeys;
+			if(data.HasMember("oomeeItems"))
+			{
+				const std::vector<std::string>& itemKeys = getStringArrayFromJson(data["oomeeItems"]);
+				for(std::string key : itemKeys)
+				{
+					newItemKeys.push_back(lookupFunc(key));
+				}
+			}
+			
+			std::string savedFileContent = "{";
+			savedFileContent += StringUtils::format("\"oomee\":\"%s\",", newOomeeKey.c_str());
+			savedFileContent += "\"oomeeItems\":[";
+			for(int i = 0; i < newItemKeys.size(); i++)
+			{
+				savedFileContent += StringUtils::format("\"%s\"",newItemKeys.at(i).c_str());
+				if(i < newItemKeys.size() - 1)
+				{
+					savedFileContent += ",";
+				}
+			}
+			savedFileContent += "]}";
+			
+			FileUtils::getInstance()->writeStringToFile(savedFileContent, getAssetDir() + folder + "/" + file);
+		}
 	}
 }
 

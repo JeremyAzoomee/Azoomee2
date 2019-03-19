@@ -31,6 +31,7 @@ private:
     float _scaleSelected;
     float _scaleUnselected;
     cocos2d::Color4B _highlightColour;
+	std::string _name;
     
 public:
     static ItemCategoryRef create();
@@ -53,6 +54,8 @@ public:
     float getScaleUnselected() const;
     void setHighlightColour(const cocos2d::Color4B& colour);
     cocos2d::Color4B getHightlightColour() const;
+	void setName(const std::string& name);
+	std::string getName() const;
     
 };
 

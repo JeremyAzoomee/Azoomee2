@@ -24,8 +24,8 @@ class OomeeMakerScene : public cocos2d::Scene, ConfirmCancelMessageBoxDelegate, 
 {
     typedef cocos2d::Scene Super;
 private:
-    static const std::string kDefaultOomeeId;
-    static const std::string kColourCategoryId;
+    //static const std::string kDefaultOomeeId;
+    static const std::string kColourCategoryName;
     
     static const std::string kSavePopupId;
     static const std::string kResetPopupId;

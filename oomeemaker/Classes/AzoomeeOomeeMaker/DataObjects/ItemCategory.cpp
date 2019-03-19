@@ -108,6 +108,15 @@ cocos2d::Color4B ItemCategory::getHightlightColour() const
     return _highlightColour;
 }
 
+void ItemCategory::setName(const std::string& name)
+{
+	_name = name;
+}
+std::string ItemCategory::getName() const
+{
+	return _name;
+}
+
 HolidayCalenderID getHolidayCalenderIDFromString(const std::string& holidayStr)
 {
     if(holidayStr == "xmas")
