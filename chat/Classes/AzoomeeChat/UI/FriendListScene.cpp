@@ -280,5 +280,12 @@ void FriendListScene::onChatAPIErrorRecieved(const std::string& requestTag, long
     MessageBox::createWith(ERROR_CODE_SOMETHING_WENT_WRONG, nullptr);
 }
 
+void FriendListScene::onChatAPIModerationStatusChanged(const FriendRef& friendObj)
+{
+    // Refresh the list with existing data as the data should already be updated
+    // and we just need to update the UI
+    _friendListView->setItems(_friendListData);
+}
+
 
 NS_AZOOMEE_CHAT_END

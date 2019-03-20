@@ -443,6 +443,22 @@ void MessageScene::onChatAPIGetFriendList(const FriendList& friendList, int amou
     }
 }
 
+void MessageScene::onChatAPIModerationStatusChanged(const FriendRef& friendObj)
+{
+    if(_participants[1] == friendObj)
+    {
+        // Update conversation moderation status
+        if(_participants[1]->inModeration())
+        {
+            _titleBar->setChatToInModeration();
+        }
+        else
+        {
+            _titleBar->setChatToActive();
+        }
+    }
+}
+
 #pragma mark - MessageComposer::Delegate
 
 void MessageScene::onMessageComposerSendMessage(const MessageRef& message)
@@ -463,11 +479,12 @@ void MessageScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::stri
     if(buttonTitle == MessageBox::kReport)
     {
         ChatAPI::getInstance()->reportChat(_participants[1]);
+        ModalMessages::getInstance()->startLoading();
     }
-    
-    if(buttonTitle == MessageBox::kReset)
+    else if(buttonTitle == MessageBox::kReset)
     {
         ChatAPI::getInstance()->resetReportedChat(_participants[1]);
+        ModalMessages::getInstance()->startLoading();
     }
 }
 
@@ -480,7 +497,12 @@ void MessageScene::AdultPinCancelled(RequestAdultPinLayer* layer)
 
 void MessageScene::AdultPinAccepted(RequestAdultPinLayer* layer)
 {
-    MessageBox::createWithLayer(ChatResetModeration,{ {"Child1", _participants[0]->friendName()},{"Child2",  _participants[1]->friendName()} },this);
+    MessageBox::createWithLayer(
+        ChatResetModeration,
+        { {"Child1", _participants[0]->friendName()},
+          {"Child2",  _participants[1]->friendName()} },
+        this
+    );
 }
 
 NS_AZOOMEE_CHAT_END
