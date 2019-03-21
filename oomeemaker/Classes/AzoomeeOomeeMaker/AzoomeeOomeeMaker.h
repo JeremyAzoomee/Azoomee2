@@ -8,7 +8,7 @@
 #ifndef AzoomeeOomeeMaker_h
 #define AzoomeeOomeeMaker_h
 
-//#define STANDALONE_APP YES
+#define STANDALONE_APP YES
 
 #define NS_AZOOMEE_OM_BEGIN namespace Azoomee { namespace OomeeMaker {
 #define NS_AZOOMEE_OM_END }}

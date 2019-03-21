@@ -62,6 +62,10 @@ void OomeeMakerDataHandler::removeExistingAssets()
 
 void OomeeMakerDataHandler::getLatestData(const OnCompleteCallback& callback)
 {
+#ifdef STANDALONE_APP
+	getConfigFilesIfNeeded();
+	return;
+#endif
 	if(callback)
 	{
 		_callback = callback;
