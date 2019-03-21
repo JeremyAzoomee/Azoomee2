@@ -13,6 +13,7 @@
 #include <AzoomeeCommon/Tutorial/TutorialController.h>
 #include "NavigationLayer.h"
 #include "SettingsButton.h"
+#include "UserTypeMessagingLayer.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -36,6 +37,8 @@ protected:
 	SettingsButton* _settingsButton = nullptr;
 	
 	NavigationLayer* _navLayer = nullptr;
+	
+	UserTypeMessagingLayer* _messagingLayer = nullptr;
 	
 public:
 	

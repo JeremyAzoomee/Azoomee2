@@ -47,7 +47,9 @@ public:
 	bool isOffline() const;
 	bool hasReturnedFromForcedOrientation() const;
 	Orientation getPrevHQOrientation() const;
-    
+	
+	int getHistorySize() const;
+	
     //Adding last group source ID
     
     void setGroupHQSourceId(std::string itemId);

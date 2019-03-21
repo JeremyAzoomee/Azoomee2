@@ -197,12 +197,12 @@ void IntroVideoScene::onForceUpdateCheckFinished(const ForceUpdateResult& result
 	{
 		case ForceUpdateResult::DO_NOTHING:
 		{
-			if(UserDefault::getInstance()->getStringForKey("language", "") == "")
-			{
-				Director::getInstance()->replaceScene(LanguageSelectScene::create());
-			}
-			else
-			{
+			//if(UserDefault::getInstance()->getStringForKey("language", "") == "")
+			//{
+			//	Director::getInstance()->replaceScene(LanguageSelectScene::create());
+			//}
+			//else
+			//{
 				if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
 				{
 					BackEndCaller::getInstance()->anonymousDeviceLogin();
@@ -211,7 +211,7 @@ void IntroVideoScene::onForceUpdateCheckFinished(const ForceUpdateResult& result
 				{
 					LoginLogicHandler::getInstance()->doLoginLogic();
 				}
-			}
+			//}
 			
 			break;
 		}

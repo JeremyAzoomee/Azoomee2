@@ -271,7 +271,16 @@ void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseStrin
     {
 		if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
 		{
-			childLogin(0); // auto login default child
+			UserDefault* userDefault = UserDefault::getInstance();
+			bool anonOnboardingComplete = userDefault->getBoolForKey("anonOnboardingComplete", false);
+			if(!anonOnboardingComplete)
+			{
+				Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::AddChildAnon));
+			}
+			else
+			{
+				childLogin(0); // auto login default child
+			}
 		}
 		else
 		{
@@ -337,18 +346,9 @@ void BackEndCaller::onGetGordonAnswerReceived(const std::string& responseString)
 				HQStructureHandler::getInstance()->getLatestData([](bool success){ //on complete
 					if(success)
 					{
-						UserDefault* userDefault = UserDefault::getInstance();
-						bool anonOnboardingComplete = userDefault->getBoolForKey("anonOnboardingComplete", false);
-						if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous() && !anonOnboardingComplete)
-						{
-							Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::WelcomeScene));
-						}
-						else
-						{
-							//TutorialController::getInstance()->startTutorial(TutorialController::kFTUNavTutorialID);
-							RewardDisplayHandler::getInstance()->getPendingRewards();
-							Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
-						}
+						//TutorialController::getInstance()->startTutorial(TutorialController::kFTUNavTutorialID);
+						RewardDisplayHandler::getInstance()->getPendingRewards();
+						Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
 					}
 					else
 					{

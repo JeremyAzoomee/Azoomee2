@@ -125,7 +125,58 @@ std::map<std::string, std::string> StringMgr::getErrorMessageWithCode(long error
 
 void StringMgr::setLanguageIdentifier()
 {
-	languageID = UserDefault::getInstance()->getStringForKey("language", kLanguageParams.at(0)._identifier);
+	const std::string storedLang = UserDefault::getInstance()->getStringForKey("language", "");
+	if(storedLang == "")
+	{
+		const std::string& deviceLang = ConfigStorage::getInstance()->getDeviceLanguage().substr(0,2);
+		if(deviceLang == "en")
+		{
+			languageID = kLanguageParams.at(0)._identifier;
+		}
+		else if(deviceLang == "af")
+		{
+			languageID = kLanguageParams.at(1)._identifier;
+		}
+		else if(deviceLang == "fr")
+		{
+			languageID = kLanguageParams.at(2)._identifier;
+		}
+		else if(deviceLang == "es")
+		{
+			languageID = kLanguageParams.at(3)._identifier;
+		}
+		else if(deviceLang == "de")
+		{
+			languageID = kLanguageParams.at(4)._identifier;
+		}
+		else if(deviceLang == "pt")
+		{
+			languageID = kLanguageParams.at(5)._identifier;
+		}
+		else if(deviceLang == "it")
+		{
+			languageID = kLanguageParams.at(6)._identifier;
+		}
+		else if(deviceLang == "el")
+		{
+			languageID = kLanguageParams.at(7)._identifier;
+		}
+		else if(deviceLang == "tr")
+		{
+			languageID = kLanguageParams.at(8)._identifier;
+		}
+		else
+		{
+			languageID = kLanguageParams.at(0)._identifier;
+		}
+		UserDefault::getInstance()->setStringForKey("language",languageID);
+		UserDefault::getInstance()->flush();
+	}
+	else
+	{
+		languageID = UserDefault::getInstance()->getStringForKey("language", kLanguageParams.at(0)._identifier);
+	}
+	
 	AnalyticsSingleton::getInstance()->registerLanguageCode(languageID);
 }
 

@@ -47,6 +47,11 @@ const char* IosNativeFunctionsSingleton::getIosDeviceIDFA()
     return [[[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString] cStringUsingEncoding:NSUTF8StringEncoding];
 }
 
+const char* IosNativeFunctionsSingleton::getIosDeviceLanguage()
+{
+	return [[[NSLocale preferredLanguages] firstObject] cStringUsingEncoding:NSUTF8StringEncoding];
+}
+
 void IosNativeFunctionsSingleton::identifyMixpanel()
 {
     NSString *idfa = [NSString stringWithCString:getIosDeviceIDFA() encoding:NSUTF8StringEncoding];

@@ -13,7 +13,9 @@
 #include "DynamicNodeHandler.h"
 
 #include <AzoomeeCommon/Utils/SpecialCalendarEventManager.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 
+#include "FlowDataSingleton.h"
 #include "ContentHistoryManager.h"
 #include "RewardDisplayHandler.h"
 
@@ -54,6 +56,12 @@ void HQScene::onSizeChanged()
 {
 	Super::onSizeChanged();
 	
+	const Size& visibleSize = this->getContentSize();
+	
+	_messagingLayer->setContentSize(Size(visibleSize.width, 350));
+	
+	_messagingLayer->repositionElements();
+	
 	DynamicNodeHandler::getInstance()->rebuildCurrentCTA();
 
 }
@@ -70,6 +78,8 @@ HQSceneType HQScene::getSceneType() const
 
 void HQScene::buildCoreUI()
 {
+	const Size& visibleSize = this->getContentSize();
+	
 	_settingsButton = SettingsButton::create();
 	_settingsButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
 	_settingsButton->setAnchorPoint(Vec2(-0.25,1.25));
@@ -81,10 +91,49 @@ void HQScene::buildCoreUI()
 	coinDisplay->setAnchorPoint(Vec2(1.2,1.5));
 	this->addChild(coinDisplay, 1);
 	
+	_messagingLayer = UserTypeMessagingLayer::create();
+	_messagingLayer->setContentSize(Size(visibleSize.width, 350));
+	_messagingLayer->setPosition(-Vec2(0,350));
+	_messagingLayer->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+	UserBillingType userType = UserBillingType::ANON;
+	if(!ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
+	{
+		userType = UserBillingType::LAPSED;
+		if(ParentDataProvider::getInstance()->isPaidUser())
+		{
+			userType = UserBillingType::PAID;
+		}
+	}
+	_messagingLayer->setUserType(userType);
+	if(userType == UserBillingType::PAID)
+	{
+		/*if(FlowDataSingleton::getInstance()->getDisplayUserPaidFlag())
+		{
+			FlowDataSingleton::getInstance()->setDisplayUserPaidFlag(false);
+			_messagingLayer->runAction(Sequence::create(MoveTo::create(1, Vec2(0,0)), DelayTime::create(10), MoveTo::create(2, Vec2(0,-_messagingLayer->getContentSize().height * 1.5f)), NULL));
+		}
+		else
+		{*/
+			_messagingLayer->setVisible(false);
+		//}
+	}
+	else
+	{
+		if(HQHistoryManager::getInstance()->getHistorySize() == 1)
+		{
+			_messagingLayer->runAction(MoveTo::create(1, Vec2(0,0)));
+		}
+		else
+		{
+			_messagingLayer->setPosition(Vec2(0,0));
+		}
+	}
+	this->addChild(_messagingLayer,1);
+	
 	_navLayer = NavigationLayer::create();
-	_navLayer->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+	_navLayer->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
 	_navLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-	this->addChild(_navLayer, 1);
+	_messagingLayer->addChild(_navLayer);
 	
 	addParticleElementsToBackground();
 	
