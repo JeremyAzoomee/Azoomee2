@@ -29,14 +29,22 @@ ItemCategory::ItemCategory()
 void ItemCategory::initWithData(const rapidjson::Value& categoryConfig)
 {
     setId(getStringFromJson("id", categoryConfig));
+	setName(getStringFromJson("name", categoryConfig));
     setIconFilenameSelected(getStringFromJson("iconFilenameSelected", categoryConfig));
     setIconFilenameUnselected(getStringFromJson("iconFilenameUnselected", categoryConfig));
-    const std::vector<std::string>& holidayStrings = getStringArrayFromJson(categoryConfig["holidaySeasons"]);
-    std::vector<HolidayCalenderID> holidayCalenderIds;
-    for(const std::string& holidayStr : holidayStrings)
-    {
-        holidayCalenderIds.push_back(getHolidayCalenderIDFromString(holidayStr));
-    }
+	std::vector<HolidayCalenderID> holidayCalenderIds;
+	if(categoryConfig.HasMember("holidaySeasons"))
+	{
+		const std::vector<std::string>& holidayStrings = getStringArrayFromJson(categoryConfig["holidaySeasons"]);
+		for(const std::string& holidayStr : holidayStrings)
+		{
+			holidayCalenderIds.push_back(getHolidayCalenderIDFromString(holidayStr));
+		}
+	}
+	else
+	{
+		holidayCalenderIds.push_back(HolidayCalenderID::NONE);
+	}
     setHolidaySeasons(holidayCalenderIds);
     setScaleSelected(getFloatFromJson("scaleSelected", categoryConfig));
     setScaleUnselected(getFloatFromJson("scaleUnselected", categoryConfig));

@@ -91,7 +91,7 @@ void OomeeMakerDataHandler::parseOomeeData()
 				{
 					const OomeeRef& oomee = Oomee::createWithData(oomeeConfig["oomees"][i]);
 					_dataStorage->addOomee(oomee);
-					if(getBoolFromJson("default", oomeeConfig["oomees"][i]))
+					if(getBoolFromJson("isDefault", oomeeConfig["oomees"][i]))
 					{
 						_dataStorage->setDefaultOomeeId(oomee->getId());
 					}
@@ -116,7 +116,7 @@ void OomeeMakerDataHandler::parseCategoryData()
 				{
 					const ItemCategoryRef& category = ItemCategory::createWithData(catConfig["categories"][i]);
 					_dataStorage->addItemCategory(category);
-					if(getBoolFromJson("default", catConfig["categories"][i]))
+					if(getBoolFromJson("isDefault", catConfig["categories"][i]))
 					{
 						_dataStorage->setDefaultCategoryId(category->getId());
 					}

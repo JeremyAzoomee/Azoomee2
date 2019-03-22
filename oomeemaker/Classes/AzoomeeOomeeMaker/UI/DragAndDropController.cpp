@@ -10,7 +10,7 @@
 #include "../DataObjects/OomeeMakerDataHandler.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
-#define DEBUG_DNDC YES
+//#define DEBUG_DNDC YES
 
 using namespace cocos2d;
 

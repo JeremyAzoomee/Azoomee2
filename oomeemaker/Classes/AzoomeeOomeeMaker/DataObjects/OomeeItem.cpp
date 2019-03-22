@@ -43,9 +43,9 @@ void OomeeItem::initWithData(const rapidjson::Value& itemConfig)
     }
     setIconFilename(getStringFromJson("iconFilename", itemConfig));
     setUseColourHue(getBoolFromJson("useColourHue", itemConfig));
-    if(itemConfig.HasMember("dependancies"))
+    if(itemConfig.HasMember("dependencies"))
     {
-        setDependancies(getStringArrayFromJson(itemConfig["dependancies"]));
+        setDependancies(getStringArrayFromJson(itemConfig["dependencies"]));
     }
 	setDefaultItem(getBoolFromJson("defaultItem", itemConfig, false));
 }
