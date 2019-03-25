@@ -38,7 +38,7 @@ bool ShopItem::init()
 	
 	_lockedIcon = Sprite::create("res/shop/padlock_2.png");
 	_lockedIcon->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
-	_lockedIcon->setAnchorPoint(Vec2(1.35,1.25));
+	_lockedIcon->setAnchorPoint(Vec2(1.45,1.25));
 	this->addChild(_lockedIcon);
 	
 	_newIcon = Sprite::create("res/shop/new_star.png");
@@ -56,6 +56,7 @@ bool ShopItem::init()
 	_costValue->setTextVerticalAlignment(TextVAlignment::CENTER);
 	_costValue->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_costValue->addChild(_coin);
+	_costValue->setCascadeOpacityEnabled(true);
 	this->addChild(_costValue);
 	
 	_ownedTick = Sprite::create("res/shop/tick.png");
@@ -173,6 +174,10 @@ void ShopItem::enableLockedIcon(bool enable)
 	{
 		_assetImage->setOpacity(enable ? 127 : 255);
 	}
+	if(_bgFrame)
+	{
+		_bgFrame->setVisible(!enable && _affordable);
+	}
 	_locked = enable;
 }
 void ShopItem::enableFeaturedAnimation(bool enable)
@@ -180,10 +185,6 @@ void ShopItem::enableFeaturedAnimation(bool enable)
 	if(_featuredAnim)
 	{
 		_featuredAnim->setVisible(enable);
-	}
-	if(_bgFrame)
-	{
-		_bgFrame->setVisible(enable);
 	}
 }
 void ShopItem::enableOwnedIcon(bool enable)
@@ -203,6 +204,10 @@ void ShopItem::setAffordable(bool affordable)
 	if(_costValue)
 	{
 		_costValue->setOpacity(affordable ? 255 : 127);
+	}
+	if(_bgFrame)
+	{
+		_bgFrame->setVisible(affordable);
 	}
 	_affordable = affordable;
 }

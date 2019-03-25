@@ -57,7 +57,12 @@ bool MeHQ::init()
 	this->addChild(_contentNode);
     
 	buildListView();
-    
+	
+	_settingsButton = SettingsButton::create();
+	_settingsButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
+	_settingsButton->setAnchorPoint(Vec2(-0.25,1.25));
+	this->addChild(_settingsButton,1);
+	
     return true;
 }
 

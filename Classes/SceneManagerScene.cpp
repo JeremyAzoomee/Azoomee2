@@ -21,8 +21,6 @@
 #include "AddChildScene.h"
 #include "WelcomeScene.h"
 #include "ContentFeedHQScene.h"
-#include "LocalContentHQScene.h"
-#include "GalleryHQScene.h"
 #include "MeHQ.h"
 
 #include "SettingsHub.h"
@@ -108,12 +106,6 @@ void SceneManagerScene::onEnterTransitionDidFinish()
 				hqScene->setHQCategory(currentHQ);
 				goToScene = hqScene;
 			}
-			else if(currentHQ == ConfigStorage::kArtAppHQName)
-			{
-				GalleryHQScene* hqScene = GalleryHQScene::create();
-				hqScene->setHQCategory(currentHQ);
-				goToScene = hqScene;
-			}
             Director::getInstance()->replaceScene(goToScene);
             break;
         }
@@ -133,12 +125,6 @@ void SceneManagerScene::onEnterTransitionDidFinish()
 			if(currentHQ == ConfigStorage::kMeHQName)
 			{
 				MeHQ* hqScene = MeHQ::create();
-				hqScene->setHQCategory(currentHQ);
-				goToScene = hqScene;
-			}
-			else if(currentHQ == ConfigStorage::kArtAppHQName)
-			{
-				GalleryHQScene* hqScene = GalleryHQScene::create();
 				hqScene->setHQCategory(currentHQ);
 				goToScene = hqScene;
 			}

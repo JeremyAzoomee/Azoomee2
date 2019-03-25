@@ -14,6 +14,7 @@
 #include "NavigationLayer.h"
 #include "SettingsButton.h"
 #include "UserTypeMessagingLayer.h"
+#include "CoinDisplay.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -27,19 +28,19 @@ private:
 	void addParticleElementsToBackground();
 	void addXmasDecoration();
 
-	
+	cocos2d::Sprite* _verticalScrollGradient = nullptr;
 	
 protected:
 	HQSceneType _type = HQSceneType::DEFAULT;
 	
 	std::string _hqCategory;
 	
-	SettingsButton* _settingsButton = nullptr;
-	
 	NavigationLayer* _navLayer = nullptr;
 	
 	UserTypeMessagingLayer* _messagingLayer = nullptr;
 	bool _showingMessagingLayer = true;
+	
+	CoinDisplay* _coinDisplay = nullptr;
 	
 public:
 	

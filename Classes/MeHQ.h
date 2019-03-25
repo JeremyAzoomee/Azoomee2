@@ -15,6 +15,7 @@
 #include "HQSceneArtsApp.h"
 #include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
 #include "HQScene.h"
+#include "SettingsButton.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -39,6 +40,8 @@ private:
     std::map<std::string, int> _sectionIndexMap;
     
     std::string _hqCategory = ConfigStorage::kMeHQName;
+	
+	SettingsButton* _settingsButton = nullptr;
 	
 	void buildListView();
 public:

@@ -195,7 +195,6 @@ void ContentFeedHQScene::createContentScrollview()
 	{
 		addGroupHQLogo();
 		_navLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-		_settingsButton->setVisible(false);
 		ui::Button* backButton = ui::Button::create("res/navigation/back_button.png");
 		backButton->setAnchorPoint(Vec2(-0.25, 1.25));
 		backButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);

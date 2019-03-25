@@ -7,7 +7,6 @@
 
 #include "ShopScene.h"
 #include "SceneManagerScene.h"
-#include "CoinDisplay.h"
 #include "DynamicNodeHandler.h"
 #include "ShopItemPurchasedAnimation.h"
 #include <AzoomeeCommon/UI/Style.h>
@@ -30,6 +29,8 @@ bool ShopScene::init()
 	}
 	
 	const Size& visibleSize = this->getContentSize();
+	bool isPortrait = visibleSize.width < visibleSize.height;
+	bool isIphoneX = ConfigStorage::getInstance()->isDeviceIphoneX();
 	
 	_bgColour = LayerColor::create(Color4B(3, 36, 78,60));
 	this->addChild(_bgColour);
@@ -82,11 +83,11 @@ bool ShopScene::init()
 	});
 	this->addChild(backButton,1);
 	
-	CoinDisplay* coinDisplay = CoinDisplay::create();
-	coinDisplay->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
-	coinDisplay->setAnchorPoint(Vec2(1.2,1.5));
-	coinDisplay->setTouchEnabled(false);
-	this->addChild(coinDisplay, 1);
+	_coinDisplay = CoinDisplay::create();
+	_coinDisplay->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
+	_coinDisplay->setAnchorPoint(Vec2(1.2,(isIphoneX && isPortrait) ? 2.2f : 1.5));
+	_coinDisplay->setTouchEnabled(false);
+	this->addChild(_coinDisplay, 1);
 	
 	return true;
 }
@@ -109,6 +110,8 @@ void ShopScene::onSizeChanged()
 {
 	Super::onSizeChanged();
 	const Size& visibleSize = this->getContentSize();
+	bool isPortrait = visibleSize.width < visibleSize.height;
+	bool isIphoneX = ConfigStorage::getInstance()->isDeviceIphoneX();
 	if(_shopCarousel)
 	{
 		_shopCarousel->refreshUI();
@@ -118,6 +121,7 @@ void ShopScene::onSizeChanged()
 	_wires->setScale(MAX(visibleSize.width, visibleSize.height) / _wires->getContentSize().width);
 	_wires->setRotation(visibleSize.width < visibleSize.height ? 90 : 0);
 	_gradient->setScaleX(visibleSize.width / _gradient->getContentSize().width);
+	_coinDisplay->setAnchorPoint(Vec2(1.2,(isIphoneX && isPortrait) ? 2.2f : 1.5));
 	DynamicNodeHandler::getInstance()->rebuildCurrentCTA();
 }
 

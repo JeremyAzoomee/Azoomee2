@@ -8,7 +8,6 @@
 #include "HQScene.h"
 #include "SceneManagerScene.h"
 #include "HQHistoryManager.h"
-#include "CoinDisplay.h"
 
 #include "DynamicNodeHandler.h"
 
@@ -57,10 +56,15 @@ void HQScene::onSizeChanged()
 	Super::onSizeChanged();
 	
 	const Size& visibleSize = this->getContentSize();
+	bool isPortrait = visibleSize.width < visibleSize.height;
+	bool isIphoneX = ConfigStorage::getInstance()->isDeviceIphoneX();
 	
 	_messagingLayer->setContentSize(Size(visibleSize.width, 350));
 	
 	_messagingLayer->repositionElements();
+	
+	_coinDisplay->setAnchorPoint(Vec2(1.2,(isIphoneX && isPortrait) ? 2.2f : 1.5f));
+	_verticalScrollGradient->setScaleX(visibleSize.width / _verticalScrollGradient->getContentSize().width);
 	
 	DynamicNodeHandler::getInstance()->rebuildCurrentCTA();
 
@@ -79,17 +83,14 @@ HQSceneType HQScene::getSceneType() const
 void HQScene::buildCoreUI()
 {
 	const Size& visibleSize = this->getContentSize();
-	
-	_settingsButton = SettingsButton::create();
-	_settingsButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
-	_settingsButton->setAnchorPoint(Vec2(-0.25,1.25));
-	this->addChild(_settingsButton,1);
+	bool isPortrait = visibleSize.width < visibleSize.height;
+	bool isIphoneX = ConfigStorage::getInstance()->isDeviceIphoneX();
 	
 	// add coin counter
-	CoinDisplay* coinDisplay = CoinDisplay::create();
-	coinDisplay->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
-	coinDisplay->setAnchorPoint(Vec2(1.2,1.5));
-	this->addChild(coinDisplay, 1);
+	_coinDisplay = CoinDisplay::create();
+	_coinDisplay->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
+	_coinDisplay->setAnchorPoint(Vec2(1.2,(isIphoneX && isPortrait) ? 2.2f : 1.5f));
+	this->addChild(_coinDisplay, 1);
 	
 	_messagingLayer = UserTypeMessagingLayer::create();
 	_messagingLayer->setContentSize(Size(visibleSize.width, 350));
@@ -107,15 +108,7 @@ void HQScene::buildCoreUI()
 	_messagingLayer->setUserType(userType);
 	if(userType == UserBillingType::PAID)
 	{
-		/*if(FlowDataSingleton::getInstance()->getDisplayUserPaidFlag())
-		{
-			FlowDataSingleton::getInstance()->setDisplayUserPaidFlag(false);
-			_messagingLayer->runAction(Sequence::create(MoveTo::create(1, Vec2(0,0)), DelayTime::create(10), MoveTo::create(2, Vec2(0,-_messagingLayer->getContentSize().height * 1.5f)), NULL));
-		}
-		else
-		{*/
 		_showingMessagingLayer = false;
-		//}
 	}
 	else
 	{
@@ -136,6 +129,14 @@ void HQScene::buildCoreUI()
 	_messagingLayer->addChild(_navLayer);
 	
 	addParticleElementsToBackground();
+	
+	_verticalScrollGradient = Sprite::create("res/decoration/TopNavGrad.png");
+	_verticalScrollGradient->setAnchorPoint(Vec2(0.5, 0.9));
+	_verticalScrollGradient->setScaleX(visibleSize.width / _verticalScrollGradient->getContentSize().width);
+	_verticalScrollGradient->setColor(Color3B::BLACK);
+	_verticalScrollGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+	_verticalScrollGradient->setRotation(180);
+	_navLayer->addChild(_verticalScrollGradient);
 	
 	if(SpecialCalendarEventManager::getInstance()->isXmasTime())
 	{
