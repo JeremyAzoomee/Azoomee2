@@ -126,7 +126,12 @@ void OomeeSelectScene::onEnter()
 	{
 		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
 	}
-    OomeeMakerDataHandler::getInstance()->getConfigFilesIfNeeded();
+	OomeeMakerDataHandler::getInstance()->getLatestData([](bool success){
+		if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kCreateOomee)
+		{
+			OomeeSelectScene::newOomee();
+		}
+	});
 	Super::onEnter();
 }
 

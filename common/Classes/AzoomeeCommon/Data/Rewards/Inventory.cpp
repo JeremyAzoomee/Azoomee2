@@ -49,4 +49,16 @@ int Inventory::getCoins() const
 	return _coins;
 }
 
+bool Inventory::hasOomeeAccessory(const std::string& accessoryId) const
+{
+	for(const auto& item : _items)
+	{
+		if(item->getType() == "ACCESSORIES" && item->getMeta() == accessoryId)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 NS_AZOOMEE_END

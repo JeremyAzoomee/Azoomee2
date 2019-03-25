@@ -62,6 +62,10 @@ void OomeeBody::setOomeeData(const OomeeRef& oomeeData)
     for(auto spriteData : _oomeeData->getAssetSet())
     {
         Sprite* spriteLayer = Sprite::create(OomeeMakerDataHandler::getInstance()->getAssetDir() + spriteData.getLocation());
+		if(!spriteLayer)
+		{
+			continue;
+		}
         spriteLayer->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
         
         if(spriteData.getZOrder() < lowestZOrder)

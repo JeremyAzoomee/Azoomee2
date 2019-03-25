@@ -22,8 +22,8 @@ using namespace cocos2d;
 
 NS_AZOOMEE_OM_BEGIN
 
-const std::string OomeeMakerScene::kDefaultOomeeId = "orange";
-const std::string OomeeMakerScene::kColourCategoryId = "colours";
+//const std::string OomeeMakerScene::kDefaultOomeeId = "orange";
+const std::string OomeeMakerScene::kColourCategoryName = "colours";
 
 const std::string OomeeMakerScene::kSavePopupId = "save";
 const std::string OomeeMakerScene::kResetPopupId = "reset";
@@ -109,14 +109,13 @@ void OomeeMakerScene::onEnter()
 {
     const Size& contentSize = _contentLayer->getContentSize();
     
-    const OomeeRef& oomeeData = OomeeMakerDataStorage::getInstance()->getOomeeForKey(kDefaultOomeeId);
+	const OomeeRef& oomeeData = OomeeMakerDataStorage::getInstance()->getOomeeForKey(OomeeMakerDataStorage::getInstance()->getDefaultOomeeId());
     
     const std::vector<ItemCategoryRef>& categoryData = OomeeMakerDataStorage::getInstance()->getItemCategoryList();
     
     _oomee = OomeeFigure::create();
     _oomee->setContentSize(Size(contentSize.width * 0.585, contentSize.height));
     _oomee->setPosition(Vec2(contentSize.width * 0.165, 0));
-    //_oomee->setColour(OomeeMakerDataStorage::getInstance()->getColourForKey(kDefaultOomeeId));
     _oomee->setOomeeData(oomeeData);
     _oomee->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     _oomee->setEditable(true);
@@ -127,7 +126,6 @@ void OomeeMakerScene::onEnter()
         if(!_oomee->initWithOomeeFigureData(data))
         {
             _oomee->setOomeeData(oomeeData);
-            //_oomee->setColour(OomeeMakerDataStorage::getInstance()->getColourForKey(kDefaultOomeeId));
         }
     }
     _contentLayer->addChild(_oomee);
@@ -162,7 +160,6 @@ void OomeeMakerScene::onEnter()
         this->addAccessoryToOomee(data);
     });
     _itemList->setColourSelectedCallback([this](const OomeeColourRef& colour){
-        //_oomee->setColour(colour);
 		CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Item_Drop.wav");
         const OomeeRef& oomee = OomeeMakerDataStorage::getInstance()->getOomeeForKey(colour->getId());
         if(oomee)
@@ -301,8 +298,8 @@ void OomeeMakerScene::onEnterTransitionDidFinish()
     DragAndDropController::getInstance()->setDebugModeEnabled(true);
     
     runAction(Sequence::create(DelayTime::create(0.5), CallFunc::create([=](){
-        _categoryList->setSelectedButton(OomeeMakerDataStorage::getInstance()->getItemCategoryForKey(kColourCategoryId));
-        setItemsListForCategory(OomeeMakerDataStorage::getInstance()->getItemCategoryForKey(kColourCategoryId));
+        _categoryList->setSelectedButton(OomeeMakerDataStorage::getInstance()->getItemCategoryForKey(OomeeMakerDataStorage::getInstance()->getDefaultCategoryId()));
+        setItemsListForCategory(OomeeMakerDataStorage::getInstance()->getItemCategoryForKey(OomeeMakerDataStorage::getInstance()->getDefaultCategoryId()));
     }), NULL));
     
     Super::onEnterTransitionDidFinish();
@@ -321,7 +318,7 @@ void OomeeMakerScene::addAccessoryToOomee(const OomeeItemRef &data)
 
 void OomeeMakerScene::setItemsListForCategory(const ItemCategoryRef& data)
 {
-    if(data->getId() == kColourCategoryId)
+    if(data->getName() == kColourCategoryName)
     {
         _itemList->setColourItems();
     }
@@ -378,7 +375,7 @@ void OomeeMakerScene::saveOomeeFiles()
             savedFileContent += ",";
         }
     }
-    savedFileContent += StringUtils::format("], \"colour\": \"%s\" }", _oomee->getColour()->getId().c_str());
+    savedFileContent += "]}";
     
     FileUtils::getInstance()->writeStringToFile(savedFileContent, OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".oomee");
     
@@ -404,9 +401,7 @@ void OomeeMakerScene::makeAvatar()
 
 void OomeeMakerScene::resetOomee()
 {
-	//const OomeeColourRef& colour = OomeeMakerDataStorage::getInstance()->getColourForKey(kDefaultOomeeId);
-	//_oomee->setColour(colour);
-	const OomeeRef& oomee = OomeeMakerDataStorage::getInstance()->getOomeeForKey(kDefaultOomeeId);
+	const OomeeRef& oomee = OomeeMakerDataStorage::getInstance()->getOomeeForKey(OomeeMakerDataStorage::getInstance()->getDefaultOomeeId());
 	if(oomee)
 	{
 		_oomee->setOomeeData(oomee);
