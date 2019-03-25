@@ -40,9 +40,9 @@ void LocalContentHQScene::onEnter()
 	_contentListView->setItemsMargin(150.0f);
 	_contentListView->setTopPadding(100.0f);
 	_contentListView->setBottomPadding(100.0f);
-	_contentListView->setContentSize(Size(contentSize.width, contentSize.height - ((ConfigStorage::getInstance()->isDeviceIphoneX() && contentSize.width < contentSize.height) ? 600 : 500) - (_messagingLayer->isVisible() ? 350 : 0)));
+	_contentListView->setContentSize(Size(contentSize.width, contentSize.height - ((ConfigStorage::getInstance()->isDeviceIphoneX() && contentSize.width < contentSize.height) ? 600 : 500) - (_showingMessagingLayer ? 350 : 0)));
 	_contentListView->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-	_contentListView->setPosition(Vec2(0,300 + (_messagingLayer->isVisible() ? 350 : 0)));
+	_contentListView->setPosition(Vec2(0,300 + (_showingMessagingLayer ? 350 : 0)));
 	_contentListView->setSwallowTouches(true);
 	this->addChild(_contentListView);
 	

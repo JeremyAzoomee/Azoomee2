@@ -167,11 +167,6 @@ bool isAnonUser()
     return ParentDataProvider::getInstance()->isLoggedInParentAnonymous();
 }
 
-void sendVideoProgress(int playlistIndex , int videoProgressSeconds)
-{
-	BackEndCaller::getInstance()->updateVideoProgress(VideoPlaylistManager::getInstance()->getContentItemDataForPlaylistElement(playlistIndex)->getContentItemId(), videoProgressSeconds);
-}
-
 void sendProgressMetaDataVideo(int videoProgressSeconds, int videoDuration)
 {
 	ContentHistoryManager::getInstance()->onContentClosed();

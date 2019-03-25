@@ -101,8 +101,6 @@ public:
     void getForceUpdateData();
     // Get Parent details
     void getParentDetails();
-	// update video progress
-	void updateVideoProgress(const std::string& contentId, int videoProgressSeconds);
 	// get Child Inventory
 	void getChildInventory();
 };

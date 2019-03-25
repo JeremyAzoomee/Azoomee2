@@ -56,7 +56,15 @@ void MeHQMessages::onEnter()
     Super::onEnter();
     Chat::ChatAPI::getInstance()->registerObserver(this);
     _friendList = Chat::ChatAPI::getInstance()->getFriendList();
-    Chat::ChatAPI::getInstance()->getTimelineSummary();
+	if(_friendList.size() == 0)
+	{
+		Chat::ChatAPI::getInstance()->requestFriendList();
+	}
+	else
+	{
+		Chat::ChatAPI::getInstance()->getTimelineSummary();
+	}
+	
 }
 
 void MeHQMessages::onExit()
@@ -376,6 +384,13 @@ void MeHQMessages::onChatAPIGetTimelineSummary(const Chat::MessageList& messageL
     _messages = messageList;
     createMessageList();
 }
+
+void MeHQMessages::onChatAPIGetFriendList(const Chat::FriendList& friendList, int amountOfNewMessages)
+{
+	_friendList = friendList;
+	Chat::ChatAPI::getInstance()->getTimelineSummary();
+}
+
 /// API error from Chat request
 void MeHQMessages::onChatAPIErrorRecieved(const std::string& requestTag, long errorCode)
 {

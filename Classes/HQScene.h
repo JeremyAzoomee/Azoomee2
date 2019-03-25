@@ -39,6 +39,7 @@ protected:
 	NavigationLayer* _navLayer = nullptr;
 	
 	UserTypeMessagingLayer* _messagingLayer = nullptr;
+	bool _showingMessagingLayer = true;
 	
 public:
 	

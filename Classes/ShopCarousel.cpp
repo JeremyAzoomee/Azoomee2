@@ -52,7 +52,7 @@ bool ShopCarousel::init()
 	_pageLeft = ui::Button::create("res/shop/arrow_button.png");
 	_pageLeft->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	_pageLeft->setAnchorPoint(Vec2(-0.5,0.5));
-	_pageLeft->setOpacity(_shopWindow->getCurrentPageIndex() == 0 ? 125 : 255);
+	_pageLeft->setOpacity(125);
 	_pageLeft->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == TouchEventType::ENDED)
 		{
@@ -65,7 +65,7 @@ bool ShopCarousel::init()
 	_pageRight->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
 	_pageRight->setAnchorPoint(Vec2(-0.5,0.5));
 	_pageRight->setRotation(180.0f);
-	_pageRight->setOpacity(_shopWindow->getCurrentPageIndex() == (_shopWindow->getItems().size() - 1) ? 125 : 255);
+	_pageRight->setOpacity(125);
 	_pageRight->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == TouchEventType::ENDED)
 		{

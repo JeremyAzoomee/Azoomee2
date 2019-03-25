@@ -49,6 +49,7 @@ public:
     
     /// Get Timeline Summary response
     virtual void onChatAPIGetTimelineSummary(const Chat::MessageList& messageList) override;
+	virtual void onChatAPIGetFriendList(const Chat::FriendList& friendList, int amountOfNewMessages) override;
     /// API error from Chat request
     virtual void onChatAPIErrorRecieved(const std::string& requestTag, long errorCode) override;
 	

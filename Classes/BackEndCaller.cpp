@@ -487,12 +487,6 @@ void BackEndCaller::resetPasswordRequest(const std::string& emailAddress)
     request->execute();
 }
 
-void BackEndCaller::updateVideoProgress(const std::string& contentId, int videoProgressSeconds)
-{
-	HttpRequestCreator* request = API::UpdateVideoProgress(ChildDataProvider::getInstance()->getParentOrChildId(),contentId, videoProgressSeconds, nullptr);
-	request->execute();
-}
-
 void BackEndCaller::getChildInventory()
 {
 	const ChildRef& child = ChildDataProvider::getInstance()->getLoggedInChild();

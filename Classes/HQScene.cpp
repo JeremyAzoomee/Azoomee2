@@ -114,7 +114,7 @@ void HQScene::buildCoreUI()
 		}
 		else
 		{*/
-			_messagingLayer->setVisible(false);
+		_showingMessagingLayer = false;
 		//}
 	}
 	else

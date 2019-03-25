@@ -64,21 +64,6 @@ bool ShopScene::init()
 			ModalMessages::getInstance()->startLoading();
 			HttpRequestCreator* request = API::BuyReward(item->getPurchaseUrl(), this);
 			request->execute();
-			/*
-			_purchasePopup->setVisible(false);
-			_shopCarousel->setVisible(false);
-			ShopItemPurchasedAnimation* anim = ShopItemPurchasedAnimation::create();
-			anim->setItemData(_purchasePopup->getItemData());
-			anim->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-			anim->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-			anim->setOnCompleteCallback([this, anim](){
-				anim->removeFromParent();
-				_shopCarousel->setVisible(true);
-				_shopCarousel->refreshUI();
-				_purchasePopup->setItemData(nullptr);
-			});
-			this->addChild(anim);
-			 */
 		}
 		_purchasePopup->setVisible(false);
 		_shopCarousel->setVisible(true);

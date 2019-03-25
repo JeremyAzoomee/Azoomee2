@@ -142,11 +142,11 @@ void ContentFeedHQScene::createContentScrollview()
 	//we have all carousels in a vector, time to resize the scrollview and add them one by one
 	bool isGroupHQ = _hqCategory == ConfigStorage::kGroupHQName;
 	
-	const Size& vScrollFrameSize = Size(visibleSize.width - sideMargin * 2, visibleSize.height - (isGroupHQ ? 200.0f : 500.0f) - (_messagingLayer->isVisible() ? 350 : 0));
+	const Size& vScrollFrameSize = Size(visibleSize.width - sideMargin * 2, visibleSize.height - (isGroupHQ ? 200.0f : 500.0f) - (_showingMessagingLayer ? 350 : 0));
 	
 	_contentScrollview = cocos2d::ui::ScrollView::create();
 	_contentScrollview->setContentSize(vScrollFrameSize);
-	_contentScrollview->setPosition(Point(sideMargin, (isGroupHQ ? 0 : 300) + (_messagingLayer->isVisible() ? 350 : 0)));
+	_contentScrollview->setPosition(Point(sideMargin, (isGroupHQ ? 0 : 300) + (_showingMessagingLayer ? 350 : 0)));
 	_contentScrollview->setDirection(cocos2d::ui::ScrollView::Direction::VERTICAL);
 	_contentScrollview->setTouchEnabled(true);
 	_contentScrollview->setBounceEnabled(true);
