@@ -34,8 +34,7 @@ private:
     
     void buildEmptyCarousel();
 	
-	void enableButtons();
-	void disableButtons();
+	void enableButtons(bool enable);
     
 protected:
     virtual void onSizeChanged() override;

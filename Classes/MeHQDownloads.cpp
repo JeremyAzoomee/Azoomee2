@@ -270,7 +270,7 @@ void MeHQDownloads::onSizeChanged()
     Super::onSizeChanged();
 }
 
-void MeHQDownloads::enableButtons()
+void MeHQDownloads::enableButtons(bool enable)
 {
 	if(_carouselLayer)
 	{
@@ -279,36 +279,14 @@ void MeHQDownloads::enableButtons()
 			HQSceneElement* content = dynamic_cast<HQSceneElement*>(item);
 			if(content)
 			{
-				content->setTouchDisabled(false);
+				content->setTouchDisabled(!enable);
 			}
 			else
 			{
 				ui::Button* button = dynamic_cast<ui::Button*>(item);
 				if(button)
 				{
-					button->setTouchEnabled(true);
-				}
-			}
-		}
-	}
-}
-void MeHQDownloads::disableButtons()
-{
-	if(_carouselLayer)
-	{
-		for(auto item : _carouselLayer->getChildren())
-		{
-			HQSceneElement* content = dynamic_cast<HQSceneElement*>(item);
-			if(content)
-			{
-				content->setTouchDisabled(true);
-			}
-			else
-			{
-				ui::Button* button = dynamic_cast<ui::Button*>(item);
-				if(button)
-				{
-					button->setTouchEnabled(false);
+					button->setTouchEnabled(enable);
 				}
 			}
 		}
@@ -354,14 +332,7 @@ std::string MeHQDownloads::getStartFileFromJson(const std::string &gameId) const
 
 void MeHQDownloads::onTutorialStateChanged(const std::string& stateId)
 {
-	if(stateId == TutorialController::kTutorialEnded)
-	{
-		enableButtons();
-	}
-	else
-	{
-		disableButtons();
-	}
+	enableButtons(stateId == TutorialController::kTutorialEnded);
 }
 
 NS_AZOOMEE_END

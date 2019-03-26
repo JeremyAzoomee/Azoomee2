@@ -33,10 +33,19 @@ void ChildOomeeLayer::onEnter()
     
     bool isPortrait = contentSize.width < contentSize.height;
 	bool isAnon = ParentDataProvider::getInstance()->isLoggedInParentAnonymous();
-    
-    Label* mainTitle = Label::createWithTTF(StringUtils::format(_("Here is %s’s Oomee").c_str(),_childCreator->getName().c_str()), Style::Font::Regular(), 96);
+	
+	Label* title = Label::createWithTTF(_("Every child gets their own Oomee friend"), Style::Font::Regular(), 96);
+	title->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+	title->setHorizontalAlignment(TextHAlignment::CENTER);
+	title->setPosition(contentSize.width / 2.0f, contentSize.height - (title->getContentSize().height * ((is18x9 && !isPortrait) ? 0.5f : 1.0f)));
+	title->setColor(Color3B::WHITE);
+	title->setOverflow(Label::Overflow::SHRINK);
+	title->setDimensions(contentSize.width * 0.75f, 200);
+	this->addChild(title);
+	
+    Label* mainTitle = Label::createWithTTF(StringUtils::format(_("Here is %s’s Oomee").c_str(),_childCreator->getName().c_str()), Style::Font::Regular(), 64);
     mainTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    mainTitle->setPosition(Vec2(contentSize.width / 2, contentSize.height - (mainTitle->getContentSize().height * ((is18x9 && !isPortrait) ? 0.5f : 1.0f))));
+    mainTitle->setPosition(Vec2(contentSize.width / 2, title->getPositionY() - title->getContentSize().height));
     mainTitle->setColor(Style::Color::white);
     mainTitle->enableGlow(Color4B(Style::Color::telish));
     mainTitle->setMaxLineWidth(contentSize.width * 0.9);
@@ -50,14 +59,13 @@ void ChildOomeeLayer::onEnter()
     _oomee->setPosition(mainTitle->getPosition() - Vec2(0,mainTitle->getContentSize().height + offset[isPortrait]));
     _oomee->setPlaceholderImage(ConfigStorage::getInstance()->getLocalImageForOomee(_childCreator->getOomeeNum()));
     _oomee->loadPlaceholderImage();
-    //_oomee->setScale(oomeeHeight / _oomee->getContentSize().height);
     _oomee->setContentSize(_oomee->getContentSize() * (oomeeHeight / _oomee->getContentSize().height));
     _oomee->ignoreContentAdaptWithSize(false);
     this->addChild(_oomee);
     
     saveDefaultOomeeToOomeeMakerFiles();
     
-    Label* subTitle = Label::createWithTTF(_("Don’t worry if they don’t like it, they can change it anytime in the Oomee Maker."), Style::Font::Regular(), 64);
+    Label* subTitle = Label::createWithTTF(_("Don’t worry, they can create their own later."), Style::Font::Regular(), 64);
     subTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     subTitle->setPosition(_oomee->getPosition() - Vec2(0,oomeeHeight + offset[isPortrait]));
     subTitle->setColor(Color3B::WHITE);
@@ -83,7 +91,7 @@ void ChildOomeeLayer::onEnter()
     });
     this->addChild(doneButton);
     
-    Label* doneButtonText = Label::createWithTTF(_("Done"), Style::Font::Regular(), doneButton->getContentSize().height * 0.4f);
+    Label* doneButtonText = Label::createWithTTF(_("Start exploring"), Style::Font::Regular(), doneButton->getContentSize().height * 0.4f);
     doneButtonText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     doneButtonText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     doneButtonText->setTextColor(Color4B::BLACK);
@@ -111,7 +119,7 @@ void ChildOomeeLayer::onEnter()
 		});
 		this->addChild(addAnotherButton);
 		
-		Label* addAnotherButtonText = Label::createWithTTF(_("Add another"), Style::Font::Regular(), addAnotherButton->getContentSize().height * 0.4f);
+		Label* addAnotherButtonText = Label::createWithTTF(_("Add another child"), Style::Font::Regular(), addAnotherButton->getContentSize().height * 0.4f);
 		addAnotherButtonText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 		addAnotherButtonText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 		addAnotherButtonText->setTextColor(Color4B::BLACK);

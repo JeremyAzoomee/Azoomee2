@@ -186,6 +186,7 @@ void AddChildScene::nextLayer()
 			}*/
 			_currentFlowStage = AddChildFlow::ANON_AGE;
 			setSceneForFlow();
+			break;
 		}
 		case AddChildFlow::ANON_AGE:
 		{
@@ -241,6 +242,7 @@ void AddChildScene::prevLayer()
 		{
 			_currentFlowStage = AddChildFlow::ANON_NAME;
 			setSceneForFlow();
+			break;
 		}
         default:
             break;
@@ -260,23 +262,12 @@ void AddChildScene::onHttpRequestSuccess(const std::string& requestTag, const st
 	}
 	else if(requestTag == API::TagUpdateChild)
 	{
-		
-		//if(TutorialController::getInstance()->isTutorialActive())
-		//{
-		//	if(TutorialController::getInstance()->getCurrentState() == TutorialController::kAgeEntry)
-		//	{
-		//		TutorialController::getInstance()->nextStep();
-		//	}
-		//}
 		AnalyticsSingleton::getInstance()->childProfileCreatedSuccessEvent();
 		rapidjson::Document data;
 		data.Parse(body.c_str());
 		_childCreator->setCreatedChildId(getStringFromJson("id", data));
 		_currentFlowStage = AddChildFlow::ANON_OOMEE;
 		setSceneForFlow();
-		//UserDefault::getInstance()->setBoolForKey("anonOnboardingComplete", true);
-		//BackEndCaller::getInstance()->anonymousDeviceLogin();
-		
 	}
 }
 

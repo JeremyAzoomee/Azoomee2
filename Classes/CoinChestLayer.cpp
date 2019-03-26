@@ -36,20 +36,7 @@ void CoinChestLayer::onEnter()
 	addChest();
 	addText();
 	
-	this->scheduleUpdate();
-	
 	Super::onEnter();
-}
-
-void CoinChestLayer::onExit()
-{
-	unscheduleUpdate();
-	Super::onExit();
-}
-
-void CoinChestLayer::update(float deltaT)
-{
-	Super::update(deltaT);
 }
 
 void CoinChestLayer::onSizeChanged()

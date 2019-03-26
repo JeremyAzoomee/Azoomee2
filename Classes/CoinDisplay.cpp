@@ -71,6 +71,12 @@ void CoinDisplay::onEnter()
 	Super::onEnter();
 }
 
+void CoinDisplay::onExit()
+{
+	unscheduleUpdate();
+	Super::onExit();
+}
+
 void CoinDisplay::update(float deltaT)
 {
 	if(sAnimating)

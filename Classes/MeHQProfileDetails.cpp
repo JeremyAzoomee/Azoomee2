@@ -127,7 +127,7 @@ void MeHQProfileDetails::onSizeChanged()
 
 void MeHQProfileDetails::highlightOomeButton()
 {
-	enableOomeeButton();
+	enableOomeeButton(true);
 	Sprite* glow = Sprite::create("res/childSelection/glow.png");
 	glow->setContentSize(_avatar->getContentSize() * _avatar->getScale());
 	glow->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -136,15 +136,11 @@ void MeHQProfileDetails::highlightOomeButton()
 	_avatar->addChild(glow, -1);
 	
 }
-void MeHQProfileDetails::disableOomeeButton()
+
+void MeHQProfileDetails::enableOomeeButton(bool enable)
 {
 	_avatar->removeChildByName("glow");
-	_avatar->setTouchEnabled(false);
-}
-void MeHQProfileDetails::enableOomeeButton()
-{
-	_avatar->removeChildByName("glow");
-	_avatar->setTouchEnabled(true);
+	_avatar->setTouchEnabled(enable);
 }
 
 void MeHQProfileDetails::onImageDownloadComplete(const ImageDownloaderRef& downloader)
@@ -161,14 +157,7 @@ void MeHQProfileDetails::onImageDownloadFailed()
 
 void MeHQProfileDetails::onTutorialStateChanged(const std::string& stateId)
 {
-	if(stateId == TutorialController::kTutorialEnded)
-	{
-		enableOomeeButton();
-	}
-	else
-	{
-		disableOomeeButton();
-	}
+	enableOomeeButton(stateId == TutorialController::kTutorialEnded);
 }
 
 

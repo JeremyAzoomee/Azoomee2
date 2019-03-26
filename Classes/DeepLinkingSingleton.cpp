@@ -114,7 +114,7 @@ bool DeepLinkingSingleton::actionDeepLink()
         
         ModalMessages::getInstance()->startLoading();
         deepLinkActionWaiting = false;
-        BackEndCaller::getInstance()->getElectricDreamsContent("deepLinkContentRequest", path);
+        BackEndCaller::getInstance()->GetContent("deepLinkContentRequest", path);
         return true;
     }
     else if(host == "post-content")

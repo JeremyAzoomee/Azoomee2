@@ -88,13 +88,12 @@ void MeHQ::onExit()
 
 void MeHQ::onSizeChanged()
 {
+	Super::onSizeChanged();
 	float scrollPercent = _contentListView->getScrolledPercentVertical();
 	if(isnan(scrollPercent))
 	{
 		scrollPercent = 0.1f;
 	}
-	Super::onSizeChanged();
-	
 	
 	_contentNode->removeAllChildren();
 	

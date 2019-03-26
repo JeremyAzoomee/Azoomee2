@@ -122,7 +122,7 @@ void BackEndCaller::login(const std::string& username, const std::string& passwo
 	if(password != ConfigStorage::kAnonLoginPW)
 	{
     	UserDefault* def = UserDefault::getInstance();
-    	def->setStringForKey("username", username);
+    	def->setStringForKey(ConfigStorage::kStoredUsernameKey, username);
     	def->flush();
 	}
     AnalyticsSingleton::getInstance()->registerAzoomeeEmail(username);
@@ -147,14 +147,7 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString, con
 		{
 			AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
 			AnalyticsSingleton::getInstance()->signInSuccessEvent();
-			/*if(FlowDataSingleton::getInstance()->isSignupFlow())
-			{
-				AnalyticsSingleton::getInstance()->registerAlias(ParentDataProvider::getInstance()->getLoggedInParentId());
-			}
-			else
-			{
-				AnalyticsSingleton::getInstance()->registerIdentifier(ParentDataProvider::getInstance()->getLoggedInParentId());
-			}*/
+
 			if(RoutePaymentSingleton::getInstance()->receiptDataFileExists())
 			{
 				Director::getInstance()->getScheduler()->schedule([&](float dt){
@@ -188,7 +181,7 @@ void BackEndCaller::anonymousDeviceLogin()
     displayLoadingScreen();
 	
 	UserDefault* userDefault = UserDefault::getInstance();
-	const std::string& anonEmail = userDefault->getStringForKey("anonEmail", "");
+	const std::string& anonEmail = userDefault->getStringForKey(ConfigStorage::kAnonEmailKey, "");
 	
 	if(anonEmail == "")
 	{
@@ -388,8 +381,8 @@ void BackEndCaller::onRegisterParentAnswerReceived()
 {
 	IAPProductDataHandler::getInstance()->fetchProductData();
 	UserDefault* userDefault = UserDefault::getInstance();
-	userDefault->setBoolForKey("anonOnboardingComplete", false);
-	userDefault->setStringForKey("anonEmail", "");
+	userDefault->setBoolForKey(ConfigStorage::kAnonOnboardingCompleteKey, false);
+	userDefault->setStringForKey(ConfigStorage::kAnonEmailKey, "");
     ConfigStorage::getInstance()->setFirstSlideShowSeen();
     AnalyticsSingleton::getInstance()->OnboardingAccountCreatedEvent();
     FlowDataSingleton::getInstance()->setSuccessFailPath(SIGNUP_SUCCESS);
@@ -471,11 +464,11 @@ void BackEndCaller::getHQContent(const std::string& url, const std::string& cate
 }
 
 // DEEPLINK CONTENT DETAILS REQUEST ----------------------------------------------------------------
-void BackEndCaller::getElectricDreamsContent(const std::string& requestId, const std::string& contentID)
+void BackEndCaller::GetContent(const std::string& requestId, const std::string& contentID)
 {
     if(ChildDataStorage::getInstance()->isChildLoggedIn())
     {
-        HttpRequestCreator* request = API::GetElectricDreamsContent(requestId, ChildDataStorage::getInstance()->getLoggedInChild()->getId(), contentID, this);
+        HttpRequestCreator* request = API::GetContent(requestId, ChildDataStorage::getInstance()->getLoggedInChild()->getId(), contentID, this);
         request->execute();
     }
 }
@@ -689,6 +682,5 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
 		}
     }
 }
-
 
 NS_AZOOMEE_END

@@ -30,8 +30,7 @@ private:
     ImageDownloaderRef _profileImageDownloader = nullptr;
 	
 	void highlightOomeButton();
-	void disableOomeeButton();
-	void enableOomeeButton();
+	void enableOomeeButton(bool enable);
 	
 protected:
     virtual void onSizeChanged() override;

@@ -271,27 +271,7 @@ bool MeHQGallery::getEditEnabled() const
 	return _editEnabled;
 }
 
-void MeHQGallery::disableButtons()
-{
-	_newArt->removeChildByName("glow");
-	_newArt->setTouchEnabled(false);
-	if(_editButton)
-	{
-		_editButton->setTouchEnabled(false);
-	}
-	if(_foldButton)
-	{
-		_foldButton->setTouchEnabled(false);
-	}
-	for(auto item : _carouselLayout->getChildren())
-	{
-		ArtsAppHQElement* art = dynamic_cast<ArtsAppHQElement*>(item);
-		if(art)
-		{
-			art->setTouchEnabled(false);
-		}
-	}
-}
+
 void MeHQGallery::highlightNewArtButton()
 {
 	_newArt->setTouchEnabled(true);
@@ -302,24 +282,24 @@ void MeHQGallery::highlightNewArtButton()
 	glow->setName("glow");
 	_newArt->addChild(glow, 1);
 }
-void MeHQGallery::enableButtons()
+void MeHQGallery::enableButtons(bool enable)
 {
 	_newArt->removeChildByName("glow");
-	_newArt->setTouchEnabled(true);
+	_newArt->setTouchEnabled(enable);
 	if(_editButton)
 	{
-		_editButton->setTouchEnabled(true);
+		_editButton->setTouchEnabled(enable);
 	}
 	if(_foldButton)
 	{
-		_foldButton->setTouchEnabled(true);
+		_foldButton->setTouchEnabled(enable);
 	}
 	for(auto item : _carouselLayout->getChildren())
 	{
 		ArtsAppHQElement* art = dynamic_cast<ArtsAppHQElement*>(item);
 		if(art)
 		{
-			art->setTouchEnabled(true);
+			art->setTouchEnabled(enable);
 		}
 	}
 }
@@ -348,14 +328,7 @@ void MeHQGallery::onCancelPressed(ConfirmCancelMessageBox *pSender)
 
 void MeHQGallery::onTutorialStateChanged(const std::string& stateId)
 {
-	if(stateId == TutorialController::kTutorialEnded)
-	{
-		enableButtons();
-	}
-	else
-	{
-		disableButtons();
-	}
+	enableButtons(stateId == TutorialController::kTutorialEnded);
 }
 
 

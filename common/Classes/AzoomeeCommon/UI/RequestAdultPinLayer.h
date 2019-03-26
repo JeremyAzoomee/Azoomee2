@@ -4,7 +4,6 @@
 #include <cocos/cocos2d.h>
 #include "../Azoomee.h"
 #include "../Input/TextInputLayer.h"
-#include "ElectricDreamsButton.h"
 #include "MessageBox.h"
 #include "../API/HttpRequestCreator.h"
 
@@ -35,10 +34,6 @@ private:
     TextInputLayer* editBox_pin = nullptr;
 	
 	cocos2d::ui::Button* _accept = nullptr;
-	
-    //ElectricDreamsButton *acceptButton;
-    //ElectricDreamsButton *cancelButton;
-    //ElectricDreamsButton *placeHolderAcceptButton;
     
     cocos2d::Label* enterYourPinTitle;
     
@@ -59,7 +54,6 @@ private:
     void requestUpdatedPin();
     
     void resizeWindowAndObjects();
-    void addOrRemoveWires();
     
     //Delegate functions
     void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body);

@@ -36,8 +36,6 @@ bool RemoteImageSprite::initWithURLAndSize(const std::string& url, const std::st
     this->setCascadeOpacityEnabled(true);
     this->setContentSize(size);
     
-    //addClippingNode(false);
-    
     this->addPlaceHolderImage(type, size, shape);
     
     imageUrl = url;
@@ -55,8 +53,6 @@ bool RemoteImageSprite::initWithUrlAndSizeWithoutPlaceholder(const std::string& 
     
     this->setCascadeOpacityEnabled(true);
     this->setContentSize(size);
-    
-    //addClippingNode(useStencil);
     
     imageUrl = url;
     return true;
@@ -106,8 +102,6 @@ void RemoteImageSprite::resizeImage()
         {
             loadedImage->setScale(MIN(this->getContentSize().height/ loadedImage->getContentSize().height, this->getContentSize().width/ loadedImage->getContentSize().width));
         }
-        //_stencil->setContentSize(Size(loadedImage->getContentSize().width * loadedImage->getScaleX(), loadedImage->getContentSize().height * loadedImage->getScaleY()));
-        //_stencil->setPosition(this->getContentSize() / 2.0f);
     }
 }
 
@@ -163,7 +157,7 @@ void RemoteImageSprite::imageAddedToCache(Texture2D* resulting_texture)
         
         auto finalImage = Sprite::createWithTexture( resulting_texture );
         finalImage->setPosition(holderContentSize / 2);
-        //finalImage->setOpacity(0);
+		
         if(!_keepAspectRatio)
         {
             finalImage->setScaleX(holderContentSize.width / finalImage->getContentSize().width);
@@ -173,8 +167,6 @@ void RemoteImageSprite::imageAddedToCache(Texture2D* resulting_texture)
         {
             finalImage->setScale(MIN(holderContentSize.height / finalImage->getContentSize().height, holderContentSize.width / finalImage->getContentSize().width));
         }
-        //_stencil->setContentSize(Size(finalImage->getContentSize().width * finalImage->getScaleX(), finalImage->getContentSize().height * finalImage->getScaleY()));
-        //_stencil->setPosition(holderContentSize / 2.0f);
         
         loadedImage = finalImage;
         
@@ -186,8 +178,7 @@ void RemoteImageSprite::imageAddedToCache(Texture2D* resulting_texture)
         {
             this->addChild(loadedImage);
         }
-        
-        //finalImage->runAction(FadeIn::create(0.1));
+		
     }
     this->release();
 }

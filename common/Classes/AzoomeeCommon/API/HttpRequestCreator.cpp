@@ -198,8 +198,7 @@ cocos2d::network::HttpRequest* HttpRequestCreator::buildHttpRequest()           
     {
         cocos2d::log("HEADERS %s", request->getHeaders().at(i).c_str());
     }
-    
-    //request->setResponseCallback(CC_CALLBACK_2(HttpRequestCreator::onHttpRequestAnswerReceived, this));
+	
 	request->setResponseCallback(_requestCallback);
     request->setTag(requestTag);
     
@@ -228,11 +227,6 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
 	
     if((response->getResponseCode() == 200)||(response->getResponseCode() == 201)||(response->getResponseCode() == 204))
     {
-		if(responseDataString.find("rewardLocation") != responseDataString.npos)
-		{
-			//RewardCallbackHandler::getInstance()->sendRewardCallback(responseDataString);
-		}
-		
         if(delegate != nullptr)
         {
             delegate->onHttpRequestSuccess(requestTag, responseHeaderString, responseDataString);

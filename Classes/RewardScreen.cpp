@@ -24,12 +24,14 @@ bool RewardScreen::init()
 }
 void RewardScreen::onEnter()
 {
-	this->runAction(Sequence::createWithTwoActions(DelayTime::create(_duration), CallFunc::create([this](){
+	Action* action = Sequence::createWithTwoActions(DelayTime::create(_duration), CallFunc::create([this](){
 		if(this->_delegate)
 		{
 			this->_delegate->onAnimationComplete(_rewardData);
 		}
-	})));
+	}));
+	action->setTag(1);
+	this->runAction(action);
 	
 	Super::onEnter();
 }
