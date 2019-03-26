@@ -76,6 +76,9 @@ public:
 	static const std::string kBillingProviderVodacomSA;
 	
 	static const std::string kAnonLoginPW;
+	static const char* const kAnonEmailKey;
+	static const char* const kStoredUsernameKey;
+	static const char* const kAnonOnboardingCompleteKey;
     
     /** Returns the shared instance of the Game Manager */
     static ConfigStorage* getInstance(void);

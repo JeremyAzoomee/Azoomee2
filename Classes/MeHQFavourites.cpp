@@ -299,7 +299,7 @@ bool MeHQFavourites::getEditEnabled() const
     return _editEnabled;
 }
 
-void MeHQFavourites::enableButtons()
+void MeHQFavourites::enableButtons(bool enable)
 {
 	if(_carouselLayout)
 	{
@@ -308,36 +308,14 @@ void MeHQFavourites::enableButtons()
 			HQSceneElement* content = dynamic_cast<HQSceneElement*>(item);
 			if(content)
 			{
-				content->setTouchDisabled(false);
+				content->setTouchDisabled(!enable);
 			}
 			else
 			{
 				ui::Button* button = dynamic_cast<ui::Button*>(item);
 				if(button)
 				{
-					button->setTouchEnabled(true);
-				}
-			}
-		}
-	}
-}
-void MeHQFavourites::disableButtons()
-{
-	if(_carouselLayout)
-	{
-		for(auto item : _carouselLayout->getChildren())
-		{
-			HQSceneElement* content = dynamic_cast<HQSceneElement*>(item);
-			if(content)
-			{
-				content->setTouchDisabled(true);
-			}
-			else
-			{
-				ui::Button* button = dynamic_cast<ui::Button*>(item);
-				if(button)
-				{
-					button->setTouchEnabled(false);
+					button->setTouchEnabled(enable);
 				}
 			}
 		}
@@ -368,14 +346,7 @@ void MeHQFavourites::onCancelPressed(ConfirmCancelMessageBox *pSender)
 
 void MeHQFavourites::onTutorialStateChanged(const std::string& stateId)
 {
-	if(stateId == TutorialController::kTutorialEnded)
-	{
-		enableButtons();
-	}
-	else
-	{
-		disableButtons();
-	}
+	enableButtons(stateId == TutorialController::kTutorialEnded);
 }
 
 NS_AZOOMEE_END

@@ -216,7 +216,7 @@ void VodacomOnboardingPinLayer::onHttpRequestSuccess(const std::string& requestT
 			AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
 			_flowData->setUserType(UserType::REGISTERED);
 			UserDefault* def = UserDefault::getInstance();
-			def->setStringForKey("username", _flowData->getEmail());
+			def->setStringForKey(ConfigStorage::kStoredUsernameKey, _flowData->getEmail());
 			def->flush();
 			ModalMessages::getInstance()->stopLoading();
 			VodacomMessageBoxNotification* messageBox = VodacomMessageBoxNotification::create();

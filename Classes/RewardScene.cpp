@@ -58,7 +58,8 @@ void RewardScene::onEnter()
 	this->addChild(nextLayer);
 	nextLayer->release();
 	
-	Node::onEnter(); // skip RewardScreen onEnter which schedules callback
+	Super::onEnter();
+	stopActionByTag(1); // stop auto callback action set in Super::onEnter()
 }
 
 void RewardScene::onSizeChanged()

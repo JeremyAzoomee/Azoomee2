@@ -82,18 +82,6 @@ bool ShopCarousel::init()
 	
 	return true;
 }
-void ShopCarousel::onEnter()
-{
-	Super::onEnter();
-}
-void ShopCarousel::onExit()
-{
-	Super::onExit();
-}
-void ShopCarousel::update(float deltaT)
-{
-	Super::update(deltaT);
-}
 
 void ShopCarousel::setShopData(const ShopRef& shopData)
 {

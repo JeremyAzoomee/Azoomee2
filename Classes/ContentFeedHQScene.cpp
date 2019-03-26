@@ -220,7 +220,7 @@ bool ContentFeedHQScene::showingPostContentCTARequired()
 	int secondsInContent = 0;
 	try
 	{
-		const std::string& secondsString = AnalyticsProperties::getInstance()->getStoredContentItemProperties().at("SecondsInContent");
+		const std::string& secondsString = AnalyticsProperties::getInstance()->getStoredContentItemProperties().at(AnalyticsProperties::kSecondsInContentKey);
 		secondsInContent = std::atoi(secondsString.substr(secondsString.find("|")+1).c_str());
 	}
 	catch(std::out_of_range)

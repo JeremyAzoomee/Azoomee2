@@ -36,9 +36,6 @@ private:
 public:
 	
 	bool init() override;
-	void onEnter() override;
-	void onExit() override;
-	void update(float deltaT) override;
 	
 	void setShopData(const ShopRef& shopData);
 	void setItemSelectedCallback(const ItemSelectedCallback& callback);

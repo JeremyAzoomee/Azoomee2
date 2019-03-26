@@ -83,8 +83,7 @@ void NavigationLayer::changeToScene(const std::string& hqName, float duration)
     //CHECK IF THE ENTITLEMENT FOR THAT SPECIFIC HQ IS ENABLED
     
     const HQDataObjectRef &currentObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName);
-    
-	//if((hqName == ConfigStorage::kMeHQName && ParentDataProvider::getInstance()->isLoggedInParentAnonymous() && !ChildDataProvider::getInstance()->isChildLoggedIn()) || (hqName != ConfigStorage::kMeHQName && !currentObject->getHqEntitlement()))
+	
 	if(!currentObject->getHqEntitlement())
     {
         AnalyticsSingleton::getInstance()->registerCTASource("lockedHQ","",currentObject->getHqType());
@@ -128,7 +127,7 @@ void NavigationLayer::onEnter()
 
 ui::Button* NavigationLayer::addMenuItemHolder(const std::string& hqName, float pos)
 {
-	Color4B colour = ConfigStorage::getInstance()->getColourForMenuItem(hqName);
+	const Color4B& colour = ConfigStorage::getInstance()->getColourForMenuItem(hqName);
 	
 	auto menuItemHolder = ui::Button::create("res/navigation/outer_circle.png");
     menuItemHolder->setName(hqName);

@@ -50,12 +50,6 @@ void RewardDisplayHandler::showReward(const RewardItemRef& reward)
 		rewardScene->setDeleagte(this);
 		NotificationNodeDisplayManager::getInstance()->addRewardNode(rewardScene);
 		_rewardDisplayRunning = true;
-		//CoinCollectLayer* coinCollect = CoinCollectLayer::create();
-		//coinCollect->setDuration(8.0f);
-		//coinCollect->setRewardData(reward);
-		//coinCollect->setOomeeFilepath(ChildDataProvider::getInstance()->getLoggedInChild()->getAvatar());
-		//coinCollect->setDeleagte(this);
-		//Director::getInstance()->setNotificationNode(coinCollect);
 	}
 }
 

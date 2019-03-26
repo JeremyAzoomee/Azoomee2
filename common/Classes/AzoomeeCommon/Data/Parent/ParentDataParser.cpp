@@ -227,7 +227,7 @@ void ParentDataParser::retrieveParentLoginDataFromUserDefaults()
     parent->setActorStatus(def->getStringForKey("loggedInParentActorStatus"));
     parent->setAnonymous(def->getBoolForKey("isLoggedInParentAnonymous"));
     parent->setCountryCode(def->getStringForKey("loggedInParentCountryCode"));
-	parent->setEmail(def->getStringForKey("username"));
+	parent->setEmail(def->getStringForKey(ConfigStorage::kStoredUsernameKey));
 	
 	ParentDataStorage::getInstance()->setParent(parent);
 	
@@ -257,7 +257,7 @@ void ParentDataParser::clearParentLoginDataFromUserDefaults()
     def->setStringForKey("loggedInParentApiKey", "");
     def->setStringForKey("loggedInParentActorStatus", "");
     def->setStringForKey("loggedInParentCountryCode", "");
-	def->setStringForKey("username", "");
+	def->setStringForKey(ConfigStorage::kStoredUsernameKey, "");
     def->flush();
 }
     

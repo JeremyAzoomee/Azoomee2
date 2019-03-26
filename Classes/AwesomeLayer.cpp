@@ -35,7 +35,7 @@ void AwesomeLayer::onEnter()
 	addStars();
 	addAwsomeText();
 	
-	this->scheduleUpdate();
+	scheduleUpdate();
 	
 	Super::onEnter();
 }
@@ -101,10 +101,8 @@ void AwesomeLayer::onSizeChanged()
 	Super::onSizeChanged();
 	if(_bgColour)
 	{
-		_bgColour->removeFromParent();
+		_bgColour->setContentSize(this->getContentSize());
 	}
-	_bgColour = LayerColor::create(Color4B(0,7,4,255));
-	this->addChild(_bgColour, -1);
 }
 
 void AwesomeLayer::addAwsomeText()

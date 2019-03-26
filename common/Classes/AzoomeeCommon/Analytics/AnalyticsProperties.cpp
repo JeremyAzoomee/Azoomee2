@@ -12,6 +12,8 @@ NS_AZOOMEE_BEGIN
 
 using namespace cocos2d;
 
+const std::string AnalyticsProperties::kSecondsInContentKey = "SecondsInContent";
+
 static std::auto_ptr<AnalyticsProperties> sAnalyticsPropertiesSharedInstance;
 
 AnalyticsProperties* AnalyticsProperties::getInstance()

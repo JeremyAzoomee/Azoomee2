@@ -295,7 +295,6 @@ HttpRequestCreator* API::RegisterParentRequest(const std::string& parentId,
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->requestBody = StringUtils::format("{\"emailAddress\":\"%s\",\"over18\":\"true\",\"termsAccepted\":\"true\",\"marketingAccepted\":\"%s\",\"password\":\"%s\",\"source\":\"%s\",\"pinNumber\":\"%s\", \"sourceDevice\":\"%s\"}", emailAddress.c_str(), marketingAccepted.c_str(), password.c_str(), source.c_str(), pinNumber.c_str(), sourceDevice.c_str());
-	//request->urlParameters = "defaultChild=false";
 	request->requestPath = StringUtils::format("/api/user/anonymous/adult/%s",parentId.c_str());
     request->requestTag = TagRegisterParent;
     request->method = "PATCH";
@@ -467,7 +466,7 @@ HttpRequestCreator* API::GetPublicContentRequest(const std::string& url,
     return request;
 }
 
-HttpRequestCreator* API::GetElectricDreamsContent(const std::string& requestId, 
+HttpRequestCreator* API::GetContent(const std::string& requestId, 
                                                   const std::string& childId,
                                                   const std::string& contentID,
                                                   HttpRequestCreatorResponseDelegate* delegate)

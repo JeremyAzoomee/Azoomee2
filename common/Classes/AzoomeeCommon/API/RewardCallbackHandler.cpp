@@ -32,7 +32,7 @@ RewardCallbackHandler::RewardCallbackHandler()
 
 void RewardCallbackHandler::sendRewardCallback(const std::string& callbackData)
 {
-	const std::vector<std::string> urls = splitStringToVector(callbackData, ";");
+	const std::vector<std::string>& urls = splitStringToVector(callbackData, ";");
 	
 	for(const std::string& url : urls)
 	{

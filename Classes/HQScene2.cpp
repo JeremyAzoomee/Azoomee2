@@ -146,18 +146,6 @@ void HQScene2::startBuildingScrollView()
     }
 #endif
     
-    if(this->getName() == ConfigStorage::kMeHQName)
-    {
-        auto meHQ = this->getChildByName(ConfigStorage::kMeHQName);
-        if(!meHQ)
-        {
-            //auto meHQLayer = MeHQ::create();
-            //meHQLayer->setName(ConfigStorage::kMeHQName);
-            //this->addChild(meHQLayer);
-        }
-        return;
-    }
-    
     if(this->getName() == ConfigStorage::kArtAppHQName)
     {
         auto artsLayer = this->getChildByName(ConfigStorage::kArtAppHQName);
@@ -174,8 +162,6 @@ void HQScene2::startBuildingScrollView()
     
     _carouselStorage.clear();
     float totalHeightOfCarousels = 0;
-    
-    //addRecentlyPlayedCarousel();
     
     for(int rowIndex = 0; rowIndex < HQDataProvider::getInstance()->getNumberOfRowsForHQ(_hqCategory); rowIndex++)
     {
@@ -373,7 +359,7 @@ bool HQScene2::showingPostContentCTARequired()
     int secondsInContent = 0;
     try
     {
-        std::string secondsString = AnalyticsProperties::getInstance()->getStoredContentItemProperties().at("SecondsInContent");
+        std::string secondsString = AnalyticsProperties::getInstance()->getStoredContentItemProperties().at(AnalyticsProperties::kSecondsInContentKey);
         secondsInContent = std::atoi(secondsString.substr(secondsString.find("|")+1).c_str());
     }
     catch(std::out_of_range)

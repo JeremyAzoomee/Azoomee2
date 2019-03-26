@@ -413,7 +413,7 @@ void AnalyticsSingleton::contentItemClosedEvent()
     secondsOpened -= SessionIdManager::getInstance()->getBackgroundTimeInContent();
 	
 	
-    _analyticsProperties->addPropertyToStoredContentItemProperties("SecondsInContent", cocos2d::StringUtils::format("%s%.f",NUMBER_IDENTIFIER, secondsOpened));
+    _analyticsProperties->addPropertyToStoredContentItemProperties(AnalyticsProperties::kSecondsInContentKey, cocos2d::StringUtils::format("%s%.f",NUMBER_IDENTIFIER, secondsOpened));
     
     mixPanelSendEventWithStoredProperties("contentItemClosed", _analyticsProperties->getStoredContentItemProperties());
     

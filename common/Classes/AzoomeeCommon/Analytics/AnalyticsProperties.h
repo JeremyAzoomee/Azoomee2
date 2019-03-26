@@ -68,6 +68,8 @@ public:
     
     void setTimeOpenedContent(time_t timeOpenedContent);
     time_t getTimeOpenedContent() const;
+	
+	static const std::string kSecondsInContentKey;
 };
 
 NS_AZOOMEE_END
