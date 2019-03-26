@@ -51,7 +51,7 @@ bool ShopCarousel::init()
 	
 	_pageLeft = ui::Button::create("res/shop/arrow_button.png");
 	_pageLeft->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
-	_pageLeft->setAnchorPoint(Vec2(-0.5,0.5));
+	_pageLeft->setAnchorPoint(Vec2((isPortrait ? -0.25f : -0.5),0.5));
 	_pageLeft->setOpacity(125);
 	_pageLeft->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == TouchEventType::ENDED)
@@ -63,7 +63,7 @@ bool ShopCarousel::init()
 	
 	_pageRight = ui::Button::create("res/shop/arrow_button.png");
 	_pageRight->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
-	_pageRight->setAnchorPoint(Vec2(-0.5,0.5));
+	_pageRight->setAnchorPoint(Vec2((isPortrait ? -0.25f : -0.5),0.5));
 	_pageRight->setRotation(180.0f);
 	_pageRight->setOpacity(125);
 	_pageRight->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
@@ -79,6 +79,12 @@ bool ShopCarousel::init()
 	_pageIndicator->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 	_pageIndicator->setNormalizedPosition(Vec2(0.5,isPortrait? 0.15 : 0.2));
 	this->addChild(_pageIndicator);
+	
+	float maxWidth = visibleSize.width - (_pageLeft->getContentSize().width * (isPortrait? 3.0f : 4.0f));
+	float maxHeight = visibleSize.height  - (visibleSize.height * (isPortrait? 0.15 : 0.2)) - _pageLeft->getContentSize().height * 1.5f;
+	
+	float scale = MIN(maxWidth / _shopWindow->getContentSize().width, maxHeight / _shopWindow->getContentSize().height);
+	_shopWindow->setScale(scale);
 	
 	return true;
 }
@@ -104,7 +110,8 @@ void ShopCarousel::refreshUI()
 	
 	_shopWindow->setContentSize(Size(minDimSize * (isPortrait ? 0.6f : 1.2f), minDimSize * (isPortrait ? 1.2f : 0.6f)));
 	_pageIndicator->setNormalizedPosition(Vec2(0.5,isPortrait? 0.15 : 0.2));
-	
+	_pageLeft->setAnchorPoint(Vec2((isPortrait ? -0.25f : -0.5),0.5));
+	_pageRight->setAnchorPoint(Vec2((isPortrait ? -0.25f : -0.5),0.5));
 	_shopWindow->removeAllPages();
 	_pageIndicator->removeAllChildren();
 	if(_shop)
@@ -129,6 +136,12 @@ void ShopCarousel::refreshUI()
 		_pageLeft->setOpacity(_shopWindow->getCurrentPageIndex() == 0 ? 125 : 255);
 		_pageRight->setOpacity(_shopWindow->getCurrentPageIndex() == (_shopWindow->getItems().size() - 1) ? 125 : 255);
 	}
+	
+	float maxWidth = visibleSize.width - (_pageLeft->getContentSize().width * (isPortrait? 3.0f : 4.0f));
+	float maxHeight = visibleSize.height  - (visibleSize.height * (isPortrait? 0.15 : 0.2)) - _pageLeft->getContentSize().height * 1.5f;
+	
+	float scale = MIN(maxWidth / _shopWindow->getContentSize().width, maxHeight / _shopWindow->getContentSize().height);
+	_shopWindow->setScale(scale);
 }
 
 NS_AZOOMEE_END

@@ -41,9 +41,9 @@ void Oomee::initWithData(const rapidjson::Value& oomeeConfig)
     {
         setDefaultAccessories(getStringArrayFromJson(oomeeConfig["defaultAccessories"]));
     }
-    if(oomeeConfig.HasMember("incompatableAccessories"))
+    if(oomeeConfig.HasMember("incompatibleAccessories"))
     {
-        setIncompatableAccessories(getStringArrayFromJson(oomeeConfig["incompatableAccessories"]));
+        setIncompatableAccessories(getStringArrayFromJson(oomeeConfig["incompatibleAccessories"]));
     }
     setPosition(getVec2FromJson("position", oomeeConfig));
     setScale(getFloatFromJson("scale", oomeeConfig));

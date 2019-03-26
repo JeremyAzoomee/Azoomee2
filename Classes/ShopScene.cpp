@@ -70,6 +70,12 @@ bool ShopScene::init()
 		_shopCarousel->setVisible(true);
 	});
 	_purchasePopup->setVisible(false);
+	
+	if(_purchasePopup->getContentSize().width > visibleSize.width * 0.95f)
+	{
+		_purchasePopup->setScale((visibleSize.width * 0.95f) / _purchasePopup->getContentSize().width);
+	}
+	
 	this->addChild(_purchasePopup);
 	
 	ui::Button* backButton = ui::Button::create("res/shop/back_white_v_2.png");
@@ -117,6 +123,11 @@ void ShopScene::onSizeChanged()
 		_shopCarousel->refreshUI();
 	}
 	_purchasePopup->setPosition(visibleSize / 2);
+	if(_purchasePopup->getContentSize().width > visibleSize.width * 0.95f)
+	{
+		_purchasePopup->setScale((visibleSize.width * 0.95f) / _purchasePopup->getContentSize().width);
+	}
+	
 	_bgColour->setContentSize(visibleSize);
 	_wires->setScale(MAX(visibleSize.width, visibleSize.height) / _wires->getContentSize().width);
 	_wires->setRotation(visibleSize.width < visibleSize.height ? 90 : 0);

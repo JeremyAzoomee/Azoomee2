@@ -28,11 +28,17 @@ private:
 	cocos2d::ClippingNode* _valueFrame = nullptr;
 	cocos2d::Sprite* _coinSprite = nullptr;
 	
+	void createGlowAnim();
+	
+	bool _animate = false;
+	
 public:
 	bool init() override;
 	void onEnter() override;
 	void onExit() override;
 	void update(float deltaT) override;
+	
+	void setAnimate(bool animate);
 	
 	CREATE_FUNC(CoinDisplay);
 };

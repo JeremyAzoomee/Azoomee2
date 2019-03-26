@@ -81,6 +81,8 @@ void ShopItem::onEnter()
 			loadTextureNormal("res/shop/featured.png");
 			_bgFrame->setTexture("res/shop/featured_glow.png");
 			_assetBg->setTexture("res/shop/glow_big.png");
+			_assetBg->setNormalizedPosition(Vec2(0.5,0.55));
+			_assetImage->setNormalizedPosition(Vec2(0.5,0.55));
 		}
 		addFeaturedAnim();
 		_assetImage->initWithUrlAndSizeWithoutPlaceholder(_itemData->getInventoryItem()->getUri(), Size(this->getContentSize().width * 0.8f, this->getContentSize().height - 160));

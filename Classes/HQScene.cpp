@@ -90,6 +90,7 @@ void HQScene::buildCoreUI()
 	_coinDisplay = CoinDisplay::create();
 	_coinDisplay->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
 	_coinDisplay->setAnchorPoint(Vec2(1.2,(isIphoneX && isPortrait) ? 2.2f : 1.5f));
+	_coinDisplay->setAnimate(true);
 	this->addChild(_coinDisplay, 1);
 	
 	_messagingLayer = UserTypeMessagingLayer::create();

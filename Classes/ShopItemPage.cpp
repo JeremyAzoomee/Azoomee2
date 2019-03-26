@@ -33,7 +33,7 @@ void ShopItemPage::onEnter()
 	const Size& contentSize = this->getContentSize();
 	int isPortrait = contentSize.width < contentSize.height;
 	
-	float scalefactor = MIN(contentSize.width, contentSize.height) / 1060.0f;
+	const float scalefactor = MIN(contentSize.width, contentSize.height) / 1060.0f;
 	
 	const int numItems = 8;
 	bool grid[numItems] = {false,false,false,false,false,false,false,false};
@@ -54,11 +54,13 @@ void ShopItemPage::onEnter()
 		const auto& items = _displayData->getDisplayItems();
 		for(int i = 0; i < items.size(); i++)
 		{
+			float itemScale = scalefactor;
 			const ShopDisplayItemRef& item = items.at(i);
 			int inc = 1;
 			if(item->getShape() == "TWO_ONE")
 			{
 				inc = 2;
+				itemScale *= 1.025f;
 			}
 			int pos = 0;
 			while(pos < numItems && grid[pos])//search grid for free space
@@ -86,11 +88,11 @@ void ShopItemPage::onEnter()
 			shopItem->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType){
 				if(eType == TouchEventType::BEGAN || eType == TouchEventType::MOVED)
 				{
-					shopItem->setScale(scalefactor * 1.05f);
+					shopItem->setScale(itemScale * 1.05f);
 				}
 				else
 				{
-					shopItem->setScale(scalefactor);
+					shopItem->setScale(itemScale);
 				}
 				if(eType == TouchEventType::ENDED)
 				{
@@ -107,7 +109,7 @@ void ShopItemPage::onEnter()
 					}
 				}
 			});
-			shopItem->setScale(scalefactor);
+			shopItem->setScale(itemScale);
 			this->addChild(shopItem);
 			_itemTiles.push_back(shopItem);
 		}
