@@ -17,10 +17,6 @@ public:
     virtual ~ChildDataProvider();
     bool init(void);
     
-    //std::string getLoggedInChildName() const;
-    //std::string getLoggedInChildId() const;
-    //std::string getLoggedInChildAvatarId() const;
-    
     std::string getParentOrChildId() const;
     std::string getParentOrChildCdnSessionId() const;
     std::string getParentOrChildApiSecret() const;

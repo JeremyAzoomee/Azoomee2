@@ -70,7 +70,7 @@ void LoginScene::onEnterTransitionDidFinish()
 void LoginScene::getUserDefaults()
 {
     UserDefault* def = UserDefault::getInstance();
-    _storedUsername = def->getStringForKey("username", "");
+    _storedUsername = def->getStringForKey(ConfigStorage::kStoredUsernameKey, "");
     def->flush();
     
     if(_storedUsername == "")

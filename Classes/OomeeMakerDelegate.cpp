@@ -65,42 +65,13 @@ void OomeeMakerDelegate::onOomeeMakerShareOomee(const std::string& filename)
 
 void OomeeMakerDelegate::onOomeeMakerUpdateAvatar(const std::string &filename)
 {
-	/*if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
-	{
-		const std::string& localChildPath = FileUtils::getInstance()->getWritablePath() + "anonLocalChild/";
+	ModalMessages::getInstance()->startLoading();
+	const std::string& imageData = FileUtils::getInstance()->getStringFromFile(filename);
+	char* str = nullptr;
+	base64Encode((unsigned char*)imageData.c_str(), (unsigned int)imageData.length(), &str);
 		
-		if(!FileUtils::getInstance()->isDirectoryExist(localChildPath))
-		{
-			FileUtils::getInstance()->createDirectory(localChildPath);
-		}
-		
-		const std::string& avatarImgPath = localChildPath + "avatar.png";
-		const std::string& avatarDataPath = localChildPath + "avatar.oomee";
-		
-		const std::string& imageData = FileUtils::getInstance()->getStringFromFile(filename);
-		FileUtils::getInstance()->writeStringToFile(imageData, avatarImgPath);
-		const std::string& oomeeData = FileUtils::getInstance()->getStringFromFile(filename.substr(0,filename.length() - 3) + "oomee");
-		FileUtils::getInstance()->writeStringToFile(oomeeData, avatarDataPath);
-		
-		if(TutorialController::getInstance()->isTutorialActive())
-		{
-			if(TutorialController::getInstance()->getCurrentState() == TutorialController::kConfirmOomee)
-			{
-				TutorialController::getInstance()->nextStep();
-				Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::AddChildAnon));
-			}
-		}
-	}*/
-	//else
-	//{
-		ModalMessages::getInstance()->startLoading();
-		const std::string& imageData = FileUtils::getInstance()->getStringFromFile(filename);
-		char* str = nullptr;
-		base64Encode((unsigned char*)imageData.c_str(), (unsigned int)imageData.length(), &str);
-		
-		HttpRequestCreator* request = API::UpdateChildAvatar(ChildDataProvider::getInstance()->getParentOrChildId(), str, this);
-		request->execute();
-	//}
+	HttpRequestCreator* request = API::UpdateChildAvatar(ChildDataProvider::getInstance()->getParentOrChildId(), str, this);
+	request->execute();
 }
 
 void OomeeMakerDelegate::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)

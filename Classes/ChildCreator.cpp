@@ -77,13 +77,15 @@ bool ChildCreator::addChild()
     }
     
     int year = birthYearFromAge(_age);
-    
+	
+	if(!isDate(1, 1, year))
+	{
+		return false;
+	}
+	
     const std::string& DOB = StringUtils::format("%04d-%02d-%02d",year,1,1);
     const std::string& gender = "MALE";
-    if(!isDate(1, 1, year))
-    {
-        return false;
-    }
+	
     _oomeeNum = RandomHelper::random_int(0, 4);
     AnalyticsSingleton::getInstance()->childProfileCreatedEvent(_age);
     
@@ -103,13 +105,11 @@ bool ChildCreator::updateChild(const ChildRef &child)
 	}
 	
 	int year = birthYearFromAge(_age);
-	
-	const std::string& DOB = StringUtils::format("%04d-%02d-%02d",year,1,1);
-	const std::string& gender = "MALE";
 	if(!isDate(1, 1, year))
 	{
 		return false;
 	}
+	const std::string& DOB = StringUtils::format("%04d-%02d-%02d",year,1,1);
 	
 	const std::string& ownerId = ParentDataProvider::getInstance()->getLoggedInParentId();
 	

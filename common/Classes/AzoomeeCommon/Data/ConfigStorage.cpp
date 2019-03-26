@@ -72,6 +72,9 @@ static ConfigStorage *_sharedConfigStorage = NULL;
 	const std::string ConfigStorage::kBillingProviderVodacomSA = "VODACOM_SA";
 	
 	const std::string ConfigStorage::kAnonLoginPW = "ToBeDecided";
+	const char* const ConfigStorage::kAnonEmailKey = "anonEmail";
+	const char* const ConfigStorage::kStoredUsernameKey = "username";
+	const char* const ConfigStorage::kAnonOnboardingCompleteKey = "anonOnboardingComplete";
 	
 ConfigStorage* ConfigStorage::getInstance()
 {

@@ -347,25 +347,14 @@ void MeHQMessages::createMessageList()
     }
 }
 
-void MeHQMessages::enableButtons()
+void MeHQMessages::enableButtons(bool enable)
 {
 	for(auto child : this->getChildren())
 	{
 		ui::Layout* layout = dynamic_cast<ui::Layout*>(child);
 		if(layout)
 		{
-			layout->setTouchEnabled(true);
-		}
-	}
-}
-void MeHQMessages::disableButtons()
-{
-	for(auto child : this->getChildren())
-	{
-		ui::Layout* layout = dynamic_cast<ui::Layout*>(child);
-		if(layout)
-		{
-			layout->setTouchEnabled(false);
+			layout->setTouchEnabled(enable);
 		}
 	}
 }
@@ -384,14 +373,7 @@ void MeHQMessages::onChatAPIErrorRecieved(const std::string& requestTag, long er
 
 void MeHQMessages::onTutorialStateChanged(const std::string& stateId)
 {
-	if(stateId == TutorialController::kTutorialEnded)
-	{
-		enableButtons();
-	}
-	else
-	{
-		disableButtons();
-	}
+	enableButtons(stateId == TutorialController::kTutorialEnded);
 }
 
 NS_AZOOMEE_END

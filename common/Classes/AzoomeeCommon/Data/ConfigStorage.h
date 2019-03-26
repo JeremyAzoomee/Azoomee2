@@ -4,8 +4,8 @@
 //General configuration
 //#define FORCE_RELOAD YES;
 //#define FORGET_USER_DATA YES;
-#define ALLOW_UNPAID_SIGNUP YES
-#define USINGCI YES
+//#define ALLOW_UNPAID_SIGNUP YES
+//#define USINGCI YES
 
 #include <cocos/cocos2d.h>
 #include "Json.h"
@@ -76,6 +76,9 @@ public:
 	static const std::string kBillingProviderVodacomSA;
 	
 	static const std::string kAnonLoginPW;
+	static const char* const kAnonEmailKey;
+	static const char* const kStoredUsernameKey;
+	static const char* const kAnonOnboardingCompleteKey;
     
     /** Returns the shared instance of the Game Manager */
     static ConfigStorage* getInstance(void);

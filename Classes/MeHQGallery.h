@@ -34,9 +34,8 @@ private:
 	ConfirmCancelMessageBox* _deleteItemMessageBox = nullptr;
 	bool _editEnabled = false;
 	
-	void disableButtons();
 	void highlightNewArtButton();
-	void enableButtons();
+	void enableButtons(bool enable);
 	
 protected:
     virtual void onSizeChanged() override;

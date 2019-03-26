@@ -26,8 +26,7 @@ bool SettingsButton::init()
 			AnalyticsSingleton::getInstance()->genericButtonPressEvent("Settings");
 			if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
 			{
-				//Director::getInstance()->replaceScene(LanguageSelectScene::create());
-				Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
+				Director::getInstance()->replaceScene(LanguageSelectScene::create());
 			}
 			else
 			{

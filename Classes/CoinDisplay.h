@@ -31,6 +31,7 @@ private:
 public:
 	bool init() override;
 	void onEnter() override;
+	void onExit() override;
 	void update(float deltaT) override;
 	
 	CREATE_FUNC(CoinDisplay);

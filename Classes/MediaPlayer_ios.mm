@@ -282,7 +282,6 @@ using namespace Azoomee;
 -(void) playerItemDidReachEnd:(NSNotification*)notification
 {
     Azoomee::sendMixPanelData("video.complete", "");
-	//Azoomee::sendVideoProgress(_currentItemIndex , 0);
     if(self.queuePlayer.currentItem == self.queuePlayer.items.lastObject)
     {
         Azoomee::sendMixPanelData("video.playlistComplete", "");

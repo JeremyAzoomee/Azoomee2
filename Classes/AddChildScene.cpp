@@ -181,6 +181,7 @@ void AddChildScene::nextLayer()
 			}
 			_currentFlowStage = AddChildFlow::ANON_AGE;
 			setSceneForFlow();
+			break;
 		}
 		case AddChildFlow::ANON_AGE:
 		{
@@ -230,6 +231,7 @@ void AddChildScene::prevLayer()
 		{
 			_currentFlowStage = AddChildFlow::ANON_NAME;
 			setSceneForFlow();
+			break;
 		}
         default:
             break;
@@ -250,14 +252,11 @@ void AddChildScene::onHttpRequestSuccess(const std::string& requestTag, const st
 	else if(requestTag == API::TagUpdateChild)
 	{
 		
-		if(TutorialController::getInstance()->isTutorialActive())
+		if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kAgeEntry)
 		{
-			if(TutorialController::getInstance()->getCurrentState() == TutorialController::kAgeEntry)
-			{
-				TutorialController::getInstance()->nextStep();
-			}
+			TutorialController::getInstance()->nextStep();
 		}
-		UserDefault::getInstance()->setBoolForKey("anonOnboardingComplete", true);
+		UserDefault::getInstance()->setBoolForKey(ConfigStorage::kAnonOnboardingCompleteKey, true);
 		BackEndCaller::getInstance()->anonymousDeviceLogin();
 		
 	}
