@@ -104,7 +104,7 @@ bool childNameExists(std::string newChildsName)
     
     for(int i = 0; i < ParentDataProvider::getInstance()->getAmountOfAvailableChildren(); i++)
     {
-        std::string storedChildsName = ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(i);
+		const std::string& storedChildsName = ParentDataProvider::getInstance()->getChild(i)->getProfileName();
         
         if(newChildsName.compare(storedChildsName) == 0)
         {

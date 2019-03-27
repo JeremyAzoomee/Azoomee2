@@ -8,42 +8,31 @@
 #include <AzoomeeChat/ChatAPI.h>
 #include <AzoomeeChat/Data/Message.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/Tutorial/TutorialController.h>
 
 NS_AZOOMEE_BEGIN
 
-class NavigationLayer : public cocos2d::Layer, public ElectricDreamsButtonDelegate
+class NavigationLayer : public cocos2d::Node
 {
+	typedef cocos2d::Node Super;
 public:
     CREATE_FUNC(NavigationLayer);
-    static cocos2d::Scene* createScene();
-    virtual bool init();
+
+    virtual bool init() override;
     void startLoadingGroupHQ(std::string uri);
     void changeToScene(const std::string& hqName, float duration);
-    
-    //Delegate Functions
-    void buttonPressed(ElectricDreamsButton* button);
-    
-    void onExit();
+	
+	void onEnter() override;
+    void onExit() override;
     
     void showNotificationBadge();
     void hideNotificationBadge();
-    
-    void repositionElements();
-    
+	
+	void setButtonOn(const std::string& hqName);
+	
 private:
-    cocos2d::Size visibleSize;
-    cocos2d::Vec2 origin;
-    
-    float _navOffset = 0;
-    
-    ElectricDreamsButton *settingsButton;
-    ElectricDreamsButton *returnToChildSelectorButton;
-    
-    UserTypeMessagingLayer* _userTypeMessagingLayer = nullptr;
-    cocos2d::Node* _hqButtonHolder = nullptr;
-
     //MenuItem creation phase
-    cocos2d::Sprite* addMenuItemHolder(const std::string& hqName, float pos);
+	cocos2d::ui::Button* addMenuItemHolder(const std::string& hqName, float pos);
     cocos2d::Sprite* addMenuItemCircle(const std::string& hqName, cocos2d::Node *toBeAddedTo);
     cocos2d::Sprite* addMenuItemInactive(const std::string& hqName, cocos2d::Node *toBeAddedTo);
     cocos2d::Sprite* addMenuItemActive(const std::string& hqName, cocos2d::Node *toBeAddedTo);
@@ -53,39 +42,15 @@ private:
     
     void runDisplayAnimationForMenuItem(cocos2d::Node* node1, bool quick);
     
-    void moveMenuPointsToHorizontalState(float duration);
-    void moveMenuPointsToHorizontalStateInGroupHQ(float duration);
-    void moveMenuPointsToCircleState(float duration);
-    
-    //---------TOP OBJECTS, SETTINGS/BACK TO CHILD SELECTOR----------
-    void createTopObjects();
-    void topObjectsOffScreen();
-    void topObjectsOnScreen();
-    
     //Handling created menuitems or all menuitems
     void turnOffAllMenuItems();
     void turnOnMenuItem(const std::string& hqName);
-    
-    void setButtonOn(const std::string& hqName);
+	
     void delayedSetButtonOn(float dt);
-    void startLoadingHQScene(const std::string& hqName);
-    void addBackButtonToNavigation();
-    void removeBackButtonFromNavigation();
-    void addListenerToBackButton(cocos2d::Node* toBeAddedTo);
-
-    //Handle arts app
-    void loadArtsAppHQ();
-    
-    //Handle me hq
-    void loadMeHQ();
-    
-    //memory management
-    void cleanUpPreviousHQ();
     
     //chat notifications
     void addNotificationBadgeToChatIcon(cocos2d::Node* chatIcon);
     
-    void onEnter();
 };
 
 NS_AZOOMEE_END

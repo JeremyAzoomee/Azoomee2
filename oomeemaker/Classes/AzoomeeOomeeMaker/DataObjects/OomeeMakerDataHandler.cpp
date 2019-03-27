@@ -9,6 +9,8 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 
+#include "../UI/OomeeSelectScene.h"
+
 using namespace cocos2d;
 
 NS_AZOOMEE_OM_BEGIN
@@ -230,6 +232,11 @@ void OomeeMakerDataHandler::onAsyncUnzipComplete(bool success, const std::string
     parseOomeeColourData();
     OomeeMakerDataStorage::getInstance()->_initialised = true;
     ModalMessages::getInstance()->stopLoading();
+	
+	if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kCreateOomee)
+	{
+		OomeeSelectScene::newOomee();
+	}
 }
 
 void OomeeMakerDataHandler::onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode)

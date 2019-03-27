@@ -81,6 +81,11 @@ void ArtsAppHQElement::loadImageTex()
     });
 }
 
+void ArtsAppHQElement::setTouchEnabled(bool enabled)
+{
+	_touchEnabled = enabled;
+}
+
 void ArtsAppHQElement::enableOnScreenChecker()
 {
     _onScreenChecker = new ArtImageOnScreenChecker();
@@ -229,82 +234,17 @@ void ArtsAppHQElement::onExit()
     Layer::onExit();
 }
 
-/*void ArtsAppHQElement::addListenerToDeleteButton(cocos2d::Sprite *toBeAddedTo)
-{
-    auto listener = EventListenerTouchOneByOne::create();
-    listener->setSwallowTouches(true);
-    listener->onTouchBegan = [=](Touch *touch, Event *event)
-    {
-        auto target = static_cast<Node*>(event->getCurrentTarget());
-        
-        Point locationInNode = target->convertToNodeSpace(touch->getLocation());
-        Size s = target->getBoundingBox().size;//getContentSize();
-        Rect rect = Rect(0,0,s.width, s.height);
-        
-        if(target->getOpacity() == 255)
-        {
-            if(rect.containsPoint(locationInNode))
-            {
-                return true;
-            }
-        }
-        return false;
-    };
-    
-    listener->onTouchEnded = [=](Touch *touch, Event *event)
-    {
-        auto target = static_cast<Node*>(event->getCurrentTarget());
-        
-        Point locationInNode = target->convertToNodeSpace(touch->getLocation());
-        Size s = target->getBoundingBox().size;//getContentSize();
-        Rect rect = Rect(0,0,s.width, s.height);
-        
-        if(target->getOpacity() == 255)
-        {
-            if(rect.containsPoint(locationInNode))
-            {
-                AnalyticsSingleton::getInstance()->genericButtonPressEvent("artsAppDeleteButton");
-                FileUtils::getInstance()->removeFile(_imageURL);
-                if(!HQHistoryManager::getInstance()->isOffline)
-                {
-                    if(HQHistoryManager::getInstance()->getCurrentHQ() == ConfigStorage::kArtAppHQName)
-                    {
-                        HQScene2 *hqScene = (HQScene2 *)Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName)->getChildByName(ConfigStorage::kArtAppHQName);
-                        hqScene->removeAllChildren();
-                        Director::getInstance()->purgeCachedData();
-                        hqScene->startBuildingScrollView();
-                    }
-                    else
-                    {
-                        MeHQ *hqScene = dynamic_cast<MeHQ*>(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName)->getChildByName(ConfigStorage::kMeHQName)->getChildByName(ConfigStorage::kMeHQName));
-                        if(hqScene)
-                        {
-                            hqScene->refreshGalleryLayout();
-                        }
-                    }
-                }
-                else
-                {
-                    HQScene2* hqScene = (HQScene2 *)Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kArtAppHQName);
-                    hqScene->removeChildByName(HQScene2::kArtScrollViewName);
-                    Director::getInstance()->purgeCachedData();
-                    auto offlineArtsAppScrollView = HQSceneArtsApp::create();
-                    offlineArtsAppScrollView->setName(HQScene2::kArtScrollViewName);
-                    hqScene->addChild(offlineArtsAppScrollView);
-                }
-            }
-        }
-    };
-    
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), toBeAddedTo);
-}*/
-
 void ArtsAppHQElement::addListenerToElement()
 {
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(false);
     listener->onTouchBegan = [=](Touch *touch, Event *event)
     {
+		if(!_touchEnabled)
+		{
+			return false;
+		}
+		
         auto target = static_cast<Node*>(event->getCurrentTarget());
         
         Point locationInNode = target->convertToNodeSpace(touch->getLocation());
@@ -341,13 +281,6 @@ void ArtsAppHQElement::addListenerToElement()
     listener->onTouchEnded = [=](Touch *touch, Event *event)
     {
 		AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
-        if(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName))
-        {
-            if(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName)->getNumberOfRunningActions() > 0)
-            {
-                return false;
-            }
-        }
         
         if(_iamtouched)
         {
@@ -366,7 +299,7 @@ void ArtsAppHQElement::addListenerToElement()
                 AnalyticsSingleton::getInstance()->contentItemSelectedEvent("EditArt");
             }
             
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ArtAppEntryPointScene));
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ArtAppEntryPointScene));
             return true;
         }
         

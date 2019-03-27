@@ -1,6 +1,6 @@
 #include "IntroVideoScene.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include "BaseScene.h"
+#include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Strings.h>
@@ -244,7 +244,7 @@ void IntroVideoScene::MessageBoxButtonPressed(std::string messageBoxTitle, std::
 		}
 		else
 		{
-			if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
+			if(!ParentDataParser::getInstance()->hasParentLoginDataInUserDefaults())
 			{
 				BackEndCaller::getInstance()->anonymousDeviceLogin();
 			}

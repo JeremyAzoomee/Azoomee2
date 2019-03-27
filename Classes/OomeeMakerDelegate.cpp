@@ -11,11 +11,13 @@
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Child/ChildDataParser.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeOomeeMaker/UI/OomeeMakerScene.h>
 #include <AzoomeeOomeeMaker/UI/OomeeSelectScene.h>
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Tutorial/TutorialController.h>
 
 USING_NS_CC;
 
@@ -34,15 +36,15 @@ OomeeMakerDelegate* OomeeMakerDelegate::getInstance()
 
 void OomeeMakerDelegate::onOomeeMakerNavigationBack()
 {
-    HQHistoryManager::getInstance()->_returnedFromForcedOrientation = true;
+    HQHistoryManager::getInstance()->setReturnedFromForcedOrientation(true);
     AnalyticsSingleton::getInstance()->contentItemClosedEvent();
-    if(!HQHistoryManager::getInstance()->isOffline)
+    if(!HQHistoryManager::getInstance()->isOffline())
     {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
     }
     else
     {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineHub));
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OfflineHub));
     }
 }
 
@@ -51,11 +53,11 @@ void OomeeMakerDelegate::onOomeeMakerShareOomee(const std::string& filename)
     ChatDelegate::getInstance()->_imageFileName = filename;
     if(filename != "")
     {
-        if(!HQHistoryManager::getInstance()->isOffline && ChildDataProvider::getInstance()->getIsChildLoggedIn())
+        if(!HQHistoryManager::getInstance()->isOffline() && ChildDataProvider::getInstance()->isChildLoggedIn())
         {
-            HQHistoryManager::getInstance()->_returnedFromForcedOrientation = true;
+            HQHistoryManager::getInstance()->setReturnedFromForcedOrientation(true);
             Director::getInstance()->getTextureCache()->reloadTexture(filename);
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
             AnalyticsSingleton::getInstance()->shareOomee();
         }
     }
@@ -63,13 +65,13 @@ void OomeeMakerDelegate::onOomeeMakerShareOomee(const std::string& filename)
 
 void OomeeMakerDelegate::onOomeeMakerUpdateAvatar(const std::string &filename)
 {
-    ModalMessages::getInstance()->startLoading();
-    const std::string& imageData = FileUtils::getInstance()->getStringFromFile(filename);
-    char* str = nullptr;
-    base64Encode((unsigned char*)imageData.c_str(), (unsigned int)imageData.length(), &str);
-    
-    HttpRequestCreator* request = API::UpdateChildAvatar(ChildDataProvider::getInstance()->getLoggedInChildId(), str, this);
-    request->execute();
+	ModalMessages::getInstance()->startLoading();
+	const std::string& imageData = FileUtils::getInstance()->getStringFromFile(filename);
+	char* str = nullptr;
+	base64Encode((unsigned char*)imageData.c_str(), (unsigned int)imageData.length(), &str);
+		
+	HttpRequestCreator* request = API::UpdateChildAvatar(ChildDataProvider::getInstance()->getParentOrChildId(), str, this);
+	request->execute();
 }
 
 void OomeeMakerDelegate::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
@@ -78,7 +80,8 @@ void OomeeMakerDelegate::onHttpRequestSuccess(const std::string& requestTag, con
     {
         rapidjson::Document json;
         json.Parse(body.c_str());
-        ChildDataParser::getInstance()->setLoggedInChildAvatarId(getStringFromJson("avatar", json));
+		ChildRef child = ChildDataProvider::getInstance()->getLoggedInChild();
+        child->setAvatar(getStringFromJson("avatar", json));
         ImageDownloaderRef imageDownloader = ImageDownloader::create("imageCache/", ImageDownloader::CacheMode::File );
         imageDownloader->downloadImage(nullptr, getStringFromJson("avatar", json), true);
         ModalMessages::getInstance()->stopLoading();
@@ -95,6 +98,14 @@ void OomeeMakerDelegate::onHttpRequestSuccess(const std::string& requestTag, con
         {
             AnalyticsSingleton::getInstance()->makeAvatarSuccess("OOMEE_MAKER");
             makerScene->displayMadeAvatarNotification();
+			if(TutorialController::getInstance()->isTutorialActive())
+			{
+				if(TutorialController::getInstance()->getCurrentState() == TutorialController::kConfirmOomee)
+				{
+					TutorialController::getInstance()->nextStep();
+					Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::AddChildAnon));
+				}
+			}
         }
     }
 }

@@ -41,7 +41,6 @@ bool RequestAdultPinLayer::init()
     }
     setPercentageofScreenForBox();
     addUIObjects();
-    addOrRemoveWires();
     
     return true;
 }
@@ -52,7 +51,7 @@ void RequestAdultPinLayer::createBackgroundLayer()
 {
     auto currentRunningScene = Director::getInstance()->getRunningScene();
     
-    backgroundLayer = LayerColor::create(Color4B(15,14,7,255),currentRunningScene->getContentSize().width, currentRunningScene->getContentSize().height);
+    backgroundLayer = LayerColor::create(Color4B(155,155,155,204),currentRunningScene->getContentSize().width, currentRunningScene->getContentSize().height);
     this->addChild(backgroundLayer);
     
     currentRunningScene->addChild(this, PIN_Z_ORDER);
@@ -114,35 +113,34 @@ void RequestAdultPinLayer::setPercentageofScreenForBox()
 
 void RequestAdultPinLayer::addUIObjects()
 {
-    auto currentRunningScene = Director::getInstance()->getRunningScene();
-    
+	const Size& visibleSize = Director::getInstance()->getVisibleSize();
+	const bool isPortrait = visibleSize.width < visibleSize.height;
     //-----------CREATE WINDOW LAYER-----------
-    Rect spriteRect = Rect(0, 0, 467, 230);
-    Rect capInsents = Rect(100, 100, 255, 1);
     
-    windowLayer = ui::Scale9Sprite::create("res/decoration/whiteWindowScale9.png", spriteRect, capInsents);
-    windowLayer->setContentSize(Size(currentRunningScene->getContentSize().width * percentageOfScreenForBox, 750));
-    windowLayer->setPosition(currentRunningScene->getContentSize().width/2,currentRunningScene->getContentSize().height * 0.72f);
+	windowLayer = ui::Scale9Sprite::create("res/settings/rounded_rect.png");
+	windowLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+	windowLayer->setPosition(Vec2(visibleSize.width * 0.5,visibleSize.height * 0.9));
+	windowLayer->setContentSize(Size(visibleSize.width * 0.875,visibleSize.height * 0.4f));
     this->addChild(windowLayer);
-    
-    //-------ACCEPT PLACEHOLDER BUTTON-------
-    
-    placeHolderAcceptButton= ElectricDreamsButton::createPlaceHolderButton();
-    windowLayer->addChild(placeHolderAcceptButton);
-
-    //------- CREATE ACCEPT BUTTON -----------
-    
-    acceptButton = ElectricDreamsButton::createAcceptButton();
-    acceptButton->setDelegate(this);
-    acceptButton->setVisible(false);
-    acceptButton->setMixPanelButtonName("PinAcceptButton");
-    windowLayer->addChild(acceptButton);
-    
+	
+	//------- CREATE ACCEPT BUTTON -----------
+	
+	_accept = ui::Button::create("res/settings/confirm_edit_button.png");
+	_accept->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
+	_accept->setAnchorPoint(Vec2(0.1,0.5));
+	_accept->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+		if(eType == ui::Widget::TouchEventType::ENDED)
+		{
+			this->requestUpdatedPin();
+		}
+	});
+	
     //-------- PIN EDITBOX -------------
     
-    editBox_pin = TextInputLayer::createWithSize(Size(windowLayer->getContentSize().width/2,160), INPUT_IS_PIN);
-    editBox_pin->setPosition(Vec2(windowLayer->getContentSize().width/2 - editBox_pin->getContentSize().width/2 - acceptButton->getContentSize().width*.66, windowLayer->getContentSize().height*.25));
+    editBox_pin = TextInputLayer::createSettingsBoxTextInput((windowLayer->getContentSize().width * 0.5f) - _accept->getContentSize().width, INPUT_IS_PIN);
+	editBox_pin->setCenterPosition(Vec2((windowLayer->getContentSize().width * 0.5f) - (_accept->getContentSize().width * 0.5f), editBox_pin->getContentSize().height * 1.5f));
     editBox_pin->setDelegate(this);
+	editBox_pin->setText(currentTypedPinNo);
     windowLayer->addChild(editBox_pin);
     
     if(!BiometricAuthenticationHandler::getInstance()->biometricAuthenticationSet())
@@ -151,62 +149,63 @@ void RequestAdultPinLayer::addUIObjects()
     }
     
     editBox_pin->focusAndShowKeyboard();
-    
-    //--------- LOCATION FOR ACCEPT BUTTON---------
-    
-    placeHolderAcceptButton->setPosition(Vec2(editBox_pin->getPositionX() + editBox_pin->getContentSize().width + acceptButton->getContentSize().width/2,editBox_pin->getPositionY()+editBox_pin->getContentSize().height/2 - placeHolderAcceptButton->getContentSize().height/2));
-    acceptButton->setPosition(placeHolderAcceptButton->getPosition());
+	
+	_accept->setEnabled(editBox_pin->inputIsValid());
+	editBox_pin->addChild(_accept,1);
     
     //---------- MODAL LABEL ------------
     
-    enterYourPinTitle = createLabelButtonAdultPrimary(_("Please enter your PIN"));
-	enterYourPinTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    enterYourPinTitle->setPosition(windowLayer->getContentSize().width * 0.5f, windowLayer->getContentSize().height * 0.75f);
+	enterYourPinTitle = Label::createWithTTF(_("You are now entering the Parents’ Zone. Enter your Parent PIN to continue."), Style::Font::Regular(), 65);
+	enterYourPinTitle->setTextColor(Color4B::BLACK);
+	enterYourPinTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 	enterYourPinTitle->setOverflow(Label::Overflow::SHRINK);
 	enterYourPinTitle->setHorizontalAlignment(TextHAlignment::CENTER);
 	enterYourPinTitle->setVerticalAlignment(TextVAlignment::CENTER);
-	enterYourPinTitle->setDimensions(windowLayer->getContentSize().width * 0.7f, windowLayer->getContentSize().height * 0.25f);
+	if(isPortrait)
+	{
+		enterYourPinTitle->setPosition(windowLayer->getContentSize().width * 0.5f, windowLayer->getContentSize().height * 0.45f);
+		enterYourPinTitle->setDimensions(windowLayer->getContentSize().width * 0.8f, windowLayer->getContentSize().height * 0.17f);
+	}
+	else
+	{
+		enterYourPinTitle->setPosition(windowLayer->getContentSize().width * 0.5f, windowLayer->getContentSize().height * 0.85f);
+		enterYourPinTitle->setDimensions(windowLayer->getContentSize().width * 0.75f, windowLayer->getContentSize().height * 0.4f);
+	}
     windowLayer->addChild(enterYourPinTitle);
-    
+	
+	//-------- IMAGE ------------
+	
+	if(isPortrait)
+	{
+		Sprite* image = Sprite::create("res/settings/oomee_and_child.png");
+		image->setNormalizedPosition(Vec2(0.5,0.65));
+		windowLayer->addChild(image);
+	}
+	
     //-------- CLOSE BUTTON ----------
-    
-    cancelButton = ElectricDreamsButton::createWindowCloseButtonGreen();
-    cancelButton->setCenterPosition(Vec2(windowLayer->getContentSize().width-cancelButton->getContentSize().width*0.75, windowLayer->getContentSize().height-cancelButton->getContentSize().height*.75));
-    cancelButton->setDelegate(this);
-    cancelButton->setMixPanelButtonName("PinCancelButton");
-    windowLayer->addChild(cancelButton);
+	
+	ui::Button* cancel = ui::Button::create("res/settings/exit_button_red.png");
+	cancel->setAnchorPoint(Vec2(-0.5,1.5));
+	cancel->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
+	cancel->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+		if(eType == ui::Widget::TouchEventType::ENDED)
+		{
+			AudioMixer::getInstance()->resumeBackgroundMusic();
+			//Schedule so it calls delegate before removing self. Avoiding crash
+			this->scheduleOnce(schedule_selector(RequestAdultPinLayer::removeSelf), 0.1);
+			if(this->getDelegate())
+				this->getDelegate()->AdultPinCancelled(this);
+		}
+	});
+	windowLayer->addChild(cancel);
+	
 }
 
 void RequestAdultPinLayer::resizeWindowAndObjects()
 {
-    setPercentageofScreenForBox();
-    
-    auto currentRunningScene = Director::getInstance()->getRunningScene();
-    
-    windowLayer->setContentSize(Size(currentRunningScene->getContentSize().width * percentageOfScreenForBox, 750));
-    windowLayer->setPosition(currentRunningScene->getContentSize().width/2,currentRunningScene->getContentSize().height * 0.72f);
-    
-    editBox_pin->setNewWidth(windowLayer->getContentSize().width/2);
-    editBox_pin->setPosition(Vec2(windowLayer->getContentSize().width/2 - editBox_pin->getContentSize().width/2 - acceptButton->getContentSize().width * 0.66f, windowLayer->getContentSize().height * 0.25f));
-
-    placeHolderAcceptButton->setPosition(Vec2(editBox_pin->getPositionX() + editBox_pin->getContentSize().width + acceptButton->getContentSize().width/2,editBox_pin->getPositionY()));
-    
-    acceptButton->setPosition(placeHolderAcceptButton->getPosition());
-    
-    enterYourPinTitle->setPosition(windowLayer->getContentSize().width * 0.5f, windowLayer->getContentSize().height * 0.75f);
-	enterYourPinTitle->setDimensions(windowLayer->getContentSize().width * 0.7f, windowLayer->getContentSize().height * 0.25f);
-	
-    cancelButton->setCenterPosition(Vec2(windowLayer->getContentSize().width-cancelButton->getContentSize().width * 0.75f, windowLayer->getContentSize().height-cancelButton->getContentSize().height * 0.75f));
-}
-
-void RequestAdultPinLayer::addOrRemoveWires()
-{
-    removeWiresFromScreen(backgroundLayer);
-    
-    auto currentRunningScene = Director::getInstance()->getRunningScene();
-    
-    if(currentRunningScene->getContentSize().width > currentRunningScene->getContentSize().height)
-        addSideWiresToScreen(backgroundLayer);
+	currentTypedPinNo = editBox_pin->getText();
+	windowLayer->removeFromParent();
+	addUIObjects();
 }
 
 void RequestAdultPinLayer::onSizeChanged()
@@ -215,7 +214,6 @@ void RequestAdultPinLayer::onSizeChanged()
     backgroundLayer->setContentSize(currentRunningScene->getContentSize());
     
     resizeWindowAndObjects();
-    addOrRemoveWires();
 }
 
 
@@ -264,7 +262,7 @@ void RequestAdultPinLayer::checkPinAgainstStoredPin()
         editBox_pin->setText("");
         editBox_pin->setEditboxVisibility(false);
         MessageBox::createWith(ERROR_CODE_INCORRECT_PIN, this);
-        acceptButton->setVisible(false);
+        _accept->setEnabled(false);
     }
 }
 
@@ -272,7 +270,7 @@ void RequestAdultPinLayer::checkPinAgainstStoredPin()
 
 void RequestAdultPinLayer::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
 {
-    acceptButton->setVisible(isValid);
+    _accept->setEnabled(isValid);
 }
 
 void RequestAdultPinLayer::textInputReturnPressed(TextInputLayer* inputLayer)
@@ -289,20 +287,6 @@ void RequestAdultPinLayer::editBoxEditingDidBegin(TextInputLayer* inputLayer)
 void RequestAdultPinLayer::editBoxEditingDidEnd(TextInputLayer* inputLayer)
 {
     
-}
-
-void RequestAdultPinLayer::buttonPressed(ElectricDreamsButton* button)
-{
-    if(button == cancelButton)
-    {
-        AudioMixer::getInstance()->resumeBackgroundMusic();
-        //Schedule so it calls delegate before removing self. Avoiding crash
-        this->scheduleOnce(schedule_selector(RequestAdultPinLayer::removeSelf), 0.1);
-        if(this->getDelegate())
-            this->getDelegate()->AdultPinCancelled(this);
-    }
-    else if(button == acceptButton)
-        requestUpdatedPin();
 }
 
 void RequestAdultPinLayer::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)

@@ -71,7 +71,7 @@ void OfflineText::createForOfflineHubWhenOffline()
     addOfflineLogoToScreen();
     addTextTitleToScreen(_("You are offline"));
     
-    if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+    if(ChildDataProvider::getInstance()->isChildLoggedIn())
     {
         addTextSubTitleToScreen(_("Check your connection and try again"));
         addTextBodyToScreen(_("In the meantime you can still enjoy these"));
@@ -147,7 +147,7 @@ void OfflineText::buttonPressed(ElectricDreamsButton *button)
 {
     OfflineChecker::getInstance()->setDelegate(nullptr);
     ChildDataParser::getInstance()->setChildLoggedIn(false);
-    HQHistoryManager::getInstance()->isOffline = false;
+    HQHistoryManager::getInstance()->setIsOffline(false);
     FlowDataSingleton::getInstance()->clearData();
     LoginLogicHandler::getInstance()->doLoginLogic();
 }

@@ -40,6 +40,8 @@ static ConfigStorage *_sharedConfigStorage = NULL;
     const char* const ConfigStorage::kContentNodeName = "contentNode";
     const char* const ConfigStorage::kContentLayerName = "contentLayer";
     const char* const ConfigStorage::kNavigationLayerName = "NavigationLayer";
+	const char* const ConfigStorage::kIosWebviewName = "iosWebView";
+	const char* const ConfigStorage::kAndroidWebviewName = "androidWebView";
     
     const char* const ConfigStorage::kContentTypeVideo = "VIDEO";
     const char* const ConfigStorage::kContentTypeAudio = "AUDIO";
@@ -56,6 +58,7 @@ static ConfigStorage *_sharedConfigStorage = NULL;
     const char* const ConfigStorage::kEstimatedKeyboardHeightLandscape = "Azoomee::MessageComposer::EstimatedKeyboardHeight/Landscape";
     
     const std::string ConfigStorage::kArtCacheFolder = "artCache/";
+	const std::string ConfigStorage::kOomeeMakerCacheFolder = "oomeeMaker/";
     
     const std::string ConfigStorage::kGameDownloadError = "ERROR";
 	
@@ -67,6 +70,11 @@ static ConfigStorage *_sharedConfigStorage = NULL;
 	const std::string ConfigStorage::kBillingProviderGoogle = "GOOGLE";
 	const std::string ConfigStorage::kBillingProviderAmazon = "AMAZON";
 	const std::string ConfigStorage::kBillingProviderVodacomSA = "VODACOM_SA";
+	
+	const std::string ConfigStorage::kAnonLoginPW = "ToBeDecided";
+	const char* const ConfigStorage::kAnonEmailKey = "anonEmail";
+	const char* const ConfigStorage::kStoredUsernameKey = "username";
+	const char* const ConfigStorage::kAnonOnboardingCompleteKey = "anonOnboardingComplete";
 	
 ConfigStorage* ConfigStorage::getInstance()
 {
@@ -114,7 +122,8 @@ bool ConfigStorage::init(void)
 		API::TagUpdateParentDetails,
 		API::TagUpdateChildNameRequest,
 		API::TagGetParentDetails,
-		API::TagGetVodacomTransactionId
+		API::TagGetVodacomTransactionId,
+		API::TagRegisterParent
     };
     requestTagsRequireImmediateSending = {
         kGroupHQName,
@@ -229,7 +238,6 @@ std::string ConfigStorage::getMediaPrefixForXwalkCookies()
 std::string ConfigStorage::getPathForTag(const std::string& httpRequestTag)
 {
     if(httpRequestTag == API::TagLogin) return "/api/auth/login";
-    if(httpRequestTag == API::TagAnonymousDeviceLogin) return "/api/anonymoususer/auth/login";
     if(httpRequestTag == API::TagGetAvailableChildren) return StringUtils::format("/api/user/adult/%s/owns", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
     if(httpRequestTag == API::TagChildLogin) return "/api/auth/switchProfile";
     if(httpRequestTag == API::TagGetGorden) return "/api/porthole/pixel/gordon.png";

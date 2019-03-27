@@ -22,6 +22,8 @@ public:
 	
 	void setDeleteButtonCallback(const DeleteButtonCallback& callback);
 	void deleteButtonVisible(bool visible);
+	
+	void setTouchEnabled(bool enabled);
     
 private:
     void createImageBorder();
@@ -32,7 +34,9 @@ private:
     bool _elementActive = false;
     bool _newImage = false;
 	bool _showDeleteButton = false;
-    
+	
+	bool _touchEnabled = true;
+	
 	cocos2d::ui::Button* addDeleteButton();
 	cocos2d::ui::Button* _deleteButton = nullptr;
 	DeleteButtonCallback _deleteCallback = nullptr;

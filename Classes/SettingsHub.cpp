@@ -14,6 +14,9 @@
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
+#include <AzoomeeCommon/Data/Cookie/CookieDataParser.h>
+#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "SceneManagerScene.h"
 #include "SettingsSupportPage.h"
 #include "SettingsOnlineSafetyPage.h"
@@ -68,17 +71,17 @@ bool SettingsHub::init()
         {
             if(_inHub)
             {
-				HQHistoryManager::getInstance()->_returnedFromForcedOrientation = true;
+				HQHistoryManager::getInstance()->setReturnedFromForcedOrientation(true);
 				switch(_origin)
 				{
 					case SettingsOrigin::HQ:
-						Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+						Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
 						break;
 					case SettingsOrigin::CHILD_SELECT:
-						Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+						Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChildSelector));
 						break;
 					case SettingsOrigin::CHAT:
-						Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+						Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
 						break;
 				}
             }
@@ -108,9 +111,15 @@ bool SettingsHub::init()
     _mainBodyLayout->setContentSize(Size(visibleSize.width, visibleSize.height - _titleLayout->getContentSize().height));
     _contentLayout->addChild(_mainBodyLayout);
     
-    _navigationLayout = ui::Layout::create();
+    _navigationLayout = ui::ListView::create();
+	_navigationLayout->setDirection(ui::ScrollView::Direction::VERTICAL);
+	_navigationLayout->setBounceEnabled(true);
+	_navigationLayout->setGravity(ui::ListView::Gravity::CENTER_HORIZONTAL);
+	_navigationLayout->setItemsMargin(10.0f);
+	_navigationLayout->setBottomPadding(10.0f);
+	_navigationLayout->setTopPadding(10.0f);
+	_navigationLayout->setSwallowTouches(true);
     _navigationLayout->setContentSize(_mainBodyLayout->getContentSize());
-    _navigationLayout->setLayoutType(ui::Layout::Type::VERTICAL);
     _mainBodyLayout->addChild(_navigationLayout);
     
     _activeSettingsPageHolder = ui::Layout::create();
@@ -118,9 +127,9 @@ bool SettingsHub::init()
     _activeSettingsPageHolder->setVisible(false);
     _mainBodyLayout->addChild(_activeSettingsPageHolder);
 	
-	const int numButtons = 6;
+	const float numButtonsOnScreen = 6.5;
 	
-	const float buttonHeight = _navigationLayout->getContentSize().height * (1.0f / numButtons) - 10;
+	const float buttonHeight = _navigationLayout->getContentSize().height * (1.0f / numButtonsOnScreen) - 10;
 	
 	_languageButton = SettingsNavigationButton::create();
 	_languageButton->setContentSize(Size(visibleSize.width, buttonHeight));
@@ -166,7 +175,26 @@ bool SettingsHub::init()
     });
     _friendshipsButton->setTouchEnabled(true);
     _navigationLayout->addChild(_friendshipsButton);
-    
+	
+	_parentInboxButton = SettingsNavigationButton::create();
+	_parentInboxButton->setContentSize(Size(visibleSize.width, buttonHeight));
+	_parentInboxButton->setLayoutParameter(CreateTopLinearLayoutParam(ui::Margin(0,0,0,10)));
+	_parentInboxButton->setIconFilename("res/settings/friendships_icon_3.png");
+	_parentInboxButton->setTitleText(_("Parent Inbox"));
+	_parentInboxButton->setSubTitleText(_("Receive and send messages to your kids"));
+	_parentInboxButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+		if(eType == ui::Widget::TouchEventType::ENDED)
+		{
+			if(ParentDataProvider::getInstance()->isPaidUser())
+			{
+				HttpRequestCreator* request = API::RefreshParentCookiesRequest(this);
+				request->execute();
+			}
+		}
+	});
+	_parentInboxButton->setTouchEnabled(true);
+	_navigationLayout->addChild(_parentInboxButton);
+	
     _yourAccountButton = SettingsNavigationButton::create();
     _yourAccountButton->setContentSize(Size(visibleSize.width, buttonHeight));
     _yourAccountButton->setLayoutParameter(CreateTopLinearLayoutParam(ui::Margin(0,0,0,10)));
@@ -218,9 +246,18 @@ bool SettingsHub::init()
 
 void SettingsHub::onEnter()
 {
-	RequestAdultPinLayer* pinLayer = RequestAdultPinLayer::create();
-	pinLayer->setDelegate(this);
-	
+	if(_origin != SettingsOrigin::CHAT || ChildDataProvider::getInstance()->isChildLoggedIn())
+	{
+		RequestAdultPinLayer* pinLayer = RequestAdultPinLayer::create();
+		pinLayer->setDelegate(this);
+	}
+	else // parent returning from chat
+	{
+		_origin = SettingsOrigin::CHILD_SELECT;
+		ModalMessages::getInstance()->startLoading();
+		HttpRequestCreator* request = API::getParentDetailsRequest(ParentDataProvider::getInstance()->getLoggedInParentId(), this);
+		request->execute();
+	}
     Super::onEnter();
 }
 
@@ -323,17 +360,17 @@ void SettingsHub::updateTextForNewLanguage()
 
 void SettingsHub::AdultPinCancelled(RequestAdultPinLayer* layer)
 {
-	HQHistoryManager::getInstance()->_returnedFromForcedOrientation = true;
+	HQHistoryManager::getInstance()->setReturnedFromForcedOrientation(true);
 	switch(_origin)
 	{
 		case SettingsOrigin::HQ:
-			Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
 			break;
 		case SettingsOrigin::CHILD_SELECT:
-			Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChildSelector));
 			break;
 		case SettingsOrigin::CHAT:
-			Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
 			break;
 	}
 }
@@ -353,6 +390,24 @@ void SettingsHub::onHttpRequestSuccess(const std::string& requestTag, const std:
 	if(requestTag == API::TagGetParentDetails)
 	{
 		ParentDataParser::getInstance()->parseParentDetails(body);
+	}
+	else if(requestTag == API::TagCookieRefresh)
+	{
+		ParentDataParser::getInstance()->parseParentSessionData(body);
+		const std::string& userId = ParentDataProvider::getInstance()->getLoggedInParentId();
+		const std::string& sessionId = ParentDataProvider::getInstance()->getLoggedInParentCdnSessionId();
+		
+		HttpRequestCreator* request = API::GetGordenRequest(userId, sessionId, this);
+		request->execute();
+		return;
+	}
+	else if(requestTag == API::TagGetGorden)
+	{
+		ChildDataParser::getInstance()->setChildLoggedIn(false);// make sure we log out child if entering parent chat
+		if(CookieDataParser::getInstance()->parseDownloadCookies(headers))
+		{
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
+		}
 	}
 }
 

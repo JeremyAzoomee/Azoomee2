@@ -80,7 +80,7 @@ void FriendListScene::onEnter()
     
     // Create a friend object which represents the current user
     const std::string& childId = ChildDataProvider::getInstance()->getParentOrChildId();
-    const std::string& childName = ChildDataProvider::getInstance()->getLoggedInChildName();
+    const std::string& childName = ChildDataProvider::getInstance()->getParentOrChildName();
     const std::string& childAvatar = ChildDataProvider::getInstance()->getParentOrChildAvatarId();
     _currentUser = Friend::create(childId, childName, childAvatar);
     
@@ -179,9 +179,6 @@ void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
     childDataLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
     childDataLayout->setBackGroundColor(Style::Color::dark);
     
-    // Add the current user's avatar to the subtitle bar
-    ChildDataProvider::getInstance()->getLoggedInChildAvatarId();
-    
     std::string oomeeFileName;
     std::string displayName;
     
@@ -189,10 +186,10 @@ void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
     childAvatar->setLayoutParameter(CreateCenterVerticalLinearLayoutParam());
     childAvatar->setSizeType(ui::Widget::SizeType::ABSOLUTE);
     
-    if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+    if(ChildDataProvider::getInstance()->isChildLoggedIn())
     {
         oomeeFileName = ChildDataProvider::getInstance()->getParentOrChildAvatarId();
-        displayName = "   " + ChildDataProvider::getInstance()->getLoggedInChildName() + " (" + _("Kid Code:") + " " + ParentDataProvider::getInstance()->getInviteCodeForAnAvailableChild(ChildDataProvider::getInstance()->getLoggedInChildNumber()) + ")";
+		displayName = "   " + ChildDataProvider::getInstance()->getParentOrChildName() + " (" + _("Kid Code:") + " " + ChildDataProvider::getInstance()->getLoggedInChild()->getInviteCode() + ")";
         auto childAvatarSprite = RemoteImageSprite::create();
         childAvatarSprite->setKeepAspectRatio(true);
         childAvatarSprite->initWithUrlAndSizeWithoutPlaceholder(oomeeFileName, Size(128,128));

@@ -22,7 +22,6 @@ struct Delegate {
     virtual void onOomeeMakerNavigationBack() = 0;
     virtual void onOomeeMakerShareOomee(const std::string& filename) = 0;
     virtual void onOomeeMakerUpdateAvatar(const std::string& filename) = 0;
-    
 };
 
 // Delegate instance in namespace

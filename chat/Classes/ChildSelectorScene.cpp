@@ -242,7 +242,7 @@ void ChildSelectorScene::addListenerToProfileLayer(Node *profileLayer)
             //Oomee child pressed
             target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
             int childNumber = target->getTag();
-            AnalyticsSingleton::getInstance()->registerChildGenderAndAge(childNumber);
+			AnalyticsSingleton::getInstance()->registerChildGenderAndAge(ParentDataProvider::getInstance()->getChild(childNumber));
             AnalyticsSingleton::getInstance()->genericButtonPressEvent("childSelectedForLogin");
             
             const std::string& profileName = ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(childNumber);

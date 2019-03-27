@@ -56,7 +56,7 @@ void FriendListSceneArtPreview::onEnter()
     
     // Create a friend object which represents the current user
     const std::string& childId = ChildDataProvider::getInstance()->getParentOrChildId();
-    const std::string& childName = ChildDataProvider::getInstance()->getLoggedInChildName();
+    const std::string& childName = ChildDataProvider::getInstance()->getParentOrChildName();
     const std::string& childAvatar = ChildDataProvider::getInstance()->getParentOrChildAvatarId();
     _currentUser = Friend::create(childId, childName, childAvatar);
     

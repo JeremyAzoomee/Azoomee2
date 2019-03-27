@@ -4,7 +4,6 @@
 #include <cocos/cocos2d.h>
 #include "../Azoomee.h"
 #include "../Input/TextInputLayer.h"
-#include "ElectricDreamsButton.h"
 #include "MessageBox.h"
 #include "../API/HttpRequestCreator.h"
 
@@ -19,24 +18,22 @@ public:
     virtual void AdultPinAccepted(RequestAdultPinLayer* layer) = 0;
 };
 
-class RequestAdultPinLayer : public cocos2d::Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate, public MessageBoxDelegate, public Azoomee::HttpRequestCreatorResponseDelegate
+class RequestAdultPinLayer : public cocos2d::Layer, public TextInputLayerDelegate, public MessageBoxDelegate, public Azoomee::HttpRequestCreatorResponseDelegate
 {
 private:
     cocos2d::EventListenerCustom* _biometricValidationSuccessListener = nullptr;
     cocos2d::EventListenerCustom* _biometricValidationFailureListener = nullptr;
     
-    cocos2d::LayerColor *backgroundLayer;
+    cocos2d::LayerColor *backgroundLayer = nullptr;
     
-    cocos2d::ui::Scale9Sprite* windowLayer;
+    cocos2d::ui::Scale9Sprite* windowLayer = nullptr;
     
     float percentageOfScreenForBox;
     std::string currentTypedPinNo = "";
     
-    TextInputLayer* editBox_pin;
-    
-    ElectricDreamsButton *acceptButton;
-    ElectricDreamsButton *cancelButton;
-    ElectricDreamsButton *placeHolderAcceptButton;
+    TextInputLayer* editBox_pin = nullptr;
+	
+	cocos2d::ui::Button* _accept = nullptr;
     
     cocos2d::Label* enterYourPinTitle;
     
@@ -57,7 +54,6 @@ private:
     void requestUpdatedPin();
     
     void resizeWindowAndObjects();
-    void addOrRemoveWires();
     
     //Delegate functions
     void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body);
@@ -76,7 +72,6 @@ public:
     void textInputReturnPressed(TextInputLayer* inputLayer);
     void editBoxEditingDidBegin(TextInputLayer* inputLayer);
     void editBoxEditingDidEnd(TextInputLayer* inputLayer);
-    void buttonPressed(ElectricDreamsButton* button);
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
     
     void onSizeChanged();

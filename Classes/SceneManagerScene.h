@@ -7,7 +7,7 @@
 
 NS_AZOOMEE_BEGIN
 
-enum SceneNameEnum {
+enum class SceneNameEnum {
     Login,
     Base,
     BaseWithNoHistory,
@@ -25,7 +25,11 @@ enum SceneNameEnum {
     introVideo,
     AddChild,
     AddChildFirstTime,
-	VodacomOnboarding
+	AddChildAnon,
+	VodacomOnboarding,
+	WelcomeScene,
+	ChildSettingsHub,
+	Shop
 };
 
 class SceneManagerScene : public cocos2d::Layer

@@ -68,7 +68,7 @@ void ChatAPI::updateProfileNames()
     
     // Add the current child user
     ChildDataProvider* childData = ChildDataProvider::getInstance();
-    _profileNames[childData->getParentOrChildId()] = childData->getLoggedInChildName();
+    _profileNames[childData->getParentOrChildId()] = childData->getParentOrChildName();
     
     // Add names from friend list
     for(auto friendData : _friendList)

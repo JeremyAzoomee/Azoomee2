@@ -10,12 +10,12 @@
 
 NS_AZOOMEE_BEGIN
 
-class HQSceneElement : public cocos2d::Layer
+class HQSceneElement : public cocos2d::ui::Button
 {
     typedef std::function<void(const HQContentItemObjectRef&)> DeleteButtonCallback;
+	typedef cocos2d::ui::Button Super;
 public:
     CREATE_FUNC(HQSceneElement);
-    static cocos2d::Scene* createScene();
     virtual bool init();
     
     void setCategory(const std::string &category);
@@ -26,7 +26,13 @@ public:
     void setMargin(float margin);
     void deleteButtonVisible(bool visible);
     void setDeleteButtonCallback(const DeleteButtonCallback& callback);
-    
+	
+	int getElementRow() const;
+	int getElementIndex() const;
+	
+	void setTouchDisabled(bool disabled);
+	void enableHighlight(bool enable);
+	
     void addHQSceneElement();
     
 private:
@@ -37,20 +43,19 @@ private:
     float _manualSizeMultiplier = 0.0f;
     float _margin = 0.0f;
     bool _showDeleteButton = false;
+	
+	bool _touchDisabled = false;
+	bool _showHighlight = false;
     
     HQSceneElementVisual* _elementVisual = nullptr;
     cocos2d::ui::Button* _deleteButton = nullptr;
     DeleteButtonCallback _deleteButtonCallback = nullptr;
     
-    void addListenerToElement();
-    
     cocos2d::ui::Button* createDeleteButton();
     
     void startUpElementDependingOnType();
     
-    cocos2d::Point _touchPoint;
-    bool _movedAway = false;
-    bool _iamtouched = false;
+    cocos2d::Point _touchPos;
 };
 
 NS_AZOOMEE_END

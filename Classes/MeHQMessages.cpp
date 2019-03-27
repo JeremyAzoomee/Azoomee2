@@ -52,6 +52,7 @@ bool MeHQMessages::init()
 
 void MeHQMessages::onEnter()
 {
+	TutorialController::getInstance()->registerDelegate(this);
     Super::onEnter();
     Chat::ChatAPI::getInstance()->registerObserver(this);
     _friendList = Chat::ChatAPI::getInstance()->getFriendList();
@@ -60,6 +61,7 @@ void MeHQMessages::onEnter()
 
 void MeHQMessages::onExit()
 {
+	TutorialController::getInstance()->unRegisterDelegate(this);
     Super::onExit();
     Chat::ChatAPI::getInstance()->removeObserver(this);
 }
@@ -113,7 +115,7 @@ void MeHQMessages::buildEmptyCarousel()
             }
             else
             {
-                Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+                Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
             }
         }
     });
@@ -175,7 +177,7 @@ void MeHQMessages::buildEmptyCarousel()
                 }
                 else
                 {
-                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
                 }
             }
         });
@@ -304,7 +306,7 @@ void MeHQMessages::createMessageList()
                     AnalyticsSingleton::getInstance()->contentItemSelectedEvent("CHAT");
                     
                     const std::string& childId = ChildDataProvider::getInstance()->getParentOrChildId();
-                    const std::string& childName = ChildDataProvider::getInstance()->getLoggedInChildName();
+                    const std::string& childName = ChildDataProvider::getInstance()->getParentOrChildName();
                     const std::string& childAvatar = ChildDataProvider::getInstance()->getParentOrChildAvatarId();
                     Chat::FriendRef currentUser = Chat::Friend::create(childId, childName, childAvatar);
                     
@@ -333,12 +335,30 @@ void MeHQMessages::createMessageList()
     {
         buildEmptyCarousel();
     }
+	
+	if(TutorialController::getInstance()->isTutorialActive())
+	{
+		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
+	}
     
     if(_refreshCallback)
     {
         _refreshCallback();
     }
 }
+
+void MeHQMessages::enableButtons(bool enable)
+{
+	for(auto child : this->getChildren())
+	{
+		ui::Layout* layout = dynamic_cast<ui::Layout*>(child);
+		if(layout)
+		{
+			layout->setTouchEnabled(enable);
+		}
+	}
+}
+
 /// Get Timeline Summary response
 void MeHQMessages::onChatAPIGetTimelineSummary(const Chat::MessageList& messageList)
 {
@@ -349,6 +369,11 @@ void MeHQMessages::onChatAPIGetTimelineSummary(const Chat::MessageList& messageL
 void MeHQMessages::onChatAPIErrorRecieved(const std::string& requestTag, long errorCode)
 {
     
+}
+
+void MeHQMessages::onTutorialStateChanged(const std::string& stateId)
+{
+	enableButtons(stateId == TutorialController::kTutorialEnded);
 }
 
 NS_AZOOMEE_END

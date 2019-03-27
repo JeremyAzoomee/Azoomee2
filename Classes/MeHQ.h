@@ -14,12 +14,13 @@
 #include <cocos/ui/CocosGUI.h>
 #include "HQSceneArtsApp.h"
 #include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
+#include "HQScene.h"
 
 NS_AZOOMEE_BEGIN
 
-class MeHQ : public cocos2d::Layer
+class MeHQ : public HQScene
 {
-    typedef cocos2d::Layer Super;
+    typedef HQScene Super;
     typedef std::function<void()> RefreshLayoutCallback;
 private:
     static const std::string kProfileLayerName;
@@ -30,18 +31,23 @@ private:
 	static const std::string kRecentlyPlayedLayerName;
     
     static std::string _previousLayer;
-    
+	
+	cocos2d::Node* _contentNode = nullptr;
+	
     cocos2d::ui::ListView* _contentListView = nullptr;
     
     std::map<std::string, int> _sectionIndexMap;
     
     std::string _hqCategory = ConfigStorage::kMeHQName;
+	
+	void buildListView();
 public:
     
     virtual bool init() override;
     virtual void onEnter() override;
     virtual void onExit() override;
-    
+	virtual void onSizeChanged() override;
+	
     CREATE_FUNC(MeHQ);
     
     void refreshFavouritesLayout();

@@ -293,7 +293,7 @@ void EditAccountLayer::onEnter()
 				if(eType == ui::Widget::TouchEventType::ENDED)
 				{
 #ifdef VODACOM_BUILD
-					Director::getInstance()->replaceScene(SceneManagerScene::createScene(VodacomOnboarding));
+					Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::VodacomOnboarding));
 #else
 
 					if(billingProvider == ConfigStorage::kBillingProviderApple)

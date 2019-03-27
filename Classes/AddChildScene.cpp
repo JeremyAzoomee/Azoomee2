@@ -16,6 +16,9 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/ErrorCodes.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <AzoomeeCommon/Tutorial/TutorialController.h>
+#include <AzoomeeCommon/API/API.h>
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 
 using namespace cocos2d;
 
@@ -64,6 +67,10 @@ Azoomee::Scene* AddChildScene::createWithFlowStage(const AddChildFlow& flowStage
     {
         scene->_addingFirstChild = true;
     }
+	else if(flowStage == AddChildFlow::ANON_NAME)
+	{
+		scene->_addingAnonChild = true;
+	}
     return scene;
 }
 
@@ -117,6 +124,16 @@ void AddChildScene::setSceneForFlow()
             nextLayer = ChildOomeeLayer::create();
             break;
         }
+		case AddChildFlow::ANON_NAME:
+		{
+			nextLayer = ChildNameLayer::create();
+			break;
+		}
+		case AddChildFlow::ANON_AGE:
+		{
+			nextLayer = ChildAgeLayer::create();
+			break;
+		}
         default:
         break;
     }
@@ -153,6 +170,31 @@ void AddChildScene::nextLayer()
             BackEndCaller::getInstance()->getAvailableChildren();
             break;
         }
+		case AddChildFlow::ANON_NAME:
+		{
+			if(TutorialController::getInstance()->isTutorialActive())
+			{
+				if(TutorialController::getInstance()->getCurrentState() == TutorialController::kNameEntry)
+				{
+					TutorialController::getInstance()->nextStep();
+				}
+			}
+			_currentFlowStage = AddChildFlow::ANON_AGE;
+			setSceneForFlow();
+			break;
+		}
+		case AddChildFlow::ANON_AGE:
+		{
+			if(TutorialController::getInstance()->isTutorialActive())
+			{
+				if(TutorialController::getInstance()->getCurrentState() == TutorialController::kAgeEntry)
+				{
+					TutorialController::getInstance()->nextStep();
+				}
+			}
+			_childCreator->updateChild(ChildDataProvider::getInstance()->getLoggedInChild());
+			break;
+		}
         default:
         break;
     }
@@ -185,6 +227,12 @@ void AddChildScene::prevLayer()
             setSceneForFlow();
             break;
         }
+		case AddChildFlow::ANON_AGE:
+		{
+			_currentFlowStage = AddChildFlow::ANON_NAME;
+			setSceneForFlow();
+			break;
+		}
         default:
             break;
     }
@@ -192,12 +240,26 @@ void AddChildScene::prevLayer()
 
 void AddChildScene::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
-    AnalyticsSingleton::getInstance()->childProfileCreatedSuccessEvent();
-    rapidjson::Document data;
-    data.Parse(body.c_str());
-    _childCreator->setCreatedChildId(getStringFromJson("id", data));
-    _currentFlowStage = AddChildFlow::OOMEE;
-    setSceneForFlow();
+	if(requestTag == API::TagRegisterChild)
+	{
+		AnalyticsSingleton::getInstance()->childProfileCreatedSuccessEvent();
+		rapidjson::Document data;
+		data.Parse(body.c_str());
+		_childCreator->setCreatedChildId(getStringFromJson("id", data));
+		_currentFlowStage = AddChildFlow::OOMEE;
+		setSceneForFlow();
+	}
+	else if(requestTag == API::TagUpdateChild)
+	{
+		
+		if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kAgeEntry)
+		{
+			TutorialController::getInstance()->nextStep();
+		}
+		UserDefault::getInstance()->setBoolForKey(ConfigStorage::kAnonOnboardingCompleteKey, true);
+		BackEndCaller::getInstance()->anonymousDeviceLogin();
+		
+	}
 }
 
 void AddChildScene::onHttpRequestFailed(const std::string& requestTag, long errorCode)
@@ -208,7 +270,7 @@ void AddChildScene::onHttpRequestFailed(const std::string& requestTag, long erro
 	}
     AnalyticsSingleton::getInstance()->childProfileCreatedErrorEvent(errorCode);
     FlowDataSingleton::getInstance()->setErrorCode(errorCode);
-    Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChildSelector));
 }
 
 NS_AZOOMEE_END

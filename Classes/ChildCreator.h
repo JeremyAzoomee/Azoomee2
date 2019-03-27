@@ -12,6 +12,7 @@
 #include <string>
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/API/HttpRequestCreator.h>
+#include <AzoomeeCommon/Data/Child/Child.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -44,6 +45,7 @@ public:
     void setHttpRespnseDelegate(HttpRequestCreatorResponseDelegate* delegate);
     
     bool addChild();
+	bool updateChild(const ChildRef& child);
 };
 
 NS_AZOOMEE_END

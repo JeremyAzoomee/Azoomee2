@@ -48,14 +48,14 @@ void FriendRequestLayer::onEnter()
 	contentLayout->setContentSize(contentSize);
 	_contentClippingNode->addChild(contentLayout);
 	
-    _senderText = Label::createWithTTF(StringUtils::format("%s\n%s",_senderName.c_str(), _senderInviteCode.c_str()), Style::Font::Medium(), 48);
+    _senderText = Label::createWithTTF(StringUtils::format("%s\n%s",_friendRequest->getSenderName().c_str(), ""), Style::Font::Medium(), 48);//sender code not available in friend request obj, leave as empty string for formatting, might go in at some point.
     _senderText->setNormalizedPosition(Vec2(0.25,0.66));
     _senderText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _senderText->setHorizontalAlignment(TextHAlignment::CENTER);
     _senderText->setTextColor(Color4B::BLACK);
     contentLayout->addChild(_senderText);
     
-    _recipientText = Label::createWithTTF(StringUtils::format("%s\n%s",_recipientName.c_str(), _recipientInviteCode.c_str()), Style::Font::Medium(), 48);
+    _recipientText = Label::createWithTTF(StringUtils::format("%s\n%s",_friendRequest->getFriendName().c_str(), _friendRequest->getInviteeCode().c_str()), Style::Font::Medium(), 48);
     _recipientText->setNormalizedPosition(Vec2(0.75,0.66));
     _recipientText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _recipientText->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -103,7 +103,7 @@ void FriendRequestLayer::onEnter()
     _confirmButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            HttpRequestCreator* request = API::FriendRequestReaction(true, _respondentId, _requestId, _senderName, this);
+            HttpRequestCreator* request = API::FriendRequestReaction(true, _friendRequest->getRespondentId(), _friendRequest->getId(), _friendRequest->getSenderName(), this);
             request->execute();
         }
     });
@@ -142,7 +142,7 @@ void FriendRequestLayer::onEnter()
     _confirmedBanner->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
     contentLayout->addChild(_confirmedBanner);
     
-    Label* confirmedLabel = Label::createWithTTF(StringUtils::format(_("%s can now chat with this friend!").c_str(), _recipientName.c_str()) ,Style::Font::Medium() , 59);
+    Label* confirmedLabel = Label::createWithTTF(StringUtils::format(_("%s can now chat with this friend!").c_str(), _friendRequest->getFriendName().c_str()) ,Style::Font::Medium() , 59);
     confirmedLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     confirmedLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     confirmedLabel->setTextColor(Color4B::WHITE);
@@ -157,14 +157,9 @@ void FriendRequestLayer::onEnter()
     Super::onEnter();
 }
 
-void FriendRequestLayer::setChildDetails(const std::string& senderName, const std::string& senderInviteCode, const std::string& recipientName, const std::string& recipientInviteCode, const std::string& respondentId, const std::string& requestId)
+void FriendRequestLayer::setChildDetails(const FriendRequestRef& friendRequest)
 {
-    _senderName = senderName;
-    _senderInviteCode = senderInviteCode;
-    _recipientName = recipientName;
-    _recipientInviteCode = recipientInviteCode;
-    _respondentId = respondentId;
-    _requestId = requestId;
+	_friendRequest = friendRequest;
 }
 
 void FriendRequestLayer::changeToState(Azoomee::InviteState state)
@@ -211,7 +206,7 @@ void FriendRequestLayer::onButtonPressed(SettingsMessageBox* pSender, SettingsMe
         case SettingsMessageBoxButtonType::REJECT:
         {
             pSender->removeFromParent();
-            HttpRequestCreator* request = API::FriendRequestReaction(false, _respondentId, _requestId, _senderName, this);
+            HttpRequestCreator* request = API::FriendRequestReaction(false, _friendRequest->getRespondentId(), _friendRequest->getId(), _friendRequest->getSenderName(), this);
             request->execute();
             break;
         }

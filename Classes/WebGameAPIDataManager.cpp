@@ -34,17 +34,17 @@ char* WebGameAPIDataManager::handleAPIRequest(const char* method, const char* re
 {
     if(strncmp(method, "requestUsername", strlen(method)) == 0)
     {
-        return createReturnStringForAPI(method, responseId, "userName", ChildDataProvider::getInstance()->getLoggedInChildName().c_str());
+        return createReturnStringForAPI(method, responseId, "userName", ChildDataProvider::getInstance()->getParentOrChildName().c_str());
     }
     
     if(strncmp(method, "requestUserID", strlen(method)) == 0)
     {
-        return createReturnStringForAPI(method, responseId, "userId", ChildDataProvider::getInstance()->getLoggedInChildId().c_str());
+        return createReturnStringForAPI(method, responseId, "userId", ChildDataProvider::getInstance()->getParentOrChildId().c_str());
     }
     
     if(strncmp(method, "requestUserAvatar", strlen(method)) == 0)
     {
-        return createReturnStringForAPI(method, responseId, "userAvatar", ChildDataProvider::getInstance()->getLoggedInChildAvatarId().c_str());
+        return createReturnStringForAPI(method, responseId, "userAvatar", ChildDataProvider::getInstance()->getParentOrChildAvatarId().c_str());
     }
     
     if(strncmp(method, "requestHighScore", strlen(method)) == 0)
@@ -114,7 +114,7 @@ char* WebGameAPIDataManager::createReturnStringForAPI(const char* method, const 
 
 std::string WebGameAPIDataManager::getPathForHighScoreFile()
 {
-    std::string filePath = FileUtils::getInstance()->getDocumentsPath() + "scoreCache/" + ChildDataProvider::getInstance()->getLoggedInChildId() + "/" + runningGameId + "/highscore.data";
+    std::string filePath = FileUtils::getInstance()->getDocumentsPath() + "scoreCache/" + ChildDataProvider::getInstance()->getParentOrChildId() + "/" + runningGameId + "/highscore.data";
     return filePath;
 }
 
@@ -148,7 +148,7 @@ void WebGameAPIDataManager::createDirectoryTree()
         FileUtils::getInstance()->createDirectory(scoreCacheFolder);
     }
     
-    const std::string &userScoreCacheFolder = scoreCacheFolder + "/" + ChildDataProvider::getInstance()->getLoggedInChildId();
+    const std::string &userScoreCacheFolder = scoreCacheFolder + "/" + ChildDataProvider::getInstance()->getParentOrChildId();
     if(!FileUtils::getInstance()->isDirectoryExist(userScoreCacheFolder))
     {
         FileUtils::getInstance()->createDirectory(userScoreCacheFolder);
@@ -194,7 +194,7 @@ char* WebGameAPIDataManager::getLocalStorageData()
 
 std::string WebGameAPIDataManager::getPathForLocalStorageFile()
 {
-    std::string filePath = FileUtils::getInstance()->getDocumentsPath() + "scoreCache/" + ChildDataProvider::getInstance()->getLoggedInChildId() + "/" + runningGameId + "/localstorage.data";
+    std::string filePath = FileUtils::getInstance()->getDocumentsPath() + "scoreCache/" + ChildDataProvider::getInstance()->getParentOrChildId() + "/" + runningGameId + "/localstorage.data";
     return filePath;
 }
 

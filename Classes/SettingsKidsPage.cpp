@@ -62,7 +62,7 @@ void SettingsKidsPage::onEnter()
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
 			ChildDataParser::getInstance()->setChildLoggedIn(false);
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(AddChild));
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::AddChild));
         }
     });
     _footerBanner->setTouchEnabled(true);
@@ -96,7 +96,7 @@ void SettingsKidsPage::addKidsToScrollView()
     {
         KidDetailsLayer* kidLayer = KidDetailsLayer::create();
         kidLayer->setContentSize(Size(_kidList->getContentSize().width, 1900));
-        kidLayer->setChildNum(i);
+		kidLayer->setChild(ParentDataProvider::getInstance()->getChild(i));
         kidLayer->setDeleteChildCallback([&](){
             ModalMessages::getInstance()->startLoading();
             HttpRequestCreator* request = API::GetAvailableChildrenRequest(this);

@@ -72,7 +72,7 @@ void VodacomOnboardingScene::exitFlow()
 	}
 	else
 	{
-		Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+		Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
 	}
 	
 }
@@ -295,7 +295,7 @@ void VodacomOnboardingScene::onHttpRequestSuccess(const std::string& requestTag,
 		else
 		{
 			ChildDataParser::getInstance()->setChildLoggedIn(false);
-			Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChildSelector));
 		}
 	}
 	else if(requestTag == API::TagGetVodacomTransactionId)
@@ -313,7 +313,7 @@ void VodacomOnboardingScene::onHttpRequestSuccess(const std::string& requestTag,
 	{
 		ChildDataParser::getInstance()->setChildLoggedIn(false);
 		ParentDataParser::getInstance()->parseParentBillingData(body);
-		Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+		Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChildSelector));
 	}
 }
 void VodacomOnboardingScene::onHttpRequestFailed(const std::string& requestTag, long errorCode)
@@ -322,7 +322,7 @@ void VodacomOnboardingScene::onHttpRequestFailed(const std::string& requestTag, 
 	if(requestTag == API::TagGetAvailableChildren || requestTag == API::TagUpdateBillingData)
 	{
 		ChildDataParser::getInstance()->setChildLoggedIn(false);
-		Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+		Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChildSelector));
 	}
 }
 

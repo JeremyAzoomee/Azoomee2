@@ -56,7 +56,7 @@ void HQStructureHandler::setHQFeedDelegate(HQFeedDelegate* delegate)
 void HQStructureHandler::getLatestHQStructureFeed()
 {
     ModalMessages::getInstance()->startLoading();
-    const std::string& childId = ParentDataProvider::getInstance()->isLoggedInParentAnonymous() ? "anonymous" : ChildDataProvider::getInstance()->getParentOrChildId();
+	const std::string& childId = ChildDataProvider::getInstance()->getParentOrChildId();
     HttpRequestCreator* request = API::GetHQStructureDataRequest(childId, this);
     request->execute();
 }
@@ -129,8 +129,8 @@ void HQStructureHandler::parseNavigationData(const std::string &data)
         const std::string& hqName = getStringFromJson("name", value);
         hqNames.push_back(hqName);
         if(getBoolFromJson("default", value, false))
-        {
-            ConfigStorage::getInstance()->setDefaultHQ(hqNames.back());
+		{
+			ConfigStorage::getInstance()->setDefaultHQ(hqNames.back());
         }
         if(value.HasMember("available"))
         {

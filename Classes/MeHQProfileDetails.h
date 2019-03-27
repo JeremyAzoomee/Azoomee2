@@ -13,10 +13,11 @@
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeOomeeMaker/UI/OomeeCarouselButton.h>
 #include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
+#include <AzoomeeCommon/Tutorial/TutorialController.h>
 
 NS_AZOOMEE_BEGIN
 
-class MeHQProfileDetails : public cocos2d::ui::Layout, ImageDownloaderDelegate
+class MeHQProfileDetails : public cocos2d::ui::Layout, ImageDownloaderDelegate, TutorialDelegate
 {
     typedef cocos2d::ui::Layout Super;
 private:
@@ -27,6 +28,10 @@ private:
     cocos2d::ui::Text* _kidCodeLabel = nullptr;
     
     ImageDownloaderRef _profileImageDownloader = nullptr;
+	
+	void highlightOomeButton();
+	void enableOomeeButton(bool enable);
+	
 protected:
     virtual void onSizeChanged() override;
     
@@ -40,6 +45,8 @@ public:
     //delegate functions
     void onImageDownloadComplete(const ImageDownloaderRef& downloader) override;
     void onImageDownloadFailed() override;
+	
+	virtual void onTutorialStateChanged(const std::string& stateId) override;
 };
 
 NS_AZOOMEE_END

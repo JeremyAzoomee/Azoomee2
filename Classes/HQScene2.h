@@ -2,13 +2,14 @@
 #define __HQSCENE2_H__
 
 #include <cocos/cocos2d.h>
-#include "ui/UIScrollView.h"
+#include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
+#include <AzoomeeCommon/Tutorial/TutorialController.h>
 
 NS_AZOOMEE_BEGIN
 
-class HQScene2 : public cocos2d::Layer
+class HQScene2 : public cocos2d::Layer, public TutorialDelegate
 {
 public:
     static const float kSpaceForPrivacyPolicy;
@@ -18,7 +19,9 @@ public:
     static const float kGroupContentItemImagePlaceholder;
     
     CREATE_FUNC(HQScene2);
-    virtual bool init();
+    virtual bool init() override;
+	virtual void onEnter() override;
+	virtual void onExit() override;
     void startBuildingScrollView();
     void rebuildScrollView();
     
@@ -27,6 +30,8 @@ public:
     
     static cocos2d::Scene* createSceneForOfflineArtsAppHQ();
 
+	virtual void onTutorialStateChanged(const std::string& stateId) override;
+	
 private:
     cocos2d::Vec2 _origin;
     cocos2d::Size _visibleSize;
@@ -37,7 +42,7 @@ private:
     cocos2d::Size _contentItemSize;
 
     cocos2d::ui::ScrollView* createScrollView();
-    cocos2d::Layer* createElementForCarousel(cocos2d::Node *toBeAddedTo, const HQContentItemObjectRef &itemData, int rowNumber, int elementIndex);
+	cocos2d::Node* createElementForCarousel(cocos2d::Node *toBeAddedTo, const HQContentItemObjectRef &itemData, int rowNumber, int elementIndex);
     
     cocos2d::Sprite* createGradientForScrollView(float scrollViewWith);
     
@@ -54,6 +59,11 @@ private:
     
     bool showingPostContentCTARequired();
     bool startingReviewProcessRequired();
+	
+	//tutorial controls
+	void highlightFirstElement();
+	void disableContent();
+	void enableContent();
 };
 
 NS_AZOOMEE_END

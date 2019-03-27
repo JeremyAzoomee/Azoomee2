@@ -282,14 +282,13 @@ using namespace Azoomee;
 -(void) playerItemDidReachEnd:(NSNotification*)notification
 {
     Azoomee::sendMixPanelData("video.complete", "");
-	Azoomee::sendVideoProgress(_currentItemIndex , 0);
     if(self.queuePlayer.currentItem == self.queuePlayer.items.lastObject)
     {
         Azoomee::sendMixPanelData("video.playlistComplete", "");
         
         [self cleanupAndExit];
     }
-	
+	Azoomee::sendProgressMetaDataVideo(0, CMTimeGetSeconds(_queuePlayer.currentItem.duration));
 	_currentItemIndex++;
 	Azoomee::newVideoOpened(_currentItemIndex);
 	if(!isAnonUser())
@@ -366,7 +365,8 @@ using namespace Azoomee;
     
     exitRequested = true;
 	
-	Azoomee::sendVideoProgress(_currentItemIndex , CMTimeGetSeconds(_queuePlayer.currentItem.currentTime));
+	//Azoomee::sendVideoProgress(_currentItemIndex , CMTimeGetSeconds(_queuePlayer.currentItem.currentTime));
+	Azoomee::sendProgressMetaDataVideo(CMTimeGetSeconds(_queuePlayer.currentItem.currentTime), CMTimeGetSeconds(_queuePlayer.currentItem.duration));
 	
     [self.backButton removeFromSuperview];
     if(!isAnonUser())

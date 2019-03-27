@@ -66,13 +66,14 @@ std::string WebViewSelector::getUrlWithoutPath(std::string url)
 void WebViewSelector::loadWebView(const std::string& url, Orientation orientation, const Vec2& closeButtonAnchor)
 {
     AnalyticsSingleton::getInstance()->contentItemWebviewStartedEvent();
+	ContentHistoryManager::getInstance()->onContentOpened();
     AudioMixer::getInstance()->stopBackgroundMusic();
     
     if(stringEndsWith(_targetUrl, "m3u8")) //this if clause will probably need changes for later
     {
         const std::string& userSessionId = ChildDataProvider::getInstance()->getParentOrChildCdnSessionId();
         _targetUrl = replaceAll(_targetUrl, "{sessionId}", userSessionId);
-		HttpRequestCreator* progressCheck = API::GetVideoProgress(ChildDataProvider::getInstance()->getLoggedInChildId(), ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId(),this);
+		HttpRequestCreator* progressCheck = API::GetVideoProgress(ChildDataProvider::getInstance()->getParentOrChildId(), ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId(),this);
         progressCheck->execute();
     }
     else
@@ -144,7 +145,7 @@ void WebViewSelector::onHttpRequestFailed(const std::string& requestTag, long er
 {
 	if(errorCode == ERROR_CODE_OFFLINE)
 	{
-		Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineHub));
+		Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OfflineHub));
 	}
 	else
 	{

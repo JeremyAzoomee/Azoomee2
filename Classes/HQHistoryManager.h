@@ -9,11 +9,19 @@ NS_AZOOMEE_BEGIN
 
 class HQHistoryManager : public cocos2d::Ref
 {
-    
+private:
+	std::vector<std::string> _hqNames;
+	
+	bool _thereWasAnError = false;
+	bool _isOffline = false;
+	
+	bool _returnedFromForcedOrientation = false;
+	
+	Orientation _prevHQOrientation = Orientation::Landscape;
+	
 public:
-    static HQHistoryManager* getInstance(void);
-    
-public:
+	static HQHistoryManager* getInstance(void);
+	
     virtual ~HQHistoryManager();
     bool init(void);
     
@@ -23,13 +31,22 @@ public:
     std::string getBeforePreviousHQ();           //we might need the previous before the previous, so we can add value to the back button.
     bool noHistory();
     void emptyHistory();
+	
+	void popHQ();
     
     void addDefaultHQIfHistoryEmpty();
     void getHistoryLog();
     
     void updatePrevOrientation();
-    
-    std::vector<std::string> hqNames;
+	
+	void setHasError(bool hasError);
+	void setIsOffline(bool offline);
+	void setReturnedFromForcedOrientation(bool returnedFromForcedOrientation);
+	
+	bool hasError() const;
+	bool isOffline() const;
+	bool hasReturnedFromForcedOrientation() const;
+	Orientation getPrevHQOrientation() const;
     
     //Adding last group source ID
     
@@ -37,12 +54,7 @@ public:
     std::string getGroupHQSourceId();
     std::string lastGroupHQSourceId;
     
-    bool thereWasAnError = false;
-    bool isOffline = false;
-    
-    bool _returnedFromForcedOrientation = false;
-    
-    Orientation _prevHQOrientation = Orientation::Landscape;
+	
     
 };
 

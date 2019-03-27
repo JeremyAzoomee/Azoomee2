@@ -133,24 +133,24 @@ void MeHQGallery::onEnter()
         }
     }
     
-    ui::Button* newImage = ui::Button::create("res/meHQ/new_painting_button.png");
-    newImage->setContentSize(newImage->getContentSize() * (((contentItemSize.width - contentItemMargin) * unitMultiplier) / newImage->getContentSize().width));
-    newImage->ignoreContentAdaptWithSize(false);
-    newImage->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-    newImage->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+    _newArt= ui::Button::create("res/meHQ/new_painting_button.png");
+    _newArt->setContentSize(_newArt->getContentSize() * (((contentItemSize.width - contentItemMargin) * unitMultiplier) / _newArt->getContentSize().width));
+    _newArt->ignoreContentAdaptWithSize(false);
+    _newArt->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+    _newArt->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
 			AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
             ArtAppDelegate::getInstance()->setFileName("");
             AnalyticsSingleton::getInstance()->contentItemSelectedEvent("NewArt");
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ArtAppEntryPointScene));
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ArtAppEntryPointScene));
         }
     });
     
     Vec2 elementShape = Vec2(1,1);
     
     HQScene2ElementPositioner hqScene2ElementPositioner;
-    hqScene2ElementPositioner.setElement(newImage);
+    hqScene2ElementPositioner.setElement(_newArt);
     hqScene2ElementPositioner.setCarouselLayer(_carouselLayout);
     hqScene2ElementPositioner.setHighlightData(elementShape);
     hqScene2ElementPositioner.setBaseUnitSize(contentItemSize * unitMultiplier);
@@ -160,8 +160,8 @@ void MeHQGallery::onEnter()
     float lowestElementYPosition = elementPosition.y;
     
     float offset = contentItemMargin/2;
-    newImage->setPosition(elementPosition + Vec2(offset, offset));
-    _carouselLayout->addChild(newImage);
+    _newArt->setPosition(elementPosition + Vec2(offset, offset));
+    _carouselLayout->addChild(_newArt);
     
     for(auto item : _carouselLayout->getChildren())
     {
@@ -176,10 +176,10 @@ void MeHQGallery::onEnter()
 	
 	if(artImages.size() > 0)
 	{
-		ui::Button* editButton = ui::Button::create(_editEnabled ? "res/meHQ/done_button_favourites.png" : "res/meHQ/edit_button_favourites.png");
-		editButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-		editButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
-		editButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+		_editButton = ui::Button::create(_editEnabled ? "res/meHQ/done_button_favourites.png" : "res/meHQ/edit_button_favourites.png");
+		_editButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+		_editButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
+		_editButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
 			if(eType == ui::Widget::TouchEventType::ENDED)
 			{
 				_editEnabled = !_editEnabled;
@@ -199,21 +199,21 @@ void MeHQGallery::onEnter()
 			}
 		});
 	
-		totalHeight += editButton->getContentSize().height + 50;
+		totalHeight += _editButton->getContentSize().height + 50;
 	
-		this->addChild(editButton);
+		this->addChild(_editButton);
 	}
 		
-    if(artImages.size() > 7)
+    if(artImages.size() > artFoldPoint)
     {
-        ui::Button* moreButton = ui::Button::create("res/meHQ/toggle_switch_closed.png");
-        moreButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-        moreButton->setFlippedY(_expanded);
-        moreButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
-        moreButton->setScale9Enabled(false);
-        moreButton->setContentSize(moreButton->getContentSize() * 3);
-        moreButton->ignoreContentAdaptWithSize(false);
-        moreButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+        _foldButton = ui::Button::create("res/meHQ/toggle_switch_closed.png");
+        _foldButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+        _foldButton->setFlippedY(_expanded);
+        _foldButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
+        _foldButton->setScale9Enabled(false);
+        _foldButton->setContentSize(_foldButton->getContentSize() * 3);
+        _foldButton->ignoreContentAdaptWithSize(false);
+        _foldButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
             if(eType == ui::Widget::TouchEventType::ENDED)
             {
                 _expanded = !_expanded;
@@ -224,17 +224,24 @@ void MeHQGallery::onEnter()
             }
         });
         
-        totalHeight += moreButton->getContentSize().height + 50;
+        totalHeight += _foldButton->getContentSize().height + 50;
         
-        this->addChild(moreButton);
+        this->addChild(_foldButton);
     }
     this->setContentSize(Size(visibleSize.width, totalHeight));
-    
+	
+	TutorialController::getInstance()->registerDelegate(this);
+	if(TutorialController::getInstance()->isTutorialActive())
+	{
+		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
+	}
+	
     Super::onEnter();
 }
 
 void MeHQGallery::onExit()
 {
+	TutorialController::getInstance()->unRegisterDelegate(this);
 	_targetDeleteFilename = "";
 	if(_deleteItemMessageBox)
 	{
@@ -264,6 +271,39 @@ bool MeHQGallery::getEditEnabled() const
 	return _editEnabled;
 }
 
+
+void MeHQGallery::highlightNewArtButton()
+{
+	_newArt->setTouchEnabled(true);
+	Sprite* glow = Sprite::create("res/childSelection/glow.png");
+	glow->setContentSize(_newArt->getContentSize());
+	glow->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	glow->runAction(RepeatForever::create(Sequence::createWithTwoActions(ScaleTo::create(1.0f, 0.5f), ScaleTo::create(1.0f, 1.5f))));
+	glow->setName("glow");
+	_newArt->addChild(glow, 1);
+}
+void MeHQGallery::enableButtons(bool enable)
+{
+	_newArt->removeChildByName("glow");
+	_newArt->setTouchEnabled(enable);
+	if(_editButton)
+	{
+		_editButton->setTouchEnabled(enable);
+	}
+	if(_foldButton)
+	{
+		_foldButton->setTouchEnabled(enable);
+	}
+	for(auto item : _carouselLayout->getChildren())
+	{
+		ArtsAppHQElement* art = dynamic_cast<ArtsAppHQElement*>(item);
+		if(art)
+		{
+			art->setTouchEnabled(enable);
+		}
+	}
+}
+
 // delegate functions
 
 void MeHQGallery::onConfirmPressed(ConfirmCancelMessageBox *pSender)
@@ -285,5 +325,11 @@ void MeHQGallery::onCancelPressed(ConfirmCancelMessageBox *pSender)
 	_deleteItemMessageBox = nullptr;
 	pSender->removeFromParent();
 }
+
+void MeHQGallery::onTutorialStateChanged(const std::string& stateId)
+{
+	enableButtons(stateId == TutorialController::kTutorialEnded);
+}
+
 
 NS_AZOOMEE_END

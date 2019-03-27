@@ -4,6 +4,9 @@
 #include <cocos/cocos2d.h>
 #include "../Json.h"
 #include "BillingData.h"
+#include "../Child/Child.h"
+#include "Parent.h"
+#include "FriendRequest.h"
 #include <map>
 
 
@@ -18,33 +21,33 @@ public:
 
     virtual ~ParentDataStorage();
     bool init(void);
-    
-    rapidjson::Document parentLoginData;
-    rapidjson::Document availableChildrenData;
-    rapidjson::Document pendingFriendRequestData;
-    
-    std::string loggedInParentId;
-    std::string loggedInParentCdnSessionId;
-    std::string loggedInParentApiSecret;
-    std::string loggedInParentApiKey;
-    std::string loggedInParentActorStatus;
-    std::string loggedInParentPin;
-    std::string loggedInParentAvatarId;
-    std::string loggedInParentDisplayName;
-    std::string loggedInParentEmail;
-    //std::string loggedInParentBillingStatus;
-    //std::string loggedInParentBillingDate;
-    //std::string loggedInParentBillingProvider;
+	
+	void setBillingData(const BillingDataRef& billingData);
+	BillingDataRef getBillingData() const;
+	void setBillingDataAvailable(bool available);
+	bool isBillingDataAvailable() const;
+	
+	void setParent(const ParentRef& parent);
+	ParentRef getParent() const;
+	
+	void clearAvailableChildren();
+	void addChild(const ChildRef& child);
+	std::vector<ChildRef> getAvailableChildren() const;
+	std::map<std::string, ChildRef> getAvailableChildrenById() const;
+	
+	void setPendingFriendRequests(const std::vector<FriendRequestRef>& pendingRequests);
+	std::vector<FriendRequestRef> getPendingFriendRequests() const;
+	
+private:
 	BillingDataRef _billingData = nullptr;
-    std::string loggedInParentCountryCode;
-    bool isLoggedInParentAnonymous = false;
-    bool isBillingDataAvailable = false;
-    
-    std::vector<std::map<std::string, std::string>> availableChildren;          //array of maps, where each child has profileName and avatar keys
-    // Index map of childId to index in availableChildren
-    std::map<std::string, int> availableChildrenById;
-    
-    std::vector<std::map<std::string, std::string>> pendingFriendRequests;
+	ParentRef _parent = nullptr;
+	
+    bool _isBillingDataAvailable = false;
+	
+	std::vector<ChildRef> _availableChildren;
+	std::map<std::string, ChildRef> _availableChildrenById;
+	
+    std::vector<FriendRequestRef> _pendingFriendRequests;
 };
 
 }

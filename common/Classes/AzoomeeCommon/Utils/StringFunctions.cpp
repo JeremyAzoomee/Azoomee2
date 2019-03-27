@@ -144,7 +144,7 @@ std::string getValueFromHttpResponseHeaderForKey(const std::string &key, const s
     {
         if(currentKey.compare(0, key.length(), key) == 0)
         {
-            return ltrim(splitStringToVector(currentKey, ":").back());
+			return ltrim(currentKey.substr(currentKey.find_first_of(":") + 1));
         }
     }
     
@@ -198,6 +198,25 @@ bool stringToBool(const std::string& string)
 std::string boolToString(bool boolean)
 {
     return boolean ? "true" : "false";
+}
+	
+int findPositionOfNthString(std::string string, std::string whatToFind, int whichOne)
+{
+	int startSearchPos = 0;
+	
+	for(int i = 0; i < whichOne; i++)
+	{
+		if(string.find(whatToFind, startSearchPos) == string.npos)
+		{
+			return int(string.length());
+		}
+		else
+		{
+			startSearchPos = int(string.find(whatToFind, startSearchPos) + 1);
+		}
+	}
+	
+	return startSearchPos - 1;
 }
 
 } // Azoomee

@@ -111,13 +111,16 @@ void AnalyticsSingleton::registerBillingProvider(std::string provider)
     mixPanelRegisterSuperProperties("billingProvider",provider);
 }
 
-void AnalyticsSingleton::registerChildGenderAndAge(int childNumber)
+void AnalyticsSingleton::registerChildGenderAndAge(const ChildRef& child)
 {
-    mixPanelRegisterSuperProperties("sex",ParentDataProvider::getInstance()->getSexForAnAvailableChild(childNumber));
+	if(child)
+	{
+    	mixPanelRegisterSuperProperties("sex",child->getSex());
     
-    int childAge = ageFromDOBString(ParentDataProvider::getInstance()->getDOBForAnAvailableChild(childNumber));
+    	int childAge = ageFromDOBString(child->getDOB());
     
-    mixPanelRegisterSuperProperties("age",cocos2d::StringUtils::format("%s%d",NUMBER_IDENTIFIER, childAge));
+    	mixPanelRegisterSuperProperties("age",cocos2d::StringUtils::format("%s%d",NUMBER_IDENTIFIER, childAge));
+	}
 }
     
 void AnalyticsSingleton::registerSessionId(std::string sessionId)
@@ -408,8 +411,9 @@ void AnalyticsSingleton::contentItemClosedEvent()
     double secondsOpened = difftime(now,_analyticsProperties->getTimeOpenedContent());
     
     secondsOpened -= SessionIdManager::getInstance()->getBackgroundTimeInContent();
-    
-    _analyticsProperties->addPropertyToStoredContentItemProperties("SecondsInContent", cocos2d::StringUtils::format("%s%.f",NUMBER_IDENTIFIER, secondsOpened));
+	
+	
+    _analyticsProperties->addPropertyToStoredContentItemProperties(AnalyticsProperties::kSecondsInContentKey, cocos2d::StringUtils::format("%s%.f",NUMBER_IDENTIFIER, secondsOpened));
     
     mixPanelSendEventWithStoredProperties("contentItemClosed", _analyticsProperties->getStoredContentItemProperties());
     

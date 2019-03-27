@@ -1,5 +1,4 @@
 #include "AppDelegate.h"
-#include "BaseScene.h"
 #include "IntroVideoScene.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "HQHistoryManager.h"
@@ -35,7 +34,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     register_all_packages();
     
     // create a scene. it's an autorelease object
-    Director::getInstance()->runWithScene(SceneManagerScene::createScene(introVideo));
+    Director::getInstance()->runWithScene(SceneManagerScene::createScene(SceneNameEnum::introVideo));
     
     SessionIdManager::getInstance();
     AnalyticsSingleton::getInstance()->setLandscapeOrientation();
@@ -58,9 +57,9 @@ bool AppDelegate::applicationDidFinishLaunching()
 void AppDelegate::applicationDidEnterBackground()
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-	if(Director::getInstance()->getRunningScene()->getChildByName("iosWebView"))
+	if(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kIosWebviewName))
 	{
-		NativeContentInterface_ios *webview = dynamic_cast<NativeContentInterface_ios*>(Director::getInstance()->getRunningScene()->getChildByName("iosWebView"));
+		NativeContentInterface_ios *webview = dynamic_cast<NativeContentInterface_ios*>(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kIosWebviewName));
 		if(webview)
 		{
 			webview->removeWebViewFromScreen();
@@ -85,9 +84,9 @@ void AppDelegate::applicationWillEnterForeground()
     PushNotificationsHandler::getInstance()->resetExistingNotifications();
 	
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-	if(Director::getInstance()->getRunningScene()->getChildByName("iosWebView"))
+	if(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kIosWebviewName))
 	{
-		NativeContentInterface_ios *webview = dynamic_cast<NativeContentInterface_ios*>(Director::getInstance()->getRunningScene()->getChildByName("iosWebView"));
+		NativeContentInterface_ios *webview = dynamic_cast<NativeContentInterface_ios*>(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kIosWebviewName));
 		if(webview)
 		{
 			webview->reAddWebViewToScreen();
@@ -98,19 +97,18 @@ void AppDelegate::applicationWillEnterForeground()
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     
-    if(Director::getInstance()->getRunningScene()->getChildByName("androidWebView"))
+    if(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kAndroidWebviewName))
     {
         AnalyticsSingleton::getInstance()->contentItemClosedEvent();
-        
-        if(HQHistoryManager::getInstance()->thereWasAnError)
+        if(HQHistoryManager::getInstance()->hasError())
         {
-            HQHistoryManager::getInstance()->thereWasAnError = false;
+            HQHistoryManager::getInstance()->setHasError(false);
             FlowDataSingleton::getInstance()->setErrorCode(ERROR_CODE_SOMETHING_WENT_WRONG);
             LoginLogicHandler::getInstance()->doLoginLogic();
             return;
         }
         
-        if(HQHistoryManager::getInstance()->isOffline == true)
+        if(HQHistoryManager::getInstance()->isOffline())
         {
             Director::getInstance()->replaceScene(OfflineHubScene::createScene());
             return;
@@ -119,7 +117,7 @@ void AppDelegate::applicationWillEnterForeground()
         {
             ContentHistoryManager::getInstance()->setReturnedFromContent(true);
         }
-        
+		
         if(ChatDelegate::getInstance()->_sharedContentId != "")
         {
             ChatDelegate::getInstance()->shareContentInChat();
@@ -128,7 +126,7 @@ void AppDelegate::applicationWillEnterForeground()
         
         HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
         
-        cocos2d::Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+        cocos2d::Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
     }
 	else
 	{

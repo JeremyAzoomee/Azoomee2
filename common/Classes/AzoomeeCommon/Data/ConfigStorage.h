@@ -44,6 +44,8 @@ public:
     static const char* const kContentNodeName;
     static const char* const kContentLayerName;
     static const char* const kNavigationLayerName;
+	static const char* const kIosWebviewName;
+	static const char* const kAndroidWebviewName;
     
     static const char* const kContentTypeVideo;
     static const char* const kContentTypeAudio;
@@ -60,6 +62,7 @@ public:
     static const char* const kEstimatedKeyboardHeightLandscape;
     
     static const std::string kArtCacheFolder;
+	static const std::string kOomeeMakerCacheFolder;
     
     static const std::string kGameDownloadError;
 	
@@ -71,6 +74,11 @@ public:
 	static const std::string kBillingProviderGoogle;
 	static const std::string kBillingProviderAmazon;
 	static const std::string kBillingProviderVodacomSA;
+	
+	static const std::string kAnonLoginPW;
+	static const char* const kAnonEmailKey;
+	static const char* const kStoredUsernameKey;
+	static const char* const kAnonOnboardingCompleteKey;
     
     /** Returns the shared instance of the Game Manager */
     static ConfigStorage* getInstance(void);
