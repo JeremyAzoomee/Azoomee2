@@ -283,6 +283,17 @@ void OomeeMakerScene::onEnter()
     });
     _contentLayer->addChild(resetOomeeButon);
 
+	if(delegate->_newAccessoryId != "")
+	{
+		const OomeeItemRef& item = OomeeMakerDataStorage::getInstance()->getOomeeItemForKey(delegate->_newAccessoryId);
+		if(item)
+		{
+			_oomee->addAccessory(item);
+		}
+		
+		delegate->_newAccessoryId = "";
+	}
+	
 	TutorialController::getInstance()->registerDelegate(this);
 	if(TutorialController::getInstance()->isTutorialActive())
 	{

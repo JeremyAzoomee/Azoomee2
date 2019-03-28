@@ -167,6 +167,8 @@ namespace Font
 	const char* const ArialBold = "fonts/Arial Bold.ttf";
 	// The system name of the font, usually inside the TTF file
 	const char* const ArialBoldSystemName = "ArialBold";
+	
+	const char* const PassionOneRegular = "fonts/PassionOne-Regular.ttf";
     
 	const char* const Regular();
 	const char* const Medium();

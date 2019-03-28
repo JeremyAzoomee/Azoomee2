@@ -7,6 +7,7 @@
 
 #include "ShopItemPage.h"
 #include "DynamicNodeHandler.h"
+#include <AzoomeeCommon/Audio/AudioMixer.h>
 
 using namespace cocos2d;
 
@@ -99,13 +100,19 @@ void ShopItemPage::onEnter()
 					if(shopItem->isLocked())
 					{
 						DynamicNodeHandler::getInstance()->startIAPFlow();
+						AudioMixer::getInstance()->playEffect("Unavailable_Shop_Item_Click.mp3");
 					}
 					else if(shopItem->isAffordable() && !shopItem->isOwned())
 					{
+						AudioMixer::getInstance()->playEffect("Available_Shop_Item_Click.wav");
 						if(_itemSelectedCallback)
 						{
 							_itemSelectedCallback(item);
 						}
+					}
+					else
+					{
+						AudioMixer::getInstance()->playEffect("Unavailable_Shop_Item_Click.mp3");
 					}
 				}
 			});

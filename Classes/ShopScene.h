@@ -27,6 +27,7 @@ private:
 	ShopCarousel* _shopCarousel = nullptr;
 	ShopItemPurchasePopup* _purchasePopup = nullptr;
 	CoinDisplay* _coinDisplay = nullptr;
+	cocos2d::ui::Button* _backButton = nullptr;
 	
 	cocos2d::LayerColor* _bgColour = nullptr;
 	cocos2d::Sprite* _wires = nullptr;

@@ -10,6 +10,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "SceneManagerScene.h"
+#include <AzoomeeCommon/Audio/AudioMixer.h>
 
 using namespace cocos2d;
 
@@ -59,6 +60,7 @@ bool CoinDisplay::init()
 	this->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
+			AudioMixer::getInstance()->playEffect("CoinCounterIcon_Click.wav");
 			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Shop));
 		}
 	});
@@ -88,7 +90,6 @@ void CoinDisplay::update(float deltaT)
 	if(sAnimating)
 	{
 		sCoinCount += sIncPerSec * deltaT;
-		//if(sCoinCount >= sTargetVal)
 		if(abs(sCoinCount - sTargetVal) < abs(sIncPerSec))
 		{
 			sCoinCount = sTargetVal;
@@ -105,6 +106,7 @@ void CoinDisplay::update(float deltaT)
 			sIncPerSec = (sTargetVal - sCoinCount) / 2.0f;
 			_coinsLabel->setScale(1.2f);
 			sAnimating = true;
+			AudioMixer::getInstance()->playEffect("CoinCounterIcon_NumberGoingUp.wav");
 		}
 	}
 	

@@ -8,6 +8,8 @@
 #include "CoinCollectLayer.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
+#include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Audio/AudioMixer.h>
 
 using namespace cocos2d;
 
@@ -29,23 +31,16 @@ void CoinCollectLayer::onEnter()
 	addHeading();
 	addPlinth();
 	
-	this->scheduleUpdate();
+	_wires->runAction(FadeOut::create(_duration));
+	_wireGlow->runAction(FadeIn::create(_duration));
 	
-	_passingTouchBlocker = EventListenerTouchOneByOne::create();
-	_passingTouchBlocker->setSwallowTouches(true);
-	_passingTouchBlocker->onTouchBegan = [](Touch* touch, Event* event){ return true; };
-	_passingTouchBlocker->onTouchEnded = [this](Touch* touch, Event* event){
-		// Do your stuff here
-	};
-	_eventDispatcher->addEventListenerWithFixedPriority(_passingTouchBlocker, -1); // less than zero
+	this->scheduleUpdate();
 	
 	Super::onEnter();
 }
 
 void CoinCollectLayer::onExit()
 {
-	_eventDispatcher->removeEventListener(_passingTouchBlocker);
-	_passingTouchBlocker = nullptr;
 	unscheduleUpdate();
 	Super::onExit();
 }
@@ -111,7 +106,10 @@ void CoinCollectLayer::onSizeChanged()
 	}
 	if(_wires)
 	{
-		_wires->setContentSize(visibleSize);
+		_wires->setScale(MAX(visibleSize.width, visibleSize.height) / _wires->getContentSize().width);
+		_wires->setRotation(isPortrait ? 90 : 0);
+		_wireGlow->setScale(MAX(visibleSize.width, visibleSize.height) / _wires->getContentSize().width);
+		_wireGlow->setRotation(isPortrait ? 90 : 0);
 	}
 	
 	if(_plinth)
@@ -154,6 +152,9 @@ void CoinCollectLayer::addBackground()
 	_bgColour = LayerColor::create(Color4B(0,7,4,255));
 	this->addChild(_bgColour, -1);
 	
+	const Size& contentSize = getContentSize();
+	bool isPortrait = contentSize.width < contentSize.height;
+	
 	_bottomGradient = Sprite::create("res/decoration/TopNavGrad.png");
 	_bottomGradient->setContentSize(Size(this->getContentSize().width, 400));
 	_bottomGradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -162,11 +163,20 @@ void CoinCollectLayer::addBackground()
 	_bottomGradient->setRotation(180);
 	this->addChild(_bottomGradient, -1);
 	
-	_wires = ui::Scale9Sprite::create("res/rewards/wires.png");
+	_wires = Sprite::create("res/rewards/big_wires.png");
 	_wires->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	_wires->setCapInsets(Rect(_wires->getContentSize()/2,Size(1,1)));
-	_wires->setContentSize(this->getContentSize());
+	_wires->setScale(MAX(contentSize.width, contentSize.height) / _wires->getContentSize().width);
+	_wires->setRotation(isPortrait ? 90 : 0);
 	this->addChild(_wires, -1);
+	
+	_wireGlow = Sprite::create("res/rewards/big_wires_glow.png");
+	_wireGlow->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	_wireGlow->setScale(MAX(contentSize.width, contentSize.height) / _wireGlow->getContentSize().width);
+	_wireGlow->setRotation(isPortrait ? 90 : 0);
+	_wireGlow->setOpacity(0);
+	this->addChild(_wireGlow, -1);
+	
+	
 	
 }
 void CoinCollectLayer::addHeading()
@@ -178,7 +188,7 @@ void CoinCollectLayer::addHeading()
 	sparkle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 	this->addChild(sparkle);
 	
-	Label* heading = Label::createWithTTF("GOOD JOB!", Style::Font::Bold(), 200);
+	Label* heading = Label::createWithTTF(_("GOOD JOB!"), Style::Font::PassionOneRegular, 200);
 	heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 	heading->setNormalizedPosition(Vec2(0.5,0.9));
 	heading->enableGlow(Color4B::WHITE);
@@ -256,6 +266,7 @@ void CoinCollectLayer::addCoinCounter()
 			this->addChild(coin);
 		}
 	}
+	AudioMixer::getInstance()->playEffect("Rewards_Anim_CoinsCountUp.wav");
 }
 
 cocos2d::ParticleSystemQuad* CoinCollectLayer::createSparkleParticles(const Vec2& emissionArea)

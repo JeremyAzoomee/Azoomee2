@@ -408,4 +408,9 @@ OomeeCarouselButton* OomeeCarousel::getCenterButton()
     return dynamic_cast<OomeeCarouselButton*>(_centerButton);
 }
 
+std::vector<std::string> OomeeCarousel::getOomeeData() const
+{
+	return _oomeeData;
+}
+
 NS_AZOOMEE_OM_END

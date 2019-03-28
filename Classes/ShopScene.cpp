@@ -15,7 +15,7 @@
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Child/ChildDataParser.h>
-
+#include <AzoomeeCommon/Audio/AudioMixer.h>
 
 using namespace cocos2d;
 
@@ -78,16 +78,17 @@ bool ShopScene::init()
 	
 	this->addChild(_purchasePopup);
 	
-	ui::Button* backButton = ui::Button::create("res/shop/back_white_v_2.png");
-	backButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
-	backButton->setAnchorPoint(Vec2(-0.25,1.25));
-	backButton->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
+	_backButton = ui::Button::create("res/shop/back_white_v_2.png");
+	_backButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
+	_backButton->setAnchorPoint(Vec2(-0.25,1.25));
+	_backButton->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
+			AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
 			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
 		}
 	});
-	this->addChild(backButton,1);
+	this->addChild(_backButton,1);
 	
 	_coinDisplay = CoinDisplay::create();
 	_coinDisplay->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
@@ -149,12 +150,14 @@ void ShopScene::onHttpRequestSuccess(const std::string& requestTag, const std::s
 		ChildDataParser::getInstance()->parseChildInventory(body);
 		_purchasePopup->setVisible(false);
 		_shopCarousel->setVisible(false);
+		_backButton->setVisible(false);
 		ShopItemPurchasedAnimation* anim = ShopItemPurchasedAnimation::create();
 		anim->setItemData(_purchasePopup->getItemData());
 		anim->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 		anim->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
 		anim->setOnCompleteCallback([this, anim](){
 			anim->removeFromParent();
+			_backButton->setVisible(true);
 			_shopCarousel->setVisible(true);
 			_shopCarousel->refreshUI();
 			_purchasePopup->setItemData(nullptr);

@@ -45,7 +45,7 @@ void RewardDisplayHandler::showReward(const RewardItemRef& reward)
 	if(reward->getType() == "COIN")
 	{
 		RewardScene* rewardScene = RewardScene::create();
-		rewardScene->setDuration(8.0f);
+		rewardScene->setDuration(12.0f);
 		rewardScene->setRewardData(reward);
 		rewardScene->setDeleagte(this);
 		NotificationNodeDisplayManager::getInstance()->addRewardNode(rewardScene);

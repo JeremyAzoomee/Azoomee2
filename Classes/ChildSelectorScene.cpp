@@ -183,8 +183,8 @@ void ChildSelectorScene::addPrivacyButton()
 void ChildSelectorScene::addScrollViewForProfiles()
 {
     _scrollView = ui::ScrollView::create();
-    _scrollView->setContentSize(Size(_visibleSize.width * 0.75, _visibleSize.height * (_isPortrait ?  0.65 : 0.6)));
-    _scrollView->setPosition(Point(_visibleSize.width * 0.125,_visibleSize.height * (_isPortrait ?  0.2 : 0.25)));
+	_scrollView->setContentSize(Size(_visibleSize.width * 0.8, _visibleSize.height * (_isPortrait ? 0.6 : (ConfigStorage::getInstance()->isDevice18x9() ? 0.5 : 0.6))));
+	_scrollView->setPosition(Point(_visibleSize.width * 0.1,_visibleSize.height * (_isPortrait ? 0.2 : (ConfigStorage::getInstance()->isDevice18x9() ? 0.3 :  0.25))));
     _scrollView->setDirection(cocos2d::ui::ScrollView::Direction::VERTICAL);
     _scrollView->setBounceEnabled(true);
     _scrollView->setTouchEnabled(true);

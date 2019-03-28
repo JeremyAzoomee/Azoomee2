@@ -7,6 +7,8 @@
 
 #include "ShopItemPurchasePopup.h"
 #include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Audio/AudioMixer.h>
 
 using namespace cocos2d;
 
@@ -69,11 +71,22 @@ bool ShopItemPurchasePopup::init()
 		{
 			if(_purchaseCallback)
 			{
+				AudioMixer::getInstance()->playEffect("Buy_Button_Click.wav");
 				_purchaseCallback(_itemData, true);
 			}
 		}
 	});
 	this->addChild(_buyButton);
+	
+	Label* buyLabel = Label::createWithTTF(_("BUY"), Style::Font::Bold(), 75);
+	buyLabel->setTextColor(Color4B(0, 245, 246, 255));
+	buyLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+	buyLabel->setVerticalAlignment(TextVAlignment::CENTER);
+	buyLabel->setOverflow(Label::Overflow::SHRINK);
+	buyLabel->setDimensions(_buyButton->getContentSize().width * 0.7f, _buyButton->getContentSize().height * 0.8f);
+	buyLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	buyLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	_buyButton->addChild(buyLabel);
 	
 	return true;
 }

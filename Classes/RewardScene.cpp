@@ -25,13 +25,13 @@ bool RewardScene::init()
 	
 	_screenSequence = std::vector<RewardScreen*>();
 	
+	_passingTouchBlocker->setSwallowTouches(false);
+	
 	return true;
 }
 
 void RewardScene::onEnter()
 {
-	//this->setScale(1);
-	
 	CoinChestLayer* coinChestLayer = CoinChestLayer::create();
 	coinChestLayer->setDuration(_duration * 0.3f);
 	coinChestLayer->setRewardData(_rewardData);
@@ -59,7 +59,12 @@ void RewardScene::onEnter()
 	nextLayer->release();
 	
 	Super::onEnter();
-	stopActionByTag(1); // stop auto callback action set in Super::onEnter()
+	stopActionByTag(kAutoCallbackActionTag); // stop auto callback action set in Super::onEnter()
+}
+
+void RewardScene::onExit()
+{
+	Super::onExit();
 }
 
 void RewardScene::onSizeChanged()

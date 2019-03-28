@@ -7,6 +7,7 @@
 
 #include "AwesomeLayer.h"
 #include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/Strings.h>
 
 using namespace cocos2d;
 
@@ -114,7 +115,7 @@ void AwesomeLayer::addAwsomeText()
 	bgLights->runAction(RepeatForever::create(Sequence::create(ScaleTo::create(1, 1.45), ScaleTo::create(2, 2.15), ScaleTo::create(1, 1), NULL)));
 	this->addChild(bgLights);
 	
-	Label* text = Label::createWithTTF("AWESOME", Style::Font::Bold(), 200);
+	Label* text = Label::createWithTTF(_("AWESOME"), Style::Font::PassionOneRegular, 200);
 	text->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	text->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	text->setScale(0.5);

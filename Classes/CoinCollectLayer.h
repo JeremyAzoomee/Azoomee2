@@ -24,7 +24,8 @@ private:
 	cocos2d::Label* _valueLabel = nullptr;
 	
 	cocos2d::LayerColor* _bgColour = nullptr;
-	cocos2d::ui::Scale9Sprite* _wires = nullptr;
+	cocos2d::Sprite* _wires = nullptr;
+	cocos2d::Sprite* _wireGlow = nullptr;
 	cocos2d::Sprite* _bottomGradient = nullptr;
 	
 	cocos2d::Sprite* _plinth = nullptr;
@@ -36,8 +37,6 @@ private:
 	float _nextParticleEmit = 0;
 	
 	std::string _oomeeFilepath;
-	
-	cocos2d::EventListenerTouchOneByOne* _passingTouchBlocker = nullptr;;
 	
 	void addBackground();
 	void addHeading();

@@ -13,6 +13,7 @@
 
 #include <AzoomeeCommon/Utils/SpecialCalendarEventManager.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Audio/AudioMixer.h>
 
 #include "FlowDataSingleton.h"
 #include "ContentHistoryManager.h"
@@ -143,18 +144,12 @@ void HQScene::buildCoreUI()
 	{
 		addXmasDecoration();
 	}
-
 	
+	if(HQHistoryManager::getInstance()->getHistorySize() == 1 || ContentHistoryManager::getInstance()->getReturnedFromContent())
+	{
+		AudioMixer::getInstance()->playBackgroundMusic(HQ_BACKGROUND_MUSIC);
+	}
 	ContentHistoryManager::getInstance()->setReturnedFromContent(false);
-	/*
-	const std::string& fakeData = "{\"id\": \"id\",\"userId\":  \"99999999-7848-46ce-b7d3-9999999999\",\"item\": {\"id\": \"ID1\",\"name\": \"test\",\"uri\": \"test\",\"type\": \"COIN\"},\"itemPrice\":" + StringUtils::format("%d",-RandomHelper::random_int(100, 500)) + " ,\"description\": \"Played Yeti\",\"status\": \"PENDING\"}";
-
-	rapidjson::Document data;
-	data.Parse(fakeData.c_str());
-	
-	RewardItemRef reward = RewardItem::createWithJson(data);
-	RewardDisplayHandler::getInstance()->onRewardSuccess(reward);
-	 */
 }
 
 void HQScene::addParticleElementsToBackground()

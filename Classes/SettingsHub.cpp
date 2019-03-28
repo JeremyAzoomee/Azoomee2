@@ -179,7 +179,7 @@ bool SettingsHub::init()
 	_parentInboxButton = SettingsNavigationButton::create();
 	_parentInboxButton->setContentSize(Size(visibleSize.width, buttonHeight));
 	_parentInboxButton->setLayoutParameter(CreateTopLinearLayoutParam(ui::Margin(0,0,0,10)));
-	_parentInboxButton->setIconFilename("res/settings/friendships_icon_3.png");
+	_parentInboxButton->setIconFilename("res/settings/parent_inbox_icon.png");
 	_parentInboxButton->setTitleText(_("Parent Inbox"));
 	_parentInboxButton->setSubTitleText(_("Receive and send messages to your kids"));
 	_parentInboxButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
@@ -354,6 +354,9 @@ void SettingsHub::updateTextForNewLanguage()
 	
 	_supportButton->setTitleText(_("Support"));
 	_supportButton->setSubTitleText(_("Need some help? View our support page or contact us directly"));
+	
+	_parentInboxButton->setTitleText(_("Parent Inbox"));
+	_parentInboxButton->setSubTitleText(_("Receive and send messages to your kids"));
 }
 
 // delegate functions

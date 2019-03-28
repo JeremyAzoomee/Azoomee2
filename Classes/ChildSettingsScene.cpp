@@ -13,6 +13,7 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataParser.h>
 #include "SceneManagerScene.h"
+#include "HQHistoryManager.h"
 
 using namespace cocos2d;
 
@@ -98,6 +99,7 @@ bool ChildSettingsScene::init()
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
 			ChildDataParser::getInstance()->setChildLoggedIn(false);
+			HQHistoryManager::getInstance()->emptyHistory();
 			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChildSelector));
 		}
 	});

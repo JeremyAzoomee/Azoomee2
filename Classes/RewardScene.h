@@ -24,6 +24,7 @@ public:
 	
 	bool init() override;
 	void onEnter() override;
+	void onExit() override;
 	void onSizeChanged() override;
 	
 	CREATE_FUNC(RewardScene);

@@ -126,10 +126,21 @@ void OomeeSelectScene::onEnter()
 	{
 		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
 	}
-	OomeeMakerDataHandler::getInstance()->getLatestData([](bool success){
+	OomeeMakerDataHandler::getInstance()->getLatestData([this](bool success){
 		if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kCreateOomee)
 		{
 			OomeeSelectScene::newOomee();
+		}
+		else if(delegate->_newAccessoryId != "")
+		{
+			if(_oomeeCarousel->getOomeeData().size() > 0)
+			{
+				editOomee(_oomeeCarousel->getOomeeData().at(0));
+			}
+			else
+			{
+				OomeeSelectScene::newOomee();
+			}
 		}
 	});
 	Super::onEnter();

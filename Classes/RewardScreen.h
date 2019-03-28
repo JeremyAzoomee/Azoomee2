@@ -27,10 +27,14 @@ class RewardScreen : public ResizeNode
 {
 	typedef ResizeNode Super;
 protected:
+	static const int kAutoCallbackActionTag;
+	
 	RewardScreenDelegate* _delegate = nullptr;
 	
 	float _duration = 0;
 	RewardItemRef _rewardData = nullptr;
+	
+	cocos2d::EventListenerTouchOneByOne* _passingTouchBlocker = nullptr;
 	
 public:
 	
