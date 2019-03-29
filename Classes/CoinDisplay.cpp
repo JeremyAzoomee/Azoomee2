@@ -54,7 +54,7 @@ bool CoinDisplay::init()
 	
 	_coinSprite = Sprite::create("res/rewards/coin.png");
 	_coinSprite->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
-	this->addChild(_coinSprite, 1);
+	this->addChild(_coinSprite, 1); // coin sprite on higher zorder to sit above glow anim sprites on banner, which are added later
 	
 	this->setTouchEnabled(true);
 	this->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){

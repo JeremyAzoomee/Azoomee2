@@ -72,7 +72,6 @@ void OomeeBody::setOomeeData(const OomeeRef& oomeeData)
         {
             lowestZOrder = spriteData.getZOrder();
             this->setContentSize(spriteLayer->getContentSize());
-            //this->setContentSize(Size(MAX(spriteLayer->getContentSize().width,this->getContentSize().width),MAX(spriteLayer->getContentSize().height, this->getContentSize().height)));
         }
         
         if(spriteData.getTag() != "none")

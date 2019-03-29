@@ -20,7 +20,6 @@ typedef std::shared_ptr<OomeeItem> OomeeItemRef;
 
 class OomeeItem
 {
-    //typedef std::map<std::string, std::pair<std::string, int>> AssetMap; // {colour id key, {asset name, zorder}}
 private:
     std::string _id;
     std::string _targetAnchor;

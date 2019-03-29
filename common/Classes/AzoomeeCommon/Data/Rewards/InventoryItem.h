@@ -41,6 +41,7 @@ public:
 	std::string getName() const;
 	std::string getMeta() const;
 	
+	static const std::string kAccessoryType;
 };
 
 NS_AZOOMEE_END

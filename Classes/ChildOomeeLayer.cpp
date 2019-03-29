@@ -27,12 +27,12 @@ bool ChildOomeeLayer::init()
 
 void ChildOomeeLayer::onEnter()
 {
-    bool is18x9 = ConfigStorage::getInstance()->isDevice18x9();
+    const bool is18x9 = ConfigStorage::getInstance()->isDevice18x9();
     const float offset[2] = {is18x9 ? 50.0f : 100.0f, 200.0f};
     const Size& contentSize = this->getContentSize();
     
-    bool isPortrait = contentSize.width < contentSize.height;
-	bool isAnon = ParentDataProvider::getInstance()->isLoggedInParentAnonymous();
+    const bool isPortrait = contentSize.width < contentSize.height;
+	const bool isAnon = ParentDataProvider::getInstance()->isLoggedInParentAnonymous();
 	
 	Label* title = Label::createWithTTF(_("Every child gets their own Oomee friend"), Style::Font::Regular(), 96);
 	title->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);

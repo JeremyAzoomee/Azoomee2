@@ -29,6 +29,18 @@ const std::vector<LanguageParams> StringMgr::kLanguageParams = {
 	LanguageParams("tur", "Türk", "Merhaba!")
 };
 
+const std::map<std::string, int> StringMgr::kDeviceLangConvMap = {
+	{"en", 0},
+	{"af", 1},
+	{"fr", 2},
+	{"es", 3},
+	{"de", 4},
+	{"pt", 5},
+	{"it", 6},
+	{"el", 7},
+	{"tr", 8},
+};
+	
 const std::string StringMgr::kLanguagesDir = "languages/";
 #ifdef USINGCI
 	const std::string StringMgr::kLangsZipUrl = "https://media.azoomee.ninja/static/popups/languages/languages.zip";
@@ -129,41 +141,9 @@ void StringMgr::setLanguageIdentifier()
 	if(storedLang == "")
 	{
 		const std::string& deviceLang = ConfigStorage::getInstance()->getDeviceLanguage().substr(0,2);
-		if(deviceLang == "en")
+		if(kDeviceLangConvMap.find(deviceLang) != kDeviceLangConvMap.end())
 		{
-			languageID = kLanguageParams.at(0)._identifier;
-		}
-		else if(deviceLang == "af")
-		{
-			languageID = kLanguageParams.at(1)._identifier;
-		}
-		else if(deviceLang == "fr")
-		{
-			languageID = kLanguageParams.at(2)._identifier;
-		}
-		else if(deviceLang == "es")
-		{
-			languageID = kLanguageParams.at(3)._identifier;
-		}
-		else if(deviceLang == "de")
-		{
-			languageID = kLanguageParams.at(4)._identifier;
-		}
-		else if(deviceLang == "pt")
-		{
-			languageID = kLanguageParams.at(5)._identifier;
-		}
-		else if(deviceLang == "it")
-		{
-			languageID = kLanguageParams.at(6)._identifier;
-		}
-		else if(deviceLang == "el")
-		{
-			languageID = kLanguageParams.at(7)._identifier;
-		}
-		else if(deviceLang == "tr")
-		{
-			languageID = kLanguageParams.at(8)._identifier;
+			languageID = kLanguageParams.at(kDeviceLangConvMap.at(deviceLang))._identifier;
 		}
 		else
 		{

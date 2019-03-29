@@ -110,13 +110,6 @@ bool OomeeFigure::initWithOomeeFigureData(const rapidjson::Document &data)
     
     const std::string& oomeeKey = getStringFromJson("oomee", data);
     
-    //const std::string& colourId = getStringFromJson("colour", data);
-    //_colour = OomeeMakerDataStorage::getInstance()->getColourForKey(colourId);
-    //if(!_colour)
-    //{
-    //    return false;
-    //}
-    
     const OomeeRef& oomee = OomeeMakerDataStorage::getInstance()->getOomeeForKey(oomeeKey);
     if(oomee)
     {
@@ -165,10 +158,6 @@ void OomeeFigure::setOomeeData(const OomeeRef& oomeeData)
     _accessories.clear();
     _baseSprite = OomeeBody::create();
     _baseSprite->setOomeeData(oomeeData);
-    //if(_colour)
-    //{
-    //    _baseSprite->setColourData(_colour);
-    //}
 
     _baseSprite->setNormalizedPosition(_oomeeData->getPosition());
     _baseSprite->setScale(_oomeeData->getScale());
@@ -240,10 +229,7 @@ void OomeeFigure::addAccessory(const OomeeItemRef& oomeeItem)
         removeAccessory(oomeeItem->getTargetAnchor());
         OomeeAccessory* accessory = OomeeAccessory::create();
         accessory->setItemData(oomeeItem);
-        //if(_colour)
-        //{
-        //    accessory->setColourData(_colour);
-        //}
+
 		accessory->setColourData(_oomeeData->getColour());
 		
         const Size& baseSpriteSize = _baseSprite->getContentSize();

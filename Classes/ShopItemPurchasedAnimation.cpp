@@ -104,10 +104,6 @@ void ShopItemPurchasedAnimation::onEnter()
 	}
 	
 	this->runAction(Sequence::createWithTwoActions(DelayTime::create(5.0f), CallFunc::create([this](){
-		//if(_onCompleteCallback)
-		//{
-		//	_onCompleteCallback();
-		//}
 		_backButton->setVisible(true);
 		_useButton->setVisible(true);
 	})));
