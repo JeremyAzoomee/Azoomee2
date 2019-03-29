@@ -111,6 +111,7 @@ void HQScene::buildCoreUI()
 	if(userType == UserBillingType::PAID)
 	{
 		_showingMessagingLayer = false;
+		_messagingLayer->setOpacity(0);
 	}
 	else
 	{

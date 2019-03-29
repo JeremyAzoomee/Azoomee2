@@ -31,7 +31,7 @@ void InventoryItem::parseInventoryItemData(const rapidjson::Value& inventoryItem
 	_type = getStringFromJson("type", inventoryItem);
 	_uri = getStringFromJson("uri", inventoryItem);
 	_name = getStringFromJson("name", inventoryItem);
-	_meta = getStringFromJson("meta", inventoryItem);
+	_meta = getStringFromJson("oomeeMakerItemMetaId", inventoryItem);
 }
 
 std::string InventoryItem::getType() const

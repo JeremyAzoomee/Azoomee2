@@ -161,7 +161,7 @@ void CoinCollectLayer::addBackground()
 	_bottomGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
 	_bottomGradient->setColor(Style::Color::skyBlue);
 	_bottomGradient->setRotation(180);
-	this->addChild(_bottomGradient, -1);
+	this->addChild(_bottomGradient);
 	
 	_wires = Sprite::create("res/rewards/big_wires.png");
 	_wires->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
