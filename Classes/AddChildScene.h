@@ -38,6 +38,8 @@ private:
     
     bool _addingFirstChild = false;
 	bool _addingAnonChild = false;
+	
+	std::string getAnalyticsStringForFlowState(const AddChildFlow& state);
     
 public:
     

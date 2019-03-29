@@ -8,6 +8,7 @@
 #include "ShopItemPage.h"
 #include "DynamicNodeHandler.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
 
@@ -97,13 +98,16 @@ void ShopItemPage::onEnter()
 				}
 				if(eType == TouchEventType::ENDED)
 				{
+					
 					if(shopItem->isLocked())
 					{
+						AnalyticsSingleton::getInstance()->shopLockedItemPressed(pos,item);
 						DynamicNodeHandler::getInstance()->startIAPFlow();
 						AudioMixer::getInstance()->playEffect("Unavailable_Shop_Item_Click.mp3");
 					}
 					else if(shopItem->isAffordable() && !shopItem->isOwned())
 					{
+						AnalyticsSingleton::getInstance()->shopItemPressed(pos, item);
 						AudioMixer::getInstance()->playEffect("Available_Shop_Item_Click.wav");
 						if(_itemSelectedCallback)
 						{
@@ -113,6 +117,10 @@ void ShopItemPage::onEnter()
 					else
 					{
 						AudioMixer::getInstance()->playEffect("Unavailable_Shop_Item_Click.mp3");
+						if(!shopItem->isAffordable())
+						{
+							AnalyticsSingleton::getInstance()->shopUnaffordableItemPressed(pos, item);
+						}
 					}
 				}
 			});

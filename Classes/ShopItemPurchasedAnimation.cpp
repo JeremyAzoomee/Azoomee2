@@ -9,6 +9,7 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "SceneManagerScene.h"
 #include "OomeeMakerDelegate.h"
 
@@ -51,6 +52,7 @@ bool ShopItemPurchasedAnimation::init()
 	_backButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
+			AnalyticsSingleton::getInstance()->shopPurchseAnimClosed(_itemData);
 			if(_onCompleteCallback)
 			{
 				_onCompleteCallback();
@@ -67,6 +69,7 @@ bool ShopItemPurchasedAnimation::init()
 	_useButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
+			AnalyticsSingleton::getInstance()->shopPurchasedAnimUsePressed(_itemData);
 			if(_itemData)
 			{
 				//set item meta id in oomee maker delegate

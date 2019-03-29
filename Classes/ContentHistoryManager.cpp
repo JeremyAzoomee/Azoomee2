@@ -73,11 +73,11 @@ long ContentHistoryManager::getTimeInContent() const
 
 time_t ContentHistoryManager::getContentOpenedTime() const
 {
-	return _contentOpenedTime;
+	return _contentOpenedTime * 1000;
 }
 time_t ContentHistoryManager::getContentClosedTime() const
 {
-	return _contentClosedTime;
+	return _contentClosedTime * 1000;
 }
 
 NS_AZOOMEE_END

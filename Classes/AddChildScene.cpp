@@ -144,6 +144,7 @@ void AddChildScene::setSceneForFlow()
     }
     if(nextLayer)
     {
+		AnalyticsSingleton::getInstance()->createChildFlowEvent(getAnalyticsStringForFlowState(_currentFlowStage));
         nextLayer->setChildCreator(_childCreator);
         nextLayer->setDelegate(this);
         nextLayer->setContentSize(this->getContentSize());
@@ -155,6 +156,7 @@ void AddChildScene::setSceneForFlow()
 // Delegate Functions
 void AddChildScene::nextLayer()
 {
+	AnalyticsSingleton::getInstance()->createChildNextPressed();
 	AudioMixer::getInstance()->playEffect(NEXT_BUTTON_AUDIO_EFFECT);
     switch(_currentFlowStage)
     {
@@ -213,6 +215,7 @@ void AddChildScene::nextLayer()
 
 void AddChildScene::prevLayer()
 {
+	AnalyticsSingleton::getInstance()->createChildBackPressed();
 	AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
     switch(_currentFlowStage)
     {
@@ -247,6 +250,35 @@ void AddChildScene::prevLayer()
         default:
             break;
     }
+}
+
+std::string AddChildScene::getAnalyticsStringForFlowState(const AddChildFlow& state)
+{
+	switch (state) {
+		
+		case AddChildFlow::FIRST_TIME_SETUP_NAME:
+			return "FirstChildSetupName";
+			break;
+		case AddChildFlow::ADDITIONAL_NAME:
+			return "AdditionalChildName";
+			break;
+		case AddChildFlow::AGE:
+			return "ChildAge";
+			break;
+		case AddChildFlow::OOMEE:
+			return "Oomee";
+			break;
+		case AddChildFlow::ANON_NAME:
+			return "AnonChildName";
+			break;
+		case AddChildFlow::ANON_AGE:
+			return "AnonChildAge";
+			break;
+		case AddChildFlow::ANON_OOMEE:
+			return "AnonOomee";
+			break;
+	}
+	
 }
 
 void AddChildScene::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)

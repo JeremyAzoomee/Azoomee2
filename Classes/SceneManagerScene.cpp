@@ -196,6 +196,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
                 goToScene = Azoomee::ArtApp::MainScene::createSceneWithDrawing(fileName);
             else
                 goToScene = Azoomee::ArtApp::MainScene::createScene();
+			AnalyticsSingleton::getInstance()->registerCurrentScene("ART_APP");
             Director::getInstance()->replaceScene(TransitionSlideInR::create(0.25f, goToScene));
             break;
         }
@@ -205,6 +206,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             Azoomee::OomeeMaker::delegate = OomeeMakerDelegate::getInstance();
             forceToLandscape();
             cocos2d::Scene* goToScene = Azoomee::OomeeMaker::OomeeSelectScene::create();
+			AnalyticsSingleton::getInstance()->registerCurrentScene("OOMEE_MAKER");
             Director::getInstance()->replaceScene(goToScene);
             break;
         }
@@ -276,6 +278,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         {
             acceptAnyOrientation();
             HQHistoryManager::getInstance()->updatePrevOrientation();
+			AnalyticsSingleton::getInstance()->registerCurrentScene("ADD_CHILD");
             Director::getInstance()->replaceScene(AddChildScene::createWithFlowStage(AddChildFlow::ADDITIONAL_NAME));
             break;
         }
@@ -283,6 +286,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         {
             acceptAnyOrientation();
             HQHistoryManager::getInstance()->updatePrevOrientation();
+			AnalyticsSingleton::getInstance()->registerCurrentScene("ADD_CHILD");
             Director::getInstance()->replaceScene(AddChildScene::createWithFlowStage(AddChildFlow::FIRST_TIME_SETUP_NAME));
             break;
         }
@@ -290,6 +294,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
 		{
 			acceptAnyOrientation();
 			HQHistoryManager::getInstance()->updatePrevOrientation();
+			AnalyticsSingleton::getInstance()->registerCurrentScene("ADD_CHILD");
 			Director::getInstance()->replaceScene(AddChildScene::createWithFlowStage(AddChildFlow::ANON_NAME));
 			break;
 		}
@@ -304,6 +309,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
 		{
 			acceptAnyOrientation();
 			HQHistoryManager::getInstance()->updatePrevOrientation();
+			AnalyticsSingleton::getInstance()->registerCurrentScene("CHILD_SETTINGS");
 			Director::getInstance()->replaceScene(ChildSettingsScene::create());
 			break;
 		}
@@ -311,6 +317,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
 		{
 			acceptAnyOrientation();
 			HQHistoryManager::getInstance()->updatePrevOrientation();
+			AnalyticsSingleton::getInstance()->registerCurrentScene("SHOP");
 			Director::getInstance()->replaceScene(ShopScene::create());
 			break;
 		}

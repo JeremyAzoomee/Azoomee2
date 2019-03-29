@@ -7,6 +7,7 @@
 
 #include "ShopCarousel.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
 
@@ -45,6 +46,7 @@ bool ShopCarousel::init()
 			}
 			_pageRight->runAction(FadeTo::create(0.5,_shopWindow->getCurrentPageIndex() == (_shopWindow->getItems().size() - 1) ? 125 : 255));
 			_pageLeft->runAction(FadeTo::create(0.5,_shopWindow->getCurrentPageIndex() == 0 ? 125 : 255));
+			AnalyticsSingleton::getInstance()->shopPageTurned((int)_shopWindow->getCurrentPageIndex());
 		}
 	});
 	

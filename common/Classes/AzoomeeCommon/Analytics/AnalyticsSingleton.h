@@ -8,6 +8,7 @@
 #include "AnalyticsProperties.h"
 #include "../Data/Parent/BillingData.h"
 #include "../Data/Child/Child.h"
+#include "../Data/Shop/ShopDisplayItem.h"
 
 #define NUMBER_IDENTIFIER "NUMBER|"
 
@@ -92,7 +93,11 @@ public:
     void childProfileUpdateErrorEvent(long errorCode);
 
     void childProfileCreatedEvent(int age);
-    
+	
+	void createChildFlowEvent(const std::string& flowState);
+	void createChildNextPressed();
+	void createChildBackPressed();
+	
     //-------------HUB ACTIONS-------------------
     void navSelectionEvent(std::string hubOrTop, const std::string& buttonName);
     
@@ -201,6 +206,23 @@ public:
 	void vodacomOnboardingFlowExitEvent();
 	void vodacomOnboardingFlowMoveToScreen(const std::string& newScreen);
 	void vodacomOnboardingVoucherAdded(const std::string& voucherCode);
+	
+	//-------------Rewards events-------------------------------
+	void rewardRedeemedEvent(int value);
+	void rewardAnimBeginEvent(int value);
+	void rewardAnimCloseEvent(int value);
+	void rewardAnimGoToShopEvent(int value);
+	
+	//-------------Shop events----------------------------------
+	void shopPageTurned(int pageNumber);
+	void shopItemPressed(int itemPos, const ShopDisplayItemRef& item);
+	void shopLockedItemPressed(int itemPos, const ShopDisplayItemRef& item);
+	void shopUnaffordableItemPressed(int itemPos, const ShopDisplayItemRef& item);
+	void shopItemPurchased(const ShopDisplayItemRef& item);
+	void shopPurchasePopupClosed(const ShopDisplayItemRef& item);
+	void shopPurchseAnimClosed(const ShopDisplayItemRef& item);
+	void shopPurchasedAnimUsePressed(const ShopDisplayItemRef& item);
+	
 	
 };
   
