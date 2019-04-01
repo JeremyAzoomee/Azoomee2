@@ -9,6 +9,7 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 
 using namespace cocos2d;
 
@@ -86,11 +87,47 @@ void ChildNameLayerFirstTime::onEnter()
         }
     });
     this->addChild(_continueButton);
-    
-    Sprite* progressIcon = Sprite::create("res/decoration/progress1.png");
-    progressIcon->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-    progressIcon->setPosition(Vec2(contentSize.width / 2.0f, progressIcon->getContentSize().height));
-    this->addChild(progressIcon);
+	
+	Sprite* progressIcon = Sprite::create("res/decoration/progress1.png");
+	progressIcon->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+	progressIcon->setPosition(Vec2(contentSize.width / 2.0f, progressIcon->getContentSize().height));
+	this->addChild(progressIcon);
+	
+	if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
+	{
+		
+		ui::Button* loginButton = ui::Button::create("res/buttons/MainButton.png");
+		loginButton->setColor(Style::Color::telish);
+		loginButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+		loginButton->setPosition(progressIcon->getPosition() + Vec2(0,progressIcon->getContentSize().height + 100));
+		loginButton->ignoreContentAdaptWithSize(false);
+		loginButton->setScale9Enabled(true);
+		loginButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType)
+		{
+			if(eType == ui::Widget::TouchEventType::ENDED)
+			{
+				if(_delegate)
+				{
+					_delegate->prevLayer();
+				}
+			}
+		});
+		this->addChild(loginButton);
+		
+		Label* loginButtonText = Label::createWithTTF(_("Log in"), Style::Font::Regular(), loginButton->getContentSize().height * 0.4f);
+		loginButtonText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+		loginButtonText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+		loginButtonText->setTextColor(Color4B::BLACK);
+		loginButton->addChild(loginButtonText);
+		loginButton->setContentSize(Size(loginButtonText->getContentSize().width + 160, loginButton->getContentSize().height));
+		
+		Label* loginTitle = Label::createWithTTF(_("Already have an account?"), Style::Font::Regular(), 64);
+		loginTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+		loginTitle->setPosition(loginButton->getPosition() + Vec2(0,loginButton->getContentSize().height + 50));
+		loginTitle->setColor(Color3B::WHITE);
+		this->addChild(loginTitle);
+	}
+	
     
     Super::onEnter();
 }

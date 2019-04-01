@@ -395,6 +395,25 @@ void SceneManagerScene::showHoldingUI()
 	wires->setRotation(isPortrait ? 90 : 0);
 	this->addChild(wires, -1);
 	
+	LayerColor* overlay = LayerColor::create(Color4B(7,4,34,80));
+	this->addChild(overlay);
+	
+	for(int i = 0; i < 3; i++)
+	{
+		auto loadingCircle = Sprite::create("res/modal/loading.png");
+		loadingCircle->setNormalizedPosition(Vec2(0.5,0.5));
+		loadingCircle->setOpacity(0);
+		loadingCircle->setRotation(RandomHelper::random_int(0, 360));
+		loadingCircle->setScale(0.6 + i * 0.2);
+		
+		this->addChild(loadingCircle);
+		
+		int direction = CCRANDOM_0_1() < 0.5 ? 1 : -1;
+		
+		loadingCircle->runAction(RepeatForever::create(RotateBy::create(CCRANDOM_0_1() + 1, 360 * direction)));
+		loadingCircle->runAction(FadeTo::create(0.5, 255));
+	}
+	
 	this->runAction(Sequence::createWithTwoActions(DelayTime::create(2.5), CallFunc::create([this](){
 		HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
 		const std::string& currentHQ = HQHistoryManager::getInstance()->getCurrentHQ();

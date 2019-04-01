@@ -234,6 +234,10 @@ void AddChildScene::prevLayer()
 			setSceneForFlow();
 			break;
 		}
+		case AddChildFlow::ANON_NAME:
+		{
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
+		}
         default:
             break;
     }
