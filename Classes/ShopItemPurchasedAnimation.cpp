@@ -76,11 +76,8 @@ bool ShopItemPurchasedAnimation::init()
 	_useButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-<<<<<<< HEAD
 			AnalyticsSingleton::getInstance()->shopPurchasedAnimUsePressed(_itemData);
-=======
 			AudioMixer::getInstance()->playEffect("Buy_Button_Click.wav");
->>>>>>> AD-1859/visualTweaks
 			if(_itemData)
 			{
 				//set item meta id in oomee maker delegate
