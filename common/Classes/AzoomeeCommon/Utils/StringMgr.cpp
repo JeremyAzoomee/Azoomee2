@@ -29,16 +29,16 @@ const std::vector<LanguageParams> StringMgr::kLanguageParams = {
 	LanguageParams("tur", "Türk", "Merhaba!")
 };
 
-const std::map<std::string, int> StringMgr::kDeviceLangConvMap = {
-	{"en", 0},
-	{"af", 1},
-	{"fr", 2},
-	{"es", 3},
-	{"de", 4},
-	{"pt", 5},
-	{"it", 6},
-	{"el", 7},
-	{"tr", 8},
+const std::map<std::string, std::string> StringMgr::kDeviceLangConvMap = {
+	{"en", "en-GB"},
+	{"af", "afr"},
+	{"fr", "fre_FR"},
+	{"es", "spa_ES"},
+	{"de", "ger-DE"},
+	{"pt", "por-PT"},
+	{"it", "ita-IT"},
+	{"el", "gre"},
+	{"tr", "tur"},
 };
 	
 const std::string StringMgr::kLanguagesDir = "languages/";
@@ -143,7 +143,10 @@ void StringMgr::setLanguageIdentifier()
 		const std::string& deviceLang = ConfigStorage::getInstance()->getDeviceLanguage().substr(0,2);
 		if(kDeviceLangConvMap.find(deviceLang) != kDeviceLangConvMap.end())
 		{
-			languageID = kLanguageParams.at(kDeviceLangConvMap.at(deviceLang))._identifier;
+			const auto& target = std::find_if(kLanguageParams.begin(), kLanguageParams.end(), [&](const LanguageParams& langParam){
+				return langParam._identifier == kDeviceLangConvMap.at(deviceLang);
+			});
+			languageID = target != kLanguageParams.end() ? target->_identifier : kLanguageParams.at(0)._identifier;
 		}
 		else
 		{

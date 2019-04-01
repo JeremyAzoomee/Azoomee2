@@ -401,8 +401,7 @@ void SceneManagerScene::showHoldingUI()
 		
 		this->addChild(loadingCircle);
 		
-		int direction = 1;
-		if(CCRANDOM_0_1() < 0.5) direction = -1;
+		int direction = CCRANDOM_0_1() < 0.5 ? 1 : -1;
 		
 		loadingCircle->runAction(RepeatForever::create(RotateBy::create(CCRANDOM_0_1() + 1, 360 * direction)));
 		loadingCircle->runAction(FadeTo::create(0.5, 255));
