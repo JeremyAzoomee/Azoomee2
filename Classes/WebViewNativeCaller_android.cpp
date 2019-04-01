@@ -383,20 +383,6 @@ JNIEXPORT bool JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIIsAnonUser(JNIEnv* env,
 
 extern "C"
 {
-	JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNISendVideoProgress(JNIEnv* env, jobject thiz, int playlistIndex, int progressSeconds);
-};
-
-JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNISendVideoProgress(JNIEnv* env, jobject thiz, int playlistIndex, int progressSeconds)
-{
-	 BackEndCaller::getInstance()->updateVideoProgress(VideoPlaylistManager::getInstance()->getContentItemDataForPlaylistElement(playlistIndex)->getContentItemId(), progressSeconds);
-}
-
-#endif
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-
-extern "C"
-{
 	JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNISendProgressMetaDataVideo(JNIEnv* env, jobject thiz, int videoProgressSeconds, int videoDuration);
 };
 

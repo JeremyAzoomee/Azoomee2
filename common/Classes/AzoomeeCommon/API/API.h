@@ -61,13 +61,14 @@ public:
 	static const char* const TagAddVoucher;
 	static const char* const TagGetVodacomTransactionId;
 	static const char* const TagGetVideoProgress;
-	static const char* const TagUpdateVideoProgress;
+	static const char* const TagUpdateProgressMeta;
 	static const char* const TagRewardCallback;
 	static const char* const TagRedeemReward;
 	static const char* const TagGetPendingRewards;
 	static const char* const TagGetInventory;
 	static const char* const TagBuyReward;
 	static const char* const TagGetShopFeed;
+	static const char* const TagGetOomeeMakerAssets;
 	
 	static const std::string kAZCountryCodeKey;
 	
@@ -210,6 +211,9 @@ public:
 	static HttpRequestCreator* UpdateContentProgressMeta(const std::string& childId,
 														 const std::string& metaBody,
 														 HttpRequestCreatorResponseDelegate* delegate);
+	
+	static HttpRequestCreator* GetOomeeMakerAssets(const std::string& childId,
+												   HttpRequestCreatorResponseDelegate* delegate);
 	
 #pragma mark - Friend Requests
     

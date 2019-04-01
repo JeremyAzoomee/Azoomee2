@@ -8,6 +8,9 @@
 #include "CoinChestLayer.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
+#include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Audio/AudioMixer.h>
+#include "SceneManagerScene.h"
 
 using namespace cocos2d;
 
@@ -20,23 +23,82 @@ bool CoinChestLayer::init()
 		return false;
 	}
 	
+	const Size& contentSize = getContentSize();
+	bool isPortrait = contentSize.width < contentSize.height;
+	
 	_bgColour = LayerColor::create(Color4B(0,7,4,255));
 	this->addChild(_bgColour, -1);
 	
-	_wires = ui::Scale9Sprite::create("res/rewards/wires.png");
+	_wires = Sprite::create("res/rewards/big_wires.png");
 	_wires->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	_wires->setCapInsets(Rect(_wires->getContentSize()/2,Size(1,1)));
-	_wires->setContentSize(this->getContentSize());
+	_wires->setScale(MAX(contentSize.width, contentSize.height) / _wires->getContentSize().width);
+	_wires->setRotation(isPortrait ? 90 : 0);
 	this->addChild(_wires, -1);
+	
+	_wireGlow = Sprite::create("res/rewards/big_wires_glow.png");
+	_wireGlow->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	_wireGlow->setScale(MAX(contentSize.width, contentSize.height) / _wireGlow->getContentSize().width);
+	_wireGlow->setRotation(isPortrait ? 90 : 0);
+	_wireGlow->setOpacity(0);
+	this->addChild(_wireGlow, -1);
+	
+	_backButton = ui::Button::create("res/rewards/close_white.png");
+	_backButton->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
+	_backButton->setAnchorPoint(Vec2(1.25,1.25));
+	this->addChild(_backButton,1);
+	
+	_useButton = ui::Button::create("res/shop/cta.png");
+	_useButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+	_useButton->setNormalizedPosition(isPortrait ? Vec2(0.5,0.1) : Vec2(0.7,0.3));
+	_useButton->setScale9Enabled(true);
+	this->addChild(_useButton);
+	
+	Label* useLabel = Label::createWithTTF(_("Shop"), Style::Font::Bold(), 75);
+	useLabel->setTextColor(Color4B(0, 245, 246, 255));
+	useLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+	useLabel->setVerticalAlignment(TextVAlignment::CENTER);
+	useLabel->setOverflow(Label::Overflow::SHRINK);
+	useLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	useLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	_useButton->addChild(useLabel);
+	_useButton->setContentSize(Size(useLabel->getContentSize().width + 150, _useButton->getContentSize().height));
+	useLabel->setDimensions(_useButton->getContentSize().width - 150, _useButton->getContentSize().height * 0.8f);
 	
 	return true;
 }
 void CoinChestLayer::onEnter()
 {
+	_passingTouchBlocker->onTouchEnded = [this](Touch* touch, Event* event){
+		// Do your stuff here
+		const Point& pos = touch->getLocation();
+		const Point& transformedPoint = Point(pos.x - Director::getInstance()->getVisibleOrigin().x, pos.y - Director::getInstance()->getVisibleOrigin().y ); //tranform relative to origin as this inst included because of the notification node
+		if(_backButton->getBoundingBox().containsPoint(transformedPoint))
+		{
+			if(this->_delegate)
+			{
+				this->_delegate->onAnimationComplete(_rewardData);
+			}
+		}
+		else if(_useButton->getBoundingBox().containsPoint(transformedPoint))
+		{
+			if(this->_delegate)
+			{
+				this->_delegate->onAnimationComplete(_rewardData);
+				Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Shop));
+			}
+		}
+	};
+	
 	addChest();
 	addText();
 	
+	_wires->runAction(FadeOut::create(_duration));
+	_wireGlow->runAction(FadeIn::create(_duration));
+	
+	AudioMixer::getInstance()->playEffect("Rewards_Anim_Chest.wav");
+	
 	Super::onEnter();
+	stopActionByTag(kAutoCallbackActionTag);
 }
 
 void CoinChestLayer::onSizeChanged()
@@ -46,11 +108,11 @@ void CoinChestLayer::onSizeChanged()
 	bool isPortrait = visibleSize.width < visibleSize.height;
 	if(_text)
 	{
-		_text->setNormalizedPosition(isPortrait ? Vec2(0.5,0.75) : Vec2(0.70,0.5));
+		_text->setNormalizedPosition(isPortrait ? Vec2(0.5,0.75) : Vec2(0.70,0.6));
 	}
 	if(_chestNode)
 	{
-		_chestNode->setNormalizedPosition(isPortrait ? Vec2(0.5,0.33) : Vec2(0.33,0.5));
+		_chestNode->setNormalizedPosition(isPortrait ? Vec2(0.5,0.4) : Vec2(0.33,0.5));
 	}
 	if(_bgColour)
 	{
@@ -58,7 +120,14 @@ void CoinChestLayer::onSizeChanged()
 	}
 	if(_wires)
 	{
-		_wires->setContentSize(visibleSize);
+		_wires->setScale(MAX(visibleSize.width, visibleSize.height) / _wires->getContentSize().width);
+		_wires->setRotation(isPortrait ? 90 : 0);
+		_wireGlow->setScale(MAX(visibleSize.width, visibleSize.height) / _wires->getContentSize().width);
+		_wireGlow->setRotation(isPortrait ? 90 : 0);
+	}
+	if(_useButton)
+	{
+		_useButton->setNormalizedPosition(isPortrait ? Vec2(0.5,0.1) : Vec2(0.7,0.3));
 	}
 }
 
@@ -70,21 +139,21 @@ void CoinChestLayer::addText()
 	_text = ui::Layout::create();
 	_text->setLayoutType(ui::Layout::Type::VERTICAL);
 	
-	ui::Text* youWon = ui::Text::create("YOU WON", Style::Font::Regular(), 120);
+	ui::Text* youWon = ui::Text::create(_("YOU WON"), Style::Font::PassionOneRegular, 120);
 	youWon->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	_text->addChild(youWon);
 	
-	ui::Text* value = ui::Text::create(StringUtils::format("%d",abs(_rewardData->getItemPrice())), Style::Font::Bold(), 360);
+	ui::Text* value = ui::Text::create(StringUtils::format("%d",abs(_rewardData->getItemPrice())), Style::Font::PassionOneRegular, 360);
 	value->setTextColor(Color4B(Style::Color::macaroniAndCheese));
 	value->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	_text->addChild(value);
 	
-	ui::Text* coins = ui::Text::create("COINS", Style::Font::Regular(), 120);
+	ui::Text* coins = ui::Text::create(_("COINS"), Style::Font::PassionOneRegular, 120);
 	coins->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	_text->addChild(coins);
 	
 	_text->setContentSize(Size(value->getContentSize().width, youWon->getContentSize().height + value->getContentSize().height + coins->getContentSize().height));
-	_text->setNormalizedPosition(isPortrait ? Vec2(0.5,0.75) : Vec2(0.70,0.5));
+	_text->setNormalizedPosition(isPortrait ? Vec2(0.5,0.75) : Vec2(0.70,0.6));
 	_text->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	this->addChild(_text);
 }

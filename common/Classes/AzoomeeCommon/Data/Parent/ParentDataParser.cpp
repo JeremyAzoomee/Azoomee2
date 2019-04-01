@@ -303,6 +303,7 @@ void ParentDataParser::saveAnonCredentialsToDevice(const std::string &userId)
 {
 	UserDefault* userDefault = UserDefault::getInstance();
 	userDefault->setStringForKey("anonEmail", userId);
+	userDefault->flush();
 }
 	
 NS_AZOOMEE_END

@@ -48,13 +48,12 @@ HQStructureHandler::~HQStructureHandler(void)
     
 }
 
-void HQStructureHandler::setHQFeedDelegate(HQFeedDelegate* delegate)
+void HQStructureHandler::getLatestData(const OnCompleteCallback& callback)
 {
-    _delegate = delegate;
-}
-
-void HQStructureHandler::getLatestHQStructureFeed()
-{
+	if(callback)
+	{
+		_callback = callback;
+	}
     ModalMessages::getInstance()->startLoading();
 	const std::string& childId = ChildDataProvider::getInstance()->getParentOrChildId();
     HttpRequestCreator* request = API::GetHQStructureDataRequest(childId, this);
@@ -82,10 +81,7 @@ void HQStructureHandler::loadLocalData()
         HQDataObjectStorage::getInstance()->setHQDataEtag(getLocalEtag());
     }
     ModalMessages::getInstance()->stopLoading();
-    if(_delegate)
-    {
-        _delegate->onFeedDownloadComplete();
-    }
+	sendCallback(true);
 }
 
 void HQStructureHandler::loadGroupHQData(const std::string &groupIdPath)
@@ -98,19 +94,9 @@ void HQStructureHandler::loadGroupHQData(const std::string &groupIdPath)
     }
 }
 
-std::string HQStructureHandler::getLocalEtag()
+std::string HQStructureHandler::getCachePath() const
 {
-    const std::string& etagFilePath = cocos2d::FileUtils::getInstance()->getWritablePath() + kCachePath + _feedPath + "/etag.txt";
-    if(cocos2d::FileUtils::getInstance()->isFileExist(etagFilePath))
-    {
-        return cocos2d::FileUtils::getInstance()->getStringFromFile(etagFilePath);
-    }
-    return "";
-}
-void HQStructureHandler::setLocalEtag(const std::string& etag)
-{
-    const std::string& etagFilePath = cocos2d::FileUtils::getInstance()->getWritablePath() + kCachePath + _feedPath + "/etag.txt";
-    cocos2d::FileUtils::getInstance()->writeStringToFile(etag, etagFilePath);
+	return kCachePath + _feedPath;
 }
 
 void HQStructureHandler::parseNavigationData(const std::string &data)
@@ -129,7 +115,7 @@ void HQStructureHandler::parseNavigationData(const std::string &data)
         const std::string& hqName = getStringFromJson("name", value);
         hqNames.push_back(hqName);
         if(getBoolFromJson("default", value, false))
-		{
+        {
 			ConfigStorage::getInstance()->setDefaultHQ(hqNames.back());
         }
         if(value.HasMember("available"))

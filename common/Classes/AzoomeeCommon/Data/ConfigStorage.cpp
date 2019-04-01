@@ -692,6 +692,19 @@ std::string ConfigStorage::getOSManufacturer()
     
     return _osManufacturer;
 }
+	
+std::string ConfigStorage::getDeviceLanguage()
+{
+	std::string languageCode = "";
+	
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+	languageCode = IosNativeFunctionsSingleton::getInstance()->getIosDeviceLanguage();
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+	languageCode = JniHelper::callStaticStringMethod(kAzoomeeActivityJavaClassName, "getDeviceLanguage");
+#endif
+	
+	return languageCode;
+}
     
 void ConfigStorage::setIsDeviceIphoneX(bool isDeviceIphoneX)
 {

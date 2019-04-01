@@ -41,13 +41,12 @@ ContentItemPoolHandler::~ContentItemPoolHandler(void)
     
 }
 
-void ContentItemPoolHandler::setContentPoolDelegate(Azoomee::ContentPoolDelegate *delegate)
+void ContentItemPoolHandler::getLatestData(const OnCompleteCallback& callback)
 {
-    _delegate = delegate;
-}
-
-void ContentItemPoolHandler::getLatestContentPool()
-{
+	if(callback)
+	{
+		_callback = callback;
+	}
     ModalMessages::getInstance()->startLoading();
     const std::string& childId = ParentDataProvider::getInstance()->isLoggedInParentAnonymous() ? "anonymous" : ChildDataProvider::getInstance()->getParentOrChildId();
     HttpRequestCreator* request = API::GetContentPoolRequest(childId, this);
@@ -64,27 +63,13 @@ void ContentItemPoolHandler::loadLocalData()
         ContentItemPool::getInstance()->setPoolEtag(getLocalEtag());
     }
     ModalMessages::getInstance()->stopLoading();
-    if(_delegate)
-    {
-        _delegate->onContentDownloadComplete();
-    }
+	sendCallback(true);
 }
 
-std::string ContentItemPoolHandler::getLocalEtag() const
+std::string ContentItemPoolHandler::getCachePath() const
 {
-    const std::string& etagFilePath = cocos2d::FileUtils::getInstance()->getWritablePath() + kCachePath + "etag.txt";
-    if(cocos2d::FileUtils::getInstance()->isFileExist(etagFilePath))
-    {
-        return cocos2d::FileUtils::getInstance()->getStringFromFile(etagFilePath);
-    }
-    return "";
+	return kCachePath;
 }
-void ContentItemPoolHandler::setLocalEtag(const std::string& etag)
-{
-    const std::string& etagFilePath = cocos2d::FileUtils::getInstance()->getWritablePath() + kCachePath + "etag.txt";
-    cocos2d::FileUtils::getInstance()->writeStringToFile(etag, etagFilePath);
-}
-
 //delegate functions
 void ContentItemPoolHandler::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
@@ -97,10 +82,7 @@ void ContentItemPoolHandler::onHttpRequestSuccess(const std::string& requestTag,
     
     const std::string& zipUrl = getStringFromJson("uri", result);
 
-    _fileDownloader = FileDownloader::create();
-    _fileDownloader->setDelegate(this);
-    _fileDownloader->setEtag(getLocalEtag());
-    _fileDownloader->downloadFileFromServer(zipUrl);
+	downloadFile(zipUrl);
 
 }
 

@@ -164,6 +164,7 @@ public:
     std::string getDeviceInformation();
     std::string getDeviceAdvertisingId();
     std::string getOSManufacturer();
+	std::string getDeviceLanguage();
     
     //Device-resolution-specific information
     void setIsDeviceIphoneX(bool isDeviceIphoneX);

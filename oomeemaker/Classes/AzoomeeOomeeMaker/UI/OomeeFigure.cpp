@@ -110,13 +110,6 @@ bool OomeeFigure::initWithOomeeFigureData(const rapidjson::Document &data)
     
     const std::string& oomeeKey = getStringFromJson("oomee", data);
     
-    const std::string& colourId = getStringFromJson("colour", data);
-    _colour = OomeeMakerDataStorage::getInstance()->getColourForKey(colourId);
-    if(!_colour)
-    {
-        return false;
-    }
-    
     const OomeeRef& oomee = OomeeMakerDataStorage::getInstance()->getOomeeForKey(oomeeKey);
     if(oomee)
     {
@@ -165,10 +158,6 @@ void OomeeFigure::setOomeeData(const OomeeRef& oomeeData)
     _accessories.clear();
     _baseSprite = OomeeBody::create();
     _baseSprite->setOomeeData(oomeeData);
-    if(_colour)
-    {
-        _baseSprite->setColourData(_colour);
-    }
 
     _baseSprite->setNormalizedPosition(_oomeeData->getPosition());
     _baseSprite->setScale(_oomeeData->getScale());
@@ -240,10 +229,9 @@ void OomeeFigure::addAccessory(const OomeeItemRef& oomeeItem)
         removeAccessory(oomeeItem->getTargetAnchor());
         OomeeAccessory* accessory = OomeeAccessory::create();
         accessory->setItemData(oomeeItem);
-        if(_colour)
-        {
-            accessory->setColourData(_colour);
-        }
+
+		accessory->setColourData(_oomeeData->getColour());
+		
         const Size& baseSpriteSize = _baseSprite->getContentSize();
         Vec2 anchorPoint = _oomeeData->getAnchorPoints().at(oomeeItem->getTargetAnchor()); // dont const& - unstable on android, caused many tears
         accessory->setPosition(Vec2(baseSpriteSize.width * anchorPoint.x, baseSpriteSize.height * anchorPoint.y) + oomeeItem->getOffset());
@@ -326,22 +314,7 @@ void OomeeFigure::saveSnapshotImage(const std::string &filepath)
 
 OomeeColourRef OomeeFigure::getColour() const
 {
-    return _colour;
-}
-
-void OomeeFigure::setColour(const OomeeColourRef &colour)
-{
-    _colour = colour;
-    if(_baseSprite)
-    {
-        _baseSprite->setColourData(_colour);
-    }
-    
-    for(const auto& accessory : _accessories)
-    {
-        accessory.second->setColourData(_colour);
-    }
-    
+    return _oomeeData->getColour();
 }
 
 float OomeeFigure::getHue() const
@@ -385,7 +358,6 @@ OomeeDataSnapshot OomeeFigure::getDataSnapshot()
 {
     OomeeDataSnapshot snapshot;
     snapshot._oomeeData = _oomeeData;
-    snapshot._colourData = _colour;
     for(const auto& acc : _accessories )
     {
         snapshot._accessoryData.push_back(acc.second->getItemData());
@@ -397,7 +369,6 @@ void OomeeFigure::loadDataSnapshot(const OomeeDataSnapshot &dataSnapshot)
 {
     auto undoStackSize = _undoStack.size();
     setOomeeData(dataSnapshot._oomeeData);
-    setColour(dataSnapshot._colourData);
     for(const auto& anchorPoint : _oomeeData->getAnchorPoints())
     {
         removeAccessory(anchorPoint.first);

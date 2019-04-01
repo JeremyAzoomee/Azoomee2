@@ -17,6 +17,7 @@ public:
     const char* getIosSystemVersion();
     const char* getIosDeviceType();
     const char* getIosDeviceIDFA();
+	const char* getIosDeviceLanguage();
     
     void identifyMixpanel();
     

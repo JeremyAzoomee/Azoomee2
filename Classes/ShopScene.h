@@ -15,6 +15,8 @@
 #include <AzoomeeCommon/API/API.h>
 #include "ShopCarousel.h"
 #include "ShopItemPurchasePopup.h"
+#include "CoinDisplay.h"
+#include "ShopItemPurchasedAnimation.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -25,6 +27,9 @@ class ShopScene : public Azoomee::Scene, HttpRequestCreatorResponseDelegate
 private:
 	ShopCarousel* _shopCarousel = nullptr;
 	ShopItemPurchasePopup* _purchasePopup = nullptr;
+	ShopItemPurchasedAnimation* _purchasedAnim = nullptr;
+	CoinDisplay* _coinDisplay = nullptr;
+	cocos2d::ui::Button* _backButton = nullptr;
 	
 	cocos2d::LayerColor* _bgColour = nullptr;
 	cocos2d::Sprite* _wires = nullptr;

@@ -7,16 +7,14 @@
 
 #include "ShopScene.h"
 #include "SceneManagerScene.h"
-#include "CoinDisplay.h"
 #include "DynamicNodeHandler.h"
-#include "ShopItemPurchasedAnimation.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Data/Shop/ShopDisplayItem.h>
 #include <AzoomeeCommon/Data/Shop/ShopDataHandler.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Child/ChildDataParser.h>
-
+#include <AzoomeeCommon/Audio/AudioMixer.h>
 
 using namespace cocos2d;
 
@@ -30,6 +28,8 @@ bool ShopScene::init()
 	}
 	
 	const Size& visibleSize = this->getContentSize();
+	bool isPortrait = visibleSize.width < visibleSize.height;
+	bool isIphoneX = ConfigStorage::getInstance()->isDeviceIphoneX();
 	
 	_bgColour = LayerColor::create(Color4B(3, 36, 78,60));
 	this->addChild(_bgColour);
@@ -69,24 +69,31 @@ bool ShopScene::init()
 		_shopCarousel->setVisible(true);
 	});
 	_purchasePopup->setVisible(false);
+	
+	if(_purchasePopup->getContentSize().width > visibleSize.width * 0.95f)
+	{
+		_purchasePopup->setScale((visibleSize.width * 0.95f) / _purchasePopup->getContentSize().width);
+	}
+	
 	this->addChild(_purchasePopup);
 	
-	ui::Button* backButton = ui::Button::create("res/shop/back_white_v_2.png");
-	backButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
-	backButton->setAnchorPoint(Vec2(-0.25,1.25));
-	backButton->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
+	_backButton = ui::Button::create("res/shop/back_white_v_2.png");
+	_backButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
+	_backButton->setAnchorPoint(Vec2(-0.25,1.25));
+	_backButton->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
+			AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
 			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
 		}
 	});
-	this->addChild(backButton,1);
+	this->addChild(_backButton,1);
 	
-	CoinDisplay* coinDisplay = CoinDisplay::create();
-	coinDisplay->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
-	coinDisplay->setAnchorPoint(Vec2(1.2,1.5));
-	coinDisplay->setTouchEnabled(false);
-	this->addChild(coinDisplay, 1);
+	_coinDisplay = CoinDisplay::create();
+	_coinDisplay->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
+	_coinDisplay->setAnchorPoint(Vec2(1.2,(isIphoneX && isPortrait) ? 2.2f : 1.5));
+	_coinDisplay->setTouchEnabled(false);
+	this->addChild(_coinDisplay, 1);
 	
 	return true;
 }
@@ -109,15 +116,26 @@ void ShopScene::onSizeChanged()
 {
 	Super::onSizeChanged();
 	const Size& visibleSize = this->getContentSize();
+	bool isPortrait = visibleSize.width < visibleSize.height;
+	bool isIphoneX = ConfigStorage::getInstance()->isDeviceIphoneX();
 	if(_shopCarousel)
 	{
 		_shopCarousel->refreshUI();
 	}
 	_purchasePopup->setPosition(visibleSize / 2);
+	if(_purchasePopup->getContentSize().width > visibleSize.width * 0.95f)
+	{
+		_purchasePopup->setScale((visibleSize.width * 0.95f) / _purchasePopup->getContentSize().width);
+	}
+	if(_purchasedAnim)
+	{
+		_purchasedAnim->resizeUI();
+	}
 	_bgColour->setContentSize(visibleSize);
 	_wires->setScale(MAX(visibleSize.width, visibleSize.height) / _wires->getContentSize().width);
 	_wires->setRotation(visibleSize.width < visibleSize.height ? 90 : 0);
 	_gradient->setScaleX(visibleSize.width / _gradient->getContentSize().width);
+	_coinDisplay->setAnchorPoint(Vec2(1.2,(isIphoneX && isPortrait) ? 2.2f : 1.5));
 	DynamicNodeHandler::getInstance()->rebuildCurrentCTA();
 }
 
@@ -134,17 +152,24 @@ void ShopScene::onHttpRequestSuccess(const std::string& requestTag, const std::s
 		ChildDataParser::getInstance()->parseChildInventory(body);
 		_purchasePopup->setVisible(false);
 		_shopCarousel->setVisible(false);
-		ShopItemPurchasedAnimation* anim = ShopItemPurchasedAnimation::create();
-		anim->setItemData(_purchasePopup->getItemData());
-		anim->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-		anim->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-		anim->setOnCompleteCallback([this, anim](){
-			anim->removeFromParent();
+		_backButton->setVisible(false);
+		_purchasedAnim = ShopItemPurchasedAnimation::create();
+		_purchasedAnim->setItemData(_purchasePopup->getItemData());
+		_purchasedAnim->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+		_purchasedAnim->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+		_purchasedAnim->setOnCompleteCallback([this](){
+			_purchasedAnim->setVisible(false);
+			this->runAction(Sequence::createWithTwoActions(DelayTime::create(0.25), CallFunc::create([this](){// delay removing to prevent crash on android
+				this->removeChild(_purchasedAnim);
+				_purchasedAnim = nullptr;
+			})));
+			
+			_backButton->setVisible(true);
 			_shopCarousel->setVisible(true);
 			_shopCarousel->refreshUI();
 			_purchasePopup->setItemData(nullptr);
 		});
-		this->addChild(anim);
+		this->addChild(_purchasedAnim);
 	}
 	else
 	{

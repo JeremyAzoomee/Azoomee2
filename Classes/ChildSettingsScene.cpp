@@ -13,6 +13,7 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataParser.h>
 #include "SceneManagerScene.h"
+#include "HQHistoryManager.h"
 
 using namespace cocos2d;
 
@@ -29,24 +30,24 @@ bool ChildSettingsScene::init()
 	const bool isIphoneX = ConfigStorage::getInstance()->isDeviceIphoneX();
 	const bool isPortrait = visibleSize.height > visibleSize.width;
 	
-	LayerColor* bgColour = LayerColor::create(Color4B::WHITE, visibleSize.width, visibleSize.height);
-	this->addChild(bgColour);
+	_bgColour = LayerColor::create(Color4B::WHITE, visibleSize.width, visibleSize.height);
+	this->addChild(_bgColour);
 	
-	auto wireLeft = Sprite::create(StringUtils::format("res/childSelection/wireLeft%s.png", isPortrait ? "_portrait" : ""));
-	wireLeft->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
-	wireLeft->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
-	wireLeft->setScale(visibleSize.height / wireLeft->getContentSize().height);
-	wireLeft->setColor(Color3B::BLACK);
-	wireLeft->setOpacity(125);
-	this->addChild(wireLeft);
+	_wireLeft = Sprite::create(StringUtils::format("res/childSelection/wireLeft%s.png", isPortrait ? "_portrait" : ""));
+	_wireLeft->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+	_wireLeft->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
+	_wireLeft->setScale(visibleSize.height / _wireLeft->getContentSize().height);
+	_wireLeft->setColor(Color3B::BLACK);
+	_wireLeft->setOpacity(125);
+	this->addChild(_wireLeft);
 	
-	auto wireRight = Sprite::create(StringUtils::format("res/childSelection/wireRight%s.png", isPortrait ? "_portrait" : ""));
-	wireRight->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
-	wireRight->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
-	wireRight->setScale(visibleSize.height / wireRight->getContentSize().height);
-	wireRight->setColor(Color3B::BLACK);
-	wireRight->setOpacity(125);
-	this->addChild(wireRight);
+	_wireRight = Sprite::create(StringUtils::format("res/childSelection/wireRight%s.png", isPortrait ? "_portrait" : ""));
+	_wireRight->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
+	_wireRight->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
+	_wireRight->setScale(visibleSize.height / _wireRight->getContentSize().height);
+	_wireRight->setColor(Color3B::BLACK);
+	_wireRight->setOpacity(125);
+	this->addChild(_wireRight);
 	
 	_contentLayout = ui::Layout::create();
 	_contentLayout->setContentSize(visibleSize);
@@ -98,6 +99,7 @@ bool ChildSettingsScene::init()
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
 			ChildDataParser::getInstance()->setChildLoggedIn(false);
+			HQHistoryManager::getInstance()->emptyHistory();
 			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChildSelector));
 		}
 	});
@@ -156,6 +158,23 @@ void ChildSettingsScene::onEnter()
 void ChildSettingsScene::onSizeChanged()
 {
 	Super::onSizeChanged();
+	
+	const Size& visibleSize = Director::getInstance()->getVisibleSize();
+	const bool isIphoneX = ConfigStorage::getInstance()->isDeviceIphoneX();
+	const bool isPortrait = visibleSize.height > visibleSize.width;
+	
+	_bgColour->setContentSize(visibleSize);
+	_wireLeft->setTexture(StringUtils::format("res/childSelection/wireLeft%s.png", isPortrait ? "_portrait" : ""));
+	_wireLeft->setScale(visibleSize.height / _wireLeft->getContentSize().height);
+	_wireRight->setTexture(StringUtils::format("res/childSelection/wireRight%s.png", isPortrait ? "_portrait" : ""));
+	_wireRight->setScale(visibleSize.height / _wireRight->getContentSize().height);
+	
+	_titleLayout->setContentSize(Size(visibleSize.width, (isIphoneX && isPortrait) ? 250 : 150));
+	_titleBarButton->setNormalizedPosition((isIphoneX && isPortrait) ? Vec2(0,0.33f) : Vec2::ANCHOR_MIDDLE_LEFT);
+	_titleText->setNormalizedPosition(isIphoneX ? Vec2(0.5f,0.25f) : Vec2::ANCHOR_MIDDLE);
+	
+	_contentLayout->setContentSize(visibleSize);
+	_contentLayout->forceDoLayout();
 }
 
 NS_AZOOMEE_END

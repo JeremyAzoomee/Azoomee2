@@ -147,14 +147,7 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString, con
 		{
 			AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
 			AnalyticsSingleton::getInstance()->signInSuccessEvent();
-			/*if(FlowDataSingleton::getInstance()->isSignupFlow())
-			{
-				AnalyticsSingleton::getInstance()->registerAlias(ParentDataProvider::getInstance()->getLoggedInParentId());
-			}
-			else
-			{
-				AnalyticsSingleton::getInstance()->registerIdentifier(ParentDataProvider::getInstance()->getLoggedInParentId());
-			}*/
+
 			if(RoutePaymentSingleton::getInstance()->receiptDataFileExists())
 			{
 				Director::getInstance()->getScheduler()->schedule([&](float dt){
@@ -271,7 +264,16 @@ void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseStrin
     {
 		if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
 		{
-			childLogin(0); // auto login default child
+			UserDefault* userDefault = UserDefault::getInstance();
+			bool anonOnboardingComplete = userDefault->getBoolForKey("anonOnboardingComplete", false);
+			if(!anonOnboardingComplete)
+			{
+				Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::AddChildAnon));
+			}
+			else
+			{
+				childLogin(0); // auto login default child
+			}
 		}
 		else
 		{
@@ -331,8 +333,27 @@ void BackEndCaller::onGetGordonAnswerReceived(const std::string& responseString)
 {
     if(CookieDataParser::getInstance()->parseDownloadCookies(responseString))
     {
-        ContentItemPoolHandler::getInstance()->setContentPoolDelegate(this);
-        ContentItemPoolHandler::getInstance()->getLatestContentPool();
+		ContentItemPoolHandler::getInstance()->getLatestData([](bool success){ //on complete
+			if(success)
+			{
+				HQStructureHandler::getInstance()->getLatestData([](bool success){ //on complete
+					if(success)
+					{
+						//TutorialController::getInstance()->startTutorial(TutorialController::kFTUNavTutorialID);
+						RewardDisplayHandler::getInstance()->getPendingRewards();
+						Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
+					}
+					else
+					{
+						LoginLogicHandler::getInstance()->doLoginLogic();
+					}
+				});
+			}
+			else
+			{
+				LoginLogicHandler::getInstance()->doLoginLogic();
+			}
+		});
     }
 }
 
@@ -457,12 +478,6 @@ void BackEndCaller::resetPasswordRequest(const std::string& emailAddress)
 {
     HttpRequestCreator* request = API::ResetPaswordRequest(Net::urlEncode(stringToLower(emailAddress)), this);
     request->execute();
-}
-
-void BackEndCaller::updateVideoProgress(const std::string& contentId, int videoProgressSeconds)
-{
-	HttpRequestCreator* request = API::UpdateVideoProgress(ChildDataProvider::getInstance()->getParentOrChildId(),contentId, videoProgressSeconds, nullptr);
-	request->execute();
 }
 
 void BackEndCaller::getChildInventory()
@@ -666,28 +681,6 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
         	LoginLogicHandler::getInstance()->doLoginLogic();
 		}
     }
-}
-
-void BackEndCaller::onContentDownloadComplete()
-{
-    HQStructureHandler::getInstance()->setHQFeedDelegate(this);
-    HQStructureHandler::getInstance()->getLatestHQStructureFeed();
-}
-
-void BackEndCaller::onFeedDownloadComplete()
-{
-	UserDefault* userDefault = UserDefault::getInstance();
-	bool anonOnboardingComplete = userDefault->getBoolForKey(ConfigStorage::kAnonOnboardingCompleteKey, false);
-	if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous() && !anonOnboardingComplete)
-	{
-		Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::WelcomeScene));
-	}
-	else
-	{
-		RewardDisplayHandler::getInstance()->getPendingRewards();
-		Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
-	}
-	
 }
 
 NS_AZOOMEE_END

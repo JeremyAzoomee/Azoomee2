@@ -6,6 +6,7 @@
 //
 
 #include "NotificationNode.h"
+#include "ResizeNode.h"
 
 using namespace cocos2d;
 

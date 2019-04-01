@@ -9,6 +9,8 @@
 
 NS_AZOOMEE_BEGIN
 
+const std::string InventoryItem::kAccessoryType = "ACCESSORIES";
+
 InventoryItemRef InventoryItem::createWithJson(const rapidjson::Value& inventoryItem)
 {
 	InventoryItemRef item = create();
@@ -31,6 +33,7 @@ void InventoryItem::parseInventoryItemData(const rapidjson::Value& inventoryItem
 	_type = getStringFromJson("type", inventoryItem);
 	_uri = getStringFromJson("uri", inventoryItem);
 	_name = getStringFromJson("name", inventoryItem);
+	_meta = getStringFromJson("oomeeMakerItemMetaId", inventoryItem);
 }
 
 std::string InventoryItem::getType() const
@@ -48,6 +51,10 @@ std::string InventoryItem::getUri() const
 std::string InventoryItem::getName() const
 {
 	return _name;
+}
+std::string InventoryItem::getMeta() const
+{
+	return _meta;
 }
 
 NS_AZOOMEE_END

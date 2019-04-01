@@ -24,7 +24,7 @@ enum class AccessoryAction {ADD, REMOVE};
 struct OomeeDataSnapshot
 {
     OomeeRef _oomeeData;
-    OomeeColourRef _colourData;
+    //OomeeColourRef _colourData;
     std::vector<OomeeItemRef> _accessoryData;
 };
 
@@ -35,7 +35,7 @@ private:
     
     bool _isEditable = true;
     OomeeRef _oomeeData = nullptr;
-    OomeeColourRef _colour = nullptr;
+    //OomeeColourRef _colour = nullptr;
     OomeeBody* _baseSprite = nullptr;
     std::map<std::string, OomeeAccessory*> _accessories;
     cocos2d::EventListenerTouchOneByOne* _touchListener = nullptr;
@@ -73,7 +73,7 @@ public:
     cocos2d::Vec2 getWorldPositionForAnchorPoint(const std::string& anchorPoint);
     cocos2d::Vec2 getLocalPositionForAnchorPoint(const std::string& anchorPoint);
     
-    void setColour(const OomeeColourRef& colour);
+    //void setColour(const OomeeColourRef& colour);
     OomeeColourRef getColour() const;
     
     float getHue() const;

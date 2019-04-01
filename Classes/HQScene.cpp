@@ -8,12 +8,14 @@
 #include "HQScene.h"
 #include "SceneManagerScene.h"
 #include "HQHistoryManager.h"
-#include "CoinDisplay.h"
 
 #include "DynamicNodeHandler.h"
 
 #include <AzoomeeCommon/Utils/SpecialCalendarEventManager.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Audio/AudioMixer.h>
 
+#include "FlowDataSingleton.h"
 #include "ContentHistoryManager.h"
 #include "RewardDisplayHandler.h"
 
@@ -41,6 +43,7 @@ void HQScene::onEnter()
 		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
 	}
 	_navLayer->setButtonOn(_hqCategory);
+	
 	Super::onEnter();
 }
 
@@ -53,6 +56,17 @@ void HQScene::onExit()
 void HQScene::onSizeChanged()
 {
 	Super::onSizeChanged();
+	
+	const Size& visibleSize = this->getContentSize();
+	bool isPortrait = visibleSize.width < visibleSize.height;
+	bool isIphoneX = ConfigStorage::getInstance()->isDeviceIphoneX();
+	
+	_messagingLayer->setContentSize(Size(visibleSize.width, 350));
+	
+	_messagingLayer->repositionElements();
+	
+	_coinDisplay->setAnchorPoint(Vec2(1.2,(isIphoneX && isPortrait) ? 2.2f : 1.5f));
+	_verticalScrollGradient->setScaleX(visibleSize.width / _verticalScrollGradient->getContentSize().width);
 	
 	DynamicNodeHandler::getInstance()->rebuildCurrentCTA();
 
@@ -70,40 +84,74 @@ HQSceneType HQScene::getSceneType() const
 
 void HQScene::buildCoreUI()
 {
-	_settingsButton = SettingsButton::create();
-	_settingsButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
-	_settingsButton->setAnchorPoint(Vec2(-0.25,1.25));
-	this->addChild(_settingsButton,1);
+	const Size& visibleSize = this->getContentSize();
+	bool isPortrait = visibleSize.width < visibleSize.height;
+	bool isIphoneX = ConfigStorage::getInstance()->isDeviceIphoneX();
 	
 	// add coin counter
-	CoinDisplay* coinDisplay = CoinDisplay::create();
-	coinDisplay->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
-	coinDisplay->setAnchorPoint(Vec2(1.2,1.5));
-	this->addChild(coinDisplay, 1);
+	_coinDisplay = CoinDisplay::create();
+	_coinDisplay->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
+	_coinDisplay->setAnchorPoint(Vec2(1.2,(isIphoneX && isPortrait) ? 2.2f : 1.5f));
+	_coinDisplay->setAnimate(true);
+	this->addChild(_coinDisplay, 1);
+	
+	_messagingLayer = UserTypeMessagingLayer::create();
+	_messagingLayer->setContentSize(Size(visibleSize.width, 350));
+	_messagingLayer->setPosition(-Vec2(0,350));
+	_messagingLayer->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+	UserBillingType userType = UserBillingType::ANON;
+	if(!ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
+	{
+		userType = UserBillingType::LAPSED;
+		if(ParentDataProvider::getInstance()->isPaidUser())
+		{
+			userType = UserBillingType::PAID;
+		}
+	}
+	_messagingLayer->setUserType(userType);
+	if(userType == UserBillingType::PAID)
+	{
+		_showingMessagingLayer = false;
+		_messagingLayer->setOpacity(0);
+	}
+	else
+	{
+		if(HQHistoryManager::getInstance()->getHistorySize() == 1)
+		{
+			_messagingLayer->runAction(MoveTo::create(1, Vec2(0,0)));
+		}
+		else
+		{
+			_messagingLayer->setPosition(Vec2(0,0));
+		}
+	}
+	this->addChild(_messagingLayer,1);
 	
 	_navLayer = NavigationLayer::create();
-	_navLayer->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+	_navLayer->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
 	_navLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-	this->addChild(_navLayer, 1);
+	_messagingLayer->addChild(_navLayer);
 	
 	addParticleElementsToBackground();
+	
+	_verticalScrollGradient = Sprite::create("res/decoration/TopNavGrad.png");
+	_verticalScrollGradient->setAnchorPoint(Vec2(0.5, 0.9));
+	_verticalScrollGradient->setScaleX(visibleSize.width / _verticalScrollGradient->getContentSize().width);
+	_verticalScrollGradient->setColor(Color3B::BLACK);
+	_verticalScrollGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+	_verticalScrollGradient->setRotation(180);
+	_navLayer->addChild(_verticalScrollGradient);
 	
 	if(SpecialCalendarEventManager::getInstance()->isXmasTime())
 	{
 		addXmasDecoration();
 	}
-
 	
+	if(HQHistoryManager::getInstance()->getHistorySize() == 1 || ContentHistoryManager::getInstance()->getReturnedFromContent())
+	{
+		AudioMixer::getInstance()->playBackgroundMusic(HQ_BACKGROUND_MUSIC);
+	}
 	ContentHistoryManager::getInstance()->setReturnedFromContent(false);
-	/*
-	const std::string& fakeData = "{\"id\": \"id\",\"userId\":  \"99999999-7848-46ce-b7d3-9999999999\",\"item\": {\"id\": \"ID1\",\"name\": \"test\",\"uri\": \"test\",\"type\": \"COIN\"},\"itemPrice\":" + StringUtils::format("%d",-RandomHelper::random_int(100, 500)) + " ,\"description\": \"Played Yeti\",\"status\": \"PENDING\"}";
-
-	rapidjson::Document data;
-	data.Parse(fakeData.c_str());
-	
-	RewardItemRef reward = RewardItem::createWithJson(data);
-	RewardDisplayHandler::getInstance()->onRewardSuccess(reward);
-	 */
 }
 
 void HQScene::addParticleElementsToBackground()

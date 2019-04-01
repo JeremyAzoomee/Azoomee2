@@ -127,7 +127,7 @@ void WebViewSelector::onHttpRequestSuccess(const std::string& requestTag, const 
 		int progress = 0;
 		if(!data.HasParseError())
 		{
-			progress = getIntFromJson("videoProgressSeconds", data, 0);
+			progress = getIntFromJson("contentProgress", data, 0);
 		}
 		
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)

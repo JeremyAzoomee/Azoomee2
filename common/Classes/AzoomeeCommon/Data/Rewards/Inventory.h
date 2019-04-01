@@ -36,6 +36,8 @@ public:
 	std::vector<InventoryItemRef> getItems() const;
 	int getCoins() const;
 	
+	bool hasOomeeAccessory(const std::string& accessoryId) const;
+	
 };
 
 NS_AZOOMEE_END

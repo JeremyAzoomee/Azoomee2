@@ -50,7 +50,9 @@ public:
     
     void setOomeeData(const std::vector<std::string>& oomeeFilenames);
     void setVisibleRange(int visibleRange);
-    
+	
+	std::vector<std::string> getOomeeData() const;
+	
     void centerButtons();
     void moveCarouselLeft();
     void moveCarouselRight();

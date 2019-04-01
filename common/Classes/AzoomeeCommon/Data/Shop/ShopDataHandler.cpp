@@ -46,7 +46,10 @@ ShopRef ShopDataHandler::getShop()
 
 void ShopDataHandler::getLatestData(const OnCompleteCallback& callback)
 {
-	setOnCompleteCallback(callback);
+	if(callback)
+	{
+		_callback = callback;
+	}
 	HttpRequestCreator* request = API::GetShopFeed(this);
 	request->execute();
 }
@@ -73,12 +76,14 @@ void ShopDataHandler::loadLocalData()
 	if(shopDataStr == "")
 	{
 		sendCallback(false);
+		return;
 	}
 	rapidjson::Document shopJson;
 	shopJson.Parse(shopDataStr.c_str());
 	if(shopJson.HasParseError())
 	{
 		sendCallback(false);
+		return;
 	}
 	_shop = Shop::createWithJson(shopJson);
 	sendCallback(true);

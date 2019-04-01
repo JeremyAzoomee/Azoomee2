@@ -28,6 +28,10 @@ private:
 	cocos2d::ui::Button* _childSelect = nullptr;
 	cocos2d::ui::Button* _parentsArea = nullptr;
 	
+	cocos2d::LayerColor* _bgColour = nullptr;
+	cocos2d::Sprite* _wireLeft = nullptr;
+	cocos2d::Sprite* _wireRight = nullptr;
+	
 public:
 	virtual bool init() override;
 	virtual void onEnter() override;

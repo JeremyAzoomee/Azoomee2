@@ -25,6 +25,7 @@ private:
 	std::string _type;
 	std::string _name;
 	std::string _uri;
+	std::string _meta;
 	
 	InventoryItem();
 public:
@@ -38,7 +39,9 @@ public:
 	int getItemId() const;
 	std::string getUri() const;
 	std::string getName() const;
+	std::string getMeta() const;
 	
+	static const std::string kAccessoryType;
 };
 
 NS_AZOOMEE_END

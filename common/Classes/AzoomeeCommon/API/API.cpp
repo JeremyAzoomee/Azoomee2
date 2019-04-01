@@ -52,13 +52,14 @@ const char* const API::TagUpdateChildNameRequest = "updateChildNameRequest";
 const char* const API::TagAddVoucher = "addVoucher";
 const char* const API::TagGetVodacomTransactionId = "vodacomTransactionId";
 const char* const API::TagGetVideoProgress = "getVideoProgress";
-const char* const API::TagUpdateVideoProgress = "updateVideoProgress";
+const char* const API::TagUpdateProgressMeta = "updateProgressMeta";
 const char* const API::TagRewardCallback = "rewardCallback";
 const char* const API::TagRedeemReward = "redeemReward";
 const char* const API::TagGetPendingRewards = "getPendingRewards";
 const char* const API::TagGetInventory = "getInventory";
 const char* const API::TagBuyReward = "buyReward";
 const char* const API::TagGetShopFeed = "getShopFeed";
+const char* const API::TagGetOomeeMakerAssets = "getOomeeMakerAssets";
 
 const std::string API::kAZCountryCodeKey = "X-AZ-COUNTRYCODE";
 
@@ -601,25 +602,8 @@ HttpRequestCreator* API::GetVideoProgress(const std::string &childId,
 										  HttpRequestCreatorResponseDelegate *delegate)
 {
 	HttpRequestCreator* request = new HttpRequestCreator(delegate);
-	request->requestPath = StringUtils::format("/api/videoprogress/progress/%s/%s",childId.c_str(), videoId.c_str());
+	request->requestPath = StringUtils::format("/api/useractivity/progress/%s/content/%s",childId.c_str(), videoId.c_str());
 	request->requestTag = TagGetVideoProgress;
-	request->encrypted = true;
-	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
-		HandleAPIResponse(sender, response, delegate, request);
-	});
-	return request;
-}
-
-HttpRequestCreator* API::UpdateVideoProgress(const std::string &childId,
-											 const std::string &videoId,
-											 int videoProgressSeconds,
-											 HttpRequestCreatorResponseDelegate *delegate)
-{
-	HttpRequestCreator* request = new HttpRequestCreator(delegate);
-	request->requestPath = StringUtils::format("/api/videoprogress/progress/%s",childId.c_str());
-	request->requestBody = StringUtils::format("{\"videoId\":\"%s\",\"videoProgressSeconds\":%d}",videoId.c_str(), videoProgressSeconds);
-	request->requestTag = TagUpdateVideoProgress;
-	request->method = "POST";
 	request->encrypted = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
@@ -634,8 +618,21 @@ HttpRequestCreator* API::UpdateContentProgressMeta(const std::string& childId,
 	HttpRequestCreator* request = new HttpRequestCreator(delegate);
 	request->requestPath = StringUtils::format("/api/useractivity/progress/%s",childId.c_str());
 	request->requestBody = metaBody;
-	request->requestTag = TagUpdateVideoProgress;
+	request->requestTag = TagUpdateProgressMeta;
 	request->method = "POST";
+	request->encrypted = true;
+	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
+		HandleAPIResponse(sender, response, delegate, request);
+	});
+	return request;
+}
+
+HttpRequestCreator* API::GetOomeeMakerAssets(const std::string& childId,
+										HttpRequestCreatorResponseDelegate* delegate)
+{
+	HttpRequestCreator* request = new HttpRequestCreator(delegate);
+	request->requestPath = StringUtils::format("/api/oomeemaker/zip/%s",childId.c_str());
+	request->requestTag = TagGetOomeeMakerAssets;
 	request->encrypted = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);

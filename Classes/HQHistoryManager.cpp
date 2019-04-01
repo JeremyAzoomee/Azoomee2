@@ -155,4 +155,9 @@ Orientation HQHistoryManager::getPrevHQOrientation() const
 {
 	return _prevHQOrientation;
 }
+
+int HQHistoryManager::getHistorySize() const
+{
+	return _hqNames.size();
+}
 NS_AZOOMEE_END

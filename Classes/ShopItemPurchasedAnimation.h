@@ -25,6 +25,9 @@ private:
 	ShopDisplayItemRef _itemData = nullptr;
 	OnCompleteCallback _onCompleteCallback = nullptr;
 	
+	cocos2d::ui::Button* _backButton = nullptr;
+	cocos2d::ui::Button* _useButton = nullptr;
+	
 	cocos2d::Sprite* _beam = nullptr;
 	RemoteImageSprite* _itemAsset = nullptr;
 	cocos2d::ClippingNode* _clippingNode = nullptr;
@@ -35,6 +38,7 @@ public:
 	bool init() override;
 	void onEnter() override;
 	void onExit() override;
+	void resizeUI();
 	
 	void setItemData(const ShopDisplayItemRef& itemData);
 	void setOnCompleteCallback(const OnCompleteCallback& callback);

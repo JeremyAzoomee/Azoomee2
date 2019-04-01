@@ -57,7 +57,12 @@ bool MeHQ::init()
 	this->addChild(_contentNode);
     
 	buildListView();
-    
+	
+	_settingsButton = SettingsButton::create();
+	_settingsButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
+	_settingsButton->setAnchorPoint(Vec2(-0.25,1.25));
+	this->addChild(_settingsButton,1);
+	
     return true;
 }
 
@@ -109,9 +114,9 @@ void MeHQ::buildListView()
 	_contentListView->setGravity(ui::ListView::Gravity::CENTER_HORIZONTAL);
 	_contentListView->setItemsMargin(150.0f);
 	_contentListView->setBottomPadding(100.0f);
-	_contentListView->setContentSize(Size(contentSize.width, contentSize.height - ((ConfigStorage::getInstance()->isDeviceIphoneX() && contentSize.width < contentSize.height) ? 600 : 500)));
+	_contentListView->setContentSize(Size(contentSize.width, contentSize.height - ((ConfigStorage::getInstance()->isDeviceIphoneX() && contentSize.width < contentSize.height) ? 600 : 500) - (_showingMessagingLayer ? 350 : 0)));
 	_contentListView->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-	_contentListView->setPosition(Vec2(0,300));
+	_contentListView->setPosition(Vec2(0,300 + (_showingMessagingLayer ? 350 : 0)));
 	_contentListView->setSwallowTouches(true);
 	_contentNode->addChild(_contentListView);
 	

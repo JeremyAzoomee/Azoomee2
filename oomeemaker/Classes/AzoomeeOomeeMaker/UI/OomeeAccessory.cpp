@@ -46,17 +46,17 @@ void OomeeAccessory::setItemData(const OomeeItemRef& itemData)
     
     for(auto spriteData : itemData->getAssetSet())
     {
-        Sprite* spriteLayer = Sprite::create(OomeeMakerDataHandler::getInstance()->getAssetDir() + spriteData.second.first);
+        Sprite* spriteLayer = Sprite::create(OomeeMakerDataHandler::getInstance()->getAssetDir() + spriteData.getLocation());
         spriteLayer->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
         
         this->setContentSize(Size(MAX(spriteLayer->getContentSize().width,this->getContentSize().width),MAX(spriteLayer->getContentSize().height, this->getContentSize().height)));
         
-        if(_colours && itemData->isUsingColourHue() && spriteData.first != "none")
+        if(_colours && itemData->isUsingColourHue() && spriteData.getTag() != "none")
         {
-            spriteLayer->setColor(Color3B(_colours->getColours().at(spriteData.first)));
+            spriteLayer->setColor(Color3B(_colours->getColours().at(spriteData.getTag())));
         }
-        _sprites[spriteData.first] = spriteLayer;
-        this->addChild(spriteLayer, spriteData.second.second);
+        _sprites[spriteData.getTag()] = spriteLayer;
+        this->addChild(spriteLayer, spriteData.getZOrder());
         
     }
 }
@@ -103,10 +103,10 @@ Sprite* OomeeAccessory::getBaseSprite() const
     
     for(auto assetData : _itemData->getAssetSet())
     {
-        if(assetData.second.second < minLayer)
+        if(assetData.getZOrder() < minLayer)
         {
-            minLayer = assetData.second.second;
-            baseSprite = _sprites.at(assetData.first);
+            minLayer = assetData.getZOrder();
+            baseSprite = _sprites.at(assetData.getTag());
         }
     }
     

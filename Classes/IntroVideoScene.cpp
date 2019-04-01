@@ -197,20 +197,13 @@ void IntroVideoScene::onForceUpdateCheckFinished(const ForceUpdateResult& result
 	{
 		case ForceUpdateResult::DO_NOTHING:
 		{
-			if(UserDefault::getInstance()->getStringForKey("language", "") == "")
+			if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
 			{
-				Director::getInstance()->replaceScene(LanguageSelectScene::create());
+				BackEndCaller::getInstance()->anonymousDeviceLogin();
 			}
 			else
 			{
-				if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
-				{
-					BackEndCaller::getInstance()->anonymousDeviceLogin();
-				}
-				else
-				{
-					LoginLogicHandler::getInstance()->doLoginLogic();
-				}
+				LoginLogicHandler::getInstance()->doLoginLogic();
 			}
 			
 			break;
@@ -238,22 +231,14 @@ void IntroVideoScene::MessageBoxButtonPressed(std::string messageBoxTitle, std::
 	}
 	else
 	{
-		if(UserDefault::getInstance()->getStringForKey("language", "") == "")
+		if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
 		{
-			Director::getInstance()->replaceScene(LanguageSelectScene::create());
+			BackEndCaller::getInstance()->anonymousDeviceLogin();
 		}
 		else
 		{
-			if(!ParentDataParser::getInstance()->hasParentLoginDataInUserDefaults())
-			{
-				BackEndCaller::getInstance()->anonymousDeviceLogin();
-			}
-			else
-			{
-				LoginLogicHandler::getInstance()->doLoginLogic();
-			}
+			LoginLogicHandler::getInstance()->doLoginLogic();
 		}
-		
 	}
 }
 

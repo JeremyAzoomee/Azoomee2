@@ -13,6 +13,7 @@
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/Data/Rewards/RewardItem.h>
 #include <AzoomeeCommon/UI/NotificationNode.h>
+#include <AzoomeeCommon/UI/ResizeNode.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -22,14 +23,18 @@ public:
 	virtual void onAnimationComplete(const RewardItemRef& reward) = 0;
 };
 
-class RewardScreen : public NotificationNode
+class RewardScreen : public ResizeNode
 {
-	typedef NotificationNode Super;
+	typedef ResizeNode Super;
 protected:
+	static const int kAutoCallbackActionTag;
+	
 	RewardScreenDelegate* _delegate = nullptr;
 	
 	float _duration = 0;
 	RewardItemRef _rewardData = nullptr;
+	
+	cocos2d::EventListenerTouchOneByOne* _passingTouchBlocker = nullptr;
 	
 public:
 	
@@ -37,6 +42,7 @@ public:
 	virtual void onEnter() override;
 	virtual void onExit() override;
 	virtual void update(float deltaT) override;
+	virtual void onSizeChanged() override;
 	
 	void setDeleagte(RewardScreenDelegate* delegate);
 	void setDuration(float duration);

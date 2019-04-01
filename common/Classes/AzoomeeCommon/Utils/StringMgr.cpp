@@ -29,6 +29,18 @@ const std::vector<LanguageParams> StringMgr::kLanguageParams = {
 	LanguageParams("tur", "Türk", "Merhaba!")
 };
 
+const std::map<std::string, std::string> StringMgr::kDeviceLangConvMap = {
+	{"en", "en-GB"},
+	{"af", "afr"},
+	{"fr", "fre_FR"},
+	{"es", "spa_ES"},
+	{"de", "ger-DE"},
+	{"pt", "por-PT"},
+	{"it", "ita-IT"},
+	{"el", "gre"},
+	{"tr", "tur"},
+};
+	
 const std::string StringMgr::kLanguagesDir = "languages/";
 #ifdef USINGCI
 	const std::string StringMgr::kLangsZipUrl = "https://media.azoomee.ninja/static/popups/languages/languages.zip";
@@ -125,7 +137,29 @@ std::map<std::string, std::string> StringMgr::getErrorMessageWithCode(long error
 
 void StringMgr::setLanguageIdentifier()
 {
-	languageID = UserDefault::getInstance()->getStringForKey("language", kLanguageParams.at(0)._identifier);
+	const std::string storedLang = UserDefault::getInstance()->getStringForKey("language", "");
+	if(storedLang == "")
+	{
+		const std::string& deviceLang = ConfigStorage::getInstance()->getDeviceLanguage().substr(0,2);
+		if(kDeviceLangConvMap.find(deviceLang) != kDeviceLangConvMap.end())
+		{
+			const auto& target = std::find_if(kLanguageParams.begin(), kLanguageParams.end(), [&](const LanguageParams& langParam){
+				return langParam._identifier == kDeviceLangConvMap.at(deviceLang);
+			});
+			languageID = target != kLanguageParams.end() ? target->_identifier : kLanguageParams.at(0)._identifier;
+		}
+		else
+		{
+			languageID = kLanguageParams.at(0)._identifier;
+		}
+		UserDefault::getInstance()->setStringForKey("language",languageID);
+		UserDefault::getInstance()->flush();
+	}
+	else
+	{
+		languageID = UserDefault::getInstance()->getStringForKey("language", kLanguageParams.at(0)._identifier);
+	}
+	
 	AnalyticsSingleton::getInstance()->registerLanguageCode(languageID);
 }
 

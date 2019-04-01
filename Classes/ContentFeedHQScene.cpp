@@ -142,11 +142,11 @@ void ContentFeedHQScene::createContentScrollview()
 	//we have all carousels in a vector, time to resize the scrollview and add them one by one
 	bool isGroupHQ = _hqCategory == ConfigStorage::kGroupHQName;
 	
-	const Size& vScrollFrameSize = Size(visibleSize.width - sideMargin * 2, visibleSize.height - (isGroupHQ ? 200.0f : 500.0f));
+	const Size& vScrollFrameSize = Size(visibleSize.width - sideMargin * 2, visibleSize.height - (isGroupHQ ? 200.0f : 500.0f) - (_showingMessagingLayer ? 350 : 0));
 	
 	_contentScrollview = cocos2d::ui::ScrollView::create();
 	_contentScrollview->setContentSize(vScrollFrameSize);
-	_contentScrollview->setPosition(Point(sideMargin, isGroupHQ ? 0 : 300));
+	_contentScrollview->setPosition(Point(sideMargin, (isGroupHQ ? 0 : 300) + (_showingMessagingLayer ? 350 : 0)));
 	_contentScrollview->setDirection(cocos2d::ui::ScrollView::Direction::VERTICAL);
 	_contentScrollview->setTouchEnabled(true);
 	_contentScrollview->setBounceEnabled(true);
@@ -195,7 +195,6 @@ void ContentFeedHQScene::createContentScrollview()
 	{
 		addGroupHQLogo();
 		_navLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-		_settingsButton->setVisible(false);
 		ui::Button* backButton = ui::Button::create("res/navigation/back_button.png");
 		backButton->setAnchorPoint(Vec2(-0.25, 1.25));
 		backButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);

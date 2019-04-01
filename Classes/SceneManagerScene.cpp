@@ -21,8 +21,6 @@
 #include "AddChildScene.h"
 #include "WelcomeScene.h"
 #include "ContentFeedHQScene.h"
-#include "LocalContentHQScene.h"
-#include "GalleryHQScene.h"
 #include "MeHQ.h"
 
 #include "SettingsHub.h"
@@ -95,26 +93,27 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             FlowDataSingleton::getInstance()->clearData();
             returnToPrevOrientation();
             acceptAnyOrientation();
-            HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
-			const std::string& currentHQ = HQHistoryManager::getInstance()->getCurrentHQ();
-			
-			ContentFeedHQScene* hqScene = ContentFeedHQScene::create();
-			hqScene->setHQCategory(currentHQ);
-			cocos2d::Scene* goToScene = hqScene;
-			
-			if(currentHQ == ConfigStorage::kMeHQName)
+			if(ContentHistoryManager::getInstance()->getReturnedFromContent())
 			{
-				MeHQ* hqScene = MeHQ::create();
-				hqScene->setHQCategory(currentHQ);
-				goToScene = hqScene;
+				showHoldingUI();
 			}
-			else if(currentHQ == ConfigStorage::kArtAppHQName)
+			else
 			{
-				GalleryHQScene* hqScene = GalleryHQScene::create();
+				HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
+				const std::string& currentHQ = HQHistoryManager::getInstance()->getCurrentHQ();
+				
+				ContentFeedHQScene* hqScene = ContentFeedHQScene::create();
 				hqScene->setHQCategory(currentHQ);
-				goToScene = hqScene;
+				cocos2d::Scene* goToScene = hqScene;
+				
+				if(currentHQ == ConfigStorage::kMeHQName)
+				{
+					MeHQ* hqScene = MeHQ::create();
+					hqScene->setHQCategory(currentHQ);
+					goToScene = hqScene;
+				}
+				Director::getInstance()->replaceScene(goToScene);
 			}
-            Director::getInstance()->replaceScene(goToScene);
             break;
         }
         case SceneNameEnum::BaseWithNoHistory:
@@ -133,12 +132,6 @@ void SceneManagerScene::onEnterTransitionDidFinish()
 			if(currentHQ == ConfigStorage::kMeHQName)
 			{
 				MeHQ* hqScene = MeHQ::create();
-				hqScene->setHQCategory(currentHQ);
-				goToScene = hqScene;
-			}
-			else if(currentHQ == ConfigStorage::kArtAppHQName)
-			{
-				GalleryHQScene* hqScene = GalleryHQScene::create();
 				hqScene->setHQCategory(currentHQ);
 				goToScene = hqScene;
 			}
@@ -368,6 +361,68 @@ void SceneManagerScene::returnToPrevOrientation()
     }
 #endif
     HQHistoryManager::getInstance()->setReturnedFromForcedOrientation(false);
+}
+
+void SceneManagerScene::showHoldingUI()
+{
+	LayerColor* bgColour = LayerColor::create(Color4B(0,7,4,255));
+	this->addChild(bgColour, -1);
+	
+	this->setPosition(Director::getInstance()->getVisibleOrigin());
+	this->setContentSize(Director::getInstance()->getVisibleSize());
+	
+	const Size& contentSize = Director::getInstance()->getVisibleSize();
+	bool isPortrait = contentSize.width < contentSize.height;
+	
+	Sprite* bottomGradient = Sprite::create("res/decoration/TopNavGrad.png");
+	bottomGradient->setContentSize(Size(this->getContentSize().width, 400));
+	bottomGradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	bottomGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+	bottomGradient->setColor(Style::Color::skyBlue);
+	bottomGradient->setRotation(180);
+	this->addChild(bottomGradient);
+	
+	Sprite* wires = Sprite::create("res/rewards/big_wires.png");
+	wires->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	wires->setScale(MAX(contentSize.width, contentSize.height) / wires->getContentSize().width);
+	wires->setRotation(isPortrait ? 90 : 0);
+	this->addChild(wires, -1);
+	
+	LayerColor* overlay = LayerColor::create(Color4B(7,4,34,80));
+	this->addChild(overlay);
+	
+	for(int i = 0; i < 3; i++)
+	{
+		auto loadingCircle = Sprite::create("res/modal/loading.png");
+		loadingCircle->setNormalizedPosition(Vec2(0.5,0.5));
+		loadingCircle->setOpacity(0);
+		loadingCircle->setRotation(RandomHelper::random_int(0, 360));
+		loadingCircle->setScale(0.6 + i * 0.2);
+		
+		this->addChild(loadingCircle);
+		
+		int direction = CCRANDOM_0_1() < 0.5 ? 1 : -1;
+		
+		loadingCircle->runAction(RepeatForever::create(RotateBy::create(CCRANDOM_0_1() + 1, 360 * direction)));
+		loadingCircle->runAction(FadeTo::create(0.5, 255));
+	}
+	
+	this->runAction(Sequence::createWithTwoActions(DelayTime::create(2.5), CallFunc::create([this](){
+		HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
+		const std::string& currentHQ = HQHistoryManager::getInstance()->getCurrentHQ();
+		
+		ContentFeedHQScene* hqScene = ContentFeedHQScene::create();
+		hqScene->setHQCategory(currentHQ);
+		cocos2d::Scene* goToScene = hqScene;
+		
+		if(currentHQ == ConfigStorage::kMeHQName)
+		{
+			MeHQ* hqScene = MeHQ::create();
+			hqScene->setHQCategory(currentHQ);
+			goToScene = hqScene;
+		}
+		Director::getInstance()->replaceScene(goToScene);
+	})));
 }
 
 NS_AZOOMEE_END

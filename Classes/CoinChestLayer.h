@@ -21,9 +21,15 @@ class CoinChestLayer : public RewardScreen
 private:
 	
 	cocos2d::LayerColor* _bgColour = nullptr;
-	cocos2d::ui::Scale9Sprite* _wires = nullptr;
+	cocos2d::Sprite* _wires = nullptr;
+	cocos2d::Sprite* _wireGlow = nullptr;
 	cocos2d::ui::Layout* _text = nullptr;
 	cocos2d::Node* _chestNode = nullptr;
+	
+	cocos2d::ui::Button* _backButton = nullptr;
+	cocos2d::ui::Button* _useButton = nullptr;
+	
+	
 	
 	void addText();
 	void addChest();
