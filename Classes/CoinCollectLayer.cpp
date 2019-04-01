@@ -219,6 +219,8 @@ void CoinCollectLayer::addPlinth()
 	_smoke = createSmokeParticles(Vec2(_plinth->getContentSize().width / 1.5,50));
 	_smoke->setPosition(Vec2(_plinth->getPositionX(), 0));
 	this->addChild(_smoke);
+	
+	AudioMixer::getInstance()->playEffect("Rewards_Anim_Plinth_Up.mp3");
 }
 void CoinCollectLayer::addCoinCounter()
 {

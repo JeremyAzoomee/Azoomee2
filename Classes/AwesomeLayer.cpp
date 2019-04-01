@@ -8,6 +8,7 @@
 #include "AwesomeLayer.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Audio/AudioMixer.h>
 
 using namespace cocos2d;
 
@@ -37,6 +38,8 @@ void AwesomeLayer::onEnter()
 	addAwsomeText();
 	
 	scheduleUpdate();
+	
+	AudioMixer::getInstance()->playEffect("Rewards_AwesomeOnwardsBackground.mp3");
 	
 	Super::onEnter();
 }
@@ -121,6 +124,8 @@ void AwesomeLayer::addAwsomeText()
 	text->setScale(0.5);
 	text->runAction(EaseBackOut::create(ScaleTo::create(_duration * 0.5f, 1)));
 	this->addChild(text);
+	
+	AudioMixer::getInstance()->playEffect("Rewards_Anim_Awesome.wav");
 }
 void AwesomeLayer::addStars()
 {

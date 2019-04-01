@@ -8,7 +8,6 @@
 #include "ShopScene.h"
 #include "SceneManagerScene.h"
 #include "DynamicNodeHandler.h"
-#include "ShopItemPurchasedAnimation.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Data/Shop/ShopDisplayItem.h>
 #include <AzoomeeCommon/Data/Shop/ShopDataHandler.h>
@@ -136,7 +135,10 @@ void ShopScene::onSizeChanged()
 	{
 		_purchasePopup->setScale((visibleSize.width * 0.95f) / _purchasePopup->getContentSize().width);
 	}
-	
+	if(_purchasedAnim)
+	{
+		_purchasedAnim->resizeUI();
+	}
 	_bgColour->setContentSize(visibleSize);
 	_wires->setScale(MAX(visibleSize.width, visibleSize.height) / _wires->getContentSize().width);
 	_wires->setRotation(visibleSize.width < visibleSize.height ? 90 : 0);
@@ -159,18 +161,23 @@ void ShopScene::onHttpRequestSuccess(const std::string& requestTag, const std::s
 		_purchasePopup->setVisible(false);
 		_shopCarousel->setVisible(false);
 		_backButton->setVisible(false);
-		ShopItemPurchasedAnimation* anim = ShopItemPurchasedAnimation::create();
-		anim->setItemData(_purchasePopup->getItemData());
-		anim->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-		anim->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-		anim->setOnCompleteCallback([this, anim](){
-			anim->removeFromParent();
+		_purchasedAnim = ShopItemPurchasedAnimation::create();
+		_purchasedAnim->setItemData(_purchasePopup->getItemData());
+		_purchasedAnim->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+		_purchasedAnim->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+		_purchasedAnim->setOnCompleteCallback([this](){
+			_purchasedAnim->setVisible(false);
+			this->runAction(Sequence::createWithTwoActions(DelayTime::create(0.25), CallFunc::create([this](){// delay removing to prevent crash on android
+				this->removeChild(_purchasedAnim);
+				_purchasedAnim = nullptr;
+			})));
+			
 			_backButton->setVisible(true);
 			_shopCarousel->setVisible(true);
 			_shopCarousel->refreshUI();
 			_purchasePopup->setItemData(nullptr);
 		});
-		this->addChild(anim);
+		this->addChild(_purchasedAnim);
 	}
 	else
 	{

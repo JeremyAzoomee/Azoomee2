@@ -345,7 +345,15 @@ void OomeeMakerDataHandler::onHttpRequestSuccess(const std::string& requestTag, 
 	result.Parse(body.c_str());
 	if(result.HasParseError())
 	{
-		return;
+		if(!_dataStorage->_initialised)
+		{
+			loadLocalData();
+		}
+		else
+		{
+			ModalMessages::getInstance()->stopLoading();
+			sendCallback(false);
+		}
 	}
 	
 	const std::string& zipUrl = getStringFromJson("configMetaUrl", result);

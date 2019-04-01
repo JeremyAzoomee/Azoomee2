@@ -21,7 +21,6 @@ typedef std::shared_ptr<Oomee> OomeeRef;
 
 class Oomee
 {
-    //typedef std::map<std::string, std::pair<std::string, int>> AssetMap; // {colour id key, {asset name, zorder}}
 private:
     std::string _id;
     std::map<std::string, cocos2d::Vec2> _anchorPoints;

@@ -70,7 +70,6 @@ void RewardScene::onExit()
 void RewardScene::onSizeChanged()
 {
 	Super::onSizeChanged();
-	//setScale(1);
 	for(RewardScreen* screen : _screenSequence)
 	{
 		screen->onSizeChanged();

@@ -53,7 +53,7 @@ bool Inventory::hasOomeeAccessory(const std::string& accessoryId) const
 {
 	for(const auto& item : _items)
 	{
-		if(item->getType() == "ACCESSORIES" && item->getMeta() == accessoryId)
+		if(item->getType() == InventoryItem::kAccessoryType && item->getMeta() == accessoryId)
 		{
 			return true;
 		}

@@ -37,7 +37,7 @@ void ChildAgeLayer::onEnter()
 	title->setDimensions(contentSize.width * 0.75f, 200);
     this->addChild(title);
 
-	Label* textInputTitle = Label::createWithTTF(StringUtils::format(_("How old is %s").c_str(),_childCreator->getName().c_str()), Style::Font::Regular(), 64);
+	Label* textInputTitle = Label::createWithTTF(StringUtils::format(_("How old is %s?").c_str(),_childCreator->getName().c_str()), Style::Font::Regular(), 64);
     textInputTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     textInputTitle->setPosition(Vec2(contentSize.width / 2, isPortrait ? contentSize.height * 0.8f : contentSize.height * 0.75f));
     textInputTitle->setColor(Color3B::WHITE);

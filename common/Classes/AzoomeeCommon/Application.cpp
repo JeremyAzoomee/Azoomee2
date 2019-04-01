@@ -131,11 +131,6 @@ void Application::applicationScreenSizeChanged(int newWidth, int newHeight)
         scene->screenSizeDidChange();
     }
 	NotificationNodeDisplayManager::getInstance()->onSizeChanged();
-	//Azoomee::NotificationNode* notificationNode = dynamic_cast<Azoomee::NotificationNode*>(director->getNotificationNode());
-	//if(notificationNode)
-	//{
-	//	notificationNode->onSizeChanged();
-	//}
 #endif
 }
 
@@ -151,12 +146,6 @@ void Application::applicationScreenSizeWillChange(int newWidth, int newHeight, f
         scene->screenSizeWillChange(duration);
     }
 	NotificationNodeDisplayManager::getInstance()->onSizeChanged();
-	//Azoomee::NotificationNode* notificationNode = dynamic_cast<Azoomee::NotificationNode*>(director->getNotificationNode());
-	//if(notificationNode)
-	//{
-	//	notificationNode->onSizeChanged();
-	//}
-	
 }
 
 void Application::updateResolution(int newWidth, int newHeight)

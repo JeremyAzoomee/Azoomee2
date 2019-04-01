@@ -38,6 +38,7 @@ public:
 	bool init() override;
 	void onEnter() override;
 	void onExit() override;
+	void resizeUI();
 	
 	void setItemData(const ShopDisplayItemRef& itemData);
 	void setOnCompleteCallback(const OnCompleteCallback& callback);

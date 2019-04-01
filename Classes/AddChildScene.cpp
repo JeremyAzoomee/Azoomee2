@@ -179,26 +179,12 @@ void AddChildScene::nextLayer()
         }
 		case AddChildFlow::ANON_NAME:
 		{
-			/*if(TutorialController::getInstance()->isTutorialActive())
-			{
-				if(TutorialController::getInstance()->getCurrentState() == TutorialController::kNameEntry)
-				{
-					TutorialController::getInstance()->nextStep();
-				}
-			}*/
 			_currentFlowStage = AddChildFlow::ANON_AGE;
 			setSceneForFlow();
 			break;
 		}
 		case AddChildFlow::ANON_AGE:
 		{
-			/*if(TutorialController::getInstance()->isTutorialActive())
-			{
-				if(TutorialController::getInstance()->getCurrentState() == TutorialController::kAgeEntry)
-				{
-					TutorialController::getInstance()->nextStep();
-				}
-			}*/
 			_childCreator->updateChild(ParentDataProvider::getInstance()->getChild(0));
 			break;
 		}
@@ -207,6 +193,7 @@ void AddChildScene::nextLayer()
 			UserDefault::getInstance()->setBoolForKey("anonOnboardingComplete", true);
 			UserDefault::getInstance()->flush();
 			BackEndCaller::getInstance()->anonymousDeviceLogin();
+			break;
 		}
         default:
         break;

@@ -37,6 +37,7 @@ bool ShopItemPurchasePopup::init()
 	_closeButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
+			AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
 			if(_purchaseCallback)
 			{
 				_purchaseCallback(_itemData, false);

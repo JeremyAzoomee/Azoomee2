@@ -27,12 +27,12 @@ bool ChildOomeeLayer::init()
 
 void ChildOomeeLayer::onEnter()
 {
-    bool is18x9 = ConfigStorage::getInstance()->isDevice18x9();
+    const bool is18x9 = ConfigStorage::getInstance()->isDevice18x9();
     const float offset[2] = {is18x9 ? 50.0f : 100.0f, 200.0f};
     const Size& contentSize = this->getContentSize();
     
-    bool isPortrait = contentSize.width < contentSize.height;
-	bool isAnon = ParentDataProvider::getInstance()->isLoggedInParentAnonymous();
+    const bool isPortrait = contentSize.width < contentSize.height;
+	const bool isAnon = ParentDataProvider::getInstance()->isLoggedInParentAnonymous();
 	
 	Label* title = Label::createWithTTF(_("Every child gets their own Oomee friend"), Style::Font::Regular(), 96);
 	title->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
@@ -45,7 +45,7 @@ void ChildOomeeLayer::onEnter()
 	
     Label* mainTitle = Label::createWithTTF(StringUtils::format(_("Here is %s’s Oomee").c_str(),_childCreator->getName().c_str()), Style::Font::Regular(), 64);
     mainTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    mainTitle->setPosition(Vec2(contentSize.width / 2, title->getPositionY() - title->getContentSize().height));
+	mainTitle->setPosition(Vec2(contentSize.width / 2, title->getPositionY() - title->getContentSize().height - (isPortrait ? 100 : 0) ));
     mainTitle->setColor(Style::Color::white);
     mainTitle->enableGlow(Color4B(Style::Color::telish));
     mainTitle->setMaxLineWidth(contentSize.width * 0.9);

@@ -9,6 +9,8 @@
 
 NS_AZOOMEE_BEGIN
 
+const std::string InventoryItem::kAccessoryType = "ACCESSORIES";
+
 InventoryItemRef InventoryItem::createWithJson(const rapidjson::Value& inventoryItem)
 {
 	InventoryItemRef item = create();
