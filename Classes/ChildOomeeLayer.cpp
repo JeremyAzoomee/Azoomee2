@@ -45,7 +45,7 @@ void ChildOomeeLayer::onEnter()
 	
     Label* mainTitle = Label::createWithTTF(StringUtils::format(_("Here is %s’s Oomee").c_str(),_childCreator->getName().c_str()), Style::Font::Regular(), 64);
     mainTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    mainTitle->setPosition(Vec2(contentSize.width / 2, title->getPositionY() - title->getContentSize().height));
+	mainTitle->setPosition(Vec2(contentSize.width / 2, title->getPositionY() - title->getContentSize().height - (isPortrait ? 100 : 0) ));
     mainTitle->setColor(Style::Color::white);
     mainTitle->enableGlow(Color4B(Style::Color::telish));
     mainTitle->setMaxLineWidth(contentSize.width * 0.9);

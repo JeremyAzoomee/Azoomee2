@@ -179,6 +179,7 @@ void ShopItem::enableLockedIcon(bool enable)
 	if(_bgFrame)
 	{
 		_bgFrame->setVisible(!enable && _affordable);
+		this->setOpacity(!enable && _affordable ? 0 : 255); //show/hide base frame image
 	}
 	_locked = enable;
 }
@@ -210,6 +211,7 @@ void ShopItem::setAffordable(bool affordable)
 	if(_bgFrame)
 	{
 		_bgFrame->setVisible(affordable);
+		this->setOpacity(affordable ? 0 : 255); //show/hide base frame image
 	}
 	_affordable = affordable;
 }

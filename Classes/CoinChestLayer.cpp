@@ -53,7 +53,7 @@ bool CoinChestLayer::init()
 	_useButton->setScale9Enabled(true);
 	this->addChild(_useButton);
 	
-	Label* useLabel = Label::createWithTTF(_("GO TO SHOP"), Style::Font::Bold(), 75);
+	Label* useLabel = Label::createWithTTF(_("Shop"), Style::Font::Bold(), 75);
 	useLabel->setTextColor(Color4B(0, 245, 246, 255));
 	useLabel->setHorizontalAlignment(TextHAlignment::CENTER);
 	useLabel->setVerticalAlignment(TextVAlignment::CENTER);
@@ -95,7 +95,7 @@ void CoinChestLayer::onEnter()
 	_wires->runAction(FadeOut::create(_duration));
 	_wireGlow->runAction(FadeIn::create(_duration));
 	
-	AudioMixer::getInstance()->playEffect("Rewards_Anim_ChestCoinsScreen.wav");
+	AudioMixer::getInstance()->playEffect("Rewards_Anim_Chest.wav");
 	
 	Super::onEnter();
 	stopActionByTag(kAutoCallbackActionTag);

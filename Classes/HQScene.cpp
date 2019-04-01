@@ -43,6 +43,7 @@ void HQScene::onEnter()
 		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
 	}
 	_navLayer->setButtonOn(_hqCategory);
+	
 	Super::onEnter();
 }
 

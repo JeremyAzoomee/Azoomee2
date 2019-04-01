@@ -23,7 +23,7 @@ bool UserTypeMessagingLayer::init()
     {
         return false;
     }
-    
+	setCascadeOpacityEnabled(true);
     return true;
 }
 
