@@ -48,10 +48,7 @@ void CoinCollectLayer::onEnter()
 		}
 		else
 		{
-			onSizeChanged(); // stops all current animations and skips to end
-			_displayValue = _rewardAmount;
-			_valueLabel->setString(StringUtils::format("%d",(int)_displayValue));
-			_animSkiped = true;
+			skipAnimation(); // stops all current animations and skips to end
 		}
 	};
 	
@@ -104,16 +101,7 @@ void CoinCollectLayer::onSizeChanged()
 	const Size& visibleSize = this->getContentSize();
 	bool isPortrait = visibleSize.width < visibleSize.height;
 	
-	auto children = this->getChildren();
-	
-	for(auto child : children)
-	{
-		if(child->getName() == "coin")
-		{
-			child->stopAllActions();
-			child->removeFromParent();
-		}
-	}
+	skipAnimation();
 	
 	if(_bgColour)
 	{
@@ -129,6 +117,29 @@ void CoinCollectLayer::onSizeChanged()
 		_wires->setRotation(isPortrait ? 90 : 0);
 		_wireGlow->setScale(MAX(visibleSize.width, visibleSize.height) / _wires->getContentSize().width);
 		_wireGlow->setRotation(isPortrait ? 90 : 0);
+	}
+	
+	if(_counterFrame)
+	{
+		_counterFrame->setNormalizedPosition(isPortrait ? Vec2::ANCHOR_MIDDLE_TOP : Vec2::ANCHOR_MIDDLE_BOTTOM);
+		_counterFrame->setAnchorPoint(isPortrait ? Vec2(0.5,-0.5) : Vec2(0.5,1.5));
+	}
+}
+
+void CoinCollectLayer::skipAnimation()
+{
+	const Size& visibleSize = this->getContentSize();
+	bool isPortrait = visibleSize.width < visibleSize.height;
+	
+	auto children = this->getChildren();
+	
+	for(auto child : children)
+	{
+		if(child->getName() == "coin")
+		{
+			child->stopAllActions();
+			child->removeFromParent();
+		}
 	}
 	
 	if(_plinth)
@@ -151,12 +162,9 @@ void CoinCollectLayer::onSizeChanged()
 		const Vec2& oomeeWorldPos = _plinth->getPosition() + Vec2(0,_plinth->getContentSize().height + 200);
 		_mainCoin->setPosition(isPortrait ? Vec2(visibleSize.width * 0.5f,visibleSize.height * 0.5f) : Vec2(visibleSize.width * 0.75f, oomeeWorldPos.y));
 	}
-	
-	if(_counterFrame)
-	{
-		_counterFrame->setNormalizedPosition(isPortrait ? Vec2::ANCHOR_MIDDLE_TOP : Vec2::ANCHOR_MIDDLE_BOTTOM);
-		_counterFrame->setAnchorPoint(isPortrait ? Vec2(0.5,-0.5) : Vec2(0.5,1.5));
-	}
+	_displayValue = _rewardAmount;
+	_valueLabel->setString(StringUtils::format("%d",(int)_displayValue));
+	_animSkiped = true;
 	
 	AudioMixer::getInstance()->stopEffect(_plinthAudioId);
 }

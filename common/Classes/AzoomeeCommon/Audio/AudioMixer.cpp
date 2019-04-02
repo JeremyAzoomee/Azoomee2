@@ -30,12 +30,12 @@ bool AudioMixer::init(void)
     return true;
 }
 
-void AudioMixer::playBackgroundMusic(std::string backgroundMusicToPlay)
+void AudioMixer::playBackgroundMusic(const std::string& backgroundMusicToPlay)
 {
     CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic(StringUtils::format("res/audio/%s",backgroundMusicToPlay.c_str()).c_str(), true);
 }
 //returns playing effect num, in case initiater wants to stop the sound
-int AudioMixer::playEffect(std::string effectToPlay)
+int AudioMixer::playEffect(const std::string& effectToPlay)
 {
     return CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(StringUtils::format("res/audio/%s",effectToPlay.c_str()).c_str());
 

@@ -46,6 +46,8 @@ private:
 	void addPlinth();
 	void addCoinCounter();
 	
+	void skipAnimation();
+	
 	cocos2d::ParticleSystemQuad* createSparkleParticles(const cocos2d::Vec2& emissionArea);
 	cocos2d::ParticleSystemQuad* createSmokeParticles(const cocos2d::Vec2& emissionArea);
 	cocos2d::ParticleSystemQuad* createMeteorParticles();

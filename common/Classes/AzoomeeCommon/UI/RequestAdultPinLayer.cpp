@@ -155,7 +155,7 @@ void RequestAdultPinLayer::addUIObjects()
     
     //---------- MODAL LABEL ------------
     
-	enterYourPinTitle = Label::createWithTTF(_("You are now entering the Parents’ Zone. Enter your Parent PIN to continue."), Style::Font::Regular(), 65);
+	enterYourPinTitle = Label::createWithTTF(_("You are now entering the Parents' Zone. Enter your Parent PIN to continue."), Style::Font::Regular(), 65);
 	enterYourPinTitle->setTextColor(Color4B::BLACK);
 	enterYourPinTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 	enterYourPinTitle->setOverflow(Label::Overflow::SHRINK);

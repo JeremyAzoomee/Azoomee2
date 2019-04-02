@@ -33,8 +33,8 @@ public:
     virtual ~AudioMixer();
     bool init(void);
     
-    void playBackgroundMusic(std::string backgroundMusicToPlay);
-    int playEffect(std::string effectToPlay);
+    void playBackgroundMusic(const std::string& backgroundMusicToPlay);
+    int playEffect(const std::string& effectToPlay);
     void stopBackgroundMusic();
     void pauseBackgroundMusic();
     void resumeBackgroundMusic();

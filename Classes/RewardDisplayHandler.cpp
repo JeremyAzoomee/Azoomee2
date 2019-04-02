@@ -79,7 +79,7 @@ void RewardDisplayHandler::addRewardToQueue(const RewardItemRef& reward)
 {
 	if(reward->getStatus() == "PENDING") // only add pending rewards
 	{
-		if(std::find_if(_rewardQueue.begin(), _rewardQueue.end(), [reward](const RewardItemRef& r){return r->getId().find(reward->getId()) != r->getId().npos;}) != _rewardQueue.end())
+		if(std::find_if(_rewardQueue.begin(), _rewardQueue.end(), [reward](const RewardItemRef& r){return r->getId().find(reward->getId()) != r->getId().npos;}) != _rewardQueue.end()) // id of reward may be multiple reward ids joined together, so look for target id within entire string
 		{
 			return; // reward already in queue
 		}
