@@ -35,6 +35,9 @@ private:
     /// Update the profile names based on the current child and their friend's list
     void updateProfileNames();
     
+    /// Handle a moderation status change response
+    void onModerationStatusResponseSuccess(const std::string& requestTag, const std::string& headers, const std::string& body);
+    
     /// - HttpRequestCreatorResponseDelegate
     void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body) override;
     void onHttpRequestFailed(const std::string& requestTag, long errorCode) override;
@@ -103,6 +106,8 @@ struct ChatAPIObserver
     virtual void onChatAPISendMessage(const MessageRef& sentMessage) {};
     /// Get Timeline Summary response
     virtual void onChatAPIGetTimelineSummary(const MessageList& messageList) {};
+    /// Conversation moderation status changed
+    virtual void onChatAPIModerationStatusChanged(const FriendRef& friendObj) {};
     /// API error from Chat request
     virtual void onChatAPIErrorRecieved(const std::string& requestTag, long errorCode) {};
 };

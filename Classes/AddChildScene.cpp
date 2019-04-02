@@ -24,13 +24,25 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+const std::map<AddChildFlow, std::string> AddChildScene::kFlowStateStrConvMap = {
+	{AddChildFlow::FIRST_TIME_SETUP_NAME, "FirstChildSetupName"},
+	{AddChildFlow::ADDITIONAL_NAME, "AdditionalChildName"},
+	{AddChildFlow::AGE, "ChildAge"},
+	{AddChildFlow::OOMEE, "Oomee"},
+	{AddChildFlow::ANON_NAME, "AnonChildName"},
+	{AddChildFlow::ANON_AGE, "AnonChildAge"},
+	{AddChildFlow::ANON_OOMEE, "AnonOomee"}
+};
+
 bool AddChildScene::init()
 {
     if(!Super::init())
     {
         return false;
     }
-    
+
+	CCASSERT(kFlowStateStrConvMap.size() == (int)AddChildFlow::FLOW_COUNT, "Not all flow states in str conversion map!");
+
     addBackground();
     
     return true;
@@ -245,31 +257,7 @@ void AddChildScene::prevLayer()
 
 std::string AddChildScene::getAnalyticsStringForFlowState(const AddChildFlow& state)
 {
-	switch (state) {
-		
-		case AddChildFlow::FIRST_TIME_SETUP_NAME:
-			return "FirstChildSetupName";
-			break;
-		case AddChildFlow::ADDITIONAL_NAME:
-			return "AdditionalChildName";
-			break;
-		case AddChildFlow::AGE:
-			return "ChildAge";
-			break;
-		case AddChildFlow::OOMEE:
-			return "Oomee";
-			break;
-		case AddChildFlow::ANON_NAME:
-			return "AnonChildName";
-			break;
-		case AddChildFlow::ANON_AGE:
-			return "AnonChildAge";
-			break;
-		case AddChildFlow::ANON_OOMEE:
-			return "AnonOomee";
-			break;
-	}
-	
+	return kFlowStateStrConvMap.at(state);
 }
 
 void AddChildScene::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)

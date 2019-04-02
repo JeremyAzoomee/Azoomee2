@@ -38,9 +38,12 @@ public:
 	
 	void onContentOpened();
 	void onContentClosed();
-	long getTimeInContent() const;
-	time_t getContentOpenedTime() const;
-	time_t getContentClosedTime() const;
+	long getTimeInContentSec() const;
+	time_t getContentOpenedTimeSec() const;
+	time_t getContentClosedTimeSec() const;
+	long getTimeInContentMs() const;
+	time_t getContentOpenedTimeMs() const;
+	time_t getContentClosedTimeMs() const;
 	
     
 };
