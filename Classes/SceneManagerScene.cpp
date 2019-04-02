@@ -22,6 +22,7 @@
 #include "WelcomeScene.h"
 #include "ContentFeedHQScene.h"
 #include "MeHQ.h"
+#include "RewardDisplayHandler.h"
 
 #include "SettingsHub.h"
 #include "ChildSettingsScene.h"
@@ -413,6 +414,8 @@ void SceneManagerScene::showHoldingUI()
 		loadingCircle->runAction(RepeatForever::create(RotateBy::create(CCRANDOM_0_1() + 1, 360 * direction)));
 		loadingCircle->runAction(FadeTo::create(0.5, 255));
 	}
+	
+	RewardDisplayHandler::getInstance()->showNextReward();
 	
 	this->runAction(Sequence::createWithTwoActions(DelayTime::create(2.5), CallFunc::create([this](){
 		HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();

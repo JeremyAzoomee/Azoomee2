@@ -282,13 +282,14 @@ using namespace Azoomee;
 -(void) playerItemDidReachEnd:(NSNotification*)notification
 {
     Azoomee::sendMixPanelData("video.complete", "");
+	Azoomee::sendProgressMetaDataVideo(0, CMTimeGetSeconds(_queuePlayer.currentItem.duration));
     if(self.queuePlayer.currentItem == self.queuePlayer.items.lastObject)
     {
         Azoomee::sendMixPanelData("video.playlistComplete", "");
         
         [self cleanupAndExit];
+		return;
     }
-	Azoomee::sendProgressMetaDataVideo(0, CMTimeGetSeconds(_queuePlayer.currentItem.duration));
 	_currentItemIndex++;
 	Azoomee::newVideoOpened(_currentItemIndex);
 	if(!isAnonUser())

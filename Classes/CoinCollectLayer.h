@@ -38,6 +38,9 @@ private:
 	
 	std::string _oomeeFilepath;
 	
+	bool _animSkiped = false;
+	int _plinthAudioId = -1;
+	
 	void addBackground();
 	void addHeading();
 	void addPlinth();

@@ -22,6 +22,7 @@ bool CoinCollectLayer::init()
 		return false;
 	}
 	addBackground();
+	
 	return true;
 }
 void CoinCollectLayer::onEnter()
@@ -35,6 +36,24 @@ void CoinCollectLayer::onEnter()
 	_wireGlow->runAction(FadeIn::create(_duration));
 	
 	this->scheduleUpdate();
+	
+	_passingTouchBlocker->onTouchEnded = [this](Touch* touch, Event* event){
+		if(_animSkiped)
+		{
+			this->stopActionByTag(kAutoCallbackActionTag);
+			if(_delegate)
+			{
+				_delegate->onAnimationComplete(_rewardData);
+			}
+		}
+		else
+		{
+			onSizeChanged(); // stops all current animations and skips to end
+			_displayValue = _rewardAmount;
+			_valueLabel->setString(StringUtils::format("%d",(int)_displayValue));
+			_animSkiped = true;
+		}
+	};
 	
 	Super::onEnter();
 }
@@ -139,7 +158,7 @@ void CoinCollectLayer::onSizeChanged()
 		_counterFrame->setAnchorPoint(isPortrait ? Vec2(0.5,-0.5) : Vec2(0.5,1.5));
 	}
 	
-	
+	AudioMixer::getInstance()->stopEffect(_plinthAudioId);
 }
 
 void CoinCollectLayer::setOomeeFilepath(const std::string& oomeeFilepath)
@@ -220,7 +239,7 @@ void CoinCollectLayer::addPlinth()
 	_smoke->setPosition(Vec2(_plinth->getPositionX(), 0));
 	this->addChild(_smoke);
 	
-	AudioMixer::getInstance()->playEffect("Rewards_Anim_Plinth_Up.mp3");
+	_plinthAudioId = AudioMixer::getInstance()->playEffect("Rewards_Anim_Plinth_Up.mp3");
 }
 void CoinCollectLayer::addCoinCounter()
 {

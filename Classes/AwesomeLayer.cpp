@@ -41,6 +41,14 @@ void AwesomeLayer::onEnter()
 	
 	AudioMixer::getInstance()->playEffect("Rewards_AwesomeOnwardsBackground.mp3");
 	
+	_passingTouchBlocker->onTouchEnded = [this](Touch* touch, Event* event){
+		this->stopActionByTag(kAutoCallbackActionTag);
+		if(_delegate)
+		{
+			_delegate->onAnimationComplete(_rewardData);
+		}
+	};
+	
 	Super::onEnter();
 }
 

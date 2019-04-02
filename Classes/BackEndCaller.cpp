@@ -310,6 +310,7 @@ void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString
     DynamicNodeHandler::getInstance()->getCTAFiles();
 	getChildInventory();
     getGordon();
+	HQHistoryManager::getInstance()->emptyHistory();
 }
 
 //GETTING GORDON.PNG-------------------------------------------------------------------------------------
