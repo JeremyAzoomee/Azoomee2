@@ -153,10 +153,19 @@ public class NativeMediaPlayer extends Activity {
 
                     if(videoview != null && videoview.isPlaying())
                     {
+                        JNICalls.JNISendProgressMetaDataVideo(0,videoview.getDuration() / 1000);
                         videoview.stopPlayback();
                     }
 
-                    finish();
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            JNICalls.JNIRegisterAndroidSceneChangeEvent();
+
+                            finish();
+                        }
+                    }, 1500);
                 }
                 else
                 {

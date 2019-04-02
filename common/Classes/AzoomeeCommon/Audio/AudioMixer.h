@@ -33,12 +33,13 @@ public:
     virtual ~AudioMixer();
     bool init(void);
     
-    void playBackgroundMusic(std::string backgroundMusicToPlay);
-    void playEffect(std::string effectToPlay);
+    void playBackgroundMusic(const std::string& backgroundMusicToPlay);
+    int playEffect(const std::string& effectToPlay);
     void stopBackgroundMusic();
     void pauseBackgroundMusic();
     void resumeBackgroundMusic();
-    
+	void stopEffect(int effectId);
+	
     void playOomeeEffect(std::string oomee, std::string state, bool fallbackToDefaultSound);
     void playOomeeIdleSounds(bool playSounds);
     void stopOomeeEffect();

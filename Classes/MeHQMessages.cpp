@@ -11,6 +11,7 @@
 #include "IAPFlowController.h"
 #include "DynamicNodeHandler.h"
 #include "HQDataProvider.h"
+#include "HQHistoryManager.h"
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeChat/UI/AvatarWidget.h>
 #include <AzoomeeChat/UI/MessageScene.h>
@@ -55,7 +56,15 @@ void MeHQMessages::onEnter()
 	TutorialController::getInstance()->registerDelegate(this);
     Super::onEnter();
     Chat::ChatAPI::getInstance()->registerObserver(this);
-	Chat::ChatAPI::getInstance()->requestFriendList();
+	if(HQHistoryManager::getInstance()->getHistorySize() == 1)
+	{
+		Chat::ChatAPI::getInstance()->requestFriendList();
+	}
+	else
+	{
+		_friendList = Chat::ChatAPI::getInstance()->getFriendList();
+		Chat::ChatAPI::getInstance()->getTimelineSummary();
+	}
 }
 
 void MeHQMessages::onExit()

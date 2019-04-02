@@ -22,6 +22,7 @@ bool CoinCollectLayer::init()
 		return false;
 	}
 	addBackground();
+	
 	return true;
 }
 void CoinCollectLayer::onEnter()
@@ -35,6 +36,21 @@ void CoinCollectLayer::onEnter()
 	_wireGlow->runAction(FadeIn::create(_duration));
 	
 	this->scheduleUpdate();
+	
+	_passingTouchBlocker->onTouchEnded = [this](Touch* touch, Event* event){
+		if(_animSkiped)
+		{
+			this->stopActionByTag(kAutoCallbackActionTag);
+			if(_delegate)
+			{
+				_delegate->onAnimationComplete(_rewardData);
+			}
+		}
+		else
+		{
+			skipAnimation(); // stops all current animations and skips to end
+		}
+	};
 	
 	Super::onEnter();
 }
@@ -85,16 +101,7 @@ void CoinCollectLayer::onSizeChanged()
 	const Size& visibleSize = this->getContentSize();
 	bool isPortrait = visibleSize.width < visibleSize.height;
 	
-	auto children = this->getChildren();
-	
-	for(auto child : children)
-	{
-		if(child->getName() == "coin")
-		{
-			child->stopAllActions();
-			child->removeFromParent();
-		}
-	}
+	skipAnimation();
 	
 	if(_bgColour)
 	{
@@ -110,6 +117,29 @@ void CoinCollectLayer::onSizeChanged()
 		_wires->setRotation(isPortrait ? 90 : 0);
 		_wireGlow->setScale(MAX(visibleSize.width, visibleSize.height) / _wires->getContentSize().width);
 		_wireGlow->setRotation(isPortrait ? 90 : 0);
+	}
+	
+	if(_counterFrame)
+	{
+		_counterFrame->setNormalizedPosition(isPortrait ? Vec2::ANCHOR_MIDDLE_TOP : Vec2::ANCHOR_MIDDLE_BOTTOM);
+		_counterFrame->setAnchorPoint(isPortrait ? Vec2(0.5,-0.5) : Vec2(0.5,1.5));
+	}
+}
+
+void CoinCollectLayer::skipAnimation()
+{
+	const Size& visibleSize = this->getContentSize();
+	bool isPortrait = visibleSize.width < visibleSize.height;
+	
+	auto children = this->getChildren();
+	
+	for(auto child : children)
+	{
+		if(child->getName() == "coin")
+		{
+			child->stopAllActions();
+			child->removeFromParent();
+		}
 	}
 	
 	if(_plinth)
@@ -132,14 +162,11 @@ void CoinCollectLayer::onSizeChanged()
 		const Vec2& oomeeWorldPos = _plinth->getPosition() + Vec2(0,_plinth->getContentSize().height + 200);
 		_mainCoin->setPosition(isPortrait ? Vec2(visibleSize.width * 0.5f,visibleSize.height * 0.5f) : Vec2(visibleSize.width * 0.75f, oomeeWorldPos.y));
 	}
+	_displayValue = _rewardAmount;
+	_valueLabel->setString(StringUtils::format("%d",(int)_displayValue));
+	_animSkiped = true;
 	
-	if(_counterFrame)
-	{
-		_counterFrame->setNormalizedPosition(isPortrait ? Vec2::ANCHOR_MIDDLE_TOP : Vec2::ANCHOR_MIDDLE_BOTTOM);
-		_counterFrame->setAnchorPoint(isPortrait ? Vec2(0.5,-0.5) : Vec2(0.5,1.5));
-	}
-	
-	
+	AudioMixer::getInstance()->stopEffect(_plinthAudioId);
 }
 
 void CoinCollectLayer::setOomeeFilepath(const std::string& oomeeFilepath)
@@ -220,7 +247,7 @@ void CoinCollectLayer::addPlinth()
 	_smoke->setPosition(Vec2(_plinth->getPositionX(), 0));
 	this->addChild(_smoke);
 	
-	AudioMixer::getInstance()->playEffect("Rewards_Anim_Plinth_Up.mp3");
+	_plinthAudioId = AudioMixer::getInstance()->playEffect("Rewards_Anim_Plinth_Up.mp3");
 }
 void CoinCollectLayer::addCoinCounter()
 {

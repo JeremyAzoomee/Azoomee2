@@ -28,7 +28,6 @@ private:
 	void showReward(const RewardItemRef& reward);
 	
 	void addRewardToQueue(const RewardItemRef& reward);
-	void showNextReward();
 	
 	bool isRunningAnimationPossible();
 	
@@ -37,6 +36,7 @@ public:
 	virtual ~RewardDisplayHandler();
 	
 	void getPendingRewards();
+	void showNextReward();
 	
 	//delagate functions
 	void onRewardSuccess(const RewardItemRef& responseData);

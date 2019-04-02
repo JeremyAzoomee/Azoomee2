@@ -38,10 +38,15 @@ private:
 	
 	std::string _oomeeFilepath;
 	
+	bool _animSkiped = false;
+	int _plinthAudioId = -1;
+	
 	void addBackground();
 	void addHeading();
 	void addPlinth();
 	void addCoinCounter();
+	
+	void skipAnimation();
 	
 	cocos2d::ParticleSystemQuad* createSparkleParticles(const cocos2d::Vec2& emissionArea);
 	cocos2d::ParticleSystemQuad* createSmokeParticles(const cocos2d::Vec2& emissionArea);
