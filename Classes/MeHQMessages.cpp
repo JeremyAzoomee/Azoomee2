@@ -55,16 +55,7 @@ void MeHQMessages::onEnter()
 	TutorialController::getInstance()->registerDelegate(this);
     Super::onEnter();
     Chat::ChatAPI::getInstance()->registerObserver(this);
-    _friendList = Chat::ChatAPI::getInstance()->getFriendList();
-	if(_friendList.size() == 0)
-	{
-		Chat::ChatAPI::getInstance()->requestFriendList();
-	}
-	else
-	{
-		Chat::ChatAPI::getInstance()->getTimelineSummary();
-	}
-	
+	Chat::ChatAPI::getInstance()->requestFriendList();
 }
 
 void MeHQMessages::onExit()

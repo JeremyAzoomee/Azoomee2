@@ -171,7 +171,7 @@ void sendProgressMetaDataVideo(int videoProgressSeconds, int videoDuration)
 {
 	ContentHistoryManager::getInstance()->onContentClosed();
 	const auto& contentItem = ContentHistoryManager::getInstance()->getLastOpenedContent();
-	const std::string& data = StringUtils::format("{\"contentId\":\"%s\", \"contentMeta\":{\"contentType\":\"%s\", \"contentLength\":%d, \"unit\":\"SECONDS\", \"contentProgress\":%d, \"duration\":%ld, \"lastPlayedMeta\": [{\"start\":%ld,\"end\":%ld}]}}",contentItem->getContentItemId().c_str(), contentItem->getType().c_str(), videoDuration, videoProgressSeconds ,ContentHistoryManager::getInstance()->getTimeInContent(), ContentHistoryManager::getInstance()->getContentOpenedTime(), ContentHistoryManager::getInstance()->getContentClosedTime());
+	const std::string& data = StringUtils::format("{\"contentId\":\"%s\", \"contentMeta\":{\"contentType\":\"%s\", \"contentLength\":%d, \"unit\":\"SECONDS\", \"contentProgress\":%d, \"duration\":%ld, \"lastPlayedMeta\": [{\"start\":%ld,\"end\":%ld}]}}",contentItem->getContentItemId().c_str(), contentItem->getType().c_str(), videoDuration, videoProgressSeconds ,ContentHistoryManager::getInstance()->getTimeInContentSec(), ContentHistoryManager::getInstance()->getContentOpenedTimeMs(), ContentHistoryManager::getInstance()->getContentClosedTimeMs());
 	HttpRequestCreator* request = API::UpdateContentProgressMeta(ChildDataProvider::getInstance()->getParentOrChildId(), data, nullptr);
 	request->execute();
 	
@@ -181,7 +181,7 @@ void sendProgressMetaDataGame()
 {
 	ContentHistoryManager::getInstance()->onContentClosed();
 	const auto& contentItem = ContentHistoryManager::getInstance()->getLastOpenedContent();
-	const std::string& data = StringUtils::format("{\"contentId\":\"%s\", \"contentMeta\":{\"contentType\":\"%s\", \"unit\":\"SECONDS\", \"duration\":%ld, \"lastPlayedMeta\": [{\"start\":%ld,\"end\":%ld}]}}",contentItem->getContentItemId().c_str(), contentItem->getType().c_str(), ContentHistoryManager::getInstance()->getTimeInContent(), ContentHistoryManager::getInstance()->getContentOpenedTime(), ContentHistoryManager::getInstance()->getContentClosedTime());
+	const std::string& data = StringUtils::format("{\"contentId\":\"%s\", \"contentMeta\":{\"contentType\":\"%s\", \"unit\":\"SECONDS\", \"duration\":%ld, \"lastPlayedMeta\": [{\"start\":%ld,\"end\":%ld}]}}",contentItem->getContentItemId().c_str(), contentItem->getType().c_str(), ContentHistoryManager::getInstance()->getTimeInContentSec(), ContentHistoryManager::getInstance()->getContentOpenedTimeMs(), ContentHistoryManager::getInstance()->getContentClosedTimeMs());
 	HttpRequestCreator* request = API::UpdateContentProgressMeta(ChildDataProvider::getInstance()->getParentOrChildId(), data, nullptr);
 	request->execute();
 }

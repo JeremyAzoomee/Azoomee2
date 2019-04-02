@@ -315,6 +315,21 @@ void AnalyticsSingleton::childProfileCreatedEvent(int age)
     mixPanelSendEventWithStoredProperties("childProfileCreatedEvent", mixPanelProperties);
 }
 
+void AnalyticsSingleton::createChildFlowEvent(const std::string& flowState)
+{
+	mixPanelSendEventWithStoredProperties("CreateChild_" + flowState);
+}
+
+void AnalyticsSingleton::createChildNextPressed()
+{
+	mixPanelSendEventWithStoredProperties("CreateChild_NextPressed");
+}
+
+void AnalyticsSingleton::createChildBackPressed()
+{
+	mixPanelSendEventWithStoredProperties("CreateChild_BackPressed");
+}
+
 //-------------HUB ACTIONS-------------------
 
     void AnalyticsSingleton::navSelectionEvent(std::string hubOrTop, const std::string& buttonName)
@@ -901,6 +916,75 @@ void AnalyticsSingleton::vodacomOnboardingFlowMoveToScreen(const std::string& ne
 void AnalyticsSingleton::vodacomOnboardingVoucherAdded(const std::string& voucherCode)
 {
 	mixPanelSendEventWithStoredProperties("vodacomOnboardingVoucherAdded" ,{{"voucherCode", voucherCode}});
+}
+
+//-------------Rewards events-------------------------------
+void AnalyticsSingleton::rewardRedeemedEvent(int value)
+{
+	mixPanelSendEventWithStoredProperties("RewardRedeemed" ,{{"rewardValue", cocos2d::StringUtils::format("%d",value)}});
+}
+void AnalyticsSingleton::rewardAnimBeginEvent(int value)
+{
+	mixPanelSendEventWithStoredProperties("RewardAnimationBegin" ,{{"rewardValue", cocos2d::StringUtils::format("%d",value)}});
+}
+void AnalyticsSingleton::rewardAnimCloseEvent(int value)
+{
+	mixPanelSendEventWithStoredProperties("RewardAnimationClose" ,{{"rewardValue", cocos2d::StringUtils::format("%d",value)}});
+}
+void AnalyticsSingleton::rewardAnimGoToShopEvent(int value)
+{
+	mixPanelSendEventWithStoredProperties("RewardAnimationGoToShop" ,{{"rewardValue", cocos2d::StringUtils::format("%d",value)}});
+}
+
+//-------------Shop events----------------------------------
+void AnalyticsSingleton::shopPageTurned(int pageNumber)
+{
+	mixPanelSendEventWithStoredProperties("ShopPageTurned" ,{{"pageNumber", cocos2d::StringUtils::format("%d",pageNumber)}});
+}
+void AnalyticsSingleton::shopItemPressed(int itemPos, const ShopDisplayItemRef& item)
+{
+	mixPanelSendEventWithStoredProperties("ShopItemPressed" ,{
+		{"itemPos", cocos2d::StringUtils::format("%d",itemPos)},
+		{"itemName", item->getInventoryItem()->getName()}
+	});
+}
+void AnalyticsSingleton::shopLockedItemPressed(int itemPos, const ShopDisplayItemRef& item)
+{
+	mixPanelSendEventWithStoredProperties("ShopLockedItemPressed" ,{
+		{"itemPos", cocos2d::StringUtils::format("%d",itemPos)},
+		{"itemName", item->getInventoryItem()->getName()}
+	});
+}
+void AnalyticsSingleton::shopUnaffordableItemPressed(int itemPos, const ShopDisplayItemRef& item)
+{
+	mixPanelSendEventWithStoredProperties("ShopUnaffordableItemPressed" ,{
+		{"itemPos", cocos2d::StringUtils::format("%d",itemPos)},
+		{"itemName", item->getInventoryItem()->getName()}
+	});
+}
+void AnalyticsSingleton::shopItemPurchased(const ShopDisplayItemRef& item)
+{
+	mixPanelSendEventWithStoredProperties("ShopItemPurchased" ,{
+		{"itemName", item->getInventoryItem()->getName()}
+	});
+}
+void AnalyticsSingleton::shopPurchasePopupClosed(const ShopDisplayItemRef& item)
+{
+	mixPanelSendEventWithStoredProperties("ShopPurchasePopupClosed" ,{
+		{"itemName", item->getInventoryItem()->getName()}
+	});
+}
+void AnalyticsSingleton::shopPurchseAnimClosed(const ShopDisplayItemRef& item)
+{
+	mixPanelSendEventWithStoredProperties("ShopPurchasedAnimClosed" ,{
+		{"itemName", item->getInventoryItem()->getName()}
+	});
+}
+void AnalyticsSingleton::shopPurchasedAnimUsePressed(const ShopDisplayItemRef& item)
+{
+	mixPanelSendEventWithStoredProperties("ShopPurchasedAnimUsePressed" ,{
+		{"itemName", item->getInventoryItem()->getName()}
+	});
 }
 
 NS_AZOOMEE_END

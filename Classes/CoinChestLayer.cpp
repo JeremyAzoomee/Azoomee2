@@ -10,6 +10,7 @@
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "SceneManagerScene.h"
 
 using namespace cocos2d;
@@ -76,6 +77,7 @@ void CoinChestLayer::onEnter()
 		{
 			if(this->_delegate)
 			{
+				AnalyticsSingleton::getInstance()->rewardAnimCloseEvent(abs(_rewardData->getItemPrice()));
 				this->_delegate->onAnimationComplete(_rewardData);
 			}
 		}
@@ -83,6 +85,7 @@ void CoinChestLayer::onEnter()
 		{
 			if(this->_delegate)
 			{
+				AnalyticsSingleton::getInstance()->rewardAnimGoToShopEvent(abs(_rewardData->getItemPrice()));
 				this->_delegate->onAnimationComplete(_rewardData);
 				Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Shop));
 			}

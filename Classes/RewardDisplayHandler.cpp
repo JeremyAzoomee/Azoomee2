@@ -12,6 +12,7 @@
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/NotificationNodeDisplayManager.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "CoinCollectLayer.h"
 #include "RewardScene.h"
 
@@ -42,6 +43,7 @@ RewardDisplayHandler::RewardDisplayHandler()
 
 void RewardDisplayHandler::showReward(const RewardItemRef& reward)
 {
+	AnalyticsSingleton::getInstance()->rewardAnimBeginEvent(abs(reward->getItemPrice()));
 	if(reward->getType() == "COIN")
 	{
 		RewardScene* rewardScene = RewardScene::create();
@@ -127,6 +129,7 @@ void RewardDisplayHandler::onAnimationComplete(const RewardItemRef& reward)
 		HttpRequestCreator* request = API::RedeemReward(id, this);
 		request->execute();
 	}
+	AnalyticsSingleton::getInstance()->rewardRedeemedEvent(abs(reward->getItemPrice()));
 	
 	if(_rewardQueue.size() > 0)
 	{

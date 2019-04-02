@@ -15,6 +15,7 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Child/ChildDataParser.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
 
@@ -62,8 +63,13 @@ bool ShopScene::init()
 		if(purchased)
 		{
 			ModalMessages::getInstance()->startLoading();
+			AnalyticsSingleton::getInstance()->shopItemPurchased(item);
 			HttpRequestCreator* request = API::BuyReward(item->getPurchaseUrl(), this);
 			request->execute();
+		}
+		else
+		{
+			AnalyticsSingleton::getInstance()->shopPurchasePopupClosed(item);
 		}
 		_purchasePopup->setVisible(false);
 		_shopCarousel->setVisible(true);
@@ -99,6 +105,7 @@ bool ShopScene::init()
 }
 void ShopScene::onEnter()
 {
+	AnalyticsSingleton::getInstance()->contentItemSelectedEvent("SHOP");
 	ShopDataHandler::getInstance()->getLatestData([this](bool success){
 		if(success)
 		{
@@ -109,6 +116,7 @@ void ShopScene::onEnter()
 }
 void ShopScene::onExit()
 {
+	AnalyticsSingleton::getInstance()->contentItemClosedEvent();
 	ShopDataHandler::getInstance()->setOnCompleteCallback(nullptr);
 	Super::onExit();
 }

@@ -24,13 +24,25 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+const std::map<AddChildFlow, std::string> AddChildScene::kFlowStateStrConvMap = {
+	{AddChildFlow::FIRST_TIME_SETUP_NAME, "FirstChildSetupName"},
+	{AddChildFlow::ADDITIONAL_NAME, "AdditionalChildName"},
+	{AddChildFlow::AGE, "ChildAge"},
+	{AddChildFlow::OOMEE, "Oomee"},
+	{AddChildFlow::ANON_NAME, "AnonChildName"},
+	{AddChildFlow::ANON_AGE, "AnonChildAge"},
+	{AddChildFlow::ANON_OOMEE, "AnonOomee"}
+};
+
 bool AddChildScene::init()
 {
     if(!Super::init())
     {
         return false;
     }
-    
+
+	CCASSERT(kFlowStateStrConvMap.size() == (int)AddChildFlow::FLOW_COUNT, "Not all flow states in str conversion map!");
+
     addBackground();
     
     return true;
@@ -144,6 +156,7 @@ void AddChildScene::setSceneForFlow()
     }
     if(nextLayer)
     {
+		AnalyticsSingleton::getInstance()->createChildFlowEvent(getAnalyticsStringForFlowState(_currentFlowStage));
         nextLayer->setChildCreator(_childCreator);
         nextLayer->setDelegate(this);
         nextLayer->setContentSize(this->getContentSize());
@@ -155,6 +168,7 @@ void AddChildScene::setSceneForFlow()
 // Delegate Functions
 void AddChildScene::nextLayer()
 {
+	AnalyticsSingleton::getInstance()->createChildNextPressed();
 	AudioMixer::getInstance()->playEffect(NEXT_BUTTON_AUDIO_EFFECT);
     switch(_currentFlowStage)
     {
@@ -200,6 +214,7 @@ void AddChildScene::nextLayer()
 
 void AddChildScene::prevLayer()
 {
+	AnalyticsSingleton::getInstance()->createChildBackPressed();
 	AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
     switch(_currentFlowStage)
     {
@@ -238,6 +253,11 @@ void AddChildScene::prevLayer()
         default:
             break;
     }
+}
+
+std::string AddChildScene::getAnalyticsStringForFlowState(const AddChildFlow& state)
+{
+	return kFlowStateStrConvMap.at(state);
 }
 
 void AddChildScene::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
