@@ -366,7 +366,6 @@ using namespace Azoomee;
     
     exitRequested = true;
 	
-	//Azoomee::sendVideoProgress(_currentItemIndex , CMTimeGetSeconds(_queuePlayer.currentItem.currentTime));
 	Azoomee::sendProgressMetaDataVideo(CMTimeGetSeconds(_queuePlayer.currentItem.currentTime), CMTimeGetSeconds(_queuePlayer.currentItem.duration));
 	
     [self.backButton removeFromSuperview];

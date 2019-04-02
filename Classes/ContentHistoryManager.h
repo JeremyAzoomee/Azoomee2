@@ -23,6 +23,9 @@ private:
 	time_t _contentOpenedTime;
 	time_t _contentClosedTime;
 	long _timeInContent = 0;
+	
+	std::string _contentOpenedTimeMs;
+	std::string _contentClosedTimeMs;
     
 public:
     static ContentHistoryManager* getInstance(void);
@@ -42,8 +45,8 @@ public:
 	time_t getContentOpenedTimeSec() const;
 	time_t getContentClosedTimeSec() const;
 	long getTimeInContentMs() const;
-	time_t getContentOpenedTimeMs() const;
-	time_t getContentClosedTimeMs() const;
+	std::string getContentOpenedTimeMs() const;
+	std::string getContentClosedTimeMs() const;
 	
     
 };
