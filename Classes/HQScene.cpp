@@ -31,7 +31,7 @@ bool HQScene::init()
 	}
 	
 	buildCoreUI();
-	
+
 	return true;
 }
 void HQScene::onEnter()
@@ -56,7 +56,7 @@ void HQScene::onExit()
 void HQScene::onSizeChanged()
 {
 	Super::onSizeChanged();
-	
+
 	const Size& visibleSize = this->getContentSize();
 	bool isPortrait = visibleSize.width < visibleSize.height;
 	bool isIphoneX = ConfigStorage::getInstance()->isDeviceIphoneX();

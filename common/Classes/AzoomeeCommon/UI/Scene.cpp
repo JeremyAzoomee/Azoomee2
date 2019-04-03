@@ -113,6 +113,11 @@ void Scene::onSizeChanged()
     // However, incase the scene has a MessageBox overlay, then trigger the
     // MessageBox onSizeChanged, if the orientation has changed.
 	
+	if(_contentLayer->getContentSize().width != Director::getInstance()->getVisibleSize().width || _contentLayer->getContentSize().height != Director::getInstance()->getVisibleSize().height)
+	{
+		screenSizeDidChange();
+	}
+	
 	for(auto messageBox : this->getChildren())
 	{
 		if(messageBox->getName() == "MessageBoxLayer")
