@@ -205,7 +205,7 @@ void VodacomOnboardingErrorLayer::setupForVoucherError()
 				{
 					if(_flowData->getUserType() == UserType::REGISTERED)
 					{
-						_delegate->moveToState(FlowState::ADD_CHILD);
+						_delegate->moveToState(FlowState::SUCCESS);
 					}
 				}
 			}
@@ -876,14 +876,7 @@ void VodacomOnboardingErrorLayer::onHttpRequestSuccess(const std::string& reques
 		ParentDataParser::getInstance()->parseParentBillingData(body);
 		if(_delegate)
 		{
-			if(_flowData->getUserType() == UserType::REGISTERED)
-			{
-				_delegate->moveToState(FlowState::ADD_CHILD);
-			}
-			else
-			{
-				_delegate->moveToState(FlowState::SUCCESS);
-			}
+			_delegate->moveToState(FlowState::SUCCESS);
 		}
 		ModalMessages::getInstance()->stopLoading();
 	}
