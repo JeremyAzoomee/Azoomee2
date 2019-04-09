@@ -223,6 +223,8 @@ public:
 	void shopPurchseAnimClosed(const ShopDisplayItemRef& item);
 	void shopPurchasedAnimUsePressed(const ShopDisplayItemRef& item);
 	
+	void coinCounterPressedEvent();
+	
 	
 };
   

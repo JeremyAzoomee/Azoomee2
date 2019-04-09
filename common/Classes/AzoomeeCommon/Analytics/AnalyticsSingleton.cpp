@@ -987,4 +987,9 @@ void AnalyticsSingleton::shopPurchasedAnimUsePressed(const ShopDisplayItemRef& i
 	});
 }
 
+void AnalyticsSingleton::coinCounterPressedEvent()
+{
+	mixPanelSendEventWithStoredProperties("coinCounterPressed");
+}
+
 NS_AZOOMEE_END
