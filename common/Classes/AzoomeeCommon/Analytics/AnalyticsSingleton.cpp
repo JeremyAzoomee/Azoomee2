@@ -943,47 +943,75 @@ void AnalyticsSingleton::shopPageTurned(int pageNumber)
 }
 void AnalyticsSingleton::shopItemPressed(int itemPos, const ShopDisplayItemRef& item)
 {
+	const std::vector<std::string>& tags = item->getTags();
 	mixPanelSendEventWithStoredProperties("ShopItemPressed" ,{
 		{"itemPos", cocos2d::StringUtils::format("%d",itemPos)},
-		{"itemName", item->getInventoryItem()->getName()}
+		{"itemName", item->getInventoryItem()->getName()},
+		{"itemShape", item->getShape()},
+		{"isNew", std::find(tags.begin(), tags.end(), "NEW") != tags.end() ?  "YES" : "NO"},
+		{"isFeatured", std::find(tags.begin(), tags.end(), "FEATURED") != tags.end() ?  "YES" : "NO"}
 	});
 }
 void AnalyticsSingleton::shopLockedItemPressed(int itemPos, const ShopDisplayItemRef& item)
 {
+	const std::vector<std::string>& tags = item->getTags();
 	mixPanelSendEventWithStoredProperties("ShopLockedItemPressed" ,{
 		{"itemPos", cocos2d::StringUtils::format("%d",itemPos)},
-		{"itemName", item->getInventoryItem()->getName()}
+		{"itemName", item->getInventoryItem()->getName()},
+		{"itemShape", item->getShape()},
+		{"isNew", std::find(tags.begin(), tags.end(), "NEW") != tags.end() ?  "YES" : "NO"},
+		{"isFeatured", std::find(tags.begin(), tags.end(), "FEATURED") != tags.end() ?  "YES" : "NO"}
 	});
 }
 void AnalyticsSingleton::shopUnaffordableItemPressed(int itemPos, const ShopDisplayItemRef& item)
 {
+	const std::vector<std::string>& tags = item->getTags();
 	mixPanelSendEventWithStoredProperties("ShopUnaffordableItemPressed" ,{
 		{"itemPos", cocos2d::StringUtils::format("%d",itemPos)},
-		{"itemName", item->getInventoryItem()->getName()}
+		{"itemName", item->getInventoryItem()->getName()},
+		{"itemShape", item->getShape()},
+		{"isNew", std::find(tags.begin(), tags.end(), "NEW") != tags.end() ?  "YES" : "NO"},
+		{"isFeatured", std::find(tags.begin(), tags.end(), "FEATURED") != tags.end() ?  "YES" : "NO"}
 	});
 }
 void AnalyticsSingleton::shopItemPurchased(const ShopDisplayItemRef& item)
 {
+	const std::vector<std::string>& tags = item->getTags();
 	mixPanelSendEventWithStoredProperties("ShopItemPurchased" ,{
-		{"itemName", item->getInventoryItem()->getName()}
+		{"itemName", item->getInventoryItem()->getName()},
+		{"itemShape", item->getShape()},
+		{"isNew", std::find(tags.begin(), tags.end(), "NEW") != tags.end() ?  "YES" : "NO"},
+		{"isFeatured", std::find(tags.begin(), tags.end(), "FEATURED") != tags.end() ?  "YES" : "NO"}
 	});
 }
 void AnalyticsSingleton::shopPurchasePopupClosed(const ShopDisplayItemRef& item)
 {
+	const std::vector<std::string>& tags = item->getTags();
 	mixPanelSendEventWithStoredProperties("ShopPurchasePopupClosed" ,{
-		{"itemName", item->getInventoryItem()->getName()}
+		{"itemName", item->getInventoryItem()->getName()},
+		{"itemShape", item->getShape()},
+		{"isNew", std::find(tags.begin(), tags.end(), "NEW") != tags.end() ?  "YES" : "NO"},
+		{"isFeatured", std::find(tags.begin(), tags.end(), "FEATURED") != tags.end() ?  "YES" : "NO"}
 	});
 }
 void AnalyticsSingleton::shopPurchseAnimClosed(const ShopDisplayItemRef& item)
 {
+	const std::vector<std::string>& tags = item->getTags();
 	mixPanelSendEventWithStoredProperties("ShopPurchasedAnimClosed" ,{
-		{"itemName", item->getInventoryItem()->getName()}
+		{"itemName", item->getInventoryItem()->getName()},
+		{"itemShape", item->getShape()},
+		{"isNew", std::find(tags.begin(), tags.end(), "NEW") != tags.end() ?  "YES" : "NO"},
+		{"isFeatured", std::find(tags.begin(), tags.end(), "FEATURED") != tags.end() ?  "YES" : "NO"}
 	});
 }
 void AnalyticsSingleton::shopPurchasedAnimUsePressed(const ShopDisplayItemRef& item)
 {
+	const std::vector<std::string>& tags = item->getTags();
 	mixPanelSendEventWithStoredProperties("ShopPurchasedAnimUsePressed" ,{
-		{"itemName", item->getInventoryItem()->getName()}
+		{"itemName", item->getInventoryItem()->getName()},
+		{"itemShape", item->getShape()},
+		{"isNew", std::find(tags.begin(), tags.end(), "NEW") != tags.end() ?  "YES" : "NO"},
+		{"isFeatured", std::find(tags.begin(), tags.end(), "FEATURED") != tags.end() ?  "YES" : "NO"}
 	});
 }
 
