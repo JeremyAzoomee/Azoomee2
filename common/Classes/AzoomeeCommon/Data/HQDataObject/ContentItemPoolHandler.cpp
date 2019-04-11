@@ -48,7 +48,7 @@ void ContentItemPoolHandler::getLatestData(const OnCompleteCallback& callback)
 		_callback = callback;
 	}
     ModalMessages::getInstance()->startLoading();
-    const std::string& childId = ParentDataProvider::getInstance()->isLoggedInParentAnonymous() ? "anonymous" : ChildDataProvider::getInstance()->getParentOrChildId();
+	const std::string& childId = ChildDataProvider::getInstance()->getLoggedInChild()->getId();
     HttpRequestCreator* request = API::GetContentPoolRequest(childId, this);
     request->execute();
 }
