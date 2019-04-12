@@ -173,7 +173,7 @@ public class NativeViewUI extends Activity {
 
                 finish();
             }
-        }, 1500);
+        }, 500);
     }
 
     public void onBackPressed()
