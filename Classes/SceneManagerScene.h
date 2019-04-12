@@ -7,7 +7,7 @@
 
 NS_AZOOMEE_BEGIN
 
-enum SceneNameEnum {
+enum class SceneNameEnum {
     Login,
     Base,
     BaseWithNoHistory,
@@ -25,7 +25,11 @@ enum SceneNameEnum {
     introVideo,
     AddChild,
     AddChildFirstTime,
-	VodacomOnboarding
+	AddChildAnon,
+	VodacomOnboarding,
+	WelcomeScene,
+	ChildSettingsHub,
+	Shop
 };
 
 class SceneManagerScene : public cocos2d::Layer
@@ -43,7 +47,9 @@ private:
     void forceToPortrait();
     void forceToLandscape();
     void acceptAnyOrientation();
-    
+	
+	void showHoldingUI();
+	
 public:
     static cocos2d::Scene* createScene(SceneNameEnum sceneName);
     static cocos2d::Scene* createWebview(Orientation _orientation, const std::string& URL, cocos2d::Vec2 closeButtonAnchor = cocos2d::Vec2(0,0));

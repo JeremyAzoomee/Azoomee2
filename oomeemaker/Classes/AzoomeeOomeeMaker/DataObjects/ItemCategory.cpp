@@ -14,7 +14,7 @@ ItemCategoryRef ItemCategory::create()
     return std::make_shared<ItemCategory>();
 }
 
-ItemCategoryRef ItemCategory::createWithData(const rapidjson::Document& categoryConfig)
+ItemCategoryRef ItemCategory::createWithData(const rapidjson::Value& categoryConfig)
 {
     ItemCategoryRef category = std::make_shared<ItemCategory>();
     category->initWithData(categoryConfig);
@@ -26,17 +26,25 @@ ItemCategory::ItemCategory()
     
 }
 
-void ItemCategory::initWithData(const rapidjson::Document& categoryConfig)
+void ItemCategory::initWithData(const rapidjson::Value& categoryConfig)
 {
     setId(getStringFromJson("id", categoryConfig));
+	setName(getStringFromJson("name", categoryConfig));
     setIconFilenameSelected(getStringFromJson("iconFilenameSelected", categoryConfig));
     setIconFilenameUnselected(getStringFromJson("iconFilenameUnselected", categoryConfig));
-    const std::vector<std::string>& holidayStrings = getStringArrayFromJson(categoryConfig["holidaySeasons"]);
-    std::vector<HolidayCalenderID> holidayCalenderIds;
-    for(const std::string& holidayStr : holidayStrings)
-    {
-        holidayCalenderIds.push_back(getHolidayCalenderIDFromString(holidayStr));
-    }
+	std::vector<HolidayCalenderID> holidayCalenderIds;
+	if(categoryConfig.HasMember("holidaySeasons"))
+	{
+		const std::vector<std::string>& holidayStrings = getStringArrayFromJson(categoryConfig["holidaySeasons"]);
+		for(const std::string& holidayStr : holidayStrings)
+		{
+			holidayCalenderIds.push_back(getHolidayCalenderIDFromString(holidayStr));
+		}
+	}
+	else
+	{
+		holidayCalenderIds.push_back(HolidayCalenderID::NONE);
+	}
     setHolidaySeasons(holidayCalenderIds);
     setScaleSelected(getFloatFromJson("scaleSelected", categoryConfig));
     setScaleUnselected(getFloatFromJson("scaleUnselected", categoryConfig));
@@ -106,6 +114,15 @@ void ItemCategory::setHighlightColour(const cocos2d::Color4B& colour)
 cocos2d::Color4B ItemCategory::getHightlightColour() const
 {
     return _highlightColour;
+}
+
+void ItemCategory::setName(const std::string& name)
+{
+	_name = name;
+}
+std::string ItemCategory::getName() const
+{
+	return _name;
 }
 
 HolidayCalenderID getHolidayCalenderIDFromString(const std::string& holidayStr)

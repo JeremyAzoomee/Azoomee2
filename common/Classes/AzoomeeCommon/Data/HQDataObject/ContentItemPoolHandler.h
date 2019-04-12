@@ -9,44 +9,30 @@
 #define ContentItemPoolHandler_h
 
 #include "../../Azoomee.h"
-#include "../../API/HttpRequestCreator.h"
 #include "../../Utils/FileZipUtil.h"
-#include "../../Utils//FileDownloader.h"
+#include "../DataDownloadHandler.h"
 
 NS_AZOOMEE_BEGIN
 
-class ContentPoolDelegate
-{
-public:
-    virtual void onContentDownloadComplete() = 0;
-};
-
-
-class ContentItemPoolHandler : public HttpRequestCreatorResponseDelegate, FileZipDelegate, FileDownloaderDelegate
+class ContentItemPoolHandler : public DataDownloadHandler, FileZipDelegate
 {
 private:
     static const std::string kCachePath;
-    
-    FileDownloaderRef _fileDownloader = nullptr;
-    ContentPoolDelegate* _delegate = nullptr;
-    
-    std::string getLocalEtag() const;
-    void setLocalEtag(const std::string& etag);
-    
+	
+	std::string getCachePath() const override;
+	
     void loadLocalData();
 public:
     static ContentItemPoolHandler* getInstance();
     ~ContentItemPoolHandler();
     
-    void setContentPoolDelegate(ContentPoolDelegate* delegate);
-    
-    void getLatestContentPool();
+	void getLatestData(const OnCompleteCallback& callback = nullptr) override;
     
     //delegate functions
-    virtual void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body);
-    virtual void onHttpRequestFailed(const std::string& requestTag, long errorCode);
-    virtual void onAsyncUnzipComplete(bool success, const std::string& zipPath, const std::string& dirpath);
-    virtual void onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode);
+    virtual void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body) override;
+    virtual void onHttpRequestFailed(const std::string& requestTag, long errorCode) override;
+    virtual void onAsyncUnzipComplete(bool success, const std::string& zipPath, const std::string& dirpath) override;
+    virtual void onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode) override;
 };
 
 NS_AZOOMEE_END

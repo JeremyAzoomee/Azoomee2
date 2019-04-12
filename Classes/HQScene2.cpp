@@ -8,10 +8,11 @@
 #include "ContentHistoryManager.h"
 #include "DynamicNodeHandler.h"
 #include "HQSceneArtsApp.h"
-#include "MeHQ.h"
+//#include "MeHQ.h"
 #include "OfflineHubBackButton.h"
 #include "RecentlyPlayedManager.h"
 #include "ArtAppDelegate.h"
+#include "SceneManagerScene.h"
 #include <AzoomeeCommon/UI/PrivacyLayer.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
@@ -79,6 +80,17 @@ bool HQScene2::init()
     return true;
 }
 
+void HQScene2::onEnter()
+{
+	Layer::onEnter();
+}
+
+void HQScene2::onExit()
+{
+	TutorialController::getInstance()->unRegisterDelegate(this);
+	Layer::onExit();
+}
+
 void HQScene2::setHQCategory(const std::string &hqCategory)
 {
     _hqCategory = hqCategory;
@@ -87,6 +99,7 @@ void HQScene2::setHQCategory(const std::string &hqCategory)
 
 void HQScene2::startBuildingScrollView()
 {
+	TutorialController::getInstance()->registerDelegate(this);
     _visibleSize = Director::getInstance()->getVisibleSize();
     _origin = Vec2(0,0);//Director::getInstance()->getVisibleOrigin();
     
@@ -133,18 +146,6 @@ void HQScene2::startBuildingScrollView()
     }
 #endif
     
-    if(this->getName() == ConfigStorage::kMeHQName)
-    {
-        auto meHQ = this->getChildByName(ConfigStorage::kMeHQName);
-        if(!meHQ)
-        {
-            auto meHQLayer = MeHQ::create();
-            meHQLayer->setName(ConfigStorage::kMeHQName);
-            this->addChild(meHQLayer);
-        }
-        return;
-    }
-    
     if(this->getName() == ConfigStorage::kArtAppHQName)
     {
         auto artsLayer = this->getChildByName(ConfigStorage::kArtAppHQName);
@@ -171,7 +172,7 @@ void HQScene2::startBuildingScrollView()
         
         for(int elementIndex = 0; elementIndex < elementsForRow.size(); elementIndex++)
         {
-            cocos2d::Layer* currentElement = createElementForCarousel(carouselLayer, elementsForRow.at(elementIndex), rowIndex, elementIndex);
+            auto* currentElement = createElementForCarousel(carouselLayer, elementsForRow.at(elementIndex), rowIndex, elementIndex);
             cocos2d::Vec2 elementShape = HQDataProvider::getInstance()->getHighlightDataForSpecificItem(_hqCategory, rowIndex, elementIndex);
             
             HQScene2ElementPositioner hqScene2ElementPositioner;
@@ -254,7 +255,25 @@ void HQScene2::startBuildingScrollView()
     {
         addGroupHQLogo();
     }
-    
+	
+	ui::Button* backButton = ui::Button::create("res/navigation/back_button.png");
+	backButton->setAnchorPoint(Vec2(-0.25,1.25));
+	backButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
+	backButton->addTouchEventListener([&](Ref* pSender, ui::Button::TouchEventType eType){
+		if(eType == ui::Button::TouchEventType::ENDED)
+		{
+			HQHistoryManager::getInstance()->popHQ();
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
+		}
+	});
+	
+	this->addChild(backButton);
+	
+	if(TutorialController::getInstance()->isTutorialActive())
+	{
+		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
+	}
+	
     //show post content cta if necessary
     
     //if(showingPostContentCTARequired())
@@ -340,7 +359,7 @@ bool HQScene2::showingPostContentCTARequired()
     int secondsInContent = 0;
     try
     {
-        std::string secondsString = AnalyticsProperties::getInstance()->getStoredContentItemProperties().at("SecondsInContent");
+        std::string secondsString = AnalyticsProperties::getInstance()->getStoredContentItemProperties().at(AnalyticsProperties::kSecondsInContentKey);
         secondsInContent = std::atoi(secondsString.substr(secondsString.find("|")+1).c_str());
     }
     catch(std::out_of_range)
@@ -403,7 +422,7 @@ cocos2d::ui::ScrollView* HQScene2::createScrollView()
 {
     float sideMargin = HQDataProvider::getInstance()->getSideMargin();
     
-    Size vScrollFrameSize = Size(_visibleSize.width - sideMargin * 2, _visibleSize.height - 300.0f);
+    Size vScrollFrameSize = Size(_visibleSize.width - sideMargin * 2, _visibleSize.height - 200.0f);
     
     cocos2d::ui::ScrollView *vScrollView = cocos2d::ui::ScrollView::create();
     vScrollView->setContentSize(vScrollFrameSize);
@@ -428,7 +447,7 @@ Sprite* HQScene2::createGradientForScrollView(float scrollViewWith)
     return verticalScrollGradient;
 }
 
-cocos2d::Layer* HQScene2::createElementForCarousel(cocos2d::Node *toBeAddedTo, const HQContentItemObjectRef &itemData, int rowNumber, int elementIndex)
+cocos2d::Node* HQScene2::createElementForCarousel(cocos2d::Node *toBeAddedTo, const HQContentItemObjectRef &itemData, int rowNumber, int elementIndex)
 {
     float contentItemMargin = HQDataProvider::getInstance()->getContentItemMargin();
     
@@ -493,5 +512,104 @@ void HQScene2::addGroupHQLogo()
     }
 }
 
+//tutorial controls
+void HQScene2::highlightFirstElement()
+{
+	if(_hqCategory == ConfigStorage::kGameHQName || _hqCategory == ConfigStorage::kVideoHQName || _hqCategory == ConfigStorage::kGroupHQName)
+	{
+		if(_carouselStorage.size() > 0)
+		{
+			for(auto carousel : _carouselStorage)
+			{
+				for(auto item : carousel->getChildren())
+				{
+					HQSceneElement* contentIcon = dynamic_cast<HQSceneElement*>(item);
+					if(contentIcon)
+					{
+						contentIcon->setTouchDisabled(false);
+						contentIcon->enableHighlight(true);
+						return;
+					}
+				}
+			}
+		}
+	}
+}
+void HQScene2::disableContent()
+{
+	if(_hqCategory == ConfigStorage::kGameHQName || _hqCategory == ConfigStorage::kVideoHQName || _hqCategory == ConfigStorage::kGroupHQName)
+	{
+		if(_carouselStorage.size() > 0)
+		{
+			for(auto carousel : _carouselStorage)
+			{
+				for(auto item : carousel->getChildren())
+				{
+					HQSceneElement* contentIcon = dynamic_cast<HQSceneElement*>(item);
+					if(contentIcon)
+					{
+						contentIcon->setTouchDisabled(true);
+					}
+				}
+			}
+		}
+	}
+}
+void HQScene2::enableContent()
+{
+	if(_hqCategory == ConfigStorage::kGameHQName || _hqCategory == ConfigStorage::kVideoHQName || _hqCategory == ConfigStorage::kGroupHQName)
+	{
+		if(_carouselStorage.size() > 0)
+		{
+			for(auto carousel : _carouselStorage)
+			{
+				for(auto item : carousel->getChildren())
+				{
+					HQSceneElement* contentIcon = dynamic_cast<HQSceneElement*>(item);
+					if(contentIcon)
+					{
+						contentIcon->setTouchDisabled(false);
+					}
+				}
+			}
+		}
+	}
+}
+
+void HQScene2::onTutorialStateChanged(const std::string& stateId)
+{
+	if(stateId == TutorialController::kFTUGameHQNav || stateId == TutorialController::kFTUVideoHQNav || stateId == TutorialController::kFTUGroupHQBack)
+	{
+		disableContent();
+	}
+	else if(stateId == TutorialController::kFTUGameHQContent)
+	{
+		if(_hqCategory == ConfigStorage::kGameHQName)
+		{
+			disableContent();
+			highlightFirstElement();
+		}
+	}
+	else if(stateId == TutorialController::kFTUVideoHQContent)
+	{
+		if(_hqCategory == ConfigStorage::kVideoHQName)
+		{
+			disableContent();
+			highlightFirstElement();
+		}
+	}
+	else if(stateId == TutorialController::kFTUGroupHQContent)
+	{
+		if(_hqCategory == ConfigStorage::kGroupHQName)
+		{
+			disableContent();
+			highlightFirstElement();
+		}
+	}
+	else
+	{
+		enableContent();
+	}
+}
 
 NS_AZOOMEE_END

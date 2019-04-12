@@ -153,13 +153,23 @@ public class NativeMediaPlayer extends Activity {
 
                     if(videoview != null && videoview.isPlaying())
                     {
+                        JNICalls.JNISendProgressMetaDataVideo(0,videoview.getDuration() / 1000);
                         videoview.stopPlayback();
                     }
 
-                    finish();
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            JNICalls.JNIRegisterAndroidSceneChangeEvent();
+
+                            finish();
+                        }
+                    }, 1500);
                 }
                 else
                 {
+                    JNICalls.JNISendProgressMetaDataVideo(0,videoview.getDuration() / 1000);
                     currentlyPlayedUri = nextItem;
                     Uri uri = Uri.parse(nextItem);
                     videoview.setVideoURI(uri);
@@ -416,7 +426,7 @@ public class NativeMediaPlayer extends Activity {
                 String elementUri = playlistObject.getJSONArray("Elements").getJSONObject(i).getString("uri");
                 if(elementUri.equals(currentlyPlayedUri))
                 {
-                    JNICalls.JNISendVideoProgress(i, 0);
+                    //JNICalls.JNISendVideoProgress(i, 0);
                     if(i < playlistObject.getJSONArray("Elements").length())
                     {
                         String returnString = playlistObject.getJSONArray("Elements").getJSONObject(i + 1).getString("uri");
@@ -649,7 +659,8 @@ public class NativeMediaPlayer extends Activity {
 
         if(videoview != null && videoview.isPlaying())
         {
-            JNICalls.JNISendVideoProgress(getCurrentItemPlaylistIndex(), videoview.getCurrentPosition() / 1000);
+            //JNICalls.JNISendVideoProgress(getCurrentItemPlaylistIndex(), videoview.getCurrentPosition() / 1000);
+            JNICalls.JNISendProgressMetaDataVideo(videoview.getCurrentPosition() / 1000,videoview.getDuration() / 1000);
             videoview.stopPlayback();
         }
 

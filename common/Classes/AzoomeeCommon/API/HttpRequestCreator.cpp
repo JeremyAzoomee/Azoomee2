@@ -25,9 +25,26 @@ void HttpRequestCreator::execute(float timeout)
     sendRequest(request, timeout);
 }
 
+void HttpRequestCreator::resendRequest()
+{
+	amountOfFails++;
+	HttpRequest* request = buildHttpRequest();
+	sendRequest(request);
+}
+
 void HttpRequestCreator::clearDelegate()
 {
     delegate = nullptr;
+}
+
+void HttpRequestCreator::setRequestCallback(const cocos2d::network::ccHttpRequestCallback& requestCallback)
+{
+	_requestCallback = requestCallback;
+}
+
+int HttpRequestCreator::getAmountOfFails() const
+{
+	return amountOfFails;
 }
 
 //-----------------------------------------------------All requests below this line are used internally-------------------------------------------------------
@@ -181,8 +198,8 @@ cocos2d::network::HttpRequest* HttpRequestCreator::buildHttpRequest()           
     {
         cocos2d::log("HEADERS %s", request->getHeaders().at(i).c_str());
     }
-    
-    request->setResponseCallback(CC_CALLBACK_2(HttpRequestCreator::onHttpRequestAnswerReceived, this));
+	
+	request->setResponseCallback(_requestCallback);
     request->setTag(requestTag);
     
     return request;
@@ -198,7 +215,7 @@ void HttpRequestCreator::sendRequest(cocos2d::network::HttpRequest* request, flo
 }
 
 void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
-{
+{	
     std::string responseHeaderString  = std::string(response->getResponseHeader()->begin(), response->getResponseHeader()->end());
     std::string responseDataString = std::string(response->getResponseData()->begin(), response->getResponseData()->end());
     std::string requestTag = response->getHttpRequest()->getTag();
@@ -207,7 +224,7 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
     cocos2d::log("Response code: %ld", response->getResponseCode());
     cocos2d::log("Response header: %s", responseHeaderString.c_str());
     cocos2d::log("Response string: %s", responseDataString.c_str());
-    
+	
     if((response->getResponseCode() == 200)||(response->getResponseCode() == 201)||(response->getResponseCode() == 204))
     {
         if(delegate != nullptr)

@@ -164,7 +164,7 @@ void DynamicNodeHandler::startIAPFlow(IAPEntryContext context)
 {
 #ifdef VODACOM_BUILD
 	//boot vodacom signup journey
-	Director::getInstance()->replaceScene(SceneManagerScene::createScene(VodacomOnboarding));
+	Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::VodacomOnboarding));
 #else
     if(RoutePaymentSingleton::getInstance()->receiptDataFileExists())
     {

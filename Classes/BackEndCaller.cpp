@@ -19,7 +19,6 @@
 #include "HQHistoryManager.h"
 #include "LoginLogicHandler.h"
 #include "ChildSelectorScene.h"
-#include "BaseScene.h"
 #include <AzoomeeCommon/UI/RequestAdultPinLayer.h>
 #include "RoutePaymentSingleton.h"
 #include "SceneManagerScene.h"
@@ -29,8 +28,11 @@
 #include "OfflineChecker.h"
 #include "ForceUpdateSingleton.h"
 #include "IAPProductDataHandler.h"
+#include "ChildCreator.h"
 
 #include "DynamicNodeHandler.h"
+
+#include "RewardDisplayHandler.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "ApplePaymentSingleton.h"
@@ -116,11 +118,13 @@ void BackEndCaller::login(const std::string& username, const std::string& passwo
     displayLoadingScreen();
     
     HttpRequestCreator* request = API::LoginRequest(username, password, this);
-    
-    UserDefault* def = UserDefault::getInstance();
-    def->setStringForKey("username", username);
-    def->flush();
-    
+	
+	if(password != ConfigStorage::kAnonLoginPW)
+	{
+    	UserDefault* def = UserDefault::getInstance();
+    	def->setStringForKey(ConfigStorage::kStoredUsernameKey, username);
+    	def->flush();
+	}
     AnalyticsSingleton::getInstance()->registerAzoomeeEmail(username);
     
     request->execute();
@@ -133,31 +137,35 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString, con
     cocos2d::log("Response string is: %s", responseString.c_str());
     if(ParentDataParser::getInstance()->parseParentLoginData(responseString))
     {
-        ConfigStorage::getInstance()->setFirstSlideShowSeen();
-        ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headerString));
-        AnalyticsSingleton::getInstance()->signInSuccessEvent();
-        AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
-		if(FlowDataSingleton::getInstance()->isSignupFlow())
+		ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headerString));
+		if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
 		{
-			AnalyticsSingleton::getInstance()->registerAlias(ParentDataProvider::getInstance()->getLoggedInParentId());
+			AnalyticsSingleton::getInstance()->setIsUserAnonymous(true);
+			getAvailableChildren();
 		}
 		else
 		{
-			AnalyticsSingleton::getInstance()->registerIdentifier(ParentDataProvider::getInstance()->getLoggedInParentId());
+			AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
+			AnalyticsSingleton::getInstance()->signInSuccessEvent();
+
+			if(RoutePaymentSingleton::getInstance()->receiptDataFileExists())
+			{
+				Director::getInstance()->getScheduler()->schedule([&](float dt){
+					RoutePaymentSingleton::getInstance()->retryReceiptValidation();
+				}, this, 1.0, 0, 0, false, "receiptValidation");
+				
+			}
+			else
+			{
+				getAvailableChildren();
+				updateBillingData();
+			}
+			getParentDetails();
+			ConfigStorage::getInstance()->setFirstSlideShowSeen();
 		}
-        if(RoutePaymentSingleton::getInstance()->receiptDataFileExists())
-        {
-            Director::getInstance()->getScheduler()->schedule([&](float dt){
-                RoutePaymentSingleton::getInstance()->retryReceiptValidation();
-            }, this, 1.0, 0, 0, false, "receiptValidation");
-            
-        }
-        else
-        {
-            getAvailableChildren();
-            updateBillingData();
-        }
-        getParentDetails();
+		
+		
+		
     }
     else
     {
@@ -171,35 +179,21 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString, con
 void BackEndCaller::anonymousDeviceLogin()
 {
     displayLoadingScreen();
-    
-    std::string deviceId = ConfigStorage::getInstance()->getDeviceAdvertisingId();
-    
-    if(deviceId == "") deviceId = "SESSID:" + SessionIdManager::getInstance()->getCurrentSessionId();
-    
-    HttpRequestCreator* request = API::AnonymousDeviceLoginRequest(deviceId, this);
-    request->execute();
+	
+	UserDefault* userDefault = UserDefault::getInstance();
+	const std::string& anonEmail = userDefault->getStringForKey(ConfigStorage::kAnonEmailKey, "");
+	
+	if(anonEmail == "")
+	{
+		HttpRequestCreator* request = API::GetAnonCredentials(this);
+		request->execute();
+	}
+	else
+	{
+		login(anonEmail, ConfigStorage::kAnonLoginPW);
+	}
 }
 
-void BackEndCaller::onAnonymousDeviceLoginAnswerReceived(const std::string &responseString, const std::string& headerString)
-{
-	IAPProductDataHandler::getInstance()->fetchProductData();
-    
-    cocos2d::log("Response string is: %s", responseString.c_str());
-    if(ParentDataParser::getInstance()->parseParentLoginDataFromAnonymousDeviceLogin(responseString))
-    {
-        AnalyticsSingleton::getInstance()->setIsUserAnonymous(true);
-        ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headerString));
-        HQDataParser::getInstance()->parseHQGetContentUrls(responseString);
-        DynamicNodeHandler::getInstance()->getCTAFiles();
-        getGordon();
-    }
-    else
-    {
-        AnalyticsSingleton::getInstance()->signInFailEvent(0);
-        FlowDataSingleton::getInstance()->setErrorCode(ERROR_CODE_INVALID_CREDENTIALS);
-        getBackToLoginScreen(ERROR_CODE_INVALID_CREDENTIALS);
-    }
-}
 
 //UPDATING BILLING DATA-------------------------------------------------------------------------------
 
@@ -213,18 +207,6 @@ void BackEndCaller::updateBillingData()
 void BackEndCaller::onUpdateBillingDataAnswerReceived(const std::string& responseString)
 {
     ParentDataParser::getInstance()->parseParentBillingData(responseString);
-    // fire event to add parent button to child select scene if paid account
-    if(Director::getInstance()->getRunningScene()->getName() == ChildSelectorScene::kSceneName)
-    {
-        if(ParentDataProvider::getInstance()->isPaidUser())
-        {
-            ChildSelectorScene* childSelectScene = dynamic_cast<ChildSelectorScene*>(Director::getInstance()->getRunningScene()->getChildByName(ChildSelectorScene::kSceneName));
-            if(childSelectScene)
-            {
-                childSelectScene->setParentButtonVisible(true);
-            }
-        }
-    }
 }
 
 //UPDATING PARENT DATA--------------------------------------------------------------------------------
@@ -272,21 +254,37 @@ void BackEndCaller::getAvailableChildren()
 
 void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseString)
 {
-    ModalMessages::getInstance()->stopLoading();
-    //AnalyticsSingleton::getInstance()->registerIdentifier(ParentDataProvider::getInstance()->getLoggedInParentId());
+    
     ParentDataParser::getInstance()->parseAvailableChildren(responseString);
     if(ParentDataProvider::getInstance()->getAmountOfAvailableChildren() == 0)
     {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(AddChildFirstTime));
+		Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::AddChildFirstTime));
     }
     else
     {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
-        
-        Director::getInstance()->getScheduler()->schedule([&](float dt){
-            DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
-        }, this, 0.5, 0, 0, false, "eventHandler");
+		if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
+		{
+			UserDefault* userDefault = UserDefault::getInstance();
+			bool anonOnboardingComplete = userDefault->getBoolForKey("anonOnboardingComplete", false);
+			if(!anonOnboardingComplete)
+			{
+				Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::AddChildAnon));
+			}
+			else
+			{
+				childLogin(0); // auto login default child
+			}
+		}
+		else
+		{
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChildSelector));
+			
+			Director::getInstance()->getScheduler()->schedule([&](float dt){
+				DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
+			}, this, 0.5, 0, 0, false, "eventHandler");
+		}
     }
+	ModalMessages::getInstance()->stopLoading();
 }
 
 //CHILDREN LOGIN----------------------------------------------------------------------------------------
@@ -295,12 +293,9 @@ void BackEndCaller::childLogin(int childNumber)
 {
     displayLoadingScreen();
     
-    const std::string& profileName = ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(childNumber);
+    const std::string& profileName = ParentDataProvider::getInstance()->getChild(childNumber)->getProfileName();
     HttpRequestCreator* request = API::ChildLoginRequest(profileName, this);
     request->execute();
-    
-    ChildDataParser::getInstance()->setLoggedInChildName(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(childNumber));
-    ChildDataParser::getInstance()->setLoggedInChildNumber(childNumber);
 }
 
 void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString, const std::string& headerString)
@@ -313,7 +308,9 @@ void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString
     HQDataParser::getInstance()->parseHQGetContentUrls(responseString);
     ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headerString));
     DynamicNodeHandler::getInstance()->getCTAFiles();
+	getChildInventory();
     getGordon();
+	HQHistoryManager::getInstance()->emptyHistory();
 }
 
 //GETTING GORDON.PNG-------------------------------------------------------------------------------------
@@ -337,9 +334,27 @@ void BackEndCaller::onGetGordonAnswerReceived(const std::string& responseString)
 {
     if(CookieDataParser::getInstance()->parseDownloadCookies(responseString))
     {
-        //Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
-        ContentItemPoolHandler::getInstance()->setContentPoolDelegate(this);
-        ContentItemPoolHandler::getInstance()->getLatestContentPool();
+		ContentItemPoolHandler::getInstance()->getLatestData([](bool success){ //on complete
+			if(success)
+			{
+				HQStructureHandler::getInstance()->getLatestData([](bool success){ //on complete
+					if(success)
+					{
+						//TutorialController::getInstance()->startTutorial(TutorialController::kFTUNavTutorialID);
+						RewardDisplayHandler::getInstance()->getPendingRewards();
+						Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
+					}
+					else
+					{
+						LoginLogicHandler::getInstance()->doLoginLogic();
+					}
+				});
+			}
+			else
+			{
+				LoginLogicHandler::getInstance()->doLoginLogic();
+			}
+		});
     }
 }
 
@@ -357,7 +372,7 @@ void BackEndCaller::registerParent(const std::string& emailAddress, const std::s
     source = "ANDROID_INAPP";
 #endif
     
-    HttpRequestCreator* request = API::RegisterParentRequest(emailAddress, password, pinNumber, source, sourceDevice, marketingAccepted, this);
+	HttpRequestCreator* request = API::RegisterParentRequest(ParentDataProvider::getInstance()->getLoggedInParentId(),emailAddress, password, pinNumber, source, sourceDevice, marketingAccepted, this);
     request->execute();
     
     displayLoadingScreen();
@@ -366,7 +381,9 @@ void BackEndCaller::registerParent(const std::string& emailAddress, const std::s
 void BackEndCaller::onRegisterParentAnswerReceived()
 {
 	IAPProductDataHandler::getInstance()->fetchProductData();
-
+	UserDefault* userDefault = UserDefault::getInstance();
+	userDefault->setBoolForKey(ConfigStorage::kAnonOnboardingCompleteKey, false);
+	userDefault->setStringForKey(ConfigStorage::kAnonEmailKey, "");
     ConfigStorage::getInstance()->setFirstSlideShowSeen();
     AnalyticsSingleton::getInstance()->OnboardingAccountCreatedEvent();
     FlowDataSingleton::getInstance()->setSuccessFailPath(SIGNUP_SUCCESS);
@@ -402,8 +419,7 @@ void BackEndCaller::updateChild(const std::string& childId, const std::string& c
     
     const std::string& oomeeUrl = ConfigStorage::getInstance()->getUrlForOomee(oomeeNumber);
     const std::string& ownerId = ParentDataProvider::getInstance()->getLoggedInParentId();
-    const std::string& url = ConfigStorage::getInstance()->getServerUrl() + "/api/user/child/" + childId;
-    HttpRequestCreator* request = API::UpdateChildRequest(url, childId, childProfileName, childGender, childDOB, oomeeUrl, ownerId, this);
+    HttpRequestCreator* request = API::UpdateChildRequest(childId, childProfileName, childGender, childDOB, oomeeUrl, ownerId, this);
     request->execute();
 }
 
@@ -449,11 +465,11 @@ void BackEndCaller::getHQContent(const std::string& url, const std::string& cate
 }
 
 // DEEPLINK CONTENT DETAILS REQUEST ----------------------------------------------------------------
-void BackEndCaller::getElectricDreamsContent(const std::string& requestId, const std::string& contentID)
+void BackEndCaller::GetContent(const std::string& requestId, const std::string& contentID)
 {
-    if(ChildDataStorage::getInstance()->childLoggedIn)
+    if(ChildDataStorage::getInstance()->isChildLoggedIn())
     {
-        HttpRequestCreator* request = API::GetElectricDreamsContent(requestId, ChildDataStorage::getInstance()->loggedInChildId, contentID, this);
+        HttpRequestCreator* request = API::GetContent(requestId, ChildDataStorage::getInstance()->getLoggedInChild()->getId(), contentID, this);
         request->execute();
     }
 }
@@ -465,10 +481,14 @@ void BackEndCaller::resetPasswordRequest(const std::string& emailAddress)
     request->execute();
 }
 
-void BackEndCaller::updateVideoProgress(const std::string& contentId, int videoProgressSeconds)
+void BackEndCaller::getChildInventory()
 {
-	HttpRequestCreator* request = API::UpdateVideoProgress(ChildDataProvider::getInstance()->getLoggedInChildId(),contentId, videoProgressSeconds, nullptr);
-	request->execute();
+	const ChildRef& child = ChildDataProvider::getInstance()->getLoggedInChild();
+	if(child)
+	{
+		HttpRequestCreator* request = API::GetInventory(child->getId(), this);
+		request->execute();
+	}
 }
 
 
@@ -488,6 +508,10 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     {
         onChildLoginAnswerReceived(body, headers);
     }
+	else if(requestTag == API::TagGetInventory)
+	{
+		ChildDataParser::getInstance()->parseChildInventory(body);
+	}
     else if(requestTag == API::TagGetAvailableChildren)
     {
         onGetChildrenAnswerReceived(body);
@@ -496,10 +520,14 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     {
         onLoginAnswerReceived(body, headers);
     }
-    else if(requestTag == API::TagAnonymousDeviceLogin)
-    {
-        onAnonymousDeviceLoginAnswerReceived(body, headers);
-    }
+	else if(requestTag == API::TagGetAnonCredentials)
+	{
+		rapidjson::Document json;
+		json.Parse(body.c_str());
+		const std::string& userId = getStringFromJson("id", json);
+		ParentDataParser::getInstance()->saveAnonCredentialsToDevice(userId);
+		login(userId, ConfigStorage::kAnonLoginPW);
+	}
     else if(requestTag == API::TagRegisterChild)
     {
         onRegisterChildAnswerReceived();
@@ -512,7 +540,8 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     {
         rapidjson::Document json;
         json.Parse(body.c_str());
-        ChildDataParser::getInstance()->setLoggedInChildAvatarId(getStringFromJson("avatar", json));
+		const ChildRef& child = ChildDataProvider::getInstance()->getLoggedInChild();
+		child->setAvatar(getStringFromJson("avatar", json));
         ImageDownloaderRef imageDownloader = ImageDownloader::create("imageCache/", ImageDownloader::CacheMode::File );
         imageDownloader->downloadImage(nullptr, getStringFromJson("avatar", json), true);
         hideLoadingScreen();
@@ -629,7 +658,7 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
         FlowDataSingleton::getInstance()->setErrorCode(errorCode);
         if(errorCode == ERROR_CODE_OFFLINE)
         {
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineHub));
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OfflineHub));
             return;
         }
         
@@ -641,7 +670,7 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
         AnalyticsSingleton::getInstance()->iapBackEndRequestFailedEvent(errorCode);
         RoutePaymentSingleton::getInstance()->backendRequestFailed(errorCode);
     }
-	else if(requestTag == API::TagResetPasswordRequest || requestTag == API::TagUpdateBillingData || requestTag == API::TagGetForceUpdateInformation || requestTag == API::TagGetParentDetails) //Dont do anything with a password Request attempt
+	else if(requestTag == API::TagResetPasswordRequest || requestTag == API::TagUpdateBillingData || requestTag == API::TagGetForceUpdateInformation || requestTag == API::TagGetParentDetails || requestTag == API::TagGetInventory) //Dont do anything with a password Request attempt
     {
         return;
     }
@@ -653,17 +682,6 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
         	LoginLogicHandler::getInstance()->doLoginLogic();
 		}
     }
-}
-
-void BackEndCaller::onContentDownloadComplete()
-{
-    HQStructureHandler::getInstance()->setHQFeedDelegate(this);
-    HQStructureHandler::getInstance()->getLatestHQStructureFeed();
-}
-
-void BackEndCaller::onFeedDownloadComplete()
-{
-     Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
 }
 
 NS_AZOOMEE_END

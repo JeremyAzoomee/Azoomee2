@@ -27,28 +27,23 @@
 #include "ContentOpener.h"
 #include "VideoPlaylistManager.h"
 #include "IAPFlowController.h"
+#include <AzoomeeCommon/Tutorial/TutorialController.h>
 
 using namespace cocos2d;
 using namespace network;
 
 NS_AZOOMEE_BEGIN
 
-Scene* HQSceneElement::createScene()
-{
-    auto scene = Scene::create();
-    auto layer = HQSceneElement::create();
-    scene->addChild(layer);
-
-    return scene;
-}
-
 bool HQSceneElement::init()
 {
-    if ( !Layer::init() )
+    if ( !Super::init() )
     {
         return false;
     }
-    
+	
+	this->ignoreContentAdaptWithSize(false);
+	this->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+	
     return true;
 }
 
@@ -82,6 +77,16 @@ void HQSceneElement::setMargin(float margin)
     _margin = margin;
 }
 
+int HQSceneElement::getElementRow() const
+{
+	return _elementRowNumber;
+}
+
+int HQSceneElement::getElementIndex() const
+{
+	return _elementIndex;
+}
+
 void HQSceneElement::deleteButtonVisible(bool visible)
 {
     _showDeleteButton = visible;
@@ -94,6 +99,29 @@ void HQSceneElement::deleteButtonVisible(bool visible)
 void HQSceneElement::setDeleteButtonCallback(const HQSceneElement::DeleteButtonCallback &callback)
 {
     _deleteButtonCallback = callback;
+}
+
+void HQSceneElement::setTouchDisabled(bool disabled)
+{
+	_touchDisabled = disabled;
+}
+
+void HQSceneElement::enableHighlight(bool enable)
+{
+	_showHighlight = enable;
+	if(_showHighlight && _elementVisual)
+	{
+		Sprite* glow = Sprite::create("res/childSelection/glow.png");
+		glow->setContentSize(this->getContentSize());
+		glow->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+		glow->runAction(RepeatForever::create(Sequence::createWithTwoActions(ScaleTo::create(1.0f, 0.25f), ScaleTo::create(1.0f, 1.25f))));
+		glow->setName("glow");
+		this->addChild(glow);
+	}
+	else
+	{
+		removeChildByName("glow");
+	}
 }
 
 void HQSceneElement::addHQSceneElement() //This method is being called by HQScene.cpp with all variables.
@@ -111,7 +139,7 @@ void HQSceneElement::addHQSceneElement() //This method is being called by HQScen
         _elementVisual->setShape(Vec2(1,1));
         _elementVisual->setThumbUrl(HQDataProvider::getInstance()->getThumbnailUrlForItem(_elementItemData->getContentItemId()));
     }
-    _elementVisual->setDelay(_elementRowNumber * 0.5 + _elementIndex * 0.1);
+    _elementVisual->setDelay(_elementRowNumber * 0.25 + _elementIndex * 0.05);
     _elementVisual->setCreatedForOffline(false);
     
     if(_manualSizeMultiplier != 0.0f)
@@ -128,109 +156,107 @@ void HQSceneElement::addHQSceneElement() //This method is being called by HQScen
     
     this->addChild(_elementVisual);
     this->setContentSize(_elementVisual->getContentSize());
-    
+	
+	if(_showHighlight)
+	{
+		Sprite* glow = Sprite::create("res/childSelection/glow.png");
+		glow->setContentSize(this->getContentSize());
+		glow->setPosition(this->getContentSize() / 2);
+		glow->runAction(RepeatForever::create(Sequence::createWithTwoActions(ScaleTo::create(1.0f, 0.25f), ScaleTo::create(1.0f, 1.25f))));
+		glow->setName("glow");
+		this->addChild(glow);
+	}
+	
     _deleteButton = createDeleteButton();
     _deleteButton->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
     _deleteButton->setPosition(Vec2(_deleteButton->getContentSize().width * 0.2, this->getContentSize().height - _deleteButton->getContentSize().width * 0.2));
     _deleteButton->setVisible(_showDeleteButton);
     this->addChild(_deleteButton);
-    
-    addListenerToElement();
+	
+	this->setSwallowTouches(false);
+	this->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+		auto button = dynamic_cast<Node*>(pSender);
+		if(!button)
+		{
+			return;
+		}
+		switch (eType) {
+			case cocos2d::ui::Widget::TouchEventType::BEGAN:
+			{
+				if(_elementVisual->_overlayWhenTouched)
+				{
+					_elementVisual->_overlayWhenTouched->setOpacity(150);
+				}
+				_touchPos = this->convertToWorldSpace(button->getPosition());
+				
+				break;
+			}
+			case cocos2d::ui::Widget::TouchEventType::MOVED:
+			{
+				break;
+			}
+			case cocos2d::ui::Widget::TouchEventType::ENDED:
+			{
+				if(_elementVisual->_overlayWhenTouched)
+				{
+					_elementVisual->_overlayWhenTouched->setOpacity(0);
+				}
+				float distance = _touchPos.distance(this->convertToWorldSpace(button->getPosition()));
+				if( distance > button->getContentSize().height / 4)
+				{
+					break;
+				}
+				
+				AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+				
+				if(_elementItemData->getType() == ConfigStorage::kContentTypeManual)
+				{
+					ManualGameInputLayer::create();
+					break;
+				}
+				
+				if(TutorialController::getInstance()->isTutorialActive())
+				{
+					if(_showHighlight)
+					{
+						TutorialController::getInstance()->nextStep();
+					}
+				}
+				
+				if(!_elementItemData->isEntitled())
+				{
+					AnalyticsSingleton::getInstance()->contentItemSelectedEvent(_elementItemData, _elementRowNumber, _elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(_elementCategory, _elementRowNumber, _elementIndex));
+					AnalyticsSingleton::getInstance()->registerCTASource("lockedContent",_elementItemData->getContentItemId(),_elementItemData->getType());
+					IAPEntryContext context = IAPEntryContext::DEFAULT;
+					if(_elementItemData->getType() == ConfigStorage::kContentTypeGame)
+					{
+						context = IAPEntryContext::LOCKED_GAME;
+					}
+					else if(_elementItemData->getType() == ConfigStorage::kContentTypeVideo || _elementItemData->getType() == ConfigStorage::kContentTypeGroup)
+					{
+						context = IAPEntryContext::LOCKED_VIDEO;
+					}
+					DynamicNodeHandler::getInstance()->startIAPFlow(context);
+				}
+				
+				AnalyticsSingleton::getInstance()->contentItemSelectedEvent(_elementItemData, _elementRowNumber, _elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(_elementCategory, _elementRowNumber, _elementIndex));
+				startUpElementDependingOnType();
+				break;
+			}
+			case cocos2d::ui::Widget::TouchEventType::CANCELED:
+			{
+				if(_elementVisual->_overlayWhenTouched)
+				{
+					_elementVisual->_overlayWhenTouched->setOpacity(0);
+				}
+				break;
+			}
+		}
+	});
+	
 }
 
 //-------------------All elements below this are used internally-----------------
-void HQSceneElement::addListenerToElement()
-{
-    auto listener = EventListenerTouchOneByOne::create();
-    listener->setSwallowTouches(false);
-    listener->onTouchBegan = [=](Touch *touch, Event *event)
-    {
-        auto target = static_cast<Node*>(event->getCurrentTarget());
-        
-        Point locationInNode = target->convertToNodeSpace(touch->getLocation());
-        Size s = target->getBoundingBox().size;//getContentSize();
-        Rect rect = Rect(0,0,s.width, s.height);
-        
-        if(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName)->getNumberOfRunningActions() > 0)
-        {
-            return false;
-        }
-        
-        if(rect.containsPoint(locationInNode))
-        {
-            if(_elementVisual->_overlayWhenTouched) _elementVisual->_overlayWhenTouched->setOpacity(150);
-            
-            _movedAway = false;
-            _iamtouched = true;
-            _touchPoint = touch->getLocation();
-            
-            return true;
-        }
-        
-        return false;
-    };
-    
-    listener->onTouchMoved = [=](Touch *touch, Event *event)
-    {
-        if((touch->getLocation().distance(_touchPoint) > 10)&&(!_movedAway))
-        {
-            _movedAway = true;
-            _iamtouched = false;
-             if(_elementVisual->_overlayWhenTouched) _elementVisual->_overlayWhenTouched->setOpacity(0);
-        }
-        
-        return true;
-    };
-    
-    listener->onTouchEnded = [=](Touch *touch, Event *event)
-    {
-        if(_iamtouched)
-        {
-            if(_elementVisual->_overlayWhenTouched) _elementVisual->_overlayWhenTouched->setOpacity(0);
-            
-            if(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kContentLayerName)->getNumberOfRunningActions() > 0)
-            {
-                return false;
-            }
-            
-            AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
-            _iamtouched = false;
-            
-            if(_elementItemData->getType() == ConfigStorage::kContentTypeManual)
-            {
-                ManualGameInputLayer::create();
-                return true;
-            }
-            
-            if(!_elementItemData->isEntitled())
-            {
-                AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
-                AnalyticsSingleton::getInstance()->contentItemSelectedEvent(_elementItemData, _elementRowNumber, _elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(_elementCategory, _elementRowNumber, _elementIndex));
-                AnalyticsSingleton::getInstance()->registerCTASource("lockedContent",_elementItemData->getContentItemId(),_elementItemData->getType());
-                IAPEntryContext context = IAPEntryContext::DEFAULT;
-                if(_elementItemData->getType() == ConfigStorage::kContentTypeGame)
-                {
-                    context = IAPEntryContext::LOCKED_GAME;
-                }
-                else if(_elementItemData->getType() == ConfigStorage::kContentTypeVideo || _elementItemData->getType() == ConfigStorage::kContentTypeGroup)
-                {
-                    context = IAPEntryContext::LOCKED_VIDEO;
-                }
-                DynamicNodeHandler::getInstance()->startIAPFlow(context);
-                return true;
-            }
-                
-            AnalyticsSingleton::getInstance()->contentItemSelectedEvent(_elementItemData, _elementRowNumber, _elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(_elementCategory, _elementRowNumber, _elementIndex));
-            startUpElementDependingOnType();
-            return true;
-        }
-        
-        return false;
-    };
-    
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), _elementVisual->_baseLayer);
-}
-
 ui::Button* HQSceneElement::createDeleteButton()
 {
     ui::Button* deleteButton = ui::Button::create("res/buttons/delete_button_favourites.png");

@@ -104,7 +104,7 @@ void LoginScene::onSizeChanged()
 void LoginScene::getUserDefaults()
 {
     UserDefault* def = UserDefault::getInstance();
-    storedUsername = def->getStringForKey("username", "");
+    storedUsername = def->getStringForKey(ConfigStorage::kStoredUsernameKey, "");
     def->flush();
 }
 

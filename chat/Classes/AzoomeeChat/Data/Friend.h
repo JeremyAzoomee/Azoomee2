@@ -44,6 +44,8 @@ public:
     /// Set the friend as having unread messages
     /// Local only, this makes no change on the server
     void markMessagesLocalUnread();
+    /// Set the conversation with friend's moderation status
+    /// Local only, this makes no change on the server
     void markFriendInModeration(bool status);
 };
 

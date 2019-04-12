@@ -9,8 +9,7 @@
 
 using namespace cocos2d;
 
-namespace Azoomee
-{
+NS_AZOOMEE_BEGIN
 
 static ParentDataParser *_sharedParentDataParser = NULL;
 
@@ -37,75 +36,31 @@ bool ParentDataParser::init(void)
 bool ParentDataParser::parseParentLoginData(const std::string &responseData)
 {
     logoutChild();
-    ParentDataStorage* parentData = ParentDataStorage::getInstance();
-    parentData->parentLoginData.Parse(responseData.c_str());
+	rapidjson::Document parentData;
+    parentData.Parse(responseData.c_str());
     
-    if(parentData->parentLoginData.HasParseError())
+    if(parentData.HasParseError())
     {
         return false;
     }
-    
-    if(parentData->parentLoginData.HasMember("code"))
-    {
-        if(parentData->parentLoginData["code"] != "INVALID_CREDENTIALS")
-        {
-            parentData->loggedInParentId = getStringFromJson("id", parentData->parentLoginData);
-            parentData->loggedInParentCdnSessionId = getStringFromJson("cdn-sessionid", parentData->parentLoginData);
-            parentData->loggedInParentApiSecret = getStringFromJson("apiSecret", parentData->parentLoginData);
-            parentData->loggedInParentApiKey = getStringFromJson("apiKey", parentData->parentLoginData);
-            parentData->loggedInParentActorStatus = getStringFromJson("actorStatus", parentData->parentLoginData);
-            parentData->loggedInParentPin = getStringFromJson("pinNumber", parentData->parentLoginData);
-            parentData->isLoggedInParentAnonymous = false;
-            
-            addParentLoginDataToUserDefaults();
-            
-            createCrashlyticsUserInfo(parentData->loggedInParentId, "");
-            AnalyticsSingleton::getInstance()->registerAccountStatus(parentData->loggedInParentActorStatus);
-            
-            PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel(parentData->loggedInParentId);
-            
-            return true;
-        }
-    }
+	
+	if(getStringFromJson("code", parentData) != "INVALID_CREDENTIALS")
+	{
+		const ParentRef& parent = Parent::createWithJson(parentData);
+		ParentDataStorage::getInstance()->setParent(parent);
+		if(!parent->isAnonymous())
+		{
+			addParentLoginDataToUserDefaults();
+		}
+		createCrashlyticsUserInfo(parent->getId(), "");
+		AnalyticsSingleton::getInstance()->registerAccountStatus(parent->getActorStatus());
+		
+		PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel(parent->getId());
+		
+		return true;
+	}
     
     return false;
-}
-    
-bool ParentDataParser::parseParentLoginDataFromAnonymousDeviceLogin(const std::string &responseData)
-{
-    logoutChild();
-    ParentDataStorage* parentData = ParentDataStorage::getInstance();
-    parentData->parentLoginData.Parse(responseData.c_str());
-    
-    if(parentData->parentLoginData.HasParseError())
-    {
-        return false;
-    }
-    
-    if(parentData->parentLoginData.HasMember("userType"))
-    {
-        if(getStringFromJson("userType", parentData->parentLoginData) == "ANONYMOUS")
-        {
-            parentData->loggedInParentId =  getStringFromJson("id", parentData->parentLoginData);
-            parentData->loggedInParentCdnSessionId = getStringFromJson("cdn-sessionid", parentData->parentLoginData);
-            parentData->loggedInParentApiSecret = getStringFromJson("apiSecret", parentData->parentLoginData);
-            parentData->loggedInParentApiKey = getStringFromJson("apiKey", parentData->parentLoginData);
-            parentData->loggedInParentActorStatus = getStringFromJson("actorStatus", parentData->parentLoginData);
-            parentData->isLoggedInParentAnonymous = true;
-
-            parentData->loggedInParentPin = "";
-            
-            createCrashlyticsUserInfo(parentData->loggedInParentId, "");
-            AnalyticsSingleton::getInstance()->registerAccountStatus(parentData->loggedInParentActorStatus);
-            
-            PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel(parentData->loggedInParentId);
-            
-            return true;
-        }
-    }
-    
-    return false;
-
 }
 
 bool ParentDataParser::parseUpdateParentData(const std::string &responseData)
@@ -118,13 +73,16 @@ bool ParentDataParser::parseUpdateParentData(const std::string &responseData)
         return false;
     }
     
-    ParentDataStorage* parentData = ParentDataStorage::getInstance();
-    
-    parentData->loggedInParentPin = getStringFromJson("pinNumber", updateData);
+    const ParentRef& parentData = ParentDataStorage::getInstance()->getParent();
+    if(!parentData)
+	{
+		return false;
+	}
+    parentData->setPin(getStringFromJson("pinNumber", updateData));
     
     if(updateData.HasMember("actorStatus"))
     {
-        parentData->loggedInParentActorStatus = getStringFromJson("actorStatus", updateData);
+        parentData->setActorStatus(getStringFromJson("actorStatus", updateData));
     }
     else
     {
@@ -137,34 +95,23 @@ bool ParentDataParser::parseUpdateParentData(const std::string &responseData)
 bool ParentDataParser::parseAvailableChildren(const std::string &responseData)
 {
     ParentDataStorage* parentData = ParentDataStorage::getInstance();
-    parentData->availableChildrenData.Parse(responseData.c_str());
+	rapidjson::Document childData;
+	childData.Parse(responseData.c_str());
     
-    if(parentData->availableChildrenData.HasParseError())
+    if(childData.HasParseError())
     {
         return false;
     }
     
-    parentData->availableChildren.clear();
-    parentData->availableChildrenById.clear();
-    parentData->isLoggedInParentAnonymous = false; //if user has children, it must be non-anonymous
+	parentData->clearAvailableChildren();
     
-    for(int i = 0; i < parentData->availableChildrenData.Size(); i++)
+    for(int i = 0; i < childData.Size(); i++)
     {
-        const rapidjson::Value &currentKidObj = parentData->availableChildrenData[i];
+        const rapidjson::Value &currentKidObj = childData[i];
         
-        std::map<std::string, std::string> currentChild;
+		ChildRef child = Child::createWithJson(currentKidObj);
         
-        currentChild["profileName"] = getStringFromJson("profileName", currentKidObj);
-        currentChild["avatar"] = getStringFromJson("avatar", currentKidObj);
-        currentChild["inviteCode"] = getStringFromJson("inviteCode", currentKidObj);
-        currentChild["sex"] = getStringFromJson("sex", currentKidObj);
-        currentChild["dob"] = getStringFromJson("dob", currentKidObj);
-        currentChild["id"] = getStringFromJson("id", currentKidObj);
-        
-        parentData->availableChildren.push_back(currentChild);
-        
-        const std::string& childId = currentChild["id"];
-        parentData->availableChildrenById[childId] = i;
+		parentData->addChild(child);
     }
     
     return true;
@@ -177,39 +124,16 @@ void ParentDataParser::parseParentBillingData(const std::string &responseData)
 	
 	ParentDataStorage* parentData = ParentDataStorage::getInstance();
 	
-	parentData->_billingData = BillingData::createWithJson(billingData);
+	const BillingDataRef& billing = BillingData::createWithJson(billingData);
+	if(!billing)
+	{
+		return;
+	}
+	parentData->setBillingData(billing);
 	
-	AnalyticsSingleton::getInstance()->registerBillingData(parentData->_billingData);
+	AnalyticsSingleton::getInstance()->registerBillingData(billing);
 	
-    /*if(billingData.HasParseError())
-    {
-        cocos2d::log("Billing Parse Error");
-        return;
-    }
-    
-    ParentDataStorage* parentData = ParentDataStorage::getInstance();
-    
-    parentData->loggedInParentBillingStatus = getStringFromJson("billingStatus", billingData);
-    AnalyticsSingleton::getInstance()->registerBillingStatus(parentData->loggedInParentBillingStatus);
-    const rapidjson::Value& purchases = billingData["purchases"];
-    if(purchases.Size() > 1)
-    {
-        std::string nextBillingDate = getStringFromJson("nextBillDate", purchases[0]);
-        for(int i = 1; i < purchases.Size(); i++)
-        {
-            if(nextBillingDate.compare(getStringFromJson("nextBillDate", purchases[i])) > 0)
-            {
-                nextBillingDate = getStringFromJson("nextBillDate", purchases[i]);
-            }
-        }
-        
-        parentData->loggedInParentBillingDate = nextBillingDate;
-    }
-    
-    parentData->loggedInParentBillingProvider = getStringFromJson("paymentProvider", billingData);
-    AnalyticsSingleton::getInstance()->registerBillingProvider(parentData->loggedInParentBillingProvider);
-    */
-    parentData->isBillingDataAvailable = true;
+    parentData->setBillingDataAvailable(true);
 	
 }
 
@@ -228,11 +152,15 @@ void ParentDataParser::parseParentBillingData(const std::string &responseData)
         return;
     }
     
-    ParentDataStorage* parentData = ParentDataStorage::getInstance();
-    parentData->loggedInParentCdnSessionId = sessionId;
+    const ParentRef& parentData = ParentDataStorage::getInstance()->getParent();
+	if(!parentData)
+	{
+		return;
+	}
+    parentData->setCDNSessionId(sessionId);
     
     UserDefault* def = UserDefault::getInstance();
-    def->setStringForKey("loggedInParentCdnSessionId", parentData->loggedInParentCdnSessionId);
+    def->setStringForKey("loggedInParentCdnSessionId", parentData->getCDNSessionId());
 	 
 }
 
@@ -245,16 +173,16 @@ void ParentDataParser::parseParentDetails(const std::string &responseData)
         return;
     }
     
-    ParentDataStorage* parentDataStorage = ParentDataStorage::getInstance();
-    parentDataStorage->loggedInParentEmail = getStringFromJson("emailAddress", parentData);
-    parentDataStorage->loggedInParentDisplayName = getStringFromJson("displayName", parentData);
-    parentDataStorage->loggedInParentPin = getStringFromJson("pinNumber", parentData);
-    parentDataStorage->loggedInParentAvatarId = getStringFromJson("avatar", parentData);
+    const ParentRef& parentDataStorage = ParentDataStorage::getInstance()->getParent();
+    parentDataStorage->setEmail(getStringFromJson("emailAddress", parentData));
+    parentDataStorage->setDisplayName(getStringFromJson("displayName", parentData));
+    parentDataStorage->setPin(getStringFromJson("pinNumber", parentData));
+    parentDataStorage->setAvatar(getStringFromJson("avatar", parentData));
     
     
 }
     
-void ParentDataParser::parseChildUpdateData(int childNum, const std::string &responseData)
+void ParentDataParser::parseChildUpdateData(const ChildRef& child, const std::string &responseData)
 {
     rapidjson::Document childData;
     childData.Parse(responseData.c_str());
@@ -262,69 +190,52 @@ void ParentDataParser::parseChildUpdateData(int childNum, const std::string &res
     {
         return;
     }
-    
-    ParentDataStorage* parentData = ParentDataStorage::getInstance();
-    
-    std::map<std::string, std::string> currentChild;
-    
-    currentChild["profileName"] = getStringFromJson("profileName", childData);
-    currentChild["avatar"] = getStringFromJson("avatar", childData);
-    currentChild["inviteCode"] = getStringFromJson("inviteCode", childData);
-    currentChild["sex"] = getStringFromJson("sex", childData);
-    currentChild["dob"] = getStringFromJson("dob", childData);
-    currentChild["id"] = getStringFromJson("id", childData);
-    
-    parentData->availableChildren[childNum] = currentChild;
-    
-    const std::string& childId = currentChild["id"];
-    parentData->availableChildrenById[childId] = childNum;
+	child->parseChildData(childData);
 }
     
 void ParentDataParser::logoutChild()
 {
-    ChildDataStorage::getInstance()->childLoggedIn = false;
+    ChildDataStorage::getInstance()->setChildLoggedIn(false);
 }
 
 void ParentDataParser::addParentLoginDataToUserDefaults()
 {
-    ParentDataStorage* parentData = ParentDataStorage::getInstance();
-    
+    const ParentRef& parentData = ParentDataStorage::getInstance()->getParent();
+	if(!parentData)
+	{
+		return;
+	}
     UserDefault* def = UserDefault::getInstance();
-    def->setStringForKey("loggedInParentId", parentData->loggedInParentId);
-    def->setStringForKey("loggedInParentCdnSessionId", parentData->loggedInParentCdnSessionId);
-    def->setStringForKey("loggedInParentApiSecret", parentData->loggedInParentApiSecret);
-    def->setStringForKey("loggedInParentApiKey", parentData->loggedInParentApiKey);
-    def->setStringForKey("loggedInParentActorStatus", parentData->loggedInParentActorStatus);
-    def->setBoolForKey("isLoggedInParentAnonymous", parentData->isLoggedInParentAnonymous);
+    def->setStringForKey("loggedInParentId", parentData->getId());
+    def->setStringForKey("loggedInParentCdnSessionId", parentData->getCDNSessionId());
+    def->setStringForKey("loggedInParentApiSecret", parentData->getAPISecret());
+    def->setStringForKey("loggedInParentApiKey", parentData->getAPIKey());
+    def->setStringForKey("loggedInParentActorStatus", parentData->getActorStatus());
+    def->setBoolForKey("isLoggedInParentAnonymous", parentData->isAnonymous());
     def->flush();
 }
 
 void ParentDataParser::retrieveParentLoginDataFromUserDefaults()
 {
-    cocos2d::log("ParentDataParser::retrieveParentLoginDataFromUserDefaults");
-    ParentDataStorage* parentData = ParentDataStorage::getInstance();
-    
+	const ParentRef& parent = Parent::create();
+	
     UserDefault* def = UserDefault::getInstance();
-    parentData->loggedInParentId = def->getStringForKey("loggedInParentId");
-    parentData->loggedInParentCdnSessionId = def->getStringForKey("loggedInParentCdnSessionId");
-    parentData->loggedInParentApiSecret = def->getStringForKey("loggedInParentApiSecret");
-    parentData->loggedInParentApiKey = def->getStringForKey("loggedInParentApiKey");
-    parentData->loggedInParentActorStatus = def->getStringForKey("loggedInParentActorStatus");
-    parentData->isLoggedInParentAnonymous = def->getBoolForKey("isLoggedInParentAnonymous");
-    parentData->loggedInParentCountryCode = def->getStringForKey("loggedInParentCountryCode");
-    cocos2d::log("loggedInParentId = %s", parentData->loggedInParentId.c_str());
-    cocos2d::log("loggedInParentCdnSessionId = %s", parentData->loggedInParentCdnSessionId.c_str());
-    cocos2d::log("loggedInParentApiSecret = %s", parentData->loggedInParentApiSecret.c_str());
-    cocos2d::log("loggedInParentApiKey = %s", parentData->loggedInParentApiKey.c_str());
-    cocos2d::log("loggedInParentActorStatus = %s", parentData->loggedInParentActorStatus.c_str());
-    cocos2d::log("loggedInParentAvatarId = %s", parentData->loggedInParentAvatarId.c_str());
-    cocos2d::log("loggedInParentCountryCode = %s", parentData->loggedInParentCountryCode.c_str());
+    parent->setId(def->getStringForKey("loggedInParentId"));
+    parent->setCDNSessionId(def->getStringForKey("loggedInParentCdnSessionId"));
+    parent->setAPISecret(def->getStringForKey("loggedInParentApiSecret"));
+    parent->setAPIKey(def->getStringForKey("loggedInParentApiKey"));
+    parent->setActorStatus(def->getStringForKey("loggedInParentActorStatus"));
+    parent->setAnonymous(def->getBoolForKey("isLoggedInParentAnonymous"));
+    parent->setCountryCode(def->getStringForKey("loggedInParentCountryCode"));
+	parent->setEmail(def->getStringForKey(ConfigStorage::kStoredUsernameKey));
+	
+	ParentDataStorage::getInstance()->setParent(parent);
+	
+    createCrashlyticsUserInfo(parent->getId(), "");
+    AnalyticsSingleton::getInstance()->registerAccountStatus(parent->getActorStatus());
+    AnalyticsSingleton::getInstance()->registerAzoomeeEmail(parent->getEmail());
     
-    createCrashlyticsUserInfo(parentData->loggedInParentId, "");
-    AnalyticsSingleton::getInstance()->registerAccountStatus(parentData->loggedInParentActorStatus);
-    AnalyticsSingleton::getInstance()->registerAzoomeeEmail(def->getStringForKey("username"));
-    
-    PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel(parentData->loggedInParentId);
+    PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel(parent->getId());
 }
 
 bool ParentDataParser::hasParentLoginDataInUserDefaults()
@@ -346,49 +257,53 @@ void ParentDataParser::clearParentLoginDataFromUserDefaults()
     def->setStringForKey("loggedInParentApiKey", "");
     def->setStringForKey("loggedInParentActorStatus", "");
     def->setStringForKey("loggedInParentCountryCode", "");
+	def->setStringForKey(ConfigStorage::kStoredUsernameKey, "");
     def->flush();
 }
     
 bool ParentDataParser::parsePendingFriendRequests(const std::string &responseData)
 {
-    ParentDataStorage* parentData = ParentDataStorage::getInstance();
-    parentData->pendingFriendRequests.clear();
-    
-    parentData->pendingFriendRequestData.Parse(responseData.c_str());
-    if(parentData->pendingFriendRequestData.HasParseError())
+	rapidjson::Document pendingRequestData;
+	pendingRequestData.Parse(responseData.c_str());
+    if(pendingRequestData.HasParseError() || !pendingRequestData.IsArray())
     {
         return false;
     }
-    
-    for(int i = 0; i < parentData->pendingFriendRequestData.Size(); i++)
+	
+	std::vector<FriendRequestRef> pendingRequests;
+	
+    for(int i = 0; i < pendingRequestData.Size(); i++)
     {
-        const rapidjson::Value &currentFriendRequestObj = parentData->pendingFriendRequestData[i];
+        const rapidjson::Value &currentFriendRequestObj =pendingRequestData[i];
         
-        std::map<std::string, std::string> currentPendingFriendRequest;
-        
-        currentPendingFriendRequest["senderName"] = getStringFromJson("senderName", currentFriendRequestObj);
-        currentPendingFriendRequest["friendName"] = getStringFromJson("friendName", currentFriendRequestObj);
-        currentPendingFriendRequest["inviteeCode"] = getStringFromJson("inviteeCode", currentFriendRequestObj);
-        currentPendingFriendRequest["id"] = getStringFromJson("id", currentFriendRequestObj);
-        currentPendingFriendRequest["senderId"] = getStringFromJson("senderId", currentFriendRequestObj);
-        currentPendingFriendRequest["respondentId"] = getStringFromJson("respondentId", currentFriendRequestObj);
+		FriendRequestRef friendRequest = FriendRequest::createWithJson(currentFriendRequestObj);
 
-        parentData->pendingFriendRequests.push_back(currentPendingFriendRequest);
+		pendingRequests.push_back(friendRequest);
     }
-    
+	
+	ParentDataStorage::getInstance()->setPendingFriendRequests(pendingRequests);
     return true;
 }
     
 void ParentDataParser::setBillingDataAvailable(bool isAvailable)
 {
-    ParentDataStorage::getInstance()->isBillingDataAvailable = isAvailable;
+    ParentDataStorage::getInstance()->setBillingDataAvailable(isAvailable);
 }
 
 void ParentDataParser::setLoggedInParentCountryCode(const std::string &countryCode)
 {
-    ParentDataStorage::getInstance()->loggedInParentCountryCode = countryCode;
-    UserDefault::getInstance()->setStringForKey("loggedInParentCountryCode", countryCode);
+	if(ParentDataStorage::getInstance()->getParent())
+	{
+    	ParentDataStorage::getInstance()->getParent()->setCountryCode(countryCode);
+    	UserDefault::getInstance()->setStringForKey("loggedInParentCountryCode", countryCode);
+	}
 }
     
-
+void ParentDataParser::saveAnonCredentialsToDevice(const std::string &userId)
+{
+	UserDefault* userDefault = UserDefault::getInstance();
+	userDefault->setStringForKey("anonEmail", userId);
+	userDefault->flush();
 }
+	
+NS_AZOOMEE_END

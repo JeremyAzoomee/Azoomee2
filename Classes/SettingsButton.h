@@ -2,24 +2,20 @@
 #define Azoomee_SettingsButton_h
 
 #include <AzoomeeCommon/Azoomee.h>
-#include <AzoomeeCommon/UI/ElectricDreamsButton.h>
+#include <cocos/cocos2d.h>
+#include <cocos/ui/CocosGUI.h>
 
 NS_AZOOMEE_BEGIN
 
-class SettingsButton : public ElectricDreamsButton
+class SettingsButton : public cocos2d::ui::Button
 {
-    typedef ElectricDreamsButton Super;
+	typedef cocos2d::ui::Button Super;
 private:
-    cocos2d::Sprite* buttonSprite;
-    
-protected:
-    virtual bool init() override;
-    
-    virtual void onButtonPressed() override;
+	bool init() override;
+	
     
 public:
     CREATE_FUNC(SettingsButton);
-    static SettingsButton* createSettingsButton(float creationDelay);
 };
 
 NS_AZOOMEE_END

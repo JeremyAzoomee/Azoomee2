@@ -108,13 +108,13 @@ bool DeepLinkingSingleton::actionDeepLink()
         return false;
     }
     
-    if(host == "content" && ChildDataProvider::getInstance()->getIsChildLoggedIn())
+    if(host == "content" && ChildDataProvider::getInstance()->isChildLoggedIn())
     {
         AnalyticsSingleton::getInstance()->deepLinkingContentEvent();
         
         ModalMessages::getInstance()->startLoading();
         deepLinkActionWaiting = false;
-        BackEndCaller::getInstance()->getElectricDreamsContent("deepLinkContentRequest", path);
+        BackEndCaller::getInstance()->GetContent("deepLinkContentRequest", path);
         return true;
     }
     else if(host == "post-content")
@@ -129,7 +129,7 @@ bool DeepLinkingSingleton::actionDeepLink()
     }
     else if(host == "moveto")
     {
-        if(path == "signup" && !ChildDataProvider::getInstance()->getIsChildLoggedIn() && !ParentDataParser::getInstance()->hasParentLoginDataInUserDefaults())
+        if(path == "signup" && !ChildDataProvider::getInstance()->isChildLoggedIn() && !ParentDataParser::getInstance()->hasParentLoginDataInUserDefaults())
         {
             AnalyticsSingleton::getInstance()->deepLinkingMoveToEvent(path);
             
@@ -139,7 +139,7 @@ bool DeepLinkingSingleton::actionDeepLink()
             return true;
         }
         
-        if(!ChildDataProvider::getInstance()->getIsChildLoggedIn())
+        if(!ChildDataProvider::getInstance()->isChildLoggedIn())
         {
             return false;
         }
@@ -148,7 +148,7 @@ bool DeepLinkingSingleton::actionDeepLink()
         {
             AnalyticsSingleton::getInstance()->deepLinkingMoveToEvent(path);
             
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
             
             resetDeepLink();
             return true;
@@ -157,7 +157,7 @@ bool DeepLinkingSingleton::actionDeepLink()
         {
             AnalyticsSingleton::getInstance()->deepLinkingMoveToEvent(path);
             
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ArtAppEntryPointScene));
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ArtAppEntryPointScene));
             
             resetDeepLink();
             return true;

@@ -13,6 +13,8 @@ NS_AZOOMEE_CHAT_BEGIN
 #pragma mark - constants
 
 const char* const kPollScheduleKey = "Azoomee::ChatAPI::requestFriendList";
+const char* const kChatStatusActive = "ACTIVE";
+const char* const kChatStatusInModeration = "IN_MODERATION";
 const float ChatAPI::kScheduleRateLow = 30.0f;
 const float ChatAPI::kScheduleRateHigh = 10.0f;
 
@@ -66,7 +68,7 @@ void ChatAPI::updateProfileNames()
     
     // Add the current child user
     ChildDataProvider* childData = ChildDataProvider::getInstance();
-    _profileNames[childData->getParentOrChildId()] = childData->getLoggedInChildName();
+    _profileNames[childData->getParentOrChildId()] = childData->getParentOrChildName();
     
     // Add names from friend list
     for(auto friendData : _friendList)
@@ -266,11 +268,15 @@ void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
     }
     else if(requestTag == API::TagReportChat)
     {
+        onModerationStatusResponseSuccess(requestTag, headers, body);
+        
         AnalyticsSingleton::getInstance()->chatReportedEvent();
         ModalMessages::getInstance()->stopLoading();
     }
     else if(requestTag == API::TagResetReportedChat)
     {
+        onModerationStatusResponseSuccess(requestTag, headers, body);
+        
         AnalyticsSingleton::getInstance()->chatResetReportedEvent();
         ModalMessages::getInstance()->stopLoading();
     }
@@ -332,6 +338,56 @@ void ChatAPI::onHttpRequestFailed(const std::string& requestTag, long errorCode)
         {
             observer->onChatAPIErrorRecieved(requestTag, errorCode);
         }
+    }
+}
+
+void ChatAPI::onModerationStatusResponseSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
+{
+    // body={"id":1152,"userIdA":"8f3caca6-00e4-4ab1-9121-649d53b595c8","userIdB":"70d68eed-63cf-4538-9913-b3fad88b3118","status":"IN_MODERATION"}
+    // Parse the response
+    rapidjson::Document response;
+    response.Parse(body.c_str());
+    if(response.HasParseError())
+    {
+        return;
+    }
+    
+    const std::string& userIdA = getStringFromJson("userIdA", response);
+    const std::string& userIdB = getStringFromJson("userIdB", response);
+    const std::string& status = getStringFromJson("status", response);
+    
+    // Make sure the confirmation is for the current user
+    const std::string& currentChildID = ChildDataProvider::getInstance()->getParentOrChildId();
+    if(userIdA != currentChildID)
+    {
+        // Not related to the current user
+        return;
+    }
+    
+    // Find the friend object
+    auto it = _friendIndex.find(userIdB);
+    if(it == _friendIndex.end())
+    {
+        // No friend found
+        return;
+    }
+    
+    const FriendRef& friendObj = it->second;
+    
+    // Update the status for this object
+    if(status == kChatStatusInModeration)
+    {
+        friendObj->markFriendInModeration(true);
+    }
+    else if(status == kChatStatusActive)
+    {
+        friendObj->markFriendInModeration(false);
+    }
+    
+    // Notify observers
+    for(auto observer : _observers)
+    {
+        observer->onChatAPIModerationStatusChanged(friendObj);
     }
 }
 

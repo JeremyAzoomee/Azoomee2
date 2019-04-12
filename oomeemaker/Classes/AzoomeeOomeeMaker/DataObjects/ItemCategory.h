@@ -31,13 +31,14 @@ private:
     float _scaleSelected;
     float _scaleUnselected;
     cocos2d::Color4B _highlightColour;
+	std::string _name;
     
 public:
     static ItemCategoryRef create();
-    static ItemCategoryRef createWithData(const rapidjson::Document& categoryConfig);
+    static ItemCategoryRef createWithData(const rapidjson::Value& categoryConfig);
     ItemCategory();
     
-    void initWithData(const rapidjson::Document& categoryConfig);
+    void initWithData(const rapidjson::Value& categoryConfig);
     
     void setId(const std::string& id);
     std::string getId() const;
@@ -53,6 +54,8 @@ public:
     float getScaleUnselected() const;
     void setHighlightColour(const cocos2d::Color4B& colour);
     cocos2d::Color4B getHightlightColour() const;
+	void setName(const std::string& name);
+	std::string getName() const;
     
 };
 

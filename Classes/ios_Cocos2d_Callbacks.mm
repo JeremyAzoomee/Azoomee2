@@ -1,5 +1,4 @@
 #include "ios_Cocos2d_Callbacks.h"
-#include "BaseScene.h"
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "OfflineHubScene.h"
@@ -20,6 +19,9 @@
 #include "BackEndCaller.h"
 #include "RecentlyPlayedManager.h"
 
+#include <AzoomeeCommon/API/API.h>
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+
 using namespace cocos2d;
 NS_AZOOMEE_BEGIN
 
@@ -27,16 +29,17 @@ void navigateToBaseScene()
 {
     AnalyticsSingleton::getInstance()->contentItemClosedEvent();
     
-    if(HQHistoryManager::getInstance()->isOffline)
+    if(HQHistoryManager::getInstance()->isOffline())
     {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineHub));
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OfflineHub));
         return;
     }
     if(HQHistoryManager::getInstance()->getCurrentHQ() != ConfigStorage::kHomeHQName && !(HQHistoryManager::getInstance()->getCurrentHQ() == ConfigStorage::kGroupHQName && HQHistoryManager::getInstance()->getPreviousHQ() == ConfigStorage::kHomeHQName))
     {
         ContentHistoryManager::getInstance()->setReturnedFromContent(true);
     }
-    Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+	
+    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
 }
 
 void navigateToLoginScene()
@@ -147,7 +150,7 @@ bool isFavContent()
 
 void shareContentInChat()
 {
-	if(!HQHistoryManager::getInstance()->isOffline)
+	if(!HQHistoryManager::getInstance()->isOffline())
 	{
     	ChatDelegate::getInstance()->_sharedContentId = ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId();
     	ChatDelegate::getInstance()->shareContentInChat();
@@ -156,7 +159,7 @@ void shareContentInChat()
 
 bool isChatEntitled()
 {
-    return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName)->getHqEntitlement()  && !HQHistoryManager::getInstance()->isOffline;
+    return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName)->getHqEntitlement()  && !HQHistoryManager::getInstance()->isOffline();
 }
 
 bool isAnonUser()
@@ -164,9 +167,23 @@ bool isAnonUser()
     return ParentDataProvider::getInstance()->isLoggedInParentAnonymous();
 }
 
-void sendVideoProgress(int playlistIndex , int videoProgressSeconds)
+void sendProgressMetaDataVideo(int videoProgressSeconds, int videoDuration)
 {
-	BackEndCaller::getInstance()->updateVideoProgress(VideoPlaylistManager::getInstance()->getContentItemDataForPlaylistElement(playlistIndex)->getContentItemId(), videoProgressSeconds);
+	ContentHistoryManager::getInstance()->onContentClosed();
+	const auto& contentItem = ContentHistoryManager::getInstance()->getLastOpenedContent();
+	const std::string& data = StringUtils::format("{\"contentId\":\"%s\", \"contentMeta\":{\"contentTitle\":\"%s\",\"contentType\":\"%s\", \"contentLength\":%d, \"unit\":\"SECONDS\", \"contentProgress\":%d, \"duration\":%ld, \"lastPlayedMeta\": [{\"start\":%s,\"end\":%s}]}}",contentItem->getContentItemId().c_str(), contentItem->getTitle().c_str(),contentItem->getType().c_str(), videoDuration, videoProgressSeconds ,ContentHistoryManager::getInstance()->getTimeInContentSec(), ContentHistoryManager::getInstance()->getContentOpenedTimeMs().c_str(), ContentHistoryManager::getInstance()->getContentClosedTimeMs().c_str());
+	HttpRequestCreator* request = API::UpdateContentProgressMeta(ChildDataProvider::getInstance()->getParentOrChildId(), data, nullptr);
+	request->execute();
+	
+}
+
+void sendProgressMetaDataGame()
+{
+	ContentHistoryManager::getInstance()->onContentClosed();
+	const auto& contentItem = ContentHistoryManager::getInstance()->getLastOpenedContent();
+	const std::string& data = StringUtils::format("{\"contentId\":\"%s\", \"contentMeta\":{\"contentTitle\":\"%s\",\"contentType\":\"%s\", \"unit\":\"SECONDS\", \"duration\":%ld, \"lastPlayedMeta\": [{\"start\":%s,\"end\":%s}]}}",contentItem->getContentItemId().c_str(), contentItem->getTitle().c_str(), contentItem->getType().c_str(), ContentHistoryManager::getInstance()->getTimeInContentSec(), ContentHistoryManager::getInstance()->getContentOpenedTimeMs().c_str(), ContentHistoryManager::getInstance()->getContentClosedTimeMs().c_str());
+	HttpRequestCreator* request = API::UpdateContentProgressMeta(ChildDataProvider::getInstance()->getParentOrChildId(), data, nullptr);
+	request->execute();
 }
 
 void newVideoOpened(int playlistIndex)
@@ -175,6 +192,8 @@ void newVideoOpened(int playlistIndex)
 	RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kVideoHQName);
 	RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kMeHQName);
 	ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
+	ContentHistoryManager::getInstance()->onContentOpened();
+	
 }
 
 NSString* getPlaylistString()

@@ -153,12 +153,20 @@
 		9224BFB11F7908D400108553 /* DynamicNodeButtonListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB01F7908D400108553 /* DynamicNodeButtonListener.cpp */; };
 		9224BFB41F7932D200108553 /* ButtonActionData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB31F7932D200108553 /* ButtonActionData.cpp */; };
 		9224BFB71F794BFA00108553 /* DynamicNodeHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB61F794BFA00108553 /* DynamicNodeHandler.cpp */; };
+		923D5BBE220064B9008C13D0 /* HQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BBD220064B9008C13D0 /* HQScene.cpp */; };
+		923D5BC522008BF1008C13D0 /* ContentFeedHQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BC422008BF1008C13D0 /* ContentFeedHQScene.cpp */; };
+		923D5BED2201F126008C13D0 /* RewardScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BEC2201F125008C13D0 /* RewardScene.cpp */; };
+		923D5BF022020475008C13D0 /* CoinDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BEF22020475008C13D0 /* CoinDisplay.cpp */; };
+		92448AE621F73AEF00E88C9D /* WelcomeScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92448AE521F73AEF00E88C9D /* WelcomeScene.cpp */; };
 		924ACE3720A9C541007A5550 /* MeHQProfileDetails.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924ACE3620A9C541007A5550 /* MeHQProfileDetails.cpp */; };
 		924E8450214117D9004590FD /* SettingsMessageBoxRejectFR.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924E844F214117D9004590FD /* SettingsMessageBoxRejectFR.cpp */; };
 		924E845221412D70004590FD /* SettingsKidsPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924E845121412D70004590FD /* SettingsKidsPage.cpp */; };
 		924E8455214141DC004590FD /* KidDetailsLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924E8454214141DC004590FD /* KidDetailsLayer.cpp */; };
 		924E845821427C05004590FD /* SettingsMessageBoxDeleteChild.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924E845721427C05004590FD /* SettingsMessageBoxDeleteChild.cpp */; };
 		924E84772147FE2B004590FD /* SettingsMessageBoxFREvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924E84762147FE2B004590FD /* SettingsMessageBoxFREvent.cpp */; };
+		925B249E22084B940000D7D2 /* CoinCollectLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 925B249D22084B940000D7D2 /* CoinCollectLayer.cpp */; };
+		925B24A12209D9480000D7D2 /* AwesomeLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 925B24A02209D9480000D7D2 /* AwesomeLayer.cpp */; };
+		925B24A4220AEE5F0000D7D2 /* CoinChestLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 925B24A3220AEE5F0000D7D2 /* CoinChestLayer.cpp */; };
 		926173A71F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926173A61F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp */; };
 		926A2AE1212D6F5500AE7964 /* SettingsHub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926A2AE0212D6F5500AE7964 /* SettingsHub.cpp */; };
 		926A2B0C212EABB000AE7964 /* SettingsNavigationButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926A2B0B212EABB000AE7964 /* SettingsNavigationButton.cpp */; };
@@ -197,6 +205,25 @@
 		92A519652194A7CF008DBD51 /* VodacomOnboardingDCBWebview.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92A519642194A7CF008DBD51 /* VodacomOnboardingDCBWebview.cpp */; };
 		92A9A06E1F068A97008A19EB /* libAzoomeeArt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A9A06B1F068A7B008A19EB /* libAzoomeeArt.a */; };
 		92A9A0A91F0D1775008A19EB /* ArtAppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92A9A0A81F0D1775008A19EB /* ArtAppDelegate.cpp */; };
+		92BDD4B42232CCA200DA56F3 /* CoinDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BEF22020475008C13D0 /* CoinDisplay.cpp */; };
+		92BDD4B92232CCA500DA56F3 /* RewardScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BEC2201F125008C13D0 /* RewardScene.cpp */; };
+		92BDD4BA2232CCA700DA56F3 /* CoinCollectLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 925B249D22084B940000D7D2 /* CoinCollectLayer.cpp */; };
+		92BDD4BB2232CCA900DA56F3 /* AwesomeLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 925B24A02209D9480000D7D2 /* AwesomeLayer.cpp */; };
+		92BDD4BC2232CCAC00DA56F3 /* CoinChestLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 925B24A3220AEE5F0000D7D2 /* CoinChestLayer.cpp */; };
+		92BDD4BD2232CCAF00DA56F3 /* RewardScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E58561220DB49F0015A4FA /* RewardScreen.cpp */; };
+		92BDD4BE2232CCB100DA56F3 /* RewardDisplayHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E58563220DC7580015A4FA /* RewardDisplayHandler.cpp */; };
+		92BDD4BF2232CCC300DA56F3 /* ChildSettingsScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E5856D221475120015A4FA /* ChildSettingsScene.cpp */; };
+		92BDD4C122366D3100DA56F3 /* ShopItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4C022366D3100DA56F3 /* ShopItem.cpp */; };
+		92BDD4C222366D3100DA56F3 /* ShopItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4C022366D3100DA56F3 /* ShopItem.cpp */; };
+		92BDD4C42236AE4E00DA56F3 /* ShopItemPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4C32236AE4E00DA56F3 /* ShopItemPage.cpp */; };
+		92BDD4C52236AE4E00DA56F3 /* ShopItemPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4C32236AE4E00DA56F3 /* ShopItemPage.cpp */; };
+		92BDD4CC22380D4700DA56F3 /* ShopItemPurchasePopup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4CB22380D4700DA56F3 /* ShopItemPurchasePopup.cpp */; };
+		92BDD4CD22380D4700DA56F3 /* ShopItemPurchasePopup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4CB22380D4700DA56F3 /* ShopItemPurchasePopup.cpp */; };
+		92BDD4CF223926CD00DA56F3 /* ShopItemPurchasedAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4CE223926CD00DA56F3 /* ShopItemPurchasedAnimation.cpp */; };
+		92BDD4D0223926CD00DA56F3 /* ShopItemPurchasedAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4CE223926CD00DA56F3 /* ShopItemPurchasedAnimation.cpp */; };
+		92E58562220DB49F0015A4FA /* RewardScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E58561220DB49F0015A4FA /* RewardScreen.cpp */; };
+		92E58564220DC7580015A4FA /* RewardDisplayHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E58563220DC7580015A4FA /* RewardDisplayHandler.cpp */; };
+		92E5856E221475120015A4FA /* ChildSettingsScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E5856D221475120015A4FA /* ChildSettingsScene.cpp */; };
 		92E58634222425360015A4FA /* MPDismissKeyboard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 304D9EAE1EA8F849008CED52 /* MPDismissKeyboard@2x.png */; };
 		92E58635222425360015A4FA /* MPCloseButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 304D9EAB1EA8F849008CED52 /* MPCloseButton@2x.png */; };
 		92E58636222425360015A4FA /* MPTakeoverNotificationViewController~iphonelandscape.xib in Resources */ = {isa = PBXBuildFile; fileRef = 304D9EA01EA8F849008CED52 /* MPTakeoverNotificationViewController~iphonelandscape.xib */; };
@@ -237,7 +264,6 @@
 		92E5865A222425360015A4FA /* PrivacyAndTermsLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 439694821EAA4A08003C17E6 /* PrivacyAndTermsLayer.cpp */; };
 		92E5865B222425360015A4FA /* VodacomOnboardingVoucherLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A2670216F9F85005C8C41 /* VodacomOnboardingVoucherLayer.cpp */; };
 		92E5865C222425360015A4FA /* GooglePaymentSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02A11FF21EA6375D007EDD95 /* GooglePaymentSingleton.cpp */; };
-		92E5865D222425360015A4FA /* BaseScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A198622C1DD480A60090F053 /* BaseScene.cpp */; };
 		92E5865E222425360015A4FA /* DeepLinkingSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4343CB9A1EBB826600247549 /* DeepLinkingSingleton.cpp */; };
 		92E5865F222425360015A4FA /* ForceUpdateSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025633721F39AB5D0053FF26 /* ForceUpdateSingleton.cpp */; };
 		92E58660222425360015A4FA /* IntroVideoScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 028DDEB4206CFB69006D7EC5 /* IntroVideoScene.cpp */; };
@@ -392,6 +418,10 @@
 		92E586F6222425360015A4FA /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620D132DFF430009C878 /* AVFoundation.framework */; };
 		92E586F7222425360015A4FA /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620F132DFF4E0009C878 /* AudioToolbox.framework */; };
 		92E586FB222425360015A4FA /* stickers.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 0240FC45201224AC00E88157 /* stickers.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		92EC0C4F22312EA800B02F20 /* ShopScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92EC0C4E22312EA800B02F20 /* ShopScene.cpp */; };
+		92EC0C5022312F6F00B02F20 /* ShopScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92EC0C4E22312EA800B02F20 /* ShopScene.cpp */; };
+		92EC0C5D2232805D00B02F20 /* ShopCarousel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92EC0C5C2232805D00B02F20 /* ShopCarousel.cpp */; };
+		92EC0C5E2232805D00B02F20 /* ShopCarousel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92EC0C5C2232805D00B02F20 /* ShopCarousel.cpp */; };
 		A134ADCE1E0C0F420030BE98 /* HQSceneElementPositioner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A134ADCC1E0C0F420030BE98 /* HQSceneElementPositioner.cpp */; };
 		A154CC521DFEE7440008A626 /* GameDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A154CC501DFEE7440008A626 /* GameDataManager.cpp */; };
 		A15B2F991DE74F6400D25334 /* WebViewSelector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A15B2F971DE74F6400D25334 /* WebViewSelector.cpp */; };
@@ -401,7 +431,6 @@
 		A19862221DD3836D0090F053 /* ChildSelectorScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19862131DD3836D0090F053 /* ChildSelectorScene.cpp */; };
 		A19862271DD3836D0090F053 /* NavigationLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A198621D1DD3836D0090F053 /* NavigationLayer.cpp */; };
 		A198622B1DD383BD0090F053 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19862291DD383BD0090F053 /* AppDelegate.cpp */; };
-		A198622E1DD480A60090F053 /* BaseScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A198622C1DD480A60090F053 /* BaseScene.cpp */; };
 		A1CC0C241E141B47008B469E /* HQDataParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1CC0C201E141B47008B469E /* HQDataParser.cpp */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
@@ -835,6 +864,16 @@
 		9224BFB31F7932D200108553 /* ButtonActionData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ButtonActionData.cpp; sourceTree = "<group>"; };
 		9224BFB51F7949E100108553 /* DynamicNodeHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicNodeHandler.h; sourceTree = "<group>"; };
 		9224BFB61F794BFA00108553 /* DynamicNodeHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeHandler.cpp; sourceTree = "<group>"; };
+		923D5B7221FB5BA9008C13D0 /* HQScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HQScene.h; sourceTree = "<group>"; };
+		923D5BBD220064B9008C13D0 /* HQScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HQScene.cpp; sourceTree = "<group>"; };
+		923D5BC322007473008C13D0 /* ContentFeedHQScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContentFeedHQScene.h; sourceTree = "<group>"; };
+		923D5BC422008BF1008C13D0 /* ContentFeedHQScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ContentFeedHQScene.cpp; sourceTree = "<group>"; };
+		923D5BEB2201E287008C13D0 /* RewardScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RewardScene.h; sourceTree = "<group>"; };
+		923D5BEC2201F125008C13D0 /* RewardScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RewardScene.cpp; sourceTree = "<group>"; };
+		923D5BEE2202012C008C13D0 /* CoinDisplay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoinDisplay.h; sourceTree = "<group>"; };
+		923D5BEF22020475008C13D0 /* CoinDisplay.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CoinDisplay.cpp; sourceTree = "<group>"; };
+		92448AE021F7378400E88C9D /* WelcomeScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WelcomeScene.h; sourceTree = "<group>"; };
+		92448AE521F73AEF00E88C9D /* WelcomeScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = WelcomeScene.cpp; sourceTree = "<group>"; };
 		9246EDCF1F0403A8008CD359 /* azoomee2_ArtApp.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = azoomee2_ArtApp.xcodeproj; path = ../ArtApp/proj.ios_mac/azoomee2_ArtApp.xcodeproj; sourceTree = "<group>"; };
 		924ACE1A20A9A476007A5550 /* MeHQProfileDetails.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeHQProfileDetails.h; sourceTree = "<group>"; };
 		924ACE1F20A9A543007A5550 /* MeHQGallery.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeHQGallery.h; sourceTree = "<group>"; };
@@ -850,6 +889,12 @@
 		924E845721427C05004590FD /* SettingsMessageBoxDeleteChild.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsMessageBoxDeleteChild.cpp; sourceTree = "<group>"; };
 		924E84712147FCDA004590FD /* SettingsMessageBoxFREvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsMessageBoxFREvent.h; sourceTree = "<group>"; };
 		924E84762147FE2B004590FD /* SettingsMessageBoxFREvent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsMessageBoxFREvent.cpp; sourceTree = "<group>"; };
+		925B249822084B7B0000D7D2 /* CoinCollectLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoinCollectLayer.h; sourceTree = "<group>"; };
+		925B249D22084B940000D7D2 /* CoinCollectLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CoinCollectLayer.cpp; sourceTree = "<group>"; };
+		925B249F2209C15C0000D7D2 /* AwesomeLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AwesomeLayer.h; sourceTree = "<group>"; };
+		925B24A02209D9480000D7D2 /* AwesomeLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AwesomeLayer.cpp; sourceTree = "<group>"; };
+		925B24A2220AEE020000D7D2 /* CoinChestLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoinChestLayer.h; sourceTree = "<group>"; };
+		925B24A3220AEE5F0000D7D2 /* CoinChestLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CoinChestLayer.cpp; sourceTree = "<group>"; };
 		926173A11F2A4CC5008E3F9D /* ArtImageOnScreenChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtImageOnScreenChecker.h; sourceTree = "<group>"; };
 		926173A61F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtImageOnScreenChecker.cpp; sourceTree = "<group>"; };
 		926A2ADB212D5D0300AE7964 /* SettingsHub.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsHub.h; sourceTree = "<group>"; };
@@ -921,8 +966,27 @@
 		92A519642194A7CF008DBD51 /* VodacomOnboardingDCBWebview.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VodacomOnboardingDCBWebview.cpp; sourceTree = "<group>"; };
 		92A9A0A21F0D172F008A19EB /* ArtAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtAppDelegate.h; sourceTree = "<group>"; };
 		92A9A0A81F0D1775008A19EB /* ArtAppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtAppDelegate.cpp; sourceTree = "<group>"; };
+		92BDD4C022366D3100DA56F3 /* ShopItem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShopItem.cpp; sourceTree = "<group>"; };
+		92BDD4C32236AE4E00DA56F3 /* ShopItemPage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShopItemPage.cpp; sourceTree = "<group>"; };
+		92BDD4CB22380D4700DA56F3 /* ShopItemPurchasePopup.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShopItemPurchasePopup.cpp; sourceTree = "<group>"; };
+		92BDD4CE223926CD00DA56F3 /* ShopItemPurchasedAnimation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShopItemPurchasedAnimation.cpp; sourceTree = "<group>"; };
+		92E5855A220D83AB0015A4FA /* RewardDisplayHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RewardDisplayHandler.h; sourceTree = "<group>"; };
+		92E58560220DA5740015A4FA /* RewardScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RewardScreen.h; sourceTree = "<group>"; };
+		92E58561220DB49F0015A4FA /* RewardScreen.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RewardScreen.cpp; sourceTree = "<group>"; };
+		92E58563220DC7580015A4FA /* RewardDisplayHandler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RewardDisplayHandler.cpp; sourceTree = "<group>"; };
+		92E5856C221474010015A4FA /* ChildSettingsScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChildSettingsScene.h; sourceTree = "<group>"; };
+		92E5856D221475120015A4FA /* ChildSettingsScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChildSettingsScene.cpp; sourceTree = "<group>"; };
 		92E586FF222425360015A4FA /* azoomee2-mobile-Voda.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "azoomee2-mobile-Voda.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		92E58700222425380015A4FA /* azoomee2-mobile-Voda-info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "azoomee2-mobile-Voda-info.plist"; path = "/Users/macauley/Documents/cocos2d-x/azoomee2/proj.ios_mac/azoomee2-mobile-Voda-info.plist"; sourceTree = "<absolute>"; };
+		92EC0C46223027D300B02F20 /* ShopScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShopScene.h; sourceTree = "<group>"; };
+		92EC0C4822302AC000B02F20 /* ShopCarousel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShopCarousel.h; sourceTree = "<group>"; };
+		92EC0C4922302AD700B02F20 /* ShopItemPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShopItemPage.h; sourceTree = "<group>"; };
+		92EC0C4A22302AE400B02F20 /* ShopItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShopItem.h; sourceTree = "<group>"; };
+		92EC0C4B22302B3400B02F20 /* ShopItemPurchasePopup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShopItemPurchasePopup.h; sourceTree = "<group>"; };
+		92EC0C4C22302B4F00B02F20 /* ShopItemPurchasedAnimation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShopItemPurchasedAnimation.h; sourceTree = "<group>"; };
+		92EC0C4D22302B7100B02F20 /* ShopOomeeItemPreview.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShopOomeeItemPreview.h; sourceTree = "<group>"; };
+		92EC0C4E22312EA800B02F20 /* ShopScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShopScene.cpp; sourceTree = "<group>"; };
+		92EC0C5C2232805D00B02F20 /* ShopCarousel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShopCarousel.cpp; sourceTree = "<group>"; };
 		A134ADCC1E0C0F420030BE98 /* HQSceneElementPositioner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQSceneElementPositioner.cpp; sourceTree = "<group>"; };
 		A134ADCD1E0C0F420030BE98 /* HQSceneElementPositioner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQSceneElementPositioner.h; sourceTree = "<group>"; };
 		A154CC501DFEE7440008A626 /* GameDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameDataManager.cpp; sourceTree = "<group>"; };
@@ -941,8 +1005,6 @@
 		A198621E1DD3836D0090F053 /* NavigationLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationLayer.h; sourceTree = "<group>"; };
 		A19862291DD383BD0090F053 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate.cpp; sourceTree = "<group>"; };
 		A198622A1DD383BD0090F053 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		A198622C1DD480A60090F053 /* BaseScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaseScene.cpp; sourceTree = "<group>"; };
-		A198622D1DD480A60090F053 /* BaseScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseScene.h; sourceTree = "<group>"; };
 		A1CC0C201E141B47008B469E /* HQDataParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQDataParser.cpp; sourceTree = "<group>"; };
 		A1CC0C211E141B47008B469E /* HQDataParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQDataParser.h; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -1445,6 +1507,8 @@
 				4315CD001EEEC91600B4F22C /* SettingsSubLayers */,
 				926A2ADB212D5D0300AE7964 /* SettingsHub.h */,
 				926A2AE0212D6F5500AE7964 /* SettingsHub.cpp */,
+				92E5856C221474010015A4FA /* ChildSettingsScene.h */,
+				92E5856D221475120015A4FA /* ChildSettingsScene.cpp */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -1464,6 +1528,9 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				92EC0C47223027DF00B02F20 /* Shop */,
+				923D5BEA2201E18A008C13D0 /* Rewards */,
+				92084F7121E78FB600DACCEB /* Tutorial */,
 				921A265B216E2775005C8C41 /* Vodacom */,
 				923EA8D220EBA6C200283342 /* addChild */,
 				929A9CF92063CD76009B323D /* MeArea */,
@@ -1481,7 +1548,6 @@
 				A1CC0C261E156882008B469E /* Intro */,
 				0243B9B01F387C43005D3734 /* ForceUpdate */,
 				A15B2FA41DEC73B800D25334 /* Login */,
-				A1CC0C141E1407B2008B469E /* BaseScene */,
 				300742F61EF93433005525AE /* Chat */,
 				A1CC0C161E1407BF008B469E /* Navigation */,
 				A19759861DE4931600FEB03C /* HQScene */,
@@ -1524,6 +1590,13 @@
 			name = Icons;
 			path = ios;
 			sourceTree = SOURCE_ROOT;
+		};
+		92084F7121E78FB600DACCEB /* Tutorial */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Tutorial;
+			sourceTree = "<group>";
 		};
 		921A265B216E2775005C8C41 /* Vodacom */ = {
 			isa = PBXGroup;
@@ -1611,6 +1684,27 @@
 				9220EADA2010F08200BD7A90 /* AddChildFlowController.cpp */,
 			);
 			name = DynamicNodeFlowControllers;
+			sourceTree = "<group>";
+		};
+		923D5BEA2201E18A008C13D0 /* Rewards */ = {
+			isa = PBXGroup;
+			children = (
+				923D5BEE2202012C008C13D0 /* CoinDisplay.h */,
+				923D5BEF22020475008C13D0 /* CoinDisplay.cpp */,
+				923D5BEB2201E287008C13D0 /* RewardScene.h */,
+				923D5BEC2201F125008C13D0 /* RewardScene.cpp */,
+				925B249822084B7B0000D7D2 /* CoinCollectLayer.h */,
+				925B249D22084B940000D7D2 /* CoinCollectLayer.cpp */,
+				925B249F2209C15C0000D7D2 /* AwesomeLayer.h */,
+				925B24A02209D9480000D7D2 /* AwesomeLayer.cpp */,
+				925B24A2220AEE020000D7D2 /* CoinChestLayer.h */,
+				925B24A3220AEE5F0000D7D2 /* CoinChestLayer.cpp */,
+				92E58560220DA5740015A4FA /* RewardScreen.h */,
+				92E58561220DB49F0015A4FA /* RewardScreen.cpp */,
+				92E5855A220D83AB0015A4FA /* RewardDisplayHandler.h */,
+				92E58563220DC7580015A4FA /* RewardDisplayHandler.cpp */,
+			);
+			name = Rewards;
 			sourceTree = "<group>";
 		};
 		923EA8D220EBA6C200283342 /* addChild */ = {
@@ -1714,6 +1808,26 @@
 			name = ArtApp;
 			sourceTree = "<group>";
 		};
+		92EC0C47223027DF00B02F20 /* Shop */ = {
+			isa = PBXGroup;
+			children = (
+				92EC0C46223027D300B02F20 /* ShopScene.h */,
+				92EC0C4E22312EA800B02F20 /* ShopScene.cpp */,
+				92EC0C4822302AC000B02F20 /* ShopCarousel.h */,
+				92EC0C5C2232805D00B02F20 /* ShopCarousel.cpp */,
+				92EC0C4922302AD700B02F20 /* ShopItemPage.h */,
+				92BDD4C32236AE4E00DA56F3 /* ShopItemPage.cpp */,
+				92EC0C4A22302AE400B02F20 /* ShopItem.h */,
+				92BDD4C022366D3100DA56F3 /* ShopItem.cpp */,
+				92EC0C4B22302B3400B02F20 /* ShopItemPurchasePopup.h */,
+				92BDD4CB22380D4700DA56F3 /* ShopItemPurchasePopup.cpp */,
+				92EC0C4C22302B4F00B02F20 /* ShopItemPurchasedAnimation.h */,
+				92BDD4CE223926CD00DA56F3 /* ShopItemPurchasedAnimation.cpp */,
+				92EC0C4D22302B7100B02F20 /* ShopOomeeItemPreview.h */,
+			);
+			name = Shop;
+			sourceTree = "<group>";
+		};
 		A15B2F9A1DE74F6900D25334 /* ContentPlaybackComponents */ = {
 			isa = PBXGroup;
 			children = (
@@ -1774,6 +1888,10 @@
 		A19759861DE4931600FEB03C /* HQScene */ = {
 			isa = PBXGroup;
 			children = (
+				923D5B7221FB5BA9008C13D0 /* HQScene.h */,
+				923D5BBD220064B9008C13D0 /* HQScene.cpp */,
+				923D5BC322007473008C13D0 /* ContentFeedHQScene.h */,
+				923D5BC422008BF1008C13D0 /* ContentFeedHQScene.cpp */,
 				021564701FC4A8F100641C14 /* HQScene2 */,
 				02E595C81E66E2160052F395 /* HQSceneArtsApp.cpp */,
 				02E595C91E66E2160052F395 /* HQSceneArtsApp.h */,
@@ -1797,15 +1915,6 @@
 			name = HQData;
 			sourceTree = "<group>";
 		};
-		A1CC0C141E1407B2008B469E /* BaseScene */ = {
-			isa = PBXGroup;
-			children = (
-				A198622C1DD480A60090F053 /* BaseScene.cpp */,
-				A198622D1DD480A60090F053 /* BaseScene.h */,
-			);
-			name = BaseScene;
-			sourceTree = "<group>";
-		};
 		A1CC0C161E1407BF008B469E /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
@@ -1824,6 +1933,8 @@
 				028DDEB4206CFB69006D7EC5 /* IntroVideoScene.cpp */,
 				921C75A22189DF5300EB93D6 /* LanguageSelectScene.h */,
 				921C75A7218B08D800EB93D6 /* LanguageSelectScene.cpp */,
+				92448AE021F7378400E88C9D /* WelcomeScene.h */,
+				92448AE521F73AEF00E88C9D /* WelcomeScene.cpp */,
 			);
 			name = Intro;
 			sourceTree = "<group>";
@@ -2299,23 +2410,27 @@
 			buildActionMask = 2147483647;
 			files = (
 				926A2B3221301BB800AE7964 /* SettingsOnlineSafetyPage.cpp in Sources */,
+				92E5856E221475120015A4FA /* ChildSettingsScene.cpp in Sources */,
 				928A6DD520EBDD4A0053E793 /* AddChildLayer.cpp in Sources */,
 				02D6446B2087828800FF17B4 /* WebViewController_ios.mm in Sources */,
 				02E595901E55F9960052F395 /* OfflineHubHQ.cpp in Sources */,
 				0281F5C71E89210C001FCE60 /* LoginLogicHandler.cpp in Sources */,
+				923D5BF022020475008C13D0 /* CoinDisplay.cpp in Sources */,
 				A19862221DD3836D0090F053 /* ChildSelectorScene.cpp in Sources */,
 				025BE9491E3A1E0000EF76D1 /* ArtsAppHQElement.cpp in Sources */,
 				025633791F3B0F5C0053FF26 /* ForceUpdateAppLockScene.cpp in Sources */,
 				921A2677216F9FF6005C8C41 /* VodacomOnboardingDetailsLayer.cpp in Sources */,
 				02074B271E93966D009BB28C /* WebGameAPIDataManager.cpp in Sources */,
 				02D644542087489800FF17B4 /* NativeContentInterface_ios.mm in Sources */,
+				92E58564220DC7580015A4FA /* RewardDisplayHandler.cpp in Sources */,
+				92E58562220DB49F0015A4FA /* RewardScreen.cpp in Sources */,
 				A15B2FCA1DFACF3800D25334 /* HQDataProvider.cpp in Sources */,
 				9295158B2091D48700F43AEC /* UserTypeMessagingLayer.cpp in Sources */,
 				921A267D216FA0A4005C8C41 /* VodacomOnboardingAddChildLayer.cpp in Sources */,
 				439694841EAA4A08003C17E6 /* PrivacyAndTermsLayer.cpp in Sources */,
 				921A2671216F9F85005C8C41 /* VodacomOnboardingVoucherLayer.cpp in Sources */,
 				02A11FF71EA6375D007EDD95 /* GooglePaymentSingleton.cpp in Sources */,
-				A198622E1DD480A60090F053 /* BaseScene.cpp in Sources */,
+				925B24A12209D9480000D7D2 /* AwesomeLayer.cpp in Sources */,
 				4343CB9C1EBB826600247549 /* DeepLinkingSingleton.cpp in Sources */,
 				025633741F39AB5D0053FF26 /* ForceUpdateSingleton.cpp in Sources */,
 				028DDEB5206CFB69006D7EC5 /* IntroVideoScene.cpp in Sources */,
@@ -2325,10 +2440,12 @@
 				921A26BF217E1653005C8C41 /* VodacomMessageBoxInfo.cpp in Sources */,
 				924E8455214141DC004590FD /* KidDetailsLayer.cpp in Sources */,
 				927DF6E320AECA620080DFEF /* MeHQGallery.cpp in Sources */,
+				923D5BBE220064B9008C13D0 /* HQScene.cpp in Sources */,
 				926A2B2C212F018E00AE7964 /* SettingsPageHeader.cpp in Sources */,
 				921A266D216F958B005C8C41 /* VodacomOnboardingLayer.cpp in Sources */,
 				026BAF781E3FFD33009C4ACE /* HQHistoryManager.cpp in Sources */,
 				920F6FDE213EB76300B7BB76 /* SettingsFriendshipsPage.cpp in Sources */,
+				92BDD4C122366D3100DA56F3 /* ShopItem.cpp in Sources */,
 				928A6E8920EE5C880053E793 /* ChildAgeLayer.cpp in Sources */,
 				92759EB21FE81F6300639190 /* ContentOpener.cpp in Sources */,
 				921A25FD2164E8DE005C8C41 /* SettingsMessageBoxTryAgain.cpp in Sources */,
@@ -2375,6 +2492,7 @@
 				9224BFB41F7932D200108553 /* ButtonActionData.cpp in Sources */,
 				928A6E8B20EE62270053E793 /* ChildOomeeLayer.cpp in Sources */,
 				921A267B216FA05A005C8C41 /* VodacomOnboardingPinLayer.cpp in Sources */,
+				92448AE621F73AEF00E88C9D /* WelcomeScene.cpp in Sources */,
 				921A2673216F9FA1005C8C41 /* VodacomOnboardingLoginLayer.cpp in Sources */,
 				926A2B3921356C2000AE7964 /* EditAccountLayer.cpp in Sources */,
 				9271D7D32040557D00370120 /* OomeeMakerDelegate.cpp in Sources */,
@@ -2387,9 +2505,12 @@
 				9224BFB11F7908D400108553 /* DynamicNodeButtonListener.cpp in Sources */,
 				92759E701FE1598100639190 /* DynamicNodeLine.cpp in Sources */,
 				921A2679216FA030005C8C41 /* VodacomOnboardingErrorLayer.cpp in Sources */,
+				92BDD4C42236AE4E00DA56F3 /* ShopItemPage.cpp in Sources */,
 				924ACE3720A9C541007A5550 /* MeHQProfileDetails.cpp in Sources */,
 				A19862271DD3836D0090F053 /* NavigationLayer.cpp in Sources */,
 				A198622B1DD383BD0090F053 /* AppDelegate.cpp in Sources */,
+				925B249E22084B940000D7D2 /* CoinCollectLayer.cpp in Sources */,
+				923D5BC522008BF1008C13D0 /* ContentFeedHQScene.cpp in Sources */,
 				9220EAD5200F77E200BD7A90 /* SignUpFlowController.cpp in Sources */,
 				02E595C31E5D9EE70052F395 /* OfflineText.cpp in Sources */,
 				02A11FF81EA6375D007EDD95 /* RoutePaymentSingleton.cpp in Sources */,
@@ -2398,17 +2519,22 @@
 				924E8450214117D9004590FD /* SettingsMessageBoxRejectFR.cpp in Sources */,
 				02E595861E55DE670052F395 /* OfflineHubScene.cpp in Sources */,
 				02E595CA1E66E2160052F395 /* HQSceneArtsApp.cpp in Sources */,
+				92EC0C5D2232805D00B02F20 /* ShopCarousel.cpp in Sources */,
 				A1CC0C241E141B47008B469E /* HQDataParser.cpp in Sources */,
 				02A11FF61EA6375D007EDD95 /* AmazonPaymentSingleton.cpp in Sources */,
 				9289DB471FD8414F00B12435 /* DynamicNodeText.cpp in Sources */,
 				43BCD71E1EC9FD4E00A07737 /* SceneManagerScene.cpp in Sources */,
 				92A9A0A91F0D1775008A19EB /* ArtAppDelegate.cpp in Sources */,
+				92BDD4CC22380D4700DA56F3 /* ShopItemPurchasePopup.cpp in Sources */,
 				4396947D1EAA4855003C17E6 /* ApplePaymentSingleton.mm in Sources */,
 				921A25F72162830A005C8C41 /* LanguageListItem.cpp in Sources */,
 				02D4FCD41FCF0D0C005BA020 /* IAPProductDataHandler.cpp in Sources */,
+				92EC0C4F22312EA800B02F20 /* ShopScene.cpp in Sources */,
 				929D46671F73F04D006E40CE /* DynamicNodeCreator.cpp in Sources */,
 				9289DAF31FCEDB1F00B12435 /* DynamicNodeDataInputStorage.cpp in Sources */,
 				02E5959C1E56FC3A0052F395 /* OfflineChecker.cpp in Sources */,
+				92BDD4CF223926CD00DA56F3 /* ShopItemPurchasedAnimation.cpp in Sources */,
+				923D5BED2201F126008C13D0 /* RewardScene.cpp in Sources */,
 				02E595B91E5CA2690052F395 /* OfflineHubBackButton.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				A134ADCE1E0C0F420030BE98 /* HQSceneElementPositioner.cpp in Sources */,
@@ -2418,6 +2544,7 @@
 				02E595931E55F9BB0052F395 /* OfflineHubHQElement.cpp in Sources */,
 				926A2B0C212EABB000AE7964 /* SettingsNavigationButton.cpp in Sources */,
 				02E5958C1E55F5ED0052F395 /* OfflineGameSearch.cpp in Sources */,
+				925B24A4220AEE5F0000D7D2 /* CoinChestLayer.cpp in Sources */,
 				927DF72420B593600080DFEF /* MeHQFavourites.cpp in Sources */,
 				4319D3E21E67134600110F92 /* LoginScene.cpp in Sources */,
 				929A9D57206CF9F1009B323D /* FavouritesManager.cpp in Sources */,
@@ -2449,6 +2576,7 @@
 				92E5864E222425360015A4FA /* WebViewController_ios.mm in Sources */,
 				92E5864F222425360015A4FA /* OfflineHubHQ.cpp in Sources */,
 				92E58650222425360015A4FA /* LoginLogicHandler.cpp in Sources */,
+				92BDD4C52236AE4E00DA56F3 /* ShopItemPage.cpp in Sources */,
 				92E58651222425360015A4FA /* ChildSelectorScene.cpp in Sources */,
 				92E58652222425360015A4FA /* ArtsAppHQElement.cpp in Sources */,
 				92E58653222425360015A4FA /* ForceUpdateAppLockScene.cpp in Sources */,
@@ -2460,14 +2588,15 @@
 				92E58659222425360015A4FA /* VodacomOnboardingAddChildLayer.cpp in Sources */,
 				92E5865A222425360015A4FA /* PrivacyAndTermsLayer.cpp in Sources */,
 				92E5865B222425360015A4FA /* VodacomOnboardingVoucherLayer.cpp in Sources */,
+				92BDD4B42232CCA200DA56F3 /* CoinDisplay.cpp in Sources */,
 				92E5865C222425360015A4FA /* GooglePaymentSingleton.cpp in Sources */,
-				92E5865D222425360015A4FA /* BaseScene.cpp in Sources */,
 				92E5865E222425360015A4FA /* DeepLinkingSingleton.cpp in Sources */,
 				92E5865F222425360015A4FA /* ForceUpdateSingleton.cpp in Sources */,
 				92E58660222425360015A4FA /* IntroVideoScene.cpp in Sources */,
 				92E58661222425360015A4FA /* AddChildScene.cpp in Sources */,
 				92E58662222425360015A4FA /* WebViewSelector.cpp in Sources */,
 				92E58663222425360015A4FA /* PaymentViewController_ios.mm in Sources */,
+				92BDD4BE2232CCB100DA56F3 /* RewardDisplayHandler.cpp in Sources */,
 				92E58664222425360015A4FA /* VodacomMessageBoxInfo.cpp in Sources */,
 				92E58665222425360015A4FA /* KidDetailsLayer.cpp in Sources */,
 				92E58666222425360015A4FA /* MeHQGallery.cpp in Sources */,
@@ -2492,6 +2621,8 @@
 				92E58679222425360015A4FA /* WebViewNativeCaller_android.cpp in Sources */,
 				92E5867A222425360015A4FA /* MeHQ.cpp in Sources */,
 				92E5867B222425360015A4FA /* SettingsKidsPage.cpp in Sources */,
+				92BDD4D0223926CD00DA56F3 /* ShopItemPurchasedAnimation.cpp in Sources */,
+				92EC0C5022312F6F00B02F20 /* ShopScene.cpp in Sources */,
 				92E5867C222425360015A4FA /* ChatDelegate.cpp in Sources */,
 				92E5867D222425360015A4FA /* ChildNameLayerFirstTime.cpp in Sources */,
 				92E5867E222425360015A4FA /* ManualGameInputLayer.cpp in Sources */,
@@ -2507,6 +2638,7 @@
 				92E58688222425360015A4FA /* VodacomMessageBoxExitFlow.cpp in Sources */,
 				92E58689222425360015A4FA /* SettingsHub.cpp in Sources */,
 				92E5868A222425360015A4FA /* VodacomOnboardingDCBWebview.cpp in Sources */,
+				92BDD4C222366D3100DA56F3 /* ShopItem.cpp in Sources */,
 				92E5868B222425360015A4FA /* DynamicNodeButton.cpp in Sources */,
 				92E5868C222425360015A4FA /* SettingsSupportPage.cpp in Sources */,
 				92E5868D222425360015A4FA /* VideoPlaylistManager.cpp in Sources */,
@@ -2515,8 +2647,10 @@
 				92E58690222425360015A4FA /* DynamicNodeCheckBox.cpp in Sources */,
 				92E58691222425360015A4FA /* DynamicNodeTextInput.cpp in Sources */,
 				92E58692222425360015A4FA /* SettingsMessageBox.cpp in Sources */,
+				92BDD4BD2232CCAF00DA56F3 /* RewardScreen.cpp in Sources */,
 				92E58693222425360015A4FA /* FlowDataSingleton.cpp in Sources */,
 				92E58694222425360015A4FA /* OfflineHubSceneVisuals.cpp in Sources */,
+				92EC0C5E2232805D00B02F20 /* ShopCarousel.cpp in Sources */,
 				92E58695222425360015A4FA /* VodacomOnboardingSuccessLayer.cpp in Sources */,
 				92E58696222425360015A4FA /* ButtonActionData.cpp in Sources */,
 				92E58697222425360015A4FA /* ChildOomeeLayer.cpp in Sources */,
@@ -2561,6 +2695,7 @@
 				92E586BE222425360015A4FA /* MeHQRecentlyPlayed.cpp in Sources */,
 				92E586BF222425360015A4FA /* SettingsButton.cpp in Sources */,
 				92E586C0222425360015A4FA /* ChildCreator.cpp in Sources */,
+				92BDD4B92232CCA500DA56F3 /* RewardScene.cpp in Sources */,
 				92E586C1222425360015A4FA /* OfflineHubHQElement.cpp in Sources */,
 				92E586C2222425360015A4FA /* SettingsNavigationButton.cpp in Sources */,
 				92E586C3222425360015A4FA /* OfflineGameSearch.cpp in Sources */,
@@ -2569,12 +2704,17 @@
 				92E586C6222425360015A4FA /* FavouritesManager.cpp in Sources */,
 				92E586C7222425360015A4FA /* HQSceneElement.cpp in Sources */,
 				92E586C8222425360015A4FA /* IAPFlowController.cpp in Sources */,
+				92BDD4BA2232CCA700DA56F3 /* CoinCollectLayer.cpp in Sources */,
 				92E586C9222425360015A4FA /* LanguageSelectScene.cpp in Sources */,
+				92BDD4CD22380D4700DA56F3 /* ShopItemPurchasePopup.cpp in Sources */,
 				92E586CA222425360015A4FA /* SettingsMessageBoxNotification.cpp in Sources */,
 				92E586CB222425360015A4FA /* VodacomMessageBoxNotification.cpp in Sources */,
 				92E586CC222425360015A4FA /* MeHQMessages.cpp in Sources */,
 				92E586CD222425360015A4FA /* GameDataManager.cpp in Sources */,
 				92E586CE222425360015A4FA /* VodacomOnboardingRegisterLayer.cpp in Sources */,
+				92BDD4BB2232CCA900DA56F3 /* AwesomeLayer.cpp in Sources */,
+				92BDD4BF2232CCC300DA56F3 /* ChildSettingsScene.cpp in Sources */,
+				92BDD4BC2232CCAC00DA56F3 /* CoinChestLayer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

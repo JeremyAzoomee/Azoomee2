@@ -38,7 +38,7 @@ bool MeHQProfileDetails::init()
         is3x4Device = true;
     }
     
-    this->setContentSize(Size(visibleSize.width, isPortrait ? 1500 : 1000)); // portrait stacks elements vertically, so 2x height
+    this->setContentSize(Size(visibleSize.width, isPortrait ? 1500 : 1000)); // portrait stacks elements vertically, so 1.5x height
     
     const Size& contentSize = this->getContentSize();
     
@@ -62,12 +62,12 @@ bool MeHQProfileDetails::init()
         {
             AnalyticsSingleton::getInstance()->contentItemSelectedEvent(ConfigStorage::kOomeeMakerURI);
             CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Edit_Button.wav");
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(OomeeMakerEntryPointScene));
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OomeeMakerEntryPointScene));
         }
     });
-    _profileImageDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
-    _profileImageDownloader->downloadImage(this, ChildDataProvider::getInstance()->getLoggedInChildAvatarId());
-    
+	
+	_profileImageDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
+	_profileImageDownloader->downloadImage(this, ChildDataProvider::getInstance()->getParentOrChildAvatarId());
     avatarLayout->addChild(_avatar);
     
     Sprite* editIcon = Sprite::create("res/oomeeMaker/edit_button.png");
@@ -81,7 +81,7 @@ bool MeHQProfileDetails::init()
     _labelLayout->setSizePercent(isPortrait ? Vec2(1.0,0.34) : Vec2(0.5,1.0));
     this->addChild(_labelLayout);
     
-    _nameLabel = Label::createWithTTF(ChildDataProvider::getInstance()->getLoggedInChildName(),Style::Font::Regular() , is3x4Device ? 96 : 140);
+    _nameLabel = Label::createWithTTF(ChildDataProvider::getInstance()->getParentOrChildName(),Style::Font::Regular() , is3x4Device ? 96 : 140);
     _nameLabel->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE : Vec2::ANCHOR_MIDDLE_BOTTOM);
     _nameLabel->setNormalizedPosition(Vec2(0.5,isPortrait ? 0.60 : 0.5));
     _nameLabel->setContentSize(Size(contentSize.width /2, contentSize.height / 3.0f));
@@ -90,7 +90,7 @@ bool MeHQProfileDetails::init()
     
     _labelLayout->addChild(_nameLabel);
     
-    _kidCodeLabel = ui::Text::create(_("Kid Code:") + " " + ParentDataProvider::getInstance()->getInviteCodeForAnAvailableChild(ChildDataProvider::getInstance()->getLoggedInChildNumber()), Style::Font::Regular(), is3x4Device ? 67 : 80);
+	_kidCodeLabel = ui::Text::create(_("Kid Code:") + " " + ChildDataProvider::getInstance()->getLoggedInChild()->getInviteCode(), Style::Font::Regular(), is3x4Device ? 67 : 80);
     _kidCodeLabel->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE : Vec2::ANCHOR_MIDDLE_TOP);
     _kidCodeLabel->setNormalizedPosition(Vec2(0.5,isPortrait ? 0.25 : 0.45));
     _kidCodeLabel->setContentSize(Size(contentSize.width /2, contentSize.height / 3.0f));
@@ -102,18 +102,45 @@ bool MeHQProfileDetails::init()
 
 void MeHQProfileDetails::onEnter()
 {
+	TutorialController::getInstance()->registerDelegate(this);
+	if(TutorialController::getInstance()->isTutorialActive())
+	{
+		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
+	}
     Super::onEnter();
 }
 
 void MeHQProfileDetails::onExit()
 {
-    _profileImageDownloader->setDelegate(nullptr);
+	TutorialController::getInstance()->unRegisterDelegate(this);
+	if(_profileImageDownloader)
+	{
+    	_profileImageDownloader->setDelegate(nullptr);
+	}
     Super::onExit();
 }
 
 void MeHQProfileDetails::onSizeChanged()
 {
     Super::onSizeChanged();
+}
+
+void MeHQProfileDetails::highlightOomeButton()
+{
+	enableOomeeButton(true);
+	Sprite* glow = Sprite::create("res/childSelection/glow.png");
+	glow->setContentSize(_avatar->getContentSize() * _avatar->getScale());
+	glow->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	glow->runAction(RepeatForever::create(Sequence::createWithTwoActions(ScaleTo::create(1.0f, 0.5f), ScaleTo::create(1.0f, 1.5f))));
+	glow->setName("glow");
+	_avatar->addChild(glow, -1);
+	
+}
+
+void MeHQProfileDetails::enableOomeeButton(bool enable)
+{
+	_avatar->removeChildByName("glow");
+	_avatar->setTouchEnabled(enable);
 }
 
 void MeHQProfileDetails::onImageDownloadComplete(const ImageDownloaderRef& downloader)
@@ -127,5 +154,11 @@ void MeHQProfileDetails::onImageDownloadFailed()
 {
     
 }
+
+void MeHQProfileDetails::onTutorialStateChanged(const std::string& stateId)
+{
+	enableOomeeButton(stateId == TutorialController::kTutorialEnded);
+}
+
 
 NS_AZOOMEE_END

@@ -11,6 +11,8 @@
 #include "../AzoomeeOomeeMaker.h"
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Data/Json.h>
+#include "AssetData.h"
+#include "OomeeColour.h"
 
 NS_AZOOMEE_OM_BEGIN
 
@@ -19,7 +21,6 @@ typedef std::shared_ptr<Oomee> OomeeRef;
 
 class Oomee
 {
-    typedef std::map<std::string, std::pair<std::string, int>> AssetMap; // {colour id key, {asset name, zorder}}
 private:
     std::string _id;
     std::map<std::string, cocos2d::Vec2> _anchorPoints;
@@ -29,14 +30,15 @@ private:
     cocos2d::Vec2 _position;
     float _scale;
     float _sizeMultiplier;
-    AssetMap _assetSet;
+    AssetSet _assetSet;
+	OomeeColourRef _colour = nullptr;
     
 public:
     static OomeeRef create();
-    static OomeeRef createWithData(const rapidjson::Document& oomeeConfig);
+    static OomeeRef createWithData(const rapidjson::Value& oomeeConfig);
     Oomee();
     
-    void initWithData(const rapidjson::Document& oomeeConfig);
+    void initWithData(const rapidjson::Value& oomeeConfig);
     
     void setId(const std::string& id);
     std::string getId() const;
@@ -54,9 +56,10 @@ public:
     float getScale() const;
     void setSizeMultiplier(float sizeMultiplier);
     float getSizeMultiplier() const;
-    void setAssetSet(const AssetMap& assetSet);
-    AssetMap getAssetSet() const;
-    
+    void setAssetSet(const AssetSet& assetSet);
+    AssetSet getAssetSet() const;
+	OomeeColourRef getColour() const;
+	
 };
 
 NS_AZOOMEE_OM_END

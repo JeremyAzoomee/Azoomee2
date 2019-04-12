@@ -111,13 +111,16 @@ void AnalyticsSingleton::registerBillingProvider(std::string provider)
     mixPanelRegisterSuperProperties("billingProvider",provider);
 }
 
-void AnalyticsSingleton::registerChildGenderAndAge(int childNumber)
+void AnalyticsSingleton::registerChildGenderAndAge(const ChildRef& child)
 {
-    mixPanelRegisterSuperProperties("sex",ParentDataProvider::getInstance()->getSexForAnAvailableChild(childNumber));
+	if(child)
+	{
+    	mixPanelRegisterSuperProperties("sex",child->getSex());
     
-    int childAge = ageFromDOBString(ParentDataProvider::getInstance()->getDOBForAnAvailableChild(childNumber));
+    	int childAge = ageFromDOBString(child->getDOB());
     
-    mixPanelRegisterSuperProperties("age",cocos2d::StringUtils::format("%s%d",NUMBER_IDENTIFIER, childAge));
+    	mixPanelRegisterSuperProperties("age",cocos2d::StringUtils::format("%s%d",NUMBER_IDENTIFIER, childAge));
+	}
 }
     
 void AnalyticsSingleton::registerSessionId(std::string sessionId)
@@ -312,6 +315,21 @@ void AnalyticsSingleton::childProfileCreatedEvent(int age)
     mixPanelSendEventWithStoredProperties("childProfileCreatedEvent", mixPanelProperties);
 }
 
+void AnalyticsSingleton::createChildFlowEvent(const std::string& flowState)
+{
+	mixPanelSendEventWithStoredProperties("CreateChild_" + flowState);
+}
+
+void AnalyticsSingleton::createChildNextPressed()
+{
+	mixPanelSendEventWithStoredProperties("CreateChild_NextPressed");
+}
+
+void AnalyticsSingleton::createChildBackPressed()
+{
+	mixPanelSendEventWithStoredProperties("CreateChild_BackPressed");
+}
+
 //-------------HUB ACTIONS-------------------
 
     void AnalyticsSingleton::navSelectionEvent(std::string hubOrTop, const std::string& buttonName)
@@ -408,8 +426,9 @@ void AnalyticsSingleton::contentItemClosedEvent()
     double secondsOpened = difftime(now,_analyticsProperties->getTimeOpenedContent());
     
     secondsOpened -= SessionIdManager::getInstance()->getBackgroundTimeInContent();
-    
-    _analyticsProperties->addPropertyToStoredContentItemProperties("SecondsInContent", cocos2d::StringUtils::format("%s%.f",NUMBER_IDENTIFIER, secondsOpened));
+	
+	
+    _analyticsProperties->addPropertyToStoredContentItemProperties(AnalyticsProperties::kSecondsInContentKey, cocos2d::StringUtils::format("%s%.f",NUMBER_IDENTIFIER, secondsOpened));
     
     mixPanelSendEventWithStoredProperties("contentItemClosed", _analyticsProperties->getStoredContentItemProperties());
     
@@ -897,6 +916,75 @@ void AnalyticsSingleton::vodacomOnboardingFlowMoveToScreen(const std::string& ne
 void AnalyticsSingleton::vodacomOnboardingVoucherAdded(const std::string& voucherCode)
 {
 	mixPanelSendEventWithStoredProperties("vodacomOnboardingVoucherAdded" ,{{"voucherCode", voucherCode}});
+}
+
+//-------------Rewards events-------------------------------
+void AnalyticsSingleton::rewardRedeemedEvent(int value)
+{
+	mixPanelSendEventWithStoredProperties("RewardRedeemed" ,{{"rewardValue", cocos2d::StringUtils::format("%d",value)}});
+}
+void AnalyticsSingleton::rewardAnimBeginEvent(int value)
+{
+	mixPanelSendEventWithStoredProperties("RewardAnimationBegin" ,{{"rewardValue", cocos2d::StringUtils::format("%d",value)}});
+}
+void AnalyticsSingleton::rewardAnimCloseEvent(int value)
+{
+	mixPanelSendEventWithStoredProperties("RewardAnimationClose" ,{{"rewardValue", cocos2d::StringUtils::format("%d",value)}});
+}
+void AnalyticsSingleton::rewardAnimGoToShopEvent(int value)
+{
+	mixPanelSendEventWithStoredProperties("RewardAnimationGoToShop" ,{{"rewardValue", cocos2d::StringUtils::format("%d",value)}});
+}
+
+//-------------Shop events----------------------------------
+void AnalyticsSingleton::shopPageTurned(int pageNumber)
+{
+	mixPanelSendEventWithStoredProperties("ShopPageTurned" ,{{"pageNumber", cocos2d::StringUtils::format("%d",pageNumber)}});
+}
+void AnalyticsSingleton::shopItemPressed(int itemPos, const ShopDisplayItemRef& item)
+{
+	mixPanelSendEventWithStoredProperties("ShopItemPressed" ,{
+		{"itemPos", cocos2d::StringUtils::format("%d",itemPos)},
+		{"itemName", item->getInventoryItem()->getName()}
+	});
+}
+void AnalyticsSingleton::shopLockedItemPressed(int itemPos, const ShopDisplayItemRef& item)
+{
+	mixPanelSendEventWithStoredProperties("ShopLockedItemPressed" ,{
+		{"itemPos", cocos2d::StringUtils::format("%d",itemPos)},
+		{"itemName", item->getInventoryItem()->getName()}
+	});
+}
+void AnalyticsSingleton::shopUnaffordableItemPressed(int itemPos, const ShopDisplayItemRef& item)
+{
+	mixPanelSendEventWithStoredProperties("ShopUnaffordableItemPressed" ,{
+		{"itemPos", cocos2d::StringUtils::format("%d",itemPos)},
+		{"itemName", item->getInventoryItem()->getName()}
+	});
+}
+void AnalyticsSingleton::shopItemPurchased(const ShopDisplayItemRef& item)
+{
+	mixPanelSendEventWithStoredProperties("ShopItemPurchased" ,{
+		{"itemName", item->getInventoryItem()->getName()}
+	});
+}
+void AnalyticsSingleton::shopPurchasePopupClosed(const ShopDisplayItemRef& item)
+{
+	mixPanelSendEventWithStoredProperties("ShopPurchasePopupClosed" ,{
+		{"itemName", item->getInventoryItem()->getName()}
+	});
+}
+void AnalyticsSingleton::shopPurchseAnimClosed(const ShopDisplayItemRef& item)
+{
+	mixPanelSendEventWithStoredProperties("ShopPurchasedAnimClosed" ,{
+		{"itemName", item->getInventoryItem()->getName()}
+	});
+}
+void AnalyticsSingleton::shopPurchasedAnimUsePressed(const ShopDisplayItemRef& item)
+{
+	mixPanelSendEventWithStoredProperties("ShopPurchasedAnimUsePressed" ,{
+		{"itemName", item->getInventoryItem()->getName()}
+	});
 }
 
 NS_AZOOMEE_END

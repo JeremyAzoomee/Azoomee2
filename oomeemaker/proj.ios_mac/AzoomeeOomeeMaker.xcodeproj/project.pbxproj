@@ -80,6 +80,10 @@
 		9271D8152046B86F00370120 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9271D8132046B86E00370120 /* Crashlytics.framework */; };
 		9271D8162046B86F00370120 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9271D8142046B86F00370120 /* Fabric.framework */; };
 		9271D8192046B8FB00370120 /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9271D8182046B8FB00370120 /* libicucore.tbd */; };
+		92BDD4D8223BCB0E00DA56F3 /* AssetData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4D7223BCB0E00DA56F3 /* AssetData.cpp */; };
+		92BDD4D9223BCB0E00DA56F3 /* AssetData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4D7223BCB0E00DA56F3 /* AssetData.cpp */; };
+		92BDD4E92242963900DA56F3 /* AirshipKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92BDD4E72242963900DA56F3 /* AirshipKit.framework */; };
+		92BDD4EA2242965700DA56F3 /* AirshipKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92BDD4E72242963900DA56F3 /* AirshipKit.framework */; };
 		92BEEFD12034532E00B32059 /* AzoomeeOomeeMaker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BEEFD02034532E00B32059 /* AzoomeeOomeeMaker.cpp */; };
 		92BEEFE020359C5500B32059 /* Oomee.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BEEFDF20359C5500B32059 /* Oomee.cpp */; };
 		92BEEFE220359C7800B32059 /* ItemCategory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BEEFE120359C7800B32059 /* ItemCategory.cpp */; };
@@ -226,8 +230,8 @@
 		52B47A461A53D09B004E4C60 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		8262943D1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		9220EC7220333C4000BD7A90 /* AzoomeeCommon.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AzoomeeCommon.xcodeproj; path = ../common/proj.ios_mac/AzoomeeCommon.xcodeproj; sourceTree = "<group>"; };
-		9220ECAF20333E8800BD7A90 /* cocos2d_libs.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2d_libs.xcodeproj; path = "../cocos2d/build/cocos2d_libs.xcodeproj"; sourceTree = "<group>"; };
-		9220ECBB20333EA600BD7A90 /* cocos2d_libs.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2d_libs.xcodeproj; path = "../cocos2d/build/cocos2d_libs.xcodeproj"; sourceTree = "<group>"; };
+		9220ECAF20333E8800BD7A90 /* cocos2d_libs.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2d_libs.xcodeproj; path = ../cocos2d/build/cocos2d_libs.xcodeproj; sourceTree = "<group>"; };
+		9220ECBB20333EA600BD7A90 /* cocos2d_libs.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2d_libs.xcodeproj; path = ../cocos2d/build/cocos2d_libs.xcodeproj; sourceTree = "<group>"; };
 		9227576C20C5532800C66BCD /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/AdSupport.framework; sourceTree = DEVELOPER_DIR; };
 		9227577320C5537B00C66BCD /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/LocalAuthentication.framework; sourceTree = DEVELOPER_DIR; };
 		9227577520C56DA400C66BCD /* OomeeAccessory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OomeeAccessory.h; sourceTree = "<group>"; };
@@ -268,6 +272,9 @@
 		9271D8132046B86E00370120 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = ../../proj.ios_mac/Crashlytics.framework; sourceTree = "<group>"; };
 		9271D8142046B86F00370120 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Fabric.framework; path = ../../proj.ios_mac/Fabric.framework; sourceTree = "<group>"; };
 		9271D8182046B8FB00370120 /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.1.sdk/usr/lib/libicucore.tbd; sourceTree = DEVELOPER_DIR; };
+		92BDD4D1223BC2F100DA56F3 /* AssetData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AssetData.h; sourceTree = "<group>"; };
+		92BDD4D7223BCB0E00DA56F3 /* AssetData.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AssetData.cpp; sourceTree = "<group>"; };
+		92BDD4E72242963900DA56F3 /* AirshipKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AirshipKit.framework; path = ../../common/proj.ios_mac/Carthage/Build/iOS/AirshipKit.framework; sourceTree = "<group>"; };
 		92BEEFC72034502F00B32059 /* OomeeMakerDataStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OomeeMakerDataStorage.h; sourceTree = "<group>"; };
 		92BEEFCF203450C200B32059 /* AzoomeeOomeeMaker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AzoomeeOomeeMaker.h; sourceTree = "<group>"; };
 		92BEEFD02034532E00B32059 /* AzoomeeOomeeMaker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AzoomeeOomeeMaker.cpp; sourceTree = "<group>"; };
@@ -317,6 +324,7 @@
 				D44C620C132DFF330009C878 /* OpenAL.framework in Frameworks */,
 				D44C620E132DFF430009C878 /* AVFoundation.framework in Frameworks */,
 				D44C6210132DFF4E0009C878 /* AudioToolbox.framework in Frameworks */,
+				92BDD4EA2242965700DA56F3 /* AirshipKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,6 +332,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92BDD4E92242963900DA56F3 /* AirshipKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -357,6 +366,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				92BDD4E72242963900DA56F3 /* AirshipKit.framework */,
 				9271D8102046B84700370120 /* AirshipConfig.plist */,
 				9220ECBB20333EA600BD7A90 /* cocos2d_libs.xcodeproj */,
 				46880B8319C43A87006E1F66 /* Classes */,
@@ -566,6 +576,8 @@
 				92BEEFE320359C8B00B32059 /* OomeeItem.cpp */,
 				9227577620C5717F00C66BCD /* OomeeColour.h */,
 				9227577720C5730200C66BCD /* OomeeColour.cpp */,
+				92BDD4D1223BC2F100DA56F3 /* AssetData.h */,
+				92BDD4D7223BCB0E00DA56F3 /* AssetData.cpp */,
 			);
 			path = DataObjects;
 			sourceTree = "<group>";
@@ -580,6 +592,7 @@
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
+				92BDD4E3224293C000DA56F3 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -765,6 +778,24 @@
 			shellScript = "# Copy all header files from Classes directory\nHEADERS_SRC=\"${SRCROOT}/../Classes/AzoomeeOomeeMaker\"\n# Copy header files into the built products directory\nHEADERS_DEST=\"${BUILT_PRODUCTS_DIR}/include/${PRODUCT_NAME}\"\n\n# Ensure the dest directory exists\nmkdir -p \"${HEADERS_DEST}\"\n\n# Use rsync to copy files\nrsync -q --include \"*.h\" --filter 'hide,! */' -avm \"${HEADERS_SRC}/\" \"${HEADERS_DEST}/\"\n";
 			showEnvVarsInLog = 0;
 		};
+		92BDD4E3224293C000DA56F3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/AirshipKit.framework",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Check carthage command exists\ncommand -v carthage >/dev/null 2>&1 || { echo >&2 \"Error! carthage not found! Tip - Install using: 'brew install carthage'\"; exit 1; }\n\ncarthage copy-frameworks\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -780,6 +811,7 @@
 				9271D774203AE3FA00370120 /* OomeeItemList.cpp in Sources */,
 				9227577B20C57B7800C66BCD /* OomeeAccessory.cpp in Sources */,
 				92BEEFE820359D3F00B32059 /* OomeeMakerDataHandler.cpp in Sources */,
+				92BDD4D8223BCB0E00DA56F3 /* AssetData.cpp in Sources */,
 				9271D77A203B0ED400370120 /* OomeeFigure.cpp in Sources */,
 				924398A5205BE22500CEDC1D /* OomeeCarouselButton.cpp in Sources */,
 				9271D784203D8E9B00370120 /* OomeeMakerScene.cpp in Sources */,
@@ -810,6 +842,7 @@
 				9227577920C5730200C66BCD /* OomeeColour.cpp in Sources */,
 				9271D7B820404CCA00370120 /* OomeeItem.cpp in Sources */,
 				9271D7B920404CCA00370120 /* ItemCategoryButton.cpp in Sources */,
+				92BDD4D9223BCB0E00DA56F3 /* AssetData.cpp in Sources */,
 				924398A6205BE22500CEDC1D /* OomeeCarouselButton.cpp in Sources */,
 				9271D7BA20404CCA00370120 /* ItemCategoryList.cpp in Sources */,
 				9227577C20C57B7800C66BCD /* OomeeAccessory.cpp in Sources */,
@@ -875,7 +908,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = ios/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
 					"$(_COCOS_LIB_IOS_BEGIN)",
@@ -913,7 +946,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = ios/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
 					"$(_COCOS_LIB_IOS_BEGIN)",

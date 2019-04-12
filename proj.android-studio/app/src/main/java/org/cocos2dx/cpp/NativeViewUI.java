@@ -162,8 +162,9 @@ public class NativeViewUI extends Activity {
             vg.removeView(uiWebView);
 
             uiWebView.destroy();
+            JNICalls.JNISendProgressMetaDataGame();
         }
-
+        
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override

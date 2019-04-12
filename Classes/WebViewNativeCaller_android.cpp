@@ -17,6 +17,7 @@
 #include <AzoomeeCommon/Strings.h>
 #include "ChatDelegate.h"
 #include "BackEndCaller.h"
+#include <AzoomeeCommon/API/API.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/jni/JniHelper.h"
@@ -124,11 +125,11 @@ void WebViewNativeCaller_android::onEnterTransitionDidFinish()
 {
     AudioMixer::getInstance()->stopBackgroundMusic();
     Director::getInstance()->purgeCachedData();
-    this->setName("androidWebView");
+    this->setName(ConfigStorage::kAndroidWebviewName);
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     SessionIdManager::getInstance()->registerAndroidSceneChangeEvent();
-    JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "startWebView", loadUrl,ChildDataProvider::getInstance()->getLoggedInChildId(),(int)_orientation, _closeButtonAnchor.x, _closeButtonAnchor.y, _videoProgressSeconds);
+    JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "startWebView", loadUrl,ChildDataProvider::getInstance()->getParentOrChildId(),(int)_orientation, _closeButtonAnchor.x, _closeButtonAnchor.y, _videoProgressSeconds);
         
 #endif
 }
@@ -156,7 +157,7 @@ extern "C"
 
 JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_getBackToLoginScreen(JNIEnv* env, jobject thiz)
 {
-    HQHistoryManager::getInstance()->thereWasAnError = true;
+    HQHistoryManager::getInstance()->setHasError(true);
 }
 
 #endif
@@ -342,7 +343,7 @@ extern "C"
 
 JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIShareInChat(JNIEnv* env, jobject thiz)
 {
-	if(!HQHistoryManager::getInstance()->isOffline)
+	if(!HQHistoryManager::getInstance()->isOffline())
 	{
     	ChatDelegate::getInstance()->_sharedContentId = ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId();
 	}
@@ -359,7 +360,7 @@ extern "C"
 
 JNIEXPORT bool JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIIsChatEntitled(JNIEnv* env, jobject thiz)
 {
-    return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName)->getHqEntitlement() && !HQHistoryManager::getInstance()->isOffline;
+    return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName)->getHqEntitlement() && !HQHistoryManager::getInstance()->isOffline();
 }
 
 #endif
@@ -382,12 +383,34 @@ JNIEXPORT bool JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIIsAnonUser(JNIEnv* env,
 
 extern "C"
 {
-	JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNISendVideoProgress(JNIEnv* env, jobject thiz, int playlistIndex, int progressSeconds);
+	JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNISendProgressMetaDataVideo(JNIEnv* env, jobject thiz, int videoProgressSeconds, int videoDuration);
 };
 
-JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNISendVideoProgress(JNIEnv* env, jobject thiz, int playlistIndex, int progressSeconds)
+JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNISendProgressMetaDataVideo(JNIEnv* env, jobject thiz, int videoProgressSeconds, int videoDuration)
 {
-	 BackEndCaller::getInstance()->updateVideoProgress(VideoPlaylistManager::getInstance()->getContentItemDataForPlaylistElement(playlistIndex)->getContentItemId(), progressSeconds);
+	ContentHistoryManager::getInstance()->onContentClosed();
+	const auto& contentItem = ContentHistoryManager::getInstance()->getLastOpenedContent();
+	const std::string& data = StringUtils::format("{\"contentId\":\"%s\", \"contentMeta\":{\"contentTitle\":\"%s\",\"contentType\":\"%s\", \"contentLength\":%d, \"unit\":\"SECONDS\", \"contentProgress\":%d, \"duration\":%ld, \"lastPlayedMeta\": [{\"start\":%s,\"end\":%s}]}}",contentItem->getContentItemId().c_str(), contentItem->getTitle().c_str(),contentItem->getType().c_str(), videoDuration, videoProgressSeconds ,ContentHistoryManager::getInstance()->getTimeInContentSec(), ContentHistoryManager::getInstance()->getContentOpenedTimeMs().c_str(), ContentHistoryManager::getInstance()->getContentClosedTimeMs().c_str());
+	HttpRequestCreator* request = API::UpdateContentProgressMeta(ChildDataProvider::getInstance()->getParentOrChildId(), data, nullptr);
+	request->execute();
+}
+
+#endif
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+
+extern "C"
+{
+	JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNISendProgressMetaDataGame(JNIEnv* env, jobject thiz);
+};
+
+JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNISendProgressMetaDataGame(JNIEnv* env, jobject thiz)
+{
+	ContentHistoryManager::getInstance()->onContentClosed();
+	const auto& contentItem = ContentHistoryManager::getInstance()->getLastOpenedContent();
+	const std::string& data = StringUtils::format("{\"contentId\":\"%s\", \"contentMeta\":{\"contentTitle\":\"%s\",\"contentType\":\"%s\", \"unit\":\"SECONDS\", \"duration\":%ld, \"lastPlayedMeta\": [{\"start\":%s,\"end\":%s}]}}",contentItem->getContentItemId().c_str(), contentItem->getTitle().c_str(), contentItem->getType().c_str(), ContentHistoryManager::getInstance()->getTimeInContentSec(), ContentHistoryManager::getInstance()->getContentOpenedTimeMs().c_str(), ContentHistoryManager::getInstance()->getContentClosedTimeMs().c_str());
+	HttpRequestCreator* request = API::UpdateContentProgressMeta(ChildDataProvider::getInstance()->getParentOrChildId(), data, nullptr);
+	request->execute();
 }
 
 #endif

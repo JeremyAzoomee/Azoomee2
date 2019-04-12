@@ -11,6 +11,7 @@
 #include "IAPFlowController.h"
 #include "DynamicNodeHandler.h"
 #include "HQDataProvider.h"
+#include "HQHistoryManager.h"
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeChat/UI/AvatarWidget.h>
 #include <AzoomeeChat/UI/MessageScene.h>
@@ -52,14 +53,23 @@ bool MeHQMessages::init()
 
 void MeHQMessages::onEnter()
 {
+	TutorialController::getInstance()->registerDelegate(this);
     Super::onEnter();
     Chat::ChatAPI::getInstance()->registerObserver(this);
-    _friendList = Chat::ChatAPI::getInstance()->getFriendList();
-    Chat::ChatAPI::getInstance()->getTimelineSummary();
+	if(HQHistoryManager::getInstance()->getHistorySize() == 1)
+	{
+		Chat::ChatAPI::getInstance()->requestFriendList();
+	}
+	else
+	{
+		_friendList = Chat::ChatAPI::getInstance()->getFriendList();
+		Chat::ChatAPI::getInstance()->getTimelineSummary();
+	}
 }
 
 void MeHQMessages::onExit()
 {
+	TutorialController::getInstance()->unRegisterDelegate(this);
     Super::onExit();
     Chat::ChatAPI::getInstance()->removeObserver(this);
 }
@@ -113,7 +123,7 @@ void MeHQMessages::buildEmptyCarousel()
             }
             else
             {
-                Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+                Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
             }
         }
     });
@@ -175,7 +185,7 @@ void MeHQMessages::buildEmptyCarousel()
                 }
                 else
                 {
-                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
                 }
             }
         });
@@ -304,7 +314,7 @@ void MeHQMessages::createMessageList()
                     AnalyticsSingleton::getInstance()->contentItemSelectedEvent("CHAT");
                     
                     const std::string& childId = ChildDataProvider::getInstance()->getParentOrChildId();
-                    const std::string& childName = ChildDataProvider::getInstance()->getLoggedInChildName();
+                    const std::string& childName = ChildDataProvider::getInstance()->getParentOrChildName();
                     const std::string& childAvatar = ChildDataProvider::getInstance()->getParentOrChildAvatarId();
                     Chat::FriendRef currentUser = Chat::Friend::create(childId, childName, childAvatar);
                     
@@ -333,22 +343,52 @@ void MeHQMessages::createMessageList()
     {
         buildEmptyCarousel();
     }
+	
+	if(TutorialController::getInstance()->isTutorialActive())
+	{
+		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
+	}
     
     if(_refreshCallback)
     {
         _refreshCallback();
     }
 }
+
+void MeHQMessages::enableButtons(bool enable)
+{
+	for(auto child : this->getChildren())
+	{
+		ui::Layout* layout = dynamic_cast<ui::Layout*>(child);
+		if(layout)
+		{
+			layout->setTouchEnabled(enable);
+		}
+	}
+}
+
 /// Get Timeline Summary response
 void MeHQMessages::onChatAPIGetTimelineSummary(const Chat::MessageList& messageList)
 {
     _messages = messageList;
     createMessageList();
 }
+
+void MeHQMessages::onChatAPIGetFriendList(const Chat::FriendList& friendList, int amountOfNewMessages)
+{
+	_friendList = friendList;
+	Chat::ChatAPI::getInstance()->getTimelineSummary();
+}
+
 /// API error from Chat request
 void MeHQMessages::onChatAPIErrorRecieved(const std::string& requestTag, long errorCode)
 {
     
+}
+
+void MeHQMessages::onTutorialStateChanged(const std::string& stateId)
+{
+	enableButtons(stateId == TutorialController::kTutorialEnded);
 }
 
 NS_AZOOMEE_END

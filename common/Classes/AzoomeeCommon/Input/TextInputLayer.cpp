@@ -452,7 +452,6 @@ void TextInputLayer::setNewWidth(float newWidth)
     editBox->setPosition(Vec2(this->getContentSize().width/2,this->getContentSize().height/2));
     editBoxArea->setContentSize(cocos2d::Size(newWidth,this->getContentSize().height));
     editBoxArea->setPosition(Vec2(this->getContentSize().width/2,this->getContentSize().height/2));
-    
 }
     
 void TextInputLayer::setEnabled(bool enabled)

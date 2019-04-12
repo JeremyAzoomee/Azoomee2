@@ -9,6 +9,7 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 
 using namespace cocos2d;
 
@@ -26,16 +27,25 @@ bool ChildOomeeLayer::init()
 
 void ChildOomeeLayer::onEnter()
 {
-    bool is18x9 = ConfigStorage::getInstance()->isDevice18x9();
+    const bool is18x9 = ConfigStorage::getInstance()->isDevice18x9();
     const float offset[2] = {is18x9 ? 50.0f : 100.0f, 200.0f};
     const Size& contentSize = this->getContentSize();
     
-    bool isPortrait = contentSize.width < contentSize.height;
-   
-    
-    Label* mainTitle = Label::createWithTTF(StringUtils::format(_("Here is %s’s Oomee").c_str(),_childCreator->getName().c_str()), Style::Font::Regular(), 96);
+    const bool isPortrait = contentSize.width < contentSize.height;
+	const bool isAnon = ParentDataProvider::getInstance()->isLoggedInParentAnonymous();
+	
+	Label* title = Label::createWithTTF(_("Every child gets their own Oomee friend"), Style::Font::Regular(), 96);
+	title->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+	title->setHorizontalAlignment(TextHAlignment::CENTER);
+	title->setPosition(contentSize.width / 2.0f, contentSize.height - (title->getContentSize().height * ((is18x9 && !isPortrait) ? 0.5f : 1.0f)));
+	title->setColor(Color3B::WHITE);
+	title->setOverflow(Label::Overflow::SHRINK);
+	title->setDimensions(contentSize.width * 0.75f, 200);
+	this->addChild(title);
+	
+    Label* mainTitle = Label::createWithTTF(StringUtils::format(_("Here is %s’s Oomee").c_str(),_childCreator->getName().c_str()), Style::Font::Regular(), 64);
     mainTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    mainTitle->setPosition(Vec2(contentSize.width / 2, contentSize.height - (mainTitle->getContentSize().height * ((is18x9 && !isPortrait) ? 0.5f : 1.0f))));
+	mainTitle->setPosition(Vec2(contentSize.width / 2, title->getPositionY() - title->getContentSize().height - (isPortrait ? 100 : 0) ));
     mainTitle->setColor(Style::Color::white);
     mainTitle->enableGlow(Color4B(Style::Color::telish));
     mainTitle->setMaxLineWidth(contentSize.width * 0.9);
@@ -49,14 +59,13 @@ void ChildOomeeLayer::onEnter()
     _oomee->setPosition(mainTitle->getPosition() - Vec2(0,mainTitle->getContentSize().height + offset[isPortrait]));
     _oomee->setPlaceholderImage(ConfigStorage::getInstance()->getLocalImageForOomee(_childCreator->getOomeeNum()));
     _oomee->loadPlaceholderImage();
-    //_oomee->setScale(oomeeHeight / _oomee->getContentSize().height);
     _oomee->setContentSize(_oomee->getContentSize() * (oomeeHeight / _oomee->getContentSize().height));
     _oomee->ignoreContentAdaptWithSize(false);
     this->addChild(_oomee);
     
     saveDefaultOomeeToOomeeMakerFiles();
     
-    Label* subTitle = Label::createWithTTF(_("Don’t worry if they don’t like it, they can change it anytime in the Oomee Maker."), Style::Font::Regular(), 64);
+    Label* subTitle = Label::createWithTTF(_("Don’t worry, they can create their own later."), Style::Font::Regular(), 64);
     subTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     subTitle->setPosition(_oomee->getPosition() - Vec2(0,oomeeHeight + offset[isPortrait]));
     subTitle->setColor(Color3B::WHITE);
@@ -66,8 +75,8 @@ void ChildOomeeLayer::onEnter()
     
     ui::Button* doneButton = ui::Button::create("res/buttons/MainButton.png");
     doneButton->setColor(Style::Color::telish);
-    doneButton->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE : Vec2::ANCHOR_MIDDLE_RIGHT);
-    doneButton->setPosition(Vec2(contentSize.width * (isPortrait ? 0.5f : 0.7325f), contentSize.height * (isPortrait ? 0.125f : 0.2f)));
+    doneButton->setAnchorPoint((isPortrait || isAnon) ? Vec2::ANCHOR_MIDDLE : Vec2::ANCHOR_MIDDLE_RIGHT);
+    doneButton->setPosition(Vec2(contentSize.width * ((isPortrait || isAnon) ? 0.5f : 0.7325f), contentSize.height * (isPortrait ? 0.125f : 0.2f)));
     doneButton->ignoreContentAdaptWithSize(false);
     doneButton->setScale9Enabled(true);
     doneButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType)
@@ -82,38 +91,43 @@ void ChildOomeeLayer::onEnter()
     });
     this->addChild(doneButton);
     
-    Label* doneButtonText = Label::createWithTTF(_("Done"), Style::Font::Regular(), doneButton->getContentSize().height * 0.4f);
+    Label* doneButtonText = Label::createWithTTF(_("Start exploring"), Style::Font::Regular(), doneButton->getContentSize().height * 0.4f);
     doneButtonText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     doneButtonText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     doneButtonText->setTextColor(Color4B::BLACK);
     doneButton->addChild(doneButtonText);
     doneButton->setContentSize(Size(doneButtonText->getContentSize().width + 160, doneButton->getContentSize().height));
-    
-    ui::Button* addAnotherButton = ui::Button::create("res/buttons/MainButton.png");
-    addAnotherButton->setColor(Style::Color::telish);
-    addAnotherButton->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE : Vec2::ANCHOR_MIDDLE_LEFT);
-    addAnotherButton->setPosition(Vec2(contentSize.width * (isPortrait ? 0.5f : 0.2675f), contentSize.height * (isPortrait ? 0.225f : 0.2f)));
-    addAnotherButton->ignoreContentAdaptWithSize(false);
-    addAnotherButton->setScale9Enabled(true);
-    addAnotherButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType)
-    {
-        if(eType == ui::Widget::TouchEventType::ENDED)
-        {
-            if(_delegate)
-            {
-                _delegate->prevLayer();
-            }
-        }
-    });
-    this->addChild(addAnotherButton);
-    
-    Label* addAnotherButtonText = Label::createWithTTF(_("Add another"), Style::Font::Regular(), addAnotherButton->getContentSize().height * 0.4f);
-    addAnotherButtonText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    addAnotherButtonText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    addAnotherButtonText->setTextColor(Color4B::BLACK);
-    addAnotherButton->addChild(addAnotherButtonText);
-    addAnotherButton->setContentSize(Size(addAnotherButtonText->getContentSize().width + 160, addAnotherButton->getContentSize().height));
-    
+	
+	if(!isAnon)
+	{
+	
+		ui::Button* addAnotherButton = ui::Button::create("res/buttons/MainButton.png");
+		addAnotherButton->setColor(Style::Color::telish);
+		addAnotherButton->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE : Vec2::ANCHOR_MIDDLE_LEFT);
+		addAnotherButton->setPosition(Vec2(contentSize.width * (isPortrait ? 0.5f : 0.2675f), contentSize.height * (isPortrait ? 0.225f : 0.2f)));
+		addAnotherButton->ignoreContentAdaptWithSize(false);
+		addAnotherButton->setScale9Enabled(true);
+		addAnotherButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType)
+		{
+			if(eType == ui::Widget::TouchEventType::ENDED)
+			{
+				if(_delegate)
+				{
+					_delegate->prevLayer();
+				}
+			}
+		});
+		this->addChild(addAnotherButton);
+		
+		Label* addAnotherButtonText = Label::createWithTTF(_("Add another child"), Style::Font::Regular(), addAnotherButton->getContentSize().height * 0.4f);
+		addAnotherButtonText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+		addAnotherButtonText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+		addAnotherButtonText->setTextColor(Color4B::BLACK);
+		addAnotherButton->addChild(addAnotherButtonText);
+		addAnotherButton->setContentSize(Size(addAnotherButtonText->getContentSize().width + 160, addAnotherButton->getContentSize().height));
+		
+	}
+		
     Sprite* progressIcon = Sprite::create("res/decoration/progress3.png");
     progressIcon->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     progressIcon->setPosition(Vec2(contentSize.width / 2.0f, progressIcon->getContentSize().height));

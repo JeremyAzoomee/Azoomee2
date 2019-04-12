@@ -27,6 +27,8 @@ extern "C" {
 	
 	void sendVideoProgress(int playlistIndex , int videoProgressSeconds);
 	void newVideoOpened(int playlistIndex);
+	void sendProgressMetaDataVideo(int videoProgressSeconds, int videoDuration);
+	void sendProgressMetaDataGame();
     
     NSString* getNSStringForKey(const char* key);
     

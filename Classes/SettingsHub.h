@@ -34,10 +34,11 @@ private:
     cocos2d::ui::Text* _titleText = nullptr;
     cocos2d::ui::Button* _titleBarButton = nullptr;
     // navigation buttons
-    cocos2d::ui::Layout* _navigationLayout = nullptr;
+    cocos2d::ui::ListView* _navigationLayout = nullptr;
 	SettingsNavigationButton* _languageButton = nullptr;
     SettingsNavigationButton* _kidsButton = nullptr;
     SettingsNavigationButton* _friendshipsButton = nullptr;
+	SettingsNavigationButton* _parentInboxButton = nullptr;
     SettingsNavigationButton* _yourAccountButton = nullptr;
     SettingsNavigationButton* _onlineSafetyButton = nullptr;
     SettingsNavigationButton* _supportButton = nullptr;

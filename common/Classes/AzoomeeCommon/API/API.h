@@ -22,7 +22,7 @@ public:
     
     static const char* const TagIpCheck;
     static const char* const TagLogin;
-    static const char* const TagAnonymousDeviceLogin;
+	static const char* const TagGetAnonCredentials;
     static const char* const TagUpdateBillingData;
     static const char* const TagParentPin;
     static const char* const TagGetAvailableChildren;
@@ -61,11 +61,21 @@ public:
 	static const char* const TagAddVoucher;
 	static const char* const TagGetVodacomTransactionId;
 	static const char* const TagGetVideoProgress;
-	static const char* const TagUpdateVideoProgress;
+	static const char* const TagUpdateProgressMeta;
+	static const char* const TagRewardCallback;
+	static const char* const TagRedeemReward;
+	static const char* const TagGetPendingRewards;
+	static const char* const TagGetInventory;
+	static const char* const TagBuyReward;
+	static const char* const TagGetShopFeed;
+	static const char* const TagGetOomeeMakerAssets;
 	
 	static const std::string kAZCountryCodeKey;
 	
 #pragma mark - API Methods
+	
+	static void HandleAPIResponse(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response, HttpRequestCreatorResponseDelegate* delegate, HttpRequestCreator* request);
+	static void HandleAPIError(cocos2d::network::HttpResponse *response, HttpRequestCreatorResponseDelegate* delegate, HttpRequestCreator* request);
     
     static HttpRequestCreator* IpCheck(HttpRequestCreatorResponseDelegate* delegate);
     
@@ -74,9 +84,8 @@ public:
     static HttpRequestCreator* LoginRequest(const std::string& username,
                                             const std::string& password,
                                             HttpRequestCreatorResponseDelegate* delegate);
-    
-    static HttpRequestCreator* AnonymousDeviceLoginRequest(const std::string& deviceId,
-                                                           HttpRequestCreatorResponseDelegate* delegate);
+	
+	static HttpRequestCreator* GetAnonCredentials(HttpRequestCreatorResponseDelegate* delegate);
     
 	static HttpRequestCreator* UpdateBillingDataRequest(const std::string& parentId,
 														HttpRequestCreatorResponseDelegate* delegate);
@@ -96,7 +105,8 @@ public:
     
     static HttpRequestCreator* RefreshParentCookiesRequest(HttpRequestCreatorResponseDelegate* delegate);
     
-    static HttpRequestCreator* RegisterParentRequest(const std::string& emailAddress,
+    static HttpRequestCreator* RegisterParentRequest(const std::string& parentId,
+													 const std::string& emailAddress,
                                                      const std::string& password,
                                                      const std::string& pinNumber,
                                                      const std::string& source,
@@ -109,9 +119,14 @@ public:
                                                     const std::string& childDOB,
                                                     const std::string& avatar,
                                                     HttpRequestCreatorResponseDelegate* delegate);
+	
+	static HttpRequestCreator* RegisterChildRequestWithAvatarData(const std::string& childProfileName,
+													const std::string& childGender,
+													const std::string& childDOB,
+													const std::string& imgData,
+													HttpRequestCreatorResponseDelegate* delegate);
     
-    static HttpRequestCreator* UpdateChildRequest(const std::string& url,
-                                                    const std::string& childId,
+    static HttpRequestCreator* UpdateChildRequest(const std::string& childId,
                                                     const std::string& childProfileName,
                                                     const std::string& childGender,
                                                     const std::string& childDOB,
@@ -149,7 +164,7 @@ public:
                                                        const std::string& category,
                                                        HttpRequestCreatorResponseDelegate* delegate);
     
-    static HttpRequestCreator* GetElectricDreamsContent(const std::string& requestId, 
+    static HttpRequestCreator* GetContent(const std::string& requestId, 
                                                         const std::string& childId,
                                                         const std::string& contentID,
                                                         HttpRequestCreatorResponseDelegate* delegate);
@@ -191,6 +206,13 @@ public:
 	static HttpRequestCreator* UpdateVideoProgress(const std::string& childId,
 												   const std::string& videoId,
 												   int videoProgressSeconds,
+												   HttpRequestCreatorResponseDelegate* delegate);
+	
+	static HttpRequestCreator* UpdateContentProgressMeta(const std::string& childId,
+														 const std::string& metaBody,
+														 HttpRequestCreatorResponseDelegate* delegate);
+	
+	static HttpRequestCreator* GetOomeeMakerAssets(const std::string& childId,
 												   HttpRequestCreatorResponseDelegate* delegate);
 	
 #pragma mark - Friend Requests
@@ -247,7 +269,27 @@ public:
     
     static HttpRequestCreator* GetTimelineSummary(const std::string& userId,
                                                         HttpRequestCreatorResponseDelegate* delegate);
-    // Vodacom API calls
+    
+#pragma mark - Rewards
+	
+	static HttpRequestCreator* RedeemReward(const std::string& rewardId,
+											HttpRequestCreatorResponseDelegate* delegate);
+	
+	static HttpRequestCreator* GetPendingRewards(const std::string& userId,
+												 HttpRequestCreatorResponseDelegate* delegate);
+	
+	static HttpRequestCreator* BuyReward(const std::string& purchaseUrl,
+										 HttpRequestCreatorResponseDelegate* delegate);
+	
+	static HttpRequestCreator* GetInventory(const std::string& userId,
+											HttpRequestCreatorResponseDelegate* delegate);
+	
+	static HttpRequestCreator* RewardCallback(const std::string& url,
+											  HttpRequestCreatorResponseDelegate* delegate);
+	
+	static HttpRequestCreator* GetShopFeed(HttpRequestCreatorResponseDelegate* delegate);
+	
+#pragma mark - Vodacom
 	static HttpRequestCreator* GetVodacomTransactionId(const std::string& userId,
 													   HttpRequestCreatorResponseDelegate* delegate);
 };

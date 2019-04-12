@@ -22,8 +22,8 @@ using namespace cocos2d;
 
 NS_AZOOMEE_OM_BEGIN
 
-const std::string OomeeMakerScene::kDefaultOomeeId = "orange";
-const std::string OomeeMakerScene::kColourCategoryId = "colours";
+//const std::string OomeeMakerScene::kDefaultOomeeId = "orange";
+const std::string OomeeMakerScene::kColourCategoryName = "colours";
 
 const std::string OomeeMakerScene::kSavePopupId = "save";
 const std::string OomeeMakerScene::kResetPopupId = "reset";
@@ -109,14 +109,13 @@ void OomeeMakerScene::onEnter()
 {
     const Size& contentSize = _contentLayer->getContentSize();
     
-    const OomeeRef& oomeeData = OomeeMakerDataStorage::getInstance()->getOomeeForKey(kDefaultOomeeId);
+	const OomeeRef& oomeeData = OomeeMakerDataStorage::getInstance()->getOomeeForKey(OomeeMakerDataStorage::getInstance()->getDefaultOomeeId());
     
     const std::vector<ItemCategoryRef>& categoryData = OomeeMakerDataStorage::getInstance()->getItemCategoryList();
     
     _oomee = OomeeFigure::create();
     _oomee->setContentSize(Size(contentSize.width * 0.585, contentSize.height));
     _oomee->setPosition(Vec2(contentSize.width * 0.165, 0));
-    _oomee->setColour(OomeeMakerDataStorage::getInstance()->getColourForKey(kDefaultOomeeId));
     _oomee->setOomeeData(oomeeData);
     _oomee->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     _oomee->setEditable(true);
@@ -127,7 +126,6 @@ void OomeeMakerScene::onEnter()
         if(!_oomee->initWithOomeeFigureData(data))
         {
             _oomee->setOomeeData(oomeeData);
-            _oomee->setColour(OomeeMakerDataStorage::getInstance()->getColourForKey(kDefaultOomeeId));
         }
     }
     _contentLayer->addChild(_oomee);
@@ -162,7 +160,6 @@ void OomeeMakerScene::onEnter()
         this->addAccessoryToOomee(data);
     });
     _itemList->setColourSelectedCallback([this](const OomeeColourRef& colour){
-        _oomee->setColour(colour);
 		CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Item_Drop.wav");
         const OomeeRef& oomee = OomeeMakerDataStorage::getInstance()->getOomeeForKey(colour->getId());
         if(oomee)
@@ -246,22 +243,22 @@ void OomeeMakerScene::onEnter()
     });
     _contentLayer->addChild(exitButton);
     
-    ui::Button* makeAvatarButon = ui::Button::create();
-    makeAvatarButon->loadTextureNormal("res/oomeeMaker/make_oomee_button.png");
-    makeAvatarButon->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    makeAvatarButon->setPosition(Vec2(contentSize.width * 0.42, makeAvatarButon->getContentSize().height));
-    makeAvatarButon->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+	_makeAvatarButton = ui::Button::create();
+    _makeAvatarButton->loadTextureNormal("res/oomeeMaker/make_oomee_button.png");
+    _makeAvatarButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _makeAvatarButton->setPosition(Vec2(contentSize.width * 0.42, _makeAvatarButton->getContentSize().height));
+    _makeAvatarButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
             this->makeAvatar();
         }
     });
-    _contentLayer->addChild(makeAvatarButon);
+    _contentLayer->addChild(_makeAvatarButton);
     
     _undoButton = ui::Button::create();
     _undoButton->loadTextureNormal("res/oomeeMaker/undo.png");
     _undoButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _undoButton->setPosition(makeAvatarButon->getPosition() - Vec2(makeAvatarButon->getContentSize().width * 1.25f,0));
+    _undoButton->setPosition(_makeAvatarButton->getPosition() - Vec2(_makeAvatarButton->getContentSize().width * 1.25f,0));
     _undoButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
@@ -273,7 +270,7 @@ void OomeeMakerScene::onEnter()
     ui::Button* resetOomeeButon = ui::Button::create();
     resetOomeeButon->loadTextureNormal("res/oomeeMaker/bin_2.png");
     resetOomeeButon->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    resetOomeeButon->setPosition(makeAvatarButon->getPosition() + Vec2(makeAvatarButon->getContentSize().width * 1.25f, 0));
+    resetOomeeButon->setPosition(_makeAvatarButton->getPosition() + Vec2(_makeAvatarButton->getContentSize().width * 1.25f, 0));
     resetOomeeButon->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
@@ -286,6 +283,22 @@ void OomeeMakerScene::onEnter()
     });
     _contentLayer->addChild(resetOomeeButon);
 
+	if(delegate->_newAccessoryId != "")
+	{
+		const OomeeItemRef& item = OomeeMakerDataStorage::getInstance()->getOomeeItemForKey(delegate->_newAccessoryId);
+		if(item)
+		{
+			_oomee->addAccessory(item);
+		}
+		
+		delegate->_newAccessoryId = "";
+	}
+	
+	TutorialController::getInstance()->registerDelegate(this);
+	if(TutorialController::getInstance()->isTutorialActive())
+	{
+		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
+	}
     Super::onEnter();
 }
 
@@ -296,11 +309,17 @@ void OomeeMakerScene::onEnterTransitionDidFinish()
     DragAndDropController::getInstance()->setDebugModeEnabled(true);
     
     runAction(Sequence::create(DelayTime::create(0.5), CallFunc::create([=](){
-        _categoryList->setSelectedButton(OomeeMakerDataStorage::getInstance()->getItemCategoryForKey(kColourCategoryId));
-        setItemsListForCategory(OomeeMakerDataStorage::getInstance()->getItemCategoryForKey(kColourCategoryId));
+        _categoryList->setSelectedButton(OomeeMakerDataStorage::getInstance()->getItemCategoryForKey(OomeeMakerDataStorage::getInstance()->getDefaultCategoryId()));
+        setItemsListForCategory(OomeeMakerDataStorage::getInstance()->getItemCategoryForKey(OomeeMakerDataStorage::getInstance()->getDefaultCategoryId()));
     }), NULL));
     
     Super::onEnterTransitionDidFinish();
+}
+
+void OomeeMakerScene::onExit()
+{
+	TutorialController::getInstance()->unRegisterDelegate(this);
+	Super::onExit();
 }
 
 void OomeeMakerScene::addAccessoryToOomee(const OomeeItemRef &data)
@@ -310,7 +329,7 @@ void OomeeMakerScene::addAccessoryToOomee(const OomeeItemRef &data)
 
 void OomeeMakerScene::setItemsListForCategory(const ItemCategoryRef& data)
 {
-    if(data->getId() == kColourCategoryId)
+    if(data->getName() == kColourCategoryName)
     {
         _itemList->setColourItems();
     }
@@ -367,7 +386,7 @@ void OomeeMakerScene::saveOomeeFiles()
             savedFileContent += ",";
         }
     }
-    savedFileContent += StringUtils::format("], \"colour\": \"%s\" }", _oomee->getColour()->getId().c_str());
+    savedFileContent += "]}";
     
     FileUtils::getInstance()->writeStringToFile(savedFileContent, OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".oomee");
     
@@ -393,9 +412,7 @@ void OomeeMakerScene::makeAvatar()
 
 void OomeeMakerScene::resetOomee()
 {
-	const OomeeColourRef& colour = OomeeMakerDataStorage::getInstance()->getColourForKey(kDefaultOomeeId);
-	_oomee->setColour(colour);
-	const OomeeRef& oomee = OomeeMakerDataStorage::getInstance()->getOomeeForKey(colour->getId());
+	const OomeeRef& oomee = OomeeMakerDataStorage::getInstance()->getOomeeForKey(OomeeMakerDataStorage::getInstance()->getDefaultOomeeId());
 	if(oomee)
 	{
 		_oomee->setOomeeData(oomee);
@@ -490,5 +507,29 @@ void OomeeMakerScene::onCancelPressed(Azoomee::ConfirmCancelMessageBox *pSender)
     }
     pSender->removeFromParent();
 }
+
+void OomeeMakerScene::onTutorialStateChanged(const std::string &stateId)
+{
+	if(stateId == TutorialController::kConfirmOomee)
+	{
+		if(_makeAvatarButton)
+		{
+			Sprite* glow = Sprite::create("res/childSelection/glow.png");
+			glow->setContentSize(_makeAvatarButton->getContentSize());
+			glow->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+			glow->runAction(RepeatForever::create(Sequence::createWithTwoActions(ScaleTo::create(1.0f, 2.0f), ScaleTo::create(1.0f, 1.0f))));
+			glow->setName("glow");
+			_makeAvatarButton->addChild(glow, -1);
+		}
+	}
+	else
+	{
+		if(_makeAvatarButton)
+		{
+			_makeAvatarButton->removeChildByName("glow");
+		}
+	}
+}
+
 
 NS_AZOOMEE_OM_END

@@ -23,7 +23,7 @@ bool UserTypeMessagingLayer::init()
     {
         return false;
     }
-    
+	setCascadeOpacityEnabled(true);
     return true;
 }
 
@@ -103,7 +103,7 @@ void UserTypeMessagingLayer::onEnter()
     {
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(Login));
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
         }
     });
 	

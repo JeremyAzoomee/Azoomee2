@@ -10,6 +10,7 @@
 #include "../DataObjects/OomeeMakerDataStorage.h"
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/UI/CCSpriteWithHue.h>
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 
 using namespace cocos2d;
 
@@ -42,6 +43,12 @@ void OomeeItemList::setItems(const std::vector<OomeeItemRef>& itemList)
             if(i < itemList.size())
             {
                 OomeeItemRef item = itemList.at(i);
+				if(!item->isDefaultItem() && !ChildDataProvider::getInstance()->getLoggedInChild()->getInventory()->hasOomeeAccessory(item->getId()))
+				{
+					column--; // negate the column inc from continuing the loop
+					i++;
+					continue;
+				}
                 OomeeItemButton* button = OomeeItemButton::create();
                 button->setItemSelectedCallback([this](const OomeeItemRef& data) {
                     if(_itemSelectedCallback)

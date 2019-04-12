@@ -1,6 +1,8 @@
 #include "Application.h"
 #include "UI/Scene.h"
+#include "UI/NotificationNode.h"
 #include "Analytics/AnalyticsSingleton.h"
+#include "UI/NotificationNodeDisplayManager.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 
@@ -128,6 +130,7 @@ void Application::applicationScreenSizeChanged(int newWidth, int newHeight)
     {
         scene->screenSizeDidChange();
     }
+	NotificationNodeDisplayManager::getInstance()->onSizeChanged();
 #endif
 }
 
@@ -142,6 +145,7 @@ void Application::applicationScreenSizeWillChange(int newWidth, int newHeight, f
     {
         scene->screenSizeWillChange(duration);
     }
+	NotificationNodeDisplayManager::getInstance()->onSizeChanged();
 }
 
 void Application::updateResolution(int newWidth, int newHeight)

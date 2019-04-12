@@ -3,7 +3,6 @@
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 #include <AzoomeeCommon/Strings.h>
-#include "BaseScene.h"
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/Input/TextInputChecker.h>
 #include "OfflineHubScene.h"
@@ -71,7 +70,7 @@ void LoginScene::onEnterTransitionDidFinish()
 void LoginScene::getUserDefaults()
 {
     UserDefault* def = UserDefault::getInstance();
-    _storedUsername = def->getStringForKey("username", "");
+    _storedUsername = def->getStringForKey(ConfigStorage::kStoredUsernameKey, "");
     def->flush();
     
     if(_storedUsername == "")
@@ -252,7 +251,7 @@ void LoginScene::connectivityStateChanged(bool online)
 {
     if(!online)
     {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineHub));
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OfflineHub));
     }
 }
 

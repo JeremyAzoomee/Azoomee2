@@ -9,31 +9,21 @@
 #define HQStructureHandler_h
 
 #include "../../Azoomee.h"
-#include "../../API/HttpRequestCreator.h"
 #include "../../Utils/FileZipUtil.h"
-#include "../../Utils/FileDownloader.h"
+#include "../DataDownloadHandler.h"
 
 NS_AZOOMEE_BEGIN
-class HQFeedDelegate
-{
-public:
-    virtual void onFeedDownloadComplete() = 0;
-};
 
-class HQStructureHandler : public HttpRequestCreatorResponseDelegate, FileZipDelegate, FileDownloaderDelegate
+class HQStructureHandler : public DataDownloadHandler, FileZipDelegate
 {
 private:
     static const std::string kCachePath;
     static const std::string kZipName;
     
-    FileDownloaderRef _fileDownloader = nullptr;
-    HQFeedDelegate* _delegate = nullptr;
-    
     std::string _feedPath;
     
     void loadLocalData();
-    std::string getLocalEtag();
-    void setLocalEtag(const std::string& etag);
+	std::string getCachePath() const override;
     
     void parseNavigationData(const std::string& data);
     
@@ -41,17 +31,15 @@ public:
     static HQStructureHandler* getInstance();
     ~HQStructureHandler();
     
-    void setHQFeedDelegate(HQFeedDelegate* delegate);
-    
-    void getLatestHQStructureFeed();
+    void getLatestData(const OnCompleteCallback& callback = nullptr) override;
     
     void loadGroupHQData(const std::string& groupIdPath);
     
     //delegate functions
-    virtual void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body);
-    virtual void onHttpRequestFailed(const std::string& requestTag, long errorCode);
-    virtual void onAsyncUnzipComplete(bool success, const std::string& zipPath, const std::string& dirpath);
-    virtual void onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode);
+    virtual void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body) override;
+    virtual void onHttpRequestFailed(const std::string& requestTag, long errorCode) override;
+    virtual void onAsyncUnzipComplete(bool success, const std::string& zipPath, const std::string& dirpath) override;
+    virtual void onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode) override;
 };
 
 NS_AZOOMEE_END

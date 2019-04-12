@@ -193,7 +193,7 @@ void VodacomOnboardingPinLayer::onConfirmPressed()
 		_flowData->setPin(_pinInput->getText());
 		ModalMessages::getInstance()->startLoading();
 		const std::string &sourceDevice = ConfigStorage::getInstance()->getDeviceInformation();
-		HttpRequestCreator* request = API::RegisterParentRequest(_flowData->getEmail(), _flowData->getPassword(), _pinInput->getText(), "VODACOM", sourceDevice, boolToString(_flowData->getAcceptedMarketing()), this);
+		HttpRequestCreator* request = API::RegisterParentRequest(ParentDataProvider::getInstance()->getLoggedInParentId(),_flowData->getEmail(), _flowData->getPassword(), _pinInput->getText(), "VODACOM", sourceDevice, boolToString(_flowData->getAcceptedMarketing()), this);
 		request->execute();
 	}
 }
@@ -216,7 +216,7 @@ void VodacomOnboardingPinLayer::onHttpRequestSuccess(const std::string& requestT
 			AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
 			_flowData->setUserType(UserType::REGISTERED);
 			UserDefault* def = UserDefault::getInstance();
-			def->setStringForKey("username", _flowData->getEmail());
+			def->setStringForKey(ConfigStorage::kStoredUsernameKey, _flowData->getEmail());
 			def->flush();
 			ModalMessages::getInstance()->stopLoading();
 			VodacomMessageBoxNotification* messageBox = VodacomMessageBoxNotification::create();

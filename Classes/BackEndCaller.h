@@ -14,7 +14,7 @@ NS_AZOOMEE_BEGIN
 // forward ref
 class AwaitingAdultPinLayer;
 
-class BackEndCaller : public cocos2d::Ref, public Azoomee::HttpRequestCreatorResponseDelegate, Azoomee::ContentPoolDelegate, Azoomee::HQFeedDelegate
+class BackEndCaller : public cocos2d::Ref, public Azoomee::HttpRequestCreatorResponseDelegate
 {
 private:
     
@@ -24,8 +24,6 @@ private:
     
     // Login API success
     void onLoginAnswerReceived(const std::string& responseString, const std::string& headerString);
-    // Anonymous device login
-    void onAnonymousDeviceLoginAnswerReceived(const std::string& responseString, const std::string& headerString);
     // Update billing API success
     void onUpdateBillingDataAnswerReceived(const std::string& responseString);
     // Update parent PIN API success
@@ -52,11 +50,6 @@ private:
     //-HttpRequestCreatorResponseDelegate
     void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body) override;
     void onHttpRequestFailed(const std::string& requestTag, long errorCode) override;
-    
-    //-ContentPoolDelegate
-    void onContentDownloadComplete() override;
-    //-HQFeedDelegate
-    void onFeedDownloadComplete() override;
     
 public:
     
@@ -101,15 +94,15 @@ public:
     // Get HQ content
     void getHQContent(const std::string& url, const std::string& category);
     // Get Single Content Details
-    void getElectricDreamsContent(const std::string& requestId, const std::string& contentID);
+    void GetContent(const std::string& requestId, const std::string& contentID);
     // Reset Password
     void resetPasswordRequest(const std::string& emailAddress);
     // Get force update data
     void getForceUpdateData();
     // Get Parent details
     void getParentDetails();
-	// update video progress
-	void updateVideoProgress(const std::string& contentId, int videoProgressSeconds);
+	// get Child Inventory
+	void getChildInventory();
 };
 
 NS_AZOOMEE_END

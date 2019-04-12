@@ -3,6 +3,7 @@
 
 #include <cocos/cocos2d.h>
 #include "../Json.h"
+#include "Child.h"
 
 
 namespace Azoomee
@@ -16,18 +17,16 @@ public:
 
     virtual ~ChildDataStorage();
     bool init(void);
-    
-    rapidjson::Document childLoginData;
-    bool childLoggedIn = false;
-    
-    std::string loggedInChildName;
-    std::string loggedInChildAvatarId;
-    int loggedInChildNumber;
-    
-    std::string loggedInChildId;
-    std::string loggedInChildCdnSessionId;
-    std::string loggedInChildApiSecret;
-    std::string loggedInChildApiKey;
+	
+	void setChildLoggedIn(bool loggedIn);
+	bool isChildLoggedIn() const;
+	
+	void setLoggedInChild(const ChildRef& child);
+	ChildRef getLoggedInChild() const;
+	
+private:
+    bool _childLoggedIn = false;
+	ChildRef _loggedInChild = nullptr;
 };
 
 }

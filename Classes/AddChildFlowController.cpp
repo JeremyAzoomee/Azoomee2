@@ -136,7 +136,7 @@ void AddChildFlowController::addChild(int oomeeNum)
     auto backEndCaller = BackEndCaller::getInstance();
     if(FlowDataSingleton::getInstance()->isSignupNewProfileFlow() && ParentDataProvider::getInstance()->getAmountOfAvailableChildren() !=0)
     {
-        backEndCaller->updateChild(ParentDataProvider::getInstance()->getIDForAvailableChildren(0), profileName, gender, DOB, oomeeNum);
+        backEndCaller->updateChild(ParentDataProvider::getInstance()->getChild(0)->getId(), profileName, gender, DOB, oomeeNum);
     }
     else
     {

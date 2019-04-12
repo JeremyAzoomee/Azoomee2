@@ -41,14 +41,14 @@ void ArtAppDelegate::setFileName(const std::string& filename)
 void ArtAppDelegate::onArtAppNavigationBack()
 {
     ArtAppRunning = false;
-    if(HQHistoryManager::getInstance()->isOffline)
+    if(HQHistoryManager::getInstance()->isOffline())
     {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineArtsAppHQ));
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OfflineArtsAppHQ));
     }
     else
     {
-        HQHistoryManager::getInstance()->_returnedFromForcedOrientation = true;
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+        HQHistoryManager::getInstance()->setReturnedFromForcedOrientation(true);
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
     }
     
 }
@@ -57,21 +57,21 @@ void ArtAppDelegate::onArtAppShareImage()
 {
     if(filename != "")
     {
-        if(!HQHistoryManager::getInstance()->isOffline && ChildDataProvider::getInstance()->getIsChildLoggedIn())
+        if(!HQHistoryManager::getInstance()->isOffline() && ChildDataProvider::getInstance()->isChildLoggedIn())
         {
             AnalyticsSingleton::getInstance()->contentItemClosedEvent();
             ChatDelegate::getInstance()->_imageFileName = filename;
             ArtAppRunning = false;
-            HQHistoryManager::getInstance()->_returnedFromForcedOrientation = true;
+            HQHistoryManager::getInstance()->setReturnedFromForcedOrientation(true);
             Director::getInstance()->getTextureCache()->reloadTexture(filename);
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
         }
     }
 }
 
 bool ArtAppDelegate::isOffline()
 {
-	return HQHistoryManager::getInstance()->isOffline;
+	return HQHistoryManager::getInstance()->isOffline();
 }
 
 void ArtAppDelegate::setSecondsSpentInArtApp(long seconds)

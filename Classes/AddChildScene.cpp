@@ -16,10 +16,23 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/ErrorCodes.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <AzoomeeCommon/Tutorial/TutorialController.h>
+#include <AzoomeeCommon/API/API.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
+
+const std::map<AddChildFlow, std::string> AddChildScene::kFlowStateStrConvMap = {
+	{AddChildFlow::FIRST_TIME_SETUP_NAME, "FirstChildSetupName"},
+	{AddChildFlow::ADDITIONAL_NAME, "AdditionalChildName"},
+	{AddChildFlow::AGE, "ChildAge"},
+	{AddChildFlow::OOMEE, "Oomee"},
+	{AddChildFlow::ANON_NAME, "AnonChildName"},
+	{AddChildFlow::ANON_AGE, "AnonChildAge"},
+	{AddChildFlow::ANON_OOMEE, "AnonOomee"}
+};
 
 bool AddChildScene::init()
 {
@@ -27,7 +40,9 @@ bool AddChildScene::init()
     {
         return false;
     }
-    
+
+	CCASSERT(kFlowStateStrConvMap.size() == (int)AddChildFlow::FLOW_COUNT, "Not all flow states in str conversion map!");
+
     addBackground();
     
     return true;
@@ -64,6 +79,10 @@ Azoomee::Scene* AddChildScene::createWithFlowStage(const AddChildFlow& flowStage
     {
         scene->_addingFirstChild = true;
     }
+	else if(flowStage == AddChildFlow::ANON_NAME)
+	{
+		scene->_addingAnonChild = true;
+	}
     return scene;
 }
 
@@ -117,11 +136,27 @@ void AddChildScene::setSceneForFlow()
             nextLayer = ChildOomeeLayer::create();
             break;
         }
+		case AddChildFlow::ANON_NAME:
+		{
+			nextLayer = ChildNameLayerFirstTime::create();
+			break;
+		}
+		case AddChildFlow::ANON_AGE:
+		{
+			nextLayer = ChildAgeLayer::create();
+			break;
+		}
+		case AddChildFlow::ANON_OOMEE:
+		{
+			nextLayer = ChildOomeeLayer::create();
+			break;
+		}
         default:
         break;
     }
     if(nextLayer)
     {
+		AnalyticsSingleton::getInstance()->createChildFlowEvent(getAnalyticsStringForFlowState(_currentFlowStage));
         nextLayer->setChildCreator(_childCreator);
         nextLayer->setDelegate(this);
         nextLayer->setContentSize(this->getContentSize());
@@ -133,6 +168,7 @@ void AddChildScene::setSceneForFlow()
 // Delegate Functions
 void AddChildScene::nextLayer()
 {
+	AnalyticsSingleton::getInstance()->createChildNextPressed();
 	AudioMixer::getInstance()->playEffect(NEXT_BUTTON_AUDIO_EFFECT);
     switch(_currentFlowStage)
     {
@@ -153,6 +189,24 @@ void AddChildScene::nextLayer()
             BackEndCaller::getInstance()->getAvailableChildren();
             break;
         }
+		case AddChildFlow::ANON_NAME:
+		{
+			_currentFlowStage = AddChildFlow::ANON_AGE;
+			setSceneForFlow();
+			break;
+		}
+		case AddChildFlow::ANON_AGE:
+		{
+			_childCreator->updateChild(ParentDataProvider::getInstance()->getChild(0));
+			break;
+		}
+		case AddChildFlow::ANON_OOMEE:
+		{
+			UserDefault::getInstance()->setBoolForKey("anonOnboardingComplete", true);
+			UserDefault::getInstance()->flush();
+			BackEndCaller::getInstance()->anonymousDeviceLogin();
+			break;
+		}
         default:
         break;
     }
@@ -160,6 +214,7 @@ void AddChildScene::nextLayer()
 
 void AddChildScene::prevLayer()
 {
+	AnalyticsSingleton::getInstance()->createChildBackPressed();
 	AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
     switch(_currentFlowStage)
     {
@@ -185,19 +240,46 @@ void AddChildScene::prevLayer()
             setSceneForFlow();
             break;
         }
+		case AddChildFlow::ANON_AGE:
+		{
+			_currentFlowStage = AddChildFlow::ANON_NAME;
+			setSceneForFlow();
+			break;
+		}
+		case AddChildFlow::ANON_NAME:
+		{
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
+		}
         default:
             break;
     }
 }
 
+std::string AddChildScene::getAnalyticsStringForFlowState(const AddChildFlow& state)
+{
+	return kFlowStateStrConvMap.at(state);
+}
+
 void AddChildScene::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
-    AnalyticsSingleton::getInstance()->childProfileCreatedSuccessEvent();
-    rapidjson::Document data;
-    data.Parse(body.c_str());
-    _childCreator->setCreatedChildId(getStringFromJson("id", data));
-    _currentFlowStage = AddChildFlow::OOMEE;
-    setSceneForFlow();
+	if(requestTag == API::TagRegisterChild)
+	{
+		AnalyticsSingleton::getInstance()->childProfileCreatedSuccessEvent();
+		rapidjson::Document data;
+		data.Parse(body.c_str());
+		_childCreator->setCreatedChildId(getStringFromJson("id", data));
+		_currentFlowStage = AddChildFlow::OOMEE;
+		setSceneForFlow();
+	}
+	else if(requestTag == API::TagUpdateChild)
+	{
+		AnalyticsSingleton::getInstance()->childProfileCreatedSuccessEvent();
+		rapidjson::Document data;
+		data.Parse(body.c_str());
+		_childCreator->setCreatedChildId(getStringFromJson("id", data));
+		_currentFlowStage = AddChildFlow::ANON_OOMEE;
+		setSceneForFlow();
+	}
 }
 
 void AddChildScene::onHttpRequestFailed(const std::string& requestTag, long errorCode)
@@ -207,8 +289,8 @@ void AddChildScene::onHttpRequestFailed(const std::string& requestTag, long erro
 		errorCode = ERROR_CODE_NAME_EXISTS;
 	}
     AnalyticsSingleton::getInstance()->childProfileCreatedErrorEvent(errorCode);
-    FlowDataSingleton::getInstance()->setErrorCode(errorCode);
-    Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+	FlowDataSingleton::getInstance()->setErrorCode(errorCode);
+	Director::getInstance()->replaceScene(SceneManagerScene::createScene(_currentFlowStage == AddChildFlow::ANON_AGE ? SceneNameEnum::Base : SceneNameEnum::ChildSelector));
 }
 
 NS_AZOOMEE_END

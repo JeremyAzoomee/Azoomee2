@@ -1,6 +1,5 @@
 #include "SceneManagerScene.h"
 #include "HQHistoryManager.h"
-#include "BaseScene.h"
 #include "ChildSelectorScene.h"
 #include "LoginScene.h"
 #include "OfflineHubScene.h"
@@ -20,8 +19,17 @@
 #include "IntroVideoScene.h"
 #include "ContentHistoryManager.h"
 #include "AddChildScene.h"
+#include "WelcomeScene.h"
+#include "ContentFeedHQScene.h"
+#include "MeHQ.h"
+#include "RewardDisplayHandler.h"
 
 #include "SettingsHub.h"
+#include "ChildSettingsScene.h"
+#include "ShopScene.h"
+
+#include "CoinCollectLayer.h"
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 
 #ifdef VODACOM_BUILD
 #include "Vodacom/VodacomOnboardingScene.h"
@@ -48,9 +56,9 @@ cocos2d::Scene* SceneManagerScene::createWebview(Orientation _orientation, const
     auto layer = SceneManagerScene::create();
     
     if(_orientation == Orientation::Portrait)
-        layer->nextScene = WebviewPortrait;
+        layer->nextScene = SceneNameEnum::WebviewPortrait;
     else
-        layer->nextScene = WebviewLandscape;
+        layer->nextScene = SceneNameEnum::WebviewLandscape;
     
     layer->webviewURL = URL;
     layer->_closeButtonAnchor = closeButtonAnchor;
@@ -73,7 +81,7 @@ bool SceneManagerScene::init()
 void SceneManagerScene::onEnterTransitionDidFinish()
 {
     switch (nextScene) {
-        case Login:
+        case SceneNameEnum::Login:
         {
             acceptAnyOrientation();
             cocos2d::Scene*  goToScene = LoginScene::create();
@@ -81,27 +89,57 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             Director::getInstance()->replaceScene(goToScene);
             break;
         }
-        case Base:
+        case SceneNameEnum::Base:
         {
             FlowDataSingleton::getInstance()->clearData();
             returnToPrevOrientation();
             acceptAnyOrientation();
-            HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
-            Azoomee::Scene* goToScene = BaseScene::create();
-            Director::getInstance()->replaceScene(goToScene);
+			if(ContentHistoryManager::getInstance()->getReturnedFromContent())
+			{
+				showHoldingUI();
+			}
+			else
+			{
+				HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
+				const std::string& currentHQ = HQHistoryManager::getInstance()->getCurrentHQ();
+				
+				ContentFeedHQScene* hqScene = ContentFeedHQScene::create();
+				hqScene->setHQCategory(currentHQ);
+				cocos2d::Scene* goToScene = hqScene;
+				
+				if(currentHQ == ConfigStorage::kMeHQName)
+				{
+					MeHQ* hqScene = MeHQ::create();
+					hqScene->setHQCategory(currentHQ);
+					goToScene = hqScene;
+				}
+				Director::getInstance()->replaceScene(goToScene);
+			}
             break;
         }
-        case BaseWithNoHistory:
+        case SceneNameEnum::BaseWithNoHistory:
         {
             FlowDataSingleton::getInstance()->clearData();
             returnToPrevOrientation();
             acceptAnyOrientation();
             HQHistoryManager::getInstance()->emptyHistory();
-            cocos2d::Scene* goToScene = BaseScene::create();
-            Director::getInstance()->replaceScene(goToScene);
+			HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
+			const std::string& currentHQ = HQHistoryManager::getInstance()->getCurrentHQ();
+			
+			ContentFeedHQScene* hqScene = ContentFeedHQScene::create();
+			hqScene->setHQCategory(currentHQ);
+			cocos2d::Scene* goToScene = hqScene;
+			
+			if(currentHQ == ConfigStorage::kMeHQName)
+			{
+				MeHQ* hqScene = MeHQ::create();
+				hqScene->setHQCategory(currentHQ);
+				goToScene = hqScene;
+			}
+			Director::getInstance()->replaceScene(goToScene);
             break;
         }
-        case ChildSelector:
+        case SceneNameEnum::ChildSelector:
         {
             returnToPrevOrientation();
             acceptAnyOrientation();
@@ -110,7 +148,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             Director::getInstance()->replaceScene(goToScene);
             break;
         }
-        case OfflineHub:
+        case SceneNameEnum::OfflineHub:
         {
             forceToLandscape();
             OfflineChecker::getInstance()->setDelegate(nullptr);
@@ -119,7 +157,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             Director::getInstance()->replaceScene(goToScene);
             break;
         }
-        case OfflineArtsAppHQ:
+        case SceneNameEnum::OfflineArtsAppHQ:
         {
             forceToLandscape();
             cocos2d::Scene* goToScene = HQScene2::createSceneForOfflineArtsAppHQ();
@@ -127,7 +165,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             Director::getInstance()->replaceScene(TransitionSlideInR::create(0.25f, goToScene));
             break;
         }
-        case ChatEntryPointScene:
+        case SceneNameEnum::ChatEntryPointScene:
         {
             // Make sure we set the chat delegate
             Azoomee::Chat::delegate = ChatDelegate::getInstance();
@@ -146,7 +184,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             Director::getInstance()->replaceScene(TransitionSlideInR::create(0.25f, goToScene));
             break;
         }
-        case ArtAppEntryPointScene:
+        case SceneNameEnum::ArtAppEntryPointScene:
         {
             HQHistoryManager::getInstance()->updatePrevOrientation();
             Azoomee::ArtApp::delegate = ArtAppDelegate::getInstance();
@@ -159,19 +197,21 @@ void SceneManagerScene::onEnterTransitionDidFinish()
                 goToScene = Azoomee::ArtApp::MainScene::createSceneWithDrawing(fileName);
             else
                 goToScene = Azoomee::ArtApp::MainScene::createScene();
+			AnalyticsSingleton::getInstance()->registerCurrentScene("ART_APP");
             Director::getInstance()->replaceScene(TransitionSlideInR::create(0.25f, goToScene));
             break;
         }
-        case OomeeMakerEntryPointScene:
+        case SceneNameEnum::OomeeMakerEntryPointScene:
         {
             HQHistoryManager::getInstance()->updatePrevOrientation();
             Azoomee::OomeeMaker::delegate = OomeeMakerDelegate::getInstance();
             forceToLandscape();
             cocos2d::Scene* goToScene = Azoomee::OomeeMaker::OomeeSelectScene::create();
+			AnalyticsSingleton::getInstance()->registerCurrentScene("OOMEE_MAKER");
             Director::getInstance()->replaceScene(goToScene);
             break;
         }
-        case SettingsFromChat:
+        case SceneNameEnum::SettingsFromChat:
         {
             HQHistoryManager::getInstance()->updatePrevOrientation();
             forceToPortrait();
@@ -181,7 +221,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             Director::getInstance()->replaceScene(goToScene);
             break;
         }
-        case SettingsFromHQ:
+        case SceneNameEnum::SettingsFromHQ:
         {
             HQHistoryManager::getInstance()->updatePrevOrientation();
             forceToPortrait();
@@ -191,7 +231,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             Director::getInstance()->replaceScene(goToScene);
             break;
         }
-		case SettingsFromChildSelect:
+		case SceneNameEnum::SettingsFromChildSelect:
 		{
 			HQHistoryManager::getInstance()->updatePrevOrientation();
 			forceToPortrait();
@@ -201,7 +241,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
 			Director::getInstance()->replaceScene(goToScene);
 			break;
 		}
-        case WebviewPortrait:
+        case SceneNameEnum::WebviewPortrait:
         {
             HQHistoryManager::getInstance()->updatePrevOrientation();
             #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -212,7 +252,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             Director::getInstance()->replaceScene(goToScene);
             break;
         }
-        case WebviewLandscape:
+        case SceneNameEnum::WebviewLandscape:
         {
             HQHistoryManager::getInstance()->updatePrevOrientation();
             forceToLandscape();
@@ -221,7 +261,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             Director::getInstance()->replaceScene(goToScene);
             break;
         }
-        case introVideo:
+        case SceneNameEnum::introVideo:
         {
             if(Director::getInstance()->getVisibleSize().width / Director::getInstance()->getVisibleSize().height > 1.5)
             {
@@ -235,22 +275,55 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             Director::getInstance()->replaceScene(IntroVideoScene::create());
             break;
         }
-        case AddChild:
+        case SceneNameEnum::AddChild:
         {
             acceptAnyOrientation();
             HQHistoryManager::getInstance()->updatePrevOrientation();
+			AnalyticsSingleton::getInstance()->registerCurrentScene("ADD_CHILD");
             Director::getInstance()->replaceScene(AddChildScene::createWithFlowStage(AddChildFlow::ADDITIONAL_NAME));
             break;
         }
-        case AddChildFirstTime:
+        case SceneNameEnum::AddChildFirstTime:
         {
             acceptAnyOrientation();
             HQHistoryManager::getInstance()->updatePrevOrientation();
+			AnalyticsSingleton::getInstance()->registerCurrentScene("ADD_CHILD");
             Director::getInstance()->replaceScene(AddChildScene::createWithFlowStage(AddChildFlow::FIRST_TIME_SETUP_NAME));
             break;
         }
+		case SceneNameEnum::AddChildAnon:
+		{
+			acceptAnyOrientation();
+			HQHistoryManager::getInstance()->updatePrevOrientation();
+			AnalyticsSingleton::getInstance()->registerCurrentScene("ADD_CHILD");
+			Director::getInstance()->replaceScene(AddChildScene::createWithFlowStage(AddChildFlow::ANON_NAME));
+			break;
+		}
+		case SceneNameEnum::WelcomeScene:
+		{
+			acceptAnyOrientation();
+			HQHistoryManager::getInstance()->updatePrevOrientation();
+			Director::getInstance()->replaceScene(WelcomeScene::create());
+			break;
+		}
+		case SceneNameEnum::ChildSettingsHub:
+		{
+			acceptAnyOrientation();
+			HQHistoryManager::getInstance()->updatePrevOrientation();
+			AnalyticsSingleton::getInstance()->registerCurrentScene("CHILD_SETTINGS");
+			Director::getInstance()->replaceScene(ChildSettingsScene::create());
+			break;
+		}
+		case SceneNameEnum::Shop:
+		{
+			acceptAnyOrientation();
+			HQHistoryManager::getInstance()->updatePrevOrientation();
+			AnalyticsSingleton::getInstance()->registerCurrentScene("SHOP");
+			Director::getInstance()->replaceScene(ShopScene::create());
+			break;
+		}
 #ifdef VODACOM_BUILD
-		case VodacomOnboarding:
+		case SceneNameEnum::VodacomOnboarding:
 		{
 			HQHistoryManager::getInstance()->updatePrevOrientation();
 			forceToPortrait();
@@ -283,9 +356,9 @@ void SceneManagerScene::acceptAnyOrientation()
 void SceneManagerScene::returnToPrevOrientation()
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-	if(ContentHistoryManager::getInstance()->getReturnedFromContent() || HQHistoryManager::getInstance()->_returnedFromForcedOrientation)
+	if(ContentHistoryManager::getInstance()->getReturnedFromContent() || HQHistoryManager::getInstance()->hasReturnedFromForcedOrientation())
     {
-        if(HQHistoryManager::getInstance()->_prevHQOrientation == Portrait)
+        if(HQHistoryManager::getInstance()->getPrevHQOrientation() == Portrait)
         {
             forceToPortrait();
         }
@@ -295,7 +368,71 @@ void SceneManagerScene::returnToPrevOrientation()
         }
     }
 #endif
-    HQHistoryManager::getInstance()->_returnedFromForcedOrientation = false;
+    HQHistoryManager::getInstance()->setReturnedFromForcedOrientation(false);
+}
+
+void SceneManagerScene::showHoldingUI()
+{
+	LayerColor* bgColour = LayerColor::create(Color4B(0,7,4,255));
+	this->addChild(bgColour, -1);
+	
+	this->setPosition(Director::getInstance()->getVisibleOrigin());
+	this->setContentSize(Director::getInstance()->getVisibleSize());
+	
+	const Size& contentSize = Director::getInstance()->getVisibleSize();
+	bool isPortrait = contentSize.width < contentSize.height;
+	
+	Sprite* bottomGradient = Sprite::create("res/decoration/TopNavGrad.png");
+	bottomGradient->setContentSize(Size(this->getContentSize().width, 400));
+	bottomGradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	bottomGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+	bottomGradient->setColor(Style::Color::skyBlue);
+	bottomGradient->setRotation(180);
+	this->addChild(bottomGradient);
+	
+	Sprite* wires = Sprite::create("res/rewards/big_wires.png");
+	wires->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	wires->setScale(MAX(contentSize.width, contentSize.height) / wires->getContentSize().width);
+	wires->setRotation(isPortrait ? 90 : 0);
+	this->addChild(wires, -1);
+	
+	LayerColor* overlay = LayerColor::create(Color4B(7,4,34,80));
+	this->addChild(overlay);
+	
+	for(int i = 0; i < 3; i++)
+	{
+		auto loadingCircle = Sprite::create("res/modal/loading.png");
+		loadingCircle->setNormalizedPosition(Vec2(0.5,0.5));
+		loadingCircle->setOpacity(0);
+		loadingCircle->setRotation(RandomHelper::random_int(0, 360));
+		loadingCircle->setScale(0.6 + i * 0.2);
+		
+		this->addChild(loadingCircle);
+		
+		int direction = CCRANDOM_0_1() < 0.5 ? 1 : -1;
+		
+		loadingCircle->runAction(RepeatForever::create(RotateBy::create(CCRANDOM_0_1() + 1, 360 * direction)));
+		loadingCircle->runAction(FadeTo::create(0.5, 255));
+	}
+	
+	RewardDisplayHandler::getInstance()->showNextReward();
+	
+	this->runAction(Sequence::createWithTwoActions(DelayTime::create(2.5), CallFunc::create([this](){
+		HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
+		const std::string& currentHQ = HQHistoryManager::getInstance()->getCurrentHQ();
+		
+		ContentFeedHQScene* hqScene = ContentFeedHQScene::create();
+		hqScene->setHQCategory(currentHQ);
+		cocos2d::Scene* goToScene = hqScene;
+		
+		if(currentHQ == ConfigStorage::kMeHQName)
+		{
+			MeHQ* hqScene = MeHQ::create();
+			hqScene->setHQCategory(currentHQ);
+			goToScene = hqScene;
+		}
+		Director::getInstance()->replaceScene(goToScene);
+	})));
 }
 
 NS_AZOOMEE_END

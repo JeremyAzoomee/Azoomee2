@@ -52,6 +52,7 @@ import com.tinizine.azoomee.common.AzoomeeActivity;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import com.amazon.device.iap.PurchasingService;
@@ -209,6 +210,12 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         return hash.trim();
 
     }
+
+    public static String getDeviceLanguage()
+    {
+        return Locale.getDefault().getLanguage();
+    }
+
 
     public static void CrashlyticsLogException(String message) {
         Crashlytics.logException(new Exception(message));

@@ -42,21 +42,21 @@ void ChatDelegate::shareContentInChat()
 void ChatDelegate::onChatNavigationBack()
 {
     // Go back to the hub
-    if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+    if(ChildDataProvider::getInstance()->isChildLoggedIn())
     {
         HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
     }
     else
     {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::SettingsFromChat));
     }
     
 }
 
 void ChatDelegate::onChatAddFriend()
 {
-    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SettingsFromChat));
+    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::SettingsFromChat));
 }
 
 void ChatDelegate::onChatAuthorizationError(const std::string& requestTag, long errorCode)
@@ -75,7 +75,7 @@ void ChatDelegate::onChatNavigateToContent(const std::string &contentId)
 void ChatDelegate::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {
     _imageFileName = downloader->getLocalImagePath();
-    Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
     
 }
 
@@ -94,7 +94,7 @@ void ChatDelegate::onImageDownloadFailed()
             _imageFileName = filename;
         }
     }
-    Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
 }
 
 
