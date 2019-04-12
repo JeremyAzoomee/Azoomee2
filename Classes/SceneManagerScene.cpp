@@ -96,7 +96,13 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             acceptAnyOrientation();
 			if(ContentHistoryManager::getInstance()->getReturnedFromContent())
 			{
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 				showHoldingUI();
+#else
+				this->runAction(Sequence::createWithTwoActions(DelayTime::create(0.5), CallFunc::create([this](){
+					showHoldingUI();
+				})));
+#endif
 			}
 			else
 			{
