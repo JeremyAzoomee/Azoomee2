@@ -193,16 +193,19 @@ void HQSceneElement::addHQSceneElement() //This method is being called by HQScen
 			}
 			case cocos2d::ui::Widget::TouchEventType::MOVED:
 			{
+				float distance = _touchPos.distance(this->convertToWorldSpace(button->getPosition()));
+				if( distance > button->getContentSize().height / 4)
+				{
+					if(_elementVisual->_overlayWhenTouched)
+					{
+						_elementVisual->_overlayWhenTouched->setOpacity(0);
+					}
+				}
 				break;
 			}
 			case cocos2d::ui::Widget::TouchEventType::ENDED:
 			{
-				if(_elementVisual->_overlayWhenTouched)
-				{
-					_elementVisual->_overlayWhenTouched->setOpacity(0);
-				}
-				float distance = _touchPos.distance(this->convertToWorldSpace(button->getPosition()));
-				if( distance > button->getContentSize().height / 4)
+				if(_elementVisual->_overlayWhenTouched && _elementVisual->_overlayWhenTouched->getOpacity() == 0)
 				{
 					break;
 				}
