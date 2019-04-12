@@ -941,6 +941,7 @@ void AnalyticsSingleton::shopPageTurned(int pageNumber)
 {
 	mixPanelSendEventWithStoredProperties("ShopPageTurned" ,{{"pageNumber", cocos2d::StringUtils::format("%d",pageNumber)}});
 }
+
 void AnalyticsSingleton::shopItemPressed(int itemPos, const ShopDisplayItemRef& item)
 {
 	const std::vector<std::string>& tags = item->getTags();
@@ -952,6 +953,7 @@ void AnalyticsSingleton::shopItemPressed(int itemPos, const ShopDisplayItemRef& 
 		{"isFeatured", std::find(tags.begin(), tags.end(), "FEATURED") != tags.end() ?  "YES" : "NO"}
 	});
 }
+
 void AnalyticsSingleton::shopLockedItemPressed(int itemPos, const ShopDisplayItemRef& item)
 {
 	const std::vector<std::string>& tags = item->getTags();
@@ -963,6 +965,7 @@ void AnalyticsSingleton::shopLockedItemPressed(int itemPos, const ShopDisplayIte
 		{"isFeatured", std::find(tags.begin(), tags.end(), "FEATURED") != tags.end() ?  "YES" : "NO"}
 	});
 }
+
 void AnalyticsSingleton::shopUnaffordableItemPressed(int itemPos, const ShopDisplayItemRef& item)
 {
 	const std::vector<std::string>& tags = item->getTags();
@@ -974,6 +977,7 @@ void AnalyticsSingleton::shopUnaffordableItemPressed(int itemPos, const ShopDisp
 		{"isFeatured", std::find(tags.begin(), tags.end(), "FEATURED") != tags.end() ?  "YES" : "NO"}
 	});
 }
+
 void AnalyticsSingleton::shopItemPurchased(const ShopDisplayItemRef& item)
 {
 	const std::vector<std::string>& tags = item->getTags();
@@ -984,6 +988,7 @@ void AnalyticsSingleton::shopItemPurchased(const ShopDisplayItemRef& item)
 		{"isFeatured", std::find(tags.begin(), tags.end(), "FEATURED") != tags.end() ?  "YES" : "NO"}
 	});
 }
+
 void AnalyticsSingleton::shopPurchasePopupClosed(const ShopDisplayItemRef& item)
 {
 	const std::vector<std::string>& tags = item->getTags();
@@ -994,6 +999,7 @@ void AnalyticsSingleton::shopPurchasePopupClosed(const ShopDisplayItemRef& item)
 		{"isFeatured", std::find(tags.begin(), tags.end(), "FEATURED") != tags.end() ?  "YES" : "NO"}
 	});
 }
+
 void AnalyticsSingleton::shopPurchseAnimClosed(const ShopDisplayItemRef& item)
 {
 	const std::vector<std::string>& tags = item->getTags();
@@ -1004,6 +1010,7 @@ void AnalyticsSingleton::shopPurchseAnimClosed(const ShopDisplayItemRef& item)
 		{"isFeatured", std::find(tags.begin(), tags.end(), "FEATURED") != tags.end() ?  "YES" : "NO"}
 	});
 }
+
 void AnalyticsSingleton::shopPurchasedAnimUsePressed(const ShopDisplayItemRef& item)
 {
 	const std::vector<std::string>& tags = item->getTags();
