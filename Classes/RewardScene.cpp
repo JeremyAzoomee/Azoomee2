@@ -40,14 +40,14 @@ void RewardScene::onEnter()
 	_screenSequence.push_back(coinChestLayer);
 	
 	AwesomeLayer* awesomeLayer = AwesomeLayer::create();
-	awesomeLayer->setDuration(_duration * 0.3f);
+	awesomeLayer->setDuration(_duration * 0.25f);
 	awesomeLayer->setRewardData(_rewardData);
 	awesomeLayer->setDeleagte(this);
 	awesomeLayer->retain();
 	_screenSequence.push_back(awesomeLayer);
 	
 	CoinCollectLayer* coinCollect = CoinCollectLayer::create();
-	coinCollect->setDuration(_duration * 0.4f);
+	coinCollect->setDuration(_duration * 0.45f);
 	coinCollect->setRewardData(_rewardData);
 	coinCollect->setOomeeFilepath(ChildDataProvider::getInstance()->getLoggedInChild()->getAvatar());
 	coinCollect->setDeleagte(this);
