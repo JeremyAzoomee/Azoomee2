@@ -75,11 +75,7 @@ void BiometricAuthenticationHandler::startBiometricAuthentication()
 void BiometricAuthenticationHandler::biometricAuthenticationSuccess()
 {
 #if(CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    if(_waitingForFingerPrint)
-    {
-        _waitingForFingerPrint->removeMessageBox();
-        _waitingForFingerPrint = nullptr;
-    }
+    removeMessageBoxAndroid();
 #endif
 
     UserDefault::getInstance()->setIntegerForKey(kBiometricValidation, 1);
@@ -90,11 +86,7 @@ void BiometricAuthenticationHandler::biometricAuthenticationSuccess()
 void BiometricAuthenticationHandler::biometricAuthenticationFailure()
 {
 #if(CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    if(_waitingForFingerPrint)
-    {
-        _waitingForFingerPrint->removeMessageBox();
-        _waitingForFingerPrint = nullptr;
-    }
+    removeMessageBoxAndroid();
 #endif
     
     EventCustom event(kBiometricValidationFailure);
@@ -104,11 +96,7 @@ void BiometricAuthenticationHandler::biometricAuthenticationFailure()
 void BiometricAuthenticationHandler::biometricAuthenticationError()
 {
 #if(CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    if(_waitingForFingerPrint)
-    {
-        _waitingForFingerPrint->removeMessageBox();
-        _waitingForFingerPrint = nullptr;
-    }
+	removeMessageBoxAndroid();
 #endif
 }
 
@@ -116,6 +104,17 @@ void BiometricAuthenticationHandler::biometricAuthenticationNotNeeded()
 {
     UserDefault::getInstance()->setIntegerForKey(kBiometricValidation, -1);
 }
+
+#if(CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+void BiometricAuthenticationHandler::removeMessageBoxAndroid()
+{
+	if(_waitingForFingerPrint)
+	{
+		_waitingForFingerPrint->removeMessageBox();
+		_waitingForFingerPrint = nullptr;
+	}
+}
+#endif
 
 //messagebox delegate
 

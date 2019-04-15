@@ -223,6 +223,9 @@ void RequestAdultPinLayer::removeSelf(float dt)
 {
     if(this)
     {
+#if(CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+		BiometricAuthenticationHandler::getInstance()->removeMessageBoxAndroid();
+#endif
         Director::getInstance()->getEventDispatcher()->removeEventListener(_biometricValidationSuccessListener);
         Director::getInstance()->getEventDispatcher()->removeEventListener(_biometricValidationFailureListener);
         this->removeChild(backgroundLayer);
@@ -232,6 +235,9 @@ void RequestAdultPinLayer::removeSelf(float dt)
 
 void RequestAdultPinLayer::onExit()
 {
+#if(CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+	BiometricAuthenticationHandler::getInstance()->removeMessageBoxAndroid();
+#endif
     Director::getInstance()->getEventDispatcher()->removeEventListener(_biometricValidationSuccessListener);
     Director::getInstance()->getEventDispatcher()->removeEventListener(_biometricValidationFailureListener);
     

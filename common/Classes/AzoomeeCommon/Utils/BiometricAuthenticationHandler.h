@@ -26,7 +26,10 @@ public:
     void biometricAuthenticationFailure();
     void biometricAuthenticationError();
     void biometricAuthenticationNotNeeded();
-    
+	
+#if(CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+	void removeMessageBoxAndroid();
+#endif
     //messagebox delegate
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
     
