@@ -76,6 +76,7 @@ void API::HandleAPIResponse(cocos2d::network::HttpClient *sender, cocos2d::netwo
 	
 	if((response->getResponseCode() == 200)||(response->getResponseCode() == 201)||(response->getResponseCode() == 204))
 	{
+		AnalyticsSingleton::getInstance()->backendRequestCompleteEvent(requestTag, getValueFromHttpResponseHeaderForKey("X-AZ-QID", responseHeaderString));
 		const std::string& rewardData = getValueFromHttpResponseHeaderForKey("X-AZ-REWARDS", responseHeaderString);
 		if(rewardData != "")
 		{
@@ -115,7 +116,7 @@ void API::HandleAPIError(cocos2d::network::HttpResponse *response, HttpRequestCr
 	
 	if(response->getResponseCode() != -1)
 	{
-		AnalyticsSingleton::getInstance()->httpRequestFailed(requestTag, errorCode, getValueFromHttpResponseHeaderForKey("x-az-qid", responseHeaderString));
+		AnalyticsSingleton::getInstance()->httpRequestFailed(requestTag, errorCode, getValueFromHttpResponseHeaderForKey("X-AZ-QID", responseHeaderString));
 	}
 	
 	if((errorCode == 401)&&(findPositionOfNthString(responseDataString, "Invalid Request Time", 1) != responseDataString.length()))
