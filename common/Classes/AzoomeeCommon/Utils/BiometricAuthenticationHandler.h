@@ -26,7 +26,9 @@ public:
     void biometricAuthenticationFailure();
     void biometricAuthenticationError();
     void biometricAuthenticationNotNeeded();
-    
+	
+	void removeMessageBoxAndroid();
+	
     //messagebox delegate
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
     
