@@ -1034,4 +1034,14 @@ void AnalyticsSingleton::coinCounterPressedEvent()
 	mixPanelSendEventWithStoredProperties("coinCounterPressed");
 }
 
+//-------------DEBUG----------------------------------------
+void AnalyticsSingleton::backendRequestCompleteEvent(const std::string& requestTag, const std::string& qid)
+{
+	mixPanelSendEventWithStoredProperties("backendRequestComplete" ,{{"requestTag", requestTag},{"qid",qid}});
+}
+void AnalyticsSingleton::debugEvent(const std::string& eventName, const std::map<std::string,std::string>& params)
+{
+	mixPanelSendEventWithStoredProperties("DEBUG_" + eventName, params);
+}
+
 NS_AZOOMEE_END
