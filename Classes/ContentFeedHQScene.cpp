@@ -294,10 +294,13 @@ void ContentFeedHQScene::onSizeChanged()
 	_contentNode->setContentSize(this->getContentSize());
 	createContentScrollview();
 	
-	Director::getInstance()->getScheduler()->schedule([=](float deltat)
+	if(!isnan(scrollPerc))
 	{
-		 _contentScrollview->scrollToPercentVertical(scrollPerc, 0, true);
-	}, this, 0, 0, 0, false, "scroll");
+		Director::getInstance()->getScheduler()->schedule([=](float deltat)
+		{
+			 _contentScrollview->scrollToPercentVertical(scrollPerc, 0, true);
+		}, this, 0, 0, 0, false, "scroll");
+	}
 }
 
 void ContentFeedHQScene::onTutorialStateChanged(const std::string& stateId)
