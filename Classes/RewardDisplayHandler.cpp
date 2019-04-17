@@ -47,7 +47,7 @@ void RewardDisplayHandler::showReward(const RewardItemRef& reward)
 	if(reward->getType() == "COIN")
 	{
 		RewardScene* rewardScene = RewardScene::create();
-		rewardScene->setDuration(10.0f);
+		rewardScene->setDuration(8.0f);
 		rewardScene->setRewardData(reward);
 		rewardScene->setDeleagte(this);
 		NotificationNodeDisplayManager::getInstance()->addRewardNode(rewardScene);
@@ -122,7 +122,7 @@ void RewardDisplayHandler::onRewardSuccess(const RewardItemRef& reward)
 }
 void RewardDisplayHandler::onAnimationComplete(const RewardItemRef& reward)
 {
-	const std::vector<std::string>& ids = splitStringToVector(reward->getId(), ";");
+	/*const std::vector<std::string>& ids = splitStringToVector(reward->getId(), ";");
 	
 	for(const std::string& id : ids)
 	{
@@ -130,7 +130,7 @@ void RewardDisplayHandler::onAnimationComplete(const RewardItemRef& reward)
 		request->execute();
 	}
 	AnalyticsSingleton::getInstance()->rewardRedeemedEvent(abs(reward->getItemPrice()));
-	
+	*/
 	if(_rewardQueue.size() > 0)
 	{
 		const auto& firstItemIt = _rewardQueue.begin();
