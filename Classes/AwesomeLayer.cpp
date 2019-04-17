@@ -39,8 +39,6 @@ void AwesomeLayer::onEnter()
 	
 	scheduleUpdate();
 	
-	AudioMixer::getInstance()->playEffect("Rewards_AwesomeOnwardsBackground.mp3");
-	
 	_passingTouchBlocker->onTouchEnded = [this](Touch* touch, Event* event){
 		this->stopActionByTag(kAutoCallbackActionTag);
 		if(_delegate)
@@ -133,7 +131,7 @@ void AwesomeLayer::addAwsomeText()
 	text->runAction(EaseBackOut::create(ScaleTo::create(_duration * 0.5f, 1)));
 	this->addChild(text);
 	
-	AudioMixer::getInstance()->playEffect("Rewards_Anim_Awesome.wav");
+	AudioMixer::getInstance()->playEffect("Win Coins.mp3");
 }
 void AwesomeLayer::addStars()
 {
