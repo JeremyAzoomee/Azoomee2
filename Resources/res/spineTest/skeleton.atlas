@@ -1,0 +1,20 @@
+
+skeleton.png
+size: 256,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+accessories/Toy1.5
+  rotate: false
+  xy: 2, 160
+  size: 204, 294
+  orig: 204, 294
+  offset: 0, 0
+  index: -1
+arms/armLeft06_Solid
+  rotate: false
+  xy: 2, 2
+  size: 182, 156
+  orig: 182, 156
+  offset: 0, 0
+  index: -1

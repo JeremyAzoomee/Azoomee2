@@ -1,0 +1,45 @@
+{
+"skeleton": { "hash": "gj9coo3+7s2d2gIXczAx4jLsuO8", "spine": "3.7.92", "width": 261.2, "height": 298.64, "images": "/Users/macauley/Documents/cocos2d-x/app-content-oomeemaker/assets", "audio": "" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "bone", "parent": "root", "rotation": 1.32, "x": 30.17, "y": 19.36 },
+	{ "name": "bone2", "parent": "bone", "x": -97, "y": -25 }
+],
+"slots": [
+	{ "name": "arms/armLeft06_Solid", "bone": "bone", "attachment": "arms/armLeft06_Solid" },
+	{ "name": "accessories/Toy1.5", "bone": "bone2", "attachment": "accessories/Toy1.5" }
+],
+"skins": {
+	"default": {
+		"accessories/Toy1.5": {
+			"accessories/Toy1.5": { "x": -3.5, "y": 62, "width": 204, "height": 294 }
+		},
+		"arms/armLeft06_Solid": {
+			"arms/armLeft06_Solid": { "x": -38.5, "y": -9, "width": 182, "height": 156 }
+		}
+	}
+},
+"animations": {
+	"wave": {
+		"bones": {
+			"bone": {
+				"rotate": [
+					{ "time": 0, "angle": 0 },
+					{ "time": 0.1667, "angle": -36.87 },
+					{ "time": 0.3333, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 9.2, "y": 4.86 }
+				]
+			},
+			"bone2": {
+				"rotate": [
+					{ "time": 0, "angle": 0 },
+					{ "time": 0.1667, "angle": 60.27 },
+					{ "time": 0.3333, "angle": 2.93 }
+				]
+			}
+		}
+	}
+}
+}

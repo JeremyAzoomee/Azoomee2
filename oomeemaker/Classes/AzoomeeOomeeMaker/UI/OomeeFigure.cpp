@@ -10,6 +10,8 @@
 #include "../DataObjects/OomeeMakerDataStorage.h"
 #include "../DataObjects/OomeeMakerDataHandler.h"
 #include <AzoomeeCommon/Utils/SpriteUtils.h>
+#include <cocos/editor-support/spine/spine-cocos2dx.h>
+#include <cocos/editor-support/spine/AttachmentVertices.h>
 
 using namespace cocos2d;
 
@@ -183,6 +185,36 @@ void OomeeFigure::setOomeeData(const OomeeRef& oomeeData)
     }
     
     _undoStack.push_back(getDataSnapshot());
+	
+	spine::SkeletonAnimation* test = spine::SkeletonAnimation::createWithJsonFile("res/spineTest/skeleton.json", "res/spineTest/skeleton.atlas");
+	test->setAnimation(0, "wave", true);
+	
+	
+	Texture2D *texture = Director::getInstance()->getTextureCache()->addImage("res/spineTest/0004_Trident_Gold.png");
+	cocos2d::Size sz = texture->getContentSizeInPixels();
+	
+	spRegionAttachment* attachment = (spRegionAttachment*)spSkeleton_getAttachmentForSlotName(test->getSkeleton(), "accessories/Toy1.5", "accessories/Toy1.5");
+	attachment->regionWidth = sz.width;
+	attachment->regionHeight = sz.height;
+	attachment->regionOriginalWidth = sz.width + 250;
+	attachment->regionOriginalHeight = sz.height + 150;
+	attachment->regionOffsetX = 250;
+	attachment->regionOffsetY = 150;
+	spRegionAttachment_setUVs(attachment, 0, 0, 1, 1, 0);
+	spRegionAttachment_updateOffset(attachment);
+	spine::AttachmentVertices* attachmentVertices = (spine::AttachmentVertices*)attachment->rendererObject;
+	V3F_C4B_T2F* vertices = attachmentVertices->_triangles->verts;
+	for (int i = 0, ii = 0; i < 4; ++i, ii += 2) {
+		vertices[i].texCoords.u = attachment->uvs[ii];
+		vertices[i].texCoords.v = attachment->uvs[ii + 1];
+	}
+	attachmentVertices->_texture = texture;
+	
+	const Size& baseSpriteSize = _baseSprite->getContentSize();
+	Vec2 anchorPoint = _oomeeData->getAnchorPoints().at("armLeft");
+	test->setPosition(Vec2(baseSpriteSize.width * anchorPoint.x, baseSpriteSize.height * anchorPoint.y));
+	_baseSprite->addChild(test, _baseSprite->transformZOrder(5));
+	test->scheduleUpdate();
 }
 
 OomeeRef OomeeFigure::getOomeeData() const
