@@ -16,6 +16,7 @@
 #include "OomeeAccessory.h"
 #include <AzoomeeCommon/UI/CCSpriteWithHue.h>
 #include <cocos/cocos2d.h>
+#include <cocos/editor-support/spine/spine-cocos2dx.h>
 
 NS_AZOOMEE_OM_BEGIN
 
@@ -32,7 +33,9 @@ class OomeeFigure : public cocos2d::Node
 {
     typedef cocos2d::Node Super;
 private:
-    
+	
+	spine::SkeletonAnimation* _spineTest = nullptr;
+	
     bool _isEditable = true;
     OomeeRef _oomeeData = nullptr;
     //OomeeColourRef _colour = nullptr;

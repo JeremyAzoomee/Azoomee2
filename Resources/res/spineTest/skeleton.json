@@ -1,25 +1,63 @@
 {
-"skeleton": { "hash": "gj9coo3+7s2d2gIXczAx4jLsuO8", "spine": "3.7.92", "width": 261.2, "height": 298.64, "images": "/Users/macauley/Documents/cocos2d-x/app-content-oomeemaker/assets", "audio": "" },
+"skeleton": { "hash": "MqWUSaCn4Bic+A/QTYEtoSwUhOE", "spine": "3.7.92", "width": 297.53, "height": 298.64, "images": "/Users/macauley/Documents/cocos2d-x/app-content-oomeemaker/assets", "audio": "" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "bone", "parent": "root", "rotation": 1.32, "x": 30.17, "y": 19.36 },
 	{ "name": "bone2", "parent": "bone", "x": -97, "y": -25 }
 ],
 "slots": [
-	{ "name": "arms/armLeft06_Solid", "bone": "bone", "attachment": "arms/armLeft06_Solid" },
+	{ "name": "base", "bone": "bone", "attachment": "arms/armLeft06_Solid" },
+	{ "name": "gradient", "bone": "bone", "attachment": "arms/armLeft06_Gradient" },
+	{ "name": "highlight", "bone": "bone", "attachment": "arms/armLeft06_Bottom" },
 	{ "name": "accessories/Toy1.5", "bone": "bone2", "attachment": "accessories/Toy1.5" }
 ],
 "skins": {
 	"default": {
 		"accessories/Toy1.5": {
-			"accessories/Toy1.5": { "x": -3.5, "y": 62, "width": 204, "height": 294 }
+			"accessories/Toy1.5": { "x": -44.37, "y": 62.95, "width": 204, "height": 294 }
 		},
-		"arms/armLeft06_Solid": {
-			"arms/armLeft06_Solid": { "x": -38.5, "y": -9, "width": 182, "height": 156 }
+		"base": {
+			"arms/armLeft06_Solid": { "x": -43.08, "y": -10.41, "width": 182, "height": 156 }
+		},
+		"gradient": {
+			"arms/armLeft06_Gradient": { "x": -43.08, "y": -10.41, "width": 182, "height": 156 }
+		},
+		"highlight": {
+			"arms/armLeft06_Bottom": { "x": -43.08, "y": -10.41, "width": 182, "height": 156 }
 		}
 	}
 },
 "animations": {
+	"flip": {
+		"bones": {
+			"bone2": {
+				"rotate": [
+					{ "time": 0, "angle": 0 },
+					{ "time": 0.3333, "angle": 47.35 },
+					{ "time": 0.6667, "angle": 81.62 },
+					{ "time": 1, "angle": -178.68 },
+					{ "time": 1.1667, "angle": -69.16 },
+					{ "time": 1.3333, "angle": 23.9 },
+					{ "time": 1.6667, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 },
+					{ "time": 0.3333, "x": -6.06, "y": 47.15 },
+					{ "time": 0.6667, "x": 95.04, "y": 380.06 },
+					{ "time": 1, "x": -110.46, "y": 417.71 },
+					{ "time": 1.3333, "x": -18.19, "y": 269.03 },
+					{ "time": 1.6667, "x": 0, "y": 0 }
+				]
+			},
+			"bone": {
+				"rotate": [
+					{ "time": 0, "angle": 0 },
+					{ "time": 0.3333, "angle": -61.42 },
+					{ "time": 0.6667, "angle": 0 }
+				]
+			}
+		}
+	},
 	"wave": {
 		"bones": {
 			"bone": {
