@@ -20,16 +20,6 @@ class AzoomeeApp:
     Builds the Azoomee app on various platforms.
     """
 
-    # Fabric info
-    FABRIC_INFO = {
-        # Fabric Account API Key
-        'api_key' : '',
-        # Fabric Account Build Secret
-        'build_secret' : '',
-        # Comma seperated Beta group names to be used when uploading builds to Fabric
-        'test_groups' : '',
-    }
-
     # Android project paths & settings
     ANDROID_PROJECT_DIR = os.path.join( os.path.dirname( os.path.abspath( __file__ ) ), 'proj.android-studio' )
 
@@ -39,6 +29,18 @@ class AzoomeeApp:
     IOS_PROJECT_TARGET = 'azoomee2-mobile'
     IOS_PLIST_PATH = os.path.join( IOS_PROJECT_DIR, 'ios', 'Info.plist' )
     IOS_EXPORT_OPTIONS_PATH = os.path.join( IOS_PROJECT_DIR, 'ExportOptions.plist' )
+
+    # Fabric info
+    FABRIC_INFO = {
+        # Fabric Account API Key
+        'api_key' : '3885c5b5aa7470cf4b9263fce3dbf7d6f3c2afc8',
+        # Fabric Account Build Secret
+        'build_secret' : '79ec75f3c0ed8eccb593d245acdbc2351770496a76f8da2fd96245095eba920c',
+        # Comma seperated Beta group names to be used when uploading builds to Fabric
+        'test_groups' : '',
+        # Path to the iOS Framework
+        'ios_framework_path' : os.path.join( IOS_PROJECT_DIR, 'Crashlytics.framework' )
+    }
 
     # Directory to place built binaries
     BUILD_DIR = os.path.join( os.path.dirname( os.path.abspath( __file__ ) ), 'build' )
@@ -124,15 +126,16 @@ class AzoomeeApp:
         """
         print 'deploy:', args
 
+        current_version = self._get_current_version()
+
         # Get the current branch in git
         current_branch = self._get_current_branch()
 
         # Check we are on the release branch for this version
-        current_version = self._get_current_version()
         major_minor_version = current_version[ 0 : current_version.rfind('.') ]
         required_branch = 'release/' + major_minor_version
         if current_branch != required_branch:
-            return self.exit_with_error( 'You must be on the branch "{branch}" in order to deploy this version.', branch=required_branch )
+            pass #return self.exit_with_error( 'You must be on the branch "{branch}" in order to deploy this version.', branch=required_branch )
 
         # Do we need to update the version?
         if args.patch:
@@ -143,7 +146,7 @@ class AzoomeeApp:
         # Now run deploy for each platform
         platforms = self.PLATFORMS if 'all' in args.platform else args.platform
         for p in platforms:
-            self._perform_deploy( p )
+            self._perform_deploy( p, force_rebuild=args.rebuild )
     
 
     def _perform_clean( self, platform ):
@@ -213,20 +216,50 @@ class AzoomeeApp:
             print '{platform} build not implemented yet'.format( platform=platform )
     
 
-    def _perform_deploy( self, platform ):
+    def _perform_deploy( self, platform, force_rebuild=False ):
         """
         Deploy app for testing for a single platform.
         """
         if platform == 'ios':
-            # Build archive first
-            self._perform_build( platform )
-
-            # Now upload the IPA file
             platform_build_dir = os.path.join( self.BUILD_DIR, platform )
             build_name = 'Azoomee-v' + self._get_current_version()
-            ipa_path = os.path.join( platform_build_dir, build_name + '.ipa' )
+            ipa_path = os.path.join( platform_build_dir, build_name + '.ipa', self.IOS_PROJECT_TARGET + '.ipa' )
+            
+            # If we're forcing a rebuild, do a clean and delete the existing archive and ipa
+            if force_rebuild:
+                self._perform_clean( platform )
+                shutil.rmtree( os.path.join( platform_build_dir, build_name + '.ipa' ), ignore_errors=True )
+                shutil.rmtree( os.path.join( platform_build_dir, build_name + '.xcarchive' ), ignore_errors=True )
 
-            # TODO RUN FABRIC UPLOAD COMMAND
+            # Build if needed
+            if not os.path.isfile( ipa_path ):
+                self._perform_build( platform )
+
+            # If we don't have an ipa file now, we can't deploy anything
+            if not os.path.isfile( ipa_path ):
+                return self.exit_with_error( 'Unable to deploy, file not found: {file}', file=ipa_path )
+
+            # Now upload the IPA file
+
+            # TODO: Create changelog notes file by summarising all commits from the current release branch
+            notes_path = ""
+
+            # Do Fabric upload
+            try: 
+                # "{framework_path}/submit" {api_key} {build_secret} -ipaPath "{ipa_path}" -groupAliases "{group_aliases}" -notifications {notifications} -notesPath "{notes_path} -debug {debug}"
+                success = self.exec_system_command( '"{framework_path}/submit" {api_key} {build_secret} -ipaPath "{ipa_path}" -notifications {notifications} -debug {debug}', 
+                                                    framework_path=self.FABRIC_INFO['ios_framework_path'], 
+                                                    api_key=self.FABRIC_INFO['api_key'], 
+                                                    build_secret=self.FABRIC_INFO['build_secret'], 
+                                                    ipa_path=ipa_path,
+                                                    group_aliases=self.FABRIC_INFO['test_groups'],
+                                                    notifications="NO",
+                                                    notes_path=notes_path,
+                                                    debug="YES" )
+                if success != 0:
+                    return self.exit_with_error( 'Fabric submit failed with error {code}', code=success )
+            except Exception as e:
+                return self.exit_with_error( '{exception}', exception=str(e) )
         else:
             print '{platform} deploy not implemented yet'.format( platform=platform )
     
@@ -326,6 +359,7 @@ class AzoomeeApp:
         deploy_commands = subparsers.add_parser( 'deploy', help='deploy the app to Fabric' )
         deploy_commands.add_argument( '-p', '--platform', help='platform(s) to deploy', choices=platform_options, nargs='+', required=True )
         deploy_commands.add_argument( '--patch', help='automatically create a new Path version', action='store_true' )
+        deploy_commands.add_argument( '--rebuild', help='force a rebuild, otherwise a build will only happen if needed', action='store_true' )
 
         # Create a new release
         release_commands = subparsers.add_parser( 'new_release', help='create a new release' )
