@@ -1,34 +1,76 @@
 
 skeleton.png
-size: 512,512
+size: 128,128
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-accessories/Toy1.5
-  rotate: false
-  xy: 2, 160
-  size: 204, 294
-  orig: 204, 294
-  offset: 0, 0
-  index: -1
-arms/armLeft06_Bottom
-  rotate: false
-  xy: 208, 298
-  size: 182, 156
-  orig: 182, 156
-  offset: 0, 0
-  index: -1
-arms/armLeft06_Gradient
+shadowLight
   rotate: false
   xy: 2, 2
-  size: 182, 156
-  orig: 182, 156
+  size: 96, 90
+  orig: 96, 90
   offset: 0, 0
   index: -1
-arms/armLeft06_Solid
+base
   rotate: false
-  xy: 208, 140
-  size: 182, 156
-  orig: 182, 156
+  xy: 2, 2
+  size: 96, 90
+  orig: 96, 90
+  offset: 0, 0
+  index: -1
+face
+  rotate: false
+  xy: 2, 2
+  size: 96, 90
+  orig: 96, 90
+  offset: 0, 0
+  index: -1
+faceGradient
+  rotate: false
+  xy: 2, 2
+  size: 96, 90
+  orig: 96, 90
+  offset: 0, 0
+  index: -1
+gloss
+  rotate: false
+  xy: 2, 2
+  size: 96, 90
+  orig: 96, 90
+  offset: 0, 0
+  index: -1
+gradient
+  rotate: false
+  xy: 2, 2
+  size: 96, 90
+  orig: 96, 90
+  offset: 0, 0
+  index: -1
+highlight
+  rotate: false
+  xy: 2, 2
+  size: 96, 90
+  orig: 96, 90
+  offset: 0, 0
+  index: -1
+none
+  rotate: false
+  xy: 2, 2
+  size: 96, 90
+  orig: 96, 90
+  offset: 0, 0
+  index: -1
+shadow
+  rotate: false
+  xy: 2, 2
+  size: 96, 90
+  orig: 96, 90
+  offset: 0, 0
+  index: -1
+shadowEyes
+  rotate: false
+  xy: 2, 2
+  size: 96, 90
+  orig: 96, 90
   offset: 0, 0
   index: -1

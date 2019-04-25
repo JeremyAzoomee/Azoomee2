@@ -14,6 +14,8 @@
 
 using namespace cocos2d;
 
+static unsigned short quadTriangles[6] = {0, 1, 2, 2, 3, 0};
+
 NS_AZOOMEE_OM_BEGIN
 
 bool OomeeFigure::init()
@@ -148,6 +150,10 @@ void OomeeFigure::setOomeeData(const OomeeRef& oomeeData)
     {
         _baseSprite->removeFromParent();
     }
+	if(_spineTest)
+	{
+		_spineTest->removeFromParent();
+	}
     
     std::map<std::string, OomeeItemRef> accessoriesHolder;
     
@@ -163,32 +169,98 @@ void OomeeFigure::setOomeeData(const OomeeRef& oomeeData)
     _baseSprite->setNormalizedPosition(_oomeeData->getPosition());
     _baseSprite->setScale(_oomeeData->getScale());
     this->addChild(_baseSprite);
+	_baseSprite->setVisible(false);
 	
 	_spineTest = spine::SkeletonAnimation::createWithJsonFile("res/spineTest/skeleton.json", "res/spineTest/skeleton.atlas");
-	_spineTest->setAnimation(0, "wave", false);
+	_spineTest->setAnimation(0, "fly", false);
+	_spineTest->setOpacityModifyRGB(true);
+	//_spineTest->setNormalizedPosition(_oomeeData->getPosition());
+	_spineTest->setPosition(Vec2(_oomeeData->getPosition().x * this->getContentSize().width, _oomeeData->getPosition().y * this->getContentSize().height));
+	_spineTest->setScale(_oomeeData->getScale());
+	_spineTest->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	_spineTest->setDebugSlotsEnabled(true);
+	_spineTest->setDebugBonesEnabled(true);
 	
-	for(auto colour : _oomeeData->getColour()->getColours())
+	for(auto layer : _oomeeData->getColour()->getColours())
 	{
-		spRegionAttachment* attachment = (spRegionAttachment*)spSkin_getAttachment(_spineTest->getSkeleton()->data->defaultSkin, spSkeleton_findSlotIndex(_spineTest->getSkeleton(), colour.first.c_str()), spSkin_getAttachmentName(_spineTest->getSkeleton()->data->defaultSkin, spSkeleton_findSlotIndex(_spineTest->getSkeleton(), colour.first.c_str()), 0));
-		if(attachment)
+		auto slotName = layer.first;
+		//spSkeleton_setAttachment(_spineTest->getSkeleton(), slotName.c_str(), "");
+		spSlot* slot = spSkeleton_findSlot(_spineTest->getSkeleton(), slotName.c_str());
+		if(slot)
 		{
-			attachment->r = colour.second.r / 255.0f;
-			attachment->g = colour.second.g / 255.0f;
-			attachment->b = colour.second.b / 255.0f;
+			spSlot_setAttachment(slot, nullptr);
 		}
 	}
 	
-	spRegionAttachment* attachment = (spRegionAttachment*)spSkeleton_getAttachmentForSlotName(_spineTest->getSkeleton(), "accessories/Toy1.5", "accessories/Toy1.5");
-	attachment->a = 0;
-	spine::AttachmentVertices* attachmentVertices = (spine::AttachmentVertices*)attachment->rendererObject;
-	attachmentVertices->_texture->retain();
+	for(auto asset : _oomeeData->getAssetSet())
+	{
+		auto colourName = asset.getTag();
+		auto colour = _oomeeData->getColour()->getColours().at(colourName);
+		spSkeleton* skel = _spineTest->getSkeleton();
+		int targetSlot = spSkeleton_findSlotIndex(skel, colourName.c_str());
+		spRegionAttachment* attachment = (spRegionAttachment*)spSkeleton_getAttachmentForSlotName(skel, colourName.c_str(), colourName.c_str());
+		//spRegionAttachment* attachment = (spRegionAttachment*)spSkin_getAttachment(skel->data->defaultSkin, targetSlot, colourName.c_str());
+		if(!attachment)
+		{
+			attachment = spRegionAttachment_create(colourName.c_str());
+		}
+		
+		Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(OomeeMakerDataHandler::getInstance()->getAssetDir() + asset.getLocation());
+		cocos2d::Size sz = texture->getContentSizeInPixels();
+		texture->retain();
+		
+		attachment->regionOffsetX = 0;
+		attachment->regionOffsetY = 0;
+		attachment->regionWidth = sz.width;
+		attachment->regionHeight = sz.height;
+		attachment->regionOriginalWidth = attachment->regionWidth; // same if not doing whitespace stripping
+		attachment->regionOriginalHeight = attachment->regionHeight;
+		
+		
+		//attachment->x = 0;
+		//attachment->y = 0;
+		//attachment->scaleX = 1.0f;
+		//attachment->scaleY = 1.0f;
+		//attachment->rotation = 0;
+		attachment->width = sz.width;
+		attachment->height = sz.height;
+		
+		if(colourName != "none")
+		{
+			attachment->r = colour.r / 255.0f;
+			attachment->g = colour.g / 255.0f;
+			attachment->b = colour.b / 255.0f;
+		}
+		attachment->a = 1;
+		spRegionAttachment_setUVs(attachment, 0, 0, 1, 1, 0);
+		
+		//unsigned short quadTriangles[6] = {0, 1, 2, 2, 3, 0};
+		//spine::AttachmentVertices* attachmentVertices = new spine::AttachmentVertices(texture, 4, quadTriangles, 6);
+		spine::AttachmentVertices* attachmentVertices = (spine::AttachmentVertices*)attachment->rendererObject;
+		V3F_C4B_T2F* vertices = attachmentVertices->_triangles->verts;
+		for (int i = 0, ii = 0; i < 4; ++i, ii += 2) {
+			vertices[i].texCoords.u = attachment->uvs[ii];
+			vertices[i].texCoords.v = attachment->uvs[ii + 1];
+		}
+		//attachmentVertices->_texture->release();
+		attachmentVertices->_texture = texture;
+		attachment->rendererObject = attachmentVertices;
+		spRegionAttachment_updateOffset(attachment);
+		//spSlot_setAttachment(spSkeleton_findSlot(skel, colourName.c_str()), (spAttachment*)attachment);
+		_spineTest->setAttachment(colourName, colourName);
+	}
 	
-	const Size& baseSpriteSize = _baseSprite->getContentSize();
-	Vec2 anchorPoint = _oomeeData->getAnchorPoints().at("armLeft");
-	_spineTest->setPosition(Vec2(baseSpriteSize.width * anchorPoint.x - 25, baseSpriteSize.height * anchorPoint.y));
-	_baseSprite->addChild(_spineTest, _baseSprite->transformZOrder(0));
+	//spRegionAttachment* attachment = (spRegionAttachment*)spSkeleton_getAttachmentForSlotName(_spineTest->getSkeleton(), "accessories/Toy1.5", "accessories/Toy1.5");
+	//attachment->a = 0;
+	//spine::AttachmentVertices* attachmentVertices = (spine::AttachmentVertices*)attachment->rendererObject;
+	//attachmentVertices->_texture->retain();
+	
+	//const Size& baseSpriteSize = _baseSprite->getContentSize();
+	//Vec2 anchorPoint = _oomeeData->getAnchorPoints().at("armLeft");
+	//_spineTest->setPosition(Vec2(baseSpriteSize.width * anchorPoint.x - 25, baseSpriteSize.height * anchorPoint.y));
+	//_baseSprite->addChild(_spineTest, _baseSprite->transformZOrder(0));
 	_spineTest->scheduleUpdate();
-	
+	this->addChild(_spineTest);
 	
     for(const std::string& accId : _oomeeData->getDefaultAccessories())
     {
@@ -256,7 +328,7 @@ void OomeeFigure::addAccessory(const OomeeItemRef& oomeeItem)
         
         removeAccessory(oomeeItem->getTargetAnchor());
 		
-		if(oomeeItem->getTargetAnchor() == "toy")
+		/*if(oomeeItem->getTargetAnchor() == "toy")
 		{
 			const Size& baseSpriteSize = _baseSprite->getContentSize();
 			Vec2 offsetNor = _oomeeData->getAnchorPoints().at("armLeft") - _oomeeData->getAnchorPoints().at("toy");
@@ -287,6 +359,78 @@ void OomeeFigure::addAccessory(const OomeeItemRef& oomeeItem)
 			
 			_spineTest->setAnimation(0, "flip", false);
 			return;
+		}*/
+		
+		for(auto layer : _oomeeData->getColour()->getColours())
+		{
+			auto slotName = oomeeItem->getTargetAnchor() + "_" + layer.first;
+			//spSkeleton_setAttachment(_spineTest->getSkeleton(), slotName.c_str(), "");
+			spSlot* slot = spSkeleton_findSlot(_spineTest->getSkeleton(), slotName.c_str());
+			if(slot)
+			{
+				spSlot_setAttachment(slot, nullptr);
+			}
+		}
+		
+		for(auto asset : oomeeItem->getAssetSet())
+		{
+			auto colourName = asset.getTag();
+			auto colour = _oomeeData->getColour()->getColours().at(colourName);
+			auto attachName = oomeeItem->getTargetAnchor() + "_" + colourName;
+			spSkeleton* skel = _spineTest->getSkeleton();
+			int targetSlot = spSkeleton_findSlotIndex(skel, attachName.c_str());
+			
+			spRegionAttachment* attachment = (spRegionAttachment*)spSkeleton_getAttachmentForSlotName(skel, attachName.c_str(), attachName.c_str());//(spRegionAttachment*)spSkin_getAttachment(skel->data->defaultSkin, targetSlot, attachName.c_str());
+			if(!attachment)
+			{
+				attachment = spRegionAttachment_create(attachName.c_str());
+				spSkin_addAttachment(skel->data->defaultSkin, targetSlot, attachName.c_str(), (spAttachment*)attachment);
+			}
+			Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(OomeeMakerDataHandler::getInstance()->getAssetDir() + asset.getLocation());
+			cocos2d::Size sz = texture->getContentSizeInPixels();
+			texture->retain();
+			
+			attachment->regionOffsetX = 0;
+			attachment->regionOffsetY = 0;
+			attachment->regionWidth = sz.width;
+			attachment->regionHeight = sz.height;
+			attachment->regionOriginalWidth = attachment->regionWidth; // same if not doing whitespace stripping
+			attachment->regionOriginalHeight = attachment->regionHeight;
+			
+			
+			attachment->x = oomeeItem->getOffset().x;
+			attachment->y = oomeeItem->getOffset().y;
+			attachment->scaleX = 1.0f;
+			attachment->scaleY = 1.0f;
+			attachment->rotation = 0;
+			attachment->width = sz.width;
+			attachment->height = sz.height;
+			
+			if(colourName != "none" && oomeeItem->isUsingColourHue())
+			{
+				attachment->r = colour.r / 255.0f;
+				attachment->g = colour.g / 255.0f;
+				attachment->b = colour.b / 255.0f;
+			}
+			attachment->a = 1;
+			spRegionAttachment_setUVs(attachment, 0, 0, 1, 1, 0);
+			
+			spine::AttachmentVertices* attachmentVertices = new spine::AttachmentVertices(texture, 4, quadTriangles, 6);
+			V3F_C4B_T2F* vertices = attachmentVertices->_triangles->verts;
+			for (int i = 0, ii = 0; i < 4; ++i, ii += 2) {
+				vertices[i].texCoords.u = attachment->uvs[ii];
+				vertices[i].texCoords.v = attachment->uvs[ii + 1];
+			}
+			attachmentVertices->_texture->release();
+			attachmentVertices->_texture = texture;
+			attachment->rendererObject = attachmentVertices;
+			spRegionAttachment_updateOffset(attachment);
+			//spSlot_setAttachment(spSkeleton_findSlot(skel, attachName.c_str()), (spAttachment*)attachment);
+			_spineTest->setAttachment(attachName, attachName);
+		}
+		if(oomeeItem->getTargetAnchor() == "toy" || oomeeItem->getTargetAnchor() == "head")
+		{
+			_spineTest->setAnimation(0, oomeeItem->getTargetAnchor(), false);
 		}
 		
 		

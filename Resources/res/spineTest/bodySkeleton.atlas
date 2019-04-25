@@ -1,0 +1,13 @@
+
+bodySkeleton.png
+size: 512,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+baseOomee/Body_Solid
+  rotate: false
+  xy: 2, 2
+  size: 501, 687
+  orig: 501, 687
+  offset: 0, 0
+  index: -1
