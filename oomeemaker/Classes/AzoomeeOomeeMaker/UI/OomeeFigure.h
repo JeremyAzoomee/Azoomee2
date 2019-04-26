@@ -40,7 +40,7 @@ private:
     OomeeRef _oomeeData = nullptr;
     //OomeeColourRef _colour = nullptr;
     OomeeBody* _baseSprite = nullptr;
-    std::map<std::string, OomeeAccessory*> _accessories;
+    std::map<std::string, OomeeItemRef> _accessories;
     cocos2d::EventListenerTouchOneByOne* _touchListener = nullptr;
     float _hue = 0;
     

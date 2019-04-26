@@ -37,7 +37,7 @@ bool OomeeFigure::init()
             {
                 continue;
             }
-            const Point& locationInNode = it->second->convertToNodeSpace(touch->getLocation());
+            /*const Point& locationInNode = it->second->convertToNodeSpace(touch->getLocation());
             const Size& s = it->second->getBoundingBox().size;
             const Rect& rect = Rect(0,0,s.width, s.height);
             if(rect.containsPoint(locationInNode) && touchOnSpritePixelPerfect(touch, it->second->getBaseSprite()))
@@ -55,7 +55,7 @@ bool OomeeFigure::init()
                         targetId = it->first;
                     }
                 }
-            }
+            }*/
         }
         
         if(targetSprite)
@@ -159,7 +159,7 @@ void OomeeFigure::setOomeeData(const OomeeRef& oomeeData)
     
     for(const auto& item : _accessories)
     {
-        accessoriesHolder[item.first] = item.second->getItemData();
+        accessoriesHolder[item.first] = item.second;
     }
 
     _accessories.clear();
@@ -178,8 +178,8 @@ void OomeeFigure::setOomeeData(const OomeeRef& oomeeData)
 	_spineTest->setPosition(Vec2(_oomeeData->getPosition().x * this->getContentSize().width, _oomeeData->getPosition().y * this->getContentSize().height));
 	_spineTest->setScale(_oomeeData->getScale());
 	_spineTest->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	_spineTest->setDebugSlotsEnabled(true);
-	_spineTest->setDebugBonesEnabled(true);
+	//_spineTest->setDebugSlotsEnabled(true);
+	//_spineTest->setDebugBonesEnabled(true);
 	
 	for(auto layer : _oomeeData->getColour()->getColours())
 	{
@@ -295,7 +295,7 @@ std::vector<std::string> OomeeFigure::getAccessoryIds() const
     std::vector<std::string> ids;
     for(const auto& accessory : _accessories)
     {
-        ids.push_back(accessory.second->getItemId());
+        ids.push_back(accessory.second->getId());
     }
     return ids;
 }
@@ -319,8 +319,8 @@ void OomeeFigure::addAccessory(const OomeeItemRef& oomeeItem)
     {
         if(_accessories.find(oomeeItem->getTargetAnchor()) != _accessories.end())
         {
-            OomeeAccessory* accessory = _accessories.at(oomeeItem->getTargetAnchor());
-            if(accessory->getItemId() == oomeeItem->getId()) // accessory is already there
+           OomeeItemRef accessory = _accessories.at(oomeeItem->getTargetAnchor());
+            if(accessory->getId() == oomeeItem->getId()) // accessory is already there
             {
                 return;
             }
@@ -361,9 +361,10 @@ void OomeeFigure::addAccessory(const OomeeItemRef& oomeeItem)
 			return;
 		}*/
 		
-		for(auto layer : _oomeeData->getColour()->getColours())
+		//for(auto layer : _oomeeData->getColour()->getColours())
+		for(int i = 0; i < _oomeeData->getColour()->getColours().size(); i++)
 		{
-			auto slotName = oomeeItem->getTargetAnchor() + "_" + layer.first;
+			auto slotName = oomeeItem->getTargetAnchor() + "_" + StringUtils::format("%d",i);//layer.first;
 			//spSkeleton_setAttachment(_spineTest->getSkeleton(), slotName.c_str(), "");
 			spSlot* slot = spSkeleton_findSlot(_spineTest->getSkeleton(), slotName.c_str());
 			if(slot)
@@ -376,15 +377,17 @@ void OomeeFigure::addAccessory(const OomeeItemRef& oomeeItem)
 		{
 			auto colourName = asset.getTag();
 			auto colour = _oomeeData->getColour()->getColours().at(colourName);
-			auto attachName = oomeeItem->getTargetAnchor() + "_" + colourName;
+			auto attachName = oomeeItem->getTargetAnchor() + "_" + StringUtils::format("%d",asset.getZOrder());//colourName;
 			spSkeleton* skel = _spineTest->getSkeleton();
 			int targetSlot = spSkeleton_findSlotIndex(skel, attachName.c_str());
 			
 			spRegionAttachment* attachment = (spRegionAttachment*)spSkeleton_getAttachmentForSlotName(skel, attachName.c_str(), attachName.c_str());//(spRegionAttachment*)spSkin_getAttachment(skel->data->defaultSkin, targetSlot, attachName.c_str());
+			bool newAtt = false;
 			if(!attachment)
 			{
 				attachment = spRegionAttachment_create(attachName.c_str());
 				spSkin_addAttachment(skel->data->defaultSkin, targetSlot, attachName.c_str(), (spAttachment*)attachment);
+				newAtt = true;
 			}
 			Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(OomeeMakerDataHandler::getInstance()->getAssetDir() + asset.getLocation());
 			cocos2d::Size sz = texture->getContentSizeInPixels();
@@ -412,16 +415,32 @@ void OomeeFigure::addAccessory(const OomeeItemRef& oomeeItem)
 				attachment->g = colour.g / 255.0f;
 				attachment->b = colour.b / 255.0f;
 			}
+			else
+			{
+				attachment->r = 1;
+				attachment->g = 1;
+				attachment->b = 1;
+			}
 			attachment->a = 1;
 			spRegionAttachment_setUVs(attachment, 0, 0, 1, 1, 0);
-			
-			spine::AttachmentVertices* attachmentVertices = new spine::AttachmentVertices(texture, 4, quadTriangles, 6);
+			spine::AttachmentVertices* attachmentVertices = nullptr;
+			if(newAtt)
+			{
+				attachmentVertices = new spine::AttachmentVertices(texture, 4, quadTriangles, 6);
+			}
+			else
+			{
+				attachmentVertices = (spine::AttachmentVertices*)attachment->rendererObject;
+			}
 			V3F_C4B_T2F* vertices = attachmentVertices->_triangles->verts;
 			for (int i = 0, ii = 0; i < 4; ++i, ii += 2) {
 				vertices[i].texCoords.u = attachment->uvs[ii];
 				vertices[i].texCoords.v = attachment->uvs[ii + 1];
 			}
-			attachmentVertices->_texture->release();
+			if(!newAtt)
+			{
+				attachmentVertices->_texture->release();
+			}
 			attachmentVertices->_texture = texture;
 			attachment->rendererObject = attachmentVertices;
 			spRegionAttachment_updateOffset(attachment);
@@ -434,7 +453,7 @@ void OomeeFigure::addAccessory(const OomeeItemRef& oomeeItem)
 		}
 		
 		
-        OomeeAccessory* accessory = OomeeAccessory::create();
+        /*OomeeAccessory* accessory = OomeeAccessory::create();
         accessory->setItemData(oomeeItem);
 
 		accessory->setColourData(_oomeeData->getColour());
@@ -443,8 +462,8 @@ void OomeeFigure::addAccessory(const OomeeItemRef& oomeeItem)
         Vec2 anchorPoint = _oomeeData->getAnchorPoints().at(oomeeItem->getTargetAnchor()); // dont const& - unstable on android, caused many tears
         accessory->setPosition(Vec2(baseSpriteSize.width * anchorPoint.x, baseSpriteSize.height * anchorPoint.y) + oomeeItem->getOffset());
         accessory->setScale(oomeeItem->getTargetScale());
-        _baseSprite->addChild(accessory, _baseSprite->transformZOrder(oomeeItem->getZOrder()));
-        _accessories[oomeeItem->getTargetAnchor()] = accessory;
+        _baseSprite->addChild(accessory, _baseSprite->transformZOrder(oomeeItem->getZOrder()));*/
+        _accessories[oomeeItem->getTargetAnchor()] = oomeeItem;
         
         for(const std::string& id : oomeeItem->getDependancies())
         {
@@ -465,7 +484,17 @@ void OomeeFigure::removeAccessory(const std::string anchorPoint)
 {
     if(_accessories.find(anchorPoint) != _accessories.end())
     {
-        _accessories.at(anchorPoint)->removeFromParent();
+        //_accessories.at(anchorPoint)->removeFromParent();
+		for(int i = 0; i < _oomeeData->getColour()->getColours().size(); i++)
+		{
+			auto slotName = anchorPoint + "_" + StringUtils::format("%d",i);//layer.first;
+			//spSkeleton_setAttachment(_spineTest->getSkeleton(), slotName.c_str(), "");
+			spSlot* slot = spSkeleton_findSlot(_spineTest->getSkeleton(), slotName.c_str());
+			if(slot)
+			{
+				spSlot_setAttachment(slot, nullptr);
+			}
+		}
         _accessories.erase(_accessories.find(anchorPoint));
     }
 }
@@ -539,13 +568,13 @@ void OomeeFigure::dependancyCheck()
     std::vector<std::string> removeAccsAnchors;
     for(const auto& acc : _accessories)
     {
-        const OomeeItemRef& itemData = acc.second->getItemData();
+        const OomeeItemRef& itemData = acc.second;
         for(const auto& dependancyId : itemData->getDependancies())
         {
             const OomeeItemRef& dependancyData = OomeeMakerDataStorage::getInstance()->getOomeeItemForKey(dependancyId);
             if(dependancyData && _accessories.find(dependancyData->getTargetAnchor()) != _accessories.end())
             {
-                if(_accessories.at(dependancyData->getTargetAnchor())->getItemId() != dependancyId)
+                if(_accessories.at(dependancyData->getTargetAnchor())->getId() != dependancyId)
                 {
                     removeAccsAnchors.push_back(acc.first);
                     break;
@@ -567,7 +596,7 @@ OomeeDataSnapshot OomeeFigure::getDataSnapshot()
     snapshot._oomeeData = _oomeeData;
     for(const auto& acc : _accessories )
     {
-        snapshot._accessoryData.push_back(acc.second->getItemData());
+        snapshot._accessoryData.push_back(acc.second);
     }
     return snapshot;
 }
