@@ -13,28 +13,30 @@ NS_AZOOMEE_BEGIN
 static std::auto_ptr<TutorialController> sTutorialContollerSharedInstance;
 
 // Tutorial step ids
-const std::string TutorialController::kFTUGameHQNav = "ftu.gamehq.nav";
 const std::string TutorialController::kFTUGameHQContent = "ftu.gamehq.content";
-const std::string TutorialController::kFTUVideoHQNav = "ftu.videohq.nav";
 const std::string TutorialController::kFTUVideoHQContent = "ftu.videohq.content";
 const std::string TutorialController::kFTUGroupHQContent = "ftu.grouphq.content";
-const std::string TutorialController::kFTUGroupHQBack = "ftu.grouphq.back";
-const std::string TutorialController::kFTURewards = "ftu.rewards";
 const std::string TutorialController::kFTUSpendRewards = "ftu.spendrewards";
-const std::string TutorialController::kFTUEarnMoreRewards = "ftu.earnmorerewards";
+const std::string TutorialController::kFTUShopEarnMoreRewards = "ftu.earnmorerewards";
 const std::string TutorialController::kTutorialEnded = "tutorialend";
 const std::string TutorialController::kCreateOomee = "om.create";
 const std::string TutorialController::kConfirmOomee = "om.confirm";
 const std::string TutorialController::kNameEntry = "child.name";
 const std::string TutorialController::kAgeEntry = "child.age";
 // Tutorial ids
-const std::string TutorialController::kFTUNavTutorialID = "FTUNavTutorial";
 const std::string TutorialController::kFTUOomeeTutorialID = "FTUOomeeTutorial";
+const std::string TutorialController::kFTUAddChildID = "FTUAddChild";
+const std::string TutorialController::kFTUPlayGameID = "FTUPlayGame";
+const std::string TutorialController::kFTUWatchVideoID = "FTUWatchVideo";
+const std::string TutorialController::kFTUShopID = "FTUShop";
 // Tutorials
-const std::vector<std::string> TutorialController::kFTUNavTutorial = {kFTUGameHQNav,kFTUGameHQContent,kFTUVideoHQNav,kFTUVideoHQContent,kFTUGroupHQContent,kFTUGroupHQBack};
-const std::vector<std::string> TutorialController::kFTUOomeeTutorial = {kCreateOomee, kConfirmOomee, kNameEntry, kAgeEntry};
+const std::vector<std::string> TutorialController::kFTUAddChildTutorial = {kNameEntry,kAgeEntry};
+const std::vector<std::string> TutorialController::kFTUOomeeTutorial = {kCreateOomee, kConfirmOomee};
+const std::vector<std::string> TutorialController::kFTUGameTutorial = {kFTUGameHQContent};
+const std::vector<std::string> TutorialController::kFTUVideoTutorial = {kFTUVideoHQContent};
+const std::vector<std::string> TutorialController::kFTUShopTutorial = {kFTUSpendRewards, kFTUShopEarnMoreRewards};
 // Tutorial storage map
-const std::map<std::string, std::vector<std::string>> TutorialController::kTutorialMap = {{kFTUNavTutorialID,kFTUNavTutorial},{kFTUOomeeTutorialID,kFTUOomeeTutorial}};
+const std::map<std::string, std::vector<std::string>> TutorialController::kTutorialMap = {{kFTUShopID,kFTUAddChildTutorial},{kFTUOomeeTutorialID,kFTUOomeeTutorial},{kFTUPlayGameID,kFTUGameTutorial},{kFTUWatchVideoID,kFTUVideoTutorial},{kFTUShopID,kFTUShopTutorial}};
 
 TutorialController* TutorialController::getInstance()
 {

@@ -26,28 +26,30 @@ class TutorialController
 {
 public:
 	// Tutorial step ids
-	static const std::string kFTUGameHQNav;
 	static const std::string kFTUGameHQContent;
-	static const std::string kFTUVideoHQNav;
 	static const std::string kFTUVideoHQContent;
 	static const std::string kFTUGroupHQContent;
-	static const std::string kFTUGroupHQBack;
-	static const std::string kFTURewards;
 	static const std::string kFTUSpendRewards;
-	static const std::string kFTUEarnMoreRewards;
+	static const std::string kFTUShopEarnMoreRewards;
 	static const std::string kTutorialEnded;
 	static const std::string kCreateOomee;
 	static const std::string kConfirmOomee;
 	static const std::string kNameEntry;
 	static const std::string kAgeEntry;
 	//Tutorial ids
-	static const std::string kFTUNavTutorialID;
 	static const std::string kFTUOomeeTutorialID;
+	static const std::string kFTUAddChildID;
+	static const std::string kFTUPlayGameID;
+	static const std::string kFTUWatchVideoID;
+	static const std::string kFTUShopID;
 	
 private:
 	// Tutorials
-	static const std::vector<std::string> kFTUNavTutorial;
+	static const std::vector<std::string> kFTUAddChildTutorial;
 	static const std::vector<std::string> kFTUOomeeTutorial;
+	static const std::vector<std::string> kFTUGameTutorial;
+	static const std::vector<std::string> kFTUVideoTutorial;
+	static const std::vector<std::string> kFTUShopTutorial;
 	// Tutorial storage map
 	static const std::map<std::string,std::vector<std::string>> kTutorialMap;
 	
