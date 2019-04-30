@@ -12,27 +12,34 @@
 #include "../Strings.h"
 #include <cocos/cocos2d.h>
 #include "TutorialGuide.h"
-#include "TutorialSpeachBubble.h"
+#include "TutorialSpeechBubble.h"
 #include "../UI/ResizeNode.h"
 
 NS_AZOOMEE_BEGIN
 
+enum class MessageLocation {TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT};
+
 class TutorialMessagingNode : public ResizeNode
 {
-	typedef Super ResizeNode;
+	typedef ResizeNode Super;
 private:
 	
 	TutorialGuide* _guide = nullptr;
-	
+	TutorialSpeechBubble* _bubble = nullptr;
 	
 public:
+	static TutorialMessagingNode* create(const std::string& message, const MessageLocation& location = MessageLocation::TOP_LEFT);
+	
 	bool init() override;
 	void onEnter() override;
 	
 	void onSizeChanged() override;
 	
-	CREATE_FUNC(TutorialMessagignNode);
-}
+	void setMessage(const std::string& message);
+	void setLocation(const MessageLocation& location);
+	
+	CREATE_FUNC(TutorialMessagingNode);
+};
 
 NS_AZOOMEE_END
 

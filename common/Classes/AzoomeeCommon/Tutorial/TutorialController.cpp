@@ -36,7 +36,13 @@ const std::vector<std::string> TutorialController::kFTUGameTutorial = {kFTUGameH
 const std::vector<std::string> TutorialController::kFTUVideoTutorial = {kFTUVideoHQContent};
 const std::vector<std::string> TutorialController::kFTUShopTutorial = {kFTUSpendRewards, kFTUShopEarnMoreRewards};
 // Tutorial storage map
-const std::map<std::string, std::vector<std::string>> TutorialController::kTutorialMap = {{kFTUShopID,kFTUAddChildTutorial},{kFTUOomeeTutorialID,kFTUOomeeTutorial},{kFTUPlayGameID,kFTUGameTutorial},{kFTUWatchVideoID,kFTUVideoTutorial},{kFTUShopID,kFTUShopTutorial}};
+const std::map<std::string, std::vector<std::string>> TutorialController::kTutorialMap = {
+	{kFTUAddChildID,kFTUAddChildTutorial},
+	{kFTUOomeeTutorialID,kFTUOomeeTutorial},
+	{kFTUPlayGameID,kFTUGameTutorial},
+	{kFTUWatchVideoID,kFTUVideoTutorial},
+	{kFTUShopID,kFTUShopTutorial}
+};
 
 TutorialController* TutorialController::getInstance()
 {

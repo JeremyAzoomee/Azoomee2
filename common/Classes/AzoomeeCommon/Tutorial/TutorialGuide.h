@@ -10,25 +10,24 @@
 
 #include "../Azoomee.h"
 #include <cocos/cocos2d.h>
-#include
 
 NS_AZOOMEE_BEGIN
 
 class TutorialGuide : public cocos2d::Node
 {
-	typedef Super cocos2d::Node;
+	typedef cocos2d::Node Super;
 private:
 	cocos2d::Sprite* _avatar = nullptr;
 	cocos2d::Sprite* _frame = nullptr;
 	cocos2d::ClippingNode* _clippingNode = nullptr;
-	cocos2d::Node* _stencil = nullptr;
+	cocos2d::DrawNode* _stencil = nullptr;
 	
 public:
 	bool init() override;
 	void onEnter() override;
 	
 	CREATE_FUNC(TutorialGuide);
-}
+};
 
 NS_AZOOMEE_END
 

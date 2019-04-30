@@ -15,10 +15,10 @@ NS_AZOOMEE_BEGIN
 
 class TutorialSpeechBubble : public cocos2d::Node
 {
-	typedef Super cocos2d::Node;
+	typedef cocos2d::Node Super;
 private:
 	cocos2d::ui::Scale9Sprite* _bubble = nullptr;
-	coco2d::Label* _text = nullptr;
+	cocos2d::Label* _text = nullptr;
 	
 public:
 	
@@ -28,7 +28,7 @@ public:
 	void setText(const std::string& text);
 	
 	CREATE_FUNC(TutorialSpeechBubble);
-}
+};
 
 NS_AZOOMEE_END
 

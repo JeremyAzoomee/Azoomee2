@@ -17,8 +17,10 @@
 #include <AzoomeeCommon/ErrorCodes.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Tutorial/TutorialController.h>
+#include <AzoomeeCommon/Tutorial/TutorialMessagingNode.h>
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/UI/NotificationNodeDisplayManager.h>
 
 using namespace cocos2d;
 
@@ -81,6 +83,11 @@ Azoomee::Scene* AddChildScene::createWithFlowStage(const AddChildFlow& flowStage
     }
 	else if(flowStage == AddChildFlow::ANON_NAME)
 	{
+		if(TutorialController::getInstance()->isTutorialActive())
+		{
+			TutorialController::getInstance()->endTutorial();
+		}
+		TutorialController::getInstance()->startTutorial(TutorialController::kFTUAddChildID);
 		scene->_addingAnonChild = true;
 	}
     return scene;
@@ -138,11 +145,21 @@ void AddChildScene::setSceneForFlow()
         }
 		case AddChildFlow::ANON_NAME:
 		{
+			if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kNameEntry)
+			{
+				NotificationNodeDisplayManager::getInstance()->clearMessagingLayer();
+				NotificationNodeDisplayManager::getInstance()->addMessagingNode(TutorialMessagingNode::create(_("What's your name?")));
+			}
 			nextLayer = ChildNameLayerFirstTime::create();
 			break;
 		}
 		case AddChildFlow::ANON_AGE:
 		{
+			if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kAgeEntry)
+			{
+				NotificationNodeDisplayManager::getInstance()->clearMessagingLayer();
+				NotificationNodeDisplayManager::getInstance()->addMessagingNode(TutorialMessagingNode::create(_("How old are you?")));
+			}
 			nextLayer = ChildAgeLayer::create();
 			break;
 		}
@@ -191,12 +208,20 @@ void AddChildScene::nextLayer()
         }
 		case AddChildFlow::ANON_NAME:
 		{
+			if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kNameEntry)
+			{
+				TutorialController::getInstance()->nextStep();
+			}
 			_currentFlowStage = AddChildFlow::ANON_AGE;
 			setSceneForFlow();
 			break;
 		}
 		case AddChildFlow::ANON_AGE:
 		{
+			if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kAgeEntry)
+			{
+				TutorialController::getInstance()->nextStep();
+			}
 			_childCreator->updateChild(ParentDataProvider::getInstance()->getChild(0));
 			break;
 		}
@@ -242,12 +267,21 @@ void AddChildScene::prevLayer()
         }
 		case AddChildFlow::ANON_AGE:
 		{
+			if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kAgeEntry)
+			{
+				TutorialController::getInstance()->endTutorial();
+				TutorialController::getInstance()->startTutorial(TutorialController::kFTUAddChildID);
+			}
 			_currentFlowStage = AddChildFlow::ANON_NAME;
 			setSceneForFlow();
 			break;
 		}
 		case AddChildFlow::ANON_NAME:
 		{
+			if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kNameEntry)
+			{
+				TutorialController::getInstance()->endTutorial();
+			}
 			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
 		}
         default:
