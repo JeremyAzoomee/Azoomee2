@@ -16,6 +16,7 @@ NS_AZOOMEE_BEGIN
 class TutorialGuide : public cocos2d::Node
 {
 	typedef cocos2d::Node Super;
+	typedef std::function<void()> AnimationCompleteCallback;
 private:
 	cocos2d::Sprite* _avatar = nullptr;
 	cocos2d::Sprite* _frame = nullptr;
@@ -25,6 +26,9 @@ private:
 public:
 	bool init() override;
 	void onEnter() override;
+	
+	void animateIn(float delay, const AnimationCompleteCallback& callback = nullptr);
+	void animateOut(const AnimationCompleteCallback& callback = nullptr);
 	
 	CREATE_FUNC(TutorialGuide);
 };

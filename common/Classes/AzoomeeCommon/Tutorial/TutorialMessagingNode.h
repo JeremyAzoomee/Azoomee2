@@ -22,6 +22,7 @@ enum class MessageLocation {TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT};
 class TutorialMessagingNode : public ResizeNode
 {
 	typedef ResizeNode Super;
+	typedef std::function<void()> AnimationCompleteCallback;
 private:
 	
 	TutorialGuide* _guide = nullptr;
@@ -37,6 +38,13 @@ public:
 	
 	void setMessage(const std::string& message);
 	void setLocation(const MessageLocation& location);
+	
+	void animateInGuideAndMessage(const AnimationCompleteCallback& callback = nullptr);
+	void animateInMessage(const AnimationCompleteCallback& callback = nullptr);
+	void animateOutGuideAndMessage(const AnimationCompleteCallback& callback = nullptr);
+	void animateOutMessage(const AnimationCompleteCallback& callback = nullptr);
+	
+	
 	
 	CREATE_FUNC(TutorialMessagingNode);
 };

@@ -8,6 +8,7 @@
 #include "ChildAgeLayer.h"
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/Tutorial/TutorialController.h>
 
 using namespace cocos2d;
 
@@ -71,6 +72,7 @@ void ChildAgeLayer::onEnter()
 		ui::Button* ageButton = ui::Button::create(buttonAsset);
 		ageButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 		ageButton->setNormalizedPosition(Vec2((col + 0.5) / gridSize.x, (row + 0.5f) / gridSize.y));
+		ageButton->setColor(Style::Color::skyBlue);
 		ageButton->addTouchEventListener([this, ageButton, age](Ref* pSender, ui::Widget::TouchEventType eType){
 			if(eType == ui::Widget::TouchEventType::ENDED)
 			{
@@ -99,9 +101,10 @@ void ChildAgeLayer::onEnter()
 		_ageButtons.push_back(ageButton);
 	}
 
-    _continueButton = ui::Button::create("res/login/next_btnGreen.png");
-    _continueButton->setAnchorPoint(Vec2(1.25f,1.25f));
-    _continueButton->setPosition(contentSize);
+    _continueButton = ui::Button::create("res/buttons/blue_arrow_button.png");
+    _continueButton->setAnchorPoint(Vec2(-0.25f,0.5f));
+    //_continueButton->setPosition(contentSize);
+	_continueButton->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
     _continueButton->setTouchEnabled(_childCreator->getAge() > 0);
     _continueButton->setOpacity(_childCreator->getAge() > 0 ? 255 : 125);
     _continueButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType)
@@ -117,11 +120,13 @@ void ChildAgeLayer::onEnter()
             }
         }
     });
-    this->addChild(_continueButton);
+    buttonHolder->addChild(_continueButton);
     
-    ui::Button* backButton = ui::Button::create("res/login/back_btnGreen.png");
-    backButton->setAnchorPoint(Vec2(-0.25f,1.25f));
-    backButton->setPosition(Vec2(0, contentSize.height));
+    ui::Button* backButton = ui::Button::create("res/buttons/blue_arrow_button.png");
+    backButton->setAnchorPoint(Vec2(-0.25f,0.5f));
+    //backButton->setPosition(Vec2(0, contentSize.height));
+	backButton->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
+	backButton->setRotation(180);
     backButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType)
     {
         if(eType == ui::Widget::TouchEventType::ENDED)
@@ -132,13 +137,21 @@ void ChildAgeLayer::onEnter()
             }
         }
     });
-    this->addChild(backButton);
+    buttonHolder->addChild(backButton);
     
     Sprite* progressIcon = Sprite::create("res/decoration/progress2.png");
     progressIcon->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     progressIcon->setPosition(Vec2(contentSize.width / 2.0f, progressIcon->getContentSize().height));
     this->addChild(progressIcon);
-    
+	
+	if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kAgeEntry)
+	{
+		title->setVisible(false);
+		textInputTitle->setVisible(false);
+		progressIcon->setVisible(false);
+		buttonHolder->setPosition(textInputTitle->getPosition() - Vec2(0,textInputTitle->getContentSize().height));
+	}
+	
     Super::onEnter();
 }
 

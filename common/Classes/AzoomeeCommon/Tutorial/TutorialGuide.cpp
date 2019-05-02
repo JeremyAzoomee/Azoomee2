@@ -36,6 +36,8 @@ bool TutorialGuide::init()
 	
 	_stencil = DrawNode::create();
 	_stencil->setContentSize(contentSize);
+	_stencil->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	_stencil->setPosition(contentSize/2);
 	// Circle to cover the main area
 	const float circleResolution = 64.0f;
 	_stencil->drawSolidCircle(Vec2(contentSize.width * 0.5f, contentSize.height * 0.5f),
@@ -51,7 +53,7 @@ bool TutorialGuide::init()
 	{
 		RemoteImageSprite* avatar = RemoteImageSprite::create();
 		avatar->setKeepAspectRatio(true);
-		avatar->initWithUrlAndSizeWithoutPlaceholder(ChildDataProvider::getInstance()->getLoggedInChild()->getAvatar(), contentSize);
+		avatar->initWithUrlAndSizeWithoutPlaceholder(ChildDataProvider::getInstance()->getLoggedInChild()->getAvatar(), contentSize * 1.1f);
 		avatar->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 		avatar->setNormalizedPosition(Vec2(0.5,0.65));
 		_avatar = avatar;
@@ -72,6 +74,36 @@ bool TutorialGuide::init()
 void TutorialGuide::onEnter()
 {
 	Super::onEnter();
+}
+
+void TutorialGuide::animateIn(float delay, const AnimationCompleteCallback& callback)
+{
+	_frame->setScale(0);
+	_frame->runAction(Sequence::create(EaseBackOut::create(ScaleTo::create(1.0f, 1.0f)), NULL));
+	_stencil->setScale(0);
+	_stencil->runAction(Sequence::create(EaseBackOut::create(ScaleTo::create(1.0f, 1.0f)), NULL));
+	//_avatar->setPosition(Vec2(this->getContentSize().width * 0.5f,(this->getContentSize().height * 0.65f) - _avatar->getContentSize().height));
+	//_avatar->runAction(Sequence::create(DelayTime::create(1.5),MoveTo::create(1.0f, Vec2(this->getContentSize().width * 0.5f,this->getContentSize().height * 0.65f)),CallFunc::create([callback](){
+	_avatar->setScale(0);
+	_avatar->runAction(Sequence::create(EaseBackOut::create(ScaleTo::create(1.0f, 1.0f)),CallFunc::create([callback](){
+		if(callback)
+		{
+			callback();
+		}
+	}), NULL));
+}
+
+void TutorialGuide::animateOut(const AnimationCompleteCallback& callback)
+{
+	_frame->runAction(Sequence::create(EaseBackIn::create(ScaleTo::create(1.0f, 0.0f)), NULL));
+	_stencil->runAction(Sequence::create(EaseBackIn::create(ScaleTo::create(1.0f, 0.0f)), NULL));
+	//_avatar->runAction(Sequence::create(MoveTo::create(1.0f, Vec2(this->getContentSize().width * 0.5f,(this->getContentSize().height * 0.65f) - _avatar->getContentSize().height)), NULL));
+	_avatar->runAction(Sequence::create(EaseBackIn::create(ScaleTo::create(1.0f, 0.0f)),CallFunc::create([callback](){
+		if(callback)
+		{
+			callback();
+		}
+	}), NULL));
 }
 
 NS_AZOOMEE_END

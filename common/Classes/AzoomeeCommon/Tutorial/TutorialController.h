@@ -13,6 +13,7 @@
 #include <memory>
 #include <vector>
 #include <map>
+#include "TutorialMessagingNode.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -52,10 +53,17 @@ private:
 	static const std::vector<std::string> kFTUShopTutorial;
 	// Tutorial storage map
 	static const std::map<std::string,std::vector<std::string>> kTutorialMap;
+	// Tutorial message Strings Map
+	static const std::map<std::string,std::pair<std::string,MessageLocation>> kDisplayMessageMap;
 	
 	std::vector<TutorialDelegate*> _delegates;
 	bool _tutorialActive = false;
 	std::vector<std::string> _activeTutorialStates;
+	
+	TutorialMessagingNode* _messagingNode = nullptr;
+	TutorialMessagingNode* _removingNode = nullptr;
+	
+	void displayMessageForTutorialState();
 	
 public:
 	static TutorialController* getInstance(void);
@@ -71,6 +79,7 @@ public:
 	
 	bool isTutorialActive() const;
 	std::string getCurrentState() const;
+
 	
 };
 

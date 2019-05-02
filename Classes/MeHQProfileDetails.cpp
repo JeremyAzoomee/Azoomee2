@@ -157,7 +157,16 @@ void MeHQProfileDetails::onImageDownloadFailed()
 
 void MeHQProfileDetails::onTutorialStateChanged(const std::string& stateId)
 {
-	enableOomeeButton(stateId == TutorialController::kTutorialEnded);
+	if(stateId == TutorialController::kCreateOomee)
+	{
+		Sprite* highlight = Sprite::create("res/tutorial/circle_glow.png");
+		highlight->setContentSize(_avatar->getContentSize() * 1.7f);
+		highlight->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+		highlight->setNormalizedPosition(Vec2(0.5,0.4));
+		_avatar->addChild(highlight,1);
+		highlight->setScale(1.2f);
+		highlight->runAction(RepeatForever::create(Sequence::createWithTwoActions(ScaleTo::create(1.0f, 1.0f), ScaleTo::create(1.0f, 1.2f))));
+	}
 }
 
 

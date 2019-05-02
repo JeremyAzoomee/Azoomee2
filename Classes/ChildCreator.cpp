@@ -86,7 +86,7 @@ bool ChildCreator::addChild()
     const std::string& DOB = StringUtils::format("%04d-%02d-%02d",year,1,1);
     const std::string& gender = "MALE";
 	
-    _oomeeNum = RandomHelper::random_int(0, 4);
+	_oomeeNum = 4;//RandomHelper::random_int(0, 4);
     AnalyticsSingleton::getInstance()->childProfileCreatedEvent(_age);
     
     const std::string& oomeeUrl = ConfigStorage::getInstance()->getUrlForOomee(_oomeeNum);
@@ -114,7 +114,7 @@ bool ChildCreator::updateChild(const ChildRef &child)
 	
 	const std::string& ownerId = ParentDataProvider::getInstance()->getLoggedInParentId();
 	
-	_oomeeNum = RandomHelper::random_int(0, 4);
+	_oomeeNum = 4;//RandomHelper::random_int(0, 4);
 	AnalyticsSingleton::getInstance()->childProfileCreatedEvent(_age);
 	
 	const std::string& oomeeUrl = ConfigStorage::getInstance()->getUrlForOomee(_oomeeNum);

@@ -58,6 +58,8 @@ public:
     void refreshGalleryLayout();
     
     float getScrollPercent();
+	
+	virtual void onTutorialStateChanged(const std::string& stateId) override;
 };
 
 NS_AZOOMEE_END

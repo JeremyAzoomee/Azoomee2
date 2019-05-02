@@ -6,6 +6,7 @@
 //
 
 #include "TutorialMessagingNode.h"
+#include "../Data/ConfigStorage.h"
 
 using namespace cocos2d;
 
@@ -33,6 +34,15 @@ bool TutorialMessagingNode::init()
 	this->addChild(_guide);
 	_bubble = TutorialSpeechBubble::create();
 	_guide->addChild(_bubble);
+	
+	_bubble->setMaxWidth((this->getContentSize().width - _guide->getContentSize().width) * 0.8f);
+	
+	if(ConfigStorage::getInstance()->isDevice18x9())
+	{
+		_guide->setScale(0.7f);
+		_bubble->setMaxWidth((this->getContentSize().width - _guide->getContentSize().width) * 1.1f);
+	}
+	
 	return true;
 }
 
@@ -44,6 +54,15 @@ void TutorialMessagingNode::onEnter()
 void TutorialMessagingNode::onSizeChanged()
 {
 	this->setContentSize(Director::getInstance()->getVisibleSize());
+	
+	if(ConfigStorage::getInstance()->isDevice18x9())
+	{
+		_bubble->setMaxWidth((this->getContentSize().width - _guide->getContentSize().width) * 1.1f);
+	}
+	else
+	{
+		_bubble->setMaxWidth((this->getContentSize().width - _guide->getContentSize().width) * 0.8f);
+	}
 }
 
 void TutorialMessagingNode::setMessage(const std::string &message)
@@ -60,26 +79,53 @@ void TutorialMessagingNode::setLocation(const MessageLocation &location)
 			_guide->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
 			_bubble->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
 			_bubble->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
+			_bubble->setBubbleOrigin(BubbleOrigin::LEFT);
 			break;
 		case MessageLocation::TOP_RIGHT:
 			_guide->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
 			_guide->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
 			_bubble->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
 			_bubble->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
+			_bubble->setBubbleOrigin(BubbleOrigin::RIGHT);
 			break;
 		case MessageLocation::BOTTOM_LEFT:
 			_guide->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_LEFT);
 			_guide->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 			_bubble->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
 			_bubble->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
+			_bubble->setBubbleOrigin(BubbleOrigin::LEFT);
 			break;
 		case MessageLocation::BOTTOM_RIGHT:
 			_guide->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_RIGHT);
 			_guide->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
 			_bubble->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
 			_bubble->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
+			_bubble->setBubbleOrigin(BubbleOrigin::RIGHT);
 			break;
 	}
+	
+}
+
+void TutorialMessagingNode::animateInGuideAndMessage(const AnimationCompleteCallback& callback)
+{
+	_bubble->setVisible(false);
+	_guide->animateIn(0,[this,callback](){
+		_bubble->setVisible(true);
+		_bubble->animateIn(0,callback);
+	});
+}
+void TutorialMessagingNode::animateInMessage(const AnimationCompleteCallback& callback)
+{
+	_bubble->animateInText(0,callback);
+}
+void TutorialMessagingNode::animateOutGuideAndMessage(const AnimationCompleteCallback& callback)
+{
+	_guide->animateOut(callback);
+	_bubble->animateOut();
+}
+void TutorialMessagingNode::animateOutMessage(const AnimationCompleteCallback& callback)
+{
+	_bubble->animateOut(callback);
 }
 
 NS_AZOOMEE_END

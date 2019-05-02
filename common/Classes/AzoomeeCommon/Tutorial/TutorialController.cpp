@@ -7,6 +7,8 @@
 
 #include "TutorialController.h"
 #include <algorithm>
+#include "../UI/NotificationNodeDisplayManager.h"
+#include "../Strings.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -44,6 +46,18 @@ const std::map<std::string, std::vector<std::string>> TutorialController::kTutor
 	{kFTUShopID,kFTUShopTutorial}
 };
 
+const std::map<std::string,std::pair<std::string,MessageLocation>> TutorialController::kDisplayMessageMap = {
+	{kNameEntry, {"What's your name?",MessageLocation::TOP_LEFT}},
+	{kAgeEntry, {"How old are you?",MessageLocation::TOP_LEFT}},
+	{kConfirmOomee, {"",MessageLocation::TOP_LEFT}},
+	{kCreateOomee, {"Let's give me a makeover",MessageLocation::TOP_LEFT}},
+	{kFTUShopEarnMoreRewards, {"Keep playing to win more!",MessageLocation::TOP_LEFT}},
+	{kFTUSpendRewards, {"Lets go to the Shop",MessageLocation::TOP_LEFT}},
+	{kFTUGroupHQContent, {"",MessageLocation::TOP_LEFT}},
+	{kFTUVideoHQContent, {"Try watching a video",MessageLocation::TOP_RIGHT}},
+	{kFTUGameHQContent, {"",MessageLocation::TOP_LEFT}}
+};
+
 TutorialController* TutorialController::getInstance()
 {
 	if(!sTutorialContollerSharedInstance.get())
@@ -70,6 +84,7 @@ void TutorialController::startTutorial(const std::string& tutorialID)
 	{
 		_tutorialActive = true;
 		_activeTutorialStates = kTutorialMap.at(tutorialID);
+		displayMessageForTutorialState();
 		for(auto delegate : _delegates)
 		{
 			delegate->onTutorialStateChanged(_activeTutorialStates.front());
@@ -83,6 +98,7 @@ void TutorialController::nextStep()
 		_activeTutorialStates.erase(_activeTutorialStates.begin());
 		
 		//do tut visual overlay update here
+		displayMessageForTutorialState();
 		
 		for(auto delegate : _delegates)
 		{
@@ -102,6 +118,13 @@ void TutorialController::endTutorial()
 	{
 		delegate->onTutorialStateChanged(kTutorialEnded);
 	}
+	_removingNode = _messagingNode;
+	_messagingNode = nullptr;
+	_removingNode->animateOutGuideAndMessage([this](){
+		_removingNode->removeFromParent();
+		_removingNode = nullptr;
+	});
+	
 }
 
 void TutorialController::registerDelegate(TutorialDelegate* delegate)
@@ -128,6 +151,35 @@ bool TutorialController::isTutorialActive() const
 std::string TutorialController::getCurrentState() const
 {
 	return _activeTutorialStates.front();
+}
+
+void TutorialController::displayMessageForTutorialState()
+{
+	std::string message = "";
+	if(kDisplayMessageMap.find(_activeTutorialStates.front()) != kDisplayMessageMap.end())
+	{
+		message = kDisplayMessageMap.at(_activeTutorialStates.front()).first;
+	}
+	message = _(message);
+	if(!_messagingNode)
+	{
+		_messagingNode = TutorialMessagingNode::create(message, kDisplayMessageMap.at(_activeTutorialStates.front()).second);
+		NotificationNodeDisplayManager::getInstance()->addMessagingNode(_messagingNode);
+		_messagingNode->animateInGuideAndMessage();
+		_messagingNode->setVisible(message != "");
+	}
+	else
+	{
+		_messagingNode->setMessage(message);
+		_messagingNode->setLocation(kDisplayMessageMap.at(_activeTutorialStates.front()).second);
+		_messagingNode->setVisible(message != "");
+		_messagingNode->animateInMessage();
+	}
+	
+	
+	
+	
+	
 }
 
 NS_AZOOMEE_END

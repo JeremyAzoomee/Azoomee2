@@ -68,6 +68,7 @@ bool MeHQ::init()
 
 void MeHQ::onEnter()
 {
+	TutorialController::getInstance()->startTutorial(TutorialController::kFTUOomeeTutorialID);
     Super::onEnter();
     if(_previousLayer != kProfileLayerName)
     {
@@ -229,6 +230,11 @@ void MeHQ::refreshGalleryLayout()
 float MeHQ::getScrollPercent()
 {
     return _contentListView->getScrolledPercentVertical();
+}
+
+void MeHQ::onTutorialStateChanged(const std::string& stateId)
+{
+	
 }
 
 NS_AZOOMEE_END

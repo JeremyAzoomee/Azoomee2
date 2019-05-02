@@ -50,6 +50,15 @@ void ContentFeedHQScene::onEnter()
 	Super::onEnter();
 }
 
+void ContentFeedHQScene::onExit()
+{
+	if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUVideoHQContent)
+	{
+		TutorialController::getInstance()->endTutorial();
+	}
+	Super::onExit();
+}
+
 void ContentFeedHQScene::createContentScrollview()
 {
 	const Size& visibleSize = this->getContentSize();
@@ -206,6 +215,14 @@ void ContentFeedHQScene::createContentScrollview()
 			}
 		 });
 		 _contentNode->addChild(backButton,1);
+	}
+	
+	if(_hqCategory == ConfigStorage::kVideoHQName)
+	{
+		if(!TutorialController::getInstance()->isTutorialActive())
+		{
+			TutorialController::getInstance()->startTutorial(TutorialController::kFTUWatchVideoID);
+		}
 	}
 }
 

@@ -13,19 +13,32 @@
 
 NS_AZOOMEE_BEGIN
 
+enum class BubbleOrigin {LEFT, RIGHT, TOP, BOTTOM};
+
 class TutorialSpeechBubble : public cocos2d::Node
 {
 	typedef cocos2d::Node Super;
+	typedef std::function<void()> AnimationCompleteCallback;
 private:
-	cocos2d::ui::Scale9Sprite* _bubble = nullptr;
+	cocos2d::Sprite* _bubble = nullptr;
+	cocos2d::Sprite* _leftEndCap = nullptr;
+	cocos2d::Sprite* _rightEndCap = nullptr;
+	cocos2d::Sprite* _bubblePoint = nullptr;
 	cocos2d::Label* _text = nullptr;
-	
 public:
 	
 	bool init() override;
 	void onEnter() override;
 	
 	void setText(const std::string& text);
+	
+	void setMaxWidth(float width);
+	
+	void setBubbleOrigin(const BubbleOrigin& origin);
+	
+	void animateIn(float delay, const AnimationCompleteCallback& callback = nullptr);
+	void animateInText(float delay, const AnimationCompleteCallback& callback = nullptr);
+	void animateOut(const AnimationCompleteCallback& callback = nullptr);
 	
 	CREATE_FUNC(TutorialSpeechBubble);
 };
