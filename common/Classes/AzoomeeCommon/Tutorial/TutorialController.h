@@ -79,8 +79,9 @@ public:
 	
 	bool isTutorialActive() const;
 	std::string getCurrentState() const;
-
 	
+	bool isTutorialCompleted(const std::string& tutorialId);
+	void setTutorialCompleted(const std::string& tutorialId);
 };
 
 NS_AZOOMEE_END

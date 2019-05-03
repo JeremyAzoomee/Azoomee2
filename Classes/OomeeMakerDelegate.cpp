@@ -98,14 +98,6 @@ void OomeeMakerDelegate::onHttpRequestSuccess(const std::string& requestTag, con
         {
             AnalyticsSingleton::getInstance()->makeAvatarSuccess("OOMEE_MAKER");
             makerScene->displayMadeAvatarNotification();
-			if(TutorialController::getInstance()->isTutorialActive())
-			{
-				if(TutorialController::getInstance()->getCurrentState() == TutorialController::kConfirmOomee)
-				{
-					TutorialController::getInstance()->nextStep();
-					Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::AddChildAnon));
-				}
-			}
         }
     }
 }

@@ -9,6 +9,7 @@
 #include <algorithm>
 #include "../UI/NotificationNodeDisplayManager.h"
 #include "../Strings.h"
+#include "../Data/Child/ChildDataProvider.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -35,7 +36,7 @@ const std::string TutorialController::kFTUShopID = "FTUShop";
 const std::vector<std::string> TutorialController::kFTUAddChildTutorial = {kNameEntry,kAgeEntry};
 const std::vector<std::string> TutorialController::kFTUOomeeTutorial = {kCreateOomee, kConfirmOomee};
 const std::vector<std::string> TutorialController::kFTUGameTutorial = {kFTUGameHQContent};
-const std::vector<std::string> TutorialController::kFTUVideoTutorial = {kFTUVideoHQContent};
+const std::vector<std::string> TutorialController::kFTUVideoTutorial = {kFTUVideoHQContent, kFTUGroupHQContent};
 const std::vector<std::string> TutorialController::kFTUShopTutorial = {kFTUSpendRewards, kFTUShopEarnMoreRewards};
 // Tutorial storage map
 const std::map<std::string, std::vector<std::string>> TutorialController::kTutorialMap = {
@@ -54,7 +55,7 @@ const std::map<std::string,std::pair<std::string,MessageLocation>> TutorialContr
 	{kFTUShopEarnMoreRewards, {"Keep playing to win more!",MessageLocation::TOP_LEFT}},
 	{kFTUSpendRewards, {"Lets go to the Shop",MessageLocation::TOP_LEFT}},
 	{kFTUGroupHQContent, {"",MessageLocation::TOP_LEFT}},
-	{kFTUVideoHQContent, {"Try watching a video",MessageLocation::TOP_RIGHT}},
+	{kFTUVideoHQContent, {"",MessageLocation::TOP_LEFT}},
 	{kFTUGameHQContent, {"",MessageLocation::TOP_LEFT}}
 };
 
@@ -176,10 +177,16 @@ void TutorialController::displayMessageForTutorialState()
 		_messagingNode->animateInMessage();
 	}
 	
-	
-	
-	
-	
+}
+
+bool TutorialController::isTutorialCompleted(const std::string& tutorialId)
+{
+	return cocos2d::UserDefault::getInstance()->getBoolForKey((tutorialId + "_" + ChildDataProvider::getInstance()->getParentOrChildId()).c_str(), false);
+}
+
+void TutorialController::setTutorialCompleted(const std::string& tutorialId)
+{
+	cocos2d::UserDefault::getInstance()->setBoolForKey((tutorialId + "_" + ChildDataProvider::getInstance()->getParentOrChildId()).c_str(), true);
 }
 
 NS_AZOOMEE_END

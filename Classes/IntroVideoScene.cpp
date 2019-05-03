@@ -199,7 +199,14 @@ void IntroVideoScene::onForceUpdateCheckFinished(const ForceUpdateResult& result
 		{
 			if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
 			{
-				BackEndCaller::getInstance()->anonymousDeviceLogin();
+				if(UserDefault::getInstance()->getStringForKey(ConfigStorage::kAnonEmailKey, "") == "")
+				{
+					Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::WelcomeScene));
+				}
+				else
+				{
+					BackEndCaller::getInstance()->anonymousDeviceLogin();
+				}
 			}
 			else
 			{

@@ -95,6 +95,11 @@ void HQScene::buildCoreUI()
 	_coinDisplay->setAnimate(true);
 	this->addChild(_coinDisplay, 1);
 	
+	if(!(TutorialController::getInstance()->isTutorialCompleted(TutorialController::kFTUPlayGameID) || TutorialController::getInstance()->isTutorialCompleted(TutorialController::kFTUWatchVideoID)))
+	{
+		_coinDisplay->setVisible(false);
+	}
+	
 	_messagingLayer = UserTypeMessagingLayer::create();
 	_messagingLayer->setContentSize(Size(visibleSize.width, 350));
 	_messagingLayer->setPosition(-Vec2(0,350));

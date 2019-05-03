@@ -218,11 +218,11 @@ void OomeeMakerScene::onEnter()
     });
     _contentLayer->addChild(categoryBottomScrollButton);
     
-    ui::Button* exitButton = ui::Button::create();
-    exitButton->loadTextureNormal("res/oomeeMaker/back.png");
-    exitButton->setAnchorPoint(Vec2(-0.25, 1.25));
-    exitButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
-    exitButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+    _exitButton = ui::Button::create();
+    _exitButton->loadTextureNormal("res/oomeeMaker/back.png");
+    _exitButton->setAnchorPoint(Vec2(-0.25, 1.25));
+    _exitButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
+    _exitButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
             if(_oomee->getUndoStackSize() > 1 || _newOomee)
@@ -241,7 +241,7 @@ void OomeeMakerScene::onEnter()
             }
         }
     });
-    _contentLayer->addChild(exitButton);
+    _contentLayer->addChild(_exitButton);
     
 	_makeAvatarButton = ui::Button::create();
     _makeAvatarButton->loadTextureNormal("res/oomeeMaker/make_oomee_button.png");
@@ -267,11 +267,11 @@ void OomeeMakerScene::onEnter()
     });
     _contentLayer->addChild(_undoButton);
     
-    ui::Button* resetOomeeButon = ui::Button::create();
-    resetOomeeButon->loadTextureNormal("res/oomeeMaker/bin_2.png");
-    resetOomeeButon->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    resetOomeeButon->setPosition(_makeAvatarButton->getPosition() + Vec2(_makeAvatarButton->getContentSize().width * 1.25f, 0));
-    resetOomeeButon->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+    _resetOomeeButton = ui::Button::create();
+    _resetOomeeButton->loadTextureNormal("res/oomeeMaker/bin_2.png");
+    _resetOomeeButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _resetOomeeButton->setPosition(_makeAvatarButton->getPosition() + Vec2(_makeAvatarButton->getContentSize().width * 1.25f, 0));
+    _resetOomeeButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
             ConfirmCancelMessageBox* messageBox = ConfirmCancelMessageBox::createWithParams(_("Reset?"), "res/buttons/confirm_bin.png", "res/buttons/confirm_x_2.png");
@@ -281,7 +281,7 @@ void OomeeMakerScene::onEnter()
             _contentLayer->addChild(messageBox);
         }
     });
-    _contentLayer->addChild(resetOomeeButon);
+    _contentLayer->addChild(_resetOomeeButton);
 
 	if(delegate->_newAccessoryId != "")
 	{
@@ -422,6 +422,19 @@ void OomeeMakerScene::resetOomee()
 
 void OomeeMakerScene::displayMadeAvatarNotification()
 {
+	TutorialController::getInstance()->setTutorialCompleted(TutorialController::kFTUOomeeTutorialID);
+	
+	if(TutorialController::getInstance()->isTutorialActive())
+	{
+		if(TutorialController::getInstance()->getCurrentState() == TutorialController::kConfirmOomee)
+		{
+			_makeAvatarButton->removeChildByName("glow");
+			_makeAvatarButton->setTouchEnabled(false);
+			_undoButton->setTouchEnabled(false);
+			_resetOomeeButton->setTouchEnabled(false);
+		}
+	}
+	
     CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Avatar_Messagedrop.mp3");
     Texture2D* particleTex = Director::getInstance()->getTextureCache()->addImage("res/oomeeMaker/confetti_particle.png");
     
@@ -464,6 +477,14 @@ void OomeeMakerScene::displayMadeAvatarNotification()
     banner->setContentSize(Size(_contentLayer->getContentSize().width * 0.43 , 400));
     banner->runAction(Sequence::create(MoveBy::create(0.5, Vec2(0,-200)), DelayTime::create(3.0f),MoveBy::create(0.5, Vec2(0,200)),CallFunc::create([=](){
         banner->removeFromParent();
+		if(TutorialController::getInstance()->isTutorialActive())
+		{
+			if(TutorialController::getInstance()->getCurrentState() == TutorialController::kConfirmOomee)
+			{
+				TutorialController::getInstance()->nextStep();
+				delegate->onOomeeMakerNavigationBack();
+			}
+		}
     }),NULL));
     _contentLayer->addChild(banner,10);
     
@@ -476,6 +497,8 @@ void OomeeMakerScene::displayMadeAvatarNotification()
 	bannerLabel->setVerticalAlignment(TextVAlignment::CENTER);
 	bannerLabel->setDimensions(banner->getContentSize().width * 0.9f, banner->getContentSize().height * 0.35f);
     banner->addChild(bannerLabel);
+	
+	
     
 }
 
@@ -514,12 +537,19 @@ void OomeeMakerScene::onTutorialStateChanged(const std::string &stateId)
 	{
 		if(_makeAvatarButton)
 		{
-			Sprite* glow = Sprite::create("res/childSelection/glow.png");
-			glow->setContentSize(_makeAvatarButton->getContentSize());
+			Sprite* glow = Sprite::create("res/tutorial/circle_glow.png");
+			glow->setContentSize(_makeAvatarButton->getContentSize() * 1.5f);
 			glow->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-			glow->runAction(RepeatForever::create(Sequence::createWithTwoActions(ScaleTo::create(1.0f, 2.0f), ScaleTo::create(1.0f, 1.0f))));
+			glow->setOpacity(0);
+			glow->runAction(Sequence::createWithTwoActions(DelayTime::create(15), FadeIn::create(1)));
+			glow->runAction(RepeatForever::create(Sequence::createWithTwoActions(ScaleTo::create(1.0f, 1.5f), ScaleTo::create(1.0f, 1.0f))));
 			glow->setName("glow");
-			_makeAvatarButton->addChild(glow, -1);
+			_makeAvatarButton->addChild(glow, 1);
+			
+		}
+		if(_exitButton)
+		{
+			_exitButton->setVisible(false);
 		}
 	}
 	else
@@ -528,6 +558,11 @@ void OomeeMakerScene::onTutorialStateChanged(const std::string &stateId)
 		{
 			_makeAvatarButton->removeChildByName("glow");
 		}
+		if(_exitButton)
+		{
+			_exitButton->setVisible(true);
+		}
+		
 	}
 }
 

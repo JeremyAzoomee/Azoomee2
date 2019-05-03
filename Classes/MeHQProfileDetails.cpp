@@ -60,6 +60,11 @@ bool MeHQProfileDetails::init()
     {
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
+			if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kCreateOomee)
+			{
+				TutorialController::getInstance()->nextStep();
+			}
+			
             AnalyticsSingleton::getInstance()->contentItemSelectedEvent(ConfigStorage::kOomeeMakerURI);
             CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Edit_Button.wav");
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OomeeMakerEntryPointScene));

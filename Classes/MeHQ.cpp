@@ -68,7 +68,15 @@ bool MeHQ::init()
 
 void MeHQ::onEnter()
 {
-	TutorialController::getInstance()->startTutorial(TutorialController::kFTUOomeeTutorialID);
+	if(!TutorialController::getInstance()->isTutorialCompleted(TutorialController::kFTUOomeeTutorialID))
+	{
+		TutorialController::getInstance()->startTutorial(TutorialController::kFTUOomeeTutorialID);
+	}
+	else if(!TutorialController::getInstance()->isTutorialCompleted(TutorialController::kFTUShopID))
+	{
+		TutorialController::getInstance()->startTutorial(TutorialController::kFTUShopID);
+	}
+	
     Super::onEnter();
     if(_previousLayer != kProfileLayerName)
     {
@@ -82,6 +90,10 @@ void MeHQ::onEnter()
 
 void MeHQ::onExit()
 {
+	if(TutorialController::getInstance()->isTutorialActive() && (TutorialController::getInstance()->getCurrentState() == TutorialController::kCreateOomee || TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUSpendRewards))
+	{
+		TutorialController::getInstance()->endTutorial();
+	}
     _previousLayer = _contentListView->getCenterItemInCurrentView()->getName();
     cocos2d::log("Center Layer: %s",_previousLayer.c_str());
     Super::onExit();
@@ -234,7 +246,23 @@ float MeHQ::getScrollPercent()
 
 void MeHQ::onTutorialStateChanged(const std::string& stateId)
 {
-	
+	if(stateId == TutorialController::kFTUSpendRewards)
+	{
+		Sprite* glow = Sprite::create("res/tutorial/rect_glow.png");
+		//glow->setContentSize(Size(_coinDisplay->getContentSize().width * 1.8f, _coinDisplay->getContentSize().height * 2.5f));
+		glow->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
+		glow->setAnchorPoint(Vec2(0.9f, 0.75f));
+		glow->setScale(1.0f);
+		//glow->runAction(RepeatForever::create(Sequence::createWithTwoActions(ScaleTo::create(1.0f, 1.0f), ScaleTo::create(1.0f, 0.8f))));
+		this->addChild(glow, 1);
+		
+		Sprite* hand = Sprite::create("res/tutorial/Pointer.png");
+		hand->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+		hand->setPosition(Vec2(_coinDisplay->getContentSize().width / 2, 0));
+		_coinDisplay->addChild(hand,1);
+		hand->runAction(RepeatForever::create(Sequence::createWithTwoActions(MoveBy::create(1.0f, Vec2(0, -100)), MoveBy::create(1.0f, Vec2(0, 100)))));
+		hand->runAction(RepeatForever::create(Sequence::createWithTwoActions(ScaleTo::create(1.0f, 1.0f), ScaleTo::create(1.0f, 0.8f))));
+	}
 }
 
 NS_AZOOMEE_END
