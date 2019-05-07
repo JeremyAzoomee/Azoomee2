@@ -43,6 +43,7 @@ public:
 	static const std::string kFTUPlayGameID;
 	static const std::string kFTUWatchVideoID;
 	static const std::string kFTUShopID;
+	static const std::string kFTUPostPurchaseID;
 	
 private:
 	// Tutorials
@@ -51,6 +52,7 @@ private:
 	static const std::vector<std::string> kFTUGameTutorial;
 	static const std::vector<std::string> kFTUVideoTutorial;
 	static const std::vector<std::string> kFTUShopTutorial;
+	static const std::vector<std::string> kFTUPostPurchaseTutorial;
 	// Tutorial storage map
 	static const std::map<std::string,std::vector<std::string>> kTutorialMap;
 	// Tutorial message Strings Map

@@ -32,19 +32,23 @@ const std::string TutorialController::kFTUAddChildID = "FTUAddChild";
 const std::string TutorialController::kFTUPlayGameID = "FTUPlayGame";
 const std::string TutorialController::kFTUWatchVideoID = "FTUWatchVideo";
 const std::string TutorialController::kFTUShopID = "FTUShop";
+const std::string TutorialController::kFTUPostPurchaseID = "FTUPostPurchase";
 // Tutorials
 const std::vector<std::string> TutorialController::kFTUAddChildTutorial = {kNameEntry,kAgeEntry};
 const std::vector<std::string> TutorialController::kFTUOomeeTutorial = {kCreateOomee, kConfirmOomee};
 const std::vector<std::string> TutorialController::kFTUGameTutorial = {kFTUGameHQContent};
 const std::vector<std::string> TutorialController::kFTUVideoTutorial = {kFTUVideoHQContent, kFTUGroupHQContent};
-const std::vector<std::string> TutorialController::kFTUShopTutorial = {kFTUSpendRewards, kFTUShopEarnMoreRewards};
+const std::vector<std::string> TutorialController::kFTUShopTutorial = {kFTUSpendRewards};
+const std::vector<std::string> TutorialController::kFTUPostPurchaseTutorial = {kFTUShopEarnMoreRewards};
+
 // Tutorial storage map
 const std::map<std::string, std::vector<std::string>> TutorialController::kTutorialMap = {
 	{kFTUAddChildID,kFTUAddChildTutorial},
 	{kFTUOomeeTutorialID,kFTUOomeeTutorial},
 	{kFTUPlayGameID,kFTUGameTutorial},
 	{kFTUWatchVideoID,kFTUVideoTutorial},
-	{kFTUShopID,kFTUShopTutorial}
+	{kFTUShopID,kFTUShopTutorial},
+	{kFTUPostPurchaseID, kFTUPostPurchaseTutorial}
 };
 
 const std::map<std::string,std::pair<std::string,MessageLocation>> TutorialController::kDisplayMessageMap = {
@@ -173,8 +177,15 @@ void TutorialController::displayMessageForTutorialState()
 	{
 		_messagingNode->setMessage(message);
 		_messagingNode->setLocation(kDisplayMessageMap.at(_activeTutorialStates.front()).second);
+		if(_messagingNode->isVisible())
+		{
+			_messagingNode->animateInMessage();
+		}
+		else
+		{
+			_messagingNode->animateInGuideAndMessage();
+		}
 		_messagingNode->setVisible(message != "");
-		_messagingNode->animateInMessage();
 	}
 	
 }
