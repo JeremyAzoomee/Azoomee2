@@ -77,6 +77,7 @@ bool WelcomeScene::init()
 	_button = ui::Button::create("res/buttons/blue_cta.png");
 	_button->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	_button->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	_button->setScale9Enabled(true);
 	_button->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
@@ -91,8 +92,9 @@ bool WelcomeScene::init()
 	buttonText->setNormalizedPosition(Vec2(0.4f,0.5f));
 	buttonText->setOverflow(Label::Overflow::SHRINK);
 	buttonText->setAlignment(TextHAlignment::CENTER, TextVAlignment::CENTER);
-	buttonText->setDimensions(_button->getContentSize().width * 0.66, _button->getContentSize().height * 0.6f);
 	_button->addChild(buttonText);
+	_button->setContentSize(Size(MIN(buttonText->getContentSize().width + 400, _button->getContentSize().width), _button->getContentSize().height));
+	buttonText->setDimensions(_button->getContentSize().width * 0.66, buttonText->getContentSize().height);
 	
 	_body->setContentSize(Size(contentSize.width, _logo->getContentSize().height + 50 + _text->getContentSize().height + _button->getContentSize().height));
 	

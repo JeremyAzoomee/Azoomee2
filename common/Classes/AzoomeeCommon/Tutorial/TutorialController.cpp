@@ -52,12 +52,12 @@ const std::map<std::string, std::vector<std::string>> TutorialController::kTutor
 };
 
 const std::map<std::string,std::pair<std::string,MessageLocation>> TutorialController::kDisplayMessageMap = {
-	{kNameEntry, {"What's your name?",MessageLocation::TOP_LEFT}},
+	{kNameEntry, {"Hi! What’s your name?",MessageLocation::TOP_LEFT}},
 	{kAgeEntry, {"How old are you?",MessageLocation::TOP_LEFT}},
 	{kConfirmOomee, {"",MessageLocation::TOP_LEFT}},
-	{kCreateOomee, {"Let's give me a makeover",MessageLocation::TOP_LEFT}},
-	{kFTUShopEarnMoreRewards, {"Keep playing to win more!",MessageLocation::TOP_LEFT}},
-	{kFTUSpendRewards, {"Lets go to the Shop",MessageLocation::TOP_LEFT}},
+	{kCreateOomee, {"Let's have some fun",MessageLocation::TOP_LEFT}},
+	{kFTUShopEarnMoreRewards, {"Try a new game or video and win more coins!",MessageLocation::TOP_LEFT}},
+	{kFTUSpendRewards, {"Let’s buy a present",MessageLocation::TOP_LEFT}},
 	{kFTUGroupHQContent, {"",MessageLocation::TOP_LEFT}},
 	{kFTUVideoHQContent, {"",MessageLocation::TOP_LEFT}},
 	{kFTUGameHQContent, {"",MessageLocation::TOP_LEFT}}

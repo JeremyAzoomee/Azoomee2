@@ -53,7 +53,7 @@ void ChildOomeeFTULayer::onEnter()
 	TutorialSpeechBubble* bubble = TutorialSpeechBubble::create();
 	bubble->setBubbleOrigin(BubbleOrigin::BOTTOM);
 	bubble->setMaxWidth(contentSize.width * (isPortrait ? 0.5f : 0.6f));
-	bubble->setText(_("Fantastic!\nLet's show you around"));
+	bubble->setText(_("Fantastic!\nLet me show you around"));
 	bubble->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 	bubble->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
 	oomee->addChild(bubble);
