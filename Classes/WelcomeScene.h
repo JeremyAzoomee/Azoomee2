@@ -24,12 +24,16 @@ private:
 	cocos2d::LayerColor* _bgColour = nullptr;
 	cocos2d::Sprite* _wires = nullptr;
 	cocos2d::Sprite* _bottomGradient = nullptr;
-	cocos2d::Sprite* _contentTiles = nullptr;
+	//cocos2d::Sprite* _contentTiles = nullptr;
 	cocos2d::ui::ImageView* _logo = nullptr;
 	cocos2d::ui::Button* _button = nullptr;
 	cocos2d::Label* _text = nullptr;
 	cocos2d::ui::Layout* _textHolder = nullptr;
 	cocos2d::ui::Layout* _body = nullptr;
+	
+	cocos2d::Node* _tilesNode = nullptr;
+	
+	void addAnimatedTiles();
 	
 protected:
 	virtual void onSizeChanged() override;
