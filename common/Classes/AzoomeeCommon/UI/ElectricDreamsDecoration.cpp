@@ -52,48 +52,6 @@ void removeWiresFromScreen(cocos2d::Node* parentLayer)
     while(parentLayer->getChildByName("Wire"))
         parentLayer->removeChildByName("Wire");
 }
-
-void addGlowToScreen(Node* parentLayer, float withDelay)
-{
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-    auto origin = Director::getInstance()->getVisibleOrigin();
-    
-    auto bgGlow = createGlow();
-    bgGlow->setPosition(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2);
-    bgGlow->setOpacity(0);
-    parentLayer->addChild(bgGlow);
-    
-    bgGlow->runAction(FadeIn::create(withDelay));
-}
-
-void addGlowToScreen(Node* parentLayer)
-{
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-    auto origin = Director::getInstance()->getVisibleOrigin();
-    
-    auto bgGlow = createGlow();
-    bgGlow->setPosition(visibleSize.width / 2, origin.y + visibleSize.height / 2);
-    parentLayer->addChild(bgGlow);
-}
-
-Sprite* createGlow()
-{
-    auto bgGlow = Sprite::create("res/decoration/bg_glow.png");
-
-    return bgGlow;
-}
-
-void addFullScreenGlowToScreen(Node* parentLayer)
-{
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-    auto origin = Director::getInstance()->getVisibleOrigin();
-    
-    auto fullscreenGlow = Sprite::create("res/decoration/fullscreen_glow.png");
-    fullscreenGlow->setScaleX(visibleSize.width / fullscreenGlow->getContentSize().width);
-    fullscreenGlow->setScaleY(visibleSize.height / fullscreenGlow->getContentSize().height);
-    fullscreenGlow->setPosition(visibleSize.width / 2, origin.y + visibleSize.height / 2);
-    parentLayer->addChild(fullscreenGlow);
-}
     
 cocos2d::Layer* createWindowLayer(float height)
 {
@@ -136,48 +94,6 @@ cocos2d::Layer* createWhiteWindowLayer(float width, float height)
     newWindow->setPosition(newLayer->getContentSize().width/2, newLayer->getContentSize().height/2);
     
     newLayer->addChild(newWindow);
-    
-    return newLayer;
-}
-    
-cocos2d::Layer* createPixelsPatternAndGradient()
-{
-    Layer* newLayer = Layer::create();
-    
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-    
-    Sprite* bottomGradient = Sprite::create("res/decoration/bottomGradient.png");
-    bottomGradient->setAnchorPoint(Vec2(0.0f, 0.0f));
-    bottomGradient->setScaleX(visibleSize.width / bottomGradient->getContentSize().width);
-    newLayer->addChild(bottomGradient);
-    
-    newLayer->setContentSize(bottomGradient->getContentSize());
-    
-    Sprite* pixelPattern = Sprite::create("res/decoration/pixelsPattern.png");
-    pixelPattern->setAnchorPoint(Vec2(0.5f, 0.0f));
-    pixelPattern->setPosition(visibleSize.width/2,0.0f);
-    newLayer->addChild(pixelPattern);
-    
-    return newLayer;
-}
-    
-cocos2d::Layer* createTopGradientAndParticles()
-{
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-    
-    auto newLayer = LayerColor::create(Color4B::WHITE, visibleSize.width,  visibleSize.height);
-    
-    Sprite* topGradient = Sprite::create("res/decoration/topSignupGrad.png");
-    topGradient->setAnchorPoint(Vec2(0.0f, 1.0f));
-    topGradient->setPosition(0.0f, visibleSize.height);
-    topGradient->setScaleX(visibleSize.width / topGradient->getContentSize().width);
-    newLayer->addChild(topGradient);
-    
-    Sprite* pixelPattern = Sprite::create("res/decoration/particlesBottom.png");
-    pixelPattern->setAnchorPoint(Vec2(0.5f, 0.0f));
-    pixelPattern->setPosition(visibleSize.width/2,0.0f);
-    pixelPattern->setScale(visibleSize.width / pixelPattern->getContentSize().width);
-    newLayer->addChild(pixelPattern);
     
     return newLayer;
 }
