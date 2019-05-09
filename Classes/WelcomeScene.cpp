@@ -52,15 +52,6 @@ bool WelcomeScene::init()
 	
 	addAnimatedTiles();
 	
-	
-	
-	/*
-	_contentTiles = Sprite::create("res/introAssets/content_tiles_complete.png");
-	_contentTiles->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	_contentTiles->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	_contentTiles->setScale(contentSize.width / _contentTiles->getContentSize().width);
-	this->addChild(_contentTiles);
-	*/
 	_body = ui::Layout::create();
 	_body->setLayoutType(ui::Layout::Type::VERTICAL);
 	_body->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -169,7 +160,6 @@ void WelcomeScene::onSizeChanged()
 	
 	_bottomGradient->setContentSize(Size(contentSize.width, 400));
 	
-	//_contentTiles->setScale(contentSize.width / _contentTiles->getContentSize().width);
 	_tilesNode->setContentSize(contentSize);
 	_tilesNode->removeAllChildren();
 	addAnimatedTiles();
@@ -188,6 +178,7 @@ void WelcomeScene::addAnimatedTiles()
 	PointArray* points = PointArray::create(numTiles);
 	Vec2 dir = Vec2(0.5f, 1.0f);
 	
+	//rotation intervals
 	const std::vector<float>& angles = {
 		CC_DEGREES_TO_RADIANS(-25.0f),//25
 		CC_DEGREES_TO_RADIANS(-25.0f),//50
@@ -200,7 +191,7 @@ void WelcomeScene::addAnimatedTiles()
 		CC_DEGREES_TO_RADIANS(-40.0f),//305
 		CC_DEGREES_TO_RADIANS(-30.0f)//335
 	};
-	
+	// tile scale at each path node
 	const std::vector<float>& scales = {
 		1.1f,
 		1.1f,
@@ -241,7 +232,6 @@ void WelcomeScene::addAnimatedTiles()
 		tile->runAction(moveAction->clone());
 		tile->runAction(scaleAction->clone());
 		tile->runAction(Sequence::createWithTwoActions(DelayTime::create(RandomHelper::random_real(0.75, 1.25)), FadeTo::create(RandomHelper::random_real(1.0, 2.0), 175)));
-		tile->setContentSize(Size(530, 400));
 		tile->setOpacity(0);
 		tile->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 		
@@ -249,7 +239,7 @@ void WelcomeScene::addAnimatedTiles()
 		stencil->setPosition(points->getControlPointAtIndex(i));
 		stencil->runAction(moveAction->clone());
 		stencil->runAction(scaleAction->clone());
-		stencil->setContentSize(Size(530, 400));
+		stencil->setContentSize(tile->getContentSize());
 		
 		ClippingNode* clip = ClippingNode::create(stencil);
 		clip->setContentSize(contentSize);
