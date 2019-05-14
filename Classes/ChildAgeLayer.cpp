@@ -52,8 +52,10 @@ void ChildAgeLayer::onEnter()
 	
 	Node* buttonHolder = Node::create();
 	buttonHolder->setContentSize(isPortrait ? Size(contentSize.width * 0.6f, MIN(contentSize.height * 0.65f, contentSize.width * 1.2f)) : Size(contentSize.height * 1.0f, contentSize.height * 0.5f));
+	//buttonHolder->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+	//buttonHolder->setPosition(textInputTitle->getPosition() - Vec2(0,textInputTitle->getContentSize().height * 1.25f));
 	buttonHolder->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-	buttonHolder->setPosition(textInputTitle->getPosition() - Vec2(0,textInputTitle->getContentSize().height * 1.25f));
+	buttonHolder->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	this->addChild(buttonHolder);
 	
 	const Vec2& gridSize = isPortrait ? Vec2(2,4) : Vec2(4,2);

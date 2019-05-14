@@ -109,7 +109,7 @@ void ChildNameLayerFirstTime::editBoxEditingDidBegin(TextInputLayer* inputLayer)
 }
 void ChildNameLayerFirstTime::editBoxEditingDidEnd(TextInputLayer* inputLayer)
 {
-    
+    _textInput->focusAndShowKeyboard();
 }
 
 
