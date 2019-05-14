@@ -34,9 +34,7 @@ void ChildOomeeFTULayer::onEnter()
 	
 	Sprite* bgLights = Sprite::create("res/rewards/wow_bg.png");
 	bgLights->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	bgLights->setScale(MAX(contentSize.width / bgLights->getContentSize().width, contentSize.height / bgLights->getContentSize().height));
 	bgLights->runAction(RepeatForever::create(RotateBy::create(1.0,90)));
-	bgLights->runAction(RepeatForever::create(Sequence::create(ScaleTo::create(1, bgLights->getScale()), ScaleTo::create(2, bgLights->getScale() * 1.5f), ScaleTo::create(1, 1), NULL)));
 	this->addChild(bgLights);
 	
 	addParticles();
@@ -100,24 +98,24 @@ void ChildOomeeFTULayer::addParticles()
 	{
 		Color4F endColour = colour;
 		endColour.a = 0.1f;
-		ParticleSystemQuad* sparkle = ParticleSystemQuad::createWithTotalParticles(15);
+		ParticleSystemQuad* sparkle = ParticleSystemQuad::createWithTotalParticles(30);
 		sparkle->setBlendFunc(BlendFunc::ALPHA_PREMULTIPLIED);
 		sparkle->setEndColor(endColour);
-		sparkle->setEndColorVar(Color4F(0,0,0,0.1));
+		sparkle->setEndColorVar(Color4F(0,0,0,1.0));
 		sparkle->setStartColor(colour);
 		sparkle->setStartColorVar(Color4F(0,0,0,0.1));
 		sparkle->setTexture(particleTex);
-		sparkle->setLife(3.0);
-		sparkle->setLifeVar(1.0);
+		sparkle->setLife(1.0);
+		sparkle->setLifeVar(0.5);
 		sparkle->setGravity(Vec2(0,0));
-		sparkle->setStartSize(50);
-		sparkle->setStartSizeVar(50);
-		sparkle->setEndSize(175);
-		sparkle->setEndSizeVar(100);
+		sparkle->setStartSize(25);
+		sparkle->setStartSizeVar(15);
+		sparkle->setEndSize(135);
+		sparkle->setEndSizeVar(45);
 		sparkle->setPosVar(visibleSize);
 		sparkle->setAngleVar(0);
 		sparkle->setAngle(0);
-		sparkle->setEmissionRate(8);
+		sparkle->setEmissionRate(15);
 		sparkle->setDuration(-1);
 		sparkle->setSpeed(0);
 		sparkle->setSpeedVar(0);

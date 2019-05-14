@@ -107,12 +107,12 @@ bool MeHQProfileDetails::init()
 
 void MeHQProfileDetails::onEnter()
 {
+    Super::onEnter();
 	TutorialController::getInstance()->registerDelegate(this);
 	if(TutorialController::getInstance()->isTutorialActive())
 	{
 		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
 	}
-    Super::onEnter();
 }
 
 void MeHQProfileDetails::onExit()
@@ -130,24 +130,6 @@ void MeHQProfileDetails::onSizeChanged()
     Super::onSizeChanged();
 }
 
-void MeHQProfileDetails::highlightOomeButton()
-{
-	enableOomeeButton(true);
-	Sprite* glow = Sprite::create("res/childSelection/glow.png");
-	glow->setContentSize(_avatar->getContentSize() * _avatar->getScale());
-	glow->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	glow->runAction(RepeatForever::create(Sequence::createWithTwoActions(ScaleTo::create(1.0f, 0.5f), ScaleTo::create(1.0f, 1.5f))));
-	glow->setName("glow");
-	_avatar->addChild(glow, -1);
-	
-}
-
-void MeHQProfileDetails::enableOomeeButton(bool enable)
-{
-	_avatar->removeChildByName("glow");
-	_avatar->setTouchEnabled(enable);
-}
-
 void MeHQProfileDetails::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {
     Size prevSize = _avatar->getContentSize();
@@ -162,16 +144,7 @@ void MeHQProfileDetails::onImageDownloadFailed()
 
 void MeHQProfileDetails::onTutorialStateChanged(const std::string& stateId)
 {
-	if(stateId == TutorialController::kCreateOomee)
-	{
-		Sprite* highlight = Sprite::create("res/tutorial/circle_glow.png");
-		highlight->setContentSize(_avatar->getContentSize() * 1.7f);
-		highlight->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-		highlight->setNormalizedPosition(Vec2(0.5,0.4));
-		_avatar->addChild(highlight,1);
-		highlight->setScale(1.2f);
-		highlight->runAction(RepeatForever::create(Sequence::createWithTwoActions(ScaleTo::create(1.0f, 1.0f), ScaleTo::create(1.0f, 1.2f))));
-	}
+	_avatar->enableTutorialHighlight(stateId == TutorialController::kCreateOomee);
 }
 
 

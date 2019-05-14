@@ -225,6 +225,10 @@ void OomeeMakerScene::onEnter()
     _exitButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
+			if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kConfirmOomee)
+			{
+				TutorialController::getInstance()->endTutorial();
+			}
             if(_oomee->getUndoStackSize() > 1 || _newOomee)
             {
                 ConfirmCancelMessageBox* messageBox = ConfirmCancelMessageBox::createWithParams(_("Save?"), "res/buttons/confirm_tick_2.png", "res/buttons/confirm_x_2.png");
@@ -547,10 +551,6 @@ void OomeeMakerScene::onTutorialStateChanged(const std::string &stateId)
 			_makeAvatarButton->addChild(glow, 1);
 			
 		}
-		if(_exitButton)
-		{
-			_exitButton->setVisible(false);
-		}
 	}
 	else
 	{
@@ -558,11 +558,6 @@ void OomeeMakerScene::onTutorialStateChanged(const std::string &stateId)
 		{
 			_makeAvatarButton->removeChildByName("glow");
 		}
-		if(_exitButton)
-		{
-			_exitButton->setVisible(true);
-		}
-		
 	}
 }
 

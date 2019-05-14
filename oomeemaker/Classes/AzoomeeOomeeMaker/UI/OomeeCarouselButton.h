@@ -37,6 +37,9 @@ private:
     cocos2d::Sprite* _innerCircle = nullptr;
     cocos2d::Sprite* _outerCircle = nullptr;
 	
+	cocos2d::Sprite* _tutInnerCircle = nullptr;
+	cocos2d::Sprite* _tutOuterCircle = nullptr;
+	
 	cocos2d::LayerGradient* _mainCircleColour = nullptr;
 	cocos2d::LayerGradient* _highlightCircleColour = nullptr;
     
@@ -59,8 +62,11 @@ public:
     
     void setInFocus(bool inFocus);
     bool getInFocus() const;
-    
+	
+	void setHighlightCircleColour(const cocos2d::Color4B& startGradColour, const cocos2d::Color4B& endGradColour, const cocos2d::Vec2& gradDir);
+	
     void enableHighlight(bool enable);
+	void enableTutorialHighlight(bool enable);
     
     CREATE_FUNC(OomeeCarouselButton);
 };

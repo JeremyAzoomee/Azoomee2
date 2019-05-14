@@ -55,7 +55,7 @@ const std::map<std::string,std::pair<std::string,MessageLocation>> TutorialContr
 	{kNameEntry, {"Hi! What’s your name?",MessageLocation::TOP_LEFT}},
 	{kAgeEntry, {"How old are you?",MessageLocation::TOP_LEFT}},
 	{kConfirmOomee, {"",MessageLocation::TOP_LEFT}},
-	{kCreateOomee, {"Let's have some fun",MessageLocation::TOP_LEFT}},
+	{kCreateOomee, {"",MessageLocation::TOP_LEFT}},
 	{kFTUShopEarnMoreRewards, {"Try a new game or video and win more coins!",MessageLocation::TOP_LEFT}},
 	{kFTUSpendRewards, {"Let’s buy a present",MessageLocation::TOP_LEFT}},
 	{kFTUGroupHQContent, {"",MessageLocation::TOP_LEFT}},
