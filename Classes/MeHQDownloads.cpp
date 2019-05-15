@@ -332,7 +332,7 @@ std::string MeHQDownloads::getStartFileFromJson(const std::string &gameId) const
 
 void MeHQDownloads::onTutorialStateChanged(const std::string& stateId)
 {
-	enableButtons(stateId == TutorialController::kTutorialEnded);
+	
 }
 
 NS_AZOOMEE_END

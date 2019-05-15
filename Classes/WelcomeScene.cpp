@@ -29,12 +29,12 @@ bool WelcomeScene::init()
 	_bgColour = LayerColor::create(Color4B(0,7,4,255), contentSize.width, contentSize.height);
 	this->addChild(_bgColour);
 	
-	_wires = Sprite::create("res/rewards/big_wires.png");
+	/*_wires = Sprite::create("res/rewards/big_wires.png");
 	_wires->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	_wires->setScale(MAX(contentSize.width, contentSize.height) / _wires->getContentSize().width);
 	_wires->setRotation(isPortrait ? 90 : 0);
 	_wires->setOpacity(65);
-	this->addChild(_wires);
+	this->addChild(_wires);*/
 	
 	_bottomGradient = Sprite::create("res/decoration/TopNavGrad.png");
 	_bottomGradient->setContentSize(Size(contentSize.width, 400));
@@ -68,8 +68,8 @@ bool WelcomeScene::init()
 	_textHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
 	_body->addChild(_textHolder);
 	
-	_text = Label::createWithTTF(_("introText"), Style::Font::Regular(), 90);
-	_text->setWidth(contentSize.width * 0.6f);
+	_text = Label::createWithTTF(_("introText"), Style::Font::Bold(), 60);
+	_text->setWidth(contentSize.width * 0.8f);
 	_text->setOverflow(Label::Overflow::RESIZE_HEIGHT);
 	_text->setAlignment(TextHAlignment::CENTER, TextVAlignment::CENTER);
 	_text->setTextColor(Color4B::WHITE);
@@ -81,12 +81,13 @@ bool WelcomeScene::init()
 	_textHolder->setContentSize(_text->getContentSize());
 	_textHolder->addChild(_text);
 	
-	_button = ui::Button::create("res/buttons/blue_cta.png");
-	_button->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+	_button = ui::Button::create("res/settings/rounded_button.png");
+	_button->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
 	_button->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	_button->setScale9Enabled(true);
 	_button->setCascadeOpacityEnabled(true);
 	_button->setOpacity(0);
+	_button->ignoreContentAdaptWithSize(false);
+	_button->setColor(Style::Color::skyBlue);
 	_button->runAction(Sequence::createWithTwoActions(DelayTime::create(1.5), FadeIn::create(1.5f)));
 	_button->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
@@ -96,17 +97,17 @@ bool WelcomeScene::init()
 	});
 	_body->addChild(_button);
 	
-	Label* buttonText = Label::createWithTTF(_("introButton"), Style::Font::Regular(), 80);
+	Label* buttonText = Label::createWithTTF(_("introButton"), Style::Font::Bold(), 70);
 	buttonText->setTextColor(Color4B::WHITE);
 	buttonText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	buttonText->setNormalizedPosition(Vec2(0.4f,0.5f));
+	buttonText->setNormalizedPosition(Vec2(0.5f,0.5f));
 	buttonText->setOverflow(Label::Overflow::SHRINK);
 	buttonText->setAlignment(TextHAlignment::CENTER, TextVAlignment::CENTER);
 	_button->addChild(buttonText);
-	_button->setContentSize(Size(MIN(buttonText->getContentSize().width + 400, _button->getContentSize().width), _button->getContentSize().height));
+	_button->setContentSize(Size(_logo->getContentSize().width, _button->getContentSize().height * (_logo->getContentSize().width / _button->getContentSize().width)));
 	buttonText->setDimensions(_button->getContentSize().width * 0.66, buttonText->getContentSize().height);
 	
-	_body->setContentSize(Size(contentSize.width, _logo->getContentSize().height + 50 + _text->getContentSize().height + _button->getContentSize().height));
+	_body->setContentSize(Size(contentSize.width, _logo->getContentSize().height + 100 + _text->getContentSize().height + _button->getContentSize().height));
 	
 	ui::Button* loginButton = ui::Button::create("res/settings/rounded_button.png");
 	loginButton->setAnchorPoint(Vec2(1.15, 1.75f));
@@ -152,10 +153,10 @@ void WelcomeScene::onSizeChanged()
 	
 	_bgColour->setContentSize(contentSize);
 	
-	_wires->setScale(MAX(contentSize.width, contentSize.height) / _wires->getContentSize().width);
-	_wires->setRotation(isPortrait ? 90 : 0);
+	//_wires->setScale(MAX(contentSize.width, contentSize.height) / _wires->getContentSize().width);
+	//_wires->setRotation(isPortrait ? 90 : 0);
 	
-	_text->setWidth(contentSize.width * 0.6f);
+	_text->setWidth(contentSize.width * 0.8f);
 	_textHolder->setContentSize(_text->getContentSize());
 	
 	_bottomGradient->setContentSize(Size(contentSize.width, 400));
@@ -164,7 +165,7 @@ void WelcomeScene::onSizeChanged()
 	_tilesNode->removeAllChildren();
 	addAnimatedTiles();
 	
-	_body->setContentSize(Size(contentSize.width, _logo->getContentSize().height + 50 + _text->getContentSize().height + _button->getContentSize().height));
+	_body->setContentSize(Size(contentSize.width, _logo->getContentSize().height + 100 + _text->getContentSize().height + _button->getContentSize().height));
 	_body->forceDoLayout();
 }
 

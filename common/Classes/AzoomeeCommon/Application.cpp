@@ -64,7 +64,7 @@ bool Application::applicationDidFinishLaunching()
     Java_com_tinizine_azoomee_common_AzoomeeActivity_onKeyboardShown(nullptr, nullptr, 0);
     Java_com_tinizine_azoomee_common_AzoomeeActivity_onKeyboardHidden(nullptr, nullptr, 0);
 #endif
-    
+	
     // initialize director
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
@@ -86,6 +86,19 @@ bool Application::applicationDidFinishLaunching()
     // Set the initial resolution
     director->setContentScaleFactor(1.0f);
     auto frameSize = glview->getFrameSize();
+	
+	float aspectRatio = MAX(frameSize.width, frameSize.height) / MIN(frameSize.width, frameSize.height);
+	if(aspectRatio > 16.0f/10.0f) // phone
+	{
+		designResolutionLandscapeSize = cocos2d::Size(2964,1368);
+		designResolutionPortraitSize = cocos2d::Size(designResolutionLandscapeSize.height, designResolutionLandscapeSize.width);
+	}
+	else	//tablet
+	{
+		designResolutionLandscapeSize = cocos2d::Size(2736,2048);
+		designResolutionPortraitSize = cocos2d::Size(1710,2736);
+	}
+	
     applicationScreenSizeChanged(frameSize.width, frameSize.height);
 
     return true;
@@ -160,13 +173,13 @@ void Application::updateResolution(int newWidth, int newHeight)
     if(newWidth > newHeight)
     {
         Azoomee::AnalyticsSingleton::getInstance()->setLandscapeOrientation();
-        glview->setDesignResolutionSize(designResolutionLandscapeSize.width, designResolutionLandscapeSize.height, ResolutionPolicy::NO_BORDER);
+		glview->setDesignResolutionSize(designResolutionLandscapeSize.width, designResolutionLandscapeSize.height, ResolutionPolicy::FIXED_WIDTH);
     }
     // Portrait
     else
     {
         Azoomee::AnalyticsSingleton::getInstance()->setPortraitOrientation();
-        glview->setDesignResolutionSize(designResolutionPortraitSize.width, designResolutionPortraitSize.height, ResolutionPolicy::NO_BORDER);
+        glview->setDesignResolutionSize(designResolutionPortraitSize.width, designResolutionPortraitSize.height, ResolutionPolicy::FIXED_WIDTH);
     }
 }
 

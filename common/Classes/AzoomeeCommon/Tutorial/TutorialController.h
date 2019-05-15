@@ -65,8 +65,6 @@ private:
 	TutorialMessagingNode* _messagingNode = nullptr;
 	TutorialMessagingNode* _removingNode = nullptr;
 	
-	void displayMessageForTutorialState();
-	
 public:
 	static TutorialController* getInstance(void);
 	virtual ~TutorialController();
@@ -84,6 +82,8 @@ public:
 	
 	bool isTutorialCompleted(const std::string& tutorialId);
 	void setTutorialCompleted(const std::string& tutorialId);
+	
+	void displayMessageForTutorialState(const std::string& message = "");
 };
 
 NS_AZOOMEE_END

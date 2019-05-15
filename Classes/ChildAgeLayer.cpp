@@ -50,15 +50,17 @@ void ChildAgeLayer::onEnter()
 	
 	const std::vector<std::string>& ageStrings = isPortrait ? std::vector<std::string>{"9","10+","7","8","5","6","3","4"} : std::vector<std::string>{"7","8","9","10+","3","4","5","6"};
 	
+	const Vec2& gridSize = isPortrait ? Vec2(2,4) : Vec2(4,2);
+	
 	Node* buttonHolder = Node::create();
-	buttonHolder->setContentSize(isPortrait ? Size(contentSize.width * 0.6f, MIN(contentSize.height * 0.65f, contentSize.width * 1.2f)) : Size(contentSize.height * 1.0f, contentSize.height * 0.5f));
+	buttonHolder->setContentSize(Size(300 * gridSize.x, 300 * gridSize.y));
 	//buttonHolder->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 	//buttonHolder->setPosition(textInputTitle->getPosition() - Vec2(0,textInputTitle->getContentSize().height * 1.25f));
 	buttonHolder->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 	buttonHolder->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	this->addChild(buttonHolder);
 	
-	const Vec2& gridSize = isPortrait ? Vec2(2,4) : Vec2(4,2);
+	
 	
 	for(int i = 0; i < ageStrings.size(); i++)
 	{
@@ -89,7 +91,7 @@ void ChildAgeLayer::onEnter()
 			}
 		});
 		
-		Label* ageLab = Label::createWithTTF(ageStrings.at(i), Style::Font::Bold(), 75);
+		Label* ageLab = Label::createWithTTF(ageStrings.at(i), Style::Font::Bold(), 91);
 		ageLab->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 		ageLab->setHorizontalAlignment(TextHAlignment::CENTER);
 		ageLab->setVerticalAlignment(TextVAlignment::CENTER);
@@ -152,6 +154,7 @@ void ChildAgeLayer::onEnter()
 		textInputTitle->setVisible(false);
 		progressIcon->setVisible(false);
 		buttonHolder->setPosition(textInputTitle->getPosition() - Vec2(0,textInputTitle->getContentSize().height));
+		TutorialController::getInstance()->displayMessageForTutorialState(StringUtils::format(_("Hi %s! How old are you?").c_str(), _childCreator->getName().c_str()));
 	}
 	
     Super::onEnter();

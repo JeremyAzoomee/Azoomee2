@@ -41,8 +41,8 @@ void ChildOomeeFTULayer::onEnter()
 	
 	Sprite* oomee = Sprite::create(ConfigStorage::getInstance()->getLocalImageForOomee(_childCreator->getOomeeNum()));
 	oomee->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	oomee->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	oomee->setContentSize(oomee->getContentSize() * ((contentSize.height * 0.5f) / oomee->getContentSize().height));
+	oomee->setNormalizedPosition(isPortrait ? Vec2::ANCHOR_MIDDLE : Vec2(0.5,0.45f));
+	oomee->setContentSize(oomee->getContentSize() * ((contentSize.height * (isPortrait ? 0.6f : 0.75f)) / oomee->getContentSize().height));
 	this->addChild(oomee);
 	
 	oomee->setScale(0);
@@ -53,12 +53,10 @@ void ChildOomeeFTULayer::onEnter()
 	bubble->setMaxWidth(contentSize.width * (isPortrait ? 0.5f : 0.6f));
 	bubble->setText(_("Fantastic!\nLet me show you around"));
 	bubble->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-	bubble->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+	bubble->setNormalizedPosition(Vec2(0.5f, 0.85f));
 	oomee->addChild(bubble);
 	
 	ui::Button* continueButton = ui::Button::create("res/buttons/blue_arrow_button.png");
-	continueButton->setAnchorPoint(Vec2(-0.25f,0.5f));
-	continueButton->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
 	continueButton->setVisible(false);
 	continueButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType)
 	{
@@ -70,7 +68,18 @@ void ChildOomeeFTULayer::onEnter()
 			}
 		}
 	});
-	bubble->addChild(continueButton);
+	if(isPortrait)
+	{
+		continueButton->setAnchorPoint(Vec2(0.5f, 1.5f));
+		continueButton->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+		oomee->addChild(continueButton);
+	}
+	else
+	{
+		continueButton->setAnchorPoint(Vec2(-0.25f,0.5f));
+		continueButton->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
+		bubble->addChild(continueButton);
+	}
 	
 	bubble->animateIn(2.0f, [continueButton](){
 		continueButton->setVisible(true);

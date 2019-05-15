@@ -158,14 +158,17 @@ std::string TutorialController::getCurrentState() const
 	return _activeTutorialStates.front();
 }
 
-void TutorialController::displayMessageForTutorialState()
+void TutorialController::displayMessageForTutorialState(const std::string& msg)
 {
-	std::string message = "";
-	if(kDisplayMessageMap.find(_activeTutorialStates.front()) != kDisplayMessageMap.end())
+	std::string message = msg;
+	if(msg == "")
 	{
-		message = kDisplayMessageMap.at(_activeTutorialStates.front()).first;
+		if(kDisplayMessageMap.find(_activeTutorialStates.front()) != kDisplayMessageMap.end())
+		{
+			message = kDisplayMessageMap.at(_activeTutorialStates.front()).first;
+		}
+		message = _(message);
 	}
-	message = _(message);
 	if(!_messagingNode)
 	{
 		_messagingNode = TutorialMessagingNode::create(message, kDisplayMessageMap.at(_activeTutorialStates.front()).second);
