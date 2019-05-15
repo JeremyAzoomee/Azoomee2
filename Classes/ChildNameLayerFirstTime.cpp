@@ -41,6 +41,7 @@ void ChildNameLayerFirstTime::onEnter()
     {
         _textInput->setText(_childCreator->getName());
     }
+	_textInput->setKeyboardAlwaysShown(true);
     this->addChild(_textInput);
     
 	
@@ -67,7 +68,7 @@ void ChildNameLayerFirstTime::onEnter()
     });
     this->addChild(_continueButton);
 	
-	_textInput->focusAndShowKeyboard();
+	//_textInput->focusAndShowKeyboard();
 	
     Super::onEnter();
 }
@@ -109,7 +110,7 @@ void ChildNameLayerFirstTime::editBoxEditingDidBegin(TextInputLayer* inputLayer)
 }
 void ChildNameLayerFirstTime::editBoxEditingDidEnd(TextInputLayer* inputLayer)
 {
-    _textInput->focusAndShowKeyboard();
+    //_textInput->focusAndShowKeyboard();
 }
 
 
