@@ -10,7 +10,7 @@
 #include "SimpleAudioEngine.h"
 #include "../DataObjects/OomeeMakerDataHandler.h"
 #include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/Utils/DirectorySearcher.h>
+#include <AzoomeeCommon/Utils/FileUtil.h>
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 #include <AzoomeeCommon/Utils/TimeFunctions.h>
 #include <AzoomeeCommon/UI/Style.h>
@@ -152,7 +152,7 @@ void OomeeSelectScene::onExit()
 void OomeeSelectScene::setCarouselData()
 {
     const std::string& fileExtention = ".png";
-    const std::vector<std::string>& createdOomeeFiles = DirectorySearcher::getInstance()->getFilesInDirectoryWithExtention(OomeeMakerDataHandler::getInstance()->getFullSaveDir(), fileExtention);
+    const std::vector<std::string>& createdOomeeFiles = FileUtil::getFilesInDirectoryWithExtention(OomeeMakerDataHandler::getInstance()->getFullSaveDir(), fileExtention);
     AnalyticsSingleton::getInstance()->reportNumberOfOomees((int)createdOomeeFiles.size());
     std::vector<std::string> trimmedFilenames;
     for(std::string filename : createdOomeeFiles)

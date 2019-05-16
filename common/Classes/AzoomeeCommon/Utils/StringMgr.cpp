@@ -1,7 +1,7 @@
 #include "StringMgr.h"
 #include "../Analytics/AnalyticsSingleton.h"
 #include "StringFunctions.h"
-#include "DirectorySearcher.h"
+#include "FileUtil.h"
 #include "../Data/Json.h"
 #include <cocos/cocos2d.h>
 
@@ -232,7 +232,7 @@ void StringMgr::setLocalEtag(const std::string& etag)
 void StringMgr::removeLocalLanguagesFiles()
 {
 	const std::string& baseLocation = FileUtils::getInstance()->getWritablePath() + kLanguagesDir;
-	const std::vector<std::string>& langsFolders = DirectorySearcher::getInstance()->getFoldersInDirectory(baseLocation);
+	const std::vector<std::string>& langsFolders = FileUtil::getFoldersInDirectory(baseLocation);
 	for(const std::string& folder : langsFolders)
 	{
 		if(folder.size() > 2)
@@ -274,7 +274,7 @@ void StringMgr::onFileDownloadComplete(const std::string& fileString, const std:
 	else if(responseCode == 304)
 	{
 		const std::string& baseLocation = FileUtils::getInstance()->getWritablePath() + kLanguagesDir;
-		const std::vector<std::string>& langsFolders = DirectorySearcher::getInstance()->getFoldersInDirectory(baseLocation);
+		const std::vector<std::string>& langsFolders = FileUtil::getFoldersInDirectory(baseLocation);
 		if(langsFolders.size() > 0)
 		{
 			_remoteDataInitialised = true;

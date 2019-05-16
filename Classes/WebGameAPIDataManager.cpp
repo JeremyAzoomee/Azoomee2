@@ -3,6 +3,7 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "VideoPlaylistManager.h"
 #include <AzoomeeCommon/Utils/TimeFunctions.h>
+#include <AzoomeeCommon/Utils/FileUtil.h>
 
 using namespace cocos2d;
 
@@ -114,7 +115,7 @@ char* WebGameAPIDataManager::createReturnStringForAPI(const char* method, const 
 
 std::string WebGameAPIDataManager::getPathForHighScoreFile()
 {
-    std::string filePath = FileUtils::getInstance()->getDocumentsPath() + "scoreCache/" + ChildManager::getInstance()->getParentOrChildId() + "/" + runningGameId + "/highscore.data";
+    std::string filePath = FileUtil::getDocumentsPath() + "scoreCache/" + ChildManager::getInstance()->getParentOrChildId() + "/" + runningGameId + "/highscore.data";
     return filePath;
 }
 
@@ -142,7 +143,7 @@ int WebGameAPIDataManager::updateCurrentHighScoreForGame(int newScore)
 
 void WebGameAPIDataManager::createDirectoryTree()
 {
-    const std::string &scoreCacheFolder = FileUtils::getInstance()->getDocumentsPath() + "scoreCache";
+    const std::string &scoreCacheFolder = FileUtil::getDocumentsPath() + "scoreCache";
     if(!FileUtils::getInstance()->isDirectoryExist(scoreCacheFolder))
     {
         FileUtils::getInstance()->createDirectory(scoreCacheFolder);
@@ -194,7 +195,7 @@ char* WebGameAPIDataManager::getLocalStorageData()
 
 std::string WebGameAPIDataManager::getPathForLocalStorageFile()
 {
-    std::string filePath = FileUtils::getInstance()->getDocumentsPath() + "scoreCache/" + ChildManager::getInstance()->getParentOrChildId() + "/" + runningGameId + "/localstorage.data";
+    std::string filePath = FileUtil::getDocumentsPath() + "scoreCache/" + ChildManager::getInstance()->getParentOrChildId() + "/" + runningGameId + "/localstorage.data";
     return filePath;
 }
 

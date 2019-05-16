@@ -36,8 +36,6 @@ bool IntroVideoScene::init()
         return false;
     }
     
-    cocos2d::log("Cache folder: %s", FileUtils::getInstance()->getDocumentsPath().c_str());
-    
     AnalyticsSingleton::getInstance()->registerCurrentScene("INTRO_VIDEO");
     
     auto funcCallAction = CallFunc::create([=]()

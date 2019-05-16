@@ -44,6 +44,7 @@
 		301CCA8D1EB13151009ADA0C /* MessageBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301CCA8B1EB13151009ADA0C /* MessageBox.cpp */; };
 		301CCA901EB13191009ADA0C /* ElectricDreamsButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301CCA8E1EB13191009ADA0C /* ElectricDreamsButton.cpp */; };
 		301CCA9A1EB14280009ADA0C /* API.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301CCA981EB14280009ADA0C /* API.cpp */; };
+		30242C74228D672A00B564E4 /* FileUtil_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30242C72228D672A00B564E4 /* FileUtil_ios.mm */; };
 		302E84791ED1B992006A498C /* ObservableLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302E84751ED1B992006A498C /* ObservableLayout.cpp */; };
 		302E847A1ED1B992006A498C /* SplitLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302E84771ED1B992006A498C /* SplitLayout.cpp */; };
 		304D9EC71EA8F883008CED52 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 304D9EC61EA8F883008CED52 /* GameController.framework */; };
@@ -147,7 +148,7 @@
 		92244D7F2278840B004C9B45 /* TutorialSpeechBubble.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92244D7E2278840B004C9B45 /* TutorialSpeechBubble.cpp */; };
 		92244D8122789B5E004C9B45 /* TutorialMessagingNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92244D8022789B5E004C9B45 /* TutorialMessagingNode.cpp */; };
 		9224C00C1F7CFD7E00108553 /* FileZipUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224C00B1F7CFD7E00108553 /* FileZipUtil.cpp */; };
-		9224C00F1F7D13F000108553 /* DirectorySearcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224C00E1F7D13F000108553 /* DirectorySearcher.cpp */; };
+		9224C00F1F7D13F000108553 /* FileUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224C00E1F7D13F000108553 /* FileUtil.cpp */; };
 		92448AC121EF771400E88C9D /* Child.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92448AC021EF771300E88C9D /* Child.cpp */; };
 		92448AC421F0ABC000E88C9D /* Parent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92448AC321F0ABC000E88C9D /* Parent.cpp */; };
 		92448AC721F1FADE00E88C9D /* FriendRequest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92448AC621F1FADE00E88C9D /* FriendRequest.cpp */; };
@@ -259,6 +260,8 @@
 		301CCA981EB14280009ADA0C /* API.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = API.cpp; sourceTree = "<group>"; };
 		301CCA991EB14280009ADA0C /* API.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = API.h; sourceTree = "<group>"; };
 		301CCA9B1EB14473009ADA0C /* Azoomee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Azoomee.h; sourceTree = "<group>"; };
+		30242C71228D672A00B564E4 /* FileUtil_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileUtil_android.cpp; sourceTree = "<group>"; };
+		30242C72228D672A00B564E4 /* FileUtil_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FileUtil_ios.mm; sourceTree = "<group>"; };
 		302E84751ED1B992006A498C /* ObservableLayout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ObservableLayout.cpp; sourceTree = "<group>"; };
 		302E84761ED1B992006A498C /* ObservableLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObservableLayout.h; sourceTree = "<group>"; };
 		302E84771ED1B992006A498C /* SplitLayout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SplitLayout.cpp; sourceTree = "<group>"; };
@@ -463,8 +466,8 @@
 		92244D8022789B5E004C9B45 /* TutorialMessagingNode.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TutorialMessagingNode.cpp; sourceTree = "<group>"; };
 		9224C00A1F7CF8C100108553 /* FileZipUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileZipUtil.h; sourceTree = "<group>"; };
 		9224C00B1F7CFD7E00108553 /* FileZipUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileZipUtil.cpp; sourceTree = "<group>"; };
-		9224C00D1F7D11F400108553 /* DirectorySearcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectorySearcher.h; sourceTree = "<group>"; };
-		9224C00E1F7D13F000108553 /* DirectorySearcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DirectorySearcher.cpp; sourceTree = "<group>"; };
+		9224C00D1F7D11F400108553 /* FileUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileUtil.h; sourceTree = "<group>"; };
+		9224C00E1F7D13F000108553 /* FileUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileUtil.cpp; sourceTree = "<group>"; };
 		92448ABF21EF5D0800E88C9D /* Child.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Child.h; sourceTree = "<group>"; };
 		92448AC021EF771300E88C9D /* Child.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Child.cpp; sourceTree = "<group>"; };
 		92448AC221F09CD700E88C9D /* Parent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Parent.h; sourceTree = "<group>"; };
@@ -693,8 +696,10 @@
 				02A120241EAF83E0007EDD95 /* VersionChecker.h */,
 				9224C00A1F7CF8C100108553 /* FileZipUtil.h */,
 				9224C00B1F7CFD7E00108553 /* FileZipUtil.cpp */,
-				9224C00D1F7D11F400108553 /* DirectorySearcher.h */,
-				9224C00E1F7D13F000108553 /* DirectorySearcher.cpp */,
+				9224C00D1F7D11F400108553 /* FileUtil.h */,
+				9224C00E1F7D13F000108553 /* FileUtil.cpp */,
+				30242C71228D672A00B564E4 /* FileUtil_android.cpp */,
+				30242C72228D672A00B564E4 /* FileUtil_ios.mm */,
 				02BF05F11F98BAAF00E7D086 /* PushNotificationsHandler_android.cpp */,
 				02BF05F01F98BAAE00E7D086 /* PushNotificationsHandler_ios.mm */,
 				02BF05EE1F98B80B00E7D086 /* PushNotificationsHandler.h */,
@@ -1345,6 +1350,7 @@
 				4349C8391EA8ADEF00FE964B /* MPNSNumberToCGFloatValueTransformer.m in Sources */,
 				4349C83D1EA8ADEF00FE964B /* MPObjectSerializerConfig.m in Sources */,
 				0240FC952016538C00E88157 /* BiometricAuthenticationHandler.cpp in Sources */,
+				30242C74228D672A00B564E4 /* FileUtil_ios.mm in Sources */,
 				92BDD4CA2237D39E00DA56F3 /* DataDownloadHandler.cpp in Sources */,
 				305966991ECCAF76009A7130 /* Scene.cpp in Sources */,
 				4349C8171EA8ADEF00FE964B /* MixpanelWatchProperties.m in Sources */,
@@ -1365,7 +1371,7 @@
 				4349C84C1EA8ADEF00FE964B /* MPTypeDescription.m in Sources */,
 				3012ED701E96A3140009027D /* StringFunctions.cpp in Sources */,
 				4349C82B1EA8ADEF00FE964B /* MPCGRectToNSDictionaryValueTransformer.m in Sources */,
-				9224C00F1F7D13F000108553 /* DirectorySearcher.cpp in Sources */,
+				9224C00F1F7D13F000108553 /* FileUtil.cpp in Sources */,
 				92D1B49922A92B0C00357513 /* ParentManager.cpp in Sources */,
 				4349C8531EA8ADEF00FE964B /* MPVariant.m in Sources */,
 				434A55E41F29F9C800740601 /* MessageBoxLayer.cpp in Sources */,

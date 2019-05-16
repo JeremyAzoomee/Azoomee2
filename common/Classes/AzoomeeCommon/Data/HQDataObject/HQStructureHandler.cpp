@@ -13,7 +13,7 @@
 #include "../Json.h"
 #include "../../UI/ModalMessages.h"
 #include "../Child/ChildManager.h"
-#include "../../Utils/DirectorySearcher.h"
+#include "../../Utils/FileUtil.h"
 #include "../ConfigStorage.h"
 #include "../../Utils/StringFunctions.h"
 #include "HQDataObjectStorage.h"
@@ -67,7 +67,7 @@ void HQStructureHandler::loadLocalData()
         const std::string& data = cocos2d::FileUtils::getInstance()->getStringFromFile(localDataPath + "entitlements.json");
         HQStructureParser::getInstance()->parseEntitlementData(data);
         
-        const auto& feedsFolders = DirectorySearcher::getInstance()->getFoldersInDirectory(localDataPath);
+        const auto& feedsFolders = FileUtil::getFoldersInDirectory(localDataPath);
         for(const auto& folder : feedsFolders)
         {
             if(folder == "groups")

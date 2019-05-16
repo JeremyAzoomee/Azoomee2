@@ -24,7 +24,7 @@
 #include <AzoomeeCommon/ErrorCodes.h>
 #include "WebViewSelector.h"
 #include "HQDataProvider.h"
-#include <AzoomeeCommon/Utils/DirectorySearcher.h>
+#include <AzoomeeCommon/Utils/FileUtil.h>
 #include <ctime>
 #include <cstdlib>
 
@@ -463,7 +463,7 @@ void GameDataManager::performGameCleanup()
     
     if(gameCleanupDue(cleanupCheckFile, _kGameCleanupCheckFreq))
     {
-        const std::vector<std::string>& gameDirs = DirectorySearcher::getInstance()->getFoldersInDirectory(basePath);
+        const std::vector<std::string>& gameDirs = FileUtil::getFoldersInDirectory(basePath);
         for(const std::string& dir : gameDirs)
         {
             const std::string& gameLastUsedFile = basePath + dir + "/lastUsedTimestamp.txt";
@@ -484,7 +484,7 @@ void GameDataManager::setupTimestampFilesForExistingGames()
     const std::string& basePath = getGameCachePath();
     addTimestampFile(basePath + "lastCleanupTimestamp.txt");
     
-    const std::vector<std::string>& gameDirs = DirectorySearcher::getInstance()->getFoldersInDirectory(basePath);
+    const std::vector<std::string>& gameDirs = FileUtil::getFoldersInDirectory(basePath);
     for(const std::string& dir : gameDirs)
     {
         addTimestampFile(basePath + dir + "/lastUsedTimestamp.txt");

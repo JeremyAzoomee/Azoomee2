@@ -18,7 +18,7 @@
 #include <dirent.h>
 #include <AzoomeeCommon/Data/Json.h>
 #include <AzoomeeCommon/Data/Parent/ParentManager.h>
-#include <AzoomeeCommon/Utils/DirectorySearcher.h>
+#include <AzoomeeCommon/Utils/FileUtil.h>
 #include <AzoomeeCommon/Utils/VersionChecker.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
@@ -65,11 +65,11 @@ void DynamicNodeHandler::createDynamicNodeById(const std::string& uniqueId)
 {
     //local device folder
     const std::string& ctaPath = getCTADirectoryPath();
-    const std::vector<std::string>& folders = DirectorySearcher::getInstance()->getFoldersInDirectory(ctaPath);
+    const std::vector<std::string>& folders = FileUtil::getFoldersInDirectory(ctaPath);
     
     for(const std::string& folder : folders)
     {
-        const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getJsonFilesInDirectory(ctaPath + folder);
+        const std::vector<std::string>& fileNames = FileUtil::getJsonFilesInDirectory(ctaPath + folder);
         for(const std::string& file : fileNames)
         {
             if(file == uniqueId)
@@ -87,13 +87,13 @@ void DynamicNodeHandler::createDynamicNodeByGroupId(const std::string& groupId)
 {
     //local device folder
     const std::string& ctaPath = getCTADirectoryPath();
-    const std::vector<std::string>& folders = DirectorySearcher::getInstance()->getFoldersInDirectory(ctaPath);
+    const std::vector<std::string>& folders = FileUtil::getFoldersInDirectory(ctaPath);
     
     for(const std::string& folder : folders)
     {
         if(folder == groupId)
         {
-            std::vector<std::string> fileNames = DirectorySearcher::getInstance()->getJsonFilesInDirectory(ctaPath + folder);
+            std::vector<std::string> fileNames = FileUtil::getJsonFilesInDirectory(ctaPath + folder);
             fileNames.erase(std::remove_if(fileNames.begin(), fileNames.end(), [&](std::string item){
                 return item.compare(0, 2, "p_") == 0;
             }));
@@ -111,11 +111,11 @@ void DynamicNodeHandler::createDynamicNodeByIdWithParams(const std::string& uniq
 {
     //local device folder
     const std::string& ctaPath = getCTADirectoryPath();
-    const std::vector<std::string>& folders = DirectorySearcher::getInstance()->getFoldersInDirectory(ctaPath);
+    const std::vector<std::string>& folders = FileUtil::getFoldersInDirectory(ctaPath);
     
     for(const std::string& folder : folders)
     {
-        const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getJsonFilesInDirectory(ctaPath + folder);
+        const std::vector<std::string>& fileNames = FileUtil::getJsonFilesInDirectory(ctaPath + folder);
         for(const std::string& file : fileNames)
         {
             if(file == uniqueId)
@@ -133,13 +133,13 @@ void DynamicNodeHandler::createDynamicNodeByGroupIdWithParams(const std::string&
 {
     //local device folder
     const std::string& ctaPath = getCTADirectoryPath();
-    const std::vector<std::string>& folders = DirectorySearcher::getInstance()->getFoldersInDirectory(ctaPath);
+    const std::vector<std::string>& folders = FileUtil::getFoldersInDirectory(ctaPath);
     
     for(const std::string& folder : folders)
     {
         if(folder == groupId)
         {
-            std::vector<std::string> fileNames = DirectorySearcher::getInstance()->getJsonFilesInDirectory(ctaPath + folder);
+            std::vector<std::string> fileNames = FileUtil::getJsonFilesInDirectory(ctaPath + folder);
             fileNames.erase(std::remove_if(fileNames.begin(), fileNames.end(), [&](std::string item){
                 return item.compare(0, 2, "p_") == 0;
             }));
@@ -329,7 +329,7 @@ bool DynamicNodeHandler::unzipBundleCTAFiles()
 void DynamicNodeHandler::removeCTAFiles()
 {
     const std::string& baseLocation = getCTADirectoryPath();
-    const std::vector<std::string>& CTAFolders = DirectorySearcher::getInstance()->getFoldersInDirectory(baseLocation);
+    const std::vector<std::string>& CTAFolders = FileUtil::getFoldersInDirectory(baseLocation);
     for(const std::string& folder : CTAFolders)
     {
         if(folder.size() > 2)

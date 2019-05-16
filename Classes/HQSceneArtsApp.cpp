@@ -4,7 +4,7 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "HQSceneElementPositioner.h"
-#include <AzoomeeCommon/Utils/DirectorySearcher.h>
+#include <AzoomeeCommon/Utils/FileUtil.h>
 #include <algorithm>
 #include <AzoomeeCommon/UI/PrivacyLayer.h>
 #include "OfflineHubBackButton.h"
@@ -146,7 +146,7 @@ void HQSceneArtsApp::addEmptyImageToHorizontalScrollView(cocos2d::ui::ScrollView
 void HQSceneArtsApp::addCreatedImagesToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo)
 {
     const std::string& path = FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildManager::getInstance()->getParentOrChildId();
-    std::vector<std::string> fileList = DirectorySearcher::getInstance()->getImagesInDirectory(path);
+    std::vector<std::string> fileList = FileUtil::getImagesInDirectory(path);
     
     std::reverse(fileList.begin(), fileList.end());
     

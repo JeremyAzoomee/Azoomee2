@@ -4,7 +4,7 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Utils/DirectorySearcher.h>
+#include <AzoomeeCommon/Utils/FileUtil.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 
@@ -81,7 +81,7 @@ bool MessageComposer::init()
     _artListView->setSizePercent(Vec2(1.0f, 0.99f));
     
     const std::string& artDir = FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildManager::getInstance()->getParentOrChildId();
-    const auto& files = DirectorySearcher::getInstance()->getImagesInDirectory(artDir);
+    const auto& files = FileUtil::getInstance()->getImagesInDirectory(artDir);
     std::vector<std::string> fullFiles;
     
     for(auto file : files)

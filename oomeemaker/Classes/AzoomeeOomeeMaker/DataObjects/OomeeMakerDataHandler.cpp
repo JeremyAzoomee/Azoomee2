@@ -8,7 +8,7 @@
 #include "OomeeMakerDataHandler.h"
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/Utils/DirectorySearcher.h>
+#include <AzoomeeCommon/Utils/FileUtil.h>
 #include "../UI/OomeeSelectScene.h"
 
 using namespace cocos2d;
@@ -77,7 +77,7 @@ void OomeeMakerDataHandler::getLatestData(const OnCompleteCallback& callback)
 
 void OomeeMakerDataHandler::parseOomeeData()
 {
-	const std::vector<std::string>& oomeeConfigs = DirectorySearcher::getInstance()->getJsonFilesInDirectory(getAssetDir() + "configs/oomees/");
+	const std::vector<std::string>& oomeeConfigs = FileUtil::getJsonFilesInDirectory(getAssetDir() + "configs/oomees/");
     for(const std::string& filename : oomeeConfigs)
     {
         rapidjson::Document oomeeConfig;
@@ -103,7 +103,7 @@ void OomeeMakerDataHandler::parseOomeeData()
 
 void OomeeMakerDataHandler::parseCategoryData()
 {
-    const std::vector<std::string>& catConfigs = DirectorySearcher::getInstance()->getJsonFilesInDirectory(getAssetDir() + "configs/categories/");
+    const std::vector<std::string>& catConfigs = FileUtil::getJsonFilesInDirectory(getAssetDir() + "configs/categories/");
     for(const std::string& filename : catConfigs)
     {
         rapidjson::Document catConfig;
@@ -128,7 +128,7 @@ void OomeeMakerDataHandler::parseCategoryData()
 
 void OomeeMakerDataHandler::parseOomeeItemData()
 {
-    const std::vector<std::string>& itemConfigs = DirectorySearcher::getInstance()->getJsonFilesInDirectory(getAssetDir() + "configs/items/");
+    const std::vector<std::string>& itemConfigs = FileUtil::getJsonFilesInDirectory(getAssetDir() + "configs/items/");
     for(const std::string& filename : itemConfigs)
     {
         rapidjson::Document itemConfig;
@@ -254,10 +254,10 @@ void OomeeMakerDataHandler::updateExistingOomeeFilesToNewIds()
 	}
 	const std::map<std::string, std::string> lookupMap = getStringMapFromJson(lookupJson);
 	
-	const auto& dirFolders = DirectorySearcher::getInstance()->getFoldersInDirectory(getAssetDir());
+	const auto& dirFolders = FileUtil::getFoldersInDirectory(getAssetDir());
 	for(const auto& folder : dirFolders)
 	{
-		const auto& oomeeFiles = DirectorySearcher::getInstance()->getFilesInDirectoryWithExtention(getAssetDir() + folder, ".oomee");
+		const auto& oomeeFiles = FileUtil::getFilesInDirectoryWithExtention(getAssetDir() + folder, ".oomee");
 		for(const auto& file : oomeeFiles)
 		{
 			rapidjson::Document data;

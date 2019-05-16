@@ -10,7 +10,7 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Utils/DirectorySearcher.h>
+#include <AzoomeeCommon/Utils/FileUtil.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Utils/SpecialCalendarEventManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
@@ -998,7 +998,7 @@ void DrawingCanvasUILayer::getStickerFilesFromJSON()
 {
     _stickerCats.clear();
     const std::string& oomeeStoragePath = FileUtils::getInstance()->getWritablePath() + "oomeeMaker/" + ChildManager::getInstance()->getParentOrChildId();
-    const std::vector<std::string>& oomeeImages = DirectorySearcher::getInstance()->getImagesInDirectory(oomeeStoragePath);
+    const std::vector<std::string>& oomeeImages = FileUtil::getImagesInDirectory(oomeeStoragePath);
     
     if(oomeeImages.size() != 0)
     {

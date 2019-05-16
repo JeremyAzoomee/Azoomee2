@@ -14,7 +14,7 @@
 #include "HQDataProvider.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/Utils/DirectorySearcher.h>
+#include <AzoomeeCommon/Utils/FileUtil.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/Style.h>
@@ -72,7 +72,7 @@ void MeHQGallery::onEnter()
         FileUtils::getInstance()->createDirectory(dirPath);
     }
     
-    auto artImages = DirectorySearcher::getInstance()->getImagesInDirectory(dirPath);
+    auto artImages = FileUtil::getImagesInDirectory(dirPath);
     
     
     const Size& contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kGameHQName);

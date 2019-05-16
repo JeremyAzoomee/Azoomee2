@@ -14,7 +14,7 @@
 #include "HQHistoryManager.h"
 #include "ContentOpener.h"
 #include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/Utils/DirectorySearcher.h>
+#include <AzoomeeCommon/Utils/FileUtil.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/HQDataObject/ContentItemPool.h>
 #include <AzoomeeCommon/UI/Style.h>
@@ -299,7 +299,7 @@ void MeHQDownloads::enableButtons(bool enable)
 
 std::vector<std::string> MeHQDownloads::getJsonFileListFromDir() const
 {
-    return DirectorySearcher::getInstance()->getFoldersInDirectory(ConfigStorage::getInstance()->getGameCachePath());
+    return FileUtil::getFoldersInDirectory(ConfigStorage::getInstance()->getGameCachePath());
 }
 
 bool MeHQDownloads::isStarterFileExists(const std::string &gameId) const
