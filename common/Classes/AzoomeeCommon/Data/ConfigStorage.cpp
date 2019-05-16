@@ -726,6 +726,16 @@ bool ConfigStorage::isDevice18x9() const
     return _isDevice18x9;
 }
 
+void ConfigStorage::setIsDevicePhone(bool isPhone)
+{
+	_isDevicePhone = isPhone;
+}
+	
+bool ConfigStorage::isDevicePhone() const
+{
+	return _isDevicePhone;
+}
+
 //------------------------- Set estimated keyboard height for chat ---------------------------
 void ConfigStorage::setEstimatedKeyboardHeight(float height)
 {

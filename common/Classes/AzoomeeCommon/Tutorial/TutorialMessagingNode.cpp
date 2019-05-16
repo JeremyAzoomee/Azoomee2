@@ -37,11 +37,11 @@ bool TutorialMessagingNode::init()
 	
 	_bubble->setMaxWidth((this->getContentSize().width - _guide->getContentSize().width) * 0.8f);
 	
-	if(ConfigStorage::getInstance()->isDevice18x9())
+	/*if(!ConfigStorage::getInstance()->isDevicePhone())
 	{
-		_guide->setScale(0.7f);
-		_bubble->setMaxWidth((this->getContentSize().width - _guide->getContentSize().width) * 1.1f);
-	}
+		_guide->setScale(1.5f);
+		_bubble->setMaxWidth((this->getContentSize().width - _guide->getContentSize().width) * (0.8f / 1.5f));
+	}*/
 	
 	return true;
 }

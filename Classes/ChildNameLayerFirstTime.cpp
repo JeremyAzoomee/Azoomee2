@@ -35,7 +35,14 @@ void ChildNameLayerFirstTime::onEnter()
 	_continueButton = ui::Button::create("res/buttons/blue_arrow_button.png");
 	
     _textInput = TextInputLayer::createWithSize(Size(contentSize.width * (isPortrait ? 0.65f : 0.5f), 160), INPUT_IS_CHILD_NAME);
-    _textInput->setCenterPosition(Vec2(contentSize.width / 2.0f - _continueButton->getContentSize().width * 0.625f, contentSize.height * (isPortrait ? 0.65f : 0.6f)));
+	if(isPortrait)
+	{
+    	_textInput->setCenterPosition(Vec2(contentSize.width / 2.0f, contentSize.height * 0.65f));
+	}
+	else
+	{
+		_textInput->setCenterPosition(Vec2(contentSize.width / 2.0f - _continueButton->getContentSize().width * 0.625f, contentSize.height * 0.6f));
+	}
     _textInput->setDelegate(this);
     if(_childCreator && _childCreator->getName() != "")
     {
@@ -47,8 +54,17 @@ void ChildNameLayerFirstTime::onEnter()
 	
     _continueButton->setTouchEnabled(_textInput->inputIsValid());
     _continueButton->setOpacity(_textInput->inputIsValid() ? 255 : 125);
-	_continueButton->setPosition(_textInput->getPosition() + Vec2(_textInput->getContentSize().width, _textInput->getContentSize().height / 2));
-	_continueButton->setAnchorPoint(Vec2(-0.25,0.5));
+	if(isPortrait)
+	{
+		_continueButton->setPosition(_textInput->getPosition() + Vec2(_textInput->getContentSize().width / 2.0f, 0));
+		_continueButton->setAnchorPoint(Vec2(0.5f,1.5f));
+	}
+	else
+	{
+		_continueButton->setPosition(_textInput->getPosition() + Vec2(_textInput->getContentSize().width, _textInput->getContentSize().height / 2));
+		_continueButton->setAnchorPoint(Vec2(-0.25,0.5));
+	}
+	
     _continueButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType)
     {
         if(eType == ui::Widget::TouchEventType::ENDED)
@@ -67,8 +83,6 @@ void ChildNameLayerFirstTime::onEnter()
         }
     });
     this->addChild(_continueButton);
-	
-	//_textInput->focusAndShowKeyboard();
 	
     Super::onEnter();
 }
@@ -110,7 +124,7 @@ void ChildNameLayerFirstTime::editBoxEditingDidBegin(TextInputLayer* inputLayer)
 }
 void ChildNameLayerFirstTime::editBoxEditingDidEnd(TextInputLayer* inputLayer)
 {
-    //_textInput->focusAndShowKeyboard();
+	
 }
 
 

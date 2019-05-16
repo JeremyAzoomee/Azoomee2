@@ -28,22 +28,7 @@ bool WelcomeScene::init()
 	
 	_bgColour = LayerColor::create(Color4B(0,7,4,255), contentSize.width, contentSize.height);
 	this->addChild(_bgColour);
-	
-	/*_wires = Sprite::create("res/rewards/big_wires.png");
-	_wires->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	_wires->setScale(MAX(contentSize.width, contentSize.height) / _wires->getContentSize().width);
-	_wires->setRotation(isPortrait ? 90 : 0);
-	_wires->setOpacity(65);
-	this->addChild(_wires);*/
-	
-	_bottomGradient = Sprite::create("res/decoration/TopNavGrad.png");
-	_bottomGradient->setContentSize(Size(contentSize.width, 400));
-	_bottomGradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	_bottomGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-	_bottomGradient->setColor(Style::Color::skyBlue);
-	_bottomGradient->setRotation(180);
-	this->addChild(_bottomGradient);
-	
+
 	_tilesNode = Node::create();
 	_tilesNode->setContentSize(contentSize);
 	_tilesNode->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -52,6 +37,14 @@ bool WelcomeScene::init()
 	
 	addAnimatedTiles();
 	
+	_bottomGradient = Sprite::create("res/decoration/TopNavGrad.png");
+	_bottomGradient->setContentSize(Size(contentSize.width, 400));
+	_bottomGradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	_bottomGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+	_bottomGradient->setColor(Style::Color::skyBlue);
+	_bottomGradient->setRotation(180);
+	this->addChild(_bottomGradient);
+
 	_body = ui::Layout::create();
 	_body->setLayoutType(ui::Layout::Type::VERTICAL);
 	_body->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -149,12 +142,8 @@ void WelcomeScene::onSizeChanged()
 	Super::onSizeChanged();
 	
 	const Size& contentSize = this->getContentSize();
-	bool isPortrait = contentSize.height > contentSize.width;
 	
 	_bgColour->setContentSize(contentSize);
-	
-	//_wires->setScale(MAX(contentSize.width, contentSize.height) / _wires->getContentSize().width);
-	//_wires->setRotation(isPortrait ? 90 : 0);
 	
 	_text->setWidth(contentSize.width * 0.8f);
 	_textHolder->setContentSize(_text->getContentSize());
@@ -172,85 +161,85 @@ void WelcomeScene::onSizeChanged()
 void WelcomeScene::addAnimatedTiles()
 {
 	const Size& contentSize = this->getContentSize();
-	
-	const int numTiles = 10;
-	const float travelDur = 120.0f;
-	
-	PointArray* points = PointArray::create(numTiles);
-	Vec2 dir = Vec2(0.5f, 1.0f);
-	
-	//rotation intervals
-	const std::vector<float>& angles = {
-		CC_DEGREES_TO_RADIANS(-25.0f),//25
-		CC_DEGREES_TO_RADIANS(-25.0f),//50
-		CC_DEGREES_TO_RADIANS(-30.0f),//80
-		CC_DEGREES_TO_RADIANS(-40.0f),//120
-		CC_DEGREES_TO_RADIANS(-25.0f),//145
-		CC_DEGREES_TO_RADIANS(-55.0f),//200
-		CC_DEGREES_TO_RADIANS(-25.0f),//225
-		CC_DEGREES_TO_RADIANS(-40.0f),//265
-		CC_DEGREES_TO_RADIANS(-40.0f),//305
-		CC_DEGREES_TO_RADIANS(-30.0f)//335
-	};
-	// tile scale at each path node
-	const std::vector<float>& scales = {
-		1.1f,
-		1.1f,
-		0.9f,
-		1.1f,
-		1.0f,
-		1.2f,
-		1.0f,
-		1.2f,
-		0.9f,
-		1.0f
-	};
-	
-	const Size& pathArea = Size(MAX(contentSize.width * 0.9f, 1710),MAX(contentSize.height * 0.9f, 1710));
-	const Vec2& origin = Vec2((contentSize.width - pathArea.width) / 2.0f, (contentSize.height - pathArea.height) / 2.0f);
+	const bool isPortrait = contentSize.width < contentSize.height;
+	const float scrollDuration = 120.0f;
+	const int numTiles = 20;
+	std::vector<std::string> filenames;
 	for(int i = 0; i < numTiles; i++)
 	{
-		dir.rotate(Vec2(0.5f, 0.5f), angles.at(i));
-		Vec2 pos = Vec2(origin.x + dir.x * pathArea.width, origin.y +  dir.y * pathArea.height);
-		points->insertControlPoint(pos, i);
+		filenames.push_back(StringUtils::format("%d.jpg",i));
+	}
+
+	Size tileSize = Size(683,510);
+	const Vec2& padding = Vec2(30,30);
+	const Vec2& gridSize = isPortrait ? Vec2(3,6) : Vec2(5,4);
+	
+	if(tileSize.width * gridSize.x < contentSize.width * 1.2f || tileSize.height * gridSize.y < contentSize.height * 1.2f)
+	{
+		tileSize = tileSize * MAX(contentSize.width * 1.2f / (tileSize.width * gridSize.x), contentSize.height * 1.2f / (tileSize.height * gridSize.y));
 	}
 	
-	for(int i = 0; i < numTiles; i++)
+	const Vec2& origin = Vec2(contentSize.width * 1.0f, 0);
+	
+	Node* gridNode = Node::create();
+	gridNode->setContentSize(Size((tileSize.width * gridSize.x) + (padding.x * (gridSize.x)), (tileSize.height * gridSize.y) + (padding.y * (gridSize.y))));
+	gridNode->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+	//gridNode->setPosition(contentSize / 2.0f);
+	gridNode->setRotation(-8);
+	Vec2 move = Vec2(0 ,gridNode->getContentSize().width);
+	move.rotate(Vec2(0,0), CC_DEGREES_TO_RADIANS(-gridNode->getRotation() - 90));
+	gridNode->setPosition(origin - move * 0.2f);
+	gridNode->runAction(RepeatForever::create(Sequence::create(MoveTo::create(scrollDuration / 2.0f,origin + move * 0.8f), MoveTo::create(0,origin - move * 1.2f), MoveTo::create(scrollDuration / 2.0f, origin - move * 0.2f), NULL)));
+	_tilesNode->addChild(gridNode);
+	
+	//LayerColor* overlay = LayerColor::create(Color4B(0,0,0,100));
+	//_tilesNode->addChild(overlay);
+	
+	std::random_shuffle(filenames.begin(), filenames.end());
+	for(int i = 0; i < MIN(gridSize.x * gridSize.y, filenames.size()); i++)
 	{
-		PointArray* path = PointArray::create(numTiles + 1); // use numTiles + 1 so spline loops cleanly
-		Vector<FiniteTimeAction*> scaleActions;
-		for(int j = 0; j < (numTiles + 1); j++)
-		{
-			path->insertControlPoint(points->getControlPointAtIndex((i + 1 + j) % numTiles),j);
-			scaleActions.pushBack(ScaleTo::create(travelDur/(numTiles + 1), scales.at((i + 1 + j) % numTiles)));
-		}
+		int row = i / gridSize.x;
+		int col = i % (int)gridSize.x;
 		
-		FiniteTimeAction* moveAction = RepeatForever::create(CardinalSplineTo::create(travelDur, path, 0.1f));
-		FiniteTimeAction* scaleAction = RepeatForever::create(Sequence::create(scaleActions));
+		const Vec2& pos = Vec2((tileSize.width * (col + 0.5f)) + (col * padding.x), (tileSize.height * (row + 0.5f)) + (row * padding.x) );
 		
-		Sprite* tile = Sprite::create("res/introAssets/content_tile_" + StringUtils::format("%d",i) + ".jpg");
-		tile->setPosition(points->getControlPointAtIndex(i));
-		tile->runAction(moveAction->clone());
-		tile->runAction(scaleAction->clone());
-		tile->runAction(Sequence::createWithTwoActions(DelayTime::create(RandomHelper::random_real(0.75, 1.25)), FadeTo::create(RandomHelper::random_real(1.0, 2.0), 175)));
-		tile->setOpacity(0);
+		Sprite* tile = Sprite::create("res/introAssets/tiles/" + filenames.at(i));
 		tile->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-		
-		ui::Scale9Sprite* stencil = ui::Scale9Sprite::create("res/introAssets/clipping_asset.png");
-		stencil->setPosition(points->getControlPointAtIndex(i));
-		stencil->runAction(moveAction->clone());
-		stencil->runAction(scaleAction->clone());
-		stencil->setContentSize(tile->getContentSize());
-		
-		ClippingNode* clip = ClippingNode::create(stencil);
-		clip->setContentSize(contentSize);
-		clip->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-		clip->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-		clip->setAlphaThreshold(0.5f);
-		clip->addChild(tile);
-		_tilesNode->addChild(clip);
-		
+		tile->setPosition(pos);
+		tile->setContentSize(tileSize);
+		tile->setOpacity(100);
+		gridNode->addChild(tile);
 	}
+	
+	Node* gridNode2 = Node::create();
+	gridNode2->setContentSize(gridNode->getContentSize());
+	gridNode2->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+	gridNode2->setPosition(origin - move * 1.2f);
+	gridNode2->setRotation(gridNode->getRotation());
+	//Vec2 move = Vec2(0 ,gridNode2->getContentSize().height);
+	//move.rotate(Vec2(0,0), CC_DEGREES_TO_RADIANS(10));
+	gridNode2->runAction(RepeatForever::create(Sequence::create(MoveTo::create(scrollDuration, origin + move * 0.8f), MoveTo::create(0,origin - move * 1.2f), NULL)));
+	_tilesNode->addChild(gridNode2);
+	
+	//LayerColor* overlay = LayerColor::create(Color4B(0,0,0,100));
+	//_tilesNode->addChild(overlay);
+	
+	std::random_shuffle(filenames.begin(), filenames.end());
+	for(int i = 0; i < MIN(gridSize.x * gridSize.y, filenames.size()); i++)
+	{
+		int row = i / gridSize.x;
+		int col = i % (int)gridSize.x;
+		
+		const Vec2& pos = Vec2((tileSize.width * (col + 0.5f)) + (col * padding.x), (tileSize.height * (row + 0.5f)) + (row * padding.x) );
+		
+		Sprite* tile = Sprite::create("res/introAssets/tiles/" + filenames.at(i));
+		tile->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+		tile->setPosition(pos);
+		tile->setContentSize(tileSize);
+		tile->setOpacity(100);
+		gridNode2->addChild(tile);
+	}
+	
 }
 
 NS_AZOOMEE_END

@@ -52,7 +52,7 @@ const std::map<std::string, std::vector<std::string>> TutorialController::kTutor
 };
 
 const std::map<std::string,std::pair<std::string,MessageLocation>> TutorialController::kDisplayMessageMap = {
-	{kNameEntry, {"Hi! What’s your name?",MessageLocation::TOP_LEFT}},
+	{kNameEntry, {"Hi! What should I call you?",MessageLocation::TOP_LEFT}},
 	{kAgeEntry, {"How old are you?",MessageLocation::TOP_LEFT}},
 	{kConfirmOomee, {"",MessageLocation::TOP_LEFT}},
 	{kCreateOomee, {"",MessageLocation::TOP_LEFT}},

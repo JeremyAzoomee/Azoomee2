@@ -90,13 +90,15 @@ bool Application::applicationDidFinishLaunching()
 	float aspectRatio = MAX(frameSize.width, frameSize.height) / MIN(frameSize.width, frameSize.height);
 	if(aspectRatio > 16.0f/10.0f) // phone
 	{
+		ConfigStorage::getInstance()->setIsDevicePhone(true);
 		designResolutionLandscapeSize = cocos2d::Size(2964,1368);
 		designResolutionPortraitSize = cocos2d::Size(designResolutionLandscapeSize.height, designResolutionLandscapeSize.width);
 	}
 	else	//tablet
 	{
-		designResolutionLandscapeSize = cocos2d::Size(2736,2048);
-		designResolutionPortraitSize = cocos2d::Size(1710,2736);
+		ConfigStorage::getInstance()->setIsDevicePhone(false);
+		designResolutionLandscapeSize = cocos2d::Size(1900,1425);
+		designResolutionPortraitSize = cocos2d::Size(1425,2280);
 	}
 	
     applicationScreenSizeChanged(frameSize.width, frameSize.height);

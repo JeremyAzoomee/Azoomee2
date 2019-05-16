@@ -45,11 +45,11 @@ bool TutorialSpeechBubble::init()
 	Super::setContentSize(contentSize + Size(2 * _leftEndCap->getContentSize().width,0));
 	
 	_bubblePoint = Sprite::create("res/tutorial/speech_bubble_point.png");
-	_bubblePoint->setAnchorPoint(Vec2(0.7,0.5));
+	_bubblePoint->setAnchorPoint(Vec2(0.65,0.5));
 	_bubblePoint->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	this->addChild(_bubblePoint, -1);
 	
-	_text = Label::createWithTTF("", Style::Font::Regular(), 91);
+	_text = Label::createWithTTF("", Style::Font::Regular(), 50);
 	_text->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	_text->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	//_text->setOverflow(Label::Overflow::SHRINK);
@@ -71,7 +71,7 @@ void TutorialSpeechBubble::onEnter()
 void TutorialSpeechBubble::setText(const std::string& text)
 {
 	_text->setString(text);
-	_bubble->setContentSize(Size(MIN(_text->getMaxLineWidth(),_text->getContentSize().width) ,_text->getLineHeight() * (_text->getStringNumLines() + 1)));
+	_bubble->setContentSize(Size(MIN(_text->getMaxLineWidth(),_text->getContentSize().width) + (2 * _leftEndCap->getContentSize().width),_text->getLineHeight() * (_text->getStringNumLines() + 1)));
 	//_leftEndCap->setContentSize(Size(_leftEndCap->getContentSize().width, _bubble->getContentSize().height));
 	_leftEndCap->setScale(_bubble->getContentSize().height / _leftEndCap->getContentSize().height);
 	//_rightEndCap->setContentSize(Size(_rightEndCap->getContentSize().width, _bubble->getContentSize().height));
@@ -81,8 +81,8 @@ void TutorialSpeechBubble::setText(const std::string& text)
 
 void TutorialSpeechBubble::setMaxWidth(float maxWidth)
 {
-	_text->setMaxLineWidth(maxWidth - (2 * _leftEndCap->getContentSize().width));
-	_bubble->setContentSize(Size(MIN(_text->getMaxLineWidth(),_text->getContentSize().width),_text->getLineHeight() * (_text->getStringNumLines() + 1)));
+	_text->setMaxLineWidth(maxWidth - (4 * _leftEndCap->getContentSize().width));
+	_bubble->setContentSize(Size(MIN(_text->getMaxLineWidth(),_text->getContentSize().width) + (2 * _leftEndCap->getContentSize().width),_text->getLineHeight() * (_text->getStringNumLines() + 1)));
 	//_leftEndCap->setContentSize(Size(_leftEndCap->getContentSize().width, _bubble->getContentSize().height));
 	_leftEndCap->setScale(_bubble->getContentSize().height / _leftEndCap->getContentSize().height);
 	//_rightEndCap->setContentSize(Size(_rightEndCap->getContentSize().width, _bubble->getContentSize().height));

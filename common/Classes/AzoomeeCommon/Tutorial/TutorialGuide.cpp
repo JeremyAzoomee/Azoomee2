@@ -41,7 +41,7 @@ bool TutorialGuide::init()
 	// Circle to cover the main area
 	const float circleResolution = 64.0f;
 	_stencil->drawSolidCircle(Vec2(contentSize.width * 0.5f, contentSize.height * 0.5f),
-								  150.0f, 0.0f, circleResolution,
+								  100.0f, 0.0f, circleResolution,
 								  Color4F::GREEN);
 	// A rect above the circle half way point, since some oomees have ears sticking outside the circle
 	_stencil->drawSolidRect(Vec2(contentSize.width * 0.0f, contentSize.height * 0.6f),

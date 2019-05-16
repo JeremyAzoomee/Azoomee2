@@ -369,7 +369,14 @@ void SceneManagerScene::forceToLandscape()
 
 void SceneManagerScene::acceptAnyOrientation()
 {
-    Azoomee::Application::setOrientation(Azoomee::Application::Orientation::Any);
+	if(ConfigStorage::getInstance()->isDevicePhone())
+	{
+		forceToPortrait();
+	}
+	else
+	{
+    	Azoomee::Application::setOrientation(Azoomee::Application::Orientation::Any);
+	}
 }
 
 void SceneManagerScene::returnToPrevOrientation()
@@ -377,7 +384,7 @@ void SceneManagerScene::returnToPrevOrientation()
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 	if(ContentHistoryManager::getInstance()->getReturnedFromContent() || HQHistoryManager::getInstance()->hasReturnedFromForcedOrientation())
     {
-        if(HQHistoryManager::getInstance()->getPrevHQOrientation() == Portrait)
+        if(HQHistoryManager::getInstance()->getPrevHQOrientation() == Portrait || ConfigStorage::getInstance()->isDevicePhone())
         {
             forceToPortrait();
         }
