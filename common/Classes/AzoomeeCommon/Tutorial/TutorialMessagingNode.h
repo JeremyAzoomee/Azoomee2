@@ -44,7 +44,7 @@ public:
 	void animateOutGuideAndMessage(const AnimationCompleteCallback& callback = nullptr);
 	void animateOutMessage(const AnimationCompleteCallback& callback = nullptr);
 	
-	
+	void highlightMessageString(const std::string& targetStr, const cocos2d::Color3B& highlightColour);
 	
 	CREATE_FUNC(TutorialMessagingNode);
 };

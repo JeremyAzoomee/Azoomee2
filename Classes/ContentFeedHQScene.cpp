@@ -156,8 +156,9 @@ void ContentFeedHQScene::createContentScrollview()
 					hand->setRotation(-15.0f);
 					hand->setPosition(hqSceneElement->getContentSize() / 2);
 					hqSceneElement->addChild(hand,1);
-					hand->runAction(RepeatForever::create(Sequence::createWithTwoActions(MoveBy::create(1.0f, Vec2(hqSceneElement->getContentSize().width * 0.1f, -hqSceneElement->getContentSize().height * 0.2f)), MoveBy::create(1.0f, Vec2(-hqSceneElement->getContentSize().width * 0.1f, hqSceneElement->getContentSize().height * 0.2f)))));
-					hand->runAction(RepeatForever::create(Sequence::createWithTwoActions(ScaleTo::create(1.0f, 0.8f), ScaleTo::create(1.0f, 0.65f))));
+					hand->setScale((contentItemSize.height * unitMultiplier * 0.5f) / hand->getContentSize().height);
+					hand->runAction(RepeatForever::create(Sequence::createWithTwoActions(MoveBy::create(1.0f, Vec2(hqSceneElement->getContentSize().width * 0.05f, -hqSceneElement->getContentSize().height * 0.1f)), MoveBy::create(1.0f, Vec2(-hqSceneElement->getContentSize().width * 0.05f, hqSceneElement->getContentSize().height * 0.1f)))));
+					hand->runAction(RepeatForever::create(Sequence::createWithTwoActions(ScaleTo::create(1.0f, hand->getScale() * 1.2f), ScaleTo::create(1.0f, hand->getScale()))));
 				}
 			}
 		}

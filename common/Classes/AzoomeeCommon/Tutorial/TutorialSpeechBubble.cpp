@@ -49,11 +49,9 @@ bool TutorialSpeechBubble::init()
 	_bubblePoint->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	this->addChild(_bubblePoint, -1);
 	
-	_text = Label::createWithTTF("", Style::Font::Regular(), 50);
+	_text = Label::createWithTTF("", Style::Font::Regular(), 60);
 	_text->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	_text->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	//_text->setOverflow(Label::Overflow::SHRINK);
-	//_text->setDimensions(contentSize.width * 0.8f, contentSize.height * 0.8f);
 	_text->setOverflow(Label::Overflow::RESIZE_HEIGHT);
 	_text->setMaxLineWidth(contentSize.width * 0.8f);
 	_text->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -72,9 +70,7 @@ void TutorialSpeechBubble::setText(const std::string& text)
 {
 	_text->setString(text);
 	_bubble->setContentSize(Size(MIN(_text->getMaxLineWidth(),_text->getContentSize().width) + (2 * _leftEndCap->getContentSize().width),_text->getLineHeight() * (_text->getStringNumLines() + 1)));
-	//_leftEndCap->setContentSize(Size(_leftEndCap->getContentSize().width, _bubble->getContentSize().height));
 	_leftEndCap->setScale(_bubble->getContentSize().height / _leftEndCap->getContentSize().height);
-	//_rightEndCap->setContentSize(Size(_rightEndCap->getContentSize().width, _bubble->getContentSize().height));
 	_rightEndCap->setScale(_bubble->getContentSize().height / _rightEndCap->getContentSize().height);
 	setContentSize(_bubble->getContentSize() + Size(2 * _leftEndCap->getContentSize().width * _leftEndCap->getScale(),0));
 }
@@ -83,9 +79,7 @@ void TutorialSpeechBubble::setMaxWidth(float maxWidth)
 {
 	_text->setMaxLineWidth(maxWidth - (4 * _leftEndCap->getContentSize().width));
 	_bubble->setContentSize(Size(MIN(_text->getMaxLineWidth(),_text->getContentSize().width) + (2 * _leftEndCap->getContentSize().width),_text->getLineHeight() * (_text->getStringNumLines() + 1)));
-	//_leftEndCap->setContentSize(Size(_leftEndCap->getContentSize().width, _bubble->getContentSize().height));
 	_leftEndCap->setScale(_bubble->getContentSize().height / _leftEndCap->getContentSize().height);
-	//_rightEndCap->setContentSize(Size(_rightEndCap->getContentSize().width, _bubble->getContentSize().height));
 	_rightEndCap->setScale(_bubble->getContentSize().height / _rightEndCap->getContentSize().height);
 	setContentSize(_bubble->getContentSize() + Size(2 * _leftEndCap->getContentSize().width * _leftEndCap->getScale(),0));
 }
@@ -148,6 +142,32 @@ void TutorialSpeechBubble::animateOut(const AnimationCompleteCallback& callback)
 			callback();
 		}
 	}), NULL));
+}
+
+void TutorialSpeechBubble::highlightMessageString(const std::string& targetStr, const cocos2d::Color3B& highlightColour)
+{
+	const std::string& messageString = _text->getString();
+	auto pos = messageString.find(targetStr);
+	if( pos != std::string::npos )
+	{
+		const Color4B& baseColour = _text->getTextColor();
+		_text->setTextColor(Color4B::WHITE);
+		for(int i = 0; i < messageString.size(); i++)
+		{
+			auto letter = _text->getLetter(i);
+			if(letter)
+			{
+				if(i >= pos && i < (pos + targetStr.size()))
+				{
+					letter->setColor(highlightColour);
+				}
+				else
+				{
+					letter->setColor(Color3B::BLACK);
+				}
+			}
+		}
+	}
 }
 
 NS_AZOOMEE_END

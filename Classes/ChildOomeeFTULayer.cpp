@@ -41,7 +41,7 @@ void ChildOomeeFTULayer::onEnter()
 	
 	Sprite* oomee = Sprite::create(ConfigStorage::getInstance()->getLocalImageForOomee(_childCreator->getOomeeNum()));
 	oomee->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	oomee->setNormalizedPosition(isPortrait ? Vec2::ANCHOR_MIDDLE : Vec2(0.5,0.45f));
+	oomee->setNormalizedPosition(isPortrait ? Vec2(0.5f,0.55f) : Vec2(0.5,0.45f));
 	oomee->setContentSize(oomee->getContentSize() * ((contentSize.height * (isPortrait ? 0.6f : 0.75f)) / oomee->getContentSize().height));
 	this->addChild(oomee);
 	
@@ -50,7 +50,7 @@ void ChildOomeeFTULayer::onEnter()
 	
 	TutorialSpeechBubble* bubble = TutorialSpeechBubble::create();
 	bubble->setBubbleOrigin(BubbleOrigin::BOTTOM);
-	bubble->setMaxWidth(contentSize.width * (isPortrait ? 0.5f : 0.6f));
+	bubble->setMaxWidth(contentSize.width * (isPortrait ? 0.75f : 0.4f));
 	bubble->setText(_("Fantastic!\nLet me show you around"));
 	bubble->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 	bubble->setNormalizedPosition(Vec2(0.5f, 0.85f));

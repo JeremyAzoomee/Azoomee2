@@ -74,7 +74,10 @@ void MeHQ::onEnter()
 	}
 	else if(!TutorialController::getInstance()->isTutorialCompleted(TutorialController::kFTUShopID))
 	{
-		TutorialController::getInstance()->startTutorial(TutorialController::kFTUShopID);
+		if(ChildDataProvider::getInstance()->getLoggedInChild()->getInventory()->getCoins() > 0)
+		{
+			TutorialController::getInstance()->startTutorial(TutorialController::kFTUShopID);
+		}
 	}
 	
     Super::onEnter();
@@ -248,20 +251,13 @@ void MeHQ::onTutorialStateChanged(const std::string& stateId)
 {
 	if(stateId == TutorialController::kFTUSpendRewards)
 	{
-		Sprite* glow = Sprite::create("res/tutorial/rect_glow.png");
-		//glow->setContentSize(Size(_coinDisplay->getContentSize().width * 1.8f, _coinDisplay->getContentSize().height * 2.5f));
-		glow->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
-		glow->setAnchorPoint(Vec2(0.9f, 0.75f));
-		glow->setScale(1.0f);
-		//glow->runAction(RepeatForever::create(Sequence::createWithTwoActions(ScaleTo::create(1.0f, 1.0f), ScaleTo::create(1.0f, 0.8f))));
-		this->addChild(glow, 1);
-		
 		Sprite* hand = Sprite::create("res/tutorial/Pointer.png");
 		hand->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 		hand->setPosition(Vec2(_coinDisplay->getContentSize().width / 2, 0));
 		_coinDisplay->addChild(hand,1);
-		hand->runAction(RepeatForever::create(Sequence::createWithTwoActions(MoveBy::create(1.0f, Vec2(0, -100)), MoveBy::create(1.0f, Vec2(0, 100)))));
-		hand->runAction(RepeatForever::create(Sequence::createWithTwoActions(ScaleTo::create(1.0f, 1.0f), ScaleTo::create(1.0f, 0.8f))));
+		hand->setScale(0.5f);
+		hand->runAction(RepeatForever::create(Sequence::createWithTwoActions(MoveBy::create(1.0f, Vec2(0, -25)), MoveBy::create(1.0f, Vec2(0, 25)))));
+		hand->runAction(RepeatForever::create(Sequence::createWithTwoActions(ScaleTo::create(1.0f, 0.7f), ScaleTo::create(1.0f, 0.5f))));
 	}
 }
 

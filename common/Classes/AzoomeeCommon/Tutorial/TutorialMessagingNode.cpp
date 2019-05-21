@@ -37,12 +37,6 @@ bool TutorialMessagingNode::init()
 	
 	_bubble->setMaxWidth((this->getContentSize().width - _guide->getContentSize().width) * 0.8f);
 	
-	/*if(!ConfigStorage::getInstance()->isDevicePhone())
-	{
-		_guide->setScale(1.5f);
-		_bubble->setMaxWidth((this->getContentSize().width - _guide->getContentSize().width) * (0.8f / 1.5f));
-	}*/
-	
 	return true;
 }
 
@@ -72,18 +66,20 @@ void TutorialMessagingNode::setMessage(const std::string &message)
 
 void TutorialMessagingNode::setLocation(const MessageLocation &location)
 {
+	bool is18x9 = ConfigStorage::getInstance()->isDevice18x9();
+	
 	switch(location)
 	{
 		case MessageLocation::TOP_LEFT:
 			_guide->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
-			_guide->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+			_guide->setAnchorPoint(is18x9 ? Vec2(0,1.25f) : Vec2::ANCHOR_TOP_LEFT);
 			_bubble->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
 			_bubble->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
 			_bubble->setBubbleOrigin(BubbleOrigin::LEFT);
 			break;
 		case MessageLocation::TOP_RIGHT:
 			_guide->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
-			_guide->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
+			_guide->setAnchorPoint(is18x9 ? Vec2(0,1.25f) : Vec2::ANCHOR_TOP_RIGHT);
 			_bubble->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
 			_bubble->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 			_bubble->setBubbleOrigin(BubbleOrigin::RIGHT);
@@ -126,6 +122,11 @@ void TutorialMessagingNode::animateOutGuideAndMessage(const AnimationCompleteCal
 void TutorialMessagingNode::animateOutMessage(const AnimationCompleteCallback& callback)
 {
 	_bubble->animateOut(callback);
+}
+
+void TutorialMessagingNode::highlightMessageString(const std::string& targetStr, const cocos2d::Color3B& highlightColour)
+{
+	_bubble->highlightMessageString(targetStr, highlightColour);
 }
 
 NS_AZOOMEE_END

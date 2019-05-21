@@ -84,6 +84,7 @@ public:
 	void setTutorialCompleted(const std::string& tutorialId);
 	
 	void displayMessageForTutorialState(const std::string& message = "");
+	void highlightMessageString(const std::string& targetStr, const cocos2d::Color3B& highlightColour);
 };
 
 NS_AZOOMEE_END

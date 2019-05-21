@@ -53,7 +53,7 @@ void ChildAgeLayer::onEnter()
 	const Vec2& gridSize = isPortrait ? Vec2(2,4) : Vec2(4,2);
 	
 	Node* buttonHolder = Node::create();
-	buttonHolder->setContentSize(Size(300 * gridSize.x, 300 * gridSize.y));
+	buttonHolder->setContentSize(Size(350 * gridSize.x, 350 * gridSize.y));
 	//buttonHolder->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 	//buttonHolder->setPosition(textInputTitle->getPosition() - Vec2(0,textInputTitle->getContentSize().height * 1.25f));
 	buttonHolder->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
@@ -106,9 +106,9 @@ void ChildAgeLayer::onEnter()
 	}
 
     _continueButton = ui::Button::create("res/buttons/blue_arrow_button.png");
-    _continueButton->setAnchorPoint(Vec2(-0.25f,0.5f));
+    _continueButton->setAnchorPoint(Vec2(-0.25f,-1.25f));
     //_continueButton->setPosition(contentSize);
-	_continueButton->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
+	_continueButton->setNormalizedPosition(Vec2(0.5, 0.0));
     _continueButton->setTouchEnabled(_childCreator->getAge() > 0);
     _continueButton->setOpacity(_childCreator->getAge() > 0 ? 255 : 125);
     _continueButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType)
@@ -124,13 +124,12 @@ void ChildAgeLayer::onEnter()
             }
         }
     });
-    buttonHolder->addChild(_continueButton);
+    this->addChild(_continueButton);
     
-    ui::Button* backButton = ui::Button::create("res/buttons/blue_arrow_button.png");
-    backButton->setAnchorPoint(Vec2(-0.25f,0.5f));
+    ui::Button* backButton = ui::Button::create("res/buttons/blue_arrow_back.png");
+    backButton->setAnchorPoint(Vec2(1.25f,-1.25f));
     //backButton->setPosition(Vec2(0, contentSize.height));
-	backButton->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
-	backButton->setRotation(180);
+	backButton->setNormalizedPosition(Vec2(0.5,0.0f));
     backButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType)
     {
         if(eType == ui::Widget::TouchEventType::ENDED)
@@ -141,7 +140,7 @@ void ChildAgeLayer::onEnter()
             }
         }
     });
-    buttonHolder->addChild(backButton);
+    this->addChild(backButton);
     
     Sprite* progressIcon = Sprite::create("res/decoration/progress2.png");
     progressIcon->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
@@ -155,6 +154,7 @@ void ChildAgeLayer::onEnter()
 		progressIcon->setVisible(false);
 		buttonHolder->setPosition(textInputTitle->getPosition() - Vec2(0,textInputTitle->getContentSize().height));
 		TutorialController::getInstance()->displayMessageForTutorialState(StringUtils::format(_("Hi %s! How old are you?").c_str(), _childCreator->getName().c_str()));
+		TutorialController::getInstance()->highlightMessageString(_childCreator->getName(), Color3B(255, 128, 13));
 	}
 	
     Super::onEnter();

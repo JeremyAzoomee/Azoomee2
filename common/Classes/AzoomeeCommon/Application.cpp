@@ -64,7 +64,7 @@ bool Application::applicationDidFinishLaunching()
     Java_com_tinizine_azoomee_common_AzoomeeActivity_onKeyboardShown(nullptr, nullptr, 0);
     Java_com_tinizine_azoomee_common_AzoomeeActivity_onKeyboardHidden(nullptr, nullptr, 0);
 #endif
-	
+    
     // initialize director
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
@@ -86,23 +86,10 @@ bool Application::applicationDidFinishLaunching()
     // Set the initial resolution
     director->setContentScaleFactor(1.0f);
     auto frameSize = glview->getFrameSize();
-	
-	float aspectRatio = MAX(frameSize.width, frameSize.height) / MIN(frameSize.width, frameSize.height);
-	if(aspectRatio > 16.0f/10.0f) // phone
-	{
-		ConfigStorage::getInstance()->setIsDevicePhone(true);
-		designResolutionLandscapeSize = cocos2d::Size(2964,1368);
-		designResolutionPortraitSize = cocos2d::Size(designResolutionLandscapeSize.height, designResolutionLandscapeSize.width);
-	}
-	else	//tablet
-	{
-		ConfigStorage::getInstance()->setIsDevicePhone(false);
-		designResolutionLandscapeSize = cocos2d::Size(1900,1425);
-		designResolutionPortraitSize = cocos2d::Size(1425,2280);
-	}
-	
     applicationScreenSizeChanged(frameSize.width, frameSize.height);
 
+	ConfigStorage::getInstance()->setIsDevicePhone(MAX(frameSize.width, frameSize.height) / MIN(frameSize.width, frameSize.height) > 16.0f / 10.0f);
+	
     return true;
 }
 
@@ -175,13 +162,13 @@ void Application::updateResolution(int newWidth, int newHeight)
     if(newWidth > newHeight)
     {
         Azoomee::AnalyticsSingleton::getInstance()->setLandscapeOrientation();
-		glview->setDesignResolutionSize(designResolutionLandscapeSize.width, designResolutionLandscapeSize.height, ResolutionPolicy::FIXED_WIDTH);
+        glview->setDesignResolutionSize(designResolutionLandscapeSize.width, designResolutionLandscapeSize.height, ResolutionPolicy::NO_BORDER);
     }
     // Portrait
     else
     {
         Azoomee::AnalyticsSingleton::getInstance()->setPortraitOrientation();
-        glview->setDesignResolutionSize(designResolutionPortraitSize.width, designResolutionPortraitSize.height, ResolutionPolicy::FIXED_WIDTH);
+        glview->setDesignResolutionSize(designResolutionPortraitSize.width, designResolutionPortraitSize.height, ResolutionPolicy::NO_BORDER);
     }
 }
 

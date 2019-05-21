@@ -14,6 +14,7 @@
 #include <AzoomeeCommon/Utils/SpecialCalendarEventManager.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 
 #include "FlowDataSingleton.h"
 #include "ContentHistoryManager.h"
@@ -94,11 +95,8 @@ void HQScene::buildCoreUI()
 	_coinDisplay->setAnchorPoint(Vec2(1.2,(isIphoneX && isPortrait) ? 2.2f : 1.5f));
 	_coinDisplay->setAnimate(true);
 	this->addChild(_coinDisplay, 1);
-	
-	if(!(TutorialController::getInstance()->isTutorialCompleted(TutorialController::kFTUPlayGameID) || TutorialController::getInstance()->isTutorialCompleted(TutorialController::kFTUWatchVideoID)))
-	{
-		_coinDisplay->setVisible(false);
-	}
+	//show coin counter if they have coins or have completed the shop tutorial
+	_coinDisplay->setVisible(TutorialController::getInstance()->isTutorialCompleted(TutorialController::kFTUShopID) || ChildDataProvider::getInstance()->getLoggedInChild()->getInventory()->getCoins() > 0);
 	
 	_messagingLayer = UserTypeMessagingLayer::create();
 	_messagingLayer->setContentSize(Size(visibleSize.width, 350));

@@ -61,8 +61,8 @@ bool WelcomeScene::init()
 	_textHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
 	_body->addChild(_textHolder);
 	
-	_text = Label::createWithTTF(_("introText"), Style::Font::Bold(), 60);
-	_text->setWidth(contentSize.width * 0.8f);
+	_text = Label::createWithTTF(_("introText"), Style::Font::Bold(), isPortrait ? 75 : 90);
+	_text->setWidth(contentSize.width * (isPortrait ? 0.8f : 0.6f));
 	_text->setOverflow(Label::Overflow::RESIZE_HEIGHT);
 	_text->setAlignment(TextHAlignment::CENTER, TextVAlignment::CENTER);
 	_text->setTextColor(Color4B::WHITE);
@@ -142,10 +142,14 @@ void WelcomeScene::onSizeChanged()
 	Super::onSizeChanged();
 	
 	const Size& contentSize = this->getContentSize();
+	bool isPortrait = contentSize.height > contentSize.width;
 	
 	_bgColour->setContentSize(contentSize);
 	
-	_text->setWidth(contentSize.width * 0.8f);
+	_text->setWidth(contentSize.width * (isPortrait ? 0.8f : 0.6f));
+	TTFConfig ttfConfig = _text->getTTFConfig();
+	ttfConfig.fontSize = isPortrait ? 75 : 90;
+	_text->setTTFConfig(ttfConfig);
 	_textHolder->setContentSize(_text->getContentSize());
 	
 	_bottomGradient->setContentSize(Size(contentSize.width, 400));

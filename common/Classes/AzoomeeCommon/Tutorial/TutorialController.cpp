@@ -193,6 +193,11 @@ void TutorialController::displayMessageForTutorialState(const std::string& msg)
 	
 }
 
+void TutorialController::highlightMessageString(const std::string& targetStr, const cocos2d::Color3B& highlightColour)
+{
+	_messagingNode->highlightMessageString(targetStr, highlightColour);
+}
+
 bool TutorialController::isTutorialCompleted(const std::string& tutorialId)
 {
 	return cocos2d::UserDefault::getInstance()->getBoolForKey((tutorialId + "_" + ChildDataProvider::getInstance()->getParentOrChildId()).c_str(), false);

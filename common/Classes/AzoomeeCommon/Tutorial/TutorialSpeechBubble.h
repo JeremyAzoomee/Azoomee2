@@ -40,6 +40,8 @@ public:
 	void animateInText(float delay, const AnimationCompleteCallback& callback = nullptr);
 	void animateOut(const AnimationCompleteCallback& callback = nullptr);
 	
+	void highlightMessageString(const std::string& targetStr, const cocos2d::Color3B& highlightColour);
+	
 	CREATE_FUNC(TutorialSpeechBubble);
 };
 

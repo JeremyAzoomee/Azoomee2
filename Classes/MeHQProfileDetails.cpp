@@ -16,6 +16,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
+#include <AzoomeeCommon/Tutorial/TutorialSpeechBubble.h>
 
 using namespace cocos2d;
 
@@ -38,24 +39,24 @@ bool MeHQProfileDetails::init()
         is3x4Device = true;
     }
     
-    this->setContentSize(Size(visibleSize.width, isPortrait ? 1500 : 1000)); // portrait stacks elements vertically, so 1.5x height
-    
+    this->setContentSize(Size(visibleSize.width, isPortrait ? 1700 : 1200)); // portrait stacks elements vertically, so 1.5x height
+	
     const Size& contentSize = this->getContentSize();
     
     setLayoutType(isPortrait ? ui::Layout::Type::VERTICAL : ui::Layout::Type::HORIZONTAL);
-    
+	
     auto avatarLayout = ui::Layout::create();
     avatarLayout->setSizeType(ui::Widget::SizeType::PERCENT);
-    avatarLayout->setSizePercent(isPortrait ? Vec2(1.0,0.66) : Vec2(0.5,1.0));
+    avatarLayout->setSizePercent(isPortrait ? Vec2(1.0,0.7) : Vec2(0.5,1.0));
     this->addChild(avatarLayout);
     
     _avatar = OomeeMaker::OomeeCarouselButton::create();
     _avatar->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _avatar->setNormalizedPosition(Vec2(isPortrait ? 0.5 : 0.6,0.5));
+    _avatar->setNormalizedPosition(Vec2(isPortrait ? 0.5 : 0.6,0.4));
     _avatar->setPlaceholderImage("res/oomeeMaker/1_Oomee_Reference.png");
     _avatar->loadPlaceholderImage();
     _avatar->ignoreContentAdaptWithSize(false);
-    _avatar->setScale((contentSize.height * (isPortrait ? 0.6 : 0.9)) / _avatar->getContentSize().height);
+    _avatar->setScale(900.0f / _avatar->getContentSize().height);
     _avatar->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType)
     {
         if(eType == ui::Widget::TouchEventType::ENDED)
@@ -83,12 +84,12 @@ bool MeHQProfileDetails::init()
     
     _labelLayout = ui::Layout::create();
     _labelLayout->setSizeType(ui::Widget::SizeType::PERCENT);
-    _labelLayout->setSizePercent(isPortrait ? Vec2(1.0,0.34) : Vec2(0.5,1.0));
+    _labelLayout->setSizePercent(isPortrait ? Vec2(1.0,0.3) : Vec2(0.5,1.0));
     this->addChild(_labelLayout);
     
     _nameLabel = Label::createWithTTF(ChildDataProvider::getInstance()->getParentOrChildName(),Style::Font::Regular() , is3x4Device ? 96 : 140);
     _nameLabel->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE : Vec2::ANCHOR_MIDDLE_BOTTOM);
-    _nameLabel->setNormalizedPosition(Vec2(0.5,isPortrait ? 0.60 : 0.5));
+    _nameLabel->setNormalizedPosition(Vec2(0.5,isPortrait ? 0.60 : 0.4));
     _nameLabel->setContentSize(Size(contentSize.width /2, contentSize.height / 3.0f));
     
     reduceLabelTextToFitWidth(_nameLabel, contentSize.width * _labelLayout->getSizePercent().x);
@@ -97,7 +98,7 @@ bool MeHQProfileDetails::init()
     
 	_kidCodeLabel = ui::Text::create(_("Kid Code:") + " " + ChildDataProvider::getInstance()->getLoggedInChild()->getInviteCode(), Style::Font::Regular(), is3x4Device ? 67 : 80);
     _kidCodeLabel->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE : Vec2::ANCHOR_MIDDLE_TOP);
-    _kidCodeLabel->setNormalizedPosition(Vec2(0.5,isPortrait ? 0.25 : 0.45));
+    _kidCodeLabel->setNormalizedPosition(Vec2(0.5,isPortrait ? 0.25 : 0.35));
     _kidCodeLabel->setContentSize(Size(contentSize.width /2, contentSize.height / 3.0f));
     _kidCodeLabel->setTextColor(Color4B(Style::Color::greenishTeal));
     _labelLayout->addChild(_kidCodeLabel);
@@ -144,7 +145,30 @@ void MeHQProfileDetails::onImageDownloadFailed()
 
 void MeHQProfileDetails::onTutorialStateChanged(const std::string& stateId)
 {
+	const Size& visibleSize = Director::getInstance()->getVisibleSize();
+	
+	bool isPortrait = visibleSize.width < visibleSize.height;
+	
 	_avatar->enableTutorialHighlight(stateId == TutorialController::kCreateOomee);
+	if(stateId == TutorialController::kCreateOomee)
+	{
+		float maxWidth = isPortrait ? this->getContentSize().width : this->getContentSize().width / 2.0f;
+		TutorialSpeechBubble* bubble = TutorialSpeechBubble::create();
+		bubble->setBubbleOrigin(BubbleOrigin::BOTTOM);
+		bubble->setMaxWidth(maxWidth);
+		bubble->setText(_("Tap me to change my colour"));
+		bubble->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+		bubble->setNormalizedPosition(Vec2(0.5f, 1.0f));
+		bubble->setName("bubble");
+		bubble->animateInText(0.5f);
+		bubble->setScale(0.6f);
+		_avatar->addChild(bubble);
+	}
+	else
+	{
+		_avatar->removeChildByName("bubble");
+	}
+	
 }
 
 
