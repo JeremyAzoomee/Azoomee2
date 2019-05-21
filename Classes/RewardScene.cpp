@@ -33,21 +33,21 @@ bool RewardScene::init()
 void RewardScene::onEnter()
 {
 	CoinChestLayer* coinChestLayer = CoinChestLayer::create();
-	coinChestLayer->setDuration(_duration * 3.0f/7.0f);
+	coinChestLayer->setDuration(_duration * 0.375f);
 	coinChestLayer->setRewardData(_rewardData);
 	coinChestLayer->setDeleagte(this);
 	coinChestLayer->retain();
 	_screenSequence.push_back(coinChestLayer);
 	
 	AwesomeLayer* awesomeLayer = AwesomeLayer::create();
-	awesomeLayer->setDuration(_duration * 2.0f/7.0f);
+	awesomeLayer->setDuration(_duration * 0.25f);
 	awesomeLayer->setRewardData(_rewardData);
 	awesomeLayer->setDeleagte(this);
 	awesomeLayer->retain();
 	_screenSequence.push_back(awesomeLayer);
 	
 	CoinCollectLayer* coinCollect = CoinCollectLayer::create();
-	coinCollect->setDuration(_duration * 2.0f/7.0f);
+	coinCollect->setDuration(_duration * 0.375f);
 	coinCollect->setRewardData(_rewardData);
 	coinCollect->setOomeeFilepath(ChildDataProvider::getInstance()->getLoggedInChild()->getAvatar());
 	coinCollect->setDeleagte(this);
