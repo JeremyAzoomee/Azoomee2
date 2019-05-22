@@ -13,6 +13,7 @@
 #include "../../UI/ModalMessages.h"
 #include "../Child/ChildManager.h"
 #include "ContentItemPool.h"
+#include "../../Utils/DirUtil.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -26,7 +27,7 @@ ContentItemPoolHandler* ContentItemPoolHandler::getInstance()
     {
         sContentItemPoolHandlerSharedInstance.reset(new ContentItemPoolHandler());
     }
-    const std::string& cachePath = cocos2d::FileUtils::getInstance()->getWritablePath() + kCachePath;
+    const std::string& cachePath = DirUtil::getCachesPath() + kCachePath;
     if(!cocos2d::FileUtils::getInstance()->isDirectoryExist(cachePath))
     {
         cocos2d::FileUtils::getInstance()->createDirectory(cachePath);
@@ -56,7 +57,7 @@ void ContentItemPoolHandler::loadLocalData()
 {
     if(!ContentItemPool::getInstance()->isSameContentPool(getLocalEtag()))
     {
-        const std::string& localDataPath = cocos2d::FileUtils::getInstance()->getWritablePath() + kCachePath + "items.json";
+        const std::string& localDataPath = DirUtil::getCachesPath() + kCachePath + "items.json";
         const std::string& data = cocos2d::FileUtils::getInstance()->getStringFromFile(localDataPath);
         ContentItemPoolParser::getInstance()->parseContentItemPool(data);
         ContentItemPool::getInstance()->setPoolEtag(getLocalEtag());
@@ -96,9 +97,9 @@ void ContentItemPoolHandler::onFileDownloadComplete(const std::string &fileStrin
     {
         setLocalEtag(_fileDownloader->getEtag());
         _fileDownloader = nullptr;
-        const std::string& dirPath = cocos2d::FileUtils::getInstance()->getWritablePath() + kCachePath;
-        const std::string& zipPath = dirPath + "/contentPool.zip";
-        cocos2d::FileUtils::getInstance()->writeStringToFile(fileString, zipPath);
+        const std::string& dirPath = DirUtil::getCachesPath() + kCachePath;
+        const std::string& zipPath = dirPath + "contentPool.zip";
+        bool success = cocos2d::FileUtils::getInstance()->writeStringToFile(fileString, zipPath);
         FileZipUtil::getInstance()->asyncUnzip(zipPath, dirPath, "", this);
     }
     else

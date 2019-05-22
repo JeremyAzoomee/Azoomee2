@@ -66,7 +66,7 @@ bool IntroVideoScene::init()
         _videoPlayer->setSwallowTouches(false);
         _videoPlayer->setFileName(videoFilename);
         _videoPlayer->setKeepAspectRatioEnabled(true);
-        _videoPlayer->setInteractionEnabled(false);
+        _videoPlayer->setUserInputEnabled(false);
         
         addChild(_videoPlayer);
         _videoPlayer->play();

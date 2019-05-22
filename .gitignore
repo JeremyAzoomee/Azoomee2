@@ -1,10 +1,8 @@
 bin/
 _builds/
-proj.android/obj/
-proj.android/assets/res/
 !Classes/
 !Resources/
-!proj.android-studio/app/src/
 Resources/res/webcommApi
 Resources/res/cta_assets/CTAFiles.zip
 *.pyc
+.DS_Store

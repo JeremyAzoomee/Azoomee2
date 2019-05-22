@@ -14,7 +14,7 @@
 #include "HQDataProvider.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/Utils/FileUtil.h>
+#include <AzoomeeCommon/Utils/DirUtil.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/Style.h>
@@ -65,14 +65,14 @@ void MeHQGallery::onEnter()
     
     totalHeight += heading->getContentSize().height + 50;
     
-    const std::string& dirPath = FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildManager::getInstance()->getParentOrChildId();
+    const std::string& dirPath = DirUtil::getCachesPath() + ConfigStorage::kArtCacheFolder + ChildManager::getInstance()->getParentOrChildId();
     
     if(!FileUtils::getInstance()->isDirectoryExist(dirPath))
     {
         FileUtils::getInstance()->createDirectory(dirPath);
     }
     
-    auto artImages = FileUtil::getImagesInDirectory(dirPath);
+    auto artImages = DirUtil::getImagesInDirectory(dirPath);
     
     
     const Size& contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kGameHQName);

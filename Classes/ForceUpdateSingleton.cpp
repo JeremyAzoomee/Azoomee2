@@ -5,6 +5,7 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Utils/VersionChecker.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
+#include <AzoomeeCommon/Utils/DirUtil.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "ForceUpdateAppLockScene.h"
 
@@ -49,7 +50,7 @@ ForceUpdateSingleton::~ForceUpdateSingleton(void)
 
 ForceUpdateSingleton::ForceUpdateSingleton()
 {
-    writablePath = FileUtils::getInstance()->getWritablePath();
+    writablePath = DirUtil::getCachesPath();
 }
 
 void ForceUpdateSingleton::setDelegate(ForceUpdateDelegate *delegate)

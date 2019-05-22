@@ -6,6 +6,7 @@
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "ContentHistoryManager.h"
+#include <AzoomeeCommon/Utils/DirUtil.h>
 
 using namespace cocos2d;
 
@@ -135,10 +136,12 @@ void ManualGameInputLayer::buttonPressed(ElectricDreamsButton* button)
         {
             ModalMessages::getInstance()->startLoading();
             
-            std::string manualGamePath = FileUtils::getInstance()->getWritablePath() + "gameCache/" + GameDataManager::kManualGameId;
+            const std::string& manualGamePath = DirUtil::getCachesPath() + ConfigStorage::kGameCacheFolder + GameDataManager::kManualGameId;
             
             if(FileUtils::getInstance()->isDirectoryExist(manualGamePath))
+            {
                 FileUtils::getInstance()->removeDirectory(manualGamePath);
+            }
 
             FileUtils::getInstance()->createDirectory(manualGamePath);
 			HQContentItemObjectRef contentItem = HQContentItemObject::create();

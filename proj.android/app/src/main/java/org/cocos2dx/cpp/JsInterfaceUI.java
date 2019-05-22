@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.webkit.JavascriptInterface;
 
 
-import static com.loopj.android.http.AsyncHttpClient.log;
+//import static com.loopj.android.http.AsyncHttpClient.log;
 
 public class JsInterfaceUI extends Activity {
 
@@ -26,14 +26,14 @@ public class JsInterfaceUI extends Activity {
     @JavascriptInterface
     public void errorOccurred()
     {
-        log.d("error", "errorOccurred called!");
+//        log.d("error", "errorOccurred called!");
         NativeViewUI.errorOccurred();
     }
 
     @JavascriptInterface
     public void sendMediaPlayerData(String key, String value)
     {
-        log.d("eventhandler", "eventhandler called!");
+//        log.d("eventhandler", "eventhandler called!");
         JNICalls.sendMediaPlayerData(key, value);
     }
 

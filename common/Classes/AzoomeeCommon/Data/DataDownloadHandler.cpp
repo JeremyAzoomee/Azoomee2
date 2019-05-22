@@ -6,6 +6,7 @@
 //
 
 #include "DataDownloadHandler.h"
+#include "../Utils/DirUtil.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -21,7 +22,7 @@ DataDownloadHandler::~DataDownloadHandler()
 
 std::string DataDownloadHandler::getLocalEtag() const
 {
-	const std::string& etagFilePath = cocos2d::FileUtils::getInstance()->getWritablePath() + getCachePath() + "etag.txt";
+	const std::string& etagFilePath = DirUtil::getCachesPath() + getCachePath() + "etag.txt";
 	if(cocos2d::FileUtils::getInstance()->isFileExist(etagFilePath))
 	{
 		return cocos2d::FileUtils::getInstance()->getStringFromFile(etagFilePath);
@@ -30,7 +31,7 @@ std::string DataDownloadHandler::getLocalEtag() const
 }
 void DataDownloadHandler::setLocalEtag(const std::string& etag)
 {
-	const std::string& etagFilePath = cocos2d::FileUtils::getInstance()->getWritablePath() + getCachePath() + "etag.txt";
+	const std::string& etagFilePath = DirUtil::getCachesPath() + getCachePath() + "etag.txt";
 	cocos2d::FileUtils::getInstance()->writeStringToFile(etag, etagFilePath);
 }
 

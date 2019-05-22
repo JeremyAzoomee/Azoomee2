@@ -7,6 +7,7 @@
 #include "../Net/Utils.h"
 #include "Json.h"
 #include "../Utils/StringFunctions.h"
+#include "../Utils/DirUtil.h"
 #include "../Strings.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -57,7 +58,9 @@ static ConfigStorage *_sharedConfigStorage = NULL;
     const char* const ConfigStorage::kEstimatedKeyboardHeightLandscape = "Azoomee::MessageComposer::EstimatedKeyboardHeight/Landscape";
     
     const std::string ConfigStorage::kArtCacheFolder = "artCache/";
+    const std::string ConfigStorage::kGameCacheFolder = "gameCache/";
 	const std::string ConfigStorage::kOomeeMakerCacheFolder = "oomeeMaker/";
+    const std::string ConfigStorage::kContentCacheFolder = "contentCache/";
     
     const std::string ConfigStorage::kGameDownloadError = "ERROR";
 	
@@ -155,7 +158,7 @@ std::string ConfigStorage::getFileNameFromUrl(const std::string& url)
     
 std::string ConfigStorage::getGameCachePath()
 {
-    return FileUtils::getInstance()->getWritablePath() + "gameCache/";
+    return DirUtil::getCachesPath() + kGameCacheFolder;
 }
     
 std::string ConfigStorage::getDefaultHQ()

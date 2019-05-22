@@ -5,7 +5,7 @@
 #include "AmazonPaymentSingleton.h"
 #include "GooglePaymentSingleton.h"
 #include <AzoomeeCommon/Utils/StringFunctions.h>
-#include <AzoomeeCommon/Utils/FileUtil.h>
+#include <AzoomeeCommon/Utils/DirUtil.h>
 #include "LoginLogicHandler.h"
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/UI/MessageBox.h>
@@ -218,24 +218,24 @@ void RoutePaymentSingleton::writeReceiptDataToFile(const std::string &receiptDat
     
     if(receiptDataFileExists())
     {
-        attemptNumber = atoi(splitStringToVector(FileUtils::getInstance()->getStringFromFile(FileUtil::getDocumentsPath() + kReceiptCacheFolder + kReceiptDataFileName), "||").at(0).c_str());
+        attemptNumber = atoi(splitStringToVector(FileUtils::getInstance()->getStringFromFile(DirUtil::getDocumentsPath() + kReceiptCacheFolder + kReceiptDataFileName), "||").at(0).c_str());
         attemptNumber++;
     }
     
     createReceiptDataFolder();
-    FileUtils::getInstance()->writeStringToFile(StringUtils::format("%d", attemptNumber) + "||" + receiptData, FileUtil::getDocumentsPath() + kReceiptCacheFolder + kReceiptDataFileName);
+    FileUtils::getInstance()->writeStringToFile(StringUtils::format("%d", attemptNumber) + "||" + receiptData, DirUtil::getDocumentsPath() + kReceiptCacheFolder + kReceiptDataFileName);
 }
 
 bool RoutePaymentSingleton::receiptDataFileExists()
 {
-    return FileUtils::getInstance()->isFileExist(FileUtil::getDocumentsPath() + kReceiptCacheFolder + kReceiptDataFileName);
+    return FileUtils::getInstance()->isFileExist(DirUtil::getDocumentsPath() + kReceiptCacheFolder + kReceiptDataFileName);
 }
 
 void RoutePaymentSingleton::removeReceiptDataFile()
 {
     if(receiptDataFileExists())
     {
-        FileUtils::getInstance()->removeFile(FileUtil::getDocumentsPath() + kReceiptCacheFolder + kReceiptDataFileName);
+        FileUtils::getInstance()->removeFile(DirUtil::getDocumentsPath() + kReceiptCacheFolder + kReceiptDataFileName);
     }
 }
 
@@ -253,7 +253,7 @@ void RoutePaymentSingleton::retryReceiptValidation()
         return;
     }
     
-    const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(FileUtil::getDocumentsPath() + kReceiptCacheFolder + kReceiptDataFileName);
+    const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(DirUtil::getDocumentsPath() + kReceiptCacheFolder + kReceiptDataFileName);
     const std::vector<std::string>& fileContentSplit = splitStringToVector(fileContent, "||");
     
     if(fileContentSplit.size() != 2)
@@ -309,7 +309,7 @@ void RoutePaymentSingleton::retryReceiptValidation()
 
 void RoutePaymentSingleton::createReceiptDataFolder()
 {
-    const std::string& cacheFolder = FileUtil::getDocumentsPath() + kReceiptCacheFolder;
+    const std::string& cacheFolder = DirUtil::getDocumentsPath() + kReceiptCacheFolder;
     if(!FileUtils::getInstance()->isDirectoryExist(cacheFolder))
     {
         FileUtils::getInstance()->createDirectory(cacheFolder);

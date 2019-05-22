@@ -13,7 +13,7 @@
 #include "../Json.h"
 #include "../../UI/ModalMessages.h"
 #include "../Child/ChildManager.h"
-#include "../../Utils/FileUtil.h"
+#include "../../Utils/ChildManager.h"
 #include "../ConfigStorage.h"
 #include "../../Utils/StringFunctions.h"
 #include "HQDataObjectStorage.h"
@@ -33,7 +33,7 @@ HQStructureHandler* HQStructureHandler::getInstance()
     {
         sHQStructureHandlerSharedInstance.reset(new HQStructureHandler());
     }
-    const std::string& cachePath = cocos2d::FileUtils::getInstance()->getWritablePath() + kCachePath;
+    const std::string& cachePath = DirUtil::getCachesPath() + kCachePath;
     if(!cocos2d::FileUtils::getInstance()->isDirectoryExist(cachePath))
     {
         cocos2d::FileUtils::getInstance()->createDirectory(cachePath);
@@ -63,11 +63,11 @@ void HQStructureHandler::loadLocalData()
 {
     if(!HQDataObjectStorage::getInstance()->isSameHQData(getLocalEtag()))
     {
-        const std::string& localDataPath = cocos2d::FileUtils::getInstance()->getWritablePath() + kCachePath + _feedPath + "/";
+        const std::string& localDataPath = DirUtil::getCachesPath() + kCachePath + _feedPath + "/";
         const std::string& data = cocos2d::FileUtils::getInstance()->getStringFromFile(localDataPath + "entitlements.json");
         HQStructureParser::getInstance()->parseEntitlementData(data);
         
-        const auto& feedsFolders = FileUtil::getFoldersInDirectory(localDataPath);
+        const auto& feedsFolders = DirUtil::getFoldersInDirectory(localDataPath);
         for(const auto& folder : feedsFolders)
         {
             if(folder == "groups")
@@ -85,7 +85,7 @@ void HQStructureHandler::loadLocalData()
 
 void HQStructureHandler::loadGroupHQData(const std::string &groupIdPath)
 {
-    const std::string& dataPath = cocos2d::FileUtils::getInstance()->getWritablePath() + kCachePath + _feedPath + "/" + groupIdPath;
+    const std::string& dataPath = DirUtil::getCachesPath() + kCachePath + _feedPath + "/" + groupIdPath;
     if(FileUtils::getInstance()->isFileExist(dataPath))
     {
         const std::string& data = cocos2d::FileUtils::getInstance()->getStringFromFile(dataPath);
@@ -157,7 +157,7 @@ void HQStructureHandler::onFileDownloadComplete(const std::string &fileString, c
 {
     if(responseCode == 200)
     {
-        const std::string& dirPath = cocos2d::FileUtils::getInstance()->getWritablePath() + kCachePath + _feedPath;
+        const std::string& dirPath = DirUtil::getCachesPath() + kCachePath + _feedPath;
         if(FileUtils::getInstance()->isDirectoryExist(dirPath))
         {
             FileUtils::getInstance()->removeDirectory(dirPath);
