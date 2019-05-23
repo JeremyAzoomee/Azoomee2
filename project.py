@@ -50,13 +50,14 @@ class AzoomeeApp:
     # The root of the Git repo
     GIT_ROOT = None
     git_repo = None
-    auto_push = False
+    auto_push = True
 
     # Platforms
     PLATFORMS = (
         'ios',
-        'android',
-        'android-vodacom'
+        'googleplay',
+        'amazon'
+        'vodacom'
     )
 
 
@@ -104,17 +105,23 @@ class AzoomeeApp:
 
         current_branch = self._get_current_branch()
         if current_branch not in valid_branches:
-            # TODO: Re-enable forcing branch for new release
-            pass #return self.exit_with_error( 'You must be on one of the following branches in order to create a new release: {branches}', branches=', '.join( valid_branches ) )
+            return self.exit_with_error( 'You must be on one of the following branches in order to create a new release: {branches}', branches=', '.join( valid_branches ) )
 
 
         # Update version
         if args.patch:
-            current_version = self._increment_version( current_version, patch=True )
-            print 'New Version:', current_version
-            self._set_current_version( current_version, commit=True )
+            new_version = self._increment_version( current_version, patch=True )
+            self._set_current_version( new_version, commit=True )
         else:
-            print 'Major/minor release not implemented yet'
+            new_version = self._increment_version( current_version, major=args.major, minor=args.minor )
+
+            # Create a new release branch
+            new_major_minor_version = new_version[ 0 : new_version.rfind('.') ]
+            new_release_branch = 'release/' + new_major_minor_version
+            self.exec_system_command( 'git checkout -b "{branch}"', branch=new_release_branch )
+            self.exec_system_command( 'git push --set-upstream origin "{branch}"', branch=new_release_branch )
+
+            self._set_current_version( new_version, commit=True )
 
     
     def get_version( self, args ):
@@ -161,13 +168,11 @@ class AzoomeeApp:
         major_minor_version = current_version[ 0 : current_version.rfind('.') ]
         required_branch = 'release/' + major_minor_version
         if current_branch != required_branch:
-            # TODO: Reenable forcing branch for deploy
-            pass #return self.exit_with_error( 'You must be on the branch "{branch}" in order to deploy this version.', branch=required_branch )
+            preturn self.exit_with_error( 'You must be on the branch "{branch}" in order to deploy this version.', branch=required_branch )
 
         # Do we need to update the version?
         if args.patch:
             current_version = self._increment_version( current_version, patch=True )
-            print 'New Version:', current_version
             self._set_current_version( current_version, commit=True )
 
         # Now run deploy for each platform
@@ -194,7 +199,7 @@ class AzoomeeApp:
                     return self.exit_with_error( 'Xcode clean failed with error {code}', code=success )
             except Exception as e:
                 return self.exit_with_error( '{exception}', exception=str(e) )
-        elif platform == 'android':
+        elif platform == 'googleplay':
             self._check_android_environment()
 
             restore_cwd = os.getcwd()
@@ -257,7 +262,7 @@ class AzoomeeApp:
                     return self.exit_with_error( 'Xcode build failed with error {code}', code=success )
             except Exception as e:
                 return self.exit_with_error( '{exception}', exception=str(e) )
-        elif platform == 'android':
+        elif platform == 'googleplay':
             self._check_android_environment()
             build_config = 'release'
 
@@ -349,7 +354,7 @@ class AzoomeeApp:
                     return self.exit_with_error( 'Fabric submit iOS buildfailed with error {code}', code=success )
             except Exception as e:
                 return self.exit_with_error( '{exception}', exception=str(e) )
-        elif platform == 'android':
+        elif platform == 'googleplay':
             self._check_android_environment()
             build_config = 'release'
 
@@ -506,7 +511,7 @@ class AzoomeeApp:
         """
         full_command = command.format( **kwargs )
         print full_command
-        return 0 #return os.system( full_command )
+        return os.system( full_command )
     
     
     def exit_with_error( self, error, **kwargs ):
