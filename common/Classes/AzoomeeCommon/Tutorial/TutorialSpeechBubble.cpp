@@ -69,6 +69,7 @@ void TutorialSpeechBubble::onEnter()
 void TutorialSpeechBubble::setText(const std::string& text)
 {
 	_text->setString(text);
+	_text->setTextColor(Color4B::BLACK);
 	_bubble->setContentSize(Size(MIN(_text->getMaxLineWidth(),_text->getContentSize().width) + (2 * _leftEndCap->getContentSize().width),_text->getLineHeight() * (_text->getStringNumLines() + 1)));
 	_leftEndCap->setScale(_bubble->getContentSize().height / _leftEndCap->getContentSize().height);
 	_rightEndCap->setScale(_bubble->getContentSize().height / _rightEndCap->getContentSize().height);
@@ -109,6 +110,8 @@ void TutorialSpeechBubble::setBubbleOrigin(const BubbleOrigin& origin)
 
 void TutorialSpeechBubble::animateIn(float delay, const AnimationCompleteCallback& callback)
 {
+	this->stopAllActions();
+	
 	this->setScale(0);
 	_text->setVisible(false);
 	this->runAction(Sequence::create(DelayTime::create(delay), EaseBackOut::create(ScaleTo::create(1, 1)),CallFunc::create([this, callback](){
@@ -124,6 +127,7 @@ void TutorialSpeechBubble::animateInText(float delay, const AnimationCompleteCal
 		auto letter = _text->getLetter(i);
 		if(letter)
 		{
+			letter->stopAllActions();
 			letter->setOpacity(0);
 			letter->runAction(Sequence::createWithTwoActions(DelayTime::create(delay + (i * 0.05f)), FadeIn::create(0.5f)));
 		}
@@ -136,6 +140,7 @@ void TutorialSpeechBubble::animateInText(float delay, const AnimationCompleteCal
 
 void TutorialSpeechBubble::animateOut(const AnimationCompleteCallback& callback)
 {
+	stopAllActions();
 	runAction(Sequence::create(EaseBackIn::create(ScaleTo::create(1, 0)), CallFunc::create([callback](){
 		if(callback)
 		{

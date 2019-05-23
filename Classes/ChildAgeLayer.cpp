@@ -154,7 +154,7 @@ void ChildAgeLayer::onEnter()
 		progressIcon->setVisible(false);
 		buttonHolder->setPosition(textInputTitle->getPosition() - Vec2(0,textInputTitle->getContentSize().height));
 		TutorialController::getInstance()->displayMessageForTutorialState(StringUtils::format(_("Hi %s! How old are you?").c_str(), _childCreator->getName().c_str()));
-		TutorialController::getInstance()->highlightMessageString(_childCreator->getName(), Color3B(255, 128, 13));
+		TutorialController::getInstance()->highlightMessageString(_childCreator->getName() + "!", Color3B(255, 128, 13));
 	}
 	
     Super::onEnter();

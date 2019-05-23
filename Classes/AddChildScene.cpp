@@ -22,6 +22,7 @@
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/UI/NotificationNodeDisplayManager.h>
+#include <AzoomeeCommon/UI/ModalMessages.h>
 
 using namespace cocos2d;
 
@@ -212,6 +213,7 @@ void AddChildScene::nextLayer()
 			{
 				TutorialController::getInstance()->nextStep();
 			}
+			ModalMessages::getInstance()->startLoading();
 			_childCreator->addChild();
             break;
         }
@@ -236,6 +238,7 @@ void AddChildScene::nextLayer()
 			{
 				TutorialController::getInstance()->nextStep();
 			}
+			ModalMessages::getInstance()->startLoading();
 			_childCreator->updateChild(ParentDataProvider::getInstance()->getChild(0));
 			break;
 		}
@@ -334,6 +337,7 @@ void AddChildScene::onHttpRequestSuccess(const std::string& requestTag, const st
 		_currentFlowStage = AddChildFlow::ANON_OOMEE;
 		setSceneForFlow();
 	}
+	ModalMessages::getInstance()->stopLoading();
 }
 
 void AddChildScene::onHttpRequestFailed(const std::string& requestTag, long errorCode)
@@ -345,6 +349,7 @@ void AddChildScene::onHttpRequestFailed(const std::string& requestTag, long erro
     AnalyticsSingleton::getInstance()->childProfileCreatedErrorEvent(errorCode);
 	FlowDataSingleton::getInstance()->setErrorCode(errorCode);
 	Director::getInstance()->replaceScene(SceneManagerScene::createScene(_currentFlowStage == AddChildFlow::ANON_AGE ? SceneNameEnum::Base : SceneNameEnum::ChildSelector));
+	ModalMessages::getInstance()->stopLoading();
 }
 
 NS_AZOOMEE_END

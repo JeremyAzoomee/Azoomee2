@@ -58,7 +58,7 @@ bool WelcomeScene::init()
 	_body->addChild(_logo);
 	
 	_textHolder = ui::Layout::create();
-	_textHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
+	_textHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,60,0,0)));
 	_body->addChild(_textHolder);
 	
 	_text = Label::createWithTTF(_("introText"), Style::Font::Bold(), isPortrait ? 75 : 90);
@@ -75,7 +75,7 @@ bool WelcomeScene::init()
 	_textHolder->addChild(_text);
 	
 	_button = ui::Button::create("res/settings/rounded_button.png");
-	_button->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
+	_button->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,60,0,0)));
 	_button->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_button->setCascadeOpacityEnabled(true);
 	_button->setOpacity(0);
@@ -167,11 +167,17 @@ void WelcomeScene::addAnimatedTiles()
 	const Size& contentSize = this->getContentSize();
 	const bool isPortrait = contentSize.width < contentSize.height;
 	const float scrollDuration = 120.0f;
-	const int numTiles = 20;
-	std::vector<std::string> filenames;
-	for(int i = 0; i < numTiles; i++)
+	const int numTiles1 = 20;
+	const int numTiles2 = 40;
+	std::vector<std::string> filenames1;
+	std::vector<std::string> filenames2;
+	for(int i = 0; i < numTiles1; i++)
 	{
-		filenames.push_back(StringUtils::format("%d.jpg",i));
+		filenames1.push_back(StringUtils::format("%d.jpg",i));
+	}
+	for(int i = numTiles1; i < numTiles2; i++)
+	{
+		filenames2.push_back(StringUtils::format("%d.jpg",i));
 	}
 
 	Size tileSize = Size(683,510);
@@ -188,7 +194,6 @@ void WelcomeScene::addAnimatedTiles()
 	Node* gridNode = Node::create();
 	gridNode->setContentSize(Size((tileSize.width * gridSize.x) + (padding.x * (gridSize.x)), (tileSize.height * gridSize.y) + (padding.y * (gridSize.y))));
 	gridNode->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-	//gridNode->setPosition(contentSize / 2.0f);
 	gridNode->setRotation(-8);
 	Vec2 move = Vec2(0 ,gridNode->getContentSize().width);
 	move.rotate(Vec2(0,0), CC_DEGREES_TO_RADIANS(-gridNode->getRotation() - 90));
@@ -196,18 +201,15 @@ void WelcomeScene::addAnimatedTiles()
 	gridNode->runAction(RepeatForever::create(Sequence::create(MoveTo::create(scrollDuration / 2.0f,origin + move * 0.8f), MoveTo::create(0,origin - move * 1.2f), MoveTo::create(scrollDuration / 2.0f, origin - move * 0.2f), NULL)));
 	_tilesNode->addChild(gridNode);
 	
-	//LayerColor* overlay = LayerColor::create(Color4B(0,0,0,100));
-	//_tilesNode->addChild(overlay);
-	
-	std::random_shuffle(filenames.begin(), filenames.end());
-	for(int i = 0; i < MIN(gridSize.x * gridSize.y, filenames.size()); i++)
+	std::random_shuffle(filenames1.begin(), filenames1.end());
+	for(int i = 0; i < MIN(gridSize.x * gridSize.y, filenames1.size()); i++)
 	{
 		int row = i / gridSize.x;
 		int col = i % (int)gridSize.x;
 		
 		const Vec2& pos = Vec2((tileSize.width * (col + 0.5f)) + (col * padding.x), (tileSize.height * (row + 0.5f)) + (row * padding.x) );
 		
-		Sprite* tile = Sprite::create("res/introAssets/tiles/" + filenames.at(i));
+		Sprite* tile = Sprite::create("res/introAssets/tiles/" + filenames1.at(i));
 		tile->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 		tile->setPosition(pos);
 		tile->setContentSize(tileSize);
@@ -220,23 +222,18 @@ void WelcomeScene::addAnimatedTiles()
 	gridNode2->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 	gridNode2->setPosition(origin - move * 1.2f);
 	gridNode2->setRotation(gridNode->getRotation());
-	//Vec2 move = Vec2(0 ,gridNode2->getContentSize().height);
-	//move.rotate(Vec2(0,0), CC_DEGREES_TO_RADIANS(10));
 	gridNode2->runAction(RepeatForever::create(Sequence::create(MoveTo::create(scrollDuration, origin + move * 0.8f), MoveTo::create(0,origin - move * 1.2f), NULL)));
 	_tilesNode->addChild(gridNode2);
 	
-	//LayerColor* overlay = LayerColor::create(Color4B(0,0,0,100));
-	//_tilesNode->addChild(overlay);
-	
-	std::random_shuffle(filenames.begin(), filenames.end());
-	for(int i = 0; i < MIN(gridSize.x * gridSize.y, filenames.size()); i++)
+	std::random_shuffle(filenames2.begin(), filenames2.end());
+	for(int i = 0; i < MIN(gridSize.x * gridSize.y, filenames2.size()); i++)
 	{
 		int row = i / gridSize.x;
 		int col = i % (int)gridSize.x;
 		
 		const Vec2& pos = Vec2((tileSize.width * (col + 0.5f)) + (col * padding.x), (tileSize.height * (row + 0.5f)) + (row * padding.x) );
 		
-		Sprite* tile = Sprite::create("res/introAssets/tiles/" + filenames.at(i));
+		Sprite* tile = Sprite::create("res/introAssets/tiles/" + filenames2.at(i));
 		tile->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 		tile->setPosition(pos);
 		tile->setContentSize(tileSize);

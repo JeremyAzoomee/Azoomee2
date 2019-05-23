@@ -42,7 +42,7 @@ void ChildOomeeFTULayer::onEnter()
 	Sprite* oomee = Sprite::create(ConfigStorage::getInstance()->getLocalImageForOomee(_childCreator->getOomeeNum()));
 	oomee->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	oomee->setNormalizedPosition(isPortrait ? Vec2(0.5f,0.55f) : Vec2(0.5,0.45f));
-	oomee->setContentSize(oomee->getContentSize() * ((contentSize.height * (isPortrait ? 0.6f : 0.75f)) / oomee->getContentSize().height));
+	oomee->setContentSize(oomee->getContentSize() * ((contentSize.height * (isPortrait ? 0.54f : 0.675f)) / oomee->getContentSize().height));
 	this->addChild(oomee);
 	
 	oomee->setScale(0);
@@ -81,8 +81,21 @@ void ChildOomeeFTULayer::onEnter()
 		bubble->addChild(continueButton);
 	}
 	
-	bubble->animateIn(2.0f, [continueButton](){
+	bubble->animateIn(2.0f, [continueButton, this](){
 		continueButton->setVisible(true);
+		EventListenerTouchOneByOne* touchHandler = EventListenerTouchOneByOne::create();
+		touchHandler->onTouchBegan = [this](Touch *pTouch, Event *pEvent){
+			return true;
+		};
+		touchHandler->onTouchMoved = [this](Touch *pTouch, Event *pEvent){};
+		touchHandler->onTouchEnded = [this](Touch *pTouch, Event *pEvent){
+			if(_delegate)
+			{
+				_delegate->nextLayer();
+			}
+		};
+		touchHandler->onTouchCancelled = touchHandler->onTouchEnded;
+		Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchHandler, this);
 	});
 	
 	saveDefaultOomeeToOomeeMakerFiles();

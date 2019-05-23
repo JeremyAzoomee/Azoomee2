@@ -178,13 +178,12 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString, con
 //LOGGING IN BY DEVICE IDENTIFIER
 void BackEndCaller::anonymousDeviceLogin()
 {
-    displayLoadingScreen();
-	
 	UserDefault* userDefault = UserDefault::getInstance();
 	const std::string& anonEmail = userDefault->getStringForKey(ConfigStorage::kAnonEmailKey, "");
 	
 	if(anonEmail == "")
 	{
+		displayLoadingScreen();
 		HttpRequestCreator* request = API::GetAnonCredentials(this);
 		request->execute();
 	}
@@ -273,6 +272,7 @@ void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseStrin
 			else
 			{
 				childLogin(0); // auto login default child
+				return;
 			}
 		}
 		else
