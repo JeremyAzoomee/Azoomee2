@@ -32,8 +32,6 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
 import android.util.Base64;
 
 import org.cocos2dx.cpp.util.IabBroadcastReceiver;
@@ -46,7 +44,9 @@ import org.cocos2dx.cpp.util.Purchase;
 import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
+
 import com.tinizine.azoomee.R;
+import com.tinizine.azoomee.BuildConfig;
 import com.tinizine.azoomee.common.AzoomeeActivity;
 
 import java.io.IOException;
@@ -54,6 +54,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 
 import com.amazon.device.iap.PurchasingService;
 import com.amazon.device.iap.model.FulfillmentResult;
@@ -61,7 +63,9 @@ import com.amazon.device.iap.model.RequestId;
 import com.amazon.iap.IapManager;
 import com.amazon.iap.MySku;
 import com.amazon.iap.PurchasingListenerClass;
+
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.core.CrashlyticsCore;
 import com.crashlytics.android.ndk.CrashlyticsNdk;
 import io.fabric.sdk.android.Fabric;
 
@@ -110,7 +114,9 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
         appsflyer.startTracking(this.getApplication());
 
-        Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
+        // Set up Crashlytics, disabled for debug builds
+        Crashlytics crashlyticsKit = new Crashlytics.Builder().core(new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build()).build();
+        Fabric.with(this, crashlyticsKit, new CrashlyticsNdk());
 
         readAdvertisingIdFromDevice();
 

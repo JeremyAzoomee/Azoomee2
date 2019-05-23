@@ -22,6 +22,14 @@ repositories {
     maven { url 'https://maven.fabric.io/public' }
 }
 
+// Load keystore.properties
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
+
 android {
     compileSdkVersion PROP_COMPILE_SDK_VERSION.toInteger()
 
@@ -87,14 +95,13 @@ android {
     }
 
     signingConfigs {
-
        release {
-            if (project.hasProperty("RELEASE_STORE_FILE")) {
-                storeFile file(RELEASE_STORE_FILE)
-                storePassword RELEASE_STORE_PASSWORD
-                keyAlias RELEASE_KEY_ALIAS
-                keyPassword RELEASE_KEY_PASSWORD
-            }
+           if (keystorePropertiesFile.exists()) {
+               keyAlias keystoreProperties['keyAlias']
+               keyPassword keystoreProperties['keyPassword']
+               storeFile file(keystoreProperties['storeFile'])
+               storePassword keystoreProperties['storePassword']
+           }
         }
     }
 
@@ -106,7 +113,8 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            if (project.hasProperty("RELEASE_STORE_FILE")) {
+
+            if (keystorePropertiesFile.exists()) {
                 signingConfig signingConfigs.release
             }
 
@@ -126,6 +134,9 @@ android {
                     arguments 'NDK_DEBUG=1'
                 }
             }
+
+            // Disable fabric build ID generation for debug builds
+            ext.enableCrashlytics = false
         }
     }
 }
