@@ -37,8 +37,8 @@ android {
         applicationId "com.tinizine.azoomee"
         minSdkVersion PROP_MIN_SDK_VERSION
         targetSdkVersion PROP_TARGET_SDK_VERSION
-        versionCode 460001
-        versionName '4.6.0'
+        versionCode 1004006000
+        versionName "4.6.0"
 
         externalNativeBuild {
             if (PROP_BUILD_TYPE == 'ndk-build') {

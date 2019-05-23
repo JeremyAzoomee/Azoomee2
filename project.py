@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import sys, os
+import sys, os, re
 import argparse
 import shutil
 import plistlib
@@ -91,6 +91,30 @@ class AzoomeeApp:
         Create a new version.
         """
         print 'new_release:', args
+
+        current_version = self._get_current_version()
+
+        # Check we are on the correct branch to create a new release
+        major_minor_version = current_version[ 0 : current_version.rfind('.') ]
+        valid_branches = [ 'release/' + major_minor_version ]
+
+        # Major/minor releases can also be created from Master
+        if args.major or args.minor:
+            valid_branches += [ 'master' ]
+
+        current_branch = self._get_current_branch()
+        if current_branch not in valid_branches:
+            # TODO: Re-enable forcing branch for new release
+            pass #return self.exit_with_error( 'You must be on one of the following branches in order to create a new release: {branches}', branches=', '.join( valid_branches ) )
+
+
+        # Update version
+        if args.patch:
+            current_version = self._increment_version( current_version, patch=True )
+            print 'New Version:', current_version
+            self._set_current_version( current_version, commit=True )
+        else:
+            print 'Major/minor release not implemented yet'
 
     
     def get_version( self, args ):
@@ -374,7 +398,24 @@ class AzoomeeApp:
         plistlib.writePlist( plist, self.IOS_PLIST_PATH )
 
         # android
-        print 'SET ANDROID VERSION NOT IMPLEMENTED YET'
+        gradle_file = os.path.join( self.ANDROID_PROJECT_DIR, 'app', 'build.gradle' )
+        gradle_str = None
+        with open( gradle_file, 'r' ) as fh:
+            gradle_str = fh.read()
+        
+        version_code_match = re.search( r'versionCode ([^\n]+)', gradle_str, flags=re.MULTILINE )
+        version_name_match = re.search( r'versionName "([\d.]+)"', gradle_str, flags=re.MULTILINE )
+        
+        version_code_new = 'versionCode %s' % build_version
+        version_name_new = 'versionName "%s"' % new_version
+
+        # Replace
+        gradle_str = gradle_str.replace( version_code_match.group( 0 ), version_code_new )
+        gradle_str = gradle_str.replace( version_name_match.group( 0 ), version_name_new )
+
+        # Save out new gradle file
+        with open( gradle_file, 'w+' ) as fh:
+            fh.write( gradle_str )
 
         # Commit automatically?
         if commit:
@@ -465,7 +506,7 @@ class AzoomeeApp:
         """
         full_command = command.format( **kwargs )
         print full_command
-        return os.system( full_command )
+        return 0 #return os.system( full_command )
     
     
     def exit_with_error( self, error, **kwargs ):
