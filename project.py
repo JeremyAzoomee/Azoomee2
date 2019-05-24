@@ -168,7 +168,7 @@ class AzoomeeApp:
         major_minor_version = current_version[ 0 : current_version.rfind('.') ]
         required_branch = 'release/' + major_minor_version
         if current_branch != required_branch:
-            preturn self.exit_with_error( 'You must be on the branch "{branch}" in order to deploy this version.', branch=required_branch )
+            return self.exit_with_error( 'You must be on the branch "{branch}" in order to deploy this version.', branch=required_branch )
 
         # Do we need to update the version?
         if args.patch:
@@ -265,6 +265,9 @@ class AzoomeeApp:
         elif platform == 'googleplay':
             self._check_android_environment()
             build_config = 'release'
+            environment = 'prod'
+            product = 'googleplay'
+            build_variant = product + environment.capitalize()
 
             # Delete any existing built files for this version
             shutil.rmtree( os.path.join( platform_build_dir, build_name + '.apk' ), ignore_errors=True )
@@ -272,9 +275,10 @@ class AzoomeeApp:
 
             restore_cwd = os.getcwd()
 
+            # Build APK
             try:
                 os.chdir( self.ANDROID_PROJECT_DIR )
-                gradle_cmd = 'assemble{build_config} crashlyticsUploadSymbols{build_config}'.format( build_config=build_config.capitalize() )
+                gradle_cmd = 'assemble{variant} crashlyticsUploadSymbols{variant}'.format( variant=build_variant.capitalize() + build_config.capitalize() )
                 success = self.exec_system_command( './gradlew {gradle_command}', gradle_command=gradle_cmd )
                 if success != 0:
                     return self.exit_with_error( 'Gradle APK build failed with error {code}', code=success )
@@ -284,14 +288,16 @@ class AzoomeeApp:
                 os.chdir( restore_cwd )
 
             # Copy APK
-            apk_name = 'Azoomee-%s.apk' % build_config
-            apk_source_path = os.path.join( self.ANDROID_BUILD_OUTPUTS_DIR, 'apk', build_config, apk_name )
+            apk_name = 'Azoomee-{product}-{environment}-{config}.apk'.format( product=product, environment=environment, config=build_config )
+            apk_source_path = os.path.join( self.ANDROID_BUILD_OUTPUTS_DIR, 'apk', build_variant, build_config, apk_name )
             apk_dest_path = os.path.join( platform_build_dir, build_name + '.apk' )
             shutil.copyfile( apk_source_path, apk_dest_path )
 
+
+            # Build Bundle
             try:
                 os.chdir( self.ANDROID_PROJECT_DIR )
-                success = self.exec_system_command( './gradlew {gradle_command}', gradle_command=':Azoomee:bundle' + build_config.capitalize() )
+                success = self.exec_system_command( './gradlew {gradle_command}', gradle_command=':Azoomee:bundle' + build_variant.capitalize() + build_config.capitalize() )
                 if success != 0:
                     return self.exit_with_error( 'Gradle BUNDLE build failed with error {code}', code=success )
             except Exception as e:
@@ -301,7 +307,7 @@ class AzoomeeApp:
 
             # Copy Bundle
             bundle_name = 'Azoomee.aab'
-            bundle_source_path = os.path.join( self.ANDROID_BUILD_OUTPUTS_DIR, 'bundle', build_config, bundle_name )
+            bundle_source_path = os.path.join( self.ANDROID_BUILD_OUTPUTS_DIR, 'bundle', build_variant + build_config.capitalize(), bundle_name )
             bundle_dest_path = os.path.join( platform_build_dir, build_name + '.aab' )
             shutil.copyfile( bundle_source_path, bundle_dest_path )
         else:
