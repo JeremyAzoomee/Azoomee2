@@ -139,6 +139,53 @@ android {
             ext.enableCrashlytics = false
         }
     }
+
+    flavorDimensions "product", "environment"
+
+    productFlavors {
+        // product
+        googleplay {
+            dimension "product"
+        }
+
+        amazon {
+            dimension "product"
+            versionNameSuffix "-amazon"
+
+            externalNativeBuild {
+                ndkBuild {
+                    arguments 'AZOOMEE_AMAZON_BUILD=1'
+                }
+            }
+        }
+
+        vodacom {
+            dimension "product"
+            versionNameSuffix "-vodacom"
+
+            externalNativeBuild {
+                ndkBuild {
+                    arguments 'AZOOMEE_VODACOM_BUILD=1'
+                }
+            }
+        }
+
+        // environment
+        prod {
+            dimension "environment"
+        }
+
+        ci {
+            dimension "environment"
+            applicationIdSuffix ".ci"
+
+            externalNativeBuild {
+                ndkBuild {
+                    arguments 'AZOOMEE_ENVIRONMENT_CI=1'
+                }
+            }
+        }
+    }
 }
 
 android.applicationVariants.all { variant ->
