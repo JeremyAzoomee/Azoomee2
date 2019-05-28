@@ -27,6 +27,8 @@ public:
 	
     virtual void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body) override;
     virtual void onHttpRequestFailed(const std::string& requestTag, long errorCode) override;
+	
+	bool _oomeeMakerFromShop = false;
 };
 
 NS_AZOOMEE_END

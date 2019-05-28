@@ -68,6 +68,18 @@ bool MeHQ::init()
 
 void MeHQ::onEnter()
 {
+	if(!TutorialController::getInstance()->isTutorialCompleted(TutorialController::kFTUOomeeTutorialID))
+	{
+		TutorialController::getInstance()->startTutorial(TutorialController::kFTUOomeeTutorialID);
+	}
+	else if(!TutorialController::getInstance()->isTutorialCompleted(TutorialController::kFTUShopID))
+	{
+		if(ChildDataProvider::getInstance()->getLoggedInChild()->getInventory()->getCoins() > 0)
+		{
+			TutorialController::getInstance()->startTutorial(TutorialController::kFTUShopID);
+		}
+	}
+	
     Super::onEnter();
     if(_previousLayer != kProfileLayerName)
     {
@@ -81,6 +93,10 @@ void MeHQ::onEnter()
 
 void MeHQ::onExit()
 {
+	if(TutorialController::getInstance()->isTutorialActive() && (TutorialController::getInstance()->getCurrentState() == TutorialController::kCreateOomee || TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUSpendRewards))
+	{
+		TutorialController::getInstance()->endTutorial();
+	}
     _previousLayer = _contentListView->getCenterItemInCurrentView()->getName();
     cocos2d::log("Center Layer: %s",_previousLayer.c_str());
     Super::onExit();
@@ -229,6 +245,20 @@ void MeHQ::refreshGalleryLayout()
 float MeHQ::getScrollPercent()
 {
     return _contentListView->getScrolledPercentVertical();
+}
+
+void MeHQ::onTutorialStateChanged(const std::string& stateId)
+{
+	if(stateId == TutorialController::kFTUSpendRewards)
+	{
+		Sprite* hand = Sprite::create("res/tutorial/Pointer.png");
+		hand->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+		hand->setPosition(Vec2(_coinDisplay->getContentSize().width / 2, 0));
+		_coinDisplay->addChild(hand,1);
+		hand->setScale(0.5f);
+		hand->runAction(RepeatForever::create(Sequence::createWithTwoActions(MoveBy::create(1.0f, Vec2(0, -25)), MoveBy::create(1.0f, Vec2(0, 25)))));
+		hand->runAction(RepeatForever::create(Sequence::createWithTwoActions(ScaleTo::create(1.0f, 0.7f), ScaleTo::create(1.0f, 0.5f))));
+	}
 }
 
 NS_AZOOMEE_END

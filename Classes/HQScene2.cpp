@@ -578,11 +578,7 @@ void HQScene2::enableContent()
 
 void HQScene2::onTutorialStateChanged(const std::string& stateId)
 {
-	if(stateId == TutorialController::kFTUGameHQNav || stateId == TutorialController::kFTUVideoHQNav || stateId == TutorialController::kFTUGroupHQBack)
-	{
-		disableContent();
-	}
-	else if(stateId == TutorialController::kFTUGameHQContent)
+	if(stateId == TutorialController::kFTUGameHQContent)
 	{
 		if(_hqCategory == ConfigStorage::kGameHQName)
 		{

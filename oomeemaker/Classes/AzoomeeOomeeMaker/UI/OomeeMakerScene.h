@@ -40,6 +40,8 @@ private:
     
     cocos2d::ui::Button* _undoButton = nullptr;
 	cocos2d::ui::Button* _makeAvatarButton = nullptr;
+	cocos2d::ui::Button* _exitButton = nullptr;
+	cocos2d::ui::Button* _resetOomeeButton = nullptr;
 	
     cocos2d::ui::Slider* _itemSlider = nullptr;
     

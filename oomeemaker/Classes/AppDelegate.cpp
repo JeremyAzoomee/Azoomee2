@@ -53,7 +53,6 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     // Set the design resolution
     glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::NO_BORDER);
-
     register_all_packages();
 
     const Size& visibleSize = Director::getInstance()->getVisibleSize();

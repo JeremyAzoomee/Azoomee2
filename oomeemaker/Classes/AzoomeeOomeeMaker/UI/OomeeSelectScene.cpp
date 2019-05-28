@@ -32,13 +32,6 @@ void OomeeSelectScene::newOomee()
     makerScene->setIsNewOomee(true);
     Director::getInstance()->replaceScene(makerScene);
 	
-	if(TutorialController::getInstance()->isTutorialActive())
-	{
-		if(TutorialController::getInstance()->getCurrentState() == TutorialController::kCreateOomee)
-		{
-			TutorialController::getInstance()->nextStep();
-		}
-	}
 }
 
 bool OomeeSelectScene::init()
@@ -127,7 +120,7 @@ void OomeeSelectScene::onEnter()
 		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
 	}
 	OomeeMakerDataHandler::getInstance()->getLatestData([this](bool success){
-		if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kCreateOomee)
+		if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kConfirmOomee)
 		{
 			OomeeSelectScene::newOomee();
 		}

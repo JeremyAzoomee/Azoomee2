@@ -464,6 +464,16 @@ void TextInputLayer::setPlaceholderText(const std::string &placeholder)
 	editBox->setPlaceHolder(placeholder.c_str());
 }
 
+void TextInputLayer::setKeyboardAlwaysShown(bool alwaysShowKeyboard)
+{
+	_alwaysShowKeyboard = alwaysShowKeyboard;
+	if(alwaysShowKeyboard)
+	{
+		focusAndShowKeyboard();
+	}
+	
+}
+	
 //--------------- EditBox Delegate Fuctions --------------------------------
 
 void TextInputLayer::editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text)
@@ -519,6 +529,11 @@ void TextInputLayer::editBoxEditingDidBegin(cocos2d::ui::EditBox* editBox)
 void TextInputLayer::editBoxEditingDidEnd(cocos2d::ui::EditBox* editBox)
 {
     Director::getInstance()->getRunningScene()->setPositionY(0); // move scene back to origin height, in case it was shifted up to accomodate for keyboard overlapping text input
+	if(_alwaysShowKeyboard)
+	{
+		focusAndShowKeyboard();
+		return;
+	}
     if(this->getDelegate())
     {
         //Inform Delegates if input is valid

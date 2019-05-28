@@ -65,6 +65,7 @@ private:
     cocos2d::ui::Scale9Sprite* editBoxAreaError = nullptr;
     
     int textInputType;
+	bool _alwaysShowKeyboard = false;
     
 public:
     virtual bool init();
@@ -101,6 +102,8 @@ public:
     void setEnabled(bool enabled);
 	
 	void setPlaceholderText(const std::string& placeholder);
+	
+	void setKeyboardAlwaysShown(bool alwaysShowKeyboard);
 	
     //Editbox Delegate Functions
     void editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text);

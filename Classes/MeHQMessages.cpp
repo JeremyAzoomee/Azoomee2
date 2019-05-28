@@ -388,7 +388,7 @@ void MeHQMessages::onChatAPIErrorRecieved(const std::string& requestTag, long er
 
 void MeHQMessages::onTutorialStateChanged(const std::string& stateId)
 {
-	enableButtons(stateId == TutorialController::kTutorialEnded);
+	
 }
 
 NS_AZOOMEE_END

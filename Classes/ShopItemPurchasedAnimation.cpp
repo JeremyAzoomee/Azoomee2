@@ -70,7 +70,7 @@ void ShopItemPurchasedAnimation::onEnter()
 		{
 			//set item meta id in oomee maker delegate
 			OomeeMakerDelegate::getInstance()->_newAccessoryId = _itemData->getInventoryItem()->getMeta();
-			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OomeeMakerEntryPointScene));
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OomeeMakerEntryPointSceneFromShop));
 		}
 	})));
 	

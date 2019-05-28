@@ -346,7 +346,7 @@ void MeHQFavourites::onCancelPressed(ConfirmCancelMessageBox *pSender)
 
 void MeHQFavourites::onTutorialStateChanged(const std::string& stateId)
 {
-	enableButtons(stateId == TutorialController::kTutorialEnded);
+	
 }
 
 NS_AZOOMEE_END
