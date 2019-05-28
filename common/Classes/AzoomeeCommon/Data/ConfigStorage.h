@@ -139,10 +139,6 @@ public:
     std::vector<cocos2d::Point> getMainHubPositionForHighlightElements(const std::string& categoryName);
     std::string getRequiredTypesForHighlightCategory(int category);
     
-    //OomeeLayer animation states
-    std::string getGreetingAnimation();
-    std::string getRandomIdForAnimationType(const std::string& animationType);
-    
     //Android helper for arts app
     int inArtsApp;
 
@@ -187,7 +183,6 @@ private:
     rapidjson::Document BaseSceneConfiguration;
     rapidjson::Document HQSceneConfiguration;
     rapidjson::Document NavigationConfiguration;
-    rapidjson::Document OomeeAnimationTypes;
     rapidjson::Document OomeeConfiguration;
     rapidjson::Document VersionConfiguration;
     rapidjson::Document IapConfiguration;

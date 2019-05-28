@@ -72,11 +72,7 @@ public:
     static ElectricDreamsButton* createWindowCloseButton();
     static ElectricDreamsButton* createWindowCloseButtonGreen();
     static ElectricDreamsButton* createWhiteWindowCloselButton();
-    static ElectricDreamsButton* createPlaceHolderButton();
-    static ElectricDreamsButton* createPlaceHolderButton(float withWidth);
     static ElectricDreamsButton* createPlaceHolderGreenButton(float withWidth);
-    static ElectricDreamsButton* createChildSelectorButton();
-    static ElectricDreamsButton* createTabButton(std::string buttonText);
     static ElectricDreamsButton* createChevronLeftButton();
     static ElectricDreamsButton* createChevronRightButton();
     
@@ -84,8 +80,6 @@ public:
     
     static ElectricDreamsButton* createKidCodeShareButton(std::string kidCode, float buttonWidth);
     static ElectricDreamsButton* createGreenButton(std::string buttonText, float buttonWidth);
-    static ElectricDreamsButton* createTextInputAsButton(std::string buttonText, float buttonWidth);
-    static ElectricDreamsButton* createSendButton();
     static ElectricDreamsButton* createRedOutlineButton(std::string buttonText, float buttonWidth);
     static ElectricDreamsButton* createRedFilledButton(std::string buttonText, float buttonWidth);
     
