@@ -45,9 +45,39 @@ bool ContentFeedHQScene::init()
 }
 void ContentFeedHQScene::onEnter()
 {
+	if(_hqCategory == ConfigStorage::kVideoHQName)
+	{
+		if(!TutorialController::getInstance()->isTutorialActive())
+		{
+			if(!TutorialController::getInstance()->isTutorialCompleted(TutorialController::kFTUWatchVideoID))
+			{
+				TutorialController::getInstance()->startTutorial(TutorialController::kFTUWatchVideoID);
+			}
+		}
+	}
+	else if(_hqCategory == ConfigStorage::kGameHQName)
+	{
+		if(!TutorialController::getInstance()->isTutorialActive())
+		{
+			if(!TutorialController::getInstance()->isTutorialCompleted(TutorialController::kFTUPlayGameID))
+			{
+				TutorialController::getInstance()->startTutorial(TutorialController::kFTUPlayGameID);
+			}
+		}
+	}
+	
 	createContentScrollview();
 	
 	Super::onEnter();
+}
+
+void ContentFeedHQScene::onExit()
+{
+	if(TutorialController::getInstance()->isTutorialActive() && (TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUVideoHQContent || TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUGameHQContent))
+	{
+		TutorialController::getInstance()->endTutorial();
+	}
+	Super::onExit();
 }
 
 void ContentFeedHQScene::createContentScrollview()
@@ -113,6 +143,23 @@ void ContentFeedHQScene::createContentScrollview()
 			if(elementPosition.y < lowestElementYPosition)
 			{
 				lowestElementYPosition = elementPosition.y;
+			}
+			
+			if(rowIndex == 0 && elementIndex == 0)
+			{
+				if(TutorialController::getInstance()->isTutorialActive() && (TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUVideoHQContent || TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUGameHQContent || TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUGroupHQContent))
+				{
+					hqSceneElement->setLocalZOrder(1);
+					
+					Sprite* hand = Sprite::create("res/tutorial/Pointer.png");
+					hand->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+					hand->setRotation(-15.0f);
+					hand->setPosition(hqSceneElement->getContentSize() / 2);
+					hqSceneElement->addChild(hand,1);
+					hand->setScale((contentItemSize.height * unitMultiplier * 0.5f) / hand->getContentSize().height);
+					hand->runAction(RepeatForever::create(Sequence::createWithTwoActions(MoveBy::create(1.0f, Vec2(hqSceneElement->getContentSize().width * 0.05f, -hqSceneElement->getContentSize().height * 0.1f)), MoveBy::create(1.0f, Vec2(-hqSceneElement->getContentSize().width * 0.05f, hqSceneElement->getContentSize().height * 0.1f)))));
+					hand->runAction(RepeatForever::create(Sequence::createWithTwoActions(ScaleTo::create(1.0f, hand->getScale() * 1.2f), ScaleTo::create(1.0f, hand->getScale()))));
+				}
 			}
 		}
 		
@@ -201,6 +248,11 @@ void ContentFeedHQScene::createContentScrollview()
 		backButton->addTouchEventListener([&](Ref* pSender, ui::Button::TouchEventType eType){
 			if(eType == ui::Button::TouchEventType::ENDED)
 			{
+				if(TutorialController::getInstance()->isTutorialActive() &&  TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUGroupHQContent)
+				{
+					TutorialController::getInstance()->endTutorial();
+				}
+				
 				HQHistoryManager::getInstance()->popHQ();
 				Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
 			}

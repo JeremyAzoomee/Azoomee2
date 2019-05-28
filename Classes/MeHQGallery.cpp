@@ -328,7 +328,7 @@ void MeHQGallery::onCancelPressed(ConfirmCancelMessageBox *pSender)
 
 void MeHQGallery::onTutorialStateChanged(const std::string& stateId)
 {
-	enableButtons(stateId == TutorialController::kTutorialEnded);
+	
 }
 
 

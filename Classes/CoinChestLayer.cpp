@@ -30,15 +30,17 @@ bool CoinChestLayer::init()
 	_bgColour = LayerColor::create(Color4B(0,7,4,255));
 	this->addChild(_bgColour, -1);
 	
+	const Size& landscapeSize = isPortrait ? Size(contentSize.height, contentSize.width) : contentSize;
+	
 	_wires = Sprite::create("res/rewards/big_wires.png");
 	_wires->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	_wires->setScale(MAX(contentSize.width, contentSize.height) / _wires->getContentSize().width);
+	_wires->setScale(MAX(landscapeSize.width / _wires->getContentSize().width, landscapeSize.height / _wires->getContentSize().height));
 	_wires->setRotation(isPortrait ? 90 : 0);
 	this->addChild(_wires, -1);
 	
 	_wireGlow = Sprite::create("res/rewards/big_wires_glow.png");
 	_wireGlow->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	_wireGlow->setScale(MAX(contentSize.width, contentSize.height) / _wireGlow->getContentSize().width);
+	_wireGlow->setScale(MAX(landscapeSize.width / _wireGlow->getContentSize().width, landscapeSize.height / _wireGlow->getContentSize().height));
 	_wireGlow->setRotation(isPortrait ? 90 : 0);
 	_wireGlow->setOpacity(0);
 	this->addChild(_wireGlow, -1);
@@ -53,7 +55,11 @@ void CoinChestLayer::onEnter()
 	_wires->runAction(FadeOut::create(_duration));
 	_wireGlow->runAction(FadeIn::create(_duration));
 	
-	AudioMixer::getInstance()->playEffect("Rewards_Anim_Chest.wav");
+	AudioMixer::getInstance()->playEffect("Blip.mp3");
+	this->runAction(Sequence::createWithTwoActions(DelayTime::create(0.5), CallFunc::create([](){
+		AudioMixer::getInstance()->playEffect("Big Win.mp3");
+	})));
+	
 	
 	Super::onEnter();
 }
@@ -77,9 +83,11 @@ void CoinChestLayer::onSizeChanged()
 	}
 	if(_wires)
 	{
-		_wires->setScale(MAX(visibleSize.width, visibleSize.height) / _wires->getContentSize().width);
+		const Size& landscapeSize = isPortrait ? Size(visibleSize.height, visibleSize.width) : visibleSize;
+		
+		_wires->setScale(MAX(landscapeSize.width / _wires->getContentSize().width, landscapeSize.height / _wires->getContentSize().height));
 		_wires->setRotation(isPortrait ? 90 : 0);
-		_wireGlow->setScale(MAX(visibleSize.width, visibleSize.height) / _wires->getContentSize().width);
+		_wireGlow->setScale(MAX(landscapeSize.width / _wireGlow->getContentSize().width, landscapeSize.height / _wireGlow->getContentSize().height));
 		_wireGlow->setRotation(isPortrait ? 90 : 0);
 	}
 }

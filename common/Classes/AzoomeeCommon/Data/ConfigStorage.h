@@ -167,6 +167,8 @@ public:
     bool isDeviceIphoneX() const;
     void setIsDevice18x9(bool isDevice18x9);
     bool isDevice18x9() const;
+	void setIsDevicePhone(bool isPhone);
+	bool isDevicePhone() const;
     
     //Set keyboard height for chat
     void setEstimatedKeyboardHeight(float size);
@@ -192,6 +194,7 @@ private:
     
     bool _isDeviceIphoneX = false;
     bool _isDevice18x9 = false;
+	bool _isDevicePhone = false;
     
     std::string _osManufacturer = "";
     std::string _clientIp = "";

@@ -218,12 +218,9 @@ void HQSceneElement::addHQSceneElement() //This method is being called by HQScen
 					break;
 				}
 				
-				if(TutorialController::getInstance()->isTutorialActive())
+				if(TutorialController::getInstance()->isTutorialActive() && (TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUVideoHQContent || TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUGameHQContent || TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUGroupHQContent))
 				{
-					if(_showHighlight)
-					{
-						TutorialController::getInstance()->nextStep();
-					}
+					TutorialController::getInstance()->nextStep();
 				}
 				
 				if(!_elementItemData->isEntitled())

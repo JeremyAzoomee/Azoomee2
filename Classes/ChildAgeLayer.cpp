@@ -8,6 +8,7 @@
 #include "ChildAgeLayer.h"
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/Tutorial/TutorialController.h>
 
 using namespace cocos2d;
 
@@ -49,13 +50,17 @@ void ChildAgeLayer::onEnter()
 	
 	const std::vector<std::string>& ageStrings = isPortrait ? std::vector<std::string>{"9","10+","7","8","5","6","3","4"} : std::vector<std::string>{"7","8","9","10+","3","4","5","6"};
 	
+	const Vec2& gridSize = isPortrait ? Vec2(2,4) : Vec2(4,2);
+	
 	Node* buttonHolder = Node::create();
-	buttonHolder->setContentSize(isPortrait ? Size(contentSize.width * 0.6f, MIN(contentSize.height * 0.65f, contentSize.width * 1.2f)) : Size(contentSize.height * 1.0f, contentSize.height * 0.5f));
+	buttonHolder->setContentSize(Size(350 * gridSize.x, 350 * gridSize.y));
+	//buttonHolder->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+	//buttonHolder->setPosition(textInputTitle->getPosition() - Vec2(0,textInputTitle->getContentSize().height * 1.25f));
 	buttonHolder->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-	buttonHolder->setPosition(textInputTitle->getPosition() - Vec2(0,textInputTitle->getContentSize().height * 1.25f));
+	buttonHolder->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	this->addChild(buttonHolder);
 	
-	const Vec2& gridSize = isPortrait ? Vec2(2,4) : Vec2(4,2);
+	
 	
 	for(int i = 0; i < ageStrings.size(); i++)
 	{
@@ -71,6 +76,7 @@ void ChildAgeLayer::onEnter()
 		ui::Button* ageButton = ui::Button::create(buttonAsset);
 		ageButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 		ageButton->setNormalizedPosition(Vec2((col + 0.5) / gridSize.x, (row + 0.5f) / gridSize.y));
+		ageButton->setColor(Style::Color::skyBlue);
 		ageButton->addTouchEventListener([this, ageButton, age](Ref* pSender, ui::Widget::TouchEventType eType){
 			if(eType == ui::Widget::TouchEventType::ENDED)
 			{
@@ -85,7 +91,7 @@ void ChildAgeLayer::onEnter()
 			}
 		});
 		
-		Label* ageLab = Label::createWithTTF(ageStrings.at(i), Style::Font::Bold(), 75);
+		Label* ageLab = Label::createWithTTF(ageStrings.at(i), Style::Font::Bold(), 91);
 		ageLab->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 		ageLab->setHorizontalAlignment(TextHAlignment::CENTER);
 		ageLab->setVerticalAlignment(TextVAlignment::CENTER);
@@ -99,9 +105,10 @@ void ChildAgeLayer::onEnter()
 		_ageButtons.push_back(ageButton);
 	}
 
-    _continueButton = ui::Button::create("res/login/next_btnGreen.png");
-    _continueButton->setAnchorPoint(Vec2(1.25f,1.25f));
-    _continueButton->setPosition(contentSize);
+    _continueButton = ui::Button::create("res/buttons/blue_arrow_button.png");
+    _continueButton->setAnchorPoint(Vec2(-0.25f,-1.25f));
+    //_continueButton->setPosition(contentSize);
+	_continueButton->setNormalizedPosition(Vec2(0.5, 0.0));
     _continueButton->setTouchEnabled(_childCreator->getAge() > 0);
     _continueButton->setOpacity(_childCreator->getAge() > 0 ? 255 : 125);
     _continueButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType)
@@ -119,9 +126,10 @@ void ChildAgeLayer::onEnter()
     });
     this->addChild(_continueButton);
     
-    ui::Button* backButton = ui::Button::create("res/login/back_btnGreen.png");
-    backButton->setAnchorPoint(Vec2(-0.25f,1.25f));
-    backButton->setPosition(Vec2(0, contentSize.height));
+    ui::Button* backButton = ui::Button::create("res/buttons/blue_arrow_back.png");
+    backButton->setAnchorPoint(Vec2(1.25f,-1.25f));
+    //backButton->setPosition(Vec2(0, contentSize.height));
+	backButton->setNormalizedPosition(Vec2(0.5,0.0f));
     backButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType)
     {
         if(eType == ui::Widget::TouchEventType::ENDED)
@@ -138,7 +146,17 @@ void ChildAgeLayer::onEnter()
     progressIcon->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     progressIcon->setPosition(Vec2(contentSize.width / 2.0f, progressIcon->getContentSize().height));
     this->addChild(progressIcon);
-    
+	
+	if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kAgeEntry)
+	{
+		title->setVisible(false);
+		textInputTitle->setVisible(false);
+		progressIcon->setVisible(false);
+		buttonHolder->setPosition(textInputTitle->getPosition() - Vec2(0,textInputTitle->getContentSize().height));
+		TutorialController::getInstance()->displayMessageForTutorialState(StringUtils::format(_("Hi %s! How old are you?").c_str(), _childCreator->getName().c_str()));
+		TutorialController::getInstance()->highlightMessageString(_childCreator->getName() + "!", Color3B(255, 128, 13));
+	}
+	
     Super::onEnter();
 }
 

@@ -113,9 +113,11 @@ void CoinCollectLayer::onSizeChanged()
 	}
 	if(_wires)
 	{
-		_wires->setScale(MAX(visibleSize.width, visibleSize.height) / _wires->getContentSize().width);
+		const Size& landscapeSize = isPortrait ? Size(visibleSize.height, visibleSize.width) : visibleSize;
+		
+		_wires->setScale(MAX(landscapeSize.width / _wires->getContentSize().width, landscapeSize.height / _wires->getContentSize().height));
 		_wires->setRotation(isPortrait ? 90 : 0);
-		_wireGlow->setScale(MAX(visibleSize.width, visibleSize.height) / _wires->getContentSize().width);
+		_wireGlow->setScale(MAX(landscapeSize.width / _wireGlow->getContentSize().width, landscapeSize.height / _wireGlow->getContentSize().height));
 		_wireGlow->setRotation(isPortrait ? 90 : 0);
 	}
 	
@@ -190,15 +192,17 @@ void CoinCollectLayer::addBackground()
 	_bottomGradient->setRotation(180);
 	this->addChild(_bottomGradient);
 	
+	const Size& landscapeSize = isPortrait ? Size(contentSize.height, contentSize.width) : contentSize;
+	
 	_wires = Sprite::create("res/rewards/big_wires.png");
 	_wires->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	_wires->setScale(MAX(contentSize.width, contentSize.height) / _wires->getContentSize().width);
+	_wires->setScale(MAX(landscapeSize.width / _wires->getContentSize().width, landscapeSize.height / _wires->getContentSize().height));
 	_wires->setRotation(isPortrait ? 90 : 0);
 	this->addChild(_wires, -1);
 	
 	_wireGlow = Sprite::create("res/rewards/big_wires_glow.png");
 	_wireGlow->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	_wireGlow->setScale(MAX(contentSize.width, contentSize.height) / _wireGlow->getContentSize().width);
+	_wireGlow->setScale(MAX(landscapeSize.width / _wireGlow->getContentSize().width, landscapeSize.height / _wireGlow->getContentSize().height));
 	_wireGlow->setRotation(isPortrait ? 90 : 0);
 	_wireGlow->setOpacity(0);
 	this->addChild(_wireGlow, -1);
@@ -247,7 +251,7 @@ void CoinCollectLayer::addPlinth()
 	_smoke->setPosition(Vec2(_plinth->getPositionX(), 0));
 	this->addChild(_smoke);
 	
-	_plinthAudioId = AudioMixer::getInstance()->playEffect("Rewards_Anim_Plinth_Up.mp3");
+	_plinthAudioId = AudioMixer::getInstance()->playEffect("Triple Win.mp3");
 }
 void CoinCollectLayer::addCoinCounter()
 {
@@ -279,12 +283,12 @@ void CoinCollectLayer::addCoinCounter()
 	_valueLabel->setDimensions(_counterFrame->getContentSize().width * 0.8f, _counterFrame->getContentSize().height * 0.8f);
 	_counterFrame->addChild(_valueLabel);
 	
-	const float animDur = _duration * 0.65f;
+	const float animDur = _duration * 0.67f;
 	
 	_incPerSec = _rewardAmount / animDur;
 	_displayValue = 0;
 	
-	const float delays[3] = {0.0f,0.33f,0.66f};
+	const float delays[4] = {0.0f,0.25f,0.5f, 0.75f};
 	
 	for(int i = 0; i < animDur - 1; i++)
 	{
@@ -295,7 +299,9 @@ void CoinCollectLayer::addCoinCounter()
 			this->addChild(coin);
 		}
 	}
-	AudioMixer::getInstance()->playEffect("Rewards_Anim_CoinsCountUp.wav");
+	this->runAction(Sequence::createWithTwoActions(DelayTime::create(0.25), CallFunc::create([](){
+		AudioMixer::getInstance()->playEffect("Slot Machine Win Count.mp3");
+	})));
 }
 
 cocos2d::ParticleSystemQuad* CoinCollectLayer::createSparkleParticles(const Vec2& emissionArea)
@@ -384,8 +390,8 @@ Sprite* CoinCollectLayer::createCoinWithDelay(float delay)
 {
 	Sprite* coin = Sprite::create("res/rewards/coin.png");
 	coin->setScale(0);
-	coin->runAction(Sequence::createWithTwoActions(DelayTime::create(delay),MoveTo::create(1, _mainCoin->getPosition())));
-	coin->runAction(Sequence::createWithTwoActions(DelayTime::create(delay), ScaleTo::create(1, 2.5)));
+	coin->runAction(Sequence::createWithTwoActions(DelayTime::create(delay),MoveTo::create(0.5, _mainCoin->getPosition())));
+	coin->runAction(Sequence::createWithTwoActions(DelayTime::create(delay), ScaleTo::create(0.5, 2.5)));
 	coin->setName("coin");
 	return coin;
 }
