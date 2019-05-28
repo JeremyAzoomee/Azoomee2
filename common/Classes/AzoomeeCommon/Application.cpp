@@ -88,6 +88,8 @@ bool Application::applicationDidFinishLaunching()
     auto frameSize = glview->getFrameSize();
     applicationScreenSizeChanged(frameSize.width, frameSize.height);
 
+	ConfigStorage::getInstance()->setIsDevicePhone(MAX(frameSize.width, frameSize.height) / MIN(frameSize.width, frameSize.height) > 16.0f / 10.0f);
+	
     return true;
 }
 

@@ -16,6 +16,7 @@
 #include <AzoomeeCommon/Data/Child/ChildDataParser.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Tutorial/TutorialController.h>
 
 using namespace cocos2d;
 
@@ -112,6 +113,15 @@ void ShopScene::onEnter()
 			_shopCarousel->setShopData(ShopDataHandler::getInstance()->getShop());
 		}
 	});
+	
+	if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUShopEarnMoreRewards)
+	{
+		runAction(Sequence::createWithTwoActions(DelayTime::create(8.0f), CallFunc::create([](){
+			TutorialController::getInstance()->setTutorialCompleted(TutorialController::kFTUPostPurchaseID);
+			TutorialController::getInstance()->nextStep();
+		})));
+	}
+	
 	Super::onEnter();
 }
 void ShopScene::onExit()

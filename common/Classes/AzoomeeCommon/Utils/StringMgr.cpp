@@ -32,8 +32,8 @@ const std::vector<LanguageParams> StringMgr::kLanguageParams = {
 const std::map<std::string, std::string> StringMgr::kDeviceLangConvMap = {
 	{"en", "en-GB"},
 	{"af", "afr"},
-	{"fr", "fre_FR"},
-	{"es", "spa_ES"},
+	{"fr", "fre-FR"},
+	{"es", "spa-ES"},
 	{"de", "ger-DE"},
 	{"pt", "por-PT"},
 	{"it", "ita-IT"},
