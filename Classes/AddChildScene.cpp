@@ -10,6 +10,7 @@
 #include "ChildNameLayer.h"
 #include "ChildAgeLayer.h"
 #include "ChildOomeeLayer.h"
+#include "ChildOomeeFTULayer.h"
 #include "SceneManagerScene.h"
 #include "FlowDataSingleton.h"
 #include "BackEndCaller.h"
@@ -17,8 +18,11 @@
 #include <AzoomeeCommon/ErrorCodes.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Tutorial/TutorialController.h>
+#include <AzoomeeCommon/Tutorial/TutorialMessagingNode.h>
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/UI/NotificationNodeDisplayManager.h>
+#include <AzoomeeCommon/UI/ModalMessages.h>
 
 using namespace cocos2d;
 
@@ -81,6 +85,11 @@ Azoomee::Scene* AddChildScene::createWithFlowStage(const AddChildFlow& flowStage
     }
 	else if(flowStage == AddChildFlow::ANON_NAME)
 	{
+		if(TutorialController::getInstance()->isTutorialActive())
+		{
+			TutorialController::getInstance()->endTutorial();
+		}
+		TutorialController::getInstance()->startTutorial(TutorialController::kFTUAddChildID);
 		scene->_addingAnonChild = true;
 	}
     return scene;
@@ -91,20 +100,23 @@ void AddChildScene::addBackground()
     const Size& contentSize = this->getContentSize();
     bool isPortrait = contentSize.height > contentSize.width;
     
-    LayerColor* bgColour = LayerColor::create(Color4B::BLACK, contentSize.width, contentSize.height);
+    LayerColor* bgColour = LayerColor::create(Color4B(0,7,4,255), contentSize.width, contentSize.height);
     this->addChild(bgColour);
     
-    auto wireLeft = Sprite::create(StringUtils::format("res/childSelection/wireLeft%s.png", isPortrait ? "_portrait" : ""));
-    wireLeft->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
-    wireLeft->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
-    wireLeft->setScale(contentSize.height / wireLeft->getContentSize().height);
-    this->addChild(wireLeft);
-    
-    auto wireRight = Sprite::create(StringUtils::format("res/childSelection/wireRight%s.png", isPortrait ? "_portrait" : ""));
-    wireRight->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
-    wireRight->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
-    wireRight->setScale(contentSize.height / wireRight->getContentSize().height);
-    this->addChild(wireRight);
+	Sprite* wires = Sprite::create("res/rewards/big_wires.png");
+	wires->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	wires->setScale(MAX(contentSize.width, contentSize.height) / wires->getContentSize().width);
+	wires->setRotation(isPortrait ? 90 : 0);
+	wires->setOpacity(65);
+	this->addChild(wires);
+	
+	Sprite* bottomGradient = Sprite::create("res/decoration/TopNavGrad.png");
+	bottomGradient->setContentSize(Size(this->getContentSize().width, 400));
+	bottomGradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	bottomGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+	bottomGradient->setColor(Style::Color::skyBlue);
+	bottomGradient->setRotation(180);
+	this->addChild(bottomGradient);
 }
 
 void AddChildScene::setSceneForFlow()
@@ -133,7 +145,14 @@ void AddChildScene::setSceneForFlow()
         }
         case AddChildFlow::OOMEE:
         {
-            nextLayer = ChildOomeeLayer::create();
+			if(_addingFirstChild)
+			{
+            	nextLayer = ChildOomeeFTULayer::create();
+			}
+			else
+			{
+				nextLayer = ChildOomeeLayer::create();
+			}
             break;
         }
 		case AddChildFlow::ANON_NAME:
@@ -148,7 +167,7 @@ void AddChildScene::setSceneForFlow()
 		}
 		case AddChildFlow::ANON_OOMEE:
 		{
-			nextLayer = ChildOomeeLayer::create();
+			nextLayer = ChildOomeeFTULayer::create();
 			break;
 		}
         default:
@@ -173,6 +192,15 @@ void AddChildScene::nextLayer()
     switch(_currentFlowStage)
     {
         case AddChildFlow::FIRST_TIME_SETUP_NAME:
+		{
+			if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kNameEntry)
+			{
+				TutorialController::getInstance()->nextStep();
+			}
+			_currentFlowStage = AddChildFlow::AGE;
+			setSceneForFlow();
+			break;
+		}
         case AddChildFlow::ADDITIONAL_NAME:
         {
             _currentFlowStage = AddChildFlow::AGE;
@@ -181,7 +209,12 @@ void AddChildScene::nextLayer()
         }
         case AddChildFlow::AGE:
         {
-             _childCreator->addChild();
+			if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kAgeEntry)
+			{
+				TutorialController::getInstance()->nextStep();
+			}
+			ModalMessages::getInstance()->startLoading();
+			_childCreator->addChild();
             break;
         }
         case AddChildFlow::OOMEE:
@@ -191,12 +224,21 @@ void AddChildScene::nextLayer()
         }
 		case AddChildFlow::ANON_NAME:
 		{
+			if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kNameEntry)
+			{
+				TutorialController::getInstance()->nextStep();
+			}
 			_currentFlowStage = AddChildFlow::ANON_AGE;
 			setSceneForFlow();
 			break;
 		}
 		case AddChildFlow::ANON_AGE:
 		{
+			if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kAgeEntry)
+			{
+				TutorialController::getInstance()->nextStep();
+			}
+			ModalMessages::getInstance()->startLoading();
 			_childCreator->updateChild(ParentDataProvider::getInstance()->getChild(0));
 			break;
 		}
@@ -227,6 +269,13 @@ void AddChildScene::prevLayer()
         case AddChildFlow::AGE:
         {
             _currentFlowStage = _addingFirstChild ? AddChildFlow::FIRST_TIME_SETUP_NAME : AddChildFlow::ADDITIONAL_NAME;
+			if(_currentFlowStage == AddChildFlow::FIRST_TIME_SETUP_NAME)
+			{
+				if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kAgeEntry)
+				{
+					TutorialController::getInstance()->startTutorial(TutorialController::kFTUAddChildID);
+				}
+			}
             setSceneForFlow();
             break;
         }
@@ -242,12 +291,20 @@ void AddChildScene::prevLayer()
         }
 		case AddChildFlow::ANON_AGE:
 		{
+			if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kAgeEntry)
+			{
+				TutorialController::getInstance()->startTutorial(TutorialController::kFTUAddChildID);
+			}
 			_currentFlowStage = AddChildFlow::ANON_NAME;
 			setSceneForFlow();
 			break;
 		}
 		case AddChildFlow::ANON_NAME:
 		{
+			if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kNameEntry)
+			{
+				TutorialController::getInstance()->endTutorial();
+			}
 			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
 		}
         default:
@@ -280,6 +337,7 @@ void AddChildScene::onHttpRequestSuccess(const std::string& requestTag, const st
 		_currentFlowStage = AddChildFlow::ANON_OOMEE;
 		setSceneForFlow();
 	}
+	ModalMessages::getInstance()->stopLoading();
 }
 
 void AddChildScene::onHttpRequestFailed(const std::string& requestTag, long errorCode)
@@ -291,6 +349,7 @@ void AddChildScene::onHttpRequestFailed(const std::string& requestTag, long erro
     AnalyticsSingleton::getInstance()->childProfileCreatedErrorEvent(errorCode);
 	FlowDataSingleton::getInstance()->setErrorCode(errorCode);
 	Director::getInstance()->replaceScene(SceneManagerScene::createScene(_currentFlowStage == AddChildFlow::ANON_AGE ? SceneNameEnum::Base : SceneNameEnum::ChildSelector));
+	ModalMessages::getInstance()->stopLoading();
 }
 
 NS_AZOOMEE_END

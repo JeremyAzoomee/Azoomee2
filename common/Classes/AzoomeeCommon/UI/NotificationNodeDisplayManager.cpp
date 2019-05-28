@@ -49,6 +49,8 @@ void NotificationNodeDisplayManager::init()
 void NotificationNodeDisplayManager::onSizeChanged()
 {
 	_notificationNode->onSizeChanged();
+	_rewardLayer->setContentSize(Director::getInstance()->getVisibleSize());
+	_messagingLayer->setContentSize(Director::getInstance()->getVisibleSize());
 	for(auto* child : _rewardLayer->getChildren())
 	{
 		ResizeNode* resizeNode = dynamic_cast<ResizeNode*>(child);

@@ -19,6 +19,7 @@ enum class SceneNameEnum {
     WebviewLandscape,
     ArtAppEntryPointScene,
     OomeeMakerEntryPointScene,
+	OomeeMakerEntryPointSceneFromShop,
     SettingsFromChat,
     SettingsFromHQ,
 	SettingsFromChildSelect,

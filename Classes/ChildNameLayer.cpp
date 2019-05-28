@@ -36,7 +36,8 @@ void ChildNameLayer::onEnter()
     this->addChild(title);
     
     _textInput = TextInputLayer::createWithSize(Size(contentSize.width * 0.75f, 160), INPUT_IS_CHILD_NAME);
-    _textInput->setCenterPosition(Vec2(contentSize.width / 2.0f, contentSize.height * 0.6f));
+    _textInput->setCenterPosition(Vec2(contentSize.width / 2.0f, contentSize.height * 0.7f));
+	_textInput->setPlaceholderText(_("Type your name here"));
     _textInput->setDelegate(this);
     if(_childCreator && _childCreator->getName() != "")
     {

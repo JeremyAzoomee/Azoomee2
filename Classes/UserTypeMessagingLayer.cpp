@@ -87,7 +87,7 @@ void UserTypeMessagingLayer::onEnter()
 	_smallprintLabel->setTextColor(Color4B(255,255,255,255));
 	_smallprintLabel->setHorizontalAlignment(TextHAlignment::CENTER);
 	_smallprintLabel->setVerticalAlignment(TextVAlignment::CENTER);
-	_smallprintLabel->setDimensions(_startTrialButton->getContentSize().width - 160, 60);
+	_smallprintLabel->setDimensions(_startTrialButton->getContentSize().width, 50);
 	_smallprintLabel->setOverflow(Label::Overflow::SHRINK);
 	_startTrialButton->addChild(_smallprintLabel);
 #endif

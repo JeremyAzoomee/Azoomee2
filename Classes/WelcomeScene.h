@@ -21,11 +21,19 @@ class WelcomeScene : public Azoomee::Scene
 	typedef Azoomee::Scene Super;
 private:
 	
-	cocos2d::ui::Layout* _welcomeLayout = nullptr;
-	cocos2d::ui::Layout* _oomeeGuideLayout = nullptr;
+	cocos2d::LayerColor* _bgColour = nullptr;
+	cocos2d::Sprite* _wires = nullptr;
+	cocos2d::Sprite* _bottomGradient = nullptr;
+	//cocos2d::Sprite* _contentTiles = nullptr;
+	cocos2d::ui::ImageView* _logo = nullptr;
+	cocos2d::ui::Button* _button = nullptr;
+	cocos2d::Label* _text = nullptr;
+	cocos2d::ui::Layout* _textHolder = nullptr;
+	cocos2d::ui::Layout* _body = nullptr;
 	
-	void createWelcomeUI();
-	void createOomeeGuideUI();
+	cocos2d::Node* _tilesNode = nullptr;
+	
+	void addAnimatedTiles();
 	
 protected:
 	virtual void onSizeChanged() override;

@@ -211,12 +211,24 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         {
             HQHistoryManager::getInstance()->updatePrevOrientation();
             Azoomee::OomeeMaker::delegate = OomeeMakerDelegate::getInstance();
+			OomeeMakerDelegate::getInstance()->_oomeeMakerFromShop = false;
             forceToLandscape();
             cocos2d::Scene* goToScene = Azoomee::OomeeMaker::OomeeSelectScene::create();
 			AnalyticsSingleton::getInstance()->registerCurrentScene("OOMEE_MAKER");
             Director::getInstance()->replaceScene(goToScene);
             break;
         }
+		case SceneNameEnum::OomeeMakerEntryPointSceneFromShop:
+		{
+			HQHistoryManager::getInstance()->updatePrevOrientation();
+			Azoomee::OomeeMaker::delegate = OomeeMakerDelegate::getInstance();
+			OomeeMakerDelegate::getInstance()->_oomeeMakerFromShop = true;
+			forceToLandscape();
+			cocos2d::Scene* goToScene = Azoomee::OomeeMaker::OomeeSelectScene::create();
+			AnalyticsSingleton::getInstance()->registerCurrentScene("OOMEE_MAKER");
+			Director::getInstance()->replaceScene(goToScene);
+			break;
+		}
         case SceneNameEnum::SettingsFromChat:
         {
             HQHistoryManager::getInstance()->updatePrevOrientation();
@@ -322,6 +334,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
 		}
 		case SceneNameEnum::Shop:
 		{
+			returnToPrevOrientation();
 			acceptAnyOrientation();
 			HQHistoryManager::getInstance()->updatePrevOrientation();
 			AnalyticsSingleton::getInstance()->registerCurrentScene("SHOP");
@@ -356,7 +369,14 @@ void SceneManagerScene::forceToLandscape()
 
 void SceneManagerScene::acceptAnyOrientation()
 {
-    Azoomee::Application::setOrientation(Azoomee::Application::Orientation::Any);
+	if(ConfigStorage::getInstance()->isDevicePhone())
+	{
+		forceToPortrait();
+	}
+	else
+	{
+    	Azoomee::Application::setOrientation(Azoomee::Application::Orientation::Any);
+	}
 }
 
 void SceneManagerScene::returnToPrevOrientation()
@@ -364,7 +384,7 @@ void SceneManagerScene::returnToPrevOrientation()
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 	if(ContentHistoryManager::getInstance()->getReturnedFromContent() || HQHistoryManager::getInstance()->hasReturnedFromForcedOrientation())
     {
-        if(HQHistoryManager::getInstance()->getPrevHQOrientation() == Portrait)
+        if(HQHistoryManager::getInstance()->getPrevHQOrientation() == Portrait || ConfigStorage::getInstance()->isDevicePhone())
         {
             forceToPortrait();
         }
