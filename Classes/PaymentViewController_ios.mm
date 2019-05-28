@@ -6,7 +6,7 @@
 
 using namespace Azoomee;
 
-#define ONE_MONTH_PAYMENT @"AZ_Premium_Monthly"
+#define ONE_MONTH_PAYMENT @"AZ_Premium_1MonthOnly"
 
 @interface PaymentViewController ()
 
