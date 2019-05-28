@@ -267,18 +267,12 @@ void OomeeCarouselButton::enableHighlight(bool enable)
 {
     if(enable)
     {
-		//auto action = RepeatForever::create(Sequence::createWithTwoActions(ScaleBy::create(1.0f, 0.05f), ScaleBy::create(1.0f, -0.05f)));
-		//action->setTag(100);
-		//_outerCircle->runAction(action->clone());
-		//_innerCircle->runAction(action->clone());
 		_highlightCircleColour->runAction(FadeTo::create(0.5f,255));
 		_mainCircleColour->runAction(FadeTo::create(0.5f,0));
 		_highlightCircleColour->setVisible(true);
     }
     else
     {
-		//_outerCircle->stopActionByTag(100);
-        //_innerCircle->stopActionByTag(100);
 		_highlightCircleColour->runAction(Sequence::create(FadeTo::create(0.5f, 0), CallFunc::create([&](){_highlightCircleColour->setVisible(false);}), NULL));
 		_mainCircleColour->runAction(FadeTo::create(0.5f,255));
     }
@@ -291,16 +285,11 @@ void OomeeCarouselButton::enableTutorialHighlight(bool enable)
 		auto pulse = RepeatForever::create(Sequence::create(DelayTime::create(0.25f), ScaleTo::create(1.5f, 1.05f), ScaleTo::create(1.5f, 1.0f), NULL));
 		pulse->setTag(1000);
 		auto fade = FadeTo::create(1.0f, 255);
-		//auto fadeRev = RepeatForever::create(Sequence::createWithTwoActions(FadeTo::create(1.0f, 0), FadeTo::create(1.0f, 255)));
-		//fadeRev->setTag(1002);
 		auto tint = RepeatForever::create(Sequence::create(DelayTime::create(0.25f), TintTo::create(1.5f, Color3B::WHITE), TintTo::create(1.5f, Color3B(29,117,99)), NULL));
-		tint->setTag(1003);
+		tint->setTag(1001);
 		
 		_tutInnerCircle->runAction(pulse->clone());
 		_tutOuterCircle->runAction(pulse->clone());
-		//_innerCircle->runAction(pulse->clone());
-		//_outerCircle->runAction(pulse->clone());
-		//_mainCircleColour->runAction(fadeRev);
 		_mainCircleColour->setVisible(false);
 		_tutInnerCircle->runAction(tint->clone());
 		_tutOuterCircle->runAction(tint->clone());
@@ -309,14 +298,10 @@ void OomeeCarouselButton::enableTutorialHighlight(bool enable)
 	}
 	else
 	{
-		//_mainCircleColour->runAction(FadeTo::create(0.5f,255));
 		_mainCircleColour->setVisible(true);
 		_tutInnerCircle->stopActionByTag(1000);
 		_tutOuterCircle->stopActionByTag(1000);
-		//_innerCircle->stopActionByTag(1000);
-		//_outerCircle->stopActionByTag(1000);
-		
-		//_mainCircleColour->stopActionByTag(1002);
+
 		_tutInnerCircle->stopActionByTag(1001);
 		_tutOuterCircle->stopActionByTag(1001);
 		
