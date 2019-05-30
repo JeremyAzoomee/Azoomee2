@@ -161,7 +161,7 @@ void DynamicNodeHandler::startSignupFlow()
 
 void DynamicNodeHandler::startIAPFlow(IAPEntryContext context)
 {
-#ifdef VODACOM_BUILD
+#ifdef AZOOMEE_VODACOM_BUILD
 	//boot vodacom signup journey
 	Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::VodacomOnboarding));
 #else

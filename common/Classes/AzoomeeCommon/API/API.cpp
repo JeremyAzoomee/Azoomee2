@@ -138,7 +138,7 @@ HttpRequestCreator* API::IpCheck(HttpRequestCreatorResponseDelegate* delegate)
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->requestTag = TagIpCheck;
     request->url = "https://icanhazip.azoomee.com";
-#ifdef USINGCI
+#ifdef AZOOMEE_ENVIRONMENT_CI
     request->url = "https://icanhazip.azoomee.ninja";
 #endif
     request->encrypted = false;
@@ -155,7 +155,7 @@ HttpRequestCreator* API::OfflineCheck(HttpRequestCreatorResponseDelegate* delega
     
     request->url = "https://versions.azoomee.com";
     
-#ifdef USINGCI
+#ifdef AZOOMEE_ENVIRONMENT_CI
     request->url = "http://versions.azoomee.ninja";
 #endif
     
@@ -211,7 +211,7 @@ HttpRequestCreator* API::GetForceUpdateInformationRequest(Azoomee::HttpRequestCr
     request->requestTag = TagGetForceUpdateInformation;
     request->url = "https://versions.azoomee.com";
     
-#ifdef USINGCI
+#ifdef AZOOMEE_ENVIRONMENT_CI
     request->url = "http://versions.azoomee.ninja";
 #endif
     

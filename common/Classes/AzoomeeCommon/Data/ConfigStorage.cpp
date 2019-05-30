@@ -195,7 +195,7 @@ rapidjson::Document ConfigStorage::parseJsonConfigurationFile(const std::string&
 //-------------------------BACKEND CALLER CONFIGURATION--------------------
 std::string ConfigStorage::getServerHost()
 {
-#ifdef USINGCI
+#ifdef AZOOMEE_ENVIRONMENT_CI
     return "api.azoomee.ninja";
 #endif
     return "api.azoomee.com";
@@ -203,7 +203,7 @@ std::string ConfigStorage::getServerHost()
     
 std::string ConfigStorage::getServerUrlPrefix()
 {
-#ifdef USINGCI
+#ifdef AZOOMEE_ENVIRONMENT_CI
     return "http://";
 #endif
     return "https://";
@@ -216,7 +216,7 @@ std::string ConfigStorage::getServerUrl()
     
 std::string ConfigStorage::getCTAPackageJsonURL()
 {
-#ifdef USINGCI
+#ifdef AZOOMEE_ENVIRONMENT_CI
   #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     return "https://media.azoomee.ninja/static/popups/android/package.json";
   #elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -258,7 +258,7 @@ std::string ConfigStorage::getPathForTag(const std::string& httpRequestTag)
     
 std::string ConfigStorage::getRemoteWebGameAPIPath()
 {
-#ifdef USINGCI
+#ifdef AZOOMEE_ENVIRONMENT_CI
     return "https://media.azoomee.ninja/static/webgameapi/";
 #else
     return "https://media.azoomee.com/static/webgameapi/";

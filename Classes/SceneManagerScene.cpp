@@ -31,7 +31,7 @@
 #include "CoinCollectLayer.h"
 #include <AzoomeeCommon/Crashlytics/CrashlyticsConfig.h>
 
-#ifdef VODACOM_BUILD
+#ifdef AZOOMEE_VODACOM_BUILD
 #include "Vodacom/VodacomOnboardingScene.h"
 #endif
 
@@ -342,7 +342,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
 			Director::getInstance()->replaceScene(ShopScene::create());
 			break;
 		}
-#ifdef VODACOM_BUILD
+#ifdef AZOOMEE_VODACOM_BUILD
 		case SceneNameEnum::VodacomOnboarding:
 		{
 			HQHistoryManager::getInstance()->updatePrevOrientation();

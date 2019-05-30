@@ -42,7 +42,7 @@ const std::map<std::string, std::string> StringMgr::kDeviceLangConvMap = {
 };
 	
 const std::string StringMgr::kLanguagesDir = "languages/";
-#ifdef USINGCI
+#ifdef AZOOMEE_ENVIRONMENT_CI
 	const std::string StringMgr::kLangsZipUrl = "https://media.azoomee.ninja/static/popups/languages/languages.zip";
 #else
 	const std::string StringMgr::kLangsZipUrl = "https://media.azoomee.com/static/popups/languages/languages.zip";

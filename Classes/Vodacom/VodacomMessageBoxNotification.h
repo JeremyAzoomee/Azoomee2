@@ -4,7 +4,7 @@
 //
 //  Created by Macauley on 22/10/2018.
 //
-#ifdef VODACOM_BUILD
+#ifdef AZOOMEE_VODACOM_BUILD
 #ifndef VodacomMessageBoxNotification_h
 #define VodacomMessageBoxNotification_h
 

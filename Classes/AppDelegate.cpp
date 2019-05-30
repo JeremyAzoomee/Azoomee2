@@ -49,6 +49,18 @@ bool AppDelegate::applicationDidFinishLaunching()
     {
         ConfigStorage::getInstance()->setIsDevice18x9(true);
     }
+    
+#ifdef AZOOMEE_ENVIRONMENT_CI
+    cocos2d::log("AZOOMEE_ENVIRONMENT_CI");
+#else
+    cocos2d::log("AZOOMEE_ENVIRONMENT_LIVE");
+#endif
+#ifdef AZOOMEE_VODACOM_BUILD
+    cocos2d::log("AZOOMEE_VODACOM_BUILD");
+#endif
+#ifdef AZOOMEE_AMAZON_BUILD
+    cocos2d::log("AZOOMEE_AMAZON_BUILD");
+#endif
 
     return true;
 }

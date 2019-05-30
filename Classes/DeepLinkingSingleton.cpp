@@ -16,7 +16,7 @@
 #include "DynamicNodeHandler.h"
 #include "ContentOpener.h"
 
-#ifdef VODACOM_BUILD
+#ifdef AZOOMEE_VODACOM_BUILD
 #include "Vodacom/VodacomOnboardingScene.h"
 #endif
 
@@ -178,7 +178,7 @@ bool DeepLinkingSingleton::actionDeepLink()
             return true;
         }
     }
-#ifdef VODACOM_BUILD
+#ifdef AZOOMEE_VODACOM_BUILD
 	else if(host == "vodacom")
 	{
 		VodacomOnboardingScene* vodacomScene = dynamic_cast<VodacomOnboardingScene*>(Director::getInstance()->getRunningScene());

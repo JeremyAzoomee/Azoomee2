@@ -4,7 +4,7 @@
 //
 //  Created by Macauley on 08/11/2018.
 //
-#ifdef VODACOM_BUILD
+#ifdef AZOOMEE_VODACOM_BUILD
 #include "VodacomOnboardingDCBWebview.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Parent/ParentManager.h>
@@ -15,7 +15,7 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-#ifdef USINGCI
+#ifdef AZOOMEE_ENVIRONMENT_CI
 const std::string VodacomOnboardingDCBWebview::kVodacomStorefrontUrl = "http://vodacom.azoomeepartners.ninja/purchase";
 const std::string VodacomOnboardingDCBWebview::kVodacomPurchaseUrl = "http://vodacom.azoomeepartners.ninja/purchase?txnId=%s&productId=%s";
 const std::string VodacomOnboardingDCBWebview::kVodacomPurchaseRedirectUrlStart = "http://vodacom.azoomeepartners.ninja/purchase-redirect";

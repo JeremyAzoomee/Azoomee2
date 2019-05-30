@@ -57,6 +57,8 @@ android {
                     else {
                         arguments 'NDK_MODULE_PATH=' + module_paths.join(':')
                     }
+
+                    cppFlags "-frtti", "-DCC_ENABLE_CHIPMUNK_INTEGRATION=1", "-std=c++11", "-fsigned-char", "-Wno-extern-c-compat", "-fexceptions"
                 }
             }
             else if (PROP_BUILD_TYPE == 'cmake') {
@@ -121,6 +123,7 @@ android {
             externalNativeBuild {
                 ndkBuild {
                     arguments 'NDK_DEBUG=0'
+                    cppFlags "-DNDEBUG"
                 }
             }
         }
@@ -132,6 +135,7 @@ android {
             externalNativeBuild {
                 ndkBuild {
                     arguments 'NDK_DEBUG=1'
+                    cppFlags "-DCOCOS2D_DEBUG=1"
                 }
             }
 
@@ -154,7 +158,7 @@ android {
 
             externalNativeBuild {
                 ndkBuild {
-                    arguments 'AZOOMEE_AMAZON_BUILD=1'
+                    cppFlags "-DAZOOMEE_AMAZON_BUILD"
                 }
             }
         }
@@ -165,7 +169,18 @@ android {
 
             externalNativeBuild {
                 ndkBuild {
-                    arguments 'AZOOMEE_VODACOM_BUILD=1'
+                    cppFlags "-DAZOOMEE_VODACOM_BUILD"
+                }
+            }
+        }
+
+        huawei {
+            dimension "product"
+            versionNameSuffix "-huawei"
+
+            externalNativeBuild {
+                ndkBuild {
+                    cppFlags "-DAZOOMEE_HUAWEI_BUILD"
                 }
             }
         }
@@ -181,7 +196,7 @@ android {
 
             externalNativeBuild {
                 ndkBuild {
-                    arguments 'AZOOMEE_ENVIRONMENT_CI=1'
+                    cppFlags "-DAZOOMEE_ENVIRONMENT_CI"
                 }
             }
         }

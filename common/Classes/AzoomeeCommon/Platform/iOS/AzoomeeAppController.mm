@@ -25,8 +25,11 @@
 #import "AzoomeeAppController.h"
 #import <cocos/cocos2d.h>
 #import "AzoomeeViewController.h"
+
+#ifdef NDEBUG
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
+#endif
 
 @implementation AzoomeeAppController
 
@@ -38,7 +41,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
     // Override point for customization after application launch.
     
-#ifndef DEBUG
+#ifdef NDEBUG
     [Fabric with:@[[Crashlytics class]]];
 #endif
 

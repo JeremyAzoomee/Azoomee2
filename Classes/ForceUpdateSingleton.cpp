@@ -69,7 +69,7 @@ void ForceUpdateSingleton::doForceUpdateLogic()
 		
 		std::string url = "https://versions.azoomee.com";
 		
-	#ifdef USINGCI
+	#ifdef AZOOMEE_ENVIRONMENT_CI
 		url = "http://versions.azoomee.ninja";
 	#endif
 		
@@ -179,7 +179,7 @@ bool ForceUpdateSingleton::isAppCloseRequired()
 std::string ForceUpdateSingleton::getAcceptedMinAzoomeeVersion()
 {
 	const auto& json = getMapFromForceUpdateJsonData(FileUtils::getInstance()->getStringFromFile(writablePath + forceUpdateFileSubPath));
-#ifdef VODACOM_BUILD
+#ifdef AZOOMEE_VODACOM_BUILD
 	if(json.find(kAcceptedMinAzVerVodaID) != json.end())
 	{
 		return json.at(kAcceptedMinAzVerVodaID);
@@ -196,7 +196,7 @@ std::string ForceUpdateSingleton::getAcceptedMinAzoomeeVersion()
 std::string ForceUpdateSingleton::getNotifiedMinAzoomeeVersion()
 {
 	const auto& json = getMapFromForceUpdateJsonData(FileUtils::getInstance()->getStringFromFile(writablePath + forceUpdateFileSubPath));
-#ifdef VODACOM_BUILD
+#ifdef AZOOMEE_VODACOM_BUILD
 	if(json.find(kNotifiedMinAzVerVodaID) != json.end())
 	{
 		return json.at(kNotifiedMinAzVerVodaID);
@@ -238,7 +238,7 @@ std::map<std::string, std::string> ForceUpdateSingleton::getMapFromForceUpdateJs
 std::string ForceUpdateSingleton::getUpdateUrlFromFile()
 {
     const std::map<std::string, std::string> &forceUpdateData = getMapFromForceUpdateJsonData(FileUtils::getInstance()->getStringFromFile(writablePath + forceUpdateFileSubPath));
-#ifdef VODACOM_BUILD
+#ifdef AZOOMEE_VODACOM_BUILD
 	if(forceUpdateData.find(kUpdateUrlVodaID) != forceUpdateData.end())
 	{
 		return forceUpdateData.at(kUpdateUrlVodaID);
