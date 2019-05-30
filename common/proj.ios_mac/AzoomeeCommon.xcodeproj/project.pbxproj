@@ -1567,6 +1567,7 @@
 					"$(SRCROOT)/../../proj.ios_mac/",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
+				GCC_PREPROCESSOR_DEFINITIONS = NDEBUG;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../../cocos2d",
