@@ -87,7 +87,7 @@ void AnalyticsSingleton::registerAzoomeeEmail(std::string emailAddress)
         azoomeEmail = "YES";
     
     mixPanelRegisterSuperProperties("azoomeeEmail",azoomeEmail);
-    setCrashlyticsKeyWithString("azoomeeEmail", azoomeEmail);
+	setCrashlyticsKeyWithString(CrashlyticsConsts::kAzoomeeEmailKey, azoomeEmail);
 }
 
 void AnalyticsSingleton::registerAccountStatus(std::string Status)
@@ -126,7 +126,7 @@ void AnalyticsSingleton::registerChildGenderAndAge(const ChildRef& child)
 void AnalyticsSingleton::registerSessionId(std::string sessionId)
 {
     mixPanelRegisterSuperProperties("sessionId", sessionId);
-    setCrashlyticsKeyWithString("sessionId", sessionId);
+	setCrashlyticsKeyWithString(CrashlyticsConsts::kSessionIdKey, sessionId);
 }
     
 void AnalyticsSingleton::registerCurrentScene(const std::string &currentScene)
@@ -141,7 +141,7 @@ void AnalyticsSingleton::registerCurrentScene(const std::string &currentScene)
     }
     
     mixPanelRegisterSuperProperties("currentScene", currentScene);
-    setCrashlyticsKeyWithString("currentScene", currentScene);
+	setCrashlyticsKeyWithString(CrashlyticsConsts::kCurrentSceneKey, currentScene);
     
     moveToSceneEvent(previousScene);
 }
