@@ -37,7 +37,6 @@ bool HQScene::init()
 }
 void HQScene::onEnter()
 {
-	//RewardDisplayHandler::getInstance()->getPendingRewards();
 	TutorialController::getInstance()->registerDelegate(this);
 	if(TutorialController::getInstance()->isTutorialActive())
 	{
@@ -45,12 +44,22 @@ void HQScene::onEnter()
 	}
 	_navLayer->setButtonOn(_hqCategory);
 	
+	_rewardRedeemedListener = EventListenerCustom::create(RewardDisplayHandler::kRewardRedeemedEventKey, [this](EventCustom* event){
+		if(!_coinDisplay->isVisible())
+		{
+			_coinDisplay->setVisible(TutorialController::getInstance()->isTutorialCompleted(TutorialController::kFTUShopID) || ChildDataProvider::getInstance()->getLoggedInChild()->getInventory()->getCoins() > 0);
+		}
+	});
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(_rewardRedeemedListener, this);
+	
 	Super::onEnter();
 }
 
 void HQScene::onExit()
 {
 	TutorialController::getInstance()->unRegisterDelegate(this);
+	_eventDispatcher->removeEventListener(_rewardRedeemedListener);
+	_rewardRedeemedListener = nullptr;
 	Super::onExit();
 }
 
