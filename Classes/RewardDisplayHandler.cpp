@@ -20,7 +20,7 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-const std::string RewardDisplayHandler::kRewardRedeemedEventKey = "reward_redeemed_event";
+const std::string RewardDisplayHandler::kRewardRedeemedEventKey = "Azoomee_reward_redeemed_event";
 
 static std::auto_ptr<RewardDisplayHandler> sRewardDisplayHandlerSharedInstance;
 
