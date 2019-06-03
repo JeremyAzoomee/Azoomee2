@@ -11,7 +11,6 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include "HQHistoryManager.h"
 #include "HQSceneArtsApp.h"
-#include "HQScene2.h"
 #include "MeHQ.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 

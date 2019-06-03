@@ -3,7 +3,6 @@
 #include "ChildSelectorScene.h"
 #include "LoginScene.h"
 #include "OfflineHubScene.h"
-#include "HQScene2.h"
 #include <AzoomeeCommon/Application.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "FlowDataSingleton.h"
@@ -23,6 +22,7 @@
 #include "ContentFeedHQScene.h"
 #include "MeHQ.h"
 #include "RewardDisplayHandler.h"
+#include "HQSceneArtsApp.h"
 
 #include "SettingsHub.h"
 #include "ChildSettingsScene.h"
@@ -167,8 +167,8 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         }
         case SceneNameEnum::OfflineArtsAppHQ:
         {
-            forceToLandscape();
-            cocos2d::Scene* goToScene = HQScene2::createSceneForOfflineArtsAppHQ();
+			forceToLandscape();
+			cocos2d::Scene* goToScene = HQSceneArtsApp::createScene();
             AnalyticsSingleton::getInstance()->registerCurrentScene("OFFLINE_ARTS_APP");
             Director::getInstance()->replaceScene(TransitionSlideInR::create(0.25f, goToScene));
             break;

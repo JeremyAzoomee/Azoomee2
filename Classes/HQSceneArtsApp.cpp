@@ -7,11 +7,36 @@
 #include <AzoomeeCommon/Utils/DirectorySearcher.h>
 #include <algorithm>
 #include <AzoomeeCommon/UI/PrivacyLayer.h>
+#include "OfflineHubBackButton.h"
 
 
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
+
+const std::string HQSceneArtsApp::kArtScrollViewName = "ArtScrollView";
+
+Scene* HQSceneArtsApp::createScene()
+{
+	auto scene = Scene::create();
+	//if created as a scene, and not as a layer, we are in offline mode, and we are using scene only for art app, so adding initial lines:
+	Layer* layer = Layer::create();
+	scene->addChild(layer);
+	layer->setName(ConfigStorage::kArtAppHQName);
+	
+	auto offlineArtsAppScrollView = HQSceneArtsApp::create();
+	offlineArtsAppScrollView->setName(kArtScrollViewName);
+	offlineArtsAppScrollView->setOriginPosition(Director::getInstance()->getVisibleOrigin() + Vec2(0,Director::getInstance()->getVisibleSize().height * 0.80f));
+	offlineArtsAppScrollView->setRows(2);
+	offlineArtsAppScrollView->setShowPrivacyButton(false);
+	layer->addChild(offlineArtsAppScrollView);
+	
+	auto offlineHubBackButton = OfflineHubBackButton::create();
+	offlineHubBackButton->setPosition(Point(100, Director::getInstance()->getVisibleOrigin().y + Director::getInstance()->getVisibleSize().height - 250));
+	layer->addChild(offlineHubBackButton);
+	
+	return scene;
+}
 
 bool HQSceneArtsApp::init()
 {

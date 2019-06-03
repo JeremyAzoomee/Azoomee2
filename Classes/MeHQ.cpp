@@ -6,7 +6,6 @@
 //
 
 #include "MeHQ.h"
-#include "HQScene2.h"
 #include "HQSceneElement.h"
 #include "SceneManagerScene.h"
 #include "RecentlyPlayedManager.h"
