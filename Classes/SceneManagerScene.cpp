@@ -30,6 +30,7 @@
 
 #include "CoinCollectLayer.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Crashlytics/CrashlyticsConfig.h>
 
 #ifdef VODACOM_BUILD
 #include "Vodacom/VodacomOnboardingScene.h"
@@ -96,6 +97,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             acceptAnyOrientation();
 			if(ContentHistoryManager::getInstance()->getReturnedFromContent())
 			{
+				setCrashlyticsKeyWithString(CrashlyticsConsts::kContentIdKey, "");
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 				showHoldingUI();
 #else

@@ -22,6 +22,7 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/Tutorial/TutorialController.h>
+#include <AzoomeeCommon/Crashlytics/CrashlyticsConfig.h>
 
 using namespace cocos2d;
 
@@ -64,7 +65,9 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
     {
         return;
     }
-    
+	
+	setCrashlyticsKeyWithString(CrashlyticsConsts::kContentIdKey, contentItem->getContentItemId());
+	
     if(contentItem->getType() == ConfigStorage::kContentTypeGame)
     {
         RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(),ConfigStorage::kGameHQName);
