@@ -20,6 +20,8 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+const std::string RewardDisplayHandler::kRewardRedeemedEventKey = "reward_redeemed_event";
+
 static std::auto_ptr<RewardDisplayHandler> sRewardDisplayHandlerSharedInstance;
 
 RewardDisplayHandler* RewardDisplayHandler::getInstance()
@@ -178,6 +180,7 @@ void RewardDisplayHandler::onHttpRequestSuccess(const std::string& requestTag, c
 	else if(requestTag == API::TagGetInventory)
 	{
 		ChildDataParser::getInstance()->parseChildInventory(body);
+		Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(kRewardRedeemedEventKey);
 	}
 	
 }
