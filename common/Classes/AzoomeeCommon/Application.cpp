@@ -88,7 +88,7 @@ bool Application::applicationDidFinishLaunching()
     auto frameSize = glview->getFrameSize();
     applicationScreenSizeChanged(frameSize.width, frameSize.height);
 
-	ConfigStorage::getInstance()->setIsDevicePhone(MAX(frameSize.width, frameSize.height) / MIN(frameSize.width, frameSize.height) > 16.0f / 10.0f);
+	ConfigStorage::getInstance()->setIsDevicePhone(MAX(frameSize.width, frameSize.height) / MIN(frameSize.width, frameSize.height) >= 1.71); // sweet spot between 16/9 and 16/10 to keep most tablets open for landscape
 	
     return true;
 }
