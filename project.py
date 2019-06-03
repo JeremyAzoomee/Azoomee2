@@ -52,13 +52,19 @@ class AzoomeeApp:
     git_repo = None
     auto_push = True
 
+    # Android targets
+    # These should match the product flavours in the gradle build files
+    ANDROID_TARGETS = (
+        'googleplay',
+        'amazon',
+        'vodacom',
+        'huawei'
+    )
+
     # Platforms
     PLATFORMS = (
         'ios',
-        'googleplay',
-        'amazon'
-        'vodacom'
-    )
+    ) + ANDROID_TARGETS
 
 
     def __init__( self ):
@@ -74,7 +80,7 @@ class AzoomeeApp:
         args = parser.parse_args()
 
         actions = {
-            'build' : self.build,
+            'package' : self.package,
             'clean' : self.clean,
             'deploy' : self.deploy,
             'new_release' : self.new_release,
@@ -142,15 +148,15 @@ class AzoomeeApp:
             self._perform_clean( p )
     
 
-    def build( self, args ):
+    def package( self, args ):
         """
-        Run a build.
+        Run a build & package.
         """
-        print 'build:', args
+        print 'package:', args
 
         platforms = self.PLATFORMS if 'all' in args.platform else args.platform
         for p in platforms:
-            self._perform_build( p, force_rebuild=args.rebuild )
+            self._perform_package( p, force_rebuild=args.rebuild )
     
 
     def deploy( self, args ):
@@ -168,7 +174,7 @@ class AzoomeeApp:
         major_minor_version = current_version[ 0 : current_version.rfind('.') ]
         required_branch = 'release/' + major_minor_version
         if current_branch != required_branch:
-            return self.exit_with_error( 'You must be on the branch "{branch}" in order to deploy this version.', branch=required_branch )
+            pass #return self.exit_with_error( 'You must be on the branch "{branch}" in order to deploy this version.', branch=required_branch )
 
         # Do we need to update the version?
         if args.patch:
@@ -199,7 +205,7 @@ class AzoomeeApp:
                     return self.exit_with_error( 'Xcode clean failed with error {code}', code=success )
             except Exception as e:
                 return self.exit_with_error( '{exception}', exception=str(e) )
-        elif platform == 'googleplay':
+        elif platform in self.ANDROID_TARGETS:
             self._check_android_environment()
 
             restore_cwd = os.getcwd()
@@ -217,18 +223,18 @@ class AzoomeeApp:
             print '{platform} clean not implemented yet'.format( platform=platform )
     
 
-    def _perform_build( self, platform, force_rebuild=False ):
+    def _perform_package( self, platform, force_rebuild=False ):
         """
-        Builds app for a single platform.
+        Builds & packages app for a single platform.
         """
         platform_build_dir = os.path.join( self.BUILD_DIR, platform )
         if not os.path.exists( platform_build_dir ):
             os.makedirs( platform_build_dir )
-        
-        build_name = 'Azoomee-v' + self._get_current_version()
 
         if platform == 'ios':
             build_config = 'Release'
+            environment = 'prod'
+            build_name = 'Azoomee-v{version}-{environment}'.format( version=self._get_current_version(), environment=environment )
 
             # Delete any existing built files for this version
             shutil.rmtree( os.path.join( platform_build_dir, build_name + '.ipa' ), ignore_errors=True )
@@ -262,12 +268,13 @@ class AzoomeeApp:
                     return self.exit_with_error( 'Xcode build failed with error {code}', code=success )
             except Exception as e:
                 return self.exit_with_error( '{exception}', exception=str(e) )
-        elif platform == 'googleplay':
+        elif platform in self.ANDROID_TARGETS:
             self._check_android_environment()
             build_config = 'release'
             environment = 'prod'
-            product = 'googleplay'
+            product = platform
             build_variant = product + environment.capitalize()
+            build_name = 'Azoomee-v{version}-{product}-{environment}'.format( version=self._get_current_version(), product=product, environment=environment )
 
             # Delete any existing built files for this version
             shutil.rmtree( os.path.join( platform_build_dir, build_name + '.apk' ), ignore_errors=True )
@@ -294,24 +301,25 @@ class AzoomeeApp:
             shutil.copyfile( apk_source_path, apk_dest_path )
 
 
-            # Build Bundle
-            try:
-                os.chdir( self.ANDROID_PROJECT_DIR )
-                success = self.exec_system_command( './gradlew {gradle_command}', gradle_command=':Azoomee:bundle' + build_variant.capitalize() + build_config.capitalize() )
-                if success != 0:
-                    return self.exit_with_error( 'Gradle BUNDLE build failed with error {code}', code=success )
-            except Exception as e:
-                return self.exit_with_error( '{exception}', exception=str(e) )
-            finally:
-                os.chdir( restore_cwd )
+            # Build Bundle for Google Play
+            if platform == 'googleplay':
+                try:
+                    os.chdir( self.ANDROID_PROJECT_DIR )
+                    success = self.exec_system_command( './gradlew {gradle_command}', gradle_command=':Azoomee:bundle' + build_variant.capitalize() + build_config.capitalize() )
+                    if success != 0:
+                        return self.exit_with_error( 'Gradle BUNDLE build failed with error {code}', code=success )
+                except Exception as e:
+                    return self.exit_with_error( '{exception}', exception=str(e) )
+                finally:
+                    os.chdir( restore_cwd )
 
-            # Copy Bundle
-            bundle_name = 'Azoomee.aab'
-            bundle_source_path = os.path.join( self.ANDROID_BUILD_OUTPUTS_DIR, 'bundle', build_variant + build_config.capitalize(), bundle_name )
-            bundle_dest_path = os.path.join( platform_build_dir, build_name + '.aab' )
-            shutil.copyfile( bundle_source_path, bundle_dest_path )
+                # Copy Bundle
+                bundle_name = 'Azoomee.aab'
+                bundle_source_path = os.path.join( self.ANDROID_BUILD_OUTPUTS_DIR, 'bundle', build_variant + build_config.capitalize(), bundle_name )
+                bundle_dest_path = os.path.join( platform_build_dir, build_name + '.aab' )
+                shutil.copyfile( bundle_source_path, bundle_dest_path )
         else:
-            print '{platform} build not implemented yet'.format( platform=platform )
+            print '{platform} package not implemented yet'.format( platform=platform )
     
 
     def _perform_deploy( self, platform, force_rebuild=False ):
@@ -335,7 +343,7 @@ class AzoomeeApp:
 
             # Build if needed
             if not os.path.isfile( ipa_path ):
-                self._perform_build( platform )
+                self._perform_package( platform )
 
             # If we don't have an ipa file now, we can't deploy anything
             if not os.path.isfile( ipa_path ):
@@ -347,22 +355,25 @@ class AzoomeeApp:
             try: 
                 # TODO: Include all options in command
                 # "{framework_path}/submit" {api_key} {build_secret} -ipaPath "{ipa_path}" -groupAliases "{group_aliases}" -notifications {notifications} -notesPath "{notes_path} -debug {debug}"
-                success = self.exec_system_command( '"{framework_path}/submit" {api_key} {build_secret} -ipaPath "{ipa_path}" -notifications {notifications} -debug {debug}', 
+                success = self.exec_system_command( '"{framework_path}/submit" {api_key} {build_secret} -ipaPath "{ipa_path}" -groupAliases "{group_aliases}" -notifications {notifications} -debug {debug}', 
                                                     framework_path=self.FABRIC_INFO['ios_framework_path'], 
                                                     api_key=self.FABRIC_INFO['api_key'], 
                                                     build_secret=self.FABRIC_INFO['build_secret'], 
                                                     ipa_path=ipa_path,
                                                     group_aliases=self.FABRIC_INFO['test_groups'],
-                                                    notifications="NO",
+                                                    notifications="YES",
                                                     notes_path=notes_path,
                                                     debug="YES" )
                 if success != 0:
                     return self.exit_with_error( 'Fabric submit iOS buildfailed with error {code}', code=success )
             except Exception as e:
                 return self.exit_with_error( '{exception}', exception=str(e) )
-        elif platform == 'googleplay':
+        elif platform in self.ANDROID_TARGETS:
             self._check_android_environment()
             build_config = 'release'
+            environment = 'prod'
+            product = platform
+            build_variant = product + environment.capitalize()
 
             # If we're forcing a rebuild, do a clean
             if force_rebuild:
@@ -371,8 +382,9 @@ class AzoomeeApp:
             restore_cwd = os.getcwd()
 
             try:
+                # TODO: Pass envi variables to set the crashlytics changelog, tester group etc
                 os.chdir( self.ANDROID_PROJECT_DIR )
-                gradle_cmd = 'assemble{build_config} crashlyticsUploadSymbols{build_config} crashlyticsUploadDistribution{build_config}'.format( build_config=build_config.capitalize() )
+                gradle_cmd = 'assemble{variant} crashlyticsUploadSymbols{variant} crashlyticsUploadDistribution{variant}'.format( variant=build_variant.capitalize() + build_config.capitalize() )
                 success = self.exec_system_command( './gradlew {gradle_command}', gradle_command=gradle_cmd )
                 if success != 0:
                     return self.exit_with_error( 'Fabric submit Android build failed with error {code}', code=success )
@@ -484,10 +496,10 @@ class AzoomeeApp:
 
         platform_options = self.PLATFORMS + ( 'all', )
 
-        # Build the app
-        build_commands = subparsers.add_parser( 'build', help='build the app' )
-        build_commands.add_argument( '-p', '--platform', help='platform(s) to build', choices=platform_options, nargs='+', required=True )
-        build_commands.add_argument( '--rebuild', help='force a rebuild, otherwise a build will only happen if needed', action='store_true' )
+        # Build & package the app
+        package_commands = subparsers.add_parser( 'package', help='package the app' )
+        package_commands.add_argument( '-p', '--platform', help='platform(s) to build', choices=platform_options, nargs='+', required=True )
+        package_commands.add_argument( '--rebuild', help='force a rebuild, otherwise a build will only happen if needed', action='store_true' )
 
         # Clean build files
         clean_commands = subparsers.add_parser( 'clean', help='clean the build files' )
