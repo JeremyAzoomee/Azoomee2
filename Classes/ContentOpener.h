@@ -25,7 +25,8 @@ public:
     
     void openContentById(const std::string& contentId);
     void openContentObject(const HQContentItemObjectRef& contentItem);
-    
+	
+	void doCarouselContentOpenLogic(const HQContentItemObjectRef& contentItem, int rowIndex, int elementIndex, const std::string& hqCategory);
 };
 
 NS_AZOOMEE_END

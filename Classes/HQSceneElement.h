@@ -12,7 +12,7 @@ NS_AZOOMEE_BEGIN
 
 class HQSceneElement : public cocos2d::ui::Button
 {
-    typedef std::function<void(const HQContentItemObjectRef&)> DeleteButtonCallback;
+    typedef std::function<void(const HQContentItemObjectRef&)> HQElementButtonCallback;
 	typedef cocos2d::ui::Button Super;
 public:
     CREATE_FUNC(HQSceneElement);
@@ -25,7 +25,8 @@ public:
     void setManualSizeMultiplier(float multiplier);
     void setMargin(float margin);
     void deleteButtonVisible(bool visible);
-    void setDeleteButtonCallback(const DeleteButtonCallback& callback);
+    void setDeleteButtonCallback(const HQElementButtonCallback& callback);
+	void setTouchCallback(const HQElementButtonCallback& callback);
 	
 	int getElementRow() const;
 	int getElementIndex() const;
@@ -49,7 +50,8 @@ private:
     
     HQSceneElementVisual* _elementVisual = nullptr;
     cocos2d::ui::Button* _deleteButton = nullptr;
-    DeleteButtonCallback _deleteButtonCallback = nullptr;
+    HQElementButtonCallback _deleteButtonCallback = nullptr;
+	HQElementButtonCallback _touchCallback = nullptr;
     
     cocos2d::ui::Button* createDeleteButton();
     

@@ -75,6 +75,10 @@ bool MeHQRecentlyPlayed::init()
 			
 			hqSceneElement->addHQSceneElement();
 			
+			hqSceneElement->setTouchCallback([&](const HQContentItemObjectRef& elementData){
+				ContentOpener::getInstance()->doCarouselContentOpenLogic(elementData, -1, elementIndex, ConfigStorage::kMeHQName);
+			});
+			
 			HQScene2ElementPositioner hqScene2ElementPositioner;
 			hqScene2ElementPositioner.setElement(hqSceneElement);
 			hqScene2ElementPositioner.setCarouselLayer(_carouselLayout);

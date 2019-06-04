@@ -14,6 +14,7 @@
 #include "ArtAppDelegate.h"
 #include "HQHistoryManager.h"
 #include "SceneManagerScene.h"
+#include "ContentOpener.h"
 #include <AzoomeeCommon/UI/PrivacyLayer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
@@ -126,6 +127,10 @@ void ContentFeedHQScene::createContentScrollview()
 			hqSceneElement->setMargin(contentItemMargin);
 			hqSceneElement->setManualSizeMultiplier(unitMultiplier);
 			hqSceneElement->addHQSceneElement();
+			
+			hqSceneElement->setTouchCallback([&](const HQContentItemObjectRef& elementData){
+				ContentOpener::getInstance()->doCarouselContentOpenLogic(elementData, rowIndex, elementIndex, _hqCategory);
+			});
 			
 			cocos2d::Vec2 elementShape = HQDataProvider::getInstance()->getHighlightDataForSpecificItem(_hqCategory, rowIndex, elementIndex);
 			

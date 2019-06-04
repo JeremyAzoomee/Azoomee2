@@ -12,6 +12,7 @@
 #include "HQDataProvider.h"
 #include "SceneManagerScene.h"
 #include "HQHistoryManager.h"
+#include "ContentOpener.h"
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Utils/DirectorySearcher.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
@@ -107,6 +108,10 @@ bool MeHQDownloads::init()
             hqSceneElement->deleteButtonVisible(false);
             
             hqSceneElement->addHQSceneElement();
+			
+			hqSceneElement->setTouchCallback([&](const HQContentItemObjectRef& elementData){
+				ContentOpener::getInstance()->doCarouselContentOpenLogic(elementData, -3, elementIndex, ConfigStorage::kMeHQName);
+			});
             
             Vec2 elementShape = Vec2(1,1);
             
