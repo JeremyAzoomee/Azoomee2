@@ -262,23 +262,4 @@ ui::Button* HQSceneElement::createDeleteButton()
     return deleteButton;
 }
 
-void HQSceneElement::startUpElementDependingOnType()
-{
-    //this->getParent()->getParent()->getParent()->stopAllActions();
-    if(_elementItemData->getType() == ConfigStorage::kContentTypeVideo || _elementItemData->getType() == ConfigStorage::kContentTypeAudio)
-    {
-        if(_elementCategory == ConfigStorage::kGroupHQName)
-        {
-            VideoPlaylistManager::getInstance()->setPlaylist(HQDataObjectStorage::getInstance()->getHQDataObjectForKey(_elementCategory)->getHqCarousels().at(_elementRowNumber));
-        }
-        else
-        {
-            HQCarouselObjectRef carousel = HQCarouselObject::create();
-            carousel->addContentItemToCarousel(_elementItemData);
-            VideoPlaylistManager::getInstance()->setPlaylist(carousel);
-        }
-    }
-    ContentOpener::getInstance()->openContentObject(_elementItemData);
-}
-
 NS_AZOOMEE_END

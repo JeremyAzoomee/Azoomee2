@@ -94,7 +94,7 @@ void MeHQFavourites::onEnter()
 				_deleteItemMessageBox->setDelegate(this);
 				Director::getInstance()->getRunningScene()->addChild(_deleteItemMessageBox);
             });
-			hqSceneElement->setTouchCallback([&](const HQContentItemObjectRef& elementData){
+			hqSceneElement->setTouchCallback([elementIndex](const HQContentItemObjectRef& elementData){
 				ContentOpener::getInstance()->doCarouselContentOpenLogic(elementData, -2, elementIndex, ConfigStorage::kMeHQName);
 			});
             

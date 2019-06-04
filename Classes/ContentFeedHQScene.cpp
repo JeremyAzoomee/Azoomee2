@@ -128,7 +128,7 @@ void ContentFeedHQScene::createContentScrollview()
 			hqSceneElement->setManualSizeMultiplier(unitMultiplier);
 			hqSceneElement->addHQSceneElement();
 			
-			hqSceneElement->setTouchCallback([&](const HQContentItemObjectRef& elementData){
+			hqSceneElement->setTouchCallback([rowIndex,elementIndex,this](const HQContentItemObjectRef& elementData){
 				ContentOpener::getInstance()->doCarouselContentOpenLogic(elementData, rowIndex, elementIndex, _hqCategory);
 			});
 			

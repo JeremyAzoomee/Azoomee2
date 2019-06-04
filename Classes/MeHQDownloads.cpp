@@ -109,7 +109,7 @@ bool MeHQDownloads::init()
             
             hqSceneElement->addHQSceneElement();
 			
-			hqSceneElement->setTouchCallback([&](const HQContentItemObjectRef& elementData){
+			hqSceneElement->setTouchCallback([elementIndex](const HQContentItemObjectRef& elementData){
 				ContentOpener::getInstance()->doCarouselContentOpenLogic(elementData, -3, elementIndex, ConfigStorage::kMeHQName);
 			});
             

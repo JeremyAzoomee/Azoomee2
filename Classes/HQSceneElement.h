@@ -54,9 +54,7 @@ private:
 	HQElementButtonCallback _touchCallback = nullptr;
     
     cocos2d::ui::Button* createDeleteButton();
-    
-    void startUpElementDependingOnType();
-    
+	
     cocos2d::Point _touchPos;
 };
 
