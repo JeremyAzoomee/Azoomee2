@@ -174,7 +174,7 @@ class AzoomeeApp:
         major_minor_version = current_version[ 0 : current_version.rfind('.') ]
         required_branch = 'release/' + major_minor_version
         if current_branch != required_branch:
-            pass #return self.exit_with_error( 'You must be on the branch "{branch}" in order to deploy this version.', branch=required_branch )
+            return self.exit_with_error( 'You must be on the branch "{branch}" in order to deploy this version.', branch=required_branch )
 
         # Do we need to update the version?
         if args.patch:
