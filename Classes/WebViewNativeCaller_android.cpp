@@ -1,5 +1,5 @@
 #include "WebViewNativeCaller_android.h"
-#include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
+#include <AzoomeeCommon/Data/Cookie/CookieManager.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
@@ -11,7 +11,6 @@
 #include "ContentHistoryManager.h"
 #include "RecentlyPlayedManager.h"
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
-#include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
 #include <AzoomeeCommon/Strings.h>
@@ -271,7 +270,7 @@ extern "C"
 
 JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIGetAllCookies(JNIEnv* env, jobject thiz)
 {
-    jstring returnString = env->NewStringUTF(CookieDataProvider::getInstance()->getAllCookiesInJson().c_str());
+    jstring returnString = env->NewStringUTF(CookieManager::getInstance()->getAllCookiesInJson().c_str());
     return returnString;
 }
 
