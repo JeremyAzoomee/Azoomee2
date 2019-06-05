@@ -175,6 +175,7 @@
 		92BDD4C72237BC0800DA56F3 /* ShopDataHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4C62237BC0800DA56F3 /* ShopDataHandler.cpp */; };
 		92BDD4CA2237D39E00DA56F3 /* DataDownloadHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4C92237D39E00DA56F3 /* DataDownloadHandler.cpp */; };
 		92BDD4DC223FB8C100DA56F3 /* NotificationNodeDisplayManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4DB223FB8C100DA56F3 /* NotificationNodeDisplayManager.cpp */; };
+		92D1B49622A8178400357513 /* ChildManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D1B49522A8178400357513 /* ChildManager.cpp */; };
 		92E58566220DD3F00015A4FA /* RewardCallbackHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E58565220DD3F00015A4FA /* RewardCallbackHandler.cpp */; };
 		92E5856B2211A4E80015A4FA /* RewardItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E5856A2211A4E80015A4FA /* RewardItem.cpp */; };
 		92E58571221AC47C0015A4FA /* InventoryItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E58570221AC47C0015A4FA /* InventoryItem.cpp */; };
@@ -525,6 +526,8 @@
 		92BDD4DA223FAAFF00DA56F3 /* NotificationNodeDisplayManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationNodeDisplayManager.h; sourceTree = "<group>"; };
 		92BDD4DB223FB8C100DA56F3 /* NotificationNodeDisplayManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NotificationNodeDisplayManager.cpp; sourceTree = "<group>"; };
 		92BDD4DD223FC3E100DA56F3 /* ResizeNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResizeNode.h; sourceTree = "<group>"; };
+		92D1B49422A8146B00357513 /* ChildManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChildManager.h; sourceTree = "<group>"; };
+		92D1B49522A8178400357513 /* ChildManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChildManager.cpp; sourceTree = "<group>"; };
 		92DC96E4227729C4007557AB /* TutorialGuide.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TutorialGuide.h; sourceTree = "<group>"; };
 		92E5855F220D8ED30015A4FA /* RewardCallbackHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RewardCallbackHandler.h; sourceTree = "<group>"; };
 		92E58565220DD3F00015A4FA /* RewardCallbackHandler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RewardCallbackHandler.cpp; sourceTree = "<group>"; };
@@ -692,6 +695,8 @@
 				3012ED601E969BF60009027D /* ChildDataStorage.h */,
 				92448ABF21EF5D0800E88C9D /* Child.h */,
 				92448AC021EF771300E88C9D /* Child.cpp */,
+				92D1B49422A8146B00357513 /* ChildManager.h */,
+				92D1B49522A8178400357513 /* ChildManager.cpp */,
 			);
 			path = Child;
 			sourceTree = "<group>";
@@ -1413,6 +1418,7 @@
 				4349C82A1EA8ADEF00FE964B /* MPCGPointToNSDictionaryValueTransformer.m in Sources */,
 				4349C81F1EA8ADEF00FE964B /* MPABTestDesignerDeviceInfoResponseMessage.m in Sources */,
 				4318E13A1F289DD500778E9A /* RequestAdultPinLayer.cpp in Sources */,
+				92D1B49622A8178400357513 /* ChildManager.cpp in Sources */,
 				924ACE0C20A4A073007A5550 /* HQStructureHandler.cpp in Sources */,
 				02A120251EAF83E0007EDD95 /* VersionChecker.cpp in Sources */,
 				4349C84D1EA8ADEF00FE964B /* MPUIColorToNSStringValueTransformer.m in Sources */,
