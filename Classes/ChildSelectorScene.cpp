@@ -2,7 +2,7 @@
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/API/API.h>
-#include <AzoomeeCommon/Data/Cookie/CookieDataParser.h>
+#include <AzoomeeCommon/Data/Cookie/CookieManager.h>
 #include <math.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
@@ -486,7 +486,7 @@ void ChildSelectorScene::onHttpRequestSuccess(const std::string& requestTag, con
         return;
     }
     
-    if(CookieDataParser::getInstance()->parseDownloadCookies(headers))
+    if(CookieManager::getInstance()->parseDownloadCookies(headers))
     {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
     }

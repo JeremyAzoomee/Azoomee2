@@ -6,7 +6,7 @@
 //
 
 #include "FileDownloader.h"
-#include "../Data/Cookie/CookieDataProvider.h"
+#include "../Data/Cookie/CookieManager.h"
 #include "../Data/ConfigStorage.h"
 #include "../Data/Parent/ParentDataProvider.h"
 #include "StringFunctions.h"
@@ -64,7 +64,7 @@ void FileDownloader::downloadFileFromServer(const std::string& url, const std::s
     _downloadRequest->setUrl(url.c_str());
     
     std::vector<std::string> headers{
-        "Cookie: " + CookieDataProvider::getInstance()->getCookiesForRequest(url),
+        "Cookie: " + CookieManager::getInstance()->getCookiesForRequest(url),
         "X-AZ-COUNTRYCODE: " + ParentDataProvider::getInstance()->getLoggedInParentCountryCode()
     };
     if(_etag != "")

@@ -6,7 +6,7 @@
 #include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
-#include <AzoomeeCommon/Data/Cookie/CookieDataParser.h>
+#include <AzoomeeCommon/Data/Cookie/CookieManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
@@ -332,7 +332,7 @@ void BackEndCaller::getGordon()
 
 void BackEndCaller::onGetGordonAnswerReceived(const std::string& responseString)
 {
-    if(CookieDataParser::getInstance()->parseDownloadCookies(responseString))
+    if(CookieManager::getInstance()->parseDownloadCookies(responseString))
     {
 		ContentItemPoolHandler::getInstance()->getLatestData([](bool success){ //on complete
 			if(success)

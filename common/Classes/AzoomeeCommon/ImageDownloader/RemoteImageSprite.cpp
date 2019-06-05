@@ -1,5 +1,4 @@
 #include "RemoteImageSprite.h"
-#include "../Data/Cookie/CookieDataStorage.h"
 #include "../UI/ElectricDreamsTextStyles.h"
 #include "../Strings.h"
 #include "../Data/ConfigStorage.h"
