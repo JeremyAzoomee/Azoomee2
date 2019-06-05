@@ -13,7 +13,6 @@
 #include "HQSceneElementVisual.h"
 #include "HQDataProvider.h"
 #include "GameDataManager.h"
-#include "HQScene2.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
@@ -22,6 +21,8 @@ using namespace cocos2d;
 using namespace network;
 
 NS_AZOOMEE_BEGIN
+
+const float HQSceneElementVisual::kGroupContentItemImagePlaceholder = 150.0f;
 
 bool HQSceneElementVisual::init()
 {
@@ -166,7 +167,7 @@ void HQSceneElementVisual::addImageDownloader()
     
     if(_elementCategory == ConfigStorage::kGroupHQName)
     {
-        groupHQVerticalImageOffset = HQScene2::kGroupContentItemImagePlaceholder;
+        groupHQVerticalImageOffset = kGroupContentItemImagePlaceholder;
     }
     
     _imageDownloader = RemoteImageSprite::create();

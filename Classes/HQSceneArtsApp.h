@@ -10,6 +10,10 @@ NS_AZOOMEE_BEGIN
 class HQSceneArtsApp : public cocos2d::Layer
 {
 public:
+	static const std::string kArtScrollViewName;
+
+	static cocos2d::Scene* createScene();
+	
     CREATE_FUNC(HQSceneArtsApp);
     virtual bool init();
     void onEnter();

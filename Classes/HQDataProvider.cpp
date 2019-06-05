@@ -6,7 +6,6 @@
 #include <external/json/stringbuffer.h>
 #include <external/json/prettywriter.h>
 
-#include "HQScene2.h"
 #include "BackEndCaller.h"
 #include "SceneManagerScene.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>

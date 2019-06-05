@@ -13,6 +13,8 @@ class HQSceneElementVisual : public cocos2d::Layer
 {
 
 public:
+	static const float kGroupContentItemImagePlaceholder;
+	
     CREATE_FUNC(HQSceneElementVisual);
     virtual bool init();
     

@@ -30,7 +30,6 @@
 		02A11FF81EA6375D007EDD95 /* RoutePaymentSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02A11FF41EA6375D007EDD95 /* RoutePaymentSingleton.cpp */; };
 		02BF05DD1F977FE800E7D086 /* AirshipKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02BF05D91F977FE800E7D086 /* AirshipKit.framework */; };
 		02BF05EB1F9788C300E7D086 /* AirshipConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 02BF05EA1F9788C300E7D086 /* AirshipConfig.plist */; };
-		02C66A9F1FBAF79400F33686 /* HQScene2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02C66A9A1FBAF79200F33686 /* HQScene2.cpp */; };
 		02D4FCD21FCEE5E2005BA020 /* IAPProductDataHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02D4FCD11FCEE5E1005BA020 /* IAPProductDataHandler.mm */; };
 		02D4FCD41FCF0D0C005BA020 /* IAPProductDataHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02D4FCD31FCF0D0B005BA020 /* IAPProductDataHandler.cpp */; };
 		02D644542087489800FF17B4 /* NativeContentInterface_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02D644522087489800FF17B4 /* NativeContentInterface_ios.mm */; };
@@ -335,7 +334,6 @@
 		92E5869D222425360015A4FA /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FB17EB989F00D1A890 /* AppController.mm */; };
 		92E5869E222425360015A4FA /* HQScene2ElementPositioner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0215646E1FC4202800641C14 /* HQScene2ElementPositioner.cpp */; };
 		92E5869F222425360015A4FA /* SettingsMessageBoxFREvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924E84762147FE2B004590FD /* SettingsMessageBoxFREvent.cpp */; };
-		92E586A0222425360015A4FA /* HQScene2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02C66A9A1FBAF79200F33686 /* HQScene2.cpp */; };
 		92E586A1222425360015A4FA /* SettingsMessageBoxDeleteChild.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924E845721427C05004590FD /* SettingsMessageBoxDeleteChild.cpp */; };
 		92E586A2222425360015A4FA /* DynamicNodeButtonListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB01F7908D400108553 /* DynamicNodeButtonListener.cpp */; };
 		92E586A3222425360015A4FA /* DynamicNodeLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92759E6F1FE1598100639190 /* DynamicNodeLine.cpp */; };
@@ -682,8 +680,6 @@
 		02BF05D91F977FE800E7D086 /* AirshipKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AirshipKit.framework; path = ../common/proj.ios_mac/Carthage/Build/iOS/AirshipKit.framework; sourceTree = "<group>"; };
 		02BF05EA1F9788C300E7D086 /* AirshipConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AirshipConfig.plist; sourceTree = "<group>"; };
 		02BF05EC1F97894500E7D086 /* azoomee2-mobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = "azoomee2-mobile.entitlements"; path = "azoomee2-mobile/azoomee2-mobile.entitlements"; sourceTree = "<group>"; };
-		02C66A9A1FBAF79200F33686 /* HQScene2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQScene2.cpp; sourceTree = "<group>"; };
-		02C66A9E1FBAF79300F33686 /* HQScene2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQScene2.h; sourceTree = "<group>"; };
 		02D4FCCB1FCED6E2005BA020 /* IAPProductDataHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPProductDataHandler.h; sourceTree = "<group>"; };
 		02D4FCD11FCEE5E1005BA020 /* IAPProductDataHandler.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IAPProductDataHandler.mm; sourceTree = "<group>"; };
 		02D4FCD31FCF0D0B005BA020 /* IAPProductDataHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IAPProductDataHandler.cpp; sourceTree = "<group>"; };
@@ -1177,8 +1173,6 @@
 		021564701FC4A8F100641C14 /* HQScene2 */ = {
 			isa = PBXGroup;
 			children = (
-				02C66A9A1FBAF79200F33686 /* HQScene2.cpp */,
-				02C66A9E1FBAF79300F33686 /* HQScene2.h */,
 				0215646E1FC4202800641C14 /* HQScene2ElementPositioner.cpp */,
 				0215646A1FC4202700641C14 /* HQScene2ElementPositioner.h */,
 				021564721FC4AB8300641C14 /* HQScene2PlaceHolderCreator.cpp */,
@@ -2509,7 +2503,6 @@
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				0215646F1FC4202800641C14 /* HQScene2ElementPositioner.cpp in Sources */,
 				924E84772147FE2B004590FD /* SettingsMessageBoxFREvent.cpp in Sources */,
-				02C66A9F1FBAF79400F33686 /* HQScene2.cpp in Sources */,
 				924E845821427C05004590FD /* SettingsMessageBoxDeleteChild.cpp in Sources */,
 				9224BFB11F7908D400108553 /* DynamicNodeButtonListener.cpp in Sources */,
 				92759E701FE1598100639190 /* DynamicNodeLine.cpp in Sources */,
@@ -2674,7 +2667,6 @@
 				92E5869D222425360015A4FA /* AppController.mm in Sources */,
 				92E5869E222425360015A4FA /* HQScene2ElementPositioner.cpp in Sources */,
 				92E5869F222425360015A4FA /* SettingsMessageBoxFREvent.cpp in Sources */,
-				92E586A0222425360015A4FA /* HQScene2.cpp in Sources */,
 				92E586A1222425360015A4FA /* SettingsMessageBoxDeleteChild.cpp in Sources */,
 				92E586A2222425360015A4FA /* DynamicNodeButtonListener.cpp in Sources */,
 				92E586A3222425360015A4FA /* DynamicNodeLine.cpp in Sources */,
