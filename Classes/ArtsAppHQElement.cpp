@@ -20,14 +20,16 @@ NS_AZOOMEE_BEGIN
 
 bool ArtsAppHQElement::initWithURLAndSize(const std::string& filePath, const Size& size, bool deletable, bool newImage, bool preload)
 {
-    if ( !Layer::init() )
+    if ( !Super::init() )
     {
         return false;
     }
     
     _elementActive = true;
     _newImage = newImage;
-    
+	
+	this->ignoreContentAdaptWithSize(false);
+	this->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     this->setCascadeOpacityEnabled(true);
     this->setContentSize(size);
     
@@ -78,11 +80,6 @@ void ArtsAppHQElement::loadImageTex()
         this->addImage(tex);
         this->release();
     });
-}
-
-void ArtsAppHQElement::setTouchEnabled(bool enabled)
-{
-	_touchEnabled = enabled;
 }
 
 void ArtsAppHQElement::enableOnScreenChecker()
@@ -210,9 +207,14 @@ void ArtsAppHQElement::deleteButtonVisible(bool visible)
 	}
 }
 
-void ArtsAppHQElement::setDeleteButtonCallback(const ArtsAppHQElement::DeleteButtonCallback &callback)
+void ArtsAppHQElement::setDeleteButtonCallback(const ArtHQElementButtonCallback &callback)
 {
 	_deleteCallback = callback;
+}
+
+void ArtsAppHQElement::setTouchCallback(const ArtHQElementButtonCallback &callback)
+{
+	_touchCallback = callback;
 }
 
 void ArtsAppHQElement::onExit()
@@ -230,82 +232,72 @@ void ArtsAppHQElement::onExit()
         _onScreenChecker->endCheck();
         _onScreenChecker->release();
     }
-    Layer::onExit();
+    Super::onExit();
 }
 
 void ArtsAppHQElement::addListenerToElement()
 {
-    auto listener = EventListenerTouchOneByOne::create();
-    listener->setSwallowTouches(false);
-    listener->onTouchBegan = [=](Touch *touch, Event *event)
-    {
-		if(!_touchEnabled)
+	this->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+		ui::Button* button = dynamic_cast<ui::Button*>(pSender);
+		if(!button)
 		{
-			return false;
+			return;
 		}
-		
-        auto target = static_cast<Node*>(event->getCurrentTarget());
-        
-        Point locationInNode = target->convertToNodeSpace(touch->getLocation());
-        Size s = target->getBoundingBox().size;//getContentSize();
-        Rect rect = Rect(0,0,s.width, s.height);
-        
-        if(rect.containsPoint(locationInNode))
-        {
+		switch (eType) {
+			
+			case ui::Widget::TouchEventType::BEGAN:
+			{
+				if(_overlayWhenTouched)
+				{
+					_overlayWhenTouched->setOpacity(150);
+				}
+				_touchPoint = this->convertToWorldSpace(button->getPosition());
+				break;
+			}
+			case ui::Widget::TouchEventType::MOVED:
+			{
+				float distance = _touchPoint.distance(this->convertToWorldSpace(button->getPosition()));
+				if( distance > 10)
+				{
+					if(_overlayWhenTouched)
+					{
+						_overlayWhenTouched->setOpacity(0);
+					}
+				}
+				break;
+			}
+			case ui::Widget::TouchEventType::ENDED:
+			{
+				if(_overlayWhenTouched && _overlayWhenTouched->getOpacity() == 0)
+				{
+					break;
+				}
+				
+				AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+				
+				if(_overlayWhenTouched)
+				{
+					_overlayWhenTouched->setOpacity(0);
+				}
+				
+				if(_touchCallback)
+				{
+					_touchCallback(_newImage ? "" : _imageURL);
+				}
+				
+				break;
+		}
+	case cocos2d::ui::Widget::TouchEventType::CANCELED:
+		{
+			if(_overlayWhenTouched)
+			{
+				_overlayWhenTouched->setOpacity(0);
+			}
+			break;
+		}
+		}
+	});
 
-            _overlayWhenTouched->setOpacity(150);
-            _iamtouched = true;
-            _movedAway = false;
-            _touchPoint = touch->getLocation();
-            
-            return true;
-        }
-        
-        return false;
-    };
-    
-    listener->onTouchMoved = [=](Touch *touch, Event *event)
-    {
-        if((touch->getLocation().distance(_touchPoint) > 10)&&(!_movedAway))
-        {
-            _movedAway = true;
-            _iamtouched = false;
-            _overlayWhenTouched->stopAllActions();
-            _overlayWhenTouched->setOpacity(0);
-        }
-        
-        return true;
-    };
-    
-    listener->onTouchEnded = [=](Touch *touch, Event *event)
-    {
-		AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
-        
-        if(_iamtouched)
-        {
-            _iamtouched = false;
-            _overlayWhenTouched->setOpacity(0);
-            _overlayWhenTouched->stopAllActions();
-            
-            if(_newImage)
-            {
-                ArtAppDelegate::getInstance()->setFileName("");
-                AnalyticsSingleton::getInstance()->contentItemSelectedEvent("NewArt");
-            }
-            else
-            {
-                ArtAppDelegate::getInstance()->setFileName(_imageURL);
-                AnalyticsSingleton::getInstance()->contentItemSelectedEvent("EditArt");
-            }
-            
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ArtAppEntryPointScene));
-            return true;
-        }
-        
-        return true;
-    };
-    
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), _baseLayer);
 }
 
 NS_AZOOMEE_END

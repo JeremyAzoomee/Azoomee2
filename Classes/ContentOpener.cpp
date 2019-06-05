@@ -14,8 +14,10 @@
 #include "WebViewSelector.h"
 #include "NavigationLayer.h"
 #include "RecentlyPlayedManager.h"
-#include "HQHistoryManager.h"
 #include "ArtAppDelegate.h"
+#include "ManualGameInputLayer.h"
+#include "DynamicNodeHandler.h"
+#include "IAPFlowController.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
@@ -91,12 +93,8 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
         HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kGroupHQName);
                 
 		HQHistoryManager::getInstance()->setGroupHQSourceId(contentItem->getContentItemId());
-                
-		//auto funcCallAction = CallFunc::create([=](){
-			HQDataProvider::getInstance()->getDataForGroupHQ(contentItem->getUri());
-		//});
-                
-		//Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
+		
+		HQDataProvider::getInstance()->getDataForGroupHQ(contentItem->getUri());
     }
     else if(contentItem->getType() == ConfigStorage::kContentTypeInternal)
     {
@@ -110,6 +108,53 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ArtAppEntryPointScene));
         }
     }
+}
+
+void ContentOpener::doCarouselContentOpenLogic(const HQContentItemObjectRef& contentItem, int rowIndex, int elementIndex, const std::string& hqCategory)
+{
+	if(contentItem->getType() == ConfigStorage::kContentTypeManual)
+	{
+		ManualGameInputLayer::create();
+		return;
+	}
+	
+	if(TutorialController::getInstance()->isTutorialActive() && (TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUVideoHQContent || TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUGameHQContent || TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUGroupHQContent))
+	{
+		TutorialController::getInstance()->nextStep();
+	}
+	
+	if(!contentItem->isEntitled())
+	{
+		AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, rowIndex, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(hqCategory, rowIndex, elementIndex));
+		AnalyticsSingleton::getInstance()->registerCTASource("lockedContent",contentItem->getContentItemId(),contentItem->getType());
+		IAPEntryContext context = IAPEntryContext::DEFAULT;
+		if(contentItem->getType() == ConfigStorage::kContentTypeGame)
+		{
+			context = IAPEntryContext::LOCKED_GAME;
+		}
+		else if(contentItem->getType() == ConfigStorage::kContentTypeVideo || contentItem->getType() == ConfigStorage::kContentTypeGroup)
+		{
+			context = IAPEntryContext::LOCKED_VIDEO;
+		}
+		DynamicNodeHandler::getInstance()->startIAPFlow(context);
+	}
+	
+	AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, rowIndex, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(hqCategory, rowIndex, elementIndex));
+	
+	if(contentItem->getType() == ConfigStorage::kContentTypeVideo || contentItem->getType() == ConfigStorage::kContentTypeAudio)
+	{
+		if(hqCategory == ConfigStorage::kGroupHQName)
+		{
+			VideoPlaylistManager::getInstance()->setPlaylist(HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqCategory)->getHqCarousels().at(rowIndex));
+		}
+		else
+		{
+			HQCarouselObjectRef carousel = HQCarouselObject::create();
+			carousel->addContentItemToCarousel(contentItem);
+			VideoPlaylistManager::getInstance()->setPlaylist(carousel);
+		}
+	}
+	openContentObject(contentItem);
 }
 
 

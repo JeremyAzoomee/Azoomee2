@@ -10,6 +10,7 @@
 #include "HQScene2ElementPositioner.h"
 #include "RecentlyPlayedManager.h"
 #include "HQDataProvider.h"
+#include "ContentOpener.h"
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
@@ -74,6 +75,10 @@ bool MeHQRecentlyPlayed::init()
 			hqSceneElement->setManualSizeMultiplier(unitMultiplier); //overriding default configuration contentItem sizes. Ideally this *should* go away when only the new hub is present everywhere.
 			
 			hqSceneElement->addHQSceneElement();
+			
+			hqSceneElement->setTouchCallback([elementIndex](const HQContentItemObjectRef& elementData){
+				ContentOpener::getInstance()->doCarouselContentOpenLogic(elementData, -1, elementIndex, ConfigStorage::kMeHQName);
+			});
 			
 			HQScene2ElementPositioner hqScene2ElementPositioner;
 			hqScene2ElementPositioner.setElement(hqSceneElement);

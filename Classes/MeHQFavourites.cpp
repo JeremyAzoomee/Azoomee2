@@ -13,6 +13,7 @@
 #include "HQDataProvider.h"
 #include "SceneManagerScene.h"
 #include "HQHistoryManager.h"
+#include "ContentOpener.h"
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
@@ -93,6 +94,9 @@ void MeHQFavourites::onEnter()
 				_deleteItemMessageBox->setDelegate(this);
 				Director::getInstance()->getRunningScene()->addChild(_deleteItemMessageBox);
             });
+			hqSceneElement->setTouchCallback([elementIndex](const HQContentItemObjectRef& elementData){
+				ContentOpener::getInstance()->doCarouselContentOpenLogic(elementData, -2, elementIndex, ConfigStorage::kMeHQName);
+			});
             
             hqSceneElement->addHQSceneElement();
             
