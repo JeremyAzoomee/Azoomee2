@@ -90,13 +90,18 @@ void MeHQGallery::onEnter()
         auto* currentElement = ArtsAppHQElement::create();
         currentElement->initWithURLAndSize(dirPath + "/" + artImages[elementIndex], contentItemSize * (((contentItemSize.width - contentItemMargin) * unitMultiplier) / contentItemSize.width), true, false);
         currentElement->enableOnScreenChecker();
-		currentElement->setDeleteButtonCallback([&](const std::string& imageFilename){
+		currentElement->setDeleteButtonCallback([this](const std::string& imageFilename){
 			_targetDeleteFilename = imageFilename;
 			_deleteItemMessageBox = ConfirmCancelMessageBox::createWithParams(_("Delete?"), "res/buttons/confirm_bin.png", "res/buttons/confirm_x_2.png");
 			_deleteItemMessageBox->setDelegate(this);
 			Director::getInstance()->getRunningScene()->addChild(_deleteItemMessageBox);
 		});
 		currentElement->deleteButtonVisible(_editEnabled);
+		currentElement->setTouchCallback([](const std::string& imageFilename){
+			ArtAppDelegate::getInstance()->setFileName(imageFilename);
+			AnalyticsSingleton::getInstance()->contentItemSelectedEvent(imageFilename == "" ? "NewArt" : "EditArt");
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ArtAppEntryPointScene));
+		});
         Vec2 elementShape = Vec2(1,1);
         
         HQScene2ElementPositioner hqScene2ElementPositioner;

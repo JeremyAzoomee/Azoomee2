@@ -8,6 +8,9 @@
 #include <algorithm>
 #include <AzoomeeCommon/UI/PrivacyLayer.h>
 #include "OfflineHubBackButton.h"
+#include "SceneManagerScene.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include "ArtAppDelegate.h"
 
 
 using namespace cocos2d;
@@ -158,7 +161,11 @@ void HQSceneArtsApp::addImageToHorizontalScrollView(cocos2d::ui::ScrollView *toB
 {
     auto artImage = ArtsAppHQElement::create();
     artImage->initWithURLAndSize(imagePath, ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kArtAppHQName), deletable, newImage);
-    
+	artImage->setTouchCallback([](const std::string& imageFilename){
+		ArtAppDelegate::getInstance()->setFileName(imageFilename);
+		AnalyticsSingleton::getInstance()->contentItemSelectedEvent(imageFilename == "" ? "NewArt" : "EditArt");
+		Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ArtAppEntryPointScene));
+	});
     toBeAddedTo->addChild(artImage);
     
     auto sceneElementPositioner = new HQSceneElementPositioner();
