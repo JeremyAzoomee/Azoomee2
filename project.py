@@ -22,7 +22,7 @@ class AzoomeeApp:
 
     # Android project paths & settings
     ANDROID_PROJECT_DIR = os.path.join( os.path.dirname( os.path.abspath( __file__ ) ), 'proj.android' )
-    ANDROID_REQUIRED_NDK_VERSION = '16.1'
+    ANDROID_REQUIRED_NDK_VERSION = '19.2'
     ANDROID_BUILD_OUTPUTS_DIR = os.path.join( ANDROID_PROJECT_DIR, 'app', 'build', 'outputs' )
 
     # iOS project paths & settings
@@ -174,7 +174,7 @@ class AzoomeeApp:
         major_minor_version = current_version[ 0 : current_version.rfind('.') ]
         required_branch = 'release/' + major_minor_version
         if current_branch != required_branch:
-            pass #return self.exit_with_error( 'You must be on the branch "{branch}" in order to deploy this version.', branch=required_branch )
+            return self.exit_with_error( 'You must be on the branch "{branch}" in order to deploy this version.', branch=required_branch )
 
         # Do we need to update the version?
         if args.patch:
