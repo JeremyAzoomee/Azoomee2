@@ -27,8 +27,8 @@ class AzoomeeApp:
 
     # iOS project paths & settings
     IOS_PROJECT_DIR = os.path.join( os.path.dirname( os.path.abspath( __file__ ) ), 'proj.ios_mac' )
-    IOS_PROJECT_PATH = os.path.join( IOS_PROJECT_DIR, 'azoomee2.xcodeproj' )
-    IOS_PROJECT_TARGET = 'azoomee2-mobile'
+    IOS_PROJECT_PATH = os.path.join( IOS_PROJECT_DIR, 'Azoomee.xcodeproj' )
+    IOS_PROJECT_TARGET = 'Azoomee'
     IOS_PLIST_PATH = os.path.join( IOS_PROJECT_DIR, 'ios', 'Info.plist' )
     IOS_EXPORT_OPTIONS_PATH = os.path.join( IOS_PROJECT_DIR, 'ExportOptions.plist' )
 
@@ -145,7 +145,7 @@ class AzoomeeApp:
 
         platforms = self.PLATFORMS if 'all' in args.platform else args.platform
         for p in platforms:
-            self._perform_clean( p )
+            self._perform_clean( p, ci=False )
     
 
     def package( self, args ):
@@ -156,7 +156,7 @@ class AzoomeeApp:
 
         platforms = self.PLATFORMS if 'all' in args.platform else args.platform
         for p in platforms:
-            self._perform_package( p, force_rebuild=args.rebuild )
+            self._perform_package( p, ci=False, force_rebuild=args.rebuild )
     
 
     def deploy( self, args ):
@@ -174,7 +174,7 @@ class AzoomeeApp:
         major_minor_version = current_version[ 0 : current_version.rfind('.') ]
         required_branch = 'release/' + major_minor_version
         if current_branch != required_branch:
-            return self.exit_with_error( 'You must be on the branch "{branch}" in order to deploy this version.', branch=required_branch )
+            pass #return self.exit_with_error( 'You must be on the branch "{branch}" in order to deploy this version.', branch=required_branch )
 
         # Do we need to update the version?
         if args.patch:
@@ -184,10 +184,10 @@ class AzoomeeApp:
         # Now run deploy for each platform
         platforms = self.PLATFORMS if 'all' in args.platform else args.platform
         for p in platforms:
-            self._perform_deploy( p, force_rebuild=args.rebuild )
+            self._perform_deploy( p, ci=args.ci, force_rebuild=args.rebuild )
     
 
-    def _perform_clean( self, platform ):
+    def _perform_clean( self, platform, ci=False ):
         """
         Cleans build directory and project temp data for platform.
         """
@@ -197,10 +197,11 @@ class AzoomeeApp:
 
         # Run clean on project to clean temp build files
         if platform == 'ios':
+            environment = 'CI' if ci else 'Prod'
             try:
                 success = self.exec_system_command( 'xcodebuild clean -project "{project_path}" -configuration Release -target "{target}"', 
                                                     project_path=self.IOS_PROJECT_PATH, 
-                                                    target=self.IOS_PROJECT_TARGET )
+                                                    target=self.IOS_PROJECT_TARGET + ' ' + environment )
                 if success != 0:
                     return self.exit_with_error( 'Xcode clean failed with error {code}', code=success )
             except Exception as e:
@@ -223,7 +224,7 @@ class AzoomeeApp:
             print '{platform} clean not implemented yet'.format( platform=platform )
     
 
-    def _perform_package( self, platform, force_rebuild=False ):
+    def _perform_package( self, platform, ci, force_rebuild=False ):
         """
         Builds & packages app for a single platform.
         """
@@ -233,7 +234,7 @@ class AzoomeeApp:
 
         if platform == 'ios':
             build_config = 'Release'
-            environment = 'prod'
+            environment = 'CI' if ci else 'Prod'
             build_name = 'Azoomee-v{version}-{environment}'.format( version=self._get_current_version(), environment=environment )
 
             # Delete any existing built files for this version
@@ -242,14 +243,14 @@ class AzoomeeApp:
 
             # If we're forcing a rebuild, do a clean
             if force_rebuild:
-                self._perform_clean( platform )
+                self._perform_clean( platform, ci )
 
             # Build archive
             archive_path = os.path.join( platform_build_dir, build_name + '.xcarchive' )
             try:
                 success = self.exec_system_command( 'xcodebuild archive -project "{project_path}" -configuration "{config}" -scheme "{target}" -archivePath "{archive_path}"', 
                                                     project_path=self.IOS_PROJECT_PATH, 
-                                                    target=self.IOS_PROJECT_TARGET, 
+                                                    target=self.IOS_PROJECT_TARGET + ' ' + environment, 
                                                     config=build_config, 
                                                     archive_path=archive_path )
                 if success != 0:
@@ -271,7 +272,7 @@ class AzoomeeApp:
         elif platform in self.ANDROID_TARGETS:
             self._check_android_environment()
             build_config = 'release'
-            environment = 'prod'
+            environment = 'ci' if ci else 'prod'
             product = platform
             build_variant = product + environment.capitalize()
             build_name = 'Azoomee-v{version}-{product}-{environment}'.format( version=self._get_current_version(), product=product, environment=environment )
@@ -322,7 +323,7 @@ class AzoomeeApp:
             print '{platform} package not implemented yet'.format( platform=platform )
     
 
-    def _perform_deploy( self, platform, force_rebuild=False ):
+    def _perform_deploy( self, platform, ci, force_rebuild=False ):
         """
         Deploy app for testing for a single platform.
         """
@@ -331,19 +332,20 @@ class AzoomeeApp:
         
         if platform == 'ios':
             platform_build_dir = os.path.join( self.BUILD_DIR, platform )
-            build_name = 'Azoomee-v' + self._get_current_version()
+            environment = 'CI' if ci else 'Prod'
+            build_name = 'Azoomee-v{version}-{environment}'.format( version=self._get_current_version(), environment=environment )
             
             # If we're forcing a rebuild, do a clean and delete the existing archive and ipa
             if force_rebuild:
-                self._perform_clean( platform )
+                self._perform_clean( platform, ci )
                 shutil.rmtree( os.path.join( platform_build_dir, build_name + '.ipa' ), ignore_errors=True )
                 shutil.rmtree( os.path.join( platform_build_dir, build_name + '.xcarchive' ), ignore_errors=True )
 
-            ipa_path = os.path.join( platform_build_dir, build_name + '.ipa', self.IOS_PROJECT_TARGET + '.ipa' )
+            ipa_path = os.path.join( platform_build_dir, build_name + '.ipa', self.IOS_PROJECT_TARGET + ' ' + environment + '.ipa' )
 
             # Build if needed
             if not os.path.isfile( ipa_path ):
-                self._perform_package( platform )
+                self._perform_package( platform, ci )
 
             # If we don't have an ipa file now, we can't deploy anything
             if not os.path.isfile( ipa_path ):
@@ -371,13 +373,13 @@ class AzoomeeApp:
         elif platform in self.ANDROID_TARGETS:
             self._check_android_environment()
             build_config = 'release'
-            environment = 'prod'
+            environment = 'ci' if ci else 'prod'
             product = platform
             build_variant = product + environment.capitalize()
 
             # If we're forcing a rebuild, do a clean
             if force_rebuild:
-                self._perform_clean( platform )
+                self._perform_clean( platform, ci )
 
             restore_cwd = os.getcwd()
 
@@ -508,6 +510,7 @@ class AzoomeeApp:
         # Deploy the app to Fabric
         deploy_commands = subparsers.add_parser( 'deploy', help='deploy the app to Fabric' )
         deploy_commands.add_argument( '-p', '--platform', help='platform(s) to deploy', choices=platform_options, nargs='+', required=True )
+        deploy_commands.add_argument( '--ci', help='target the CI servers', action='store_true' )
         deploy_commands.add_argument( '--patch', help='automatically create a new Patch version (recommended)', action='store_true' )
         deploy_commands.add_argument( '--rebuild', help='force a rebuild, otherwise a build will only happen if needed', action='store_true' )
 

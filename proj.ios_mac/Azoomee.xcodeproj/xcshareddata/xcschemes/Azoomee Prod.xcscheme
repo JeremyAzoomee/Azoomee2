@@ -33,8 +33,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-            BuildableName = "Azoomee Production.app"
-            BlueprintName = "Azoomee Production"
+            BuildableName = "Azoomee Prod.app"
+            BlueprintName = "Azoomee Prod"
             ReferencedContainer = "container:Azoomee.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -56,8 +56,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-            BuildableName = "Azoomee Production.app"
-            BlueprintName = "Azoomee Production"
+            BuildableName = "Azoomee Prod.app"
+            BlueprintName = "Azoomee Prod"
             ReferencedContainer = "container:Azoomee.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
