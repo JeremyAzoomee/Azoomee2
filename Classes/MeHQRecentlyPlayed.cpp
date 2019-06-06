@@ -12,7 +12,6 @@
 #include "HQDataProvider.h"
 #include "ContentOpener.h"
 #include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/HQDataObject/ContentItemPool.h>
 #include <AzoomeeCommon/UI/Style.h>

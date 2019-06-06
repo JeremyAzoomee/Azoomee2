@@ -10,7 +10,7 @@
 #include <AzoomeeCommon/UI/MessageBox.h>
 #include "FlowDataSingleton.h"
 #include "SceneManagerScene.h"
-#include "AzoomeeCommon/Data/Child/ChildDataParser.h"
+#include "AzoomeeCommon/Data/Child/ChildManager.h"
 #include "DynamicNodeHandler.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 
@@ -195,7 +195,7 @@ void RoutePaymentSingleton::inAppPaymentSuccess()
         FlowDataSingleton::getInstance()->setSuccessFailPath(PREMIUM_EXISTING_ACCOUNT);
     }
     
-    ChildDataParser::getInstance()->setChildLoggedIn(false);
+    ChildManager::getInstance()->setChildLoggedIn(false);
     BackEndCaller::getInstance()->getAvailableChildren();
 }
 

@@ -1,9 +1,7 @@
 #include "BackEndCaller.h"
 
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
-#include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Data/Cookie/CookieDataParser.h>
@@ -300,7 +298,7 @@ void BackEndCaller::childLogin(int childNumber)
 
 void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString, const std::string& headerString)
 {
-    if((!ChildDataParser::getInstance()->parseChildLoginData(responseString)))
+    if((!ChildManager::getInstance()->parseChildLoginData(responseString)))
     {
         LoginLogicHandler::getInstance()->doLoginLogic();
         return;
@@ -323,8 +321,8 @@ void BackEndCaller::getGordon()
     IosNativeFunctionsSingleton::getInstance()->deleteHttpCookies(); //ios handles cookies on OS level. Removal of earlier cookies is important to avoid watching premium content with a free user.
 #endif
     
-    const std::string& userId = ChildDataProvider::getInstance()->getParentOrChildId();
-    const std::string& sessionId = ChildDataProvider::getInstance()->getParentOrChildCdnSessionId();
+    const std::string& userId = ChildManager::getInstance()->getParentOrChildId();
+    const std::string& sessionId = ChildManager::getInstance()->getParentOrChildCdnSessionId();
     
     HttpRequestCreator* request = API::GetGordenRequest(userId, sessionId, this);
     request->execute();
@@ -467,9 +465,9 @@ void BackEndCaller::getHQContent(const std::string& url, const std::string& cate
 // DEEPLINK CONTENT DETAILS REQUEST ----------------------------------------------------------------
 void BackEndCaller::GetContent(const std::string& requestId, const std::string& contentID)
 {
-    if(ChildDataStorage::getInstance()->isChildLoggedIn())
+    if(ChildManager::getInstance()->isChildLoggedIn())
     {
-        HttpRequestCreator* request = API::GetContent(requestId, ChildDataStorage::getInstance()->getLoggedInChild()->getId(), contentID, this);
+        HttpRequestCreator* request = API::GetContent(requestId, ChildManager::getInstance()->getLoggedInChild()->getId(), contentID, this);
         request->execute();
     }
 }
@@ -483,7 +481,7 @@ void BackEndCaller::resetPasswordRequest(const std::string& emailAddress)
 
 void BackEndCaller::getChildInventory()
 {
-	const ChildRef& child = ChildDataProvider::getInstance()->getLoggedInChild();
+	const ChildRef& child = ChildManager::getInstance()->getLoggedInChild();
 	if(child)
 	{
 		HttpRequestCreator* request = API::GetInventory(child->getId(), this);
@@ -510,7 +508,7 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     }
 	else if(requestTag == API::TagGetInventory)
 	{
-		ChildDataParser::getInstance()->parseChildInventory(body);
+		ChildManager::getInstance()->parseChildInventory(body);
 	}
     else if(requestTag == API::TagGetAvailableChildren)
     {
@@ -540,7 +538,7 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     {
         rapidjson::Document json;
         json.Parse(body.c_str());
-		const ChildRef& child = ChildDataProvider::getInstance()->getLoggedInChild();
+		const ChildRef& child = ChildManager::getInstance()->getLoggedInChild();
 		child->setAvatar(getStringFromJson("avatar", json));
         ImageDownloaderRef imageDownloader = ImageDownloader::create("imageCache/", ImageDownloader::CacheMode::File );
         imageDownloader->downloadImage(nullptr, getStringFromJson("avatar", json), true);

@@ -1,7 +1,7 @@
 #include "JWTTool.h"
 #include "../Data/Json.h"
 #include "../Data/Parent/ParentDataProvider.h"
-#include "../Data/Child/ChildDataProvider.h"
+#include "../Data/Child/ChildManager.h"
 #include "../Net/Utils.h"
 #include <iomanip>
 
@@ -89,7 +89,7 @@ std::string JWTTool::getAppropriateAPISecret()
     }
     else
     {
-        return ChildDataProvider::getInstance()->getParentOrChildApiSecret();
+        return ChildManager::getInstance()->getParentOrChildApiSecret();
     }
 }
     
@@ -101,7 +101,7 @@ std::string JWTTool::getAppropriateAPIKey()
     }
     else
     {
-        return ChildDataProvider::getInstance()->getParentOrChildApiKey();
+        return ChildManager::getInstance()->getParentOrChildApiKey();
     }
 }
     
@@ -113,7 +113,7 @@ std::string JWTTool::getAppropriateUserId()
     }
     else
     {
-        return ChildDataProvider::getInstance()->getParentOrChildId();
+        return ChildManager::getInstance()->getParentOrChildId();
     }
 }
     

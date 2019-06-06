@@ -18,7 +18,7 @@
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Tutorial/TutorialController.h>
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
@@ -73,7 +73,7 @@ void MeHQ::onEnter()
 	}
 	else if(!TutorialController::getInstance()->isTutorialCompleted(TutorialController::kFTUShopID))
 	{
-		if(ChildDataProvider::getInstance()->getLoggedInChild()->getInventory()->getCoins() > 0)
+		if(ChildManager::getInstance()->getLoggedInChild()->getInventory()->getCoins() > 0)
 		{
 			TutorialController::getInstance()->startTutorial(TutorialController::kFTUShopID);
 		}

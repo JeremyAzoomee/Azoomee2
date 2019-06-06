@@ -1,7 +1,7 @@
 #include "LoginLogicHandler.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
-#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "BackEndCaller.h"
 #include "DeepLinkingSingleton.h"
@@ -39,7 +39,7 @@ void LoginLogicHandler::doLoginLogic()
     emptyUserName();
 #endif
     
-    Azoomee::ChildDataParser::getInstance()->setChildLoggedIn(false);
+    Azoomee::ChildManager::getInstance()->setChildLoggedIn(false);
     
     if(Azoomee::ParentDataParser::getInstance()->hasParentLoginDataInUserDefaults())
     {

@@ -15,7 +15,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Utils/DirectorySearcher.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
@@ -65,7 +65,7 @@ void MeHQGallery::onEnter()
     
     totalHeight += heading->getContentSize().height + 50;
     
-    const std::string& dirPath = FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getParentOrChildId();
+    const std::string& dirPath = FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildManager::getInstance()->getParentOrChildId();
     
     if(!FileUtils::getInstance()->isDirectoryExist(dirPath))
     {

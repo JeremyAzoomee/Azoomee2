@@ -5,7 +5,7 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Utils/DirectorySearcher.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 
 using namespace cocos2d;
@@ -80,7 +80,7 @@ bool MessageComposer::init()
     _artListView->setSizeType(ui::Widget::SizeType::PERCENT);
     _artListView->setSizePercent(Vec2(1.0f, 0.99f));
     
-    const std::string& artDir = FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getParentOrChildId();
+    const std::string& artDir = FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildManager::getInstance()->getParentOrChildId();
     const auto& files = DirectorySearcher::getInstance()->getImagesInDirectory(artDir);
     std::vector<std::string> fullFiles;
     

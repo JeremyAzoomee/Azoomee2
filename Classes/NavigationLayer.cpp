@@ -4,9 +4,6 @@
 #include "HQSceneArtsApp.h"
 
 #include <AzoomeeCommon/Utils/SpecialCalendarEventManager.h>
-#include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
-#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include "PreviewLoginSignupMessageBox.h"
 #include "HQHistoryManager.h"

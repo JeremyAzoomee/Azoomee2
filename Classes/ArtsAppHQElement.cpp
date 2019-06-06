@@ -1,7 +1,6 @@
 #include "ArtsAppHQElement.h"
 #include <AzoomeeCommon/Data/Cookie/CookieDataStorage.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "AppDelegate.h"
 #include "PreviewLoginSignupMessageBox.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>

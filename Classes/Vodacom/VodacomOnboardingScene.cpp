@@ -19,7 +19,7 @@
 #include "../SceneManagerScene.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
-#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/API/API.h>
@@ -294,7 +294,7 @@ void VodacomOnboardingScene::onHttpRequestSuccess(const std::string& requestTag,
 		}
 		else
 		{
-			ChildDataParser::getInstance()->setChildLoggedIn(false);
+			ChildManager::getInstance()->setChildLoggedIn(false);
 			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChildSelector));
 		}
 	}
@@ -311,7 +311,7 @@ void VodacomOnboardingScene::onHttpRequestSuccess(const std::string& requestTag,
 	}
 	else if(requestTag == API::TagUpdateBillingData)
 	{
-		ChildDataParser::getInstance()->setChildLoggedIn(false);
+		ChildManager::getInstance()->setChildLoggedIn(false);
 		ParentDataParser::getInstance()->parseParentBillingData(body);
 		Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChildSelector));
 	}
@@ -321,7 +321,7 @@ void VodacomOnboardingScene::onHttpRequestFailed(const std::string& requestTag, 
 	ModalMessages::getInstance()->stopLoading();
 	if(requestTag == API::TagGetAvailableChildren || requestTag == API::TagUpdateBillingData)
 	{
-		ChildDataParser::getInstance()->setChildLoggedIn(false);
+		ChildManager::getInstance()->setChildLoggedIn(false);
 		Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChildSelector));
 	}
 }

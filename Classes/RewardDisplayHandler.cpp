@@ -7,8 +7,7 @@
 
 #include "RewardDisplayHandler.h"
 #include <AzoomeeCommon/API/API.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
-#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/NotificationNodeDisplayManager.h>
@@ -73,7 +72,7 @@ bool RewardDisplayHandler::isRunningAnimationPossible()
 
 void RewardDisplayHandler::getPendingRewards()
 {
-	HttpRequestCreator* request = API::GetPendingRewards(ChildDataProvider::getInstance()->getLoggedInChild()->getId(), this);
+	HttpRequestCreator* request = API::GetPendingRewards(ChildManager::getInstance()->getLoggedInChild()->getId(), this);
 	request->execute();
 }
 
@@ -174,12 +173,12 @@ void RewardDisplayHandler::onHttpRequestSuccess(const std::string& requestTag, c
 	}
 	else if(requestTag == API::TagRedeemReward)
 	{
-		HttpRequestCreator* getInvReq = API::GetInventory(ChildDataProvider::getInstance()->getLoggedInChild()->getId(), this);
+		HttpRequestCreator* getInvReq = API::GetInventory(ChildManager::getInstance()->getLoggedInChild()->getId(), this);
 		getInvReq->execute();
 	}
 	else if(requestTag == API::TagGetInventory)
 	{
-		ChildDataParser::getInstance()->parseChildInventory(body);
+		ChildManager::getInstance()->parseChildInventory(body);
 		Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(kRewardRedeemedEventKey);
 	}
 	

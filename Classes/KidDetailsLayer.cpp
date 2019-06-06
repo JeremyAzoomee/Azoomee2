@@ -10,7 +10,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/NativeShare/NativeShare.h>
@@ -263,7 +263,7 @@ void KidDetailsLayer::onEnter()
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
 			const std::string& targetChildId = _child->getId();
-			if(ChildDataProvider::getInstance()->isChildLoggedIn() && ChildDataProvider::getInstance()->getParentOrChildId() == targetChildId)
+			if(ChildManager::getInstance()->isChildLoggedIn() && ChildManager::getInstance()->getParentOrChildId() == targetChildId)
 			{
 				SettingsMessageBoxNotification* messageBox = SettingsMessageBoxNotification::create();
 				messageBox->setHeading(_("You can't do that right now, this child is currently logged in."));

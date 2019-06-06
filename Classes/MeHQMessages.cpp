@@ -18,7 +18,7 @@
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
@@ -313,9 +313,9 @@ void MeHQMessages::createMessageList()
                     
                     AnalyticsSingleton::getInstance()->contentItemSelectedEvent("CHAT");
                     
-                    const std::string& childId = ChildDataProvider::getInstance()->getParentOrChildId();
-                    const std::string& childName = ChildDataProvider::getInstance()->getParentOrChildName();
-                    const std::string& childAvatar = ChildDataProvider::getInstance()->getParentOrChildAvatarId();
+                    const std::string& childId = ChildManager::getInstance()->getParentOrChildId();
+                    const std::string& childName = ChildManager::getInstance()->getParentOrChildName();
+                    const std::string& childAvatar = ChildManager::getInstance()->getParentOrChildAvatarId();
                     Chat::FriendRef currentUser = Chat::Friend::create(childId, childName, childAvatar);
                     
                     Chat::FriendList participants = { currentUser, *friendIt };

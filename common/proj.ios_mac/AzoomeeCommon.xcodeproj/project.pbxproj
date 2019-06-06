@@ -31,9 +31,6 @@
 		3012ED521E969AE40009027D /* CookieDataStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED4E1E969AE40009027D /* CookieDataStorage.cpp */; };
 		3012ED581E969BBB0009027D /* ParentDataProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED541E969BBB0009027D /* ParentDataProvider.cpp */; };
 		3012ED591E969BBB0009027D /* ParentDataStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED561E969BBB0009027D /* ParentDataStorage.cpp */; };
-		3012ED611E969BF60009027D /* ChildDataParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED5B1E969BF60009027D /* ChildDataParser.cpp */; };
-		3012ED621E969BF60009027D /* ChildDataProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED5D1E969BF60009027D /* ChildDataProvider.cpp */; };
-		3012ED631E969BF60009027D /* ChildDataStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED5F1E969BF60009027D /* ChildDataStorage.cpp */; };
 		3012ED6F1E96A3140009027D /* TextInputChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED661E96A3140009027D /* TextInputChecker.cpp */; };
 		3012ED701E96A3140009027D /* StringFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED6B1E96A3140009027D /* StringFunctions.cpp */; };
 		3012ED711E96A3140009027D /* StringMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED6D1E96A3140009027D /* StringMgr.cpp */; };
@@ -235,12 +232,6 @@
 		3012ED551E969BBB0009027D /* ParentDataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParentDataProvider.h; sourceTree = "<group>"; };
 		3012ED561E969BBB0009027D /* ParentDataStorage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParentDataStorage.cpp; sourceTree = "<group>"; };
 		3012ED571E969BBB0009027D /* ParentDataStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParentDataStorage.h; sourceTree = "<group>"; };
-		3012ED5B1E969BF60009027D /* ChildDataParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChildDataParser.cpp; sourceTree = "<group>"; };
-		3012ED5C1E969BF60009027D /* ChildDataParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildDataParser.h; sourceTree = "<group>"; };
-		3012ED5D1E969BF60009027D /* ChildDataProvider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChildDataProvider.cpp; sourceTree = "<group>"; };
-		3012ED5E1E969BF60009027D /* ChildDataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildDataProvider.h; sourceTree = "<group>"; };
-		3012ED5F1E969BF60009027D /* ChildDataStorage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChildDataStorage.cpp; sourceTree = "<group>"; };
-		3012ED601E969BF60009027D /* ChildDataStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildDataStorage.h; sourceTree = "<group>"; };
 		3012ED641E96A3140009027D /* ErrorCodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ErrorCodes.h; sourceTree = "<group>"; };
 		3012ED661E96A3140009027D /* TextInputChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextInputChecker.cpp; sourceTree = "<group>"; };
 		3012ED671E96A3140009027D /* TextInputChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextInputChecker.h; sourceTree = "<group>"; };
@@ -687,12 +678,6 @@
 		3012ED5A1E969BF60009027D /* Child */ = {
 			isa = PBXGroup;
 			children = (
-				3012ED5B1E969BF60009027D /* ChildDataParser.cpp */,
-				3012ED5C1E969BF60009027D /* ChildDataParser.h */,
-				3012ED5D1E969BF60009027D /* ChildDataProvider.cpp */,
-				3012ED5E1E969BF60009027D /* ChildDataProvider.h */,
-				3012ED5F1E969BF60009027D /* ChildDataStorage.cpp */,
-				3012ED601E969BF60009027D /* ChildDataStorage.h */,
 				92448ABF21EF5D0800E88C9D /* Child.h */,
 				92448AC021EF771300E88C9D /* Child.cpp */,
 				92D1B49422A8146B00357513 /* ChildManager.h */,
@@ -1309,7 +1294,6 @@
 				4349C81A1EA8ADEF00FE964B /* MPABTestDesignerChangeResponseMessage.m in Sources */,
 				021B1FC91F838A0A0044DCF7 /* HQCarouselObject.cpp in Sources */,
 				3012EDB21E97E8450009027D /* JWTTool.cpp in Sources */,
-				3012ED611E969BF60009027D /* ChildDataParser.cpp in Sources */,
 				30DD5ED61E965E060084305B /* AnalyticsSingleton_ios.mm in Sources */,
 				4349C8361EA8ADEF00FE964B /* MPNotificationButton.m in Sources */,
 				4349C8591EA8ADEF00FE964B /* UIApplication+AutomaticEvents.m in Sources */,
@@ -1335,7 +1319,6 @@
 				92084F0B21B5877B00DACCEB /* BillingData.cpp in Sources */,
 				92244D8122789B5E004C9B45 /* TutorialMessagingNode.cpp in Sources */,
 				3012ED9F1E97E6A40009027D /* RemoteImageSprite.cpp in Sources */,
-				3012ED631E969BF60009027D /* ChildDataStorage.cpp in Sources */,
 				92B1EC8D20A209CC007A58C0 /* ContentItemPoolParser.cpp in Sources */,
 				302E847A1ED1B992006A498C /* SplitLayout.cpp in Sources */,
 				3000FF7B1ED5BBB700E9717C /* Application.cpp in Sources */,
@@ -1364,7 +1347,6 @@
 				9224C00C1F7CFD7E00108553 /* FileZipUtil.cpp in Sources */,
 				4349C8321EA8ADEF00FE964B /* MPEventBinding.m in Sources */,
 				4349C8291EA8ADEF00FE964B /* MPCGColorRefToNSStringValueTransformer.m in Sources */,
-				3012ED621E969BF60009027D /* ChildDataProvider.cpp in Sources */,
 				431369781F2B60AC002BEA8C /* MessageBoxChatReportChatLayer.cpp in Sources */,
 				021B1FCC1F838A0A0044DCF7 /* HQDataObjectStorage.cpp in Sources */,
 				4349C85C1EA8ADEF00FE964B /* UIImage+MPImageEffects.m in Sources */,

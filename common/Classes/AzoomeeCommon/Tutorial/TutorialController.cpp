@@ -9,7 +9,7 @@
 #include <algorithm>
 #include "../UI/NotificationNodeDisplayManager.h"
 #include "../Strings.h"
-#include "../Data/Child/ChildDataProvider.h"
+#include "../Data/Child/ChildManager.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -200,12 +200,12 @@ void TutorialController::highlightMessageString(const std::string& targetStr, co
 
 bool TutorialController::isTutorialCompleted(const std::string& tutorialId)
 {
-	return cocos2d::UserDefault::getInstance()->getBoolForKey((tutorialId + "_" + ChildDataProvider::getInstance()->getParentOrChildId()).c_str(), false);
+	return cocos2d::UserDefault::getInstance()->getBoolForKey((tutorialId + "_" + ChildManager::getInstance()->getParentOrChildId()).c_str(), false);
 }
 
 void TutorialController::setTutorialCompleted(const std::string& tutorialId)
 {
-	cocos2d::UserDefault::getInstance()->setBoolForKey((tutorialId + "_" + ChildDataProvider::getInstance()->getParentOrChildId()).c_str(), true);
+	cocos2d::UserDefault::getInstance()->setBoolForKey((tutorialId + "_" + ChildManager::getInstance()->getParentOrChildId()).c_str(), true);
 }
 
 NS_AZOOMEE_END

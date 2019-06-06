@@ -6,7 +6,7 @@
 //
 
 #include "TutorialGuide.h"
-#include "../Data/Child/ChildDataProvider.h"
+#include "../Data/Child/ChildManager.h"
 #include "../ImageDownloader/RemoteImageSprite.h"
 
 using namespace cocos2d;
@@ -49,11 +49,11 @@ bool TutorialGuide::init()
 								Color4F::GREEN);
 	_clippingNode->setStencil(_stencil);
 	
-	if(ChildDataProvider::getInstance()->isChildLoggedIn())
+	if(ChildManager::getInstance()->isChildLoggedIn())
 	{
 		RemoteImageSprite* avatar = RemoteImageSprite::create();
 		avatar->setKeepAspectRatio(true);
-		avatar->initWithUrlAndSizeWithoutPlaceholder(ChildDataProvider::getInstance()->getLoggedInChild()->getAvatar(), contentSize * 1.1f);
+		avatar->initWithUrlAndSizeWithoutPlaceholder(ChildManager::getInstance()->getLoggedInChild()->getAvatar(), contentSize * 1.1f);
 		avatar->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 		avatar->setNormalizedPosition(Vec2(0.5,0.65));
 		_avatar = avatar;

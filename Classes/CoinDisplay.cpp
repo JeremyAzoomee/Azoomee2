@@ -8,7 +8,7 @@
 #include "CoinDisplay.h"
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include "SceneManagerScene.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
@@ -108,7 +108,7 @@ void CoinDisplay::update(float deltaT)
 	}
 	else
 	{
-		sTargetVal = ChildDataProvider::getInstance()->getLoggedInChild()->getInventory()->getCoins();
+		sTargetVal = ChildManager::getInstance()->getLoggedInChild()->getInventory()->getCoins();
 		if(sTargetVal != sCoinCount)
 		{
 			sIncPerSec = (sTargetVal - sCoinCount) / 2.0f;

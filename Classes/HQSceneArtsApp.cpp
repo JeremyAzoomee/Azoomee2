@@ -1,6 +1,6 @@
 #include "HQSceneArtsApp.h"
 #include "ArtsAppHQElement.h"
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "HQSceneElementPositioner.h"
@@ -120,7 +120,7 @@ void HQSceneArtsApp::createArtsAppScrollView()
     auto horizontalScrollView = createHorizontalScrollView(this->getContentSize());
     this->addChild(horizontalScrollView);
     
-    const std::string& parentOrChildId = ChildDataProvider::getInstance()->getParentOrChildId();
+    const std::string& parentOrChildId = ChildManager::getInstance()->getParentOrChildId();
     
     if(!FileUtils::getInstance()->isDirectoryExist(FileUtils::getInstance()->getWritablePath() + "artCache/" + parentOrChildId))
     {
@@ -145,7 +145,7 @@ void HQSceneArtsApp::addEmptyImageToHorizontalScrollView(cocos2d::ui::ScrollView
 
 void HQSceneArtsApp::addCreatedImagesToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo)
 {
-    const std::string& path = FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getParentOrChildId();
+    const std::string& path = FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildManager::getInstance()->getParentOrChildId();
     std::vector<std::string> fileList = DirectorySearcher::getInstance()->getImagesInDirectory(path);
     
     std::reverse(fileList.begin(), fileList.end());

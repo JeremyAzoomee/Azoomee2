@@ -6,7 +6,7 @@
 //
 
 #include "OomeeMakerDataHandler.h"
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Utils/DirectorySearcher.h>
 #include "../UI/OomeeSelectScene.h"
@@ -71,7 +71,7 @@ void OomeeMakerDataHandler::getLatestData(const OnCompleteCallback& callback)
 		_callback = callback;
 	}
 	ModalMessages::getInstance()->startLoading();
-	HttpRequestCreator* request = API::GetOomeeMakerAssets(ChildDataProvider::getInstance()->getParentOrChildId(), this);
+	HttpRequestCreator* request = API::GetOomeeMakerAssets(ChildManager::getInstance()->getParentOrChildId(), this);
 	request->execute();
 }
 
@@ -166,7 +166,7 @@ std::string OomeeMakerDataHandler::getFullSaveDir() const
 #ifdef STANDALONE_APP
     const std::string& searchDir =  assetDir + "user/";
 #else
-    const std::string& searchDir =  assetDir + ChildDataProvider::getInstance()->getParentOrChildId() + "/";
+    const std::string& searchDir =  assetDir + ChildManager::getInstance()->getParentOrChildId() + "/";
 #endif
     
     if(!FileUtils::getInstance()->isDirectoryExist(searchDir))
@@ -182,7 +182,7 @@ std::string OomeeMakerDataHandler::getLocalSaveDir() const
 #ifdef STANDALONE_APP
     return kBaseFolderName + "user/";
 #else
-    return kBaseFolderName + ChildDataProvider::getInstance()->getParentOrChildId() + "/";
+    return kBaseFolderName + ChildManager::getInstance()->getParentOrChildId() + "/";
 #endif
 }
 

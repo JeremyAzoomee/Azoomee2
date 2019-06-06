@@ -1,5 +1,5 @@
 #include "ContentItemPool.h"
-#include "../Child/ChildDataProvider.h"
+#include "../Child/ChildManager.h"
 #include "../../Utils/StringFunctions.h"
 
 using namespace cocos2d;
@@ -84,7 +84,7 @@ void ContentItemPool::setPoolEtag(const std::string &etag)
 
 void ContentItemPool::backupContentItemPool()
 {
-    const std::string &contentPath = FileUtils::getInstance()->getWritablePath() + "contentCache/" + ChildDataProvider::getInstance()->getParentOrChildId() + "/";
+    const std::string &contentPath = FileUtils::getInstance()->getWritablePath() + "contentCache/" + ChildManager::getInstance()->getParentOrChildId() + "/";
     
     if(!FileUtils::getInstance()->isDirectoryExist(contentPath))
     {
@@ -110,7 +110,7 @@ void ContentItemPool::restoreContentItemPool()
 {
     emptyContentItemPool();
     
-    const std::string &contentFilePath = FileUtils::getInstance()->getWritablePath() + "contentCache/" + ChildDataProvider::getInstance()->getParentOrChildId() + "/contentCache.bak";
+    const std::string &contentFilePath = FileUtils::getInstance()->getWritablePath() + "contentCache/" + ChildManager::getInstance()->getParentOrChildId() + "/contentCache.bak";
     if(!FileUtils::getInstance()->isFileExist(contentFilePath))
     {
         return;

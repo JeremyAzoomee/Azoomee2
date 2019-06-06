@@ -1,6 +1,6 @@
 #include "ChatAPI.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Json.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <cocos/cocos2d.h>
@@ -67,7 +67,7 @@ void ChatAPI::updateProfileNames()
     _profileNames.clear();
     
     // Add the current child user
-    ChildDataProvider* childData = ChildDataProvider::getInstance();
+    ChildManager* childData = ChildManager::getInstance();
     _profileNames[childData->getParentOrChildId()] = childData->getParentOrChildName();
     
     // Add names from friend list
@@ -113,7 +113,7 @@ void ChatAPI::removeObserver(ChatAPIObserver* observer)
 
 void ChatAPI::requestFriendList()
 {
-    ChildDataProvider* childData = ChildDataProvider::getInstance();
+    ChildManager* childData = ChildManager::getInstance();
     HttpRequestCreator* request = API::GetChatListRequest(childData->getParentOrChildId(), this);
     request->execute();
 }
@@ -125,13 +125,13 @@ FriendList ChatAPI::getFriendList() const
 
 void ChatAPI::reportChat(const FriendRef &friendObj)
 {
-    HttpRequestCreator *request = API::SendChatReportRequest(ChildDataProvider::getInstance()->getParentOrChildId(), friendObj->friendId(), this);
+    HttpRequestCreator *request = API::SendChatReportRequest(ChildManager::getInstance()->getParentOrChildId(), friendObj->friendId(), this);
     request->execute();
 }
 
 void ChatAPI::resetReportedChat(const FriendRef &friendObj)
 {
-    HttpRequestCreator *request = API::ResetReportedChatRequest(ChildDataProvider::getInstance()->getParentOrChildId(), friendObj->friendId(), this);
+    HttpRequestCreator *request = API::ResetReportedChatRequest(ChildManager::getInstance()->getParentOrChildId(), friendObj->friendId(), this);
     request->execute();
 }
 
@@ -139,7 +139,7 @@ void ChatAPI::resetReportedChat(const FriendRef &friendObj)
 
 void ChatAPI::requestMessageHistory(const FriendRef& friendObj, int pageNumber)
 {
-    ChildDataProvider* childData = ChildDataProvider::getInstance();
+    ChildManager* childData = ChildManager::getInstance();
     HttpRequestCreator* request = API::GetChatMessagesRequest(childData->getParentOrChildId(), friendObj->friendId(), pageNumber, this);
     request->execute();
 }
@@ -148,7 +148,7 @@ void ChatAPI::requestMessageHistory(const FriendRef& friendObj, int pageNumber)
 
 void ChatAPI::sendMessage(const FriendRef& friendObj, const MessageRef& message)
 {
-    ChildDataProvider* childData = ChildDataProvider::getInstance();
+    ChildManager* childData = ChildManager::getInstance();
     const JsonObjectRepresentation& asJson = *message.get();
     HttpRequestCreator* request = API::SendChatMessageRequest(childData->getParentOrChildId(), friendObj->friendId(), asJson, this);
     request->execute();
@@ -158,14 +158,14 @@ void ChatAPI::sendMessage(const FriendRef& friendObj, const MessageRef& message)
 
 void ChatAPI::markMessagesAsRead(const FriendRef& friendObj, const MessageRef& message)
 {
-    ChildDataProvider* childData = ChildDataProvider::getInstance();
+    ChildManager* childData = ChildManager::getInstance();
     HttpRequestCreator* request = API::MarkReadMessageRequest(childData->getParentOrChildId(), friendObj->friendId(), message->timestamp(), this);
     request->execute();
 }
 
 void ChatAPI::getTimelineSummary()
 {
-    HttpRequestCreator* request = API::GetTimelineSummary(ChildDataProvider::getInstance()->getParentOrChildId(), this);
+    HttpRequestCreator* request = API::GetTimelineSummary(ChildManager::getInstance()->getParentOrChildId(), this);
     request->execute();
 }
 
@@ -357,7 +357,7 @@ void ChatAPI::onModerationStatusResponseSuccess(const std::string& requestTag, c
     const std::string& status = getStringFromJson("status", response);
     
     // Make sure the confirmation is for the current user
-    const std::string& currentChildID = ChildDataProvider::getInstance()->getParentOrChildId();
+    const std::string& currentChildID = ChildManager::getInstance()->getParentOrChildId();
     if(userIdA != currentChildID)
     {
         // Not related to the current user

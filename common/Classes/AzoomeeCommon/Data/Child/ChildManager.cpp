@@ -117,6 +117,16 @@ ChildRef ChildManager::getLoggedInChild() const
 	return _loggedInChild;
 }
 
+void ChildManager::setChildLoggedIn(bool loggedIn)
+{
+	_childLoggedIn = loggedIn;
+}
+
+void ChildManager::setLoggedInChild(const ChildRef &child)
+{
+	_loggedInChild = child;
+}
+
 bool ChildManager::parseChildLoginData(const std::string &responseData)
 {
 	rapidjson::Document data;

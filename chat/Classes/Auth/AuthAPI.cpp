@@ -2,9 +2,7 @@
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
-#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
-#include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Json.h>
 #include <AzoomeeCommon/ErrorCodes.h>
 #include <cocos/cocos2d.h>
@@ -89,7 +87,7 @@ void AuthAPI::getAvailableChildren()
 
 bool AuthAPI::isChildLoggedIn() const
 {
-    ChildDataProvider* childData = ChildDataProvider::getInstance();
+    ChildManager* childData = ChildManager::getInstance();
     const std::string& childId = childData->getParentOrChildId();
     return !childId.empty();
 }
@@ -102,7 +100,7 @@ void AuthAPI::loginChild(const std::string& profileName)
 
 void AuthAPI::logoutChild()
 {
-    ChildDataParser::getInstance()->setChildLoggedIn(false);
+    ChildManager::getInstance()->setChildLoggedIn(false);
 }
 
 #pragma mark - HttpRequestCreatorResponseDelegate
@@ -112,8 +110,7 @@ void AuthAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
 //    cocos2d::log("AuthAPI::onHttpRequestSuccess: %s, body=%s", requestTag.c_str(), body.c_str());
     ParentDataParser* parentDataParser = ParentDataParser::getInstance();
     ParentDataProvider* parentData = ParentDataProvider::getInstance();
-    ChildDataParser* childDataParser = ChildDataParser::getInstance();
-    ChildDataProvider* childData = ChildDataProvider::getInstance();
+    ChildManager* childData = ChildManager::getInstance();
     
     // Parent login success
     if(requestTag == API::TagLogin)
@@ -154,7 +151,7 @@ void AuthAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
     // Child login success
     else if(requestTag == API::TagChildLogin)
     {
-        childDataParser->parseChildLoginData(body);
+        childData->parseChildLoginData(body);
         cocos2d::log("Logged in as child: %s", childData->getLoggedInChildName().c_str());
         
         // Notify observers

@@ -8,7 +8,7 @@
 #include "ContentHistoryManager.h"
 #include "HQDataProvider.h"
 #include "ContentOpener.h"
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
@@ -42,7 +42,7 @@ void ChatDelegate::shareContentInChat()
 void ChatDelegate::onChatNavigationBack()
 {
     // Go back to the hub
-    if(ChildDataProvider::getInstance()->isChildLoggedIn())
+    if(ChildManager::getInstance()->isChildLoggedIn())
     {
         HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));

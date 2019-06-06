@@ -2,7 +2,6 @@
 
 #include "ConfigStorage.h"
 #include "Parent/ParentDataProvider.h"
-#include "Child/ChildDataProvider.h"
 #include "../Analytics/AnalyticsSingleton.h"
 #include "../API/API.h"
 #include "../Net/Utils.h"

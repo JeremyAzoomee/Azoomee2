@@ -12,7 +12,7 @@
 #include "../Json.h"
 #include "../../UI/ModalMessages.h"
 #include "../Parent/ParentDataProvider.h"
-#include "../Child/ChildDataProvider.h"
+#include "../Child/ChildManager.h"
 #include "ContentItemPool.h"
 
 NS_AZOOMEE_BEGIN
@@ -48,7 +48,7 @@ void ContentItemPoolHandler::getLatestData(const OnCompleteCallback& callback)
 		_callback = callback;
 	}
     ModalMessages::getInstance()->startLoading();
-	const std::string& childId = ChildDataProvider::getInstance()->getLoggedInChild()->getId();
+	const std::string& childId = ChildManager::getInstance()->getLoggedInChild()->getId();
     HttpRequestCreator* request = API::GetContentPoolRequest(childId, this);
     request->execute();
 }

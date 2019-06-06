@@ -11,7 +11,7 @@
 #include "HQDataProvider.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
@@ -73,7 +73,7 @@ bool MeHQProfileDetails::init()
     });
 	
 	_profileImageDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
-	_profileImageDownloader->downloadImage(this, ChildDataProvider::getInstance()->getParentOrChildAvatarId());
+	_profileImageDownloader->downloadImage(this, ChildManager::getInstance()->getParentOrChildAvatarId());
     avatarLayout->addChild(_avatar);
     
     Sprite* editIcon = Sprite::create("res/oomeeMaker/edit_button.png");
@@ -87,7 +87,7 @@ bool MeHQProfileDetails::init()
     _labelLayout->setSizePercent(isPortrait ? Vec2(1.0,0.3) : Vec2(0.5,1.0));
     this->addChild(_labelLayout);
     
-    _nameLabel = Label::createWithTTF(ChildDataProvider::getInstance()->getParentOrChildName(),Style::Font::Regular() , is3x4Device ? 96 : 140);
+    _nameLabel = Label::createWithTTF(ChildManager::getInstance()->getParentOrChildName(),Style::Font::Regular() , is3x4Device ? 96 : 140);
     _nameLabel->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE : Vec2::ANCHOR_MIDDLE_BOTTOM);
     _nameLabel->setNormalizedPosition(Vec2(0.5,isPortrait ? 0.60 : 0.4));
     _nameLabel->setContentSize(Size(contentSize.width /2, contentSize.height / 3.0f));
@@ -96,7 +96,7 @@ bool MeHQProfileDetails::init()
     
     _labelLayout->addChild(_nameLabel);
     
-	_kidCodeLabel = ui::Text::create(_("Kid Code:") + " " + ChildDataProvider::getInstance()->getLoggedInChild()->getInviteCode(), Style::Font::Regular(), is3x4Device ? 67 : 80);
+	_kidCodeLabel = ui::Text::create(_("Kid Code:") + " " + ChildManager::getInstance()->getLoggedInChild()->getInviteCode(), Style::Font::Regular(), is3x4Device ? 67 : 80);
     _kidCodeLabel->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE : Vec2::ANCHOR_MIDDLE_TOP);
     _kidCodeLabel->setNormalizedPosition(Vec2(0.5,isPortrait ? 0.25 : 0.35));
     _kidCodeLabel->setContentSize(Size(contentSize.width /2, contentSize.height / 3.0f));

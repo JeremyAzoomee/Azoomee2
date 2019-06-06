@@ -1,5 +1,5 @@
 #include "ParentDataParser.h"
-#include "../Child/ChildDataStorage.h"
+#include "../Child/ChildManager.h"
 #include "../Parent/ParentDataStorage.h"
 #include "../../UI/ModalMessages.h"
 #include "../../Crashlytics/CrashlyticsConfig.h"
@@ -195,7 +195,7 @@ void ParentDataParser::parseChildUpdateData(const ChildRef& child, const std::st
     
 void ParentDataParser::logoutChild()
 {
-    ChildDataStorage::getInstance()->setChildLoggedIn(false);
+    ChildManager::getInstance()->setChildLoggedIn(false);
 }
 
 void ParentDataParser::addParentLoginDataToUserDefaults()

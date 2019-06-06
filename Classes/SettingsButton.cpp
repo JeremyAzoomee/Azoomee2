@@ -1,6 +1,6 @@
 #include "SettingsButton.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "SceneManagerScene.h"
@@ -30,7 +30,7 @@ bool SettingsButton::init()
 			}
 			else
 			{
-				Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildDataProvider::getInstance()->isChildLoggedIn() ? SceneNameEnum::ChildSettingsHub : SceneNameEnum::SettingsFromChildSelect));
+				Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildManager::getInstance()->isChildLoggedIn() ? SceneNameEnum::ChildSettingsHub : SceneNameEnum::SettingsFromChildSelect));
 			}
 		}
 	});

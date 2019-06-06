@@ -3,7 +3,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
@@ -79,9 +79,9 @@ void FriendListScene::onEnter()
     Super::onEnter();
     
     // Create a friend object which represents the current user
-    const std::string& childId = ChildDataProvider::getInstance()->getParentOrChildId();
-    const std::string& childName = ChildDataProvider::getInstance()->getParentOrChildName();
-    const std::string& childAvatar = ChildDataProvider::getInstance()->getParentOrChildAvatarId();
+    const std::string& childId = ChildManager::getInstance()->getParentOrChildId();
+    const std::string& childName = ChildManager::getInstance()->getParentOrChildName();
+    const std::string& childAvatar = ChildManager::getInstance()->getParentOrChildAvatarId();
     _currentUser = Friend::create(childId, childName, childAvatar);
     
     // Register for API events
@@ -186,10 +186,10 @@ void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
     childAvatar->setLayoutParameter(CreateCenterVerticalLinearLayoutParam());
     childAvatar->setSizeType(ui::Widget::SizeType::ABSOLUTE);
     
-    if(ChildDataProvider::getInstance()->isChildLoggedIn())
+    if(ChildManager::getInstance()->isChildLoggedIn())
     {
-        oomeeFileName = ChildDataProvider::getInstance()->getParentOrChildAvatarId();
-		displayName = "   " + ChildDataProvider::getInstance()->getParentOrChildName() + " (" + _("Kid Code:") + " " + ChildDataProvider::getInstance()->getLoggedInChild()->getInviteCode() + ")";
+        oomeeFileName = ChildManager::getInstance()->getParentOrChildAvatarId();
+		displayName = "   " + ChildManager::getInstance()->getParentOrChildName() + " (" + _("Kid Code:") + " " + ChildManager::getInstance()->getLoggedInChild()->getInviteCode() + ")";
         auto childAvatarSprite = RemoteImageSprite::create();
         childAvatarSprite->setKeepAspectRatio(true);
         childAvatarSprite->initWithUrlAndSizeWithoutPlaceholder(oomeeFileName, Size(128,128));

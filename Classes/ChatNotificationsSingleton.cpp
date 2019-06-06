@@ -1,6 +1,5 @@
 #include "ChatNotificationsSingleton.h"
 #include <AzoomeeCommon/Utils/StringFunctions.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/API/HttpRequestCreator.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>

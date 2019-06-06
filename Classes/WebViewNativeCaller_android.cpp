@@ -1,6 +1,6 @@
 #include "WebViewNativeCaller_android.h"
 #include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "HQHistoryManager.h"
@@ -129,7 +129,7 @@ void WebViewNativeCaller_android::onEnterTransitionDidFinish()
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     SessionIdManager::getInstance()->registerAndroidSceneChangeEvent();
-    JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "startWebView", loadUrl,ChildDataProvider::getInstance()->getParentOrChildId(),(int)_orientation, _closeButtonAnchor.x, _closeButtonAnchor.y, _videoProgressSeconds);
+    JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "startWebView", loadUrl,ChildManager::getInstance()->getParentOrChildId(),(int)_orientation, _closeButtonAnchor.x, _closeButtonAnchor.y, _videoProgressSeconds);
         
 #endif
 }
@@ -391,7 +391,7 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNISendProgressMetaDataVid
 	ContentHistoryManager::getInstance()->onContentClosed();
 	const auto& contentItem = ContentHistoryManager::getInstance()->getLastOpenedContent();
 	const std::string& data = StringUtils::format("{\"contentId\":\"%s\", \"contentMeta\":{\"contentTitle\":\"%s\",\"contentType\":\"%s\", \"contentLength\":%d, \"unit\":\"SECONDS\", \"contentProgress\":%d, \"duration\":%ld, \"lastPlayedMeta\": [{\"start\":%s,\"end\":%s}]}}",contentItem->getContentItemId().c_str(), contentItem->getTitle().c_str(),contentItem->getType().c_str(), videoDuration, videoProgressSeconds ,ContentHistoryManager::getInstance()->getTimeInContentSec(), ContentHistoryManager::getInstance()->getContentOpenedTimeMs().c_str(), ContentHistoryManager::getInstance()->getContentClosedTimeMs().c_str());
-	HttpRequestCreator* request = API::UpdateContentProgressMeta(ChildDataProvider::getInstance()->getLoggedInChild()->getId(), data, nullptr);
+	HttpRequestCreator* request = API::UpdateContentProgressMeta(ChildManager::getInstance()->getLoggedInChild()->getId(), data, nullptr);
 	request->execute();
 }
 
@@ -409,7 +409,7 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNISendProgressMetaDataGam
 	ContentHistoryManager::getInstance()->onContentClosed();
 	const auto& contentItem = ContentHistoryManager::getInstance()->getLastOpenedContent();
 	const std::string& data = StringUtils::format("{\"contentId\":\"%s\", \"contentMeta\":{\"contentTitle\":\"%s\",\"contentType\":\"%s\", \"unit\":\"SECONDS\", \"duration\":%ld, \"lastPlayedMeta\": [{\"start\":%s,\"end\":%s}]}}",contentItem->getContentItemId().c_str(), contentItem->getTitle().c_str(), contentItem->getType().c_str(), ContentHistoryManager::getInstance()->getTimeInContentSec(), ContentHistoryManager::getInstance()->getContentOpenedTimeMs().c_str(), ContentHistoryManager::getInstance()->getContentClosedTimeMs().c_str());
-	HttpRequestCreator* request = API::UpdateContentProgressMeta(ChildDataProvider::getInstance()->getLoggedInChild()->getId(), data, nullptr);
+	HttpRequestCreator* request = API::UpdateContentProgressMeta(ChildManager::getInstance()->getLoggedInChild()->getId(), data, nullptr);
 	request->execute();
 }
 

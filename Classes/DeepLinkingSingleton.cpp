@@ -5,7 +5,7 @@
 #include "GameDataManager.h"
 #include "HQDataProvider.h"
 #include "HQHistoryManager.h"
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "VideoPlaylistManager.h"
@@ -108,7 +108,7 @@ bool DeepLinkingSingleton::actionDeepLink()
         return false;
     }
     
-    if(host == "content" && ChildDataProvider::getInstance()->isChildLoggedIn())
+    if(host == "content" && ChildManager::getInstance()->isChildLoggedIn())
     {
         AnalyticsSingleton::getInstance()->deepLinkingContentEvent();
         
@@ -129,7 +129,7 @@ bool DeepLinkingSingleton::actionDeepLink()
     }
     else if(host == "moveto")
     {
-        if(path == "signup" && !ChildDataProvider::getInstance()->isChildLoggedIn() && !ParentDataParser::getInstance()->hasParentLoginDataInUserDefaults())
+        if(path == "signup" && !ChildManager::getInstance()->isChildLoggedIn() && !ParentDataParser::getInstance()->hasParentLoginDataInUserDefaults())
         {
             AnalyticsSingleton::getInstance()->deepLinkingMoveToEvent(path);
             
@@ -139,7 +139,7 @@ bool DeepLinkingSingleton::actionDeepLink()
             return true;
         }
         
-        if(!ChildDataProvider::getInstance()->isChildLoggedIn())
+        if(!ChildManager::getInstance()->isChildLoggedIn())
         {
             return false;
         }

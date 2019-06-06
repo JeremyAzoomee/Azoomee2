@@ -10,7 +10,7 @@
 #include "CoinCollectLayer.h"
 #include "AwesomeLayer.h"
 #include "CoinChestLayer.h"
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 
 using namespace cocos2d;
 
@@ -49,7 +49,7 @@ void RewardScene::onEnter()
 	CoinCollectLayer* coinCollect = CoinCollectLayer::create();
 	coinCollect->setDuration(_duration * 0.375f);
 	coinCollect->setRewardData(_rewardData);
-	coinCollect->setOomeeFilepath(ChildDataProvider::getInstance()->getLoggedInChild()->getAvatar());
+	coinCollect->setOomeeFilepath(ChildManager::getInstance()->getLoggedInChild()->getAvatar());
 	coinCollect->setDeleagte(this);
 	coinCollect->retain();
 	_screenSequence.push_back(coinCollect);
