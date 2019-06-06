@@ -11,7 +11,6 @@
 #include <cocos/cocos2d.h>
 #include "../Json.h"
 #include "../../UI/ModalMessages.h"
-#include "../Parent/ParentDataProvider.h"
 #include "../Child/ChildManager.h"
 #include "ContentItemPool.h"
 

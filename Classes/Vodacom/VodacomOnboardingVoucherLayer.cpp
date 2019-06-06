@@ -10,8 +10,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/API/API.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
@@ -195,12 +194,12 @@ void VodacomOnboardingVoucherLayer::onHttpRequestSuccess(const std::string& requ
 	if(requestTag == API::TagAddVoucher)
 	{
 		AnalyticsSingleton::getInstance()->vodacomOnboardingVoucherAdded(_flowData->getVoucherCode());
-		HttpRequestCreator* request = API::UpdateBillingDataRequest(ParentDataProvider::getInstance()->getLoggedInParentId(), this);
+		HttpRequestCreator* request = API::UpdateBillingDataRequest(ParentManager::getInstance()->getLoggedInParentId(), this);
 		request->execute();
 	}
 	else if(requestTag == API::TagUpdateBillingData)
 	{
-		ParentDataParser::getInstance()->parseParentBillingData(body);
+		ParentManager::getInstance()->parseParentBillingData(body);
 		if(_delegate)
 		{
 			_delegate->moveToState(FlowState::SUCCESS);
@@ -230,7 +229,7 @@ void VodacomOnboardingVoucherLayer::onConfirmPressed()
 		if(_flowData->getUserType() == UserType::FREE)
 		{
 			ModalMessages::getInstance()->startLoading();
-			HttpRequestCreator* request = API::AddVoucher(ParentDataProvider::getInstance()->getLoggedInParentId(), _voucherInput->getText(), this);
+			HttpRequestCreator* request = API::AddVoucher(ParentManager::getInstance()->getLoggedInParentId(), _voucherInput->getText(), this);
 			request->execute();
 		}
 		else

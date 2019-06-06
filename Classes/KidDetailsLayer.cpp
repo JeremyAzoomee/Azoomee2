@@ -9,9 +9,8 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/NativeShare/NativeShare.h>
 #include <AzoomeeCommon/API/API.h>
@@ -321,7 +320,7 @@ void KidDetailsLayer::onHttpRequestSuccess(const std::string& requestTag, const 
 		if(!data.HasParseError())
 		{
 			
-			ParentDataParser::getInstance()->parseChildUpdateData(_child, body);
+			ParentManager::getInstance()->parseChildUpdateData(_child, body);
 			_nameText->setString(_child->getProfileName());
 			reduceLabelTextToFitWidth(_nameText, _nameLayout->getContentSize().width * 0.8f);
 			_editNameButton->setPosition((_displayNameLayout->getContentSize() * 0.5) + Size(_nameText->getContentSize().width * 0.5f,0));

@@ -12,7 +12,7 @@
 #include "DynamicNodeHandler.h"
 
 #include <AzoomeeCommon/Utils/SpecialCalendarEventManager.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 
@@ -112,10 +112,10 @@ void HQScene::buildCoreUI()
 	_messagingLayer->setPosition(-Vec2(0,350));
 	_messagingLayer->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	UserBillingType userType = UserBillingType::ANON;
-	if(!ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
+	if(!ParentManager::getInstance()->isLoggedInParentAnonymous())
 	{
 		userType = UserBillingType::LAPSED;
-		if(ParentDataProvider::getInstance()->isPaidUser())
+		if(ParentManager::getInstance()->isPaidUser())
 		{
 			userType = UserBillingType::PAID;
 		}

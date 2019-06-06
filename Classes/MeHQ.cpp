@@ -22,7 +22,7 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
 
 #include "MeHQProfileDetails.h"
 #include "MeHQGallery.h"
@@ -159,7 +159,7 @@ void MeHQ::buildListView()
 		_sectionIndexMap[kRecentlyPlayedLayerName] = indexNum++;
 	}
 	
-	if(!ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
+	if(!ParentManager::getInstance()->isLoggedInParentAnonymous())
 	{
 		auto messageList = MeHQMessages::create();
 		messageList->setLayoutParameter(CreateTopCenterRelativeLayoutParam());

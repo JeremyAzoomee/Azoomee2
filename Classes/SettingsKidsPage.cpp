@@ -9,8 +9,7 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
@@ -92,11 +91,11 @@ void SettingsKidsPage::onEnter()
 
 void SettingsKidsPage::addKidsToScrollView()
 {
-    for(int i = 0; i < ParentDataProvider::getInstance()->getAmountOfAvailableChildren(); i++)
+    for(int i = 0; i < ParentManager::getInstance()->getAmountOfAvailableChildren(); i++)
     {
         KidDetailsLayer* kidLayer = KidDetailsLayer::create();
         kidLayer->setContentSize(Size(_kidList->getContentSize().width, 1900));
-		kidLayer->setChild(ParentDataProvider::getInstance()->getChild(i));
+		kidLayer->setChild(ParentManager::getInstance()->getChild(i));
         kidLayer->setDeleteChildCallback([&](){
             ModalMessages::getInstance()->startLoading();
             HttpRequestCreator* request = API::GetAvailableChildrenRequest(this);
@@ -111,7 +110,7 @@ void SettingsKidsPage::addKidsToScrollView()
 void SettingsKidsPage::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
     ModalMessages::getInstance()->stopLoading();
-    if(ParentDataParser::getInstance()->parseAvailableChildren(body))
+    if(ParentManager::getInstance()->parseAvailableChildren(body))
     {
         _kidList->removeAllItems();
         addKidsToScrollView();

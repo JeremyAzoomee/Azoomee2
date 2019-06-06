@@ -1,6 +1,6 @@
 #include "JWTTool.h"
 #include "../Data/Json.h"
-#include "../Data/Parent/ParentDataProvider.h"
+#include "../Data/Parent/ParentManager.h"
 #include "../Data/Child/ChildManager.h"
 #include "../Net/Utils.h"
 #include <iomanip>
@@ -85,7 +85,7 @@ std::string JWTTool::getAppropriateAPISecret()
 {
     if(_forceParent)
     {
-        return ParentDataProvider::getInstance()->getLoggedInParentApiSecret();
+        return ParentManager::getInstance()->getLoggedInParentApiSecret();
     }
     else
     {
@@ -97,7 +97,7 @@ std::string JWTTool::getAppropriateAPIKey()
 {
     if(_forceParent)
     {
-        return ParentDataProvider::getInstance()->getLoggedInParentApiKey();
+        return ParentManager::getInstance()->getLoggedInParentApiKey();
     }
     else
     {
@@ -109,7 +109,7 @@ std::string JWTTool::getAppropriateUserId()
 {
     if(_forceParent)
     {
-        return ParentDataProvider::getInstance()->getLoggedInParentId();
+        return ParentManager::getInstance()->getLoggedInParentId();
     }
     else
     {
@@ -247,7 +247,7 @@ std::string JWTTool::getBodyString()
     writer.String(getBodySignature().c_str(), (int)getBodySignature().length());
     
     writer.String("parentKey", (int)StringUtils::format("parentKey").length());
-    writer.String(ParentDataProvider::getInstance()->getLoggedInParentApiKey().c_str(), (int)ParentDataProvider::getInstance()->getLoggedInParentApiKey().length());
+    writer.String(ParentManager::getInstance()->getLoggedInParentApiKey().c_str(), (int)ParentManager::getInstance()->getLoggedInParentApiKey().length());
     
     writer.EndObject();
     

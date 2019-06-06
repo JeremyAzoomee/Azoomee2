@@ -11,8 +11,7 @@
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include "../ChildCreator.h"
 #include "VodacomMessageBoxInfo.h"
 #include "VodacomMessageBoxNotification.h"
@@ -244,7 +243,7 @@ void VodacomOnboardingAddChildLayer::onHttpRequestSuccess(const std::string& req
 	else if(requestTag == API::TagGetAvailableChildren)
 	{
 		ModalMessages::getInstance()->stopLoading();
-		ParentDataParser::getInstance()->parseAvailableChildren(body);
+		ParentManager::getInstance()->parseAvailableChildren(body);
 		VodacomMessageBoxNotification* messageBox = VodacomMessageBoxNotification::create();
 		messageBox->setHeading(StringUtils::format("%s %s",_("Profile created for").c_str(),_flowData->getChildName().c_str()));
 		messageBox->setDelegate(this);
@@ -256,7 +255,7 @@ void VodacomOnboardingAddChildLayer::onHttpRequestSuccess(const std::string& req
 				if(_flowData->getPurchaseType() == PurchaseType::DCB)
 				{
 					ModalMessages::getInstance()->startLoading();
-					HttpRequestCreator* request = API::GetVodacomTransactionId(ParentDataProvider::getInstance()->getLoggedInParentId(), this);
+					HttpRequestCreator* request = API::GetVodacomTransactionId(ParentManager::getInstance()->getLoggedInParentId(), this);
 					request->execute();
 				}
 				else

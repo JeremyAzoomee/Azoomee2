@@ -6,8 +6,7 @@
 //
 
 #include "ChildManager.h"
-#include "../Parent/ParentDataStorage.h"
-#include "../Parent/ParentDataProvider.h"
+#include "../Parent/ParentManager.h"
 #include "../../Analytics/AnalyticsSingleton.h"
 #include "../../Crashlytics/CrashlyticsConfig.h"
 
@@ -39,7 +38,7 @@ std::string ChildManager::getParentOrChildId() const
 	}
 	else
 	{
-		return ParentDataStorage::getInstance()->getParent()->getId();
+		return ParentManager::getInstance()->getParent()->getId();
 	}
 }
 
@@ -51,7 +50,7 @@ std::string ChildManager::getParentOrChildCdnSessionId() const
 	}
 	else
 	{
-		return ParentDataStorage::getInstance()->getParent()->getCDNSessionId();
+		return ParentManager::getInstance()->getParent()->getCDNSessionId();
 	}
 }
 
@@ -63,7 +62,7 @@ std::string ChildManager::getParentOrChildApiSecret() const
 	}
 	else
 	{
-		return ParentDataStorage::getInstance()->getParent()->getAPISecret();
+		return ParentManager::getInstance()->getParent()->getAPISecret();
 	}
 }
 
@@ -75,7 +74,7 @@ std::string ChildManager::getParentOrChildApiKey() const
 	}
 	else
 	{
-		return ParentDataStorage::getInstance()->getParent()->getAPIKey();
+		return ParentManager::getInstance()->getParent()->getAPIKey();
 	}
 }
 
@@ -87,7 +86,7 @@ std::string ChildManager::getParentOrChildAvatarId() const
 	}
 	else
 	{
-		return ParentDataStorage::getInstance()->getParent()->getAvatar();
+		return ParentManager::getInstance()->getParent()->getAvatar();
 	}
 }
 
@@ -99,7 +98,7 @@ std::string ChildManager::getParentOrChildName() const
 	}
 	else
 	{
-		return ParentDataStorage::getInstance()->getParent()->getDisplayName();
+		return ParentManager::getInstance()->getParent()->getDisplayName();
 	}
 }
 
@@ -107,7 +106,7 @@ bool ChildManager::isChildLoggedIn() const
 {
 	if(!_childLoggedIn && _loggedInChild)
 	{
-		AnalyticsSingleton::getInstance()->debugEvent("childLoginFlagFalse", {{"parentId",ParentDataStorage::getInstance()->getParent()->getId()},{"childId",_loggedInChild->getId()}});
+		AnalyticsSingleton::getInstance()->debugEvent("childLoginFlagFalse", {{"parentId",ParentManager::getInstance()->getParent()->getId()},{"childId",_loggedInChild->getId()}});
 	}
 	return _childLoggedIn && _loggedInChild;
 }
@@ -136,7 +135,7 @@ bool ChildManager::parseChildLoginData(const std::string &responseData)
 		return false;
 	}
 	
-	ChildRef child = ParentDataProvider::getInstance()->getChildForId(getStringFromJson("id", data));
+	ChildRef child = ParentManager::getInstance()->getChildForId(getStringFromJson("id", data));
 	if(!child)
 	{
 		return false;
@@ -150,7 +149,7 @@ bool ChildManager::parseChildLoginData(const std::string &responseData)
 	def->setStringForKey("lastLoggedInChildId", child->getId());
 	def->flush();
 	
-	createCrashlyticsUserInfo(ParentDataProvider::getInstance()->getLoggedInParentId(), child->getId());
+	createCrashlyticsUserInfo(ParentManager::getInstance()->getLoggedInParentId(), child->getId());
 	
 	_childLoggedIn = true;
 	return true;

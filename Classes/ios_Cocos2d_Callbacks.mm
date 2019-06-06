@@ -10,7 +10,7 @@
 #include <AzoomeeCommon/ErrorCodes.h>
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
 #include "ContentHistoryManager.h"
 #include "FavouritesManager.h"
@@ -164,7 +164,7 @@ bool isChatEntitled()
 
 bool isAnonUser()
 {
-    return ParentDataProvider::getInstance()->isLoggedInParentAnonymous();
+    return ParentManager::getInstance()->isLoggedInParentAnonymous();
 }
 
 void sendProgressMetaDataVideo(int videoProgressSeconds, int videoDuration)

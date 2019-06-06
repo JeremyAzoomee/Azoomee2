@@ -6,7 +6,7 @@
 //
 
 #include "IAPFlowController.h"
-#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include "RoutePaymentSingleton.h"
@@ -230,7 +230,7 @@ void IAPFlowController::startAgeGate()
 
 void IAPFlowController::startIAP()
 {
-    if(ParentDataProvider::getInstance()->isUserLoggedIn())
+    if(ParentManager::getInstance()->isUserLoggedIn())
     {
         RequestAdultPinLayer* pinLayer = RequestAdultPinLayer::create();
         pinLayer->setDelegate(this);

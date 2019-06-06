@@ -17,8 +17,7 @@
 #include "VodacomOnboardingTnCLayer.h"
 #include "VodacomOnboardingDCBWebview.h"
 #include "../SceneManagerScene.h"
-#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Strings.h>
@@ -48,14 +47,14 @@ void VodacomOnboardingScene::onEnter()
 	AnalyticsSingleton::getInstance()->vodacomOnboardingFlowStartedEvent();
 	_flowData = VodacomOnboardingFlowData::create();
 	_flowData->pushState(FlowState::EXIT);
-	if(ParentDataProvider::getInstance()->isPaidUser())
+	if(ParentManager::getInstance()->isPaidUser())
 	{
 		_flowData->setUserType(UserType::REGISTERED);
 		moveToState(FlowState::DCB_WEBVIEW);
 	}       
 	else
 	{
-		_flowData->setUserType(ParentDataProvider::getInstance()->isLoggedInParentAnonymous() ? UserType::ANON : UserType::FREE);
+		_flowData->setUserType(ParentManager::getInstance()->isLoggedInParentAnonymous() ? UserType::ANON : UserType::FREE);
 		moveToState(FlowState::DETAILS);
 	}
 	Super::onEnter();
@@ -64,7 +63,7 @@ void VodacomOnboardingScene::onEnter()
 void VodacomOnboardingScene::exitFlow()
 {
 	AnalyticsSingleton::getInstance()->vodacomOnboardingFlowExitEvent();
-	if(ParentDataProvider::getInstance()->isUserLoggedIn())
+	if(ParentManager::getInstance()->isUserLoggedIn())
 	{
 		ModalMessages::getInstance()->startLoading();
 		HttpRequestCreator* request = API::GetAvailableChildrenRequest(this);
@@ -87,7 +86,7 @@ void VodacomOnboardingScene::moveToStateDCBProductSelected(const std::string& pr
 	else
 	{
 		ModalMessages::getInstance()->startLoading();
-		HttpRequestCreator* request = API::GetVodacomTransactionId(ParentDataProvider::getInstance()->getLoggedInParentId(), this);
+		HttpRequestCreator* request = API::GetVodacomTransactionId(ParentManager::getInstance()->getLoggedInParentId(), this);
 		request->execute();
 	}
 	
@@ -120,7 +119,7 @@ void VodacomOnboardingScene::sendEventForStateTransition()
 			stateString = "Login";
 			break;
 		case FlowState::SUCCESS:
-			if(ParentDataProvider::getInstance()->isPaidUser())
+			if(ParentManager::getInstance()->isPaidUser())
 			{
 				stateString = "Success - voucher redeemed";
 			}
@@ -283,12 +282,12 @@ void VodacomOnboardingScene::onHttpRequestSuccess(const std::string& requestTag,
 	ModalMessages::getInstance()->stopLoading();
 	if(requestTag == API::TagGetAvailableChildren)
 	{
-		ParentDataParser::getInstance()->parseAvailableChildren(body);
+		ParentManager::getInstance()->parseAvailableChildren(body);
 		if(_flowData->getDCBComplete())
 		{
 			ModalMessages::getInstance()->startLoading();
 			this->runAction(Sequence::createWithTwoActions(DelayTime::create(4.0f), CallFunc::create([this](){
-				HttpRequestCreator* request = API::UpdateBillingDataRequest(ParentDataProvider::getInstance()->getLoggedInParentId(), this);
+				HttpRequestCreator* request = API::UpdateBillingDataRequest(ParentManager::getInstance()->getLoggedInParentId(), this);
 				request->execute();
 			})));
 		}
@@ -312,7 +311,7 @@ void VodacomOnboardingScene::onHttpRequestSuccess(const std::string& requestTag,
 	else if(requestTag == API::TagUpdateBillingData)
 	{
 		ChildManager::getInstance()->setChildLoggedIn(false);
-		ParentDataParser::getInstance()->parseParentBillingData(body);
+		ParentManager::getInstance()->parseParentBillingData(body);
 		Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChildSelector));
 	}
 }

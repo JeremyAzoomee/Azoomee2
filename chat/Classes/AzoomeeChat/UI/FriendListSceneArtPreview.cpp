@@ -4,7 +4,7 @@
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "MessageScene.h"
@@ -213,7 +213,7 @@ void FriendListSceneArtPreview::onBackButtonPressed()
 
 void FriendListSceneArtPreview::onFriendListItemSelected(const FriendRef& friendData)
 {
-    const bool isParent = friendData->friendId() == ParentDataProvider::getInstance()->getLoggedInParentId();
+    const bool isParent = friendData->friendId() == ParentManager::getInstance()->getLoggedInParentId();
     AnalyticsSingleton::getInstance()->setChatFriendIsParent(isParent);
     AnalyticsSingleton::getInstance()->genericButtonPressEvent(isParent ? "ChatScene - SelectedParent" : "ChatScene - SelectedFriend");
     

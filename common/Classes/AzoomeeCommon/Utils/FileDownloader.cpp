@@ -8,7 +8,7 @@
 #include "FileDownloader.h"
 #include "../Data/Cookie/CookieDataProvider.h"
 #include "../Data/ConfigStorage.h"
-#include "../Data/Parent/ParentDataProvider.h"
+#include "../Data/Parent/ParentManager.h"
 #include "StringFunctions.h"
 
 using namespace cocos2d::network;
@@ -65,7 +65,7 @@ void FileDownloader::downloadFileFromServer(const std::string& url, const std::s
     
     std::vector<std::string> headers{
         "Cookie: " + CookieDataProvider::getInstance()->getCookiesForRequest(url),
-        "X-AZ-COUNTRYCODE: " + ParentDataProvider::getInstance()->getLoggedInParentCountryCode()
+        "X-AZ-COUNTRYCODE: " + ParentManager::getInstance()->getLoggedInParentCountryCode()
     };
     if(_etag != "")
     {

@@ -1,6 +1,6 @@
 #include "RoutePaymentSingleton.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "AmazonPaymentSingleton.h"
 #include "GooglePaymentSingleton.h"
@@ -55,7 +55,7 @@ void RoutePaymentSingleton::startInAppPayment()
 {
     if(receiptDataFileExists())
     {
-        if(!ParentDataProvider::getInstance()->isUserLoggedIn())
+        if(!ParentManager::getInstance()->isUserLoggedIn())
         {
             FlowDataSingleton::getInstance()->setSuccessFailPath(IAP_SUCCESS);
             DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
@@ -93,7 +93,7 @@ void RoutePaymentSingleton::startInAppPayment()
 
 bool RoutePaymentSingleton::showIAPContent()
 {
-    return !ParentDataProvider::getInstance()->isPaidUser();
+    return !ParentManager::getInstance()->isPaidUser();
 }
 
 bool RoutePaymentSingleton::osIsIos()

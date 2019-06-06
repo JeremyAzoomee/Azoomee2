@@ -10,7 +10,7 @@
 #include "SceneManagerScene.h"
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeOomeeMaker/UI/OomeeMakerScene.h>
 #include <AzoomeeOomeeMaker/UI/OomeeSelectScene.h>
 #include <AzoomeeCommon/API/API.h>
@@ -63,7 +63,7 @@ void OomeeMakerDelegate::onOomeeMakerShareOomee(const std::string& filename)
     ChatDelegate::getInstance()->_imageFileName = filename;
     if(filename != "")
     {
-		if(!HQHistoryManager::getInstance()->isOffline() && ParentDataProvider::getInstance()->isPaidUser())
+		if(!HQHistoryManager::getInstance()->isOffline() && ParentManager::getInstance()->isPaidUser())
         {
             HQHistoryManager::getInstance()->setReturnedFromForcedOrientation(true);
             Director::getInstance()->getTextureCache()->reloadTexture(filename);

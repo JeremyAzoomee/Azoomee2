@@ -12,7 +12,6 @@
 #include "../../Utils/FileZipUtil.h"
 #include "../Json.h"
 #include "../../UI/ModalMessages.h"
-#include "../Parent/ParentDataProvider.h"
 #include "../Child/ChildManager.h"
 #include "../../Utils/DirectorySearcher.h"
 #include "../ConfigStorage.h"
