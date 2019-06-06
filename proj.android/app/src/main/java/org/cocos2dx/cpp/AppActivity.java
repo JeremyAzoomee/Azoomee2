@@ -70,6 +70,7 @@ import com.crashlytics.android.ndk.CrashlyticsNdk;
 import io.fabric.sdk.android.Fabric;
 
 import com.urbanairship.UAirship;
+import com.urbanairship.Autopilot;
 import com.urbanairship.push.notifications.DefaultNotificationFactory;
 
 
@@ -83,7 +84,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     private IapManager iapManager;
     private static String advertisingId;
     private Biometric biometric;
-    private  Mixpanel mixpanel;
+    private Mixpanel mixpanel;
     private Appsflyer appsflyer;
 
     private boolean _purchaseRequiredAfterSetup = false;
@@ -102,6 +103,8 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         mActivity = this;
         mAppActivity = this;
         biometric = new Biometric(this);
+
+        Autopilot.automaticTakeOff(this);
         mixpanel = new Mixpanel(this);
         appsflyer = new Appsflyer(this);
 

@@ -39,6 +39,7 @@ android {
         targetSdkVersion PROP_TARGET_SDK_VERSION
         versionCode 1004006000
         versionName "4.6.0"
+        manifestPlaceholders = [applicationName:"Azoomee"]
 
         ndk {
             abiFilters "armeabi-v7a"
@@ -202,6 +203,7 @@ android {
         ci {
             dimension "environment"
             applicationIdSuffix ".ci"
+            manifestPlaceholders = [applicationName:"CI Azoomee"]
 
             externalNativeBuild {
                 ndkBuild {
