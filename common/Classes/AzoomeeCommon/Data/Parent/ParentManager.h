@@ -31,7 +31,7 @@ public:
 	void setBillingDataAvailable(bool available);
 	bool isBillingDataAvailable() const;
 	
-	void setParent(const ParentRef& parent);
+	void setParent(const MutableParentRef& parent);
 	ParentRef getParent() const;
 	
 	void setPendingFriendRequests(const std::vector<FriendRequestRef>& pendingRequests);
@@ -85,7 +85,7 @@ public:
 	
 private:
 	BillingDataRef _billingData = nullptr;
-	ParentRef _parent = nullptr;
+	MutableParentRef _parent = nullptr;
 	
 	bool _isBillingDataAvailable = false;
 	

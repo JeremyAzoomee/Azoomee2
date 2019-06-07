@@ -48,7 +48,7 @@ bool ParentManager::isBillingDataAvailable() const
 	return _isBillingDataAvailable;
 }
 
-void ParentManager::setParent(const ParentRef& parent)
+void ParentManager::setParent(const MutableParentRef& parent)
 {
 	_parent = parent;
 }
@@ -295,7 +295,7 @@ bool ParentManager::parseParentLoginData(const std::string &responseData)
 	
 	if(getStringFromJson("code", parentData) != "INVALID_CREDENTIALS")
 	{
-		_parent = Parent::createWithJson(parentData);
+		_parent = MutableParent::createWithJson(parentData);
 		if(!_parent->isAnonymous())
 		{
 			addParentLoginDataToUserDefaults();
@@ -502,7 +502,7 @@ void ParentManager::addParentLoginDataToUserDefaults()
 
 void ParentManager::retrieveParentLoginDataFromUserDefaults()
 {
-	const ParentRef& parent = Parent::create();
+	const MutableParentRef& parent = MutableParent::create();
 	
 	UserDefault* def = UserDefault::getInstance();
 	parent->setId(def->getStringForKey("loggedInParentId"));
