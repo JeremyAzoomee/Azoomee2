@@ -62,20 +62,20 @@ void ParentManager::clearAvailableChildren()
 	_availableChildren.clear();
 	_availableChildrenById.clear();
 }
-void ParentManager::addChild(const ChildRef& child)
+void ParentManager::addChild(const MutableChildRef& child)
 {
 	_availableChildren.push_back(child);
 	_availableChildrenById[child->getId()] = child;
 }
 
-std::vector<ChildRef> ParentManager::getAvailableChildren() const
+/*std::vector<ChildRef> ParentManager::getAvailableChildren() const
 {
 	return _availableChildren;
 }
 std::map<std::string, ChildRef> ParentManager::getAvailableChildrenById() const
 {
 	return _availableChildrenById;
-}
+}*/
 
 void ParentManager::setPendingFriendRequests(const std::vector<FriendRequestRef>& pendingRequests)
 {
@@ -355,7 +355,7 @@ bool ParentManager::parseAvailableChildren(const std::string &responseData)
 	{
 		const rapidjson::Value &currentKidObj = childData[i];
 		
-		ChildRef child = Child::createWithJson(currentKidObj);
+		MutableChildRef child = MutableChild::createWithJson(currentKidObj);
 		
 		addChild(child);
 	}
@@ -426,7 +426,7 @@ void ParentManager::parseParentDetails(const std::string &responseData)
 	
 }
 
-void ParentManager::parseChildUpdateData(const ChildRef& child, const std::string &responseData)
+void ParentManager::parseChildUpdateData(const std::string& childId, const std::string &responseData)
 {
 	rapidjson::Document childData;
 	childData.Parse(responseData.c_str());
@@ -434,7 +434,49 @@ void ParentManager::parseChildUpdateData(const ChildRef& child, const std::strin
 	{
 		return;
 	}
-	child->parseChildData(childData);
+	MutableChildRef child = nullptr;
+	if(_availableChildrenById.find(childId) != _availableChildrenById.end())
+	{
+		child = _availableChildrenById.at(childId);
+	}
+	if(child)
+	{
+		child->parseChildData(childData);
+	}
+}
+
+bool ParentManager::parseChildLoginData(const std::string &responseData)
+{
+	rapidjson::Document data;
+	data.Parse(responseData.c_str());
+	if(data.HasParseError())
+	{
+		return false;
+	}
+	
+	MutableChildRef child = nullptr;
+	const std::string& childId = getStringFromJson("id", data);
+	if(_availableChildrenById.find(childId) != _availableChildrenById.end())
+	{
+		child = _availableChildrenById.at(childId);
+	}
+	if(!child)
+	{
+		return false;
+	}
+	
+	child->parseLoginData(data);
+	
+	ChildManager::getInstance()->setLoggedInChild(child);
+	
+	UserDefault* def = UserDefault::getInstance();
+	def->setStringForKey("lastLoggedInChildId", child->getId());
+	def->flush();
+	
+	createCrashlyticsUserInfo(ParentManager::getInstance()->getLoggedInParentId(), child->getId());
+	
+	ChildManager::getInstance()->setChildLoggedIn(true);
+	return true;
 }
 
 void ParentManager::logoutChild()

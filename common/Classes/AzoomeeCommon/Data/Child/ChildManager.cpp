@@ -121,38 +121,9 @@ void ChildManager::setChildLoggedIn(bool loggedIn)
 	_childLoggedIn = loggedIn;
 }
 
-void ChildManager::setLoggedInChild(const ChildRef &child)
+void ChildManager::setLoggedInChild(const MutableChildRef &child)
 {
 	_loggedInChild = child;
-}
-
-bool ChildManager::parseChildLoginData(const std::string &responseData)
-{
-	rapidjson::Document data;
-	data.Parse(responseData.c_str());
-	if(data.HasParseError())
-	{
-		return false;
-	}
-	
-	ChildRef child = ParentManager::getInstance()->getChildForId(getStringFromJson("id", data));
-	if(!child)
-	{
-		return false;
-	}
-	
-	child->parseLoginData(data);
-	
-	_loggedInChild = child;
-	
-	UserDefault* def = UserDefault::getInstance();
-	def->setStringForKey("lastLoggedInChildId", child->getId());
-	def->flush();
-	
-	createCrashlyticsUserInfo(ParentManager::getInstance()->getLoggedInParentId(), child->getId());
-	
-	_childLoggedIn = true;
-	return true;
 }
 
 void ChildManager::parseChildInventory(const std::string &inventoryData)
@@ -164,22 +135,31 @@ void ChildManager::parseChildInventory(const std::string &inventoryData)
 		return;
 	}
 	
-	ChildRef child = _loggedInChild;
-	if(!child)
+	if(!_loggedInChild)
 	{
 		return;
 	}
 	
 	InventoryRef inventory = Inventory::createWithJson(data);
 	
-	child->setInventory(inventory);
+	_loggedInChild->setInventory(inventory);
 	
+}
+
+void ChildManager::parseAvatarUpdate(const std::string& avatarData)
+{
+	rapidjson::Document json;
+	json.Parse(avatarData.c_str());
+	if(!json.HasParseError() && _loggedInChild)
+	{
+		_loggedInChild->setAvatar(getStringFromJson("avatar", json));
+	}
 }
 
 void ChildManager::loginChildOffline(const std::string &childId)
 {
 	_childLoggedIn = true;
-	ChildRef offlineChild = Child::create();
+	MutableChildRef offlineChild = MutableChild::create();
 	offlineChild->setId(childId);
 	_loggedInChild = offlineChild;
 }

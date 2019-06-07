@@ -90,8 +90,7 @@ void OomeeMakerDelegate::onHttpRequestSuccess(const std::string& requestTag, con
     {
         rapidjson::Document json;
         json.Parse(body.c_str());
-		ChildRef child = ChildManager::getInstance()->getLoggedInChild();
-        child->setAvatar(getStringFromJson("avatar", json));
+		ChildManager::getInstance()->parseAvatarUpdate(body);
         ImageDownloaderRef imageDownloader = ImageDownloader::create("imageCache/", ImageDownloader::CacheMode::File );
         imageDownloader->downloadImage(nullptr, getStringFromJson("avatar", json), true);
         ModalMessages::getInstance()->stopLoading();

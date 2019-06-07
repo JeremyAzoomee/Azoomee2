@@ -320,7 +320,7 @@ void KidDetailsLayer::onHttpRequestSuccess(const std::string& requestTag, const 
 		if(!data.HasParseError())
 		{
 			
-			ParentManager::getInstance()->parseChildUpdateData(_child, body);
+			ParentManager::getInstance()->parseChildUpdateData(_child->getId(), body);
 			_nameText->setString(_child->getProfileName());
 			reduceLabelTextToFitWidth(_nameText, _nameLayout->getContentSize().width * 0.8f);
 			_editNameButton->setPosition((_displayNameLayout->getContentSize() * 0.5) + Size(_nameText->getContentSize().width * 0.5f,0));

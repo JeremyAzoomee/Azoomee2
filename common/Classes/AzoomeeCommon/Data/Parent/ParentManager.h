@@ -34,11 +34,6 @@ public:
 	void setParent(const ParentRef& parent);
 	ParentRef getParent() const;
 	
-	void clearAvailableChildren();
-	void addChild(const ChildRef& child);
-	std::vector<ChildRef> getAvailableChildren() const;
-	std::map<std::string, ChildRef> getAvailableChildrenById() const;
-	
 	void setPendingFriendRequests(const std::vector<FriendRequestRef>& pendingRequests);
 	std::vector<FriendRequestRef> getPendingFriendRequests() const;
 	
@@ -76,7 +71,8 @@ public:
 	void parseParentBillingData(const std::string &responseData);
 	void parseParentSessionData(const std::string &responseData);
 	void parseParentDetails(const std::string &responseData);
-	void parseChildUpdateData(const ChildRef& child, const std::string& responseData);
+	void parseChildUpdateData(const std::string& childId, const std::string& responseData);
+	bool parseChildLoginData(const std::string& responseData);
 	void logoutChild();
 	void retrieveParentLoginDataFromUserDefaults();
 	bool hasParentLoginDataInUserDefaults();
@@ -93,12 +89,16 @@ private:
 	
 	bool _isBillingDataAvailable = false;
 	
-	std::vector<ChildRef> _availableChildren;
-	std::map<std::string, ChildRef> _availableChildrenById;
+	std::vector<MutableChildRef> _availableChildren;
+	std::map<std::string, MutableChildRef> _availableChildrenById;
 	
 	std::vector<FriendRequestRef> _pendingFriendRequests;
 	
 	void addParentLoginDataToUserDefaults();
+	void clearAvailableChildren();
+	void addChild(const MutableChildRef& child);
+	//std::vector<ChildRef> getAvailableChildren() const;
+	//std::map<std::string, ChildRef> getAvailableChildrenById() const;
 };
 
 NS_AZOOMEE_END

@@ -9,67 +9,6 @@
 
 NS_AZOOMEE_BEGIN
 
-ChildRef Child::create()
-{
-	return ChildRef(new Child());
-}
-
-ChildRef Child::createWithJson(const rapidjson::Value& childData)
-{
-	ChildRef child = ChildRef(new Child());
-	
-	child->parseChildData(childData);
-	
-	child->setInventory(Inventory::create());
-	
-	return child;
-}
-
-void Child::parseLoginData(const rapidjson::Document& loginData)
-{
-	if(loginData.HasParseError())
-	{
-		return;
-	}
-	
-	_cdnSessionId = getStringFromJson("cdn-sessionid", loginData);
-	_apiSecret = getStringFromJson("apiSecret", loginData);
-	_apiKey = getStringFromJson("apiKey", loginData);
-}
-
-void Child::parseChildData(const rapidjson::Value& childData)
-{
-	_profileName = getStringFromJson("profileName", childData);
-	_avatar = getStringFromJson("avatar", childData);
-	_inviteCode = getStringFromJson("inviteCode", childData);
-	_sex = getStringFromJson("sex", childData);
-	_dob = getStringFromJson("dob", childData);
-	_id = getStringFromJson("id", childData);
-}
-
-void Child::setInventory(const InventoryRef &inventory)
-{
-	_inventory = inventory;
-}
-
-void Child::setAvatar(const std::string &avatarUrl)
-{
-	_avatar = avatarUrl;
-}
-
-void Child::setId(const std::string& childId)
-{
-	_id = childId;
-}
-void Child::setDOB(const std::string& dob)
-{
-	_dob = dob;
-}
-void Child::setProfileName(const std::string& name)
-{
-	_profileName = name;
-}
-
 Child::Child()
 {
 	
@@ -116,6 +55,67 @@ std::string Child::getAPIKey() const
 InventoryRef Child::getInventory() const
 {
 	return _inventory;
+}
+
+MutableChildRef MutableChild::create()
+{
+	return MutableChildRef(new MutableChild());
+}
+
+MutableChildRef MutableChild::createWithJson(const rapidjson::Value& childData)
+{
+	MutableChildRef child = MutableChildRef(new MutableChild());
+	
+	child->parseChildData(childData);
+	
+	child->setInventory(Inventory::create());
+	
+	return child;
+}
+
+void MutableChild::parseLoginData(const rapidjson::Document& loginData)
+{
+	if(loginData.HasParseError())
+	{
+		return;
+	}
+	
+	_cdnSessionId = getStringFromJson("cdn-sessionid", loginData);
+	_apiSecret = getStringFromJson("apiSecret", loginData);
+	_apiKey = getStringFromJson("apiKey", loginData);
+}
+
+void MutableChild::parseChildData(const rapidjson::Value& childData)
+{
+	_profileName = getStringFromJson("profileName", childData);
+	_avatar = getStringFromJson("avatar", childData);
+	_inviteCode = getStringFromJson("inviteCode", childData);
+	_sex = getStringFromJson("sex", childData);
+	_dob = getStringFromJson("dob", childData);
+	_id = getStringFromJson("id", childData);
+}
+
+void MutableChild::setInventory(const InventoryRef &inventory)
+{
+	_inventory = inventory;
+}
+
+void MutableChild::setAvatar(const std::string &avatarUrl)
+{
+	_avatar = avatarUrl;
+}
+
+void MutableChild::setId(const std::string& childId)
+{
+	_id = childId;
+}
+void MutableChild::setDOB(const std::string& dob)
+{
+	_dob = dob;
+}
+void MutableChild::setProfileName(const std::string& name)
+{
+	_profileName = name;
 }
 
 NS_AZOOMEE_END

@@ -297,7 +297,7 @@ void BackEndCaller::childLogin(int childNumber)
 
 void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString, const std::string& headerString)
 {
-    if((!ChildManager::getInstance()->parseChildLoginData(responseString)))
+    if((!ParentManager::getInstance()->parseChildLoginData(responseString)))
     {
         LoginLogicHandler::getInstance()->doLoginLogic();
         return;
@@ -537,8 +537,7 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     {
         rapidjson::Document json;
         json.Parse(body.c_str());
-		const ChildRef& child = ChildManager::getInstance()->getLoggedInChild();
-		child->setAvatar(getStringFromJson("avatar", json));
+		ChildManager::getInstance()->parseAvatarUpdate(body);
         ImageDownloaderRef imageDownloader = ImageDownloader::create("imageCache/", ImageDownloader::CacheMode::File );
         imageDownloader->downloadImage(nullptr, getStringFromJson("avatar", json), true);
         hideLoadingScreen();

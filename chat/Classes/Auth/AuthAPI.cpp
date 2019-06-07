@@ -149,7 +149,7 @@ void AuthAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
     // Child login success
     else if(requestTag == API::TagChildLogin)
     {
-        childData->parseChildLoginData(body);
+        parentData->parseChildLoginData(body);
         cocos2d::log("Logged in as child: %s", childData->getLoggedInChildName().c_str());
         
         // Notify observers

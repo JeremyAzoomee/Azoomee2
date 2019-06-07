@@ -25,7 +25,7 @@ public:
 	void setChildLoggedIn(bool loggedIn);
 	bool isChildLoggedIn() const;
 	
-	void setLoggedInChild(const ChildRef& child);
+	void setLoggedInChild(const MutableChildRef& child);
 	ChildRef getLoggedInChild() const;
 	
 	std::string getParentOrChildId() const;
@@ -35,13 +35,13 @@ public:
 	std::string getParentOrChildAvatarId() const;
 	std::string getParentOrChildName() const;
 	
-	bool parseChildLoginData(const std::string &responseData);
 	void parseChildInventory(const std::string& inventoryData);
+	void parseAvatarUpdate(const std::string& avatarData);
 	void loginChildOffline(const std::string& childId);
 	
 private:
 	bool _childLoggedIn = false;
-	ChildRef _loggedInChild = nullptr;
+	MutableChildRef _loggedInChild = nullptr;
 };
 
 NS_AZOOMEE_END
