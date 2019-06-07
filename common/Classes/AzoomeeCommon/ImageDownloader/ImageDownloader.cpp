@@ -1,5 +1,4 @@
 #include "ImageDownloader.h"
-#include "../Data/Cookie/CookieDataProvider.h"
 #include "../Data/ConfigStorage.h"
 
 using namespace cocos2d;

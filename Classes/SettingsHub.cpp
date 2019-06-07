@@ -13,8 +13,8 @@
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/Data/Cookie/CookieDataParser.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include <AzoomeeCommon/Data/Cookie/CookieManager.h>
 #include "SceneManagerScene.h"
 #include "SettingsSupportPage.h"
 #include "SettingsOnlineSafetyPage.h"
@@ -405,7 +405,8 @@ void SettingsHub::onHttpRequestSuccess(const std::string& requestTag, const std:
 	else if(requestTag == API::TagGetGorden)
 	{
 		ChildManager::getInstance()->setChildLoggedIn(false);// make sure we log out child if entering parent chat
-		if(CookieDataParser::getInstance()->parseDownloadCookies(headers))
+
+		if(CookieManager::getInstance()->parseDownloadCookies(headers))
 		{
 			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
 		}

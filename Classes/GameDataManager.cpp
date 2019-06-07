@@ -9,7 +9,6 @@
 #include "external/json/prettywriter.h"
 #include <AzoomeeCommon/Utils/FileZipUtil.h>
 
-#include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "LoginLogicHandler.h"

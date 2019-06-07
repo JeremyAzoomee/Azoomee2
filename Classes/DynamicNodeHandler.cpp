@@ -17,7 +17,6 @@
 #include "SceneManagerScene.h"
 #include <dirent.h>
 #include <AzoomeeCommon/Data/Json.h>
-#include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
 #include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/Utils/DirectorySearcher.h>
 #include <AzoomeeCommon/Utils/VersionChecker.h>
