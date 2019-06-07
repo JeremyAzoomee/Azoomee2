@@ -117,6 +117,7 @@ void BiometricAuthenticationHandler::MessageBoxButtonPressed(std::string message
     {
         JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, kBiometricStopJavaMethodName);
     }
+	_waitingForFingerPrint = nullptr; //cancel button auto removes message box, so set to nullptr here so we dont try and remove it again
 #endif
 }
 

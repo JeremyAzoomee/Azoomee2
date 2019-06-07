@@ -38,6 +38,7 @@ public:
 	virtual bool init() override;
 	virtual void onEnter() override;
 	virtual void onSizeChanged() override;
+	virtual void onExit() override;
 	
 	CREATE_FUNC(ContentFeedHQScene);
 	

@@ -66,6 +66,8 @@ void UserTypeMessagingLayer::onEnter()
 	
 #ifdef VODACOM_BUILD
 	_startTrialLabel = Label::createWithTTF(_("Unlock everything"), Style::Font::Regular(), _startTrialButton->getContentSize().height * ( is18x9 ? 0.35 : 0.4 ));
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+	_startTrialLabel = Label::createWithTTF(_("Buy Azoomee Pass"), Style::Font::Regular(), _startTrialButton->getContentSize().height * ( is18x9 ? 0.35 : 0.4 ));
 #else
     _startTrialLabel = Label::createWithTTF(_("Get 7 Days free"), Style::Font::Regular(), _startTrialButton->getContentSize().height * ( is18x9 ? 0.35 : 0.4 ));
 #endif
@@ -81,13 +83,17 @@ void UserTypeMessagingLayer::onEnter()
     this->addChild(_startTrialButton);
 	
 #ifndef VODACOM_BUILD
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+	_smallprintLabel = Label::createWithTTF(stringReplace(_("Get 30 days of Azoomee for only <iapPrice>."),"<iapPrice>",IAPProductDataHandler::getInstance()->getHumanReadableProductPrice().c_str()), Style::Font::Regular(), 50);
+#else
 	_smallprintLabel = Label::createWithTTF(StringUtils::format(_("Plan automatically renews for %s/month after trial ends").c_str(),IAPProductDataHandler::getInstance()->getHumanReadableProductPrice().c_str()), Style::Font::Regular(), 50);
+#endif
 	_smallprintLabel->setAnchorPoint(Vec2(0.5,-0.1));
 	_smallprintLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
 	_smallprintLabel->setTextColor(Color4B(255,255,255,255));
 	_smallprintLabel->setHorizontalAlignment(TextHAlignment::CENTER);
 	_smallprintLabel->setVerticalAlignment(TextVAlignment::CENTER);
-	_smallprintLabel->setDimensions(_startTrialButton->getContentSize().width - 160, 60);
+	_smallprintLabel->setDimensions(_startTrialButton->getContentSize().width, 50);
 	_smallprintLabel->setOverflow(Label::Overflow::SHRINK);
 	_startTrialButton->addChild(_smallprintLabel);
 #endif

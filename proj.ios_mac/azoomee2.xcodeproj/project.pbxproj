@@ -121,6 +121,8 @@
 		521A8EAA19F11F5000D177D7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
 		52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B47A461A53D09B004E4C60 /* Security.framework */; };
 		8262943E1AAF051F00CB7CF7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8262943D1AAF051F00CB7CF7 /* Security.framework */; };
+		9206012A227B2F9500A73FA5 /* ChildOomeeFTULayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92060129227B2F9500A73FA5 /* ChildOomeeFTULayer.cpp */; };
+		9206012B227B2F9500A73FA5 /* ChildOomeeFTULayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92060129227B2F9500A73FA5 /* ChildOomeeFTULayer.cpp */; };
 		92084F6421E644D800DACCEB /* MeHQRecentlyPlayed.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92084F6321E644D800DACCEB /* MeHQRecentlyPlayed.cpp */; };
 		920F6FDE213EB76300B7BB76 /* SettingsFriendshipsPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920F6FDD213EB76300B7BB76 /* SettingsFriendshipsPage.cpp */; };
 		920F6FE1213FD53900B7BB76 /* FriendRequestLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920F6FE0213FD53900B7BB76 /* FriendRequestLayer.cpp */; };
@@ -803,6 +805,8 @@
 		521A8EA819F11F5000D177D7 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		52B47A461A53D09B004E4C60 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		8262943D1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		92060124227B2EE200A73FA5 /* ChildOomeeFTULayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChildOomeeFTULayer.h; sourceTree = "<group>"; };
+		92060129227B2F9500A73FA5 /* ChildOomeeFTULayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChildOomeeFTULayer.cpp; sourceTree = "<group>"; };
 		92084F5E21E6438000DACCEB /* MeHQRecentlyPlayed.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeHQRecentlyPlayed.h; sourceTree = "<group>"; };
 		92084F6321E644D800DACCEB /* MeHQRecentlyPlayed.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MeHQRecentlyPlayed.cpp; sourceTree = "<group>"; };
 		920F6FD8213EB4DA00B7BB76 /* SettingsFriendshipsPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsFriendshipsPage.h; sourceTree = "<group>"; };
@@ -1725,6 +1729,8 @@
 				928A6E8820EE5C880053E793 /* ChildAgeLayer.cpp */,
 				928A6DD220EBD3570053E793 /* ChildOomeeLayer.h */,
 				928A6E8A20EE62270053E793 /* ChildOomeeLayer.cpp */,
+				92060124227B2EE200A73FA5 /* ChildOomeeFTULayer.h */,
+				92060129227B2F9500A73FA5 /* ChildOomeeFTULayer.cpp */,
 				928A6DD320EBDA240053E793 /* AddChildLayer.h */,
 				928A6DD420EBDD4A0053E793 /* AddChildLayer.cpp */,
 			);
@@ -2548,6 +2554,7 @@
 				926A2B0C212EABB000AE7964 /* SettingsNavigationButton.cpp in Sources */,
 				02E5958C1E55F5ED0052F395 /* OfflineGameSearch.cpp in Sources */,
 				925B24A4220AEE5F0000D7D2 /* CoinChestLayer.cpp in Sources */,
+				9206012A227B2F9500A73FA5 /* ChildOomeeFTULayer.cpp in Sources */,
 				927DF72420B593600080DFEF /* MeHQFavourites.cpp in Sources */,
 				4319D3E21E67134600110F92 /* LoginScene.cpp in Sources */,
 				929A9D57206CF9F1009B323D /* FavouritesManager.cpp in Sources */,
@@ -2710,6 +2717,7 @@
 				92E586C6222425360015A4FA /* FavouritesManager.cpp in Sources */,
 				92E586C7222425360015A4FA /* HQSceneElement.cpp in Sources */,
 				92E586C8222425360015A4FA /* IAPFlowController.cpp in Sources */,
+				9206012B227B2F9500A73FA5 /* ChildOomeeFTULayer.cpp in Sources */,
 				92BDD4BA2232CCA700DA56F3 /* CoinCollectLayer.cpp in Sources */,
 				92E586C9222425360015A4FA /* LanguageSelectScene.cpp in Sources */,
 				92BDD4CD22380D4700DA56F3 /* ShopItemPurchasePopup.cpp in Sources */,

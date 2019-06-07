@@ -381,43 +381,6 @@ Point ChildSelectorScene::positionElementOnScrollView(Node *layerToBeAdded)
     return newPos;
 }
 
-ui::Button* ChildSelectorScene::createNewProfileButton()
-{
-    ui::Button* addChildButton = ui::Button::create("res/childSelection/button.png");
-    addChildButton->setName("addChildButton");
-    addChildButton->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType)
-    {
-        if(eType == ui::Widget::TouchEventType::ENDED)
-        {
-			AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
-            AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChildSelector - AddChild");
-            
-            createAdultPinLayerWithDelegate();
-            
-            AnalyticsSingleton::getInstance()->childProfileStartEvent();
-        }
-    });
-    
-    float delayTime = CCRANDOM_0_1();
-    if(_firstTime)
-    {
-        addChildButton->setOpacity(0);
-        addChildButton->runAction(createBlinkEffect(delayTime, 0.1));
-    }
-	
-	Label* buttonText = Label::createWithTTF(_("Add a profile"), Style::Font::Regular(), addChildButton->getContentSize().height * 0.4f);
-	buttonText->setTextColor(Color4B(Style::Color::brightAqua));
-	buttonText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	buttonText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	buttonText->setHorizontalAlignment(TextHAlignment::CENTER);
-	buttonText->setVerticalAlignment(TextVAlignment::CENTER);
-	buttonText->setOverflow(Label::Overflow::SHRINK);
-	buttonText->setDimensions(addChildButton->getContentSize().width * 0.7f, addChildButton->getContentSize().height * 0.7f);
-	addChildButton->addChild(buttonText);
-	
-    return addChildButton;
-}
-
 ui::Button* ChildSelectorScene::createParentProfileButton()
 {
 	Sprite* icon = Sprite::create("res/settings/parents_area_icon.png");

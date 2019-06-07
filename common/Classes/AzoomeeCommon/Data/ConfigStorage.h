@@ -139,10 +139,6 @@ public:
     std::vector<cocos2d::Point> getMainHubPositionForHighlightElements(const std::string& categoryName);
     std::string getRequiredTypesForHighlightCategory(int category);
     
-    //OomeeLayer animation states
-    std::string getGreetingAnimation();
-    std::string getRandomIdForAnimationType(const std::string& animationType);
-    
     //Android helper for arts app
     int inArtsApp;
 
@@ -171,6 +167,8 @@ public:
     bool isDeviceIphoneX() const;
     void setIsDevice18x9(bool isDevice18x9);
     bool isDevice18x9() const;
+	void setIsDevicePhone(bool isPhone);
+	bool isDevicePhone() const;
     
     //Set keyboard height for chat
     void setEstimatedKeyboardHeight(float size);
@@ -185,7 +183,6 @@ private:
     rapidjson::Document BaseSceneConfiguration;
     rapidjson::Document HQSceneConfiguration;
     rapidjson::Document NavigationConfiguration;
-    rapidjson::Document OomeeAnimationTypes;
     rapidjson::Document OomeeConfiguration;
     rapidjson::Document VersionConfiguration;
     rapidjson::Document IapConfiguration;
@@ -197,6 +194,7 @@ private:
     
     bool _isDeviceIphoneX = false;
     bool _isDevice18x9 = false;
+	bool _isDevicePhone = false;
     
     std::string _osManufacturer = "";
     std::string _clientIp = "";

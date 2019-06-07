@@ -98,7 +98,6 @@ bool ConfigStorage::init(void)
     BaseSceneConfiguration = parseJsonConfigurationFile("BaseSceneConfiguration.json");
     HQSceneConfiguration = parseJsonConfigurationFile("HQSceneConfiguration.json");
     NavigationConfiguration = parseJsonConfigurationFile("NavigationConfiguration.json");
-    OomeeAnimationTypes = parseJsonConfigurationFile("OomeeAnimationTypes.json");
     OomeeConfiguration = parseJsonConfigurationFile("OomeeConfiguration.json");
     VersionConfiguration = parseJsonConfigurationFile("Version.json");
     IapConfiguration = parseJsonConfigurationFile("IapConfiguration.json");
@@ -546,29 +545,6 @@ void ConfigStorage::setDefaultHQ(const std::string &defaultHq)
 {
     kDefaultHQName = defaultHq;
 }
-    
-//-----------------------------------OOMEE animation identifier configuration----------------------------------
-
-std::string ConfigStorage::getGreetingAnimation()
-{
-    return "Build_Simple_Wave";
-}
-
-std::string ConfigStorage::getRandomIdForAnimationType(const std::string& animationType)
-{
-    if(animationType == "idle")
-    {
-        return OomeeAnimationTypes["idleAnimations"][random(0, (int)OomeeAnimationTypes["idleAnimations"].Size() - 1)].GetString();
-    }
-    else if(animationType == "button")
-    {
-        return OomeeAnimationTypes["buttonIdleAnimations"][random(0, (int)OomeeAnimationTypes["buttonIdleAnimations"].Size() - 1)].GetString();
-    }
-    else
-    {
-        return OomeeAnimationTypes["touchAnimations"][random(0, (int)OomeeAnimationTypes["touchAnimations"].Size() - 1)].GetString();
-    }
-}
 
 //--------------------------- UserDefaults First Time User for Slideshow------------
 
@@ -724,6 +700,16 @@ void ConfigStorage::setIsDevice18x9(bool isDevice18x9)
 bool ConfigStorage::isDevice18x9() const
 {
     return _isDevice18x9;
+}
+
+void ConfigStorage::setIsDevicePhone(bool isPhone)
+{
+	_isDevicePhone = isPhone;
+}
+	
+bool ConfigStorage::isDevicePhone() const
+{
+	return _isDevicePhone;
 }
 
 //------------------------- Set estimated keyboard height for chat ---------------------------
