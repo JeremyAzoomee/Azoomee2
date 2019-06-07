@@ -1,5 +1,5 @@
 #include "WebGameAPIDataManager.h"
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "VideoPlaylistManager.h"
 #include <AzoomeeCommon/Utils/TimeFunctions.h>
@@ -34,17 +34,17 @@ char* WebGameAPIDataManager::handleAPIRequest(const char* method, const char* re
 {
     if(strncmp(method, "requestUsername", strlen(method)) == 0)
     {
-        return createReturnStringForAPI(method, responseId, "userName", ChildDataProvider::getInstance()->getParentOrChildName().c_str());
+        return createReturnStringForAPI(method, responseId, "userName", ChildManager::getInstance()->getParentOrChildName().c_str());
     }
     
     if(strncmp(method, "requestUserID", strlen(method)) == 0)
     {
-        return createReturnStringForAPI(method, responseId, "userId", ChildDataProvider::getInstance()->getParentOrChildId().c_str());
+        return createReturnStringForAPI(method, responseId, "userId", ChildManager::getInstance()->getParentOrChildId().c_str());
     }
     
     if(strncmp(method, "requestUserAvatar", strlen(method)) == 0)
     {
-        return createReturnStringForAPI(method, responseId, "userAvatar", ChildDataProvider::getInstance()->getParentOrChildAvatarId().c_str());
+        return createReturnStringForAPI(method, responseId, "userAvatar", ChildManager::getInstance()->getParentOrChildAvatarId().c_str());
     }
     
     if(strncmp(method, "requestHighScore", strlen(method)) == 0)
@@ -74,7 +74,7 @@ char* WebGameAPIDataManager::handleAPIRequest(const char* method, const char* re
         int length = cocos2d::base64Decode((const unsigned char*)sendData, (unsigned int)strlen(sendData), &decoded);
         std::string decodedString( reinterpret_cast<char const*>(decoded), length ) ;
         
-        const std::string &saveFolder = FileUtils::getInstance()->getWritablePath() + ConfigStorage::kArtCacheFolder + ChildDataProvider::getInstance()->getParentOrChildId() + "/";
+        const std::string &saveFolder = FileUtils::getInstance()->getWritablePath() + ConfigStorage::kArtCacheFolder + ChildManager::getInstance()->getParentOrChildId() + "/";
         
         if(!FileUtils::getInstance()->isDirectoryExist(saveFolder))
         {
@@ -114,7 +114,7 @@ char* WebGameAPIDataManager::createReturnStringForAPI(const char* method, const 
 
 std::string WebGameAPIDataManager::getPathForHighScoreFile()
 {
-    std::string filePath = FileUtils::getInstance()->getDocumentsPath() + "scoreCache/" + ChildDataProvider::getInstance()->getParentOrChildId() + "/" + runningGameId + "/highscore.data";
+    std::string filePath = FileUtils::getInstance()->getDocumentsPath() + "scoreCache/" + ChildManager::getInstance()->getParentOrChildId() + "/" + runningGameId + "/highscore.data";
     return filePath;
 }
 
@@ -148,7 +148,7 @@ void WebGameAPIDataManager::createDirectoryTree()
         FileUtils::getInstance()->createDirectory(scoreCacheFolder);
     }
     
-    const std::string &userScoreCacheFolder = scoreCacheFolder + "/" + ChildDataProvider::getInstance()->getParentOrChildId();
+    const std::string &userScoreCacheFolder = scoreCacheFolder + "/" + ChildManager::getInstance()->getParentOrChildId();
     if(!FileUtils::getInstance()->isDirectoryExist(userScoreCacheFolder))
     {
         FileUtils::getInstance()->createDirectory(userScoreCacheFolder);
@@ -194,7 +194,7 @@ char* WebGameAPIDataManager::getLocalStorageData()
 
 std::string WebGameAPIDataManager::getPathForLocalStorageFile()
 {
-    std::string filePath = FileUtils::getInstance()->getDocumentsPath() + "scoreCache/" + ChildDataProvider::getInstance()->getParentOrChildId() + "/" + runningGameId + "/localstorage.data";
+    std::string filePath = FileUtils::getInstance()->getDocumentsPath() + "scoreCache/" + ChildManager::getInstance()->getParentOrChildId() + "/" + runningGameId + "/localstorage.data";
     return filePath;
 }
 

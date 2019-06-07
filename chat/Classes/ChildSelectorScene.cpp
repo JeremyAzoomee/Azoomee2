@@ -1,5 +1,5 @@
 #include "ChildSelectorScene.h"
-#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
@@ -7,7 +7,6 @@
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include <math.h>
 #include "LoginScene.h"
 #include <AzoomeeChat/UI/FriendListScene.h>
@@ -140,7 +139,7 @@ Size ChildSelectorScene::getScrollviewInnerSize(float scrollviewWidth)
     modf(scrollviewWidth/(OOMEE_LAYER_WIDTH + OOMEE_LAYER_GAP), &oomeeLayersPerWidth);
     
     double oomeeLayesNeededForHeight;
-    modf((ParentDataProvider::getInstance()->getAmountOfAvailableChildren() / oomeeLayersPerWidth) + 1, &oomeeLayesNeededForHeight);
+    modf((ParentManager::getInstance()->getAmountOfAvailableChildren() / oomeeLayersPerWidth) + 1, &oomeeLayesNeededForHeight);
     
     return Size(scrollviewWidth, (OOMEE_LAYER_GAP+OOMEE_LAYER_HEIGHT)*oomeeLayesNeededForHeight);
 }
@@ -153,14 +152,14 @@ void ChildSelectorScene::addProfilesToScrollView()
     // Update scrollable size
     scrollView->setInnerContainerSize(getScrollviewInnerSize(scrollView->getContentSize().width));
     
-    AnalyticsSingleton::getInstance()->registerNoOfChildren(ParentDataProvider::getInstance()->getAmountOfAvailableChildren());
+    AnalyticsSingleton::getInstance()->registerNoOfChildren(ParentManager::getInstance()->getAmountOfAvailableChildren());
     
-    for(int i = 0; i < ParentDataProvider::getInstance()->getAmountOfAvailableChildren(); i++)
+    for(int i = 0; i < ParentManager::getInstance()->getAmountOfAvailableChildren(); i++)
     {
-        const std::string& oomeeUrl = ParentDataProvider::getInstance()->getAvatarForAnAvailableChild(i);
+        const std::string& oomeeUrl = ParentManager::getInstance()->getAvatarForAnAvailableChild(i);
         int oomeeNr = ConfigStorage::getInstance()->getOomeeNumberForUrl(oomeeUrl);
         
-        auto profileLayer = createChildProfileButton(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(i), oomeeNr);
+        auto profileLayer = createChildProfileButton(ParentManager::getInstance()->getProfileNameForAnAvailableChild(i), oomeeNr);
         profileLayer->setTag(i);
         profileLayer->setPosition(positionElementOnScrollView(profileLayer));
         addListenerToProfileLayer(profileLayer);
@@ -242,10 +241,10 @@ void ChildSelectorScene::addListenerToProfileLayer(Node *profileLayer)
             //Oomee child pressed
             target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
             int childNumber = target->getTag();
-			AnalyticsSingleton::getInstance()->registerChildGenderAndAge(ParentDataProvider::getInstance()->getChild(childNumber));
+			AnalyticsSingleton::getInstance()->registerChildGenderAndAge(ParentManager::getInstance()->getChild(childNumber));
             AnalyticsSingleton::getInstance()->genericButtonPressEvent("childSelectedForLogin");
             
-            const std::string& profileName = ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(childNumber);
+            const std::string& profileName = ParentManager::getInstance()->getProfileNameForAnAvailableChild(childNumber);
             AuthAPI::getInstance()->loginChild(profileName);
             ModalMessages::getInstance()->startLoading();
             return true;
@@ -325,7 +324,7 @@ void ChildSelectorScene::onAuthAPIGetAvailableChildren()
     
 #ifdef AZOOMEE_CHAT_AUTO_CHILD_LOGIN
     // Auto select first child
-    const std::string& profileName = ParentDataProvider::getInstance()->getProfileNameForAnAvailableChild(3);
+    const std::string& profileName = ParentManager::getInstance()->getProfileNameForAnAvailableChild(3);
     AuthAPI::getInstance()->loginChild(profileName);
     ModalMessages::getInstance()->startLoading();
 #endif

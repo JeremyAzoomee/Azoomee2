@@ -17,7 +17,7 @@
 #include "SceneManagerScene.h"
 #include <dirent.h>
 #include <AzoomeeCommon/Data/Json.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/Utils/DirectorySearcher.h>
 #include <AzoomeeCommon/Utils/VersionChecker.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
@@ -167,7 +167,7 @@ void DynamicNodeHandler::startIAPFlow(IAPEntryContext context)
 #else
     if(RoutePaymentSingleton::getInstance()->receiptDataFileExists())
     {
-        if(!ParentDataProvider::getInstance()->isUserLoggedIn())
+        if(!ParentManager::getInstance()->isUserLoggedIn())
         {
             FlowDataSingleton::getInstance()->setSuccessFailPath(IAP_SUCCESS);
             handleSuccessFailEvent();

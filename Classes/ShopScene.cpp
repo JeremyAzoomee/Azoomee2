@@ -12,8 +12,7 @@
 #include <AzoomeeCommon/Data/Shop/ShopDisplayItem.h>
 #include <AzoomeeCommon/Data/Shop/ShopDataHandler.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
-#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Tutorial/TutorialController.h>
@@ -161,13 +160,13 @@ void ShopScene::onHttpRequestSuccess(const std::string& requestTag, const std::s
 {
 	if(requestTag == API::TagBuyReward)
 	{
-		HttpRequestCreator* request = API::GetInventory(ChildDataProvider::getInstance()->getParentOrChildId(), this);
+		HttpRequestCreator* request = API::GetInventory(ChildManager::getInstance()->getParentOrChildId(), this);
 		request->execute();
 	}
 	else if(requestTag == API::TagGetInventory)
 	{
 		ModalMessages::getInstance()->stopLoading();
-		ChildDataParser::getInstance()->parseChildInventory(body);
+		ChildManager::getInstance()->parseChildInventory(body);
 		_purchasePopup->setVisible(false);
 		_shopCarousel->setVisible(false);
 		_backButton->setVisible(false);

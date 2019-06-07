@@ -14,9 +14,9 @@ Parent::Parent()
 	
 }
 
-ParentRef Parent::createWithJson(const rapidjson::Document& parentData)
+MutableParentRef MutableParent::createWithJson(const rapidjson::Document& parentData)
 {
-	ParentRef parent = ParentRef(new Parent);
+	MutableParentRef parent = MutableParentRef(new MutableParent());
 
 	parent->_id = getStringFromJson("id", parentData);
 	parent->_cdnSessionId = getStringFromJson("cdn-sessionid", parentData);
@@ -24,61 +24,60 @@ ParentRef Parent::createWithJson(const rapidjson::Document& parentData)
 	parent->_apiKey = getStringFromJson("apiKey", parentData);
 	parent->_actorStatus = getStringFromJson("actorStatus", parentData);
 	parent->_pin = getStringFromJson("pinNumber", parentData);
-	//parent->_anonymous = getStringFromJson("userType", parentData) == "ADULT";
 	parent->_anonymous = getBoolFromJson("isAnonymous", parentData, false);
 	
 	return parent;
 	
 }
-ParentRef Parent::create()
+MutableParentRef MutableParent::create()
 {
-	return ParentRef(new Parent());
+	return MutableParentRef(new MutableParent());
 }
 
-void Parent::setAvatar(const std::string& avatarUrl)
+void MutableParent::setAvatar(const std::string& avatarUrl)
 {
 	_avatar = avatarUrl;
 }
-void Parent::setPin(const std::string& pin)
+void MutableParent::setPin(const std::string& pin)
 {
 	_pin = pin;
 }
-void Parent::setDisplayName(const std::string& name)
+void MutableParent::setDisplayName(const std::string& name)
 {
 	_displayName = name;
 }
-void Parent::setId(const std::string& parentId)
+void MutableParent::setId(const std::string& parentId)
 {
 	_id = parentId;
 }
-void Parent::setEmail(const std::string& email)
+void MutableParent::setEmail(const std::string& email)
 {
 	_email = email;
 }
-void Parent::setActorStatus(const std::string &actorStatus)
+void MutableParent::setActorStatus(const std::string &actorStatus)
 {
 	_actorStatus = actorStatus;
 }
 
-void Parent::setCDNSessionId(const std::string& sessionId)
+void MutableParent::setCDNSessionId(const std::string& sessionId)
 {
 	_cdnSessionId = sessionId;
 }
-void Parent::setAPISecret(const std::string& apiSecret)
+void MutableParent::setAPISecret(const std::string& apiSecret)
 {
 	_apiSecret = apiSecret;
 }
-void Parent::setAPIKey(const std::string& apiKey)
+void MutableParent::setAPIKey(const std::string& apiKey)
 {
 	_apiKey = apiKey;
 }
 
-void Parent::setCountryCode(const std::string &countryCode)
+void MutableParent::setCountryCode(const std::string &countryCode)
 {
 	_countryCode = countryCode;
 }
 
-void Parent::setAnonymous(bool anonymous)
+void MutableParent::setAnonymous(bool anonymous)
 {
 	_anonymous = anonymous;
 }

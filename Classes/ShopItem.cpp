@@ -8,8 +8,8 @@
 #include "ShopItem.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
 
 using namespace cocos2d;
 
@@ -90,13 +90,13 @@ void ShopItem::onEnter()
 		const auto& tags = _itemData->getTags();
 		enableNewIcon(std::find(tags.begin(), tags.end(), "NEW") != tags.end());
 		enableFeaturedAnimation(std::find(tags.begin(), tags.end(), "FEATURED") != tags.end());
-		const InventoryRef& inv = ChildDataProvider::getInstance()->getLoggedInChild()->getInventory();
+		const InventoryRef& inv = ChildManager::getInstance()->getLoggedInChild()->getInventory();
 		const auto& invItems = inv->getItems();
 		enableOwnedIcon(std::find_if(invItems.begin(), invItems.end(), [this](const InventoryItemRef& item){
 			return item->getItemId() == _itemData->getInventoryItem()->getItemId();
 		}) != invItems.end());
 		setAffordable(inv->getCoins() >= _itemData->getPrice());
-		enableLockedIcon(!(ParentDataProvider::getInstance()->isPaidUser() || _itemData->getEntitlement() == "AZ_FREE"));
+		enableLockedIcon(!(ParentManager::getInstance()->isPaidUser() || _itemData->getEntitlement() == "AZ_FREE"));
 	}
 	
 	Super::onEnter();

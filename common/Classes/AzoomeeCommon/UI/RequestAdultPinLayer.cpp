@@ -1,11 +1,11 @@
 #include "RequestAdultPinLayer.h"
 #include "../Strings.h"
-#include "../Data/Parent/ParentDataProvider.h"
+#include "../Data/Parent/ParentManager.h"
 #include "../Audio/AudioMixer.h"
 #include "../UI/ElectricDreamsTextStyles.h"
 #include "../UI/ElectricDreamsDecoration.h"
 #include "../API/API.h"
-#include "../Data/Parent/ParentDataParser.h"
+#include "../Data/Parent/ParentManager.h"
 #include "ModalMessages.h"
 #include "../ErrorCodes.h"
 #include "../Utils/BiometricAuthenticationHandler.h"
@@ -251,7 +251,7 @@ void RequestAdultPinLayer::checkPinAgainstStoredPin()
 {
     ModalMessages::getInstance()->stopLoading();
     
-    if(editBox_pin->getText() == ParentDataProvider::getInstance()->getParentPin() || ("" == ParentDataProvider::getInstance()->getParentPin() && editBox_pin->getText() == "1234"))
+    if(editBox_pin->getText() == ParentManager::getInstance()->getParentPin() || ("" == ParentManager::getInstance()->getParentPin() && editBox_pin->getText() == "1234"))
     {
         //Schedule so it calls delegate before removing self. Avoiding crash
         this->scheduleOnce(schedule_selector(RequestAdultPinLayer::removeSelf), 0.1);
@@ -331,7 +331,7 @@ void RequestAdultPinLayer::MessageBoxButtonPressed(std::string messageBoxTitle,s
 void RequestAdultPinLayer::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
 
-    ParentDataParser::getInstance()->parseUpdateParentData(body);
+    ParentManager::getInstance()->parseUpdateParentData(body);
 
     checkPinAgainstStoredPin();
 }

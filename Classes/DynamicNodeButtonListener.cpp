@@ -8,8 +8,6 @@
 
 #include "DynamicNodeButtonListener.h"
 #include "DynamicNodeHandler.h"
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "PreviewLoginSignupMessageBox.h"
 #include "DynamicNodeCreator.h"

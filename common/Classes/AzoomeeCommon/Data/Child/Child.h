@@ -17,11 +17,13 @@
 NS_AZOOMEE_BEGIN
 
 class Child;
+class MutableChild;
 typedef std::shared_ptr<Child> ChildRef;
+typedef std::shared_ptr<MutableChild> MutableChildRef;
 
 class Child
 {
-private:
+protected:
 	std::string _profileName;
 	std::string _avatar;
 	std::string _inviteCode;
@@ -38,19 +40,6 @@ private:
 	Child();
 public:
 	
-	static ChildRef createWithJson(const rapidjson::Value& childData);
-	static ChildRef create();
-	
-	void parseLoginData(const rapidjson::Document& loginData);
-	void parseChildData(const rapidjson::Value& childData);
-	
-	void setInventory(const InventoryRef& inventory);
-	
-	void setAvatar(const std::string& avatarUrl);
-	void setId(const std::string& childId);
-	void setDOB(const std::string& dob);
-	void setProfileName(const std::string& name);
-	
 	std::string getProfileName() const;
 	std::string getAvatar() const;
 	std::string getInviteCode() const;
@@ -63,6 +52,24 @@ public:
 	std::string getAPIKey() const;
 	
 	InventoryRef getInventory() const;
+	
+};
+
+class MutableChild : public Child
+{
+public:
+	static MutableChildRef createWithJson(const rapidjson::Value& childData);
+	static MutableChildRef create();
+	
+	void parseLoginData(const rapidjson::Document& loginData);
+	void parseChildData(const rapidjson::Value& childData);
+	
+	void setInventory(const InventoryRef& inventory);
+	
+	void setAvatar(const std::string& avatarUrl);
+	void setId(const std::string& childId);
+	void setDOB(const std::string& dob);
+	void setProfileName(const std::string& name);
 	
 };
 

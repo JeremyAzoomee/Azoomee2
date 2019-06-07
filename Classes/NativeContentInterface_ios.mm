@@ -1,5 +1,5 @@
 #include "NativeContentInterface_ios.h"
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "WebViewController_ios.h"
@@ -99,7 +99,7 @@ void NativeContentInterface_ios::addWebViewToScreen(const std::string &url, cons
         NSLog(@"Cookies in storage: %@", each);
     }
     
-    const std::string& userid = ChildDataProvider::getInstance()->getParentOrChildId();
+    const std::string& userid = ChildManager::getInstance()->getParentOrChildId();
     
     //If game is called, open the game directly, if video / audio, we open up jw player with the given url
     

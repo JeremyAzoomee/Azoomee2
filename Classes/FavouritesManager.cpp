@@ -6,7 +6,7 @@
 //
 
 #include "FavouritesManager.h"
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include "HQDataProvider.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
@@ -90,7 +90,7 @@ std::string FavouritesManager::getFavouritesFilePath() const
     {
         FileUtils::getInstance()->createDirectory(favouritesFolderLoc);
     }
-    const std::string& childFavouritesFolderLoc = favouritesFolderLoc + ChildDataProvider::getInstance()->getParentOrChildId();
+    const std::string& childFavouritesFolderLoc = favouritesFolderLoc + ChildManager::getInstance()->getParentOrChildId();
     if(!FileUtils::getInstance()->isDirectoryExist(childFavouritesFolderLoc))
     {
         FileUtils::getInstance()->createDirectory(childFavouritesFolderLoc);

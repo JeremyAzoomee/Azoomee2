@@ -14,7 +14,6 @@
 #include "HQDataProvider.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "HQDataParser.h"
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "PreviewLoginSignupMessageBox.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>

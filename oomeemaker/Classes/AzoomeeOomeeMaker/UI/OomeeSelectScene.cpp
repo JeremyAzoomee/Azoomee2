@@ -11,7 +11,6 @@
 #include "../DataObjects/OomeeMakerDataHandler.h"
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Utils/DirectorySearcher.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 #include <AzoomeeCommon/Utils/TimeFunctions.h>
 #include <AzoomeeCommon/UI/Style.h>

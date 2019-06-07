@@ -10,7 +10,7 @@
 #include "../DataObjects/OomeeMakerDataStorage.h"
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/UI/CCSpriteWithHue.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 
 using namespace cocos2d;
 
@@ -43,7 +43,7 @@ void OomeeItemList::setItems(const std::vector<OomeeItemRef>& itemList)
             if(i < itemList.size())
             {
                 OomeeItemRef item = itemList.at(i);
-				if(!item->isDefaultItem() && !ChildDataProvider::getInstance()->getLoggedInChild()->getInventory()->hasOomeeAccessory(item->getId()))
+				if(!item->isDefaultItem() && !ChildManager::getInstance()->getLoggedInChild()->getInventory()->hasOomeeAccessory(item->getId()))
 				{
 					column--; // negate the column inc from continuing the loop
 					i++;

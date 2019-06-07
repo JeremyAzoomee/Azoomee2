@@ -29,7 +29,6 @@
 #include "ShopScene.h"
 
 #include "CoinCollectLayer.h"
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Crashlytics/CrashlyticsConfig.h>
 
 #ifdef VODACOM_BUILD

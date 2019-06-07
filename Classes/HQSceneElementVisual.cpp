@@ -14,7 +14,6 @@
 #include "HQDataProvider.h"
 #include "GameDataManager.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 
 using namespace cocos2d;

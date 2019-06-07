@@ -9,7 +9,7 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
 
 using namespace cocos2d;
 
@@ -32,7 +32,7 @@ void ChildOomeeLayer::onEnter()
     const Size& contentSize = this->getContentSize();
     
     const bool isPortrait = contentSize.width < contentSize.height;
-	const bool isAnon = ParentDataProvider::getInstance()->isLoggedInParentAnonymous();
+	const bool isAnon = ParentManager::getInstance()->isLoggedInParentAnonymous();
 	
 	Label* title = Label::createWithTTF(_("Every child gets their own Oomee friend"), Style::Font::Regular(), 96);
 	title->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);

@@ -11,7 +11,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include "SceneManagerScene.h"
 #include "HQHistoryManager.h"
 
@@ -98,7 +98,7 @@ bool ChildSettingsScene::init()
 	_childSelect->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			ChildDataParser::getInstance()->setChildLoggedIn(false);
+			ChildManager::getInstance()->setChildLoggedIn(false);
 			HQHistoryManager::getInstance()->emptyHistory();
 			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChildSelector));
 		}

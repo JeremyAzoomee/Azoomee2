@@ -1,11 +1,8 @@
 #include "BackEndCaller.h"
 
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
-#include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/Data/Cookie/CookieManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
@@ -135,10 +132,10 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString, con
 	IAPProductDataHandler::getInstance()->fetchProductData();
     
     cocos2d::log("Response string is: %s", responseString.c_str());
-    if(ParentDataParser::getInstance()->parseParentLoginData(responseString))
+    if(ParentManager::getInstance()->parseParentLoginData(responseString))
     {
-		ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headerString));
-		if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
+		ParentManager::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headerString));
+		if(ParentManager::getInstance()->isLoggedInParentAnonymous())
 		{
 			AnalyticsSingleton::getInstance()->setIsUserAnonymous(true);
 			getAvailableChildren();
@@ -198,14 +195,14 @@ void BackEndCaller::anonymousDeviceLogin()
 
 void BackEndCaller::updateBillingData()
 {
-    ParentDataParser::getInstance()->setBillingDataAvailable(false);
-    HttpRequestCreator* request = API::UpdateBillingDataRequest(ParentDataProvider::getInstance()->getLoggedInParentId(), this);
+    ParentManager::getInstance()->setBillingDataAvailable(false);
+    HttpRequestCreator* request = API::UpdateBillingDataRequest(ParentManager::getInstance()->getLoggedInParentId(), this);
     request->execute();
 }
 
 void BackEndCaller::onUpdateBillingDataAnswerReceived(const std::string& responseString)
 {
-    ParentDataParser::getInstance()->parseParentBillingData(responseString);
+    ParentManager::getInstance()->parseParentBillingData(responseString);
 }
 
 //UPDATING PARENT DATA--------------------------------------------------------------------------------
@@ -223,7 +220,7 @@ void BackEndCaller::updateParentPin(AwaitingAdultPinLayer *callBackTo)
 void BackEndCaller::onUpdateParentPinAnswerReceived(const std::string& responseString)
 {
     cocos2d::log("Update parent response string is: %s", responseString.c_str());
-    if(ParentDataParser::getInstance()->parseUpdateParentData(responseString))
+    if(ParentManager::getInstance()->parseUpdateParentData(responseString))
     {
         hideLoadingScreen();
         
@@ -237,7 +234,7 @@ void BackEndCaller::onUpdateParentPinAnswerReceived(const std::string& responseS
 
 void BackEndCaller::getParentDetails()
 {
-    HttpRequestCreator* request = API::getParentDetailsRequest(ParentDataProvider::getInstance()->getLoggedInParentId(), this);
+    HttpRequestCreator* request = API::getParentDetailsRequest(ParentManager::getInstance()->getLoggedInParentId(), this);
     request->execute();
 }
 
@@ -254,14 +251,14 @@ void BackEndCaller::getAvailableChildren()
 void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseString)
 {
     
-    ParentDataParser::getInstance()->parseAvailableChildren(responseString);
-    if(ParentDataProvider::getInstance()->getAmountOfAvailableChildren() == 0)
+    ParentManager::getInstance()->parseAvailableChildren(responseString);
+    if(ParentManager::getInstance()->getAmountOfAvailableChildren() == 0)
     {
 		Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::AddChildFirstTime));
     }
     else
     {
-		if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
+		if(ParentManager::getInstance()->isLoggedInParentAnonymous())
 		{
 			UserDefault* userDefault = UserDefault::getInstance();
 			bool anonOnboardingComplete = userDefault->getBoolForKey("anonOnboardingComplete", false);
@@ -293,20 +290,20 @@ void BackEndCaller::childLogin(int childNumber)
 {
     displayLoadingScreen();
     
-    const std::string& profileName = ParentDataProvider::getInstance()->getChild(childNumber)->getProfileName();
+    const std::string& profileName = ParentManager::getInstance()->getChild(childNumber)->getProfileName();
     HttpRequestCreator* request = API::ChildLoginRequest(profileName, this);
     request->execute();
 }
 
 void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString, const std::string& headerString)
 {
-    if((!ChildDataParser::getInstance()->parseChildLoginData(responseString)))
+    if((!ParentManager::getInstance()->parseChildLoginData(responseString)))
     {
         LoginLogicHandler::getInstance()->doLoginLogic();
         return;
     }
     HQDataParser::getInstance()->parseHQGetContentUrls(responseString);
-    ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headerString));
+    ParentManager::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headerString));
     DynamicNodeHandler::getInstance()->getCTAFiles();
 	getChildInventory();
     getGordon();
@@ -323,8 +320,8 @@ void BackEndCaller::getGordon()
     IosNativeFunctionsSingleton::getInstance()->deleteHttpCookies(); //ios handles cookies on OS level. Removal of earlier cookies is important to avoid watching premium content with a free user.
 #endif
     
-    const std::string& userId = ChildDataProvider::getInstance()->getParentOrChildId();
-    const std::string& sessionId = ChildDataProvider::getInstance()->getParentOrChildCdnSessionId();
+    const std::string& userId = ChildManager::getInstance()->getParentOrChildId();
+    const std::string& sessionId = ChildManager::getInstance()->getParentOrChildCdnSessionId();
     
     HttpRequestCreator* request = API::GetGordenRequest(userId, sessionId, this);
     request->execute();
@@ -372,7 +369,7 @@ void BackEndCaller::registerParent(const std::string& emailAddress, const std::s
     source = "ANDROID_INAPP";
 #endif
     
-	HttpRequestCreator* request = API::RegisterParentRequest(ParentDataProvider::getInstance()->getLoggedInParentId(),emailAddress, password, pinNumber, source, sourceDevice, marketingAccepted, this);
+	HttpRequestCreator* request = API::RegisterParentRequest(ParentManager::getInstance()->getLoggedInParentId(),emailAddress, password, pinNumber, source, sourceDevice, marketingAccepted, this);
     request->execute();
     
     displayLoadingScreen();
@@ -418,7 +415,7 @@ void BackEndCaller::updateChild(const std::string& childId, const std::string& c
     FlowDataSingleton::getInstance()->addChildData(childProfileName, oomeeNumber);
     
     const std::string& oomeeUrl = ConfigStorage::getInstance()->getUrlForOomee(oomeeNumber);
-    const std::string& ownerId = ParentDataProvider::getInstance()->getLoggedInParentId();
+    const std::string& ownerId = ParentManager::getInstance()->getLoggedInParentId();
     HttpRequestCreator* request = API::UpdateChildRequest(childId, childProfileName, childGender, childDOB, oomeeUrl, ownerId, this);
     request->execute();
 }
@@ -467,9 +464,9 @@ void BackEndCaller::getHQContent(const std::string& url, const std::string& cate
 // DEEPLINK CONTENT DETAILS REQUEST ----------------------------------------------------------------
 void BackEndCaller::GetContent(const std::string& requestId, const std::string& contentID)
 {
-    if(ChildDataStorage::getInstance()->isChildLoggedIn())
+    if(ChildManager::getInstance()->isChildLoggedIn())
     {
-        HttpRequestCreator* request = API::GetContent(requestId, ChildDataStorage::getInstance()->getLoggedInChild()->getId(), contentID, this);
+        HttpRequestCreator* request = API::GetContent(requestId, ChildManager::getInstance()->getLoggedInChild()->getId(), contentID, this);
         request->execute();
     }
 }
@@ -483,7 +480,7 @@ void BackEndCaller::resetPasswordRequest(const std::string& emailAddress)
 
 void BackEndCaller::getChildInventory()
 {
-	const ChildRef& child = ChildDataProvider::getInstance()->getLoggedInChild();
+	const ChildRef& child = ChildManager::getInstance()->getLoggedInChild();
 	if(child)
 	{
 		HttpRequestCreator* request = API::GetInventory(child->getId(), this);
@@ -510,7 +507,7 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     }
 	else if(requestTag == API::TagGetInventory)
 	{
-		ChildDataParser::getInstance()->parseChildInventory(body);
+		ChildManager::getInstance()->parseChildInventory(body);
 	}
     else if(requestTag == API::TagGetAvailableChildren)
     {
@@ -525,7 +522,7 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
 		rapidjson::Document json;
 		json.Parse(body.c_str());
 		const std::string& userId = getStringFromJson("id", json);
-		ParentDataParser::getInstance()->saveAnonCredentialsToDevice(userId);
+		ParentManager::getInstance()->saveAnonCredentialsToDevice(userId);
 		login(userId, ConfigStorage::kAnonLoginPW);
 	}
     else if(requestTag == API::TagRegisterChild)
@@ -540,8 +537,7 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     {
         rapidjson::Document json;
         json.Parse(body.c_str());
-		const ChildRef& child = ChildDataProvider::getInstance()->getLoggedInChild();
-		child->setAvatar(getStringFromJson("avatar", json));
+		ChildManager::getInstance()->parseAvatarUpdate(body);
         ImageDownloaderRef imageDownloader = ImageDownloader::create("imageCache/", ImageDownloader::CacheMode::File );
         imageDownloader->downloadImage(nullptr, getStringFromJson("avatar", json), true);
         hideLoadingScreen();
@@ -556,7 +552,7 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     }
     else if(requestTag == API::TagGetParentDetails)
     {
-        ParentDataParser::getInstance()->parseParentDetails(body);
+        ParentManager::getInstance()->parseParentDetails(body);
     }
     else if(requestTag == "deepLinkContentRequest")
     {

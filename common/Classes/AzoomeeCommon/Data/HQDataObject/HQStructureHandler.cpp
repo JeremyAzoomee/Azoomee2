@@ -12,8 +12,7 @@
 #include "../../Utils/FileZipUtil.h"
 #include "../Json.h"
 #include "../../UI/ModalMessages.h"
-#include "../Parent/ParentDataProvider.h"
-#include "../Child/ChildDataProvider.h"
+#include "../Child/ChildManager.h"
 #include "../../Utils/DirectorySearcher.h"
 #include "../ConfigStorage.h"
 #include "../../Utils/StringFunctions.h"
@@ -55,7 +54,7 @@ void HQStructureHandler::getLatestData(const OnCompleteCallback& callback)
 		_callback = callback;
 	}
     ModalMessages::getInstance()->startLoading();
-	const std::string& childId = ChildDataProvider::getInstance()->ChildDataProvider::getInstance()->getLoggedInChild()->getId();
+	const std::string& childId = ChildManager::getInstance()->ChildManager::getInstance()->getLoggedInChild()->getId();
     HttpRequestCreator* request = API::GetHQStructureDataRequest(childId, this);
     request->execute();
 }

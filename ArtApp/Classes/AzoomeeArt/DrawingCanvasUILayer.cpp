@@ -11,7 +11,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Utils/DirectorySearcher.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Utils/SpecialCalendarEventManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 
@@ -997,7 +997,7 @@ void DrawingCanvasUILayer::setButtonBodyPattern(cocos2d::ui::Button *button, con
 void DrawingCanvasUILayer::getStickerFilesFromJSON()
 {
     _stickerCats.clear();
-    const std::string& oomeeStoragePath = FileUtils::getInstance()->getWritablePath() + "oomeeMaker/" + ChildDataProvider::getInstance()->getParentOrChildId();
+    const std::string& oomeeStoragePath = FileUtils::getInstance()->getWritablePath() + "oomeeMaker/" + ChildManager::getInstance()->getParentOrChildId();
     const std::vector<std::string>& oomeeImages = DirectorySearcher::getInstance()->getImagesInDirectory(oomeeStoragePath);
     
     if(oomeeImages.size() != 0)

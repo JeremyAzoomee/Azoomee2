@@ -20,7 +20,7 @@
 #include <AzoomeeCommon/Tutorial/TutorialController.h>
 #include <AzoomeeCommon/Tutorial/TutorialMessagingNode.h>
 #include <AzoomeeCommon/API/API.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/UI/NotificationNodeDisplayManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 
@@ -239,7 +239,7 @@ void AddChildScene::nextLayer()
 				TutorialController::getInstance()->nextStep();
 			}
 			ModalMessages::getInstance()->startLoading();
-			_childCreator->updateChild(ParentDataProvider::getInstance()->getChild(0));
+			_childCreator->updateChild(ParentManager::getInstance()->getChild(0));
 			break;
 		}
 		case AddChildFlow::ANON_OOMEE:
