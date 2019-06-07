@@ -55,7 +55,7 @@ void HQStructureHandler::getLatestData(const OnCompleteCallback& callback)
 		_callback = callback;
 	}
     ModalMessages::getInstance()->startLoading();
-	const std::string& childId = ChildDataProvider::getInstance()->getParentOrChildId();
+	const std::string& childId = ChildDataProvider::getInstance()->ChildDataProvider::getInstance()->getLoggedInChild()->getId();
     HttpRequestCreator* request = API::GetHQStructureDataRequest(childId, this);
     request->execute();
 }

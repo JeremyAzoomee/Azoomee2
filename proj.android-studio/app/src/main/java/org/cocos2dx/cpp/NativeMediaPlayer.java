@@ -165,7 +165,7 @@ public class NativeMediaPlayer extends Activity {
 
                             finish();
                         }
-                    }, 1500);
+                    }, 500);
                 }
                 else
                 {
@@ -672,7 +672,7 @@ public class NativeMediaPlayer extends Activity {
 
                 finish();
             }
-        }, 1500);
+        }, 500);
     }
     //Handling hardware back button
 

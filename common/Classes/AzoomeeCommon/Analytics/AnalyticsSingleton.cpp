@@ -941,50 +941,107 @@ void AnalyticsSingleton::shopPageTurned(int pageNumber)
 {
 	mixPanelSendEventWithStoredProperties("ShopPageTurned" ,{{"pageNumber", cocos2d::StringUtils::format("%d",pageNumber)}});
 }
+
 void AnalyticsSingleton::shopItemPressed(int itemPos, const ShopDisplayItemRef& item)
 {
+	const std::vector<std::string>& tags = item->getTags();
 	mixPanelSendEventWithStoredProperties("ShopItemPressed" ,{
 		{"itemPos", cocos2d::StringUtils::format("%d",itemPos)},
-		{"itemName", item->getInventoryItem()->getName()}
+		{"itemName", item->getInventoryItem()->getName()},
+		{"itemPrice", cocos2d::StringUtils::format("%d",item->getPrice())},
+		{"itemShape", item->getShape()},
+		{"isNew", std::find(tags.begin(), tags.end(), "NEW") != tags.end() ?  "YES" : "NO"},
+		{"isFeatured", std::find(tags.begin(), tags.end(), "FEATURED") != tags.end() ?  "YES" : "NO"}
 	});
 }
+
 void AnalyticsSingleton::shopLockedItemPressed(int itemPos, const ShopDisplayItemRef& item)
 {
+	const std::vector<std::string>& tags = item->getTags();
 	mixPanelSendEventWithStoredProperties("ShopLockedItemPressed" ,{
 		{"itemPos", cocos2d::StringUtils::format("%d",itemPos)},
-		{"itemName", item->getInventoryItem()->getName()}
+		{"itemName", item->getInventoryItem()->getName()},
+		{"itemPrice", cocos2d::StringUtils::format("%d",item->getPrice())},
+		{"itemShape", item->getShape()},
+		{"isNew", std::find(tags.begin(), tags.end(), "NEW") != tags.end() ?  "YES" : "NO"},
+		{"isFeatured", std::find(tags.begin(), tags.end(), "FEATURED") != tags.end() ?  "YES" : "NO"}
 	});
 }
+
 void AnalyticsSingleton::shopUnaffordableItemPressed(int itemPos, const ShopDisplayItemRef& item)
 {
+	const std::vector<std::string>& tags = item->getTags();
 	mixPanelSendEventWithStoredProperties("ShopUnaffordableItemPressed" ,{
 		{"itemPos", cocos2d::StringUtils::format("%d",itemPos)},
-		{"itemName", item->getInventoryItem()->getName()}
+		{"itemName", item->getInventoryItem()->getName()},
+		{"itemPrice", cocos2d::StringUtils::format("%d",item->getPrice())},
+		{"itemShape", item->getShape()},
+		{"isNew", std::find(tags.begin(), tags.end(), "NEW") != tags.end() ?  "YES" : "NO"},
+		{"isFeatured", std::find(tags.begin(), tags.end(), "FEATURED") != tags.end() ?  "YES" : "NO"}
 	});
 }
+
 void AnalyticsSingleton::shopItemPurchased(const ShopDisplayItemRef& item)
 {
+	const std::vector<std::string>& tags = item->getTags();
 	mixPanelSendEventWithStoredProperties("ShopItemPurchased" ,{
-		{"itemName", item->getInventoryItem()->getName()}
+		{"itemName", item->getInventoryItem()->getName()},
+		{"itemPrice", cocos2d::StringUtils::format("%d",item->getPrice())},
+		{"itemShape", item->getShape()},
+		{"isNew", std::find(tags.begin(), tags.end(), "NEW") != tags.end() ?  "YES" : "NO"},
+		{"isFeatured", std::find(tags.begin(), tags.end(), "FEATURED") != tags.end() ?  "YES" : "NO"}
 	});
 }
+
 void AnalyticsSingleton::shopPurchasePopupClosed(const ShopDisplayItemRef& item)
 {
+	const std::vector<std::string>& tags = item->getTags();
 	mixPanelSendEventWithStoredProperties("ShopPurchasePopupClosed" ,{
-		{"itemName", item->getInventoryItem()->getName()}
+		{"itemName", item->getInventoryItem()->getName()},
+		{"itemPrice", cocos2d::StringUtils::format("%d",item->getPrice())},
+		{"itemShape", item->getShape()},
+		{"isNew", std::find(tags.begin(), tags.end(), "NEW") != tags.end() ?  "YES" : "NO"},
+		{"isFeatured", std::find(tags.begin(), tags.end(), "FEATURED") != tags.end() ?  "YES" : "NO"}
 	});
 }
+
 void AnalyticsSingleton::shopPurchseAnimClosed(const ShopDisplayItemRef& item)
 {
+	const std::vector<std::string>& tags = item->getTags();
 	mixPanelSendEventWithStoredProperties("ShopPurchasedAnimClosed" ,{
-		{"itemName", item->getInventoryItem()->getName()}
+		{"itemName", item->getInventoryItem()->getName()},
+		{"itemPrice", cocos2d::StringUtils::format("%d",item->getPrice())},
+		{"itemShape", item->getShape()},
+		{"isNew", std::find(tags.begin(), tags.end(), "NEW") != tags.end() ?  "YES" : "NO"},
+		{"isFeatured", std::find(tags.begin(), tags.end(), "FEATURED") != tags.end() ?  "YES" : "NO"}
 	});
 }
+
 void AnalyticsSingleton::shopPurchasedAnimUsePressed(const ShopDisplayItemRef& item)
 {
+	const std::vector<std::string>& tags = item->getTags();
 	mixPanelSendEventWithStoredProperties("ShopPurchasedAnimUsePressed" ,{
-		{"itemName", item->getInventoryItem()->getName()}
+		{"itemName", item->getInventoryItem()->getName()},
+		{"itemPrice", cocos2d::StringUtils::format("%d",item->getPrice())},
+		{"itemShape", item->getShape()},
+		{"isNew", std::find(tags.begin(), tags.end(), "NEW") != tags.end() ?  "YES" : "NO"},
+		{"isFeatured", std::find(tags.begin(), tags.end(), "FEATURED") != tags.end() ?  "YES" : "NO"}
 	});
+}
+
+void AnalyticsSingleton::coinCounterPressedEvent()
+{
+	mixPanelSendEventWithStoredProperties("coinCounterPressed");
+}
+
+//-------------DEBUG----------------------------------------
+void AnalyticsSingleton::backendRequestCompleteEvent(const std::string& requestTag, const std::string& qid)
+{
+	mixPanelSendEventWithStoredProperties("backendRequestComplete" ,{{"requestTag", requestTag},{"qid",qid}});
+}
+void AnalyticsSingleton::debugEvent(const std::string& eventName, const std::map<std::string,std::string>& params)
+{
+	mixPanelSendEventWithStoredProperties("DEBUG_" + eventName, params);
 }
 
 NS_AZOOMEE_END

@@ -223,6 +223,11 @@ public:
 	void shopPurchseAnimClosed(const ShopDisplayItemRef& item);
 	void shopPurchasedAnimUsePressed(const ShopDisplayItemRef& item);
 	
+	void coinCounterPressedEvent();
+	
+	//-------------DEBUG----------------------------------------
+	void backendRequestCompleteEvent(const std::string& requestTag, const std::string& qid);
+	void debugEvent(const std::string& eventName, const std::map<std::string,std::string>& params = {});
 	
 };
   

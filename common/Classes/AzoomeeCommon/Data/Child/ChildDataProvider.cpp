@@ -1,6 +1,7 @@
 #include "ChildDataProvider.h"
 #include "ChildDataStorage.h"
 #include "../Parent/ParentDataStorage.h"
+#include "../../Analytics/AnalyticsSingleton.h"
 
 using namespace cocos2d;
 using namespace Azoomee;
@@ -104,6 +105,10 @@ std::string ChildDataProvider::getParentOrChildName() const
 
 bool ChildDataProvider::isChildLoggedIn() const
 {
+	if(!ChildDataStorage::getInstance()->isChildLoggedIn() && ChildDataStorage::getInstance()->getLoggedInChild())
+	{
+		AnalyticsSingleton::getInstance()->debugEvent("childLoginFlagFalse", {{"parentId",ParentDataStorage::getInstance()->getParent()->getId()},{"childId",ChildDataStorage::getInstance()->getLoggedInChild()->getId()}});
+	}
 	return ChildDataStorage::getInstance()->isChildLoggedIn() && ChildDataStorage::getInstance()->getLoggedInChild();
 }
 

@@ -11,6 +11,7 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "SceneManagerScene.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
 
@@ -60,6 +61,7 @@ bool CoinDisplay::init()
 	this->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
+			AnalyticsSingleton::getInstance()->coinCounterPressedEvent();
 			AudioMixer::getInstance()->playEffect("CoinCounterIcon_Click.wav");
 			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Shop));
 		}

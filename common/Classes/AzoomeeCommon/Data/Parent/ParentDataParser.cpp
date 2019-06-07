@@ -257,7 +257,6 @@ void ParentDataParser::clearParentLoginDataFromUserDefaults()
     def->setStringForKey("loggedInParentApiKey", "");
     def->setStringForKey("loggedInParentActorStatus", "");
     def->setStringForKey("loggedInParentCountryCode", "");
-	def->setStringForKey(ConfigStorage::kStoredUsernameKey, "");
     def->flush();
 }
     

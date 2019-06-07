@@ -11,6 +11,7 @@
 #include "SceneManagerScene.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include "ChatDelegate.h"
 
 USING_NS_CC;
@@ -57,7 +58,7 @@ void ArtAppDelegate::onArtAppShareImage()
 {
     if(filename != "")
     {
-        if(!HQHistoryManager::getInstance()->isOffline() && ChildDataProvider::getInstance()->isChildLoggedIn())
+		if(!HQHistoryManager::getInstance()->isOffline() && ParentDataProvider::getInstance()->isPaidUser())
         {
             AnalyticsSingleton::getInstance()->contentItemClosedEvent();
             ChatDelegate::getInstance()->_imageFileName = filename;

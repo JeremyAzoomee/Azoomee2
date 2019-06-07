@@ -223,6 +223,7 @@ void RequestAdultPinLayer::removeSelf(float dt)
 {
     if(this)
     {
+		BiometricAuthenticationHandler::getInstance()->removeMessageBoxAndroid();
         Director::getInstance()->getEventDispatcher()->removeEventListener(_biometricValidationSuccessListener);
         Director::getInstance()->getEventDispatcher()->removeEventListener(_biometricValidationFailureListener);
         this->removeChild(backgroundLayer);
@@ -232,6 +233,7 @@ void RequestAdultPinLayer::removeSelf(float dt)
 
 void RequestAdultPinLayer::onExit()
 {
+	BiometricAuthenticationHandler::getInstance()->removeMessageBoxAndroid();
     Director::getInstance()->getEventDispatcher()->removeEventListener(_biometricValidationSuccessListener);
     Director::getInstance()->getEventDispatcher()->removeEventListener(_biometricValidationFailureListener);
     

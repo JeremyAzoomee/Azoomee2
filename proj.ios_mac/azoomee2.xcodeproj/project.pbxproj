@@ -153,6 +153,9 @@
 		9224BFB11F7908D400108553 /* DynamicNodeButtonListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB01F7908D400108553 /* DynamicNodeButtonListener.cpp */; };
 		9224BFB41F7932D200108553 /* ButtonActionData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB31F7932D200108553 /* ButtonActionData.cpp */; };
 		9224BFB71F794BFA00108553 /* DynamicNodeHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB61F794BFA00108553 /* DynamicNodeHandler.cpp */; };
+		9225D4D6225B7D2F00E4C239 /* HQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BBD220064B9008C13D0 /* HQScene.cpp */; };
+		9225D4DB225B7D3400E4C239 /* ContentFeedHQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BC422008BF1008C13D0 /* ContentFeedHQScene.cpp */; };
+		9225D4DC225B7D5600E4C239 /* WelcomeScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92448AE521F73AEF00E88C9D /* WelcomeScene.cpp */; };
 		923D5BBE220064B9008C13D0 /* HQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BBD220064B9008C13D0 /* HQScene.cpp */; };
 		923D5BC522008BF1008C13D0 /* ContentFeedHQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BC422008BF1008C13D0 /* ContentFeedHQScene.cpp */; };
 		923D5BED2201F126008C13D0 /* RewardScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BEC2201F125008C13D0 /* RewardScene.cpp */; };
@@ -2628,6 +2631,7 @@
 				92E5867E222425360015A4FA /* ManualGameInputLayer.cpp in Sources */,
 				92E5867F222425360015A4FA /* HQScene2CarouselTitle.cpp in Sources */,
 				92E58680222425360015A4FA /* IAPProductDataHandler.mm in Sources */,
+				9225D4DB225B7D3400E4C239 /* ContentFeedHQScene.cpp in Sources */,
 				92E58681222425360015A4FA /* DynamicNodeFlowController.cpp in Sources */,
 				92E58682222425360015A4FA /* ChildNameLayer.cpp in Sources */,
 				92E58683222425360015A4FA /* PreviewLoginSignupMessageBox.cpp in Sources */,
@@ -2645,6 +2649,7 @@
 				92E5868E222425360015A4FA /* ChatNotificationsSingleton.cpp in Sources */,
 				92E5868F222425360015A4FA /* VodacomOnboardingScene.cpp in Sources */,
 				92E58690222425360015A4FA /* DynamicNodeCheckBox.cpp in Sources */,
+				9225D4DC225B7D5600E4C239 /* WelcomeScene.cpp in Sources */,
 				92E58691222425360015A4FA /* DynamicNodeTextInput.cpp in Sources */,
 				92E58692222425360015A4FA /* SettingsMessageBox.cpp in Sources */,
 				92BDD4BD2232CCAF00DA56F3 /* RewardScreen.cpp in Sources */,
@@ -2689,6 +2694,7 @@
 				92E586B8222425360015A4FA /* DynamicNodeCreator.cpp in Sources */,
 				92E586B9222425360015A4FA /* DynamicNodeDataInputStorage.cpp in Sources */,
 				92E586BA222425360015A4FA /* OfflineChecker.cpp in Sources */,
+				9225D4D6225B7D2F00E4C239 /* HQScene.cpp in Sources */,
 				92E586BB222425360015A4FA /* OfflineHubBackButton.cpp in Sources */,
 				92E586BC222425360015A4FA /* main.m in Sources */,
 				92E586BD222425360015A4FA /* HQSceneElementPositioner.cpp in Sources */,

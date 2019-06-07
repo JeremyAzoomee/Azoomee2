@@ -91,7 +91,7 @@ void ChildOomeeLayer::onEnter()
     });
     this->addChild(doneButton);
     
-    Label* doneButtonText = Label::createWithTTF(_("Start exploring"), Style::Font::Regular(), doneButton->getContentSize().height * 0.4f);
+	Label* doneButtonText = Label::createWithTTF(isAnon ? _("Start exploring") : _("Done"), Style::Font::Regular(), doneButton->getContentSize().height * 0.4f);
     doneButtonText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     doneButtonText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     doneButtonText->setTextColor(Color4B::BLACK);
@@ -104,7 +104,7 @@ void ChildOomeeLayer::onEnter()
 		ui::Button* addAnotherButton = ui::Button::create("res/buttons/MainButton.png");
 		addAnotherButton->setColor(Style::Color::telish);
 		addAnotherButton->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE : Vec2::ANCHOR_MIDDLE_LEFT);
-		addAnotherButton->setPosition(Vec2(contentSize.width * (isPortrait ? 0.5f : 0.2675f), contentSize.height * (isPortrait ? 0.225f : 0.2f)));
+		addAnotherButton->setPosition(Vec2(contentSize.width * (isPortrait ? 0.5f : 0.2475f), contentSize.height * (isPortrait ? 0.225f : 0.2f)));
 		addAnotherButton->ignoreContentAdaptWithSize(false);
 		addAnotherButton->setScale9Enabled(true);
 		addAnotherButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType)
