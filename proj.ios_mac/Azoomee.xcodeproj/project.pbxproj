@@ -1904,6 +1904,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Azoomee Prod" */;
 			buildPhases = (
+				3002DAF022A96D260091C765 /* Update Version.json */,
 				029B9A972063D20700D98EF2 /* Copy WebCommAPI from separate repository */,
 				92CD187D20D92B0600E22FB1 /* copy CTA zip from app-content-dynamicnode */,
 				1D60588D0D05DD3D006BFB54 /* Resources */,
@@ -1932,6 +1933,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3073BE7922A7DC780024DB50 /* Build configuration list for PBXNativeTarget "Azoomee CI" */;
 			buildPhases = (
+				3002DAF622A96E2D0091C765 /* Update Version.json */,
 				3073BD9E22A7DC780024DB50 /* Copy WebCommAPI from separate repository */,
 				3073BD9F22A7DC780024DB50 /* copy CTA zip from app-content-dynamicnode */,
 				3073BDA022A7DC780024DB50 /* Resources */,
@@ -2186,6 +2188,42 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "rm -rf ../Resources/res/webcommApi\ncp -rf ../../webgameapi_repo/webcommApi ../Resources/res/\n";
+		};
+		3002DAF022A96D260091C765 /* Update Version.json */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Update Version.json";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "VERSION_NUMBER=$(/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nCOMMIT_ID=$(git rev-parse --short HEAD)\necho \"{\\\"version\\\": \\\"$VERSION_NUMBER ($COMMIT_ID)\\\"}\" > \"${PROJECT_DIR}/../Resources/res/configuration/Version.json\"\n";
+		};
+		3002DAF622A96E2D0091C765 /* Update Version.json */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Update Version.json";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "VERSION_NUMBER=$(/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nCOMMIT_ID=$(git rev-parse --short HEAD)\necho \"{\\\"version\\\": \\\"$VERSION_NUMBER ($COMMIT_ID)\\\"}\" > \"${PROJECT_DIR}/../Resources/res/configuration/Version.json\"\n";
 		};
 		30647A941F13B53600A935C9 /* Carthage Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;

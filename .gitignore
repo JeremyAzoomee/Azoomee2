@@ -7,3 +7,6 @@ Resources/res/webcommApi
 Resources/res/cta_assets/CTAFiles.zip
 *.pyc
 .DS_Store
+
+# Version.json is generated at build time
+Resources/res/configuration/Version.json

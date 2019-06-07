@@ -283,3 +283,19 @@ task ctaZip(type: Zip) {
     destinationDir(file('../../Resources/res/cta_assets/'))
 }
 preBuild.dependsOn ctaZip
+
+
+def getCommitHash = { ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', '--short', 'HEAD'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}
+
+task updateVersionAsset {
+    def libraries = new File("../Resources/res/configuration/Version.json")
+    libraries.text = "{\"version\": \"" + "${android.defaultConfig.versionName}" + " " + "(" + "${getCommitHash()}" + ")\"}"
+}
+preBuild.dependsOn updateVersionAsset
