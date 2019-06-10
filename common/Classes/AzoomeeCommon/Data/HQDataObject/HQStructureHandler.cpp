@@ -10,10 +10,10 @@
 #include <cocos/cocos2d.h>
 #include "../../API/API.h"
 #include "../../Utils/FileZipUtil.h"
+#include "../../Utils/DirUtil.h"
 #include "../Json.h"
 #include "../../UI/ModalMessages.h"
 #include "../Child/ChildManager.h"
-#include "../../Utils/ChildManager.h"
 #include "../ConfigStorage.h"
 #include "../../Utils/StringFunctions.h"
 #include "HQDataObjectStorage.h"

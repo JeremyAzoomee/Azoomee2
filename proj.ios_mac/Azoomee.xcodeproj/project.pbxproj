@@ -314,9 +314,7 @@
 		503AE10017EB989F00D1A890 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FB17EB989F00D1A890 /* AppController.mm */; };
 		503AE10117EB989F00D1A890 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FC17EB989F00D1A890 /* main.m */; };
 		521A8EA919F11F5000D177D7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
-		8262943E1AAF051F00CB7CF7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8262943D1AAF051F00CB7CF7 /* Security.framework */; };
 		9206012A227B2F9500A73FA5 /* ChildOomeeFTULayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92060129227B2F9500A73FA5 /* ChildOomeeFTULayer.cpp */; };
-		9206012B227B2F9500A73FA5 /* ChildOomeeFTULayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92060129227B2F9500A73FA5 /* ChildOomeeFTULayer.cpp */; };
 		92084F6421E644D800DACCEB /* MeHQRecentlyPlayed.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92084F6321E644D800DACCEB /* MeHQRecentlyPlayed.cpp */; };
 		920F6FDE213EB76300B7BB76 /* SettingsFriendshipsPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920F6FDD213EB76300B7BB76 /* SettingsFriendshipsPage.cpp */; };
 		920F6FE1213FD53900B7BB76 /* FriendRequestLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920F6FE0213FD53900B7BB76 /* FriendRequestLayer.cpp */; };
@@ -647,7 +645,6 @@
 		02BF05EA1F9788C300E7D086 /* AirshipConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AirshipConfig.plist; sourceTree = "<group>"; };
 		02BF05EC1F97894500E7D086 /* Azoomee.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Azoomee.entitlements; sourceTree = "<group>"; };
 		02C66A9A1FBAF79200F33686 /* HQScene2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQScene2.cpp; sourceTree = "<group>"; };
-		02C66A9E1FBAF79300F33686 /* HQScene2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQScene2.h; sourceTree = "<group>"; };
 		02D4FCCB1FCED6E2005BA020 /* IAPProductDataHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPProductDataHandler.h; sourceTree = "<group>"; };
 		02D4FCD11FCEE5E1005BA020 /* IAPProductDataHandler.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IAPProductDataHandler.mm; sourceTree = "<group>"; };
 		02D4FCD31FCF0D0B005BA020 /* IAPProductDataHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IAPProductDataHandler.cpp; sourceTree = "<group>"; };
@@ -1021,7 +1018,6 @@
 				433AD3071E252A2C003757AD /* Crashlytics.framework in Frameworks */,
 				ED545A7C1B68A1F400C3958E /* libiconv.dylib in Frameworks */,
 				433AD3081E252A2C003757AD /* Fabric.framework in Frameworks */,
-				52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */,
 				1AC6FB30180E99EB004C840B /* libcocos2d iOS.a in Frameworks */,
 				D6B0611B1803AB670077942B /* CoreMotion.framework in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
@@ -1229,6 +1225,7 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				080E96DDFE201D6D7F000001 /* ios */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				301ED20F22AEB5BF002A9E78 /* Recovered References */,
 			);
 			indentWidth = 4;
 			name = CustomTemplate;
@@ -1310,6 +1307,14 @@
 				0243B8DA1F1F5D5C005D3734 /* ChatNotificationsSingleton.h */,
 			);
 			name = Chat;
+			sourceTree = "<group>";
+		};
+		301ED20F22AEB5BF002A9E78 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				02C66A9A1FBAF79200F33686 /* HQScene2.cpp */,
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		304D9E9D1EA8F833008CED52 /* Mixpanel */ = {

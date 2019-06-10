@@ -31,7 +31,7 @@ Scene* MainScene::createScene()
     layer->addShareButton();
     const std::string& fileNameStr = getTimeStringForFileName();
     const std::string& saveFileName = ConfigStorage::kArtCacheFolder + Azoomee::ChildManager::getInstance()->getParentOrChildId() + "/" + fileNameStr + ".png";
-    layer->_fileName = DirUtil::getInstance()->getWritablePath() + "/" + saveFileName;
+    layer->_fileName = DirUtil::getCachesPath() + "/" + saveFileName;
     // add layer as a child to scene
     scene->addChild(layer);
     // return the scene
@@ -170,7 +170,7 @@ void MainScene::saveFile()
         const std::string& fileNameStr = getTimeStringForFileName();
         
         saveFileName = ConfigStorage::kArtCacheFolder + Azoomee::ChildManager::getInstance()->getParentOrChildId() + "/" + fileNameStr + ".png";
-        this->_fileName = DirUtil::getInstance()->getWritablePath() + "/" + saveFileName;
+        this->_fileName = DirUtil::getCachesPath() + "/" + saveFileName;
     }
     else
     {

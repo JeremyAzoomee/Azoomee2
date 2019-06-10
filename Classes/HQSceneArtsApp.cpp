@@ -145,7 +145,7 @@ void HQSceneArtsApp::addEmptyImageToHorizontalScrollView(cocos2d::ui::ScrollView
 
 void HQSceneArtsApp::addCreatedImagesToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo)
 {
-    const std::string& path = DirUtil::getInstance()->getWritablePath() + ConfigStorage::kArtCacheFolder + ChildManager::getInstance()->getParentOrChildId();
+    const std::string& path = DirUtil::getCachesPath() + ConfigStorage::kArtCacheFolder + ChildManager::getInstance()->getParentOrChildId();
     std::vector<std::string> fileList = DirUtil::getImagesInDirectory(path);
     
     std::reverse(fileList.begin(), fileList.end());
