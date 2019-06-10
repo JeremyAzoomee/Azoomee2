@@ -46,6 +46,8 @@ public:
     void clearData();
 };
 
+
+
 NS_AZOOMEE_END
 
 #endif

@@ -1,12 +1,12 @@
 //
-//  ContentItemPoolHandler.h
+//  HQStructureDownloadHandler.h
 //  AzoomeeCommon
 //
 //  Created by Macauley on 08/05/2018.
 //
 
-#ifndef ContentItemPoolHandler_h
-#define ContentItemPoolHandler_h
+#ifndef HQStructureDownloadHandler_h
+#define HQStructureDownloadHandler_h
 
 #include "../../Azoomee.h"
 #include "../../Utils/FileZipUtil.h"
@@ -14,19 +14,28 @@
 
 NS_AZOOMEE_BEGIN
 
-class ContentItemPoolHandler : public DataDownloadHandler, FileZipDelegate
+class HQStructureDownloadHandler : public DataDownloadHandler, FileZipDelegate
 {
 private:
     static const std::string kCachePath;
-	
-	std::string getCachePath() const override;
-	
-    void loadLocalData();
-public:
-    static ContentItemPoolHandler* getInstance();
-    ~ContentItemPoolHandler();
+    static const std::string kZipName;
     
-	void getLatestData(const OnCompleteCallback& callback = nullptr) override;
+    std::string _feedPath;
+    
+    void loadLocalData();
+	std::string getCachePath() const override;
+    
+    void parseNavigationData(const std::string& data);
+	void parseHQStructureData(const std::string& hqStuctureData, const std::string& hqName);
+	void parseEntitlementData(const std::string& entitlementData);
+	
+public:
+    static HQStructureDownloadHandler* getInstance();
+    ~HQStructureDownloadHandler();
+    
+    void getLatestData(const OnCompleteCallback& callback = nullptr) override;
+    
+    void loadGroupHQData(const std::string& groupIdPath);
     
     //delegate functions
     virtual void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body) override;
@@ -37,4 +46,4 @@ public:
 
 NS_AZOOMEE_END
 
-#endif /* ContentItemPoolHandler_h */
+#endif /* HQStructureDownloadHandler_h */

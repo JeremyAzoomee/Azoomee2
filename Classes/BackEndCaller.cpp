@@ -331,10 +331,10 @@ void BackEndCaller::onGetGordonAnswerReceived(const std::string& responseString)
 {
     if(CookieManager::getInstance()->parseDownloadCookies(responseString))
     {
-		ContentItemPoolHandler::getInstance()->getLatestData([](bool success){ //on complete
+		ContentItemPoolDownloadHandler::getInstance()->getLatestData([](bool success){ //on complete
 			if(success)
 			{
-				HQStructureHandler::getInstance()->getLatestData([](bool success){ //on complete
+				HQStructureDownloadHandler::getInstance()->getLatestData([](bool success){ //on complete
 					if(success)
 					{
 						//TutorialController::getInstance()->startTutorial(TutorialController::kFTUNavTutorialID);

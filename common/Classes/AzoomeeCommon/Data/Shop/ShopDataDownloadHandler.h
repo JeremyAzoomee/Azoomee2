@@ -1,12 +1,12 @@
 //
-//  ShopDataHandler.h
+//  ShopDataDownloadHandler.h
 //  AzoomeeCommon
 //
 //  Created by Macauley on 07/03/2019.
 //
 
-#ifndef ShopDataHandler_h
-#define ShopDataHandler_h
+#ifndef ShopDataDownloadHandler_h
+#define ShopDataDownloadHandler_h
 
 #include "../../Azoomee.h"
 #include "../../API/API.h"
@@ -18,7 +18,7 @@
 
 NS_AZOOMEE_BEGIN
 
-class ShopDataHandler : public DataDownloadHandler
+class ShopDataDownloadHandler : public DataDownloadHandler
 {
 private:
 	static const std::string kCachePath;
@@ -29,11 +29,11 @@ private:
 	
 	std::string getCachePath() const override;
 	
-	ShopDataHandler();
+	ShopDataDownloadHandler();
 	
 public:
-	static ShopDataHandler* getInstance();
-	~ShopDataHandler();
+	static ShopDataDownloadHandler* getInstance();
+	~ShopDataDownloadHandler();
 	
 	ShopRef getShop();
 	
@@ -47,4 +47,4 @@ public:
 
 NS_AZOOMEE_END
 
-#endif /* ShopDataHandler_h */
+#endif /* ShopDataDownloadHandler_h */

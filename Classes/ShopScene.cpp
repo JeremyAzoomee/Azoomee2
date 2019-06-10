@@ -10,7 +10,7 @@
 #include "DynamicNodeHandler.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Data/Shop/ShopDisplayItem.h>
-#include <AzoomeeCommon/Data/Shop/ShopDataHandler.h>
+#include <AzoomeeCommon/Data/Shop/ShopDataDownloadHandler.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
@@ -106,10 +106,10 @@ bool ShopScene::init()
 void ShopScene::onEnter()
 {
 	AnalyticsSingleton::getInstance()->contentItemSelectedEvent("SHOP");
-	ShopDataHandler::getInstance()->getLatestData([this](bool success){
+	ShopDataDownloadHandler::getInstance()->getLatestData([this](bool success){
 		if(success)
 		{
-			_shopCarousel->setShopData(ShopDataHandler::getInstance()->getShop());
+			_shopCarousel->setShopData(ShopDataDownloadHandler::getInstance()->getShop());
 		}
 	});
 	
@@ -126,7 +126,7 @@ void ShopScene::onEnter()
 void ShopScene::onExit()
 {
 	AnalyticsSingleton::getInstance()->contentItemClosedEvent();
-	ShopDataHandler::getInstance()->setOnCompleteCallback(nullptr);
+	ShopDataDownloadHandler::getInstance()->setOnCompleteCallback(nullptr);
 	Super::onExit();
 }
 void ShopScene::onSizeChanged()
