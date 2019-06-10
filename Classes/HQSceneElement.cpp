@@ -20,7 +20,7 @@
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "RoutePaymentSingleton.h"
 #include "ManualGameInputLayer.h"
-#include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
 #include "DynamicNodeHandler.h"
 #include "ContentHistoryManager.h"
 #include "ContentOpener.h"

@@ -21,7 +21,7 @@
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
-#include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
 
 using namespace cocos2d;
 
@@ -113,7 +113,7 @@ void MeHQMessages::buildEmptyCarousel()
     messageLayout->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            const HQDataObjectRef &currentObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName);
+            const HQDataObjectRef &currentObject = HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName);
             
             if(!currentObject->getHqEntitlement())
             {
@@ -175,7 +175,7 @@ void MeHQMessages::buildEmptyCarousel()
         chatButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
             if(eType == ui::Widget::TouchEventType::ENDED)
             {
-                const HQDataObjectRef &currentObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName);
+                const HQDataObjectRef &currentObject = HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName);
                 
                 if(!currentObject->getHqEntitlement())
                 {

@@ -11,7 +11,7 @@
 		021B1FC91F838A0A0044DCF7 /* HQCarouselObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 021B1FC11F838A0A0044DCF7 /* HQCarouselObject.cpp */; };
 		021B1FCA1F838A0A0044DCF7 /* HQContentItemObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 021B1FC31F838A0A0044DCF7 /* HQContentItemObject.cpp */; };
 		021B1FCB1F838A0A0044DCF7 /* HQDataObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 021B1FC51F838A0A0044DCF7 /* HQDataObject.cpp */; };
-		021B1FCC1F838A0A0044DCF7 /* HQDataObjectStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 021B1FC71F838A0A0044DCF7 /* HQDataObjectStorage.cpp */; };
+		021B1FCC1F838A0A0044DCF7 /* HQDataObjectManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 021B1FC71F838A0A0044DCF7 /* HQDataObjectManager.cpp */; };
 		022218CC1ECF203000AD167F /* SessionIdManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 022218CA1ECF203000AD167F /* SessionIdManager.cpp */; };
 		0240FC952016538C00E88157 /* BiometricAuthenticationHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0240FC942016538B00E88157 /* BiometricAuthenticationHandler.cpp */; };
 		02A120251EAF83E0007EDD95 /* VersionChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02A120231EAF83E0007EDD95 /* VersionChecker.cpp */; };
@@ -166,9 +166,9 @@
 		92BDD4C72237BC0800DA56F3 /* ShopDataHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4C62237BC0800DA56F3 /* ShopDataHandler.cpp */; };
 		92BDD4CA2237D39E00DA56F3 /* DataDownloadHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4C92237D39E00DA56F3 /* DataDownloadHandler.cpp */; };
 		92BDD4DC223FB8C100DA56F3 /* NotificationNodeDisplayManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4DB223FB8C100DA56F3 /* NotificationNodeDisplayManager.cpp */; };
+		92D1B49322A7F7C000357513 /* CookieManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D1B49222A7F7C000357513 /* CookieManager.cpp */; };
 		92D1B49622A8178400357513 /* ChildManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D1B49522A8178400357513 /* ChildManager.cpp */; };
 		92D1B49922A92B0C00357513 /* ParentManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D1B49822A92B0C00357513 /* ParentManager.cpp */; };
-		92D1B49322A7F7C000357513 /* CookieManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D1B49222A7F7C000357513 /* CookieManager.cpp */; };
 		92E58566220DD3F00015A4FA /* RewardCallbackHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E58565220DD3F00015A4FA /* RewardCallbackHandler.cpp */; };
 		92E5856B2211A4E80015A4FA /* RewardItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E5856A2211A4E80015A4FA /* RewardItem.cpp */; };
 		92E58571221AC47C0015A4FA /* InventoryItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E58570221AC47C0015A4FA /* InventoryItem.cpp */; };
@@ -188,8 +188,8 @@
 		021B1FC41F838A0A0044DCF7 /* HQContentItemObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HQContentItemObject.h; path = HQDataObject/HQContentItemObject.h; sourceTree = "<group>"; };
 		021B1FC51F838A0A0044DCF7 /* HQDataObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HQDataObject.cpp; path = HQDataObject/HQDataObject.cpp; sourceTree = "<group>"; };
 		021B1FC61F838A0A0044DCF7 /* HQDataObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HQDataObject.h; path = HQDataObject/HQDataObject.h; sourceTree = "<group>"; };
-		021B1FC71F838A0A0044DCF7 /* HQDataObjectStorage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HQDataObjectStorage.cpp; path = HQDataObject/HQDataObjectStorage.cpp; sourceTree = "<group>"; };
-		021B1FC81F838A0A0044DCF7 /* HQDataObjectStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HQDataObjectStorage.h; path = HQDataObject/HQDataObjectStorage.h; sourceTree = "<group>"; };
+		021B1FC71F838A0A0044DCF7 /* HQDataObjectManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HQDataObjectManager.cpp; path = HQDataObject/HQDataObjectManager.cpp; sourceTree = "<group>"; };
+		021B1FC81F838A0A0044DCF7 /* HQDataObjectManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HQDataObjectManager.h; path = HQDataObject/HQDataObjectManager.h; sourceTree = "<group>"; };
 		022218CA1ECF203000AD167F /* SessionIdManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SessionIdManager.cpp; sourceTree = "<group>"; };
 		022218CB1ECF203000AD167F /* SessionIdManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionIdManager.h; sourceTree = "<group>"; };
 		0240FC932016538A00E88157 /* BiometricAuthenticationHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BiometricAuthenticationHandler.h; sourceTree = "<group>"; };
@@ -501,12 +501,12 @@
 		92BDD4DA223FAAFF00DA56F3 /* NotificationNodeDisplayManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationNodeDisplayManager.h; sourceTree = "<group>"; };
 		92BDD4DB223FB8C100DA56F3 /* NotificationNodeDisplayManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NotificationNodeDisplayManager.cpp; sourceTree = "<group>"; };
 		92BDD4DD223FC3E100DA56F3 /* ResizeNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResizeNode.h; sourceTree = "<group>"; };
+		92D1B49122A7F05900357513 /* CookieManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CookieManager.h; sourceTree = "<group>"; };
+		92D1B49222A7F7C000357513 /* CookieManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CookieManager.cpp; sourceTree = "<group>"; };
 		92D1B49422A8146B00357513 /* ChildManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChildManager.h; sourceTree = "<group>"; };
 		92D1B49522A8178400357513 /* ChildManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChildManager.cpp; sourceTree = "<group>"; };
 		92D1B49722A9248600357513 /* ParentManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParentManager.h; sourceTree = "<group>"; };
 		92D1B49822A92B0C00357513 /* ParentManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ParentManager.cpp; sourceTree = "<group>"; };
-		92D1B49122A7F05900357513 /* CookieManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CookieManager.h; sourceTree = "<group>"; };
-		92D1B49222A7F7C000357513 /* CookieManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CookieManager.cpp; sourceTree = "<group>"; };
 		92DC96E4227729C4007557AB /* TutorialGuide.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TutorialGuide.h; sourceTree = "<group>"; };
 		92E5855F220D8ED30015A4FA /* RewardCallbackHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RewardCallbackHandler.h; sourceTree = "<group>"; };
 		92E58565220DD3F00015A4FA /* RewardCallbackHandler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RewardCallbackHandler.cpp; sourceTree = "<group>"; };
@@ -558,8 +558,8 @@
 				021B1FC41F838A0A0044DCF7 /* HQContentItemObject.h */,
 				021B1FC51F838A0A0044DCF7 /* HQDataObject.cpp */,
 				021B1FC61F838A0A0044DCF7 /* HQDataObject.h */,
-				021B1FC71F838A0A0044DCF7 /* HQDataObjectStorage.cpp */,
-				021B1FC81F838A0A0044DCF7 /* HQDataObjectStorage.h */,
+				021B1FC71F838A0A0044DCF7 /* HQDataObjectManager.cpp */,
+				021B1FC81F838A0A0044DCF7 /* HQDataObjectManager.h */,
 				92B1EC8920A209CB007A58C0 /* HQStructureHandler.h */,
 				924ACE0B20A4A073007A5550 /* HQStructureHandler.cpp */,
 				92B1EC8A20A209CB007A58C0 /* HQStructureParser.h */,
@@ -1326,7 +1326,7 @@
 				4349C8321EA8ADEF00FE964B /* MPEventBinding.m in Sources */,
 				4349C8291EA8ADEF00FE964B /* MPCGColorRefToNSStringValueTransformer.m in Sources */,
 				431369781F2B60AC002BEA8C /* MessageBoxChatReportChatLayer.cpp in Sources */,
-				021B1FCC1F838A0A0044DCF7 /* HQDataObjectStorage.cpp in Sources */,
+				021B1FCC1F838A0A0044DCF7 /* HQDataObjectManager.cpp in Sources */,
 				4349C85C1EA8ADEF00FE964B /* UIImage+MPImageEffects.m in Sources */,
 				4349C8381EA8ADEF00FE964B /* MPNSAttributedStringToNSDictionaryValueTransformer.m in Sources */,
 				4349C8421EA8ADEF00FE964B /* MPSequenceGenerator.m in Sources */,

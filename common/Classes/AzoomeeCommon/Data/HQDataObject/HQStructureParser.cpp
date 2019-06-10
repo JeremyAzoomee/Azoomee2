@@ -8,7 +8,7 @@
 #include "HQStructureParser.h"
 #include "HQDataObject.h"
 #include "ContentItemPool.h"
-#include "HQDataObjectStorage.h"
+#include "HQDataObjectManager.h"
 
 using namespace cocos2d;
 
@@ -83,7 +83,7 @@ void HQStructureParser::parseHQStructureData(const std::string& hqStuctureData, 
         return;
     }
     
-    HQDataObjectRef hq = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName);
+    HQDataObjectRef hq = HQDataObjectManager::getInstance()->getHQDataObjectForKey(hqName);
     
     hq->clearData();
     

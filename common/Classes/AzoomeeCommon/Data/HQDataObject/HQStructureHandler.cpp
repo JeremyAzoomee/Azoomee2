@@ -16,7 +16,7 @@
 #include "../../Utils/DirectorySearcher.h"
 #include "../ConfigStorage.h"
 #include "../../Utils/StringFunctions.h"
-#include "HQDataObjectStorage.h"
+#include "HQDataObjectManager.h"
 
 using namespace cocos2d;
 
@@ -61,7 +61,7 @@ void HQStructureHandler::getLatestData(const OnCompleteCallback& callback)
 
 void HQStructureHandler::loadLocalData()
 {
-    if(!HQDataObjectStorage::getInstance()->isSameHQData(getLocalEtag()))
+    if(!HQDataObjectManager::getInstance()->isSameHQData(getLocalEtag()))
     {
         const std::string& localDataPath = cocos2d::FileUtils::getInstance()->getWritablePath() + kCachePath + _feedPath + "/";
         const std::string& data = cocos2d::FileUtils::getInstance()->getStringFromFile(localDataPath + "entitlements.json");
@@ -77,7 +77,7 @@ void HQStructureHandler::loadLocalData()
             const std::string& data = cocos2d::FileUtils::getInstance()->getStringFromFile(localDataPath + folder + "/feed.json");
             HQStructureParser::getInstance()->parseHQStructureData(data, convertToHQNameString(folder));
         }
-        HQDataObjectStorage::getInstance()->setHQDataEtag(getLocalEtag());
+        HQDataObjectManager::getInstance()->setHQDataEtag(getLocalEtag());
     }
     ModalMessages::getInstance()->stopLoading();
 	sendCallback(true);
@@ -119,7 +119,7 @@ void HQStructureHandler::parseNavigationData(const std::string &data)
         }
         if(value.HasMember("available"))
         {
-            HQDataObjectRef dataObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName);
+            HQDataObjectRef dataObject = HQDataObjectManager::getInstance()->getHQDataObjectForKey(hqName);
             dataObject->setHqEntitlement(getBoolFromJson("available", value));
         }
         

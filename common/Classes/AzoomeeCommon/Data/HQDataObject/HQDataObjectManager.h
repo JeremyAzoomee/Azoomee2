@@ -1,5 +1,5 @@
-#ifndef __HQDATAOBJECTSTORAGE_IOS_H__
-#define __HQDATAOBJECTSTORAGE_IOS_H__
+#ifndef __HQDATAOBJECTMANAGER_IOS_H__
+#define __HQDATAOBJECTMANAGER_IOS_H__
 
 #include "cocos2d.h"
 #include "../../Azoomee.h"
@@ -7,12 +7,12 @@
 
 NS_AZOOMEE_BEGIN
 
-class HQDataObjectStorage
+class HQDataObjectManager
 {
     
 public:
-    static HQDataObjectStorage* getInstance();
-    virtual ~HQDataObjectStorage();
+    static HQDataObjectManager* getInstance();
+    virtual ~HQDataObjectManager();
     
     HQDataObjectRef getHQDataObjectForKey(const std::string &key);
     void clearAllHQData();
@@ -21,7 +21,7 @@ public:
     void setHQDataEtag(const std::string& etag);
     
 private:
-    HQDataObjectStorage();
+    HQDataObjectManager();
     std::map<std::string, HQDataObjectRef> _hqDataObjects;
     std::string _currentHQDataEtag;
 };

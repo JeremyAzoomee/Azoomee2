@@ -216,7 +216,7 @@ void ContentFeedHQScene::createContentScrollview()
 		
 		lastCarouselPosition -= spaceAboveCarousel;
 		
-		cocos2d::Layer *carouselTitle = HQScene2CarouselTitle::createForCarousel(HQDataObjectStorage::getInstance()->getHQDataObjectForKey(_hqCategory)->getHqCarousels()[carouselIndex]);
+		cocos2d::Layer *carouselTitle = HQScene2CarouselTitle::createForCarousel(HQDataObjectManager::getInstance()->getHQDataObjectForKey(_hqCategory)->getHqCarousels()[carouselIndex]);
 		carouselTitle->setPosition(cocos2d::Vec2(_contentScrollview->getContentSize().width / 2, lastCarouselPosition));
 		_contentScrollview->addChild(carouselTitle);
 		
@@ -326,7 +326,7 @@ void ContentFeedHQScene::addGroupHQLogo()
 	if(HQHistoryManager::getInstance()->getGroupHQSourceId() != "")
 	{
 		const Size& visibleSize = this->getContentSize();
-		const std::string &groupHQLogoUrl = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kGroupHQName)->getGroupLogo();
+		const std::string &groupHQLogoUrl = HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGroupHQName)->getGroupLogo();
 		
 		this->removeChild(this->getChildByName(kGroupLogoName));
 		

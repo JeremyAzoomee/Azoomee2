@@ -11,7 +11,7 @@
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 
-#include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObject.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQCarouselObject.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
@@ -56,7 +56,7 @@ bool HQDataParser::parseHQData(const std::string &responseString, const char *hq
         return false;
     }
     
-    HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName)->clearData();
+    HQDataObjectManager::getInstance()->getHQDataObjectForKey(hqName)->clearData();
     
     rapidjson::Value::MemberIterator M;
     
@@ -148,13 +148,13 @@ bool HQDataParser::parseHQStructure(const std::string &responseString, const cha
             }
         }
         
-        HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName)->addCarouselToHq(carouselObject);
-        HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName)->setHqType(hqName);
+        HQDataObjectManager::getInstance()->getHQDataObjectForKey(hqName)->addCarouselToHq(carouselObject);
+        HQDataObjectManager::getInstance()->getHQDataObjectForKey(hqName)->setHqType(hqName);
     }
     
     if(contentData.HasMember("images"))
     {
-        HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName)->setImages(getStringMapFromJson(contentData["images"]));
+        HQDataObjectManager::getInstance()->getHQDataObjectForKey(hqName)->setImages(getStringMapFromJson(contentData["images"]));
     }
     
     return true;
@@ -179,7 +179,7 @@ bool HQDataParser::parseHQGetContentUrls(const std::string &responseString)
         
         const rapidjson::Value &currentItem = contentData["hqs"][key];
         
-        HQDataObjectRef dataObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(replacedKey);
+        HQDataObjectRef dataObject = HQDataObjectManager::getInstance()->getHQDataObjectForKey(replacedKey);
         dataObject->setHqEntitlement(getBoolFromJson("available", currentItem));
         dataObject->setHqUrl(getStringFromJson("uri", currentItem));
     }
