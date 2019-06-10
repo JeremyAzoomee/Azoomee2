@@ -120,6 +120,13 @@ android {
                 signingConfig signingConfigs.release
             }
 
+            if( project.hasProperty('betaDistributionGroupAliases')) {
+                ext.betaDistributionGroupAliases = project.betaDistributionGroupAliases
+            }
+            if( project.hasProperty('betaDistributionReleaseNotesFilePath')) {
+                ext.betaDistributionReleaseNotesFilePath = project.betaDistributionReleaseNotesFilePath
+            }
+
             externalNativeBuild {
                 ndkBuild {
                     arguments 'NDK_DEBUG=0'

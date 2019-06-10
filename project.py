@@ -32,6 +32,9 @@ class AzoomeeApp:
     IOS_PLIST_PATH = os.path.join( IOS_PROJECT_DIR, 'ios', 'Info.plist' )
     IOS_EXPORT_OPTIONS_PATH = os.path.join( IOS_PROJECT_DIR, 'ExportOptions.plist' )
 
+    # Path to changelog file
+    CHANGE_LOG_PATH = os.path.join( os.path.dirname( os.path.abspath( __file__ ) ), 'changelog' )
+
     # Fabric info
     FABRIC_INFO = {
         # Fabric Account API Key
@@ -39,7 +42,7 @@ class AzoomeeApp:
         # Fabric Account Build Secret
         'build_secret' : '79ec75f3c0ed8eccb593d245acdbc2351770496a76f8da2fd96245095eba920c',
         # Comma seperated Beta group names to be used when uploading builds to Fabric
-        'test_groups' : 'mitch-test', # azoomee-internal
+        'test_groups' : 'azoomee-internal',
         # Path to the iOS Framework
         'ios_framework_path' : os.path.join( IOS_PROJECT_DIR, 'Crashlytics.framework' )
     }
@@ -99,35 +102,7 @@ class AzoomeeApp:
         """
         print 'new_release:', args
 
-        current_version = self._get_current_version()
-
-        # Check we are on the correct branch to create a new release
-        major_minor_version = current_version[ 0 : current_version.rfind('.') ]
-        valid_branches = [ 'release/' + major_minor_version ]
-
-        # Major/minor releases can also be created from Master
-        if args.major or args.minor:
-            valid_branches += [ 'master' ]
-
-        current_branch = self._get_current_branch()
-        if current_branch not in valid_branches:
-            return self.exit_with_error( 'You must be on one of the following branches in order to create a new release: {branches}', branches=', '.join( valid_branches ) )
-
-
-        # Update version
-        if args.patch:
-            new_version = self._increment_version( current_version, patch=True )
-            self._set_current_version( new_version, commit=True )
-        else:
-            new_version = self._increment_version( current_version, major=args.major, minor=args.minor )
-
-            # Create a new release branch
-            new_major_minor_version = new_version[ 0 : new_version.rfind('.') ]
-            new_release_branch = 'release/' + new_major_minor_version
-            self.exec_system_command( 'git checkout -b "{branch}"', branch=new_release_branch )
-            self.exec_system_command( 'git push --set-upstream origin "{branch}"', branch=new_release_branch )
-
-            self._set_current_version( new_version, commit=True )
+        self._create_new_release( major=args.major, minor=args.minor, patch=args.patch )
 
     
     def get_version( self, args ):
@@ -178,13 +153,16 @@ class AzoomeeApp:
 
         # Do we need to update the version?
         if args.patch:
-            current_version = self._increment_version( current_version, patch=True )
-            self._set_current_version( current_version, commit=True )
+            self._create_new_release( patch=True )
+        
+        testers = None
+        if args.testers is not None and len(args.testers) > 0:
+            testers = ','.join( args.testers )
 
         # Now run deploy for each platform
         platforms = self.PLATFORMS if 'all' in args.platform else args.platform
         for p in platforms:
-            self._perform_deploy( p, ci=args.ci, force_rebuild=args.rebuild )
+            self._perform_deploy( p, ci=args.ci, test_groups=testers, force_rebuild=args.rebuild )
     
 
     def _perform_clean( self, platform, ci=False ):
@@ -323,13 +301,13 @@ class AzoomeeApp:
             print '{platform} package not implemented yet'.format( platform=platform )
     
 
-    def _perform_deploy( self, platform, ci, force_rebuild=False ):
+    def _perform_deploy( self, platform, ci, test_groups=None, force_rebuild=False ):
         """
         Deploy app for testing for a single platform.
         """
-        # TODO: Create changelog notes file by summarising all commits from the current release branch
-        notes_path = ""
-        
+        if test_groups is None:
+            test_groups = self.FABRIC_INFO['test_groups']
+
         if platform == 'ios':
             platform_build_dir = os.path.join( self.BUILD_DIR, platform )
             environment = 'CI' if ci else 'Prod'
@@ -355,16 +333,14 @@ class AzoomeeApp:
 
             # Do Fabric upload
             try: 
-                # TODO: Include all options in command
-                # "{framework_path}/submit" {api_key} {build_secret} -ipaPath "{ipa_path}" -groupAliases "{group_aliases}" -notifications {notifications} -notesPath "{notes_path} -debug {debug}"
-                success = self.exec_system_command( '"{framework_path}/submit" {api_key} {build_secret} -ipaPath "{ipa_path}" -groupAliases "{group_aliases}" -notifications {notifications} -debug {debug}', 
+                success = self.exec_system_command( '"{framework_path}/submit" {api_key} {build_secret} -ipaPath "{ipa_path}" -groupAliases "{group_aliases}" -notesPath "{notes_path}" -notifications "{notifications}" -debug "{debug}"', 
                                                     framework_path=self.FABRIC_INFO['ios_framework_path'], 
                                                     api_key=self.FABRIC_INFO['api_key'], 
                                                     build_secret=self.FABRIC_INFO['build_secret'], 
                                                     ipa_path=ipa_path,
-                                                    group_aliases=self.FABRIC_INFO['test_groups'],
+                                                    group_aliases=test_groups,
                                                     notifications="YES",
-                                                    notes_path=notes_path,
+                                                    notes_path=self.CHANGE_LOG_PATH,
                                                     debug="YES" )
                 if success != 0:
                     return self.exit_with_error( 'Fabric submit iOS buildfailed with error {code}', code=success )
@@ -384,9 +360,12 @@ class AzoomeeApp:
             restore_cwd = os.getcwd()
 
             try:
-                # TODO: Pass envi variables to set the crashlytics changelog, tester group etc
                 os.chdir( self.ANDROID_PROJECT_DIR )
+
                 gradle_cmd = 'assemble{variant} crashlyticsUploadSymbols{variant} crashlyticsUploadDistribution{variant}'.format( variant=build_variant.capitalize() + build_config.capitalize() )
+                gradle_cmd += ' -PbetaDistributionGroupAliases="%s"' % ( test_groups )
+                gradle_cmd += ' -PbetaDistributionReleaseNotesFilePath="%s"' % ( self.CHANGE_LOG_PATH )
+
                 success = self.exec_system_command( './gradlew {gradle_command}', gradle_command=gradle_cmd )
                 if success != 0:
                     return self.exit_with_error( 'Fabric submit Android build failed with error {code}', code=success )
@@ -396,6 +375,50 @@ class AzoomeeApp:
                 os.chdir( restore_cwd )
         else:
             print '{platform} deploy not implemented yet'.format( platform=platform )
+    
+
+    def _create_new_release( self, major=False, minor=False, patch=False ):
+        """
+        Create a new version.
+        """
+        current_version = self._get_current_version()
+
+        # Check we are on the correct branch to create a new release
+        major_minor_version = current_version[ 0 : current_version.rfind('.') ]
+        valid_branches = [ 'release/' + major_minor_version ]
+
+        # Major/minor releases can also be created from Master
+        if major or minor:
+            valid_branches += [ 'master' ]
+
+        current_branch = self._get_current_branch()
+        if current_branch not in valid_branches:
+            return self.exit_with_error( 'You must be on one of the following branches in order to create a new release: {branches}', branches=', '.join( valid_branches ) )
+
+
+        # Update version
+        if patch:
+            new_version = self._increment_version( current_version, patch=True )
+
+            # Ask for what's changed
+            changelog = self.prompt_update_notes( version=new_version )
+            # Update the changelog file
+            self._update_changelog( changelog, version=new_version )
+
+            self._set_current_version( new_version, commit=False )
+        else:
+            new_version = self._increment_version( current_version, major=major, minor=minor )
+
+            # Create a new release branch
+            new_major_minor_version = new_version[ 0 : new_version.rfind('.') ]
+            new_release_branch = 'release/' + new_major_minor_version
+            self.exec_system_command( 'git checkout -b "{branch}"', branch=new_release_branch )
+            self.exec_system_command( 'git push --set-upstream origin "{branch}"', branch=new_release_branch )
+
+            # Reset the changelog for this new release
+            self._reset_changelog()
+
+            self._set_current_version( new_version, commit=False )
     
 
     def _get_current_version( self ):
@@ -510,6 +533,7 @@ class AzoomeeApp:
         # Deploy the app to Fabric
         deploy_commands = subparsers.add_parser( 'deploy', help='deploy the app to Fabric' )
         deploy_commands.add_argument( '-p', '--platform', help='platform(s) to deploy', choices=platform_options, nargs='+', required=True )
+        deploy_commands.add_argument( '-t', '--testers', help='optionally override the fabric tester groups for this build', nargs='+' )
         deploy_commands.add_argument( '--ci', help='target the CI servers', action='store_true' )
         deploy_commands.add_argument( '--patch', help='automatically create a new Patch version (recommended)', action='store_true' )
         deploy_commands.add_argument( '--rebuild', help='force a rebuild, otherwise a build will only happen if needed', action='store_true' )
@@ -609,6 +633,44 @@ class AzoomeeApp:
                     key_value = l.split( '=' )
                     props[key_value[0].strip()] = key_value[1].strip( '" \t' ) 
         return props
+    
+
+    def prompt_update_notes( self, version ):
+        """
+        Request update notes via standard input.
+        """
+        stopmarker = ':'
+        print ""
+        print 'Changelog for {version}: (enter "{stopmarker}" on a new line when finished)'.format( version=version, stopmarker=stopmarker )
+
+        changelog = '\n'.join( iter( raw_input, stopmarker ) )
+        return changelog
+
+
+    def _update_changelog( self, notes, version ):
+        """
+        Update the changelog with update notes for version
+        """
+        change_log = ""
+        with open( self.CHANGE_LOG_PATH, 'r' ) as fh:
+            change_log = fh.read()
+        
+        new_section = "Version {version}\n".format( version=version )
+        new_section += notes
+        new_section += "\n\n"
+        
+        change_log = new_section + change_log
+
+        with open( self.CHANGE_LOG_PATH, 'w+' ) as fh:
+            fh.write( change_log )
+    
+
+    def _reset_changelog( self ):
+        """
+        Resets the changelog file, clearly it's contents.
+        """
+        with open( self.CHANGE_LOG_PATH, 'w+' ) as fh:
+            fh.write( "" )
 
 
 if __name__ == '__main__':
