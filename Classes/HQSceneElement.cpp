@@ -13,7 +13,6 @@
 #include "HQSceneElement.h"
 #include "HQDataProvider.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include "HQDataParser.h"
 #include "PreviewLoginSignupMessageBox.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>

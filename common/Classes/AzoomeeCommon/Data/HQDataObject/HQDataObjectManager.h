@@ -19,10 +19,14 @@ public:
     
     bool isSameHQData(const std::string& etag) const;
     void setHQDataEtag(const std::string& etag);
-    
+	
+	void parseNavigationData(const std::string& data);
+	void parseHQStructureData(const std::string& hqStuctureData, const std::string& hqName);
+	void parseEntitlementData(const std::string& entitlementData);
+	
 private:
     HQDataObjectManager();
-    std::map<std::string, HQDataObjectRef> _hqDataObjects;
+    std::map<std::string, MutableHQDataObjectRef> _hqDataObjects;
     std::string _currentHQDataEtag;
 };
 

@@ -349,7 +349,6 @@
 		92E586AD222425360015A4FA /* SettingsMessageBoxRejectFR.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924E844F214117D9004590FD /* SettingsMessageBoxRejectFR.cpp */; };
 		92E586AE222425360015A4FA /* OfflineHubScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595841E55DE670052F395 /* OfflineHubScene.cpp */; };
 		92E586AF222425360015A4FA /* HQSceneArtsApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595C81E66E2160052F395 /* HQSceneArtsApp.cpp */; };
-		92E586B0222425360015A4FA /* HQDataParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1CC0C201E141B47008B469E /* HQDataParser.cpp */; };
 		92E586B1222425360015A4FA /* AmazonPaymentSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02A11FF01EA6375D007EDD95 /* AmazonPaymentSingleton.cpp */; };
 		92E586B2222425360015A4FA /* DynamicNodeText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DB461FD8414F00B12435 /* DynamicNodeText.cpp */; };
 		92E586B3222425360015A4FA /* SceneManagerScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43BCD71C1EC9FD4E00A07737 /* SceneManagerScene.cpp */; };
@@ -434,7 +433,6 @@
 		A19862221DD3836D0090F053 /* ChildSelectorScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19862131DD3836D0090F053 /* ChildSelectorScene.cpp */; };
 		A19862271DD3836D0090F053 /* NavigationLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A198621D1DD3836D0090F053 /* NavigationLayer.cpp */; };
 		A198622B1DD383BD0090F053 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19862291DD383BD0090F053 /* AppDelegate.cpp */; };
-		A1CC0C241E141B47008B469E /* HQDataParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1CC0C201E141B47008B469E /* HQDataParser.cpp */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
 		BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C47EA1293683800B63C5D /* QuartzCore.framework */; };
@@ -1008,8 +1006,6 @@
 		A198621E1DD3836D0090F053 /* NavigationLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationLayer.h; sourceTree = "<group>"; };
 		A19862291DD383BD0090F053 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate.cpp; sourceTree = "<group>"; };
 		A198622A1DD383BD0090F053 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		A1CC0C201E141B47008B469E /* HQDataParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQDataParser.cpp; sourceTree = "<group>"; };
-		A1CC0C211E141B47008B469E /* HQDataParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQDataParser.h; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		BF1C47EA1293683800B63C5D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -1910,8 +1906,6 @@
 		A1A2D3101E13B5BF00E86169 /* HQData */ = {
 			isa = PBXGroup;
 			children = (
-				A1CC0C201E141B47008B469E /* HQDataParser.cpp */,
-				A1CC0C211E141B47008B469E /* HQDataParser.h */,
 				A15B2FC81DFACF3800D25334 /* HQDataProvider.cpp */,
 				A15B2FC91DFACF3800D25334 /* HQDataProvider.h */,
 			);
@@ -2522,7 +2516,6 @@
 				02E595861E55DE670052F395 /* OfflineHubScene.cpp in Sources */,
 				02E595CA1E66E2160052F395 /* HQSceneArtsApp.cpp in Sources */,
 				92EC0C5D2232805D00B02F20 /* ShopCarousel.cpp in Sources */,
-				A1CC0C241E141B47008B469E /* HQDataParser.cpp in Sources */,
 				02A11FF61EA6375D007EDD95 /* AmazonPaymentSingleton.cpp in Sources */,
 				9289DB471FD8414F00B12435 /* DynamicNodeText.cpp in Sources */,
 				43BCD71E1EC9FD4E00A07737 /* SceneManagerScene.cpp in Sources */,
@@ -2682,7 +2675,6 @@
 				92E586AD222425360015A4FA /* SettingsMessageBoxRejectFR.cpp in Sources */,
 				92E586AE222425360015A4FA /* OfflineHubScene.cpp in Sources */,
 				92E586AF222425360015A4FA /* HQSceneArtsApp.cpp in Sources */,
-				92E586B0222425360015A4FA /* HQDataParser.cpp in Sources */,
 				92E586B1222425360015A4FA /* AmazonPaymentSingleton.cpp in Sources */,
 				92E586B2222425360015A4FA /* DynamicNodeText.cpp in Sources */,
 				92E586B3222425360015A4FA /* SceneManagerScene.cpp in Sources */,

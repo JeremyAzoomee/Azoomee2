@@ -10,10 +10,12 @@ NS_AZOOMEE_BEGIN
 
 class HQDataObject;
 typedef std::shared_ptr<HQDataObject> HQDataObjectRef;
+class MutableHQDataObject;
+typedef std::shared_ptr<MutableHQDataObject> MutableHQDataObjectRef;
 
 class HQDataObject
 {
-private:
+protected:
     std::string _hqType = "";
     std::string _hqUrl = "";
     bool _hqEntitlement = false;
@@ -21,19 +23,9 @@ private:
     std::map<std::string, HQContentItemObjectRef> _rawContentItems;
     bool _isDownloaded = false;
     std::map<std::string, std::string> _images;
-    
-public:
+	
     HQDataObject();
-    static HQDataObjectRef create();
-    
-    void setHqType(const std::string &inputHqType);
-    void setHqUrl(const std::string &inputHqUrl);
-    void setHqEntitlement(bool inputHqEntitlement);
-    void addCarouselToHq(const HQCarouselObjectRef &inputCarouselData);
-    void addCarouselToHqFront(const HQCarouselObjectRef &inputCarouselData);
-    void addContentItemToRawStorage(const std::string &contentItemId, const HQContentItemObjectRef &inputContentItemObject);
-    void addContentEntitlement(const std::string& contentItemId, bool entitlement);
-    void setImages(const std::map<std::string, std::string> &images);
+public:
     
     std::string getHqType() const;
     std::string getHqUrl() const;
@@ -42,11 +34,26 @@ public:
     std::map<std::string, std::string> getImages() const;
     std::string getGroupLogo() const;
     bool getItemEntitlement(const std::string& itemId) const;
-    
-    void clearData();
+	
 };
 
-
+class MutableHQDataObject : public HQDataObject
+{
+public:
+	
+	static MutableHQDataObjectRef create();
+	
+	void setHqType(const std::string &inputHqType);
+	void setHqUrl(const std::string &inputHqUrl);
+	void setHqEntitlement(bool inputHqEntitlement);
+	void addCarouselToHq(const HQCarouselObjectRef &inputCarouselData);
+	void addCarouselToHqFront(const HQCarouselObjectRef &inputCarouselData);
+	void addContentItemToRawStorage(const std::string &contentItemId, const HQContentItemObjectRef &inputContentItemObject);
+	void addContentEntitlement(const std::string& contentItemId, bool entitlement);
+	void setImages(const std::map<std::string, std::string> &images);
+	
+	void clearData();
+};
 
 NS_AZOOMEE_END
 

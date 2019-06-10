@@ -24,10 +24,6 @@ private:
     
     void loadLocalData();
 	std::string getCachePath() const override;
-    
-    void parseNavigationData(const std::string& data);
-	void parseHQStructureData(const std::string& hqStuctureData, const std::string& hqName);
-	void parseEntitlementData(const std::string& entitlementData);
 	
 public:
     static HQStructureDownloadHandler* getInstance();
