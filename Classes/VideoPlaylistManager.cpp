@@ -115,9 +115,6 @@ HQContentItemObjectRef VideoPlaylistManager::getContentItemDataForPlaylistElemen
     }
     
     return _storedPlaylist->getContentItems().at(elementNumber);
-    //returnData->setElementNumber(elementNumber);
-    //returnData->setImagePath("");
-	
 }
 
 NS_AZOOMEE_END

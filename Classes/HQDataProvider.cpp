@@ -57,14 +57,9 @@ void HQDataProvider::getDataForHQ(const std::string &hqName)
 void HQDataProvider::getDataForGroupHQ(const std::string &uri)
 {
     displayLoadingScreen();
-    //HQDataObjectRef groupHQObject = HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGroupHQName);
-    
-    //groupHQObject->clearData();
-    
-    //HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGroupHQName)->setHqEntitlement(true); //group hq entitlement is not in the initial login feed, so we have to make it enabled manually.
+
     HQStructureDownloadHandler::getInstance()->loadGroupHQData(uri);
     startBuildingHQ(ConfigStorage::kGroupHQName);
-    //BackEndCaller::getInstance()->getHQContent(uri, ConfigStorage::kGroupHQName);
 }
 
 int HQDataProvider::getNumberOfRowsForHQ(const std::string &hqName) const
@@ -206,29 +201,6 @@ std::vector<HQContentItemObjectRef> HQDataProvider::getAllContentItemsInRow(cons
     
     HQCarouselObjectRef requiredObject = HQDataObjectManager::getInstance()->getHQDataObjectForKey(hqName)->getHqCarousels().at(rowNumber);
 	return requiredObject->getContentItems();
-	/*
-    std::vector<HQContentItemObjectRef> contentItemObjects = requiredObject->getContentItems();
-    
-    std::vector<HQContentItemObjectRef> returnArray;
-    
-    for(int elementIndex = 0; elementIndex < contentItemObjects.size(); elementIndex++)
-    {
-        HQContentItemObjectRef extendedObj = contentItemObjects.at(elementIndex);
-        
-        //TODO objectTypes should be pre-configured.
-        
-        if(((extendedObj->getType() == ConfigStorage::kContentTypeVideo || extendedObj->getType() == ConfigStorage::kContentTypeAudio)) && extendedObj->isEntitled())
-        {
-            extendedObj->setElementNumber(elementIndex);
-            extendedObj->setElementShape(getHighlightDataForSpecificItem(hqName, rowNumber, elementIndex));
-            extendedObj->setImagePath(getThumbnailUrlForItem(hqName, rowNumber, elementIndex));
-        }
-		 
-        returnArray.push_back(extendedObj);
-    }
-    
-    return returnArray;
-	 */
 }
 
 //---------------------LOADING SCREEN----------------------------------
