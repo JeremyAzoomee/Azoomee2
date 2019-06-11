@@ -23,8 +23,6 @@ private:
 	
     void loadLocalData();
 	
-	void parseContentItemPool(const std::string& contentItemPoolString);
-	void parseContentItem(const std::string& contentId, const rapidjson::Value& contentItemData);
 public:
     static ContentItemPoolDownloadHandler* getInstance();
     ~ContentItemPoolDownloadHandler();

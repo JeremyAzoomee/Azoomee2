@@ -16,7 +16,7 @@
 #include "ContentOpener.h"
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Data/HQDataObject/ContentItemPool.h>
+#include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include "MeHQ.h"

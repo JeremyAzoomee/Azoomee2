@@ -10,7 +10,7 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
-#include <AzoomeeCommon/Data/HQDataObject/ContentItemPool.h>
+#include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
 
 using namespace cocos2d;
 
@@ -101,7 +101,7 @@ std::string HQDataProvider::getTitleForRow(const std::string &hqName, int index)
 
 HQContentItemObjectRef HQDataProvider::getItemDataForSpecificItem(const std::string &itemid)
 {
-    return ContentItemPool::getInstance()->getContentItemForId(itemid);
+    return ContentItemManager::getInstance()->getContentItemForId(itemid);
 }
 
 Vec2 HQDataProvider::getHighlightDataForSpecificItem(const std::string &hqName, int rowNumber, int itemNumber) const
@@ -131,7 +131,7 @@ std::string HQDataProvider::getThumbnailUrlForItem(const std::string &hqName, in
 
 std::string HQDataProvider::getThumbnailUrlForItem(const std::string &itemId) const
 {
-    HQContentItemObjectRef element = ContentItemPool::getInstance()->getContentItemForId(itemId);
+    HQContentItemObjectRef element = ContentItemManager::getInstance()->getContentItemForId(itemId);
     if(element)
     {
         return getThumbnailUrlForItem(element, Vec2(1,1));
@@ -142,7 +142,7 @@ std::string HQDataProvider::getThumbnailUrlForItem(const std::string &itemId) co
 
 std::string HQDataProvider::getThumbnailUrlForItem(const std::string &hqName, const std::string &itemId) const
 {
-    return getThumbnailUrlForItem(ContentItemPool::getInstance()->getContentItemForId(itemId), Vec2(1,1));
+    return getThumbnailUrlForItem(ContentItemManager::getInstance()->getContentItemForId(itemId), Vec2(1,1));
 }
 
 std::string HQDataProvider::getThumbnailUrlForItem(HQContentItemObjectRef element, const cocos2d::Vec2 &shape) const
@@ -188,7 +188,7 @@ std::string HQDataProvider::convertShapeToThumbnailKey(const cocos2d::Vec2 &shap
 
 std::string HQDataProvider::getTypeForSpecificItem(const std::string &hqName, const std::string &itemId) const
 {
-    HQContentItemObjectRef targetObject = ContentItemPool::getInstance()->getContentItemForId(itemId);
+    HQContentItemObjectRef targetObject = ContentItemManager::getInstance()->getContentItemForId(itemId);
     if(targetObject)
     {
         return targetObject->getType();
@@ -205,6 +205,8 @@ std::vector<HQContentItemObjectRef> HQDataProvider::getAllContentItemsInRow(cons
     }
     
     HQCarouselObjectRef requiredObject = HQDataObjectManager::getInstance()->getHQDataObjectForKey(hqName)->getHqCarousels().at(rowNumber);
+	return requiredObject->getContentItems();
+	/*
     std::vector<HQContentItemObjectRef> contentItemObjects = requiredObject->getContentItems();
     
     std::vector<HQContentItemObjectRef> returnArray;
@@ -221,11 +223,12 @@ std::vector<HQContentItemObjectRef> HQDataProvider::getAllContentItemsInRow(cons
             extendedObj->setElementShape(getHighlightDataForSpecificItem(hqName, rowNumber, elementIndex));
             extendedObj->setImagePath(getThumbnailUrlForItem(hqName, rowNumber, elementIndex));
         }
-        
+		 
         returnArray.push_back(extendedObj);
     }
     
     return returnArray;
+	 */
 }
 
 //---------------------LOADING SCREEN----------------------------------

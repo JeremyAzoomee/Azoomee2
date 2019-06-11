@@ -2,36 +2,36 @@
 
 NS_AZOOMEE_BEGIN
 
-HQCarouselObjectRef HQCarouselObject::create()
+MutableHQCarouselObjectRef MutableHQCarouselObject::create()
 {
-    return std::make_shared<HQCarouselObject>();
+    return std::make_shared<MutableHQCarouselObject>();
 }
 
 HQCarouselObject::HQCarouselObject()
 {
 }
 
-void HQCarouselObject::setTitle(const std::string &inputTitle)
+void MutableHQCarouselObject::setTitle(const std::string &inputTitle)
 {
     _title = inputTitle;
 }
 
-void HQCarouselObject::addContentItemToCarousel(const HQContentItemObjectRef &contentItem)
+void MutableHQCarouselObject::addContentItemToCarousel(const HQContentItemObjectRef &contentItem)
 {
     _contentItems.push_back(contentItem);
 }
 
-void HQCarouselObject::addContentItemHighlight(const cocos2d::Vec2 &contentItemHighlight)
+void MutableHQCarouselObject::addContentItemHighlight(const cocos2d::Vec2 &contentItemHighlight)
 {
     _contentItemHighlights.push_back(contentItemHighlight);
 }
 
-void HQCarouselObject::setIcon(const std::string &icon)
+void MutableHQCarouselObject::setIcon(const std::string &icon)
 {
     _icon = icon;
 }
 
-void HQCarouselObject::removeAllItemsFromCarousel()
+void MutableHQCarouselObject::removeAllItemsFromCarousel()
 {
     _contentItems.clear();
     _contentItemHighlights.clear();

@@ -148,7 +148,7 @@ void ContentOpener::doCarouselContentOpenLogic(const HQContentItemObjectRef& con
 		}
 		else
 		{
-			HQCarouselObjectRef carousel = HQCarouselObject::create();
+			MutableHQCarouselObjectRef carousel = MutableHQCarouselObject::create();
 			carousel->addContentItemToCarousel(contentItem);
 			VideoPlaylistManager::getInstance()->setPlaylist(carousel);
 		}

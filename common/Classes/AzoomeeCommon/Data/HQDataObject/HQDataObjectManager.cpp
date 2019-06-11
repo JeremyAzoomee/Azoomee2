@@ -1,7 +1,7 @@
 #include "HQDataObjectManager.h"
 #include "../Json.h"
 #include "../ConfigStorage.h"
-#include "ContentItemPool.h"
+#include "ContentItemManager.h"
 
 
 using namespace cocos2d;
@@ -132,11 +132,7 @@ void HQDataObjectManager::parseHQStructureData(const std::string& hqStuctureData
 		const rapidjson::Value& items = hqData["items"];
 		for (auto M = items.MemberBegin(); M != items.MemberEnd(); M++)
 		{
-			auto item = ContentItemPool::getInstance()->getContentItemForId(M->name.GetString());
-			if(item)
-			{
-				item->setUri(getStringFromJson("location", M->value, item->getUri()));
-			}
+			ContentItemManager::getInstance()->parseContentItemURI(M->name.GetString(),getStringFromJson("location", M->value, ""));
 		}
 	}
 	if(!hqData.HasMember("rows"))
@@ -164,7 +160,7 @@ void HQDataObjectManager::parseHQStructureData(const std::string& hqStuctureData
 	for (int rowNumber = 0; rowNumber < hqData["rows"].Size(); rowNumber++)
 	{
 		const rapidjson::Value& rowData = hqData["rows"][rowNumber];
-		HQCarouselObjectRef carouselObject = HQCarouselObject::create();
+		MutableHQCarouselObjectRef carouselObject = MutableHQCarouselObject::create();
 		
 		carouselObject->setTitle(getStringFromJson("title", rowData));
 		
@@ -184,7 +180,7 @@ void HQDataObjectManager::parseHQStructureData(const std::string& hqStuctureData
 				}
 				const std::string &contentId = contentIds[elementIndex].GetString();
 				
-				const HQContentItemObjectRef &pointerToContentItem = ContentItemPool::getInstance()->getContentItemForId(contentId);
+				const HQContentItemObjectRef &pointerToContentItem = ContentItemManager::getInstance()->getContentItemForId(contentId);
 				if(pointerToContentItem == nullptr)
 				{
 					continue;
@@ -214,26 +210,6 @@ void HQDataObjectManager::parseHQStructureData(const std::string& hqStuctureData
 		dataObject->setImages(getStringMapFromJson(hqData["images"]));
 	}
 	
-}
-
-void HQDataObjectManager::parseEntitlementData(const std::string &entitlementData)
-{
-	rapidjson::Document data;
-	data.Parse(entitlementData.c_str());
-	
-	if (data.HasParseError())
-	{
-		return; //JSON HAS ERRORS IN IT
-	}
-	
-	for (auto M = data.MemberBegin(); M != data.MemberEnd(); M++)
-	{
-		auto item = ContentItemPool::getInstance()->getContentItemForId(M->name.GetString());
-		if(item)
-		{
-			item->setEntitled(M->value.GetBool());
-		}
-	}
 }
 
 NS_AZOOMEE_END

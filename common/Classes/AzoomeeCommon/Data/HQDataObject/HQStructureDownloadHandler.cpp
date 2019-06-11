@@ -6,7 +6,6 @@
 //
 
 #include "HQStructureDownloadHandler.h"
-#include "HQStructureDownloadHandler.h"
 #include <cocos/cocos2d.h>
 #include "../../API/API.h"
 #include "../../Utils/FileZipUtil.h"
@@ -17,7 +16,7 @@
 #include "../ConfigStorage.h"
 #include "../../Utils/StringFunctions.h"
 #include "HQDataObjectManager.h"
-#include "ContentItemPool.h"
+#include "ContentItemManager.h"
 
 using namespace cocos2d;
 
@@ -66,7 +65,7 @@ void HQStructureDownloadHandler::loadLocalData()
     {
         const std::string& localDataPath = cocos2d::FileUtils::getInstance()->getWritablePath() + kCachePath + _feedPath + "/";
         const std::string& data = cocos2d::FileUtils::getInstance()->getStringFromFile(localDataPath + "entitlements.json");
-		HQDataObjectManager::getInstance()->parseEntitlementData(data);
+		ContentItemManager::getInstance()->parseEntitlementData(data);
         
         const auto& feedsFolders = DirectorySearcher::getInstance()->getFoldersInDirectory(localDataPath);
         for(const auto& folder : feedsFolders)

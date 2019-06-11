@@ -11,7 +11,7 @@
 #include "../Json.h"
 #include "../../UI/ModalMessages.h"
 #include "../Child/ChildManager.h"
-#include "ContentItemPool.h"
+#include "ContentItemManager.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -53,12 +53,12 @@ void ContentItemPoolDownloadHandler::getLatestData(const OnCompleteCallback& cal
 
 void ContentItemPoolDownloadHandler::loadLocalData()
 {
-    if(!ContentItemPool::getInstance()->isSameContentPool(getLocalEtag()))
+    if(!ContentItemManager::getInstance()->isSameContentPool(getLocalEtag()))
     {
         const std::string& localDataPath = cocos2d::FileUtils::getInstance()->getWritablePath() + kCachePath + "items.json";
         const std::string& data = cocos2d::FileUtils::getInstance()->getStringFromFile(localDataPath);
-        parseContentItemPool(data);
-        ContentItemPool::getInstance()->setPoolEtag(getLocalEtag());
+        ContentItemManager::getInstance()->parseContentItemPool(data);
+        ContentItemManager::getInstance()->setPoolEtag(getLocalEtag());
     }
     ModalMessages::getInstance()->stopLoading();
 	sendCallback(true);
@@ -67,72 +67,6 @@ void ContentItemPoolDownloadHandler::loadLocalData()
 std::string ContentItemPoolDownloadHandler::getCachePath() const
 {
 	return kCachePath;
-}
-
-void ContentItemPoolDownloadHandler::parseContentItemPool(const std::string& contentItemPoolString)
-{
-	rapidjson::Document contentData;
-	contentData.Parse(contentItemPoolString.c_str());
-	if(contentData.HasParseError())
-	{
-		return;
-	}
-	
-	if(contentData.IsObject())
-	{
-		if(contentData.HasMember("items"))
-		{
-			const rapidjson::Value& itemList = contentData["items"];
-			if(itemList.IsArray())
-			{
-				for (auto M = itemList.MemberBegin(); M != itemList.MemberEnd(); M++)
-				{
-					parseContentItem(M->name.GetString(), M->value);
-				}
-			}
-		}
-		else
-		{
-			for (auto M = contentData.MemberBegin(); M != contentData.MemberEnd(); M++)
-			{
-				parseContentItem(M->name.GetString(), M->value);
-			}
-		}
-	}
-	else
-	{
-		if(contentData.IsArray())
-		{
-			for (auto M = contentData.MemberBegin(); M != contentData.MemberEnd(); M++)
-			{
-				parseContentItem(M->name.GetString(), M->value);
-			}
-		}
-	}
-}
-
-void ContentItemPoolDownloadHandler::parseContentItem(const std::string &contentId, const rapidjson::Value &contentItemData)
-{
-	HQContentItemObjectRef contentObject = HQContentItemObject::create();
-	
-	contentObject->setContentItemId(contentId);
-	contentObject->setTitle(getStringFromJson("title", contentItemData));
-	contentObject->setDescription(getStringFromJson("description", contentItemData));
-	contentObject->setType(getStringFromJson("type", contentItemData));
-	contentObject->setUri(getStringFromJson("uri", contentItemData));
-	contentObject->setEntitled(getBoolFromJson("entitled", contentItemData));
-	
-	if(contentItemData.HasMember("tags"))
-	{
-		contentObject->setTags(getStringArrayFromJson(contentItemData["tags"]));
-	}
-	
-	if(contentItemData.HasMember("images"))
-	{
-		contentObject->setImages(getStringMapFromJson(contentItemData["images"]));
-	}
-	
-	ContentItemPool::getInstance()->addContentItemToPool(contentObject);
 }
 
 //delegate functions

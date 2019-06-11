@@ -9,12 +9,12 @@ HQContentItemObject::HQContentItemObject()
 {
 }
 
-HQContentItemObjectRef HQContentItemObject::create()
+MutableHQContentItemObjectRef MutableHQContentItemObject::create()
 {
-    return std::make_shared<HQContentItemObject>();
+    return std::make_shared<MutableHQContentItemObject>();
 }
 
-void HQContentItemObject::setContentItemId(const std::string &inputId)
+void MutableHQContentItemObject::setContentItemId(const std::string &inputId)
 {
     _contentItemId = inputId;
 }
@@ -24,42 +24,42 @@ std::string HQContentItemObject::getContentItemId() const
     return _contentItemId;
 }
 
-void HQContentItemObject::setTitle(const std::string &inputTitle)
+void MutableHQContentItemObject::setTitle(const std::string &inputTitle)
 {
     _title = inputTitle;
 }
 
-void HQContentItemObject::setDescription(const std::string &inputDescription)
+void MutableHQContentItemObject::setDescription(const std::string &inputDescription)
 {
     _description = inputDescription;
 }
 
-void HQContentItemObject::setType(const std::string &inputType)
+void MutableHQContentItemObject::setType(const std::string &inputType)
 {
     _type = inputType;
 }
 
-void HQContentItemObject::setUri(const std::string &inputUri)
+void MutableHQContentItemObject::setUri(const std::string &inputUri)
 {
     _uri = inputUri;
 }
 
-void HQContentItemObject::setEntitled(const bool inputEntitled)
+void MutableHQContentItemObject::setEntitled(const bool inputEntitled)
 {
     _entitled = inputEntitled;
 }
 
-void HQContentItemObject::addTag(const std::string &tag)
+void MutableHQContentItemObject::addTag(const std::string &tag)
 {
     _tags.push_back(tag);
 }
 
-void HQContentItemObject::setTags(const std::vector<std::string> &tags)
+void MutableHQContentItemObject::setTags(const std::vector<std::string> &tags)
 {
     _tags = tags;
 }
 
-void HQContentItemObject::setImages(const std::map<std::string, std::string> &images)
+void MutableHQContentItemObject::setImages(const std::map<std::string, std::string> &images)
 {
     _images = images;
 }
@@ -123,17 +123,17 @@ std::string HQContentItemObject::getBaseImageThumbUrl() const
 
 //All functions that are being used only upon reading out
 
-void HQContentItemObject::setImagePath(const std::string &inputImagePath)
+void MutableHQContentItemObject::setImagePath(const std::string &inputImagePath)
 {
     _imagePath = inputImagePath;
 }
 
-void HQContentItemObject::setElementNumber(int inputElementNumber)
+void MutableHQContentItemObject::setElementNumber(int inputElementNumber)
 {
     _elementNumber = inputElementNumber;
 }
 
-void HQContentItemObject::setElementShape(const cocos2d::Vec2 &inputElementShape)
+void MutableHQContentItemObject::setElementShape(const cocos2d::Vec2 &inputElementShape)
 {
     _elementShape = inputElementShape;
 }
@@ -172,9 +172,9 @@ std::string HQContentItemObject::getJSONRepresentationOfStructure() const
     return getJSONStringFromMap(objectMap);
 }
 
-HQContentItemObjectRef HQContentItemObject::createFromMap(const std::map<std::string, std::string> &inputMap)
+MutableHQContentItemObjectRef MutableHQContentItemObject::createFromMap(const std::map<std::string, std::string> &inputMap)
 {
-    HQContentItemObjectRef returnObject = HQContentItemObject::create();
+    MutableHQContentItemObjectRef returnObject = MutableHQContentItemObject::create();
     if(inputMap.find("id") != inputMap.end())
     {
         returnObject->setContentItemId(inputMap.at("id"));

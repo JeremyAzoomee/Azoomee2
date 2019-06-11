@@ -35,7 +35,7 @@ void OfflineHubHQElement::addHQSceneElement(const std::string &category, const s
 {
     elementVisual = HQSceneElementVisual::create();
     elementVisual->setCategory(category);
-    HQContentItemObjectRef objectToStart = HQContentItemObject::createFromMap(itemData);
+    MutableHQContentItemObjectRef objectToStart = MutableHQContentItemObject::createFromMap(itemData);
     elementVisual->setItemData(objectToStart);
     elementVisual->setShape(shape);
     elementVisual->setDelay(delay);
@@ -107,7 +107,7 @@ void OfflineHubHQElement::addListenerToElement(const std::map<std::string, std::
             
             cocos2d::log("Action to come: %s", startUrl.c_str());
             
-            HQContentItemObjectRef contentItem = HQContentItemObject::create();
+            MutableHQContentItemObjectRef contentItem = MutableHQContentItemObject::create();
             contentItem->setTitle(itemData.at("title"));
             contentItem->setDescription(itemData.at("description"));
             contentItem->setType(itemData.at("type"));
@@ -136,7 +136,7 @@ Orientation OfflineHubHQElement::getGameOrientation(const std::map<std::string, 
 void OfflineHubHQElement::startUpElementDependingOnType(const std::map<std::string, std::string> &itemData)
 {
     this->getParent()->getParent()->getParent()->stopAllActions();
-    HQContentItemObjectRef objectToStart = HQContentItemObject::createFromMap(itemData);
+    MutableHQContentItemObjectRef objectToStart = MutableHQContentItemObject::createFromMap(itemData);
     GameDataManager::getInstance()->startProcessingGame(objectToStart);
 }
 

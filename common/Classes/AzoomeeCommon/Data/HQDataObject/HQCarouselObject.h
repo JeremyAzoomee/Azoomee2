@@ -9,30 +9,37 @@ NS_AZOOMEE_BEGIN
 
 class HQCarouselObject;
 typedef std::shared_ptr<HQCarouselObject> HQCarouselObjectRef;
+class MutableHQCarouselObject;
+typedef std::shared_ptr<MutableHQCarouselObject> MutableHQCarouselObjectRef;
 
 class HQCarouselObject
 {
-private:
+protected:
     
     std::string _title = "";
     std::vector<HQContentItemObjectRef> _contentItems;
     std::vector<cocos2d::Vec2> _contentItemHighlights;
     std::string _icon = "";
-    
-public:
+	
     HQCarouselObject();
-    static HQCarouselObjectRef create();
-    
-    void setTitle(const std::string &inputTitle);
-    void addContentItemToCarousel(const HQContentItemObjectRef &contentItem); //also: contentItemData should contain size
-    void addContentItemHighlight(const cocos2d::Vec2 &contentItemHighlight);
-    void setIcon(const std::string &icon);
-    void removeAllItemsFromCarousel();
+public:
     
     std::string getTitle() const;
     std::vector<HQContentItemObjectRef> getContentItems();
     std::vector<cocos2d::Vec2> getContentItemHighlights();
     std::string getIcon() const;
+};
+
+class MutableHQCarouselObject : public HQCarouselObject
+{
+public:
+	static MutableHQCarouselObjectRef create();
+	
+	void setTitle(const std::string &inputTitle);
+	void addContentItemToCarousel(const HQContentItemObjectRef &contentItem); //also: contentItemData should contain size
+	void addContentItemHighlight(const cocos2d::Vec2 &contentItemHighlight);
+	void setIcon(const std::string &icon);
+	void removeAllItemsFromCarousel();
 };
 
 NS_AZOOMEE_END
