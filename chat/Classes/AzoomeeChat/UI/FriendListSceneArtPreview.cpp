@@ -63,10 +63,18 @@ void FriendListSceneArtPreview::onEnter()
     // Register for API events
     ChatAPI::getInstance()->registerObserver(this);
     
-    // Up the schedule speed of friend list polling
-    ChatAPI::getInstance()->requestFriendList();
-    ChatAPI::getInstance()->scheduleFriendListPoll( ChatAPI::kScheduleRateHigh );
-    ModalMessages::getInstance()->startLoading();
+	if(ChildManager::getInstance()->isChildLoggedIn() && ChildManager::getInstance()->getLoggedInChild()->isSessionExpired())
+	{
+		ModalMessages::getInstance()->startLoading();
+		ChatAPI::getInstance()->refreshChildSession();
+	}
+	else
+	{
+		// Up the schedule speed of friend list polling
+		ChatAPI::getInstance()->requestFriendList();
+		ChatAPI::getInstance()->scheduleFriendListPoll( ChatAPI::kScheduleRateHigh );
+		ModalMessages::getInstance()->startLoading();
+	}
 }
 
 void FriendListSceneArtPreview::onExit()
@@ -245,5 +253,10 @@ void FriendListSceneArtPreview::onChatAPIErrorRecieved(const std::string& reques
     MessageBox::createWith(ERROR_CODE_SOMETHING_WENT_WRONG, nullptr);
 }
 
+void FriendListSceneArtPreview::onChatAPIRefreshChildSession()
+{
+	ChatAPI::getInstance()->requestFriendList();
+	ChatAPI::getInstance()->scheduleFriendListPoll( ChatAPI::kScheduleRateHigh );
+}
 
 NS_AZOOMEE_CHAT_END

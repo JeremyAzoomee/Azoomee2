@@ -3,6 +3,7 @@
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Json.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Data/Cookie/CookieManager.h>
 #include <cocos/cocos2d.h>
 #include <memory>
 
@@ -169,6 +170,14 @@ void ChatAPI::getTimelineSummary()
     request->execute();
 }
 
+#pragma mark - Session refresh
+
+void ChatAPI::refreshChildSession()
+{
+	HttpRequestCreator* request = API::RefreshChildCookiesRequest(this);
+	request->execute();
+}
+
 #pragma mark - HttpRequestCreatorResponseDelegate
 
 void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
@@ -315,6 +324,21 @@ void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
             }
         }
     }
+	else if(requestTag == API::TagChildCookieRefresh)
+	{
+		ChildManager::getInstance()->parseChildSessionUpdate(body);
+		HttpRequestCreator* request = API::GetGordenRequest(ChildManager::getInstance()->getLoggedInChild()->getId(), ChildManager::getInstance()->getLoggedInChild()->getCDNSessionId(), this);
+		request->execute();
+	}
+	else if(requestTag == API::TagGetGorden)
+	{
+		CookieManager::getInstance()->parseDownloadCookies(headers);
+		// Notify observers
+		for(auto observer : _observers)
+		{
+			observer->onChatAPIRefreshChildSession();
+		}
+	}
 }
 
 void ChatAPI::onHttpRequestFailed(const std::string& requestTag, long errorCode)
