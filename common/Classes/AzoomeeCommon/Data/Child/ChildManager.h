@@ -37,6 +37,7 @@ public:
 	
 	void parseChildInventory(const std::string& inventoryData);
 	void parseAvatarUpdate(const std::string& avatarData);
+	void parseChildSessionUpdate(const std::string& sessionData);
 	void loginChildOffline(const std::string& childId);
 	
 private:

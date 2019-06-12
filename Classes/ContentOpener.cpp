@@ -24,6 +24,9 @@
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/Tutorial/TutorialController.h>
 #include <AzoomeeCommon/Crashlytics/CrashlyticsConfig.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include <AzoomeeCommon/Data/Cookie/CookieManager.h>
 
 using namespace cocos2d;
 
@@ -40,16 +43,6 @@ ContentOpener* ContentOpener::getInstance()
     return sContentOpenerSharedInstance.get();
 }
 
-ContentOpener::~ContentOpener(void)
-{
-    
-}
-
-bool ContentOpener::init(void)
-{
-    return true;
-}
-
 void ContentOpener::openContentById(const std::string &contentId)
 {
     HQContentItemObjectRef contentItem = HQDataProvider::getInstance()->getItemDataForSpecificItem(contentId);
@@ -62,6 +55,15 @@ void ContentOpener::openContentById(const std::string &contentId)
 
 void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
 {
+	if(ChildManager::getInstance()->getLoggedInChild()->isSessionExpired() && !_contentItemToOpen)
+	{
+		_contentItemToOpen = contentItem;
+		ModalMessages::getInstance()->startLoading();
+		HttpRequestCreator* request = API::RefreshChildCookiesRequest(this);
+		request->execute();
+		return;
+	}
+	
     if(contentItem == nullptr || !contentItem->isEntitled())
     {
         return;
@@ -107,6 +109,7 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ArtAppEntryPointScene));
         }
     }
+	_contentItemToOpen = nullptr; // dereference at the end as will be pointing to same memory as contentItem in case of refeshed session
 }
 
 void ContentOpener::doCarouselContentOpenLogic(const HQContentItemObjectRef& contentItem, int rowIndex, int elementIndex, const std::string& hqCategory)
@@ -156,5 +159,30 @@ void ContentOpener::doCarouselContentOpenLogic(const HQContentItemObjectRef& con
 	openContentObject(contentItem);
 }
 
+// delegate functions
+
+void ContentOpener::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
+{
+	if(requestTag == API::TagChildCookieRefresh)
+	{
+		ChildManager::getInstance()->parseChildSessionUpdate(body);
+		HttpRequestCreator* request = API::GetGordenRequest(ChildManager::getInstance()->getLoggedInChild()->getId(), ChildManager::getInstance()->getLoggedInChild()->getCDNSessionId(), this);
+		request->execute();
+	}
+	else if(requestTag == API::TagGetGorden)
+	{
+		ModalMessages::getInstance()->stopLoading();
+		CookieManager::getInstance()->parseDownloadCookies(headers);
+		openContentObject(_contentItemToOpen);
+	}
+	else
+	{
+		ModalMessages::getInstance()->stopLoading();
+	}
+}
+void ContentOpener::onHttpRequestFailed(const std::string& requestTag, long errorCode)
+{
+	ModalMessages::getInstance()->stopLoading();
+}
 
 NS_AZOOMEE_END
