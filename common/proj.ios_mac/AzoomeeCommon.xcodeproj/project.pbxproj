@@ -61,17 +61,17 @@
 		3073BCE522A7DC2A0024DB50 /* NotificationNodeDisplayManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4DB223FB8C100DA56F3 /* NotificationNodeDisplayManager.cpp */; };
 		3073BCE622A7DC2A0024DB50 /* PushNotificationsHandler_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02BF05F01F98BAAE00E7D086 /* PushNotificationsHandler_ios.mm */; };
 		3073BCE722A7DC2A0024DB50 /* RewardCallbackHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E58565220DD3F00015A4FA /* RewardCallbackHandler.cpp */; };
-		3073BCE822A7DC2A0024DB50 /* CookieDataParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED4A1E969AE40009027D /* CookieDataParser.cpp */; };
+		3073BCE822A7DC2A0024DB50 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		3073BCE922A7DC2A0024DB50 /* MPABTestDesignerChangeResponseMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C7861EA8ADEE00FE964B /* MPABTestDesignerChangeResponseMessage.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		3073BCEA22A7DC2A0024DB50 /* HQCarouselObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 021B1FC11F838A0A0044DCF7 /* HQCarouselObject.cpp */; };
 		3073BCEB22A7DC2A0024DB50 /* JWTTool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012EDAB1E97E8450009027D /* JWTTool.cpp */; };
-		3073BCEC22A7DC2A0024DB50 /* ChildDataParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED5B1E969BF60009027D /* ChildDataParser.cpp */; };
+		3073BCEC22A7DC2A0024DB50 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		3073BCED22A7DC2A0024DB50 /* AnalyticsSingleton_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30DD5ED21E965E060084305B /* AnalyticsSingleton_ios.mm */; };
 		3073BCEE22A7DC2A0024DB50 /* MPNotificationButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C7BA1EA8ADEF00FE964B /* MPNotificationButton.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		3073BCEF22A7DC2A0024DB50 /* UIApplication+AutomaticEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C7F81EA8ADEF00FE964B /* UIApplication+AutomaticEvents.m */; };
 		3073BCF022A7DC2A0024DB50 /* HQStructureParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924ACE0920A48528007A5550 /* HQStructureParser.cpp */; };
 		3073BCF122A7DC2A0024DB50 /* AutomaticEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 02AE88E21F83CBC3005C0FC8 /* AutomaticEvents.m */; };
-		3073BCF222A7DC2A0024DB50 /* ParentDataStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED561E969BBB0009027D /* ParentDataStorage.cpp */; };
+		3073BCF222A7DC2A0024DB50 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		3073BCF322A7DC2A0024DB50 /* ModalWebview.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 436007871F22120C000ECBA4 /* ModalWebview.cpp */; };
 		3073BCF422A7DC2A0024DB50 /* MPABTestDesignerSnapshotRequestMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C7951EA8ADEE00FE964B /* MPABTestDesignerSnapshotRequestMessage.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		3073BCF522A7DC2A0024DB50 /* MPABTestDesignerClearResponseMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C78A1EA8ADEE00FE964B /* MPABTestDesignerClearResponseMessage.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -90,7 +90,7 @@
 		3073BD0222A7DC2A0024DB50 /* ActionBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EC69203313CE00BD7A90 /* ActionBuilder.cpp */; };
 		3073BD0322A7DC2A0024DB50 /* BillingData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92084F0A21B5877B00DACCEB /* BillingData.cpp */; };
 		3073BD0422A7DC2A0024DB50 /* RemoteImageSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED971E97E6A40009027D /* RemoteImageSprite.cpp */; };
-		3073BD0522A7DC2A0024DB50 /* ChildDataStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED5F1E969BF60009027D /* ChildDataStorage.cpp */; };
+		3073BD0522A7DC2A0024DB50 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		3073BD0622A7DC2A0024DB50 /* ContentItemPoolParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92B1EC8C20A209CC007A58C0 /* ContentItemPoolParser.cpp */; };
 		3073BD0722A7DC2A0024DB50 /* SplitLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302E84771ED1B992006A498C /* SplitLayout.cpp */; };
 		3073BD0822A7DC2A0024DB50 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3000FF791ED5BBB700E9717C /* Application.cpp */; };
@@ -119,11 +119,11 @@
 		3073BD1F22A7DC2A0024DB50 /* FileZipUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224C00B1F7CFD7E00108553 /* FileZipUtil.cpp */; };
 		3073BD2022A7DC2A0024DB50 /* MPEventBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C7AF1EA8ADEF00FE964B /* MPEventBinding.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		3073BD2122A7DC2A0024DB50 /* MPCGColorRefToNSStringValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C7A11EA8ADEF00FE964B /* MPCGColorRefToNSStringValueTransformer.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		3073BD2222A7DC2A0024DB50 /* ChildDataProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED5D1E969BF60009027D /* ChildDataProvider.cpp */; };
+		3073BD2222A7DC2A0024DB50 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		3073BD2322A7DC2A0024DB50 /* MessageBoxChatReportChatLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 431369761F2B60AC002BEA8C /* MessageBoxChatReportChatLayer.cpp */; };
 		3073BD2422A7DC2A0024DB50 /* HQDataObjectStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 021B1FC71F838A0A0044DCF7 /* HQDataObjectStorage.cpp */; };
 		3073BD2522A7DC2A0024DB50 /* UIImage+MPImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C7FE1EA8ADEF00FE964B /* UIImage+MPImageEffects.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		3073BD2622A7DC2A0024DB50 /* ParentDataProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED541E969BBB0009027D /* ParentDataProvider.cpp */; };
+		3073BD2622A7DC2A0024DB50 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		3073BD2722A7DC2A0024DB50 /* MPNSAttributedStringToNSDictionaryValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C7BD1EA8ADEF00FE964B /* MPNSAttributedStringToNSDictionaryValueTransformer.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		3073BD2822A7DC2A0024DB50 /* MPSequenceGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C7D01EA8ADEF00FE964B /* MPSequenceGenerator.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		3073BD2922A7DC2A0024DB50 /* MPTakeoverNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C7D61EA8ADEF00FE964B /* MPTakeoverNotification.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -175,7 +175,7 @@
 		3073BD5722A7DC2A0024DB50 /* HQStructureHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924ACE0B20A4A073007A5550 /* HQStructureHandler.cpp */; };
 		3073BD5822A7DC2A0024DB50 /* VersionChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02A120231EAF83E0007EDD95 /* VersionChecker.cpp */; };
 		3073BD5922A7DC2A0024DB50 /* MPUIColorToNSStringValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C7E31EA8ADEF00FE964B /* MPUIColorToNSStringValueTransformer.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		3073BD5A22A7DC2A0024DB50 /* CookieDataStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED4E1E969AE40009027D /* CookieDataStorage.cpp */; };
+		3073BD5A22A7DC2A0024DB50 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		3073BD5B22A7DC2A0024DB50 /* AudioMixer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED461E969A180009027D /* AudioMixer.cpp */; };
 		3073BD5C22A7DC2A0024DB50 /* MPObjectSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C7C31EA8ADEF00FE964B /* MPObjectSelector.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		3073BD5D22A7DC2A0024DB50 /* TextInputLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED931E97E5260009027D /* TextInputLayer.cpp */; };
@@ -183,7 +183,7 @@
 		3073BD5F22A7DC2A0024DB50 /* MPUIImageToNSDictionaryValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C7E81EA8ADEF00FE964B /* MPUIImageToNSDictionaryValueTransformer.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		3073BD6022A7DC2A0024DB50 /* MPPassThroughValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C7CA1EA8ADEF00FE964B /* MPPassThroughValueTransformer.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		3073BD6122A7DC2A0024DB50 /* LazyLoadButtonOnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D84620483C0D00370120 /* LazyLoadButtonOnScreenChecker.cpp */; };
-		3073BD6222A7DC2A0024DB50 /* CookieDataProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED4C1E969AE40009027D /* CookieDataProvider.cpp */; };
+		3073BD6222A7DC2A0024DB50 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		3073BD6322A7DC2A0024DB50 /* MPTweakInline.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C7DD1EA8ADEF00FE964B /* MPTweakInline.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		3073BD6422A7DC2A0024DB50 /* HttpRequestCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3092BCEE1EB10524006D6F4C /* HttpRequestCreator.cpp */; };
 		3073BD6522A7DC2A0024DB50 /* MPObjectIdentityProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C7C11EA8ADEF00FE964B /* MPObjectIdentityProvider.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -200,7 +200,7 @@
 		3073BD7022A7DC2A0024DB50 /* MPABTestDesignerConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C78C1EA8ADEE00FE964B /* MPABTestDesignerConnection.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		3073BD7122A7DC2A0024DB50 /* MPApplicationStateSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C79D1EA8ADEF00FE964B /* MPApplicationStateSerializer.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		3073BD7222A7DC2A0024DB50 /* ImageDownloaderOnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED9D1E97E6A40009027D /* ImageDownloaderOnScreenChecker.cpp */; };
-		3073BD7322A7DC2A0024DB50 /* ParentDataParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301CCA951EB14162009ADA0C /* ParentDataParser.cpp */; };
+		3073BD7322A7DC2A0024DB50 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		3073BD7422A7DC2A0024DB50 /* MPABTestDesignerTweakRequestMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C7991EA8ADEE00FE964B /* MPABTestDesignerTweakRequestMessage.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		3073BD7522A7DC2A0024DB50 /* HMACSHA256.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012EDA51E97E8450009027D /* HMACSHA256.cpp */; };
 		3073BD7622A7DC2A0024DB50 /* MPTweakStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C7E01EA8ADEF00FE964B /* MPTweakStore.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -223,6 +223,12 @@
 		3073BD8822A7DC2A0024DB50 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DD5EC81E9658B40084305B /* Crashlytics.framework */; };
 		3073BD8922A7DC2A0024DB50 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DD5EC91E9658B40084305B /* Fabric.framework */; };
 		3073BD8C22A7DC2A0024DB50 /* AirshipKit.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 02BF05E11F97829E00E7D086 /* AirshipKit.framework.dSYM */; };
+		3076C74622B11487000A4925 /* ParentManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D1B49822A92B0C00357513 /* ParentManager.cpp */; };
+		3076C74722B1148E000A4925 /* ChildManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D1B49522A8178400357513 /* ChildManager.cpp */; };
+		3076C74822B1149B000A4925 /* CookieManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D1B49222A7F7C000357513 /* CookieManager.cpp */; };
+		3076C74922B114C7000A4925 /* TutorialGuide.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92244D7C2278773C004C9B45 /* TutorialGuide.cpp */; };
+		3076C74A22B114C9000A4925 /* TutorialSpeechBubble.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92244D7E2278840B004C9B45 /* TutorialSpeechBubble.cpp */; };
+		3076C74B22B114CA000A4925 /* TutorialMessagingNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92244D8022789B5E004C9B45 /* TutorialMessagingNode.cpp */; };
 		3092BCF01EB10524006D6F4C /* HttpRequestCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3092BCEE1EB10524006D6F4C /* HttpRequestCreator.cpp */; };
 		30DD5EC61E96571F0084305B /* CrashlyticsConfig_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30DD5EC21E96571F0084305B /* CrashlyticsConfig_ios.mm */; };
 		30DD5ECD1E965B710084305B /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DD5EC81E9658B40084305B /* Crashlytics.framework */; };
@@ -341,9 +347,9 @@
 		92BDD4C72237BC0800DA56F3 /* ShopDataHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4C62237BC0800DA56F3 /* ShopDataHandler.cpp */; };
 		92BDD4CA2237D39E00DA56F3 /* DataDownloadHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4C92237D39E00DA56F3 /* DataDownloadHandler.cpp */; };
 		92BDD4DC223FB8C100DA56F3 /* NotificationNodeDisplayManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4DB223FB8C100DA56F3 /* NotificationNodeDisplayManager.cpp */; };
+		92D1B49322A7F7C000357513 /* CookieManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D1B49222A7F7C000357513 /* CookieManager.cpp */; };
 		92D1B49622A8178400357513 /* ChildManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D1B49522A8178400357513 /* ChildManager.cpp */; };
 		92D1B49922A92B0C00357513 /* ParentManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D1B49822A92B0C00357513 /* ParentManager.cpp */; };
-		92D1B49322A7F7C000357513 /* CookieManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D1B49222A7F7C000357513 /* CookieManager.cpp */; };
 		92E58566220DD3F00015A4FA /* RewardCallbackHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E58565220DD3F00015A4FA /* RewardCallbackHandler.cpp */; };
 		92E5856B2211A4E80015A4FA /* RewardItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E5856A2211A4E80015A4FA /* RewardItem.cpp */; };
 		92E58571221AC47C0015A4FA /* InventoryItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E58570221AC47C0015A4FA /* InventoryItem.cpp */; };
@@ -679,12 +685,12 @@
 		92BDD4DA223FAAFF00DA56F3 /* NotificationNodeDisplayManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationNodeDisplayManager.h; sourceTree = "<group>"; };
 		92BDD4DB223FB8C100DA56F3 /* NotificationNodeDisplayManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NotificationNodeDisplayManager.cpp; sourceTree = "<group>"; };
 		92BDD4DD223FC3E100DA56F3 /* ResizeNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResizeNode.h; sourceTree = "<group>"; };
+		92D1B49122A7F05900357513 /* CookieManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CookieManager.h; sourceTree = "<group>"; };
+		92D1B49222A7F7C000357513 /* CookieManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CookieManager.cpp; sourceTree = "<group>"; };
 		92D1B49422A8146B00357513 /* ChildManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChildManager.h; sourceTree = "<group>"; };
 		92D1B49522A8178400357513 /* ChildManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChildManager.cpp; sourceTree = "<group>"; };
 		92D1B49722A9248600357513 /* ParentManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParentManager.h; sourceTree = "<group>"; };
 		92D1B49822A92B0C00357513 /* ParentManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ParentManager.cpp; sourceTree = "<group>"; };
-		92D1B49122A7F05900357513 /* CookieManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CookieManager.h; sourceTree = "<group>"; };
-		92D1B49222A7F7C000357513 /* CookieManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CookieManager.cpp; sourceTree = "<group>"; };
 		92DC96E4227729C4007557AB /* TutorialGuide.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TutorialGuide.h; sourceTree = "<group>"; };
 		92E5855F220D8ED30015A4FA /* RewardCallbackHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RewardCallbackHandler.h; sourceTree = "<group>"; };
 		92E58565220DD3F00015A4FA /* RewardCallbackHandler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RewardCallbackHandler.cpp; sourceTree = "<group>"; };
@@ -1501,6 +1507,7 @@
 				3073BCDE22A7DC2A0024DB50 /* MPWebSocket.m in Sources */,
 				3073BCDF22A7DC2A0024DB50 /* PrivacyLayer.cpp in Sources */,
 				3073BCE022A7DC2A0024DB50 /* MPNotificationViewController.m in Sources */,
+				3076C74A22B114C9000A4925 /* TutorialSpeechBubble.cpp in Sources */,
 				3073BCE122A7DC2A0024DB50 /* MPMiniNotification.m in Sources */,
 				3073BCE222A7DC2A0024DB50 /* MPEnumDescription.m in Sources */,
 				3073BCE322A7DC2A0024DB50 /* MessageBox.cpp in Sources */,
@@ -1508,17 +1515,17 @@
 				3073BCE522A7DC2A0024DB50 /* NotificationNodeDisplayManager.cpp in Sources */,
 				3073BCE622A7DC2A0024DB50 /* PushNotificationsHandler_ios.mm in Sources */,
 				3073BCE722A7DC2A0024DB50 /* RewardCallbackHandler.cpp in Sources */,
-				3073BCE822A7DC2A0024DB50 /* CookieDataParser.cpp in Sources */,
+				3073BCE822A7DC2A0024DB50 /* (null) in Sources */,
 				3073BCE922A7DC2A0024DB50 /* MPABTestDesignerChangeResponseMessage.m in Sources */,
 				3073BCEA22A7DC2A0024DB50 /* HQCarouselObject.cpp in Sources */,
 				3073BCEB22A7DC2A0024DB50 /* JWTTool.cpp in Sources */,
-				3073BCEC22A7DC2A0024DB50 /* ChildDataParser.cpp in Sources */,
+				3073BCEC22A7DC2A0024DB50 /* (null) in Sources */,
 				3073BCED22A7DC2A0024DB50 /* AnalyticsSingleton_ios.mm in Sources */,
 				3073BCEE22A7DC2A0024DB50 /* MPNotificationButton.m in Sources */,
 				3073BCEF22A7DC2A0024DB50 /* UIApplication+AutomaticEvents.m in Sources */,
 				3073BCF022A7DC2A0024DB50 /* HQStructureParser.cpp in Sources */,
 				3073BCF122A7DC2A0024DB50 /* AutomaticEvents.m in Sources */,
-				3073BCF222A7DC2A0024DB50 /* ParentDataStorage.cpp in Sources */,
+				3073BCF222A7DC2A0024DB50 /* (null) in Sources */,
 				3073BCF322A7DC2A0024DB50 /* ModalWebview.cpp in Sources */,
 				3073BCF422A7DC2A0024DB50 /* MPABTestDesignerSnapshotRequestMessage.m in Sources */,
 				3073BCF522A7DC2A0024DB50 /* MPABTestDesignerClearResponseMessage.m in Sources */,
@@ -1537,7 +1544,7 @@
 				3073BD0222A7DC2A0024DB50 /* ActionBuilder.cpp in Sources */,
 				3073BD0322A7DC2A0024DB50 /* BillingData.cpp in Sources */,
 				3073BD0422A7DC2A0024DB50 /* RemoteImageSprite.cpp in Sources */,
-				3073BD0522A7DC2A0024DB50 /* ChildDataStorage.cpp in Sources */,
+				3073BD0522A7DC2A0024DB50 /* (null) in Sources */,
 				3073BD0622A7DC2A0024DB50 /* ContentItemPoolParser.cpp in Sources */,
 				3073BD0722A7DC2A0024DB50 /* SplitLayout.cpp in Sources */,
 				3073BD0822A7DC2A0024DB50 /* Application.cpp in Sources */,
@@ -1566,11 +1573,11 @@
 				3073BD1F22A7DC2A0024DB50 /* FileZipUtil.cpp in Sources */,
 				3073BD2022A7DC2A0024DB50 /* MPEventBinding.m in Sources */,
 				3073BD2122A7DC2A0024DB50 /* MPCGColorRefToNSStringValueTransformer.m in Sources */,
-				3073BD2222A7DC2A0024DB50 /* ChildDataProvider.cpp in Sources */,
+				3073BD2222A7DC2A0024DB50 /* (null) in Sources */,
 				3073BD2322A7DC2A0024DB50 /* MessageBoxChatReportChatLayer.cpp in Sources */,
 				3073BD2422A7DC2A0024DB50 /* HQDataObjectStorage.cpp in Sources */,
 				3073BD2522A7DC2A0024DB50 /* UIImage+MPImageEffects.m in Sources */,
-				3073BD2622A7DC2A0024DB50 /* ParentDataProvider.cpp in Sources */,
+				3073BD2622A7DC2A0024DB50 /* (null) in Sources */,
 				3073BD2722A7DC2A0024DB50 /* MPNSAttributedStringToNSDictionaryValueTransformer.m in Sources */,
 				3073BD2822A7DC2A0024DB50 /* MPSequenceGenerator.m in Sources */,
 				3073BD2922A7DC2A0024DB50 /* MPTakeoverNotification.m in Sources */,
@@ -1607,6 +1614,7 @@
 				3073BD4822A7DC2A0024DB50 /* MPTypeDescription.m in Sources */,
 				3073BD4922A7DC2A0024DB50 /* StringFunctions.cpp in Sources */,
 				3073BD4A22A7DC2A0024DB50 /* MPCGRectToNSDictionaryValueTransformer.m in Sources */,
+				3076C74622B11487000A4925 /* ParentManager.cpp in Sources */,
 				3073BD4B22A7DC2A0024DB50 /* DirUtil.cpp in Sources */,
 				3073BD4C22A7DC2A0024DB50 /* MPVariant.m in Sources */,
 				3073BD4D22A7DC2A0024DB50 /* MessageBoxLayer.cpp in Sources */,
@@ -1622,15 +1630,16 @@
 				3073BD5722A7DC2A0024DB50 /* HQStructureHandler.cpp in Sources */,
 				3073BD5822A7DC2A0024DB50 /* VersionChecker.cpp in Sources */,
 				3073BD5922A7DC2A0024DB50 /* MPUIColorToNSStringValueTransformer.m in Sources */,
-				3073BD5A22A7DC2A0024DB50 /* CookieDataStorage.cpp in Sources */,
+				3073BD5A22A7DC2A0024DB50 /* (null) in Sources */,
 				3073BD5B22A7DC2A0024DB50 /* AudioMixer.cpp in Sources */,
+				3076C74822B1149B000A4925 /* CookieManager.cpp in Sources */,
 				3073BD5C22A7DC2A0024DB50 /* MPObjectSelector.m in Sources */,
 				3073BD5D22A7DC2A0024DB50 /* TextInputLayer.cpp in Sources */,
 				3073BD5E22A7DC2A0024DB50 /* UIImage+MPAverageColor.m in Sources */,
 				3073BD5F22A7DC2A0024DB50 /* MPUIImageToNSDictionaryValueTransformer.m in Sources */,
 				3073BD6022A7DC2A0024DB50 /* MPPassThroughValueTransformer.m in Sources */,
 				3073BD6122A7DC2A0024DB50 /* LazyLoadButtonOnScreenChecker.cpp in Sources */,
-				3073BD6222A7DC2A0024DB50 /* CookieDataProvider.cpp in Sources */,
+				3073BD6222A7DC2A0024DB50 /* (null) in Sources */,
 				3073BD6322A7DC2A0024DB50 /* MPTweakInline.m in Sources */,
 				3073BD6422A7DC2A0024DB50 /* HttpRequestCreator.cpp in Sources */,
 				3073BD6522A7DC2A0024DB50 /* MPObjectIdentityProvider.m in Sources */,
@@ -1642,21 +1651,24 @@
 				3073BD6B22A7DC2A0024DB50 /* MPABTestDesignerDeviceInfoRequestMessage.m in Sources */,
 				3073BD6C22A7DC2A0024DB50 /* Mixpanel+AutomaticEvents.m in Sources */,
 				3073BD6D22A7DC2A0024DB50 /* MPDesignerEventBindingResponseMesssage.m in Sources */,
+				3076C74922B114C7000A4925 /* TutorialGuide.cpp in Sources */,
 				3073BD6E22A7DC2A0024DB50 /* CrashlyticsConfig_ios.mm in Sources */,
 				3073BD6F22A7DC2A0024DB50 /* ShopDisplayItem.cpp in Sources */,
 				3073BD7022A7DC2A0024DB50 /* MPABTestDesignerConnection.m in Sources */,
 				3073BD7122A7DC2A0024DB50 /* MPApplicationStateSerializer.m in Sources */,
 				3073BD7222A7DC2A0024DB50 /* ImageDownloaderOnScreenChecker.cpp in Sources */,
-				3073BD7322A7DC2A0024DB50 /* ParentDataParser.cpp in Sources */,
+				3073BD7322A7DC2A0024DB50 /* (null) in Sources */,
 				3073BD7422A7DC2A0024DB50 /* MPABTestDesignerTweakRequestMessage.m in Sources */,
 				3073BD7522A7DC2A0024DB50 /* HMACSHA256.cpp in Sources */,
 				3073BD7622A7DC2A0024DB50 /* MPTweakStore.m in Sources */,
+				3076C74722B1148E000A4925 /* ChildManager.cpp in Sources */,
 				3073BD7722A7DC2A0024DB50 /* MPTweak.m in Sources */,
 				3073BD7822A7DC2A0024DB50 /* MPNotification.m in Sources */,
 				3073BD7922A7DC2A0024DB50 /* MessageBoxOnlineSafetySlidesLayer.cpp in Sources */,
 				3073BD7A22A7DC2A0024DB50 /* MPSwizzle.m in Sources */,
 				3073BD7B22A7DC2A0024DB50 /* SpriteUtils.cpp in Sources */,
 				3073BD7C22A7DC2A0024DB50 /* MPClassDescription.m in Sources */,
+				3076C74B22B114CA000A4925 /* TutorialMessagingNode.cpp in Sources */,
 				3073BD7D22A7DC2A0024DB50 /* TimeFunctions.cpp in Sources */,
 				3073BD7E22A7DC2A0024DB50 /* ImageDownloader.cpp in Sources */,
 				3073BD7F22A7DC2A0024DB50 /* ObservableLayout.cpp in Sources */,

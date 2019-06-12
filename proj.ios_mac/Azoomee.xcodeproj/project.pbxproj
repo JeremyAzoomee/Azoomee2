@@ -188,7 +188,6 @@
 		3073BE1122A7DC780024DB50 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FB17EB989F00D1A890 /* AppController.mm */; };
 		3073BE1222A7DC780024DB50 /* HQScene2ElementPositioner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0215646E1FC4202800641C14 /* HQScene2ElementPositioner.cpp */; };
 		3073BE1322A7DC780024DB50 /* SettingsMessageBoxFREvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924E84762147FE2B004590FD /* SettingsMessageBoxFREvent.cpp */; };
-		3073BE1422A7DC780024DB50 /* HQScene2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02C66A9A1FBAF79200F33686 /* HQScene2.cpp */; };
 		3073BE1522A7DC780024DB50 /* SettingsMessageBoxDeleteChild.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924E845721427C05004590FD /* SettingsMessageBoxDeleteChild.cpp */; };
 		3073BE1622A7DC780024DB50 /* DynamicNodeButtonListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB01F7908D400108553 /* DynamicNodeButtonListener.cpp */; };
 		3073BE1722A7DC780024DB50 /* DynamicNodeLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92759E6F1FE1598100639190 /* DynamicNodeLine.cpp */; };
@@ -284,6 +283,7 @@
 		3073BE7322A7DC780024DB50 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620D132DFF430009C878 /* AVFoundation.framework */; };
 		3073BE7422A7DC780024DB50 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620F132DFF4E0009C878 /* AudioToolbox.framework */; };
 		3073BE8122A7DDAE0024DB50 /* libAzoomeeCommonCI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3073BE8022A7DC790024DB50 /* libAzoomeeCommonCI.a */; };
+		3076C74C22B116F6000A4925 /* ChildOomeeFTULayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92060129227B2F9500A73FA5 /* ChildOomeeFTULayer.cpp */; };
 		3077F4561E8D51F7006DA465 /* libAzoomeeCommonProd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3077F4521E8D51D7006DA465 /* libAzoomeeCommonProd.a */; };
 		3EACC98F19EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
 		43069CE91E3B492600D6A631 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43069CE81E3B492600D6A631 /* Images.xcassets */; };
@@ -644,7 +644,6 @@
 		02BF05D91F977FE800E7D086 /* AirshipKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AirshipKit.framework; path = ../common/proj.ios_mac/Carthage/Build/iOS/AirshipKit.framework; sourceTree = "<group>"; };
 		02BF05EA1F9788C300E7D086 /* AirshipConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AirshipConfig.plist; sourceTree = "<group>"; };
 		02BF05EC1F97894500E7D086 /* Azoomee.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Azoomee.entitlements; sourceTree = "<group>"; };
-		02C66A9A1FBAF79200F33686 /* HQScene2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQScene2.cpp; sourceTree = "<group>"; };
 		02D4FCCB1FCED6E2005BA020 /* IAPProductDataHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPProductDataHandler.h; sourceTree = "<group>"; };
 		02D4FCD11FCEE5E1005BA020 /* IAPProductDataHandler.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IAPProductDataHandler.mm; sourceTree = "<group>"; };
 		02D4FCD31FCF0D0B005BA020 /* IAPProductDataHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IAPProductDataHandler.cpp; sourceTree = "<group>"; };
@@ -1225,7 +1224,6 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				080E96DDFE201D6D7F000001 /* ios */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				301ED20F22AEB5BF002A9E78 /* Recovered References */,
 			);
 			indentWidth = 4;
 			name = CustomTemplate;
@@ -1307,14 +1305,6 @@
 				0243B8DA1F1F5D5C005D3734 /* ChatNotificationsSingleton.h */,
 			);
 			name = Chat;
-			sourceTree = "<group>";
-		};
-		301ED20F22AEB5BF002A9E78 /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				02C66A9A1FBAF79200F33686 /* HQScene2.cpp */,
-			);
-			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		304D9E9D1EA8F833008CED52 /* Mixpanel */ = {
@@ -2497,6 +2487,7 @@
 				3073BDBA22A7DC780024DB50 /* ChildSettingsScene.cpp in Sources */,
 				3073BDBB22A7DC780024DB50 /* AddChildLayer.cpp in Sources */,
 				3073BDBC22A7DC780024DB50 /* WebViewController_ios.mm in Sources */,
+				3076C74C22B116F6000A4925 /* ChildOomeeFTULayer.cpp in Sources */,
 				3073BDBD22A7DC780024DB50 /* OfflineHubHQ.cpp in Sources */,
 				3073BDBE22A7DC780024DB50 /* LoginLogicHandler.cpp in Sources */,
 				3073BDBF22A7DC780024DB50 /* CoinDisplay.cpp in Sources */,
@@ -2584,7 +2575,6 @@
 				3073BE1122A7DC780024DB50 /* AppController.mm in Sources */,
 				3073BE1222A7DC780024DB50 /* HQScene2ElementPositioner.cpp in Sources */,
 				3073BE1322A7DC780024DB50 /* SettingsMessageBoxFREvent.cpp in Sources */,
-				3073BE1422A7DC780024DB50 /* HQScene2.cpp in Sources */,
 				3073BE1522A7DC780024DB50 /* SettingsMessageBoxDeleteChild.cpp in Sources */,
 				3073BE1622A7DC780024DB50 /* DynamicNodeButtonListener.cpp in Sources */,
 				3073BE1722A7DC780024DB50 /* DynamicNodeLine.cpp in Sources */,
