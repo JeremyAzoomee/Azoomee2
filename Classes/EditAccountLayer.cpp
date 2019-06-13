@@ -264,7 +264,7 @@ void EditAccountLayer::onEnter()
     
     if(ParentManager::getInstance()->isPaidUser())
     {
-#ifdef VODACOM_BUILD
+#ifdef AZOOMEE_VODACOM_BUILD
         Label* subDeetsLab = Label::createWithTTF(StringUtils::format(_("Valid voucher\nExpires on %s").c_str(),ParentManager::getInstance()->getBillingDate().c_str()), Style::Font::Medium(), 59);
 #else
 		Label* subDeetsLab = Label::createWithTTF(_("Premium Subscription"), Style::Font::Medium(), 59);
@@ -276,7 +276,7 @@ void EditAccountLayer::onEnter()
         _accountTypeLayout->addChild(subDeetsLab);
         
         const std::string& billingProvider = ParentManager::getInstance()->getBillingProvider();
-#ifdef VODACOM_BUILD
+#ifdef AZOOMEE_VODACOM_BUILD
 		if(billingProvider == ConfigStorage::kBillingProviderVodacomSA)
 		{
 			subDeetsLab->setString(StringUtils::format(_("Subscribed.\nRenews on %s").c_str(),ParentManager::getInstance()->getBillingDate().c_str()));
@@ -291,7 +291,7 @@ void EditAccountLayer::onEnter()
 			manageButton->addTouchEventListener([billingProvider](Ref* pSender, ui::Widget::TouchEventType eType){
 				if(eType == ui::Widget::TouchEventType::ENDED)
 				{
-#ifdef VODACOM_BUILD
+#ifdef AZOOMEE_VODACOM_BUILD
 					Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::VodacomOnboarding));
 #else
 
@@ -313,7 +313,7 @@ void EditAccountLayer::onEnter()
 			_accountTypeLayout->addChild(manageButton);
 			
 			
-#ifdef VODACOM_BUILD
+#ifdef AZOOMEE_VODACOM_BUILD
 			const std::string& buttonLab = _("Unsubscribe");
 #else
 			const std::string& buttonLab = _("Manage");
@@ -329,7 +329,7 @@ void EditAccountLayer::onEnter()
     else
     {
 		
-#ifdef VODACOM_BUILD
+#ifdef AZOOMEE_VODACOM_BUILD
 		const std::string& subLab = _("Inactive Voucher\nUnlock all content by adding a voucher");
 #else
 		const std::string& subLab = _("Free Account\nTap Renew for a special offer");
@@ -355,7 +355,7 @@ void EditAccountLayer::onEnter()
 		});
 		_accountTypeLayout->addChild(resubButton);
 		
-#ifdef VODACOM_BUILD
+#ifdef AZOOMEE_VODACOM_BUILD
 		const std::string& buttonLab = _("Unlock everything");
 #else
 		const std::string& buttonLab = _("Renew subscription");

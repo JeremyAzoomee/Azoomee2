@@ -7,6 +7,7 @@
 #include "../Net/Utils.h"
 #include "Json.h"
 #include "../Utils/StringFunctions.h"
+#include "../Utils/DirUtil.h"
 #include "../Strings.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -57,7 +58,9 @@ static ConfigStorage *_sharedConfigStorage = NULL;
     const char* const ConfigStorage::kEstimatedKeyboardHeightLandscape = "Azoomee::MessageComposer::EstimatedKeyboardHeight/Landscape";
     
     const std::string ConfigStorage::kArtCacheFolder = "artCache/";
+    const std::string ConfigStorage::kGameCacheFolder = "gameCache/";
 	const std::string ConfigStorage::kOomeeMakerCacheFolder = "oomeeMaker/";
+    const std::string ConfigStorage::kContentCacheFolder = "contentCache/";
     
     const std::string ConfigStorage::kGameDownloadError = "ERROR";
 	
@@ -155,7 +158,7 @@ std::string ConfigStorage::getFileNameFromUrl(const std::string& url)
     
 std::string ConfigStorage::getGameCachePath()
 {
-    return FileUtils::getInstance()->getWritablePath() + "gameCache/";
+    return DirUtil::getCachesPath() + kGameCacheFolder;
 }
     
 std::string ConfigStorage::getDefaultHQ()
@@ -192,7 +195,7 @@ rapidjson::Document ConfigStorage::parseJsonConfigurationFile(const std::string&
 //-------------------------BACKEND CALLER CONFIGURATION--------------------
 std::string ConfigStorage::getServerHost()
 {
-#ifdef USINGCI
+#ifdef AZOOMEE_ENVIRONMENT_CI
     return "api.azoomee.ninja";
 #endif
     return "api.azoomee.com";
@@ -200,7 +203,7 @@ std::string ConfigStorage::getServerHost()
     
 std::string ConfigStorage::getServerUrlPrefix()
 {
-#ifdef USINGCI
+#ifdef AZOOMEE_ENVIRONMENT_CI
     return "http://";
 #endif
     return "https://";
@@ -213,7 +216,7 @@ std::string ConfigStorage::getServerUrl()
     
 std::string ConfigStorage::getCTAPackageJsonURL()
 {
-#ifdef USINGCI
+#ifdef AZOOMEE_ENVIRONMENT_CI
   #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     return "https://media.azoomee.ninja/static/popups/android/package.json";
   #elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -255,7 +258,7 @@ std::string ConfigStorage::getPathForTag(const std::string& httpRequestTag)
     
 std::string ConfigStorage::getRemoteWebGameAPIPath()
 {
-#ifdef USINGCI
+#ifdef AZOOMEE_ENVIRONMENT_CI
     return "https://media.azoomee.ninja/static/webgameapi/";
 #else
     return "https://media.azoomee.com/static/webgameapi/";

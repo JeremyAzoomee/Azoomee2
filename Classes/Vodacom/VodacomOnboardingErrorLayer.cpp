@@ -4,7 +4,7 @@
 //
 //  Created by Macauley on 11/10/2018.
 //
-#ifdef VODACOM_BUILD
+#ifdef AZOOMEE_VODACOM_BUILD
 #include "VodacomOnboardingErrorLayer.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>

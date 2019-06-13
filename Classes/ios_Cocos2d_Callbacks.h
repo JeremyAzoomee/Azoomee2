@@ -2,6 +2,8 @@
 #define Azoomee_ios_Cocos2d_Callbacks_h
 
 #include <AzoomeeCommon/Azoomee.h>
+#include <cocos/cocos2d.h>
+#include <Foundation/Foundation.h>
 
 NS_AZOOMEE_BEGIN
 

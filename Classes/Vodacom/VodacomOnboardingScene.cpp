@@ -4,7 +4,7 @@
 //
 //  Created by Macauley on 11/10/2018.
 //
-#ifdef VODACOM_BUILD
+#ifdef AZOOMEE_VODACOM_BUILD
 #include "VodacomOnboardingScene.h"
 #include "VodacomOnboardingAddChildLayer.h"
 #include "VodacomOnboardingRegisterLayer.h"

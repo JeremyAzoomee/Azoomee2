@@ -2,6 +2,7 @@
 #define __REQUEST_ADULT_PIN_LAYER_H__
 
 #include <cocos/cocos2d.h>
+#include <cocos/ui/CocosGUI.h>
 #include "../Azoomee.h"
 #include "../Input/TextInputLayer.h"
 #include "MessageBox.h"

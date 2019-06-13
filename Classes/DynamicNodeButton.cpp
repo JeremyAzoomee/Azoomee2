@@ -10,6 +10,7 @@
 #include "DynamicNodeButtonListener.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Utils/DirUtil.h>
 
 using namespace cocos2d;
 
@@ -89,7 +90,7 @@ bool DynamicNodeButton::initWithParams(const rapidjson::Value &params, const coc
 void DynamicNodeButton::addButtonWithParams(const cocos2d::Size& size, const cocos2d::Vec2& pos, const std::string& buttonText, ButtonActionDataRef buttonActionData, const std::string& btnSpriteStr, bool underlined, const cocos2d::Color4B& buttonColour, const cocos2d::Color4B& textColour)
 {
     ui::Button* button = ui::Button::create();
-    const std::string& btnSpriteFile = FileUtils::getInstance()->getWritablePath() + DynamicNodeCreator::kCTADeviceImageCacheLoc + btnSpriteStr;
+    const std::string& btnSpriteFile = DirUtil::getCachesPath() + DynamicNodeCreator::kCTADeviceImageCacheLoc + btnSpriteStr;
     if(btnSpriteStr == "" || !FileUtils::getInstance()->isFileExist(btnSpriteFile))
     {
         button->loadTextures(DynamicNodeCreator::kCTAAssetLoc + "rectangle_copy_3.png", DynamicNodeCreator::kCTAAssetLoc + "rectangle_copy_3.png");
