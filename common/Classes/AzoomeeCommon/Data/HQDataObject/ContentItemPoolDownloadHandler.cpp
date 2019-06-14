@@ -12,6 +12,7 @@
 #include "../../UI/ModalMessages.h"
 #include "../Child/ChildManager.h"
 #include "ContentItemManager.h"
+#include "../../Utils/DirUtil.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -25,7 +26,7 @@ ContentItemPoolDownloadHandler* ContentItemPoolDownloadHandler::getInstance()
     {
         sContentItemPoolDownloadHandlerSharedInstance.reset(new ContentItemPoolDownloadHandler());
     }
-    const std::string& cachePath = cocos2d::FileUtils::getInstance()->getWritablePath() + kCachePath;
+    const std::string& cachePath = DirUtil::getCachesPath() + kCachePath;
     if(!cocos2d::FileUtils::getInstance()->isDirectoryExist(cachePath))
     {
         cocos2d::FileUtils::getInstance()->createDirectory(cachePath);
@@ -55,7 +56,7 @@ void ContentItemPoolDownloadHandler::loadLocalData()
 {
     if(!ContentItemManager::getInstance()->isSameContentPool(getLocalEtag()))
     {
-        const std::string& localDataPath = cocos2d::FileUtils::getInstance()->getWritablePath() + kCachePath + "items.json";
+        const std::string& localDataPath = DirUtil::getCachesPath() + kCachePath + "items.json";
         const std::string& data = cocos2d::FileUtils::getInstance()->getStringFromFile(localDataPath);
         ContentItemManager::getInstance()->parseContentItemPool(data);
         ContentItemManager::getInstance()->setPoolEtag(getLocalEtag());
@@ -96,9 +97,9 @@ void ContentItemPoolDownloadHandler::onFileDownloadComplete(const std::string &f
     {
         setLocalEtag(_fileDownloader->getEtag());
         _fileDownloader = nullptr;
-        const std::string& dirPath = cocos2d::FileUtils::getInstance()->getWritablePath() + kCachePath;
-        const std::string& zipPath = dirPath + "/contentPool.zip";
-        cocos2d::FileUtils::getInstance()->writeStringToFile(fileString, zipPath);
+        const std::string& dirPath = DirUtil::getCachesPath() + kCachePath;
+        const std::string& zipPath = dirPath + "contentPool.zip";
+        bool success = cocos2d::FileUtils::getInstance()->writeStringToFile(fileString, zipPath);
         FileZipUtil::getInstance()->asyncUnzip(zipPath, dirPath, "", this);
     }
     else

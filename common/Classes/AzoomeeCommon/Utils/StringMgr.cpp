@@ -1,7 +1,7 @@
 #include "StringMgr.h"
 #include "../Analytics/AnalyticsSingleton.h"
 #include "StringFunctions.h"
-#include "DirectorySearcher.h"
+#include "DirUtil.h"
 #include "../Data/Json.h"
 #include <cocos/cocos2d.h>
 
@@ -42,7 +42,7 @@ const std::map<std::string, std::string> StringMgr::kDeviceLangConvMap = {
 };
 	
 const std::string StringMgr::kLanguagesDir = "languages/";
-#ifdef USINGCI
+#ifdef AZOOMEE_ENVIRONMENT_CI
 	const std::string StringMgr::kLangsZipUrl = "https://media.azoomee.ninja/static/popups/languages/languages.zip";
 #else
 	const std::string StringMgr::kLangsZipUrl = "https://media.azoomee.com/static/popups/languages/languages.zip";
@@ -74,7 +74,7 @@ bool StringMgr::init(void)
 	errorMessagesDocument.Parse(fileContent.c_str());
     //errorMessagesDocument = parseFile(languageID, "errormessages");
 	
-	const std::string& localDir = FileUtils::getInstance()->getWritablePath() + kLanguagesDir;
+	const std::string& localDir = DirUtil::getCachesPath() + kLanguagesDir;
 	if(!FileUtils::getInstance()->isDirectoryExist(localDir))
 	{
 		FileUtils::getInstance()->createDirectory(localDir);
@@ -165,7 +165,7 @@ void StringMgr::setLanguageIdentifier()
 
 Document StringMgr::parseFile(std::string languageID, std::string stringFile)
 {
-	const std::string& baseDir = _remoteDataInitialised ? FileUtils::getInstance()->getWritablePath() + kLanguagesDir : "res/languages/";
+	const std::string& baseDir = _remoteDataInitialised ? DirUtil::getCachesPath() + kLanguagesDir : "res/languages/";
 	const std::string& filename = baseDir + languageID + "/" + stringFile + ".json";
     
     const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(filename);
@@ -216,7 +216,7 @@ std::string StringMgr::getNestedStringFromJson(std::vector<std::string> jsonKeys
 
 std::string StringMgr::getLocalEtag() const
 {
-	const std::string& etagFilePath = FileUtils::getInstance()->getWritablePath() + kLanguagesDir + "etag.txt";
+	const std::string& etagFilePath = DirUtil::getCachesPath() + kLanguagesDir + "etag.txt";
 	if(cocos2d::FileUtils::getInstance()->isFileExist(etagFilePath))
 	{
 		return cocos2d::FileUtils::getInstance()->getStringFromFile(etagFilePath);
@@ -225,14 +225,14 @@ std::string StringMgr::getLocalEtag() const
 }
 void StringMgr::setLocalEtag(const std::string& etag)
 {
-	const std::string& etagFilePath = FileUtils::getInstance()->getWritablePath() + kLanguagesDir + "etag.txt";
+	const std::string& etagFilePath = DirUtil::getCachesPath() + kLanguagesDir + "etag.txt";
 	cocos2d::FileUtils::getInstance()->writeStringToFile(etag, etagFilePath);
 }
 
 void StringMgr::removeLocalLanguagesFiles()
 {
-	const std::string& baseLocation = FileUtils::getInstance()->getWritablePath() + kLanguagesDir;
-	const std::vector<std::string>& langsFolders = DirectorySearcher::getInstance()->getFoldersInDirectory(baseLocation);
+	const std::string& baseLocation = DirUtil::getCachesPath() + kLanguagesDir;
+	const std::vector<std::string>& langsFolders = DirUtil::getFoldersInDirectory(baseLocation);
 	for(const std::string& folder : langsFolders)
 	{
 		if(folder.size() > 2)
@@ -262,9 +262,9 @@ void StringMgr::onFileDownloadComplete(const std::string& fileString, const std:
 {
 	if(responseCode == 200)
 	{
-		const std::string& baseLocation = FileUtils::getInstance()->getWritablePath() + kLanguagesDir;
+		const std::string& baseLocation = DirUtil::getCachesPath() + kLanguagesDir;
 		const std::string& zipLoc = baseLocation + "langs.zip";
-		FileUtils::getInstance()->writeStringToFile(fileString, zipLoc);
+		bool success = FileUtils::getInstance()->writeStringToFile(fileString, zipLoc);
 		removeLocalLanguagesFiles();
 		FileZipUtil::getInstance()->asyncUnzip(zipLoc, baseLocation, "", this);
 		setLocalEtag(_langsZipDownloader->getEtag());
@@ -273,8 +273,8 @@ void StringMgr::onFileDownloadComplete(const std::string& fileString, const std:
 	}
 	else if(responseCode == 304)
 	{
-		const std::string& baseLocation = FileUtils::getInstance()->getWritablePath() + kLanguagesDir;
-		const std::vector<std::string>& langsFolders = DirectorySearcher::getInstance()->getFoldersInDirectory(baseLocation);
+		const std::string& baseLocation = DirUtil::getCachesPath() + kLanguagesDir;
+		const std::vector<std::string>& langsFolders = DirUtil::getFoldersInDirectory(baseLocation);
 		if(langsFolders.size() > 0)
 		{
 			_remoteDataInitialised = true;

@@ -4,7 +4,7 @@
 //
 //  Created by Macauley on 11/10/2018.
 //
-#ifdef VODACOM_BUILD
+#ifdef AZOOMEE_VODACOM_BUILD
 #include "VodacomOnboardingSuccessLayer.h"
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Data/Parent/ParentManager.h>

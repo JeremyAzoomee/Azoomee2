@@ -9,10 +9,10 @@
 #include <cocos/cocos2d.h>
 #include "../../API/API.h"
 #include "../../Utils/FileZipUtil.h"
+#include "../../Utils/DirUtil.h"
 #include "../Json.h"
 #include "../../UI/ModalMessages.h"
 #include "../Child/ChildManager.h"
-#include "../../Utils/DirectorySearcher.h"
 #include "../ConfigStorage.h"
 #include "../../Utils/StringFunctions.h"
 #include "HQDataObjectManager.h"
@@ -33,7 +33,7 @@ HQStructureDownloadHandler* HQStructureDownloadHandler::getInstance()
     {
         sHQStructureDownloadHandlerSharedInstance.reset(new HQStructureDownloadHandler());
     }
-    const std::string& cachePath = cocos2d::FileUtils::getInstance()->getWritablePath() + kCachePath;
+    const std::string& cachePath = DirUtil::getCachesPath() + kCachePath;
     if(!cocos2d::FileUtils::getInstance()->isDirectoryExist(cachePath))
     {
         cocos2d::FileUtils::getInstance()->createDirectory(cachePath);
@@ -63,11 +63,11 @@ void HQStructureDownloadHandler::loadLocalData()
 {
     if(!HQDataObjectManager::getInstance()->isSameHQData(getLocalEtag()))
     {
-        const std::string& localDataPath = cocos2d::FileUtils::getInstance()->getWritablePath() + kCachePath + _feedPath + "/";
+        const std::string& localDataPath = DirUtil::getCachesPath() + kCachePath + _feedPath + "/";
         const std::string& data = cocos2d::FileUtils::getInstance()->getStringFromFile(localDataPath + "entitlements.json");
 		ContentItemManager::getInstance()->parseEntitlementData(data);
         
-        const auto& feedsFolders = DirectorySearcher::getInstance()->getFoldersInDirectory(localDataPath);
+        const auto& feedsFolders = DirUtil::getFoldersInDirectory(localDataPath);
         for(const auto& folder : feedsFolders)
         {
             if(folder == "groups")
@@ -85,7 +85,7 @@ void HQStructureDownloadHandler::loadLocalData()
 
 void HQStructureDownloadHandler::loadGroupHQData(const std::string &groupIdPath)
 {
-    const std::string& dataPath = cocos2d::FileUtils::getInstance()->getWritablePath() + kCachePath + _feedPath + "/" + groupIdPath;
+    const std::string& dataPath = DirUtil::getCachesPath() + kCachePath + _feedPath + "/" + groupIdPath;
     if(FileUtils::getInstance()->isFileExist(dataPath))
     {
         const std::string& data = cocos2d::FileUtils::getInstance()->getStringFromFile(dataPath);
@@ -129,7 +129,7 @@ void HQStructureDownloadHandler::onFileDownloadComplete(const std::string &fileS
 {
     if(responseCode == 200)
     {
-        const std::string& dirPath = cocos2d::FileUtils::getInstance()->getWritablePath() + kCachePath + _feedPath;
+        const std::string& dirPath = DirUtil::getCachesPath() + kCachePath + _feedPath;
         if(FileUtils::getInstance()->isDirectoryExist(dirPath))
         {
             FileUtils::getInstance()->removeDirectory(dirPath);

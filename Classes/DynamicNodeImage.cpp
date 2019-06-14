@@ -10,6 +10,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include "HQDataProvider.h"
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
+#include <AzoomeeCommon/Utils/DirUtil.h>
 
 using namespace cocos2d;
 
@@ -176,9 +177,9 @@ bool DynamicNodeImage::imageExists(const std::string& filename)
     if(filename != "")
     {
         
-        if(FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->getWritablePath() + DynamicNodeCreator::kCTADeviceImageCacheLoc + filename))
+        if(FileUtils::getInstance()->isFileExist(DirUtil::getCachesPath() + DynamicNodeCreator::kCTADeviceImageCacheLoc + filename))
         {
-            _fullImagePath = FileUtils::getInstance()->getWritablePath() + DynamicNodeCreator::kCTADeviceImageCacheLoc + filename;
+            _fullImagePath = DirUtil::getCachesPath() + DynamicNodeCreator::kCTADeviceImageCacheLoc + filename;
             return true;
         }
         else

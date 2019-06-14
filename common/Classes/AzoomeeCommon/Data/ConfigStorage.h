@@ -5,7 +5,6 @@
 //#define FORCE_RELOAD YES;
 //#define FORGET_USER_DATA YES;
 //#define ALLOW_UNPAID_SIGNUP YES
-//#define USINGCI YES
 
 #include <cocos/cocos2d.h>
 #include "Json.h"
@@ -62,7 +61,9 @@ public:
     static const char* const kEstimatedKeyboardHeightLandscape;
     
     static const std::string kArtCacheFolder;
+    static const std::string kGameCacheFolder;
 	static const std::string kOomeeMakerCacheFolder;
+    static const std::string kContentCacheFolder;
     
     static const std::string kGameDownloadError;
 	

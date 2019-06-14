@@ -6,6 +6,7 @@
 //
 
 #include "ShopDataDownloadHandler.h"
+#include "../../Utils/DirUtil.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -21,7 +22,7 @@ ShopDataDownloadHandler* ShopDataDownloadHandler::getInstance()
 	{
 		sShopDataDownloadHandlerSharedInstance.reset(new ShopDataDownloadHandler());
 	}
-	const std::string& cachePath = cocos2d::FileUtils::getInstance()->getWritablePath() + kCachePath;
+	const std::string& cachePath = DirUtil::getCachesPath() + kCachePath;
 	if(!cocos2d::FileUtils::getInstance()->isDirectoryExist(cachePath))
 	{
 		cocos2d::FileUtils::getInstance()->createDirectory(cachePath);
@@ -71,7 +72,7 @@ void ShopDataDownloadHandler::loadLocalData()
 		_shop = Shop::createWithJson(shopJson);
 	}
 	*/
-	const std::string& filePath = cocos2d::FileUtils::getInstance()->getWritablePath() + kCachePath + "shop.json";
+	const std::string& filePath = DirUtil::getCachesPath() + kCachePath + "shop.json";
 	const std::string shopDataStr = cocos2d::FileUtils::getInstance()->getStringFromFile(filePath);
 	if(shopDataStr == "")
 	{
@@ -113,7 +114,7 @@ void ShopDataDownloadHandler::onFileDownloadComplete(const std::string& fileStri
 	{
 		setLocalEtag(_fileDownloader->getEtag());
 		_fileDownloader = nullptr;
-		const std::string& filePath = cocos2d::FileUtils::getInstance()->getWritablePath() + kCachePath + "shop.json";
+		const std::string& filePath = DirUtil::getCachesPath() + kCachePath + "shop.json";
 		cocos2d::FileUtils::getInstance()->writeStringToFile(fileString, filePath);
 	}
 	

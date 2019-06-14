@@ -4,7 +4,7 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Utils/DirectorySearcher.h>
+#include <AzoomeeCommon/Utils/DirUtil.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 
@@ -80,8 +80,8 @@ bool MessageComposer::init()
     _artListView->setSizeType(ui::Widget::SizeType::PERCENT);
     _artListView->setSizePercent(Vec2(1.0f, 0.99f));
     
-    const std::string& artDir = FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildManager::getInstance()->getParentOrChildId();
-    const auto& files = DirectorySearcher::getInstance()->getImagesInDirectory(artDir);
+    const std::string& artDir = DirUtil::getCachesPath() + ConfigStorage::kArtCacheFolder + ChildManager::getInstance()->getParentOrChildId();
+    const auto& files = DirUtil::getImagesInDirectory(artDir);
     std::vector<std::string> fullFiles;
     
     for(auto file : files)
@@ -465,9 +465,9 @@ void MessageComposer::sendArtMessage(const std::string &artFile)
             Director::getInstance()->getRenderer()->render();
             
             char* str = nullptr;
-            const std::string& filecont =  FileUtils::getInstance()->getStringFromFile(FileUtils::getInstance()->getWritablePath() + "temp.png");
+            const std::string& filecont =  FileUtils::getInstance()->getStringFromFile(DirUtil::getCachesPath() + "temp.png");
             base64Encode((unsigned char*)filecont.c_str(), (unsigned int)filecont.length(), &str);
-            FileUtils::getInstance()->removeFile(FileUtils::getInstance()->getWritablePath() + "temp.png");
+            FileUtils::getInstance()->removeFile(DirUtil::getCachesPath() + "temp.png");
             const MessageRef& messageObj = Message::createArtMessage(std::string(str));
             _delegate->onMessageComposerSendMessage(messageObj);
         }

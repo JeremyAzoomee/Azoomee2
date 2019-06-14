@@ -10,6 +10,7 @@
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include "HQDataProvider.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Utils/DirUtil.h>
 
 using namespace cocos2d;
 
@@ -85,7 +86,7 @@ std::vector<HQContentItemObjectRef> FavouritesManager::getFavouriteContent() con
 
 std::string FavouritesManager::getFavouritesFilePath() const
 {
-    const std::string& favouritesFolderLoc = FileUtils::getInstance()->getWritablePath() + kFavouritesFolderName;
+    const std::string& favouritesFolderLoc = DirUtil::getCachesPath() + kFavouritesFolderName;
     if(!FileUtils::getInstance()->isDirectoryExist(favouritesFolderLoc))
     {
         FileUtils::getInstance()->createDirectory(favouritesFolderLoc);

@@ -93,7 +93,6 @@ void TextInputLayer::createEditBox()
 	const Size& contentSize = this->getContentSize();
 	
     editBox = ui::EditBox::create(Size(contentSize.width - (2 * EDITBOX_CURVE_WIDTH),contentSize.height - 10), "res/login/editboxBlankFor9Scale.png");
-    editBox->moveOnKeyboardDisplayRequired = false;
 
     editBox->setColor(Color3B::WHITE);
     editBox->setPosition(Vec2(contentSize.width/2, contentSize.height/2));
@@ -127,7 +126,6 @@ void TextInputLayer::createSettingsBoxEditBox(float width)
     this->addChild(editBoxArea);
     
     editBox = ui::EditBox::create(Size(contentSize.width - 40,contentSize.height), "res/settings/rounded_rect.png");
-    editBox->moveOnKeyboardDisplayRequired = false;
     
     editBox->setColor(Color3B::WHITE);
     editBox->setPosition(Vec2(contentSize.width/2, contentSize.height/2));
@@ -161,7 +159,6 @@ void TextInputLayer::createSettingRoundedEditBox(float width)
     this->addChild(editBoxArea);
     
     editBox = ui::EditBox::create(Size(contentSize.width - (3 * EDITBOX_CURVE_WIDTH),contentSize.height), "res/settings/settings_rounded.png");
-    editBox->moveOnKeyboardDisplayRequired = false;
     
     editBox->setColor(Color3B::WHITE);
     editBox->setPosition(Vec2(contentSize.width/2, contentSize.height/2));
@@ -279,7 +276,6 @@ void TextInputLayer::createSettingsChatEditBox(float width)
     this->addChild(editBoxArea);
     
     editBox = ui::EditBox::create(Size(contentSize.width - 20,contentSize.height), "res/settings/rounded_rect.png");
-    editBox->moveOnKeyboardDisplayRequired = false;
     
     editBox->setColor(Color3B::WHITE);
     editBox->setPosition(Vec2(contentSize.width/2, contentSize.height/2));

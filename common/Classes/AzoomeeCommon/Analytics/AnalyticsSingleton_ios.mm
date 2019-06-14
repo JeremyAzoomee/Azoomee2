@@ -43,7 +43,7 @@ NSDictionary* mapToNSDictionary(const std::map<std::string, std::string>& map)
 
 void AnalyticsSingleton::mixPanelSendEventNative(const std::string& eventID,const std::map<std::string, std::string>& map)
 {
-#ifndef USINGCI
+#ifndef AZOOMEE_ENVIRONMENT_CI
 	 [[Mixpanel sharedInstance] track:[NSString stringWithUTF8String:eventID.c_str()]
 						  properties:mapToNSDictionary(map)];
 #endif
@@ -52,7 +52,7 @@ void AnalyticsSingleton::mixPanelSendEventNative(const std::string& eventID,cons
 
 void AnalyticsSingleton::mixPanelRegisterIdentity(const std::string& parentID, const std::map<std::string, std::string>& name)
 {
-#ifndef USINGCI
+#ifndef AZOOMEE_ENVIRONMENT_CI
 	[[Mixpanel sharedInstance] identify:[NSString stringWithUTF8String:parentID.c_str()]];
 	[[Mixpanel sharedInstance].people set:mapToNSDictionary(name)];
 #endif
@@ -60,7 +60,7 @@ void AnalyticsSingleton::mixPanelRegisterIdentity(const std::string& parentID, c
 	
 void AnalyticsSingleton::mixPanelRegisterAlias(const std::string &newId)
 {
-#ifndef USINGCI
+#ifndef AZOOMEE_ENVIRONMENT_CI
 	[[Mixpanel sharedInstance] createAlias:[NSString stringWithUTF8String:newId.c_str()] forDistinctID:[Mixpanel sharedInstance].distinctId];
 	[[Mixpanel sharedInstance] identify:[Mixpanel sharedInstance].distinctId];
 #endif
@@ -69,7 +69,7 @@ void AnalyticsSingleton::mixPanelRegisterAlias(const std::string &newId)
 	
 void AnalyticsSingleton::mixPanelUpdatePeopleProfileData(const std::map<std::string, std::string>& profileData)
 {
-#ifndef USINGCI
+#ifndef AZOOMEE_ENVIRONMENT_CI
 	[[Mixpanel sharedInstance].people set:mapToNSDictionary(profileData)];
 #endif
 	
@@ -79,14 +79,14 @@ void AnalyticsSingleton::mixPanelUpdatePeopleProfileData(const std::map<std::str
 
 void AnalyticsSingleton::appsFlyerSendEvent(const std::string& eventID, const std::map<std::string, std::string>& map)
 {
-#ifndef USINGCI
+#ifndef AZOOMEE_ENVIRONMENT_CI
     [[AppsFlyerTracker sharedTracker] trackEvent: [NSString stringWithUTF8String:eventID.c_str()] withValues:mapToNSDictionary(map)];
 #endif
 }
 
 void AnalyticsSingleton::appsFlyerSendEvent(const std::string& eventID)
 {
-#ifndef USINGCI
+#ifndef AZOOMEE_ENVIRONMENT_CI
 	[[AppsFlyerTracker sharedTracker] trackEvent: [NSString stringWithUTF8String:eventID.c_str()] withValues:NULL];
 #endif
 }
