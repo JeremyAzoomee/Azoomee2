@@ -13,14 +13,13 @@
 #include "HQSceneElement.h"
 #include "HQDataProvider.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include "HQDataParser.h"
 #include "PreviewLoginSignupMessageBox.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "RoutePaymentSingleton.h"
 #include "ManualGameInputLayer.h"
-#include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
 #include "DynamicNodeHandler.h"
 #include "ContentHistoryManager.h"
 #include "ContentOpener.h"

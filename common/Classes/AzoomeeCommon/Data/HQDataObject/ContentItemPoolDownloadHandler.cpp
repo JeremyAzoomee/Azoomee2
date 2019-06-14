@@ -1,31 +1,30 @@
 //
-//  ContentItemPoolHandler.cpp
+//  ContentItemPoolDownloadHandler.cpp
 //  AzoomeeCommon
 //
 //  Created by Macauley on 10/05/2018.
 //
 
-#include "ContentItemPoolHandler.h"
-#include "ContentItemPoolParser.h"
+#include "ContentItemPoolDownloadHandler.h"
 #include "../../API/API.h"
 #include <cocos/cocos2d.h>
 #include "../Json.h"
 #include "../../UI/ModalMessages.h"
 #include "../Child/ChildManager.h"
-#include "ContentItemPool.h"
+#include "ContentItemManager.h"
 #include "../../Utils/DirUtil.h"
 
 NS_AZOOMEE_BEGIN
 
-const std::string ContentItemPoolHandler::kCachePath = "contentCache/";
+const std::string ContentItemPoolDownloadHandler::kCachePath = "contentCache/";
 
-static std::auto_ptr<ContentItemPoolHandler> sContentItemPoolHandlerSharedInstance;
+static std::auto_ptr<ContentItemPoolDownloadHandler> sContentItemPoolDownloadHandlerSharedInstance;
 
-ContentItemPoolHandler* ContentItemPoolHandler::getInstance()
+ContentItemPoolDownloadHandler* ContentItemPoolDownloadHandler::getInstance()
 {
-    if(!sContentItemPoolHandlerSharedInstance.get())
+    if(!sContentItemPoolDownloadHandlerSharedInstance.get())
     {
-        sContentItemPoolHandlerSharedInstance.reset(new ContentItemPoolHandler());
+        sContentItemPoolDownloadHandlerSharedInstance.reset(new ContentItemPoolDownloadHandler());
     }
     const std::string& cachePath = DirUtil::getCachesPath() + kCachePath;
     if(!cocos2d::FileUtils::getInstance()->isDirectoryExist(cachePath))
@@ -33,15 +32,15 @@ ContentItemPoolHandler* ContentItemPoolHandler::getInstance()
         cocos2d::FileUtils::getInstance()->createDirectory(cachePath);
     }
     
-    return sContentItemPoolHandlerSharedInstance.get();
+    return sContentItemPoolDownloadHandlerSharedInstance.get();
 }
 
-ContentItemPoolHandler::~ContentItemPoolHandler(void)
+ContentItemPoolDownloadHandler::~ContentItemPoolDownloadHandler(void)
 {
     
 }
 
-void ContentItemPoolHandler::getLatestData(const OnCompleteCallback& callback)
+void ContentItemPoolDownloadHandler::getLatestData(const OnCompleteCallback& callback)
 {
 	if(callback)
 	{
@@ -53,25 +52,26 @@ void ContentItemPoolHandler::getLatestData(const OnCompleteCallback& callback)
     request->execute();
 }
 
-void ContentItemPoolHandler::loadLocalData()
+void ContentItemPoolDownloadHandler::loadLocalData()
 {
-    if(!ContentItemPool::getInstance()->isSameContentPool(getLocalEtag()))
+    if(!ContentItemManager::getInstance()->isSameContentPool(getLocalEtag()))
     {
         const std::string& localDataPath = DirUtil::getCachesPath() + kCachePath + "items.json";
         const std::string& data = cocos2d::FileUtils::getInstance()->getStringFromFile(localDataPath);
-        ContentItemPoolParser::getInstance()->parseContentItemPool(data);
-        ContentItemPool::getInstance()->setPoolEtag(getLocalEtag());
+        ContentItemManager::getInstance()->parseContentItemPool(data);
+        ContentItemManager::getInstance()->setPoolEtag(getLocalEtag());
     }
     ModalMessages::getInstance()->stopLoading();
 	sendCallback(true);
 }
 
-std::string ContentItemPoolHandler::getCachePath() const
+std::string ContentItemPoolDownloadHandler::getCachePath() const
 {
 	return kCachePath;
 }
+
 //delegate functions
-void ContentItemPoolHandler::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
+void ContentItemPoolDownloadHandler::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
     rapidjson::Document result;
     result.Parse(body.c_str());
@@ -86,12 +86,12 @@ void ContentItemPoolHandler::onHttpRequestSuccess(const std::string& requestTag,
 
 }
 
-void ContentItemPoolHandler::onHttpRequestFailed(const std::string& requestTag, long errorCode)
+void ContentItemPoolDownloadHandler::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
     loadLocalData();
 }
 
-void ContentItemPoolHandler::onFileDownloadComplete(const std::string &fileString, const std::string &tag, long responseCode)
+void ContentItemPoolDownloadHandler::onFileDownloadComplete(const std::string &fileString, const std::string &tag, long responseCode)
 {
     if(responseCode == 200)
     {
@@ -108,7 +108,7 @@ void ContentItemPoolHandler::onFileDownloadComplete(const std::string &fileStrin
     }
 }
 
-void ContentItemPoolHandler::onAsyncUnzipComplete(bool success, const std::string &zipPath, const std::string &dirpath)
+void ContentItemPoolDownloadHandler::onAsyncUnzipComplete(bool success, const std::string &zipPath, const std::string &dirpath)
 {
     cocos2d::FileUtils::getInstance()->removeFile(zipPath);
     if(success)

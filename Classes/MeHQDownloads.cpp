@@ -16,7 +16,7 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Utils/DirUtil.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Data/HQDataObject/ContentItemPool.h>
+#include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 
@@ -50,7 +50,7 @@ bool MeHQDownloads::init()
         {
             if(isStarterFileExists(json))
             {
-                auto item = ContentItemPool::getInstance()->getContentItemForId(json);
+                auto item = ContentItemManager::getInstance()->getContentItemForId(json);
                 if(item && item->isEntitled())
                 {
                     gameList.push_back(item);

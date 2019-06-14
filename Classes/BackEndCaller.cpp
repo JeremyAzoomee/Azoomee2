@@ -12,7 +12,6 @@
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
 #include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
 #include <AzoomeeCommon/ErrorCodes.h>
-#include "HQDataParser.h"
 #include "HQHistoryManager.h"
 #include "LoginLogicHandler.h"
 #include "ChildSelectorScene.h"
@@ -302,7 +301,6 @@ void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString
         LoginLogicHandler::getInstance()->doLoginLogic();
         return;
     }
-    HQDataParser::getInstance()->parseHQGetContentUrls(responseString);
     ParentManager::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headerString));
     DynamicNodeHandler::getInstance()->getCTAFiles();
 	getChildInventory();
@@ -331,10 +329,10 @@ void BackEndCaller::onGetGordonAnswerReceived(const std::string& responseString)
 {
     if(CookieManager::getInstance()->parseDownloadCookies(responseString))
     {
-		ContentItemPoolHandler::getInstance()->getLatestData([](bool success){ //on complete
+		ContentItemPoolDownloadHandler::getInstance()->getLatestData([](bool success){ //on complete
 			if(success)
 			{
-				HQStructureHandler::getInstance()->getLatestData([](bool success){ //on complete
+				HQStructureDownloadHandler::getInstance()->getLatestData([](bool success){ //on complete
 					if(success)
 					{
 						//TutorialController::getInstance()->startTutorial(TutorialController::kFTUNavTutorialID);
@@ -567,10 +565,6 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
         OfflineChecker::getInstance()->onOfflineCheckAnswerReceived();
         ipCheck();
     }
-    else if(requestTag == ConfigStorage::kGroupHQName)
-    {
-        HQDataParser::getInstance()->onGetContentAnswerReceived(body, requestTag);
-    }
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     else if(requestTag == API::TagVerifyApplePayment)
     {
@@ -591,16 +585,7 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
         return;
     else
     {
-        std::vector<std::string> hqNames = ConfigStorage::getInstance()->getHqNames();
-        hqNames.push_back(ConfigStorage::kGroupHQName);
-        for(const std::string& hqName : hqNames)
-        {
-            if(requestTag == hqName)
-            {
-                HQDataParser::getInstance()->onGetContentAnswerReceived(body, requestTag);
-                break;
-            }
-        }
+		
     }
 }
 

@@ -78,7 +78,7 @@ void NavigationLayer::changeToScene(const std::string& hqName, float duration)
 {
     //CHECK IF THE ENTITLEMENT FOR THAT SPECIFIC HQ IS ENABLED
     
-    const HQDataObjectRef &currentObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName);
+    const HQDataObjectRef &currentObject = HQDataObjectManager::getInstance()->getHQDataObjectForKey(hqName);
 	
 	if(!currentObject->getHqEntitlement())
     {

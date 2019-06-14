@@ -344,14 +344,14 @@ void AnalyticsSingleton::createChildBackPressed()
     
 void AnalyticsSingleton::contentItemSelectedEvent(const std::string& Type)
 {
-    HQContentItemObjectRef contentItem = HQContentItemObject::create();
+    MutableHQContentItemObjectRef contentItem = MutableHQContentItemObject::create();
     contentItem->setType(Type);
     contentItemSelectedEvent(contentItem, -1, -1, "");
 }
     
 void AnalyticsSingleton::contentItemSelectedEvent(const std::string& Type, const std::string& elementShape)
 {
-    HQContentItemObjectRef contentItem = HQContentItemObject::create();
+    MutableHQContentItemObjectRef contentItem = MutableHQContentItemObject::create();
     contentItem->setType(Type);
     contentItemSelectedEvent(contentItem, -1, -1, elementShape);
 }

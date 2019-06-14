@@ -226,7 +226,7 @@ void DeepLinkingSingleton::contentDetailsResponse(const std::string& responseBod
     
     if(contentData["entitled"].GetBool())
     {
-        HQContentItemObjectRef contentItem = HQContentItemObject::create();
+        MutableHQContentItemObjectRef contentItem = MutableHQContentItemObject::create();
         contentItem->setTitle(getStringFromJson("title", contentData));
         contentItem->setDescription(getStringFromJson("description", contentData));
         contentItem->setType(getStringFromJson("type", contentData));

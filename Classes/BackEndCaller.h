@@ -6,8 +6,8 @@
 #include <external/json/document.h>
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/API/HttpRequestCreator.h>
-#include <AzoomeeCommon/Data/HQDataObject/ContentItemPoolHandler.h>
-#include <AzoomeeCommon/Data/HQDataObject/HQStructureHandler.h>
+#include <AzoomeeCommon/Data/HQDataObject/ContentItemPoolDownloadHandler.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQStructureDownloadHandler.h>
 
 NS_AZOOMEE_BEGIN
 

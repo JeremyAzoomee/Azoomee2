@@ -26,7 +26,7 @@ VideoPlaylistManager::~VideoPlaylistManager(void)
 
 bool VideoPlaylistManager::init(void)
 {
-    _storedPlaylist = HQCarouselObject::create();
+    _storedPlaylist = MutableHQCarouselObject::create();
     return true;
 }
 
@@ -37,7 +37,7 @@ void VideoPlaylistManager::setPlaylist(const HQCarouselObjectRef &playlist)
 
 void VideoPlaylistManager::clearPlaylist()
 {
-    _storedPlaylist->removeAllItemsFromCarousel();
+    _storedPlaylist = MutableHQCarouselObject::create();
 }
 
 std::string VideoPlaylistManager::getPlaylist()
@@ -109,17 +109,12 @@ std::string VideoPlaylistManager::getPlaylistForIosNativePlayer()
 
 HQContentItemObjectRef VideoPlaylistManager::getContentItemDataForPlaylistElement(int elementNumber)
 {
-    HQContentItemObjectRef returnData = HQContentItemObject::create();
     if(elementNumber >= _storedPlaylist->getContentItems().size() || elementNumber < 0)
     {
-        return returnData;
+        return MutableHQContentItemObject::create();
     }
     
-    returnData = _storedPlaylist->getContentItems().at(elementNumber);
-    returnData->setElementNumber(elementNumber);
-    returnData->setImagePath("");
-    
-    return returnData;
+    return _storedPlaylist->getContentItems().at(elementNumber);
 }
 
 NS_AZOOMEE_END

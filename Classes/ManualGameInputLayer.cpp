@@ -126,7 +126,7 @@ void ManualGameInputLayer::buttonPressed(ElectricDreamsButton* button)
         {
             if(uriTextInput->getText().size() > 4)
             {
-				HQContentItemObjectRef contentItem = HQContentItemObject::create();
+				MutableHQContentItemObjectRef contentItem = MutableHQContentItemObject::create();
 				contentItem->setContentItemId(GameDataManager::kManualGameId);
 				ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
 				Director::getInstance()->replaceScene(SceneManagerScene::createWebview(visibleSize.width > visibleSize.height ? Landscape : Portrait, uriTextInput->getText()));
@@ -144,7 +144,7 @@ void ManualGameInputLayer::buttonPressed(ElectricDreamsButton* button)
             }
 
             FileUtils::getInstance()->createDirectory(manualGamePath);
-			HQContentItemObjectRef contentItem = HQContentItemObject::create();
+			MutableHQContentItemObjectRef contentItem = MutableHQContentItemObject::create();
 			contentItem->setContentItemId(GameDataManager::kManualGameId);
 			ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
 			

@@ -1,26 +1,26 @@
 //
-//  ShopDataHandler.cpp
+//  ShopDataDownloadHandler.cpp
 //  AzoomeeCommon
 //
 //  Created by Macauley on 12/03/2019.
 //
 
-#include "ShopDataHandler.h"
+#include "ShopDataDownloadHandler.h"
 #include "../../Utils/DirUtil.h"
 
 NS_AZOOMEE_BEGIN
 
 
 
-const std::string ShopDataHandler::kCachePath = "shopCache/";
+const std::string ShopDataDownloadHandler::kCachePath = "shopCache/";
 
-static std::auto_ptr<ShopDataHandler> sShopDataHandlerSharedInstance;
+static std::auto_ptr<ShopDataDownloadHandler> sShopDataDownloadHandlerSharedInstance;
 
-ShopDataHandler* ShopDataHandler::getInstance()
+ShopDataDownloadHandler* ShopDataDownloadHandler::getInstance()
 {
-	if(!sShopDataHandlerSharedInstance.get())
+	if(!sShopDataDownloadHandlerSharedInstance.get())
 	{
-		sShopDataHandlerSharedInstance.reset(new ShopDataHandler());
+		sShopDataDownloadHandlerSharedInstance.reset(new ShopDataDownloadHandler());
 	}
 	const std::string& cachePath = DirUtil::getCachesPath() + kCachePath;
 	if(!cocos2d::FileUtils::getInstance()->isDirectoryExist(cachePath))
@@ -28,24 +28,24 @@ ShopDataHandler* ShopDataHandler::getInstance()
 		cocos2d::FileUtils::getInstance()->createDirectory(cachePath);
 	}
 	
-	return sShopDataHandlerSharedInstance.get();
+	return sShopDataDownloadHandlerSharedInstance.get();
 }
 
-ShopDataHandler::~ShopDataHandler()
+ShopDataDownloadHandler::~ShopDataDownloadHandler()
 {
 	
 }
-ShopDataHandler::ShopDataHandler()
+ShopDataDownloadHandler::ShopDataDownloadHandler()
 {
 	
 }
 
-ShopRef ShopDataHandler::getShop()
+ShopRef ShopDataDownloadHandler::getShop()
 {
 	return _shop;
 }
 
-void ShopDataHandler::getLatestData(const OnCompleteCallback& callback)
+void ShopDataDownloadHandler::getLatestData(const OnCompleteCallback& callback)
 {
 	if(callback)
 	{
@@ -55,12 +55,12 @@ void ShopDataHandler::getLatestData(const OnCompleteCallback& callback)
 	request->execute();
 }
 
-std::string ShopDataHandler::getCachePath() const
+std::string ShopDataDownloadHandler::getCachePath() const
 {
 	return kCachePath;
 }
 
-void ShopDataHandler::loadLocalData()
+void ShopDataDownloadHandler::loadLocalData()
 {
 	/*
 	const std::string& shopString = cocos2d::FileUtils::getInstance()->getStringFromFile("res/shop/testShop.json");
@@ -91,7 +91,7 @@ void ShopDataHandler::loadLocalData()
 }
 
 // delegate functions
-void ShopDataHandler::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
+void ShopDataDownloadHandler::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
 	rapidjson::Document result;
 	result.Parse(body.c_str());
@@ -104,11 +104,11 @@ void ShopDataHandler::onHttpRequestSuccess(const std::string& requestTag, const 
 	
 	downloadFile(url);
 }
-void ShopDataHandler::onHttpRequestFailed(const std::string& requestTag, long errorCode)
+void ShopDataDownloadHandler::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
 	loadLocalData();
 }
-void ShopDataHandler::onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode)
+void ShopDataDownloadHandler::onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode)
 {
 	if(responseCode == 200)
 	{

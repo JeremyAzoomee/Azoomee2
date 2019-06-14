@@ -144,11 +144,11 @@ void ContentOpener::doCarouselContentOpenLogic(const HQContentItemObjectRef& con
 	{
 		if(hqCategory == ConfigStorage::kGroupHQName)
 		{
-			VideoPlaylistManager::getInstance()->setPlaylist(HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqCategory)->getHqCarousels().at(rowIndex));
+			VideoPlaylistManager::getInstance()->setPlaylist(HQDataObjectManager::getInstance()->getHQDataObjectForKey(hqCategory)->getHqCarousels().at(rowIndex));
 		}
 		else
 		{
-			HQCarouselObjectRef carousel = HQCarouselObject::create();
+			MutableHQCarouselObjectRef carousel = MutableHQCarouselObject::create();
 			carousel->addContentItemToCarousel(contentItem);
 			VideoPlaylistManager::getInstance()->setPlaylist(carousel);
 		}
