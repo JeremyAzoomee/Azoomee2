@@ -38,14 +38,7 @@ void ContentItemManager::emptyContentItemPool()
 
 bool ContentItemManager::contentExistsForKey(const std::string &contentId) const
 {
-    if(_contentItems.find(contentId) != _contentItems.end())
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+	return _contentItems.find(contentId) != _contentItems.end();
 }
 
 std::vector<HQContentItemObjectRef> ContentItemManager::getContentItems() const
@@ -72,7 +65,7 @@ HQContentItemObjectRef ContentItemManager::getContentItemForId(const std::string
     }
 }
 
-bool ContentItemManager::isSameContentPool(const std::string &etag)
+bool ContentItemManager::isSameContentPool(const std::string &etag) const
 {
     return _currentPoolEtag == etag;
 }

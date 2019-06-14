@@ -24,7 +24,7 @@ public:
     void backupContentItemPool();
     void restoreContentItemPool();
     
-    bool isSameContentPool(const std::string& etag);
+    bool isSameContentPool(const std::string& etag) const;
     void setPoolEtag(const std::string& etag);
 	
 	void parseContentItemPool(const std::string& ContentItemManagerString);
