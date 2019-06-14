@@ -25,7 +25,7 @@ NotificationNodeDisplayManager* NotificationNodeDisplayManager::getInstance()
 }
 NotificationNodeDisplayManager::~NotificationNodeDisplayManager()
 {
-	Director::getInstance()->setNotificationNode(nullptr);
+	//Director::getInstance()->setNotificationNode(nullptr); dont clear node as application will be closing when this is called.
 }
 NotificationNodeDisplayManager::NotificationNodeDisplayManager()
 {
