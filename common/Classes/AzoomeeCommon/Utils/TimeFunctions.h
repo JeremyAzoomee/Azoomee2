@@ -11,6 +11,7 @@
 #include "../Azoomee.h"
 #include <cocos/cocos2d.h>
 #include <time.h>
+#include <chrono>
 
 NS_AZOOMEE_BEGIN
 
@@ -21,6 +22,7 @@ long getEpochTimeForTodayWithoutYear();
 long getEpochTimeForDateWithoutYear(int month, int day);
 std::string getTimeStringForFileName();
 std::string getMillisecondTimestampString();
+std::chrono::milliseconds getCurrentTimeMillis();
 
 NS_AZOOMEE_END
 

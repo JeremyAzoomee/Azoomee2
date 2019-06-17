@@ -42,6 +42,7 @@ const char* const API::TagResetReportedChat = "chat.resetReported";
 const char* const API::TagGetTimelineSummary = "chat.getTimelineSummary";
 const char* const API::TagGetForceUpdateInformation = "forceUpdate";
 const char* const API::TagCookieRefresh = "cookieRefresh";
+const char* const API::TagChildCookieRefresh = "childCookieRefresh";
 const char* const API::TagGetContentPoolRequest = "getContentPool";
 const char* const API::TagGetHqStructureDataRequest = "getHQStructureData";
 const char* const API::TagUpdateChildAvatar = "updateChildAvatar";
@@ -283,6 +284,18 @@ HttpRequestCreator* API::RefreshParentCookiesRequest(Azoomee::HttpRequestCreator
 		HandleAPIResponse(sender, response, delegate, request);
 	});
     return request;
+}
+
+HttpRequestCreator* API::RefreshChildCookiesRequest(Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+{
+	HttpRequestCreator* request = new HttpRequestCreator(delegate);
+	request->requestTag = TagChildCookieRefresh;
+	request->requestPath = "/api/cookie/refresh/child";
+	request->encrypted = true;
+	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
+		HandleAPIResponse(sender, response, delegate, request);
+	});
+	return request;
 }
 
 HttpRequestCreator* API::RegisterParentRequest(const std::string& parentId,

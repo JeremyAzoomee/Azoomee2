@@ -91,10 +91,16 @@ std::string getTimeStringForFileName()
 
 std::string getMillisecondTimestampString()
 {
-    auto millis = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+    auto millis = getCurrentTimeMillis().count();
     std::stringstream ss;
     ss << millis;
     return ss.str();
 }
+
+std::chrono::milliseconds getCurrentTimeMillis()
+{
+    return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
+}
+
 
 NS_AZOOMEE_END

@@ -11,6 +11,7 @@
 #include "../../Azoomee.h"
 #include <string>
 #include <memory>
+#include <chrono>
 #include "../Json.h"
 #include "../Rewards/Inventory.h"
 
@@ -34,6 +35,7 @@ protected:
 	std::string _cdnSessionId;
 	std::string _apiSecret;
 	std::string _apiKey;
+	std::chrono::milliseconds _sessionExpiryTimestamp;
 	
 	InventoryRef _inventory = nullptr;
 	
@@ -50,6 +52,7 @@ public:
 	std::string getCDNSessionId() const;
 	std::string getAPISecret() const;
 	std::string getAPIKey() const;
+	bool isSessionExpired() const;
 	
 	InventoryRef getInventory() const;
 	
@@ -70,6 +73,8 @@ public:
 	void setId(const std::string& childId);
 	void setDOB(const std::string& dob);
 	void setProfileName(const std::string& name);
+	
+	void setCDNSessionId(const std::string& sessionId, std::chrono::milliseconds sessionDurationMillis);
 	
 };
 

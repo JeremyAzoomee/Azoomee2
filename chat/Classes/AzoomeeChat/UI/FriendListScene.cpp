@@ -86,11 +86,19 @@ void FriendListScene::onEnter()
     
     // Register for API events
     ChatAPI::getInstance()->registerObserver(this);
-    
-    // Up the schedule speed of friend list polling
-    ChatAPI::getInstance()->requestFriendList();
-    ChatAPI::getInstance()->scheduleFriendListPoll( ChatAPI::kScheduleRateHigh );
-    ModalMessages::getInstance()->startLoading();
+	
+	if(ChildManager::getInstance()->isChildLoggedIn() && ChildManager::getInstance()->getLoggedInChild()->isSessionExpired())
+	{
+		ModalMessages::getInstance()->startLoading();
+		ChatAPI::getInstance()->refreshChildSession();
+	}
+	else
+	{
+    	// Up the schedule speed of friend list polling
+    	ChatAPI::getInstance()->requestFriendList();
+    	ChatAPI::getInstance()->scheduleFriendListPoll( ChatAPI::kScheduleRateHigh );
+    	ModalMessages::getInstance()->startLoading();
+	}
 }
 
 void FriendListScene::onExit()
@@ -284,5 +292,10 @@ void FriendListScene::onChatAPIModerationStatusChanged(const FriendRef& friendOb
     _friendListView->setItems(_friendListData);
 }
 
+void FriendListScene::onChatAPIRefreshChildSession()
+{
+	ChatAPI::getInstance()->requestFriendList();
+	ChatAPI::getInstance()->scheduleFriendListPoll( ChatAPI::kScheduleRateHigh );
+}
 
 NS_AZOOMEE_CHAT_END

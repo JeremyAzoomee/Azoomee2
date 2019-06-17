@@ -6,6 +6,7 @@
 //
 
 #include "Child.h"
+#include "../../Utils/TimeFunctions.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -57,6 +58,11 @@ InventoryRef Child::getInventory() const
 	return _inventory;
 }
 
+bool Child::isSessionExpired() const
+{
+	return _sessionExpiryTimestamp < std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
+}
+
 MutableChildRef MutableChild::create()
 {
 	return MutableChildRef(new MutableChild());
@@ -83,6 +89,7 @@ void MutableChild::parseLoginData(const rapidjson::Document& loginData)
 	_cdnSessionId = getStringFromJson("cdn-sessionid", loginData);
 	_apiSecret = getStringFromJson("apiSecret", loginData);
 	_apiKey = getStringFromJson("apiKey", loginData);
+	_sessionExpiryTimestamp = getCurrentTimeMillis() + std::chrono::milliseconds(getIntFromJson("cdn-expiry", loginData));
 }
 
 void MutableChild::parseChildData(const rapidjson::Value& childData)
@@ -116,6 +123,12 @@ void MutableChild::setDOB(const std::string& dob)
 void MutableChild::setProfileName(const std::string& name)
 {
 	_profileName = name;
+}
+
+void MutableChild::setCDNSessionId(const std::string &sessionId, std::chrono::milliseconds sessionDurationMillis)
+{
+	_cdnSessionId = sessionId;
+	_sessionExpiryTimestamp = getCurrentTimeMillis() + std::chrono::milliseconds(sessionDurationMillis);
 }
 
 NS_AZOOMEE_END

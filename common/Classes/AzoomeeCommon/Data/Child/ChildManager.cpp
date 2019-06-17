@@ -156,6 +156,16 @@ void ChildManager::parseAvatarUpdate(const std::string& avatarData)
 	}
 }
 
+void ChildManager::parseChildSessionUpdate(const std::string &sessionData)
+{
+	rapidjson::Document json;
+	json.Parse(sessionData.c_str());
+	if(!json.HasParseError() && _loggedInChild)
+	{
+		_loggedInChild->setCDNSessionId(getStringFromJson("sessionId", json), std::chrono::milliseconds(getIntFromJson("expiry", json)));
+	}
+}
+
 void ChildManager::loginChildOffline(const std::string &childId)
 {
 	_childLoggedIn = true;
