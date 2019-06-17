@@ -162,7 +162,7 @@ void ChildManager::parseChildSessionUpdate(const std::string &sessionData)
 	json.Parse(sessionData.c_str());
 	if(!json.HasParseError() && _loggedInChild)
 	{
-		_loggedInChild->setCDNSessionId(getStringFromJson("sessionId", json), getIntFromJson("expiry", json));
+		_loggedInChild->setCDNSessionId(getStringFromJson("sessionId", json), std::chrono::milliseconds(getIntFromJson("expiry", json)));
 	}
 }
 

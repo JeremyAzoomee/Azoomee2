@@ -74,7 +74,7 @@ public:
 	void setDOB(const std::string& dob);
 	void setProfileName(const std::string& name);
 	
-	void setCDNSessionId(const std::string& sessionId, int sessionDurationMillis);
+	void setCDNSessionId(const std::string& sessionId, std::chrono::milliseconds sessionDurationMillis);
 	
 };
 
