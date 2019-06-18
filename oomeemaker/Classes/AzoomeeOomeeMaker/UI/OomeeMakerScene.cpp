@@ -17,6 +17,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 
 using namespace cocos2d;
 
@@ -121,12 +122,24 @@ void OomeeMakerScene::onEnter()
     _oomee->setEditable(true);
     if(FileUtils::getInstance()->isFileExist(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".oomee"))
     {
-        rapidjson::Document data;
-        data.Parse(FileUtils::getInstance()->getStringFromFile(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".oomee").c_str());
-        if(!_oomee->initWithOomeeFigureData(data))
-        {
-            _oomee->setOomeeData(oomeeData);
-        }
+        rapidjson::Document jsonData;
+        jsonData.Parse(FileUtils::getInstance()->getStringFromFile(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".oomee").c_str());
+		if(jsonData.HasParseError())
+		{
+			_oomee->setOomeeData(oomeeData);
+		}
+		else
+		{
+			OomeeFigureDataRef data = OomeeFigureData::createWithData(jsonData);
+			if(!_oomee->initWithOomeeFigureData(data))
+			{
+				_oomee->setOomeeData(oomeeData);
+			}
+		}
+        //if(!_oomee->initWithOomeeFigureData(data))
+        //{
+        //    _oomee->setOomeeData(oomeeData);
+        //}
     }
     _contentLayer->addChild(_oomee);
     
@@ -378,7 +391,7 @@ void OomeeMakerScene::saveAndExit()
 
 void OomeeMakerScene::saveOomeeFiles()
 {
-    std::string savedFileContent = "{";
+    /*std::string savedFileContent = "{";
     savedFileContent += StringUtils::format("\"oomee\":\"%s\",", _oomee->getOomeeData()->getId().c_str());
     savedFileContent += "\"oomeeItems\":[";
     const std::vector<std::string>& accIds = _oomee->getAccessoryIds();
@@ -396,11 +409,19 @@ void OomeeMakerScene::saveOomeeFiles()
     
     _oomee->saveSnapshotImage(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".png");
     AnalyticsSingleton::getInstance()->saveOomee(savedFileContent);
+	*/
+	OomeeMakerDataHandler::getInstance()->saveOomee(_oomee->getFigureData(), false, ChildManager::getInstance()->getLoggedInChild()->getId());
 }
 
 void OomeeMakerScene::makeAvatar()
 {
-    ModalMessages::getInstance()->startSaving();
+	OomeeMakerDataHandler::getInstance()->saveOomee(_oomee->getFigureData(), true, ChildManager::getInstance()->getLoggedInChild()->getId(), [this](bool success){
+		if(delegate && success)
+		{
+			delegate->onOomeeMakerUpdateAvatar(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".png");
+		}
+	});
+    /*ModalMessages::getInstance()->startSaving();
     CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Make_Avatar_Button.mp3");
     const std::string scheduleKey = "saveAndExit";
     Director::getInstance()->getScheduler()->schedule([&](float dt){
@@ -411,7 +432,7 @@ void OomeeMakerScene::makeAvatar()
             delegate->onOomeeMakerUpdateAvatar(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".png");
         }
     }, this, 0.5, 0, 0, false, scheduleKey);
-    
+    */
 }
 
 void OomeeMakerScene::resetOomee()

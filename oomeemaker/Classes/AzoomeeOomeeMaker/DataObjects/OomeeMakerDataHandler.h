@@ -10,6 +10,7 @@
 
 #include "../AzoomeeOomeeMaker.h"
 #include "OomeeMakerDataStorage.h"
+#include "OomeeFigureData.h"
 #include <AzoomeeCommon/Utils/FileDownloader.h>
 #include <AzoomeeCommon/Utils/FileZipUtil.h>
 #include <AzoomeeCommon/Data/DataDownloadHandler.h>
@@ -35,6 +36,8 @@ private:
     void parseOomeeItemData();
 	
 	void updateExistingOomeeFilesToNewIds();
+	
+	void writeOomeeFiles(const rapidjson::Value& data);
     
 public:
     static OomeeMakerDataHandler* getInstance();
@@ -44,6 +47,11 @@ public:
     void getConfigFilesIfNeeded();
 	
 	void getLatestData(const OnCompleteCallback& callback = nullptr) override;
+	
+	void getOomeesForChild(const std::string& childId, const OnCompleteCallback& callback = nullptr);
+	void getAllOomees(const OnCompleteCallback& callback = nullptr);
+	
+	void saveOomee(const OomeeFigureDataRef& oomee, bool setAsAvatar, const std::string& childId, const OnCompleteCallback& callback = nullptr);
 	
     std::string getFullSaveDir() const;
     std::string getLocalSaveDir() const;

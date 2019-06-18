@@ -10,6 +10,7 @@
 #include "../DataObjects/OomeeMakerDataStorage.h"
 #include "../DataObjects/OomeeMakerDataHandler.h"
 #include <AzoomeeCommon/Utils/SpriteUtils.h>
+#include <AzoomeeCommon/Utils/DirUtil.h>
 
 using namespace cocos2d;
 
@@ -101,16 +102,18 @@ void OomeeFigure::onEnter()
     Super::onEnter();
 }
 
-bool OomeeFigure::initWithOomeeFigureData(const rapidjson::Document &data)
+bool OomeeFigure::initWithOomeeFigureData(/*const rapidjson::Document &*/ const OomeeFigureDataRef& data)
 {
-    if(data.HasParseError())
-    {
-        return false;
-    }
+    //if(data.HasParseError())
+    //{
+    //    return false;
+    //}
     
-    const std::string& oomeeKey = getStringFromJson("oomee", data);
-    
-    const OomeeRef& oomee = OomeeMakerDataStorage::getInstance()->getOomeeForKey(oomeeKey);
+    //const std::string& oomeeKey = getStringFromJson("oomee", data);
+	
+	_figureId = data->getId();
+	
+    const OomeeRef& oomee = OomeeMakerDataStorage::getInstance()->getOomeeForKey(data->getOomeeId());
     if(oomee)
     {
         setOomeeData(oomee);
@@ -120,18 +123,18 @@ bool OomeeFigure::initWithOomeeFigureData(const rapidjson::Document &data)
         return false;
     }
     
-    if(data.HasMember("oomeeItems"))
-    {
-        const std::vector<std::string>& itemKeys = getStringArrayFromJson(data["oomeeItems"]);
-        for(const std::string& key : itemKeys)
-        {
-            const OomeeItemRef& item = OomeeMakerDataStorage::getInstance()->getOomeeItemForKey(key);
-            if(item)
-            {
-                addAccessory(item);
-            }
-        }
-    }
+    //if(data.HasMember("oomeeItems"))
+    //{
+	const std::vector<std::string>& itemKeys = data->getAccessoryIds();//getStringArrayFromJson(data["oomeeItems"]);
+	for(const std::string& key : itemKeys)
+	{
+		const OomeeItemRef& item = OomeeMakerDataStorage::getInstance()->getOomeeItemForKey(key);
+		if(item)
+		{
+			addAccessory(item);
+		}
+	}
+    //}
     _undoStack.clear();
     _undoStack.push_back(getDataSnapshot());
     
@@ -198,6 +201,15 @@ std::vector<std::string> OomeeFigure::getAccessoryIds() const
         ids.push_back(accessory.second->getItemId());
     }
     return ids;
+}
+
+OomeeFigureDataRef OomeeFigure::getFigureData() const
+{
+	OomeeFigureDataRef data = OomeeFigureData::create();
+	data->setId(_figureId);
+	data->setOomeeId(_oomeeData->getId());
+	data->setAccessoryIds(getAccessoryIds());
+	return data;
 }
 
 void OomeeFigure::addAccessory(const OomeeItemRef& oomeeItem)
@@ -304,7 +316,7 @@ void OomeeFigure::saveSnapshotImage(const std::string &filepath)
     renderTex->beginWithClear(0, 0, 0, 0);
     _baseSprite->visit();
     renderTex->end();
-    renderTex->saveToFile(filepath, Image::Format::PNG);
+    renderTex->saveToFile(DirUtil::getCachesPath() + filepath, Image::Format::PNG);
     Director::getInstance()->getRenderer()->render();
     
     _baseSprite->setPosition(prevPos);

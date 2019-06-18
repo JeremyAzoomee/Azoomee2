@@ -70,6 +70,10 @@ public:
 	static const char* const TagBuyReward;
 	static const char* const TagGetShopFeed;
 	static const char* const TagGetOomeeMakerAssets;
+	static const char* const TagSaveNewOomee;
+	static const char* const TagGetChildOomees;
+	static const char* const TagUpdateChildOomee;
+	static const char* const TagGetAllOomees;
 	
 	static const std::string kAZCountryCodeKey;
 	
@@ -214,8 +218,31 @@ public:
 	static HttpRequestCreator* UpdateContentProgressMeta(const std::string& childId,
 														 const std::string& metaBody,
 														 HttpRequestCreatorResponseDelegate* delegate);
+
+#pragma mark - Oomee Maker
 	
 	static HttpRequestCreator* GetOomeeMakerAssets(const std::string& childId,
+												   HttpRequestCreatorResponseDelegate* delegate);
+
+	static HttpRequestCreator* SaveNewOomee(const std::string& childId,
+											const std::string& adultId,
+											const std::string& oomeeBodyId,
+											const std::vector<std::string>& accessoryIds,
+											bool selected,
+											HttpRequestCreatorResponseDelegate* delegate);
+
+	static HttpRequestCreator* GetChildOomees(const std::string& childId,
+											  HttpRequestCreatorResponseDelegate* delegate);
+
+	static HttpRequestCreator* UpdateChildOomee(const std::string& childId,
+												const std::string& oomeeId,
+												const std::string& adultId,
+												const std::string& oomeeBodyId,
+												const std::vector<std::string>& accessoryIds,
+												bool selected,
+												HttpRequestCreatorResponseDelegate* delegate);
+
+	static HttpRequestCreator* GetAllOomees(const std::string& adultId,
 												   HttpRequestCreatorResponseDelegate* delegate);
 	
 #pragma mark - Friend Requests

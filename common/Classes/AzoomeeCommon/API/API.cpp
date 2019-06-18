@@ -61,6 +61,10 @@ const char* const API::TagGetInventory = "getInventory";
 const char* const API::TagBuyReward = "buyReward";
 const char* const API::TagGetShopFeed = "getShopFeed";
 const char* const API::TagGetOomeeMakerAssets = "getOomeeMakerAssets";
+const char* const API::TagSaveNewOomee = "saveNewOomee";
+const char* const API::TagGetChildOomees = "getChildOomees";
+const char* const API::TagUpdateChildOomee = "updateChildOomee";
+const char* const API::TagGetAllOomees = "getAllOomees";
 
 const std::string API::kAZCountryCodeKey = "X-AZ-COUNTRYCODE";
 
@@ -640,6 +644,8 @@ HttpRequestCreator* API::UpdateContentProgressMeta(const std::string& childId,
 	return request;
 }
 
+#pragma  mark - Oomee Maker
+
 HttpRequestCreator* API::GetOomeeMakerAssets(const std::string& childId,
 										HttpRequestCreatorResponseDelegate* delegate)
 {
@@ -652,6 +658,77 @@ HttpRequestCreator* API::GetOomeeMakerAssets(const std::string& childId,
 	});
 	return request;
 }
+
+HttpRequestCreator* API::SaveNewOomee(const std::string& childId,
+											const std::string& adultId,
+											const std::string& oomeeBodyId,
+											const std::vector<std::string>& accessoryIds,
+											bool selected,
+											HttpRequestCreatorResponseDelegate* delegate)
+{
+	const std::string& accs = joinStrings(accessoryIds, "\",\"");
+	HttpRequestCreator* request = new HttpRequestCreator(delegate);
+	request->requestPath = StringUtils::format("/api/oomeemaker/child/%s/oomees",childId.c_str());
+	request->requestTag = TagSaveNewOomee;
+	request->requestBody = "{\"childId\":\"" + childId + "\",\"adultId\":\"" + adultId + "\",\"oomeeId\":\"" + oomeeBodyId + "\",\"selected\":" + (selected ? "true" : "false") + ",\"oomeeItems\":[\"" + accs + "\"]}";
+	request->encrypted = true;
+	request->method = "POST";
+	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
+		HandleAPIResponse(sender, response, delegate, request);
+	});
+	return request;
+}
+
+
+HttpRequestCreator* API::GetChildOomees(const std::string& childId,
+											  HttpRequestCreatorResponseDelegate* delegate)
+{
+	HttpRequestCreator* request = new HttpRequestCreator(delegate);
+	request->requestPath = StringUtils::format("/api/oomeemaker/child/%s/oomees",childId.c_str());
+	request->requestTag = TagGetChildOomees;
+	request->encrypted = true;
+	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
+		HandleAPIResponse(sender, response, delegate, request);
+	});
+	return request;
+}
+
+
+HttpRequestCreator* API::UpdateChildOomee(const std::string& childId,
+												const std::string& oomeeId,
+												const std::string& adultId,
+												const std::string& oomeeBodyId,
+												const std::vector<std::string>& accessoryIds,
+												bool selected,
+												HttpRequestCreatorResponseDelegate* delegate)
+{
+	const std::string& accs = joinStrings(accessoryIds, "\",\"");
+	HttpRequestCreator* request = new HttpRequestCreator(delegate);
+	request->requestPath = StringUtils::format("/api/oomeemaker/child/%s/oomees/%s",childId.c_str(), oomeeId.c_str());
+	request->requestTag = TagUpdateChildOomee;
+	request->requestBody = "{\"childId\":\"" + childId + "\",\"adultId\":\"" + adultId + "\",\"oomeeId\":\"" + oomeeBodyId + "\",\"selected\":" + (selected ? "true" : "false") + ",\"oomeeItems\":[\"" + accs + "\"]}";
+	request->encrypted = true;
+	request->method = "PATCH";
+	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
+		HandleAPIResponse(sender, response, delegate, request);
+	});
+	return request;
+}
+
+
+HttpRequestCreator* API::GetAllOomees(const std::string& adultId,
+											HttpRequestCreatorResponseDelegate* delegate)
+{
+	HttpRequestCreator* request = new HttpRequestCreator(delegate);
+	request->requestPath = StringUtils::format("/api/oomeemaker/adult/%s/oomees",adultId.c_str());
+	request->requestTag = TagGetAllOomees;
+	request->encrypted = true;
+	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
+		HandleAPIResponse(sender, response, delegate, request);
+	});
+	return request;
+}
+
 
 #pragma mark - Sharing
 

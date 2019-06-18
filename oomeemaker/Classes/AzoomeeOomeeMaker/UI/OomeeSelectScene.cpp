@@ -15,6 +15,7 @@
 #include <AzoomeeCommon/Utils/TimeFunctions.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 
 using namespace cocos2d;
 
@@ -53,7 +54,7 @@ bool OomeeSelectScene::init()
     _oomeeCarousel->setButtonDelegate(this);
     _oomeeCarousel->setContentSize(_contentLayer->getContentSize());
     _oomeeCarousel->setPosition(_contentLayer->getContentSize() / 2);
-    setCarouselData();
+    //setCarouselData();
     _contentLayer->addChild(_oomeeCarousel);
     
     _exitButton = ui::Button::create();
@@ -118,22 +119,26 @@ void OomeeSelectScene::onEnter()
 	{
 		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
 	}
+	
 	OomeeMakerDataHandler::getInstance()->getLatestData([this](bool success){
-		if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kConfirmOomee)
-		{
-			OomeeSelectScene::newOomee();
-		}
-		else if(delegate->_newAccessoryId != "")
-		{
-			if(_oomeeCarousel->getOomeeData().size() > 0)
-			{
-				editOomee(_oomeeCarousel->getOomeeData().at(0));
-			}
-			else
+		OomeeMakerDataHandler::getInstance()->getOomeesForChild(ChildManager::getInstance()->getLoggedInChild()->getId(), [this](bool success){
+			this->setCarouselData();
+			if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kConfirmOomee)
 			{
 				OomeeSelectScene::newOomee();
 			}
-		}
+			else if(delegate->_newAccessoryId != "")
+			{
+				if(_oomeeCarousel->getOomeeData().size() > 0)
+				{
+					editOomee(_oomeeCarousel->getOomeeData().at(0));
+				}
+				else
+				{
+					OomeeSelectScene::newOomee();
+				}
+			}
+		});
 	});
 	Super::onEnter();
 }

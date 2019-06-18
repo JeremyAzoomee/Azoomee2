@@ -12,6 +12,7 @@
 #include "../DataObjects/Oomee.h"
 #include "../DataObjects/OomeeItem.h"
 #include "../DataObjects/OomeeColour.h"
+#include "../DataObjects/OomeeFigureData.h"
 #include "OomeeBody.h"
 #include "OomeeAccessory.h"
 #include <AzoomeeCommon/UI/CCSpriteWithHue.h>
@@ -32,7 +33,9 @@ class OomeeFigure : public cocos2d::Node
 {
     typedef cocos2d::Node Super;
 private:
-    
+	
+	std::string _figureId = "";
+	
     bool _isEditable = true;
     OomeeRef _oomeeData = nullptr;
     //OomeeColourRef _colour = nullptr;
@@ -54,13 +57,15 @@ public:
     virtual bool init() override;
     virtual void onEnter() override;
     
-    bool initWithOomeeFigureData(const rapidjson::Document& data);
+    bool initWithOomeeFigureData(/*const rapidjson::Document&*/const OomeeFigureDataRef& data);
     
     void setOomeeData(const OomeeRef& oomeeData);
     OomeeRef getOomeeData() const;
     
     std::vector<std::string> getAccessoryIds() const;
-    
+	
+	OomeeFigureDataRef getFigureData() const;
+	
     void addAccessory(const OomeeItemRef& oomeeItem);
     void removeAccessory(const std::string anchorPoint);
     
