@@ -53,11 +53,11 @@ void ChildNameLayer::onEnter()
 	textInputTitle->setHorizontalAlignment(TextHAlignment::CENTER);
     this->addChild(textInputTitle);
     
-    _continueButton = ui::Button::create("res/login/next_btnGreen.png");
-    _continueButton->setAnchorPoint(Vec2(1.25f,1.25f));
+    _continueButton = ui::Button::create("res/buttons/blue_arrow_button.png");
+	_continueButton->setAnchorPoint(Vec2(-0.25f,-1.25f));
+	_continueButton->setNormalizedPosition(Vec2(0.5, 0.0));
     _continueButton->setTouchEnabled(_textInput->inputIsValid());
     _continueButton->setOpacity(_textInput->inputIsValid() ? 255 : 125);
-    _continueButton->setPosition(contentSize);
     _continueButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType)
     {
         if(eType == ui::Widget::TouchEventType::ENDED)
@@ -77,26 +77,23 @@ void ChildNameLayer::onEnter()
     });
     this->addChild(_continueButton);
     
-    ui::Button* backButton = ui::Button::create("res/login/back_btnGreen.png");
-    backButton->setAnchorPoint(Vec2(-0.25f,1.25f));
-    backButton->setPosition(Vec2(0, contentSize.height));
-    backButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType)
-    {
-        if(eType == ui::Widget::TouchEventType::ENDED)
-        {
-            if(_delegate)
-            {
-                _delegate->prevLayer();
-            }
-        }
-    });
-    this->addChild(backButton);
-    
-    Sprite* progressIcon = Sprite::create("res/decoration/progress1.png");
-    progressIcon->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-    progressIcon->setPosition(Vec2(contentSize.width / 2.0f, progressIcon->getContentSize().height));
-    this->addChild(progressIcon);
-    
+	ui::Button* backButton = ui::Button::create("res/buttons/blue_arrow_back.png");
+	backButton->setAnchorPoint(Vec2(1.25f,-1.25f));
+	backButton->setNormalizedPosition(Vec2(0.5,0.0f));
+	backButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType)
+	{
+		if(eType == ui::Widget::TouchEventType::ENDED)
+		{
+			if(_delegate)
+			{
+				_delegate->prevLayer();
+			}
+		}
+	});
+	this->addChild(backButton);
+	
+	_textInput->focusAndShowKeyboard();
+	
     Super::onEnter();
 }
 
