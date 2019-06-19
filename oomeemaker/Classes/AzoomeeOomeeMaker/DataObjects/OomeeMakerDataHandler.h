@@ -52,6 +52,7 @@ public:
 	void getAllOomees(const OnCompleteCallback& callback = nullptr);
 	
 	void saveOomee(const OomeeFigureDataRef& oomee, bool setAsAvatar, const std::string& childId, const OnCompleteCallback& callback = nullptr);
+	void deleteOomee(const OomeeFigureDataRef& oomee, const std::string& childId, const OnCompleteCallback& callback = nullptr);
 	
     std::string getFullSaveDir() const;
     std::string getLocalSaveDir() const;

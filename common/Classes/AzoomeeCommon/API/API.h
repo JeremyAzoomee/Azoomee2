@@ -74,6 +74,7 @@ public:
 	static const char* const TagGetChildOomees;
 	static const char* const TagUpdateChildOomee;
 	static const char* const TagGetAllOomees;
+	static const char* const TagDeleteChildOomee;
 	
 	static const std::string kAZCountryCodeKey;
 	
@@ -244,6 +245,10 @@ public:
 
 	static HttpRequestCreator* GetAllOomees(const std::string& adultId,
 												   HttpRequestCreatorResponseDelegate* delegate);
+	
+	static HttpRequestCreator* DeleteChildOomee(const std::string& childId,
+												const std::string& oomeeId,
+												HttpRequestCreatorResponseDelegate* delegate);
 	
 #pragma mark - Friend Requests
     

@@ -65,6 +65,7 @@ const char* const API::TagSaveNewOomee = "saveNewOomee";
 const char* const API::TagGetChildOomees = "getChildOomees";
 const char* const API::TagUpdateChildOomee = "updateChildOomee";
 const char* const API::TagGetAllOomees = "getAllOomees";
+const char* const API::TagDeleteChildOomee = "deleteChildOomee";
 
 const std::string API::kAZCountryCodeKey = "X-AZ-COUNTRYCODE";
 
@@ -729,6 +730,19 @@ HttpRequestCreator* API::GetAllOomees(const std::string& adultId,
 	return request;
 }
 
+HttpRequestCreator* API::DeleteChildOomee(const std::string& childId,
+										  const std::string& oomeeId,
+										  HttpRequestCreatorResponseDelegate* delegate)
+{
+	HttpRequestCreator* request = new HttpRequestCreator(delegate);
+	request->requestPath = StringUtils::format("/api/oomeemaker/admin/%s/%s",childId.c_str(), oomeeId.c_str());
+	request->requestTag = TagDeleteChildOomee;
+	request->encrypted = true;
+	request->method = "DELETE";
+	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
+		HandleAPIResponse(sender, response, delegate, request);
+	});
+	return request;}
 
 #pragma mark - Sharing
 

@@ -117,6 +117,17 @@ void OomeeMakerDataHandler::saveOomee(const OomeeFigureDataRef& oomee, bool setA
 	}
 }
 
+void OomeeMakerDataHandler::deleteOomee(const OomeeFigureDataRef &oomee, const std::string &childId, const OnCompleteCallback& callback)
+{
+	if(callback)
+	{
+		_callback = callback;
+	}
+	ModalMessages::getInstance()->startLoading();
+	HttpRequestCreator* request = API::DeleteChildOomee(childId, oomee->getId(), this);
+	request->execute();
+}
+
 void OomeeMakerDataHandler::parseOomeeData()
 {
 	const std::vector<std::string>& oomeeConfigs = DirUtil::getJsonFilesInDirectory(getAssetDir() + "configs/oomees/");
@@ -352,10 +363,18 @@ void OomeeMakerDataHandler::writeOomeeFiles(const rapidjson::Value& data)
 {
 	if(data.IsArray())
 	{
+		std::vector<std::string> oomeeIds;
+		std::vector<std::string> childIds;
 		for(int i = 0; i < data.Size(); i++)
 		{
 			const rapidjson::Value& figureData = data[i];
 			OomeeFigureDataRef figure = OomeeFigureData::createWithData(figureData);
+			const std::string& childId = getStringFromJson("childId", figureData);
+			oomeeIds.push_back(figure->getId());
+			if(std::find(childIds.begin(), childIds.end(), childId) != childIds.end())
+			{
+				childIds.push_back(childId);
+			}
 			std::string savedFileContent = "{";
 			savedFileContent += StringUtils::format("\"id\":\"%s\",", figure->getId().c_str());
 			savedFileContent += StringUtils::format("\"oomeeId\":\"%s\",", figure->getOomeeId().c_str());
@@ -371,16 +390,30 @@ void OomeeMakerDataHandler::writeOomeeFiles(const rapidjson::Value& data)
 			}
 			savedFileContent += "]}";
 			
-			FileUtils::getInstance()->writeStringToFile(savedFileContent, getAssetDir() + getStringFromJson("childId", figureData) + "/" + getStringFromJson("id", figureData) + ".oomee");
+			FileUtils::getInstance()->writeStringToFile(savedFileContent, getAssetDir() + childId + "/" + getStringFromJson("id", figureData) + ".oomee");
 			if(_dataStorage->_initialised)
 			{
 				OomeeFigure* oomee = OomeeFigure::create();
 				oomee->initWithOomeeFigureData(figure);
 				oomee->setContentSize(Size(Director::getInstance()->getVisibleSize().width * 0.585, Director::getInstance()->getVisibleSize().height));
-				oomee->saveSnapshotImage(kBaseFolderName + getStringFromJson("childId", figureData) + "/" + getStringFromJson("id", figureData) + ".png");
+				oomee->saveSnapshotImage(kBaseFolderName + childId + "/" + getStringFromJson("id", figureData) + ".png");
+			}
+		}
+		// trim out any deleted oomees
+		for(const std::string& childId : childIds)
+		{
+			auto childOomees = DirUtil::getFilesInDirectoryWithExtention(getAssetDir() + childId , ".oomee");
+			for(const std::string& oomeeId : childOomees)
+			{
+				const std::string& truncId = oomeeId.substr(0, oomeeId.length() - 6);
+				if(std::find(oomeeIds.begin(), oomeeIds.end(), truncId) == oomeeIds.end())
+				{
+					deleteOomee(truncId);
+				}
 			}
 		}
 	}
+	
 }
 
 // Delegate functions
@@ -456,6 +489,11 @@ void OomeeMakerDataHandler::onHttpRequestSuccess(const std::string& requestTag, 
 		sendCallback(true);
 	}
 	else if(requestTag == API::TagSaveNewOomee || requestTag == API::TagUpdateChildOomee)
+	{
+		HttpRequestCreator* request = API::GetChildOomees(ChildManager::getInstance()->getLoggedInChild()->getId(), this);
+		request->execute();
+	}
+	else if(requestTag == API::TagDeleteChildOomee)
 	{
 		HttpRequestCreator* request = API::GetChildOomees(ChildManager::getInstance()->getLoggedInChild()->getId(), this);
 		request->execute();
