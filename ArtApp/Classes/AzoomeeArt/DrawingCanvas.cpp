@@ -9,6 +9,7 @@
 #include "DrawingCanvas.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Utils/DirUtil.h>
 #include <dirent.h>
 #include <math.h>
 
@@ -234,7 +235,7 @@ void DrawingCanvas::saveImage(const std::string& filePath)
     outputTexture->begin();
     drawingSprite->visit();
     outputTexture->end();
-    outputTexture->saveToFile(filePath,Image::Format::PNG);
+    outputTexture->saveToFile(DirUtil::getCachesPath() + filePath,Image::Format::PNG);
     Director::getInstance()->getRenderer()->render();
     
 }
