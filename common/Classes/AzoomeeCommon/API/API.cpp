@@ -77,7 +77,6 @@ void API::HandleAPIResponse(cocos2d::network::HttpClient *sender, cocos2d::netwo
 	
 	if((response->getResponseCode() == 200)||(response->getResponseCode() == 201)||(response->getResponseCode() == 204))
 	{
-		AnalyticsSingleton::getInstance()->backendRequestCompleteEvent(requestTag, getValueFromHttpResponseHeaderForKey("X-AZ-QID", responseHeaderString));
 		const std::string& rewardData = getValueFromHttpResponseHeaderForKey("X-AZ-REWARDS", responseHeaderString);
 		if(rewardData != "")
 		{

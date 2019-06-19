@@ -104,10 +104,6 @@ std::string ChildManager::getParentOrChildName() const
 
 bool ChildManager::isChildLoggedIn() const
 {
-	if(!_childLoggedIn && _loggedInChild)
-	{
-		AnalyticsSingleton::getInstance()->debugEvent("childLoginFlagFalse", {{"parentId",ParentManager::getInstance()->getParent()->getId()},{"childId",_loggedInChild->getId()}});
-	}
 	return _childLoggedIn && _loggedInChild;
 }
 
