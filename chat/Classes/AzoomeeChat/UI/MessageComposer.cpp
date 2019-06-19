@@ -461,7 +461,7 @@ void MessageComposer::sendArtMessage(const std::string &artFile)
             renderTex->beginWithClear(0, 0, 0, 0);
             artImage->visit();
             renderTex->end();
-            renderTex->saveToFile("temp.png", Image::Format::PNG);
+            renderTex->saveToFile(DirUtil::getCachesPath() + "temp.png", Image::Format::PNG);
             Director::getInstance()->getRenderer()->render();
             
             char* str = nullptr;

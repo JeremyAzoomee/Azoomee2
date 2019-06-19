@@ -489,7 +489,7 @@ void TextInputLayer::editBoxReturn(cocos2d::ui::EditBox* editBox)
     
 void TextInputLayer::editBoxEditingDidEndWithAction(cocos2d::ui::EditBox* editBox, EditBoxEndAction action)
 {
-    Director::getInstance()->getRunningScene()->setPositionY(0);
+    //Director::getInstance()->getRunningScene()->setPositionY(0);
     #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
         if(action == EditBoxEndAction::RETURN)
     #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -513,7 +513,7 @@ void TextInputLayer::editBoxEditingDidBegin(cocos2d::ui::EditBox* editBox)
     float height = UserDefault::getInstance()->getFloatForKey(isPortrait ? ConfigStorage::kEstimatedKeyboardHeightPortrait : ConfigStorage::kEstimatedKeyboardHeightLandscape);
     if(pos.y < height)
     {
-        Director::getInstance()->getRunningScene()->setPositionY(height - pos.y);
+        //Director::getInstance()->getRunningScene()->setPositionY(height - pos.y);
     }
     if(this->getDelegate())
     {
@@ -524,7 +524,7 @@ void TextInputLayer::editBoxEditingDidBegin(cocos2d::ui::EditBox* editBox)
     
 void TextInputLayer::editBoxEditingDidEnd(cocos2d::ui::EditBox* editBox)
 {
-    Director::getInstance()->getRunningScene()->setPositionY(0); // move scene back to origin height, in case it was shifted up to accomodate for keyboard overlapping text input
+    //Director::getInstance()->getRunningScene()->setPositionY(0); // move scene back to origin height, in case it was shifted up to accomodate for keyboard overlapping text input
 	if(_alwaysShowKeyboard)
 	{
 		focusAndShowKeyboard();
