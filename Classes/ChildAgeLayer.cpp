@@ -54,10 +54,8 @@ void ChildAgeLayer::onEnter()
 	
 	Node* buttonHolder = Node::create();
 	buttonHolder->setContentSize(Size(350 * gridSize.x, 350 * gridSize.y));
-	//buttonHolder->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-	//buttonHolder->setPosition(textInputTitle->getPosition() - Vec2(0,textInputTitle->getContentSize().height * 1.25f));
+	buttonHolder->setPosition(textInputTitle->getPosition() - Vec2(0,textInputTitle->getContentSize().height * 1.25f));
 	buttonHolder->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-	buttonHolder->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	this->addChild(buttonHolder);
 	
 	
@@ -107,7 +105,6 @@ void ChildAgeLayer::onEnter()
 
     _continueButton = ui::Button::create("res/buttons/blue_arrow_button.png");
     _continueButton->setAnchorPoint(Vec2(-0.25f,-1.25f));
-    //_continueButton->setPosition(contentSize);
 	_continueButton->setNormalizedPosition(Vec2(0.5, 0.0));
     _continueButton->setTouchEnabled(_childCreator->getAge() > 0);
     _continueButton->setOpacity(_childCreator->getAge() > 0 ? 255 : 125);
@@ -128,7 +125,6 @@ void ChildAgeLayer::onEnter()
     
     ui::Button* backButton = ui::Button::create("res/buttons/blue_arrow_back.png");
     backButton->setAnchorPoint(Vec2(1.25f,-1.25f));
-    //backButton->setPosition(Vec2(0, contentSize.height));
 	backButton->setNormalizedPosition(Vec2(0.5,0.0f));
     backButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType)
     {
@@ -141,18 +137,13 @@ void ChildAgeLayer::onEnter()
         }
     });
     this->addChild(backButton);
-    
-    Sprite* progressIcon = Sprite::create("res/decoration/progress2.png");
-    progressIcon->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-    progressIcon->setPosition(Vec2(contentSize.width / 2.0f, progressIcon->getContentSize().height));
-    this->addChild(progressIcon);
 	
 	if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kAgeEntry)
 	{
 		title->setVisible(false);
 		textInputTitle->setVisible(false);
-		progressIcon->setVisible(false);
-		buttonHolder->setPosition(textInputTitle->getPosition() - Vec2(0,textInputTitle->getContentSize().height));
+		buttonHolder->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+		buttonHolder->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 		TutorialController::getInstance()->displayMessageForTutorialState(StringUtils::format(_("Hi %s! How old are you?").c_str(), _childCreator->getName().c_str()));
 		TutorialController::getInstance()->highlightMessageString(_childCreator->getName() + "!", Color3B(255, 128, 13));
 	}
