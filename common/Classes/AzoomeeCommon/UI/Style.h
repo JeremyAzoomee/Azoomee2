@@ -174,6 +174,7 @@ namespace Font
 	const char* const Medium();
 	const char* const Bold();
 	const char* const Input();
+	const char* const RewardRegular();
 	
     const char* const RegularSystemName = SofiaRegularSystemName;
     const char* const MediumSystemName = SofiaMediumSystemName;

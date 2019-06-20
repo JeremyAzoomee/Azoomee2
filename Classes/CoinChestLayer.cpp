@@ -100,16 +100,16 @@ void CoinChestLayer::addText()
 	_text = ui::Layout::create();
 	_text->setLayoutType(ui::Layout::Type::VERTICAL);
 	
-	ui::Text* youWon = ui::Text::create(_("YOU WON"), Style::Font::PassionOneRegular, 120);
+	ui::Text* youWon = ui::Text::create(_("YOU WON"), Style::Font::RewardRegular(), 120);
 	youWon->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	_text->addChild(youWon);
 	
-	ui::Text* value = ui::Text::create(StringUtils::format("%d",abs(_rewardData->getItemPrice())), Style::Font::PassionOneRegular, 360);
+	ui::Text* value = ui::Text::create(StringUtils::format("%d",abs(_rewardData->getItemPrice())), Style::Font::RewardRegular(), 360);
 	value->setTextColor(Color4B(Style::Color::macaroniAndCheese));
 	value->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	_text->addChild(value);
 	
-	ui::Text* coins = ui::Text::create(_("COINS"), Style::Font::PassionOneRegular, 120);
+	ui::Text* coins = ui::Text::create(_("COINS"), Style::Font::RewardRegular(), 120);
 	coins->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	_text->addChild(coins);
 	
