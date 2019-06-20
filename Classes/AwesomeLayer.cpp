@@ -124,7 +124,7 @@ void AwesomeLayer::addAwsomeText()
 	bgLights->runAction(RepeatForever::create(Sequence::create(ScaleTo::create(1, 1.45), ScaleTo::create(2, 2.15), ScaleTo::create(1, 1), NULL)));
 	this->addChild(bgLights);
 	
-	Label* text = Label::createWithTTF(_("AWESOME"), Style::Font::PassionOneRegular, 200);
+	Label* text = Label::createWithTTF(_("AWESOME"), Style::Font::RewardRegular(), 200);
 	text->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	text->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	text->setScale(0.5);

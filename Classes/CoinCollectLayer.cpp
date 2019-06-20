@@ -219,7 +219,7 @@ void CoinCollectLayer::addHeading()
 	sparkle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 	this->addChild(sparkle);
 	
-	Label* heading = Label::createWithTTF(_("GOOD JOB!"), Style::Font::PassionOneRegular, 200);
+	Label* heading = Label::createWithTTF(_("GOOD JOB!"), Style::Font::RewardRegular(), 200);
 	heading->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 	heading->setNormalizedPosition(Vec2(0.5,0.9));
 	heading->enableGlow(Color4B::WHITE);
