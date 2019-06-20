@@ -58,8 +58,7 @@ using namespace Azoomee;
     webview = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, width, height)];
     
     NSString *urlToCall = [[NSBundle mainBundle] pathForResource:@"res/webcommApi/index_ios" ofType:@"html"];
-    
-    NSURL *nsurl=[NSURL URLWithString:urlToCall];
+	NSURL *nsurl = [NSURL fileURLWithPath:urlToCall];
     NSURLRequest *nsrequest = [NSURLRequest requestWithURL:nsurl];
     
     [webview setAllowsInlineMediaPlayback:YES];
