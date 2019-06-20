@@ -65,5 +65,22 @@ std::vector<std::string> OomeeFigureData::getAccessoryIds() const
 	return _accessoryIds;
 }
 
+bool OomeeFigureData::isEqual(const OomeeFigureDataRef &comparable)
+{
+	if(_id != comparable->getId() || _oomeeId != comparable->getOomeeId() || _accessoryIds.size() != comparable->getAccessoryIds().size())
+	{
+		return false;
+	}
+	const std::vector<std::string>& compAccs = comparable->getAccessoryIds();
+	for(int i = 0; i < _accessoryIds.size(); i++)
+	{
+		if(std::find(compAccs.begin(), compAccs.end(), _accessoryIds.at(i)) == compAccs.end())
+		{
+			return false;
+		}
+	}
+	
+	return true;
+}
 
 NS_AZOOMEE_OM_END

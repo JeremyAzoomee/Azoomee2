@@ -375,6 +375,23 @@ void OomeeMakerDataHandler::writeOomeeFiles(const rapidjson::Value& data)
 			{
 				childIds.push_back(childId);
 			}
+
+			const std::string& filePath = getAssetDir() + childId + "/" + getStringFromJson("id", figureData) + ".oomee";
+			
+			if(FileUtils::getInstance()->isFileExist(filePath))
+			{
+				rapidjson::Document oldData;
+				oldData.Parse(FileUtils::getInstance()->getStringFromFile(filePath).c_str());
+				if(!oldData.HasParseError())
+				{
+					OomeeFigureDataRef oldFigure = OomeeFigureData::createWithData(figureData);
+					if(figure->isEqual(oldFigure))
+					{
+						continue;
+					}
+				}
+			}
+			
 			std::string savedFileContent = "{";
 			savedFileContent += StringUtils::format("\"id\":\"%s\",", figure->getId().c_str());
 			savedFileContent += StringUtils::format("\"oomeeId\":\"%s\",", figure->getOomeeId().c_str());
@@ -390,13 +407,13 @@ void OomeeMakerDataHandler::writeOomeeFiles(const rapidjson::Value& data)
 			}
 			savedFileContent += "]}";
 			
-			FileUtils::getInstance()->writeStringToFile(savedFileContent, getAssetDir() + childId + "/" + getStringFromJson("id", figureData) + ".oomee");
+			FileUtils::getInstance()->writeStringToFile(savedFileContent, filePath);
 			if(_dataStorage->_initialised)
 			{
 				OomeeFigure* oomee = OomeeFigure::create();
 				oomee->initWithOomeeFigureData(figure);
 				oomee->setContentSize(Size(Director::getInstance()->getVisibleSize().width * 0.585, Director::getInstance()->getVisibleSize().height));
-				oomee->saveSnapshotImage(kBaseFolderName + childId + "/" + getStringFromJson("id", figureData) + ".png");
+				oomee->saveSnapshotImage(kBaseFolderName + childId + "/" + figure->getId() + ".png");
 			}
 		}
 		// trim out any deleted oomees

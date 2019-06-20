@@ -151,6 +151,7 @@ cocos2d::network::HttpRequest* HttpRequestCreator::buildHttpRequest()           
     if(method == "GET") request->setRequestType(HttpRequest::Type::GET);
     if(method == "PATCH") request->setRequestType(HttpRequest::Type::PATCH);
     if(method == "PUT") request->setRequestType(HttpRequest::Type::PUT);
+	if(method == "DELETE") request->setRequestType(HttpRequest::Type::DELETE);
     request->setUrl(requestUrl.c_str());
     
     const char* postData = requestBody.c_str();

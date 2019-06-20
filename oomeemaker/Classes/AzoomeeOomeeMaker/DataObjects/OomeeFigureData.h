@@ -37,6 +37,8 @@ public:
 	std::string getOomeeId() const;
 	void setAccessoryIds(const std::vector<std::string>& accessoryIds);
 	std::vector<std::string> getAccessoryIds() const;
+	
+	bool isEqual(const OomeeFigureDataRef& comparable);
 };
 
 NS_AZOOMEE_OM_END
