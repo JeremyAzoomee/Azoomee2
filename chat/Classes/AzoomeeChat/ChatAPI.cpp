@@ -355,6 +355,13 @@ void ChatAPI::onHttpRequestFailed(const std::string& requestTag, long errorCode)
             Azoomee::Chat::delegate->onChatAuthorizationError(requestTag, errorCode);
         }
     }
+	else if(errorCode == -1)
+	{
+		if(Azoomee::Chat::delegate)
+		{
+			Azoomee::Chat::delegate->onChatOfflineError(requestTag);
+		}
+	}
     else
     {
         // Otherwise pass all other errors to the observers

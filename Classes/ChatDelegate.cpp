@@ -71,6 +71,11 @@ void ChatDelegate::onChatNavigateToContent(const std::string &contentId)
     ContentOpener::getInstance()->openContentById(contentId);
 }
 
+void ChatDelegate::onChatOfflineError(const std::string &requestTag)
+{
+	MessageBox::createWith(-1, this);
+}
+
 // delegate functions
 void ChatDelegate::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {
@@ -97,5 +102,9 @@ void ChatDelegate::onImageDownloadFailed()
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
 }
 
+void ChatDelegate::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
+{
+	Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OfflineHub));
+}
 
 NS_AZOOMEE_END
