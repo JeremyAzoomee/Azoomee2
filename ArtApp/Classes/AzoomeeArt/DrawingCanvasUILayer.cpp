@@ -997,7 +997,7 @@ void DrawingCanvasUILayer::setButtonBodyPattern(cocos2d::ui::Button *button, con
 void DrawingCanvasUILayer::getStickerFilesFromJSON()
 {
     _stickerCats.clear();
-    const std::string& oomeeStoragePath = FileUtils::getInstance()->getWritablePath() + "oomeeMaker/" + ChildManager::getInstance()->getParentOrChildId();
+	const std::string& oomeeStoragePath = DirUtil::getCachesPath() + "oomeeMaker/" + ChildManager::getInstance()->getParentOrChildId();
     const std::vector<std::string>& oomeeImages = DirUtil::getImagesInDirectory(oomeeStoragePath);
     
     if(oomeeImages.size() != 0)
