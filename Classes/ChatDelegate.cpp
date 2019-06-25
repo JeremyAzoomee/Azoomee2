@@ -73,7 +73,10 @@ void ChatDelegate::onChatNavigateToContent(const std::string &contentId)
 
 void ChatDelegate::onChatOfflineError(const std::string &requestTag)
 {
-	MessageBox::createWith(-1, this);
+	if(!HQHistoryManager::getInstance()->isOffline())
+	{
+		MessageBox::createWith(-1, this);
+	}
 }
 
 // delegate functions
