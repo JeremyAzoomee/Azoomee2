@@ -1,0 +1,15 @@
+Version 4.6.1
+fix hidden coin counter
+better orientation lock logic
+better hq tile touch handling
+extra data in crashlytics (last BE request tag, open content id)
+general refactoring of data objects and handlers
+new automated app build and project files
+updated cocos
+auto refresh child session
+fixes for cocos update
+add child ui fixes
+smallprint on FTU age select screen
+offline errors in chat route to offline mode
+better personal oomee placement in art sticker carousel
+
