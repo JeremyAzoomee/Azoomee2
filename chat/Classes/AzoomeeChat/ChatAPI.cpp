@@ -4,6 +4,7 @@
 #include <AzoomeeCommon/Data/Json.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/Cookie/CookieManager.h>
+#include <AzoomeeCommon/ErrorCodes.h>
 #include <cocos/cocos2d.h>
 #include <memory>
 
@@ -355,7 +356,7 @@ void ChatAPI::onHttpRequestFailed(const std::string& requestTag, long errorCode)
             Azoomee::Chat::delegate->onChatAuthorizationError(requestTag, errorCode);
         }
     }
-	else if(errorCode == -1)
+	else if(errorCode == ERROR_CODE_OFFLINE)
 	{
 		if(Azoomee::Chat::delegate)
 		{
