@@ -10,6 +10,8 @@
 #include "ContentOpener.h"
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/ErrorCodes.h>
+#include <AzoomeeCommon/Utils/StringMgr.h>
 
 using namespace cocos2d;
 
@@ -71,6 +73,14 @@ void ChatDelegate::onChatNavigateToContent(const std::string &contentId)
     ContentOpener::getInstance()->openContentById(contentId);
 }
 
+void ChatDelegate::onChatOfflineError(const std::string &requestTag)
+{
+	if(!HQHistoryManager::getInstance()->isOffline())
+	{
+		MessageBox::createWith(ERROR_CODE_OFFLINE, this);
+	}
+}
+
 // delegate functions
 void ChatDelegate::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {
@@ -97,5 +107,12 @@ void ChatDelegate::onImageDownloadFailed()
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
 }
 
+void ChatDelegate::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
+{
+	if(messageBoxTitle == StringMgr::getInstance()->getErrorMessageWithCode(ERROR_CODE_OFFLINE).at(ERROR_TITLE))
+	{
+		Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OfflineHub));
+	}
+}
 
 NS_AZOOMEE_END
