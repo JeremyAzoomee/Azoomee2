@@ -405,7 +405,7 @@ class AzoomeeApp:
             # Update the changelog file
             self._update_changelog( changelog, version=new_version )
 
-            self._set_current_version( new_version, commit=False )
+            self._set_current_version( new_version )
         else:
             new_version = self._increment_version( current_version, major=major, minor=minor )
 
@@ -418,7 +418,7 @@ class AzoomeeApp:
             # Reset the changelog for this new release
             self._reset_changelog()
 
-            self._set_current_version( new_version, commit=False )
+            self._set_current_version( new_version )
     
 
     def _get_current_version( self ):
@@ -430,7 +430,7 @@ class AzoomeeApp:
         return str( plist.get( 'CFBundleShortVersionString', '' ) )
     
 
-    def _set_current_version( self, new_version, commit=False ):
+    def _set_current_version( self, new_version, commit=True ):
         """
         Update the current version on all platforms.
         """
