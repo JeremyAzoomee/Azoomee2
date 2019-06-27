@@ -392,6 +392,7 @@ void OomeeMakerDataHandler::uploadExistingOomeesToBE(const std::string& childId)
 			HttpRequestCreator* request = API::SaveNewOomee(childId, ParentManager::getInstance()->getLoggedInParentId(), oomee->getOomeeId(), oomee->getAccessoryIds(), false, this);
 			request->requestTag = "saveLocalOomee";
 			_pendingLocalOomeeUploads.push_back(request);
+			deleteOomee(file.substr(0,file.size() - 6));
 		}
 	}
 	if(_pendingLocalOomeeUploads.size() > 0)
@@ -417,6 +418,10 @@ void OomeeMakerDataHandler::writeOomeeFiles(const rapidjson::Value& data)
 		{
 			const rapidjson::Value& figureData = data[i];
 			OomeeFigureDataRef figure = OomeeFigureData::createWithData(figureData);
+			if(figure->getId() == "")
+			{
+				continue;
+			}
 			const std::string& childId = getStringFromJson("childId", figureData);
 			oomeeIds.push_back(figure->getId());
 			if(std::find(childIds.begin(), childIds.end(), childId) != childIds.end())

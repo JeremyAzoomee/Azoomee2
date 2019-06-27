@@ -30,6 +30,10 @@ void OomeeFigureData::initWithData(const rapidjson::Value& oomeeConfig)
 {
 	setId(getStringFromJson("id", oomeeConfig));
 	setOomeeId(getStringFromJson("oomeeId", oomeeConfig));
+	if(_oomeeId == "")
+	{
+		setOomeeId(getStringFromJson("oomee", oomeeConfig));
+	}
 	if(oomeeConfig.HasMember("oomeeItems"))
 	{
 		setAccessoryIds(getStringArrayFromJson(oomeeConfig["oomeeItems"]));
