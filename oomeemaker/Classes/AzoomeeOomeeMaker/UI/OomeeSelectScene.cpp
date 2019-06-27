@@ -121,7 +121,7 @@ void OomeeSelectScene::onEnter()
 	}
 	
 	OomeeMakerDataHandler::getInstance()->getLatestData([this](bool success){
-		OomeeMakerDataHandler::getInstance()->getOomeesForChild(ChildManager::getInstance()->getLoggedInChild()->getId(), [this](bool success){
+		const auto& getOomeesCallback = [this](bool success){
 			this->setCarouselData();
 			if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kConfirmOomee)
 			{
@@ -138,7 +138,16 @@ void OomeeSelectScene::onEnter()
 					OomeeSelectScene::newOomee();
 				}
 			}
-		});
+		};
+		const std::string& uploadLocalKey = "uploadedLocalOomees-" + ChildManager::getInstance()->getLoggedInChild()->getId();
+		if(UserDefault::getInstance()->getBoolForKey(uploadLocalKey.c_str()))
+		{
+			OomeeMakerDataHandler::getInstance()->getOomeesForChild(ChildManager::getInstance()->getLoggedInChild()->getId(), getOomeesCallback);
+		}
+		else
+		{
+			OomeeMakerDataHandler::getInstance()->uploadLocalOomeesToBE(ChildManager::getInstance()->getLoggedInChild()->getId(), getOomeesCallback);
+		}
 	});
 	Super::onEnter();
 }

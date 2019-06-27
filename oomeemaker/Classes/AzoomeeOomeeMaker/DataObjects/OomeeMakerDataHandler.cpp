@@ -82,8 +82,9 @@ void OomeeMakerDataHandler::getOomeesForChild(const std::string &childId, const 
 	{
 		_callback = callback;
 	}
+	_targetChildId = childId;
 	ModalMessages::getInstance()->startLoading();
-	HttpRequestCreator* request = API::GetChildOomees(ChildManager::getInstance()->getLoggedInChild()->getId(), this);
+	HttpRequestCreator* request = API::GetChildOomees(childId, this);
 	request->execute();
 }
 
@@ -104,6 +105,7 @@ void OomeeMakerDataHandler::saveOomee(const OomeeFigureDataRef& oomee, bool setA
 	{
 		_callback = callback;
 	}
+	_targetChildId = childId;
 	ModalMessages::getInstance()->startLoading();
 	if(oomee->getId() == "")
 	{
@@ -123,9 +125,20 @@ void OomeeMakerDataHandler::deleteOomee(const OomeeFigureDataRef &oomee, const s
 	{
 		_callback = callback;
 	}
+	_targetChildId = childId;
 	ModalMessages::getInstance()->startLoading();
 	HttpRequestCreator* request = API::DeleteChildOomee(childId, oomee->getId(), this);
 	request->execute();
+}
+
+void OomeeMakerDataHandler::uploadLocalOomeesToBE(const std::string &childId, const OnCompleteCallback& callback)
+{
+	if(callback)
+	{
+		_callback = callback;
+	}
+	_targetChildId = childId;
+	uploadExistingOomeesToBE(childId);
 }
 
 void OomeeMakerDataHandler::parseOomeeData()
@@ -265,6 +278,8 @@ bool OomeeMakerDataHandler::deleteOomee(const std::string& oomeeName)
     return false;
 }
 
+
+
 std::string OomeeMakerDataHandler::getCachePath() const
 {
 	return kBaseFolderName;
@@ -356,6 +371,39 @@ void OomeeMakerDataHandler::updateExistingOomeeFilesToNewIds()
 			
 			FileUtils::getInstance()->writeStringToFile(savedFileContent, getAssetDir() + folder + "/" + file);
 		}
+	}
+}
+
+void OomeeMakerDataHandler::uploadExistingOomeesToBE(const std::string& childId)
+{
+
+	const auto& oomeeFiles = DirUtil::getFilesInDirectoryWithExtention(getAssetDir() + childId, ".oomee");
+	for(const auto& file : oomeeFiles)
+	{
+		rapidjson::Document data;
+		data.Parse(FileUtils::getInstance()->getStringFromFile(getAssetDir() + childId + "/" + file).c_str());
+		if(data.HasParseError())
+		{
+			continue;
+		}
+		OomeeFigureDataRef oomee = OomeeFigureData::createWithData(data);
+		if(oomee->getId() == "")
+		{
+			HttpRequestCreator* request = API::SaveNewOomee(childId, ParentManager::getInstance()->getLoggedInParentId(), oomee->getOomeeId(), oomee->getAccessoryIds(), false, this);
+			request->requestTag = "saveLocalOomee";
+			_pendingLocalOomeeUploads.push_back(request);
+		}
+	}
+	if(_pendingLocalOomeeUploads.size() > 0)
+	{
+		HttpRequestCreator* request = _pendingLocalOomeeUploads.back();
+		_pendingLocalOomeeUploads.pop_back();
+		request->execute();
+	}
+	else
+	{
+		HttpRequestCreator* request = API::GetChildOomees(childId, this);
+		request->execute();
 	}
 }
 
@@ -507,13 +555,27 @@ void OomeeMakerDataHandler::onHttpRequestSuccess(const std::string& requestTag, 
 	}
 	else if(requestTag == API::TagSaveNewOomee || requestTag == API::TagUpdateChildOomee)
 	{
-		HttpRequestCreator* request = API::GetChildOomees(ChildManager::getInstance()->getLoggedInChild()->getId(), this);
+		HttpRequestCreator* request = API::GetChildOomees(_targetChildId, this);
 		request->execute();
 	}
 	else if(requestTag == API::TagDeleteChildOomee)
 	{
-		HttpRequestCreator* request = API::GetChildOomees(ChildManager::getInstance()->getLoggedInChild()->getId(), this);
+		HttpRequestCreator* request = API::GetChildOomees(_targetChildId, this);
 		request->execute();
+	}
+	else if(requestTag == "saveLocalOomee")
+	{
+		if(_pendingLocalOomeeUploads.size() > 0)
+		{
+			HttpRequestCreator* request = _pendingLocalOomeeUploads.back();
+			_pendingLocalOomeeUploads.pop_back();
+			request->execute();
+		}
+		else
+		{
+			HttpRequestCreator* request = API::GetChildOomees(_targetChildId, this);
+			request->execute();
+		}
 	}
 }
 void OomeeMakerDataHandler::onHttpRequestFailed(const std::string& requestTag, long errorCode)
@@ -521,6 +583,20 @@ void OomeeMakerDataHandler::onHttpRequestFailed(const std::string& requestTag, l
 	if(requestTag == API::TagGetOomeeMakerAssets && !_dataStorage->_initialised)
 	{
 		loadLocalData();
+	}
+	else if(requestTag == "saveLocalOomee")
+	{
+		if(_pendingLocalOomeeUploads.size() > 0)
+		{
+			HttpRequestCreator* request = _pendingLocalOomeeUploads.back();
+			_pendingLocalOomeeUploads.pop_back();
+			request->execute();
+		}
+		else
+		{
+			HttpRequestCreator* request = API::GetChildOomees(_targetChildId, this);
+			request->execute();
+		}
 	}
 	else
 	{

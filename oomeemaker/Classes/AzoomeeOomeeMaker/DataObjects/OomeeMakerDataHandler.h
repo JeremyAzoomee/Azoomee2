@@ -24,6 +24,9 @@ private:
 	
     OomeeMakerDataStorage* _dataStorage = nullptr;
 	
+	std::vector<HttpRequestCreator*> _pendingLocalOomeeUploads;
+	std::string _targetChildId = "";
+	
 	std::string getCachePath() const override;
 	
     void unzipBundledAssets();
@@ -36,6 +39,7 @@ private:
     void parseOomeeItemData();
 	
 	void updateExistingOomeeFilesToNewIds();
+	void uploadExistingOomeesToBE(const std::string& childId);
 	
 	void writeOomeeFiles(const rapidjson::Value& data);
     
@@ -53,6 +57,8 @@ public:
 	
 	void saveOomee(const OomeeFigureDataRef& oomee, bool setAsAvatar, const std::string& childId, const OnCompleteCallback& callback = nullptr);
 	void deleteOomee(const OomeeFigureDataRef& oomee, const std::string& childId, const OnCompleteCallback& callback = nullptr);
+	
+	void uploadLocalOomeesToBE(const std::string& childId, const OnCompleteCallback& callback = nullptr);
 	
     std::string getFullSaveDir() const;
     std::string getLocalSaveDir() const;
