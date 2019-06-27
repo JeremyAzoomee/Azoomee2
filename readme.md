@@ -96,11 +96,11 @@ If the file exists and you're having problems, try deleting the file and re-open
 
 The following macros are worth noting for development:
 
+* AZOOMEE_ENVIRONMENT_PROD (built to use Live production environment)
+* AZOOMEE_ENVIRONMENT_TEST (built to use Live production server environment)
 * AZOOMEE_ENVIRONMENT_CI (built to use CI server environment)
 
-The omission of this define means we're built to use the production servers).
-
-This define is available in the main app and common targets. **NOTE: It isn't available in any other sub projects.**
+This define is available in the main app and common targets. **NOTE: Not available in any other sub projects.**
 
 Android only:
 
