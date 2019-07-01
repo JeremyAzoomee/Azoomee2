@@ -40,7 +40,7 @@ bool StickerListViewColumn::init()
     
     _topRowButton = ui::Button::create();
     _topRowButton->ignoreContentAdaptWithSize(false);
-    _topRowButton->getRendererNormal()->setStrechEnabled(true);
+    _topRowButton->getRendererNormal()->setStretchEnabled(true);
     _topRowButton->setAnchorPoint(Vec2(0.5f, 0.5f));
     _topRowButton->setLayoutParameter(CreateCenterRelativeLayoutParam());
     _topRowButton->addClickEventListener([this](Ref*){
@@ -61,7 +61,7 @@ bool StickerListViewColumn::init()
     
     _bottomRowButton = ui::Button::create();
     _bottomRowButton->ignoreContentAdaptWithSize(false);
-    _bottomRowButton->getRendererNormal()->setStrechEnabled(true);
+    _bottomRowButton->getRendererNormal()->setStretchEnabled(true);
     _bottomRowButton->setAnchorPoint(Vec2(0.5f, 0.5f));
     _bottomRowButton->setLayoutParameter(CreateCenterRelativeLayoutParam());
     _bottomRowButton->addClickEventListener([this](Ref*){
@@ -95,7 +95,7 @@ void StickerListViewColumn::doLayout()
     
     for(auto button : resizeItemsFillParent)
     {
-        const Size& parentContentSize = button->getParent()->getContentSize();
+        const Size& parentContentSize = button->getParent()->getContentSize() * 0.8f;
         const Size& buttonTextureSize = button->getRendererNormal()->getTexture()->getContentSize();
         Size buttonContentSize = parentContentSize;
         if(buttonTextureSize.width > buttonTextureSize.height)
