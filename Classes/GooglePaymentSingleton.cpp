@@ -217,7 +217,14 @@ extern "C"
 
 JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_AppActivity_getGoogleSku(JNIEnv* env, jobject thiz)
 {
-    return env->NewStringUTF(ConfigStorage::getInstance()->getIapSkuForProvider("google").c_str());
+#if defined(AZOOMEE_ENVIRONMENT_TEST)
+    const std::string& productID = "googleplay-test";
+#elif defined(AZOOMEE_ENVIRONMENT_CI)
+    const std::string& productID = "googleplay-ci";
+#else
+    const std::string& productID = "googleplay-prod";
+#endif
+    return env->NewStringUTF(ConfigStorage::getInstance()->getIapSkuForProvider(productID).c_str());
 }
 
 extern "C"

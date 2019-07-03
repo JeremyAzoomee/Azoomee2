@@ -3,27 +3,20 @@
 #include "RoutePaymentSingleton.h"
 #include "LoginLogicHandler.h"
 #include "IAPProductDataHandler.h"
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 using namespace Azoomee;
 
-#define ONE_MONTH_PAYMENT @"AZ_Premium_1MonthOnly"
-
 @interface PaymentViewController ()
-
+-(void)queryProductInfo;
 @end
 
 @implementation PaymentViewController
 
 -(void)startProductPriceQuery
 {
-    _noPurchaseAfterQuery = true;
-    
-    NSSet * productIdentifiers = [NSSet setWithObjects:ONE_MONTH_PAYMENT, nil];
-    
-    SKProductsRequest *productsRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:productIdentifiers];
-    
-    productsRequest.delegate = self;
-    [productsRequest start];
+    self.purchaseAfterQuery = NO;
+    [self queryProductInfo];
 }
 
 + (id)sharedPayment_ios {
@@ -39,15 +32,13 @@ using namespace Azoomee;
 {
     if(self.oneMonthSubscription == nil)
     {
-        NSSet * productIdentifiers = [NSSet setWithObjects:ONE_MONTH_PAYMENT, nil];
-        
-        SKProductsRequest *productsRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:productIdentifiers];
-        
-        productsRequest.delegate = self;
-        [productsRequest start];
+        self.purchaseAfterQuery = YES;
+        [self queryProductInfo];
     }
     else
+    {
         [self startPaymentQueue];
+    }
 }
 
 -(void)restorePayment
@@ -63,11 +54,12 @@ using namespace Azoomee;
         NSArray * skProducts = response.products;
         for (SKProduct * skProduct in skProducts) {
             
-            if([skProduct.productIdentifier isEqualToString:ONE_MONTH_PAYMENT] )
+            if([skProduct.productIdentifier isEqualToString:self.oneMonthSubscriptionID] )
             {
-                if(!_noPurchaseAfterQuery)
+                self.oneMonthSubscription = skProduct;
+                
+                if(self.purchaseAfterQuery)
                 {
-                    self.oneMonthSubscription = skProduct;
                     [self startPaymentQueue];
                 }
                 else
@@ -87,16 +79,35 @@ using namespace Azoomee;
     }
     @catch (NSException * e)
     {
-        if(!_noPurchaseAfterQuery)
+        if(self.purchaseAfterQuery)
         {
             RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage([[NSString stringWithFormat:@"%@: %@", e.name, e.userInfo] UTF8String]);
         }
         else
         {
             IAPProductDataHandler::getInstance()->productDataFetchFailed();
-            _noPurchaseAfterQuery = false;
+            self.purchaseAfterQuery = YES;
         }
     }
+}
+
+-(void)queryProductInfo
+{
+#if defined(AZOOMEE_ENVIRONMENT_TEST)
+    const std::string& productID = "ios-test";
+#elif defined(AZOOMEE_ENVIRONMENT_CI)
+    const std::string& productID = "ios-ci";
+#else
+    const std::string& productID = "ios-prod";
+#endif
+    
+    self.oneMonthSubscriptionID = [NSString stringWithUTF8String:ConfigStorage::getInstance()->getIapSkuForProvider(productID).c_str()];
+    NSSet * productIdentifiers = [NSSet setWithObjects:self.oneMonthSubscriptionID, nil];
+    
+    SKProductsRequest *productsRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:productIdentifiers];
+    
+    productsRequest.delegate = self;
+    [productsRequest start];
 }
 
 -(void) startPaymentQueue
@@ -158,23 +169,27 @@ using namespace Azoomee;
     NSLog(@"DidFailWithError error: %@", error.localizedDescription);
     
     if(RoutePaymentSingleton::getInstance()->pressedRestorePurchaseButton)
+    {
         RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage([[NSString stringWithFormat:@"DidFailWithError: %@",error.localizedDescription] UTF8String]);
+    }
     else
-        if(!_noPurchaseAfterQuery)
+    {
+        if(self.purchaseAfterQuery)
         {
             LoginLogicHandler::getInstance()->doLoginLogic();
         }
         else
         {
-            _noPurchaseAfterQuery = false;
+            self.purchaseAfterQuery = YES;
         }
+    }
 }
 
 -(void)requestDidFinish:(SKRequest *)request
 {
-    if(_noPurchaseAfterQuery)
+    if(!self.purchaseAfterQuery)
     {
-        _noPurchaseAfterQuery = false;
+        self.purchaseAfterQuery = YES;
         return;
     }
     
