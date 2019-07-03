@@ -17,8 +17,8 @@ const std::string ArtListColumn::_kPlaceholderAssetLoc = "res/contentPlaceholder
 
 void ArtListColumn::enableOnScreenChecker()
 {
-    _onScreenChecker = new ArtListItemOnScreenChecker();
-    _onScreenChecker->startCheckingForOnScreenPosition(this);
+    _onScreenChecker = ArtListItemOnScreenChecker();
+    _onScreenChecker.startCheckingForOnScreenPosition(this);
 }
 
 bool ArtListColumn::init()
@@ -100,11 +100,11 @@ void ArtListColumn::onEnter()
 
 void ArtListColumn::onExit()
 {
-    if(_onScreenChecker)
-    {
-        _onScreenChecker->endCheck();
-        _onScreenChecker->release();
-    }
+    //if(_onScreenChecker)
+    //{
+        _onScreenChecker.endCheck();
+        //_onScreenChecker->release();
+    //}
     
     Super::onExit();
 }

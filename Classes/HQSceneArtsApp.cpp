@@ -168,8 +168,8 @@ void HQSceneArtsApp::addImageToHorizontalScrollView(cocos2d::ui::ScrollView *toB
 	});
     toBeAddedTo->addChild(artImage);
     
-    auto sceneElementPositioner = new HQSceneElementPositioner();
-    sceneElementPositioner->positionHQSceneElement((Layer *)artImage, false);
+    auto sceneElementPositioner = HQSceneElementPositioner();
+    sceneElementPositioner.positionHQSceneElement((Layer *)artImage, false);
     artImage->enableOnScreenChecker();
 }
 

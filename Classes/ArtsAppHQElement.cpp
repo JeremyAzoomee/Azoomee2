@@ -16,6 +16,19 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+ArtsAppHQElement::ArtsAppHQElement()
+{
+	_onScreenChecker = ArtImageOnScreenChecker();
+}
+
+ArtsAppHQElement::~ArtsAppHQElement()
+{
+	//if(_onScreenChecker)
+	//{
+	//	delete _onScreenChecker;
+	//}
+}
+
 bool ArtsAppHQElement::initWithURLAndSize(const std::string& filePath, const Size& size, bool deletable, bool newImage, bool preload)
 {
     if ( !Super::init() )
@@ -82,8 +95,8 @@ void ArtsAppHQElement::loadImageTex()
 
 void ArtsAppHQElement::enableOnScreenChecker()
 {
-    _onScreenChecker = new ArtImageOnScreenChecker();
-    _onScreenChecker->startCheckingForOnScreenPosition(this);
+    //_onScreenChecker = new ArtImageOnScreenChecker();
+    _onScreenChecker.startCheckingForOnScreenPosition(this);
 }
 
 void ArtsAppHQElement::addImage(Texture2D* tex)
@@ -225,11 +238,11 @@ void ArtsAppHQElement::onExit()
         _artImage = nullptr;
     }
     
-    if(_onScreenChecker)
-    {
-        _onScreenChecker->endCheck();
-        _onScreenChecker->release();
-    }
+    //if(_onScreenChecker)
+    //{
+        _onScreenChecker.endCheck();
+        //_onScreenChecker->release();
+    //}
     Super::onExit();
 }
 

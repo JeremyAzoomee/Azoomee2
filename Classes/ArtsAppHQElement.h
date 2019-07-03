@@ -15,6 +15,8 @@ public:
 	typedef std::function<void(const std::string&)> ArtHQElementButtonCallback;
 	
     CREATE_FUNC(ArtsAppHQElement);
+	virtual ~ArtsAppHQElement();
+	
     virtual bool initWithURLAndSize(const std::string& filePath, const cocos2d::Size& size, bool deletable, bool newImage, bool preload = true);
     void enableOnScreenChecker();
     void addImage(cocos2d::Texture2D* tex);
@@ -26,6 +28,8 @@ public:
 	void deleteButtonVisible(bool visible);
     
 private:
+	ArtsAppHQElement();
+	
     void createImageBorder();
     void createWhiteBackground();
     void addOverlay();
@@ -52,7 +56,7 @@ private:
     cocos2d::Sprite* _artImage = nullptr;
     std::string _imageURL;
     
-    ArtImageOnScreenChecker* _onScreenChecker = nullptr;
+    ArtImageOnScreenChecker _onScreenChecker;
 };
 
 NS_AZOOMEE_END

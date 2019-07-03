@@ -57,7 +57,7 @@ private:
     
     bool _keepAspectRatio = false;
     
-    ImageDownloaderOnScreenChecker *onScreenChecker = nullptr;
+    ImageDownloaderOnScreenChecker onScreenChecker;
     
     void addNewBadgeToLoadedImage();
     bool shouldAddNewBadgeToImage = false;

@@ -13,7 +13,7 @@
 
 namespace Azoomee {
 
-class OnScreenChecker : public cocos2d::Ref
+class OnScreenChecker
 {
 public:
     void startCheckingForOnScreenPosition(cocos2d::Node* sender);
