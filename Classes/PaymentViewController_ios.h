@@ -3,8 +3,9 @@
 
 @interface PaymentViewController : UIViewController <SKProductsRequestDelegate, SKPaymentTransactionObserver>
 
-@property (nonatomic, retain) SKProduct * oneMonthSubscription;
-@property (assign) BOOL noPurchaseAfterQuery;
+@property (nonatomic, retain) NSString* oneMonthSubscriptionID;
+@property (nonatomic, retain) SKProduct* oneMonthSubscription;
+@property (assign) BOOL purchaseAfterQuery;
 
 + (id)sharedPayment_ios;
 

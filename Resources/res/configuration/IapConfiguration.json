@@ -1,4 +1,9 @@
 {
-  "google": "com.tinizine.azoomee.monthly02",
-  "amazon": "com.azoomee.premium.monthly"
+  "googleplay-prod": "com.tinizine.azoomee.monthly02",
+  "googleplay-test": "",
+  "googleplay-ci": "",
+  "amazon-prod": "com.azoomee.premium.monthly",
+  "ios-prod": "AZ_Premium_1MonthOnly",
+  "ios-test": "AZ_Test_1MonthOnly",
+  "ios-ci": "AZ_CI_1MonthOnly"
 }
