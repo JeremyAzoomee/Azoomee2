@@ -13,23 +13,33 @@ In cocos2d repo download the dependencies (stored locally and not in git)
     $ cd cocos2d
     $ ./download-deps.py
 
+
+We have three builds of the Azoomee app:
+
+* Azoomee. Aka Azoomee Prod - the live app that will be published to the App Stores
+* Azoomee Test. Installs side by side with the live app, and is used for day to day testing and internal development.
+* Azoomee CI. Similar to Azoomee Test, but points to the CI servers instead of Live. Usually used when testing in-dev backend features before they go to the production environent and can be used by the Test app.
+
+
 ## iOS
 
 Download Xcode. You should always be running the latest (non Beta) version of Xcode and iOS SDK. 
 
 Open the project at: `proj.ios_mac/Azoomee.xcodeproj`
 
-### Targets
+### Targets / Schemes
 
-There are two main targets:
+There is only one main target:
 
-* Azoomee Prod (live environment)
-* Azoomee CI (CI environment)
+* Azoomee
 
-### Some important notes
-* When adding files, be sure to add them to **both** targets. The same applies to **AzoomeeCommon**, which also has a *Prod* and *CI* target.
-* When editing build settings, also keep in mind you may need to edit both *Prod* and *CI* targets.
-* The Info.plist file is shared between both targets.
+Different builds are setup using build configs.
+
+You can run each build by selecting a Scheme:
+
+* Azoomee Prod
+* Azoomee Test
+* Azoomee CI
 
 
 ## Android
@@ -171,19 +181,20 @@ When you're finished entering the changelog, enter the character ":" on a new li
 After doing this, your entries will be added to the changelog file and a commit will be created automatically.
 
 
-As for deploying, here are some common commands.
+#### Deploy commands
 
-Deploy iOS build only:
 
-    $ ./project.py deploy -p ios
+For day to testing, we usually use the Azoomee Test app. This can by deployed by adding `--test`:
 
-Deploy Google Play Android build only:
+    $ ./project.py deploy -p ios googleplay --test
 
-    $ ./project.py deploy -p googleplay
+If you need to deploy the CI app:
 
-Deploy Google Play and iOS builds:
+    $ ./project.py deploy -p ios googleplay --ci
 
-    $ ./project.py deploy -p googleplay ios
+And to deploy the Prod app:
+
+    $ ./project.py deploy -p ios googleplay
 
 Deploy all platforms (as of writing: Google Play, Amazon, Huawei, Vodacom, iOS):
 
