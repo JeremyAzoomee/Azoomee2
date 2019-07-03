@@ -75,8 +75,8 @@ void OfflineHubHQ::addElementsToScrollView(std::vector<std::map<std::string, std
         hqSceneElement->setScale(0.75);
         toBeAddedTo->addChild(hqSceneElement);
         
-        auto sceneElementPositioner = new HQSceneElementPositioner();
-        sceneElementPositioner->positionHQSceneElement((Layer *)hqSceneElement,  false);
+        auto sceneElementPositioner = HQSceneElementPositioner();
+        sceneElementPositioner.positionHQSceneElement((Layer *)hqSceneElement,  false);
         endWidth = hqSceneElement->getPosition().x + hqSceneElement->getBoundingBox().size.width;
     }
     
@@ -101,8 +101,8 @@ void OfflineHubHQ::addArtAppElementToScrollView(cocos2d::ui::ScrollView* toBeAdd
     iconLayer->addChild(artAppIcon);
     toBeAddedTo->addChild(iconLayer);
     
-    auto sceneElementPositioner = new HQSceneElementPositioner();
-    sceneElementPositioner->positionHQSceneElement((Layer *)iconLayer, false);
+    auto sceneElementPositioner = HQSceneElementPositioner();
+    sceneElementPositioner.positionHQSceneElement((Layer *)iconLayer, false);
     
     addListenerToArtElement(iconLayer);
 }
