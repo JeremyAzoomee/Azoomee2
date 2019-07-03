@@ -110,15 +110,30 @@ void SceneManagerScene::onEnterTransitionDidFinish()
 				HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
 				const std::string& currentHQ = HQHistoryManager::getInstance()->getCurrentHQ();
 				
-				ContentFeedHQScene* hqScene = ContentFeedHQScene::create();
-				hqScene->setHQCategory(currentHQ);
-				cocos2d::Scene* goToScene = hqScene;
-				
-				if(currentHQ == ConfigStorage::kMeHQName)
+				HQScene* scene = HQHistoryManager::getInstance()->getCachedHQScene(currentHQ);
+				cocos2d::Scene* goToScene = scene;
+				if(!scene)
 				{
-					MeHQ* hqScene = MeHQ::create();
-					hqScene->setHQCategory(currentHQ);
-					goToScene = hqScene;
+					//ContentFeedHQScene* hqScene = ContentFeedHQScene::create();
+					//hqScene->setHQCategory(currentHQ);
+					//cocos2d::Scene* goToScene = hqScene;
+					scene = ContentFeedHQScene::create();
+					scene->setHQCategory(currentHQ);
+					if(currentHQ == ConfigStorage::kMeHQName)
+					{
+						//MeHQ* hqScene = MeHQ::create();
+						//hqScene->setHQCategory(currentHQ);
+						//goToScene = hqScene;
+						scene = MeHQ::create();
+						scene->setHQCategory(currentHQ);
+					}
+					else
+					{
+						scene = ContentFeedHQScene::create();
+						scene->setHQCategory(currentHQ);
+					}
+					HQHistoryManager::getInstance()->addHQSceneToCache(currentHQ, scene);
+					goToScene = scene;
 				}
 				Director::getInstance()->replaceScene(goToScene);
 			}
@@ -448,16 +463,32 @@ void SceneManagerScene::showHoldingUI()
 		HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
 		const std::string& currentHQ = HQHistoryManager::getInstance()->getCurrentHQ();
 		
-		ContentFeedHQScene* hqScene = ContentFeedHQScene::create();
-		hqScene->setHQCategory(currentHQ);
-		cocos2d::Scene* goToScene = hqScene;
-		
-		if(currentHQ == ConfigStorage::kMeHQName)
+		HQScene* scene = HQHistoryManager::getInstance()->getCachedHQScene(currentHQ);
+		cocos2d::Scene* goToScene = scene;
+		if(!scene)
 		{
-			MeHQ* hqScene = MeHQ::create();
-			hqScene->setHQCategory(currentHQ);
-			goToScene = hqScene;
+			//ContentFeedHQScene* hqScene = ContentFeedHQScene::create();
+			//hqScene->setHQCategory(currentHQ);
+			//cocos2d::Scene* goToScene = hqScene;
+			scene = ContentFeedHQScene::create();
+			scene->setHQCategory(currentHQ);
+			if(currentHQ == ConfigStorage::kMeHQName)
+			{
+				//MeHQ* hqScene = MeHQ::create();
+				//hqScene->setHQCategory(currentHQ);
+				//goToScene = hqScene;
+				scene = MeHQ::create();
+				scene->setHQCategory(currentHQ);
+			}
+			else
+			{
+				scene = ContentFeedHQScene::create();
+				scene->setHQCategory(currentHQ);
+			}
+			HQHistoryManager::getInstance()->addHQSceneToCache(currentHQ, scene);
+			goToScene = scene;
 		}
+		//Director::getInstance()->replaceScene(scene);
 		Director::getInstance()->replaceScene(goToScene);
 	})));
 }

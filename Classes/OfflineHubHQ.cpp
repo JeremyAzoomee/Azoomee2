@@ -9,9 +9,9 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-Scene* OfflineHubHQ::createScene()
+cocos2d::Scene* OfflineHubHQ::createScene()
 {
-    auto scene = Scene::create();
+	auto scene = cocos2d::Scene::create();
     auto layer = OfflineHubHQ::create();
     
     scene->addChild(layer);

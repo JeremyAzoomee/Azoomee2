@@ -44,6 +44,8 @@ protected:
 	
 	cocos2d::EventListenerCustom* _rewardRedeemedListener = nullptr;
 	
+	bool _initialised = false;
+	
 public:
 	
 	virtual bool init() override;

@@ -23,7 +23,7 @@ private:
 	cocos2d::Node* _contentNode = nullptr;
 	
 	cocos2d::ui::ScrollView* _contentScrollview = nullptr;
-	std::vector<std::vector<HQSceneElement>> _contentIcons;
+	std::vector<std::vector<HQSceneElement*>> _contentIcons;
 	
 	void createContentScrollview();
 	

@@ -253,10 +253,15 @@ void MeHQ::onTutorialStateChanged(const std::string& stateId)
 		Sprite* hand = Sprite::create("res/tutorial/Pointer.png");
 		hand->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 		hand->setPosition(Vec2(_coinDisplay->getContentSize().width / 2, 0));
+		hand->setName("tutHand");
 		_coinDisplay->addChild(hand,1);
 		hand->setScale(0.5f);
 		hand->runAction(RepeatForever::create(Sequence::createWithTwoActions(MoveBy::create(1.0f, Vec2(0, -25)), MoveBy::create(1.0f, Vec2(0, 25)))));
 		hand->runAction(RepeatForever::create(Sequence::createWithTwoActions(ScaleTo::create(1.0f, 0.7f), ScaleTo::create(1.0f, 0.5f))));
+	}
+	else
+	{
+		_coinDisplay->removeChildByName("tutHand");
 	}
 }
 
