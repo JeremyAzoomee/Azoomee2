@@ -36,11 +36,6 @@ bool HQScene::init()
 }
 void HQScene::onEnter()
 {
-	TutorialController::getInstance()->registerDelegate(this);
-	if(TutorialController::getInstance()->isTutorialActive())
-	{
-		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
-	}
 	_navLayer->setButtonOn(_hqCategory);
 	
 	_rewardRedeemedListener = EventListenerCustom::create(RewardDisplayHandler::kRewardRedeemedEventKey, [this](EventCustom* event){
@@ -51,6 +46,12 @@ void HQScene::onEnter()
 	});
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(_rewardRedeemedListener, this);
 	
+	TutorialController::getInstance()->registerDelegate(this);
+	if(TutorialController::getInstance()->isTutorialActive())
+	{
+		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
+	}
+	ContentHistoryManager::getInstance()->setReturnedFromContent(false);
 	Super::onEnter();
 }
 

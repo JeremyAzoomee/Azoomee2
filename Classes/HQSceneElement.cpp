@@ -140,7 +140,8 @@ void HQSceneElement::addHQSceneElement() //This method is being called by HQScen
         _elementVisual->setShape(Vec2(1,1));
         _elementVisual->setThumbUrl(HQDataProvider::getInstance()->getThumbnailUrlForItem(_elementItemData->getContentItemId()));
     }
-    _elementVisual->setDelay(_elementRowNumber * 0.25 + _elementIndex * 0.05);
+    //_elementVisual->setDelay(_elementRowNumber * 0.25 + _elementIndex * 0.05);
+	_elementVisual->setDelay(0);
     _elementVisual->setCreatedForOffline(false);
     
     if(_manualSizeMultiplier != 0.0f)

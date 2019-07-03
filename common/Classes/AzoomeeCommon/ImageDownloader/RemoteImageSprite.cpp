@@ -12,7 +12,7 @@ NS_AZOOMEE_BEGIN
 
 RemoteImageSprite::RemoteImageSprite()
 {
-    imageDownloaderLogic = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
+    //imageDownloaderLogic = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
 }
     
 RemoteImageSprite::~RemoteImageSprite()
@@ -64,15 +64,22 @@ void RemoteImageSprite::setAttachNewBadgeToImage()
 
 void RemoteImageSprite::onEnter()
 {
+	if(!imageDownloaderLogic)
+	{
+		imageDownloaderLogic = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
+	}
     onScreenChecker = new ImageDownloaderOnScreenChecker();
     onScreenChecker->startCheckingForOnScreenPosition(this);
-    
+	aboutToExit = false;
     Super::onEnter();
 }
 
 void RemoteImageSprite::startLoadingImage()
 {
-    if(loadedImage) return;
+    if(loadedImage || !imageDownloaderLogic)
+	{
+		return;
+	}
     imageDownloaderLogic->downloadImage(this, imageUrl);
 }
 
@@ -204,7 +211,8 @@ void RemoteImageSprite::onExit()
     if(onScreenChecker)
     {
         onScreenChecker->endCheck();
-        onScreenChecker->release();
+		delete onScreenChecker;
+		onScreenChecker = nullptr;
     }
     
     aboutToExit = true;
