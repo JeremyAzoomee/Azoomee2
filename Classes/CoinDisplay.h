@@ -29,8 +29,10 @@ private:
 	cocos2d::Sprite* _coinSprite = nullptr;
 	
 	void createGlowAnim();
+	void removeGlowAnim();
 	
 	bool _animate = false;
+	bool _animInitialised = false;
 	
 public:
 	bool init() override;
