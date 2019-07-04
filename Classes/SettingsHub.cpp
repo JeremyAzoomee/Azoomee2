@@ -185,6 +185,7 @@ bool SettingsHub::init()
 		{
 			if(ParentManager::getInstance()->isPaidUser())
 			{
+			    ModalMessages::getInstance()->startLoading();
 				HttpRequestCreator* request = API::RefreshParentCookiesRequest(this);
 				request->execute();
 			}
@@ -387,9 +388,9 @@ void SettingsHub::AdultPinAccepted(RequestAdultPinLayer* layer)
 
 void SettingsHub::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
-	ModalMessages::getInstance()->stopLoading();
 	if(requestTag == API::TagGetParentDetails)
 	{
+        ModalMessages::getInstance()->stopLoading();
 		ParentManager::getInstance()->parseParentDetails(body);
 	}
 	else if(requestTag == API::TagCookieRefresh)
@@ -404,6 +405,7 @@ void SettingsHub::onHttpRequestSuccess(const std::string& requestTag, const std:
 	}
 	else if(requestTag == API::TagGetGorden)
 	{
+        ModalMessages::getInstance()->stopLoading();
 		ChildManager::getInstance()->setChildLoggedIn(false);// make sure we log out child if entering parent chat
 
 		if(CookieManager::getInstance()->parseDownloadCookies(headers))
