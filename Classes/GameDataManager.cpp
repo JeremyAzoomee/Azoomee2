@@ -355,7 +355,6 @@ void GameDataManager::startGame(const std::string &basePath, const std::string &
     if(!FileUtils::getInstance()->isFileExist(basePath + fileName))
     {
         AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
-        //hideLoadingScreen();
         showErrorMessage();
         return;
     }
@@ -363,7 +362,6 @@ void GameDataManager::startGame(const std::string &basePath, const std::string &
     if(!isGameCompatibleWithCurrentAzoomeeVersion(basePath + "package.json"))
     {
         AnalyticsSingleton::getInstance()->contentItemIncompatibleEvent();
-        //hideLoadingScreen();
         showIncompatibleMessage();
         return;
     }

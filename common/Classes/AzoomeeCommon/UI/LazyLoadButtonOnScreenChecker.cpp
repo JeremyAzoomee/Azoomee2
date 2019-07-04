@@ -12,11 +12,6 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-LazyLoadButtonOnScreenCheckerRef LazyLoadButtonOnScreenChecker::create()
-{
-    return std::make_shared<LazyLoadButtonOnScreenChecker>();
-}
-
 void LazyLoadButtonOnScreenChecker::elementAppeared(Node* sender)
 {
     LazyLoadingButton* button = dynamic_cast<LazyLoadingButton*>(sender);
