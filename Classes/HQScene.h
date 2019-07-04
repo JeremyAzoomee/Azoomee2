@@ -31,6 +31,8 @@ private:
 	cocos2d::Sprite* _verticalScrollGradient = nullptr;
 	
 protected:
+	static const std::string kTutHandName;
+	
 	HQSceneType _type = HQSceneType::DEFAULT;
 	
 	std::string _hqCategory;

@@ -13,7 +13,12 @@ using namespace cocos2d;
 
 namespace Azoomee
 {
-    
+	
+	OnScreenChecker::~OnScreenChecker()
+	{
+		endCheck();
+	}
+	
     void OnScreenChecker::startCheckingForOnScreenPosition(Node* sender)
     {
         elementOnScreen = false;

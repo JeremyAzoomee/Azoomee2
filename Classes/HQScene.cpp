@@ -23,6 +23,8 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+const std::string HQScene::kTutHandName = "tutHand";
+
 bool HQScene::init()
 {
 	if(!Super::init())

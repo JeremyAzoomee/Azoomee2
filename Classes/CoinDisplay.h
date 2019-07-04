@@ -18,6 +18,11 @@ class CoinDisplay : public cocos2d::ui::Layout
 {
 	typedef cocos2d::ui::Layout Super;
 private:
+	static const std::string kAnimClipNodeName;
+	static const std::string kAnimFrameGlowName;
+	static const std::string kAnimSliderName;
+	static const std::string kAnimStarName;
+	
 	static float sCoinCount;
 	static bool sAnimating;
 	static float sIncPerSec;

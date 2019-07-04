@@ -6,11 +6,7 @@
 
 NS_AZOOMEE_BEGIN
 
-class HQSceneElementPositioner : public cocos2d::Ref
-{
-public:
-    void positionHQSceneElement(cocos2d::Layer* sender,  bool isGroup);
-};
+void positionHQSceneElement(cocos2d::Layer* sender,  bool isGroup);
 
 NS_AZOOMEE_END
 
