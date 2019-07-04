@@ -146,9 +146,15 @@ class AzoomeeApp:
         """
         print 'package:', args
 
+        env = 'prod'
+        if args.ci:
+            env = 'ci'
+        elif args.test:
+            env = 'test'
+
         platforms = self.PLATFORMS if 'all' in args.platform else args.platform
         for p in platforms:
-            self._perform_package( p, force_rebuild=args.rebuild )
+            self._perform_package( p, env=env, force_rebuild=args.rebuild )
     
 
     def deploy( self, args ):
@@ -554,6 +560,8 @@ class AzoomeeApp:
         package_commands = subparsers.add_parser( 'package', help='package the app' )
         package_commands.add_argument( '-p', '--platform', help='platform(s) to build', choices=platform_options, nargs='+', required=True )
         package_commands.add_argument( '--rebuild', help='force a rebuild, otherwise a build will only happen if needed', action='store_true' )
+        package_commands.add_argument( '--ci', help='target the CI servers', action='store_true' )
+        package_commands.add_argument( '--test', help='test build, seperate to the Live production build', action='store_true' )
 
         # Clean build files
         clean_commands = subparsers.add_parser( 'clean', help='clean the build files' )
