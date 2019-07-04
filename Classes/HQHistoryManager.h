@@ -20,7 +20,7 @@ private:
 	
 	Orientation _prevHQOrientation = Orientation::Landscape;
 	
-	std::map<std::string,HQScene*> _cachedScenes;
+	cocos2d::Map<std::string,HQScene*> _cachedScenes;
 	
 public:
 	static HQHistoryManager* getInstance(void);

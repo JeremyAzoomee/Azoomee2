@@ -51,6 +51,8 @@ private:
 	
 	void showHoldingUI();
 	
+	cocos2d::Scene* getBaseScene();
+	
 public:
     static cocos2d::Scene* createScene(SceneNameEnum sceneName);
     static cocos2d::Scene* createWebview(Orientation _orientation, const std::string& URL, cocos2d::Vec2 closeButtonAnchor = cocos2d::Vec2(0,0));

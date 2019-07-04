@@ -366,7 +366,7 @@ void ContentFeedHQScene::onTutorialStateChanged(const std::string& stateId)
 			hqSceneElement->removeChildByName("tutHand");
 			Sprite* hand = Sprite::create("res/tutorial/Pointer.png");
 			hand->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-			hand->setName("tutHand");
+			hand->setName(kTutHandName);
 			hand->setRotation(-15.0f);
 			hand->setPosition(hqSceneElement->getContentSize() / 2);
 			hqSceneElement->addChild(hand,1);
@@ -380,7 +380,7 @@ void ContentFeedHQScene::onTutorialStateChanged(const std::string& stateId)
 		if(_contentIcons.size() > 0 && _contentIcons.at(0).size() > 0)
 		{
 			HQSceneElement* hqSceneElement = _contentIcons.at(0).at(0);
-			hqSceneElement->removeChildByName("tutHand");
+			hqSceneElement->removeChildByName(kTutHandName);
 		}
 	}
 }
