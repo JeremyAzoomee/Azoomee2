@@ -69,14 +69,14 @@ void HQScene::onSizeChanged()
 	Super::onSizeChanged();
 
 	const Size& visibleSize = this->getContentSize();
-	bool isPortrait = visibleSize.width < visibleSize.height;
+	_isPortrait = visibleSize.width < visibleSize.height;
 	bool isIphoneX = ConfigStorage::getInstance()->isDeviceIphoneX();
 	
 	_messagingLayer->setContentSize(Size(visibleSize.width, 350));
 	
 	_messagingLayer->repositionElements();
 	
-	_coinDisplay->setAnchorPoint(Vec2(1.2,(isIphoneX && isPortrait) ? 2.2f : 1.5f));
+	_coinDisplay->setAnchorPoint(Vec2(1.2,(isIphoneX && _isPortrait) ? 2.2f : 1.5f));
 	_verticalScrollGradient->setScaleX(visibleSize.width / _verticalScrollGradient->getContentSize().width);
 	
 	DynamicNodeHandler::getInstance()->rebuildCurrentCTA();
@@ -96,13 +96,13 @@ HQSceneType HQScene::getSceneType() const
 void HQScene::buildCoreUI()
 {
 	const Size& visibleSize = this->getContentSize();
-	bool isPortrait = visibleSize.width < visibleSize.height;
+	_isPortrait = visibleSize.width < visibleSize.height;
 	bool isIphoneX = ConfigStorage::getInstance()->isDeviceIphoneX();
 	
 	// add coin counter
 	_coinDisplay = CoinDisplay::create();
 	_coinDisplay->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
-	_coinDisplay->setAnchorPoint(Vec2(1.2,(isIphoneX && isPortrait) ? 2.2f : 1.5f));
+	_coinDisplay->setAnchorPoint(Vec2(1.2,(isIphoneX && _isPortrait) ? 2.2f : 1.5f));
 	_coinDisplay->setAnimate(true);
 	this->addChild(_coinDisplay, 1);
 	//show coin counter if they have coins or have completed the shop tutorial
@@ -169,8 +169,6 @@ void HQScene::buildCoreUI()
 
 void HQScene::addParticleElementsToBackground()
 {
-	Vec2 origin = Director::getInstance()->getVisibleOrigin();
-	
 	auto myParticle = ParticleMeteor::create();
 	
 	if(SpecialCalendarEventManager::getInstance()->isXmasTime())

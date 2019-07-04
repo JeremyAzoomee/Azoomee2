@@ -13,22 +13,14 @@
 
 NS_AZOOMEE_BEGIN
 
-class LazyLoadButtonOnScreenChecker;
-typedef std::shared_ptr<LazyLoadButtonOnScreenChecker> LazyLoadButtonOnScreenCheckerRef;
-
 class LazyLoadButtonOnScreenChecker : public OnScreenChecker
 {
 private:
     static int imageRemovedCount;
 protected:
     
-    
     virtual void elementDisappeared(cocos2d::Node *sender) override;
     virtual void elementAppeared(cocos2d::Node *sender) override;
-
-public:
-    static LazyLoadButtonOnScreenCheckerRef create();
-    
 };
 
 

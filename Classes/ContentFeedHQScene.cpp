@@ -110,12 +110,6 @@ void ContentFeedHQScene::createContentScrollview()
 		return;
 	}
 	
-/*#if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-	if(startingReviewProcessRequired())
-	{
-		IosNativeFunctionsSingleton::getInstance()->startIosReviewProcess();
-	}
-#endif*/
 	std::vector<LayerColor*> carouselStorage;
 	float totalHeightOfCarousels = 0;
 	
@@ -160,23 +154,7 @@ void ContentFeedHQScene::createContentScrollview()
 			{
 				lowestElementYPosition = elementPosition.y;
 			}
-			
-			/*if(rowIndex == 0 && elementIndex == 0)
-			{
-				if(TutorialController::getInstance()->isTutorialActive() && (TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUVideoHQContent || TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUGameHQContent || TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUGroupHQContent))
-				{
-					hqSceneElement->setLocalZOrder(1);
-					
-					Sprite* hand = Sprite::create("res/tutorial/Pointer.png");
-					hand->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-					hand->setRotation(-15.0f);
-					hand->setPosition(hqSceneElement->getContentSize() / 2);
-					hqSceneElement->addChild(hand,1);
-					hand->setScale((contentItemSize.height * unitMultiplier * 0.5f) / hand->getContentSize().height);
-					hand->runAction(RepeatForever::create(Sequence::createWithTwoActions(MoveBy::create(1.0f, Vec2(hqSceneElement->getContentSize().width * 0.05f, -hqSceneElement->getContentSize().height * 0.1f)), MoveBy::create(1.0f, Vec2(-hqSceneElement->getContentSize().width * 0.05f, hqSceneElement->getContentSize().height * 0.1f)))));
-					hand->runAction(RepeatForever::create(Sequence::createWithTwoActions(ScaleTo::create(1.0f, hand->getScale() * 1.2f), ScaleTo::create(1.0f, hand->getScale()))));
-				}
-			}*/
+
 		}
 		
 		//Filling up empty spaces with placeholders (Design requirement - except for Group HQ)
@@ -353,10 +331,9 @@ void ContentFeedHQScene::addGroupHQLogo()
 
 void ContentFeedHQScene::onSizeChanged()
 {
-	Size currentSize = this->getContentSize();
+	bool wasPortrait = _isPortrait;
 	Super::onSizeChanged();
-	Size newSize = Director::getInstance()->getVisibleSize();
-	if(currentSize.equals(newSize))
+	if(wasPortrait == _isPortrait) // orientation hasnt changed
 	{
 		return;
 	}

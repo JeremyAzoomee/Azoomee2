@@ -45,6 +45,7 @@ protected:
 	cocos2d::EventListenerCustom* _rewardRedeemedListener = nullptr;
 	
 	bool _initialised = false;
+	bool _isPortrait = false;
 	
 public:
 	

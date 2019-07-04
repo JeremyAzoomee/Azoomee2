@@ -33,12 +33,6 @@ ImageDownloader::ImageDownloader(const std::string& storageLocation, CacheMode m
 ImageDownloader::~ImageDownloader()
 {
     _delegate = nullptr;
-    /*if(_downloadRequest)
-    {
-        _downloadRequest->setResponseCallback(nullptr);
-        _downloadRequest->release();
-        _downloadRequest = nullptr;
-    }*/
 }
 
 void ImageDownloader::downloadImage(ImageDownloaderDelegate* delegate, const std::string& url, bool forceOverride)

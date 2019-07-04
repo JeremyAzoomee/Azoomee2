@@ -21,7 +21,7 @@ class LazyLoadingButton : public cocos2d::ui::Button
 private:
     std::string _placeholderImageFile;
     std::string _mainImageFile;
-    LazyLoadButtonOnScreenCheckerRef _onScreenChecker;
+    LazyLoadButtonOnScreenChecker _onScreenChecker;
 public:
     
     virtual void onEnter() override;
