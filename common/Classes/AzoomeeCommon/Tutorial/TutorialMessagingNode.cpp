@@ -129,4 +129,13 @@ void TutorialMessagingNode::highlightMessageString(const std::string& targetStr,
 	_bubble->highlightMessageString(targetStr, highlightColour);
 }
 
+void TutorialMessagingNode::setAnimatingOut(bool animatingOut)
+{
+	_animatingOut = animatingOut;
+}
+bool TutorialMessagingNode::isAnimatingOut() const
+{
+	return _animatingOut;
+}
+
 NS_AZOOMEE_END
