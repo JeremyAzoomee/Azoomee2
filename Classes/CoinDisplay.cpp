@@ -89,6 +89,7 @@ void CoinDisplay::onEnter()
 			createGlowAnim();
 		}),NULL));
 	}
+	_coinsLabel->setString(StringUtils::format("%d",(int)sCoinCount));
 	Super::onEnter();
 }
 
@@ -124,6 +125,11 @@ void CoinDisplay::update(float deltaT)
 			_coinsLabel->setScale(1.2f);
 			sAnimating = true;
 			AudioMixer::getInstance()->playEffect("CoinCounterIcon_NumberGoingUp.wav");
+		}
+		else
+		{
+			_coinsLabel->setScale(1.0f);
+			sAnimating = false;
 		}
 	}
 	
