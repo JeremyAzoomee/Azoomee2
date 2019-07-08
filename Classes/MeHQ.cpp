@@ -103,7 +103,13 @@ void MeHQ::onExit()
 
 void MeHQ::onSizeChanged()
 {
+	bool wasPortrait = _isPortrait;
 	Super::onSizeChanged();
+	if(wasPortrait == _isPortrait) // orientation hasnt changed
+	{
+		return;
+	}
+
 	float scrollPercent = _contentListView->getScrolledPercentVertical();
 	if(isnan(scrollPercent))
 	{
