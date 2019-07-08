@@ -141,6 +141,7 @@
 		923D5BC522008BF1008C13D0 /* ContentFeedHQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BC422008BF1008C13D0 /* ContentFeedHQScene.cpp */; };
 		923D5BED2201F126008C13D0 /* RewardScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BEC2201F125008C13D0 /* RewardScene.cpp */; };
 		923D5BF022020475008C13D0 /* CoinDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BEF22020475008C13D0 /* CoinDisplay.cpp */; };
+		9240331622D36612009907F3 /* AgeGate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9240331522D36611009907F3 /* AgeGate.cpp */; };
 		92448AE621F73AEF00E88C9D /* WelcomeScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92448AE521F73AEF00E88C9D /* WelcomeScene.cpp */; };
 		924ACE3720A9C541007A5550 /* MeHQProfileDetails.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924ACE3620A9C541007A5550 /* MeHQProfileDetails.cpp */; };
 		924E8450214117D9004590FD /* SettingsMessageBoxRejectFR.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924E844F214117D9004590FD /* SettingsMessageBoxRejectFR.cpp */; };
@@ -581,6 +582,8 @@
 		923D5BEC2201F125008C13D0 /* RewardScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RewardScene.cpp; sourceTree = "<group>"; };
 		923D5BEE2202012C008C13D0 /* CoinDisplay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoinDisplay.h; sourceTree = "<group>"; };
 		923D5BEF22020475008C13D0 /* CoinDisplay.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CoinDisplay.cpp; sourceTree = "<group>"; };
+		9240331422D34650009907F3 /* AgeGate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AgeGate.h; sourceTree = "<group>"; };
+		9240331522D36611009907F3 /* AgeGate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AgeGate.cpp; sourceTree = "<group>"; };
 		92448AE021F7378400E88C9D /* WelcomeScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WelcomeScene.h; sourceTree = "<group>"; };
 		92448AE521F73AEF00E88C9D /* WelcomeScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = WelcomeScene.cpp; sourceTree = "<group>"; };
 		9246EDCF1F0403A8008CD359 /* azoomee2_ArtApp.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = azoomee2_ArtApp.xcodeproj; path = ../ArtApp/proj.ios_mac/azoomee2_ArtApp.xcodeproj; sourceTree = "<group>"; };
@@ -1159,6 +1162,7 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				9240330E22D342A6009907F3 /* Onboarding */,
 				92EC0C47223027DF00B02F20 /* Shop */,
 				923D5BEA2201E18A008C13D0 /* Rewards */,
 				92084F7121E78FB600DACCEB /* Tutorial */,
@@ -1330,6 +1334,15 @@
 				928A6DD420EBDD4A0053E793 /* AddChildLayer.cpp */,
 			);
 			name = addChild;
+			sourceTree = "<group>";
+		};
+		9240330E22D342A6009907F3 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				9240331422D34650009907F3 /* AgeGate.h */,
+				9240331522D36611009907F3 /* AgeGate.cpp */,
+			);
+			name = Onboarding;
 			sourceTree = "<group>";
 		};
 		9246EDD01F0403A8008CD359 /* Products */ = {
@@ -1913,6 +1926,7 @@
 				926A2B2C212F018E00AE7964 /* SettingsPageHeader.cpp in Sources */,
 				921A266D216F958B005C8C41 /* VodacomOnboardingLayer.cpp in Sources */,
 				026BAF781E3FFD33009C4ACE /* HQHistoryManager.cpp in Sources */,
+				9240331622D36612009907F3 /* AgeGate.cpp in Sources */,
 				920F6FDE213EB76300B7BB76 /* SettingsFriendshipsPage.cpp in Sources */,
 				92BDD4C122366D3100DA56F3 /* ShopItem.cpp in Sources */,
 				928A6E8920EE5C880053E793 /* ChildAgeLayer.cpp in Sources */,
