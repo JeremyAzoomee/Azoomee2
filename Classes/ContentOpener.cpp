@@ -28,6 +28,8 @@
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Cookie/CookieManager.h>
 
+#include "AgeGate.h"
+
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
@@ -138,7 +140,8 @@ void ContentOpener::doCarouselContentOpenLogic(const HQContentItemObjectRef& con
 		{
 			context = IAPEntryContext::LOCKED_VIDEO;
 		}
-		DynamicNodeHandler::getInstance()->startIAPFlow(context);
+		//DynamicNodeHandler::getInstance()->startIAPFlow(context);
+		Director::getInstance()->getRunningScene()->addChild(AgeGate::create(),1000);
 	}
 	
 	AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, rowIndex, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(hqCategory, rowIndex, elementIndex));
