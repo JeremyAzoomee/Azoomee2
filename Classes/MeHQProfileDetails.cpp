@@ -71,8 +71,6 @@ bool MeHQProfileDetails::init()
         }
     });
 	
-	_profileImageDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
-	_profileImageDownloader->downloadImage(this, ChildManager::getInstance()->getParentOrChildAvatarId());
     avatarLayout->addChild(_avatar);
     
     Sprite* editIcon = Sprite::create("res/oomeeMaker/edit_button.png");
@@ -113,6 +111,8 @@ void MeHQProfileDetails::onEnter()
 	{
 		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
 	}
+	_profileImageDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
+	_profileImageDownloader->downloadImage(this, ChildManager::getInstance()->getParentOrChildAvatarId());
 }
 
 void MeHQProfileDetails::onExit()
@@ -133,6 +133,7 @@ void MeHQProfileDetails::onSizeChanged()
 void MeHQProfileDetails::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {
     Size prevSize = _avatar->getContentSize();
+	Director::getInstance()->getTextureCache()->reloadTexture(downloader->getLocalImagePath());
     _avatar->setMainImage(downloader->getLocalImagePath());
     _avatar->setContentSize(prevSize);
 }
