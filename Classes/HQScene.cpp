@@ -20,6 +20,8 @@
 #include "ContentHistoryManager.h"
 #include "RewardDisplayHandler.h"
 
+#include "AgeGate.h"
+
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
@@ -79,6 +81,12 @@ void HQScene::onSizeChanged()
 	_verticalScrollGradient->setScaleX(visibleSize.width / _verticalScrollGradient->getContentSize().width);
 	
 	DynamicNodeHandler::getInstance()->rebuildCurrentCTA();
+	
+	AgeGate* ageGate = dynamic_cast<AgeGate*>(getChildByName(AgeGate::kAgeGateLayerName));
+	if(ageGate)
+	{
+		ageGate->onSizeChanged();
+	}
 
 }
 

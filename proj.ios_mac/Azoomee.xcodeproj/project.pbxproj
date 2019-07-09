@@ -142,6 +142,8 @@
 		923D5BED2201F126008C13D0 /* RewardScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BEC2201F125008C13D0 /* RewardScene.cpp */; };
 		923D5BF022020475008C13D0 /* CoinDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BEF22020475008C13D0 /* CoinDisplay.cpp */; };
 		9240331622D36612009907F3 /* AgeGate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9240331522D36611009907F3 /* AgeGate.cpp */; };
+		9240334122D4CCE2009907F3 /* IAPScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9240334022D4CCE1009907F3 /* IAPScene.cpp */; };
+		9240334622D4E449009907F3 /* MarketingCarousel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9240334522D4E449009907F3 /* MarketingCarousel.cpp */; };
 		92448AE621F73AEF00E88C9D /* WelcomeScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92448AE521F73AEF00E88C9D /* WelcomeScene.cpp */; };
 		924ACE3720A9C541007A5550 /* MeHQProfileDetails.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924ACE3620A9C541007A5550 /* MeHQProfileDetails.cpp */; };
 		924E8450214117D9004590FD /* SettingsMessageBoxRejectFR.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924E844F214117D9004590FD /* SettingsMessageBoxRejectFR.cpp */; };
@@ -584,6 +586,12 @@
 		923D5BEF22020475008C13D0 /* CoinDisplay.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CoinDisplay.cpp; sourceTree = "<group>"; };
 		9240331422D34650009907F3 /* AgeGate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AgeGate.h; sourceTree = "<group>"; };
 		9240331522D36611009907F3 /* AgeGate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AgeGate.cpp; sourceTree = "<group>"; };
+		9240333A22D4C0FB009907F3 /* IAPScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IAPScene.h; sourceTree = "<group>"; };
+		9240334022D4CCE1009907F3 /* IAPScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = IAPScene.cpp; sourceTree = "<group>"; };
+		9240334222D4D05A009907F3 /* MarketingCarousel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MarketingCarousel.h; sourceTree = "<group>"; };
+		9240334322D4D090009907F3 /* ProductLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProductLayout.h; sourceTree = "<group>"; };
+		9240334422D4D0A7009907F3 /* IAPFooter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IAPFooter.h; sourceTree = "<group>"; };
+		9240334522D4E449009907F3 /* MarketingCarousel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MarketingCarousel.cpp; sourceTree = "<group>"; };
 		92448AE021F7378400E88C9D /* WelcomeScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WelcomeScene.h; sourceTree = "<group>"; };
 		92448AE521F73AEF00E88C9D /* WelcomeScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = WelcomeScene.cpp; sourceTree = "<group>"; };
 		9246EDCF1F0403A8008CD359 /* azoomee2_ArtApp.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = azoomee2_ArtApp.xcodeproj; path = ../ArtApp/proj.ios_mac/azoomee2_ArtApp.xcodeproj; sourceTree = "<group>"; };
@@ -1341,6 +1349,12 @@
 			children = (
 				9240331422D34650009907F3 /* AgeGate.h */,
 				9240331522D36611009907F3 /* AgeGate.cpp */,
+				9240333A22D4C0FB009907F3 /* IAPScene.h */,
+				9240334022D4CCE1009907F3 /* IAPScene.cpp */,
+				9240334222D4D05A009907F3 /* MarketingCarousel.h */,
+				9240334522D4E449009907F3 /* MarketingCarousel.cpp */,
+				9240334322D4D090009907F3 /* ProductLayout.h */,
+				9240334422D4D0A7009907F3 /* IAPFooter.h */,
 			);
 			name = Onboarding;
 			sourceTree = "<group>";
@@ -1893,6 +1907,7 @@
 			files = (
 				926A2B3221301BB800AE7964 /* SettingsOnlineSafetyPage.cpp in Sources */,
 				92E5856E221475120015A4FA /* ChildSettingsScene.cpp in Sources */,
+				9240334622D4E449009907F3 /* MarketingCarousel.cpp in Sources */,
 				928A6DD520EBDD4A0053E793 /* AddChildLayer.cpp in Sources */,
 				02D6446B2087828800FF17B4 /* WebViewController_ios.mm in Sources */,
 				02E595901E55F9960052F395 /* OfflineHubHQ.cpp in Sources */,
@@ -1968,6 +1983,7 @@
 				921A266B216F7307005C8C41 /* VodacomOnboardingScene.cpp in Sources */,
 				92951513208895D200F43AEC /* DynamicNodeCheckBox.cpp in Sources */,
 				9289DAF61FCEEFF000B12435 /* DynamicNodeTextInput.cpp in Sources */,
+				9240334122D4CCE2009907F3 /* IAPScene.cpp in Sources */,
 				920F6FE52140472A00B7BB76 /* SettingsMessageBox.cpp in Sources */,
 				437395811ED3441F00C29DB1 /* FlowDataSingleton.cpp in Sources */,
 				02E595891E55DFF00052F395 /* OfflineHubSceneVisuals.cpp in Sources */,

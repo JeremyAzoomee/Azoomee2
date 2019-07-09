@@ -34,9 +34,13 @@ private:
 	
 public:
 	
+	static const std::string kAgeGateLayerName;
+	
 	bool init() override;
 	void onEnter() override;
 	void onExit() override;
+	
+	void onSizeChanged() override;
 	
 	void setActionCompletedCallback(const ActionCompletedCallback& callback);
 	
