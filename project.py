@@ -30,6 +30,9 @@ class AzoomeeApp:
     IOS_PROJECT_PATH = os.path.join( IOS_PROJECT_DIR, 'Azoomee.xcodeproj' )
     IOS_PROJECT_TARGET = 'Azoomee'
     IOS_PLIST_PATH = os.path.join( IOS_PROJECT_DIR, 'ios', 'Info.plist' )
+    IOS_ADDITIONAL_PLIST_PATHS = ( 
+        os.path.join( IOS_PROJECT_DIR, 'stickers', 'Info.plist' ),
+    )
     IOS_EXPORT_OPTIONS_PATH = os.path.join( IOS_PROJECT_DIR, 'ExportOptions.plist' )
 
     # Path to changelog file
@@ -444,6 +447,12 @@ class AzoomeeApp:
         plist['CFBundleVersion'] = build_version
         plist['CFBundleShortVersionString'] = new_version
         plistlib.writePlist( plist, self.IOS_PLIST_PATH )
+
+        for plist_path in self.IOS_ADDITIONAL_PLIST_PATHS:
+            plist = plistlib.readPlist( plist_path )
+            plist['CFBundleVersion'] = build_version
+            plist['CFBundleShortVersionString'] = new_version
+            plistlib.writePlist( plist, plist_path )
 
         # android
         gradle_file = os.path.join( self.ANDROID_PROJECT_DIR, 'app', 'build.gradle' )
