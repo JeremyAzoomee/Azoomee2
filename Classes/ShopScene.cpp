@@ -115,10 +115,12 @@ void ShopScene::onEnter()
 	
 	if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUShopEarnMoreRewards)
 	{
-		runAction(Sequence::createWithTwoActions(DelayTime::create(8.0f), CallFunc::create([](){
+		runAction(Sequence::createWithTwoActions(DelayTime::create(8.0f), CallFunc::create([this](){
 			TutorialController::getInstance()->setTutorialCompleted(TutorialController::kFTUPostPurchaseID);
 			TutorialController::getInstance()->nextStep();
+			_displayingPostPurchaseTutorial = false;
 		})));
+		_displayingPostPurchaseTutorial = true;
 	}
 	
 	Super::onEnter();
@@ -127,6 +129,12 @@ void ShopScene::onExit()
 {
 	AnalyticsSingleton::getInstance()->contentItemClosedEvent();
 	ShopDataDownloadHandler::getInstance()->setOnCompleteCallback(nullptr);
+	if(_displayingPostPurchaseTutorial)
+	{
+		TutorialController::getInstance()->setTutorialCompleted(TutorialController::kFTUPostPurchaseID);
+		TutorialController::getInstance()->nextStep();
+		stopAllActions();
+	}
 	Super::onExit();
 }
 void ShopScene::onSizeChanged()
