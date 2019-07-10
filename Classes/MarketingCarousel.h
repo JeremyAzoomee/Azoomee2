@@ -34,7 +34,7 @@ class MarketingCarousel : public cocos2d::ui::Layout
 {
 	typedef cocos2d::ui::Layout Super;
 private:
-	cocos2d::ui::PageView* _carousel = nullptr;
+	cocos2d::ui::ListView* _carousel = nullptr;
 	std::vector<MarketingPageData> _pageData;
 	
 	void addPage(const MarketingPageData& data);
@@ -48,7 +48,7 @@ public:
 	
 	void setPageData(const std::vector<MarketingPageData> data);
 	
-	CREATE_FUNC(MArketingCarousel);
+	CREATE_FUNC(MarketingCarousel);
 };
 
 NS_AZOOMEE_END

@@ -28,6 +28,8 @@
 #include "ChildSettingsScene.h"
 #include "ShopScene.h"
 
+#include "IAPScene.h"
+
 #include "CoinCollectLayer.h"
 #include <AzoomeeCommon/Crashlytics/CrashlyticsConfig.h>
 
@@ -340,6 +342,15 @@ void SceneManagerScene::onEnterTransitionDidFinish()
 			HQHistoryManager::getInstance()->updatePrevOrientation();
 			AnalyticsSingleton::getInstance()->registerCurrentScene("SHOP");
 			Director::getInstance()->replaceScene(ShopScene::create());
+			break;
+		}
+		case SceneNameEnum::IAP:
+		{
+			returnToPrevOrientation();
+			acceptAnyOrientation();
+			HQHistoryManager::getInstance()->updatePrevOrientation();
+			AnalyticsSingleton::getInstance()->registerCurrentScene("IAP");
+			Director::getInstance()->replaceScene(IAPScene::create());
 			break;
 		}
 #ifdef AZOOMEE_VODACOM_BUILD
