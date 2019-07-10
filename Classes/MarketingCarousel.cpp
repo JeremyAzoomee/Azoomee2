@@ -6,6 +6,7 @@
 //
 
 #include "MarketingCarousel.h"
+#include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 
 using namespace cocos2d;
 
@@ -42,6 +43,7 @@ bool MarketingCarousel::init()
 	_carousel->setSizePercent(Vec2(1.0f,1.0f));
 	_carousel->setDirection(ui::PageView::Direction::HORIZONTAL);
 	_carousel->setIndicatorEnabled(true);
+	_carousel->ignoreContentAdaptWithSize(false);
 	this->addChild(_carousel);
 	
 	return true;
@@ -74,7 +76,9 @@ void MarketingCarousel::setPageData(const std::vector<MarketingPageData> data)
 
 void MarketingCarousel::addPage(const MarketingPageData &data)
 {
-	ui::ImageView* image = ui::ImageView::create(data.)
+	RemoteImageSprite* image = RemoteImageSprite::create();
+	image->initWithUrlAndSizeWithoutPlaceholder(data.getImageUrl(), Size(2048,2048));
+	
 }
 
 NS_AZOOMEE_END
