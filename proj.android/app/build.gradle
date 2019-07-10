@@ -37,8 +37,8 @@ android {
         applicationId "com.tinizine.azoomee"
         minSdkVersion PROP_MIN_SDK_VERSION
         targetSdkVersion PROP_TARGET_SDK_VERSION
-        versionCode 1004006001
-        versionName "4.6.1"
+        versionCode 1004006002
+        versionName "4.6.2"
         manifestPlaceholders = [applicationName:"Azoomee"]
 
         ndk {
