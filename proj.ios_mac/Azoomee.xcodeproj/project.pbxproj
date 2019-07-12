@@ -137,6 +137,8 @@
 		9224BFB11F7908D400108553 /* DynamicNodeButtonListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB01F7908D400108553 /* DynamicNodeButtonListener.cpp */; };
 		9224BFB41F7932D200108553 /* ButtonActionData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB31F7932D200108553 /* ButtonActionData.cpp */; };
 		9224BFB71F794BFA00108553 /* DynamicNodeHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB61F794BFA00108553 /* DynamicNodeHandler.cpp */; };
+		9229EE4322D75A6A009732B0 /* ProductLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EE4222D75A6A009732B0 /* ProductLayout.cpp */; };
+		9229EE4A22D795BA009732B0 /* IAPFooter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EE4922D795BA009732B0 /* IAPFooter.cpp */; };
 		923D5BBE220064B9008C13D0 /* HQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BBD220064B9008C13D0 /* HQScene.cpp */; };
 		923D5BC522008BF1008C13D0 /* ContentFeedHQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BC422008BF1008C13D0 /* ContentFeedHQScene.cpp */; };
 		923D5BED2201F126008C13D0 /* RewardScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BEC2201F125008C13D0 /* RewardScene.cpp */; };
@@ -576,6 +578,9 @@
 		9224BFB31F7932D200108553 /* ButtonActionData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ButtonActionData.cpp; sourceTree = "<group>"; };
 		9224BFB51F7949E100108553 /* DynamicNodeHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicNodeHandler.h; sourceTree = "<group>"; };
 		9224BFB61F794BFA00108553 /* DynamicNodeHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeHandler.cpp; sourceTree = "<group>"; };
+		9229EE4222D75A6A009732B0 /* ProductLayout.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ProductLayout.cpp; sourceTree = "<group>"; };
+		9229EE4922D795BA009732B0 /* IAPFooter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = IAPFooter.cpp; sourceTree = "<group>"; };
+		9229EE4B22D8A06A009732B0 /* DataEntryLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataEntryLayout.h; sourceTree = "<group>"; };
 		923D5B7221FB5BA9008C13D0 /* HQScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HQScene.h; sourceTree = "<group>"; };
 		923D5BBD220064B9008C13D0 /* HQScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HQScene.cpp; sourceTree = "<group>"; };
 		923D5BC322007473008C13D0 /* ContentFeedHQScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContentFeedHQScene.h; sourceTree = "<group>"; };
@@ -1354,7 +1359,10 @@
 				9240334222D4D05A009907F3 /* MarketingCarousel.h */,
 				9240334522D4E449009907F3 /* MarketingCarousel.cpp */,
 				9240334322D4D090009907F3 /* ProductLayout.h */,
+				9229EE4222D75A6A009732B0 /* ProductLayout.cpp */,
 				9240334422D4D0A7009907F3 /* IAPFooter.h */,
+				9229EE4922D795BA009732B0 /* IAPFooter.cpp */,
+				9229EE4B22D8A06A009732B0 /* DataEntryLayout.h */,
 			);
 			name = Onboarding;
 			sourceTree = "<group>";
@@ -1934,6 +1942,7 @@
 				928A6DCD20EBC2560053E793 /* AddChildScene.cpp in Sources */,
 				A15B2F991DE74F6400D25334 /* WebViewSelector.cpp in Sources */,
 				4306ABA31EAE2C3E001E586A /* PaymentViewController_ios.mm in Sources */,
+				9229EE4322D75A6A009732B0 /* ProductLayout.cpp in Sources */,
 				921A26BF217E1653005C8C41 /* VodacomMessageBoxInfo.cpp in Sources */,
 				924E8455214141DC004590FD /* KidDetailsLayer.cpp in Sources */,
 				927DF6E320AECA620080DFEF /* MeHQGallery.cpp in Sources */,
@@ -1993,6 +2002,7 @@
 				921A267B216FA05A005C8C41 /* VodacomOnboardingPinLayer.cpp in Sources */,
 				92448AE621F73AEF00E88C9D /* WelcomeScene.cpp in Sources */,
 				921A2673216F9FA1005C8C41 /* VodacomOnboardingLoginLayer.cpp in Sources */,
+				9229EE4A22D795BA009732B0 /* IAPFooter.cpp in Sources */,
 				926A2B3921356C2000AE7964 /* EditAccountLayer.cpp in Sources */,
 				9271D7D32040557D00370120 /* OomeeMakerDelegate.cpp in Sources */,
 				921A25F421627FD6005C8C41 /* SettingsLanguagePage.cpp in Sources */,

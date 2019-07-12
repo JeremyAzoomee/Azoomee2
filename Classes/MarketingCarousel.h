@@ -39,12 +39,16 @@ private:
 	
 	void addPage(const MarketingPageData& data);
 	
+	float _timeTillNextScroll = 0.0f;
+	static const float ktimeBetweenScrolls;
+	
 public:
 	
 	bool init() override;
 	void onEnter() override;
 	void onExit() override;
 	void onSizeChanged() override;
+	void update(float deltaT) override;
 	
 	void setPageData(const std::vector<MarketingPageData> data);
 	

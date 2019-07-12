@@ -13,6 +13,8 @@
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/UI/Scene.h>
 #include "MarketingCarousel.h"
+#include "ProductLayout.h"
+#include "IAPFooter.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -21,7 +23,8 @@ class IAPScene : public Azoomee::Scene
 	typedef Azoomee::Scene Super;
 private:
 	MarketingCarousel* _marketingCarousel = nullptr;
-	
+	ProductLayout* _productLayout = nullptr;
+	IAPFooter* _footer = nullptr;
 	cocos2d::ui::Button* _closeButton = nullptr;
 	
 public:
