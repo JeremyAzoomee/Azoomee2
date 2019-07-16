@@ -139,6 +139,9 @@
 		9224BFB71F794BFA00108553 /* DynamicNodeHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB61F794BFA00108553 /* DynamicNodeHandler.cpp */; };
 		9229EE4322D75A6A009732B0 /* ProductLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EE4222D75A6A009732B0 /* ProductLayout.cpp */; };
 		9229EE4A22D795BA009732B0 /* IAPFooter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EE4922D795BA009732B0 /* IAPFooter.cpp */; };
+		9229EE4E22DCAFAA009732B0 /* SignupScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EE4D22DCAFAA009732B0 /* SignupScene.cpp */; };
+		9229EE5222DDD3E8009732B0 /* ProgressBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EE5122DDD3E8009732B0 /* ProgressBar.cpp */; };
+		9229EE5422DDE6CA009732B0 /* SignupPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EE5322DDE6CA009732B0 /* SignupPage.cpp */; };
 		923D5BBE220064B9008C13D0 /* HQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BBD220064B9008C13D0 /* HQScene.cpp */; };
 		923D5BC522008BF1008C13D0 /* ContentFeedHQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BC422008BF1008C13D0 /* ContentFeedHQScene.cpp */; };
 		923D5BED2201F126008C13D0 /* RewardScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BEC2201F125008C13D0 /* RewardScene.cpp */; };
@@ -580,7 +583,12 @@
 		9224BFB61F794BFA00108553 /* DynamicNodeHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeHandler.cpp; sourceTree = "<group>"; };
 		9229EE4222D75A6A009732B0 /* ProductLayout.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ProductLayout.cpp; sourceTree = "<group>"; };
 		9229EE4922D795BA009732B0 /* IAPFooter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = IAPFooter.cpp; sourceTree = "<group>"; };
-		9229EE4B22D8A06A009732B0 /* DataEntryLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataEntryLayout.h; sourceTree = "<group>"; };
+		9229EE4C22DCA78F009732B0 /* SignupScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignupScene.h; sourceTree = "<group>"; };
+		9229EE4D22DCAFAA009732B0 /* SignupScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SignupScene.cpp; sourceTree = "<group>"; };
+		9229EE4F22DCD4C3009732B0 /* SignupPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignupPage.h; sourceTree = "<group>"; };
+		9229EE5022DDCEEF009732B0 /* ProgressBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProgressBar.h; sourceTree = "<group>"; };
+		9229EE5122DDD3E8009732B0 /* ProgressBar.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ProgressBar.cpp; sourceTree = "<group>"; };
+		9229EE5322DDE6CA009732B0 /* SignupPage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SignupPage.cpp; sourceTree = "<group>"; };
 		923D5B7221FB5BA9008C13D0 /* HQScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HQScene.h; sourceTree = "<group>"; };
 		923D5BBD220064B9008C13D0 /* HQScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HQScene.cpp; sourceTree = "<group>"; };
 		923D5BC322007473008C13D0 /* ContentFeedHQScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContentFeedHQScene.h; sourceTree = "<group>"; };
@@ -1362,7 +1370,12 @@
 				9229EE4222D75A6A009732B0 /* ProductLayout.cpp */,
 				9240334422D4D0A7009907F3 /* IAPFooter.h */,
 				9229EE4922D795BA009732B0 /* IAPFooter.cpp */,
-				9229EE4B22D8A06A009732B0 /* DataEntryLayout.h */,
+				9229EE4C22DCA78F009732B0 /* SignupScene.h */,
+				9229EE4D22DCAFAA009732B0 /* SignupScene.cpp */,
+				9229EE4F22DCD4C3009732B0 /* SignupPage.h */,
+				9229EE5322DDE6CA009732B0 /* SignupPage.cpp */,
+				9229EE5022DDCEEF009732B0 /* ProgressBar.h */,
+				9229EE5122DDD3E8009732B0 /* ProgressBar.cpp */,
 			);
 			name = Onboarding;
 			sourceTree = "<group>";
@@ -1915,6 +1928,7 @@
 			files = (
 				926A2B3221301BB800AE7964 /* SettingsOnlineSafetyPage.cpp in Sources */,
 				92E5856E221475120015A4FA /* ChildSettingsScene.cpp in Sources */,
+				9229EE5222DDD3E8009732B0 /* ProgressBar.cpp in Sources */,
 				9240334622D4E449009907F3 /* MarketingCarousel.cpp in Sources */,
 				928A6DD520EBDD4A0053E793 /* AddChildLayer.cpp in Sources */,
 				02D6446B2087828800FF17B4 /* WebViewController_ios.mm in Sources */,
@@ -2021,6 +2035,7 @@
 				923D5BC522008BF1008C13D0 /* ContentFeedHQScene.cpp in Sources */,
 				9220EAD5200F77E200BD7A90 /* SignUpFlowController.cpp in Sources */,
 				02E595C31E5D9EE70052F395 /* OfflineText.cpp in Sources */,
+				9229EE4E22DCAFAA009732B0 /* SignupScene.cpp in Sources */,
 				02A11FF81EA6375D007EDD95 /* RoutePaymentSingleton.cpp in Sources */,
 				D13C40151E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm in Sources */,
 				921C75AD219464A100EB93D6 /* VodacomOnboardingTnCLayer.cpp in Sources */,
@@ -2057,6 +2072,7 @@
 				4319D3E21E67134600110F92 /* LoginScene.cpp in Sources */,
 				929A9D57206CF9F1009B323D /* FavouritesManager.cpp in Sources */,
 				A19759841DE4931200FEB03C /* HQSceneElement.cpp in Sources */,
+				9229EE5422DDE6CA009732B0 /* SignupPage.cpp in Sources */,
 				9220EAD82010C07D00BD7A90 /* IAPFlowController.cpp in Sources */,
 				921C75A8218B08D800EB93D6 /* LanguageSelectScene.cpp in Sources */,
 				921A25FA2164D08B005C8C41 /* SettingsMessageBoxNotification.cpp in Sources */,

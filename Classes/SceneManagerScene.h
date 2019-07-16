@@ -31,7 +31,8 @@ enum class SceneNameEnum {
 	WelcomeScene,
 	ChildSettingsHub,
 	Shop,
-	IAP
+	IAP,
+	Signup
 };
 
 class SceneManagerScene : public cocos2d::Layer

@@ -94,7 +94,7 @@ bool AgeGate::init()
 	Sprite* pattern = Sprite::create("res/decoration/main_pattern_small.png");
 	pattern->setAnchorPoint(Vec2(0.5, 0.6));
 	pattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-	pattern->setColor(Color3B(13, 40, 78));
+	pattern->setColor(Style::Color::darkIndigo);
 	clipNode->addChild(pattern);
 	
 	LayerGradient* gradient = LayerGradient::create(Color4B::WHITE, Color4B(255,255,255,100), Vec2(0,-1));
@@ -187,7 +187,7 @@ bool AgeGate::init()
 		int value = ans.at(i);
 		ui::Button* ansButton = ui::Button::create("res/onboarding/rounded_button.png");
 		ansButton->setScale((_contentBody->getContentSize().width * 0.9f) / ansButton->getContentSize().width);
-		ansButton->setColor(Color3B(13, 40, 78));
+		ansButton->setColor(Style::Color::darkIndigo);
 		ansButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 		ansButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
 		ansButton->addTouchEventListener([this, value, targetVal](Ref* pSender, ui::Widget::TouchEventType eType){

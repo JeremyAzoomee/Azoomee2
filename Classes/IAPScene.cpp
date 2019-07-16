@@ -48,7 +48,7 @@ bool IAPScene::init()
 		switch (action) {
 			case IAPAction::PURCHASE:
 			{
-				
+				Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Signup));
 				break;
 			}
 			case IAPAction::RESTORE:

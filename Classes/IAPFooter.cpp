@@ -34,7 +34,7 @@ bool IAPFooter::init()
 	_bgPattern = Sprite::create("res/decoration/main_pattern_big.png");
 	_bgPattern->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
 	_bgPattern->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
-	_bgPattern->setColor(Color3B(13,40,78));
+	_bgPattern->setColor(Style::Color::darkIndigo);
 	_bgPattern->setOpacity(102);
 	addChild(_bgPattern);
 	

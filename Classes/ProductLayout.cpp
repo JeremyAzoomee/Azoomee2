@@ -41,7 +41,7 @@ bool ProductLayout::init()
 	_purchaseButton->setContentSize(Size(700,140));
 	_purchaseButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_purchaseButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
-	_purchaseButton->setColor(Color3B(13,40,78));
+	_purchaseButton->setColor(Style::Color::darkIndigo);
 	_purchaseButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
@@ -67,7 +67,6 @@ bool ProductLayout::init()
 	_restoreButton->setContentSize(Size(700,140));
 	_restoreButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_restoreButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
-	_restoreButton->setColor(Color3B(13,40,78));
 	_restoreButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
