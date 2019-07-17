@@ -8,6 +8,10 @@
 #include "SignupScene.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
+#include "SignupEnterEmail.h"
+#include "SignupConfirmEmail.h"
+#include "SignupEnterPassword.h"
+#include "SignupEnterPin.h"
 
 using namespace cocos2d;
 
@@ -70,7 +74,12 @@ bool SignupScene::init()
 	_titleText->setTextColor(Color4B::WHITE);
 	addChild(_titleText);
 	
-	_signupPage = SignupPage::create();
+	//_signupPage = SignupEnterEmail::create();
+	//auto page = SignupConfirmEmail::create();
+	//page->setEmail("test@test.com");
+	//_signupPage = page;
+	//_signupPage = SignupEnterPassword::create();
+	_signupPage = SignupEnterPin::create();
 	_signupPage->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE_BOTTOM : Vec2::ANCHOR_MIDDLE_LEFT);
 	_signupPage->setNormalizedPosition(isPortrait ? Vec2(0.5,0.025) : Vec2::ANCHOR_MIDDLE);
 	_signupPage->setSizeType(cocos2d::ui::Layout::SizeType::PERCENT);
@@ -96,7 +105,7 @@ void SignupScene::onSizeChanged()
 	_patternHider->clear();
 	if(isPortrait)
 	{
-		Vec2 points[4] = {Vec2(0,0), Vec2(contentSize.width, 0), Vec2(contentSize.width, contentSize.height * 0.66f), Vec2(0,contentSize.height * 0.66f)};
+		Vec2 points[4] = {Vec2(0,-1), Vec2(contentSize.width, -1), Vec2(contentSize.width, contentSize.height * 0.66f), Vec2(0,contentSize.height * 0.66f)};
 		_patternHider->drawSolidPoly(points, 4, Color4F(Style::Color::darkIndigo));
 	}
 	else
@@ -118,6 +127,17 @@ void SignupScene::onSizeChanged()
 	_signupPage->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE_BOTTOM : Vec2::ANCHOR_MIDDLE_LEFT);
 	_signupPage->setNormalizedPosition(isPortrait ? Vec2(0.5,0.025) : Vec2::ANCHOR_MIDDLE);
 	_signupPage->setSizePercent(isPortrait ? Vec2(0.95f,0.67f) : Vec2(0.45f, 0.9f));
+}
+
+// - IMEDelegate
+void SignupScene::keyboardWillShow(cocos2d::IMEKeyboardNotificationInfo& info)
+{
+	int keyboardHeight = info.end.size.height - Director::getInstance()->getVisibleOrigin().y;
+	_signupPage->repositionForKeyboardHeight(keyboardHeight, info.duration);
+}
+void SignupScene::keyboardWillHide(cocos2d::IMEKeyboardNotificationInfo& info)
+{
+	_signupPage->repositionForKeyboardHeight(0, info.duration);
 }
 
 NS_AZOOMEE_END

@@ -32,8 +32,6 @@ bool SignupPage::init()
 	_inputHolder->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 	_inputHolder->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	_inputHolder->setLayoutType(Type::VERTICAL);
-	//_inputHolder->setSizeType(SizeType::PERCENT);
-	//_inputHolder->setSizePercent(Vec2(0.8f,0.3f));
 	addChild(_inputHolder);
 	
 	_inputTitle = ui::Text::create("test input title", Style::Font::Regular(), 50);
@@ -43,11 +41,12 @@ bool SignupPage::init()
 	_inputTitle->setTextColor(Color4B(130,130,130,255));
 	_inputHolder->addChild(_inputTitle);
 	
-	ui::Scale9Sprite* inputBg = ui::Scale9Sprite::create("res/onboarding/input_rounded_frame.png");
-	inputBg->setColor(Color3B(171, 168, 168));
-	inputBg->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	inputBg->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	_inputBox = ui::EditBox::create(inputBg->getContentSize() * 0.8f,"res/onboarding/input_rounded_frame.png");
+	_inputBg = ui::Scale9Sprite::create("res/onboarding/input_rounded_frame.png");
+	_inputBg->setColor(Color3B(171, 168, 168));
+	_inputBg->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	_inputBg->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	_inputBg->setContentSize(Size(1060, _inputBg->getContentSize().height));
+	_inputBox = ui::EditBox::create(_inputBg->getContentSize() * 0.8f,"res/onboarding/input_rounded_frame.png");
 	_inputBox->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_inputBox->setPlaceHolder(_("Tap here to type").c_str());
 	_inputBox->setPlaceholderFontName(Style::Font::InputSystemName);
@@ -59,7 +58,8 @@ bool SignupPage::init()
 	_inputBox->setFontColor(Color3B::BLACK);
 	_inputBox->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
 	_inputBox->setDelegate(this);
-	_inputBox->addChild(inputBg);
+	_inputBox->addChild(_inputBg);
+	_inputBox->setShouldMoveContentOnKeyboardDisplay(false);
 	_inputHolder->addChild(_inputBox);
 	
 	_continueButton = ui::Button::create("res/onboarding/rounded_button.png");
@@ -130,6 +130,7 @@ bool SignupPage::init()
 	_termsLink->setTextVerticalAlignment(TextVAlignment::CENTER);
 	_termsLink->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_termsLink->setTouchEnabled(true);
+	_termsLink->setTouchScaleChangeEnabled(true);
 	_termsLink->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
@@ -151,6 +152,7 @@ bool SignupPage::init()
 	_privacyPolicyLink->setTextVerticalAlignment(TextVAlignment::CENTER);
 	_privacyPolicyLink->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_privacyPolicyLink->setTouchEnabled(true);
+	_privacyPolicyLink->setTouchScaleChangeEnabled(true);
 	_privacyPolicyLink->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
@@ -177,6 +179,7 @@ void SignupPage::onExit()
 void SignupPage::onSizeChanged()
 {
 	Super::onSizeChanged();
+	_inputHolder->setPosition((this->getContentSize() / 2.0f) + Size(0,_keyboardOffset));
 }
 
 void SignupPage::setContinueCallback(const ButtonCallback& callback)
@@ -186,6 +189,20 @@ void SignupPage::setContinueCallback(const ButtonCallback& callback)
 void SignupPage::setBackCallback(const ButtonCallback& callback)
 {
 	_backCallback = callback;
+}
+
+void SignupPage::repositionForKeyboardHeight(int height, float duration)
+{
+	if(_backButton->getWorldPosition().y < height)
+	{
+		_keyboardOffset = height - _backButton->getWorldPosition().y;
+		_inputHolder->runAction(MoveBy::create(duration, Vec2(0,_keyboardOffset)));
+	}
+	else if(height == 0)
+	{
+		_inputHolder->runAction(MoveBy::create(duration, Vec2(0,-_keyboardOffset)));
+		_keyboardOffset = 0;
+	}
 }
 
 //Editbox Delegate Functions

@@ -50,12 +50,12 @@ void ProgressBar::setNumberOfSteps(int steps)
 		ui::ImageView* progressIcon = ui::ImageView::create((i == 0 || i == steps - 1) ? "res/onboarding/progress_bar_end.png" : "res/onboarding/progress_bar_middle.png");
 		progressIcon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 		progressIcon->setRotation(i == steps - 1 ? 180 : 0);
-		progressIcon->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(5,0,5,0)));
+		progressIcon->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(3,0,3,0)));
 		progressIcon->setColor(Style::Color::strongPink);
 		progressIcon->setOpacity(100);
 		this->addChild(progressIcon);
 		_progressIcons.pushBack(progressIcon);
-		this->setContentSize(this->getContentSize() + Size(progressIcon->getContentSize().width + 10, i == 0 ? progressIcon->getContentSize().height : 0));
+		this->setContentSize(this->getContentSize() + Size(progressIcon->getContentSize().width + 6, i == 0 ? progressIcon->getContentSize().height : 0));
 	}
 }
 void ProgressBar::setProgress(int progress)

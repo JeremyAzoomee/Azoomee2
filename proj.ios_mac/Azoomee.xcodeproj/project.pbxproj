@@ -142,6 +142,10 @@
 		9229EE4E22DCAFAA009732B0 /* SignupScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EE4D22DCAFAA009732B0 /* SignupScene.cpp */; };
 		9229EE5222DDD3E8009732B0 /* ProgressBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EE5122DDD3E8009732B0 /* ProgressBar.cpp */; };
 		9229EE5422DDE6CA009732B0 /* SignupPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EE5322DDE6CA009732B0 /* SignupPage.cpp */; };
+		9229EE5722DF2CC2009732B0 /* SignupEnterEmail.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EE5622DF2CC2009732B0 /* SignupEnterEmail.cpp */; };
+		9229EE5A22DF5954009732B0 /* SignupConfirmEmail.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EE5922DF5954009732B0 /* SignupConfirmEmail.cpp */; };
+		9229EE5D22DF633E009732B0 /* SignupEnterPassword.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EE5C22DF633E009732B0 /* SignupEnterPassword.cpp */; };
+		9229EE6022DF6935009732B0 /* SignupEnterPin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EE5F22DF6935009732B0 /* SignupEnterPin.cpp */; };
 		923D5BBE220064B9008C13D0 /* HQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BBD220064B9008C13D0 /* HQScene.cpp */; };
 		923D5BC522008BF1008C13D0 /* ContentFeedHQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BC422008BF1008C13D0 /* ContentFeedHQScene.cpp */; };
 		923D5BED2201F126008C13D0 /* RewardScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BEC2201F125008C13D0 /* RewardScene.cpp */; };
@@ -589,6 +593,14 @@
 		9229EE5022DDCEEF009732B0 /* ProgressBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProgressBar.h; sourceTree = "<group>"; };
 		9229EE5122DDD3E8009732B0 /* ProgressBar.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ProgressBar.cpp; sourceTree = "<group>"; };
 		9229EE5322DDE6CA009732B0 /* SignupPage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SignupPage.cpp; sourceTree = "<group>"; };
+		9229EE5522DF2A38009732B0 /* SignupEnterEmail.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignupEnterEmail.h; sourceTree = "<group>"; };
+		9229EE5622DF2CC2009732B0 /* SignupEnterEmail.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SignupEnterEmail.cpp; sourceTree = "<group>"; };
+		9229EE5822DF58A1009732B0 /* SignupConfirmEmail.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignupConfirmEmail.h; sourceTree = "<group>"; };
+		9229EE5922DF5954009732B0 /* SignupConfirmEmail.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SignupConfirmEmail.cpp; sourceTree = "<group>"; };
+		9229EE5B22DF5EB5009732B0 /* SignupEnterPassword.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignupEnterPassword.h; sourceTree = "<group>"; };
+		9229EE5C22DF633E009732B0 /* SignupEnterPassword.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SignupEnterPassword.cpp; sourceTree = "<group>"; };
+		9229EE5E22DF6866009732B0 /* SignupEnterPin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignupEnterPin.h; sourceTree = "<group>"; };
+		9229EE5F22DF6935009732B0 /* SignupEnterPin.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SignupEnterPin.cpp; sourceTree = "<group>"; };
 		923D5B7221FB5BA9008C13D0 /* HQScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HQScene.h; sourceTree = "<group>"; };
 		923D5BBD220064B9008C13D0 /* HQScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HQScene.cpp; sourceTree = "<group>"; };
 		923D5BC322007473008C13D0 /* ContentFeedHQScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContentFeedHQScene.h; sourceTree = "<group>"; };
@@ -1376,6 +1388,14 @@
 				9229EE5322DDE6CA009732B0 /* SignupPage.cpp */,
 				9229EE5022DDCEEF009732B0 /* ProgressBar.h */,
 				9229EE5122DDD3E8009732B0 /* ProgressBar.cpp */,
+				9229EE5522DF2A38009732B0 /* SignupEnterEmail.h */,
+				9229EE5622DF2CC2009732B0 /* SignupEnterEmail.cpp */,
+				9229EE5822DF58A1009732B0 /* SignupConfirmEmail.h */,
+				9229EE5922DF5954009732B0 /* SignupConfirmEmail.cpp */,
+				9229EE5B22DF5EB5009732B0 /* SignupEnterPassword.h */,
+				9229EE5C22DF633E009732B0 /* SignupEnterPassword.cpp */,
+				9229EE5E22DF6866009732B0 /* SignupEnterPin.h */,
+				9229EE5F22DF6935009732B0 /* SignupEnterPin.cpp */,
 			);
 			name = Onboarding;
 			sourceTree = "<group>";
@@ -1941,7 +1961,9 @@
 				921A2677216F9FF6005C8C41 /* VodacomOnboardingDetailsLayer.cpp in Sources */,
 				02074B271E93966D009BB28C /* WebGameAPIDataManager.cpp in Sources */,
 				02D644542087489800FF17B4 /* NativeContentInterface_ios.mm in Sources */,
+				9229EE5A22DF5954009732B0 /* SignupConfirmEmail.cpp in Sources */,
 				92E58564220DC7580015A4FA /* RewardDisplayHandler.cpp in Sources */,
+				9229EE5D22DF633E009732B0 /* SignupEnterPassword.cpp in Sources */,
 				92E58562220DB49F0015A4FA /* RewardScreen.cpp in Sources */,
 				A15B2FCA1DFACF3800D25334 /* HQDataProvider.cpp in Sources */,
 				9295158B2091D48700F43AEC /* UserTypeMessagingLayer.cpp in Sources */,
@@ -2044,6 +2066,7 @@
 				02E595CA1E66E2160052F395 /* HQSceneArtsApp.cpp in Sources */,
 				92EC0C5D2232805D00B02F20 /* ShopCarousel.cpp in Sources */,
 				02A11FF61EA6375D007EDD95 /* AmazonPaymentSingleton.cpp in Sources */,
+				9229EE6022DF6935009732B0 /* SignupEnterPin.cpp in Sources */,
 				9289DB471FD8414F00B12435 /* DynamicNodeText.cpp in Sources */,
 				43BCD71E1EC9FD4E00A07737 /* SceneManagerScene.cpp in Sources */,
 				92A9A0A91F0D1775008A19EB /* ArtAppDelegate.cpp in Sources */,
@@ -2051,6 +2074,7 @@
 				4396947D1EAA4855003C17E6 /* ApplePaymentSingleton.mm in Sources */,
 				921A25F72162830A005C8C41 /* LanguageListItem.cpp in Sources */,
 				02D4FCD41FCF0D0C005BA020 /* IAPProductDataHandler.cpp in Sources */,
+				9229EE5722DF2CC2009732B0 /* SignupEnterEmail.cpp in Sources */,
 				92EC0C4F22312EA800B02F20 /* ShopScene.cpp in Sources */,
 				929D46671F73F04D006E40CE /* DynamicNodeCreator.cpp in Sources */,
 				9289DAF31FCEDB1F00B12435 /* DynamicNodeDataInputStorage.cpp in Sources */,

@@ -16,7 +16,7 @@
 
 NS_AZOOMEE_BEGIN
 
-class SignupScene : public Azoomee::Scene
+class SignupScene : public Azoomee::Scene, cocos2d::IMEDelegate
 {
 	typedef Azoomee::Scene Super;
 private:
@@ -28,6 +28,10 @@ private:
 	cocos2d::DrawNode* _patternHider = nullptr;
 	SignupPage* _signupPage = nullptr;
 	
+	// - IMEDelegate
+	void keyboardWillShow(cocos2d::IMEKeyboardNotificationInfo& info) override;
+	void keyboardWillHide(cocos2d::IMEKeyboardNotificationInfo& info) override;
+	
 public:
 	
 	bool init() override;
@@ -36,6 +40,7 @@ public:
 	void onSizeChanged() override;
 	
 	CREATE_FUNC(SignupScene);
+	
 };
 
 NS_AZOOMEE_END
