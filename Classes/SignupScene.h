@@ -13,20 +13,40 @@
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include "SignupPage.h"
+#include "SignupTermsPage.h"
 
 NS_AZOOMEE_BEGIN
+
+struct SignupData
+{
+	std::string _email;
+	std::string _password;
+	std::string _pin;
+	bool _acceptMarketing;
+};
 
 class SignupScene : public Azoomee::Scene, cocos2d::IMEDelegate
 {
 	typedef Azoomee::Scene Super;
 private:
+	static const std::string kEnterEmailPageKey;
+	static const std::string kConfirmEmailPageKey;
+	static const std::string kEnterPasswordPageKey;
+	static const std::string kEnterPinPageKey;
+	static const std::string kTermsPageKey;
+	
+	SignupData _signupData;
 	
 	cocos2d::ui::Text* _titleText = nullptr;
 	cocos2d::Sprite* _bgPattern = nullptr;
 	cocos2d::LayerGradient* _gradient = nullptr;
 	cocos2d::ui::Layout* _bgColour = nullptr;
 	cocos2d::DrawNode* _patternHider = nullptr;
-	SignupPage* _signupPage = nullptr;
+	cocos2d::ui::Layout* _activePage = nullptr;
+	cocos2d::ui::Layout* _nextPage = nullptr;
+	cocos2d::Map<std::string,cocos2d::ui::Layout*> _pages;
+	
+	void changeToPage(const std::string& pageKey);
 	
 	// - IMEDelegate
 	void keyboardWillShow(cocos2d::IMEKeyboardNotificationInfo& info) override;

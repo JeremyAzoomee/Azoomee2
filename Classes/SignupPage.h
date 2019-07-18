@@ -9,7 +9,6 @@
 #define SignupPage_h
 
 #include <AzoomeeCommon/Azoomee.h>
-//#include <AzoomeeCommon/Input/TextInputLayer.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include "ProgressBar.h"

@@ -146,6 +146,7 @@
 		9229EE5A22DF5954009732B0 /* SignupConfirmEmail.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EE5922DF5954009732B0 /* SignupConfirmEmail.cpp */; };
 		9229EE5D22DF633E009732B0 /* SignupEnterPassword.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EE5C22DF633E009732B0 /* SignupEnterPassword.cpp */; };
 		9229EE6022DF6935009732B0 /* SignupEnterPin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EE5F22DF6935009732B0 /* SignupEnterPin.cpp */; };
+		9229EE6322E07808009732B0 /* SignupTermsPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EE6222E07808009732B0 /* SignupTermsPage.cpp */; };
 		923D5BBE220064B9008C13D0 /* HQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BBD220064B9008C13D0 /* HQScene.cpp */; };
 		923D5BC522008BF1008C13D0 /* ContentFeedHQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BC422008BF1008C13D0 /* ContentFeedHQScene.cpp */; };
 		923D5BED2201F126008C13D0 /* RewardScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BEC2201F125008C13D0 /* RewardScene.cpp */; };
@@ -601,6 +602,8 @@
 		9229EE5C22DF633E009732B0 /* SignupEnterPassword.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SignupEnterPassword.cpp; sourceTree = "<group>"; };
 		9229EE5E22DF6866009732B0 /* SignupEnterPin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignupEnterPin.h; sourceTree = "<group>"; };
 		9229EE5F22DF6935009732B0 /* SignupEnterPin.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SignupEnterPin.cpp; sourceTree = "<group>"; };
+		9229EE6122E06D62009732B0 /* SignupTermsPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignupTermsPage.h; sourceTree = "<group>"; };
+		9229EE6222E07808009732B0 /* SignupTermsPage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SignupTermsPage.cpp; sourceTree = "<group>"; };
 		923D5B7221FB5BA9008C13D0 /* HQScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HQScene.h; sourceTree = "<group>"; };
 		923D5BBD220064B9008C13D0 /* HQScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HQScene.cpp; sourceTree = "<group>"; };
 		923D5BC322007473008C13D0 /* ContentFeedHQScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContentFeedHQScene.h; sourceTree = "<group>"; };
@@ -1396,6 +1399,8 @@
 				9229EE5C22DF633E009732B0 /* SignupEnterPassword.cpp */,
 				9229EE5E22DF6866009732B0 /* SignupEnterPin.h */,
 				9229EE5F22DF6935009732B0 /* SignupEnterPin.cpp */,
+				9229EE6122E06D62009732B0 /* SignupTermsPage.h */,
+				9229EE6222E07808009732B0 /* SignupTermsPage.cpp */,
 			);
 			name = Onboarding;
 			sourceTree = "<group>";
@@ -2061,6 +2066,7 @@
 				02A11FF81EA6375D007EDD95 /* RoutePaymentSingleton.cpp in Sources */,
 				D13C40151E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm in Sources */,
 				921C75AD219464A100EB93D6 /* VodacomOnboardingTnCLayer.cpp in Sources */,
+				9229EE6322E07808009732B0 /* SignupTermsPage.cpp in Sources */,
 				924E8450214117D9004590FD /* SettingsMessageBoxRejectFR.cpp in Sources */,
 				02E595861E55DE670052F395 /* OfflineHubScene.cpp in Sources */,
 				02E595CA1E66E2160052F395 /* HQSceneArtsApp.cpp in Sources */,

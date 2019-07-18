@@ -12,10 +12,17 @@
 #include "SignupConfirmEmail.h"
 #include "SignupEnterPassword.h"
 #include "SignupEnterPin.h"
+#include "SignupTermsPage.h"
 
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
+
+const std::string SignupScene::kEnterEmailPageKey = "enterEmail";
+const std::string SignupScene::kConfirmEmailPageKey = "confirmEmail";
+const std::string SignupScene::kEnterPasswordPageKey = "enterPassword";
+const std::string SignupScene::kEnterPinPageKey = "enterPin";
+const std::string SignupScene::kTermsPageKey = "terms";
 
 bool SignupScene::init()
 {
@@ -79,12 +86,66 @@ bool SignupScene::init()
 	//page->setEmail("test@test.com");
 	//_signupPage = page;
 	//_signupPage = SignupEnterPassword::create();
-	_signupPage = SignupEnterPin::create();
+	/*_signupPage = SignupEnterPin::create();
 	_signupPage->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE_BOTTOM : Vec2::ANCHOR_MIDDLE_LEFT);
 	_signupPage->setNormalizedPosition(isPortrait ? Vec2(0.5,0.025) : Vec2::ANCHOR_MIDDLE);
 	_signupPage->setSizeType(cocos2d::ui::Layout::SizeType::PERCENT);
 	_signupPage->setSizePercent(isPortrait ? Vec2(0.95f,0.67f) : Vec2(0.45f, 0.9f));
-	addChild(_signupPage);
+	addChild(_signupPage);*/
+	
+	//_termsPage = SignupTermsPage::create();
+	//_termsPage->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE_BOTTOM : Vec2::ANCHOR_MIDDLE_LEFT);
+	//_termsPage->setNormalizedPosition(isPortrait ? Vec2::ANCHOR_MIDDLE_BOTTOM : Vec2::ANCHOR_MIDDLE);
+	//_termsPage->setSizeType(cocos2d::ui::Layout::SizeType::PERCENT);
+	//_termsPage->setSizePercent(isPortrait ? Vec2(1.0f,0.71f) : Vec2(0.5f, 1.0f));
+	//addChild(_termsPage);
+	
+	SignupEnterEmail* enterEmail = SignupEnterEmail::create();
+	enterEmail->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE_BOTTOM : Vec2::ANCHOR_MIDDLE_LEFT);
+	enterEmail->setNormalizedPosition(isPortrait ? Vec2(0.5,0.025) : Vec2::ANCHOR_MIDDLE);
+	enterEmail->setSizeType(cocos2d::ui::Layout::SizeType::PERCENT);
+	enterEmail->setSizePercent(isPortrait ? Vec2(0.95f,0.67f) : Vec2(0.45f, 0.9f));
+	enterEmail->setVisible(false);
+	_pages.insert(kEnterEmailPageKey, enterEmail);
+	addChild(enterEmail);
+	
+	SignupConfirmEmail* confirmEmail = SignupConfirmEmail::create();
+	confirmEmail->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE_BOTTOM : Vec2::ANCHOR_MIDDLE_LEFT);
+	confirmEmail->setNormalizedPosition(isPortrait ? Vec2(0.5,0.025) : Vec2::ANCHOR_MIDDLE);
+	confirmEmail->setSizeType(cocos2d::ui::Layout::SizeType::PERCENT);
+	confirmEmail->setSizePercent(isPortrait ? Vec2(0.95f,0.67f) : Vec2(0.45f, 0.9f));
+	confirmEmail->setVisible(false);
+	_pages.insert(kConfirmEmailPageKey, confirmEmail);
+	addChild(confirmEmail);
+	
+	SignupEnterPassword* enterPassword = SignupEnterPassword::create();
+	enterPassword->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE_BOTTOM : Vec2::ANCHOR_MIDDLE_LEFT);
+	enterPassword->setNormalizedPosition(isPortrait ? Vec2(0.5,0.025) : Vec2::ANCHOR_MIDDLE);
+	enterPassword->setSizeType(cocos2d::ui::Layout::SizeType::PERCENT);
+	enterPassword->setSizePercent(isPortrait ? Vec2(0.95f,0.67f) : Vec2(0.45f, 0.9f));
+	enterPassword->setVisible(false);
+	_pages.insert(kEnterPasswordPageKey, enterPassword);
+	addChild(enterPassword);
+	
+	SignupEnterPin* enterPin = SignupEnterPin::create();
+	enterPin->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE_BOTTOM : Vec2::ANCHOR_MIDDLE_LEFT);
+	enterPin->setNormalizedPosition(isPortrait ? Vec2(0.5,0.025) : Vec2::ANCHOR_MIDDLE);
+	enterPin->setSizeType(cocos2d::ui::Layout::SizeType::PERCENT);
+	enterPin->setSizePercent(isPortrait ? Vec2(0.95f,0.67f) : Vec2(0.45f, 0.9f));
+	enterPin->setVisible(false);
+	_pages.insert(kEnterPinPageKey, enterPin);
+	addChild(enterPin);
+	
+	SignupTermsPage* termsPage = SignupTermsPage::create();
+	termsPage->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE_BOTTOM : Vec2::ANCHOR_MIDDLE_LEFT);
+	termsPage->setNormalizedPosition(isPortrait ? Vec2::ANCHOR_MIDDLE_BOTTOM : Vec2::ANCHOR_MIDDLE);
+	termsPage->setSizeType(cocos2d::ui::Layout::SizeType::PERCENT);
+	termsPage->setSizePercent(isPortrait ? Vec2(1.0f,0.71f) : Vec2(0.5f, 1.0f));
+	termsPage->setVisible(false);
+	_pages.insert(kTermsPageKey, termsPage);
+	addChild(termsPage);
+	
+	changeToPage(kEnterEmailPageKey);
 	
 	return true;
 }
@@ -124,20 +185,55 @@ void SignupScene::onSizeChanged()
 	_titleText->setNormalizedPosition(isPortrait ? Vec2(0.5f,0.85f) : Vec2(0.25f,0.5f));
 	_titleText->setTextAreaSize(Size(contentSize.width * (isPortrait ? 0.7f : 0.35f),contentSize.height * 0.28f));
 	
-	_signupPage->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE_BOTTOM : Vec2::ANCHOR_MIDDLE_LEFT);
-	_signupPage->setNormalizedPosition(isPortrait ? Vec2(0.5,0.025) : Vec2::ANCHOR_MIDDLE);
-	_signupPage->setSizePercent(isPortrait ? Vec2(0.95f,0.67f) : Vec2(0.45f, 0.9f));
+	for(auto page : _pages)
+	{
+		if(page.first == kTermsPageKey)
+		{
+			page.second->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE_BOTTOM : Vec2::ANCHOR_MIDDLE_LEFT);
+			page.second->setNormalizedPosition(isPortrait ? Vec2::ANCHOR_MIDDLE_BOTTOM : Vec2::ANCHOR_MIDDLE);
+			page.second->setSizePercent(isPortrait ? Vec2(1.0f,0.71f) : Vec2(0.5f, 1.0f));
+		}
+		else
+		{
+			page.second->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE_BOTTOM : Vec2::ANCHOR_MIDDLE_LEFT);
+			page.second->setNormalizedPosition(isPortrait ? Vec2(0.5,0.025) : Vec2::ANCHOR_MIDDLE);
+			page.second->setSizePercent(isPortrait ? Vec2(0.95f,0.67f) : Vec2(0.45f, 0.9f));
+		}
+	}
+}
+
+void SignupScene::changeToPage(const std::string& pageKey)
+{
+	if(_activePage)
+	{
+		_activePage->setVisible(false);
+		SignupPage* signupPage = dynamic_cast<SignupPage*>(_activePage);
+		if(signupPage)
+		{
+			signupPage->repositionForKeyboardHeight(0, info.duration);
+		}
+	}
+	_activePage = _page.at(pageKey);
+	_activePage->setVisible(true);
 }
 
 // - IMEDelegate
 void SignupScene::keyboardWillShow(cocos2d::IMEKeyboardNotificationInfo& info)
 {
 	int keyboardHeight = info.end.size.height - Director::getInstance()->getVisibleOrigin().y;
-	_signupPage->repositionForKeyboardHeight(keyboardHeight, info.duration);
+	SignupPage* signupPage = dynamic_cast<SignupPage*>(_activePage);
+	if(signupPage)
+	{
+		signupPage->repositionForKeyboardHeight(keyboardHeight, info.duration);
+	}
 }
 void SignupScene::keyboardWillHide(cocos2d::IMEKeyboardNotificationInfo& info)
 {
-	_signupPage->repositionForKeyboardHeight(0, info.duration);
+	SignupPage* signupPage = dynamic_cast<SignupPage*>(_activePage);
+	if(signupPage)
+	{
+		signupPage->repositionForKeyboardHeight(0, info.duration);
+	}
 }
 
 NS_AZOOMEE_END
