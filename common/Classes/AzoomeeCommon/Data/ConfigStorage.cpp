@@ -1,13 +1,13 @@
 //ConfigStorage is a singleton designed to hold all necessary "burnt-in" information for all visual scenes and layers.
 
 #include "ConfigStorage.h"
-#include "Parent/ParentDataProvider.h"
-#include "Child/ChildDataProvider.h"
+#include "Parent/ParentManager.h"
 #include "../Analytics/AnalyticsSingleton.h"
 #include "../API/API.h"
 #include "../Net/Utils.h"
 #include "Json.h"
 #include "../Utils/StringFunctions.h"
+#include "../Utils/DirUtil.h"
 #include "../Strings.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -58,7 +58,9 @@ static ConfigStorage *_sharedConfigStorage = NULL;
     const char* const ConfigStorage::kEstimatedKeyboardHeightLandscape = "Azoomee::MessageComposer::EstimatedKeyboardHeight/Landscape";
     
     const std::string ConfigStorage::kArtCacheFolder = "artCache/";
+    const std::string ConfigStorage::kGameCacheFolder = "gameCache/";
 	const std::string ConfigStorage::kOomeeMakerCacheFolder = "oomeeMaker/";
+    const std::string ConfigStorage::kContentCacheFolder = "contentCache/";
     
     const std::string ConfigStorage::kGameDownloadError = "ERROR";
 	
@@ -156,7 +158,7 @@ std::string ConfigStorage::getFileNameFromUrl(const std::string& url)
     
 std::string ConfigStorage::getGameCachePath()
 {
-    return FileUtils::getInstance()->getWritablePath() + "gameCache/";
+    return DirUtil::getCachesPath() + kGameCacheFolder;
 }
     
 std::string ConfigStorage::getDefaultHQ()
@@ -193,7 +195,7 @@ rapidjson::Document ConfigStorage::parseJsonConfigurationFile(const std::string&
 //-------------------------BACKEND CALLER CONFIGURATION--------------------
 std::string ConfigStorage::getServerHost()
 {
-#ifdef USINGCI
+#ifdef AZOOMEE_ENVIRONMENT_CI
     return "api.azoomee.ninja";
 #endif
     return "api.azoomee.com";
@@ -201,7 +203,7 @@ std::string ConfigStorage::getServerHost()
     
 std::string ConfigStorage::getServerUrlPrefix()
 {
-#ifdef USINGCI
+#ifdef AZOOMEE_ENVIRONMENT_CI
     return "http://";
 #endif
     return "https://";
@@ -214,7 +216,7 @@ std::string ConfigStorage::getServerUrl()
     
 std::string ConfigStorage::getCTAPackageJsonURL()
 {
-#ifdef USINGCI
+#ifdef AZOOMEE_ENVIRONMENT_CI
   #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     return "https://media.azoomee.ninja/static/popups/android/package.json";
   #elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -237,18 +239,18 @@ std::string ConfigStorage::getMediaPrefixForXwalkCookies()
 std::string ConfigStorage::getPathForTag(const std::string& httpRequestTag)
 {
     if(httpRequestTag == API::TagLogin) return "/api/auth/login";
-    if(httpRequestTag == API::TagGetAvailableChildren) return StringUtils::format("/api/user/adult/%s/owns", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
+    if(httpRequestTag == API::TagGetAvailableChildren) return StringUtils::format("/api/user/adult/%s/owns", ParentManager::getInstance()->getLoggedInParentId().c_str());
     if(httpRequestTag == API::TagChildLogin) return "/api/auth/switchProfile";
     if(httpRequestTag == API::TagGetGorden) return "/api/porthole/pixel/gordon.png";
     if(httpRequestTag == API::TagRegisterParent) return "/api/user/v2/signup";
     if(httpRequestTag == API::TagRegisterChild) return "/api/user/child";
     if(httpRequestTag == API::TagDeleteChild) return "/api/user/child/";
-    if(httpRequestTag == API::TagParentPin) return StringUtils::format("/api/user/adult/%s", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
-    if(httpRequestTag == API::TagVerifyAmazonPayment) return StringUtils::format("/api/billing/amazon/user/%s/receipt", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
-    if(httpRequestTag == API::TagVerifyApplePayment) return StringUtils::format("/api/billing/apple/user/%s/receipt", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
-    if(httpRequestTag == API::TagVerifyGooglePayment) return StringUtils::format("/api/billing/google/user/%s/receipt", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
-    if(httpRequestTag == API::TagUpdateBillingData) return StringUtils::format("/api/billing/user/%s/billingStatus", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
-    if(httpRequestTag == API::TagGetPendingFriendRequests) return StringUtils::format("/api/user/adult/%s/invite/code/received", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
+    if(httpRequestTag == API::TagParentPin) return StringUtils::format("/api/user/adult/%s", ParentManager::getInstance()->getLoggedInParentId().c_str());
+    if(httpRequestTag == API::TagVerifyAmazonPayment) return StringUtils::format("/api/billing/amazon/user/%s/receipt", ParentManager::getInstance()->getLoggedInParentId().c_str());
+    if(httpRequestTag == API::TagVerifyApplePayment) return StringUtils::format("/api/billing/apple/user/%s/receipt", ParentManager::getInstance()->getLoggedInParentId().c_str());
+    if(httpRequestTag == API::TagVerifyGooglePayment) return StringUtils::format("/api/billing/google/user/%s/receipt", ParentManager::getInstance()->getLoggedInParentId().c_str());
+    if(httpRequestTag == API::TagUpdateBillingData) return StringUtils::format("/api/billing/user/%s/billingStatus", ParentManager::getInstance()->getLoggedInParentId().c_str());
+    if(httpRequestTag == API::TagGetPendingFriendRequests) return StringUtils::format("/api/user/adult/%s/invite/code/received", ParentManager::getInstance()->getLoggedInParentId().c_str());
     if(httpRequestTag == API::TagCookieRefresh) return "/api/cookie/refresh/adult";
     
     return "";
@@ -256,7 +258,7 @@ std::string ConfigStorage::getPathForTag(const std::string& httpRequestTag)
     
 std::string ConfigStorage::getRemoteWebGameAPIPath()
 {
-#ifdef USINGCI
+#ifdef AZOOMEE_ENVIRONMENT_CI
     return "https://media.azoomee.ninja/static/webgameapi/";
 #else
     return "https://media.azoomee.com/static/webgameapi/";

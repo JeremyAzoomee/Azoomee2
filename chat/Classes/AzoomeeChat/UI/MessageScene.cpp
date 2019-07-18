@@ -4,7 +4,7 @@
 #include <AzoomeeCommon/UI/SplitLayout.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 
 #include "FriendListScene.h"
@@ -93,7 +93,7 @@ bool MessageScene::init()
 
     _rootLayout->addChild(_titleBar);
     
-    if(_participants[0]->friendId() == ParentDataProvider::getInstance()->getLoggedInParentId())
+    if(_participants[0]->friendId() == ParentManager::getInstance()->getLoggedInParentId())
     {
         _titleBar->setChatReportingToForbidden();
     }

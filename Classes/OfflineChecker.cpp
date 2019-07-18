@@ -1,6 +1,5 @@
 #include "OfflineChecker.h"
 #include "BackEndCaller.h"
-#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
 
 using namespace cocos2d;
 using namespace network;

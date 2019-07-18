@@ -9,7 +9,6 @@
 #include "external/json/prettywriter.h"
 #include <AzoomeeCommon/Utils/FileZipUtil.h>
 
-#include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "LoginLogicHandler.h"
@@ -19,14 +18,13 @@
 #include "WebGameAPIDataManager.h"
 #include <AzoomeeCommon/Utils/VersionChecker.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include "FlowDataSingleton.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/ErrorCodes.h>
 #include "WebViewSelector.h"
 #include "HQDataProvider.h"
-#include <AzoomeeCommon/Utils/DirectorySearcher.h>
+#include <AzoomeeCommon/Utils/DirUtil.h>
 #include <ctime>
 #include <cstdlib>
 
@@ -465,7 +463,7 @@ void GameDataManager::performGameCleanup()
     
     if(gameCleanupDue(cleanupCheckFile, _kGameCleanupCheckFreq))
     {
-        const std::vector<std::string>& gameDirs = DirectorySearcher::getInstance()->getFoldersInDirectory(basePath);
+        const std::vector<std::string>& gameDirs = DirUtil::getFoldersInDirectory(basePath);
         for(const std::string& dir : gameDirs)
         {
             const std::string& gameLastUsedFile = basePath + dir + "/lastUsedTimestamp.txt";
@@ -486,7 +484,7 @@ void GameDataManager::setupTimestampFilesForExistingGames()
     const std::string& basePath = getGameCachePath();
     addTimestampFile(basePath + "lastCleanupTimestamp.txt");
     
-    const std::vector<std::string>& gameDirs = DirectorySearcher::getInstance()->getFoldersInDirectory(basePath);
+    const std::vector<std::string>& gameDirs = DirUtil::getFoldersInDirectory(basePath);
     for(const std::string& dir : gameDirs)
     {
         addTimestampFile(basePath + dir + "/lastUsedTimestamp.txt");

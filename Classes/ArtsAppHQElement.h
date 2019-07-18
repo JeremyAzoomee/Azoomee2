@@ -8,10 +8,11 @@
 
 NS_AZOOMEE_BEGIN
 
-class ArtsAppHQElement : public cocos2d::Layer
+class ArtsAppHQElement : public cocos2d::ui::Button
 {
+	typedef cocos2d::ui::Button Super;
 public:
-	typedef std::function<void(const std::string&)> DeleteButtonCallback;
+	typedef std::function<void(const std::string&)> ArtHQElementButtonCallback;
 	
     CREATE_FUNC(ArtsAppHQElement);
     virtual bool initWithURLAndSize(const std::string& filePath, const cocos2d::Size& size, bool deletable, bool newImage, bool preload = true);
@@ -20,10 +21,9 @@ public:
     void addPlaceHolder();
     void loadImageTex();
 	
-	void setDeleteButtonCallback(const DeleteButtonCallback& callback);
+	void setTouchCallback(const ArtHQElementButtonCallback& callback);
+	void setDeleteButtonCallback(const ArtHQElementButtonCallback& callback);
 	void deleteButtonVisible(bool visible);
-	
-	void setTouchEnabled(bool enabled);
     
 private:
     void createImageBorder();
@@ -39,7 +39,8 @@ private:
 	
 	cocos2d::ui::Button* addDeleteButton();
 	cocos2d::ui::Button* _deleteButton = nullptr;
-	DeleteButtonCallback _deleteCallback = nullptr;
+	ArtHQElementButtonCallback _deleteCallback = nullptr;
+	ArtHQElementButtonCallback _touchCallback = nullptr;
     
     void onExit() override;
     

@@ -1,7 +1,6 @@
 #include "AnalyticsSingleton.h"
 #include "../Utils/StringMgr.h"
 #include "../Input/TextInputChecker.h"
-#include "../Data/Parent/ParentDataProvider.h"
 #include "../Utils/StringFunctions.h"
 #include "../Strings.h"
 #include "../Utils/SessionIdManager.h"
@@ -87,7 +86,7 @@ void AnalyticsSingleton::registerAzoomeeEmail(std::string emailAddress)
         azoomeEmail = "YES";
     
     mixPanelRegisterSuperProperties("azoomeeEmail",azoomeEmail);
-    setCrashlyticsKeyWithString("azoomeeEmail", azoomeEmail);
+	setCrashlyticsKeyWithString(CrashlyticsConsts::kAzoomeeEmailKey, azoomeEmail);
 }
 
 void AnalyticsSingleton::registerAccountStatus(std::string Status)
@@ -126,7 +125,7 @@ void AnalyticsSingleton::registerChildGenderAndAge(const ChildRef& child)
 void AnalyticsSingleton::registerSessionId(std::string sessionId)
 {
     mixPanelRegisterSuperProperties("sessionId", sessionId);
-    setCrashlyticsKeyWithString("sessionId", sessionId);
+	setCrashlyticsKeyWithString(CrashlyticsConsts::kSessionIdKey, sessionId);
 }
     
 void AnalyticsSingleton::registerCurrentScene(const std::string &currentScene)
@@ -141,7 +140,7 @@ void AnalyticsSingleton::registerCurrentScene(const std::string &currentScene)
     }
     
     mixPanelRegisterSuperProperties("currentScene", currentScene);
-    setCrashlyticsKeyWithString("currentScene", currentScene);
+	setCrashlyticsKeyWithString(CrashlyticsConsts::kCurrentSceneKey, currentScene);
     
     moveToSceneEvent(previousScene);
 }
@@ -345,14 +344,14 @@ void AnalyticsSingleton::createChildBackPressed()
     
 void AnalyticsSingleton::contentItemSelectedEvent(const std::string& Type)
 {
-    HQContentItemObjectRef contentItem = HQContentItemObject::create();
+    MutableHQContentItemObjectRef contentItem = MutableHQContentItemObject::create();
     contentItem->setType(Type);
     contentItemSelectedEvent(contentItem, -1, -1, "");
 }
     
 void AnalyticsSingleton::contentItemSelectedEvent(const std::string& Type, const std::string& elementShape)
 {
-    HQContentItemObjectRef contentItem = HQContentItemObject::create();
+    MutableHQContentItemObjectRef contentItem = MutableHQContentItemObject::create();
     contentItem->setType(Type);
     contentItemSelectedEvent(contentItem, -1, -1, elementShape);
 }

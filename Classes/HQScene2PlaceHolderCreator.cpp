@@ -1,5 +1,4 @@
 #include "HQScene2PlaceHolderCreator.h"
-#include "HQScene2.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "HQScene2ElementPositioner.h"
 

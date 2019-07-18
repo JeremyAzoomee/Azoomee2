@@ -1,7 +1,6 @@
 #include "LoginLogicHandler.h"
-#include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
-#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "BackEndCaller.h"
 #include "DeepLinkingSingleton.h"
@@ -39,15 +38,15 @@ void LoginLogicHandler::doLoginLogic()
     emptyUserName();
 #endif
     
-    Azoomee::ChildDataParser::getInstance()->setChildLoggedIn(false);
+    Azoomee::ChildManager::getInstance()->setChildLoggedIn(false);
     
-    if(Azoomee::ParentDataParser::getInstance()->hasParentLoginDataInUserDefaults())
+    if(Azoomee::ParentManager::getInstance()->hasParentLoginDataInUserDefaults())
     {
-        Azoomee::ParentDataParser::getInstance()->retrieveParentLoginDataFromUserDefaults();
+        Azoomee::ParentManager::getInstance()->retrieveParentLoginDataFromUserDefaults();
         BackEndCaller::getInstance()->getAvailableChildren();
         BackEndCaller::getInstance()->updateBillingData();
         BackEndCaller::getInstance()->getParentDetails();
-		AnalyticsSingleton::getInstance()->registerIdentifier(ParentDataProvider::getInstance()->getLoggedInParentId());
+		AnalyticsSingleton::getInstance()->registerIdentifier(ParentManager::getInstance()->getLoggedInParentId());
         return;
     }
     else if(DeepLinkingSingleton::getInstance()->actionDeepLink())
@@ -62,7 +61,7 @@ void LoginLogicHandler::doLoginLogic()
 
 void LoginLogicHandler::forceNewLogin()
 {
-    Azoomee::ParentDataParser::getInstance()->clearParentLoginDataFromUserDefaults();
+    Azoomee::ParentManager::getInstance()->clearParentLoginDataFromUserDefaults();
     
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
 }

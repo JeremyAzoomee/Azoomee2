@@ -17,11 +17,11 @@
 #include <AzoomeeChat/UI/MessageScene.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
-#include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
 
 using namespace cocos2d;
 
@@ -113,7 +113,7 @@ void MeHQMessages::buildEmptyCarousel()
     messageLayout->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            const HQDataObjectRef &currentObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName);
+            const HQDataObjectRef &currentObject = HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName);
             
             if(!currentObject->getHqEntitlement())
             {
@@ -175,7 +175,7 @@ void MeHQMessages::buildEmptyCarousel()
         chatButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
             if(eType == ui::Widget::TouchEventType::ENDED)
             {
-                const HQDataObjectRef &currentObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName);
+                const HQDataObjectRef &currentObject = HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName);
                 
                 if(!currentObject->getHqEntitlement())
                 {
@@ -307,15 +307,15 @@ void MeHQMessages::createMessageList()
                 {
                     Azoomee::Chat::delegate = ChatDelegate::getInstance();
                     
-                    const bool isParent = friendIt->get()->friendId() == ParentDataProvider::getInstance()->getLoggedInParentId();
+                    const bool isParent = friendIt->get()->friendId() == ParentManager::getInstance()->getLoggedInParentId();
                     AnalyticsSingleton::getInstance()->setChatFriendIsParent(isParent);
                     AnalyticsSingleton::getInstance()->genericButtonPressEvent(isParent ? "ChatScene - SelectedParent" : "ChatScene - SelectedFriend");
                     
                     AnalyticsSingleton::getInstance()->contentItemSelectedEvent("CHAT");
                     
-                    const std::string& childId = ChildDataProvider::getInstance()->getParentOrChildId();
-                    const std::string& childName = ChildDataProvider::getInstance()->getParentOrChildName();
-                    const std::string& childAvatar = ChildDataProvider::getInstance()->getParentOrChildAvatarId();
+                    const std::string& childId = ChildManager::getInstance()->getParentOrChildId();
+                    const std::string& childName = ChildManager::getInstance()->getParentOrChildName();
+                    const std::string& childAvatar = ChildManager::getInstance()->getParentOrChildAvatarId();
                     Chat::FriendRef currentUser = Chat::Friend::create(childId, childName, childAvatar);
                     
                     Chat::FriendList participants = { currentUser, *friendIt };

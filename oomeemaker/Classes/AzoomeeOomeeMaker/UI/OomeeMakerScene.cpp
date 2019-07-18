@@ -394,7 +394,7 @@ void OomeeMakerScene::saveOomeeFiles()
     
     FileUtils::getInstance()->writeStringToFile(savedFileContent, OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".oomee");
     
-    _oomee->saveSnapshotImage(OomeeMakerDataHandler::getInstance()->getLocalSaveDir() + _filename + ".png");
+    _oomee->saveSnapshotImage(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".png");
     AnalyticsSingleton::getInstance()->saveOomee(savedFileContent);
 }
 

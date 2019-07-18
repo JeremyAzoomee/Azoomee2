@@ -1,8 +1,10 @@
 #include "ChatAPI.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Json.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Data/Cookie/CookieManager.h>
+#include <AzoomeeCommon/ErrorCodes.h>
 #include <cocos/cocos2d.h>
 #include <memory>
 
@@ -67,7 +69,7 @@ void ChatAPI::updateProfileNames()
     _profileNames.clear();
     
     // Add the current child user
-    ChildDataProvider* childData = ChildDataProvider::getInstance();
+    ChildManager* childData = ChildManager::getInstance();
     _profileNames[childData->getParentOrChildId()] = childData->getParentOrChildName();
     
     // Add names from friend list
@@ -113,7 +115,7 @@ void ChatAPI::removeObserver(ChatAPIObserver* observer)
 
 void ChatAPI::requestFriendList()
 {
-    ChildDataProvider* childData = ChildDataProvider::getInstance();
+    ChildManager* childData = ChildManager::getInstance();
     HttpRequestCreator* request = API::GetChatListRequest(childData->getParentOrChildId(), this);
     request->execute();
 }
@@ -125,13 +127,13 @@ FriendList ChatAPI::getFriendList() const
 
 void ChatAPI::reportChat(const FriendRef &friendObj)
 {
-    HttpRequestCreator *request = API::SendChatReportRequest(ChildDataProvider::getInstance()->getParentOrChildId(), friendObj->friendId(), this);
+    HttpRequestCreator *request = API::SendChatReportRequest(ChildManager::getInstance()->getParentOrChildId(), friendObj->friendId(), this);
     request->execute();
 }
 
 void ChatAPI::resetReportedChat(const FriendRef &friendObj)
 {
-    HttpRequestCreator *request = API::ResetReportedChatRequest(ChildDataProvider::getInstance()->getParentOrChildId(), friendObj->friendId(), this);
+    HttpRequestCreator *request = API::ResetReportedChatRequest(ChildManager::getInstance()->getParentOrChildId(), friendObj->friendId(), this);
     request->execute();
 }
 
@@ -139,7 +141,7 @@ void ChatAPI::resetReportedChat(const FriendRef &friendObj)
 
 void ChatAPI::requestMessageHistory(const FriendRef& friendObj, int pageNumber)
 {
-    ChildDataProvider* childData = ChildDataProvider::getInstance();
+    ChildManager* childData = ChildManager::getInstance();
     HttpRequestCreator* request = API::GetChatMessagesRequest(childData->getParentOrChildId(), friendObj->friendId(), pageNumber, this);
     request->execute();
 }
@@ -148,7 +150,7 @@ void ChatAPI::requestMessageHistory(const FriendRef& friendObj, int pageNumber)
 
 void ChatAPI::sendMessage(const FriendRef& friendObj, const MessageRef& message)
 {
-    ChildDataProvider* childData = ChildDataProvider::getInstance();
+    ChildManager* childData = ChildManager::getInstance();
     const JsonObjectRepresentation& asJson = *message.get();
     HttpRequestCreator* request = API::SendChatMessageRequest(childData->getParentOrChildId(), friendObj->friendId(), asJson, this);
     request->execute();
@@ -158,15 +160,23 @@ void ChatAPI::sendMessage(const FriendRef& friendObj, const MessageRef& message)
 
 void ChatAPI::markMessagesAsRead(const FriendRef& friendObj, const MessageRef& message)
 {
-    ChildDataProvider* childData = ChildDataProvider::getInstance();
+    ChildManager* childData = ChildManager::getInstance();
     HttpRequestCreator* request = API::MarkReadMessageRequest(childData->getParentOrChildId(), friendObj->friendId(), message->timestamp(), this);
     request->execute();
 }
 
 void ChatAPI::getTimelineSummary()
 {
-    HttpRequestCreator* request = API::GetTimelineSummary(ChildDataProvider::getInstance()->getParentOrChildId(), this);
+    HttpRequestCreator* request = API::GetTimelineSummary(ChildManager::getInstance()->getParentOrChildId(), this);
     request->execute();
+}
+
+#pragma mark - Session refresh
+
+void ChatAPI::refreshChildSession()
+{
+	HttpRequestCreator* request = API::RefreshChildCookiesRequest(this);
+	request->execute();
 }
 
 #pragma mark - HttpRequestCreatorResponseDelegate
@@ -315,6 +325,21 @@ void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
             }
         }
     }
+	else if(requestTag == API::TagChildCookieRefresh)
+	{
+		ChildManager::getInstance()->parseChildSessionUpdate(body);
+		HttpRequestCreator* request = API::GetGordenRequest(ChildManager::getInstance()->getLoggedInChild()->getId(), ChildManager::getInstance()->getLoggedInChild()->getCDNSessionId(), this);
+		request->execute();
+	}
+	else if(requestTag == API::TagGetGorden)
+	{
+		CookieManager::getInstance()->parseDownloadCookies(headers);
+		// Notify observers
+		for(auto observer : _observers)
+		{
+			observer->onChatAPIRefreshChildSession();
+		}
+	}
 }
 
 void ChatAPI::onHttpRequestFailed(const std::string& requestTag, long errorCode)
@@ -331,6 +356,13 @@ void ChatAPI::onHttpRequestFailed(const std::string& requestTag, long errorCode)
             Azoomee::Chat::delegate->onChatAuthorizationError(requestTag, errorCode);
         }
     }
+	else if(errorCode == ERROR_CODE_OFFLINE)
+	{
+		if(Azoomee::Chat::delegate)
+		{
+			Azoomee::Chat::delegate->onChatOfflineError(requestTag);
+		}
+	}
     else
     {
         // Otherwise pass all other errors to the observers
@@ -357,7 +389,7 @@ void ChatAPI::onModerationStatusResponseSuccess(const std::string& requestTag, c
     const std::string& status = getStringFromJson("status", response);
     
     // Make sure the confirmation is for the current user
-    const std::string& currentChildID = ChildDataProvider::getInstance()->getParentOrChildId();
+    const std::string& currentChildID = ChildManager::getInstance()->getParentOrChildId();
     if(userIdA != currentChildID)
     {
         // Not related to the current user

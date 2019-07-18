@@ -37,7 +37,7 @@ IAPProductDataHandler::IAPProductDataHandler()
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 void IAPProductDataHandler::fetchProductData()
 {
-#ifndef VODACOM_BUILD
+#ifndef AZOOMEE_VODACOM_BUILD
     if(!isProductDataFetched())
     {
         JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "setupInAppPurchase");

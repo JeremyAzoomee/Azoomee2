@@ -1,14 +1,10 @@
 #include "NavigationLayer.h"
 
 #include "HQDataProvider.h"
-#include "HQScene2.h"
 #include "HQSceneArtsApp.h"
 
 #include <AzoomeeCommon/Utils/SpecialCalendarEventManager.h>
-#include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
-#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include "PreviewLoginSignupMessageBox.h"
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
@@ -82,7 +78,7 @@ void NavigationLayer::changeToScene(const std::string& hqName, float duration)
 {
     //CHECK IF THE ENTITLEMENT FOR THAT SPECIFIC HQ IS ENABLED
     
-    const HQDataObjectRef &currentObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName);
+    const HQDataObjectRef &currentObject = HQDataObjectManager::getInstance()->getHQDataObjectForKey(hqName);
 	
 	if(!currentObject->getHqEntitlement())
     {
@@ -104,7 +100,7 @@ void NavigationLayer::changeToScene(const std::string& hqName, float duration)
     
     if(hqName == ConfigStorage::kChatHQName)
     {
-		if(!ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
+		if(!ParentManager::getInstance()->isLoggedInParentAnonymous())
 		{
 			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
 		}
@@ -204,7 +200,7 @@ void NavigationLayer::addNotificationBadgeToChatIcon(cocos2d::Node* chatIcon)
     notificationBadge->setScale(0.0);
     chatIcon->addChild(notificationBadge, 9);
 	
-	if(!ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
+	if(!ParentManager::getInstance()->isLoggedInParentAnonymous())
     {
         return; //not adding notifications in preview mode
     }

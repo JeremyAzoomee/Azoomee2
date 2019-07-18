@@ -25,6 +25,7 @@ class ShopScene : public Azoomee::Scene, HttpRequestCreatorResponseDelegate
 	typedef Azoomee::Scene Super;
 	
 private:
+	
 	ShopCarousel* _shopCarousel = nullptr;
 	ShopItemPurchasePopup* _purchasePopup = nullptr;
 	ShopItemPurchasedAnimation* _purchasedAnim = nullptr;
@@ -34,6 +35,8 @@ private:
 	cocos2d::LayerColor* _bgColour = nullptr;
 	cocos2d::Sprite* _wires = nullptr;
 	cocos2d::Sprite* _gradient = nullptr;
+	
+	bool _displayingPostPurchaseTutorial = false;
 	
 public:
 	

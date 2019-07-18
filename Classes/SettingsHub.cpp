@@ -11,12 +11,10 @@
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/API/API.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/Data/Cookie/CookieDataParser.h>
-#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include <AzoomeeCommon/Data/Cookie/CookieManager.h>
 #include "SceneManagerScene.h"
 #include "SettingsSupportPage.h"
 #include "SettingsOnlineSafetyPage.h"
@@ -185,8 +183,9 @@ bool SettingsHub::init()
 	_parentInboxButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			if(ParentDataProvider::getInstance()->isPaidUser())
+			if(ParentManager::getInstance()->isPaidUser())
 			{
+			    ModalMessages::getInstance()->startLoading();
 				HttpRequestCreator* request = API::RefreshParentCookiesRequest(this);
 				request->execute();
 			}
@@ -246,7 +245,7 @@ bool SettingsHub::init()
 
 void SettingsHub::onEnter()
 {
-	if(_origin != SettingsOrigin::CHAT || ChildDataProvider::getInstance()->isChildLoggedIn())
+	if(_origin != SettingsOrigin::CHAT || ChildManager::getInstance()->isChildLoggedIn())
 	{
 		RequestAdultPinLayer* pinLayer = RequestAdultPinLayer::create();
 		pinLayer->setDelegate(this);
@@ -255,7 +254,7 @@ void SettingsHub::onEnter()
 	{
 		_origin = SettingsOrigin::CHILD_SELECT;
 		ModalMessages::getInstance()->startLoading();
-		HttpRequestCreator* request = API::getParentDetailsRequest(ParentDataProvider::getInstance()->getLoggedInParentId(), this);
+		HttpRequestCreator* request = API::getParentDetailsRequest(ParentManager::getInstance()->getLoggedInParentId(), this);
 		request->execute();
 	}
     Super::onEnter();
@@ -382,23 +381,23 @@ void SettingsHub::AdultPinAccepted(RequestAdultPinLayer* layer)
 	layer->removeFromParent();
 	
 	ModalMessages::getInstance()->startLoading();
-	HttpRequestCreator* request = API::getParentDetailsRequest(ParentDataProvider::getInstance()->getLoggedInParentId(), this);
+	HttpRequestCreator* request = API::getParentDetailsRequest(ParentManager::getInstance()->getLoggedInParentId(), this);
 	request->execute();
 	
 }
 
 void SettingsHub::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
-	ModalMessages::getInstance()->stopLoading();
 	if(requestTag == API::TagGetParentDetails)
 	{
-		ParentDataParser::getInstance()->parseParentDetails(body);
+        ModalMessages::getInstance()->stopLoading();
+		ParentManager::getInstance()->parseParentDetails(body);
 	}
 	else if(requestTag == API::TagCookieRefresh)
 	{
-		ParentDataParser::getInstance()->parseParentSessionData(body);
-		const std::string& userId = ParentDataProvider::getInstance()->getLoggedInParentId();
-		const std::string& sessionId = ParentDataProvider::getInstance()->getLoggedInParentCdnSessionId();
+		ParentManager::getInstance()->parseParentSessionData(body);
+		const std::string& userId = ParentManager::getInstance()->getLoggedInParentId();
+		const std::string& sessionId = ParentManager::getInstance()->getLoggedInParentCdnSessionId();
 		
 		HttpRequestCreator* request = API::GetGordenRequest(userId, sessionId, this);
 		request->execute();
@@ -406,8 +405,10 @@ void SettingsHub::onHttpRequestSuccess(const std::string& requestTag, const std:
 	}
 	else if(requestTag == API::TagGetGorden)
 	{
-		ChildDataParser::getInstance()->setChildLoggedIn(false);// make sure we log out child if entering parent chat
-		if(CookieDataParser::getInstance()->parseDownloadCookies(headers))
+        ModalMessages::getInstance()->stopLoading();
+		ChildManager::getInstance()->setChildLoggedIn(false);// make sure we log out child if entering parent chat
+
+		if(CookieManager::getInstance()->parseDownloadCookies(headers))
 		{
 			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
 		}

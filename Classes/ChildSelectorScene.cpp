@@ -1,8 +1,7 @@
 #include "ChildSelectorScene.h"
 #include "BackEndCaller.h"
-#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/API/API.h>
-#include <AzoomeeCommon/Data/Cookie/CookieDataParser.h>
+#include <AzoomeeCommon/Data/Cookie/CookieManager.h>
 #include <math.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
@@ -15,7 +14,7 @@
 #include "OfflineHubScene.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "LoginLogicHandler.h"
-#include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include "SceneManagerScene.h"
 #include "FlowDataSingleton.h"
 #include "ChatNotificationsSingleton.h"
@@ -95,15 +94,15 @@ void ChildSelectorScene::onEnterTransitionDidFinish()
         MessageBox::createWith(FlowDataSingleton::getInstance()->getErrorCode(), nullptr);
     }
     
-    if(ParentDataProvider::getInstance()->isBillingDataAvailable())
+    if(ParentManager::getInstance()->isBillingDataAvailable())
     {
-        if(ParentDataProvider::getInstance()->isPaidUser())
+        if(ParentManager::getInstance()->isPaidUser())
         {
             setParentButtonVisible(true);
         }
     }
     
-    if(ParentDataProvider::getInstance()->getAmountOfAvailableChildren() == 0)
+    if(ParentManager::getInstance()->getAmountOfAvailableChildren() == 0)
     {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::AddChildFirstTime));
     }
@@ -213,7 +212,7 @@ void ChildSelectorScene::addScrollViewForProfiles()
 Size ChildSelectorScene::getScrollviewInnerSize(float scrollviewWidth)
 {
     int childrenPerRow = _isPortrait ? 2 : 4;
-    int numChildren = ParentDataProvider::getInstance()->getAmountOfAvailableChildren();
+    int numChildren = ParentManager::getInstance()->getAmountOfAvailableChildren();
     
     int numRows = ceil(numChildren / (double)childrenPerRow);
     
@@ -222,18 +221,18 @@ Size ChildSelectorScene::getScrollviewInnerSize(float scrollviewWidth)
 
 void ChildSelectorScene::addProfilesToScrollView()
 {
-    AnalyticsSingleton::getInstance()->registerNoOfChildren(ParentDataProvider::getInstance()->getAmountOfAvailableChildren());
+    AnalyticsSingleton::getInstance()->registerNoOfChildren(ParentManager::getInstance()->getAmountOfAvailableChildren());
     
-    for(int i = 0; i < ParentDataProvider::getInstance()->getAmountOfAvailableChildren(); i++)
+    for(int i = 0; i < ParentManager::getInstance()->getAmountOfAvailableChildren(); i++)
     {
-        auto profileLayer = createChildProfileButton(ParentDataProvider::getInstance()->getChild(i)->getProfileName(), i);
+        auto profileLayer = createChildProfileButton(ParentManager::getInstance()->getChild(i)->getProfileName(), i);
         profileLayer->setTag(i);
         profileLayer->setPosition(positionElementOnScrollView(profileLayer));
         _scrollView->addChild(profileLayer);
     }
     
     _parentButton = createParentProfileButton();
-	if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
+	if(ParentManager::getInstance()->isLoggedInParentAnonymous())
 	{
     	setParentButtonVisible(false);
 	}
@@ -270,7 +269,7 @@ ui::Button *ChildSelectorScene::createChildProfileButton(const std::string& prof
             AudioMixer::getInstance()->playEffect(SELECT_OOMEE_AUDIO_EFFECT);
             _parentIconSelected = false;
             int childNumber = ((Node*)pSender)->getTag();
-            AnalyticsSingleton::getInstance()->registerChildGenderAndAge(ParentDataProvider::getInstance()->getChild(childNumber));
+            AnalyticsSingleton::getInstance()->registerChildGenderAndAge(ParentManager::getInstance()->getChild(childNumber));
             BackEndCaller::getInstance()->childLogin(childNumber);
         }
         else if(eType == ui::Widget::TouchEventType::CANCELED)
@@ -318,7 +317,7 @@ ui::Button *ChildSelectorScene::createChildProfileButton(const std::string& prof
 	bgCircle2->runAction(rotate2);
 	
     auto oomee = RemoteImageSprite::create();
-    oomee->initWithUrlAndSizeWithoutPlaceholder(ParentDataProvider::getInstance()->getChild(childNum)->getAvatar(), oomeeSize);
+    oomee->initWithUrlAndSizeWithoutPlaceholder(ParentManager::getInstance()->getChild(childNum)->getAvatar(), oomeeSize);
     oomee->setKeepAspectRatio(true);
     oomee->setAnchorPoint(Vec2(0.5,0.4));
     oomee->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -352,7 +351,7 @@ Point ChildSelectorScene::positionElementOnScrollView(Node *layerToBeAdded)
 {
     Vector<Node*> scrollViewChildren = _scrollView->getChildren();
     
-    int numberOfChildren = ParentDataProvider::getInstance()->getAmountOfAvailableChildren();
+    int numberOfChildren = ParentManager::getInstance()->getAmountOfAvailableChildren();
     if(numberOfChildren > _isPortrait ? 2 : 4)
     {
         numberOfChildren = _isPortrait ? 2 : 4;
@@ -470,8 +469,8 @@ void ChildSelectorScene::refreshParentCookiesRequest()
 
 void ChildSelectorScene::getParentCookiesRequest()
 {
-    const std::string& userId = ParentDataProvider::getInstance()->getLoggedInParentId();
-    const std::string& sessionId = ParentDataProvider::getInstance()->getLoggedInParentCdnSessionId();
+    const std::string& userId = ParentManager::getInstance()->getLoggedInParentId();
+    const std::string& sessionId = ParentManager::getInstance()->getLoggedInParentCdnSessionId();
     
     HttpRequestCreator* request = API::GetGordenRequest(userId, sessionId, this);
     request->execute();
@@ -481,12 +480,12 @@ void ChildSelectorScene::onHttpRequestSuccess(const std::string& requestTag, con
 {
     if(requestTag == API::TagCookieRefresh)
     {
-        ParentDataParser::getInstance()->parseParentSessionData(body);
+        ParentManager::getInstance()->parseParentSessionData(body);
         getParentCookiesRequest();
         return;
     }
     
-    if(CookieDataParser::getInstance()->parseDownloadCookies(headers))
+    if(CookieManager::getInstance()->parseDownloadCookies(headers))
     {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
     }
@@ -507,7 +506,7 @@ void ChildSelectorScene::connectivityStateChanged(bool online)
 
 void ChildSelectorScene::callDelegateFunction(float dt)
 {
-    if(ParentDataProvider::getInstance()->getAmountOfAvailableChildren() == 0)
+    if(ParentManager::getInstance()->getAmountOfAvailableChildren() == 0)
     {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::AddChildFirstTime));
     }
@@ -544,7 +543,7 @@ void ChildSelectorScene::MessageBoxButtonPressed(std::string messageBoxTitle,std
     if(messageBoxTitle == StringMgr::getInstance()->getErrorMessageWithCode(ERROR_CODE_EMAIL_VARIFICATION_REQUIRED)[ERROR_TITLE] && buttonTitle == StringMgr::getInstance()->getErrorMessageWithCode(ERROR_CODE_EMAIL_VARIFICATION_REQUIRED)[ERROR_BUTTON])
     {
         AnalyticsSingleton::getInstance()->logoutParentEvent();
-        ParentDataParser::getInstance()->logoutChild();
+        ParentManager::getInstance()->logoutChild();
         
         LoginLogicHandler::getInstance()->forceNewLogin();
     }

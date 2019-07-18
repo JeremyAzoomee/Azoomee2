@@ -10,10 +10,9 @@
 #include "DynamicNodeHandler.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Data/Shop/ShopDisplayItem.h>
-#include <AzoomeeCommon/Data/Shop/ShopDataHandler.h>
+#include <AzoomeeCommon/Data/Shop/ShopDataDownloadHandler.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
-#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Tutorial/TutorialController.h>
@@ -107,19 +106,21 @@ bool ShopScene::init()
 void ShopScene::onEnter()
 {
 	AnalyticsSingleton::getInstance()->contentItemSelectedEvent("SHOP");
-	ShopDataHandler::getInstance()->getLatestData([this](bool success){
+	ShopDataDownloadHandler::getInstance()->getLatestData([this](bool success){
 		if(success)
 		{
-			_shopCarousel->setShopData(ShopDataHandler::getInstance()->getShop());
+			_shopCarousel->setShopData(ShopDataDownloadHandler::getInstance()->getShop());
 		}
 	});
 	
 	if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUShopEarnMoreRewards)
 	{
-		runAction(Sequence::createWithTwoActions(DelayTime::create(8.0f), CallFunc::create([](){
+		runAction(Sequence::createWithTwoActions(DelayTime::create(8.0f), CallFunc::create([this](){
 			TutorialController::getInstance()->setTutorialCompleted(TutorialController::kFTUPostPurchaseID);
 			TutorialController::getInstance()->nextStep();
+			_displayingPostPurchaseTutorial = false;
 		})));
+		_displayingPostPurchaseTutorial = true;
 	}
 	
 	Super::onEnter();
@@ -127,7 +128,13 @@ void ShopScene::onEnter()
 void ShopScene::onExit()
 {
 	AnalyticsSingleton::getInstance()->contentItemClosedEvent();
-	ShopDataHandler::getInstance()->setOnCompleteCallback(nullptr);
+	ShopDataDownloadHandler::getInstance()->setOnCompleteCallback(nullptr);
+	if(_displayingPostPurchaseTutorial)
+	{
+		TutorialController::getInstance()->setTutorialCompleted(TutorialController::kFTUPostPurchaseID);
+		TutorialController::getInstance()->nextStep();
+		stopAllActions();
+	}
 	Super::onExit();
 }
 void ShopScene::onSizeChanged()
@@ -161,13 +168,13 @@ void ShopScene::onHttpRequestSuccess(const std::string& requestTag, const std::s
 {
 	if(requestTag == API::TagBuyReward)
 	{
-		HttpRequestCreator* request = API::GetInventory(ChildDataProvider::getInstance()->getParentOrChildId(), this);
+		HttpRequestCreator* request = API::GetInventory(ChildManager::getInstance()->getParentOrChildId(), this);
 		request->execute();
 	}
 	else if(requestTag == API::TagGetInventory)
 	{
 		ModalMessages::getInstance()->stopLoading();
-		ChildDataParser::getInstance()->parseChildInventory(body);
+		ChildManager::getInstance()->parseChildInventory(body);
 		_purchasePopup->setVisible(false);
 		_shopCarousel->setVisible(false);
 		_backButton->setVisible(false);

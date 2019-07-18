@@ -8,8 +8,7 @@
 #include "LanguageSelectScene.h"
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataStorage.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include "SceneManagerScene.h"
 #include "BackEndCaller.h"
 #include "LoginLogicHandler.h"
@@ -271,9 +270,9 @@ cocos2d::ui::Layout* LanguageSelectScene::createLanguageButton(const LanguagePar
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
 			StringMgr::getInstance()->changeLanguage(params._identifier);
-			if(!ParentDataParser::getInstance()->hasParentLoginDataInUserDefaults())
+			if(!ParentManager::getInstance()->hasParentLoginDataInUserDefaults())
 			{
-				if(ParentDataStorage::getInstance()->getParent())
+				if(ParentManager::getInstance()->getParent())
 				{
 					Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
 				}
@@ -284,7 +283,7 @@ cocos2d::ui::Layout* LanguageSelectScene::createLanguageButton(const LanguagePar
 			}
 			else
 			{
-				if(ParentDataStorage::getInstance()->getParent())
+				if(ParentManager::getInstance()->getParent())
 				{
 					Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
 				}

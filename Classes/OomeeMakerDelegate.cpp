@@ -9,9 +9,8 @@
 #include "ChatDelegate.h"
 #include "SceneManagerScene.h"
 #include "HQHistoryManager.h"
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
-#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeOomeeMaker/UI/OomeeMakerScene.h>
 #include <AzoomeeOomeeMaker/UI/OomeeSelectScene.h>
 #include <AzoomeeCommon/API/API.h>
@@ -64,7 +63,7 @@ void OomeeMakerDelegate::onOomeeMakerShareOomee(const std::string& filename)
     ChatDelegate::getInstance()->_imageFileName = filename;
     if(filename != "")
     {
-		if(!HQHistoryManager::getInstance()->isOffline() && ParentDataProvider::getInstance()->isPaidUser())
+		if(!HQHistoryManager::getInstance()->isOffline() && ParentManager::getInstance()->isPaidUser())
         {
             HQHistoryManager::getInstance()->setReturnedFromForcedOrientation(true);
             Director::getInstance()->getTextureCache()->reloadTexture(filename);
@@ -81,7 +80,7 @@ void OomeeMakerDelegate::onOomeeMakerUpdateAvatar(const std::string &filename)
 	char* str = nullptr;
 	base64Encode((unsigned char*)imageData.c_str(), (unsigned int)imageData.length(), &str);
 		
-	HttpRequestCreator* request = API::UpdateChildAvatar(ChildDataProvider::getInstance()->getParentOrChildId(), str, this);
+	HttpRequestCreator* request = API::UpdateChildAvatar(ChildManager::getInstance()->getParentOrChildId(), str, this);
 	request->execute();
 }
 
@@ -91,8 +90,7 @@ void OomeeMakerDelegate::onHttpRequestSuccess(const std::string& requestTag, con
     {
         rapidjson::Document json;
         json.Parse(body.c_str());
-		ChildRef child = ChildDataProvider::getInstance()->getLoggedInChild();
-        child->setAvatar(getStringFromJson("avatar", json));
+		ChildManager::getInstance()->parseAvatarUpdate(body);
         ImageDownloaderRef imageDownloader = ImageDownloader::create("imageCache/", ImageDownloader::CacheMode::File );
         imageDownloader->downloadImage(nullptr, getStringFromJson("avatar", json), true);
         ModalMessages::getInstance()->stopLoading();

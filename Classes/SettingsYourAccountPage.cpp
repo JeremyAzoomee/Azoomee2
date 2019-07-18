@@ -12,7 +12,7 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/ModalWebview.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Data/Urls.h>
 #include "LoginLogicHandler.h"
@@ -138,7 +138,7 @@ void SettingsYourAccountPage::onEnter()
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
 			AnalyticsSingleton::getInstance()->logoutParentEvent();
-			ParentDataParser::getInstance()->logoutChild();
+			ParentManager::getInstance()->logoutChild();
 			
 			AudioMixer::getInstance()->stopBackgroundMusic();
 			

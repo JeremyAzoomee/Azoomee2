@@ -16,11 +16,14 @@
 NS_AZOOMEE_BEGIN
 
 class Parent;
+class MutableParent;
 typedef std::shared_ptr<Parent> ParentRef;
+typedef std::shared_ptr<MutableParent> MutableParentRef;
+
 
 class Parent
 {
-private:
+protected:
 	std::string _avatar;
 	std::string _id;
 	std::string _actorStatus;
@@ -38,25 +41,7 @@ private:
 	
 	Parent();
 public:
-	
-	static ParentRef createWithJson(const rapidjson::Document& parentData);
-	static ParentRef create();
-	
-	void setAvatar(const std::string& avatarUrl);
-	void setPin(const std::string& pin);
-	void setDisplayName(const std::string& name);
-	void setId(const std::string& parentId);
-	void setEmail(const std::string& email);
-	void setActorStatus(const std::string& actorStatus);
-	
-	void setCDNSessionId(const std::string& sessionId);
-	void setAPISecret(const std::string& apiSecret);
-	void setAPIKey(const std::string& apiKey);
-	
-	void setCountryCode(const std::string& countryCode);
-	
-	void setAnonymous(bool anonymous);
-	
+
 	std::string getDisplayName() const;
 	std::string getAvatar() const;
 	std::string getId() const;
@@ -72,6 +57,28 @@ public:
 	
 	bool isAnonymous() const;
 	
+};
+
+class MutableParent : public Parent
+{
+public:
+	static MutableParentRef createWithJson(const rapidjson::Document& parentData);
+	static MutableParentRef create();
+	
+	void setAvatar(const std::string& avatarUrl);
+	void setPin(const std::string& pin);
+	void setDisplayName(const std::string& name);
+	void setId(const std::string& parentId);
+	void setEmail(const std::string& email);
+	void setActorStatus(const std::string& actorStatus);
+	
+	void setCDNSessionId(const std::string& sessionId);
+	void setAPISecret(const std::string& apiSecret);
+	void setAPIKey(const std::string& apiKey);
+	
+	void setCountryCode(const std::string& countryCode);
+	
+	void setAnonymous(bool anonymous);
 };
 
 NS_AZOOMEE_END

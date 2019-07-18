@@ -48,6 +48,15 @@ const char* const Input()
 	return SofiaRegular;
 }
 
+const char* const RewardRegular()
+{
+	if(StringMgr::getInstance()->getLanguageID() == "gre")
+	{
+		return ArialBold;
+	}
+	return PassionOneRegular;
+}
+	
 }
 }
 

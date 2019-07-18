@@ -12,9 +12,9 @@
 #include "DynamicNodeHandler.h"
 
 #include <AzoomeeCommon/Utils/SpecialCalendarEventManager.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 
 #include "FlowDataSingleton.h"
 #include "ContentHistoryManager.h"
@@ -37,7 +37,6 @@ bool HQScene::init()
 }
 void HQScene::onEnter()
 {
-	//RewardDisplayHandler::getInstance()->getPendingRewards();
 	TutorialController::getInstance()->registerDelegate(this);
 	if(TutorialController::getInstance()->isTutorialActive())
 	{
@@ -45,12 +44,22 @@ void HQScene::onEnter()
 	}
 	_navLayer->setButtonOn(_hqCategory);
 	
+	_rewardRedeemedListener = EventListenerCustom::create(RewardDisplayHandler::kRewardRedeemedEventKey, [this](EventCustom* event){
+		if(!_coinDisplay->isVisible())
+		{
+			_coinDisplay->setVisible(TutorialController::getInstance()->isTutorialCompleted(TutorialController::kFTUShopID) || ChildManager::getInstance()->getLoggedInChild()->getInventory()->getCoins() > 0);
+		}
+	});
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(_rewardRedeemedListener, this);
+	
 	Super::onEnter();
 }
 
 void HQScene::onExit()
 {
 	TutorialController::getInstance()->unRegisterDelegate(this);
+	_eventDispatcher->removeEventListener(_rewardRedeemedListener);
+	_rewardRedeemedListener = nullptr;
 	Super::onExit();
 }
 
@@ -96,17 +105,17 @@ void HQScene::buildCoreUI()
 	_coinDisplay->setAnimate(true);
 	this->addChild(_coinDisplay, 1);
 	//show coin counter if they have coins or have completed the shop tutorial
-	_coinDisplay->setVisible(TutorialController::getInstance()->isTutorialCompleted(TutorialController::kFTUShopID) || ChildDataProvider::getInstance()->getLoggedInChild()->getInventory()->getCoins() > 0);
+	_coinDisplay->setVisible(TutorialController::getInstance()->isTutorialCompleted(TutorialController::kFTUShopID) || ChildManager::getInstance()->getLoggedInChild()->getInventory()->getCoins() > 0);
 	
 	_messagingLayer = UserTypeMessagingLayer::create();
 	_messagingLayer->setContentSize(Size(visibleSize.width, 350));
 	_messagingLayer->setPosition(-Vec2(0,350));
 	_messagingLayer->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	UserBillingType userType = UserBillingType::ANON;
-	if(!ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
+	if(!ParentManager::getInstance()->isLoggedInParentAnonymous())
 	{
 		userType = UserBillingType::LAPSED;
-		if(ParentDataProvider::getInstance()->isPaidUser())
+		if(ParentManager::getInstance()->isPaidUser())
 		{
 			userType = UserBillingType::PAID;
 		}

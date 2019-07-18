@@ -3,7 +3,6 @@
 #include "ChildSelectorScene.h"
 #include "LoginScene.h"
 #include "OfflineHubScene.h"
-#include "HQScene2.h"
 #include <AzoomeeCommon/Application.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "FlowDataSingleton.h"
@@ -23,15 +22,16 @@
 #include "ContentFeedHQScene.h"
 #include "MeHQ.h"
 #include "RewardDisplayHandler.h"
+#include "HQSceneArtsApp.h"
 
 #include "SettingsHub.h"
 #include "ChildSettingsScene.h"
 #include "ShopScene.h"
 
 #include "CoinCollectLayer.h"
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Crashlytics/CrashlyticsConfig.h>
 
-#ifdef VODACOM_BUILD
+#ifdef AZOOMEE_VODACOM_BUILD
 #include "Vodacom/VodacomOnboardingScene.h"
 #endif
 
@@ -96,6 +96,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             acceptAnyOrientation();
 			if(ContentHistoryManager::getInstance()->getReturnedFromContent())
 			{
+				setCrashlyticsKeyWithString(CrashlyticsConsts::kContentIdKey, "");
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 				showHoldingUI();
 #else
@@ -165,8 +166,8 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         }
         case SceneNameEnum::OfflineArtsAppHQ:
         {
-            forceToLandscape();
-            cocos2d::Scene* goToScene = HQScene2::createSceneForOfflineArtsAppHQ();
+			forceToLandscape();
+			cocos2d::Scene* goToScene = HQSceneArtsApp::createScene();
             AnalyticsSingleton::getInstance()->registerCurrentScene("OFFLINE_ARTS_APP");
             Director::getInstance()->replaceScene(TransitionSlideInR::create(0.25f, goToScene));
             break;
@@ -341,7 +342,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
 			Director::getInstance()->replaceScene(ShopScene::create());
 			break;
 		}
-#ifdef VODACOM_BUILD
+#ifdef AZOOMEE_VODACOM_BUILD
 		case SceneNameEnum::VodacomOnboarding:
 		{
 			HQHistoryManager::getInstance()->updatePrevOrientation();

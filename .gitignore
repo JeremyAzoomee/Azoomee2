@@ -1,17 +1,12 @@
 bin/
+build/
 _builds/
-cocos2d/
-proj.android/obj/
-proj.android/assets/res/
-proj.linux/
-proj.tizen/
-proj.win8.1-universal/
-proj.win10/
-proj.win32/
 !Classes/
 !Resources/
-!proj.android-studio/app/src/
-cocos2d
 Resources/res/webcommApi
 Resources/res/cta_assets/CTAFiles.zip
 *.pyc
+.DS_Store
+
+# Version.json is generated at build time
+Resources/res/configuration/Version.json

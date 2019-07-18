@@ -85,7 +85,9 @@ public:
     /// Get timeline summary
     void getTimelineSummary();
     
-    
+	/// Refresh Child session
+	void refreshChildSession();
+	
     /// - Schedule Poll
     bool isFriendListPollScheduled();
     void scheduleFriendListPoll(float interval = kScheduleRateLow);
@@ -110,6 +112,8 @@ struct ChatAPIObserver
     virtual void onChatAPIModerationStatusChanged(const FriendRef& friendObj) {};
     /// API error from Chat request
     virtual void onChatAPIErrorRecieved(const std::string& requestTag, long errorCode) {};
+	/// Refresh child session response
+	virtual void onChatAPIRefreshChildSession() {};
 };
 
 NS_AZOOMEE_CHAT_END

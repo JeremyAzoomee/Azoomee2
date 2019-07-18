@@ -13,15 +13,13 @@
 #include "HQSceneElement.h"
 #include "HQDataProvider.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include "HQDataParser.h"
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "PreviewLoginSignupMessageBox.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "RoutePaymentSingleton.h"
 #include "ManualGameInputLayer.h"
-#include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
 #include "DynamicNodeHandler.h"
 #include "ContentHistoryManager.h"
 #include "ContentOpener.h"
@@ -96,9 +94,14 @@ void HQSceneElement::deleteButtonVisible(bool visible)
     }
 }
 
-void HQSceneElement::setDeleteButtonCallback(const HQSceneElement::DeleteButtonCallback &callback)
+void HQSceneElement::setDeleteButtonCallback(const HQElementButtonCallback &callback)
 {
     _deleteButtonCallback = callback;
+}
+
+void HQSceneElement::setTouchCallback(const HQElementButtonCallback &callback)
+{
+	_touchCallback = callback;
 }
 
 void HQSceneElement::setTouchDisabled(bool disabled)
@@ -194,7 +197,7 @@ void HQSceneElement::addHQSceneElement() //This method is being called by HQScen
 			case cocos2d::ui::Widget::TouchEventType::MOVED:
 			{
 				float distance = _touchPos.distance(this->convertToWorldSpace(button->getPosition()));
-				if( distance > button->getContentSize().height / 4)
+				if( distance > 10)
 				{
 					if(_elementVisual->_overlayWhenTouched)
 					{
@@ -212,35 +215,16 @@ void HQSceneElement::addHQSceneElement() //This method is being called by HQScen
 				
 				AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
 				
-				if(_elementItemData->getType() == ConfigStorage::kContentTypeManual)
+				if(_elementVisual->_overlayWhenTouched)
 				{
-					ManualGameInputLayer::create();
-					break;
+					_elementVisual->_overlayWhenTouched->setOpacity(0);
 				}
 				
-				if(TutorialController::getInstance()->isTutorialActive() && (TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUVideoHQContent || TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUGameHQContent || TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUGroupHQContent))
+				if(_touchCallback)
 				{
-					TutorialController::getInstance()->nextStep();
+					_touchCallback(_elementItemData);
 				}
 				
-				if(!_elementItemData->isEntitled())
-				{
-					AnalyticsSingleton::getInstance()->contentItemSelectedEvent(_elementItemData, _elementRowNumber, _elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(_elementCategory, _elementRowNumber, _elementIndex));
-					AnalyticsSingleton::getInstance()->registerCTASource("lockedContent",_elementItemData->getContentItemId(),_elementItemData->getType());
-					IAPEntryContext context = IAPEntryContext::DEFAULT;
-					if(_elementItemData->getType() == ConfigStorage::kContentTypeGame)
-					{
-						context = IAPEntryContext::LOCKED_GAME;
-					}
-					else if(_elementItemData->getType() == ConfigStorage::kContentTypeVideo || _elementItemData->getType() == ConfigStorage::kContentTypeGroup)
-					{
-						context = IAPEntryContext::LOCKED_VIDEO;
-					}
-					DynamicNodeHandler::getInstance()->startIAPFlow(context);
-				}
-				
-				AnalyticsSingleton::getInstance()->contentItemSelectedEvent(_elementItemData, _elementRowNumber, _elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(_elementCategory, _elementRowNumber, _elementIndex));
-				startUpElementDependingOnType();
 				break;
 			}
 			case cocos2d::ui::Widget::TouchEventType::CANCELED:
@@ -274,25 +258,6 @@ ui::Button* HQSceneElement::createDeleteButton()
     });
     
     return deleteButton;
-}
-
-void HQSceneElement::startUpElementDependingOnType()
-{
-    this->getParent()->getParent()->getParent()->stopAllActions();
-    if(_elementItemData->getType() == ConfigStorage::kContentTypeVideo || _elementItemData->getType() == ConfigStorage::kContentTypeAudio)
-    {
-        if(_elementCategory == ConfigStorage::kGroupHQName)
-        {
-            VideoPlaylistManager::getInstance()->setPlaylist(HQDataObjectStorage::getInstance()->getHQDataObjectForKey(_elementCategory)->getHqCarousels().at(_elementRowNumber));
-        }
-        else
-        {
-            HQCarouselObjectRef carousel = HQCarouselObject::create();
-            carousel->addContentItemToCarousel(_elementItemData);
-            VideoPlaylistManager::getInstance()->setPlaylist(carousel);
-        }
-    }
-    ContentOpener::getInstance()->openContentObject(_elementItemData);
 }
 
 NS_AZOOMEE_END

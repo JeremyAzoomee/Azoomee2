@@ -4,7 +4,9 @@
 #include "../Data/ConfigStorage.h"
 #include "../Analytics/AnalyticsSingleton.h"
 #include "../Utils/StringFunctions.h"
-#include "../Data/Parent/ParentDataProvider.h"
+#include "../Data/Parent/ParentManager.h"
+#include "../Crashlytics/CrashlyticsConfig.h"
+#include "API.h"
 
 using namespace cocos2d;
 using namespace cocos2d::network;
@@ -187,7 +189,7 @@ cocos2d::network::HttpRequest* HttpRequestCreator::buildHttpRequest()           
         
         //add country code to the request headers
         
-        headers.push_back("X-AZ-COUNTRYCODE: " + ParentDataProvider::getInstance()->getLoggedInParentCountryCode());
+        headers.push_back("X-AZ-COUNTRYCODE: " + ParentManager::getInstance()->getLoggedInParentCountryCode());
     }
     
     headers.push_back(StringUtils::format("x-az-appversion: %s", ConfigStorage::getInstance()->getVersionInformationForRequestHeader().c_str()));
@@ -210,8 +212,19 @@ void HttpRequestCreator::sendRequest(cocos2d::network::HttpRequest* request, flo
     HttpClient::getInstance()->setTimeoutForConnect(timeout); // This is copied by the created http request object, so next request wont change the value for previous requests
     HttpClient::getInstance()->setTimeoutForRead(timeout);
     
-    if(ConfigStorage::getInstance()->isImmediateRequestSendingRequired(requestTag)) HttpClient::getInstance()->sendImmediate(request);
-    else HttpClient::getInstance()->send(request);
+    if(ConfigStorage::getInstance()->isImmediateRequestSendingRequired(requestTag))
+	{
+		HttpClient::getInstance()->sendImmediate(request);
+	}
+    else
+	{
+		HttpClient::getInstance()->send(request);
+	}
+	
+	if(requestTag != API::TagOfflineCheck)
+	{
+		setCrashlyticsKeyWithString(CrashlyticsConsts::kLastHttpRequestTagKey, requestTag);
+	}
 }
 
 void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)

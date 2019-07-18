@@ -4,7 +4,7 @@
 #include "external/json/document.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "BackEndCaller.h"
-#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include "LoginLogicHandler.h"
 #include "RoutePaymentSingleton.h"
 #include "DynamicNodeHandler.h"
@@ -58,7 +58,7 @@ void ApplePaymentSingleton::transactionStatePurchased(std::string receiptData)
         AnalyticsSingleton::getInstance()->iapSubscriptionSuccessEvent();
     }
     
-    if(!ParentDataProvider::getInstance()->isUserLoggedIn())
+    if(!ParentManager::getInstance()->isUserLoggedIn())
     {
         ModalMessages::getInstance()->stopLoading();
         FlowDataSingleton::getInstance()->setSuccessFailPath(IAP_SUCCESS);
@@ -104,7 +104,7 @@ void ApplePaymentSingleton::onAnswerReceived(std::string responseDataString)
     }
     else
     {
-        if(ParentDataProvider::getInstance()->isPaidUser())
+        if(ParentManager::getInstance()->isPaidUser())
         {
             ModalMessages::getInstance()->stopLoading();
             MessageBox::createWith(ERROR_CODE_APPLE_ACCOUNT_DOWNGRADED, this);

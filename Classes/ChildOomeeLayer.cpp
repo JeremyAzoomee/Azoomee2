@@ -9,7 +9,8 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Utils/DirUtil.h>
 
 using namespace cocos2d;
 
@@ -32,7 +33,7 @@ void ChildOomeeLayer::onEnter()
     const Size& contentSize = this->getContentSize();
     
     const bool isPortrait = contentSize.width < contentSize.height;
-	const bool isAnon = ParentDataProvider::getInstance()->isLoggedInParentAnonymous();
+	const bool isAnon = ParentManager::getInstance()->isLoggedInParentAnonymous();
 	
 	Label* title = Label::createWithTTF(_("Every child gets their own Oomee friend"), Style::Font::Regular(), 96);
 	title->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
@@ -140,7 +141,7 @@ void ChildOomeeLayer::saveDefaultOomeeToOomeeMakerFiles()
 {
     const std::string& imageData = FileUtils::getInstance()->getStringFromFile(ConfigStorage::getInstance()->getLocalImageForOomee(_childCreator->getOomeeNum()));
     const std::string& oomeeConfig = FileUtils::getInstance()->getStringFromFile(ConfigStorage::getInstance()->getLocalConfigForOomee(_childCreator->getOomeeNum()));
-    std::string filePath = FileUtils::getInstance()->getWritablePath() + "oomeeMaker/";
+    std::string filePath = DirUtil::getCachesPath() + ConfigStorage::kOomeeMakerCacheFolder;
     if(!FileUtils::getInstance()->isDirectoryExist(filePath))
     {
         FileUtils::getInstance()->createDirectory(filePath);

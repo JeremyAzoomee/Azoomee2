@@ -32,6 +32,8 @@ private:
 	bool isRunningAnimationPossible();
 	
 public:
+	static const std::string kRewardRedeemedEventKey;
+	
 	static RewardDisplayHandler* getInstance();
 	virtual ~RewardDisplayHandler();
 	

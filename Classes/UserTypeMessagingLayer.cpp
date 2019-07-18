@@ -43,7 +43,7 @@ void UserTypeMessagingLayer::onEnter()
     _startTrialButton = ui::Button::create("res/buttons/MainButton.png");
     _startTrialButton->setContentSize(Size(this->getContentSize().width * (isPortrait ? 0.65f : 0.5f), _startTrialButton->getContentSize().height));
     _startTrialButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-#ifdef VODACOM_BUILD
+#ifdef AZOOMEE_VODACOM_BUILD
     _startTrialButton->setNormalizedPosition(Vec2(isPortrait ? 0.35 : 0.5, 0.5));
 #else
 	_startTrialButton->setNormalizedPosition(Vec2(isPortrait ? 0.35 : 0.5, 0.4));
@@ -64,7 +64,7 @@ void UserTypeMessagingLayer::onEnter()
         }
     });
 	
-#ifdef VODACOM_BUILD
+#ifdef AZOOMEE_VODACOM_BUILD
 	_startTrialLabel = Label::createWithTTF(_("Unlock everything"), Style::Font::Regular(), _startTrialButton->getContentSize().height * ( is18x9 ? 0.35 : 0.4 ));
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 	_startTrialLabel = Label::createWithTTF(_("Buy Azoomee Pass"), Style::Font::Regular(), _startTrialButton->getContentSize().height * ( is18x9 ? 0.35 : 0.4 ));
@@ -82,7 +82,7 @@ void UserTypeMessagingLayer::onEnter()
     
     this->addChild(_startTrialButton);
 	
-#ifndef VODACOM_BUILD
+#ifndef AZOOMEE_VODACOM_BUILD
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 	_smallprintLabel = Label::createWithTTF(stringReplace(_("Get 30 days of Azoomee for only <iapPrice>."),"<iapPrice>",IAPProductDataHandler::getInstance()->getHumanReadableProductPrice().c_str()), Style::Font::Regular(), 50);
 #else
@@ -147,7 +147,7 @@ void UserTypeMessagingLayer::onEnter()
         }
     });
 	
-#ifdef VODACOM_BUILD
+#ifdef AZOOMEE_VODACOM_BUILD
 	_reactivateLabel = Label::createWithTTF(_("Unlock everything"), Style::Font::Regular(), _reactivateButton->getContentSize().height * 0.4);
 #else
     _reactivateLabel = Label::createWithTTF(_("Reactivate your account"), Style::Font::Regular(), _reactivateButton->getContentSize().height * 0.4);
@@ -201,7 +201,7 @@ void UserTypeMessagingLayer::repositionElements()
     _bgSprite->setContentSize(this->getContentSize());
     
     _startTrialButton->setContentSize(Size(this->getContentSize().width * (isPortrait ? 0.65f : 0.5f), _startTrialButton->getContentSize().height));
-#ifdef VODACOM_BUILD
+#ifdef AZOOMEE_VODACOM_BUILD
 	_startTrialButton->setNormalizedPosition(Vec2(isPortrait ? 0.35 : 0.5, 0.5));
 #else
 	_startTrialButton->setNormalizedPosition(Vec2(isPortrait ? 0.35 : 0.5, 0.4));

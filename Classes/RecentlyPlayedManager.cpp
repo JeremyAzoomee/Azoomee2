@@ -6,8 +6,9 @@
 //
 
 #include "RecentlyPlayedManager.h"
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
+#include <AzoomeeCommon/Utils/DirUtil.h>
 #include "HQDataProvider.h"
 
 using namespace cocos2d;
@@ -115,12 +116,12 @@ std::vector<std::string> RecentlyPlayedManager::getRecentContentIds() const
 
 std::string RecentlyPlayedManager::getRecentlyPlayedFilePath() const
 {
-    const std::string& recentlyPlayedFolderLoc = FileUtils::getInstance()->getWritablePath() + _kRecentlyPlayedFolderName;
+    const std::string& recentlyPlayedFolderLoc = DirUtil::getCachesPath() + _kRecentlyPlayedFolderName;
     if(!FileUtils::getInstance()->isDirectoryExist(recentlyPlayedFolderLoc))
     {
         FileUtils::getInstance()->createDirectory(recentlyPlayedFolderLoc);
     }
-    const std::string& childRecentlyPlayedFolderLoc = recentlyPlayedFolderLoc + ChildDataProvider::getInstance()->getParentOrChildId();
+    const std::string& childRecentlyPlayedFolderLoc = recentlyPlayedFolderLoc + ChildManager::getInstance()->getParentOrChildId();
     if(!FileUtils::getInstance()->isDirectoryExist(childRecentlyPlayedFolderLoc))
     {
         FileUtils::getInstance()->createDirectory(childRecentlyPlayedFolderLoc);
@@ -138,12 +139,12 @@ std::vector<std::string> RecentlyPlayedManager::getRecentContentIdsForHQ(const s
 
 std::string RecentlyPlayedManager::getRecentlyPlayedFilePathForHQ(const std::string &hq) const
 {
-    const std::string& recentlyPlayedFolderLoc = FileUtils::getInstance()->getWritablePath() + _kRecentlyPlayedFolderName;
+    const std::string& recentlyPlayedFolderLoc = DirUtil::getCachesPath() + _kRecentlyPlayedFolderName;
     if(!FileUtils::getInstance()->isDirectoryExist(recentlyPlayedFolderLoc))
     {
         FileUtils::getInstance()->createDirectory(recentlyPlayedFolderLoc);
     }
-    const std::string& childRecentlyPlayedFolderLoc = recentlyPlayedFolderLoc + ChildDataProvider::getInstance()->getParentOrChildId();
+    const std::string& childRecentlyPlayedFolderLoc = recentlyPlayedFolderLoc + ChildManager::getInstance()->getParentOrChildId();
     if(!FileUtils::getInstance()->isDirectoryExist(childRecentlyPlayedFolderLoc))
     {
         FileUtils::getInstance()->createDirectory(childRecentlyPlayedFolderLoc);

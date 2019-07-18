@@ -14,8 +14,8 @@
 #include "HQDataProvider.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/Utils/DirectorySearcher.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Utils/DirUtil.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
@@ -65,14 +65,14 @@ void MeHQGallery::onEnter()
     
     totalHeight += heading->getContentSize().height + 50;
     
-    const std::string& dirPath = FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getParentOrChildId();
+    const std::string& dirPath = DirUtil::getCachesPath() + ConfigStorage::kArtCacheFolder + ChildManager::getInstance()->getParentOrChildId();
     
     if(!FileUtils::getInstance()->isDirectoryExist(dirPath))
     {
         FileUtils::getInstance()->createDirectory(dirPath);
     }
     
-    auto artImages = DirectorySearcher::getInstance()->getImagesInDirectory(dirPath);
+    auto artImages = DirUtil::getImagesInDirectory(dirPath);
     
     
     const Size& contentItemSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kGameHQName);
@@ -90,13 +90,18 @@ void MeHQGallery::onEnter()
         auto* currentElement = ArtsAppHQElement::create();
         currentElement->initWithURLAndSize(dirPath + "/" + artImages[elementIndex], contentItemSize * (((contentItemSize.width - contentItemMargin) * unitMultiplier) / contentItemSize.width), true, false);
         currentElement->enableOnScreenChecker();
-		currentElement->setDeleteButtonCallback([&](const std::string& imageFilename){
+		currentElement->setDeleteButtonCallback([this](const std::string& imageFilename){
 			_targetDeleteFilename = imageFilename;
 			_deleteItemMessageBox = ConfirmCancelMessageBox::createWithParams(_("Delete?"), "res/buttons/confirm_bin.png", "res/buttons/confirm_x_2.png");
 			_deleteItemMessageBox->setDelegate(this);
 			Director::getInstance()->getRunningScene()->addChild(_deleteItemMessageBox);
 		});
 		currentElement->deleteButtonVisible(_editEnabled);
+		currentElement->setTouchCallback([](const std::string& imageFilename){
+			ArtAppDelegate::getInstance()->setFileName(imageFilename);
+			AnalyticsSingleton::getInstance()->contentItemSelectedEvent(imageFilename == "" ? "NewArt" : "EditArt");
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ArtAppEntryPointScene));
+		});
         Vec2 elementShape = Vec2(1,1);
         
         HQScene2ElementPositioner hqScene2ElementPositioner;

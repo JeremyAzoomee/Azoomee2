@@ -14,14 +14,19 @@
 #include "WebViewSelector.h"
 #include "NavigationLayer.h"
 #include "RecentlyPlayedManager.h"
-#include "HQHistoryManager.h"
 #include "ArtAppDelegate.h"
+#include "ManualGameInputLayer.h"
+#include "DynamicNodeHandler.h"
+#include "IAPFlowController.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/Tutorial/TutorialController.h>
+#include <AzoomeeCommon/Crashlytics/CrashlyticsConfig.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include <AzoomeeCommon/Data/Cookie/CookieManager.h>
 
 using namespace cocos2d;
 
@@ -38,16 +43,6 @@ ContentOpener* ContentOpener::getInstance()
     return sContentOpenerSharedInstance.get();
 }
 
-ContentOpener::~ContentOpener(void)
-{
-    
-}
-
-bool ContentOpener::init(void)
-{
-    return true;
-}
-
 void ContentOpener::openContentById(const std::string &contentId)
 {
     HQContentItemObjectRef contentItem = HQDataProvider::getInstance()->getItemDataForSpecificItem(contentId);
@@ -60,11 +55,22 @@ void ContentOpener::openContentById(const std::string &contentId)
 
 void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
 {
+	if(ChildManager::getInstance()->getLoggedInChild()->isSessionExpired() && !_contentItemToOpen)
+	{
+		_contentItemToOpen = contentItem;
+		ModalMessages::getInstance()->startLoading();
+		HttpRequestCreator* request = API::RefreshChildCookiesRequest(this);
+		request->execute();
+		return;
+	}
+	
     if(contentItem == nullptr || !contentItem->isEntitled())
     {
         return;
     }
-    
+	
+	setCrashlyticsKeyWithString(CrashlyticsConsts::kContentIdKey, contentItem->getContentItemId());
+	
     if(contentItem->getType() == ConfigStorage::kContentTypeGame)
     {
         RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(),ConfigStorage::kGameHQName);
@@ -88,12 +94,8 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
         HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kGroupHQName);
                 
 		HQHistoryManager::getInstance()->setGroupHQSourceId(contentItem->getContentItemId());
-                
-		//auto funcCallAction = CallFunc::create([=](){
-			HQDataProvider::getInstance()->getDataForGroupHQ(contentItem->getUri());
-		//});
-                
-		//Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
+		
+		HQDataProvider::getInstance()->getDataForGroupHQ(contentItem->getUri());
     }
     else if(contentItem->getType() == ConfigStorage::kContentTypeInternal)
     {
@@ -107,7 +109,80 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ArtAppEntryPointScene));
         }
     }
+	_contentItemToOpen = nullptr; // dereference at the end as will be pointing to same memory as contentItem in case of refeshed session
 }
 
+void ContentOpener::doCarouselContentOpenLogic(const HQContentItemObjectRef& contentItem, int rowIndex, int elementIndex, const std::string& hqCategory)
+{
+	if(contentItem->getType() == ConfigStorage::kContentTypeManual)
+	{
+		ManualGameInputLayer::create();
+		return;
+	}
+	
+	if(TutorialController::getInstance()->isTutorialActive() && (TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUVideoHQContent || TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUGameHQContent || TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUGroupHQContent))
+	{
+		TutorialController::getInstance()->nextStep();
+	}
+	
+	if(!contentItem->isEntitled())
+	{
+		AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, rowIndex, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(hqCategory, rowIndex, elementIndex));
+		AnalyticsSingleton::getInstance()->registerCTASource("lockedContent",contentItem->getContentItemId(),contentItem->getType());
+		IAPEntryContext context = IAPEntryContext::DEFAULT;
+		if(contentItem->getType() == ConfigStorage::kContentTypeGame)
+		{
+			context = IAPEntryContext::LOCKED_GAME;
+		}
+		else if(contentItem->getType() == ConfigStorage::kContentTypeVideo || contentItem->getType() == ConfigStorage::kContentTypeGroup)
+		{
+			context = IAPEntryContext::LOCKED_VIDEO;
+		}
+		DynamicNodeHandler::getInstance()->startIAPFlow(context);
+	}
+	
+	AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, rowIndex, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(hqCategory, rowIndex, elementIndex));
+	
+	if(contentItem->getType() == ConfigStorage::kContentTypeVideo || contentItem->getType() == ConfigStorage::kContentTypeAudio)
+	{
+		if(hqCategory == ConfigStorage::kGroupHQName)
+		{
+			VideoPlaylistManager::getInstance()->setPlaylist(HQDataObjectManager::getInstance()->getHQDataObjectForKey(hqCategory)->getHqCarousels().at(rowIndex));
+		}
+		else
+		{
+			MutableHQCarouselObjectRef carousel = MutableHQCarouselObject::create();
+			carousel->addContentItemToCarousel(contentItem);
+			VideoPlaylistManager::getInstance()->setPlaylist(carousel);
+		}
+	}
+	openContentObject(contentItem);
+}
+
+// delegate functions
+
+void ContentOpener::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
+{
+	if(requestTag == API::TagChildCookieRefresh)
+	{
+		ChildManager::getInstance()->parseChildSessionUpdate(body);
+		HttpRequestCreator* request = API::GetGordenRequest(ChildManager::getInstance()->getLoggedInChild()->getId(), ChildManager::getInstance()->getLoggedInChild()->getCDNSessionId(), this);
+		request->execute();
+	}
+	else if(requestTag == API::TagGetGorden)
+	{
+		ModalMessages::getInstance()->stopLoading();
+		CookieManager::getInstance()->parseDownloadCookies(headers);
+		openContentObject(_contentItemToOpen);
+	}
+	else
+	{
+		ModalMessages::getInstance()->stopLoading();
+	}
+}
+void ContentOpener::onHttpRequestFailed(const std::string& requestTag, long errorCode)
+{
+	ModalMessages::getInstance()->stopLoading();
+}
 
 NS_AZOOMEE_END

@@ -54,7 +54,7 @@ void androidJNIHelper(const std::string& propertiesJSONString, const std::string
 //-------------MIX PANEL ----------
 void AnalyticsSingleton::mixPanelSendEventNative(const std::string& eventID, const std::map<std::string, std::string>& map)
 {
-#ifndef USINGCI
+#ifndef AZOOMEE_ENVIRONMENT_CI
     androidJNIHelper(eventID, convertMapToJSONString(map), "sendMixPanelWithEventID");
 #endif
 	
@@ -62,7 +62,7 @@ void AnalyticsSingleton::mixPanelSendEventNative(const std::string& eventID, con
 
 void AnalyticsSingleton::mixPanelRegisterIdentity(const std::string& parentID, const std::map<std::string, std::string>& name)
 {
-#ifndef USINGCI
+#ifndef AZOOMEE_ENVIRONMENT_CI
     androidJNIHelper(parentID, "sendMixPanelPeopleProperties");
 #endif
 	
@@ -70,7 +70,7 @@ void AnalyticsSingleton::mixPanelRegisterIdentity(const std::string& parentID, c
 
 void AnalyticsSingleton::mixPanelRegisterAlias(const std::string &newId)
 {
-#ifndef USINGCI
+#ifndef AZOOMEE_ENVIRONMENT_CI
 	androidJNIHelper(newId, "setMixpanelAlias");
 #endif
 	
@@ -78,7 +78,7 @@ void AnalyticsSingleton::mixPanelRegisterAlias(const std::string &newId)
 	
 void AnalyticsSingleton::mixPanelUpdatePeopleProfileData(const std::map<std::string, std::string>& profileData)
 {
-#ifndef USINGCI
+#ifndef AZOOMEE_ENVIRONMENT_CI
 	androidJNIHelper(convertMapToJSONString(profileData), "updateMixpanelPeopleProperties");
 #endif
 	
@@ -88,7 +88,7 @@ void AnalyticsSingleton::mixPanelUpdatePeopleProfileData(const std::map<std::str
 
 void AnalyticsSingleton::appsFlyerSendEvent(const std::string& eventID)
 {
-#ifndef USINGCI
+#ifndef AZOOMEE_ENVIRONMENT_CI
     androidJNIHelper(eventID, "", "sendAppsFlyerEvent");
 #endif
 	
@@ -96,7 +96,7 @@ void AnalyticsSingleton::appsFlyerSendEvent(const std::string& eventID)
 
 void AnalyticsSingleton::appsFlyerSendEvent(const std::string& eventID, const std::map<std::string, std::string>& map)
 {
-#ifndef USINGCI
+#ifndef AZOOMEE_ENVIRONMENT_CI
     androidJNIHelper(eventID, convertMapToJSONString(map), "sendAppsFlyerEvent");
 #endif
 	

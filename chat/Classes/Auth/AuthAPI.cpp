@@ -1,10 +1,7 @@
 #include "AuthAPI.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
-#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
-#include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Json.h>
 #include <AzoomeeCommon/ErrorCodes.h>
 #include <cocos/cocos2d.h>
@@ -30,10 +27,10 @@ AuthAPI* AuthAPI::getInstance()
 AuthAPI::AuthAPI()
 {
     // Initialise logged in information
-    ParentDataParser* parentDataParser = ParentDataParser::getInstance();
-    if(parentDataParser->hasParentLoginDataInUserDefaults())
+    ParentManager* parentManager = ParentManager::getInstance();
+    if(parentManager->hasParentLoginDataInUserDefaults())
     {
-        parentDataParser->retrieveParentLoginDataFromUserDefaults();
+        parentManager->retrieveParentLoginDataFromUserDefaults();
         return;
     }
 }
@@ -62,7 +59,7 @@ void AuthAPI::removeObserver(AuthAPIObserver* observer)
 
 bool AuthAPI::isLoggedIn() const
 {
-    ParentDataProvider* parentData = ParentDataProvider::getInstance();
+    ParentManager* parentData = ParentManager::getInstance();
     const std::string& parentId = parentData->getLoggedInParentId();
     return !parentId.empty();
 }
@@ -76,7 +73,7 @@ void AuthAPI::loginUser(const std::string& username, const std::string& password
 void AuthAPI::logoutUser()
 {
     logoutChild();
-    ParentDataParser::getInstance()->clearParentLoginDataFromUserDefaults();
+    ParentManager::getInstance()->clearParentLoginDataFromUserDefaults();
 }
 
 #pragma mark - Child
@@ -89,7 +86,7 @@ void AuthAPI::getAvailableChildren()
 
 bool AuthAPI::isChildLoggedIn() const
 {
-    ChildDataProvider* childData = ChildDataProvider::getInstance();
+    ChildManager* childData = ChildManager::getInstance();
     const std::string& childId = childData->getParentOrChildId();
     return !childId.empty();
 }
@@ -102,7 +99,7 @@ void AuthAPI::loginChild(const std::string& profileName)
 
 void AuthAPI::logoutChild()
 {
-    ChildDataParser::getInstance()->setChildLoggedIn(false);
+    ChildManager::getInstance()->setChildLoggedIn(false);
 }
 
 #pragma mark - HttpRequestCreatorResponseDelegate
@@ -110,15 +107,13 @@ void AuthAPI::logoutChild()
 void AuthAPI::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
 //    cocos2d::log("AuthAPI::onHttpRequestSuccess: %s, body=%s", requestTag.c_str(), body.c_str());
-    ParentDataParser* parentDataParser = ParentDataParser::getInstance();
-    ParentDataProvider* parentData = ParentDataProvider::getInstance();
-    ChildDataParser* childDataParser = ChildDataParser::getInstance();
-    ChildDataProvider* childData = ChildDataProvider::getInstance();
+    ParentManager* parentData = ParentManager::getInstance();
+    ChildManager* childData = ChildManager::getInstance();
     
     // Parent login success
     if(requestTag == API::TagLogin)
     {
-        if(parentDataParser->parseParentLoginData(body))
+        if(parentData->parseParentLoginData(body))
         {
             cocos2d::log("Logged in!");
             
@@ -136,7 +131,7 @@ void AuthAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
     // Get children success
     else if(requestTag == API::TagGetAvailableChildren)
     {
-        parentDataParser->parseAvailableChildren(body);
+        parentData->parseAvailableChildren(body);
         
         cocos2d::log("Child profiles:");
         for(int i = 0; i < parentData->getAmountOfAvailableChildren(); ++i)
@@ -154,7 +149,7 @@ void AuthAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
     // Child login success
     else if(requestTag == API::TagChildLogin)
     {
-        childDataParser->parseChildLoginData(body);
+        parentData->parseChildLoginData(body);
         cocos2d::log("Logged in as child: %s", childData->getLoggedInChildName().c_str());
         
         // Notify observers

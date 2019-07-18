@@ -14,6 +14,7 @@
 #include "ArtAppDelegate.h"
 #include "HQHistoryManager.h"
 #include "SceneManagerScene.h"
+#include "ContentOpener.h"
 #include <AzoomeeCommon/UI/PrivacyLayer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
@@ -127,6 +128,10 @@ void ContentFeedHQScene::createContentScrollview()
 			hqSceneElement->setManualSizeMultiplier(unitMultiplier);
 			hqSceneElement->addHQSceneElement();
 			
+			hqSceneElement->setTouchCallback([rowIndex,elementIndex,this](const HQContentItemObjectRef& elementData){
+				ContentOpener::getInstance()->doCarouselContentOpenLogic(elementData, rowIndex, elementIndex, _hqCategory);
+			});
+			
 			cocos2d::Vec2 elementShape = HQDataProvider::getInstance()->getHighlightDataForSpecificItem(_hqCategory, rowIndex, elementIndex);
 			
 			HQScene2ElementPositioner hqScene2ElementPositioner;
@@ -211,7 +216,7 @@ void ContentFeedHQScene::createContentScrollview()
 		
 		lastCarouselPosition -= spaceAboveCarousel;
 		
-		cocos2d::Layer *carouselTitle = HQScene2CarouselTitle::createForCarousel(HQDataObjectStorage::getInstance()->getHQDataObjectForKey(_hqCategory)->getHqCarousels()[carouselIndex]);
+		cocos2d::Layer *carouselTitle = HQScene2CarouselTitle::createForCarousel(HQDataObjectManager::getInstance()->getHQDataObjectForKey(_hqCategory)->getHqCarousels()[carouselIndex]);
 		carouselTitle->setPosition(cocos2d::Vec2(_contentScrollview->getContentSize().width / 2, lastCarouselPosition));
 		_contentScrollview->addChild(carouselTitle);
 		
@@ -321,7 +326,7 @@ void ContentFeedHQScene::addGroupHQLogo()
 	if(HQHistoryManager::getInstance()->getGroupHQSourceId() != "")
 	{
 		const Size& visibleSize = this->getContentSize();
-		const std::string &groupHQLogoUrl = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kGroupHQName)->getGroupLogo();
+		const std::string &groupHQLogoUrl = HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGroupHQName)->getGroupLogo();
 		
 		this->removeChild(this->getChildByName(kGroupLogoName));
 		

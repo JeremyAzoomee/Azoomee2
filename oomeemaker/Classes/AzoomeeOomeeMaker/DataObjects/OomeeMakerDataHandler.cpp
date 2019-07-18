@@ -6,9 +6,9 @@
 //
 
 #include "OomeeMakerDataHandler.h"
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/Utils/DirectorySearcher.h>
+#include <AzoomeeCommon/Utils/DirUtil.h>
 #include "../UI/OomeeSelectScene.h"
 
 using namespace cocos2d;
@@ -71,13 +71,13 @@ void OomeeMakerDataHandler::getLatestData(const OnCompleteCallback& callback)
 		_callback = callback;
 	}
 	ModalMessages::getInstance()->startLoading();
-	HttpRequestCreator* request = API::GetOomeeMakerAssets(ChildDataProvider::getInstance()->getParentOrChildId(), this);
+	HttpRequestCreator* request = API::GetOomeeMakerAssets(ChildManager::getInstance()->getParentOrChildId(), this);
 	request->execute();
 }
 
 void OomeeMakerDataHandler::parseOomeeData()
 {
-	const std::vector<std::string>& oomeeConfigs = DirectorySearcher::getInstance()->getJsonFilesInDirectory(getAssetDir() + "configs/oomees/");
+	const std::vector<std::string>& oomeeConfigs = DirUtil::getJsonFilesInDirectory(getAssetDir() + "configs/oomees/");
     for(const std::string& filename : oomeeConfigs)
     {
         rapidjson::Document oomeeConfig;
@@ -103,7 +103,7 @@ void OomeeMakerDataHandler::parseOomeeData()
 
 void OomeeMakerDataHandler::parseCategoryData()
 {
-    const std::vector<std::string>& catConfigs = DirectorySearcher::getInstance()->getJsonFilesInDirectory(getAssetDir() + "configs/categories/");
+    const std::vector<std::string>& catConfigs = DirUtil::getJsonFilesInDirectory(getAssetDir() + "configs/categories/");
     for(const std::string& filename : catConfigs)
     {
         rapidjson::Document catConfig;
@@ -128,7 +128,7 @@ void OomeeMakerDataHandler::parseCategoryData()
 
 void OomeeMakerDataHandler::parseOomeeItemData()
 {
-    const std::vector<std::string>& itemConfigs = DirectorySearcher::getInstance()->getJsonFilesInDirectory(getAssetDir() + "configs/items/");
+    const std::vector<std::string>& itemConfigs = DirUtil::getJsonFilesInDirectory(getAssetDir() + "configs/items/");
     for(const std::string& filename : itemConfigs)
     {
         rapidjson::Document itemConfig;
@@ -166,7 +166,7 @@ std::string OomeeMakerDataHandler::getFullSaveDir() const
 #ifdef STANDALONE_APP
     const std::string& searchDir =  assetDir + "user/";
 #else
-    const std::string& searchDir =  assetDir + ChildDataProvider::getInstance()->getParentOrChildId() + "/";
+    const std::string& searchDir =  assetDir + ChildManager::getInstance()->getParentOrChildId() + "/";
 #endif
     
     if(!FileUtils::getInstance()->isDirectoryExist(searchDir))
@@ -182,13 +182,13 @@ std::string OomeeMakerDataHandler::getLocalSaveDir() const
 #ifdef STANDALONE_APP
     return kBaseFolderName + "user/";
 #else
-    return kBaseFolderName + ChildDataProvider::getInstance()->getParentOrChildId() + "/";
+    return kBaseFolderName + ChildManager::getInstance()->getParentOrChildId() + "/";
 #endif
 }
 
 std::string OomeeMakerDataHandler::getAssetDir() const
 {
-    const std::string& assetDir = FileUtils::getInstance()->getWritablePath() + kBaseFolderName;
+    const std::string& assetDir = DirUtil::getCachesPath() + kBaseFolderName;
     
     if(!FileUtils::getInstance()->isDirectoryExist(assetDir))
     {
@@ -254,10 +254,10 @@ void OomeeMakerDataHandler::updateExistingOomeeFilesToNewIds()
 	}
 	const std::map<std::string, std::string> lookupMap = getStringMapFromJson(lookupJson);
 	
-	const auto& dirFolders = DirectorySearcher::getInstance()->getFoldersInDirectory(getAssetDir());
+	const auto& dirFolders = DirUtil::getFoldersInDirectory(getAssetDir());
 	for(const auto& folder : dirFolders)
 	{
-		const auto& oomeeFiles = DirectorySearcher::getInstance()->getFilesInDirectoryWithExtention(getAssetDir() + folder, ".oomee");
+		const auto& oomeeFiles = DirUtil::getFilesInDirectoryWithExtention(getAssetDir() + folder, ".oomee");
 		for(const auto& file : oomeeFiles)
 		{
 			rapidjson::Document data;

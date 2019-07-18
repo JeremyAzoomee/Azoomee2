@@ -1,8 +1,8 @@
 #include "MessageListViewItem.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
-#include <AzoomeeCommon/Data/HQDataObject/ContentItemPool.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
 #include "../Data/StickerCache.h"
 
 
@@ -255,7 +255,7 @@ void MessageListViewItem::setData(const MessageRef& message)
         }
         else if(messageType == Message::MessageTypeContent)
         {
-            HQContentItemObjectRef contentItem = ContentItemPool::getInstance()->getContentItemForId(message->contentId());
+            HQContentItemObjectRef contentItem = ContentItemManager::getInstance()->getContentItemForId(message->contentId());
             if(contentItem)
             {
                 const std::string& imgUrl = contentItem->getBaseImageThumbUrl();
@@ -310,7 +310,7 @@ void MessageListViewItem::setData(const MessageRef& message)
         
         // Color depends also on current user
         const std::string& senderId = message->senderId();
-        const bool isCurrentUser = (senderId == ChildDataProvider::getInstance()->getParentOrChildId());
+        const bool isCurrentUser = (senderId == ChildManager::getInstance()->getParentOrChildId());
         const Color3B& fontColor = (isCurrentUser) ? Style::Color::blueGreen : Style::Color::black;
         _textLabel->setTextColor(Color4B(fontColor));
         _bubbleLayout->setBackGroundImageColor((isCurrentUser) ? Style::Color::white : Style::Color::lightTealTwo);

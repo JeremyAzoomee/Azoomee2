@@ -6,7 +6,6 @@
 //
 
 #include "RewardCallbackHandler.h"
-#include "../Data/Child/ChildDataProvider.h"
 #include "../Utils/StringFunctions.h"
 
 using namespace cocos2d;

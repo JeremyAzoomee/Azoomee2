@@ -3,8 +3,8 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "MessageScene.h"
@@ -55,18 +55,26 @@ void FriendListSceneArtPreview::onEnter()
     Super::onEnter();
     
     // Create a friend object which represents the current user
-    const std::string& childId = ChildDataProvider::getInstance()->getParentOrChildId();
-    const std::string& childName = ChildDataProvider::getInstance()->getParentOrChildName();
-    const std::string& childAvatar = ChildDataProvider::getInstance()->getParentOrChildAvatarId();
+    const std::string& childId = ChildManager::getInstance()->getParentOrChildId();
+    const std::string& childName = ChildManager::getInstance()->getParentOrChildName();
+    const std::string& childAvatar = ChildManager::getInstance()->getParentOrChildAvatarId();
     _currentUser = Friend::create(childId, childName, childAvatar);
     
     // Register for API events
     ChatAPI::getInstance()->registerObserver(this);
     
-    // Up the schedule speed of friend list polling
-    ChatAPI::getInstance()->requestFriendList();
-    ChatAPI::getInstance()->scheduleFriendListPoll( ChatAPI::kScheduleRateHigh );
-    ModalMessages::getInstance()->startLoading();
+	if(ChildManager::getInstance()->isChildLoggedIn() && ChildManager::getInstance()->getLoggedInChild()->isSessionExpired())
+	{
+		ModalMessages::getInstance()->startLoading();
+		ChatAPI::getInstance()->refreshChildSession();
+	}
+	else
+	{
+		// Up the schedule speed of friend list polling
+		ChatAPI::getInstance()->requestFriendList();
+		ChatAPI::getInstance()->scheduleFriendListPoll( ChatAPI::kScheduleRateHigh );
+		ModalMessages::getInstance()->startLoading();
+	}
 }
 
 void FriendListSceneArtPreview::onExit()
@@ -213,7 +221,7 @@ void FriendListSceneArtPreview::onBackButtonPressed()
 
 void FriendListSceneArtPreview::onFriendListItemSelected(const FriendRef& friendData)
 {
-    const bool isParent = friendData->friendId() == ParentDataProvider::getInstance()->getLoggedInParentId();
+    const bool isParent = friendData->friendId() == ParentManager::getInstance()->getLoggedInParentId();
     AnalyticsSingleton::getInstance()->setChatFriendIsParent(isParent);
     AnalyticsSingleton::getInstance()->genericButtonPressEvent(isParent ? "ChatScene - SelectedParent" : "ChatScene - SelectedFriend");
     
@@ -245,5 +253,10 @@ void FriendListSceneArtPreview::onChatAPIErrorRecieved(const std::string& reques
     MessageBox::createWith(ERROR_CODE_SOMETHING_WENT_WRONG, nullptr);
 }
 
+void FriendListSceneArtPreview::onChatAPIRefreshChildSession()
+{
+	ChatAPI::getInstance()->requestFriendList();
+	ChatAPI::getInstance()->scheduleFriendListPoll( ChatAPI::kScheduleRateHigh );
+}
 
 NS_AZOOMEE_CHAT_END

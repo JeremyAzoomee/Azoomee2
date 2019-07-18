@@ -13,7 +13,7 @@
 #include <AzoomeeCommon/Input/TextInputChecker.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/Utils/TimeFunctions.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
@@ -134,9 +134,9 @@ void AddChildFlowController::addChild(int oomeeNum)
     AnalyticsSingleton::getInstance()->childProfileCreatedEvent(age);
     
     auto backEndCaller = BackEndCaller::getInstance();
-    if(FlowDataSingleton::getInstance()->isSignupNewProfileFlow() && ParentDataProvider::getInstance()->getAmountOfAvailableChildren() !=0)
+    if(FlowDataSingleton::getInstance()->isSignupNewProfileFlow() && ParentManager::getInstance()->getAmountOfAvailableChildren() !=0)
     {
-        backEndCaller->updateChild(ParentDataProvider::getInstance()->getChild(0)->getId(), profileName, gender, DOB, oomeeNum);
+        backEndCaller->updateChild(ParentManager::getInstance()->getChild(0)->getId(), profileName, gender, DOB, oomeeNum);
     }
     else
     {

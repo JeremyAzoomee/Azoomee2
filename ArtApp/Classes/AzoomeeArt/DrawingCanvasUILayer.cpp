@@ -10,8 +10,8 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Utils/DirectorySearcher.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Utils/DirUtil.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Utils/SpecialCalendarEventManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 
@@ -364,6 +364,7 @@ void DrawingCanvasUILayer::addStickerSelectButtons(const Size& visibleSize, cons
     _stickerScrollView->setAnchorPoint(Vec2(0.5,0.5));
     _stickerScrollView->setPosition(_stickerPopupBG->getPosition() - Vec2(0,_stickerPopupBG->getContentSize().height/6));
     _stickerScrollView->setDirection(cocos2d::ui::ScrollView::Direction::HORIZONTAL);
+	_stickerScrollView->getInnerContainer()->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _stickerScrollView->setBounceEnabled(true);
     _stickerScrollView->setTouchEnabled(true);
     _stickerScrollView->setSwallowTouches(true);
@@ -829,18 +830,22 @@ void DrawingCanvasUILayer::onStickerCategoryChangePressed(Ref *pSender, ui::Widg
         _selectionIndicator->setNormalizedPosition(Vec2((index + 0.5f)/catButtons.size(),0));
         const Size& visibleSize = Director::getInstance()->getVisibleSize();
         
-        int numStickers = (int)_stickerCats[index]->second.size();
-        
+        const int numStickers = (int)_stickerCats[index]->second.size();
+		const int numColumns = ceil(numStickers/2.0f);
         _stickerScrollView->removeAllChildren();
-        _stickerScrollView->setInnerContainerSize(Size(visibleSize.width/7.0f * numStickers/2.0f, visibleSize.height/2));
-        
+		const float scrollWidth = visibleSize.width/7.0f * numColumns;
+		const float windowWidth = _stickerPopupBG->getContentSize().width - 35;
+		_stickerScrollView->setContentSize(Size(MIN(windowWidth, scrollWidth),visibleSize.height / 2.0f));
+        _stickerScrollView->setInnerContainerSize(Size(visibleSize.width/7.0f * numColumns, visibleSize.height / 2.0f));
+		_stickerScrollView->setClippingEnabled(windowWidth < scrollWidth);
+
         for(int i = 0; i < numStickers; i+=2)
         {
             ui::Button* temp = ui::Button::create();
             temp->setAnchorPoint(Vec2(0.5,0.5));
             temp->loadTextures(_stickerCats[index]->second[i].first, _stickerCats[index]->second[i].first);
             temp->setName(_stickerCats[index]->second[i].second);
-            temp->setPosition(Vec2(_stickerScrollView->getInnerContainerSize().width*((i+1.0f)/(numStickers+1)),_stickerScrollView->getInnerContainerSize().height*0.8));
+			temp->setNormalizedPosition(Vec2((i+1.0f)/(numColumns * 2.0f),0.8));
             temp->setScale(271.0f/temp->getContentSize().height);
             temp->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onAddStickerPressed, this));
             _stickerScrollView->addChild(temp);
@@ -851,7 +856,7 @@ void DrawingCanvasUILayer::onStickerCategoryChangePressed(Ref *pSender, ui::Widg
                 temp2->setAnchorPoint(Vec2(0.5,0.5));
                 temp2->loadTextures( _stickerCats[index]->second[i+1].first, _stickerCats[index]->second[i+1].first);
                 temp2->setName(_stickerCats[index]->second[i+1].second);
-                temp2->setPosition(Vec2(_stickerScrollView->getInnerContainerSize().width*((i+1.0f)/(numStickers+1)),_stickerScrollView->getInnerContainerSize().height*0.4));
+				temp2->setNormalizedPosition(Vec2((i+1.0f)/(numColumns * 2.0f),0.4));
                 temp2->setScale(271.0f/temp2->getContentSize().height);
                 temp2->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onAddStickerPressed, this));
                 _stickerScrollView->addChild(temp2);
@@ -997,8 +1002,8 @@ void DrawingCanvasUILayer::setButtonBodyPattern(cocos2d::ui::Button *button, con
 void DrawingCanvasUILayer::getStickerFilesFromJSON()
 {
     _stickerCats.clear();
-    const std::string& oomeeStoragePath = FileUtils::getInstance()->getWritablePath() + "oomeeMaker/" + ChildDataProvider::getInstance()->getParentOrChildId();
-    const std::vector<std::string>& oomeeImages = DirectorySearcher::getInstance()->getImagesInDirectory(oomeeStoragePath);
+	const std::string& oomeeStoragePath = DirUtil::getCachesPath() + "oomeeMaker/" + ChildManager::getInstance()->getParentOrChildId();
+    const std::vector<std::string>& oomeeImages = DirUtil::getImagesInDirectory(oomeeStoragePath);
     
     if(oomeeImages.size() != 0)
     {

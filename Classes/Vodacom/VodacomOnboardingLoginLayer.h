@@ -4,7 +4,7 @@
 //
 //  Created by Macauley on 10/10/2018.
 //
-#ifdef VODACOM_BUILD
+#ifdef AZOOMEE_VODACOM_BUILD
 #ifndef VodacomOnboardingLoginLayer_h
 #define VodacomOnboardingLoginLayer_h
 

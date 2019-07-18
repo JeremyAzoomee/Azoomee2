@@ -1,0 +1,308 @@
+import org.gradle.internal.os.OperatingSystem
+
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        // These docs use an open ended version so that our plugin
+        // can be updated quickly in response to Android tooling updates
+
+        // We recommend changing it to the latest version from our changelog:
+        // https://docs.fabric.io/android/changelog.html#fabric-gradle-plugin
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
+// Load keystore.properties
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
+
+android {
+    compileSdkVersion PROP_COMPILE_SDK_VERSION.toInteger()
+
+    defaultConfig {
+        applicationId "com.tinizine.azoomee"
+        minSdkVersion PROP_MIN_SDK_VERSION
+        targetSdkVersion PROP_TARGET_SDK_VERSION
+        versionCode 1004006003
+        versionName "4.6.3"
+        manifestPlaceholders = [applicationName:"Azoomee"]
+
+        ndk {
+            abiFilters "armeabi-v7a"
+        }
+
+        externalNativeBuild {
+            if (PROP_BUILD_TYPE == 'ndk-build') {
+                ndkBuild {
+                    targets 'Azoomee'
+                    arguments 'NDK_TOOLCHAIN_VERSION=clang'
+                    arguments '-j' + Runtime.runtime.availableProcessors()
+
+                    def module_paths = [project.file("../../cocos2d").absolutePath,
+                                        project.file("../../cocos2d/cocos").absolutePath,
+                                        project.file("../../cocos2d/external").absolutePath]
+                    if (OperatingSystem.current().isWindows()) {
+                        module_paths = module_paths.collect {it.replaceAll('\\\\', '/')}
+                        arguments 'NDK_MODULE_PATH=' + module_paths.join(";")
+                    }
+                    else {
+                        arguments 'NDK_MODULE_PATH=' + module_paths.join(':')
+                    }
+
+                    cppFlags "-frtti", "-DCC_ENABLE_CHIPMUNK_INTEGRATION=1", "-std=c++11", "-fsigned-char", "-Wno-extern-c-compat", "-fexceptions"
+                }
+            }
+            else if (PROP_BUILD_TYPE == 'cmake') {
+                cmake {
+                    targets 'Azoomee'
+                    arguments "-DCMAKE_FIND_ROOT_PATH=", "-DANDROID_STL=c++_static", "-DANDROID_TOOLCHAIN=clang", "-DANDROID_ARM_NEON=TRUE"
+                    cppFlags "-frtti -fexceptions -fsigned-char"
+                }
+            }
+        }
+    }
+
+    sourceSets.main {
+        java.srcDir "src/main/java"
+        res.srcDir "src/main/res"
+        manifest.srcFile "src/main/AndroidManifest.xml"
+        assets.srcDir "../../Resources"
+    }
+
+    externalNativeBuild {
+        if (PROP_BUILD_TYPE == 'ndk-build') {
+            ndkBuild {
+                path "jni/Android.mk"
+            }
+        }
+        else if (PROP_BUILD_TYPE == 'cmake') {
+            cmake {
+                path "../../CMakeLists.txt"
+            }
+        }
+    }
+
+    signingConfigs {
+       release {
+           if (keystorePropertiesFile.exists()) {
+               keyAlias keystoreProperties['keyAlias']
+               keyPassword keystoreProperties['keyPassword']
+               storeFile file(keystoreProperties['storeFile'])
+               storePassword keystoreProperties['storePassword']
+           }
+        }
+    }
+
+    buildTypes {
+        release {
+            debuggable false
+            jniDebuggable false
+            renderscriptDebuggable false
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            if (keystorePropertiesFile.exists()) {
+                signingConfig signingConfigs.release
+            }
+
+            if( project.hasProperty('betaDistributionGroupAliases')) {
+                ext.betaDistributionGroupAliases = project.betaDistributionGroupAliases
+            }
+            if( project.hasProperty('betaDistributionReleaseNotesFilePath')) {
+                ext.betaDistributionReleaseNotesFilePath = project.betaDistributionReleaseNotesFilePath
+            }
+
+            externalNativeBuild {
+                ndkBuild {
+                    arguments 'NDK_DEBUG=0'
+                    cppFlags "-DNDEBUG"
+                }
+            }
+        }
+
+        debug {
+            debuggable true
+            jniDebuggable true
+            renderscriptDebuggable true
+            externalNativeBuild {
+                ndkBuild {
+                    arguments 'NDK_DEBUG=1'
+                    cppFlags "-DCOCOS2D_DEBUG=1"
+                }
+            }
+
+            // Disable fabric build ID generation for debug builds
+            ext.enableCrashlytics = false
+        }
+    }
+
+    flavorDimensions "product", "environment"
+
+    productFlavors {
+        // product
+        standard {
+            dimension "product"
+        }
+
+        googleplay {
+            dimension "product"
+
+            // Override abi filters since Google Play requires 64bit
+            ndk {
+                abiFilters = []
+                abiFilters "armeabi-v7a", "arm64-v8a"
+            }
+        }
+
+        amazon {
+            dimension "product"
+            versionNameSuffix "-amazon"
+
+            externalNativeBuild {
+                ndkBuild {
+                    cppFlags "-DAZOOMEE_AMAZON_BUILD"
+                }
+            }
+        }
+
+        vodacom {
+            dimension "product"
+            versionNameSuffix "-vodacom"
+
+            externalNativeBuild {
+                ndkBuild {
+                    cppFlags "-DAZOOMEE_VODACOM_BUILD"
+                }
+            }
+        }
+
+        huawei {
+            dimension "product"
+            versionNameSuffix "-huawei"
+
+            externalNativeBuild {
+                ndkBuild {
+                    cppFlags "-DAZOOMEE_HUAWEI_BUILD"
+                }
+            }
+        }
+
+        // environment
+        prod {
+            dimension "environment"
+        }
+
+        ci {
+            dimension "environment"
+            applicationIdSuffix ".ci"
+            manifestPlaceholders = [applicationName:"CI Azoomee"]
+
+            externalNativeBuild {
+                ndkBuild {
+                    cppFlags "-DAZOOMEE_ENVIRONMENT_CI"
+                }
+            }
+        }
+    }
+}
+
+android.applicationVariants.all { variant ->
+    // delete previous files first
+    delete "${buildDir}/intermediates/assets/${variant.dirName}"
+
+    variant.mergeAssetsProvider.get().doLast {
+        copy {
+            from "${buildDir}/../../../Resources"
+            into "${buildDir}/intermediates/assets/${variant.dirName}"
+            exclude "**/*.gz"
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'jars')
+    implementation project(':libcocos2dx')
+    implementation project(':azoomee_common')
+
+    // MixPanel
+    // using 5.3.1 because 5.4.2 caused crash on launch first few attempts after install
+    implementation 'com.mixpanel.android:mixpanel-android:5.3.1'
+
+    // Google Play Services
+    implementation 'com.google.android.gms:play-services-base:11.2.2'
+    implementation 'com.google.android.gms:play-services-ads:11.2.2'
+    implementation 'com.google.android.gms:play-services-gcm:11.2.2'
+
+    // Urban Airship SDK
+    implementation 'com.urbanairship.android:urbanairship-sdk:8.8.+'
+
+    // Support library
+    implementation 'com.android.support:support-v4:26.0.2'
+
+    // AppsFlyer
+    implementation 'com.appsflyer:af-android-sdk:4+@aar'
+
+    // Recommended for in-app messaging
+    implementation 'com.android.support:cardview-v7:26.0.2'
+
+    // Crashlytics Kit
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.0'
+    // NDK Kit
+    implementation 'com.crashlytics.sdk.android:crashlytics-ndk:2.1.0'
+}
+
+crashlytics {
+    enableNdk true
+}
+
+
+// TASKS
+
+task cleanWebcommApi(type: Delete) {
+    delete '../../Resources/res/webcommApi'
+}
+clean.dependsOn cleanWebcommApi
+
+task copyWebcommApi(type: Copy) {
+    from '../../../webgameapi_repo/webcommApi'
+    into '../../Resources/res/webcommApi'
+}
+preBuild.dependsOn copyWebcommApi
+
+task ctaZip(type: Zip) {
+    from fileTree(dir: '../../../app-content-dynamicnode/android/')
+    archiveName 'CTAFiles.zip'
+    destinationDir(file('../../Resources/res/cta_assets/'))
+}
+preBuild.dependsOn ctaZip
+
+
+def getCommitHash = { ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', '--short', 'HEAD'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}
+
+task updateVersionAsset {
+    def libraries = new File("../Resources/res/configuration/Version.json")
+    libraries.text = "{\"version\": \"" + "${android.defaultConfig.versionName}" + " " + "(" + "${getCommitHash()}" + ")\"}"
+}
+preBuild.dependsOn updateVersionAsset

@@ -1,7 +1,6 @@
 #include "OfflineText.h"
 #include "BackEndCaller.h"
-#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "LoginLogicHandler.h"
@@ -71,7 +70,7 @@ void OfflineText::createForOfflineHubWhenOffline()
     addOfflineLogoToScreen();
     addTextTitleToScreen(_("You are offline"));
     
-    if(ChildDataProvider::getInstance()->isChildLoggedIn())
+    if(ChildManager::getInstance()->isChildLoggedIn())
     {
         addTextSubTitleToScreen(_("Check your connection and try again"));
         addTextBodyToScreen(_("In the meantime you can still enjoy these"));
@@ -146,7 +145,7 @@ void OfflineText::addExitOfflineModeButtonToScreen()
 void OfflineText::buttonPressed(ElectricDreamsButton *button)
 {
     OfflineChecker::getInstance()->setDelegate(nullptr);
-    ChildDataParser::getInstance()->setChildLoggedIn(false);
+    ChildManager::getInstance()->setChildLoggedIn(false);
     HQHistoryManager::getInstance()->setIsOffline(false);
     FlowDataSingleton::getInstance()->clearData();
     LoginLogicHandler::getInstance()->doLoginLogic();

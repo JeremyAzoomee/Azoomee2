@@ -1,18 +1,16 @@
 #include "HQDataProvider.h"
-#include "HQDataParser.h"
 
 #include <external/json/document.h>
 #include <external/json/writer.h>
 #include <external/json/stringbuffer.h>
 #include <external/json/prettywriter.h>
 
-#include "HQScene2.h"
 #include "BackEndCaller.h"
 #include "SceneManagerScene.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
-#include <AzoomeeCommon/Data/HQDataObject/ContentItemPool.h>
+#include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
 
 using namespace cocos2d;
 
@@ -59,19 +57,14 @@ void HQDataProvider::getDataForHQ(const std::string &hqName)
 void HQDataProvider::getDataForGroupHQ(const std::string &uri)
 {
     displayLoadingScreen();
-    HQDataObjectRef groupHQObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kGroupHQName);
-    
-    groupHQObject->clearData();
-    
-    HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kGroupHQName)->setHqEntitlement(true); //group hq entitlement is not in the initial login feed, so we have to make it enabled manually.
-    HQStructureHandler::getInstance()->loadGroupHQData(uri);
+
+    HQStructureDownloadHandler::getInstance()->loadGroupHQData(uri);
     startBuildingHQ(ConfigStorage::kGroupHQName);
-    //BackEndCaller::getInstance()->getHQContent(uri, ConfigStorage::kGroupHQName);
 }
 
 int HQDataProvider::getNumberOfRowsForHQ(const std::string &hqName) const
 {
-    return (int)HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName)->getHqCarousels().size();
+    return (int)HQDataObjectManager::getInstance()->getHQDataObjectForKey(hqName)->getHqCarousels().size();
 }
 
 int HQDataProvider::getNumberOfElementsForRow(const std::string &hqName, int index) const
@@ -80,7 +73,7 @@ int HQDataProvider::getNumberOfElementsForRow(const std::string &hqName, int ind
     {
         return 0;
     }
-    return (int)HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName)->getHqCarousels().at(index)->getContentItems().size();
+    return (int)HQDataObjectManager::getInstance()->getHQDataObjectForKey(hqName)->getHqCarousels().at(index)->getContentItems().size();
 }
 
 std::vector<HQContentItemObjectRef> HQDataProvider::getElementsForRow(const std::string &hqName, int index)
@@ -89,7 +82,7 @@ std::vector<HQContentItemObjectRef> HQDataProvider::getElementsForRow(const std:
     {
         return std::vector<HQContentItemObjectRef>();
     }
-    return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName)->getHqCarousels().at(index)->getContentItems();
+    return HQDataObjectManager::getInstance()->getHQDataObjectForKey(hqName)->getHqCarousels().at(index)->getContentItems();
 }
 
 std::string HQDataProvider::getTitleForRow(const std::string &hqName, int index) const
@@ -98,19 +91,19 @@ std::string HQDataProvider::getTitleForRow(const std::string &hqName, int index)
     {
         return "";
     }
-    return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName)->getHqCarousels().at(index)->getTitle();
+    return HQDataObjectManager::getInstance()->getHQDataObjectForKey(hqName)->getHqCarousels().at(index)->getTitle();
 }
 
 HQContentItemObjectRef HQDataProvider::getItemDataForSpecificItem(const std::string &itemid)
 {
-    return ContentItemPool::getInstance()->getContentItemForId(itemid);
+    return ContentItemManager::getInstance()->getContentItemForId(itemid);
 }
 
 Vec2 HQDataProvider::getHighlightDataForSpecificItem(const std::string &hqName, int rowNumber, int itemNumber) const
 {
     try
     {
-        return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName)->getHqCarousels().at(rowNumber)->getContentItemHighlights().at(itemNumber);
+        return HQDataObjectManager::getInstance()->getHQDataObjectForKey(hqName)->getHqCarousels().at(rowNumber)->getContentItemHighlights().at(itemNumber);
     }
     catch(std::out_of_range)
     {
@@ -123,7 +116,7 @@ std::string HQDataProvider::getThumbnailUrlForItem(const std::string &hqName, in
     try
     {
         const cocos2d::Vec2 &shape = getHighlightDataForSpecificItem(hqName, rowNumber, itemNumber);
-        HQContentItemObjectRef element = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName)->getHqCarousels()[rowNumber]->getContentItems()[itemNumber];
+        HQContentItemObjectRef element = HQDataObjectManager::getInstance()->getHQDataObjectForKey(hqName)->getHqCarousels()[rowNumber]->getContentItems()[itemNumber];
         
         return getThumbnailUrlForItem(element, shape);
     } catch (std::out_of_range) {
@@ -133,7 +126,7 @@ std::string HQDataProvider::getThumbnailUrlForItem(const std::string &hqName, in
 
 std::string HQDataProvider::getThumbnailUrlForItem(const std::string &itemId) const
 {
-    HQContentItemObjectRef element = ContentItemPool::getInstance()->getContentItemForId(itemId);
+    HQContentItemObjectRef element = ContentItemManager::getInstance()->getContentItemForId(itemId);
     if(element)
     {
         return getThumbnailUrlForItem(element, Vec2(1,1));
@@ -144,7 +137,7 @@ std::string HQDataProvider::getThumbnailUrlForItem(const std::string &itemId) co
 
 std::string HQDataProvider::getThumbnailUrlForItem(const std::string &hqName, const std::string &itemId) const
 {
-    return getThumbnailUrlForItem(ContentItemPool::getInstance()->getContentItemForId(itemId), Vec2(1,1));
+    return getThumbnailUrlForItem(ContentItemManager::getInstance()->getContentItemForId(itemId), Vec2(1,1));
 }
 
 std::string HQDataProvider::getThumbnailUrlForItem(HQContentItemObjectRef element, const cocos2d::Vec2 &shape) const
@@ -173,7 +166,7 @@ std::string HQDataProvider::getThumbnailUrlForItem(HQContentItemObjectRef elemen
 std::string HQDataProvider::getHumanReadableHighlightDataForSpecificItem(const std::string &hqName, int rowNumber, int itemNumber) const
 {
     try{
-        const Vec2 &highlightData = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName)->getHqCarousels().at(rowNumber)->getContentItemHighlights().at(itemNumber);
+        const Vec2 &highlightData = HQDataObjectManager::getInstance()->getHQDataObjectForKey(hqName)->getHqCarousels().at(rowNumber)->getContentItemHighlights().at(itemNumber);
         return StringUtils::format("%d,%d", int(highlightData.x), int(highlightData.y));
     }
     catch(std::out_of_range)
@@ -190,7 +183,7 @@ std::string HQDataProvider::convertShapeToThumbnailKey(const cocos2d::Vec2 &shap
 
 std::string HQDataProvider::getTypeForSpecificItem(const std::string &hqName, const std::string &itemId) const
 {
-    HQContentItemObjectRef targetObject = ContentItemPool::getInstance()->getContentItemForId(itemId);
+    HQContentItemObjectRef targetObject = ContentItemManager::getInstance()->getContentItemForId(itemId);
     if(targetObject)
     {
         return targetObject->getType();
@@ -206,28 +199,8 @@ std::vector<HQContentItemObjectRef> HQDataProvider::getAllContentItemsInRow(cons
         return std::vector<HQContentItemObjectRef>();
     }
     
-    HQCarouselObjectRef requiredObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName)->getHqCarousels().at(rowNumber);
-    std::vector<HQContentItemObjectRef> contentItemObjects = requiredObject->getContentItems();
-    
-    std::vector<HQContentItemObjectRef> returnArray;
-    
-    for(int elementIndex = 0; elementIndex < contentItemObjects.size(); elementIndex++)
-    {
-        HQContentItemObjectRef extendedObj = contentItemObjects.at(elementIndex);
-        
-        //TODO objectTypes should be pre-configured.
-        
-        if(((extendedObj->getType() == ConfigStorage::kContentTypeVideo || extendedObj->getType() == ConfigStorage::kContentTypeAudio)) && extendedObj->isEntitled())
-        {
-            extendedObj->setElementNumber(elementIndex);
-            extendedObj->setElementShape(getHighlightDataForSpecificItem(hqName, rowNumber, elementIndex));
-            extendedObj->setImagePath(getThumbnailUrlForItem(hqName, rowNumber, elementIndex));
-        }
-        
-        returnArray.push_back(extendedObj);
-    }
-    
-    return returnArray;
+    HQCarouselObjectRef requiredObject = HQDataObjectManager::getInstance()->getHQDataObjectForKey(hqName)->getHqCarousels().at(rowNumber);
+	return requiredObject->getContentItems();
 }
 
 //---------------------LOADING SCREEN----------------------------------

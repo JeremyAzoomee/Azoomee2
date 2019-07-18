@@ -12,11 +12,11 @@
 #include "HQDataProvider.h"
 #include "SceneManagerScene.h"
 #include "HQHistoryManager.h"
+#include "ContentOpener.h"
 #include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/Utils/DirectorySearcher.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Utils/DirUtil.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Data/HQDataObject/ContentItemPool.h>
+#include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 
@@ -50,7 +50,7 @@ bool MeHQDownloads::init()
         {
             if(isStarterFileExists(json))
             {
-                auto item = ContentItemPool::getInstance()->getContentItemForId(json);
+                auto item = ContentItemManager::getInstance()->getContentItemForId(json);
                 if(item && item->isEntitled())
                 {
                     gameList.push_back(item);
@@ -107,6 +107,10 @@ bool MeHQDownloads::init()
             hqSceneElement->deleteButtonVisible(false);
             
             hqSceneElement->addHQSceneElement();
+			
+			hqSceneElement->setTouchCallback([elementIndex](const HQContentItemObjectRef& elementData){
+				ContentOpener::getInstance()->doCarouselContentOpenLogic(elementData, -3, elementIndex, ConfigStorage::kMeHQName);
+			});
             
             Vec2 elementShape = Vec2(1,1);
             
@@ -295,7 +299,7 @@ void MeHQDownloads::enableButtons(bool enable)
 
 std::vector<std::string> MeHQDownloads::getJsonFileListFromDir() const
 {
-    return DirectorySearcher::getInstance()->getFoldersInDirectory(ConfigStorage::getInstance()->getGameCachePath());
+    return DirUtil::getFoldersInDirectory(ConfigStorage::getInstance()->getGameCachePath());
 }
 
 bool MeHQDownloads::isStarterFileExists(const std::string &gameId) const

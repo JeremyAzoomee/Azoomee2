@@ -51,6 +51,7 @@ public:
     static const char* const TagGetTimelineSummary;
     static const char* const TagGetForceUpdateInformation;
     static const char* const TagCookieRefresh;
+	static const char* const TagChildCookieRefresh;
     static const char* const TagGetContentPoolRequest;
     static const char* const TagGetHqStructureDataRequest;
     static const char* const TagUpdateChildAvatar;
@@ -104,6 +105,8 @@ public:
                                                 HttpRequestCreatorResponseDelegate* delegate);
     
     static HttpRequestCreator* RefreshParentCookiesRequest(HttpRequestCreatorResponseDelegate* delegate);
+	
+	static HttpRequestCreator* RefreshChildCookiesRequest(HttpRequestCreatorResponseDelegate* delegate);
     
     static HttpRequestCreator* RegisterParentRequest(const std::string& parentId,
 													 const std::string& emailAddress,

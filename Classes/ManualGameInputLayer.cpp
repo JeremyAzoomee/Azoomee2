@@ -6,6 +6,7 @@
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "ContentHistoryManager.h"
+#include <AzoomeeCommon/Utils/DirUtil.h>
 
 using namespace cocos2d;
 
@@ -125,7 +126,7 @@ void ManualGameInputLayer::buttonPressed(ElectricDreamsButton* button)
         {
             if(uriTextInput->getText().size() > 4)
             {
-				HQContentItemObjectRef contentItem = HQContentItemObject::create();
+				MutableHQContentItemObjectRef contentItem = MutableHQContentItemObject::create();
 				contentItem->setContentItemId(GameDataManager::kManualGameId);
 				ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
 				Director::getInstance()->replaceScene(SceneManagerScene::createWebview(visibleSize.width > visibleSize.height ? Landscape : Portrait, uriTextInput->getText()));
@@ -135,13 +136,15 @@ void ManualGameInputLayer::buttonPressed(ElectricDreamsButton* button)
         {
             ModalMessages::getInstance()->startLoading();
             
-            std::string manualGamePath = FileUtils::getInstance()->getWritablePath() + "gameCache/" + GameDataManager::kManualGameId;
+            const std::string& manualGamePath = DirUtil::getCachesPath() + ConfigStorage::kGameCacheFolder + GameDataManager::kManualGameId;
             
             if(FileUtils::getInstance()->isDirectoryExist(manualGamePath))
+            {
                 FileUtils::getInstance()->removeDirectory(manualGamePath);
+            }
 
             FileUtils::getInstance()->createDirectory(manualGamePath);
-			HQContentItemObjectRef contentItem = HQContentItemObject::create();
+			MutableHQContentItemObjectRef contentItem = MutableHQContentItemObject::create();
 			contentItem->setContentItemId(GameDataManager::kManualGameId);
 			ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
 			

@@ -42,6 +42,8 @@ protected:
 	
 	CoinDisplay* _coinDisplay = nullptr;
 	
+	cocos2d::EventListenerCustom* _rewardRedeemedListener = nullptr;
+	
 public:
 	
 	virtual bool init() override;

@@ -5,8 +5,8 @@
 #include "GameDataManager.h"
 #include "HQDataProvider.h"
 #include "HQHistoryManager.h"
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "VideoPlaylistManager.h"
 #include "SceneManagerScene.h"
@@ -16,7 +16,7 @@
 #include "DynamicNodeHandler.h"
 #include "ContentOpener.h"
 
-#ifdef VODACOM_BUILD
+#ifdef AZOOMEE_VODACOM_BUILD
 #include "Vodacom/VodacomOnboardingScene.h"
 #endif
 
@@ -108,7 +108,7 @@ bool DeepLinkingSingleton::actionDeepLink()
         return false;
     }
     
-    if(host == "content" && ChildDataProvider::getInstance()->isChildLoggedIn())
+    if(host == "content" && ChildManager::getInstance()->isChildLoggedIn())
     {
         AnalyticsSingleton::getInstance()->deepLinkingContentEvent();
         
@@ -129,7 +129,7 @@ bool DeepLinkingSingleton::actionDeepLink()
     }
     else if(host == "moveto")
     {
-        if(path == "signup" && !ChildDataProvider::getInstance()->isChildLoggedIn() && !ParentDataParser::getInstance()->hasParentLoginDataInUserDefaults())
+        if(path == "signup" && !ChildManager::getInstance()->isChildLoggedIn() && !ParentManager::getInstance()->hasParentLoginDataInUserDefaults())
         {
             AnalyticsSingleton::getInstance()->deepLinkingMoveToEvent(path);
             
@@ -139,7 +139,7 @@ bool DeepLinkingSingleton::actionDeepLink()
             return true;
         }
         
-        if(!ChildDataProvider::getInstance()->isChildLoggedIn())
+        if(!ChildManager::getInstance()->isChildLoggedIn())
         {
             return false;
         }
@@ -178,7 +178,7 @@ bool DeepLinkingSingleton::actionDeepLink()
             return true;
         }
     }
-#ifdef VODACOM_BUILD
+#ifdef AZOOMEE_VODACOM_BUILD
 	else if(host == "vodacom")
 	{
 		VodacomOnboardingScene* vodacomScene = dynamic_cast<VodacomOnboardingScene*>(Director::getInstance()->getRunningScene());
@@ -226,7 +226,7 @@ void DeepLinkingSingleton::contentDetailsResponse(const std::string& responseBod
     
     if(contentData["entitled"].GetBool())
     {
-        HQContentItemObjectRef contentItem = HQContentItemObject::create();
+        MutableHQContentItemObjectRef contentItem = MutableHQContentItemObject::create();
         contentItem->setTitle(getStringFromJson("title", contentData));
         contentItem->setDescription(getStringFromJson("description", contentData));
         contentItem->setType(getStringFromJson("type", contentData));

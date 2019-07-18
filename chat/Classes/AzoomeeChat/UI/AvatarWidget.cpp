@@ -1,6 +1,5 @@
 #include "AvatarWidget.h"
 #include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 
 
 using namespace cocos2d;

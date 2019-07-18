@@ -11,17 +11,20 @@
 #include "../../Azoomee.h"
 #include <string>
 #include <memory>
+#include <chrono>
 #include "../Json.h"
 #include "../Rewards/Inventory.h"
 
 NS_AZOOMEE_BEGIN
 
 class Child;
+class MutableChild;
 typedef std::shared_ptr<Child> ChildRef;
+typedef std::shared_ptr<MutableChild> MutableChildRef;
 
 class Child
 {
-private:
+protected:
 	std::string _profileName;
 	std::string _avatar;
 	std::string _inviteCode;
@@ -32,24 +35,12 @@ private:
 	std::string _cdnSessionId;
 	std::string _apiSecret;
 	std::string _apiKey;
+	std::chrono::milliseconds _sessionExpiryTimestamp;
 	
 	InventoryRef _inventory = nullptr;
 	
 	Child();
 public:
-	
-	static ChildRef createWithJson(const rapidjson::Value& childData);
-	static ChildRef create();
-	
-	void parseLoginData(const rapidjson::Document& loginData);
-	void parseChildData(const rapidjson::Value& childData);
-	
-	void setInventory(const InventoryRef& inventory);
-	
-	void setAvatar(const std::string& avatarUrl);
-	void setId(const std::string& childId);
-	void setDOB(const std::string& dob);
-	void setProfileName(const std::string& name);
 	
 	std::string getProfileName() const;
 	std::string getAvatar() const;
@@ -61,8 +52,29 @@ public:
 	std::string getCDNSessionId() const;
 	std::string getAPISecret() const;
 	std::string getAPIKey() const;
+	bool isSessionExpired() const;
 	
 	InventoryRef getInventory() const;
+	
+};
+
+class MutableChild : public Child
+{
+public:
+	static MutableChildRef createWithJson(const rapidjson::Value& childData);
+	static MutableChildRef create();
+	
+	void parseLoginData(const rapidjson::Document& loginData);
+	void parseChildData(const rapidjson::Value& childData);
+	
+	void setInventory(const InventoryRef& inventory);
+	
+	void setAvatar(const std::string& avatarUrl);
+	void setId(const std::string& childId);
+	void setDOB(const std::string& dob);
+	void setProfileName(const std::string& name);
+	
+	void setCDNSessionId(const std::string& sessionId, std::chrono::milliseconds sessionDurationMillis);
 	
 };
 

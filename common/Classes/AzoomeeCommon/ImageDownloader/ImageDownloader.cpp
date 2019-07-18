@@ -1,7 +1,5 @@
 #include "ImageDownloader.h"
-#include "../Data/Cookie/CookieDataProvider.h"
 #include "../Data/ConfigStorage.h"
-#include "../Data/Parent/ParentDataProvider.h"
 
 using namespace cocos2d;
 using namespace network;
