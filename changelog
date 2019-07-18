@@ -1,3 +1,6 @@
+Version 4.6.3
+Fixed an issue that prevented Billing for Amazon devices from working correctly.
+
 Version 4.6.2
 Prevent a crash from occuring if the Parent Inbox is tapped frequently.
 Prevent turorial message from getting stuck.
