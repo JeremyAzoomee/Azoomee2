@@ -30,6 +30,11 @@
 -keep class org.apache.http.** { *; }
 -dontwarn org.apache.http.**
 
+# Amazon Purchasing
+-dontwarn com.amazon.**
+-keep class com.amazon.** {*;}
+-keepattributes *Annotation*
+
 # UrbanAirship config
 -keep public class com.urbanairship.Autopilot
 -keep public class * extends com.urbanairship.Autopilot
