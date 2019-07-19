@@ -25,7 +25,7 @@ class ProductLayout : public cocos2d::ui::Layout
 private:
 	cocos2d::ui::Layout* _productBanner = nullptr;
 	cocos2d::ui::Button* _purchaseButton = nullptr;
-	cocos2d::ui::Button* _restoreButton = nullptr;
+	cocos2d::ui::Text* _restoreButton = nullptr;
 	
 	cocos2d::Label* _purchaseButtonLabel = nullptr;
 	

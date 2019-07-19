@@ -62,11 +62,16 @@ bool ProductLayout::init()
 	_purchaseButtonLabel->setOverflow(Label::Overflow::SHRINK);
 	_purchaseButton->addChild(_purchaseButtonLabel);
 	
-	_restoreButton = ui::Button::create();
+	_restoreButton = ui::Text::create(_("Restore Purchase"), Style::Font::Bold(), 60);
 	_restoreButton->ignoreContentAdaptWithSize(false);
-	_restoreButton->setContentSize(Size(700,140));
 	_restoreButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_restoreButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+	_restoreButton->setTextHorizontalAlignment(TextHAlignment::CENTER);
+	_restoreButton->setTextVerticalAlignment(TextVAlignment::CENTER);
+	_restoreButton->setTextAreaSize(Size(700,140));
+	_restoreButton->setTextColor(Color4B(130,130,130,255));
+	_restoreButton->setTouchEnabled(true);
+	_restoreButton->setTouchScaleChangeEnabled(true);
 	_restoreButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
@@ -76,16 +81,12 @@ bool ProductLayout::init()
 			}
 		}
 	});
+	Label* restoreButtonLabel = dynamic_cast<Label*>(_restoreButton->getVirtualRenderer());
+	if(restoreButtonLabel)
+	{
+		restoreButtonLabel->setOverflow(Label::Overflow::SHRINK);
+	}
 	buttonHolder->addChild(_restoreButton);
-	
-	Label* restoreButtonLabel = Label::createWithTTF(_("Restore Purchase"), Style::Font::Bold(), 60);
-	restoreButtonLabel->setColor(Color3B(130,130,130));
-	restoreButtonLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	restoreButtonLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	restoreButtonLabel->setAlignment(TextHAlignment::CENTER, TextVAlignment::CENTER);
-	restoreButtonLabel->setDimensions(_restoreButton->getContentSize().width * 0.9f, _restoreButton->getContentSize().height * 0.8f);
-	restoreButtonLabel->setOverflow(Label::Overflow::SHRINK);
-	_restoreButton->addChild(restoreButtonLabel);
 	
 	return true;
 }

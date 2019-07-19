@@ -48,6 +48,9 @@ namespace Color
     const cocos2d::Color3B carolinaBlue(133, 196, 255);
 	const cocos2d::Color3B darkIndigo(13,40,78);
 	const cocos2d::Color3B strongPink(245, 2, 109);
+	const cocos2d::Color3B purplyPink(229, 107, 222);
+	const cocos2d::Color3B greenishCyan(66, 246, 174);
+	const cocos2d::Color3B azure(2, 169, 245);
     
     // These colors below don't have exact names in Zeplin.
     // So the names have been chosen to be close enough to other Zeplin colors.

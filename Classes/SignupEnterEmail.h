@@ -24,6 +24,12 @@ public:
 	bool init() override;
 	
 	CREATE_FUNC(SignupEnterEmail);
+	
+	//Editbox Delegate Functions
+	void editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text) override;
+	void editBoxReturn(cocos2d::ui::EditBox* editBox) override;
+	void editBoxEditingDidBegin(cocos2d::ui::EditBox* editBox) override;
+	void editBoxEditingDidEnd(cocos2d::ui::EditBox* editBox) override;
 };
 
 NS_AZOOMEE_END

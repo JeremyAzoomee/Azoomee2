@@ -10,6 +10,7 @@
 #include "SignupEnterPin.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Input/TextInputChecker.h>
 
 using namespace cocos2d;
 
@@ -35,7 +36,32 @@ bool SignupEnterPin::init()
 	_progressBar->setNumberOfSteps(3);
 	_progressBar->setProgress(3);
 	
+	_continueButton->setEnabled(isValidPin(_inputBox->getText()));
+	
 	return true;
+}
+
+void SignupEnterPin::editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text)
+{
+	_continueButton->setEnabled(isValidPin(text.c_str()));
+}
+void SignupEnterPin::editBoxReturn(cocos2d::ui::EditBox* editBox)
+{
+	if(isValidPin(editBox->getText()))
+	{
+		if(_continueCallback)
+		{
+			_continueCallback(editBox->getText());
+		}
+	}
+}
+void SignupEnterPin::editBoxEditingDidBegin(cocos2d::ui::EditBox* editBox)
+{
+	_continueButton->setEnabled(isValidPin(editBox->getText()));
+}
+void SignupEnterPin::editBoxEditingDidEnd(cocos2d::ui::EditBox* editBox)
+{
+	_continueButton->setEnabled(isValidPin(editBox->getText()));
 }
 
 NS_AZOOMEE_END

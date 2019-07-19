@@ -8,6 +8,7 @@
 #include "SignupEnterEmail.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Input/TextInputChecker.h>
 
 using namespace cocos2d;
 
@@ -39,7 +40,32 @@ bool SignupEnterEmail::init()
 	_progressBar->setNumberOfSteps(3);
 	_progressBar->setProgress(1);
 	
+	_continueButton->setEnabled(isValidEmailAddress(_inputBox->getText()));
+	
 	return true;
+}
+
+void SignupEnterEmail::editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text)
+{
+	_continueButton->setEnabled(isValidEmailAddress(text.c_str()));
+}
+void SignupEnterEmail::editBoxReturn(cocos2d::ui::EditBox* editBox)
+{
+	if(isValidEmailAddress(editBox->getText()))
+	{
+		if(_continueCallback)
+		{
+			_continueCallback(editBox->getText());
+		}
+	}
+}
+void SignupEnterEmail::editBoxEditingDidBegin(cocos2d::ui::EditBox* editBox)
+{
+	_continueButton->setEnabled(isValidEmailAddress(editBox->getText()));
+}
+void SignupEnterEmail::editBoxEditingDidEnd(cocos2d::ui::EditBox* editBox)
+{
+	_continueButton->setEnabled(isValidEmailAddress(editBox->getText()));
 }
 
 NS_AZOOMEE_END

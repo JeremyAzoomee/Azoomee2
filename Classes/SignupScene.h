@@ -35,6 +35,8 @@ private:
 	static const std::string kEnterPinPageKey;
 	static const std::string kTermsPageKey;
 	
+	static const std::map<std::string, cocos2d::Color3B> kPagePatternColours;
+	
 	SignupData _signupData;
 	
 	cocos2d::ui::Text* _titleText = nullptr;

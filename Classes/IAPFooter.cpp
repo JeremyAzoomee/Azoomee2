@@ -50,6 +50,7 @@ bool IAPFooter::init()
 	_loginButton->setTextVerticalAlignment(TextVAlignment::CENTER);
 	_loginButton->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_loginButton->setTouchEnabled(true);
+	_loginButton->setTouchScaleChangeEnabled(true);
 	_loginButton->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
@@ -83,6 +84,7 @@ bool IAPFooter::init()
 	_termsLink->setTextVerticalAlignment(TextVAlignment::CENTER);
 	_termsLink->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_termsLink->setTouchEnabled(true);
+	_termsLink->setTouchScaleChangeEnabled(true);
 	_termsLink->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
@@ -104,6 +106,7 @@ bool IAPFooter::init()
 	_privacyPolicyLink->setTextVerticalAlignment(TextVAlignment::CENTER);
 	_privacyPolicyLink->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_privacyPolicyLink->setTouchEnabled(true);
+	_privacyPolicyLink->setTouchScaleChangeEnabled(true);
 	_privacyPolicyLink->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
@@ -125,6 +128,7 @@ bool IAPFooter::init()
 	_privacyNoticeLink->setTextVerticalAlignment(TextVAlignment::CENTER);
 	_privacyNoticeLink->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_privacyNoticeLink->setTouchEnabled(true);
+	_privacyNoticeLink->setTouchScaleChangeEnabled(true);
 	_privacyNoticeLink->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
