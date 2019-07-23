@@ -16,8 +16,7 @@ class SignupEnterEmail : public SignupPage
 {
 	typedef SignupPage Super;
 private:
-	
-	cocos2d::ui::Text* _topHeading = nullptr;
+
 	
 public:
 	

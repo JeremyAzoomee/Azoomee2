@@ -34,7 +34,20 @@ bool SignupPage::init()
 	_inputHolder->setLayoutType(Type::VERTICAL);
 	addChild(_inputHolder);
 	
-	_inputTitle = ui::Text::create("test input title", Style::Font::Regular(), 50);
+	_topHeading = ui::Text::create("", Style::Font::PoppinsMedium, 50);
+	_topHeading->setTextColor(Color4B(Style::Color::strongPink));
+	_topHeading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,1.5 * elementSpacing)));
+	_topHeading->setTextVerticalAlignment(TextVAlignment::BOTTOM);
+	_topHeading->setTextHorizontalAlignment(TextHAlignment::CENTER);
+	_topHeading->setTextAreaSize(Size(1000,140));
+	Label* topHeadingLab = dynamic_cast<Label*>(_topHeading->getVirtualRenderer());
+	if(topHeadingLab)
+	{
+		topHeadingLab->setOverflow(Label::Overflow::SHRINK);
+	}
+	_inputHolder->addChild(_topHeading);
+	
+	_inputTitle = ui::Text::create("test input title", Style::Font::PoppinsRegular, 50);
 	_inputTitle->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	_inputTitle->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_inputTitle->setTextVerticalAlignment(TextVAlignment::CENTER);
@@ -79,7 +92,7 @@ bool SignupPage::init()
 	});
 	_inputHolder->addChild(_continueButton);
 	
-	Label* continueLab = Label::createWithTTF(_("Continue"), Style::Font::Bold(), 70);
+	Label* continueLab = Label::createWithTTF(_("Continue"), Style::Font::PoppinsBold, 70);
 	continueLab->setColor(Color3B::WHITE);
 	continueLab->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	continueLab->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -95,6 +108,9 @@ bool SignupPage::init()
 	_backButton->setTextColor(Color4B(130,130,130,255));
 	_backButton->setTouchEnabled(true);
 	_backButton->setTouchScaleChangeEnabled(true);
+	_backButton->ignoreContentAdaptWithSize(false);
+	_backButton->setTextHorizontalAlignment(TextHAlignment::CENTER);
+	_backButton->setTextVerticalAlignment(TextVAlignment::TOP);
 	_backButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
@@ -106,7 +122,7 @@ bool SignupPage::init()
 	});
 	_inputHolder->addChild(_backButton);
 	
-	_inputHolder->setContentSize(Size(0,_inputTitle->getContentSize().height + _inputBox->getContentSize().height + _continueButton->getContentSize().height + _backButton->getContentSize().height + (3 * elementSpacing)));
+	_inputHolder->setContentSize(Size(0,_topHeading->getContentSize().height + _inputTitle->getContentSize().height + _inputBox->getContentSize().height + _continueButton->getContentSize().height + _backButton->getContentSize().height + (5 * elementSpacing)));
 	
 	_progressBar = ProgressBar::create();
 	_progressBar->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
@@ -116,25 +132,46 @@ bool SignupPage::init()
 	_progressBar->setScale(700 / _progressBar->getContentSize().width);
 	addChild(_progressBar);
 	
-	_progressText = ui::Text::create(_("test progress text"), Style::Font::Regular(), 50);
+	_progressText = ui::Text::create(_("test progress text"), Style::Font::PoppinsRegular, 50);
 	_progressText->setTextColor(Color4B(130,130,130,255));
 	_progressText->setAnchorPoint(Vec2(0.5f,1.5f));
 	_progressText->setNormalizedPosition(Vec2(0.5,0.15));
 	addChild(_progressText);
 	
-	_termsLink = ui::Text::create(_("Terms of use"), Style::Font::Regular(), 35);
+	_termsLink = ui::Text::create(_("Terms of use"), Style::Font::PoppinsRegular, 35);
 	_termsLink->ignoreContentAdaptWithSize(false);
 	_termsLink->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-	_termsLink->setNormalizedPosition(Vec2(0.025,0.025));
+	_termsLink->setNormalizedPosition(Vec2(0.1,0.05));
 	_termsLink->setTextColor(Color4B(130,130,130,255));
 	_termsLink->setTextVerticalAlignment(TextVAlignment::CENTER);
 	_termsLink->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_termsLink->setTouchEnabled(true);
-	_termsLink->setTouchScaleChangeEnabled(true);
-	_termsLink->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
-		if(eType == ui::Widget::TouchEventType::ENDED)
+	_termsLink->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+		switch(eType)
 		{
-			ModalWebview::createWithURL(Url::TermsOfUse);
+			case cocos2d::ui::Widget::TouchEventType::BEGAN:
+			{
+				_termsLink->setTextColor(Color4B(Style::Color::strongPink));
+				_termsLink->setScale(1.1f);
+				break;
+			}
+			case cocos2d::ui::Widget::TouchEventType::MOVED:
+			{
+				break;
+			}
+			case cocos2d::ui::Widget::TouchEventType::ENDED:
+			{
+				_termsLink->setTextColor(Color4B(130,130,130,255));
+				_termsLink->setScale(1.0f);
+				ModalWebview::createWithURL(Url::TermsOfUse);
+				break;
+			}
+			case cocos2d::ui::Widget::TouchEventType::CANCELED:
+			{
+				_termsLink->setTextColor(Color4B(130,130,130,255));
+				_termsLink->setScale(1.0f);
+				break;
+			}
 		}
 	});
 	Label* termsLinkLab = dynamic_cast<Label*>(_termsLink->getVirtualRenderer());
@@ -144,19 +181,40 @@ bool SignupPage::init()
 	}
 	addChild(_termsLink);
 	
-	_privacyPolicyLink = ui::Text::create(_("Privacy Policy"), Style::Font::Regular(), 35);
+	_privacyPolicyLink = ui::Text::create(_("Privacy Policy"), Style::Font::PoppinsRegular, 35);
 	_privacyPolicyLink->ignoreContentAdaptWithSize(false);
 	_privacyPolicyLink->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
-	_privacyPolicyLink->setNormalizedPosition(Vec2(0.975,0.025));
+	_privacyPolicyLink->setNormalizedPosition(Vec2(0.9,0.05));
 	_privacyPolicyLink->setTextColor(Color4B(130,130,130,255));
 	_privacyPolicyLink->setTextVerticalAlignment(TextVAlignment::CENTER);
 	_privacyPolicyLink->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_privacyPolicyLink->setTouchEnabled(true);
-	_privacyPolicyLink->setTouchScaleChangeEnabled(true);
-	_privacyPolicyLink->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
-		if(eType == ui::Widget::TouchEventType::ENDED)
+	_privacyPolicyLink->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+		switch(eType)
 		{
-			ModalWebview::createWithURL(Url::PrivacyPolicyNoLinks);
+			case cocos2d::ui::Widget::TouchEventType::BEGAN:
+			{
+				_privacyPolicyLink->setTextColor(Color4B(Style::Color::strongPink));
+				_privacyPolicyLink->setScale(1.1f);
+				break;
+			}
+			case cocos2d::ui::Widget::TouchEventType::MOVED:
+			{
+				break;
+			}
+			case cocos2d::ui::Widget::TouchEventType::ENDED:
+			{
+				_privacyPolicyLink->setTextColor(Color4B(130,130,130,255));
+				_privacyPolicyLink->setScale(1.0f);
+				ModalWebview::createWithURL(Url::PrivacyPolicyNoLinks);
+				break;
+			}
+			case cocos2d::ui::Widget::TouchEventType::CANCELED:
+			{
+				_privacyPolicyLink->setTextColor(Color4B(130,130,130,255));
+				_privacyPolicyLink->setScale(1.0f);
+				break;
+			}
 		}
 	});
 	Label* privacyPolicyLab = dynamic_cast<Label*>(_privacyPolicyLink->getVirtualRenderer());
@@ -203,6 +261,17 @@ void SignupPage::repositionForKeyboardHeight(int height, float duration)
 		_inputHolder->runAction(MoveBy::create(duration, Vec2(0,-_keyboardOffset)));
 		_keyboardOffset = 0;
 	}
+}
+
+void SignupPage::clearInputText()
+{
+	_inputBox->setText("");
+}
+
+void SignupPage::setContinueButtonEnabled(bool enabled)
+{
+	_continueButton->setTouchEnabled(enabled);
+	_continueButton->setColor(enabled ? Style::Color::darkIndigo : Color3B(107, 123, 146));
 }
 
 //Editbox Delegate Functions

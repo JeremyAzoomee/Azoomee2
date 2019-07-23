@@ -42,7 +42,7 @@ bool IAPFooter::init()
 	_bgGradient->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_LEFT);
 	addChild(_bgGradient);
 	
-	_loginButton = ui::Text::create(_("Log In"), Style::Font::Bold(), 70);
+	_loginButton = ui::Text::create(_("Log In"), Style::Font::PoppinsBold, 70);
 	_loginButton->ignoreContentAdaptWithSize(false);
 	_loginButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_loginButton->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -63,7 +63,7 @@ bool IAPFooter::init()
 	});
 	addChild(_loginButton);
 	
-	_loginHeader = ui::Text::create(_("Already have an account?"), Style::Font::Regular(), 49);
+	_loginHeader = ui::Text::create(_("Already have an account?"), Style::Font::PoppinsRegular, 49);
 	_loginHeader->setTextColor(Color4B(130,130,130,255));
 	_loginHeader->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 	_loginHeader->setNormalizedPosition(Vec2(0.5f,1.1f));
@@ -76,7 +76,7 @@ bool IAPFooter::init()
 	}
 	_loginButton->addChild(_loginHeader);
 	
-	_termsLink = ui::Text::create(_("Terms of use"), Style::Font::Regular(), 35);
+	_termsLink = ui::Text::create(_("Terms of use"), Style::Font::PoppinsRegular, 35);
 	_termsLink->ignoreContentAdaptWithSize(false);
 	_termsLink->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	_termsLink->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_LEFT);
@@ -98,7 +98,7 @@ bool IAPFooter::init()
 	}
 	addChild(_termsLink);
 	
-	_privacyPolicyLink = ui::Text::create(_("Privacy Policy"), Style::Font::Regular(), 35);
+	_privacyPolicyLink = ui::Text::create(_("Privacy Policy"), Style::Font::PoppinsRegular, 35);
 	_privacyPolicyLink->ignoreContentAdaptWithSize(false);
 	_privacyPolicyLink->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
 	_privacyPolicyLink->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_RIGHT);
@@ -120,7 +120,7 @@ bool IAPFooter::init()
 	}
 	addChild(_privacyPolicyLink);
 	
-	_privacyNoticeLink = ui::Text::create(_("Important Notice for Parents"), Style::Font::Regular(), 35);
+	_privacyNoticeLink = ui::Text::create(_("Important Notice for Parents"), Style::Font::PoppinsRegular, 35);
 	_privacyNoticeLink->ignoreContentAdaptWithSize(false);
 	_privacyNoticeLink->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 	_privacyNoticeLink->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);

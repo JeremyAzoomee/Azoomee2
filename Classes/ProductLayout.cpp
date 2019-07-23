@@ -53,7 +53,7 @@ bool ProductLayout::init()
 	});
 	buttonHolder->addChild(_purchaseButton);
 	
-	_purchaseButtonLabel = Label::createWithTTF("", Style::Font::Bold(), 70);
+	_purchaseButtonLabel = Label::createWithTTF("", Style::Font::PoppinsBold, 70);
 	_purchaseButtonLabel->setColor(Color3B::WHITE);
 	_purchaseButtonLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_purchaseButtonLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -62,7 +62,7 @@ bool ProductLayout::init()
 	_purchaseButtonLabel->setOverflow(Label::Overflow::SHRINK);
 	_purchaseButton->addChild(_purchaseButtonLabel);
 	
-	_restoreButton = ui::Text::create(_("Restore Purchase"), Style::Font::Bold(), 60);
+	_restoreButton = ui::Text::create(_("Restore Purchase"), Style::Font::PoppinsBold, 60);
 	_restoreButton->ignoreContentAdaptWithSize(false);
 	_restoreButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_restoreButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
@@ -136,7 +136,7 @@ void ProductLayout::setupProductBanner()
 			textLayout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 			_productBanner->addChild(textLayout);
 			
-			ui::Text* desc = ui::Text::create(_productData.at(0).first, Style::Font::Regular(), 50);
+			ui::Text* desc = ui::Text::create(_productData.at(0).first, Style::Font::PoppinsRegular, 50);
 			desc->setTextColor(Color4B(130,130,130,255));
 			desc->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 			desc->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
@@ -150,7 +150,7 @@ void ProductLayout::setupProductBanner()
 			}
 			textLayout->addChild(desc);
 			
-			ui::Text* value = ui::Text::create(_productData.at(0).second, Style::Font::Medium(), 175);
+			ui::Text* value = ui::Text::create(_productData.at(0).second, Style::Font::PoppinsMedium, 175);
 			value->setTextColor(Color4B::BLACK);
 			value->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 			value->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
@@ -176,7 +176,7 @@ void ProductLayout::setupProductBanner()
 			textLayout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 			_productBanner->addChild(textLayout);
 			
-			ui::Text* freeTrial = ui::Text::create(_productData.at(0).first, Style::Font::Medium(), 105);
+			ui::Text* freeTrial = ui::Text::create(_productData.at(0).first, Style::Font::PoppinsMedium, 105);
 			freeTrial->setTextColor(Color4B::BLACK);
 			freeTrial->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 			freeTrial->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
@@ -203,7 +203,7 @@ void ProductLayout::setupProductBanner()
 			}
 			freeTrial->addChild(startYour);
 			
-			ui::Text* desc = ui::Text::create(StringUtils::format(_("Then %s per month. Cancel anytime.").c_str(),_productData.at(0).second.c_str()), Style::Font::Regular(), 50);
+			ui::Text* desc = ui::Text::create(StringUtils::format(_("Then %s per month. Cancel anytime.").c_str(),_productData.at(0).second.c_str()), Style::Font::PoppinsRegular, 50);
 			desc->setTextColor(Color4B(130,130,130,255));
 			desc->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 			desc->setNormalizedPosition(Vec2(0.5,-0.1));

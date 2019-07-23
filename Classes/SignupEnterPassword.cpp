@@ -21,6 +21,8 @@ bool SignupEnterPassword::init()
 		return false;
 	}
 	
+	_topHeading->setString(_("Heads up! Make sure your password is atleast six charecters long."));
+	
 	_inputTitle->setString(_("Create a password"));
 	
 	_inputBox->setMaxLength(50);
@@ -31,32 +33,26 @@ bool SignupEnterPassword::init()
 	_progressBar->setNumberOfSteps(3);
 	_progressBar->setProgress(2);
 	
-	_continueButton->setEnabled(isValidPassword(_inputBox->getText(), 6));
+	setContinueButtonEnabled(isValidPassword(_inputBox->getText(), 6));
 	
 	return true;
 }
 
 void SignupEnterPassword::editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text)
 {
-	_continueButton->setEnabled(isValidPassword(text.c_str(), 6));
+	setContinueButtonEnabled(isValidPassword(text.c_str(), 6));
 }
 void SignupEnterPassword::editBoxReturn(cocos2d::ui::EditBox* editBox)
 {
-	if(isValidPassword(editBox->getText(), 6))
-	{
-		if(_continueCallback)
-		{
-			_continueCallback(editBox->getText());
-		}
-	}
+	
 }
 void SignupEnterPassword::editBoxEditingDidBegin(cocos2d::ui::EditBox* editBox)
 {
-	_continueButton->setEnabled(isValidPassword(editBox->getText(), 6));
+	setContinueButtonEnabled(isValidPassword(editBox->getText(), 6));
 }
 void SignupEnterPassword::editBoxEditingDidEnd(cocos2d::ui::EditBox* editBox)
 {
-	_continueButton->setEnabled(isValidPassword(editBox->getText(), 6));
+	setContinueButtonEnabled(isValidPassword(editBox->getText(), 6));
 }
 
 NS_AZOOMEE_END

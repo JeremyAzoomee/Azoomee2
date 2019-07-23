@@ -174,7 +174,11 @@ namespace Font
 	const char* const ArialBoldSystemName = "ArialBold";
 	
 	const char* const PassionOneRegular = "fonts/PassionOne-Regular.ttf";
-    
+	
+	const char* const PoppinsRegular = "fonts/Poppins-Regular.ttf";
+	const char* const PoppinsBold = "fonts/Poppins-SemiBold.ttf";
+	const char* const PoppinsMedium = "fonts/Poppins-Medium.ttf";
+	
 	const char* const Regular();
 	const char* const Medium();
 	const char* const Bold();

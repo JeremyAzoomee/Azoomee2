@@ -20,13 +20,23 @@ bool SignupConfirmEmail::init()
 		return false;
 	}
 	
-	_email = ui::Text::create("", Style::Font::Bold(), 70);
+	_email = ui::Text::create("", Style::Font::PoppinsBold, 70);
 	_email->setTextColor(Color4B(Style::Color::strongPink));
 	_email->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-	_email->setNormalizedPosition(Vec2(0.5f,0.0f));
+	_email->setNormalizedPosition(Vec2(0.5f,0.2f));
 	_email->setTextVerticalAlignment(TextVAlignment::CENTER);
 	_email->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_email->setTextAreaSize(Size(1000,240));
+	_email->setTouchEnabled(true);
+	_email->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+		if(eType == ui::Widget::TouchEventType::ENDED)
+		{
+			if(_backCallback)
+			{
+				_backCallback(_email->getString());
+			}
+		}
+	});
 	_inputTitle->addChild(_email);
 	
 	_inputTitle->setString(_("Confirm your email address"));

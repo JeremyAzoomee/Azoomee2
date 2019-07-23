@@ -21,13 +21,15 @@ class AgeGate : public cocos2d::ui::Layout
 	typedef cocos2d::ui::Layout Super;
 	typedef std::function<void(AgeGateResult)> ActionCompletedCallback;
 private:
+	
+	cocos2d::ui::Scale9Sprite* _messageBoxBg = nullptr;
+	cocos2d::ClippingNode* _messageBoxClipper = nullptr;
 	cocos2d::ui::Layout* _messageBoxLayout = nullptr;
-	cocos2d::ui::Layout* _bgBox = nullptr;
-	cocos2d::ui::ImageView* _titleBox = nullptr;
+	cocos2d::ui::Layout* _titleBox = nullptr;
+	cocos2d::ui::ImageView* _titlePattern = nullptr;
+	cocos2d::LayerGradient* _titleGradient = nullptr;
+	cocos2d::ui::Text* _titleText = nullptr;
 	cocos2d::ui::Layout* _contentBody = nullptr;
-	cocos2d::ui::ImageView* _oomeeLeft = nullptr;
-	cocos2d::ui::ImageView* _oomeeMiddle = nullptr;
-	cocos2d::ui::ImageView* _oomeeRight = nullptr;
 	cocos2d::ui::Button* _closeButton = nullptr;
 	
 	ActionCompletedCallback _callback = nullptr;

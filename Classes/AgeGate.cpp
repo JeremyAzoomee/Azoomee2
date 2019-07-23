@@ -37,106 +37,95 @@ bool AgeGate::init()
 	setSwallowTouches(true);
 	setTouchEnabled(true);
 	
-	Size messageBoxSize = Size(1124,1815);  //target size
+	const Size& messageBoxSize = Size(1096,1556);  //target size
+	const Size& messageBoxSizeWithPadding = Size(1236,1696);
 	const Size& maxSize = Size(contentSize.width * 0.82f, contentSize.height * 0.7f);
 	
 	const float scaleFactor = MIN(maxSize.width / messageBoxSize.width, maxSize.height / messageBoxSize.height);
 	
-	//messageBoxSize = messageBoxSize * scaleFactor;
-	
-	_messageBoxLayout = ui::Layout::create();
-	_messageBoxLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	_messageBoxLayout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	_messageBoxLayout->setContentSize(messageBoxSize);
-	_messageBoxLayout->setScale(scaleFactor);
-	this->addChild(_messageBoxLayout);
-	
-	_oomeeLeft = ui::ImageView::create("res/onboarding/oomee53.png");
-	_oomeeLeft->setRotation(-10);
-	_oomeeLeft->setScale((messageBoxSize.width / 1.6f) / _oomeeLeft->getContentSize().width);
-	_oomeeLeft->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-	_oomeeLeft->setNormalizedPosition(Vec2(0.18f,1.02f));
-	_messageBoxLayout->addChild(_oomeeLeft);
-	
-	_oomeeRight = ui::ImageView::create("res/onboarding/oomee45.png");
-	_oomeeRight->setRotation(10);
-	_oomeeRight->setScale((messageBoxSize.width / 1.6f) / _oomeeRight->getContentSize().width);
-	_oomeeRight->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-	_oomeeRight->setNormalizedPosition(Vec2(0.82f,1.02f));
-	_messageBoxLayout->addChild(_oomeeRight);
-	
-	_oomeeMiddle = ui::ImageView::create("res/onboarding/oomee20.png");
-	_oomeeMiddle->setScale((messageBoxSize.width / 1.6f) / _oomeeMiddle->getContentSize().width);
-	_oomeeMiddle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-	_oomeeMiddle->setNormalizedPosition(Vec2(0.5f,1.04f));
-	_messageBoxLayout->addChild(_oomeeMiddle);
-	
-	_bgBox = ui::Layout::create();
-	_bgBox->setBackGroundImage("res/onboarding/rounded_rect_45px.png");
-	_bgBox->setBackGroundImageScale9Enabled(true);
-	//_bgBox->setClippingEnabled(true);
-	_bgBox->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-	_bgBox->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-	_bgBox->setContentSize(Size(messageBoxSize.width, messageBoxSize.height * 0.72f));
-	_messageBoxLayout->addChild(_bgBox);
+	_messageBoxBg = ui::Scale9Sprite::create("res/onboarding/rounded_rect_45px.png");
+	_messageBoxBg->setContentSize(messageBoxSizeWithPadding - Size(4,4));
+	_messageBoxBg->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	_messageBoxBg->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	_messageBoxBg->setScale(scaleFactor);
+	addChild(_messageBoxBg);
 	
 	ui::Scale9Sprite* stencil = ui::Scale9Sprite::create("res/onboarding/rounded_rect_45px.png");
-	stencil->setContentSize(_bgBox->getContentSize());
+	stencil->setContentSize(messageBoxSizeWithPadding);
 	stencil->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	stencil->setPosition(_bgBox->getContentSize() / 2.0f);
-	ClippingNode* clipNode = ClippingNode::create(stencil);
-	clipNode->setContentSize(_bgBox->getContentSize());
-	clipNode->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	clipNode->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	clipNode->setAlphaThreshold(0.5f);
-	_bgBox->addChild(clipNode);
+	stencil->setPosition(messageBoxSize/ 2.0f);
+	_messageBoxClipper = ClippingNode::create(stencil);
+	_messageBoxClipper->setAlphaThreshold(0.5f);
+	_messageBoxClipper->setContentSize(messageBoxSize);
+	_messageBoxClipper->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	_messageBoxClipper->setIgnoreAnchorPointForPosition(false);
+	_messageBoxClipper->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	_messageBoxClipper->setScale(scaleFactor);
+	addChild(_messageBoxClipper);
 	
-	Sprite* pattern = Sprite::create("res/decoration/main_pattern_small.png");
-	pattern->setAnchorPoint(Vec2(0.5, 0.6));
-	pattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-	pattern->setColor(Style::Color::darkIndigo);
-	clipNode->addChild(pattern);
+	_messageBoxLayout = ui::Layout::create();
+	_messageBoxLayout->setSizeType(SizeType::PERCENT);
+	_messageBoxLayout->setSizePercent(Vec2(1.0f,1.0f));
+	_messageBoxLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	_messageBoxLayout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	_messageBoxLayout->setBackGroundColorType(BackGroundColorType::SOLID);
+	_messageBoxLayout->setBackGroundColor(Color3B::WHITE);
+	_messageBoxClipper->addChild(_messageBoxLayout);
 	
-	LayerGradient* gradient = LayerGradient::create(Color4B::WHITE, Color4B(255,255,255,100), Vec2(0,-1));
-	gradient->setContentSize(Size(_bgBox->getContentSize().width, _bgBox->getContentSize().height * 0.66));
-	gradient->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_LEFT);
-	clipNode->addChild(gradient);
-	
-	_titleBox = ui::ImageView::create("res/onboarding/pink_rectangle.png");
+	_titleBox = ui::Layout::create();
+	_titleBox->setSizeType(SizeType::PERCENT);
+	_titleBox->setSizePercent(Vec2(1.0f, 0.27f));
+	_titleBox->setBackGroundColorType(BackGroundColorType::SOLID);
+	_titleBox->setBackGroundColor(Style::Color::darkIndigo);
+	_titleBox->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 	_titleBox->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
-	_titleBox->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	_titleBox->setScale((messageBoxSize.width * 0.66f) / _titleBox->getContentSize().width);
-	_bgBox->addChild(_titleBox);
+	_titleBox->setClippingEnabled(true);
+	_messageBoxLayout->addChild(_titleBox);
 	
-	ui::Text* text = ui::Text::create(_("For grown ups"), Style::Font::Bold(), 90);
-	text->setTextAreaSize(_titleBox->getContentSize() * 0.85f);
-	text->setTextHorizontalAlignment(TextHAlignment::CENTER);
-	text->setTextVerticalAlignment(TextVAlignment::CENTER);
-	text->setTextColor(Color4B::WHITE);
-	text->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	text->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	Label* label = dynamic_cast<Label*>(text->getVirtualRenderer());
-	if(label)
+	_titlePattern = ui::ImageView::create("res/decoration/main_pattern_small.png");
+	_titlePattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	_titlePattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	_titlePattern->setColor(Style::Color::strongPink);
+	_titleBox->addChild(_titlePattern);
+	
+	_titleGradient = LayerGradient::create();
+	_titleGradient->setStartColor(Style::Color::darkIndigo);
+	_titleGradient->setStartOpacity(0);
+	_titleGradient->setEndColor(Style::Color::darkIndigo);
+	_titleGradient->setEndOpacity(90);
+	_titleGradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+	_titleGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+	_titleGradient->setIgnoreAnchorPointForPosition(false);
+	_titleBox->addChild(_titleGradient);
+	
+	_titleText = ui::Text::create("Hey parents,\nunlock all content!", Style::Font::PoppinsBold, 110);
+	_titleText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	_titleText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	_titleText->setTextHorizontalAlignment(TextHAlignment::CENTER);
+	_titleText->setTextVerticalAlignment(TextVAlignment::CENTER);
+	_titleText->setColor(Color3B::WHITE);
+	Label* titleTextLab = dynamic_cast<Label*>(_titleText->getVirtualRenderer());
+	if(titleTextLab)
 	{
-		label->setOverflow(Label::Overflow::SHRINK);
+		titleTextLab->setOverflow(Label::Overflow::SHRINK);
 	}
-	_titleBox->addChild(text);
+	_titleBox->addChild(_titleText);
 	
 	_contentBody = ui::Layout::create();
-	_contentBody->setContentSize(_bgBox->getContentSize() * 0.75f);
-	_contentBody->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	_contentBody->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	_contentBody->setSizeType(SizeType::PERCENT);
+	_contentBody->setSizePercent(Vec2(1.0f,0.73f));
+	_contentBody->setBackGroundColorType(BackGroundColorType::SOLID);
+	_contentBody->setBackGroundColor(Color3B::WHITE);
 	_contentBody->setLayoutType(Type::VERTICAL);
-	_bgBox->addChild(_contentBody);
+	_messageBoxLayout->addChild(_contentBody);
 	
-	ui::Text* instructionText = ui::Text::create(_("Please answer this question to continue"), Style::Font::Regular(), 58);
-	instructionText->setTextAreaSize(Size(_contentBody->getContentSize().width * 0.9f,134));
+	ui::Text* instructionText = ui::Text::create(_("Please answer this question to continue"), Style::Font::PoppinsRegular, 53);
+	instructionText->setTextAreaSize(Size(700,140));
 	instructionText->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	instructionText->setTextVerticalAlignment(TextVAlignment::CENTER);
 	instructionText->setTextColor(Color4B(130,130,130,255));
-	instructionText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	instructionText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	instructionText->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+	instructionText->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,80,0,60)));
 	Label* instructionTextlabel = dynamic_cast<Label*>(instructionText->getVirtualRenderer());
 	if(instructionTextlabel)
 	{
@@ -167,14 +156,13 @@ bool AgeGate::init()
 	std::vector<int> ans = {targetVal, randAns1, randAns2};
 	std::random_shuffle(ans.begin(), ans.end());
 	
-	ui::Text* questionText = ui::Text::create(StringUtils::format(_("What is %d X %d").c_str(),val1, val2), Style::Font::Bold(), 80);
-	questionText->setTextAreaSize(Size(_contentBody->getContentSize().width * 0.9f,100));
+	ui::Text* questionText = ui::Text::create(StringUtils::format(_("What is %d X %d").c_str(),val1, val2), Style::Font::PoppinsBold, 70);
+	questionText->setTextAreaSize(Size(700,100));
 	questionText->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	questionText->setTextVerticalAlignment(TextVAlignment::CENTER);
 	questionText->setTextColor(Color4B::BLACK);
-	questionText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	questionText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	questionText->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,100,0,50)));
+	questionText->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,100)));
 	Label* questionTextlabel = dynamic_cast<Label*>(questionText->getVirtualRenderer());
 	if(questionTextlabel)
 	{
@@ -186,10 +174,11 @@ bool AgeGate::init()
 	{
 		int value = ans.at(i);
 		ui::Button* ansButton = ui::Button::create("res/onboarding/rounded_button.png");
-		ansButton->setScale((_contentBody->getContentSize().width * 0.9f) / ansButton->getContentSize().width);
-		ansButton->setColor(Style::Color::darkIndigo);
+		ansButton->ignoreContentAdaptWithSize(false);
+		ansButton->setContentSize(Size(700,140));
+		ansButton->setColor(Style::Color::strongPink);
 		ansButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-		ansButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
+		ansButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,60)));
 		ansButton->addTouchEventListener([this, value, targetVal](Ref* pSender, ui::Widget::TouchEventType eType){
 			if(eType == ui::Widget::TouchEventType::ENDED)
 			{
@@ -219,7 +208,7 @@ bool AgeGate::init()
 		});
 		_contentBody->addChild(ansButton);
 		
-		ui::Text* valText = ui::Text::create(StringUtils::format("%d",value), Style::Font::Bold(), ansButton->getContentSize().height * 0.5f);
+		ui::Text* valText = ui::Text::create(StringUtils::format("%d",value), Style::Font::PoppinsBold, 70);
 		valText->setTextAreaSize(ansButton->getContentSize() * 0.8f);
 		valText->setTextHorizontalAlignment(TextHAlignment::CENTER);
 		valText->setTextVerticalAlignment(TextVAlignment::CENTER);
@@ -239,7 +228,7 @@ bool AgeGate::init()
 	_closeButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
 	_closeButton->ignoreContentAdaptWithSize(false);
 	_closeButton->setContentSize(Size(messageBoxSize.width * 0.09f,messageBoxSize.width * 0.09f));
-	_closeButton->setColor(Color3B(245, 2, 109));
+	_closeButton->setColor(Color3B::WHITE);
 	_closeButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
@@ -253,13 +242,16 @@ bool AgeGate::init()
 			}
 		}
 	});
-	_bgBox->addChild(_closeButton);
+	_messageBoxLayout->addChild(_closeButton);
 	
 	return true;
 }
 void AgeGate::onEnter()
 {
 	Super::onEnter();
+	
+	_titleText->setTextAreaSize(_titleBox->getContentSize() * 0.9f);
+	_titleGradient->setContentSize(_titleBox->getContentSize());
 }
 void AgeGate::onExit()
 {
@@ -272,13 +264,21 @@ void AgeGate::onSizeChanged()
 	const Size& contentSize = Director::getInstance()->getVisibleSize();
 	setContentSize(contentSize);
 	
-	Size messageBoxSize = Size(1124,1815);  //target size
+	const Size& messageBoxSize = Size(1096,1556);  //target size
 	const Size& maxSize = Size(contentSize.width * 0.82f, contentSize.height * 0.7f);
 	
 	const float scaleFactor = MIN(maxSize.width / messageBoxSize.width, maxSize.height / messageBoxSize.height);
-	if(_messageBoxLayout)
+	if(_messageBoxBg)
 	{
-		_messageBoxLayout->setScale(scaleFactor);
+		_messageBoxBg->setScale(scaleFactor);
+	}
+	if(_messageBoxClipper)
+	{
+		_messageBoxClipper->setScale(scaleFactor);
+	}
+	if(_titleText)
+	{
+		_titleText->setTextAreaSize(_titleBox->getContentSize() * 0.8f);
 	}
 }
 

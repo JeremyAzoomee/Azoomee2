@@ -14,8 +14,10 @@
 #include "SignupEnterPassword.h"
 #include "SignupEnterPin.h"
 #include "SignupTermsPage.h"
+#include "PopupMessageBox.h"
 
 #include "SceneManagerScene.h"
+
 
 using namespace cocos2d;
 
@@ -83,7 +85,7 @@ bool SignupScene::init()
 	_gradient->setRotation(CC_RADIANS_TO_DEGREES(isPortrait ? 0 : Vec2(contentSize).getAngle()));
 	addChild(_gradient);
 	
-	_titleText = ui::Text::create(_("Create your family account"), Style::Font::Bold(), 105);
+	_titleText = ui::Text::create(_("Create your family account"), Style::Font::PoppinsBold, 105);
 	_titleText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_titleText->setPosition(isPortrait ? Vec2(contentSize.width * 0.5f,contentSize.height * 0.85f) : Vec2(contentSize.width * 0.25f,contentSize.height * 0.5f));
 	_titleText->setTextHorizontalAlignment(TextHAlignment::CENTER);
@@ -94,9 +96,9 @@ bool SignupScene::init()
 	
 	SignupEnterEmail* enterEmail = SignupEnterEmail::create();
 	enterEmail->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE_BOTTOM : Vec2::ANCHOR_MIDDLE_LEFT);
-	enterEmail->setNormalizedPosition(isPortrait ? Vec2(0.5,0.025) : Vec2::ANCHOR_MIDDLE);
+	enterEmail->setNormalizedPosition(isPortrait ? Vec2(0.5,0.0) : Vec2::ANCHOR_MIDDLE);
 	enterEmail->setSizeType(cocos2d::ui::Layout::SizeType::PERCENT);
-	enterEmail->setSizePercent(isPortrait ? Vec2(0.95f,0.67f) : Vec2(0.45f, 0.9f));
+	enterEmail->setSizePercent(isPortrait ? Vec2(1.0f,0.72f) : Vec2(0.5f, 0.95f));
 	enterEmail->setVisible(false);
 	enterEmail->setContinueCallback([this](const std::string& inputString){
 		_signupData._email = inputString;
@@ -106,6 +108,7 @@ bool SignupScene::init()
 		_signupData._email = inputString;
 		Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::IAP));
 	});
+	enterEmail->setName(kEnterEmailPageKey);
 	_pages.insert(kEnterEmailPageKey, enterEmail);
 	addChild(enterEmail);
 	
@@ -121,6 +124,7 @@ bool SignupScene::init()
 	confirmEmail->setBackCallback([this](const std::string& inputString){
 		this->changeToPage(kEnterEmailPageKey);
 	});
+	confirmEmail->setName(kConfirmEmailPageKey);
 	_pages.insert(kConfirmEmailPageKey, confirmEmail);
 	addChild(confirmEmail);
 	
@@ -138,6 +142,7 @@ bool SignupScene::init()
 		_signupData._password = inputString;
 		this->changeToPage(kConfirmEmailPageKey);
 	});
+	enterPassword->setName(kEnterPasswordPageKey);
 	_pages.insert(kEnterPasswordPageKey, enterPassword);
 	addChild(enterPassword);
 	
@@ -151,6 +156,7 @@ bool SignupScene::init()
 		_signupData._pin = inputString;
 		this->changeToPage(kTermsPageKey);
 	});
+	enterPin->setName(kEnterPinPageKey);
 	enterPin->setBackCallback([this](const std::string& inputString){
 		_signupData._pin = inputString;
 		this->changeToPage(kEnterPasswordPageKey);
@@ -165,20 +171,32 @@ bool SignupScene::init()
 	termsPage->setSizePercent(isPortrait ? Vec2(1.0f,0.71f) : Vec2(0.5f, 1.0f));
 	termsPage->setVisible(false);
 	termsPage->setSubmitCallback([this](bool over18, bool acceptTerms, bool acceptMarketing){
-		if(!(over18 || acceptTerms))
-		{
-			//show error
-		}
-		else
+		if(over18 && acceptTerms)
 		{
 			_signupData._acceptMarketing = acceptMarketing;
 			//create parent
 			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
 		}
+		else
+		{
+			//show error
+			PopupMessageBox* messageBox = PopupMessageBox::create();
+			messageBox->setName("messageBox");
+			messageBox->setTitle(_("Setup Unsuccessful"));
+			messageBox->setBody(_("To continue using Azoomee you must confirm that you are over 18, and that you agree to our polices."));
+			messageBox->setButtonText(_("Back"));
+			messageBox->setButtonColour(Style::Color::darkIndigo);
+			messageBox->setPatternColour(Style::Color::azure);
+			messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+				pSender->removeFromParent();
+			});
+			this->addChild(messageBox);
+		}
 	});
 	termsPage->setBackCallback([this](bool over18, bool acceptTerms, bool acceptMarketing){
 		this->changeToPage(kEnterPinPageKey);
 	});
+	termsPage->setName(kTermsPageKey);
 	_pages.insert(kTermsPageKey, termsPage);
 	addChild(termsPage);
 	
@@ -208,17 +226,36 @@ void SignupScene::onSizeChanged()
 	}
 	else
 	{
-		Vec2 points[3] = {Vec2(contentSize.width, 0), Vec2(contentSize.width, contentSize.height), Vec2(0,contentSize.height)};
-		_patternHider->drawSolidPoly(points, 3, Color4F(Style::Color::darkIndigo));
+		if(_activePage->getName() == kTermsPageKey)
+		{
+			Vec2 points[4] = {Vec2(contentSize.width / 2,-1), Vec2(contentSize.width, -1), Vec2(contentSize.width, contentSize.height), Vec2(contentSize.width / 2,contentSize.height)};
+			_patternHider->drawSolidPoly(points, 4, Color4F(Style::Color::darkIndigo));
+		}
+		else
+		{
+			Vec2 points[3] = {Vec2(contentSize.width, 0), Vec2(contentSize.width, contentSize.height), Vec2(0,contentSize.height)};
+			_patternHider->drawSolidPoly(points, 3, Color4F(Style::Color::darkIndigo));
+		}
 	}
 	
-	_gradient->setEndOpacity(isPortrait ? 166 : 245);
-	_gradient->setVector(isPortrait ? Vec2(0.0f, -1.0f) : Vec2(0.0f, 1.0f));
-	_gradient->setNormalizedPosition(isPortrait ? Vec2(0.5f,0.66f) : Vec2::ANCHOR_MIDDLE);
-	_gradient->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE_BOTTOM : Vec2::ANCHOR_MIDDLE_TOP);
-	_gradient->setContentSize(isPortrait ? Size(contentSize.width, contentSize.height * 0.34f) : Size(Vec2(contentSize).distance(Vec2(0,0)),Vec2(contentSize).distance(Vec2(0,0)) / 2.0f));
-	_gradient->setRotation(CC_RADIANS_TO_DEGREES(isPortrait ? 0 : Vec2(contentSize).getAngle()));
-	
+	if(_activePage->getName() == kTermsPageKey)
+	{
+		_gradient->setEndOpacity(isPortrait ? 166 : 255);
+		_gradient->setVector(Vec2(0.0f, -1.0f));
+		_gradient->setNormalizedPosition(isPortrait ? Vec2(0.5f,0.66f) : Vec2::ANCHOR_MIDDLE_BOTTOM);
+		_gradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+		_gradient->setContentSize(isPortrait ? Size(contentSize.width, contentSize.height * 0.34f) : Size(contentSize.width, contentSize.height));
+		_gradient->setRotation(0);
+	}
+	else
+	{
+		_gradient->setEndOpacity(isPortrait ? 166 : 245);
+		_gradient->setVector(isPortrait ? Vec2(0.0f, -1.0f) : Vec2(0.0f, 1.0f));
+		_gradient->setNormalizedPosition(isPortrait ? Vec2(0.5f,0.66f) : Vec2::ANCHOR_MIDDLE);
+		_gradient->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE_BOTTOM : Vec2::ANCHOR_MIDDLE_TOP);
+		_gradient->setContentSize(isPortrait ? Size(contentSize.width, contentSize.height * 0.34f) : Size(Vec2(contentSize).distance(Vec2(0,0)),Vec2(contentSize).distance(Vec2(0,0)) / 2.0f));
+		_gradient->setRotation(CC_RADIANS_TO_DEGREES(isPortrait ? 0 : Vec2(contentSize).getAngle()));
+	}
 	_titleText->setPosition(isPortrait ? Vec2(contentSize.width * 0.5f,contentSize.height * 0.85f) : Vec2(contentSize.width * 0.25f,contentSize.height * 0.5f));
 	_titleText->setTextAreaSize(Size(contentSize.width * (isPortrait ? 0.7f : 0.35f),contentSize.height * 0.28f));
 	
@@ -233,9 +270,15 @@ void SignupScene::onSizeChanged()
 		else
 		{
 			page.second->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE_BOTTOM : Vec2::ANCHOR_MIDDLE_LEFT);
-			page.second->setNormalizedPosition(isPortrait ? Vec2(0.5,0.025) : Vec2::ANCHOR_MIDDLE);
-			page.second->setSizePercent(isPortrait ? Vec2(0.95f,0.67f) : Vec2(0.45f, 0.9f));
+			page.second->setNormalizedPosition(isPortrait ? Vec2(0.5,0.0) : Vec2::ANCHOR_MIDDLE);
+			page.second->setSizePercent(isPortrait ? Vec2(1.0f,0.72f) : Vec2(0.5f, 0.95f));
 		}
+	}
+	
+	PopupMessageBox* msgBox = dynamic_cast<PopupMessageBox*>(getChildByName("messageBox"));
+	if(msgBox)
+	{
+		msgBox->onSizeChanged();
 	}
 }
 
@@ -262,6 +305,47 @@ void SignupScene::changeToPage(const std::string& pageKey)
 			confirmEmail->setEmail(_signupData._email);
 		}
 	}
+	else if(pageKey == kEnterPasswordPageKey || pageKey == kEnterPinPageKey)
+	{
+		SignupPage* page = dynamic_cast<SignupPage*>(_activePage);
+		if(page)
+		{
+			page->clearInputText();
+		}
+	}
+	const Size& contentSize = getContentSize();
+	const bool isPortrait = contentSize.width < contentSize.height;
+	if(_activePage->getName() == kTermsPageKey)
+	{
+		_gradient->setEndOpacity(isPortrait ? 166 : 255);
+		_gradient->setVector(Vec2(0.0f, -1.0f));
+		_gradient->setNormalizedPosition(isPortrait ? Vec2(0.5f,0.66f) : Vec2::ANCHOR_MIDDLE_BOTTOM);
+		_gradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+		_gradient->setContentSize(isPortrait ? Size(contentSize.width, contentSize.height * 0.34f) : Size(contentSize.width, contentSize.height));
+		_gradient->setRotation(0);
+		if(!isPortrait)
+		{
+			_patternHider->clear();
+			Vec2 points[4] = {Vec2(contentSize.width / 2,-1), Vec2(contentSize.width, -1), Vec2(contentSize.width, contentSize.height), Vec2(contentSize.width / 2,contentSize.height)};
+			_patternHider->drawSolidPoly(points, 4, Color4F(Style::Color::darkIndigo));
+		}
+	}
+	else
+	{
+		_gradient->setEndOpacity(isPortrait ? 166 : 245);
+		_gradient->setVector(isPortrait ? Vec2(0.0f, -1.0f) : Vec2(0.0f, 1.0f));
+		_gradient->setNormalizedPosition(isPortrait ? Vec2(0.5f,0.66f) : Vec2::ANCHOR_MIDDLE);
+		_gradient->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE_BOTTOM : Vec2::ANCHOR_MIDDLE_TOP);
+		_gradient->setContentSize(isPortrait ? Size(contentSize.width, contentSize.height * 0.34f) : Size(Vec2(contentSize).distance(Vec2(0,0)),Vec2(contentSize).distance(Vec2(0,0)) / 2.0f));
+		_gradient->setRotation(CC_RADIANS_TO_DEGREES(isPortrait ? 0 : Vec2(contentSize).getAngle()));
+		
+		if(!isPortrait)
+		{
+			_patternHider->clear();
+			Vec2 points[3] = {Vec2(contentSize.width, 0), Vec2(contentSize.width, contentSize.height), Vec2(0,contentSize.height)};
+			_patternHider->drawSolidPoly(points, 3, Color4F(Style::Color::darkIndigo));
+		}
+	}
 }
 
 // - IMEDelegate
@@ -275,13 +359,13 @@ void SignupScene::keyboardWillShow(cocos2d::IMEKeyboardNotificationInfo& info)
 	if((targetPos.y - (_titleText->getContentSize().height * 0.5f)) < keyboardHeight)
 	{
 		float offset = keyboardHeight - (targetPos.y - (_titleText->getContentSize().height * 0.5f));
-		_titleText->runAction(MoveTo::create(info.duration, targetPos + Vec2(0,offset)));
+		_titleText->runAction(MoveTo::create(0.5f, targetPos + Vec2(0,offset)));
 	}
 	
 	SignupPage* signupPage = dynamic_cast<SignupPage*>(_activePage);
 	if(signupPage)
 	{
-		signupPage->repositionForKeyboardHeight(keyboardHeight, info.duration);
+		signupPage->repositionForKeyboardHeight(keyboardHeight, 0.5f);
 	}
 }
 void SignupScene::keyboardWillHide(cocos2d::IMEKeyboardNotificationInfo& info)
@@ -289,12 +373,12 @@ void SignupScene::keyboardWillHide(cocos2d::IMEKeyboardNotificationInfo& info)
 	const Size& contentSize = getContentSize();
 	const bool isPortrait = contentSize.width < contentSize.height;
 	const Vec2& targetPos = isPortrait ? Vec2(contentSize.width * 0.5f,contentSize.height * 0.85f) : Vec2(contentSize.width * 0.25f,contentSize.height * 0.5f);
-	_titleText->runAction(MoveTo::create(info.duration, targetPos));
+	_titleText->runAction(MoveTo::create(0.5f, targetPos));
 	
 	SignupPage* signupPage = dynamic_cast<SignupPage*>(_activePage);
 	if(signupPage)
 	{
-		signupPage->repositionForKeyboardHeight(0, info.duration);
+		signupPage->repositionForKeyboardHeight(0, 0.5f);
 	}
 }
 

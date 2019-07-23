@@ -127,7 +127,7 @@ void MarketingCarousel::addPage(const MarketingPageData &data)
 	image->ignoreContentAdaptWithSize(false);
 	page->addChild(image);
 	
-	ui::Text* titleText = ui::Text::create(_(data.getTitle()), Style::Font::Bold(), 120);
+	ui::Text* titleText = ui::Text::create(_(data.getTitle()), Style::Font::PoppinsBold, 120);
 	titleText->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	titleText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 	titleText->setNormalizedPosition(Vec2(0.5f,0.95f));
@@ -141,7 +141,7 @@ void MarketingCarousel::addPage(const MarketingPageData &data)
 	}
 	page->addChild(titleText);
 	
-	ui::Text* subHeadingText = ui::Text::create(_(data.getSubHeading()), Style::Font::Regular(), 60);
+	ui::Text* subHeadingText = ui::Text::create(_(data.getSubHeading()), Style::Font::PoppinsRegular, 60);
 	subHeadingText->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	subHeadingText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 	subHeadingText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);

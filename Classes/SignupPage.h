@@ -22,6 +22,7 @@ class SignupPage : public cocos2d::ui::Layout, cocos2d::ui::EditBoxDelegate
 protected:
 	
 	cocos2d::ui::Layout* _inputHolder = nullptr;
+	cocos2d::ui::Text* _topHeading = nullptr;
 	cocos2d::ui::Text* _inputTitle = nullptr;
 	cocos2d::ui::Scale9Sprite* _inputBg = nullptr;
 	cocos2d::ui::EditBox* _inputBox = nullptr;
@@ -37,6 +38,8 @@ protected:
 	
 	float _keyboardOffset = 0;
 	
+	void setContinueButtonEnabled(bool enabled);
+	
 public:
 	
 	bool init() override;
@@ -48,6 +51,8 @@ public:
 	void setBackCallback(const ButtonCallback& callback);
 	
 	void repositionForKeyboardHeight(int height, float duration);
+	
+	void clearInputText();
 	
 	CREATE_FUNC(SignupPage);
 	

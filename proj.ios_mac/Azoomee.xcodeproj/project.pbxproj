@@ -147,6 +147,8 @@
 		9229EE5D22DF633E009732B0 /* SignupEnterPassword.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EE5C22DF633E009732B0 /* SignupEnterPassword.cpp */; };
 		9229EE6022DF6935009732B0 /* SignupEnterPin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EE5F22DF6935009732B0 /* SignupEnterPin.cpp */; };
 		9229EE6322E07808009732B0 /* SignupTermsPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EE6222E07808009732B0 /* SignupTermsPage.cpp */; };
+		9229EECB22E5C6AF009732B0 /* PopupMessageBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EECA22E5C6AF009732B0 /* PopupMessageBox.cpp */; };
+		9229EECE22E74A55009732B0 /* LoginEntry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EECD22E74A55009732B0 /* LoginEntry.cpp */; };
 		923D5BBE220064B9008C13D0 /* HQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BBD220064B9008C13D0 /* HQScene.cpp */; };
 		923D5BC522008BF1008C13D0 /* ContentFeedHQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BC422008BF1008C13D0 /* ContentFeedHQScene.cpp */; };
 		923D5BED2201F126008C13D0 /* RewardScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BEC2201F125008C13D0 /* RewardScene.cpp */; };
@@ -604,6 +606,10 @@
 		9229EE5F22DF6935009732B0 /* SignupEnterPin.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SignupEnterPin.cpp; sourceTree = "<group>"; };
 		9229EE6122E06D62009732B0 /* SignupTermsPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignupTermsPage.h; sourceTree = "<group>"; };
 		9229EE6222E07808009732B0 /* SignupTermsPage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SignupTermsPage.cpp; sourceTree = "<group>"; };
+		9229EEC422E5C290009732B0 /* PopupMessageBox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PopupMessageBox.h; sourceTree = "<group>"; };
+		9229EECA22E5C6AF009732B0 /* PopupMessageBox.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PopupMessageBox.cpp; sourceTree = "<group>"; };
+		9229EECC22E748FE009732B0 /* LoginEntry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginEntry.h; sourceTree = "<group>"; };
+		9229EECD22E74A55009732B0 /* LoginEntry.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LoginEntry.cpp; sourceTree = "<group>"; };
 		923D5B7221FB5BA9008C13D0 /* HQScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HQScene.h; sourceTree = "<group>"; };
 		923D5BBD220064B9008C13D0 /* HQScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HQScene.cpp; sourceTree = "<group>"; };
 		923D5BC322007473008C13D0 /* ContentFeedHQScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContentFeedHQScene.h; sourceTree = "<group>"; };
@@ -1401,6 +1407,8 @@
 				9229EE5F22DF6935009732B0 /* SignupEnterPin.cpp */,
 				9229EE6122E06D62009732B0 /* SignupTermsPage.h */,
 				9229EE6222E07808009732B0 /* SignupTermsPage.cpp */,
+				9229EEC422E5C290009732B0 /* PopupMessageBox.h */,
+				9229EECA22E5C6AF009732B0 /* PopupMessageBox.cpp */,
 			);
 			name = Onboarding;
 			sourceTree = "<group>";
@@ -1533,6 +1541,8 @@
 				4319D3E11E67134600110F92 /* LoginScene.h */,
 				A19862131DD3836D0090F053 /* ChildSelectorScene.cpp */,
 				A19862141DD3836D0090F053 /* ChildSelectorScene.h */,
+				9229EECC22E748FE009732B0 /* LoginEntry.h */,
+				9229EECD22E74A55009732B0 /* LoginEntry.cpp */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -2053,11 +2063,13 @@
 				924E845821427C05004590FD /* SettingsMessageBoxDeleteChild.cpp in Sources */,
 				9224BFB11F7908D400108553 /* DynamicNodeButtonListener.cpp in Sources */,
 				92759E701FE1598100639190 /* DynamicNodeLine.cpp in Sources */,
+				9229EECB22E5C6AF009732B0 /* PopupMessageBox.cpp in Sources */,
 				921A2679216FA030005C8C41 /* VodacomOnboardingErrorLayer.cpp in Sources */,
 				92BDD4C42236AE4E00DA56F3 /* ShopItemPage.cpp in Sources */,
 				924ACE3720A9C541007A5550 /* MeHQProfileDetails.cpp in Sources */,
 				A19862271DD3836D0090F053 /* NavigationLayer.cpp in Sources */,
 				A198622B1DD383BD0090F053 /* AppDelegate.cpp in Sources */,
+				9229EECE22E74A55009732B0 /* LoginEntry.cpp in Sources */,
 				925B249E22084B940000D7D2 /* CoinCollectLayer.cpp in Sources */,
 				923D5BC522008BF1008C13D0 /* ContentFeedHQScene.cpp in Sources */,
 				9220EAD5200F77E200BD7A90 /* SignUpFlowController.cpp in Sources */,
