@@ -61,8 +61,9 @@ void ApplePaymentSingleton::transactionStatePurchased(std::string receiptData)
     if(!ParentManager::getInstance()->isUserLoggedIn())
     {
         ModalMessages::getInstance()->stopLoading();
-        FlowDataSingleton::getInstance()->setSuccessFailPath(IAP_SUCCESS);
-        DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
+        //FlowDataSingleton::getInstance()->setSuccessFailPath(IAP_SUCCESS);
+        //DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
+		Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(RoutePaymentSingleton::kPaymentSuccessfulEventName);
     }
     else
     {

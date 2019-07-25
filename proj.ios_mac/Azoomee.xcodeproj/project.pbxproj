@@ -201,6 +201,8 @@
 		929A9CFC2065248A009B323D /* MeHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929A9CFB2065248A009B323D /* MeHQ.cpp */; };
 		929A9D57206CF9F1009B323D /* FavouritesManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929A9D56206CF9F1009B323D /* FavouritesManager.cpp */; };
 		929D46671F73F04D006E40CE /* DynamicNodeCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929D46661F73F04D006E40CE /* DynamicNodeCreator.cpp */; };
+		929FB10322E8A6440088D406 /* MarketingAssetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929FB10222E8A6440088D406 /* MarketingAssetManager.cpp */; };
+		929FB10722E9A8450088D406 /* PaymentSuccessScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929FB10522E9A8450088D406 /* PaymentSuccessScreen.cpp */; };
 		92A519652194A7CF008DBD51 /* VodacomOnboardingDCBWebview.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92A519642194A7CF008DBD51 /* VodacomOnboardingDCBWebview.cpp */; };
 		92A9A06E1F068A97008A19EB /* libAzoomeeArt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A9A06B1F068A7B008A19EB /* libAzoomeeArt.a */; };
 		92A9A0A91F0D1775008A19EB /* ArtAppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92A9A0A81F0D1775008A19EB /* ArtAppDelegate.cpp */; };
@@ -716,6 +718,10 @@
 		929A9D56206CF9F1009B323D /* FavouritesManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FavouritesManager.cpp; sourceTree = "<group>"; };
 		929D46651F73EC3B006E40CE /* DynamicNodeCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicNodeCreator.h; sourceTree = "<group>"; };
 		929D46661F73F04D006E40CE /* DynamicNodeCreator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeCreator.cpp; sourceTree = "<group>"; };
+		929FB0FC22E88F4B0088D406 /* MarketingAssetManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MarketingAssetManager.h; sourceTree = "<group>"; };
+		929FB10222E8A6440088D406 /* MarketingAssetManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MarketingAssetManager.cpp; sourceTree = "<group>"; };
+		929FB10422E9944C0088D406 /* PaymentSuccessScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PaymentSuccessScreen.h; sourceTree = "<group>"; };
+		929FB10522E9A8450088D406 /* PaymentSuccessScreen.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PaymentSuccessScreen.cpp; sourceTree = "<group>"; };
 		92A5195F2194A48A008DBD51 /* VodacomOnboardingDCBWebview.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VodacomOnboardingDCBWebview.h; sourceTree = "<group>"; };
 		92A519642194A7CF008DBD51 /* VodacomOnboardingDCBWebview.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VodacomOnboardingDCBWebview.cpp; sourceTree = "<group>"; };
 		92A9A0A21F0D172F008A19EB /* ArtAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtAppDelegate.h; sourceTree = "<group>"; };
@@ -1409,6 +1415,10 @@
 				9229EE6222E07808009732B0 /* SignupTermsPage.cpp */,
 				9229EEC422E5C290009732B0 /* PopupMessageBox.h */,
 				9229EECA22E5C6AF009732B0 /* PopupMessageBox.cpp */,
+				929FB10422E9944C0088D406 /* PaymentSuccessScreen.h */,
+				929FB10522E9A8450088D406 /* PaymentSuccessScreen.cpp */,
+				929FB0FC22E88F4B0088D406 /* MarketingAssetManager.h */,
+				929FB10222E8A6440088D406 /* MarketingAssetManager.cpp */,
 			);
 			name = Onboarding;
 			sourceTree = "<group>";
@@ -2064,6 +2074,7 @@
 				9224BFB11F7908D400108553 /* DynamicNodeButtonListener.cpp in Sources */,
 				92759E701FE1598100639190 /* DynamicNodeLine.cpp in Sources */,
 				9229EECB22E5C6AF009732B0 /* PopupMessageBox.cpp in Sources */,
+				929FB10322E8A6440088D406 /* MarketingAssetManager.cpp in Sources */,
 				921A2679216FA030005C8C41 /* VodacomOnboardingErrorLayer.cpp in Sources */,
 				92BDD4C42236AE4E00DA56F3 /* ShopItemPage.cpp in Sources */,
 				924ACE3720A9C541007A5550 /* MeHQProfileDetails.cpp in Sources */,
@@ -2090,6 +2101,7 @@
 				92A9A0A91F0D1775008A19EB /* ArtAppDelegate.cpp in Sources */,
 				92BDD4CC22380D4700DA56F3 /* ShopItemPurchasePopup.cpp in Sources */,
 				4396947D1EAA4855003C17E6 /* ApplePaymentSingleton.mm in Sources */,
+				929FB10722E9A8450088D406 /* PaymentSuccessScreen.cpp in Sources */,
 				921A25F72162830A005C8C41 /* LanguageListItem.cpp in Sources */,
 				02D4FCD41FCF0D0C005BA020 /* IAPProductDataHandler.cpp in Sources */,
 				9229EE5722DF2CC2009732B0 /* SignupEnterEmail.cpp in Sources */,

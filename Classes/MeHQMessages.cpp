@@ -117,9 +117,10 @@ void MeHQMessages::buildEmptyCarousel()
             
             if(!currentObject->getHqEntitlement())
             {
-                AnalyticsSingleton::getInstance()->registerCTASource("lockedHQ","",currentObject->getHqType());
-                IAPEntryContext context = IAPEntryContext::LOCKED_CHAT;
-                DynamicNodeHandler::getInstance()->startIAPFlow(context);
+                //AnalyticsSingleton::getInstance()->registerCTASource("lockedHQ","",currentObject->getHqType());
+                //IAPEntryContext context = IAPEntryContext::LOCKED_CHAT;
+                //DynamicNodeHandler::getInstance()->startIAPFlow(context);
+				Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::IAP));
             }
             else
             {

@@ -1,0 +1,69 @@
+//
+//  MarketingAssetManager.h
+//  Azoomee
+//
+//  Created by Macauley on 24/07/2019.
+//
+
+#ifndef MarketingAssetManager_h
+#define MarketingAssetManager_h
+
+#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
+#include <AzoomeeCommon/API/HttpRequestCreator.h>
+#include <AzoomeeCommon/Data/Json.h>
+
+NS_AZOOMEE_BEGIN
+
+class MarketingAsset
+{
+private:
+	std::string _id;
+	std::string _title;
+	std::string _description;
+	std::string _location;
+	std::string _localLocation;
+	
+public:
+	
+	MarketingAsset();
+	
+	void initWithJson(const rapidjson::Value& json);
+	void setLocalLocation(const std::string& localLocation);
+	
+	bool isDownloaded() const;
+	std::string getTitle() const;
+	std::string getDescription() const;
+	std::string getLocation() const;
+	std::string getLocalLocation() const;
+	
+};
+
+class MarketingAssetManager : public HttpRequestCreatorResponseDelegate, ImageDownloaderDelegate
+{
+private:
+	
+	std::vector<MarketingAsset> _marketingAssets;
+	
+	void downloadImage(int index);
+	
+	MarketingAssetManager();
+public:
+	
+	static MarketingAssetManager* getInstance();
+	
+	void downloadMarketingAssets();
+	
+	std::vector<MarketingAsset> getMarketingAssets() const;
+	
+	//Delegate functions
+	void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body) override;
+	void onHttpRequestFailed(const std::string& requestTag, long errorCode) override;
+	void onImageDownloadComplete(const ImageDownloaderRef& downloader) override;
+	void onImageDownloadFailed() override;
+	
+};
+
+NS_AZOOMEE_END
+
+#endif /* MarketingAssetManager_h */

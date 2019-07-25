@@ -9,15 +9,19 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/UI/ModalMessages.h>
+#include <AzoomeeCommon/API/API.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "SignupEnterEmail.h"
 #include "SignupConfirmEmail.h"
 #include "SignupEnterPassword.h"
 #include "SignupEnterPin.h"
 #include "SignupTermsPage.h"
 #include "PopupMessageBox.h"
-
+#include "BackEndCaller.h"
 #include "SceneManagerScene.h"
-
 
 using namespace cocos2d;
 
@@ -174,14 +178,21 @@ bool SignupScene::init()
 		if(over18 && acceptTerms)
 		{
 			_signupData._acceptMarketing = acceptMarketing;
-			//create parent
-			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
+			//BackEndCaller::getInstance()->registerParent(_signupData._email, _signupData._password, _signupData._pin, _signupData._acceptMarketing ? "true" : "false");
+			ModalMessages::getInstance()->startLoading();
+			std::string source = "OTHER";
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+			source = "IOS_INAPP";
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+			source = "ANDROID_INAPP";
+#endif
+			HttpRequestCreator* request = API::RegisterParentRequest(ParentManager::getInstance()->getLoggedInParentId(), _signupData._email, _signupData._password, _signupData._pin,source, ConfigStorage::getInstance()->getDeviceInformation(), _signupData._acceptMarketing ? "true" : "false", this);
+			request->execute();
 		}
 		else
 		{
 			//show error
 			PopupMessageBox* messageBox = PopupMessageBox::create();
-			messageBox->setName("messageBox");
 			messageBox->setTitle(_("Setup Unsuccessful"));
 			messageBox->setBody(_("To continue using Azoomee you must confirm that you are over 18, and that you agree to our polices."));
 			messageBox->setButtonText(_("Back"));
@@ -190,7 +201,7 @@ bool SignupScene::init()
 			messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
 				pSender->removeFromParent();
 			});
-			this->addChild(messageBox);
+			this->addChild(messageBox, 1);
 		}
 	});
 	termsPage->setBackCallback([this](bool over18, bool acceptTerms, bool acceptMarketing){
@@ -275,7 +286,7 @@ void SignupScene::onSizeChanged()
 		}
 	}
 	
-	PopupMessageBox* msgBox = dynamic_cast<PopupMessageBox*>(getChildByName("messageBox"));
+	PopupMessageBox* msgBox = dynamic_cast<PopupMessageBox*>(getChildByName(PopupMessageBox::kPopupMessageBoxName));
 	if(msgBox)
 	{
 		msgBox->onSizeChanged();
@@ -380,6 +391,49 @@ void SignupScene::keyboardWillHide(cocos2d::IMEKeyboardNotificationInfo& info)
 	{
 		signupPage->repositionForKeyboardHeight(0, 0.5f);
 	}
+}
+
+//Delegate functions
+void SignupScene::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
+{
+	if(requestTag == API::TagRegisterParent)
+	{
+		ModalMessages::getInstance()->stopLoading();
+		UserDefault* userDefault = UserDefault::getInstance();
+		userDefault->setBoolForKey(ConfigStorage::kAnonOnboardingCompleteKey, false);
+		userDefault->setStringForKey(ConfigStorage::kAnonEmailKey, "");
+		ConfigStorage::getInstance()->setFirstSlideShowSeen();
+		AnalyticsSingleton::getInstance()->OnboardingAccountCreatedEvent();
+		
+		PopupMessageBox* messageBox = PopupMessageBox::create();
+		messageBox->setTitle(_("Setup Complete"));
+		messageBox->setBody(_("Welcome to the Azoomee family! Your account is now active."));
+		messageBox->setButtonText(_("Let's go!"));
+		messageBox->setButtonColour(Style::Color::strongPink);
+		messageBox->setPatternColour(Style::Color::strongPink);
+		messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+			pSender->removeFromParent();
+			BackEndCaller::getInstance()->login(_signupData._email, _signupData._password);
+		});
+		this->addChild(messageBox, 1);
+	}
+}
+void SignupScene::onHttpRequestFailed(const std::string& requestTag, long errorCode)
+{
+	ModalMessages::getInstance()->stopLoading();
+	
+	const auto& errorMessageText = StringMgr::getInstance()->getErrorMessageWithCode(errorCode);
+	
+	PopupMessageBox* messageBox = PopupMessageBox::create();
+	messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
+	messageBox->setBody(errorMessageText.at(ERROR_BODY));
+	messageBox->setButtonText(_("Back"));
+	messageBox->setButtonColour(Style::Color::darkIndigo);
+	messageBox->setPatternColour(Style::Color::azure);
+	messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+		pSender->removeFromParent();
+	});
+	this->addChild(messageBox, 1);
 }
 
 NS_AZOOMEE_END

@@ -153,6 +153,7 @@ bool IAPFooter::init()
 }
 void IAPFooter::onEnter()
 {
+	_loginButton->setVisible(ParentManager::getInstance()->isLoggedInParentAnonymous());
 	Super::onEnter();
 }
 void IAPFooter::onExit()

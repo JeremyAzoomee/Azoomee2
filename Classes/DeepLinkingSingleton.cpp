@@ -263,7 +263,8 @@ void DeepLinkingSingleton::completeContentAction(const HQContentItemObjectRef &c
 //Delegate Functions
 void DeepLinkingSingleton::MessageBoxButtonPressed(std::string messageBoxTitle, std::string buttonTitle)
 {
-    DynamicNodeHandler::getInstance()->startIAPFlow();
+    //DynamicNodeHandler::getInstance()->startIAPFlow();
+	Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::IAP));
 }
 
 NS_AZOOMEE_END

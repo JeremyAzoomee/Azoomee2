@@ -12,6 +12,7 @@
 #include <AzoomeeCommon/UI/Scene.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
+#include <AzoomeeCommon/API/HttpRequestCreator.h>
 #include "SignupPage.h"
 #include "SignupTermsPage.h"
 
@@ -25,7 +26,7 @@ struct SignupData
 	bool _acceptMarketing;
 };
 
-class SignupScene : public Azoomee::Scene, cocos2d::IMEDelegate
+class SignupScene : public Azoomee::Scene, cocos2d::IMEDelegate, HttpRequestCreatorResponseDelegate
 {
 	typedef Azoomee::Scene Super;
 private:
@@ -62,6 +63,10 @@ public:
 	void onSizeChanged() override;
 	
 	CREATE_FUNC(SignupScene);
+	
+	//Delegate functions
+	void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body) override;
+	void onHttpRequestFailed(const std::string& requestTag, long errorCode) override;
 	
 };
 

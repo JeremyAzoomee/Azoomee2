@@ -14,12 +14,16 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+const std::string PopupMessageBox::kPopupMessageBoxName = "messageBox";
+
 bool PopupMessageBox::init()
 {
 	if(!Super::init())
 	{
 		return false;
 	}
+	
+	setName(kPopupMessageBoxName);
 	
 	const Size& contentSize = Director::getInstance()->getVisibleSize();
 	setContentSize(contentSize);

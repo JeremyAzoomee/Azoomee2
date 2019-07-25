@@ -209,6 +209,7 @@ void LoginEntry::setState(const LoginEntryState& state)
 			_inputTitle->setString(_("Enter your email address"));
 			_inputBox->setMaxLength(100);
 			_inputBox->setInputMode(ui::EditBox::InputMode::EMAIL_ADDRESS);
+			_inputBox->setInputFlag(ui::EditBox::InputFlag::INITIAL_CAPS_SENTENCE);
 			_inputBox->setText(_email.c_str());
 			break;
 		}
@@ -216,6 +217,7 @@ void LoginEntry::setState(const LoginEntryState& state)
 		{
 			_inputTitle->setString(_("Enter your password"));
 			_inputBox->setMaxLength(50);
+			_inputBox->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
 			_inputBox->setInputFlag(ui::EditBox::InputFlag::PASSWORD);
 			_inputBox->setText("");
 			break;

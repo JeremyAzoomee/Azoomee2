@@ -49,6 +49,8 @@ public:
 	void setPatternColour(const cocos2d::Color3B& colour);
 	
 	CREATE_FUNC(PopupMessageBox);
+	
+	static const std::string kPopupMessageBoxName;
 };
 
 NS_AZOOMEE_END

@@ -31,6 +31,9 @@ NS_AZOOMEE_BEGIN
 const std::string& RoutePaymentSingleton::kReceiptCacheFolder = "receiptCache/";
 const std::string& RoutePaymentSingleton::kReceiptDataFileName = "receiptData.dat";
 
+const std::string RoutePaymentSingleton::kPaymentSuccessfulEventName = "azoomee.paymentSuccessEvent";
+const std::string RoutePaymentSingleton::kPaymentFailedEventName = "azoomee.paymentFailedEvent";
+
 static RoutePaymentSingleton *_sharedRoutePaymentSingleton = NULL;
 
 RoutePaymentSingleton* RoutePaymentSingleton::getInstance()
@@ -163,8 +166,9 @@ void RoutePaymentSingleton::purchaseFailureErrorMessage(const std::string& failu
 {
     AnalyticsSingleton::getInstance()->iapSubscriptionFailedEvent(failureDetails);
     ModalMessages::getInstance()->stopLoading();
-    FlowDataSingleton::getInstance()->setSuccessFailPath(IAP_FAIL);
-    DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
+    //FlowDataSingleton::getInstance()->setSuccessFailPath(IAP_FAIL);
+    //DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
+	Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(kPaymentFailedEventName);
 }
 
 void RoutePaymentSingleton::doublePurchaseMessage()

@@ -52,6 +52,9 @@ public:
     
     static const std::string& kReceiptCacheFolder;
     static const std::string& kReceiptDataFileName;
+	
+	static const std::string kPaymentSuccessfulEventName;
+	static const std::string kPaymentFailedEventName;
 };
 
 NS_AZOOMEE_END

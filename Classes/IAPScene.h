@@ -27,6 +27,9 @@ private:
 	IAPFooter* _footer = nullptr;
 	cocos2d::ui::Button* _closeButton = nullptr;
 	
+	cocos2d::EventListenerCustom* _paymentSuccessListener = nullptr;
+	cocos2d::EventListenerCustom* _paymentFailedListener = nullptr;
+	
 public:
 	
 	bool init() override;

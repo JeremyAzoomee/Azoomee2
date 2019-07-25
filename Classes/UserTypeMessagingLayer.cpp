@@ -57,9 +57,11 @@ void UserTypeMessagingLayer::onEnter()
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
 #ifdef ALLOW_UNPAID_SIGNUP
-			DynamicNodeHandler::getInstance()->startSignupFlow();
+			//DynamicNodeHandler::getInstance()->startSignupFlow();
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Signup));
 #else
-            DynamicNodeHandler::getInstance()->startIAPFlow();
+            //DynamicNodeHandler::getInstance()->startIAPFlow();
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::IAP));
 #endif
         }
     });

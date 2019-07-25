@@ -54,8 +54,9 @@ void GooglePaymentSingleton::startBackEndPaymentVerification(std::string develop
     {
         auto funcCallAction = CallFunc::create([=](){
             ModalMessages::getInstance()->stopLoading();
-            FlowDataSingleton::getInstance()->setSuccessFailPath(IAP_SUCCESS);
-            DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
+            //FlowDataSingleton::getInstance()->setSuccessFailPath(IAP_SUCCESS);
+            //DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
+			Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(RoutePaymentSingleton::kPaymentSuccessfulEventName);
         });
         
         Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL)); //need time to get focus back from google window, otherwise the app will crash

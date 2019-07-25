@@ -347,12 +347,19 @@ void SceneManagerScene::onEnterTransitionDidFinish()
 		}
 		case SceneNameEnum::IAP:
 		{
+#ifdef AZOOMEE_VODACOM_BUILD
+			HQHistoryManager::getInstance()->updatePrevOrientation();
+			forceToPortrait();
+			Director::getInstance()->replaceScene(VodacomOnboardingScene::create());
+			break;
+#else
 			returnToPrevOrientation();
 			acceptAnyOrientation();
 			HQHistoryManager::getInstance()->updatePrevOrientation();
 			AnalyticsSingleton::getInstance()->registerCurrentScene("IAP");
 			Director::getInstance()->replaceScene(IAPScene::create());
 			break;
+#endif
 		}
 		case SceneNameEnum::Signup:
 		{

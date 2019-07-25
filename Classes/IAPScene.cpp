@@ -8,7 +8,12 @@
 #include "IAPScene.h"
 #include "SceneManagerScene.h"
 #include "IAPProductDataHandler.h"
+#include "RoutePaymentSingleton.h"
+#include "PaymentSuccessScreen.h"
+#include "PopupMessageBox.h"
 #include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 
 using namespace cocos2d;
 
@@ -44,16 +49,18 @@ bool IAPScene::init()
 	std::vector<std::pair<std::string, std::string>> products = {{_("7-day free trial"),IAPProductDataHandler::getInstance()->getHumanReadableProductPrice()}};
 #endif
 	_productLayout->setProductData(products);
-	_productLayout->setIapActionCallback([](IAPAction action){
+	_productLayout->setIapActionCallback([this](IAPAction action){
 		switch (action) {
 			case IAPAction::PURCHASE:
 			{
-				Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Signup));
+				_eventDispatcher->dispatchCustomEvent(RoutePaymentSingleton::kPaymentSuccessfulEventName);
+				//RoutePaymentSingleton::getInstance()->startInAppPayment();
 				break;
 			}
 			case IAPAction::RESTORE:
 			{
-				
+				_eventDispatcher->dispatchCustomEvent(RoutePaymentSingleton::kPaymentFailedEventName);
+				//RoutePaymentSingleton::getInstance()->restorePayment();
 				break;
 			}
 		}
@@ -76,7 +83,14 @@ bool IAPScene::init()
 	_closeButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
+			if(ParentManager::getInstance()->isLoggedInParentAnonymous() || ChildManager::getInstance()->isChildLoggedIn())
+			{
+				Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
+			}
+			else
+			{
+				Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChildSelector));
+			}
 		}
 	});
 	this->addChild(_closeButton);
@@ -102,10 +116,65 @@ void IAPScene::onEnter()
 	}
 	_marketingCarousel->setPageData(pageData);
 	
+	if(RoutePaymentSingleton::getInstance()->receiptDataFileExists())
+	{
+		if(!ParentManager::getInstance()->isUserLoggedIn())
+		{
+			PaymentSuccessScreen* successScreen = PaymentSuccessScreen::create();
+			successScreen->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+			successScreen->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+			successScreen->setContinueCallback([](){
+				Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Signup));
+			});
+			this->addChild(successScreen, 1);
+			return;
+		}
+		else
+		{
+			RoutePaymentSingleton::getInstance()->retryReceiptValidation();
+			return;
+		}
+	}
+	
+	_paymentSuccessListener = EventListenerCustom::create(RoutePaymentSingleton::kPaymentSuccessfulEventName, [this](EventCustom* event){
+		PaymentSuccessScreen* successScreen = PaymentSuccessScreen::create();
+		successScreen->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+		successScreen->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+		successScreen->setContinueCallback([](){
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Signup));
+		});
+		this->addChild(successScreen, 1);
+	});
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(_paymentSuccessListener, this);
+	
+	_paymentFailedListener = EventListenerCustom::create(RoutePaymentSingleton::kPaymentFailedEventName, [this](EventCustom* event){
+		PopupMessageBox* messageBox = PopupMessageBox::create();
+		messageBox->setTitle(_("Oops!\nThat didnt work"));
+		messageBox->setBody(_("We couldn’t process your payment. Please try again."));
+		messageBox->setButtonText(_("Back"));
+		messageBox->setButtonColour(Style::Color::darkIndigo);
+		messageBox->setPatternColour(Style::Color::azure);
+		messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+			pSender->removeFromParent();
+		});
+		this->addChild(messageBox, 1);
+	});
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(_paymentFailedListener, this);
+	
 	Super::onEnter();
 }
 void IAPScene::onExit()
 {
+	if(_paymentSuccessListener)
+	{
+		_eventDispatcher->removeEventListener(_paymentSuccessListener);
+		_paymentSuccessListener = nullptr;
+	}
+	if(_paymentFailedListener)
+	{
+		_eventDispatcher->removeEventListener(_paymentFailedListener);
+		_paymentFailedListener = nullptr;
+	}
 	Super::onExit();
 }
 void IAPScene::onSizeChanged()
@@ -125,6 +194,18 @@ void IAPScene::onSizeChanged()
 	_footer->setSizePercent(isPortrait ? Vec2(1.0f, 0.16f) : Vec2(0.5f,0.32f));
 	_footer->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE_BOTTOM : Vec2::ANCHOR_BOTTOM_RIGHT);
 	_footer->setNormalizedPosition(isPortrait ? Vec2::ANCHOR_MIDDLE_BOTTOM : Vec2::ANCHOR_BOTTOM_RIGHT);
+	
+	PaymentSuccessScreen* paymentSuccessScreen = dynamic_cast<PaymentSuccessScreen*>(getChildByName(PaymentSuccessScreen::kPaymentSuccessScreenName));
+	if(paymentSuccessScreen)
+	{
+		paymentSuccessScreen->onSizeChanged();
+	}
+	
+	PopupMessageBox* messageBox = dynamic_cast<PopupMessageBox*>(getChildByName(PopupMessageBox::kPopupMessageBoxName));
+	if(messageBox)
+	{
+		messageBox->onSizeChanged();
+	}
 }
 
 NS_AZOOMEE_END
