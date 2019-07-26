@@ -15,25 +15,6 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-void MarketingPageData::initWithData(const rapidjson::Value& data)
-{
-	_imageUrl = getStringFromJson("url", data);
-	_title = getStringFromJson("title", data);
-	_subHeading = getStringFromJson("subHeading", data);
-}
-std::string MarketingPageData::getImageUrl() const
-{
-	return _imageUrl;
-}
-std::string MarketingPageData::getTitle() const
-{
-	return _title;
-}
-std::string MarketingPageData::getSubHeading() const
-{
-	return _subHeading;
-}
-
 const float MarketingCarousel::ktimeBetweenScrolls = 5.0f;
 
 bool MarketingCarousel::init()
@@ -97,7 +78,7 @@ void MarketingCarousel::update(float deltaT)
 	Super::update(deltaT);
 }
 
-void MarketingCarousel::setPageData(const std::vector<MarketingPageData> data)
+void MarketingCarousel::setPageData(const std::vector<MarketingAssetRef> data)
 {
 	_pageData = data;
 	_carousel->removeAllItems();
@@ -110,7 +91,7 @@ void MarketingCarousel::setPageData(const std::vector<MarketingPageData> data)
 	forceDoLayout();
 }
 
-void MarketingCarousel::addPage(const MarketingPageData &data)
+void MarketingCarousel::addPage(const MarketingAssetRef &data)
 {
 	ui::Layout* page = ui::Layout::create();
 	page->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -120,14 +101,14 @@ void MarketingCarousel::addPage(const MarketingPageData &data)
 	
 	//RemoteImageSprite* image = RemoteImageSprite::create();
 	//image->initWithUrlAndSizeWithoutPlaceholder(data.getImageUrl(), Size(2048,2048));
-	ui::ImageView* image = ui::ImageView::create(data.getImageUrl());
+	ui::ImageView* image = ui::ImageView::create(data->getLocalLocation());
 	image->setScale(page->getContentSize().height / image->getContentSize().height);
 	image->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	image->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	image->ignoreContentAdaptWithSize(false);
 	page->addChild(image);
 	
-	ui::Text* titleText = ui::Text::create(_(data.getTitle()), Style::Font::PoppinsBold, 120);
+	ui::Text* titleText = ui::Text::create(data->getTitle(), Style::Font::PoppinsBold, 120);
 	titleText->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	titleText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 	titleText->setNormalizedPosition(Vec2(0.5f,0.95f));
@@ -141,7 +122,7 @@ void MarketingCarousel::addPage(const MarketingPageData &data)
 	}
 	page->addChild(titleText);
 	
-	ui::Text* subHeadingText = ui::Text::create(_(data.getSubHeading()), Style::Font::PoppinsRegular, 60);
+	ui::Text* subHeadingText = ui::Text::create(data->getDescription(), Style::Font::PoppinsRegular, 60);
 	subHeadingText->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	subHeadingText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 	subHeadingText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);

@@ -11,33 +11,18 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/Data/Json.h>
+#include "MarketingAssetManager.h"
 
 NS_AZOOMEE_BEGIN
-
-class MarketingPageData
-{
-private:
-	std::string _imageUrl;
-	std::string _title;
-	std::string _subHeading;
-	
-public:
-	
-	void initWithData(const rapidjson::Value& data);
-	std::string getImageUrl() const;
-	std::string getTitle() const;
-	std::string getSubHeading() const;
-};
 
 class MarketingCarousel : public cocos2d::ui::Layout
 {
 	typedef cocos2d::ui::Layout Super;
 private:
 	cocos2d::ui::ListView* _carousel = nullptr;
-	std::vector<MarketingPageData> _pageData;
+	std::vector<MarketingAssetRef> _pageData;
 	
-	void addPage(const MarketingPageData& data);
+	void addPage(const MarketingAssetRef& data);
 	
 	float _timeTillNextScroll = 0.0f;
 	static const float ktimeBetweenScrolls;
@@ -50,7 +35,7 @@ public:
 	void onSizeChanged() override;
 	void update(float deltaT) override;
 	
-	void setPageData(const std::vector<MarketingPageData> data);
+	void setPageData(const std::vector<MarketingAssetRef> data);
 	
 	CREATE_FUNC(MarketingCarousel);
 };

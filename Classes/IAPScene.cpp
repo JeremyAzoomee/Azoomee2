@@ -14,6 +14,7 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include "MarketingAssetManager.h"
 
 using namespace cocos2d;
 
@@ -99,7 +100,7 @@ bool IAPScene::init()
 }
 void IAPScene::onEnter()
 {
-	std::vector<std::string> jsonStrings = {
+	/*std::vector<std::string> jsonStrings = {
 		"{\"url\":\"res/onboarding/Wide Game Asset.jpg\",\"title\":\"Amazing Games!\",\"subHeading\":\"More added every week\"}",
 		"{\"url\":\"res/onboarding/Wide Fun Learning Asset.jpg\",\"title\":\"Fun Learning!\",\"subHeading\":\"With games and videos kids love\"}",
 		"{\"url\":\"res/onboarding/Wide video asset.jpg\",\"title\":\"Fantastic videos!\",\"subHeading\":\"ad-free and handpicked by humans\"}"
@@ -113,8 +114,8 @@ void IAPScene::onEnter()
 		MarketingPageData data = MarketingPageData();
 		data.initWithData(jsonDoc);
 		pageData.push_back(data);
-	}
-	_marketingCarousel->setPageData(pageData);
+	}*/
+	_marketingCarousel->setPageData(MarketingAssetManager::getInstance()->getMarketingAssets());
 	
 	if(RoutePaymentSingleton::getInstance()->receiptDataFileExists())
 	{

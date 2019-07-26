@@ -15,6 +15,9 @@
 
 NS_AZOOMEE_BEGIN
 
+class MarketingAsset;
+typedef std::shared_ptr<MarketingAsset> MarketingAssetRef;
+
 class MarketingAsset
 {
 private:
@@ -24,9 +27,10 @@ private:
 	std::string _location;
 	std::string _localLocation;
 	
-public:
-	
 	MarketingAsset();
+public:
+	static MarketingAssetRef create();
+	static MarketingAssetRef createWithJson(const rapidjson::Value& json);
 	
 	void initWithJson(const rapidjson::Value& json);
 	void setLocalLocation(const std::string& localLocation);
@@ -43,7 +47,7 @@ class MarketingAssetManager : public HttpRequestCreatorResponseDelegate, ImageDo
 {
 private:
 	
-	std::vector<MarketingAsset> _marketingAssets;
+	std::vector<MarketingAssetRef> _marketingAssets;
 	
 	void downloadImage(int index);
 	
@@ -54,7 +58,7 @@ public:
 	
 	void downloadMarketingAssets();
 	
-	std::vector<MarketingAsset> getMarketingAssets() const;
+	std::vector<MarketingAssetRef> getMarketingAssets() const;
 	
 	//Delegate functions
 	void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body) override;
