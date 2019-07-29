@@ -54,14 +54,12 @@ bool IAPScene::init()
 		switch (action) {
 			case IAPAction::PURCHASE:
 			{
-				_eventDispatcher->dispatchCustomEvent(RoutePaymentSingleton::kPaymentSuccessfulEventName);
-				//RoutePaymentSingleton::getInstance()->startInAppPayment();
+				RoutePaymentSingleton::getInstance()->startInAppPayment();
 				break;
 			}
 			case IAPAction::RESTORE:
 			{
-				_eventDispatcher->dispatchCustomEvent(RoutePaymentSingleton::kPaymentFailedEventName);
-				//RoutePaymentSingleton::getInstance()->restorePayment();
+				RoutePaymentSingleton::getInstance()->restorePayment();
 				break;
 			}
 		}
@@ -100,42 +98,7 @@ bool IAPScene::init()
 }
 void IAPScene::onEnter()
 {
-	/*std::vector<std::string> jsonStrings = {
-		"{\"url\":\"res/onboarding/Wide Game Asset.jpg\",\"title\":\"Amazing Games!\",\"subHeading\":\"More added every week\"}",
-		"{\"url\":\"res/onboarding/Wide Fun Learning Asset.jpg\",\"title\":\"Fun Learning!\",\"subHeading\":\"With games and videos kids love\"}",
-		"{\"url\":\"res/onboarding/Wide video asset.jpg\",\"title\":\"Fantastic videos!\",\"subHeading\":\"ad-free and handpicked by humans\"}"
-	};
-	std::vector<MarketingPageData> pageData;
-	for(int i = 0; i < jsonStrings.size(); i++)
-	{
-		std::string jsonString = jsonStrings.at(i);
-		rapidjson::Document jsonDoc;
-		jsonDoc.Parse(jsonString.c_str());
-		MarketingPageData data = MarketingPageData();
-		data.initWithData(jsonDoc);
-		pageData.push_back(data);
-	}*/
 	_marketingCarousel->setPageData(MarketingAssetManager::getInstance()->getMarketingAssets());
-	
-	if(RoutePaymentSingleton::getInstance()->receiptDataFileExists())
-	{
-		if(!ParentManager::getInstance()->isUserLoggedIn())
-		{
-			PaymentSuccessScreen* successScreen = PaymentSuccessScreen::create();
-			successScreen->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-			successScreen->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-			successScreen->setContinueCallback([](){
-				Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Signup));
-			});
-			this->addChild(successScreen, 1);
-			return;
-		}
-		else
-		{
-			RoutePaymentSingleton::getInstance()->retryReceiptValidation();
-			return;
-		}
-	}
 	
 	_paymentSuccessListener = EventListenerCustom::create(RoutePaymentSingleton::kPaymentSuccessfulEventName, [this](EventCustom* event){
 		PaymentSuccessScreen* successScreen = PaymentSuccessScreen::create();
@@ -163,6 +126,24 @@ void IAPScene::onEnter()
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(_paymentFailedListener, this);
 	
 	Super::onEnter();
+	
+	if(RoutePaymentSingleton::getInstance()->receiptDataFileExists())
+	{
+		if(!ParentManager::getInstance()->isUserLoggedIn())
+		{
+			PaymentSuccessScreen* successScreen = PaymentSuccessScreen::create();
+			successScreen->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+			successScreen->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+			successScreen->setContinueCallback([](){
+				Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Signup));
+			});
+			this->addChild(successScreen, 1);
+		}
+		else
+		{
+			RoutePaymentSingleton::getInstance()->retryReceiptValidation();
+		}
+	}
 }
 void IAPScene::onExit()
 {

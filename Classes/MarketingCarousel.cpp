@@ -84,7 +84,10 @@ void MarketingCarousel::setPageData(const std::vector<MarketingAssetRef> data)
 	_carousel->removeAllItems();
 	for(const auto& page : _pageData)
 	{
-		addPage(page);
+		if(page->isDownloaded())
+		{
+			addPage(page);
+		}
 	}
 	_carousel->setCurSelectedIndex(0);
 	_timeTillNextScroll = ktimeBetweenScrolls;
@@ -99,8 +102,6 @@ void MarketingCarousel::addPage(const MarketingAssetRef &data)
 	page->setClippingEnabled(true);
 	_carousel->pushBackCustomItem(page);
 	
-	//RemoteImageSprite* image = RemoteImageSprite::create();
-	//image->initWithUrlAndSizeWithoutPlaceholder(data.getImageUrl(), Size(2048,2048));
 	ui::ImageView* image = ui::ImageView::create(data->getLocalLocation());
 	image->setScale(page->getContentSize().height / image->getContentSize().height);
 	image->setAnchorPoint(Vec2::ANCHOR_MIDDLE);

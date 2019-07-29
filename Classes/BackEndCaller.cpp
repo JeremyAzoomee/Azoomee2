@@ -30,6 +30,8 @@
 
 #include "RewardDisplayHandler.h"
 
+#include "MarketingAssetManager.h"
+
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "ApplePaymentSingleton.h"
 #include <AzoomeeCommon/Utils/IosNativeFunctionsSingleton.h>
@@ -134,6 +136,7 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString, con
     if(ParentManager::getInstance()->parseParentLoginData(responseString))
     {
 		ParentManager::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headerString));
+		MarketingAssetManager::getInstance()->downloadMarketingAssets();
 		if(ParentManager::getInstance()->isLoggedInParentAnonymous())
 		{
 			AnalyticsSingleton::getInstance()->setIsUserAnonymous(true);
@@ -275,9 +278,9 @@ void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseStrin
 		{
 			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChildSelector));
 			
-			Director::getInstance()->getScheduler()->schedule([&](float dt){
-				DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
-			}, this, 0.5, 0, 0, false, "eventHandler");
+			//Director::getInstance()->getScheduler()->schedule([&](float dt){
+			//	DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
+			//}, this, 0.5, 0, 0, false, "eventHandler");
 		}
     }
 	ModalMessages::getInstance()->stopLoading();

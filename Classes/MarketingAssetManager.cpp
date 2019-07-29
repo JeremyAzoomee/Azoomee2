@@ -10,11 +10,11 @@
 
 NS_AZOOMEE_BEGIN
 
-MarketingAssetRef create()
+MarketingAssetRef MarketingAsset::create()
 {
 	return std::make_shared<MarketingAsset>();
 }
-MarketingAssetRef createWithJson(const rapidjson::Value& json)
+MarketingAssetRef MarketingAsset::createWithJson(const rapidjson::Value& json)
 {
 	MarketingAssetRef asset = MarketingAsset::create();
 	asset->initWithJson(json);
@@ -77,7 +77,24 @@ MarketingAssetManager::MarketingAssetManager()
 
 void MarketingAssetManager::downloadMarketingAssets()
 {
-	/// call get assets enpoint API
+	// call get assets endpoint API
+	//Temp local solution
+	_marketingAssets.clear();
+	std::vector<std::string> jsonStrings = {
+		"{\"location\":\"res/onboarding/Wide Game Asset.jpg\",\"title\":\"Amazing Games!\",\"description\":\"More added every week\"}",
+		"{\"location\":\"res/onboarding/Wide Fun Learning Asset.jpg\",\"title\":\"Fun Learning!\",\"description\":\"With games and videos kids love\"}",
+		"{\"location\":\"res/onboarding/Wide video asset.jpg\",\"title\":\"Fantastic videos!\",\"description\":\"ad-free and handpicked by humans\"}"
+	};
+
+	for(int i = 0; i < jsonStrings.size(); i++)
+	{
+		std::string jsonString = jsonStrings.at(i);
+		rapidjson::Document jsonDoc;
+		jsonDoc.Parse(jsonString.c_str());
+		MarketingAssetRef data = MarketingAsset::createWithJson(jsonDoc);
+		data->setLocalLocation(data->getLocation());
+		_marketingAssets.push_back(data);
+	}
 }
 
 std::vector<MarketingAssetRef> MarketingAssetManager::getMarketingAssets() const

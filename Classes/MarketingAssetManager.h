@@ -27,10 +27,11 @@ private:
 	std::string _location;
 	std::string _localLocation;
 	
-	MarketingAsset();
 public:
 	static MarketingAssetRef create();
 	static MarketingAssetRef createWithJson(const rapidjson::Value& json);
+	
+	MarketingAsset();
 	
 	void initWithJson(const rapidjson::Value& json);
 	void setLocalLocation(const std::string& localLocation);
