@@ -26,9 +26,11 @@ bool PopupMessageBox::init()
 	setName(kPopupMessageBoxName);
 	
 	const Size& contentSize = Director::getInstance()->getVisibleSize();
-	setContentSize(contentSize);
+
 	setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	setSizeType(SizeType::PERCENT);
+	setSizePercent(Vec2(1.0f,1.0f));
 	
 	setBackGroundColorType(BackGroundColorType::SOLID);
 	setBackGroundColor(Color3B::BLACK);
@@ -98,17 +100,13 @@ bool PopupMessageBox::init()
 	_titleGradient->setIgnoreAnchorPointForPosition(false);
 	_titleBox->addChild(_titleGradient);
 	
-	_titleText = ui::Text::create("", Style::Font::PoppinsBold(), 110);
+	_titleText = DynamicText::create("", Style::Font::PoppinsBold(), 110);
 	_titleText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_titleText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	_titleText->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_titleText->setTextVerticalAlignment(TextVAlignment::CENTER);
 	_titleText->setColor(Color3B::WHITE);
-	Label* titleTextLab = dynamic_cast<Label*>(_titleText->getVirtualRenderer());
-	if(titleTextLab)
-	{
-		titleTextLab->setOverflow(Label::Overflow::SHRINK);
-	}
+	_titleText->setOverflow(Label::Overflow::SHRINK);
 	_titleBox->addChild(_titleText);
 	
 	_contentBody = ui::Layout::create();
@@ -120,25 +118,24 @@ bool PopupMessageBox::init()
 	_contentBody->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
 	_messageBoxLayout->addChild(_contentBody);
 	
-	_contentText = ui::Text::create("", Style::Font::PoppinsRegular(), 50);
+	_contentText = DynamicText::create("", Style::Font::PoppinsRegular(), 50);
 	_contentText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_contentText->setNormalizedPosition(Vec2(0.5f,0.71f));
 	_contentText->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_contentText->setTextVerticalAlignment(TextVAlignment::CENTER);
 	_contentText->setTextColor(Color4B(130,130,130,255));
-	Label* contentTextLab = dynamic_cast<Label*>(_contentText->getVirtualRenderer());
-	if(contentTextLab)
-	{
-		contentTextLab->setOverflow(Label::Overflow::SHRINK);
-	}
+	_contentText->setOverflow(Label::Overflow::SHRINK);
 	_contentBody->addChild(_contentText);
 	
-	_actionButton = ui::Button::create("res/onboarding/rounded_button.png");
+	_actionButton = CTAButton::create("res/onboarding/rounded_button.png");
 	_actionButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_actionButton->setNormalizedPosition(Vec2(0.5f,0.3f));
 	_actionButton->ignoreContentAdaptWithSize(false);
 	_actionButton->setContentSize(Size(700,140));
 	_actionButton->setColor(Style::Color::darkIndigo);
+	_actionButton->setTextFontInfo(Style::Font::PoppinsBold(), 70);
+	_actionButton->setTextColour(Color4B::WHITE);
+	_actionButton->setTextAreaSizePercent(Vec2(0.8f,0.8f));
 	_actionButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
@@ -148,21 +145,6 @@ bool PopupMessageBox::init()
 			}
 		}
 	});
-	
-	_buttonText = ui::Text::create("", Style::Font::PoppinsBold(), 70);
-	_buttonText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	_buttonText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	_buttonText->setTextVerticalAlignment(TextVAlignment::CENTER);
-	_buttonText->setTextHorizontalAlignment(TextHAlignment::CENTER);
-	_buttonText->setTextColor(Color4B::WHITE);
-	_buttonText->setTextAreaSize(_actionButton->getContentSize() * 0.8f);
-	Label* buttonTextLab = dynamic_cast<Label*>(_buttonText->getVirtualRenderer());
-	if(buttonTextLab)
-	{
-		buttonTextLab->setOverflow(Label::Overflow::SHRINK);
-	}
-	_actionButton->addChild(_buttonText);
-	
 	_contentBody->addChild(_actionButton);
 	
 	return true;
@@ -183,7 +165,6 @@ void PopupMessageBox::onSizeChanged()
 {
 	Super::onSizeChanged();
 	const Size& contentSize = Director::getInstance()->getVisibleSize();
-	setContentSize(contentSize);
 	
 	const Size& messageBoxSizeWithPadding = Size(1236,1236);
 	const Size& maxSize = Size(MIN(contentSize.width * 0.95f,messageBoxSizeWithPadding.width), MIN(contentSize.width * 0.95f,messageBoxSizeWithPadding.height));
@@ -227,7 +208,7 @@ void PopupMessageBox::setBody(const std::string& body)
 }
 void PopupMessageBox::setButtonText(const std::string& buttonText)
 {
-	_buttonText->setString(buttonText);
+	_actionButton->setText(buttonText);
 }
 void PopupMessageBox::setButtonColour(const Color3B& colour)
 {

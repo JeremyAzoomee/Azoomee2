@@ -10,6 +10,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/UI/DynamicText.h>
 
 using namespace cocos2d;
 
@@ -109,32 +110,24 @@ void MarketingCarousel::addPage(const MarketingAssetRef &data)
 	image->ignoreContentAdaptWithSize(false);
 	page->addChild(image);
 	
-	ui::Text* titleText = ui::Text::create(data->getTitle(StringMgr::getInstance()->getLanguageID()), Style::Font::PoppinsBold(), 120);
+	DynamicText* titleText = DynamicText::create(data->getTitle(StringMgr::getInstance()->getLanguageID()), Style::Font::PoppinsBold(), 120);
 	titleText->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	titleText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 	titleText->setNormalizedPosition(Vec2(0.5f,0.95f));
 	titleText->setTextColor(Color4B::WHITE);
 	titleText->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	titleText->setTextVerticalAlignment(TextVAlignment::CENTER);
-	Label* titleLabel = dynamic_cast<Label*>(titleText->getVirtualRenderer());
-	if(titleLabel)
-	{
-		titleLabel->setMaxLineWidth(page->getContentSize().width * 0.8f);
-	}
+	titleText->setMaxLineWidth(page->getContentSize().width * 0.8f);
 	page->addChild(titleText);
 	
-	ui::Text* subHeadingText = ui::Text::create(data->getDescription(StringMgr::getInstance()->getLanguageID()), Style::Font::PoppinsRegular(), 60);
+	DynamicText* subHeadingText = DynamicText::create(data->getDescription(StringMgr::getInstance()->getLanguageID()), Style::Font::PoppinsRegular(), 60);
 	subHeadingText->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	subHeadingText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 	subHeadingText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
 	subHeadingText->setTextColor(Color4B::WHITE);
 	subHeadingText->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	subHeadingText->setTextVerticalAlignment(TextVAlignment::CENTER);
-	Label* subHeadingLabel = dynamic_cast<Label*>(titleText->getVirtualRenderer());
-	if(subHeadingLabel)
-	{
-		subHeadingLabel->setMaxLineWidth(page->getContentSize().width * 0.8f);
-	}
+	subHeadingText->setMaxLineWidth(page->getContentSize().width * 0.8f);
 	titleText->addChild(subHeadingText);
 }
 

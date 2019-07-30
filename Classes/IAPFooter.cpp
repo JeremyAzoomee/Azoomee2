@@ -42,7 +42,7 @@ bool IAPFooter::init()
 	_bgGradient->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_LEFT);
 	addChild(_bgGradient);
 	
-	_loginButton = ui::Text::create(_("Log In"), Style::Font::PoppinsBold(), 70);
+	_loginButton = DynamicText::create(_("Log In"), Style::Font::PoppinsBold(), 70);
 	_loginButton->ignoreContentAdaptWithSize(false);
 	_loginButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_loginButton->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -63,20 +63,17 @@ bool IAPFooter::init()
 	});
 	addChild(_loginButton);
 	
-	_loginHeader = ui::Text::create(_("Already have an account?"), Style::Font::PoppinsRegular(), 49);
+	_loginHeader = DynamicText::create(_("Already have an account?"), Style::Font::PoppinsRegular(), 49);
 	_loginHeader->setTextColor(Color4B(130,130,130,255));
 	_loginHeader->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 	_loginHeader->setNormalizedPosition(Vec2(0.5f,1.1f));
 	_loginHeader->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_loginHeader->setTextVerticalAlignment(TextVAlignment::BOTTOM);
-	Label* loginHeaderLab = dynamic_cast<Label*>(_loginHeader->getVirtualRenderer());
-	if(loginHeaderLab)
-	{
-		loginHeaderLab->setOverflow(Label::Overflow::RESIZE_HEIGHT);
-	}
+	_loginHeader->setOverflow(Label::Overflow::RESIZE_HEIGHT);
+	
 	_loginButton->addChild(_loginHeader);
 	
-	_termsLink = ui::Text::create(_("Terms of use"), Style::Font::PoppinsRegular(), 35);
+	_termsLink = DynamicText::create(_("Terms of use"), Style::Font::PoppinsRegular(), 35);
 	_termsLink->ignoreContentAdaptWithSize(false);
 	_termsLink->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	_termsLink->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_LEFT);
@@ -85,20 +82,16 @@ bool IAPFooter::init()
 	_termsLink->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_termsLink->setTouchEnabled(true);
 	_termsLink->setTouchScaleChangeEnabled(true);
+	_termsLink->setOverflow(Label::Overflow::SHRINK);
 	_termsLink->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
 			ModalWebview::createWithURL(Url::TermsOfUse);
 		}
 	});
-	Label* termsLinkLab = dynamic_cast<Label*>(_termsLink->getVirtualRenderer());
-	if(termsLinkLab)
-	{
-		termsLinkLab->setOverflow(Label::Overflow::SHRINK);
-	}
 	addChild(_termsLink);
 	
-	_privacyPolicyLink = ui::Text::create(_("Privacy Policy"), Style::Font::PoppinsRegular(), 35);
+	_privacyPolicyLink = DynamicText::create(_("Privacy Policy"), Style::Font::PoppinsRegular(), 35);
 	_privacyPolicyLink->ignoreContentAdaptWithSize(false);
 	_privacyPolicyLink->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
 	_privacyPolicyLink->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_RIGHT);
@@ -107,20 +100,16 @@ bool IAPFooter::init()
 	_privacyPolicyLink->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_privacyPolicyLink->setTouchEnabled(true);
 	_privacyPolicyLink->setTouchScaleChangeEnabled(true);
+	_privacyPolicyLink->setOverflow(Label::Overflow::SHRINK);
 	_privacyPolicyLink->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
 			ModalWebview::createWithURL(Url::PrivacyPolicyNoLinks);
 		}
 	});
-	Label* privacyPolicyLab = dynamic_cast<Label*>(_privacyPolicyLink->getVirtualRenderer());
-	if(privacyPolicyLab)
-	{
-		privacyPolicyLab->setOverflow(Label::Overflow::SHRINK);
-	}
 	addChild(_privacyPolicyLink);
 	
-	_privacyNoticeLink = ui::Text::create(_("Important Notice for Parents"), Style::Font::PoppinsRegular(), 35);
+	_privacyNoticeLink = DynamicText::create(_("Important Notice for Parents"), Style::Font::PoppinsRegular(), 35);
 	_privacyNoticeLink->ignoreContentAdaptWithSize(false);
 	_privacyNoticeLink->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 	_privacyNoticeLink->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
@@ -129,17 +118,13 @@ bool IAPFooter::init()
 	_privacyNoticeLink->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_privacyNoticeLink->setTouchEnabled(true);
 	_privacyNoticeLink->setTouchScaleChangeEnabled(true);
+	_privacyNoticeLink->setOverflow(Label::Overflow::SHRINK);
 	_privacyNoticeLink->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
 			ModalWebview::createWithURL(Url::PrivacyPolicyNoLinks);
 		}
 	});
-	Label* privacyNoticeLab = dynamic_cast<Label*>(_privacyNoticeLink->getVirtualRenderer());
-	if(privacyNoticeLab)
-	{
-		privacyNoticeLab->setOverflow(Label::Overflow::SHRINK);
-	}
 	addChild(_privacyNoticeLink);
 	
 	_divider = ui::Layout::create();
@@ -165,11 +150,7 @@ void IAPFooter::onSizeChanged()
 	Super::onSizeChanged();
 	_bgGradient->setContentSize(Size(_bgPattern->getContentSize().width,this->getContentSize().height));
 	_divider->setContentSize(Size(this->getContentSize().width,4));
-	Label* loginHeaderLab = dynamic_cast<Label*>(_loginHeader->getVirtualRenderer());
-	if(loginHeaderLab)
-	{
-		loginHeaderLab->setMaxLineWidth(this->getContentSize().width * 0.7f);
-	}
+	_loginHeader->setMaxLineWidth(this->getContentSize().width * 0.7f);
 	
 	_termsLink->setTextAreaSize(Size(this->getContentSize().width * 0.25f, _termsLink->getFontSize() * 2.0f));
 	_privacyPolicyLink->setTextAreaSize(Size(this->getContentSize().width * 0.25f, _privacyPolicyLink->getFontSize() * 2.0f));

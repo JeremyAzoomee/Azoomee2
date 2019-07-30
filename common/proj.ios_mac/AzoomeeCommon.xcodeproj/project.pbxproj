@@ -162,6 +162,8 @@
 		9271D88B2051725C00370120 /* CCSpriteWithHue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D8892051725800370120 /* CCSpriteWithHue.cpp */; };
 		92759E9E1FE410BB00639190 /* FileDownloader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92759E9D1FE410BB00639190 /* FileDownloader.cpp */; };
 		929E8B6B2153F06E0078C983 /* ConfirmCancelMessageBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929E8B6A2153F06E0078C983 /* ConfirmCancelMessageBox.cpp */; };
+		929FB10A22F08CFF0088D406 /* CTAButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929FB10922F08CFF0088D406 /* CTAButton.cpp */; };
+		929FB10D22F096B30088D406 /* DynamicText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929FB10C22F096B30088D406 /* DynamicText.cpp */; };
 		92BDD4C72237BC0800DA56F3 /* ShopDataDownloadHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4C62237BC0800DA56F3 /* ShopDataDownloadHandler.cpp */; };
 		92BDD4CA2237D39E00DA56F3 /* DataDownloadHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4C92237D39E00DA56F3 /* DataDownloadHandler.cpp */; };
 		92BDD4DC223FB8C100DA56F3 /* NotificationNodeDisplayManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4DB223FB8C100DA56F3 /* NotificationNodeDisplayManager.cpp */; };
@@ -490,6 +492,10 @@
 		92759E9D1FE410BB00639190 /* FileDownloader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FileDownloader.cpp; sourceTree = "<group>"; };
 		929E8B692153E85C0078C983 /* ConfirmCancelMessageBox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfirmCancelMessageBox.h; sourceTree = "<group>"; };
 		929E8B6A2153F06E0078C983 /* ConfirmCancelMessageBox.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ConfirmCancelMessageBox.cpp; sourceTree = "<group>"; };
+		929FB10822F085280088D406 /* CTAButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CTAButton.h; sourceTree = "<group>"; };
+		929FB10922F08CFF0088D406 /* CTAButton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CTAButton.cpp; sourceTree = "<group>"; };
+		929FB10B22F094A10088D406 /* DynamicText.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DynamicText.h; sourceTree = "<group>"; };
+		929FB10C22F096B30088D406 /* DynamicText.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicText.cpp; sourceTree = "<group>"; };
 		92B1EC8820A209CB007A58C0 /* ContentItemPoolDownloadHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContentItemPoolDownloadHandler.h; path = HQDataObject/ContentItemPoolDownloadHandler.h; sourceTree = "<group>"; };
 		92B1EC8920A209CB007A58C0 /* HQStructureDownloadHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HQStructureDownloadHandler.h; path = HQDataObject/HQStructureDownloadHandler.h; sourceTree = "<group>"; };
 		92BDD4C62237BC0800DA56F3 /* ShopDataDownloadHandler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShopDataDownloadHandler.cpp; sourceTree = "<group>"; };
@@ -762,6 +768,10 @@
 				92BDD4DA223FAAFF00DA56F3 /* NotificationNodeDisplayManager.h */,
 				92BDD4DB223FB8C100DA56F3 /* NotificationNodeDisplayManager.cpp */,
 				92BDD4DD223FC3E100DA56F3 /* ResizeNode.h */,
+				929FB10822F085280088D406 /* CTAButton.h */,
+				929FB10922F08CFF0088D406 /* CTAButton.cpp */,
+				929FB10B22F094A10088D406 /* DynamicText.h */,
+				929FB10C22F096B30088D406 /* DynamicText.cpp */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1276,6 +1286,7 @@
 				4349C8211EA8ADEF00FE964B /* MPABTestDesignerSnapshotRequestMessage.m in Sources */,
 				4349C81C1EA8ADEF00FE964B /* MPABTestDesignerClearResponseMessage.m in Sources */,
 				4349C82E1EA8ADEF00FE964B /* MPDesignerEventBindingRequestMesssage.m in Sources */,
+				929FB10D22F096B30088D406 /* DynamicText.cpp in Sources */,
 				92E58574221ACFE40015A4FA /* Inventory.cpp in Sources */,
 				4349C8401EA8ADEF00FE964B /* MPPropertyDescription.m in Sources */,
 				4349C8341EA8ADEF00FE964B /* MPNetwork.m in Sources */,
@@ -1355,6 +1366,7 @@
 				4349C8261EA8ADEF00FE964B /* MPBOOLToNSNumberValueTransformer.m in Sources */,
 				9261739F1F2A3E4A008E3F9D /* OnScreenChecker.cpp in Sources */,
 				4349C8521EA8ADEF00FE964B /* MPUITableViewBinding.m in Sources */,
+				929FB10A22F08CFF0088D406 /* CTAButton.cpp in Sources */,
 				92E58607221F05B10015A4FA /* NotificationNode.cpp in Sources */,
 				4349C84C1EA8ADEF00FE964B /* MPTypeDescription.m in Sources */,
 				3012ED701E96A3140009027D /* StringFunctions.cpp in Sources */,

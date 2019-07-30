@@ -34,20 +34,16 @@ bool SignupPage::init()
 	_inputHolder->setLayoutType(Type::VERTICAL);
 	addChild(_inputHolder);
 	
-	_topHeading = ui::Text::create("", Style::Font::PoppinsMedium(), 50);
+	_topHeading = DynamicText::create("", Style::Font::PoppinsMedium(), 50);
 	_topHeading->setTextColor(Color4B(Style::Color::strongPink));
 	_topHeading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,1.5 * elementSpacing)));
 	_topHeading->setTextVerticalAlignment(TextVAlignment::BOTTOM);
 	_topHeading->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_topHeading->setTextAreaSize(Size(1000,140));
-	Label* topHeadingLab = dynamic_cast<Label*>(_topHeading->getVirtualRenderer());
-	if(topHeadingLab)
-	{
-		topHeadingLab->setOverflow(Label::Overflow::SHRINK);
-	}
+	_topHeading->setOverflow(Label::Overflow::SHRINK);
 	_inputHolder->addChild(_topHeading);
 	
-	_inputTitle = ui::Text::create("test input title", Style::Font::PoppinsRegular(), 50);
+	_inputTitle = DynamicText::create("test input title", Style::Font::PoppinsRegular(), 50);
 	_inputTitle->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	_inputTitle->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_inputTitle->setTextVerticalAlignment(TextVAlignment::CENTER);
@@ -75,12 +71,16 @@ bool SignupPage::init()
 	_inputBox->setShouldMoveContentOnKeyboardDisplay(false);
 	_inputHolder->addChild(_inputBox);
 	
-	_continueButton = ui::Button::create("res/onboarding/rounded_button.png");
+	_continueButton = CTAButton::create("res/onboarding/rounded_button.png");
 	_continueButton->ignoreContentAdaptWithSize(false);
 	_continueButton->setContentSize(Size(700,140));
 	_continueButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_continueButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,elementSpacing,0,0)));
 	_continueButton->setColor(Style::Color::darkIndigo);
+	_continueButton->setTextAreaSizePercent(Vec2(0.9f,0.8f));
+	_continueButton->setText(_("Continue"));
+	_continueButton->setTextFontInfo(Style::Font::PoppinsBold(), 70);
+	_continueButton->setTextColour(Color4B::WHITE);
 	_continueButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
@@ -92,16 +92,7 @@ bool SignupPage::init()
 	});
 	_inputHolder->addChild(_continueButton);
 	
-	Label* continueLab = Label::createWithTTF(_("Continue"), Style::Font::PoppinsBold(), 70);
-	continueLab->setColor(Color3B::WHITE);
-	continueLab->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	continueLab->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	continueLab->setAlignment(TextHAlignment::CENTER, TextVAlignment::CENTER);
-	continueLab->setDimensions(_continueButton->getContentSize().width * 0.9f, _continueButton->getContentSize().height * 0.8f);
-	continueLab->setOverflow(Label::Overflow::SHRINK);
-	_continueButton->addChild(continueLab);
-	
-	_backButton = ui::Text::create(_("Back"), Style::Font::Bold(), 63);
+	_backButton = DynamicText::create(_("Back"), Style::Font::Bold(), 63);
 	_backButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_backButton->setContentSize(Size(700,140));
 	_backButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,elementSpacing,0,0)));
@@ -151,13 +142,13 @@ bool SignupPage::init()
 	_progressBar->setScale(700 / _progressBar->getContentSize().width);
 	addChild(_progressBar);
 	
-	_progressText = ui::Text::create(_("test progress text"), Style::Font::PoppinsRegular(), 50);
+	_progressText = DynamicText::create(_("test progress text"), Style::Font::PoppinsRegular(), 50);
 	_progressText->setTextColor(Color4B(130,130,130,255));
 	_progressText->setAnchorPoint(Vec2(0.5f,1.5f));
 	_progressText->setNormalizedPosition(Vec2(0.5,0.15));
 	addChild(_progressText);
 	
-	_termsLink = ui::Text::create(_("Terms of use"), Style::Font::PoppinsRegular(), 35);
+	_termsLink = DynamicText::create(_("Terms of use"), Style::Font::PoppinsRegular(), 35);
 	_termsLink->ignoreContentAdaptWithSize(false);
 	_termsLink->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	_termsLink->setNormalizedPosition(Vec2(0.1,0.05));
@@ -165,6 +156,7 @@ bool SignupPage::init()
 	_termsLink->setTextVerticalAlignment(TextVAlignment::CENTER);
 	_termsLink->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_termsLink->setTouchEnabled(true);
+	_termsLink->setOverflow(Label::Overflow::SHRINK);
 	_termsLink->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
 		switch(eType)
 		{
@@ -193,14 +185,9 @@ bool SignupPage::init()
 			}
 		}
 	});
-	Label* termsLinkLab = dynamic_cast<Label*>(_termsLink->getVirtualRenderer());
-	if(termsLinkLab)
-	{
-		termsLinkLab->setOverflow(Label::Overflow::SHRINK);
-	}
 	addChild(_termsLink);
 	
-	_privacyPolicyLink = ui::Text::create(_("Privacy Policy"), Style::Font::PoppinsRegular(), 35);
+	_privacyPolicyLink = DynamicText::create(_("Privacy Policy"), Style::Font::PoppinsRegular(), 35);
 	_privacyPolicyLink->ignoreContentAdaptWithSize(false);
 	_privacyPolicyLink->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
 	_privacyPolicyLink->setNormalizedPosition(Vec2(0.9,0.05));
@@ -208,6 +195,7 @@ bool SignupPage::init()
 	_privacyPolicyLink->setTextVerticalAlignment(TextVAlignment::CENTER);
 	_privacyPolicyLink->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_privacyPolicyLink->setTouchEnabled(true);
+	_privacyPolicyLink->setOverflow(Label::Overflow::SHRINK);
 	_privacyPolicyLink->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
 		switch(eType)
 		{
@@ -236,11 +224,6 @@ bool SignupPage::init()
 			}
 		}
 	});
-	Label* privacyPolicyLab = dynamic_cast<Label*>(_privacyPolicyLink->getVirtualRenderer());
-	if(privacyPolicyLab)
-	{
-		privacyPolicyLab->setOverflow(Label::Overflow::SHRINK);
-	}
 	addChild(_privacyPolicyLink);
 	
 	return true;

@@ -51,39 +51,36 @@ bool PaymentSuccessScreen::init()
 	_gradient->setIgnoreAnchorPointForPosition(false);
 	addChild(_gradient);
 	
-	_bodyText = ui::Text::create(_("Create an Azoomee account to get started"), Style::Font::PoppinsBold(), 50);
+	_bodyText = DynamicText::create(_("Create an Azoomee account to get started"), Style::Font::PoppinsBold(), 50);
 	_bodyText->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_bodyText->setTextVerticalAlignment(TextVAlignment::CENTER);
 	_bodyText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_bodyText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	_bodyText->setTextColor(Color4B::WHITE);
-	Label* bodyLab = dynamic_cast<Label*>(_bodyText->getVirtualRenderer());
-	if(bodyLab)
-	{
-		bodyLab->setOverflow(Label::Overflow::RESIZE_HEIGHT);
-		bodyLab->setMaxLineWidth(872);
-	}
+	_bodyText->setOverflow(Label::Overflow::RESIZE_HEIGHT);
+	_bodyText->setMaxLineWidth(872);
 	addChild(_bodyText);
 	
-	_headerText = ui::Text::create(_("Payment successful!"), Style::Font::PoppinsBold(), 105);
+	_headerText = DynamicText::create(_("Payment successful!"), Style::Font::PoppinsBold(), 105);
 	_headerText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 	_headerText->setNormalizedPosition(Vec2(0.5f,1.2f));
 	_headerText->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_headerText->setTextVerticalAlignment(TextVAlignment::CENTER);
 	_headerText->setTextColor(Color4B::WHITE);
-	Label* headerLab = dynamic_cast<Label*>(_headerText->getVirtualRenderer());
-	if(headerLab)
-	{
-		headerLab->setOverflow(Label::Overflow::RESIZE_HEIGHT);
-		headerLab->setMaxLineWidth(1200);
-	}
+	_headerText->setOverflow(Label::Overflow::RESIZE_HEIGHT);
+	_headerText->setMaxLineWidth(1200);
+	
 	_bodyText->addChild(_headerText);
 	
-	_continueButton = ui::Button::create("res/onboarding/rounded_button.png");
+	_continueButton = CTAButton::create("res/onboarding/rounded_button.png");
 	_continueButton->setContentSize(Size(700,140));
 	_continueButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 	_continueButton->setNormalizedPosition(Vec2(0.5f, -0.3f));
 	_continueButton->ignoreContentAdaptWithSize(false);
+	_continueButton->setText(_("Continue"));
+	_continueButton->setTextFontInfo(Style::Font::PoppinsBold(), 70);
+	_continueButton->setTextColour(Color4B::BLACK);
+	_continueButton->setTextAreaSizePercent(Vec2(0.8f,0.8f));
 	_continueButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
@@ -95,16 +92,7 @@ bool PaymentSuccessScreen::init()
 	});
 	_bodyText->addChild(_continueButton);
 	
-	Label* buttonText = Label::createWithTTF(_("Continue"), Style::Font::PoppinsBold(), 70);
-	buttonText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	buttonText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	buttonText->setAlignment(TextHAlignment::CENTER,TextVAlignment::CENTER);
-	buttonText->setTextColor(Color4B::BLACK);
-	buttonText->setDimensions(_continueButton->getContentSize().width * 0.8f, _continueButton->getContentSize().height * 0.8f);
-	buttonText->setOverflow(Label::Overflow::SHRINK);
-	_continueButton->addChild(buttonText);
-	
-	_loginButton = ui::Text::create(_("Log In"), Style::Font::PoppinsBold(), 70);
+	_loginButton = DynamicText::create(_("Log In"), Style::Font::PoppinsBold(), 70);
 	_loginButton->ignoreContentAdaptWithSize(false);
 	_loginButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 	_loginButton->setNormalizedPosition(Vec2(0.5f,0.1f));
@@ -125,18 +113,14 @@ bool PaymentSuccessScreen::init()
 	});
 	addChild(_loginButton);
 	
-	_loginHeader = ui::Text::create(_("Already have an account?"), Style::Font::PoppinsRegular(), 49);
+	_loginHeader = DynamicText::create(_("Already have an account?"), Style::Font::PoppinsRegular(), 49);
 	_loginHeader->setTextColor(Color4B::WHITE);
 	_loginHeader->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 	_loginHeader->setNormalizedPosition(Vec2(0.5f,1.1f));
 	_loginHeader->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_loginHeader->setTextVerticalAlignment(TextVAlignment::BOTTOM);
-	Label* loginHeaderLab = dynamic_cast<Label*>(_loginHeader->getVirtualRenderer());
-	if(loginHeaderLab)
-	{
-		loginHeaderLab->setMaxLineWidth(772);
-		loginHeaderLab->setOverflow(Label::Overflow::RESIZE_HEIGHT);
-	}
+	_loginHeader->setMaxLineWidth(772);
+	_loginHeader->setOverflow(Label::Overflow::RESIZE_HEIGHT);
 	_loginButton->addChild(_loginHeader);
 	
 	return true;

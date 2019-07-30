@@ -350,7 +350,6 @@ void EditAccountLayer::onEnter()
 		resubButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
 			if(eType == ui::Widget::TouchEventType::ENDED)
 			{
-				//DynamicNodeHandler::getInstance()->startIAPFlow();
 				Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::IAP));
 			}
 		});

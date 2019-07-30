@@ -95,9 +95,9 @@ void MarketingAssetManager::downloadMarketingAssets()
 	//Temp local solution
 	_marketingAssets.clear();
 	std::vector<std::string> jsonStrings = {
-		"{\"location\":\"res/onboarding/Wide Game Asset.jpg\",\"title\":\"Amazing Games!\",\"description\":\"More added every week\"}",
-		"{\"location\":\"res/onboarding/Wide Fun Learning Asset.jpg\",\"title\":\"Fun Learning!\",\"description\":\"With games and videos kids love\"}",
-		"{\"location\":\"res/onboarding/Wide video asset.jpg\",\"title\":\"Fantastic videos!\",\"description\":\"ad-free and handpicked by humans\"}"
+		"{\"location\":\"res/onboarding/Wide Game Asset.jpg\",\"title\":{\"en-GB\":\"Amazing Games!\"},\"description\":{\"en-GB\":\"More added every week\"}}",
+		"{\"location\":\"res/onboarding/Wide Fun Learning Asset.jpg\",\"title\":{\"en-GB\":\"Fun Learning!\"},\"description\":{\"en-GB\":\"With games and videos kids love\"}}",
+		"{\"location\":\"res/onboarding/Wide video asset.jpg\",\"title\":{\"en-GB\":\"Fantastic videos!\"},\"description\":{\"en-GB\":\"ad-free and handpicked by humans\"}}"
 	};
 
 	for(int i = 0; i < jsonStrings.size(); i++)

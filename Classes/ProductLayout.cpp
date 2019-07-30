@@ -36,12 +36,15 @@ bool ProductLayout::init()
 	buttonHolder->setLayoutType(Type::VERTICAL);
 	addChild(buttonHolder);
 	
-	_purchaseButton = ui::Button::create("res/onboarding/rounded_button.png");
+	_purchaseButton = CTAButton::create("res/onboarding/rounded_button.png");
 	_purchaseButton->ignoreContentAdaptWithSize(false);
 	_purchaseButton->setContentSize(Size(700,140));
 	_purchaseButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_purchaseButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	_purchaseButton->setColor(Style::Color::darkIndigo);
+	_purchaseButton->setTextColour(Color4B::WHITE);
+	_purchaseButton->setTextFontInfo(Style::Font::PoppinsBold(), 70);
+	_purchaseButton->setTextAreaSizePercent(Vec2(0.9f,0.8f));
 	_purchaseButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
@@ -53,16 +56,7 @@ bool ProductLayout::init()
 	});
 	buttonHolder->addChild(_purchaseButton);
 	
-	_purchaseButtonLabel = Label::createWithTTF("", Style::Font::PoppinsBold(), 70);
-	_purchaseButtonLabel->setColor(Color3B::WHITE);
-	_purchaseButtonLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	_purchaseButtonLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	_purchaseButtonLabel->setAlignment(TextHAlignment::CENTER, TextVAlignment::CENTER);
-	_purchaseButtonLabel->setDimensions(_purchaseButton->getContentSize().width * 0.9f, _purchaseButton->getContentSize().height * 0.8f);
-	_purchaseButtonLabel->setOverflow(Label::Overflow::SHRINK);
-	_purchaseButton->addChild(_purchaseButtonLabel);
-	
-	_restoreButton = ui::Text::create(_("Restore Purchase"), Style::Font::PoppinsBold(), 60);
+	_restoreButton = DynamicText::create(_("Restore Purchase"), Style::Font::PoppinsBold(), 60);
 	_restoreButton->ignoreContentAdaptWithSize(false);
 	_restoreButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_restoreButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
@@ -71,6 +65,7 @@ bool ProductLayout::init()
 	_restoreButton->setTextAreaSize(Size(700,140));
 	_restoreButton->setTextColor(Color4B(130,130,130,255));
 	_restoreButton->setTouchEnabled(true);
+	_restoreButton->setOverflow(Label::Overflow::SHRINK);
 	_restoreButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
 		switch(eType)
 		{
@@ -99,11 +94,7 @@ bool ProductLayout::init()
 			}
 		}
 	});
-	Label* restoreButtonLabel = dynamic_cast<Label*>(_restoreButton->getVirtualRenderer());
-	if(restoreButtonLabel)
-	{
-		restoreButtonLabel->setOverflow(Label::Overflow::SHRINK);
-	}
+	
 	buttonHolder->addChild(_restoreButton);
 	
 	return true;
@@ -181,7 +172,7 @@ void ProductLayout::setupProductBanner()
 			}
 			textLayout->addChild(value);
 			
-			_purchaseButtonLabel->setString(_("Buy Azoomee Pass"));
+			_purchaseButton->setText(_("Buy Azoomee Pass"));
 			
 			break;
 		}
@@ -235,7 +226,7 @@ void ProductLayout::setupProductBanner()
 			}
 			freeTrial->addChild(desc);
 			
-			_purchaseButtonLabel->setString(_("Subscribe now"));
+			_purchaseButton->setText(_("Subscribe now"));
 			
 			break;
 		}

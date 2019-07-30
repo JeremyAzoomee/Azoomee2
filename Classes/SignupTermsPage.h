@@ -11,6 +11,8 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
+#include <AzoomeeCommon/UI/CTAButton.h>
+#include <AzoomeeCommon/UI/DynamicText.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -25,8 +27,8 @@ private:
 	cocos2d::ui::CheckBox* _acceptTermsCheckBox = nullptr;
 	cocos2d::ui::CheckBox* _acceptMarketingCheckBox = nullptr;
 	
-	cocos2d::ui::Button* _submitButton = nullptr;
-	cocos2d::ui::Text* _backButton = nullptr;
+	CTAButton* _submitButton = nullptr;
+	DynamicText* _backButton = nullptr;
 	
 	ButtonCallback _submitCallback = nullptr;
 	ButtonCallback _backCallback = nullptr;

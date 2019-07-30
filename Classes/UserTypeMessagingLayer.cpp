@@ -9,6 +9,7 @@
 #include "DynamicNodeHandler.h"
 #include "SceneManagerScene.h"
 #include "IAPProductDataHandler.h"
+#include "AgeGate.h"
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/Style.h>
@@ -57,11 +58,31 @@ void UserTypeMessagingLayer::onEnter()
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
 #ifdef ALLOW_UNPAID_SIGNUP
-			//DynamicNodeHandler::getInstance()->startSignupFlow();
 			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Signup));
 #else
-            //DynamicNodeHandler::getInstance()->startIAPFlow();
-			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::IAP));
+			AgeGate* ageGate = AgeGate::create();
+			ageGate->setActionCompletedCallback([ageGate](AgeGateResult result){
+				switch(result)
+				{
+					case AgeGateResult::SUCCESS:
+					{
+						ageGate->removeFromParent();
+						Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::IAP));
+						break;
+					}
+					case AgeGateResult::FAIL:
+					{
+						ageGate->removeFromParent();
+						break;
+					}
+					case AgeGateResult::CLOSE:
+					{
+						ageGate->removeFromParent();
+						break;
+					}
+				}
+			});
+			Director::getInstance()->getRunningScene()->addChild(ageGate,1000);
 #endif
         }
     });

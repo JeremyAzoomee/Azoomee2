@@ -11,6 +11,8 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
+#include <AzoomeeCommon/UI/CTAButton.h>
+#include <AzoomeeCommon/UI/DynamicText.h>
 #include "ProgressBar.h"
 
 NS_AZOOMEE_BEGIN
@@ -22,15 +24,15 @@ class SignupPage : public cocos2d::ui::Layout, cocos2d::ui::EditBoxDelegate
 protected:
 	
 	cocos2d::ui::Layout* _inputHolder = nullptr;
-	cocos2d::ui::Text* _topHeading = nullptr;
-	cocos2d::ui::Text* _inputTitle = nullptr;
+	DynamicText* _topHeading = nullptr;
+	DynamicText* _inputTitle = nullptr;
 	cocos2d::ui::Scale9Sprite* _inputBg = nullptr;
 	cocos2d::ui::EditBox* _inputBox = nullptr;
-	cocos2d::ui::Button* _continueButton = nullptr;
-	cocos2d::ui::Text* _backButton = nullptr;
-	cocos2d::ui::Text* _termsLink = nullptr;
-	cocos2d::ui::Text* _privacyPolicyLink = nullptr;
-	cocos2d::ui::Text* _progressText = nullptr;
+	CTAButton* _continueButton = nullptr;
+	DynamicText* _backButton = nullptr;
+	DynamicText* _termsLink = nullptr;
+	DynamicText* _privacyPolicyLink = nullptr;
+	DynamicText* _progressText = nullptr;
 	ProgressBar* _progressBar = nullptr;
 	
 	ButtonCallback _continueCallback = nullptr;

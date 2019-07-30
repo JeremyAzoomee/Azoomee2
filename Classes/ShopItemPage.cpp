@@ -10,6 +10,7 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "SceneManagerScene.h"
+#include "AgeGate.h"
 
 using namespace cocos2d;
 
@@ -103,8 +104,29 @@ void ShopItemPage::onEnter()
 					if(shopItem->isLocked())
 					{
 						AnalyticsSingleton::getInstance()->shopLockedItemPressed(pos,item);
-						//DynamicNodeHandler::getInstance()->startIAPFlow();
-						Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::IAP));
+						AgeGate* ageGate = AgeGate::create();
+						ageGate->setActionCompletedCallback([ageGate](AgeGateResult result){
+							switch(result)
+							{
+								case AgeGateResult::SUCCESS:
+								{
+									ageGate->removeFromParent();
+									Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::IAP));
+									break;
+								}
+								case AgeGateResult::FAIL:
+								{
+									ageGate->removeFromParent();
+									break;
+								}
+								case AgeGateResult::CLOSE:
+								{
+									ageGate->removeFromParent();
+									break;
+								}
+							}
+						});
+						Director::getInstance()->getRunningScene()->addChild(ageGate,1000);
 						AudioMixer::getInstance()->playEffect("Unavailable_Shop_Item_Click.mp3");
 					}
 					else if(shopItem->isAffordable() && !shopItem->isOwned())

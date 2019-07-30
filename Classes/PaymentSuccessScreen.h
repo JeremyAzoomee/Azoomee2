@@ -11,6 +11,8 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
+#include <AzoomeeCommon/UI/CTAButton.h>
+#include <AzoomeeCommon/UI/DynamicText.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -22,12 +24,12 @@ private:
 	cocos2d::Sprite* _pattern = nullptr;
 	cocos2d::LayerGradient* _gradient = nullptr;
 
-	cocos2d::ui::Text* _headerText = nullptr;
-	cocos2d::ui::Text* _bodyText = nullptr;
-	cocos2d::ui::Button* _continueButton = nullptr;
+	DynamicText* _headerText = nullptr;
+	DynamicText* _bodyText = nullptr;
+	CTAButton* _continueButton = nullptr;
 	
-	cocos2d::ui::Text* _loginButton = nullptr;
-	cocos2d::ui::Text* _loginHeader = nullptr;
+	DynamicText* _loginButton = nullptr;
+	DynamicText* _loginHeader = nullptr;
 	
 	ContinueCallback _callback = nullptr;
 	

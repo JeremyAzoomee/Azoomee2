@@ -130,17 +130,7 @@ void ContentOpener::doCarouselContentOpenLogic(const HQContentItemObjectRef& con
 	if(!contentItem->isEntitled())
 	{
 		AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, rowIndex, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(hqCategory, rowIndex, elementIndex));
-		AnalyticsSingleton::getInstance()->registerCTASource("lockedContent",contentItem->getContentItemId(),contentItem->getType());
-		IAPEntryContext context = IAPEntryContext::DEFAULT;
-		if(contentItem->getType() == ConfigStorage::kContentTypeGame)
-		{
-			context = IAPEntryContext::LOCKED_GAME;
-		}
-		else if(contentItem->getType() == ConfigStorage::kContentTypeVideo || contentItem->getType() == ConfigStorage::kContentTypeGroup)
-		{
-			context = IAPEntryContext::LOCKED_VIDEO;
-		}
-		//DynamicNodeHandler::getInstance()->startIAPFlow(context);
+		
 		AgeGate* ageGate = AgeGate::create();
 		ageGate->setActionCompletedCallback([ageGate](AgeGateResult result){
 			switch(result)

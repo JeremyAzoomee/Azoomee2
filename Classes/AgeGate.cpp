@@ -14,6 +14,33 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+void AgeGateValueSet::generate()
+{
+	const int val1Set[4] = {4,5,6,7};
+	const int val2Set[3] = {3,4,5};
+	
+	srand((int)time(NULL));
+	
+	_val1 = val1Set[rand() % 4];
+	_val2 = val2Set[rand() % 3];
+	_targetVal =  _val1 * _val2;
+	
+	int randAns1 = val1Set[rand() % 4] * val2Set[rand() % 3];
+	while(randAns1 == _targetVal)
+	{
+		randAns1 = val1Set[rand() % 4] * val2Set[rand() % 3];
+	}
+	int randAns2 = val1Set[rand() % 4] * val2Set[rand() % 3];
+	while(randAns2 == _targetVal || randAns2 == randAns1)
+	{
+		randAns2 = val1Set[rand() % 4] * val2Set[rand() % 3];
+	}
+	
+	_answers = {_targetVal, randAns1, randAns2};
+	std::random_shuffle(_answers.begin(), _answers.end());
+	
+}
+
 const std::string AgeGate::kAgeGateLayerName = "AgeGate";
 
 bool AgeGate::init()
@@ -26,7 +53,9 @@ bool AgeGate::init()
 	setName(kAgeGateLayerName);
 	
 	const Size& contentSize = Director::getInstance()->getVisibleSize();
-	setContentSize(contentSize);
+	
+	setSizeType(SizeType::PERCENT);
+	setSizePercent(Vec2(1.0f,1.0f));
 	setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	
@@ -98,17 +127,13 @@ bool AgeGate::init()
 	_titleGradient->setIgnoreAnchorPointForPosition(false);
 	_titleBox->addChild(_titleGradient);
 	
-	_titleText = ui::Text::create("Hey parents,\nunlock all content!", Style::Font::PoppinsBold(), 110);
+	_titleText = DynamicText::create("Hey parents,\nunlock all content!", Style::Font::PoppinsBold(), 110);
 	_titleText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_titleText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	_titleText->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_titleText->setTextVerticalAlignment(TextVAlignment::CENTER);
 	_titleText->setColor(Color3B::WHITE);
-	Label* titleTextLab = dynamic_cast<Label*>(_titleText->getVirtualRenderer());
-	if(titleTextLab)
-	{
-		titleTextLab->setOverflow(Label::Overflow::SHRINK);
-	}
+	_titleText->setOverflow(Label::Overflow::SHRINK);
 	_titleBox->addChild(_titleText);
 	
 	_contentBody = ui::Layout::create();
@@ -119,70 +144,45 @@ bool AgeGate::init()
 	_contentBody->setLayoutType(Type::VERTICAL);
 	_messageBoxLayout->addChild(_contentBody);
 	
-	ui::Text* instructionText = ui::Text::create(_("Please answer this question to continue"), Style::Font::PoppinsRegular(), 53);
+	DynamicText* instructionText = DynamicText::create(_("Please answer this question to continue"), Style::Font::PoppinsRegular(), 53);
 	instructionText->setTextAreaSize(Size(700,140));
 	instructionText->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	instructionText->setTextVerticalAlignment(TextVAlignment::CENTER);
 	instructionText->setTextColor(Color4B(130,130,130,255));
 	instructionText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	instructionText->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,80,0,60)));
-	Label* instructionTextlabel = dynamic_cast<Label*>(instructionText->getVirtualRenderer());
-	if(instructionTextlabel)
-	{
-		instructionTextlabel->setOverflow(Label::Overflow::SHRINK);
-	}
+	instructionText->setOverflow(Label::Overflow::SHRINK);
 	_contentBody->addChild(instructionText);
 	
-	const int val1Set[4] = {4,5,6,7};
-	const int val2Set[3] = {3,4,5};
+	auto ansValues = AgeGateValueSet();
+	ansValues.generate();
 	
-	srand(time(NULL));
-	
-	int val1 = val1Set[rand() % 4];
-	int val2 = val2Set[rand() % 3];
-	int targetVal =  val1 * val2;
-	
-	int randAns1 = val1Set[rand() % 4] * val2Set[rand() % 3];
-	while(randAns1 == targetVal)
-	{
-		randAns1 = val1Set[rand() % 4] * val2Set[rand() % 3];
-	}
-	int randAns2 = val1Set[rand() % 4] * val2Set[rand() % 3];
-	while(randAns2 == targetVal || randAns2 == randAns1)
-	{
-		randAns2 = val1Set[rand() % 4] * val2Set[rand() % 3];
-	}
-	
-	std::vector<int> ans = {targetVal, randAns1, randAns2};
-	std::random_shuffle(ans.begin(), ans.end());
-	
-	ui::Text* questionText = ui::Text::create(StringUtils::format(_("What is %d X %d").c_str(),val1, val2), Style::Font::PoppinsBold(), 70);
+	DynamicText* questionText = DynamicText::create(StringUtils::format(_("What is %d X %d").c_str(),ansValues._val1, ansValues._val2), Style::Font::PoppinsBold(), 70);
 	questionText->setTextAreaSize(Size(700,100));
 	questionText->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	questionText->setTextVerticalAlignment(TextVAlignment::CENTER);
 	questionText->setTextColor(Color4B::BLACK);
 	questionText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	questionText->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,100)));
-	Label* questionTextlabel = dynamic_cast<Label*>(questionText->getVirtualRenderer());
-	if(questionTextlabel)
-	{
-		questionTextlabel->setOverflow(Label::Overflow::SHRINK);
-	}
+	questionText->setOverflow(Label::Overflow::SHRINK);
 	_contentBody->addChild(questionText);
 	
-	for(int i = 0; i < ans.size(); i++)
+	for(int i = 0; i < ansValues._answers.size(); i++)
 	{
-		int value = ans.at(i);
-		ui::Button* ansButton = ui::Button::create("res/onboarding/rounded_button.png");
+		int value = ansValues._answers.at(i);
+		CTAButton* ansButton = CTAButton::create("res/onboarding/rounded_button.png");
 		ansButton->ignoreContentAdaptWithSize(false);
 		ansButton->setContentSize(Size(700,140));
 		ansButton->setColor(Style::Color::strongPink);
 		ansButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 		ansButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,60)));
-		ansButton->addTouchEventListener([this, value, targetVal](Ref* pSender, ui::Widget::TouchEventType eType){
+		ansButton->setText(StringUtils::format("%d",value));
+		ansButton->setTextFontInfo(Style::Font::PoppinsBold(), 70);
+		ansButton->setTextColour(Color4B::WHITE);
+		ansButton->addTouchEventListener([this, value, ansValues](Ref* pSender, ui::Widget::TouchEventType eType){
 			if(eType == ui::Widget::TouchEventType::ENDED)
 			{
-				if(targetVal == value)
+				if(ansValues._targetVal == value)
 				{
 					if(_callback)
 					{
@@ -207,20 +207,6 @@ bool AgeGate::init()
 			}
 		});
 		_contentBody->addChild(ansButton);
-		
-		ui::Text* valText = ui::Text::create(StringUtils::format("%d",value), Style::Font::PoppinsBold(), 70);
-		valText->setTextAreaSize(ansButton->getContentSize() * 0.8f);
-		valText->setTextHorizontalAlignment(TextHAlignment::CENTER);
-		valText->setTextVerticalAlignment(TextVAlignment::CENTER);
-		valText->setTextColor(Color4B::WHITE);
-		valText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-		valText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-		Label* valTextlabel = dynamic_cast<Label*>(valText->getVirtualRenderer());
-		if(valTextlabel)
-		{
-			valTextlabel->setOverflow(Label::Overflow::SHRINK);
-		}
-		ansButton->addChild(valText);
 	}
 	
 	_closeButton = ui::Button::create("res/onboarding/close.png");
@@ -262,7 +248,6 @@ void AgeGate::onSizeChanged()
 {
 	Super::onSizeChanged();
 	const Size& contentSize = Director::getInstance()->getVisibleSize();
-	setContentSize(contentSize);
 	
 	const Size& messageBoxSizeWithPadding = Size(1236,1696);
 	const Size& maxSize = Size(MIN(contentSize.width * 0.95f,messageBoxSizeWithPadding.width), MIN(contentSize.width * 0.95f,messageBoxSizeWithPadding.height));

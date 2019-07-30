@@ -11,6 +11,8 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
+#include <AzoomeeCommon/UI/CTAButton.h>
+#include <AzoomeeCommon/UI/DynamicText.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -25,11 +27,10 @@ private:
 	cocos2d::ui::Layout* _titleBox = nullptr;
 	cocos2d::ui::ImageView* _titlePattern = nullptr;
 	cocos2d::LayerGradient* _titleGradient = nullptr;
-	cocos2d::ui::Text* _titleText = nullptr;
+	DynamicText* _titleText = nullptr;
 	cocos2d::ui::Layout* _contentBody = nullptr;
-	cocos2d::ui::Text* _contentText = nullptr;
-	cocos2d::ui::Button* _actionButton = nullptr;
-	cocos2d::ui::Text* _buttonText = nullptr;
+	DynamicText* _contentText = nullptr;
+	CTAButton* _actionButton = nullptr;
 	
 	ButtonPressedCallback _callback = nullptr;
 	
