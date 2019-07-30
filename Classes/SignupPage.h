@@ -51,6 +51,7 @@ public:
 	void setBackCallback(const ButtonCallback& callback);
 	
 	void repositionForKeyboardHeight(int height, float duration);
+	float getMoveDistanceForKeyboardHeight(int height);
 	
 	void clearInputText();
 	

@@ -39,9 +39,9 @@ bool AgeGate::init()
 	
 	const Size& messageBoxSize = Size(1096,1556);  //target size
 	const Size& messageBoxSizeWithPadding = Size(1236,1696);
-	const Size& maxSize = Size(contentSize.width * 0.82f, contentSize.height * 0.7f);
+	const Size& maxSize = Size(MIN(contentSize.width * 0.95f,messageBoxSizeWithPadding.width), MIN(contentSize.width * 0.95f,messageBoxSizeWithPadding.height));
 	
-	const float scaleFactor = MIN(maxSize.width / messageBoxSize.width, maxSize.height / messageBoxSize.height);
+	const float scaleFactor = MIN(maxSize.width / messageBoxSizeWithPadding.width, maxSize.height / messageBoxSizeWithPadding.height);
 	
 	_messageBoxBg = ui::Scale9Sprite::create("res/onboarding/rounded_rect_45px.png");
 	_messageBoxBg->setContentSize(messageBoxSizeWithPadding - Size(4,4));
@@ -98,7 +98,7 @@ bool AgeGate::init()
 	_titleGradient->setIgnoreAnchorPointForPosition(false);
 	_titleBox->addChild(_titleGradient);
 	
-	_titleText = ui::Text::create("Hey parents,\nunlock all content!", Style::Font::PoppinsBold, 110);
+	_titleText = ui::Text::create("Hey parents,\nunlock all content!", Style::Font::PoppinsBold(), 110);
 	_titleText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_titleText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	_titleText->setTextHorizontalAlignment(TextHAlignment::CENTER);
@@ -119,7 +119,7 @@ bool AgeGate::init()
 	_contentBody->setLayoutType(Type::VERTICAL);
 	_messageBoxLayout->addChild(_contentBody);
 	
-	ui::Text* instructionText = ui::Text::create(_("Please answer this question to continue"), Style::Font::PoppinsRegular, 53);
+	ui::Text* instructionText = ui::Text::create(_("Please answer this question to continue"), Style::Font::PoppinsRegular(), 53);
 	instructionText->setTextAreaSize(Size(700,140));
 	instructionText->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	instructionText->setTextVerticalAlignment(TextVAlignment::CENTER);
@@ -156,7 +156,7 @@ bool AgeGate::init()
 	std::vector<int> ans = {targetVal, randAns1, randAns2};
 	std::random_shuffle(ans.begin(), ans.end());
 	
-	ui::Text* questionText = ui::Text::create(StringUtils::format(_("What is %d X %d").c_str(),val1, val2), Style::Font::PoppinsBold, 70);
+	ui::Text* questionText = ui::Text::create(StringUtils::format(_("What is %d X %d").c_str(),val1, val2), Style::Font::PoppinsBold(), 70);
 	questionText->setTextAreaSize(Size(700,100));
 	questionText->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	questionText->setTextVerticalAlignment(TextVAlignment::CENTER);
@@ -208,7 +208,7 @@ bool AgeGate::init()
 		});
 		_contentBody->addChild(ansButton);
 		
-		ui::Text* valText = ui::Text::create(StringUtils::format("%d",value), Style::Font::PoppinsBold, 70);
+		ui::Text* valText = ui::Text::create(StringUtils::format("%d",value), Style::Font::PoppinsBold(), 70);
 		valText->setTextAreaSize(ansButton->getContentSize() * 0.8f);
 		valText->setTextHorizontalAlignment(TextHAlignment::CENTER);
 		valText->setTextVerticalAlignment(TextVAlignment::CENTER);
@@ -264,10 +264,10 @@ void AgeGate::onSizeChanged()
 	const Size& contentSize = Director::getInstance()->getVisibleSize();
 	setContentSize(contentSize);
 	
-	const Size& messageBoxSize = Size(1096,1556);  //target size
-	const Size& maxSize = Size(contentSize.width * 0.82f, contentSize.height * 0.7f);
+	const Size& messageBoxSizeWithPadding = Size(1236,1696);
+	const Size& maxSize = Size(MIN(contentSize.width * 0.95f,messageBoxSizeWithPadding.width), MIN(contentSize.width * 0.95f,messageBoxSizeWithPadding.height));
 	
-	const float scaleFactor = MIN(maxSize.width / messageBoxSize.width, maxSize.height / messageBoxSize.height);
+	const float scaleFactor = MIN(maxSize.width / messageBoxSizeWithPadding.width, maxSize.height / messageBoxSizeWithPadding.height);
 	if(_messageBoxBg)
 	{
 		_messageBoxBg->setScale(scaleFactor);

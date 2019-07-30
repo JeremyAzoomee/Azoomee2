@@ -89,7 +89,7 @@ bool SignupScene::init()
 	_gradient->setRotation(CC_RADIANS_TO_DEGREES(isPortrait ? 0 : Vec2(contentSize).getAngle()));
 	addChild(_gradient);
 	
-	_titleText = ui::Text::create(_("Create your family account"), Style::Font::PoppinsBold, 105);
+	_titleText = ui::Text::create(_("Create your family account"), Style::Font::PoppinsBold(), 105);
 	_titleText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_titleText->setPosition(isPortrait ? Vec2(contentSize.width * 0.5f,contentSize.height * 0.85f) : Vec2(contentSize.width * 0.25f,contentSize.height * 0.5f));
 	_titleText->setTextHorizontalAlignment(TextHAlignment::CENTER);
@@ -281,7 +281,7 @@ void SignupScene::onSizeChanged()
 		else
 		{
 			page.second->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE_BOTTOM : Vec2::ANCHOR_MIDDLE_LEFT);
-			page.second->setNormalizedPosition(isPortrait ? Vec2(0.5,0.0) : Vec2::ANCHOR_MIDDLE);
+			page.second->setPosition(isPortrait ? Vec2(contentSize.width * 0.5,0.0) : Vec2(contentSize.width * 0.5f, contentSize.height * 0.5f));
 			page.second->setSizePercent(isPortrait ? Vec2(1.0f,0.72f) : Vec2(0.5f, 0.95f));
 		}
 	}
@@ -376,7 +376,12 @@ void SignupScene::keyboardWillShow(cocos2d::IMEKeyboardNotificationInfo& info)
 	SignupPage* signupPage = dynamic_cast<SignupPage*>(_activePage);
 	if(signupPage)
 	{
-		signupPage->repositionForKeyboardHeight(keyboardHeight, 0.5f);
+		float moveDist = signupPage->getMoveDistanceForKeyboardHeight(keyboardHeight);
+		if(isPortrait)
+		{
+			signupPage->runAction(MoveTo::create(0.5f, Vec2(contentSize.width / 2.0f,moveDist)));
+		}
+		signupPage->repositionForKeyboardHeight(keyboardHeight - moveDist, 0.5f);
 	}
 }
 void SignupScene::keyboardWillHide(cocos2d::IMEKeyboardNotificationInfo& info)
@@ -389,6 +394,7 @@ void SignupScene::keyboardWillHide(cocos2d::IMEKeyboardNotificationInfo& info)
 	SignupPage* signupPage = dynamic_cast<SignupPage*>(_activePage);
 	if(signupPage)
 	{
+		signupPage->runAction(MoveTo::create(0.5f, isPortrait ? Vec2(contentSize.width * 0.5,0.0) : Vec2(contentSize.width * 0.5f, contentSize.height * 0.5f)));
 		signupPage->repositionForKeyboardHeight(0, 0.5f);
 	}
 }

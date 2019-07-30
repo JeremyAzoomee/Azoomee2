@@ -34,7 +34,7 @@ bool LoginEntry::init()
 	_inputHolder->setLayoutType(Type::VERTICAL);
 	addChild(_inputHolder);
 	
-	_inputTitle = ui::Text::create("", Style::Font::PoppinsRegular, 50);
+	_inputTitle = ui::Text::create("", Style::Font::PoppinsRegular(), 50);
 	_inputTitle->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	_inputTitle->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_inputTitle->setTextVerticalAlignment(TextVAlignment::CENTER);
@@ -91,7 +91,7 @@ bool LoginEntry::init()
 	});
 	_inputHolder->addChild(_continueButton);
 	
-	Label* continueLab = Label::createWithTTF(_("Continue"), Style::Font::PoppinsBold, 70);
+	Label* continueLab = Label::createWithTTF(_("Continue"), Style::Font::PoppinsBold(), 70);
 	continueLab->setColor(Color3B::WHITE);
 	continueLab->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	continueLab->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -123,7 +123,7 @@ bool LoginEntry::init()
 	
 	_inputHolder->setContentSize(Size(0,_inputTitle->getContentSize().height + _inputBox->getContentSize().height + _continueButton->getContentSize().height + _backButton->getContentSize().height + (3 * elementSpacing)));
 	
-	_versionNumber = ui::Text::create(ConfigStorage::getInstance()->getVersionNumberToDisplay(), Style::Font::PoppinsRegular, 35);
+	_versionNumber = ui::Text::create(ConfigStorage::getInstance()->getVersionNumberToDisplay(), Style::Font::PoppinsRegular(), 35);
 	_versionNumber->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 	_versionNumber->setNormalizedPosition(Vec2(0.5,0.05));
 	_versionNumber->setTextColor(Color4B(130,130,130,255));

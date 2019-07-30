@@ -39,9 +39,9 @@ bool PopupMessageBox::init()
 	
 	const Size& messageBoxSize = Size(1096,1096);  //target size
 	const Size& messageBoxSizeWithPadding = Size(1236,1236);
-	const Size& maxSize = Size(contentSize.width * 0.82f, contentSize.height * 0.7f);
+	const Size& maxSize = Size(MIN(contentSize.width * 0.95f,messageBoxSizeWithPadding.width), MIN(contentSize.width * 0.95f,messageBoxSizeWithPadding.height));
 	
-	const float scaleFactor = MIN(maxSize.width / messageBoxSize.width, maxSize.height / messageBoxSize.height);
+	const float scaleFactor = MIN(maxSize.width / messageBoxSizeWithPadding.width, maxSize.height / messageBoxSizeWithPadding.height);
 	
 	_messageBoxBg = ui::Scale9Sprite::create("res/onboarding/rounded_rect_45px.png");
 	_messageBoxBg->setContentSize(messageBoxSizeWithPadding - Size(4,4)); //bring in a tad to prevent stray overhanging pixels
@@ -98,7 +98,7 @@ bool PopupMessageBox::init()
 	_titleGradient->setIgnoreAnchorPointForPosition(false);
 	_titleBox->addChild(_titleGradient);
 	
-	_titleText = ui::Text::create("", Style::Font::PoppinsBold, 110);
+	_titleText = ui::Text::create("", Style::Font::PoppinsBold(), 110);
 	_titleText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_titleText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	_titleText->setTextHorizontalAlignment(TextHAlignment::CENTER);
@@ -120,7 +120,7 @@ bool PopupMessageBox::init()
 	_contentBody->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
 	_messageBoxLayout->addChild(_contentBody);
 	
-	_contentText = ui::Text::create("", Style::Font::PoppinsRegular, 50);
+	_contentText = ui::Text::create("", Style::Font::PoppinsRegular(), 50);
 	_contentText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_contentText->setNormalizedPosition(Vec2(0.5f,0.71f));
 	_contentText->setTextHorizontalAlignment(TextHAlignment::CENTER);
@@ -149,7 +149,7 @@ bool PopupMessageBox::init()
 		}
 	});
 	
-	_buttonText = ui::Text::create("", Style::Font::PoppinsBold, 70);
+	_buttonText = ui::Text::create("", Style::Font::PoppinsBold(), 70);
 	_buttonText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_buttonText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	_buttonText->setTextVerticalAlignment(TextVAlignment::CENTER);
@@ -185,10 +185,10 @@ void PopupMessageBox::onSizeChanged()
 	const Size& contentSize = Director::getInstance()->getVisibleSize();
 	setContentSize(contentSize);
 	
-	const Size& messageBoxSize = Size(1096,1096);  //target size
-	const Size& maxSize = Size(contentSize.width * 0.82f, contentSize.height * 0.7f);
+	const Size& messageBoxSizeWithPadding = Size(1236,1236);
+	const Size& maxSize = Size(MIN(contentSize.width * 0.95f,messageBoxSizeWithPadding.width), MIN(contentSize.width * 0.95f,messageBoxSizeWithPadding.height));
 	
-	const float scaleFactor = MIN(maxSize.width / messageBoxSize.width, maxSize.height / messageBoxSize.height);
+	const float scaleFactor = MIN(maxSize.width / messageBoxSizeWithPadding.width, maxSize.height / messageBoxSizeWithPadding.height);
 	
 	if(_messageBoxBg)
 	{

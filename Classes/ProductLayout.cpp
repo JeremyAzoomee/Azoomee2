@@ -53,7 +53,7 @@ bool ProductLayout::init()
 	});
 	buttonHolder->addChild(_purchaseButton);
 	
-	_purchaseButtonLabel = Label::createWithTTF("", Style::Font::PoppinsBold, 70);
+	_purchaseButtonLabel = Label::createWithTTF("", Style::Font::PoppinsBold(), 70);
 	_purchaseButtonLabel->setColor(Color3B::WHITE);
 	_purchaseButtonLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_purchaseButtonLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -62,7 +62,7 @@ bool ProductLayout::init()
 	_purchaseButtonLabel->setOverflow(Label::Overflow::SHRINK);
 	_purchaseButton->addChild(_purchaseButtonLabel);
 	
-	_restoreButton = ui::Text::create(_("Restore Purchase"), Style::Font::PoppinsBold, 60);
+	_restoreButton = ui::Text::create(_("Restore Purchase"), Style::Font::PoppinsBold(), 60);
 	_restoreButton->ignoreContentAdaptWithSize(false);
 	_restoreButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_restoreButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
@@ -71,13 +71,31 @@ bool ProductLayout::init()
 	_restoreButton->setTextAreaSize(Size(700,140));
 	_restoreButton->setTextColor(Color4B(130,130,130,255));
 	_restoreButton->setTouchEnabled(true);
-	_restoreButton->setTouchScaleChangeEnabled(true);
 	_restoreButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
-		if(eType == ui::Widget::TouchEventType::ENDED)
+		switch(eType)
 		{
-			if(_callback)
+			case cocos2d::ui::Widget::TouchEventType::BEGAN:
 			{
-				_callback(IAPAction::RESTORE);
+				_restoreButton->setScale(1.05f);
+				break;
+			}
+			case cocos2d::ui::Widget::TouchEventType::MOVED:
+			{
+				break;
+			}
+			case cocos2d::ui::Widget::TouchEventType::ENDED:
+			{
+				_restoreButton->setScale(1.0f);
+				if(_callback)
+				{
+					_callback(IAPAction::RESTORE);
+				}
+				break;
+			}
+			case cocos2d::ui::Widget::TouchEventType::CANCELED:
+			{
+				_restoreButton->setScale(1.0f);
+				break;
 			}
 		}
 	});
@@ -136,7 +154,7 @@ void ProductLayout::setupProductBanner()
 			textLayout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 			_productBanner->addChild(textLayout);
 			
-			ui::Text* desc = ui::Text::create(_productData.at(0).first, Style::Font::PoppinsRegular, 50);
+			ui::Text* desc = ui::Text::create(_productData.at(0).first, Style::Font::PoppinsRegular(), 50);
 			desc->setTextColor(Color4B(130,130,130,255));
 			desc->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 			desc->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
@@ -150,7 +168,7 @@ void ProductLayout::setupProductBanner()
 			}
 			textLayout->addChild(desc);
 			
-			ui::Text* value = ui::Text::create(_productData.at(0).second, Style::Font::PoppinsMedium, 175);
+			ui::Text* value = ui::Text::create(_productData.at(0).second, Style::Font::PoppinsMedium(), 175);
 			value->setTextColor(Color4B::BLACK);
 			value->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 			value->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
@@ -176,7 +194,7 @@ void ProductLayout::setupProductBanner()
 			textLayout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 			_productBanner->addChild(textLayout);
 			
-			ui::Text* freeTrial = ui::Text::create(_productData.at(0).first, Style::Font::PoppinsMedium, 105);
+			ui::Text* freeTrial = ui::Text::create(_productData.at(0).first, Style::Font::PoppinsMedium(), 105);
 			freeTrial->setTextColor(Color4B::BLACK);
 			freeTrial->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 			freeTrial->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
@@ -203,7 +221,7 @@ void ProductLayout::setupProductBanner()
 			}
 			freeTrial->addChild(startYour);
 			
-			ui::Text* desc = ui::Text::create(StringUtils::format(_("Then %s per month. Cancel anytime.").c_str(),_productData.at(0).second.c_str()), Style::Font::PoppinsRegular, 50);
+			ui::Text* desc = ui::Text::create(StringUtils::format(_("Then %s per month. Cancel anytime.").c_str(),_productData.at(0).second.c_str()), Style::Font::PoppinsRegular(), 50);
 			desc->setTextColor(Color4B(130,130,130,255));
 			desc->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 			desc->setNormalizedPosition(Vec2(0.5,-0.1));

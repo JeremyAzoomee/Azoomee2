@@ -31,7 +31,7 @@ bool SignupTermsPage::init()
 	_contentLayout->setLayoutType(Type::VERTICAL);
 	addChild(_contentLayout);
 	//"•    "
-	ui::Text* para1 = ui::Text::create(_("Azoomee takes the protection and usage of your personal data very seriously. We use your personal data for the following purposes:"), Style::Font::PoppinsMedium, 50);
+	ui::Text* para1 = ui::Text::create(_("Azoomee takes the protection and usage of your personal data very seriously. We use your personal data for the following purposes:"), Style::Font::PoppinsMedium(), 50);
 	para1->setTextHorizontalAlignment(TextHAlignment::LEFT);
 	para1->setTextVerticalAlignment(TextVAlignment::TOP);
 	para1->setTextColor(Color4B(130,130,130,255));
@@ -44,7 +44,7 @@ bool SignupTermsPage::init()
 	}
 	_contentLayout->addChild(para1);
 	
-	ui::Text* bullet1 = ui::Text::create(_("To create a unique Azoomee account"), Style::Font::PoppinsRegular, 42);
+	ui::Text* bullet1 = ui::Text::create(_("To create a unique Azoomee account"), Style::Font::PoppinsRegular(), 42);
 	bullet1->setTextHorizontalAlignment(TextHAlignment::LEFT);
 	bullet1->setTextVerticalAlignment(TextVAlignment::TOP);
 	bullet1->setTextColor(Color4B(130,130,130,255));
@@ -65,7 +65,7 @@ bool SignupTermsPage::init()
 	
 	_contentLayout->addChild(bullet1);
 	
-	ui::Text* bullet2 = ui::Text::create(_("To contact you when there are important service notifications"), Style::Font::PoppinsRegular, 42);
+	ui::Text* bullet2 = ui::Text::create(_("To contact you when there are important service notifications"), Style::Font::PoppinsRegular(), 42);
 	bullet2->setTextHorizontalAlignment(TextHAlignment::LEFT);
 	bullet2->setTextVerticalAlignment(TextVAlignment::TOP);
 	bullet2->setTextColor(Color4B(130,130,130,255));
@@ -82,7 +82,7 @@ bool SignupTermsPage::init()
 	bullet2->addChild(bulletpoint2);
 	_contentLayout->addChild(bullet2);
 	
-	ui::Text* bullet3 = ui::Text::create(_("To identify your account should you contact us for support"), Style::Font::PoppinsRegular, 42);
+	ui::Text* bullet3 = ui::Text::create(_("To identify your account should you contact us for support"), Style::Font::PoppinsRegular(), 42);
 	bullet3->setTextHorizontalAlignment(TextHAlignment::LEFT);
 	bullet3->setTextVerticalAlignment(TextVAlignment::TOP);
 	bullet3->setTextColor(Color4B(130,130,130,255));
@@ -99,7 +99,7 @@ bool SignupTermsPage::init()
 	bullet3->addChild(bulletpoint3);
 	_contentLayout->addChild(bullet3);
 	
-	ui::Text* para2 = ui::Text::create(_("If you'd like to learn more about how we use the data you provide us, please read our Privacy Policy"), Style::Font::PoppinsRegular, 42);
+	ui::Text* para2 = ui::Text::create(_("If you'd like to learn more about how we use the data you provide us, please read our Privacy Policy"), Style::Font::PoppinsRegular(), 42);
 	para2->setTextHorizontalAlignment(TextHAlignment::LEFT);
 	para2->setTextVerticalAlignment(TextVAlignment::TOP);
 	para2->setTextColor(Color4B(130,130,130,255));
@@ -112,7 +112,7 @@ bool SignupTermsPage::init()
 	}
 	_contentLayout->addChild(para2);
 	
-	ui::Text* para3 = ui::Text::create(_("Please check the following to confirm that:"), Style::Font::PoppinsMedium, 50);
+	ui::Text* para3 = ui::Text::create(_("Please check the following to confirm that:"), Style::Font::PoppinsMedium(), 50);
 	para3->setTextHorizontalAlignment(TextHAlignment::LEFT);
 	para3->setTextVerticalAlignment(TextVAlignment::TOP);
 	para3->setTextColor(Color4B(92,91,91,255));
@@ -125,7 +125,7 @@ bool SignupTermsPage::init()
 	}
 	_contentLayout->addChild(para3);
 	
-	ui::Text* checkbox1 = ui::Text::create(_("You are over 18"), Style::Font::PoppinsRegular, 42);
+	ui::Text* checkbox1 = ui::Text::create(_("You are over 18"), Style::Font::PoppinsRegular(), 42);
 	checkbox1->setTextHorizontalAlignment(TextHAlignment::LEFT);
 	checkbox1->setTextVerticalAlignment(TextVAlignment::TOP);
 	checkbox1->setTextColor(Color4B(130,130,130,255));
@@ -157,7 +157,7 @@ bool SignupTermsPage::init()
 	_over18Checkbox->setColor(Color3B(79,78,78));
 	checkbox1->addChild(_over18Checkbox);
 	
-	ui::Text* checkbox2 = ui::Text::create(_("You agree to our Terms of Service, Acceptable Use Policy and Privacy Policy"), Style::Font::PoppinsRegular, 42);
+	ui::Text* checkbox2 = ui::Text::create(_("You agree to our Terms of Service, Acceptable Use Policy and Privacy Policy"), Style::Font::PoppinsRegular(), 42);
 	checkbox2->setTextHorizontalAlignment(TextHAlignment::LEFT);
 	checkbox2->setTextVerticalAlignment(TextVAlignment::TOP);
 	checkbox2->setTextColor(Color4B(130,130,130,255));
@@ -189,7 +189,7 @@ bool SignupTermsPage::init()
 	_acceptTermsCheckBox->setColor(Color3B(79,78,78));
 	checkbox2->addChild(_acceptTermsCheckBox);
 	
-	ui::Text* checkbox3 = ui::Text::create(_("You agree to receive marketing materials from Azoomee (optional. You can also opt-out in the future at any time.)"), Style::Font::PoppinsRegular, 42);
+	ui::Text* checkbox3 = ui::Text::create(_("You agree to receive marketing materials from Azoomee (optional. You can also opt-out in the future at any time.)"), Style::Font::PoppinsRegular(), 42);
 	checkbox3->setTextHorizontalAlignment(TextHAlignment::LEFT);
 	checkbox3->setTextVerticalAlignment(TextVAlignment::TOP);
 	checkbox3->setTextColor(Color4B(130,130,130,255));
@@ -238,7 +238,7 @@ bool SignupTermsPage::init()
 	});
 	_contentLayout->addChild(_submitButton);
 	
-	Label* submitLab = Label::createWithTTF(_("Submit"), Style::Font::PoppinsBold, 70);
+	Label* submitLab = Label::createWithTTF(_("Submit"), Style::Font::PoppinsBold(), 70);
 	submitLab->setColor(Color3B::WHITE);
 	submitLab->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	submitLab->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -247,7 +247,7 @@ bool SignupTermsPage::init()
 	submitLab->setOverflow(Label::Overflow::SHRINK);
 	_submitButton->addChild(submitLab);
 	
-	_backButton = ui::Text::create(_("Back"), Style::Font::PoppinsBold, 63);
+	_backButton = ui::Text::create(_("Back"), Style::Font::PoppinsBold(), 63);
 	_backButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 	_backButton->setContentSize(Size(700,140));
 	_backButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());

@@ -21,7 +21,7 @@ bool SignupEnterPassword::init()
 		return false;
 	}
 	
-	_topHeading->setString(_("Heads up! Make sure your password is atleast six charecters long."));
+	_topHeading->setString(_("Make sure your password is at least six characters long."));
 	
 	_inputTitle->setString(_("Create a password"));
 	

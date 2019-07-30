@@ -51,7 +51,7 @@ bool PaymentSuccessScreen::init()
 	_gradient->setIgnoreAnchorPointForPosition(false);
 	addChild(_gradient);
 	
-	_bodyText = ui::Text::create(_("Create an Azoomee account to get started"), Style::Font::PoppinsBold, 50);
+	_bodyText = ui::Text::create(_("Create an Azoomee account to get started"), Style::Font::PoppinsBold(), 50);
 	_bodyText->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_bodyText->setTextVerticalAlignment(TextVAlignment::CENTER);
 	_bodyText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -65,7 +65,7 @@ bool PaymentSuccessScreen::init()
 	}
 	addChild(_bodyText);
 	
-	_headerText = ui::Text::create(_("Payment successful!"), Style::Font::PoppinsBold, 105);
+	_headerText = ui::Text::create(_("Payment successful!"), Style::Font::PoppinsBold(), 105);
 	_headerText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 	_headerText->setNormalizedPosition(Vec2(0.5f,1.2f));
 	_headerText->setTextHorizontalAlignment(TextHAlignment::CENTER);
@@ -95,7 +95,7 @@ bool PaymentSuccessScreen::init()
 	});
 	_bodyText->addChild(_continueButton);
 	
-	Label* buttonText = Label::createWithTTF(_("Continue"), Style::Font::PoppinsBold, 70);
+	Label* buttonText = Label::createWithTTF(_("Continue"), Style::Font::PoppinsBold(), 70);
 	buttonText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	buttonText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	buttonText->setAlignment(TextHAlignment::CENTER,TextVAlignment::CENTER);
@@ -104,7 +104,7 @@ bool PaymentSuccessScreen::init()
 	buttonText->setOverflow(Label::Overflow::SHRINK);
 	_continueButton->addChild(buttonText);
 	
-	_loginButton = ui::Text::create(_("Log In"), Style::Font::PoppinsBold, 70);
+	_loginButton = ui::Text::create(_("Log In"), Style::Font::PoppinsBold(), 70);
 	_loginButton->ignoreContentAdaptWithSize(false);
 	_loginButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 	_loginButton->setNormalizedPosition(Vec2(0.5f,0.1f));
@@ -125,7 +125,7 @@ bool PaymentSuccessScreen::init()
 	});
 	addChild(_loginButton);
 	
-	_loginHeader = ui::Text::create(_("Already have an account?"), Style::Font::PoppinsRegular, 49);
+	_loginHeader = ui::Text::create(_("Already have an account?"), Style::Font::PoppinsRegular(), 49);
 	_loginHeader->setTextColor(Color4B::WHITE);
 	_loginHeader->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 	_loginHeader->setNormalizedPosition(Vec2(0.5f,1.1f));

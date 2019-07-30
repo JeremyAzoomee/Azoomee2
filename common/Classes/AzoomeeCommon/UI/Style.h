@@ -175,15 +175,19 @@ namespace Font
 	
 	const char* const PassionOneRegular = "fonts/PassionOne-Regular.ttf";
 	
-	const char* const PoppinsRegular = "fonts/Poppins-Regular.ttf";
-	const char* const PoppinsBold = "fonts/Poppins-SemiBold.ttf";
-	const char* const PoppinsMedium = "fonts/Poppins-Medium.ttf";
+	const char* const poppinsRegular = "fonts/Poppins-Regular.ttf";
+	const char* const poppinsBold = "fonts/Poppins-SemiBold.ttf";
+	const char* const poppinsMedium = "fonts/Poppins-Medium.ttf";
 	
 	const char* const Regular();
 	const char* const Medium();
 	const char* const Bold();
 	const char* const Input();
 	const char* const RewardRegular();
+	
+	const char* const PoppinsRegular();
+	const char* const PoppinsMedium();
+	const char* const PoppinsBold();
 	
     const char* const RegularSystemName = SofiaRegularSystemName;
     const char* const MediumSystemName = SofiaMediumSystemName;

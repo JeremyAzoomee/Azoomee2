@@ -28,8 +28,14 @@ MarketingAsset::MarketingAsset()
 
 void MarketingAsset::initWithJson(const rapidjson::Value& json)
 {
-	_title = getStringFromJson("title", json);
-	_description = getStringFromJson("description", json);
+	if(json.HasMember("title"))
+	{
+		_title = getStringMapFromJson(json["title"]);
+	}
+	if(json.HasMember("description"));
+	{
+		_description = getStringMapFromJson(json["description"]);
+	}
 	_location = getStringFromJson("location", json);
 	_id = getStringFromJson("id", json);
 }
@@ -42,13 +48,21 @@ bool MarketingAsset::isDownloaded() const
 {
 	return _localLocation != "";
 }
-std::string MarketingAsset::getTitle() const
+std::string MarketingAsset::getTitle(const std::string& language) const
 {
-	return _title;
+	if(_title.find(language) != _title.end())
+	{
+		return _title.at(language);
+	}
+	return _title.at(StringMgr::kLanguageParams.at(0)._identifier);
 }
-std::string MarketingAsset::getDescription() const
+std::string MarketingAsset::getDescription(const std::string& language) const
 {
-	return _description;
+	if(_description.find(language) != _description.end())
+	{
+		return _description.at(language);
+	}
+	return _description.at(StringMgr::kLanguageParams.at(0)._identifier);
 }
 std::string MarketingAsset::getLocation() const
 {

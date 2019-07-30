@@ -22,8 +22,8 @@ class MarketingAsset
 {
 private:
 	std::string _id;
-	std::string _title;
-	std::string _description;
+	std::map<std::string,std::string> _title;
+	std::map<std::string,std::string> _description;
 	std::string _location;
 	std::string _localLocation;
 	
@@ -37,8 +37,8 @@ public:
 	void setLocalLocation(const std::string& localLocation);
 	
 	bool isDownloaded() const;
-	std::string getTitle() const;
-	std::string getDescription() const;
+	std::string getTitle(const std::string& language) const;
+	std::string getDescription(const std::string& language) const;
 	std::string getLocation() const;
 	std::string getLocalLocation() const;
 	

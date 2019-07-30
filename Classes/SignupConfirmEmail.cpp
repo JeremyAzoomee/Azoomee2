@@ -20,7 +20,7 @@ bool SignupConfirmEmail::init()
 		return false;
 	}
 	
-	_email = ui::Text::create("", Style::Font::PoppinsBold, 70);
+	_email = ui::Text::create("", Style::Font::PoppinsBold(), 70);
 	_email->setTextColor(Color4B(Style::Color::strongPink));
 	_email->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 	_email->setNormalizedPosition(Vec2(0.5f,0.2f));

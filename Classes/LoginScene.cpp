@@ -77,7 +77,7 @@ bool LoginScene::init()
 	_gradient->setRotation(CC_RADIANS_TO_DEGREES(isPortrait ? 0 : Vec2(contentSize).getAngle()));
 	addChild(_gradient);
 	
-	_titleText = ui::Text::create(_("Log in"), Style::Font::PoppinsBold, 105);
+	_titleText = ui::Text::create(_("Log in"), Style::Font::PoppinsBold(), 105);
 	_titleText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_titleText->setPosition(isPortrait ? Vec2(contentSize.width * 0.5f,contentSize.height * 0.85f) : Vec2(contentSize.width * 0.25f,contentSize.height * 0.5f));
 	_titleText->setTextHorizontalAlignment(TextHAlignment::CENTER);

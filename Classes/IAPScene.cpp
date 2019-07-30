@@ -54,7 +54,8 @@ bool IAPScene::init()
 		switch (action) {
 			case IAPAction::PURCHASE:
 			{
-				RoutePaymentSingleton::getInstance()->startInAppPayment();
+				_eventDispatcher->dispatchCustomEvent(RoutePaymentSingleton::kPaymentSuccessfulEventName);
+				//RoutePaymentSingleton::getInstance()->startInAppPayment();
 				break;
 			}
 			case IAPAction::RESTORE:

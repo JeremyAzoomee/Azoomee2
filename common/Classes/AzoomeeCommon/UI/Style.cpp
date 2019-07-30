@@ -57,6 +57,30 @@ const char* const RewardRegular()
 	return PassionOneRegular;
 }
 	
+const char* const PoppinsRegular()
+{
+	if(StringMgr::getInstance()->getLanguageID() == "gre")
+	{
+		return ArialBold;
+	}
+	return poppinsRegular;
+}
+const char* const PoppinsMedium()
+{
+	if(StringMgr::getInstance()->getLanguageID() == "gre")
+	{
+		return ArialBold;
+	}
+	return poppinsMedium;
+}
+const char* const PoppinsBold()
+{
+	if(StringMgr::getInstance()->getLanguageID() == "gre")
+	{
+		return ArialBold;
+	}
+	return poppinsBold;
+}
 }
 }
 
