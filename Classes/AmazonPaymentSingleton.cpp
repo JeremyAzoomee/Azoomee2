@@ -69,8 +69,6 @@ void AmazonPaymentSingleton::amazonPaymentMade(std::string requestId, std::strin
     {
         auto funcCallAction = CallFunc::create([=](){
             ModalMessages::getInstance()->stopLoading();
-            //FlowDataSingleton::getInstance()->setSuccessFailPath(IAP_SUCCESS);
-            //DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
 			Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(RoutePaymentSingleton::kPaymentSuccessfulEventName);
         });
         

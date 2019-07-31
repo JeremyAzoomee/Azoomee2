@@ -54,8 +54,6 @@ void GooglePaymentSingleton::startBackEndPaymentVerification(std::string develop
     {
         auto funcCallAction = CallFunc::create([=](){
             ModalMessages::getInstance()->stopLoading();
-            //FlowDataSingleton::getInstance()->setSuccessFailPath(IAP_SUCCESS);
-            //DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
 			Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(RoutePaymentSingleton::kPaymentSuccessfulEventName);
         });
         
