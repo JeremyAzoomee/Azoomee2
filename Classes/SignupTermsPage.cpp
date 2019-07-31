@@ -31,7 +31,7 @@ bool SignupTermsPage::init()
 	_contentLayout->setLayoutType(Type::VERTICAL);
 	addChild(_contentLayout);
 
-	DynamicText* para1 = DynamicText::create(_("Azoomee takes the protection and usage of your personal data very seriously. We use your personal data for the following purposes:"), Style::Font::PoppinsMedium(), 50);
+	DynamicText* para1 = DynamicText::create(_("Azoomee takes the protection and usage of your personal data very seriously. We use your personal data for the following purposes"), Style::Font::PoppinsMedium(), 50);
 	para1->setTextHorizontalAlignment(TextHAlignment::LEFT);
 	para1->setTextVerticalAlignment(TextVAlignment::TOP);
 	para1->setTextColor(Color4B(130,130,130,255));
@@ -93,7 +93,7 @@ bool SignupTermsPage::init()
 	para2->setOverflow(Label::Overflow::SHRINK);
 	_contentLayout->addChild(para2);
 	
-	DynamicText* para3 = DynamicText::create(_("Please check the following to confirm that:"), Style::Font::PoppinsMedium(), 50);
+	DynamicText* para3 = DynamicText::create(_("Please check the following to confirm"), Style::Font::PoppinsMedium(), 50);
 	para3->setTextHorizontalAlignment(TextHAlignment::LEFT);
 	para3->setTextVerticalAlignment(TextVAlignment::TOP);
 	para3->setTextColor(Color4B(92,91,91,255));
@@ -130,7 +130,7 @@ bool SignupTermsPage::init()
 	_over18Checkbox->setColor(Color3B(79,78,78));
 	checkbox1->addChild(_over18Checkbox);
 	
-	DynamicText* checkbox2 = DynamicText::create(_("You agree to our Terms of Service, Acceptable Use Policy and Privacy Policy"), Style::Font::PoppinsRegular(), 42);
+	DynamicText* checkbox2 = DynamicText::create(_("You agree to our Terms of Service, Acceptable Use Policy and Privacy Policy,"), Style::Font::PoppinsRegular(), 42);
 	checkbox2->setTextHorizontalAlignment(TextHAlignment::LEFT);
 	checkbox2->setTextVerticalAlignment(TextVAlignment::TOP);
 	checkbox2->setTextColor(Color4B(130,130,130,255));

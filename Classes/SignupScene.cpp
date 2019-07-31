@@ -178,7 +178,6 @@ bool SignupScene::init()
 		if(over18 && acceptTerms)
 		{
 			_signupData._acceptMarketing = acceptMarketing;
-			//BackEndCaller::getInstance()->registerParent(_signupData._email, _signupData._password, _signupData._pin, _signupData._acceptMarketing ? "true" : "false");
 			ModalMessages::getInstance()->startLoading();
 			std::string source = "OTHER";
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -194,7 +193,7 @@ bool SignupScene::init()
 			//show error
 			PopupMessageBox* messageBox = PopupMessageBox::create();
 			messageBox->setTitle(_("Setup Unsuccessful"));
-			messageBox->setBody(_("To continue using Azoomee you must confirm that you are over 18, and that you agree to our polices."));
+			messageBox->setBody(_("To continue using Azoomee, you must confirm that you are over 18, and that you agree to our Policies."));
 			messageBox->setButtonText(_("Back"));
 			messageBox->setButtonColour(Style::Color::darkIndigo);
 			messageBox->setPatternColour(Style::Color::azure);

@@ -28,7 +28,7 @@ bool SignupEnterEmail::init()
 	_inputBox->setMaxLength(100);
 	_inputBox->setInputMode(ui::EditBox::InputMode::EMAIL_ADDRESS);
 	
-	_progressText->setString(_("First things first"));
+	_progressText->setString(_("First thing's first"));
 	
 	_progressBar->setNumberOfSteps(3);
 	_progressBar->setProgress(1);
