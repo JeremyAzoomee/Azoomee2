@@ -11,6 +11,8 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
+#include <AzoomeeCommon/UI/CTAButton.h>
+#include <AzoomeeCommon/UI/DynamicText.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -24,12 +26,12 @@ class LoginEntry : public cocos2d::ui::Layout, cocos2d::ui::EditBoxDelegate
 protected:
 	
 	cocos2d::ui::Layout* _inputHolder = nullptr;
-	cocos2d::ui::Text* _inputTitle = nullptr;
+	DynamicText* _inputTitle = nullptr;
 	cocos2d::ui::Scale9Sprite* _inputBg = nullptr;
 	cocos2d::ui::EditBox* _inputBox = nullptr;
-	cocos2d::ui::Button* _continueButton = nullptr;
-	cocos2d::ui::Text* _backButton = nullptr;
-	cocos2d::ui::Text* _versionNumber = nullptr;
+	CTAButton* _continueButton = nullptr;
+	DynamicText* _backButton = nullptr;
+	DynamicText* _versionNumber = nullptr;
 	
 	LoginConfirmCallback _loginConfirmCallback = nullptr;
 	ButtonPressedCallback _backCallback = nullptr;

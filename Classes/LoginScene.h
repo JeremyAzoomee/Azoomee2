@@ -6,6 +6,7 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
 #include <AzoomeeCommon/UI/Scene.h>
+#include <AzoomeeCommon/UI/DynamicText.h>
 #include "OfflineChecker.h"
 #include "LoginEntry.h"
 
@@ -17,7 +18,7 @@ class LoginScene : public Azoomee::Scene, public cocos2d::IMEDelegate, public Me
 private:
 	
 	LoginEntry* _loginEntryForm = nullptr;
-	cocos2d::ui::Text* _titleText = nullptr;
+	DynamicText* _titleText = nullptr;
 	cocos2d::Sprite* _bgPattern = nullptr;
 	cocos2d::LayerGradient* _gradient = nullptr;
 	cocos2d::ui::Layout* _bgColour = nullptr;

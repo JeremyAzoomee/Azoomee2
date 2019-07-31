@@ -34,7 +34,7 @@ bool LoginEntry::init()
 	_inputHolder->setLayoutType(Type::VERTICAL);
 	addChild(_inputHolder);
 	
-	_inputTitle = ui::Text::create("", Style::Font::PoppinsRegular(), 50);
+	_inputTitle = DynamicText::create("", Style::Font::PoppinsRegular(), 50);
 	_inputTitle->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	_inputTitle->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_inputTitle->setTextVerticalAlignment(TextVAlignment::CENTER);
@@ -62,12 +62,15 @@ bool LoginEntry::init()
 	_inputBox->setShouldMoveContentOnKeyboardDisplay(false);
 	_inputHolder->addChild(_inputBox);
 	
-	_continueButton = ui::Button::create("res/onboarding/rounded_button.png");
+	_continueButton = CTAButton::create("res/onboarding/rounded_button.png");
 	_continueButton->ignoreContentAdaptWithSize(false);
 	_continueButton->setContentSize(Size(700,140));
 	_continueButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_continueButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,elementSpacing,0,0)));
 	_continueButton->setColor(Style::Color::darkIndigo);
+	_continueButton->setText(_("Continue"));
+	_continueButton->setTextFontInfo(Style::Font::PoppinsBold(), 70);
+	_continueButton->setTextColour(Color4B::WHITE);
 	_continueButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
@@ -91,16 +94,7 @@ bool LoginEntry::init()
 	});
 	_inputHolder->addChild(_continueButton);
 	
-	Label* continueLab = Label::createWithTTF(_("Continue"), Style::Font::PoppinsBold(), 70);
-	continueLab->setColor(Color3B::WHITE);
-	continueLab->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	continueLab->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	continueLab->setAlignment(TextHAlignment::CENTER, TextVAlignment::CENTER);
-	continueLab->setDimensions(_continueButton->getContentSize().width * 0.9f, _continueButton->getContentSize().height * 0.8f);
-	continueLab->setOverflow(Label::Overflow::SHRINK);
-	_continueButton->addChild(continueLab);
-	
-	_backButton = ui::Text::create(_("Back"), Style::Font::Bold(), 63);
+	_backButton = DynamicText::create(_("Back"), Style::Font::Bold(), 63);
 	_backButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_backButton->setContentSize(Size(700,140));
 	_backButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,elementSpacing,0,0)));
@@ -123,17 +117,13 @@ bool LoginEntry::init()
 	
 	_inputHolder->setContentSize(Size(0,_inputTitle->getContentSize().height + _inputBox->getContentSize().height + _continueButton->getContentSize().height + _backButton->getContentSize().height + (3 * elementSpacing)));
 	
-	_versionNumber = ui::Text::create(ConfigStorage::getInstance()->getVersionNumberToDisplay(), Style::Font::PoppinsRegular(), 35);
+	_versionNumber = DynamicText::create(ConfigStorage::getInstance()->getVersionNumberToDisplay(), Style::Font::PoppinsRegular(), 35);
 	_versionNumber->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 	_versionNumber->setNormalizedPosition(Vec2(0.5,0.05));
 	_versionNumber->setTextColor(Color4B(130,130,130,255));
 	_versionNumber->setTextVerticalAlignment(TextVAlignment::CENTER);
 	_versionNumber->setTextHorizontalAlignment(TextHAlignment::CENTER);
-	Label* versionNumberLab = dynamic_cast<Label*>(_versionNumber->getVirtualRenderer());
-	if(versionNumberLab)
-	{
-		versionNumberLab->setOverflow(Label::Overflow::SHRINK);
-	}
+	_versionNumber->setOverflow(Label::Overflow::SHRINK);
 	addChild(_versionNumber);
 	
 	return true;
