@@ -33,14 +33,14 @@ bool SignupEnterPassword::init()
 	_progressBar->setNumberOfSteps(3);
 	_progressBar->setProgress(2);
 	
-	setContinueButtonEnabled(isValidPassword(_inputBox->getText(), 6));
+	setContinueButtonEnabled(isValidPassword(_inputBox->getText(), kMinNewPasswordLength));
 	
 	return true;
 }
 
 void SignupEnterPassword::editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text)
 {
-	setContinueButtonEnabled(isValidPassword(text.c_str(), 6));
+	setContinueButtonEnabled(isValidPassword(text.c_str(), kMinNewPasswordLength));
 }
 void SignupEnterPassword::editBoxReturn(cocos2d::ui::EditBox* editBox)
 {
@@ -48,11 +48,11 @@ void SignupEnterPassword::editBoxReturn(cocos2d::ui::EditBox* editBox)
 }
 void SignupEnterPassword::editBoxEditingDidBegin(cocos2d::ui::EditBox* editBox)
 {
-	setContinueButtonEnabled(isValidPassword(editBox->getText(), 6));
+	setContinueButtonEnabled(isValidPassword(editBox->getText(), kMinNewPasswordLength));
 }
 void SignupEnterPassword::editBoxEditingDidEnd(cocos2d::ui::EditBox* editBox)
 {
-	setContinueButtonEnabled(isValidPassword(editBox->getText(), 6));
+	setContinueButtonEnabled(isValidPassword(editBox->getText(), kMinNewPasswordLength));
 }
 
 NS_AZOOMEE_END

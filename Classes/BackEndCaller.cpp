@@ -277,10 +277,6 @@ void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseStrin
 		else
 		{
 			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChildSelector));
-			
-			//Director::getInstance()->getScheduler()->schedule([&](float dt){
-			//	DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
-			//}, this, 0.5, 0, 0, false, "eventHandler");
 		}
     }
 	ModalMessages::getInstance()->stopLoading();

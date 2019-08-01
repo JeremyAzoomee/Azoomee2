@@ -26,8 +26,8 @@ protected:
 	cocos2d::ui::Layout* _inputHolder = nullptr;
 	DynamicText* _topHeading = nullptr;
 	DynamicText* _inputTitle = nullptr;
-	cocos2d::ui::Scale9Sprite* _inputBg = nullptr;
 	cocos2d::ui::EditBox* _inputBox = nullptr;
+    cocos2d::ui::Scale9Sprite* _inputBg = nullptr;
 	CTAButton* _continueButton = nullptr;
 	DynamicText* _backButton = nullptr;
 	DynamicText* _termsLink = nullptr;
@@ -42,6 +42,11 @@ protected:
 	
 	void setContinueButtonEnabled(bool enabled);
 	
+private:
+    void createInputHolder();
+    void createProgressIndicator();
+    void createTermsLinks();
+    
 public:
 	
 	bool init() override;

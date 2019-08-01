@@ -59,12 +59,8 @@ void MarketingCarousel::update(float deltaT)
 {
 	if(_carousel->getItems().size() > 1)
 	{
-		if(_carousel->isScrolling())
-		{
-			return;
-		}
-		else
-		{
+		if(!_carousel->isScrolling())
+        {
 			_timeTillNextScroll -= deltaT;
 			if(_timeTillNextScroll <= 0)
 			{

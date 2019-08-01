@@ -7,7 +7,9 @@
 namespace Azoomee
 {
 const int kMaxAge = 99;
-	
+const int kMinNewPasswordLength = 6;
+const int kMinPasswordEntryLength = 2;
+    
 bool isCharacter(const char Character);
 bool isNumber(const char Character);
 bool isValidEmailAddress(const char* EmailAddress);

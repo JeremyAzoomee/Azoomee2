@@ -405,7 +405,7 @@ void SignupScene::onHttpRequestSuccess(const std::string& requestTag, const std:
 	{
 		ModalMessages::getInstance()->stopLoading();
 		UserDefault* userDefault = UserDefault::getInstance();
-		userDefault->setBoolForKey(ConfigStorage::kAnonOnboardingCompleteKey, false);
+		userDefault->setBoolForKey(ConfigStorage::kAnonOnboardingCompleteKey, false); //registered account is upgrade of local anon account, if logging in as anon again, will need to complete onboarding again for fresh anon account
 		userDefault->setStringForKey(ConfigStorage::kAnonEmailKey, "");
 		ConfigStorage::getInstance()->setFirstSlideShowSeen();
 		AnalyticsSingleton::getInstance()->OnboardingAccountCreatedEvent();

@@ -30,6 +30,10 @@ private:
 	cocos2d::Sprite* _bgPattern = nullptr;
 	cocos2d::LayerGradient* _bgGradient = nullptr;
 	
+    void createLoginButton();
+    void createTermsLinks();
+    void createBackroundElements();
+    
 public:
 	bool init() override;
 	void onEnter() override;

@@ -34,7 +34,7 @@ bool SignupTermsPage::init()
 	DynamicText* para1 = DynamicText::create(_("Azoomee takes the protection and usage of your personal data very seriously. We use your personal data for the following purposes"), Style::Font::PoppinsMedium(), 50);
 	para1->setTextHorizontalAlignment(TextHAlignment::LEFT);
 	para1->setTextVerticalAlignment(TextVAlignment::TOP);
-	para1->setTextColor(Color4B(130,130,130,255));
+	para1->setTextColor(Color4B(Style::Color::brownGrey));
 	para1->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,65)));
 	para1->setTextAreaSize(Size(_contentLayout->getContentSize().width, 270));
 	para1->setOverflow(Label::Overflow::SHRINK);
@@ -43,7 +43,7 @@ bool SignupTermsPage::init()
 	DynamicText* bullet1 = DynamicText::create(_("To create a unique Azoomee account"), Style::Font::PoppinsRegular(), 42);
 	bullet1->setTextHorizontalAlignment(TextHAlignment::LEFT);
 	bullet1->setTextVerticalAlignment(TextVAlignment::TOP);
-	bullet1->setTextColor(Color4B(130,130,130,255));
+	bullet1->setTextColor(Color4B(Style::Color::brownGrey));
 	bullet1->setLayoutParameter(CreateRightLinearLayoutParam(ui::Margin(0,0,0,30)));
 	bullet1->setTextAreaSize(Size(987, 55));
 	bullet1->setOverflow(Label::Overflow::SHRINK);
@@ -53,7 +53,7 @@ bool SignupTermsPage::init()
 	bulletpoint->setTextVerticalAlignment(TextVAlignment::TOP);
 	bulletpoint->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
 	bulletpoint->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
-	bulletpoint->setTextColor(Color4B(130,130,130,255));
+	bulletpoint->setTextColor(Color4B(Style::Color::brownGrey));
 	bullet1->addChild(bulletpoint);
 	
 	_contentLayout->addChild(bullet1);
@@ -61,7 +61,7 @@ bool SignupTermsPage::init()
 	DynamicText* bullet2 = DynamicText::create(_("To contact you when there are important service notifications"), Style::Font::PoppinsRegular(), 42);
 	bullet2->setTextHorizontalAlignment(TextHAlignment::LEFT);
 	bullet2->setTextVerticalAlignment(TextVAlignment::TOP);
-	bullet2->setTextColor(Color4B(130,130,130,255));
+	bullet2->setTextColor(Color4B(Style::Color::brownGrey));
 	bullet2->setLayoutParameter(CreateRightLinearLayoutParam(ui::Margin(0,0,0,20)));
 	bullet2->setTextAreaSize(Size(987, 110));
 	bullet2->setOverflow(Label::Overflow::SHRINK);
@@ -74,7 +74,7 @@ bool SignupTermsPage::init()
 	DynamicText* bullet3 = DynamicText::create(_("To identify your account should you contact us for support"), Style::Font::PoppinsRegular(), 42);
 	bullet3->setTextHorizontalAlignment(TextHAlignment::LEFT);
 	bullet3->setTextVerticalAlignment(TextVAlignment::TOP);
-	bullet3->setTextColor(Color4B(130,130,130,255));
+	bullet3->setTextColor(Color4B(Style::Color::brownGrey));
 	bullet3->setLayoutParameter(CreateRightLinearLayoutParam(ui::Margin(0,0,0,70)));
 	bullet3->setTextAreaSize(Size(987, 110));
 	bullet3->setOverflow(Label::Overflow::SHRINK);
@@ -87,7 +87,7 @@ bool SignupTermsPage::init()
 	DynamicText* para2 = DynamicText::create(_("If you'd like to learn more about how we use the data you provide us, please read our Privacy Policy"), Style::Font::PoppinsRegular(), 42);
 	para2->setTextHorizontalAlignment(TextHAlignment::LEFT);
 	para2->setTextVerticalAlignment(TextVAlignment::TOP);
-	para2->setTextColor(Color4B(130,130,130,255));
+	para2->setTextColor(Color4B(Style::Color::brownGrey));
 	para2->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,70)));
 	para2->setTextAreaSize(Size(_contentLayout->getContentSize().width, 110));
 	para2->setOverflow(Label::Overflow::SHRINK);
@@ -105,7 +105,7 @@ bool SignupTermsPage::init()
 	DynamicText* checkbox1 = DynamicText::create(_("You are over 18"), Style::Font::PoppinsRegular(), 42);
 	checkbox1->setTextHorizontalAlignment(TextHAlignment::LEFT);
 	checkbox1->setTextVerticalAlignment(TextVAlignment::TOP);
-	checkbox1->setTextColor(Color4B(130,130,130,255));
+	checkbox1->setTextColor(Color4B(Style::Color::brownGrey));
 	checkbox1->setLayoutParameter(CreateRightLinearLayoutParam(ui::Margin(0,0,0,35)));
 	checkbox1->setTextAreaSize(Size(987, 55));
 	checkbox1->setTouchEnabled(true);
@@ -133,7 +133,7 @@ bool SignupTermsPage::init()
 	DynamicText* checkbox2 = DynamicText::create(_("You agree to our Terms of Service, Acceptable Use Policy and Privacy Policy,"), Style::Font::PoppinsRegular(), 42);
 	checkbox2->setTextHorizontalAlignment(TextHAlignment::LEFT);
 	checkbox2->setTextVerticalAlignment(TextVAlignment::TOP);
-	checkbox2->setTextColor(Color4B(130,130,130,255));
+	checkbox2->setTextColor(Color4B(Style::Color::brownGrey));
 	checkbox2->setLayoutParameter(CreateRightLinearLayoutParam(ui::Margin(0,0,0,50)));
 	checkbox2->setTextAreaSize(Size(987, 110));
 	checkbox2->ignoreContentAdaptWithSize(false);
@@ -161,7 +161,7 @@ bool SignupTermsPage::init()
 	DynamicText* checkbox3 = DynamicText::create(_("You agree to receive marketing materials from Azoomee (optional. You can also opt-out in the future at any time.)"), Style::Font::PoppinsRegular(), 42);
 	checkbox3->setTextHorizontalAlignment(TextHAlignment::LEFT);
 	checkbox3->setTextVerticalAlignment(TextVAlignment::TOP);
-	checkbox3->setTextColor(Color4B(130,130,130,255));
+	checkbox3->setTextColor(Color4B(Style::Color::brownGrey));
 	checkbox3->setLayoutParameter(CreateRightLinearLayoutParam(ui::Margin(0,0,0,90)));
 	checkbox3->setTextAreaSize(Size(987, 150));
 	checkbox3->setTouchEnabled(true);
@@ -211,7 +211,7 @@ bool SignupTermsPage::init()
 	_backButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 	_backButton->setContentSize(Size(700,140));
 	_backButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
-	_backButton->setTextColor(Color4B(130,130,130,255));
+	_backButton->setTextColor(Color4B(Style::Color::brownGrey));
 	_backButton->setTouchEnabled(true);
 	_backButton->setTouchScaleChangeEnabled(true);
 	_backButton->ignoreContentAdaptWithSize(false);

@@ -16,17 +16,18 @@
 
 NS_AZOOMEE_BEGIN
 
+#define AGE_GATE_Z_ORDER 1000
+
 enum class AgeGateResult {SUCCESS, FAIL, CLOSE};
 
-class AgeGateValueSet
+struct AgeGateValueSet
 {
-public:
 	int _targetVal;
 	int _val1;
 	int _val2;
 	std::vector<int> _answers;
 	
-	void generate();
+	AgeGateValueSet();
 };
 
 class AgeGate : public cocos2d::ui::Layout
@@ -47,6 +48,10 @@ private:
 	
 	ActionCompletedCallback _callback = nullptr;
 	
+    void createMessageBox();
+    void createTitle();
+    void createBody();
+    
 public:
 	
 	static const std::string kAgeGateLayerName;

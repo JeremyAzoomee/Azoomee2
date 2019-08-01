@@ -54,7 +54,7 @@ std::string MarketingAsset::getTitle(const std::string& language) const
 	{
 		return _title.at(language);
 	}
-	return _title.at(StringMgr::kLanguageParams.at(0)._identifier);
+	return _title.at(StringMgr::kDefaultLanguageIdentifier);
 }
 std::string MarketingAsset::getDescription(const std::string& language) const
 {
@@ -62,7 +62,7 @@ std::string MarketingAsset::getDescription(const std::string& language) const
 	{
 		return _description.at(language);
 	}
-	return _description.at(StringMgr::kLanguageParams.at(0)._identifier);
+	return _description.at(StringMgr::kDefaultLanguageIdentifier);
 }
 std::string MarketingAsset::getLocation() const
 {
@@ -94,18 +94,18 @@ void MarketingAssetManager::downloadMarketingAssets()
 	// call get assets endpoint API
 	//Temp local solution
 	_marketingAssets.clear();
-	std::vector<std::string> jsonStrings = {
-		"{\"location\":\"res/onboarding/Wide Game Asset.jpg\",\"title\":{\"en-GB\":\"Amazing Games!\"},\"description\":{\"en-GB\":\"More added every week\"}}",
-		"{\"location\":\"res/onboarding/Wide Fun Learning Asset.jpg\",\"title\":{\"en-GB\":\"Fun Learning!\"},\"description\":{\"en-GB\":\"With games and videos kids love\"}}",
-		"{\"location\":\"res/onboarding/Wide video asset.jpg\",\"title\":{\"en-GB\":\"Fantastic videos!\"},\"description\":{\"en-GB\":\"ad-free and handpicked by humans\"}}"
-	};
 
-	for(int i = 0; i < jsonStrings.size(); i++)
+    const std::string& config = cocos2d::FileUtils::getInstance()->getStringFromFile("res/onboarding/marketingConfig.json");
+    rapidjson::Document marketingData;
+    marketingData.Parse(config.c_str());
+    if(marketingData.HasParseError() || !marketingData.IsArray())
+    {
+        return;
+    }
+	for(int i = 0; i < marketingData.Size(); i++)
 	{
-		std::string jsonString = jsonStrings.at(i);
-		rapidjson::Document jsonDoc;
-		jsonDoc.Parse(jsonString.c_str());
-		MarketingAssetRef data = MarketingAsset::createWithJson(jsonDoc);
+		const rapidjson::Value& dataEntry = marketingData[i];;
+		MarketingAssetRef data = MarketingAsset::createWithJson(dataEntry);
 		data->setLocalLocation(data->getLocation());
 		_marketingAssets.push_back(data);
 	}

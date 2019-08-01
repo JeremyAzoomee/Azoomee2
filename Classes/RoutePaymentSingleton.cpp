@@ -166,8 +166,6 @@ void RoutePaymentSingleton::purchaseFailureErrorMessage(const std::string& failu
 {
     AnalyticsSingleton::getInstance()->iapSubscriptionFailedEvent(failureDetails);
     ModalMessages::getInstance()->stopLoading();
-    //FlowDataSingleton::getInstance()->setSuccessFailPath(IAP_FAIL);
-    //DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
 	Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(kPaymentFailedEventName);
 }
 

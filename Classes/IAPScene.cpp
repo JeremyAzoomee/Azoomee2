@@ -54,8 +54,7 @@ bool IAPScene::init()
 		switch (action) {
 			case IAPAction::PURCHASE:
 			{
-				//RoutePaymentSingleton::getInstance()->startInAppPayment();
-				_eventDispatcher->dispatchCustomEvent(RoutePaymentSingleton::kPaymentSuccessfulEventName);
+				RoutePaymentSingleton::getInstance()->startInAppPayment();
 				break;
 			}
 			case IAPAction::RESTORE:
@@ -83,14 +82,8 @@ bool IAPScene::init()
 	_closeButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			if(ParentManager::getInstance()->isLoggedInParentAnonymous() || ChildManager::getInstance()->isChildLoggedIn())
-			{
-				Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
-			}
-			else
-			{
-				Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChildSelector));
-			}
+            const bool isLoggedIn = ParentManager::getInstance()->isLoggedInParentAnonymous() || ChildManager::getInstance()->isChildLoggedIn();
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(isLoggedIn ? SceneNameEnum::Base : SceneNameEnum::ChildSelector));
 		}
 	});
 	this->addChild(_closeButton);
@@ -103,8 +96,6 @@ void IAPScene::onEnter()
 	
 	_paymentSuccessListener = EventListenerCustom::create(RoutePaymentSingleton::kPaymentSuccessfulEventName, [this](EventCustom* event){
 		PaymentSuccessScreen* successScreen = PaymentSuccessScreen::create();
-		successScreen->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-		successScreen->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 		successScreen->setContinueCallback([](){
 			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Signup));
 		});
@@ -133,8 +124,6 @@ void IAPScene::onEnter()
 		if(!ParentManager::getInstance()->isUserLoggedIn())
 		{
 			PaymentSuccessScreen* successScreen = PaymentSuccessScreen::create();
-			successScreen->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-			successScreen->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 			successScreen->setContinueCallback([](){
 				Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Signup));
 			});
@@ -177,18 +166,6 @@ void IAPScene::onSizeChanged()
 	_footer->setSizePercent(isPortrait ? Vec2(1.0f, 0.16f) : Vec2(0.5f,0.32f));
 	_footer->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE_BOTTOM : Vec2::ANCHOR_BOTTOM_RIGHT);
 	_footer->setNormalizedPosition(isPortrait ? Vec2::ANCHOR_MIDDLE_BOTTOM : Vec2::ANCHOR_BOTTOM_RIGHT);
-	
-	PaymentSuccessScreen* paymentSuccessScreen = dynamic_cast<PaymentSuccessScreen*>(getChildByName(PaymentSuccessScreen::kPaymentSuccessScreenName));
-	if(paymentSuccessScreen)
-	{
-		paymentSuccessScreen->onSizeChanged();
-	}
-	
-	PopupMessageBox* messageBox = dynamic_cast<PopupMessageBox*>(getChildByName(PopupMessageBox::kPopupMessageBoxName));
-	if(messageBox)
-	{
-		messageBox->onSizeChanged();
-	}
 }
 
 NS_AZOOMEE_END

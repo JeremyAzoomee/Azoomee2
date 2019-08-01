@@ -38,7 +38,7 @@ bool LoginEntry::init()
 	_inputTitle->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	_inputTitle->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_inputTitle->setTextVerticalAlignment(TextVAlignment::CENTER);
-	_inputTitle->setTextColor(Color4B(130,130,130,255));
+	_inputTitle->setTextColor(Color4B(Style::Color::brownGrey));
 	_inputHolder->addChild(_inputTitle);
 	
 	_inputBg = ui::Scale9Sprite::create("res/onboarding/input_rounded_frame.png");
@@ -49,10 +49,10 @@ bool LoginEntry::init()
 	_inputBox = ui::EditBox::create(_inputBg->getContentSize() * 0.8f,"res/onboarding/input_rounded_frame.png");
 	_inputBox->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_inputBox->setPlaceHolder(_("Tap here to type").c_str());
-	_inputBox->setPlaceholderFontName(Style::Font::InputSystemName);
+	_inputBox->setPlaceholderFontName(Style::Font::InputSystemName.c_str());
 	_inputBox->setPlaceholderFontColor(Color3B(196,196,196));
 	_inputBox->setPlaceholderFontSize(50);
-	_inputBox->setFont(Style::Font::InputSystemName, 50);
+	_inputBox->setFont(Style::Font::InputSystemName.c_str(), 50);
 	_inputBox->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_inputBox->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,elementSpacing,0,0)));
 	_inputBox->setFontColor(Color3B::BLACK);
@@ -98,7 +98,7 @@ bool LoginEntry::init()
 	_backButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_backButton->setContentSize(Size(700,140));
 	_backButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,elementSpacing,0,0)));
-	_backButton->setTextColor(Color4B(130,130,130,255));
+	_backButton->setTextColor(Color4B(Style::Color::brownGrey));
 	_backButton->setTouchEnabled(true);
 	_backButton->setTouchScaleChangeEnabled(true);
 	_backButton->ignoreContentAdaptWithSize(false);
@@ -120,7 +120,7 @@ bool LoginEntry::init()
 	_versionNumber = DynamicText::create(ConfigStorage::getInstance()->getVersionNumberToDisplay(), Style::Font::PoppinsRegular(), 35);
 	_versionNumber->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 	_versionNumber->setNormalizedPosition(Vec2(0.5,0.05));
-	_versionNumber->setTextColor(Color4B(130,130,130,255));
+	_versionNumber->setTextColor(Color4B(Style::Color::brownGrey));
 	_versionNumber->setTextVerticalAlignment(TextVAlignment::CENTER);
 	_versionNumber->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_versionNumber->setOverflow(Label::Overflow::SHRINK);
@@ -186,7 +186,7 @@ void LoginEntry::clearInputText()
 void LoginEntry::setContinueButtonEnabled(bool enabled)
 {
 	_continueButton->setTouchEnabled(enabled);
-	_continueButton->setColor(enabled ? Style::Color::darkIndigo : Color3B(107, 123, 146));
+    _continueButton->setColor(enabled ? Style::Color::darkIndigo : Style::Color::greyBlue2);
 }
 
 void LoginEntry::setState(const LoginEntryState& state)
@@ -199,7 +199,7 @@ void LoginEntry::setState(const LoginEntryState& state)
 			_inputTitle->setString(_("Enter your email address"));
 			_inputBox->setMaxLength(100);
 			_inputBox->setInputMode(ui::EditBox::InputMode::EMAIL_ADDRESS);
-			_inputBox->setInputFlag(ui::EditBox::InputFlag::INITIAL_CAPS_SENTENCE);
+			_inputBox->setInputFlag(ui::EditBox::InputFlag::INITIAL_CAPS_SENTENCE);//this is most "normal" flag that it can be set as when switching back from password flag
 			_inputBox->setText(_email.c_str());
 			break;
 		}
@@ -218,7 +218,7 @@ void LoginEntry::setState(const LoginEntryState& state)
 
 bool LoginEntry::isValidInput(const std::string& text, const LoginEntryState& state)
 {
-	return _state == LoginEntryState::EMAIL ? isValidEmailAddress(text.c_str()) : isValidPassword(text.c_str(), 2);
+	return _state == LoginEntryState::EMAIL ? isValidEmailAddress(text.c_str()) : isValidPassword(text.c_str(), kMinPasswordEntryLength);
 }
 
 //Editbox Delegate Functions

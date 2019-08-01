@@ -51,6 +51,8 @@ namespace Color
 	const cocos2d::Color3B purplyPink(229, 107, 222);
 	const cocos2d::Color3B greenishCyan(66, 246, 174);
 	const cocos2d::Color3B azure(2, 169, 245);
+    const cocos2d::Color3B greyBlue2(107, 123, 146);
+    const cocos2d::Color3B brownGrey(130,130,130);
     
     // These colors below don't have exact names in Zeplin.
     // So the names have been chosen to be close enough to other Zeplin colors.
@@ -146,53 +148,65 @@ namespace Color_4F
 namespace Font
 {
     // Path to the font file
-    const char* const SofiaRegular = "fonts/Sofia Pro Soft Regular.otf";
+    const std::string SofiaRegular = "fonts/Sofia Pro Soft Regular.otf";
     // The system name of the font, usually inside the TTF file
-    const char* const SofiaRegularSystemName = "SofiaProSoftRegular";
+    const std::string SofiaRegularSystemName = "SofiaProSoftRegular";
     
     // Path to the font file
-    const char* const SofiaMedium = "fonts/Sofia Pro Soft Medium.otf";
+    const std::string SofiaMedium = "fonts/Sofia Pro Soft Medium.otf";
     // The system name of the font, usually inside the TTF file
-    const char* const SofiaMediumSystemName = "SofiaProSoftRegular";
+    const std::string SofiaMediumSystemName = "SofiaProSoftRegular";
     
     // Path to the font file
-    const char* const SofiaBold = "fonts/Sofia Pro Soft Bold.otf";
+    const std::string SofiaBold = "fonts/Sofia Pro Soft Bold.otf";
     // The system name of the font, usually inside the TTF file
-    const char* const SofiaBoldSystemName = "SofiaProSoftRegular";
+    const std::string SofiaBoldSystemName = "SofiaProSoftRegular";
     
     // Font for the Kid Code to be More readable
-    const char* const kidCodeRegular = "fonts/Inconsolata-Regular.ttf";
+    const std::string kidCodeRegular = "fonts/Inconsolata-Regular.ttf";
 	
 	// Path to the font file
-	const char* const ArialRegular = "fonts/Arial.ttf";
+	const std::string ArialRegular = "fonts/Arial.ttf";
 	// The system name of the font, usually inside the TTF file
-	const char* const ArialRegularSystemName = "Arial";
+	const std::string ArialRegularSystemName = "Arial";
 	
 	// Path to the font file
-	const char* const ArialBold = "fonts/Arial Bold.ttf";
+	const std::string ArialBold = "fonts/Arial Bold.ttf";
 	// The system name of the font, usually inside the TTF file
-	const char* const ArialBoldSystemName = "ArialBold";
+	const std::string ArialBoldSystemName = "ArialBold";
 	
-	const char* const PassionOneRegular = "fonts/PassionOne-Regular.ttf";
+	const std::string PassionOneRegular = "fonts/PassionOne-Regular.ttf";
 	
-	const char* const poppinsRegular = "fonts/Poppins-Regular.ttf";
-	const char* const poppinsBold = "fonts/Poppins-SemiBold.ttf";
-	const char* const poppinsMedium = "fonts/Poppins-Medium.ttf";
+	const std::string poppinsRegular = "fonts/Poppins-Regular.ttf";
+	const std::string poppinsBold = "fonts/Poppins-SemiBold.ttf";
+	const std::string poppinsMedium = "fonts/Poppins-Medium.ttf";
 	
-	const char* const Regular();
-	const char* const Medium();
-	const char* const Bold();
-	const char* const Input();
-	const char* const RewardRegular();
+	std::string Regular();
+	std::string Medium();
+	std::string Bold();
+	std::string Input();
+	std::string RewardRegular();
 	
-	const char* const PoppinsRegular();
-	const char* const PoppinsMedium();
-	const char* const PoppinsBold();
+	std::string PoppinsRegular();
+	std::string PoppinsMedium();
+	std::string PoppinsBold();
 	
-    const char* const RegularSystemName = SofiaRegularSystemName;
-    const char* const MediumSystemName = SofiaMediumSystemName;
-    const char* const BoldSystemName = SofiaBoldSystemName;
-    const char* const InputSystemName = SofiaRegularSystemName;
+    std::string RegularSystemName = SofiaRegularSystemName;
+    std::string MediumSystemName = SofiaMediumSystemName;
+    std::string BoldSystemName = SofiaBoldSystemName;
+    std::string InputSystemName = SofiaRegularSystemName;
+    
+    std::string GetFontForCurrentLanguage(const std::string& font);
+    
+    std::map<std::pair<std::string, std::string>, std::string> kFontOverrideMap = {
+        {{SofiaRegular,"gre"},ArialRegular},
+        {{SofiaMedium,"gre"},ArialRegular},
+        {{SofiaBold,"gre"},ArialBold},
+        {{poppinsRegular,"gre"},ArialRegular},
+        {{poppinsMedium,"gre"},ArialRegular},
+        {{poppinsBold,"gre"},ArialBold},
+        {{PassionOneRegular, "gre"}, ArialBold}
+    };
 }
     
 }

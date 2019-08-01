@@ -106,27 +106,13 @@ void ShopItemPage::onEnter()
 						AnalyticsSingleton::getInstance()->shopLockedItemPressed(pos,item);
 						AgeGate* ageGate = AgeGate::create();
 						ageGate->setActionCompletedCallback([ageGate](AgeGateResult result){
-							switch(result)
-							{
-								case AgeGateResult::SUCCESS:
-								{
-									ageGate->removeFromParent();
-									Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::IAP));
-									break;
-								}
-								case AgeGateResult::FAIL:
-								{
-									ageGate->removeFromParent();
-									break;
-								}
-								case AgeGateResult::CLOSE:
-								{
-									ageGate->removeFromParent();
-									break;
-								}
-							}
+                            ageGate->removeFromParent();
+                            if(result == AgeGateResult::SUCCESS)
+                            {
+                                Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::IAP));
+                            }
 						});
-						Director::getInstance()->getRunningScene()->addChild(ageGate,1000);
+						Director::getInstance()->getRunningScene()->addChild(ageGate,AGE_GATE_Z_ORDER);
 						AudioMixer::getInstance()->playEffect("Unavailable_Shop_Item_Click.mp3");
 					}
 					else if(shopItem->isAffordable() && !shopItem->isOwned())

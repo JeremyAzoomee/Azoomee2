@@ -63,7 +63,7 @@ bool ProductLayout::init()
 	_restoreButton->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_restoreButton->setTextVerticalAlignment(TextVAlignment::CENTER);
 	_restoreButton->setTextAreaSize(Size(700,140));
-	_restoreButton->setTextColor(Color4B(130,130,130,255));
+	_restoreButton->setTextColor(Color4B(Style::Color::brownGrey));
 	_restoreButton->setTouchEnabled(true);
 	_restoreButton->setOverflow(Label::Overflow::SHRINK);
 	_restoreButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
@@ -146,7 +146,7 @@ void ProductLayout::setupProductBanner()
 			_productBanner->addChild(textLayout);
 			
 			ui::Text* desc = ui::Text::create(_productData.at(0).first, Style::Font::PoppinsRegular(), 50);
-			desc->setTextColor(Color4B(130,130,130,255));
+			desc->setTextColor(Color4B(Style::Color::brownGrey));
 			desc->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 			desc->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
 			desc->setTextHorizontalAlignment(TextHAlignment::CENTER);
@@ -199,7 +199,7 @@ void ProductLayout::setupProductBanner()
 			textLayout->addChild(freeTrial);
 			
 			ui::Text* startYour = ui::Text::create(_("Start your"), Style::Font::Regular(), 50);
-			startYour->setTextColor(Color4B(130,130,130,255));
+			startYour->setTextColor(Color4B(Style::Color::brownGrey));
 			startYour->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 			startYour->setNormalizedPosition(Vec2(0.5,1.1));
 			startYour->setTextHorizontalAlignment(TextHAlignment::CENTER);
@@ -213,7 +213,7 @@ void ProductLayout::setupProductBanner()
 			freeTrial->addChild(startYour);
 			
 			ui::Text* desc = ui::Text::create(StringUtils::format(_("Then %s per month. Cancel anytime.").c_str(),_productData.at(0).second.c_str()), Style::Font::PoppinsRegular(), 50);
-			desc->setTextColor(Color4B(130,130,130,255));
+			desc->setTextColor(Color4B(Style::Color::brownGrey));
 			desc->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 			desc->setNormalizedPosition(Vec2(0.5,-0.1));
 			desc->setTextHorizontalAlignment(TextHAlignment::CENTER);

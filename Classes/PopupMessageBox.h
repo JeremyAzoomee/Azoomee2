@@ -34,6 +34,10 @@ private:
 	
 	ButtonPressedCallback _callback = nullptr;
 	
+    void createMessageBox();
+    void createTitle();
+    void createBody();
+    
 public:
 	
 	bool init() override;

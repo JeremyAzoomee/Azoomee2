@@ -40,7 +40,9 @@ const std::map<std::string, std::string> StringMgr::kDeviceLangConvMap = {
 	{"el", "gre"},
 	{"tr", "tur"},
 };
-	
+
+const std::string StringMgr::kDefaultLanguageIdentifier = kLanguageParams.at(0)._identifier;
+    
 const std::string StringMgr::kLanguagesDir = "languages/";
 #ifdef AZOOMEE_ENVIRONMENT_CI
 	const std::string StringMgr::kLangsZipUrl = "https://media.azoomee.ninja/static/popups/languages/languages.zip";
@@ -146,18 +148,18 @@ void StringMgr::setLanguageIdentifier()
 			const auto& target = std::find_if(kLanguageParams.begin(), kLanguageParams.end(), [&](const LanguageParams& langParam){
 				return langParam._identifier == kDeviceLangConvMap.at(deviceLang);
 			});
-			languageID = target != kLanguageParams.end() ? target->_identifier : kLanguageParams.at(0)._identifier;
+			languageID = target != kLanguageParams.end() ? target->_identifier : kDefaultLanguageIdentifier;
 		}
 		else
 		{
-			languageID = kLanguageParams.at(0)._identifier;
+			languageID = kDefaultLanguageIdentifier;
 		}
 		UserDefault::getInstance()->setStringForKey("language",languageID);
 		UserDefault::getInstance()->flush();
 	}
 	else
 	{
-		languageID = UserDefault::getInstance()->getStringForKey("language", kLanguageParams.at(0)._identifier);
+		languageID = UserDefault::getInstance()->getStringForKey("language", kDefaultLanguageIdentifier);
 	}
 	
 	AnalyticsSingleton::getInstance()->registerLanguageCode(languageID);

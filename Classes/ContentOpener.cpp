@@ -133,27 +133,14 @@ void ContentOpener::doCarouselContentOpenLogic(const HQContentItemObjectRef& con
 		
 		AgeGate* ageGate = AgeGate::create();
 		ageGate->setActionCompletedCallback([ageGate](AgeGateResult result){
-			switch(result)
-			{
-				case AgeGateResult::SUCCESS:
-				{
-					ageGate->removeFromParent();
+            ageGate->removeFromParent();
+            if(result == AgeGateResult::SUCCESS)
+            {
 					Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::IAP));
-					break;
-				}
-				case AgeGateResult::FAIL:
-				{
-					ageGate->removeFromParent();
-					break;
-				}
-				case AgeGateResult::CLOSE:
-				{
-					ageGate->removeFromParent();
-					break;
-				}
-			}
+            }
+
 		});
-		Director::getInstance()->getRunningScene()->addChild(ageGate,1000);
+		Director::getInstance()->getRunningScene()->addChild(ageGate,AGE_GATE_Z_ORDER);
 	}
 	
 	AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, rowIndex, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(hqCategory, rowIndex, elementIndex));

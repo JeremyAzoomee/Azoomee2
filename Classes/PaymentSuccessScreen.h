@@ -33,6 +33,10 @@ private:
 	
 	ContinueCallback _callback = nullptr;
 	
+    void createBackground();
+    void createBody();
+    void createLoginButton();
+    
 public:
 	
 	bool init() override;

@@ -1,0 +1,29 @@
+[
+{
+	"location":"res/onboarding/Wide Game Asset.jpg",
+	"title":{
+		"en-GB":"Amazing Games!"
+	},
+	"description":{
+		"en-GB":"More added every week"
+	}
+},
+{
+	"location":"res/onboarding/Wide Fun Learning Asset.jpg",
+	"title":{
+		"en-GB":"Fun Learning!"
+	},
+	"description":{
+		"en-GB":"With games and videos kids love"
+	}
+},
+{
+	"location":"res/onboarding/Wide video asset.jpg",
+	"title":{
+		"en-GB":"Fantastic videos!"
+	},
+	"description":{
+		"en-GB":"ad-free and handpicked by humans"
+	}
+}
+]
