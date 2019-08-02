@@ -351,15 +351,14 @@ void SceneManagerScene::onEnterTransitionDidFinish()
 			HQHistoryManager::getInstance()->updatePrevOrientation();
 			forceToPortrait();
 			Director::getInstance()->replaceScene(VodacomOnboardingScene::create());
-			break;
 #else
 			returnToPrevOrientation();
 			acceptAnyOrientation();
 			HQHistoryManager::getInstance()->updatePrevOrientation();
 			AnalyticsSingleton::getInstance()->registerCurrentScene("IAP");
 			Director::getInstance()->replaceScene(IAPScene::create());
-			break;
 #endif
+            break;
 		}
 		case SceneNameEnum::Signup:
 		{

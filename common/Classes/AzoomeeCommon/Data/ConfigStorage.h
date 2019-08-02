@@ -81,6 +81,12 @@ public:
 	static const char* const kStoredUsernameKey;
 	static const char* const kAnonOnboardingCompleteKey;
     
+    static const std::string kOSManufacturerApple;
+    static const std::string kOSManufacturerGoogle;
+    static const std::string kOSManufacturerAmazon;
+    
+    static const std::string kSignupPlatformSource;
+    
     /** Returns the shared instance of the Game Manager */
     static ConfigStorage* getInstance(void);
     virtual ~ConfigStorage();

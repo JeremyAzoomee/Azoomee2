@@ -78,6 +78,21 @@ static ConfigStorage *_sharedConfigStorage = NULL;
 	const char* const ConfigStorage::kStoredUsernameKey = "username";
 	const char* const ConfigStorage::kAnonOnboardingCompleteKey = "anonOnboardingComplete";
 	
+    
+    const std::string ConfigStorage::kOSManufacturerApple = "Apple";
+    const std::string ConfigStorage::kOSManufacturerGoogle = "Google";
+    const std::string ConfigStorage::kOSManufacturerAmazon = "Amazon";
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+     const std::string ConfigStorage::kSignupPlatformSource = "IOS_INAPP";
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+     const std::string ConfigStorage::kSignupPlatformSource = "ANDROID_INAPP";
+#else
+     const std::string ConfigStorage::kSignupPlatformSource = "OTHER";
+#endif
+   
+    
+    
 ConfigStorage* ConfigStorage::getInstance()
 {
     if (! _sharedConfigStorage)

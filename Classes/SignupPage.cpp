@@ -175,61 +175,33 @@ void SignupPage::createProgressIndicator()
 }
 void SignupPage::createTermsLinks()
 {
-    _termsLink = DynamicText::create(_("Terms of use"), Style::Font::PoppinsRegular(), 35);
-    _termsLink->ignoreContentAdaptWithSize(false);
+    _termsLink = createTermsLinkWithURL(_("Terms of use"),Url::TermsOfUse);
     _termsLink->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     _termsLink->setNormalizedPosition(Vec2(0.1,0.05));
-    _termsLink->setTextColor(Color4B(Style::Color::brownGrey));
-    _termsLink->setTextVerticalAlignment(TextVAlignment::CENTER);
-    _termsLink->setTextHorizontalAlignment(TextHAlignment::CENTER);
-    _termsLink->setTouchEnabled(true);
-    _termsLink->setOverflow(Label::Overflow::SHRINK);
-    _termsLink->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
-        switch(eType)
-        {
-            case cocos2d::ui::Widget::TouchEventType::BEGAN:
-            {
-                _termsLink->setTextColor(Color4B(Style::Color::strongPink));
-                _termsLink->setScale(1.1f);
-                break;
-            }
-            case cocos2d::ui::Widget::TouchEventType::MOVED:
-            {
-                break;
-            }
-            case cocos2d::ui::Widget::TouchEventType::ENDED:
-            {
-                _termsLink->setTextColor(Color4B(Style::Color::brownGrey));
-                _termsLink->setScale(1.0f);
-                ModalWebview::createWithURL(Url::TermsOfUse);
-                break;
-            }
-            case cocos2d::ui::Widget::TouchEventType::CANCELED:
-            {
-                _termsLink->setTextColor(Color4B(Style::Color::brownGrey));
-                _termsLink->setScale(1.0f);
-                break;
-            }
-        }
-    });
     addChild(_termsLink);
     
-    _privacyPolicyLink = DynamicText::create(_("Privacy Policy"), Style::Font::PoppinsRegular(), 35);
-    _privacyPolicyLink->ignoreContentAdaptWithSize(false);
+    _privacyPolicyLink = createTermsLinkWithURL(_("Privacy Policy"), Url::PrivacyPolicyNoLinks);
     _privacyPolicyLink->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
     _privacyPolicyLink->setNormalizedPosition(Vec2(0.9,0.05));
-    _privacyPolicyLink->setTextColor(Color4B(Style::Color::brownGrey));
-    _privacyPolicyLink->setTextVerticalAlignment(TextVAlignment::CENTER);
-    _privacyPolicyLink->setTextHorizontalAlignment(TextHAlignment::CENTER);
-    _privacyPolicyLink->setTouchEnabled(true);
-    _privacyPolicyLink->setOverflow(Label::Overflow::SHRINK);
-    _privacyPolicyLink->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+    addChild(_privacyPolicyLink);
+}
+
+DynamicText* SignupPage::createTermsLinkWithURL(const std::string& title, const std::string& url)
+{
+    DynamicText* link = DynamicText::create(title, Style::Font::PoppinsRegular(), 35);
+    link->ignoreContentAdaptWithSize(false);
+    link->setTextColor(Color4B(Style::Color::brownGrey));
+    link->setTextVerticalAlignment(TextVAlignment::CENTER);
+    link->setTextHorizontalAlignment(TextHAlignment::CENTER);
+    link->setTouchEnabled(true);
+    link->setOverflow(Label::Overflow::SHRINK);
+    link->addTouchEventListener([link, url](Ref* pSender, ui::Widget::TouchEventType eType){
         switch(eType)
         {
             case cocos2d::ui::Widget::TouchEventType::BEGAN:
             {
-                _privacyPolicyLink->setTextColor(Color4B(Style::Color::strongPink));
-                _privacyPolicyLink->setScale(1.1f);
+                link->setTextColor(Color4B(Style::Color::strongPink));
+                link->setScale(1.1f);
                 break;
             }
             case cocos2d::ui::Widget::TouchEventType::MOVED:
@@ -238,20 +210,21 @@ void SignupPage::createTermsLinks()
             }
             case cocos2d::ui::Widget::TouchEventType::ENDED:
             {
-                _privacyPolicyLink->setTextColor(Color4B(Style::Color::brownGrey));
-                _privacyPolicyLink->setScale(1.0f);
-                ModalWebview::createWithURL(Url::PrivacyPolicyNoLinks);
+                link->setTextColor(Color4B(Style::Color::brownGrey));
+                link->setScale(1.0f);
+                ModalWebview::createWithURL(url);
                 break;
             }
             case cocos2d::ui::Widget::TouchEventType::CANCELED:
             {
-                _privacyPolicyLink->setTextColor(Color4B(Style::Color::brownGrey));
-                _privacyPolicyLink->setScale(1.0f);
+                link->setTextColor(Color4B(Style::Color::brownGrey));
+                link->setScale(1.0f);
                 break;
             }
         }
     });
-    addChild(_privacyPolicyLink);
+    
+    return link;
 }
 
 void SignupPage::setContinueCallback(const ButtonCallback& callback)

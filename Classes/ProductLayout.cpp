@@ -9,6 +9,7 @@
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 using namespace cocos2d;
 
@@ -101,6 +102,11 @@ bool ProductLayout::init()
 }
 void ProductLayout::onEnter()
 {
+    if(ConfigStorage::getInstance()->getOSManufacturer() == ConfigStorage::kOSManufacturerAmazon)
+    {
+        _restoreButton->setVisible(false);
+    }
+    
 	Super::onEnter();
 	setupProductBanner();
 }

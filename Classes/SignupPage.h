@@ -47,6 +47,8 @@ private:
     void createProgressIndicator();
     void createTermsLinks();
     
+    DynamicText* createTermsLinkWithURL(const std::string& title, const std::string& url);
+    
 public:
 	
 	bool init() override;

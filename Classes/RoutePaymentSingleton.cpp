@@ -102,17 +102,17 @@ bool RoutePaymentSingleton::showIAPContent()
 
 bool RoutePaymentSingleton::osIsIos()
 {
-    return (ConfigStorage::getInstance()->getOSManufacturer() == "Apple");
+    return (ConfigStorage::getInstance()->getOSManufacturer() == ConfigStorage::kOSManufacturerApple);
 }
 
 bool RoutePaymentSingleton::osIsAndroid()
 {
-    return (ConfigStorage::getInstance()->getOSManufacturer() == "Google");
+    return (ConfigStorage::getInstance()->getOSManufacturer() == ConfigStorage::kOSManufacturerGoogle);
 }
 
 bool RoutePaymentSingleton::osIsAmazon()
 {
-    return (ConfigStorage::getInstance()->getOSManufacturer() == "Amazon");
+    return (ConfigStorage::getInstance()->getOSManufacturer() == ConfigStorage::kOSManufacturerAmazon);
 }
 
 void RoutePaymentSingleton::restorePayment()

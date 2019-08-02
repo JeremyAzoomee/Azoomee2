@@ -179,13 +179,7 @@ bool SignupScene::init()
 		{
 			_signupData._acceptMarketing = acceptMarketing;
 			ModalMessages::getInstance()->startLoading();
-			std::string source = "OTHER";
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-			source = "IOS_INAPP";
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-			source = "ANDROID_INAPP";
-#endif
-			HttpRequestCreator* request = API::RegisterParentRequest(ParentManager::getInstance()->getLoggedInParentId(), _signupData._email, _signupData._password, _signupData._pin,source, ConfigStorage::getInstance()->getDeviceInformation(), _signupData._acceptMarketing ? "true" : "false", this);
+            HttpRequestCreator* request = API::RegisterParentRequest(ParentManager::getInstance()->getLoggedInParentId(), _signupData._email, _signupData._password, _signupData._pin,ConfigStorage::kSignupPlatformSource, ConfigStorage::getInstance()->getDeviceInformation(), _signupData._acceptMarketing ? "true" : "false", this);
 			request->execute();
 		}
 		else
