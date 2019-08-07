@@ -191,14 +191,14 @@ namespace Font
 	std::string PoppinsMedium();
 	std::string PoppinsBold();
 	
-    std::string RegularSystemName = SofiaRegularSystemName;
-    std::string MediumSystemName = SofiaMediumSystemName;
-    std::string BoldSystemName = SofiaBoldSystemName;
-    std::string InputSystemName = SofiaRegularSystemName;
+    const std::string RegularSystemName = SofiaRegularSystemName;
+    const std::string MediumSystemName = SofiaMediumSystemName;
+    const std::string BoldSystemName = SofiaBoldSystemName;
+    const std::string InputSystemName = SofiaRegularSystemName;
     
     std::string GetFontForCurrentLanguage(const std::string& font);
     
-    std::map<std::pair<std::string, std::string>, std::string> kFontOverrideMap = {
+    const std::map<std::pair<std::string, std::string>, std::string> kFontOverrideMap = {
         {{SofiaRegular,"gre"},ArialRegular},
         {{SofiaMedium,"gre"},ArialRegular},
         {{SofiaBold,"gre"},ArialBold},
