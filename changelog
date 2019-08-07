@@ -1,0 +1,5 @@
+Version 4.7.1
+Fix for long chat messages being shown as blank speech bubbles.
+New purchase and signup journey.
+Crashlytics is no longer used on iOS.
+
