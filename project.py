@@ -79,6 +79,13 @@ class AzoomeeApp:
         'ci' : 'CI'
     }
 
+    # Maps environment to the scheme for iOS
+    IOS_ENVIRONMENT_SCHEME = {
+        'prod' : 'Prod',
+        'test' : 'Test',
+        'ci' : 'CI'
+    }
+
     # Maps environment to the product flavor for Android
     ANDROID_ENVIRONMENT_BUILDCONFIG = {
         'prod' : 'prod',
@@ -241,7 +248,7 @@ class AzoomeeApp:
 
         if platform == 'ios':
             build_config = self.IOS_ENVIRONMENT_BUILDCONFIG[env]
-            environment = self.IOS_ENVIRONMENT_BUILDCONFIG[env]
+            environment = self.IOS_ENVIRONMENT_SCHEME[env]
             build_name = 'Azoomee-v{version}-{environment}'.format( version=self._get_current_version(), environment=environment )
 
             # Delete any existing built files for this version
@@ -339,7 +346,7 @@ class AzoomeeApp:
 
         if platform == 'ios':
             platform_build_dir = os.path.join( self.BUILD_DIR, platform )
-            environment = self.IOS_ENVIRONMENT_BUILDCONFIG[env]
+            environment = self.IOS_ENVIRONMENT_SCHEME[env]
             build_name = 'Azoomee-v{version}-{environment}'.format( version=self._get_current_version(), environment=environment )
             
             # If we're forcing a rebuild, do a clean and delete the existing archive and ipa
