@@ -49,7 +49,7 @@ void IAPFooter::onExit()
 void IAPFooter::onSizeChanged()
 {
 	Super::onSizeChanged();
-	_bgGradient->setContentSize(Size(_bgPattern->getContentSize().width,this->getContentSize().height));
+	_bgGradient->setContentSize(Size(this->getContentSize().width,this->getContentSize().height));
 	_divider->setContentSize(Size(this->getContentSize().width,4));
 	_loginHeader->setMaxLineWidth(this->getContentSize().width * 0.7f);
 	
