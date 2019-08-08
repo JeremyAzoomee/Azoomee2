@@ -1,3 +1,6 @@
+Version 4.7.2
+Fixed a crash issue on the age gate.
+
 Version 4.7.1
 Fix for long chat messages being shown as blank speech bubbles.
 New purchase and signup journey.
