@@ -27,7 +27,6 @@ private:
 	
 	cocos2d::ui::Layout* _divider = nullptr;
 	
-	cocos2d::Sprite* _bgPattern = nullptr;
 	cocos2d::LayerGradient* _bgGradient = nullptr;
 	
     void createLoginButton();
