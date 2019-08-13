@@ -19,8 +19,9 @@ NS_AZOOMEE_BEGIN
 class PopupMessageBox : public cocos2d::ui::Layout
 {
 	typedef cocos2d::ui::Layout Super;
-	typedef std::function<void(PopupMessageBox* pSender)> ButtonPressedCallback;
-private:
+protected:
+    typedef std::function<void(PopupMessageBox* pSender)> ButtonPressedCallback;
+    
 	cocos2d::ui::Scale9Sprite* _messageBoxBg = nullptr;
 	cocos2d::ClippingNode* _messageBoxClipper = nullptr;
 	cocos2d::ui::Layout* _messageBoxLayout = nullptr;

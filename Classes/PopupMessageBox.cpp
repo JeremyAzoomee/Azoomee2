@@ -188,6 +188,7 @@ void PopupMessageBox::createBody()
     
     _actionButton = CTAButton::create("res/onboarding/rounded_button.png");
     _actionButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _actionButton->setScale9Enabled(true);
     _actionButton->setNormalizedPosition(Vec2(0.5f,0.3f));
     _actionButton->ignoreContentAdaptWithSize(false);
     _actionButton->setContentSize(Size(700,140));
