@@ -55,15 +55,25 @@ void LoginLogicHandler::doLoginLogic()
     }
     else
     {
+        setLoginOrigin(LoginOrigin::LOGOUT);
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
     }
 }
 
-void LoginLogicHandler::forceNewLogin()
+void LoginLogicHandler::forceNewLogin(const LoginOrigin& origin)
 {
     Azoomee::ParentManager::getInstance()->clearParentLoginDataFromUserDefaults();
-    
+    setLoginOrigin(origin);
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
+}
+
+void LoginLogicHandler::setLoginOrigin(const LoginOrigin& origin)
+{
+    _origin = origin;
+}
+LoginOrigin LoginLogicHandler::getOrigin() const
+{
+    return _origin;
 }
 
 NS_AZOOMEE_END

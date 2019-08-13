@@ -276,7 +276,8 @@ void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseStrin
 		}
 		else
 		{
-			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChildSelector));
+            const auto targetScene = (!ParentManager::getInstance()->isPaidUser() && LoginLogicHandler::getInstance()->getOrigin() == LoginOrigin::IAP_PAYWALL) ? SceneNameEnum::IAP : SceneNameEnum::ChildSelector;
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(targetScene));
 		}
     }
 	ModalMessages::getInstance()->stopLoading();
@@ -336,7 +337,25 @@ void BackEndCaller::onGetGordonAnswerReceived(const std::string& responseString)
 					{
 						//TutorialController::getInstance()->startTutorial(TutorialController::kFTUNavTutorialID);
 						RewardDisplayHandler::getInstance()->getPendingRewards();
-						Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
+                        if(!ParentManager::getInstance()->isLoggedInParentAnonymous())
+                        {
+                            if(LoginLogicHandler::getInstance()->getOrigin() == LoginOrigin::IAP_PAYWALL)
+                            {
+                                Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::IAP));
+                            }
+                            else if(LoginLogicHandler::getInstance()->getOrigin() == LoginOrigin::SIGNUP)
+                            {
+                                Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Signup));
+                            }
+                            else
+                            {
+                                 Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
+                            }
+                        }
+                        else
+                        {
+                            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
+                        }
 					}
 					else
 					{
