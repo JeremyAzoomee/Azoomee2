@@ -78,7 +78,7 @@ void SignupPage::createInputHolder()
     _inputBg->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _inputBg->setContentSize(Size(1060, _inputBg->getContentSize().height));
     _inputBox = ui::EditBox::create(_inputBg->getContentSize() * 0.8f,"res/onboarding/input_rounded_frame.png");
-    _inputBox->setTextHorizontalAlignment(TextHAlignment::CENTER);
+    _inputBox->setTextHorizontalAlignment(TextHAlignment::LEFT);
     _inputBox->setPlaceHolder(_("Tap here to type").c_str());
     _inputBox->setPlaceholderFontName(Style::Font::InputSystemName.c_str());
     _inputBox->setPlaceholderFontColor(Color3B(196,196,196));
@@ -265,6 +265,7 @@ float SignupPage::getMoveDistanceForKeyboardHeight(int height)
 void SignupPage::clearInputText()
 {
 	_inputBox->setText("");
+    editBoxTextChanged(_inputBox, "");
 }
 
 void SignupPage::setContinueButtonEnabled(bool enabled)
