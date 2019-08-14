@@ -142,12 +142,12 @@ void RoutePaymentSingleton::backendRequestFailed(long errorCode)
 {
     ModalMessages::getInstance()->stopLoading();
     
-    if(errorCode == 409)
+    if(errorCode == 409) // this if for any error involving duplicate/already redeemed purchases, from attempted payment restore with already redeemed purchase or trying to subscribe again
     {
         doublePurchaseMessage();
         RoutePaymentSingleton::getInstance()->removeReceiptDataFile();
     }
-    else
+    else // generic error message for 400 and 403 errors where either the request was invalid or signatures didnt match up do access was denied
     {
         MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, this);
     }
