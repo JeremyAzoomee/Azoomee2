@@ -23,6 +23,7 @@
 #include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/UI/NotificationNodeDisplayManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
+#include "LoginLogicHandler.h"
 
 using namespace cocos2d;
 
@@ -305,6 +306,7 @@ void AddChildScene::prevLayer()
 			{
 				TutorialController::getInstance()->endTutorial();
 			}
+            LoginLogicHandler::getInstance()->setLoginOrigin(LoginOrigin::LOGOUT);
 			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
 		}
         default:

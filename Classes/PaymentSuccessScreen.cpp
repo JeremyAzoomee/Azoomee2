@@ -141,7 +141,7 @@ void PaymentSuccessScreen::createLoginButton()
             
             AudioMixer::getInstance()->stopBackgroundMusic();
             
-            LoginLogicHandler::getInstance()->forceNewLogin();
+            LoginLogicHandler::getInstance()->forceNewLogin(LoginOrigin::IAP_PAYWALL);
         }
     });
     addChild(_loginButton);

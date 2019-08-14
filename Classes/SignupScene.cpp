@@ -24,6 +24,7 @@
 #include "BackEndCaller.h"
 #include "SceneManagerScene.h"
 #include "PopupMessageBox2Buttons.h"
+#include "LoginLogicHandler.h"
 
 using namespace cocos2d;
 
@@ -441,6 +442,7 @@ void SignupScene::onHttpRequestFailed(const std::string& requestTag, long errorC
         messageBox->setSecondButtonColour(Style::Color::strongPink);
         messageBox->setSecondButtonPressedCallback([this](PopupMessageBox* pSender){
             pSender->removeFromParent();
+            LoginLogicHandler::getInstance()->setLoginOrigin(LoginOrigin::SIGNUP);
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
         });
         this->addChild(messageBox, 1);

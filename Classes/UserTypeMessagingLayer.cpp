@@ -13,6 +13,7 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/Style.h>
+#include "LoginLogicHandler.h"
 
 using namespace cocos2d;
 
@@ -118,6 +119,7 @@ void UserTypeMessagingLayer::onEnter()
     {
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
+            LoginLogicHandler::getInstance()->setLoginOrigin(LoginOrigin::HQ);
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
         }
     });
