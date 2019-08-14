@@ -5,6 +5,7 @@
 #include "BackEndCaller.h"
 #include "DeepLinkingSingleton.h"
 #include "SceneManagerScene.h"
+#include "MarketingAssetManager.h"
 
 using namespace cocos2d;
 
@@ -47,6 +48,7 @@ void LoginLogicHandler::doLoginLogic()
         BackEndCaller::getInstance()->updateBillingData();
         BackEndCaller::getInstance()->getParentDetails();
 		AnalyticsSingleton::getInstance()->registerIdentifier(ParentManager::getInstance()->getLoggedInParentId());
+        MarketingAssetManager::getInstance()->downloadMarketingAssets();
         return;
     }
     else if(DeepLinkingSingleton::getInstance()->actionDeepLink())
