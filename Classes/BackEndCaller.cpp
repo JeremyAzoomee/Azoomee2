@@ -335,27 +335,22 @@ void BackEndCaller::onGetGordonAnswerReceived(const std::string& responseString)
 				HQStructureDownloadHandler::getInstance()->getLatestData([](bool success){ //on complete
 					if(success)
 					{
-						//TutorialController::getInstance()->startTutorial(TutorialController::kFTUNavTutorialID);
 						RewardDisplayHandler::getInstance()->getPendingRewards();
-                        if(!ParentManager::getInstance()->isLoggedInParentAnonymous())
+                        
+                        SceneNameEnum nextScene = SceneNameEnum::Base;
+                        
+                        if(ParentManager::getInstance()->isLoggedInParentAnonymous())
                         {
                             if(LoginLogicHandler::getInstance()->getOrigin() == LoginOrigin::IAP_PAYWALL)
                             {
-                                Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::IAP));
+                                nextScene = SceneNameEnum::IAP;
                             }
                             else if(LoginLogicHandler::getInstance()->getOrigin() == LoginOrigin::SIGNUP)
                             {
-                                Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Signup));
-                            }
-                            else
-                            {
-                                 Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
+                                nextScene = SceneNameEnum::Signup;
                             }
                         }
-                        else
-                        {
-                            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
-                        }
+                        Director::getInstance()->replaceScene(SceneManagerScene::createScene(nextScene));
 					}
 					else
 					{
