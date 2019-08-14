@@ -14,6 +14,7 @@
 #include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/ErrorCodes.h>
 #include "SignupEnterEmail.h"
 #include "SignupConfirmEmail.h"
 #include "SignupEnterPassword.h"
@@ -22,6 +23,7 @@
 #include "PopupMessageBox.h"
 #include "BackEndCaller.h"
 #include "SceneManagerScene.h"
+#include "PopupMessageBox2Buttons.h"
 
 using namespace cocos2d;
 
@@ -423,16 +425,39 @@ void SignupScene::onHttpRequestFailed(const std::string& requestTag, long errorC
 	
 	const auto& errorMessageText = StringMgr::getInstance()->getErrorMessageWithCode(errorCode);
 	
-	PopupMessageBox* messageBox = PopupMessageBox::create();
-	messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
-	messageBox->setBody(errorMessageText.at(ERROR_BODY));
-	messageBox->setButtonText(_("Back"));
-	messageBox->setButtonColour(Style::Color::darkIndigo);
-	messageBox->setPatternColour(Style::Color::azure);
-	messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
-		pSender->removeFromParent();
-	});
-	this->addChild(messageBox, 1);
+    if(errorCode == ERROR_CODE_ALREADY_REGISTERED)
+    {
+        PopupMessageBox2Buttons* messageBox = PopupMessageBox2Buttons::create();
+        messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
+        messageBox->setBody(errorMessageText.at(ERROR_BODY));
+        messageBox->setButtonText(_("Back"));
+        messageBox->setButtonColour(Style::Color::darkIndigo);
+        messageBox->setPatternColour(Style::Color::azure);
+        messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+            pSender->removeFromParent();
+            this->changeToPage(kEnterEmailPageKey);
+        });
+        messageBox->setSecondButtonText(_("Log in"));
+        messageBox->setSecondButtonColour(Style::Color::strongPink);
+        messageBox->setSecondButtonPressedCallback([this](PopupMessageBox* pSender){
+            pSender->removeFromParent();
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
+        });
+        this->addChild(messageBox, 1);
+    }
+    else
+    {
+        PopupMessageBox* messageBox = PopupMessageBox::create();
+        messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
+        messageBox->setBody(errorMessageText.at(ERROR_BODY));
+        messageBox->setButtonText(_("Back"));
+        messageBox->setButtonColour(Style::Color::darkIndigo);
+        messageBox->setPatternColour(Style::Color::azure);
+        messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+            pSender->removeFromParent();
+        });
+        this->addChild(messageBox, 1);
+    }
 }
 
 NS_AZOOMEE_END
