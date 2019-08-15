@@ -320,6 +320,16 @@ void SignupScene::changeToPage(const std::string& pageKey)
 			page->clearInputText();
 		}
 	}
+    else if(pageKey == kTermsPageKey)
+    {
+        SignupTermsPage* termsPage = dynamic_cast<SignupTermsPage*>(_activePage);
+        if(termsPage)
+        {
+            termsPage->setTermsAccepted(false);
+            termsPage->setOver18Selected(false);
+            termsPage->setMarketingAccepted(false);
+        }
+    }
 	const Size& contentSize = getContentSize();
 	const bool isPortrait = contentSize.width < contentSize.height;
 	if(_activePage->getName() == kTermsPageKey)
