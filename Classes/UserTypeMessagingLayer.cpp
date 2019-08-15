@@ -6,7 +6,6 @@
 //
 
 #include "UserTypeMessagingLayer.h"
-#include "DynamicNodeHandler.h"
 #include "SceneManagerScene.h"
 #include "IAPProductDataHandler.h"
 #include "AgeGate.h"

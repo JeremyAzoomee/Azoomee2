@@ -6,7 +6,6 @@
 //
 
 #include "ShopItemPage.h"
-#include "DynamicNodeHandler.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "SceneManagerScene.h"

@@ -13,7 +13,6 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "ContentHistoryManager.h"
 #include <AzoomeeCommon/Data/Json.h>
-#include "DynamicNodeHandler.h"
 #include "ContentOpener.h"
 
 #ifdef AZOOMEE_VODACOM_BUILD
@@ -133,7 +132,7 @@ bool DeepLinkingSingleton::actionDeepLink()
         {
             AnalyticsSingleton::getInstance()->deepLinkingMoveToEvent(path);
             
-            DynamicNodeHandler::getInstance()->startSignupFlow();
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Signup));
             
             resetDeepLink();
             return true;

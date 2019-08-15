@@ -8,7 +8,6 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "LoginLogicHandler.h"
 #include "RoutePaymentSingleton.h"
-#include "DynamicNodeHandler.h"
 #include "FlowDataSingleton.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)

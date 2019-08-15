@@ -8,8 +8,6 @@
 #include "MeHQMessages.h"
 #include "ChatDelegate.h"
 #include "SceneManagerScene.h"
-#include "IAPFlowController.h"
-#include "DynamicNodeHandler.h"
 #include "HQDataProvider.h"
 #include "HQHistoryManager.h"
 #include "AgeGate.h"
@@ -186,9 +184,15 @@ void MeHQMessages::buildEmptyCarousel()
                 
                 if(!currentObject->getHqEntitlement())
                 {
-                    AnalyticsSingleton::getInstance()->registerCTASource("lockedHQ","",currentObject->getHqType());
-                    IAPEntryContext context = IAPEntryContext::LOCKED_CHAT;
-                    DynamicNodeHandler::getInstance()->startIAPFlow(context);
+                    AgeGate* ageGate = AgeGate::create();
+                    ageGate->setActionCompletedCallback([ageGate](AgeGateResult result){
+                        ageGate->removeFromParent();
+                        if(result == AgeGateResult::SUCCESS)
+                        {
+                            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::IAP));
+                        }
+                    });
+                    Director::getInstance()->getRunningScene()->addChild(ageGate,AGE_GATE_Z_ORDER);
                 }
                 else
                 {
