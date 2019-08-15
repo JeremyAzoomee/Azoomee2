@@ -15,6 +15,7 @@
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/UI/ModalWebview.h>
 #include <AzoomeeCommon/Data/Urls.h>
+#include "ImportantMessageForParents.h"
 
 using namespace cocos2d;
 
@@ -143,7 +144,7 @@ void IAPFooter::createTermsLinks()
     _privacyNoticeLink->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            ModalWebview::createWithURL(Url::PrivacyPolicyNoLinks);
+            Director::getInstance()->getRunningScene()->addChild(ImportantMessageForParents::create());
         }
     });
     addChild(_privacyNoticeLink);
