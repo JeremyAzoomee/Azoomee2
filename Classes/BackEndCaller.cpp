@@ -26,8 +26,6 @@
 #include "IAPProductDataHandler.h"
 #include "ChildCreator.h"
 
-#include "DynamicNodeHandler.h"
-
 #include "RewardDisplayHandler.h"
 
 #include "MarketingAssetManager.h"
@@ -302,7 +300,6 @@ void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString
         return;
     }
     ParentManager::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headerString));
-    DynamicNodeHandler::getInstance()->getCTAFiles();
 	getChildInventory();
     getGordon();
 	HQHistoryManager::getInstance()->emptyHistory();
@@ -632,14 +629,12 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
         AnalyticsSingleton::getInstance()->childProfileCreatedErrorEvent(errorCode);
         hideLoadingScreen();
         FlowDataSingleton::getInstance()->setErrorCode(errorCode);
-        DynamicNodeHandler::getInstance()->startAddChildFlow();
     }
     else if(requestTag == API::TagUpdateChild)
     {
         AnalyticsSingleton::getInstance()->childProfileUpdateErrorEvent(errorCode);
         hideLoadingScreen();
         FlowDataSingleton::getInstance()->setErrorCode(errorCode);
-        DynamicNodeHandler::getInstance()->startAddChildFlow();
     }
     else if(requestTag == API::TagLogin)
     {

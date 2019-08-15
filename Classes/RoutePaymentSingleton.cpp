@@ -12,7 +12,6 @@
 #include "FlowDataSingleton.h"
 #include "SceneManagerScene.h"
 #include "AzoomeeCommon/Data/Child/ChildManager.h"
-#include "DynamicNodeHandler.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -61,8 +60,7 @@ void RoutePaymentSingleton::startInAppPayment()
     {
         if(!ParentManager::getInstance()->isUserLoggedIn())
         {
-            FlowDataSingleton::getInstance()->setSuccessFailPath(IAP_SUCCESS);
-            DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
+            Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(kPaymentSuccessfulEventName);
         }
         else
         {

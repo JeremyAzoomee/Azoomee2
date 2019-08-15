@@ -7,7 +7,6 @@
 #include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include "LoginLogicHandler.h"
 #include "RoutePaymentSingleton.h"
-#include "DynamicNodeHandler.h"
 #include "FlowDataSingleton.h"
 
 using namespace cocos2d;

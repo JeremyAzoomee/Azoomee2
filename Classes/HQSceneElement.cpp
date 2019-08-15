@@ -20,11 +20,9 @@
 #include "RoutePaymentSingleton.h"
 #include "ManualGameInputLayer.h"
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
-#include "DynamicNodeHandler.h"
 #include "ContentHistoryManager.h"
 #include "ContentOpener.h"
 #include "VideoPlaylistManager.h"
-#include "IAPFlowController.h"
 #include <AzoomeeCommon/Tutorial/TutorialController.h>
 
 using namespace cocos2d;

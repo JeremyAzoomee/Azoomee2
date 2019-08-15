@@ -6,7 +6,6 @@
 //
 
 #include "EditAccountLayer.h"
-#include "DynamicNodeHandler.h"
 #include "SettingsMessageBoxNotification.h"
 #include "SettingsMessageBoxTryAgain.h"
 #include <AzoomeeCommon/Strings.h>
@@ -16,6 +15,7 @@
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/NativeShare/NativeShare.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "SceneManagerScene.h"
 
 using namespace cocos2d;
