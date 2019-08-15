@@ -73,6 +73,15 @@
     return YES;
 }
 
+- (BOOL)application:(UIApplication *)application shouldAllowExtensionPointIdentifier:(NSString *)extensionPointIdentifier
+{
+    if([extensionPointIdentifier isEqualToString: UIApplicationKeyboardExtensionPointIdentifier])
+    {
+        return NO;
+    }
+    return YES;
+}
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     /*
