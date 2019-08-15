@@ -195,7 +195,7 @@ void AgeGate::createTitle()
     _titleGradient->setIgnoreAnchorPointForPosition(false);
     _titleBox->addChild(_titleGradient);
     
-    _titleText = DynamicText::create("Hey parents,\nunlock all content!", Style::Font::PoppinsBold(), 110);
+    _titleText = DynamicText::create("Hey parents unlock all content!", Style::Font::PoppinsBold(), 110);
     _titleText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _titleText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _titleText->setTextHorizontalAlignment(TextHAlignment::CENTER);
@@ -227,7 +227,7 @@ void AgeGate::createBody()
     
     auto ansValues = AgeGateValueSet();
     
-    DynamicText* questionText = DynamicText::create(StringUtils::format(_("What is %d X %d").c_str(),ansValues._val1, ansValues._val2), Style::Font::PoppinsBold(), 70);
+    DynamicText* questionText = DynamicText::create(StringUtils::format(_("What is %d X %d?").c_str(),ansValues._val1, ansValues._val2), Style::Font::PoppinsBold(), 70);
     questionText->setTextAreaSize(Size(700,100));
     questionText->setTextHorizontalAlignment(TextHAlignment::CENTER);
     questionText->setTextVerticalAlignment(TextVAlignment::CENTER);

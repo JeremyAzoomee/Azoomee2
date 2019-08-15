@@ -70,6 +70,8 @@ void SignupPage::createInputHolder()
     _inputTitle->setTextHorizontalAlignment(TextHAlignment::CENTER);
     _inputTitle->setTextVerticalAlignment(TextVAlignment::CENTER);
     _inputTitle->setTextColor(Color4B(Style::Color::brownGrey));
+    _inputTitle->setTextAreaSize(Size(1000,140));
+    _inputTitle->setOverflow(Label::Overflow::SHRINK);
     _inputHolder->addChild(_inputTitle);
     
     _inputBg = ui::Scale9Sprite::create("res/onboarding/input_rounded_frame.png");

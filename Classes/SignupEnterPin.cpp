@@ -31,7 +31,7 @@ bool SignupEnterPin::init()
 	_inputBox->setInputFlag(ui::EditBox::InputFlag::PASSWORD);
 	_inputBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
 	
-	_progressText->setString(_("Dont forget this!"));
+	_progressText->setString(_("Don't forget this!"));
 	
 	_progressBar->setNumberOfSteps(3);
 	_progressBar->setProgress(3);

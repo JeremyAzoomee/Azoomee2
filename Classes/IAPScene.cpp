@@ -106,7 +106,7 @@ void IAPScene::onEnter()
 	_paymentFailedListener = EventListenerCustom::create(RoutePaymentSingleton::kPaymentFailedEventName, [this](EventCustom* event){
 		PopupMessageBox* messageBox = PopupMessageBox::create();
 		messageBox->setTitle(_("Oops!\nThat didn't work"));
-		messageBox->setBody(_("We couldn’t process your payment. Please try again."));
+		messageBox->setBody(_("We couldn't process your payment. Please try again."));
 		messageBox->setButtonText(_("Back"));
 		messageBox->setButtonColour(Style::Color::darkIndigo);
 		messageBox->setPatternColour(Style::Color::azure);

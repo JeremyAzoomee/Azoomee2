@@ -189,7 +189,7 @@ bool SignupScene::init()
 		{
 			//show error
 			PopupMessageBox* messageBox = PopupMessageBox::create();
-			messageBox->setTitle(_("Setup Unsuccessful"));
+			messageBox->setTitle(_("Setup unsuccessful"));
 			messageBox->setBody(_("To continue using Azoomee, you must confirm that you are over 18, and that you agree to our Policies."));
 			messageBox->setButtonText(_("Back"));
 			messageBox->setButtonColour(Style::Color::darkIndigo);
@@ -419,7 +419,7 @@ void SignupScene::onHttpRequestSuccess(const std::string& requestTag, const std:
 		
 		PopupMessageBox* messageBox = PopupMessageBox::create();
 		messageBox->setTitle(_("Setup Complete"));
-		messageBox->setBody(_("Welcome to the Azoomee family! Your account is now active."));
+		messageBox->setBody(_("Welcome to the Azoomee family! Your account is now active"));
 		messageBox->setButtonText(_("Let's go!"));
 		messageBox->setButtonColour(Style::Color::strongPink);
 		messageBox->setPatternColour(Style::Color::strongPink);
