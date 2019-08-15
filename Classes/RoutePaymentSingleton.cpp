@@ -140,25 +140,16 @@ void RoutePaymentSingleton::restorePayment()
 
 void RoutePaymentSingleton::backendRequestFailed(long errorCode)
 {
-    if(errorCode == 409 || errorCode == 422) //409 means the user was already upgraded, so we can remove the local receipt file.
-    {
-        RoutePaymentSingleton::getInstance()->removeReceiptDataFile();
-    }
-    
     ModalMessages::getInstance()->stopLoading();
     
-    if(pressedIAPStartButton)
-        MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, this);
-    else
+    if(errorCode == 409) // this if for any error involving duplicate/already redeemed purchases, from attempted payment restore with already redeemed purchase or trying to subscribe again
     {
-        if(pressedRestorePurchaseButton && errorCode == 400)
-            MessageBox::createWith(ERROR_CODE_APPLE_NO_PREVIOUS_PURCHASE, nullptr);
-        else if(pressedRestorePurchaseButton && errorCode == 409)
-            doublePurchaseMessage();
-        else if(errorCode == 409 || errorCode == 400)
-            LoginLogicHandler::getInstance()->doLoginLogic();
-        else
-            MessageBox::createWith(ERROR_CODE_APPLE_SUB_REFRESH_FAIL, this);
+        doublePurchaseMessage();
+        RoutePaymentSingleton::getInstance()->removeReceiptDataFile();
+    }
+    else // generic error message for 400 and 403 errors where either the request was invalid or signatures didnt match up do access was denied
+    {
+        MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, this);
     }
 }
 

@@ -276,7 +276,8 @@ void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseStrin
 		}
 		else
 		{
-			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChildSelector));
+            const auto targetScene = (!ParentManager::getInstance()->isPaidUser() && LoginLogicHandler::getInstance()->getOrigin() == LoginOrigin::IAP_PAYWALL) ? SceneNameEnum::IAP : SceneNameEnum::ChildSelector;
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(targetScene));
 		}
     }
 	ModalMessages::getInstance()->stopLoading();
@@ -334,9 +335,22 @@ void BackEndCaller::onGetGordonAnswerReceived(const std::string& responseString)
 				HQStructureDownloadHandler::getInstance()->getLatestData([](bool success){ //on complete
 					if(success)
 					{
-						//TutorialController::getInstance()->startTutorial(TutorialController::kFTUNavTutorialID);
 						RewardDisplayHandler::getInstance()->getPendingRewards();
-						Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
+                        
+                        SceneNameEnum nextScene = SceneNameEnum::Base;
+                        
+                        if(ParentManager::getInstance()->isLoggedInParentAnonymous())
+                        {
+                            if(LoginLogicHandler::getInstance()->getOrigin() == LoginOrigin::IAP_PAYWALL)
+                            {
+                                nextScene = SceneNameEnum::IAP;
+                            }
+                            else if(LoginLogicHandler::getInstance()->getOrigin() == LoginOrigin::SIGNUP)
+                            {
+                                nextScene = SceneNameEnum::Signup;
+                            }
+                        }
+                        Director::getInstance()->replaceScene(SceneManagerScene::createScene(nextScene));
 					}
 					else
 					{

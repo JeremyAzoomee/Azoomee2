@@ -68,6 +68,13 @@ void MarketingCarousel::update(float deltaT)
 				auto targetIndex = (_carousel->getCurSelectedIndex() < (_carousel->getItems().size() - 1)) ? _carousel->getCurSelectedIndex() + 1 : 0;
 				_carousel->scrollToItem(targetIndex , Vec2::ANCHOR_MIDDLE, Vec2::ANCHOR_MIDDLE);
 				_carousel->setCurSelectedIndex((int)targetIndex);
+                if(targetIndex == _carousel->getItems().size() - 1)
+                {
+                    runAction(Sequence::createWithTwoActions(DelayTime::create(_carousel->getScrollDuration()), CallFunc::create([this](){
+                        _carousel->scrollToItem(0,Vec2::ANCHOR_MIDDLE, Vec2::ANCHOR_MIDDLE, 0);
+                        _carousel->setCurSelectedIndex(0);
+                    })));
+                }
 			}
 		}
 	}
@@ -79,13 +86,23 @@ void MarketingCarousel::setPageData(const std::vector<MarketingAssetRef> data)
 {
 	_pageData = data;
 	_carousel->removeAllItems();
+    _carousel->stopOverallScroll();
+    MarketingAssetRef firstAsset = nullptr;
 	for(const auto& page : _pageData)
 	{
 		if(page->isDownloaded())
 		{
 			addPage(page);
 		}
+        if(!firstAsset)
+        {
+            firstAsset = page;
+        }
 	}
+    if(firstAsset)
+    {
+        addPage(firstAsset); //duplicate first page to handle infinite scoll lies
+    }
 	_carousel->setCurSelectedIndex(0);
 	_timeTillNextScroll = ktimeBetweenScrolls;
 	forceDoLayout();
