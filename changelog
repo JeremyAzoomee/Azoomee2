@@ -1,3 +1,6 @@
+Version 4.7.4
+Removed old cta system.
+
 Version 4.7.3
 Launch new IAP flow on pressing reactivate button instead of old popup.
 Already registered popup now shows a Login button.
