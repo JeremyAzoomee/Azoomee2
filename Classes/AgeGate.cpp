@@ -195,7 +195,7 @@ void AgeGate::createTitle()
     _titleGradient->setIgnoreAnchorPointForPosition(false);
     _titleBox->addChild(_titleGradient);
     
-    _titleText = DynamicText::create("Hey parents unlock all content!", Style::Font::PoppinsBold(), 110);
+    _titleText = DynamicText::create(_("Hey parents unlock all content!"), Style::Font::PoppinsBold(), 110);
     _titleText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _titleText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _titleText->setTextHorizontalAlignment(TextHAlignment::CENTER);
