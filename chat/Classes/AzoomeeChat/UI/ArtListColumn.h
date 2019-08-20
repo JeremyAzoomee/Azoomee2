@@ -40,7 +40,7 @@ private:
     /// Bottom sticker button
     cocos2d::ui::Button* _bottomRowButton = nullptr;
     
-    ArtListItemOnScreenChecker* _onScreenChecker = nullptr;
+    ArtListItemOnScreenChecker _onScreenChecker;
     
     /// Resize the button images
     void resizeButtons();

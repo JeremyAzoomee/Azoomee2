@@ -17,8 +17,7 @@ const std::string ArtListColumn::_kPlaceholderAssetLoc = "res/contentPlaceholder
 
 void ArtListColumn::enableOnScreenChecker()
 {
-    _onScreenChecker = new ArtListItemOnScreenChecker();
-    _onScreenChecker->startCheckingForOnScreenPosition(this);
+    _onScreenChecker.startCheckingForOnScreenPosition(this);
 }
 
 bool ArtListColumn::init()
@@ -52,7 +51,7 @@ bool ArtListColumn::init()
     
     _topRowButton = ui::Button::create();
     _topRowButton->ignoreContentAdaptWithSize(false);
-    _topRowButton->getRendererNormal()->setStrechEnabled(true);
+    _topRowButton->getRendererNormal()->setStretchEnabled(true);
     _topRowButton->setAnchorPoint(Vec2(0.5f, 0.5f));
     _topRowButton->setLayoutParameter(CreateCenterRelativeLayoutParam());
     _topRowButton->addTouchEventListener([this](Ref*, ui::Widget::TouchEventType eType){
@@ -76,7 +75,7 @@ bool ArtListColumn::init()
     
     _bottomRowButton = ui::Button::create();
     _bottomRowButton->ignoreContentAdaptWithSize(false);
-    _bottomRowButton->getRendererNormal()->setStrechEnabled(true);
+    _bottomRowButton->getRendererNormal()->setStretchEnabled(true);
     _bottomRowButton->setAnchorPoint(Vec2(0.5f, 0.5f));
     _bottomRowButton->setLayoutParameter(CreateCenterRelativeLayoutParam());
     _bottomRowButton->addTouchEventListener([this](Ref*, ui::Widget::TouchEventType eType){
@@ -89,7 +88,9 @@ bool ArtListColumn::init()
         }
     });
     _bottomRowLayout->addChild(_bottomRowButton);
-    
+	
+	_onScreenChecker = ArtListItemOnScreenChecker();
+	
     return true;
 }
 
@@ -100,11 +101,7 @@ void ArtListColumn::onEnter()
 
 void ArtListColumn::onExit()
 {
-    if(_onScreenChecker)
-    {
-        _onScreenChecker->endCheck();
-        _onScreenChecker->release();
-    }
+	_onScreenChecker.endCheck();
     
     Super::onExit();
 }

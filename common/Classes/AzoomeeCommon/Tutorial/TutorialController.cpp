@@ -123,12 +123,31 @@ void TutorialController::endTutorial()
 	{
 		delegate->onTutorialStateChanged(kTutorialEnded);
 	}
-	_removingNode = _messagingNode;
-	_messagingNode = nullptr;
-	_removingNode->animateOutGuideAndMessage([this](){
+	if(_removingNode && _removingNode->isAnimatingOut()) // if node in already undergoing close anim, clear it now and flag callback to do nothing
+	{
+		_removingNode->setAnimatingOut(false);
 		_removingNode->removeFromParent();
 		_removingNode = nullptr;
-	});
+	}
+	_removingNode = _messagingNode;
+	_messagingNode = nullptr;
+	if(_removingNode->isVisible())
+	{
+		_removingNode->setAnimatingOut(true);
+		_removingNode->animateOutGuideAndMessage([this](){
+			if(_removingNode && _removingNode->isAnimatingOut())
+			{
+				_removingNode->setAnimatingOut(false);
+				_removingNode->removeFromParent();
+				_removingNode = nullptr;
+			}
+		});
+	}
+	else
+	{
+		_removingNode->removeFromParent();
+		_removingNode = nullptr;
+	}
 	
 }
 

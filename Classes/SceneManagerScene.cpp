@@ -110,20 +110,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
 			}
 			else
 			{
-				HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
-				const std::string& currentHQ = HQHistoryManager::getInstance()->getCurrentHQ();
-				
-				ContentFeedHQScene* hqScene = ContentFeedHQScene::create();
-				hqScene->setHQCategory(currentHQ);
-				cocos2d::Scene* goToScene = hqScene;
-				
-				if(currentHQ == ConfigStorage::kMeHQName)
-				{
-					MeHQ* hqScene = MeHQ::create();
-					hqScene->setHQCategory(currentHQ);
-					goToScene = hqScene;
-				}
-				Director::getInstance()->replaceScene(goToScene);
+				Director::getInstance()->replaceScene(getBaseScene());
 			}
             break;
         }
@@ -425,6 +412,31 @@ void SceneManagerScene::returnToPrevOrientation()
     HQHistoryManager::getInstance()->setReturnedFromForcedOrientation(false);
 }
 
+cocos2d::Scene* SceneManagerScene::getBaseScene()
+{
+	HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
+	const std::string& currentHQ = HQHistoryManager::getInstance()->getCurrentHQ();
+	
+	HQScene* scene = HQHistoryManager::getInstance()->getCachedHQScene(currentHQ);
+	cocos2d::Scene* goToScene = scene;
+	if(!scene)
+	{
+		if(currentHQ == ConfigStorage::kMeHQName)
+		{
+			scene = MeHQ::create();
+			scene->setHQCategory(currentHQ);
+		}
+		else
+		{
+			scene = ContentFeedHQScene::create();
+			scene->setHQCategory(currentHQ);
+		}
+		HQHistoryManager::getInstance()->addHQSceneToCache(currentHQ, scene);
+		goToScene = scene;
+	}
+	return goToScene;
+}
+
 void SceneManagerScene::showHoldingUI()
 {
 	LayerColor* bgColour = LayerColor::create(Color4B(0,7,4,255));
@@ -472,20 +484,7 @@ void SceneManagerScene::showHoldingUI()
 	RewardDisplayHandler::getInstance()->showNextReward();
 	
 	this->runAction(Sequence::createWithTwoActions(DelayTime::create(2.5), CallFunc::create([this](){
-		HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
-		const std::string& currentHQ = HQHistoryManager::getInstance()->getCurrentHQ();
-		
-		ContentFeedHQScene* hqScene = ContentFeedHQScene::create();
-		hqScene->setHQCategory(currentHQ);
-		cocos2d::Scene* goToScene = hqScene;
-		
-		if(currentHQ == ConfigStorage::kMeHQName)
-		{
-			MeHQ* hqScene = MeHQ::create();
-			hqScene->setHQCategory(currentHQ);
-			goToScene = hqScene;
-		}
-		Director::getInstance()->replaceScene(goToScene);
+		Director::getInstance()->replaceScene(getBaseScene());
 	})));
 }
 

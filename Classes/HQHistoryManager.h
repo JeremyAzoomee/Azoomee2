@@ -4,6 +4,7 @@
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/Orientation.h>
+#include "HQScene.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -18,6 +19,8 @@ private:
 	bool _returnedFromForcedOrientation = false;
 	
 	Orientation _prevHQOrientation = Orientation::Landscape;
+	
+	cocos2d::Map<std::string,HQScene*> _cachedScenes;
 	
 public:
 	static HQHistoryManager* getInstance(void);
@@ -49,6 +52,10 @@ public:
 	Orientation getPrevHQOrientation() const;
 	
 	int getHistorySize() const;
+	
+	void addHQSceneToCache(const std::string& hqName, HQScene* scene);
+	HQScene* getCachedHQScene(const std::string& hqName);
+	void removeHQFromCache(const std::string& hqName);
 	
     //Adding last group source ID
     

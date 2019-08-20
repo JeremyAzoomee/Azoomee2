@@ -11,9 +11,9 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-Scene* OfflineText::createScene()
+cocos2d::Scene* OfflineText::createScene()
 {
-    auto scene = Scene::create();
+    auto scene = cocos2d::Scene::create();
     auto layer = OfflineText::create();
     
     scene->addChild(layer);

@@ -31,6 +31,8 @@ private:
 	cocos2d::Sprite* _verticalScrollGradient = nullptr;
 	
 protected:
+	static const std::string kTutHandName;
+	
 	HQSceneType _type = HQSceneType::DEFAULT;
 	
 	std::string _hqCategory;
@@ -43,6 +45,9 @@ protected:
 	CoinDisplay* _coinDisplay = nullptr;
 	
 	cocos2d::EventListenerCustom* _rewardRedeemedListener = nullptr;
+	
+	bool _initialised = false;
+	bool _isPortrait = false;
 	
 public:
 	

@@ -9,9 +9,9 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-Scene* OfflineHubHQ::createScene()
+cocos2d::Scene* OfflineHubHQ::createScene()
 {
-    auto scene = Scene::create();
+	auto scene = cocos2d::Scene::create();
     auto layer = OfflineHubHQ::create();
     
     scene->addChild(layer);
@@ -75,8 +75,8 @@ void OfflineHubHQ::addElementsToScrollView(std::vector<std::map<std::string, std
         hqSceneElement->setScale(0.75);
         toBeAddedTo->addChild(hqSceneElement);
         
-        auto sceneElementPositioner = new HQSceneElementPositioner();
-        sceneElementPositioner->positionHQSceneElement((Layer *)hqSceneElement,  false);
+        positionHQSceneElement((Layer *)hqSceneElement,  false);
+		
         endWidth = hqSceneElement->getPosition().x + hqSceneElement->getBoundingBox().size.width;
     }
     
@@ -100,9 +100,8 @@ void OfflineHubHQ::addArtAppElementToScrollView(cocos2d::ui::ScrollView* toBeAdd
     
     iconLayer->addChild(artAppIcon);
     toBeAddedTo->addChild(iconLayer);
-    
-    auto sceneElementPositioner = new HQSceneElementPositioner();
-    sceneElementPositioner->positionHQSceneElement((Layer *)iconLayer, false);
+	
+	positionHQSceneElement((Layer *)iconLayer, false);
     
     addListenerToArtElement(iconLayer);
 }
