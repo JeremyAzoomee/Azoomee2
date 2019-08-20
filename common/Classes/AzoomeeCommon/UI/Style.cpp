@@ -15,48 +15,50 @@ namespace Style
 namespace Font
 {
 
-const char* const Regular()
+std::string GetFontForCurrentLanguage(const std::string& font)
 {
-	if(StringMgr::getInstance()->getLanguageID() == "gre")
-	{
-		return ArialRegular;
-	}
-	return SofiaRegular;
+    auto it =  kFontOverrideMap.find({font, StringMgr::getInstance()->getLanguageID()});
+    if(it != kFontOverrideMap.end())
+    {
+        return it->second;
+    }
+    return font;
 }
-const char* const Medium()
+    
+std::string Regular()
 {
-	if(StringMgr::getInstance()->getLanguageID() == "gre")
-	{
-		return ArialRegular;
-	}
-	return SofiaMedium;
+    return GetFontForCurrentLanguage(SofiaRegular);
 }
-const char* const Bold()
+std::string Medium()
 {
-	if(StringMgr::getInstance()->getLanguageID() == "gre")
-	{
-		return ArialBold;
-	}
-	return SofiaBold;
+	return GetFontForCurrentLanguage(SofiaMedium);
 }
-const char* const Input()
+std::string Bold()
 {
-	if(StringMgr::getInstance()->getLanguageID() == "gre")
-	{
-		return ArialRegular;
-	}
-	return SofiaRegular;
+	return GetFontForCurrentLanguage(SofiaBold);
+}
+std::string Input()
+{
+	return GetFontForCurrentLanguage(SofiaRegular);
 }
 
-const char* const RewardRegular()
+std::string RewardRegular()
 {
-	if(StringMgr::getInstance()->getLanguageID() == "gre")
-	{
-		return ArialBold;
-	}
-	return PassionOneRegular;
+	return GetFontForCurrentLanguage(PassionOneRegular);
 }
 	
+std::string PoppinsRegular()
+{
+	return GetFontForCurrentLanguage(poppinsRegular);
+}
+std::string PoppinsMedium()
+{
+    return GetFontForCurrentLanguage(poppinsMedium);
+}
+std::string PoppinsBold()
+{
+	return GetFontForCurrentLanguage(poppinsBold);
+}
 }
 }
 

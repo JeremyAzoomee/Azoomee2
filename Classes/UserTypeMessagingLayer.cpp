@@ -6,12 +6,13 @@
 //
 
 #include "UserTypeMessagingLayer.h"
-#include "DynamicNodeHandler.h"
 #include "SceneManagerScene.h"
 #include "IAPProductDataHandler.h"
+#include "AgeGate.h"
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/Style.h>
+#include "LoginLogicHandler.h"
 
 using namespace cocos2d;
 
@@ -57,9 +58,17 @@ void UserTypeMessagingLayer::onEnter()
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
 #ifdef ALLOW_UNPAID_SIGNUP
-			DynamicNodeHandler::getInstance()->startSignupFlow();
+			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Signup));
 #else
-            DynamicNodeHandler::getInstance()->startIAPFlow();
+			AgeGate* ageGate = AgeGate::create();
+			ageGate->setActionCompletedCallback([ageGate](AgeGateResult result){
+                ageGate->removeFromParent();
+                if(result == AgeGateResult::SUCCESS)
+                {
+                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::IAP));
+                }
+			});
+			Director::getInstance()->getRunningScene()->addChild(ageGate,AGE_GATE_Z_ORDER);
 #endif
         }
     });
@@ -109,6 +118,7 @@ void UserTypeMessagingLayer::onEnter()
     {
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
+            LoginLogicHandler::getInstance()->setLoginOrigin(LoginOrigin::HQ);
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
         }
     });
@@ -143,7 +153,19 @@ void UserTypeMessagingLayer::onEnter()
     {
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            DynamicNodeHandler::getInstance()->startIAPFlow();
+#ifdef ALLOW_UNPAID_SIGNUP
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Signup));
+#else
+            AgeGate* ageGate = AgeGate::create();
+            ageGate->setActionCompletedCallback([ageGate](AgeGateResult result){
+                ageGate->removeFromParent();
+                if(result == AgeGateResult::SUCCESS)
+                {
+                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::IAP));
+                }
+            });
+            Director::getInstance()->getRunningScene()->addChild(ageGate,AGE_GATE_Z_ORDER);
+#endif
         }
     });
 	

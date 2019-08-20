@@ -6,7 +6,6 @@
 //
 
 #include "EditAccountLayer.h"
-#include "DynamicNodeHandler.h"
 #include "SettingsMessageBoxNotification.h"
 #include "SettingsMessageBoxTryAgain.h"
 #include <AzoomeeCommon/Strings.h>
@@ -16,6 +15,7 @@
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/NativeShare/NativeShare.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "SceneManagerScene.h"
 
 using namespace cocos2d;
@@ -350,7 +350,7 @@ void EditAccountLayer::onEnter()
 		resubButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
 			if(eType == ui::Widget::TouchEventType::ENDED)
 			{
-				DynamicNodeHandler::getInstance()->startIAPFlow();
+				Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::IAP));
 			}
 		});
 		_accountTypeLayout->addChild(resubButton);

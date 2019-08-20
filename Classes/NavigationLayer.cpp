@@ -18,11 +18,10 @@
 #include "DeepLinkingSingleton.h"
 #include "BackEndCaller.h"
 #include "ChatNotificationsSingleton.h"
-#include "DynamicNodeHandler.h"
-#include "IAPFlowController.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Utils/ActionBuilder.h>
 #include "FlowDataSingleton.h"
+#include "AgeGate.h"
 
 using namespace cocos2d;
 
@@ -82,16 +81,18 @@ void NavigationLayer::changeToScene(const std::string& hqName, float duration)
 	
 	if(!currentObject->getHqEntitlement())
     {
-        AnalyticsSingleton::getInstance()->registerCTASource("lockedHQ","",currentObject->getHqType());
-        IAPEntryContext context = IAPEntryContext::DEFAULT;
-        if(hqName == ConfigStorage::kChatHQName)
-        {
-            context = IAPEntryContext::LOCKED_CHAT;
-        }
 #ifndef ALLOW_UNPAID_SIGNUP
-		DynamicNodeHandler::getInstance()->startIAPFlow(context);
+		AgeGate* ageGate = AgeGate::create();
+		ageGate->setActionCompletedCallback([ageGate](AgeGateResult result){
+            ageGate->removeFromParent();
+            if(result == AgeGateResult::SUCCESS)
+            {
+                Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::IAP));
+            }
+		});
+		Director::getInstance()->getRunningScene()->addChild(ageGate,AGE_GATE_Z_ORDER);
 #else
-		DynamicNodeHandler::getInstance()->startSignupFlow();
+		Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Signup));
 #endif
         return;
     }

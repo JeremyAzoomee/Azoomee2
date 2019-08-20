@@ -37,6 +37,7 @@ public:
 public:
 	static const std::vector<LanguageParams> kLanguageParams;
 	static const std::map<std::string, std::string> kDeviceLangConvMap;
+    static const std::string kDefaultLanguageIdentifier;
     /** Returns the shared instance of the Game Manager */
     static StringMgr* getInstance(void);
     virtual ~StringMgr();

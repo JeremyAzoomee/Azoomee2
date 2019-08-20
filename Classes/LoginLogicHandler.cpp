@@ -5,6 +5,7 @@
 #include "BackEndCaller.h"
 #include "DeepLinkingSingleton.h"
 #include "SceneManagerScene.h"
+#include "MarketingAssetManager.h"
 
 using namespace cocos2d;
 
@@ -47,6 +48,7 @@ void LoginLogicHandler::doLoginLogic()
         BackEndCaller::getInstance()->updateBillingData();
         BackEndCaller::getInstance()->getParentDetails();
 		AnalyticsSingleton::getInstance()->registerIdentifier(ParentManager::getInstance()->getLoggedInParentId());
+        MarketingAssetManager::getInstance()->downloadMarketingAssets();
         return;
     }
     else if(DeepLinkingSingleton::getInstance()->actionDeepLink())
@@ -55,15 +57,25 @@ void LoginLogicHandler::doLoginLogic()
     }
     else
     {
+        setLoginOrigin(LoginOrigin::LOGOUT);
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
     }
 }
 
-void LoginLogicHandler::forceNewLogin()
+void LoginLogicHandler::forceNewLogin(const LoginOrigin& origin)
 {
     Azoomee::ParentManager::getInstance()->clearParentLoginDataFromUserDefaults();
-    
+    setLoginOrigin(origin);
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
+}
+
+void LoginLogicHandler::setLoginOrigin(const LoginOrigin& origin)
+{
+    _origin = origin;
+}
+LoginOrigin LoginLogicHandler::getOrigin() const
+{
+    return _origin;
 }
 
 NS_AZOOMEE_END

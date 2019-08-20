@@ -16,8 +16,6 @@
 #include "RecentlyPlayedManager.h"
 #include "ArtAppDelegate.h"
 #include "ManualGameInputLayer.h"
-#include "DynamicNodeHandler.h"
-#include "IAPFlowController.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
@@ -27,6 +25,8 @@
 #include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Cookie/CookieManager.h>
+
+#include "AgeGate.h"
 
 using namespace cocos2d;
 
@@ -131,17 +131,17 @@ void ContentOpener::doCarouselContentOpenLogic(const HQContentItemObjectRef& con
 	if(!contentItem->isEntitled())
 	{
 		AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, rowIndex, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(hqCategory, rowIndex, elementIndex));
-		AnalyticsSingleton::getInstance()->registerCTASource("lockedContent",contentItem->getContentItemId(),contentItem->getType());
-		IAPEntryContext context = IAPEntryContext::DEFAULT;
-		if(contentItem->getType() == ConfigStorage::kContentTypeGame)
-		{
-			context = IAPEntryContext::LOCKED_GAME;
-		}
-		else if(contentItem->getType() == ConfigStorage::kContentTypeVideo || contentItem->getType() == ConfigStorage::kContentTypeGroup)
-		{
-			context = IAPEntryContext::LOCKED_VIDEO;
-		}
-		DynamicNodeHandler::getInstance()->startIAPFlow(context);
+		
+		AgeGate* ageGate = AgeGate::create();
+		ageGate->setActionCompletedCallback([ageGate](AgeGateResult result){
+            ageGate->removeFromParent();
+            if(result == AgeGateResult::SUCCESS)
+            {
+					Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::IAP));
+            }
+
+		});
+		Director::getInstance()->getRunningScene()->addChild(ageGate,AGE_GATE_Z_ORDER);
 	}
 	
 	AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, rowIndex, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(hqCategory, rowIndex, elementIndex));

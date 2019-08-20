@@ -20,7 +20,6 @@
 #include "ChatNotificationsSingleton.h"
 #include <AzoomeeCommon/UI/PrivacyLayer.h>
 #include "ContentHistoryManager.h"
-#include "DynamicNodeHandler.h"
 #include "ForceUpdateAppLockScene.h"
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 #include <AzoomeeCommon/Utils/ActionBuilder.h>
@@ -593,8 +592,6 @@ void ChildSelectorScene::onSizeChanged()
     addPrivacyButton();
     
     setParentButtonVisible(parentButtonVisible);
-    
-    DynamicNodeHandler::getInstance()->rebuildCurrentCTA();
 }
 
 NS_AZOOMEE_END

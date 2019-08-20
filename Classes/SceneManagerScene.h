@@ -30,7 +30,9 @@ enum class SceneNameEnum {
 	VodacomOnboarding,
 	WelcomeScene,
 	ChildSettingsHub,
-	Shop
+	Shop,
+	IAP,
+	Signup
 };
 
 class SceneManagerScene : public cocos2d::Layer

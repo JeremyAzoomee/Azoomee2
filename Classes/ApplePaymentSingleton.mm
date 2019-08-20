@@ -7,7 +7,6 @@
 #include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include "LoginLogicHandler.h"
 #include "RoutePaymentSingleton.h"
-#include "DynamicNodeHandler.h"
 #include "FlowDataSingleton.h"
 
 using namespace cocos2d;
@@ -61,8 +60,7 @@ void ApplePaymentSingleton::transactionStatePurchased(std::string receiptData)
     if(!ParentManager::getInstance()->isUserLoggedIn())
     {
         ModalMessages::getInstance()->stopLoading();
-        FlowDataSingleton::getInstance()->setSuccessFailPath(IAP_SUCCESS);
-        DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
+		Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(RoutePaymentSingleton::kPaymentSuccessfulEventName);
     }
     else
     {

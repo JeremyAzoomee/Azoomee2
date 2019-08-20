@@ -8,9 +8,6 @@
 #include "HQScene.h"
 #include "SceneManagerScene.h"
 #include "HQHistoryManager.h"
-
-#include "DynamicNodeHandler.h"
-
 #include <AzoomeeCommon/Utils/SpecialCalendarEventManager.h>
 #include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
@@ -19,6 +16,8 @@
 #include "FlowDataSingleton.h"
 #include "ContentHistoryManager.h"
 #include "RewardDisplayHandler.h"
+
+#include "AgeGate.h"
 
 using namespace cocos2d;
 
@@ -80,8 +79,6 @@ void HQScene::onSizeChanged()
 	
 	_coinDisplay->setAnchorPoint(Vec2(1.2,(isIphoneX && _isPortrait) ? 2.2f : 1.5f));
 	_verticalScrollGradient->setScaleX(visibleSize.width / _verticalScrollGradient->getContentSize().width);
-	
-	DynamicNodeHandler::getInstance()->rebuildCurrentCTA();
 
 }
 
