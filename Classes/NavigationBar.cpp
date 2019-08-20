@@ -12,6 +12,13 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+const std::map<std::string, HQType> NavigationBar::kHQNameToTypeConv = {
+    {ConfigStorage::kGameHQName,HQType::GAME},
+    {ConfigStorage::kVideoHQName, HQType::VIDEO},
+    {ConfigStorage::kChatHQName, HQType::CHAT},
+    {ConfigStorage::kMeHQName, HQType::OOMEE}
+};
+
 bool NavigationBar::init()
 {
     if(!Super::init())
@@ -42,6 +49,7 @@ bool NavigationBar::init()
     _gameHQButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
+            this->toggleHQSelected(HQType::GAME);
             if(_callback)
             {
                 _callback(HQType::GAME);
@@ -59,6 +67,7 @@ bool NavigationBar::init()
     _videoHQButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
+            this->toggleHQSelected(HQType::VIDEO);
             if(_callback)
             {
                 _callback(HQType::VIDEO);
@@ -72,10 +81,11 @@ bool NavigationBar::init()
     _chatHQButton = NavigationButton::create();
     _chatHQButton->setPosition(Vec2(pos,0));
     _chatHQButton->setCircleColour(Color3B(ConfigStorage::getInstance()->getColourForMenuItem(ConfigStorage::kChatHQName)));
-    _chatHQButton->setButtonIcons("res/navigation/menu_chat_hq_on.png", "res/navigation/menu_chat_hq.png");
+    _chatHQButton->setButtonIcons("res/navigation/menu_chat_on.png", "res/navigation/menu_chat.png");
     _chatHQButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
+            this->toggleHQSelected(HQType::CHAT);
             if(_callback)
             {
                 _callback(HQType::CHAT);
@@ -93,9 +103,10 @@ bool NavigationBar::init()
     _oomeeHQButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
+            this->toggleHQSelected(HQType::OOMEE);
             if(_callback)
             {
-                _callback(HQType::GAME);
+                _callback(HQType::OOMEE);
             }
         }
     });
@@ -130,6 +141,20 @@ void NavigationBar::setHQSelectedCallback(const HQSelectedCallback& callback)
 void NavigationBar::setChatNotificationEnabled(bool enabled)
 {
     _chatNotificationIcon->setVisible(enabled);
+}
+
+void NavigationBar::toggleHQSelected(const HQType& hq)
+{
+    _gameHQButton->setActive(hq == HQType::GAME);
+    _videoHQButton->setActive(hq == HQType::VIDEO);
+    _chatHQButton->setActive(hq == HQType::CHAT);
+    _oomeeHQButton->setActive(hq == HQType::OOMEE);
+}
+
+void NavigationBar::toggleHQSelected(const std::string &hqName)
+{
+    const HQType type = (kHQNameToTypeConv.find(hqName) != kHQNameToTypeConv.end()) ? kHQNameToTypeConv.at(hqName) : HQType::GAME;
+    toggleHQSelected(type);
 }
 
 NS_AZOOMEE_END

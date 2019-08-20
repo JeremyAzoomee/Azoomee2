@@ -22,7 +22,7 @@ bool NavigationButton::init()
     setContentSize(Size(200,200));
     setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     
-    _circle = ui::ImageView::create("res/navigation/outer_circle");
+    _circle = ui::ImageView::create("res/navigation/outer_circle.png");
     _circle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _circle->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _circle->setSizeType(SizeType::PERCENT);
