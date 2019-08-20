@@ -26,8 +26,8 @@ bool NavigationBar::init()
         return false;
     }
     
-    setBackGroundImage("res/navigation_bg.png");
-    setBackGroundImageScale9Enabled(true);
+    setBackGroundImage("res/navigation/navigation_bg.png");
+    setBackGroundImageScale9Enabled(false);
     setContentSize(Size(1240,284));
     
     const int numButtons = 4;
