@@ -12,7 +12,8 @@
 #include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
-
+#include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
 #include "FlowDataSingleton.h"
 #include "ContentHistoryManager.h"
 #include "RewardDisplayHandler.h"
@@ -38,8 +39,14 @@ bool HQScene::init()
 }
 void HQScene::onEnter()
 {
-	_navLayer->setButtonOn(_hqCategory);
-	
+	TutorialController::getInstance()->registerDelegate(this);
+	if(TutorialController::getInstance()->isTutorialActive())
+	{
+		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
+	}
+	//_navLayer->setButtonOn(_hqCategory);
+    _navBar->toggleHQSelected(_hqCategory);
+
 	_rewardRedeemedListener = EventListenerCustom::create(RewardDisplayHandler::kRewardRedeemedEventKey, [this](EventCustom* event){
 		if(!_coinDisplay->isVisible())
 		{
@@ -139,11 +146,70 @@ void HQScene::buildCoreUI()
 	}
 	this->addChild(_messagingLayer,1);
 	
-	_navLayer = NavigationLayer::create();
-	_navLayer->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
-	_navLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-	_messagingLayer->addChild(_navLayer);
+	//_navLayer = NavigationLayer::create();
+	//_navLayer->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+	//_navLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+	//_messagingLayer->addChild(_navLayer);
 	
+    _navBar = NavigationBar::create();
+    _navBar->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+    _navBar->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _navBar->setHQSelectedCallback([this](HQType hq){
+        
+        const HQDataObjectRef &currentObject = HQDataObjectManager::getInstance()->getHQDataObjectForKey(_hqCategory);
+        
+        if(!currentObject->getHqEntitlement())
+        {
+#ifndef ALLOW_UNPAID_SIGNUP
+            AgeGate* ageGate = AgeGate::create();
+            ageGate->setActionCompletedCallback([ageGate](AgeGateResult result){
+                ageGate->removeFromParent();
+                if(result == AgeGateResult::SUCCESS)
+                {
+                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::IAP));
+                }
+            });
+            Director::getInstance()->getRunningScene()->addChild(ageGate,AGE_GATE_Z_ORDER);
+#else
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Signup));
+#endif
+            return;
+        }
+        
+        switch (hq) {
+            case HQType::GAME:
+            {
+                if(_hqCategory != ConfigStorage::kGameHQName)
+                {
+                    HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kGameHQName);
+                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
+                }
+                break;
+            }
+            case HQType::VIDEO:
+            {
+                HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kVideoHQName);
+                Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
+                break;
+            }
+            case HQType::CHAT:
+            {
+                if(!ParentManager::getInstance()->isLoggedInParentAnonymous())
+                {
+                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
+                }
+                break;
+            }
+            case HQType::OOMEE:
+            {
+                HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kMeHQName);
+                Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
+                break;
+            }
+        }
+    });
+    _messagingLayer->addChild(_navBar);
+    
 	addParticleElementsToBackground();
 	
 	_verticalScrollGradient = Sprite::create("res/decoration/TopNavGrad.png");
@@ -152,8 +218,9 @@ void HQScene::buildCoreUI()
 	_verticalScrollGradient->setColor(Color3B::BLACK);
 	_verticalScrollGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
 	_verticalScrollGradient->setRotation(180);
-	_navLayer->addChild(_verticalScrollGradient);
-	
+	//_navLayer->addChild(_verticalScrollGradient);
+    _navBar->addChild(_verticalScrollGradient);
+    
 	if(SpecialCalendarEventManager::getInstance()->isXmasTime())
 	{
 		addXmasDecoration();

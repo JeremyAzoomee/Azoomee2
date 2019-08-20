@@ -22,6 +22,8 @@ class NavigationBar : public cocos2d::ui::Layout
     typedef cocos2d::ui::Layout Super;
     typedef std::function<void(HQType)> HQSelectedCallback;
 private:
+    static const std::map<std::string, HQType> kHQNameToTypeConv;
+    
     NavigationButton* _gameHQButton = nullptr;
     NavigationButton* _videoHQButton = nullptr;
     NavigationButton* _chatHQButton = nullptr;
@@ -40,6 +42,8 @@ public:
     
     void setHQSelectedCallback(const HQSelectedCallback& callback);
     void setChatNotificationEnabled(bool enabled);
+    void toggleHQSelected(const HQType& hq);
+    void toggleHQSelected(const std::string& hqName);
     
     CREATE_FUNC(NavigationBar);
 };
