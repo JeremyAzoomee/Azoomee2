@@ -23,6 +23,8 @@ bool SignupEnterPin::init()
 		return false;
 	}
 	
+    _topHeading->setString(_("Your PIN must be four numbers"));
+    
 	_inputTitle->setString(_("Set up a 4-digit PIN"));
 	
 	_inputBg->setContentSize(Size(700, _inputBg->getContentSize().height));
