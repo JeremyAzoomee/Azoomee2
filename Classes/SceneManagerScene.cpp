@@ -31,6 +31,8 @@
 #include "IAPScene.h"
 #include "SignupScene.h"
 
+#include "HQScene.h"
+
 #include "CoinCollectLayer.h"
 #include <AzoomeeCommon/Crashlytics/CrashlyticsConfig.h>
 
@@ -434,7 +436,7 @@ cocos2d::Scene* SceneManagerScene::getBaseScene()
 		HQHistoryManager::getInstance()->addHQSceneToCache(currentHQ, scene);
 		goToScene = scene;
 	}
-	return goToScene;
+    return HQScene::create();//goToScene;
 }
 
 void SceneManagerScene::showHoldingUI()
