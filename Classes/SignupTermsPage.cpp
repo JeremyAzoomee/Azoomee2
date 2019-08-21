@@ -31,7 +31,7 @@ bool SignupTermsPage::init()
 	_contentLayout->setLayoutType(Type::VERTICAL);
 	addChild(_contentLayout);
 
-	DynamicText* para1 = DynamicText::create(_("Azoomee takes the protection and usage of your personal data very seriously. We use your personal data for the following purposes"), Style::Font::PoppinsMedium(), 50);
+    DynamicText* para1 = DynamicText::create(_("Azoomee takes the protection and usage of your personal data very seriously. We use your personal data for the following purposes:"), Style::Font::PoppinsMedium(), 50);
 	para1->setTextHorizontalAlignment(TextHAlignment::LEFT);
 	para1->setTextVerticalAlignment(TextVAlignment::TOP);
 	para1->setTextColor(Color4B(Style::Color::brownGrey));

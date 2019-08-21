@@ -25,6 +25,7 @@ bool ImportantMessageForParents::init()
     setSizePercent(Vec2(1.0f,1.0f));
     setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    setSwallowTouches(true);
     
     setBackGroundColorType(BackGroundColorType::SOLID);
     setBackGroundColor(Color3B::WHITE);
