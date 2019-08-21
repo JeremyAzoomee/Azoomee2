@@ -59,7 +59,7 @@ void PopupMessageBox::onSizeChanged()
 	const Size& contentSize = Director::getInstance()->getVisibleSize();
 	
 	const Size& messageBoxSizeWithPadding = Size(1236,1236);
-	const Size& maxSize = Size(MIN(contentSize.width * 0.95f,messageBoxSizeWithPadding.width), MIN(contentSize.width * 0.95f,messageBoxSizeWithPadding.height));
+	const Size& maxSize = Size(MIN(contentSize.width * 0.95f, messageBoxSizeWithPadding.width), MIN(contentSize.height * 0.95f, messageBoxSizeWithPadding.height));
 	
 	const float scaleFactor = MIN(maxSize.width / messageBoxSizeWithPadding.width, maxSize.height / messageBoxSizeWithPadding.height);
 	
@@ -91,7 +91,7 @@ void PopupMessageBox::createMessageBox()
     
     const Size& messageBoxSize = Size(1096,1096);  //target size
     const Size& messageBoxSizeWithPadding = Size(1236,1236);
-    const Size& maxSize = Size(MIN(contentSize.width * 0.95f,messageBoxSizeWithPadding.width), MIN(contentSize.width * 0.95f,messageBoxSizeWithPadding.height));
+    const Size& maxSize = Size(MIN(contentSize.width * 0.95f, messageBoxSizeWithPadding.width), MIN(contentSize.height * 0.95f, messageBoxSizeWithPadding.height));
     
     const float scaleFactor = MIN(maxSize.width / messageBoxSizeWithPadding.width, maxSize.height / messageBoxSizeWithPadding.height);
     
