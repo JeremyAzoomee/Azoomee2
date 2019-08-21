@@ -1,12 +1,12 @@
 //
-//  HQScene.h
+//  HQSceneDepreciated.h
 //  azoomee2
 //
 //  Created by Macauley on 25/01/2019.
 //
 
-#ifndef HQScene_h
-#define HQScene_h
+#ifndef HQSceneDepreciated_h
+#define HQSceneDepreciated_h
 
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/Scene.h>
@@ -21,7 +21,7 @@ NS_AZOOMEE_BEGIN
 
 enum class HQSceneType {CONTENT_FEED_HQ, LOCAL_CONTENT_HQ, ART_HQ, STORE_HQ, QUESTS_HQ, DEFAULT};
 
-class HQScene : public Azoomee::Scene, TutorialDelegate
+class HQSceneDepreciated : public Azoomee::Scene, TutorialDelegate
 {
 	typedef Azoomee::Scene Super;
 private:
@@ -62,7 +62,7 @@ public:
 	
 	HQSceneType getSceneType() const;
 	
-	CREATE_FUNC(HQScene);
+	CREATE_FUNC(HQSceneDepreciated);
 	
 	//delegate functions
 	virtual void onTutorialStateChanged(const std::string& stateId) override;
@@ -71,4 +71,4 @@ public:
 NS_AZOOMEE_END
 
 
-#endif /* HQScene_h */
+#endif /* HQSceneDepreciated_h */

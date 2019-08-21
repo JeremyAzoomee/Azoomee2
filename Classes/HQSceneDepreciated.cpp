@@ -5,7 +5,7 @@
 //  Created by Macauley on 29/01/2019.
 //
 
-#include "HQScene.h"
+#include "HQSceneDepreciated.h"
 #include "SceneManagerScene.h"
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Utils/SpecialCalendarEventManager.h>
@@ -24,9 +24,9 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-const std::string HQScene::kTutHandName = "tutHand";
+const std::string HQSceneDepreciated::kTutHandName = "tutHand";
 
-bool HQScene::init()
+bool HQSceneDepreciated::init()
 {
 	if(!Super::init())
 	{
@@ -37,7 +37,7 @@ bool HQScene::init()
 
 	return true;
 }
-void HQScene::onEnter()
+void HQSceneDepreciated::onEnter()
 {
 	TutorialController::getInstance()->registerDelegate(this);
 	if(TutorialController::getInstance()->isTutorialActive())
@@ -64,7 +64,7 @@ void HQScene::onEnter()
 	Super::onEnter();
 }
 
-void HQScene::onExit()
+void HQSceneDepreciated::onExit()
 {
 	TutorialController::getInstance()->unRegisterDelegate(this);
 	_eventDispatcher->removeEventListener(_rewardRedeemedListener);
@@ -72,7 +72,7 @@ void HQScene::onExit()
 	Super::onExit();
 }
 
-void HQScene::onSizeChanged()
+void HQSceneDepreciated::onSizeChanged()
 {
 	Super::onSizeChanged();
 
@@ -89,17 +89,17 @@ void HQScene::onSizeChanged()
 
 }
 
-void HQScene::setHQCategory(const std::string &hqCategory)
+void HQSceneDepreciated::setHQCategory(const std::string &hqCategory)
 {
 	_hqCategory = hqCategory;
 }
 
-HQSceneType HQScene::getSceneType() const
+HQSceneType HQSceneDepreciated::getSceneType() const
 {
 	return _type;
 }
 
-void HQScene::buildCoreUI()
+void HQSceneDepreciated::buildCoreUI()
 {
 	const Size& visibleSize = this->getContentSize();
 	_isPortrait = visibleSize.width < visibleSize.height;
@@ -233,7 +233,7 @@ void HQScene::buildCoreUI()
 	ContentHistoryManager::getInstance()->setReturnedFromContent(false);
 }
 
-void HQScene::addParticleElementsToBackground()
+void HQSceneDepreciated::addParticleElementsToBackground()
 {
 	auto myParticle = ParticleMeteor::create();
 	
@@ -252,7 +252,7 @@ void HQScene::addParticleElementsToBackground()
 	this->addChild(myParticle, 0);
 }
 
-void HQScene::addXmasDecoration()
+void HQSceneDepreciated::addXmasDecoration()
 {
 	Sprite* snow1 = Sprite::create("res/xmasdecoration/snowPileLeft.png");
 	snow1->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
@@ -273,7 +273,7 @@ void HQScene::addXmasDecoration()
 
 // Delegate Functions
 
-void HQScene::onTutorialStateChanged(const std::string& stateId)
+void HQSceneDepreciated::onTutorialStateChanged(const std::string& stateId)
 {
 	
 }
