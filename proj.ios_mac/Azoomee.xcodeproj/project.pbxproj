@@ -142,7 +142,7 @@
 		9229EE6322E07808009732B0 /* SignupTermsPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EE6222E07808009732B0 /* SignupTermsPage.cpp */; };
 		9229EECB22E5C6AF009732B0 /* PopupMessageBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EECA22E5C6AF009732B0 /* PopupMessageBox.cpp */; };
 		9229EECE22E74A55009732B0 /* LoginEntry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EECD22E74A55009732B0 /* LoginEntry.cpp */; };
-		923D5BBE220064B9008C13D0 /* HQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BBD220064B9008C13D0 /* HQScene.cpp */; };
+		923D5BBE220064B9008C13D0 /* HQSceneDepreciated.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BBD220064B9008C13D0 /* HQSceneDepreciated.cpp */; };
 		923D5BC522008BF1008C13D0 /* ContentFeedHQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BC422008BF1008C13D0 /* ContentFeedHQScene.cpp */; };
 		923D5BED2201F126008C13D0 /* RewardScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BEC2201F125008C13D0 /* RewardScene.cpp */; };
 		923D5BF022020475008C13D0 /* CoinDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BEF22020475008C13D0 /* CoinDisplay.cpp */; };
@@ -220,6 +220,7 @@
 		D6B0611B1803AB670077942B /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6B0611A1803AB670077942B /* CoreMotion.framework */; };
 		E22ACA04230C00D40024B328 /* NavigationButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACA03230C00D40024B328 /* NavigationButton.cpp */; };
 		E22ACA06230C07650024B328 /* NavigationBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACA05230C07650024B328 /* NavigationBar.cpp */; };
+		E22ACAA3230D51100024B328 /* HQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACAA2230D51100024B328 /* HQScene.cpp */; };
 		E2DCF5D52302B95D0032946D /* PopupMessageBox2Buttons.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2DCF5D32302B95D0032946D /* PopupMessageBox2Buttons.cpp */; };
 		E2DCF5E9230442FF0032946D /* ImportantMessageForParents.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2DCF5E8230442FF0032946D /* ImportantMessageForParents.cpp */; };
 		ED545A7C1B68A1F400C3958E /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED545A7B1B68A1F400C3958E /* libiconv.dylib */; };
@@ -587,8 +588,8 @@
 		9229EECA22E5C6AF009732B0 /* PopupMessageBox.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PopupMessageBox.cpp; sourceTree = "<group>"; };
 		9229EECC22E748FE009732B0 /* LoginEntry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginEntry.h; sourceTree = "<group>"; };
 		9229EECD22E74A55009732B0 /* LoginEntry.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LoginEntry.cpp; sourceTree = "<group>"; };
-		923D5B7221FB5BA9008C13D0 /* HQScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HQScene.h; sourceTree = "<group>"; };
-		923D5BBD220064B9008C13D0 /* HQScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HQScene.cpp; sourceTree = "<group>"; };
+		923D5B7221FB5BA9008C13D0 /* HQSceneDepreciated.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HQSceneDepreciated.h; sourceTree = "<group>"; };
+		923D5BBD220064B9008C13D0 /* HQSceneDepreciated.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HQSceneDepreciated.cpp; sourceTree = "<group>"; };
 		923D5BC322007473008C13D0 /* ContentFeedHQScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContentFeedHQScene.h; sourceTree = "<group>"; };
 		923D5BC422008BF1008C13D0 /* ContentFeedHQScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ContentFeedHQScene.cpp; sourceTree = "<group>"; };
 		923D5BEB2201E287008C13D0 /* RewardScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RewardScene.h; sourceTree = "<group>"; };
@@ -737,6 +738,8 @@
 		E22ACA02230BFB790024B328 /* NavigationButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NavigationButton.h; sourceTree = "<group>"; };
 		E22ACA03230C00D40024B328 /* NavigationButton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NavigationButton.cpp; sourceTree = "<group>"; };
 		E22ACA05230C07650024B328 /* NavigationBar.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NavigationBar.cpp; sourceTree = "<group>"; };
+		E22ACA9C230D4FA40024B328 /* HQScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HQScene.h; sourceTree = "<group>"; };
+		E22ACAA2230D51100024B328 /* HQScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HQScene.cpp; sourceTree = "<group>"; };
 		E2DCF5CD2302AA040032946D /* PopupMessageBox2Buttons.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PopupMessageBox2Buttons.h; sourceTree = "<group>"; };
 		E2DCF5D32302B95D0032946D /* PopupMessageBox2Buttons.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PopupMessageBox2Buttons.cpp; sourceTree = "<group>"; };
 		E2DCF5E22304419B0032946D /* ImportantMessageForParents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImportantMessageForParents.h; sourceTree = "<group>"; };
@@ -1494,8 +1497,10 @@
 		A19759861DE4931600FEB03C /* HQScene */ = {
 			isa = PBXGroup;
 			children = (
-				923D5B7221FB5BA9008C13D0 /* HQScene.h */,
-				923D5BBD220064B9008C13D0 /* HQScene.cpp */,
+				E22ACA9C230D4FA40024B328 /* HQScene.h */,
+				E22ACAA2230D51100024B328 /* HQScene.cpp */,
+				923D5B7221FB5BA9008C13D0 /* HQSceneDepreciated.h */,
+				923D5BBD220064B9008C13D0 /* HQSceneDepreciated.cpp */,
 				923D5BC322007473008C13D0 /* ContentFeedHQScene.h */,
 				923D5BC422008BF1008C13D0 /* ContentFeedHQScene.cpp */,
 				021564701FC4A8F100641C14 /* HQScene2 */,
@@ -1883,6 +1888,7 @@
 				025633791F3B0F5C0053FF26 /* ForceUpdateAppLockScene.cpp in Sources */,
 				921A2677216F9FF6005C8C41 /* VodacomOnboardingDetailsLayer.cpp in Sources */,
 				02074B271E93966D009BB28C /* WebGameAPIDataManager.cpp in Sources */,
+				E22ACAA3230D51100024B328 /* HQScene.cpp in Sources */,
 				02D644542087489800FF17B4 /* NativeContentInterface_ios.mm in Sources */,
 				9229EE5A22DF5954009732B0 /* SignupConfirmEmail.cpp in Sources */,
 				92E58564220DC7580015A4FA /* RewardDisplayHandler.cpp in Sources */,
@@ -1906,7 +1912,7 @@
 				921A26BF217E1653005C8C41 /* VodacomMessageBoxInfo.cpp in Sources */,
 				924E8455214141DC004590FD /* KidDetailsLayer.cpp in Sources */,
 				927DF6E320AECA620080DFEF /* MeHQGallery.cpp in Sources */,
-				923D5BBE220064B9008C13D0 /* HQScene.cpp in Sources */,
+				923D5BBE220064B9008C13D0 /* HQSceneDepreciated.cpp in Sources */,
 				926A2B2C212F018E00AE7964 /* SettingsPageHeader.cpp in Sources */,
 				921A266D216F958B005C8C41 /* VodacomOnboardingLayer.cpp in Sources */,
 				026BAF781E3FFD33009C4ACE /* HQHistoryManager.cpp in Sources */,

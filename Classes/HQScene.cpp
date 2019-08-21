@@ -1,51 +1,54 @@
 //
 //  HQScene.cpp
-//  azoomee2-mobile
+//  Azoomee
 //
-//  Created by Macauley on 29/01/2019.
+//  Created by Macauley.Scoffins on 21/08/2019.
 //
 
 #include "HQScene.h"
-#include "SceneManagerScene.h"
 #include "HQHistoryManager.h"
-#include <AzoomeeCommon/Utils/SpecialCalendarEventManager.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
-#include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
+
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
 #include "FlowDataSingleton.h"
 #include "ContentHistoryManager.h"
 #include "RewardDisplayHandler.h"
-
+#include "SceneManagerScene.h"
 #include "AgeGate.h"
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
 
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-const std::string HQScene::kTutHandName = "tutHand";
-
 bool HQScene::init()
 {
-	if(!Super::init())
-	{
-		return false;
-	}
-	
-	buildCoreUI();
-
-	return true;
+    if(!Super::init())
+    {
+        return false;
+    }
+    
+    _background = ui::Layout::create();
+    _background->setSizeType(ui::Layout::SizeType::PERCENT);
+    _background->setSizePercent(Vec2(1.0f,1.0f));
+    _background->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+    _background->setBackGroundColor(Style::Color::darkIndigo);
+    addChild(_background);
+    
+    createHeaderUI();
+    createNavigationUI();
+    createPageUI();
+    
+    return true;
 }
+
 void HQScene::onEnter()
 {
-	TutorialController::getInstance()->registerDelegate(this);
-	if(TutorialController::getInstance()->isTutorialActive())
-	{
-		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
-	}
-	//_navLayer->setButtonOn(_hqCategory);
-    _navBar->toggleHQSelected(_hqCategory);
+    _activePageName = ConfigStorage::kGameHQName;
+    
+    _navBar->toggleHQSelected(_activePageName);
 
 	_rewardRedeemedListener = EventListenerCustom::create(RewardDisplayHandler::kRewardRedeemedEventKey, [this](EventCustom* event){
 		if(!_coinDisplay->isVisible())
@@ -61,102 +64,132 @@ void HQScene::onEnter()
 		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
 	}
 	ContentHistoryManager::getInstance()->setReturnedFromContent(false);
-	Super::onEnter();
+    Super::onEnter();
 }
 
 void HQScene::onExit()
 {
-	TutorialController::getInstance()->unRegisterDelegate(this);
-	_eventDispatcher->removeEventListener(_rewardRedeemedListener);
-	_rewardRedeemedListener = nullptr;
-	Super::onExit();
+    Super::onExit();
 }
 
 void HQScene::onSizeChanged()
 {
-	Super::onSizeChanged();
-
-	const Size& visibleSize = this->getContentSize();
-	_isPortrait = visibleSize.width < visibleSize.height;
-	bool isIphoneX = ConfigStorage::getInstance()->isDeviceIphoneX();
-	
-	_messagingLayer->setContentSize(Size(visibleSize.width, 350));
-	
-	_messagingLayer->repositionElements();
-	
-	_coinDisplay->setAnchorPoint(Vec2(1.2,(isIphoneX && _isPortrait) ? 2.2f : 1.5f));
-	_verticalScrollGradient->setScaleX(visibleSize.width / _verticalScrollGradient->getContentSize().width);
-
+    Super::onSizeChanged();
+    const Size& visibleSize = Director::getInstance()->getVisibleSize();
+    _isPortrait = visibleSize.width < visibleSize.height;
+    
+    if(_titleBannerContent)
+    {
+        _titleBannerContent->setContentSize(Size(visibleSize.width - 120, 260));
+    }
+    if(_messagingLayer)
+    {
+        _messagingLayer->setContentSize(Size(visibleSize.width, 350));
+    }
+    if(_HQPageTitle)
+    {
+        _HQPageTitle->setTextAreaSize(Size(visibleSize.width / 2, 240));
+    }
+    if(_pageLayout)
+    {
+        _pageLayout->setContentSize(Size(visibleSize.width, visibleSize.height - _titleBanner->getContentSize().height - _navBar->getContentSize().height));
+        _pageLayout->setPosition(Vec2(visibleSize.width / 2, visibleSize.height - _titleBanner->getContentSize().height));
+    }
 }
 
-void HQScene::setHQCategory(const std::string &hqCategory)
+void HQScene::createHeaderUI()
 {
-	_hqCategory = hqCategory;
+    const Size& visibleSize = Director::getInstance()->getVisibleSize();
+    _isPortrait = visibleSize.width < visibleSize.height;
+    
+    _titleBanner = ui::Layout::create();
+    _titleBanner->setContentSize(Size(2736, 260));
+    _titleBanner->setClippingEnabled(true);
+    _titleBanner->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+    _titleBanner->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+    addChild(_titleBanner, 1);
+    
+    _topPattern = ui::ImageView::create("res/decoration/main_pattern_big.png");
+    _topPattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+    _topPattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+    _topPattern->setColor(Style::Color::macaroniAndCheese);
+    _titleBanner->addChild(_topPattern);
+    
+    const Color3B& gradColour = Style::Color::darkIndigo;
+    _patternGradient = LayerGradient::create(Color4B(gradColour.r, gradColour.g, gradColour.b, 0), Color4B(gradColour));
+    _patternGradient->setIgnoreAnchorPointForPosition(false);
+    _patternGradient->setContentSize(_titleBanner->getContentSize());
+    _patternGradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+    _patternGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+    _topPattern->addChild(_patternGradient);
+    
+    _titleBannerContent = ui::Layout::create();
+    _titleBannerContent->setContentSize(Size(visibleSize.width - 120, 260));
+    _titleBannerContent->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _titleBannerContent->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    _titleBanner->addChild(_titleBannerContent);
+    
+    // add coin counter
+    _coinDisplay = CoinDisplay::create();
+    _coinDisplay->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
+    _coinDisplay->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
+    _coinDisplay->setAnimate(true);
+    _titleBannerContent->addChild(_coinDisplay);
+    //show coin counter if they have coins or have completed the shop tutorial
+    //_coinDisplay->setVisible(TutorialController::getInstance()->isTutorialCompleted(TutorialController::kFTUShopID) || ChildManager::getInstance()->getLoggedInChild()->getInventory()->getCoins() > 0);
+    
+    _HQPageTitle = DynamicText::create(_("Games"), Style::Font::PoppinsBold(), 129);
+    _HQPageTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+    _HQPageTitle->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
+    _HQPageTitle->setOverflow(Label::Overflow::SHRINK);
+    _HQPageTitle->setTextAreaSize(Size(visibleSize.width / 2, 240));
+    _HQPageTitle->setTextColor(Color4B::WHITE);
+    _titleBannerContent->addChild(_HQPageTitle);
+    
 }
-
-HQSceneType HQScene::getSceneType() const
+void HQScene::createNavigationUI()
 {
-	return _type;
-}
-
-void HQScene::buildCoreUI()
-{
-	const Size& visibleSize = this->getContentSize();
-	_isPortrait = visibleSize.width < visibleSize.height;
-	bool isIphoneX = ConfigStorage::getInstance()->isDeviceIphoneX();
-	
-	// add coin counter
-	_coinDisplay = CoinDisplay::create();
-	_coinDisplay->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
-	_coinDisplay->setAnchorPoint(Vec2(1.2,(isIphoneX && _isPortrait) ? 2.2f : 1.5f));
-	_coinDisplay->setAnimate(true);
-	this->addChild(_coinDisplay, 1);
-	//show coin counter if they have coins or have completed the shop tutorial
-	_coinDisplay->setVisible(TutorialController::getInstance()->isTutorialCompleted(TutorialController::kFTUShopID) || ChildManager::getInstance()->getLoggedInChild()->getInventory()->getCoins() > 0);
-	
-	_messagingLayer = UserTypeMessagingLayer::create();
-	_messagingLayer->setContentSize(Size(visibleSize.width, 350));
-	_messagingLayer->setPosition(-Vec2(0,350));
-	_messagingLayer->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-	UserBillingType userType = UserBillingType::ANON;
-	if(!ParentManager::getInstance()->isLoggedInParentAnonymous())
-	{
-		userType = UserBillingType::LAPSED;
-		if(ParentManager::getInstance()->isPaidUser())
-		{
-			userType = UserBillingType::PAID;
-		}
-	}
-	_messagingLayer->setUserType(userType);
-	if(userType == UserBillingType::PAID)
-	{
-		_showingMessagingLayer = false;
-		_messagingLayer->setOpacity(0);
-	}
-	else
-	{
-		if(HQHistoryManager::getInstance()->getHistorySize() == 1)
-		{
-			_messagingLayer->runAction(MoveTo::create(1, Vec2(0,0)));
-		}
-		else
-		{
-			_messagingLayer->setPosition(Vec2(0,0));
-		}
-	}
-	this->addChild(_messagingLayer,1);
-	
-	//_navLayer = NavigationLayer::create();
-	//_navLayer->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
-	//_navLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-	//_messagingLayer->addChild(_navLayer);
-	
+    const Size& visibleSize = Director::getInstance()->getVisibleSize();
+    _isPortrait = visibleSize.width < visibleSize.height;
+    
+    _messagingLayer = UserTypeMessagingLayer::create();
+    _messagingLayer->setContentSize(Size(visibleSize.width, 350));
+    _messagingLayer->setPosition(-Vec2(0,350));
+    _messagingLayer->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+    UserBillingType userType = UserBillingType::ANON;
+    if(!ParentManager::getInstance()->isLoggedInParentAnonymous())
+    {
+        userType = UserBillingType::LAPSED;
+        if(ParentManager::getInstance()->isPaidUser())
+        {
+            userType = UserBillingType::PAID;
+        }
+    }
+    _messagingLayer->setUserType(userType);
+    if(userType == UserBillingType::PAID)
+    {
+        _showingMessagingLayer = false;
+        _messagingLayer->setOpacity(0);
+    }
+    else
+    {
+        if(HQHistoryManager::getInstance()->getHistorySize() == 1)
+        {
+            _messagingLayer->runAction(MoveTo::create(1, Vec2(0,0)));
+        }
+        else
+        {
+            _messagingLayer->setPosition(Vec2(0,0));
+        }
+    }
+    addChild(_messagingLayer,1);
+    
     _navBar = NavigationBar::create();
     _navBar->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
     _navBar->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _navBar->setHQSelectedCallback([this](HQType hq){
         
-        const HQDataObjectRef &currentObject = HQDataObjectManager::getInstance()->getHQDataObjectForKey(_hqCategory);
+        const HQDataObjectRef &currentObject = HQDataObjectManager::getInstance()->getHQDataObjectForKey(_activePageName);
         
         if(!currentObject->getHqEntitlement())
         {
@@ -179,7 +212,7 @@ void HQScene::buildCoreUI()
         switch (hq) {
             case HQType::GAME:
             {
-                if(_hqCategory != ConfigStorage::kGameHQName)
+                if(_activePageName != ConfigStorage::kGameHQName)
                 {
                     HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kGameHQName);
                     Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
@@ -188,9 +221,12 @@ void HQScene::buildCoreUI()
             }
             case HQType::VIDEO:
             {
-                HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kVideoHQName);
-                Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
-                break;
+                if(_activePageName != ConfigStorage::kVideoHQName)
+                {
+                    HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kVideoHQName);
+                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
+                    break;
+                }
             }
             case HQType::CHAT:
             {
@@ -202,80 +238,34 @@ void HQScene::buildCoreUI()
             }
             case HQType::OOMEE:
             {
-                HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kMeHQName);
-                Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
-                break;
+                if(_activePageName != ConfigStorage::kMeHQName)
+                {
+                    HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kMeHQName);
+                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
+                    break;
+                }
             }
         }
     });
     _messagingLayer->addChild(_navBar);
-    
-	addParticleElementsToBackground();
-	
-	_verticalScrollGradient = Sprite::create("res/decoration/TopNavGrad.png");
-	_verticalScrollGradient->setAnchorPoint(Vec2(0.5, 0.9));
-	_verticalScrollGradient->setScaleX(visibleSize.width / _verticalScrollGradient->getContentSize().width);
-	_verticalScrollGradient->setColor(Color3B::BLACK);
-	_verticalScrollGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
-	_verticalScrollGradient->setRotation(180);
-	//_navLayer->addChild(_verticalScrollGradient);
-    _navBar->addChild(_verticalScrollGradient);
-    
-	if(SpecialCalendarEventManager::getInstance()->isXmasTime())
-	{
-		addXmasDecoration();
-	}
-	
-	if(HQHistoryManager::getInstance()->getHistorySize() == 1 || ContentHistoryManager::getInstance()->getReturnedFromContent())
-	{
-		AudioMixer::getInstance()->playBackgroundMusic(HQ_BACKGROUND_MUSIC);
-	}
-	ContentHistoryManager::getInstance()->setReturnedFromContent(false);
 }
 
-void HQScene::addParticleElementsToBackground()
+void HQScene::createPageUI()
 {
-	auto myParticle = ParticleMeteor::create();
-	
-	if(SpecialCalendarEventManager::getInstance()->isXmasTime())
-	{
-		myParticle->setColor(cocos2d::Color3B::WHITE);
-		myParticle->setStartColor(cocos2d::Color4F::WHITE);
-		myParticle->setEndColor(cocos2d::Color4F::WHITE);
-		myParticle->setLife(20.0f);
-	}
-	
-	myParticle->setSpeed(30);
-	myParticle->setGravity(Vec2(0, -20));
-	myParticle->setScale(1);
-	myParticle->setPosVar(Vec2(2732, 5192));
-	this->addChild(myParticle, 0);
+
+    const Size& visibleSize = Director::getInstance()->getVisibleSize();
+    
+    _pageLayout = ui::Layout::create();
+    _pageLayout->setContentSize(Size(visibleSize.width, visibleSize.height - _titleBanner->getContentSize().height - _navBar->getContentSize().height));
+    _pageLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+    _pageLayout->setPosition(Vec2(visibleSize.width / 2, visibleSize.height - _titleBanner->getContentSize().height));
+    addChild(_pageLayout);
 }
 
-void HQScene::addXmasDecoration()
-{
-	Sprite* snow1 = Sprite::create("res/xmasdecoration/snowPileLeft.png");
-	snow1->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-	snow1->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_LEFT);
-	snow1->setScale(0);
-	this->addChild(snow1, DECORATION_ZORDER);
-	snow1->runAction(Sequence::create(DelayTime::create(0.3f), EaseOut::create(ScaleTo::create(2.0f, 1.0f), 2.0f), NULL));
-	
-	Sprite *snow2 = Sprite::create("res/xmasdecoration/snowPileRight.png");
-	snow2->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
-	snow2->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_RIGHT);
-	snow2->setScale(0);
-	this->addChild(snow2, DECORATION_ZORDER);
-	snow2->runAction(Sequence::create(DelayTime::create(0.5f), EaseOut::create(ScaleTo::create(2.0f, 1.0f), 2.0f), NULL));
-}
-
-
-
-// Delegate Functions
-
+//delegate functions
 void HQScene::onTutorialStateChanged(const std::string& stateId)
 {
-	
+    
 }
 
 NS_AZOOMEE_END

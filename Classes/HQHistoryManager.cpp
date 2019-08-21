@@ -162,12 +162,12 @@ int HQHistoryManager::getHistorySize() const
 	return _hqNames.size();
 }
 
-void HQHistoryManager::addHQSceneToCache(const std::string& hqName, HQScene* scene)
+void HQHistoryManager::addHQSceneToCache(const std::string& hqName, HQSceneDepreciated* scene)
 {
 	_cachedScenes.insert(hqName, scene);
 }
 
-HQScene* HQHistoryManager::getCachedHQScene(const std::string& hqName)
+HQSceneDepreciated* HQHistoryManager::getCachedHQScene(const std::string& hqName)
 {
 	return _cachedScenes.at(hqName);
 }
