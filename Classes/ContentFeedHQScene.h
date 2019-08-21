@@ -1,5 +1,5 @@
 //
-//  ContentFeedHQScene.h
+//  ContentFeedHQSceneDepreciated.h
 //  azoomee2
 //
 //  Created by Macauley on 29/01/2019.
@@ -8,14 +8,14 @@
 #ifndef ContentFeedHQScene_h
 #define ContentFeedHQScene_h
 
-#include "HQScene.h"
+#include "HQSceneDepreciated.h"
 #include "HQSceneElement.h"
 
 NS_AZOOMEE_BEGIN
 
-class ContentFeedHQScene : public HQScene
+class ContentFeedHQScene : public HQSceneDepreciated
 {
-	typedef HQScene Super;
+	typedef HQSceneDepreciated Super;
 private:
 	static const float kSpaceForPrivacyPolicy;
 	static const std::string kGroupLogoName;

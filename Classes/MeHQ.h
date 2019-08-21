@@ -14,14 +14,14 @@
 #include <cocos/ui/CocosGUI.h>
 #include "HQSceneArtsApp.h"
 #include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
-#include "HQScene.h"
+#include "HQSceneDepreciated.h"
 #include "SettingsButton.h"
 
 NS_AZOOMEE_BEGIN
 
-class MeHQ : public HQScene
+class MeHQ : public HQSceneDepreciated
 {
-    typedef HQScene Super;
+    typedef HQSceneDepreciated Super;
     typedef std::function<void()> RefreshLayoutCallback;
 private:
     static const std::string kProfileLayerName;
