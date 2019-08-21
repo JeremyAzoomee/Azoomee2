@@ -417,7 +417,7 @@ cocos2d::Scene* SceneManagerScene::getBaseScene()
 	HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
 	const std::string& currentHQ = HQHistoryManager::getInstance()->getCurrentHQ();
 	
-	HQScene* scene = HQHistoryManager::getInstance()->getCachedHQScene(currentHQ);
+	HQSceneDepreciated* scene = HQHistoryManager::getInstance()->getCachedHQScene(currentHQ);
 	cocos2d::Scene* goToScene = scene;
 	if(!scene)
 	{
