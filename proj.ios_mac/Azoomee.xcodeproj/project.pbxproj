@@ -221,6 +221,7 @@
 		E22ACA04230C00D40024B328 /* NavigationButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACA03230C00D40024B328 /* NavigationButton.cpp */; };
 		E22ACA06230C07650024B328 /* NavigationBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACA05230C07650024B328 /* NavigationBar.cpp */; };
 		E22ACAA3230D51100024B328 /* HQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACAA2230D51100024B328 /* HQScene.cpp */; };
+		E22ACAFF230EC4CA0024B328 /* HQPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACAFE230EC4CA0024B328 /* HQPage.cpp */; };
 		E2DCF5D52302B95D0032946D /* PopupMessageBox2Buttons.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2DCF5D32302B95D0032946D /* PopupMessageBox2Buttons.cpp */; };
 		E2DCF5E9230442FF0032946D /* ImportantMessageForParents.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2DCF5E8230442FF0032946D /* ImportantMessageForParents.cpp */; };
 		ED545A7C1B68A1F400C3958E /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED545A7B1B68A1F400C3958E /* libiconv.dylib */; };
@@ -740,6 +741,8 @@
 		E22ACA05230C07650024B328 /* NavigationBar.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NavigationBar.cpp; sourceTree = "<group>"; };
 		E22ACA9C230D4FA40024B328 /* HQScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HQScene.h; sourceTree = "<group>"; };
 		E22ACAA2230D51100024B328 /* HQScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HQScene.cpp; sourceTree = "<group>"; };
+		E22ACAF8230EA7190024B328 /* HQPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HQPage.h; sourceTree = "<group>"; };
+		E22ACAFE230EC4CA0024B328 /* HQPage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HQPage.cpp; sourceTree = "<group>"; };
 		E2DCF5CD2302AA040032946D /* PopupMessageBox2Buttons.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PopupMessageBox2Buttons.h; sourceTree = "<group>"; };
 		E2DCF5D32302B95D0032946D /* PopupMessageBox2Buttons.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PopupMessageBox2Buttons.cpp; sourceTree = "<group>"; };
 		E2DCF5E22304419B0032946D /* ImportantMessageForParents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImportantMessageForParents.h; sourceTree = "<group>"; };
@@ -1499,6 +1502,8 @@
 			children = (
 				E22ACA9C230D4FA40024B328 /* HQScene.h */,
 				E22ACAA2230D51100024B328 /* HQScene.cpp */,
+				E22ACAF8230EA7190024B328 /* HQPage.h */,
+				E22ACAFE230EC4CA0024B328 /* HQPage.cpp */,
 				923D5B7221FB5BA9008C13D0 /* HQSceneDepreciated.h */,
 				923D5BBD220064B9008C13D0 /* HQSceneDepreciated.cpp */,
 				923D5BC322007473008C13D0 /* ContentFeedHQScene.h */,
@@ -1893,6 +1898,7 @@
 				9229EE5A22DF5954009732B0 /* SignupConfirmEmail.cpp in Sources */,
 				92E58564220DC7580015A4FA /* RewardDisplayHandler.cpp in Sources */,
 				9229EE5D22DF633E009732B0 /* SignupEnterPassword.cpp in Sources */,
+				E22ACAFF230EC4CA0024B328 /* HQPage.cpp in Sources */,
 				92E58562220DB49F0015A4FA /* RewardScreen.cpp in Sources */,
 				A15B2FCA1DFACF3800D25334 /* HQDataProvider.cpp in Sources */,
 				9295158B2091D48700F43AEC /* UserTypeMessagingLayer.cpp in Sources */,
