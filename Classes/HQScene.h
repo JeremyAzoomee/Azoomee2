@@ -26,9 +26,9 @@ private:
 
     static const std::string kTutHandName;
     
-    cocos2d::Sprite* _verticalScrollGradient = nullptr;
+    cocos2d::LayerGradient* _verticalScrollGradient = nullptr;
     NavigationBar* _navBar = nullptr;
-    UserTypeMessagingLayer* _messagingLayer = nullptr;
+    //UserTypeMessagingLayer* _messagingLayer = nullptr;
     bool _showingMessagingLayer = true;
     CoinDisplay* _coinDisplay = nullptr;
     cocos2d::EventListenerCustom* _rewardRedeemedListener = nullptr;

@@ -82,10 +82,10 @@ void HQScene::onSizeChanged()
     {
         _titleBannerContent->setContentSize(Size(visibleSize.width - 120, 260));
     }
-    if(_messagingLayer)
-    {
-        _messagingLayer->setContentSize(Size(visibleSize.width, 350));
-    }
+    //if(_messagingLayer)
+    //{
+    //    _messagingLayer->setContentSize(Size(visibleSize.width, 350));
+    //}
     if(_HQPageTitle)
     {
         _HQPageTitle->setTextAreaSize(Size(visibleSize.width / 2, 240));
@@ -152,7 +152,7 @@ void HQScene::createNavigationUI()
     const Size& visibleSize = Director::getInstance()->getVisibleSize();
     _isPortrait = visibleSize.width < visibleSize.height;
     
-    _messagingLayer = UserTypeMessagingLayer::create();
+    /*_messagingLayer = UserTypeMessagingLayer::create();
     _messagingLayer->setContentSize(Size(visibleSize.width, 350));
     _messagingLayer->setPosition(-Vec2(0,350));
     _messagingLayer->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
@@ -183,9 +183,9 @@ void HQScene::createNavigationUI()
         }
     }
     addChild(_messagingLayer,1);
-    
+    */
     _navBar = NavigationBar::create();
-    _navBar->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+    _navBar->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _navBar->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _navBar->setHQSelectedCallback([this](HQType hq){
         
@@ -247,7 +247,16 @@ void HQScene::createNavigationUI()
             }
         }
     });
-    _messagingLayer->addChild(_navBar);
+    //_messagingLayer->addChild(_navBar);
+    addChild(_navBar, 1);
+    
+    const Color3B& gradColour = Style::Color::darkIndigo;
+    _verticalScrollGradient = LayerGradient::create(Color4B(gradColour.r, gradColour.g, gradColour.b, 0), Color4B(gradColour));
+    _verticalScrollGradient->setIgnoreAnchorPointForPosition(false);
+    _verticalScrollGradient->setContentSize(Size(2736, 160));
+    _verticalScrollGradient->setAnchorPoint(Vec2(0.5f, 0.2f));
+    _verticalScrollGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+    _navBar->addChild(_verticalScrollGradient, -1);
 }
 
 void HQScene::createPageUI()
