@@ -16,6 +16,8 @@
 #include "SettingsButton.h"
 #include "UserTypeMessagingLayer.h"
 #include "CoinDisplay.h"
+#include "HQPage.h"
+#include "GameHQ.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -42,6 +44,8 @@ private:
     cocos2d::ui::Layout* _titleBannerContent = nullptr;
     
     cocos2d::ui::Layout* _pageLayout = nullptr;
+    
+    GameHQ* _gameHQ = nullptr;
     
     std::string _activePageName;
     

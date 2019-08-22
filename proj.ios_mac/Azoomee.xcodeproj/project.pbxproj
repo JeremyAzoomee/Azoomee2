@@ -222,6 +222,7 @@
 		E22ACA06230C07650024B328 /* NavigationBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACA05230C07650024B328 /* NavigationBar.cpp */; };
 		E22ACAA3230D51100024B328 /* HQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACAA2230D51100024B328 /* HQScene.cpp */; };
 		E22ACAFF230EC4CA0024B328 /* HQPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACAFE230EC4CA0024B328 /* HQPage.cpp */; };
+		E22ACB13230EF30D0024B328 /* GameHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACB12230EF30D0024B328 /* GameHQ.cpp */; };
 		E2DCF5D52302B95D0032946D /* PopupMessageBox2Buttons.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2DCF5D32302B95D0032946D /* PopupMessageBox2Buttons.cpp */; };
 		E2DCF5E9230442FF0032946D /* ImportantMessageForParents.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2DCF5E8230442FF0032946D /* ImportantMessageForParents.cpp */; };
 		ED545A7C1B68A1F400C3958E /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED545A7B1B68A1F400C3958E /* libiconv.dylib */; };
@@ -743,6 +744,8 @@
 		E22ACAA2230D51100024B328 /* HQScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HQScene.cpp; sourceTree = "<group>"; };
 		E22ACAF8230EA7190024B328 /* HQPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HQPage.h; sourceTree = "<group>"; };
 		E22ACAFE230EC4CA0024B328 /* HQPage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HQPage.cpp; sourceTree = "<group>"; };
+		E22ACB0C230EEC430024B328 /* GameHQ.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameHQ.h; sourceTree = "<group>"; };
+		E22ACB12230EF30D0024B328 /* GameHQ.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GameHQ.cpp; sourceTree = "<group>"; };
 		E2DCF5CD2302AA040032946D /* PopupMessageBox2Buttons.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PopupMessageBox2Buttons.h; sourceTree = "<group>"; };
 		E2DCF5D32302B95D0032946D /* PopupMessageBox2Buttons.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PopupMessageBox2Buttons.cpp; sourceTree = "<group>"; };
 		E2DCF5E22304419B0032946D /* ImportantMessageForParents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImportantMessageForParents.h; sourceTree = "<group>"; };
@@ -1504,6 +1507,8 @@
 				E22ACAA2230D51100024B328 /* HQScene.cpp */,
 				E22ACAF8230EA7190024B328 /* HQPage.h */,
 				E22ACAFE230EC4CA0024B328 /* HQPage.cpp */,
+				E22ACB0C230EEC430024B328 /* GameHQ.h */,
+				E22ACB12230EF30D0024B328 /* GameHQ.cpp */,
 				923D5B7221FB5BA9008C13D0 /* HQSceneDepreciated.h */,
 				923D5BBD220064B9008C13D0 /* HQSceneDepreciated.cpp */,
 				923D5BC322007473008C13D0 /* ContentFeedHQScene.h */,
@@ -1960,6 +1965,7 @@
 				9240334122D4CCE2009907F3 /* IAPScene.cpp in Sources */,
 				920F6FE52140472A00B7BB76 /* SettingsMessageBox.cpp in Sources */,
 				437395811ED3441F00C29DB1 /* FlowDataSingleton.cpp in Sources */,
+				E22ACB13230EF30D0024B328 /* GameHQ.cpp in Sources */,
 				02E595891E55DFF00052F395 /* OfflineHubSceneVisuals.cpp in Sources */,
 				921A2675216F9FD3005C8C41 /* VodacomOnboardingSuccessLayer.cpp in Sources */,
 				928A6E8B20EE62270053E793 /* ChildOomeeLayer.cpp in Sources */,

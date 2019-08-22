@@ -15,11 +15,11 @@
 
 NS_AZOOMEE_BEGIN
 
-class HQPage : public cocos2d::ui::Layout
+class HQPage : public cocos2d::ui::Layout
 {
     typedef cocos2d::ui::Layout Super;
+protected:
     typedef std::function<void(HQContentItemObjectRef)> ContentSelectedCallback;
-private:
     
     bool _isPortrait = true;
     

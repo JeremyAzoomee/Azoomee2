@@ -269,6 +269,11 @@ void HQScene::createPageUI()
     _pageLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _pageLayout->setPosition(Vec2(visibleSize.width / 2, visibleSize.height - _titleBanner->getContentSize().height));
     addChild(_pageLayout);
+    
+    _gameHQ = GameHQ::create();
+    _gameHQ->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _gameHQ->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    _pageLayout->addChild(_gameHQ);
 }
 
 //delegate functions
