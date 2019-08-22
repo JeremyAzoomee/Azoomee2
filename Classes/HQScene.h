@@ -13,6 +13,7 @@
 #include <AzoomeeCommon/Tutorial/TutorialController.h>
 #include <AzoomeeCommon/UI/DynamicText.h>
 #include "NavigationLayer.h"
+#include "NavigationBar.h"
 #include "SettingsButton.h"
 #include "UserTypeMessagingLayer.h"
 #include "CoinDisplay.h"
@@ -25,9 +26,9 @@ class HQScene : public Azoomee::Scene, TutorialDelegate
 private:
     static const std::string kTutHandName;
     
-    cocos2d::Sprite* _verticalScrollGradient = nullptr;
-    NavigationLayer* _navLayer = nullptr;
-    UserTypeMessagingLayer* _messagingLayer = nullptr;
+    cocos2d::LayerGradient* _verticalScrollGradient = nullptr;
+    NavigationBar* _navBar = nullptr;
+    //UserTypeMessagingLayer* _messagingLayer = nullptr;
     bool _showingMessagingLayer = true;
     CoinDisplay* _coinDisplay = nullptr;
     cocos2d::EventListenerCustom* _rewardRedeemedListener = nullptr;

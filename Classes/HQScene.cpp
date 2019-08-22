@@ -56,10 +56,10 @@ void HQScene::onSizeChanged()
     {
         _titleBannerContent->setContentSize(Size(visibleSize.width - 120, 260));
     }
-    if(_messagingLayer)
-    {
-        _messagingLayer->setContentSize(Size(visibleSize.width, 350));
-    }
+    //if(_messagingLayer)
+    //{
+    //    _messagingLayer->setContentSize(Size(visibleSize.width, 350));
+    //}
     if(_HQPageTitle)
     {
         _HQPageTitle->setTextAreaSize(Size(visibleSize.width / 2, 240));
@@ -126,7 +126,7 @@ void HQScene::createNavigationUI()
     const Size& visibleSize = Director::getInstance()->getVisibleSize();
     _isPortrait = visibleSize.width < visibleSize.height;
     
-    _messagingLayer = UserTypeMessagingLayer::create();
+    /*_messagingLayer = UserTypeMessagingLayer::create();
     _messagingLayer->setContentSize(Size(visibleSize.width, 350));
     _messagingLayer->setPosition(-Vec2(0,350));
     _messagingLayer->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
@@ -157,11 +157,80 @@ void HQScene::createNavigationUI()
         }
     }
     addChild(_messagingLayer,1);
+    */
+    _navBar = NavigationBar::create();
+    _navBar->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _navBar->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _navBar->setHQSelectedCallback([this](HQType hq){
+        
+        const HQDataObjectRef &currentObject = HQDataObjectManager::getInstance()->getHQDataObjectForKey(_activePageName);
+        
+        if(!currentObject->getHqEntitlement())
+        {
+#ifndef ALLOW_UNPAID_SIGNUP
+            AgeGate* ageGate = AgeGate::create();
+            ageGate->setActionCompletedCallback([ageGate](AgeGateResult result){
+                ageGate->removeFromParent();
+                if(result == AgeGateResult::SUCCESS)
+                {
+                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::IAP));
+                }
+            });
+            Director::getInstance()->getRunningScene()->addChild(ageGate,AGE_GATE_Z_ORDER);
+#else
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Signup));
+#endif
+            return;
+        }
+        
+        switch (hq) {
+            case HQType::GAME:
+            {
+                if(_activePageName != ConfigStorage::kGameHQName)
+                {
+                    HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kGameHQName);
+                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
+                }
+                break;
+            }
+            case HQType::VIDEO:
+            {
+                if(_activePageName != ConfigStorage::kVideoHQName)
+                {
+                    HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kVideoHQName);
+                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
+                    break;
+                }
+            }
+            case HQType::CHAT:
+            {
+                if(!ParentManager::getInstance()->isLoggedInParentAnonymous())
+                {
+                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
+                }
+                break;
+            }
+            case HQType::OOMEE:
+            {
+                if(_activePageName != ConfigStorage::kMeHQName)
+                {
+                    HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kMeHQName);
+                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
+                    break;
+                }
+            }
+        }
+    });
+    //_messagingLayer->addChild(_navBar);
+    addChild(_navBar, 1);
     
-    _navLayer = NavigationLayer::create();
-    _navLayer->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
-    _navLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-    _messagingLayer->addChild(_navLayer);
+    const Color3B& gradColour = Style::Color::darkIndigo;
+    _verticalScrollGradient = LayerGradient::create(Color4B(gradColour.r, gradColour.g, gradColour.b, 0), Color4B(gradColour));
+    _verticalScrollGradient->setIgnoreAnchorPointForPosition(false);
+    _verticalScrollGradient->setContentSize(Size(2736, 160));
+    _verticalScrollGradient->setAnchorPoint(Vec2(0.5f, 0.2f));
+    _verticalScrollGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+    _navBar->addChild(_verticalScrollGradient, -1);
 }
 
 void HQScene::createPageUI()
