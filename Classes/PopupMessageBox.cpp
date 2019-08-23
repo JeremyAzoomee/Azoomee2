@@ -15,6 +15,12 @@ using namespace cocos2d;
 NS_AZOOMEE_BEGIN
 
 const std::string PopupMessageBox::kPopupMessageBoxName = "messageBox";
+const float PopupMessageBox::kPopupSize = 1096.0f;
+const float PopupMessageBox::kTitleBarHeight = 416.0f;
+const cocos2d::Size PopupMessageBox::kButtonSize = cocos2d::Size(700.0f, 140.0f);
+const float PopupMessageBox::kPopupPadding = 70.0f;
+const float PopupMessageBox::kButtonSpacing = 35.0f;
+const float PopupMessageBox::kContentBodyPadding = 70.0f;
 
 bool PopupMessageBox::init()
 {
@@ -24,11 +30,12 @@ bool PopupMessageBox::init()
 	}
 	
 	setName(kPopupMessageBoxName);
-
+    
+    // Message box root is full screen, with a semi transparent black background
 	setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	setSizeType(SizeType::PERCENT);
-	setSizePercent(Vec2(1.0f,1.0f));
+    setSizeType(SizeType::PERCENT);
+    setSizePercent(Vec2(1.0f, 1.0f));
 	
 	setBackGroundColorType(BackGroundColorType::SOLID);
 	setBackGroundColor(Color3B::BLACK);
@@ -41,110 +48,104 @@ bool PopupMessageBox::init()
 	
 	return true;
 }
+
 void PopupMessageBox::onEnter()
 {
 	Super::onEnter();
 	
-	_titleText->setTextAreaSize(_titleBox->getContentSize() * 0.8f);
-	_contentText->setTextAreaSize(Size(_contentBody->getContentSize().width * 0.8f, _contentBody->getContentSize().height * 0.4f));
-	_titleGradient->setContentSize(_titleBox->getContentSize());
-    
-    // Legacy code, will change to use relative layout
-    if(_secondActionButton->isEnabled())
-    {
-        _actionButton->setNormalizedPosition(Vec2(0.25f,0.3f));
-        _actionButton->setContentSize(Size(500,140));
-    }
+    updatePopupSize();
 }
+
 void PopupMessageBox::onExit()
 {
 	Super::onExit();
 }
+
 void PopupMessageBox::onSizeChanged()
 {
 	Super::onSizeChanged();
-	const Size& contentSize = Director::getInstance()->getVisibleSize();
-	
-	const Size& messageBoxSizeWithPadding = Size(1236,1236);
-	const Size& maxSize = Size(MIN(contentSize.width * 0.95f, messageBoxSizeWithPadding.width), MIN(contentSize.height * 0.95f, messageBoxSizeWithPadding.height));
-	
-	const float scaleFactor = MIN(maxSize.width / messageBoxSizeWithPadding.width, maxSize.height / messageBoxSizeWithPadding.height);
-	
-	if(_messageBoxBg)
-	{
-		_messageBoxBg->setScale(scaleFactor);
-	}
-	if(_messageBoxClipper)
-	{
-		_messageBoxClipper->setScale(scaleFactor);
-	}
-	if(_titleText)
-	{
-		_titleText->setTextAreaSize(_titleBox->getContentSize() * 0.8f);
-	}
-	if(_contentText)
-	{
-		_contentText->setTextAreaSize(Size(_contentBody->getContentSize().width * 0.8f, _contentBody->getContentSize().height * 0.4f));
-	}
-	if(_titleGradient)
-	{
-		_titleGradient->setContentSize(_titleBox->getContentSize());
-	}
+    
+    if(isRunning())
+    {
+        updatePopupSize();
+    }
+}
+
+void PopupMessageBox::updatePopupSize()
+{
+    const bool hasTwoButtons = _secondActionButton->isVisible();
+    
+    // Make the popup slightly bigger if it has a second button
+    const Size& messageBoxSize = Size(kPopupSize, kPopupSize + (hasTwoButtons ? kButtonSize.height + kButtonSpacing : 0));
+    const Size& messageBoxPadding = Size((kPopupPadding * 2), (kPopupPadding * 2));
+    const Size& messageBoxSizeWithPadding = messageBoxSize + messageBoxPadding;
+    
+    const Size& contentSize = Director::getInstance()->getVisibleSize();
+    const Size& maxSize = Size(MIN(contentSize.width * 0.95f, messageBoxSizeWithPadding.width), MIN(contentSize.height * 0.95f, messageBoxSizeWithPadding.height));
+    const float scaleFactor = MIN(maxSize.width / messageBoxSizeWithPadding.width, maxSize.height / messageBoxSizeWithPadding.height);
+    
+    _messageBoxBg->setContentSize(messageBoxSizeWithPadding - Size(4, 4)); //bring in a tad to prevent stray overhanging pixels
+    _messageBoxBg->setScale(scaleFactor);
+    
+    _messageBoxStencil->setContentSize(messageBoxSizeWithPadding);
+    _messageBoxStencil->setPosition(messageBoxSize * 0.5f);
+    _messageBoxClipper->setContentSize(messageBoxSize);
+    _messageBoxClipper->setScale(scaleFactor);
+    _messageBoxLayout->setContentSize(messageBoxSize);
+    
+    _titleBox->setContentSize(Size(messageBoxSize.width, kTitleBarHeight));
+    _titleGradient->setContentSize(_titleBox->getContentSize());
+    _titleText->setTextAreaSize(_titleBox->getContentSize() * 0.8f);
+    
+    // Calculate content body height
+    const Size contentBodySize(messageBoxSize.width - (kContentBodyPadding * 2), messageBoxSize.height - kTitleBarHeight - kContentBodyPadding);
+    _contentBody->setContentSize(contentBodySize);
+    
+    // Calculate height of the text
+    float spaceForButtons = kButtonSize.height + kButtonSpacing;
+    if(hasTwoButtons)
+    {
+        spaceForButtons += kButtonSize.height + kButtonSpacing;
+    }
+    float availableHeightForText = contentBodySize.height - spaceForButtons;
+    
+    _contentText->setTextAreaSize(Size(contentBodySize.width, availableHeightForText));
 }
 
 void PopupMessageBox::createMessageBox()
 {
-    const Size& contentSize = Director::getInstance()->getVisibleSize();
-    
-    const Size& messageBoxSize = Size(1096,1096);  //target size
-    const Size& messageBoxSizeWithPadding = Size(1236,1236);
-    const Size& maxSize = Size(MIN(contentSize.width * 0.95f, messageBoxSizeWithPadding.width), MIN(contentSize.height * 0.95f, messageBoxSizeWithPadding.height));
-    
-    const float scaleFactor = MIN(maxSize.width / messageBoxSizeWithPadding.width, maxSize.height / messageBoxSizeWithPadding.height);
-    
     _messageBoxBg = ui::Scale9Sprite::create("res/onboarding/rounded_rect_45px.png");
-    _messageBoxBg->setContentSize(messageBoxSizeWithPadding - Size(4,4)); //bring in a tad to prevent stray overhanging pixels
     _messageBoxBg->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _messageBoxBg->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    _messageBoxBg->setScale(scaleFactor);
     addChild(_messageBoxBg);
     
-    ui::Scale9Sprite* stencil = ui::Scale9Sprite::create("res/onboarding/rounded_rect_45px.png");
-    stencil->setContentSize(messageBoxSizeWithPadding);
-    stencil->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    stencil->setPosition(messageBoxSize / 2.0f);
-    _messageBoxClipper = ClippingNode::create(stencil);
+    _messageBoxStencil = ui::Scale9Sprite::create("res/onboarding/rounded_rect_45px.png");
+    _messageBoxStencil->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    
+    _messageBoxClipper = ClippingNode::create(_messageBoxStencil);
     _messageBoxClipper->setAlphaThreshold(0.5f);
-    _messageBoxClipper->setContentSize(messageBoxSize);
     _messageBoxClipper->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _messageBoxClipper->setIgnoreAnchorPointForPosition(false);
     _messageBoxClipper->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    _messageBoxClipper->setScale(scaleFactor);
     addChild(_messageBoxClipper);
     
     _messageBoxLayout = ui::Layout::create();
-    _messageBoxLayout->setSizeType(SizeType::PERCENT);
-    _messageBoxLayout->setSizePercent(Vec2(1.0f,1.0f));
-    _messageBoxLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _messageBoxLayout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    _messageBoxLayout->setLayoutType(Type::VERTICAL);
     _messageBoxLayout->setBackGroundColorType(BackGroundColorType::SOLID);
     _messageBoxLayout->setBackGroundColor(Color3B::WHITE);
     _messageBoxClipper->addChild(_messageBoxLayout);
     
     createTitle();
-    
     createBody();
 }
+
 void PopupMessageBox::createTitle()
 {
     _titleBox = ui::Layout::create();
-    _titleBox->setSizeType(SizeType::PERCENT);
-    _titleBox->setSizePercent(Vec2(1.0f, 0.38f));
     _titleBox->setBackGroundColorType(BackGroundColorType::SOLID);
     _titleBox->setBackGroundColor(Style::Color::darkIndigo);
-    _titleBox->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    _titleBox->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
     _titleBox->setClippingEnabled(true);
+    _titleBox->setLayoutParameter(CreateTopLinearLayoutParam());
     _messageBoxLayout->addChild(_titleBox);
     
     _titlePattern = ui::ImageView::create("res/decoration/main_pattern_small.png");
@@ -171,34 +172,31 @@ void PopupMessageBox::createTitle()
     _titleText->setColor(Color3B::WHITE);
     _titleText->setOverflow(Label::Overflow::SHRINK);
     _titleBox->addChild(_titleText);
-    
 }
+
 void PopupMessageBox::createBody()
 {
     _contentBody = ui::Layout::create();
-    _contentBody->setSizeType(SizeType::PERCENT);
-    _contentBody->setSizePercent(Vec2(1.0f,0.62f));
     _contentBody->setBackGroundColorType(BackGroundColorType::SOLID);
     _contentBody->setBackGroundColor(Color3B::WHITE);
-    _contentBody->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-    _contentBody->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _contentBody->setLayoutParameter(CreateTopLinearLayoutParam(cocos2d::ui::Margin(kContentBodyPadding, 0, kContentBodyPadding, kContentBodyPadding)));
+    _contentBody->setLayoutType(Type::VERTICAL);
     _messageBoxLayout->addChild(_contentBody);
     
     _contentText = DynamicText::create("", Style::Font::PoppinsRegular(), 50);
-    _contentText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _contentText->setNormalizedPosition(Vec2(0.5f,0.71f));
     _contentText->setTextHorizontalAlignment(TextHAlignment::CENTER);
     _contentText->setTextVerticalAlignment(TextVAlignment::CENTER);
     _contentText->setTextColor(Color4B(Style::Color::brownGrey));
     _contentText->setOverflow(Label::Overflow::SHRINK);
+    _contentText->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(cocos2d::ui::Margin(0, 0, 0, 0)));
     _contentBody->addChild(_contentText);
     
     _actionButton = CTAButton::create("res/onboarding/rounded_button.png");
+    _actionButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(cocos2d::ui::Margin(0, 0, 0, 0)));
     _actionButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _actionButton->setScale9Enabled(true);
-    _actionButton->setNormalizedPosition(Vec2(0.5f,0.3f));
     _actionButton->ignoreContentAdaptWithSize(false);
-    _actionButton->setContentSize(Size(700,140));
+    _actionButton->setContentSize(kButtonSize);
     _actionButton->setColor(Style::Color::darkIndigo);
     _actionButton->setTextFontInfo(Style::Font::PoppinsBold(), 70);
     _actionButton->setTextColour(Color4B::WHITE);
@@ -213,14 +211,13 @@ void PopupMessageBox::createBody()
         }
     });
     _contentBody->addChild(_actionButton);
-    _actionButton->setEnabled(false);
     
     _secondActionButton = CTAButton::create("res/onboarding/rounded_button.png");
+    _secondActionButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(cocos2d::ui::Margin(0, kButtonSpacing, 0, 0)));
     _secondActionButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _secondActionButton->setNormalizedPosition(Vec2(0.75f,0.3f));
     _secondActionButton->ignoreContentAdaptWithSize(false);
     _secondActionButton->setScale9Enabled(true);
-    _secondActionButton->setContentSize(Size(500,140));
+    _secondActionButton->setContentSize(kButtonSize);
     _secondActionButton->setColor(Style::Color::darkIndigo);
     _secondActionButton->setTextFontInfo(Style::Font::PoppinsBold(), 70);
     _secondActionButton->setTextColour(Color4B::WHITE);
@@ -235,7 +232,7 @@ void PopupMessageBox::createBody()
         }
     });
     _contentBody->addChild(_secondActionButton);
-    _secondActionButton->setEnabled(false);
+    _secondActionButton->setVisible(false);
 }
 
 void PopupMessageBox::setTitle(const std::string& title)
@@ -257,7 +254,6 @@ void PopupMessageBox::setPatternColour(const Color3B& colour)
 void PopupMessageBox::setButtonText(const std::string& buttonText)
 {
 	_actionButton->setText(buttonText);
-    _actionButton->setEnabled(buttonText != "");
 }
 
 void PopupMessageBox::setButtonColour(const Color3B& colour)
@@ -273,7 +269,12 @@ void PopupMessageBox::setButtonPressedCallback(const ButtonPressedCallback& call
 void PopupMessageBox::setSecondButtonText(const std::string& buttonText)
 {
     _secondActionButton->setText(buttonText);
-    _secondActionButton->setEnabled(buttonText != "");
+    _secondActionButton->setVisible(buttonText != "");
+    
+    if(isRunning())
+    {
+        updatePopupSize();
+    }
 }
 
 void PopupMessageBox::setSecondButtonColour(const cocos2d::Color3B& colour)

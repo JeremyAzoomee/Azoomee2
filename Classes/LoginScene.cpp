@@ -152,16 +152,11 @@ void LoginScene::onEnter()
             PopupMessageBox* messageBox = PopupMessageBox::create();
             messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
             messageBox->setBody(errorMessageText.at(ERROR_BODY));
-            messageBox->setButtonText(_("Back"));
-            messageBox->setButtonColour(Style::Color::darkIndigo);
             messageBox->setPatternColour(Style::Color::azure);
+            
+            messageBox->setButtonText(_("Reset password"));
+            messageBox->setButtonColour(Style::Color::strongPink);
             messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
-                pSender->removeFromParent();
-                _loginEntryForm->setVisible(true);
-            });
-            messageBox->setSecondButtonText(_("Reset password"));
-            messageBox->setSecondButtonColour(Style::Color::strongPink);
-            messageBox->setSecondButtonPressedCallback([this](PopupMessageBox* pSender){
                 pSender->removeFromParent();
                 BackEndCaller::getInstance()->resetPasswordRequest(_storedUsername);
                 
@@ -176,6 +171,13 @@ void LoginScene::onEnter()
                     _loginEntryForm->setVisible(true);
                 });
                 this->addChild(messageBox, 1);
+            });
+            
+            messageBox->setSecondButtonText(_("Back"));
+            messageBox->setSecondButtonColour(Style::Color::darkIndigo);
+            messageBox->setSecondButtonPressedCallback([this](PopupMessageBox* pSender){
+                pSender->removeFromParent();
+                _loginEntryForm->setVisible(true);
             });
             this->addChild(messageBox, 1);
         }
