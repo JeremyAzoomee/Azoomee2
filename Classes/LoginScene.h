@@ -12,7 +12,7 @@
 
 NS_AZOOMEE_BEGIN
 
-class LoginScene : public Azoomee::Scene, public cocos2d::IMEDelegate, public MessageBoxDelegate, public OfflineCheckerDelegate
+class LoginScene : public Azoomee::Scene, public cocos2d::IMEDelegate, public OfflineCheckerDelegate
 {
     typedef Azoomee::Scene Super;
 private:
@@ -47,7 +47,6 @@ public:
 	void onExit() override;
 	
     //Delegate Functions
-    void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle) override;
     void connectivityStateChanged(bool online) override;
     
     CREATE_FUNC(LoginScene);
