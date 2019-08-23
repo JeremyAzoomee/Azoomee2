@@ -48,6 +48,13 @@ void PopupMessageBox::onEnter()
 	_titleText->setTextAreaSize(_titleBox->getContentSize() * 0.8f);
 	_contentText->setTextAreaSize(Size(_contentBody->getContentSize().width * 0.8f, _contentBody->getContentSize().height * 0.4f));
 	_titleGradient->setContentSize(_titleBox->getContentSize());
+    
+    // Legacy code, will change to use relative layout
+    if(_secondActionButton->isEnabled())
+    {
+        _actionButton->setNormalizedPosition(Vec2(0.25f,0.3f));
+        _actionButton->setContentSize(Size(500,140));
+    }
 }
 void PopupMessageBox::onExit()
 {
@@ -206,32 +213,77 @@ void PopupMessageBox::createBody()
         }
     });
     _contentBody->addChild(_actionButton);
-}
-
-void PopupMessageBox::setButtonPressedCallback(const ButtonPressedCallback& callback)
-{
-	_callback = callback;
+    _actionButton->setEnabled(false);
+    
+    _secondActionButton = CTAButton::create("res/onboarding/rounded_button.png");
+    _secondActionButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _secondActionButton->setNormalizedPosition(Vec2(0.75f,0.3f));
+    _secondActionButton->ignoreContentAdaptWithSize(false);
+    _secondActionButton->setScale9Enabled(true);
+    _secondActionButton->setContentSize(Size(500,140));
+    _secondActionButton->setColor(Style::Color::darkIndigo);
+    _secondActionButton->setTextFontInfo(Style::Font::PoppinsBold(), 70);
+    _secondActionButton->setTextColour(Color4B::WHITE);
+    _secondActionButton->setTextAreaSizePercent(Vec2(0.8f,0.8f));
+    _secondActionButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            if(_secondCallback)
+            {
+                _secondCallback(this);
+            }
+        }
+    });
+    _contentBody->addChild(_secondActionButton);
+    _secondActionButton->setEnabled(false);
 }
 
 void PopupMessageBox::setTitle(const std::string& title)
 {
 	_titleText->setString(title);
 }
+
 void PopupMessageBox::setBody(const std::string& body)
 {
 	_contentText->setString(body);
 }
+
+void PopupMessageBox::setPatternColour(const Color3B& colour)
+{
+    _titlePattern->setColor(colour);
+}
+
+
 void PopupMessageBox::setButtonText(const std::string& buttonText)
 {
 	_actionButton->setText(buttonText);
+    _actionButton->setEnabled(buttonText != "");
 }
+
 void PopupMessageBox::setButtonColour(const Color3B& colour)
 {
 	_actionButton->setColor(colour);
 }
-void PopupMessageBox::setPatternColour(const Color3B& colour)
+
+void PopupMessageBox::setButtonPressedCallback(const ButtonPressedCallback& callback)
 {
-	_titlePattern->setColor(colour);
+    _callback = callback;
+}
+
+void PopupMessageBox::setSecondButtonText(const std::string& buttonText)
+{
+    _secondActionButton->setText(buttonText);
+    _secondActionButton->setEnabled(buttonText != "");
+}
+
+void PopupMessageBox::setSecondButtonColour(const cocos2d::Color3B& colour)
+{
+    _secondActionButton->setColor(colour);
+}
+
+void PopupMessageBox::setSecondButtonPressedCallback(const ButtonPressedCallback& callback)
+{
+    _secondCallback = callback;
 }
 
 NS_AZOOMEE_END

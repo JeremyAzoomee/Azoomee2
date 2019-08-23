@@ -34,6 +34,9 @@ protected:
 	CTAButton* _actionButton = nullptr;
 	
 	ButtonPressedCallback _callback = nullptr;
+    
+    CTAButton* _secondActionButton = nullptr;
+    ButtonPressedCallback _secondCallback = nullptr;
 	
     void createMessageBox();
     void createTitle();
@@ -46,13 +49,17 @@ public:
 	void onExit() override;
 	void onSizeChanged() override;
 	
-	void setButtonPressedCallback(const ButtonPressedCallback& callback);
-	
 	void setTitle(const std::string& title);
 	void setBody(const std::string& body);
+    void setPatternColour(const cocos2d::Color3B& colour);
+    
 	void setButtonText(const std::string& buttonText);
 	void setButtonColour(const cocos2d::Color3B& colour);
-	void setPatternColour(const cocos2d::Color3B& colour);
+    void setButtonPressedCallback(const ButtonPressedCallback& callback);
+    
+    void setSecondButtonText(const std::string& buttonText);
+    void setSecondButtonColour(const cocos2d::Color3B& colour);
+    void setSecondButtonPressedCallback(const ButtonPressedCallback& callback);
 	
 	CREATE_FUNC(PopupMessageBox);
 	

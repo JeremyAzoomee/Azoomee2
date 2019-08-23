@@ -23,7 +23,7 @@
 #include "PopupMessageBox.h"
 #include "BackEndCaller.h"
 #include "SceneManagerScene.h"
-#include "PopupMessageBox2Buttons.h"
+#include "PopupMessageBox.h"
 #include "LoginLogicHandler.h"
 
 using namespace cocos2d;
@@ -438,7 +438,7 @@ void SignupScene::onHttpRequestFailed(const std::string& requestTag, long errorC
 	
     if(errorCode == ERROR_CODE_ALREADY_REGISTERED)
     {
-        PopupMessageBox2Buttons* messageBox = PopupMessageBox2Buttons::create();
+        PopupMessageBox* messageBox = PopupMessageBox::create();
         messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
         messageBox->setBody(errorMessageText.at(ERROR_BODY));
         messageBox->setButtonText(_("Back"));

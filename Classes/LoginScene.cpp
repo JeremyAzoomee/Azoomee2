@@ -14,7 +14,7 @@
 #include "SceneManagerScene.h"
 #include "ChatNotificationsSingleton.h"
 #include "ContentHistoryManager.h"
-#include "PopupMessageBox2Buttons.h"
+#include "PopupMessageBox.h"
 
 using namespace cocos2d;
 
@@ -149,7 +149,7 @@ void LoginScene::onEnter()
         
         if(errorCode == ERROR_CODE_INVALID_CREDENTIALS)
         {
-            PopupMessageBox2Buttons* messageBox = PopupMessageBox2Buttons::create();
+            PopupMessageBox* messageBox = PopupMessageBox::create();
             messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
             messageBox->setBody(errorMessageText.at(ERROR_BODY));
             messageBox->setButtonText(_("Back"));
