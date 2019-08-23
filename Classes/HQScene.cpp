@@ -215,7 +215,10 @@ void HQScene::createNavigationUI()
                 if(_activePageName != ConfigStorage::kGameHQName)
                 {
                     HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kGameHQName);
-                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
+                    //Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
+                    _gameHQ->setVisible(true);
+                    _videoHQ->setVisible(false);
+                    _activePageName = ConfigStorage::kGameHQName;
                 }
                 break;
             }
@@ -224,7 +227,10 @@ void HQScene::createNavigationUI()
                 if(_activePageName != ConfigStorage::kVideoHQName)
                 {
                     HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kVideoHQName);
-                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
+                    //Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
+                    _gameHQ->setVisible(false);
+                    _videoHQ->setVisible(true);
+                    _activePageName = ConfigStorage::kVideoHQName;
                     break;
                 }
             }
@@ -274,6 +280,12 @@ void HQScene::createPageUI()
     _gameHQ->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _gameHQ->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _pageLayout->addChild(_gameHQ);
+    
+    _videoHQ = VideoHQ::create();
+    _videoHQ->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _videoHQ->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    _videoHQ->setVisible(false);
+    _pageLayout->addChild(_videoHQ);
 }
 
 //delegate functions

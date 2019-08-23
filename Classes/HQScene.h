@@ -18,6 +18,7 @@
 #include "CoinDisplay.h"
 #include "HQPage.h"
 #include "GameHQ.h"
+#include "VideoHQ.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -46,6 +47,7 @@ private:
     cocos2d::ui::Layout* _pageLayout = nullptr;
     
     GameHQ* _gameHQ = nullptr;
+    VideoHQ* _videoHQ = nullptr;
     
     std::string _activePageName;
     

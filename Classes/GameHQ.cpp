@@ -38,22 +38,30 @@ void GameHQ::onSizeChanged()
     if(_isPortrait)
     {
         _featuredLayout->setSizeType(SizeType::ABSOLUTE);
+        _featuredLayout->setPositionType(PositionType::ABSOLUTE);
         _featuredLayout->setContentSize(Size(_contentListView->getContentSize().width, 1000));
-        _featuredLayout->retain();
-        _featuredLayout->removeFromParent();
-        _contentListView->insertCustomItem(_featuredLayout, 0);
-        _featuredLayout->release();
+        if(_featuredLayout->getParent() == _staticContentLayout)
+        {
+            _featuredLayout->retain();
+            _featuredLayout->removeFromParent();
+            _contentListView->insertCustomItem(_featuredLayout, 0);
+            _featuredLayout->release();
+        }
     }
     else
     {
         _featuredLayout->setSizeType(SizeType::PERCENT);
         _featuredLayout->setSizePercent(Vec2(1.0f,1.0f));
         _featuredLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-        _featuredLayout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-        _featuredLayout->retain();
-        _featuredLayout->removeFromParent();
-        _staticContentLayout->addChild(_featuredLayout);
-        _featuredLayout->release();
+        _featuredLayout->setPositionType(PositionType::PERCENT);
+        _featuredLayout->setPositionPercent(Vec2::ANCHOR_MIDDLE);
+        if(_contentListView->getItem(0) == _featuredLayout)
+        {
+            _featuredLayout->retain();
+            _contentListView->removeItem(0);
+            _staticContentLayout->addChild(_featuredLayout);
+            _featuredLayout->release();
+        }
     }
     _recentlyPlayedLayout->setContentSize(Size(_contentListView->getContentSize().width, 400));
     _contentListView->forceDoLayout();

@@ -20,12 +20,15 @@ bool HQPage::init()
     
     setSizeType(SizeType::PERCENT);
     setSizePercent(Vec2(1.0f,1.0f));
+    setClippingEnabled(true);
     
     _contentListView = ui::ListView::create();
     _contentListView->setSizeType(SizeType::PERCENT);
     _contentListView->setSizePercent(Vec2(1.0f,1.0f));
     _contentListView->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _contentListView->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    _contentListView->setBackGroundColorType(BackGroundColorType::SOLID);
+    _contentListView->setBackGroundColor(Color3B::RED);
     addChild(_contentListView);
     
     _staticContentLayout = ui::Layout::create();
@@ -33,6 +36,8 @@ bool HQPage::init()
     _staticContentLayout->setSizePercent(Vec2(0.0f, 1.0f));
     _staticContentLayout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
     _staticContentLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+    _staticContentLayout->setBackGroundColorType(BackGroundColorType::SOLID);
+    _staticContentLayout->setBackGroundColor(Color3B::ORANGE);
     addChild(_staticContentLayout);
     
     return true;
@@ -56,8 +61,8 @@ void HQPage::onSizeChanged()
         _contentListView->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
         _contentListView->setSizePercent(Vec2(1.0f, 1.0f));
         
-        _staticContentLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
-        _staticContentLayout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+        _staticContentLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+        _staticContentLayout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
         _staticContentLayout->setSizePercent(Vec2(0.0f, 1.0f));
     }
     else
@@ -66,8 +71,8 @@ void HQPage::onSizeChanged()
         _contentListView->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
         _contentListView->setSizePercent(Vec2(0.5f, 1.0f));
         
-        _staticContentLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
-        _staticContentLayout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+        _staticContentLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+        _staticContentLayout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
         _staticContentLayout->setSizePercent(Vec2(0.5f, 1.0f));
     }
 }
