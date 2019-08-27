@@ -134,9 +134,15 @@ using namespace Azoomee;
             case SKPaymentTransactionStateFailed:
             {
                 [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
-                RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage([[NSString stringWithFormat:@"SKPaymentTransactionStateFailed: %@",transaction.error.localizedDescription] UTF8String]);
-                NSLog(@"Transaction error: %@", transaction.error.localizedDescription);
-                
+                if(transaction.error.code != SKErrorPaymentCancelled)
+                {
+                    RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage([[NSString stringWithFormat:@"SKPaymentTransactionStateFailed: %@",transaction.error.localizedDescription] UTF8String]);
+                    NSLog(@"Transaction error: %@", transaction.error.localizedDescription);
+                }
+                else
+                {
+                    RoutePaymentSingleton::getInstance()->canceledAction();
+                }
                 break;
             }
             case SKPaymentTransactionStateRestored:
@@ -167,7 +173,12 @@ using namespace Azoomee;
 - (void)request:(SKRequest *)request didFailWithError:(NSError *)error
 {
     NSLog(@"DidFailWithError error: %@", error.localizedDescription);
-    
+
+    if(error.code == 16) // this error code is thrown when user cancels logging into their itunes account when restoring purchase, cant find propper code enum/defne for this
+    {
+        RoutePaymentSingleton::getInstance()->canceledAction();
+        return;
+    }
     if(RoutePaymentSingleton::getInstance()->pressedRestorePurchaseButton)
     {
         RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage([[NSString stringWithFormat:@"DidFailWithError: %@",error.localizedDescription] UTF8String]);
@@ -187,6 +198,7 @@ using namespace Azoomee;
 
 -(void)requestDidFinish:(SKRequest *)request
 {
+    
     if(!self.purchaseAfterQuery)
     {
         self.purchaseAfterQuery = YES;
