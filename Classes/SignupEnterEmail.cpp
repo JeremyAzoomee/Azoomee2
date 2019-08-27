@@ -26,6 +26,7 @@ bool SignupEnterEmail::init()
 	_inputTitle->setString(_("Enter your email address"));
 	
 	_inputBox->setMaxLength(100);
+    _inputBox->setInputFlag(ui::EditBox::InputFlag::LOWERCASE_ALL_CHARACTERS);
 	_inputBox->setInputMode(ui::EditBox::InputMode::EMAIL_ADDRESS);
 	
 	_progressText->setString(_("First thing's first"));
