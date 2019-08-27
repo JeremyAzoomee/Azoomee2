@@ -188,6 +188,18 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_googlePurchaseFailed(JN
 extern "C"
 
 {
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_googlePurchaseCancelled(JNIEnv* env, jobject thiz);
+};
+
+JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_googlePurchaseCancelled(JNIEnv* env, jobject thiz)
+{
+    ModalMessages::getInstance()->stopLoading();
+}
+
+
+extern "C"
+
+{
 	JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_googleNoPurchaseFound(JNIEnv* env, jobject thiz);
 };
 

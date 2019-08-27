@@ -172,6 +172,11 @@ void RoutePaymentSingleton::failedRestoreMessage()
 	MessageBox::createWith(ERROR_CODE_APPLE_NO_PREVIOUS_PURCHASE, nullptr);
 }
 
+void RoutePaymentSingleton::canceledAction()
+{
+    Azoomee::ModalMessages::getInstance()->stopLoading();
+}
+
 void RoutePaymentSingleton::inAppPaymentSuccess()
 {
     removeReceiptDataFile();
