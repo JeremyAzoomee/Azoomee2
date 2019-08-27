@@ -1,3 +1,9 @@
+Version 4.7.6
+updated localisation strings
+fix sizing for age gate
+use new style message box for inavlid login creds
+dont show error when cancelling iap or restore payment
+
 Version 4.7.5
 Updated device IDs for testing.
 
