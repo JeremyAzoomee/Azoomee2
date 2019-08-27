@@ -14,6 +14,7 @@
 #include "SceneManagerScene.h"
 #include "ChatNotificationsSingleton.h"
 #include "ContentHistoryManager.h"
+#include "PopupMessageBox.h"
 
 using namespace cocos2d;
 
@@ -142,7 +143,58 @@ void LoginScene::onEnter()
     if(FlowDataSingleton::getInstance()->hasError())
     {
 		_loginEntryForm->setVisible(false);
-        MessageBox::createWith(FlowDataSingleton::getInstance()->getErrorCode(), this);
+        
+        const long errorCode = FlowDataSingleton::getInstance()->getErrorCode();
+        const auto& errorMessageText = StringMgr::getInstance()->getErrorMessageWithCode(errorCode);
+        
+        if(errorCode == ERROR_CODE_INVALID_CREDENTIALS)
+        {
+            PopupMessageBox* messageBox = PopupMessageBox::create();
+            messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
+            messageBox->setBody(errorMessageText.at(ERROR_BODY));
+            messageBox->setPatternColour(Style::Color::azure);
+            
+            messageBox->setButtonText(_("Reset password"));
+            messageBox->setButtonColour(Style::Color::strongPink);
+            messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+                pSender->removeFromParent();
+                BackEndCaller::getInstance()->resetPasswordRequest(_storedUsername);
+                
+                PopupMessageBox* messageBox = PopupMessageBox::create();
+                messageBox->setTitle(_("Reset requested"));
+                messageBox->setBody(StringUtils::format((_("Instructions for resetting your password have been sent to:") + "\n\n%s").c_str(), _storedUsername.c_str()));
+                messageBox->setButtonText(_("OK"));
+                messageBox->setButtonColour(Style::Color::darkIndigo);
+                messageBox->setPatternColour(Style::Color::azure);
+                messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+                    pSender->removeFromParent();
+                    _loginEntryForm->setVisible(true);
+                });
+                this->addChild(messageBox, 1);
+            });
+            
+            messageBox->setSecondButtonText(_("Back"));
+            messageBox->setSecondButtonColour(Style::Color::darkIndigo);
+            messageBox->setSecondButtonPressedCallback([this](PopupMessageBox* pSender){
+                pSender->removeFromParent();
+                _loginEntryForm->setVisible(true);
+            });
+            this->addChild(messageBox, 1);
+        }
+        else
+        {
+            PopupMessageBox* messageBox = PopupMessageBox::create();
+            messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
+            messageBox->setBody(errorMessageText.at(ERROR_BODY));
+            messageBox->setButtonText(_("Back"));
+            messageBox->setButtonColour(Style::Color::darkIndigo);
+            messageBox->setPatternColour(Style::Color::azure);
+            messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+                pSender->removeFromParent();
+                _loginEntryForm->setVisible(true);
+            });
+            this->addChild(messageBox, 1);
+        }
     }
 }
 
@@ -169,18 +221,6 @@ void LoginScene::login(std::string username, std::string password)
 }
 
 //-------------DELEGATE FUNCTIONS-------------------
-void LoginScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
-{
-    if(messageBoxTitle == StringMgr::getInstance()->getErrorMessageWithCode(ERROR_CODE_INVALID_CREDENTIALS)[ERROR_TITLE] && buttonTitle == MessageBox::kResetPassword)
-    {
-        BackEndCaller::getInstance()->resetPasswordRequest(_storedUsername);
-        Azoomee::MessageBox::createWith(_("Reset requested"), StringUtils::format((_("Instructions for resetting your password have been sent to:") + "\n\n%s").c_str(),_storedUsername.c_str()), _("OK") , this);
-    }
-    else
-    {
-		_loginEntryForm->setVisible(true);
-    }
-}
 
 void LoginScene::connectivityStateChanged(bool online)
 {

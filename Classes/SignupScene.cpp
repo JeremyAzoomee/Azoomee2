@@ -23,7 +23,7 @@
 #include "PopupMessageBox.h"
 #include "BackEndCaller.h"
 #include "SceneManagerScene.h"
-#include "PopupMessageBox2Buttons.h"
+#include "PopupMessageBox.h"
 #include "LoginLogicHandler.h"
 
 using namespace cocos2d;
@@ -438,22 +438,24 @@ void SignupScene::onHttpRequestFailed(const std::string& requestTag, long errorC
 	
     if(errorCode == ERROR_CODE_ALREADY_REGISTERED)
     {
-        PopupMessageBox2Buttons* messageBox = PopupMessageBox2Buttons::create();
+        PopupMessageBox* messageBox = PopupMessageBox::create();
         messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
         messageBox->setBody(errorMessageText.at(ERROR_BODY));
-        messageBox->setButtonText(_("Back"));
-        messageBox->setButtonColour(Style::Color::darkIndigo);
         messageBox->setPatternColour(Style::Color::azure);
+        
+        messageBox->setButtonText(_("Log in"));
+        messageBox->setButtonColour(Style::Color::strongPink);
         messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
-            pSender->removeFromParent();
-            this->changeToPage(kEnterEmailPageKey);
-        });
-        messageBox->setSecondButtonText(_("Log in"));
-        messageBox->setSecondButtonColour(Style::Color::strongPink);
-        messageBox->setSecondButtonPressedCallback([this](PopupMessageBox* pSender){
             pSender->removeFromParent();
             LoginLogicHandler::getInstance()->setLoginOrigin(LoginOrigin::SIGNUP);
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
+        });
+        
+        messageBox->setSecondButtonText(_("Back"));
+        messageBox->setSecondButtonColour(Style::Color::darkIndigo);
+        messageBox->setSecondButtonPressedCallback([this](PopupMessageBox* pSender){
+            pSender->removeFromParent();
+            this->changeToPage(kEnterEmailPageKey);
         });
         this->addChild(messageBox, 1);
     }
