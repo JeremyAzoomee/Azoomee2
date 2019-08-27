@@ -350,7 +350,11 @@ void EditAccountLayer::onEnter()
 		resubButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
 			if(eType == ui::Widget::TouchEventType::ENDED)
 			{
+#ifdef AZOOMEE_VODACOM_BUILD
+                Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::VodacomOnboarding));
+#else
 				Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::IAP));
+#endif
 			}
 		});
 		_accountTypeLayout->addChild(resubButton);

@@ -129,16 +129,19 @@ void ContentOpener::doCarouselContentOpenLogic(const HQContentItemObjectRef& con
 	{
 		AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, rowIndex, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(hqCategory, rowIndex, elementIndex));
 		
-		AgeGate* ageGate = AgeGate::create();
-		ageGate->setActionCompletedCallback([ageGate](AgeGateResult result){
+#ifndef AZOOMEE_VODACOM_BUILD
+        AgeGate* ageGate = AgeGate::create();
+        ageGate->setActionCompletedCallback([ageGate](AgeGateResult result){
             ageGate->removeFromParent();
             if(result == AgeGateResult::SUCCESS)
             {
-					Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::IAP));
+                Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::IAP));
             }
-
-		});
-		Director::getInstance()->getRunningScene()->addChild(ageGate,AGE_GATE_Z_ORDER);
+        });
+        Director::getInstance()->getRunningScene()->addChild(ageGate,AGE_GATE_Z_ORDER);
+#else
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::VodacomOnboarding));
+#endif
 	}
 	
 	AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, rowIndex, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(hqCategory, rowIndex, elementIndex));
