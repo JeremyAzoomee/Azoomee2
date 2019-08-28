@@ -116,15 +116,19 @@ void MeHQMessages::buildEmptyCarousel()
             
             if(!currentObject->getHqEntitlement())
             {
-				AgeGate* ageGate = AgeGate::create();
-				ageGate->setActionCompletedCallback([ageGate](AgeGateResult result){
+#ifndef AZOOMEE_VODACOM_BUILD
+                AgeGate* ageGate = AgeGate::create();
+                ageGate->setActionCompletedCallback([ageGate](AgeGateResult result){
                     ageGate->removeFromParent();
                     if(result == AgeGateResult::SUCCESS)
                     {
                         Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::IAP));
                     }
-				});
-				Director::getInstance()->getRunningScene()->addChild(ageGate,AGE_GATE_Z_ORDER);
+                });
+                Director::getInstance()->getRunningScene()->addChild(ageGate,AGE_GATE_Z_ORDER);
+#else
+                Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::VodacomOnboarding));
+#endif
             }
             else
             {
@@ -184,6 +188,7 @@ void MeHQMessages::buildEmptyCarousel()
                 
                 if(!currentObject->getHqEntitlement())
                 {
+#ifndef AZOOMEE_VODACOM_BUILD
                     AgeGate* ageGate = AgeGate::create();
                     ageGate->setActionCompletedCallback([ageGate](AgeGateResult result){
                         ageGate->removeFromParent();
@@ -193,6 +198,9 @@ void MeHQMessages::buildEmptyCarousel()
                         }
                     });
                     Director::getInstance()->getRunningScene()->addChild(ageGate,AGE_GATE_Z_ORDER);
+#else
+                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::VodacomOnboarding));
+#endif
                 }
                 else
                 {

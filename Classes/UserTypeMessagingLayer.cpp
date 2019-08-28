@@ -60,15 +60,19 @@ void UserTypeMessagingLayer::onEnter()
 #ifdef ALLOW_UNPAID_SIGNUP
 			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Signup));
 #else
-			AgeGate* ageGate = AgeGate::create();
-			ageGate->setActionCompletedCallback([ageGate](AgeGateResult result){
+    #ifndef AZOOMEE_VODACOM_BUILD
+            AgeGate* ageGate = AgeGate::create();
+            ageGate->setActionCompletedCallback([ageGate](AgeGateResult result){
                 ageGate->removeFromParent();
                 if(result == AgeGateResult::SUCCESS)
                 {
                     Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::IAP));
                 }
-			});
-			Director::getInstance()->getRunningScene()->addChild(ageGate,AGE_GATE_Z_ORDER);
+            });
+            Director::getInstance()->getRunningScene()->addChild(ageGate,AGE_GATE_Z_ORDER);
+    #else
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::VodacomOnboarding));
+    #endif
 #endif
         }
     });
@@ -156,6 +160,7 @@ void UserTypeMessagingLayer::onEnter()
 #ifdef ALLOW_UNPAID_SIGNUP
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Signup));
 #else
+    #ifndef AZOOMEE_VODACOM_BUILD
             AgeGate* ageGate = AgeGate::create();
             ageGate->setActionCompletedCallback([ageGate](AgeGateResult result){
                 ageGate->removeFromParent();
@@ -165,6 +170,9 @@ void UserTypeMessagingLayer::onEnter()
                 }
             });
             Director::getInstance()->getRunningScene()->addChild(ageGate,AGE_GATE_Z_ORDER);
+    #else
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::VodacomOnboarding));
+    #endif
 #endif
         }
     });
