@@ -107,7 +107,8 @@ void AgeGate::onSizeChanged()
 	const Size& contentSize = Director::getInstance()->getVisibleSize();
 	
 	const Size& messageBoxSizeWithPadding = Size(1236,1696);
-	const Size& maxSize = Size(MIN(contentSize.width * 0.95f,messageBoxSizeWithPadding.width), MIN(contentSize.width * 0.95f,messageBoxSizeWithPadding.height));
+    
+	const Size& maxSize = Size(MIN(contentSize.width * 0.95f, messageBoxSizeWithPadding.width), MIN(contentSize.height * 0.95f, messageBoxSizeWithPadding.height));
 	
 	const float scaleFactor = MIN(maxSize.width / messageBoxSizeWithPadding.width, maxSize.height / messageBoxSizeWithPadding.height);
 	if(_messageBoxBg)
@@ -130,7 +131,7 @@ void AgeGate::createMessageBox()
     
     const Size& messageBoxSize = Size(1096,1556);  //target size
     const Size& messageBoxSizeWithPadding = Size(1236,1696);
-    const Size& maxSize = Size(MIN(contentSize.width * 0.95f,messageBoxSizeWithPadding.width), MIN(contentSize.width * 0.95f,messageBoxSizeWithPadding.height));
+    const Size& maxSize = Size(MIN(contentSize.width * 0.95f, messageBoxSizeWithPadding.width), MIN(contentSize.height * 0.95f, messageBoxSizeWithPadding.height));
     
     const float scaleFactor = MIN(maxSize.width / messageBoxSizeWithPadding.width, maxSize.height / messageBoxSizeWithPadding.height);
     
@@ -195,7 +196,7 @@ void AgeGate::createTitle()
     _titleGradient->setIgnoreAnchorPointForPosition(false);
     _titleBox->addChild(_titleGradient);
     
-    _titleText = DynamicText::create("Hey parents,\nunlock all content!", Style::Font::PoppinsBold(), 110);
+    _titleText = DynamicText::create(_("Hey parents, unlock all content!"), Style::Font::PoppinsBold(), 110);
     _titleText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _titleText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _titleText->setTextHorizontalAlignment(TextHAlignment::CENTER);
@@ -227,7 +228,7 @@ void AgeGate::createBody()
     
     auto ansValues = AgeGateValueSet();
     
-    DynamicText* questionText = DynamicText::create(StringUtils::format(_("What is %d X %d").c_str(),ansValues._val1, ansValues._val2), Style::Font::PoppinsBold(), 70);
+    DynamicText* questionText = DynamicText::create(StringUtils::format(_("What is %d X %d?").c_str(),ansValues._val1, ansValues._val2), Style::Font::PoppinsBold(), 70);
     questionText->setTextAreaSize(Size(700,100));
     questionText->setTextHorizontalAlignment(TextHAlignment::CENTER);
     questionText->setTextVerticalAlignment(TextVAlignment::CENTER);

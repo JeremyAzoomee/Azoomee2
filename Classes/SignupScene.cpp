@@ -23,7 +23,7 @@
 #include "PopupMessageBox.h"
 #include "BackEndCaller.h"
 #include "SceneManagerScene.h"
-#include "PopupMessageBox2Buttons.h"
+#include "PopupMessageBox.h"
 #include "LoginLogicHandler.h"
 
 using namespace cocos2d;
@@ -189,7 +189,7 @@ bool SignupScene::init()
 		{
 			//show error
 			PopupMessageBox* messageBox = PopupMessageBox::create();
-			messageBox->setTitle(_("Setup Unsuccessful"));
+			messageBox->setTitle(_("Setup unsuccessful"));
 			messageBox->setBody(_("To continue using Azoomee, you must confirm that you are over 18, and that you agree to our Policies."));
 			messageBox->setButtonText(_("Back"));
 			messageBox->setButtonColour(Style::Color::darkIndigo);
@@ -419,7 +419,7 @@ void SignupScene::onHttpRequestSuccess(const std::string& requestTag, const std:
 		
 		PopupMessageBox* messageBox = PopupMessageBox::create();
 		messageBox->setTitle(_("Setup Complete"));
-		messageBox->setBody(_("Welcome to the Azoomee family! Your account is now active."));
+		messageBox->setBody(_("Welcome to the Azoomee family! Your account is now active"));
 		messageBox->setButtonText(_("Let's go!"));
 		messageBox->setButtonColour(Style::Color::strongPink);
 		messageBox->setPatternColour(Style::Color::strongPink);
@@ -438,22 +438,24 @@ void SignupScene::onHttpRequestFailed(const std::string& requestTag, long errorC
 	
     if(errorCode == ERROR_CODE_ALREADY_REGISTERED)
     {
-        PopupMessageBox2Buttons* messageBox = PopupMessageBox2Buttons::create();
+        PopupMessageBox* messageBox = PopupMessageBox::create();
         messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
         messageBox->setBody(errorMessageText.at(ERROR_BODY));
-        messageBox->setButtonText(_("Back"));
-        messageBox->setButtonColour(Style::Color::darkIndigo);
         messageBox->setPatternColour(Style::Color::azure);
+        
+        messageBox->setButtonText(_("Log in"));
+        messageBox->setButtonColour(Style::Color::strongPink);
         messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
-            pSender->removeFromParent();
-            this->changeToPage(kEnterEmailPageKey);
-        });
-        messageBox->setSecondButtonText(_("Log in"));
-        messageBox->setSecondButtonColour(Style::Color::strongPink);
-        messageBox->setSecondButtonPressedCallback([this](PopupMessageBox* pSender){
             pSender->removeFromParent();
             LoginLogicHandler::getInstance()->setLoginOrigin(LoginOrigin::SIGNUP);
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
+        });
+        
+        messageBox->setSecondButtonText(_("Back"));
+        messageBox->setSecondButtonColour(Style::Color::darkIndigo);
+        messageBox->setSecondButtonPressedCallback([this](PopupMessageBox* pSender){
+            pSender->removeFromParent();
+            this->changeToPage(kEnterEmailPageKey);
         });
         this->addChild(messageBox, 1);
     }

@@ -9,7 +9,6 @@
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
-
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
 #include "FlowDataSingleton.h"

@@ -82,15 +82,19 @@ void NavigationLayer::changeToScene(const std::string& hqName, float duration)
 	if(!currentObject->getHqEntitlement())
     {
 #ifndef ALLOW_UNPAID_SIGNUP
-		AgeGate* ageGate = AgeGate::create();
-		ageGate->setActionCompletedCallback([ageGate](AgeGateResult result){
+    #ifndef AZOOMEE_VODACOM_BUILD
+        AgeGate* ageGate = AgeGate::create();
+        ageGate->setActionCompletedCallback([ageGate](AgeGateResult result){
             ageGate->removeFromParent();
             if(result == AgeGateResult::SUCCESS)
             {
                 Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::IAP));
             }
-		});
-		Director::getInstance()->getRunningScene()->addChild(ageGate,AGE_GATE_Z_ORDER);
+        });
+        Director::getInstance()->getRunningScene()->addChild(ageGate,AGE_GATE_Z_ORDER);
+    #else
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::VodacomOnboarding));
+    #endif
 #else
 		Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Signup));
 #endif

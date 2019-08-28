@@ -103,6 +103,7 @@ void ShopItemPage::onEnter()
 					if(shopItem->isLocked())
 					{
 						AnalyticsSingleton::getInstance()->shopLockedItemPressed(pos,item);
+#ifndef AZOOMEE_VODACOM_BUILD
 						AgeGate* ageGate = AgeGate::create();
 						ageGate->setActionCompletedCallback([ageGate](AgeGateResult result){
                             ageGate->removeFromParent();
@@ -112,6 +113,9 @@ void ShopItemPage::onEnter()
                             }
 						});
 						Director::getInstance()->getRunningScene()->addChild(ageGate,AGE_GATE_Z_ORDER);
+#else
+                        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::VodacomOnboarding));
+#endif
 						AudioMixer::getInstance()->playEffect("Unavailable_Shop_Item_Click.mp3");
 					}
 					else if(shopItem->isAffordable() && !shopItem->isOwned())

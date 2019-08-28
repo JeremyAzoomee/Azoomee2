@@ -23,6 +23,8 @@ bool SignupEnterPin::init()
 		return false;
 	}
 	
+    _topHeading->setString(_("Your PIN must be four numbers"));
+    
 	_inputTitle->setString(_("Set up a 4-digit PIN"));
 	
 	_inputBg->setContentSize(Size(700, _inputBg->getContentSize().height));
@@ -31,7 +33,7 @@ bool SignupEnterPin::init()
 	_inputBox->setInputFlag(ui::EditBox::InputFlag::PASSWORD);
 	_inputBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
 	
-	_progressText->setString(_("Dont forget this!"));
+	_progressText->setString(_("Don't forget this!"));
 	
 	_progressBar->setNumberOfSteps(3);
 	_progressBar->setProgress(3);

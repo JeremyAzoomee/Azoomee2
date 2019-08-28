@@ -12,7 +12,8 @@
 #include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
-
+#include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
 #include "FlowDataSingleton.h"
 #include "ContentHistoryManager.h"
 #include "RewardDisplayHandler.h"
@@ -39,7 +40,6 @@ bool HQSceneDepreciated::init()
 void HQSceneDepreciated::onEnter()
 {
 	_navLayer->setButtonOn(_hqCategory);
-	
 	_rewardRedeemedListener = EventListenerCustom::create(RewardDisplayHandler::kRewardRedeemedEventKey, [this](EventCustom* event){
 		if(!_coinDisplay->isVisible())
 		{
@@ -153,7 +153,7 @@ void HQSceneDepreciated::buildCoreUI()
 	_verticalScrollGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
 	_verticalScrollGradient->setRotation(180);
 	_navLayer->addChild(_verticalScrollGradient);
-	
+    
 	if(SpecialCalendarEventManager::getInstance()->isXmasTime())
 	{
 		addXmasDecoration();

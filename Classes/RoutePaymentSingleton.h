@@ -38,6 +38,7 @@ public:
     void purchaseFailureErrorMessage(const std::string& failureDetails);
     void doublePurchaseMessage();
 	void failedRestoreMessage();
+    void canceledAction();
 	
     void writeReceiptDataToFile(const std::string &receiptData);
     void writeAndroidReceiptDataToFile(const std::string& developerPayload, const std::string& orderId, const std::string& token);

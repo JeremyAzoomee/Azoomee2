@@ -224,7 +224,6 @@
 		E22ACAFF230EC4CA0024B328 /* HQPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACAFE230EC4CA0024B328 /* HQPage.cpp */; };
 		E22ACB13230EF30D0024B328 /* GameHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACB12230EF30D0024B328 /* GameHQ.cpp */; };
 		E22ACB16230FE7E50024B328 /* VideoHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACB15230FE7E50024B328 /* VideoHQ.cpp */; };
-		E2DCF5D52302B95D0032946D /* PopupMessageBox2Buttons.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2DCF5D32302B95D0032946D /* PopupMessageBox2Buttons.cpp */; };
 		E2DCF5E9230442FF0032946D /* ImportantMessageForParents.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2DCF5E8230442FF0032946D /* ImportantMessageForParents.cpp */; };
 		ED545A7C1B68A1F400C3958E /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED545A7B1B68A1F400C3958E /* libiconv.dylib */; };
 /* End PBXBuildFile section */
@@ -749,8 +748,6 @@
 		E22ACB12230EF30D0024B328 /* GameHQ.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GameHQ.cpp; sourceTree = "<group>"; };
 		E22ACB14230FDC6C0024B328 /* VideoHQ.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoHQ.h; sourceTree = "<group>"; };
 		E22ACB15230FE7E50024B328 /* VideoHQ.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VideoHQ.cpp; sourceTree = "<group>"; };
-		E2DCF5CD2302AA040032946D /* PopupMessageBox2Buttons.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PopupMessageBox2Buttons.h; sourceTree = "<group>"; };
-		E2DCF5D32302B95D0032946D /* PopupMessageBox2Buttons.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PopupMessageBox2Buttons.cpp; sourceTree = "<group>"; };
 		E2DCF5E22304419B0032946D /* ImportantMessageForParents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImportantMessageForParents.h; sourceTree = "<group>"; };
 		E2DCF5E8230442FF0032946D /* ImportantMessageForParents.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ImportantMessageForParents.cpp; sourceTree = "<group>"; };
 		ED545A7B1B68A1F400C3958E /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.4.sdk/usr/lib/libiconv.dylib; sourceTree = DEVELOPER_DIR; };
@@ -950,6 +947,7 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				080E96DDFE201D6D7F000001 /* ios */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				E22ACBBF2316907F0024B328 /* Recovered References */,
 			);
 			indentWidth = 4;
 			name = CustomTemplate;
@@ -1344,8 +1342,6 @@
 				9229EE6222E07808009732B0 /* SignupTermsPage.cpp */,
 				9229EEC422E5C290009732B0 /* PopupMessageBox.h */,
 				9229EECA22E5C6AF009732B0 /* PopupMessageBox.cpp */,
-				E2DCF5CD2302AA040032946D /* PopupMessageBox2Buttons.h */,
-				E2DCF5D32302B95D0032946D /* PopupMessageBox2Buttons.cpp */,
 				929FB10422E9944C0088D406 /* PaymentSuccessScreen.h */,
 				929FB10522E9A8450088D406 /* PaymentSuccessScreen.cpp */,
 				929FB0FC22E88F4B0088D406 /* MarketingAssetManager.h */,
@@ -1986,7 +1982,6 @@
 				924E84772147FE2B004590FD /* SettingsMessageBoxFREvent.cpp in Sources */,
 				924E845821427C05004590FD /* SettingsMessageBoxDeleteChild.cpp in Sources */,
 				9229EECB22E5C6AF009732B0 /* PopupMessageBox.cpp in Sources */,
-				E2DCF5D52302B95D0032946D /* PopupMessageBox2Buttons.cpp in Sources */,
 				E22ACA06230C07650024B328 /* NavigationBar.cpp in Sources */,
 				929FB10322E8A6440088D406 /* MarketingAssetManager.cpp in Sources */,
 				E22ACB16230FE7E50024B328 /* VideoHQ.cpp in Sources */,

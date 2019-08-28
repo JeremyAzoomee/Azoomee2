@@ -26,7 +26,6 @@ class HQScene : public Azoomee::Scene, TutorialDelegate
 {
     typedef Azoomee::Scene Super;
 private:
-
     static const std::string kTutHandName;
     
     cocos2d::LayerGradient* _verticalScrollGradient = nullptr;
