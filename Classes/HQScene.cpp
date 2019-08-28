@@ -151,38 +151,6 @@ void HQScene::createNavigationUI()
     const Size& visibleSize = Director::getInstance()->getVisibleSize();
     _isPortrait = visibleSize.width < visibleSize.height;
     
-    /*_messagingLayer = UserTypeMessagingLayer::create();
-    _messagingLayer->setContentSize(Size(visibleSize.width, 350));
-    _messagingLayer->setPosition(-Vec2(0,350));
-    _messagingLayer->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-    UserBillingType userType = UserBillingType::ANON;
-    if(!ParentManager::getInstance()->isLoggedInParentAnonymous())
-    {
-        userType = UserBillingType::LAPSED;
-        if(ParentManager::getInstance()->isPaidUser())
-        {
-            userType = UserBillingType::PAID;
-        }
-    }
-    _messagingLayer->setUserType(userType);
-    if(userType == UserBillingType::PAID)
-    {
-        _showingMessagingLayer = false;
-        _messagingLayer->setOpacity(0);
-    }
-    else
-    {
-        if(HQHistoryManager::getInstance()->getHistorySize() == 1)
-        {
-            _messagingLayer->runAction(MoveTo::create(1, Vec2(0,0)));
-        }
-        else
-        {
-            _messagingLayer->setPosition(Vec2(0,0));
-        }
-    }
-    addChild(_messagingLayer,1);
-    */
     _navBar = NavigationBar::create();
     _navBar->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _navBar->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
@@ -214,10 +182,11 @@ void HQScene::createNavigationUI()
                 if(_activePageName != ConfigStorage::kGameHQName)
                 {
                     HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kGameHQName);
-                    //Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
                     _gameHQ->setVisible(true);
+                    _gameHQ->forceDoLayout();
                     _videoHQ->setVisible(false);
                     _activePageName = ConfigStorage::kGameHQName;
+                    _HQPageTitle->setString("Games");
                 }
                 break;
             }
@@ -226,12 +195,13 @@ void HQScene::createNavigationUI()
                 if(_activePageName != ConfigStorage::kVideoHQName)
                 {
                     HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kVideoHQName);
-                    //Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
                     _gameHQ->setVisible(false);
                     _videoHQ->setVisible(true);
+                    _videoHQ->forceDoLayout();
                     _activePageName = ConfigStorage::kVideoHQName;
-                    break;
+                    _HQPageTitle->setString("Videos");
                 }
+                break;
             }
             case HQType::CHAT:
             {
@@ -273,6 +243,8 @@ void HQScene::createPageUI()
     _pageLayout->setContentSize(Size(visibleSize.width, visibleSize.height - _titleBanner->getContentSize().height - _navBar->getContentSize().height));
     _pageLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _pageLayout->setPosition(Vec2(visibleSize.width / 2, visibleSize.height - _titleBanner->getContentSize().height));
+    _pageLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+    _pageLayout->setBackGroundColor(Color3B::MAGENTA);
     addChild(_pageLayout);
     
     _gameHQ = GameHQ::create();
