@@ -40,13 +40,14 @@ void VideoHQ::onSizeChanged()
     _episodePlayer->setTouchEnabled(_isPortrait);
     if(_isPortrait)
     {
-        if(_episodePlayer->getParent() == _staticContentLayout)
-        {
-            _episodePlayer->retain();
-            _episodePlayer->removeFromParent();
-            addChild(_episodePlayer, 1);
-            _episodePlayer->release();
-        }
+        //if(_episodePlayer->getParent() == _staticContentLayout)
+        //{
+        //    _episodePlayer->retain();
+        //    _episodePlayer->removeFromParent();
+        //    addChild(_episodePlayer, 1);
+        //    _episodePlayer->release();
+        //}
+        _episodePlayer->setSizePercent(Vec2(1.0,1.0f));
         if(_episodePlayerMoving)
         {
             if(_episodePlayerOpen)
@@ -72,7 +73,7 @@ void VideoHQ::onSizeChanged()
             }
             else
             {
-                _episodePlayer->setPosition(Vec2(0, -_episodePlayer->getContentSize().height + 50));
+                _episodePlayer->setPosition(Vec2(0, -_episodePlayer->getContentSize().height + 100));
                 _episodePlayerOpen = false;
                 _episodePlayerMoving = false;
             }
@@ -80,19 +81,18 @@ void VideoHQ::onSizeChanged()
     }
     else
     {
-        if(_episodePlayer->getParent() == this)
-        {
-            _episodePlayer->retain();
-            _episodePlayer->removeFromParent();
-            _staticContentLayout->addChild(_episodePlayer, 1);
-            _episodePlayer->release();
-        }
-        //if(_episodePlayerMoving)
+        //if(_episodePlayer->getParent() == this)
         //{
-            _episodePlayer->setPosition(Vec2(0,0));
-            _episodePlayerOpen = true;
-            _episodePlayerMoving = false;
+        //    _episodePlayer->retain();
+        //    _episodePlayer->removeFromParent();
+        //    _staticContentLayout->addChild(_episodePlayer, 1);
+        //    _episodePlayer->release();
         //}
+        //_episodePlayer->setPositionType(PositionType::PERCENT);
+        _episodePlayer->setPosition(Vec2(0,0));
+        _episodePlayer->setSizePercent(Vec2(0.5,1.0f));
+        _episodePlayerOpen = false;
+        _episodePlayerMoving = false;
     }
     
     _recentlyPlayedLayout->setContentSize(Size(_contentListView->getContentSize().width, 400));
@@ -142,7 +142,7 @@ void VideoHQ::createEpisodePlayer()
                 if(!_episodePlayerMoving)
                 {
                     _episodePlayerMoving = true;
-                    _episodePlayer->runAction(Sequence::createWithTwoActions(MoveTo::create(2.0f, Vec2(0,-_episodePlayer->getContentSize().height + 50)), CallFunc::create([this](){
+                    _episodePlayer->runAction(Sequence::createWithTwoActions(MoveTo::create(1.0f, Vec2(0,-_episodePlayer->getContentSize().height + 100)), CallFunc::create([this](){
                         _episodePlayerOpen = false;
                         _episodePlayerMoving = false;
                     })));
@@ -153,7 +153,7 @@ void VideoHQ::createEpisodePlayer()
                 if(!_episodePlayerMoving)
                 {
                     _episodePlayerMoving = true;
-                    _episodePlayer->runAction(Sequence::createWithTwoActions(MoveTo::create(2.0f, Vec2(0,0)), CallFunc::create([this](){
+                    _episodePlayer->runAction(Sequence::createWithTwoActions(MoveTo::create(1.0f, Vec2(0,0)), CallFunc::create([this](){
                         _episodePlayerOpen = true;
                         _episodePlayerMoving = false;
                     })));
@@ -161,7 +161,7 @@ void VideoHQ::createEpisodePlayer()
             }
         }
     });
-    _staticContentLayout->addChild(_episodePlayer, 1);
+    addChild(_episodePlayer, 1);
     
 }
 

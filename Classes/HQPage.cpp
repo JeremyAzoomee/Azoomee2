@@ -6,6 +6,7 @@
 //
 
 #include "HQPage.h"
+#include <AzoomeeCommon/UI/LayoutParams.h>
 
 using namespace cocos2d;
 
@@ -21,24 +22,31 @@ bool HQPage::init()
     setSizeType(SizeType::PERCENT);
     setSizePercent(Vec2(1.0f,1.0f));
     setClippingEnabled(true);
+    setBackGroundColor(Color3B::GRAY);
+    setBackGroundColorType(BackGroundColorType::SOLID);
     
-    _contentListView = ui::ListView::create();
-    _contentListView->setSizeType(SizeType::PERCENT);
-    _contentListView->setSizePercent(Vec2(1.0f,1.0f));
-    _contentListView->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _contentListView->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    _contentListView->setBackGroundColorType(BackGroundColorType::SOLID);
-    _contentListView->setBackGroundColor(Color3B::RED);
-    addChild(_contentListView);
+    _structureUIHolder = ui::Layout::create();
+    _structureUIHolder->setSizeType(SizeType::PERCENT);
+    _structureUIHolder->setSizePercent(Vec2(1.0f,1.0f));
+    _structureUIHolder->setClippingEnabled(true);
+    _structureUIHolder->setLayoutType(Layout::Type::HORIZONTAL);
+    addChild(_structureUIHolder);
     
     _staticContentLayout = ui::Layout::create();
     _staticContentLayout->setSizeType(SizeType::PERCENT);
     _staticContentLayout->setSizePercent(Vec2(0.0f, 1.0f));
-    _staticContentLayout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
-    _staticContentLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+    _staticContentLayout->setLayoutParameter(CreateCenterVerticalLinearLayoutParam());
     _staticContentLayout->setBackGroundColorType(BackGroundColorType::SOLID);
     _staticContentLayout->setBackGroundColor(Color3B::ORANGE);
-    addChild(_staticContentLayout);
+    _structureUIHolder->addChild(_staticContentLayout);
+    
+    _contentListView = ui::ListView::create();
+    _contentListView->setSizeType(SizeType::PERCENT);
+    _contentListView->setSizePercent(Vec2(1.0f,1.0f));
+    _contentListView->setLayoutParameter(CreateCenterVerticalLinearLayoutParam());
+    _contentListView->setBackGroundColorType(BackGroundColorType::SOLID);
+    _contentListView->setBackGroundColor(Color3B::RED);
+    _structureUIHolder->addChild(_contentListView);
     
     return true;
 }
@@ -57,22 +65,12 @@ void HQPage::onSizeChanged()
     _isPortrait = contentSize.width < contentSize.height;
     if(_isPortrait)
     {
-        _contentListView->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-        _contentListView->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
         _contentListView->setSizePercent(Vec2(1.0f, 1.0f));
-        
-        _staticContentLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
-        _staticContentLayout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
         _staticContentLayout->setSizePercent(Vec2(0.0f, 1.0f));
     }
     else
     {
-        _contentListView->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
-        _contentListView->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
         _contentListView->setSizePercent(Vec2(0.5f, 1.0f));
-        
-        _staticContentLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
-        _staticContentLayout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
         _staticContentLayout->setSizePercent(Vec2(0.5f, 1.0f));
     }
 }

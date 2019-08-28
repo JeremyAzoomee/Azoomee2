@@ -23,6 +23,7 @@ protected:
     
     bool _isPortrait = true;
     
+    cocos2d::ui::Layout* _structureUIHolder = nullptr;
     cocos2d::ui::ListView* _contentListView = nullptr;
     cocos2d::ui::Layout* _staticContentLayout = nullptr;
     

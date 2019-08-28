@@ -93,6 +93,7 @@ void HQScene::onSizeChanged()
     {
         _pageLayout->setContentSize(Size(visibleSize.width, visibleSize.height - _titleBanner->getContentSize().height - _navBar->getContentSize().height));
         _pageLayout->setPosition(Vec2(visibleSize.width / 2, visibleSize.height - _titleBanner->getContentSize().height));
+        _pageLayout->forceDoLayout();
     }
 }
 
@@ -249,12 +250,16 @@ void HQScene::createPageUI()
     
     _gameHQ = GameHQ::create();
     _gameHQ->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _gameHQ->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    //_gameHQ->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    _gameHQ->setPositionType(ui::Widget::PositionType::PERCENT);
+    _gameHQ->setPositionPercent(Vec2::ANCHOR_MIDDLE);
     _pageLayout->addChild(_gameHQ);
     
     _videoHQ = VideoHQ::create();
     _videoHQ->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _videoHQ->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    //_videoHQ->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    _videoHQ->setPositionType(ui::Widget::PositionType::PERCENT);
+    _videoHQ->setPositionPercent(Vec2::ANCHOR_MIDDLE);
     _videoHQ->setVisible(false);
     _pageLayout->addChild(_videoHQ);
 }
