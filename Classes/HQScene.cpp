@@ -144,6 +144,7 @@ void HQScene::createHeaderUI()
     _HQPageTitle->setOverflow(Label::Overflow::SHRINK);
     _HQPageTitle->setTextAreaSize(Size(visibleSize.width / 2, 240));
     _HQPageTitle->setTextColor(Color4B::WHITE);
+    _HQPageTitle->setTextVerticalAlignment(TextVAlignment::CENTER);
     _titleBannerContent->addChild(_HQPageTitle);
     
 }
@@ -186,6 +187,7 @@ void HQScene::createNavigationUI()
                     _gameHQ->setVisible(true);
                     _gameHQ->forceDoLayout();
                     _videoHQ->setVisible(false);
+                    _oomeeHQ->setVisible(false);
                     _activePageName = ConfigStorage::kGameHQName;
                     _HQPageTitle->setString("Games");
                 }
@@ -199,6 +201,7 @@ void HQScene::createNavigationUI()
                     _gameHQ->setVisible(false);
                     _videoHQ->setVisible(true);
                     _videoHQ->forceDoLayout();
+                    _oomeeHQ->setVisible(false);
                     _activePageName = ConfigStorage::kVideoHQName;
                     _HQPageTitle->setString("Videos");
                 }
@@ -217,13 +220,17 @@ void HQScene::createNavigationUI()
                 if(_activePageName != ConfigStorage::kMeHQName)
                 {
                     HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kMeHQName);
-                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
+                    _gameHQ->setVisible(false);
+                    _videoHQ->setVisible(false);
+                    _oomeeHQ->setVisible(true);
+                    _oomeeHQ->forceDoLayout();
+                    _activePageName = ConfigStorage::kVideoHQName;
+                    _HQPageTitle->setString(ChildManager::getInstance()->getParentOrChildName());
                     break;
                 }
             }
         }
     });
-    //_messagingLayer->addChild(_navBar);
     addChild(_navBar, 1);
     
     const Color3B& gradColour = Style::Color::darkIndigo;
@@ -250,18 +257,23 @@ void HQScene::createPageUI()
     
     _gameHQ = GameHQ::create();
     _gameHQ->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    //_gameHQ->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _gameHQ->setPositionType(ui::Widget::PositionType::PERCENT);
     _gameHQ->setPositionPercent(Vec2::ANCHOR_MIDDLE);
     _pageLayout->addChild(_gameHQ);
     
     _videoHQ = VideoHQ::create();
     _videoHQ->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    //_videoHQ->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _videoHQ->setPositionType(ui::Widget::PositionType::PERCENT);
     _videoHQ->setPositionPercent(Vec2::ANCHOR_MIDDLE);
     _videoHQ->setVisible(false);
     _pageLayout->addChild(_videoHQ);
+    
+    _oomeeHQ = OomeeHQ::create();
+    _oomeeHQ->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _oomeeHQ->setPositionType(ui::Widget::PositionType::PERCENT);
+    _oomeeHQ->setPositionPercent(Vec2::ANCHOR_MIDDLE);
+    _oomeeHQ->setVisible(false);
+    _pageLayout->addChild(_oomeeHQ);
 }
 
 //delegate functions

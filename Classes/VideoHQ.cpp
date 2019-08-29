@@ -35,18 +35,14 @@ void VideoHQ::onExit()
 void VideoHQ::onSizeChanged()
 {
     Super::onSizeChanged();
-    
+
     _episodePlayer->stopAllActions();
     _episodePlayer->setTouchEnabled(_isPortrait);
     if(_isPortrait)
     {
-        //if(_episodePlayer->getParent() == _staticContentLayout)
-        //{
-        //    _episodePlayer->retain();
-        //    _episodePlayer->removeFromParent();
-        //    addChild(_episodePlayer, 1);
-        //    _episodePlayer->release();
-        //}
+        _contentListView->setSizePercent(Vec2(1.0f, 1.0f));
+        _staticContentLayout->setSizePercent(Vec2(0.0f, 1.0f));
+        
         _episodePlayer->setSizePercent(Vec2(1.0,1.0f));
         if(_episodePlayerMoving)
         {
@@ -81,14 +77,9 @@ void VideoHQ::onSizeChanged()
     }
     else
     {
-        //if(_episodePlayer->getParent() == this)
-        //{
-        //    _episodePlayer->retain();
-        //    _episodePlayer->removeFromParent();
-        //    _staticContentLayout->addChild(_episodePlayer, 1);
-        //    _episodePlayer->release();
-        //}
-        //_episodePlayer->setPositionType(PositionType::PERCENT);
+        _contentListView->setSizePercent(Vec2(0.5f, 1.0f));
+        _staticContentLayout->setSizePercent(Vec2(0.5f, 1.0f));
+        
         _episodePlayer->setPosition(Vec2(0,0));
         _episodePlayer->setSizePercent(Vec2(0.5,1.0f));
         _episodePlayerOpen = false;

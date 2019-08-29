@@ -34,9 +34,12 @@ void GameHQ::onExit()
 void GameHQ::onSizeChanged()
 {
     Super::onSizeChanged();
-    
+
     if(_isPortrait)
     {
+        _contentListView->setSizePercent(Vec2(1.0f, 1.0f));
+        _staticContentLayout->setSizePercent(Vec2(0.0f, 1.0f));
+        
         _featuredLayout->setSizeType(SizeType::ABSOLUTE);
         _featuredLayout->setPositionType(PositionType::ABSOLUTE);
         _featuredLayout->setContentSize(Size(_contentListView->getContentSize().width, 1000));
@@ -50,6 +53,9 @@ void GameHQ::onSizeChanged()
     }
     else
     {
+        _contentListView->setSizePercent(Vec2(0.5f, 1.0f));
+        _staticContentLayout->setSizePercent(Vec2(0.5f, 1.0f));
+        
         _featuredLayout->setSizeType(SizeType::PERCENT);
         _featuredLayout->setSizePercent(Vec2(1.0f,1.0f));
         _featuredLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE);

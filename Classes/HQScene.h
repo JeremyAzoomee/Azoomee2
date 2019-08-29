@@ -19,6 +19,7 @@
 #include "HQPage.h"
 #include "GameHQ.h"
 #include "VideoHQ.h"
+#include "OomeeHQ.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -47,6 +48,7 @@ private:
     
     GameHQ* _gameHQ = nullptr;
     VideoHQ* _videoHQ = nullptr;
+    OomeeHQ* _oomeeHQ = nullptr;
     
     std::string _activePageName;
     

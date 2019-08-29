@@ -28,7 +28,7 @@ bool HQPage::init()
     _structureUIHolder = ui::Layout::create();
     _structureUIHolder->setSizeType(SizeType::PERCENT);
     _structureUIHolder->setSizePercent(Vec2(1.0f,1.0f));
-    _structureUIHolder->setClippingEnabled(true);
+    //_structureUIHolder->setClippingEnabled(true);
     _structureUIHolder->setLayoutType(Layout::Type::HORIZONTAL);
     addChild(_structureUIHolder);
     
@@ -46,6 +46,10 @@ bool HQPage::init()
     _contentListView->setLayoutParameter(CreateCenterVerticalLinearLayoutParam());
     _contentListView->setBackGroundColorType(BackGroundColorType::SOLID);
     _contentListView->setBackGroundColor(Color3B::RED);
+    _contentListView->setItemsMargin(70);
+    _contentListView->setBounceEnabled(true);
+    _contentListView->setTopPadding(70);
+    _contentListView->setBottomPadding(70);
     _structureUIHolder->addChild(_contentListView);
     
     return true;
@@ -63,16 +67,6 @@ void HQPage::onSizeChanged()
     Super::onSizeChanged();
     const Size& contentSize = getContentSize();
     _isPortrait = contentSize.width < contentSize.height;
-    if(_isPortrait)
-    {
-        _contentListView->setSizePercent(Vec2(1.0f, 1.0f));
-        _staticContentLayout->setSizePercent(Vec2(0.0f, 1.0f));
-    }
-    else
-    {
-        _contentListView->setSizePercent(Vec2(0.5f, 1.0f));
-        _staticContentLayout->setSizePercent(Vec2(0.5f, 1.0f));
-    }
 }
 
 void HQPage::setContentSelectedCallback(const ContentSelectedCallback& callback)
