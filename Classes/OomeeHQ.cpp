@@ -25,12 +25,10 @@ bool OomeeHQ::init()
 }
 void OomeeHQ::onEnter()
 {
-    scheduleUpdate();
     Super::onEnter();
 }
 void OomeeHQ::onExit()
 {
-    unscheduleUpdate();
     Super::onExit();
 }
 void OomeeHQ::onSizeChanged()
@@ -45,6 +43,10 @@ void OomeeHQ::onSizeChanged()
     }
     else
     {
+
+        _structureUIHolder->stopAllActions();
+        _resizing = false;
+        
         _structureUIHolder->setLayoutType(Type::HORIZONTAL);
         _staticContentLayout->setSizePercent(Vec2(0.5f, 1.0f));
         _contentListView->setSizePercent(Vec2(0.5f, 1.0f));
@@ -54,13 +56,8 @@ void OomeeHQ::onSizeChanged()
     _shopButton->setContentSize(Size(_contentListView->getContentSize().width, 574));
     _oomeeMakerButton->setContentSize(Size(_contentListView->getContentSize().width, 574));
     _contentListView->forceDoLayout();
-}
-
-void OomeeHQ::update(float deltaT)
-{
-    Super::update(deltaT);
     
-    
+    _prevScrollPos = _contentListView->getInnerContainerPosition();
 }
 
 void OomeeHQ::createOomeeLayout()
@@ -95,7 +92,73 @@ void OomeeHQ::createScrollViewContent()
     _artStudioLayout->setBackGroundColor(Color3B::GREEN);
     _artStudioLayout->setContentSize(Size(_contentListView->getContentSize().width, 1412));
     _contentListView->pushBackCustomItem(_artStudioLayout);
+ 
     
+    _touchListener = EventListenerTouchOneByOne::create();
+    _touchListener->onTouchBegan = [this](Touch *touch, Event *event){
+        
+        return true;
+    };
+    
+    _contentListView->addEventListener([this](Ref* pSender, ui::ScrollView::EventType eType){
+        if(!_resizing && _isPortrait)
+        {
+            if(eType == ui::ScrollView::EventType::BOUNCE_TOP)
+            {
+                if(_contentListView->getSizePercent().y >= 0.75f)
+                {
+                    _contentListView->stopOverallScroll();
+                    ActionFloat* action = ActionFloat::create(1.0f, 0.0f, 0.25f, [this](float move){
+                        if(_isPortrait)
+                        {
+                            _staticContentLayout->setSizePercent(Vec2(1.0f,0.25f + move));
+                            _contentListView->setSizePercent((Vec2(1.0f,0.75f - move)));
+                            _structureUIHolder->forceDoLayout();
+                        }
+                    });
+                    _structureUIHolder->runAction(Sequence::create(action, DelayTime::create(0.5f), CallFunc::create([this](){
+                        _resizing = false;
+                    }), NULL));
+                    _resizing = true;
+                }
+            }
+            else if(eType == ui::ScrollView::EventType::CONTAINER_MOVED)
+            {
+                if(_contentListView->getScrolledPercentVertical() > 5.0f && _contentListView->getSizePercent().y < 0.75f)
+                {
+                    _contentListView->stopOverallScroll();
+                    ActionFloat* action = ActionFloat::create(1.0f, 0.0f, 0.25f, [this](float move){
+                        if(_isPortrait)
+                        {
+                            _staticContentLayout->setSizePercent(Vec2(1.0f,0.5f - move));
+                            _contentListView->setSizePercent((Vec2(1.0f,0.5f + move)));
+                            _structureUIHolder->forceDoLayout();
+                        }
+                    });
+                    _structureUIHolder->runAction(Sequence::create(action, DelayTime::create(0.5f), CallFunc::create([this](){
+                        _resizing = false;
+                    }), NULL));
+                    _resizing = true;
+                }
+                /*else if(_contentListView->getScrolledPercentVertical() <= -2.0f && _contentListView->getSizePercent().y >= 0.75f)
+                {
+                    _contentListView->stopOverallScroll();
+                    ActionFloat* action = ActionFloat::create(1.0f, 0.0f, 0.25f, [this](float move){
+                        if(_isPortrait)
+                        {
+                            _staticContentLayout->setSizePercent(Vec2(1.0f,0.25f + move));
+                            _contentListView->setSizePercent((Vec2(1.0f,0.75f - move)));
+                            _structureUIHolder->forceDoLayout();
+                        }
+                    });
+                    _structureUIHolder->runAction(Sequence::create(action, DelayTime::create(0.5f), CallFunc::create([this](){
+                        _resizing = false;
+                    }), NULL));
+                    _resizing = true;
+                }*/
+            }
+        }
+    });
 }
 
 NS_AZOOMEE_END
