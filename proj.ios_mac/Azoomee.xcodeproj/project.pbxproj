@@ -219,6 +219,7 @@
 		D44C6210132DFF4E0009C878 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620F132DFF4E0009C878 /* AudioToolbox.framework */; };
 		D6B0611B1803AB670077942B /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6B0611A1803AB670077942B /* CoreMotion.framework */; };
 		E212CC19231D4CB8009D4A63 /* ContentTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E212CC18231D4CB8009D4A63 /* ContentTile.cpp */; };
+		E212CC75231D75E7009D4A63 /* ContentTileHolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E212CC74231D75E7009D4A63 /* ContentTileHolder.cpp */; };
 		E21A4F272317CC5300E1D3FB /* OomeeHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21A4F262317CC5300E1D3FB /* OomeeHQ.cpp */; };
 		E22ACA04230C00D40024B328 /* NavigationButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACA03230C00D40024B328 /* NavigationButton.cpp */; };
 		E22ACA06230C07650024B328 /* NavigationBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACA05230C07650024B328 /* NavigationBar.cpp */; };
@@ -740,6 +741,8 @@
 		D6B0611A1803AB670077942B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
 		E212CC17231D3EC7009D4A63 /* ContentTile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContentTile.h; sourceTree = "<group>"; };
 		E212CC18231D4CB8009D4A63 /* ContentTile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ContentTile.cpp; sourceTree = "<group>"; };
+		E212CC6E231D6C3F009D4A63 /* ContentTileHolder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContentTileHolder.h; sourceTree = "<group>"; };
+		E212CC74231D75E7009D4A63 /* ContentTileHolder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ContentTileHolder.cpp; sourceTree = "<group>"; };
 		E21A4F202317CC0200E1D3FB /* OomeeHQ.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OomeeHQ.h; sourceTree = "<group>"; };
 		E21A4F262317CC5300E1D3FB /* OomeeHQ.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeHQ.cpp; sourceTree = "<group>"; };
 		E22AC9FC230BF31D0024B328 /* NavigationBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NavigationBar.h; sourceTree = "<group>"; };
@@ -1605,6 +1608,8 @@
 			children = (
 				E212CC17231D3EC7009D4A63 /* ContentTile.h */,
 				E212CC18231D4CB8009D4A63 /* ContentTile.cpp */,
+				E212CC6E231D6C3F009D4A63 /* ContentTileHolder.h */,
+				E212CC74231D75E7009D4A63 /* ContentTileHolder.cpp */,
 			);
 			name = ContentTiles;
 			sourceTree = "<group>";
@@ -2015,6 +2020,7 @@
 				9229EE4E22DCAFAA009732B0 /* SignupScene.cpp in Sources */,
 				02A11FF81EA6375D007EDD95 /* RoutePaymentSingleton.cpp in Sources */,
 				D13C40151E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm in Sources */,
+				E212CC75231D75E7009D4A63 /* ContentTileHolder.cpp in Sources */,
 				921C75AD219464A100EB93D6 /* VodacomOnboardingTnCLayer.cpp in Sources */,
 				9229EE6322E07808009732B0 /* SignupTermsPage.cpp in Sources */,
 				924E8450214117D9004590FD /* SettingsMessageBoxRejectFR.cpp in Sources */,

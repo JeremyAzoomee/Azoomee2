@@ -23,7 +23,7 @@ protected:
     typedef std::function<void(HQContentItemObjectRef)> ContentSelectedCallback;
     
     HQContentItemObjectRef _contentItem = nullptr;
-    ContnetSelectedCallback _callback = nullptr;
+    ContentSelectedCallback _callback = nullptr;
     ImageDownloaderRef _imageDownloader = nullptr;
     
 public:
