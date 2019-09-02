@@ -218,6 +218,7 @@
 		D44C620E132DFF430009C878 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620D132DFF430009C878 /* AVFoundation.framework */; };
 		D44C6210132DFF4E0009C878 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620F132DFF4E0009C878 /* AudioToolbox.framework */; };
 		D6B0611B1803AB670077942B /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6B0611A1803AB670077942B /* CoreMotion.framework */; };
+		E212CC19231D4CB8009D4A63 /* ContentTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E212CC18231D4CB8009D4A63 /* ContentTile.cpp */; };
 		E21A4F272317CC5300E1D3FB /* OomeeHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21A4F262317CC5300E1D3FB /* OomeeHQ.cpp */; };
 		E22ACA04230C00D40024B328 /* NavigationButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACA03230C00D40024B328 /* NavigationButton.cpp */; };
 		E22ACA06230C07650024B328 /* NavigationBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACA05230C07650024B328 /* NavigationBar.cpp */; };
@@ -737,6 +738,8 @@
 		D44C620D132DFF430009C878 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		D44C620F132DFF4E0009C878 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		D6B0611A1803AB670077942B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
+		E212CC17231D3EC7009D4A63 /* ContentTile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContentTile.h; sourceTree = "<group>"; };
+		E212CC18231D4CB8009D4A63 /* ContentTile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ContentTile.cpp; sourceTree = "<group>"; };
 		E21A4F202317CC0200E1D3FB /* OomeeHQ.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OomeeHQ.h; sourceTree = "<group>"; };
 		E21A4F262317CC5300E1D3FB /* OomeeHQ.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeHQ.cpp; sourceTree = "<group>"; };
 		E22AC9FC230BF31D0024B328 /* NavigationBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NavigationBar.h; sourceTree = "<group>"; };
@@ -1504,6 +1507,7 @@
 		A19759861DE4931600FEB03C /* HQScene */ = {
 			isa = PBXGroup;
 			children = (
+				E212CC11231D3E9C009D4A63 /* ContentTiles */,
 				E22ACA9C230D4FA40024B328 /* HQScene.h */,
 				E22ACAA2230D51100024B328 /* HQScene.cpp */,
 				E22ACAF8230EA7190024B328 /* HQPage.h */,
@@ -1594,6 +1598,15 @@
 				A154CC511DFEE7440008A626 /* GameDataManager.h */,
 			);
 			name = GameDownloader;
+			sourceTree = "<group>";
+		};
+		E212CC11231D3E9C009D4A63 /* ContentTiles */ = {
+			isa = PBXGroup;
+			children = (
+				E212CC17231D3EC7009D4A63 /* ContentTile.h */,
+				E212CC18231D4CB8009D4A63 /* ContentTile.cpp */,
+			);
+			name = ContentTiles;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2030,6 +2043,7 @@
 				928A6DCB20EBB9650053E793 /* ChildCreator.cpp in Sources */,
 				02E595931E55F9BB0052F395 /* OfflineHubHQElement.cpp in Sources */,
 				926A2B0C212EABB000AE7964 /* SettingsNavigationButton.cpp in Sources */,
+				E212CC19231D4CB8009D4A63 /* ContentTile.cpp in Sources */,
 				02E5958C1E55F5ED0052F395 /* OfflineGameSearch.cpp in Sources */,
 				925B24A4220AEE5F0000D7D2 /* CoinChestLayer.cpp in Sources */,
 				9206012A227B2F9500A73FA5 /* ChildOomeeFTULayer.cpp in Sources */,
