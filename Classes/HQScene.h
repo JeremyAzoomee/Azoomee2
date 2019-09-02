@@ -11,12 +11,15 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/Scene.h>
 #include <AzoomeeCommon/Tutorial/TutorialController.h>
-#include <AzoomeeCommon/UI/DynamicText.h>
-#include "NavigationLayer.h"
 #include "NavigationBar.h"
+#include <AzoomeeCommon/UI/DynamicText.h>
 #include "SettingsButton.h"
 #include "UserTypeMessagingLayer.h"
 #include "CoinDisplay.h"
+#include "HQPage.h"
+#include "GameHQ.h"
+#include "VideoHQ.h"
+#include "OomeeHQ.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -43,9 +46,17 @@ private:
     
     cocos2d::ui::Layout* _pageLayout = nullptr;
     
+    GameHQ* _gameHQ = nullptr;
+    VideoHQ* _videoHQ = nullptr;
+    OomeeHQ* _oomeeHQ = nullptr;
+    
+    std::string _activePageName;
+    
     void createHeaderUI();
     void createNavigationUI();
     void createPageUI();
+    
+    void changeToPage(const HQType& page);
     
 public:
     

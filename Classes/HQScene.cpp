@@ -9,6 +9,13 @@
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
+#include "FlowDataSingleton.h"
+#include "ContentHistoryManager.h"
+#include "RewardDisplayHandler.h"
+#include "SceneManagerScene.h"
+#include "AgeGate.h"
 #include <AzoomeeCommon/Data/Parent/ParentManager.h>
 
 using namespace cocos2d;
@@ -38,6 +45,24 @@ bool HQScene::init()
 
 void HQScene::onEnter()
 {
+    _activePageName = ConfigStorage::kGameHQName;
+    
+    _navBar->toggleHQSelected(_activePageName);
+
+	_rewardRedeemedListener = EventListenerCustom::create(RewardDisplayHandler::kRewardRedeemedEventKey, [this](EventCustom* event){
+		if(!_coinDisplay->isVisible())
+		{
+			_coinDisplay->setVisible(TutorialController::getInstance()->isTutorialCompleted(TutorialController::kFTUShopID) || ChildManager::getInstance()->getLoggedInChild()->getInventory()->getCoins() > 0);
+		}
+	});
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(_rewardRedeemedListener, this);
+	
+	TutorialController::getInstance()->registerDelegate(this);
+	if(TutorialController::getInstance()->isTutorialActive())
+	{
+		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
+	}
+	ContentHistoryManager::getInstance()->setReturnedFromContent(false);
     Super::onEnter();
 }
 
@@ -66,8 +91,9 @@ void HQScene::onSizeChanged()
     }
     if(_pageLayout)
     {
-        _pageLayout->setContentSize(Size(visibleSize.width, visibleSize.height - _titleBanner->getContentSize().height - _navLayer->getContentSize().height));
+        _pageLayout->setContentSize(Size(visibleSize.width, visibleSize.height - _titleBanner->getContentSize().height - _navBar->getContentSize().height));
         _pageLayout->setPosition(Vec2(visibleSize.width / 2, visibleSize.height - _titleBanner->getContentSize().height));
+        _pageLayout->forceDoLayout();
     }
 }
 
@@ -118,6 +144,7 @@ void HQScene::createHeaderUI()
     _HQPageTitle->setOverflow(Label::Overflow::SHRINK);
     _HQPageTitle->setTextAreaSize(Size(visibleSize.width / 2, 240));
     _HQPageTitle->setTextColor(Color4B::WHITE);
+    _HQPageTitle->setTextVerticalAlignment(TextVAlignment::CENTER);
     _titleBannerContent->addChild(_HQPageTitle);
     
 }
@@ -126,38 +153,6 @@ void HQScene::createNavigationUI()
     const Size& visibleSize = Director::getInstance()->getVisibleSize();
     _isPortrait = visibleSize.width < visibleSize.height;
     
-    /*_messagingLayer = UserTypeMessagingLayer::create();
-    _messagingLayer->setContentSize(Size(visibleSize.width, 350));
-    _messagingLayer->setPosition(-Vec2(0,350));
-    _messagingLayer->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-    UserBillingType userType = UserBillingType::ANON;
-    if(!ParentManager::getInstance()->isLoggedInParentAnonymous())
-    {
-        userType = UserBillingType::LAPSED;
-        if(ParentManager::getInstance()->isPaidUser())
-        {
-            userType = UserBillingType::PAID;
-        }
-    }
-    _messagingLayer->setUserType(userType);
-    if(userType == UserBillingType::PAID)
-    {
-        _showingMessagingLayer = false;
-        _messagingLayer->setOpacity(0);
-    }
-    else
-    {
-        if(HQHistoryManager::getInstance()->getHistorySize() == 1)
-        {
-            _messagingLayer->runAction(MoveTo::create(1, Vec2(0,0)));
-        }
-        else
-        {
-            _messagingLayer->setPosition(Vec2(0,0));
-        }
-    }
-    addChild(_messagingLayer,1);
-    */
     _navBar = NavigationBar::create();
     _navBar->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _navBar->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
@@ -183,45 +178,9 @@ void HQScene::createNavigationUI()
             return;
         }
         
-        switch (hq) {
-            case HQType::GAME:
-            {
-                if(_activePageName != ConfigStorage::kGameHQName)
-                {
-                    HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kGameHQName);
-                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
-                }
-                break;
-            }
-            case HQType::VIDEO:
-            {
-                if(_activePageName != ConfigStorage::kVideoHQName)
-                {
-                    HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kVideoHQName);
-                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
-                    break;
-                }
-            }
-            case HQType::CHAT:
-            {
-                if(!ParentManager::getInstance()->isLoggedInParentAnonymous())
-                {
-                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
-                }
-                break;
-            }
-            case HQType::OOMEE:
-            {
-                if(_activePageName != ConfigStorage::kMeHQName)
-                {
-                    HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kMeHQName);
-                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
-                    break;
-                }
-            }
-        }
+        changeToPage(hq);
+        
     });
-    //_messagingLayer->addChild(_navBar);
     addChild(_navBar, 1);
     
     const Color3B& gradColour = Style::Color::darkIndigo;
@@ -235,15 +194,71 @@ void HQScene::createNavigationUI()
 
 void HQScene::createPageUI()
 {
+
     const Size& visibleSize = Director::getInstance()->getVisibleSize();
     
     _pageLayout = ui::Layout::create();
-    _pageLayout->setContentSize(Size(visibleSize.width, visibleSize.height - _titleBanner->getContentSize().height - _navLayer->getContentSize().height));
+    _pageLayout->setContentSize(Size(visibleSize.width, visibleSize.height - _titleBanner->getContentSize().height - _navBar->getContentSize().height));
     _pageLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _pageLayout->setPosition(Vec2(visibleSize.width / 2, visibleSize.height - _titleBanner->getContentSize().height));
+    _pageLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+    _pageLayout->setBackGroundColor(Color3B::MAGENTA);
     addChild(_pageLayout);
+    
+    _gameHQ = GameHQ::create();
+    _gameHQ->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _gameHQ->setPositionType(ui::Widget::PositionType::PERCENT);
+    _gameHQ->setPositionPercent(Vec2::ANCHOR_MIDDLE);
+    _pageLayout->addChild(_gameHQ);
+    
+    _videoHQ = VideoHQ::create();
+    _videoHQ->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _videoHQ->setPositionType(ui::Widget::PositionType::PERCENT);
+    _videoHQ->setPositionPercent(Vec2::ANCHOR_MIDDLE);
+    _videoHQ->setVisible(false);
+    _pageLayout->addChild(_videoHQ);
+    
+    _oomeeHQ = OomeeHQ::create();
+    _oomeeHQ->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _oomeeHQ->setPositionType(ui::Widget::PositionType::PERCENT);
+    _oomeeHQ->setPositionPercent(Vec2::ANCHOR_MIDDLE);
+    _oomeeHQ->setVisible(false);
+    _pageLayout->addChild(_oomeeHQ);
 }
 
+void HQScene::changeToPage(const HQType& page)
+{
+    _gameHQ->setVisible(page == HQType::GAME);
+    _videoHQ->setVisible(page == HQType::VIDEO);
+    _oomeeHQ->setVisible(page == HQType::OOMEE);
+    switch(page)
+    {
+        case HQType::GAME:
+            _gameHQ->forceDoLayout();
+            _HQPageTitle->setString("Games");
+            _activePageName = ConfigStorage::kGameHQName;
+            break;
+        case HQType::VIDEO:
+            _videoHQ->forceDoLayout();
+            _HQPageTitle->setString("Videos");
+            _activePageName = ConfigStorage::kVideoHQName;
+            break;
+        case HQType::CHAT:
+            _HQPageTitle->setString("Chat");
+            _activePageName = ConfigStorage::kChatHQName;
+            if(!ParentManager::getInstance()->isLoggedInParentAnonymous())
+            {
+                Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
+            }
+            break;
+        case HQType::OOMEE:
+            _oomeeHQ->forceDoLayout();
+            _HQPageTitle->setString(ChildManager::getInstance()->getParentOrChildName());
+            _activePageName = ConfigStorage::kMeHQName;
+            break;
+    }
+    HQHistoryManager::getInstance()->addHQToHistoryManager(_activePageName);
+}
 //delegate functions
 void HQScene::onTutorialStateChanged(const std::string& stateId)
 {

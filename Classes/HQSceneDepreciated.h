@@ -11,8 +11,7 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/Scene.h>
 #include <AzoomeeCommon/Tutorial/TutorialController.h>
-//#include "NavigationLayer.h"
-#include "NavigationBar.h"
+#include "NavigationLayer.h"
 #include "SettingsButton.h"
 #include "UserTypeMessagingLayer.h"
 #include "CoinDisplay.h"
@@ -38,9 +37,8 @@ protected:
 	
 	std::string _hqCategory;
 	
-	//NavigationLayer* _navLayer = nullptr;
-    NavigationBar* _navBar = nullptr;
-    
+	NavigationLayer* _navLayer = nullptr;
+	
 	UserTypeMessagingLayer* _messagingLayer = nullptr;
 	bool _showingMessagingLayer = true;
 	
