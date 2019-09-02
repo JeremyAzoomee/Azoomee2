@@ -19,6 +19,8 @@ class VideoHQ : public HQPage
 {
     typedef HQPage Super;
 private:
+    static const float kEpisodePlayerTabHeight;
+    
     cocos2d::ui::Layout* _featuredLayout = nullptr;
     cocos2d::ui::Layout* _recentlyPlayedLayout = nullptr;
     cocos2d::Vector<cocos2d::ui::Layout*> _dropdownLayouts;

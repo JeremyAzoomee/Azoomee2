@@ -178,58 +178,8 @@ void HQScene::createNavigationUI()
             return;
         }
         
-        switch (hq) {
-            case HQType::GAME:
-            {
-                if(_activePageName != ConfigStorage::kGameHQName)
-                {
-                    HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kGameHQName);
-                    _gameHQ->setVisible(true);
-                    _gameHQ->forceDoLayout();
-                    _videoHQ->setVisible(false);
-                    _oomeeHQ->setVisible(false);
-                    _activePageName = ConfigStorage::kGameHQName;
-                    _HQPageTitle->setString("Games");
-                }
-                break;
-            }
-            case HQType::VIDEO:
-            {
-                if(_activePageName != ConfigStorage::kVideoHQName)
-                {
-                    HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kVideoHQName);
-                    _gameHQ->setVisible(false);
-                    _videoHQ->setVisible(true);
-                    _videoHQ->forceDoLayout();
-                    _oomeeHQ->setVisible(false);
-                    _activePageName = ConfigStorage::kVideoHQName;
-                    _HQPageTitle->setString("Videos");
-                }
-                break;
-            }
-            case HQType::CHAT:
-            {
-                if(!ParentManager::getInstance()->isLoggedInParentAnonymous())
-                {
-                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
-                }
-                break;
-            }
-            case HQType::OOMEE:
-            {
-                if(_activePageName != ConfigStorage::kMeHQName)
-                {
-                    HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kMeHQName);
-                    _gameHQ->setVisible(false);
-                    _videoHQ->setVisible(false);
-                    _oomeeHQ->setVisible(true);
-                    _oomeeHQ->forceDoLayout();
-                    _activePageName = ConfigStorage::kVideoHQName;
-                    _HQPageTitle->setString(ChildManager::getInstance()->getParentOrChildName());
-                    break;
-                }
-            }
-        }
+        changeToPage(hq);
+        
     });
     addChild(_navBar, 1);
     
@@ -276,6 +226,39 @@ void HQScene::createPageUI()
     _pageLayout->addChild(_oomeeHQ);
 }
 
+void HQScene::changeToPage(const HQType& page)
+{
+    _gameHQ->setVisible(page == HQType::GAME);
+    _videoHQ->setVisible(page == HQType::VIDEO);
+    _oomeeHQ->setVisible(page == HQType::OOMEE);
+    switch(page)
+    {
+        case HQType::GAME:
+            _gameHQ->forceDoLayout();
+            _HQPageTitle->setString("Games");
+            _activePageName = ConfigStorage::kGameHQName;
+            break;
+        case HQType::VIDEO:
+            _videoHQ->forceDoLayout();
+            _HQPageTitle->setString("Videos");
+            _activePageName = ConfigStorage::kVideoHQName;
+            break;
+        case HQType::CHAT:
+            _HQPageTitle->setString("Chat");
+            _activePageName = ConfigStorage::kChatHQName;
+            if(!ParentManager::getInstance()->isLoggedInParentAnonymous())
+            {
+                Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
+            }
+            break;
+        case HQType::OOMEE:
+            _oomeeHQ->forceDoLayout();
+            _HQPageTitle->setString(ChildManager::getInstance()->getParentOrChildName());
+            _activePageName = ConfigStorage::kMeHQName;
+            break;
+    }
+    HQHistoryManager::getInstance()->addHQToHistoryManager(_activePageName);
+}
 //delegate functions
 void HQScene::onTutorialStateChanged(const std::string& stateId)
 {

@@ -23,14 +23,17 @@ bool GameHQ::init()
     
     return true;
 }
+
 void GameHQ::onEnter()
 {
     Super::onEnter();
 }
+
 void GameHQ::onExit()
 {
     Super::onExit();
 }
+
 void GameHQ::onSizeChanged()
 {
     Super::onSizeChanged();
@@ -83,6 +86,7 @@ void GameHQ::createFeaturedTiles()
     _staticContentLayout->addChild(_featuredLayout);
     
 }
+
 void GameHQ::createRecentlyPlayedTiles()
 {
     _recentlyPlayedLayout = ui::Layout::create();
@@ -91,6 +95,7 @@ void GameHQ::createRecentlyPlayedTiles()
     _recentlyPlayedLayout->setContentSize(Size(_contentListView->getContentSize().width, 400));
     _contentListView->pushBackCustomItem(_recentlyPlayedLayout);
 }
+
 void GameHQ::createDropdowns()
 {
     

@@ -23,14 +23,17 @@ bool OomeeHQ::init()
     
     return true;
 }
+
 void OomeeHQ::onEnter()
 {
     Super::onEnter();
 }
+
 void OomeeHQ::onExit()
 {
     Super::onExit();
 }
+
 void OomeeHQ::onSizeChanged()
 {
     Super::onSizeChanged();
@@ -43,9 +46,7 @@ void OomeeHQ::onSizeChanged()
     }
     else
     {
-
         _structureUIHolder->stopAllActions();
-        _resizing = false;
         
         _structureUIHolder->setLayoutType(Type::HORIZONTAL);
         _staticContentLayout->setSizePercent(Vec2(0.5f, 1.0f));
@@ -57,7 +58,6 @@ void OomeeHQ::onSizeChanged()
     _oomeeMakerButton->setContentSize(Size(_contentListView->getContentSize().width, 574));
     _contentListView->forceDoLayout();
     
-    _prevScrollPos = _contentListView->getInnerContainerPosition();
 }
 
 void OomeeHQ::createOomeeLayout()

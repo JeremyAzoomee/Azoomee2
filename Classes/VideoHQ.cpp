@@ -11,6 +11,8 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+const float VideoHQ::kEpisodePlayerTabHeight = 100.0f;
+
 bool VideoHQ::init()
 {
     if(!Super::init())
@@ -24,14 +26,17 @@ bool VideoHQ::init()
     
     return true;
 }
+
 void VideoHQ::onEnter()
 {
     Super::onEnter();
 }
+
 void VideoHQ::onExit()
 {
     Super::onExit();
 }
+
 void VideoHQ::onSizeChanged()
 {
     Super::onSizeChanged();
@@ -48,7 +53,7 @@ void VideoHQ::onSizeChanged()
         {
             if(_episodePlayerOpen)
             {
-                _episodePlayer->setPosition(Vec2(0, -_episodePlayer->getContentSize().height + 50));
+                _episodePlayer->setPosition(Vec2(0, -_episodePlayer->getContentSize().height + kEpisodePlayerTabHeight));
                 _episodePlayerOpen = false;
                 _episodePlayerMoving = false;
             }
@@ -69,7 +74,7 @@ void VideoHQ::onSizeChanged()
             }
             else
             {
-                _episodePlayer->setPosition(Vec2(0, -_episodePlayer->getContentSize().height + 100));
+                _episodePlayer->setPosition(Vec2(0, -_episodePlayer->getContentSize().height + kEpisodePlayerTabHeight));
                 _episodePlayerOpen = false;
                 _episodePlayerMoving = false;
             }
@@ -102,6 +107,7 @@ void VideoHQ::createFeaturedTiles()
     _contentListView->pushBackCustomItem(_featuredLayout);
     
 }
+
 void VideoHQ::createRecentlyPlayedTiles()
 {
     _recentlyPlayedLayout = ui::Layout::create();
@@ -110,6 +116,7 @@ void VideoHQ::createRecentlyPlayedTiles()
     _recentlyPlayedLayout->setContentSize(Size(_contentListView->getContentSize().width, 400));
     _contentListView->pushBackCustomItem(_recentlyPlayedLayout);
 }
+
 void VideoHQ::createDropdowns()
 {
     
@@ -133,7 +140,7 @@ void VideoHQ::createEpisodePlayer()
                 if(!_episodePlayerMoving)
                 {
                     _episodePlayerMoving = true;
-                    _episodePlayer->runAction(Sequence::createWithTwoActions(MoveTo::create(1.0f, Vec2(0,-_episodePlayer->getContentSize().height + 100)), CallFunc::create([this](){
+                    _episodePlayer->runAction(Sequence::createWithTwoActions(MoveTo::create(1.0f, Vec2(0,-_episodePlayer->getContentSize().height + kEpisodePlayerTabHeight)), CallFunc::create([this](){
                         _episodePlayerOpen = false;
                         _episodePlayerMoving = false;
                     })));

@@ -56,6 +56,8 @@ private:
     void createNavigationUI();
     void createPageUI();
     
+    void changeToPage(const HQType& page);
+    
 public:
     
     virtual bool init() override;
