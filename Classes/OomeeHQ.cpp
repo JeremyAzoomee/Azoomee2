@@ -74,6 +74,7 @@ void OomeeHQ::createOomeeLayout()
 }
 void OomeeHQ::createScrollViewContent()
 {
+    _contentListView->setSwallowTouches(false);
     
     _oomeeMakerButton = ui::Layout::create();
     _oomeeMakerButton->setBackGroundColorType(BackGroundColorType::SOLID);
@@ -96,69 +97,40 @@ void OomeeHQ::createScrollViewContent()
     
     _touchListener = EventListenerTouchOneByOne::create();
     _touchListener->onTouchBegan = [this](Touch *touch, Event *event){
-        
-        return true;
-    };
-    
-    _contentListView->addEventListener([this](Ref* pSender, ui::ScrollView::EventType eType){
-        if(!_resizing && _isPortrait)
+        if(_isPortrait && _contentListView->getBoundingBox().containsPoint(_contentListView->convertTouchToNodeSpace(touch)))
         {
-            if(eType == ui::ScrollView::EventType::BOUNCE_TOP)
+            _contentListView->stopAllActions();
+            _contentListView->stopOverallScroll();
+            return true;
+        }
+        return false;
+    };
+    _touchListener->onTouchMoved = [this](Touch *touch, Event *event){
+        float distY = touch->getDelta().y;
+        if(distY > 0)
+        {
+            if(_contentListView->getSizePercent().y < 0.75f)
             {
-                if(_contentListView->getSizePercent().y >= 0.75f)
-                {
-                    _contentListView->stopOverallScroll();
-                    ActionFloat* action = ActionFloat::create(1.0f, 0.0f, 0.25f, [this](float move){
-                        if(_isPortrait)
-                        {
-                            _staticContentLayout->setSizePercent(Vec2(1.0f,0.25f + move));
-                            _contentListView->setSizePercent((Vec2(1.0f,0.75f - move)));
-                            _structureUIHolder->forceDoLayout();
-                        }
-                    });
-                    _structureUIHolder->runAction(Sequence::create(action, DelayTime::create(0.5f), CallFunc::create([this](){
-                        _resizing = false;
-                    }), NULL));
-                    _resizing = true;
-                }
-            }
-            else if(eType == ui::ScrollView::EventType::CONTAINER_MOVED)
-            {
-                if(_contentListView->getScrolledPercentVertical() > 5.0f && _contentListView->getSizePercent().y < 0.75f)
-                {
-                    _contentListView->stopOverallScroll();
-                    ActionFloat* action = ActionFloat::create(1.0f, 0.0f, 0.25f, [this](float move){
-                        if(_isPortrait)
-                        {
-                            _staticContentLayout->setSizePercent(Vec2(1.0f,0.5f - move));
-                            _contentListView->setSizePercent((Vec2(1.0f,0.5f + move)));
-                            _structureUIHolder->forceDoLayout();
-                        }
-                    });
-                    _structureUIHolder->runAction(Sequence::create(action, DelayTime::create(0.5f), CallFunc::create([this](){
-                        _resizing = false;
-                    }), NULL));
-                    _resizing = true;
-                }
-                /*else if(_contentListView->getScrolledPercentVertical() <= -2.0f && _contentListView->getSizePercent().y >= 0.75f)
-                {
-                    _contentListView->stopOverallScroll();
-                    ActionFloat* action = ActionFloat::create(1.0f, 0.0f, 0.25f, [this](float move){
-                        if(_isPortrait)
-                        {
-                            _staticContentLayout->setSizePercent(Vec2(1.0f,0.25f + move));
-                            _contentListView->setSizePercent((Vec2(1.0f,0.75f - move)));
-                            _structureUIHolder->forceDoLayout();
-                        }
-                    });
-                    _structureUIHolder->runAction(Sequence::create(action, DelayTime::create(0.5f), CallFunc::create([this](){
-                        _resizing = false;
-                    }), NULL));
-                    _resizing = true;
-                }*/
+                float movePercent = distY / this->getContentSize().height;
+                float targetPos = MIN(0.75f,_contentListView->getSizePercent().y + movePercent);
+                
+                _contentListView->setSizePercent(Vec2(1.0f,targetPos));
+                _staticContentLayout->setSizePercent(Vec2(1.0f, 1.0f - targetPos));
             }
         }
-    });
+        else if(_contentListView->getScrolledPercentVertical() < 1.0f)
+        {
+            if(_contentListView->getSizePercent().y > 0.5f)
+            {
+                float movePercent = distY / this->getContentSize().height;
+                float targetPos = MAX(0.5f,_contentListView->getSizePercent().y + movePercent);
+                
+                _contentListView->setSizePercent(Vec2(1.0f,targetPos));
+                _staticContentLayout->setSizePercent(Vec2(1.0f, 1.0f - targetPos));
+            }
+        }
+    };
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(_touchListener, _contentListView);
 }
 
 NS_AZOOMEE_END

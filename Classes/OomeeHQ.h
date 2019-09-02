@@ -25,9 +25,7 @@ private:
     cocos2d::ui::Layout* _artStudioLayout = nullptr;
     cocos2d::ui::Layout* _favouritesLayout = nullptr;
     cocos2d::ui::Layout* _offlineDropdown = nullptr;
-    
-    cocos2d::Vec2 _prevScrollPos;
-    bool _resizing = false;
+
     cocos2d::EventListenerTouchOneByOne* _touchListener = nullptr;
     
     void createOomeeLayout();
