@@ -85,7 +85,7 @@ class AzoomeeApp:
         'test' : 'Test',
         'ci' : 'CI'
     }
-    
+
     # Maps environment to the product flavor for Android
     ANDROID_ENVIRONMENT_BUILDCONFIG = {
         'prod' : 'prod',
