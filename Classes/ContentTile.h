@@ -16,7 +16,7 @@
 
 NS_AZOOMEE_BEGIN
 
-class ContentTile : public cocos2d::ui::Layout , ImageDownloaderDelegate
+class ContentTile : public cocos2d::ui::Layout , public ImageDownloaderDelegate
 {
     typedef cocos2d::ui::Layout Super;
 protected:
@@ -26,11 +26,17 @@ protected:
     ContentSelectedCallback _callback = nullptr;
     ImageDownloaderRef _imageDownloader = nullptr;
     
+    std::string _placholderFilename;
+    
 public:
+    
+    virtual bool init() override;
     
     void setContentSelectedCallback(const ContentSelectedCallback& callback);
     void setContentItemData(const HQContentItemObjectRef& contentItem);
     HQContentItemObjectRef getContentItemData() const;
+    
+    void setPlaceholderFilename(const std::string& placeholder);
     
     CREATE_FUNC(ContentTile);
     

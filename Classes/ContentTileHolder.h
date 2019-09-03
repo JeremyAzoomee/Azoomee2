@@ -25,7 +25,11 @@ protected:
     ContentSelectedCallback _callback = nullptr;
     HQCarouselObjectRef _contentData = nullptr;
     
+    cocos2d::ui::Layout* _contentLayout = nullptr;
+    
 public:
+    
+    virtual bool init() override;
     
     void setContentSelectedCallback(const ContentSelectedCallback& callback);
     void setContentItemData(const HQCarouselObjectRef& contentData);

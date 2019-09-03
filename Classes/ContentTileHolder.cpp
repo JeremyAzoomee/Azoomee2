@@ -7,7 +7,28 @@
 
 #include "ContentTileHolder.h"
 
+using namespace cocos2d;
+
 NS_AZOOMEE_BEGIN
+
+bool ContentTileHolder::init()
+{
+    if(!Super::init())
+    {
+        return false;
+    }
+    
+    setSizeType(SizeType::PERCENT);
+    setSizePercent(Vec2(1.0f, 1.0f));
+    
+    _contentLayout = ui::Layout::create();
+    _contentLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _contentLayout->setPositionType(PositionType::PERCENT);
+    _contentLayout->setPositionPercent(Vec2::ANCHOR_MIDDLE);
+    addChild(_contentLayout);
+    
+    return true;
+}
 
 void ContentTileHolder::setContentSelectedCallback(const ContentSelectedCallback& callback)
 {
