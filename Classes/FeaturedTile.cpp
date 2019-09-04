@@ -8,6 +8,7 @@
 #include "FeaturedTile.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
+#include "HQDataProvider.h"
 
 using namespace cocos2d;
 
@@ -35,7 +36,7 @@ bool FeaturedTile::init()
     _contentClipper->setContentSize(getContentSize());
     addChild(_contentClipper);
     
-    _contentImage = ui::ImageView::create();
+    _contentImage = ui::ImageView::create("res/contentPlaceholders/Games1X1.png");
     _contentImage->ignoreContentAdaptWithSize(false);
     _contentImage->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _contentImage->setPositionType(PositionType::PERCENT);
@@ -47,11 +48,13 @@ bool FeaturedTile::init()
 
 void FeaturedTile::onEnter()
 {
+    startCheckingForOnScreenPosition(this);
     Super::onEnter();
 }
 
 void FeaturedTile::onExit()
 {
+    endCheck();
     Super::onExit();
 }
 
@@ -60,19 +63,51 @@ void FeaturedTile::onSizeChanged()
     Super::onSizeChanged();
     _contentClipper->setContentSize(getContentSize());
     _clippingStencil->setContentSize(getContentSize() - Size(12,12));
-    if(_scaleMode == ImageScaleMode::FIT_WIDTH)
+    switch(_scaleMode)
     {
-        _contentImage->setScale(getContentSize().width / _contentImage->getContentSize().width);
-    }
-    else if(_scaleMode == ImageScaleMode::FIT_HEIGHT)
-    {
-        _contentImage->setScale(getContentSize().height / _contentImage->getContentSize().height);
+        case ImageScaleMode::FIT_WIDTH:
+        {
+            _contentImage->setScale(getContentSize().width / _contentImage->getContentSize().width);
+            break;
+        }
+        case ImageScaleMode::FIT_HEIGHT:
+        {
+            _contentImage->setScale(getContentSize().height / _contentImage->getContentSize().height);
+            break;
+        }
+        case ImageScaleMode::SHOW_ALL:
+        {
+            _contentImage->setScale(MIN(getContentSize().height / _contentImage->getContentSize().height, getContentSize().width / _contentImage->getContentSize().width));
+            break;
+        }
+        case ImageScaleMode::FILL_ALL:
+        {
+            _contentImage->setScale(MAX(getContentSize().height / _contentImage->getContentSize().height, getContentSize().width / _contentImage->getContentSize().width));
+            break;
+        }
     }
 }
 
 void FeaturedTile::setImageScaleMode(const ImageScaleMode& scaleMode)
 {
     _scaleMode = scaleMode;
+}
+
+void FeaturedTile::elementDisappeared(cocos2d::Node *sender)
+{
+    _contentImage->loadTexture("res/contentPlaceholders/Games1X1.png");
+}
+
+void FeaturedTile::elementAppeared(cocos2d::Node *sender)
+{
+    if(_contentItem)
+    {
+        _imageDownloader->downloadImage(this, HQDataProvider::getInstance()->getThumbnailUrlForItem(_contentItem, Vec2(1,1)));
+    }
+    else
+    {
+        elementOnScreen = false;
+    }
 }
 
 // delegate functions
@@ -82,7 +117,7 @@ void FeaturedTile::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 }
 void FeaturedTile::onImageDownloadFailed()
 {
-    
+    elementOnScreen = false;
 }
 
 NS_AZOOMEE_END

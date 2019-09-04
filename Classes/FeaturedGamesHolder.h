@@ -17,17 +17,14 @@ class FeaturedGamesHolder : public ContentTileHolder
 {
     typedef ContentTileHolder Super;
 private:
-    static const cocos2d::Size kMainTileSize;
-    static const cocos2d::Size kSubTileSize;
-    static const float kTileSpacing;
-    static const cocos2d::Size kTargetSize;
     
-    FeaturedTile* _mainTile = nullptr;
-    cocos2d::ui::Layout* _subTiles = nullptr;
+    FeaturedTile* _mainTile = nullptr;;
     FeaturedTile* _subTile1 = nullptr;
     FeaturedTile* _subTile2 = nullptr;
     
 public:
+    static const float kTileSpacing;
+    
     bool init() override;
     void onEnter() override;
     void onExit() override;

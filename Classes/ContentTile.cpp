@@ -6,7 +6,6 @@
 //
 
 #include "ContentTile.h"
-#include "HQDataProvider.h"
 
 using namespace cocos2d;
 
@@ -43,10 +42,6 @@ void ContentTile::setContentSelectedCallback(const ContentSelectedCallback& call
 void ContentTile::setContentItemData(const HQContentItemObjectRef& contentItem)
 {
     _contentItem = contentItem;
-    if(_contentItem)
-    {
-        _imageDownloader->downloadImage(this, HQDataProvider::getInstance()->getThumbnailUrlForItem(_contentItem, Vec2(1,1)));
-    }
 }
 
 HQContentItemObjectRef ContentTile::getContentItemData() const

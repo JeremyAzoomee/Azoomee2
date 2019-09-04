@@ -9,12 +9,13 @@
 #define FeaturedTile_h
 
 #include "ContentTile.h"
+#include <AzoomeeCommon/ImageDownloader/OnScreenChecker.h>
 
 NS_AZOOMEE_BEGIN
 
-enum class ImageScaleMode {FIT_WIDTH, FIT_HEIGHT};
+enum class ImageScaleMode {FIT_WIDTH, FIT_HEIGHT, SHOW_ALL, FILL_ALL};
 
-class FeaturedTile : public ContentTile
+class FeaturedTile : public ContentTile, public OnScreenChecker
 {
     typedef ContentTile Super;
 private:
@@ -24,6 +25,9 @@ private:
     cocos2d::ui::Scale9Sprite* _clippingStencil = nullptr;
     
     ImageScaleMode _scaleMode = ImageScaleMode::FIT_WIDTH;
+    
+    void elementDisappeared(cocos2d::Node *sender) override;
+    void elementAppeared(cocos2d::Node *sender) override;
     
 public:
     

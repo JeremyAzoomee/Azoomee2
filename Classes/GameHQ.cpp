@@ -47,7 +47,7 @@ void GameHQ::onSizeChanged()
         
         _featuredLayout->setSizeType(SizeType::ABSOLUTE);
         _featuredLayout->setPositionType(PositionType::ABSOLUTE);
-        _featuredLayout->setContentSize(Size(_contentListView->getContentSize().width, 1000));
+        _featuredLayout->setContentSize(Size(_contentListView->getContentSize().width, 960));
         if(_featuredLayout->getParent() == _staticContentLayout)
         {
             _featuredLayout->retain();

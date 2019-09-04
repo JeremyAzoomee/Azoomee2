@@ -22,9 +22,8 @@ bool ContentTileHolder::init()
     setSizePercent(Vec2(1.0f, 1.0f));
     
     _contentLayout = ui::Layout::create();
-    _contentLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _contentLayout->setPositionType(PositionType::PERCENT);
-    _contentLayout->setPositionPercent(Vec2::ANCHOR_MIDDLE);
+    _contentLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+    _contentLayout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
     addChild(_contentLayout);
     
     return true;

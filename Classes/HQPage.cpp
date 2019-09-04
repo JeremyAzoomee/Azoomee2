@@ -48,7 +48,6 @@ bool HQPage::init()
     _contentListView->setBackGroundColor(Color3B::RED);
     _contentListView->setItemsMargin(70);
     _contentListView->setBounceEnabled(true);
-    _contentListView->setTopPadding(70);
     _contentListView->setBottomPadding(70);
     _structureUIHolder->addChild(_contentListView);
     

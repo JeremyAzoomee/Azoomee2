@@ -12,10 +12,7 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-const cocos2d::Size FeaturedGamesHolder::kMainTileSize = Size(1280,720);
-const cocos2d::Size FeaturedGamesHolder::kSubTileSize = Size(624,351);
-const float FeaturedGamesHolder::kTileSpacing = 32.0f;
-const cocos2d::Size FeaturedGamesHolder::kTargetSize = kMainTileSize + Size(2 * kTileSpacing, kTileSpacing + kSubTileSize.height);
+const float FeaturedGamesHolder::kTileSpacing = 16.0f;
 
 bool FeaturedGamesHolder::init()
 {
@@ -24,18 +21,30 @@ bool FeaturedGamesHolder::init()
         return false;
     }
     
+    const Size& paddingPercent = Size(kTileSpacing / getContentSize().width, kTileSpacing / getContentSize().height);
+    
     setBackGroundColorType(BackGroundColorType::SOLID);
     setBackGroundColor(Color3B::YELLOW);
     
-    _contentLayout->setContentSize(kTargetSize);
-    _contentLayout->setLayoutType(Type::VERTICAL);
+    Size contentSize = getContentSize() - Size(kTileSpacing, 0);
+    if((contentSize.width / (contentSize.height * 0.66f)) > 16.0f / 9.0f)
+    {
+        if(!(getContentSize().width * 0.66f) * (3.0f/4.0f) >= contentSize.height)
+        {
+            contentSize = Size((16.0f/9.0f) * (contentSize.height * 0.66f), contentSize.height);
+        }
+    }
+    
+    _contentLayout->setContentSize(contentSize);
     _contentLayout->setBackGroundColorType(BackGroundColorType::SOLID);
     _contentLayout->setBackGroundColor(Color3B::GREEN);
     
     _mainTile = FeaturedTile::create();
-    _mainTile->setImageScaleMode(ImageScaleMode::FIT_WIDTH);
-    _mainTile->setContentSize(kMainTileSize);
-    _mainTile->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(kTileSpacing, 0, kTileSpacing, kTileSpacing)));
+    _mainTile->setImageScaleMode(ImageScaleMode::FILL_ALL);
+    _mainTile->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+    _mainTile->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+    _mainTile->setSizeType(SizeType::PERCENT);
+    _mainTile->setSizePercent(Vec2(1.0f, 0.66f));
     _mainTile->setContentSelectedCallback([this](HQContentItemObjectRef content){
         if(_callback)
         {
@@ -44,35 +53,33 @@ bool FeaturedGamesHolder::init()
     });
     _contentLayout->addChild(_mainTile);
     
-    _subTiles = ui::Layout::create();
-    _subTiles->setContentSize(Size(kMainTileSize.width, kSubTileSize.height));
-    _subTiles->setLayoutType(Type::HORIZONTAL);
-    _subTiles->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(kTileSpacing, 0, kTileSpacing, 0)));
-    _contentLayout->addChild(_subTiles);
-    
     _subTile1 = FeaturedTile::create();
-    _subTile1->setImageScaleMode(ImageScaleMode::FIT_WIDTH);
-    _subTile1->setContentSize(kSubTileSize);
-    _subTile1->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(0, 0, kTileSpacing / 2.0f, 0)));
+    _subTile1->setImageScaleMode(ImageScaleMode::FILL_ALL);
+    _subTile1->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+    _subTile1->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_LEFT);
+    _subTile1->setSizeType(SizeType::PERCENT);
+    _subTile1->setSizePercent(Vec2(0.5f - (paddingPercent.width / 2), 0.34f - paddingPercent.height));
     _subTile1->setContentSelectedCallback([this](HQContentItemObjectRef content){
         if(_callback)
         {
             _callback(content);
         }
     });
-    _subTiles->addChild(_subTile1);
+    _contentLayout->addChild(_subTile1);
     
     _subTile2 = FeaturedTile::create();
-    _subTile2->setImageScaleMode(ImageScaleMode::FIT_WIDTH);
-    _subTile2->setContentSize(kSubTileSize);
-    _subTile2->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(kTileSpacing / 2.0f, 0, 0, 0)));
+    _subTile2->setImageScaleMode(ImageScaleMode::FILL_ALL);
+    _subTile2->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
+    _subTile2->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_RIGHT);
+    _subTile2->setSizeType(SizeType::PERCENT);
+    _subTile2->setSizePercent(Vec2(0.5f - (paddingPercent.width / 2), 0.34f - paddingPercent.height));
     _subTile2->setContentSelectedCallback([this](HQContentItemObjectRef content){
         if(_callback)
         {
             _callback(content);
         }
     });
-    _subTiles->addChild(_subTile2);
+    _contentLayout->addChild(_subTile2);
     
     return true;
 }
@@ -108,9 +115,45 @@ void FeaturedGamesHolder::onSizeChanged()
 {
     Super::onSizeChanged();
     
-    //Size minSize = Size(MIN(getContentSize().width, kTargetSize.width), MIN(getContentSize().height, kTargetSize.height));
-    //float scaleFactor = MIN(minSize.width / kTargetSize.width ,minSize.height / kTargetSize.height);
-    //_contentLayout->setScale(scaleFactor);
+    bool useWideLayout = false;
+    
+    Size contentSize = getContentSize() - Size(kTileSpacing, 0);
+    if((contentSize.width / (contentSize.height * 0.66f)) > 16.0f / 9.0f) // if main tile size exceeds 16:9 aspect ratio
+    {
+        if((getContentSize().width * 0.66f) * (3.0f/4.0f) >= contentSize.height) // if enough space horizonally to fit main tile and sub tile at 4:3 ratio or greater
+        {
+            useWideLayout = true;
+        }
+        else
+        {
+            contentSize = Size((16.0f/9.0f) * (contentSize.height * 0.66f), contentSize.height); // restrict width so tile aspect ratio no greater than 16:9
+        }
+    }
+    
+    _contentLayout->setContentSize(contentSize);
+    
+    const Size& paddingPercent = Size(kTileSpacing / contentSize.width, kTileSpacing / contentSize.height);
+    
+    if(useWideLayout) // Main tile on left, sub tiles stacked vertically on the right
+    {
+        _mainTile->setSizePercent(Vec2(0.66f, 1.0f)); // reset percentage size again so tile doesnt vanish
+        _mainTile->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+        _mainTile->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
+        _subTile1->setSizePercent(Vec2(0.34f - paddingPercent.width, 0.5f - (paddingPercent.height / 2.0f)));
+        _subTile1->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
+        _subTile1->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
+        _subTile2->setSizePercent(Vec2(0.34f - paddingPercent.width, 0.5f - (paddingPercent.height / 2.0f)));
+    }
+    else // main tile at top, sub tiles bellow, aligned horizontally
+    {
+        _mainTile->setSizePercent(Vec2(1.0f, 0.66f)); // reset percentage size again so tile doesnt vanish
+        _mainTile->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+        _mainTile->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+        _subTile1->setSizePercent(Vec2(0.5f - (paddingPercent.width / 2), 0.34f - paddingPercent.height));
+        _subTile1->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+        _subTile1->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_LEFT);
+        _subTile2->setSizePercent(Vec2(0.5f - (paddingPercent.width / 2), 0.34f - paddingPercent.height));
+    }
 }
 
 NS_AZOOMEE_END
