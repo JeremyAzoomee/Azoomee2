@@ -6,6 +6,8 @@
 //
 
 #include "GameHQ.h"
+#include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 using namespace cocos2d;
 
@@ -45,7 +47,7 @@ void GameHQ::onSizeChanged()
         
         _featuredLayout->setSizeType(SizeType::ABSOLUTE);
         _featuredLayout->setPositionType(PositionType::ABSOLUTE);
-        _featuredLayout->setContentSize(Size(_contentListView->getContentSize().width, 1000));
+        _featuredLayout->setContentSize(Size(_contentListView->getContentSize().width, 960));
         if(_featuredLayout->getParent() == _staticContentLayout)
         {
             _featuredLayout->retain();
@@ -78,11 +80,14 @@ void GameHQ::onSizeChanged()
 
 void GameHQ::createFeaturedTiles()
 {
-    _featuredLayout = ui::Layout::create();
+    /*_featuredLayout = ui::Layout::create();
     _featuredLayout->setBackGroundColorType(BackGroundColorType::SOLID);
     _featuredLayout->setBackGroundColor(Color3B::YELLOW);
     _featuredLayout->setSizeType(SizeType::PERCENT);
     _featuredLayout->setSizePercent(Vec2(1.0f,1.0f));
+    _staticContentLayout->addChild(_featuredLayout);*/
+    _featuredLayout = FeaturedGamesHolder::create();
+    _featuredLayout->setContentItemData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGameHQName)->getHqCarousels().at(0));
     _staticContentLayout->addChild(_featuredLayout);
     
 }

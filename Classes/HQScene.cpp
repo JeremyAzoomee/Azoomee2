@@ -95,6 +95,10 @@ void HQScene::onSizeChanged()
         _pageLayout->setPosition(Vec2(visibleSize.width / 2, visibleSize.height - _titleBanner->getContentSize().height));
         _pageLayout->forceDoLayout();
     }
+    if(_verticalScrollGradient)
+    {
+        _verticalScrollGradient->setAnchorPoint(Vec2(_isPortrait ? 0.5f : 0.0f, 0.2f));
+    }
 }
 
 void HQScene::createHeaderUI()
@@ -187,7 +191,7 @@ void HQScene::createNavigationUI()
     _verticalScrollGradient = LayerGradient::create(Color4B(gradColour.r, gradColour.g, gradColour.b, 0), Color4B(gradColour));
     _verticalScrollGradient->setIgnoreAnchorPointForPosition(false);
     _verticalScrollGradient->setContentSize(Size(2736, 160));
-    _verticalScrollGradient->setAnchorPoint(Vec2(0.5f, 0.2f));
+    _verticalScrollGradient->setAnchorPoint(Vec2(0.0f, 0.2f));
     _verticalScrollGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
     _navBar->addChild(_verticalScrollGradient, -1);
 }
