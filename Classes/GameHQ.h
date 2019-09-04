@@ -20,7 +20,6 @@ class GameHQ : public HQPage
 {
     typedef HQPage Super;
 private:
-    //cocos2d::ui::Layout* _featuredLayout = nullptr;
     FeaturedGamesHolder* _featuredLayout = nullptr;
     cocos2d::ui::Layout* _recentlyPlayedLayout = nullptr;
     cocos2d::Vector<cocos2d::ui::Layout*> _dropdownLayouts;

@@ -97,7 +97,7 @@ void FeaturedGamesHolder::onEnter()
         {
             _subTile1->setContentItemData(items.at(1));
         }
-        if(items.size() > 2)
+        if(items.size() > 3)
         {
             _subTile2->setContentItemData(items.at(2));
         }
