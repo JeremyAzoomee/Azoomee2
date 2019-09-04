@@ -93,6 +93,11 @@ void FeaturedTile::setImageScaleMode(const ImageScaleMode& scaleMode)
     _scaleMode = scaleMode;
 }
 
+void FeaturedTile::setImageShape(const Vec2& imageShape)
+{
+    _imageShape = imageShape;
+}
+
 void FeaturedTile::elementDisappeared(cocos2d::Node *sender)
 {
     _contentImage->loadTexture("res/contentPlaceholders/Games1X1.png");
@@ -102,7 +107,7 @@ void FeaturedTile::elementAppeared(cocos2d::Node *sender)
 {
     if(_contentItem)
     {
-        _imageDownloader->downloadImage(this, HQDataProvider::getInstance()->getThumbnailUrlForItem(_contentItem, Vec2(1,1)));
+        _imageDownloader->downloadImage(this, HQDataProvider::getInstance()->getThumbnailUrlForItem(_contentItem, _imageShape));
     }
     else
     {

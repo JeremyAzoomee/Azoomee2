@@ -6,6 +6,8 @@
 //
 
 #include "VideoHQ.h"
+#include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
 
 using namespace cocos2d;
 
@@ -92,18 +94,20 @@ void VideoHQ::onSizeChanged()
     }
     
     _recentlyPlayedLayout->setContentSize(Size(_contentListView->getContentSize().width, 400));
-    _featuredLayout->setContentSize(Size(_contentListView->getContentSize().width, 1000));
+    _featuredLayout->setContentSize(Size(_contentListView->getContentSize().width, 960));
     _contentListView->forceDoLayout();
 }
 
 void VideoHQ::createFeaturedTiles()
 {
-    _featuredLayout = ui::Layout::create();
-    _featuredLayout->setBackGroundColorType(BackGroundColorType::SOLID);
-    _featuredLayout->setBackGroundColor(Color3B::YELLOW);
+    //_featuredLayout = ui::Layout::create();
+    //_featuredLayout->setBackGroundColorType(BackGroundColorType::SOLID);
+    //_featuredLayout->setBackGroundColor(Color3B::YELLOW);
+    _featuredLayout = FeaturedVideosHolder::create();
+    _featuredLayout->setContentItemData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kVideoHQName)->getHqCarousels().at(0));
     _featuredLayout->setSizeType(SizeType::ABSOLUTE);
     _featuredLayout->setPositionType(PositionType::ABSOLUTE);
-    _featuredLayout->setContentSize(Size(_contentListView->getContentSize().width, 1000));
+    _featuredLayout->setContentSize(Size(_contentListView->getContentSize().width, 960));
     _contentListView->pushBackCustomItem(_featuredLayout);
     
 }

@@ -25,6 +25,7 @@ private:
     cocos2d::ui::Scale9Sprite* _clippingStencil = nullptr;
     
     ImageScaleMode _scaleMode = ImageScaleMode::FIT_WIDTH;
+    cocos2d::Vec2 _imageShape = cocos2d::Vec2(1.0f, 1.0f);
     
     void elementDisappeared(cocos2d::Node *sender) override;
     void elementAppeared(cocos2d::Node *sender) override;
@@ -37,6 +38,7 @@ public:
     void onSizeChanged() override;
     
     void setImageScaleMode(const ImageScaleMode& scaleMode);
+    void setImageShape(const cocos2d::Vec2& imageShape);
     
     CREATE_FUNC(FeaturedTile);
     
