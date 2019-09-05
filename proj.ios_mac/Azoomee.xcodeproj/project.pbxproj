@@ -230,6 +230,8 @@
 		E22ACB13230EF30D0024B328 /* GameHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACB12230EF30D0024B328 /* GameHQ.cpp */; };
 		E22ACB16230FE7E50024B328 /* VideoHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACB15230FE7E50024B328 /* VideoHQ.cpp */; };
 		E2A5141A23200E58007B93BC /* FeaturedVideosHolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2A5141923200E58007B93BC /* FeaturedVideosHolder.cpp */; };
+		E2A5141D232133F3007B93BC /* CircleTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2A5141C232133F3007B93BC /* CircleTile.cpp */; };
+		E2A5142023214B45007B93BC /* CircleContentHolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2A5141F23214B45007B93BC /* CircleContentHolder.cpp */; };
 		E2DCF5E9230442FF0032946D /* ImportantMessageForParents.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2DCF5E8230442FF0032946D /* ImportantMessageForParents.cpp */; };
 		ED545A7C1B68A1F400C3958E /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED545A7B1B68A1F400C3958E /* libiconv.dylib */; };
 /* End PBXBuildFile section */
@@ -766,6 +768,10 @@
 		E22ACB15230FE7E50024B328 /* VideoHQ.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VideoHQ.cpp; sourceTree = "<group>"; };
 		E2A5141323200DC3007B93BC /* FeaturedVideosHolder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeaturedVideosHolder.h; sourceTree = "<group>"; };
 		E2A5141923200E58007B93BC /* FeaturedVideosHolder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FeaturedVideosHolder.cpp; sourceTree = "<group>"; };
+		E2A5141B232129F0007B93BC /* CircleTile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CircleTile.h; sourceTree = "<group>"; };
+		E2A5141C232133F3007B93BC /* CircleTile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CircleTile.cpp; sourceTree = "<group>"; };
+		E2A5141E2321469F007B93BC /* CircleContentHolder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CircleContentHolder.h; sourceTree = "<group>"; };
+		E2A5141F23214B45007B93BC /* CircleContentHolder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CircleContentHolder.cpp; sourceTree = "<group>"; };
 		E2DCF5E22304419B0032946D /* ImportantMessageForParents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImportantMessageForParents.h; sourceTree = "<group>"; };
 		E2DCF5E8230442FF0032946D /* ImportantMessageForParents.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ImportantMessageForParents.cpp; sourceTree = "<group>"; };
 		ED545A7B1B68A1F400C3958E /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.4.sdk/usr/lib/libiconv.dylib; sourceTree = DEVELOPER_DIR; };
@@ -1625,6 +1631,10 @@
 				E212CCA3231EB07B009D4A63 /* FeaturedGamesHolder.cpp */,
 				E2A5141323200DC3007B93BC /* FeaturedVideosHolder.h */,
 				E2A5141923200E58007B93BC /* FeaturedVideosHolder.cpp */,
+				E2A5141B232129F0007B93BC /* CircleTile.h */,
+				E2A5141C232133F3007B93BC /* CircleTile.cpp */,
+				E2A5141E2321469F007B93BC /* CircleContentHolder.h */,
+				E2A5141F23214B45007B93BC /* CircleContentHolder.cpp */,
 			);
 			name = ContentTiles;
 			sourceTree = "<group>";
@@ -1967,6 +1977,8 @@
 				026BAF781E3FFD33009C4ACE /* HQHistoryManager.cpp in Sources */,
 				9240331622D36612009907F3 /* AgeGate.cpp in Sources */,
 				920F6FDE213EB76300B7BB76 /* SettingsFriendshipsPage.cpp in Sources */,
+				E2A5141D232133F3007B93BC /* CircleTile.cpp in Sources */,
+				E2A5142023214B45007B93BC /* CircleContentHolder.cpp in Sources */,
 				92BDD4C122366D3100DA56F3 /* ShopItem.cpp in Sources */,
 				928A6E8920EE5C880053E793 /* ChildAgeLayer.cpp in Sources */,
 				92759EB21FE81F6300639190 /* ContentOpener.cpp in Sources */,

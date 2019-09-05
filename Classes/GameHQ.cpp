@@ -74,7 +74,7 @@ void GameHQ::onSizeChanged()
             _featuredLayout->release();
         }
     }
-    _recentlyPlayedLayout->setContentSize(Size(_contentListView->getContentSize().width, 400));
+    _recentlyPlayedLayout->setContentSize(Size(_contentListView->getContentSize().width, 0));
     _contentListView->forceDoLayout();
 }
 
@@ -94,10 +94,14 @@ void GameHQ::createFeaturedTiles()
 
 void GameHQ::createRecentlyPlayedTiles()
 {
-    _recentlyPlayedLayout = ui::Layout::create();
-    _recentlyPlayedLayout->setBackGroundColorType(BackGroundColorType::SOLID);
-    _recentlyPlayedLayout->setBackGroundColor(Color3B::BLUE);
-    _recentlyPlayedLayout->setContentSize(Size(_contentListView->getContentSize().width, 400));
+    //_recentlyPlayedLayout = ui::Layout::create();
+    //_recentlyPlayedLayout->setBackGroundColorType(BackGroundColorType::SOLID);
+    //_recentlyPlayedLayout->setBackGroundColor(Color3B::BLUE);
+    _recentlyPlayedLayout = CircleContentHolder::create();
+    _recentlyPlayedLayout->setContentItemData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGameHQName)->getHqCarousels().at(1));
+    _recentlyPlayedLayout->setTileSize(Size(300,300));
+    _recentlyPlayedLayout->setMaxRows(1);
+    _recentlyPlayedLayout->setContentSize(Size(_contentListView->getContentSize().width, 0));
     _contentListView->pushBackCustomItem(_recentlyPlayedLayout);
 }
 

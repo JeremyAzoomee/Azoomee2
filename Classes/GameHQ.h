@@ -13,6 +13,7 @@
 #include <cocos/ui/CocosGUI.h>
 #include "HQPage.h"
 #include "FeaturedGamesHolder.h"
+#include "CircleContentHolder.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -21,7 +22,8 @@ class GameHQ : public HQPage
     typedef HQPage Super;
 private:
     FeaturedGamesHolder* _featuredLayout = nullptr;
-    cocos2d::ui::Layout* _recentlyPlayedLayout = nullptr;
+    //cocos2d::ui::Layout* _recentlyPlayedLayout = nullptr;
+    CircleContentHolder* _recentlyPlayedLayout = nullptr;
     cocos2d::Vector<cocos2d::ui::Layout*> _dropdownLayouts;
     
     void createFeaturedTiles();

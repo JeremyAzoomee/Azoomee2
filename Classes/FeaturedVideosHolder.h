@@ -18,7 +18,7 @@ class FeaturedVideosHolder : public ContentTileHolder
     typedef ContentTileHolder Super;
 private:
     
-    FeaturedTile* _tile1 = nullptr;;
+    FeaturedTile* _tile1 = nullptr;
     FeaturedTile* _tile2 = nullptr;
     FeaturedTile* _tile3 = nullptr;
     

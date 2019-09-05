@@ -18,7 +18,7 @@ class FeaturedGamesHolder : public ContentTileHolder
     typedef ContentTileHolder Super;
 private:
     
-    FeaturedTile* _mainTile = nullptr;;
+    FeaturedTile* _mainTile = nullptr;
     FeaturedTile* _subTile1 = nullptr;
     FeaturedTile* _subTile2 = nullptr;
     
