@@ -37,11 +37,8 @@ bool FeaturedTile::init()
     addChild(_contentClipper);
     
     _contentImage = ui::ImageView::create("res/contentPlaceholders/Games1X1.png");
-    //_contentImage->ignoreContentAdaptWithSize(false);
     _contentImage->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _contentImage->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    //_contentImage->setPositionType(PositionType::PERCENT);
-    //_contentImage->setPositionPercent(Vec2::ANCHOR_MIDDLE);
     _contentClipper->addChild(_contentImage);
     
     return true;
