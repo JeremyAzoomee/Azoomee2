@@ -37,10 +37,11 @@ bool FeaturedTile::init()
     addChild(_contentClipper);
     
     _contentImage = ui::ImageView::create("res/contentPlaceholders/Games1X1.png");
-    _contentImage->ignoreContentAdaptWithSize(false);
+    //_contentImage->ignoreContentAdaptWithSize(false);
     _contentImage->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _contentImage->setPositionType(PositionType::PERCENT);
-    _contentImage->setPositionPercent(Vec2::ANCHOR_MIDDLE);
+    _contentImage->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    //_contentImage->setPositionType(PositionType::PERCENT);
+    //_contentImage->setPositionPercent(Vec2::ANCHOR_MIDDLE);
     _contentClipper->addChild(_contentImage);
     
     return true;
@@ -101,6 +102,7 @@ void FeaturedTile::setImageShape(const Vec2& imageShape)
 void FeaturedTile::elementDisappeared(cocos2d::Node *sender)
 {
     _contentImage->loadTexture("res/contentPlaceholders/Games1X1.png");
+    onSizeChanged();
 }
 
 void FeaturedTile::elementAppeared(cocos2d::Node *sender)
@@ -119,6 +121,7 @@ void FeaturedTile::elementAppeared(cocos2d::Node *sender)
 void FeaturedTile::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {
     _contentImage->loadTexture(downloader->getLocalImagePath());
+    onSizeChanged();
 }
 void FeaturedTile::onImageDownloadFailed()
 {

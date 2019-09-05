@@ -35,7 +35,7 @@ bool FeaturedVideosHolder::init()
     float tileWidth = (1.0f - (2.0f * paddingPercent.width)) / 3.0f;
     
     _tile1 = FeaturedTile::create();
-    _tile1->setImageScaleMode(ImageScaleMode::FIT_WIDTH);
+    _tile1->setImageScaleMode(ImageScaleMode::FILL_ALL);
     _tile1->setImageShape(Vec2(1,2));
     _tile1->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
     _tile1->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
@@ -50,7 +50,7 @@ bool FeaturedVideosHolder::init()
     _contentLayout->addChild(_tile1);
     
     _tile2 = FeaturedTile::create();
-    _tile2->setImageScaleMode(ImageScaleMode::FIT_WIDTH);
+    _tile2->setImageScaleMode(ImageScaleMode::FILL_ALL);
     _tile2->setImageShape(Vec2(1,2));
     _tile2->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _tile2->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -65,7 +65,7 @@ bool FeaturedVideosHolder::init()
     _contentLayout->addChild(_tile2);
     
     _tile3 = FeaturedTile::create();
-    _tile3->setImageScaleMode(ImageScaleMode::FIT_WIDTH);
+    _tile3->setImageScaleMode(ImageScaleMode::FILL_ALL);
     _tile3->setImageShape(Vec2(1,2));
     _tile3->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
     _tile3->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
@@ -118,19 +118,18 @@ void FeaturedVideosHolder::onSizeChanged()
     Size paddingPercent = Size(kTileSpacing / contentSize.width, kTileSpacing / contentSize.height);
     float tileWidth = (1.0f - (2.0f * paddingPercent.width)) / 3.0f;
     
-    if((tileWidth * contentSize.width) / contentSize.height > (2.0f/3.0f))
+    if((tileWidth * contentSize.width) / contentSize.height > (2.0f/3.0f)) // cap size of tiles to max 2:3 aspect ratio
     {
-        contentSize = Size(2 * (kTileSpacing + contentSize.height), contentSize.height);
+        contentSize = Size(2 * (kTileSpacing + contentSize.height), contentSize.height); //
+        paddingPercent = Size(kTileSpacing / contentSize.width, kTileSpacing / contentSize.height);
+        tileWidth = (1.0f - (2.0f * paddingPercent.width)) / 3.0f;
     }
-    
-    paddingPercent = Size(kTileSpacing / contentSize.width, kTileSpacing / contentSize.height);
-    tileWidth = (1.0f - (2.0f * paddingPercent.width)) / 3.0f;
-    
-    _contentLayout->setContentSize(contentSize);
     
     _tile1->setSizePercent(Vec2(tileWidth, 1.0f));
     _tile2->setSizePercent(Vec2(tileWidth, 1.0f));
     _tile3->setSizePercent(Vec2(tileWidth, 1.0f));
+    
+    _contentLayout->setContentSize(contentSize);
 }
 
 NS_AZOOMEE_END
