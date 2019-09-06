@@ -106,7 +106,7 @@ void GameHQ::createRecentlyPlayedTiles()
     _contentListView->pushBackCustomItem(_recentlyPlayedTitle);
     
     _recentlyPlayedLayout = CircleContentHolder::create();
-    _recentlyPlayedLayout->setContentItemData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGameHQName)->getHqCarousels().at(3));
+    _recentlyPlayedLayout->setContentItemData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGameHQName)->getHqCarousels().at(3)); //TODO: replace with data from RecentlyPlayedSingleton
     _recentlyPlayedLayout->setTileSize(_isPortrait ? Size(350, 350) : Size(320, 320));
     _recentlyPlayedLayout->setMaxRows(1);
     _recentlyPlayedLayout->setContentSize(Size(_contentListView->getSizePercent().x * getContentSize().width, 0));
