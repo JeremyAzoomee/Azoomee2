@@ -113,6 +113,7 @@ void CircleContentHolder::refreshTiles()
         }
     }
     _contentLayout->setContentSize(Size(rowWidth, totalHeight));
+    
     setContentSize(Size(contentSize.width, totalHeight));
     if(_contentData)
     {

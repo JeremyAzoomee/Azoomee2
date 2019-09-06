@@ -21,16 +21,16 @@ bool CircleTile::init()
         return false;
     }
     
-    ui::ImageView* bg = ui::ImageView::create("res/hqscene/circle.png");
+    cocos2d::ui::ImageView* bg = ui::ImageView::create("res/hqscene/circle.png");
+    bg->ignoreContentAdaptWithSize(false);
     bg->setSizeType(SizeType::PERCENT);
     bg->setSizePercent(Vec2(1.0f, 1.0f));
     bg->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     bg->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     bg->setColor(Style::Color::macaroniAndCheese);
-    bg->ignoreContentAdaptWithSize(true);
     addChild(bg);
     
-    _clippingStencil = ui::Scale9Sprite::create("res/hqscene/circle.png");
+    _clippingStencil = Sprite::create("res/hqscene/circle.png");
     _clippingStencil->setContentSize(getContentSize() - Size(12,12));
     _clippingStencil->setPosition(getContentSize() / 2.0f);
     _clippingStencil->setAnchorPoint(Vec2::ANCHOR_MIDDLE);

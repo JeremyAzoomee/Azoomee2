@@ -8,6 +8,9 @@
 #include "GameHQ.h"
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/UI/LayoutParams.h>
 
 using namespace cocos2d;
 
@@ -74,18 +77,17 @@ void GameHQ::onSizeChanged()
             _featuredLayout->release();
         }
     }
-    _recentlyPlayedLayout->setContentSize(Size(_contentListView->getContentSize().width, 0));
+    
+    _recentlyPlayedTitle->setTextAreaSize(Size((_contentListView->getSizePercent().x * getContentSize().width) - 64, _recentlyPlayedTitle->getContentSize().height));
+    _recentlyPlayedLayout->setTileSize(_isPortrait ? Size(350, 350) : Size(320, 320));
+    _recentlyPlayedLayout->setContentSize(Size(_contentListView->getSizePercent().x * getContentSize().width, 0));
+    
     _contentListView->forceDoLayout();
+    
 }
 
 void GameHQ::createFeaturedTiles()
 {
-    /*_featuredLayout = ui::Layout::create();
-    _featuredLayout->setBackGroundColorType(BackGroundColorType::SOLID);
-    _featuredLayout->setBackGroundColor(Color3B::YELLOW);
-    _featuredLayout->setSizeType(SizeType::PERCENT);
-    _featuredLayout->setSizePercent(Vec2(1.0f,1.0f));
-    _staticContentLayout->addChild(_featuredLayout);*/
     _featuredLayout = FeaturedGamesHolder::create();
     _featuredLayout->setContentItemData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGameHQName)->getHqCarousels().at(0));
     _staticContentLayout->addChild(_featuredLayout);
@@ -94,14 +96,20 @@ void GameHQ::createFeaturedTiles()
 
 void GameHQ::createRecentlyPlayedTiles()
 {
-    //_recentlyPlayedLayout = ui::Layout::create();
-    //_recentlyPlayedLayout->setBackGroundColorType(BackGroundColorType::SOLID);
-    //_recentlyPlayedLayout->setBackGroundColor(Color3B::BLUE);
+    _recentlyPlayedTitle = DynamicText::create(_("Recently played"), Style::Font::PoppinsBold(), 80);
+    _recentlyPlayedTitle->setTextVerticalAlignment(TextVAlignment::CENTER);
+    _recentlyPlayedTitle->setTextHorizontalAlignment(TextHAlignment::LEFT);
+    _recentlyPlayedTitle->setOverflow(Label::Overflow::SHRINK);
+    _recentlyPlayedTitle->setTextAreaSize(Size((_contentListView->getSizePercent().x * getContentSize().width) - 64, _recentlyPlayedTitle->getContentSize().height));
+    _recentlyPlayedTitle->setTextColor(Color4B::WHITE);
+    _recentlyPlayedTitle->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+    _contentListView->pushBackCustomItem(_recentlyPlayedTitle);
+    
     _recentlyPlayedLayout = CircleContentHolder::create();
-    _recentlyPlayedLayout->setContentItemData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGameHQName)->getHqCarousels().at(1));
-    _recentlyPlayedLayout->setTileSize(Size(300,300));
+    _recentlyPlayedLayout->setContentItemData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGameHQName)->getHqCarousels().at(3));
+    _recentlyPlayedLayout->setTileSize(_isPortrait ? Size(350, 350) : Size(320, 320));
     _recentlyPlayedLayout->setMaxRows(1);
-    _recentlyPlayedLayout->setContentSize(Size(_contentListView->getContentSize().width, 0));
+    _recentlyPlayedLayout->setContentSize(Size(_contentListView->getSizePercent().x * getContentSize().width, 0));
     _contentListView->pushBackCustomItem(_recentlyPlayedLayout);
 }
 

@@ -9,6 +9,8 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
+#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/Strings.h>
 
 using namespace cocos2d;
 
@@ -94,7 +96,9 @@ void VideoHQ::onSizeChanged()
         _episodePlayerMoving = false;
     }
     
-    _recentlyPlayedLayout->setContentSize(Size(_contentListView->getContentSize().width, 400));
+    _recentlyPlayedTitle->setTextAreaSize(Size((_contentListView->getSizePercent().x * getContentSize().width) - 64, _recentlyPlayedTitle->getContentSize().height));
+    _recentlyPlayedLayout->setTileSize(_isPortrait ? Size(350, 350) : Size(320, 320));
+    _recentlyPlayedLayout->setContentSize(Size(_contentListView->getSizePercent().x * getContentSize().width, 0));
     _featuredLayout->setContentSize(Size(_contentListView->getContentSize().width, _isPortrait ? 960 : 640));
     _contentListView->forceDoLayout();
 }
@@ -112,10 +116,21 @@ void VideoHQ::createFeaturedTiles()
 
 void VideoHQ::createRecentlyPlayedTiles()
 {
-    _recentlyPlayedLayout = ui::Layout::create();
-    _recentlyPlayedLayout->setBackGroundColorType(BackGroundColorType::SOLID);
-    _recentlyPlayedLayout->setBackGroundColor(Color3B::BLUE);
-    _recentlyPlayedLayout->setContentSize(Size(_contentListView->getContentSize().width, 400));
+ 
+    _recentlyPlayedTitle = DynamicText::create(_("Recently played"), Style::Font::PoppinsBold(), 80);
+    _recentlyPlayedTitle->setTextVerticalAlignment(TextVAlignment::CENTER);
+    _recentlyPlayedTitle->setTextHorizontalAlignment(TextHAlignment::LEFT);
+    _recentlyPlayedTitle->setOverflow(Label::Overflow::SHRINK);
+    _recentlyPlayedTitle->setTextAreaSize(Size((_contentListView->getSizePercent().x * getContentSize().width) - 64, _recentlyPlayedTitle->getContentSize().height));
+    _recentlyPlayedTitle->setTextColor(Color4B::WHITE);
+    _recentlyPlayedTitle->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+    _contentListView->pushBackCustomItem(_recentlyPlayedTitle);
+    
+    _recentlyPlayedLayout = CircleContentHolder::create();
+    _recentlyPlayedLayout->setContentItemData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kVideoHQName)->getHqCarousels().at(3));
+    _recentlyPlayedLayout->setTileSize(_isPortrait ? Size(350, 350) : Size(320, 320));
+    _recentlyPlayedLayout->setMaxRows(1);
+    _recentlyPlayedLayout->setContentSize(Size(_contentListView->getSizePercent().x * getContentSize().width, 0));
     _contentListView->pushBackCustomItem(_recentlyPlayedLayout);
 }
 

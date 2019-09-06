@@ -46,9 +46,9 @@ bool HQPage::init()
     _contentListView->setLayoutParameter(CreateCenterVerticalLinearLayoutParam());
     _contentListView->setBackGroundColorType(BackGroundColorType::SOLID);
     _contentListView->setBackGroundColor(Color3B::RED);
-    _contentListView->setItemsMargin(70);
+    _contentListView->setItemsMargin(32);
     _contentListView->setBounceEnabled(true);
-    _contentListView->setBottomPadding(70);
+    _contentListView->setBottomPadding(32);
     _structureUIHolder->addChild(_contentListView);
     
     return true;

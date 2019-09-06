@@ -11,6 +11,7 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
+#include <AzoomeeCommon//UI/DynamicText.h>
 #include "HQPage.h"
 #include "FeaturedGamesHolder.h"
 #include "CircleContentHolder.h"
@@ -22,7 +23,7 @@ class GameHQ : public HQPage
     typedef HQPage Super;
 private:
     FeaturedGamesHolder* _featuredLayout = nullptr;
-    //cocos2d::ui::Layout* _recentlyPlayedLayout = nullptr;
+    DynamicText* _recentlyPlayedTitle = nullptr;
     CircleContentHolder* _recentlyPlayedLayout = nullptr;
     cocos2d::Vector<cocos2d::ui::Layout*> _dropdownLayouts;
     
