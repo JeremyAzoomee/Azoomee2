@@ -21,7 +21,7 @@ private:
     FeaturedTile* _tile1 = nullptr;
     FeaturedTile* _tile2 = nullptr;
     FeaturedTile* _tile3 = nullptr;
-    
+
 public:
     static const float kTileSpacing;
     

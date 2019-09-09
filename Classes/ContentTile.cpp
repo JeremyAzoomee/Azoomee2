@@ -54,6 +54,11 @@ void ContentTile::setPlaceholderFilename(const std::string &placeholder)
     _placholderFilename = placeholder;
 }
 
+void ContentTile::setImageScaleMode(const ImageScaleMode &scaleMode)
+{
+    _scaleMode = scaleMode;
+}
+
 // delegate functions
 void ContentTile::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {

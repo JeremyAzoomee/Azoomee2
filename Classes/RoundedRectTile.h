@@ -1,23 +1,24 @@
 //
-//  FeaturedTile.h
+//  RoundedRectTile.h
 //  Azoomee
 //
-//  Created by Macauley.Scoffins on 03/09/2019.
+//  Created by Macauley.Scoffins on 06/09/2019.
 //
 
-#ifndef FeaturedTile_h
-#define FeaturedTile_h
+#ifndef RoundedRectTile_h
+#define RoundedRectTile_h
 
 #include "ContentTile.h"
 #include <AzoomeeCommon/ImageDownloader/OnScreenChecker.h>
 
 NS_AZOOMEE_BEGIN
 
-class FeaturedTile : public ContentTile, public OnScreenChecker
+class RoundedRectTile : public ContentTile, public OnScreenChecker
 {
     typedef ContentTile Super;
 private:
     
+    cocos2d::ui::ImageView* _dropShadow = nullptr;
     cocos2d::ui::ImageView* _contentImage = nullptr;
     cocos2d::ClippingNode* _contentClipper = nullptr;
     cocos2d::ui::Scale9Sprite* _clippingStencil = nullptr;
@@ -36,7 +37,7 @@ public:
     
     void setImageShape(const cocos2d::Vec2& imageShape);
     
-    CREATE_FUNC(FeaturedTile);
+    CREATE_FUNC(RoundedRectTile);
     
     // delegate functions
     virtual void onImageDownloadComplete(const ImageDownloaderRef& downloader) override;
@@ -45,4 +46,4 @@ public:
 
 NS_AZOOMEE_END
 
-#endif /* FeaturedTile_h */
+#endif /* RoundedRectTile_h */
