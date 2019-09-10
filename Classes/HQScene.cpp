@@ -205,8 +205,8 @@ void HQScene::createPageUI()
     _pageLayout->setContentSize(Size(visibleSize.width, visibleSize.height - _titleBanner->getContentSize().height - _navBar->getContentSize().height));
     _pageLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _pageLayout->setPosition(Vec2(visibleSize.width / 2, visibleSize.height - _titleBanner->getContentSize().height));
-    _pageLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _pageLayout->setBackGroundColor(Color3B::MAGENTA);
+    //_pageLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+    //_pageLayout->setBackGroundColor(Color3B::MAGENTA);
     addChild(_pageLayout);
     
     _gameHQ = GameHQ::create();

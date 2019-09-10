@@ -23,8 +23,8 @@ bool FeaturedGamesHolder::init()
     
     const Size& paddingPercent = Size(kTileSpacing / getContentSize().width, kTileSpacing / getContentSize().height);
     
-    setBackGroundColorType(BackGroundColorType::SOLID);
-    setBackGroundColor(Color3B::YELLOW);
+    //setBackGroundColorType(BackGroundColorType::SOLID);
+    //setBackGroundColor(Color3B::YELLOW);
     
     Size contentSize = getContentSize() - Size(kTileSpacing, 0);
     if((contentSize.width / (contentSize.height * 0.66f)) > 16.0f / 9.0f)
@@ -36,8 +36,8 @@ bool FeaturedGamesHolder::init()
     }
     
     _contentLayout->setContentSize(contentSize);
-    _contentLayout->setBackGroundColorType(BackGroundColorType::SOLID);
-    _contentLayout->setBackGroundColor(Color3B::GREEN);
+    //_contentLayout->setBackGroundColorType(BackGroundColorType::SOLID);
+    //_contentLayout->setBackGroundColor(Color3B::GREEN);
     
     _mainTile = FeaturedTile::create();
     _mainTile->setImageScaleMode(ImageScaleMode::FILL_ALL);

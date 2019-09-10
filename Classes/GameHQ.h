@@ -15,6 +15,7 @@
 #include "HQPage.h"
 #include "FeaturedGamesHolder.h"
 #include "CircleContentHolder.h"
+#include "DropdownContentHolder.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -25,7 +26,7 @@ private:
     FeaturedGamesHolder* _featuredLayout = nullptr;
     DynamicText* _recentlyPlayedTitle = nullptr;
     CircleContentHolder* _recentlyPlayedLayout = nullptr;
-    cocos2d::Vector<cocos2d::ui::Layout*> _dropdownLayouts;
+    cocos2d::Vector<DropdownContentHolder*> _dropdownLayouts;
     
     void createFeaturedTiles();
     void createRecentlyPlayedTiles();

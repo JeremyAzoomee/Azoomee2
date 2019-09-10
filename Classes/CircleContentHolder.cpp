@@ -21,16 +21,16 @@ bool CircleContentHolder::init()
         return false;
     }
     
-    setBackGroundColorType(BackGroundColorType::SOLID);
-    setBackGroundColor(Color3B::YELLOW);
+    //setBackGroundColorType(BackGroundColorType::SOLID);
+    //setBackGroundColor(Color3B::YELLOW);
     
     setSizeType(SizeType::ABSOLUTE);
     
     Size contentSize = getContentSize() - Size(kTileSpacing, 0);
     
     _contentLayout->setContentSize(contentSize);
-    _contentLayout->setBackGroundColorType(BackGroundColorType::SOLID);
-    _contentLayout->setBackGroundColor(Color3B::GREEN);
+    //_contentLayout->setBackGroundColorType(BackGroundColorType::SOLID);
+    //_contentLayout->setBackGroundColor(Color3B::GREEN);
     _contentLayout->setLayoutType(Type::VERTICAL);
     
     return true;

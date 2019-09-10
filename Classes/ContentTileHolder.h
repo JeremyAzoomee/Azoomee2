@@ -32,7 +32,7 @@ public:
     virtual bool init() override;
     
     void setContentSelectedCallback(const ContentSelectedCallback& callback);
-    void setContentItemData(const HQCarouselObjectRef& contentData);
+    virtual void setContentItemData(const HQCarouselObjectRef& contentData);
     HQCarouselObjectRef getContentItemData() const;
     
     CREATE_FUNC(ContentTileHolder);
