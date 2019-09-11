@@ -22,13 +22,10 @@ bool HQPage::init()
     setSizeType(SizeType::PERCENT);
     setSizePercent(Vec2(1.0f,1.0f));
     setClippingEnabled(true);
-    //setBackGroundColor(Color3B::GRAY);
-    //setBackGroundColorType(BackGroundColorType::SOLID);
     
     _structureUIHolder = ui::Layout::create();
     _structureUIHolder->setSizeType(SizeType::PERCENT);
     _structureUIHolder->setSizePercent(Vec2(1.0f,1.0f));
-    //_structureUIHolder->setClippingEnabled(true);
     _structureUIHolder->setLayoutType(Layout::Type::HORIZONTAL);
     addChild(_structureUIHolder);
     
@@ -36,19 +33,15 @@ bool HQPage::init()
     _staticContentLayout->setSizeType(SizeType::PERCENT);
     _staticContentLayout->setSizePercent(Vec2(0.0f, 1.0f));
     _staticContentLayout->setLayoutParameter(CreateCenterVerticalLinearLayoutParam());
-    //_staticContentLayout->setBackGroundColorType(BackGroundColorType::SOLID);
-    //_staticContentLayout->setBackGroundColor(Color3B::ORANGE);
     _structureUIHolder->addChild(_staticContentLayout);
     
     _contentListView = ui::ListView::create();
     _contentListView->setSizeType(SizeType::PERCENT);
     _contentListView->setSizePercent(Vec2(1.0f,1.0f));
     _contentListView->setLayoutParameter(CreateCenterVerticalLinearLayoutParam());
-    //_contentListView->setBackGroundColorType(BackGroundColorType::SOLID);
-    //_contentListView->setBackGroundColor(Color3B::RED);
     _contentListView->setItemsMargin(32);
     _contentListView->setBounceEnabled(true);
-    _contentListView->setBottomPadding(32);
+    _contentListView->setBottomPadding(160);
     _structureUIHolder->addChild(_contentListView);
     
     return true;

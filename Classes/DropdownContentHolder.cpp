@@ -57,7 +57,7 @@ bool DropdownContentHolder::init()
 
 void DropdownContentHolder::onEnter()
 {
-    //updateContent();
+    _contentTileGrid->setVisible(false);
     Super::onEnter();
 }
 
@@ -76,7 +76,11 @@ void DropdownContentHolder::onSizeChanged()
     _bgClipper->setContentSize(contentSize);
     _titleBanner->setContentSize(Size(contentSize.width, 2 * kBgCapInsets.origin.y));
     _categoryTitle->setTextAreaSize(Size(_titleBanner->getContentSize().width, _categoryTitle->getContentSize().height));
-    _categoryIcon->setContentSize(Size(_titleBanner->getContentSize().height, _titleBanner->getContentSize().height));
+    _iconLayout->setContentSize(Size(_titleBanner->getContentSize().height - 12.0f, _titleBanner->getContentSize().height - 12.0f));
+    _iconLayout->setPosition(Vec2(_iconLayout->getContentSize().width, 8.0f));
+    _iconStencil->setContentSize(_iconLayout->getContentSize());
+    _iconClippingNode->setContentSize(_iconLayout->getContentSize());
+    _categoryIcon->setScale(MIN((_iconLayout->getContentSize().height * 0.9f) / _categoryIcon->getContentSize().height, (_iconLayout->getContentSize().width * 0.9f) / _categoryIcon->getContentSize().width));
     
     resizeContent();
     
@@ -101,6 +105,7 @@ void DropdownContentHolder::setPatternColour(const cocos2d::Color3B& colour)
 void DropdownContentHolder::setFrameColour(const cocos2d::Color3B& colour)
 {
     setBackGroundImageColor(colour);
+    _iconBackground->setBackGroundColor(colour);
 }
 
 void DropdownContentHolder::setOnResizeCallback(const OnResizeCallback& callback)
@@ -128,7 +133,8 @@ void DropdownContentHolder::toggleOpened(bool open)
     const float maxDist = _openHeight - _closedHeight;
     const float durationMod = dist / maxDist;
     const float targetTime = 1.0f;
-
+    const float targetScale = _open ? 0.885f : 1.0f;
+    
     if(_open)
     {
         _contentTileGrid->setVisible(true);
@@ -149,6 +155,8 @@ void DropdownContentHolder::toggleOpened(bool open)
             _contentTileGrid->setVisible(false);
         }
     })));
+    _iconLayout->stopAllActions();
+    _iconLayout->runAction(ScaleTo::create(targetTime * durationMod, targetScale));
 }
 
 void DropdownContentHolder::createTitleLayout()
@@ -168,12 +176,34 @@ void DropdownContentHolder::createTitleLayout()
     _categoryTitle->setTextColor(Color4B::WHITE);
     _titleBanner->addChild(_categoryTitle);
     
-    _categoryIcon = ui::ImageView::create();
-    _categoryIcon->ignoreContentAdaptWithSize(false);
-    _categoryIcon->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _categoryIcon->setContentSize(Size(_titleBanner->getContentSize().height, _titleBanner->getContentSize().height));
-    _categoryIcon->setPosition(_categoryIcon->getContentSize() / 2.0f);
-    _titleBanner->addChild(_categoryIcon);
+    _iconLayout = ui::Layout::create();
+    _iconLayout->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
+    _iconLayout->setContentSize(Size(_titleBanner->getContentSize().height - 12.0f, _titleBanner->getContentSize().height - 12.0f));
+    _iconLayout->setPosition(Vec2(_iconLayout->getContentSize().width, 8.0f));
+    _titleBanner->addChild(_iconLayout);
+    
+    _iconStencil = Sprite::create("res/hqscene/circle.png");
+    _iconStencil->setContentSize(_iconLayout->getContentSize());
+    _iconStencil->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+    
+    _iconClippingNode = ClippingNode::create(_iconStencil);
+    _iconClippingNode->setContentSize(_iconLayout->getContentSize());
+    _iconClippingNode->setAlphaThreshold(0.5f);
+    _iconLayout->addChild(_iconClippingNode);
+    
+    _iconBackground = ui::Layout::create();
+    _iconBackground->setBackGroundColorType(BackGroundColorType::SOLID);
+    _iconBackground->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _iconBackground->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    _iconBackground->setSizeType(SizeType::PERCENT);
+    _iconBackground->setSizePercent(Vec2(1.0f, 1.0f));
+    _iconClippingNode->addChild(_iconBackground);
+    
+    _categoryIcon = Sprite::create("res/hqscene/Charecter place holder 1.png");
+    _categoryIcon->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _categoryIcon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _categoryIcon->setScale(MIN((_iconLayout->getContentSize().height * 0.9f) / _categoryIcon->getContentSize().height, (_iconLayout->getContentSize().width * 0.9f) / _categoryIcon->getContentSize().width));
+    _iconClippingNode->addChild(_categoryIcon);
 }
 
 void DropdownContentHolder::createContentLayout()
@@ -198,6 +228,9 @@ void DropdownContentHolder::updateContent()
         _contentTiles.clear();
         _contentRows.clear();
         _contentTileGrid->removeAllChildren();
+        
+        //ImageDownloaderRef iconDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
+        //iconDownloader->downloadImage(this, _contentData->getIcon());
         
         _categoryTitle->setString(_contentData->getTitle());
         const auto& contentList = _contentData->getContentItems();
@@ -282,6 +315,18 @@ void DropdownContentHolder::resizeContent()
         _contentTileGrid->setContentSize(Size(rowWidth, totalHeight));
         _contentTileGrid->forceDoLayout();
     }
+}
+
+// delegate functions
+void DropdownContentHolder::onImageDownloadComplete(const ImageDownloaderRef& downloader)
+{
+    _categoryIcon->setTexture(downloader->getLocalImagePath());
+    _categoryIcon->setScale(MIN((_iconLayout->getContentSize().height * 0.9f) / _categoryIcon->getContentSize().height, (_iconLayout->getContentSize().width * 0.9f) / _categoryIcon->getContentSize().width));
+}
+
+void DropdownContentHolder::onImageDownloadFailed()
+{
+    
 }
 
 NS_AZOOMEE_END

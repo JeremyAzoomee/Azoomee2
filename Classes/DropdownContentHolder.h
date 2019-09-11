@@ -11,10 +11,11 @@
 #include "ContentTileHolder.h"
 #include "RoundedRectTile.h"
 #include <AzoomeeCommon/UI/DynamicText.h>
+#include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
 
 NS_AZOOMEE_BEGIN
 
-class DropdownContentHolder : public ContentTileHolder
+class DropdownContentHolder : public ContentTileHolder, public ImageDownloaderDelegate
 {
     typedef ContentTileHolder Super;
     typedef std::function<void()> OnResizeCallback;
@@ -34,13 +35,18 @@ private:
     cocos2d::ClippingNode* _bgClipper = nullptr;
     
     cocos2d::ui::ImageView* _bgPattern = nullptr;
-    cocos2d::ui::ImageView* _categoryIcon = nullptr;
+    cocos2d::ui::Layout* _iconLayout = nullptr;
+    cocos2d::ui::Layout* _iconBackground = nullptr;
+    cocos2d::Sprite* _iconStencil = nullptr;
+    cocos2d::ClippingNode* _iconClippingNode = nullptr;
+    cocos2d::Sprite* _categoryIcon = nullptr;
     DynamicText* _categoryTitle = nullptr;
     cocos2d::ui::Layout* _titleBanner = nullptr;
     
     cocos2d::ui::Layout* _contentTileGrid = nullptr;
     cocos2d::Vector<cocos2d::ui::Layout*> _contentRows;
     cocos2d::Vector<RoundedRectTile*> _contentTiles;
+    
     
     void createTitleLayout();
     void createContentLayout();
@@ -67,6 +73,10 @@ public:
     void setContentItemData(const HQCarouselObjectRef& contentData) override;
     
     CREATE_FUNC(DropdownContentHolder);
+    
+    //delegate functions
+    virtual void onImageDownloadComplete(const ImageDownloaderRef& downloader) override;
+    virtual void onImageDownloadFailed() override;
 };
 
 NS_AZOOMEE_END

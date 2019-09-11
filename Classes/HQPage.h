@@ -29,6 +29,8 @@ protected:
     
     ContentSelectedCallback _contentSceletedCallback = nullptr;
     
+    cocos2d::Vec2 _resizingPositionLock;
+    
 public:
   
     virtual bool init() override;

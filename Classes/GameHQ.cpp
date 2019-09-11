@@ -122,7 +122,6 @@ void GameHQ::createRecentlyPlayedTiles()
 void GameHQ::createDropdowns()
 {
     const auto& carouselData = HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGameHQName)->getHqCarousels();
-    //for(auto carousel : carouselData)
     for(int i = 1; i < carouselData.size(); i++)
     {
         auto carousel = carouselData.at(i);
@@ -134,7 +133,7 @@ void GameHQ::createDropdowns()
         dropdown->setPatternColour(Style::Color::azure);
         dropdown->setOnResizeCallback([this, dropdown](){
             _contentListView->forceDoLayout();
-            _contentListView->scrollToItem(_contentListView->getIndex(dropdown), Vec2::ANCHOR_MIDDLE, Vec2::ANCHOR_MIDDLE_TOP, 0);
+            _contentListView->setInnerContainerPosition(_resizingPositionLock);
         });
         dropdown->setTouchEnabled(true);
         dropdown->addTouchEventListener([dropdown, this](Ref* pSender, ui::Widget::TouchEventType eType){
@@ -148,6 +147,7 @@ void GameHQ::createDropdowns()
                     }
                 }
                 dropdown->toggleOpened(!dropdown->isOpen());
+                _resizingPositionLock = _contentListView->getInnerContainerPosition();
             }
         });
         _contentListView->pushBackCustomItem(dropdown);
