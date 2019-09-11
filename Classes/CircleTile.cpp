@@ -14,6 +14,8 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+const float CircleTile::kFrameThickness = 12.0f;
+
 bool CircleTile::init()
 {
     if(!Super::init())
@@ -31,7 +33,7 @@ bool CircleTile::init()
     addChild(bg);
     
     _clippingStencil = Sprite::create("res/hqscene/circle.png");
-    _clippingStencil->setContentSize(getContentSize() - Size(12,12));
+    _clippingStencil->setContentSize(getContentSize() - Size(kFrameThickness,kFrameThickness));
     _clippingStencil->setPosition(getContentSize() / 2.0f);
     _clippingStencil->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     
@@ -67,7 +69,7 @@ void CircleTile::onSizeChanged()
     const Size& contentSize = getContentSize();
     _contentClipper->setContentSize(contentSize);
     _clippingStencil->setPosition(contentSize / 2.0f);
-    _clippingStencil->setContentSize(contentSize - Size(12,12));
+    _clippingStencil->setContentSize(contentSize - Size(kFrameThickness,kFrameThickness));
     _contentImage->setScale(MAX(contentSize.height / _contentImage->getContentSize().height, contentSize.width / _contentImage->getContentSize().width));
 }
 
@@ -81,7 +83,7 @@ void CircleTile::elementAppeared(cocos2d::Node *sender)
 {
     if(_contentItem)
     {
-        _imageDownloader->downloadImage(this, HQDataProvider::getInstance()->getThumbnailUrlForItem(_contentItem, Vec2(1,1)));
+        _imageDownloader->downloadImage(this, HQDataProvider::getInstance()->getThumbnailUrlForItem(_contentItem, TILESIZE_1X1));
     }
     else
     {

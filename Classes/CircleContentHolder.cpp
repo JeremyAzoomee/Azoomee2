@@ -26,9 +26,6 @@ bool CircleContentHolder::init()
     
     setSizeType(SizeType::ABSOLUTE);
     
-    Size contentSize = getContentSize() - Size(kTileSpacing, 0);
-    
-    _contentLayout->setContentSize(contentSize);
     _contentLayout->setBackGroundColorType(BackGroundColorType::SOLID);
     _contentLayout->setBackGroundColor(Color3B::GREEN);
     _contentLayout->setLayoutType(Type::VERTICAL);

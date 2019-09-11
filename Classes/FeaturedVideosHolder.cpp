@@ -7,12 +7,14 @@
 
 #include "FeaturedVideosHolder.h"
 #include <AzoomeeCommon/UI/LayoutParams.h>
+#include "HQDataProvider.h"
 
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
 const float FeaturedVideosHolder::kTileSpacing = 16.0f;
+const int FeaturedVideosHolder::kColumns = 3;
 
 bool FeaturedVideosHolder::init()
 {
@@ -24,23 +26,15 @@ bool FeaturedVideosHolder::init()
     setBackGroundColorType(BackGroundColorType::SOLID);
     setBackGroundColor(Color3B::YELLOW);
     
-    Size contentSize = getContentSize() - Size(kTileSpacing, 0);
-    
-    _contentLayout->setContentSize(contentSize);
     _contentLayout->setBackGroundColorType(BackGroundColorType::SOLID);
     _contentLayout->setBackGroundColor(Color3B::GREEN);
     
-    const Size& paddingPercent = Size(kTileSpacing / contentSize.width, kTileSpacing / contentSize.height);
-    
-    float tileWidth = (1.0f - (2.0f * paddingPercent.width)) / 3.0f;
-    
     _tile1 = FeaturedTile::create();
-    _tile1->setImageScaleMode(ImageScaleMode::FILL_ALL);
-    _tile1->setImageShape(Vec2(1,2));
+    _tile1->setImageScaleMode(ContentTile::ImageScaleMode::FILL_ALL);
+    _tile1->setImageShape(TILESIZE_1X2);
     _tile1->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
     _tile1->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
     _tile1->setSizeType(SizeType::PERCENT);
-    _tile1->setSizePercent(Vec2(tileWidth, 1.0f));
     _tile1->setContentSelectedCallback([this](HQContentItemObjectRef content){
         if(_callback)
         {
@@ -50,12 +44,11 @@ bool FeaturedVideosHolder::init()
     _contentLayout->addChild(_tile1);
     
     _tile2 = FeaturedTile::create();
-    _tile2->setImageScaleMode(ImageScaleMode::FILL_ALL);
-    _tile2->setImageShape(Vec2(1,2));
+    _tile2->setImageScaleMode(ContentTile::ImageScaleMode::FILL_ALL);
+    _tile2->setImageShape(TILESIZE_1X2);
     _tile2->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _tile2->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _tile2->setSizeType(SizeType::PERCENT);
-    _tile2->setSizePercent(Vec2(tileWidth, 1.0f));
     _tile2->setContentSelectedCallback([this](HQContentItemObjectRef content){
         if(_callback)
         {
@@ -65,12 +58,11 @@ bool FeaturedVideosHolder::init()
     _contentLayout->addChild(_tile2);
     
     _tile3 = FeaturedTile::create();
-    _tile3->setImageScaleMode(ImageScaleMode::FILL_ALL);
-    _tile3->setImageShape(Vec2(1,2));
+    _tile3->setImageScaleMode(ContentTile::ImageScaleMode::FILL_ALL);
+    _tile3->setImageShape(TILESIZE_1X2);
     _tile3->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
     _tile3->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
     _tile3->setSizeType(SizeType::PERCENT);
-    _tile3->setSizePercent(Vec2(tileWidth, 1.0f));
     _tile3->setContentSelectedCallback([this](HQContentItemObjectRef content){
         if(_callback)
         {
@@ -116,13 +108,13 @@ void FeaturedVideosHolder::onSizeChanged()
     Size contentSize = getContentSize() - Size(kTileSpacing, 0);
     
     Size paddingPercent = Size(kTileSpacing / contentSize.width, kTileSpacing / contentSize.height);
-    float tileWidth = (1.0f - (2.0f * paddingPercent.width)) / 3.0f;
+    float tileWidth = (1.0f - (2.0f * paddingPercent.width)) / kColumns;
     
     if((tileWidth * contentSize.width) / contentSize.height > (2.0f/3.0f)) // cap size of tiles to max 2:3 aspect ratio
     {
         contentSize = Size(2 * (kTileSpacing + contentSize.height), contentSize.height); //
         paddingPercent = Size(kTileSpacing / contentSize.width, kTileSpacing / contentSize.height);
-        tileWidth = (1.0f - (2.0f * paddingPercent.width)) / 3.0f;
+        tileWidth = (1.0f - (2.0f * paddingPercent.width)) / kColumns;
     }
     
     _tile1->setSizePercent(Vec2(tileWidth, 1.0f));

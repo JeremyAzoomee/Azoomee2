@@ -21,26 +21,14 @@ bool FeaturedGamesHolder::init()
         return false;
     }
     
-    const Size& paddingPercent = Size(kTileSpacing / getContentSize().width, kTileSpacing / getContentSize().height);
-    
     setBackGroundColorType(BackGroundColorType::SOLID);
     setBackGroundColor(Color3B::YELLOW);
     
-    Size contentSize = getContentSize() - Size(kTileSpacing, 0);
-    if((contentSize.width / (contentSize.height * 0.66f)) > 16.0f / 9.0f)
-    {
-        if(!(getContentSize().width * 0.66f) * (3.0f/4.0f) >= contentSize.height)
-        {
-            contentSize = Size((16.0f/9.0f) * (contentSize.height * 0.66f), contentSize.height);
-        }
-    }
-    
-    _contentLayout->setContentSize(contentSize);
     _contentLayout->setBackGroundColorType(BackGroundColorType::SOLID);
     _contentLayout->setBackGroundColor(Color3B::GREEN);
     
     _mainTile = FeaturedTile::create();
-    _mainTile->setImageScaleMode(ImageScaleMode::FILL_ALL);
+    _mainTile->setImageScaleMode(ContentTile::ImageScaleMode::FILL_ALL);
     _mainTile->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _mainTile->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
     _mainTile->setSizeType(SizeType::PERCENT);
@@ -54,11 +42,10 @@ bool FeaturedGamesHolder::init()
     _contentLayout->addChild(_mainTile);
     
     _subTile1 = FeaturedTile::create();
-    _subTile1->setImageScaleMode(ImageScaleMode::FILL_ALL);
+    _subTile1->setImageScaleMode(ContentTile::ImageScaleMode::FILL_ALL);
     _subTile1->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     _subTile1->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_LEFT);
     _subTile1->setSizeType(SizeType::PERCENT);
-    _subTile1->setSizePercent(Vec2(0.5f - (paddingPercent.width / 2), 0.34f - paddingPercent.height));
     _subTile1->setContentSelectedCallback([this](HQContentItemObjectRef content){
         if(_callback)
         {
@@ -68,11 +55,10 @@ bool FeaturedGamesHolder::init()
     _contentLayout->addChild(_subTile1);
     
     _subTile2 = FeaturedTile::create();
-    _subTile2->setImageScaleMode(ImageScaleMode::FILL_ALL);
+    _subTile2->setImageScaleMode(ContentTile::ImageScaleMode::FILL_ALL);
     _subTile2->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
     _subTile2->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_RIGHT);
     _subTile2->setSizeType(SizeType::PERCENT);
-    _subTile2->setSizePercent(Vec2(0.5f - (paddingPercent.width / 2), 0.34f - paddingPercent.height));
     _subTile2->setContentSelectedCallback([this](HQContentItemObjectRef content){
         if(_callback)
         {

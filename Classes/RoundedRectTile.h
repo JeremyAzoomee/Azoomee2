@@ -18,6 +18,8 @@ class RoundedRectTile : public ContentTile, public OnScreenChecker
     typedef ContentTile Super;
 private:
     
+    static const cocos2d::Size kDropshadowPadding;
+    
     cocos2d::ui::ImageView* _dropShadow = nullptr;
     cocos2d::ui::ImageView* _contentImage = nullptr;
     cocos2d::ClippingNode* _contentClipper = nullptr;

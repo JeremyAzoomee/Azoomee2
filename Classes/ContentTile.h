@@ -16,10 +16,12 @@
 
 NS_AZOOMEE_BEGIN
 
-enum class ImageScaleMode {FIT_WIDTH, FIT_HEIGHT, SHOW_ALL, FILL_ALL};
-
 class ContentTile : public cocos2d::ui::Layout , public ImageDownloaderDelegate
 {
+public:
+    enum ImageScaleMode {FIT_WIDTH, FIT_HEIGHT, SHOW_ALL, FILL_ALL};
+    
+private:
     typedef cocos2d::ui::Layout Super;
 protected:
     typedef std::function<void(HQContentItemObjectRef)> ContentSelectedCallback;

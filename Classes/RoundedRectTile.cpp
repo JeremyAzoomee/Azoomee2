@@ -14,6 +14,8 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+const Size RoundedRectTile::kDropshadowPadding = Size(80,80);
+
 bool RoundedRectTile::init()
 {
     if(!Super::init())
@@ -22,25 +24,25 @@ bool RoundedRectTile::init()
     }
     
     _dropShadow = ui::ImageView::create("res/hqscene/DropDownBoxStencil.png");
-    _dropShadow->setContentSize(getContentSize() + Size(80, 80));
+    _dropShadow->setContentSize(getContentSize() + kDropshadowPadding);
     _dropShadow->setScale9Enabled(true);
     _dropShadow->ignoreContentAdaptWithSize(false);
     _dropShadow->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-    _dropShadow->setPosition(Vec2(-40,-40));
+    _dropShadow->setPosition(kDropshadowPadding * -0.5f);
     _dropShadow->setColor(Style::Color::brownGrey);
     _dropShadow->setOpacity(125);
     
     addChild(_dropShadow);
     
     _clippingStencil = ui::Scale9Sprite::create("res/hqscene/DropDownBoxStencil.png");
-    _clippingStencil->setContentSize(getContentSize() + Size(80, 80));
+    _clippingStencil->setContentSize(getContentSize() + kDropshadowPadding);
     _clippingStencil->setPosition(Vec2(0,0));
     _clippingStencil->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     
     _contentClipper = ClippingNode::create(_clippingStencil);
     _contentClipper->setAlphaThreshold(0.9f);
-    _contentClipper->setPosition(Vec2(-40,-40));
-    _contentClipper->setContentSize(getContentSize() + Size(80, 80));
+    _contentClipper->setPosition(kDropshadowPadding * -0.5f);
+    _contentClipper->setContentSize(getContentSize() + kDropshadowPadding);
     addChild(_contentClipper);
     
     _contentImage = ui::ImageView::create("res/contentPlaceholders/Games1X1.png");
@@ -66,9 +68,9 @@ void RoundedRectTile::onExit()
 void RoundedRectTile::onSizeChanged()
 {
     Super::onSizeChanged();
-    _dropShadow->setContentSize(getContentSize() + Size(80, 80));
-    _contentClipper->setContentSize(getContentSize() + Size(80, 80));
-    _clippingStencil->setContentSize(getContentSize() + Size(80, 80));
+    _dropShadow->setContentSize(getContentSize() + kDropshadowPadding);
+    _contentClipper->setContentSize(getContentSize() + kDropshadowPadding);
+    _clippingStencil->setContentSize(getContentSize() + kDropshadowPadding);
     switch(_scaleMode)
     {
         case ImageScaleMode::FIT_WIDTH:
