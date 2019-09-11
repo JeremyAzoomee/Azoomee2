@@ -1,28 +1,28 @@
 //
-//  FeaturedTile.h
+//  CircleTile.h
 //  Azoomee
 //
-//  Created by Macauley.Scoffins on 03/09/2019.
+//  Created by Macauley.Scoffins on 05/09/2019.
 //
 
-#ifndef FeaturedTile_h
-#define FeaturedTile_h
+#ifndef CircleTile_h
+#define CircleTile_h
 
 #include "ContentTile.h"
 #include <AzoomeeCommon/ImageDownloader/OnScreenChecker.h>
 
 NS_AZOOMEE_BEGIN
 
-class FeaturedTile : public ContentTile, public OnScreenChecker
+class CircleTile : public ContentTile, public OnScreenChecker
 {
     typedef ContentTile Super;
 private:
     
+    static const float kFrameThickness;
+    
     cocos2d::ui::ImageView* _contentImage = nullptr;
     cocos2d::ClippingNode* _contentClipper = nullptr;
-    cocos2d::ui::Scale9Sprite* _clippingStencil = nullptr;
-    
-    cocos2d::Vec2 _imageShape = cocos2d::Vec2(1.0f, 1.0f);
+    cocos2d::Sprite* _clippingStencil = nullptr;
     
     void elementDisappeared(cocos2d::Node *sender) override;
     void elementAppeared(cocos2d::Node *sender) override;
@@ -34,9 +34,7 @@ public:
     void onExit() override;
     void onSizeChanged() override;
     
-    void setImageShape(const cocos2d::Vec2& imageShape);
-    
-    CREATE_FUNC(FeaturedTile);
+    CREATE_FUNC(CircleTile);
     
     // delegate functions
     virtual void onImageDownloadComplete(const ImageDownloaderRef& downloader) override;
@@ -45,4 +43,4 @@ public:
 
 NS_AZOOMEE_END
 
-#endif /* FeaturedTile_h */
+#endif /* CircleTile_h */

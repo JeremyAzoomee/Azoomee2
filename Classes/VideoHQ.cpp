@@ -6,6 +6,11 @@
 //
 
 #include "VideoHQ.h"
+#include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
+#include <AzoomeeCommon/UI/LayoutParams.h>
+#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/Strings.h>
 
 using namespace cocos2d;
 
@@ -91,29 +96,41 @@ void VideoHQ::onSizeChanged()
         _episodePlayerMoving = false;
     }
     
-    _recentlyPlayedLayout->setContentSize(Size(_contentListView->getContentSize().width, 400));
-    _featuredLayout->setContentSize(Size(_contentListView->getContentSize().width, 1000));
+    _recentlyPlayedTitle->setTextAreaSize(Size((_contentListView->getSizePercent().x * getContentSize().width) - kListViewSidePadding, _recentlyPlayedTitle->getContentSize().height));
+    _recentlyPlayedLayout->setTileSize(_isPortrait ? kCircleTileSizePortrait : kCircleTileSizeLandscape);
+    _recentlyPlayedLayout->setContentSize(Size(_contentListView->getSizePercent().x * getContentSize().width, 0));
+    _featuredLayout->setContentSize(Size(_contentListView->getContentSize().width, _isPortrait ? kFeaturedContentHeightPortrait : kFeaturedContentHeightLandscape));
     _contentListView->forceDoLayout();
 }
 
 void VideoHQ::createFeaturedTiles()
 {
-    _featuredLayout = ui::Layout::create();
-    _featuredLayout->setBackGroundColorType(BackGroundColorType::SOLID);
-    _featuredLayout->setBackGroundColor(Color3B::YELLOW);
+    _featuredLayout = FeaturedVideosHolder::create();
+    _featuredLayout->setContentItemData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kVideoHQName)->getHqCarousels().at(0));
     _featuredLayout->setSizeType(SizeType::ABSOLUTE);
-    _featuredLayout->setPositionType(PositionType::ABSOLUTE);
-    _featuredLayout->setContentSize(Size(_contentListView->getContentSize().width, 1000));
+    _featuredLayout->setContentSize(Size(_contentListView->getContentSize().width, kFeaturedContentHeightPortrait));
+    _featuredLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _contentListView->pushBackCustomItem(_featuredLayout);
     
 }
 
 void VideoHQ::createRecentlyPlayedTiles()
 {
-    _recentlyPlayedLayout = ui::Layout::create();
-    _recentlyPlayedLayout->setBackGroundColorType(BackGroundColorType::SOLID);
-    _recentlyPlayedLayout->setBackGroundColor(Color3B::BLUE);
-    _recentlyPlayedLayout->setContentSize(Size(_contentListView->getContentSize().width, 400));
+ 
+    _recentlyPlayedTitle = DynamicText::create(_("Recently played"), Style::Font::PoppinsBold(), 80);
+    _recentlyPlayedTitle->setTextVerticalAlignment(TextVAlignment::CENTER);
+    _recentlyPlayedTitle->setTextHorizontalAlignment(TextHAlignment::LEFT);
+    _recentlyPlayedTitle->setOverflow(Label::Overflow::SHRINK);
+    _recentlyPlayedTitle->setTextAreaSize(Size((_contentListView->getSizePercent().x * getContentSize().width) - kListViewSidePadding, _recentlyPlayedTitle->getContentSize().height));
+    _recentlyPlayedTitle->setTextColor(Color4B::WHITE);
+    _recentlyPlayedTitle->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+    _contentListView->pushBackCustomItem(_recentlyPlayedTitle);
+    
+    _recentlyPlayedLayout = CircleContentHolder::create();
+    _recentlyPlayedLayout->setContentItemData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kVideoHQName)->getHqCarousels().at(3)); //TODO: replace with data from RecentlyPlayedSingleton
+    _recentlyPlayedLayout->setTileSize(_isPortrait ? kCircleTileSizePortrait : kCircleTileSizeLandscape);
+    _recentlyPlayedLayout->setMaxRows(1);
+    _recentlyPlayedLayout->setContentSize(Size(_contentListView->getSizePercent().x * getContentSize().width, 0));
     _contentListView->pushBackCustomItem(_recentlyPlayedLayout);
 }
 

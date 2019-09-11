@@ -12,6 +12,12 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+const cocos2d::Size HQPage::kCircleTileSizeLandscape = Size(320,320);
+const cocos2d::Size HQPage::kCircleTileSizePortrait = Size(350,350);
+const float HQPage::kFeaturedContentHeightLandscape = 640.0f;
+const float HQPage::kFeaturedContentHeightPortrait = 960.0f;
+const float HQPage::kListViewSidePadding = 64.0f;
+
 bool HQPage::init()
 {
     if(!Super::init())
@@ -46,9 +52,9 @@ bool HQPage::init()
     _contentListView->setLayoutParameter(CreateCenterVerticalLinearLayoutParam());
     _contentListView->setBackGroundColorType(BackGroundColorType::SOLID);
     _contentListView->setBackGroundColor(Color3B::RED);
-    _contentListView->setItemsMargin(70);
+    _contentListView->setItemsMargin(32);
     _contentListView->setBounceEnabled(true);
-    _contentListView->setBottomPadding(70);
+    _contentListView->setBottomPadding(32);
     _structureUIHolder->addChild(_contentListView);
     
     return true;

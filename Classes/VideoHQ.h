@@ -12,6 +12,8 @@
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include "HQPage.h"
+#include "FeaturedVideosHolder.h"
+#include "CircleContentHolder.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -21,8 +23,9 @@ class VideoHQ : public HQPage
 private:
     static const float kEpisodePlayerTabHeight;
     
-    cocos2d::ui::Layout* _featuredLayout = nullptr;
-    cocos2d::ui::Layout* _recentlyPlayedLayout = nullptr;
+    FeaturedVideosHolder* _featuredLayout = nullptr;
+    DynamicText* _recentlyPlayedTitle = nullptr;
+    CircleContentHolder* _recentlyPlayedLayout = nullptr;
     cocos2d::Vector<cocos2d::ui::Layout*> _dropdownLayouts;
     
     cocos2d::ui::Layout* _episodePlayer = nullptr;

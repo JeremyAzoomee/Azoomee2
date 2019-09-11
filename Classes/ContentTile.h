@@ -18,6 +18,10 @@ NS_AZOOMEE_BEGIN
 
 class ContentTile : public cocos2d::ui::Layout , public ImageDownloaderDelegate
 {
+public:
+    enum ImageScaleMode {FIT_WIDTH, FIT_HEIGHT, SHOW_ALL, FILL_ALL};
+    
+private:
     typedef cocos2d::ui::Layout Super;
 protected:
     typedef std::function<void(HQContentItemObjectRef)> ContentSelectedCallback;
@@ -28,6 +32,8 @@ protected:
     
     std::string _placholderFilename;
     
+    ImageScaleMode _scaleMode = ImageScaleMode::FIT_WIDTH;
+    
 public:
     
     virtual bool init() override;
@@ -37,6 +43,8 @@ public:
     HQContentItemObjectRef getContentItemData() const;
     
     void setPlaceholderFilename(const std::string& placeholder);
+    
+    void setImageScaleMode(const ImageScaleMode& scaleMode);
     
     CREATE_FUNC(ContentTile);
     

@@ -1,11 +1,11 @@
 //
-//  FeaturedTile.cpp
+//  RoundedRectTile.cpp
 //  Azoomee
 //
-//  Created by Macauley.Scoffins on 03/09/2019.
+//  Created by Macauley.Scoffins on 06/09/2019.
 //
 
-#include "FeaturedTile.h"
+#include "RoundedRectTile.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include "HQDataProvider.h"
@@ -14,26 +14,35 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-bool FeaturedTile::init()
+const Size RoundedRectTile::kDropshadowPadding = Size(80,80);
+
+bool RoundedRectTile::init()
 {
     if(!Super::init())
     {
         return false;
     }
     
-    setBackGroundImage("res/hqscene/rounded_rect_20px.png");
-    setBackGroundImageColor(Style::Color::macaroniAndCheese);
-    setBackGroundImageScale9Enabled(true);
+    _dropShadow = ui::ImageView::create("res/hqscene/DropDownBoxStencil.png");
+    _dropShadow->setContentSize(getContentSize() + kDropshadowPadding);
+    _dropShadow->setScale9Enabled(true);
+    _dropShadow->ignoreContentAdaptWithSize(false);
+    _dropShadow->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+    _dropShadow->setPosition(kDropshadowPadding * -0.5f);
+    _dropShadow->setColor(Style::Color::brownGrey);
+    _dropShadow->setOpacity(125);
     
-    _clippingStencil = ui::Scale9Sprite::create("res/hqscene/rounded_rect_20px.png");
-    _clippingStencil->setContentSize(getContentSize() - Size(12,12));
-    _clippingStencil->setPosition(Vec2(6,6));
+    addChild(_dropShadow);
+    
+    _clippingStencil = ui::Scale9Sprite::create("res/hqscene/DropDownBoxStencil.png");
+    _clippingStencil->setContentSize(getContentSize() + kDropshadowPadding);
+    _clippingStencil->setPosition(Vec2(0,0));
     _clippingStencil->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     
     _contentClipper = ClippingNode::create(_clippingStencil);
-    _contentClipper->setAlphaThreshold(0.5f);
-    _contentClipper->setPosition(Vec2(0,0));
-    _contentClipper->setContentSize(getContentSize());
+    _contentClipper->setAlphaThreshold(0.9f);
+    _contentClipper->setPosition(kDropshadowPadding * -0.5f);
+    _contentClipper->setContentSize(getContentSize() + kDropshadowPadding);
     addChild(_contentClipper);
     
     _contentImage = ui::ImageView::create("res/contentPlaceholders/Games1X1.png");
@@ -44,23 +53,24 @@ bool FeaturedTile::init()
     return true;
 }
 
-void FeaturedTile::onEnter()
+void RoundedRectTile::onEnter()
 {
     startCheckingForOnScreenPosition(this);
     Super::onEnter();
 }
 
-void FeaturedTile::onExit()
+void RoundedRectTile::onExit()
 {
     endCheck();
     Super::onExit();
 }
 
-void FeaturedTile::onSizeChanged()
+void RoundedRectTile::onSizeChanged()
 {
     Super::onSizeChanged();
-    _contentClipper->setContentSize(getContentSize());
-    _clippingStencil->setContentSize(getContentSize() - Size(12,12));
+    _dropShadow->setContentSize(getContentSize() + kDropshadowPadding);
+    _contentClipper->setContentSize(getContentSize() + kDropshadowPadding);
+    _clippingStencil->setContentSize(getContentSize() + kDropshadowPadding);
     switch(_scaleMode)
     {
         case ImageScaleMode::FIT_WIDTH:
@@ -86,18 +96,18 @@ void FeaturedTile::onSizeChanged()
     }
 }
 
-void FeaturedTile::setImageShape(const Vec2& imageShape)
+void RoundedRectTile::setImageShape(const Vec2& imageShape)
 {
     _imageShape = imageShape;
 }
 
-void FeaturedTile::elementDisappeared(cocos2d::Node *sender)
+void RoundedRectTile::elementDisappeared(cocos2d::Node *sender)
 {
     _contentImage->loadTexture("res/contentPlaceholders/Games1X1.png");
     onSizeChanged();
 }
 
-void FeaturedTile::elementAppeared(cocos2d::Node *sender)
+void RoundedRectTile::elementAppeared(cocos2d::Node *sender)
 {
     if(_contentItem)
     {
@@ -110,12 +120,12 @@ void FeaturedTile::elementAppeared(cocos2d::Node *sender)
 }
 
 // delegate functions
-void FeaturedTile::onImageDownloadComplete(const ImageDownloaderRef& downloader)
+void RoundedRectTile::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {
     _contentImage->loadTexture(downloader->getLocalImagePath());
     onSizeChanged();
 }
-void FeaturedTile::onImageDownloadFailed()
+void RoundedRectTile::onImageDownloadFailed()
 {
     elementOnScreen = false;
 }
