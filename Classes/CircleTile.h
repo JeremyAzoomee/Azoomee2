@@ -18,6 +18,8 @@ class CircleTile : public ContentTile, public OnScreenChecker
     typedef ContentTile Super;
 private:
     
+    static const float kFrameThickness;
+    
     cocos2d::ui::ImageView* _contentImage = nullptr;
     cocos2d::ClippingNode* _contentClipper = nullptr;
     cocos2d::Sprite* _clippingStencil = nullptr;

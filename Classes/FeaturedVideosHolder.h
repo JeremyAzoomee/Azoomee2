@@ -18,6 +18,8 @@ class FeaturedVideosHolder : public ContentTileHolder
     typedef ContentTileHolder Super;
 private:
     
+    static const int kColumns;
+    
     FeaturedTile* _tile1 = nullptr;
     FeaturedTile* _tile2 = nullptr;
     FeaturedTile* _tile3 = nullptr;

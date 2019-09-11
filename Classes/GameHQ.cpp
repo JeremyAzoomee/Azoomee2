@@ -51,7 +51,7 @@ void GameHQ::onSizeChanged()
         
         _featuredLayout->setSizeType(SizeType::ABSOLUTE);
         _featuredLayout->setPositionType(PositionType::ABSOLUTE);
-        _featuredLayout->setContentSize(Size(_contentListView->getContentSize().width - 16, 960));
+        _featuredLayout->setContentSize(Size(_contentListView->getContentSize().width - (kListViewSidePadding / 4.0f), kFeaturedContentHeightPortrait));
         if(_featuredLayout->getParent() == _staticContentLayout)
         {
             _featuredLayout->retain();
@@ -78,12 +78,13 @@ void GameHQ::onSizeChanged()
             _featuredLayout->release();
         }
     }
-    
+
     const float contentListViewWidth = _contentListView->getSizePercent().x * getContentSize().width;
-    
-    _recentlyPlayedTitle->setTextAreaSize(Size(contentListViewWidth - 64, _recentlyPlayedTitle->getContentSize().height));
-    _recentlyPlayedLayout->setTileSize(_isPortrait ? Size(350, 350) : Size(320, 320));
+
+    _recentlyPlayedTitle->setTextAreaSize(Size(contentListViewWidth - kListViewSidePadding, _recentlyPlayedTitle->getContentSize().height));
+    _recentlyPlayedLayout->setTileSize(_isPortrait ? kCircleTileSizePortrait : kCircleTileSizeLandscape);
     _recentlyPlayedLayout->setContentSize(Size(contentListViewWidth, 0));
+    
     for(auto dropdown : _dropdownLayouts)
     {
         dropdown->setContentSize(Size(contentListViewWidth - 64, dropdown->getContentSize().height));
@@ -106,14 +107,14 @@ void GameHQ::createRecentlyPlayedTiles()
     _recentlyPlayedTitle->setTextVerticalAlignment(TextVAlignment::CENTER);
     _recentlyPlayedTitle->setTextHorizontalAlignment(TextHAlignment::LEFT);
     _recentlyPlayedTitle->setOverflow(Label::Overflow::SHRINK);
-    _recentlyPlayedTitle->setTextAreaSize(Size((_contentListView->getSizePercent().x * getContentSize().width) - 64, _recentlyPlayedTitle->getContentSize().height));
+    _recentlyPlayedTitle->setTextAreaSize(Size((_contentListView->getSizePercent().x * getContentSize().width) - kListViewSidePadding, _recentlyPlayedTitle->getContentSize().height));
     _recentlyPlayedTitle->setTextColor(Color4B::WHITE);
     _recentlyPlayedTitle->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _contentListView->pushBackCustomItem(_recentlyPlayedTitle);
     
     _recentlyPlayedLayout = CircleContentHolder::create();
     _recentlyPlayedLayout->setContentItemData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGameHQName)->getHqCarousels().at(3)); //TODO: replace with data from RecentlyPlayedSingleton
-    _recentlyPlayedLayout->setTileSize(_isPortrait ? Size(350, 350) : Size(320, 320));
+    _recentlyPlayedLayout->setTileSize(_isPortrait ? kCircleTileSizePortrait : kCircleTileSizeLandscape);
     _recentlyPlayedLayout->setMaxRows(1);
     _recentlyPlayedLayout->setContentSize(Size(_contentListView->getSizePercent().x * getContentSize().width, 0));
     _contentListView->pushBackCustomItem(_recentlyPlayedLayout);
@@ -133,7 +134,22 @@ void GameHQ::createDropdowns()
         dropdown->setPatternColour(Style::Color::azure);
         dropdown->setOnResizeCallback([this, dropdown](){
             _contentListView->forceDoLayout();
-            _contentListView->setInnerContainerPosition(_resizingPositionLock);
+            float minY = _contentListView->getContentSize().height - _contentListView->getInnerContainerSize().height;
+            float h = -minY;
+            if(_resizingPositionLock.y < minY)
+            {
+                //_contentListView->scrollToPercentVertical(0.0, 0, false);
+                _contentListView->setInnerContainerPosition(Vec2(_resizingPositionLock.x, minY));
+            }
+            else if(_resizingPositionLock.y > minY + h)
+            {
+                _contentListView->setInnerContainerPosition(Vec2(_resizingPositionLock.x,  minY + h));
+                //_contentListView->scrollToPercentVertical(100, 0, false);
+            }
+            else
+            {
+                _contentListView->setInnerContainerPosition(_resizingPositionLock);
+            }
         });
         dropdown->setTouchEnabled(true);
         dropdown->addTouchEventListener([dropdown, this](Ref* pSender, ui::Widget::TouchEventType eType){

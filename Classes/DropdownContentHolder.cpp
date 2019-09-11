@@ -75,7 +75,7 @@ void DropdownContentHolder::onSizeChanged()
     _clippingStencil->setContentSize(contentSize);
     _bgClipper->setContentSize(contentSize);
     _titleBanner->setContentSize(Size(contentSize.width, 2 * kBgCapInsets.origin.y));
-    _categoryTitle->setTextAreaSize(Size(_titleBanner->getContentSize().width, _categoryTitle->getContentSize().height));
+    _categoryTitle->setTextAreaSize(Size(_titleBanner->getContentSize().width * 0.5f, _categoryTitle->getContentSize().height));
     _iconLayout->setContentSize(Size(_titleBanner->getContentSize().height - 12.0f, _titleBanner->getContentSize().height - 12.0f));
     _iconLayout->setPosition(Vec2(_iconLayout->getContentSize().width, 8.0f));
     _iconStencil->setContentSize(_iconLayout->getContentSize());
@@ -172,7 +172,7 @@ void DropdownContentHolder::createTitleLayout()
     _categoryTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _categoryTitle->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _categoryTitle->setOverflow(Label::Overflow::SHRINK);
-    _categoryTitle->setTextAreaSize(Size(_titleBanner->getContentSize().width, _categoryTitle->getContentSize().height));
+    _categoryTitle->setTextAreaSize(Size(_titleBanner->getContentSize().width * 0.6f, _categoryTitle->getContentSize().height));
     _categoryTitle->setTextColor(Color4B::WHITE);
     _titleBanner->addChild(_categoryTitle);
     

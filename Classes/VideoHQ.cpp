@@ -99,14 +99,16 @@ void VideoHQ::onSizeChanged()
     
     const float contentListViewWidth = _contentListView->getSizePercent().x * getContentSize().width;
     
-    _recentlyPlayedTitle->setTextAreaSize(Size(contentListViewWidth - 64, _recentlyPlayedTitle->getContentSize().height));
-    _recentlyPlayedLayout->setTileSize(_isPortrait ? Size(350, 350) : Size(320, 320));
+    _recentlyPlayedTitle->setTextAreaSize(Size(contentListViewWidth - kListViewSidePadding, _recentlyPlayedTitle->getContentSize().height));
+    _recentlyPlayedLayout->setTileSize(_isPortrait ? kCircleTileSizePortrait : kCircleTileSizeLandscape);
     _recentlyPlayedLayout->setContentSize(Size(contentListViewWidth, 0));
-    _featuredLayout->setContentSize(Size(contentListViewWidth, _isPortrait ? 960 : 640));
+    _featuredLayout->setContentSize(Size(contentListViewWidth, _isPortrait ? kFeaturedContentHeightPortrait : kFeaturedContentHeightLandscape));
+    
     for(auto dropdown : _dropdownLayouts)
     {
-        dropdown->setContentSize(Size(contentListViewWidth - 64, dropdown->getContentSize().height));
+        dropdown->setContentSize(Size(contentListViewWidth - kListViewSidePadding, dropdown->getContentSize().height));
     }
+    
     _contentListView->forceDoLayout();
 }
 
@@ -115,7 +117,7 @@ void VideoHQ::createFeaturedTiles()
     _featuredLayout = FeaturedVideosHolder::create();
     _featuredLayout->setContentItemData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kVideoHQName)->getHqCarousels().at(0));
     _featuredLayout->setSizeType(SizeType::ABSOLUTE);
-    _featuredLayout->setContentSize(Size(_contentListView->getContentSize().width, 960));
+    _featuredLayout->setContentSize(Size(_contentListView->getContentSize().width, kFeaturedContentHeightPortrait));
     _featuredLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _contentListView->pushBackCustomItem(_featuredLayout);
     
@@ -128,14 +130,14 @@ void VideoHQ::createRecentlyPlayedTiles()
     _recentlyPlayedTitle->setTextVerticalAlignment(TextVAlignment::CENTER);
     _recentlyPlayedTitle->setTextHorizontalAlignment(TextHAlignment::LEFT);
     _recentlyPlayedTitle->setOverflow(Label::Overflow::SHRINK);
-    _recentlyPlayedTitle->setTextAreaSize(Size((_contentListView->getSizePercent().x * getContentSize().width) - 64, _recentlyPlayedTitle->getContentSize().height));
+    _recentlyPlayedTitle->setTextAreaSize(Size((_contentListView->getSizePercent().x * getContentSize().width) - kListViewSidePadding, _recentlyPlayedTitle->getContentSize().height));
     _recentlyPlayedTitle->setTextColor(Color4B::WHITE);
     _recentlyPlayedTitle->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _contentListView->pushBackCustomItem(_recentlyPlayedTitle);
     
     _recentlyPlayedLayout = CircleContentHolder::create();
     _recentlyPlayedLayout->setContentItemData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kVideoHQName)->getHqCarousels().at(3)); //TODO: replace with data from RecentlyPlayedSingleton
-    _recentlyPlayedLayout->setTileSize(_isPortrait ? Size(350, 350) : Size(320, 320));
+    _recentlyPlayedLayout->setTileSize(_isPortrait ? kCircleTileSizePortrait : kCircleTileSizeLandscape);
     _recentlyPlayedLayout->setMaxRows(1);
     _recentlyPlayedLayout->setContentSize(Size(_contentListView->getSizePercent().x * getContentSize().width, 0));
     _contentListView->pushBackCustomItem(_recentlyPlayedLayout);
@@ -155,7 +157,23 @@ void VideoHQ::createDropdowns()
         dropdown->setPatternColour(Style::Color::azure);
         dropdown->setOnResizeCallback([this, dropdown](){
             _contentListView->forceDoLayout();
-            _contentListView->setInnerContainerPosition(_resizingPositionLock);
+            float minY = _contentListView->getContentSize().height - _contentListView->getInnerContainerSize().height;
+            float h = -minY;
+            if(_resizingPositionLock.y < minY)
+            {
+                //_contentListView->scrollToPercentVertical(0.0, 0, false);
+                _contentListView->setInnerContainerPosition(Vec2(_resizingPositionLock.x, minY));
+            }
+            else if(_resizingPositionLock.y > minY + h)
+            {
+                _contentListView->setInnerContainerPosition(Vec2(_resizingPositionLock.x,  minY + h));
+                //_contentListView->scrollToPercentVertical(100, 0, false);
+            }
+            else
+            {
+                _contentListView->setInnerContainerPosition(_resizingPositionLock);
+            }
+            
         });
         dropdown->setTouchEnabled(true);
         dropdown->addTouchEventListener([dropdown, this](Ref* pSender, ui::Widget::TouchEventType eType){
