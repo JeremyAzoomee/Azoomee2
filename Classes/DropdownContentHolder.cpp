@@ -85,7 +85,7 @@ void DropdownContentHolder::onSizeChanged()
     resizeContent();
     
     _closedHeight = _titleBanner->getContentSize().height;
-    _openHeight = _titleBanner->getContentSize().height + _contentTileGrid->getContentSize().height + (2 * kTileSpacing);
+    _openHeight = _titleBanner->getContentSize().height + _contentGridSize.height + (2 * kTileSpacing);
     
     if(!_resizing)
     {
@@ -93,6 +93,7 @@ void DropdownContentHolder::onSizeChanged()
         if(contentSize.height != targetHeight)
         {
             setContentSize(Size(contentSize.width, targetHeight));
+            _contentTileGrid->setContentSize(Size(_contentGridSize.width, MIN(targetHeight - _closedHeight - (2 * kTileSpacing), _contentGridSize.height)));
         }
     }
 }
@@ -142,12 +143,14 @@ void DropdownContentHolder::toggleOpened(bool open)
     
     ActionFloat* resizeAction = ActionFloat::create(targetTime * durationMod, currentSize.height, targetHeight, [this](float height){
         this->setContentSize(Size(getContentSize().width, height));
+        _contentTileGrid->setContentSize(Size(_contentGridSize.width, MIN(height - _closedHeight - (2 * kTileSpacing),_contentGridSize.height)));
         if(_resizeCallback)
         {
             _resizeCallback();
         }
     });
     _resizing = true;
+    stopAllActions();
     runAction(Sequence::createWithTwoActions(resizeAction, CallFunc::create([this](){
         _resizing = false;
         if(!_open)
@@ -212,6 +215,7 @@ void DropdownContentHolder::createContentLayout()
     _contentTileGrid->setContentSize(Size(getContentSize().width, 0));
     _contentTileGrid->setLayoutType(Type::VERTICAL);
     _contentTileGrid->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+    _contentTileGrid->setClippingEnabled(true);
     _contentLayout->addChild(_contentTileGrid);
 }
 
@@ -272,7 +276,8 @@ void DropdownContentHolder::updateContent()
                 }
             }
         }
-        _contentTileGrid->setContentSize(Size(rowWidth, totalHeight));
+        _contentGridSize = Size(rowWidth, totalHeight);
+        _contentTileGrid->setContentSize(_contentGridSize);
         
         if(_contentData)
         {
@@ -312,7 +317,8 @@ void DropdownContentHolder::resizeContent()
             row->setContentSize(Size(rowWidth, tileSize.height));
         }
         
-        _contentTileGrid->setContentSize(Size(rowWidth, totalHeight));
+        _contentGridSize = Size(rowWidth, totalHeight);
+        _contentTileGrid->setContentSize(_contentGridSize);
         _contentTileGrid->forceDoLayout();
     }
 }

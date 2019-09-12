@@ -161,19 +161,16 @@ void VideoHQ::createDropdowns()
             float h = -minY;
             if(_resizingPositionLock.y < minY)
             {
-                //_contentListView->scrollToPercentVertical(0.0, 0, false);
                 _contentListView->setInnerContainerPosition(Vec2(_resizingPositionLock.x, minY));
             }
             else if(_resizingPositionLock.y > minY + h)
             {
                 _contentListView->setInnerContainerPosition(Vec2(_resizingPositionLock.x,  minY + h));
-                //_contentListView->scrollToPercentVertical(100, 0, false);
             }
             else
             {
                 _contentListView->setInnerContainerPosition(_resizingPositionLock);
             }
-            
         });
         dropdown->setTouchEnabled(true);
         dropdown->addTouchEventListener([dropdown, this](Ref* pSender, ui::Widget::TouchEventType eType){

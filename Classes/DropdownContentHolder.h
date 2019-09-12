@@ -30,6 +30,7 @@ private:
     
     float _closedHeight;
     float _openHeight;
+    cocos2d::Size _contentGridSize;
     
     cocos2d::ui::Scale9Sprite* _clippingStencil = nullptr;
     cocos2d::ClippingNode* _bgClipper = nullptr;
