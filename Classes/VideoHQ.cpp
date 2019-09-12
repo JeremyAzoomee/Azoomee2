@@ -27,6 +27,7 @@ bool VideoHQ::init()
     
     createFeaturedTiles();
     createRecentlyPlayedTiles();
+    createDropdowns();
     createEpisodePlayer();
     
     return true;
@@ -96,10 +97,18 @@ void VideoHQ::onSizeChanged()
         _episodePlayerMoving = false;
     }
     
-    _recentlyPlayedTitle->setTextAreaSize(Size((_contentListView->getSizePercent().x * getContentSize().width) - kListViewSidePadding, _recentlyPlayedTitle->getContentSize().height));
+    const float contentListViewWidth = _contentListView->getSizePercent().x * getContentSize().width;
+    
+    _recentlyPlayedTitle->setTextAreaSize(Size(contentListViewWidth - kListViewSidePadding, _recentlyPlayedTitle->getContentSize().height));
     _recentlyPlayedLayout->setTileSize(_isPortrait ? kCircleTileSizePortrait : kCircleTileSizeLandscape);
-    _recentlyPlayedLayout->setContentSize(Size(_contentListView->getSizePercent().x * getContentSize().width, 0));
-    _featuredLayout->setContentSize(Size(_contentListView->getContentSize().width, _isPortrait ? kFeaturedContentHeightPortrait : kFeaturedContentHeightLandscape));
+    _recentlyPlayedLayout->setContentSize(Size(contentListViewWidth, 0));
+    _featuredLayout->setContentSize(Size(contentListViewWidth, _isPortrait ? kFeaturedContentHeightPortrait : kFeaturedContentHeightLandscape));
+    
+    for(auto dropdown : _dropdownLayouts)
+    {
+        dropdown->setContentSize(Size(contentListViewWidth - kListViewSidePadding, dropdown->getContentSize().height));
+    }
+    
     _contentListView->forceDoLayout();
 }
 
@@ -117,7 +126,7 @@ void VideoHQ::createFeaturedTiles()
 void VideoHQ::createRecentlyPlayedTiles()
 {
  
-    _recentlyPlayedTitle = DynamicText::create(_("Recently played"), Style::Font::PoppinsBold(), 80);
+    _recentlyPlayedTitle = DynamicText::create(_("Recently watched"), Style::Font::PoppinsBold(), 80);
     _recentlyPlayedTitle->setTextVerticalAlignment(TextVAlignment::CENTER);
     _recentlyPlayedTitle->setTextHorizontalAlignment(TextHAlignment::LEFT);
     _recentlyPlayedTitle->setOverflow(Label::Overflow::SHRINK);
@@ -136,7 +145,51 @@ void VideoHQ::createRecentlyPlayedTiles()
 
 void VideoHQ::createDropdowns()
 {
-    
+    const auto& carouselData = HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kVideoHQName)->getHqCarousels();
+    for(int i = 1; i < carouselData.size(); i++)
+    {
+        auto carousel = carouselData.at(i);
+        DropdownContentHolder* dropdown = DropdownContentHolder::create();
+        dropdown->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+        dropdown->setContentSize(Size(_contentListView->getSizePercent().x * getContentSize().width, 0));
+        dropdown->setContentItemData(carousel);
+        dropdown->setFrameColour(Style::Color::azure);
+        dropdown->setPatternColour(Style::Color::azure);
+        dropdown->setOnResizeCallback([this, dropdown](){
+            _contentListView->forceDoLayout();
+            float minY = _contentListView->getContentSize().height - _contentListView->getInnerContainerSize().height;
+            float h = -minY;
+            if(_resizingPositionLock.y < minY)
+            {
+                _contentListView->setInnerContainerPosition(Vec2(_resizingPositionLock.x, minY));
+            }
+            else if(_resizingPositionLock.y > minY + h)
+            {
+                _contentListView->setInnerContainerPosition(Vec2(_resizingPositionLock.x,  minY + h));
+            }
+            else
+            {
+                _contentListView->setInnerContainerPosition(_resizingPositionLock);
+            }
+        });
+        dropdown->setTouchEnabled(true);
+        dropdown->addTouchEventListener([dropdown, this](Ref* pSender, ui::Widget::TouchEventType eType){
+            if(eType == ui::Widget::TouchEventType::ENDED)
+            {
+                for(auto dd : _dropdownLayouts)
+                {
+                    if(dd != dropdown && dd->isOpen())
+                    {
+                        dd->toggleOpened(false);
+                    }
+                }
+                dropdown->toggleOpened(!dropdown->isOpen());
+                _resizingPositionLock = _contentListView->getInnerContainerPosition();
+            }
+        });
+        _contentListView->pushBackCustomItem(dropdown);
+        _dropdownLayouts.pushBack(dropdown);
+    }
 }
 
 void VideoHQ::createEpisodePlayer()

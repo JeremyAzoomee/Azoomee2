@@ -14,6 +14,7 @@
 #include "HQPage.h"
 #include "FeaturedVideosHolder.h"
 #include "CircleContentHolder.h"
+#include "DropdownContentHolder.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -26,7 +27,7 @@ private:
     FeaturedVideosHolder* _featuredLayout = nullptr;
     DynamicText* _recentlyPlayedTitle = nullptr;
     CircleContentHolder* _recentlyPlayedLayout = nullptr;
-    cocos2d::Vector<cocos2d::ui::Layout*> _dropdownLayouts;
+    cocos2d::Vector<DropdownContentHolder*> _dropdownLayouts;
     
     cocos2d::ui::Layout* _episodePlayer = nullptr;
     

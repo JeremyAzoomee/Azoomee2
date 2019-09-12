@@ -222,6 +222,7 @@
 		E212CC75231D75E7009D4A63 /* ContentTileHolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E212CC74231D75E7009D4A63 /* ContentTileHolder.cpp */; };
 		E212CCA1231E71DB009D4A63 /* FeaturedTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E212CCA0231E71DB009D4A63 /* FeaturedTile.cpp */; };
 		E212CCA4231EB07B009D4A63 /* FeaturedGamesHolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E212CCA3231EB07B009D4A63 /* FeaturedGamesHolder.cpp */; };
+		E21592F523267D2F003CBB50 /* DropdownContentHolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21592F423267D2F003CBB50 /* DropdownContentHolder.cpp */; };
 		E21A4F272317CC5300E1D3FB /* OomeeHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21A4F262317CC5300E1D3FB /* OomeeHQ.cpp */; };
 		E21B22142322B02E0032510A /* RoundedRectTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21B22132322B02E0032510A /* RoundedRectTile.cpp */; };
 		E22ACA04230C00D40024B328 /* NavigationButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACA03230C00D40024B328 /* NavigationButton.cpp */; };
@@ -753,6 +754,8 @@
 		E212CCA0231E71DB009D4A63 /* FeaturedTile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FeaturedTile.cpp; sourceTree = "<group>"; };
 		E212CCA2231EA818009D4A63 /* FeaturedGamesHolder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeaturedGamesHolder.h; sourceTree = "<group>"; };
 		E212CCA3231EB07B009D4A63 /* FeaturedGamesHolder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FeaturedGamesHolder.cpp; sourceTree = "<group>"; };
+		E21592F3232665EC003CBB50 /* DropdownContentHolder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DropdownContentHolder.h; sourceTree = "<group>"; };
+		E21592F423267D2F003CBB50 /* DropdownContentHolder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DropdownContentHolder.cpp; sourceTree = "<group>"; };
 		E21A4F202317CC0200E1D3FB /* OomeeHQ.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OomeeHQ.h; sourceTree = "<group>"; };
 		E21A4F262317CC5300E1D3FB /* OomeeHQ.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeHQ.cpp; sourceTree = "<group>"; };
 		E21B220D2322ACA10032510A /* RoundedRectTile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RoundedRectTile.h; sourceTree = "<group>"; };
@@ -1640,6 +1643,8 @@
 				E2A5141F23214B45007B93BC /* CircleContentHolder.cpp */,
 				E21B220D2322ACA10032510A /* RoundedRectTile.h */,
 				E21B22132322B02E0032510A /* RoundedRectTile.cpp */,
+				E21592F3232665EC003CBB50 /* DropdownContentHolder.h */,
+				E21592F423267D2F003CBB50 /* DropdownContentHolder.cpp */,
 			);
 			name = ContentTiles;
 			sourceTree = "<group>";
@@ -2003,6 +2008,7 @@
 				924E845221412D70004590FD /* SettingsKidsPage.cpp in Sources */,
 				300742F31EF93428005525AE /* ChatDelegate.cpp in Sources */,
 				928A6E8120EE2A290053E793 /* ChildNameLayerFirstTime.cpp in Sources */,
+				E21592F523267D2F003CBB50 /* DropdownContentHolder.cpp in Sources */,
 				432A6C0D1EA8E2A200C5842B /* ManualGameInputLayer.cpp in Sources */,
 				021564761FC4C79C00641C14 /* HQScene2CarouselTitle.cpp in Sources */,
 				02D4FCD21FCEE5E2005BA020 /* IAPProductDataHandler.mm in Sources */,

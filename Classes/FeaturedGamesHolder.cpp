@@ -21,12 +21,6 @@ bool FeaturedGamesHolder::init()
         return false;
     }
     
-    setBackGroundColorType(BackGroundColorType::SOLID);
-    setBackGroundColor(Color3B::YELLOW);
-    
-    _contentLayout->setBackGroundColorType(BackGroundColorType::SOLID);
-    _contentLayout->setBackGroundColor(Color3B::GREEN);
-    
     _mainTile = FeaturedTile::create();
     _mainTile->setImageScaleMode(ContentTile::ImageScaleMode::FILL_ALL);
     _mainTile->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);

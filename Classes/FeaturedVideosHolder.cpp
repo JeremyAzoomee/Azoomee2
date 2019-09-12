@@ -23,12 +23,6 @@ bool FeaturedVideosHolder::init()
         return false;
     }
     
-    setBackGroundColorType(BackGroundColorType::SOLID);
-    setBackGroundColor(Color3B::YELLOW);
-    
-    _contentLayout->setBackGroundColorType(BackGroundColorType::SOLID);
-    _contentLayout->setBackGroundColor(Color3B::GREEN);
-    
     _tile1 = FeaturedTile::create();
     _tile1->setImageScaleMode(ContentTile::ImageScaleMode::FILL_ALL);
     _tile1->setImageShape(TILESIZE_1X2);
