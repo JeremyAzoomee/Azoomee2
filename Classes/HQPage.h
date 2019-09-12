@@ -12,6 +12,7 @@
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObject.h>
+#include "DropdownContentHolder.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -19,7 +20,7 @@ class HQPage : public cocos2d::ui::Layout
 {
     typedef cocos2d::ui::Layout Super;
 protected:
-    typedef std::function<void(HQContentItemObjectRef)> ContentSelectedCallback;
+    typedef std::function<void(HQContentItemObjectRef, int, int)> ContentSelectedCallback;
     
     static const cocos2d::Size kCircleTileSizeLandscape;
     static const cocos2d::Size kCircleTileSizePortrait;
@@ -36,6 +37,9 @@ protected:
     ContentSelectedCallback _contentSceletedCallback = nullptr;
     
     cocos2d::Vec2 _resizingPositionLock;
+    
+    void listviewDropdownResizeCallback();
+    void dropdownAutoOpenCloseLogic(DropdownContentHolder* pressedDropdown, cocos2d::Vector<DropdownContentHolder*> dropdownHoldersInListview);
     
 public:
   

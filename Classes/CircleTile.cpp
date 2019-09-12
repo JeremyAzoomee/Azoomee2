@@ -60,6 +60,7 @@ void CircleTile::onEnter()
 void CircleTile::onExit()
 {
     endCheck();
+    _imageDownloader->setDelegate(nullptr);
     Super::onExit();
 }
 

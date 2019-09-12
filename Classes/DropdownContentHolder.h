@@ -22,6 +22,8 @@ class DropdownContentHolder : public ContentTileHolder, public ImageDownloaderDe
 private:
     
     static const cocos2d::Rect kBgCapInsets;
+    static const float kDropdownOpenIconScale;
+    static const cocos2d::Vec2 kTileAspectRatio;
     
     OnResizeCallback _resizeCallback = nullptr;
     
@@ -48,11 +50,14 @@ private:
     cocos2d::Vector<cocos2d::ui::Layout*> _contentRows;
     cocos2d::Vector<RoundedRectTile*> _contentTiles;
     
+    ImageDownloaderRef _iconDownloader = nullptr;
     
     void createTitleLayout();
     void createContentLayout();
     void updateContent();
     void resizeContent();
+    
+    void setContentLayoutVisible(bool visible);
     
 public:
     static const float kTileSpacing;

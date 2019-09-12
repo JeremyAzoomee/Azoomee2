@@ -62,6 +62,7 @@ void RoundedRectTile::onEnter()
 void RoundedRectTile::onExit()
 {
     endCheck();
+    _imageDownloader->setDelegate(nullptr);
     Super::onExit();
 }
 
@@ -109,7 +110,7 @@ void RoundedRectTile::elementDisappeared(cocos2d::Node *sender)
 
 void RoundedRectTile::elementAppeared(cocos2d::Node *sender)
 {
-    if(_contentItem)
+    if(_contentItem && isVisible())
     {
         _imageDownloader->downloadImage(this, HQDataProvider::getInstance()->getThumbnailUrlForItem(_contentItem, _imageShape));
     }
@@ -127,7 +128,7 @@ void RoundedRectTile::onImageDownloadComplete(const ImageDownloaderRef& download
 }
 void RoundedRectTile::onImageDownloadFailed()
 {
-    elementOnScreen = false;
+    //elementOnScreen = false;
 }
 
 NS_AZOOMEE_END

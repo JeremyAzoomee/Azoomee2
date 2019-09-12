@@ -93,10 +93,10 @@ void CircleContentHolder::refreshTiles()
             CircleTile* tile = CircleTile::create();
             tile->setContentSize(_tileSize);
             tile->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(kTileSpacing / 2.0f, 0, kTileSpacing / 2.0f, 0)));
-            tile->setContentSelectedCallback([this](HQContentItemObjectRef content){
+            tile->setContentSelectedCallback([this, row, tilesPerRow, col](HQContentItemObjectRef content){
                 if(_callback)
                 {
-                    _callback(content);
+                    _callback(content, (row * tilesPerRow) + col);
                 }
             });
             tile->setTouchEnabled(false);

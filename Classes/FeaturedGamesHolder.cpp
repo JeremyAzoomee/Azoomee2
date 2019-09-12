@@ -7,6 +7,7 @@
 
 #include "FeaturedGamesHolder.h"
 #include <AzoomeeCommon/UI/LayoutParams.h>
+#include "HQDataProvider.h"
 
 using namespace cocos2d;
 
@@ -23,6 +24,7 @@ bool FeaturedGamesHolder::init()
     
     _mainTile = FeaturedTile::create();
     _mainTile->setImageScaleMode(ContentTile::ImageScaleMode::FILL_ALL);
+    _mainTile->setImageShape(TILESIZE_2X2);
     _mainTile->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _mainTile->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
     _mainTile->setSizeType(SizeType::PERCENT);
@@ -30,7 +32,7 @@ bool FeaturedGamesHolder::init()
     _mainTile->setContentSelectedCallback([this](HQContentItemObjectRef content){
         if(_callback)
         {
-            _callback(content);
+            _callback(content, 0);
         }
     });
     _contentLayout->addChild(_mainTile);
@@ -43,7 +45,7 @@ bool FeaturedGamesHolder::init()
     _subTile1->setContentSelectedCallback([this](HQContentItemObjectRef content){
         if(_callback)
         {
-            _callback(content);
+            _callback(content, 1);
         }
     });
     _contentLayout->addChild(_subTile1);
@@ -56,7 +58,7 @@ bool FeaturedGamesHolder::init()
     _subTile2->setContentSelectedCallback([this](HQContentItemObjectRef content){
         if(_callback)
         {
-            _callback(content);
+            _callback(content, 2);
         }
     });
     _contentLayout->addChild(_subTile2);
