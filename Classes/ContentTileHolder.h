@@ -20,7 +20,7 @@ class ContentTileHolder : public cocos2d::ui::Layout
 {
     typedef cocos2d::ui::Layout Super;
 protected:
-    typedef std::function<void(HQContentItemObjectRef)> ContentSelectedCallback;
+    typedef std::function<void(HQContentItemObjectRef, int)> ContentSelectedCallback;
     
     ContentSelectedCallback _callback = nullptr;
     HQCarouselObjectRef _contentData = nullptr;

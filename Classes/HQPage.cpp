@@ -52,14 +52,17 @@ bool HQPage::init()
     
     return true;
 }
+
 void HQPage::onEnter()
 {
     Super::onEnter();
 }
+
 void HQPage::onExit()
 {
     Super::onExit();
 }
+
 void HQPage::onSizeChanged()
 {
     Super::onSizeChanged();
@@ -70,6 +73,37 @@ void HQPage::onSizeChanged()
 void HQPage::setContentSelectedCallback(const ContentSelectedCallback& callback)
 {
     _contentSceletedCallback = callback;
+}
+
+void HQPage::listviewDropdownResizeCallback()
+{
+    _contentListView->forceDoLayout();
+    float minY = _contentListView->getContentSize().height - _contentListView->getInnerContainerSize().height;
+    float h = -minY;
+    if(_resizingPositionLock.y < minY)
+    {
+        _contentListView->setInnerContainerPosition(Vec2(_resizingPositionLock.x, minY));
+    }
+    else if(_resizingPositionLock.y > minY + h)
+    {
+        _contentListView->setInnerContainerPosition(Vec2(_resizingPositionLock.x,  minY + h));
+    }
+    else
+    {
+        _contentListView->setInnerContainerPosition(_resizingPositionLock);
+    }
+}
+void HQPage::dropdownAutoOpenCloseLogic(DropdownContentHolder* pressedDropdown, cocos2d::Vector<DropdownContentHolder*> dropdownHoldersInListview)
+{
+    for(auto dd : dropdownHoldersInListview)
+    {
+        if(dd != pressedDropdown && dd->isOpen())
+        {
+            dd->toggleOpened(false);
+        }
+    }
+    pressedDropdown->toggleOpened(!pressedDropdown->isOpen());
+    _resizingPositionLock = _contentListView->getInnerContainerPosition();
 }
 
 NS_AZOOMEE_END

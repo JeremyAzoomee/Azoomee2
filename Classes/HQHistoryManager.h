@@ -5,6 +5,7 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/Orientation.h>
 #include "HQSceneDepreciated.h"
+#include "HQScene.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -21,6 +22,8 @@ private:
 	Orientation _prevHQOrientation = Orientation::Landscape;
 	
 	cocos2d::Map<std::string,HQSceneDepreciated*> _cachedScenes;
+    
+    HQScene* _cachedHQScene = nullptr;
 	
 public:
 	static HQHistoryManager* getInstance(void);
@@ -57,6 +60,10 @@ public:
 	HQSceneDepreciated* getCachedHQScene(const std::string& hqName);
 	void removeHQFromCache(const std::string& hqName);
 	
+    void cacheHQScene(HQScene* hqScene);
+    void clearCachedHQ();
+    HQScene* getCachedHQScene();
+    
     //Adding last group source ID
     
     void setGroupHQSourceId(std::string itemId);

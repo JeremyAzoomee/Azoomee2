@@ -181,4 +181,26 @@ void HQHistoryManager::removeHQFromCache(const std::string& hqName)
 	}
 }
 
+void HQHistoryManager::cacheHQScene(HQScene* hqScene)
+{
+    if(_cachedHQScene)
+    {
+        _cachedHQScene->release();
+    }
+    _cachedHQScene = hqScene;
+    if(_cachedHQScene)
+    {
+        _cachedHQScene->retain();
+    }
+}
+void HQHistoryManager::clearCachedHQ()
+{
+    cacheHQScene(nullptr);
+}
+
+HQScene* HQHistoryManager::getCachedHQScene()
+{
+    return _cachedHQScene;
+}
+
 NS_AZOOMEE_END

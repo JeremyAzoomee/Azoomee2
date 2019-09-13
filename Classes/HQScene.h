@@ -11,6 +11,7 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/Scene.h>
 #include <AzoomeeCommon/Tutorial/TutorialController.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
 #include "NavigationBar.h"
 #include <AzoomeeCommon/UI/DynamicText.h>
 #include "SettingsButton.h"

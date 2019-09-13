@@ -11,6 +11,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
+#include "RecentlyPlayedManager.h"
 
 using namespace cocos2d;
 
@@ -32,6 +33,12 @@ bool GameHQ::init()
 
 void GameHQ::onEnter()
 {
+    MutableHQCarouselObjectRef recentlyPlayedData = MutableHQCarouselObject::create();
+    recentlyPlayedData->addContentItemsToCarousel(RecentlyPlayedManager::getInstance()->getRecentlyPlayedContentForHQ(ConfigStorage::kGameHQName));
+    recentlyPlayedData->setTitle(_("Recently played"));
+    
+    _recentlyPlayedLayout->setContentItemData(recentlyPlayedData);
+    
     Super::onEnter();
 }
 
@@ -87,7 +94,7 @@ void GameHQ::onSizeChanged()
     
     for(auto dropdown : _dropdownLayouts)
     {
-        dropdown->setContentSize(Size(contentListViewWidth - 64, dropdown->getContentSize().height));
+        dropdown->setContentSize(Size(contentListViewWidth - kListViewSidePadding, dropdown->getContentSize().height));
     }
     _contentListView->forceDoLayout();
     
@@ -97,6 +104,12 @@ void GameHQ::createFeaturedTiles()
 {
     _featuredLayout = FeaturedGamesHolder::create();
     _featuredLayout->setContentItemData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGameHQName)->getHqCarousels().at(0));
+    _featuredLayout->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
+        if(_contentSceletedCallback)
+        {
+            _contentSceletedCallback(content, elementIndex, 0);
+        }
+    });
     _staticContentLayout->addChild(_featuredLayout);
     
 }
@@ -112,11 +125,21 @@ void GameHQ::createRecentlyPlayedTiles()
     _recentlyPlayedTitle->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _contentListView->pushBackCustomItem(_recentlyPlayedTitle);
     
+    MutableHQCarouselObjectRef recentlyPlayedData = MutableHQCarouselObject::create();
+    recentlyPlayedData->addContentItemsToCarousel(RecentlyPlayedManager::getInstance()->getRecentlyPlayedContentForHQ(ConfigStorage::kGameHQName));
+    recentlyPlayedData->setTitle(_("Recently played"));
+    
     _recentlyPlayedLayout = CircleContentHolder::create();
-    _recentlyPlayedLayout->setContentItemData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGameHQName)->getHqCarousels().at(3)); //TODO: replace with data from RecentlyPlayedSingleton
+    _recentlyPlayedLayout->setContentItemData(recentlyPlayedData);
     _recentlyPlayedLayout->setTileSize(_isPortrait ? kCircleTileSizePortrait : kCircleTileSizeLandscape);
     _recentlyPlayedLayout->setMaxRows(1);
     _recentlyPlayedLayout->setContentSize(Size(_contentListView->getSizePercent().x * getContentSize().width, 0));
+    _recentlyPlayedLayout->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
+        if(_contentSceletedCallback)
+        {
+            _contentSceletedCallback(content, elementIndex, -1);
+        }
+    });
     _contentListView->pushBackCustomItem(_recentlyPlayedLayout);
 }
 
@@ -132,36 +155,20 @@ void GameHQ::createDropdowns()
         dropdown->setContentItemData(carousel);
         dropdown->setFrameColour(Style::Color::azure);
         dropdown->setPatternColour(Style::Color::azure);
-        dropdown->setOnResizeCallback([this, dropdown](){
-            _contentListView->forceDoLayout();
-            float minY = _contentListView->getContentSize().height - _contentListView->getInnerContainerSize().height;
-            float h = -minY;
-            if(_resizingPositionLock.y < minY)
+        dropdown->setContentSelectedCallback([this, i](HQContentItemObjectRef content, int elementIndex){
+            if(_contentSceletedCallback)
             {
-                _contentListView->setInnerContainerPosition(Vec2(_resizingPositionLock.x, minY));
+                _contentSceletedCallback(content, elementIndex, i);
             }
-            else if(_resizingPositionLock.y > minY + h)
-            {
-                _contentListView->setInnerContainerPosition(Vec2(_resizingPositionLock.x,  minY + h));
-            }
-            else
-            {
-                _contentListView->setInnerContainerPosition(_resizingPositionLock);
-            }
+        });
+        dropdown->setOnResizeCallback([this](){
+            this->listviewDropdownResizeCallback();
         });
         dropdown->setTouchEnabled(true);
         dropdown->addTouchEventListener([dropdown, this](Ref* pSender, ui::Widget::TouchEventType eType){
             if(eType == ui::Widget::TouchEventType::ENDED)
             {
-                for(auto dd : _dropdownLayouts)
-                {
-                    if(dd != dropdown && dd->isOpen())
-                    {
-                        dd->toggleOpened(false);
-                    }
-                }
-                dropdown->toggleOpened(!dropdown->isOpen());
-                _resizingPositionLock = _contentListView->getInnerContainerPosition();
+                this->dropdownAutoOpenCloseLogic(dropdown, _dropdownLayouts);
             }
         });
         _contentListView->pushBackCustomItem(dropdown);

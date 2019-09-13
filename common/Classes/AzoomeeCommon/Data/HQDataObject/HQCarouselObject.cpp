@@ -21,6 +21,14 @@ void MutableHQCarouselObject::addContentItemToCarousel(const HQContentItemObject
     _contentItems.push_back(contentItem);
 }
 
+void MutableHQCarouselObject::addContentItemsToCarousel(const std::vector<HQContentItemObjectRef>& itemList)
+{
+    for(auto item : itemList)
+    {
+        _contentItems.push_back(item);
+    }
+}
+
 void MutableHQCarouselObject::addContentItemHighlight(const cocos2d::Vec2 &contentItemHighlight)
 {
     _contentItemHighlights.push_back(contentItemHighlight);

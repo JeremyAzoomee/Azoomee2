@@ -182,7 +182,7 @@ void CoinDisplay::createGlowAnim()
 	star->runAction(RepeatForever::create(RotateBy::create(0.5, 180)));
 	star->setScale(0);
 	star->runAction(RepeatForever::create(Sequence::create(DelayTime::create(3.0), ScaleTo::create(0.5, 1), ScaleTo::create(0.25, 0), DelayTime::create(4.25), NULL)));
-	star->setName(kAnimSliderName);
+	star->setName(kAnimStarName);
 	this->addChild(star);
 	
 	_animInitialised = true;

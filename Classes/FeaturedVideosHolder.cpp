@@ -32,7 +32,7 @@ bool FeaturedVideosHolder::init()
     _tile1->setContentSelectedCallback([this](HQContentItemObjectRef content){
         if(_callback)
         {
-            _callback(content);
+            _callback(content, 0);
         }
     });
     _contentLayout->addChild(_tile1);
@@ -46,7 +46,7 @@ bool FeaturedVideosHolder::init()
     _tile2->setContentSelectedCallback([this](HQContentItemObjectRef content){
         if(_callback)
         {
-            _callback(content);
+            _callback(content, 1);
         }
     });
     _contentLayout->addChild(_tile2);
@@ -60,7 +60,7 @@ bool FeaturedVideosHolder::init()
     _tile3->setContentSelectedCallback([this](HQContentItemObjectRef content){
         if(_callback)
         {
-            _callback(content);
+            _callback(content, 2);
         }
     });
     _contentLayout->addChild(_tile3);

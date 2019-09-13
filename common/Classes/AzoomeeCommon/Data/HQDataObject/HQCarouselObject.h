@@ -37,6 +37,7 @@ public:
 	
 	void setTitle(const std::string &inputTitle);
 	void addContentItemToCarousel(const HQContentItemObjectRef &contentItem); //also: contentItemData should contain size
+    void addContentItemsToCarousel(const std::vector<HQContentItemObjectRef>& itemList);
 	void addContentItemHighlight(const cocos2d::Vec2 &contentItemHighlight);
 	void setIcon(const std::string &icon);
 	void removeAllItemsFromCarousel();

@@ -53,6 +53,7 @@ void FeaturedTile::onEnter()
 void FeaturedTile::onExit()
 {
     endCheck();
+    _imageDownloader->setDelegate(nullptr);
     Super::onExit();
 }
 

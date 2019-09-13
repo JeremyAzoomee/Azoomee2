@@ -15,6 +15,8 @@ NS_AZOOMEE_BEGIN
 
 const cocos2d::Rect DropdownContentHolder::kBgCapInsets = Rect(162, 162, 952, 1894);
 const float DropdownContentHolder::kTileSpacing = 32.0f;
+const float DropdownContentHolder::kDropdownOpenIconScale = 0.885f;
+const cocos2d::Vec2 DropdownContentHolder::kTileAspectRatio = Vec2(1.0f, 0.75f);
 
 bool DropdownContentHolder::init()
 {
@@ -22,6 +24,8 @@ bool DropdownContentHolder::init()
     {
         return false;
     }
+    
+    _iconDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
     
     setBackGroundImage("res/hqscene/dropdown_bg.png");
     setBackGroundImageScale9Enabled(true);
@@ -57,12 +61,23 @@ bool DropdownContentHolder::init()
 
 void DropdownContentHolder::onEnter()
 {
-    _contentTileGrid->setVisible(false);
+    setContentLayoutVisible(_open);
+    const float targetHeight = _open ? _openHeight : _closedHeight;
+    const Size& contentSize = getContentSize();
+    if(contentSize.height != targetHeight)
+    {
+        setContentSize(Size(contentSize.width, targetHeight));
+        _contentTileGrid->setContentSize(Size(_contentGridSize.width, MIN(targetHeight - _closedHeight - (2 * kTileSpacing), _contentGridSize.height)));
+    }
     Super::onEnter();
 }
 
 void DropdownContentHolder::onExit()
 {
+    _iconDownloader->setDelegate(nullptr);
+    stopAllActions();
+    _iconLayout->stopAllActions();
+    _resizing = false;
     Super::onExit();
 }
 
@@ -134,11 +149,11 @@ void DropdownContentHolder::toggleOpened(bool open)
     const float maxDist = _openHeight - _closedHeight;
     const float durationMod = dist / maxDist;
     const float targetTime = 1.0f;
-    const float targetScale = _open ? 0.885f : 1.0f;
+    const float targetScale = _open ? kDropdownOpenIconScale : 1.0f;
     
     if(_open)
     {
-        _contentTileGrid->setVisible(true);
+        setContentLayoutVisible(true);
     }
     
     ActionFloat* resizeAction = ActionFloat::create(targetTime * durationMod, currentSize.height, targetHeight, [this](float height){
@@ -155,7 +170,7 @@ void DropdownContentHolder::toggleOpened(bool open)
         _resizing = false;
         if(!_open)
         {
-            _contentTileGrid->setVisible(false);
+            setContentLayoutVisible(false);
         }
     })));
     _iconLayout->stopAllActions();
@@ -233,20 +248,21 @@ void DropdownContentHolder::updateContent()
         _contentRows.clear();
         _contentTileGrid->removeAllChildren();
         
-        //ImageDownloaderRef iconDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
-        //iconDownloader->downloadImage(this, _contentData->getIcon());
+        //_iconDownloader->downloadImage(this, _contentData->getIcon());
         
         _categoryTitle->setString(_contentData->getTitle());
         const auto& contentList = _contentData->getContentItems();
         
         const Size& contentSize = getContentSize();
         
-        const float rowWidth = contentSize.width - (3 * kTileSpacing);
-        const float tileWidth = (rowWidth / 2.0f) - kTileSpacing;
+        const float tilesPerRow = 2.0f;
         
-        const Size& tileSize = Size(tileWidth, tileWidth * 0.75f); //4:3 aspect ratio tiles
+        const float rowWidth = contentSize.width - ((tilesPerRow + 1) * kTileSpacing);
+        const float tileWidth = (rowWidth / tilesPerRow) - kTileSpacing;
         
-        const int rows = ceil(contentList.size() / 2.0f);
+        const Size& tileSize = Size(tileWidth * kTileAspectRatio.x, tileWidth * kTileAspectRatio.y); //4:3 aspect ratio tiles
+        
+        const int rows = ceil(contentList.size() / tilesPerRow);
         
         float totalHeight = (tileSize.height * rows) + (kTileSpacing * (rows + 1));
         for(int row = 0; row < rows; row++)
@@ -257,17 +273,17 @@ void DropdownContentHolder::updateContent()
             rowContainer->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,kTileSpacing,0,0)));
             _contentTileGrid->addChild(rowContainer);
             _contentRows.pushBack(rowContainer);
-            for(int col = 0; col < 2; col++)
+            for(int col = 0; col < tilesPerRow; col++)
             {
-                if((row * 2) + col < contentList.size())
+                if((row * tilesPerRow) + col < contentList.size())
                 {
                     RoundedRectTile* tile = RoundedRectTile::create();
                     tile->setContentSize(tileSize);
                     tile->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(kTileSpacing / 2.0f, 0, kTileSpacing / 2.0f, 0)));
-                    tile->setContentSelectedCallback([this](HQContentItemObjectRef content){
+                    tile->setContentSelectedCallback([this, row, tilesPerRow, col](HQContentItemObjectRef content){
                         if(_callback)
                         {
-                            _callback(content);
+                            _callback(content, (row * tilesPerRow) + col);
                         }
                     });
                     tile->setTouchEnabled(false);
@@ -299,12 +315,14 @@ void DropdownContentHolder::resizeContent()
         const auto& contentList = _contentData->getContentItems();
         const Size& contentSize = getContentSize();
         
-        const float rowWidth = contentSize.width - (3 * kTileSpacing);
-        const float tileWidth = (rowWidth / 2.0f) - kTileSpacing;
+        const float tilesPerRow = 2.0f;
         
-        const Size& tileSize = Size(tileWidth, tileWidth * 0.75f); //4:3 aspect ratio tiles
+        const float rowWidth = contentSize.width - ((tilesPerRow + 1) * kTileSpacing);
+        const float tileWidth = (rowWidth / tilesPerRow) - kTileSpacing;
         
-        const int rows = ceil(contentList.size() / 2.0f);
+        const Size& tileSize = Size(tileWidth * kTileAspectRatio.x, tileWidth * kTileAspectRatio.y); //4:3 aspect ratio tiles
+        
+        const int rows = ceil(contentList.size() / tilesPerRow);
         
         float totalHeight = (tileSize.height * rows) + (kTileSpacing * (rows + 1));
         for(auto tile : _contentTiles)
@@ -320,6 +338,22 @@ void DropdownContentHolder::resizeContent()
         _contentGridSize = Size(rowWidth, totalHeight);
         _contentTileGrid->setContentSize(_contentGridSize);
         _contentTileGrid->forceDoLayout();
+    }
+}
+
+void DropdownContentHolder::setContentLayoutVisible(bool visible)
+{
+    _contentTileGrid->setVisible(visible);
+    for(auto tile : _contentTiles)
+    {
+        if(_visible)
+        {
+            tile->startCheckingForOnScreenPosition(tile);
+        }
+        else
+        {
+            tile->endCheck();
+        }
     }
 }
 

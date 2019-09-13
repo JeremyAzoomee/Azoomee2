@@ -16,6 +16,7 @@
 #include "RewardDisplayHandler.h"
 #include "SceneManagerScene.h"
 #include "AgeGate.h"
+#include "ContentOpener.h"
 #include <AzoomeeCommon/Data/Parent/ParentManager.h>
 
 using namespace cocos2d;
@@ -40,13 +41,13 @@ bool HQScene::init()
     createNavigationUI();
     createPageUI();
     
+    _activePageName = ConfigStorage::kGameHQName;
+    
     return true;
 }
 
 void HQScene::onEnter()
 {
-    _activePageName = ConfigStorage::kGameHQName;
-    
     _navBar->toggleHQSelected(_activePageName);
 
 	_rewardRedeemedListener = EventListenerCustom::create(RewardDisplayHandler::kRewardRedeemedEventKey, [this](EventCustom* event){
@@ -205,14 +206,15 @@ void HQScene::createPageUI()
     _pageLayout->setContentSize(Size(visibleSize.width, visibleSize.height - _titleBanner->getContentSize().height - _navBar->getContentSize().height));
     _pageLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _pageLayout->setPosition(Vec2(visibleSize.width / 2, visibleSize.height - _titleBanner->getContentSize().height));
-    //_pageLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    //_pageLayout->setBackGroundColor(Color3B::MAGENTA);
     addChild(_pageLayout);
     
     _gameHQ = GameHQ::create();
     _gameHQ->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _gameHQ->setPositionType(ui::Widget::PositionType::PERCENT);
     _gameHQ->setPositionPercent(Vec2::ANCHOR_MIDDLE);
+    _gameHQ->setContentSelectedCallback([](HQContentItemObjectRef content, int elementIndex, int rowIndex){
+        ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, ConfigStorage::kGameHQName);
+    });
     _pageLayout->addChild(_gameHQ);
     
     _videoHQ = VideoHQ::create();
@@ -220,6 +222,9 @@ void HQScene::createPageUI()
     _videoHQ->setPositionType(ui::Widget::PositionType::PERCENT);
     _videoHQ->setPositionPercent(Vec2::ANCHOR_MIDDLE);
     _videoHQ->setVisible(false);
+    _videoHQ->setContentSelectedCallback([](HQContentItemObjectRef content, int elementIndex, int rowIndex){
+        ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, ConfigStorage::kVideoHQName);
+    });
     _pageLayout->addChild(_videoHQ);
     
     _oomeeHQ = OomeeHQ::create();
@@ -227,6 +232,9 @@ void HQScene::createPageUI()
     _oomeeHQ->setPositionType(ui::Widget::PositionType::PERCENT);
     _oomeeHQ->setPositionPercent(Vec2::ANCHOR_MIDDLE);
     _oomeeHQ->setVisible(false);
+    _oomeeHQ->setContentSelectedCallback([](HQContentItemObjectRef content, int elementIndex, int rowIndex){
+        ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, ConfigStorage::kMeHQName);
+    });
     _pageLayout->addChild(_oomeeHQ);
 }
 
@@ -263,6 +271,7 @@ void HQScene::changeToPage(const HQType& page)
     }
     HQHistoryManager::getInstance()->addHQToHistoryManager(_activePageName);
 }
+
 //delegate functions
 void HQScene::onTutorialStateChanged(const std::string& stateId)
 {

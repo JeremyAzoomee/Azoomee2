@@ -148,14 +148,14 @@ std::string HQDataProvider::getThumbnailUrlForItem(HQContentItemObjectRef elemen
     }
     
     const std::string &key = convertShapeToThumbnailKey(shape);
-    
-    if(element->getImages().find(key) != element->getImages().end())
+    const auto& images = element->getImages();
+    if(images.find(key) != images.end())
     {
-        return element->getImages().at(key);
+        return images.at(key);
     }
-    else if(element->getImages().find(convertShapeToThumbnailKey(Vec2(1,1))) != element->getImages().end()) //if the queried key does not exist in images map, we try to fall back to ONE_ONE first
+    else if(images.find(convertShapeToThumbnailKey(Vec2(1,1))) != images.end()) //if the queried key does not exist in images map, we try to fall back to ONE_ONE first
     {
-        return element->getImages().at(convertShapeToThumbnailKey(Vec2(1,1)));
+        return images.at(convertShapeToThumbnailKey(Vec2(1,1)));
     }
     else //if ONE_ONE even does not exist, we return an empty string
     {
