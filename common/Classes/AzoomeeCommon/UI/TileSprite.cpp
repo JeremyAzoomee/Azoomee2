@@ -31,15 +31,15 @@ void TileSprite::setTexture(Texture2D *texture)
     if(texture)
     {
         const Size& texSize = texture->getContentSizeInPixels();
-        if( texSize.width == ccNextPOT(texSize.width) && texSize.height == ccNextPOT(texSize.height))
-        {
-            Texture2D::TexParams params;
-            params.minFilter = GL_NEAREST;
-            params.magFilter = GL_NEAREST;
-            params.wrapS = GL_REPEAT;
-            params.wrapT = GL_REPEAT;
-            texture->setTexParameters(params);
-        }
+        CCASSERT(texSize.width == ccNextPOT(texSize.width) && texSize.height == ccNextPOT(texSize.height),
+                 "TileSprite only works with PO2 textures");
+        
+        Texture2D::TexParams params;
+        params.minFilter = GL_NEAREST;
+        params.magFilter = GL_NEAREST;
+        params.wrapS = GL_REPEAT;
+        params.wrapT = GL_REPEAT;
+        texture->setTexParameters(params);
     }
     Super::setTexture(texture);
 }
