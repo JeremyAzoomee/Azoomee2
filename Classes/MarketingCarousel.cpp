@@ -123,24 +123,26 @@ void MarketingCarousel::addPage(const MarketingAssetRef &data)
 	image->ignoreContentAdaptWithSize(false);
 	page->addChild(image);
 	
-    DynamicText* titleText = DynamicText::create(_(data->getTitle(StringMgr::getInstance()->getLanguageID())), Style::Font::PoppinsBold(), 120); //TODO: remove _() macro when we get assests from BE
+    DynamicText* titleText = DynamicText::create(data->getTitle(StringMgr::getInstance()->getLanguageID()), Style::Font::PoppinsBold(), 120); //TODO: remove _() macro when we get assests from BE
 	titleText->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	titleText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 	titleText->setNormalizedPosition(Vec2(0.5f,0.95f));
 	titleText->setTextColor(Color4B::WHITE);
 	titleText->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	titleText->setTextVerticalAlignment(TextVAlignment::CENTER);
-	titleText->setMaxLineWidth(page->getContentSize().width * 0.8f);
+    titleText->setOverflow(Label::Overflow::SHRINK);
+    titleText->setTextAreaSize(Size(page->getContentSize().width * 0.8f, titleText->getContentSize().height));
 	page->addChild(titleText);
 	
-	DynamicText* subHeadingText = DynamicText::create(_(data->getDescription(StringMgr::getInstance()->getLanguageID())), Style::Font::PoppinsRegular(), 60); //TODO: remove _() macro when we get assests from BE
+	DynamicText* subHeadingText = DynamicText::create(data->getDescription(StringMgr::getInstance()->getLanguageID()), Style::Font::PoppinsRegular(), 60); //TODO: remove _() macro when we get assests from BE
 	subHeadingText->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	subHeadingText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 	subHeadingText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
 	subHeadingText->setTextColor(Color4B::WHITE);
 	subHeadingText->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	subHeadingText->setTextVerticalAlignment(TextVAlignment::CENTER);
-	subHeadingText->setMaxLineWidth(page->getContentSize().width * 0.8f);
+    subHeadingText->setOverflow(Label::Overflow::SHRINK);
+    subHeadingText->setTextAreaSize(Size(page->getContentSize().width * 0.8f, subHeadingText->getContentSize().height));
 	titleText->addChild(subHeadingText);
 }
 

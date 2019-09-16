@@ -1,29 +1,47 @@
 [
 {
 	"location":"res/onboarding/Wide Game Asset.jpg",
-	"title":{
-		"en-GB":"Amazing Games!"
-	},
-	"description":{
-		"en-GB":"More added every Week!"
-	}
+	"titleSet":[
+        {
+            "language" : "en-GB",
+            "text" : "Amazing Games!"
+        }
+    ],
+	"textSet":[
+        {
+            "language" : "en-GB",
+            "text" :"More added every Week!"
+        }
+    ]
 },
 {
 	"location":"res/onboarding/Wide Fun Learning Asset.jpg",
-	"title":{
-		"en-GB":"Fun Learning!"
-	},
-	"description":{
-		"en-GB":"With games and videos kids love"
-	}
+    "titleSet":[
+        {
+            "language" : "en-GB",
+            "text" : "Fun Learning!"
+        }
+    ],
+    "textSet":[
+        {
+            "language" : "en-GB",
+            "text" :"With games and videos kids love"
+        }
+    ]
 },
 {
 	"location":"res/onboarding/Wide video asset.jpg",
-	"title":{
-		"en-GB":"Fantastic Videos!"
-	},
-	"description":{
-		"en-GB":"Ad-free and handpicked by humans"
-	}
+    "titleSet":[
+        {
+            "language" : "en-GB",
+            "text" : "Fantastic Videos!"
+        }
+    ],
+    "textSet":[
+        {
+            "language" : "en-GB",
+            "text" :"Ad-free and handpicked by humans"
+        }
+    ]
 }
 ]

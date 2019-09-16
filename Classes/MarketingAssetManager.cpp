@@ -7,6 +7,8 @@
 
 #include "MarketingAssetManager.h"
 #include <AzoomeeCommon/Utils/StringMgr.h>
+#include <AzoomeeCommon/API/API.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -28,13 +30,33 @@ MarketingAsset::MarketingAsset()
 
 void MarketingAsset::initWithJson(const rapidjson::Value& json)
 {
-	if(json.HasMember("title"))
+    _title.clear();
+    _description.clear();
+	if(json.HasMember("titleSet") && json["titleSet"].IsArray())
 	{
-		_title = getStringMapFromJson(json["title"]);
+        const rapidjson::Value& jsonValue = json["titleSet"];
+        for (int i = 0; i < jsonValue.Size(); i++)
+        {
+            const std::string& key = getStringFromJson("language", jsonValue[i]);
+            const std::string& value = getStringFromJson("text", jsonValue[i]);
+            if(key != "")
+            {
+                _title[key] = value;
+            }
+        }
 	}
-	if(json.HasMember("description"));
+	if(json.HasMember("textSet") && json["textSet"].IsArray());
 	{
-		_description = getStringMapFromJson(json["description"]);
+        const rapidjson::Value& jsonValue = json["textSet"];
+        for (int i = 0; i < jsonValue.Size(); i++)
+        {
+            const std::string& key = getStringFromJson("language", jsonValue[i]);
+            const std::string& value = getStringFromJson("text", jsonValue[i]);
+            if(key != "")
+            {
+                _description[key] = value;
+            }
+        }
 	}
 	_location = getStringFromJson("location", json);
 	_id = getStringFromJson("id", json);
@@ -54,7 +76,7 @@ std::string MarketingAsset::getTitle(const std::string& language) const
 	{
 		return _title.at(language);
 	}
-	return _title.at(StringMgr::kDefaultLanguageIdentifier);
+    return _title.at(StringMgr::kDefaultLanguageIdentifier);
 }
 std::string MarketingAsset::getDescription(const std::string& language) const
 {
@@ -62,7 +84,7 @@ std::string MarketingAsset::getDescription(const std::string& language) const
 	{
 		return _description.at(language);
 	}
-	return _description.at(StringMgr::kDefaultLanguageIdentifier);
+    return _description.at(StringMgr::kDefaultLanguageIdentifier);
 }
 std::string MarketingAsset::getLocation() const
 {
@@ -91,24 +113,10 @@ MarketingAssetManager::MarketingAssetManager()
 
 void MarketingAssetManager::downloadMarketingAssets()
 {
-	// call get assets endpoint API
-	//Temp local solution
 	_marketingAssets.clear();
-
-    const std::string& config = cocos2d::FileUtils::getInstance()->getStringFromFile("res/onboarding/marketingConfig.json");
-    rapidjson::Document marketingData;
-    marketingData.Parse(config.c_str());
-    if(marketingData.HasParseError() || !marketingData.IsArray())
-    {
-        return;
-    }
-	for(int i = 0; i < marketingData.Size(); i++)
-	{
-		const rapidjson::Value& dataEntry = marketingData[i];;
-		MarketingAssetRef data = MarketingAsset::createWithJson(dataEntry);
-		data->setLocalLocation(data->getLocation());
-		_marketingAssets.push_back(data);
-	}
+    
+    HttpRequestCreator* request = API::GetMarketingAssets(ParentManager::getInstance()->getLoggedInParentCountryCode() ,this);
+    request->execute();
 }
 
 std::vector<MarketingAssetRef> MarketingAssetManager::getMarketingAssets() const
@@ -122,6 +130,26 @@ void MarketingAssetManager::downloadImage(int index)
 	downloader->downloadImage(this, _marketingAssets.at(index)->getLocation());
 }
 
+void MarketingAssetManager::loadLocalAssets()
+{
+    _marketingAssets.clear();
+    
+    const std::string& config = cocos2d::FileUtils::getInstance()->getStringFromFile("res/onboarding/marketingConfig.json");
+    rapidjson::Document marketingData;
+    marketingData.Parse(config.c_str());
+    if(marketingData.HasParseError() || !marketingData.IsArray())
+    {
+        return;
+    }
+    for(int i = 0; i < marketingData.Size(); i++)
+    {
+        const rapidjson::Value& dataEntry = marketingData[i];;
+        MarketingAssetRef data = MarketingAsset::createWithJson(dataEntry);
+        data->setLocalLocation(data->getLocation());
+        _marketingAssets.push_back(data);
+    }
+}
+
 //Delegate functions
 void MarketingAssetManager::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
@@ -130,6 +158,7 @@ void MarketingAssetManager::onHttpRequestSuccess(const std::string& requestTag, 
 	assetData.Parse(body.c_str());
 	if(assetData.HasParseError() || !assetData.IsArray())
 	{
+        loadLocalAssets();
 		return;
 	}
 	_marketingAssets.clear();
@@ -147,7 +176,7 @@ void MarketingAssetManager::onHttpRequestSuccess(const std::string& requestTag, 
 }
 void MarketingAssetManager::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
-	
+    loadLocalAssets();
 }
 void MarketingAssetManager::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {

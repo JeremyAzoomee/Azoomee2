@@ -61,6 +61,7 @@ const char* const API::TagGetInventory = "getInventory";
 const char* const API::TagBuyReward = "buyReward";
 const char* const API::TagGetShopFeed = "getShopFeed";
 const char* const API::TagGetOomeeMakerAssets = "getOomeeMakerAssets";
+const char* const API::TagGetMarketingAssets = "getMarketingAssets";
 
 const std::string API::kAZCountryCodeKey = "X-AZ-COUNTRYCODE";
 
@@ -651,6 +652,20 @@ HttpRequestCreator* API::GetOomeeMakerAssets(const std::string& childId,
 		HandleAPIResponse(sender, response, delegate, request);
 	});
 	return request;
+}
+
+HttpRequestCreator* API::GetMarketingAssets(const std::string& countryCode,
+                                        HttpRequestCreatorResponseDelegate* delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestPath = "/api/marketing/image/";
+    request->urlParameters = StringUtils::format("countryCode=%s", countryCode.c_str());
+    request->requestTag = TagGetMarketingAssets;
+    request->encrypted = true;
+    request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
+        HandleAPIResponse(sender, response, delegate, request);
+    });
+    return request;
 }
 
 #pragma mark - Sharing

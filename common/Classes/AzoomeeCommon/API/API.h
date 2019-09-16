@@ -70,6 +70,7 @@ public:
 	static const char* const TagBuyReward;
 	static const char* const TagGetShopFeed;
 	static const char* const TagGetOomeeMakerAssets;
+    static const char* const TagGetMarketingAssets;
 	
 	static const std::string kAZCountryCodeKey;
 	
@@ -217,6 +218,9 @@ public:
 	
 	static HttpRequestCreator* GetOomeeMakerAssets(const std::string& childId,
 												   HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* GetMarketingAssets(const std::string& countryCode,
+                                                  HttpRequestCreatorResponseDelegate* delegate);
 	
 #pragma mark - Friend Requests
     
