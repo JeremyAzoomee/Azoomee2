@@ -23,6 +23,8 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+const float HQScene::kTitleBarPadding = 120.0f;
+
 bool HQScene::init()
 {
     if(!Super::init())
@@ -80,7 +82,10 @@ void HQScene::onSizeChanged()
     
     if(_titleBannerContent)
     {
-        _titleBannerContent->setContentSize(Size(visibleSize.width - 120, 260));
+        _titleBanner->setContentSize(Size(visibleSize.width, 260));
+        _topPattern->setContentSize(_titleBanner->getContentSize());
+        _patternGradient->setContentSize(_titleBanner->getContentSize());
+        _titleBannerContent->setContentSize(Size(visibleSize.width - kTitleBarPadding, 260));
     }
     //if(_messagingLayer)
     //{
@@ -108,13 +113,14 @@ void HQScene::createHeaderUI()
     _isPortrait = visibleSize.width < visibleSize.height;
     
     _titleBanner = ui::Layout::create();
-    _titleBanner->setContentSize(Size(2736, 260));
+    _titleBanner->setContentSize(Size(visibleSize.width, 260));
     _titleBanner->setClippingEnabled(true);
     _titleBanner->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _titleBanner->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
     addChild(_titleBanner, 1);
     
-    _topPattern = ui::ImageView::create("res/decoration/main_pattern_big.png");
+    _topPattern = TileSprite::create();
+    _topPattern->setTexture("res/decoration/main_pattern_tile.png");
     _topPattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _topPattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
     _topPattern->setColor(Style::Color::macaroniAndCheese);
@@ -129,7 +135,7 @@ void HQScene::createHeaderUI()
     _topPattern->addChild(_patternGradient);
     
     _titleBannerContent = ui::Layout::create();
-    _titleBannerContent->setContentSize(Size(visibleSize.width - 120, 260));
+    _titleBannerContent->setContentSize(Size(visibleSize.width - kTitleBarPadding, 260));
     _titleBannerContent->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _titleBannerContent->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _titleBanner->addChild(_titleBannerContent);

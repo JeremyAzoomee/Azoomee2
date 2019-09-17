@@ -12,6 +12,7 @@
 #include <AzoomeeCommon/UI/Scene.h>
 #include <AzoomeeCommon/Tutorial/TutorialController.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
+#include <AzoomeeCommon/UI/TileSprite.h>
 #include "NavigationBar.h"
 #include <AzoomeeCommon/UI/DynamicText.h>
 #include "SettingsButton.h"
@@ -29,6 +30,7 @@ class HQScene : public Azoomee::Scene, TutorialDelegate
     typedef Azoomee::Scene Super;
 private:
     static const std::string kTutHandName;
+    static const float kTitleBarPadding;
     
     cocos2d::LayerGradient* _verticalScrollGradient = nullptr;
     NavigationBar* _navBar = nullptr;
@@ -40,7 +42,7 @@ private:
     bool _isPortrait = false;
     cocos2d::ui::Layout* _titleBanner = nullptr;
     DynamicText* _HQPageTitle = nullptr;
-    cocos2d::ui::ImageView* _topPattern = nullptr;
+    TileSprite* _topPattern = nullptr;
     cocos2d::LayerGradient* _patternGradient = nullptr;
     cocos2d::ui::Layout* _background = nullptr;
     cocos2d::ui::Layout* _titleBannerContent = nullptr;

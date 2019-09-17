@@ -12,6 +12,7 @@
 #include "RoundedRectTile.h"
 #include <AzoomeeCommon/UI/DynamicText.h>
 #include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
+#include <AzoomeeCommon/UI/TileSprite.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -37,7 +38,7 @@ private:
     cocos2d::ui::Scale9Sprite* _clippingStencil = nullptr;
     cocos2d::ClippingNode* _bgClipper = nullptr;
     
-    cocos2d::ui::ImageView* _bgPattern = nullptr;
+    TileSprite* _bgPattern = nullptr;
     cocos2d::ui::Layout* _iconLayout = nullptr;
     cocos2d::ui::Layout* _iconBackground = nullptr;
     cocos2d::Sprite* _iconStencil = nullptr;
