@@ -111,17 +111,17 @@ void HQSceneDepreciated::buildCoreUI()
 	_messagingLayer->setContentSize(Size(visibleSize.width, 350));
 	_messagingLayer->setPosition(-Vec2(0,350));
 	_messagingLayer->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-	UserBillingType userType = UserBillingType::ANON;
+    UserTypeMessagingLayer::UserBillingType userType = UserTypeMessagingLayer::UserBillingType::ANON;
 	if(!ParentManager::getInstance()->isLoggedInParentAnonymous())
 	{
-		userType = UserBillingType::LAPSED;
+		userType = UserTypeMessagingLayer::UserBillingType::LAPSED;
 		if(ParentManager::getInstance()->isPaidUser())
 		{
-			userType = UserBillingType::PAID;
+			userType = UserTypeMessagingLayer::UserBillingType::PAID;
 		}
 	}
 	_messagingLayer->setUserType(userType);
-	if(userType == UserBillingType::PAID)
+	if(userType == UserTypeMessagingLayer::UserBillingType::PAID)
 	{
 		_showingMessagingLayer = false;
 		_messagingLayer->setOpacity(0);

@@ -14,11 +14,13 @@
 
 NS_AZOOMEE_BEGIN
 
-enum class UserBillingType {ANON, LAPSED, PAID};
+
 
 class UserTypeMessagingLayer : public cocos2d::Layer
 {
     typedef cocos2d::Layer Super;
+public:
+    enum UserBillingType {ANON, LAPSED, PAID};
 private:
     cocos2d::ui::Scale9Sprite* _bgSprite = nullptr;
     cocos2d::ui::Button* _signInButton = nullptr;

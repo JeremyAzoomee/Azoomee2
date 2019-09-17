@@ -188,6 +188,22 @@ void HQScene::createNavigationUI()
     });
     addChild(_navBar, 1);
     
+    _purchaseCapsule = PurchaseCapsule::create();
+    _purchaseCapsule->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _purchaseCapsule->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+    PurchaseCapsule::UserBillingType userType = PurchaseCapsule::UserBillingType::ANON;
+    if(!ParentManager::getInstance()->isLoggedInParentAnonymous())
+    {
+        userType = PurchaseCapsule::UserBillingType::LAPSED;
+        if(ParentManager::getInstance()->isPaidUser())
+        {
+            userType = PurchaseCapsule::UserBillingType::PAID;
+        }
+    }
+    _purchaseCapsule->setUserType(userType);
+    _purchaseCapsule->setVisible(userType != PurchaseCapsule::UserBillingType::PAID);
+    _navBar->addChild(_purchaseCapsule);
+    
     const Color3B& gradColour = Style::Color::darkIndigo;
     _verticalScrollGradient = LayerGradient::create(Color4B(gradColour.r, gradColour.g, gradColour.b, 0), Color4B(gradColour));
     _verticalScrollGradient->setIgnoreAnchorPointForPosition(false);
