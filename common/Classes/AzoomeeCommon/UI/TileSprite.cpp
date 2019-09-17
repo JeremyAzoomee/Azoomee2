@@ -11,14 +11,26 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+void TileSprite::setTextureScale(float scale)
+{
+    _textureScale = scale;
+    setScale(scale);
+    Super::setContentSize(_contentSize / _textureScale);
+}
+
 void TileSprite::setContentSize(const cocos2d::Size& contentSize)
 {
-    Super::setContentSize(contentSize);
+    Super::setContentSize(contentSize / _textureScale);
     
     if(_texture)
     {
-        setTextureRect(Rect(0, 0, getContentSize().width, getContentSize().height));
+        setTextureRect(Rect(0, 0, _contentSize.width, _contentSize.height));
     }
+}
+
+Size TileSprite::getFullContentSize() const
+{
+    return _contentSize * _textureScale;
 }
 
 void TileSprite::setTexture(const std::string &filename )

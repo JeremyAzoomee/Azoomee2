@@ -120,7 +120,8 @@ void HQScene::createHeaderUI()
     addChild(_titleBanner, 1);
     
     _topPattern = TileSprite::create();
-    _topPattern->setTexture("res/decoration/main_pattern_tile.png");
+    _topPattern->setTexture("res/decoration/pattern_general_tile.png");
+    _topPattern->setTextureScale(2.0f);
     _topPattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _topPattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
     _topPattern->setColor(Style::Color::macaroniAndCheese);
