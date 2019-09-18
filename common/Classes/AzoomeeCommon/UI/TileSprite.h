@@ -19,11 +19,15 @@ NS_AZOOMEE_BEGIN
 class TileSprite : public cocos2d::Sprite
 {
     typedef cocos2d::Sprite Super;
+private:
+    float _textureScale = 1.0f;
+    
 public:
+    void setTextureScale(float scale);
     void setTexture(cocos2d::Texture2D *texture) override;
     void setTexture(const std::string &filename ) override;
     void setContentSize(const cocos2d::Size& contentSize) override;
-    
+    cocos2d::Size getFullContentSize() const;
     CREATE_FUNC(TileSprite);
 };
 
