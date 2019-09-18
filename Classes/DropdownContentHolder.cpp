@@ -13,7 +13,7 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-const cocos2d::Rect DropdownContentHolder::kBgCapInsets = Rect(162, 162, 952, 1894);
+const cocos2d::Rect DropdownContentHolder::kBgCapInsets = Rect(162, 162, 103, 100);
 const float DropdownContentHolder::kTileSpacing = 32.0f;
 const float DropdownContentHolder::kDropdownOpenIconScale = 0.885f;
 const cocos2d::Vec2 DropdownContentHolder::kTileAspectRatio = Vec2(1.0f, 0.75f);
@@ -42,7 +42,9 @@ bool DropdownContentHolder::init()
     _bgClipper->setContentSize(getContentSize());
     addChild(_bgClipper, -1);
     
-    _bgPattern = ui::ImageView::create("res/decoration/main_pattern_big.png");
+    _bgPattern = TileSprite::create();
+    _bgPattern->setTexture("res/decoration/pattern_general_tile.png");
+    _bgPattern->setTextureScale(2.0f);
     _bgPattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _bgPattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
     _bgClipper->addChild(_bgPattern);
@@ -89,6 +91,7 @@ void DropdownContentHolder::onSizeChanged()
     
     _clippingStencil->setContentSize(contentSize);
     _bgClipper->setContentSize(contentSize);
+    _bgPattern->setContentSize(contentSize);
     _titleBanner->setContentSize(Size(contentSize.width, 2 * kBgCapInsets.origin.y));
     _categoryTitle->setTextAreaSize(Size(_titleBanner->getContentSize().width * 0.5f, _categoryTitle->getContentSize().height));
     _iconLayout->setContentSize(Size(_titleBanner->getContentSize().height - 12.0f, _titleBanner->getContentSize().height - 12.0f));
