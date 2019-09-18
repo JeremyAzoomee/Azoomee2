@@ -139,6 +139,7 @@ void MarketingAssetManager::loadLocalAssets()
     marketingData.Parse(config.c_str());
     if(marketingData.HasParseError() || !marketingData.IsArray())
     {
+        CCASSERT(true,"local marketing data is invalid");
         return;
     }
     for(int i = 0; i < marketingData.Size(); i++)
