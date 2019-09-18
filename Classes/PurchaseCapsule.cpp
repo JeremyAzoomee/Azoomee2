@@ -33,7 +33,7 @@ bool PurchaseCapsule::init()
     _stencil->setPosition(Vec2(-kDropshadowPadding, -kDropshadowPadding));
     
     _clippingNode = ClippingNode::create(_stencil);
-    _clippingNode->setAlphaThreshold(0.8f);
+    _clippingNode->setAlphaThreshold(0.9f);
     _clippingNode->setPosition(Vec2(kDropshadowPadding, kDropshadowPadding));
     addChild(_clippingNode);
     
