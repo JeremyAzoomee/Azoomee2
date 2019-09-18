@@ -133,7 +133,7 @@ void HQScene::createHeaderUI()
     _patternGradient->setContentSize(_titleBanner->getContentSize());
     _patternGradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _patternGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
-    _topPattern->addChild(_patternGradient);
+    _titleBanner->addChild(_patternGradient);
     
     _titleBannerContent = ui::Layout::create();
     _titleBannerContent->setContentSize(Size(visibleSize.width - kTitleBarPadding, 260));
