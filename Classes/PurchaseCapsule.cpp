@@ -26,6 +26,7 @@ bool PurchaseCapsule::init()
     }
     
     setBackGroundImage("res/hqscene/purchase_capsule.png");
+    setSwallowTouches(true);
     
     _stencil = ui::Scale9Sprite::create("res/hqscene/purchase_capsule.png");
     _stencil->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
@@ -43,6 +44,7 @@ bool PurchaseCapsule::init()
     _purchaseLayout->setBackGroundColor(Style::Color::macaroniAndCheese);
     _purchaseLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
     _purchaseLayout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
+    _purchaseLayout->setTouchEnabled(true);
     _purchaseLayout->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         switch(eType)
         {
@@ -93,6 +95,7 @@ bool PurchaseCapsule::init()
     _purchaseText->setTextHorizontalAlignment(TextHAlignment::CENTER);
     _purchaseText->setTextVerticalAlignment(TextVAlignment::CENTER);
     _purchaseText->setOverflow(Label::Overflow::SHRINK);
+    _purchaseText->enableUnderline(true);
     _purchaseLayout->addChild(_purchaseText);
     
     _loginLayout = ui::Layout::create();
@@ -102,6 +105,7 @@ bool PurchaseCapsule::init()
     _loginLayout->setBackGroundColor(Color3B::WHITE);
     _loginLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
     _loginLayout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
+    _loginLayout->setTouchEnabled(true);
     _loginLayout->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         switch(eType)
         {
@@ -137,6 +141,7 @@ bool PurchaseCapsule::init()
     _loginText->setTextHorizontalAlignment(TextHAlignment::CENTER);
     _loginText->setTextVerticalAlignment(TextVAlignment::CENTER);
     _loginText->setOverflow(Label::Overflow::SHRINK);
+    _loginText->enableUnderline(true);
     _loginLayout->addChild(_loginText);
     
     setContentSize(Size(1240,296));
@@ -184,6 +189,8 @@ void PurchaseCapsule::setupForCurrentState()
 #else
             _purchaseText->setString(_("Get 7 Days free"));
 #endif
+            _purchaseLayout->setTouchEnabled(true);
+            _loginLayout->setTouchEnabled(true);
             break;
         }
         case LAPSED:
@@ -191,6 +198,8 @@ void PurchaseCapsule::setupForCurrentState()
             _purchaseText->setString(_("Reactivate your account"));
             _purchaseLayout->setSizePercent(Vec2(1.0f, 1.0f));
             _loginLayout->setSizePercent(Vec2(0.0f,1.0f));
+            _purchaseLayout->setTouchEnabled(true);
+            _loginLayout->setTouchEnabled(false);
             break;
         }
         case PAID:
@@ -198,6 +207,8 @@ void PurchaseCapsule::setupForCurrentState()
             _purchaseText->setString(_("Congratulations! You are now a Premium User"));
             _purchaseLayout->setSizePercent(Vec2(1.0f, 1.0f));
             _loginLayout->setSizePercent(Vec2(0.0f,1.0f));
+            _purchaseLayout->setTouchEnabled(false);
+            _loginLayout->setTouchEnabled(false);
             break;
         }
     }
