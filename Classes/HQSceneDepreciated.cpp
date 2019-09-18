@@ -73,10 +73,6 @@ void HQSceneDepreciated::onSizeChanged()
 	_isPortrait = visibleSize.width < visibleSize.height;
 	bool isIphoneX = ConfigStorage::getInstance()->isDeviceIphoneX();
 	
-	_messagingLayer->setContentSize(Size(visibleSize.width, 350));
-	
-	_messagingLayer->repositionElements();
-	
 	_coinDisplay->setAnchorPoint(Vec2(1.2,(isIphoneX && _isPortrait) ? 2.2f : 1.5f));
 	_verticalScrollGradient->setScaleX(visibleSize.width / _verticalScrollGradient->getContentSize().width);
 
@@ -107,42 +103,10 @@ void HQSceneDepreciated::buildCoreUI()
 	//show coin counter if they have coins or have completed the shop tutorial
 	_coinDisplay->setVisible(TutorialController::getInstance()->isTutorialCompleted(TutorialController::kFTUShopID) || ChildManager::getInstance()->getLoggedInChild()->getInventory()->getCoins() > 0);
 	
-	_messagingLayer = UserTypeMessagingLayer::create();
-	_messagingLayer->setContentSize(Size(visibleSize.width, 350));
-	_messagingLayer->setPosition(-Vec2(0,350));
-	_messagingLayer->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-    UserTypeMessagingLayer::UserBillingType userType = UserTypeMessagingLayer::UserBillingType::ANON;
-	if(!ParentManager::getInstance()->isLoggedInParentAnonymous())
-	{
-		userType = UserTypeMessagingLayer::UserBillingType::LAPSED;
-		if(ParentManager::getInstance()->isPaidUser())
-		{
-			userType = UserTypeMessagingLayer::UserBillingType::PAID;
-		}
-	}
-	_messagingLayer->setUserType(userType);
-	if(userType == UserTypeMessagingLayer::UserBillingType::PAID)
-	{
-		_showingMessagingLayer = false;
-		_messagingLayer->setOpacity(0);
-	}
-	else
-	{
-		if(HQHistoryManager::getInstance()->getHistorySize() == 1)
-		{
-			_messagingLayer->runAction(MoveTo::create(1, Vec2(0,0)));
-		}
-		else
-		{
-			_messagingLayer->setPosition(Vec2(0,0));
-		}
-	}
-	this->addChild(_messagingLayer,1);
-	
 	_navLayer = NavigationLayer::create();
-	_navLayer->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+	_navLayer->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
 	_navLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-	_messagingLayer->addChild(_navLayer);
+	this->addChild(_navLayer);
 	
 	addParticleElementsToBackground();
 	

@@ -183,7 +183,6 @@
 		928A6E8720EE58A70053E793 /* ChildNameLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928A6E8620EE58A70053E793 /* ChildNameLayer.cpp */; };
 		928A6E8920EE5C880053E793 /* ChildAgeLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928A6E8820EE5C880053E793 /* ChildAgeLayer.cpp */; };
 		928A6E8B20EE62270053E793 /* ChildOomeeLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928A6E8A20EE62270053E793 /* ChildOomeeLayer.cpp */; };
-		9295158B2091D48700F43AEC /* UserTypeMessagingLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9295158A2091D48700F43AEC /* UserTypeMessagingLayer.cpp */; };
 		929A9CFC2065248A009B323D /* MeHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929A9CFB2065248A009B323D /* MeHQ.cpp */; };
 		929A9D57206CF9F1009B323D /* FavouritesManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929A9D56206CF9F1009B323D /* FavouritesManager.cpp */; };
 		929FB10322E8A6440088D406 /* MarketingAssetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929FB10222E8A6440088D406 /* MarketingAssetManager.cpp */; };
@@ -685,8 +684,6 @@
 		928A6E8620EE58A70053E793 /* ChildNameLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChildNameLayer.cpp; sourceTree = "<group>"; };
 		928A6E8820EE5C880053E793 /* ChildAgeLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChildAgeLayer.cpp; sourceTree = "<group>"; };
 		928A6E8A20EE62270053E793 /* ChildOomeeLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChildOomeeLayer.cpp; sourceTree = "<group>"; };
-		929515862091D04800F43AEC /* UserTypeMessagingLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserTypeMessagingLayer.h; sourceTree = "<group>"; };
-		9295158A2091D48700F43AEC /* UserTypeMessagingLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UserTypeMessagingLayer.cpp; sourceTree = "<group>"; };
 		929A9CFA2063CF4F009B323D /* MeHQ.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeHQ.h; sourceTree = "<group>"; };
 		929A9CFB2065248A009B323D /* MeHQ.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MeHQ.cpp; sourceTree = "<group>"; };
 		929A9D51206CF9D9009B323D /* FavouritesManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FavouritesManager.h; sourceTree = "<group>"; };
@@ -1575,8 +1572,6 @@
 			children = (
 				A198621D1DD3836D0090F053 /* NavigationLayer.cpp */,
 				A198621E1DD3836D0090F053 /* NavigationLayer.h */,
-				929515862091D04800F43AEC /* UserTypeMessagingLayer.h */,
-				9295158A2091D48700F43AEC /* UserTypeMessagingLayer.cpp */,
 				E22AC9FC230BF31D0024B328 /* NavigationBar.h */,
 				E22ACA05230C07650024B328 /* NavigationBar.cpp */,
 				E22ACA02230BFB790024B328 /* NavigationButton.h */,
@@ -1969,7 +1964,6 @@
 				E22ACAFF230EC4CA0024B328 /* HQPage.cpp in Sources */,
 				92E58562220DB49F0015A4FA /* RewardScreen.cpp in Sources */,
 				A15B2FCA1DFACF3800D25334 /* HQDataProvider.cpp in Sources */,
-				9295158B2091D48700F43AEC /* UserTypeMessagingLayer.cpp in Sources */,
 				921A267D216FA0A4005C8C41 /* VodacomOnboardingAddChildLayer.cpp in Sources */,
 				439694841EAA4A08003C17E6 /* PrivacyAndTermsLayer.cpp in Sources */,
 				921A2671216F9F85005C8C41 /* VodacomOnboardingVoucherLayer.cpp in Sources */,

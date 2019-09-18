@@ -39,7 +39,6 @@ bool PurchaseCapsule::init()
     
     _purchaseLayout = ui::Layout::create();
     _purchaseLayout->setSizeType(SizeType::PERCENT);
-    _purchaseLayout->setSizePercent(Vec2(0.68f, 1.0f));
     _purchaseLayout->setBackGroundColorType(BackGroundColorType::SOLID);
     _purchaseLayout->setBackGroundColor(Style::Color::macaroniAndCheese);
     _purchaseLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
@@ -100,7 +99,6 @@ bool PurchaseCapsule::init()
     
     _loginLayout = ui::Layout::create();
     _loginLayout->setSizeType(SizeType::PERCENT);
-    _loginLayout->setSizePercent(Vec2(0.32f, 1.0f));
     _loginLayout->setBackGroundColorType(BackGroundColorType::SOLID);
     _loginLayout->setBackGroundColor(Color3B::WHITE);
     _loginLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
@@ -168,7 +166,7 @@ void PurchaseCapsule::onSizeChanged()
     _loginText->setTextAreaSize(Size(_loginLayout->getContentSize().width * 0.7f, _loginText->getContentSize().height));
 }
 
-void PurchaseCapsule::setUserType(UserBillingType userType)
+void PurchaseCapsule::setUserType(BillingStatus userType)
 {
     _userType = userType;
     setupForCurrentState();
@@ -178,10 +176,11 @@ void PurchaseCapsule::setupForCurrentState()
 {
     switch(_userType)
     {
-        case ANON:
+        case BillingStatus::ANON:
         {
-            _purchaseLayout->setSizePercent(Vec2(0.68f, 1.0f));
-            _loginLayout->setSizePercent(Vec2(0.32f,1.0f));
+            float loginWidthPercent = 0.32f;
+            _purchaseLayout->setSizePercent(Vec2(1.0f - loginWidthPercent, 1.0f));
+            _loginLayout->setSizePercent(Vec2(loginWidthPercent,1.0f));
 #ifdef AZOOMEE_VODACOM_BUILD
             _purchaseText->setString(_("Unlock everything"));
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -193,22 +192,25 @@ void PurchaseCapsule::setupForCurrentState()
             _loginLayout->setTouchEnabled(true);
             break;
         }
-        case LAPSED:
+        case BillingStatus::FREE_REGISTERED:
         {
             _purchaseText->setString(_("Reactivate your account"));
-            _purchaseLayout->setSizePercent(Vec2(1.0f, 1.0f));
-            _loginLayout->setSizePercent(Vec2(0.0f,1.0f));
+            float loginWidthPercent = 0.32f;
+            _purchaseLayout->setSizePercent(Vec2(1.0f - loginWidthPercent, 1.0f));
+            _loginLayout->setSizePercent(Vec2(loginWidthPercent,1.0f));
             _purchaseLayout->setTouchEnabled(true);
             _loginLayout->setTouchEnabled(false);
             break;
         }
-        case PAID:
+        case BillingStatus::SUBSCRIBED: case BillingStatus::FREE_TRIAL:
         {
             _purchaseText->setString(_("Congratulations! You are now a Premium User"));
-            _purchaseLayout->setSizePercent(Vec2(1.0f, 1.0f));
-            _loginLayout->setSizePercent(Vec2(0.0f,1.0f));
+            float loginWidthPercent = 0.32f;
+            _purchaseLayout->setSizePercent(Vec2(1.0f - loginWidthPercent, 1.0f));
+            _loginLayout->setSizePercent(Vec2(loginWidthPercent,1.0f));
             _purchaseLayout->setTouchEnabled(false);
             _loginLayout->setTouchEnabled(false);
+            setVisible(false);
             break;
         }
     }

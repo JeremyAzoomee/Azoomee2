@@ -13,7 +13,6 @@
 #include <AzoomeeCommon/Tutorial/TutorialController.h>
 #include "NavigationLayer.h"
 #include "SettingsButton.h"
-#include "UserTypeMessagingLayer.h"
 #include "CoinDisplay.h"
 
 NS_AZOOMEE_BEGIN
@@ -38,9 +37,8 @@ protected:
 	std::string _hqCategory;
 	
 	NavigationLayer* _navLayer = nullptr;
-	
-	UserTypeMessagingLayer* _messagingLayer = nullptr;
-	bool _showingMessagingLayer = true;
+
+	bool _showingMessagingLayer = false;
 	
 	CoinDisplay* _coinDisplay = nullptr;
 	

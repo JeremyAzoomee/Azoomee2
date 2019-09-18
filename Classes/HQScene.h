@@ -16,7 +16,6 @@
 #include "NavigationBar.h"
 #include <AzoomeeCommon/UI/DynamicText.h>
 #include "SettingsButton.h"
-//#include "UserTypeMessagingLayer.h"
 #include "PurchaseCapsule.h"
 #include "CoinDisplay.h"
 #include "HQPage.h"
@@ -35,7 +34,6 @@ private:
     
     cocos2d::LayerGradient* _verticalScrollGradient = nullptr;
     NavigationBar* _navBar = nullptr;
-    //UserTypeMessagingLayer* _messagingLayer = nullptr;
     PurchaseCapsule* _purchaseCapsule = nullptr;
     bool _showingMessagingLayer = true;
     CoinDisplay* _coinDisplay = nullptr;

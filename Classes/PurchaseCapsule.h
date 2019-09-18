@@ -12,15 +12,14 @@
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/UI/DynamicText.h>
+#include <AzoomeeCommon/Data/Parent/BillingData.h>
 
 NS_AZOOMEE_BEGIN
 
 class PurchaseCapsule : public cocos2d::ui::Layout
 {
     typedef cocos2d::ui::Layout Super;
-public:
-    enum UserBillingType {ANON, LAPSED, PAID};
-
+    
 private:
     static const float kDropshadowPadding;
     
@@ -31,7 +30,7 @@ private:
     DynamicText* _purchaseText = nullptr;
     DynamicText* _loginText = nullptr;
     
-    UserBillingType _userType = UserBillingType::ANON;
+    BillingStatus _userType = BillingStatus::ANON;
     
     void setupForCurrentState();
     
@@ -42,7 +41,7 @@ public:
     void onExit() override;
     void onSizeChanged() override;
     
-    void setUserType(UserBillingType userType);
+    void setUserType(BillingStatus userType);
     
     CREATE_FUNC(PurchaseCapsule);
 };

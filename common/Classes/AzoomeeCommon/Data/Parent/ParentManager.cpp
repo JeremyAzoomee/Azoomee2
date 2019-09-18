@@ -285,6 +285,7 @@ FriendRequestRef ParentManager::getPendingFriendRequest(int pendingFriendRequest
 bool ParentManager::parseParentLoginData(const std::string &responseData)
 {
 	logoutChild();
+    _billingData = nullptr;
 	rapidjson::Document parentData;
 	parentData.Parse(responseData.c_str());
 	

@@ -198,17 +198,17 @@ void HQScene::createNavigationUI()
     _purchaseCapsule = PurchaseCapsule::create();
     _purchaseCapsule->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _purchaseCapsule->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
-    PurchaseCapsule::UserBillingType userType = PurchaseCapsule::UserBillingType::ANON;
-    if(!ParentManager::getInstance()->isLoggedInParentAnonymous())
+    const BillingDataRef& billingData = ParentManager::getInstance()->getBillingData();
+    BillingStatus billingStatus = BillingStatus::ANON;
+    if(billingData)
     {
-        userType = PurchaseCapsule::UserBillingType::LAPSED;
-        if(ParentManager::getInstance()->isPaidUser())
-        {
-            userType = PurchaseCapsule::UserBillingType::PAID;
-        }
+        billingStatus = billingData->getBillingStatus();
     }
-    _purchaseCapsule->setUserType(userType);
-    _purchaseCapsule->setVisible(userType != PurchaseCapsule::UserBillingType::PAID);
+    else if(ParentManager::getInstance()->isUserLoggedIn())
+    {
+        billingStatus = BillingStatus::FREE_REGISTERED;
+    }
+    _purchaseCapsule->setUserType(billingStatus);
     _navBar->addChild(_purchaseCapsule);
     
     const Color3B& gradColour = Style::Color::darkIndigo;
