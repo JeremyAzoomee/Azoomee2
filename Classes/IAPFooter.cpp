@@ -62,7 +62,6 @@ void IAPFooter::onSizeChanged()
 void IAPFooter::createLoginButton()
 {
     _loginButton = DynamicText::create(_("Log In"), Style::Font::PoppinsBold(), 70);
-    _loginButton->ignoreContentAdaptWithSize(false);
     _loginButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _loginButton->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _loginButton->setTextColor(Color4B::BLACK);
@@ -70,6 +69,7 @@ void IAPFooter::createLoginButton()
     _loginButton->setTextHorizontalAlignment(TextHAlignment::CENTER);
     _loginButton->setTouchEnabled(true);
     _loginButton->setTouchScaleChangeEnabled(true);
+    _loginButton->setOverflow(Label::Overflow::RESIZE_HEIGHT);
     _loginButton->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
