@@ -22,6 +22,7 @@ class PurchaseCapsule : public cocos2d::ui::Layout
     
 private:
     static const float kDropshadowPadding;
+    static const float kLoginWidthPercent;
     
     cocos2d::ui::Scale9Sprite* _stencil = nullptr;
     cocos2d::ClippingNode* _clippingNode = nullptr;

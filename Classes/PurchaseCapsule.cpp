@@ -17,6 +17,7 @@ using namespace cocos2d;
 NS_AZOOMEE_BEGIN
 
 const float PurchaseCapsule::kDropshadowPadding = 60.0f;
+const float PurchaseCapsule::kLoginWidthPercent = 0.35f;
 
 bool PurchaseCapsule::init()
 {
@@ -150,6 +151,7 @@ bool PurchaseCapsule::init()
 void PurchaseCapsule::onEnter()
 {
     Super::onEnter();
+    onSizeChanged();
 }
 
 void PurchaseCapsule::onExit()
@@ -162,8 +164,8 @@ void PurchaseCapsule::onSizeChanged()
     Super::onSizeChanged();
     _clippingNode->setContentSize(getContentSize() - Size(2 * kDropshadowPadding, 2 * kDropshadowPadding));
     _stencil->setContentSize(getContentSize());
-    _purchaseText->setTextAreaSize(Size(_purchaseLayout->getContentSize().width * 0.7f, _purchaseText->getContentSize().height));
-    _loginText->setTextAreaSize(Size(_loginLayout->getContentSize().width * 0.7f, _loginText->getContentSize().height));
+    _purchaseText->setTextAreaSize(Size(_purchaseLayout->getContentSize().width * 0.75f, _purchaseText->getContentSize().height));
+    _loginText->setTextAreaSize(Size(_loginLayout->getContentSize().width * 0.75f, _loginText->getContentSize().height));
 }
 
 void PurchaseCapsule::setUserType(BillingStatus userType)
@@ -178,7 +180,7 @@ void PurchaseCapsule::setupForCurrentState()
     {
         case BillingStatus::ANON:
         {
-            float loginWidthPercent = 0.32f;
+            float loginWidthPercent = kLoginWidthPercent;
             _purchaseLayout->setSizePercent(Vec2(1.0f - loginWidthPercent, 1.0f));
             _loginLayout->setSizePercent(Vec2(loginWidthPercent,1.0f));
 #ifdef AZOOMEE_VODACOM_BUILD
@@ -195,7 +197,7 @@ void PurchaseCapsule::setupForCurrentState()
         case BillingStatus::FREE_REGISTERED:
         {
             _purchaseText->setString(_("Reactivate your account"));
-            float loginWidthPercent = 0.32f;
+            float loginWidthPercent = 0.0f;
             _purchaseLayout->setSizePercent(Vec2(1.0f - loginWidthPercent, 1.0f));
             _loginLayout->setSizePercent(Vec2(loginWidthPercent,1.0f));
             _purchaseLayout->setTouchEnabled(true);
@@ -205,7 +207,7 @@ void PurchaseCapsule::setupForCurrentState()
         case BillingStatus::SUBSCRIBED: case BillingStatus::FREE_TRIAL:
         {
             _purchaseText->setString(_("Congratulations! You are now a Premium User"));
-            float loginWidthPercent = 0.32f;
+            float loginWidthPercent = 0.0f;
             _purchaseLayout->setSizePercent(Vec2(1.0f - loginWidthPercent, 1.0f));
             _loginLayout->setSizePercent(Vec2(loginWidthPercent,1.0f));
             _purchaseLayout->setTouchEnabled(false);
@@ -214,6 +216,7 @@ void PurchaseCapsule::setupForCurrentState()
             break;
         }
     }
+    onSizeChanged();
 }
 
 NS_AZOOMEE_END
