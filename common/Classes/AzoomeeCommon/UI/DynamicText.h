@@ -15,14 +15,16 @@ NS_AZOOMEE_BEGIN
 
 class DynamicText : public cocos2d::ui::Text
 {
-	typedef cocos2d::ui::Text Super;	
+	typedef cocos2d::ui::Text Super;
+
 public:
 	
 	static DynamicText* create(const std::string& text, const std::string& font, int fontSize);
 	
 	void setOverflow(const cocos2d::Label::Overflow& overflow);
 	void setMaxLineWidth(float maxLineWidth);
-	
+    void enableUnderline(bool underline);
+    
 	CREATE_FUNC(DynamicText);
 };
 

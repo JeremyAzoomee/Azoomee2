@@ -33,12 +33,12 @@ bool DropdownContentHolder::init()
     
     setSizeType(SizeType::ABSOLUTE);
     
-    _clippingStencil = ui::Scale9Sprite::create(kBgCapInsets, "res/hqscene/dropdown_bg.png");
+    _clippingStencil = ui::Scale9Sprite::create(kBgCapInsets, "res/hqscene/dropdown_bg_clipper.png");
     _clippingStencil->setContentSize(getContentSize());
     _clippingStencil->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     
     _bgClipper = ClippingNode::create(_clippingStencil);
-    _bgClipper->setAlphaThreshold(0.2f);
+    _bgClipper->setAlphaThreshold(0.9f);
     _bgClipper->setContentSize(getContentSize());
     addChild(_bgClipper, -1);
     

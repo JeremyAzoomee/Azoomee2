@@ -133,7 +133,7 @@ void HQScene::createHeaderUI()
     _patternGradient->setContentSize(_titleBanner->getContentSize());
     _patternGradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _patternGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
-    _topPattern->addChild(_patternGradient);
+    _titleBanner->addChild(_patternGradient);
     
     _titleBannerContent = ui::Layout::create();
     _titleBannerContent->setContentSize(Size(visibleSize.width - kTitleBarPadding, 260));
@@ -194,6 +194,22 @@ void HQScene::createNavigationUI()
         
     });
     addChild(_navBar, 1);
+    
+    _purchaseCapsule = PurchaseCapsule::create();
+    _purchaseCapsule->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _purchaseCapsule->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+    const BillingDataRef& billingData = ParentManager::getInstance()->getBillingData();
+    BillingStatus billingStatus = BillingStatus::ANON;
+    if(billingData)
+    {
+        billingStatus = billingData->getBillingStatus();
+    }
+    else if(ParentManager::getInstance()->isUserLoggedIn())
+    {
+        billingStatus = BillingStatus::FREE_REGISTERED;
+    }
+    _purchaseCapsule->setUserType(billingStatus);
+    _navBar->addChild(_purchaseCapsule);
     
     const Color3B& gradColour = Style::Color::darkIndigo;
     _verticalScrollGradient = LayerGradient::create(Color4B(gradColour.r, gradColour.g, gradColour.b, 0), Color4B(gradColour));
