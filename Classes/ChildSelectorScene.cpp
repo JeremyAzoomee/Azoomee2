@@ -93,13 +93,7 @@ void ChildSelectorScene::onEnterTransitionDidFinish()
         MessageBox::createWith(FlowDataSingleton::getInstance()->getErrorCode(), nullptr);
     }
     
-    if(ParentManager::getInstance()->isBillingDataAvailable())
-    {
-        if(ParentManager::getInstance()->isPaidUser())
-        {
-            setParentButtonVisible(true);
-        }
-    }
+    setParentButtonVisible(ParentManager::getInstance()->isPaidUser());
     
     if(ParentManager::getInstance()->getAmountOfAvailableChildren() == 0)
     {

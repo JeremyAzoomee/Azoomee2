@@ -193,16 +193,20 @@ void BackEndCaller::anonymousDeviceLogin()
 
 //UPDATING BILLING DATA-------------------------------------------------------------------------------
 
-void BackEndCaller::updateBillingData()
+void BackEndCaller::updateBillingInfoIfNeeded()
 {
-    ParentManager::getInstance()->setBillingDataAvailable(false);
-    HttpRequestCreator* request = API::UpdateBillingDataRequest(ParentManager::getInstance()->getLoggedInParentId(), this);
-    request->execute();
+    // TODO: Check when we last updated billing info
 }
 
-void BackEndCaller::onUpdateBillingDataAnswerReceived(const std::string& responseString)
+void BackEndCaller::updateBillingInfo()
 {
-    ParentManager::getInstance()->parseParentBillingData(responseString);
+    auto onSuccess = [](const std::string& requestTag, const std::string& headers, const std::string& body) {
+        ParentManager::getInstance()->parseParentBillingData(body);
+    };
+    auto onFailure = std::bind(&BackEndCaller::onHttpRequestFailed, this, std::placeholders::_1, std::placeholders::_2);
+    
+    HttpRequestCreator* request = API::UpdateBillingDataRequest(ParentManager::getInstance()->getLoggedInParentId(), onSuccess, onFailure);
+    request->execute();
 }
 
 //UPDATING PARENT DATA--------------------------------------------------------------------------------
@@ -301,16 +305,14 @@ void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString
     }
     ParentManager::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headerString));
 	getChildInventory();
-    getGordon();
+    getSessionCookies();
 	HQHistoryManager::getInstance()->emptyHistory();
 }
 
-//GETTING GORDON.PNG-------------------------------------------------------------------------------------
+//GETTING COOKIES-------------------------------------------------------------------------------------
 
-void BackEndCaller::getGordon()
+void BackEndCaller::getSessionCookies()
 {
-    
-    
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     IosNativeFunctionsSingleton::getInstance()->deleteHttpCookies(); //ios handles cookies on OS level. Removal of earlier cookies is important to avoid watching premium content with a free user.
 #endif
@@ -318,49 +320,57 @@ void BackEndCaller::getGordon()
     const std::string& userId = ChildManager::getInstance()->getParentOrChildId();
     const std::string& sessionId = ChildManager::getInstance()->getParentOrChildCdnSessionId();
     
-    HttpRequestCreator* request = API::GetGordenRequest(userId, sessionId, this);
+    HttpRequestCreator* request = API::GetSessionCookiesRequest(userId, sessionId, this);
     request->execute();
 }
 
-void BackEndCaller::onGetGordonAnswerReceived(const std::string& responseString)
+void BackEndCaller::onGetSessionCookiesAnswerReceived(const std::string& responseString, const std::string& headerString)
 {
-    if(CookieManager::getInstance()->parseDownloadCookies(responseString))
+    if(CookieManager::getInstance()->parseDownloadCookies(headerString))
     {
-		ContentItemPoolDownloadHandler::getInstance()->getLatestData([](bool success){ //on complete
-			if(success)
-			{
-				HQStructureDownloadHandler::getInstance()->getLatestData([](bool success){ //on complete
-					if(success)
-					{
-						RewardDisplayHandler::getInstance()->getPendingRewards();
-                        
-                        SceneNameEnum nextScene = SceneNameEnum::Base;
-                        
-                        if(ParentManager::getInstance()->isLoggedInParentAnonymous())
-                        {
-                            if(LoginLogicHandler::getInstance()->getOrigin() == LoginOrigin::IAP_PAYWALL)
-                            {
-                                nextScene = SceneNameEnum::IAP;
-                            }
-                            else if(LoginLogicHandler::getInstance()->getOrigin() == LoginOrigin::SIGNUP)
-                            {
-                                nextScene = SceneNameEnum::Signup;
-                            }
-                        }
-                        Director::getInstance()->replaceScene(SceneManagerScene::createScene(nextScene));
-					}
-					else
-					{
-						LoginLogicHandler::getInstance()->doLoginLogic();
-					}
-				});
-			}
-			else
-			{
-				LoginLogicHandler::getInstance()->doLoginLogic();
-			}
-		});
+        getContentFeeds();
     }
+    // TODO: What do we do if parsing cookies fails?
+}
+
+//GET CONTENT FEEDS
+
+void BackEndCaller::getContentFeeds()
+{
+    ContentItemPoolDownloadHandler::getInstance()->getLatestData([](bool success){ //on complete
+        if(success)
+        {
+            HQStructureDownloadHandler::getInstance()->getLatestData([](bool success){ //on complete
+                if(success)
+                {
+                    RewardDisplayHandler::getInstance()->getPendingRewards();
+                    
+                    SceneNameEnum nextScene = SceneNameEnum::Base;
+                    
+                    if(ParentManager::getInstance()->isLoggedInParentAnonymous())
+                    {
+                        if(LoginLogicHandler::getInstance()->getOrigin() == LoginOrigin::IAP_PAYWALL)
+                        {
+                            nextScene = SceneNameEnum::IAP;
+                        }
+                        else if(LoginLogicHandler::getInstance()->getOrigin() == LoginOrigin::SIGNUP)
+                        {
+                            nextScene = SceneNameEnum::Signup;
+                        }
+                    }
+                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(nextScene));
+                }
+                else
+                {
+                    LoginLogicHandler::getInstance()->doLoginLogic();
+                }
+            });
+        }
+        else
+        {
+            LoginLogicHandler::getInstance()->doLoginLogic();
+        }
+    });
 }
 
 //REGISTER PARENT---------------------------------------------------------------------------
@@ -462,13 +472,6 @@ void BackEndCaller::verifyApplePayment(const std::string& receiptData, const std
     request->execute(30.0f);
 }
 
-//GET CONTENT-------------------------------------------------------------------------------
-void BackEndCaller::getHQContent(const std::string& url, const std::string& category)
-{
-        HttpRequestCreator* request = API::GetEncryptedContentRequest(url, category, this);
-        request->execute();
-}
-
 // DEEPLINK CONTENT DETAILS REQUEST ----------------------------------------------------------------
 void BackEndCaller::GetContent(const std::string& requestId, const std::string& contentID)
 {
@@ -505,9 +508,9 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
         ConfigStorage::getInstance()->setClientAnonymousIp(body);
         AnalyticsSingleton::getInstance()->registerAnonymousIp(ConfigStorage::getInstance()->getClientAnonymousIp());
     }
-    else if(requestTag == API::TagGetGorden)
+    else if(requestTag == API::TagGetSessionCookies)
     {
-        onGetGordonAnswerReceived(headers);
+        onGetSessionCookiesAnswerReceived(body, headers);
     }
     else if(requestTag == API::TagChildLogin)
     {

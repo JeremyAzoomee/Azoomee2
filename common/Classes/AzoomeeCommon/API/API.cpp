@@ -5,6 +5,7 @@
 #include "RewardCallbackHandler.h"
 #include "../Analytics/AnalyticsSingleton.h"
 #include "../Utils/StringFunctions.h"
+#include <functional>
 
 using namespace cocos2d;
 
@@ -20,7 +21,7 @@ const char* const API::TagUpdateBillingData = "updateBilling";
 const char* const API::TagParentPin = "updateParentPin";
 const char* const API::TagGetAvailableChildren = "getChildren";
 const char* const API::TagChildLogin = "childLogin";
-const char* const API::TagGetGorden = "getGordon";
+const char* const API::TagGetSessionCookies = "getSessionCookies";
 const char* const API::TagRegisterParent = "registerParent";
 const char* const API::TagRegisterChild = "registerChild";
 const char* const API::TagUpdateChild = "updateChild";
@@ -67,6 +68,13 @@ const std::string API::kAZCountryCodeKey = "X-AZ-COUNTRYCODE";
 
 void API::HandleAPIResponse(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response, HttpRequestCreatorResponseDelegate* delegate, HttpRequestCreator* request)
 {
+    HandleAPIResponse(sender, response, request,
+                      std::bind(&HttpRequestCreatorResponseDelegate::onHttpRequestSuccess, delegate, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3),
+                      std::bind(&HttpRequestCreatorResponseDelegate::onHttpRequestFailed, delegate, std::placeholders::_1, std::placeholders::_2));
+}
+    
+void API::HandleAPIResponse(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response, HttpRequestCreator* request, const APIResponseSuccessCallback& onSuccess, const APIResponseFailureCallback& onFailure)
+{
 	std::string responseHeaderString  = std::string(response->getResponseHeader()->begin(), response->getResponseHeader()->end());
 	std::string responseDataString = std::string(response->getResponseData()->begin(), response->getResponseData()->end());
 	std::string requestTag = response->getHttpRequest()->getTag();
@@ -84,18 +92,18 @@ void API::HandleAPIResponse(cocos2d::network::HttpClient *sender, cocos2d::netwo
 			RewardCallbackHandler::getInstance()->sendRewardCallback(rewardData);
 		}
 		
-		if(delegate != nullptr)
+		if(onSuccess != nullptr)
 		{
-			delegate->onHttpRequestSuccess(requestTag, responseHeaderString, responseDataString);
+			onSuccess(requestTag, responseHeaderString, responseDataString);
 		}
 	}
 	else
 	{
-		HandleAPIError(response, delegate, request);
+		HandleAPIError(response, request, onFailure);
 	}
 }
-
-void API::HandleAPIError(cocos2d::network::HttpResponse *response, HttpRequestCreatorResponseDelegate* delegate, HttpRequestCreator* request)
+    
+void API::HandleAPIError(cocos2d::network::HttpResponse *response, HttpRequestCreator* request, const APIResponseFailureCallback& onFailure)
 {
 	const std::string& responseHeaderString  = std::string(response->getResponseHeader()->begin(), response->getResponseHeader()->end());
 	const std::string& responseDataString = std::string(response->getResponseData()->begin(), response->getResponseData()->end());
@@ -125,11 +133,10 @@ void API::HandleAPIError(cocos2d::network::HttpResponse *response, HttpRequestCr
 		errorCode = 2001;
 	}
 
-	if(delegate)
+	if(onFailure != nullptr)
 	{
-		delegate->onHttpRequestFailed(requestTag, errorCode);
+		onFailure(requestTag, errorCode);
 	}
-
 }
 
 #pragma mark - API Methods
@@ -193,15 +200,14 @@ HttpRequestCreator* API::GetAnonCredentials(HttpRequestCreatorResponseDelegate* 
 	return request;
 }
 
-HttpRequestCreator* API::UpdateBillingDataRequest(const std::string& parentId,
-												  HttpRequestCreatorResponseDelegate* delegate)
+HttpRequestCreator* API::UpdateBillingDataRequest(const std::string& parentId, const APIResponseSuccessCallback& onSuccess, const APIResponseFailureCallback& onFailure)
 {
-    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    HttpRequestCreator* request = new HttpRequestCreator(nullptr);
     request->requestTag = TagUpdateBillingData;
 	request->requestPath = StringUtils::format("/api/billing/user/%s/billingStatus", parentId.c_str());
     request->encrypted = true;
-	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
-		HandleAPIResponse(sender, response, delegate, request);
+	request->setRequestCallback([onSuccess, onFailure, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
+		HandleAPIResponse(sender, response, request, onSuccess, onFailure);
 	});
     return request;
 }
@@ -261,13 +267,13 @@ HttpRequestCreator* API::ChildLoginRequest(const std::string& profileName,
     return request;
 }
 
-HttpRequestCreator* API::GetGordenRequest(const std::string& userId,
-                                          const std::string& sessionId,
-                                          HttpRequestCreatorResponseDelegate* delegate)
+HttpRequestCreator* API::GetSessionCookiesRequest(const std::string& userId,
+                                                  const std::string& sessionId,
+                                                  HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->urlParameters = StringUtils::format("userid=%s&sessionid=%s", userId.c_str(), sessionId.c_str());
-    request->requestTag = TagGetGorden;
+    request->requestTag = TagGetSessionCookies;
     request->encrypted = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);

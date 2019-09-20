@@ -10,6 +10,7 @@
 #include "../../Crashlytics/CrashlyticsConfig.h"
 #include "../../Analytics/AnalyticsSingleton.h"
 #include "../../Utils/PushNotificationsHandler.h"
+#include "../../API/API.h"
 
 using namespace cocos2d;
 
@@ -31,27 +32,36 @@ ParentManager::~ParentManager()
 	
 }
 
+void ParentManager::registerObserver(ParentDataObserver* observer)
+{
+    _observers.push_back(observer);
+}
+
+void ParentManager::unregisterObserver(ParentDataObserver* observer)
+{
+    auto it = std::find(_observers.begin(), _observers.end(), observer);
+    if(it != _observers.end())
+    {
+        _observers.erase(it);
+    }
+}
+
 void ParentManager::setBillingData(const BillingDataRef& billingData)
 {
 	_billingData = billingData;
-}
-BillingDataRef ParentManager::getBillingData() const
-{
-	return _billingData;
-}
-void ParentManager::setBillingDataAvailable(bool available)
-{
-	_isBillingDataAvailable = available;
-}
-bool ParentManager::isBillingDataAvailable() const
-{
-	return _isBillingDataAvailable;
+    
+    // Notify observers
+    for(auto observer : _observers)
+    {
+        observer->onParentBillingDataUpdated(_billingData);
+    }
 }
 
 void ParentManager::setParent(const MutableParentRef& parent)
 {
 	_parent = parent;
 }
+
 ParentRef ParentManager::getParent() const
 {
 	return _parent;
@@ -214,11 +224,6 @@ bool ParentManager::isLoggedInParentAnonymous()
 	return true;
 }
 
-bool ParentManager::isBillingDataAvailable()
-{
-	return _isBillingDataAvailable;
-}
-
 bool ParentManager::isPaidUser()
 {
 	if(_billingData)
@@ -376,9 +381,6 @@ void ParentManager::parseParentBillingData(const std::string &responseData)
 	setBillingData(billing);
 	
 	AnalyticsSingleton::getInstance()->registerBillingData(billing);
-	
-	setBillingDataAvailable(true);
-	
 }
 
 void ParentManager::parseParentSessionData(const std::string &responseData)

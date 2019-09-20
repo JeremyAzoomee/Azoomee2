@@ -27,7 +27,7 @@ public:
     static const char* const TagParentPin;
     static const char* const TagGetAvailableChildren;
     static const char* const TagChildLogin;
-    static const char* const TagGetGorden;
+    static const char* const TagGetSessionCookies;
     static const char* const TagRegisterParent;
     static const char* const TagRegisterChild;
     static const char* const TagUpdateChild;
@@ -75,9 +75,14 @@ public:
 	static const std::string kAZCountryCodeKey;
 	
 #pragma mark - API Methods
+    
+    typedef std::function<void(const std::string&, const std::string&, const std::string&)> APIResponseSuccessCallback;
+    typedef std::function<void(const std::string&, long)> APIResponseFailureCallback;
 	
 	static void HandleAPIResponse(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response, HttpRequestCreatorResponseDelegate* delegate, HttpRequestCreator* request);
-	static void HandleAPIError(cocos2d::network::HttpResponse *response, HttpRequestCreatorResponseDelegate* delegate, HttpRequestCreator* request);
+    
+    static void HandleAPIResponse(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response, HttpRequestCreator* request, const APIResponseSuccessCallback& onSuccess, const APIResponseFailureCallback& onFailure);
+    static void HandleAPIError(cocos2d::network::HttpResponse *response, HttpRequestCreator* request, const APIResponseFailureCallback& onFailure);
     
     static HttpRequestCreator* IpCheck(HttpRequestCreatorResponseDelegate* delegate);
     
@@ -89,8 +94,7 @@ public:
 	
 	static HttpRequestCreator* GetAnonCredentials(HttpRequestCreatorResponseDelegate* delegate);
     
-	static HttpRequestCreator* UpdateBillingDataRequest(const std::string& parentId,
-														HttpRequestCreatorResponseDelegate* delegate);
+	static HttpRequestCreator* UpdateBillingDataRequest(const std::string& parentId, const APIResponseSuccessCallback& onSuccess, const APIResponseFailureCallback& onFailure);
     
     static HttpRequestCreator* GetForceUpdateInformationRequest(HttpRequestCreatorResponseDelegate* delegate);
     
@@ -101,9 +105,9 @@ public:
     static HttpRequestCreator* ChildLoginRequest(const std::string& profileName,
                                                  HttpRequestCreatorResponseDelegate* delegate);
     
-    static HttpRequestCreator* GetGordenRequest(const std::string& userId,
-                                                const std::string& sessionId,
-                                                HttpRequestCreatorResponseDelegate* delegate);
+    static HttpRequestCreator* GetSessionCookiesRequest(const std::string& userId,
+                                                        const std::string& sessionId,
+                                                        HttpRequestCreatorResponseDelegate* delegate);
     
     static HttpRequestCreator* RefreshParentCookiesRequest(HttpRequestCreatorResponseDelegate* delegate);
 	

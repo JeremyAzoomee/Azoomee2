@@ -18,25 +18,29 @@
 
 NS_AZOOMEE_BEGIN
 
+// forward decleration
+class ParentDataObserver;
+
 class ParentManager
 {
-		
 public:
 	static ParentManager* getInstance();
 	
 	virtual ~ParentManager();
+    
+    /// Register a new observer. Note the caller is reponsible for calling unregisterObserver before observer goes out of scope
+    void registerObserver(ParentDataObserver* observer);
+    /// Unregister an observer
+    void unregisterObserver(ParentDataObserver* observer);
 	
-	void setBillingData(const BillingDataRef& billingData);
-	BillingDataRef getBillingData() const;
-	void setBillingDataAvailable(bool available);
-	bool isBillingDataAvailable() const;
+    void updateBillingInfoIfNeeded();
+    void updateBillingInfo();
 	
 	void setParent(const MutableParentRef& parent);
 	ParentRef getParent() const;
 	
 	void setPendingFriendRequests(const std::vector<FriendRequestRef>& pendingRequests);
 	std::vector<FriendRequestRef> getPendingFriendRequests() const;
-	
 	
 	int getAmountOfAvailableChildren();
 	ChildRef getChildForId(const std::string& childId) const;
@@ -56,7 +60,6 @@ public:
 	std::string getBillingDate() const;
 	std::string getBillingProvider() const;
 	bool isLoggedInParentAnonymous();
-	bool isBillingDataAvailable();
 	bool isPaidUser();
 	bool emailRequiresVerification();
 	bool isUserLoggedIn();
@@ -84,10 +87,10 @@ public:
 	
 	
 private:
+    void setBillingData(const BillingDataRef& billingData);
+    
 	BillingDataRef _billingData = nullptr;
 	MutableParentRef _parent = nullptr;
-	
-	bool _isBillingDataAvailable = false;
 	
 	std::vector<MutableChildRef> _availableChildren;
 	std::map<std::string, MutableChildRef> _availableChildrenById;
@@ -99,6 +102,17 @@ private:
 	void addChild(const MutableChildRef& child);
 	//std::vector<ChildRef> getAvailableChildren() const;
 	//std::map<std::string, ChildRef> getAvailableChildrenById() const;
+    
+    /// Observers
+    std::vector<ParentDataObserver*> _observers;
+};
+
+
+/**
+ * Recieve events relating to the Parent object.
+ */
+struct ParentDataObserver {
+    virtual void onParentBillingDataUpdated(const BillingDataRef& billingData);
 };
 
 NS_AZOOMEE_END

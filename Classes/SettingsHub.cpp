@@ -403,7 +403,7 @@ void SettingsHub::onHttpRequestSuccess(const std::string& requestTag, const std:
 		request->execute();
 		return;
 	}
-	else if(requestTag == API::TagGetGorden)
+	else if(requestTag == API::TagGetSessionCookies)
 	{
         ModalMessages::getInstance()->stopLoading();
 		ChildManager::getInstance()->setChildLoggedIn(false);// make sure we log out child if entering parent chat
