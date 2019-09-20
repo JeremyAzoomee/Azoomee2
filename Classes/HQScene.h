@@ -22,6 +22,7 @@
 #include "GameHQ.h"
 #include "VideoHQ.h"
 #include "OomeeHQ.h"
+#include "SettingsButton.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -38,6 +39,7 @@ private:
     bool _showingMessagingLayer = true;
     CoinDisplay* _coinDisplay = nullptr;
     cocos2d::EventListenerCustom* _rewardRedeemedListener = nullptr;
+    SettingsButton* _settingsButton = nullptr;
     bool _initialised = false;
     bool _isPortrait = false;
     cocos2d::ui::Layout* _titleBanner = nullptr;
