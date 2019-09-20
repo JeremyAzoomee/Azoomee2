@@ -1,29 +1,239 @@
 [
 {
 	"location":"res/onboarding/Wide Game Asset.jpg",
-	"title":{
-		"en-GB":"Amazing Games!"
-	},
-	"description":{
-		"en-GB":"More added every Week!"
-	}
+	"titleSet":[
+        {
+            "language" : "en-GB",
+            "text" : "Amazing Games!"
+        },
+        {
+            "language" : "spa-ES",
+            "text" : "¡Juegos alucinantes!"
+        },
+        {
+            "language" : "fre-FR",
+            "text" : "Des jeux incroyables !"
+        },
+        {
+            "language" : "por-PT",
+            "text" : "Jogos incríveis!"
+        },
+        {
+            "language" : "ita-IT",
+            "text" : "Gioch incredibili!"
+        },
+        {
+            "language" : "ger-DE",
+            "text" : "Tolle Spiele"
+        },
+        {
+            "language" : "gre",
+            "text" : "Τέλεια παιχνίδια!"
+        },
+        {
+            "language" : "tur",
+            "text" : "Muhteşem Oyunlar!"
+        },
+        {
+            "language" : "afr",
+            "text" : "Opwindende speletjies!"
+        }
+    ],
+	"textSet":[
+        {
+            "language" : "en-GB",
+            "text" :"More added every Week!"
+        },
+        {
+            "language" : "spa-ES",
+            "text" : "¡Nuevos contenidos cada semana!"
+        },
+        {
+            "language" : "fre-FR",
+            "text" : "Du nouveau contenu chaque semaine !"
+        },
+        {
+            "language" : "por-PT",
+            "text" : "Novidades todas as semanas!"
+        },
+        {
+            "language" : "ita-IT",
+            "text" : "Nuovi contenuti aggiunti ogni settimana."
+        },
+        {
+            "language" : "ger-DE",
+            "text" : "Jede Woche werden neue hinzugefügt!"
+        },
+        {
+            "language" : "gre",
+            "text" : "Προστίθενται νέα κάθε εβδομάδα!"
+        },
+        {
+            "language" : "tur",
+            "text" : "Her Hafta yenileri ekleniyor!"
+        },
+        {
+            "language" : "afr",
+            "text" : "Elke week nóg bygevoeg!"
+        }
+    ]
 },
 {
 	"location":"res/onboarding/Wide Fun Learning Asset.jpg",
-	"title":{
-		"en-GB":"Fun Learning!"
-	},
-	"description":{
-		"en-GB":"With games and videos kids love"
-	}
+    "titleSet":[
+        {
+            "language" : "en-GB",
+            "text" : "Fun Learning!"
+        },
+        {
+            "language" : "spa-ES",
+            "text" : "¡Pásalo bien aprendiendo!"
+        },
+        {
+            "language" : "fre-FR",
+            "text" : "De l'apprentissage en s'amusant !"
+        },
+        {
+            "language" : "por-PT",
+            "text" : "Aprendizagem divertida!"
+        },
+        {
+            "language" : "ita-IT",
+            "text" : "Imparare divertendosi!"
+        },
+        {
+            "language" : "ger-DE",
+            "text" : "Lernen mit Spaß!"
+        },
+        {
+            "language" : "gre",
+            "text" : "Διασκέδαση και εκπαίδευση!"
+        },
+        {
+            "language" : "tur",
+            "text" : "Eğlenceli Öğrenme!"
+        },
+        {
+            "language" : "afr",
+            "text" : "Geniet dit om te leer!"
+        }
+    ],
+    "textSet":[
+        {
+            "language" : "en-GB",
+            "text" :"With games and videos kids love"
+        },
+        {
+            "language" : "spa-ES",
+            "text" : "Con juegos y vídeos ideales para los más pequeños"
+        },
+        {
+            "language" : "fre-FR",
+            "text" : "Des jeux et des vidéos appréciés par les enfants"
+        },
+        {
+            "language" : "por-PT",
+            "text" : "Com jogos e vídeos que os miúdos adoram"
+        },
+        {
+            "language" : "ita-IT",
+            "text" : "Con giochi e video che i bambini adoreranno"
+        },
+        {
+            "language" : "ger-DE",
+            "text" : "Mit Spielen und Videos, die Kinder einfach lieben"
+        },
+        {
+            "language" : "gre",
+            "text" : "Με παιχνίδια και βίντεο που λατρεύουν τα παιδιά"
+        },
+        {
+            "language" : "tur",
+            "text" : "Çocukların sevdiği oyunlar ve videolarla birlikte"
+        },
+        {
+            "language" : "afr",
+            "text" : "Met speletjies en video’s waarvan kinders hou"
+        }
+    ]
 },
 {
 	"location":"res/onboarding/Wide video asset.jpg",
-	"title":{
-		"en-GB":"Fantastic Videos!"
-	},
-	"description":{
-		"en-GB":"Ad-free and handpicked by humans"
-	}
+    "titleSet":[
+        {
+            "language" : "en-GB",
+            "text" : "Fantastic Videos!"
+        },
+        {
+            "language" : "spa-ES",
+            "text" : "¡Vídeos increíbles!"
+        },
+        {
+            "language" : "fre-FR",
+            "text" : "Des vidéos fantastiques !"
+        },
+        {
+            "language" : "por-PT",
+            "text" : "Vídeos fantásticos!"
+        },
+        {
+            "language" : "ita-IT",
+            "text" : "Video spettacolari!"
+        },
+        {
+            "language" : "ger-DE",
+            "text" : "Fantastische Videos!"
+        },
+        {
+            "language" : "gre",
+            "text" : "Φανταστικά βίντεο!"
+        },
+        {
+            "language" : "tur",
+            "text" : "Harika Videolar"
+        },
+        {
+            "language" : "afr",
+            "text" : "Fantastiese video’s!"
+        }
+    ],
+    "textSet":[
+        {
+            "language" : "en-GB",
+            "text" :"Ad-free and handpicked by humans"
+        },
+        {
+            "language" : "spa-ES",
+            "text" : "Sin publicidad y elegidos por profesionales"
+        },
+        {
+            "language" : "fre-FR",
+            "text" : "Sans pub et gestion humaine"
+        },
+        {
+            "language" : "por-PT",
+            "text" : "Sem publicidade e escolhidos por humanos"
+        },
+        {
+            "language" : "ita-IT",
+            "text" : "Senza pubblicità e scelti da esperti"
+        },
+        {
+            "language" : "ger-DE",
+            "text" : "Werbefrei und von Menschen ausgewählt"
+        },
+        {
+            "language" : "gre",
+            "text" : "Χωρίς διαφημίσεις και επιλεγμένα ένα-ένα από ανθρώπους!"
+        },
+        {
+            "language" : "tur",
+            "text" : "Reklamsız ve insanlar tarafından seçilmiş"
+        },
+        {
+            "language" : "afr",
+            "text" : "Sonder reklame en uitgesoek deur regte mense"
+        }
+    ]
 }
 ]

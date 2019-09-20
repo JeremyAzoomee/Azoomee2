@@ -51,7 +51,8 @@ private:
 	std::vector<MarketingAssetRef> _marketingAssets;
 	
 	void downloadImage(int index);
-	
+    void loadLocalAssets();
+    
 	MarketingAssetManager();
 public:
 	
