@@ -18,16 +18,17 @@ public:
     void startIAPPayment();
     void refreshReceipt(bool usingButton);
     
-    void transactionStatePurchased(std::string receiptData);
-    void onAnswerReceived(std::string responseDataString);
+    void transactionStatePurchased(const std::string& receiptData, const std::string& transactionID);
+    void onAnswerReceived(const std::string& responseDataString);
     
     //Delegate Functions
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
     
 private:
     //For making repeat requests
-    std::string savedReceipt;
-    int requestAttempts;
+    std::string _savedReceipt;
+    std::string _transactionID;
+    int _requestAttempts;
 };
 
 NS_AZOOMEE_END

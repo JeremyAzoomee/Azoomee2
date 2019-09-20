@@ -196,6 +196,12 @@ void RoutePaymentSingleton::inAppPaymentSuccess()
     BackEndCaller::getInstance()->getAvailableChildren();
 }
 
+void RoutePaymentSingleton::writeAppleReceiptDataToFile(const std::string& receiptData, const std::string& transactionID)
+{
+    const std::string& stringToWrite = receiptData + "|" + transactionID;
+    writeReceiptDataToFile(stringToWrite);
+}
+
 void RoutePaymentSingleton::writeAndroidReceiptDataToFile(const std::string& developerPayload, const std::string& orderId, const std::string& token)
 {
     const std::string& stringToWrite = developerPayload + "|" + orderId + "|" + token;
@@ -276,8 +282,13 @@ void RoutePaymentSingleton::retryReceiptValidation()
     
     pressedIAPStartButton = true;
     pressedRestorePurchaseButton = false;
+    
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    ApplePaymentSingleton::getInstance()->transactionStatePurchased(dataString);
+    const std::vector<std::string>& paymentElements = splitStringToVector(dataString, "|");
+    const std::string& receiptData = paymentElements[0];
+    // Get transactionID if we stored it. It may not exist if the receipt was saved in an older version
+    const std::string& transactionID = (paymentElements.size() > 1) ? paymentElements[1] : "";
+    ApplePaymentSingleton::getInstance()->transactionStatePurchased(receiptData, transactionID);
 #endif
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)

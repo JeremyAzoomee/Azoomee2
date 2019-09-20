@@ -13,6 +13,7 @@ private:
     bool appleReceiptRefreshchecked = false;
     void createReceiptDataFolder();
     void removeReceiptDataFileAndLogin();
+    void writeReceiptDataToFile(const std::string &receiptData);
     
 public:
     static RoutePaymentSingleton* getInstance(void);
@@ -40,7 +41,7 @@ public:
 	void failedRestoreMessage();
     void canceledAction();
 	
-    void writeReceiptDataToFile(const std::string &receiptData);
+    void writeAppleReceiptDataToFile(const std::string& receiptData, const std::string& transactionID);
     void writeAndroidReceiptDataToFile(const std::string& developerPayload, const std::string& orderId, const std::string& token);
     void writeAmazonReceiptDataToFile(const std::string& requestId, const std::string& receiptId, const std::string& amazonUserId);
     

@@ -8,7 +8,8 @@
 using namespace Azoomee;
 
 @interface PaymentViewController ()
--(void)queryProductInfo;
+-(void) queryProductInfo;
+-(void) sendReceiptToBackendWithTransactionID:(NSString*)transactionID;
 @end
 
 @implementation PaymentViewController
@@ -26,6 +27,14 @@ using namespace Azoomee;
         sharedPayment_ios = [[self alloc] init];
     });
     return sharedPayment_ios;
+}
+
+- (id)init {
+    self = [super init];
+    if (self) {
+        [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
+    }
+    return self;
 }
 
 -(void)makeOneMonthPayment
@@ -48,6 +57,7 @@ using namespace Azoomee;
     [request start];
 }
 
+// Sent immediately before -requestDidFinish:
 - (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
     
     @try {
@@ -112,12 +122,13 @@ using namespace Azoomee;
 
 -(void) startPaymentQueue
 {
-    [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
+//    [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
     
     SKPayment * payment = [SKPayment paymentWithProduct:self.oneMonthSubscription];
     [[SKPaymentQueue defaultQueue] addPayment:payment];
 }
 
+// Sent when the transaction array has changed (additions or state changes).  Client should check state of transactions and finish as appropriate.
 - (void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions
 {
     for (SKPaymentTransaction * transaction in transactions) {
@@ -126,8 +137,9 @@ using namespace Azoomee;
             case SKPaymentTransactionStatePurchased:
             {
                 [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                NSString* transactionID = transaction.transactionIdentifier;
                 
-                [self sendReceiptToBackend];
+                [self sendReceiptToBackendWithTransactionID:transactionID];
                 
                 break;
             }
@@ -148,7 +160,7 @@ using namespace Azoomee;
             case SKPaymentTransactionStateRestored:
             {
                 [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
-                RoutePaymentSingleton::getInstance()->doublePurchaseMessage();
+//                RoutePaymentSingleton::getInstance()->doublePurchaseMessage();
             }
             case SKPaymentTransactionStateDeferred:
             {
@@ -160,11 +172,13 @@ using namespace Azoomee;
     };
 }
 
+// Sent when all transactions from the user's purchase history have successfully been added back to the queue.
 - (void) paymentQueueRestoreCompletedTransactionsFinished:(SKPaymentQueue *)queue
 {
     RoutePaymentSingleton::getInstance()->doublePurchaseMessage();
 }
 
+// Sent when an error is encountered while adding transactions from the user's purchase history back to the queue.
 - (void) paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error
 {
     RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage([[NSString stringWithFormat:@"restoreCompletedTransactionsFailedWithError: %@",error.localizedDescription] UTF8String]);
@@ -173,12 +187,15 @@ using namespace Azoomee;
 - (void)request:(SKRequest *)request didFailWithError:(NSError *)error
 {
     NSLog(@"DidFailWithError error: %@", error.localizedDescription);
-
-    if(error.code == 16) // this error code is thrown when user cancels logging into their itunes account when restoring purchase, cant find propper code enum/defne for this
+    
+    // Error code 16 is undocumented because it's a private framework (StoreServices), however 16 corresponds to the user cancelling the login/password entry
+    // In this instance we don't want to show a popup, but in all other cases we continue and show an error popup
+    if([error.domain isEqualToString:@"SSErrorDomain"] && error.code == 16)
     {
         RoutePaymentSingleton::getInstance()->canceledAction();
         return;
     }
+    
     if(RoutePaymentSingleton::getInstance()->pressedRestorePurchaseButton)
     {
         RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage([[NSString stringWithFormat:@"DidFailWithError: %@",error.localizedDescription] UTF8String]);
@@ -209,17 +226,19 @@ using namespace Azoomee;
     
     if(receiptExist && !RoutePaymentSingleton::getInstance()->pressedIAPStartButton)
     {
-        [self sendReceiptToBackend];
+        [self sendReceiptToBackendWithTransactionID:nil];
     }
 }
 
--(void) sendReceiptToBackend
+-(void) sendReceiptToBackendWithTransactionID:(NSString*)transactionIdentifier
 {
     NSURL *receiptURL = [[NSBundle mainBundle] appStoreReceiptURL];
     NSData *receipt = [NSData dataWithContentsOfURL:receiptURL];
     NSString* receiptString = [receipt base64EncodedStringWithOptions:0];
     
-    ApplePaymentSingleton::getInstance()->transactionStatePurchased([receiptString UTF8String]);
+    const std::string& transactionID = (transactionIdentifier != nil) ? [transactionIdentifier UTF8String] : "";
+    
+    ApplePaymentSingleton::getInstance()->transactionStatePurchased([receiptString UTF8String], transactionID);
 }
 
 @end

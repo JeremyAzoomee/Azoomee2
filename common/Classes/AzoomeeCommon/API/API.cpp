@@ -439,10 +439,14 @@ HttpRequestCreator* API::VerifyAmazonPaymentRequest(const std::string& requestId
 }
 
 HttpRequestCreator* API::VerifyApplePaymentRequest(const std::string& receiptData,
+                                                   const std::string& transactionID,
                                                    HttpRequestCreatorResponseDelegate* delegate)
 {
+    const std::string& transactionIDList = (transactionID.empty()) ? "[]" : StringUtils::format("[\"%s\"]", transactionID.c_str());
+    
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestBody = StringUtils::format("{\"receipt-data\": \"%s\"}", receiptData.c_str());
+    request->requestBody = StringUtils::format("{\"receipt-data\": \"%s\", \"newTransactionIdList\": %s}", receiptData.c_str(), transactionIDList.c_str());
+    cocos2d::log("%s", request->requestBody.c_str());
     request->requestTag = TagVerifyApplePayment;
     request->method = "POST";
     request->encrypted = true;
