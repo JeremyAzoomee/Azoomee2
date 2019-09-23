@@ -15,6 +15,7 @@
 #include "FeaturedVideosHolder.h"
 #include "CircleContentHolder.h"
 #include "DropdownContentHolder.h"
+#include "EpisodeSelector.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -29,7 +30,7 @@ private:
     CircleContentHolder* _recentlyPlayedLayout = nullptr;
     cocos2d::Vector<DropdownContentHolder*> _dropdownLayouts;
     
-    cocos2d::ui::Layout* _episodePlayer = nullptr;
+    EpisodeSelector* _episodeSelector = nullptr;
     
     bool _episodePlayerOpen = true;
     bool _episodePlayerMoving = false;

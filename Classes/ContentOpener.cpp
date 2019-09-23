@@ -99,6 +99,7 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
 		hqHisMgr->setGroupHQSourceId(contentItem->getContentItemId());
 		
 		HQDataProvider::getInstance()->getDataForGroupHQ(contentItem->getUri());
+        Director::getInstance()->getEventDispatcher()->dispatchCustomEvent("groupRefresh");
     }
     else if(contentItem->getType() == ConfigStorage::kContentTypeInternal)
     {
