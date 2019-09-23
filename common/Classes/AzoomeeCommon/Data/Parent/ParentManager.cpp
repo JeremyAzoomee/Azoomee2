@@ -16,7 +16,9 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-static std::auto_ptr<ParentManager> sParentManagerSharedInstance;
+static std::unique_ptr<ParentManager> sParentManagerSharedInstance;
+const time_t ParentManager::kBillingDataCacheTime = 300;
+const std::string ParentManager::kParentBillingDataUpdatedEventName = "azoomee.ParentManager.BillingDataUpdated";
 
 ParentManager* ParentManager::getInstance()
 {
@@ -29,32 +31,15 @@ ParentManager* ParentManager::getInstance()
 
 ParentManager::~ParentManager()
 {
-	
-}
-
-void ParentManager::registerObserver(ParentDataObserver* observer)
-{
-    _observers.push_back(observer);
-}
-
-void ParentManager::unregisterObserver(ParentDataObserver* observer)
-{
-    auto it = std::find(_observers.begin(), _observers.end(), observer);
-    if(it != _observers.end())
-    {
-        _observers.erase(it);
-    }
 }
 
 void ParentManager::setBillingData(const BillingDataRef& billingData)
 {
+    _timeBillingDataLastUpdated = time(NULL);
 	_billingData = billingData;
     
     // Notify observers
-    for(auto observer : _observers)
-    {
-        observer->onParentBillingDataUpdated(_billingData);
-    }
+    cocos2d::Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(kParentBillingDataUpdatedEventName);
 }
 
 void ParentManager::setParent(const MutableParentRef& parent)
@@ -245,6 +230,12 @@ bool ParentManager::emailRequiresVerification()
 bool ParentManager::isUserLoggedIn()
 {
 	return (!isLoggedInParentAnonymous() && getLoggedInParentId() != "");
+}
+
+bool ParentManager::isBillingDateUpToDate()
+{
+    time_t timeNow = time(NULL);
+    return (timeNow - _timeBillingDataLastUpdated < kBillingDataCacheTime);
 }
 
 //------------------------------------getting information from available children------------------------------------------

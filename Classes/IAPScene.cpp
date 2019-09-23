@@ -15,6 +15,7 @@
 #include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include "MarketingAssetManager.h"
+#include "BackEndCaller.h"
 
 using namespace cocos2d;
 
@@ -134,6 +135,21 @@ void IAPScene::onEnter()
 			RoutePaymentSingleton::getInstance()->retryReceiptValidation();
 		}
 	}
+    
+    _billingDataUpdatedListener = EventListenerCustom::create(ParentManager::kParentBillingDataUpdatedEventName, [](EventCustom* event){
+        // If user is a paid user, they should not be on this screen
+        if(ParentManager::getInstance()->isPaidUser())
+        {
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
+        }
+    });
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(_billingDataUpdatedListener, this);
+    
+    // Update billing data if needed so we can be sure user doesn't already have a sub
+    if(!ParentManager::getInstance()->isBillingDateUpToDate())
+    {
+        BackEndCaller::getInstance()->updateBillingData();
+    }
 }
 void IAPScene::onExit()
 {
@@ -147,6 +163,11 @@ void IAPScene::onExit()
 		_eventDispatcher->removeEventListener(_paymentFailedListener);
 		_paymentFailedListener = nullptr;
 	}
+    if(_billingDataUpdatedListener)
+    {
+        _eventDispatcher->removeEventListener(_billingDataUpdatedListener);
+        _billingDataUpdatedListener = nullptr;
+    }
 	Super::onExit();
 }
 void IAPScene::onSizeChanged()

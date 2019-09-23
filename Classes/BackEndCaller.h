@@ -24,8 +24,6 @@ private:
     
     // Login API success
     void onLoginAnswerReceived(const std::string& responseString, const std::string& headerString);
-    // Update billing API success
-    void onUpdateBillingDataAnswerReceived(const std::string& responseString);
     // Update parent PIN API success
     void onUpdateParentPinAnswerReceived(const std::string& responseString);
     // Register parent API success
@@ -72,9 +70,9 @@ public:
     void anonymousDeviceLogin();
     
     // Update billing information if needed
-    void updateBillingInfoIfNeeded();
+    void updateBillingDataIfNeeded();
     // Update billing information from the server
-    void updateBillingInfo();
+    void updateBillingData();
     
     // Get Parent details
     void getParentDetails();

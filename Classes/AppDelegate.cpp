@@ -1,7 +1,6 @@
 #include "AppDelegate.h"
 #include "IntroVideoScene.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include "HQHistoryManager.h"
 #include "OfflineHubScene.h"
 #include "LoginLogicHandler.h"
@@ -16,6 +15,7 @@
 #include "ChatDelegate.h"
 #include "SceneManagerScene.h"
 #include "../ArtApp/Classes/AzoomeeArt/MainScene.h"
+#include "BackEndCaller.h"
 
 using namespace cocos2d;
 using namespace Azoomee;
@@ -96,7 +96,8 @@ void AppDelegate::applicationWillEnterForeground()
 	
     PushNotificationsHandler::getInstance()->resetExistingNotifications();
     
-    ParentManager::getInstance()->updateBillingInfoIfNeeded();
+    // Check if we need to update billing info
+    BackEndCaller::getInstance()->updateBillingDataIfNeeded();
 	
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 	if(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kIosWebviewName))

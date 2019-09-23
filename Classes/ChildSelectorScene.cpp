@@ -465,7 +465,7 @@ void ChildSelectorScene::getParentCookiesRequest()
     const std::string& userId = ParentManager::getInstance()->getLoggedInParentId();
     const std::string& sessionId = ParentManager::getInstance()->getLoggedInParentCdnSessionId();
     
-    HttpRequestCreator* request = API::GetGordenRequest(userId, sessionId, this);
+    HttpRequestCreator* request = API::GetSessionCookiesRequest(userId, sessionId, this);
     request->execute();
 }
 

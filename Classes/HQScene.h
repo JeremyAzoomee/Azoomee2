@@ -27,6 +27,7 @@ private:
 	void buildCoreUI();
 	void addParticleElementsToBackground();
 	void addXmasDecoration();
+    UserBillingType getUserBillingStatus() const;
 
 	cocos2d::Sprite* _verticalScrollGradient = nullptr;
 	
@@ -37,12 +38,15 @@ protected:
 	
 	NavigationLayer* _navLayer = nullptr;
 	
+    UserBillingType _userBillingStatus = UserBillingType::ANON;
 	UserTypeMessagingLayer* _messagingLayer = nullptr;
 	bool _showingMessagingLayer = true;
+    
 	
 	CoinDisplay* _coinDisplay = nullptr;
 	
 	cocos2d::EventListenerCustom* _rewardRedeemedListener = nullptr;
+    cocos2d::EventListenerCustom* _billingDataUpdatedListener = nullptr;
 	
 public:
 	

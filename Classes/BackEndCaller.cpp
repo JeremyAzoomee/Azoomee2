@@ -193,13 +193,18 @@ void BackEndCaller::anonymousDeviceLogin()
 
 //UPDATING BILLING DATA-------------------------------------------------------------------------------
 
-void BackEndCaller::updateBillingInfoIfNeeded()
+void BackEndCaller::updateBillingDataIfNeeded()
 {
-    // TODO: Check when we last updated billing info
+    if(!ParentManager::getInstance()->isBillingDateUpToDate())
+    {
+        updateBillingData();
+    }
 }
 
-void BackEndCaller::updateBillingInfo()
+void BackEndCaller::updateBillingData()
 {
+    // TODO: Ideally this should sit inside ParentManager entirely, but it can't due to the dependency on
+    //       BackEndCaller::onHttpRequestFailed login to set error codes and trigger doLoginLogic.
     auto onSuccess = [](const std::string& requestTag, const std::string& headers, const std::string& body) {
         ParentManager::getInstance()->parseParentBillingData(body);
     };
@@ -568,10 +573,6 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     else if(requestTag == "deepLinkContentRequest")
     {
         DeepLinkingSingleton::getInstance()->contentDetailsResponse(body);
-    }
-    else if(requestTag == API::TagUpdateBillingData)
-    {
-        onUpdateBillingDataAnswerReceived(body);
     }
     else if(requestTag == API::TagOfflineCheck)
     {

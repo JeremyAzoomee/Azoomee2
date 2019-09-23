@@ -25,16 +25,9 @@ class ParentManager
 {
 public:
 	static ParentManager* getInstance();
-	
 	virtual ~ParentManager();
     
-    /// Register a new observer. Note the caller is reponsible for calling unregisterObserver before observer goes out of scope
-    void registerObserver(ParentDataObserver* observer);
-    /// Unregister an observer
-    void unregisterObserver(ParentDataObserver* observer);
-	
-    void updateBillingInfoIfNeeded();
-    void updateBillingInfo();
+    static const std::string kParentBillingDataUpdatedEventName;
 	
 	void setParent(const MutableParentRef& parent);
 	ParentRef getParent() const;
@@ -63,6 +56,7 @@ public:
 	bool isPaidUser();
 	bool emailRequiresVerification();
 	bool isUserLoggedIn();
+    bool isBillingDateUpToDate();
 	
 	//-----------Pending Friend Requests-------------
 	int getNoOfPendingFriendRequest();
@@ -89,6 +83,7 @@ public:
 private:
     void setBillingData(const BillingDataRef& billingData);
     
+    time_t _timeBillingDataLastUpdated = 0;
 	BillingDataRef _billingData = nullptr;
 	MutableParentRef _parent = nullptr;
 	
@@ -105,14 +100,8 @@ private:
     
     /// Observers
     std::vector<ParentDataObserver*> _observers;
-};
-
-
-/**
- * Recieve events relating to the Parent object.
- */
-struct ParentDataObserver {
-    virtual void onParentBillingDataUpdated(const BillingDataRef& billingData);
+    
+    static const time_t kBillingDataCacheTime;
 };
 
 NS_AZOOMEE_END

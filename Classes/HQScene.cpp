@@ -50,6 +50,18 @@ void HQScene::onEnter()
 		}
 	});
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(_rewardRedeemedListener, this);
+    
+    _billingDataUpdatedListener = EventListenerCustom::create(ParentManager::kParentBillingDataUpdatedEventName, [this](EventCustom* event){
+        UserBillingType oldStatus = _userBillingStatus;
+        _userBillingStatus = getUserBillingStatus();
+        
+        // If the billing status has changed, re-load the scene
+        if(oldStatus != _userBillingStatus)
+        {
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
+        }
+    });
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(_billingDataUpdatedListener, this);
 	
 	Super::onEnter();
 }
@@ -58,6 +70,7 @@ void HQScene::onExit()
 {
 	TutorialController::getInstance()->unRegisterDelegate(this);
 	_eventDispatcher->removeEventListener(_rewardRedeemedListener);
+    _eventDispatcher->removeEventListener(_billingDataUpdatedListener);
 	_rewardRedeemedListener = nullptr;
 	Super::onExit();
 }
@@ -108,17 +121,11 @@ void HQScene::buildCoreUI()
 	_messagingLayer->setContentSize(Size(visibleSize.width, 350));
 	_messagingLayer->setPosition(-Vec2(0,350));
 	_messagingLayer->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-	UserBillingType userType = UserBillingType::ANON;
-	if(!ParentManager::getInstance()->isLoggedInParentAnonymous())
-	{
-		userType = UserBillingType::LAPSED;
-		if(ParentManager::getInstance()->isPaidUser())
-		{
-			userType = UserBillingType::PAID;
-		}
-	}
-	_messagingLayer->setUserType(userType);
-	if(userType == UserBillingType::PAID)
+    
+	_userBillingStatus = getUserBillingStatus();
+	_messagingLayer->setUserType(_userBillingStatus);
+    
+	if(_userBillingStatus == UserBillingType::PAID)
 	{
 		_showingMessagingLayer = false;
 		_messagingLayer->setOpacity(0);
@@ -201,7 +208,14 @@ void HQScene::addXmasDecoration()
 	snow2->runAction(Sequence::create(DelayTime::create(0.5f), EaseOut::create(ScaleTo::create(2.0f, 1.0f), 2.0f), NULL));
 }
 
-
+UserBillingType HQScene::getUserBillingStatus() const
+{
+    if(!ParentManager::getInstance()->isLoggedInParentAnonymous())
+    {
+        return (ParentManager::getInstance()->isPaidUser()) ? UserBillingType::PAID : UserBillingType::LAPSED;
+    }
+    return UserBillingType::ANON;
+}
 
 // Delegate Functions
 

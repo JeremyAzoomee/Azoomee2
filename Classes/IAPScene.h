@@ -29,6 +29,7 @@ private:
 	
 	cocos2d::EventListenerCustom* _paymentSuccessListener = nullptr;
 	cocos2d::EventListenerCustom* _paymentFailedListener = nullptr;
+    cocos2d::EventListenerCustom* _billingDataUpdatedListener = nullptr;
 	
 public:
 	
