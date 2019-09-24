@@ -23,7 +23,6 @@ class VideoHQ : public HQPage
 {
     typedef HQPage Super;
 private:
-    static const float kEpisodePlayerTabHeight;
     
     FeaturedVideosHolder* _featuredLayout = nullptr;
     DynamicText* _recentlyPlayedTitle = nullptr;
@@ -32,7 +31,7 @@ private:
     
     EpisodeSelector* _episodeSelector = nullptr;
     
-    bool _episodePlayerOpen = true;
+    bool _episodePlayerOpen = false;
     bool _episodePlayerMoving = false;
     
     void createFeaturedTiles();

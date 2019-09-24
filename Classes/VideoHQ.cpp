@@ -18,8 +18,6 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-const float VideoHQ::kEpisodePlayerTabHeight = 100.0f;
-
 bool VideoHQ::init()
 {
     if(!Super::init())
@@ -67,7 +65,7 @@ void VideoHQ::onSizeChanged()
         {
             if(_episodePlayerOpen)
             {
-                _episodeSelector->setPosition(Vec2(getContentSize().width / 2.0f, -_episodeSelector->getContentSize().height + kEpisodePlayerTabHeight));
+                _episodeSelector->setPosition(Vec2(getContentSize().width / 2.0f, -_episodeSelector->getContentSize().height));
                 _episodePlayerOpen = false;
                 _episodePlayerMoving = false;
             }
@@ -88,7 +86,7 @@ void VideoHQ::onSizeChanged()
             }
             else
             {
-                _episodeSelector->setPosition(Vec2(getContentSize().width / 2.0f, -_episodeSelector->getContentSize().height + kEpisodePlayerTabHeight));
+                _episodeSelector->setPosition(Vec2(getContentSize().width / 2.0f, -_episodeSelector->getContentSize().height));
                 _episodePlayerOpen = false;
                 _episodePlayerMoving = false;
             }
@@ -103,7 +101,6 @@ void VideoHQ::onSizeChanged()
         _episodeSelector->setPosition(Vec2(getContentSize().width / 4.0f,getContentSize().height * 0.05f));
         _episodeSelector->setSizePercent(Vec2(0.475,0.95f));
         _episodeSelector->setVisible(true);
-        _episodePlayerOpen = false;
         _episodePlayerMoving = false;
     }
     
@@ -220,7 +217,7 @@ void VideoHQ::createEpisodePlayer()
                 if(!_episodePlayerMoving)
                 {
                     _episodePlayerMoving = true;
-                    _episodeSelector->runAction(Sequence::createWithTwoActions(MoveTo::create(1.0f, Vec2(getContentSize().width / 2.0f,-_episodeSelector->getContentSize().height + kEpisodePlayerTabHeight)), CallFunc::create([this](){
+                    _episodeSelector->runAction(Sequence::createWithTwoActions(MoveTo::create(1.0f, Vec2(getContentSize().width / 2.0f,-_episodeSelector->getContentSize().height)), CallFunc::create([this](){
                         _episodePlayerOpen = false;
                         _episodePlayerMoving = false;
                         _episodeSelector->setVisible(false);

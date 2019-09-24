@@ -23,13 +23,21 @@ bool EpisodeSelector::init()
     setSizeType(SizeType::PERCENT);
     setSizePercent(Vec2(1.0f, 1.0f));
     
+    _stencil = ui::Scale9Sprite::create("res/hqscene/rounded_rect_20px.png");
+    _stencil->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+    
+    _contentClipper = ClippingNode::create(_stencil);
+    _contentClipper->setAlphaThreshold(0.9f);
+    _contentClipper->setPosition(Vec2(0,0));
+    addChild(_contentClipper);
+    
     _contentLayout = ui::Layout::create();
     _contentLayout->setSizeType(SizeType::PERCENT);
     _contentLayout->setSizePercent(Vec2(1.0f,1.0f));
     _contentLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _contentLayout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _contentLayout->setLayoutType(Type::VERTICAL);
-    addChild(_contentLayout);
+    _contentClipper->addChild(_contentLayout);
     
     _headerLayout = ui::Layout::create();
     _headerLayout->setSizeType(SizeType::PERCENT);
@@ -61,6 +69,10 @@ bool EpisodeSelector::init()
     _episodeListView->setBackGroundColor(Style::Color::darkIndigoThree);
     _contentLayout->addChild(_episodeListView);
     
+    const Color3B& gradientColour = Style::Color::darkIndigoThree;
+    _bottonGradient = LayerGradient::create(Color4B(gradientColour.r, gradientColour.g, gradientColour.b, 0), Color4B(gradientColour.r, gradientColour.g, gradientColour.b, 255));
+    _bottonGradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _contentLayout->addChild(_bottonGradient);
     
     return true;
 }
@@ -78,13 +90,16 @@ void EpisodeSelector::onExit()
 void EpisodeSelector::onSizeChanged()
 {
     Super::onSizeChanged();
-    
+    _contentClipper->setContentSize(getContentSize());
+    _stencil->setContentSize(getContentSize());
+    _contentLayout->updateSizeAndPosition();
     _bannerImage->setScale(_bannerImage->getContentSize().height / (getContentSize().height * 0.8f));
     _divider->setContentSize(Size(getContentSize().width, 10));
     for(auto bar : _episodeBars)
     {
         bar->setContentSize(Size(getContentSize().width - 90, 300));
     }
+    _bottonGradient->setContentSize(Size(getContentSize().width, 300));
 }
 
 void EpisodeSelector::setHqData(const HQDataObjectRef& hqData)
