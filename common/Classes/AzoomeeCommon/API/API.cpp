@@ -446,7 +446,6 @@ HttpRequestCreator* API::VerifyApplePaymentRequest(const std::string& receiptDat
     
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->requestBody = StringUtils::format("{\"receipt-data\": \"%s\", \"newTransactionIdList\": %s}", receiptData.c_str(), transactionIDList.c_str());
-    cocos2d::log("%s", request->requestBody.c_str());
     request->requestTag = TagVerifyApplePayment;
     request->method = "POST";
     request->encrypted = true;

@@ -122,8 +122,6 @@ using namespace Azoomee;
 
 -(void) startPaymentQueue
 {
-//    [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
-    
     SKPayment * payment = [SKPayment paymentWithProduct:self.oneMonthSubscription];
     [[SKPaymentQueue defaultQueue] addPayment:payment];
 }
@@ -160,7 +158,6 @@ using namespace Azoomee;
             case SKPaymentTransactionStateRestored:
             {
                 [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
-//                RoutePaymentSingleton::getInstance()->doublePurchaseMessage();
             }
             case SKPaymentTransactionStateDeferred:
             {
