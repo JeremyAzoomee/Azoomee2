@@ -34,7 +34,7 @@ protected:
     cocos2d::ui::ListView* _contentListView = nullptr;
     cocos2d::ui::Layout* _staticContentLayout = nullptr;
     
-    ContentSelectedCallback _contentSceletedCallback = nullptr;
+    ContentSelectedCallback _contentSelectedCallback = nullptr;
     
     cocos2d::Vec2 _resizingPositionLock;
     

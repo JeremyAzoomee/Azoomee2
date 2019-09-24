@@ -56,10 +56,10 @@ void HQDataProvider::getDataForHQ(const std::string &hqName)
 
 void HQDataProvider::getDataForGroupHQ(const std::string &uri)
 {
-    displayLoadingScreen();
+    //displayLoadingScreen();
 
     HQStructureDownloadHandler::getInstance()->loadGroupHQData(uri);
-    startBuildingHQ(ConfigStorage::kGroupHQName);
+    //startBuildingHQ(ConfigStorage::kGroupHQName);
 }
 
 int HQDataProvider::getNumberOfRowsForHQ(const std::string &hqName) const

@@ -62,18 +62,18 @@ void VideoHQ::onSizeChanged()
         _contentListView->setSizePercent(Vec2(1.0f, 1.0f));
         _staticContentLayout->setSizePercent(Vec2(0.0f, 1.0f));
         
-        _episodeSelector->setSizePercent(Vec2(1.0,1.0f));
+        _episodeSelector->setSizePercent(Vec2(0.975,1.0f));
         if(_episodePlayerMoving)
         {
             if(_episodePlayerOpen)
             {
-                _episodeSelector->setPosition(Vec2(0, -_episodeSelector->getContentSize().height + kEpisodePlayerTabHeight));
+                _episodeSelector->setPosition(Vec2(getContentSize().width / 2.0f, -_episodeSelector->getContentSize().height + kEpisodePlayerTabHeight));
                 _episodePlayerOpen = false;
                 _episodePlayerMoving = false;
             }
             else
             {
-                _episodeSelector->setPosition(Vec2(0,0));
+                _episodeSelector->setPosition(Vec2(getContentSize().width / 2.0f,0));
                 _episodePlayerOpen = true;
                 _episodePlayerMoving = false;
             }
@@ -82,25 +82,27 @@ void VideoHQ::onSizeChanged()
         {
             if(_episodePlayerOpen)
             {
-                _episodeSelector->setPosition(Vec2(0,0));
+                _episodeSelector->setPosition(Vec2(getContentSize().width / 2.0f,0));
                 _episodePlayerOpen = true;
                 _episodePlayerMoving = false;
             }
             else
             {
-                _episodeSelector->setPosition(Vec2(0, -_episodeSelector->getContentSize().height + kEpisodePlayerTabHeight));
+                _episodeSelector->setPosition(Vec2(getContentSize().width / 2.0f, -_episodeSelector->getContentSize().height + kEpisodePlayerTabHeight));
                 _episodePlayerOpen = false;
                 _episodePlayerMoving = false;
             }
         }
+        _episodeSelector->setVisible(_episodePlayerOpen);
     }
     else
     {
         _contentListView->setSizePercent(Vec2(0.5f, 1.0f));
         _staticContentLayout->setSizePercent(Vec2(0.5f, 1.0f));
         
-        _episodeSelector->setPosition(Vec2(0,0));
-        _episodeSelector->setSizePercent(Vec2(0.5,1.0f));
+        _episodeSelector->setPosition(Vec2(getContentSize().width / 4.0f,getContentSize().height * 0.05f));
+        _episodeSelector->setSizePercent(Vec2(0.475,0.95f));
+        _episodeSelector->setVisible(true);
         _episodePlayerOpen = false;
         _episodePlayerMoving = false;
     }
@@ -128,9 +130,9 @@ void VideoHQ::createFeaturedTiles()
     _featuredLayout->setContentSize(Size(_contentListView->getContentSize().width, kFeaturedContentHeightPortrait));
     _featuredLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _featuredLayout->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
-        if(_contentSceletedCallback)
+        if(_contentSelectedCallback)
         {
-            _contentSceletedCallback(content, elementIndex, 0);
+            _contentSelectedCallback(content, elementIndex, 0);
         }
     });
     _contentListView->pushBackCustomItem(_featuredLayout);
@@ -159,9 +161,9 @@ void VideoHQ::createRecentlyPlayedTiles()
     _recentlyPlayedLayout->setMaxRows(1);
     _recentlyPlayedLayout->setContentSize(Size(_contentListView->getSizePercent().x * getContentSize().width, 0));
     _recentlyPlayedLayout->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
-        if(_contentSceletedCallback)
+        if(_contentSelectedCallback)
         {
-            _contentSceletedCallback(content, elementIndex, -1);
+            _contentSelectedCallback(content, elementIndex, -1);
         }
     });
     _contentListView->pushBackCustomItem(_recentlyPlayedLayout);
@@ -180,9 +182,9 @@ void VideoHQ::createDropdowns()
         dropdown->setFrameColour(Style::Color::azure);
         dropdown->setPatternColour(Style::Color::azure);
         dropdown->setContentSelectedCallback([this, i](HQContentItemObjectRef content, int elementIndex){
-            if(_contentSceletedCallback)
+            if(_contentSelectedCallback)
             {
-                _contentSceletedCallback(content, elementIndex, i);
+                _contentSelectedCallback(content, elementIndex, i);
             }
         });
         dropdown->setOnResizeCallback([this](){
@@ -205,12 +207,10 @@ void VideoHQ::createEpisodePlayer()
     HQDataProvider::getInstance()->getDataForGroupHQ(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kVideoHQName)->getHqCarousels().at(0)->getContentItems().at(0)->getUri());
     _episodeSelector = EpisodeSelector::create();
     _episodeSelector->setSizeType(SizeType::PERCENT);
-    _episodeSelector->setSizePercent(Vec2(1.0f,1.0f));
-    //_episodePlayer->setBackGroundColorType(BackGroundColorType::SOLID);
-    //_episodePlayer->setBackGroundColor(Color3B::GREEN);
+    _episodeSelector->setSizePercent(Vec2(0.975f,1.0f));
     _episodeSelector->setHqData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGroupHQName));
-    _episodeSelector->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-    _episodeSelector->setPosition(Vec2(0,0));
+    _episodeSelector->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _episodeSelector->setPosition(Vec2(getContentSize().width / 2.0f,0));
     _episodeSelector->setTouchEnabled(true);
     _episodeSelector->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
@@ -220,9 +220,10 @@ void VideoHQ::createEpisodePlayer()
                 if(!_episodePlayerMoving)
                 {
                     _episodePlayerMoving = true;
-                    _episodeSelector->runAction(Sequence::createWithTwoActions(MoveTo::create(1.0f, Vec2(0,-_episodeSelector->getContentSize().height + kEpisodePlayerTabHeight)), CallFunc::create([this](){
+                    _episodeSelector->runAction(Sequence::createWithTwoActions(MoveTo::create(1.0f, Vec2(getContentSize().width / 2.0f,-_episodeSelector->getContentSize().height + kEpisodePlayerTabHeight)), CallFunc::create([this](){
                         _episodePlayerOpen = false;
                         _episodePlayerMoving = false;
+                        _episodeSelector->setVisible(false);
                     })));
                 }
             }
@@ -231,7 +232,8 @@ void VideoHQ::createEpisodePlayer()
                 if(!_episodePlayerMoving)
                 {
                     _episodePlayerMoving = true;
-                    _episodeSelector->runAction(Sequence::createWithTwoActions(MoveTo::create(1.0f, Vec2(0,0)), CallFunc::create([this](){
+                    _episodeSelector->setVisible(true);
+                    _episodeSelector->runAction(Sequence::createWithTwoActions(MoveTo::create(1.0f, Vec2(getContentSize().width / 2.0f,0)), CallFunc::create([this](){
                         _episodePlayerOpen = true;
                         _episodePlayerMoving = false;
                     })));
@@ -243,6 +245,19 @@ void VideoHQ::createEpisodePlayer()
     
     EventListenerCustom* eventListener = EventListenerCustom::create("groupRefresh", [this](EventCustom* event){
         _episodeSelector->setHqData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGroupHQName));
+        if(_isPortrait && !_episodePlayerOpen && !_episodePlayerMoving)
+        {
+            _episodePlayerMoving = true;
+            _episodeSelector->setVisible(true);
+            _episodeSelector->runAction(Sequence::createWithTwoActions(MoveTo::create(1.0f, Vec2(getContentSize().width / 2.0f,0)), CallFunc::create([this](){
+                _episodePlayerOpen = true;
+                _episodePlayerMoving = false;
+            })));
+        }
+        else
+        {
+            _episodePlayerOpen = true;
+        }
     });
     _eventDispatcher->addEventListenerWithSceneGraphPriority(eventListener, this);
     

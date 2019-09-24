@@ -89,14 +89,14 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
     }
     else if(contentItem->getType()  == ConfigStorage::kContentTypeAudioGroup || contentItem->getType()  == ConfigStorage::kContentTypeGroup)
     {
-        ModalMessages::getInstance()->stopLoading();
-		auto hqHisMgr = HQHistoryManager::getInstance();
-        hqHisMgr->addHQToHistoryManager(ConfigStorage::kGroupHQName);
-		if(hqHisMgr->getGroupHQSourceId() != contentItem->getContentItemId())
-		{
-			hqHisMgr->removeHQFromCache(ConfigStorage::kGroupHQName);
-		}
-		hqHisMgr->setGroupHQSourceId(contentItem->getContentItemId());
+        //ModalMessages::getInstance()->stopLoading();
+		//auto hqHisMgr = HQHistoryManager::getInstance();
+        //hqHisMgr->addHQToHistoryManager(ConfigStorage::kGroupHQName);
+		//if(hqHisMgr->getGroupHQSourceId() != contentItem->getContentItemId())
+		//{
+		//	hqHisMgr->removeHQFromCache(ConfigStorage::kGroupHQName);
+		//}
+		//hqHisMgr->setGroupHQSourceId(contentItem->getContentItemId());
 		
 		HQDataProvider::getInstance()->getDataForGroupHQ(contentItem->getUri());
         Director::getInstance()->getEventDispatcher()->dispatchCustomEvent("groupRefresh");

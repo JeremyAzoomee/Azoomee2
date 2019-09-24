@@ -72,7 +72,7 @@ void HQPage::onSizeChanged()
 
 void HQPage::setContentSelectedCallback(const ContentSelectedCallback& callback)
 {
-    _contentSceletedCallback = callback;
+    _contentSelectedCallback = callback;
 }
 
 void HQPage::listviewDropdownResizeCallback()

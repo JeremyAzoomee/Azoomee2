@@ -51,20 +51,17 @@ bool EpisodeBar::init()
     _contentImage->addChild(_playIcon);
     
     _textLayout = ui::Layout::create();
-    _textLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
-    _textLayout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
+    _textLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
     _textLayout->setLayoutType(Type::VERTICAL);
     _contentClipper->addChild(_textLayout);
     
     _episodeTag = DynamicText::create(StringUtils::format("%s %d",_("Episode").c_str(),0), Style::Font::PoppinsMedium(), 53);
-    _episodeTag->setLayoutParameter(CreateLeftLinearLayoutParam(ui::Margin(60,0,60,0)));
     _episodeTag->setTextHorizontalAlignment(TextHAlignment::LEFT);
     _episodeTag->setTextVerticalAlignment(TextVAlignment::CENTER);
     _episodeTag->setOverflow(Label::Overflow::RESIZE_HEIGHT);
     _textLayout->addChild(_episodeTag);
     
     _episodeTitle = DynamicText::create("", Style::Font::PoppinsBold(), 61);
-    _episodeTitle->setLayoutParameter(CreateLeftLinearLayoutParam(ui::Margin(60,0,60,0)));
     _episodeTitle->setTextColor(Color4B::WHITE);
     _episodeTitle->setTextHorizontalAlignment(TextHAlignment::LEFT);
     _episodeTitle->setTextVerticalAlignment(TextVAlignment::CENTER);
@@ -78,6 +75,7 @@ void EpisodeBar::onEnter()
 {
     startCheckingForOnScreenPosition(this);
     Super::onEnter();
+    onSizeChanged();
 }
 
 void EpisodeBar::onExit()
@@ -106,9 +104,10 @@ void EpisodeBar::onSizeChanged()
     
     _episodeTag->setMaxLineWidth(textMaxWidth);
     _episodeTitle->setMaxLineWidth(textMaxWidth);
-    
+
+    _textLayout->setPosition(Vec2(imageWidth + 60,contentSize.height / 2.0f));
     _textLayout->setContentSize(Size(textMaxWidth, _episodeTag->getContentSize().height + _episodeTitle->getContentSize().height));
-    
+    _textLayout->forceDoLayout();
 }
 
 void EpisodeBar::setEpisodeNumber(int episodeNumber)

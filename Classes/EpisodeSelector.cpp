@@ -34,6 +34,8 @@ bool EpisodeSelector::init()
     _headerLayout = ui::Layout::create();
     _headerLayout->setSizeType(SizeType::PERCENT);
     _headerLayout->setSizePercent(Vec2(1.0f, 0.29f));
+    _headerLayout->setBackGroundColorType(BackGroundColorType::SOLID);
+    _headerLayout->setBackGroundColor(Style::Color::azure);
     _contentLayout->addChild(_headerLayout);
     
     _bannerImage = Sprite::create();
@@ -54,6 +56,7 @@ bool EpisodeSelector::init()
     _episodeListView->setBounceEnabled(true);
     _episodeListView->setItemsMargin(30);
     _episodeListView->setPadding(45, 45, 45, 45);
+    _episodeListView->setGravity(ui::ListView::Gravity::LEFT);
     _episodeListView->setBackGroundColorType(BackGroundColorType::SOLID);
     _episodeListView->setBackGroundColor(Style::Color::darkIndigoThree);
     _contentLayout->addChild(_episodeListView);
@@ -91,6 +94,7 @@ void EpisodeSelector::setHqData(const HQDataObjectRef& hqData)
     ImageDownloaderRef downloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
     downloader->downloadImage(this, _hqData->getGroupLogo());
     _divider->setBackGroundColor(Style::Color::macaroniAndCheese);
+    onSizeChanged();
 }
 
 void EpisodeSelector::setupEpisodeBars()
@@ -107,7 +111,6 @@ void EpisodeSelector::setupEpisodeBars()
             for(auto item : itemList)
             {
                 EpisodeBar* bar = EpisodeBar::create();
-                bar->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
                 bar->setContentItemData(item);
                 bar->setEpisodeNumber(i++);
                 bar->setEpisodeTagColour(Style::Color::macaroniAndCheese);
