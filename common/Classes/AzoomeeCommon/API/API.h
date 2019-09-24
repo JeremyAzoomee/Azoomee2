@@ -158,6 +158,7 @@ public:
                                                           HttpRequestCreatorResponseDelegate* delegate);
     
     static HttpRequestCreator* VerifyApplePaymentRequest(const std::string& receiptData,
+                                                         const std::string& transactionID,
                                                          HttpRequestCreatorResponseDelegate* delegate);
     
     static HttpRequestCreator* GetEncryptedContentRequest(const std::string& url,
