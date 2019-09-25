@@ -253,6 +253,9 @@ void HQScene::createPageUI()
     _videoHQ->setContentSelectedCallback([](HQContentItemObjectRef content, int elementIndex, int rowIndex){
         ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, ConfigStorage::kVideoHQName);
     });
+    _videoHQ->setEpisodeSelectorContentSelectedCallback([](HQContentItemObjectRef content, int elementIndex, int rowIndex){
+        ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, ConfigStorage::kGroupHQName);
+    });
     _pageLayout->addChild(_videoHQ);
     
     _oomeeHQ = OomeeHQ::create();

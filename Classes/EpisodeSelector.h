@@ -20,7 +20,10 @@ NS_AZOOMEE_BEGIN
 class EpisodeSelector : public cocos2d::ui::Layout, ImageDownloaderDelegate
 {
     typedef cocos2d::ui::Layout Super;
+    typedef std::function<void(HQContentItemObjectRef, int)> ContentSelectedCallback;
 private:
+    
+    static const float kListViewPadding;
     
     cocos2d::ClippingNode* _contentClipper = nullptr;
     cocos2d::ui::Scale9Sprite* _stencil = nullptr;
@@ -32,9 +35,11 @@ private:
     cocos2d::ui::Layout* _divider = nullptr;
     cocos2d::ui::ListView* _episodeListView = nullptr;
     cocos2d::Vector<EpisodeBar*> _episodeBars;
-    cocos2d::LayerGradient* _bottonGradient = nullptr;
+    cocos2d::LayerGradient* _bottomGradient = nullptr;
     
     HQDataObjectRef _hqData = nullptr;
+    
+    ContentSelectedCallback _callback = nullptr;
     
     void setupEpisodeBars();
     
@@ -46,6 +51,9 @@ public:
     void onSizeChanged() override;
     
     void setHqData(const HQDataObjectRef& hqData);
+    void setContentSelectedCallback(const ContentSelectedCallback& callback);
+    
+    void toggleBottomGradient(bool enabled);
     
     CREATE_FUNC(EpisodeSelector);
     

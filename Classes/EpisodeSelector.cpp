@@ -13,6 +13,8 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+const float EpisodeSelector::kListViewPadding = 45.0f;
+
 bool EpisodeSelector::init()
 {
     if(!Super::init())
@@ -63,16 +65,16 @@ bool EpisodeSelector::init()
     _episodeListView->setDirection(ui::ListView::Direction::VERTICAL);
     _episodeListView->setBounceEnabled(true);
     _episodeListView->setItemsMargin(30);
-    _episodeListView->setPadding(45, 45, 45, 45);
+    _episodeListView->setPadding(kListViewPadding, kListViewPadding, kListViewPadding, kListViewPadding);
     _episodeListView->setGravity(ui::ListView::Gravity::LEFT);
     _episodeListView->setBackGroundColorType(BackGroundColorType::SOLID);
     _episodeListView->setBackGroundColor(Style::Color::darkIndigoThree);
     _contentLayout->addChild(_episodeListView);
     
     const Color3B& gradientColour = Style::Color::darkIndigoThree;
-    _bottonGradient = LayerGradient::create(Color4B(gradientColour.r, gradientColour.g, gradientColour.b, 0), Color4B(gradientColour.r, gradientColour.g, gradientColour.b, 255));
-    _bottonGradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-    _contentLayout->addChild(_bottonGradient);
+    _bottomGradient = LayerGradient::create(Color4B(gradientColour.r, gradientColour.g, gradientColour.b, 0), Color4B(gradientColour.r, gradientColour.g, gradientColour.b, 255));
+    _bottomGradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _contentLayout->addChild(_bottomGradient);
     
     return true;
 }
@@ -97,9 +99,9 @@ void EpisodeSelector::onSizeChanged()
     _divider->setContentSize(Size(getContentSize().width, 10));
     for(auto bar : _episodeBars)
     {
-        bar->setContentSize(Size(getContentSize().width - 90, 300));
+        bar->setContentSize(Size(getContentSize().width - (2 * kListViewPadding), 300));
     }
-    _bottonGradient->setContentSize(Size(getContentSize().width, 300));
+    _bottomGradient->setContentSize(Size(getContentSize().width, 300));
 }
 
 void EpisodeSelector::setHqData(const HQDataObjectRef& hqData)
@@ -110,6 +112,16 @@ void EpisodeSelector::setHqData(const HQDataObjectRef& hqData)
     downloader->downloadImage(this, _hqData->getGroupLogo());
     _divider->setBackGroundColor(Style::Color::macaroniAndCheese);
     onSizeChanged();
+}
+
+void EpisodeSelector::setContentSelectedCallback(const ContentSelectedCallback& callback)
+{
+    _callback = callback;
+}
+
+void EpisodeSelector::toggleBottomGradient(bool enabled)
+{
+    _bottomGradient->setVisible(enabled);
 }
 
 void EpisodeSelector::setupEpisodeBars()
@@ -129,12 +141,19 @@ void EpisodeSelector::setupEpisodeBars()
                 bar->setContentItemData(item);
                 bar->setEpisodeNumber(i++);
                 bar->setEpisodeTagColour(Style::Color::macaroniAndCheese);
-                bar->setContentSize(Size(getContentSize().width - 90, 300));
+                bar->setContentSize(Size(getContentSize().width - (2 * kListViewPadding), 300));
+                bar->setContentSelectedCallback([this, i](HQContentItemObjectRef content){
+                    if(_callback)
+                    {
+                        _callback(content, i);
+                    }
+                });
                 _episodeListView->pushBackCustomItem(bar);
                 _episodeBars.pushBack(bar);
             }
         }
     }
+    _episodeListView->scrollToTop(0, false);
 }
 
 // delegate functions

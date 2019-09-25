@@ -21,6 +21,7 @@ class EpisodeBar : public ContentTile, public OnScreenChecker
 private:
     
     static const cocos2d::Vec2 kDropShadowPadding;
+    static const float kTextPadding;
     
     cocos2d::ui::ImageView* _dropShadow = nullptr;
     cocos2d::ClippingNode* _contentClipper = nullptr;

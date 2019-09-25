@@ -31,6 +31,8 @@ private:
     
     EpisodeSelector* _episodeSelector = nullptr;
     
+    ContentSelectedCallback _episodeSelectorContentSelectedCallback = nullptr;
+    
     bool _episodePlayerOpen = false;
     bool _episodePlayerMoving = false;
     
@@ -45,6 +47,8 @@ public:
     void onEnter() override;
     void onExit() override;
     void onSizeChanged() override;
+    
+    void setEpisodeSelectorContentSelectedCallback(const ContentSelectedCallback& callback);
     
     CREATE_FUNC(VideoHQ);
 };

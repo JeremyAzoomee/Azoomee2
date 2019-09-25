@@ -16,6 +16,7 @@ using namespace cocos2d;
 NS_AZOOMEE_BEGIN
 
 const Vec2 EpisodeBar::kDropShadowPadding = Vec2(50,50);
+const float EpisodeBar::kTextPadding = 60.0f;
 
 bool EpisodeBar::init()
 {
@@ -100,14 +101,22 @@ void EpisodeBar::onSizeChanged()
     
     _contentImage->setContentSize(Size(imageWidth, contentSize.height));
     
-    const float textMaxWidth = contentSize.width - imageWidth - 120;
+    const float textMaxWidth = contentSize.width - imageWidth - (2 * kTextPadding);
     
     _episodeTag->setMaxLineWidth(textMaxWidth);
     _episodeTitle->setMaxLineWidth(textMaxWidth);
 
-    _textLayout->setPosition(Vec2(imageWidth + 60,contentSize.height / 2.0f));
+    _textLayout->setPosition(Vec2(imageWidth + kTextPadding,contentSize.height / 2.0f));
     _textLayout->setContentSize(Size(textMaxWidth, _episodeTag->getContentSize().height + _episodeTitle->getContentSize().height));
-    _textLayout->forceDoLayout();
+    if(_textLayout->getContentSize().height > contentSize.height * 0.9f)
+    {
+        _textLayout->setScale(contentSize.height * 0.9f / _textLayout->getContentSize().height);
+    }
+    else
+    {
+        _textLayout->setScale(1.0f);
+    }
+    _textLayout->updateSizeAndPosition();
 }
 
 void EpisodeBar::setEpisodeNumber(int episodeNumber)
