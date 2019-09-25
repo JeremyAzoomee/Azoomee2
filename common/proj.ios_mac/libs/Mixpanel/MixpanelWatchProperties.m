@@ -7,6 +7,8 @@
 //
 
 #import "MixpanelWatchProperties.h"
+#import "TargetConditionals.h"
+#if !TARGET_OS_IOS
 #import <WatchKit/WatchKit.h>
 
 @implementation MixpanelWatchProperties
@@ -45,3 +47,5 @@
 }
 
 @end
+
+#endif
