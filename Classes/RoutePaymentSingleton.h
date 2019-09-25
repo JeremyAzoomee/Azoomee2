@@ -26,6 +26,10 @@ public:
     void startInAppPayment();
     void inAppPaymentSuccess();
     
+#if defined(AZOOMEE_ENVIRONMENT_CI)
+    void startIOSRecPayment();
+#endif
+    
     bool showIAPContent();
     
     bool osIsIos();
