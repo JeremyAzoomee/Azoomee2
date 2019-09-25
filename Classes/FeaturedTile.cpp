@@ -41,6 +41,19 @@ bool FeaturedTile::init()
     _contentImage->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _contentClipper->addChild(_contentImage);
     
+    const Color3B& overlayColour = Style::Color::darkIndigo;
+    _lockedOverlay = LayerColor::create(Color4B(overlayColour.r, overlayColour.g, overlayColour.b, 204));
+    _lockedOverlay->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    _lockedOverlay->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _lockedOverlay->setIgnoreAnchorPointForPosition(false);
+    _contentClipper->addChild(_lockedOverlay);
+    
+    _padlock = ui::ImageView::create("res/hqscene/oomee_padlock.png");
+    _padlock->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
+    _padlock->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_RIGHT);
+    _padlock->ignoreContentAdaptWithSize(false);
+    _lockedOverlay->addChild(_padlock);
+    
     return true;
 }
 
@@ -60,30 +73,44 @@ void FeaturedTile::onExit()
 void FeaturedTile::onSizeChanged()
 {
     Super::onSizeChanged();
-    _contentClipper->setContentSize(getContentSize());
-    _clippingStencil->setContentSize(getContentSize() - Size(12,12));
+    
+    const Size& contentSize = getContentSize();
+    
+    _contentClipper->setContentSize(contentSize);
+    _clippingStencil->setContentSize(contentSize - Size(12,12));
+    _lockedOverlay->setContentSize(contentSize);
+    _padlock->setContentSize(Size(contentSize.height * (0.5f / _imageShape.y), contentSize.height * (0.5f / _imageShape.y)));
     switch(_scaleMode)
     {
         case ImageScaleMode::FIT_WIDTH:
         {
-            _contentImage->setScale(getContentSize().width / _contentImage->getContentSize().width);
+            _contentImage->setScale(contentSize.width / _contentImage->getContentSize().width);
             break;
         }
         case ImageScaleMode::FIT_HEIGHT:
         {
-            _contentImage->setScale(getContentSize().height / _contentImage->getContentSize().height);
+            _contentImage->setScale(contentSize.height / _contentImage->getContentSize().height);
             break;
         }
         case ImageScaleMode::SHOW_ALL:
         {
-            _contentImage->setScale(MIN(getContentSize().height / _contentImage->getContentSize().height, getContentSize().width / _contentImage->getContentSize().width));
+            _contentImage->setScale(MIN(contentSize.height / _contentImage->getContentSize().height, contentSize.width / _contentImage->getContentSize().width));
             break;
         }
         case ImageScaleMode::FILL_ALL:
         {
-            _contentImage->setScale(MAX(getContentSize().height / _contentImage->getContentSize().height, getContentSize().width / _contentImage->getContentSize().width));
+            _contentImage->setScale(MAX(contentSize.height / _contentImage->getContentSize().height, contentSize.width / _contentImage->getContentSize().width));
             break;
         }
+    }
+}
+
+void FeaturedTile::setContentItemData(const HQContentItemObjectRef& contentItem)
+{
+    _contentItem = contentItem;
+    if(_contentItem)
+    {
+        _lockedOverlay->setVisible(!_contentItem->isEntitled());
     }
 }
 
