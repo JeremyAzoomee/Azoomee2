@@ -16,6 +16,8 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+const std::string HQDataProvider::kGroupRefreshEvent = "groupRefresh";
+
 static HQDataProvider *_sharedHQDataProvider = NULL;
 
 HQDataProvider* HQDataProvider::getInstance()
@@ -56,10 +58,8 @@ void HQDataProvider::getDataForHQ(const std::string &hqName)
 
 void HQDataProvider::getDataForGroupHQ(const std::string &uri)
 {
-    //displayLoadingScreen();
-
     HQStructureDownloadHandler::getInstance()->loadGroupHQData(uri);
-    //startBuildingHQ(ConfigStorage::kGroupHQName);
+    Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(kGroupRefreshEvent);
 }
 
 int HQDataProvider::getNumberOfRowsForHQ(const std::string &hqName) const

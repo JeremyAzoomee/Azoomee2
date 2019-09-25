@@ -252,7 +252,7 @@ void VideoHQ::createEpisodePlayer()
     });
     addChild(_episodeSelector, 1);
     
-    EventListenerCustom* eventListener = EventListenerCustom::create("groupRefresh", [this](EventCustom* event){
+    EventListenerCustom* eventListener = EventListenerCustom::create(HQDataProvider::kGroupRefreshEvent, [this](EventCustom* event){
         _episodeSelector->setHqData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGroupHQName));
         if(_isPortrait && !_episodePlayerOpen && !_episodePlayerMoving)
         {
