@@ -18,6 +18,10 @@ public:
     void startIAPPayment();
     void refreshReceipt(bool usingButton);
     
+#if defined(AZOOMEE_ENVIRONMENT_CI)
+    void startRecIAPPayment();
+#endif
+    
     void transactionStatePurchased(const std::string& receiptData, const std::string& transactionID);
     void onAnswerReceived(const std::string& responseDataString);
     

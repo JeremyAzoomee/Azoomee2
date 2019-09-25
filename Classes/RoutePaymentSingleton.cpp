@@ -93,6 +93,35 @@ void RoutePaymentSingleton::startInAppPayment()
     }
 }
 
+#if defined(AZOOMEE_ENVIRONMENT_CI)
+void RoutePaymentSingleton::startIOSRecPayment()
+{
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    if(receiptDataFileExists())
+    {
+        if(!ParentManager::getInstance()->isUserLoggedIn())
+        {
+            Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(kPaymentSuccessfulEventName);
+        }
+        else
+        {
+            retryReceiptValidation();
+        }
+        return;
+    }
+    
+    pressedIAPStartButton = true;
+    pressedRestorePurchaseButton = false;
+    ModalMessages::getInstance()->startLoading();
+    if(osIsIos())
+    {
+        ApplePaymentSingleton::getInstance()->startRecIAPPayment();
+        return;
+    }
+#endif
+}
+#endif
+
 bool RoutePaymentSingleton::showIAPContent()
 {
     return !ParentManager::getInstance()->isPaidUser();
