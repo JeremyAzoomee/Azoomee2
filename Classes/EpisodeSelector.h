@@ -21,9 +21,13 @@ class EpisodeSelector : public cocos2d::ui::Layout, ImageDownloaderDelegate
 {
     typedef cocos2d::ui::Layout Super;
     typedef std::function<void(HQContentItemObjectRef, int)> ContentSelectedCallback;
+    typedef std::function<void(void)> CloseButtonCallback;
 private:
     
     static const float kListViewPadding;
+    static const float kHeaderHeightPercent;
+    static const float kEpisodeBarSpacing;
+    static const float kEpisodeBarHeight;
     
     cocos2d::ClippingNode* _contentClipper = nullptr;
     cocos2d::ui::Scale9Sprite* _stencil = nullptr;
@@ -40,6 +44,7 @@ private:
     HQDataObjectRef _hqData = nullptr;
     
     ContentSelectedCallback _callback = nullptr;
+    CloseButtonCallback _closeCallback = nullptr;
     
     void setupEpisodeBars();
     
@@ -52,6 +57,9 @@ public:
     
     void setHqData(const HQDataObjectRef& hqData);
     void setContentSelectedCallback(const ContentSelectedCallback& callback);
+    void setCloseButtonCallback(const CloseButtonCallback& callback);
+    
+    void enableCloseButton(bool enable);
     
     void toggleBottomGradient(bool enabled);
     

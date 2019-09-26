@@ -232,7 +232,7 @@ void ArtsAppHQElement::onExit()
         _artImage = nullptr;
     }
 	
-	_onScreenChecker.endCheck();
+	_onScreenChecker.stopCheckingOnScreenPosition();
 
     Super::onExit();
 }

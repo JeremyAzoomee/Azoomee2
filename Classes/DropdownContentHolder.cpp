@@ -355,7 +355,7 @@ void DropdownContentHolder::setContentLayoutVisible(bool visible)
         }
         else
         {
-            tile->endCheck();
+            tile->stopCheckingOnScreenPosition();
         }
     }
 }

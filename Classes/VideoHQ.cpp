@@ -53,11 +53,14 @@ void VideoHQ::onSizeChanged()
 {
     Super::onSizeChanged();
 
+    const Size& contentSize = getContentSize();
+    
     _episodeSelector->stopAllActions();
-    _episodeSelector->setTouchEnabled(_isPortrait);
     _episodeSelector->toggleBottomGradient(!_isPortrait);
+    _episodeSelector->enableCloseButton(_isPortrait);
     if(_isPortrait)
     {
+        const float contentWidthMidpoint =  contentSize.width * 0.5f;
         _contentListView->setSizePercent(Vec2(1.0f, 1.0f));
         _staticContentLayout->setSizePercent(Vec2(0.0f, 1.0f));
         
@@ -66,13 +69,13 @@ void VideoHQ::onSizeChanged()
         {
             if(_episodePlayerOpen)
             {
-                _episodeSelector->setPosition(Vec2(getContentSize().width / 2.0f, -_episodeSelector->getContentSize().height));
+                _episodeSelector->setPosition(Vec2(contentWidthMidpoint, -_episodeSelector->getContentSize().height));
                 _episodePlayerOpen = false;
                 _episodePlayerMoving = false;
             }
             else
             {
-                _episodeSelector->setPosition(Vec2(getContentSize().width / 2.0f,0));
+                _episodeSelector->setPosition(Vec2(contentWidthMidpoint,0));
                 _episodePlayerOpen = true;
                 _episodePlayerMoving = false;
             }
@@ -81,13 +84,13 @@ void VideoHQ::onSizeChanged()
         {
             if(_episodePlayerOpen)
             {
-                _episodeSelector->setPosition(Vec2(getContentSize().width / 2.0f,0));
+                _episodeSelector->setPosition(Vec2(contentWidthMidpoint,0));
                 _episodePlayerOpen = true;
                 _episodePlayerMoving = false;
             }
             else
             {
-                _episodeSelector->setPosition(Vec2(getContentSize().width / 2.0f, -_episodeSelector->getContentSize().height));
+                _episodeSelector->setPosition(Vec2(contentWidthMidpoint, -_episodeSelector->getContentSize().height));
                 _episodePlayerOpen = false;
                 _episodePlayerMoving = false;
             }
@@ -99,13 +102,13 @@ void VideoHQ::onSizeChanged()
         _contentListView->setSizePercent(Vec2(0.5f, 1.0f));
         _staticContentLayout->setSizePercent(Vec2(0.5f, 1.0f));
         
-        _episodeSelector->setPosition(Vec2(getContentSize().width / 4.0f,getContentSize().height * 0.05f));
+        _episodeSelector->setPosition(Vec2(contentSize.width / 4.0f,contentSize.height * 0.05f));
         _episodeSelector->setSizePercent(Vec2(0.475,0.95f));
         _episodeSelector->setVisible(true);
         _episodePlayerMoving = false;
     }
     
-    const float contentListViewWidth = _contentListView->getSizePercent().x * getContentSize().width;
+    const float contentListViewWidth = _contentListView->getSizePercent().x * contentSize.width;
     
     _recentlyPlayedTitle->setTextAreaSize(Size(contentListViewWidth - kListViewSidePadding, _recentlyPlayedTitle->getContentSize().height));
     _recentlyPlayedLayout->setTileSize(_isPortrait ? kCircleTileSizePortrait : kCircleTileSizeLandscape);
@@ -221,32 +224,29 @@ void VideoHQ::createEpisodePlayer()
         }
     });
     _episodeSelector->setTouchEnabled(true);
-    _episodeSelector->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
-        if(eType == ui::Widget::TouchEventType::ENDED)
+    _episodeSelector->setCloseButtonCallback([this](){
+        if(_episodePlayerOpen)
         {
-            if(_episodePlayerOpen)
+            if(!_episodePlayerMoving)
             {
-                if(!_episodePlayerMoving)
-                {
-                    _episodePlayerMoving = true;
-                    _episodeSelector->runAction(Sequence::createWithTwoActions(MoveTo::create(0.5f, Vec2(getContentSize().width / 2.0f,-_episodeSelector->getContentSize().height)), CallFunc::create([this](){
-                        _episodePlayerOpen = false;
-                        _episodePlayerMoving = false;
-                        _episodeSelector->setVisible(false);
-                    })));
-                }
+                _episodePlayerMoving = true;
+                _episodeSelector->runAction(Sequence::createWithTwoActions(MoveTo::create(0.5f, Vec2(getContentSize().width / 2.0f,-_episodeSelector->getContentSize().height)), CallFunc::create([this](){
+                    _episodePlayerOpen = false;
+                    _episodePlayerMoving = false;
+                    _episodeSelector->setVisible(false);
+                })));
             }
-            else
+        }
+        else
+        {
+            if(!_episodePlayerMoving)
             {
-                if(!_episodePlayerMoving)
-                {
-                    _episodePlayerMoving = true;
-                    _episodeSelector->setVisible(true);
-                    _episodeSelector->runAction(Sequence::createWithTwoActions(MoveTo::create(0.5f, Vec2(getContentSize().width / 2.0f,0)), CallFunc::create([this](){
-                        _episodePlayerOpen = true;
-                        _episodePlayerMoving = false;
-                    })));
-                }
+                _episodePlayerMoving = true;
+                _episodeSelector->setVisible(true);
+                _episodeSelector->runAction(Sequence::createWithTwoActions(MoveTo::create(0.5f, Vec2(getContentSize().width / 2.0f,0)), CallFunc::create([this](){
+                    _episodePlayerOpen = true;
+                    _episodePlayerMoving = false;
+                })));
             }
         }
     });

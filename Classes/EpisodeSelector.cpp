@@ -14,6 +14,9 @@ using namespace cocos2d;
 NS_AZOOMEE_BEGIN
 
 const float EpisodeSelector::kListViewPadding = 45.0f;
+const float EpisodeSelector::kHeaderHeightPercent = 0.29f;
+const float EpisodeSelector::kEpisodeBarSpacing = 30.0f;
+const float EpisodeSelector::kEpisodeBarHeight = 300.0f;
 
 bool EpisodeSelector::init()
 {
@@ -43,7 +46,7 @@ bool EpisodeSelector::init()
     
     _headerLayout = ui::Layout::create();
     _headerLayout->setSizeType(SizeType::PERCENT);
-    _headerLayout->setSizePercent(Vec2(1.0f, 0.29f));
+    _headerLayout->setSizePercent(Vec2(1.0f, kHeaderHeightPercent));
     _headerLayout->setBackGroundColorType(BackGroundColorType::SOLID);
     _headerLayout->setBackGroundColor(Style::Color::azure);
     _contentLayout->addChild(_headerLayout);
@@ -61,10 +64,10 @@ bool EpisodeSelector::init()
     
     _episodeListView = ui::ListView::create();
     _episodeListView->setSizeType(SizeType::PERCENT);
-    _episodeListView->setSizePercent(Vec2(1.0f, 0.71f));
+    _episodeListView->setSizePercent(Vec2(1.0f, 1.0f - kHeaderHeightPercent));
     _episodeListView->setDirection(ui::ListView::Direction::VERTICAL);
     _episodeListView->setBounceEnabled(true);
-    _episodeListView->setItemsMargin(30);
+    _episodeListView->setItemsMargin(kEpisodeBarSpacing);
     _episodeListView->setPadding(kListViewPadding, kListViewPadding, kListViewPadding, kListViewPadding);
     _episodeListView->setGravity(ui::ListView::Gravity::LEFT);
     _episodeListView->setBackGroundColorType(BackGroundColorType::SOLID);
@@ -75,6 +78,22 @@ bool EpisodeSelector::init()
     _bottomGradient = LayerGradient::create(Color4B(gradientColour.r, gradientColour.g, gradientColour.b, 0), Color4B(gradientColour.r, gradientColour.g, gradientColour.b, 255));
     _bottomGradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _contentLayout->addChild(_bottomGradient);
+    
+    _closeButton = ui::Button::create("res/hqscene/episode_select_close.png");
+    _closeButton->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+    _closeButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
+    _closeButton->ignoreContentAdaptWithSize(false);
+    _closeButton->setContentSize(Size(175,175));
+    _closeButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            if(_closeCallback)
+            {
+                _closeCallback();
+            }
+        }
+    });
+    _headerLayout->addChild(_closeButton);
     
     return true;
 }
@@ -92,16 +111,20 @@ void EpisodeSelector::onExit()
 void EpisodeSelector::onSizeChanged()
 {
     Super::onSizeChanged();
-    _contentClipper->setContentSize(getContentSize());
-    _stencil->setContentSize(getContentSize());
+    
+    const Size& contentSize = getContentSize();
+    
+    _contentClipper->setContentSize(contentSize);
+    _stencil->setContentSize(contentSize);
     _contentLayout->updateSizeAndPosition();
-    _bannerImage->setScale(_bannerImage->getContentSize().height / (getContentSize().height * 0.8f));
-    _divider->setContentSize(Size(getContentSize().width, 10));
+    _bannerImage->setScale(_bannerImage->getContentSize().height / (contentSize.height * 0.8f));
+    _divider->setContentSize(Size(contentSize.width, 10));
+    const Size& episodeBarSize = Size(contentSize.width - (2 * kListViewPadding), kEpisodeBarHeight);
     for(auto bar : _episodeBars)
     {
-        bar->setContentSize(Size(getContentSize().width - (2 * kListViewPadding), 300));
+        bar->setContentSize(episodeBarSize);
     }
-    _bottomGradient->setContentSize(Size(getContentSize().width, 300));
+    _bottomGradient->setContentSize(Size(contentSize.width, kEpisodeBarHeight));
 }
 
 void EpisodeSelector::setHqData(const HQDataObjectRef& hqData)
@@ -111,12 +134,21 @@ void EpisodeSelector::setHqData(const HQDataObjectRef& hqData)
     ImageDownloaderRef downloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
     downloader->downloadImage(this, _hqData->getGroupLogo());
     _divider->setBackGroundColor(Style::Color::macaroniAndCheese);
-    onSizeChanged();
 }
 
 void EpisodeSelector::setContentSelectedCallback(const ContentSelectedCallback& callback)
 {
     _callback = callback;
+}
+
+void EpisodeSelector::setCloseButtonCallback(const CloseButtonCallback& callback)
+{
+    _closeCallback = callback;
+}
+
+void EpisodeSelector::enableCloseButton(bool enable)
+{
+    _closeButton->setVisible(enable);
 }
 
 void EpisodeSelector::toggleBottomGradient(bool enabled)
@@ -130,8 +162,9 @@ void EpisodeSelector::setupEpisodeBars()
     _episodeBars.clear();
     if(_hqData)
     {
-        int i = 1;
+        int episodeNumber = 1;
         auto carousels = _hqData->getHqCarousels();
+        const Size& episodeBarSize = Size(getContentSize().width - (2 * kListViewPadding), kEpisodeBarHeight);
         for(auto carousel : carousels)
         {
             auto itemList = carousel->getContentItems();
@@ -139,13 +172,13 @@ void EpisodeSelector::setupEpisodeBars()
             {
                 EpisodeBar* bar = EpisodeBar::create();
                 bar->setContentItemData(item);
-                bar->setEpisodeNumber(i++);
+                bar->setEpisodeNumber(episodeNumber++);
                 bar->setEpisodeTagColour(Style::Color::macaroniAndCheese);
-                bar->setContentSize(Size(getContentSize().width - (2 * kListViewPadding), 300));
-                bar->setContentSelectedCallback([this, i](HQContentItemObjectRef content){
+                bar->setContentSize(episodeBarSize);
+                bar->setContentSelectedCallback([this, episodeNumber](HQContentItemObjectRef content){
                     if(_callback)
                     {
-                        _callback(content, i);
+                        _callback(content, episodeNumber);
                     }
                 });
                 _episodeListView->pushBackCustomItem(bar);
@@ -160,7 +193,7 @@ void EpisodeSelector::setupEpisodeBars()
 void EpisodeSelector::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {
     _bannerImage->setTexture(downloader->getLocalImagePath());
-    _bannerImage->setScale(_bannerImage->getContentSize().height / (getContentSize().height * 0.8f));
+    _bannerImage->setScale(_bannerImage->getContentSize().height / (getContentSize().height * 0.8f)); //TODO: use proper banner image and scale to fill space
 }
 void EpisodeSelector::onImageDownloadFailed()
 {

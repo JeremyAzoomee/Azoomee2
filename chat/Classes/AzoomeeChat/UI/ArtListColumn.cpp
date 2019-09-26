@@ -101,7 +101,7 @@ void ArtListColumn::onEnter()
 
 void ArtListColumn::onExit()
 {
-	_onScreenChecker.endCheck();
+	_onScreenChecker.stopCheckingOnScreenPosition();
     
     Super::onExit();
 }
