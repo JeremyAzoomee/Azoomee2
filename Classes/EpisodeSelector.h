@@ -24,6 +24,9 @@ class EpisodeSelector : public cocos2d::ui::Layout, ImageDownloaderDelegate
 private:
     
     static const float kListViewPadding;
+    static const float kHeaderHeightPercent;
+    static const float kEpisodeBarSpacing;
+    static const float kEpisodeBarHeight;
     
     cocos2d::ClippingNode* _contentClipper = nullptr;
     cocos2d::ui::Scale9Sprite* _stencil = nullptr;

@@ -56,7 +56,7 @@ bool EpisodeBar::init()
     _textLayout->setLayoutType(Type::VERTICAL);
     _contentClipper->addChild(_textLayout);
     
-    _episodeTag = DynamicText::create(StringUtils::format("%s %d",_("Episode").c_str(),0), Style::Font::PoppinsMedium(), 53);
+    _episodeTag = DynamicText::create("", Style::Font::PoppinsMedium(), 53);
     _episodeTag->setTextHorizontalAlignment(TextHAlignment::LEFT);
     _episodeTag->setTextVerticalAlignment(TextVAlignment::CENTER);
     _episodeTag->setOverflow(Label::Overflow::RESIZE_HEIGHT);
@@ -81,7 +81,7 @@ void EpisodeBar::onEnter()
 
 void EpisodeBar::onExit()
 {
-    endCheck();
+    stopCheckingOnScreenPosition();
     _imageDownloader->setDelegate(nullptr);
     Super::onExit();
 }
@@ -97,6 +97,14 @@ void EpisodeBar::onSizeChanged()
     _clippingStencil->setContentSize(sizeWithShadow);
     _dropShadow->setContentSize(sizeWithShadow);
     
+    resizeImageAndText();
+}
+
+void EpisodeBar::resizeImageAndText()
+{
+    
+    const Size& contentSize = getContentSize();
+
     const float imageWidth = ((contentSize.height * 4.0f) / 3.0f);
     
     _contentImage->setContentSize(Size(imageWidth, contentSize.height));
@@ -105,12 +113,13 @@ void EpisodeBar::onSizeChanged()
     
     _episodeTag->setMaxLineWidth(textMaxWidth);
     _episodeTitle->setMaxLineWidth(textMaxWidth);
-
+    
     _textLayout->setPosition(Vec2(imageWidth + kTextPadding,contentSize.height / 2.0f));
     _textLayout->setContentSize(Size(textMaxWidth, _episodeTag->getContentSize().height + _episodeTitle->getContentSize().height));
-    if(_textLayout->getContentSize().height > contentSize.height * 0.9f)
+    const float maxTextHeight = contentSize.height * 0.9f;
+    if(_textLayout->getContentSize().height > maxTextHeight)
     {
-        _textLayout->setScale(contentSize.height * 0.9f / _textLayout->getContentSize().height);
+        _textLayout->setScale(maxTextHeight / _textLayout->getContentSize().height);
     }
     else
     {
@@ -142,7 +151,7 @@ void EpisodeBar::setEpisodeTagColour(const Color3B& colour)
 void EpisodeBar::elementDisappeared(cocos2d::Node *sender)
 {
     _contentImage->loadTexture("res/contentPlaceholders/Games1X1.png");
-    onSizeChanged();
+    resizeImageAndText();
 }
 
 void EpisodeBar::elementAppeared(cocos2d::Node *sender)
@@ -161,6 +170,7 @@ void EpisodeBar::elementAppeared(cocos2d::Node *sender)
 void EpisodeBar::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {
     _contentImage->loadTexture(downloader->getLocalImagePath());
+    resizeImageAndText();
 }
 void EpisodeBar::onImageDownloadFailed()
 {

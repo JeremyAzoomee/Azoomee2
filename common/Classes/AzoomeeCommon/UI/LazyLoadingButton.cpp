@@ -21,7 +21,7 @@ void LazyLoadingButton::onEnter()
 
 void LazyLoadingButton::onExit()
 {
-	_onScreenChecker.endCheck();
+	_onScreenChecker.stopCheckingOnScreenPosition();
     
     Super::onExit();
 }

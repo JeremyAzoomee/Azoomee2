@@ -35,6 +35,8 @@ private:
     void elementDisappeared(cocos2d::Node *sender) override;
     void elementAppeared(cocos2d::Node *sender) override;
     
+    void resizeImageAndText();
+    
 public:
     
     bool init() override;

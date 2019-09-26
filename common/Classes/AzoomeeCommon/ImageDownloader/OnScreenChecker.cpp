@@ -16,7 +16,7 @@ namespace Azoomee
 	
 	OnScreenChecker::~OnScreenChecker()
 	{
-		endCheck();
+		stopCheckingOnScreenPosition();
 	}
 	
     void OnScreenChecker::startCheckingForOnScreenPosition(Node* sender)
@@ -69,7 +69,7 @@ namespace Azoomee
         }
     }
     
-    void OnScreenChecker::endCheck()
+    void OnScreenChecker::stopCheckingOnScreenPosition()
     {
         Director::getInstance()->getScheduler()->unschedule("onScreenCheck", this);
     }
