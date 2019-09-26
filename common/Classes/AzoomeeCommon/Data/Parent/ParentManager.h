@@ -98,9 +98,6 @@ private:
 	//std::vector<ChildRef> getAvailableChildren() const;
 	//std::map<std::string, ChildRef> getAvailableChildrenById() const;
     
-    /// Observers
-    std::vector<ParentDataObserver*> _observers;
-    
     static const time_t kBillingDataCacheTime;
 };
 

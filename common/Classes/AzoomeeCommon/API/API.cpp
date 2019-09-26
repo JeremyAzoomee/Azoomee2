@@ -69,8 +69,8 @@ const std::string API::kAZCountryCodeKey = "X-AZ-COUNTRYCODE";
 void API::HandleAPIResponse(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response, HttpRequestCreatorResponseDelegate* delegate, HttpRequestCreator* request)
 {
     HandleAPIResponse(sender, response, request,
-                      std::bind(&HttpRequestCreatorResponseDelegate::onHttpRequestSuccess, delegate, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3),
-                      std::bind(&HttpRequestCreatorResponseDelegate::onHttpRequestFailed, delegate, std::placeholders::_1, std::placeholders::_2));
+                      delegate != nullptr ? std::bind(&HttpRequestCreatorResponseDelegate::onHttpRequestSuccess, delegate, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3) : APIResponseSuccessCallback(),
+                      delegate != nullptr ? std::bind(&HttpRequestCreatorResponseDelegate::onHttpRequestFailed, delegate, std::placeholders::_1, std::placeholders::_2) : APIResponseFailureCallback());
 }
     
 void API::HandleAPIResponse(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response, HttpRequestCreator* request, const APIResponseSuccessCallback& onSuccess, const APIResponseFailureCallback& onFailure)

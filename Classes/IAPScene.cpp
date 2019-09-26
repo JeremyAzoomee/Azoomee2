@@ -14,6 +14,7 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include <AzoomeeCommon/UI/ModalMessages.h>
 #include "MarketingAssetManager.h"
 #include "BackEndCaller.h"
 
@@ -137,6 +138,7 @@ void IAPScene::onEnter()
 	}
     
     _billingDataUpdatedListener = EventListenerCustom::create(ParentManager::kParentBillingDataUpdatedEventName, [](EventCustom* event){
+        ModalMessages::getInstance()->stopLoading();
         // If user is a paid user, they should not be on this screen
         if(ParentManager::getInstance()->isPaidUser())
         {
@@ -149,6 +151,7 @@ void IAPScene::onEnter()
     if(!ParentManager::getInstance()->isBillingDateUpToDate())
     {
         BackEndCaller::getInstance()->updateBillingData();
+        ModalMessages::getInstance()->startLoading();
     }
 }
 void IAPScene::onExit()
