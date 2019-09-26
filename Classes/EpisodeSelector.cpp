@@ -119,7 +119,7 @@ void EpisodeSelector::onSizeChanged()
     _contentLayout->updateSizeAndPosition();
     _bannerImage->setScale(_bannerImage->getContentSize().height / (contentSize.height * 0.8f));
     _divider->setContentSize(Size(contentSize.width, 10));
-    const Size& episodeBarSize = Size(getContentSize().width - (2 * kListViewPadding), kEpisodeBarHeight);
+    const Size& episodeBarSize = Size(contentSize.width - (2 * kListViewPadding), kEpisodeBarHeight);
     for(auto bar : _episodeBars)
     {
         bar->setContentSize(episodeBarSize);
@@ -134,7 +134,6 @@ void EpisodeSelector::setHqData(const HQDataObjectRef& hqData)
     ImageDownloaderRef downloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
     downloader->downloadImage(this, _hqData->getGroupLogo());
     _divider->setBackGroundColor(Style::Color::macaroniAndCheese);
-    //onSizeChanged();
 }
 
 void EpisodeSelector::setContentSelectedCallback(const ContentSelectedCallback& callback)
