@@ -79,6 +79,22 @@ bool EpisodeSelector::init()
     _bottomGradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _contentLayout->addChild(_bottomGradient);
     
+    _closeButton = ui::Button::create("res/hqscene/episode_select_close.png");
+    _closeButton->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+    _closeButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
+    _closeButton->ignoreContentAdaptWithSize(false);
+    _closeButton->setContentSize(Size(175,175));
+    _closeButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            if(_closeCallback)
+            {
+                _closeCallback();
+            }
+        }
+    });
+    _headerLayout->addChild(_closeButton);
+    
     return true;
 }
 
@@ -124,6 +140,16 @@ void EpisodeSelector::setHqData(const HQDataObjectRef& hqData)
 void EpisodeSelector::setContentSelectedCallback(const ContentSelectedCallback& callback)
 {
     _callback = callback;
+}
+
+void EpisodeSelector::setCloseButtonCallback(const CloseButtonCallback& callback)
+{
+    _closeCallback = callback;
+}
+
+void EpisodeSelector::enableCloseButton(bool enable)
+{
+    _closeButton->setVisible(enable);
 }
 
 void EpisodeSelector::toggleBottomGradient(bool enabled)

@@ -56,8 +56,8 @@ void VideoHQ::onSizeChanged()
     const Size& contentSize = getContentSize();
     
     _episodeSelector->stopAllActions();
-    _episodeSelector->setTouchEnabled(_isPortrait);
     _episodeSelector->toggleBottomGradient(!_isPortrait);
+    _episodeSelector->enableCloseButton(_isPortrait);
     if(_isPortrait)
     {
         const float contentWidthMidpoint =  contentSize.width * 0.5f;
@@ -224,32 +224,29 @@ void VideoHQ::createEpisodePlayer()
         }
     });
     _episodeSelector->setTouchEnabled(true);
-    _episodeSelector->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
-        if(eType == ui::Widget::TouchEventType::ENDED)
+    _episodeSelector->setCloseButtonCallback([this](){
+        if(_episodePlayerOpen)
         {
-            if(_episodePlayerOpen)
+            if(!_episodePlayerMoving)
             {
-                if(!_episodePlayerMoving)
-                {
-                    _episodePlayerMoving = true;
-                    _episodeSelector->runAction(Sequence::createWithTwoActions(MoveTo::create(0.5f, Vec2(getContentSize().width / 2.0f,-_episodeSelector->getContentSize().height)), CallFunc::create([this](){
-                        _episodePlayerOpen = false;
-                        _episodePlayerMoving = false;
-                        _episodeSelector->setVisible(false);
-                    })));
-                }
+                _episodePlayerMoving = true;
+                _episodeSelector->runAction(Sequence::createWithTwoActions(MoveTo::create(0.5f, Vec2(getContentSize().width / 2.0f,-_episodeSelector->getContentSize().height)), CallFunc::create([this](){
+                    _episodePlayerOpen = false;
+                    _episodePlayerMoving = false;
+                    _episodeSelector->setVisible(false);
+                })));
             }
-            else
+        }
+        else
+        {
+            if(!_episodePlayerMoving)
             {
-                if(!_episodePlayerMoving)
-                {
-                    _episodePlayerMoving = true;
-                    _episodeSelector->setVisible(true);
-                    _episodeSelector->runAction(Sequence::createWithTwoActions(MoveTo::create(0.5f, Vec2(getContentSize().width / 2.0f,0)), CallFunc::create([this](){
-                        _episodePlayerOpen = true;
-                        _episodePlayerMoving = false;
-                    })));
-                }
+                _episodePlayerMoving = true;
+                _episodeSelector->setVisible(true);
+                _episodeSelector->runAction(Sequence::createWithTwoActions(MoveTo::create(0.5f, Vec2(getContentSize().width / 2.0f,0)), CallFunc::create([this](){
+                    _episodePlayerOpen = true;
+                    _episodePlayerMoving = false;
+                })));
             }
         }
     });
