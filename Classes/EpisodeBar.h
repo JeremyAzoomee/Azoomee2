@@ -32,6 +32,8 @@ private:
     DynamicText* _episodeTag = nullptr;
     DynamicText* _episodeTitle = nullptr;
     
+    cocos2d::LayerColor* _lockedOverlay = nullptr;
+    
     void elementDisappeared(cocos2d::Node *sender) override;
     void elementAppeared(cocos2d::Node *sender) override;
     
