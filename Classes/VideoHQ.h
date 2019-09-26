@@ -15,6 +15,7 @@
 #include "FeaturedVideosHolder.h"
 #include "CircleContentHolder.h"
 #include "DropdownContentHolder.h"
+#include "EpisodeSelector.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -22,16 +23,17 @@ class VideoHQ : public HQPage
 {
     typedef HQPage Super;
 private:
-    static const float kEpisodePlayerTabHeight;
     
     FeaturedVideosHolder* _featuredLayout = nullptr;
     DynamicText* _recentlyPlayedTitle = nullptr;
     CircleContentHolder* _recentlyPlayedLayout = nullptr;
     cocos2d::Vector<DropdownContentHolder*> _dropdownLayouts;
     
-    cocos2d::ui::Layout* _episodePlayer = nullptr;
+    EpisodeSelector* _episodeSelector = nullptr;
     
-    bool _episodePlayerOpen = true;
+    ContentSelectedCallback _episodeSelectorContentSelectedCallback = nullptr;
+    
+    bool _episodePlayerOpen = false;
     bool _episodePlayerMoving = false;
     
     void createFeaturedTiles();
@@ -45,6 +47,8 @@ public:
     void onEnter() override;
     void onExit() override;
     void onSizeChanged() override;
+    
+    void setEpisodeSelectorContentSelectedCallback(const ContentSelectedCallback& callback);
     
     CREATE_FUNC(VideoHQ);
 };

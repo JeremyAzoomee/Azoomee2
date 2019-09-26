@@ -105,9 +105,9 @@ void GameHQ::createFeaturedTiles()
     _featuredLayout = FeaturedGamesHolder::create();
     _featuredLayout->setContentItemData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGameHQName)->getHqCarousels().at(0));
     _featuredLayout->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
-        if(_contentSceletedCallback)
+        if(_contentSelectedCallback)
         {
-            _contentSceletedCallback(content, elementIndex, 0);
+            _contentSelectedCallback(content, elementIndex, 0);
         }
     });
     _staticContentLayout->addChild(_featuredLayout);
@@ -135,9 +135,9 @@ void GameHQ::createRecentlyPlayedTiles()
     _recentlyPlayedLayout->setMaxRows(1);
     _recentlyPlayedLayout->setContentSize(Size(_contentListView->getSizePercent().x * getContentSize().width, 0));
     _recentlyPlayedLayout->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
-        if(_contentSceletedCallback)
+        if(_contentSelectedCallback)
         {
-            _contentSceletedCallback(content, elementIndex, -1);
+            _contentSelectedCallback(content, elementIndex, -1);
         }
     });
     _contentListView->pushBackCustomItem(_recentlyPlayedLayout);
@@ -156,9 +156,9 @@ void GameHQ::createDropdowns()
         dropdown->setFrameColour(Style::Color::azure);
         dropdown->setPatternColour(Style::Color::azure);
         dropdown->setContentSelectedCallback([this, i](HQContentItemObjectRef content, int elementIndex){
-            if(_contentSceletedCallback)
+            if(_contentSelectedCallback)
             {
-                _contentSceletedCallback(content, elementIndex, i);
+                _contentSelectedCallback(content, elementIndex, i);
             }
         });
         dropdown->setOnResizeCallback([this](){

@@ -210,7 +210,7 @@ void RemoteImageSprite::onExitTransitionDidStart()
 
 void RemoteImageSprite::onExit()
 {
-	onScreenChecker.endCheck();
+	onScreenChecker.stopCheckingOnScreenPosition();
 	
     aboutToExit = true;
     if(imageDownloaderLogic)

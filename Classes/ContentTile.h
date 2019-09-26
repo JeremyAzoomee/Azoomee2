@@ -39,7 +39,7 @@ public:
     virtual bool init() override;
     
     void setContentSelectedCallback(const ContentSelectedCallback& callback);
-    void setContentItemData(const HQContentItemObjectRef& contentItem);
+    virtual void setContentItemData(const HQContentItemObjectRef& contentItem);
     HQContentItemObjectRef getContentItemData() const;
     
     void setPlaceholderFilename(const std::string& placeholder);

@@ -43,7 +43,7 @@ bool DropdownContentHolder::init()
     addChild(_bgClipper, -1);
     
     _bgPattern = TileSprite::create();
-    _bgPattern->setTexture("res/decoration/pattern_general_tile.png");
+    _bgPattern->setTexture("res/decoration/pattern_stem_tile.png");
     _bgPattern->setTextureScale(2.0f);
     _bgPattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _bgPattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
@@ -355,7 +355,7 @@ void DropdownContentHolder::setContentLayoutVisible(bool visible)
         }
         else
         {
-            tile->endCheck();
+            tile->stopCheckingOnScreenPosition();
         }
     }
 }

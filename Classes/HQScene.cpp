@@ -103,7 +103,7 @@ void HQScene::onSizeChanged()
     }
     if(_verticalScrollGradient)
     {
-        _verticalScrollGradient->setAnchorPoint(Vec2(_isPortrait ? 0.5f : 0.0f, 0.2f));
+        _verticalScrollGradient->setAnchorPoint(Vec2(_isPortrait ? 0.5f : 0.0f, 0.0f));
     }
 }
 
@@ -120,7 +120,7 @@ void HQScene::createHeaderUI()
     addChild(_titleBanner, 1);
     
     _topPattern = TileSprite::create();
-    _topPattern->setTexture("res/decoration/pattern_general_tile.png");
+    _topPattern->setTexture("res/decoration/pattern_stem_tile.png");
     _topPattern->setTextureScale(2.0f);
     _topPattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _topPattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
@@ -220,7 +220,7 @@ void HQScene::createNavigationUI()
     _verticalScrollGradient = LayerGradient::create(Color4B(gradColour.r, gradColour.g, gradColour.b, 0), Color4B(gradColour));
     _verticalScrollGradient->setIgnoreAnchorPointForPosition(false);
     _verticalScrollGradient->setContentSize(Size(2736, 160));
-    _verticalScrollGradient->setAnchorPoint(Vec2(0.0f, 0.2f));
+    _verticalScrollGradient->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     _verticalScrollGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
     _navBar->addChild(_verticalScrollGradient, -1);
 }
@@ -252,6 +252,9 @@ void HQScene::createPageUI()
     _videoHQ->setVisible(false);
     _videoHQ->setContentSelectedCallback([](HQContentItemObjectRef content, int elementIndex, int rowIndex){
         ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, ConfigStorage::kVideoHQName);
+    });
+    _videoHQ->setEpisodeSelectorContentSelectedCallback([](HQContentItemObjectRef content, int elementIndex, int rowIndex){
+        ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, ConfigStorage::kGroupHQName);
     });
     _pageLayout->addChild(_videoHQ);
     

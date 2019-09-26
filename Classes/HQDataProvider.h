@@ -17,7 +17,6 @@ NS_AZOOMEE_BEGIN
 
 class HQDataProvider : public cocos2d::Ref
 {
-    
 public:
     /** Returns the shared instance of the Game Manager */
     static HQDataProvider* getInstance(void);
@@ -54,6 +53,8 @@ public:
     //Loading screen
     void displayLoadingScreen();
     void hideLoadingScreen();
+    
+    static const std::string kGroupRefreshEvent;
     
     static const std::map<std::string, std::string> kLockFiles;
     

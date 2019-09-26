@@ -12,12 +12,11 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Strings.h>
 #include "RecentlyPlayedManager.h"
+#include "HQDataProvider.h"
 
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
-
-const float VideoHQ::kEpisodePlayerTabHeight = 100.0f;
 
 bool VideoHQ::init()
 {
@@ -54,25 +53,29 @@ void VideoHQ::onSizeChanged()
 {
     Super::onSizeChanged();
 
-    _episodePlayer->stopAllActions();
-    _episodePlayer->setTouchEnabled(_isPortrait);
+    const Size& contentSize = getContentSize();
+    
+    _episodeSelector->stopAllActions();
+    _episodeSelector->toggleBottomGradient(!_isPortrait);
+    _episodeSelector->enableCloseButton(_isPortrait);
     if(_isPortrait)
     {
+        const float contentWidthMidpoint =  contentSize.width * 0.5f;
         _contentListView->setSizePercent(Vec2(1.0f, 1.0f));
         _staticContentLayout->setSizePercent(Vec2(0.0f, 1.0f));
         
-        _episodePlayer->setSizePercent(Vec2(1.0,1.0f));
+        _episodeSelector->setSizePercent(Vec2(0.975,1.0f));
         if(_episodePlayerMoving)
         {
             if(_episodePlayerOpen)
             {
-                _episodePlayer->setPosition(Vec2(0, -_episodePlayer->getContentSize().height + kEpisodePlayerTabHeight));
+                _episodeSelector->setPosition(Vec2(contentWidthMidpoint, -_episodeSelector->getContentSize().height));
                 _episodePlayerOpen = false;
                 _episodePlayerMoving = false;
             }
             else
             {
-                _episodePlayer->setPosition(Vec2(0,0));
+                _episodeSelector->setPosition(Vec2(contentWidthMidpoint,0));
                 _episodePlayerOpen = true;
                 _episodePlayerMoving = false;
             }
@@ -81,30 +84,31 @@ void VideoHQ::onSizeChanged()
         {
             if(_episodePlayerOpen)
             {
-                _episodePlayer->setPosition(Vec2(0,0));
+                _episodeSelector->setPosition(Vec2(contentWidthMidpoint,0));
                 _episodePlayerOpen = true;
                 _episodePlayerMoving = false;
             }
             else
             {
-                _episodePlayer->setPosition(Vec2(0, -_episodePlayer->getContentSize().height + kEpisodePlayerTabHeight));
+                _episodeSelector->setPosition(Vec2(contentWidthMidpoint, -_episodeSelector->getContentSize().height));
                 _episodePlayerOpen = false;
                 _episodePlayerMoving = false;
             }
         }
+        _episodeSelector->setVisible(_episodePlayerOpen);
     }
     else
     {
         _contentListView->setSizePercent(Vec2(0.5f, 1.0f));
         _staticContentLayout->setSizePercent(Vec2(0.5f, 1.0f));
         
-        _episodePlayer->setPosition(Vec2(0,0));
-        _episodePlayer->setSizePercent(Vec2(0.5,1.0f));
-        _episodePlayerOpen = false;
+        _episodeSelector->setPosition(Vec2(contentSize.width / 4.0f,contentSize.height * 0.05f));
+        _episodeSelector->setSizePercent(Vec2(0.475,0.95f));
+        _episodeSelector->setVisible(true);
         _episodePlayerMoving = false;
     }
     
-    const float contentListViewWidth = _contentListView->getSizePercent().x * getContentSize().width;
+    const float contentListViewWidth = _contentListView->getSizePercent().x * contentSize.width;
     
     _recentlyPlayedTitle->setTextAreaSize(Size(contentListViewWidth - kListViewSidePadding, _recentlyPlayedTitle->getContentSize().height));
     _recentlyPlayedLayout->setTileSize(_isPortrait ? kCircleTileSizePortrait : kCircleTileSizeLandscape);
@@ -119,6 +123,11 @@ void VideoHQ::onSizeChanged()
     _contentListView->forceDoLayout();
 }
 
+void VideoHQ::setEpisodeSelectorContentSelectedCallback(const ContentSelectedCallback& callback)
+{
+    _episodeSelectorContentSelectedCallback = callback;
+}
+
 void VideoHQ::createFeaturedTiles()
 {
     _featuredLayout = FeaturedVideosHolder::create();
@@ -127,9 +136,9 @@ void VideoHQ::createFeaturedTiles()
     _featuredLayout->setContentSize(Size(_contentListView->getContentSize().width, kFeaturedContentHeightPortrait));
     _featuredLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _featuredLayout->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
-        if(_contentSceletedCallback)
+        if(_contentSelectedCallback)
         {
-            _contentSceletedCallback(content, elementIndex, 0);
+            _contentSelectedCallback(content, elementIndex, 0);
         }
     });
     _contentListView->pushBackCustomItem(_featuredLayout);
@@ -158,9 +167,9 @@ void VideoHQ::createRecentlyPlayedTiles()
     _recentlyPlayedLayout->setMaxRows(1);
     _recentlyPlayedLayout->setContentSize(Size(_contentListView->getSizePercent().x * getContentSize().width, 0));
     _recentlyPlayedLayout->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
-        if(_contentSceletedCallback)
+        if(_contentSelectedCallback)
         {
-            _contentSceletedCallback(content, elementIndex, -1);
+            _contentSelectedCallback(content, elementIndex, -1);
         }
     });
     _contentListView->pushBackCustomItem(_recentlyPlayedLayout);
@@ -179,9 +188,9 @@ void VideoHQ::createDropdowns()
         dropdown->setFrameColour(Style::Color::azure);
         dropdown->setPatternColour(Style::Color::azure);
         dropdown->setContentSelectedCallback([this, i](HQContentItemObjectRef content, int elementIndex){
-            if(_contentSceletedCallback)
+            if(_contentSelectedCallback)
             {
-                _contentSceletedCallback(content, elementIndex, i);
+                _contentSelectedCallback(content, elementIndex, i);
             }
         });
         dropdown->setOnResizeCallback([this](){
@@ -201,42 +210,65 @@ void VideoHQ::createDropdowns()
 
 void VideoHQ::createEpisodePlayer()
 {
-    _episodePlayer = ui::Layout::create();
-    _episodePlayer->setSizeType(SizeType::PERCENT);
-    _episodePlayer->setSizePercent(Vec2(1.0f,1.0f));
-    _episodePlayer->setBackGroundColorType(BackGroundColorType::SOLID);
-    _episodePlayer->setBackGroundColor(Color3B::GREEN);
-    _episodePlayer->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-    _episodePlayer->setPosition(Vec2(0,0));
-    _episodePlayer->setTouchEnabled(true);
-    _episodePlayer->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
-        if(eType == ui::Widget::TouchEventType::ENDED)
+    HQDataProvider::getInstance()->getDataForGroupHQ(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kVideoHQName)->getHqCarousels().at(0)->getContentItems().at(0)->getUri());
+    _episodeSelector = EpisodeSelector::create();
+    _episodeSelector->setSizeType(SizeType::PERCENT);
+    _episodeSelector->setSizePercent(Vec2(0.975f,1.0f));
+    _episodeSelector->setHqData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGroupHQName));
+    _episodeSelector->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _episodeSelector->setPosition(Vec2(getContentSize().width / 2.0f,0));
+    _episodeSelector->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
+        if(_episodeSelectorContentSelectedCallback)
         {
-            if(_episodePlayerOpen)
+            _episodeSelectorContentSelectedCallback(content, elementIndex, 0);
+        }
+    });
+    _episodeSelector->setTouchEnabled(true);
+    _episodeSelector->setCloseButtonCallback([this](){
+        if(_episodePlayerOpen)
+        {
+            if(!_episodePlayerMoving)
             {
-                if(!_episodePlayerMoving)
-                {
-                    _episodePlayerMoving = true;
-                    _episodePlayer->runAction(Sequence::createWithTwoActions(MoveTo::create(1.0f, Vec2(0,-_episodePlayer->getContentSize().height + kEpisodePlayerTabHeight)), CallFunc::create([this](){
-                        _episodePlayerOpen = false;
-                        _episodePlayerMoving = false;
-                    })));
-                }
+                _episodePlayerMoving = true;
+                _episodeSelector->runAction(Sequence::createWithTwoActions(MoveTo::create(0.5f, Vec2(getContentSize().width / 2.0f,-_episodeSelector->getContentSize().height)), CallFunc::create([this](){
+                    _episodePlayerOpen = false;
+                    _episodePlayerMoving = false;
+                    _episodeSelector->setVisible(false);
+                })));
             }
-            else
+        }
+        else
+        {
+            if(!_episodePlayerMoving)
             {
-                if(!_episodePlayerMoving)
-                {
-                    _episodePlayerMoving = true;
-                    _episodePlayer->runAction(Sequence::createWithTwoActions(MoveTo::create(1.0f, Vec2(0,0)), CallFunc::create([this](){
-                        _episodePlayerOpen = true;
-                        _episodePlayerMoving = false;
-                    })));
-                }
+                _episodePlayerMoving = true;
+                _episodeSelector->setVisible(true);
+                _episodeSelector->runAction(Sequence::createWithTwoActions(MoveTo::create(0.5f, Vec2(getContentSize().width / 2.0f,0)), CallFunc::create([this](){
+                    _episodePlayerOpen = true;
+                    _episodePlayerMoving = false;
+                })));
             }
         }
     });
-    addChild(_episodePlayer, 1);
+    addChild(_episodeSelector, 1);
+    
+    EventListenerCustom* eventListener = EventListenerCustom::create(HQDataProvider::kGroupRefreshEvent, [this](EventCustom* event){
+        _episodeSelector->setHqData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGroupHQName));
+        if(_isPortrait && !_episodePlayerOpen && !_episodePlayerMoving)
+        {
+            _episodePlayerMoving = true;
+            _episodeSelector->setVisible(true);
+            _episodeSelector->runAction(Sequence::createWithTwoActions(MoveTo::create(0.5f, Vec2(getContentSize().width / 2.0f,0)), CallFunc::create([this](){
+                _episodePlayerOpen = true;
+                _episodePlayerMoving = false;
+            })));
+        }
+        else
+        {
+            _episodePlayerOpen = true;
+        }
+    });
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(eventListener, this);
     
 }
 

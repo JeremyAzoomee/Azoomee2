@@ -224,6 +224,8 @@
 		E21592F523267D2F003CBB50 /* DropdownContentHolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21592F423267D2F003CBB50 /* DropdownContentHolder.cpp */; };
 		E21A4F272317CC5300E1D3FB /* OomeeHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21A4F262317CC5300E1D3FB /* OomeeHQ.cpp */; };
 		E21B22142322B02E0032510A /* RoundedRectTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21B22132322B02E0032510A /* RoundedRectTile.cpp */; };
+		E229F67423351999005BA0D4 /* EpisodeSelector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E229F67323351999005BA0D4 /* EpisodeSelector.cpp */; };
+		E229F6772338CF46005BA0D4 /* EpisodeBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E229F6762338CF46005BA0D4 /* EpisodeBar.cpp */; };
 		E22ACA04230C00D40024B328 /* NavigationButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACA03230C00D40024B328 /* NavigationButton.cpp */; };
 		E22ACA06230C07650024B328 /* NavigationBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACA05230C07650024B328 /* NavigationBar.cpp */; };
 		E22ACAA3230D51100024B328 /* HQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACAA2230D51100024B328 /* HQScene.cpp */; };
@@ -758,6 +760,10 @@
 		E21A4F262317CC5300E1D3FB /* OomeeHQ.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeHQ.cpp; sourceTree = "<group>"; };
 		E21B220D2322ACA10032510A /* RoundedRectTile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RoundedRectTile.h; sourceTree = "<group>"; };
 		E21B22132322B02E0032510A /* RoundedRectTile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RoundedRectTile.cpp; sourceTree = "<group>"; };
+		E229F67223350BCA005BA0D4 /* EpisodeSelector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EpisodeSelector.h; sourceTree = "<group>"; };
+		E229F67323351999005BA0D4 /* EpisodeSelector.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EpisodeSelector.cpp; sourceTree = "<group>"; };
+		E229F6752338C02A005BA0D4 /* EpisodeBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EpisodeBar.h; sourceTree = "<group>"; };
+		E229F6762338CF46005BA0D4 /* EpisodeBar.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EpisodeBar.cpp; sourceTree = "<group>"; };
 		E22AC9FC230BF31D0024B328 /* NavigationBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NavigationBar.h; sourceTree = "<group>"; };
 		E22ACA02230BFB790024B328 /* NavigationButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NavigationButton.h; sourceTree = "<group>"; };
 		E22ACA03230C00D40024B328 /* NavigationButton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NavigationButton.cpp; sourceTree = "<group>"; };
@@ -1531,6 +1537,7 @@
 		A19759861DE4931600FEB03C /* HQScene */ = {
 			isa = PBXGroup;
 			children = (
+				E229F66C23350BA0005BA0D4 /* EpisodeSelector */,
 				E212CC11231D3E9C009D4A63 /* ContentTiles */,
 				E22ACA9C230D4FA40024B328 /* HQScene.h */,
 				E22ACAA2230D51100024B328 /* HQScene.cpp */,
@@ -1647,6 +1654,17 @@
 				E21592F423267D2F003CBB50 /* DropdownContentHolder.cpp */,
 			);
 			name = ContentTiles;
+			sourceTree = "<group>";
+		};
+		E229F66C23350BA0005BA0D4 /* EpisodeSelector */ = {
+			isa = PBXGroup;
+			children = (
+				E229F67223350BCA005BA0D4 /* EpisodeSelector.h */,
+				E229F67323351999005BA0D4 /* EpisodeSelector.cpp */,
+				E229F6752338C02A005BA0D4 /* EpisodeBar.h */,
+				E229F6762338CF46005BA0D4 /* EpisodeBar.cpp */,
+			);
+			name = EpisodeSelector;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2040,6 +2058,7 @@
 				9271D7D32040557D00370120 /* OomeeMakerDelegate.cpp in Sources */,
 				921A25F421627FD6005C8C41 /* SettingsLanguagePage.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
+				E229F67423351999005BA0D4 /* EpisodeSelector.cpp in Sources */,
 				0215646F1FC4202800641C14 /* HQScene2ElementPositioner.cpp in Sources */,
 				924E84772147FE2B004590FD /* SettingsMessageBoxFREvent.cpp in Sources */,
 				924E845821427C05004590FD /* SettingsMessageBoxDeleteChild.cpp in Sources */,
@@ -2047,6 +2066,7 @@
 				E22ACA06230C07650024B328 /* NavigationBar.cpp in Sources */,
 				929FB10322E8A6440088D406 /* MarketingAssetManager.cpp in Sources */,
 				E22ACB16230FE7E50024B328 /* VideoHQ.cpp in Sources */,
+				E229F6772338CF46005BA0D4 /* EpisodeBar.cpp in Sources */,
 				921A2679216FA030005C8C41 /* VodacomOnboardingErrorLayer.cpp in Sources */,
 				92BDD4C42236AE4E00DA56F3 /* ShopItemPage.cpp in Sources */,
 				924ACE3720A9C541007A5550 /* MeHQProfileDetails.cpp in Sources */,
