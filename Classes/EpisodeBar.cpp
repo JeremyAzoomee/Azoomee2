@@ -15,7 +15,7 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-const Vec2 EpisodeBar::kDropShadowPadding = Vec2(50,50);
+const Vec2 EpisodeBar::kDropShadowPadding = Vec2(52,52);
 const float EpisodeBar::kTextPadding = 60.0f;
 
 bool EpisodeBar::init()
@@ -28,29 +28,25 @@ bool EpisodeBar::init()
     _dropShadow = ui::ImageView::create("res/hqscene/episode_bar.png");
     _dropShadow->setScale9Enabled(true);
     _dropShadow->ignoreContentAdaptWithSize(false);
-    _dropShadow->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-    _dropShadow->setPosition(-kDropShadowPadding);
+    _dropShadow->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    _dropShadow->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     addChild(_dropShadow);
     
-    _clippingStencil = ui::Scale9Sprite::create("res/hqscene/episode_bar.png");
-    _clippingStencil->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-    _clippingStencil->setPosition(-kDropShadowPadding);
-    
-    _contentClipper = ClippingNode::create(_clippingStencil);
-    _contentClipper->setAlphaThreshold(0.9f);
-    addChild(_contentClipper);
-    
-    _contentImage = ui::ImageView::create();
-    _contentImage->ignoreContentAdaptWithSize(false);
+    _contentImage = RoundedRectSprite::create();
+    _contentImage->setCornerRadius(25);
+    _contentImage->setRoundedCorners(true, false, true, false);
     _contentImage->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
     _contentImage->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
-    _contentClipper->addChild(_contentImage);
+    addChild(_contentImage);
     
-    const Color3B& overlayColour = Style::Color::darkIndigo;
-    _lockedOverlay = LayerColor::create(Color4B(overlayColour.r, overlayColour.g, overlayColour.b, 204));
+    _lockedOverlay = RoundedRectSprite::create();
+    _lockedOverlay->setTexture("res/decoration/white_1px.png");
+    _lockedOverlay->setCornerRadius(25);
+    _lockedOverlay->setRoundedCorners(true, false, true, false);
     _lockedOverlay->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    _lockedOverlay->setColor(Style::Color::darkIndigo);
+    _lockedOverlay->setOpacity(204);
     _lockedOverlay->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _lockedOverlay->setIgnoreAnchorPointForPosition(false);
     _contentImage->addChild(_lockedOverlay);
     
     _playIcon = ui::ImageView::create("res/hqscene/play_icon.png");
@@ -62,7 +58,7 @@ bool EpisodeBar::init()
     _textLayout = ui::Layout::create();
     _textLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
     _textLayout->setLayoutType(Type::VERTICAL);
-    _contentClipper->addChild(_textLayout);
+    addChild(_textLayout);
     
     _episodeTag = DynamicText::create("", Style::Font::PoppinsMedium(), 53);
     _episodeTag->setTextHorizontalAlignment(TextHAlignment::LEFT);
@@ -101,8 +97,6 @@ void EpisodeBar::onSizeChanged()
     const Size& contentSize = getContentSize();
     const Size& sizeWithShadow = contentSize + Size(kDropShadowPadding * 2);
     
-    _contentClipper->setContentSize(contentSize);
-    _clippingStencil->setContentSize(sizeWithShadow);
     _dropShadow->setContentSize(sizeWithShadow);
     
     resizeImageAndText();
@@ -162,7 +156,7 @@ void EpisodeBar::setEpisodeTagColour(const Color3B& colour)
 
 void EpisodeBar::elementDisappeared(cocos2d::Node *sender)
 {
-    _contentImage->loadTexture("res/contentPlaceholders/Games1X1.png");
+    _contentImage->setTexture("res/contentPlaceholders/Games1X1.png");
     resizeImageAndText();
 }
 
@@ -181,12 +175,12 @@ void EpisodeBar::elementAppeared(cocos2d::Node *sender)
 // delegate functions
 void EpisodeBar::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {
-    _contentImage->loadTexture(downloader->getLocalImagePath());
+    _contentImage->setTexture(downloader->getLocalImagePath());
     resizeImageAndText();
 }
 void EpisodeBar::onImageDownloadFailed()
 {
-    elementOnScreen = false;
+    
 }
 
 NS_AZOOMEE_END

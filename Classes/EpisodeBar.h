@@ -11,6 +11,7 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/ImageDownloader/OnScreenChecker.h>
 #include <AzoomeeCommon/UI/DynamicText.h>
+#include <AzoomeeCommon/UI/RoundedRectSprite.h>
 #include "ContentTile.h"
 
 NS_AZOOMEE_BEGIN
@@ -24,15 +25,13 @@ private:
     static const float kTextPadding;
     
     cocos2d::ui::ImageView* _dropShadow = nullptr;
-    cocos2d::ClippingNode* _contentClipper = nullptr;
-    cocos2d::ui::Scale9Sprite* _clippingStencil = nullptr;
-    cocos2d::ui::ImageView* _contentImage = nullptr;
+    RoundedRectSprite* _contentImage = nullptr;
     cocos2d::ui::ImageView* _playIcon = nullptr;
     cocos2d::ui::Layout* _textLayout = nullptr;
     DynamicText* _episodeTag = nullptr;
     DynamicText* _episodeTitle = nullptr;
     
-    cocos2d::LayerColor* _lockedOverlay = nullptr;
+    RoundedRectSprite* _lockedOverlay = nullptr;
     
     void elementDisappeared(cocos2d::Node *sender) override;
     void elementAppeared(cocos2d::Node *sender) override;

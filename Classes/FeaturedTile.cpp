@@ -25,28 +25,22 @@ bool FeaturedTile::init()
     setBackGroundImageColor(Style::Color::macaroniAndCheese);
     setBackGroundImageScale9Enabled(true);
     
-    _clippingStencil = ui::Scale9Sprite::create("res/hqscene/rounded_rect_20px.png");
-    _clippingStencil->setContentSize(getContentSize() - Size(12,12));
-    _clippingStencil->setPosition(Vec2(6,6));
-    _clippingStencil->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-    
-    _contentClipper = ClippingNode::create(_clippingStencil);
-    _contentClipper->setAlphaThreshold(0.5f);
-    _contentClipper->setPosition(Vec2(0,0));
-    _contentClipper->setContentSize(getContentSize());
-    addChild(_contentClipper);
-    
-    _contentImage = ui::ImageView::create("res/contentPlaceholders/Games1X1.png");
+    _contentImage = RoundedRectSprite::create();
+    _contentImage->setTexture("res/contentPlaceholders/Games1X1.png");
+    _contentImage->setCornerRadius(20);
     _contentImage->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _contentImage->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    _contentClipper->addChild(_contentImage);
+    addChild(_contentImage);
     
-    const Color3B& overlayColour = Style::Color::darkIndigo;
-    _lockedOverlay = LayerColor::create(Color4B(overlayColour.r, overlayColour.g, overlayColour.b, 204));
+    _lockedOverlay = RoundedRectSprite::create();
+    _lockedOverlay->setTexture("res/decoration/white_1px.png");
+    _lockedOverlay->setCornerRadius(20);
+    _lockedOverlay->setColor(Style::Color::darkIndigo);
+    _lockedOverlay->setOpacity(204);
     _lockedOverlay->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _lockedOverlay->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _lockedOverlay->setIgnoreAnchorPointForPosition(false);
-    _contentClipper->addChild(_lockedOverlay);
+    addChild(_lockedOverlay);
     
     _padlock = ui::ImageView::create("res/hqscene/oomee_padlock.png");
     _padlock->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
@@ -75,34 +69,36 @@ void FeaturedTile::onSizeChanged()
     Super::onSizeChanged();
     
     const Size& contentSize = getContentSize();
-    
-    _contentClipper->setContentSize(contentSize);
-    _clippingStencil->setContentSize(contentSize - Size(12,12));
-    _lockedOverlay->setContentSize(contentSize);
-    _padlock->setContentSize(Size(contentSize.height * (0.5f / _imageShape.y), contentSize.height * (0.5f / _imageShape.y)));
+    const Size& innerSize = contentSize - Size(12,12);
+    _lockedOverlay->setContentSize(innerSize);
+    _padlock->setContentSize(Size(innerSize.height * (0.5f / _imageShape.y), innerSize.height * (0.5f / _imageShape.y)));
+    float scale = 1.0f;
+    const Size& imageTexPixSize = _contentImage->getTexture()->getContentSizeInPixels();
     switch(_scaleMode)
     {
         case ImageScaleMode::FIT_WIDTH:
         {
-            _contentImage->setScale(contentSize.width / _contentImage->getContentSize().width);
+            scale = innerSize.width / imageTexPixSize.width;
             break;
         }
         case ImageScaleMode::FIT_HEIGHT:
         {
-            _contentImage->setScale(contentSize.height / _contentImage->getContentSize().height);
+            scale = innerSize.height / imageTexPixSize.height;
             break;
         }
         case ImageScaleMode::SHOW_ALL:
         {
-            _contentImage->setScale(MIN(contentSize.height / _contentImage->getContentSize().height, contentSize.width / _contentImage->getContentSize().width));
+            scale = MIN(innerSize.height / imageTexPixSize.height, innerSize.width / imageTexPixSize.width);
             break;
         }
         case ImageScaleMode::FILL_ALL:
         {
-            _contentImage->setScale(MAX(contentSize.height / _contentImage->getContentSize().height, contentSize.width / _contentImage->getContentSize().width));
+            scale = MAX(innerSize.height / imageTexPixSize.height, innerSize.width / imageTexPixSize.width);
             break;
         }
     }
+    //_contentImage->setContentSize(imageTexPixSize * scale);
+    _contentImage->setContentSize(innerSize);
 }
 
 void FeaturedTile::setContentItemData(const HQContentItemObjectRef& contentItem)
@@ -121,7 +117,7 @@ void FeaturedTile::setImageShape(const Vec2& imageShape)
 
 void FeaturedTile::elementDisappeared(cocos2d::Node *sender)
 {
-    _contentImage->loadTexture("res/contentPlaceholders/Games1X1.png");
+    _contentImage->setTexture("res/contentPlaceholders/Games1X1.png");
     onSizeChanged();
 }
 
@@ -140,7 +136,7 @@ void FeaturedTile::elementAppeared(cocos2d::Node *sender)
 // delegate functions
 void FeaturedTile::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {
-    _contentImage->loadTexture(downloader->getLocalImagePath());
+    _contentImage->setTexture(downloader->getLocalImagePath());
     onSizeChanged();
 }
 void FeaturedTile::onImageDownloadFailed()

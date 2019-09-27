@@ -28,13 +28,13 @@ bool EpisodeSelector::init()
     setSizeType(SizeType::PERCENT);
     setSizePercent(Vec2(1.0f, 1.0f));
     
-    _stencil = ui::Scale9Sprite::create("res/hqscene/rounded_rect_20px.png");
-    _stencil->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-    
-    _contentClipper = ClippingNode::create(_stencil);
-    _contentClipper->setAlphaThreshold(0.9f);
-    _contentClipper->setPosition(Vec2(0,0));
-    addChild(_contentClipper);
+    _background = RoundedRectSprite::create();
+    _background->setTexture("res/decoration/white_1px.png");
+    _background->setCornerRadius(20);
+    _background->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    _background->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _background->setColor(Style::Color::darkIndigoThree);
+    addChild(_background, -1);
     
     _contentLayout = ui::Layout::create();
     _contentLayout->setSizeType(SizeType::PERCENT);
@@ -42,13 +42,11 @@ bool EpisodeSelector::init()
     _contentLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _contentLayout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _contentLayout->setLayoutType(Type::VERTICAL);
-    _contentClipper->addChild(_contentLayout);
+    addChild(_contentLayout);
     
     _headerLayout = ui::Layout::create();
     _headerLayout->setSizeType(SizeType::PERCENT);
     _headerLayout->setSizePercent(Vec2(1.0f, kHeaderHeightPercent));
-    _headerLayout->setBackGroundColorType(BackGroundColorType::SOLID);
-    _headerLayout->setBackGroundColor(Style::Color::azure);
     _contentLayout->addChild(_headerLayout);
     
     _bannerImage = Sprite::create();
@@ -70,8 +68,6 @@ bool EpisodeSelector::init()
     _episodeListView->setItemsMargin(kEpisodeBarSpacing);
     _episodeListView->setPadding(kListViewPadding, kListViewPadding, kListViewPadding, kListViewPadding);
     _episodeListView->setGravity(ui::ListView::Gravity::LEFT);
-    _episodeListView->setBackGroundColorType(BackGroundColorType::SOLID);
-    _episodeListView->setBackGroundColor(Style::Color::darkIndigoThree);
     _contentLayout->addChild(_episodeListView);
     
     const Color3B& gradientColour = Style::Color::darkIndigoThree;
@@ -114,10 +110,9 @@ void EpisodeSelector::onSizeChanged()
     
     const Size& contentSize = getContentSize();
     
-    _contentClipper->setContentSize(contentSize);
-    _stencil->setContentSize(contentSize);
+    _background->setContentSize(contentSize);
     _contentLayout->updateSizeAndPosition();
-    _bannerImage->setScale(_bannerImage->getContentSize().height / (contentSize.height * 0.8f));
+    _bannerImage->setScale((_headerLayout->getContentSize().height * 0.8f) / _bannerImage->getContentSize().height);
     _divider->setContentSize(Size(contentSize.width, 10));
     const Size& episodeBarSize = Size(contentSize.width - (2 * kListViewPadding), kEpisodeBarHeight);
     for(auto bar : _episodeBars)
@@ -193,7 +188,7 @@ void EpisodeSelector::setupEpisodeBars()
 void EpisodeSelector::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {
     _bannerImage->setTexture(downloader->getLocalImagePath());
-    _bannerImage->setScale(_bannerImage->getContentSize().height / (getContentSize().height * 0.8f)); //TODO: use proper banner image and scale to fill space
+    _bannerImage->setScale((_headerLayout->getContentSize().height * 0.8f) / _bannerImage->getContentSize().height); //TODO: use proper banner image and scale to fill space
 }
 void EpisodeSelector::onImageDownloadFailed()
 {

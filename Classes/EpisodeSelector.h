@@ -13,6 +13,7 @@
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObject.h>
 #include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
+#include <AzoomeeCommon/UI/RoundedRectSprite.h>
 #include "EpisodeBar.h"
 
 NS_AZOOMEE_BEGIN
@@ -29,8 +30,7 @@ private:
     static const float kEpisodeBarSpacing;
     static const float kEpisodeBarHeight;
     
-    cocos2d::ClippingNode* _contentClipper = nullptr;
-    cocos2d::ui::Scale9Sprite* _stencil = nullptr;
+    RoundedRectSprite* _background = nullptr;
     
     cocos2d::ui::Layout* _contentLayout = nullptr;
     cocos2d::ui::Layout* _headerLayout = nullptr;

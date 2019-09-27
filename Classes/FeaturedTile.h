@@ -10,6 +10,7 @@
 
 #include "ContentTile.h"
 #include <AzoomeeCommon/ImageDownloader/OnScreenChecker.h>
+#include <AzoomeeCommon/UI/RoundedRectSprite.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -18,11 +19,9 @@ class FeaturedTile : public ContentTile, public OnScreenChecker
     typedef ContentTile Super;
 private:
     
-    cocos2d::ui::ImageView* _contentImage = nullptr;
-    cocos2d::ClippingNode* _contentClipper = nullptr;
-    cocos2d::ui::Scale9Sprite* _clippingStencil = nullptr;
+    RoundedRectSprite* _contentImage = nullptr;
     
-    cocos2d::LayerColor* _lockedOverlay = nullptr;
+    RoundedRectSprite* _lockedOverlay = nullptr;
     cocos2d::ui::ImageView* _padlock = nullptr;
     
     cocos2d::Vec2 _imageShape = cocos2d::Vec2(1.0f, 1.0f);
