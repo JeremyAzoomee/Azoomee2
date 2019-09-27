@@ -10,7 +10,6 @@
 
 #include "ContentTile.h"
 #include <AzoomeeCommon/ImageDownloader/OnScreenChecker.h>
-#include <AzoomeeCommon/UI/RoundedRectSprite.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -22,8 +21,7 @@ private:
     static const cocos2d::Size kDropshadowPadding;
     
     cocos2d::ui::ImageView* _dropShadow = nullptr;
-    //cocos2d::ui::ImageView* _contentImage = nullptr;
-    RoundedRectSprite* _contentImage = nullptr;
+    cocos2d::ui::ImageView* _contentImage = nullptr;
     cocos2d::ClippingNode* _contentClipper = nullptr;
     cocos2d::ui::Scale9Sprite* _clippingStencil = nullptr;
     

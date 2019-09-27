@@ -19,10 +19,7 @@ bool RoundedRectSprite::init()
     }
     
     GLProgram* shaderProgram = new GLProgram();
-    shaderProgram->initWithFilenames("res/shaders/testshader.vert", "res/shaders/testshader.frag");
-    //shaderProgram->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_POSITION, GLProgram::VERTEX_ATTRIB_POSITION);
-    //shaderProgram->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_COLOR, GLProgram::VERTEX_ATTRIB_COLOR);
-    //shaderProgram->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_TEX_COORD, GLProgram::VERTEX_ATTRIB_TEX_COORD);
+    shaderProgram->initWithFilenames("res/shaders/rounded_rect_vert", "res/shaders/rounded_rect.frag");
     shaderProgram->link();
     shaderProgram->updateUniforms();
     shaderProgram->use();
@@ -33,6 +30,7 @@ bool RoundedRectSprite::init()
     
     state->setUniformVec2("u_pixelSize", Vec2(getContentSize()));
     state->setUniformFloat("u_radius", 20);
+    state->setUniformFloatv("u_corners", 4, _corners);
     
     return true;
 }
@@ -48,6 +46,17 @@ void RoundedRectSprite::setCornerRadius(float radius)
 {
     GLProgramState* state = getGLProgramState();
     state->setUniformFloat("u_radius", radius);
+}
+
+void RoundedRectSprite::setRoundedCorners(bool bottomLeft, bool bottomRight, bool topLeft, bool topRight)
+{
+    _corners[0] = topLeft ? 1.0f : 0.0f;
+    _corners[1] = topRight ? 1.0f : 0.0f;
+    _corners[2] = bottomLeft ? 1.0f : 0.0f;
+    _corners[3] = bottomRight ? 1.0f : 0.0f;
+    
+    GLProgramState* state = getGLProgramState();
+    state->setUniformFloatv("u_corners", 4, _corners);
 }
 
 NS_AZOOMEE_END

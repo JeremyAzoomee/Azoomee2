@@ -16,12 +16,16 @@ NS_AZOOMEE_BEGIN
 class RoundedRectSprite : public cocos2d::Sprite
 {
     typedef cocos2d::Sprite Super;
+private:
+    float _corners[4] = {1.0, 1.0, 1.0, 1.0};
+    
 public:
     
     bool init() override;
     void setContentSize(const cocos2d::Size& contentSize) override;
     
     void setCornerRadius(float radius);
+    void setRoundedCorners(bool bottomLeft, bool bottomRight, bool topLeft, bool topRight);
     
     CREATE_FUNC(RoundedRectSprite);
 };
