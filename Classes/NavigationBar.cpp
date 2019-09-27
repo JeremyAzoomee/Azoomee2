@@ -19,6 +19,13 @@ const std::map<std::string, HQType> NavigationBar::kHQNameToTypeConv = {
     {ConfigStorage::kMeHQName, HQType::OOMEE}
 };
 
+const std::map<HQType, std::string> NavigationBar::kHQTypeToNameConv = {
+    {HQType::GAME, ConfigStorage::kGameHQName},
+    {HQType::VIDEO, ConfigStorage::kVideoHQName},
+    {HQType::CHAT, ConfigStorage::kChatHQName},
+    {HQType::OOMEE, ConfigStorage::kMeHQName}
+};
+
 bool NavigationBar::init()
 {
     if(!Super::init())
@@ -49,10 +56,14 @@ bool NavigationBar::init()
     _gameHQButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            this->toggleHQSelected(HQType::GAME);
+            bool success = true;
             if(_callback)
             {
-                _callback(HQType::GAME);
+                success = _callback(HQType::GAME);
+            }
+            if(success)
+            {
+                this->toggleHQSelected(HQType::GAME);
             }
         }
     });
@@ -67,10 +78,14 @@ bool NavigationBar::init()
     _videoHQButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            this->toggleHQSelected(HQType::VIDEO);
+            bool success = true;
             if(_callback)
             {
-                _callback(HQType::VIDEO);
+                success = _callback(HQType::VIDEO);
+            }
+            if(success)
+            {
+                this->toggleHQSelected(HQType::VIDEO);
             }
         }
     });
@@ -85,10 +100,14 @@ bool NavigationBar::init()
     _chatHQButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            this->toggleHQSelected(HQType::CHAT);
+            bool success = true;
             if(_callback)
             {
-                _callback(HQType::CHAT);
+                success = _callback(HQType::CHAT);
+            }
+            if(success)
+            {
+                this->toggleHQSelected(HQType::CHAT);
             }
         }
     });
@@ -103,10 +122,14 @@ bool NavigationBar::init()
     _oomeeHQButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            this->toggleHQSelected(HQType::OOMEE);
+            bool success = true;
             if(_callback)
             {
-                _callback(HQType::OOMEE);
+                success = _callback(HQType::OOMEE);
+            }
+            if(success)
+            {
+                this->toggleHQSelected(HQType::OOMEE);
             }
         }
     });

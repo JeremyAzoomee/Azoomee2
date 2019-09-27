@@ -46,7 +46,15 @@ bool EpisodeBar::init()
     _contentImage->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
     _contentClipper->addChild(_contentImage);
     
+    const Color3B& overlayColour = Style::Color::darkIndigo;
+    _lockedOverlay = LayerColor::create(Color4B(overlayColour.r, overlayColour.g, overlayColour.b, 204));
+    _lockedOverlay->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    _lockedOverlay->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _lockedOverlay->setIgnoreAnchorPointForPosition(false);
+    _contentImage->addChild(_lockedOverlay);
+    
     _playIcon = ui::ImageView::create("res/hqscene/play_icon.png");
+    _playIcon->ignoreContentAdaptWithSize(false);
     _playIcon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _playIcon->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _contentImage->addChild(_playIcon);
@@ -108,6 +116,8 @@ void EpisodeBar::resizeImageAndText()
     const float imageWidth = ((contentSize.height * 4.0f) / 3.0f);
     
     _contentImage->setContentSize(Size(imageWidth, contentSize.height));
+    _lockedOverlay->setContentSize(_contentImage->getContentSize());
+    _playIcon->setContentSize(Size(contentSize.height / 2.0f, contentSize.height / 2.0f));
     
     const float textMaxWidth = contentSize.width - imageWidth - (2 * kTextPadding);
     
@@ -140,6 +150,8 @@ void EpisodeBar::setContentItemData(const HQContentItemObjectRef& contentItem)
     if(_contentItem)
     {
         _episodeTitle->setString(_contentItem->getTitle());
+        _lockedOverlay->setVisible(!_contentItem->isEntitled());
+        _playIcon->loadTexture(_contentItem->isEntitled() ? "res/hqscene/play_icon.png" : "res/hqscene/oomee_padlock.png");
     }
 }
 

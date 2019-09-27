@@ -22,6 +22,9 @@ private:
     cocos2d::ClippingNode* _contentClipper = nullptr;
     cocos2d::ui::Scale9Sprite* _clippingStencil = nullptr;
     
+    cocos2d::LayerColor* _lockedOverlay = nullptr;
+    cocos2d::ui::ImageView* _padlock = nullptr;
+    
     cocos2d::Vec2 _imageShape = cocos2d::Vec2(1.0f, 1.0f);
     
     void elementDisappeared(cocos2d::Node *sender) override;
@@ -35,6 +38,8 @@ public:
     void onSizeChanged() override;
     
     void setImageShape(const cocos2d::Vec2& imageShape);
+    
+    void setContentItemData(const HQContentItemObjectRef& contentItem) override;
     
     CREATE_FUNC(FeaturedTile);
     

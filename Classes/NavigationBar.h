@@ -20,9 +20,8 @@ enum class HQType {GAME, VIDEO, CHAT, OOMEE};
 class NavigationBar : public cocos2d::ui::Layout
 {
     typedef cocos2d::ui::Layout Super;
-    typedef std::function<void(HQType)> HQSelectedCallback;
+    typedef std::function<bool(HQType)> HQSelectedCallback;
 private:
-    static const std::map<std::string, HQType> kHQNameToTypeConv;
     
     NavigationButton* _gameHQButton = nullptr;
     NavigationButton* _videoHQButton = nullptr;
@@ -34,6 +33,9 @@ private:
     HQSelectedCallback _callback = nullptr;
     
 public:
+    
+    static const std::map<std::string, HQType> kHQNameToTypeConv;
+    static const std::map<HQType,std::string> kHQTypeToNameConv;
     
     bool init() override;
     void onEnter() override;

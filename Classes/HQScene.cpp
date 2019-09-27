@@ -174,10 +174,10 @@ void HQScene::createNavigationUI()
     _navBar->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _navBar->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _navBar->setHQSelectedCallback([this](HQType hq){
+        const std::string& targetHQName = NavigationBar::kHQTypeToNameConv.at(hq);
+        const HQDataObjectRef& targetHQ = HQDataObjectManager::getInstance()->getHQDataObjectForKey(targetHQName);
         
-        const HQDataObjectRef &currentObject = HQDataObjectManager::getInstance()->getHQDataObjectForKey(_activePageName);
-        
-        if(!currentObject->getHqEntitlement())
+        if(!targetHQ->getHqEntitlement())
         {
 #ifndef ALLOW_UNPAID_SIGNUP
             AgeGate* ageGate = AgeGate::create();
@@ -192,11 +192,11 @@ void HQScene::createNavigationUI()
 #else
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Signup));
 #endif
-            return;
+            return false;
         }
         
         changeToPage(hq);
-        
+        return true;
     });
     addChild(_navBar, 1);
     
