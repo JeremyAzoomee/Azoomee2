@@ -19,7 +19,7 @@ bool RoundedRectSprite::init()
     }
     
     GLProgram* shaderProgram = new GLProgram();
-    shaderProgram->initWithFilenames("res/shaders/rounded_rect_vert", "res/shaders/rounded_rect.frag");
+    shaderProgram->initWithFilenames("res/shaders/standard.vert", "res/shaders/rounded_rect.frag");
     shaderProgram->link();
     shaderProgram->updateUniforms();
     shaderProgram->use();
