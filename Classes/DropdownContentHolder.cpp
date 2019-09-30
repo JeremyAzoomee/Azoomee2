@@ -33,21 +33,26 @@ bool DropdownContentHolder::init()
     
     setSizeType(SizeType::ABSOLUTE);
     
-    _clippingStencil = ui::Scale9Sprite::create(kBgCapInsets, "res/hqscene/dropdown_bg_clipper.png");
-    _clippingStencil->setContentSize(getContentSize());
-    _clippingStencil->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-    
-    _bgClipper = ClippingNode::create(_clippingStencil);
-    _bgClipper->setAlphaThreshold(0.9f);
-    _bgClipper->setContentSize(getContentSize());
-    addChild(_bgClipper, -1);
-    
-    _bgPattern = TileSprite::create();
+    _bgPattern = RoundedRectSprite::create();
     _bgPattern->setTexture("res/decoration/pattern_stem_tile.png");
-    _bgPattern->setTextureScale(2.0f);
     _bgPattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _bgPattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
-    _bgClipper->addChild(_bgPattern);
+    _bgPattern->setCornerRadius(150);
+    Texture2D* texture = _bgPattern->getTexture();
+    if(texture)
+    {
+        const Size& texSize = texture->getContentSizeInPixels();
+        CCASSERT(texSize.width == ccNextPOT(texSize.width) && texSize.height == ccNextPOT(texSize.height),
+                 "TileSprite only works with PO2 textures");
+        
+        Texture2D::TexParams params;
+        params.minFilter = GL_NEAREST;
+        params.magFilter = GL_NEAREST;
+        params.wrapS = GL_REPEAT;
+        params.wrapT = GL_REPEAT;
+        texture->setTexParameters(params);
+    }
+    addChild(_bgPattern, -1);
     
     _contentLayout->setLayoutType(Type::VERTICAL);
     _contentLayout->setSizeType(SizeType::PERCENT);
@@ -89,8 +94,9 @@ void DropdownContentHolder::onSizeChanged()
     
     const Size& contentSize = getContentSize();
     
-    _clippingStencil->setContentSize(contentSize);
-    _bgClipper->setContentSize(contentSize);
+    Size bgTexSize = _bgPattern->getTexture()->getContentSizeInPixels();
+    Vec2 scales = Vec2(contentSize.width / bgTexSize.width, contentSize.height / bgTexSize.height) / 2.0f;
+    _bgPattern->setTextureRect(Rect(Vec2(0,0), Size(bgTexSize.width * scales.x, bgTexSize.height * scales.y)));
     _bgPattern->setContentSize(contentSize);
     _titleBanner->setContentSize(Size(contentSize.width, 2 * kBgCapInsets.origin.y));
     _categoryTitle->setTextAreaSize(Size(_titleBanner->getContentSize().width * 0.5f, _categoryTitle->getContentSize().height));

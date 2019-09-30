@@ -13,7 +13,7 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-const float FeaturedGamesHolder::kTileSpacing = 16.0f;
+const float FeaturedGamesHolder::kTileSpacing = 25.0f;
 
 bool FeaturedGamesHolder::init()
 {

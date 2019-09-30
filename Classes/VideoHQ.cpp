@@ -148,7 +148,7 @@ void VideoHQ::createFeaturedTiles()
 void VideoHQ::createRecentlyPlayedTiles()
 {
  
-    _recentlyPlayedTitle = DynamicText::create(_("Recently watched"), Style::Font::PoppinsBold(), 80);
+    _recentlyPlayedTitle = DynamicText::create(_("Recently watched"), Style::Font::PoppinsBold(), 75);
     _recentlyPlayedTitle->setTextVerticalAlignment(TextVAlignment::CENTER);
     _recentlyPlayedTitle->setTextHorizontalAlignment(TextHAlignment::LEFT);
     _recentlyPlayedTitle->setOverflow(Label::Overflow::SHRINK);

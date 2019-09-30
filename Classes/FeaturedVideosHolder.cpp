@@ -24,7 +24,7 @@ bool FeaturedVideosHolder::init()
     }
     
     _tile1 = FeaturedTile::create();
-    _tile1->setImageScaleMode(ContentTile::ImageScaleMode::FIT_HEIGHT);
+    _tile1->setImageScaleMode(ContentTile::ImageScaleMode::FILL_ALL);
     _tile1->setImageShape(TILESIZE_1X2);
     _tile1->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
     _tile1->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
@@ -38,7 +38,7 @@ bool FeaturedVideosHolder::init()
     _contentLayout->addChild(_tile1);
     
     _tile2 = FeaturedTile::create();
-    _tile2->setImageScaleMode(ContentTile::ImageScaleMode::FIT_HEIGHT);
+    _tile2->setImageScaleMode(ContentTile::ImageScaleMode::FILL_ALL);
     _tile2->setImageShape(TILESIZE_1X2);
     _tile2->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _tile2->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -52,7 +52,7 @@ bool FeaturedVideosHolder::init()
     _contentLayout->addChild(_tile2);
     
     _tile3 = FeaturedTile::create();
-    _tile3->setImageScaleMode(ContentTile::ImageScaleMode::FIT_HEIGHT);
+    _tile3->setImageScaleMode(ContentTile::ImageScaleMode::FILL_ALL);
     _tile3->setImageShape(TILESIZE_1X2);
     _tile3->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
     _tile3->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
