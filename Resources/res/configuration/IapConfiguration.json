@@ -5,5 +5,6 @@
   "amazon-prod": "com.azoomee.premium.monthly",
   "ios-prod": "AZ_Premium_1MonthOnly",
   "ios-test": "AZ_Test_1MonthOnly",
-  "ios-ci": "AZ_CI_1MonthOnly"
+  "ios-ci": "AZ_CI_1MonthOnly",
+  "ios-ci-recurring": "AZ_CI_Monthly"
 }
