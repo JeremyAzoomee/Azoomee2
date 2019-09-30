@@ -79,32 +79,49 @@ void RoundedRectTile::onSizeChanged()
     _dropShadow->setContentSize(contentSize + kDropshadowPadding);
     _lockedOverlay->setContentSize(contentSize);
     _padlock->setContentSize(Size(contentSize.height * 0.5f, contentSize.height * 0.5f));
-    float scale = 1.0f;
     const Size& imageTexPixSize = _contentImage->getTexture()->getContentSizeInPixels();
+    Rect texRect = Rect(Vec2(0,0), imageTexPixSize);
     switch(_scaleMode)
     {
         case ImageScaleMode::FIT_WIDTH:
         {
-            scale = contentSize.width / imageTexPixSize.width;
+            Size croppedSize = Size(imageTexPixSize.width, (imageTexPixSize.width * contentSize.height) / contentSize.width);
+            Vec2 origin = (imageTexPixSize / 2.0f) - (croppedSize / 2.0f);
+            texRect = Rect(origin, croppedSize);
             break;
         }
         case ImageScaleMode::FIT_HEIGHT:
         {
-            scale = contentSize.height / imageTexPixSize.height;
+            Size croppedSize = Size((imageTexPixSize.height * contentSize.width) / contentSize.height, contentSize.height);
+            Vec2 origin = (imageTexPixSize / 2.0f) - (croppedSize / 2.0f);
+            texRect = Rect(origin, croppedSize);
             break;
         }
         case ImageScaleMode::SHOW_ALL:
         {
-            scale = MIN(contentSize.height / imageTexPixSize.height, contentSize.width / imageTexPixSize.width);
             break;
         }
         case ImageScaleMode::FILL_ALL:
         {
-            scale = MAX(contentSize.height / imageTexPixSize.height, contentSize.width / imageTexPixSize.width);
+            float scaleW = contentSize.width / imageTexPixSize.width;
+            float scaleH = contentSize.height / imageTexPixSize.height;
+            if(scaleW > scaleH)
+            {
+                Size croppedSize = Size(imageTexPixSize.width, (imageTexPixSize.width * contentSize.height) / contentSize.width);
+                Vec2 origin = (imageTexPixSize / 2.0f) - (croppedSize / 2.0f);
+                texRect = Rect(origin, croppedSize);
+            }
+            else
+            {
+                Size croppedSize = Size((imageTexPixSize.height * contentSize.width) / contentSize.height, contentSize.height);
+                Vec2 origin = (imageTexPixSize / 2.0f) - (croppedSize / 2.0f);
+                texRect = Rect(origin, croppedSize);
+            }
             break;
         }
     }
-    _contentImage->setContentSize(imageTexPixSize * scale);
+    _contentImage->setTextureRect(texRect);
+    _contentImage->setContentSize(contentSize);
 }
 
 void RoundedRectTile::setContentItemData(const HQContentItemObjectRef& contentItem)

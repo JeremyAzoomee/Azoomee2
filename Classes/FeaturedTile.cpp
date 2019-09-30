@@ -72,32 +72,48 @@ void FeaturedTile::onSizeChanged()
     const Size& innerSize = contentSize - Size(12,12);
     _lockedOverlay->setContentSize(innerSize);
     _padlock->setContentSize(Size(innerSize.height * (0.5f / _imageShape.y), innerSize.height * (0.5f / _imageShape.y)));
-    float scale = 1.0f;
     const Size& imageTexPixSize = _contentImage->getTexture()->getContentSizeInPixels();
+    Rect texRect = Rect(Vec2(0,0), imageTexPixSize);
     switch(_scaleMode)
     {
         case ImageScaleMode::FIT_WIDTH:
         {
-            scale = innerSize.width / imageTexPixSize.width;
+            Size croppedSize = Size(imageTexPixSize.width, (imageTexPixSize.width * innerSize.height) / innerSize.width);
+            Vec2 origin = (imageTexPixSize / 2.0f) - (croppedSize / 2.0f);
+            texRect = Rect(origin, croppedSize);
             break;
         }
         case ImageScaleMode::FIT_HEIGHT:
         {
-            scale = innerSize.height / imageTexPixSize.height;
+            Size croppedSize = Size((imageTexPixSize.height * innerSize.width) / innerSize.height, innerSize.height);
+            Vec2 origin = (imageTexPixSize / 2.0f) - (croppedSize / 2.0f);
+            texRect = Rect(origin, croppedSize);
             break;
         }
         case ImageScaleMode::SHOW_ALL:
         {
-            scale = MIN(innerSize.height / imageTexPixSize.height, innerSize.width / imageTexPixSize.width);
             break;
         }
         case ImageScaleMode::FILL_ALL:
         {
-            scale = MAX(innerSize.height / imageTexPixSize.height, innerSize.width / imageTexPixSize.width);
+            float scaleW = contentSize.width / imageTexPixSize.width;
+            float scaleH = contentSize.height / imageTexPixSize.height;
+            if(scaleW > scaleH)
+            {
+                Size croppedSize = Size(imageTexPixSize.width, (imageTexPixSize.width * innerSize.height) / innerSize.width);
+                Vec2 origin = (imageTexPixSize / 2.0f) - (croppedSize / 2.0f);
+                texRect = Rect(origin, croppedSize);
+            }
+            else
+            {
+                Size croppedSize = Size((imageTexPixSize.height * innerSize.width) / innerSize.height, innerSize.height);
+                Vec2 origin = (imageTexPixSize / 2.0f) - (croppedSize / 2.0f);
+                texRect = Rect(origin, croppedSize);
+            }
             break;
         }
     }
-    //_contentImage->setContentSize(imageTexPixSize * scale);
+    _contentImage->setTextureRect(texRect);
     _contentImage->setContentSize(innerSize);
 }
 

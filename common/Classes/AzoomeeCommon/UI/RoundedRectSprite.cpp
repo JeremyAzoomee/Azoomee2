@@ -31,6 +31,7 @@ bool RoundedRectSprite::init()
     state->setUniformVec2("u_pixelSize", Vec2(getContentSize()));
     state->setUniformFloat("u_radius", 20);
     state->setUniformFloatv("u_corners", 4, _corners);
+    state->setUniformVec4("u_normTexRect", Vec4(0, 0, getContentSize().width, getContentSize().height));
     
     return true;
 }
@@ -40,6 +41,34 @@ void RoundedRectSprite::setContentSize(const cocos2d::Size& contentSize)
     Super::setContentSize(contentSize);
     GLProgramState* state = getGLProgramState();
     state->setUniformVec2("u_pixelSize", Vec2(getContentSize()));
+}
+
+void RoundedRectSprite::setTextureRect(const cocos2d::Rect& rect)
+{
+    Super::setTextureRect(rect);
+    if(getTexture())
+    {
+        const Size& texSize = getTexture()->getContentSizeInPixels();
+        GLProgramState* state = getGLProgramState();
+        state->setUniformVec4("u_normTexRect", Vec4(rect.origin.x / texSize.width, rect.origin.y / texSize.height, texSize.width / rect.size.width, texSize.height / rect.size.height));
+        state->setUniformVec2("u_texSize", texSize);
+    }
+}
+
+void RoundedRectSprite::setTexture(const std::string &filename )
+{
+    Super::setTexture(filename);
+}
+
+void RoundedRectSprite::setTexture(cocos2d::Texture2D *texture)
+{
+    Super::setTexture(texture);
+    if(getTexture())
+    {
+        const Size& texSize = getTexture()->getContentSizeInPixels();
+        GLProgramState* state = getGLProgramState();
+        state->setUniformVec2("u_texSize", texSize);
+    }
 }
 
 void RoundedRectSprite::setCornerRadius(float radius)
