@@ -84,13 +84,9 @@ void HQScene::onSizeChanged()
     {
         _titleBanner->setContentSize(Size(visibleSize.width, 260));
         _topPattern->setContentSize(_titleBanner->getContentSize());
-        _patternGradient->setContentSize(_titleBanner->getContentSize());
+        _patternGradient->setContentSize(Size(_titleBanner->getContentSize().width, 107));
         _titleBannerContent->setContentSize(Size(visibleSize.width - kTitleBarPadding, 260));
     }
-    //if(_messagingLayer)
-    //{
-    //    _messagingLayer->setContentSize(Size(visibleSize.width, 350));
-    //}
     if(_HQPageTitle)
     {
         _HQPageTitle->setTextAreaSize(Size(visibleSize.width / 2, 240));
@@ -130,9 +126,9 @@ void HQScene::createHeaderUI()
     const Color3B& gradColour = Style::Color::darkIndigo;
     _patternGradient = LayerGradient::create(Color4B(gradColour.r, gradColour.g, gradColour.b, 0), Color4B(gradColour));
     _patternGradient->setIgnoreAnchorPointForPosition(false);
-    _patternGradient->setContentSize(_titleBanner->getContentSize());
-    _patternGradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    _patternGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+    _patternGradient->setContentSize(Size(_titleBanner->getContentSize().width, 107));
+    _patternGradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _patternGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _titleBanner->addChild(_patternGradient);
     
     _titleBannerContent = ui::Layout::create();
@@ -155,7 +151,7 @@ void HQScene::createHeaderUI()
     //show coin counter if they have coins or have completed the shop tutorial
     //_coinDisplay->setVisible(TutorialController::getInstance()->isTutorialCompleted(TutorialController::kFTUShopID) || ChildManager::getInstance()->getLoggedInChild()->getInventory()->getCoins() > 0);
     
-    _HQPageTitle = DynamicText::create(_("Games"), Style::Font::PoppinsBold(), 129);
+    _HQPageTitle = DynamicText::create(_("Games"), Style::Font::PoppinsBold(), 107);
     _HQPageTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
     _HQPageTitle->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
     _HQPageTitle->setOverflow(Label::Overflow::SHRINK);

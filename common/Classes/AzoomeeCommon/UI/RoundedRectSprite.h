@@ -23,6 +23,7 @@ public:
     
     bool init() override;
     void setContentSize(const cocos2d::Size& contentSize) override;
+    void setTextureRect(const cocos2d::Rect& rect) override;
     
     void setCornerRadius(float radius);
     void setRoundedCorners(bool bottomLeft, bool bottomRight, bool topLeft, bool topRight);

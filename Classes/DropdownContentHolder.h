@@ -35,10 +35,7 @@ private:
     float _openHeight;
     cocos2d::Size _contentGridSize;
     
-    cocos2d::ui::Scale9Sprite* _clippingStencil = nullptr;
-    cocos2d::ClippingNode* _bgClipper = nullptr;
-    
-    TileSprite* _bgPattern = nullptr;
+    RoundedRectSprite* _bgPattern = nullptr;
     cocos2d::ui::Layout* _iconLayout = nullptr;
     cocos2d::ui::Layout* _iconBackground = nullptr;
     cocos2d::Sprite* _iconStencil = nullptr;
