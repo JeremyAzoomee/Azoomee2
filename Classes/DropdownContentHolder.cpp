@@ -93,11 +93,11 @@ void DropdownContentHolder::onSizeChanged()
     Super::onSizeChanged();
     
     const Size& contentSize = getContentSize();
-    
-    Size bgTexSize = _bgPattern->getTexture()->getContentSizeInPixels();
-    Vec2 scales = Vec2(contentSize.width / bgTexSize.width, contentSize.height / bgTexSize.height) / 2.0f;
+    const Size& bgSize = contentSize - Size(12,12);
+    const Size& bgTexSize = _bgPattern->getTexture()->getContentSizeInPixels();
+    const Vec2& scales = Vec2(bgSize.width / bgTexSize.width, bgSize.height / bgTexSize.height) / 2.0f;
     _bgPattern->setTextureRect(Rect(Vec2(0,0), Size(bgTexSize.width * scales.x, bgTexSize.height * scales.y)));
-    _bgPattern->setContentSize(contentSize);
+    _bgPattern->setContentSize(bgSize);
     _titleBanner->setContentSize(Size(contentSize.width, 2 * kBgCapInsets.origin.y));
     _categoryTitle->setTextAreaSize(Size(_titleBanner->getContentSize().width * 0.5f, _categoryTitle->getContentSize().height));
     _iconLayout->setContentSize(Size(_titleBanner->getContentSize().height - 12.0f, _titleBanner->getContentSize().height - 12.0f));

@@ -51,23 +51,6 @@ void RoundedRectSprite::setTextureRect(const cocos2d::Rect& rect)
         const Size& texSize = getTexture()->getContentSizeInPixels();
         GLProgramState* state = getGLProgramState();
         state->setUniformVec4("u_normTexRect", Vec4(rect.origin.x / texSize.width, rect.origin.y / texSize.height, texSize.width / rect.size.width, texSize.height / rect.size.height));
-        state->setUniformVec2("u_texSize", texSize);
-    }
-}
-
-void RoundedRectSprite::setTexture(const std::string &filename )
-{
-    Super::setTexture(filename);
-}
-
-void RoundedRectSprite::setTexture(cocos2d::Texture2D *texture)
-{
-    Super::setTexture(texture);
-    if(getTexture())
-    {
-        const Size& texSize = getTexture()->getContentSizeInPixels();
-        GLProgramState* state = getGLProgramState();
-        state->setUniformVec2("u_texSize", texSize);
     }
 }
 

@@ -85,15 +85,15 @@ void RoundedRectTile::onSizeChanged()
     {
         case ImageScaleMode::FIT_WIDTH:
         {
-            Size croppedSize = Size(imageTexPixSize.width, (imageTexPixSize.width * contentSize.height) / contentSize.width);
-            Vec2 origin = (imageTexPixSize / 2.0f) - (croppedSize / 2.0f);
+            const Size& croppedSize = Size(imageTexPixSize.width, (imageTexPixSize.width * contentSize.height) / contentSize.width);
+            const Vec2& origin = (imageTexPixSize / 2.0f) - (croppedSize / 2.0f);
             texRect = Rect(origin, croppedSize);
             break;
         }
         case ImageScaleMode::FIT_HEIGHT:
         {
-            Size croppedSize = Size((imageTexPixSize.height * contentSize.width) / contentSize.height, contentSize.height);
-            Vec2 origin = (imageTexPixSize / 2.0f) - (croppedSize / 2.0f);
+            const Size& croppedSize = Size((imageTexPixSize.height * contentSize.width) / contentSize.height, contentSize.height);
+            const Vec2& origin = (imageTexPixSize / 2.0f) - (croppedSize / 2.0f);
             texRect = Rect(origin, croppedSize);
             break;
         }
@@ -103,18 +103,18 @@ void RoundedRectTile::onSizeChanged()
         }
         case ImageScaleMode::FILL_ALL:
         {
-            float scaleW = contentSize.width / imageTexPixSize.width;
-            float scaleH = contentSize.height / imageTexPixSize.height;
+            const float scaleW = contentSize.width / imageTexPixSize.width;
+            const float scaleH = contentSize.height / imageTexPixSize.height;
             if(scaleW > scaleH)
             {
-                Size croppedSize = Size(imageTexPixSize.width, (imageTexPixSize.width * contentSize.height) / contentSize.width);
-                Vec2 origin = (imageTexPixSize / 2.0f) - (croppedSize / 2.0f);
+                const Size& croppedSize = Size(imageTexPixSize.width, (imageTexPixSize.width * contentSize.height) / contentSize.width);
+                const Vec2& origin = (imageTexPixSize / 2.0f) - (croppedSize / 2.0f);
                 texRect = Rect(origin, croppedSize);
             }
             else
             {
-                Size croppedSize = Size((imageTexPixSize.height * contentSize.width) / contentSize.height, contentSize.height);
-                Vec2 origin = (imageTexPixSize / 2.0f) - (croppedSize / 2.0f);
+                const Size& croppedSize = Size((imageTexPixSize.height * contentSize.width) / contentSize.height, contentSize.height);
+                const Vec2& origin = (imageTexPixSize / 2.0f) - (croppedSize / 2.0f);
                 texRect = Rect(origin, croppedSize);
             }
             break;
