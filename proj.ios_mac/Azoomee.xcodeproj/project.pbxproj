@@ -99,7 +99,6 @@
 		43A90CDF1EA755F000606099 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A90CDE1EA755F000606099 /* SystemConfiguration.framework */; };
 		43A90CE11EA755FF00606099 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A90CE01EA755FF00606099 /* CoreTelephony.framework */; };
 		43A90CE31EA7560500606099 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A90CE21EA7560500606099 /* Accelerate.framework */; };
-		43A90DE51EA7603800606099 /* WatchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A90DE41EA7603800606099 /* WatchKit.framework */; };
 		43BCD71E1EC9FD4E00A07737 /* SceneManagerScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43BCD71C1EC9FD4E00A07737 /* SceneManagerScene.cpp */; };
 		503AE10017EB989F00D1A890 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FB17EB989F00D1A890 /* AppController.mm */; };
 		503AE10117EB989F00D1A890 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FC17EB989F00D1A890 /* main.m */; };
@@ -142,7 +141,7 @@
 		9229EE6322E07808009732B0 /* SignupTermsPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EE6222E07808009732B0 /* SignupTermsPage.cpp */; };
 		9229EECB22E5C6AF009732B0 /* PopupMessageBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EECA22E5C6AF009732B0 /* PopupMessageBox.cpp */; };
 		9229EECE22E74A55009732B0 /* LoginEntry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EECD22E74A55009732B0 /* LoginEntry.cpp */; };
-		923D5BBE220064B9008C13D0 /* HQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BBD220064B9008C13D0 /* HQScene.cpp */; };
+		923D5BBE220064B9008C13D0 /* HQSceneDepreciated.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BBD220064B9008C13D0 /* HQSceneDepreciated.cpp */; };
 		923D5BC522008BF1008C13D0 /* ContentFeedHQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BC422008BF1008C13D0 /* ContentFeedHQScene.cpp */; };
 		923D5BED2201F126008C13D0 /* RewardScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BEC2201F125008C13D0 /* RewardScene.cpp */; };
 		923D5BF022020475008C13D0 /* CoinDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BEF22020475008C13D0 /* CoinDisplay.cpp */; };
@@ -183,7 +182,6 @@
 		928A6E8720EE58A70053E793 /* ChildNameLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928A6E8620EE58A70053E793 /* ChildNameLayer.cpp */; };
 		928A6E8920EE5C880053E793 /* ChildAgeLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928A6E8820EE5C880053E793 /* ChildAgeLayer.cpp */; };
 		928A6E8B20EE62270053E793 /* ChildOomeeLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928A6E8A20EE62270053E793 /* ChildOomeeLayer.cpp */; };
-		9295158B2091D48700F43AEC /* UserTypeMessagingLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9295158A2091D48700F43AEC /* UserTypeMessagingLayer.cpp */; };
 		929A9CFC2065248A009B323D /* MeHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929A9CFB2065248A009B323D /* MeHQ.cpp */; };
 		929A9D57206CF9F1009B323D /* FavouritesManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929A9D56206CF9F1009B323D /* FavouritesManager.cpp */; };
 		929FB10322E8A6440088D406 /* MarketingAssetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929FB10222E8A6440088D406 /* MarketingAssetManager.cpp */; };
@@ -218,6 +216,25 @@
 		D44C620E132DFF430009C878 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620D132DFF430009C878 /* AVFoundation.framework */; };
 		D44C6210132DFF4E0009C878 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620F132DFF4E0009C878 /* AudioToolbox.framework */; };
 		D6B0611B1803AB670077942B /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6B0611A1803AB670077942B /* CoreMotion.framework */; };
+		E212CC19231D4CB8009D4A63 /* ContentTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E212CC18231D4CB8009D4A63 /* ContentTile.cpp */; };
+		E212CC75231D75E7009D4A63 /* ContentTileHolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E212CC74231D75E7009D4A63 /* ContentTileHolder.cpp */; };
+		E212CCA1231E71DB009D4A63 /* FeaturedTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E212CCA0231E71DB009D4A63 /* FeaturedTile.cpp */; };
+		E212CCA4231EB07B009D4A63 /* FeaturedGamesHolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E212CCA3231EB07B009D4A63 /* FeaturedGamesHolder.cpp */; };
+		E21592F523267D2F003CBB50 /* DropdownContentHolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21592F423267D2F003CBB50 /* DropdownContentHolder.cpp */; };
+		E21A4F272317CC5300E1D3FB /* OomeeHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21A4F262317CC5300E1D3FB /* OomeeHQ.cpp */; };
+		E21B22142322B02E0032510A /* RoundedRectTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21B22132322B02E0032510A /* RoundedRectTile.cpp */; };
+		E229F67423351999005BA0D4 /* EpisodeSelector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E229F67323351999005BA0D4 /* EpisodeSelector.cpp */; };
+		E229F6772338CF46005BA0D4 /* EpisodeBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E229F6762338CF46005BA0D4 /* EpisodeBar.cpp */; };
+		E22ACA04230C00D40024B328 /* NavigationButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACA03230C00D40024B328 /* NavigationButton.cpp */; };
+		E22ACA06230C07650024B328 /* NavigationBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACA05230C07650024B328 /* NavigationBar.cpp */; };
+		E22ACAA3230D51100024B328 /* HQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACAA2230D51100024B328 /* HQScene.cpp */; };
+		E22ACAFF230EC4CA0024B328 /* HQPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACAFE230EC4CA0024B328 /* HQPage.cpp */; };
+		E22ACB13230EF30D0024B328 /* GameHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACB12230EF30D0024B328 /* GameHQ.cpp */; };
+		E22ACB16230FE7E50024B328 /* VideoHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACB15230FE7E50024B328 /* VideoHQ.cpp */; };
+		E23EC8F62331172600DB6ED7 /* PurchaseCapsule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23EC8F52331172600DB6ED7 /* PurchaseCapsule.cpp */; };
+		E2A5141A23200E58007B93BC /* FeaturedVideosHolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2A5141923200E58007B93BC /* FeaturedVideosHolder.cpp */; };
+		E2A5141D232133F3007B93BC /* CircleTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2A5141C232133F3007B93BC /* CircleTile.cpp */; };
+		E2A5142023214B45007B93BC /* CircleContentHolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2A5141F23214B45007B93BC /* CircleContentHolder.cpp */; };
 		E2DCF5E9230442FF0032946D /* ImportantMessageForParents.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2DCF5E8230442FF0032946D /* ImportantMessageForParents.cpp */; };
 		ED545A7C1B68A1F400C3958E /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED545A7B1B68A1F400C3958E /* libiconv.dylib */; };
 /* End PBXBuildFile section */
@@ -584,8 +601,8 @@
 		9229EECA22E5C6AF009732B0 /* PopupMessageBox.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PopupMessageBox.cpp; sourceTree = "<group>"; };
 		9229EECC22E748FE009732B0 /* LoginEntry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginEntry.h; sourceTree = "<group>"; };
 		9229EECD22E74A55009732B0 /* LoginEntry.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LoginEntry.cpp; sourceTree = "<group>"; };
-		923D5B7221FB5BA9008C13D0 /* HQScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HQScene.h; sourceTree = "<group>"; };
-		923D5BBD220064B9008C13D0 /* HQScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HQScene.cpp; sourceTree = "<group>"; };
+		923D5B7221FB5BA9008C13D0 /* HQSceneDepreciated.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HQSceneDepreciated.h; sourceTree = "<group>"; };
+		923D5BBD220064B9008C13D0 /* HQSceneDepreciated.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HQSceneDepreciated.cpp; sourceTree = "<group>"; };
 		923D5BC322007473008C13D0 /* ContentFeedHQScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContentFeedHQScene.h; sourceTree = "<group>"; };
 		923D5BC422008BF1008C13D0 /* ContentFeedHQScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ContentFeedHQScene.cpp; sourceTree = "<group>"; };
 		923D5BEB2201E287008C13D0 /* RewardScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RewardScene.h; sourceTree = "<group>"; };
@@ -668,8 +685,6 @@
 		928A6E8620EE58A70053E793 /* ChildNameLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChildNameLayer.cpp; sourceTree = "<group>"; };
 		928A6E8820EE5C880053E793 /* ChildAgeLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChildAgeLayer.cpp; sourceTree = "<group>"; };
 		928A6E8A20EE62270053E793 /* ChildOomeeLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChildOomeeLayer.cpp; sourceTree = "<group>"; };
-		929515862091D04800F43AEC /* UserTypeMessagingLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserTypeMessagingLayer.h; sourceTree = "<group>"; };
-		9295158A2091D48700F43AEC /* UserTypeMessagingLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UserTypeMessagingLayer.cpp; sourceTree = "<group>"; };
 		929A9CFA2063CF4F009B323D /* MeHQ.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeHQ.h; sourceTree = "<group>"; };
 		929A9CFB2065248A009B323D /* MeHQ.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MeHQ.cpp; sourceTree = "<group>"; };
 		929A9D51206CF9D9009B323D /* FavouritesManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FavouritesManager.h; sourceTree = "<group>"; };
@@ -730,6 +745,44 @@
 		D44C620D132DFF430009C878 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		D44C620F132DFF4E0009C878 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		D6B0611A1803AB670077942B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
+		E212CC17231D3EC7009D4A63 /* ContentTile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContentTile.h; sourceTree = "<group>"; };
+		E212CC18231D4CB8009D4A63 /* ContentTile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ContentTile.cpp; sourceTree = "<group>"; };
+		E212CC6E231D6C3F009D4A63 /* ContentTileHolder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContentTileHolder.h; sourceTree = "<group>"; };
+		E212CC74231D75E7009D4A63 /* ContentTileHolder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ContentTileHolder.cpp; sourceTree = "<group>"; };
+		E212CC9A231E620A009D4A63 /* FeaturedTile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeaturedTile.h; sourceTree = "<group>"; };
+		E212CCA0231E71DB009D4A63 /* FeaturedTile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FeaturedTile.cpp; sourceTree = "<group>"; };
+		E212CCA2231EA818009D4A63 /* FeaturedGamesHolder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeaturedGamesHolder.h; sourceTree = "<group>"; };
+		E212CCA3231EB07B009D4A63 /* FeaturedGamesHolder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FeaturedGamesHolder.cpp; sourceTree = "<group>"; };
+		E21592F3232665EC003CBB50 /* DropdownContentHolder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DropdownContentHolder.h; sourceTree = "<group>"; };
+		E21592F423267D2F003CBB50 /* DropdownContentHolder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DropdownContentHolder.cpp; sourceTree = "<group>"; };
+		E21A4F202317CC0200E1D3FB /* OomeeHQ.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OomeeHQ.h; sourceTree = "<group>"; };
+		E21A4F262317CC5300E1D3FB /* OomeeHQ.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeHQ.cpp; sourceTree = "<group>"; };
+		E21B220D2322ACA10032510A /* RoundedRectTile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RoundedRectTile.h; sourceTree = "<group>"; };
+		E21B22132322B02E0032510A /* RoundedRectTile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RoundedRectTile.cpp; sourceTree = "<group>"; };
+		E229F67223350BCA005BA0D4 /* EpisodeSelector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EpisodeSelector.h; sourceTree = "<group>"; };
+		E229F67323351999005BA0D4 /* EpisodeSelector.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EpisodeSelector.cpp; sourceTree = "<group>"; };
+		E229F6752338C02A005BA0D4 /* EpisodeBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EpisodeBar.h; sourceTree = "<group>"; };
+		E229F6762338CF46005BA0D4 /* EpisodeBar.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EpisodeBar.cpp; sourceTree = "<group>"; };
+		E22AC9FC230BF31D0024B328 /* NavigationBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NavigationBar.h; sourceTree = "<group>"; };
+		E22ACA02230BFB790024B328 /* NavigationButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NavigationButton.h; sourceTree = "<group>"; };
+		E22ACA03230C00D40024B328 /* NavigationButton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NavigationButton.cpp; sourceTree = "<group>"; };
+		E22ACA05230C07650024B328 /* NavigationBar.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NavigationBar.cpp; sourceTree = "<group>"; };
+		E22ACA9C230D4FA40024B328 /* HQScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HQScene.h; sourceTree = "<group>"; };
+		E22ACAA2230D51100024B328 /* HQScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HQScene.cpp; sourceTree = "<group>"; };
+		E22ACAF8230EA7190024B328 /* HQPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HQPage.h; sourceTree = "<group>"; };
+		E22ACAFE230EC4CA0024B328 /* HQPage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HQPage.cpp; sourceTree = "<group>"; };
+		E22ACB0C230EEC430024B328 /* GameHQ.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameHQ.h; sourceTree = "<group>"; };
+		E22ACB12230EF30D0024B328 /* GameHQ.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GameHQ.cpp; sourceTree = "<group>"; };
+		E22ACB14230FDC6C0024B328 /* VideoHQ.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoHQ.h; sourceTree = "<group>"; };
+		E22ACB15230FE7E50024B328 /* VideoHQ.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VideoHQ.cpp; sourceTree = "<group>"; };
+		E23EC8EF2331120F00DB6ED7 /* PurchaseCapsule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PurchaseCapsule.h; sourceTree = "<group>"; };
+		E23EC8F52331172600DB6ED7 /* PurchaseCapsule.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PurchaseCapsule.cpp; sourceTree = "<group>"; };
+		E2A5141323200DC3007B93BC /* FeaturedVideosHolder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeaturedVideosHolder.h; sourceTree = "<group>"; };
+		E2A5141923200E58007B93BC /* FeaturedVideosHolder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FeaturedVideosHolder.cpp; sourceTree = "<group>"; };
+		E2A5141B232129F0007B93BC /* CircleTile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CircleTile.h; sourceTree = "<group>"; };
+		E2A5141C232133F3007B93BC /* CircleTile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CircleTile.cpp; sourceTree = "<group>"; };
+		E2A5141E2321469F007B93BC /* CircleContentHolder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CircleContentHolder.h; sourceTree = "<group>"; };
+		E2A5141F23214B45007B93BC /* CircleContentHolder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CircleContentHolder.cpp; sourceTree = "<group>"; };
 		E2DCF5E22304419B0032946D /* ImportantMessageForParents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImportantMessageForParents.h; sourceTree = "<group>"; };
 		E2DCF5E8230442FF0032946D /* ImportantMessageForParents.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ImportantMessageForParents.cpp; sourceTree = "<group>"; };
 		ED545A7B1B68A1F400C3958E /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.4.sdk/usr/lib/libiconv.dylib; sourceTree = DEVELOPER_DIR; };
@@ -750,7 +803,6 @@
 				300742E01EF91667005525AE /* libAzoomeeChat.a in Frameworks */,
 				4396948A1EAA4ACD003C17E6 /* StoreKit.framework in Frameworks */,
 				304D9EC91EA8F89B008CED52 /* GameController.framework in Frameworks */,
-				43A90DE51EA7603800606099 /* WatchKit.framework in Frameworks */,
 				43A90CE31EA7560500606099 /* Accelerate.framework in Frameworks */,
 				43A90CE11EA755FF00606099 /* CoreTelephony.framework in Frameworks */,
 				43A90CDF1EA755F000606099 /* SystemConfiguration.framework in Frameworks */,
@@ -1483,8 +1535,20 @@
 		A19759861DE4931600FEB03C /* HQScene */ = {
 			isa = PBXGroup;
 			children = (
-				923D5B7221FB5BA9008C13D0 /* HQScene.h */,
-				923D5BBD220064B9008C13D0 /* HQScene.cpp */,
+				E229F66C23350BA0005BA0D4 /* EpisodeSelector */,
+				E212CC11231D3E9C009D4A63 /* ContentTiles */,
+				E22ACA9C230D4FA40024B328 /* HQScene.h */,
+				E22ACAA2230D51100024B328 /* HQScene.cpp */,
+				E22ACAF8230EA7190024B328 /* HQPage.h */,
+				E22ACAFE230EC4CA0024B328 /* HQPage.cpp */,
+				E22ACB0C230EEC430024B328 /* GameHQ.h */,
+				E22ACB12230EF30D0024B328 /* GameHQ.cpp */,
+				E22ACB14230FDC6C0024B328 /* VideoHQ.h */,
+				E22ACB15230FE7E50024B328 /* VideoHQ.cpp */,
+				E21A4F202317CC0200E1D3FB /* OomeeHQ.h */,
+				E21A4F262317CC5300E1D3FB /* OomeeHQ.cpp */,
+				923D5B7221FB5BA9008C13D0 /* HQSceneDepreciated.h */,
+				923D5BBD220064B9008C13D0 /* HQSceneDepreciated.cpp */,
 				923D5BC322007473008C13D0 /* ContentFeedHQScene.h */,
 				923D5BC422008BF1008C13D0 /* ContentFeedHQScene.cpp */,
 				021564701FC4A8F100641C14 /* HQScene2 */,
@@ -1513,8 +1577,12 @@
 			children = (
 				A198621D1DD3836D0090F053 /* NavigationLayer.cpp */,
 				A198621E1DD3836D0090F053 /* NavigationLayer.h */,
-				929515862091D04800F43AEC /* UserTypeMessagingLayer.h */,
-				9295158A2091D48700F43AEC /* UserTypeMessagingLayer.cpp */,
+				E22AC9FC230BF31D0024B328 /* NavigationBar.h */,
+				E22ACA05230C07650024B328 /* NavigationBar.cpp */,
+				E22ACA02230BFB790024B328 /* NavigationButton.h */,
+				E22ACA03230C00D40024B328 /* NavigationButton.cpp */,
+				E23EC8EF2331120F00DB6ED7 /* PurchaseCapsule.h */,
+				E23EC8F52331172600DB6ED7 /* PurchaseCapsule.cpp */,
 			);
 			name = Navigation;
 			sourceTree = "<group>";
@@ -1559,6 +1627,42 @@
 				A154CC511DFEE7440008A626 /* GameDataManager.h */,
 			);
 			name = GameDownloader;
+			sourceTree = "<group>";
+		};
+		E212CC11231D3E9C009D4A63 /* ContentTiles */ = {
+			isa = PBXGroup;
+			children = (
+				E212CC17231D3EC7009D4A63 /* ContentTile.h */,
+				E212CC18231D4CB8009D4A63 /* ContentTile.cpp */,
+				E212CC6E231D6C3F009D4A63 /* ContentTileHolder.h */,
+				E212CC74231D75E7009D4A63 /* ContentTileHolder.cpp */,
+				E212CC9A231E620A009D4A63 /* FeaturedTile.h */,
+				E212CCA0231E71DB009D4A63 /* FeaturedTile.cpp */,
+				E212CCA2231EA818009D4A63 /* FeaturedGamesHolder.h */,
+				E212CCA3231EB07B009D4A63 /* FeaturedGamesHolder.cpp */,
+				E2A5141323200DC3007B93BC /* FeaturedVideosHolder.h */,
+				E2A5141923200E58007B93BC /* FeaturedVideosHolder.cpp */,
+				E2A5141B232129F0007B93BC /* CircleTile.h */,
+				E2A5141C232133F3007B93BC /* CircleTile.cpp */,
+				E2A5141E2321469F007B93BC /* CircleContentHolder.h */,
+				E2A5141F23214B45007B93BC /* CircleContentHolder.cpp */,
+				E21B220D2322ACA10032510A /* RoundedRectTile.h */,
+				E21B22132322B02E0032510A /* RoundedRectTile.cpp */,
+				E21592F3232665EC003CBB50 /* DropdownContentHolder.h */,
+				E21592F423267D2F003CBB50 /* DropdownContentHolder.cpp */,
+			);
+			name = ContentTiles;
+			sourceTree = "<group>";
+		};
+		E229F66C23350BA0005BA0D4 /* EpisodeSelector */ = {
+			isa = PBXGroup;
+			children = (
+				E229F67223350BCA005BA0D4 /* EpisodeSelector.h */,
+				E229F67323351999005BA0D4 /* EpisodeSelector.cpp */,
+				E229F6752338C02A005BA0D4 /* EpisodeBar.h */,
+				E229F6762338CF46005BA0D4 /* EpisodeBar.cpp */,
+			);
+			name = EpisodeSelector;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1868,18 +1972,20 @@
 				025633791F3B0F5C0053FF26 /* ForceUpdateAppLockScene.cpp in Sources */,
 				921A2677216F9FF6005C8C41 /* VodacomOnboardingDetailsLayer.cpp in Sources */,
 				02074B271E93966D009BB28C /* WebGameAPIDataManager.cpp in Sources */,
+				E22ACAA3230D51100024B328 /* HQScene.cpp in Sources */,
 				02D644542087489800FF17B4 /* NativeContentInterface_ios.mm in Sources */,
 				9229EE5A22DF5954009732B0 /* SignupConfirmEmail.cpp in Sources */,
 				92E58564220DC7580015A4FA /* RewardDisplayHandler.cpp in Sources */,
 				9229EE5D22DF633E009732B0 /* SignupEnterPassword.cpp in Sources */,
+				E22ACAFF230EC4CA0024B328 /* HQPage.cpp in Sources */,
 				92E58562220DB49F0015A4FA /* RewardScreen.cpp in Sources */,
 				A15B2FCA1DFACF3800D25334 /* HQDataProvider.cpp in Sources */,
-				9295158B2091D48700F43AEC /* UserTypeMessagingLayer.cpp in Sources */,
 				921A267D216FA0A4005C8C41 /* VodacomOnboardingAddChildLayer.cpp in Sources */,
 				439694841EAA4A08003C17E6 /* PrivacyAndTermsLayer.cpp in Sources */,
 				921A2671216F9F85005C8C41 /* VodacomOnboardingVoucherLayer.cpp in Sources */,
 				02A11FF71EA6375D007EDD95 /* GooglePaymentSingleton.cpp in Sources */,
 				925B24A12209D9480000D7D2 /* AwesomeLayer.cpp in Sources */,
+				E22ACA04230C00D40024B328 /* NavigationButton.cpp in Sources */,
 				4343CB9C1EBB826600247549 /* DeepLinkingSingleton.cpp in Sources */,
 				025633741F39AB5D0053FF26 /* ForceUpdateSingleton.cpp in Sources */,
 				028DDEB5206CFB69006D7EC5 /* IntroVideoScene.cpp in Sources */,
@@ -1890,15 +1996,19 @@
 				921A26BF217E1653005C8C41 /* VodacomMessageBoxInfo.cpp in Sources */,
 				924E8455214141DC004590FD /* KidDetailsLayer.cpp in Sources */,
 				927DF6E320AECA620080DFEF /* MeHQGallery.cpp in Sources */,
-				923D5BBE220064B9008C13D0 /* HQScene.cpp in Sources */,
+				923D5BBE220064B9008C13D0 /* HQSceneDepreciated.cpp in Sources */,
 				926A2B2C212F018E00AE7964 /* SettingsPageHeader.cpp in Sources */,
+				E21B22142322B02E0032510A /* RoundedRectTile.cpp in Sources */,
 				921A266D216F958B005C8C41 /* VodacomOnboardingLayer.cpp in Sources */,
 				026BAF781E3FFD33009C4ACE /* HQHistoryManager.cpp in Sources */,
 				9240331622D36612009907F3 /* AgeGate.cpp in Sources */,
 				920F6FDE213EB76300B7BB76 /* SettingsFriendshipsPage.cpp in Sources */,
+				E2A5141D232133F3007B93BC /* CircleTile.cpp in Sources */,
+				E2A5142023214B45007B93BC /* CircleContentHolder.cpp in Sources */,
 				92BDD4C122366D3100DA56F3 /* ShopItem.cpp in Sources */,
 				928A6E8920EE5C880053E793 /* ChildAgeLayer.cpp in Sources */,
 				92759EB21FE81F6300639190 /* ContentOpener.cpp in Sources */,
+				E2A5141A23200E58007B93BC /* FeaturedVideosHolder.cpp in Sources */,
 				921A25FD2164E8DE005C8C41 /* SettingsMessageBoxTryAgain.cpp in Sources */,
 				02E595B31E5B495B0052F395 /* HQSceneElementVisual.cpp in Sources */,
 				021564731FC4AB8300641C14 /* HQScene2PlaceHolderCreator.cpp in Sources */,
@@ -1913,6 +2023,7 @@
 				924E845221412D70004590FD /* SettingsKidsPage.cpp in Sources */,
 				300742F31EF93428005525AE /* ChatDelegate.cpp in Sources */,
 				928A6E8120EE2A290053E793 /* ChildNameLayerFirstTime.cpp in Sources */,
+				E21592F523267D2F003CBB50 /* DropdownContentHolder.cpp in Sources */,
 				432A6C0D1EA8E2A200C5842B /* ManualGameInputLayer.cpp in Sources */,
 				021564761FC4C79C00641C14 /* HQScene2CarouselTitle.cpp in Sources */,
 				02D4FCD21FCEE5E2005BA020 /* IAPProductDataHandler.mm in Sources */,
@@ -1932,6 +2043,8 @@
 				9240334122D4CCE2009907F3 /* IAPScene.cpp in Sources */,
 				920F6FE52140472A00B7BB76 /* SettingsMessageBox.cpp in Sources */,
 				437395811ED3441F00C29DB1 /* FlowDataSingleton.cpp in Sources */,
+				E22ACB13230EF30D0024B328 /* GameHQ.cpp in Sources */,
+				E21A4F272317CC5300E1D3FB /* OomeeHQ.cpp in Sources */,
 				02E595891E55DFF00052F395 /* OfflineHubSceneVisuals.cpp in Sources */,
 				921A2675216F9FD3005C8C41 /* VodacomOnboardingSuccessLayer.cpp in Sources */,
 				928A6E8B20EE62270053E793 /* ChildOomeeLayer.cpp in Sources */,
@@ -1943,11 +2056,15 @@
 				9271D7D32040557D00370120 /* OomeeMakerDelegate.cpp in Sources */,
 				921A25F421627FD6005C8C41 /* SettingsLanguagePage.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
+				E229F67423351999005BA0D4 /* EpisodeSelector.cpp in Sources */,
 				0215646F1FC4202800641C14 /* HQScene2ElementPositioner.cpp in Sources */,
 				924E84772147FE2B004590FD /* SettingsMessageBoxFREvent.cpp in Sources */,
 				924E845821427C05004590FD /* SettingsMessageBoxDeleteChild.cpp in Sources */,
 				9229EECB22E5C6AF009732B0 /* PopupMessageBox.cpp in Sources */,
+				E22ACA06230C07650024B328 /* NavigationBar.cpp in Sources */,
 				929FB10322E8A6440088D406 /* MarketingAssetManager.cpp in Sources */,
+				E22ACB16230FE7E50024B328 /* VideoHQ.cpp in Sources */,
+				E229F6772338CF46005BA0D4 /* EpisodeBar.cpp in Sources */,
 				921A2679216FA030005C8C41 /* VodacomOnboardingErrorLayer.cpp in Sources */,
 				92BDD4C42236AE4E00DA56F3 /* ShopItemPage.cpp in Sources */,
 				924ACE3720A9C541007A5550 /* MeHQProfileDetails.cpp in Sources */,
@@ -1960,6 +2077,7 @@
 				9229EE4E22DCAFAA009732B0 /* SignupScene.cpp in Sources */,
 				02A11FF81EA6375D007EDD95 /* RoutePaymentSingleton.cpp in Sources */,
 				D13C40151E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm in Sources */,
+				E212CC75231D75E7009D4A63 /* ContentTileHolder.cpp in Sources */,
 				921C75AD219464A100EB93D6 /* VodacomOnboardingTnCLayer.cpp in Sources */,
 				9229EE6322E07808009732B0 /* SignupTermsPage.cpp in Sources */,
 				924E8450214117D9004590FD /* SettingsMessageBoxRejectFR.cpp in Sources */,
@@ -1977,6 +2095,7 @@
 				02D4FCD41FCF0D0C005BA020 /* IAPProductDataHandler.cpp in Sources */,
 				9229EE5722DF2CC2009732B0 /* SignupEnterEmail.cpp in Sources */,
 				92EC0C4F22312EA800B02F20 /* ShopScene.cpp in Sources */,
+				E212CCA4231EB07B009D4A63 /* FeaturedGamesHolder.cpp in Sources */,
 				02E5959C1E56FC3A0052F395 /* OfflineChecker.cpp in Sources */,
 				92BDD4CF223926CD00DA56F3 /* ShopItemPurchasedAnimation.cpp in Sources */,
 				923D5BED2201F126008C13D0 /* RewardScene.cpp in Sources */,
@@ -1988,6 +2107,8 @@
 				928A6DCB20EBB9650053E793 /* ChildCreator.cpp in Sources */,
 				02E595931E55F9BB0052F395 /* OfflineHubHQElement.cpp in Sources */,
 				926A2B0C212EABB000AE7964 /* SettingsNavigationButton.cpp in Sources */,
+				E23EC8F62331172600DB6ED7 /* PurchaseCapsule.cpp in Sources */,
+				E212CC19231D4CB8009D4A63 /* ContentTile.cpp in Sources */,
 				02E5958C1E55F5ED0052F395 /* OfflineGameSearch.cpp in Sources */,
 				925B24A4220AEE5F0000D7D2 /* CoinChestLayer.cpp in Sources */,
 				9206012A227B2F9500A73FA5 /* ChildOomeeFTULayer.cpp in Sources */,
@@ -1998,6 +2119,7 @@
 				9229EE5422DDE6CA009732B0 /* SignupPage.cpp in Sources */,
 				921C75A8218B08D800EB93D6 /* LanguageSelectScene.cpp in Sources */,
 				921A25FA2164D08B005C8C41 /* SettingsMessageBoxNotification.cpp in Sources */,
+				E212CCA1231E71DB009D4A63 /* FeaturedTile.cpp in Sources */,
 				921A26BD217E0A91005C8C41 /* VodacomMessageBoxNotification.cpp in Sources */,
 				927DF6EB20B2BD010080DFEF /* MeHQMessages.cpp in Sources */,
 				A154CC521DFEE7440008A626 /* GameDataManager.cpp in Sources */,

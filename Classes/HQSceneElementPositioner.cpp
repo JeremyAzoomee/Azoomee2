@@ -6,7 +6,7 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-void HQSceneElementPositioner::positionHQSceneElement(cocos2d::Layer* sender,  bool isGroup)
+void positionHQSceneElement(cocos2d::Layer* sender,  bool isGroup)
 {
     float groupHeightOffset = 0.0f;
     

@@ -178,6 +178,8 @@
 		92EC0C59223177D500B02F20 /* ShopDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92EC0C58223177D500B02F20 /* ShopDisplay.cpp */; };
 		92EC0C5B223177E700B02F20 /* ShopDisplayItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92EC0C5A223177E700B02F20 /* ShopDisplayItem.cpp */; };
 		92EC0C732232C9F400B02F20 /* Shop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92EC0C712232C9F300B02F20 /* Shop.cpp */; };
+		E21858A1232BC9090062858A /* TileSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21858A0232BC9090062858A /* TileSprite.cpp */; };
+		E229F70B233E1465005BA0D4 /* RoundedRectSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E229F70A233E1465005BA0D4 /* RoundedRectSprite.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -528,6 +530,10 @@
 		92EC0C5A223177E700B02F20 /* ShopDisplayItem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShopDisplayItem.cpp; sourceTree = "<group>"; };
 		92EC0C712232C9F300B02F20 /* Shop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shop.cpp; sourceTree = "<group>"; };
 		92EC0C722232C9F400B02F20 /* Shop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shop.h; sourceTree = "<group>"; };
+		E218589F232BC4E80062858A /* TileSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TileSprite.h; sourceTree = "<group>"; };
+		E21858A0232BC9090062858A /* TileSprite.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TileSprite.cpp; sourceTree = "<group>"; };
+		E229F709233E13D6005BA0D4 /* RoundedRectSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RoundedRectSprite.h; sourceTree = "<group>"; };
+		E229F70A233E1465005BA0D4 /* RoundedRectSprite.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RoundedRectSprite.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -772,6 +778,10 @@
 				929FB10922F08CFF0088D406 /* CTAButton.cpp */,
 				929FB10B22F094A10088D406 /* DynamicText.h */,
 				929FB10C22F096B30088D406 /* DynamicText.cpp */,
+				E218589F232BC4E80062858A /* TileSprite.h */,
+				E21858A0232BC9090062858A /* TileSprite.cpp */,
+				E229F709233E13D6005BA0D4 /* RoundedRectSprite.h */,
+				E229F70A233E1465005BA0D4 /* RoundedRectSprite.cpp */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1321,6 +1331,7 @@
 				4349C8441EA8ADEF00FE964B /* MPSwizzler.m in Sources */,
 				92E5856B2211A4E80015A4FA /* RewardItem.cpp in Sources */,
 				4349C8241EA8ADEF00FE964B /* MPABTestDesignerTweakResponseMessage.m in Sources */,
+				E21858A1232BC9090062858A /* TileSprite.cpp in Sources */,
 				30DD5ED71E965E060084305B /* AnalyticsSingleton.cpp in Sources */,
 				021B1FCA1F838A0A0044DCF7 /* HQContentItemObject.cpp in Sources */,
 				30E094BF1EDF0F2B00555891 /* URI.cpp in Sources */,
@@ -1337,6 +1348,7 @@
 				4349C8451EA8ADEF00FE964B /* MPTakeoverNotification.m in Sources */,
 				4349C85E1EA8ADEF00FE964B /* UIViewController+AutomaticEvents.m in Sources */,
 				4349C8191EA8ADEF00FE964B /* MPABTestDesignerChangeRequestMessage.m in Sources */,
+				E229F70B233E1465005BA0D4 /* RoundedRectSprite.cpp in Sources */,
 				022218CC1ECF203000AD167F /* SessionIdManager.cpp in Sources */,
 				02BEDF2E1FE1327500D4C9B3 /* ContentItemManager.cpp in Sources */,
 				301CCA9A1EB14280009ADA0C /* API.cpp in Sources */,

@@ -89,12 +89,6 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
     }
     else if(contentItem->getType()  == ConfigStorage::kContentTypeAudioGroup || contentItem->getType()  == ConfigStorage::kContentTypeGroup)
     {
-        ModalMessages::getInstance()->stopLoading();
-        
-        HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kGroupHQName);
-                
-		HQHistoryManager::getInstance()->setGroupHQSourceId(contentItem->getContentItemId());
-		
 		HQDataProvider::getInstance()->getDataForGroupHQ(contentItem->getUri());
     }
     else if(contentItem->getType() == ConfigStorage::kContentTypeInternal)

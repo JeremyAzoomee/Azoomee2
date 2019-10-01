@@ -9,11 +9,14 @@
 #include <AzoomeeCommon/Data/HQDataObject/HQCarouselObject.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
 
+#define TILESIZE_1X1 cocos2d::Vec2(1,1)
+#define TILESIZE_1X2 cocos2d::Vec2(1,2)
+#define TILESIZE_2X2 cocos2d::Vec2(2,2)
+
 NS_AZOOMEE_BEGIN
 
 class HQDataProvider : public cocos2d::Ref
 {
-    
 public:
     /** Returns the shared instance of the Game Manager */
     static HQDataProvider* getInstance(void);
@@ -50,6 +53,8 @@ public:
     //Loading screen
     void displayLoadingScreen();
     void hideLoadingScreen();
+    
+    static const std::string kGroupRefreshEvent;
     
     static const std::map<std::string, std::string> kLockFiles;
     

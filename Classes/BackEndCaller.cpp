@@ -456,9 +456,9 @@ void BackEndCaller::verifyAmazonPayment(const std::string& requestId, const std:
 }
 
 //APPLE VERIFY PAYMENT----------------------------------------------------------------------
-void BackEndCaller::verifyApplePayment(const std::string& receiptData)
+void BackEndCaller::verifyApplePayment(const std::string& receiptData, const std::string& transactionID)
 {
-    HttpRequestCreator* request = API::VerifyApplePaymentRequest(receiptData, this);
+    HttpRequestCreator* request = API::VerifyApplePaymentRequest(receiptData, transactionID, this);
     request->execute(30.0f);
 }
 

@@ -18,6 +18,11 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+const std::string CoinDisplay::kAnimClipNodeName = "clipNode";
+const std::string CoinDisplay::kAnimFrameGlowName = "frameGlow";
+const std::string CoinDisplay::kAnimSliderName = "slider";
+const std::string CoinDisplay::kAnimStarName = "star";
+
 float CoinDisplay::sCoinCount = 0;
 bool CoinDisplay::sAnimating = false;
 float CoinDisplay::sIncPerSec = 0;
@@ -84,12 +89,17 @@ void CoinDisplay::onEnter()
 			createGlowAnim();
 		}),NULL));
 	}
+	_coinsLabel->setString(StringUtils::format("%d",(int)sCoinCount));
 	Super::onEnter();
 }
 
 void CoinDisplay::onExit()
 {
 	unscheduleUpdate();
+	if(_animInitialised)
+	{
+		removeGlowAnim();
+	}
 	Super::onExit();
 }
 
@@ -116,6 +126,11 @@ void CoinDisplay::update(float deltaT)
 			sAnimating = true;
 			AudioMixer::getInstance()->playEffect("CoinCounterIcon_NumberGoingUp.wav");
 		}
+		else
+		{
+			_coinsLabel->setScale(1.0f);
+			sAnimating = false;
+		}
 	}
 	
 	Super::update(deltaT);
@@ -134,6 +149,7 @@ void CoinDisplay::createGlowAnim()
 	coinStencil->setPosition(coinStencil->getContentSize() / 2);
 	ClippingNode* coinClippingNode = ClippingNode::create(coinStencil);
 	coinClippingNode->setAlphaThreshold(0.5);
+	coinClippingNode->setName(kAnimClipNodeName);
 	_coinSprite->addChild(coinClippingNode, 1);
 	
 	Sprite* coinGlow = Sprite::create("res/shop/Glow_Counter_Animation.png");
@@ -150,6 +166,7 @@ void CoinDisplay::createGlowAnim()
 	frameGlow->setPosition(Vec2(-frameGlow->getContentSize().width * frameGlow->getScale(),_valueBG->getContentSize().height / 2));
 	frameGlow->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
 	frameGlow->runAction(RepeatForever::create(Sequence::create(DelayTime::create(1.6),MoveTo::create(0.6, Vec2(_valueBG->getContentSize().width,_valueBG->getContentSize().height / 2)), MoveTo::create(0, Vec2(-frameGlow->getContentSize().width * frameGlow->getScale(),_valueBG->getContentSize().height / 2)), DelayTime::create(5.8), NULL)));
+	frameGlow->setName(kAnimFrameGlowName);
 	_valueBG->addChild(frameGlow);
 	
 	Sprite* slider = Sprite::create("res/shop/side_shooter.png");
@@ -157,6 +174,7 @@ void CoinDisplay::createGlowAnim()
 	slider->setScale(0.75f);
 	slider->setRotation(90);
 	slider->runAction(RepeatForever::create(Sequence::create(DelayTime::create(2.7),MoveTo::create(0.3, Vec2(this->getContentSize().width,this->getContentSize().height)), MoveTo::create(0, Vec2(0,this->getContentSize().height)), DelayTime::create(5.0), NULL)));
+	slider->setName(kAnimSliderName);
 	this->addChild(slider);
 	
 	Sprite* star = Sprite::create("res/shop/star.png");
@@ -164,7 +182,19 @@ void CoinDisplay::createGlowAnim()
 	star->runAction(RepeatForever::create(RotateBy::create(0.5, 180)));
 	star->setScale(0);
 	star->runAction(RepeatForever::create(Sequence::create(DelayTime::create(3.0), ScaleTo::create(0.5, 1), ScaleTo::create(0.25, 0), DelayTime::create(4.25), NULL)));
+	star->setName(kAnimStarName);
 	this->addChild(star);
+	
+	_animInitialised = true;
+}
+
+void CoinDisplay::removeGlowAnim()
+{
+	_coinSprite->removeChildByName(kAnimClipNodeName);
+	_valueBG->removeChildByName(kAnimFrameGlowName);
+	this->removeChildByName(kAnimSliderName);
+	this->removeChildByName(kAnimStarName);
+	_animInitialised = false;
 }
 
 NS_AZOOMEE_END

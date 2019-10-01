@@ -1,0 +1,109 @@
+//
+//  HQPage.cpp
+//  Azoomee
+//
+//  Created by Macauley.Scoffins on 22/08/2019.
+//
+
+#include "HQPage.h"
+#include <AzoomeeCommon/UI/LayoutParams.h>
+
+using namespace cocos2d;
+
+NS_AZOOMEE_BEGIN
+
+const cocos2d::Size HQPage::kCircleTileSizeLandscape = Size(320,320);
+const cocos2d::Size HQPage::kCircleTileSizePortrait = Size(350,350);
+const float HQPage::kFeaturedContentHeightLandscape = 640.0f;
+const float HQPage::kFeaturedContentHeightPortrait = 960.0f;
+const float HQPage::kListViewSidePadding = 64.0f;
+
+bool HQPage::init()
+{
+    if(!Super::init())
+    {
+        return false;
+    }
+    
+    setSizeType(SizeType::PERCENT);
+    setSizePercent(Vec2(1.0f,1.0f));
+    setClippingEnabled(true);
+    
+    _structureUIHolder = ui::Layout::create();
+    _structureUIHolder->setSizeType(SizeType::PERCENT);
+    _structureUIHolder->setSizePercent(Vec2(1.0f,1.0f));
+    _structureUIHolder->setLayoutType(Layout::Type::HORIZONTAL);
+    addChild(_structureUIHolder);
+    
+    _staticContentLayout = ui::Layout::create();
+    _staticContentLayout->setSizeType(SizeType::PERCENT);
+    _staticContentLayout->setSizePercent(Vec2(0.0f, 1.0f));
+    _staticContentLayout->setLayoutParameter(CreateCenterVerticalLinearLayoutParam());
+    _structureUIHolder->addChild(_staticContentLayout);
+    
+    _contentListView = ui::ListView::create();
+    _contentListView->setSizeType(SizeType::PERCENT);
+    _contentListView->setSizePercent(Vec2(1.0f,1.0f));
+    _contentListView->setLayoutParameter(CreateCenterVerticalLinearLayoutParam());
+    _contentListView->setItemsMargin(32);
+    _contentListView->setBounceEnabled(true);
+    _contentListView->setBottomPadding(160);
+    _structureUIHolder->addChild(_contentListView);
+    
+    return true;
+}
+
+void HQPage::onEnter()
+{
+    Super::onEnter();
+}
+
+void HQPage::onExit()
+{
+    Super::onExit();
+}
+
+void HQPage::onSizeChanged()
+{
+    Super::onSizeChanged();
+    const Size& contentSize = getContentSize();
+    _isPortrait = contentSize.width < contentSize.height;
+}
+
+void HQPage::setContentSelectedCallback(const ContentSelectedCallback& callback)
+{
+    _contentSelectedCallback = callback;
+}
+
+void HQPage::listviewDropdownResizeCallback()
+{
+    _contentListView->forceDoLayout();
+    float minY = _contentListView->getContentSize().height - _contentListView->getInnerContainerSize().height;
+    float h = -minY;
+    if(_resizingPositionLock.y < minY)
+    {
+        _contentListView->setInnerContainerPosition(Vec2(_resizingPositionLock.x, minY));
+    }
+    else if(_resizingPositionLock.y > minY + h)
+    {
+        _contentListView->setInnerContainerPosition(Vec2(_resizingPositionLock.x,  minY + h));
+    }
+    else
+    {
+        _contentListView->setInnerContainerPosition(_resizingPositionLock);
+    }
+}
+void HQPage::dropdownAutoOpenCloseLogic(DropdownContentHolder* pressedDropdown, cocos2d::Vector<DropdownContentHolder*> dropdownHoldersInListview)
+{
+    for(auto dd : dropdownHoldersInListview)
+    {
+        if(dd != pressedDropdown && dd->isOpen())
+        {
+            dd->toggleOpened(false);
+        }
+    }
+    pressedDropdown->toggleOpened(!pressedDropdown->isOpen());
+    _resizingPositionLock = _contentListView->getInnerContainerPosition();
+}
+
+NS_AZOOMEE_END

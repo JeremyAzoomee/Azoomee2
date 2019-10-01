@@ -12,7 +12,7 @@ NS_AZOOMEE_BEGIN
 
 RemoteImageSprite::RemoteImageSprite()
 {
-    imageDownloaderLogic = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
+	onScreenChecker = ImageDownloaderOnScreenChecker();
 }
     
 RemoteImageSprite::~RemoteImageSprite()
@@ -38,6 +38,7 @@ bool RemoteImageSprite::initWithURLAndSize(const std::string& url, const std::st
     this->addPlaceHolderImage(type, size, shape);
     
     imageUrl = url;
+	
     return true;
 }
 
@@ -64,15 +65,23 @@ void RemoteImageSprite::setAttachNewBadgeToImage()
 
 void RemoteImageSprite::onEnter()
 {
-    onScreenChecker = new ImageDownloaderOnScreenChecker();
-    onScreenChecker->startCheckingForOnScreenPosition(this);
-    
+	if(!imageDownloaderLogic)
+	{
+		imageDownloaderLogic = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
+	}
+
+	onScreenChecker.startCheckingForOnScreenPosition(this);
+
+	aboutToExit = false;
     Super::onEnter();
 }
 
 void RemoteImageSprite::startLoadingImage()
 {
-    if(loadedImage) return;
+    if(loadedImage || !imageDownloaderLogic)
+	{
+		return;
+	}
     imageDownloaderLogic->downloadImage(this, imageUrl);
 }
 
@@ -201,12 +210,8 @@ void RemoteImageSprite::onExitTransitionDidStart()
 
 void RemoteImageSprite::onExit()
 {
-    if(onScreenChecker)
-    {
-        onScreenChecker->endCheck();
-        onScreenChecker->release();
-    }
-    
+	onScreenChecker.stopCheckingOnScreenPosition();
+	
     aboutToExit = true;
     if(imageDownloaderLogic)
     {
