@@ -97,26 +97,46 @@ void FeaturedGamesHolder::onSizeChanged()
 {
     Super::onSizeChanged();
     
-    bool useWideLayout = false;
-    
-    Size contentSize = getContentSize() - Size(kTileSpacing, 0);
-    if((contentSize.width / (contentSize.height * 0.66f)) > 16.0f / 9.0f) // if main tile size exceeds 16:9 aspect ratio
+    Size contentSize =  _useFixedHeight ? getContentSize() : Size(getContentSize().width, 0);
+    if(_useFixedHeight)
     {
-        if((getContentSize().width * 0.66f) * (3.0f/4.0f) >= contentSize.height) // if enough space horizonally to fit main tile and sub tile at 4:3 ratio or greater
+        if(_useWideLayout)
         {
-            useWideLayout = true;
+            if(((contentSize.width * 0.66f) / contentSize.height) < 4.0f / 3.0f)
+            {
+                contentSize.width = (4.0f * contentSize.height) / (3.0f * 0.66f);
+            }
         }
         else
         {
-            contentSize = Size((16.0f/9.0f) * (contentSize.height * 0.66f), contentSize.height); // restrict width so tile aspect ratio no greater than 16:9
+            if((contentSize.width / (contentSize.height * 0.66f)) > 16.0f / 9.0f) // if main tile size exceeds 16:9 aspect ratio
+            {
+                contentSize.width = (16.0f/9.0f) * (contentSize.height * 0.66f); // restrict width so tile aspect ratio no greater than 16:9
+            }
         }
     }
+    else
+    {
+        if(_useWideLayout)
+        {
+            contentSize.height = (contentSize.width * 0.66f) * (3.0f / 4.0f);
+        }
+        else
+        {
+            contentSize.height = contentSize.width * (9.0f / 16.0f) * 1.5f;
+        }
+        if(getSizeType() != SizeType::PERCENT && !getContentSize().equals(contentSize))
+        {
+            setContentSize(contentSize);
+        }
+    }
+    
     
     _contentLayout->setContentSize(contentSize);
     
     const Size& paddingPercent = Size(kTileSpacing / contentSize.width, kTileSpacing / contentSize.height);
     
-    if(useWideLayout) // Main tile on left, sub tiles stacked vertically on the right
+    if(_useWideLayout) // Main tile on left, sub tiles stacked vertically on the right
     {
         _mainTile->setSizePercent(Vec2(0.66f, 1.0f)); // reset percentage size again so tile doesnt vanish
         _mainTile->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
@@ -136,6 +156,16 @@ void FeaturedGamesHolder::onSizeChanged()
         _subTile1->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_LEFT);
         _subTile2->setSizePercent(Vec2(0.5f - (paddingPercent.width / 2), 0.34f - paddingPercent.height));
     }
+}
+
+void FeaturedGamesHolder::enableWideLayout(bool enable)
+{
+    _useWideLayout = enable;
+}
+
+void FeaturedGamesHolder::enableFixedHeight(bool enable)
+{
+    _useFixedHeight = enable;
 }
 
 NS_AZOOMEE_END

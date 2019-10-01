@@ -99,16 +99,28 @@ void FeaturedVideosHolder::onSizeChanged()
 {
     Super::onSizeChanged();
     
-    Size contentSize = getContentSize() - Size(kTileSpacing, 0);
+    Size contentSize = getContentSize();// - Size(kTileSpacing, 0);
     
     Size paddingPercent = Size(kTileSpacing / contentSize.width, kTileSpacing / contentSize.height);
     float tileWidth = (1.0f - (2.0f * paddingPercent.width)) / kColumns;
     
-    if((tileWidth * contentSize.width) / contentSize.height > (2.0f/3.0f)) // cap size of tiles to max 2:3 aspect ratio
+    if(_useFixedHeight)
     {
-        contentSize = Size(2 * (kTileSpacing + contentSize.height), contentSize.height); //
-        paddingPercent = Size(kTileSpacing / contentSize.width, kTileSpacing / contentSize.height);
-        tileWidth = (1.0f - (2.0f * paddingPercent.width)) / kColumns;
+        if((tileWidth * contentSize.width) / contentSize.height > (2.0f/3.0f)) // cap size of tiles to max 2:3 aspect ratio
+        {
+            contentSize = Size(2 * (kTileSpacing + contentSize.height), contentSize.height); //
+            paddingPercent = Size(kTileSpacing / contentSize.width, kTileSpacing / contentSize.height);
+            tileWidth = (1.0f - (2.0f * paddingPercent.width)) / kColumns;
+        }
+    }
+    else
+    {
+        contentSize.height = contentSize.width * (tileWidth * 1.5f);
+        paddingPercent.height = kTileSpacing / contentSize.height;
+        if(getSizeType() != SizeType::PERCENT && !getContentSize().equals(contentSize))
+        {
+            setContentSize(contentSize);
+        }
     }
     
     _tile1->setSizePercent(Vec2(tileWidth, 1.0f));
@@ -116,6 +128,11 @@ void FeaturedVideosHolder::onSizeChanged()
     _tile3->setSizePercent(Vec2(tileWidth, 1.0f));
     
     _contentLayout->setContentSize(contentSize);
+}
+
+void FeaturedVideosHolder::enableFixedHeight(bool enable)
+{
+    _useFixedHeight = enable;
 }
 
 NS_AZOOMEE_END

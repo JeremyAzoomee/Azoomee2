@@ -16,7 +16,7 @@ NS_AZOOMEE_BEGIN
 const float EpisodeSelector::kListViewPadding = 45.0f;
 const float EpisodeSelector::kHeaderHeightPercent = 0.29f;
 const float EpisodeSelector::kEpisodeBarSpacing = 30.0f;
-const float EpisodeSelector::kEpisodeBarHeight = 300.0f;
+const float EpisodeSelector::kEpisodeBarHeight = 240.0f;
 
 bool EpisodeSelector::init()
 {
@@ -113,7 +113,7 @@ void EpisodeSelector::onSizeChanged()
     _background->setContentSize(contentSize);
     _contentLayout->updateSizeAndPosition();
     _bannerImage->setScale((_headerLayout->getContentSize().height * 0.8f) / _bannerImage->getContentSize().height);
-    _divider->setContentSize(Size(contentSize.width, 10));
+    _divider->setContentSize(Size(contentSize.width, 6));
     const Size& episodeBarSize = Size(contentSize.width - (2 * kListViewPadding), kEpisodeBarHeight);
     for(auto bar : _episodeBars)
     {

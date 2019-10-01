@@ -23,6 +23,8 @@ private:
     cocos2d::Size _tileSize;
     cocos2d::Vector<CircleTile*> _tiles;
     
+    bool _scaleToFill = true;
+    
     void refreshTiles();
     
 public:
@@ -35,6 +37,7 @@ public:
     
     void setTileSize(const cocos2d::Size& size);
     void setMaxRows(int rows);
+    void enableScaleToFill(bool enable);
     
     CREATE_FUNC(CircleContentHolder);
 };

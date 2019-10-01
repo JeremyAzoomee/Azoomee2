@@ -19,25 +19,28 @@ bool NavigationButton::init()
     }
     
     setTouchEnabled(true);
-    setContentSize(Size(200,200));
+    setContentSize(Size(144,144));
     setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     
     _circle = ui::ImageView::create("res/navigation/outer_circle.png");
+    _circle->ignoreContentAdaptWithSize(false);
     _circle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _circle->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _circle->setSizeType(SizeType::PERCENT);
-    _circle->setSizePercent(Vec2(1.0,1.0f));
+    _circle->setSizePercent(Vec2(1.2,1.2f));
     addChild(_circle);
     
     _activeIcon = ui::ImageView::create();
+    _activeIcon->ignoreContentAdaptWithSize(false);
     _activeIcon->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _activeIcon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _activeIcon->setSizeType(SizeType::PERCENT);
-    _activeIcon->setSizePercent(Vec2(1.0,1.0f));
+    _activeIcon->setSizePercent(Vec2(1.2,1.2f));
     _activeIcon->setOpacity(0);
     addChild(_activeIcon);
     
     _inactiveIcon = ui::ImageView::create();
+    _inactiveIcon->ignoreContentAdaptWithSize(false);
     _inactiveIcon->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _inactiveIcon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _inactiveIcon->setSizeType(SizeType::PERCENT);
@@ -61,6 +64,7 @@ void NavigationButton::setActive(bool active)
 {
     _activeIcon->runAction(active ? (FiniteTimeAction*)FadeIn::create(0.5f) : (FiniteTimeAction*)FadeOut::create(0.5f));
     _inactiveIcon->runAction(active ? (FiniteTimeAction*)FadeOut::create(0.5f) : (FiniteTimeAction*)FadeIn::create(0.5f));
+    _circle->runAction(active ? (FiniteTimeAction*)FadeOut::create(0.5f) : (FiniteTimeAction*)FadeIn::create(0.5f));
 }
 
 NS_AZOOMEE_END

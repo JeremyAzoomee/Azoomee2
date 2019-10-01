@@ -60,13 +60,13 @@ bool EpisodeBar::init()
     _textLayout->setLayoutType(Type::VERTICAL);
     addChild(_textLayout);
     
-    _episodeTag = DynamicText::create("", Style::Font::PoppinsMedium(), 53);
+    _episodeTag = DynamicText::create("", Style::Font::PoppinsMedium(), 40);
     _episodeTag->setTextHorizontalAlignment(TextHAlignment::LEFT);
     _episodeTag->setTextVerticalAlignment(TextVAlignment::CENTER);
     _episodeTag->setOverflow(Label::Overflow::RESIZE_HEIGHT);
     _textLayout->addChild(_episodeTag);
     
-    _episodeTitle = DynamicText::create("", Style::Font::PoppinsBold(), 61);
+    _episodeTitle = DynamicText::create("", Style::Font::PoppinsBold(), 48);
     _episodeTitle->setTextColor(Color4B::WHITE);
     _episodeTitle->setTextHorizontalAlignment(TextHAlignment::LEFT);
     _episodeTitle->setTextVerticalAlignment(TextVAlignment::CENTER);

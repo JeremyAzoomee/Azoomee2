@@ -13,7 +13,7 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-const cocos2d::Rect DropdownContentHolder::kBgCapInsets = Rect(162, 162, 103, 100);
+const cocos2d::Rect DropdownContentHolder::kBgCapInsets = Rect(130, 130, 82, 80);
 const float DropdownContentHolder::kTileSpacing = 32.0f;
 const float DropdownContentHolder::kDropdownOpenIconScale = 0.885f;
 const cocos2d::Vec2 DropdownContentHolder::kTileAspectRatio = Vec2(1.0f, 0.75f);
@@ -37,7 +37,7 @@ bool DropdownContentHolder::init()
     _bgPattern->setTexture("res/decoration/pattern_stem_tile.png");
     _bgPattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _bgPattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
-    _bgPattern->setCornerRadius(150);
+    _bgPattern->setCornerRadius(130);
     Texture2D* texture = _bgPattern->getTexture();
     if(texture)
     {
@@ -93,7 +93,7 @@ void DropdownContentHolder::onSizeChanged()
     Super::onSizeChanged();
     
     const Size& contentSize = getContentSize();
-    const Size& bgSize = contentSize - Size(12,12);
+    const Size& bgSize = contentSize - Size(10,10);
     const Size& bgTexSize = _bgPattern->getTexture()->getContentSizeInPixels();
     const Vec2& scales = Vec2(bgSize.width / bgTexSize.width, bgSize.height / bgTexSize.height) / 2.0f;
     _bgPattern->setTextureRect(Rect(Vec2(0,0), Size(bgTexSize.width * scales.x, bgTexSize.height * scales.y)));

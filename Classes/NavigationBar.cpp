@@ -38,8 +38,8 @@ bool NavigationBar::init()
     setContentSize(Size(1240,284));
     
     const int numButtons = 4;
-    const float buttonWidth = 200.0f;
-    const float buttonSpacing = 50.0f;
+    const float buttonWidth = 144.0f;
+    const float buttonSpacing = 60.0f;
     
     ui::Layout* buttonHolder = ui::Layout::create();
     buttonHolder->setAnchorPoint(Vec2::ANCHOR_MIDDLE);

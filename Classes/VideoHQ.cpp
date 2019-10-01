@@ -41,6 +41,14 @@ void VideoHQ::onEnter()
     
     _recentlyPlayedLayout->setContentItemData(recentlyPlayedData);
     
+    if(recentlyPlayedData->getContentItems().size() != 0 && !_recentlyPlayedLayout->getParent())
+    {
+        _contentListView->insertCustomItem(_recentlyPlayedTitle, 1);
+        _contentListView->insertCustomItem(_recentlyPlayedLayout, 2);
+        _recentlyPlayedLayout->release();
+        _recentlyPlayedTitle->release();
+    }
+    
     Super::onEnter();
 }
 
@@ -133,7 +141,7 @@ void VideoHQ::createFeaturedTiles()
     _featuredLayout = FeaturedVideosHolder::create();
     _featuredLayout->setContentItemData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kVideoHQName)->getHqCarousels().at(0));
     _featuredLayout->setSizeType(SizeType::ABSOLUTE);
-    _featuredLayout->setContentSize(Size(_contentListView->getContentSize().width, kFeaturedContentHeightPortrait));
+    //_featuredLayout->setContentSize(Size(_contentListView->getContentSize().width, kFeaturedContentHeightPortrait));
     _featuredLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _featuredLayout->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
         if(_contentSelectedCallback)
@@ -155,14 +163,9 @@ void VideoHQ::createRecentlyPlayedTiles()
     _recentlyPlayedTitle->setTextAreaSize(Size((_contentListView->getSizePercent().x * getContentSize().width) - kListViewSidePadding, _recentlyPlayedTitle->getContentSize().height));
     _recentlyPlayedTitle->setTextColor(Color4B::WHITE);
     _recentlyPlayedTitle->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
-    _contentListView->pushBackCustomItem(_recentlyPlayedTitle);
-    
-    MutableHQCarouselObjectRef recentlyPlayedData = MutableHQCarouselObject::create();
-    recentlyPlayedData->addContentItemsToCarousel(RecentlyPlayedManager::getInstance()->getRecentlyPlayedContentForHQ(ConfigStorage::kVideoHQName));
-    recentlyPlayedData->setTitle(_("Recently watched"));
+    _recentlyPlayedTitle->retain();
     
     _recentlyPlayedLayout = CircleContentHolder::create();
-    _recentlyPlayedLayout->setContentItemData(recentlyPlayedData);
     _recentlyPlayedLayout->setTileSize(_isPortrait ? kCircleTileSizePortrait : kCircleTileSizeLandscape);
     _recentlyPlayedLayout->setMaxRows(1);
     _recentlyPlayedLayout->setContentSize(Size(_contentListView->getSizePercent().x * getContentSize().width, 0));
@@ -172,7 +175,7 @@ void VideoHQ::createRecentlyPlayedTiles()
             _contentSelectedCallback(content, elementIndex, -1);
         }
     });
-    _contentListView->pushBackCustomItem(_recentlyPlayedLayout);
+    _recentlyPlayedLayout->retain();
 }
 
 void VideoHQ::createDropdowns()

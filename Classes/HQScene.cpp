@@ -93,7 +93,7 @@ void HQScene::onSizeChanged()
     }
     if(_pageLayout)
     {
-        _pageLayout->setContentSize(Size(visibleSize.width, visibleSize.height - _titleBanner->getContentSize().height - _navBar->getContentSize().height));
+        _pageLayout->setContentSize(Size(visibleSize.width * 0.95f, visibleSize.height - _titleBanner->getContentSize().height - _navBar->getContentSize().height));
         _pageLayout->setPosition(Vec2(visibleSize.width / 2, visibleSize.height - _titleBanner->getContentSize().height));
         _pageLayout->forceDoLayout();
     }
@@ -227,7 +227,7 @@ void HQScene::createPageUI()
     const Size& visibleSize = Director::getInstance()->getVisibleSize();
     
     _pageLayout = ui::Layout::create();
-    _pageLayout->setContentSize(Size(visibleSize.width, visibleSize.height - _titleBanner->getContentSize().height - _navBar->getContentSize().height));
+    _pageLayout->setContentSize(Size(visibleSize.width * 0.95f, visibleSize.height - _titleBanner->getContentSize().height - _navBar->getContentSize().height));
     _pageLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _pageLayout->setPosition(Vec2(visibleSize.width / 2, visibleSize.height - _titleBanner->getContentSize().height));
     addChild(_pageLayout);

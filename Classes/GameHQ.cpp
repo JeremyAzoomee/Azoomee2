@@ -39,6 +39,15 @@ void GameHQ::onEnter()
     
     _recentlyPlayedLayout->setContentItemData(recentlyPlayedData);
     
+    if(recentlyPlayedData->getContentItems().size() != 0 && !_recentlyPlayedLayout->getParent())
+    {
+        bool isFirstItem = _contentListView->getItem(0) != _featuredLayout;
+        _contentListView->insertCustomItem(_recentlyPlayedTitle, isFirstItem ? 0 : 1);
+        _contentListView->insertCustomItem(_recentlyPlayedLayout, isFirstItem ? 1 : 2);
+        _recentlyPlayedLayout->release();
+        _recentlyPlayedTitle->release();
+    }
+    
     Super::onEnter();
 }
 
@@ -58,7 +67,9 @@ void GameHQ::onSizeChanged()
         
         _featuredLayout->setSizeType(SizeType::ABSOLUTE);
         _featuredLayout->setPositionType(PositionType::ABSOLUTE);
-        _featuredLayout->setContentSize(Size(_contentListView->getContentSize().width - (kListViewSidePadding / 4.0f), kFeaturedContentHeightPortrait));
+        _featuredLayout->enableFixedHeight(false);
+        _featuredLayout->enableWideLayout(_contentListView->getContentSize().width > 1710);
+        _featuredLayout->setContentSize(Size(_contentListView->getContentSize().width - (kListViewSidePadding / 4.0f), 0));
         if(_featuredLayout->getParent() == _staticContentLayout)
         {
             _featuredLayout->retain();
@@ -73,10 +84,12 @@ void GameHQ::onSizeChanged()
         _staticContentLayout->setSizePercent(Vec2(0.5f, 1.0f));
         
         _featuredLayout->setSizeType(SizeType::PERCENT);
-        _featuredLayout->setSizePercent(Vec2(0.95f,0.95f));
-        _featuredLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+        _featuredLayout->setSizePercent(Vec2(0.975f,0.95f));
+        _featuredLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
         _featuredLayout->setPositionType(PositionType::PERCENT);
-        _featuredLayout->setPositionPercent(Vec2::ANCHOR_MIDDLE);
+        _featuredLayout->setPositionPercent(Vec2::ANCHOR_MIDDLE_LEFT);
+        _featuredLayout->enableWideLayout(false);
+        _featuredLayout->enableFixedHeight(true);
         if(_contentListView->getItem(0) == _featuredLayout)
         {
             _featuredLayout->retain();
@@ -123,14 +136,9 @@ void GameHQ::createRecentlyPlayedTiles()
     _recentlyPlayedTitle->setTextAreaSize(Size((_contentListView->getSizePercent().x * getContentSize().width) - kListViewSidePadding, _recentlyPlayedTitle->getContentSize().height));
     _recentlyPlayedTitle->setTextColor(Color4B::WHITE);
     _recentlyPlayedTitle->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
-    _contentListView->pushBackCustomItem(_recentlyPlayedTitle);
-    
-    MutableHQCarouselObjectRef recentlyPlayedData = MutableHQCarouselObject::create();
-    recentlyPlayedData->addContentItemsToCarousel(RecentlyPlayedManager::getInstance()->getRecentlyPlayedContentForHQ(ConfigStorage::kGameHQName));
-    recentlyPlayedData->setTitle(_("Recently played"));
+    _recentlyPlayedTitle->retain();
     
     _recentlyPlayedLayout = CircleContentHolder::create();
-    _recentlyPlayedLayout->setContentItemData(recentlyPlayedData);
     _recentlyPlayedLayout->setTileSize(_isPortrait ? kCircleTileSizePortrait : kCircleTileSizeLandscape);
     _recentlyPlayedLayout->setMaxRows(1);
     _recentlyPlayedLayout->setContentSize(Size(_contentListView->getSizePercent().x * getContentSize().width, 0));
@@ -140,7 +148,7 @@ void GameHQ::createRecentlyPlayedTiles()
             _contentSelectedCallback(content, elementIndex, -1);
         }
     });
-    _contentListView->pushBackCustomItem(_recentlyPlayedLayout);
+    _recentlyPlayedLayout->retain();
 }
 
 void GameHQ::createDropdowns()
