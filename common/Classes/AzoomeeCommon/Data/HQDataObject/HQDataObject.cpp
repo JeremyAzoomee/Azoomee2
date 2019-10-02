@@ -78,6 +78,18 @@ std::string HQDataObject::getGroupLogo() const
     }
 }
 
+std::string HQDataObject::getGroupBanner() const
+{
+    if(_images.find("banner") != _images.end())
+    {
+        return _images.at("banner");
+    }
+    else
+    {
+        return "";
+    }
+}
+
 void MutableHQDataObject::clearData()
 {
     _rawContentItems.clear();

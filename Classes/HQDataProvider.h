@@ -12,6 +12,7 @@
 #define TILESIZE_1X1 cocos2d::Vec2(1,1)
 #define TILESIZE_1X2 cocos2d::Vec2(1,2)
 #define TILESIZE_2X2 cocos2d::Vec2(2,2)
+#define TILESIZE_3X3 cocos2d::Vec2(3,3) //circle tile
 
 NS_AZOOMEE_BEGIN
 

@@ -50,6 +50,8 @@ private:
     
     ImageDownloaderRef _iconDownloader = nullptr;
     
+    std::string _tilePlaceholder;
+    
     void createTitleLayout();
     void createContentLayout();
     void updateContent();
@@ -75,6 +77,8 @@ public:
     void onSizeChanged() override;
     
     void setContentItemData(const HQCarouselObjectRef& contentData) override;
+    
+    void setTilePlaceholder(const std::string& tilePlaceholder);
     
     CREATE_FUNC(DropdownContentHolder);
     

@@ -39,6 +39,11 @@ void MutableHQCarouselObject::setIcon(const std::string &icon)
     _icon = icon;
 }
 
+void MutableHQCarouselObject::setColour(const cocos2d::Color4B &colour)
+{
+    _colour = colour;
+}
+
 void MutableHQCarouselObject::removeAllItemsFromCarousel()
 {
     _contentItems.clear();
@@ -64,6 +69,11 @@ std::vector<cocos2d::Vec2> HQCarouselObject::getContentItemHighlights()
 std::string HQCarouselObject::getIcon() const
 {
     return _icon;
+}
+
+cocos2d::Color4B HQCarouselObject::getColour() const
+{
+    return _colour;
 }
 
 NS_AZOOMEE_END

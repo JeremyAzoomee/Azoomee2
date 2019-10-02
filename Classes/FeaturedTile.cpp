@@ -26,7 +26,6 @@ bool FeaturedTile::init()
     setBackGroundImageScale9Enabled(true);
     
     _contentImage = RoundedRectSprite::create();
-    _contentImage->setTexture("res/contentPlaceholders/Games1X1.png");
     _contentImage->setCornerRadius(20);
     _contentImage->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _contentImage->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -53,8 +52,8 @@ bool FeaturedTile::init()
 
 void FeaturedTile::onEnter()
 {
-    startCheckingForOnScreenPosition(this);
     Super::onEnter();
+    startCheckingForOnScreenPosition(this);
 }
 
 void FeaturedTile::onExit()
@@ -72,49 +71,7 @@ void FeaturedTile::onSizeChanged()
     const Size& innerSize = contentSize - Size(12,12);
     _lockedOverlay->setContentSize(innerSize);
     _padlock->setContentSize(Size(innerSize.height * (0.5f / _imageShape.y), innerSize.height * (0.5f / _imageShape.y)));
-    const Size& imageTexPixSize = _contentImage->getTexture()->getContentSizeInPixels();
-    Rect texRect = Rect(Vec2(0,0), imageTexPixSize);
-    switch(_scaleMode)
-    {
-        case ImageScaleMode::FIT_WIDTH:
-        {
-            const Size& croppedSize = Size(imageTexPixSize.width, (imageTexPixSize.width * innerSize.height) / innerSize.width);
-            const Vec2& origin = (imageTexPixSize / 2.0f) - (croppedSize / 2.0f);
-            texRect = Rect(origin, croppedSize);
-            break;
-        }
-        case ImageScaleMode::FIT_HEIGHT:
-        {
-            const Size& croppedSize = Size((imageTexPixSize.height * innerSize.width) / innerSize.height, innerSize.height);
-            const Vec2& origin = (imageTexPixSize / 2.0f) - (croppedSize / 2.0f);
-            texRect = Rect(origin, croppedSize);
-            break;
-        }
-        case ImageScaleMode::SHOW_ALL:
-        {
-            break;
-        }
-        case ImageScaleMode::FILL_ALL:
-        {
-            const float scaleW = contentSize.width / imageTexPixSize.width;
-            const float scaleH = contentSize.height / imageTexPixSize.height;
-            if(scaleW > scaleH)
-            {
-                const Size& croppedSize = Size(imageTexPixSize.width, (imageTexPixSize.width * innerSize.height) / innerSize.width);
-                const Vec2& origin = (imageTexPixSize / 2.0f) - (croppedSize / 2.0f);
-                texRect = Rect(origin, croppedSize);
-            }
-            else
-            {
-                const Size& croppedSize = Size((imageTexPixSize.height * innerSize.width) / innerSize.height, innerSize.height);
-                const Vec2& origin = (imageTexPixSize / 2.0f) - (croppedSize / 2.0f);
-                texRect = Rect(origin, croppedSize);
-            }
-            break;
-        }
-    }
-    _contentImage->setTextureRect(texRect);
-    _contentImage->setContentSize(innerSize);
+    resizeContentImage();
 }
 
 void FeaturedTile::setContentItemData(const HQContentItemObjectRef& contentItem)
@@ -131,10 +88,63 @@ void FeaturedTile::setImageShape(const Vec2& imageShape)
     _imageShape = imageShape;
 }
 
+void FeaturedTile::setPlaceholderFilename(const std::string& placeholder)
+{
+    _placholderFilename = placeholder;
+    _contentImage->setTexture(_placholderFilename);
+}
+
+void FeaturedTile::resizeContentImage()
+{
+    const Size& contentSize = getContentSize();
+    const Size& innerSize = contentSize - Size(12,12);
+    if(_contentImage->getTexture())
+    {
+        const Size& imageTexPixSize = _contentImage->getTexture()->getContentSizeInPixels();
+        Rect texRect = Rect(Vec2(0,0), imageTexPixSize);
+        switch(_scaleMode)
+        {
+            case ImageScaleMode::FIT_WIDTH:
+            {
+                const Size& croppedSize = Size(imageTexPixSize.width, (imageTexPixSize.width * innerSize.height) / innerSize.width);
+                const Vec2& origin = (imageTexPixSize / 2.0f) - (croppedSize / 2.0f);
+                texRect = Rect(origin, croppedSize);
+                break;
+            }
+            case ImageScaleMode::FIT_HEIGHT:
+            {
+                const Size& croppedSize = Size((imageTexPixSize.height * innerSize.width) / innerSize.height, innerSize.height);
+                const Vec2& origin = (imageTexPixSize / 2.0f) - (croppedSize / 2.0f);
+                texRect = Rect(origin, croppedSize);
+                break;
+            }
+            case ImageScaleMode::SHOW_ALL:
+            {
+                break;
+            }
+            case ImageScaleMode::FILL_ALL:
+            {
+                const float scaleW = innerSize.width / imageTexPixSize.width;
+                const float scaleH = innerSize.height / imageTexPixSize.height;
+                const bool scaleToWidth = scaleW > scaleH;
+                const Size& croppedSize = scaleToWidth ? Size(imageTexPixSize.width, (imageTexPixSize.width * innerSize.height) / innerSize.width) : Size((imageTexPixSize.height * innerSize.width) / innerSize.height, innerSize.height);
+                const Vec2& origin = (imageTexPixSize / 2.0f) - (croppedSize / 2.0f);
+                texRect = Rect(origin, croppedSize);
+                break;
+            }
+        }
+        _contentImage->setTextureRect(texRect);
+    }
+    _contentImage->setContentSize(innerSize);
+}
+
 void FeaturedTile::elementDisappeared(cocos2d::Node *sender)
 {
-    _contentImage->setTexture("res/contentPlaceholders/Games1X1.png");
-    onSizeChanged();
+    if(_contentImage->getTexture()->getPath() != _placholderFilename)
+    {
+        _contentImage->setTexture(_placholderFilename);
+        resizeContentImage();
+    }
 }
 
 void FeaturedTile::elementAppeared(cocos2d::Node *sender)
@@ -146,6 +156,11 @@ void FeaturedTile::elementAppeared(cocos2d::Node *sender)
     else
     {
         elementOnScreen = false;
+        if(_contentImage->getTexture()->getPath() != _placholderFilename)
+        {
+            _contentImage->setTexture(_placholderFilename);
+            resizeContentImage();
+        }
     }
 }
 
@@ -153,7 +168,7 @@ void FeaturedTile::elementAppeared(cocos2d::Node *sender)
 void FeaturedTile::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {
     _contentImage->setTexture(downloader->getLocalImagePath());
-    onSizeChanged();
+    resizeContentImage();
 }
 void FeaturedTile::onImageDownloadFailed()
 {

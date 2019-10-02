@@ -49,6 +49,7 @@ namespace Color
 	const cocos2d::Color3B darkIndigo(13,40,78);
     const cocos2d::Color3B darkIndigoTwo(10, 27, 52);
     const cocos2d::Color3B darkIndigoThree(10, 32, 62);
+    const cocos2d::Color3B darkIndigoFour(11, 35, 69);
 	const cocos2d::Color3B strongPink(245, 2, 109);
 	const cocos2d::Color3B purplyPink(229, 107, 222);
 	const cocos2d::Color3B greenishCyan(66, 246, 174);

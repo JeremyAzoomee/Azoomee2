@@ -249,6 +249,15 @@ void DropdownContentHolder::setContentItemData(const HQCarouselObjectRef& conten
     updateContent();
 }
 
+void DropdownContentHolder::setTilePlaceholder(const std::string& tilePlaceholder)
+{
+    _tilePlaceholder = tilePlaceholder;
+    for(auto tile : _contentTiles)
+    {
+        tile->setPlaceholderFilename(_tilePlaceholder);
+    }
+}
+
 void DropdownContentHolder::updateContent()
 {
     if(_contentData)
@@ -257,7 +266,7 @@ void DropdownContentHolder::updateContent()
         _contentRows.clear();
         _contentTileGrid->removeAllChildren();
         
-        //_iconDownloader->downloadImage(this, _contentData->getIcon());
+        _iconDownloader->downloadImage(this, _contentData->getIcon());
         
         _categoryTitle->setString(_contentData->getTitle());
         const auto& contentList = _contentData->getContentItems();
@@ -287,6 +296,7 @@ void DropdownContentHolder::updateContent()
                 if((row * tilesPerRow) + col < contentList.size())
                 {
                     RoundedRectTile* tile = RoundedRectTile::create();
+                    tile->setPlaceholderFilename(_tilePlaceholder);
                     tile->setContentSize(tileSize);
                     tile->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(kTileSpacing / 2.0f, 0, kTileSpacing / 2.0f, 0)));
                     tile->setContentSelectedCallback([this, row, tilesPerRow, col](HQContentItemObjectRef content){

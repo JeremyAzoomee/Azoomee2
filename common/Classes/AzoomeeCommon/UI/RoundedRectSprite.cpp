@@ -28,10 +28,12 @@ bool RoundedRectSprite::init()
     setGLProgram(shaderProgram);
     setGLProgramState(state);
     
-    state->setUniformVec2("u_pixelSize", Vec2(getContentSize()));
+    const Size& contentSize = getContentSize();
+    
+    state->setUniformVec2("u_pixelSize", Vec2(contentSize));
     state->setUniformFloat("u_radius", 20);
     state->setUniformFloatv("u_corners", 4, _corners);
-    state->setUniformVec4("u_normTexRect", Vec4(0, 0, getContentSize().width, getContentSize().height));
+    state->setUniformVec4("u_normTexRect", Vec4(0, 0, contentSize.width, contentSize.height));
     
     return true;
 }
@@ -46,9 +48,10 @@ void RoundedRectSprite::setContentSize(const cocos2d::Size& contentSize)
 void RoundedRectSprite::setTextureRect(const cocos2d::Rect& rect)
 {
     Super::setTextureRect(rect);
-    if(getTexture())
+    Texture2D* texture = getTexture();
+    if(texture)
     {
-        const Size& texSize = getTexture()->getContentSizeInPixels();
+        const Size& texSize = texture->getContentSizeInPixels();
         GLProgramState* state = getGLProgramState();
         state->setUniformVec4("u_normTexRect", Vec4(rect.origin.x / texSize.width, rect.origin.y / texSize.height, texSize.width / rect.size.width, texSize.height / rect.size.height));
     }

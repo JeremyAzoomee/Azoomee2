@@ -32,7 +32,6 @@ bool RoundedRectTile::init()
     addChild(_dropShadow);
     
     _contentImage = RoundedRectSprite::create();
-    _contentImage->setTexture("res/contentPlaceholders/Games1X1.png");
     _contentImage->setCornerRadius(60);
     _contentImage->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _contentImage->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -79,6 +78,33 @@ void RoundedRectTile::onSizeChanged()
     _dropShadow->setContentSize(contentSize + kDropshadowPadding);
     _lockedOverlay->setContentSize(contentSize);
     _padlock->setContentSize(Size(contentSize.height * 0.5f, contentSize.height * 0.5f));
+    resizeContentImage();
+}
+
+void RoundedRectTile::setContentItemData(const HQContentItemObjectRef& contentItem)
+{
+    _contentItem = contentItem;
+    if(_contentItem)
+    {
+        _lockedOverlay->setVisible(!_contentItem->isEntitled());
+    }
+}
+
+void RoundedRectTile::setImageShape(const Vec2& imageShape)
+{
+    _imageShape = imageShape;
+}
+
+void RoundedRectTile::setPlaceholderFilename(const std::string& placeholder)
+{
+    _placholderFilename = placeholder;
+    _contentImage->setTexture(_placholderFilename);
+}
+
+void RoundedRectTile::resizeContentImage()
+{
+    const Size& contentSize = getContentSize();
+    
     const Size& imageTexPixSize = _contentImage->getTexture()->getContentSizeInPixels();
     Rect texRect = Rect(Vec2(0,0), imageTexPixSize);
     switch(_scaleMode)
@@ -105,18 +131,10 @@ void RoundedRectTile::onSizeChanged()
         {
             const float scaleW = contentSize.width / imageTexPixSize.width;
             const float scaleH = contentSize.height / imageTexPixSize.height;
-            if(scaleW > scaleH)
-            {
-                const Size& croppedSize = Size(imageTexPixSize.width, (imageTexPixSize.width * contentSize.height) / contentSize.width);
-                const Vec2& origin = (imageTexPixSize / 2.0f) - (croppedSize / 2.0f);
-                texRect = Rect(origin, croppedSize);
-            }
-            else
-            {
-                const Size& croppedSize = Size((imageTexPixSize.height * contentSize.width) / contentSize.height, contentSize.height);
-                const Vec2& origin = (imageTexPixSize / 2.0f) - (croppedSize / 2.0f);
-                texRect = Rect(origin, croppedSize);
-            }
+            const bool scaleToWidth = scaleW > scaleH;
+            const Size& croppedSize = scaleToWidth ? Size(imageTexPixSize.width, (imageTexPixSize.width * contentSize.height) / contentSize.width) : Size((imageTexPixSize.height * contentSize.width) / contentSize.height, contentSize.height);
+            const Vec2& origin = (imageTexPixSize / 2.0f) - (croppedSize / 2.0f);
+            texRect = Rect(origin, croppedSize);
             break;
         }
     }
@@ -124,24 +142,13 @@ void RoundedRectTile::onSizeChanged()
     _contentImage->setContentSize(contentSize);
 }
 
-void RoundedRectTile::setContentItemData(const HQContentItemObjectRef& contentItem)
-{
-    _contentItem = contentItem;
-    if(_contentItem)
-    {
-        _lockedOverlay->setVisible(!_contentItem->isEntitled());
-    }
-}
-
-void RoundedRectTile::setImageShape(const Vec2& imageShape)
-{
-    _imageShape = imageShape;
-}
-
 void RoundedRectTile::elementDisappeared(cocos2d::Node *sender)
 {
-    _contentImage->setTexture("res/contentPlaceholders/Games1X1.png");
-    onSizeChanged();
+    if(_contentImage->getTexture()->getPath() != _placholderFilename)
+    {
+        _contentImage->setTexture(_placholderFilename);
+        resizeContentImage();
+    }
 }
 
 void RoundedRectTile::elementAppeared(cocos2d::Node *sender)
@@ -153,6 +160,11 @@ void RoundedRectTile::elementAppeared(cocos2d::Node *sender)
     else
     {
         elementOnScreen = false;
+        if(_contentImage->getTexture()->getPath() != _placholderFilename)
+        {
+            _contentImage->setTexture(_placholderFilename);
+            resizeContentImage();
+        }
     }
 }
 
@@ -160,7 +172,7 @@ void RoundedRectTile::elementAppeared(cocos2d::Node *sender)
 void RoundedRectTile::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {
     _contentImage->setTexture(downloader->getLocalImagePath());
-    onSizeChanged();
+    resizeContentImage();
 }
 void RoundedRectTile::onImageDownloadFailed()
 {

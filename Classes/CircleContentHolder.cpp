@@ -61,6 +61,11 @@ void CircleContentHolder::enableScaleToFill(bool enable)
     _scaleToFill = enable;
 }
 
+void CircleContentHolder::setPlaceholder(const std::string &filename)
+{
+    _placeholderFilename = filename;
+}
+
 void CircleContentHolder::refreshTiles()
 {
     _tiles.clear();
@@ -106,6 +111,8 @@ void CircleContentHolder::refreshTiles()
                 }
             });
             tile->setTouchEnabled(false);
+            tile->setPlaceholderFilename(_placeholderFilename);
+            tile->setEmptyImage(_placeholderFilename);
             rowContainer->addChild(tile);
             _tiles.pushBack(tile);
         }

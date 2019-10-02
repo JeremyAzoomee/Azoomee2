@@ -2,6 +2,7 @@
 #include "../Json.h"
 #include "../ConfigStorage.h"
 #include "ContentItemManager.h"
+#include "../../UI/Style.h"
 
 
 using namespace cocos2d;
@@ -163,10 +164,10 @@ void HQDataObjectManager::parseHQStructureData(const std::string& hqStuctureData
 		MutableHQCarouselObjectRef carouselObject = MutableHQCarouselObject::create();
 		
 		carouselObject->setTitle(getStringFromJson("title", rowData));
-		
+        carouselObject->setColour(getColor4BFromJson("rgbColour", rowData, Color4B(Style::Color::azure)));
 		if(rowData.HasMember("images"))
 		{
-			carouselObject->setIcon(getStringFromJson("icon", rowData["images"])); //parsing carousel main icon if present
+			carouselObject->setIcon(getStringFromJson("carouselImage", rowData["images"])); //parsing carousel main icon if present
 		}
 		
 		if(rowData.HasMember("contentIds") && rowData["contentIds"].IsArray() && rowData["contentIds"].Size() != 0)

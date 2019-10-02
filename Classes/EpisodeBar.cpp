@@ -156,7 +156,7 @@ void EpisodeBar::setEpisodeTagColour(const Color3B& colour)
 
 void EpisodeBar::elementDisappeared(cocos2d::Node *sender)
 {
-    _contentImage->setTexture("res/contentPlaceholders/Games1X1.png");
+    _contentImage->setTexture("");
     resizeImageAndText();
 }
 

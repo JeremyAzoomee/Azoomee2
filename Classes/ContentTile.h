@@ -42,7 +42,7 @@ public:
     virtual void setContentItemData(const HQContentItemObjectRef& contentItem);
     HQContentItemObjectRef getContentItemData() const;
     
-    void setPlaceholderFilename(const std::string& placeholder);
+    virtual void setPlaceholderFilename(const std::string& placeholder);
     
     void setImageScaleMode(const ImageScaleMode& scaleMode);
     

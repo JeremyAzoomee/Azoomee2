@@ -168,6 +168,7 @@ void VideoHQ::createRecentlyPlayedTiles()
     _recentlyPlayedLayout = CircleContentHolder::create();
     _recentlyPlayedLayout->setTileSize(_isPortrait ? kCircleTileSizePortrait : kCircleTileSizeLandscape);
     _recentlyPlayedLayout->setMaxRows(1);
+    _recentlyPlayedLayout->setPlaceholder("res/hqscene/video_icon.png");
     _recentlyPlayedLayout->setContentSize(Size(_contentListView->getSizePercent().x * getContentSize().width, 0));
     _recentlyPlayedLayout->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
         if(_contentSelectedCallback)
@@ -185,11 +186,12 @@ void VideoHQ::createDropdowns()
     {
         auto carousel = carouselData.at(i);
         DropdownContentHolder* dropdown = DropdownContentHolder::create();
+        dropdown->setTilePlaceholder("res/contentPlaceholders/Video1X1.png");
         dropdown->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
         dropdown->setContentSize(Size(_contentListView->getSizePercent().x * getContentSize().width, 0));
         dropdown->setContentItemData(carousel);
-        dropdown->setFrameColour(Style::Color::azure);
-        dropdown->setPatternColour(Style::Color::azure);
+        dropdown->setFrameColour(Color3B(carousel->getColour()));
+        dropdown->setPatternColour(Color3B(carousel->getColour()));
         dropdown->setContentSelectedCallback([this, i](HQContentItemObjectRef content, int elementIndex){
             if(_contentSelectedCallback)
             {

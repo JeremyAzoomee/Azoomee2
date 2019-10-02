@@ -23,14 +23,14 @@ bool CircleTile::init()
         return false;
     }
     
-    cocos2d::ui::ImageView* bg = ui::ImageView::create("res/hqscene/circle.png");
-    bg->ignoreContentAdaptWithSize(false);
-    bg->setSizeType(SizeType::PERCENT);
-    bg->setSizePercent(Vec2(1.0f, 1.0f));
-    bg->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    bg->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    bg->setColor(Style::Color::macaroniAndCheese);
-    addChild(bg);
+    _bgColour = ui::ImageView::create("res/hqscene/circle.png");
+    _bgColour->ignoreContentAdaptWithSize(false);
+    _bgColour->setSizeType(SizeType::PERCENT);
+    _bgColour->setSizePercent(Vec2(1.0f, 1.0f));
+    _bgColour->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _bgColour->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    _bgColour->setColor(Style::Color::darkIndigoThree);
+    addChild(_bgColour);
     
     _clippingStencil = Sprite::create("res/hqscene/circle.png");
     _clippingStencil->setContentSize(getContentSize() - Size(kFrameThickness,kFrameThickness));
@@ -43,7 +43,7 @@ bool CircleTile::init()
     _contentClipper->setContentSize(getContentSize());
     addChild(_contentClipper);
     
-    _contentImage = ui::ImageView::create("res/contentPlaceholders/Games1X1.png");
+    _contentImage = ui::ImageView::create("res/hqscene/game_icon.png");
     _contentImage->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _contentImage->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _contentClipper->addChild(_contentImage);
@@ -53,6 +53,7 @@ bool CircleTile::init()
 
 void CircleTile::onEnter()
 {
+    _contentImage->loadTexture(_placholderFilename);
     startCheckingForOnScreenPosition(this);
     Super::onEnter();
 }
@@ -74,21 +75,40 @@ void CircleTile::onSizeChanged()
     _contentImage->setScale(MAX(contentSize.height / _contentImage->getContentSize().height, contentSize.width / _contentImage->getContentSize().width));
 }
 
+void CircleTile::setContentItemData(const HQContentItemObjectRef& contentItem)
+{
+    _contentItem = contentItem;
+    _bgColour->setColor(_contentItem ? Style::Color::macaroniAndCheese : Style::Color::darkIndigoThree);
+}
+
+void CircleTile::setEmptyImage(const std::string& filename)
+{
+    _emptyImageFilename = filename;
+}
+
 void CircleTile::elementDisappeared(cocos2d::Node *sender)
 {
-    _contentImage->loadTexture("res/contentPlaceholders/Games1X1.png");
-    onSizeChanged();
+    if(_contentImage->getRenderFile().file != _placholderFilename)
+    {
+        _contentImage->loadTexture(_placholderFilename);
+        _contentImage->setScale(MAX(getContentSize().height / _contentImage->getContentSize().height, getContentSize().width / _contentImage->getContentSize().width));
+    }
 }
 
 void CircleTile::elementAppeared(cocos2d::Node *sender)
 {
     if(_contentItem)
     {
-        _imageDownloader->downloadImage(this, HQDataProvider::getInstance()->getThumbnailUrlForItem(_contentItem, TILESIZE_1X1));
+        _imageDownloader->downloadImage(this, HQDataProvider::getInstance()->getThumbnailUrlForItem(_contentItem, TILESIZE_3X3));
     }
     else
     {
         elementOnScreen = false;
+        if(_contentImage->getRenderFile().file != _placholderFilename)
+        {
+            _contentImage->loadTexture(_placholderFilename);
+            _contentImage->setScale(MAX(getContentSize().height / _contentImage->getContentSize().height, getContentSize().width / _contentImage->getContentSize().width));
+        }
     }
 }
 
@@ -96,7 +116,7 @@ void CircleTile::elementAppeared(cocos2d::Node *sender)
 void CircleTile::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {
     _contentImage->loadTexture(downloader->getLocalImagePath());
-    onSizeChanged();
+    _contentImage->setScale(MAX(getContentSize().height / _contentImage->getContentSize().height, getContentSize().width / _contentImage->getContentSize().width));
 }
 void CircleTile::onImageDownloadFailed()
 {
