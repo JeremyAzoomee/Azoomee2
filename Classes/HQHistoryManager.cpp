@@ -196,6 +196,7 @@ void HQHistoryManager::cacheHQScene(HQScene* hqScene)
 void HQHistoryManager::clearCachedHQ()
 {
     cacheHQScene(nullptr);
+    Director::getInstance()->purgeCachedData();
 }
 
 HQScene* HQHistoryManager::getCachedHQScene()

@@ -68,14 +68,14 @@ std::map<std::string, std::string> HQDataObject::getImages() const
 
 std::string HQDataObject::getGroupLogo() const
 {
-    if(_images.find("logo") != _images.end())
-    {
-        return _images.at("logo");
-    }
-    else
-    {
-        return "";
-    }
+    auto itt = _images.find("logo");
+    return itt != _images.end() ? itt->second : "";
+}
+
+std::string HQDataObject::getGroupBanner() const
+{
+    auto itt = _images.find("banner");
+    return itt != _images.end() ? itt->second : "";
 }
 
 void MutableHQDataObject::clearData()

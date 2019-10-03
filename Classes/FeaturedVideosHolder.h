@@ -24,6 +24,8 @@ private:
     FeaturedTile* _tile2 = nullptr;
     FeaturedTile* _tile3 = nullptr;
 
+    bool _useFixedHeight = false;
+    
 public:
     static const float kTileSpacing;
     
@@ -31,6 +33,8 @@ public:
     void onEnter() override;
     void onExit() override;
     void onSizeChanged() override;
+    
+    void enableFixedHeight(bool enable);
     
     CREATE_FUNC(FeaturedVideosHolder);
 };

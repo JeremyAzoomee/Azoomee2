@@ -12,10 +12,10 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-const cocos2d::Size HQPage::kCircleTileSizeLandscape = Size(320,320);
-const cocos2d::Size HQPage::kCircleTileSizePortrait = Size(350,350);
+const cocos2d::Size HQPage::kCircleTileSizeLandscape = Size(256,256);
+const cocos2d::Size HQPage::kCircleTileSizePortrait = Size(300,300);
 const float HQPage::kFeaturedContentHeightLandscape = 640.0f;
-const float HQPage::kFeaturedContentHeightPortrait = 960.0f;
+const float HQPage::kFeaturedContentHeightPortrait = 1110.0f;
 const float HQPage::kListViewSidePadding = 64.0f;
 
 bool HQPage::init()

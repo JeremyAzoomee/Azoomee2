@@ -37,6 +37,7 @@ bool EpisodeBar::init()
     _contentImage->setRoundedCorners(true, false, true, false);
     _contentImage->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
     _contentImage->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
+    _contentImage->setStretchImageEnabled(true);
     addChild(_contentImage);
     
     _lockedOverlay = RoundedRectSprite::create();
@@ -47,6 +48,7 @@ bool EpisodeBar::init()
     _lockedOverlay->setColor(Style::Color::darkIndigo);
     _lockedOverlay->setOpacity(204);
     _lockedOverlay->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _lockedOverlay->setStretchImageEnabled(true);
     _contentImage->addChild(_lockedOverlay);
     
     _playIcon = ui::ImageView::create("res/hqscene/play_icon.png");
@@ -60,13 +62,13 @@ bool EpisodeBar::init()
     _textLayout->setLayoutType(Type::VERTICAL);
     addChild(_textLayout);
     
-    _episodeTag = DynamicText::create("", Style::Font::PoppinsMedium(), 53);
+    _episodeTag = DynamicText::create("", Style::Font::PoppinsMedium(), 40);
     _episodeTag->setTextHorizontalAlignment(TextHAlignment::LEFT);
     _episodeTag->setTextVerticalAlignment(TextVAlignment::CENTER);
     _episodeTag->setOverflow(Label::Overflow::RESIZE_HEIGHT);
     _textLayout->addChild(_episodeTag);
     
-    _episodeTitle = DynamicText::create("", Style::Font::PoppinsBold(), 61);
+    _episodeTitle = DynamicText::create("", Style::Font::PoppinsBold(), 48);
     _episodeTitle->setTextColor(Color4B::WHITE);
     _episodeTitle->setTextHorizontalAlignment(TextHAlignment::LEFT);
     _episodeTitle->setTextVerticalAlignment(TextVAlignment::CENTER);
@@ -156,7 +158,7 @@ void EpisodeBar::setEpisodeTagColour(const Color3B& colour)
 
 void EpisodeBar::elementDisappeared(cocos2d::Node *sender)
 {
-    _contentImage->setTexture("res/contentPlaceholders/Games1X1.png");
+    _contentImage->setTexture("");
     resizeImageAndText();
 }
 

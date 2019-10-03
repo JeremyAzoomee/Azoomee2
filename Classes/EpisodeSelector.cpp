@@ -16,7 +16,7 @@ NS_AZOOMEE_BEGIN
 const float EpisodeSelector::kListViewPadding = 45.0f;
 const float EpisodeSelector::kHeaderHeightPercent = 0.29f;
 const float EpisodeSelector::kEpisodeBarSpacing = 30.0f;
-const float EpisodeSelector::kEpisodeBarHeight = 300.0f;
+const float EpisodeSelector::kEpisodeBarHeight = 240.0f;
 
 bool EpisodeSelector::init()
 {
@@ -34,6 +34,7 @@ bool EpisodeSelector::init()
     _background->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _background->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _background->setColor(Style::Color::darkIndigoThree);
+    _background->setStretchImageEnabled(true);
     addChild(_background, -1);
     
     _contentLayout = ui::Layout::create();
@@ -49,10 +50,18 @@ bool EpisodeSelector::init()
     _headerLayout->setSizePercent(Vec2(1.0f, kHeaderHeightPercent));
     _contentLayout->addChild(_headerLayout);
     
-    _bannerImage = Sprite::create();
+    _bannerImage = RoundedRectSprite::create();
+    _bannerImage->setRoundedCorners(false, false, true, true);
+    _bannerImage->setCornerRadius(20);
     _bannerImage->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _bannerImage->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _bannerImage->setScaleMode(RoundedRectSprite::ScaleMode::FILL);
     _headerLayout->addChild(_bannerImage);
+    
+    _logoImage = Sprite::create();
+    _logoImage->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    _logoImage->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _headerLayout->addChild(_logoImage);
     
     _divider = cocos2d::ui::Layout::create();
     _divider->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
@@ -91,6 +100,9 @@ bool EpisodeSelector::init()
     });
     _headerLayout->addChild(_closeButton);
     
+    _bannerDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
+    _logoDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
+    
     return true;
 }
 
@@ -112,8 +124,9 @@ void EpisodeSelector::onSizeChanged()
     
     _background->setContentSize(contentSize);
     _contentLayout->updateSizeAndPosition();
-    _bannerImage->setScale((_headerLayout->getContentSize().height * 0.8f) / _bannerImage->getContentSize().height);
-    _divider->setContentSize(Size(contentSize.width, 10));
+    _logoImage->setScale((_headerLayout->getContentSize().height * 0.8f) / _logoImage->getContentSize().height);
+    resizeBannerImage();
+    _divider->setContentSize(Size(contentSize.width, 6));
     const Size& episodeBarSize = Size(contentSize.width - (2 * kListViewPadding), kEpisodeBarHeight);
     for(auto bar : _episodeBars)
     {
@@ -126,8 +139,10 @@ void EpisodeSelector::setHqData(const HQDataObjectRef& hqData)
 {
     _hqData = hqData;
     setupEpisodeBars();
-    ImageDownloaderRef downloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
-    downloader->downloadImage(this, _hqData->getGroupLogo());
+    _bannerImage->setVisible(false);
+    _logoImage->setVisible(false);
+    _logoDownloader->downloadImage(this, _hqData->getGroupLogo());
+    _bannerDownloader->downloadImage(this, _hqData->getGroupBanner());
     _divider->setBackGroundColor(Style::Color::macaroniAndCheese);
 }
 
@@ -184,15 +199,30 @@ void EpisodeSelector::setupEpisodeBars()
     _episodeListView->scrollToTop(0, false);
 }
 
+void EpisodeSelector::resizeBannerImage()
+{
+    _bannerImage->setContentSize(_headerLayout->getContentSize());
+}
+
 // delegate functions
 void EpisodeSelector::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {
-    _bannerImage->setTexture(downloader->getLocalImagePath());
-    _bannerImage->setScale((_headerLayout->getContentSize().height * 0.8f) / _bannerImage->getContentSize().height); //TODO: use proper banner image and scale to fill space
+    if(downloader == _logoDownloader)
+    {
+        _logoImage->setVisible(true);
+        _logoImage->setTexture(downloader->getLocalImagePath());
+        _logoImage->setScale((_headerLayout->getContentSize().height * 0.8f) / _logoImage->getContentSize().height);
+    }
+    else if(downloader == _bannerDownloader)
+    {
+        _bannerImage->setVisible(true);
+        _bannerImage->setTexture(downloader->getLocalImagePath());
+        resizeBannerImage();
+    }
 }
 void EpisodeSelector::onImageDownloadFailed()
 {
-    
+
 }
 
 NS_AZOOMEE_END

@@ -12,7 +12,7 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-const float CircleContentHolder::kTileSpacing = 16.0f;
+const float CircleContentHolder::kTileSpacing = 32.0f;
 
 bool CircleContentHolder::init()
 {
@@ -56,6 +56,16 @@ void CircleContentHolder::setMaxRows(int rows)
     _rows = rows;
 }
 
+void CircleContentHolder::enableScaleToFill(bool enable)
+{
+    _scaleToFill = enable;
+}
+
+void CircleContentHolder::setPlaceholder(const std::string &filename)
+{
+    _placeholderFilename = filename;
+}
+
 void CircleContentHolder::refreshTiles()
 {
     _tiles.clear();
@@ -79,14 +89,15 @@ void CircleContentHolder::refreshTiles()
     {
         rows = ceil(_contentData->getContentItems().size() / (float)tilesPerRow);
     }
-    
-    float totalHeight = paddedCircleSize * rows;
+    float scaleToFill = _scaleToFill ? contentSize.width / rowWidth : 1.0f;
+    float totalHeight = (paddedCircleSize * scaleToFill) * rows;
     for(int row = 0; row < rows; row++)
     {
         ui::Layout* rowContainer = ui::Layout::create();
         rowContainer->setContentSize(Size(rowWidth, paddedCircleSize));
         rowContainer->setLayoutType(Type::HORIZONTAL);
         rowContainer->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+        rowContainer->setScale(scaleToFill);
         _contentLayout->addChild(rowContainer);
         for(int col = 0; col < tilesPerRow; col++)
         {
@@ -100,6 +111,8 @@ void CircleContentHolder::refreshTiles()
                 }
             });
             tile->setTouchEnabled(false);
+            tile->setPlaceholderFilename(_placeholderFilename);
+            tile->setEmptyImage(_placeholderFilename);
             rowContainer->addChild(tile);
             _tiles.pushBack(tile);
         }

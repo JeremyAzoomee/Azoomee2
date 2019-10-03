@@ -16,8 +16,13 @@ NS_AZOOMEE_BEGIN
 class RoundedRectSprite : public cocos2d::Sprite
 {
     typedef cocos2d::Sprite Super;
+public:
+    enum ScaleMode {FILL, TILE};
 private:
     float _corners[4] = {1.0, 1.0, 1.0, 1.0};
+    bool _stretchImage = false;
+    ScaleMode _scaleMode = ScaleMode::FILL;
+    float _tileScaleFactor = 1.0f;
     
 public:
     
@@ -25,8 +30,15 @@ public:
     void setContentSize(const cocos2d::Size& contentSize) override;
     void setTextureRect(const cocos2d::Rect& rect) override;
     
+    void setTexture(cocos2d::Texture2D *texture) override;
+    void setTexture(const std::string &filename ) override;
+    
     void setCornerRadius(float radius);
     void setRoundedCorners(bool bottomLeft, bool bottomRight, bool topLeft, bool topRight);
+    
+    void setStretchImageEnabled(bool enabled);
+    void setScaleMode(const ScaleMode& scaleMode);
+    void setTileScaleFactor(float scale);
     
     CREATE_FUNC(RoundedRectSprite);
 };

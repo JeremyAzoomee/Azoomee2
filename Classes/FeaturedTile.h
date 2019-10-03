@@ -26,6 +26,8 @@ private:
     
     cocos2d::Vec2 _imageShape = cocos2d::Vec2(1.0f, 1.0f);
     
+    void resizeContentImage();
+    
     void elementDisappeared(cocos2d::Node *sender) override;
     void elementAppeared(cocos2d::Node *sender) override;
     
@@ -39,6 +41,8 @@ public:
     void setImageShape(const cocos2d::Vec2& imageShape);
     
     void setContentItemData(const HQContentItemObjectRef& contentItem) override;
+    
+    void setPlaceholderFilename(const std::string& placeholder) override;
     
     CREATE_FUNC(FeaturedTile);
     

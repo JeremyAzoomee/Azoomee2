@@ -18,6 +18,18 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+VideoHQ::~VideoHQ()
+{
+    if(_recentlyPlayedTitle)
+    {
+        _recentlyPlayedTitle->release();
+    }
+    if(_recentlyPlayedLayout)
+    {
+        _recentlyPlayedLayout->release();
+    }
+}
+
 bool VideoHQ::init()
 {
     if(!Super::init())
@@ -40,6 +52,12 @@ void VideoHQ::onEnter()
     recentlyPlayedData->setTitle(_("Recently watched"));
     
     _recentlyPlayedLayout->setContentItemData(recentlyPlayedData);
+    
+    if(recentlyPlayedData->getContentItems().size() != 0 && !_recentlyPlayedLayout->getParent())
+    {
+        _contentListView->insertCustomItem(_recentlyPlayedTitle, 1);
+        _contentListView->insertCustomItem(_recentlyPlayedLayout, 2);
+    }
     
     Super::onEnter();
 }
@@ -133,7 +151,6 @@ void VideoHQ::createFeaturedTiles()
     _featuredLayout = FeaturedVideosHolder::create();
     _featuredLayout->setContentItemData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kVideoHQName)->getHqCarousels().at(0));
     _featuredLayout->setSizeType(SizeType::ABSOLUTE);
-    _featuredLayout->setContentSize(Size(_contentListView->getContentSize().width, kFeaturedContentHeightPortrait));
     _featuredLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _featuredLayout->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
         if(_contentSelectedCallback)
@@ -147,7 +164,15 @@ void VideoHQ::createFeaturedTiles()
 
 void VideoHQ::createRecentlyPlayedTiles()
 {
- 
+    if(_recentlyPlayedTitle)
+    {
+        _recentlyPlayedTitle->release();
+    }
+    if(_recentlyPlayedLayout)
+    {
+        _recentlyPlayedLayout->release();
+    }
+    
     _recentlyPlayedTitle = DynamicText::create(_("Recently watched"), Style::Font::PoppinsBold(), 75);
     _recentlyPlayedTitle->setTextVerticalAlignment(TextVAlignment::CENTER);
     _recentlyPlayedTitle->setTextHorizontalAlignment(TextHAlignment::LEFT);
@@ -155,16 +180,12 @@ void VideoHQ::createRecentlyPlayedTiles()
     _recentlyPlayedTitle->setTextAreaSize(Size((_contentListView->getSizePercent().x * getContentSize().width) - kListViewSidePadding, _recentlyPlayedTitle->getContentSize().height));
     _recentlyPlayedTitle->setTextColor(Color4B::WHITE);
     _recentlyPlayedTitle->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
-    _contentListView->pushBackCustomItem(_recentlyPlayedTitle);
-    
-    MutableHQCarouselObjectRef recentlyPlayedData = MutableHQCarouselObject::create();
-    recentlyPlayedData->addContentItemsToCarousel(RecentlyPlayedManager::getInstance()->getRecentlyPlayedContentForHQ(ConfigStorage::kVideoHQName));
-    recentlyPlayedData->setTitle(_("Recently watched"));
+    _recentlyPlayedTitle->retain();
     
     _recentlyPlayedLayout = CircleContentHolder::create();
-    _recentlyPlayedLayout->setContentItemData(recentlyPlayedData);
     _recentlyPlayedLayout->setTileSize(_isPortrait ? kCircleTileSizePortrait : kCircleTileSizeLandscape);
     _recentlyPlayedLayout->setMaxRows(1);
+    _recentlyPlayedLayout->setPlaceholder("res/hqscene/video_icon.png");
     _recentlyPlayedLayout->setContentSize(Size(_contentListView->getSizePercent().x * getContentSize().width, 0));
     _recentlyPlayedLayout->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
         if(_contentSelectedCallback)
@@ -172,7 +193,7 @@ void VideoHQ::createRecentlyPlayedTiles()
             _contentSelectedCallback(content, elementIndex, -1);
         }
     });
-    _contentListView->pushBackCustomItem(_recentlyPlayedLayout);
+    _recentlyPlayedLayout->retain();
 }
 
 void VideoHQ::createDropdowns()
@@ -182,11 +203,12 @@ void VideoHQ::createDropdowns()
     {
         auto carousel = carouselData.at(i);
         DropdownContentHolder* dropdown = DropdownContentHolder::create();
+        dropdown->setTilePlaceholder(CONTENT_PLACEHOLDER_VIDEO_1X1);
         dropdown->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
         dropdown->setContentSize(Size(_contentListView->getSizePercent().x * getContentSize().width, 0));
         dropdown->setContentItemData(carousel);
-        dropdown->setFrameColour(Style::Color::azure);
-        dropdown->setPatternColour(Style::Color::azure);
+        dropdown->setFrameColour(Color3B(carousel->getColour()));
+        dropdown->setPatternColour(Color3B(carousel->getColour()));
         dropdown->setContentSelectedCallback([this, i](HQContentItemObjectRef content, int elementIndex){
             if(_contentSelectedCallback)
             {

@@ -42,7 +42,7 @@ private:
     void createEpisodePlayer();
     
 public:
-    
+    ~VideoHQ();
     bool init() override;
     void onEnter() override;
     void onExit() override;

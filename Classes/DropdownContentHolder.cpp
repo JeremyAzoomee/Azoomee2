@@ -13,7 +13,7 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-const cocos2d::Rect DropdownContentHolder::kBgCapInsets = Rect(162, 162, 103, 100);
+const cocos2d::Rect DropdownContentHolder::kBgCapInsets = Rect(130, 130, 82, 80);
 const float DropdownContentHolder::kTileSpacing = 32.0f;
 const float DropdownContentHolder::kDropdownOpenIconScale = 0.885f;
 const cocos2d::Vec2 DropdownContentHolder::kTileAspectRatio = Vec2(1.0f, 0.75f);
@@ -37,21 +37,9 @@ bool DropdownContentHolder::init()
     _bgPattern->setTexture("res/decoration/pattern_stem_tile.png");
     _bgPattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _bgPattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
-    _bgPattern->setCornerRadius(150);
-    Texture2D* texture = _bgPattern->getTexture();
-    if(texture)
-    {
-        const Size& texSize = texture->getContentSizeInPixels();
-        CCASSERT(texSize.width == ccNextPOT(texSize.width) && texSize.height == ccNextPOT(texSize.height),
-                 "TileSprite only works with PO2 textures");
-        
-        Texture2D::TexParams params;
-        params.minFilter = GL_NEAREST;
-        params.magFilter = GL_NEAREST;
-        params.wrapS = GL_REPEAT;
-        params.wrapT = GL_REPEAT;
-        texture->setTexParameters(params);
-    }
+    _bgPattern->setCornerRadius(kBgCapInsets.origin.x);
+    _bgPattern->setScaleMode(RoundedRectSprite::ScaleMode::TILE);
+    _bgPattern->setTileScaleFactor(2.0f);
     addChild(_bgPattern, -1);
     
     _contentLayout->setLayoutType(Type::VERTICAL);
@@ -93,11 +81,7 @@ void DropdownContentHolder::onSizeChanged()
     Super::onSizeChanged();
     
     const Size& contentSize = getContentSize();
-    const Size& bgSize = contentSize - Size(12,12);
-    const Size& bgTexSize = _bgPattern->getTexture()->getContentSizeInPixels();
-    const Vec2& scales = Vec2(bgSize.width / bgTexSize.width, bgSize.height / bgTexSize.height) / 2.0f;
-    _bgPattern->setTextureRect(Rect(Vec2(0,0), Size(bgTexSize.width * scales.x, bgTexSize.height * scales.y)));
-    _bgPattern->setContentSize(bgSize);
+    _bgPattern->setContentSize(contentSize - Size(10,10));
     _titleBanner->setContentSize(Size(contentSize.width, 2 * kBgCapInsets.origin.y));
     _categoryTitle->setTextAreaSize(Size(_titleBanner->getContentSize().width * 0.5f, _categoryTitle->getContentSize().height));
     _iconLayout->setContentSize(Size(_titleBanner->getContentSize().height - 12.0f, _titleBanner->getContentSize().height - 12.0f));
@@ -249,6 +233,15 @@ void DropdownContentHolder::setContentItemData(const HQCarouselObjectRef& conten
     updateContent();
 }
 
+void DropdownContentHolder::setTilePlaceholder(const std::string& tilePlaceholder)
+{
+    _tilePlaceholder = tilePlaceholder;
+    for(auto tile : _contentTiles)
+    {
+        tile->setPlaceholderFilename(_tilePlaceholder);
+    }
+}
+
 void DropdownContentHolder::updateContent()
 {
     if(_contentData)
@@ -257,7 +250,7 @@ void DropdownContentHolder::updateContent()
         _contentRows.clear();
         _contentTileGrid->removeAllChildren();
         
-        //_iconDownloader->downloadImage(this, _contentData->getIcon());
+        _iconDownloader->downloadImage(this, _contentData->getIcon());
         
         _categoryTitle->setString(_contentData->getTitle());
         const auto& contentList = _contentData->getContentItems();
@@ -287,6 +280,7 @@ void DropdownContentHolder::updateContent()
                 if((row * tilesPerRow) + col < contentList.size())
                 {
                     RoundedRectTile* tile = RoundedRectTile::create();
+                    tile->setPlaceholderFilename(_tilePlaceholder);
                     tile->setContentSize(tileSize);
                     tile->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(kTileSpacing / 2.0f, 0, kTileSpacing / 2.0f, 0)));
                     tile->setContentSelectedCallback([this, row, tilesPerRow, col](HQContentItemObjectRef content){

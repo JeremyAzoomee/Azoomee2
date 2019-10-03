@@ -34,7 +34,8 @@ private:
     
     cocos2d::ui::Layout* _contentLayout = nullptr;
     cocos2d::ui::Layout* _headerLayout = nullptr;
-    cocos2d::Sprite* _bannerImage = nullptr;
+    RoundedRectSprite* _bannerImage = nullptr;
+    cocos2d::Sprite* _logoImage = nullptr;
     cocos2d::ui::Button* _closeButton = nullptr;
     cocos2d::ui::Layout* _divider = nullptr;
     cocos2d::ui::ListView* _episodeListView = nullptr;
@@ -46,7 +47,12 @@ private:
     ContentSelectedCallback _callback = nullptr;
     CloseButtonCallback _closeCallback = nullptr;
     
+    ImageDownloaderRef _logoDownloader = nullptr;
+    ImageDownloaderRef _bannerDownloader = nullptr;
+    
     void setupEpisodeBars();
+    
+    void resizeBannerImage();
     
 public:
     

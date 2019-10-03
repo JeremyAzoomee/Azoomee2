@@ -22,6 +22,9 @@ private:
     FeaturedTile* _subTile1 = nullptr;
     FeaturedTile* _subTile2 = nullptr;
     
+    bool _useWideLayout = false;
+    bool _useFixedHeight = false;
+    
 public:
     static const float kTileSpacing;
     
@@ -29,6 +32,9 @@ public:
     void onEnter() override;
     void onExit() override;
     void onSizeChanged() override;
+    
+    void enableWideLayout(bool enable);
+    void enableFixedHeight(bool enable);
     
     CREATE_FUNC(FeaturedGamesHolder);
 };
