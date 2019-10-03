@@ -27,6 +27,7 @@ protected:
     static const float kFeaturedContentHeightLandscape;
     static const float kFeaturedContentHeightPortrait;
     static const float kListViewSidePadding;
+    static const cocos2d::Vec2 kFocusDropDownAnchor;
     
     bool _isPortrait = true;
     
@@ -36,10 +37,12 @@ protected:
     
     ContentSelectedCallback _contentSelectedCallback = nullptr;
     
-    cocos2d::Vec2 _resizingPositionLock;
+    /// The dropdown last selected for open or close, may be null
+    DropdownContentHolder* _focusedDropdown = nullptr;
+    cocos2d::Vec2 _resizingPositionInView;
     
     void listviewDropdownResizeCallback();
-    void dropdownAutoOpenCloseLogic(DropdownContentHolder* pressedDropdown, cocos2d::Vector<DropdownContentHolder*> dropdownHoldersInListview);
+    void dropdownAutoOpenCloseLogic(DropdownContentHolder* pressedDropdown, const cocos2d::Vector<DropdownContentHolder*>& dropdownHoldersInListview);
     
 public:
   

@@ -141,7 +141,7 @@ void DropdownContentHolder::toggleOpened(bool open)
     const float dist = abs(currentSize.height - targetHeight);
     const float maxDist = _openHeight - _closedHeight;
     const float durationMod = dist / maxDist;
-    const float targetTime = 1.0f;
+    const float targetTime = 0.5f;
     const float targetScale = _open ? kDropdownOpenIconScale : 1.0f;
     
     if(_open)
@@ -159,7 +159,8 @@ void DropdownContentHolder::toggleOpened(bool open)
     });
     _resizing = true;
     stopAllActions();
-    runAction(Sequence::createWithTwoActions(resizeAction, CallFunc::create([this](){
+    
+    runAction(Sequence::createWithTwoActions(EaseSineInOut::create(resizeAction), CallFunc::create([this](){
         _resizing = false;
         if(!_open)
         {
