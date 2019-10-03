@@ -20,8 +20,14 @@ NS_AZOOMEE_BEGIN
 
 GameHQ::~GameHQ()
 {
-    _recentlyPlayedLayout->release();
-    _recentlyPlayedTitle->release();
+    if(_recentlyPlayedTitle)
+    {
+        _recentlyPlayedTitle->release();
+    }
+    if(_recentlyPlayedLayout)
+    {
+        _recentlyPlayedLayout->release();
+    }
 }
 
 bool GameHQ::init()

@@ -20,8 +20,14 @@ NS_AZOOMEE_BEGIN
 
 VideoHQ::~VideoHQ()
 {
-    _recentlyPlayedLayout->release();
-    _recentlyPlayedTitle->release();
+    if(_recentlyPlayedTitle)
+    {
+        _recentlyPlayedTitle->release();
+    }
+    if(_recentlyPlayedLayout)
+    {
+        _recentlyPlayedLayout->release();
+    }
 }
 
 bool VideoHQ::init()
