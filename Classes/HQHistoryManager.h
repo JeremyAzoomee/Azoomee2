@@ -3,7 +3,7 @@
 
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Azoomee.h>
-#include <AzoomeeCommon/UI/Orientation.h>
+#include <AzoomeeCommon/UI/UIConsts.h>
 #include "HQSceneDepreciated.h"
 #include "HQScene.h"
 

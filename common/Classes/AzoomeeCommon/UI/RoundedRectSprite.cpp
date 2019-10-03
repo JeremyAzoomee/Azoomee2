@@ -40,9 +40,10 @@ bool RoundedRectSprite::init()
 
 void RoundedRectSprite::setContentSize(const cocos2d::Size& contentSize)
 {
-    if(getTexture())
+    Texture2D* texture = getTexture();
+    if(texture)
     {
-        const Size& texSize = getTexture()->getContentSizeInPixels();
+        const Size& texSize = texture->getContentSizeInPixels();
         if(_stretchImage)
         {
             setTextureRect(Rect(Vec2(0,0),texSize));

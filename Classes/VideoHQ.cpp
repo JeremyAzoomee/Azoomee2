@@ -18,6 +18,12 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+VideoHQ::~VideoHQ()
+{
+    _recentlyPlayedLayout->release();
+    _recentlyPlayedTitle->release();
+}
+
 bool VideoHQ::init()
 {
     if(!Super::init())
@@ -45,8 +51,6 @@ void VideoHQ::onEnter()
     {
         _contentListView->insertCustomItem(_recentlyPlayedTitle, 1);
         _contentListView->insertCustomItem(_recentlyPlayedLayout, 2);
-        _recentlyPlayedLayout->release();
-        _recentlyPlayedTitle->release();
     }
     
     Super::onEnter();
@@ -141,7 +145,6 @@ void VideoHQ::createFeaturedTiles()
     _featuredLayout = FeaturedVideosHolder::create();
     _featuredLayout->setContentItemData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kVideoHQName)->getHqCarousels().at(0));
     _featuredLayout->setSizeType(SizeType::ABSOLUTE);
-    //_featuredLayout->setContentSize(Size(_contentListView->getContentSize().width, kFeaturedContentHeightPortrait));
     _featuredLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _featuredLayout->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
         if(_contentSelectedCallback)
@@ -155,7 +158,15 @@ void VideoHQ::createFeaturedTiles()
 
 void VideoHQ::createRecentlyPlayedTiles()
 {
- 
+    if(_recentlyPlayedTitle)
+    {
+        _recentlyPlayedTitle->release();
+    }
+    if(_recentlyPlayedLayout)
+    {
+        _recentlyPlayedLayout->release();
+    }
+    
     _recentlyPlayedTitle = DynamicText::create(_("Recently watched"), Style::Font::PoppinsBold(), 75);
     _recentlyPlayedTitle->setTextVerticalAlignment(TextVAlignment::CENTER);
     _recentlyPlayedTitle->setTextHorizontalAlignment(TextHAlignment::LEFT);
@@ -186,7 +197,7 @@ void VideoHQ::createDropdowns()
     {
         auto carousel = carouselData.at(i);
         DropdownContentHolder* dropdown = DropdownContentHolder::create();
-        dropdown->setTilePlaceholder("res/contentPlaceholders/Video1X1.png");
+        dropdown->setTilePlaceholder(CONTENT_PLACEHOLDER_VIDEO_1X1);
         dropdown->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
         dropdown->setContentSize(Size(_contentListView->getSizePercent().x * getContentSize().width, 0));
         dropdown->setContentItemData(carousel);

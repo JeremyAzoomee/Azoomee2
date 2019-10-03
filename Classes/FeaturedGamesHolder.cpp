@@ -7,6 +7,7 @@
 
 #include "FeaturedGamesHolder.h"
 #include <AzoomeeCommon/UI/LayoutParams.h>
+#include <AzoomeeCommon/UI/UIConsts.h>
 #include "HQDataProvider.h"
 
 using namespace cocos2d;
@@ -25,7 +26,7 @@ bool FeaturedGamesHolder::init()
     _mainTile = FeaturedTile::create();
     _mainTile->setImageScaleMode(ContentTile::ImageScaleMode::FIT_WIDTH);
     _mainTile->setImageShape(TILESIZE_2X2);
-    _mainTile->setPlaceholderFilename("res/contentPlaceholders/Games1X1.png");
+    _mainTile->setPlaceholderFilename(CONTENT_PLACEHOLDER_GAME_1X1);
     _mainTile->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _mainTile->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
     _mainTile->setSizeType(SizeType::PERCENT);
@@ -40,7 +41,7 @@ bool FeaturedGamesHolder::init()
     
     _subTile1 = FeaturedTile::create();
     _subTile1->setImageScaleMode(ContentTile::ImageScaleMode::FIT_WIDTH);
-    _subTile1->setPlaceholderFilename("res/contentPlaceholders/Games1X1.png");
+    _subTile1->setPlaceholderFilename(CONTENT_PLACEHOLDER_GAME_1X1);
     _subTile1->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     _subTile1->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_LEFT);
     _subTile1->setSizeType(SizeType::PERCENT);
@@ -54,7 +55,7 @@ bool FeaturedGamesHolder::init()
     
     _subTile2 = FeaturedTile::create();
     _subTile2->setImageScaleMode(ContentTile::ImageScaleMode::FIT_WIDTH);
-    _subTile2->setPlaceholderFilename("res/contentPlaceholders/Games1X1.png");
+    _subTile2->setPlaceholderFilename(CONTENT_PLACEHOLDER_GAME_1X1);
     _subTile2->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
     _subTile2->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_RIGHT);
     _subTile2->setSizeType(SizeType::PERCENT);
@@ -105,16 +106,16 @@ void FeaturedGamesHolder::onSizeChanged()
     {
         if(_useWideLayout)
         {
-            if(((contentSize.width * 0.66f) / contentSize.height) < 4.0f / 3.0f)
+            if(((contentSize.width * 0.66f) / contentSize.height) < AspectRatio4x3)
             {
                 contentSize.width = (4.0f * contentSize.height) / (3.0f * 0.66f);
             }
         }
         else
         {
-            if((contentSize.width / (contentSize.height * 0.66f)) > 16.0f / 9.0f) // if main tile size exceeds 16:9 aspect ratio
+            if((contentSize.width / (contentSize.height * 0.66f)) > AspectRatio16x9) // if main tile size exceeds 16:9 aspect ratio
             {
-                contentSize.width = (16.0f/9.0f) * (contentSize.height * 0.66f); // restrict width so tile aspect ratio no greater than 16:9
+                contentSize.width = AspectRatio16x9 * (contentSize.height * 0.66f); // restrict width so tile aspect ratio no greater than 16:9
             }
         }
     }
@@ -122,11 +123,11 @@ void FeaturedGamesHolder::onSizeChanged()
     {
         if(_useWideLayout)
         {
-            contentSize.height = (contentSize.width * 0.66f) * (3.0f / 4.0f);
+            contentSize.height = (contentSize.width * 0.66f) * AspectRatio3x4;
         }
         else
         {
-            contentSize.height = contentSize.width * (9.0f / 16.0f) * 1.5f;
+            contentSize.height = contentSize.width * AspectRatio9x16 * 1.5f;
         }
         if(getSizeType() != SizeType::PERCENT && !getContentSize().equals(contentSize))
         {

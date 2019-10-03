@@ -33,7 +33,7 @@ private:
     void createDropdowns();
     
 public:
-    
+    ~GameHQ();
     bool init() override;
     void onEnter() override;
     void onExit() override;

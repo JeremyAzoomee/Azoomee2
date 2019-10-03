@@ -5,7 +5,7 @@
 #include "ObservableLayout.h"
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include "Orientation.h"
+#include "UIConsts.h"
 
 NS_AZOOMEE_BEGIN
 

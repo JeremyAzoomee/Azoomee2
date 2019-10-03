@@ -4,7 +4,7 @@
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Azoomee.h>
 #include "HQSceneElementVisual.h"
-#include <AzoomeeCommon/UI/Orientation.h>
+#include <AzoomeeCommon/UI/UIConsts.h>
 
 NS_AZOOMEE_BEGIN
 

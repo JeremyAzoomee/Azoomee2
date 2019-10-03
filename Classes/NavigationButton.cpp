@@ -11,6 +11,8 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+const float NavigationButton::kFadeAnimDuration = 0.5f;
+
 bool NavigationButton::init()
 {
     if(!Super::init())
@@ -62,9 +64,9 @@ void NavigationButton::setButtonIcons(const std::string& activeIcon, const std::
 
 void NavigationButton::setActive(bool active)
 {
-    _activeIcon->runAction(active ? (FiniteTimeAction*)FadeIn::create(0.5f) : (FiniteTimeAction*)FadeOut::create(0.5f));
-    _inactiveIcon->runAction(active ? (FiniteTimeAction*)FadeOut::create(0.5f) : (FiniteTimeAction*)FadeIn::create(0.5f));
-    _circle->runAction(active ? (FiniteTimeAction*)FadeOut::create(0.5f) : (FiniteTimeAction*)FadeIn::create(0.5f));
+    _activeIcon->runAction(active ? (FiniteTimeAction*)FadeIn::create(kFadeAnimDuration) : (FiniteTimeAction*)FadeOut::create(kFadeAnimDuration));
+    _inactiveIcon->runAction(active ? (FiniteTimeAction*)FadeOut::create(kFadeAnimDuration) : (FiniteTimeAction*)FadeIn::create(kFadeAnimDuration));
+    _circle->runAction(active ? (FiniteTimeAction*)FadeOut::create(kFadeAnimDuration) : (FiniteTimeAction*)FadeIn::create(kFadeAnimDuration));
 }
 
 NS_AZOOMEE_END

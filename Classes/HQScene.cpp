@@ -82,10 +82,11 @@ void HQScene::onSizeChanged()
     
     if(_titleBannerContent)
     {
-        _titleBanner->setContentSize(Size(visibleSize.width, 260));
-        _topPattern->setContentSize(_titleBanner->getContentSize());
-        _patternGradient->setContentSize(Size(_titleBanner->getContentSize().width, 107));
-        _titleBannerContent->setContentSize(Size(visibleSize.width - kTitleBarPadding, 260));
+        const Size& titleBannerSize = Size(visibleSize.width, 260);
+        _titleBanner->setContentSize(titleBannerSize);
+        _topPattern->setContentSize(titleBannerSize);
+        _patternGradient->setContentSize(Size(titleBannerSize.width, 107));
+        _titleBannerContent->setContentSize(Size(visibleSize.width - kTitleBarPadding, titleBannerSize.height));
     }
     if(_HQPageTitle)
     {
@@ -93,8 +94,9 @@ void HQScene::onSizeChanged()
     }
     if(_pageLayout)
     {
-        _pageLayout->setContentSize(Size(visibleSize.width * 0.95f, visibleSize.height - _titleBanner->getContentSize().height - _navBar->getContentSize().height));
-        _pageLayout->setPosition(Vec2(visibleSize.width / 2, visibleSize.height - _titleBanner->getContentSize().height));
+        const float titleBannerHeight = _titleBanner->getContentSize().height;
+        _pageLayout->setContentSize(Size(visibleSize.width * 0.95f, visibleSize.height - titleBannerHeight - _navBar->getContentSize().height));
+        _pageLayout->setPosition(Vec2(visibleSize.width / 2, visibleSize.height - titleBannerHeight));
         _pageLayout->forceDoLayout();
     }
     if(_verticalScrollGradient)

@@ -91,7 +91,9 @@ void CircleTile::elementDisappeared(cocos2d::Node *sender)
     if(_contentImage->getRenderFile().file != _placholderFilename)
     {
         _contentImage->loadTexture(_placholderFilename);
-        _contentImage->setScale(MAX(getContentSize().height / _contentImage->getContentSize().height, getContentSize().width / _contentImage->getContentSize().width));
+        const Size& contentSize = getContentSize();
+        const Size& imageSize = _contentImage->getContentSize();
+        _contentImage->setScale(MAX(contentSize.height / imageSize.height, contentSize.width / imageSize.width));
     }
 }
 
@@ -107,7 +109,9 @@ void CircleTile::elementAppeared(cocos2d::Node *sender)
         if(_contentImage->getRenderFile().file != _placholderFilename)
         {
             _contentImage->loadTexture(_placholderFilename);
-            _contentImage->setScale(MAX(getContentSize().height / _contentImage->getContentSize().height, getContentSize().width / _contentImage->getContentSize().width));
+            const Size& contentSize = getContentSize();
+            const Size& imageSize = _contentImage->getContentSize();
+            _contentImage->setScale(MAX(contentSize.height / imageSize.height, contentSize.width / imageSize.width));
         }
     }
 }
@@ -116,7 +120,9 @@ void CircleTile::elementAppeared(cocos2d::Node *sender)
 void CircleTile::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {
     _contentImage->loadTexture(downloader->getLocalImagePath());
-    _contentImage->setScale(MAX(getContentSize().height / _contentImage->getContentSize().height, getContentSize().width / _contentImage->getContentSize().width));
+    const Size& contentSize = getContentSize();
+    const Size& imageSize = _contentImage->getContentSize();
+    _contentImage->setScale(MAX(contentSize.height / imageSize.height, contentSize.width / imageSize.width));
 }
 void CircleTile::onImageDownloadFailed()
 {

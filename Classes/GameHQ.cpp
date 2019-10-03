@@ -12,10 +12,17 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include "RecentlyPlayedManager.h"
+#include "HQDataProvider.h"
 
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
+
+GameHQ::~GameHQ()
+{
+    _recentlyPlayedLayout->release();
+    _recentlyPlayedTitle->release();
+}
 
 bool GameHQ::init()
 {
@@ -44,8 +51,6 @@ void GameHQ::onEnter()
         bool isFirstItem = _contentListView->getItem(0) != _featuredLayout;
         _contentListView->insertCustomItem(_recentlyPlayedTitle, isFirstItem ? 0 : 1);
         _contentListView->insertCustomItem(_recentlyPlayedLayout, isFirstItem ? 1 : 2);
-        _recentlyPlayedLayout->release();
-        _recentlyPlayedTitle->release();
     }
     
     Super::onEnter();
@@ -129,6 +134,14 @@ void GameHQ::createFeaturedTiles()
 
 void GameHQ::createRecentlyPlayedTiles()
 {
+    if(_recentlyPlayedTitle)
+    {
+        _recentlyPlayedTitle->release();
+    }
+    if(_recentlyPlayedLayout)
+    {
+        _recentlyPlayedLayout->release();
+    }
     _recentlyPlayedTitle = DynamicText::create(_("Recently played"), Style::Font::PoppinsBold(), 75);
     _recentlyPlayedTitle->setTextVerticalAlignment(TextVAlignment::CENTER);
     _recentlyPlayedTitle->setTextHorizontalAlignment(TextHAlignment::LEFT);
@@ -159,7 +172,7 @@ void GameHQ::createDropdowns()
     {
         auto carousel = carouselData.at(i);
         DropdownContentHolder* dropdown = DropdownContentHolder::create();
-        dropdown->setTilePlaceholder("res/contentPlaceholders/Games1X1.png");
+        dropdown->setTilePlaceholder(CONTENT_PLACEHOLDER_GAME_1X1);
         dropdown->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
         dropdown->setContentSize(Size(_contentListView->getSizePercent().x * getContentSize().width, 0));
         dropdown->setContentItemData(carousel);

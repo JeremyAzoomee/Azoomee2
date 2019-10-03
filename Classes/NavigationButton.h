@@ -19,6 +19,8 @@ class NavigationButton : public cocos2d::ui::Layout
     typedef cocos2d::ui::Layout Super;
 private:
     
+    static const float kFadeAnimDuration;
+    
     cocos2d::ui::ImageView* _circle = nullptr;
     cocos2d::ui::ImageView* _activeIcon = nullptr;
     cocos2d::ui::ImageView* _inactiveIcon = nullptr;
