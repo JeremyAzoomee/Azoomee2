@@ -35,6 +35,8 @@ private:
     float _openHeight;
     cocos2d::Size _contentGridSize;
     
+    float _tileSpacing = 32.0f;
+    
     RoundedRectSprite* _bgPattern = nullptr;
     cocos2d::ui::Layout* _iconLayout = nullptr;
     cocos2d::ui::Layout* _iconBackground = nullptr;
