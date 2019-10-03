@@ -40,6 +40,31 @@ bool RoundedRectSprite::init()
 
 void RoundedRectSprite::setContentSize(const cocos2d::Size& contentSize)
 {
+    if(getTexture())
+    {
+        const Size& texSize = getTexture()->getContentSizeInPixels();
+        if(_stretchImage)
+        {
+            setTextureRect(Rect(Vec2(0,0),texSize));
+        }
+        else
+        {
+            if(_scaleMode == TILE)
+            {
+                const Vec2& scales = Vec2(contentSize.width / texSize.width, contentSize.height / texSize.height) / _tileScaleFactor;
+                setTextureRect(Rect(Vec2(0,0), Size(texSize.width * scales.x, texSize.height * scales.y)));
+            }
+            else if(_scaleMode == FILL)
+            {
+                const float scaleW = contentSize.width / texSize.width;
+                const float scaleH = contentSize.height / texSize.height;
+                const bool scaleToWidth = scaleW > scaleH;
+                const Size& croppedSize = scaleToWidth ? Size(texSize.width, (texSize.width * contentSize.height) / contentSize.width) : Size((texSize.height * contentSize.width) / contentSize.height, texSize.height);
+                const Vec2& origin = (texSize / 2.0f) - (croppedSize / 2.0f);
+                setTextureRect(Rect(origin, croppedSize));
+            }
+        }
+    }
     Super::setContentSize(contentSize);
     GLProgramState* state = getGLProgramState();
     state->setUniformVec2("u_pixelSize", Vec2(getContentSize()));
@@ -57,6 +82,29 @@ void RoundedRectSprite::setTextureRect(const cocos2d::Rect& rect)
     }
 }
 
+void RoundedRectSprite::setTexture(const std::string &filename )
+{
+    Super::setTexture(filename);
+}
+
+void RoundedRectSprite::setTexture(Texture2D *texture)
+{
+    if(texture && _scaleMode == TILE)
+    {
+        const Size& texSize = texture->getContentSizeInPixels();
+        CCASSERT(texSize.width == ccNextPOT(texSize.width) && texSize.height == ccNextPOT(texSize.height),
+                 "TileSprite only works with PO2 textures");
+        
+        Texture2D::TexParams params;
+        params.minFilter = GL_NEAREST;
+        params.magFilter = GL_NEAREST;
+        params.wrapS = GL_REPEAT;
+        params.wrapT = GL_REPEAT;
+        texture->setTexParameters(params);
+    }
+    Super::setTexture(texture);
+}
+
 void RoundedRectSprite::setCornerRadius(float radius)
 {
     GLProgramState* state = getGLProgramState();
@@ -72,6 +120,35 @@ void RoundedRectSprite::setRoundedCorners(bool bottomLeft, bool bottomRight, boo
     
     GLProgramState* state = getGLProgramState();
     state->setUniformFloatv("u_corners", 4, _corners);
+}
+
+void RoundedRectSprite::setStretchImageEnabled(bool enabled)
+{
+    _stretchImage = enabled;
+}
+
+void RoundedRectSprite::setScaleMode(const ScaleMode& scaleMode)
+{
+    _scaleMode = scaleMode;
+    Texture2D* texture = getTexture();
+    if(scaleMode == TILE && texture)
+    {
+        const Size& texSize = texture->getContentSizeInPixels();
+        CCASSERT(texSize.width == ccNextPOT(texSize.width) && texSize.height == ccNextPOT(texSize.height),
+                 "TileSprite only works with PO2 textures");
+        
+        Texture2D::TexParams params;
+        params.minFilter = GL_NEAREST;
+        params.magFilter = GL_NEAREST;
+        params.wrapS = GL_REPEAT;
+        params.wrapT = GL_REPEAT;
+        texture->setTexParameters(params);
+    }
+}
+
+void RoundedRectSprite::setTileScaleFactor(float scale)
+{
+    _tileScaleFactor = scale;
 }
 
 NS_AZOOMEE_END

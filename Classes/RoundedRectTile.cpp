@@ -35,6 +35,7 @@ bool RoundedRectTile::init()
     _contentImage->setCornerRadius(60);
     _contentImage->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _contentImage->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    _contentImage->setScaleMode(RoundedRectSprite::ScaleMode::FILL);
     addChild(_contentImage);
     
     _lockedOverlay = RoundedRectSprite::create();
@@ -103,43 +104,7 @@ void RoundedRectTile::setPlaceholderFilename(const std::string& placeholder)
 
 void RoundedRectTile::resizeContentImage()
 {
-    const Size& contentSize = getContentSize();
-    
-    const Size& imageTexPixSize = _contentImage->getTexture()->getContentSizeInPixels();
-    Rect texRect = Rect(Vec2(0,0), imageTexPixSize);
-    switch(_scaleMode)
-    {
-        case ImageScaleMode::FIT_WIDTH:
-        {
-            const Size& croppedSize = Size(imageTexPixSize.width, (imageTexPixSize.width * contentSize.height) / contentSize.width);
-            const Vec2& origin = (imageTexPixSize / 2.0f) - (croppedSize / 2.0f);
-            texRect = Rect(origin, croppedSize);
-            break;
-        }
-        case ImageScaleMode::FIT_HEIGHT:
-        {
-            const Size& croppedSize = Size((imageTexPixSize.height * contentSize.width) / contentSize.height, contentSize.height);
-            const Vec2& origin = (imageTexPixSize / 2.0f) - (croppedSize / 2.0f);
-            texRect = Rect(origin, croppedSize);
-            break;
-        }
-        case ImageScaleMode::SHOW_ALL:
-        {
-            break;
-        }
-        case ImageScaleMode::FILL_ALL:
-        {
-            const float scaleW = contentSize.width / imageTexPixSize.width;
-            const float scaleH = contentSize.height / imageTexPixSize.height;
-            const bool scaleToWidth = scaleW > scaleH;
-            const Size& croppedSize = scaleToWidth ? Size(imageTexPixSize.width, (imageTexPixSize.width * contentSize.height) / contentSize.width) : Size((imageTexPixSize.height * contentSize.width) / contentSize.height, contentSize.height);
-            const Vec2& origin = (imageTexPixSize / 2.0f) - (croppedSize / 2.0f);
-            texRect = Rect(origin, croppedSize);
-            break;
-        }
-    }
-    _contentImage->setTextureRect(texRect);
-    _contentImage->setContentSize(contentSize);
+    _contentImage->setContentSize(getContentSize());
 }
 
 void RoundedRectTile::elementDisappeared(cocos2d::Node *sender)

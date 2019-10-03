@@ -96,45 +96,7 @@ void FeaturedTile::setPlaceholderFilename(const std::string& placeholder)
 
 void FeaturedTile::resizeContentImage()
 {
-    const Size& contentSize = getContentSize();
-    const Size& innerSize = contentSize - Size(12,12);
-    if(_contentImage->getTexture())
-    {
-        const Size& imageTexPixSize = _contentImage->getTexture()->getContentSizeInPixels();
-        Rect texRect = Rect(Vec2(0,0), imageTexPixSize);
-        switch(_scaleMode)
-        {
-            case ImageScaleMode::FIT_WIDTH:
-            {
-                const Size& croppedSize = Size(imageTexPixSize.width, (imageTexPixSize.width * innerSize.height) / innerSize.width);
-                const Vec2& origin = (imageTexPixSize / 2.0f) - (croppedSize / 2.0f);
-                texRect = Rect(origin, croppedSize);
-                break;
-            }
-            case ImageScaleMode::FIT_HEIGHT:
-            {
-                const Size& croppedSize = Size((imageTexPixSize.height * innerSize.width) / innerSize.height, innerSize.height);
-                const Vec2& origin = (imageTexPixSize / 2.0f) - (croppedSize / 2.0f);
-                texRect = Rect(origin, croppedSize);
-                break;
-            }
-            case ImageScaleMode::SHOW_ALL:
-            {
-                break;
-            }
-            case ImageScaleMode::FILL_ALL:
-            {
-                const float scaleW = innerSize.width / imageTexPixSize.width;
-                const float scaleH = innerSize.height / imageTexPixSize.height;
-                const bool scaleToWidth = scaleW > scaleH;
-                const Size& croppedSize = scaleToWidth ? Size(imageTexPixSize.width, (imageTexPixSize.width * innerSize.height) / innerSize.width) : Size((imageTexPixSize.height * innerSize.width) / innerSize.height, innerSize.height);
-                const Vec2& origin = (imageTexPixSize / 2.0f) - (croppedSize / 2.0f);
-                texRect = Rect(origin, croppedSize);
-                break;
-            }
-        }
-        _contentImage->setTextureRect(texRect);
-    }
+    const Size& innerSize = getContentSize() - Size(12,12);
     _contentImage->setContentSize(innerSize);
 }
 

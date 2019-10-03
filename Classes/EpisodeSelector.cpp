@@ -34,6 +34,7 @@ bool EpisodeSelector::init()
     _background->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _background->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _background->setColor(Style::Color::darkIndigoThree);
+    _background->setStretchImageEnabled(true);
     addChild(_background, -1);
     
     _contentLayout = ui::Layout::create();
@@ -54,6 +55,7 @@ bool EpisodeSelector::init()
     _bannerImage->setCornerRadius(20);
     _bannerImage->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _bannerImage->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _bannerImage->setScaleMode(RoundedRectSprite::ScaleMode::FILL);
     _headerLayout->addChild(_bannerImage);
     
     _logoImage = Sprite::create();
@@ -199,21 +201,6 @@ void EpisodeSelector::setupEpisodeBars()
 
 void EpisodeSelector::resizeBannerImage()
 {
-    Texture2D* bannerTex = _bannerImage->getTexture();
-    if(bannerTex)
-    {
-        const Size& imageTexPixSize = bannerTex->getContentSizeInPixels();
-        const Size& contentSize = _headerLayout->getContentSize();
-        Rect texRect = Rect(Vec2(0,0), imageTexPixSize);
-        
-        const float scaleW = contentSize.width / imageTexPixSize.width;
-        const float scaleH = contentSize.height / imageTexPixSize.height;
-        const bool scaleToWidth = scaleW > scaleH;
-        const Size& croppedSize = scaleToWidth ? Size(imageTexPixSize.width, (imageTexPixSize.width * contentSize.height) / contentSize.width) : Size((imageTexPixSize.height * contentSize.width) / contentSize.height, contentSize.height);
-        const Vec2& origin = (imageTexPixSize / 2.0f) - (croppedSize / 2.0f);
-        texRect = Rect(origin, croppedSize);
-        _bannerImage->setTextureRect(texRect);
-    }
     _bannerImage->setContentSize(_headerLayout->getContentSize());
 }
 

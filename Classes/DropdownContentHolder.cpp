@@ -37,21 +37,9 @@ bool DropdownContentHolder::init()
     _bgPattern->setTexture("res/decoration/pattern_stem_tile.png");
     _bgPattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _bgPattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
-    _bgPattern->setCornerRadius(130);
-    Texture2D* texture = _bgPattern->getTexture();
-    if(texture)
-    {
-        const Size& texSize = texture->getContentSizeInPixels();
-        CCASSERT(texSize.width == ccNextPOT(texSize.width) && texSize.height == ccNextPOT(texSize.height),
-                 "TileSprite only works with PO2 textures");
-        
-        Texture2D::TexParams params;
-        params.minFilter = GL_NEAREST;
-        params.magFilter = GL_NEAREST;
-        params.wrapS = GL_REPEAT;
-        params.wrapT = GL_REPEAT;
-        texture->setTexParameters(params);
-    }
+    _bgPattern->setCornerRadius(kBgCapInsets.origin.x);
+    _bgPattern->setScaleMode(RoundedRectSprite::ScaleMode::TILE);
+    _bgPattern->setTileScaleFactor(2.0f);
     addChild(_bgPattern, -1);
     
     _contentLayout->setLayoutType(Type::VERTICAL);
@@ -93,11 +81,7 @@ void DropdownContentHolder::onSizeChanged()
     Super::onSizeChanged();
     
     const Size& contentSize = getContentSize();
-    const Size& bgSize = contentSize - Size(10,10);
-    const Size& bgTexSize = _bgPattern->getTexture()->getContentSizeInPixels();
-    const Vec2& scales = Vec2(bgSize.width / bgTexSize.width, bgSize.height / bgTexSize.height) / 2.0f;
-    _bgPattern->setTextureRect(Rect(Vec2(0,0), Size(bgTexSize.width * scales.x, bgTexSize.height * scales.y)));
-    _bgPattern->setContentSize(bgSize);
+    _bgPattern->setContentSize(contentSize - Size(10,10));
     _titleBanner->setContentSize(Size(contentSize.width, 2 * kBgCapInsets.origin.y));
     _categoryTitle->setTextAreaSize(Size(_titleBanner->getContentSize().width * 0.5f, _categoryTitle->getContentSize().height));
     _iconLayout->setContentSize(Size(_titleBanner->getContentSize().height - 12.0f, _titleBanner->getContentSize().height - 12.0f));

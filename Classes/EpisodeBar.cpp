@@ -37,6 +37,7 @@ bool EpisodeBar::init()
     _contentImage->setRoundedCorners(true, false, true, false);
     _contentImage->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
     _contentImage->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
+    _contentImage->setStretchImageEnabled(true);
     addChild(_contentImage);
     
     _lockedOverlay = RoundedRectSprite::create();
@@ -47,6 +48,7 @@ bool EpisodeBar::init()
     _lockedOverlay->setColor(Style::Color::darkIndigo);
     _lockedOverlay->setOpacity(204);
     _lockedOverlay->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _lockedOverlay->setStretchImageEnabled(true);
     _contentImage->addChild(_lockedOverlay);
     
     _playIcon = ui::ImageView::create("res/hqscene/play_icon.png");
