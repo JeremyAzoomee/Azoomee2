@@ -81,7 +81,7 @@ void DropdownContentHolder::onSizeChanged()
     Super::onSizeChanged();
     
     const Size& contentSize = getContentSize();
-    _tileSpacing = contentSize.width * 0.025f;
+    _tileSpacing = contentSize.width * 0.035f;
     _bgPattern->setContentSize(contentSize - Size(10,10));
     _titleBanner->setContentSize(Size(contentSize.width, 2 * kBgCapInsets.origin.y));
     _categoryTitle->setTextAreaSize(Size(_titleBanner->getContentSize().width * 0.5f, _categoryTitle->getContentSize().height));
@@ -94,7 +94,7 @@ void DropdownContentHolder::onSizeChanged()
     resizeContent();
     
     _closedHeight = _titleBanner->getContentSize().height;
-    _openHeight = _titleBanner->getContentSize().height + _contentGridSize.height + (2.5f * _tileSpacing);
+    _openHeight = _titleBanner->getContentSize().height + _contentGridSize.height + (2.0f * _tileSpacing);
     
     if(!_resizing)
     {
@@ -102,7 +102,7 @@ void DropdownContentHolder::onSizeChanged()
         if(contentSize.height != targetHeight)
         {
             setContentSize(Size(contentSize.width, targetHeight));
-            _contentTileGrid->setContentSize(Size(_contentGridSize.width, MIN(targetHeight - _closedHeight - (2.5f * _tileSpacing), _contentGridSize.height)));
+            _contentTileGrid->setContentSize(Size(_contentGridSize.width, MIN(targetHeight - _closedHeight - (2.0f * _tileSpacing), _contentGridSize.height)));
         }
     }
 }
@@ -152,7 +152,7 @@ void DropdownContentHolder::toggleOpened(bool open)
     
     ActionFloat* resizeAction = ActionFloat::create(targetTime * durationMod, currentSize.height, targetHeight, [this](float height){
         this->setContentSize(Size(getContentSize().width, height));
-        _contentTileGrid->setContentSize(Size(_contentGridSize.width, MIN(height - _closedHeight - (2.5f * _tileSpacing),_contentGridSize.height)));
+        _contentTileGrid->setContentSize(Size(_contentGridSize.width, MIN(height - _closedHeight - (2.0f * _tileSpacing),_contentGridSize.height)));
         if(_resizeCallback)
         {
             _resizeCallback();
@@ -222,8 +222,6 @@ void DropdownContentHolder::createContentLayout()
 {
     _contentTileGrid = ui::Layout::create();
     _contentTileGrid->setContentSize(Size(getContentSize().width, 0));
-    _contentTileGrid->setLayoutType(Type::VERTICAL);
-    _contentTileGrid->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _contentTileGrid->setClippingEnabled(true);
     _contentLayout->addChild(_contentTileGrid);
 }
@@ -260,20 +258,20 @@ void DropdownContentHolder::updateContent()
         
         const float tilesPerRow = 2.0f;
         
-        const float rowWidth = contentSize.width - 2 * _tileSpacing;//((tilesPerRow + 1) * _tileSpacing);
-        const float tileWidth = ((rowWidth - _tileSpacing) / tilesPerRow);// - _tileSpacing;
+        const float rowWidth = contentSize.width - 2 * _tileSpacing;
+        const float tileWidth = (rowWidth / tilesPerRow) - _tileSpacing;
         
         const Size& tileSize = Size(tileWidth * kTileAspectRatio.x, tileWidth * kTileAspectRatio.y); //4:3 aspect ratio tiles
         
         const int rows = ceil(contentList.size() / tilesPerRow);
         
-        float totalHeight = (tileSize.height * rows) + (_tileSpacing * (rows + 1));
+        const float totalHeight = (tileSize.height * rows) + (_tileSpacing * rows);
         for(int row = 0; row < rows; row++)
         {
             ui::Layout* rowContainer = ui::Layout::create();
             rowContainer->setContentSize(Size(rowWidth, tileSize.height));
-            rowContainer->setLayoutType(Type::HORIZONTAL);
-            rowContainer->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,_tileSpacing,0,0)));
+            rowContainer->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+            rowContainer->setNormalizedPosition(Vec2(0.5f,1.0 - ((row + 0.5f) / rows)));
             _contentTileGrid->addChild(rowContainer);
             _contentRows.pushBack(rowContainer);
             for(int col = 0; col < tilesPerRow; col++)
@@ -283,7 +281,8 @@ void DropdownContentHolder::updateContent()
                     RoundedRectTile* tile = RoundedRectTile::create();
                     tile->setPlaceholderFilename(_tilePlaceholder);
                     tile->setContentSize(tileSize);
-                    tile->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(_tileSpacing / 2.0f, 0, _tileSpacing / 2.0f, 0)));
+                    tile->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+                    tile->setNormalizedPosition(Vec2((col + 0.5) / tilesPerRow,0.5f));
                     tile->setContentSelectedCallback([this, row, tilesPerRow, col](HQContentItemObjectRef content){
                         if(_callback)
                         {
@@ -322,14 +321,14 @@ void DropdownContentHolder::resizeContent()
         
         const float tilesPerRow = 2.0f;
         
-        const float rowWidth = contentSize.width - 2 * _tileSpacing;//((tilesPerRow + 1) * _tileSpacing);
+        const float rowWidth = contentSize.width - 2 * _tileSpacing;
         const float tileWidth = (rowWidth / tilesPerRow) - _tileSpacing;
         
         const Size& tileSize = Size(tileWidth * kTileAspectRatio.x, tileWidth * kTileAspectRatio.y); //4:3 aspect ratio tiles
         
         const int rows = ceil(contentList.size() / tilesPerRow);
         
-        float totalHeight = (tileSize.height * rows) + (_tileSpacing * (rows + 1));
+        float totalHeight = (tileSize.height * rows) + (_tileSpacing * rows);
         for(auto tile : _contentTiles)
         {
             tile->setContentSize(tileSize);
