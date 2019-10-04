@@ -89,7 +89,7 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
     }
     else if(contentItem->getType()  == ConfigStorage::kContentTypeAudioGroup || contentItem->getType()  == ConfigStorage::kContentTypeGroup)
     {
-		HQDataProvider::getInstance()->getDataForGroupHQ(contentItem->getUri());
+		HQDataProvider::getInstance()->getDataForGroupHQ(contentItem->getUri(), contentItem->getCarouselColour());
     }
     else if(contentItem->getType() == ConfigStorage::kContentTypeInternal)
     {

@@ -82,7 +82,7 @@ void VideoHQ::onSizeChanged()
         _contentListView->setSizePercent(Vec2(1.0f, 1.0f));
         _staticContentLayout->setSizePercent(Vec2(0.0f, 1.0f));
         
-        _episodeSelector->setSizePercent(Vec2(0.975,1.0f));
+        _episodeSelector->setSizePercent(Vec2(1.0f,1.0f));
         if(_episodePlayerMoving)
         {
             if(_episodePlayerOpen)
@@ -232,11 +232,13 @@ void VideoHQ::createDropdowns()
 
 void VideoHQ::createEpisodePlayer()
 {
-    HQDataProvider::getInstance()->getDataForGroupHQ(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kVideoHQName)->getHqCarousels().at(0)->getContentItems().at(0)->getUri());
+    HQContentItemObjectRef firstItem = _featuredLayout->getContentItemData()->getContentItems().front();
+    HQDataProvider::getInstance()->getDataForGroupHQ(firstItem->getUri(), firstItem->getCarouselColour());
     _episodeSelector = EpisodeSelector::create();
     _episodeSelector->setSizeType(SizeType::PERCENT);
     _episodeSelector->setSizePercent(Vec2(0.975f,1.0f));
     _episodeSelector->setHqData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGroupHQName));
+    _episodeSelector->setLineAndTextColour(Color3B(firstItem->getCarouselColour()));
     _episodeSelector->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _episodeSelector->setPosition(Vec2(getContentSize().width / 2.0f,0));
     _episodeSelector->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
@@ -276,6 +278,8 @@ void VideoHQ::createEpisodePlayer()
     
     EventListenerCustom* eventListener = EventListenerCustom::create(HQDataProvider::kGroupRefreshEvent, [this](EventCustom* event){
         _episodeSelector->setHqData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGroupHQName));
+        Color4B colour = *static_cast<Color4B*>(event->getUserData());
+        _episodeSelector->setLineAndTextColour(Color3B(colour));
         if(_isPortrait && !_episodePlayerOpen && !_episodePlayerMoving)
         {
             _episodePlayerMoving = true;
@@ -291,7 +295,6 @@ void VideoHQ::createEpisodePlayer()
         }
     });
     _eventDispatcher->addEventListenerWithSceneGraphPriority(eventListener, this);
-    
 }
 
 NS_AZOOMEE_END

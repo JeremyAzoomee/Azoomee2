@@ -33,6 +33,7 @@ bool EpisodeBar::init()
     addChild(_dropShadow);
     
     _contentImage = RoundedRectSprite::create();
+    _contentImage->setTexture(CONTENT_PLACEHOLDER_VIDEO_1X1);
     _contentImage->setCornerRadius(25);
     _contentImage->setRoundedCorners(true, false, true, false);
     _contentImage->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
@@ -158,7 +159,7 @@ void EpisodeBar::setEpisodeTagColour(const Color3B& colour)
 
 void EpisodeBar::elementDisappeared(cocos2d::Node *sender)
 {
-    _contentImage->setTexture("");
+    _contentImage->setTexture(CONTENT_PLACEHOLDER_VIDEO_1X1);
     resizeImageAndText();
 }
 

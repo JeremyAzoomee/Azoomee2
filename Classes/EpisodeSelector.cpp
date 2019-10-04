@@ -143,7 +143,6 @@ void EpisodeSelector::setHqData(const HQDataObjectRef& hqData)
     _logoImage->setVisible(false);
     _logoDownloader->downloadImage(this, _hqData->getGroupLogo());
     _bannerDownloader->downloadImage(this, _hqData->getGroupBanner());
-    _divider->setBackGroundColor(Style::Color::macaroniAndCheese);
 }
 
 void EpisodeSelector::setContentSelectedCallback(const ContentSelectedCallback& callback)
@@ -166,6 +165,16 @@ void EpisodeSelector::toggleBottomGradient(bool enabled)
     _bottomGradient->setVisible(enabled);
 }
 
+void EpisodeSelector::setLineAndTextColour(const Color3B& colour)
+{
+    _lineAndTextColour = colour;
+    _divider->setBackGroundColor(_lineAndTextColour);
+    for(auto episodeBar : _episodeBars)
+    {
+        episodeBar->setEpisodeTagColour(_lineAndTextColour);
+    }
+}
+
 void EpisodeSelector::setupEpisodeBars()
 {
     _episodeListView->removeAllItems();
@@ -183,7 +192,7 @@ void EpisodeSelector::setupEpisodeBars()
                 EpisodeBar* bar = EpisodeBar::create();
                 bar->setContentItemData(item);
                 bar->setEpisodeNumber(episodeNumber++);
-                bar->setEpisodeTagColour(Style::Color::macaroniAndCheese);
+                bar->setEpisodeTagColour(_lineAndTextColour);
                 bar->setContentSize(episodeBarSize);
                 bar->setContentSelectedCallback([this, episodeNumber](HQContentItemObjectRef content){
                     if(_callback)

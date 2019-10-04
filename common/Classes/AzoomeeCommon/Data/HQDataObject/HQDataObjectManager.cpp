@@ -164,7 +164,8 @@ void HQDataObjectManager::parseHQStructureData(const std::string& hqStuctureData
 		MutableHQCarouselObjectRef carouselObject = MutableHQCarouselObject::create();
 		
 		carouselObject->setTitle(getStringFromJson("title", rowData));
-        carouselObject->setColour(getColor4BFromJson("rgbColour", rowData, Color4B(Style::Color::azure)));
+        const Color4B& carouselColour = rowNumber == 0 ? Color4B(Style::Color::macaroniAndCheese) : getColor4BFromJson("rgbColour", rowData, Color4B(Style::Color::azure));
+        carouselObject->setColour(carouselColour);
 		if(rowData.HasMember("images"))
 		{
 			carouselObject->setIcon(getStringFromJson("carouselImage", rowData["images"])); //parsing carousel main icon if present
@@ -186,7 +187,8 @@ void HQDataObjectManager::parseHQStructureData(const std::string& hqStuctureData
 				{
 					continue;
 				}
-				
+                pointerToContentItem->setCarouselColour(carouselColour);
+                
 				Vec2 contentItemHighlight = Vec2(1,1);
 				if(rowData.HasMember("shapes") && rowData["shapes"].IsArray() && rowData["shapes"].Size() > elementIndex)
 				{

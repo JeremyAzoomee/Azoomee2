@@ -27,7 +27,8 @@ protected:
     std::string _imagePath = "";
     int _elementNumber = 0;
     cocos2d::Vec2 _elementShape = cocos2d::Vec2(0,0);
-	
+    cocos2d::Color4B _carouselColour;
+    
     HQContentItemObject();
 public:
 
@@ -42,11 +43,12 @@ public:
     std::map<std::string, std::string> getImages() const;
     std::string getBaseImageThumbUrl() const;
     
-	
+    void setCarouselColour(const cocos2d::Color4B& colour); //needs to be modifiable at base level as is set at carousel level
     
     std::string getImagePath() const;
     int getElementNumber() const;
     cocos2d::Vec2 getElementShape();
+    cocos2d::Color4B getCarouselColour() const;
     
     //other helper methods
     std::string getJSONRepresentationOfStructure() const;
