@@ -59,7 +59,7 @@ void HQDataProvider::getDataForHQ(const std::string &hqName)
 void HQDataProvider::getDataForGroupHQ(const std::string &uri, const Color4B& carouselColour)
 {
     HQStructureDownloadHandler::getInstance()->loadGroupHQData(uri);
-    Color4B colourCopy = carouselColour;
+    Color4B colourCopy = carouselColour; // event is sent immediatly so we send address of colour object stored on the stack so we dont get mem leak
     Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(kGroupRefreshEvent, &colourCopy);
 }
 
