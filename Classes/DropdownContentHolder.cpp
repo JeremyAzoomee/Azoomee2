@@ -14,7 +14,7 @@ using namespace cocos2d;
 NS_AZOOMEE_BEGIN
 
 const cocos2d::Rect DropdownContentHolder::kBgCapInsets = Rect(130, 130, 82, 80);
-const float DropdownContentHolder::kTileSpacing = 32.0f;
+const float DropdownContentHolder::kTileSpacingPercent = 0.035f;
 const float DropdownContentHolder::kDropdownOpenIconScale = 0.885f;
 const cocos2d::Vec2 DropdownContentHolder::kTileAspectRatio = Vec2(1.0f, 0.75f);
 
@@ -62,7 +62,7 @@ void DropdownContentHolder::onEnter()
     if(contentSize.height != targetHeight)
     {
         setContentSize(Size(contentSize.width, targetHeight));
-        _contentTileGrid->setContentSize(Size(_contentGridSize.width, MIN(targetHeight - _closedHeight - (2.5f * _tileSpacing), _contentGridSize.height)));
+        _contentTileGrid->setContentSize(Size(_contentGridSize.width, MIN(targetHeight - _closedHeight - (2.0f * _tileSpacing), _contentGridSize.height)));
     }
     Super::onEnter();
 }
@@ -81,7 +81,7 @@ void DropdownContentHolder::onSizeChanged()
     Super::onSizeChanged();
     
     const Size& contentSize = getContentSize();
-    _tileSpacing = contentSize.width * 0.035f;
+    _tileSpacing = contentSize.width * kTileSpacingPercent;
     _bgPattern->setContentSize(contentSize - Size(10,10));
     _titleBanner->setContentSize(Size(contentSize.width, 2 * kBgCapInsets.origin.y));
     _categoryTitle->setTextAreaSize(Size(_titleBanner->getContentSize().width * 0.5f, _categoryTitle->getContentSize().height));

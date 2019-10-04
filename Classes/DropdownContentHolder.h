@@ -62,7 +62,7 @@ private:
     void setContentLayoutVisible(bool visible);
     
 public:
-    static const float kTileSpacing;
+    static const float kTileSpacingPercent;
     
     void setPatternColour(const cocos2d::Color3B& colour);
     void setFrameColour(const cocos2d::Color3B& colour);
