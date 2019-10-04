@@ -17,6 +17,7 @@ const cocos2d::Size HQPage::kCircleTileSizePortrait = Size(300,300);
 const float HQPage::kFeaturedContentHeightLandscape = 640.0f;
 const float HQPage::kFeaturedContentHeightPortrait = 1110.0f;
 const float HQPage::kListViewSidePadding = 64.0f;
+const cocos2d::Vec2 HQPage::kFocusDropDownAnchor = Vec2(0.0f, 1.0f); // top left
 
 bool HQPage::init()
 {
@@ -77,33 +78,51 @@ void HQPage::setContentSelectedCallback(const ContentSelectedCallback& callback)
 
 void HQPage::listviewDropdownResizeCallback()
 {
+    if(_focusedDropdown == nullptr)
+    {
+        return;
+    }
+
+    // Force layout to happen immediately
     _contentListView->forceDoLayout();
-    float minY = _contentListView->getContentSize().height - _contentListView->getInnerContainerSize().height;
-    float h = -minY;
-    if(_resizingPositionLock.y < minY)
-    {
-        _contentListView->setInnerContainerPosition(Vec2(_resizingPositionLock.x, minY));
-    }
-    else if(_resizingPositionLock.y > minY + h)
-    {
-        _contentListView->setInnerContainerPosition(Vec2(_resizingPositionLock.x,  minY + h));
-    }
-    else
-    {
-        _contentListView->setInnerContainerPosition(_resizingPositionLock);
-    }
+    
+    // Calculate new scroll position to match _focusedDropdown's _resizingPositionInView
+    const Size& itemSize = _focusedDropdown->getContentSize();
+    const Vec2 itemOrigin(_focusedDropdown->getLeftBoundary(), _focusedDropdown->getBottomBoundary());
+    const Vec2 itemPosition = itemOrigin + Vec2(itemSize.width * kFocusDropDownAnchor.x, itemSize.height * kFocusDropDownAnchor.y);
+    const Size& scrollContentSize = _contentListView->getInnerContainerSize();
+    const Size& viewportContentSize = _contentListView->getContentSize();
+    
+    Vec2 newScrollPosition = -(itemPosition - _resizingPositionInView);
+    
+    // Check bounds of the scroll position
+    newScrollPosition.y = MIN(newScrollPosition.y, 0);
+    newScrollPosition.y = MAX(newScrollPosition.y, -(scrollContentSize.height - viewportContentSize.height));
+    
+    _contentListView->setInnerContainerPosition(newScrollPosition);
 }
-void HQPage::dropdownAutoOpenCloseLogic(DropdownContentHolder* pressedDropdown, cocos2d::Vector<DropdownContentHolder*> dropdownHoldersInListview)
+void HQPage::dropdownAutoOpenCloseLogic(DropdownContentHolder* pressedDropdown, const cocos2d::Vector<DropdownContentHolder*>& dropdownHoldersInListview)
 {
+    _focusedDropdown = pressedDropdown;
+    
+    // Stop the scrollview
+    _contentListView->stopOverallScroll();
+    
+    // Get the position of the focused item in viewport
+    const Vec2& scrollPosition = _contentListView->getInnerContainerPosition();
+    const Size& itemSize = _focusedDropdown->getContentSize();
+    const Vec2 itemOrigin(_focusedDropdown->getLeftBoundary(), _focusedDropdown->getBottomBoundary());
+    _resizingPositionInView = itemOrigin + scrollPosition + Vec2(itemSize.width * kFocusDropDownAnchor.x, itemSize.height * kFocusDropDownAnchor.y);
+    
+    // Now toggle the opening/closing
+    _focusedDropdown->toggleOpened(!_focusedDropdown->isOpen());
     for(auto dd : dropdownHoldersInListview)
     {
-        if(dd != pressedDropdown && dd->isOpen())
+        if(dd != _focusedDropdown && dd->isOpen())
         {
             dd->toggleOpened(false);
         }
     }
-    pressedDropdown->toggleOpened(!pressedDropdown->isOpen());
-    _resizingPositionLock = _contentListView->getInnerContainerPosition();
 }
 
 NS_AZOOMEE_END
