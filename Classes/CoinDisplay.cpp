@@ -35,9 +35,8 @@ bool CoinDisplay::init()
 		return false;
 	}
 	
-	ui::Scale9Sprite* stencil = ui::Scale9Sprite::create("res/meHQ/chat_bg.png");
+	ui::Scale9Sprite* stencil = ui::Scale9Sprite::create("res/rewards/coin_counter_bg.png");
 	stencil->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-	stencil->setContentSize(Size(350,100));
 	
 	this->setContentSize(stencil->getContentSize());
 	
@@ -49,7 +48,7 @@ bool CoinDisplay::init()
 	_valueBG->setContentSize(stencil->getContentSize());
 	_valueFrame->addChild(_valueBG);
 	
-	_coinsLabel = Label::createWithTTF(StringUtils::format("%d",(int)sCoinCount), Style::Font::Bold(), 75);
+	_coinsLabel = Label::createWithTTF(StringUtils::format("%d",(int)sCoinCount), Style::Font::PoppinsBold(), 75);
 	_coinsLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_coinsLabel->setNormalizedPosition(Vec2(0.6,0.5));
 	_coinsLabel->setTextColor(Color4B::WHITE);
@@ -61,6 +60,7 @@ bool CoinDisplay::init()
 	
 	_coinSprite = Sprite::create("res/rewards/coin.png");
 	_coinSprite->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
+    _coinSprite->setAnchorPoint(Vec2(-0.05f, 0.5f));
 	this->addChild(_coinSprite, 1); // coin sprite on higher zorder to sit above glow anim sprites on banner, which are added later
 	
 	this->setTouchEnabled(true);
@@ -170,18 +170,19 @@ void CoinDisplay::createGlowAnim()
 	_valueBG->addChild(frameGlow);
 	
 	Sprite* slider = Sprite::create("res/shop/side_shooter.png");
-	slider->setPosition(Vec2(0,this->getContentSize().height));
-	slider->setScale(0.75f);
+	slider->setPosition(Vec2(75,this->getContentSize().height));
+	slider->setScale(0.5f);
 	slider->setRotation(90);
-	slider->runAction(RepeatForever::create(Sequence::create(DelayTime::create(2.7),MoveTo::create(0.3, Vec2(this->getContentSize().width,this->getContentSize().height)), MoveTo::create(0, Vec2(0,this->getContentSize().height)), DelayTime::create(5.0), NULL)));
+    slider->setOpacity(0);
+    slider->runAction(RepeatForever::create(Sequence::create(DelayTime::create(2.7), FadeIn::create(0), MoveTo::create(0.3, Vec2(this->getContentSize().width - 75,this->getContentSize().height)),FadeOut::create(0), MoveTo::create(0, Vec2(75,this->getContentSize().height)), DelayTime::create(5.0), NULL)));
 	slider->setName(kAnimSliderName);
 	this->addChild(slider);
 	
 	Sprite* star = Sprite::create("res/shop/star.png");
-	star->setPosition(this->getContentSize());
+	star->setPosition(this->getContentSize() - Size(75, 0));
 	star->runAction(RepeatForever::create(RotateBy::create(0.5, 180)));
 	star->setScale(0);
-	star->runAction(RepeatForever::create(Sequence::create(DelayTime::create(3.0), ScaleTo::create(0.5, 1), ScaleTo::create(0.25, 0), DelayTime::create(4.25), NULL)));
+	star->runAction(RepeatForever::create(Sequence::create(DelayTime::create(3.0), ScaleTo::create(0.5, 0.8f), ScaleTo::create(0.25, 0), DelayTime::create(4.25), NULL)));
 	star->setName(kAnimStarName);
 	this->addChild(star);
 	
