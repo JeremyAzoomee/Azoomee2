@@ -50,6 +50,8 @@ private:
     ImageDownloaderRef _logoDownloader = nullptr;
     ImageDownloaderRef _bannerDownloader = nullptr;
     
+    cocos2d::Color3B _lineAndTextColour;
+    
     void setupEpisodeBars();
     
     void resizeBannerImage();
@@ -68,6 +70,8 @@ public:
     void enableCloseButton(bool enable);
     
     void toggleBottomGradient(bool enabled);
+    
+    void setLineAndTextColour(const cocos2d::Color3B& colour);
     
     CREATE_FUNC(EpisodeSelector);
     

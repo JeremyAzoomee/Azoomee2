@@ -41,7 +41,7 @@ public:
     std::string getHumanReadableHighlightDataForSpecificItem(const std::string &hqName, int rowNumber, int itemNumber) const;
     std::string convertShapeToThumbnailKey(const cocos2d::Vec2 &shape) const;
     void getDataForHQ(const std::string &hqName);
-    void getDataForGroupHQ(const std::string &uri);
+    void getDataForGroupHQ(const std::string &uri, const cocos2d::Color4B& carouselColour);
     
     //HQ Area services
     int getNumberOfRowsForHQ(const std::string &hqName) const;
