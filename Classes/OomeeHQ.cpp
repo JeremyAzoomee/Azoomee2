@@ -6,6 +6,9 @@
 //
 
 #include "OomeeHQ.h"
+#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 
 using namespace cocos2d;
 
@@ -43,6 +46,9 @@ void OomeeHQ::onSizeChanged()
         _structureUIHolder->setLayoutType(Type::VERTICAL);
         _staticContentLayout->setSizePercent(Vec2(1.0f, 0.5f));
         _contentListView->setSizePercent(Vec2(1.0f, 0.5f));
+        _oomeeDisplay->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+        _oomeeDisplay->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+        _oomeeDisplay->setSizePercent(Vec2(1.0f, 0.975f));
     }
     else
     {
@@ -51,6 +57,10 @@ void OomeeHQ::onSizeChanged()
         _structureUIHolder->setLayoutType(Type::HORIZONTAL);
         _staticContentLayout->setSizePercent(Vec2(0.5f, 1.0f));
         _contentListView->setSizePercent(Vec2(0.5f, 1.0f));
+        
+        _oomeeDisplay->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+        _oomeeDisplay->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
+        _oomeeDisplay->setSizePercent(Vec2(0.975f, 0.975f));
     }
     
     _artStudioLayout->setContentSize(Size(_contentListView->getContentSize().width, 1412));
@@ -67,10 +77,19 @@ void OomeeHQ::createOomeeLayout()
     _oomeeLayout->setSizePercent(Vec2(1.0f, 1.0f));
     _oomeeLayout->setPositionType(PositionType::PERCENT);
     _oomeeLayout->setPositionPercent(Vec2(0.5f, 0.5f));
-    _oomeeLayout->setBackGroundColorType(BackGroundColorType::SOLID);
-    _oomeeLayout->setBackGroundColor(Color3B::GRAY);
+    //_oomeeLayout->setBackGroundColorType(BackGroundColorType::SOLID);
+    //_oomeeLayout->setBackGroundColor(Color3B::GRAY);
     _oomeeLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _staticContentLayout->addChild(_oomeeLayout, 1);
+    
+    _oomeeDisplay = OomeeDisplay::create();
+    _oomeeDisplay->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+    _oomeeDisplay->setSizePercent(Vec2(1.0f, 0.975f));
+    _oomeeDisplay->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+    _oomeeDisplay->setBgPatternColour(Style::Color::azure);
+    _oomeeDisplay->setKidCode(ChildManager::getInstance()->getLoggedInChild()->getInviteCode());
+    _oomeeDisplay->setOomeeImgUrl(ChildManager::getInstance()->getLoggedInChild()->getAvatar());
+    _oomeeLayout->addChild(_oomeeDisplay);
 }
 void OomeeHQ::createScrollViewContent()
 {
@@ -129,6 +148,7 @@ void OomeeHQ::createScrollViewContent()
                 _staticContentLayout->setSizePercent(Vec2(1.0f, 1.0f - targetPos));
             }
         }
+        _structureUIHolder->forceDoLayout();
     };
     _eventDispatcher->addEventListenerWithSceneGraphPriority(_touchListener, _contentListView);
 }

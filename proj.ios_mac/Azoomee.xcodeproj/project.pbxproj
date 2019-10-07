@@ -235,6 +235,7 @@
 		E2A5141A23200E58007B93BC /* FeaturedVideosHolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2A5141923200E58007B93BC /* FeaturedVideosHolder.cpp */; };
 		E2A5141D232133F3007B93BC /* CircleTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2A5141C232133F3007B93BC /* CircleTile.cpp */; };
 		E2A5142023214B45007B93BC /* CircleContentHolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2A5141F23214B45007B93BC /* CircleContentHolder.cpp */; };
+		E2D3B50E234B4B8100074881 /* OomeeDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2D3B50D234B4B8100074881 /* OomeeDisplay.cpp */; };
 		E2DCF5E9230442FF0032946D /* ImportantMessageForParents.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2DCF5E8230442FF0032946D /* ImportantMessageForParents.cpp */; };
 		ED545A7C1B68A1F400C3958E /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED545A7B1B68A1F400C3958E /* libiconv.dylib */; };
 /* End PBXBuildFile section */
@@ -783,6 +784,8 @@
 		E2A5141C232133F3007B93BC /* CircleTile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CircleTile.cpp; sourceTree = "<group>"; };
 		E2A5141E2321469F007B93BC /* CircleContentHolder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CircleContentHolder.h; sourceTree = "<group>"; };
 		E2A5141F23214B45007B93BC /* CircleContentHolder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CircleContentHolder.cpp; sourceTree = "<group>"; };
+		E2D3B50C234B3E9D00074881 /* OomeeDisplay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OomeeDisplay.h; sourceTree = "<group>"; };
+		E2D3B50D234B4B8100074881 /* OomeeDisplay.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeDisplay.cpp; sourceTree = "<group>"; };
 		E2DCF5E22304419B0032946D /* ImportantMessageForParents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImportantMessageForParents.h; sourceTree = "<group>"; };
 		E2DCF5E8230442FF0032946D /* ImportantMessageForParents.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ImportantMessageForParents.cpp; sourceTree = "<group>"; };
 		ED545A7B1B68A1F400C3958E /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.4.sdk/usr/lib/libiconv.dylib; sourceTree = DEVELOPER_DIR; };
@@ -1535,6 +1538,7 @@
 		A19759861DE4931600FEB03C /* HQScene */ = {
 			isa = PBXGroup;
 			children = (
+				E2D3B506234B3AFC00074881 /* OomeeHQComponents */,
 				E229F66C23350BA0005BA0D4 /* EpisodeSelector */,
 				E212CC11231D3E9C009D4A63 /* ContentTiles */,
 				E22ACA9C230D4FA40024B328 /* HQScene.h */,
@@ -1663,6 +1667,15 @@
 				E229F6762338CF46005BA0D4 /* EpisodeBar.cpp */,
 			);
 			name = EpisodeSelector;
+			sourceTree = "<group>";
+		};
+		E2D3B506234B3AFC00074881 /* OomeeHQComponents */ = {
+			isa = PBXGroup;
+			children = (
+				E2D3B50C234B3E9D00074881 /* OomeeDisplay.h */,
+				E2D3B50D234B4B8100074881 /* OomeeDisplay.cpp */,
+			);
+			name = OomeeHQComponents;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2074,6 +2087,7 @@
 				925B249E22084B940000D7D2 /* CoinCollectLayer.cpp in Sources */,
 				923D5BC522008BF1008C13D0 /* ContentFeedHQScene.cpp in Sources */,
 				02E595C31E5D9EE70052F395 /* OfflineText.cpp in Sources */,
+				E2D3B50E234B4B8100074881 /* OomeeDisplay.cpp in Sources */,
 				9229EE4E22DCAFAA009732B0 /* SignupScene.cpp in Sources */,
 				02A11FF81EA6375D007EDD95 /* RoutePaymentSingleton.cpp in Sources */,
 				D13C40151E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm in Sources */,

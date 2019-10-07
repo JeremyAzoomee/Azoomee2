@@ -12,6 +12,7 @@
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include "HQPage.h"
+#include "OomeeDisplay.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -20,6 +21,7 @@ class OomeeHQ : public HQPage
     typedef HQPage Super;
 private:
     cocos2d::ui::Layout* _oomeeLayout = nullptr;
+    OomeeDisplay* _oomeeDisplay = nullptr;
     cocos2d::ui::Layout* _oomeeMakerButton = nullptr;
     cocos2d::ui::Layout* _shopButton = nullptr;
     cocos2d::ui::Layout* _artStudioLayout = nullptr;
