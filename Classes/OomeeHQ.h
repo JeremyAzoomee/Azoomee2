@@ -11,9 +11,11 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
+#include <AzoomeeCommon/UI/DynamicText.h>
 #include "HQPage.h"
 #include "OomeeDisplay.h"
 #include "DropdownContentHolder.h"
+#include "CircleContentHolder.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -26,13 +28,15 @@ private:
     cocos2d::ui::Layout* _oomeeMakerButton = nullptr;
     cocos2d::ui::Layout* _shopButton = nullptr;
     cocos2d::ui::Layout* _artStudioLayout = nullptr;
-    cocos2d::ui::Layout* _favouritesLayout = nullptr;
+    DynamicText* _favouritesTitle = nullptr;
+    CircleContentHolder* _favouritesLayout = nullptr;
     DropdownContentHolder* _offlineDropdown = nullptr;
-
+    
     cocos2d::EventListenerTouchOneByOne* _touchListener = nullptr;
     
     void createOomeeLayout();
     void createScrollViewContent();
+    void createFavouritesLayout();
     void createOfflineDropdown();
     
     //offline game utils
@@ -40,6 +44,8 @@ private:
     bool isStarterFileExists(const std::string &gameId) const;
     std::string getStartFileFromJson(const std::string &gameId) const;
     void refreshOfflineList();
+    
+    void refreshFavouritesList();
     
 public:
     

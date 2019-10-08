@@ -15,7 +15,7 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
 #include "HQDataProvider.h"
-
+#include "FavouritesManager.h"
 
 using namespace cocos2d;
 
@@ -30,6 +30,7 @@ bool OomeeHQ::init()
     
     createOomeeLayout();
     createScrollViewContent();
+    createFavouritesLayout();
     createOfflineDropdown();
     
     return true;
@@ -38,6 +39,7 @@ bool OomeeHQ::init()
 void OomeeHQ::onEnter()
 {
     refreshOfflineList();
+    refreshFavouritesList();
     Super::onEnter();
 }
 
@@ -79,6 +81,9 @@ void OomeeHQ::onSizeChanged()
     _oomeeMakerButton->setContentSize(Size(_contentListView->getContentSize().width, 574));
     
     _offlineDropdown->setContentSize(Size(contentListViewWidth - kListViewSidePadding, _offlineDropdown->getContentSize().height));
+    _favouritesTitle->setTextAreaSize(Size(contentListViewWidth - kListViewSidePadding, _favouritesTitle->getContentSize().height));
+    _favouritesLayout->setTileSize(_isPortrait ? kCircleTileSizePortrait : kCircleTileSizeLandscape);
+    _favouritesLayout->setContentSize(Size(contentListViewWidth, 0));
     
     _contentListView->forceDoLayout();
     
@@ -163,6 +168,31 @@ void OomeeHQ::createScrollViewContent()
         _structureUIHolder->forceDoLayout();
     };
     _eventDispatcher->addEventListenerWithSceneGraphPriority(_touchListener, _contentListView);
+}
+
+void OomeeHQ::createFavouritesLayout()
+{
+    _favouritesTitle = DynamicText::create(_("Favourites"), Style::Font::PoppinsBold(), 75);
+    _favouritesTitle->setTextVerticalAlignment(TextVAlignment::CENTER);
+    _favouritesTitle->setTextHorizontalAlignment(TextHAlignment::LEFT);
+    _favouritesTitle->setOverflow(Label::Overflow::SHRINK);
+    _favouritesTitle->setTextAreaSize(Size((_contentListView->getSizePercent().x * getContentSize().width) - kListViewSidePadding, _favouritesTitle->getContentSize().height));
+    _favouritesTitle->setTextColor(Color4B::WHITE);
+    _favouritesTitle->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+    _contentListView->pushBackCustomItem(_favouritesTitle);
+    
+    _favouritesLayout = CircleContentHolder::create();
+    _favouritesLayout->setTileSize(_isPortrait ? kCircleTileSizePortrait : kCircleTileSizeLandscape);
+    _favouritesLayout->setPlaceholder("res/hqscene/game_icon.png");
+    _favouritesLayout->setContentSize(Size(_contentListView->getSizePercent().x * getContentSize().width, 0));
+    _favouritesLayout->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
+        if(_contentSelectedCallback)
+        {
+            _contentSelectedCallback(content, elementIndex, -1);
+        }
+    });
+    _contentListView->pushBackCustomItem(_favouritesLayout);
+    
 }
 
 void OomeeHQ::createOfflineDropdown()
@@ -255,6 +285,17 @@ void OomeeHQ::refreshOfflineList()
     carousel->setTitle(_("Offline"));
     
     _offlineDropdown->setContentItemData(carousel);
+}
+
+void OomeeHQ::refreshFavouritesList()
+{
+    const auto& favList = FavouritesManager::getInstance()->getFavouriteContent();
+    MutableHQCarouselObjectRef carousel = MutableHQCarouselObject::create();
+    carousel->setColour(Color4B(Style::Color::azure));
+    carousel->addContentItemsToCarousel(favList);
+    carousel->setTitle(_("Favourites"));
+    _favouritesLayout->setMaxRows(favList.size() > 0 ? -1 : 1);
+    _favouritesLayout->setContentItemData(carousel);
 }
 
 NS_AZOOMEE_END
