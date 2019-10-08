@@ -16,6 +16,8 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+const std::string HQDataProvider::kGroupRefreshEvent = "groupRefresh";
+
 static HQDataProvider *_sharedHQDataProvider = NULL;
 
 HQDataProvider* HQDataProvider::getInstance()
@@ -54,12 +56,11 @@ void HQDataProvider::getDataForHQ(const std::string &hqName)
     startBuildingHQ(hqName);
 }
 
-void HQDataProvider::getDataForGroupHQ(const std::string &uri)
+void HQDataProvider::getDataForGroupHQ(const std::string &uri, const Color4B& carouselColour)
 {
-    displayLoadingScreen();
-
     HQStructureDownloadHandler::getInstance()->loadGroupHQData(uri);
-    startBuildingHQ(ConfigStorage::kGroupHQName);
+    Color4B colourCopy = carouselColour; // event is sent immediatly so we send address of colour object stored on the stack so we dont get mem leak
+    Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(kGroupRefreshEvent, &colourCopy);
 }
 
 int HQDataProvider::getNumberOfRowsForHQ(const std::string &hqName) const
@@ -148,14 +149,14 @@ std::string HQDataProvider::getThumbnailUrlForItem(HQContentItemObjectRef elemen
     }
     
     const std::string &key = convertShapeToThumbnailKey(shape);
-    
-    if(element->getImages().find(key) != element->getImages().end())
+    const auto& images = element->getImages();
+    if(images.find(key) != images.end())
     {
-        return element->getImages().at(key);
+        return images.at(key);
     }
-    else if(element->getImages().find(convertShapeToThumbnailKey(Vec2(1,1))) != element->getImages().end()) //if the queried key does not exist in images map, we try to fall back to ONE_ONE first
+    else if(images.find(convertShapeToThumbnailKey(Vec2(1,1))) != images.end()) //if the queried key does not exist in images map, we try to fall back to ONE_ONE first
     {
-        return element->getImages().at(convertShapeToThumbnailKey(Vec2(1,1)));
+        return images.at(convertShapeToThumbnailKey(Vec2(1,1)));
     }
     else //if ONE_ONE even does not exist, we return an empty string
     {

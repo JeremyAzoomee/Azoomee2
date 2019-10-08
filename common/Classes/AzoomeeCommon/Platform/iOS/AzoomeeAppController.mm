@@ -26,7 +26,8 @@
 #import <cocos/cocos2d.h>
 #import "AzoomeeViewController.h"
 
-#ifdef NDEBUG
+#include "../../Crashlytics/CrashlyticsConfig.h"
+#ifdef CRASHLYTICS_ENABLED
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 #endif
@@ -41,7 +42,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
     // Override point for customization after application launch.
     
-#ifdef NDEBUG
+#ifdef CRASHLYTICS_ENABLED
+    NSLog(@"CRASHLYTICS_ENABLED");
     [Fabric with:@[[Crashlytics class]]];
 #endif
 
@@ -68,6 +70,15 @@
 
     [[UIApplication sharedApplication] setStatusBarHidden:true];
 
+    return YES;
+}
+
+- (BOOL)application:(UIApplication *)application shouldAllowExtensionPointIdentifier:(NSString *)extensionPointIdentifier
+{
+    if([extensionPointIdentifier isEqualToString: UIApplicationKeyboardExtensionPointIdentifier])
+    {
+        return NO;
+    }
     return YES;
 }
 

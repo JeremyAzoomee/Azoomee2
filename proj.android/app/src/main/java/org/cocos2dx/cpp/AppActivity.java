@@ -647,7 +647,13 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
             if (result.isFailure()) {
                 Log.d("GOOGLEPAY", "Error purchasing: " + result);
-                googlePurchaseFailed();
+                if(result.getResponse() == IabHelper.IABHELPER_USER_CANCELLED)
+                {
+                    googlePurchaseCancelled();
+                }
+                else {
+                    googlePurchaseFailed();
+                }
                 return;
             }
 
@@ -661,6 +667,8 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     public static native void googlePurchaseFailed();
 
     public static native void googleNoPurchaseFound();
+
+    public static native void googlePurchaseCancelled();
 
     public static native void googlePurchaseFailedAlreadyPurchased();
 

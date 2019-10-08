@@ -14,6 +14,7 @@
 #include "SceneManagerScene.h"
 #include "ChatNotificationsSingleton.h"
 #include "ContentHistoryManager.h"
+#include "PopupMessageBox.h"
 
 using namespace cocos2d;
 
@@ -30,39 +31,172 @@ bool LoginScene::init()
     AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
     
     ContentHistoryManager::getInstance()->setReturnedFromContent(false);
+    HQHistoryManager::getInstance()->clearCachedHQ();
     
     PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel("NA");
     AudioMixer::getInstance()->stopBackgroundMusic();
-    
-    _visibleSize = Director::getInstance()->getVisibleSize();
-    _origin = Vec2(0,0);
-    
-    addBackground();
+	
     getUserDefaults();
-    addTextboxScene();
-    addButtonsScene();
-    addLabelToScene();
-    
+	
+	const Size& contentSize = getContentSize();
+	const bool isPortrait = contentSize.width < contentSize.height;
+	
+	const Color3B& bgColour = Style::Color::darkIndigo;
+	
+	_bgColour = ui::Layout::create();
+	_bgColour->setBackGroundColorType(ui::HBox::BackGroundColorType::SOLID);
+	_bgColour->setBackGroundColor(bgColour);
+	_bgColour->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	_bgColour->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	_bgColour->setSizeType(ui::Layout::SizeType::PERCENT);
+	_bgColour->setSizePercent(Vec2(1.0,1.0));
+	addChild(_bgColour);
+	
+	_bgPattern = Sprite::create("res/decoration/main_pattern_big.png");
+	_bgPattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	_bgPattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	_bgPattern->setColor(Style::Color::macaroniAndCheese);
+	addChild(_bgPattern);
+	
+	_patternHider = DrawNode::create();
+	if(isPortrait)
+	{
+		Vec2 points[4] = {Vec2(0,0), Vec2(contentSize.width, 0), Vec2(contentSize.width, contentSize.height * 0.66f), Vec2(0,contentSize.height * 0.66f)};
+		_patternHider->drawSolidPoly(points, 4, Color4F(Style::Color::darkIndigo));
+	}
+	else
+	{
+		Vec2 points[3] = {Vec2(contentSize.width, 0), Vec2(contentSize.width, contentSize.height), Vec2(0,contentSize.height)};
+		_patternHider->drawSolidPoly(points, 3, Color4F(Style::Color::darkIndigo));
+	}
+	addChild(_patternHider);
+	
+	_gradient = LayerGradient::create( Color4B(bgColour.r, bgColour.g, bgColour.b, 0), Color4B(bgColour.r, bgColour.g, bgColour.b, isPortrait ? 166 : 245), isPortrait ? Vec2(0.0f, -1.0f) : Vec2(0.0f, 1.0f));
+	_gradient->setNormalizedPosition(isPortrait ? Vec2(0.5f,0.66f) : Vec2::ANCHOR_MIDDLE);
+	_gradient->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE_BOTTOM : Vec2::ANCHOR_MIDDLE_TOP);
+	_gradient->setContentSize(isPortrait ? Size(contentSize.width, contentSize.height * 0.34f) : Size(Vec2(contentSize).distance(Vec2(0,0)),Vec2(contentSize).distance(Vec2(0,0)) / 2.0f));
+	_gradient->setIgnoreAnchorPointForPosition(false);
+	_gradient->setRotation(CC_RADIANS_TO_DEGREES(isPortrait ? 0 : Vec2(contentSize).getAngle()));
+	addChild(_gradient);
+	
+	_titleText = DynamicText::create(_("Log in"), Style::Font::PoppinsBold(), 105);
+	_titleText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	_titleText->setPosition(isPortrait ? Vec2(contentSize.width * 0.5f,contentSize.height * 0.85f) : Vec2(contentSize.width * 0.25f,contentSize.height * 0.5f));
+	_titleText->setTextHorizontalAlignment(TextHAlignment::CENTER);
+	_titleText->setTextVerticalAlignment(TextVAlignment::CENTER);
+	_titleText->setTextAreaSize(Size(contentSize.width * (isPortrait ? 0.7f : 0.35f),contentSize.height * 0.28f));
+	_titleText->setTextColor(Color4B::WHITE);
+	addChild(_titleText);
+	
+	_loginEntryForm = LoginEntry::create();
+	_loginEntryForm->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE_BOTTOM : Vec2::ANCHOR_MIDDLE_LEFT);
+	_loginEntryForm->setNormalizedPosition(isPortrait ? Vec2(0.5,0.0) : Vec2::ANCHOR_MIDDLE);
+	_loginEntryForm->setSizeType(cocos2d::ui::Layout::SizeType::PERCENT);
+	_loginEntryForm->setSizePercent(isPortrait ? Vec2(1.0f,0.72f) : Vec2(0.5f, 0.95f));
+	_loginEntryForm->setEmail(_storedUsername);
+	_loginEntryForm->setState(LoginEntryState::EMAIL);
+	_loginEntryForm->setContinueButtonCallback([this](const LoginEntryState& state){
+		switch (state) {
+			case LoginEntryState::EMAIL:
+			{
+				_loginEntryForm->setState(LoginEntryState::PASSWORD);
+				_bgPattern->setColor(Style::Color::purplyPink);
+				break;
+			}
+			case LoginEntryState::PASSWORD:
+			{
+				break;
+			}
+		}
+	});
+	_loginEntryForm->setBackButtonCallback([this](const LoginEntryState& state){
+		switch (state) {
+			case LoginEntryState::EMAIL:
+			{
+				BackEndCaller::getInstance()->anonymousDeviceLogin();
+				break;
+			}
+			case LoginEntryState::PASSWORD:
+			{
+				_loginEntryForm->setState(LoginEntryState::EMAIL);
+				_bgPattern->setColor(Style::Color::macaroniAndCheese);
+				break;
+			}
+		}
+	});
+	_loginEntryForm->setLoginConfirmCallback([this](const std::string& email,const std::string& password){
+		FlowDataSingleton::getInstance()->setFlowToLogin();
+		OfflineChecker::getInstance()->setDelegate(nullptr);
+		_storedUsername = email;
+		login(email, password);
+	});
+	addChild(_loginEntryForm);
+	
     return true;
 }
 
-void LoginScene::onEnterTransitionDidFinish()
+void LoginScene::onEnter()
 {
-    _currentScreen = emailLoginScreen;
+	Super::onEnter();
 
     OfflineChecker::getInstance()->setDelegate(this);
     
     if(FlowDataSingleton::getInstance()->hasError())
     {
-        MessageBox::createWith(FlowDataSingleton::getInstance()->getErrorCode(), this);
-        _emailTextInput->setEditboxVisibility(false);
+		_loginEntryForm->setVisible(false);
+        
+        const long errorCode = FlowDataSingleton::getInstance()->getErrorCode();
+        const auto& errorMessageText = StringMgr::getInstance()->getErrorMessageWithCode(errorCode);
+        
+        if(errorCode == ERROR_CODE_INVALID_CREDENTIALS)
+        {
+            PopupMessageBox* messageBox = PopupMessageBox::create();
+            messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
+            messageBox->setBody(errorMessageText.at(ERROR_BODY));
+            messageBox->setPatternColour(Style::Color::azure);
+            
+            messageBox->setButtonText(_("Reset password"));
+            messageBox->setButtonColour(Style::Color::strongPink);
+            messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+                pSender->removeFromParent();
+                BackEndCaller::getInstance()->resetPasswordRequest(_storedUsername);
+                
+                PopupMessageBox* messageBox = PopupMessageBox::create();
+                messageBox->setTitle(_("Reset requested"));
+                messageBox->setBody(StringUtils::format((_("Instructions for resetting your password have been sent to:") + "\n\n%s").c_str(), _storedUsername.c_str()));
+                messageBox->setButtonText(_("OK"));
+                messageBox->setButtonColour(Style::Color::darkIndigo);
+                messageBox->setPatternColour(Style::Color::azure);
+                messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+                    pSender->removeFromParent();
+                    _loginEntryForm->setVisible(true);
+                });
+                this->addChild(messageBox, 1);
+            });
+            
+            messageBox->setSecondButtonText(_("Back"));
+            messageBox->setSecondButtonColour(Style::Color::darkIndigo);
+            messageBox->setSecondButtonPressedCallback([this](PopupMessageBox* pSender){
+                pSender->removeFromParent();
+                _loginEntryForm->setVisible(true);
+            });
+            this->addChild(messageBox, 1);
+        }
+        else
+        {
+            PopupMessageBox* messageBox = PopupMessageBox::create();
+            messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
+            messageBox->setBody(errorMessageText.at(ERROR_BODY));
+            messageBox->setButtonText(_("Back"));
+            messageBox->setButtonColour(Style::Color::darkIndigo);
+            messageBox->setPatternColour(Style::Color::azure);
+            messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+                pSender->removeFromParent();
+                _loginEntryForm->setVisible(true);
+            });
+            this->addChild(messageBox, 1);
+        }
     }
-    else
-    {
-        _emailTextInput->focusAndShowKeyboard();
-    }
-    
-    _nextButton->setVisible(isValidEmailAddress(_storedUsername.c_str()));
 }
 
 //----------------- SCENE SETUP ---------------
@@ -79,113 +213,6 @@ void LoginScene::getUserDefaults()
     }
 }
 
-void LoginScene::addBackground()
-{
-    auto newLayer = LayerColor::create(Color4B::WHITE, _visibleSize.width,  _visibleSize.height);
-    newLayer->setPosition(_origin.x, _origin.y);
-    newLayer->setName("bgLayer");
-    this->addChild(newLayer, -1);
-    
-    Sprite* topGradient = Sprite::create("res/decoration/topSignupGrad.png");
-    topGradient->setAnchorPoint(Vec2(0.0f, 1.0f));
-    topGradient->setPosition(0.0f, _origin.y + _visibleSize.height);
-    topGradient->setScaleX(_visibleSize.width / topGradient->getContentSize().width);
-    newLayer->addChild(topGradient);
-}
-
-void LoginScene::addLabelToScene()
-{
-    _versionLabel = createLabelAppVerison(ConfigStorage::getInstance()->getVersionNumberToDisplay());
-    this->addChild(_versionLabel);
-
-    _title = createLabelFlowMainTitle(_("Log in. Please enter your email."));
-    _title->setPositionY(_visibleSize.height * 0.9f);
-    _title->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-	_title->setWidth(_visibleSize.width * 0.75f);
-    this->addChild(_title);
-}
-
-void LoginScene::addTextboxScene()
-{
-    float width = MIN(1500, _visibleSize.width * 0.95f);
-    _passwordTextInput = TextInputLayer::createWithSize(Size(width,160), INPUT_IS_PASSWORD);
-    _passwordTextInput->setDelegate(this);
-    _passwordTextInput->setEditboxVisibility(false);
-    _passwordTextInput->setCenterPosition(Vec2(_visibleSize.width / 2.0f, _visibleSize.height * 0.7f));
-    this->addChild(_passwordTextInput);
-    
-    _emailTextInput = TextInputLayer::createWithSize(Size(width,160), INPUT_IS_EMAIL);
-    _emailTextInput->setDelegate(this);
-    _emailTextInput->setText(_storedUsername);
-    _emailTextInput->setCenterPosition(Vec2(_visibleSize.width / 2.0f, _visibleSize.height * 0.7f));
-    this->addChild(_emailTextInput);
-}
-
-void LoginScene::addButtonsScene()
-{
-    _backButton = ElectricDreamsButton::createBackButtonGreen();
-    _backButton->setCenterPosition(Vec2(_origin.x +_backButton->getContentSize().width*.7, _origin.y + _visibleSize.height - _backButton->getContentSize().height*.7));
-    _backButton->setDelegate(this);
-    _backButton->setMixPanelButtonName("LoginSceneBackButton");
-    this->addChild(_backButton);
-    
-    _nextButton = ElectricDreamsButton::createNextButtonGreen();
-    _nextButton->setCenterPosition(Vec2(_origin.x + _visibleSize.width - _nextButton->getContentSize().width*.7, _origin.y+ _visibleSize.height - _nextButton->getContentSize().height*.7));
-    _nextButton->setDelegate(this);
-    _nextButton->setMixPanelButtonName("LoginSceneNextButton");
-    this->addChild(_nextButton);
-}
-
-//------------CHANGE SCREEN VISUALS ON BUTTON PRESS----------------------
-void LoginScene::changeElementsToPasswordScreen()
-{
-    _title->setString(_("Password"));
-    _storedUsername = _emailTextInput->getText();
-    AnalyticsSingleton::getInstance()->registerAzoomeeEmail(_storedUsername);
-    _emailTextInput->setEditboxVisibility(false);
-    _passwordTextInput->setEditboxVisibility(true);
-    _nextButton->setVisible(false);
-    _currentScreen = passwordLoginScreen;
-    _passwordTextInput->focusAndShowKeyboard();
-}
-
-void LoginScene::changeElementsToEmailScreen()
-{
-    _title->setString(_("Log in. Please enter your email."));
-    _passwordTextInput->setEditboxVisibility(false);
-    _passwordTextInput->setText("");
-    _emailTextInput->setEditboxVisibility(true);
-    _currentScreen = emailLoginScreen;
-    _nextButton->setVisible(isValidEmailAddress(_emailTextInput->getText().c_str()));
-    _emailTextInput->focusAndShowKeyboard();
-}
-
-void LoginScene::backButtonPressed()
-{
-    if(_currentScreen == emailLoginScreen)
-    {
-        BackEndCaller::getInstance()->anonymousDeviceLogin();
-    }
-    else if(_currentScreen == passwordLoginScreen)
-    {
-        changeElementsToEmailScreen();
-    }
-}
-
-void LoginScene::nextButtonPressed()
-{
-    if(_currentScreen == emailLoginScreen)
-    {
-        changeElementsToPasswordScreen();
-    }
-    else if(_currentScreen == passwordLoginScreen)
-    {
-        FlowDataSingleton::getInstance()->setFlowToLogin();
-        OfflineChecker::getInstance()->setDelegate(nullptr);
-        login(_storedUsername, _passwordTextInput->getText());
-    }
-}
-
 //------------PRIVATE OTHER FUNCTIONS------------
 
 void LoginScene::login(std::string username, std::string password)
@@ -195,57 +222,6 @@ void LoginScene::login(std::string username, std::string password)
 }
 
 //-------------DELEGATE FUNCTIONS-------------------
-void LoginScene::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
-{
-    _nextButton->setVisible(isValid);
-}
-
-void LoginScene::textInputReturnPressed(TextInputLayer* inputLayer)
-{
-    if(_currentScreen == emailLoginScreen && _emailTextInput->inputIsValid())
-    {
-        nextButtonPressed();
-    }
-    else if(_currentScreen == passwordLoginScreen && _passwordTextInput->inputIsValid())
-    {
-        nextButtonPressed();
-    }
-}
-
-void LoginScene::editBoxEditingDidBegin(TextInputLayer* inputLayer)
-{
-    
-}
-
-void LoginScene::editBoxEditingDidEnd(TextInputLayer* inputLayer)
-{
-    
-}
-
-void LoginScene::buttonPressed(ElectricDreamsButton* button)
-{
-    if(button == _nextButton)
-    {
-        nextButtonPressed();
-    }
-    else if(button == _backButton)
-    {
-        backButtonPressed();
-    }
-}
-void LoginScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
-{
-    if(messageBoxTitle == StringMgr::getInstance()->getErrorMessageWithCode(ERROR_CODE_INVALID_CREDENTIALS)[ERROR_TITLE] && buttonTitle == MessageBox::kResetPassword)
-    {
-        BackEndCaller::getInstance()->resetPasswordRequest(_storedUsername);
-        Azoomee::MessageBox::createWith(_("Reset requested"), StringUtils::format((_("Instructions for resetting your password have been sent to:") + "\n\n%s").c_str(),_storedUsername.c_str()), _("OK") , this);
-    }
-    else
-    {
-        _emailTextInput->setEditboxVisibility(true);
-        _emailTextInput->focusAndShowKeyboard();
-    }
-}
 
 void LoginScene::connectivityStateChanged(bool online)
 {
@@ -265,63 +241,64 @@ void LoginScene::onExit()
 
 void LoginScene::keyboardWillShow(cocos2d::IMEKeyboardNotificationInfo& info)
 {
-    if(!isVisible())
-    {
-        return;
-    }
-    
-    // Take into account screen cropping
-    int keyboardHeight = info.end.size.height - Director::getInstance()->getVisibleOrigin().y;
-    
-    ConfigStorage::getInstance()->setEstimatedKeyboardHeight(keyboardHeight);
+	const Size& contentSize = getContentSize();
+	const bool isPortrait = contentSize.width < contentSize.height;
+	const Vec2& targetPos = isPortrait ? Vec2(contentSize.width * 0.5f,contentSize.height * 0.85f) : Vec2(contentSize.width * 0.25f,contentSize.height * 0.5f);
+	
+	int keyboardHeight = info.end.size.height - Director::getInstance()->getVisibleOrigin().y;
+	ConfigStorage::getInstance()->setEstimatedKeyboardHeight(keyboardHeight);
+	if((targetPos.y - (_titleText->getContentSize().height * 0.5f)) < keyboardHeight)
+	{
+		float offset = keyboardHeight - (targetPos.y - (_titleText->getContentSize().height * 0.5f));
+		_titleText->runAction(MoveTo::create(0.5f, targetPos + Vec2(0,offset)));
+	}
+	
+
+	_loginEntryForm->repositionForKeyboardHeight(keyboardHeight, 0.5f);
 }
 
-void LoginScene::keyboardDidShow(cocos2d::IMEKeyboardNotificationInfo& info)
+void LoginScene::keyboardWillHide(cocos2d::IMEKeyboardNotificationInfo& info)
 {
-    if(!isVisible())
-    {
-        return;
-    }
-    
-    // Take into account screen cropping
-    int keyboardHeight = info.end.size.height - Director::getInstance()->getVisibleOrigin().y;
-    
-    ConfigStorage::getInstance()->setEstimatedKeyboardHeight(keyboardHeight);
+	const Size& contentSize = getContentSize();
+	const bool isPortrait = contentSize.width < contentSize.height;
+	const Vec2& targetPos = isPortrait ? Vec2(contentSize.width * 0.5f,contentSize.height * 0.85f) : Vec2(contentSize.width * 0.25f,contentSize.height * 0.5f);
+	_titleText->runAction(MoveTo::create(0.5f, targetPos));
+	
+	_loginEntryForm->repositionForKeyboardHeight(0, 0.5f);
 }
 
 void LoginScene::onSizeChanged()
 {
     Super::onSizeChanged();
-    
-    _visibleSize = Director::getInstance()->getVisibleSize();
-    
-    // If initialised
-    if(_emailTextInput)
-    {
-        this->removeChildByName("bgLayer");
-        addBackground();
-        
-        _versionLabel->setPosition(_visibleSize.width/2, _versionLabel->getContentSize().height);
-        _title->setPosition(_visibleSize.width/2, _visibleSize.height * 0.9);
-        _title->setWidth(_visibleSize.width * 0.9f);
-        _backButton->setCenterPosition(Vec2(_backButton->getContentSize().width*.7, _visibleSize.height - _backButton->getContentSize().height*.7));
-        _nextButton->setCenterPosition(Vec2(_visibleSize.width - _nextButton->getContentSize().width*.7, _visibleSize.height - _nextButton->getContentSize().height*.7));
-        
-        // Horribly, we have to re-create the editboxes. If we don't the native OS view gets stuck offset
-        std::string username = _emailTextInput->getText();
-        std::string password = _passwordTextInput->getText();
-        bool emailInputVisiblility = _emailTextInput->getEditboxVisibility();
-        bool passwordInputVisiblility = _passwordTextInput->getEditboxVisibility();
-        _emailTextInput->removeFromParent();
-        _passwordTextInput->removeFromParent();
-        addTextboxScene();
-        
-        _emailTextInput->setText(username);
-        _passwordTextInput->setText(password);
-        
-        _emailTextInput->setEditboxVisibility(emailInputVisiblility);
-        _passwordTextInput->setEditboxVisibility(passwordInputVisiblility);
-    }
+	const Size& contentSize = getContentSize();
+	const bool isPortrait = contentSize.width < contentSize.height;
+	
+	_patternHider->clear();
+	if(isPortrait)
+	{
+		Vec2 points[4] = {Vec2(0,-1), Vec2(contentSize.width, -1), Vec2(contentSize.width, contentSize.height * 0.66f), Vec2(0,contentSize.height * 0.66f)};
+		_patternHider->drawSolidPoly(points, 4, Color4F(Style::Color::darkIndigo));
+	}
+	else
+	{
+		Vec2 points[3] = {Vec2(contentSize.width, 0), Vec2(contentSize.width, contentSize.height), Vec2(0,contentSize.height)};
+		_patternHider->drawSolidPoly(points, 3, Color4F(Style::Color::darkIndigo));
+	}
+	
+	_gradient->setEndOpacity(isPortrait ? 166 : 245);
+	_gradient->setVector(isPortrait ? Vec2(0.0f, -1.0f) : Vec2(0.0f, 1.0f));
+	_gradient->setNormalizedPosition(isPortrait ? Vec2(0.5f,0.66f) : Vec2::ANCHOR_MIDDLE);
+	_gradient->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE_BOTTOM : Vec2::ANCHOR_MIDDLE_TOP);
+	_gradient->setContentSize(isPortrait ? Size(contentSize.width, contentSize.height * 0.34f) : Size(Vec2(contentSize).distance(Vec2(0,0)),Vec2(contentSize).distance(Vec2(0,0)) / 2.0f));
+	_gradient->setRotation(CC_RADIANS_TO_DEGREES(isPortrait ? 0 : Vec2(contentSize).getAngle()));
+	
+	_titleText->setPosition(isPortrait ? Vec2(contentSize.width * 0.5f,contentSize.height * 0.85f) : Vec2(contentSize.width * 0.25f,contentSize.height * 0.5f));
+	_titleText->setTextAreaSize(Size(contentSize.width * (isPortrait ? 0.7f : 0.35f),contentSize.height * 0.28f));
+	
+	_loginEntryForm->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE_BOTTOM : Vec2::ANCHOR_MIDDLE_LEFT);
+	_loginEntryForm->setNormalizedPosition(isPortrait ? Vec2(0.5,0.0) : Vec2::ANCHOR_MIDDLE);
+	_loginEntryForm->setSizePercent(isPortrait ? Vec2(1.0f,0.72f) : Vec2(0.5f, 0.95f));
+
 }
 
 NS_AZOOMEE_END

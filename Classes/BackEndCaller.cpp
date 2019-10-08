@@ -26,9 +26,9 @@
 #include "IAPProductDataHandler.h"
 #include "ChildCreator.h"
 
-#include "DynamicNodeHandler.h"
-
 #include "RewardDisplayHandler.h"
+
+#include "MarketingAssetManager.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "ApplePaymentSingleton.h"
@@ -134,6 +134,7 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString, con
     if(ParentManager::getInstance()->parseParentLoginData(responseString))
     {
 		ParentManager::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headerString));
+		MarketingAssetManager::getInstance()->downloadMarketingAssets();
 		if(ParentManager::getInstance()->isLoggedInParentAnonymous())
 		{
 			AnalyticsSingleton::getInstance()->setIsUserAnonymous(true);
@@ -273,11 +274,8 @@ void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseStrin
 		}
 		else
 		{
-			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChildSelector));
-			
-			Director::getInstance()->getScheduler()->schedule([&](float dt){
-				DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
-			}, this, 0.5, 0, 0, false, "eventHandler");
+            const auto targetScene = (!ParentManager::getInstance()->isPaidUser() && LoginLogicHandler::getInstance()->getOrigin() == LoginOrigin::IAP_PAYWALL) ? SceneNameEnum::IAP : SceneNameEnum::ChildSelector;
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(targetScene));
 		}
     }
 	ModalMessages::getInstance()->stopLoading();
@@ -302,7 +300,6 @@ void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString
         return;
     }
     ParentManager::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headerString));
-    DynamicNodeHandler::getInstance()->getCTAFiles();
 	getChildInventory();
     getGordon();
 	HQHistoryManager::getInstance()->emptyHistory();
@@ -335,9 +332,22 @@ void BackEndCaller::onGetGordonAnswerReceived(const std::string& responseString)
 				HQStructureDownloadHandler::getInstance()->getLatestData([](bool success){ //on complete
 					if(success)
 					{
-						//TutorialController::getInstance()->startTutorial(TutorialController::kFTUNavTutorialID);
 						RewardDisplayHandler::getInstance()->getPendingRewards();
-						Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
+                        
+                        SceneNameEnum nextScene = SceneNameEnum::Base;
+                        
+                        if(ParentManager::getInstance()->isLoggedInParentAnonymous())
+                        {
+                            if(LoginLogicHandler::getInstance()->getOrigin() == LoginOrigin::IAP_PAYWALL)
+                            {
+                                nextScene = SceneNameEnum::IAP;
+                            }
+                            else if(LoginLogicHandler::getInstance()->getOrigin() == LoginOrigin::SIGNUP)
+                            {
+                                nextScene = SceneNameEnum::Signup;
+                            }
+                        }
+                        Director::getInstance()->replaceScene(SceneManagerScene::createScene(nextScene));
 					}
 					else
 					{
@@ -446,9 +456,9 @@ void BackEndCaller::verifyAmazonPayment(const std::string& requestId, const std:
 }
 
 //APPLE VERIFY PAYMENT----------------------------------------------------------------------
-void BackEndCaller::verifyApplePayment(const std::string& receiptData)
+void BackEndCaller::verifyApplePayment(const std::string& receiptData, const std::string& transactionID)
 {
-    HttpRequestCreator* request = API::VerifyApplePaymentRequest(receiptData, this);
+    HttpRequestCreator* request = API::VerifyApplePaymentRequest(receiptData, transactionID, this);
     request->execute(30.0f);
 }
 
@@ -619,14 +629,12 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
         AnalyticsSingleton::getInstance()->childProfileCreatedErrorEvent(errorCode);
         hideLoadingScreen();
         FlowDataSingleton::getInstance()->setErrorCode(errorCode);
-        DynamicNodeHandler::getInstance()->startAddChildFlow();
     }
     else if(requestTag == API::TagUpdateChild)
     {
         AnalyticsSingleton::getInstance()->childProfileUpdateErrorEvent(errorCode);
         hideLoadingScreen();
         FlowDataSingleton::getInstance()->setErrorCode(errorCode);
-        DynamicNodeHandler::getInstance()->startAddChildFlow();
     }
     else if(requestTag == API::TagLogin)
     {

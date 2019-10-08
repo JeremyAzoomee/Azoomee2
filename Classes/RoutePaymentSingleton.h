@@ -13,6 +13,7 @@ private:
     bool appleReceiptRefreshchecked = false;
     void createReceiptDataFolder();
     void removeReceiptDataFileAndLogin();
+    void writeReceiptDataToFile(const std::string &receiptData);
     
 public:
     static RoutePaymentSingleton* getInstance(void);
@@ -24,6 +25,10 @@ public:
     
     void startInAppPayment();
     void inAppPaymentSuccess();
+    
+#if defined(AZOOMEE_ENVIRONMENT_CI)
+    void startIOSRecPayment();
+#endif
     
     bool showIAPContent();
     
@@ -38,8 +43,9 @@ public:
     void purchaseFailureErrorMessage(const std::string& failureDetails);
     void doublePurchaseMessage();
 	void failedRestoreMessage();
+    void canceledAction();
 	
-    void writeReceiptDataToFile(const std::string &receiptData);
+    void writeAppleReceiptDataToFile(const std::string& receiptData, const std::string& transactionID);
     void writeAndroidReceiptDataToFile(const std::string& developerPayload, const std::string& orderId, const std::string& token);
     void writeAmazonReceiptDataToFile(const std::string& requestId, const std::string& receiptId, const std::string& amazonUserId);
     
@@ -52,6 +58,9 @@ public:
     
     static const std::string& kReceiptCacheFolder;
     static const std::string& kReceiptDataFileName;
+	
+	static const std::string kPaymentSuccessfulEventName;
+	static const std::string kPaymentFailedEventName;
 };
 
 NS_AZOOMEE_END

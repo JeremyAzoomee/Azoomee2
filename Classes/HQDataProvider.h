@@ -9,11 +9,19 @@
 #include <AzoomeeCommon/Data/HQDataObject/HQCarouselObject.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
 
+#define TILESIZE_1X1 cocos2d::Vec2(1,1)
+#define TILESIZE_1X2 cocos2d::Vec2(1,2)
+#define TILESIZE_2X2 cocos2d::Vec2(2,2)
+#define TILESIZE_3X3 cocos2d::Vec2(3,3) //circle tile
+
+#define CONTENT_PLACEHOLDER_GAME_1X1 "res/contentPlaceholders/Games1X1.png"
+#define CONTENT_PLACEHOLDER_VIDEO_1X1 "res/contentPlaceholders/Video1X1.png"
+#define CONTENT_PLACEHOLDER_VIDEO_1X2 "res/contentPlaceholders/Video1X2.png"
+
 NS_AZOOMEE_BEGIN
 
 class HQDataProvider : public cocos2d::Ref
 {
-    
 public:
     /** Returns the shared instance of the Game Manager */
     static HQDataProvider* getInstance(void);
@@ -33,7 +41,7 @@ public:
     std::string getHumanReadableHighlightDataForSpecificItem(const std::string &hqName, int rowNumber, int itemNumber) const;
     std::string convertShapeToThumbnailKey(const cocos2d::Vec2 &shape) const;
     void getDataForHQ(const std::string &hqName);
-    void getDataForGroupHQ(const std::string &uri);
+    void getDataForGroupHQ(const std::string &uri, const cocos2d::Color4B& carouselColour);
     
     //HQ Area services
     int getNumberOfRowsForHQ(const std::string &hqName) const;
@@ -50,6 +58,8 @@ public:
     //Loading screen
     void displayLoadingScreen();
     void hideLoadingScreen();
+    
+    static const std::string kGroupRefreshEvent;
     
     static const std::map<std::string, std::string> kLockFiles;
     

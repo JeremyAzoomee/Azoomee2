@@ -8,7 +8,9 @@
 using namespace Azoomee;
 
 @interface PaymentViewController ()
--(void)queryProductInfo;
+-(void) queryProductInfo;
+-(void) sendReceiptToBackendWithTransactionID:(NSString*)transactionID;
+-(void) startPaymentQueueForProduct:(SKProduct*)product;
 @end
 
 @implementation PaymentViewController
@@ -28,8 +30,19 @@ using namespace Azoomee;
     return sharedPayment_ios;
 }
 
+- (id)init {
+    self = [super init];
+    if (self) {
+        [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
+    }
+    return self;
+}
+
 -(void)makeOneMonthPayment
 {
+#if defined(AZOOMEE_ENVIRONMENT_CI)
+    self.purchaseRecurringAfterQuery = NO;
+#endif
     if(self.oneMonthSubscription == nil)
     {
         self.purchaseAfterQuery = YES;
@@ -37,9 +50,24 @@ using namespace Azoomee;
     }
     else
     {
-        [self startPaymentQueue];
+        [self startPaymentQueueForProduct:self.oneMonthSubscription];
     }
 }
+
+#if defined(AZOOMEE_ENVIRONMENT_CI)
+-(void)makeOneMonthRecurringPayment
+{
+    if(self.oneMonthRecurringSubscription == nil)
+    {
+        self.purchaseRecurringAfterQuery = YES;
+        [self queryProductInfo];
+    }
+    else
+    {
+        [self startPaymentQueueForProduct:self.oneMonthRecurringSubscription];
+    }
+}
+#endif
 
 -(void)restorePayment
 {
@@ -48,33 +76,45 @@ using namespace Azoomee;
     [request start];
 }
 
-- (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
-    
+// Sent immediately before -requestDidFinish:
+- (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response
+{
     @try {
-        NSArray * skProducts = response.products;
-        for (SKProduct * skProduct in skProducts) {
-            
+        NSArray* skProducts = response.products;
+        for (SKProduct * skProduct in skProducts)
+        {
             if([skProduct.productIdentifier isEqualToString:self.oneMonthSubscriptionID] )
             {
                 self.oneMonthSubscription = skProduct;
                 
-                if(self.purchaseAfterQuery)
-                {
-                    [self startPaymentQueue];
-                }
-                else
-                {
-                    NSNumberFormatter * _priceFormatter;
-                    _priceFormatter = [[NSNumberFormatter alloc] init];
-                    [_priceFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
-                    [_priceFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
-                    [_priceFormatter setLocale:skProduct.priceLocale];
-                    NSString *priceHumanReadable = [_priceFormatter stringFromNumber:skProduct.price];
-                    
-                    IAPProductDataHandler::getInstance()->setHumanReadableProductPrice(std::string([priceHumanReadable cStringUsingEncoding:NSUTF8StringEncoding]));
-                    IAPProductDataHandler::getInstance()->setProductPrice([skProduct.price floatValue]);
-                }
+                NSNumberFormatter * _priceFormatter;
+                _priceFormatter = [[NSNumberFormatter alloc] init];
+                [_priceFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
+                [_priceFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+                [_priceFormatter setLocale:skProduct.priceLocale];
+                NSString *priceHumanReadable = [_priceFormatter stringFromNumber:skProduct.price];
+                
+                IAPProductDataHandler::getInstance()->setHumanReadableProductPrice(std::string([priceHumanReadable cStringUsingEncoding:NSUTF8StringEncoding]));
+                IAPProductDataHandler::getInstance()->setProductPrice([skProduct.price floatValue]);
             }
+#if defined(AZOOMEE_ENVIRONMENT_CI)
+            else if([skProduct.productIdentifier isEqualToString:self.oneMonthRecurringSubscriptionID] )
+            {
+                self.oneMonthRecurringSubscription = skProduct;
+            }
+#endif
+        }
+        
+#if defined(AZOOMEE_ENVIRONMENT_CI)
+        if(self.purchaseRecurringAfterQuery)
+        {
+            [self startPaymentQueueForProduct:self.oneMonthRecurringSubscription];
+        }
+        else
+#endif
+        if(self.purchaseAfterQuery)
+        {
+            [self startPaymentQueueForProduct:self.oneMonthSubscription];
         }
     }
     @catch (NSException * e)
@@ -94,30 +134,38 @@ using namespace Azoomee;
 -(void)queryProductInfo
 {
 #if defined(AZOOMEE_ENVIRONMENT_TEST)
-    const std::string& productID = "ios-test";
+    const std::vector<std::string> productIDs = { "ios-test" };
 #elif defined(AZOOMEE_ENVIRONMENT_CI)
-    const std::string& productID = "ios-ci";
+    const std::vector<std::string> productIDs = { "ios-ci", "ios-ci-recurring" };
 #else
-    const std::string& productID = "ios-prod";
+    const std::vector<std::string> productIDs = { "ios-prod" };
 #endif
     
-    self.oneMonthSubscriptionID = [NSString stringWithUTF8String:ConfigStorage::getInstance()->getIapSkuForProvider(productID).c_str()];
-    NSSet * productIdentifiers = [NSSet setWithObjects:self.oneMonthSubscriptionID, nil];
+    NSMutableArray* productIDList = [NSMutableArray array];
+    for(auto productID : productIDs)
+    {
+        NSString* idAsNS = [NSString stringWithUTF8String:ConfigStorage::getInstance()->getIapSkuForProvider(productID).c_str()];
+        [productIDList addObject:idAsNS];
+    }
     
-    SKProductsRequest *productsRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:productIdentifiers];
+    self.oneMonthSubscriptionID = [productIDList firstObject];
+#if defined(AZOOMEE_ENVIRONMENT_CI)
+    self.oneMonthRecurringSubscriptionID = [productIDList objectAtIndex:1];
+#endif
+    NSSet* productIdentifiers = [NSSet setWithArray:productIDList];
     
+    SKProductsRequest* productsRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:productIdentifiers];
     productsRequest.delegate = self;
     [productsRequest start];
 }
 
--(void) startPaymentQueue
+-(void) startPaymentQueueForProduct:(SKProduct*)product
 {
-    [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
-    
-    SKPayment * payment = [SKPayment paymentWithProduct:self.oneMonthSubscription];
+    SKPayment* payment = [SKPayment paymentWithProduct:product];
     [[SKPaymentQueue defaultQueue] addPayment:payment];
 }
 
+// Sent when the transaction array has changed (additions or state changes).  Client should check state of transactions and finish as appropriate.
 - (void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions
 {
     for (SKPaymentTransaction * transaction in transactions) {
@@ -126,23 +174,29 @@ using namespace Azoomee;
             case SKPaymentTransactionStatePurchased:
             {
                 [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                NSString* transactionID = transaction.transactionIdentifier;
                 
-                [self sendReceiptToBackend];
+                [self sendReceiptToBackendWithTransactionID:transactionID];
                 
                 break;
             }
             case SKPaymentTransactionStateFailed:
             {
                 [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
-                RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage([[NSString stringWithFormat:@"SKPaymentTransactionStateFailed: %@",transaction.error.localizedDescription] UTF8String]);
-                NSLog(@"Transaction error: %@", transaction.error.localizedDescription);
-                
+                if(transaction.error.code != SKErrorPaymentCancelled)
+                {
+                    RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage([[NSString stringWithFormat:@"SKPaymentTransactionStateFailed: %@",transaction.error.localizedDescription] UTF8String]);
+                    NSLog(@"Transaction error: %@", transaction.error.localizedDescription);
+                }
+                else
+                {
+                    RoutePaymentSingleton::getInstance()->canceledAction();
+                }
                 break;
             }
             case SKPaymentTransactionStateRestored:
             {
                 [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
-                RoutePaymentSingleton::getInstance()->doublePurchaseMessage();
             }
             case SKPaymentTransactionStateDeferred:
             {
@@ -154,11 +208,12 @@ using namespace Azoomee;
     };
 }
 
+// Sent when all transactions from the user's purchase history have successfully been added back to the queue.
 - (void) paymentQueueRestoreCompletedTransactionsFinished:(SKPaymentQueue *)queue
 {
-    RoutePaymentSingleton::getInstance()->doublePurchaseMessage();
 }
 
+// Sent when an error is encountered while adding transactions from the user's purchase history back to the queue.
 - (void) paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error
 {
     RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage([[NSString stringWithFormat:@"restoreCompletedTransactionsFailedWithError: %@",error.localizedDescription] UTF8String]);
@@ -167,6 +222,14 @@ using namespace Azoomee;
 - (void)request:(SKRequest *)request didFailWithError:(NSError *)error
 {
     NSLog(@"DidFailWithError error: %@", error.localizedDescription);
+    
+    // Error code 16 is undocumented because it's a private framework (StoreServices), however 16 corresponds to the user cancelling the login/password entry
+    // In this instance we don't want to show a popup, but in all other cases we continue and show an error popup
+    if([error.domain isEqualToString:@"SSErrorDomain"] && error.code == 16)
+    {
+        RoutePaymentSingleton::getInstance()->canceledAction();
+        return;
+    }
     
     if(RoutePaymentSingleton::getInstance()->pressedRestorePurchaseButton)
     {
@@ -197,17 +260,19 @@ using namespace Azoomee;
     
     if(receiptExist && !RoutePaymentSingleton::getInstance()->pressedIAPStartButton)
     {
-        [self sendReceiptToBackend];
+        [self sendReceiptToBackendWithTransactionID:nil];
     }
 }
 
--(void) sendReceiptToBackend
+-(void) sendReceiptToBackendWithTransactionID:(NSString*)transactionIdentifier
 {
     NSURL *receiptURL = [[NSBundle mainBundle] appStoreReceiptURL];
     NSData *receipt = [NSData dataWithContentsOfURL:receiptURL];
     NSString* receiptString = [receipt base64EncodedStringWithOptions:0];
     
-    ApplePaymentSingleton::getInstance()->transactionStatePurchased([receiptString UTF8String]);
+    const std::string& transactionID = (transactionIdentifier != nil) ? [transactionIdentifier UTF8String] : "";
+    
+    ApplePaymentSingleton::getInstance()->transactionStatePurchased([receiptString UTF8String], transactionID);
 }
 
 @end

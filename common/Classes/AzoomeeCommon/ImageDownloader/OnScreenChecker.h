@@ -13,12 +13,14 @@
 
 namespace Azoomee {
 
-class OnScreenChecker : public cocos2d::Ref
+class OnScreenChecker
 {
 public:
+	virtual ~OnScreenChecker();
+	
     void startCheckingForOnScreenPosition(cocos2d::Node* sender);
     bool checkIfElementIsOnScreen(cocos2d::Node *item);
-    void endCheck();
+    void stopCheckingOnScreenPosition();
     
 protected:
     virtual void elementDisappeared(cocos2d::Node *sender);

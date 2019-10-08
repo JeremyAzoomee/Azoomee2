@@ -4,7 +4,6 @@
 #include "BackEndCaller.h"
 #include "LoginLogicHandler.h"
 #include "RoutePaymentSingleton.h"
-#include "DynamicNodeHandler.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
@@ -69,8 +68,7 @@ void AmazonPaymentSingleton::amazonPaymentMade(std::string requestId, std::strin
     {
         auto funcCallAction = CallFunc::create([=](){
             ModalMessages::getInstance()->stopLoading();
-            FlowDataSingleton::getInstance()->setSuccessFailPath(IAP_SUCCESS);
-            DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
+			Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(RoutePaymentSingleton::kPaymentSuccessfulEventName);
         });
         
         Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL));

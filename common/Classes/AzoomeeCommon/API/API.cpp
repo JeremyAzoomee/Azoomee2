@@ -61,6 +61,7 @@ const char* const API::TagGetInventory = "getInventory";
 const char* const API::TagBuyReward = "buyReward";
 const char* const API::TagGetShopFeed = "getShopFeed";
 const char* const API::TagGetOomeeMakerAssets = "getOomeeMakerAssets";
+const char* const API::TagGetMarketingAssets = "getMarketingAssets";
 const char* const API::TagSaveNewOomee = "saveNewOomee";
 const char* const API::TagGetChildOomees = "getChildOomees";
 const char* const API::TagUpdateChildOomee = "updateChildOomee";
@@ -444,10 +445,13 @@ HttpRequestCreator* API::VerifyAmazonPaymentRequest(const std::string& requestId
 }
 
 HttpRequestCreator* API::VerifyApplePaymentRequest(const std::string& receiptData,
+                                                   const std::string& transactionID,
                                                    HttpRequestCreatorResponseDelegate* delegate)
 {
+    const std::string& transactionIDList = (transactionID.empty()) ? "[]" : StringUtils::format("[\"%s\"]", transactionID.c_str());
+    
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestBody = StringUtils::format("{\"receipt-data\": \"%s\"}", receiptData.c_str());
+    request->requestBody = StringUtils::format("{\"receipt-data\": \"%s\", \"newTransactionIdList\": %s}", receiptData.c_str(), transactionIDList.c_str());
     request->requestTag = TagVerifyApplePayment;
     request->method = "POST";
     request->encrypted = true;
@@ -645,6 +649,20 @@ HttpRequestCreator* API::UpdateContentProgressMeta(const std::string& childId,
 	return request;
 }
 
+HttpRequestCreator* API::GetMarketingAssets(const std::string& countryCode,
+                                            HttpRequestCreatorResponseDelegate* delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestPath = "/api/marketing/image/";
+    request->urlParameters = StringUtils::format("countryCode=%s&fallbackCountry=global", countryCode.c_str());
+    request->requestTag = TagGetMarketingAssets;
+    request->encrypted = true;
+    request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
+        HandleAPIResponse(sender, response, delegate, request);
+    });
+    return request;
+}
+
 #pragma  mark - Oomee Maker
 
 HttpRequestCreator* API::GetOomeeMakerAssets(const std::string& childId,
@@ -659,6 +677,7 @@ HttpRequestCreator* API::GetOomeeMakerAssets(const std::string& childId,
 	});
 	return request;
 }
+
 
 HttpRequestCreator* API::SaveNewOomee(const std::string& childId,
 											const std::string& adultId,
@@ -742,7 +761,8 @@ HttpRequestCreator* API::DeleteChildOomee(const std::string& childId,
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
-	return request;}
+	return request;
+}
 
 #pragma mark - Sharing
 

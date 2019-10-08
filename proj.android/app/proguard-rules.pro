@@ -16,6 +16,8 @@
 #   public *;
 #}
 
+#-printconfiguration full-r8-config.txt
+
 # Proguard Cocos2d-x for release
 -keep public class org.cocos2dx.** { *; }
 -dontwarn org.cocos2dx.**
@@ -38,6 +40,7 @@
 # UrbanAirship config
 -keep public class com.urbanairship.Autopilot
 -keep public class * extends com.urbanairship.Autopilot
+-dontwarn com.urbanairship.**
 
 # Proguard Android Webivew for release. uncomment if you are using a webview in cocos2d-x
 #-keep public class android.net.http.SslError

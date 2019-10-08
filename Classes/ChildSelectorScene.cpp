@@ -20,11 +20,11 @@
 #include "ChatNotificationsSingleton.h"
 #include <AzoomeeCommon/UI/PrivacyLayer.h>
 #include "ContentHistoryManager.h"
-#include "DynamicNodeHandler.h"
 #include "ForceUpdateAppLockScene.h"
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 #include <AzoomeeCommon/Utils/ActionBuilder.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
+#include "HQHistoryManager.h"
 
 #define OOMEE_LAYER_WIDTH 450
 #define OOMEE_LAYER_HEIGHT 450
@@ -57,6 +57,7 @@ bool ChildSelectorScene::init()
     AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
     
     ContentHistoryManager::getInstance()->setReturnedFromContent(false);
+    HQHistoryManager::getInstance()->clearCachedHQ();
     
     AudioMixer::getInstance()->stopBackgroundMusic();
     ChatNotificationsSingleton::getInstance()->stopNotificationsUpdate();
@@ -593,8 +594,6 @@ void ChildSelectorScene::onSizeChanged()
     addPrivacyButton();
     
     setParentButtonVisible(parentButtonVisible);
-    
-    DynamicNodeHandler::getInstance()->rebuildCurrentCTA();
 }
 
 NS_AZOOMEE_END

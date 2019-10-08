@@ -28,6 +28,8 @@ private:
 	TutorialGuide* _guide = nullptr;
 	TutorialSpeechBubble* _bubble = nullptr;
 	
+	bool _animatingOut = false;
+	
 public:
 	static TutorialMessagingNode* create(const std::string& message, const MessageLocation& location = MessageLocation::TOP_LEFT);
 	
@@ -45,6 +47,9 @@ public:
 	void animateOutMessage(const AnimationCompleteCallback& callback = nullptr);
 	
 	void highlightMessageString(const std::string& targetStr, const cocos2d::Color3B& highlightColour);
+	
+	void setAnimatingOut(bool animatingOut);
+	bool isAnimatingOut() const;
 	
 	CREATE_FUNC(TutorialMessagingNode);
 };

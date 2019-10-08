@@ -12,7 +12,6 @@
 #include "FlowDataSingleton.h"
 #include "SceneManagerScene.h"
 #include "AzoomeeCommon/Data/Child/ChildManager.h"
-#include "DynamicNodeHandler.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -30,6 +29,9 @@ NS_AZOOMEE_BEGIN
 
 const std::string& RoutePaymentSingleton::kReceiptCacheFolder = "receiptCache/";
 const std::string& RoutePaymentSingleton::kReceiptDataFileName = "receiptData.dat";
+
+const std::string RoutePaymentSingleton::kPaymentSuccessfulEventName = "azoomee.paymentSuccessEvent";
+const std::string RoutePaymentSingleton::kPaymentFailedEventName = "azoomee.paymentFailedEvent";
 
 static RoutePaymentSingleton *_sharedRoutePaymentSingleton = NULL;
 
@@ -58,8 +60,7 @@ void RoutePaymentSingleton::startInAppPayment()
     {
         if(!ParentManager::getInstance()->isUserLoggedIn())
         {
-            FlowDataSingleton::getInstance()->setSuccessFailPath(IAP_SUCCESS);
-            DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
+            Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(kPaymentSuccessfulEventName);
         }
         else
         {
@@ -92,6 +93,35 @@ void RoutePaymentSingleton::startInAppPayment()
     }
 }
 
+#if defined(AZOOMEE_ENVIRONMENT_CI)
+void RoutePaymentSingleton::startIOSRecPayment()
+{
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    if(receiptDataFileExists())
+    {
+        if(!ParentManager::getInstance()->isUserLoggedIn())
+        {
+            Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(kPaymentSuccessfulEventName);
+        }
+        else
+        {
+            retryReceiptValidation();
+        }
+        return;
+    }
+    
+    pressedIAPStartButton = true;
+    pressedRestorePurchaseButton = false;
+    ModalMessages::getInstance()->startLoading();
+    if(osIsIos())
+    {
+        ApplePaymentSingleton::getInstance()->startRecIAPPayment();
+        return;
+    }
+#endif
+}
+#endif
+
 bool RoutePaymentSingleton::showIAPContent()
 {
     return !ParentManager::getInstance()->isPaidUser();
@@ -99,17 +129,17 @@ bool RoutePaymentSingleton::showIAPContent()
 
 bool RoutePaymentSingleton::osIsIos()
 {
-    return (ConfigStorage::getInstance()->getOSManufacturer() == "Apple");
+    return (ConfigStorage::getInstance()->getOSManufacturer() == ConfigStorage::kOSManufacturerApple);
 }
 
 bool RoutePaymentSingleton::osIsAndroid()
 {
-    return (ConfigStorage::getInstance()->getOSManufacturer() == "Google");
+    return (ConfigStorage::getInstance()->getOSManufacturer() == ConfigStorage::kOSManufacturerGoogle);
 }
 
 bool RoutePaymentSingleton::osIsAmazon()
 {
-    return (ConfigStorage::getInstance()->getOSManufacturer() == "Amazon");
+    return (ConfigStorage::getInstance()->getOSManufacturer() == ConfigStorage::kOSManufacturerAmazon);
 }
 
 void RoutePaymentSingleton::restorePayment()
@@ -137,25 +167,16 @@ void RoutePaymentSingleton::restorePayment()
 
 void RoutePaymentSingleton::backendRequestFailed(long errorCode)
 {
-    if(errorCode == 409 || errorCode == 422) //409 means the user was already upgraded, so we can remove the local receipt file.
-    {
-        RoutePaymentSingleton::getInstance()->removeReceiptDataFile();
-    }
-    
     ModalMessages::getInstance()->stopLoading();
     
-    if(pressedIAPStartButton)
-        MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, this);
-    else
+    if(errorCode == 409) // this if for any error involving duplicate/already redeemed purchases, from attempted payment restore with already redeemed purchase or trying to subscribe again
     {
-        if(pressedRestorePurchaseButton && errorCode == 400)
-            MessageBox::createWith(ERROR_CODE_APPLE_NO_PREVIOUS_PURCHASE, nullptr);
-        else if(pressedRestorePurchaseButton && errorCode == 409)
-            doublePurchaseMessage();
-        else if(errorCode == 409 || errorCode == 400)
-            LoginLogicHandler::getInstance()->doLoginLogic();
-        else
-            MessageBox::createWith(ERROR_CODE_APPLE_SUB_REFRESH_FAIL, this);
+        doublePurchaseMessage();
+        RoutePaymentSingleton::getInstance()->removeReceiptDataFile();
+    }
+    else // generic error message for 400 and 403 errors where either the request was invalid or signatures didnt match up do access was denied
+    {
+        MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, this);
     }
 }
 
@@ -163,8 +184,7 @@ void RoutePaymentSingleton::purchaseFailureErrorMessage(const std::string& failu
 {
     AnalyticsSingleton::getInstance()->iapSubscriptionFailedEvent(failureDetails);
     ModalMessages::getInstance()->stopLoading();
-    FlowDataSingleton::getInstance()->setSuccessFailPath(IAP_FAIL);
-    DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
+	Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(kPaymentFailedEventName);
 }
 
 void RoutePaymentSingleton::doublePurchaseMessage()
@@ -179,6 +199,11 @@ void RoutePaymentSingleton::failedRestoreMessage()
 	AnalyticsSingleton::getInstance()->iapSubscriptionErrorEvent("failed restore - no purchase");
 	Azoomee::ModalMessages::getInstance()->stopLoading();
 	MessageBox::createWith(ERROR_CODE_APPLE_NO_PREVIOUS_PURCHASE, nullptr);
+}
+
+void RoutePaymentSingleton::canceledAction()
+{
+    Azoomee::ModalMessages::getInstance()->stopLoading();
 }
 
 void RoutePaymentSingleton::inAppPaymentSuccess()
@@ -198,6 +223,12 @@ void RoutePaymentSingleton::inAppPaymentSuccess()
     
     ChildManager::getInstance()->setChildLoggedIn(false);
     BackEndCaller::getInstance()->getAvailableChildren();
+}
+
+void RoutePaymentSingleton::writeAppleReceiptDataToFile(const std::string& receiptData, const std::string& transactionID)
+{
+    const std::string& stringToWrite = receiptData + "|" + transactionID;
+    writeReceiptDataToFile(stringToWrite);
 }
 
 void RoutePaymentSingleton::writeAndroidReceiptDataToFile(const std::string& developerPayload, const std::string& orderId, const std::string& token)
@@ -280,8 +311,13 @@ void RoutePaymentSingleton::retryReceiptValidation()
     
     pressedIAPStartButton = true;
     pressedRestorePurchaseButton = false;
+    
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    ApplePaymentSingleton::getInstance()->transactionStatePurchased(dataString);
+    const std::vector<std::string>& paymentElements = splitStringToVector(dataString, "|");
+    const std::string& receiptData = paymentElements[0];
+    // Get transactionID if we stored it. It may not exist if the receipt was saved in an older version
+    const std::string& transactionID = (paymentElements.size() > 1) ? paymentElements[1] : "";
+    ApplePaymentSingleton::getInstance()->transactionStatePurchased(receiptData, transactionID);
 #endif
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)

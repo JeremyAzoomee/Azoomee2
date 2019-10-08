@@ -2,6 +2,12 @@
 #define AzoomeeCommon_CrashlyticsConfig_h
 
 #include <string>
+#include <cocos/cocos2d.h>
+
+// Enable Crashlytics for Android, or on iOS only for Test and CI builds
+#if !defined(DEBUG) && ( (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) || defined(AZOOMEE_ENVIRONMENT_TEST) || defined(AZOOMEE_ENVIRONMENT_CI))
+#define CRASHLYTICS_ENABLED
+#endif
 
 namespace Azoomee
 {

@@ -2,6 +2,7 @@
 #include "../Json.h"
 #include "../ConfigStorage.h"
 #include "ContentItemManager.h"
+#include "../../UI/Style.h"
 
 
 using namespace cocos2d;
@@ -163,10 +164,11 @@ void HQDataObjectManager::parseHQStructureData(const std::string& hqStuctureData
 		MutableHQCarouselObjectRef carouselObject = MutableHQCarouselObject::create();
 		
 		carouselObject->setTitle(getStringFromJson("title", rowData));
-		
+        const Color4B& carouselColour = rowNumber == 0 ? Color4B(Style::Color::macaroniAndCheese) : getColor4BFromJson("rgbColour", rowData, Color4B(Style::Color::azure));
+        carouselObject->setColour(carouselColour);
 		if(rowData.HasMember("images"))
 		{
-			carouselObject->setIcon(getStringFromJson("icon", rowData["images"])); //parsing carousel main icon if present
+			carouselObject->setIcon(getStringFromJson("carouselImage", rowData["images"])); //parsing carousel main icon if present
 		}
 		
 		if(rowData.HasMember("contentIds") && rowData["contentIds"].IsArray() && rowData["contentIds"].Size() != 0)
@@ -185,7 +187,8 @@ void HQDataObjectManager::parseHQStructureData(const std::string& hqStuctureData
 				{
 					continue;
 				}
-				
+                pointerToContentItem->setCarouselColour(carouselColour);
+                
 				Vec2 contentItemHighlight = Vec2(1,1);
 				if(rowData.HasMember("shapes") && rowData["shapes"].IsArray() && rowData["shapes"].Size() > elementIndex)
 				{

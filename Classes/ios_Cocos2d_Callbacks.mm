@@ -159,7 +159,7 @@ void shareContentInChat()
 
 bool isChatEntitled()
 {
-    return HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName)->getHqEntitlement()  && !HQHistoryManager::getInstance()->isOffline();
+    return !HQHistoryManager::getInstance()->isOffline() && HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName)->getHqEntitlement();
 }
 
 bool isAnonUser()

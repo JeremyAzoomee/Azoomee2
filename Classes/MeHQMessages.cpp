@@ -8,10 +8,9 @@
 #include "MeHQMessages.h"
 #include "ChatDelegate.h"
 #include "SceneManagerScene.h"
-#include "IAPFlowController.h"
-#include "DynamicNodeHandler.h"
 #include "HQDataProvider.h"
 #include "HQHistoryManager.h"
+#include "AgeGate.h"
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeChat/UI/AvatarWidget.h>
 #include <AzoomeeChat/UI/MessageScene.h>
@@ -117,9 +116,19 @@ void MeHQMessages::buildEmptyCarousel()
             
             if(!currentObject->getHqEntitlement())
             {
-                AnalyticsSingleton::getInstance()->registerCTASource("lockedHQ","",currentObject->getHqType());
-                IAPEntryContext context = IAPEntryContext::LOCKED_CHAT;
-                DynamicNodeHandler::getInstance()->startIAPFlow(context);
+#ifndef AZOOMEE_VODACOM_BUILD
+                AgeGate* ageGate = AgeGate::create();
+                ageGate->setActionCompletedCallback([ageGate](AgeGateResult result){
+                    ageGate->removeFromParent();
+                    if(result == AgeGateResult::SUCCESS)
+                    {
+                        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::IAP));
+                    }
+                });
+                Director::getInstance()->getRunningScene()->addChild(ageGate,AGE_GATE_Z_ORDER);
+#else
+                Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::VodacomOnboarding));
+#endif
             }
             else
             {
@@ -179,9 +188,19 @@ void MeHQMessages::buildEmptyCarousel()
                 
                 if(!currentObject->getHqEntitlement())
                 {
-                    AnalyticsSingleton::getInstance()->registerCTASource("lockedHQ","",currentObject->getHqType());
-                    IAPEntryContext context = IAPEntryContext::LOCKED_CHAT;
-                    DynamicNodeHandler::getInstance()->startIAPFlow(context);
+#ifndef AZOOMEE_VODACOM_BUILD
+                    AgeGate* ageGate = AgeGate::create();
+                    ageGate->setActionCompletedCallback([ageGate](AgeGateResult result){
+                        ageGate->removeFromParent();
+                        if(result == AgeGateResult::SUCCESS)
+                        {
+                            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::IAP));
+                        }
+                    });
+                    Director::getInstance()->getRunningScene()->addChild(ageGate,AGE_GATE_Z_ORDER);
+#else
+                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::VodacomOnboarding));
+#endif
                 }
                 else
                 {

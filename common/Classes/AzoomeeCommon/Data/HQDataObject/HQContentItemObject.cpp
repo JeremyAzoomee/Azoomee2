@@ -138,6 +138,11 @@ void MutableHQContentItemObject::setElementShape(const cocos2d::Vec2 &inputEleme
     _elementShape = inputElementShape;
 }
 
+void HQContentItemObject::setCarouselColour(const cocos2d::Color4B &colour)
+{
+    _carouselColour = colour;
+}
+
 std::string HQContentItemObject::getImagePath() const
 {
     return _imagePath;
@@ -151,6 +156,11 @@ int HQContentItemObject::getElementNumber() const
 cocos2d::Vec2 HQContentItemObject::getElementShape()
 {
     return _elementShape;
+}
+
+cocos2d::Color4B HQContentItemObject::getCarouselColour() const
+{
+    return _carouselColour;
 }
 
 //Other helper methods

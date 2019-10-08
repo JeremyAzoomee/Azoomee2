@@ -117,6 +117,10 @@ void Scene::onSizeChanged()
 	{
 		screenSizeDidChange();
 	}
+	else
+	{
+		return;
+	}
 	
 	for(auto messageBox : this->getChildren())
 	{

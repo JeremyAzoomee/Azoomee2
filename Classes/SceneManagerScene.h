@@ -3,7 +3,7 @@
 
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Azoomee.h>
-#include <AzoomeeCommon/UI/Orientation.h>
+#include <AzoomeeCommon/UI/UIConsts.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -30,7 +30,9 @@ enum class SceneNameEnum {
 	VodacomOnboarding,
 	WelcomeScene,
 	ChildSettingsHub,
-	Shop
+	Shop,
+	IAP,
+	Signup
 };
 
 class SceneManagerScene : public cocos2d::Layer
@@ -50,6 +52,8 @@ private:
     void acceptAnyOrientation();
 	
 	void showHoldingUI();
+	
+	cocos2d::Scene* getBaseScene();
 	
 public:
     static cocos2d::Scene* createScene(SceneNameEnum sceneName);

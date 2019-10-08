@@ -3,7 +3,6 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "LoginLogicHandler.h"
 #include "SceneManagerScene.h"
-#include "DynamicNodeHandler.h"
 
 using namespace cocos2d;
 
@@ -34,7 +33,7 @@ void PreviewLoginSignupMessageBox::MessageBoxButtonPressed(std::string messageBo
     }
     else if(buttonTitle == MessageBox::kSignUp)
     {
-        DynamicNodeHandler::getInstance()->startSignupFlow();
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Signup));
     }
 }
 
