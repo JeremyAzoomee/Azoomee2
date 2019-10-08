@@ -13,6 +13,7 @@
 #include <cocos/ui/CocosGUI.h>
 #include "HQPage.h"
 #include "OomeeDisplay.h"
+#include "DropdownContentHolder.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -26,12 +27,19 @@ private:
     cocos2d::ui::Layout* _shopButton = nullptr;
     cocos2d::ui::Layout* _artStudioLayout = nullptr;
     cocos2d::ui::Layout* _favouritesLayout = nullptr;
-    cocos2d::ui::Layout* _offlineDropdown = nullptr;
+    DropdownContentHolder* _offlineDropdown = nullptr;
 
     cocos2d::EventListenerTouchOneByOne* _touchListener = nullptr;
     
     void createOomeeLayout();
     void createScrollViewContent();
+    void createOfflineDropdown();
+    
+    //offline game utils
+    std::vector<std::string> getJsonFileListFromDir() const;
+    bool isStarterFileExists(const std::string &gameId) const;
+    std::string getStartFileFromJson(const std::string &gameId) const;
+    void refreshOfflineList();
     
 public:
     

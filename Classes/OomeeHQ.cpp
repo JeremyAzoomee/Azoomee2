@@ -6,9 +6,16 @@
 //
 
 #include "OomeeHQ.h"
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include <AzoomeeCommon/Utils/DirUtil.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
+#include "HQDataProvider.h"
+
 
 using namespace cocos2d;
 
@@ -23,12 +30,14 @@ bool OomeeHQ::init()
     
     createOomeeLayout();
     createScrollViewContent();
+    createOfflineDropdown();
     
     return true;
 }
 
 void OomeeHQ::onEnter()
 {
+    refreshOfflineList();
     Super::onEnter();
 }
 
@@ -63,9 +72,14 @@ void OomeeHQ::onSizeChanged()
         _oomeeDisplay->setSizePercent(Vec2(0.975f, 0.975f));
     }
     
+    const float contentListViewWidth = _contentListView->getSizePercent().x * getContentSize().width;
+    
     _artStudioLayout->setContentSize(Size(_contentListView->getContentSize().width, 1412));
     _shopButton->setContentSize(Size(_contentListView->getContentSize().width, 574));
     _oomeeMakerButton->setContentSize(Size(_contentListView->getContentSize().width, 574));
+    
+    _offlineDropdown->setContentSize(Size(contentListViewWidth - kListViewSidePadding, _offlineDropdown->getContentSize().height));
+    
     _contentListView->forceDoLayout();
     
 }
@@ -77,8 +91,6 @@ void OomeeHQ::createOomeeLayout()
     _oomeeLayout->setSizePercent(Vec2(1.0f, 1.0f));
     _oomeeLayout->setPositionType(PositionType::PERCENT);
     _oomeeLayout->setPositionPercent(Vec2(0.5f, 0.5f));
-    //_oomeeLayout->setBackGroundColorType(BackGroundColorType::SOLID);
-    //_oomeeLayout->setBackGroundColor(Color3B::GRAY);
     _oomeeLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _staticContentLayout->addChild(_oomeeLayout, 1);
     
@@ -151,6 +163,98 @@ void OomeeHQ::createScrollViewContent()
         _structureUIHolder->forceDoLayout();
     };
     _eventDispatcher->addEventListenerWithSceneGraphPriority(_touchListener, _contentListView);
+}
+
+void OomeeHQ::createOfflineDropdown()
+{
+    _offlineDropdown = DropdownContentHolder::create();
+    _offlineDropdown->setTilePlaceholder(CONTENT_PLACEHOLDER_GAME_1X1);
+    _offlineDropdown->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+    _offlineDropdown->setContentSize(Size(_contentListView->getSizePercent().x * getContentSize().width, 0));
+    _offlineDropdown->setFrameColour(Style::Color::azure);
+    _offlineDropdown->setPatternColour(Style::Color::azure);
+    _offlineDropdown->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
+        if(_contentSelectedCallback)
+        {
+            _contentSelectedCallback(content, elementIndex, -3);
+        }
+    });
+    _offlineDropdown->setOnResizeCallback([this](){
+        this->listviewDropdownResizeCallback();
+    });
+    _offlineDropdown->setTouchEnabled(true);
+    _offlineDropdown->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            this->dropdownAutoOpenCloseLogic(_offlineDropdown, {_offlineDropdown});
+        }
+    });
+    _contentListView->pushBackCustomItem(_offlineDropdown);
+}
+
+std::vector<std::string> OomeeHQ::getJsonFileListFromDir() const
+{
+    return DirUtil::getFoldersInDirectory(ConfigStorage::getInstance()->getGameCachePath());
+}
+
+bool OomeeHQ::isStarterFileExists(const std::string &gameId) const
+{
+    if(getStartFileFromJson(gameId) == ConfigStorage::kGameDownloadError) return false;
+    
+    std::string path = ConfigStorage::getInstance()->getGameCachePath() + gameId + "/" + getStartFileFromJson(gameId);
+    return FileUtils::getInstance()->isFileExist(path);
+}
+
+std::string OomeeHQ::getStartFileFromJson(const std::string &gameId) const
+{
+    std::string jsonFileName = ConfigStorage::getInstance()->getGameCachePath() + gameId + "/package.json";
+    
+    std::string fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
+    
+    rapidjson::Document gameData;
+    gameData.Parse(fileContent.c_str());
+    
+    if(gameData.HasParseError())
+    {
+        return ConfigStorage::kGameDownloadError;
+    }
+    
+    if(gameData.HasMember("pathToStartPage"))
+    {
+        return getStringFromJson("pathToStartPage", gameData);
+    }
+    else
+    {
+        return ConfigStorage::kGameDownloadError;
+    }
+}
+
+void OomeeHQ::refreshOfflineList()
+{
+    std::vector<HQContentItemObjectRef> gameList;
+    const std::vector<std::string>& jsonList = getJsonFileListFromDir();
+    
+    for(const auto& json : jsonList)
+    {
+        if(json.length() > 3)
+        {
+            if(isStarterFileExists(json))
+            {
+                auto item = ContentItemManager::getInstance()->getContentItemForId(json);
+                if(item && item->isEntitled())
+                {
+                    gameList.push_back(item);
+                }
+            }
+        }
+    }
+    
+    MutableHQCarouselObjectRef carousel = MutableHQCarouselObject::create();
+    carousel->setColour(Color4B(Style::Color::azure));
+    carousel->addContentItemsToCarousel(gameList);
+    carousel->setTitle(_("Offline"));
+    
+    _offlineDropdown->setContentItemData(carousel);
 }
 
 NS_AZOOMEE_END
