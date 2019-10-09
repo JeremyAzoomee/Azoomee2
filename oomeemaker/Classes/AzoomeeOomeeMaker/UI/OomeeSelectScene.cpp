@@ -244,7 +244,20 @@ void OomeeSelectScene::makeAvatar(const std::string &oomeeFilename)
     if(Azoomee::OomeeMaker::delegate)
     {
         CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Make_Avatar_Button.mp3");
-        Azoomee::OomeeMaker::delegate->onOomeeMakerUpdateAvatar(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + oomeeFilename + ".png");
+        rapidjson::Document data;
+        data.Parse(FileUtils::getInstance()->getStringFromFile(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + oomeeFilename + ".oomee").c_str());
+        if(data.HasParseError())
+        {
+            return;
+        }
+        OomeeFigureDataRef oomee = OomeeFigureData::createWithData(data);
+        OomeeMakerDataHandler::getInstance()->saveOomee(oomee, true, ChildManager::getInstance()->getLoggedInChild()->getId(), [this, oomeeFilename](bool success){
+            if(delegate && success)
+            {
+                delegate->onOomeeMakerUpdateAvatar(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + oomeeFilename + ".png");
+            }
+        });
+        //Azoomee::OomeeMaker::delegate->onOomeeMakerUpdateAvatar(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + oomeeFilename + ".png");
     }
 }
 

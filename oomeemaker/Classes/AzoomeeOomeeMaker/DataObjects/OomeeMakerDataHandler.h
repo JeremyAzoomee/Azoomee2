@@ -27,6 +27,8 @@ private:
 	std::vector<HttpRequestCreator*> _pendingLocalOomeeUploads;
 	std::string _targetChildId = "";
 	
+    bool _gettingDataAsync = false;
+    
 	std::string getCachePath() const override;
 	
     void unzipBundledAssets();
@@ -51,7 +53,8 @@ public:
     void getConfigFilesIfNeeded();
 	
 	void getLatestData(const OnCompleteCallback& callback = nullptr) override;
-	
+    void getLatestDataAsync(const OnCompleteCallback& callback = nullptr);
+    
 	void getOomeesForChild(const std::string& childId, const OnCompleteCallback& callback = nullptr);
 	void getAllOomees(const OnCompleteCallback& callback = nullptr);
 	

@@ -329,7 +329,7 @@ void OomeeMakerScene::onEnterTransitionDidFinish()
         _categoryList->setSelectedButton(OomeeMakerDataStorage::getInstance()->getItemCategoryForKey(OomeeMakerDataStorage::getInstance()->getDefaultCategoryId()));
         setItemsListForCategory(OomeeMakerDataStorage::getInstance()->getItemCategoryForKey(OomeeMakerDataStorage::getInstance()->getDefaultCategoryId()));
     }), NULL));
-    
+    Director::getInstance()->purgeCachedData();
     Super::onEnterTransitionDidFinish();
 }
 
