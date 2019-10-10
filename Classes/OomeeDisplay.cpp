@@ -155,6 +155,7 @@ void OomeeDisplay::setOomeeImgUrl(const std::string& oomeeImageUrl)
 //deleagte functions
 void OomeeDisplay::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {
+    Director::getInstance()->getTextureCache()->reloadTexture(downloader->getLocalImagePath());
     _oomee->setTexture(downloader->getLocalImagePath());
     const Size& contentSize = getContentSize();
     _oomee->setScale(MIN((contentSize.width * 0.8f) / _oomee->getContentSize().width, (contentSize.height * 0.8f) / _oomee->getContentSize().height));

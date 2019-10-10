@@ -239,6 +239,7 @@ public:
 											HttpRequestCreatorResponseDelegate* delegate);
 
 	static HttpRequestCreator* GetChildOomees(const std::string& childId,
+                                              bool getOnlySelected,
 											  HttpRequestCreatorResponseDelegate* delegate);
 
 	static HttpRequestCreator* UpdateChildOomee(const std::string& childId,
@@ -250,7 +251,8 @@ public:
 												HttpRequestCreatorResponseDelegate* delegate);
 
 	static HttpRequestCreator* GetAllOomees(const std::string& adultId,
-												   HttpRequestCreatorResponseDelegate* delegate);
+                                            bool getOnlySelected,
+                                            HttpRequestCreatorResponseDelegate* delegate);
 	
 	static HttpRequestCreator* DeleteChildOomee(const std::string& childId,
 												const std::string& oomeeId,

@@ -7,6 +7,8 @@
 #include "SceneManagerScene.h"
 #include "MarketingAssetManager.h"
 
+#include <AzoomeeOomeeMaker/DataObjects/OomeeMakerDataHandler.h>
+
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
@@ -49,6 +51,7 @@ void LoginLogicHandler::doLoginLogic()
         BackEndCaller::getInstance()->getParentDetails();
 		AnalyticsSingleton::getInstance()->registerIdentifier(ParentManager::getInstance()->getLoggedInParentId());
         MarketingAssetManager::getInstance()->downloadMarketingAssets();
+        OomeeMaker::OomeeMakerDataHandler::getInstance()->getLatestDataAsync();
         return;
     }
     else if(DeepLinkingSingleton::getInstance()->actionDeepLink())

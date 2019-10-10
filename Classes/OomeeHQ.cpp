@@ -40,6 +40,8 @@ void OomeeHQ::onEnter()
 {
     refreshOfflineList();
     refreshFavouritesList();
+    _oomeeDisplay->setOomeeImgUrl(ChildManager::getInstance()->getLoggedInChild()->getAvatar());
+    _oomeeDisplay->setBgPatternColour(Color3B(ChildManager::getInstance()->getLoggedInChild()->getAvatarColour()));
     Super::onEnter();
 }
 
@@ -103,9 +105,7 @@ void OomeeHQ::createOomeeLayout()
     _oomeeDisplay->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _oomeeDisplay->setSizePercent(Vec2(1.0f, 0.975f));
     _oomeeDisplay->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
-    _oomeeDisplay->setBgPatternColour(Style::Color::azure);
     _oomeeDisplay->setKidCode(ChildManager::getInstance()->getLoggedInChild()->getInviteCode());
-    _oomeeDisplay->setOomeeImgUrl(ChildManager::getInstance()->getLoggedInChild()->getAvatar());
     _oomeeLayout->addChild(_oomeeDisplay);
 }
 void OomeeHQ::createScrollViewContent()

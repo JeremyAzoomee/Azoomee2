@@ -585,4 +585,13 @@ void ParentManager::saveAnonCredentialsToDevice(const std::string &userId)
 	userDefault->flush();
 }
 
+void ParentManager::setAvatarColourForChild(const std::string& childId, const cocos2d::Color4B& colour)
+{
+    auto childItt = _availableChildrenById.find(childId);
+    if(childItt != _availableChildrenById.end())
+    {
+        childItt->second->setAvatarColour(colour);
+    }
+}
+
 NS_AZOOMEE_END

@@ -101,7 +101,7 @@ void OomeeMakerDataHandler::getLatestDataAsync(const OnCompleteCallback& callbac
     }
 }
 
-void OomeeMakerDataHandler::getOomeesForChild(const std::string &childId, const OnCompleteCallback& callback)
+void OomeeMakerDataHandler::getOomeesForChild(const std::string &childId, bool getOnlySelected, const OnCompleteCallback& callback)
 {
 	if(callback)
 	{
@@ -109,7 +109,7 @@ void OomeeMakerDataHandler::getOomeesForChild(const std::string &childId, const 
 	}
 	_targetChildId = childId;
 	ModalMessages::getInstance()->startLoading();
-	HttpRequestCreator* request = API::GetChildOomees(childId, this);
+    HttpRequestCreator* request = API::GetChildOomees(childId, getOnlySelected, this);
 	request->execute();
 }
 
@@ -121,7 +121,7 @@ void OomeeMakerDataHandler::getAllOomees(const OnCompleteCallback& callback)
 	}
     _targetChildId = "";
 	ModalMessages::getInstance()->startLoading();
-	HttpRequestCreator* request = API::GetAllOomees(ParentManager::getInstance()->getLoggedInParentId(), this);
+	HttpRequestCreator* request = API::GetAllOomees(ParentManager::getInstance()->getLoggedInParentId(), false, this);
 	request->execute();
 }
 
@@ -422,7 +422,7 @@ void OomeeMakerDataHandler::uploadExistingOomeesToBE(const std::string& childId)
 		OomeeFigureDataRef oomee = OomeeFigureData::createWithData(data);
 		if(oomee->getId() == "")
 		{
-			HttpRequestCreator* request = API::SaveNewOomee(childId, ParentManager::getInstance()->getLoggedInParentId(), oomee->getOomeeId(), oomee->getAccessoryIds(), false, this);
+			HttpRequestCreator* request = API::SaveNewOomee(childId, ParentManager::getInstance()->getLoggedInParentId(), oomee->getOomeeId(), oomee->getAccessoryIds(), (_pendingLocalOomeeUploads.size() == 0), this);
 			request->requestTag = "saveLocalOomee";
 			_pendingLocalOomeeUploads.push_back(request);
 			deleteOomee(file.substr(0,file.size() - 6));
@@ -436,7 +436,7 @@ void OomeeMakerDataHandler::uploadExistingOomeesToBE(const std::string& childId)
 	}
 	else
 	{
-		HttpRequestCreator* request = API::GetChildOomees(childId, this);
+		HttpRequestCreator* request = API::GetChildOomees(childId, false, this);
 		request->execute();
 	}
 }
@@ -454,6 +454,10 @@ void OomeeMakerDataHandler::writeOomeeFiles(const rapidjson::Value& data)
             continue;
         }
         const std::string& childId = getStringFromJson("childId", figureData);
+        if(getBoolFromJson("selected", figureData, false))
+        {
+            ParentManager::getInstance()->setAvatarColourForChild(childId, getColor4BFromJson("colour", figureData));
+        }
         oomeeIds.push_back(figure->getId());
         if(std::find(childIds.begin(), childIds.end(), childId) == childIds.end())
         {
@@ -620,12 +624,12 @@ void OomeeMakerDataHandler::onHttpRequestSuccess(const std::string& requestTag, 
 	}
 	else if(requestTag == API::TagSaveNewOomee || requestTag == API::TagUpdateChildOomee)
 	{
-		HttpRequestCreator* request = API::GetChildOomees(_targetChildId, this);
+		HttpRequestCreator* request = API::GetChildOomees(_targetChildId, false, this);
 		request->execute();
 	}
 	else if(requestTag == API::TagDeleteChildOomee)
 	{
-		HttpRequestCreator* request = API::GetChildOomees(_targetChildId, this);
+		HttpRequestCreator* request = API::GetChildOomees(_targetChildId, false, this);
 		request->execute();
 	}
 	else if(requestTag == "saveLocalOomee")
@@ -638,7 +642,7 @@ void OomeeMakerDataHandler::onHttpRequestSuccess(const std::string& requestTag, 
 		}
 		else
 		{
-			HttpRequestCreator* request = API::GetChildOomees(_targetChildId, this);
+			HttpRequestCreator* request = API::GetChildOomees(_targetChildId, false, this);
 			request->execute();
 		}
 	}
@@ -659,7 +663,7 @@ void OomeeMakerDataHandler::onHttpRequestFailed(const std::string& requestTag, l
 		}
 		else
 		{
-			HttpRequestCreator* request = API::GetChildOomees(_targetChildId, this);
+			HttpRequestCreator* request = API::GetChildOomees(_targetChildId, false, this);
 			request->execute();
 		}
 	}

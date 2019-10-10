@@ -701,10 +701,15 @@ HttpRequestCreator* API::SaveNewOomee(const std::string& childId,
 
 
 HttpRequestCreator* API::GetChildOomees(const std::string& childId,
+                                        bool getOnlySelected,
 											  HttpRequestCreatorResponseDelegate* delegate)
 {
 	HttpRequestCreator* request = new HttpRequestCreator(delegate);
 	request->requestPath = StringUtils::format("/api/oomeemaker/child/%s/oomees",childId.c_str());
+    if(getOnlySelected)
+    {
+        request->urlParameters = "selected=true";
+    }
 	request->requestTag = TagGetChildOomees;
 	request->encrypted = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
@@ -737,10 +742,15 @@ HttpRequestCreator* API::UpdateChildOomee(const std::string& childId,
 
 
 HttpRequestCreator* API::GetAllOomees(const std::string& adultId,
+                                      bool getOnlySelected,
 											HttpRequestCreatorResponseDelegate* delegate)
 {
 	HttpRequestCreator* request = new HttpRequestCreator(delegate);
 	request->requestPath = StringUtils::format("/api/oomeemaker/adult/%s/oomees",adultId.c_str());
+    if(getOnlySelected)
+    {
+        request->urlParameters = "selected=true";
+    }
 	request->requestTag = TagGetAllOomees;
 	request->encrypted = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
@@ -754,7 +764,7 @@ HttpRequestCreator* API::DeleteChildOomee(const std::string& childId,
 										  HttpRequestCreatorResponseDelegate* delegate)
 {
 	HttpRequestCreator* request = new HttpRequestCreator(delegate);
-	request->requestPath = StringUtils::format("/api/oomeemaker/admin/%s/%s",childId.c_str(), oomeeId.c_str());
+	request->requestPath = StringUtils::format("/api/oomeemaker/child/%s/%s",childId.c_str(), oomeeId.c_str());
 	request->requestTag = TagDeleteChildOomee;
 	request->encrypted = true;
 	request->method = "DELETE";
