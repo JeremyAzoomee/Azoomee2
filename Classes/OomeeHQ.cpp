@@ -76,9 +76,9 @@ void OomeeHQ::onSizeChanged()
     
     const float contentListViewWidth = _contentListView->getSizePercent().x * getContentSize().width;
     
-    _artStudioLayout->setContentSize(Size(_contentListView->getContentSize().width, 1412));
-    _shopButton->setContentSize(Size(_contentListView->getContentSize().width, 574));
-    _oomeeMakerButton->setContentSize(Size(_contentListView->getContentSize().width, 574));
+    _artStudioButton->setContentSize(Size(contentListViewWidth, _isPortrait ? 570 : 520));
+    _shopButton->setContentSize(Size(contentListViewWidth, _isPortrait ? 570 : 520));
+    _oomeeMakerButton->setContentSize(Size(contentListViewWidth, _isPortrait ? 625 : 575));
     
     _offlineDropdown->setContentSize(Size(contentListViewWidth - kListViewSidePadding, _offlineDropdown->getContentSize().height));
     _favouritesTitle->setTextAreaSize(Size(contentListViewWidth - kListViewSidePadding, _favouritesTitle->getContentSize().height));
@@ -112,23 +112,20 @@ void OomeeHQ::createScrollViewContent()
 {
     _contentListView->setSwallowTouches(false);
     
-    _oomeeMakerButton = ui::Layout::create();
-    _oomeeMakerButton->setBackGroundColorType(BackGroundColorType::SOLID);
-    _oomeeMakerButton->setBackGroundColor(Color3B::BLUE);
-    _oomeeMakerButton->setContentSize(Size(_contentListView->getContentSize().width, 574));
+    _oomeeMakerButton = OomeeMakerButton::create();
+    _oomeeMakerButton->setSwallowTouches(false);
+    _oomeeMakerButton->setContentSize(Size(_contentListView->getContentSize().width, 625));
     _contentListView->pushBackCustomItem(_oomeeMakerButton);
     
-    _shopButton = ui::Layout::create();
-    _shopButton->setBackGroundColorType(BackGroundColorType::SOLID);
-    _shopButton->setBackGroundColor(Color3B::YELLOW);
-    _shopButton->setContentSize(Size(_contentListView->getContentSize().width, 574));
+    _shopButton = OomeeStoreButton::create();
+    _shopButton->setSwallowTouches(false);
+    _shopButton->setContentSize(Size(_contentListView->getContentSize().width, 570));
     _contentListView->pushBackCustomItem(_shopButton);
     
-    _artStudioLayout = ui::Layout::create();
-    _artStudioLayout->setBackGroundColorType(BackGroundColorType::SOLID);
-    _artStudioLayout->setBackGroundColor(Color3B::GREEN);
-    _artStudioLayout->setContentSize(Size(_contentListView->getContentSize().width, 1412));
-    _contentListView->pushBackCustomItem(_artStudioLayout);
+    _artStudioButton = ArtStudioButton::create();
+    _artStudioButton->setSwallowTouches(false);
+    _artStudioButton->setContentSize(Size(_contentListView->getContentSize().width, 570));
+    _contentListView->pushBackCustomItem(_artStudioButton);
  
     
     _touchListener = EventListenerTouchOneByOne::create();
