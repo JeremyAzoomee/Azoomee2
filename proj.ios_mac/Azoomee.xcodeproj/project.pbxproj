@@ -223,6 +223,7 @@
 		E21592F523267D2F003CBB50 /* DropdownContentHolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21592F423267D2F003CBB50 /* DropdownContentHolder.cpp */; };
 		E21A4F272317CC5300E1D3FB /* OomeeHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21A4F262317CC5300E1D3FB /* OomeeHQ.cpp */; };
 		E21B22142322B02E0032510A /* RoundedRectTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21B22132322B02E0032510A /* RoundedRectTile.cpp */; };
+		E220CC1923548EE000F646CA /* ArtContentButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E220CC1823548EE000F646CA /* ArtContentButton.cpp */; };
 		E229F67423351999005BA0D4 /* EpisodeSelector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E229F67323351999005BA0D4 /* EpisodeSelector.cpp */; };
 		E229F6772338CF46005BA0D4 /* EpisodeBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E229F6762338CF46005BA0D4 /* EpisodeBar.cpp */; };
 		E22ACA04230C00D40024B328 /* NavigationButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACA03230C00D40024B328 /* NavigationButton.cpp */; };
@@ -763,6 +764,8 @@
 		E21A4F262317CC5300E1D3FB /* OomeeHQ.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeHQ.cpp; sourceTree = "<group>"; };
 		E21B220D2322ACA10032510A /* RoundedRectTile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RoundedRectTile.h; sourceTree = "<group>"; };
 		E21B22132322B02E0032510A /* RoundedRectTile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RoundedRectTile.cpp; sourceTree = "<group>"; };
+		E220CC122354889000F646CA /* ArtContentButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArtContentButton.h; sourceTree = "<group>"; };
+		E220CC1823548EE000F646CA /* ArtContentButton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ArtContentButton.cpp; sourceTree = "<group>"; };
 		E229F67223350BCA005BA0D4 /* EpisodeSelector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EpisodeSelector.h; sourceTree = "<group>"; };
 		E229F67323351999005BA0D4 /* EpisodeSelector.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EpisodeSelector.cpp; sourceTree = "<group>"; };
 		E229F6752338C02A005BA0D4 /* EpisodeBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EpisodeBar.h; sourceTree = "<group>"; };
@@ -1689,6 +1692,8 @@
 				E244546C235099C1005E5E6C /* OomeeStoreButton.cpp */,
 				E244546E2350D611005E5E6C /* ArtStudioButton.h */,
 				E244546F2350D8E5005E5E6C /* ArtStudioButton.cpp */,
+				E220CC122354889000F646CA /* ArtContentButton.h */,
+				E220CC1823548EE000F646CA /* ArtContentButton.cpp */,
 			);
 			name = OomeeHQComponents;
 			sourceTree = "<group>";
@@ -2049,6 +2054,7 @@
 				9289DA0A1FBDD6EB00B12435 /* ContentHistoryManager.cpp in Sources */,
 				920F6FE1213FD53900B7BB76 /* FriendRequestLayer.cpp in Sources */,
 				025BE95F1E3BD1F800EF76D1 /* WebViewNativeCaller_android.cpp in Sources */,
+				E220CC1923548EE000F646CA /* ArtContentButton.cpp in Sources */,
 				929A9CFC2065248A009B323D /* MeHQ.cpp in Sources */,
 				924E845221412D70004590FD /* SettingsKidsPage.cpp in Sources */,
 				300742F31EF93428005525AE /* ChatDelegate.cpp in Sources */,
