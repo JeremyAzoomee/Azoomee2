@@ -25,7 +25,17 @@ bool ArtContentTile::init()
     addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            this->toggleSelectedMode(!_selectedModeEnabled);
+            if(_newArtTile)
+            {
+                if(_editCallback)
+                {
+                    _editCallback("");
+                }
+            }
+            else
+            {
+                this->toggleSelectedMode(!_selectedModeEnabled);
+            }
         }
     });
     

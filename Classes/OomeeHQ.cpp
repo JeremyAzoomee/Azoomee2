@@ -14,8 +14,11 @@
 #include <AzoomeeCommon/Utils/DirUtil.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "HQDataProvider.h"
 #include "FavouritesManager.h"
+#include "ArtAppDelegate.h"
+#include "SceneManagerScene.h"
 
 using namespace cocos2d;
 
@@ -79,6 +82,7 @@ void OomeeHQ::onSizeChanged()
     _artStudioButton->setContentSize(Size(contentListViewWidth, _isPortrait ? 570 : 520));
     _shopButton->setContentSize(Size(contentListViewWidth, _isPortrait ? 570 : 520));
     _oomeeMakerButton->setContentSize(Size(contentListViewWidth, _isPortrait ? 625 : 575));
+    _artTileHolder->setContentSize(Size(contentListViewWidth, 0));
     
     _offlineDropdown->setContentSize(Size(contentListViewWidth - kListViewSidePadding, _offlineDropdown->getContentSize().height));
     _favouritesTitle->setTextAreaSize(Size(contentListViewWidth - kListViewSidePadding, _favouritesTitle->getContentSize().height));
@@ -126,7 +130,18 @@ void OomeeHQ::createScrollViewContent()
     _artStudioButton->setSwallowTouches(false);
     _artStudioButton->setContentSize(Size(_contentListView->getContentSize().width, 570));
     _contentListView->pushBackCustomItem(_artStudioButton);
- 
+    
+    _artTileHolder = ArtTileHolder::create();
+    _artTileHolder->setDeleteCallback([this](const std::string& filename){
+        AnalyticsSingleton::getInstance()->genericButtonPressEvent("artsAppDeleteButton");
+        FileUtils::getInstance()->removeFile(filename);
+        refreshArtList();
+    });
+    _artTileHolder->setEditCallback([](const std::string& filename){
+        ArtAppDelegate::getInstance()->setFileName(filename == ArtTileHolder::kEmptyArtFilename ? "" : filename);
+        AnalyticsSingleton::getInstance()->contentItemSelectedEvent("Art");
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ArtAppEntryPointScene));
+    });
     
     _touchListener = EventListenerTouchOneByOne::create();
     _touchListener->onTouchBegan = [this](Touch *touch, Event *event){
@@ -293,6 +308,38 @@ void OomeeHQ::refreshFavouritesList()
     carousel->setTitle(_("Favourites"));
     _favouritesLayout->setMaxRows(favList.size() > 0 ? -1 : 1);
     _favouritesLayout->setContentItemData(carousel);
+}
+
+void OomeeHQ::refreshArtList()
+{
+    const std::string& dirPath = DirUtil::getCachesPath() + ConfigStorage::kArtCacheFolder + ChildManager::getInstance()->getParentOrChildId();
+    
+    if(!FileUtils::getInstance()->isDirectoryExist(dirPath))
+    {
+        FileUtils::getInstance()->createDirectory(dirPath);
+    }
+    
+    auto artImages = DirUtil::getImagesInDirectory(dirPath);
+    std::reverse(artImages.begin(), artImages.end());
+    std::vector<std::string> fullFilepaths;
+    if(artImages.size() > 0)
+    {
+        for(auto filename : artImages)
+        {
+            fullFilepaths.push_back(dirPath + "/" + filename);
+        }
+    }
+    else
+    {
+        fullFilepaths.push_back(ArtTileHolder::kEmptyArtFilename);
+    }
+    
+    if(fullFilepaths.size() % 2)
+    {
+        fullFilepaths.push_back(ArtTileHolder::kEmptyArtFilename);
+    }
+    
+    _artTileHolder->setArtFilenames(fullFilepaths);
 }
 
 NS_AZOOMEE_END

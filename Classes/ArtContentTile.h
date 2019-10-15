@@ -1,12 +1,12 @@
 //
-//  ArtContentButton.h
+//  ArtContentTile.h
 //  Azoomee
 //
 //  Created by Macauley.Scoffins on 14/10/2019.
 //
 
-#ifndef ArtContentButton_h
-#define ArtContentButton_h
+#ifndef ArtContentTile_h
+#define ArtContentTile_h
 
 #include <AzoomeeCommon/Azoomee.h>
 #include <cocos/cocos2d.h>
@@ -16,10 +16,10 @@
 
 NS_AZOOMEE_BEGIN
 
-class ArtContentButton : public cocos2d::ui::Layout, public OnScreenChecker
+class ArtContentTile : public cocos2d::ui::Layout, public OnScreenChecker
 {
     typedef cocos2d::ui::Layout Super;
-    typedef std::function<void(const std::string&)> ArtContentButtonCallback;
+    typedef std::function<void(const std::string&)> ArtContentTileCallback;
 private:
     
     static const cocos2d::Size kDropshadowPadding;
@@ -33,12 +33,14 @@ private:
     cocos2d::ui::Button* _deleteButton = nullptr;
     cocos2d::ui::Button* _editButton = nullptr;
     
-    ArtContentButtonCallback _editCallback = nullptr;
-    ArtContentButtonCallback _deleteCallback = nullptr;
+    ArtContentTileCallback _editCallback = nullptr;
+    ArtContentTileCallback _deleteCallback = nullptr;
     
     std::string _artFilename;
     
     std::string _placholderFilename;
+    
+    bool _newArtTile = false;
     
     bool _selectedModeEnabled = false;
     
@@ -57,15 +59,15 @@ public:
     void onSizeChanged() override;
     
     void setArtFilename(const std::string& artFilename);
-    
+    void setNewArtTile(bool newArt);
     void setPlaceholderFilename(const std::string& placeholder);
     
-    void setEditCallback(const ArtContentButtonCallback& callback);
-    void setDeleteCallback(const ArtContentButtonCallback& callback);
+    void setEditCallback(const ArtContentTileCallback& callback);
+    void setDeleteCallback(const ArtContentTileCallback& callback);
     
-    CREATE_FUNC(ArtContentButton);
+    CREATE_FUNC(ArtContentTile);
 };
 
 NS_AZOOMEE_END
 
-#endif /* ArtContentButton_h */
+#endif /* ArtContentTile_h */

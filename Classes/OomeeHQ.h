@@ -19,6 +19,7 @@
 #include "OomeeMakerButton.h"
 #include "OomeeStoreButton.h"
 #include "ArtStudioButton.h"
+#include "ArtTileHolder.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -31,6 +32,7 @@ private:
     OomeeMakerButton* _oomeeMakerButton = nullptr;
     OomeeStoreButton* _shopButton = nullptr;
     ArtStudioButton* _artStudioButton = nullptr;
+    ArtTileHolder* _artTileHolder = nullptr;
     DynamicText* _favouritesTitle = nullptr;
     CircleContentHolder* _favouritesLayout = nullptr;
     DropdownContentHolder* _offlineDropdown = nullptr;
@@ -49,6 +51,7 @@ private:
     void refreshOfflineList();
     
     void refreshFavouritesList();
+    void refreshArtList();
     
 public:
     
