@@ -21,7 +21,7 @@ bool ArtContentTile::init()
     {
         return false;
     }
-    
+    setTouchEnabled(true);
     addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
@@ -47,18 +47,11 @@ bool ArtContentTile::init()
     _dropShadow->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     addChild(_dropShadow);
     
-    _stencil = ui::Scale9Sprite::create("res/hqscene/DropDownBoxStencil.png");
-    _stencil->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    
-    _imageClipper = ClippingNode::create(_stencil);
-    _imageClipper->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-    _imageClipper->setAlphaThreshold(0.9f);
-    addChild(_imageClipper);
-    
-    _contentImage = Sprite::create();
+    _contentImage = RoundedRectSprite::create();
     _contentImage->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _contentImage->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    _imageClipper->addChild(_contentImage);
+    _contentImage->setCornerRadius(60);
+    addChild(_contentImage);
     
     _buttonOverlay = RoundedRectSprite::create();
     _buttonOverlay->setTexture("res/decoration/white_1px.png");
@@ -68,11 +61,13 @@ bool ArtContentTile::init()
     _buttonOverlay->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _buttonOverlay->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _buttonOverlay->setIgnoreAnchorPointForPosition(false);
+    _buttonOverlay->setVisible(false);
     addChild(_buttonOverlay);
     
-    _deleteButton = ui::Button::create();
+    _deleteButton = ui::Button::create("res/OomeeHQ/ArtStudio/bin_art_button.png");
+    _deleteButton->ignoreContentAdaptWithSize(false);
     _deleteButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _deleteButton->setNormalizedPosition(Vec2(0.6,0.5f));
+    _deleteButton->setNormalizedPosition(Vec2(0.7,0.5f));
     _deleteButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
@@ -84,12 +79,14 @@ bool ArtContentTile::init()
     });
     _buttonOverlay->addChild(_deleteButton);
     
-    _editButton = ui::Button::create();
+    _editButton = ui::Button::create("res/OomeeHQ/ArtStudio/edit_art_button.png");
+    _editButton->ignoreContentAdaptWithSize(false);
     _editButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _editButton->setNormalizedPosition(Vec2(0.4,0.5f));
+    _editButton->setNormalizedPosition(Vec2(0.3,0.5f));
     _editButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
+            toggleSelectedMode(false);
             if(_editCallback)
             {
                 _editCallback(_artFilename);
@@ -119,9 +116,6 @@ void ArtContentTile::onSizeChanged()
     
     const Size& contentSize = getContentSize();
     _dropShadow->setContentSize(contentSize + kDropshadowPadding);
-    _imageClipper->setContentSize(contentSize);
-    _stencil->setPosition(contentSize / 2.0f);
-    _stencil->setContentSize(contentSize + kDropshadowPadding);
     _buttonOverlay->setContentSize(contentSize);
     _editButton->setContentSize(Size(contentSize.width * 0.2f, contentSize.width * 0.2f));
     _deleteButton->setContentSize(Size(contentSize.width * 0.2f, contentSize.width * 0.2f));
@@ -136,6 +130,11 @@ void ArtContentTile::setArtFilename(const std::string& artFilename)
 void ArtContentTile::setPlaceholderFilename(const std::string& placeholder)
 {
     _placholderFilename = placeholder;
+}
+
+void ArtContentTile::setNewArtTile(bool newArt)
+{
+    _newArtTile = newArt;
 }
 
 void ArtContentTile::setEditCallback(const ArtContentTileCallback& callback)
@@ -156,9 +155,7 @@ void ArtContentTile::toggleSelectedMode(bool enabled)
 
 void ArtContentTile::resizeContentImage()
 {
-    const Size& contentSize = getContentSize();
-    const Size& imageSize = _contentImage->getContentSize();
-    _contentImage->setScale(MIN(contentSize.height / imageSize.height, contentSize.width / imageSize.width));
+    _contentImage->setContentSize(getContentSize());
 }
 
 void ArtContentTile::elementDisappeared(cocos2d::Node *sender)

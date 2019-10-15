@@ -13,7 +13,7 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-const float ArtTileHolder::kTileSpacingPercent = 0.035f;
+const float ArtTileHolder::kTileSpacingPercent = 0.025f;
 const cocos2d::Vec2 ArtTileHolder::kTileAspectRatio = Vec2(1.0f, 0.625f);
 const std::string ArtTileHolder::kEmptyArtFilename = "res/OomeeHQ/ArtStudio/new_painting_button.png";
 
@@ -29,19 +29,33 @@ bool ArtTileHolder::init()
     _bgColour->setCornerRadius(27);
     _bgColour->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _bgColour->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    _bgColour->setColor(Style::Color::strongPink);
+    _bgColour->setColor(Style::Color::purplyPink);
+    _bgColour->setOpacity(125);
     addChild(_bgColour);
     
     _bgPattern = RoundedRectSprite::create();
     _bgPattern->setTexture("res/decoration/pattern_stem_tile.png");
     _bgPattern->setCornerRadius(27);
     _bgPattern->setScaleMode(RoundedRectSprite::ScaleMode::TILE);
+    _bgPattern->setTileScaleFactor(2.0f);
     _bgPattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _bgPattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    _bgPattern->setColor(Style::Color::strongPink);
+    _bgPattern->setColor(Style::Color::purplyPink);
     addChild(_bgPattern);
     
     createContentLayout();
+    
+    _resizeToggle = ui::Button::create("res/OomeeHQ/ArtStudio/toggle_switch_closed.png");
+    _resizeToggle->ignoreContentAdaptWithSize(false);
+    _resizeToggle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _resizeToggle->setVisible(false);
+    _resizeToggle->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            this->toggleOpened(!_open);
+        }
+    });
+    addChild(_resizeToggle);
     
     return true;
 }
@@ -64,11 +78,15 @@ void ArtTileHolder::onSizeChanged()
     _bgPattern->setContentSize(contentSize);
     _tileSpacing = contentSize.width * kTileSpacingPercent;
     _contentTileGrid->setPosition(Vec2(contentSize.width * 0.5f, contentSize.height - _tileSpacing));
+    _resizeToggle->setPosition(Vec2(contentSize.width * 0.5f, 2.0f * _tileSpacing));
+    _resizeToggle->setContentSize(_resizeToggle->getNormalTextureSize() * ((2.0f * _tileSpacing) / _resizeToggle->getNormalTextureSize().height));
     resizeContent();
 }
 
 void ArtTileHolder::toggleOpened(bool open)
 {
+    _open = open;
+    _resizeToggle->setRotation(_open ? 180 : 0);
     
 }
 
@@ -89,16 +107,26 @@ bool ArtTileHolder::isResizing() const
 
 void ArtTileHolder::setArtFilenames(const std::vector<std::string>& artFilenames)
 {
-    _artFilenames = artFilenames;
-    updateContent();
-}
-
-void ArtTileHolder::setTilePlaceholder(const std::string& tilePlaceholder)
-{
-    _tilePlaceholder = tilePlaceholder;
-    for(auto tile : _contentTiles)
+    bool newData = false;
+    if(_artFilenames.size() == artFilenames.size())
     {
-        tile->setPlaceholderFilename(_tilePlaceholder);
+        for(int i = 0; i < _artFilenames.size(); i++)
+        {
+            if(_artFilenames.at(i) != artFilenames.at(i))
+            {
+                newData = true;
+                continue;
+            }
+        }
+    }
+    else
+    {
+        newData = true;
+    }
+    if(newData)
+    {
+        _artFilenames = artFilenames;
+        updateContent();
     }
 }
 
@@ -128,6 +156,7 @@ void ArtTileHolder::updateContent()
         _contentTiles.clear();
         _contentRows.clear();
         _contentTileGrid->removeAllChildren();
+        _resizeToggle->setVisible(_artFilenames.size() > 4);
         
         const Size& contentSize = getContentSize();
         
@@ -153,8 +182,9 @@ void ArtTileHolder::updateContent()
             {
                 if((row * tilesPerRow) + col < _artFilenames.size())
                 {
+                    const std::string& filename = _artFilenames.at((row * tilesPerRow) + col);
                     ArtContentTile* tile = ArtContentTile::create();
-                    tile->setPlaceholderFilename(_tilePlaceholder);
+                    tile->setPlaceholderFilename("res/contentPlaceholders/Create1X1.png");
                     tile->setContentSize(tileSize);
                     tile->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
                     tile->setNormalizedPosition(Vec2((col + 0.5) / tilesPerRow,0.5f));
@@ -170,8 +200,9 @@ void ArtTileHolder::updateContent()
                             _deleteCallback(filename);
                         }
                     });
-                    tile->setTouchEnabled(false);
-                    tile->setArtFilename(_artFilenames.at((row * tilesPerRow) + col));
+                    tile->setArtFilename(filename);
+                    tile->setNewArtTile(filename == kEmptyArtFilename);
+                    
                     rowContainer->addChild(tile);
                     _contentTiles.pushBack(tile);
                 }
@@ -179,9 +210,12 @@ void ArtTileHolder::updateContent()
         }
         _contentGridSize = Size(rowWidth, totalHeight);
         _contentTileGrid->setContentSize(_contentGridSize);
-        if(contentSize.height != totalHeight + (2 * _tileSpacing))
+        _openHeight = totalHeight + ((_artFilenames.size() > 4 ? 5 : 2) * _tileSpacing);
+        _closedHeight = (tileSize.height * 2) + (_tileSpacing * 2) + ((_artFilenames.size() > 4 ? 5 : 2) * _tileSpacing);
+        const float contentHeight = totalHeight + ((_artFilenames.size() > 4 ? 5 : 2) * _tileSpacing);
+        if(contentSize.height != contentHeight)
         {
-            setContentSize(Size(contentSize.width, totalHeight + (2 * _tileSpacing)));
+            setContentSize(Size(contentSize.width, contentHeight));
         }
         //_contentTileGrid->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,_tileSpacing, 0, 0)));
         
@@ -216,9 +250,10 @@ void ArtTileHolder::resizeContent()
         
         _contentGridSize = Size(rowWidth, totalHeight);
         _contentTileGrid->setContentSize(_contentGridSize);
-        if(contentSize.height != totalHeight + (2 * _tileSpacing))
+        const float contentHeight = totalHeight + ((_artFilenames.size() > 4 ? 5 : 2) * _tileSpacing);
+        if(contentSize.height != contentHeight)
         {
-            setContentSize(Size(contentSize.width, totalHeight + (2 * _tileSpacing)));
+            setContentSize(Size(contentSize.width, contentHeight));
         }
     }
 }

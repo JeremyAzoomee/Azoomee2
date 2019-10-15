@@ -25,9 +25,7 @@ private:
     static const cocos2d::Size kDropshadowPadding;
     
     cocos2d::ui::ImageView* _dropShadow = nullptr;
-    cocos2d::ClippingNode* _imageClipper = nullptr;
-    cocos2d::ui::Scale9Sprite* _stencil = nullptr;
-    cocos2d::Sprite* _contentImage = nullptr;
+    RoundedRectSprite* _contentImage = nullptr;
     
     RoundedRectSprite* _buttonOverlay = nullptr;
     cocos2d::ui::Button* _deleteButton = nullptr;

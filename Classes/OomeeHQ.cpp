@@ -43,6 +43,10 @@ void OomeeHQ::onEnter()
 {
     refreshOfflineList();
     refreshFavouritesList();
+    refreshArtList();
+    float scrollPerc = _contentListView->getScrolledPercentVertical();
+    _contentListView->forceDoLayout();
+    _contentListView->scrollToPercentVertical(scrollPerc, 0, false);
     Super::onEnter();
 }
 
@@ -136,12 +140,17 @@ void OomeeHQ::createScrollViewContent()
         AnalyticsSingleton::getInstance()->genericButtonPressEvent("artsAppDeleteButton");
         FileUtils::getInstance()->removeFile(filename);
         refreshArtList();
+        float scrollPerc = _contentListView->getScrolledPercentVertical();
+        _contentListView->forceDoLayout();
+        _contentListView->scrollToPercentVertical(scrollPerc, 0, false);
     });
-    _artTileHolder->setEditCallback([](const std::string& filename){
-        ArtAppDelegate::getInstance()->setFileName(filename == ArtTileHolder::kEmptyArtFilename ? "" : filename);
+    _artTileHolder->setEditCallback([this](const std::string& filename){
+        ArtAppDelegate::getInstance()->setFileName(filename);
+        _reloadArtFilename = filename;
         AnalyticsSingleton::getInstance()->contentItemSelectedEvent("Art");
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ArtAppEntryPointScene));
     });
+    _contentListView->pushBackCustomItem(_artTileHolder);
     
     _touchListener = EventListenerTouchOneByOne::create();
     _touchListener->onTouchBegan = [this](Touch *touch, Event *event){
@@ -326,7 +335,12 @@ void OomeeHQ::refreshArtList()
     {
         for(auto filename : artImages)
         {
-            fullFilepaths.push_back(dirPath + "/" + filename);
+            const std::string& fullFilename = dirPath + "/" + filename;
+            fullFilepaths.push_back(fullFilename);
+            if(fullFilename == _reloadArtFilename)
+            {
+                Director::getInstance()->getTextureCache()->reloadTexture(fullFilename);
+            }
         }
     }
     else

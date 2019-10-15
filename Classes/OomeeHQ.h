@@ -39,6 +39,8 @@ private:
     
     cocos2d::EventListenerTouchOneByOne* _touchListener = nullptr;
     
+    std::string _reloadArtFilename;
+    
     void createOomeeLayout();
     void createScrollViewContent();
     void createFavouritesLayout();

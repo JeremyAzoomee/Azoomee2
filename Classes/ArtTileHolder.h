@@ -43,7 +43,6 @@ private:
     cocos2d::ui::Button* _resizeToggle = nullptr;
     
     std::vector<std::string> _artFilenames;
-    std::string _tilePlaceholder;
 
     void createContentLayout();
     void updateContent();
@@ -65,8 +64,6 @@ public:
     bool isResizing() const;
     
     void setArtFilenames(const std::vector<std::string>& artFilenames);
-    
-    void setTilePlaceholder(const std::string& tilePlaceholder);
     
     void setEditCallback(const ArtContentTileCallback& callback);
     void setDeleteCallback(const ArtContentTileCallback& callback);
