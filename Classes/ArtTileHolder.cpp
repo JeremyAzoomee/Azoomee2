@@ -52,6 +52,10 @@ bool ArtTileHolder::init()
     _resizeToggle->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
+            if(_togglePressedCallback)
+            {
+                _togglePressedCallback();
+            }
             this->toggleOpened(!_open);
         }
     });
@@ -77,7 +81,7 @@ void ArtTileHolder::onSizeChanged()
     _bgColour->setContentSize(contentSize);
     _bgPattern->setContentSize(contentSize);
     _tileSpacing = contentSize.width * kTileSpacingPercent;
-    _contentTileGrid->setPosition(Vec2(contentSize.width * 0.5f, contentSize.height - _tileSpacing));
+    _contentClippingLayout->setPosition(Vec2(contentSize.width * 0.5f, contentSize.height - _tileSpacing));
     _resizeToggle->setPosition(Vec2(contentSize.width * 0.5f, 2.0f * _tileSpacing));
     _resizeToggle->setContentSize(_resizeToggle->getNormalTextureSize() * ((2.0f * _tileSpacing) / _resizeToggle->getNormalTextureSize().height));
     resizeContent();
@@ -87,7 +91,36 @@ void ArtTileHolder::toggleOpened(bool open)
 {
     _open = open;
     _resizeToggle->setRotation(_open ? 180 : 0);
+
+    const Size& currentSize = getContentSize();
+    const float targetHeight = _open ? _openHeight : _closedHeight;
+    const float dist = abs(currentSize.height - targetHeight);
+    const float maxDist = _openHeight - _closedHeight;
+    const float durationMod = dist / maxDist;
+    const float targetTime = 0.5f;
+    const float internalHeightOffset = ((_artFilenames.size() > 4 ? 5 : 2) * _tileSpacing);
     
+    ActionFloat* resizeAction = ActionFloat::create(targetTime * durationMod, currentSize.height, targetHeight, [this, internalHeightOffset](float height){
+        this->setContentSize(Size(getContentSize().width, height));
+        _contentClippingLayout->setContentSize(Size(_contentGridSize.width, height - internalHeightOffset));
+        //_contentTileGrid->setContentSize(Size(_contentGridSize.width, MIN(height - _closedHeight - (2.0f * _tileSpacing),_contentGridSize.height)));
+        if(_resizeCallback)
+        {
+            _resizeCallback();
+        }
+    });
+    _resizing = true;
+    stopAllActions();
+    
+    runAction(Sequence::createWithTwoActions(EaseSineInOut::create(resizeAction), CallFunc::create([this](){
+        _resizing = false;
+    })));
+    
+    //setContentSize(Size(getContentSize().width, _open ? _openHeight : _closedHeight));
+    //if(_resizeCallback)
+    //{
+    //    _resizeCallback();
+    //}
 }
 
 void ArtTileHolder::setOnResizeCallback(const OnResizeCallback& callback)
@@ -139,14 +172,25 @@ void ArtTileHolder::setDeleteCallback(const ArtContentTileCallback& callback)
 {
     _deleteCallback = callback;
 }
+void ArtTileHolder::setToggleSelectedCallback(const OnResizeCallback &callback)
+{
+    _togglePressedCallback = callback;
+}
 
 void ArtTileHolder::createContentLayout()
 {
+    _contentClippingLayout = ui::Layout::create();
+    _contentClippingLayout->setClippingEnabled(true);
+    _contentClippingLayout->setContentSize(Size(getContentSize().width, 0));
+    _contentClippingLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+    addChild(_contentClippingLayout);
+    
     _contentTileGrid = ui::Layout::create();
     _contentTileGrid->setContentSize(Size(getContentSize().width, 0));
     _contentTileGrid->setClippingEnabled(true);
     _contentTileGrid->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    addChild(_contentTileGrid);
+    _contentTileGrid->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+    _contentClippingLayout->addChild(_contentTileGrid);
 }
 
 void ArtTileHolder::updateContent()
@@ -211,8 +255,9 @@ void ArtTileHolder::updateContent()
         _contentGridSize = Size(rowWidth, totalHeight);
         _contentTileGrid->setContentSize(_contentGridSize);
         _openHeight = totalHeight + ((_artFilenames.size() > 4 ? 5 : 2) * _tileSpacing);
-        _closedHeight = (tileSize.height * 2) + (_tileSpacing * 2) + ((_artFilenames.size() > 4 ? 5 : 2) * _tileSpacing);
-        const float contentHeight = totalHeight + ((_artFilenames.size() > 4 ? 5 : 2) * _tileSpacing);
+        _closedHeight = (tileSize.height * MIN(rows, 2)) + (_tileSpacing * MIN(rows,2)) + ((_artFilenames.size() > 4 ? 5 : 2) * _tileSpacing);
+        _contentClippingLayout->setContentSize(Size(rowWidth, _open ? totalHeight : (tileSize.height * MIN(rows, 2)) + (_tileSpacing * MIN(rows, 2))));
+        const float contentHeight = _open ? _openHeight : _closedHeight;
         if(contentSize.height != contentHeight)
         {
             setContentSize(Size(contentSize.width, contentHeight));
@@ -250,10 +295,16 @@ void ArtTileHolder::resizeContent()
         
         _contentGridSize = Size(rowWidth, totalHeight);
         _contentTileGrid->setContentSize(_contentGridSize);
-        const float contentHeight = totalHeight + ((_artFilenames.size() > 4 ? 5 : 2) * _tileSpacing);
-        if(contentSize.height != contentHeight)
+        _openHeight = totalHeight + ((_artFilenames.size() > 4 ? 5 : 2) * _tileSpacing);
+        _closedHeight = (tileSize.height * MIN(rows, 2)) + (_tileSpacing * MIN(rows, 2)) + ((_artFilenames.size() > 4 ? 5 : 2) * _tileSpacing);
+        if(!_resizing)
         {
-            setContentSize(Size(contentSize.width, contentHeight));
+            _contentClippingLayout->setContentSize(Size(rowWidth, _open ? totalHeight : (tileSize.height * MIN(rows, 2)) + (_tileSpacing * MIN(rows, 2))));
+            const float contentHeight = _open ? _openHeight : _closedHeight;
+            if(contentSize.height != contentHeight)
+            {
+                setContentSize(Size(contentSize.width, contentHeight));
+            }
         }
     }
 }

@@ -50,12 +50,12 @@ bool ArtContentTile::init()
     _contentImage = RoundedRectSprite::create();
     _contentImage->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _contentImage->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    _contentImage->setCornerRadius(60);
+    _contentImage->setCornerRadius(27);
     addChild(_contentImage);
     
     _buttonOverlay = RoundedRectSprite::create();
     _buttonOverlay->setTexture("res/decoration/white_1px.png");
-    _buttonOverlay->setCornerRadius(60);
+    _buttonOverlay->setCornerRadius(27);
     _buttonOverlay->setColor(Style::Color::purplyPink);
     _buttonOverlay->setOpacity(125);
     _buttonOverlay->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);

@@ -22,6 +22,7 @@ private:
     
     static const cocos2d::Vec2 kTileAspectRatio;
     
+    OnResizeCallback _togglePressedCallback = nullptr;
     OnResizeCallback _resizeCallback = nullptr;
     ArtContentTileCallback _editCallback = nullptr;
     ArtContentTileCallback _deleteCallback = nullptr;
@@ -37,6 +38,7 @@ private:
     
     RoundedRectSprite* _bgPattern = nullptr;
     RoundedRectSprite* _bgColour = nullptr;
+    cocos2d::ui::Layout* _contentClippingLayout = nullptr;
     cocos2d::ui::Layout* _contentTileGrid = nullptr;
     cocos2d::Vector<cocos2d::ui::Layout*> _contentRows;
     cocos2d::Vector<ArtContentTile*> _contentTiles;
@@ -59,6 +61,7 @@ public:
     
     void toggleOpened(bool open);
     void setOnResizeCallback(const OnResizeCallback& callback);
+    void setToggleSelectedCallback(const OnResizeCallback& callback);
     
     bool isOpen() const;
     bool isResizing() const;

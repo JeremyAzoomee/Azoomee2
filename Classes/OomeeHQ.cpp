@@ -150,6 +150,20 @@ void OomeeHQ::createScrollViewContent()
         AnalyticsSingleton::getInstance()->contentItemSelectedEvent("Art");
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ArtAppEntryPointScene));
     });
+    _artTileHolder->setOnResizeCallback([this](){
+        this->listviewDropdownResizeCallback();
+    });
+    _artTileHolder->setToggleSelectedCallback([this](){
+        _focusedDropdown = _artTileHolder;
+        // Stop the scrollview
+        _contentListView->stopOverallScroll();
+        
+        // Get the position of the focused item in viewport
+        const Vec2& scrollPosition = _contentListView->getInnerContainerPosition();
+        const Size& itemSize = _focusedDropdown->getContentSize();
+        const Vec2 itemOrigin(_focusedDropdown->getLeftBoundary(), _focusedDropdown->getBottomBoundary());
+        _resizingPositionInView = itemOrigin + scrollPosition + Vec2(itemSize.width * kFocusDropDownAnchor.x, itemSize.height * kFocusDropDownAnchor.y);
+    });
     _contentListView->pushBackCustomItem(_artTileHolder);
     
     _touchListener = EventListenerTouchOneByOne::create();
