@@ -13,7 +13,7 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-const Size ArtContentTile::kDropshadowPadding = Size(76,76);
+const Size ArtContentTile::kDropshadowPadding = Size(78,78);
 
 bool ArtContentTile::init()
 {
@@ -39,7 +39,7 @@ bool ArtContentTile::init()
         }
     });
     
-    _dropShadow = ui::ImageView::create("res/hqscene/DropDownBoxStencil.png");
+    _dropShadow = ui::ImageView::create("res/OomeeHQ/ArtStudio/art_dropshadow.png");
     _dropShadow->setContentSize(getContentSize() + kDropshadowPadding);
     _dropShadow->setScale9Enabled(true);
     _dropShadow->ignoreContentAdaptWithSize(false);
