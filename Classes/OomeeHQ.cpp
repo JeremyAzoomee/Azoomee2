@@ -14,8 +14,11 @@
 #include <AzoomeeCommon/Utils/DirUtil.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "HQDataProvider.h"
 #include "FavouritesManager.h"
+#include "ArtAppDelegate.h"
+#include "SceneManagerScene.h"
 
 using namespace cocos2d;
 
@@ -40,6 +43,11 @@ void OomeeHQ::onEnter()
 {
     refreshOfflineList();
     refreshFavouritesList();
+    refreshArtList();
+    float scrollPerc = _contentListView->getScrolledPercentVertical();
+    _contentListView->forceDoLayout();
+    _contentListView->scrollToPercentVertical(scrollPerc, 0, false);
+    
     _oomeeDisplay->setOomeeImgUrl(ChildManager::getInstance()->getLoggedInChild()->getAvatar());
     _oomeeDisplay->setBgPatternColour(Color3B(ChildManager::getInstance()->getLoggedInChild()->getAvatarColour()));
     Super::onEnter();
@@ -78,9 +86,10 @@ void OomeeHQ::onSizeChanged()
     
     const float contentListViewWidth = _contentListView->getSizePercent().x * getContentSize().width;
     
-    _artStudioLayout->setContentSize(Size(_contentListView->getContentSize().width, 1412));
-    _shopButton->setContentSize(Size(_contentListView->getContentSize().width, 574));
-    _oomeeMakerButton->setContentSize(Size(_contentListView->getContentSize().width, 574));
+    _artStudioButton->setContentSize(Size(contentListViewWidth, _isPortrait ? 570 : 520));
+    _shopButton->setContentSize(Size(contentListViewWidth, _isPortrait ? 570 : 520));
+    _oomeeMakerButton->setContentSize(Size(contentListViewWidth, _isPortrait ? 625 : 575));
+    _artTileHolder->setContentSize(Size(contentListViewWidth, 0));
     
     _offlineDropdown->setContentSize(Size(contentListViewWidth - kListViewSidePadding, _offlineDropdown->getContentSize().height));
     _favouritesTitle->setTextAreaSize(Size(contentListViewWidth - kListViewSidePadding, _favouritesTitle->getContentSize().height));
@@ -112,24 +121,51 @@ void OomeeHQ::createScrollViewContent()
 {
     _contentListView->setSwallowTouches(false);
     
-    _oomeeMakerButton = ui::Layout::create();
-    _oomeeMakerButton->setBackGroundColorType(BackGroundColorType::SOLID);
-    _oomeeMakerButton->setBackGroundColor(Color3B::BLUE);
-    _oomeeMakerButton->setContentSize(Size(_contentListView->getContentSize().width, 574));
+    _oomeeMakerButton = OomeeMakerButton::create();
+    _oomeeMakerButton->setSwallowTouches(false);
+    _oomeeMakerButton->setContentSize(Size(_contentListView->getContentSize().width, 625));
     _contentListView->pushBackCustomItem(_oomeeMakerButton);
     
-    _shopButton = ui::Layout::create();
-    _shopButton->setBackGroundColorType(BackGroundColorType::SOLID);
-    _shopButton->setBackGroundColor(Color3B::YELLOW);
-    _shopButton->setContentSize(Size(_contentListView->getContentSize().width, 574));
+    _shopButton = OomeeStoreButton::create();
+    _shopButton->setSwallowTouches(false);
+    _shopButton->setContentSize(Size(_contentListView->getContentSize().width, 570));
     _contentListView->pushBackCustomItem(_shopButton);
     
-    _artStudioLayout = ui::Layout::create();
-    _artStudioLayout->setBackGroundColorType(BackGroundColorType::SOLID);
-    _artStudioLayout->setBackGroundColor(Color3B::GREEN);
-    _artStudioLayout->setContentSize(Size(_contentListView->getContentSize().width, 1412));
-    _contentListView->pushBackCustomItem(_artStudioLayout);
- 
+    _artStudioButton = ArtStudioButton::create();
+    _artStudioButton->setSwallowTouches(false);
+    _artStudioButton->setContentSize(Size(_contentListView->getContentSize().width, 570));
+    _contentListView->pushBackCustomItem(_artStudioButton);
+    
+    _artTileHolder = ArtTileHolder::create();
+    _artTileHolder->setDeleteCallback([this](const std::string& filename){
+        AnalyticsSingleton::getInstance()->genericButtonPressEvent("artsAppDeleteButton");
+        FileUtils::getInstance()->removeFile(filename);
+        refreshArtList();
+        float scrollPerc = _contentListView->getScrolledPercentVertical();
+        _contentListView->forceDoLayout();
+        _contentListView->scrollToPercentVertical(scrollPerc, 0, false);
+    });
+    _artTileHolder->setEditCallback([this](const std::string& filename){
+        ArtAppDelegate::getInstance()->setFileName(filename);
+        _reloadArtFilename = filename;
+        AnalyticsSingleton::getInstance()->contentItemSelectedEvent("Art");
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ArtAppEntryPointScene));
+    });
+    _artTileHolder->setOnResizeCallback([this](){
+        this->listviewDropdownResizeCallback();
+    });
+    _artTileHolder->setToggleSelectedCallback([this](){
+        _focusedDropdown = _artTileHolder;
+        // Stop the scrollview
+        _contentListView->stopOverallScroll();
+        
+        // Get the position of the focused item in viewport
+        const Vec2& scrollPosition = _contentListView->getInnerContainerPosition();
+        const Size& itemSize = _focusedDropdown->getContentSize();
+        const Vec2 itemOrigin(_focusedDropdown->getLeftBoundary(), _focusedDropdown->getBottomBoundary());
+        _resizingPositionInView = itemOrigin + scrollPosition + Vec2(itemSize.width * kFocusDropDownAnchor.x, itemSize.height * kFocusDropDownAnchor.y);
+    });
+    _contentListView->pushBackCustomItem(_artTileHolder);
     
     _touchListener = EventListenerTouchOneByOne::create();
     _touchListener->onTouchBegan = [this](Touch *touch, Event *event){
@@ -296,6 +332,43 @@ void OomeeHQ::refreshFavouritesList()
     carousel->setTitle(_("Favourites"));
     _favouritesLayout->setMaxRows(favList.size() > 0 ? -1 : 1);
     _favouritesLayout->setContentItemData(carousel);
+}
+
+void OomeeHQ::refreshArtList()
+{
+    const std::string& dirPath = DirUtil::getCachesPath() + ConfigStorage::kArtCacheFolder + ChildManager::getInstance()->getParentOrChildId();
+    
+    if(!FileUtils::getInstance()->isDirectoryExist(dirPath))
+    {
+        FileUtils::getInstance()->createDirectory(dirPath);
+    }
+    
+    auto artImages = DirUtil::getImagesInDirectory(dirPath);
+    std::reverse(artImages.begin(), artImages.end());
+    std::vector<std::string> fullFilepaths;
+    if(artImages.size() > 0)
+    {
+        for(auto filename : artImages)
+        {
+            const std::string& fullFilename = dirPath + "/" + filename;
+            fullFilepaths.push_back(fullFilename);
+            if(fullFilename == _reloadArtFilename)
+            {
+                Director::getInstance()->getTextureCache()->reloadTexture(fullFilename);
+            }
+        }
+    }
+    else
+    {
+        fullFilepaths.push_back(ArtTileHolder::kEmptyArtFilename);
+    }
+    
+    if(fullFilepaths.size() % 2)
+    {
+        fullFilepaths.push_back(ArtTileHolder::kEmptyArtFilename);
+    }
+    
+    _artTileHolder->setArtFilenames(fullFilepaths);
 }
 
 NS_AZOOMEE_END

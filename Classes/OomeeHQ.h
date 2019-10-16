@@ -16,6 +16,10 @@
 #include "OomeeDisplay.h"
 #include "DropdownContentHolder.h"
 #include "CircleContentHolder.h"
+#include "OomeeMakerButton.h"
+#include "OomeeStoreButton.h"
+#include "ArtStudioButton.h"
+#include "ArtTileHolder.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -25,14 +29,17 @@ class OomeeHQ : public HQPage
 private:
     cocos2d::ui::Layout* _oomeeLayout = nullptr;
     OomeeDisplay* _oomeeDisplay = nullptr;
-    cocos2d::ui::Layout* _oomeeMakerButton = nullptr;
-    cocos2d::ui::Layout* _shopButton = nullptr;
-    cocos2d::ui::Layout* _artStudioLayout = nullptr;
+    OomeeMakerButton* _oomeeMakerButton = nullptr;
+    OomeeStoreButton* _shopButton = nullptr;
+    ArtStudioButton* _artStudioButton = nullptr;
+    ArtTileHolder* _artTileHolder = nullptr;
     DynamicText* _favouritesTitle = nullptr;
     CircleContentHolder* _favouritesLayout = nullptr;
     DropdownContentHolder* _offlineDropdown = nullptr;
     
     cocos2d::EventListenerTouchOneByOne* _touchListener = nullptr;
+    
+    std::string _reloadArtFilename;
     
     void createOomeeLayout();
     void createScrollViewContent();
@@ -46,6 +53,7 @@ private:
     void refreshOfflineList();
     
     void refreshFavouritesList();
+    void refreshArtList();
     
 public:
     
