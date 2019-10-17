@@ -22,6 +22,8 @@ class OomeeDisplay : public cocos2d::ui::Layout, ImageDownloaderDelegate
 {
     typedef cocos2d::ui::Layout Super;
 private:
+    static const cocos2d::Size kKidCodeFrameSize;
+    static const cocos2d::Size kKidCodeFramePadding;
     
     RoundedRectSprite* _background = nullptr;
     RoundedRectSprite* _bgPattern = nullptr;
@@ -35,6 +37,8 @@ private:
     RoundedRectSprite* _kidCodeBody = nullptr;
     DynamicText* _kidCodeTitle = nullptr;
     DynamicText* _kidCode = nullptr;
+    
+    void resizeOomee();
     
 public:
     

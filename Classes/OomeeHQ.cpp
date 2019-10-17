@@ -19,6 +19,7 @@
 #include "FavouritesManager.h"
 #include "ArtAppDelegate.h"
 #include "SceneManagerScene.h"
+#include "GameDataManager.h"
 
 using namespace cocos2d;
 
@@ -83,9 +84,9 @@ void OomeeHQ::onSizeChanged()
     
     const float contentListViewWidth = _contentListView->getSizePercent().x * getContentSize().width;
     
-    _artStudioButton->setContentSize(Size(contentListViewWidth, _isPortrait ? 570 : 520));
-    _shopButton->setContentSize(Size(contentListViewWidth, _isPortrait ? 570 : 520));
-    _oomeeMakerButton->setContentSize(Size(contentListViewWidth, _isPortrait ? 625 : 575));
+    _artStudioButton->setContentSize(Size(contentListViewWidth, _isPortrait ? HQConsts::OomeeHQSecondaryButtonHeightPortrait : HQConsts::OomeeHQSecondaryButtonHeightLandscape));
+    _shopButton->setContentSize(Size(contentListViewWidth, _isPortrait ? HQConsts::OomeeHQSecondaryButtonHeightPortrait : HQConsts::OomeeHQSecondaryButtonHeightLandscape));
+    _oomeeMakerButton->setContentSize(Size(contentListViewWidth, _isPortrait ? HQConsts::OomeeHQPrimaryButtonHeightPortrait : HQConsts::OomeeHQPrimaryButtonHeightLandscape));
     _artTileHolder->setContentSize(Size(contentListViewWidth, 0));
     
     _offlineDropdown->setContentSize(Size(contentListViewWidth - kListViewSidePadding, _offlineDropdown->getContentSize().height));
@@ -122,22 +123,41 @@ void OomeeHQ::createScrollViewContent()
     
     _oomeeMakerButton = OomeeMakerButton::create();
     _oomeeMakerButton->setSwallowTouches(false);
-    _oomeeMakerButton->setContentSize(Size(_contentListView->getContentSize().width, 625));
+    _oomeeMakerButton->setContentSize(Size(_contentListView->getContentSize().width, HQConsts::OomeeHQPrimaryButtonHeightPortrait));
+    _oomeeMakerButton->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OomeeMakerEntryPointScene));
+        }
+    });
     _contentListView->pushBackCustomItem(_oomeeMakerButton);
     
     _shopButton = OomeeStoreButton::create();
     _shopButton->setSwallowTouches(false);
-    _shopButton->setContentSize(Size(_contentListView->getContentSize().width, 570));
+    _shopButton->setContentSize(Size(_contentListView->getContentSize().width, HQConsts::OomeeHQSecondaryButtonHeightPortrait));
+    _shopButton->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Shop));
+        }
+    });
     _contentListView->pushBackCustomItem(_shopButton);
     
     _artStudioButton = ArtStudioButton::create();
     _artStudioButton->setSwallowTouches(false);
-    _artStudioButton->setContentSize(Size(_contentListView->getContentSize().width, 570));
+    _artStudioButton->setContentSize(Size(_contentListView->getContentSize().width, HQConsts::OomeeHQSecondaryButtonHeightPortrait));
+    _artStudioButton->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            ArtAppDelegate::getInstance()->setFileName("");
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ArtAppEntryPointScene));
+        }
+    });
     _contentListView->pushBackCustomItem(_artStudioButton);
     
     _artTileHolder = ArtTileHolder::create();
     _artTileHolder->setDeleteCallback([this](const std::string& filename){
-        AnalyticsSingleton::getInstance()->genericButtonPressEvent("artsAppDeleteButton");
+        AnalyticsSingleton::getInstance()->genericButtonPressEvent(HQConsts::DeleteArtButtonAnalyticsName);
         FileUtils::getInstance()->removeFile(filename);
         refreshArtList();
         float scrollPerc = _contentListView->getScrolledPercentVertical();
@@ -147,7 +167,7 @@ void OomeeHQ::createScrollViewContent()
     _artTileHolder->setEditCallback([this](const std::string& filename){
         ArtAppDelegate::getInstance()->setFileName(filename);
         _reloadArtFilename = filename;
-        AnalyticsSingleton::getInstance()->contentItemSelectedEvent("Art");
+        AnalyticsSingleton::getInstance()->contentItemSelectedEvent(HQConsts::OpenArtAnalyticsContentName);
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ArtAppEntryPointScene));
     });
     _artTileHolder->setOnResizeCallback([this](){
@@ -207,11 +227,13 @@ void OomeeHQ::createScrollViewContent()
 
 void OomeeHQ::createFavouritesLayout()
 {
+    const float contentWidth = getContentSize().width;
+    
     _favouritesTitle = DynamicText::create(_("Favourites"), Style::Font::PoppinsBold(), 75);
     _favouritesTitle->setTextVerticalAlignment(TextVAlignment::CENTER);
     _favouritesTitle->setTextHorizontalAlignment(TextHAlignment::LEFT);
     _favouritesTitle->setOverflow(Label::Overflow::SHRINK);
-    _favouritesTitle->setTextAreaSize(Size((_contentListView->getSizePercent().x * getContentSize().width) - kListViewSidePadding, _favouritesTitle->getContentSize().height));
+    _favouritesTitle->setTextAreaSize(Size((_contentListView->getSizePercent().x * contentWidth) - kListViewSidePadding, _favouritesTitle->getContentSize().height));
     _favouritesTitle->setTextColor(Color4B::WHITE);
     _favouritesTitle->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _contentListView->pushBackCustomItem(_favouritesTitle);
@@ -219,7 +241,7 @@ void OomeeHQ::createFavouritesLayout()
     _favouritesLayout = CircleContentHolder::create();
     _favouritesLayout->setTileSize(_isPortrait ? kCircleTileSizePortrait : kCircleTileSizeLandscape);
     _favouritesLayout->setPlaceholder("res/hqscene/game_icon.png");
-    _favouritesLayout->setContentSize(Size(_contentListView->getSizePercent().x * getContentSize().width, 0));
+    _favouritesLayout->setContentSize(Size(_contentListView->getSizePercent().x * contentWidth, 0));
     _favouritesLayout->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
         if(_contentSelectedCallback)
         {
@@ -257,66 +279,11 @@ void OomeeHQ::createOfflineDropdown()
     _contentListView->pushBackCustomItem(_offlineDropdown);
 }
 
-std::vector<std::string> OomeeHQ::getJsonFileListFromDir() const
-{
-    return DirUtil::getFoldersInDirectory(ConfigStorage::getInstance()->getGameCachePath());
-}
-
-bool OomeeHQ::isStarterFileExists(const std::string &gameId) const
-{
-    if(getStartFileFromJson(gameId) == ConfigStorage::kGameDownloadError) return false;
-    
-    std::string path = ConfigStorage::getInstance()->getGameCachePath() + gameId + "/" + getStartFileFromJson(gameId);
-    return FileUtils::getInstance()->isFileExist(path);
-}
-
-std::string OomeeHQ::getStartFileFromJson(const std::string &gameId) const
-{
-    std::string jsonFileName = ConfigStorage::getInstance()->getGameCachePath() + gameId + "/package.json";
-    
-    std::string fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
-    
-    rapidjson::Document gameData;
-    gameData.Parse(fileContent.c_str());
-    
-    if(gameData.HasParseError())
-    {
-        return ConfigStorage::kGameDownloadError;
-    }
-    
-    if(gameData.HasMember("pathToStartPage"))
-    {
-        return getStringFromJson("pathToStartPage", gameData);
-    }
-    else
-    {
-        return ConfigStorage::kGameDownloadError;
-    }
-}
-
 void OomeeHQ::refreshOfflineList()
 {
-    std::vector<HQContentItemObjectRef> gameList;
-    const std::vector<std::string>& jsonList = getJsonFileListFromDir();
-    
-    for(const auto& json : jsonList)
-    {
-        if(json.length() > 3)
-        {
-            if(isStarterFileExists(json))
-            {
-                auto item = ContentItemManager::getInstance()->getContentItemForId(json);
-                if(item && item->isEntitled())
-                {
-                    gameList.push_back(item);
-                }
-            }
-        }
-    }
-    
     MutableHQCarouselObjectRef carousel = MutableHQCarouselObject::create();
     carousel->setColour(Color4B(Style::Color::azure));
-    carousel->addContentItemsToCarousel(gameList);
+    carousel->addContentItemsToCarousel(GameDataManager::getInstance()->getOfflineGameList());
     carousel->setTitle(_("Offline"));
     
     _offlineDropdown->setContentItemData(carousel);

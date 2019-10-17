@@ -8,6 +8,7 @@
 #include "ArtTileHolder.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
+#include "HQConstants.h"
 
 using namespace cocos2d;
 
@@ -16,6 +17,8 @@ NS_AZOOMEE_BEGIN
 const float ArtTileHolder::kTileSpacingPercent = 0.025f;
 const cocos2d::Vec2 ArtTileHolder::kTileAspectRatio = Vec2(1.0f, 0.625f);
 const std::string ArtTileHolder::kEmptyArtFilename = "res/OomeeHQ/ArtStudio/new_painting_button.png";
+const int ArtTileHolder::kClosedMaxVisibleTileCount = 4;
+const float ArtTileHolder::kTilesPerRow = 2.0f;
 
 bool ArtTileHolder::init()
 {
@@ -26,7 +29,7 @@ bool ArtTileHolder::init()
     
     _bgColour = RoundedRectSprite::create();
     _bgColour->setTexture("res/decoration/white_1px.png");
-    _bgColour->setCornerRadius(27);
+    _bgColour->setCornerRadius(HQConsts::OomeeHQTileCornerRadius);
     _bgColour->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _bgColour->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _bgColour->setColor(Style::Color::purplyPink);
@@ -35,7 +38,7 @@ bool ArtTileHolder::init()
     
     _bgPattern = RoundedRectSprite::create();
     _bgPattern->setTexture("res/decoration/pattern_stem_tile.png");
-    _bgPattern->setCornerRadius(27);
+    _bgPattern->setCornerRadius(HQConsts::OomeeHQTileCornerRadius);
     _bgPattern->setScaleMode(RoundedRectSprite::ScaleMode::TILE);
     _bgPattern->setTileScaleFactor(2.0f);
     _bgPattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -81,6 +84,7 @@ void ArtTileHolder::onSizeChanged()
     _bgColour->setContentSize(contentSize);
     _bgPattern->setContentSize(contentSize);
     _tileSpacing = contentSize.width * kTileSpacingPercent;
+    _contentGridPadding = ((_expandable ? 5 : 2) * _tileSpacing);
     _contentClippingLayout->setPosition(Vec2(contentSize.width * 0.5f, contentSize.height - _tileSpacing));
     _resizeToggle->setPosition(Vec2(contentSize.width * 0.5f, 2.0f * _tileSpacing));
     _resizeToggle->setContentSize(_resizeToggle->getNormalTextureSize() * ((2.0f * _tileSpacing) / _resizeToggle->getNormalTextureSize().height));
@@ -98,12 +102,10 @@ void ArtTileHolder::toggleOpened(bool open)
     const float maxDist = _openHeight - _closedHeight;
     const float durationMod = dist / maxDist;
     const float targetTime = 0.5f;
-    const float internalHeightOffset = ((_artFilenames.size() > 4 ? 5 : 2) * _tileSpacing);
     
-    ActionFloat* resizeAction = ActionFloat::create(targetTime * durationMod, currentSize.height, targetHeight, [this, internalHeightOffset](float height){
+    ActionFloat* resizeAction = ActionFloat::create(targetTime * durationMod, currentSize.height, targetHeight, [this](float height){
         this->setContentSize(Size(getContentSize().width, height));
-        _contentClippingLayout->setContentSize(Size(_contentGridSize.width, height - internalHeightOffset));
-        //_contentTileGrid->setContentSize(Size(_contentGridSize.width, MIN(height - _closedHeight - (2.0f * _tileSpacing),_contentGridSize.height)));
+        _contentClippingLayout->setContentSize(Size(_contentGridSize.width, height - _contentGridPadding));
         if(_resizeCallback)
         {
             _resizeCallback();
@@ -115,12 +117,6 @@ void ArtTileHolder::toggleOpened(bool open)
     runAction(Sequence::createWithTwoActions(EaseSineInOut::create(resizeAction), CallFunc::create([this](){
         _resizing = false;
     })));
-    
-    //setContentSize(Size(getContentSize().width, _open ? _openHeight : _closedHeight));
-    //if(_resizeCallback)
-    //{
-    //    _resizeCallback();
-    //}
 }
 
 void ArtTileHolder::setOnResizeCallback(const OnResizeCallback& callback)
@@ -140,23 +136,19 @@ bool ArtTileHolder::isResizing() const
 
 void ArtTileHolder::setArtFilenames(const std::vector<std::string>& artFilenames)
 {
-    bool newData = false;
     if(_artFilenames.size() == artFilenames.size())
     {
         for(int i = 0; i < _artFilenames.size(); i++)
         {
             if(_artFilenames.at(i) != artFilenames.at(i))
             {
-                newData = true;
-                continue;
+                _artFilenames = artFilenames;
+                updateContent();
+                return;
             }
         }
     }
     else
-    {
-        newData = true;
-    }
-    if(newData)
     {
         _artFilenames = artFilenames;
         updateContent();
@@ -179,14 +171,15 @@ void ArtTileHolder::setToggleSelectedCallback(const OnResizeCallback &callback)
 
 void ArtTileHolder::createContentLayout()
 {
+    const Size& contentSize = getContentSize();
     _contentClippingLayout = ui::Layout::create();
     _contentClippingLayout->setClippingEnabled(true);
-    _contentClippingLayout->setContentSize(Size(getContentSize().width, 0));
+    _contentClippingLayout->setContentSize(Size(contentSize.width, 0));
     _contentClippingLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     addChild(_contentClippingLayout);
     
     _contentTileGrid = ui::Layout::create();
-    _contentTileGrid->setContentSize(Size(getContentSize().width, 0));
+    _contentTileGrid->setContentSize(Size(contentSize.width, 0));
     _contentTileGrid->setClippingEnabled(true);
     _contentTileGrid->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _contentTileGrid->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
@@ -197,21 +190,19 @@ void ArtTileHolder::updateContent()
 {
     if(_artFilenames.size() > 0)
     {
+        _expandable = _artFilenames.size() > kClosedMaxVisibleTileCount;
         _contentTiles.clear();
         _contentRows.clear();
         _contentTileGrid->removeAllChildren();
-        _resizeToggle->setVisible(_artFilenames.size() > 4);
+        _resizeToggle->setVisible(_expandable);
         
         const Size& contentSize = getContentSize();
         
-        const float tilesPerRow = 2.0f;
-        
         const float rowWidth = contentSize.width - 2 * _tileSpacing;
-        const float tileWidth = (rowWidth / tilesPerRow) - _tileSpacing;
         
-        const Size& tileSize = Size(tileWidth * kTileAspectRatio.x, tileWidth * kTileAspectRatio.y); //16:10 aspect ratio tiles
+        const Size& tileSize = calcTileSize(rowWidth);
         
-        const int rows = ceil(_artFilenames.size() / tilesPerRow);
+        const int rows = ceil(_artFilenames.size() / kTilesPerRow);
         
         const float totalHeight = (tileSize.height * rows) + (_tileSpacing * rows);
         for(int row = 0; row < rows; row++)
@@ -222,16 +213,16 @@ void ArtTileHolder::updateContent()
             rowContainer->setNormalizedPosition(Vec2(0.5f,1.0 - ((row + 0.5f) / rows)));
             _contentTileGrid->addChild(rowContainer);
             _contentRows.pushBack(rowContainer);
-            for(int col = 0; col < tilesPerRow; col++)
+            for(int col = 0; col < kTilesPerRow; col++)
             {
-                if((row * tilesPerRow) + col < _artFilenames.size())
+                if((row * kTilesPerRow) + col < _artFilenames.size())
                 {
-                    const std::string& filename = _artFilenames.at((row * tilesPerRow) + col);
+                    const std::string& filename = _artFilenames.at((row * kTilesPerRow) + col);
                     ArtContentTile* tile = ArtContentTile::create();
                     tile->setPlaceholderFilename("res/contentPlaceholders/Create1X1.png");
                     tile->setContentSize(tileSize);
                     tile->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-                    tile->setNormalizedPosition(Vec2((col + 0.5) / tilesPerRow,0.5f));
+                    tile->setNormalizedPosition(Vec2((col + 0.5) / kTilesPerRow,0.5f));
                     tile->setEditCallback([this](const std::string& filename){
                         if(_editCallback)
                         {
@@ -254,15 +245,14 @@ void ArtTileHolder::updateContent()
         }
         _contentGridSize = Size(rowWidth, totalHeight);
         _contentTileGrid->setContentSize(_contentGridSize);
-        _openHeight = totalHeight + ((_artFilenames.size() > 4 ? 5 : 2) * _tileSpacing);
-        _closedHeight = (tileSize.height * MIN(rows, 2)) + (_tileSpacing * MIN(rows,2)) + ((_artFilenames.size() > 4 ? 5 : 2) * _tileSpacing);
-        _contentClippingLayout->setContentSize(Size(rowWidth, _open ? totalHeight : (tileSize.height * MIN(rows, 2)) + (_tileSpacing * MIN(rows, 2))));
+        _openHeight = totalHeight + _contentGridPadding;
+        _closedHeight = (tileSize.height * MIN(rows, 2)) + (_tileSpacing * MIN(rows,2)) + _contentGridPadding;
+        _contentClippingLayout->setContentSize(Size(rowWidth, _open ? totalHeight : _closedHeight - _contentGridPadding));
         const float contentHeight = _open ? _openHeight : _closedHeight;
         if(contentSize.height != contentHeight)
         {
             setContentSize(Size(contentSize.width, contentHeight));
         }
-        //_contentTileGrid->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,_tileSpacing, 0, 0)));
         
     }
 }
@@ -273,14 +263,11 @@ void ArtTileHolder::resizeContent()
     {
         const Size& contentSize = getContentSize();
         
-        const float tilesPerRow = 2.0f;
-        
         const float rowWidth = contentSize.width - 2 * _tileSpacing;
-        const float tileWidth = (rowWidth / tilesPerRow) - _tileSpacing;
         
-        const Size& tileSize = Size(tileWidth * kTileAspectRatio.x, tileWidth * kTileAspectRatio.y); //16:10 aspect ratio tiles
+        const Size& tileSize = calcTileSize(rowWidth);
         
-        const int rows = ceil(_artFilenames.size() / tilesPerRow);
+        const int rows = ceil(_artFilenames.size() / kTilesPerRow);
         
         float totalHeight = (tileSize.height * rows) + (_tileSpacing * rows);
         for(auto tile : _contentTiles)
@@ -295,11 +282,11 @@ void ArtTileHolder::resizeContent()
         
         _contentGridSize = Size(rowWidth, totalHeight);
         _contentTileGrid->setContentSize(_contentGridSize);
-        _openHeight = totalHeight + ((_artFilenames.size() > 4 ? 5 : 2) * _tileSpacing);
-        _closedHeight = (tileSize.height * MIN(rows, 2)) + (_tileSpacing * MIN(rows, 2)) + ((_artFilenames.size() > 4 ? 5 : 2) * _tileSpacing);
+        _openHeight = totalHeight + _contentGridPadding;
+        _closedHeight = (tileSize.height * MIN(rows, 2)) + (_tileSpacing * MIN(rows, 2)) + _contentGridPadding;
         if(!_resizing)
         {
-            _contentClippingLayout->setContentSize(Size(rowWidth, _open ? totalHeight : (tileSize.height * MIN(rows, 2)) + (_tileSpacing * MIN(rows, 2))));
+            _contentClippingLayout->setContentSize(Size(rowWidth, _open ? totalHeight : _closedHeight - _contentGridPadding));
             const float contentHeight = _open ? _openHeight : _closedHeight;
             if(contentSize.height != contentHeight)
             {
@@ -307,6 +294,13 @@ void ArtTileHolder::resizeContent()
             }
         }
     }
+}
+
+cocos2d::Size ArtTileHolder::calcTileSize(float rowWidth)
+{
+    const float tileWidth = (rowWidth / kTilesPerRow) - _tileSpacing;
+    
+    return Size(tileWidth * kTileAspectRatio.x, tileWidth * kTileAspectRatio.y); //16:10 aspect ratio tiles
 }
 
 NS_AZOOMEE_END

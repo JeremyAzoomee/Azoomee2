@@ -8,10 +8,14 @@
 #include "OomeeStoreButton.h"
 #include "SceneManagerScene.h"
 #include <AzoomeeCommon/UI/Style.h>
+#include "HQConstants.h"
 
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
+
+const cocos2d::Size OomeeStoreButton::kOverflowPadding = Size(0, 25);
+const cocos2d::Size OomeeStoreButton::kFramePadding = Size(10,10);
 
 bool OomeeStoreButton::init()
 {
@@ -21,26 +25,20 @@ bool OomeeStoreButton::init()
     }
     
     ignoreContentAdaptWithSize(false);
-    addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
-        if(eType == ui::Widget::TouchEventType::ENDED)
-        {
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Shop));
-        }
-    });
     
     _frame = RoundedRectSprite::create();
     _frame->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _frame->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _frame->setColor(Style::Color::macaroniAndCheese);
     _frame->setTexture("res/decoration/white_1px.png");
-    _frame->setCornerRadius(27);
+    _frame->setCornerRadius(HQConsts::OomeeHQTileCornerRadius);
     addChild(_frame);
     
     _background = RoundedRectSprite::create();
     _background->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _background->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _background->setTexture("res/OomeeHQ/OomeeStore/background.png");
-    _background->setCornerRadius(27);
+    _background->setCornerRadius(HQConsts::OomeeHQTileCornerRadius);
     _frame->addChild(_background);
     
     _oomees = Sprite::create("res/OomeeHQ/OomeeStore/charecters.png");
@@ -61,9 +59,9 @@ void OomeeStoreButton::onSizeChanged()
     Super::onSizeChanged();
     
     const Size& contentSize = getContentSize();
-    _frame->setContentSize(contentSize - Size(0,25));
-    _background->setContentSize(contentSize - Size(10,35));
-    _oomees->setScale((contentSize.height - 5) / _oomees->getContentSize().height);
+    _frame->setContentSize(contentSize - kOverflowPadding);
+    _background->setContentSize(contentSize - (kFramePadding + kOverflowPadding));
+    _oomees->setScale((contentSize.height - (kFramePadding.height / 2.0f)) / _oomees->getContentSize().height);
     _logo->setScale((contentSize.height * 0.5f) / _logo->getContentSize().height);
     
 }

@@ -13,6 +13,7 @@
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObject.h>
 #include "DropdownContentHolder.h"
+#include "HQConstants.h"
 
 NS_AZOOMEE_BEGIN
 

@@ -19,6 +19,8 @@ class ArtStudioButton : public cocos2d::ui::Button
 {
     typedef cocos2d::ui::Button Super;
 private:
+    static const cocos2d::Size kOverflowPadding;
+    static const cocos2d::Size kFramePadding;
     
     RoundedRectSprite* _frame = nullptr;
     RoundedRectSprite* _background = nullptr;

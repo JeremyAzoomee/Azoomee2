@@ -14,6 +14,9 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+const cocos2d::Size OomeeDisplay::kKidCodeFrameSize = Size(334,217);
+const cocos2d::Size OomeeDisplay::kKidCodeFramePadding = Size(10,10);
+
 bool OomeeDisplay::init()
 {
     if(!Super::init())
@@ -65,7 +68,7 @@ bool OomeeDisplay::init()
     _kidCodeFrame->setCornerRadius(20);
     _kidCodeFrame->setAnchorPoint(Vec2(-0.1f, 1.15f));
     _kidCodeFrame->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
-    _kidCodeFrame->setContentSize(Size(334,217));
+    _kidCodeFrame->setContentSize(kKidCodeFrameSize);
     addChild(_kidCodeFrame);
     
     _kidCodeBody = RoundedRectSprite::create();
@@ -73,7 +76,7 @@ bool OomeeDisplay::init()
     _kidCodeBody->setCornerRadius(20);
     _kidCodeBody->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _kidCodeBody->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    _kidCodeBody->setContentSize(Size(324,207));
+    _kidCodeBody->setContentSize(kKidCodeFrameSize - kKidCodeFramePadding);
     _kidCodeBody->setColor(bgColour);
     _kidCodeFrame->addChild(_kidCodeBody);
     
@@ -81,7 +84,7 @@ bool OomeeDisplay::init()
     _kidCodeTitle->setTextHorizontalAlignment(TextHAlignment::CENTER);
     _kidCodeTitle->setTextVerticalAlignment(TextVAlignment::BOTTOM);
     _kidCodeTitle->setTextColor(Color4B::WHITE);
-    _kidCodeTitle->setTextAreaSize(Size(280,90));
+    _kidCodeTitle->setTextAreaSize(Size(_kidCodeBody->getContentSize().width * 0.86f, _kidCodeBody->getContentSize().height * 0.44f));
     _kidCodeTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _kidCodeTitle->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
     _kidCodeTitle->setOverflow(Label::Overflow::SHRINK);
@@ -91,7 +94,7 @@ bool OomeeDisplay::init()
     _kidCode->setTextHorizontalAlignment(TextHAlignment::CENTER);
     _kidCode->setTextVerticalAlignment(TextVAlignment::TOP);
     _kidCode->setTextColor(Color4B::WHITE);
-    _kidCode->setTextAreaSize(Size(280,90));
+    _kidCode->setTextAreaSize(_kidCodeTitle->getTextAreaSize());
     _kidCode->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _kidCode->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _kidCode->setOverflow(Label::Overflow::SHRINK);
@@ -122,7 +125,7 @@ void OomeeDisplay::onSizeChanged()
     _circleGradient->setRadius(MIN(contentSize.height / 2.0f, contentSize.width / 2.0f));
     _stencil->setPosition(_circleGradient->getCenter());
     _stencil->setContentSize(Size(_circleGradient->getRadius() * 2.0f, _circleGradient->getRadius() * 2.0f));
-    _oomee->setScale(MIN((contentSize.width * 0.8f) / _oomee->getContentSize().width, (contentSize.height * 0.8f) / _oomee->getContentSize().height));
+    resizeOomee();
     
 }
 
@@ -143,12 +146,17 @@ void OomeeDisplay::setOomeeImgUrl(const std::string& oomeeImageUrl)
     downloader->downloadImage(this, oomeeImageUrl);
 }
 
+void OomeeDisplay::resizeOomee()
+{
+    const Size& contentSize = getContentSize();
+    _oomee->setScale(MIN((contentSize.width * 0.8f) / _oomee->getContentSize().width, (contentSize.height * 0.8f) / _oomee->getContentSize().height));
+}
+
 //deleagte functions
 void OomeeDisplay::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {
     _oomee->setTexture(downloader->getLocalImagePath());
-    const Size& contentSize = getContentSize();
-    _oomee->setScale(MIN((contentSize.width * 0.8f) / _oomee->getContentSize().width, (contentSize.height * 0.8f) / _oomee->getContentSize().height));
+    resizeOomee();
 }
 
 void OomeeDisplay::onImageDownloadFailed()

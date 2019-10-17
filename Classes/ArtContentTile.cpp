@@ -8,6 +8,7 @@
 #include "ArtContentTile.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
+#include "HQConstants.h"
 
 using namespace cocos2d;
 
@@ -40,7 +41,6 @@ bool ArtContentTile::init()
     });
     
     _dropShadow = ui::ImageView::create("res/OomeeHQ/ArtStudio/art_dropshadow.png");
-    _dropShadow->setContentSize(getContentSize() + kDropshadowPadding);
     _dropShadow->setScale9Enabled(true);
     _dropShadow->ignoreContentAdaptWithSize(false);
     _dropShadow->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -50,12 +50,12 @@ bool ArtContentTile::init()
     _contentImage = RoundedRectSprite::create();
     _contentImage->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _contentImage->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    _contentImage->setCornerRadius(27);
+    _contentImage->setCornerRadius(HQConsts::OomeeHQTileCornerRadius);
     addChild(_contentImage);
     
     _buttonOverlay = RoundedRectSprite::create();
     _buttonOverlay->setTexture("res/decoration/white_1px.png");
-    _buttonOverlay->setCornerRadius(27);
+    _buttonOverlay->setCornerRadius(HQConsts::OomeeHQTileCornerRadius);
     _buttonOverlay->setColor(Style::Color::purplyPink);
     _buttonOverlay->setOpacity(125);
     _buttonOverlay->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -67,7 +67,7 @@ bool ArtContentTile::init()
     _deleteButton = ui::Button::create("res/OomeeHQ/ArtStudio/bin_art_button.png");
     _deleteButton->ignoreContentAdaptWithSize(false);
     _deleteButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _deleteButton->setNormalizedPosition(Vec2(0.7,0.5f));
+    _deleteButton->setNormalizedPosition(Vec2(0.7f,0.5f));
     _deleteButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
@@ -82,7 +82,7 @@ bool ArtContentTile::init()
     _editButton = ui::Button::create("res/OomeeHQ/ArtStudio/edit_art_button.png");
     _editButton->ignoreContentAdaptWithSize(false);
     _editButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _editButton->setNormalizedPosition(Vec2(0.3,0.5f));
+    _editButton->setNormalizedPosition(Vec2(0.3f,0.5f));
     _editButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
@@ -117,8 +117,9 @@ void ArtContentTile::onSizeChanged()
     const Size& contentSize = getContentSize();
     _dropShadow->setContentSize(contentSize + kDropshadowPadding);
     _buttonOverlay->setContentSize(contentSize);
-    _editButton->setContentSize(Size(contentSize.width * 0.2f, contentSize.width * 0.2f));
-    _deleteButton->setContentSize(Size(contentSize.width * 0.2f, contentSize.width * 0.2f));
+    const float buttonSize = contentSize.width * 0.2f;
+    _editButton->setContentSize(Size(buttonSize, buttonSize));
+    _deleteButton->setContentSize(Size(buttonSize, buttonSize));
     resizeContentImage();
 }
 

@@ -21,6 +21,8 @@ class ArtTileHolder : public cocos2d::ui::Layout
 private:
     
     static const cocos2d::Vec2 kTileAspectRatio;
+    static const int kClosedMaxVisibleTileCount;
+    static const float kTilesPerRow;
     
     OnResizeCallback _togglePressedCallback = nullptr;
     OnResizeCallback _resizeCallback = nullptr;
@@ -29,6 +31,8 @@ private:
     
     bool _open = false;
     bool _resizing = false;
+    bool _expandable = false;
+    float _contentGridPadding;
     
     float _closedHeight;
     float _openHeight;
@@ -49,6 +53,8 @@ private:
     void createContentLayout();
     void updateContent();
     void resizeContent();
+    
+    cocos2d::Size calcTileSize(float rowWidth);
     
 public:
     static const float kTileSpacingPercent;

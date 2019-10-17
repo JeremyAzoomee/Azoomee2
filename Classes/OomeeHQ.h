@@ -46,12 +46,7 @@ private:
     void createFavouritesLayout();
     void createOfflineDropdown();
     
-    //offline game utils
-    std::vector<std::string> getJsonFileListFromDir() const;
-    bool isStarterFileExists(const std::string &gameId) const;
-    std::string getStartFileFromJson(const std::string &gameId) const;
     void refreshOfflineList();
-    
     void refreshFavouritesList();
     void refreshArtList();
     

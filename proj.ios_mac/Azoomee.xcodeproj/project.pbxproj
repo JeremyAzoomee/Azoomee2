@@ -799,6 +799,7 @@
 		E2A5141C232133F3007B93BC /* CircleTile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CircleTile.cpp; sourceTree = "<group>"; };
 		E2A5141E2321469F007B93BC /* CircleContentHolder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CircleContentHolder.h; sourceTree = "<group>"; };
 		E2A5141F23214B45007B93BC /* CircleContentHolder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CircleContentHolder.cpp; sourceTree = "<group>"; };
+		E2A6F45723586CA1003809A9 /* HQConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HQConstants.h; sourceTree = "<group>"; };
 		E2D3B50C234B3E9D00074881 /* OomeeDisplay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OomeeDisplay.h; sourceTree = "<group>"; };
 		E2D3B50D234B4B8100074881 /* OomeeDisplay.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeDisplay.cpp; sourceTree = "<group>"; };
 		E2DCF5E22304419B0032946D /* ImportantMessageForParents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImportantMessageForParents.h; sourceTree = "<group>"; };
@@ -1553,6 +1554,7 @@
 		A19759861DE4931600FEB03C /* HQScene */ = {
 			isa = PBXGroup;
 			children = (
+				E2A6F45723586CA1003809A9 /* HQConstants.h */,
 				E2D3B506234B3AFC00074881 /* OomeeHQComponents */,
 				E229F66C23350BA0005BA0D4 /* EpisodeSelector */,
 				E212CC11231D3E9C009D4A63 /* ContentTiles */,
