@@ -115,7 +115,7 @@ void HQPage::dropdownAutoOpenCloseLogic(DropdownContentHolder* pressedDropdown, 
     _resizingPositionInView = itemOrigin + scrollPosition + Vec2(itemSize.width * kFocusDropDownAnchor.x, itemSize.height * kFocusDropDownAnchor.y);
     
     // Now toggle the opening/closing
-    _focusedDropdown->toggleOpened(!_focusedDropdown->isOpen());
+    pressedDropdown->toggleOpened(!pressedDropdown->isOpen());
     for(auto dd : dropdownHoldersInListview)
     {
         if(dd != _focusedDropdown && dd->isOpen())

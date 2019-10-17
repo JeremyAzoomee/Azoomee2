@@ -39,7 +39,12 @@ public:
     void onAsyncUnzipComplete(bool success, const std::string& zipPath, const std::string& dirpath);
     void onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode);
     
+    std::vector<HQContentItemObjectRef> getOfflineGameList();
+    
 private:
+    //offline game tools
+    std::vector<std::string> getJsonFileListFromDir() const;
+    
     void saveFeedDataToFile(const HQContentItemObjectRef &itemData);
     std::string getFeedDataFromFolder(const std::string &feedPath);
     

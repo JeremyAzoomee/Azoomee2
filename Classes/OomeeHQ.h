@@ -11,7 +11,15 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
+#include <AzoomeeCommon/UI/DynamicText.h>
 #include "HQPage.h"
+#include "OomeeDisplay.h"
+#include "DropdownContentHolder.h"
+#include "CircleContentHolder.h"
+#include "OomeeMakerButton.h"
+#include "OomeeStoreButton.h"
+#include "ArtStudioButton.h"
+#include "ArtTileHolder.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -20,16 +28,27 @@ class OomeeHQ : public HQPage
     typedef HQPage Super;
 private:
     cocos2d::ui::Layout* _oomeeLayout = nullptr;
-    cocos2d::ui::Layout* _oomeeMakerButton = nullptr;
-    cocos2d::ui::Layout* _shopButton = nullptr;
-    cocos2d::ui::Layout* _artStudioLayout = nullptr;
-    cocos2d::ui::Layout* _favouritesLayout = nullptr;
-    cocos2d::ui::Layout* _offlineDropdown = nullptr;
-
+    OomeeDisplay* _oomeeDisplay = nullptr;
+    OomeeMakerButton* _oomeeMakerButton = nullptr;
+    OomeeStoreButton* _shopButton = nullptr;
+    ArtStudioButton* _artStudioButton = nullptr;
+    ArtTileHolder* _artTileHolder = nullptr;
+    DynamicText* _favouritesTitle = nullptr;
+    CircleContentHolder* _favouritesLayout = nullptr;
+    DropdownContentHolder* _offlineDropdown = nullptr;
+    
     cocos2d::EventListenerTouchOneByOne* _touchListener = nullptr;
+    
+    std::string _reloadArtFilename;
     
     void createOomeeLayout();
     void createScrollViewContent();
+    void createFavouritesLayout();
+    void createOfflineDropdown();
+    
+    void refreshOfflineList();
+    void refreshFavouritesList();
+    void refreshArtList();
     
 public:
     

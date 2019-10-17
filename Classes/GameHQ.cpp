@@ -96,9 +96,9 @@ void GameHQ::onSizeChanged()
         
         _featuredLayout->setSizeType(SizeType::PERCENT);
         _featuredLayout->setSizePercent(Vec2(0.975f,0.95f));
-        _featuredLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+        _featuredLayout->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
         _featuredLayout->setPositionType(PositionType::PERCENT);
-        _featuredLayout->setPositionPercent(Vec2::ANCHOR_MIDDLE_LEFT);
+        _featuredLayout->setPositionPercent(Vec2::ANCHOR_TOP_LEFT);
         _featuredLayout->enableWideLayout(false);
         _featuredLayout->enableFixedHeight(true);
         if(_contentListView->getItem(0) == _featuredLayout)
@@ -114,7 +114,7 @@ void GameHQ::onSizeChanged()
 
     _recentlyPlayedTitle->setTextAreaSize(Size(contentListViewWidth - kListViewSidePadding, _recentlyPlayedTitle->getContentSize().height));
     _recentlyPlayedLayout->setTileSize(_isPortrait ? kCircleTileSizePortrait : kCircleTileSizeLandscape);
-    _recentlyPlayedLayout->setContentSize(Size(contentListViewWidth, 0));
+    _recentlyPlayedLayout->setContentSize(Size(contentListViewWidth - kListViewSidePadding, 0));
     
     for(auto dropdown : _dropdownLayouts)
     {
@@ -162,6 +162,7 @@ void GameHQ::createRecentlyPlayedTiles()
     _recentlyPlayedLayout->setMaxRows(1);
     _recentlyPlayedLayout->setPlaceholder("res/hqscene/game_icon.png");
     _recentlyPlayedLayout->setContentSize(Size(_contentListView->getSizePercent().x * getContentSize().width, 0));
+    _recentlyPlayedLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _recentlyPlayedLayout->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
         if(_contentSelectedCallback)
         {

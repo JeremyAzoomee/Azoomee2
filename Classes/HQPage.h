@@ -13,6 +13,7 @@
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObject.h>
 #include "DropdownContentHolder.h"
+#include "HQConstants.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -38,7 +39,7 @@ protected:
     ContentSelectedCallback _contentSelectedCallback = nullptr;
     
     /// The dropdown last selected for open or close, may be null
-    DropdownContentHolder* _focusedDropdown = nullptr;
+    cocos2d::ui::Layout* _focusedDropdown = nullptr;
     cocos2d::Vec2 _resizingPositionInView;
     
     void listviewDropdownResizeCallback();
