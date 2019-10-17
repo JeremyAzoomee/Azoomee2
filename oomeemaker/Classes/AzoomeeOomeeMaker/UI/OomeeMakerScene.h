@@ -29,6 +29,8 @@ private:
     static const std::string kSavePopupId;
     static const std::string kResetPopupId;
     
+    cocos2d::EventListenerCustom* _oomeeSavedEventListener = nullptr;
+    
     cocos2d::Layer* _contentLayer = nullptr;
     
     std::string _filename;

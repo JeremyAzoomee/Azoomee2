@@ -38,6 +38,7 @@ void OomeeFigureData::initWithData(const rapidjson::Value& oomeeConfig)
 	{
 		setAccessoryIds(getStringArrayFromJson(oomeeConfig["oomeeItems"]));
 	}
+    _selected = getBoolFromJson("selected", oomeeConfig, false);
 }
 
 // GETTERS AND SETTERS
@@ -67,6 +68,16 @@ void OomeeFigureData::setAccessoryIds(const std::vector<std::string>& accessoryI
 std::vector<std::string> OomeeFigureData::getAccessoryIds() const
 {
 	return _accessoryIds;
+}
+
+void OomeeFigureData::setSelected(bool selected)
+{
+    _selected = selected;
+}
+
+bool OomeeFigureData::isSelected() const
+{
+    return _selected;
 }
 
 bool OomeeFigureData::isEqual(const OomeeFigureDataRef &comparable)

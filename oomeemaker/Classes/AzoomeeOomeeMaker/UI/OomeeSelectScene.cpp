@@ -26,9 +26,6 @@ void OomeeSelectScene::newOomee()
     AnalyticsSingleton::getInstance()->newOomee();
     OomeeMakerScene* makerScene = OomeeMakerScene::create();
     
-    const std::string& fileNameStr = getTimeStringForFileName();
-    
-    makerScene->setFilename(fileNameStr);
     makerScene->setIsNewOomee(true);
     Director::getInstance()->replaceScene(makerScene);
 	

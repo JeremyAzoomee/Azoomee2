@@ -102,7 +102,7 @@ void OomeeFigure::onEnter()
     Super::onEnter();
 }
 
-bool OomeeFigure::initWithOomeeFigureData(/*const rapidjson::Document &*/ const OomeeFigureDataRef& data)
+bool OomeeFigure::initWithOomeeFigureData( const OomeeFigureDataRef& data)
 {
     //if(data.HasParseError())
     //{
@@ -112,7 +112,7 @@ bool OomeeFigure::initWithOomeeFigureData(/*const rapidjson::Document &*/ const 
     //const std::string& oomeeKey = getStringFromJson("oomee", data);
 	
 	_figureId = data->getId();
-	
+    _selected = data->isSelected();
     const OomeeRef& oomee = OomeeMakerDataStorage::getInstance()->getOomeeForKey(data->getOomeeId());
     if(oomee)
     {
@@ -209,6 +209,7 @@ OomeeFigureDataRef OomeeFigure::getFigureData() const
 	data->setId(_figureId);
 	data->setOomeeId(_oomeeData->getId());
 	data->setAccessoryIds(getAccessoryIds());
+    data->setSelected(_selected);
 	return data;
 }
 
@@ -337,6 +338,26 @@ float OomeeFigure::getHue() const
 void OomeeFigure::setHue(float hue)
 {
     _hue = hue;
+}
+
+void OomeeFigure::setFigureId(const std::string &figureId)
+{
+    _figureId = figureId;
+}
+
+std::string OomeeFigure::getFigureId() const
+{
+    return _figureId;
+}
+
+void OomeeFigure::setSelected(bool selected)
+{
+    _selected = selected;
+}
+
+bool OomeeFigure::isSelected() const
+{
+    return _selected;
 }
 
 void OomeeFigure::dependancyCheck()

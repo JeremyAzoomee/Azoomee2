@@ -26,6 +26,7 @@ private:
 	
 	std::vector<HttpRequestCreator*> _pendingLocalOomeeUploads;
 	std::string _targetChildId = "";
+    bool _savingNewOomee = false;
 	
     bool _gettingDataAsync = false;
     
@@ -46,6 +47,8 @@ private:
 	void writeOomeeFiles(const rapidjson::Value& data);
     
 public:
+    static const std::string kSaveNewOomeeEventName;
+    
     static OomeeMakerDataHandler* getInstance();
     virtual ~OomeeMakerDataHandler();
     void init();

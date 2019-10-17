@@ -10,11 +10,14 @@
 #include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Utils/DirUtil.h>
+#include <AzoomeeCommon/Utils/StringFunctions.h>
 #include "../UI/OomeeSelectScene.h"
 
 using namespace cocos2d;
 
 NS_AZOOMEE_OM_BEGIN
+
+const std::string OomeeMakerDataHandler::kSaveNewOomeeEventName = "azoomee.oomeemaker.savenewoomee";
 
 static std::auto_ptr<OomeeMakerDataHandler> sOomeeMakerDataHandlerSharedInstance;
 
@@ -133,7 +136,8 @@ void OomeeMakerDataHandler::saveOomee(const OomeeFigureDataRef& oomee, bool setA
 	}
 	_targetChildId = childId;
 	ModalMessages::getInstance()->startLoading();
-	if(oomee->getId() == "")
+    _savingNewOomee = oomee->getId() == "";
+	if(_savingNewOomee)
 	{
 		HttpRequestCreator* request = API::SaveNewOomee(childId, ParentManager::getInstance()->getLoggedInParentId(), oomee->getOomeeId(), oomee->getAccessoryIds(), setAsAvatar, this);
 		request->execute();
@@ -454,7 +458,7 @@ void OomeeMakerDataHandler::writeOomeeFiles(const rapidjson::Value& data)
             continue;
         }
         const std::string& childId = getStringFromJson("childId", figureData);
-        if(getBoolFromJson("selected", figureData, false))
+        if(figure->isSelected())
         {
             ParentManager::getInstance()->setAvatarColourForChild(childId, getColor4BFromJson("colour", figureData));
         }
@@ -489,6 +493,7 @@ void OomeeMakerDataHandler::writeOomeeFiles(const rapidjson::Value& data)
         std::string savedFileContent = "{";
         savedFileContent += StringUtils::format("\"id\":\"%s\",", figure->getId().c_str());
         savedFileContent += StringUtils::format("\"oomeeId\":\"%s\",", figure->getOomeeId().c_str());
+        savedFileContent += StringUtils::format("\"selected\":\"%s\",", figure->isSelected() ? "true" : "false");
         savedFileContent += "\"oomeeItems\":[";
         const std::vector<std::string>& accIds = figure->getAccessoryIds();
         for(int i = 0; i < accIds.size(); i++)
@@ -608,7 +613,7 @@ void OomeeMakerDataHandler::onHttpRequestSuccess(const std::string& requestTag, 
 			return;
 		}
 		
-		// write files to cache - temp solution
+		// write files to cache - temp solution, maybe
         if(result.Size() > 0 || _targetChildId == "")
         {
             writeOomeeFiles(result);
@@ -624,6 +629,14 @@ void OomeeMakerDataHandler::onHttpRequestSuccess(const std::string& requestTag, 
 	}
 	else if(requestTag == API::TagSaveNewOomee || requestTag == API::TagUpdateChildOomee)
 	{
+        if(_savingNewOomee)
+        {
+            _savingNewOomee = false;
+            auto locationHeader = getValueFromHttpResponseHeaderForKey("Location", headers);
+            std::string oomeeId = splitStringToVector(locationHeader, "/").back();
+            Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(kSaveNewOomeeEventName, &oomeeId);
+        }
+        
 		HttpRequestCreator* request = API::GetChildOomees(_targetChildId, false, this);
 		request->execute();
 	}
