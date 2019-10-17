@@ -50,7 +50,6 @@ void DataDownloadHandler::sendCallback(bool success)
 		_callback = nullptr;
 		tempCallback(success);
 	}
-	//_callback = nullptr;
 }
 
 void DataDownloadHandler::setOnCompleteCallback(const OnCompleteCallback& callback)

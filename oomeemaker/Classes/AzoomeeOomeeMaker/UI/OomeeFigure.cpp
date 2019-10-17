@@ -104,13 +104,6 @@ void OomeeFigure::onEnter()
 
 bool OomeeFigure::initWithOomeeFigureData( const OomeeFigureDataRef& data)
 {
-    //if(data.HasParseError())
-    //{
-    //    return false;
-    //}
-    
-    //const std::string& oomeeKey = getStringFromJson("oomee", data);
-	
 	_figureId = data->getId();
     _selected = data->isSelected();
     const OomeeRef& oomee = OomeeMakerDataStorage::getInstance()->getOomeeForKey(data->getOomeeId());
@@ -123,9 +116,7 @@ bool OomeeFigure::initWithOomeeFigureData( const OomeeFigureDataRef& data)
         return false;
     }
     
-    //if(data.HasMember("oomeeItems"))
-    //{
-	const std::vector<std::string>& itemKeys = data->getAccessoryIds();//getStringArrayFromJson(data["oomeeItems"]);
+	const std::vector<std::string>& itemKeys = data->getAccessoryIds();
 	for(const std::string& key : itemKeys)
 	{
 		const OomeeItemRef& item = OomeeMakerDataStorage::getInstance()->getOomeeItemForKey(key);
@@ -134,7 +125,7 @@ bool OomeeFigure::initWithOomeeFigureData( const OomeeFigureDataRef& data)
 			addAccessory(item);
 		}
 	}
-    //}
+
     _undoStack.clear();
     _undoStack.push_back(getDataSnapshot());
     

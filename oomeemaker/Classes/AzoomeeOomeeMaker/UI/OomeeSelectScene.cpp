@@ -51,7 +51,6 @@ bool OomeeSelectScene::init()
     _oomeeCarousel->setButtonDelegate(this);
     _oomeeCarousel->setContentSize(_contentLayer->getContentSize());
     _oomeeCarousel->setPosition(_contentLayer->getContentSize() / 2);
-    //setCarouselData();
     _contentLayer->addChild(_oomeeCarousel);
     
     _exitButton = ui::Button::create();
@@ -254,7 +253,6 @@ void OomeeSelectScene::makeAvatar(const std::string &oomeeFilename)
                 delegate->onOomeeMakerUpdateAvatar(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + oomeeFilename + ".png");
             }
         });
-        //Azoomee::OomeeMaker::delegate->onOomeeMakerUpdateAvatar(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + oomeeFilename + ".png");
     }
 }
 
@@ -269,16 +267,6 @@ void OomeeSelectScene::shareOomee(const std::string &oomeeFilename)
 
 void OomeeSelectScene::onConfirmPressed(Azoomee::ConfirmCancelMessageBox *pSender)
 {
-    /*if(OomeeMakerDataHandler::getInstance()->deleteOomee(pSender->getName()))
-    {
-        CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Undo_Exit_Buttons.mp3");
-        AnalyticsSingleton::getInstance()->deleteOomee();
-        stopAllActions();
-        setCarouselData();
-        this->getScheduler()->schedule([this](float deltaT){
-            _oomeeCarousel->centerButtons();
-        }, this, 0, 0, 1.0, 0, "centerButtons");
-    }*/
 	OomeeFigureDataRef oomee = OomeeFigureData::create();
 	oomee->setId(pSender->getName());
 	OomeeMakerDataHandler::getInstance()->deleteOomee(oomee, ChildManager::getInstance()->getLoggedInChild()->getId(), [this](bool success){
