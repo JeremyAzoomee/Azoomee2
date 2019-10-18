@@ -102,6 +102,7 @@ void DropdownContentHolder::onSizeChanged()
     if(!_resizing)
     {
         const float targetHeight = _open ? _openHeight : _closedHeight;
+        _iconLayout->setScale(_open ? kDropdownOpenIconScale : 1.0f);
         if(contentSize.height != targetHeight)
         {
             setContentSize(Size(contentSize.width, targetHeight));

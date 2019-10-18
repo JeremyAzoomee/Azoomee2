@@ -26,6 +26,7 @@ bool OomeeDisplay::init()
     
     setSizeType(SizeType::PERCENT);
     setSizePercent(Vec2(1.0f, 1.0f));
+    setClippingEnabled(true);
     
     const Color3B& bgColour = Style::Color::darkIndigoThree;
     
@@ -62,6 +63,11 @@ bool OomeeDisplay::init()
     _oomee->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _oomee->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     addChild(_oomee);
+    
+    _oomeeShadow = Sprite::create("res/OomeeHQ/oomee_hq_shadow.png");
+    _oomeeShadow->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _oomeeShadow->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _oomee->addChild(_oomeeShadow, -1);
     
     _kidCodeFrame = RoundedRectSprite::create();
     _kidCodeFrame->setTexture("res/decoration/white_1px.png");
@@ -117,12 +123,13 @@ void OomeeDisplay::onSizeChanged()
 {
     Super::onSizeChanged();
     const Size& contentSize = getContentSize();
+    const Size& patternRadiusSize = contentSize * 1.2f;
     _background->setContentSize(contentSize);
     _bgPattern->setContentSize(contentSize);
     _patternClipper->setContentSize(contentSize);
     _circleGradient->setContentSize(contentSize);
     _circleGradient->setCenter(Vec2(contentSize / 2.0f));
-    _circleGradient->setRadius(MIN(contentSize.height / 2.0f, contentSize.width / 2.0f));
+    _circleGradient->setRadius(MIN(patternRadiusSize.height / 2.0f, patternRadiusSize.width / 2.0f));
     _stencil->setPosition(_circleGradient->getCenter());
     _stencil->setContentSize(Size(_circleGradient->getRadius() * 2.0f, _circleGradient->getRadius() * 2.0f));
     resizeOomee();
@@ -150,6 +157,7 @@ void OomeeDisplay::resizeOomee()
 {
     const Size& contentSize = getContentSize();
     _oomee->setScale(MIN((contentSize.width * 0.8f) / _oomee->getContentSize().width, (contentSize.height * 0.8f) / _oomee->getContentSize().height));
+    _oomeeShadow->setScale((_oomee->getContentSize().width * 0.7f) / _oomeeShadow->getContentSize().width);
 }
 
 //deleagte functions
