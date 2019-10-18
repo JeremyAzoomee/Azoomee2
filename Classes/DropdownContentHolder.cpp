@@ -227,8 +227,6 @@ void DropdownContentHolder::createTitleLayout()
     _iconBackground->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _iconBackground->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _iconBackground->setContentSize(_iconLayout->getContentSize());
-    //_iconBackground->setSizeType(SizeType::PERCENT);
-    //_iconBackground->setSizePercent(Vec2(1.0f, 1.0f));
     _iconClippingNode->addChild(_iconBackground);
     
     _categoryIcon = Sprite::create("res/hqscene/Charecter place holder 1.png");

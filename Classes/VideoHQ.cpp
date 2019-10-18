@@ -139,8 +139,8 @@ void VideoHQ::onSizeChanged()
         _contentListView->setSizePercent(Vec2(0.5f, 1.0f));
         _staticContentLayout->setSizePercent(Vec2(0.5f, 1.0f));
         
-        _episodeSelector->setPosition(Vec2(contentSize.width / 4.0f,contentSize.height * 0.05f));
-        _episodeSelector->setSizePercent(Vec2(0.475,0.95f));
+        _episodeSelector->setPosition(Vec2(contentSize.width * 0.2375f,contentSize.height * 0.05f));
+        _episodeSelector->setSizePercent(Vec2(0.4875,0.95f));
         _episodeSelector->setVisible(true);
         _episodePlayerMoving = false;
     }
@@ -149,6 +149,7 @@ void VideoHQ::onSizeChanged()
     
     const float contentListViewWidth = _contentListView->getSizePercent().x * contentSize.width;
     
+    _recentlyPlayedTitle->setFontSize(_isPortrait ? 89 : 75);
     _recentlyPlayedTitle->setTextAreaSize(Size(contentListViewWidth - kListViewSidePadding, _recentlyPlayedTitle->getContentSize().height));
     _recentlyPlayedLayout->setTileSize(_isPortrait ? kCircleTileSizePortrait : kCircleTileSizeLandscape);
     _recentlyPlayedLayout->setContentSize(Size(contentListViewWidth - kListViewSidePadding, 0));

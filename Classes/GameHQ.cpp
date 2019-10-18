@@ -131,6 +131,7 @@ void GameHQ::onSizeChanged()
 
     const float contentListViewWidth = _contentListView->getSizePercent().x * getContentSize().width;
 
+    _recentlyPlayedTitle->setFontSize(_isPortrait ? 89 : 75);
     _recentlyPlayedTitle->setTextAreaSize(Size(contentListViewWidth - kListViewSidePadding, _recentlyPlayedTitle->getContentSize().height));
     _recentlyPlayedLayout->setTileSize(_isPortrait ? kCircleTileSizePortrait : kCircleTileSizeLandscape);
     _recentlyPlayedLayout->setContentSize(Size(contentListViewWidth - kListViewSidePadding, 0));

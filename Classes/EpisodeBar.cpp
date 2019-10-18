@@ -47,7 +47,7 @@ bool EpisodeBar::init()
     _lockedOverlay->setRoundedCorners(true, false, true, false);
     _lockedOverlay->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _lockedOverlay->setColor(Style::Color::darkIndigo);
-    _lockedOverlay->setOpacity(204);
+    _lockedOverlay->setOpacity(51);
     _lockedOverlay->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _lockedOverlay->setStretchImageEnabled(true);
     _contentImage->addChild(_lockedOverlay);
@@ -148,7 +148,7 @@ void EpisodeBar::setContentItemData(const HQContentItemObjectRef& contentItem)
     if(_contentItem)
     {
         _episodeTitle->setString(_contentItem->getTitle());
-        _lockedOverlay->setVisible(!_contentItem->isEntitled());
+        _lockedOverlay->setOpacity(_contentItem->isEntitled() ? 51 : 204);
         _playIcon->loadTexture(_contentItem->isEntitled() ? "res/hqscene/play_icon.png" : "res/hqscene/oomee_padlock.png");
     }
 }

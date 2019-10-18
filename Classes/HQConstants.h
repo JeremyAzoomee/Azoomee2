@@ -13,10 +13,10 @@
 namespace HQConsts
 {
     const float OomeeHQTileCornerRadius = 27.0f;
-    const float OomeeHQPrimaryButtonHeightPortrait = 625.0f;
-    const float OomeeHQPrimaryButtonHeightLandscape = 575.0f;
-    const float OomeeHQSecondaryButtonHeightPortrait = 570.0f;
-    const float OomeeHQSecondaryButtonHeightLandscape = 520.0f;
+    const float OomeeHQPrimaryButtonHeightPortrait = 600.0f;
+    const float OomeeHQPrimaryButtonHeightLandscape = 550.0f;
+    const float OomeeHQSecondaryButtonHeightPortrait = 550.0f;
+    const float OomeeHQSecondaryButtonHeightLandscape = 500.0f;
     
     const std::string DeleteArtButtonAnalyticsName = "artsAppDeleteButton";
     const std::string OpenArtAnalyticsContentName = "Art";
