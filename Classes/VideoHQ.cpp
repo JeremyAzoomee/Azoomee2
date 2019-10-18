@@ -42,6 +42,25 @@ bool VideoHQ::init()
     createDropdowns();
     createEpisodePlayer();
     
+    const Color3B& gradColour = Style::Color::darkIndigo;
+    _topScrollGradient = LayerGradient::create(Color4B(gradColour), Color4B(gradColour.r, gradColour.g, gradColour.b, 0));
+    _topScrollGradient->setIgnoreAnchorPointForPosition(false);
+    _topScrollGradient->setContentSize(Size(_contentListView->getContentSize().width, 0));
+    _topScrollGradient->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
+    _topScrollGradient->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
+    addChild(_topScrollGradient, 1);
+    
+    _contentListView->addEventListener([this](Ref* pSender, ui::ScrollView::EventType eType){
+        if(eType == ui::ScrollView::EventType::CONTAINER_MOVED)
+        {
+            const float minY = _contentListView->getContentSize().height - _contentListView->getInnerContainerSize().height;
+            float scrollDist = MAX(_contentListView->getInnerContainerPosition().y - minY, 0);
+            
+            _topScrollGradient->setContentSize(Size(_contentListView->getContentSize().width, MIN(scrollDist,160)));
+            
+        }
+    });
+    
     return true;
 }
 
@@ -134,6 +153,8 @@ void VideoHQ::onSizeChanged()
     _recentlyPlayedLayout->setTileSize(_isPortrait ? kCircleTileSizePortrait : kCircleTileSizeLandscape);
     _recentlyPlayedLayout->setContentSize(Size(contentListViewWidth - kListViewSidePadding, 0));
     _featuredLayout->setContentSize(Size(contentListViewWidth, _isPortrait ? kFeaturedContentHeightPortrait : kFeaturedContentHeightLandscape));
+    
+    _topScrollGradient->setContentSize(Size(contentListViewWidth, _topScrollGradient->getContentSize().height));
     
     for(auto dropdown : _dropdownLayouts)
     {

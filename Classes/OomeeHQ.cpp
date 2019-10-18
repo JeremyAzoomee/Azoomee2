@@ -37,6 +37,25 @@ bool OomeeHQ::init()
     createFavouritesLayout();
     createOfflineDropdown();
     
+    const Color3B& gradColour = Style::Color::darkIndigo;
+    _topScrollGradient = LayerGradient::create(Color4B(gradColour), Color4B(gradColour.r, gradColour.g, gradColour.b, 0));
+    _topScrollGradient->setIgnoreAnchorPointForPosition(false);
+    _topScrollGradient->setContentSize(Size(_contentListView->getContentSize().width, 0));
+    _topScrollGradient->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
+    _topScrollGradient->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
+    addChild(_topScrollGradient, 1);
+    
+    _contentListView->addEventListener([this](Ref* pSender, ui::ScrollView::EventType eType){
+        if(eType == ui::ScrollView::EventType::CONTAINER_MOVED)
+        {
+            const float minY = _contentListView->getContentSize().height - _contentListView->getInnerContainerSize().height;
+            float scrollDist = MAX(_contentListView->getInnerContainerPosition().y - minY, 0);
+            
+            _topScrollGradient->setContentSize(Size(_contentListView->getContentSize().width, MIN(scrollDist,160)));
+            
+        }
+    });
+    
     return true;
 }
 
@@ -94,6 +113,8 @@ void OomeeHQ::onSizeChanged()
     _favouritesTitle->setTextAreaSize(Size(contentListViewWidth - kListViewSidePadding, _favouritesTitle->getContentSize().height));
     _favouritesLayout->setTileSize(_isPortrait ? kCircleTileSizePortrait : kCircleTileSizeLandscape);
     _favouritesLayout->setContentSize(Size(contentListViewWidth, 0));
+    
+    _topScrollGradient->setContentSize(Size(contentListViewWidth, _topScrollGradient->getContentSize().height));
     
     _contentListView->forceDoLayout();
     
@@ -221,6 +242,7 @@ void OomeeHQ::createScrollViewContent()
                 _staticContentLayout->setSizePercent(Vec2(1.0f, 1.0f - targetPos));
             }
         }
+        _topScrollGradient->setNormalizedPosition(Vec2(1.0f, _contentListView->getSizePercent().y));
         _structureUIHolder->forceDoLayout();
     };
     _eventDispatcher->addEventListenerWithSceneGraphPriority(_touchListener, _contentListView);
