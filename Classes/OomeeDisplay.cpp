@@ -131,7 +131,7 @@ void OomeeDisplay::onSizeChanged()
     _circleGradient->setCenter(Vec2(contentSize / 2.0f));
     _circleGradient->setRadius(MIN(patternRadiusSize.height / 2.0f, patternRadiusSize.width / 2.0f));
     _stencil->setPosition(_circleGradient->getCenter());
-    _stencil->setContentSize(Size(_circleGradient->getRadius() * 2.0f, _circleGradient->getRadius() * 2.0f));
+    _stencil->setContentSize(Size(_circleGradient->getRadius() * 2.0f, _circleGradient->getRadius() * 2.0f) - Size(4,4)); // bring in by couple of px to prevent artifats
     resizeOomee();
     
 }

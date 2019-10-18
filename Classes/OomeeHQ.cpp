@@ -115,6 +115,7 @@ void OomeeHQ::onSizeChanged()
     _favouritesLayout->setContentSize(Size(contentListViewWidth, 0));
     
     _topScrollGradient->setContentSize(Size(contentListViewWidth, _topScrollGradient->getContentSize().height));
+    _topScrollGradient->setNormalizedPosition(Vec2(1.0f, _contentListView->getSizePercent().y));
     
     _contentListView->forceDoLayout();
     
