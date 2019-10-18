@@ -119,6 +119,7 @@ void GameHQ::onSizeChanged()
     for(auto dropdown : _dropdownLayouts)
     {
         dropdown->setContentSize(Size(contentListViewWidth - kListViewSidePadding, dropdown->getContentSize().height));
+        dropdown->setUsingBigBg(_isPortrait);
     }
     _contentListView->forceDoLayout();
     

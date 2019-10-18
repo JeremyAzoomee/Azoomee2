@@ -13,7 +13,8 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-const cocos2d::Rect DropdownContentHolder::kBgCapInsets = Rect(130, 130, 82, 80);
+const cocos2d::Rect DropdownContentHolder::kBgCapInsetsSmall = Rect(130, 130, 82, 80);
+const cocos2d::Rect DropdownContentHolder::kBgCapInsetsBig = Rect(162, 162, 103, 100);
 const float DropdownContentHolder::kTileSpacingPercent = 0.035f;
 const float DropdownContentHolder::kDropdownOpenIconScale = 0.885f;
 const cocos2d::Vec2 DropdownContentHolder::kTileAspectRatio = Vec2(1.0f, 0.75f);
@@ -29,7 +30,7 @@ bool DropdownContentHolder::init()
     
     setBackGroundImage("res/hqscene/dropdown_bg.png");
     setBackGroundImageScale9Enabled(true);
-    setBackGroundImageCapInsets(kBgCapInsets);
+    setBackGroundImageCapInsets(_bgCapInset);
     
     setSizeType(SizeType::ABSOLUTE);
     
@@ -37,7 +38,7 @@ bool DropdownContentHolder::init()
     _bgPattern->setTexture("res/decoration/pattern_stem_tile.png");
     _bgPattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _bgPattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
-    _bgPattern->setCornerRadius(kBgCapInsets.origin.x);
+    _bgPattern->setCornerRadius(_bgCapInset.origin.x);
     _bgPattern->setScaleMode(RoundedRectSprite::ScaleMode::TILE);
     _bgPattern->setTileScaleFactor(2.0f);
     addChild(_bgPattern, -1);
@@ -83,13 +84,15 @@ void DropdownContentHolder::onSizeChanged()
     const Size& contentSize = getContentSize();
     _tileSpacing = contentSize.width * kTileSpacingPercent;
     _bgPattern->setContentSize(contentSize - Size(10,10));
-    _titleBanner->setContentSize(Size(contentSize.width, 2 * kBgCapInsets.origin.y));
+    _titleBanner->setContentSize(Size(contentSize.width, 2 * _bgCapInset.origin.y));
     _categoryTitle->setTextAreaSize(Size(_titleBanner->getContentSize().width * 0.5f, _categoryTitle->getContentSize().height));
-    _iconLayout->setContentSize(Size(_titleBanner->getContentSize().height - 12.0f, _titleBanner->getContentSize().height - 12.0f));
-    _iconLayout->setPosition(Vec2(_iconLayout->getContentSize().width, 8.0f));
-    _iconStencil->setContentSize(_iconLayout->getContentSize());
-    _iconClippingNode->setContentSize(_iconLayout->getContentSize());
-    _categoryIcon->setScale(MIN((_iconLayout->getContentSize().height * 0.9f) / _categoryIcon->getContentSize().height, (_iconLayout->getContentSize().width * 0.9f) / _categoryIcon->getContentSize().width));
+    const Size& iconSize = Size(_titleBanner->getContentSize().height - 12.0f, _titleBanner->getContentSize().height - 12.0f);
+    _iconLayout->setContentSize(iconSize);
+    _iconLayout->setPosition(Vec2(iconSize.width, 8.0f));
+    _iconStencil->setContentSize(iconSize);
+    _iconBackground->setContentSize(iconSize);
+    _iconClippingNode->setContentSize(iconSize);
+    _categoryIcon->setScale(MIN((iconSize.height * 0.9f) / _categoryIcon->getContentSize().height, (iconSize.width * 0.9f) / _categoryIcon->getContentSize().width));
     
     resizeContent();
     
@@ -131,6 +134,15 @@ bool DropdownContentHolder::isOpen() const
 bool DropdownContentHolder::isResizing() const
 {
     return _resizing;
+}
+
+void DropdownContentHolder::setUsingBigBg(bool useBigBG)
+{
+    _bgCapInset = useBigBG ? kBgCapInsetsBig : kBgCapInsetsSmall;
+    setBackGroundImage(useBigBG ? "res/hqscene/dropdown_bg_big.png" : "res/hqscene/dropdown_bg.png");
+    setBackGroundImageCapInsets(_bgCapInset);
+    _bgPattern->setCornerRadius(_bgCapInset.origin.x);
+    onSizeChanged();
 }
 
 void DropdownContentHolder::toggleOpened(bool open)
@@ -175,7 +187,7 @@ void DropdownContentHolder::toggleOpened(bool open)
 void DropdownContentHolder::createTitleLayout()
 {
     _titleBanner = ui::Layout::create();
-    _titleBanner->setContentSize(Size(getContentSize().width, 2 * kBgCapInsets.origin.y));
+    _titleBanner->setContentSize(Size(getContentSize().width, 2 * _bgCapInset.origin.y));
     _titleBanner->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _contentLayout->addChild(_titleBanner);
     
@@ -208,8 +220,9 @@ void DropdownContentHolder::createTitleLayout()
     _iconBackground->setBackGroundColorType(BackGroundColorType::SOLID);
     _iconBackground->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _iconBackground->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    _iconBackground->setSizeType(SizeType::PERCENT);
-    _iconBackground->setSizePercent(Vec2(1.0f, 1.0f));
+    _iconBackground->setContentSize(_iconLayout->getContentSize());
+    //_iconBackground->setSizeType(SizeType::PERCENT);
+    //_iconBackground->setSizePercent(Vec2(1.0f, 1.0f));
     _iconClippingNode->addChild(_iconBackground);
     
     _categoryIcon = Sprite::create("res/hqscene/Charecter place holder 1.png");

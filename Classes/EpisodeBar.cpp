@@ -103,6 +103,7 @@ void EpisodeBar::onSizeChanged()
     _dropShadow->setContentSize(sizeWithShadow);
     
     resizeImageAndText();
+    forceDoLayout();
 }
 
 void EpisodeBar::resizeImageAndText()

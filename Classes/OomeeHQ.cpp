@@ -90,6 +90,7 @@ void OomeeHQ::onSizeChanged()
     _artTileHolder->setContentSize(Size(contentListViewWidth, 0));
     
     _offlineDropdown->setContentSize(Size(contentListViewWidth - kListViewSidePadding, _offlineDropdown->getContentSize().height));
+    _offlineDropdown->setUsingBigBg(_isPortrait);
     _favouritesTitle->setTextAreaSize(Size(contentListViewWidth - kListViewSidePadding, _favouritesTitle->getContentSize().height));
     _favouritesLayout->setTileSize(_isPortrait ? kCircleTileSizePortrait : kCircleTileSizeLandscape);
     _favouritesLayout->setContentSize(Size(contentListViewWidth, 0));

@@ -22,7 +22,8 @@ class DropdownContentHolder : public ContentTileHolder, public ImageDownloaderDe
     typedef std::function<void()> OnResizeCallback;
 private:
     
-    static const cocos2d::Rect kBgCapInsets;
+    static const cocos2d::Rect kBgCapInsetsSmall;
+    static const cocos2d::Rect kBgCapInsetsBig;
     static const float kDropdownOpenIconScale;
     static const cocos2d::Vec2 kTileAspectRatio;
     
@@ -53,6 +54,7 @@ private:
     ImageDownloaderRef _iconDownloader = nullptr;
     
     std::string _tilePlaceholder;
+    cocos2d::Rect _bgCapInset = kBgCapInsetsSmall;
     
     void createTitleLayout();
     void createContentLayout();
@@ -81,6 +83,8 @@ public:
     void setContentItemData(const HQCarouselObjectRef& contentData) override;
     
     void setTilePlaceholder(const std::string& tilePlaceholder);
+    
+    void setUsingBigBg(bool useBigBG);
     
     CREATE_FUNC(DropdownContentHolder);
     

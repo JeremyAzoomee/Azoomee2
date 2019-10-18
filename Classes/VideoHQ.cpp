@@ -126,6 +126,8 @@ void VideoHQ::onSizeChanged()
         _episodePlayerMoving = false;
     }
     
+    _episodeSelector->setEpisodeBarHeight(_isPortrait ? EpisodeSelector::kEpisodeBarHeightPortrait : EpisodeSelector::kEpisodeBarHeightLandscape);
+    
     const float contentListViewWidth = _contentListView->getSizePercent().x * contentSize.width;
     
     _recentlyPlayedTitle->setTextAreaSize(Size(contentListViewWidth - kListViewSidePadding, _recentlyPlayedTitle->getContentSize().height));
@@ -136,6 +138,7 @@ void VideoHQ::onSizeChanged()
     for(auto dropdown : _dropdownLayouts)
     {
         dropdown->setContentSize(Size(contentListViewWidth - kListViewSidePadding, dropdown->getContentSize().height));
+        dropdown->setUsingBigBg(_isPortrait);
     }
     
     _contentListView->forceDoLayout();
@@ -238,6 +241,7 @@ void VideoHQ::createEpisodePlayer()
     _episodeSelector = EpisodeSelector::create();
     _episodeSelector->setSizeType(SizeType::PERCENT);
     _episodeSelector->setSizePercent(Vec2(0.975f,1.0f));
+    _episodeSelector->setEpisodeBarHeight(_isPortrait ? EpisodeSelector::kEpisodeBarHeightPortrait : EpisodeSelector::kEpisodeBarHeightLandscape);
     _episodeSelector->setHqData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGroupHQName));
     _episodeSelector->setLineAndTextColour(Color3B(firstItem->getCarouselColour()));
     _episodeSelector->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
