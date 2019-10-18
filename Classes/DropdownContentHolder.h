@@ -72,6 +72,7 @@ public:
     void toggleOpened(bool open);
     void setOnResizeCallback(const OnResizeCallback& callback);
     
+    void setOpen(bool open);
     bool isOpen() const;
     bool isResizing() const;
     

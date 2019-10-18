@@ -203,6 +203,7 @@ void GameHQ::createDropdowns()
         DropdownContentHolder* dropdown = DropdownContentHolder::create();
         dropdown->setTilePlaceholder(CONTENT_PLACEHOLDER_GAME_1X1);
         dropdown->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+        dropdown->setOpen(i == 1);
         dropdown->setContentSize(Size(_contentListView->getSizePercent().x * getContentSize().width, 0));
         dropdown->setContentItemData(carousel);
         dropdown->setFrameColour(Color3B(carousel->getColour()));
@@ -225,6 +226,7 @@ void GameHQ::createDropdowns()
         });
         _contentListView->pushBackCustomItem(dropdown);
         _dropdownLayouts.pushBack(dropdown);
+        
     }
 }
 

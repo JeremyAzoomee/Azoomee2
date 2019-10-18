@@ -230,6 +230,7 @@ void VideoHQ::createDropdowns()
         DropdownContentHolder* dropdown = DropdownContentHolder::create();
         dropdown->setTilePlaceholder(CONTENT_PLACEHOLDER_VIDEO_1X1);
         dropdown->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+        dropdown->setOpen(i == 1);
         dropdown->setContentSize(Size(_contentListView->getSizePercent().x * getContentSize().width, 0));
         dropdown->setContentItemData(carousel);
         dropdown->setFrameColour(Color3B(carousel->getColour()));

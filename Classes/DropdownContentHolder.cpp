@@ -126,6 +126,11 @@ void DropdownContentHolder::setOnResizeCallback(const OnResizeCallback& callback
     _resizeCallback = callback;
 }
 
+void DropdownContentHolder::setOpen(bool open)
+{
+    _open = open;
+}
+
 bool DropdownContentHolder::isOpen() const
 {
     return _open;
