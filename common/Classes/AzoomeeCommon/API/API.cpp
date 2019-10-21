@@ -63,6 +63,7 @@ const char* const API::TagGetShopFeed = "getShopFeed";
 const char* const API::TagGetOomeeMakerAssets = "getOomeeMakerAssets";
 const char* const API::TagGetMarketingAssets = "getMarketingAssets";
 const char* const API::TagSaveNewOomee = "saveNewOomee";
+const char* const API::TagSaveLocalOomee = "saveLocalOomee";
 const char* const API::TagGetChildOomees = "getChildOomees";
 const char* const API::TagUpdateChildOomee = "updateChildOomee";
 const char* const API::TagGetAllOomees = "getAllOomees";

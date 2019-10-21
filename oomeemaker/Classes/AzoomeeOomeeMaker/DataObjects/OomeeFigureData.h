@@ -23,7 +23,7 @@ private:
 	std::string _oomeeId;
 	std::vector<std::string> _accessoryIds;
     bool _selected = false;
-    
+
 public:
 	
 	static OomeeFigureDataRef create();
@@ -40,7 +40,7 @@ public:
 	std::vector<std::string> getAccessoryIds() const;
     void setSelected(bool selected);
     bool isSelected() const;
-	
+    
 	bool isEqual(const OomeeFigureDataRef& comparable);
 };
 

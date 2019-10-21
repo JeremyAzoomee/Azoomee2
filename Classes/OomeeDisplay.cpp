@@ -98,14 +98,6 @@ bool OomeeDisplay::init()
     _kidCode->setOverflow(Label::Overflow::SHRINK);
     _kidCodeBody->addChild(_kidCode);
     
-    setTouchEnabled(true);
-    addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
-        if(eType == ui::Widget::TouchEventType::ENDED)
-        {
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OomeeMakerEntryPointScene));
-        }
-    });
-    
     return true;
 }
 

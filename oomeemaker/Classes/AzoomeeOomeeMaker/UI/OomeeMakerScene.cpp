@@ -119,10 +119,10 @@ void OomeeMakerScene::onEnter()
     _oomee->setOomeeData(oomeeData);
     _oomee->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     _oomee->setEditable(true);
-    if(FileUtils::getInstance()->isFileExist(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".oomee"))
+    if(FileUtils::getInstance()->isFileExist(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + OomeeMakerDataHandler::kOomeeFileExtension))
     {
         rapidjson::Document jsonData;
-        jsonData.Parse(FileUtils::getInstance()->getStringFromFile(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".oomee").c_str());
+        jsonData.Parse(FileUtils::getInstance()->getStringFromFile(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + OomeeMakerDataHandler::kOomeeFileExtension).c_str());
 		if(jsonData.HasParseError())
 		{
 			_oomee->setOomeeData(oomeeData);

@@ -72,6 +72,7 @@ public:
 	static const char* const TagGetOomeeMakerAssets;
     static const char* const TagGetMarketingAssets;
 	static const char* const TagSaveNewOomee;
+    static const char* const TagSaveLocalOomee;
 	static const char* const TagGetChildOomees;
 	static const char* const TagUpdateChildOomee;
 	static const char* const TagGetAllOomees;

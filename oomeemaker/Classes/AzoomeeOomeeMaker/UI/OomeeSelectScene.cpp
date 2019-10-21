@@ -135,16 +135,9 @@ void OomeeSelectScene::onEnter()
 				}
 			}
 		};
-		const std::string& uploadLocalKey = "uploadedLocalOomees-" + ChildManager::getInstance()->getLoggedInChild()->getId();
-		if(UserDefault::getInstance()->getBoolForKey(uploadLocalKey.c_str(), false))
-		{
-			OomeeMakerDataHandler::getInstance()->getOomeesForChild(ChildManager::getInstance()->getLoggedInChild()->getId(), false, getOomeesCallback);
-		}
-		else
-		{
-			OomeeMakerDataHandler::getInstance()->uploadLocalOomeesToBE(ChildManager::getInstance()->getLoggedInChild()->getId(), getOomeesCallback);
-			UserDefault::getInstance()->setBoolForKey(uploadLocalKey.c_str(), true);
-		}
+
+        OomeeMakerDataHandler::getInstance()->getOomeesForChild(ChildManager::getInstance()->getLoggedInChild()->getId(), false, getOomeesCallback);
+
 	});
 	Super::onEnter();
 }
@@ -241,7 +234,7 @@ void OomeeSelectScene::makeAvatar(const std::string &oomeeFilename)
     {
         CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Make_Avatar_Button.mp3");
         rapidjson::Document data;
-        data.Parse(FileUtils::getInstance()->getStringFromFile(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + oomeeFilename + ".oomee").c_str());
+        data.Parse(FileUtils::getInstance()->getStringFromFile(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + oomeeFilename + OomeeMakerDataHandler::kOomeeFileExtension).c_str());
         if(data.HasParseError())
         {
             return;

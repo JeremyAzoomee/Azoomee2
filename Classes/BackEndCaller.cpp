@@ -304,16 +304,7 @@ void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString
     }
     ParentManager::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headerString));
 	getChildInventory();
-    const std::string& uploadLocalKey = "uploadedLocalOomees-" + ChildManager::getInstance()->getLoggedInChild()->getId();
-    if(UserDefault::getInstance()->getBoolForKey(uploadLocalKey.c_str(), false))
-    {
-        OomeeMaker::OomeeMakerDataHandler::getInstance()->getOomeesForChild(ChildManager::getInstance()->getLoggedInChild()->getId(), false);
-    }
-    else
-    {
-        OomeeMaker::OomeeMakerDataHandler::getInstance()->uploadLocalOomeesToBE(ChildManager::getInstance()->getLoggedInChild()->getId());
-        UserDefault::getInstance()->setBoolForKey(uploadLocalKey.c_str(), true);
-    }
+    OomeeMaker::OomeeMakerDataHandler::getInstance()->getOomeesForChild(ChildManager::getInstance()->getLoggedInChild()->getId(), false);
     getGordon();
 	HQHistoryManager::getInstance()->emptyHistory();
 }

@@ -48,6 +48,7 @@ private:
     
 public:
     static const std::string kSaveNewOomeeEventName;
+    static const std::string kOomeeFileExtension;
     
     static OomeeMakerDataHandler* getInstance();
     virtual ~OomeeMakerDataHandler();
