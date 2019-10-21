@@ -28,6 +28,8 @@ private:
     CircleContentHolder* _recentlyPlayedLayout = nullptr;
     cocos2d::Vector<DropdownContentHolder*> _dropdownLayouts;
     
+    cocos2d::LayerGradient* _topScrollGradient = nullptr;
+    
     void createFeaturedTiles();
     void createRecentlyPlayedTiles();
     void createDropdowns();

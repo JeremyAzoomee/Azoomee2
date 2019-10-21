@@ -7,6 +7,7 @@
 
 #include "HQPage.h"
 #include <AzoomeeCommon/UI/LayoutParams.h>
+#include <AzoomeeCommon/UI/Style.h>
 
 using namespace cocos2d;
 

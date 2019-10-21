@@ -40,7 +40,6 @@ bool ArtTileHolder::init()
     _bgPattern->setTexture("res/decoration/pattern_stem_tile.png");
     _bgPattern->setCornerRadius(HQConsts::OomeeHQTileCornerRadius);
     _bgPattern->setScaleMode(RoundedRectSprite::ScaleMode::TILE);
-    _bgPattern->setTileScaleFactor(2.0f);
     _bgPattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _bgPattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _bgPattern->setColor(Style::Color::purplyPink);

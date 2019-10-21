@@ -39,6 +39,8 @@ private:
     
     cocos2d::EventListenerTouchOneByOne* _touchListener = nullptr;
     
+    cocos2d::LayerGradient* _topScrollGradient = nullptr;
+    
     std::string _reloadArtFilename;
     
     void createOomeeLayout();

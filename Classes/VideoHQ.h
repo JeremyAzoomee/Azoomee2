@@ -33,6 +33,8 @@ private:
     
     ContentSelectedCallback _episodeSelectorContentSelectedCallback = nullptr;
     
+    cocos2d::LayerGradient* _topScrollGradient = nullptr;
+    
     bool _episodePlayerOpen = false;
     bool _episodePlayerMoving = false;
     

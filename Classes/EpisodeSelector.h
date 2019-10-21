@@ -28,7 +28,7 @@ private:
     static const float kListViewPadding;
     static const float kHeaderHeightPercent;
     static const float kEpisodeBarSpacing;
-    static const float kEpisodeBarHeight;
+
     
     RoundedRectSprite* _background = nullptr;
     
@@ -40,7 +40,8 @@ private:
     cocos2d::ui::Layout* _divider = nullptr;
     cocos2d::ui::ListView* _episodeListView = nullptr;
     cocos2d::Vector<EpisodeBar*> _episodeBars;
-    cocos2d::LayerGradient* _bottomGradient = nullptr;
+    //cocos2d::LayerGradient* _bottomGradient = nullptr;
+    RoundedRectSprite* _bottomGradient = nullptr;
     
     HQDataObjectRef _hqData = nullptr;
     
@@ -52,11 +53,15 @@ private:
     
     cocos2d::Color3B _lineAndTextColour;
     
+    float _episodeBarHeight;
+    
     void setupEpisodeBars();
     
     void resizeBannerImage();
     
 public:
+    static const float kEpisodeBarHeightPortrait;
+    static const float kEpisodeBarHeightLandscape;
     
     bool init() override;
     void onEnter() override;
@@ -72,6 +77,8 @@ public:
     void toggleBottomGradient(bool enabled);
     
     void setLineAndTextColour(const cocos2d::Color3B& colour);
+    
+    void setEpisodeBarHeight(float height);
     
     CREATE_FUNC(EpisodeSelector);
     

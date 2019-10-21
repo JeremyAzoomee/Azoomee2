@@ -119,7 +119,6 @@ void HQScene::createHeaderUI()
     
     _topPattern = TileSprite::create();
     _topPattern->setTexture("res/decoration/pattern_stem_tile.png");
-    _topPattern->setTextureScale(2.0f);
     _topPattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _topPattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
     _topPattern->setColor(Style::Color::macaroniAndCheese);
@@ -154,6 +153,7 @@ void HQScene::createHeaderUI()
     //_coinDisplay->setVisible(TutorialController::getInstance()->isTutorialCompleted(TutorialController::kFTUShopID) || ChildManager::getInstance()->getLoggedInChild()->getInventory()->getCoins() > 0);
     
     _HQPageTitle = DynamicText::create(_("Games"), Style::Font::PoppinsBold(), 107);
+    _HQPageTitle->enableShadow();
     _HQPageTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
     _HQPageTitle->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
     _HQPageTitle->setOverflow(Label::Overflow::SHRINK);

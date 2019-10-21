@@ -37,6 +37,25 @@ bool OomeeHQ::init()
     createFavouritesLayout();
     createOfflineDropdown();
     
+    const Color3B& gradColour = Style::Color::darkIndigo;
+    _topScrollGradient = LayerGradient::create(Color4B(gradColour), Color4B(gradColour.r, gradColour.g, gradColour.b, 0));
+    _topScrollGradient->setIgnoreAnchorPointForPosition(false);
+    _topScrollGradient->setContentSize(Size(_contentListView->getContentSize().width, 0));
+    _topScrollGradient->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
+    _topScrollGradient->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
+    addChild(_topScrollGradient, 1);
+    
+    _contentListView->addEventListener([this](Ref* pSender, ui::ScrollView::EventType eType){
+        if(eType == ui::ScrollView::EventType::CONTAINER_MOVED)
+        {
+            const float minY = _contentListView->getContentSize().height - _contentListView->getInnerContainerSize().height;
+            float scrollDist = MAX(_contentListView->getInnerContainerPosition().y - minY, 0);
+            
+            _topScrollGradient->setContentSize(Size(_contentListView->getContentSize().width, MIN(scrollDist,160)));
+            
+        }
+    });
+    
     return true;
 }
 
@@ -66,8 +85,8 @@ void OomeeHQ::onSizeChanged()
     if(_isPortrait)
     {
         _structureUIHolder->setLayoutType(Type::VERTICAL);
-        _staticContentLayout->setSizePercent(Vec2(1.0f, 0.5f));
-        _contentListView->setSizePercent(Vec2(1.0f, 0.5f));
+        _staticContentLayout->setSizePercent(Vec2(1.0f, 0.6f));
+        _contentListView->setSizePercent(Vec2(1.0f, 0.4f));
         _oomeeDisplay->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
         _oomeeDisplay->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
         _oomeeDisplay->setSizePercent(Vec2(1.0f, 0.975f));
@@ -87,15 +106,20 @@ void OomeeHQ::onSizeChanged()
     
     const float contentListViewWidth = _contentListView->getSizePercent().x * getContentSize().width;
     
-    _artStudioButton->setContentSize(Size(contentListViewWidth, _isPortrait ? HQConsts::OomeeHQSecondaryButtonHeightPortrait : HQConsts::OomeeHQSecondaryButtonHeightLandscape));
-    _shopButton->setContentSize(Size(contentListViewWidth, _isPortrait ? HQConsts::OomeeHQSecondaryButtonHeightPortrait : HQConsts::OomeeHQSecondaryButtonHeightLandscape));
-    _oomeeMakerButton->setContentSize(Size(contentListViewWidth, _isPortrait ? HQConsts::OomeeHQPrimaryButtonHeightPortrait : HQConsts::OomeeHQPrimaryButtonHeightLandscape));
-    _artTileHolder->setContentSize(Size(contentListViewWidth, 0));
+    _artStudioButton->setContentSize(Size(contentListViewWidth - kListViewSidePadding, _isPortrait ? HQConsts::OomeeHQSecondaryButtonHeightPortrait : HQConsts::OomeeHQSecondaryButtonHeightLandscape));
+    _shopButton->setContentSize(Size(contentListViewWidth - kListViewSidePadding, _isPortrait ? HQConsts::OomeeHQSecondaryButtonHeightPortrait : HQConsts::OomeeHQSecondaryButtonHeightLandscape));
+    _oomeeMakerButton->setContentSize(Size(contentListViewWidth - kListViewSidePadding, _isPortrait ? HQConsts::OomeeHQPrimaryButtonHeightPortrait : HQConsts::OomeeHQPrimaryButtonHeightLandscape));
+    _artTileHolder->setContentSize(Size(contentListViewWidth - kListViewSidePadding, 0));
     
     _offlineDropdown->setContentSize(Size(contentListViewWidth - kListViewSidePadding, _offlineDropdown->getContentSize().height));
+    _offlineDropdown->setUsingBigBg(_isPortrait);
+    _favouritesTitle->setFontSize(_isPortrait ? 89 : 75);
     _favouritesTitle->setTextAreaSize(Size(contentListViewWidth - kListViewSidePadding, _favouritesTitle->getContentSize().height));
     _favouritesLayout->setTileSize(_isPortrait ? kCircleTileSizePortrait : kCircleTileSizeLandscape);
-    _favouritesLayout->setContentSize(Size(contentListViewWidth, 0));
+    _favouritesLayout->setContentSize(Size(contentListViewWidth - kListViewSidePadding, 0));
+    
+    _topScrollGradient->setContentSize(Size(contentListViewWidth, _topScrollGradient->getContentSize().height));
+    _topScrollGradient->setNormalizedPosition(Vec2(1.0f, _contentListView->getSizePercent().y));
     
     _contentListView->forceDoLayout();
     
@@ -125,6 +149,7 @@ void OomeeHQ::createScrollViewContent()
     _oomeeMakerButton = OomeeMakerButton::create();
     _oomeeMakerButton->setSwallowTouches(false);
     _oomeeMakerButton->setContentSize(Size(_contentListView->getContentSize().width, HQConsts::OomeeHQPrimaryButtonHeightPortrait));
+    _oomeeMakerButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _oomeeMakerButton->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
@@ -136,6 +161,7 @@ void OomeeHQ::createScrollViewContent()
     _shopButton = OomeeStoreButton::create();
     _shopButton->setSwallowTouches(false);
     _shopButton->setContentSize(Size(_contentListView->getContentSize().width, HQConsts::OomeeHQSecondaryButtonHeightPortrait));
+    _shopButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _shopButton->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
@@ -147,6 +173,7 @@ void OomeeHQ::createScrollViewContent()
     _artStudioButton = ArtStudioButton::create();
     _artStudioButton->setSwallowTouches(false);
     _artStudioButton->setContentSize(Size(_contentListView->getContentSize().width, HQConsts::OomeeHQSecondaryButtonHeightPortrait));
+    _artStudioButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _artStudioButton->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
@@ -157,6 +184,7 @@ void OomeeHQ::createScrollViewContent()
     _contentListView->pushBackCustomItem(_artStudioButton);
     
     _artTileHolder = ArtTileHolder::create();
+    _artTileHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _artTileHolder->setDeleteCallback([this](const std::string& filename){
         AnalyticsSingleton::getInstance()->genericButtonPressEvent(HQConsts::DeleteArtButtonAnalyticsName);
         FileUtils::getInstance()->removeFile(filename);
@@ -201,10 +229,10 @@ void OomeeHQ::createScrollViewContent()
         float distY = touch->getDelta().y;
         if(distY > 0)
         {
-            if(_contentListView->getSizePercent().y < 0.75f)
+            if(_contentListView->getSizePercent().y < 0.65f)
             {
                 float movePercent = distY / this->getContentSize().height;
-                float targetPos = MIN(0.75f,_contentListView->getSizePercent().y + movePercent);
+                float targetPos = MIN(0.65f,_contentListView->getSizePercent().y + movePercent);
                 
                 _contentListView->setSizePercent(Vec2(1.0f,targetPos));
                 _staticContentLayout->setSizePercent(Vec2(1.0f, 1.0f - targetPos));
@@ -212,15 +240,16 @@ void OomeeHQ::createScrollViewContent()
         }
         else if(_contentListView->getScrolledPercentVertical() < 1.0f)
         {
-            if(_contentListView->getSizePercent().y > 0.5f)
+            if(_contentListView->getSizePercent().y > 0.4f)
             {
                 float movePercent = distY / this->getContentSize().height;
-                float targetPos = MAX(0.5f,_contentListView->getSizePercent().y + movePercent);
+                float targetPos = MAX(0.4f,_contentListView->getSizePercent().y + movePercent);
                 
                 _contentListView->setSizePercent(Vec2(1.0f,targetPos));
                 _staticContentLayout->setSizePercent(Vec2(1.0f, 1.0f - targetPos));
             }
         }
+        _topScrollGradient->setNormalizedPosition(Vec2(1.0f, _contentListView->getSizePercent().y));
         _structureUIHolder->forceDoLayout();
     };
     _eventDispatcher->addEventListenerWithSceneGraphPriority(_touchListener, _contentListView);
@@ -243,6 +272,7 @@ void OomeeHQ::createFavouritesLayout()
     _favouritesLayout->setTileSize(_isPortrait ? kCircleTileSizePortrait : kCircleTileSizeLandscape);
     _favouritesLayout->setPlaceholder("res/hqscene/game_icon.png");
     _favouritesLayout->setContentSize(Size(_contentListView->getSizePercent().x * contentWidth, 0));
+    _favouritesLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _favouritesLayout->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
         if(_contentSelectedCallback)
         {

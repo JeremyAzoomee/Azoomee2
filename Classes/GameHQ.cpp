@@ -41,6 +41,25 @@ bool GameHQ::init()
     createRecentlyPlayedTiles();
     createDropdowns();
     
+    const Color3B& gradColour = Style::Color::darkIndigo;
+    _topScrollGradient = LayerGradient::create(Color4B(gradColour), Color4B(gradColour.r, gradColour.g, gradColour.b, 0));
+    _topScrollGradient->setIgnoreAnchorPointForPosition(false);
+    _topScrollGradient->setContentSize(Size(_contentListView->getContentSize().width, 0));
+    _topScrollGradient->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
+    _topScrollGradient->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
+    addChild(_topScrollGradient, 1);
+    
+    _contentListView->addEventListener([this](Ref* pSender, ui::ScrollView::EventType eType){
+        if(eType == ui::ScrollView::EventType::CONTAINER_MOVED)
+        {
+            const float minY = _contentListView->getContentSize().height - _contentListView->getInnerContainerSize().height;
+            float scrollDist = MAX(_contentListView->getInnerContainerPosition().y - minY, 0);
+            
+            _topScrollGradient->setContentSize(Size(_contentListView->getContentSize().width, MIN(scrollDist,160)));
+            
+        }
+    });
+    
     return true;
 }
 
@@ -112,13 +131,17 @@ void GameHQ::onSizeChanged()
 
     const float contentListViewWidth = _contentListView->getSizePercent().x * getContentSize().width;
 
+    _recentlyPlayedTitle->setFontSize(_isPortrait ? 89 : 75);
     _recentlyPlayedTitle->setTextAreaSize(Size(contentListViewWidth - kListViewSidePadding, _recentlyPlayedTitle->getContentSize().height));
     _recentlyPlayedLayout->setTileSize(_isPortrait ? kCircleTileSizePortrait : kCircleTileSizeLandscape);
     _recentlyPlayedLayout->setContentSize(Size(contentListViewWidth - kListViewSidePadding, 0));
     
+    _topScrollGradient->setContentSize(Size(contentListViewWidth, _topScrollGradient->getContentSize().height));
+    
     for(auto dropdown : _dropdownLayouts)
     {
         dropdown->setContentSize(Size(contentListViewWidth - kListViewSidePadding, dropdown->getContentSize().height));
+        dropdown->setUsingBigBg(_isPortrait);
     }
     _contentListView->forceDoLayout();
     
@@ -181,6 +204,7 @@ void GameHQ::createDropdowns()
         DropdownContentHolder* dropdown = DropdownContentHolder::create();
         dropdown->setTilePlaceholder(CONTENT_PLACEHOLDER_GAME_1X1);
         dropdown->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+        dropdown->setOpen(i == 1);
         dropdown->setContentSize(Size(_contentListView->getSizePercent().x * getContentSize().width, 0));
         dropdown->setContentItemData(carousel);
         dropdown->setFrameColour(Color3B(carousel->getColour()));
@@ -203,6 +227,7 @@ void GameHQ::createDropdowns()
         });
         _contentListView->pushBackCustomItem(dropdown);
         _dropdownLayouts.pushBack(dropdown);
+        
     }
 }
 

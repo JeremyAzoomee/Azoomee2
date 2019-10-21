@@ -16,7 +16,8 @@ NS_AZOOMEE_BEGIN
 const float EpisodeSelector::kListViewPadding = 45.0f;
 const float EpisodeSelector::kHeaderHeightPercent = 0.29f;
 const float EpisodeSelector::kEpisodeBarSpacing = 30.0f;
-const float EpisodeSelector::kEpisodeBarHeight = 240.0f;
+const float EpisodeSelector::kEpisodeBarHeightPortrait = 300.0f;
+const float EpisodeSelector::kEpisodeBarHeightLandscape = 240.0f;
 
 bool EpisodeSelector::init()
 {
@@ -27,6 +28,8 @@ bool EpisodeSelector::init()
     
     setSizeType(SizeType::PERCENT);
     setSizePercent(Vec2(1.0f, 1.0f));
+    
+    _episodeBarHeight = kEpisodeBarHeightLandscape;
     
     _background = RoundedRectSprite::create();
     _background->setTexture("res/decoration/white_1px.png");
@@ -79,9 +82,17 @@ bool EpisodeSelector::init()
     _episodeListView->setGravity(ui::ListView::Gravity::LEFT);
     _contentLayout->addChild(_episodeListView);
     
-    const Color3B& gradientColour = Style::Color::darkIndigoThree;
-    _bottomGradient = LayerGradient::create(Color4B(gradientColour.r, gradientColour.g, gradientColour.b, 0), Color4B(gradientColour.r, gradientColour.g, gradientColour.b, 255));
-    _bottomGradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    //const Color3B& gradientColour = Style::Color::darkIndigoThree;
+    //_bottomGradient = LayerGradient::create(Color4B(gradientColour.r, gradientColour.g, gradientColour.b, 0), Color4B(gradientColour.r, gradientColour.g, gradientColour.b, 255));
+    _bottomGradient = RoundedRectSprite::create();
+    _bottomGradient->setTexture("res/hqscene/gradient_overlay_large.png");
+    _bottomGradient->setStretchImageEnabled(true);
+    _bottomGradient->setCornerRadius(20);
+    _bottomGradient->setRoundedCorners(true, true, false, false);
+    _bottomGradient->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
+    //_bottomGradient->setPosition(Vec2(0,-1));
+    _bottomGradient->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_RIGHT);
+    _bottomGradient->setColor(Style::Color::darkIndigoThree);
     _contentLayout->addChild(_bottomGradient);
     
     _closeButton = ui::Button::create("res/hqscene/episode_select_close.png");
@@ -127,12 +138,13 @@ void EpisodeSelector::onSizeChanged()
     _logoImage->setScale((_headerLayout->getContentSize().height * 0.8f) / _logoImage->getContentSize().height);
     resizeBannerImage();
     _divider->setContentSize(Size(contentSize.width, 6));
-    const Size& episodeBarSize = Size(contentSize.width - (2 * kListViewPadding), kEpisodeBarHeight);
+    const Size& episodeBarSize = Size(contentSize.width - (2 * kListViewPadding), _episodeBarHeight);
     for(auto bar : _episodeBars)
     {
         bar->setContentSize(episodeBarSize);
     }
-    _bottomGradient->setContentSize(Size(contentSize.width, kEpisodeBarHeight));
+    _bottomGradient->setContentSize(Size(contentSize.width, _episodeBarHeight));
+    _headerLayout->updateSizeAndPosition();
 }
 
 void EpisodeSelector::setHqData(const HQDataObjectRef& hqData)
@@ -175,6 +187,17 @@ void EpisodeSelector::setLineAndTextColour(const Color3B& colour)
     }
 }
 
+void EpisodeSelector::setEpisodeBarHeight(float height)
+{
+    _episodeBarHeight = height;
+    const Size& episodeBarSize = Size(getContentSize().width - (2 * kListViewPadding), _episodeBarHeight);
+    for(auto bar : _episodeBars)
+    {
+        bar->setContentSize(episodeBarSize);
+    }
+
+}
+
 void EpisodeSelector::setupEpisodeBars()
 {
     _episodeListView->removeAllItems();
@@ -183,7 +206,7 @@ void EpisodeSelector::setupEpisodeBars()
     {
         int episodeNumber = 1;
         auto carousels = _hqData->getHqCarousels();
-        const Size& episodeBarSize = Size(getContentSize().width - (2 * kListViewPadding), kEpisodeBarHeight);
+        const Size& episodeBarSize = Size(getContentSize().width - (2 * kListViewPadding), _episodeBarHeight);
         for(auto carousel : carousels)
         {
             auto itemList = carousel->getContentItems();

@@ -41,6 +41,7 @@ bool FeaturedGamesHolder::init()
     
     _subTile1 = FeaturedTile::create();
     _subTile1->setImageScaleMode(ContentTile::ImageScaleMode::FIT_WIDTH);
+    _subTile1->setImageShape(TILESIZE_2X2);
     _subTile1->setPlaceholderFilename(CONTENT_PLACEHOLDER_GAME_1X1);
     _subTile1->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     _subTile1->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_LEFT);
@@ -55,6 +56,7 @@ bool FeaturedGamesHolder::init()
     
     _subTile2 = FeaturedTile::create();
     _subTile2->setImageScaleMode(ContentTile::ImageScaleMode::FIT_WIDTH);
+    _subTile2->setImageShape(TILESIZE_2X2);
     _subTile2->setPlaceholderFilename(CONTENT_PLACEHOLDER_GAME_1X1);
     _subTile2->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
     _subTile2->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_RIGHT);
