@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 import sys, os, re
 import argparse
 import shutil
@@ -72,6 +72,27 @@ class AzoomeeApp:
         'ios',
     ) + ANDROID_TARGETS
 
+    # Maps environment to the build config for iOS
+    IOS_ENVIRONMENT_BUILDCONFIG = {
+        'prod' : 'Release',
+        'test' : 'Test',
+        'ci' : 'CI'
+    }
+
+    # Maps environment to the scheme for iOS
+    IOS_ENVIRONMENT_SCHEME = {
+        'prod' : 'Prod',
+        'test' : 'Test',
+        'ci' : 'CI'
+    }
+
+    # Maps environment to the product flavor for Android
+    ANDROID_ENVIRONMENT_BUILDCONFIG = {
+        'prod' : 'prod',
+        'test' : 'xtest',
+        'ci' : 'ci'
+    }
+
 
     def __init__( self ):
         self.GIT_ROOT = self._find_git_root( os.path.dirname( os.path.abspath( __file__ ) ) )
@@ -123,7 +144,7 @@ class AzoomeeApp:
 
         platforms = self.PLATFORMS if 'all' in args.platform else args.platform
         for p in platforms:
-            self._perform_clean( p, ci=False )
+            self._perform_clean( p )
     
 
     def package( self, args ):
@@ -132,9 +153,15 @@ class AzoomeeApp:
         """
         print 'package:', args
 
+        env = 'prod'
+        if args.ci:
+            env = 'ci'
+        elif args.test:
+            env = 'test'
+
         platforms = self.PLATFORMS if 'all' in args.platform else args.platform
         for p in platforms:
-            self._perform_package( p, ci=False, force_rebuild=args.rebuild )
+            self._perform_package( p, env=env, force_rebuild=args.rebuild )
     
 
     def deploy( self, args ):
@@ -161,14 +188,20 @@ class AzoomeeApp:
         testers = None
         if args.testers is not None and len(args.testers) > 0:
             testers = ','.join( args.testers )
+        
+        env = 'prod'
+        if args.ci:
+            env = 'ci'
+        elif args.test:
+            env = 'test'
 
         # Now run deploy for each platform
         platforms = self.PLATFORMS if 'all' in args.platform else args.platform
         for p in platforms:
-            self._perform_deploy( p, ci=args.ci, test_groups=testers, force_rebuild=args.rebuild )
+            self._perform_deploy( p, env=env, test_groups=testers, force_rebuild=args.rebuild )
     
 
-    def _perform_clean( self, platform, ci=False ):
+    def _perform_clean( self, platform, env='prod' ):
         """
         Cleans build directory and project temp data for platform.
         """
@@ -178,11 +211,11 @@ class AzoomeeApp:
 
         # Run clean on project to clean temp build files
         if platform == 'ios':
-            environment = 'CI' if ci else 'Prod'
             try:
-                success = self.exec_system_command( 'xcodebuild clean -project "{project_path}" -configuration Release -target "{target}"', 
+                success = self.exec_system_command( 'xcodebuild clean -project "{project_path}" -configuration "{environment}" -target "{target}"', 
                                                     project_path=self.IOS_PROJECT_PATH, 
-                                                    target=self.IOS_PROJECT_TARGET + ' ' + environment )
+                                                    environment=self.IOS_ENVIRONMENT_BUILDCONFIG[env],
+                                                    target=self.IOS_PROJECT_TARGET )
                 if success != 0:
                     return self.exit_with_error( 'Xcode clean failed with error {code}', code=success )
             except Exception as e:
@@ -205,7 +238,7 @@ class AzoomeeApp:
             print '{platform} clean not implemented yet'.format( platform=platform )
     
 
-    def _perform_package( self, platform, ci, force_rebuild=False ):
+    def _perform_package( self, platform, env='prod', force_rebuild=False ):
         """
         Builds & packages app for a single platform.
         """
@@ -214,8 +247,8 @@ class AzoomeeApp:
             os.makedirs( platform_build_dir )
 
         if platform == 'ios':
-            build_config = 'Release'
-            environment = 'CI' if ci else 'Prod'
+            build_config = self.IOS_ENVIRONMENT_BUILDCONFIG[env]
+            environment = self.IOS_ENVIRONMENT_SCHEME[env]
             build_name = 'Azoomee-v{version}-{environment}'.format( version=self._get_current_version(), environment=environment )
 
             # Delete any existing built files for this version
@@ -224,14 +257,14 @@ class AzoomeeApp:
 
             # If we're forcing a rebuild, do a clean
             if force_rebuild:
-                self._perform_clean( platform, ci )
+                self._perform_clean( platform, env )
 
             # Build archive
             archive_path = os.path.join( platform_build_dir, build_name + '.xcarchive' )
             try:
-                success = self.exec_system_command( 'xcodebuild archive -project "{project_path}" -configuration "{config}" -scheme "{target}" -archivePath "{archive_path}"', 
+                success = self.exec_system_command( 'xcodebuild archive -project "{project_path}" -configuration "{config}" -scheme "{scheme}" -archivePath "{archive_path}"', 
                                                     project_path=self.IOS_PROJECT_PATH, 
-                                                    target=self.IOS_PROJECT_TARGET + ' ' + environment, 
+                                                    scheme=self.IOS_PROJECT_TARGET + ' ' + environment, 
                                                     config=build_config, 
                                                     archive_path=archive_path )
                 if success != 0:
@@ -253,7 +286,7 @@ class AzoomeeApp:
         elif platform in self.ANDROID_TARGETS:
             self._check_android_environment()
             build_config = 'release'
-            environment = 'ci' if ci else 'prod'
+            environment = self.ANDROID_ENVIRONMENT_BUILDCONFIG[env]
             product = platform
             build_variant = product + environment.capitalize()
             build_name = 'Azoomee-v{version}-{product}-{environment}'.format( version=self._get_current_version(), product=product, environment=environment )
@@ -304,7 +337,7 @@ class AzoomeeApp:
             print '{platform} package not implemented yet'.format( platform=platform )
     
 
-    def _perform_deploy( self, platform, ci, test_groups=None, force_rebuild=False ):
+    def _perform_deploy( self, platform, env='prod', test_groups=None, force_rebuild=False ):
         """
         Deploy app for testing for a single platform.
         """
@@ -313,12 +346,12 @@ class AzoomeeApp:
 
         if platform == 'ios':
             platform_build_dir = os.path.join( self.BUILD_DIR, platform )
-            environment = 'CI' if ci else 'Prod'
+            environment = self.IOS_ENVIRONMENT_SCHEME[env]
             build_name = 'Azoomee-v{version}-{environment}'.format( version=self._get_current_version(), environment=environment )
             
             # If we're forcing a rebuild, do a clean and delete the existing archive and ipa
             if force_rebuild:
-                self._perform_clean( platform, ci )
+                self._perform_clean( platform, env )
                 shutil.rmtree( os.path.join( platform_build_dir, build_name + '.ipa' ), ignore_errors=True )
                 shutil.rmtree( os.path.join( platform_build_dir, build_name + '.xcarchive' ), ignore_errors=True )
 
@@ -326,7 +359,7 @@ class AzoomeeApp:
 
             # Build if needed
             if not os.path.isfile( ipa_path ):
-                self._perform_package( platform, ci )
+                self._perform_package( platform, env )
 
             # If we don't have an ipa file now, we can't deploy anything
             if not os.path.isfile( ipa_path ):
@@ -352,13 +385,13 @@ class AzoomeeApp:
         elif platform in self.ANDROID_TARGETS:
             self._check_android_environment()
             build_config = 'release'
-            environment = 'ci' if ci else 'prod'
+            environment = self.ANDROID_ENVIRONMENT_BUILDCONFIG[env]
             product = platform
             build_variant = product + environment.capitalize()
 
             # If we're forcing a rebuild, do a clean
             if force_rebuild:
-                self._perform_clean( platform, ci )
+                self._perform_clean( platform, env )
 
             restore_cwd = os.getcwd()
 
@@ -534,6 +567,8 @@ class AzoomeeApp:
         package_commands = subparsers.add_parser( 'package', help='package the app' )
         package_commands.add_argument( '-p', '--platform', help='platform(s) to build', choices=platform_options, nargs='+', required=True )
         package_commands.add_argument( '--rebuild', help='force a rebuild, otherwise a build will only happen if needed', action='store_true' )
+        package_commands.add_argument( '--ci', help='target the CI servers', action='store_true' )
+        package_commands.add_argument( '--test', help='test build, seperate to the Live production build', action='store_true' )
 
         # Clean build files
         clean_commands = subparsers.add_parser( 'clean', help='clean the build files' )
@@ -544,6 +579,7 @@ class AzoomeeApp:
         deploy_commands.add_argument( '-p', '--platform', help='platform(s) to deploy', choices=platform_options, nargs='+', required=True )
         deploy_commands.add_argument( '-t', '--testers', help='optionally override the fabric tester groups for this build', nargs='+' )
         deploy_commands.add_argument( '--ci', help='target the CI servers', action='store_true' )
+        deploy_commands.add_argument( '--test', help='test build, seperate to the Live production build', action='store_true' )
         deploy_commands.add_argument( '--patch', help='automatically create a new Patch version (recommended)', action='store_true' )
         deploy_commands.add_argument( '--rebuild', help='force a rebuild, otherwise a build will only happen if needed', action='store_true' )
 

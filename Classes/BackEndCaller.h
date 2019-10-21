@@ -90,7 +90,7 @@ public:
     // Verify an Amazon payment
     void verifyAmazonPayment(const std::string& requestId, const std::string& receiptId, const std::string& amazonUserid);
     // Verify an Apple payment
-    void verifyApplePayment(const std::string& receiptData);
+    void verifyApplePayment(const std::string& receiptData, const std::string& transactionID);
     // Get HQ content
     void getHQContent(const std::string& url, const std::string& category);
     // Get Single Content Details

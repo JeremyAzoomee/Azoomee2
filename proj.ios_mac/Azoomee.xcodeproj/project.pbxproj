@@ -74,216 +74,7 @@
 		304D9EC41EA8F849008CED52 /* MPLogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 304D9EB01EA8F849008CED52 /* MPLogo@2x.png */; };
 		304D9EC51EA8F849008CED52 /* placeholder-image.png in Resources */ = {isa = PBXBuildFile; fileRef = 304D9EB11EA8F849008CED52 /* placeholder-image.png */; };
 		304D9EC91EA8F89B008CED52 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 304D9EC81EA8F89B008CED52 /* GameController.framework */; };
-		3073BDA122A7DC780024DB50 /* MPDismissKeyboard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 304D9EAE1EA8F849008CED52 /* MPDismissKeyboard@2x.png */; };
-		3073BDA222A7DC780024DB50 /* MPCloseButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 304D9EAB1EA8F849008CED52 /* MPCloseButton@2x.png */; };
-		3073BDA322A7DC780024DB50 /* MPTakeoverNotificationViewController~iphonelandscape.xib in Resources */ = {isa = PBXBuildFile; fileRef = 304D9EA01EA8F849008CED52 /* MPTakeoverNotificationViewController~iphonelandscape.xib */; };
-		3073BDA422A7DC780024DB50 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
-		3073BDA522A7DC780024DB50 /* MPTakeoverNotificationViewController~iphoneportrait.xib in Resources */ = {isa = PBXBuildFile; fileRef = 304D9EA11EA8F849008CED52 /* MPTakeoverNotificationViewController~iphoneportrait.xib */; };
-		3073BDA622A7DC780024DB50 /* MPDismissKeyboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 304D9EAD1EA8F849008CED52 /* MPDismissKeyboard.png */; };
-		3073BDA722A7DC780024DB50 /* snapshot_config.json in Resources */ = {isa = PBXBuildFile; fileRef = 304D9EA21EA8F849008CED52 /* snapshot_config.json */; };
-		3073BDA822A7DC780024DB50 /* MPArrowLeft.png in Resources */ = {isa = PBXBuildFile; fileRef = 304D9EA41EA8F849008CED52 /* MPArrowLeft.png */; };
-		3073BDA922A7DC780024DB50 /* MPCloseButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 304D9EAA1EA8F849008CED52 /* MPCloseButton.png */; };
-		3073BDAA22A7DC780024DB50 /* MPLogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 304D9EB01EA8F849008CED52 /* MPLogo@2x.png */; };
-		3073BDAB22A7DC780024DB50 /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
-		3073BDAC22A7DC780024DB50 /* MPArrowRight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 304D9EA71EA8F849008CED52 /* MPArrowRight@2x.png */; };
-		3073BDAD22A7DC780024DB50 /* test_variant.json in Resources */ = {isa = PBXBuildFile; fileRef = 304D9EA31EA8F849008CED52 /* test_variant.json */; };
-		3073BDAE22A7DC780024DB50 /* MPTakeoverNotificationViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 304D9E9F1EA8F849008CED52 /* MPTakeoverNotificationViewController~ipad.xib */; };
-		3073BDAF22A7DC780024DB50 /* MPArrowRight.png in Resources */ = {isa = PBXBuildFile; fileRef = 304D9EA61EA8F849008CED52 /* MPArrowRight.png */; };
-		3073BDB022A7DC780024DB50 /* MPArrowLeft@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 304D9EA51EA8F849008CED52 /* MPArrowLeft@2x.png */; };
-		3073BDB122A7DC780024DB50 /* AirshipConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 02BF05EA1F9788C300E7D086 /* AirshipConfig.plist */; };
-		3073BDB222A7DC780024DB50 /* MPLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 304D9EAF1EA8F849008CED52 /* MPLogo.png */; };
-		3073BDB322A7DC780024DB50 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43069CE81E3B492600D6A631 /* Images.xcassets */; };
-		3073BDB422A7DC780024DB50 /* MPCheckmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 304D9EA81EA8F849008CED52 /* MPCheckmark.png */; };
-		3073BDB522A7DC780024DB50 /* placeholder-image.png in Resources */ = {isa = PBXBuildFile; fileRef = 304D9EB11EA8F849008CED52 /* placeholder-image.png */; };
-		3073BDB622A7DC780024DB50 /* MPCheckmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 304D9EA91EA8F849008CED52 /* MPCheckmark@2x.png */; };
-		3073BDB722A7DC780024DB50 /* MPCloseButton@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 304D9EAC1EA8F849008CED52 /* MPCloseButton@3x.png */; };
-		3073BDB922A7DC780024DB50 /* SettingsOnlineSafetyPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926A2B3121301BB800AE7964 /* SettingsOnlineSafetyPage.cpp */; };
-		3073BDBA22A7DC780024DB50 /* ChildSettingsScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E5856D221475120015A4FA /* ChildSettingsScene.cpp */; };
-		3073BDBB22A7DC780024DB50 /* AddChildLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928A6DD420EBDD4A0053E793 /* AddChildLayer.cpp */; };
-		3073BDBC22A7DC780024DB50 /* WebViewController_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02D6446A2087828700FF17B4 /* WebViewController_ios.mm */; };
-		3073BDBD22A7DC780024DB50 /* OfflineHubHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E5958E1E55F9960052F395 /* OfflineHubHQ.cpp */; };
-		3073BDBE22A7DC780024DB50 /* LoginLogicHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0281F5C51E89210C001FCE60 /* LoginLogicHandler.cpp */; };
-		3073BDBF22A7DC780024DB50 /* CoinDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BEF22020475008C13D0 /* CoinDisplay.cpp */; };
-		3073BDC022A7DC780024DB50 /* ChildSelectorScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19862131DD3836D0090F053 /* ChildSelectorScene.cpp */; };
-		3073BDC122A7DC780024DB50 /* ArtsAppHQElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE9471E3A1E0000EF76D1 /* ArtsAppHQElement.cpp */; };
-		3073BDC222A7DC780024DB50 /* ForceUpdateAppLockScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025633771F3B0F5C0053FF26 /* ForceUpdateAppLockScene.cpp */; };
-		3073BDC322A7DC780024DB50 /* VodacomOnboardingDetailsLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A2676216F9FF6005C8C41 /* VodacomOnboardingDetailsLayer.cpp */; };
-		3073BDC422A7DC780024DB50 /* WebGameAPIDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02074B251E93966D009BB28C /* WebGameAPIDataManager.cpp */; };
-		3073BDC522A7DC780024DB50 /* NativeContentInterface_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02D644522087489800FF17B4 /* NativeContentInterface_ios.mm */; };
-		3073BDC622A7DC780024DB50 /* RewardDisplayHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E58563220DC7580015A4FA /* RewardDisplayHandler.cpp */; };
-		3073BDC722A7DC780024DB50 /* RewardScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E58561220DB49F0015A4FA /* RewardScreen.cpp */; };
-		3073BDC822A7DC780024DB50 /* HQDataProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A15B2FC81DFACF3800D25334 /* HQDataProvider.cpp */; };
-		3073BDC922A7DC780024DB50 /* UserTypeMessagingLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9295158A2091D48700F43AEC /* UserTypeMessagingLayer.cpp */; };
-		3073BDCA22A7DC780024DB50 /* VodacomOnboardingAddChildLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A267C216FA0A4005C8C41 /* VodacomOnboardingAddChildLayer.cpp */; };
-		3073BDCB22A7DC780024DB50 /* PrivacyAndTermsLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 439694821EAA4A08003C17E6 /* PrivacyAndTermsLayer.cpp */; };
-		3073BDCC22A7DC780024DB50 /* VodacomOnboardingVoucherLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A2670216F9F85005C8C41 /* VodacomOnboardingVoucherLayer.cpp */; };
-		3073BDCD22A7DC780024DB50 /* GooglePaymentSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02A11FF21EA6375D007EDD95 /* GooglePaymentSingleton.cpp */; };
-		3073BDCE22A7DC780024DB50 /* AwesomeLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 925B24A02209D9480000D7D2 /* AwesomeLayer.cpp */; };
-		3073BDCF22A7DC780024DB50 /* DeepLinkingSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4343CB9A1EBB826600247549 /* DeepLinkingSingleton.cpp */; };
-		3073BDD022A7DC780024DB50 /* ForceUpdateSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025633721F39AB5D0053FF26 /* ForceUpdateSingleton.cpp */; };
-		3073BDD122A7DC780024DB50 /* IntroVideoScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 028DDEB4206CFB69006D7EC5 /* IntroVideoScene.cpp */; };
-		3073BDD222A7DC780024DB50 /* AddChildScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928A6DCC20EBC2560053E793 /* AddChildScene.cpp */; };
-		3073BDD322A7DC780024DB50 /* WebViewSelector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A15B2F971DE74F6400D25334 /* WebViewSelector.cpp */; };
-		3073BDD422A7DC780024DB50 /* PaymentViewController_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4306ABA21EAE2C3E001E586A /* PaymentViewController_ios.mm */; };
-		3073BDD522A7DC780024DB50 /* VodacomMessageBoxInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A26BE217E1653005C8C41 /* VodacomMessageBoxInfo.cpp */; };
-		3073BDD622A7DC780024DB50 /* KidDetailsLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924E8454214141DC004590FD /* KidDetailsLayer.cpp */; };
-		3073BDD722A7DC780024DB50 /* MeHQGallery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 927DF6E220AECA620080DFEF /* MeHQGallery.cpp */; };
-		3073BDD822A7DC780024DB50 /* HQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BBD220064B9008C13D0 /* HQScene.cpp */; };
-		3073BDD922A7DC780024DB50 /* SettingsPageHeader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926A2B2B212F018E00AE7964 /* SettingsPageHeader.cpp */; };
-		3073BDDA22A7DC780024DB50 /* VodacomOnboardingLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A266C216F958B005C8C41 /* VodacomOnboardingLayer.cpp */; };
-		3073BDDB22A7DC780024DB50 /* HQHistoryManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 026BAF761E3FFD33009C4ACE /* HQHistoryManager.cpp */; };
-		3073BDDC22A7DC780024DB50 /* SettingsFriendshipsPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920F6FDD213EB76300B7BB76 /* SettingsFriendshipsPage.cpp */; };
-		3073BDDD22A7DC780024DB50 /* ShopItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4C022366D3100DA56F3 /* ShopItem.cpp */; };
-		3073BDDE22A7DC780024DB50 /* ChildAgeLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928A6E8820EE5C880053E793 /* ChildAgeLayer.cpp */; };
-		3073BDDF22A7DC780024DB50 /* ContentOpener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92759EB11FE81F6300639190 /* ContentOpener.cpp */; };
-		3073BDE022A7DC780024DB50 /* SettingsMessageBoxTryAgain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A25FC2164E8DE005C8C41 /* SettingsMessageBoxTryAgain.cpp */; };
-		3073BDE122A7DC780024DB50 /* HQSceneElementVisual.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595B11E5B495B0052F395 /* HQSceneElementVisual.cpp */; };
-		3073BDE222A7DC780024DB50 /* DynamicNodeImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DB7C1FD996A800B12435 /* DynamicNodeImage.cpp */; };
-		3073BDE322A7DC780024DB50 /* HQScene2PlaceHolderCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 021564721FC4AB8300641C14 /* HQScene2PlaceHolderCreator.cpp */; };
-		3073BDE422A7DC780024DB50 /* DynamicNodeHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB61F794BFA00108553 /* DynamicNodeHandler.cpp */; };
-		3073BDE522A7DC780024DB50 /* BackEndCaller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A15B2FAD1DEDD1D500D25334 /* BackEndCaller.cpp */; };
-		3073BDE622A7DC780024DB50 /* OnlineSafetySlide.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926A2B342130330800AE7964 /* OnlineSafetySlide.cpp */; };
-		3073BDE722A7DC780024DB50 /* MediaPlayer_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02D644682087826700FF17B4 /* MediaPlayer_ios.mm */; };
-		3073BDE822A7DC780024DB50 /* ArtImageOnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926173A61F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp */; };
-		3073BDE922A7DC780024DB50 /* ContentHistoryManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DA081FBDD6EB00B12435 /* ContentHistoryManager.cpp */; };
-		3073BDEA22A7DC780024DB50 /* FriendRequestLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920F6FE0213FD53900B7BB76 /* FriendRequestLayer.cpp */; };
-		3073BDEB22A7DC780024DB50 /* AddChildFlowController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EADA2010F08200BD7A90 /* AddChildFlowController.cpp */; };
-		3073BDEC22A7DC780024DB50 /* WebViewNativeCaller_android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE95D1E3BD1F800EF76D1 /* WebViewNativeCaller_android.cpp */; };
-		3073BDED22A7DC780024DB50 /* MeHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929A9CFB2065248A009B323D /* MeHQ.cpp */; };
-		3073BDEE22A7DC780024DB50 /* SettingsKidsPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924E845121412D70004590FD /* SettingsKidsPage.cpp */; };
-		3073BDEF22A7DC780024DB50 /* ChatDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 300742F11EF93428005525AE /* ChatDelegate.cpp */; };
-		3073BDF022A7DC780024DB50 /* ChildNameLayerFirstTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928A6E8020EE2A290053E793 /* ChildNameLayerFirstTime.cpp */; };
-		3073BDF122A7DC780024DB50 /* ManualGameInputLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 432A6C0B1EA8E2A200C5842B /* ManualGameInputLayer.cpp */; };
-		3073BDF222A7DC780024DB50 /* HQScene2CarouselTitle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 021564751FC4C79C00641C14 /* HQScene2CarouselTitle.cpp */; };
-		3073BDF322A7DC780024DB50 /* IAPProductDataHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02D4FCD11FCEE5E1005BA020 /* IAPProductDataHandler.mm */; };
-		3073BDF422A7DC780024DB50 /* DynamicNodeFlowController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EAD1200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp */; };
-		3073BDF522A7DC780024DB50 /* ChildNameLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928A6E8620EE58A70053E793 /* ChildNameLayer.cpp */; };
-		3073BDF622A7DC780024DB50 /* PreviewLoginSignupMessageBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE9551E3B591C00EF76D1 /* PreviewLoginSignupMessageBox.cpp */; };
-		3073BDF722A7DC780024DB50 /* SettingsYourAccountPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926A2B3A21357A7900AE7964 /* SettingsYourAccountPage.cpp */; };
-		3073BDF822A7DC780024DB50 /* MeHQDownloads.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 927DF6E820AEF3C50080DFEF /* MeHQDownloads.cpp */; };
-		3073BDF922A7DC780024DB50 /* RecentlyPlayedManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EB20201A185C00BD7A90 /* RecentlyPlayedManager.cpp */; };
-		3073BDFA22A7DC780024DB50 /* VodacomOnboardingFlowData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A2668216F6F7A005C8C41 /* VodacomOnboardingFlowData.cpp */; };
-		3073BDFB22A7DC780024DB50 /* VodacomMessageBoxExitFlow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A26BA217DFB54005C8C41 /* VodacomMessageBoxExitFlow.cpp */; };
-		3073BDFC22A7DC780024DB50 /* SettingsHub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926A2AE0212D6F5500AE7964 /* SettingsHub.cpp */; };
-		3073BDFD22A7DC780024DB50 /* VodacomOnboardingDCBWebview.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92A519642194A7CF008DBD51 /* VodacomOnboardingDCBWebview.cpp */; };
-		3073BDFE22A7DC780024DB50 /* DynamicNodeButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DB431FD8137D00B12435 /* DynamicNodeButton.cpp */; };
-		3073BDFF22A7DC780024DB50 /* SettingsSupportPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926A2B2E212F14B400AE7964 /* SettingsSupportPage.cpp */; };
-		3073BE0022A7DC780024DB50 /* VideoPlaylistManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0253C9851EC053B4005037EB /* VideoPlaylistManager.cpp */; };
-		3073BE0122A7DC780024DB50 /* ChatNotificationsSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0243B8D91F1F5D5C005D3734 /* ChatNotificationsSingleton.cpp */; };
-		3073BE0222A7DC780024DB50 /* VodacomOnboardingScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A266A216F7307005C8C41 /* VodacomOnboardingScene.cpp */; };
-		3073BE0322A7DC780024DB50 /* DynamicNodeCheckBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92951512208895D200F43AEC /* DynamicNodeCheckBox.cpp */; };
-		3073BE0422A7DC780024DB50 /* DynamicNodeTextInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DAF51FCEEFF000B12435 /* DynamicNodeTextInput.cpp */; };
-		3073BE0522A7DC780024DB50 /* SettingsMessageBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920F6FE42140472A00B7BB76 /* SettingsMessageBox.cpp */; };
-		3073BE0622A7DC780024DB50 /* FlowDataSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4373957F1ED3441F00C29DB1 /* FlowDataSingleton.cpp */; };
-		3073BE0722A7DC780024DB50 /* OfflineHubSceneVisuals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595871E55DFF00052F395 /* OfflineHubSceneVisuals.cpp */; };
-		3073BE0822A7DC780024DB50 /* VodacomOnboardingSuccessLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A2674216F9FD3005C8C41 /* VodacomOnboardingSuccessLayer.cpp */; };
-		3073BE0922A7DC780024DB50 /* ButtonActionData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB31F7932D200108553 /* ButtonActionData.cpp */; };
-		3073BE0A22A7DC780024DB50 /* ChildOomeeLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928A6E8A20EE62270053E793 /* ChildOomeeLayer.cpp */; };
-		3073BE0B22A7DC780024DB50 /* VodacomOnboardingPinLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A267A216FA05A005C8C41 /* VodacomOnboardingPinLayer.cpp */; };
-		3073BE0C22A7DC780024DB50 /* WelcomeScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92448AE521F73AEF00E88C9D /* WelcomeScene.cpp */; };
-		3073BE0D22A7DC780024DB50 /* VodacomOnboardingLoginLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A2672216F9FA1005C8C41 /* VodacomOnboardingLoginLayer.cpp */; };
-		3073BE0E22A7DC780024DB50 /* EditAccountLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926A2B3821356C2000AE7964 /* EditAccountLayer.cpp */; };
-		3073BE0F22A7DC780024DB50 /* OomeeMakerDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D7D22040557D00370120 /* OomeeMakerDelegate.cpp */; };
-		3073BE1022A7DC780024DB50 /* SettingsLanguagePage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A25F321627FD6005C8C41 /* SettingsLanguagePage.cpp */; };
-		3073BE1122A7DC780024DB50 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FB17EB989F00D1A890 /* AppController.mm */; };
-		3073BE1222A7DC780024DB50 /* HQScene2ElementPositioner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0215646E1FC4202800641C14 /* HQScene2ElementPositioner.cpp */; };
-		3073BE1322A7DC780024DB50 /* SettingsMessageBoxFREvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924E84762147FE2B004590FD /* SettingsMessageBoxFREvent.cpp */; };
-		3073BE1522A7DC780024DB50 /* SettingsMessageBoxDeleteChild.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924E845721427C05004590FD /* SettingsMessageBoxDeleteChild.cpp */; };
-		3073BE1622A7DC780024DB50 /* DynamicNodeButtonListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB01F7908D400108553 /* DynamicNodeButtonListener.cpp */; };
-		3073BE1722A7DC780024DB50 /* DynamicNodeLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92759E6F1FE1598100639190 /* DynamicNodeLine.cpp */; };
-		3073BE1822A7DC780024DB50 /* VodacomOnboardingErrorLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A2678216FA030005C8C41 /* VodacomOnboardingErrorLayer.cpp */; };
-		3073BE1922A7DC780024DB50 /* ShopItemPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4C32236AE4E00DA56F3 /* ShopItemPage.cpp */; };
-		3073BE1A22A7DC780024DB50 /* MeHQProfileDetails.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924ACE3620A9C541007A5550 /* MeHQProfileDetails.cpp */; };
-		3073BE1B22A7DC780024DB50 /* NavigationLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A198621D1DD3836D0090F053 /* NavigationLayer.cpp */; };
-		3073BE1C22A7DC780024DB50 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19862291DD383BD0090F053 /* AppDelegate.cpp */; };
-		3073BE1D22A7DC780024DB50 /* CoinCollectLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 925B249D22084B940000D7D2 /* CoinCollectLayer.cpp */; };
-		3073BE1E22A7DC780024DB50 /* ContentFeedHQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BC422008BF1008C13D0 /* ContentFeedHQScene.cpp */; };
-		3073BE1F22A7DC780024DB50 /* SignUpFlowController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EAD4200F77E200BD7A90 /* SignUpFlowController.cpp */; };
-		3073BE2022A7DC780024DB50 /* OfflineText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595C11E5D9EE70052F395 /* OfflineText.cpp */; };
-		3073BE2122A7DC780024DB50 /* RoutePaymentSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02A11FF41EA6375D007EDD95 /* RoutePaymentSingleton.cpp */; };
-		3073BE2222A7DC780024DB50 /* ios_Cocos2d_Callbacks.mm in Sources */ = {isa = PBXBuildFile; fileRef = D13C40141E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm */; };
-		3073BE2322A7DC780024DB50 /* VodacomOnboardingTnCLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921C75AC219464A100EB93D6 /* VodacomOnboardingTnCLayer.cpp */; };
-		3073BE2422A7DC780024DB50 /* SettingsMessageBoxRejectFR.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924E844F214117D9004590FD /* SettingsMessageBoxRejectFR.cpp */; };
-		3073BE2522A7DC780024DB50 /* OfflineHubScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595841E55DE670052F395 /* OfflineHubScene.cpp */; };
-		3073BE2622A7DC780024DB50 /* HQSceneArtsApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595C81E66E2160052F395 /* HQSceneArtsApp.cpp */; };
-		3073BE2722A7DC780024DB50 /* ShopCarousel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92EC0C5C2232805D00B02F20 /* ShopCarousel.cpp */; };
-		3073BE2922A7DC780024DB50 /* AmazonPaymentSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02A11FF01EA6375D007EDD95 /* AmazonPaymentSingleton.cpp */; };
-		3073BE2A22A7DC780024DB50 /* DynamicNodeText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DB461FD8414F00B12435 /* DynamicNodeText.cpp */; };
-		3073BE2B22A7DC780024DB50 /* SceneManagerScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43BCD71C1EC9FD4E00A07737 /* SceneManagerScene.cpp */; };
-		3073BE2C22A7DC780024DB50 /* ArtAppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92A9A0A81F0D1775008A19EB /* ArtAppDelegate.cpp */; };
-		3073BE2D22A7DC780024DB50 /* ShopItemPurchasePopup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4CB22380D4700DA56F3 /* ShopItemPurchasePopup.cpp */; };
-		3073BE2E22A7DC780024DB50 /* ApplePaymentSingleton.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4396947C1EAA4855003C17E6 /* ApplePaymentSingleton.mm */; };
-		3073BE2F22A7DC780024DB50 /* LanguageListItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A25F62162830A005C8C41 /* LanguageListItem.cpp */; };
-		3073BE3022A7DC780024DB50 /* IAPProductDataHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02D4FCD31FCF0D0B005BA020 /* IAPProductDataHandler.cpp */; };
-		3073BE3122A7DC780024DB50 /* ShopScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92EC0C4E22312EA800B02F20 /* ShopScene.cpp */; };
-		3073BE3222A7DC780024DB50 /* DynamicNodeCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929D46661F73F04D006E40CE /* DynamicNodeCreator.cpp */; };
-		3073BE3322A7DC780024DB50 /* DynamicNodeDataInputStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DAF21FCEDB1F00B12435 /* DynamicNodeDataInputStorage.cpp */; };
-		3073BE3422A7DC780024DB50 /* OfflineChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E5959A1E56FC3A0052F395 /* OfflineChecker.cpp */; };
-		3073BE3522A7DC780024DB50 /* ShopItemPurchasedAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4CE223926CD00DA56F3 /* ShopItemPurchasedAnimation.cpp */; };
-		3073BE3622A7DC780024DB50 /* RewardScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BEC2201F125008C13D0 /* RewardScene.cpp */; };
-		3073BE3722A7DC780024DB50 /* OfflineHubBackButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595B71E5CA2690052F395 /* OfflineHubBackButton.cpp */; };
-		3073BE3822A7DC780024DB50 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FC17EB989F00D1A890 /* main.m */; };
-		3073BE3922A7DC780024DB50 /* HQSceneElementPositioner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A134ADCC1E0C0F420030BE98 /* HQSceneElementPositioner.cpp */; };
-		3073BE3A22A7DC780024DB50 /* MeHQRecentlyPlayed.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92084F6321E644D800DACCEB /* MeHQRecentlyPlayed.cpp */; };
-		3073BE3B22A7DC780024DB50 /* SettingsButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301CCA921EB139C1009ADA0C /* SettingsButton.cpp */; };
-		3073BE3C22A7DC780024DB50 /* ChildCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928A6DCA20EBB9650053E793 /* ChildCreator.cpp */; };
-		3073BE3D22A7DC780024DB50 /* OfflineHubHQElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595911E55F9BB0052F395 /* OfflineHubHQElement.cpp */; };
-		3073BE3E22A7DC780024DB50 /* SettingsNavigationButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926A2B0B212EABB000AE7964 /* SettingsNavigationButton.cpp */; };
-		3073BE3F22A7DC780024DB50 /* OfflineGameSearch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E5958A1E55F5ED0052F395 /* OfflineGameSearch.cpp */; };
-		3073BE4022A7DC780024DB50 /* CoinChestLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 925B24A3220AEE5F0000D7D2 /* CoinChestLayer.cpp */; };
-		3073BE4122A7DC780024DB50 /* MeHQFavourites.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 927DF72320B593600080DFEF /* MeHQFavourites.cpp */; };
-		3073BE4222A7DC780024DB50 /* LoginScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4319D3E01E67134600110F92 /* LoginScene.cpp */; };
-		3073BE4322A7DC780024DB50 /* FavouritesManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929A9D56206CF9F1009B323D /* FavouritesManager.cpp */; };
-		3073BE4422A7DC780024DB50 /* HQSceneElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19759821DE4931200FEB03C /* HQSceneElement.cpp */; };
-		3073BE4522A7DC780024DB50 /* IAPFlowController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EAD72010C07D00BD7A90 /* IAPFlowController.cpp */; };
-		3073BE4622A7DC780024DB50 /* LanguageSelectScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921C75A7218B08D800EB93D6 /* LanguageSelectScene.cpp */; };
-		3073BE4722A7DC780024DB50 /* SettingsMessageBoxNotification.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A25F92164D08B005C8C41 /* SettingsMessageBoxNotification.cpp */; };
-		3073BE4822A7DC780024DB50 /* VodacomMessageBoxNotification.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A26BC217E0A91005C8C41 /* VodacomMessageBoxNotification.cpp */; };
-		3073BE4922A7DC780024DB50 /* MeHQMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 927DF6EA20B2BD010080DFEF /* MeHQMessages.cpp */; };
-		3073BE4A22A7DC780024DB50 /* GameDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A154CC501DFEE7440008A626 /* GameDataManager.cpp */; };
-		3073BE4B22A7DC780024DB50 /* VodacomOnboardingRegisterLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A266E216F9F6A005C8C41 /* VodacomOnboardingRegisterLayer.cpp */; };
-		3073BE4D22A7DC780024DB50 /* libAzoomeeOomeeMaker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9271D7CB2040537000370120 /* libAzoomeeOomeeMaker.a */; };
-		3073BE4E22A7DC780024DB50 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02D6446E2089EBF100FF17B4 /* CoreMedia.framework */; };
-		3073BE4F22A7DC780024DB50 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02D6446C2088AAA600FF17B4 /* AVKit.framework */; };
-		3073BE5022A7DC780024DB50 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 026FA3FB200E03460045C305 /* LocalAuthentication.framework */; };
-		3073BE5122A7DC780024DB50 /* AirshipKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02BF05D91F977FE800E7D086 /* AirshipKit.framework */; };
-		3073BE5222A7DC780024DB50 /* libAzoomeeArt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A9A06B1F068A7B008A19EB /* libAzoomeeArt.a */; };
-		3073BE5322A7DC780024DB50 /* libAzoomeeChat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 300742DA1EF9162E005525AE /* libAzoomeeChat.a */; };
-		3073BE5422A7DC780024DB50 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 439694891EAA4ACD003C17E6 /* StoreKit.framework */; };
-		3073BE5522A7DC780024DB50 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 304D9EC81EA8F89B008CED52 /* GameController.framework */; };
-		3073BE5622A7DC780024DB50 /* WatchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A90DE41EA7603800606099 /* WatchKit.framework */; };
-		3073BE5722A7DC780024DB50 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A90CE21EA7560500606099 /* Accelerate.framework */; };
-		3073BE5822A7DC780024DB50 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A90CE01EA755FF00606099 /* CoreTelephony.framework */; };
-		3073BE5922A7DC780024DB50 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A90CDE1EA755F000606099 /* SystemConfiguration.framework */; };
-		3073BE5A22A7DC780024DB50 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A90CDC1EA755E200606099 /* Foundation.framework */; };
-		3073BE5B22A7DC780024DB50 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A90CDA1EA755D600606099 /* UIKit.framework */; };
-		3073BE5D22A7DC780024DB50 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435EBBE11E55BB2300E55610 /* iAd.framework */; };
-		3073BE5E22A7DC780024DB50 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435EBBDF1E55BB1600E55610 /* AdSupport.framework */; };
-		3073BE5F22A7DC780024DB50 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 430B21541E4487E5004ACB10 /* SystemConfiguration.framework */; };
-		3073BE6022A7DC780024DB50 /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 430B215C1E448825004ACB10 /* libicucore.tbd */; };
-		3073BE6122A7DC780024DB50 /* AppsFlyerLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435EBBDD1E55BA0400E55610 /* AppsFlyerLib.framework */; };
-		3073BE6222A7DC780024DB50 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 430B21501E4485E0004ACB10 /* Security.framework */; };
-		3073BE6322A7DC780024DB50 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 430B214D1E4485DA004ACB10 /* CFNetwork.framework */; };
-		3073BE6422A7DC780024DB50 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 025BE95B1E3B980600EF76D1 /* WebKit.framework */; };
-		3073BE6522A7DC780024DB50 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D113134B1E337D7C00E2C033 /* MediaPlayer.framework */; settings = {ATTRIBUTES = (Required, ); }; };
-		3073BE6622A7DC780024DB50 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 294D0D631D0D56D500F7F5D4 /* CoreText.framework */; };
-		3073BE6722A7DC780024DB50 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433AD3051E252A2C003757AD /* Crashlytics.framework */; };
-		3073BE6822A7DC780024DB50 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED545A7B1B68A1F400C3958E /* libiconv.dylib */; };
-		3073BE6922A7DC780024DB50 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433AD3061E252A2C003757AD /* Fabric.framework */; };
-		3073BE6A22A7DC780024DB50 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B47A461A53D09B004E4C60 /* Security.framework */; };
-		3073BE6B22A7DC780024DB50 /* libcocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB07180E9839004C840B /* libcocos2d iOS.a */; };
-		3073BE6C22A7DC780024DB50 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6B0611A1803AB670077942B /* CoreMotion.framework */; };
-		3073BE6D22A7DC780024DB50 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
-		3073BE6E22A7DC780024DB50 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
-		3073BE6F22A7DC780024DB50 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
-		3073BE7022A7DC780024DB50 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
-		3073BE7122A7DC780024DB50 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C47EA1293683800B63C5D /* QuartzCore.framework */; };
-		3073BE7222A7DC780024DB50 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620B132DFF330009C878 /* OpenAL.framework */; };
-		3073BE7322A7DC780024DB50 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620D132DFF430009C878 /* AVFoundation.framework */; };
-		3073BE7422A7DC780024DB50 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620F132DFF4E0009C878 /* AudioToolbox.framework */; };
-		3073BE8122A7DDAE0024DB50 /* libAzoomeeCommonCI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3073BE8022A7DC790024DB50 /* libAzoomeeCommonCI.a */; };
-		3076C74C22B116F6000A4925 /* ChildOomeeFTULayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92060129227B2F9500A73FA5 /* ChildOomeeFTULayer.cpp */; };
-		3077F4561E8D51F7006DA465 /* libAzoomeeCommonProd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3077F4521E8D51D7006DA465 /* libAzoomeeCommonProd.a */; };
+		3077F4561E8D51F7006DA465 /* libAzoomeeCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3077F4521E8D51D7006DA465 /* libAzoomeeCommon.a */; };
 		3EACC98F19EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
 		43069CE91E3B492600D6A631 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43069CE81E3B492600D6A631 /* Images.xcassets */; };
 		4306ABA31EAE2C3E001E586A /* PaymentViewController_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4306ABA21EAE2C3E001E586A /* PaymentViewController_ios.mm */; };
@@ -308,7 +99,6 @@
 		43A90CDF1EA755F000606099 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A90CDE1EA755F000606099 /* SystemConfiguration.framework */; };
 		43A90CE11EA755FF00606099 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A90CE01EA755FF00606099 /* CoreTelephony.framework */; };
 		43A90CE31EA7560500606099 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A90CE21EA7560500606099 /* Accelerate.framework */; };
-		43A90DE51EA7603800606099 /* WatchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A90DE41EA7603800606099 /* WatchKit.framework */; };
 		43BCD71E1EC9FD4E00A07737 /* SceneManagerScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43BCD71C1EC9FD4E00A07737 /* SceneManagerScene.cpp */; };
 		503AE10017EB989F00D1A890 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FB17EB989F00D1A890 /* AppController.mm */; };
 		503AE10117EB989F00D1A890 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FC17EB989F00D1A890 /* main.m */; };
@@ -338,18 +128,26 @@
 		921A26BF217E1653005C8C41 /* VodacomMessageBoxInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A26BE217E1653005C8C41 /* VodacomMessageBoxInfo.cpp */; };
 		921C75A8218B08D800EB93D6 /* LanguageSelectScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921C75A7218B08D800EB93D6 /* LanguageSelectScene.cpp */; };
 		921C75AD219464A100EB93D6 /* VodacomOnboardingTnCLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921C75AC219464A100EB93D6 /* VodacomOnboardingTnCLayer.cpp */; };
-		9220EAD2200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EAD1200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp */; };
-		9220EAD5200F77E200BD7A90 /* SignUpFlowController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EAD4200F77E200BD7A90 /* SignUpFlowController.cpp */; };
-		9220EAD82010C07D00BD7A90 /* IAPFlowController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EAD72010C07D00BD7A90 /* IAPFlowController.cpp */; };
-		9220EADB2010F08200BD7A90 /* AddChildFlowController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EADA2010F08200BD7A90 /* AddChildFlowController.cpp */; };
 		9220EB21201A185C00BD7A90 /* RecentlyPlayedManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EB20201A185C00BD7A90 /* RecentlyPlayedManager.cpp */; };
-		9224BFB11F7908D400108553 /* DynamicNodeButtonListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB01F7908D400108553 /* DynamicNodeButtonListener.cpp */; };
-		9224BFB41F7932D200108553 /* ButtonActionData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB31F7932D200108553 /* ButtonActionData.cpp */; };
-		9224BFB71F794BFA00108553 /* DynamicNodeHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB61F794BFA00108553 /* DynamicNodeHandler.cpp */; };
+		9229EE4322D75A6A009732B0 /* ProductLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EE4222D75A6A009732B0 /* ProductLayout.cpp */; };
+		9229EE4A22D795BA009732B0 /* IAPFooter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EE4922D795BA009732B0 /* IAPFooter.cpp */; };
+		9229EE4E22DCAFAA009732B0 /* SignupScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EE4D22DCAFAA009732B0 /* SignupScene.cpp */; };
+		9229EE5222DDD3E8009732B0 /* ProgressBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EE5122DDD3E8009732B0 /* ProgressBar.cpp */; };
+		9229EE5422DDE6CA009732B0 /* SignupPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EE5322DDE6CA009732B0 /* SignupPage.cpp */; };
+		9229EE5722DF2CC2009732B0 /* SignupEnterEmail.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EE5622DF2CC2009732B0 /* SignupEnterEmail.cpp */; };
+		9229EE5A22DF5954009732B0 /* SignupConfirmEmail.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EE5922DF5954009732B0 /* SignupConfirmEmail.cpp */; };
+		9229EE5D22DF633E009732B0 /* SignupEnterPassword.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EE5C22DF633E009732B0 /* SignupEnterPassword.cpp */; };
+		9229EE6022DF6935009732B0 /* SignupEnterPin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EE5F22DF6935009732B0 /* SignupEnterPin.cpp */; };
+		9229EE6322E07808009732B0 /* SignupTermsPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EE6222E07808009732B0 /* SignupTermsPage.cpp */; };
+		9229EECB22E5C6AF009732B0 /* PopupMessageBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EECA22E5C6AF009732B0 /* PopupMessageBox.cpp */; };
+		9229EECE22E74A55009732B0 /* LoginEntry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EECD22E74A55009732B0 /* LoginEntry.cpp */; };
 		923D5BBE220064B9008C13D0 /* HQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BBD220064B9008C13D0 /* HQScene.cpp */; };
 		923D5BC522008BF1008C13D0 /* ContentFeedHQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BC422008BF1008C13D0 /* ContentFeedHQScene.cpp */; };
 		923D5BED2201F126008C13D0 /* RewardScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BEC2201F125008C13D0 /* RewardScene.cpp */; };
 		923D5BF022020475008C13D0 /* CoinDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923D5BEF22020475008C13D0 /* CoinDisplay.cpp */; };
+		9240331622D36612009907F3 /* AgeGate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9240331522D36611009907F3 /* AgeGate.cpp */; };
+		9240334122D4CCE2009907F3 /* IAPScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9240334022D4CCE1009907F3 /* IAPScene.cpp */; };
+		9240334622D4E449009907F3 /* MarketingCarousel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9240334522D4E449009907F3 /* MarketingCarousel.cpp */; };
 		92448AE621F73AEF00E88C9D /* WelcomeScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92448AE521F73AEF00E88C9D /* WelcomeScene.cpp */; };
 		924ACE3720A9C541007A5550 /* MeHQProfileDetails.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924ACE3620A9C541007A5550 /* MeHQProfileDetails.cpp */; };
 		924E8450214117D9004590FD /* SettingsMessageBoxRejectFR.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924E844F214117D9004590FD /* SettingsMessageBoxRejectFR.cpp */; };
@@ -371,18 +169,12 @@
 		926A2B3B21357A7900AE7964 /* SettingsYourAccountPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926A2B3A21357A7900AE7964 /* SettingsYourAccountPage.cpp */; };
 		9271D7D12040544200370120 /* libAzoomeeOomeeMaker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9271D7CB2040537000370120 /* libAzoomeeOomeeMaker.a */; };
 		9271D7D32040557D00370120 /* OomeeMakerDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D7D22040557D00370120 /* OomeeMakerDelegate.cpp */; };
-		92759E701FE1598100639190 /* DynamicNodeLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92759E6F1FE1598100639190 /* DynamicNodeLine.cpp */; };
 		92759EB21FE81F6300639190 /* ContentOpener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92759EB11FE81F6300639190 /* ContentOpener.cpp */; };
 		927DF6E320AECA620080DFEF /* MeHQGallery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 927DF6E220AECA620080DFEF /* MeHQGallery.cpp */; };
 		927DF6E920AEF3C50080DFEF /* MeHQDownloads.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 927DF6E820AEF3C50080DFEF /* MeHQDownloads.cpp */; };
 		927DF6EB20B2BD010080DFEF /* MeHQMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 927DF6EA20B2BD010080DFEF /* MeHQMessages.cpp */; };
 		927DF72420B593600080DFEF /* MeHQFavourites.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 927DF72320B593600080DFEF /* MeHQFavourites.cpp */; };
 		9289DA0A1FBDD6EB00B12435 /* ContentHistoryManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DA081FBDD6EB00B12435 /* ContentHistoryManager.cpp */; };
-		9289DAF31FCEDB1F00B12435 /* DynamicNodeDataInputStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DAF21FCEDB1F00B12435 /* DynamicNodeDataInputStorage.cpp */; };
-		9289DAF61FCEEFF000B12435 /* DynamicNodeTextInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DAF51FCEEFF000B12435 /* DynamicNodeTextInput.cpp */; };
-		9289DB441FD8137D00B12435 /* DynamicNodeButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DB431FD8137D00B12435 /* DynamicNodeButton.cpp */; };
-		9289DB471FD8414F00B12435 /* DynamicNodeText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DB461FD8414F00B12435 /* DynamicNodeText.cpp */; };
-		9289DB7D1FD996A800B12435 /* DynamicNodeImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DB7C1FD996A800B12435 /* DynamicNodeImage.cpp */; };
 		928A6DCB20EBB9650053E793 /* ChildCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928A6DCA20EBB9650053E793 /* ChildCreator.cpp */; };
 		928A6DCD20EBC2560053E793 /* AddChildScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928A6DCC20EBC2560053E793 /* AddChildScene.cpp */; };
 		928A6DD520EBDD4A0053E793 /* AddChildLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928A6DD420EBDD4A0053E793 /* AddChildLayer.cpp */; };
@@ -390,11 +182,11 @@
 		928A6E8720EE58A70053E793 /* ChildNameLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928A6E8620EE58A70053E793 /* ChildNameLayer.cpp */; };
 		928A6E8920EE5C880053E793 /* ChildAgeLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928A6E8820EE5C880053E793 /* ChildAgeLayer.cpp */; };
 		928A6E8B20EE62270053E793 /* ChildOomeeLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928A6E8A20EE62270053E793 /* ChildOomeeLayer.cpp */; };
-		92951513208895D200F43AEC /* DynamicNodeCheckBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92951512208895D200F43AEC /* DynamicNodeCheckBox.cpp */; };
 		9295158B2091D48700F43AEC /* UserTypeMessagingLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9295158A2091D48700F43AEC /* UserTypeMessagingLayer.cpp */; };
 		929A9CFC2065248A009B323D /* MeHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929A9CFB2065248A009B323D /* MeHQ.cpp */; };
 		929A9D57206CF9F1009B323D /* FavouritesManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929A9D56206CF9F1009B323D /* FavouritesManager.cpp */; };
-		929D46671F73F04D006E40CE /* DynamicNodeCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929D46661F73F04D006E40CE /* DynamicNodeCreator.cpp */; };
+		929FB10322E8A6440088D406 /* MarketingAssetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929FB10222E8A6440088D406 /* MarketingAssetManager.cpp */; };
+		929FB10722E9A8450088D406 /* PaymentSuccessScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929FB10522E9A8450088D406 /* PaymentSuccessScreen.cpp */; };
 		92A519652194A7CF008DBD51 /* VodacomOnboardingDCBWebview.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92A519642194A7CF008DBD51 /* VodacomOnboardingDCBWebview.cpp */; };
 		92A9A06E1F068A97008A19EB /* libAzoomeeArt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A9A06B1F068A7B008A19EB /* libAzoomeeArt.a */; };
 		92A9A0A91F0D1775008A19EB /* ArtAppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92A9A0A81F0D1775008A19EB /* ArtAppDelegate.cpp */; };
@@ -425,6 +217,7 @@
 		D44C620E132DFF430009C878 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620D132DFF430009C878 /* AVFoundation.framework */; };
 		D44C6210132DFF4E0009C878 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620F132DFF4E0009C878 /* AudioToolbox.framework */; };
 		D6B0611B1803AB670077942B /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6B0611A1803AB670077942B /* CoreMotion.framework */; };
+		E2DCF5E9230442FF0032946D /* ImportantMessageForParents.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2DCF5E8230442FF0032946D /* ImportantMessageForParents.cpp */; };
 		ED545A7C1B68A1F400C3958E /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED545A7B1B68A1F400C3958E /* libiconv.dylib */; };
 /* End PBXBuildFile section */
 
@@ -477,48 +270,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 304410621E9D18E600B7F383;
 			remoteInfo = AzoomeeChat;
-		};
-		300A9DF922A7E14300CD103D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3077F44D1E8D51D7006DA465 /* AzoomeeCommon.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 3073BCDA22A7DC2A0024DB50;
-			remoteInfo = AzoomeeCommonCI;
-		};
-		3073BD9322A7DC780024DB50 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9271D7572035F44600370120 /* AzoomeeOomeeMaker.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 9271D7A520404C6400370120;
-			remoteInfo = libAzoomeeOomeeMaker;
-		};
-		3073BD9522A7DC780024DB50 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9246EDCF1F0403A8008CD359 /* azoomee2_ArtApp.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 92A9A0431F068916008A19EB;
-			remoteInfo = ArtApp;
-		};
-		3073BD9722A7DC780024DB50 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 300742D21EF9162E005525AE /* AzoomeeChat.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 304410621E9D18E600B7F383;
-			remoteInfo = AzoomeeChat;
-		};
-		3073BD9B22A7DC780024DB50 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = A07A4C241783777C0073F6A7;
-			remoteInfo = "cocos2dx iOS";
-		};
-		3073BE7F22A7DC790024DB50 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3077F44D1E8D51D7006DA465 /* AzoomeeCommon.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 3073BD9022A7DC2A0024DB50;
-			remoteInfo = AzoomeeCommonCI;
 		};
 		3077F4511E8D51D7006DA465 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -677,7 +428,7 @@
 		1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2d_libs.xcodeproj; path = ../cocos2d/build/cocos2d_libs.xcodeproj; sourceTree = "<group>"; };
 		1ACB3243164770DE00914215 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = ../../cocos2dx/platform/third_party/ios/libraries/libcurl.a; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		1D6058910D05DD3D006BFB54 /* Azoomee Prod.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Azoomee Prod.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* Azoomee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Azoomee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		294D0D631D0D56D500F7F5D4 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/CoreText.framework; sourceTree = DEVELOPER_DIR; };
@@ -706,7 +457,6 @@
 		304D9EB01EA8F849008CED52 /* MPLogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MPLogo@2x.png"; sourceTree = "<group>"; };
 		304D9EB11EA8F849008CED52 /* placeholder-image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder-image.png"; sourceTree = "<group>"; };
 		304D9EC81EA8F89B008CED52 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/GameController.framework; sourceTree = DEVELOPER_DIR; };
-		3073BE7C22A7DC780024DB50 /* Azoomee CI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Azoomee CI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3077F44D1E8D51D7006DA465 /* AzoomeeCommon.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AzoomeeCommon.xcodeproj; path = ../common/proj.ios_mac/AzoomeeCommon.xcodeproj; sourceTree = "<group>"; };
 		3EACC98E19EE6D4300EB3C5E /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
 		43069CE81E3B492600D6A631 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ios/Images.xcassets; sourceTree = SOURCE_ROOT; };
@@ -809,22 +559,30 @@
 		921C75A7218B08D800EB93D6 /* LanguageSelectScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LanguageSelectScene.cpp; sourceTree = "<group>"; };
 		921C75AB2194543500EB93D6 /* VodacomOnboardingTnCLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VodacomOnboardingTnCLayer.h; sourceTree = "<group>"; };
 		921C75AC219464A100EB93D6 /* VodacomOnboardingTnCLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VodacomOnboardingTnCLayer.cpp; sourceTree = "<group>"; };
-		9220EACA200F5AF600BD7A90 /* DynamicNodeFlowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DynamicNodeFlowController.h; sourceTree = "<group>"; };
-		9220EAD1200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeFlowController.cpp; sourceTree = "<group>"; };
-		9220EAD3200F64A200BD7A90 /* SignUpFlowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignUpFlowController.h; sourceTree = "<group>"; };
-		9220EAD4200F77E200BD7A90 /* SignUpFlowController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SignUpFlowController.cpp; sourceTree = "<group>"; };
-		9220EAD62010B42B00BD7A90 /* IAPFlowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IAPFlowController.h; sourceTree = "<group>"; };
-		9220EAD72010C07D00BD7A90 /* IAPFlowController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = IAPFlowController.cpp; sourceTree = "<group>"; };
-		9220EAD92010EC2000BD7A90 /* AddChildFlowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddChildFlowController.h; sourceTree = "<group>"; };
-		9220EADA2010F08200BD7A90 /* AddChildFlowController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AddChildFlowController.cpp; sourceTree = "<group>"; };
 		9220EB1C201A144B00BD7A90 /* RecentlyPlayedManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecentlyPlayedManager.h; sourceTree = "<group>"; };
 		9220EB20201A185C00BD7A90 /* RecentlyPlayedManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RecentlyPlayedManager.cpp; sourceTree = "<group>"; };
-		9224BFAC1F79069E00108553 /* DynamicNodeButtonListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicNodeButtonListener.h; sourceTree = "<group>"; };
-		9224BFB01F7908D400108553 /* DynamicNodeButtonListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeButtonListener.cpp; sourceTree = "<group>"; };
-		9224BFB21F79310100108553 /* ButtonActionData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonActionData.h; sourceTree = "<group>"; };
-		9224BFB31F7932D200108553 /* ButtonActionData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ButtonActionData.cpp; sourceTree = "<group>"; };
-		9224BFB51F7949E100108553 /* DynamicNodeHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicNodeHandler.h; sourceTree = "<group>"; };
-		9224BFB61F794BFA00108553 /* DynamicNodeHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeHandler.cpp; sourceTree = "<group>"; };
+		9229EE4222D75A6A009732B0 /* ProductLayout.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ProductLayout.cpp; sourceTree = "<group>"; };
+		9229EE4922D795BA009732B0 /* IAPFooter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = IAPFooter.cpp; sourceTree = "<group>"; };
+		9229EE4C22DCA78F009732B0 /* SignupScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignupScene.h; sourceTree = "<group>"; };
+		9229EE4D22DCAFAA009732B0 /* SignupScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SignupScene.cpp; sourceTree = "<group>"; };
+		9229EE4F22DCD4C3009732B0 /* SignupPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignupPage.h; sourceTree = "<group>"; };
+		9229EE5022DDCEEF009732B0 /* ProgressBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProgressBar.h; sourceTree = "<group>"; };
+		9229EE5122DDD3E8009732B0 /* ProgressBar.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ProgressBar.cpp; sourceTree = "<group>"; };
+		9229EE5322DDE6CA009732B0 /* SignupPage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SignupPage.cpp; sourceTree = "<group>"; };
+		9229EE5522DF2A38009732B0 /* SignupEnterEmail.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignupEnterEmail.h; sourceTree = "<group>"; };
+		9229EE5622DF2CC2009732B0 /* SignupEnterEmail.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SignupEnterEmail.cpp; sourceTree = "<group>"; };
+		9229EE5822DF58A1009732B0 /* SignupConfirmEmail.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignupConfirmEmail.h; sourceTree = "<group>"; };
+		9229EE5922DF5954009732B0 /* SignupConfirmEmail.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SignupConfirmEmail.cpp; sourceTree = "<group>"; };
+		9229EE5B22DF5EB5009732B0 /* SignupEnterPassword.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignupEnterPassword.h; sourceTree = "<group>"; };
+		9229EE5C22DF633E009732B0 /* SignupEnterPassword.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SignupEnterPassword.cpp; sourceTree = "<group>"; };
+		9229EE5E22DF6866009732B0 /* SignupEnterPin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignupEnterPin.h; sourceTree = "<group>"; };
+		9229EE5F22DF6935009732B0 /* SignupEnterPin.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SignupEnterPin.cpp; sourceTree = "<group>"; };
+		9229EE6122E06D62009732B0 /* SignupTermsPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignupTermsPage.h; sourceTree = "<group>"; };
+		9229EE6222E07808009732B0 /* SignupTermsPage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SignupTermsPage.cpp; sourceTree = "<group>"; };
+		9229EEC422E5C290009732B0 /* PopupMessageBox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PopupMessageBox.h; sourceTree = "<group>"; };
+		9229EECA22E5C6AF009732B0 /* PopupMessageBox.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PopupMessageBox.cpp; sourceTree = "<group>"; };
+		9229EECC22E748FE009732B0 /* LoginEntry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginEntry.h; sourceTree = "<group>"; };
+		9229EECD22E74A55009732B0 /* LoginEntry.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LoginEntry.cpp; sourceTree = "<group>"; };
 		923D5B7221FB5BA9008C13D0 /* HQScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HQScene.h; sourceTree = "<group>"; };
 		923D5BBD220064B9008C13D0 /* HQScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HQScene.cpp; sourceTree = "<group>"; };
 		923D5BC322007473008C13D0 /* ContentFeedHQScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContentFeedHQScene.h; sourceTree = "<group>"; };
@@ -833,6 +591,14 @@
 		923D5BEC2201F125008C13D0 /* RewardScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RewardScene.cpp; sourceTree = "<group>"; };
 		923D5BEE2202012C008C13D0 /* CoinDisplay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoinDisplay.h; sourceTree = "<group>"; };
 		923D5BEF22020475008C13D0 /* CoinDisplay.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CoinDisplay.cpp; sourceTree = "<group>"; };
+		9240331422D34650009907F3 /* AgeGate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AgeGate.h; sourceTree = "<group>"; };
+		9240331522D36611009907F3 /* AgeGate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AgeGate.cpp; sourceTree = "<group>"; };
+		9240333A22D4C0FB009907F3 /* IAPScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IAPScene.h; sourceTree = "<group>"; };
+		9240334022D4CCE1009907F3 /* IAPScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = IAPScene.cpp; sourceTree = "<group>"; };
+		9240334222D4D05A009907F3 /* MarketingCarousel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MarketingCarousel.h; sourceTree = "<group>"; };
+		9240334322D4D090009907F3 /* ProductLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProductLayout.h; sourceTree = "<group>"; };
+		9240334422D4D0A7009907F3 /* IAPFooter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IAPFooter.h; sourceTree = "<group>"; };
+		9240334522D4E449009907F3 /* MarketingCarousel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MarketingCarousel.cpp; sourceTree = "<group>"; };
 		92448AE021F7378400E88C9D /* WelcomeScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WelcomeScene.h; sourceTree = "<group>"; };
 		92448AE521F73AEF00E88C9D /* WelcomeScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = WelcomeScene.cpp; sourceTree = "<group>"; };
 		9246EDCF1F0403A8008CD359 /* azoomee2_ArtApp.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = azoomee2_ArtApp.xcodeproj; path = ../ArtApp/proj.ios_mac/azoomee2_ArtApp.xcodeproj; sourceTree = "<group>"; };
@@ -878,8 +644,6 @@
 		9271D7572035F44600370120 /* AzoomeeOomeeMaker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AzoomeeOomeeMaker.xcodeproj; path = ../oomeemaker/proj.ios_mac/AzoomeeOomeeMaker.xcodeproj; sourceTree = "<group>"; };
 		9271D7CE204053BC00370120 /* OomeeMakerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OomeeMakerDelegate.h; sourceTree = "<group>"; };
 		9271D7D22040557D00370120 /* OomeeMakerDelegate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeMakerDelegate.cpp; sourceTree = "<group>"; };
-		92759E6B1FE157D500639190 /* DynamicNodeLine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DynamicNodeLine.h; sourceTree = "<group>"; };
-		92759E6F1FE1598100639190 /* DynamicNodeLine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeLine.cpp; sourceTree = "<group>"; };
 		92759EB01FE81BBE00639190 /* ContentOpener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContentOpener.h; sourceTree = "<group>"; };
 		92759EB11FE81F6300639190 /* ContentOpener.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ContentOpener.cpp; sourceTree = "<group>"; };
 		927DF6E220AECA620080DFEF /* MeHQGallery.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MeHQGallery.cpp; sourceTree = "<group>"; };
@@ -889,16 +653,6 @@
 		927DF72320B593600080DFEF /* MeHQFavourites.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MeHQFavourites.cpp; sourceTree = "<group>"; };
 		9289DA081FBDD6EB00B12435 /* ContentHistoryManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ContentHistoryManager.cpp; sourceTree = "<group>"; };
 		9289DA091FBDD6EB00B12435 /* ContentHistoryManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContentHistoryManager.h; sourceTree = "<group>"; };
-		9289DAEE1FCED6CE00B12435 /* DynamicNodeDataInputStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DynamicNodeDataInputStorage.h; sourceTree = "<group>"; };
-		9289DAF21FCEDB1F00B12435 /* DynamicNodeDataInputStorage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeDataInputStorage.cpp; sourceTree = "<group>"; };
-		9289DAF41FCEDFC400B12435 /* DynamicNodeTextInput.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DynamicNodeTextInput.h; sourceTree = "<group>"; };
-		9289DAF51FCEEFF000B12435 /* DynamicNodeTextInput.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeTextInput.cpp; sourceTree = "<group>"; };
-		9289DB3F1FD80BA400B12435 /* DynamicNodeButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DynamicNodeButton.h; sourceTree = "<group>"; };
-		9289DB431FD8137D00B12435 /* DynamicNodeButton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeButton.cpp; sourceTree = "<group>"; };
-		9289DB451FD83BC500B12435 /* DynamicNodeText.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DynamicNodeText.h; sourceTree = "<group>"; };
-		9289DB461FD8414F00B12435 /* DynamicNodeText.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeText.cpp; sourceTree = "<group>"; };
-		9289DB781FD9883100B12435 /* DynamicNodeImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DynamicNodeImage.h; sourceTree = "<group>"; };
-		9289DB7C1FD996A800B12435 /* DynamicNodeImage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeImage.cpp; sourceTree = "<group>"; };
 		928A6DC420EBA79B0053E793 /* AddChildScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddChildScene.h; sourceTree = "<group>"; };
 		928A6DC920EBB42B0053E793 /* ChildCreator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChildCreator.h; sourceTree = "<group>"; };
 		928A6DCA20EBB9650053E793 /* ChildCreator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChildCreator.cpp; sourceTree = "<group>"; };
@@ -913,16 +667,16 @@
 		928A6E8620EE58A70053E793 /* ChildNameLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChildNameLayer.cpp; sourceTree = "<group>"; };
 		928A6E8820EE5C880053E793 /* ChildAgeLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChildAgeLayer.cpp; sourceTree = "<group>"; };
 		928A6E8A20EE62270053E793 /* ChildOomeeLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChildOomeeLayer.cpp; sourceTree = "<group>"; };
-		9295150E208895B300F43AEC /* DynamicNodeCheckBox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DynamicNodeCheckBox.h; sourceTree = "<group>"; };
-		92951512208895D200F43AEC /* DynamicNodeCheckBox.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeCheckBox.cpp; sourceTree = "<group>"; };
 		929515862091D04800F43AEC /* UserTypeMessagingLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserTypeMessagingLayer.h; sourceTree = "<group>"; };
 		9295158A2091D48700F43AEC /* UserTypeMessagingLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UserTypeMessagingLayer.cpp; sourceTree = "<group>"; };
 		929A9CFA2063CF4F009B323D /* MeHQ.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeHQ.h; sourceTree = "<group>"; };
 		929A9CFB2065248A009B323D /* MeHQ.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MeHQ.cpp; sourceTree = "<group>"; };
 		929A9D51206CF9D9009B323D /* FavouritesManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FavouritesManager.h; sourceTree = "<group>"; };
 		929A9D56206CF9F1009B323D /* FavouritesManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FavouritesManager.cpp; sourceTree = "<group>"; };
-		929D46651F73EC3B006E40CE /* DynamicNodeCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicNodeCreator.h; sourceTree = "<group>"; };
-		929D46661F73F04D006E40CE /* DynamicNodeCreator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeCreator.cpp; sourceTree = "<group>"; };
+		929FB0FC22E88F4B0088D406 /* MarketingAssetManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MarketingAssetManager.h; sourceTree = "<group>"; };
+		929FB10222E8A6440088D406 /* MarketingAssetManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MarketingAssetManager.cpp; sourceTree = "<group>"; };
+		929FB10422E9944C0088D406 /* PaymentSuccessScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PaymentSuccessScreen.h; sourceTree = "<group>"; };
+		929FB10522E9A8450088D406 /* PaymentSuccessScreen.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PaymentSuccessScreen.cpp; sourceTree = "<group>"; };
 		92A5195F2194A48A008DBD51 /* VodacomOnboardingDCBWebview.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VodacomOnboardingDCBWebview.h; sourceTree = "<group>"; };
 		92A519642194A7CF008DBD51 /* VodacomOnboardingDCBWebview.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VodacomOnboardingDCBWebview.cpp; sourceTree = "<group>"; };
 		92A9A0A21F0D172F008A19EB /* ArtAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtAppDelegate.h; sourceTree = "<group>"; };
@@ -975,6 +729,8 @@
 		D44C620D132DFF430009C878 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		D44C620F132DFF4E0009C878 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		D6B0611A1803AB670077942B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
+		E2DCF5E22304419B0032946D /* ImportantMessageForParents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImportantMessageForParents.h; sourceTree = "<group>"; };
+		E2DCF5E8230442FF0032946D /* ImportantMessageForParents.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ImportantMessageForParents.cpp; sourceTree = "<group>"; };
 		ED545A7B1B68A1F400C3958E /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.4.sdk/usr/lib/libiconv.dylib; sourceTree = DEVELOPER_DIR; };
 		ED545A7D1B68A1FA00C3958E /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -993,13 +749,12 @@
 				300742E01EF91667005525AE /* libAzoomeeChat.a in Frameworks */,
 				4396948A1EAA4ACD003C17E6 /* StoreKit.framework in Frameworks */,
 				304D9EC91EA8F89B008CED52 /* GameController.framework in Frameworks */,
-				43A90DE51EA7603800606099 /* WatchKit.framework in Frameworks */,
 				43A90CE31EA7560500606099 /* Accelerate.framework in Frameworks */,
 				43A90CE11EA755FF00606099 /* CoreTelephony.framework in Frameworks */,
 				43A90CDF1EA755F000606099 /* SystemConfiguration.framework in Frameworks */,
 				43A90CDD1EA755E200606099 /* Foundation.framework in Frameworks */,
 				43A90CDB1EA755D600606099 /* UIKit.framework in Frameworks */,
-				3077F4561E8D51F7006DA465 /* libAzoomeeCommonProd.a in Frameworks */,
+				3077F4561E8D51F7006DA465 /* libAzoomeeCommon.a in Frameworks */,
 				435EBBE21E55BB2400E55610 /* iAd.framework in Frameworks */,
 				435EBBE01E55BB1600E55610 /* AdSupport.framework in Frameworks */,
 				430B21551E4487E5004ACB10 /* SystemConfiguration.framework in Frameworks */,
@@ -1023,53 +778,6 @@
 				D44C620C132DFF330009C878 /* OpenAL.framework in Frameworks */,
 				D44C620E132DFF430009C878 /* AVFoundation.framework in Frameworks */,
 				D44C6210132DFF4E0009C878 /* AudioToolbox.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3073BE4C22A7DC780024DB50 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3073BE8122A7DDAE0024DB50 /* libAzoomeeCommonCI.a in Frameworks */,
-				3073BE4D22A7DC780024DB50 /* libAzoomeeOomeeMaker.a in Frameworks */,
-				3073BE4E22A7DC780024DB50 /* CoreMedia.framework in Frameworks */,
-				3073BE4F22A7DC780024DB50 /* AVKit.framework in Frameworks */,
-				3073BE5022A7DC780024DB50 /* LocalAuthentication.framework in Frameworks */,
-				3073BE5122A7DC780024DB50 /* AirshipKit.framework in Frameworks */,
-				3073BE5222A7DC780024DB50 /* libAzoomeeArt.a in Frameworks */,
-				3073BE5322A7DC780024DB50 /* libAzoomeeChat.a in Frameworks */,
-				3073BE5422A7DC780024DB50 /* StoreKit.framework in Frameworks */,
-				3073BE5522A7DC780024DB50 /* GameController.framework in Frameworks */,
-				3073BE5622A7DC780024DB50 /* WatchKit.framework in Frameworks */,
-				3073BE5722A7DC780024DB50 /* Accelerate.framework in Frameworks */,
-				3073BE5822A7DC780024DB50 /* CoreTelephony.framework in Frameworks */,
-				3073BE5922A7DC780024DB50 /* SystemConfiguration.framework in Frameworks */,
-				3073BE5A22A7DC780024DB50 /* Foundation.framework in Frameworks */,
-				3073BE5B22A7DC780024DB50 /* UIKit.framework in Frameworks */,
-				3073BE5D22A7DC780024DB50 /* iAd.framework in Frameworks */,
-				3073BE5E22A7DC780024DB50 /* AdSupport.framework in Frameworks */,
-				3073BE5F22A7DC780024DB50 /* SystemConfiguration.framework in Frameworks */,
-				3073BE6022A7DC780024DB50 /* libicucore.tbd in Frameworks */,
-				3073BE6122A7DC780024DB50 /* AppsFlyerLib.framework in Frameworks */,
-				3073BE6222A7DC780024DB50 /* Security.framework in Frameworks */,
-				3073BE6322A7DC780024DB50 /* CFNetwork.framework in Frameworks */,
-				3073BE6422A7DC780024DB50 /* WebKit.framework in Frameworks */,
-				3073BE6522A7DC780024DB50 /* MediaPlayer.framework in Frameworks */,
-				3073BE6622A7DC780024DB50 /* CoreText.framework in Frameworks */,
-				3073BE6722A7DC780024DB50 /* Crashlytics.framework in Frameworks */,
-				3073BE6822A7DC780024DB50 /* libiconv.dylib in Frameworks */,
-				3073BE6922A7DC780024DB50 /* Fabric.framework in Frameworks */,
-				3073BE6A22A7DC780024DB50 /* Security.framework in Frameworks */,
-				3073BE6B22A7DC780024DB50 /* libcocos2d iOS.a in Frameworks */,
-				3073BE6C22A7DC780024DB50 /* CoreMotion.framework in Frameworks */,
-				3073BE6D22A7DC780024DB50 /* Foundation.framework in Frameworks */,
-				3073BE6E22A7DC780024DB50 /* CoreGraphics.framework in Frameworks */,
-				3073BE6F22A7DC780024DB50 /* OpenGLES.framework in Frameworks */,
-				3073BE7022A7DC780024DB50 /* libz.dylib in Frameworks */,
-				3073BE7122A7DC780024DB50 /* QuartzCore.framework in Frameworks */,
-				3073BE7222A7DC780024DB50 /* OpenAL.framework in Frameworks */,
-				3073BE7322A7DC780024DB50 /* AVFoundation.framework in Frameworks */,
-				3073BE7422A7DC780024DB50 /* AudioToolbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1189,9 +897,8 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* Azoomee Prod.app */,
+				1D6058910D05DD3D006BFB54 /* Azoomee.app */,
 				0240FC45201224AC00E88157 /* stickers.appex */,
-				3073BE7C22A7DC780024DB50 /* Azoomee CI.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1341,8 +1048,7 @@
 		3077F44E1E8D51D7006DA465 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3077F4521E8D51D7006DA465 /* libAzoomeeCommonProd.a */,
-				3073BE8022A7DC790024DB50 /* libAzoomeeCommonCI.a */,
+				3077F4521E8D51D7006DA465 /* libAzoomeeCommon.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1460,6 +1166,7 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				9240330E22D342A6009907F3 /* Onboarding */,
 				92EC0C47223027DF00B02F20 /* Shop */,
 				923D5BEA2201E18A008C13D0 /* Rewards */,
 				92084F7121E78FB600DACCEB /* Tutorial */,
@@ -1468,7 +1175,6 @@
 				929A9CF92063CD76009B323D /* MeArea */,
 				9271D7C42040537000370120 /* OomeeMaker */,
 				92759EAC1FE81B9600639190 /* ContentOpener */,
-				929D46611F73EBDE006E40CE /* CallToAction */,
 				92A9A0A71F0D1740008A19EB /* ArtApp */,
 				4373957F1ED3441F00C29DB1 /* FlowDataSingleton.cpp */,
 				437395801ED3441F00C29DB1 /* FlowDataSingleton.h */,
@@ -1540,55 +1246,6 @@
 			path = Vodacom;
 			sourceTree = "<group>";
 		};
-		9220EACE200F5DB100BD7A90 /* DynamicNodeTools */ = {
-			isa = PBXGroup;
-			children = (
-				929D46651F73EC3B006E40CE /* DynamicNodeCreator.h */,
-				929D46661F73F04D006E40CE /* DynamicNodeCreator.cpp */,
-				9224BFAC1F79069E00108553 /* DynamicNodeButtonListener.h */,
-				9224BFB01F7908D400108553 /* DynamicNodeButtonListener.cpp */,
-				9289DAF41FCEDFC400B12435 /* DynamicNodeTextInput.h */,
-				9289DAF51FCEEFF000B12435 /* DynamicNodeTextInput.cpp */,
-				9289DB3F1FD80BA400B12435 /* DynamicNodeButton.h */,
-				9289DB431FD8137D00B12435 /* DynamicNodeButton.cpp */,
-				9289DB451FD83BC500B12435 /* DynamicNodeText.h */,
-				9289DB461FD8414F00B12435 /* DynamicNodeText.cpp */,
-				9289DB781FD9883100B12435 /* DynamicNodeImage.h */,
-				9289DB7C1FD996A800B12435 /* DynamicNodeImage.cpp */,
-				92759E6B1FE157D500639190 /* DynamicNodeLine.h */,
-				92759E6F1FE1598100639190 /* DynamicNodeLine.cpp */,
-				9295150E208895B300F43AEC /* DynamicNodeCheckBox.h */,
-				92951512208895D200F43AEC /* DynamicNodeCheckBox.cpp */,
-			);
-			name = DynamicNodeTools;
-			sourceTree = "<group>";
-		};
-		9220EACF200F5DEA00BD7A90 /* DynamicNodeData */ = {
-			isa = PBXGroup;
-			children = (
-				9224BFB21F79310100108553 /* ButtonActionData.h */,
-				9224BFB31F7932D200108553 /* ButtonActionData.cpp */,
-				9289DAEE1FCED6CE00B12435 /* DynamicNodeDataInputStorage.h */,
-				9289DAF21FCEDB1F00B12435 /* DynamicNodeDataInputStorage.cpp */,
-			);
-			name = DynamicNodeData;
-			sourceTree = "<group>";
-		};
-		9220EAD0200F5E3000BD7A90 /* DynamicNodeFlowControllers */ = {
-			isa = PBXGroup;
-			children = (
-				9220EACA200F5AF600BD7A90 /* DynamicNodeFlowController.h */,
-				9220EAD1200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp */,
-				9220EAD3200F64A200BD7A90 /* SignUpFlowController.h */,
-				9220EAD4200F77E200BD7A90 /* SignUpFlowController.cpp */,
-				9220EAD62010B42B00BD7A90 /* IAPFlowController.h */,
-				9220EAD72010C07D00BD7A90 /* IAPFlowController.cpp */,
-				9220EAD92010EC2000BD7A90 /* AddChildFlowController.h */,
-				9220EADA2010F08200BD7A90 /* AddChildFlowController.cpp */,
-			);
-			name = DynamicNodeFlowControllers;
-			sourceTree = "<group>";
-		};
 		923D5BEA2201E18A008C13D0 /* Rewards */ = {
 			isa = PBXGroup;
 			children = (
@@ -1631,6 +1288,47 @@
 				928A6DD420EBDD4A0053E793 /* AddChildLayer.cpp */,
 			);
 			name = addChild;
+			sourceTree = "<group>";
+		};
+		9240330E22D342A6009907F3 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				9240331422D34650009907F3 /* AgeGate.h */,
+				9240331522D36611009907F3 /* AgeGate.cpp */,
+				9240333A22D4C0FB009907F3 /* IAPScene.h */,
+				9240334022D4CCE1009907F3 /* IAPScene.cpp */,
+				9240334222D4D05A009907F3 /* MarketingCarousel.h */,
+				9240334522D4E449009907F3 /* MarketingCarousel.cpp */,
+				9240334322D4D090009907F3 /* ProductLayout.h */,
+				9229EE4222D75A6A009732B0 /* ProductLayout.cpp */,
+				9240334422D4D0A7009907F3 /* IAPFooter.h */,
+				9229EE4922D795BA009732B0 /* IAPFooter.cpp */,
+				9229EE4C22DCA78F009732B0 /* SignupScene.h */,
+				9229EE4D22DCAFAA009732B0 /* SignupScene.cpp */,
+				9229EE4F22DCD4C3009732B0 /* SignupPage.h */,
+				9229EE5322DDE6CA009732B0 /* SignupPage.cpp */,
+				9229EE5022DDCEEF009732B0 /* ProgressBar.h */,
+				9229EE5122DDD3E8009732B0 /* ProgressBar.cpp */,
+				9229EE5522DF2A38009732B0 /* SignupEnterEmail.h */,
+				9229EE5622DF2CC2009732B0 /* SignupEnterEmail.cpp */,
+				9229EE5822DF58A1009732B0 /* SignupConfirmEmail.h */,
+				9229EE5922DF5954009732B0 /* SignupConfirmEmail.cpp */,
+				9229EE5B22DF5EB5009732B0 /* SignupEnterPassword.h */,
+				9229EE5C22DF633E009732B0 /* SignupEnterPassword.cpp */,
+				9229EE5E22DF6866009732B0 /* SignupEnterPin.h */,
+				9229EE5F22DF6935009732B0 /* SignupEnterPin.cpp */,
+				9229EE6122E06D62009732B0 /* SignupTermsPage.h */,
+				9229EE6222E07808009732B0 /* SignupTermsPage.cpp */,
+				9229EEC422E5C290009732B0 /* PopupMessageBox.h */,
+				9229EECA22E5C6AF009732B0 /* PopupMessageBox.cpp */,
+				929FB10422E9944C0088D406 /* PaymentSuccessScreen.h */,
+				929FB10522E9A8450088D406 /* PaymentSuccessScreen.cpp */,
+				929FB0FC22E88F4B0088D406 /* MarketingAssetManager.h */,
+				929FB10222E8A6440088D406 /* MarketingAssetManager.cpp */,
+				E2DCF5E22304419B0032946D /* ImportantMessageForParents.h */,
+				E2DCF5E8230442FF0032946D /* ImportantMessageForParents.cpp */,
+			);
+			name = Onboarding;
 			sourceTree = "<group>";
 		};
 		9246EDD01F0403A8008CD359 /* Products */ = {
@@ -1688,18 +1386,6 @@
 				92084F6321E644D800DACCEB /* MeHQRecentlyPlayed.cpp */,
 			);
 			name = MeArea;
-			sourceTree = "<group>";
-		};
-		929D46611F73EBDE006E40CE /* CallToAction */ = {
-			isa = PBXGroup;
-			children = (
-				9220EAD0200F5E3000BD7A90 /* DynamicNodeFlowControllers */,
-				9220EACF200F5DEA00BD7A90 /* DynamicNodeData */,
-				9220EACE200F5DB100BD7A90 /* DynamicNodeTools */,
-				9224BFB51F7949E100108553 /* DynamicNodeHandler.h */,
-				9224BFB61F794BFA00108553 /* DynamicNodeHandler.cpp */,
-			);
-			name = CallToAction;
 			sourceTree = "<group>";
 		};
 		92A9A0A71F0D1740008A19EB /* ArtApp */ = {
@@ -1761,6 +1447,8 @@
 				4319D3E11E67134600110F92 /* LoginScene.h */,
 				A19862131DD3836D0090F053 /* ChildSelectorScene.cpp */,
 				A19862141DD3836D0090F053 /* ChildSelectorScene.h */,
+				9229EECC22E748FE009732B0 /* LoginEntry.h */,
+				9229EECD22E74A55009732B0 /* LoginEntry.cpp */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -1889,13 +1577,12 @@
 			productReference = 0240FC45201224AC00E88157 /* stickers.appex */;
 			productType = "com.apple.product-type.app-extension.messages-sticker-pack";
 		};
-		1D6058900D05DD3D006BFB54 /* Azoomee Prod */ = {
+		1D6058900D05DD3D006BFB54 /* Azoomee */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Azoomee Prod" */;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Azoomee" */;
 			buildPhases = (
 				3002DAF022A96D260091C765 /* Update Version.json */,
 				029B9A972063D20700D98EF2 /* Copy WebCommAPI from separate repository */,
-				92CD187D20D92B0600E22FB1 /* copy CTA zip from app-content-dynamicnode */,
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
@@ -1913,36 +1600,9 @@
 				1AC6FB25180E99E1004C840B /* PBXTargetDependency */,
 				0240FC4B201224AC00E88157 /* PBXTargetDependency */,
 			);
-			name = "Azoomee Prod";
+			name = Azoomee;
 			productName = iphone;
-			productReference = 1D6058910D05DD3D006BFB54 /* Azoomee Prod.app */;
-			productType = "com.apple.product-type.application";
-		};
-		3073BD9122A7DC780024DB50 /* Azoomee CI */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 3073BE7922A7DC780024DB50 /* Build configuration list for PBXNativeTarget "Azoomee CI" */;
-			buildPhases = (
-				3002DAF622A96E2D0091C765 /* Update Version.json */,
-				3073BD9E22A7DC780024DB50 /* Copy WebCommAPI from separate repository */,
-				3073BD9F22A7DC780024DB50 /* copy CTA zip from app-content-dynamicnode */,
-				3073BDA022A7DC780024DB50 /* Resources */,
-				3073BDB822A7DC780024DB50 /* Sources */,
-				3073BE4C22A7DC780024DB50 /* Frameworks */,
-				3073BE7522A7DC780024DB50 /* Fabric */,
-				3073BE7622A7DC780024DB50 /* Carthage Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				300A9DFA22A7E14300CD103D /* PBXTargetDependency */,
-				3073BD9222A7DC780024DB50 /* PBXTargetDependency */,
-				3073BD9422A7DC780024DB50 /* PBXTargetDependency */,
-				3073BD9622A7DC780024DB50 /* PBXTargetDependency */,
-				3073BD9A22A7DC780024DB50 /* PBXTargetDependency */,
-			);
-			name = "Azoomee CI";
-			productName = iphone;
-			productReference = 3073BE7C22A7DC780024DB50 /* Azoomee CI.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* Azoomee.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1965,9 +1625,6 @@
 								enabled = 1;
 							};
 						};
-					};
-					3073BD9122A7DC780024DB50 = {
-						DevelopmentTeam = Q986XSP3A8;
 					};
 				};
 			};
@@ -2005,8 +1662,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				1D6058900D05DD3D006BFB54 /* Azoomee Prod */,
-				3073BD9122A7DC780024DB50 /* Azoomee CI */,
+				1D6058900D05DD3D006BFB54 /* Azoomee */,
 				0240FC44201224AC00E88157 /* stickers */,
 			);
 		};
@@ -2041,17 +1697,10 @@
 			remoteRef = 300742DB1EF9162E005525AE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		3073BE8022A7DC790024DB50 /* libAzoomeeCommonCI.a */ = {
+		3077F4521E8D51D7006DA465 /* libAzoomeeCommon.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libAzoomeeCommonCI.a;
-			remoteRef = 3073BE7F22A7DC790024DB50 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3077F4521E8D51D7006DA465 /* libAzoomeeCommonProd.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libAzoomeeCommonProd.a;
+			path = libAzoomeeCommon.a;
 			remoteRef = 3077F4511E8D51D7006DA465 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -2131,36 +1780,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3073BDA022A7DC780024DB50 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3073BDA122A7DC780024DB50 /* MPDismissKeyboard@2x.png in Resources */,
-				3073BDA222A7DC780024DB50 /* MPCloseButton@2x.png in Resources */,
-				3073BDA322A7DC780024DB50 /* MPTakeoverNotificationViewController~iphonelandscape.xib in Resources */,
-				3073BDA422A7DC780024DB50 /* fonts in Resources */,
-				3073BDA522A7DC780024DB50 /* MPTakeoverNotificationViewController~iphoneportrait.xib in Resources */,
-				3073BDA622A7DC780024DB50 /* MPDismissKeyboard.png in Resources */,
-				3073BDA722A7DC780024DB50 /* snapshot_config.json in Resources */,
-				3073BDA822A7DC780024DB50 /* MPArrowLeft.png in Resources */,
-				3073BDA922A7DC780024DB50 /* MPCloseButton.png in Resources */,
-				3073BDAA22A7DC780024DB50 /* MPLogo@2x.png in Resources */,
-				3073BDAB22A7DC780024DB50 /* res in Resources */,
-				3073BDAC22A7DC780024DB50 /* MPArrowRight@2x.png in Resources */,
-				3073BDAD22A7DC780024DB50 /* test_variant.json in Resources */,
-				3073BDAE22A7DC780024DB50 /* MPTakeoverNotificationViewController~ipad.xib in Resources */,
-				3073BDAF22A7DC780024DB50 /* MPArrowRight.png in Resources */,
-				3073BDB022A7DC780024DB50 /* MPArrowLeft@2x.png in Resources */,
-				3073BDB122A7DC780024DB50 /* AirshipConfig.plist in Resources */,
-				3073BDB222A7DC780024DB50 /* MPLogo.png in Resources */,
-				3073BDB322A7DC780024DB50 /* Images.xcassets in Resources */,
-				3073BDB422A7DC780024DB50 /* MPCheckmark.png in Resources */,
-				3073BDB522A7DC780024DB50 /* placeholder-image.png in Resources */,
-				3073BDB622A7DC780024DB50 /* MPCheckmark@2x.png in Resources */,
-				3073BDB722A7DC780024DB50 /* MPCloseButton@3x.png in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -2196,83 +1815,7 @@
 			shellPath = /bin/sh;
 			shellScript = "VERSION_NUMBER=$(/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nCOMMIT_ID=$(git rev-parse --short HEAD)\necho \"{\\\"version\\\": \\\"$VERSION_NUMBER ($COMMIT_ID)\\\"}\" > \"${PROJECT_DIR}/../Resources/res/configuration/Version.json\"\n";
 		};
-		3002DAF622A96E2D0091C765 /* Update Version.json */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Update Version.json";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "VERSION_NUMBER=$(/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nCOMMIT_ID=$(git rev-parse --short HEAD)\necho \"{\\\"version\\\": \\\"$VERSION_NUMBER ($COMMIT_ID)\\\"}\" > \"${PROJECT_DIR}/../Resources/res/configuration/Version.json\"\n";
-		};
 		30647A941F13B53600A935C9 /* Carthage Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/AirshipKit.framework",
-			);
-			name = "Carthage Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Check carthage command exists\ncommand -v carthage >/dev/null 2>&1 || { echo >&2 \"Error! carthage not found! Tip - Install using: 'brew install carthage'\"; exit 1; }\n\ncarthage copy-frameworks\n";
-			showEnvVarsInLog = 0;
-		};
-		3073BD9E22A7DC780024DB50 /* Copy WebCommAPI from separate repository */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy WebCommAPI from separate repository";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "rm -rf ../Resources/res/webcommApi\ncp -rf ../../webgameapi_repo/webcommApi ../Resources/res/\n";
-		};
-		3073BD9F22A7DC780024DB50 /* copy CTA zip from app-content-dynamicnode */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "copy CTA zip from app-content-dynamicnode";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "cd ../../app-content-dynamicnode/ios\nzip -r ../../azoomee2/Resources/res/cta_assets/CTAFiles.zip *\n";
-		};
-		3073BE7522A7DC780024DB50 /* Fabric */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = Fabric;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "releaseConfig=\"Release\"\nif [ \"$releaseConfig\" = \"${CONFIGURATION}\" ]; then\n    \"${PROJECT_DIR}/Fabric.framework/run\" 3885c5b5aa7470cf4b9263fce3dbf7d6f3c2afc8 79ec75f3c0ed8eccb593d245acdbc2351770496a76f8da2fd96245095eba920c\nfi\n";
-		};
-		3073BE7622A7DC780024DB50 /* Carthage Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2300,21 +1843,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "releaseConfig=\"Release\"\nif [ \"$releaseConfig\" = \"${CONFIGURATION}\" ]; then\n    \"${PROJECT_DIR}/Fabric.framework/run\" 3885c5b5aa7470cf4b9263fce3dbf7d6f3c2afc8 79ec75f3c0ed8eccb593d245acdbc2351770496a76f8da2fd96245095eba920c\nfi\n";
-		};
-		92CD187D20D92B0600E22FB1 /* copy CTA zip from app-content-dynamicnode */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "copy CTA zip from app-content-dynamicnode";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "cd ../../app-content-dynamicnode/ios\nzip -r ../../azoomee2/Resources/res/cta_assets/CTAFiles.zip *\n";
+			shellScript = "if [ \"Release\" = \"${CONFIGURATION}\" ] || [ \"CI\" = \"${CONFIGURATION}\" ] || [ \"Test\" = \"${CONFIGURATION}\" ]; then\n    \"${PROJECT_DIR}/Fabric.framework/run\" 3885c5b5aa7470cf4b9263fce3dbf7d6f3c2afc8 79ec75f3c0ed8eccb593d245acdbc2351770496a76f8da2fd96245095eba920c\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2325,6 +1854,8 @@
 			files = (
 				926A2B3221301BB800AE7964 /* SettingsOnlineSafetyPage.cpp in Sources */,
 				92E5856E221475120015A4FA /* ChildSettingsScene.cpp in Sources */,
+				9229EE5222DDD3E8009732B0 /* ProgressBar.cpp in Sources */,
+				9240334622D4E449009907F3 /* MarketingCarousel.cpp in Sources */,
 				928A6DD520EBDD4A0053E793 /* AddChildLayer.cpp in Sources */,
 				02D6446B2087828800FF17B4 /* WebViewController_ios.mm in Sources */,
 				02E595901E55F9960052F395 /* OfflineHubHQ.cpp in Sources */,
@@ -2336,7 +1867,9 @@
 				921A2677216F9FF6005C8C41 /* VodacomOnboardingDetailsLayer.cpp in Sources */,
 				02074B271E93966D009BB28C /* WebGameAPIDataManager.cpp in Sources */,
 				02D644542087489800FF17B4 /* NativeContentInterface_ios.mm in Sources */,
+				9229EE5A22DF5954009732B0 /* SignupConfirmEmail.cpp in Sources */,
 				92E58564220DC7580015A4FA /* RewardDisplayHandler.cpp in Sources */,
+				9229EE5D22DF633E009732B0 /* SignupEnterPassword.cpp in Sources */,
 				92E58562220DB49F0015A4FA /* RewardScreen.cpp in Sources */,
 				A15B2FCA1DFACF3800D25334 /* HQDataProvider.cpp in Sources */,
 				9295158B2091D48700F43AEC /* UserTypeMessagingLayer.cpp in Sources */,
@@ -2351,6 +1884,7 @@
 				928A6DCD20EBC2560053E793 /* AddChildScene.cpp in Sources */,
 				A15B2F991DE74F6400D25334 /* WebViewSelector.cpp in Sources */,
 				4306ABA31EAE2C3E001E586A /* PaymentViewController_ios.mm in Sources */,
+				9229EE4322D75A6A009732B0 /* ProductLayout.cpp in Sources */,
 				921A26BF217E1653005C8C41 /* VodacomMessageBoxInfo.cpp in Sources */,
 				924E8455214141DC004590FD /* KidDetailsLayer.cpp in Sources */,
 				927DF6E320AECA620080DFEF /* MeHQGallery.cpp in Sources */,
@@ -2358,22 +1892,20 @@
 				926A2B2C212F018E00AE7964 /* SettingsPageHeader.cpp in Sources */,
 				921A266D216F958B005C8C41 /* VodacomOnboardingLayer.cpp in Sources */,
 				026BAF781E3FFD33009C4ACE /* HQHistoryManager.cpp in Sources */,
+				9240331622D36612009907F3 /* AgeGate.cpp in Sources */,
 				920F6FDE213EB76300B7BB76 /* SettingsFriendshipsPage.cpp in Sources */,
 				92BDD4C122366D3100DA56F3 /* ShopItem.cpp in Sources */,
 				928A6E8920EE5C880053E793 /* ChildAgeLayer.cpp in Sources */,
 				92759EB21FE81F6300639190 /* ContentOpener.cpp in Sources */,
 				921A25FD2164E8DE005C8C41 /* SettingsMessageBoxTryAgain.cpp in Sources */,
 				02E595B31E5B495B0052F395 /* HQSceneElementVisual.cpp in Sources */,
-				9289DB7D1FD996A800B12435 /* DynamicNodeImage.cpp in Sources */,
 				021564731FC4AB8300641C14 /* HQScene2PlaceHolderCreator.cpp in Sources */,
-				9224BFB71F794BFA00108553 /* DynamicNodeHandler.cpp in Sources */,
 				A15B2FAF1DEDD1D500D25334 /* BackEndCaller.cpp in Sources */,
 				926A2B352130330800AE7964 /* OnlineSafetySlide.cpp in Sources */,
 				02D644692087826800FF17B4 /* MediaPlayer_ios.mm in Sources */,
 				926173A71F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp in Sources */,
 				9289DA0A1FBDD6EB00B12435 /* ContentHistoryManager.cpp in Sources */,
 				920F6FE1213FD53900B7BB76 /* FriendRequestLayer.cpp in Sources */,
-				9220EADB2010F08200BD7A90 /* AddChildFlowController.cpp in Sources */,
 				025BE95F1E3BD1F800EF76D1 /* WebViewNativeCaller_android.cpp in Sources */,
 				929A9CFC2065248A009B323D /* MeHQ.cpp in Sources */,
 				924E845221412D70004590FD /* SettingsKidsPage.cpp in Sources */,
@@ -2382,7 +1914,6 @@
 				432A6C0D1EA8E2A200C5842B /* ManualGameInputLayer.cpp in Sources */,
 				021564761FC4C79C00641C14 /* HQScene2CarouselTitle.cpp in Sources */,
 				02D4FCD21FCEE5E2005BA020 /* IAPProductDataHandler.mm in Sources */,
-				9220EAD2200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp in Sources */,
 				928A6E8720EE58A70053E793 /* ChildNameLayer.cpp in Sources */,
 				025BE9571E3B591C00EF76D1 /* PreviewLoginSignupMessageBox.cpp in Sources */,
 				926A2B3B21357A7900AE7964 /* SettingsYourAccountPage.cpp in Sources */,
@@ -2392,22 +1923,20 @@
 				921A26BB217DFB55005C8C41 /* VodacomMessageBoxExitFlow.cpp in Sources */,
 				926A2AE1212D6F5500AE7964 /* SettingsHub.cpp in Sources */,
 				92A519652194A7CF008DBD51 /* VodacomOnboardingDCBWebview.cpp in Sources */,
-				9289DB441FD8137D00B12435 /* DynamicNodeButton.cpp in Sources */,
 				926A2B2F212F14B400AE7964 /* SettingsSupportPage.cpp in Sources */,
 				0253C9871EC053B5005037EB /* VideoPlaylistManager.cpp in Sources */,
 				0243B8DB1F1F5D5C005D3734 /* ChatNotificationsSingleton.cpp in Sources */,
 				921A266B216F7307005C8C41 /* VodacomOnboardingScene.cpp in Sources */,
-				92951513208895D200F43AEC /* DynamicNodeCheckBox.cpp in Sources */,
-				9289DAF61FCEEFF000B12435 /* DynamicNodeTextInput.cpp in Sources */,
+				9240334122D4CCE2009907F3 /* IAPScene.cpp in Sources */,
 				920F6FE52140472A00B7BB76 /* SettingsMessageBox.cpp in Sources */,
 				437395811ED3441F00C29DB1 /* FlowDataSingleton.cpp in Sources */,
 				02E595891E55DFF00052F395 /* OfflineHubSceneVisuals.cpp in Sources */,
 				921A2675216F9FD3005C8C41 /* VodacomOnboardingSuccessLayer.cpp in Sources */,
-				9224BFB41F7932D200108553 /* ButtonActionData.cpp in Sources */,
 				928A6E8B20EE62270053E793 /* ChildOomeeLayer.cpp in Sources */,
 				921A267B216FA05A005C8C41 /* VodacomOnboardingPinLayer.cpp in Sources */,
 				92448AE621F73AEF00E88C9D /* WelcomeScene.cpp in Sources */,
 				921A2673216F9FA1005C8C41 /* VodacomOnboardingLoginLayer.cpp in Sources */,
+				9229EE4A22D795BA009732B0 /* IAPFooter.cpp in Sources */,
 				926A2B3921356C2000AE7964 /* EditAccountLayer.cpp in Sources */,
 				9271D7D32040557D00370120 /* OomeeMakerDelegate.cpp in Sources */,
 				921A25F421627FD6005C8C41 /* SettingsLanguagePage.cpp in Sources */,
@@ -2415,35 +1944,37 @@
 				0215646F1FC4202800641C14 /* HQScene2ElementPositioner.cpp in Sources */,
 				924E84772147FE2B004590FD /* SettingsMessageBoxFREvent.cpp in Sources */,
 				924E845821427C05004590FD /* SettingsMessageBoxDeleteChild.cpp in Sources */,
-				9224BFB11F7908D400108553 /* DynamicNodeButtonListener.cpp in Sources */,
-				92759E701FE1598100639190 /* DynamicNodeLine.cpp in Sources */,
+				9229EECB22E5C6AF009732B0 /* PopupMessageBox.cpp in Sources */,
+				929FB10322E8A6440088D406 /* MarketingAssetManager.cpp in Sources */,
 				921A2679216FA030005C8C41 /* VodacomOnboardingErrorLayer.cpp in Sources */,
 				92BDD4C42236AE4E00DA56F3 /* ShopItemPage.cpp in Sources */,
 				924ACE3720A9C541007A5550 /* MeHQProfileDetails.cpp in Sources */,
 				A19862271DD3836D0090F053 /* NavigationLayer.cpp in Sources */,
 				A198622B1DD383BD0090F053 /* AppDelegate.cpp in Sources */,
+				9229EECE22E74A55009732B0 /* LoginEntry.cpp in Sources */,
 				925B249E22084B940000D7D2 /* CoinCollectLayer.cpp in Sources */,
 				923D5BC522008BF1008C13D0 /* ContentFeedHQScene.cpp in Sources */,
-				9220EAD5200F77E200BD7A90 /* SignUpFlowController.cpp in Sources */,
 				02E595C31E5D9EE70052F395 /* OfflineText.cpp in Sources */,
+				9229EE4E22DCAFAA009732B0 /* SignupScene.cpp in Sources */,
 				02A11FF81EA6375D007EDD95 /* RoutePaymentSingleton.cpp in Sources */,
 				D13C40151E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm in Sources */,
 				921C75AD219464A100EB93D6 /* VodacomOnboardingTnCLayer.cpp in Sources */,
+				9229EE6322E07808009732B0 /* SignupTermsPage.cpp in Sources */,
 				924E8450214117D9004590FD /* SettingsMessageBoxRejectFR.cpp in Sources */,
 				02E595861E55DE670052F395 /* OfflineHubScene.cpp in Sources */,
 				02E595CA1E66E2160052F395 /* HQSceneArtsApp.cpp in Sources */,
 				92EC0C5D2232805D00B02F20 /* ShopCarousel.cpp in Sources */,
 				02A11FF61EA6375D007EDD95 /* AmazonPaymentSingleton.cpp in Sources */,
-				9289DB471FD8414F00B12435 /* DynamicNodeText.cpp in Sources */,
+				9229EE6022DF6935009732B0 /* SignupEnterPin.cpp in Sources */,
 				43BCD71E1EC9FD4E00A07737 /* SceneManagerScene.cpp in Sources */,
 				92A9A0A91F0D1775008A19EB /* ArtAppDelegate.cpp in Sources */,
 				92BDD4CC22380D4700DA56F3 /* ShopItemPurchasePopup.cpp in Sources */,
 				4396947D1EAA4855003C17E6 /* ApplePaymentSingleton.mm in Sources */,
+				929FB10722E9A8450088D406 /* PaymentSuccessScreen.cpp in Sources */,
 				921A25F72162830A005C8C41 /* LanguageListItem.cpp in Sources */,
 				02D4FCD41FCF0D0C005BA020 /* IAPProductDataHandler.cpp in Sources */,
+				9229EE5722DF2CC2009732B0 /* SignupEnterEmail.cpp in Sources */,
 				92EC0C4F22312EA800B02F20 /* ShopScene.cpp in Sources */,
-				929D46671F73F04D006E40CE /* DynamicNodeCreator.cpp in Sources */,
-				9289DAF31FCEDB1F00B12435 /* DynamicNodeDataInputStorage.cpp in Sources */,
 				02E5959C1E56FC3A0052F395 /* OfflineChecker.cpp in Sources */,
 				92BDD4CF223926CD00DA56F3 /* ShopItemPurchasedAnimation.cpp in Sources */,
 				923D5BED2201F126008C13D0 /* RewardScene.cpp in Sources */,
@@ -2462,166 +1993,14 @@
 				4319D3E21E67134600110F92 /* LoginScene.cpp in Sources */,
 				929A9D57206CF9F1009B323D /* FavouritesManager.cpp in Sources */,
 				A19759841DE4931200FEB03C /* HQSceneElement.cpp in Sources */,
-				9220EAD82010C07D00BD7A90 /* IAPFlowController.cpp in Sources */,
+				9229EE5422DDE6CA009732B0 /* SignupPage.cpp in Sources */,
 				921C75A8218B08D800EB93D6 /* LanguageSelectScene.cpp in Sources */,
 				921A25FA2164D08B005C8C41 /* SettingsMessageBoxNotification.cpp in Sources */,
 				921A26BD217E0A91005C8C41 /* VodacomMessageBoxNotification.cpp in Sources */,
 				927DF6EB20B2BD010080DFEF /* MeHQMessages.cpp in Sources */,
 				A154CC521DFEE7440008A626 /* GameDataManager.cpp in Sources */,
+				E2DCF5E9230442FF0032946D /* ImportantMessageForParents.cpp in Sources */,
 				921A266F216F9F6A005C8C41 /* VodacomOnboardingRegisterLayer.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3073BDB822A7DC780024DB50 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3073BDB922A7DC780024DB50 /* SettingsOnlineSafetyPage.cpp in Sources */,
-				3073BDBA22A7DC780024DB50 /* ChildSettingsScene.cpp in Sources */,
-				3073BDBB22A7DC780024DB50 /* AddChildLayer.cpp in Sources */,
-				3073BDBC22A7DC780024DB50 /* WebViewController_ios.mm in Sources */,
-				3076C74C22B116F6000A4925 /* ChildOomeeFTULayer.cpp in Sources */,
-				3073BDBD22A7DC780024DB50 /* OfflineHubHQ.cpp in Sources */,
-				3073BDBE22A7DC780024DB50 /* LoginLogicHandler.cpp in Sources */,
-				3073BDBF22A7DC780024DB50 /* CoinDisplay.cpp in Sources */,
-				3073BDC022A7DC780024DB50 /* ChildSelectorScene.cpp in Sources */,
-				3073BDC122A7DC780024DB50 /* ArtsAppHQElement.cpp in Sources */,
-				3073BDC222A7DC780024DB50 /* ForceUpdateAppLockScene.cpp in Sources */,
-				3073BDC322A7DC780024DB50 /* VodacomOnboardingDetailsLayer.cpp in Sources */,
-				3073BDC422A7DC780024DB50 /* WebGameAPIDataManager.cpp in Sources */,
-				3073BDC522A7DC780024DB50 /* NativeContentInterface_ios.mm in Sources */,
-				3073BDC622A7DC780024DB50 /* RewardDisplayHandler.cpp in Sources */,
-				3073BDC722A7DC780024DB50 /* RewardScreen.cpp in Sources */,
-				3073BDC822A7DC780024DB50 /* HQDataProvider.cpp in Sources */,
-				3073BDC922A7DC780024DB50 /* UserTypeMessagingLayer.cpp in Sources */,
-				3073BDCA22A7DC780024DB50 /* VodacomOnboardingAddChildLayer.cpp in Sources */,
-				3073BDCB22A7DC780024DB50 /* PrivacyAndTermsLayer.cpp in Sources */,
-				3073BDCC22A7DC780024DB50 /* VodacomOnboardingVoucherLayer.cpp in Sources */,
-				3073BDCD22A7DC780024DB50 /* GooglePaymentSingleton.cpp in Sources */,
-				3073BDCE22A7DC780024DB50 /* AwesomeLayer.cpp in Sources */,
-				3073BDCF22A7DC780024DB50 /* DeepLinkingSingleton.cpp in Sources */,
-				3073BDD022A7DC780024DB50 /* ForceUpdateSingleton.cpp in Sources */,
-				3073BDD122A7DC780024DB50 /* IntroVideoScene.cpp in Sources */,
-				3073BDD222A7DC780024DB50 /* AddChildScene.cpp in Sources */,
-				3073BDD322A7DC780024DB50 /* WebViewSelector.cpp in Sources */,
-				3073BDD422A7DC780024DB50 /* PaymentViewController_ios.mm in Sources */,
-				3073BDD522A7DC780024DB50 /* VodacomMessageBoxInfo.cpp in Sources */,
-				3073BDD622A7DC780024DB50 /* KidDetailsLayer.cpp in Sources */,
-				3073BDD722A7DC780024DB50 /* MeHQGallery.cpp in Sources */,
-				3073BDD822A7DC780024DB50 /* HQScene.cpp in Sources */,
-				3073BDD922A7DC780024DB50 /* SettingsPageHeader.cpp in Sources */,
-				3073BDDA22A7DC780024DB50 /* VodacomOnboardingLayer.cpp in Sources */,
-				3073BDDB22A7DC780024DB50 /* HQHistoryManager.cpp in Sources */,
-				3073BDDC22A7DC780024DB50 /* SettingsFriendshipsPage.cpp in Sources */,
-				3073BDDD22A7DC780024DB50 /* ShopItem.cpp in Sources */,
-				3073BDDE22A7DC780024DB50 /* ChildAgeLayer.cpp in Sources */,
-				3073BDDF22A7DC780024DB50 /* ContentOpener.cpp in Sources */,
-				3073BDE022A7DC780024DB50 /* SettingsMessageBoxTryAgain.cpp in Sources */,
-				3073BDE122A7DC780024DB50 /* HQSceneElementVisual.cpp in Sources */,
-				3073BDE222A7DC780024DB50 /* DynamicNodeImage.cpp in Sources */,
-				3073BDE322A7DC780024DB50 /* HQScene2PlaceHolderCreator.cpp in Sources */,
-				3073BDE422A7DC780024DB50 /* DynamicNodeHandler.cpp in Sources */,
-				3073BDE522A7DC780024DB50 /* BackEndCaller.cpp in Sources */,
-				3073BDE622A7DC780024DB50 /* OnlineSafetySlide.cpp in Sources */,
-				3073BDE722A7DC780024DB50 /* MediaPlayer_ios.mm in Sources */,
-				3073BDE822A7DC780024DB50 /* ArtImageOnScreenChecker.cpp in Sources */,
-				3073BDE922A7DC780024DB50 /* ContentHistoryManager.cpp in Sources */,
-				3073BDEA22A7DC780024DB50 /* FriendRequestLayer.cpp in Sources */,
-				3073BDEB22A7DC780024DB50 /* AddChildFlowController.cpp in Sources */,
-				3073BDEC22A7DC780024DB50 /* WebViewNativeCaller_android.cpp in Sources */,
-				3073BDED22A7DC780024DB50 /* MeHQ.cpp in Sources */,
-				3073BDEE22A7DC780024DB50 /* SettingsKidsPage.cpp in Sources */,
-				3073BDEF22A7DC780024DB50 /* ChatDelegate.cpp in Sources */,
-				3073BDF022A7DC780024DB50 /* ChildNameLayerFirstTime.cpp in Sources */,
-				3073BDF122A7DC780024DB50 /* ManualGameInputLayer.cpp in Sources */,
-				3073BDF222A7DC780024DB50 /* HQScene2CarouselTitle.cpp in Sources */,
-				3073BDF322A7DC780024DB50 /* IAPProductDataHandler.mm in Sources */,
-				3073BDF422A7DC780024DB50 /* DynamicNodeFlowController.cpp in Sources */,
-				3073BDF522A7DC780024DB50 /* ChildNameLayer.cpp in Sources */,
-				3073BDF622A7DC780024DB50 /* PreviewLoginSignupMessageBox.cpp in Sources */,
-				3073BDF722A7DC780024DB50 /* SettingsYourAccountPage.cpp in Sources */,
-				3073BDF822A7DC780024DB50 /* MeHQDownloads.cpp in Sources */,
-				3073BDF922A7DC780024DB50 /* RecentlyPlayedManager.cpp in Sources */,
-				3073BDFA22A7DC780024DB50 /* VodacomOnboardingFlowData.cpp in Sources */,
-				3073BDFB22A7DC780024DB50 /* VodacomMessageBoxExitFlow.cpp in Sources */,
-				3073BDFC22A7DC780024DB50 /* SettingsHub.cpp in Sources */,
-				3073BDFD22A7DC780024DB50 /* VodacomOnboardingDCBWebview.cpp in Sources */,
-				3073BDFE22A7DC780024DB50 /* DynamicNodeButton.cpp in Sources */,
-				3073BDFF22A7DC780024DB50 /* SettingsSupportPage.cpp in Sources */,
-				3073BE0022A7DC780024DB50 /* VideoPlaylistManager.cpp in Sources */,
-				3073BE0122A7DC780024DB50 /* ChatNotificationsSingleton.cpp in Sources */,
-				3073BE0222A7DC780024DB50 /* VodacomOnboardingScene.cpp in Sources */,
-				3073BE0322A7DC780024DB50 /* DynamicNodeCheckBox.cpp in Sources */,
-				3073BE0422A7DC780024DB50 /* DynamicNodeTextInput.cpp in Sources */,
-				3073BE0522A7DC780024DB50 /* SettingsMessageBox.cpp in Sources */,
-				3073BE0622A7DC780024DB50 /* FlowDataSingleton.cpp in Sources */,
-				3073BE0722A7DC780024DB50 /* OfflineHubSceneVisuals.cpp in Sources */,
-				3073BE0822A7DC780024DB50 /* VodacomOnboardingSuccessLayer.cpp in Sources */,
-				3073BE0922A7DC780024DB50 /* ButtonActionData.cpp in Sources */,
-				3073BE0A22A7DC780024DB50 /* ChildOomeeLayer.cpp in Sources */,
-				3073BE0B22A7DC780024DB50 /* VodacomOnboardingPinLayer.cpp in Sources */,
-				3073BE0C22A7DC780024DB50 /* WelcomeScene.cpp in Sources */,
-				3073BE0D22A7DC780024DB50 /* VodacomOnboardingLoginLayer.cpp in Sources */,
-				3073BE0E22A7DC780024DB50 /* EditAccountLayer.cpp in Sources */,
-				3073BE0F22A7DC780024DB50 /* OomeeMakerDelegate.cpp in Sources */,
-				3073BE1022A7DC780024DB50 /* SettingsLanguagePage.cpp in Sources */,
-				3073BE1122A7DC780024DB50 /* AppController.mm in Sources */,
-				3073BE1222A7DC780024DB50 /* HQScene2ElementPositioner.cpp in Sources */,
-				3073BE1322A7DC780024DB50 /* SettingsMessageBoxFREvent.cpp in Sources */,
-				3073BE1522A7DC780024DB50 /* SettingsMessageBoxDeleteChild.cpp in Sources */,
-				3073BE1622A7DC780024DB50 /* DynamicNodeButtonListener.cpp in Sources */,
-				3073BE1722A7DC780024DB50 /* DynamicNodeLine.cpp in Sources */,
-				3073BE1822A7DC780024DB50 /* VodacomOnboardingErrorLayer.cpp in Sources */,
-				3073BE1922A7DC780024DB50 /* ShopItemPage.cpp in Sources */,
-				3073BE1A22A7DC780024DB50 /* MeHQProfileDetails.cpp in Sources */,
-				3073BE1B22A7DC780024DB50 /* NavigationLayer.cpp in Sources */,
-				3073BE1C22A7DC780024DB50 /* AppDelegate.cpp in Sources */,
-				3073BE1D22A7DC780024DB50 /* CoinCollectLayer.cpp in Sources */,
-				3073BE1E22A7DC780024DB50 /* ContentFeedHQScene.cpp in Sources */,
-				3073BE1F22A7DC780024DB50 /* SignUpFlowController.cpp in Sources */,
-				3073BE2022A7DC780024DB50 /* OfflineText.cpp in Sources */,
-				3073BE2122A7DC780024DB50 /* RoutePaymentSingleton.cpp in Sources */,
-				3073BE2222A7DC780024DB50 /* ios_Cocos2d_Callbacks.mm in Sources */,
-				3073BE2322A7DC780024DB50 /* VodacomOnboardingTnCLayer.cpp in Sources */,
-				3073BE2422A7DC780024DB50 /* SettingsMessageBoxRejectFR.cpp in Sources */,
-				3073BE2522A7DC780024DB50 /* OfflineHubScene.cpp in Sources */,
-				3073BE2622A7DC780024DB50 /* HQSceneArtsApp.cpp in Sources */,
-				3073BE2722A7DC780024DB50 /* ShopCarousel.cpp in Sources */,
-				3073BE2922A7DC780024DB50 /* AmazonPaymentSingleton.cpp in Sources */,
-				3073BE2A22A7DC780024DB50 /* DynamicNodeText.cpp in Sources */,
-				3073BE2B22A7DC780024DB50 /* SceneManagerScene.cpp in Sources */,
-				3073BE2C22A7DC780024DB50 /* ArtAppDelegate.cpp in Sources */,
-				3073BE2D22A7DC780024DB50 /* ShopItemPurchasePopup.cpp in Sources */,
-				3073BE2E22A7DC780024DB50 /* ApplePaymentSingleton.mm in Sources */,
-				3073BE2F22A7DC780024DB50 /* LanguageListItem.cpp in Sources */,
-				3073BE3022A7DC780024DB50 /* IAPProductDataHandler.cpp in Sources */,
-				3073BE3122A7DC780024DB50 /* ShopScene.cpp in Sources */,
-				3073BE3222A7DC780024DB50 /* DynamicNodeCreator.cpp in Sources */,
-				3073BE3322A7DC780024DB50 /* DynamicNodeDataInputStorage.cpp in Sources */,
-				3073BE3422A7DC780024DB50 /* OfflineChecker.cpp in Sources */,
-				3073BE3522A7DC780024DB50 /* ShopItemPurchasedAnimation.cpp in Sources */,
-				3073BE3622A7DC780024DB50 /* RewardScene.cpp in Sources */,
-				3073BE3722A7DC780024DB50 /* OfflineHubBackButton.cpp in Sources */,
-				3073BE3822A7DC780024DB50 /* main.m in Sources */,
-				3073BE3922A7DC780024DB50 /* HQSceneElementPositioner.cpp in Sources */,
-				3073BE3A22A7DC780024DB50 /* MeHQRecentlyPlayed.cpp in Sources */,
-				3073BE3B22A7DC780024DB50 /* SettingsButton.cpp in Sources */,
-				3073BE3C22A7DC780024DB50 /* ChildCreator.cpp in Sources */,
-				3073BE3D22A7DC780024DB50 /* OfflineHubHQElement.cpp in Sources */,
-				3073BE3E22A7DC780024DB50 /* SettingsNavigationButton.cpp in Sources */,
-				3073BE3F22A7DC780024DB50 /* OfflineGameSearch.cpp in Sources */,
-				3073BE4022A7DC780024DB50 /* CoinChestLayer.cpp in Sources */,
-				3073BE4122A7DC780024DB50 /* MeHQFavourites.cpp in Sources */,
-				3073BE4222A7DC780024DB50 /* LoginScene.cpp in Sources */,
-				3073BE4322A7DC780024DB50 /* FavouritesManager.cpp in Sources */,
-				3073BE4422A7DC780024DB50 /* HQSceneElement.cpp in Sources */,
-				3073BE4522A7DC780024DB50 /* IAPFlowController.cpp in Sources */,
-				3073BE4622A7DC780024DB50 /* LanguageSelectScene.cpp in Sources */,
-				3073BE4722A7DC780024DB50 /* SettingsMessageBoxNotification.cpp in Sources */,
-				3073BE4822A7DC780024DB50 /* VodacomMessageBoxNotification.cpp in Sources */,
-				3073BE4922A7DC780024DB50 /* MeHQMessages.cpp in Sources */,
-				3073BE4A22A7DC780024DB50 /* GameDataManager.cpp in Sources */,
-				3073BE4B22A7DC780024DB50 /* VodacomOnboardingRegisterLayer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2642,31 +2021,6 @@
 			isa = PBXTargetDependency;
 			name = AzoomeeChat;
 			targetProxy = 300742DE1EF9163F005525AE /* PBXContainerItemProxy */;
-		};
-		300A9DFA22A7E14300CD103D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = AzoomeeCommonCI;
-			targetProxy = 300A9DF922A7E14300CD103D /* PBXContainerItemProxy */;
-		};
-		3073BD9222A7DC780024DB50 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = libAzoomeeOomeeMaker;
-			targetProxy = 3073BD9322A7DC780024DB50 /* PBXContainerItemProxy */;
-		};
-		3073BD9422A7DC780024DB50 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = ArtApp;
-			targetProxy = 3073BD9522A7DC780024DB50 /* PBXContainerItemProxy */;
-		};
-		3073BD9622A7DC780024DB50 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = AzoomeeChat;
-			targetProxy = 3073BD9722A7DC780024DB50 /* PBXContainerItemProxy */;
-		};
-		3073BD9A22A7DC780024DB50 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "cocos2dx iOS";
-			targetProxy = 3073BD9B22A7DC780024DB50 /* PBXContainerItemProxy */;
 		};
 		3077F4551E8D51ED006DA465 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2695,6 +2049,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tinizine.azoomee.stickers;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -2707,85 +2062,31 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tinizine.azoomee.stickers;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
 		1D6058940D05DD3E006BFB54 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-			};
-			name = Debug;
-		};
-		1D6058950D05DD3E006BFB54 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-			};
-			name = Release;
-		};
-		3073BE7A22A7DC780024DB50 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_DISPLAY_NAME = "CI Azoomee";
-				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					AZOOMEE_ENVIRONMENT_CI,
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tinizine.azoomee.ci;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		3073BE7B22A7DC780024DB50 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_DISPLAY_NAME = "CI Azoomee";
-				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					AZOOMEE_ENVIRONMENT_CI,
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tinizine.azoomee.ci;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
-		C01FCF4F08A954540054247B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage_iphoneXComp;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				AZOOMEE_ENVIRONMENT = PROD;
 				BUNDLE_DISPLAY_NAME = Azoomee;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = ios/Azoomee.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				COMPRESS_PNG_FILES = NO;
-				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = Q986XSP3A8;
-				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/../common/proj.ios_mac/Carthage/Build/iOS/",
 				);
-				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					USE_FILE32API,
 					"COCOS2D_DEBUG=1",
 					"CC_ENABLE_CHIPMUNK_INTEGRATION=1",
+					"AZOOMEE_ENVIRONMENT_${AZOOMEE_ENVIRONMENT}",
 				);
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../cocos2d",
@@ -2799,20 +2100,253 @@
 				);
 				INFOPLIST_FILE = ios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks ";
 				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
 					"$(PROJECT_DIR)/AppsFlyer",
 					"$(PROJECT_DIR)/../common/Users/proj.ios_mac/libs/Mixpanel",
 				);
-				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tinizine.azoomee;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64 armv7s";
+			};
+			name = Debug;
+		};
+		1D6058950D05DD3E006BFB54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				AZOOMEE_ENVIRONMENT = PROD;
+				BUNDLE_DISPLAY_NAME = Azoomee;
+				CODE_SIGN_ENTITLEMENTS = ios/Azoomee.entitlements;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/../common/proj.ios_mac/Carthage/Build/iOS/",
+				);
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					USE_FILE32API,
+					"CC_ENABLE_CHIPMUNK_INTEGRATION=1",
+					NDEBUG,
+					"AZOOMEE_ENVIRONMENT_${AZOOMEE_ENVIRONMENT}",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../cocos2d",
+					"$(SRCROOT)/../cocos2d/cocos",
+					"$(SRCROOT)/../cocos2d/cocos/audio/include",
+					"$(SRCROOT)/../cocos2d/cocos/editor-support",
+					"$(SRCROOT)/../cocos2d/extensions",
+					"$(SRCROOT)/../cocos2d/external",
+					"$(SRCROOT)/../cocos2d/external/chipmunk/include/chipmunk",
+					"$(SRCROOT)/../common/proj.ios_mac/libs",
+				);
+				INFOPLIST_FILE = ios/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks ";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/AppsFlyer",
+					"$(PROJECT_DIR)/../common/Users/proj.ios_mac/libs/Mixpanel",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tinizine.azoomee;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64 armv7s";
+			};
+			name = Release;
+		};
+		302A154122C3AEFC001EACB1 /* Test */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COMPRESS_PNG_FILES = NO;
+				DEVELOPMENT_TEAM = Q986XSP3A8;
+				ENABLE_BITCODE = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				STRIP_PNG_TEXT = NO;
-				TARGETED_DEVICE_FAMILY = "1,2";
 				USE_HEADERMAP = NO;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Test;
+		};
+		302A154222C3AEFC001EACB1 /* Test */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Test";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				AZOOMEE_ENVIRONMENT = TEST;
+				BUNDLE_DISPLAY_NAME = "Azoomee Test";
+				CODE_SIGN_ENTITLEMENTS = ios/Azoomee.entitlements;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/../common/proj.ios_mac/Carthage/Build/iOS/",
+				);
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					USE_FILE32API,
+					"CC_ENABLE_CHIPMUNK_INTEGRATION=1",
+					NDEBUG,
+					"AZOOMEE_ENVIRONMENT_${AZOOMEE_ENVIRONMENT}",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../cocos2d",
+					"$(SRCROOT)/../cocos2d/cocos",
+					"$(SRCROOT)/../cocos2d/cocos/audio/include",
+					"$(SRCROOT)/../cocos2d/cocos/editor-support",
+					"$(SRCROOT)/../cocos2d/extensions",
+					"$(SRCROOT)/../cocos2d/external",
+					"$(SRCROOT)/../cocos2d/external/chipmunk/include/chipmunk",
+					"$(SRCROOT)/../common/proj.ios_mac/libs",
+				);
+				INFOPLIST_FILE = ios/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks ";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/AppsFlyer",
+					"$(PROJECT_DIR)/../common/Users/proj.ios_mac/libs/Mixpanel",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tinizine.azoomee.test;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7s";
+			};
+			name = Test;
+		};
+		302A154322C3AEFC001EACB1 /* Test */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				INFOPLIST_FILE = stickers/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tinizine.azoomee.test.stickers;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Test;
+		};
+		302A154422C3AF08001EACB1 /* CI */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COMPRESS_PNG_FILES = NO;
+				DEVELOPMENT_TEAM = Q986XSP3A8;
+				ENABLE_BITCODE = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRIP_PNG_TEXT = NO;
+				USE_HEADERMAP = NO;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = CI;
+		};
+		302A154522C3AF08001EACB1 /* CI */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Test";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				AZOOMEE_ENVIRONMENT = CI;
+				BUNDLE_DISPLAY_NAME = "Azoomee CI";
+				CODE_SIGN_ENTITLEMENTS = ios/Azoomee.entitlements;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/../common/proj.ios_mac/Carthage/Build/iOS/",
+				);
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					USE_FILE32API,
+					"CC_ENABLE_CHIPMUNK_INTEGRATION=1",
+					NDEBUG,
+					"AZOOMEE_ENVIRONMENT_${AZOOMEE_ENVIRONMENT}",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../cocos2d",
+					"$(SRCROOT)/../cocos2d/cocos",
+					"$(SRCROOT)/../cocos2d/cocos/audio/include",
+					"$(SRCROOT)/../cocos2d/cocos/editor-support",
+					"$(SRCROOT)/../cocos2d/extensions",
+					"$(SRCROOT)/../cocos2d/external",
+					"$(SRCROOT)/../cocos2d/external/chipmunk/include/chipmunk",
+					"$(SRCROOT)/../common/proj.ios_mac/libs",
+				);
+				INFOPLIST_FILE = ios/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks ";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/AppsFlyer",
+					"$(PROJECT_DIR)/../common/Users/proj.ios_mac/libs/Mixpanel",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tinizine.azoomee.ci;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64 armv7s";
+			};
+			name = CI;
+		};
+		302A154622C3AF08001EACB1 /* CI */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				INFOPLIST_FILE = stickers/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tinizine.azoomee.ci.stickers;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = CI;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COMPRESS_PNG_FILES = NO;
+				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = Q986XSP3A8;
+				ENABLE_BITCODE = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRIP_PNG_TEXT = NO;
+				USE_HEADERMAP = NO;
 			};
 			name = Debug;
 		};
@@ -2821,57 +2355,21 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage_iphoneXComp;
-				BUNDLE_DISPLAY_NAME = Azoomee;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = ios/Azoomee.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
 				DEVELOPMENT_TEAM = Q986XSP3A8;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/../common/proj.ios_mac/Carthage/Build/iOS/",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					USE_FILE32API,
-					"CC_ENABLE_CHIPMUNK_INTEGRATION=1",
-					NDEBUG,
-				);
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/../cocos2d",
-					"$(SRCROOT)/../cocos2d/cocos",
-					"$(SRCROOT)/../cocos2d/cocos/audio/include",
-					"$(SRCROOT)/../cocos2d/cocos/editor-support",
-					"$(SRCROOT)/../cocos2d/extensions",
-					"$(SRCROOT)/../cocos2d/external",
-					"$(SRCROOT)/../cocos2d/external/chipmunk/include/chipmunk",
-					"$(SRCROOT)/../common/proj.ios_mac/libs",
-				);
-				INFOPLIST_FILE = ios/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/AppsFlyer",
-					"$(PROJECT_DIR)/../common/Users/proj.ios_mac/libs/Mixpanel",
-				);
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tinizine.azoomee;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				STRIP_PNG_TEXT = NO;
-				TARGETED_DEVICE_FAMILY = "1,2";
 				USE_HEADERMAP = NO;
 				VALIDATE_PRODUCT = YES;
-				VALID_ARCHS = "arm64 armv7s";
 			};
 			name = Release;
 		};
@@ -2883,24 +2381,19 @@
 			buildConfigurations = (
 				0240FC4D201224AC00E88157 /* Debug */,
 				0240FC4E201224AC00E88157 /* Release */,
+				302A154622C3AF08001EACB1 /* CI */,
+				302A154322C3AEFC001EACB1 /* Test */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Azoomee Prod" */ = {
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Azoomee" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
 				1D6058950D05DD3E006BFB54 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-		3073BE7922A7DC780024DB50 /* Build configuration list for PBXNativeTarget "Azoomee CI" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				3073BE7A22A7DC780024DB50 /* Debug */,
-				3073BE7B22A7DC780024DB50 /* Release */,
+				302A154522C3AF08001EACB1 /* CI */,
+				302A154222C3AEFC001EACB1 /* Test */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -2910,6 +2403,8 @@
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
 				C01FCF5008A954540054247B /* Release */,
+				302A154422C3AF08001EACB1 /* CI */,
+				302A154122C3AEFC001EACB1 /* Test */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

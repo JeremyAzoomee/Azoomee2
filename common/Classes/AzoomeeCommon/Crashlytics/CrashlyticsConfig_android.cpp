@@ -9,19 +9,24 @@ namespace Azoomee
   
 void createCrashlyticsException(const std::string& exceptionDomain, int exceptionCode, const std::string& exceptionMessage)
 {
-    std::string messageBody = cocos2d::StringUtils::format("Domain:%s; Code:%d; Message:%s", exceptionDomain.c_str(), exceptionCode, exceptionMessage.c_str());
-    
+#ifdef CRASHLYTICS_ENABLED
+    const std::string& messageBody = cocos2d::StringUtils::format("Domain:%s; Code:%d; Message:%s", exceptionDomain.c_str(), exceptionCode, exceptionMessage.c_str());
     cocos2d::JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "CrashlyticsLogException", messageBody);
+#endif
 }
 
 void createCrashlyticsUserInfo(const std::string& adultIdentifier, const std::string& childIdentifier)
 {
+#ifdef CRASHLYTICS_ENABLED
     cocos2d::JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "CrashlyticsLogUser", adultIdentifier, childIdentifier);
+#endif
 }
     
 void setCrashlyticsKeyWithString(const std::string& key, const std::string& dataString)
 {
+#ifdef CRASHLYTICS_ENABLED
     cocos2d::JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "CrashlyticsKeyWithString", key, dataString);
+#endif
 }
 
 }

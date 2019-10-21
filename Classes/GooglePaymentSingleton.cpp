@@ -8,7 +8,6 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "LoginLogicHandler.h"
 #include "RoutePaymentSingleton.h"
-#include "DynamicNodeHandler.h"
 #include "FlowDataSingleton.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -54,8 +53,7 @@ void GooglePaymentSingleton::startBackEndPaymentVerification(std::string develop
     {
         auto funcCallAction = CallFunc::create([=](){
             ModalMessages::getInstance()->stopLoading();
-            FlowDataSingleton::getInstance()->setSuccessFailPath(IAP_SUCCESS);
-            DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
+			Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(RoutePaymentSingleton::kPaymentSuccessfulEventName);
         });
         
         Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL)); //need time to get focus back from google window, otherwise the app will crash
@@ -190,6 +188,18 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_googlePurchaseFailed(JN
 extern "C"
 
 {
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_googlePurchaseCancelled(JNIEnv* env, jobject thiz);
+};
+
+JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_googlePurchaseCancelled(JNIEnv* env, jobject thiz)
+{
+    ModalMessages::getInstance()->stopLoading();
+}
+
+
+extern "C"
+
+{
 	JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_googleNoPurchaseFound(JNIEnv* env, jobject thiz);
 };
 
@@ -217,7 +227,14 @@ extern "C"
 
 JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_AppActivity_getGoogleSku(JNIEnv* env, jobject thiz)
 {
-    return env->NewStringUTF(ConfigStorage::getInstance()->getIapSkuForProvider("google").c_str());
+#if defined(AZOOMEE_ENVIRONMENT_TEST)
+    const std::string& productID = "googleplay-test";
+#elif defined(AZOOMEE_ENVIRONMENT_CI)
+    const std::string& productID = "googleplay-ci";
+#else
+    const std::string& productID = "googleplay-prod";
+#endif
+    return env->NewStringUTF(ConfigStorage::getInstance()->getIapSkuForProvider(productID).c_str());
 }
 
 extern "C"

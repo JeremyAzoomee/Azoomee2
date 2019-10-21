@@ -6,9 +6,7 @@
 //
 
 #include "ShopScene.h"
-#include "SceneManagerScene.h"
-#include "DynamicNodeHandler.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include "SceneManagerScene.h"#include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Data/Shop/ShopDisplayItem.h>
 #include <AzoomeeCommon/Data/Shop/ShopDataDownloadHandler.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
@@ -161,7 +159,6 @@ void ShopScene::onSizeChanged()
 	_wires->setRotation(visibleSize.width < visibleSize.height ? 90 : 0);
 	_gradient->setScaleX(visibleSize.width / _gradient->getContentSize().width);
 	_coinDisplay->setAnchorPoint(Vec2(1.2,(isIphoneX && isPortrait) ? 2.2f : 1.5));
-	DynamicNodeHandler::getInstance()->rebuildCurrentCTA();
 }
 
 void ShopScene::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)

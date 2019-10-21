@@ -7,7 +7,6 @@
 #include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include "LoginLogicHandler.h"
 #include "RoutePaymentSingleton.h"
-#include "DynamicNodeHandler.h"
 #include "FlowDataSingleton.h"
 
 using namespace cocos2d;
@@ -38,52 +37,61 @@ bool ApplePaymentSingleton::init(void)
 
 void ApplePaymentSingleton::startIAPPayment()
 {
-    requestAttempts = 0;
+    _requestAttempts = 0;
     [[PaymentViewController sharedPayment_ios] makeOneMonthPayment];
 }
 
 void ApplePaymentSingleton::refreshReceipt(bool usingButton)
 {
-    requestAttempts = 0;
+    _requestAttempts = 0;
     [[PaymentViewController sharedPayment_ios] restorePayment];
 }
 
-void ApplePaymentSingleton::transactionStatePurchased(std::string receiptData)
+#if defined(AZOOMEE_ENVIRONMENT_CI)
+void ApplePaymentSingleton::startRecIAPPayment()
 {
-    savedReceipt = receiptData;
+    _requestAttempts = 0;
+    [[PaymentViewController sharedPayment_ios] makeOneMonthRecurringPayment];
+}
+#endif
+
+void ApplePaymentSingleton::transactionStatePurchased(const std::string& receiptData, const std::string& transactionID)
+{
+    _savedReceipt = receiptData;
+    _transactionID = transactionID;
     
     if(!RoutePaymentSingleton::getInstance()->receiptDataFileExists())
     {
-        RoutePaymentSingleton::getInstance()->writeReceiptDataToFile(receiptData);
+        RoutePaymentSingleton::getInstance()->writeAppleReceiptDataToFile(receiptData, transactionID);
         AnalyticsSingleton::getInstance()->iapSubscriptionSuccessEvent();
     }
     
     if(!ParentManager::getInstance()->isUserLoggedIn())
     {
         ModalMessages::getInstance()->stopLoading();
-        FlowDataSingleton::getInstance()->setSuccessFailPath(IAP_SUCCESS);
-        DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
+		Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(RoutePaymentSingleton::kPaymentSuccessfulEventName);
     }
     else
     {
-        BackEndCaller::getInstance()->verifyApplePayment(receiptData);
+        BackEndCaller::getInstance()->verifyApplePayment(receiptData, transactionID);
     }
 }
 
-void ApplePaymentSingleton::onAnswerReceived(std::string responseDataString)
+void ApplePaymentSingleton::onAnswerReceived(const std::string& responseDataString)
 {
     rapidjson::Document paymentData;
     paymentData.Parse(responseDataString.c_str());
 
     if(!paymentData.HasParseError() && paymentData.HasMember("receiptStatus"))
     {
-        if(std::string(paymentData["receiptStatus"].GetString()) == "FULFILLED" && RoutePaymentSingleton::getInstance()->pressedIAPStartButton)
+        const std::string& receiptStatus = paymentData["receiptStatus"].GetString();
+        if(receiptStatus == "FULFILLED" && RoutePaymentSingleton::getInstance()->pressedIAPStartButton)
         {
             ModalMessages::getInstance()->stopLoading();
             RoutePaymentSingleton::getInstance()->inAppPaymentSuccess();
             return;
         }
-        else if(std::string(paymentData["receiptStatus"].GetString()) == "FULFILLED")
+        else if(receiptStatus == "FULFILLED")
         {
             AnalyticsSingleton::getInstance()->iapAppleAutoRenewSubscriptionEvent();
             ModalMessages::getInstance()->stopLoading();
@@ -95,11 +103,11 @@ void ApplePaymentSingleton::onAnswerReceived(std::string responseDataString)
 
     }
     
-    if(requestAttempts < 4)
+    if(_requestAttempts < 4)
     {
         RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage("AnswerRecieved-RequestAttempts<4");
-        requestAttempts = requestAttempts + 1;
-        transactionStatePurchased(savedReceipt);
+        _requestAttempts = _requestAttempts + 1;
+        transactionStatePurchased(_savedReceipt, _transactionID);
         return;
     }
     else

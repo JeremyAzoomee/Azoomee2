@@ -66,7 +66,10 @@ bool IntroVideoScene::init()
         _videoPlayer->setSwallowTouches(false);
         _videoPlayer->setFileName(videoFilename);
         _videoPlayer->setKeepAspectRatioEnabled(true);
+        
+        // Hide controls and disable interaction
         _videoPlayer->setUserInputEnabled(false);
+        _videoPlayer->setStyle(cocos2d::experimental::ui::VideoPlayer::StyleType::NONE);
         
         addChild(_videoPlayer);
         _videoPlayer->play();

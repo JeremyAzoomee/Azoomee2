@@ -11,6 +11,7 @@
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include "SceneManagerScene.h"
 #include "BackEndCaller.h"
+#include "LoginLogicHandler.h"
 
 using namespace cocos2d;
 
@@ -109,6 +110,7 @@ bool WelcomeScene::init()
 	loginButton->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
+            LoginLogicHandler::getInstance()->setLoginOrigin(LoginOrigin::LOGOUT);
 			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
 		}
 	});

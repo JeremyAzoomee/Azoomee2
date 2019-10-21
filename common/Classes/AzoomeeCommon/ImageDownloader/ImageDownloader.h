@@ -38,6 +38,8 @@ private:
     std::string _category;
     /// Base Storage path
     std::string _storagePath;
+	/// target image url
+	std::string _url;
     /// Delegate to recieve callbacks on download
     ImageDownloaderDelegate* _delegate = nullptr;
     /// The current cache mode
@@ -85,7 +87,8 @@ public:
     std::string getLocalImagePath() const;
     /// Returns true if the local image exists
     bool localImageExists() const;
-    
+    /// Returns url image is/was requested from
+	std::string getUrl() const;
     /// Download or load the image from local cache
     void downloadImage(ImageDownloaderDelegate* delegate, const std::string& url, bool forceOverride = false);
     

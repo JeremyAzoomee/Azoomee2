@@ -6,14 +6,22 @@
 
 NS_AZOOMEE_BEGIN
 
+enum class LoginOrigin {LOGOUT, IAP_PAYWALL, SIGNUP, HQ};
+
 class LoginLogicHandler : public cocos2d::Ref
 {
+private:
+    LoginOrigin _origin = LoginOrigin::LOGOUT;
+    
 public:
     static LoginLogicHandler* getInstance(void);
     virtual ~LoginLogicHandler();
     bool init(void);
     void doLoginLogic();
-    void forceNewLogin();
+    void forceNewLogin(const LoginOrigin& origin = LoginOrigin::LOGOUT);
+    
+    void setLoginOrigin(const LoginOrigin& origin);
+    LoginOrigin getOrigin() const;
 };
 
 NS_AZOOMEE_END

@@ -46,7 +46,7 @@ void ImageDownloader::downloadImage(ImageDownloaderDelegate* delegate, const std
     _delegate = delegate;
     _filename = getFileNameFromURL(url);
     _category = getCategoryFromUrl(url);
-    
+	_url = url;
     bool localFileExists = localImageExists();
     if(localFileExists && !hasCacheExpired() && !forceOverride)
     {
@@ -90,6 +90,11 @@ void ImageDownloader::setDelegate(ImageDownloaderDelegate* delegate)
 void ImageDownloader::setCacheMode(ImageDownloader::CacheMode mode)
 {
     _cacheMode = mode;
+}
+
+std::string ImageDownloader::getUrl() const
+{
+	return _url;
 }
 
 #pragma mark - Private

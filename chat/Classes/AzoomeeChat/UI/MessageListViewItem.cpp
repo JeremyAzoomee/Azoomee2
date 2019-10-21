@@ -142,12 +142,12 @@ void MessageListViewItem::resizeItemContents()
         Label* labelRenderer = dynamic_cast<Label*>(_textLabel->getVirtualRenderer());
         
         // First see if we need to do any word wrap
-        labelRenderer->setDimensions(0, 0);
+		labelRenderer->setDimensions(labelMaxWidth, 0);
         Size labelSize = labelRenderer->getContentSize();
-        if(labelSize.width > labelMaxWidth)
+        if(labelSize.height <= labelRenderer->getRenderingFontSize())
         {
             // Set fixed width on the label
-            labelRenderer->setDimensions(labelMaxWidth, 0);
+            labelRenderer->setDimensions(0, 0);
             
             // Now get the height of the label
             labelSize = labelRenderer->getContentSize();

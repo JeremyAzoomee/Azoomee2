@@ -1,22 +1,47 @@
-Version 4.6.3
-Fixed an issue that prevented Billing for Amazon devices from working correctly.
+Version 4.7.10
+fix for android pie HTTP requests
 
-Version 4.6.2
-Prevent a crash from occuring if the Parent Inbox is tapped frequently.
-Prevent turorial message from getting stuck.
+Version 4.7.9
+ios reccuring sub button for CI builds
 
-Version 4.6.1
-fix hidden coin counter
-better orientation lock logic
-better hq tile touch handling
-extra data in crashlytics (last BE request tag, open content id)
-general refactoring of data objects and handlers
-new automated app build and project files
-updated cocos
-auto refresh child session
-fixes for cocos update
-add child ui fixes
-smallprint on FTU age select screen
-offline errors in chat route to offline mode
-better personal oomee placement in art sticker carousel
+Version 4.7.8
+remote marketing images
+copy update
+sentd transaction id on verify ios payment:
+
+Version 4.7.7
+fix entry links for vodacom onboarding flow
+
+Version 4.7.6
+updated localisation strings
+fix sizing for age gate
+use new style message box for inavlid login creds
+dont show error when cancelling iap or restore payment
+
+Version 4.7.5
+Updated device IDs for testing.
+
+Version 4.7.4
+Removed old cta system.
+
+Version 4.7.3
+Launch new IAP flow on pressing reactivate button instead of old popup.
+Already registered popup now shows a Login button.
+Going back from Login screen should now always return to the correct location.
+Input boxes in signup flow should now all be left aligned.
+Marketing carousel on Paywall should no longer get stuck on orientation changes.
+Important Message for Parents screen added.
+Better error handling of billing verification errors.
+GDPR screen checkboxes now always default to unticked.
+Custom keyboards are now disabled on iOS.
+Marketing carousel on Paywall no longer scrolls through all slides to return to the beginning.
+Fixed initial delay of Marketing carousel on Paywall.
+
+Version 4.7.2
+Fixed a crash issue on the age gate.
+
+Version 4.7.1
+Fix for long chat messages being shown as blank speech bubbles.
+New purchase and signup journey.
+Crashlytics is no longer used on iOS.
 

@@ -37,8 +37,8 @@ android {
         applicationId "com.tinizine.azoomee"
         minSdkVersion PROP_MIN_SDK_VERSION
         targetSdkVersion PROP_TARGET_SDK_VERSION
-        versionCode 1004006003
-        versionName "4.6.3"
+        versionCode 1004007010
+        versionName "4.7.10"
         manifestPlaceholders = [applicationName:"Azoomee"]
 
         ndk {
@@ -205,12 +205,30 @@ android {
         // environment
         prod {
             dimension "environment"
+
+            externalNativeBuild {
+                ndkBuild {
+                    cppFlags "-DAZOOMEE_ENVIRONMENT_PROD"
+                }
+            }
+        }
+
+        xtest {
+            dimension "environment"
+            applicationIdSuffix ".test"
+            manifestPlaceholders = [applicationName:"Azoomee Test"]
+
+            externalNativeBuild {
+                ndkBuild {
+                    cppFlags "-DAZOOMEE_ENVIRONMENT_TEST"
+                }
+            }
         }
 
         ci {
             dimension "environment"
             applicationIdSuffix ".ci"
-            manifestPlaceholders = [applicationName:"CI Azoomee"]
+            manifestPlaceholders = [applicationName:"Azoomee CI"]
 
             externalNativeBuild {
                 ndkBuild {
@@ -219,7 +237,21 @@ android {
             }
         }
     }
+
+    variantFilter { variant ->
+        def names = variant.flavors*.name
+        if(     (names.contains("amazon") && names.contains("ci")) ||
+                (names.contains("amazon") && names.contains("xtest")) ||
+                (names.contains("vodacom") && names.contains("ci")) ||
+                (names.contains("vodacom") && names.contains("xtest")) ||
+                (names.contains("huawei") && names.contains("ci")) ||
+                (names.contains("huawei") && names.contains("xtest"))
+        ) {
+            setIgnore(true)
+        }
+    }
 }
+
 
 android.applicationVariants.all { variant ->
     // delete previous files first
@@ -239,7 +271,7 @@ dependencies {
     implementation project(':libcocos2dx')
     implementation project(':azoomee_common')
 
-    // MixPanel
+    // q
     // using 5.3.1 because 5.4.2 caused crash on launch first few attempts after install
     implementation 'com.mixpanel.android:mixpanel-android:5.3.1'
 
