@@ -12,7 +12,7 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-const float CircleContentHolder::kTileSpacing = 32.0f;
+const float CircleContentHolder::kTileSpacingPercent = 0.1f;
 
 bool CircleContentHolder::init()
 {
@@ -56,6 +56,11 @@ void CircleContentHolder::setMaxRows(int rows)
     _rows = rows;
 }
 
+void CircleContentHolder::setMinColumns(int minColumns)
+{
+    _minCols = minColumns;
+}
+
 void CircleContentHolder::enableScaleToFill(bool enable)
 {
     _scaleToFill = enable;
@@ -73,9 +78,9 @@ void CircleContentHolder::refreshTiles()
     
     const Size& contentSize = getContentSize();
     
-    const float paddedCircleSize = _tileSize.width + kTileSpacing;
+    const float paddedCircleSize = _tileSize.width * (1.0f + kTileSpacingPercent);
     
-    const int tilesPerRow = floor(contentSize.width / paddedCircleSize);
+    const int tilesPerRow = MAX(floor(contentSize.width / paddedCircleSize), _minCols);
     
     const float rowWidth = tilesPerRow * paddedCircleSize;
     
@@ -103,7 +108,7 @@ void CircleContentHolder::refreshTiles()
         {
             CircleTile* tile = CircleTile::create();
             tile->setContentSize(_tileSize);
-            tile->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(kTileSpacing / 2.0f, 0, kTileSpacing / 2.0f, 0)));
+            tile->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(_tileSize.width * (kTileSpacingPercent / 2.0f), 0, _tileSize.width * (kTileSpacingPercent / 2.0f), 0)));
             tile->setContentSelectedCallback([this, row, tilesPerRow, col](HQContentItemObjectRef content){
                 if(_callback)
                 {

@@ -20,6 +20,7 @@ class CircleContentHolder : public ContentTileHolder
 private:
     
     int _rows = -1;
+    int _minCols = 4;
     cocos2d::Size _tileSize;
     cocos2d::Vector<CircleTile*> _tiles;
     
@@ -30,7 +31,7 @@ private:
     void refreshTiles();
     
 public:
-    static const float kTileSpacing;
+    static const float kTileSpacingPercent;
     
     bool init() override;
     void onEnter() override;
@@ -39,6 +40,7 @@ public:
     
     void setTileSize(const cocos2d::Size& size);
     void setMaxRows(int rows);
+    void setMinColumns(int minColumns);
     void enableScaleToFill(bool enable);
     
     void setPlaceholder(const std::string& filename);

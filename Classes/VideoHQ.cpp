@@ -106,13 +106,13 @@ void VideoHQ::onSizeChanged()
         {
             if(_episodePlayerOpen)
             {
-                _episodeSelector->setPosition(Vec2(contentWidthMidpoint, -_episodeSelector->getContentSize().height));
+                _episodeSelector->setPosition(Vec2(0, -_episodeSelector->getContentSize().height));
                 _episodePlayerOpen = false;
                 _episodePlayerMoving = false;
             }
             else
             {
-                _episodeSelector->setPosition(Vec2(contentWidthMidpoint,0));
+                _episodeSelector->setPosition(Vec2(0,0));
                 _episodePlayerOpen = true;
                 _episodePlayerMoving = false;
             }
@@ -121,13 +121,13 @@ void VideoHQ::onSizeChanged()
         {
             if(_episodePlayerOpen)
             {
-                _episodeSelector->setPosition(Vec2(contentWidthMidpoint,0));
+                _episodeSelector->setPosition(Vec2(0,0));
                 _episodePlayerOpen = true;
                 _episodePlayerMoving = false;
             }
             else
             {
-                _episodeSelector->setPosition(Vec2(contentWidthMidpoint, -_episodeSelector->getContentSize().height));
+                _episodeSelector->setPosition(Vec2(0, -_episodeSelector->getContentSize().height));
                 _episodePlayerOpen = false;
                 _episodePlayerMoving = false;
             }
@@ -139,8 +139,8 @@ void VideoHQ::onSizeChanged()
         _contentListView->setSizePercent(Vec2(0.5f, 1.0f));
         _staticContentLayout->setSizePercent(Vec2(0.5f, 1.0f));
         
-        _episodeSelector->setPosition(Vec2(contentSize.width * 0.2375f,contentSize.height * 0.05f));
-        _episodeSelector->setSizePercent(Vec2(0.4875,0.95f));
+        _episodeSelector->setPosition(Vec2(0,contentSize.height * 0.05f));
+        _episodeSelector->setSizePercent(Vec2(0.475,0.95f));
         _episodeSelector->setVisible(true);
         _episodePlayerMoving = false;
     }
@@ -267,8 +267,8 @@ void VideoHQ::createEpisodePlayer()
     _episodeSelector->setEpisodeBarHeight(_isPortrait ? EpisodeSelector::kEpisodeBarHeightPortrait : EpisodeSelector::kEpisodeBarHeightLandscape);
     _episodeSelector->setHqData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGroupHQName));
     _episodeSelector->setLineAndTextColour(Color3B(firstItem->getCarouselColour()));
-    _episodeSelector->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-    _episodeSelector->setPosition(Vec2(getContentSize().width / 2.0f,0));
+    _episodeSelector->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+    _episodeSelector->setPosition(Vec2(0,0));
     _episodeSelector->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
         if(_episodeSelectorContentSelectedCallback)
         {
@@ -282,7 +282,7 @@ void VideoHQ::createEpisodePlayer()
             if(!_episodePlayerMoving)
             {
                 _episodePlayerMoving = true;
-                _episodeSelector->runAction(Sequence::createWithTwoActions(MoveTo::create(0.5f, Vec2(getContentSize().width / 2.0f,-_episodeSelector->getContentSize().height)), CallFunc::create([this](){
+                _episodeSelector->runAction(Sequence::createWithTwoActions(MoveTo::create(0.5f, Vec2(0,-_episodeSelector->getContentSize().height)), CallFunc::create([this](){
                     _episodePlayerOpen = false;
                     _episodePlayerMoving = false;
                     _episodeSelector->setVisible(false);
@@ -295,7 +295,7 @@ void VideoHQ::createEpisodePlayer()
             {
                 _episodePlayerMoving = true;
                 _episodeSelector->setVisible(true);
-                _episodeSelector->runAction(Sequence::createWithTwoActions(MoveTo::create(0.5f, Vec2(getContentSize().width / 2.0f,0)), CallFunc::create([this](){
+                _episodeSelector->runAction(Sequence::createWithTwoActions(MoveTo::create(0.5f, Vec2(0,0)), CallFunc::create([this](){
                     _episodePlayerOpen = true;
                     _episodePlayerMoving = false;
                 })));
@@ -312,7 +312,7 @@ void VideoHQ::createEpisodePlayer()
         {
             _episodePlayerMoving = true;
             _episodeSelector->setVisible(true);
-            _episodeSelector->runAction(Sequence::createWithTwoActions(MoveTo::create(0.5f, Vec2(getContentSize().width / 2.0f,0)), CallFunc::create([this](){
+            _episodeSelector->runAction(Sequence::createWithTwoActions(MoveTo::create(0.5f, Vec2(0,0)), CallFunc::create([this](){
                 _episodePlayerOpen = true;
                 _episodePlayerMoving = false;
             })));

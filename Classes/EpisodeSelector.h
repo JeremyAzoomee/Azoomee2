@@ -40,7 +40,8 @@ private:
     cocos2d::ui::Layout* _divider = nullptr;
     cocos2d::ui::ListView* _episodeListView = nullptr;
     cocos2d::Vector<EpisodeBar*> _episodeBars;
-    cocos2d::LayerGradient* _bottomGradient = nullptr;
+    //cocos2d::LayerGradient* _bottomGradient = nullptr;
+    RoundedRectSprite* _bottomGradient = nullptr;
     
     HQDataObjectRef _hqData = nullptr;
     

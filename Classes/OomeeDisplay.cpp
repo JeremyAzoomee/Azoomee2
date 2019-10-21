@@ -46,7 +46,6 @@ bool OomeeDisplay::init()
     _bgPattern = RoundedRectSprite::create();
     _bgPattern->setTexture("res/decoration/pattern_stem_tile.png");
     _bgPattern->setCornerRadius(0);
-    _bgPattern->setTileScaleFactor(2.0f);
     _bgPattern->setScaleMode(RoundedRectSprite::ScaleMode::TILE);
     _bgPattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _bgPattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);

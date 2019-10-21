@@ -40,7 +40,6 @@ bool DropdownContentHolder::init()
     _bgPattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
     _bgPattern->setCornerRadius(_bgCapInset.origin.x);
     _bgPattern->setScaleMode(RoundedRectSprite::ScaleMode::TILE);
-    _bgPattern->setTileScaleFactor(2.0f);
     addChild(_bgPattern, -1);
     
     _contentLayout->setLayoutType(Type::VERTICAL);
