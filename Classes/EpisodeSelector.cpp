@@ -82,15 +82,12 @@ bool EpisodeSelector::init()
     _episodeListView->setGravity(ui::ListView::Gravity::LEFT);
     _contentLayout->addChild(_episodeListView);
     
-    //const Color3B& gradientColour = Style::Color::darkIndigoThree;
-    //_bottomGradient = LayerGradient::create(Color4B(gradientColour.r, gradientColour.g, gradientColour.b, 0), Color4B(gradientColour.r, gradientColour.g, gradientColour.b, 255));
     _bottomGradient = RoundedRectSprite::create();
     _bottomGradient->setTexture("res/hqscene/gradient_overlay_large.png");
     _bottomGradient->setStretchImageEnabled(true);
     _bottomGradient->setCornerRadius(20);
     _bottomGradient->setRoundedCorners(true, true, false, false);
     _bottomGradient->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
-    //_bottomGradient->setPosition(Vec2(0,-1));
     _bottomGradient->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_RIGHT);
     _bottomGradient->setColor(Style::Color::darkIndigoThree);
     _contentLayout->addChild(_bottomGradient);
