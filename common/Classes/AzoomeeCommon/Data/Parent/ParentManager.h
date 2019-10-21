@@ -82,6 +82,7 @@ public:
 	
 	void saveAnonCredentialsToDevice(const std::string& userId);
 	
+    void setAvatarColourForChild(const std::string& childId, const cocos2d::Color4B& colour);
 	
 private:
 	BillingDataRef _billingData = nullptr;

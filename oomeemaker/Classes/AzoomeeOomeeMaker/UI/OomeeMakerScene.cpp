@@ -17,12 +17,12 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 
 using namespace cocos2d;
 
 NS_AZOOMEE_OM_BEGIN
 
-//const std::string OomeeMakerScene::kDefaultOomeeId = "orange";
 const std::string OomeeMakerScene::kColourCategoryName = "colours";
 
 const std::string OomeeMakerScene::kSavePopupId = "save";
@@ -119,14 +119,22 @@ void OomeeMakerScene::onEnter()
     _oomee->setOomeeData(oomeeData);
     _oomee->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     _oomee->setEditable(true);
-    if(FileUtils::getInstance()->isFileExist(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".oomee"))
+    if(FileUtils::getInstance()->isFileExist(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + OomeeMakerDataHandler::kOomeeFileExtension))
     {
-        rapidjson::Document data;
-        data.Parse(FileUtils::getInstance()->getStringFromFile(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".oomee").c_str());
-        if(!_oomee->initWithOomeeFigureData(data))
-        {
-            _oomee->setOomeeData(oomeeData);
-        }
+        rapidjson::Document jsonData;
+        jsonData.Parse(FileUtils::getInstance()->getStringFromFile(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + OomeeMakerDataHandler::kOomeeFileExtension).c_str());
+		if(jsonData.HasParseError())
+		{
+			_oomee->setOomeeData(oomeeData);
+		}
+		else
+		{
+			OomeeFigureDataRef data = OomeeFigureData::createWithData(jsonData);
+			if(!_oomee->initWithOomeeFigureData(data))
+			{
+				_oomee->setOomeeData(oomeeData);
+			}
+		}
     }
     _contentLayer->addChild(_oomee);
     
@@ -303,6 +311,13 @@ void OomeeMakerScene::onEnter()
 	{
 		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
 	}
+    
+    _oomeeSavedEventListener = EventListenerCustom::create(OomeeMakerDataHandler::kSaveNewOomeeEventName, [this](EventCustom* event){
+        std::string filename = *static_cast<std::string*>(event->getUserData());
+        _filename = filename;
+        _oomee->setFigureId(_filename);
+    });
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(_oomeeSavedEventListener, this);
     Super::onEnter();
 }
 
@@ -316,13 +331,15 @@ void OomeeMakerScene::onEnterTransitionDidFinish()
         _categoryList->setSelectedButton(OomeeMakerDataStorage::getInstance()->getItemCategoryForKey(OomeeMakerDataStorage::getInstance()->getDefaultCategoryId()));
         setItemsListForCategory(OomeeMakerDataStorage::getInstance()->getItemCategoryForKey(OomeeMakerDataStorage::getInstance()->getDefaultCategoryId()));
     }), NULL));
-    
+    Director::getInstance()->purgeCachedData();
     Super::onEnterTransitionDidFinish();
 }
 
 void OomeeMakerScene::onExit()
 {
 	TutorialController::getInstance()->unRegisterDelegate(this);
+    _eventDispatcher->removeEventListener(_oomeeSavedEventListener);
+    _oomeeSavedEventListener = nullptr;
 	Super::onExit();
 }
 
@@ -378,40 +395,18 @@ void OomeeMakerScene::saveAndExit()
 
 void OomeeMakerScene::saveOomeeFiles()
 {
-    std::string savedFileContent = "{";
-    savedFileContent += StringUtils::format("\"oomee\":\"%s\",", _oomee->getOomeeData()->getId().c_str());
-    savedFileContent += "\"oomeeItems\":[";
-    const std::vector<std::string>& accIds = _oomee->getAccessoryIds();
-    for(int i = 0; i < accIds.size(); i++)
-    {
-        savedFileContent += StringUtils::format("\"%s\"",accIds.at(i).c_str());
-        if(i < accIds.size() - 1)
-        {
-            savedFileContent += ",";
-        }
-    }
-    savedFileContent += "]}";
-    
-    FileUtils::getInstance()->writeStringToFile(savedFileContent, OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".oomee");
-    
-    _oomee->saveSnapshotImage(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".png");
-    AnalyticsSingleton::getInstance()->saveOomee(savedFileContent);
+	OomeeMakerDataHandler::getInstance()->saveOomee(_oomee->getFigureData(), _oomee->isSelected(), ChildManager::getInstance()->getLoggedInChild()->getId());
 }
 
 void OomeeMakerScene::makeAvatar()
 {
-    ModalMessages::getInstance()->startSaving();
-    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Make_Avatar_Button.mp3");
-    const std::string scheduleKey = "saveAndExit";
-    Director::getInstance()->getScheduler()->schedule([&](float dt){
-        saveOomeeFiles();
-        ModalMessages::getInstance()->stopSaving();
-        if(delegate)
-        {
-            delegate->onOomeeMakerUpdateAvatar(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".png");
-        }
-    }, this, 0.5, 0, 0, false, scheduleKey);
-    
+	OomeeMakerDataHandler::getInstance()->saveOomee(_oomee->getFigureData(), true, ChildManager::getInstance()->getLoggedInChild()->getId(), [this](bool success){
+		if(delegate && success)
+		{
+            _oomee->setSelected(true);
+			delegate->onOomeeMakerUpdateAvatar(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + _filename + ".png");
+		}
+	});
 }
 
 void OomeeMakerScene::resetOomee()

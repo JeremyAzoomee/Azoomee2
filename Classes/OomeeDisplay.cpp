@@ -9,6 +9,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Strings.h>
+#include "SceneManagerScene.h"
 
 using namespace cocos2d;
 
@@ -155,6 +156,7 @@ void OomeeDisplay::resizeOomee()
 //deleagte functions
 void OomeeDisplay::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {
+    Director::getInstance()->getTextureCache()->reloadTexture(downloader->getLocalImagePath());
     _oomee->setTexture(downloader->getLocalImagePath());
     resizeOomee();
 }

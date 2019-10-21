@@ -10,6 +10,7 @@
 
 #include "../AzoomeeOomeeMaker.h"
 #include "OomeeMakerDataStorage.h"
+#include "OomeeFigureData.h"
 #include <AzoomeeCommon/Utils/FileDownloader.h>
 #include <AzoomeeCommon/Utils/FileZipUtil.h>
 #include <AzoomeeCommon/Data/DataDownloadHandler.h>
@@ -23,6 +24,12 @@ private:
 	
     OomeeMakerDataStorage* _dataStorage = nullptr;
 	
+	std::vector<HttpRequestCreator*> _pendingLocalOomeeUploads;
+	std::string _targetChildId = "";
+    bool _savingNewOomee = false;
+	
+    bool _gettingDataAsync = false;
+    
 	std::string getCachePath() const override;
 	
     void unzipBundledAssets();
@@ -35,8 +42,14 @@ private:
     void parseOomeeItemData();
 	
 	void updateExistingOomeeFilesToNewIds();
+	void uploadExistingOomeesToBE(const std::string& childId);
+	
+	void writeOomeeFiles(const rapidjson::Value& data);
     
 public:
+    static const std::string kSaveNewOomeeEventName;
+    static const std::string kOomeeFileExtension;
+    
     static OomeeMakerDataHandler* getInstance();
     virtual ~OomeeMakerDataHandler();
     void init();
@@ -44,6 +57,15 @@ public:
     void getConfigFilesIfNeeded();
 	
 	void getLatestData(const OnCompleteCallback& callback = nullptr) override;
+    void getLatestDataAsync(const OnCompleteCallback& callback = nullptr);
+    
+	void getOomeesForChild(const std::string& childId, bool getOnlySelected, const OnCompleteCallback& callback = nullptr);
+	void getAllOomees(const OnCompleteCallback& callback = nullptr);
+	
+	void saveOomee(const OomeeFigureDataRef& oomee, bool setAsAvatar, const std::string& childId, const OnCompleteCallback& callback = nullptr);
+	void deleteOomee(const OomeeFigureDataRef& oomee, const std::string& childId, const OnCompleteCallback& callback = nullptr);
+	
+	void uploadLocalOomeesToBE(const std::string& childId, const OnCompleteCallback& callback = nullptr);
 	
     std::string getFullSaveDir() const;
     std::string getLocalSaveDir() const;

@@ -71,6 +71,13 @@ public:
 	static const char* const TagGetShopFeed;
 	static const char* const TagGetOomeeMakerAssets;
     static const char* const TagGetMarketingAssets;
+	static const char* const TagSaveNewOomee;
+    static const char* const TagSaveLocalOomee;
+	static const char* const TagGetChildOomees;
+	static const char* const TagUpdateChildOomee;
+	static const char* const TagGetAllOomees;
+	static const char* const TagDeleteChildOomee;
+    
 	
 	static const std::string kAZCountryCodeKey;
 	
@@ -216,12 +223,41 @@ public:
 	static HttpRequestCreator* UpdateContentProgressMeta(const std::string& childId,
 														 const std::string& metaBody,
 														 HttpRequestCreatorResponseDelegate* delegate);
+
+#pragma mark - Oomee Maker
 	
 	static HttpRequestCreator* GetOomeeMakerAssets(const std::string& childId,
 												   HttpRequestCreatorResponseDelegate* delegate);
     
     static HttpRequestCreator* GetMarketingAssets(const std::string& countryCode,
                                                   HttpRequestCreatorResponseDelegate* delegate);
+
+	static HttpRequestCreator* SaveNewOomee(const std::string& childId,
+											const std::string& adultId,
+											const std::string& oomeeBodyId,
+											const std::vector<std::string>& accessoryIds,
+											bool selected,
+											HttpRequestCreatorResponseDelegate* delegate);
+
+	static HttpRequestCreator* GetChildOomees(const std::string& childId,
+                                              bool getOnlySelected,
+											  HttpRequestCreatorResponseDelegate* delegate);
+
+	static HttpRequestCreator* UpdateChildOomee(const std::string& childId,
+												const std::string& oomeeId,
+												const std::string& adultId,
+												const std::string& oomeeBodyId,
+												const std::vector<std::string>& accessoryIds,
+												bool selected,
+												HttpRequestCreatorResponseDelegate* delegate);
+
+	static HttpRequestCreator* GetAllOomees(const std::string& adultId,
+                                            bool getOnlySelected,
+                                            HttpRequestCreatorResponseDelegate* delegate);
+	
+	static HttpRequestCreator* DeleteChildOomee(const std::string& childId,
+												const std::string& oomeeId,
+												HttpRequestCreatorResponseDelegate* delegate);
 	
 #pragma mark - Friend Requests
     
