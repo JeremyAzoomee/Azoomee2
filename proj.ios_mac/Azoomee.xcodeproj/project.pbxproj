@@ -228,6 +228,7 @@
 		E21E650B235F1A88000BC90F /* Config in Resources */ = {isa = PBXBuildFile; fileRef = E21E6504235F1A88000BC90F /* Config */; };
 		E21E650C235F1A88000BC90F /* AzoomeeChat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21E6505235F1A88000BC90F /* AzoomeeChat.cpp */; };
 		E21E650D235F1A88000BC90F /* UI in Resources */ = {isa = PBXBuildFile; fileRef = E21E6507235F1A88000BC90F /* UI */; };
+		E21E652E235F4281000BC90F /* ChatHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21E652D235F4281000BC90F /* ChatHQ.cpp */; };
 		E220CC1923548EE000F646CA /* ArtContentTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E220CC1823548EE000F646CA /* ArtContentTile.cpp */; };
 		E229F67423351999005BA0D4 /* EpisodeSelector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E229F67323351999005BA0D4 /* EpisodeSelector.cpp */; };
 		E229F6772338CF46005BA0D4 /* EpisodeBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E229F6762338CF46005BA0D4 /* EpisodeBar.cpp */; };
@@ -770,6 +771,8 @@
 		E21E6506235F1A88000BC90F /* ChatAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatAPI.h; sourceTree = "<group>"; };
 		E21E6507235F1A88000BC90F /* UI */ = {isa = PBXFileReference; lastKnownFileType = folder; path = UI; sourceTree = "<group>"; };
 		E21E6508235F1A88000BC90F /* AzoomeeChat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AzoomeeChat.h; sourceTree = "<group>"; };
+		E21E6526235F39F8000BC90F /* ChatHQ.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChatHQ.h; sourceTree = "<group>"; };
+		E21E652D235F4281000BC90F /* ChatHQ.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChatHQ.cpp; sourceTree = "<group>"; };
 		E220CC122354889000F646CA /* ArtContentTile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArtContentTile.h; sourceTree = "<group>"; };
 		E220CC1823548EE000F646CA /* ArtContentTile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ArtContentTile.cpp; sourceTree = "<group>"; };
 		E229F67223350BCA005BA0D4 /* EpisodeSelector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EpisodeSelector.h; sourceTree = "<group>"; };
@@ -1574,6 +1577,8 @@
 				E22ACB15230FE7E50024B328 /* VideoHQ.cpp */,
 				E21A4F202317CC0200E1D3FB /* OomeeHQ.h */,
 				E21A4F262317CC5300E1D3FB /* OomeeHQ.cpp */,
+				E21E6526235F39F8000BC90F /* ChatHQ.h */,
+				E21E652D235F4281000BC90F /* ChatHQ.cpp */,
 				923D5B7221FB5BA9008C13D0 /* HQSceneDepreciated.h */,
 				923D5BBD220064B9008C13D0 /* HQSceneDepreciated.cpp */,
 				923D5BC322007473008C13D0 /* ContentFeedHQScene.h */,
@@ -2024,6 +2029,7 @@
 				92E5856E221475120015A4FA /* ChildSettingsScene.cpp in Sources */,
 				9229EE5222DDD3E8009732B0 /* ProgressBar.cpp in Sources */,
 				9240334622D4E449009907F3 /* MarketingCarousel.cpp in Sources */,
+				E21E652E235F4281000BC90F /* ChatHQ.cpp in Sources */,
 				928A6DD520EBDD4A0053E793 /* AddChildLayer.cpp in Sources */,
 				02D6446B2087828800FF17B4 /* WebViewController_ios.mm in Sources */,
 				02E595901E55F9960052F395 /* OfflineHubHQ.cpp in Sources */,
