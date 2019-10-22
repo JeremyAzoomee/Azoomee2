@@ -4,8 +4,8 @@
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/API/API.h>
-#include <AzoomeeChat/ChatAPI.h>
-#include <AzoomeeChat/Data/Message.h>
+#include "AzoomeeChat/ChatAPI.h"
+#include "AzoomeeChat/Data/Message.h"
 #include "NavigationLayer.h"
 
 NS_AZOOMEE_BEGIN

@@ -223,6 +223,11 @@
 		E21592F523267D2F003CBB50 /* DropdownContentHolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21592F423267D2F003CBB50 /* DropdownContentHolder.cpp */; };
 		E21A4F272317CC5300E1D3FB /* OomeeHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21A4F262317CC5300E1D3FB /* OomeeHQ.cpp */; };
 		E21B22142322B02E0032510A /* RoundedRectTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21B22132322B02E0032510A /* RoundedRectTile.cpp */; };
+		E21E6509235F1A88000BC90F /* Data in Resources */ = {isa = PBXBuildFile; fileRef = E21E6502235F1A88000BC90F /* Data */; };
+		E21E650A235F1A88000BC90F /* ChatAPI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21E6503235F1A88000BC90F /* ChatAPI.cpp */; };
+		E21E650B235F1A88000BC90F /* Config in Resources */ = {isa = PBXBuildFile; fileRef = E21E6504235F1A88000BC90F /* Config */; };
+		E21E650C235F1A88000BC90F /* AzoomeeChat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21E6505235F1A88000BC90F /* AzoomeeChat.cpp */; };
+		E21E650D235F1A88000BC90F /* UI in Resources */ = {isa = PBXBuildFile; fileRef = E21E6507235F1A88000BC90F /* UI */; };
 		E220CC1923548EE000F646CA /* ArtContentTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E220CC1823548EE000F646CA /* ArtContentTile.cpp */; };
 		E229F67423351999005BA0D4 /* EpisodeSelector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E229F67323351999005BA0D4 /* EpisodeSelector.cpp */; };
 		E229F6772338CF46005BA0D4 /* EpisodeBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E229F6762338CF46005BA0D4 /* EpisodeBar.cpp */; };
@@ -287,13 +292,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 1D6058910D05DD3D006BFB54;
 			remoteInfo = "AzoomeeChat-App";
-		};
-		300742DE1EF9163F005525AE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 300742D21EF9162E005525AE /* AzoomeeChat.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 304410621E9D18E600B7F383;
-			remoteInfo = AzoomeeChat;
 		};
 		3077F4511E8D51D7006DA465 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -765,6 +763,13 @@
 		E21A4F262317CC5300E1D3FB /* OomeeHQ.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeHQ.cpp; sourceTree = "<group>"; };
 		E21B220D2322ACA10032510A /* RoundedRectTile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RoundedRectTile.h; sourceTree = "<group>"; };
 		E21B22132322B02E0032510A /* RoundedRectTile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RoundedRectTile.cpp; sourceTree = "<group>"; };
+		E21E6502235F1A88000BC90F /* Data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Data; sourceTree = "<group>"; };
+		E21E6503235F1A88000BC90F /* ChatAPI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChatAPI.cpp; sourceTree = "<group>"; };
+		E21E6504235F1A88000BC90F /* Config */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Config; sourceTree = "<group>"; };
+		E21E6505235F1A88000BC90F /* AzoomeeChat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AzoomeeChat.cpp; sourceTree = "<group>"; };
+		E21E6506235F1A88000BC90F /* ChatAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatAPI.h; sourceTree = "<group>"; };
+		E21E6507235F1A88000BC90F /* UI */ = {isa = PBXFileReference; lastKnownFileType = folder; path = UI; sourceTree = "<group>"; };
+		E21E6508235F1A88000BC90F /* AzoomeeChat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AzoomeeChat.h; sourceTree = "<group>"; };
 		E220CC122354889000F646CA /* ArtContentTile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArtContentTile.h; sourceTree = "<group>"; };
 		E220CC1823548EE000F646CA /* ArtContentTile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ArtContentTile.cpp; sourceTree = "<group>"; };
 		E229F67223350BCA005BA0D4 /* EpisodeSelector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EpisodeSelector.h; sourceTree = "<group>"; };
@@ -1075,6 +1080,7 @@
 		300742F61EF93433005525AE /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				E21E64FC235F1A1C000BC90F /* AzoomeeChat */,
 				300742F11EF93428005525AE /* ChatDelegate.cpp */,
 				300742F21EF93428005525AE /* ChatDelegate.h */,
 				0243B8D91F1F5D5C005D3734 /* ChatNotificationsSingleton.cpp */,
@@ -1675,6 +1681,20 @@
 			name = ContentTiles;
 			sourceTree = "<group>";
 		};
+		E21E64FC235F1A1C000BC90F /* AzoomeeChat */ = {
+			isa = PBXGroup;
+			children = (
+				E21E6505235F1A88000BC90F /* AzoomeeChat.cpp */,
+				E21E6508235F1A88000BC90F /* AzoomeeChat.h */,
+				E21E6503235F1A88000BC90F /* ChatAPI.cpp */,
+				E21E6506235F1A88000BC90F /* ChatAPI.h */,
+				E21E6504235F1A88000BC90F /* Config */,
+				E21E6502235F1A88000BC90F /* Data */,
+				E21E6507235F1A88000BC90F /* UI */,
+			);
+			path = AzoomeeChat;
+			sourceTree = "<group>";
+		};
 		E229F66C23350BA0005BA0D4 /* EpisodeSelector */ = {
 			isa = PBXGroup;
 			children = (
@@ -1741,7 +1761,6 @@
 			dependencies = (
 				9271D7D0204053D200370120 /* PBXTargetDependency */,
 				92A9A0661F068A7B008A19EB /* PBXTargetDependency */,
-				300742DF1EF9163F005525AE /* PBXTargetDependency */,
 				3077F4551E8D51ED006DA465 /* PBXTargetDependency */,
 				1AC6FB25180E99E1004C840B /* PBXTargetDependency */,
 				0240FC4B201224AC00E88157 /* PBXTargetDependency */,
@@ -1912,8 +1931,11 @@
 				304D9EC41EA8F849008CED52 /* MPLogo@2x.png in Resources */,
 				3EACC98F19EE6D4300EB3C5E /* res in Resources */,
 				304D9EBB1EA8F849008CED52 /* MPArrowRight@2x.png in Resources */,
+				E21E650D235F1A88000BC90F /* UI in Resources */,
 				304D9EB71EA8F849008CED52 /* test_variant.json in Resources */,
 				304D9EB31EA8F849008CED52 /* MPTakeoverNotificationViewController~ipad.xib in Resources */,
+				E21E6509235F1A88000BC90F /* Data in Resources */,
+				E21E650B235F1A88000BC90F /* Config in Resources */,
 				304D9EBA1EA8F849008CED52 /* MPArrowRight.png in Resources */,
 				304D9EB91EA8F849008CED52 /* MPArrowLeft@2x.png in Resources */,
 				02BF05EB1F9788C300E7D086 /* AirshipConfig.plist in Resources */,
@@ -2100,6 +2122,7 @@
 				926A2B3921356C2000AE7964 /* EditAccountLayer.cpp in Sources */,
 				9271D7D32040557D00370120 /* OomeeMakerDelegate.cpp in Sources */,
 				921A25F421627FD6005C8C41 /* SettingsLanguagePage.cpp in Sources */,
+				E21E650A235F1A88000BC90F /* ChatAPI.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				E229F67423351999005BA0D4 /* EpisodeSelector.cpp in Sources */,
 				0215646F1FC4202800641C14 /* HQScene2ElementPositioner.cpp in Sources */,
@@ -2152,6 +2175,7 @@
 				301CCA941EB139C1009ADA0C /* SettingsButton.cpp in Sources */,
 				928A6DCB20EBB9650053E793 /* ChildCreator.cpp in Sources */,
 				02E595931E55F9BB0052F395 /* OfflineHubHQElement.cpp in Sources */,
+				E21E650C235F1A88000BC90F /* AzoomeeChat.cpp in Sources */,
 				926A2B0C212EABB000AE7964 /* SettingsNavigationButton.cpp in Sources */,
 				E23EC8F62331172600DB6ED7 /* PurchaseCapsule.cpp in Sources */,
 				E212CC19231D4CB8009D4A63 /* ContentTile.cpp in Sources */,
@@ -2186,11 +2210,6 @@
 			isa = PBXTargetDependency;
 			name = "cocos2dx iOS";
 			targetProxy = 1AC6FB24180E99E1004C840B /* PBXContainerItemProxy */;
-		};
-		300742DF1EF9163F005525AE /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = AzoomeeChat;
-			targetProxy = 300742DE1EF9163F005525AE /* PBXContainerItemProxy */;
 		};
 		3077F4551E8D51ED006DA465 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

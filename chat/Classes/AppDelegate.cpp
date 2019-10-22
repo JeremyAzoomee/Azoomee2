@@ -1,7 +1,7 @@
 #include "AppDelegate.h"
 #include "LoginScene.h"
 #include "ChildSelectorScene.h"
-#include <AzoomeeChat/UI/FriendListScene.h>
+#include "AzoomeeChat/UI/FriendListScene.h"
 #include "Auth/AuthAPI.h"
 #include <AzoomeeCommon/Net/Utils.h>
 #include "ChatDelegate.h"

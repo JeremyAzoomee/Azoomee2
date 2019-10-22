@@ -3,7 +3,7 @@
 #include <AzoomeeCommon/API/HttpRequestCreator.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
-#include <AzoomeeChat/ChatAPI.h>
+#include "AzoomeeChat/ChatAPI.h"
 #include <external/json/document.h>
 
 using namespace cocos2d;
