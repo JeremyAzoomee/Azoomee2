@@ -224,6 +224,8 @@
 		E21B22142322B02E0032510A /* RoundedRectTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21B22132322B02E0032510A /* RoundedRectTile.cpp */; };
 		E21E650A235F1A88000BC90F /* ChatAPI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21E6503235F1A88000BC90F /* ChatAPI.cpp */; };
 		E21E650C235F1A88000BC90F /* AzoomeeChat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21E6505235F1A88000BC90F /* AzoomeeChat.cpp */; };
+		E21E650D235F1A88000BC90F /* UI in Resources */ = {isa = PBXBuildFile; fileRef = E21E6507235F1A88000BC90F /* UI */; };
+		E21E652E235F4281000BC90F /* ChatHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21E652D235F4281000BC90F /* ChatHQ.cpp */; };
 		E21E657F23605186000BC90F /* ChatTextField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21E654B23605186000BC90F /* ChatTextField.cpp */; };
 		E21E658023605186000BC90F /* FriendListView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21E654F23605186000BC90F /* FriendListView.cpp */; };
 		E21E658123605186000BC90F /* MessageComposer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21E655023605186000BC90F /* MessageComposer.cpp */; };
@@ -773,6 +775,8 @@
 		E21E6505235F1A88000BC90F /* AzoomeeChat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AzoomeeChat.cpp; sourceTree = "<group>"; };
 		E21E6506235F1A88000BC90F /* ChatAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatAPI.h; sourceTree = "<group>"; };
 		E21E6508235F1A88000BC90F /* AzoomeeChat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AzoomeeChat.h; sourceTree = "<group>"; };
+		E21E6526235F39F8000BC90F /* ChatHQ.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChatHQ.h; sourceTree = "<group>"; };
+		E21E652D235F4281000BC90F /* ChatHQ.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChatHQ.cpp; sourceTree = "<group>"; };
 		E21E654B23605186000BC90F /* ChatTextField.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChatTextField.cpp; sourceTree = "<group>"; };
 		E21E654C23605186000BC90F /* MessageListViewItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageListViewItem.h; sourceTree = "<group>"; };
 		E21E654D23605186000BC90F /* FriendListScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendListScene.h; sourceTree = "<group>"; };
@@ -1616,6 +1620,8 @@
 				E22ACB15230FE7E50024B328 /* VideoHQ.cpp */,
 				E21A4F202317CC0200E1D3FB /* OomeeHQ.h */,
 				E21A4F262317CC5300E1D3FB /* OomeeHQ.cpp */,
+				E21E6526235F39F8000BC90F /* ChatHQ.h */,
+				E21E652D235F4281000BC90F /* ChatHQ.cpp */,
 				923D5B7221FB5BA9008C13D0 /* HQSceneDepreciated.h */,
 				923D5BBD220064B9008C13D0 /* HQSceneDepreciated.cpp */,
 				923D5BC322007473008C13D0 /* ContentFeedHQScene.h */,
@@ -2116,6 +2122,7 @@
 				92E5856E221475120015A4FA /* ChildSettingsScene.cpp in Sources */,
 				9229EE5222DDD3E8009732B0 /* ProgressBar.cpp in Sources */,
 				9240334622D4E449009907F3 /* MarketingCarousel.cpp in Sources */,
+				E21E652E235F4281000BC90F /* ChatHQ.cpp in Sources */,
 				928A6DD520EBDD4A0053E793 /* AddChildLayer.cpp in Sources */,
 				E21E659723605186000BC90F /* ChatConfig.cpp in Sources */,
 				E21E658A23605186000BC90F /* StickerCategoryListView.cpp in Sources */,

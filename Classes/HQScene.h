@@ -22,6 +22,7 @@
 #include "GameHQ.h"
 #include "VideoHQ.h"
 #include "OomeeHQ.h"
+#include "ChatHQ.h"
 #include "SettingsButton.h"
 
 NS_AZOOMEE_BEGIN
@@ -54,6 +55,7 @@ private:
     GameHQ* _gameHQ = nullptr;
     VideoHQ* _videoHQ = nullptr;
     OomeeHQ* _oomeeHQ = nullptr;
+    ChatHQ* _chatHQ = nullptr;
     
     std::string _activePageName;
     
