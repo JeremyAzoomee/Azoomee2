@@ -4,7 +4,6 @@ include $(CLEAR_VARS)
 
 $(call import-add-path, $(LOCAL_PATH)/../../../cocos2d)
 $(call import-add-path, $(LOCAL_PATH)/../../../common/proj.android)
-$(call import-add-path, $(LOCAL_PATH)/../../../chat/proj.android)
 $(call import-add-path, $(LOCAL_PATH)/../../../artapp/proj.android)
 $(call import-add-path, $(LOCAL_PATH)/../../../oomeemaker/proj.android)
 
@@ -34,7 +33,6 @@ LOCAL_SRC_FILES += main.cpp
 
 LOCAL_STATIC_LIBRARIES := cc_static
 LOCAL_STATIC_LIBRARIES += azoomee_common
-LOCAL_STATIC_LIBRARIES += azoomee_chat
 LOCAL_STATIC_LIBRARIES += azoomee_art
 LOCAL_STATIC_LIBRARIES += azoomee_oomeemaker
 
@@ -45,7 +43,6 @@ include $(BUILD_SHARED_LIBRARY)
 
 $(call import-module, cocos)
 $(call import-module, azoomee_common/jni)
-$(call import-module, azoomee_chat/jni)
 $(call import-module, azoomee_artapp/jni)
 $(call import-module, azoomee_oomeemaker/jni)
 
