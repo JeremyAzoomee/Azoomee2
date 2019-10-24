@@ -1,20 +1,20 @@
 //
-//  FriendTile.cpp
+//  AddFriendTile.cpp
 //  Azoomee
 //
-//  Created by Macauley.Scoffins on 23/10/2019.
+//  Created by Macauley.Scoffins on 24/10/2019.
 //
 
-#include "FriendTile.h"
+#include "AddFriendTile.h"
 #include <AzoomeeCommon/UI/Style.h>
 
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-const float FriendTile::kFrameThickness = 10.0f;
+const float AddFriendTile::kFrameThickness = 10.0f;
 
-bool FriendTile::init()
+bool AddFriendTile::init()
 {
     if(!Super::init())
     {
@@ -25,7 +25,7 @@ bool FriendTile::init()
     _frame->ignoreContentAdaptWithSize(false);
     _frame->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
     _frame->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    _frame->setColor(Style::Color::macaroniAndCheese);
+    _frame->setColor(Color3B::WHITE);
     addChild(_frame);
     
     _clippingStencil = Sprite::create("res/hqscene/circle.png");
@@ -58,27 +58,27 @@ bool FriendTile::init()
     _circleGradient->setEndOpacity(255);
     _bgColour->addChild(_circleGradient);
     
-    _oomee = ui::ImageView::create();
-    _oomee->ignoreContentAdaptWithSize(false);
-    _oomee->setAnchorPoint(Vec2(0.5, 0.15f));
-    _oomee->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-    _bgColour->addChild(_oomee);
+    _plusIcon = ui::ImageView::create();
+    _plusIcon->ignoreContentAdaptWithSize(false);
+    _plusIcon->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _plusIcon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    _bgColour->addChild(_plusIcon);
     
-    _friendName = DynamicText::create("", Style::Font::PoppinsBold(), 55);
-    _friendName->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-    _friendName->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-    _friendName->setTextHorizontalAlignment(TextHAlignment::CENTER);
-    _friendName->setTextVerticalAlignment(TextVAlignment::BOTTOM);
-    _friendName->setColor(Color3B::WHITE);
-    _friendName->setOverflow(Label::Overflow::SHRINK);
-    addChild(_friendName);
+    _text = DynamicText::create("Add Friend", Style::Font::PoppinsBold(), 55);
+    _text->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _text->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _text->setTextHorizontalAlignment(TextHAlignment::CENTER);
+    _text->setTextVerticalAlignment(TextVAlignment::BOTTOM);
+    _text->setColor(Color3B::WHITE);
+    _text->setOverflow(Label::Overflow::SHRINK);
+    addChild(_text);
     
     addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
             if(_selectedCallback)
             {
-                _selectedCallback(_friendData);
+                _selectedCallback();
             }
         }
     });
@@ -86,44 +86,33 @@ bool FriendTile::init()
     return true;
 }
 
-void FriendTile::onEnter()
+void AddFriendTile::onEnter()
 {
     Super::onEnter();
 }
 
-void FriendTile::onExit()
+void AddFriendTile::onExit()
 {
     Super::onExit();
 }
 
-void FriendTile::onSizeChanged()
+void AddFriendTile::onSizeChanged()
 {
     Super::onSizeChanged();
 }
 
-void FriendTile::setFriendData(const Chat::FriendRef& friendData)
-{
-    _friendData = friendData;
-    if(_friendData)
-    {
-        _friendName->setString(_friendData->friendName());
-        ImageDownloaderRef avatarDownloader = ImageDownloader::create("avatars", ImageDownloader::CacheMode::File);
-        avatarDownloader->downloadImage(this, _friendData->avatarURL());
-    }
-}
-
-void FriendTile::setTileWidth(float width)
+void AddFriendTile::setTileWidth(float width)
 {
     setContentSize(Size(width, width * 1.5f));
     resizeContent();
 }
 
-void FriendTile::setSelectedCallback(const SelectedCallback &callback)
+void AddFriendTile::setSelectedCallback(const SelectedCallback &callback)
 {
     _selectedCallback = callback;
 }
 
-void FriendTile::resizeContent()
+void AddFriendTile::resizeContent()
 {
     const Size& contentSize = getContentSize();
     _frame->setContentSize(Size(contentSize.width, contentSize.width));
@@ -136,19 +125,9 @@ void FriendTile::resizeContent()
     _circleGradient->setContentSize(clipperSize);
     _circleGradient->setCenter(Vec2(clipperSize / 2.0f));
     _circleGradient->setRadius(clipperSize.height / 2.0f);
-    _oomee->setContentSize(clipperSize * 1.3f);
-    _friendName->setTextAreaSize(Size(contentSize.width, _friendName->getContentSize().height));
+    _plusIcon->setContentSize(clipperSize * 0.25f);
+    _text->setTextAreaSize(Size(contentSize.width, _text->getContentSize().height));
 }
 
-// delegate functions
-void FriendTile::onImageDownloadComplete(const ImageDownloaderRef& downloader)
-{
-    _oomee->loadTexture(downloader->getLocalImagePath());
-}
-
-void FriendTile::onImageDownloadFailed()
-{
-    
-}
 
 NS_AZOOMEE_END

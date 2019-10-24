@@ -1,12 +1,12 @@
 //
-//  FriendTile.h
+//  AddFriendTile.h
 //  Azoomee
 //
-//  Created by Macauley.Scoffins on 23/10/2019.
+//  Created by Macauley.Scoffins on 24/10/2019.
 //
 
-#ifndef FriendTile_h
-#define FriendTile_h
+#ifndef AddFriendTile_h
+#define AddFriendTile_h
 
 #include <AzoomeeCommon/Azoomee.h>
 #include <cocos/cocos2d.h>
@@ -17,15 +17,15 @@
 
 NS_AZOOMEE_BEGIN
 
-class FriendTile : public cocos2d::ui::Layout, public ImageDownloaderDelegate
+class AddFriendTile : public cocos2d::ui::Layout
 {
     typedef cocos2d::ui::Layout Super;
-    typedef std::function<void(Chat::FriendRef)> SelectedCallback;
+    typedef std::function<void()> SelectedCallback;
 private:
     
     static const float kFrameThickness;
     
-    cocos2d::ui::ImageView* _oomee = nullptr;
+    cocos2d::ui::ImageView* _plusIcon = nullptr;
     cocos2d::ClippingNode* _contentClipper = nullptr;
     cocos2d::Sprite* _clippingStencil = nullptr;
     cocos2d::ui::ImageView* _pattern = nullptr;
@@ -33,9 +33,7 @@ private:
     cocos2d::ui::ImageView* _frame = nullptr;
     cocos2d::LayerRadialGradient* _circleGradient = nullptr;
     
-    DynamicText* _friendName = nullptr;
-    
-    Chat::FriendRef _friendData = nullptr;
+    DynamicText* _text = nullptr;
     
     SelectedCallback _selectedCallback = nullptr;
     
@@ -48,19 +46,14 @@ public:
     void onExit() override;
     void onSizeChanged() override;
     
-    void setFriendData(const Chat::FriendRef& friendData);
     void setTileWidth(float width);
     
     void setSelectedCallback(const SelectedCallback& callback);
     
-    CREATE_FUNC(FriendTile);
+    CREATE_FUNC(AddFriendTile);
     
-    //delegate functions
-    void onImageDownloadComplete(const ImageDownloaderRef& downloader) override;
-    void onImageDownloadFailed() override;
-
 };
 
 NS_AZOOMEE_END
 
-#endif /* FriendTile_h */
+#endif /* AddFriendTile_h */

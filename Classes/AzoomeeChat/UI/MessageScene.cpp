@@ -8,6 +8,7 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 
 #include "FriendListScene.h"
+#include "../../HQHistoryManager.h"
 
 
 using namespace cocos2d;
@@ -305,8 +306,8 @@ void MessageScene::onBackButtonPressed()
     AnalyticsSingleton::getInstance()->contentItemClosedEvent();
     
     // Back to friend list
-    auto friendListScene = FriendListScene::create();
-    Director::getInstance()->replaceScene(TransitionSlideInL::create(0.25f, friendListScene));
+    //auto friendListScene = FriendListScene::create();
+    Director::getInstance()->replaceScene(TransitionSlideInT::create(0.25f, HQHistoryManager::getInstance()->getCachedHQScene()));
 }
 
 void MessageScene::onReportButtonPressed()
