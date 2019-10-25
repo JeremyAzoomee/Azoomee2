@@ -65,6 +65,8 @@ public:
 	static const std::string kOomeeMakerCacheFolder;
     static const std::string kContentCacheFolder;
     
+    static const std::string kAvatarImageCacheFolder;
+    
     static const std::string kGameDownloadError;
 	
 	static const std::string kIOSSubURL;
