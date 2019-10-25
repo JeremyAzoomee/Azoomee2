@@ -15,6 +15,7 @@
 #include "HQPage.h"
 #include "AzoomeeChat/ChatAPI.h"
 #include "FriendsList.h"
+#include "RecentMessages.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -24,7 +25,7 @@ class ChatHQ : public HQPage, Chat::ChatAPIObserver
 private:
     cocos2d::LayerGradient* _topScrollGradient = nullptr;
     
-    cocos2d::ui::Layout* _recentMessagesLayout = nullptr;
+    RecentMessages* _recentMessagesLayout = nullptr;
     DynamicText* _friendsListTitle = nullptr;
     FriendsList* _friendsListLayout = nullptr;
     

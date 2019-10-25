@@ -8,13 +8,14 @@
 #include "RecentMessages.h"
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/Strings.h>
 
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
 const float RecentMessages::kListViewPadding = 45.0f;
-const float RecentMessages::kHeaderHeightPercent = 0.15f;
+const float RecentMessages::kHeaderHeight = 300.0f;
 const float RecentMessages::kMessageBarSpacing = 30.0f;
 const float RecentMessages::kMessageBarHeightPortrait = 300.0f;
 const float RecentMessages::kMessageBarHeightLandscape = 240.0f;
@@ -49,9 +50,16 @@ bool RecentMessages::init()
     addChild(_contentLayout);
     
     _headerLayout = ui::Layout::create();
-    _headerLayout->setSizeType(SizeType::PERCENT);
-    _headerLayout->setSizePercent(Vec2(1.0f, kHeaderHeightPercent));
+    _headerLayout->setContentSize(Size(getContentSize().width, kHeaderHeight));
+    _headerLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _contentLayout->addChild(_headerLayout);
+    
+    _headerText = DynamicText::create(_("Recent Messages"), Style::Font::PoppinsBold(), 80);
+    _headerText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _headerText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    _headerText->setTextHorizontalAlignment(TextHAlignment::CENTER);
+    _headerText->setTextVerticalAlignment(TextVAlignment::CENTER);
+    _headerLayout->addChild(_headerText);
     
     _divider = cocos2d::ui::Layout::create();
     _divider->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
@@ -61,13 +69,13 @@ bool RecentMessages::init()
     _headerLayout->addChild(_divider);
     
     _messageListView = ui::ListView::create();
-    _messageListView->setSizeType(SizeType::PERCENT);
-    _messageListView->setSizePercent(Vec2(1.0f, 1.0f - kHeaderHeightPercent));
+    _messageListView->setContentSize(Size(getContentSize().width, getContentSize().height - kHeaderHeight));
     _messageListView->setDirection(ui::ListView::Direction::VERTICAL);
     _messageListView->setBounceEnabled(true);
     _messageListView->setItemsMargin(kMessageBarSpacing);
     _messageListView->setPadding(kListViewPadding, kListViewPadding, kListViewPadding, kListViewPadding);
     _messageListView->setGravity(ui::ListView::Gravity::LEFT);
+    _messageListView->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _contentLayout->addChild(_messageListView);
     
     _bottomGradient = RoundedRectSprite::create();
@@ -75,10 +83,10 @@ bool RecentMessages::init()
     _bottomGradient->setStretchImageEnabled(true);
     _bottomGradient->setCornerRadius(20);
     _bottomGradient->setRoundedCorners(true, true, false, false);
-    _bottomGradient->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
-    _bottomGradient->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_RIGHT);
+    _bottomGradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _bottomGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _bottomGradient->setColor(Style::Color::darkIndigoThree);
-    _contentLayout->addChild(_bottomGradient);
+    addChild(_bottomGradient);
     
     return true;
 }
@@ -102,6 +110,8 @@ void RecentMessages::onSizeChanged()
     _background->setContentSize(contentSize);
     _contentLayout->updateSizeAndPosition();
     _divider->setContentSize(Size(contentSize.width, 6));
+    _headerLayout->setContentSize(Size(contentSize.width, kHeaderHeight));
+    _messageListView->setContentSize(Size(contentSize.width, contentSize.height - kHeaderHeight));
     const Size& messageBarSize = Size(contentSize.width - (2 * kListViewPadding), _messageBarHeight);
     for(auto bar : _messageBars)
     {
@@ -148,7 +158,7 @@ void RecentMessages::setupMessageBars()
         for(auto message : _messageData)
         {
             ui::Layout* bar = ui::Layout::create();
-            bar->setBackGroundColor(Style::Color::darkIndigo);
+            bar->setBackGroundColor(Color3B::RED);
             bar->setBackGroundColorType(BackGroundColorType::SOLID);
             bar->setContentSize(messageBarSize);
             _messageListView->pushBackCustomItem(bar);

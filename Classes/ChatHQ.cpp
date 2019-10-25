@@ -66,6 +66,7 @@ void ChatHQ::onEnter()
 void ChatHQ::onExit()
 {
     Chat::ChatAPI::getInstance()->unscheduleFriendListPoll();
+    Chat::ChatAPI::getInstance()->removeObserver(this);
     Super::onExit();
 }
 
@@ -80,7 +81,7 @@ void ChatHQ::onSizeChanged()
         
         _recentMessagesLayout->setSizeType(SizeType::ABSOLUTE);
         _recentMessagesLayout->setPositionType(PositionType::ABSOLUTE);
-        _recentMessagesLayout->setContentSize(Size(_contentListView->getContentSize().width - (kListViewSidePadding / 4.0f), 1000));
+        _recentMessagesLayout->setContentSize(Size(_contentListView->getContentSize().width, 1500));
         if(_recentMessagesLayout->getParent() == _staticContentLayout)
         {
             _recentMessagesLayout->retain();
@@ -110,6 +111,8 @@ void ChatHQ::onSizeChanged()
     
     const float contentListViewWidth = _contentListView->getSizePercent().x * getContentSize().width;
     
+    _recentMessagesLayout->setMessageBarHeight(_isPortrait ? RecentMessages::kMessageBarHeightPortrait : RecentMessages::kMessageBarHeightLandscape);
+    
     _friendsListLayout->setContentSize(Size(contentListViewWidth, 0));
     _friendsListTitle->setFontSize(_isPortrait ? 89 : 75);
     _friendsListTitle->setTextAreaSize(Size(contentListViewWidth - kListViewSidePadding, _friendsListTitle->getContentSize().height));
@@ -122,11 +125,10 @@ void ChatHQ::onSizeChanged()
 
 void ChatHQ::createRecentMessages()
 {
-    _recentMessagesLayout = ui::Layout::create();
-    _recentMessagesLayout->setBackGroundColorType(BackGroundColorType::SOLID);
-    _recentMessagesLayout->setBackGroundColor(Color3B::RED);
+    _recentMessagesLayout = RecentMessages::create();
     _recentMessagesLayout->setSizeType(SizeType::PERCENT);
     _recentMessagesLayout->setSizePercent(Vec2(0.975f,0.95f));
+    _recentMessagesLayout->setMessageBarHeight(_isPortrait ? RecentMessages::kMessageBarHeightPortrait : RecentMessages::kMessageBarHeightLandscape);
     _recentMessagesLayout->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
     _recentMessagesLayout->setPositionType(PositionType::PERCENT);
     _recentMessagesLayout->setPositionPercent(Vec2::ANCHOR_TOP_LEFT);
@@ -171,6 +173,8 @@ void ChatHQ::onChatAPIGetFriendList(const Chat::FriendList& friendList, int amou
     _friendsListLayout->forceDoLayout();
     _contentListView->forceDoLayout();
     _contentListView->scrollToPercentVertical(scrollPercent, 0, false);
+    
+    Chat::ChatAPI::getInstance()->getTimelineSummary();
 }
 /// Get message list success response
 void ChatHQ::onChatAPIGetChatMessages(const Chat::MessageList& messageList)
@@ -185,7 +189,24 @@ void ChatHQ::onChatAPISendMessage(const Chat::MessageRef& sentMessage)
 /// Get Timeline Summary response
 void ChatHQ::onChatAPIGetTimelineSummary(const Chat::MessageList& messageList)
 {
+    std::vector<RecentMessage> messages;
+    const Chat::FriendList& friends = Chat::ChatAPI::getInstance()->getFriendList();
+    for(auto message : messageList)
+    {
+        auto friendIt = std::find_if(friends.begin(), friends.end(), [&](const Chat::FriendRef& friendObj){
+            return friendObj->friendId() == message->senderId();
+        });
+        
+        if(friendIt == friends.end())
+        {
+            continue;
+        }
+        
+        messages.push_back({*friendIt, message});
+        
+    }
     
+    _recentMessagesLayout->setMessageData(messages);
 }
 /// Conversation moderation status changed
 void ChatHQ::onChatAPIModerationStatusChanged(const Chat::FriendRef& friendObj)

@@ -18,7 +18,7 @@
 
 NS_AZOOMEE_BEGIN
 
-typedef std::pair<Chat::FriendRef, Chat::Message> RecentMessage;
+typedef std::pair<Chat::FriendRef, Chat::MessageRef> RecentMessage;
 
 class RecentMessages : public cocos2d::ui::Layout
 {
@@ -27,7 +27,7 @@ class RecentMessages : public cocos2d::ui::Layout
 private:
     
     static const float kListViewPadding;
-    static const float kHeaderHeightPercent;
+    static const float kHeaderHeight;
     static const float kMessageBarSpacing;
     
     RoundedRectSprite* _background = nullptr;
