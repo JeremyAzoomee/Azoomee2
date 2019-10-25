@@ -60,7 +60,7 @@ bool AddFriendTile::init()
     _circleGradient->setEndOpacity(255);
     _bgColour->addChild(_circleGradient);
     
-    _plusIcon = ui::ImageView::create();
+    _plusIcon = ui::ImageView::create("res/hqscene/add_friend_icon.png");
     _plusIcon->ignoreContentAdaptWithSize(false);
     _plusIcon->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _plusIcon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -127,7 +127,7 @@ void AddFriendTile::resizeContent()
     _circleGradient->setContentSize(clipperSize);
     _circleGradient->setCenter(Vec2(clipperSize / 2.0f));
     _circleGradient->setRadius(clipperSize.height / 2.0f);
-    _plusIcon->setContentSize(clipperSize * 0.25f);
+    _plusIcon->setContentSize(clipperSize);
     _text->setTextAreaSize(Size(contentSize.width, _text->getContentSize().height));
 }
 

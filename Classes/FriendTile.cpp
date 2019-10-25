@@ -61,10 +61,11 @@ bool FriendTile::init()
     _circleGradient->setEndOpacity(255);
     _bgColour->addChild(_circleGradient);
     
-    _oomee = ui::ImageView::create();
+    _oomee = ui::ImageView::create("res/hqscene/oomee_shape.png");
     _oomee->ignoreContentAdaptWithSize(false);
     _oomee->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _oomee->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    _oomee->setColor(Style::Color::darkIndigoFour);
     _bgColour->addChild(_oomee);
     
     _friendName = DynamicText::create("", Style::Font::PoppinsBold(), 55);
@@ -141,7 +142,7 @@ void FriendTile::resizeContent()
     _circleGradient->setContentSize(clipperSize);
     _circleGradient->setCenter(Vec2(clipperSize / 2.0f));
     _circleGradient->setRadius(clipperSize.height / 2.0f);
-    _oomee->setContentSize(clipperSize * (_friendData != nullptr ? 1.3f : 1.0f));
+    _oomee->setContentSize(clipperSize);
     _friendName->setTextAreaSize(Size(contentSize.width, _friendName->getContentSize().height));
 }
 
@@ -151,6 +152,8 @@ void FriendTile::onImageDownloadComplete(const ImageDownloaderRef& downloader)
     _oomee->setAnchorPoint(Vec2(0.5, 0.15f));
     _oomee->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _oomee->loadTexture(downloader->getLocalImagePath());
+    _oomee->setColor(Color3B::WHITE);
+    _oomee->setScale(1.3f);
 }
 
 void FriendTile::onImageDownloadFailed()
