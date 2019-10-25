@@ -263,6 +263,7 @@
 		E22ACB13230EF30D0024B328 /* GameHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACB12230EF30D0024B328 /* GameHQ.cpp */; };
 		E22ACB16230FE7E50024B328 /* VideoHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACB15230FE7E50024B328 /* VideoHQ.cpp */; };
 		E22C3F9A2355C40900FFFF52 /* ArtTileHolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22C3F992355C40900FFFF52 /* ArtTileHolder.cpp */; };
+		E22D08652362FA200039BB2C /* RecentMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22D08642362FA200039BB2C /* RecentMessages.cpp */; };
 		E23EC8F62331172600DB6ED7 /* PurchaseCapsule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23EC8F52331172600DB6ED7 /* PurchaseCapsule.cpp */; };
 		E244546A2350800E005E5E6C /* OomeeMakerButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E24454692350800E005E5E6C /* OomeeMakerButton.cpp */; };
 		E244546D235099C1005E5E6C /* OomeeStoreButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E244546C235099C1005E5E6C /* OomeeStoreButton.cpp */; };
@@ -855,6 +856,8 @@
 		E22ACB15230FE7E50024B328 /* VideoHQ.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VideoHQ.cpp; sourceTree = "<group>"; };
 		E22C3F982355BAE400FFFF52 /* ArtTileHolder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArtTileHolder.h; sourceTree = "<group>"; };
 		E22C3F992355C40900FFFF52 /* ArtTileHolder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ArtTileHolder.cpp; sourceTree = "<group>"; };
+		E22D085F2362F7880039BB2C /* RecentMessages.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecentMessages.h; sourceTree = "<group>"; };
+		E22D08642362FA200039BB2C /* RecentMessages.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RecentMessages.cpp; sourceTree = "<group>"; };
 		E23EC8EF2331120F00DB6ED7 /* PurchaseCapsule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PurchaseCapsule.h; sourceTree = "<group>"; };
 		E23EC8F52331172600DB6ED7 /* PurchaseCapsule.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PurchaseCapsule.cpp; sourceTree = "<group>"; };
 		E244546323507F6C005E5E6C /* OomeeMakerButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OomeeMakerButton.h; sourceTree = "<group>"; };
@@ -1832,6 +1835,8 @@
 				E21E65D42361AFB7000BC90F /* FriendsList.cpp */,
 				E21E65D72361EF68000BC90F /* AddFriendTile.h */,
 				E21E65D82361F174000BC90F /* AddFriendTile.cpp */,
+				E22D085F2362F7880039BB2C /* RecentMessages.h */,
+				E22D08642362FA200039BB2C /* RecentMessages.cpp */,
 			);
 			name = ChatHQComponents;
 			sourceTree = "<group>";
@@ -2256,6 +2261,7 @@
 				E21E659623605186000BC90F /* Friend.cpp in Sources */,
 				92448AE621F73AEF00E88C9D /* WelcomeScene.cpp in Sources */,
 				921A2673216F9FA1005C8C41 /* VodacomOnboardingLoginLayer.cpp in Sources */,
+				E22D08652362FA200039BB2C /* RecentMessages.cpp in Sources */,
 				E21E658223605186000BC90F /* MessageListViewItem.cpp in Sources */,
 				9229EE4A22D795BA009732B0 /* IAPFooter.cpp in Sources */,
 				926A2B3921356C2000AE7964 /* EditAccountLayer.cpp in Sources */,
