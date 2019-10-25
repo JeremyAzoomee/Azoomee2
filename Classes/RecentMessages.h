@@ -35,6 +35,8 @@ private:
     cocos2d::ui::Layout* _contentLayout = nullptr;
     cocos2d::ui::Layout* _headerLayout = nullptr;
     DynamicText* _headerText = nullptr;
+    RoundedRectSprite* _bannerGradient = nullptr;
+    cocos2d::LayerGradient* _bannerShadow = nullptr;
     cocos2d::ui::Layout* _divider = nullptr;
     cocos2d::ui::ListView* _messageListView = nullptr;
     cocos2d::Vector<cocos2d::ui::Layout*> _messageBars;

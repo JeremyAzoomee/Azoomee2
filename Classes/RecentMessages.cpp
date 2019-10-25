@@ -54,11 +54,30 @@ bool RecentMessages::init()
     _headerLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _contentLayout->addChild(_headerLayout);
     
+    _bannerGradient = RoundedRectSprite::create();
+    _bannerGradient->setTexture("res/hqscene/chat_banner_bg.png");
+    _bannerGradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _bannerGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    _bannerGradient->setCornerRadius(20);
+    _bannerGradient->setRoundedCorners(false, false, true, true);
+    _bannerGradient->setStretchImageEnabled(true);
+    _headerLayout->addChild(_bannerGradient);
+    
+    _bannerShadow = LayerGradient::create();
+    _bannerShadow->setStartColor(Style::Color::darkIndigoThree);
+    _bannerShadow->setStartOpacity(0);
+    _bannerShadow->setEndColor(Style::Color::darkIndigoThree);
+    _bannerShadow->setEndOpacity(255);
+    _bannerShadow->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+    _bannerShadow->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_LEFT);
+    _headerLayout->addChild(_bannerShadow);
+    
     _headerText = DynamicText::create(_("Recent Messages"), Style::Font::PoppinsBold(), 80);
     _headerText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _headerText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _headerText->setTextHorizontalAlignment(TextHAlignment::CENTER);
     _headerText->setTextVerticalAlignment(TextVAlignment::CENTER);
+    _headerText->enableShadow();
     _headerLayout->addChild(_headerText);
     
     _divider = cocos2d::ui::Layout::create();
@@ -111,6 +130,8 @@ void RecentMessages::onSizeChanged()
     _contentLayout->updateSizeAndPosition();
     _divider->setContentSize(Size(contentSize.width, 6));
     _headerLayout->setContentSize(Size(contentSize.width, kHeaderHeight));
+    _bannerGradient->setContentSize(_headerLayout->getContentSize());
+    _bannerShadow->setContentSize(Size(contentSize.width, kHeaderHeight * 0.5f));
     _messageListView->setContentSize(Size(contentSize.width, contentSize.height - kHeaderHeight));
     const Size& messageBarSize = Size(contentSize.width - (2 * kListViewPadding), _messageBarHeight);
     for(auto bar : _messageBars)
