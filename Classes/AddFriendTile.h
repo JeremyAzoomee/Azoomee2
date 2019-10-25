@@ -22,7 +22,7 @@ class AddFriendTile : public cocos2d::ui::Layout
     typedef cocos2d::ui::Layout Super;
     typedef std::function<void()> SelectedCallback;
 private:
-    
+    static const float kHeightScale;
     static const float kFrameThickness;
     
     cocos2d::ui::ImageView* _plusIcon = nullptr;

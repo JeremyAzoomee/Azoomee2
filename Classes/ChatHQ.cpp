@@ -17,6 +17,8 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+const Size ChatHQ::kFriendTileSize = Size(300,450);
+
 bool ChatHQ::init()
 {
     if(!Super::init())
@@ -145,7 +147,7 @@ void ChatHQ::createFriendsList()
     
     _friendsListLayout = FriendsList::create();
     _friendsListLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
-    _friendsListLayout->setTileSize(Size(300,450));
+    _friendsListLayout->setTileSize(kFriendTileSize);
     _friendsListLayout->setMinColumns(3);
     _friendsListLayout->setFriendSelectedCallback([this](Chat::FriendRef friendData){
         Chat::FriendList participants = { _currentUser, friendData };
@@ -172,35 +174,12 @@ void ChatHQ::onChatAPIGetFriendList(const Chat::FriendList& friendList, int amou
     _contentListView->forceDoLayout();
     _contentListView->scrollToPercentVertical(scrollPercent, 0, false);
 }
-/// Get message list success response
-void ChatHQ::onChatAPIGetChatMessages(const Chat::MessageList& messageList)
-{
-    
-}
-/// Send message success response
-void ChatHQ::onChatAPISendMessage(const Chat::MessageRef& sentMessage)
-{
-    
-}
+
 /// Get Timeline Summary response
 void ChatHQ::onChatAPIGetTimelineSummary(const Chat::MessageList& messageList)
 {
     
 }
-/// Conversation moderation status changed
-void ChatHQ::onChatAPIModerationStatusChanged(const Chat::FriendRef& friendObj)
-{
-    
-}
-/// API error from Chat request
-void ChatHQ::onChatAPIErrorRecieved(const std::string& requestTag, long errorCode)
-{
-    
-}
-/// Refresh child session response
-void ChatHQ::onChatAPIRefreshChildSession()
-{
-    
-}
+
 
 NS_AZOOMEE_END

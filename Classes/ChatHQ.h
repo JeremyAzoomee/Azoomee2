@@ -22,6 +22,8 @@ class ChatHQ : public HQPage, Chat::ChatAPIObserver
 {
     typedef HQPage Super;
 private:
+    static const cocos2d::Size kFriendTileSize;
+    
     cocos2d::LayerGradient* _topScrollGradient = nullptr;
     
     cocos2d::ui::Layout* _recentMessagesLayout = nullptr;
@@ -45,18 +47,8 @@ public:
     // Chat API observer
     /// Friend List success response
     virtual void onChatAPIGetFriendList(const Chat::FriendList& friendList, int amountOfNewMessages) override;
-    /// Get message list success response
-    virtual void onChatAPIGetChatMessages(const Chat::MessageList& messageList) override;
-    /// Send message success response
-    virtual void onChatAPISendMessage(const Chat::MessageRef& sentMessage) override;
     /// Get Timeline Summary response
     virtual void onChatAPIGetTimelineSummary(const Chat::MessageList& messageList) override;
-    /// Conversation moderation status changed
-    virtual void onChatAPIModerationStatusChanged(const Chat::FriendRef& friendObj) override;
-    /// API error from Chat request
-    virtual void onChatAPIErrorRecieved(const std::string& requestTag, long errorCode) override;
-    /// Refresh child session response
-    virtual void onChatAPIRefreshChildSession() override;
 };
 
 NS_AZOOMEE_END

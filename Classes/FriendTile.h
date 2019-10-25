@@ -22,7 +22,7 @@ class FriendTile : public cocos2d::ui::Layout, public ImageDownloaderDelegate
     typedef cocos2d::ui::Layout Super;
     typedef std::function<void(Chat::FriendRef)> SelectedCallback;
 private:
-    
+    static const float kHeightScale;
     static const float kFrameThickness;
     
     cocos2d::ui::ImageView* _oomee = nullptr;

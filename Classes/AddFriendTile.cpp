@@ -7,11 +7,13 @@
 
 #include "AddFriendTile.h"
 #include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/Strings.h>
 
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+const float AddFriendTile::kHeightScale = 1.5f;
 const float AddFriendTile::kFrameThickness = 10.0f;
 
 bool AddFriendTile::init()
@@ -64,7 +66,7 @@ bool AddFriendTile::init()
     _plusIcon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _bgColour->addChild(_plusIcon);
     
-    _text = DynamicText::create("Add Friend", Style::Font::PoppinsBold(), 55);
+    _text = DynamicText::create(_("Add Friend"), Style::Font::PoppinsBold(), 55);
     _text->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _text->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _text->setTextHorizontalAlignment(TextHAlignment::CENTER);
@@ -99,12 +101,12 @@ void AddFriendTile::onExit()
 void AddFriendTile::onSizeChanged()
 {
     Super::onSizeChanged();
+    resizeContent();
 }
 
 void AddFriendTile::setTileWidth(float width)
 {
-    setContentSize(Size(width, width * 1.5f));
-    resizeContent();
+    setContentSize(Size(width, width * kHeightScale));
 }
 
 void AddFriendTile::setSelectedCallback(const SelectedCallback &callback)

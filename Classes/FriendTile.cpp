@@ -7,11 +7,13 @@
 
 #include "FriendTile.h"
 #include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+const float FriendTile::kHeightScale = 1.5f;
 const float FriendTile::kFrameThickness = 10.0f;
 
 bool FriendTile::init()
@@ -25,7 +27,7 @@ bool FriendTile::init()
     _frame->ignoreContentAdaptWithSize(false);
     _frame->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
     _frame->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    _frame->setColor(Style::Color::macaroniAndCheese);
+    _frame->setColor(Style::Color::darkIndigoThree);
     addChild(_frame);
     
     _clippingStencil = Sprite::create("res/hqscene/circle.png");
@@ -49,6 +51,7 @@ bool FriendTile::init()
     _pattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _pattern->setColor(Color3B::WHITE);
     _pattern->setScale(0.4f);
+    _pattern->setVisible(false);
     _bgColour->addChild(_pattern);
     
     _circleGradient = LayerRadialGradient::create();
@@ -60,8 +63,8 @@ bool FriendTile::init()
     
     _oomee = ui::ImageView::create();
     _oomee->ignoreContentAdaptWithSize(false);
-    _oomee->setAnchorPoint(Vec2(0.5, 0.15f));
-    _oomee->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _oomee->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _oomee->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _bgColour->addChild(_oomee);
     
     _friendName = DynamicText::create("", Style::Font::PoppinsBold(), 55);
@@ -99,6 +102,7 @@ void FriendTile::onExit()
 void FriendTile::onSizeChanged()
 {
     Super::onSizeChanged();
+    resizeContent();
 }
 
 void FriendTile::setFriendData(const Chat::FriendRef& friendData)
@@ -107,15 +111,16 @@ void FriendTile::setFriendData(const Chat::FriendRef& friendData)
     if(_friendData)
     {
         _friendName->setString(_friendData->friendName());
-        ImageDownloaderRef avatarDownloader = ImageDownloader::create("avatars", ImageDownloader::CacheMode::File);
+        ImageDownloaderRef avatarDownloader = ImageDownloader::create(ConfigStorage::kAvatarImageCacheFolder, ImageDownloader::CacheMode::File);
         avatarDownloader->downloadImage(this, _friendData->avatarURL());
+        _frame->setColor(Style::Color::macaroniAndCheese);
+        _pattern->setVisible(true);
     }
 }
 
 void FriendTile::setTileWidth(float width)
 {
-    setContentSize(Size(width, width * 1.5f));
-    resizeContent();
+    setContentSize(Size(width, width * kHeightScale));
 }
 
 void FriendTile::setSelectedCallback(const SelectedCallback &callback)
@@ -136,13 +141,15 @@ void FriendTile::resizeContent()
     _circleGradient->setContentSize(clipperSize);
     _circleGradient->setCenter(Vec2(clipperSize / 2.0f));
     _circleGradient->setRadius(clipperSize.height / 2.0f);
-    _oomee->setContentSize(clipperSize * 1.3f);
+    _oomee->setContentSize(clipperSize * (_friendData != nullptr ? 1.3f : 1.0f));
     _friendName->setTextAreaSize(Size(contentSize.width, _friendName->getContentSize().height));
 }
 
 // delegate functions
 void FriendTile::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {
+    _oomee->setAnchorPoint(Vec2(0.5, 0.15f));
+    _oomee->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _oomee->loadTexture(downloader->getLocalImagePath());
 }
 
