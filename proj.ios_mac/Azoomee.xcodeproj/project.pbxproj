@@ -224,7 +224,6 @@
 		E21B22142322B02E0032510A /* RoundedRectTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21B22132322B02E0032510A /* RoundedRectTile.cpp */; };
 		E21E650A235F1A88000BC90F /* ChatAPI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21E6503235F1A88000BC90F /* ChatAPI.cpp */; };
 		E21E650C235F1A88000BC90F /* AzoomeeChat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21E6505235F1A88000BC90F /* AzoomeeChat.cpp */; };
-		E21E650D235F1A88000BC90F /* UI in Resources */ = {isa = PBXBuildFile; fileRef = E21E6507235F1A88000BC90F /* UI */; };
 		E21E652E235F4281000BC90F /* ChatHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21E652D235F4281000BC90F /* ChatHQ.cpp */; };
 		E21E657F23605186000BC90F /* ChatTextField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21E654B23605186000BC90F /* ChatTextField.cpp */; };
 		E21E658023605186000BC90F /* FriendListView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21E654F23605186000BC90F /* FriendListView.cpp */; };
@@ -251,6 +250,9 @@
 		E21E659523605186000BC90F /* StickerCategory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21E657623605186000BC90F /* StickerCategory.cpp */; };
 		E21E659623605186000BC90F /* Friend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21E657923605186000BC90F /* Friend.cpp */; };
 		E21E659723605186000BC90F /* ChatConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21E657E23605186000BC90F /* ChatConfig.cpp */; };
+		E21E65D22360810B000BC90F /* FriendTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21E65D12360810B000BC90F /* FriendTile.cpp */; };
+		E21E65D52361AFB7000BC90F /* FriendsList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21E65D42361AFB7000BC90F /* FriendsList.cpp */; };
+		E21E65D92361F174000BC90F /* AddFriendTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21E65D82361F174000BC90F /* AddFriendTile.cpp */; };
 		E220CC1923548EE000F646CA /* ArtContentTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E220CC1823548EE000F646CA /* ArtContentTile.cpp */; };
 		E229F67423351999005BA0D4 /* EpisodeSelector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E229F67323351999005BA0D4 /* EpisodeSelector.cpp */; };
 		E229F6772338CF46005BA0D4 /* EpisodeBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E229F6762338CF46005BA0D4 /* EpisodeBar.cpp */; };
@@ -827,6 +829,12 @@
 		E21E657B23605186000BC90F /* StickerCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StickerCategory.h; sourceTree = "<group>"; };
 		E21E657D23605186000BC90F /* ChatConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatConfig.h; sourceTree = "<group>"; };
 		E21E657E23605186000BC90F /* ChatConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChatConfig.cpp; sourceTree = "<group>"; };
+		E21E65D023606FDC000BC90F /* FriendTile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FriendTile.h; sourceTree = "<group>"; };
+		E21E65D12360810B000BC90F /* FriendTile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FriendTile.cpp; sourceTree = "<group>"; };
+		E21E65D32361A614000BC90F /* FriendsList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FriendsList.h; sourceTree = "<group>"; };
+		E21E65D42361AFB7000BC90F /* FriendsList.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FriendsList.cpp; sourceTree = "<group>"; };
+		E21E65D72361EF68000BC90F /* AddFriendTile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddFriendTile.h; sourceTree = "<group>"; };
+		E21E65D82361F174000BC90F /* AddFriendTile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AddFriendTile.cpp; sourceTree = "<group>"; };
 		E220CC122354889000F646CA /* ArtContentTile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArtContentTile.h; sourceTree = "<group>"; };
 		E220CC1823548EE000F646CA /* ArtContentTile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ArtContentTile.cpp; sourceTree = "<group>"; };
 		E229F67223350BCA005BA0D4 /* EpisodeSelector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EpisodeSelector.h; sourceTree = "<group>"; };
@@ -1607,6 +1615,7 @@
 			isa = PBXGroup;
 			children = (
 				E2A6F45723586CA1003809A9 /* HQConstants.h */,
+				E21E65CB23606FB7000BC90F /* ChatHQComponents */,
 				E2D3B506234B3AFC00074881 /* OomeeHQComponents */,
 				E229F66C23350BA0005BA0D4 /* EpisodeSelector */,
 				E212CC11231D3E9C009D4A63 /* ContentTiles */,
@@ -1746,44 +1755,44 @@
 		E21E654A23605186000BC90F /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				E21E654B23605186000BC90F /* ChatTextField.cpp */,
-				E21E654C23605186000BC90F /* MessageListViewItem.h */,
-				E21E654D23605186000BC90F /* FriendListScene.h */,
-				E21E654E23605186000BC90F /* TitleBarWidget.h */,
-				E21E654F23605186000BC90F /* FriendListView.cpp */,
-				E21E655023605186000BC90F /* MessageComposer.cpp */,
-				E21E655123605186000BC90F /* ArtListColumn.h */,
-				E21E655223605186000BC90F /* MessageComposer.h */,
-				E21E655323605186000BC90F /* MessageListViewItem.cpp */,
-				E21E655423605186000BC90F /* StickerSelector.h */,
-				E21E655523605186000BC90F /* MessageListView.cpp */,
-				E21E655623605186000BC90F /* ArtListView.h */,
-				E21E655723605186000BC90F /* StickerSelector.cpp */,
-				E21E655823605186000BC90F /* StickerListViewColumn.h */,
-				E21E655923605186000BC90F /* AvatarWidget.h */,
-				E21E655A23605186000BC90F /* MessageListView.h */,
-				E21E655B23605186000BC90F /* FriendListScene.cpp */,
-				E21E655C23605186000BC90F /* StickerCategoryListViewItem.cpp */,
-				E21E655D23605186000BC90F /* ArtListItemOnScreenChecker.h */,
-				E21E655E23605186000BC90F /* FriendListSceneArtPreview.h */,
-				E21E655F23605186000BC90F /* StickerListViewColumn.cpp */,
-				E21E656023605186000BC90F /* FriendListSceneArtPreview.cpp */,
-				E21E656123605186000BC90F /* AvatarWidget.cpp */,
-				E21E656223605186000BC90F /* StickerCategoryListView.h */,
-				E21E656323605186000BC90F /* ChatTextField.h */,
-				E21E656423605186000BC90F /* MessageScene.h */,
-				E21E656523605186000BC90F /* StickerCategoryListViewItem.h */,
-				E21E656623605186000BC90F /* StickerCategoryListView.cpp */,
-				E21E656723605186000BC90F /* StickerListView.cpp */,
-				E21E656823605186000BC90F /* FriendListViewItem.h */,
 				E21E656923605186000BC90F /* ArtListColumn.cpp */,
-				E21E656A23605186000BC90F /* StickerListView.h */,
-				E21E656B23605186000BC90F /* MessageScene.cpp */,
-				E21E656C23605186000BC90F /* FriendListView.h */,
-				E21E656D23605186000BC90F /* ArtListView.cpp */,
+				E21E655123605186000BC90F /* ArtListColumn.h */,
 				E21E656E23605186000BC90F /* ArtListItemOnScreenChecker.cpp */,
+				E21E655D23605186000BC90F /* ArtListItemOnScreenChecker.h */,
+				E21E656D23605186000BC90F /* ArtListView.cpp */,
+				E21E655623605186000BC90F /* ArtListView.h */,
+				E21E656123605186000BC90F /* AvatarWidget.cpp */,
+				E21E655923605186000BC90F /* AvatarWidget.h */,
+				E21E654B23605186000BC90F /* ChatTextField.cpp */,
+				E21E656323605186000BC90F /* ChatTextField.h */,
+				E21E655B23605186000BC90F /* FriendListScene.cpp */,
+				E21E654D23605186000BC90F /* FriendListScene.h */,
+				E21E656023605186000BC90F /* FriendListSceneArtPreview.cpp */,
+				E21E655E23605186000BC90F /* FriendListSceneArtPreview.h */,
+				E21E654F23605186000BC90F /* FriendListView.cpp */,
+				E21E656C23605186000BC90F /* FriendListView.h */,
 				E21E656F23605186000BC90F /* FriendListViewItem.cpp */,
+				E21E656823605186000BC90F /* FriendListViewItem.h */,
+				E21E655023605186000BC90F /* MessageComposer.cpp */,
+				E21E655223605186000BC90F /* MessageComposer.h */,
+				E21E655523605186000BC90F /* MessageListView.cpp */,
+				E21E655A23605186000BC90F /* MessageListView.h */,
+				E21E655323605186000BC90F /* MessageListViewItem.cpp */,
+				E21E654C23605186000BC90F /* MessageListViewItem.h */,
+				E21E656B23605186000BC90F /* MessageScene.cpp */,
+				E21E656423605186000BC90F /* MessageScene.h */,
+				E21E656623605186000BC90F /* StickerCategoryListView.cpp */,
+				E21E656223605186000BC90F /* StickerCategoryListView.h */,
+				E21E655C23605186000BC90F /* StickerCategoryListViewItem.cpp */,
+				E21E656523605186000BC90F /* StickerCategoryListViewItem.h */,
+				E21E656723605186000BC90F /* StickerListView.cpp */,
+				E21E656A23605186000BC90F /* StickerListView.h */,
+				E21E655F23605186000BC90F /* StickerListViewColumn.cpp */,
+				E21E655823605186000BC90F /* StickerListViewColumn.h */,
+				E21E655723605186000BC90F /* StickerSelector.cpp */,
+				E21E655423605186000BC90F /* StickerSelector.h */,
 				E21E657023605186000BC90F /* TitleBarWidget.cpp */,
+				E21E654E23605186000BC90F /* TitleBarWidget.h */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1791,15 +1800,15 @@
 		E21E657123605186000BC90F /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				E21E657223605186000BC90F /* Friend.h */,
-				E21E657323605186000BC90F /* StickerCache.cpp */,
-				E21E657423605186000BC90F /* Message.cpp */,
-				E21E657523605186000BC90F /* Sticker.cpp */,
-				E21E657623605186000BC90F /* StickerCategory.cpp */,
-				E21E657723605186000BC90F /* Message.h */,
-				E21E657823605186000BC90F /* StickerCache.h */,
 				E21E657923605186000BC90F /* Friend.cpp */,
+				E21E657223605186000BC90F /* Friend.h */,
+				E21E657423605186000BC90F /* Message.cpp */,
+				E21E657723605186000BC90F /* Message.h */,
+				E21E657523605186000BC90F /* Sticker.cpp */,
 				E21E657A23605186000BC90F /* Sticker.h */,
+				E21E657323605186000BC90F /* StickerCache.cpp */,
+				E21E657823605186000BC90F /* StickerCache.h */,
+				E21E657623605186000BC90F /* StickerCategory.cpp */,
 				E21E657B23605186000BC90F /* StickerCategory.h */,
 			);
 			path = Data;
@@ -1812,6 +1821,19 @@
 				E21E657E23605186000BC90F /* ChatConfig.cpp */,
 			);
 			path = Config;
+			sourceTree = "<group>";
+		};
+		E21E65CB23606FB7000BC90F /* ChatHQComponents */ = {
+			isa = PBXGroup;
+			children = (
+				E21E65D023606FDC000BC90F /* FriendTile.h */,
+				E21E65D12360810B000BC90F /* FriendTile.cpp */,
+				E21E65D32361A614000BC90F /* FriendsList.h */,
+				E21E65D42361AFB7000BC90F /* FriendsList.cpp */,
+				E21E65D72361EF68000BC90F /* AddFriendTile.h */,
+				E21E65D82361F174000BC90F /* AddFriendTile.cpp */,
+			);
+			name = ChatHQComponents;
 			sourceTree = "<group>";
 		};
 		E229F66C23350BA0005BA0D4 /* EpisodeSelector */ = {
@@ -2249,6 +2271,7 @@
 				E21E658623605186000BC90F /* StickerCategoryListViewItem.cpp in Sources */,
 				924E845821427C05004590FD /* SettingsMessageBoxDeleteChild.cpp in Sources */,
 				9229EECB22E5C6AF009732B0 /* PopupMessageBox.cpp in Sources */,
+				E21E65D22360810B000BC90F /* FriendTile.cpp in Sources */,
 				E22ACA06230C07650024B328 /* NavigationBar.cpp in Sources */,
 				929FB10322E8A6440088D406 /* MarketingAssetManager.cpp in Sources */,
 				E22ACB16230FE7E50024B328 /* VideoHQ.cpp in Sources */,
@@ -2266,6 +2289,7 @@
 				E2D3B50E234B4B8100074881 /* OomeeDisplay.cpp in Sources */,
 				9229EE4E22DCAFAA009732B0 /* SignupScene.cpp in Sources */,
 				02A11FF81EA6375D007EDD95 /* RoutePaymentSingleton.cpp in Sources */,
+				E21E65D52361AFB7000BC90F /* FriendsList.cpp in Sources */,
 				D13C40151E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm in Sources */,
 				E212CC75231D75E7009D4A63 /* ContentTileHolder.cpp in Sources */,
 				921C75AD219464A100EB93D6 /* VodacomOnboardingTnCLayer.cpp in Sources */,
@@ -2281,6 +2305,7 @@
 				92A9A0A91F0D1775008A19EB /* ArtAppDelegate.cpp in Sources */,
 				92BDD4CC22380D4700DA56F3 /* ShopItemPurchasePopup.cpp in Sources */,
 				4396947D1EAA4855003C17E6 /* ApplePaymentSingleton.mm in Sources */,
+				E21E65D92361F174000BC90F /* AddFriendTile.cpp in Sources */,
 				929FB10722E9A8450088D406 /* PaymentSuccessScreen.cpp in Sources */,
 				921A25F72162830A005C8C41 /* LanguageListItem.cpp in Sources */,
 				02D4FCD41FCF0D0C005BA020 /* IAPProductDataHandler.cpp in Sources */,

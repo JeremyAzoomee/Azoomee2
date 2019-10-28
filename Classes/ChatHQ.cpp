@@ -9,10 +9,15 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include "AzoomeeChat/UI/MessageScene.h"
+#include "ChatDelegate.h"
 
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
+
+const Size ChatHQ::kFriendTileSize = Size(300,450);
 
 bool ChatHQ::init()
 {
@@ -48,11 +53,21 @@ bool ChatHQ::init()
 
 void ChatHQ::onEnter()
 {
+    // Create a friend object which represents the current user
+    const std::string& childId = ChildManager::getInstance()->getParentOrChildId();
+    const std::string& childName = ChildManager::getInstance()->getParentOrChildName();
+    const std::string& childAvatar = ChildManager::getInstance()->getParentOrChildAvatarId();
+    _currentUser = Chat::Friend::create(childId, childName, childAvatar);
+    Azoomee::Chat::delegate = ChatDelegate::getInstance();
+    Chat::ChatAPI::getInstance()->registerObserver(this);
+    Chat::ChatAPI::getInstance()->requestFriendList();
+    Chat::ChatAPI::getInstance()->scheduleFriendListPoll();
     Super::onEnter();
 }
 
 void ChatHQ::onExit()
 {
+    Chat::ChatAPI::getInstance()->unscheduleFriendListPoll();
     Super::onExit();
 }
 
@@ -97,7 +112,9 @@ void ChatHQ::onSizeChanged()
     
     const float contentListViewWidth = _contentListView->getSizePercent().x * getContentSize().width;
     
-    _friendsListLayout->setContentSize(Size(contentListViewWidth, 1000));
+    _friendsListLayout->setContentSize(Size(contentListViewWidth, 0));
+    _friendsListTitle->setFontSize(_isPortrait ? 89 : 75);
+    _friendsListTitle->setTextAreaSize(Size(contentListViewWidth - kListViewSidePadding, _friendsListTitle->getContentSize().height));
     
     _topScrollGradient->setContentSize(Size(contentListViewWidth, _topScrollGradient->getContentSize().height));
     
@@ -120,11 +137,49 @@ void ChatHQ::createRecentMessages()
 
 void ChatHQ::createFriendsList()
 {
-    _friendsListLayout = ui::Layout::create();
-    _friendsListLayout->setBackGroundColorType(BackGroundColorType::SOLID);
-    _friendsListLayout->setBackGroundColor(Color3B::GREEN);
+    _friendsListTitle = DynamicText::create(_("Friends"), Style::Font::PoppinsBold(), 75);
+    _friendsListTitle->setTextVerticalAlignment(TextVAlignment::CENTER);
+    _friendsListTitle->setTextHorizontalAlignment(TextHAlignment::LEFT);
+    _friendsListTitle->setOverflow(Label::Overflow::SHRINK);
+    _friendsListTitle->setTextColor(Color4B::WHITE);
+    _friendsListTitle->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+    _contentListView->pushBackCustomItem(_friendsListTitle);
+    
+    _friendsListLayout = FriendsList::create();
     _friendsListLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+    _friendsListLayout->setTileSize(kFriendTileSize);
+    _friendsListLayout->setMinColumns(3);
+    _friendsListLayout->setFriendSelectedCallback([this](Chat::FriendRef friendData){
+        Chat::FriendList participants = { _currentUser, friendData };
+        auto messageScene = Chat::MessageScene::create(participants);
+        Director::getInstance()->replaceScene(TransitionSlideInB::create(0.25f, messageScene));
+    });
+    _friendsListLayout->setAddFriendSelectedCallback([](){
+        ChatDelegate::getInstance()->onChatAddFriend();
+    });
     _contentListView->addChild(_friendsListLayout);
 }
+
+// Chat API observer
+/// Friend List success response
+void ChatHQ::onChatAPIGetFriendList(const Chat::FriendList& friendList, int amountOfNewMessages)
+{
+    float scrollPercent = _contentListView->getScrolledPercentVertical();
+    if(isnan(scrollPercent))
+    {
+        scrollPercent = 0.1f;
+    }
+    _friendsListLayout->setFriendsList(friendList);
+    _friendsListLayout->forceDoLayout();
+    _contentListView->forceDoLayout();
+    _contentListView->scrollToPercentVertical(scrollPercent, 0, false);
+}
+
+/// Get Timeline Summary response
+void ChatHQ::onChatAPIGetTimelineSummary(const Chat::MessageList& messageList)
+{
+    
+}
+
 
 NS_AZOOMEE_END
