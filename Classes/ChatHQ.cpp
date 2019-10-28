@@ -199,6 +199,22 @@ void ChatHQ::onChatAPIGetTimelineSummary(const Chat::MessageList& messageList)
         
     }
     
+    if(messages.size() == 0)
+    {
+        Chat::MessageRef message = Chat::Message::createTextMessage(_("Hi, welcome to chat!"));
+        Chat::FriendRef user = Chat::Friend::create(ChildManager::getInstance()->getParentOrChildId(), ChildManager::getInstance()->getParentOrChildName(), ChildManager::getInstance()->getParentOrChildAvatarId());
+        messages.push_back({user, message});
+        _recentMessagesLayout->setMessageSelectedCallback(nullptr);
+    }
+    else
+    {
+        _recentMessagesLayout->setMessageSelectedCallback([this](Chat::FriendRef friendData){
+            Chat::FriendList participants = { _currentUser, friendData };
+            auto messageScene = Chat::MessageScene::create(participants);
+            Director::getInstance()->replaceScene(TransitionSlideInB::create(0.25f, messageScene));
+        });
+    }
+    
     _recentMessagesLayout->setMessageData(messages);
 }
 

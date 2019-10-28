@@ -175,15 +175,24 @@ void RecentMessages::setupMessageBars()
     _messageBars.clear();
     if(_messageData.size() > 0)
     {
+        std::vector<Color3B> colours = {Style::Color::darkIndigo, Style::Color::darkIndigoTwo};
+        int i = 0;
         const Size& messageBarSize = Size(getContentSize().width - (2 * kListViewPadding), _messageBarHeight);
         for(auto message : _messageData)
         {
-            ui::Layout* bar = ui::Layout::create();
-            bar->setBackGroundColor(Color3B::RED);
-            bar->setBackGroundColorType(BackGroundColorType::SOLID);
+            RecentMessageBar* bar = RecentMessageBar::create();
+            bar->setMessageData(message);
             bar->setContentSize(messageBarSize);
+            bar->setBackgroundColour(colours.at(i % colours.size()));
+            bar->setMessageSelectedCallback([this](Chat::FriendRef friendData){
+                if(_callback)
+                {
+                    _callback(friendData);
+                }
+            });
             _messageListView->pushBackCustomItem(bar);
             _messageBars.pushBack(bar);
+            i++;
         }
     }
     _messageListView->scrollToTop(0, false);

@@ -13,12 +13,9 @@
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/UI/RoundedRectSprite.h>
 #include <AzoomeeCommon/UI/DynamicText.h>
-#include "AzoomeeChat/Data/Friend.h"
-#include "AzoomeeChat/Data/Message.h"
+#include "RecentMessageBar.h"
 
 NS_AZOOMEE_BEGIN
-
-typedef std::pair<Chat::FriendRef, Chat::MessageRef> RecentMessage;
 
 class RecentMessages : public cocos2d::ui::Layout
 {
@@ -39,7 +36,7 @@ private:
     cocos2d::LayerGradient* _bannerShadow = nullptr;
     cocos2d::ui::Layout* _divider = nullptr;
     cocos2d::ui::ListView* _messageListView = nullptr;
-    cocos2d::Vector<cocos2d::ui::Layout*> _messageBars;
+    cocos2d::Vector<RecentMessageBar*> _messageBars;
     RoundedRectSprite* _bottomGradient = nullptr;
     
     std::vector<RecentMessage> _messageData;
