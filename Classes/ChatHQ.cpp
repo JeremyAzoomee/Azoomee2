@@ -68,6 +68,7 @@ void ChatHQ::onEnter()
 void ChatHQ::onExit()
 {
     Chat::ChatAPI::getInstance()->unscheduleFriendListPoll();
+    Chat::ChatAPI::getInstance()->removeObserver(this);
     Super::onExit();
 }
 
@@ -82,7 +83,7 @@ void ChatHQ::onSizeChanged()
         
         _recentMessagesLayout->setSizeType(SizeType::ABSOLUTE);
         _recentMessagesLayout->setPositionType(PositionType::ABSOLUTE);
-        _recentMessagesLayout->setContentSize(Size(_contentListView->getContentSize().width - (kListViewSidePadding / 4.0f), 1000));
+        _recentMessagesLayout->setContentSize(Size(_contentListView->getContentSize().width, HQConsts::ChatRecentMessagesHeight));
         if(_recentMessagesLayout->getParent() == _staticContentLayout)
         {
             _recentMessagesLayout->retain();
@@ -112,6 +113,8 @@ void ChatHQ::onSizeChanged()
     
     const float contentListViewWidth = _contentListView->getSizePercent().x * getContentSize().width;
     
+    _recentMessagesLayout->setMessageBarHeight(_isPortrait ? RecentMessages::kMessageBarHeightPortrait : RecentMessages::kMessageBarHeightLandscape);
+    
     _friendsListLayout->setContentSize(Size(contentListViewWidth, 0));
     _friendsListTitle->setFontSize(_isPortrait ? 89 : 75);
     _friendsListTitle->setTextAreaSize(Size(contentListViewWidth - kListViewSidePadding, _friendsListTitle->getContentSize().height));
@@ -124,11 +127,10 @@ void ChatHQ::onSizeChanged()
 
 void ChatHQ::createRecentMessages()
 {
-    _recentMessagesLayout = ui::Layout::create();
-    _recentMessagesLayout->setBackGroundColorType(BackGroundColorType::SOLID);
-    _recentMessagesLayout->setBackGroundColor(Color3B::RED);
+    _recentMessagesLayout = RecentMessages::create();
     _recentMessagesLayout->setSizeType(SizeType::PERCENT);
     _recentMessagesLayout->setSizePercent(Vec2(0.975f,0.95f));
+    _recentMessagesLayout->setMessageBarHeight(_isPortrait ? RecentMessages::kMessageBarHeightPortrait : RecentMessages::kMessageBarHeightLandscape);
     _recentMessagesLayout->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
     _recentMessagesLayout->setPositionType(PositionType::PERCENT);
     _recentMessagesLayout->setPositionPercent(Vec2::ANCHOR_TOP_LEFT);
@@ -173,12 +175,47 @@ void ChatHQ::onChatAPIGetFriendList(const Chat::FriendList& friendList, int amou
     _friendsListLayout->forceDoLayout();
     _contentListView->forceDoLayout();
     _contentListView->scrollToPercentVertical(scrollPercent, 0, false);
+    
+    Chat::ChatAPI::getInstance()->getTimelineSummary();
 }
 
 /// Get Timeline Summary response
 void ChatHQ::onChatAPIGetTimelineSummary(const Chat::MessageList& messageList)
 {
+    std::vector<RecentMessage> messages;
+    const Chat::FriendList& friends = Chat::ChatAPI::getInstance()->getFriendList();
+    for(auto message : messageList)
+    {
+        auto friendIt = std::find_if(friends.begin(), friends.end(), [&](const Chat::FriendRef& friendObj){
+            return friendObj->friendId() == message->senderId();
+        });
+        
+        if(friendIt == friends.end())
+        {
+            continue;
+        }
+        
+        messages.push_back({*friendIt, message});
+        
+    }
     
+    if(messages.size() == 0)
+    {
+        Chat::MessageRef message = Chat::Message::createTextMessage(_("Hi, welcome to chat!"));
+        Chat::FriendRef user = Chat::Friend::create(ChildManager::getInstance()->getParentOrChildId(), ChildManager::getInstance()->getParentOrChildName(), ChildManager::getInstance()->getParentOrChildAvatarId());
+        messages.push_back({user, message});
+        _recentMessagesLayout->setMessageSelectedCallback(nullptr);
+    }
+    else
+    {
+        _recentMessagesLayout->setMessageSelectedCallback([this](Chat::FriendRef friendData){
+            Chat::FriendList participants = { _currentUser, friendData };
+            auto messageScene = Chat::MessageScene::create(participants);
+            Director::getInstance()->replaceScene(TransitionSlideInB::create(0.25f, messageScene));
+        });
+    }
+    
+    _recentMessagesLayout->setMessageData(messages);
 }
 
 

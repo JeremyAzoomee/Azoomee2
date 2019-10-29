@@ -23,6 +23,7 @@ private:
     
     static const cocos2d::Vec2 kDropShadowPadding;
     static const float kTextPadding;
+    static const cocos2d::Vec2 kTileAspectRatio;
     
     cocos2d::ui::ImageView* _dropShadow = nullptr;
     RoundedRectSprite* _contentImage = nullptr;

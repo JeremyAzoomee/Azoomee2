@@ -46,6 +46,8 @@ public:
     static const char* const MessageTypeArt;
     static const char* const MessageTypeContent;
     
+    static const std::map<std::string, std::string> kSentMessageDescription;
+    
     /// Create a Message from JSON
     static MessageRef createFromJson(const rapidjson::Value& json);
     /// Create a Text Message

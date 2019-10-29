@@ -17,6 +17,7 @@ NS_AZOOMEE_BEGIN
 
 const Vec2 EpisodeBar::kDropShadowPadding = Vec2(52,52);
 const float EpisodeBar::kTextPadding = 60.0f;
+const Vec2 EpisodeBar::kTileAspectRatio = Vec2(4.0f, 3.0f);
 
 bool EpisodeBar::init()
 {
@@ -83,7 +84,6 @@ void EpisodeBar::onEnter()
 {
     startCheckingForOnScreenPosition(this);
     Super::onEnter();
-    onSizeChanged();
 }
 
 void EpisodeBar::onExit()
@@ -111,7 +111,7 @@ void EpisodeBar::resizeImageAndText()
     
     const Size& contentSize = getContentSize();
 
-    const float imageWidth = ((contentSize.height * 4.0f) / 3.0f);
+    const float imageWidth = ((contentSize.height * kTileAspectRatio.x) / kTileAspectRatio.y);
     
     _contentImage->setContentSize(Size(imageWidth, contentSize.height));
     _lockedOverlay->setContentSize(_contentImage->getContentSize());
