@@ -67,8 +67,6 @@ private:
     ChatTextField* _messageEntryField = nullptr;
     /// Send button
     cocos2d::ui::Button* _sendButton = nullptr;
-    /// Border above composer
-    cocos2d::ui::Layout* _composerTopBorder = nullptr;
     
     /// Layout to hold various selectors, i.e chat & art
     cocos2d::ui::Layout* _selectorLayout = nullptr;

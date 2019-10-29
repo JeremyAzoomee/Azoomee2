@@ -23,7 +23,7 @@ bool MessageComposer::init()
     }
     
     setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    setBackGroundColor(Style::Color::darkTwo);
+    setBackGroundColor(Style::Color::darkIndigoTwo);
     setLayoutType(ui::Layout::Type::VERTICAL);
     
     setSizeType(ui::Widget::SizeType::PERCENT);
@@ -70,7 +70,7 @@ bool MessageComposer::init()
     ui::Layout* artBG = ui::Layout::create();
     artBG->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
     artBG->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    artBG->setBackGroundColor(Style::Color::grapePurpleTwo);
+    artBG->setBackGroundColor(Style::Color::darkIndigoTwo);
     artBG->setSizeType(ui::Widget::SizeType::PERCENT);
     artBG->setSizePercent(Vec2(1.0f,1.0f));
     _selectorLayout->addChild(artBG);
@@ -98,15 +98,7 @@ bool MessageComposer::init()
 
     // Default to Idle
     setMode(MessageComposer::Mode::Idle);
-    
-    // Border at top of composer
-    _composerTopBorder = ui::Layout::create();
-    _composerTopBorder->setSizeType(ui::Widget::SizeType::ABSOLUTE);
-    _composerTopBorder->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _composerTopBorder->setBackGroundColor(Style::Color::greenishTeal);
-    _composerTopBorder->setAnchorPoint(Vec2(0.5f, 0.5f));
-    _topLayout->addChild(_composerTopBorder);
-    
+
     return true;
 }
 
@@ -159,9 +151,11 @@ void MessageComposer::onSizeChanged()
     // Resize absolute sized layouts
     // TODO: Can we build an Adaptor of some kind to automate this?
     std::vector<ui::Widget*> resizeItemsMatchParentWidth = {
-        _topLayout,
+        //_topLayout,
         _messageEntryLayout
     };
+    
+    _topLayout->setContentSize(_topLayout->getParent()->getContentSize() - Size(60,0));
     
     for(auto widget : resizeItemsMatchParentWidth)
     {
@@ -186,9 +180,6 @@ void MessageComposer::onSizeChanged()
     _messageEntryField->setContentSize(Size(textEntryWidth, _messageEntryField->getContentSize().height));
     updateTextEntryHeight();
     
-    //Redraw top line
-    _composerTopBorder->setContentSize(Size(getContentSize().width, 2.0f));
-    _composerTopBorder->setPosition(Vec2(getContentSize().width/2,_topLayout->getContentSize().height));
 }
 
 void MessageComposer::setContentSize(const cocos2d::Size& contentSize)

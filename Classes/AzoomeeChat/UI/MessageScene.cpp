@@ -16,6 +16,8 @@ using namespace cocos2d;
 
 NS_AZOOMEE_CHAT_BEGIN
 
+const Vec2 MessageScene::kPaddingPercent = Vec2(0.02, 0.01);
+
 MessageScene* MessageScene::create(const FriendList& participants)
 {
     MessageScene* scene = new(std::nothrow) MessageScene(participants);
@@ -47,6 +49,8 @@ bool MessageScene::init()
     _rootLayout = ui::Layout::create();
     _rootLayout->setSizeType(ui::Widget::SizeType::PERCENT);
     _rootLayout->setSizePercent(Vec2(1.0f, 1.0f));
+    _rootLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+    _rootLayout->setBackGroundColor(Style::Color::darkIndigo);
     
     if(ConfigStorage::getInstance()->isDeviceIphoneX())
     {
@@ -64,23 +68,20 @@ bool MessageScene::init()
         }
     }
     
-    _rootLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _rootLayout->setBackGroundColor(Style::Color::black);
-    _rootLayout->setLayoutType(ui::Layout::Type::RELATIVE);
+    _rootLayout->setLayoutType(ui::Layout::Type::VERTICAL);
     addChild(_rootLayout);
     
-    // Content layout underneath titlebar
-    _contentLayout = ui::Layout::create();
-    _contentLayout->setSizeType(ui::Widget::SizeType::PERCENT);
-    _contentLayout->setLayoutParameter(CreateBottomCenterRelativeLayoutParam());
-    _rootLayout->addChild(_contentLayout);
+    _paddingLayout = ui::Layout::create();
+    _paddingLayout->setSizeType(ui::Layout::SizeType::PERCENT);
+    _paddingLayout->setSizePercent(Vec2(1.0f, kPaddingPercent.y));
+    _rootLayout->addChild(_paddingLayout);
     
     // Titlebar at the top
     // We add this last so it sits on top with a drop shadow
     _titleBar = TitleBarWidget::create();
     _titleBar->setTitleAvatar(_participants[1]);
     _titleBar->setSizeType(ui::Widget::SizeType::PERCENT);
-    _titleBar->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
+    _titleBar->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _titleBar->addBackButtonEventListener([this](Ref* button){
         onBackButtonPressed();
     });
@@ -91,13 +92,19 @@ bool MessageScene::init()
         onReportResetButtonPressed();
     });
     _titleBar->underlineTitleBar();
-
+    
     _rootLayout->addChild(_titleBar);
     
     if(_participants[0]->friendId() == ParentManager::getInstance()->getLoggedInParentId())
     {
         _titleBar->setChatReportingToForbidden();
     }
+    
+    // Content layout underneath titlebar
+    _contentLayout = ui::Layout::create();
+    _contentLayout->setSizeType(ui::Widget::SizeType::PERCENT);
+    _contentLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+    _rootLayout->addChild(_contentLayout);
 
     createContentUI(_contentLayout);
     
@@ -235,9 +242,9 @@ void MessageScene::onSizeChanged()
     const bool isLandscape = contentSize.width > contentSize.height;
     
     // Main layout
-    const Vec2& titleBarSize = Vec2(1.0f, (isLandscape) ? 0.131f : 0.084f);
+    const Vec2& titleBarSize = Vec2(1.0f - kPaddingPercent.x, (isLandscape) ? 0.131f : 0.084f);
     _titleBar->setSizePercent(titleBarSize);
-    _contentLayout->setSizePercent(Vec2(1.0f, 1.0f - titleBarSize.y));
+    _contentLayout->setSizePercent(Vec2(1.0f - kPaddingPercent.x, 0.99f - titleBarSize.y));
     
     if(ConfigStorage::getInstance()->isDeviceIphoneX())
     {

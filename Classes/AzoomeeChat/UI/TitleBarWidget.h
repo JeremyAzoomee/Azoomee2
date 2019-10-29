@@ -25,9 +25,6 @@ private:
     /// Title image
     cocos2d::ui::ImageView* _titleImage = nullptr;
     
-    /// User's avatar
-    AvatarWidget* _avatarWidget = nullptr;
-    
     /// The alert button
     cocos2d::ui::Button* _reportButton = nullptr;
     

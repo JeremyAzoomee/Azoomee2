@@ -23,7 +23,7 @@ bool MessageListView::init()
     }
     
     setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    setBackGroundColor(Style::Color::black);
+    setBackGroundColor(Style::Color::darkIndigoThree);
     
 #ifdef AVATARS_IN_LISTVIEW
     // Setup foreground with the Oomee bar
