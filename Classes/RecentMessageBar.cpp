@@ -18,6 +18,7 @@ NS_AZOOMEE_BEGIN
 
 const Vec2 RecentMessageBar::kDropShadowPadding = Vec2(52,52);
 const float RecentMessageBar::kTextPadding = 60.0f;
+const cocos2d::Vec2 RecentMessageBar::kAvatarTileAspectRatio = Vec2(4.0f ,3.0f);
 
 bool RecentMessageBar::init()
 {
@@ -103,7 +104,6 @@ bool RecentMessageBar::init()
 void RecentMessageBar::onEnter()
 {
     Super::onEnter();
-    onSizeChanged();
 }
 
 void RecentMessageBar::onExit()
@@ -130,7 +130,7 @@ void RecentMessageBar::resizeImageAndText()
     
     const Size& contentSize = getContentSize();
     
-    const float imageWidth = ((contentSize.height * 4.0f) / 3.0f);
+    const float imageWidth = ((contentSize.height * kAvatarTileAspectRatio.x) / kAvatarTileAspectRatio.y);
     
     const Size& imgSize = Size(imageWidth, contentSize.height);
     
@@ -142,20 +142,8 @@ void RecentMessageBar::resizeImageAndText()
     const float textMaxWidth = contentSize.width - imageWidth - (2 * kTextPadding);
     
     _senderName->setMaxLineWidth(textMaxWidth);
-    //_messageText->setTextAreaSize(Size(textMaxWidth, _messageText->getContentSize().height));
-    std::string text = _message.second->messageText();
-    if(_message.second->messageType() == Chat::Message::MessageTypeArt)
-    {
-        text = _("Sent a Picture");
-    }
-    else if(_message.second->messageType() == Chat::Message::MessageTypeSticker)
-    {
-        text = _("Sent a Sticker");
-    }
-    else if(_message.second->messageType() == Chat::Message::MessageTypeContent)
-    {
-        text = _("Sent a Link");
-    }
+
+    const std::string& text = _message.second->messageType() != Chat::Message::MessageTypeText ? _(Chat::Message::kSentMessageDescription.at(_message.second->messageType())) : _message.second->messageText();
     _messageText->setString(text);
     if(_messageText->getContentSize().width > textMaxWidth && textMaxWidth > 0)
     {

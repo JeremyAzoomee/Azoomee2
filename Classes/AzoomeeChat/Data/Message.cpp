@@ -18,6 +18,11 @@ const char* const Message::MessageTypeContent = "CONTENT";
 /// A Message object must have at least these fields to be valid
 const std::vector<std::string> kRequiredFields = { "id", "type", "status", "senderId", "recipientId"/*, "timestamp" */};
 
+const std::map<std::string, std::string> Message::kSentMessageDescription = {
+    {MessageTypeArt, "Sent a Picture"},
+    {MessageTypeContent, "Sent a Link"},
+    {MessageTypeSticker, "Sent a Sticker"}
+};
 
 MessageRef Message::createFromJson(const rapidjson::Value& json)
 {

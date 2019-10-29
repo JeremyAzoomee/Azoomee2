@@ -83,7 +83,7 @@ void ChatHQ::onSizeChanged()
         
         _recentMessagesLayout->setSizeType(SizeType::ABSOLUTE);
         _recentMessagesLayout->setPositionType(PositionType::ABSOLUTE);
-        _recentMessagesLayout->setContentSize(Size(_contentListView->getContentSize().width, 1500));
+        _recentMessagesLayout->setContentSize(Size(_contentListView->getContentSize().width, HQConsts::ChatRecentMessagesHeight));
         if(_recentMessagesLayout->getParent() == _staticContentLayout)
         {
             _recentMessagesLayout->retain();

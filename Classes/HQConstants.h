@@ -18,6 +18,8 @@ namespace HQConsts
     const float OomeeHQSecondaryButtonHeightPortrait = 550.0f;
     const float OomeeHQSecondaryButtonHeightLandscape = 500.0f;
     
+    const float ChatRecentMessagesHeight = 1500.0f;
+    
     const std::string DeleteArtButtonAnalyticsName = "artsAppDeleteButton";
     const std::string OpenArtAnalyticsContentName = "Art";
 }

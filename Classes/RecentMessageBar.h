@@ -27,6 +27,7 @@ private:
     
     static const cocos2d::Vec2 kDropShadowPadding;
     static const float kTextPadding;
+    static const cocos2d::Vec2 kAvatarTileAspectRatio;
     
     cocos2d::ui::ImageView* _dropShadow = nullptr;
     cocos2d::ui::Layout* _avatarClip = nullptr;
