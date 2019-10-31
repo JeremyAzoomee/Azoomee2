@@ -44,6 +44,9 @@ private:
     cocos2d::ui::Layout* _blankListItem = nullptr;
 #endif
     
+    cocos2d::LayerGradient* _topGradient = nullptr;
+    cocos2d::LayerGradient* _bottomGradient = nullptr;
+    
     /// Have we scrolled to the top?
     bool _reachedTop = false;
     

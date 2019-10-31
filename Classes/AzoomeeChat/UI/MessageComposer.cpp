@@ -211,7 +211,7 @@ void MessageComposer::updateTextEntryHeight()
     _messageEntryField->setContentSize(Size(_messageEntryField->getContentSize().width, textFieldRenderer->getContentSize().height));
     
     // Resize the layout parent (holds the image)
-    const float textFieldMarginY = 60.0f;
+    const float textFieldMarginY = 40.0f;
     _messageEntryLayout->setContentSize(Size(_messageEntryLayout->getContentSize().width, _messageEntryField->getContentSize().height + (textFieldMarginY * 2.0f)));
     
     // Resize top layout to match
@@ -505,7 +505,8 @@ void MessageComposer::setMode(MessageComposer::Mode mode)
     {
         // Stickers button requires some resizing when selected, since the aspect ratio of the
         // selected and normal images is different
-        _stickersTab->loadTextureNormal("res/chat/ui/buttons/stickers_active.png");
+        //_stickersTab->loadTextureNormal("res/chat/ui/buttons/stickers_active.png");
+        _stickersTab->loadTextureNormal("res/chat/ui/buttons/stickers_btn.png");
         const Size& textureSize = _stickersTab->getRendererNormal()->getTexture()->getContentSize();
         const float buttonWidth = _stickersTab->getContentSize().width;
         const float buttonHeight = textureSize.height / textureSize.width * buttonWidth;
@@ -530,7 +531,8 @@ void MessageComposer::setMode(MessageComposer::Mode mode)
     {
         // Stickers button requires some resizing when selected, since the aspect ratio of the
         // selected and normal images is different
-        _galleryTab->loadTextureNormal("res/chat/ui/buttons/art_active.png");
+        //_galleryTab->loadTextureNormal("res/chat/ui/buttons/art_active.png");
+        _galleryTab->loadTextureNormal("res/chat/ui/buttons/art_btn.png");
         const Size& textureSize = _galleryTab->getRendererNormal()->getTexture()->getContentSize();
         const float buttonWidth = _galleryTab->getContentSize().width;
         const float buttonHeight = textureSize.height / textureSize.width * buttonWidth;
@@ -803,14 +805,14 @@ void MessageComposer::createTabButtonsUI(cocos2d::ui::Layout* parent)
 {
     parent->setLayoutType(ui::Layout::Type::HORIZONTAL);
     
-    const float tabMarginX = 60.0f;
-    const float leftMarginX = 80.0f;
-    const float buttonHeight = _topLayout->getContentSize().height * 0.75f;
+    const float tabMarginX = 10.0f;
+    const float leftMarginX = 40.0f;
+    const float buttonHeight = _topLayout->getContentSize().height * 0.9f;
     
     _stickersTab = ui::Button::create("res/chat/ui/buttons/stickers_btn.png");
     // Enable content adaption - otherwise % size doesn't work
     _stickersTab->ignoreContentAdaptWithSize(false);
-    _stickersTab->getRendererNormal()->setStrechEnabled(true);
+    _stickersTab->getRendererNormal()->setStretchEnabled(true);
     _stickersTab->setAnchorPoint(Vec2(0.0f, 1.0f));
     _stickersTab->setPressedActionEnabled(false); // Disable pressed "zooming"
     _stickersTab->setZoomScale(0.0f);
@@ -828,7 +830,7 @@ void MessageComposer::createTabButtonsUI(cocos2d::ui::Layout* parent)
     _galleryTab = ui::Button::create("res/chat/ui/buttons/art_btn.png");
     // Enable content adaption - otherwise % size doesn't work
     _galleryTab->ignoreContentAdaptWithSize(false);
-    _galleryTab->getRendererNormal()->setStrechEnabled(true);
+    _galleryTab->getRendererNormal()->setStretchEnabled(true);
     _galleryTab->setAnchorPoint(Vec2(0.0f, 1.0f));
     _galleryTab->setContentSize(Size(buttonHeight, buttonHeight));
     _galleryTab->setLayoutParameter(CreateLeftLinearLayoutParam(ui::Margin(tabMarginX, (_topLayout->getContentSize().height - buttonHeight) / 2, 0, 0)));
@@ -906,21 +908,21 @@ void MessageComposer::createMessageEntryUI(cocos2d::ui::Layout* parent)
     
     const float textEntryLeftMargin = 50.0f;
     
-    _messageEntryField = ChatTextField::create(_("Type here..."), Style::Font::RegularSystemName, 65.0f);
+    _messageEntryField = ChatTextField::create(_("Tap here to type"), Style::Font::RegularSystemName, 65.0f);
     _messageEntryField->setCursorEnabled(true);
     _messageEntryField->ignoreContentAdaptWithSize(false);
     _messageEntryField->setTextHorizontalAlignment(TextHAlignment::LEFT);
     _messageEntryField->setTextVerticalAlignment(TextVAlignment::TOP);
     _messageEntryField->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(textEntryLeftMargin, 0, 0, 0)));
-    _messageEntryField->setPlaceHolderColor(Style::Color::windowsBlue);
-    _messageEntryField->setTextColor(Color4B(Style::Color::darkBlueGrey));
+    _messageEntryField->setPlaceHolderColor(Style::Color::white);
+    _messageEntryField->setTextColor(Color4B(Style::Color::black));
     _messageEntryField->addEventListener(CC_CALLBACK_2(MessageComposer::onTextFieldEvent, this));
     firstLayout->addChild(_messageEntryField);
     
     ui::UICCTextField* textFieldRenderer = (ui::UICCTextField*)_messageEntryField->getVirtualRenderer();
     _messageEntryField->setContentSize(Size(_messageEntryField->getContentSize().width, textFieldRenderer->getContentSize().height));
     // Resize the layout parent (holds the image)
-    const float textFieldMarginY = 60.0f;
+    const float textFieldMarginY = 40.0f;
     _messageEntryLayout->setContentSize(Size(_messageEntryLayout->getContentSize().width, _messageEntryField->getContentSize().height + (textFieldMarginY * 2.0f)));
     
     
@@ -928,7 +930,7 @@ void MessageComposer::createMessageEntryUI(cocos2d::ui::Layout* parent)
     ui::Layout* secondLayout = _messageEntryLayout->secondLayout();
     secondLayout->setLayoutType(ui::Layout::Type::RELATIVE);
     
-    const float buttonHeight = textEntryTexSize.height * 0.68f;
+    const float buttonHeight = textEntryTexSize.height * 0.95f;
     const float sendButtonMargin = (_messageEntryLayout->getContentSize().height - buttonHeight) / 2;
     
     _sendButton = ui::Button::create("res/chat/ui/buttons/send_btn.png");

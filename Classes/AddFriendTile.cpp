@@ -112,6 +112,7 @@ void AddFriendTile::setTileWidth(float width)
 void AddFriendTile::setSelectedCallback(const SelectedCallback &callback)
 {
     _selectedCallback = callback;
+    setTouchEnabled(_selectedCallback != nullptr);
 }
 
 void AddFriendTile::resizeContent()

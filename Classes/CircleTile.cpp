@@ -126,7 +126,7 @@ void CircleTile::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 }
 void CircleTile::onImageDownloadFailed()
 {
-    elementOnScreen = false;
+    
 }
 
 NS_AZOOMEE_END

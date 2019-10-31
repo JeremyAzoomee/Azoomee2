@@ -95,6 +95,18 @@ bool MessageListView::init()
     addChild(_foreground);
 #endif
   
+    const Color3B& gradColour = Style::Color::darkIndigoThree;
+    _topGradient = LayerGradient::create(Color4B(gradColour), Color4B(gradColour.r, gradColour.g, gradColour.b, 0));
+    _topGradient->setIgnoreAnchorPointForPosition(false);
+    _topGradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+    _topGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+    addChild(_topGradient, 1);
+    
+    _bottomGradient = LayerGradient::create(Color4B(gradColour.r, gradColour.g, gradColour.b, 0), Color4B(gradColour));
+    _bottomGradient->setIgnoreAnchorPointForPosition(false);
+    _bottomGradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _bottomGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    addChild(_bottomGradient, 1);
     return true;
 }
 
@@ -136,6 +148,9 @@ void MessageListView::onSizeChanged()
         _avatarBase->setContentSize(Size(contentSize.width, _avatarBase->getContentSize().height));
 #endif
     }
+    
+    _topGradient->setContentSize(Size(getContentSize().width, _topGradient->getContentSize().height));
+    _bottomGradient->setContentSize(Size(getContentSize().width, _bottomGradient->getContentSize().height));
 }
 
 void MessageListView::setContentSize(const cocos2d::Size& contentSize)
@@ -192,6 +207,17 @@ void MessageListView::onScrollEvent(cocos2d::Ref* sender, cocos2d::ui::ScrollVie
     else
     {
         _reachedTop = false;
+    }
+    
+    if(event == ui::ScrollView::EventType::CONTAINER_MOVED)
+    {
+        const float minY = _listView->getContentSize().height - _listView->getInnerContainerSize().height;
+        float scrollDist = MAX(_listView->getInnerContainerPosition().y - minY, 0);
+        
+        _topGradient->setContentSize(Size(getContentSize().width, MIN(scrollDist,160)));
+        
+        _bottomGradient->setContentSize(Size(getContentSize().width, MIN(-_listView->getInnerContainerPosition().y,160)));
+        
     }
     
 #ifdef AVATARS_IN_LISTVIEW

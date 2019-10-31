@@ -10,6 +10,7 @@
 #include "FriendListScene.h"
 #include "../../HQHistoryManager.h"
 
+#include "../../PopupMessageBox.h"
 
 using namespace cocos2d;
 
@@ -242,7 +243,7 @@ void MessageScene::onSizeChanged()
     const bool isLandscape = contentSize.width > contentSize.height;
     
     // Main layout
-    const Vec2& titleBarSize = Vec2(1.0f - kPaddingPercent.x, (isLandscape) ? 0.131f : 0.084f);
+    const Vec2& titleBarSize = Vec2(1.0f - kPaddingPercent.x, (isLandscape) ? 0.11f : 0.084f);
     _titleBar->setSizePercent(titleBarSize);
     _contentLayout->setSizePercent(Vec2(1.0f - kPaddingPercent.x, 0.99f - titleBarSize.y));
     
@@ -322,7 +323,23 @@ void MessageScene::onReportButtonPressed()
     AudioMixer::getInstance()->playEffect(SETTINGS_BUTTON_AUDIO_EFFECT);
     AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatWindow - ReportButton");
     
-    MessageBox::createWithLayer(ChatReportForModeration, this);
+    PopupMessageBox* messageBox = PopupMessageBox::create();
+    messageBox->setTitle(_("Report chat"));
+    messageBox->setBody(_("Do you really want to report this chat to your parents?"));
+    messageBox->setButtonText(_("Report"));
+    messageBox->setButtonColour(Style::Color::strongPink);
+    messageBox->setPatternColour(Style::Color::azure);
+    messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+        pSender->removeFromParent();
+        ChatAPI::getInstance()->reportChat(_participants[1]);
+        ModalMessages::getInstance()->startLoading();
+    });
+    messageBox->setSecondButtonText(_("Cancel"));
+    messageBox->setSecondButtonColour(Style::Color::darkIndigo);
+    messageBox->setSecondButtonPressedCallback([this](PopupMessageBox* pSender){
+        pSender->removeFromParent();
+    });
+    this->addChild(messageBox, 1);
 }
 
 void MessageScene::onReportResetButtonPressed()
@@ -505,12 +522,27 @@ void MessageScene::AdultPinCancelled(RequestAdultPinLayer* layer)
 
 void MessageScene::AdultPinAccepted(RequestAdultPinLayer* layer)
 {
-    MessageBox::createWithLayer(
-        ChatResetModeration,
-        { {"Child1", _participants[0]->friendName()},
-          {"Child2",  _participants[1]->friendName()} },
-        this
-    );
+    std::string replacedText = stringReplace(_("Reset %s1 & %s2's conversation?"), "%s1", _participants[0]->friendName());
+    
+    replacedText = stringReplace(replacedText, "%s2", _participants[1]->friendName());
+    
+    PopupMessageBox* messageBox = PopupMessageBox::create();
+    messageBox->setTitle(_("Reset chat"));
+    messageBox->setBody(replacedText);
+    messageBox->setButtonText(_("Reset"));
+    messageBox->setButtonColour(Style::Color::strongPink);
+    messageBox->setPatternColour(Style::Color::azure);
+    messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+        pSender->removeFromParent();
+        ChatAPI::getInstance()->resetReportedChat(_participants[1]);
+        ModalMessages::getInstance()->startLoading();
+    });
+    messageBox->setSecondButtonText(_("Cancel"));
+    messageBox->setSecondButtonColour(Style::Color::darkIndigo);
+    messageBox->setSecondButtonPressedCallback([this](PopupMessageBox* pSender){
+        pSender->removeFromParent();
+    });
+    this->addChild(messageBox, 1);
 }
 
 NS_AZOOMEE_CHAT_END

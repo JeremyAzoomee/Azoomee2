@@ -65,6 +65,10 @@ void OomeeHQ::onEnter()
     refreshFavouritesList();
     refreshArtList();
     float scrollPerc = _contentListView->getScrolledPercentVertical();
+    if(isnan(scrollPerc))
+    {
+        scrollPerc = 0.1f;
+    }
     _contentListView->forceDoLayout();
     _contentListView->scrollToPercentVertical(scrollPerc, 0, false);
     
