@@ -265,6 +265,13 @@ void HQScene::createPageUI()
         ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, ConfigStorage::kMeHQName);
     });
     _pageLayout->addChild(_oomeeHQ);
+    
+    _chatHQ = ChatHQ::create();
+    _chatHQ->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _chatHQ->setPositionType(ui::Widget::PositionType::PERCENT);
+    _chatHQ->setPositionPercent(Vec2::ANCHOR_MIDDLE);
+    _chatHQ->setVisible(false);
+    _pageLayout->addChild(_chatHQ);
 }
 
 void HQScene::changeToPage(const HQType& page)
@@ -272,6 +279,7 @@ void HQScene::changeToPage(const HQType& page)
     _gameHQ->setVisible(page == HQType::GAME);
     _videoHQ->setVisible(page == HQType::VIDEO);
     _oomeeHQ->setVisible(page == HQType::OOMEE);
+    _chatHQ->setVisible(page == HQType::CHAT);
     switch(page)
     {
         case HQType::GAME:
@@ -285,12 +293,9 @@ void HQScene::changeToPage(const HQType& page)
             _activePageName = ConfigStorage::kVideoHQName;
             break;
         case HQType::CHAT:
+            _chatHQ->forceDoLayout();
             _HQPageTitle->setString("Chat");
             _activePageName = ConfigStorage::kChatHQName;
-            if(!ParentManager::getInstance()->isLoggedInParentAnonymous())
-            {
-                Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
-            }
             break;
         case HQType::OOMEE:
             _oomeeHQ->forceDoLayout();

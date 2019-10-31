@@ -6,8 +6,8 @@
 #include <AzoomeeCommon/Application.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "FlowDataSingleton.h"
-#include <AzoomeeChat/UI/FriendListScene.h>
-#include <AzoomeeChat/UI/FriendListSceneArtPreview.h>
+#include "AzoomeeChat/UI/FriendListScene.h"
+#include "AzoomeeChat/UI/FriendListSceneArtPreview.h"
 #include "ChatDelegate.h"
 #include "../ArtApp/Classes/AzoomeeArt/MainScene.h"
 #include "../ArtApp/Classes/AzoomeeArt/AzoomeeArtApp.h"

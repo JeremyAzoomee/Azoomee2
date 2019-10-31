@@ -62,6 +62,8 @@ static ConfigStorage *_sharedConfigStorage = NULL;
 	const std::string ConfigStorage::kOomeeMakerCacheFolder = "oomeeMaker/";
     const std::string ConfigStorage::kContentCacheFolder = "contentCache/";
     
+    const std::string ConfigStorage::kAvatarImageCacheFolder = "avatars";
+    
     const std::string ConfigStorage::kGameDownloadError = "ERROR";
 	
 	const std::string ConfigStorage::kIOSSubURL = "https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/DirectAction/manageSubscriptions";

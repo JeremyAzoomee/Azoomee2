@@ -12,8 +12,8 @@
 #include "HQHistoryManager.h"
 #include "AgeGate.h"
 #include <AzoomeeCommon/Strings.h>
-#include <AzoomeeChat/UI/AvatarWidget.h>
-#include <AzoomeeChat/UI/MessageScene.h>
+#include "AzoomeeChat/UI/AvatarWidget.h"
+#include "AzoomeeChat/UI/MessageScene.h"
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Data/Parent/ParentManager.h>

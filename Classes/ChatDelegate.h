@@ -2,7 +2,7 @@
 #define Azoomee_ChatDelegate_h
 
 #include <AzoomeeCommon/Azoomee.h>
-#include <AzoomeeChat/AzoomeeChat.h>
+#include "AzoomeeChat/AzoomeeChat.h"
 #include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
 
