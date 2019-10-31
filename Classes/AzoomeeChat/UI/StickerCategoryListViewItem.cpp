@@ -17,7 +17,7 @@ bool StickerCategoryListViewItem::init()
     }
     
     setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    setBackGroundColor(Style::Color::black);
+    setBackGroundColor(Style::Color::darkIndigoTwo);
     setLayoutType(ui::Layout::Type::HORIZONTAL);
     // List items are selectable in the ListView
     setTouchEnabled(true);
@@ -41,7 +41,7 @@ bool StickerCategoryListViewItem::init()
     // Border on the right
     _border = ui::Layout::create();
     _border->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _border->setBackGroundColor(Style::Color::grapePurple);
+    _border->setBackGroundColor(Style::Color::darkIndigoTwo);
     _border->setSizeType(ui::Widget::SizeType::PERCENT);
     _border->setSizePercent(Vec2(borderWidthPct, 0.7f));
     _border->setLayoutParameter(CreateCenterVerticalLinearLayoutParam());
@@ -126,7 +126,7 @@ StickerCategoryRef StickerCategoryListViewItem::getData() const
 void StickerCategoryListViewItem::setSelected(bool selected)
 {
     _selected = selected;
-    setBackGroundColor(selected ? Style::Color::grapePurpleTwo : Style::Color::black);
+    setBackGroundColor(selected ? Style::Color::darkIndigo : Style::Color::darkIndigoTwo);
     _border->setVisible(!selected);
 }
 

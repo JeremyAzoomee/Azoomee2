@@ -5,6 +5,7 @@
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include "AvatarWidget.h"
+#include <AzoomeeCommon/UI/RoundedRectSprite.h>
 
 
 NS_AZOOMEE_CHAT_BEGIN
@@ -13,6 +14,11 @@ class TitleBarWidget : public cocos2d::ui::Layout
 {
     typedef cocos2d::ui::Layout Super;
 private:
+    
+    /// title bar background
+    RoundedRectSprite* _background = nullptr;
+    
+    cocos2d::LayerGradient* _bannerShadow = nullptr;
     
     /// The back button
     cocos2d::ui::Button* _backButton = nullptr;
@@ -24,9 +30,6 @@ private:
     cocos2d::ui::Text* _titleLabel = nullptr;
     /// Title image
     cocos2d::ui::ImageView* _titleImage = nullptr;
-    
-    /// User's avatar
-    AvatarWidget* _avatarWidget = nullptr;
     
     /// The alert button
     cocos2d::ui::Button* _reportButton = nullptr;

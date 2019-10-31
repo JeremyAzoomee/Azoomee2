@@ -22,12 +22,28 @@ bool TitleBarWidget::init()
         return false;
     }
     
-    setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    setBackGroundColor(Style::Color::dark);
     setLayoutType(ui::Layout::Type::RELATIVE);
     
+    _background = RoundedRectSprite::create();
+    _background->setTexture("res/hqscene/chat_banner_bg.png");
+    _background->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _background->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    _background->setCornerRadius(23);
+    _background->setRoundedCorners(false, false, true, true);
+    _background->setStretchImageEnabled(true);
+    addChild(_background);
+    
+    _bannerShadow = LayerGradient::create();
+    _bannerShadow->setStartColor(Style::Color::darkIndigoThree);
+    _bannerShadow->setStartOpacity(0);
+    _bannerShadow->setEndColor(Style::Color::darkIndigoThree);
+    _bannerShadow->setEndOpacity(255);
+    _bannerShadow->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+    _bannerShadow->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_LEFT);
+    addChild(_bannerShadow);
+    
     // Back button
-    _backButton = ui::Button::create("res/chat/ui/buttons/back_button.png");
+    _backButton = ui::Button::create("res/hqscene/episode_select_close.png");
     // Enable content adaption - otherwise % size doesn't work
     _backButton->ignoreContentAdaptWithSize(false);
     _backButton->setSizePercent(Vec2(0.0f, 0.624f));
@@ -35,7 +51,8 @@ bool TitleBarWidget::init()
     _backButton->getRendererNormal()->setStretchEnabled(true);
     _backButton->getRendererClicked()->setStretchEnabled(true);
     _backButton->getRendererDisabled()->setStretchEnabled(true);
-    _backButton->setLayoutParameter(CreateLeftCenterRelativeLayoutParam(ui::Margin(kTitleButtonsEdgePadding, 0.0f, 0.0f, 0.0f)));
+    _backButton->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+    _backButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
     addChild(_backButton);
     
     _titleLayout = ui::Layout::create();
@@ -44,15 +61,10 @@ bool TitleBarWidget::init()
     _titleLayout->setSizeType(ui::Widget::SizeType::PERCENT);
     addChild(_titleLayout);
     
-    // Avatar
-    _avatarWidget = AvatarWidget::create();
-    _avatarWidget->setAnchorPoint(Vec2(0.5f, 0.5f));
-    _avatarWidget->setVisible(false);
-    _titleLayout->addChild(_avatarWidget);
-    
     // Title
     _titleLabel = ui::Text::create();
-    _titleLabel->setFontName(Style::Font::Regular());
+    _titleLabel->setFontName(Style::Font::PoppinsBold());
+    _titleLabel->enableShadow();
     _titleLayout->addChild(_titleLabel);
     
     // Image
@@ -72,7 +84,7 @@ bool TitleBarWidget::init()
     _reportedChatTitleBar->setAnchorPoint(Vec2(0.5f, 1.0f));
     _reportedChatTitleBar->setSizeType(ui::Widget::SizeType::ABSOLUTE);
     _reportedChatTitleBar->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _reportedChatTitleBar->setBackGroundColor(Style::Color::watermelon);
+    _reportedChatTitleBar->setBackGroundColor(Style::Color::strongPink);
     _reportedChatTitleBar->setVisible(false);
     reportChatTitleBarHolder->addChild(_reportedChatTitleBar);
     
@@ -93,11 +105,11 @@ bool TitleBarWidget::init()
     // TODO: Get from Strings
     _reportResetButton->setTitleText(_("Reset"));
     _reportResetButton->setTitleColor(Style::Color::black);
-    _reportResetButton->setTitleFontName(Style::Font::Regular());
+    _reportResetButton->setTitleFontName(Style::Font::PoppinsMedium());
     _reportResetButton->setTitleFontSize(45.0f);
     _reportResetButton->setScale9Enabled(true);
     _reportResetButton->setTitleAlignment(TextHAlignment::LEFT, TextVAlignment::CENTER);
-    _reportResetButton->setLayoutParameter(CreateRightCenterRelativeLayoutParam(ui::Margin(0.0f, 0.0f, kTitleButtonsEdgePadding, 0.0f)));
+    _reportResetButton->setLayoutParameter(CreateTopRightRelativeLayoutParam(ui::Margin(0.0f, 20.0f, 20.0f, 0.0f)));
     _reportResetButton->setVisible(false);
 	_reportResetButton->setContentSize(Size(_reportResetButton->getTitleLabel()->getContentSize().width + 40, _reportResetButton->getContentSize().height));
 	_reportResetButton->ignoreContentAdaptWithSize(false);
@@ -107,8 +119,8 @@ bool TitleBarWidget::init()
     _reportButton = ui::Button::create("res/chat/ui/buttons/report_button_outline.png");
     // TODO: Get from Strings
     _reportButton->setTitleText(_("Report"));
-    _reportButton->setTitleColor(Style::Color::brightAqua);
-    _reportButton->setTitleFontName(Style::Font::Regular());
+    _reportButton->setTitleColor(Style::Color::white);
+    _reportButton->setTitleFontName(Style::Font::PoppinsMedium());
     _reportButton->setTitleFontSize(45.0f);
     _reportButton->setScale9Enabled(true);
     
@@ -123,11 +135,11 @@ bool TitleBarWidget::init()
     _reportButton->getTitleRenderer()->setAnchorPoint(Vec2(0.0f, 0.5f));
     // We need some offset because the title doesn't get centered vertically correctly
     // Likely due to font renderering via TTF
-    const float lineHeightOffset = -3.0f;
-    _reportButton->setLayoutParameter(CreateRightCenterRelativeLayoutParam(ui::Margin(0.0f, 0.0f, kTitleButtonsEdgePadding, 0.0f)));
+    const float lineHeightOffset = -0.0f;
+    _reportButton->setLayoutParameter(CreateTopRightRelativeLayoutParam(ui::Margin(0.0f, 20.0f, 20.0f, 0.0f)));
     _reportButton->setVisible(false);
 	//_reportButton->ignoreContentAdaptWithSize(false);
-	_reportButton->setContentSize(Size(addFriendButtonSize.height + _reportButton->getTitleLabel()->getContentSize().width + 15.0f,_reportButton->getContentSize().height));
+	_reportButton->setContentSize(Size(addFriendButtonSize.height + _reportButton->getTitleLabel()->getContentSize().width + 45.0f,_reportButton->getContentSize().height));
 	_reportButton->getTitleRenderer()->setPosition(Vec2(plusIcon->getPositionX() + (plusIcon->getContentSize().width * 0.5f) + 15.0f, (addFriendButtonSize.height * 0.5f) + lineHeightOffset));
     addChild(_reportButton);
     
@@ -152,18 +164,16 @@ void TitleBarWidget::onSizeChanged()
     
     const Size& contentSize = getContentSize();
     
+    _background->setContentSize(contentSize);
+    _bannerShadow->setContentSize(Size(contentSize.width, contentSize.height * 0.5f));
     // Size the title layout to fill the remaining space
     _titleLayout->setContentSize(Size(contentSize.width - (_backButton->getContentSize().width * 2) - (kTitleButtonsEdgePadding * 2), contentSize.height));
     
-    // Resize the avatar appropriately
-    const float avatarHeightPct = 0.6f;
-    const float avatarSize = contentSize.height * avatarHeightPct;
-    _avatarWidget->setContentSize(Size(avatarSize, avatarSize));
     _titleLayout->forceDoLayout();
     
     if(_subTitleBarBorder)
     {
-        _subTitleBarBorder->setContentSize(Size(contentSize.width, 2.0f));
+        _subTitleBarBorder->setContentSize(Size(contentSize.width, 6.0f));
     }
     
     //Set correct sizes for Reported Chat Bar
@@ -184,7 +194,6 @@ void TitleBarWidget::onSizeChangedReportedBar(const Size& contentSize)
         //Add Label over 2 lines
 		_warningLabel->setWidth(maxReportLabelWidth);
         _warningLabel->setBMFontSize(54);
-        //_warningLabel->setString(_("This chat has been reported. Get your parent to reset it."));
     }
 
     float reportedBarHeight = _warningLabel->getContentSize().height + kTitleButtonsEdgePadding;
@@ -196,20 +205,10 @@ void TitleBarWidget::onSizeChangedReportedBar(const Size& contentSize)
 
 void TitleBarWidget::updateTitleLayout()
 {
-    if(_avatarWidget->isVisible())
-    {
-        _titleLayout->setLayoutType(ui::Layout::Type::HORIZONTAL);
-        
-        _avatarWidget->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(85.0f, 0.0f, 0.0f, 0.0f)));
-        _titleLabel->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(100.0f, 0.0f, 0.0f, 0.0f)));
-    }
-    else
-    {
-        _titleLayout->setLayoutType(ui::Layout::Type::RELATIVE);
-        
-        _titleLabel->setLayoutParameter(CreateCenterRelativeLayoutParam());
-        _titleImage->setLayoutParameter(CreateCenterRelativeLayoutParam());
-    }
+    _titleLayout->setLayoutType(ui::Layout::Type::RELATIVE);
+    
+    _titleLabel->setLayoutParameter(CreateCenterRelativeLayoutParam());
+    _titleImage->setLayoutParameter(CreateCenterRelativeLayoutParam());
 }
 
 #pragma mark - Public
@@ -221,7 +220,6 @@ void TitleBarWidget::setTitleString(const std::string& title)
     
     _titleLabel->setVisible(true);
     _titleImage->setVisible(false);
-    _avatarWidget->setVisible(false);
     
     updateTitleLayout();
 }
@@ -237,7 +235,6 @@ void TitleBarWidget::setTitleImage(const std::string& imagePath)
     
     _titleLabel->setVisible(false);
     _titleImage->setVisible(true);
-    _avatarWidget->setVisible(false);
     
     updateTitleLayout();
 }
@@ -245,13 +242,11 @@ void TitleBarWidget::setTitleImage(const std::string& imagePath)
 void TitleBarWidget::setTitleAvatar(const FriendRef& friendData)
 {
     _titleLabel->setString(friendData->friendName());
-    setTitleColor(Style::Color::brightAqua);
+    setTitleColor(Style::Color::white);
     _titleLabel->setFontSize(80.0f);
-    _avatarWidget->setAvatarForFriend(friendData, true); // true = force avatar image reload
-    
+
     _titleLabel->setVisible(true);
     _titleImage->setVisible(false);
-    _avatarWidget->setVisible(true);
     
     updateTitleLayout();
 }
@@ -263,7 +258,7 @@ void TitleBarWidget::underlineTitleBar()
     _subTitleBarBorder->setLayoutParameter(CreateBottomCenterRelativeLayoutParam());
     _subTitleBarBorder->setSizeType(ui::Widget::SizeType::ABSOLUTE);
     _subTitleBarBorder->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _subTitleBarBorder->setBackGroundColor(Style::Color::greenishTeal);
+    _subTitleBarBorder->setBackGroundColor(Style::Color::macaroniAndCheese);
     addChild(_subTitleBarBorder);
 }
 

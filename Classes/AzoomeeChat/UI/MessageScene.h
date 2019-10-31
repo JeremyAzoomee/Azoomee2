@@ -19,6 +19,8 @@ class MessageScene : public Azoomee::Scene, public ChatAPIObserver, public Messa
     typedef Azoomee::Scene Super;
 private:
     
+    static const cocos2d::Vec2 kPaddingPercent;
+    
     /// Participants in the conversation
     FriendList _participants;
     /// Time for next auto get messages call
@@ -33,6 +35,8 @@ private:
     TitleBarWidget* _titleBar = nullptr;
     /// Container layout for the content (always sits below the titlebar)
     cocos2d::ui::Layout* _contentLayout = nullptr;
+    /// padding layout
+    cocos2d::ui::Layout* _paddingLayout = nullptr;
     
     /// Message List
     MessageListView* _messageListView = nullptr;

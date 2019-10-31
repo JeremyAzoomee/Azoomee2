@@ -27,7 +27,7 @@ bool StickerSelector::init()
     
     ui::Layout* firstLayout = _splitLayout->firstLayout();
     firstLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    firstLayout->setBackGroundColor(Style::Color::grapePurpleTwo);
+    firstLayout->setBackGroundColor(Style::Color::darkIndigoThree);
     firstLayout->setLayoutType(ui::Layout::Type::RELATIVE);
     
     _stickerListView = StickerListView::create();
@@ -45,7 +45,7 @@ bool StickerSelector::init()
     
     ui::Layout* secondLayout = _splitLayout->secondLayout();
     secondLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    secondLayout->setBackGroundColor(Style::Color::black);
+    secondLayout->setBackGroundColor(Style::Color::darkIndigoTwo);
     
     _categoryListView = StickerCategoryListView::create();
     _categoryListView->setSizeType(ui::Widget::SizeType::PERCENT);

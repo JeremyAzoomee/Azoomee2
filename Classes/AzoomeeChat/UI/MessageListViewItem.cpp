@@ -134,9 +134,9 @@ void MessageListViewItem::resizeItemContents()
         // Note we always use the landscape resolution width for item calculation
         // The items will overlap slightly on portrait which is what we want
         // TODO: Grab sizes from config
-        const float bubblePadding = 40.0f;
+        const float bubblePadding = 70.0f;
         const float bubbleMaxWidth = maxWidth - (contentPadding.x * 2.0f);
-        const float labelMaxWidth = bubbleMaxWidth - (bubblePadding * 2.0f);
+        const float labelMaxWidth = bubbleMaxWidth - (bubblePadding * 2.5f);
         
         _textLabel->ignoreContentAdaptWithSize(false); // means fixed size (don't resize with text)
         Label* labelRenderer = dynamic_cast<Label*>(_textLabel->getVirtualRenderer());
@@ -155,7 +155,7 @@ void MessageListViewItem::resizeItemContents()
         
         // Resize the elements
         _textLabel->setContentSize(labelSize);
-        const Size& bubbleSize = Size(labelSize.width + (bubblePadding * 2.0f), labelSize.height + (bubblePadding * 2.0f));
+        const Size& bubbleSize = Size(labelSize.width + (bubblePadding * 2.5f), labelSize.height + (bubblePadding * 2.0f));
         _bubbleLayout->setContentSize(bubbleSize);
         const Size& contentSize = Size(bubbleSize.width + (contentPadding.x * 2), bubbleSize.height + (contentPadding.y * 2));
         _contentLayout->setContentSize(contentSize);
@@ -311,9 +311,9 @@ void MessageListViewItem::setData(const MessageRef& message)
         // Color depends also on current user
         const std::string& senderId = message->senderId();
         const bool isCurrentUser = (senderId == ChildManager::getInstance()->getParentOrChildId());
-        const Color3B& fontColor = (isCurrentUser) ? Style::Color::blueGreen : Style::Color::black;
+        const Color3B& fontColor = (isCurrentUser) ? Style::Color::darkIndigoTwo : Style::Color::white;
         _textLabel->setTextColor(Color4B(fontColor));
-        _bubbleLayout->setBackGroundImageColor((isCurrentUser) ? Style::Color::white : Style::Color::lightTealTwo);
+        _bubbleLayout->setBackGroundImageColor((isCurrentUser) ? Style::Color::white : Style::Color::darkIndigo);
     }
     else
     {
