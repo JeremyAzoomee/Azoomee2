@@ -45,6 +45,8 @@ public:
     
 private:
     
+    static const float kMessageInputPadding;
+    
     /// The current mode
     MessageComposer::Mode _currentMode = MessageComposer::Mode::Idle;
     /// Current fixed height of the composer

@@ -53,7 +53,6 @@ bool TitleBarWidget::init()
     _backButton->getRendererDisabled()->setStretchEnabled(true);
     _backButton->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
     _backButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
-    //_backButton->setLayoutParameter(CreateLeftCenterRelativeLayoutParam(ui::Margin(kTitleButtonsEdgePadding, 0.0f, 0.0f, 0.0f)));
     addChild(_backButton);
     
     _titleLayout = ui::Layout::create();
@@ -195,7 +194,6 @@ void TitleBarWidget::onSizeChangedReportedBar(const Size& contentSize)
         //Add Label over 2 lines
 		_warningLabel->setWidth(maxReportLabelWidth);
         _warningLabel->setBMFontSize(54);
-        //_warningLabel->setString(_("This chat has been reported. Get your parent to reset it."));
     }
 
     float reportedBarHeight = _warningLabel->getContentSize().height + kTitleButtonsEdgePadding;

@@ -15,6 +15,8 @@ NS_AZOOMEE_CHAT_BEGIN
 
 const int kResizeAnimationTag = 10001;
 
+const float MessageComposer::kMessageInputPadding = 60.0f;
+
 bool MessageComposer::init()
 {
     if(!Super::init())
@@ -63,8 +65,6 @@ bool MessageComposer::init()
         // Sticker selected
         sendMessage(sticker);
     });
-
-    //_selectorLayout->addChild(_stickerSelector);
     
     // Art
     ui::Layout* artBG = ui::Layout::create();
@@ -151,11 +151,10 @@ void MessageComposer::onSizeChanged()
     // Resize absolute sized layouts
     // TODO: Can we build an Adaptor of some kind to automate this?
     std::vector<ui::Widget*> resizeItemsMatchParentWidth = {
-        //_topLayout,
         _messageEntryLayout
     };
     
-    _topLayout->setContentSize(_topLayout->getParent()->getContentSize() - Size(60,0));
+    _topLayout->setContentSize(_topLayout->getParent()->getContentSize() - Size(kMessageInputPadding,0));
     
     for(auto widget : resizeItemsMatchParentWidth)
     {
@@ -505,8 +504,6 @@ void MessageComposer::setMode(MessageComposer::Mode mode)
     {
         // Stickers button requires some resizing when selected, since the aspect ratio of the
         // selected and normal images is different
-        //_stickersTab->loadTextureNormal("res/chat/ui/buttons/stickers_active.png");
-        _stickersTab->loadTextureNormal("res/chat/ui/buttons/stickers_btn.png");
         const Size& textureSize = _stickersTab->getRendererNormal()->getTexture()->getContentSize();
         const float buttonWidth = _stickersTab->getContentSize().width;
         const float buttonHeight = textureSize.height / textureSize.width * buttonWidth;
@@ -520,7 +517,6 @@ void MessageComposer::setMode(MessageComposer::Mode mode)
     else
     {
         // Restore the stickers tab
-        _stickersTab->loadTextureNormal("res/chat/ui/buttons/stickers_btn.png");
         const Size& textureSize = _stickersTab->getRendererNormal()->getTexture()->getContentSize();
         const float buttonWidth = _stickersTab->getContentSize().width;
         const float buttonHeight = textureSize.height / textureSize.width * buttonWidth;
@@ -531,8 +527,6 @@ void MessageComposer::setMode(MessageComposer::Mode mode)
     {
         // Stickers button requires some resizing when selected, since the aspect ratio of the
         // selected and normal images is different
-        //_galleryTab->loadTextureNormal("res/chat/ui/buttons/art_active.png");
-        _galleryTab->loadTextureNormal("res/chat/ui/buttons/art_btn.png");
         const Size& textureSize = _galleryTab->getRendererNormal()->getTexture()->getContentSize();
         const float buttonWidth = _galleryTab->getContentSize().width;
         const float buttonHeight = textureSize.height / textureSize.width * buttonWidth;
@@ -546,7 +540,6 @@ void MessageComposer::setMode(MessageComposer::Mode mode)
     else
     {
         // Restore the stickers tab
-        _galleryTab->loadTextureNormal("res/chat/ui/buttons/art_btn.png");
         const Size& textureSize = _galleryTab->getRendererNormal()->getTexture()->getContentSize();
         const float buttonWidth = _galleryTab->getContentSize().width;
         const float buttonHeight = textureSize.height / textureSize.width * buttonWidth;

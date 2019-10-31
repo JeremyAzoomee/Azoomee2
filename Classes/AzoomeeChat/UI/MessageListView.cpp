@@ -148,9 +148,9 @@ void MessageListView::onSizeChanged()
         _avatarBase->setContentSize(Size(contentSize.width, _avatarBase->getContentSize().height));
 #endif
     }
-    
-    _topGradient->setContentSize(Size(getContentSize().width, _topGradient->getContentSize().height));
-    _bottomGradient->setContentSize(Size(getContentSize().width, _bottomGradient->getContentSize().height));
+    const float width = getContentSize().width;
+    _topGradient->setContentSize(Size(width, _topGradient->getContentSize().height));
+    _bottomGradient->setContentSize(Size(width, _bottomGradient->getContentSize().height));
 }
 
 void MessageListView::setContentSize(const cocos2d::Size& contentSize)
@@ -211,12 +211,13 @@ void MessageListView::onScrollEvent(cocos2d::Ref* sender, cocos2d::ui::ScrollVie
     
     if(event == ui::ScrollView::EventType::CONTAINER_MOVED)
     {
+        float listViewContainerPosY = _listView->getInnerContainerPosition().y;
         const float minY = _listView->getContentSize().height - _listView->getInnerContainerSize().height;
-        float scrollDist = MAX(_listView->getInnerContainerPosition().y - minY, 0);
+        float scrollDist = MAX(listViewContainerPosY - minY, 0);
+        const float width = getContentSize().width;
+        _topGradient->setContentSize(Size(width, MIN(scrollDist,160)));
         
-        _topGradient->setContentSize(Size(getContentSize().width, MIN(scrollDist,160)));
-        
-        _bottomGradient->setContentSize(Size(getContentSize().width, MIN(-_listView->getInnerContainerPosition().y,160)));
+        _bottomGradient->setContentSize(Size(width, MIN(-listViewContainerPosY,160)));
         
     }
     
