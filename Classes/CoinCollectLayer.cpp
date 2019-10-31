@@ -32,9 +32,6 @@ void CoinCollectLayer::onEnter()
 	addHeading();
 	addPlinth();
 	
-	_wires->runAction(FadeOut::create(_duration));
-	_wireGlow->runAction(FadeIn::create(_duration));
-	
 	this->scheduleUpdate();
 	
 	_passingTouchBlocker->onTouchEnded = [this](Touch* touch, Event* event){
@@ -107,18 +104,9 @@ void CoinCollectLayer::onSizeChanged()
 	{
 		_bgColour->setContentSize(visibleSize);
 	}
-	if(_bottomGradient)
+	if(_pattern)
 	{
-		_bottomGradient->setContentSize(Size(visibleSize.width, 400));
-	}
-	if(_wires)
-	{
-		const Size& landscapeSize = isPortrait ? Size(visibleSize.height, visibleSize.width) : visibleSize;
-		
-		_wires->setScale(MAX(landscapeSize.width / _wires->getContentSize().width, landscapeSize.height / _wires->getContentSize().height));
-		_wires->setRotation(isPortrait ? 90 : 0);
-		_wireGlow->setScale(MAX(landscapeSize.width / _wireGlow->getContentSize().width, landscapeSize.height / _wireGlow->getContentSize().height));
-		_wireGlow->setRotation(isPortrait ? 90 : 0);
+        _pattern->setContentSize(visibleSize);
 	}
 	
 	if(_counterFrame)
@@ -178,38 +166,22 @@ void CoinCollectLayer::setOomeeFilepath(const std::string& oomeeFilepath)
 
 void CoinCollectLayer::addBackground()
 {
-	_bgColour = LayerColor::create(Color4B(0,7,4,255));
+    _bgColour = LayerColor::create(Color4B(Style::Color::darkIndigo));
 	this->addChild(_bgColour, -1);
 	
-	const Size& contentSize = getContentSize();
-	bool isPortrait = contentSize.width < contentSize.height;
-	
-	_bottomGradient = Sprite::create("res/decoration/TopNavGrad.png");
-	_bottomGradient->setContentSize(Size(this->getContentSize().width, 400));
-	_bottomGradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	_bottomGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-	_bottomGradient->setColor(Style::Color::skyBlue);
-	_bottomGradient->setRotation(180);
-	this->addChild(_bottomGradient);
-	
-	const Size& landscapeSize = isPortrait ? Size(contentSize.height, contentSize.width) : contentSize;
-	
-	_wires = Sprite::create("res/rewards/big_wires.png");
-	_wires->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	_wires->setScale(MAX(landscapeSize.width / _wires->getContentSize().width, landscapeSize.height / _wires->getContentSize().height));
-	_wires->setRotation(isPortrait ? 90 : 0);
-	this->addChild(_wires, -1);
-	
-	_wireGlow = Sprite::create("res/rewards/big_wires_glow.png");
-	_wireGlow->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	_wireGlow->setScale(MAX(landscapeSize.width / _wireGlow->getContentSize().width, landscapeSize.height / _wireGlow->getContentSize().height));
-	_wireGlow->setRotation(isPortrait ? 90 : 0);
-	_wireGlow->setOpacity(0);
-	this->addChild(_wireGlow, -1);
-	
-	
-	
+    _pattern = RoundedRectSprite::create();
+    _pattern->setTexture("res/decoration/pattern_stem_tile.png");
+    _pattern->setCornerRadius(0);
+    _pattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _pattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    _pattern->setColor(Style::Color::white);
+    _pattern->setScaleMode(RoundedRectSprite::ScaleMode::TILE);
+    _pattern->setContentSize(getContentSize());
+    _pattern->setOpacity(100);
+    addChild(_pattern);
+    
 }
+
 void CoinCollectLayer::addHeading()
 {
 	const Size& visibleSize = this->getContentSize();

@@ -24,26 +24,19 @@ bool CoinChestLayer::init()
 		return false;
 	}
 	
-	const Size& contentSize = getContentSize();
-	bool isPortrait = contentSize.width < contentSize.height;
-	
-	_bgColour = LayerColor::create(Color4B(0,7,4,255));
+    _bgColour = LayerColor::create(Color4B(Style::Color::darkIndigo));
 	this->addChild(_bgColour, -1);
 	
-	const Size& landscapeSize = isPortrait ? Size(contentSize.height, contentSize.width) : contentSize;
-	
-	_wires = Sprite::create("res/rewards/big_wires.png");
-	_wires->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	_wires->setScale(MAX(landscapeSize.width / _wires->getContentSize().width, landscapeSize.height / _wires->getContentSize().height));
-	_wires->setRotation(isPortrait ? 90 : 0);
-	this->addChild(_wires, -1);
-	
-	_wireGlow = Sprite::create("res/rewards/big_wires_glow.png");
-	_wireGlow->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	_wireGlow->setScale(MAX(landscapeSize.width / _wireGlow->getContentSize().width, landscapeSize.height / _wireGlow->getContentSize().height));
-	_wireGlow->setRotation(isPortrait ? 90 : 0);
-	_wireGlow->setOpacity(0);
-	this->addChild(_wireGlow, -1);
+    _pattern = RoundedRectSprite::create();
+    _pattern->setTexture("res/decoration/pattern_stem_tile.png");
+    _pattern->setCornerRadius(0);
+    _pattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _pattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    _pattern->setColor(Style::Color::white);
+    _pattern->setScaleMode(RoundedRectSprite::ScaleMode::TILE);
+    _pattern->setContentSize(getContentSize());
+    _pattern->setOpacity(100);
+    addChild(_pattern);
 	
 	return true;
 }
@@ -51,9 +44,6 @@ void CoinChestLayer::onEnter()
 {
 	addChest();
 	addText();
-	
-	_wires->runAction(FadeOut::create(_duration));
-	_wireGlow->runAction(FadeIn::create(_duration));
 	
 	AudioMixer::getInstance()->playEffect("Blip.mp3");
 	this->runAction(Sequence::createWithTwoActions(DelayTime::create(0.5), CallFunc::create([](){
@@ -81,15 +71,10 @@ void CoinChestLayer::onSizeChanged()
 	{
 		_bgColour->setContentSize(visibleSize);
 	}
-	if(_wires)
-	{
-		const Size& landscapeSize = isPortrait ? Size(visibleSize.height, visibleSize.width) : visibleSize;
-		
-		_wires->setScale(MAX(landscapeSize.width / _wires->getContentSize().width, landscapeSize.height / _wires->getContentSize().height));
-		_wires->setRotation(isPortrait ? 90 : 0);
-		_wireGlow->setScale(MAX(landscapeSize.width / _wireGlow->getContentSize().width, landscapeSize.height / _wireGlow->getContentSize().height));
-		_wireGlow->setRotation(isPortrait ? 90 : 0);
-	}
+	if(_pattern)
+    {
+        _pattern->setContentSize(visibleSize);
+    }
 }
 
 void CoinChestLayer::addText()
