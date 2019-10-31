@@ -18,18 +18,6 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-GameHQ::~GameHQ()
-{
-    if(_recentlyPlayedTitle)
-    {
-        _recentlyPlayedTitle->release();
-    }
-    if(_recentlyPlayedLayout)
-    {
-        _recentlyPlayedLayout->release();
-    }
-}
-
 bool GameHQ::init()
 {
     if(!Super::init())
@@ -70,13 +58,6 @@ void GameHQ::onEnter()
     recentlyPlayedData->setTitle(_("Recently played"));
     
     _recentlyPlayedLayout->setContentItemData(recentlyPlayedData);
-    
-    if(recentlyPlayedData->getContentItems().size() != 0 && !_recentlyPlayedLayout->getParent())
-    {
-        bool isFirstItem = _contentListView->getItem(0) != _featuredLayout;
-        _contentListView->insertCustomItem(_recentlyPlayedTitle, isFirstItem ? 0 : 1);
-        _contentListView->insertCustomItem(_recentlyPlayedLayout, isFirstItem ? 1 : 2);
-    }
     
     Super::onEnter();
 }
@@ -163,14 +144,6 @@ void GameHQ::createFeaturedTiles()
 
 void GameHQ::createRecentlyPlayedTiles()
 {
-    if(_recentlyPlayedTitle)
-    {
-        _recentlyPlayedTitle->release();
-    }
-    if(_recentlyPlayedLayout)
-    {
-        _recentlyPlayedLayout->release();
-    }
     _recentlyPlayedTitle = DynamicText::create(_("Recently played"), Style::Font::PoppinsBold(), 75);
     _recentlyPlayedTitle->setTextVerticalAlignment(TextVAlignment::CENTER);
     _recentlyPlayedTitle->setTextHorizontalAlignment(TextHAlignment::LEFT);
@@ -178,7 +151,7 @@ void GameHQ::createRecentlyPlayedTiles()
     _recentlyPlayedTitle->setTextAreaSize(Size((_contentListView->getSizePercent().x * getContentSize().width) - kListViewSidePadding, _recentlyPlayedTitle->getContentSize().height));
     _recentlyPlayedTitle->setTextColor(Color4B::WHITE);
     _recentlyPlayedTitle->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
-    _recentlyPlayedTitle->retain();
+    _contentListView->pushBackCustomItem(_recentlyPlayedTitle);
     
     _recentlyPlayedLayout = CircleContentHolder::create();
     _recentlyPlayedLayout->setTileSize(_isPortrait ? kCircleTileSizePortrait : kCircleTileSizeLandscape);
@@ -192,7 +165,7 @@ void GameHQ::createRecentlyPlayedTiles()
             _contentSelectedCallback(content, elementIndex, -1);
         }
     });
-    _recentlyPlayedLayout->retain();
+    _contentListView->pushBackCustomItem(_recentlyPlayedLayout);
 }
 
 void GameHQ::createDropdowns()
