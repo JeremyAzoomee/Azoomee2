@@ -3,5 +3,6 @@
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">al-media.azoomee.com</domain>
         <domain includeSubdomains="true">al-video.azoomee.com</domain>
+        <domain includeSubdomains="true">albaniagames.azoomee.com</domain>
     </domain-config>
 </network-security-config>
