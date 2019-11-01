@@ -14,7 +14,8 @@
         android:allowBackup="true"
         android:largeHeap="true"
         android:icon="@mipmap/ic_launcher"
-        android:vmSafeMode="true">
+        android:vmSafeMode="true"
+        android:networkSecurityConfig="@xml/network_security_config">
 
         <!-- Tell Cocos2dxActivity the name of our .so -->
         <meta-data android:name="android.app.lib_name" android:value="Azoomee" />
