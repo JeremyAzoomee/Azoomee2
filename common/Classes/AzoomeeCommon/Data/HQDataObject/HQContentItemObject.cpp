@@ -64,6 +64,11 @@ void MutableHQContentItemObject::setImages(const std::map<std::string, std::stri
     _images = images;
 }
 
+void MutableHQContentItemObject::setItems(const std::vector<std::string> &items)
+{
+    _items = items;
+}
+
 std::string HQContentItemObject::getTitle() const
 {
     return _title;
@@ -119,6 +124,11 @@ std::string HQContentItemObject::getBaseImageThumbUrl() const
     }
     
     return _images.at("ONE_ONE");
+}
+
+std::vector<std::string> HQContentItemObject::getItems() const
+{
+    return _items;
 }
 
 //All functions that are being used only upon reading out

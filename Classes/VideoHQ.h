@@ -30,6 +30,7 @@ private:
     cocos2d::Vector<DropdownContentHolder*> _dropdownLayouts;
     
     EpisodeSelector* _episodeSelector = nullptr;
+    std::vector<HQContentItemObjectRef> _recentPlayedContent;
     
     ContentSelectedCallback _episodeSelectorContentSelectedCallback = nullptr;
     

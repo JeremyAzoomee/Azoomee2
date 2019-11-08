@@ -94,31 +94,35 @@ void HQDataObjectManager::parseNavigationData(const std::string &data)
 
 void HQDataObjectManager::parseHQStructureData(const std::string& hqStuctureData, const std::string& hqName)
 {
-	// stucture
-	/*
-	 {
-	 "items":{
-	 "1111111-11111-1111-111111":{"entitled":true},
-	 "1111111-22222-1111-111111":{"entitled":true}
-	 etc.
-	 },
-	 "rows": [
-	 {
-	 "contentIds": [
-	 "1111111-11111-1111-111111",
-	 etc.
-	 ],
-	 "title": "favs",
-	 "images": {
-	 "icon": "icon url"
-	 },
-	 "shapes": [
-	 [1,1],
-	 etc
-	 ]
-	 }
-	 }
-	 */
+    /* Example structure
+	{
+        "items": {
+            "1111111-11111-1111-111111": {
+                "entitled": true
+            },
+            "1111111-22222-1111-111111": {
+                "entitled": true
+            },
+            etc
+        },
+        "rows": [
+            {
+                "contentIds": [
+                    "1111111-11111-1111-111111",
+                    etc
+                ],
+                "title": "favs",
+                "images": {
+                    "icon": "icon url"
+                },
+                "shapes": [
+                    [1,1],
+                    etc
+                ]
+            }
+        ]
+    }
+    */
 	
 	rapidjson::Document hqData;
 	hqData.Parse(hqStuctureData.c_str());

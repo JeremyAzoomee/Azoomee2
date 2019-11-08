@@ -20,9 +20,7 @@ public:
     bool contentExistsForKey(const std::string &contentId) const;
     std::vector<HQContentItemObjectRef> getContentItems() const;
     HQContentItemObjectRef getContentItemForId(const std::string &contentId) const;
-    
-    void backupContentItemPool();
-    void restoreContentItemPool();
+    HQContentItemObjectRef getParentOfContentItemForId(const std::string &contentId) const;
     
     bool isSameContentPool(const std::string& etag) const;
     void setPoolEtag(const std::string& etag);
@@ -34,7 +32,10 @@ public:
 	
 private:
     ContentItemManager();
+    /// Maps a content id to a content item
     std::map<std::string, MutableHQContentItemObjectRef> _contentItems;
+    /// Maps a content id to it's parent (group) content item, if there is one
+    std::map<std::string, MutableHQContentItemObjectRef> _contentItemToGroup;
     std::string _currentPoolEtag;
 };
 
