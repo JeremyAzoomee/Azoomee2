@@ -84,7 +84,6 @@ void DropdownContentHolder::onSizeChanged()
     _tileSpacing = contentSize.width * kTileSpacingPercent;
     _bgPattern->setContentSize(contentSize - Size(10,10));
     _titleBanner->setContentSize(Size(contentSize.width, 2 * _bgCapInset.origin.y));
-    _categoryTitle->setTextAreaSize(Size(_titleBanner->getContentSize().width * 0.5f, _categoryTitle->getContentSize().height));
     const Size& iconSize = Size(_titleBanner->getContentSize().height - 12.0f, _titleBanner->getContentSize().height - 12.0f);
     _iconLayout->setContentSize(iconSize);
     _iconLayout->setPosition(Vec2(iconSize.width, 8.0f));
@@ -92,6 +91,8 @@ void DropdownContentHolder::onSizeChanged()
     _iconBackground->setContentSize(iconSize);
     _iconClippingNode->setContentSize(iconSize);
     _categoryIcon->setScale(MIN((iconSize.height * 0.9f) / _categoryIcon->getContentSize().height, (iconSize.width * 0.9f) / _categoryIcon->getContentSize().width));
+    
+    _categoryTitle->setTextAreaSize(Size(_titleBanner->getContentSize().width - (2.3f * iconSize.width), _categoryTitle->getContentSize().height));
     
     resizeContent();
     
