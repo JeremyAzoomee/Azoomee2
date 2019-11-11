@@ -147,7 +147,7 @@ void HQScene::createHeaderUI()
     _coinDisplay = CoinDisplay::create();
     _coinDisplay->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
     _coinDisplay->setAnchorPoint(Vec2(1.1f,0.5f));
-    _coinDisplay->setAnimate(true);
+    _coinDisplay->setAnimate(false);
     _settingsButton->addChild(_coinDisplay);
     //show coin counter if they have coins or have completed the shop tutorial
     //_coinDisplay->setVisible(TutorialController::getInstance()->isTutorialCompleted(TutorialController::kFTUShopID) || ChildManager::getInstance()->getLoggedInChild()->getInventory()->getCoins() > 0);
