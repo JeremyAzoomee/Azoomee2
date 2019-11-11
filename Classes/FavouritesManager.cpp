@@ -69,19 +69,8 @@ void FavouritesManager::removeFromFavourites(const HQContentItemObjectRef& conte
 
 std::vector<HQContentItemObjectRef> FavouritesManager::getFavouriteContent() const
 {
-    std::vector<HQContentItemObjectRef> favContent;
-    
     const std::vector<std::string>& ids = getFavouriteContentIds();
-    for(const std::string& id : ids)
-    {
-        HQContentItemObjectRef content = HQDataProvider::getInstance()->getItemDataForSpecificItem(id);
-        if(content)
-        {
-            favContent.push_back(content);
-        }
-    }
-    
-    return favContent;
+    return HQDataProvider::getInstance()->getContentItemsFromIDs(ids);
 }
 
 std::string FavouritesManager::getFavouritesFilePath() const

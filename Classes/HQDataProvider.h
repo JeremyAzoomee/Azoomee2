@@ -30,8 +30,14 @@ public:
     bool init(void);
     
     //MainHub Area services
-    HQContentItemObjectRef getItemDataForSpecificItem(const std::string &itemid);
+    std::vector<HQContentItemObjectRef> getContentItemsFromIDs(const std::vector<std::string> &itemidList) const;
+    HQContentItemObjectRef getContentItemFromID(const std::string &itemid) const;
     cocos2d::Vec2 getHighlightDataForSpecificItem(const std::string &hqName, int rowNumber, int itemNumber) const;
+    
+    /// Returns a pair of vectors.
+    /// The first is the content filtered to only show 1 content item per group.
+    /// The second contains the group of the last played content if available, or if no group is available, the content item itself.
+    std::pair<std::vector<HQContentItemObjectRef>, std::vector<HQContentItemObjectRef>> filterContentItemsByUniqueGroup(const std::vector<HQContentItemObjectRef>& items) const;
     
     std::string getThumbnailUrlForItem(const std::string &hqName, int rowNumber, int itemNumber) const;
     std::string getThumbnailUrlForItem(const std::string &itemId) const;

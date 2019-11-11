@@ -280,7 +280,10 @@ void OomeeHQ::createFavouritesLayout()
     _favouritesLayout->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
         if(_contentSelectedCallback)
         {
-            _contentSelectedCallback(content, elementIndex, -1);
+            // Open the actual content by checking _recentPlayedContent
+            // This is because content might be a group if it's a video episode
+            HQContentItemObjectRef contentToOpen = elementIndex < _favouritesContent.size() ? _favouritesContent[elementIndex] : content;
+            _contentSelectedCallback(contentToOpen, elementIndex, -1);
         }
     });
     _contentListView->pushBackCustomItem(_favouritesLayout);
@@ -326,12 +329,16 @@ void OomeeHQ::refreshOfflineList()
 
 void OomeeHQ::refreshFavouritesList()
 {
-    const auto& favList = FavouritesManager::getInstance()->getFavouriteContent();
+    const auto& allFavourites = FavouritesManager::getInstance()->getFavouriteContent();
+    // Filter the recently played by group so videos can display as a series, but open the episode
+    const auto& filteredFavourites = HQDataProvider::getInstance()->filterContentItemsByUniqueGroup(allFavourites);
+    _favouritesContent = filteredFavourites.first;
+    
     MutableHQCarouselObjectRef carousel = MutableHQCarouselObject::create();
     carousel->setColour(Color4B(Style::Color::azure));
-    carousel->addContentItemsToCarousel(favList);
+    carousel->addContentItemsToCarousel(filteredFavourites.second);
     carousel->setTitle(_("Favourites"));
-    _favouritesLayout->setMaxRows(favList.size() > 0 ? -1 : 1);
+    _favouritesLayout->setMaxRows(_favouritesContent.size() > 0 ? -1 : 1);
     _favouritesLayout->setContentItemData(carousel);
 }
 

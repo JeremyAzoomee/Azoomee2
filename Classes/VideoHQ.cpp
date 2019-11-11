@@ -54,7 +54,10 @@ bool VideoHQ::init()
 
 void VideoHQ::onEnter()
 {
-    const auto& recentPlayedData = RecentlyPlayedManager::getInstance()->getRecentlyPlayedContentForHQByUniqueGroup(ConfigStorage::kVideoHQName);
+    const auto& allRecentPlayed = RecentlyPlayedManager::getInstance()->getRecentlyPlayedContentForHQ(ConfigStorage::kVideoHQName);
+    // Filter the recently played by group so videos can display as a series, but open the episode
+    const auto& recentPlayedData = HQDataProvider::getInstance()->filterContentItemsByUniqueGroup(allRecentPlayed);
+    
     _recentPlayedContent = recentPlayedData.first;
     
     MutableHQCarouselObjectRef recentlyPlayedData = MutableHQCarouselObject::create();
@@ -190,19 +193,12 @@ void VideoHQ::createRecentlyPlayedTiles()
     _recentlyPlayedLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _recentlyPlayedLayout->setContentSize(Size(_contentListView->getSizePercent().x * getContentSize().width, 0));
     _recentlyPlayedLayout->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
-        if(_episodeSelectorContentSelectedCallback && _contentSelectedCallback)
+        if(_contentSelectedCallback)
         {
             // Open the actual content by checking _recentPlayedContent
             // This is because content might be a group if it's a video episode
             HQContentItemObjectRef contentToOpen = elementIndex < _recentPlayedContent.size() ? _recentPlayedContent[elementIndex] : content;
-            
-            // We have to open the group first, otherwise the correct playlist doesn't load
-            // TODO: We shouldn't need to do this
-            if(content->getType() == ConfigStorage::kContentTypeGroup && content != contentToOpen)
-            {
-                _contentSelectedCallback(content, elementIndex, 0);
-            }
-            _episodeSelectorContentSelectedCallback(contentToOpen, elementIndex, 0);
+            _contentSelectedCallback(contentToOpen, elementIndex, -1);
         }
     });
     _contentListView->pushBackCustomItem(_recentlyPlayedLayout);
