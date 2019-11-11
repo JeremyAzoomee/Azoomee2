@@ -60,7 +60,6 @@ static ConfigStorage *_sharedConfigStorage = NULL;
     const std::string ConfigStorage::kArtCacheFolder = "artCache/";
     const std::string ConfigStorage::kGameCacheFolder = "gameCache/";
 	const std::string ConfigStorage::kOomeeMakerCacheFolder = "oomeeMaker/";
-    const std::string ConfigStorage::kContentCacheFolder = "contentCache/";
     
     const std::string ConfigStorage::kAvatarImageCacheFolder = "avatars";
     

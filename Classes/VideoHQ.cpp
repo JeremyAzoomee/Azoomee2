@@ -54,8 +54,11 @@ bool VideoHQ::init()
 
 void VideoHQ::onEnter()
 {
+    const auto& recentPlayedData = RecentlyPlayedManager::getInstance()->getRecentlyPlayedContentForHQByUniqueGroup(ConfigStorage::kVideoHQName);
+    _recentPlayedContent = recentPlayedData.first;
+    
     MutableHQCarouselObjectRef recentlyPlayedData = MutableHQCarouselObject::create();
-    recentlyPlayedData->addContentItemsToCarousel(RecentlyPlayedManager::getInstance()->getRecentlyPlayedContentForHQ(ConfigStorage::kVideoHQName));
+    recentlyPlayedData->addContentItemsToCarousel(recentPlayedData.second);
     recentlyPlayedData->setTitle(_("Recently watched"));
     
     _recentlyPlayedLayout->setContentItemData(recentlyPlayedData);
@@ -79,7 +82,6 @@ void VideoHQ::onSizeChanged()
     _episodeSelector->enableCloseButton(_isPortrait);
     if(_isPortrait)
     {
-        const float contentWidthMidpoint =  contentSize.width * 0.5f;
         _contentListView->setSizePercent(Vec2(1.0f, 1.0f));
         _staticContentLayout->setSizePercent(Vec2(0.0f, 1.0f));
         
@@ -188,9 +190,19 @@ void VideoHQ::createRecentlyPlayedTiles()
     _recentlyPlayedLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _recentlyPlayedLayout->setContentSize(Size(_contentListView->getSizePercent().x * getContentSize().width, 0));
     _recentlyPlayedLayout->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
-        if(_contentSelectedCallback)
+        if(_episodeSelectorContentSelectedCallback && _contentSelectedCallback)
         {
-            _contentSelectedCallback(content, elementIndex, -1);
+            // Open the actual content by checking _recentPlayedContent
+            // This is because content might be a group if it's a video episode
+            HQContentItemObjectRef contentToOpen = elementIndex < _recentPlayedContent.size() ? _recentPlayedContent[elementIndex] : content;
+            
+            // We have to open the group first, otherwise the correct playlist doesn't load
+            // TODO: We shouldn't need to do this
+            if(content->getType() == ConfigStorage::kContentTypeGroup && content != contentToOpen)
+            {
+                _contentSelectedCallback(content, elementIndex, 0);
+            }
+            _episodeSelectorContentSelectedCallback(contentToOpen, elementIndex, 0);
         }
     });
     _contentListView->pushBackCustomItem(_recentlyPlayedLayout);

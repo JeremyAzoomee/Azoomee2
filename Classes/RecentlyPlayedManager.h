@@ -17,7 +17,7 @@ NS_AZOOMEE_BEGIN
 class RecentlyPlayedManager
 {
 private:
-    const int _kMaxRecentContent = 12;
+    const int _kMaxRecentContent = 100;
     const std::string _kRecentlyPlayedFolderName = "RecentlyPlayed/";
     const std::string _kRecentlyPlayedFileName = "recentContent.txt";
     
@@ -32,11 +32,13 @@ public:
     
     virtual ~RecentlyPlayedManager();
     
-    void addContentIdToRecentlyPlayedFile(const std::string& contentId);
-    std::vector<HQContentItemObjectRef> getRecentlyPlayedContent() const;
-    
     void addContentIdToRecentlyPlayedFileForHQ(const std::string& contentId, const std::string& hq);
     std::vector<HQContentItemObjectRef> getRecentlyPlayedContentForHQ(const std::string& hq) const;
+    
+    /// Returns a pair of vectors.
+    /// The first is the last played content.
+    /// The second contains the group of the last played content if available, or the content.
+    std::pair<std::vector<HQContentItemObjectRef>, std::vector<HQContentItemObjectRef>> getRecentlyPlayedContentForHQByUniqueGroup(const std::string& hq) const;
     
 };
 

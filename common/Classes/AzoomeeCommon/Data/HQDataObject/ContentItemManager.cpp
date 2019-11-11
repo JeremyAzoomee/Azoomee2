@@ -29,6 +29,15 @@ ContentItemManager::ContentItemManager()
 void ContentItemManager::addContentItemToPool(const MutableHQContentItemObjectRef &contentItem)
 {
     _contentItems[contentItem->getContentItemId()] = contentItem;
+    
+    const auto& subItems = contentItem->getItems();
+    if(!subItems.empty())
+    {
+        for(const std::string& id : subItems)
+        {
+            _contentItemToGroup[id] = contentItem;
+        }
+    }
 }
 
 void ContentItemManager::emptyContentItemPool()
@@ -55,14 +64,22 @@ std::vector<HQContentItemObjectRef> ContentItemManager::getContentItems() const
 
 HQContentItemObjectRef ContentItemManager::getContentItemForId(const std::string &contentId) const
 {
-    if(contentExistsForKey(contentId))
+    auto it = _contentItems.find(contentId);
+    if(it != _contentItems.end())
     {
-        return _contentItems.at(contentId);
+        return it->second;
     }
-    else
+    return nullptr;
+}
+
+HQContentItemObjectRef ContentItemManager::getParentOfContentItemForId(const std::string &contentId) const
+{
+    auto it = _contentItemToGroup.find(contentId);
+    if(it != _contentItemToGroup.end())
     {
-        return nullptr;
+        return it->second;
     }
+    return nullptr;
 }
 
 bool ContentItemManager::isSameContentPool(const std::string &etag) const
@@ -73,51 +90,6 @@ bool ContentItemManager::isSameContentPool(const std::string &etag) const
 void ContentItemManager::setPoolEtag(const std::string &etag)
 {
     _currentPoolEtag = etag;
-}
-
-void ContentItemManager::backupContentItemPool()
-{
-    const std::string &contentPath = FileUtils::getInstance()->getWritablePath() + "contentCache/" + ChildManager::getInstance()->getParentOrChildId() + "/";
-    
-    if(!FileUtils::getInstance()->isDirectoryExist(contentPath))
-    {
-        FileUtils::getInstance()->createDirectory(contentPath);
-    }
-    
-    std::string saveString = "";
-    
-    for(auto item : _contentItems)
-    {
-        if(saveString.length() > 0)
-        {
-            saveString += "|";
-        }
-        
-        saveString += item.second->getJSONRepresentationOfStructure();
-    }
-    
-    FileUtils::getInstance()->writeStringToFile(saveString, contentPath + "contentCache.bak");
-}
-
-void ContentItemManager::restoreContentItemPool()
-{
-    emptyContentItemPool();
-    
-    const std::string &contentFilePath = FileUtils::getInstance()->getWritablePath() + "contentCache/" + ChildManager::getInstance()->getParentOrChildId() + "/contentCache.bak";
-    if(!FileUtils::getInstance()->isFileExist(contentFilePath))
-    {
-        return;
-    }
-    
-    const std::string &fileData = FileUtils::getInstance()->getStringFromFile(contentFilePath);
-    const std::vector<std::string> &jsonStringVector = splitStringToVector(fileData, "|");
-    
-    for(const std::string& currentItemJsonString : jsonStringVector)
-    {
-        const std::map<std::string, std::string> &elementMap = getStringMapFromJsonString(currentItemJsonString);
-        MutableHQContentItemObjectRef newContentItem = MutableHQContentItemObject::createFromMap(elementMap);
-        addContentItemToPool(newContentItem);
-    }
 }
 
 void ContentItemManager::parseContentItemPool(const std::string& contentItemPoolString)
@@ -182,6 +154,11 @@ void ContentItemManager::parseContentItem(const std::string &contentId, const ra
 	{
 		contentObject->setImages(getStringMapFromJson(contentItemData["images"]));
 	}
+    
+    if(contentItemData.HasMember("items"))
+    {
+        contentObject->setItems(getStringArrayFromJson(contentItemData["items"]));
+    }
 	
 	addContentItemToPool(contentObject);
 }

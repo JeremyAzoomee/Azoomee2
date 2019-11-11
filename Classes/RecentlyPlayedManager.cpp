@@ -7,6 +7,8 @@
 
 #include "RecentlyPlayedManager.h"
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/Utils/DirUtil.h>
 #include "HQDataProvider.h"
@@ -29,44 +31,6 @@ RecentlyPlayedManager* RecentlyPlayedManager::getInstance()
 
 RecentlyPlayedManager::~RecentlyPlayedManager(void)
 {
-}
-
-void RecentlyPlayedManager::addContentIdToRecentlyPlayedFile(const std::string& contentId)
-{
-    std::vector<std::string> fileIds = getRecentContentIds();
-    
-    auto pivot = std::find(fileIds.begin(), fileIds.end(), contentId);
-    if(pivot != fileIds.end())
-    {
-        std::rotate(fileIds.begin(), pivot, pivot + 1);
-    }
-    else
-    {
-        fileIds.insert(fileIds.begin(), contentId);
-    }
-    
-    fileIds.resize(_kMaxRecentContent);
-    
-    const std::string& newIdList = joinStrings(fileIds, "/");
-    
-    FileUtils::getInstance()->writeStringToFile(newIdList, getRecentlyPlayedFilePath());
-}
-
-std::vector<HQContentItemObjectRef> RecentlyPlayedManager::getRecentlyPlayedContent() const
-{
-    std::vector<HQContentItemObjectRef> recentContent;
-    
-    const std::vector<std::string>& ids = getRecentContentIds();
-    for(const std::string& id : ids)
-    {
-        HQContentItemObjectRef content = HQDataProvider::getInstance()->getItemDataForSpecificItem(id);
-        if(content)
-        {
-            recentContent.push_back(content);
-        }
-    }
-    
-    return recentContent;
 }
 
 void RecentlyPlayedManager::addContentIdToRecentlyPlayedFileForHQ(const std::string &contentId, const std::string &hq)
@@ -105,6 +69,35 @@ std::vector<HQContentItemObjectRef> RecentlyPlayedManager::getRecentlyPlayedCont
     }
     
     return recentContent;
+}
+
+std::pair<std::vector<HQContentItemObjectRef>, std::vector<HQContentItemObjectRef>> RecentlyPlayedManager::getRecentlyPlayedContentForHQByUniqueGroup(const std::string &hq) const
+{
+    std::vector<HQContentItemObjectRef> recentContent;
+    // Keep track of what groups we have added
+    std::vector<HQContentItemObjectRef> recentGroupsOrContent;
+    
+    ContentItemManager* contentItemManager = ContentItemManager::getInstance();
+    
+    const std::vector<std::string>& ids = getRecentContentIdsForHQ(hq);
+    for(const std::string& id : ids)
+    {
+        HQContentItemObjectRef content = HQDataProvider::getInstance()->getItemDataForSpecificItem(id);
+        if(content)
+        {
+            // Check if the item has a group
+            HQContentItemObjectRef groupForContent = contentItemManager->getParentOfContentItemForId(id);
+            
+            // If the item doesn't have a group, or we haven't added an item from this group yet
+            if(!groupForContent || std::find(recentGroupsOrContent.begin(), recentGroupsOrContent.end(), groupForContent) == recentGroupsOrContent.end())
+            {
+                recentContent.push_back(content);
+                recentGroupsOrContent.push_back(groupForContent ? groupForContent : content);
+            }
+        }
+    }
+    
+    return std::make_pair(recentContent, recentGroupsOrContent);
 }
 
 std::vector<std::string> RecentlyPlayedManager::getRecentContentIds() const

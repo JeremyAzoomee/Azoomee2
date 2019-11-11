@@ -22,6 +22,8 @@ protected:
     bool _entitled = true;
     std::vector<std::string> _tags;
     std::map<std::string, std::string> _images;
+    /// Subitems (if this is a group)
+    std::vector<std::string> _items;
     
     //variables that are just added when read (not storing)
     std::string _imagePath = "";
@@ -42,6 +44,7 @@ public:
     std::vector<std::string> getTags() const;
     std::map<std::string, std::string> getImages() const;
     std::string getBaseImageThumbUrl() const;
+    std::vector<std::string> getItems() const;
     
     void setCarouselColour(const cocos2d::Color4B& colour); //needs to be modifiable at base level as is set at carousel level
     
@@ -73,6 +76,7 @@ public:
 	void addTag(const std::string &tag);
 	void setTags(const std::vector<std::string> &tags);
 	void setImages(const std::map<std::string, std::string> &images);
+    void setItems(const std::vector<std::string> &items);
 	
 	//getters and setters for variables only handled upon read (not storing)
 	void setImagePath(const std::string &inputImagePath);
