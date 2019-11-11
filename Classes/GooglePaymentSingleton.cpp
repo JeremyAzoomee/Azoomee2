@@ -68,7 +68,7 @@ void GooglePaymentSingleton::startBackEndPaymentVerification(std::string develop
         const std::string& productID = "googleplay-prod";
 #endif
         auto funcCallAction = CallFunc::create([=](){
-            BackEndCaller::getInstance()->verifyGooglePayment(orderId, productID, token);
+            BackEndCaller::getInstance()->verifyGooglePayment(orderId, ConfigStorage::getInstance()->getIapSkuForProvider(productID), token);
         });
     
         Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL)); //need time to get focus back from google window, otherwise the app will crash
