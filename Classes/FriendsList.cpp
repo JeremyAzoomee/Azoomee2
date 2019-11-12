@@ -83,7 +83,7 @@ void FriendsList::setAddFriendSelectedCallback(const AddFriendSelectedCallback& 
     _addFriendCallback = callback;
 }
 
-bool FriendsList::setShowAddFriendTile(bool show)
+void FriendsList::setShowAddFriendTile(bool show)
 {
     _showAddFriendTile = show;
 }
@@ -144,7 +144,6 @@ void FriendsList::refreshTiles()
                         _addFriendCallback();
                     }
                 });
-                tile->setTouchEnabled(false);
                 rowContainer->addChild(tile);
             }
             else
@@ -164,7 +163,6 @@ void FriendsList::refreshTiles()
             }
         }
     }
-    //_contentLayout->setContentSize(Size(rowWidth, totalHeight));
     
     setContentSize(Size(contentSize.width, totalHeight));
     for(int i = 0; i < MIN(_tiles.size(), _friends.size()); i++)

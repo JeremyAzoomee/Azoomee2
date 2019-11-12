@@ -75,6 +75,7 @@ bool AddFriendTile::init()
     _text->setOverflow(Label::Overflow::SHRINK);
     addChild(_text);
     
+    setTouchEnabled(true);
     addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
@@ -112,7 +113,6 @@ void AddFriendTile::setTileWidth(float width)
 void AddFriendTile::setSelectedCallback(const SelectedCallback &callback)
 {
     _selectedCallback = callback;
-    setTouchEnabled(_selectedCallback != nullptr);
 }
 
 void AddFriendTile::resizeContent()
