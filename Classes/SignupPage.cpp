@@ -11,6 +11,7 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/ModalWebview.h>
 #include <AzoomeeCommon/Data/Urls.h>
+#include <AzoomeeCommon/Utils/StringFunctions.h>
 
 using namespace cocos2d;
 
@@ -110,7 +111,7 @@ void SignupPage::createInputHolder()
         {
             if(_continueCallback)
             {
-                _continueCallback(_inputBox->getText());
+                _continueCallback(trim(_inputBox->getText()));
             }
         }
     });
@@ -143,7 +144,7 @@ void SignupPage::createInputHolder()
                 _backButton->setScale(1.0f);
                 if(_backCallback)
                 {
-                    _backCallback(_inputBox->getText());
+                    _backCallback(trim(_inputBox->getText()));
                 }
                 break;
             }
