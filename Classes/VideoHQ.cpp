@@ -25,11 +25,6 @@ bool VideoHQ::init()
         return false;
     }
     
-    createFeaturedTiles();
-    createRecentlyPlayedTiles();
-    createDropdowns();
-    createEpisodePlayer();
-    
     const Color3B& gradColour = Style::Color::darkIndigo;
     _topScrollGradient = LayerGradient::create(Color4B(gradColour), Color4B(gradColour.r, gradColour.g, gradColour.b, 0));
     _topScrollGradient->setIgnoreAnchorPointForPosition(false);
@@ -48,6 +43,11 @@ bool VideoHQ::init()
             
         }
     });
+    
+    createFeaturedTiles();
+    createRecentlyPlayedTiles();
+    createDropdowns();
+    createEpisodePlayer();
     
     return true;
 }

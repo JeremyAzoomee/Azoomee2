@@ -41,14 +41,13 @@ namespace Azoomee
                                     elementOnScreen = false;
                                     elementDisappeared(sender);
                                 }
-                            }, this, 1.0f, kRepeatForever, 0.0f, false, "onScreenCheck");
+                            }, this, 0.5f, kRepeatForever, 0.0f, false, "onScreenCheck");
     }
     
     bool OnScreenChecker::checkIfElementIsOnScreen(Node* itemToCheck)
     {
-        Size extraBoundary = Size(100,100);
+        Size extraBoundary = Size(100,800);
         
-        Point directPosition = itemToCheck->getPosition();
         Point worldPosition = itemToCheck->getParent()->convertToWorldSpace(itemToCheck->getPosition());
         Point visibleOrigin = Director::getInstance()->getVisibleOrigin();
         Size visibleSize = Director::getInstance()->getVisibleSize();

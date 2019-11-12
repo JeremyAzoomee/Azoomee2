@@ -8,6 +8,7 @@
 #include "FeaturedTile.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
+#include <AzoomeeCommon/ImageDownloader/ImageDownloaderCacheCleanerLogic.h>
 #include "HQDataProvider.h"
 
 using namespace cocos2d;
@@ -105,6 +106,7 @@ void FeaturedTile::elementDisappeared(cocos2d::Node *sender)
     if(_contentImage->getTexture()->getPath() != _placholderFilename)
     {
         _contentImage->setTexture(_placholderFilename);
+        ImageDownloaderCacheCleanerLogic::getInstance()->imageRemoved();
         resizeContentImage();
     }
 }
@@ -134,7 +136,11 @@ void FeaturedTile::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 }
 void FeaturedTile::onImageDownloadFailed()
 {
-    elementOnScreen = false;
+    if(_imageShape != TILESIZE_1X1)
+    {
+        _imageShape = TILESIZE_1X1;
+        _imageDownloader->downloadImage(this, HQDataProvider::getInstance()->getThumbnailUrlForItem(_contentItem, TILESIZE_1X1));
+    }
 }
 
 NS_AZOOMEE_END

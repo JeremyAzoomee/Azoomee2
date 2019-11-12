@@ -367,7 +367,7 @@ void DropdownContentHolder::resizeContent()
 void DropdownContentHolder::setContentLayoutVisible(bool visible)
 {
     _contentTileGrid->setVisible(visible);
-    for(auto tile : _contentTiles)
+    /*for(auto tile : _contentTiles)
     {
         if(_visible)
         {
@@ -377,7 +377,7 @@ void DropdownContentHolder::setContentLayoutVisible(bool visible)
         {
             tile->stopCheckingOnScreenPosition();
         }
-    }
+    }*/
 }
 
 // delegate functions
