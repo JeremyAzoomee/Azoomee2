@@ -190,6 +190,7 @@ void ArtTileHolder::updateContent()
     if(_artFilenames.size() > 0)
     {
         _expandable = _artFilenames.size() > kClosedMaxVisibleTileCount;
+        _contentGridPadding = ((_expandable ? 5 : 2) * _tileSpacing);
         _contentTiles.clear();
         _contentRows.clear();
         _contentTileGrid->removeAllChildren();
