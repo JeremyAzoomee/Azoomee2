@@ -33,8 +33,11 @@ private:
     OomeeStoreButton* _shopButton = nullptr;
     ArtStudioButton* _artStudioButton = nullptr;
     ArtTileHolder* _artTileHolder = nullptr;
+    
     DynamicText* _favouritesTitle = nullptr;
     CircleContentHolder* _favouritesLayout = nullptr;
+    std::vector<HQContentItemObjectRef> _favouritesContent;
+    
     DropdownContentHolder* _offlineDropdown = nullptr;
     
     cocos2d::EventListenerTouchOneByOne* _touchListener = nullptr;

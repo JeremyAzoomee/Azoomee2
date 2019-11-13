@@ -56,48 +56,8 @@ void RecentlyPlayedManager::addContentIdToRecentlyPlayedFileForHQ(const std::str
 
 std::vector<HQContentItemObjectRef> RecentlyPlayedManager::getRecentlyPlayedContentForHQ(const std::string &hq) const
 {
-    std::vector<HQContentItemObjectRef> recentContent;
-    
     const std::vector<std::string>& ids = getRecentContentIdsForHQ(hq);
-    for(const std::string& id : ids)
-    {
-        HQContentItemObjectRef content = HQDataProvider::getInstance()->getItemDataForSpecificItem(id);
-        if(content)
-        {
-            recentContent.push_back(content);
-        }
-    }
-    
-    return recentContent;
-}
-
-std::pair<std::vector<HQContentItemObjectRef>, std::vector<HQContentItemObjectRef>> RecentlyPlayedManager::getRecentlyPlayedContentForHQByUniqueGroup(const std::string &hq) const
-{
-    std::vector<HQContentItemObjectRef> recentContent;
-    // Keep track of what groups we have added
-    std::vector<HQContentItemObjectRef> recentGroupsOrContent;
-    
-    ContentItemManager* contentItemManager = ContentItemManager::getInstance();
-    
-    const std::vector<std::string>& ids = getRecentContentIdsForHQ(hq);
-    for(const std::string& id : ids)
-    {
-        HQContentItemObjectRef content = HQDataProvider::getInstance()->getItemDataForSpecificItem(id);
-        if(content)
-        {
-            // Check if the item has a group
-            HQContentItemObjectRef groupForContent = contentItemManager->getParentOfContentItemForId(id);
-            
-            // If the item doesn't have a group, or we haven't added an item from this group yet
-            if(!groupForContent || std::find(recentGroupsOrContent.begin(), recentGroupsOrContent.end(), groupForContent) == recentGroupsOrContent.end())
-            {
-                recentContent.push_back(content);
-                recentGroupsOrContent.push_back(groupForContent ? groupForContent : content);
-            }
-        }
-    }
-    
-    return std::make_pair(recentContent, recentGroupsOrContent);
+    return HQDataProvider::getInstance()->getContentItemsFromIDs(ids);
 }
 
 std::vector<std::string> RecentlyPlayedManager::getRecentContentIds() const

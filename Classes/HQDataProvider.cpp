@@ -95,9 +95,49 @@ std::string HQDataProvider::getTitleForRow(const std::string &hqName, int index)
     return HQDataObjectManager::getInstance()->getHQDataObjectForKey(hqName)->getHqCarousels().at(index)->getTitle();
 }
 
-HQContentItemObjectRef HQDataProvider::getItemDataForSpecificItem(const std::string &itemid)
+HQContentItemObjectRef HQDataProvider::getContentItemFromID(const std::string &itemid) const
 {
     return ContentItemManager::getInstance()->getContentItemForId(itemid);
+}
+
+std::vector<HQContentItemObjectRef> HQDataProvider::getContentItemsFromIDs(const std::vector<std::string> &itemidList) const
+{
+    std::vector<HQContentItemObjectRef> items;
+    ContentItemManager* contentItemManager = ContentItemManager::getInstance();
+    
+    for(const std::string& id : itemidList)
+    {
+        HQContentItemObjectRef content = contentItemManager->getContentItemForId(id);
+        if(content)
+        {
+            items.push_back(content);
+        }
+    }
+    
+    return items;
+}
+
+std::pair<std::vector<HQContentItemObjectRef>, std::vector<HQContentItemObjectRef>> HQDataProvider::filterContentItemsByUniqueGroup(const std::vector<HQContentItemObjectRef>& items) const
+{
+    std::vector<HQContentItemObjectRef> filteredItems;
+    // Keep track of what groups we have added
+    std::vector<HQContentItemObjectRef> itemGroups;
+    
+    ContentItemManager* contentItemManager = ContentItemManager::getInstance();
+    for(const HQContentItemObjectRef& content : items)
+    {
+        // Check if the item has a group
+        const HQContentItemObjectRef& groupForContent = contentItemManager->getParentOfContentItemForId(content->getContentItemId());
+        
+        // If the item doesn't have a group, or we haven't added an item from this group yet
+        if(!groupForContent || std::find(itemGroups.begin(), itemGroups.end(), groupForContent) == itemGroups.end())
+        {
+            filteredItems.push_back(content);
+            itemGroups.push_back(groupForContent ? groupForContent : content);
+        }
+    }
+    
+    return std::make_pair(filteredItems, itemGroups);
 }
 
 Vec2 HQDataProvider::getHighlightDataForSpecificItem(const std::string &hqName, int rowNumber, int itemNumber) const

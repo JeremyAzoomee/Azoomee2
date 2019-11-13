@@ -35,11 +35,6 @@ public:
     void addContentIdToRecentlyPlayedFileForHQ(const std::string& contentId, const std::string& hq);
     std::vector<HQContentItemObjectRef> getRecentlyPlayedContentForHQ(const std::string& hq) const;
     
-    /// Returns a pair of vectors.
-    /// The first is the last played content.
-    /// The second contains the group of the last played content if available, or the content.
-    std::pair<std::vector<HQContentItemObjectRef>, std::vector<HQContentItemObjectRef>> getRecentlyPlayedContentForHQByUniqueGroup(const std::string& hq) const;
-    
 };
 
 NS_AZOOMEE_END

@@ -25,6 +25,7 @@
 #include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Cookie/CookieManager.h>
+#include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
 
 #include "AgeGate.h"
 
@@ -45,7 +46,7 @@ ContentOpener* ContentOpener::getInstance()
 
 void ContentOpener::openContentById(const std::string &contentId)
 {
-    HQContentItemObjectRef contentItem = HQDataProvider::getInstance()->getItemDataForSpecificItem(contentId);
+    HQContentItemObjectRef contentItem = HQDataProvider::getInstance()->getContentItemFromID(contentId);
     
     if(contentItem)
     {
@@ -149,7 +150,17 @@ void ContentOpener::doCarouselContentOpenLogic(const HQContentItemObjectRef& con
 		else
 		{
 			MutableHQCarouselObjectRef carousel = MutableHQCarouselObject::create();
-			carousel->addContentItemToCarousel(contentItem);
+            
+            const HQContentItemObjectRef& groupForContent = ContentItemManager::getInstance()->getParentOfContentItemForId(contentItem->getContentItemId());
+            if(groupForContent)
+            {
+                const auto& items = HQDataProvider::getInstance()->getContentItemsFromIDs(groupForContent->getItems());
+                carousel->addContentItemsToCarousel(items);
+            }
+            else
+            {
+                carousel->addContentItemToCarousel(contentItem);
+            }
 			VideoPlaylistManager::getInstance()->setPlaylist(carousel);
 		}
 	}
