@@ -8,6 +8,7 @@
 #include "RoundedRectTile.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
+#include <AzoomeeCommon/ImageDownloader/ImageDownloaderCacheCleanerLogic.h>
 #include "HQDataProvider.h"
 
 using namespace cocos2d;
@@ -112,6 +113,7 @@ void RoundedRectTile::elementDisappeared(cocos2d::Node *sender)
     if(_contentImage->getTexture()->getPath() != _placholderFilename)
     {
         _contentImage->setTexture(_placholderFilename);
+        ImageDownloaderCacheCleanerLogic::getInstance()->imageRemoved();
         resizeContentImage();
     }
 }

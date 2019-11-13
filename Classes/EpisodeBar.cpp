@@ -9,6 +9,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/ImageDownloader/ImageDownloaderCacheCleanerLogic.h>
 #include "HQDataProvider.h"
 
 using namespace cocos2d;
@@ -161,6 +162,7 @@ void EpisodeBar::setEpisodeTagColour(const Color3B& colour)
 void EpisodeBar::elementDisappeared(cocos2d::Node *sender)
 {
     _contentImage->setTexture(CONTENT_PLACEHOLDER_VIDEO_1X1);
+    ImageDownloaderCacheCleanerLogic::getInstance()->imageRemoved();
     resizeImageAndText();
 }
 

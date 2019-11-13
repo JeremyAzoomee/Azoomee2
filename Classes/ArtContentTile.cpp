@@ -8,6 +8,7 @@
 #include "ArtContentTile.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
+#include <AzoomeeCommon/ImageDownloader/ImageDownloaderCacheCleanerLogic.h>
 #include "HQConstants.h"
 
 using namespace cocos2d;
@@ -162,6 +163,7 @@ void ArtContentTile::resizeContentImage()
 void ArtContentTile::elementDisappeared(cocos2d::Node *sender)
 {
     _contentImage->setTexture(_placholderFilename);
+    ImageDownloaderCacheCleanerLogic::getInstance()->imageRemoved();
     resizeContentImage();
 }
 

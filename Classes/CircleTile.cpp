@@ -8,6 +8,7 @@
 #include "CircleTile.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
+#include <AzoomeeCommon/ImageDownloader/ImageDownloaderCacheCleanerLogic.h>
 #include "HQDataProvider.h"
 
 using namespace cocos2d;
@@ -91,6 +92,7 @@ void CircleTile::elementDisappeared(cocos2d::Node *sender)
     if(_contentImage->getRenderFile().file != _placholderFilename)
     {
         _contentImage->loadTexture(_placholderFilename);
+        ImageDownloaderCacheCleanerLogic::getInstance()->imageRemoved();
         const Size& contentSize = getContentSize();
         const Size& imageSize = _contentImage->getContentSize();
         _contentImage->setScale(MAX(contentSize.height / imageSize.height, contentSize.width / imageSize.width));
@@ -126,7 +128,10 @@ void CircleTile::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 }
 void CircleTile::onImageDownloadFailed()
 {
-    
+    if(_imageDownloader->getUrl() == HQDataProvider::getInstance()->getThumbnailUrlForItem(_contentItem, TILESIZE_3X3))
+    {
+        _imageDownloader->downloadImage(this, HQDataProvider::getInstance()->getThumbnailUrlForItem(_contentItem, TILESIZE_1X1));
+    }
 }
 
 NS_AZOOMEE_END
