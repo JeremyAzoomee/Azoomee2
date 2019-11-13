@@ -46,29 +46,19 @@ bool MessageScene::init()
         return false;
     }
     
+    ui::Layout* bgColour = ui::Layout::create();
+    bgColour->setSizeType(ui::Widget::SizeType::PERCENT);
+    bgColour->setSizePercent(Vec2(1.0f, 1.0f));
+    bgColour->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+    bgColour->setBackGroundColor(Style::Color::darkIndigo);
+    addChild(bgColour);
+    
     // Create the root layout which fills the whole screen
     _rootLayout = ui::Layout::create();
     _rootLayout->setSizeType(ui::Widget::SizeType::PERCENT);
     _rootLayout->setSizePercent(Vec2(1.0f, 1.0f));
     _rootLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
     _rootLayout->setBackGroundColor(Style::Color::darkIndigo);
-    
-    if(ConfigStorage::getInstance()->isDeviceIphoneX())
-    {
-        const bool isLandscape = _rootLayout->getContentSize().width > _rootLayout->getContentSize().height;
-        
-        if(isLandscape)
-        {
-            _rootLayout->setSizePercent(Vec2(0.9f, 1.0f));
-            _rootLayout->setPosition(Point(Director::getInstance()->getVisibleOrigin().x + this->getContentSize().width * 0.05 , 0));
-        }
-        else
-        {
-            _rootLayout->setSizePercent(Vec2(1.0f, 0.9f));
-            _rootLayout->setPosition(Point(0, Director::getInstance()->getVisibleOrigin().y + this->getContentSize().height * 0.05));
-        }
-    }
-    
     _rootLayout->setLayoutType(ui::Layout::Type::VERTICAL);
     addChild(_rootLayout);
     
@@ -247,19 +237,20 @@ void MessageScene::onSizeChanged()
     _titleBar->setSizePercent(titleBarSize);
     _contentLayout->setSizePercent(Vec2(1.0f - kPaddingPercent.x, 0.99f - titleBarSize.y));
     
-    if(ConfigStorage::getInstance()->isDeviceIphoneX())
+    const Rect& safeAreaRect = Director::getInstance()->getSafeAreaRect();
+    const float safeZonePaddingPercent = isLandscape ? (contentSize.width - (safeAreaRect.origin.x + safeAreaRect.size.width)) / contentSize.width  : (contentSize.height - (safeAreaRect.origin.y + safeAreaRect.size.height)) / contentSize.height;
+
+    if(isLandscape)
     {
-        if(isLandscape)
-        {
-            _rootLayout->setSizePercent(Vec2(0.9f, 1.0f));
-            _rootLayout->setPosition(Point(Director::getInstance()->getVisibleOrigin().x + this->getContentSize().width * 0.05 , 0));
-        }
-        else
-        {
-            _rootLayout->setSizePercent(Vec2(1.0f, 0.9f));
-            _rootLayout->setPosition(Point(0, Director::getInstance()->getVisibleOrigin().y + this->getContentSize().height * 0.05));
-        }
+        _rootLayout->setSizePercent(Vec2(1.0f - safeZonePaddingPercent, 1.0f));
+        _rootLayout->setPosition(Point(Director::getInstance()->getVisibleOrigin().x + this->getContentSize().width * (safeZonePaddingPercent * 0.5f) , 0));
     }
+    else
+    {
+        _rootLayout->setSizePercent(Vec2(1.0f, 1.0f - safeZonePaddingPercent));
+        _rootLayout->setPosition(Point(0, Director::getInstance()->getVisibleOrigin().y + this->getContentSize().height * (safeZonePaddingPercent * 0.5f)));
+    }
+
 }
 
 #pragma mark - UI creation

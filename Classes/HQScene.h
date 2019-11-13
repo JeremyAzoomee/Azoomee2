@@ -24,6 +24,7 @@
 #include "OomeeHQ.h"
 #include "ChatHQ.h"
 #include "SettingsButton.h"
+#include "HQConstants.h"
 
 NS_AZOOMEE_BEGIN
 

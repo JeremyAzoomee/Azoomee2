@@ -20,6 +20,8 @@ namespace HQConsts
     
     const float ChatRecentMessagesHeight = 1500.0f;
     
+    const float TitleBannerHeight = 260.0f;
+    
     const std::string DeleteArtButtonAnalyticsName = "artsAppDeleteButton";
     const std::string OpenArtAnalyticsContentName = "Art";
 }
