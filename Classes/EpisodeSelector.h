@@ -34,6 +34,7 @@ private:
     
     cocos2d::ui::Layout* _contentLayout = nullptr;
     cocos2d::ui::Layout* _headerLayout = nullptr;
+    cocos2d::LayerGradient* _bannerShadow = nullptr;
     RoundedRectSprite* _bannerImage = nullptr;
     cocos2d::Sprite* _logoImage = nullptr;
     cocos2d::ui::Button* _closeButton = nullptr;

@@ -64,7 +64,7 @@ bool TitleBarWidget::init()
     // Title
     _titleLabel = ui::Text::create();
     _titleLabel->setFontName(Style::Font::PoppinsBold());
-    _titleLabel->enableShadow();
+    _titleLabel->enableShadow(Color4B(0,0,0,125), Size(4,-8));
     _titleLayout->addChild(_titleLabel);
     
     // Image

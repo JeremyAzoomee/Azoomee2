@@ -61,6 +61,15 @@ bool EpisodeSelector::init()
     _bannerImage->setScaleMode(RoundedRectSprite::ScaleMode::FILL);
     _headerLayout->addChild(_bannerImage);
     
+    _bannerShadow = LayerGradient::create();
+    _bannerShadow->setStartColor(Style::Color::darkIndigoThree);
+    _bannerShadow->setStartOpacity(0);
+    _bannerShadow->setEndColor(Style::Color::darkIndigoThree);
+    _bannerShadow->setEndOpacity(255);
+    _bannerShadow->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+    _bannerShadow->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_LEFT);
+    _headerLayout->addChild(_bannerShadow);
+    
     _logoImage = Sprite::create();
     _logoImage->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _logoImage->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -141,6 +150,7 @@ void EpisodeSelector::onSizeChanged()
         bar->setContentSize(episodeBarSize);
     }
     _bottomGradient->setContentSize(Size(contentSize.width, _episodeBarHeight));
+    _bannerShadow->setContentSize(Size(contentSize.width, _headerLayout->getContentSize().height * 0.4f));
     _headerLayout->updateSizeAndPosition();
 }
 

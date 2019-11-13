@@ -77,7 +77,7 @@ bool RecentMessages::init()
     _headerText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _headerText->setTextHorizontalAlignment(TextHAlignment::CENTER);
     _headerText->setTextVerticalAlignment(TextVAlignment::CENTER);
-    _headerText->enableShadow();
+    _headerText->enableShadow(Color4B(0,0,0,125), Size(4,-8));
     _headerLayout->addChild(_headerText);
     
     _divider = cocos2d::ui::Layout::create();
