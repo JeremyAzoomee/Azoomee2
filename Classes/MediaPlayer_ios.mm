@@ -93,7 +93,6 @@ using namespace Azoomee;
 	}
 	
     [self createButtons];
-    [self createFavBanner];
 }
 
 - (void) createButtons
@@ -143,40 +142,6 @@ using namespace Azoomee;
     _uiExpanded = false;
 }
 
--(void) createFavBanner
-{
-    CGRect bounds = [[UIScreen mainScreen] bounds];
-    CGSize size = bounds.size;
-    
-    CGFloat width = MAX(size.width * 0.334f, size.height * 0.334f);
-    CGFloat height = MIN(size.height * 0.105f, size.width * 0.105f);
-    
-    _favContentBanner = [[UIView alloc] initWithFrame:CGRectMake((size.width / 2) - (width / 2), -height, width, height)];
-    [self.view addSubview:_favContentBanner];
-    
-    //layer with bg
-    UIImageView* bg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"res/webview_buttons/fav_banner.png"]];
-    [bg setFrame:CGRectMake(0, 0, width, height)];
-    [_favContentBanner addSubview:bg];
-    
-    //layer with heart
-    UIImageView* heart = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"res/webview_buttons/heart.png"]];
-    [heart setFrame:CGRectMake(width * 0.07, height * 0.28 , width * 0.107, height * 0.44)];
-    [_favContentBanner addSubview:heart];
-    
-    
-    UILabel* text = [[UILabel alloc] initWithFrame:CGRectMake(width * 0.25, height * 0.15, width * 0.65, height * 0.7)];
-    [text setText:Azoomee::getNSStringForKey("Added to favourites")];
-    [text setTextColor:[UIColor whiteColor]];
-    [text setAdjustsFontSizeToFitWidth:true];
-    [text setFont:[UIFont fontWithName:@"SofiaProSoftRegular" size: height * 0.35]];
-    [_favContentBanner addSubview:text];
-    
-    [bg release];
-    [heart release];
-    [text release];
-}
-
 -(void) buttonClicked:(UIButton*)sender
 {
     [sender setSelected: !sender.isSelected];
@@ -194,7 +159,6 @@ using namespace Azoomee;
         else
         {
             favContent();
-            [self favAnimation];
         }
     }
     else if(sender == _shareButton)
@@ -203,19 +167,6 @@ using namespace Azoomee;
         shareContentInChat();
     }
     
-}
-
--(void) favAnimation
-{
-    [UIView animateWithDuration:0.5 animations:^{ _favContentBanner.frame = CGRectMake(_favContentBanner.frame.origin.x, 0, _favContentBanner.frame.size.width, _favContentBanner.frame.size.height);}];
-    [NSTimer scheduledTimerWithTimeInterval:2.0f
-                                     target:self selector:@selector(closePopup:) userInfo:nil repeats:NO];
-    
-}
-
-- (void) closePopup:(NSTimer *)timer
-{
-    [UIView animateWithDuration:0.5 animations:^{ _favContentBanner.frame = CGRectMake(_favContentBanner.frame.origin.x, -_favContentBanner.frame.size.height, _favContentBanner.frame.size.width, _favContentBanner.frame.size.height);}];
 }
 
 
@@ -379,10 +330,6 @@ using namespace Azoomee;
     }
     [self.queuePlayer pause];
     [self.playerController.view removeFromSuperview];
-    
-    [_favContentBanner removeFromSuperview];
-    [_favContentBanner release];
-    _favContentBanner = nil;
     
     if(self.loadingLayer != nil)
     {

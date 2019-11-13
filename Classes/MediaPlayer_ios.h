@@ -20,7 +20,6 @@
     float _previousRate;
     float _buttonWidth;
     bool _uiExpanded;
-    UIView *_favContentBanner;
 }
 
 @property (nonatomic, retain) AVQueuePlayer* queuePlayer;
@@ -34,8 +33,5 @@
 -(id)init;
 -(void)startBuildingMediaPlayer:(NSString*)url progressSeconds:(int)videoProgressSeconds;
 -(void)createButtons;
-- (void)createFavBanner;
--(void)favAnimation;
-- (void) closePopup:(NSTimer *)timer;
 
 @end
