@@ -58,7 +58,7 @@ public:
     void setFriendSelectedCallback(const FriendSelectedCallback& callback);
     void setAddFriendSelectedCallback(const AddFriendSelectedCallback& callback);
     
-    bool setShowAddFriendTile(bool show);
+    void setShowAddFriendTile(bool show);
     
     
     CREATE_FUNC(FriendsList);

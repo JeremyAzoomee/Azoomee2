@@ -12,6 +12,7 @@
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include "AzoomeeChat/UI/MessageScene.h"
 #include "ChatDelegate.h"
+#include "SceneManagerScene.h"
 
 using namespace cocos2d;
 
@@ -157,7 +158,7 @@ void ChatHQ::createFriendsList()
         Director::getInstance()->replaceScene(TransitionSlideInB::create(0.25f, messageScene));
     });
     _friendsListLayout->setAddFriendSelectedCallback([](){
-        ChatDelegate::getInstance()->onChatAddFriend();
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::SettingsFromHQ));
     });
     _contentListView->addChild(_friendsListLayout);
 }
