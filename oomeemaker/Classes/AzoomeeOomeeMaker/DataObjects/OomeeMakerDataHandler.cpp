@@ -39,6 +39,8 @@ OomeeMakerDataHandler::~OomeeMakerDataHandler(void)
 
 void OomeeMakerDataHandler::init()
 {
+    // make sure asset dir for OM assets is created
+    getAssetDir();
     _dataStorage = OomeeMakerDataStorage::getInstance();
 }
 
@@ -561,6 +563,7 @@ void OomeeMakerDataHandler::onFileDownloadComplete(const std::string& fileString
 		const std::string& zipPath = dirPath + "oomeeMakerAssets.zip";
 		cocos2d::FileUtils::getInstance()->writeStringToFile(fileString, zipPath);
 		removeExistingAssets();
+        _dataStorage->_initialised = false;
 		FileZipUtil::getInstance()->asyncUnzip(zipPath, dirPath, "", this);
 	}
 	else
