@@ -57,7 +57,7 @@ bool ArtContentTile::init()
     _buttonOverlay = RoundedRectSprite::create();
     _buttonOverlay->setTexture("res/decoration/white_1px.png");
     _buttonOverlay->setCornerRadius(HQConsts::OomeeHQTileCornerRadius);
-    _buttonOverlay->setColor(Style::Color::purplyPink);
+    _buttonOverlay->setColor(Style::Color::white);
     _buttonOverlay->setOpacity(125);
     _buttonOverlay->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _buttonOverlay->setAnchorPoint(Vec2::ANCHOR_MIDDLE);

@@ -24,8 +24,7 @@ private:
     
     RoundedRectSprite* _frame = nullptr;
     RoundedRectSprite* _background = nullptr;
-    cocos2d::Sprite* _oomees = nullptr;
-    cocos2d::Sprite* _logo = nullptr;
+    RoundedRectSprite* _foreground = nullptr;
     
 public:
     

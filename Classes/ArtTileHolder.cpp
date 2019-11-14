@@ -32,7 +32,7 @@ bool ArtTileHolder::init()
     _bgColour->setCornerRadius(HQConsts::OomeeHQTileCornerRadius);
     _bgColour->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _bgColour->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    _bgColour->setColor(Style::Color::purplyPink);
+    _bgColour->setColor(Style::Color::white);
     _bgColour->setOpacity(125);
     addChild(_bgColour);
     
@@ -42,7 +42,7 @@ bool ArtTileHolder::init()
     _bgPattern->setScaleMode(RoundedRectSprite::ScaleMode::TILE);
     _bgPattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _bgPattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    _bgPattern->setColor(Style::Color::purplyPink);
+    _bgPattern->setColor(Style::Color::white);
     addChild(_bgPattern);
     
     createContentLayout();
@@ -86,7 +86,7 @@ void ArtTileHolder::onSizeChanged()
     _contentGridPadding = ((_expandable ? 5 : 2) * _tileSpacing);
     _contentClippingLayout->setPosition(Vec2(contentSize.width * 0.5f, contentSize.height - _tileSpacing));
     _resizeToggle->setPosition(Vec2(contentSize.width * 0.5f, 2.0f * _tileSpacing));
-    _resizeToggle->setContentSize(_resizeToggle->getNormalTextureSize() * ((2.0f * _tileSpacing) / _resizeToggle->getNormalTextureSize().height));
+    _resizeToggle->setContentSize(_resizeToggle->getNormalTextureSize() * ((3.0f * _tileSpacing) / _resizeToggle->getNormalTextureSize().height));
     resizeContent();
 }
 
