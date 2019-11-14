@@ -14,7 +14,7 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-const cocos2d::Size ArtStudioButton::kOverflowPadding = Size(0, 25);
+const cocos2d::Size ArtStudioButton::kOverflowPadding = Size(0, 30);
 const cocos2d::Size ArtStudioButton::kFramePadding = Size(10,10);
 
 bool ArtStudioButton::init()
@@ -41,23 +41,12 @@ bool ArtStudioButton::init()
     _background->setCornerRadius(HQConsts::OomeeHQTileCornerRadius);
     _frame->addChild(_background);
     
-    _tools = Sprite::create("res/OomeeHQ/ArtStudio/tools.png");
-    _tools->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-    _tools->setNormalizedPosition(Vec2(0.35f, 0.0f));
-    _background->addChild(_tools);
-    
-    _logo = Sprite::create("res/OomeeHQ/ArtStudio/art_studio_logo.png");
-    _logo->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _logo->setNormalizedPosition(Vec2(0.75f, 0.5f));
-    _background->addChild(_logo);
-    
-    _paint = RoundedRectSprite::create();
-    _paint->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
-    _paint->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
-    _paint->setTexture("res/OomeeHQ/ArtStudio/paint_drop_red.png");
-    _paint->setCornerRadius(HQConsts::OomeeHQTileCornerRadius);
-    _paint->setRoundedCorners(false, false, false, true);
-    _background->addChild(_paint);
+    _foreground = RoundedRectSprite::create();
+    _foreground->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _foreground->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _foreground->setTexture("res/OomeeHQ/ArtStudio/foreground.png");
+    _foreground->setCornerRadius(HQConsts::OomeeHQTileCornerRadius);
+    _background->addChild(_foreground);
     
     return true;
 }
@@ -69,9 +58,7 @@ void ArtStudioButton::onSizeChanged()
     const Size& contentSize = getContentSize();
     _frame->setContentSize(contentSize - kOverflowPadding);
     _background->setContentSize(contentSize - (kFramePadding + kOverflowPadding));
-    _tools->setScale((contentSize.height - (kFramePadding.height / 2.0f)) / _tools->getContentSize().height);
-    _logo->setScale((contentSize.height * 0.5f) / _logo->getContentSize().height);
-    _paint->setContentSize(_paint->getTexture()->getContentSize() * _tools->getScale());
+    _foreground->setContentSize(Size(MIN(_foreground->getTexture()->getPixelsWide() * (contentSize.height / _foreground->getTexture()->getPixelsHigh()), contentSize.width) - kFramePadding.width,contentSize.height - (kFramePadding.height / 2.0f)));
     
 }
 

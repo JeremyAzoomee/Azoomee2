@@ -274,7 +274,7 @@ void OomeeHQ::createFavouritesLayout()
     
     _favouritesLayout = CircleContentHolder::create();
     _favouritesLayout->setTileSize(_isPortrait ? kCircleTileSizePortrait : kCircleTileSizeLandscape);
-    _favouritesLayout->setPlaceholder("res/hqscene/game_icon.png");
+    _favouritesLayout->setPlaceholder("res/OomeeHQ/favourite_icon.png");
     _favouritesLayout->setContentSize(Size(_contentListView->getSizePercent().x * contentWidth, 0));
     _favouritesLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _favouritesLayout->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
