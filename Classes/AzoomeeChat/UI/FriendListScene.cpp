@@ -264,7 +264,7 @@ void FriendListScene::onFriendListItemSelected(const FriendRef& friendData)
     
     FriendList participants = { _currentUser, friendData };
     auto messageScene = MessageScene::create(participants);
-    Director::getInstance()->replaceScene(TransitionSlideInR::create(0.25f, messageScene));
+    Director::getInstance()->replaceScene(TransitionSlideInB::create(0.25f, messageScene));
 }
 
 #pragma mark - ChatAPIObserver

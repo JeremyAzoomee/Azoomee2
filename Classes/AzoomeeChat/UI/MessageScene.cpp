@@ -12,6 +12,8 @@
 
 #include "../../PopupMessageBox.h"
 
+#include "../../SceneManagerScene.h"
+
 using namespace cocos2d;
 
 
@@ -304,10 +306,15 @@ void MessageScene::onBackButtonPressed()
     AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
     AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatWindow - BackButton");
     AnalyticsSingleton::getInstance()->contentItemClosedEvent();
-    
     // Back to friend list
-    //auto friendListScene = FriendListScene::create();
-    Director::getInstance()->replaceScene(TransitionSlideInT::create(0.25f, HQHistoryManager::getInstance()->getCachedHQScene()));
+    if(_participants[0]->friendId() == ParentManager::getInstance()->getLoggedInParentId())
+    {
+        Director::getInstance()->replaceScene(TransitionSlideInT::create(0.25f, FriendListScene::create()));
+    }
+    else
+    {
+        Director::getInstance()->replaceScene(TransitionSlideInT::create(0.25f, HQHistoryManager::getInstance()->getCachedHQScene()));
+    }
 }
 
 void MessageScene::onReportButtonPressed()
