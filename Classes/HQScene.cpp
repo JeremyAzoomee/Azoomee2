@@ -79,10 +79,11 @@ void HQScene::onSizeChanged()
     Super::onSizeChanged();
     const Size& visibleSize = Director::getInstance()->getVisibleSize();
     _isPortrait = visibleSize.width < visibleSize.height;
-    
+    const Rect& safeAreaRect = Director::getInstance()->getSafeAreaRect();
+    const float safeZonePadding = visibleSize.height - (safeAreaRect.origin.y + safeAreaRect.size.height);
     if(_titleBannerContent)
     {
-        const Size& titleBannerSize = Size(visibleSize.width, 260);
+        const Size& titleBannerSize = Size(visibleSize.width, HQConsts::TitleBannerHeight + safeZonePadding);
         _titleBanner->setContentSize(titleBannerSize);
         _topPattern->setContentSize(titleBannerSize);
         _patternGradient->setContentSize(Size(titleBannerSize.width, 107));
@@ -90,7 +91,7 @@ void HQScene::onSizeChanged()
     }
     if(_HQPageTitle)
     {
-        _HQPageTitle->setTextAreaSize(Size(visibleSize.width / 2, 240));
+        _HQPageTitle->setTextAreaSize(Size(visibleSize.width / 2, HQConsts::TitleBannerHeight - 20));
     }
     if(_pageLayout)
     {
@@ -109,9 +110,11 @@ void HQScene::createHeaderUI()
 {
     const Size& visibleSize = Director::getInstance()->getVisibleSize();
     _isPortrait = visibleSize.width < visibleSize.height;
+    const Rect& safeAreaRect = Director::getInstance()->getSafeAreaRect();
+    const float safeZonePadding = visibleSize.height - (safeAreaRect.origin.y + safeAreaRect.size.height);
     
     _titleBanner = ui::Layout::create();
-    _titleBanner->setContentSize(Size(visibleSize.width, 260));
+    _titleBanner->setContentSize(Size(visibleSize.width, HQConsts::TitleBannerHeight + safeZonePadding));
     _titleBanner->setClippingEnabled(true);
     _titleBanner->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _titleBanner->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
@@ -133,9 +136,9 @@ void HQScene::createHeaderUI()
     _titleBanner->addChild(_patternGradient);
     
     _titleBannerContent = ui::Layout::create();
-    _titleBannerContent->setContentSize(Size(visibleSize.width - kTitleBarPadding, 260));
-    _titleBannerContent->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _titleBannerContent->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    _titleBannerContent->setContentSize(Size(visibleSize.width - kTitleBarPadding, HQConsts::TitleBannerHeight));
+    _titleBannerContent->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _titleBannerContent->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _titleBanner->addChild(_titleBannerContent);
     
     _settingsButton = SettingsButton::create();
@@ -157,7 +160,7 @@ void HQScene::createHeaderUI()
     _HQPageTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
     _HQPageTitle->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
     _HQPageTitle->setOverflow(Label::Overflow::SHRINK);
-    _HQPageTitle->setTextAreaSize(Size(visibleSize.width / 2, 240));
+    _HQPageTitle->setTextAreaSize(Size(visibleSize.width / 2, HQConsts::TitleBannerHeight - 20));
     _HQPageTitle->setTextColor(Color4B::WHITE);
     _HQPageTitle->setTextVerticalAlignment(TextVAlignment::CENTER);
     _titleBannerContent->addChild(_HQPageTitle);
