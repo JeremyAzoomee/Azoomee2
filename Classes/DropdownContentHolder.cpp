@@ -232,7 +232,7 @@ void DropdownContentHolder::createTitleLayout()
     _categoryIcon = Sprite::create("res/hqscene/Charecter place holder 1.png");
     _categoryIcon->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _categoryIcon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-    _categoryIcon->setScale(MIN((_iconLayout->getContentSize().height * 0.9f) / _categoryIcon->getContentSize().height, (_iconLayout->getContentSize().width * 0.9f) / _categoryIcon->getContentSize().width));
+    _categoryIcon->setScale(MIN(_iconLayout->getContentSize().height / _categoryIcon->getContentSize().height, _iconLayout->getContentSize().width / _categoryIcon->getContentSize().width));
     _iconClippingNode->addChild(_categoryIcon);
 }
 
@@ -373,7 +373,7 @@ void DropdownContentHolder::setContentLayoutVisible(bool visible)
 void DropdownContentHolder::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {
     _categoryIcon->setTexture(downloader->getLocalImagePath());
-    _categoryIcon->setScale(MIN((_iconLayout->getContentSize().height * 0.9f) / _categoryIcon->getContentSize().height, (_iconLayout->getContentSize().width * 0.9f) / _categoryIcon->getContentSize().width));
+    _categoryIcon->setScale(MIN(_iconLayout->getContentSize().height / _categoryIcon->getContentSize().height, _iconLayout->getContentSize().width / _categoryIcon->getContentSize().width));
 }
 
 void DropdownContentHolder::onImageDownloadFailed()
