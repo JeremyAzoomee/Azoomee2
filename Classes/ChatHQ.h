@@ -35,6 +35,7 @@ private:
     
     void createRecentMessages();
     void createFriendsList();
+    void openChatMessageSceneWithFriend(const Chat::FriendRef& friendData);
     
 public:
     

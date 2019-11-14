@@ -34,6 +34,7 @@ class HQScene : public Azoomee::Scene, TutorialDelegate
 private:
     static const std::string kTutHandName;
     static const float kTitleBarPadding;
+    static const std::map<HQType, std::string> kHQPageAnalyticsNames;
     
     cocos2d::LayerGradient* _verticalScrollGradient = nullptr;
     NavigationBar* _navBar = nullptr;

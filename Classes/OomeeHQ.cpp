@@ -157,6 +157,7 @@ void OomeeHQ::createScrollViewContent()
     _oomeeMakerButton->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
+            AnalyticsSingleton::getInstance()->contentItemSelectedEvent(ConfigStorage::kOomeeMakerURI);
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OomeeMakerEntryPointScene));
         }
     });
@@ -182,6 +183,7 @@ void OomeeHQ::createScrollViewContent()
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
             ArtAppDelegate::getInstance()->setFileName("");
+            AnalyticsSingleton::getInstance()->contentItemSelectedEvent(HQConsts::OpenArtAnalyticsContentName);
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ArtAppEntryPointScene));
         }
     });

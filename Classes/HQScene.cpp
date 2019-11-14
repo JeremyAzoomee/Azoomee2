@@ -8,7 +8,9 @@
 #include "HQScene.h"
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
 #include "FlowDataSingleton.h"
@@ -17,13 +19,20 @@
 #include "SceneManagerScene.h"
 #include "AgeGate.h"
 #include "ContentOpener.h"
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+
 
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
 const float HQScene::kTitleBarPadding = 120.0f;
+// Keep the same navigation event names that we had historically
+const std::map<HQType, std::string> kHQPageAnalyticsNames = {
+    { HQType::GAME, "GAME HQ" },
+    { HQType::VIDEO, "VIDEO HQ" },
+    { HQType::CHAT, "CHAT" },
+    { HQType::OOMEE, "ME HQ" }
+};
 
 bool HQScene::init()
 {
@@ -279,6 +288,9 @@ void HQScene::createPageUI()
 
 void HQScene::changeToPage(const HQType& page)
 {
+    const std::string& eventName = kHQPageAnalyticsNames.at(page);
+    AnalyticsSingleton::getInstance()->navSelectionEvent(eventName);
+    
     _gameHQ->setVisible(page == HQType::GAME);
     _videoHQ->setVisible(page == HQType::VIDEO);
     _oomeeHQ->setVisible(page == HQType::OOMEE);

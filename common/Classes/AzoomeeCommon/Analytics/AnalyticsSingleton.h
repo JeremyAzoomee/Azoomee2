@@ -99,7 +99,7 @@ public:
 	void createChildBackPressed();
 	
     //-------------HUB ACTIONS-------------------
-    void navSelectionEvent(std::string hubOrTop, const std::string& buttonName);
+    void navSelectionEvent(const std::string& buttonName);
     
     //-------------CONTENTITEM EVENTS----------
     void contentItemSelectedEvent(const std::string& Type);

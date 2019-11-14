@@ -331,11 +331,11 @@ void AnalyticsSingleton::createChildBackPressed()
 
 //-------------HUB ACTIONS-------------------
 
-    void AnalyticsSingleton::navSelectionEvent(std::string hubOrTop, const std::string& buttonName)
+void AnalyticsSingleton::navSelectionEvent(const std::string& buttonName)
 {
     std::map<std::string, std::string> mixPanelProperties;
     mixPanelProperties["Type"] = buttonName;
-    mixPanelProperties["Method"] = hubOrTop;
+    mixPanelProperties["Method"] = ""; // No longer used, do we need to send it?
     
     mixPanelSendEventWithStoredProperties("contentNavSelection", mixPanelProperties);
 }
