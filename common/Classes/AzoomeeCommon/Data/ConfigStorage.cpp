@@ -50,6 +50,13 @@ static ConfigStorage *_sharedConfigStorage = NULL;
     const char* const ConfigStorage::kContentTypeAudioGroup = "AUDIOGROUP";
     const char* const ConfigStorage::kContentTypeManual = "MANUAL";
     const char* const ConfigStorage::kContentTypeInternal = "INTERNAL";
+
+    const char* const ConfigStorage::kContentLocFeature = "feature";
+    const char* const ConfigStorage::kContentLocRecentPlayed = "recentPlayed";
+    const char* const ConfigStorage::kContentLocFavourite = "favourite";
+    const char* const ConfigStorage::kContentLocEpisodeSelector = "episodeSelector";
+    const char* const ConfigStorage::kContentLocCategory = "category";
+    const char* const ConfigStorage::kContentLocOffline = "offline";
     
     const char* const ConfigStorage::kOomeeMakerURI = "OOMEE_MAKER";
     const char* const ConfigStorage::kArtAppURI = "AZOOMEE_ART";

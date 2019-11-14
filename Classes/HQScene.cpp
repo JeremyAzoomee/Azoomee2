@@ -26,13 +26,6 @@ using namespace cocos2d;
 NS_AZOOMEE_BEGIN
 
 const float HQScene::kTitleBarPadding = 120.0f;
-// Keep the same navigation event names that we had historically
-const std::map<HQType, std::string> kHQPageAnalyticsNames = {
-    { HQType::GAME, "GAME HQ" },
-    { HQType::VIDEO, "VIDEO HQ" },
-    { HQType::CHAT, "CHAT" },
-    { HQType::OOMEE, "ME HQ" }
-};
 
 bool HQScene::init()
 {
@@ -250,8 +243,8 @@ void HQScene::createPageUI()
     _gameHQ->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _gameHQ->setPositionType(ui::Widget::PositionType::PERCENT);
     _gameHQ->setPositionPercent(Vec2::ANCHOR_MIDDLE);
-    _gameHQ->setContentSelectedCallback([](HQContentItemObjectRef content, int elementIndex, int rowIndex){
-        ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, ConfigStorage::kGameHQName);
+    _gameHQ->setContentSelectedCallback([](HQContentItemObjectRef content, int elementIndex, int rowIndex, const std::string& location){
+        ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, ConfigStorage::kGameHQName, location);
     });
     _pageLayout->addChild(_gameHQ);
     
@@ -260,11 +253,11 @@ void HQScene::createPageUI()
     _videoHQ->setPositionType(ui::Widget::PositionType::PERCENT);
     _videoHQ->setPositionPercent(Vec2::ANCHOR_MIDDLE);
     _videoHQ->setVisible(false);
-    _videoHQ->setContentSelectedCallback([](HQContentItemObjectRef content, int elementIndex, int rowIndex){
-        ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, ConfigStorage::kVideoHQName);
+    _videoHQ->setContentSelectedCallback([](HQContentItemObjectRef content, int elementIndex, int rowIndex, const std::string& location){
+        ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, ConfigStorage::kVideoHQName, location);
     });
-    _videoHQ->setEpisodeSelectorContentSelectedCallback([](HQContentItemObjectRef content, int elementIndex, int rowIndex){
-        ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, ConfigStorage::kGroupHQName);
+    _videoHQ->setEpisodeSelectorContentSelectedCallback([](HQContentItemObjectRef content, int elementIndex, int rowIndex, const std::string& location){
+        ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, ConfigStorage::kGroupHQName, location);
     });
     _pageLayout->addChild(_videoHQ);
     
@@ -273,8 +266,8 @@ void HQScene::createPageUI()
     _oomeeHQ->setPositionType(ui::Widget::PositionType::PERCENT);
     _oomeeHQ->setPositionPercent(Vec2::ANCHOR_MIDDLE);
     _oomeeHQ->setVisible(false);
-    _oomeeHQ->setContentSelectedCallback([](HQContentItemObjectRef content, int elementIndex, int rowIndex){
-        ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, ConfigStorage::kMeHQName);
+    _oomeeHQ->setContentSelectedCallback([](HQContentItemObjectRef content, int elementIndex, int rowIndex, const std::string& location){
+        ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, ConfigStorage::kMeHQName, location);
     });
     _pageLayout->addChild(_oomeeHQ);
     
@@ -288,7 +281,7 @@ void HQScene::createPageUI()
 
 void HQScene::changeToPage(const HQType& page)
 {
-    const std::string& eventName = kHQPageAnalyticsNames.at(page);
+    const std::string& eventName = NavigationBar::kHQTypeToNameConv.at(page);
     AnalyticsSingleton::getInstance()->navSelectionEvent(eventName);
     
     _gameHQ->setVisible(page == HQType::GAME);

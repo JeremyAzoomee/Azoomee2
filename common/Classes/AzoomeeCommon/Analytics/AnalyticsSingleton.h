@@ -100,11 +100,12 @@ public:
 	
     //-------------HUB ACTIONS-------------------
     void navSelectionEvent(const std::string& buttonName);
+    void categoryOpenEvent(bool isOpen, const std::string& categoryName);
     
     //-------------CONTENTITEM EVENTS----------
     void contentItemSelectedEvent(const std::string& Type);
     void contentItemSelectedEvent(const std::string& Type, const std::string& elementShape);
-    void contentItemSelectedEvent(const HQContentItemObjectRef &contentItem, int rowNumber, int elementNumber, const std::string& elementShape);
+    void contentItemSelectedEvent(const HQContentItemObjectRef &contentItem, int rowNumber, int elementNumber, const std::string& elementShape, const std::string& location);
     void contentItemSelectedOutsideCarouselEvent(const HQContentItemObjectRef &contentItem);
     void contentItemProcessingStartedEvent();
     void contentItemProcessingErrorEvent();
@@ -222,7 +223,8 @@ public:
 	void shopPurchasePopupClosed(const ShopDisplayItemRef& item);
 	void shopPurchseAnimClosed(const ShopDisplayItemRef& item);
 	void shopPurchasedAnimUsePressed(const ShopDisplayItemRef& item);
-	
+    void openShopEvent();
+    
 	void coinCounterPressedEvent();
 	
 	//-------------DEBUG----------------------------------------
