@@ -229,6 +229,7 @@ void MessageScene::onSizeChanged()
     Super::onSizeChanged();
     
     const cocos2d::Size& contentSize = getContentSize();
+    const Vec2& origin = Director::getInstance()->getVisibleOrigin();
     // TODO: Grab sizes from config
     const bool isLandscape = contentSize.width > contentSize.height;
     
@@ -238,17 +239,17 @@ void MessageScene::onSizeChanged()
     _contentLayout->setSizePercent(Vec2(1.0f - kPaddingPercent.x, 0.99f - titleBarSize.y));
     
     const Rect& safeAreaRect = Director::getInstance()->getSafeAreaRect();
-    const float safeZonePaddingPercent = isLandscape ? (contentSize.width - (safeAreaRect.origin.x + safeAreaRect.size.width)) / contentSize.width  : (contentSize.height - (safeAreaRect.origin.y + safeAreaRect.size.height)) / contentSize.height;
-
+    const float safeZonePaddingPercentTop = isLandscape ? (contentSize.width - (safeAreaRect.origin.x + safeAreaRect.size.width)) / contentSize.width  : (contentSize.height - (safeAreaRect.origin.y + safeAreaRect.size.height)) / contentSize.height;
+    const float safeZonePaddingPercentBottom = isLandscape ? (safeAreaRect.origin.x - origin.x) / contentSize.width  : (safeAreaRect.origin.y - origin.y) / contentSize.height;
     if(isLandscape)
     {
-        _rootLayout->setSizePercent(Vec2(1.0f - safeZonePaddingPercent, 1.0f));
-        _rootLayout->setPosition(Point(Director::getInstance()->getVisibleOrigin().x + this->getContentSize().width * (safeZonePaddingPercent * 0.5f) , 0));
+        _rootLayout->setSizePercent(Vec2(1.0f - (2 * MAX(safeZonePaddingPercentTop, safeZonePaddingPercentBottom)), 1.0f));
+        _rootLayout->setPosition(Point(this->getContentSize().width * MAX(safeZonePaddingPercentTop, safeZonePaddingPercentBottom) , 0));
     }
     else
     {
-        _rootLayout->setSizePercent(Vec2(1.0f, 1.0f - safeZonePaddingPercent));
-        _rootLayout->setPosition(Point(0, Director::getInstance()->getVisibleOrigin().y + this->getContentSize().height * (safeZonePaddingPercent * 0.5f)));
+        _rootLayout->setSizePercent(Vec2(1.0f, 1.0f - (safeZonePaddingPercentTop + safeZonePaddingPercentBottom)));
+        _rootLayout->setPosition(Point(0, this->getContentSize().height * safeZonePaddingPercentBottom));
     }
 
 }
