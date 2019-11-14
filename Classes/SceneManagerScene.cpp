@@ -118,28 +118,6 @@ void SceneManagerScene::onEnterTransitionDidFinish()
 			}
             break;
         }
-        case SceneNameEnum::BaseWithNoHistory:
-        {
-            FlowDataSingleton::getInstance()->clearData();
-            returnToPrevOrientation();
-            acceptAnyOrientation();
-            HQHistoryManager::getInstance()->emptyHistory();
-			HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
-			const std::string& currentHQ = HQHistoryManager::getInstance()->getCurrentHQ();
-			
-			ContentFeedHQScene* hqScene = ContentFeedHQScene::create();
-			hqScene->setHQCategory(currentHQ);
-			cocos2d::Scene* goToScene = hqScene;
-			
-			if(currentHQ == ConfigStorage::kMeHQName)
-			{
-				MeHQ* hqScene = MeHQ::create();
-				hqScene->setHQCategory(currentHQ);
-				goToScene = hqScene;
-			}
-			Director::getInstance()->replaceScene(goToScene);
-            break;
-        }
         case SceneNameEnum::ChildSelector:
         {
             returnToPrevOrientation();

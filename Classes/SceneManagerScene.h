@@ -10,7 +10,6 @@ NS_AZOOMEE_BEGIN
 enum class SceneNameEnum {
     Login,
     Base,
-    BaseWithNoHistory,
     ChildSelector,
     OfflineHub,
     OfflineArtsAppHQ,
