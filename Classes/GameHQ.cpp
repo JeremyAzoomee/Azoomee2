@@ -145,7 +145,7 @@ void GameHQ::createFeaturedTiles()
 
 void GameHQ::createRecentlyPlayedTiles()
 {
-    _recentlyPlayedTitle = DynamicText::create(_("Recently played"), Style::Font::PoppinsBold(), 75);
+    _recentlyPlayedTitle = DynamicText::create(_("Recently Played"), Style::Font::PoppinsBold(), 75);
     _recentlyPlayedTitle->setTextVerticalAlignment(TextVAlignment::CENTER);
     _recentlyPlayedTitle->setTextHorizontalAlignment(TextHAlignment::LEFT);
     _recentlyPlayedTitle->setOverflow(Label::Overflow::SHRINK);

@@ -62,7 +62,7 @@ void VideoHQ::onEnter()
     
     MutableHQCarouselObjectRef recentlyPlayedData = MutableHQCarouselObject::create();
     recentlyPlayedData->addContentItemsToCarousel(recentPlayedData.second);
-    recentlyPlayedData->setTitle(_("Recently watched"));
+    recentlyPlayedData->setTitle(_("Recently Watched"));
     
     _recentlyPlayedLayout->setContentItemData(recentlyPlayedData);
     
@@ -178,7 +178,7 @@ void VideoHQ::createFeaturedTiles()
 void VideoHQ::createRecentlyPlayedTiles()
 {
     
-    _recentlyPlayedTitle = DynamicText::create(_("Recently watched"), Style::Font::PoppinsBold(), 75);
+    _recentlyPlayedTitle = DynamicText::create(_("Recently Watched"), Style::Font::PoppinsBold(), 75);
     _recentlyPlayedTitle->setTextVerticalAlignment(TextVAlignment::CENTER);
     _recentlyPlayedTitle->setTextHorizontalAlignment(TextHAlignment::LEFT);
     _recentlyPlayedTitle->setOverflow(Label::Overflow::SHRINK);

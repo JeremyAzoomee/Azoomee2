@@ -296,17 +296,17 @@ void HQScene::changeToPage(const HQType& page)
     {
         case HQType::GAME:
             _gameHQ->forceDoLayout();
-            _HQPageTitle->setString("Games");
+            _HQPageTitle->setString(_("Games"));
             _activePageName = ConfigStorage::kGameHQName;
             break;
         case HQType::VIDEO:
             _videoHQ->forceDoLayout();
-            _HQPageTitle->setString("Videos");
+            _HQPageTitle->setString(_("Videos"));
             _activePageName = ConfigStorage::kVideoHQName;
             break;
         case HQType::CHAT:
             _chatHQ->forceDoLayout();
-            _HQPageTitle->setString("Chat");
+            _HQPageTitle->setString(_("Chat"));
             _activePageName = ConfigStorage::kChatHQName;
             break;
         case HQType::OOMEE:

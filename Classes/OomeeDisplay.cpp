@@ -86,7 +86,7 @@ bool OomeeDisplay::init()
     _kidCodeBody->setColor(bgColour);
     _kidCodeFrame->addChild(_kidCodeBody);
     
-    _kidCodeTitle = DynamicText::create(_("Kid code"), Style::Font::PoppinsBold(), 49);
+    _kidCodeTitle = DynamicText::create(_("Kid Code"), Style::Font::PoppinsBold(), 49);
     _kidCodeTitle->setTextHorizontalAlignment(TextHAlignment::CENTER);
     _kidCodeTitle->setTextVerticalAlignment(TextVAlignment::BOTTOM);
     _kidCodeTitle->setTextColor(Color4B::WHITE);
