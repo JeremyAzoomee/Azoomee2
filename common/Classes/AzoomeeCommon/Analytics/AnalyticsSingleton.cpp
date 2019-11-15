@@ -336,7 +336,6 @@ void AnalyticsSingleton::navSelectionEvent(const std::string& buttonName)
 {
     std::map<std::string, std::string> mixPanelProperties;
     mixPanelProperties["Type"] = buttonName;
-    mixPanelProperties["Method"] = ""; // No longer used, do we need to send it?
     
     mixPanelSendEventWithStoredProperties("contentNavSelection", mixPanelProperties);
 }
