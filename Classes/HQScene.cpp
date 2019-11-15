@@ -45,7 +45,7 @@ bool HQScene::init()
     createNavigationUI();
     createPageUI();
     
-    _activePageName = ConfigStorage::kGameHQName;
+    changeToPage(HQType::GAME);
     
     return true;
 }
@@ -67,7 +67,10 @@ void HQScene::onEnter()
 	{
 		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
 	}
+    
 	ContentHistoryManager::getInstance()->setReturnedFromContent(false);
+    HQHistoryManager::getInstance()->addHQToHistoryManager(_activePageName);
+    
     Super::onEnter();
 }
 
@@ -198,6 +201,10 @@ void HQScene::createNavigationUI()
             return false;
         }
         
+        // Navigation event
+        const std::string& eventName = NavigationBar::kHQTypeToNameConv.at(hq);
+        AnalyticsSingleton::getInstance()->navSelectionEvent(eventName);
+        
         changeToPage(hq);
         return true;
     });
@@ -230,7 +237,6 @@ void HQScene::createNavigationUI()
 
 void HQScene::createPageUI()
 {
-
     const Size& visibleSize = Director::getInstance()->getVisibleSize();
     
     _pageLayout = ui::Layout::create();
@@ -243,6 +249,7 @@ void HQScene::createPageUI()
     _gameHQ->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _gameHQ->setPositionType(ui::Widget::PositionType::PERCENT);
     _gameHQ->setPositionPercent(Vec2::ANCHOR_MIDDLE);
+    _gameHQ->setVisible(false);
     _gameHQ->setContentSelectedCallback([](HQContentItemObjectRef content, int elementIndex, int rowIndex, const std::string& location){
         ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, ConfigStorage::kGameHQName, location);
     });
@@ -281,9 +288,6 @@ void HQScene::createPageUI()
 
 void HQScene::changeToPage(const HQType& page)
 {
-    const std::string& eventName = NavigationBar::kHQTypeToNameConv.at(page);
-    AnalyticsSingleton::getInstance()->navSelectionEvent(eventName);
-    
     _gameHQ->setVisible(page == HQType::GAME);
     _videoHQ->setVisible(page == HQType::VIDEO);
     _oomeeHQ->setVisible(page == HQType::OOMEE);
