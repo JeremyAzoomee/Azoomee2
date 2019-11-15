@@ -379,7 +379,7 @@ void AnalyticsSingleton::contentItemSelectedEvent(const HQContentItemObjectRef &
     mixPanelProperties["rowNumber"] = cocos2d::StringUtils::format("%d", rowNumber);
     mixPanelProperties["elementNumber"] = cocos2d::StringUtils::format("%d", elementNumber);
     mixPanelProperties["elementShape"] = elementShape;
-    mixPanelProperties["Location"] = location;
+    mixPanelProperties["tileLocation"] = location;
     
     // is this piece of content part of a group? If so, set the series title property
     const HQContentItemObjectRef& groupContentItem = ContentItemManager::getInstance()->getParentOfContentItemForId(contentItem->getContentItemId());
