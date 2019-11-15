@@ -6,10 +6,12 @@
 //
 
 #include "ChatHQ.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include "AzoomeeChat/UI/MessageScene.h"
 #include "ChatDelegate.h"
 #include "SceneManagerScene.h"
@@ -123,7 +125,6 @@ void ChatHQ::onSizeChanged()
     _topScrollGradient->setContentSize(Size(contentListViewWidth, _topScrollGradient->getContentSize().height));
     
     _contentListView->forceDoLayout();
-    
 }
 
 void ChatHQ::createRecentMessages()
@@ -152,10 +153,8 @@ void ChatHQ::createFriendsList()
     _friendsListLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _friendsListLayout->setTileSize(kFriendTileSize);
     _friendsListLayout->setMinColumns(3);
-    _friendsListLayout->setFriendSelectedCallback([this](Chat::FriendRef friendData){
-        Chat::FriendList participants = { _currentUser, friendData };
-        auto messageScene = Chat::MessageScene::create(participants);
-        Director::getInstance()->replaceScene(TransitionSlideInB::create(0.25f, messageScene));
+    _friendsListLayout->setFriendSelectedCallback([this](Chat::FriendRef friendData) {
+        openChatMessageSceneWithFriend(friendData);
     });
     _friendsListLayout->setAddFriendSelectedCallback([](){
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::SettingsFromHQ));
@@ -163,10 +162,24 @@ void ChatHQ::createFriendsList()
     _contentListView->addChild(_friendsListLayout);
 }
 
+void ChatHQ::openChatMessageSceneWithFriend(const Chat::FriendRef& friendData)
+{
+    const bool isParent = friendData->friendId() == ParentManager::getInstance()->getLoggedInParentId();
+    AnalyticsSingleton::getInstance()->setChatFriendIsParent(isParent);
+    AnalyticsSingleton::getInstance()->genericButtonPressEvent(isParent ? "ChatScene - SelectedParent" : "ChatScene - SelectedFriend");
+    AnalyticsSingleton::getInstance()->contentItemSelectedEvent("CHAT");
+    
+    Chat::FriendList participants = { _currentUser, friendData };
+    auto messageScene = Chat::MessageScene::create(participants);
+    Director::getInstance()->replaceScene(TransitionSlideInB::create(0.25f, messageScene));
+}
+
 // Chat API observer
 /// Friend List success response
 void ChatHQ::onChatAPIGetFriendList(const Chat::FriendList& friendList, int amountOfNewMessages)
 {
+    AnalyticsSingleton::getInstance()->setNumberOfChatFriends((int)friendList.size());
+    
     float scrollPercent = _contentListView->getScrolledPercentVertical();
     if(isnan(scrollPercent))
     {
@@ -197,7 +210,6 @@ void ChatHQ::onChatAPIGetTimelineSummary(const Chat::MessageList& messageList)
         }
         
         messages.push_back({*friendIt, message});
-        
     }
     
     if(messages.size() == 0)
@@ -210,9 +222,7 @@ void ChatHQ::onChatAPIGetTimelineSummary(const Chat::MessageList& messageList)
     else
     {
         _recentMessagesLayout->setMessageSelectedCallback([this](Chat::FriendRef friendData){
-            Chat::FriendList participants = { _currentUser, friendData };
-            auto messageScene = Chat::MessageScene::create(participants);
-            Director::getInstance()->replaceScene(TransitionSlideInB::create(0.25f, messageScene));
+            openChatMessageSceneWithFriend(friendData);
         });
     }
     

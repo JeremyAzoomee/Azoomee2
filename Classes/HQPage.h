@@ -21,7 +21,7 @@ class HQPage : public cocos2d::ui::Layout
 {
     typedef cocos2d::ui::Layout Super;
 protected:
-    typedef std::function<void(HQContentItemObjectRef, int, int)> ContentSelectedCallback;
+    typedef std::function<void(HQContentItemObjectRef, int, int, const std::string&)> ContentSelectedCallback;
     
     static const cocos2d::Size kCircleTileSizeLandscape;
     static const cocos2d::Size kCircleTileSizePortrait;

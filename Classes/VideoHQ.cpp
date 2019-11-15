@@ -167,7 +167,8 @@ void VideoHQ::createFeaturedTiles()
     _featuredLayout->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
         if(_contentSelectedCallback)
         {
-            _contentSelectedCallback(content, elementIndex, 0);
+            const std::string& location = StringUtils::format("%s%d", ConfigStorage::kContentLocFeature, elementIndex);
+            _contentSelectedCallback(content, elementIndex, 0, location);
         }
     });
     _contentListView->pushBackCustomItem(_featuredLayout);
@@ -198,7 +199,7 @@ void VideoHQ::createRecentlyPlayedTiles()
             // Open the actual content by checking _recentPlayedContent
             // This is because content might be a group if it's a video episode
             HQContentItemObjectRef contentToOpen = elementIndex < _recentPlayedContent.size() ? _recentPlayedContent[elementIndex] : content;
-            _contentSelectedCallback(contentToOpen, elementIndex, -1);
+            _contentSelectedCallback(contentToOpen, elementIndex, -1, ConfigStorage::kContentLocRecentPlayed);
         }
     });
     _contentListView->pushBackCustomItem(_recentlyPlayedLayout);
@@ -221,7 +222,7 @@ void VideoHQ::createDropdowns()
         dropdown->setContentSelectedCallback([this, i](HQContentItemObjectRef content, int elementIndex){
             if(_contentSelectedCallback)
             {
-                _contentSelectedCallback(content, elementIndex, i);
+                _contentSelectedCallback(content, elementIndex, i, ConfigStorage::kContentLocCategory);
             }
         });
         dropdown->setOnResizeCallback([this](){
@@ -254,7 +255,7 @@ void VideoHQ::createEpisodePlayer()
     _episodeSelector->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
         if(_episodeSelectorContentSelectedCallback)
         {
-            _episodeSelectorContentSelectedCallback(content, elementIndex, 0);
+            _episodeSelectorContentSelectedCallback(content, elementIndex, 0, ConfigStorage::kContentLocEpisodeSelector);
         }
     });
     _episodeSelector->setTouchEnabled(true);

@@ -396,28 +396,6 @@ void SceneManagerScene::returnToPrevOrientation()
 
 cocos2d::Scene* SceneManagerScene::getBaseScene()
 {
-	/*HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
-	const std::string& currentHQ = HQHistoryManager::getInstance()->getCurrentHQ();
-	
-	HQSceneDepreciated* scene = HQHistoryManager::getInstance()->getCachedHQScene(currentHQ);
-	cocos2d::Scene* goToScene = scene;
-	if(!scene)
-	{
-		if(currentHQ == ConfigStorage::kMeHQName)
-		{
-			scene = MeHQ::create();
-			scene->setHQCategory(currentHQ);
-		}
-		else
-		{
-			scene = ContentFeedHQScene::create();
-			scene->setHQCategory(currentHQ);
-		}
-		HQHistoryManager::getInstance()->addHQSceneToCache(currentHQ, scene);
-		goToScene = scene;
-	}
-    return HQScene::create();//goToScene;
-    */
     HQScene* scene = HQHistoryManager::getInstance()->getCachedHQScene();
     if(!scene)
     {

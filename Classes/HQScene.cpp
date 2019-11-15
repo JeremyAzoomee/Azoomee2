@@ -8,7 +8,9 @@
 #include "HQScene.h"
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
 #include "FlowDataSingleton.h"
@@ -17,7 +19,7 @@
 #include "SceneManagerScene.h"
 #include "AgeGate.h"
 #include "ContentOpener.h"
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+
 
 using namespace cocos2d;
 
@@ -43,7 +45,7 @@ bool HQScene::init()
     createNavigationUI();
     createPageUI();
     
-    _activePageName = ConfigStorage::kGameHQName;
+    changeToPage(HQType::GAME);
     
     return true;
 }
@@ -65,7 +67,10 @@ void HQScene::onEnter()
 	{
 		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
 	}
+    
 	ContentHistoryManager::getInstance()->setReturnedFromContent(false);
+    HQHistoryManager::getInstance()->addHQToHistoryManager(_activePageName);
+    
     Super::onEnter();
 }
 
@@ -196,6 +201,10 @@ void HQScene::createNavigationUI()
             return false;
         }
         
+        // Navigation event
+        const std::string& eventName = NavigationBar::kHQTypeToNameConv.at(hq);
+        AnalyticsSingleton::getInstance()->navSelectionEvent(eventName);
+        
         changeToPage(hq);
         return true;
     });
@@ -228,7 +237,6 @@ void HQScene::createNavigationUI()
 
 void HQScene::createPageUI()
 {
-
     const Size& visibleSize = Director::getInstance()->getVisibleSize();
     
     _pageLayout = ui::Layout::create();
@@ -241,8 +249,9 @@ void HQScene::createPageUI()
     _gameHQ->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _gameHQ->setPositionType(ui::Widget::PositionType::PERCENT);
     _gameHQ->setPositionPercent(Vec2::ANCHOR_MIDDLE);
-    _gameHQ->setContentSelectedCallback([](HQContentItemObjectRef content, int elementIndex, int rowIndex){
-        ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, ConfigStorage::kGameHQName);
+    _gameHQ->setVisible(false);
+    _gameHQ->setContentSelectedCallback([](HQContentItemObjectRef content, int elementIndex, int rowIndex, const std::string& location){
+        ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, ConfigStorage::kGameHQName, location);
     });
     _pageLayout->addChild(_gameHQ);
     
@@ -251,11 +260,11 @@ void HQScene::createPageUI()
     _videoHQ->setPositionType(ui::Widget::PositionType::PERCENT);
     _videoHQ->setPositionPercent(Vec2::ANCHOR_MIDDLE);
     _videoHQ->setVisible(false);
-    _videoHQ->setContentSelectedCallback([](HQContentItemObjectRef content, int elementIndex, int rowIndex){
-        ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, ConfigStorage::kVideoHQName);
+    _videoHQ->setContentSelectedCallback([](HQContentItemObjectRef content, int elementIndex, int rowIndex, const std::string& location){
+        ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, ConfigStorage::kVideoHQName, location);
     });
-    _videoHQ->setEpisodeSelectorContentSelectedCallback([](HQContentItemObjectRef content, int elementIndex, int rowIndex){
-        ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, ConfigStorage::kGroupHQName);
+    _videoHQ->setEpisodeSelectorContentSelectedCallback([](HQContentItemObjectRef content, int elementIndex, int rowIndex, const std::string& location){
+        ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, ConfigStorage::kGroupHQName, location);
     });
     _pageLayout->addChild(_videoHQ);
     
@@ -264,8 +273,8 @@ void HQScene::createPageUI()
     _oomeeHQ->setPositionType(ui::Widget::PositionType::PERCENT);
     _oomeeHQ->setPositionPercent(Vec2::ANCHOR_MIDDLE);
     _oomeeHQ->setVisible(false);
-    _oomeeHQ->setContentSelectedCallback([](HQContentItemObjectRef content, int elementIndex, int rowIndex){
-        ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, ConfigStorage::kMeHQName);
+    _oomeeHQ->setContentSelectedCallback([](HQContentItemObjectRef content, int elementIndex, int rowIndex, const std::string& location){
+        ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, ConfigStorage::kMeHQName, location);
     });
     _pageLayout->addChild(_oomeeHQ);
     

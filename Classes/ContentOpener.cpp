@@ -107,7 +107,7 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
 	_contentItemToOpen = nullptr; // dereference at the end as will be pointing to same memory as contentItem in case of refeshed session
 }
 
-void ContentOpener::doCarouselContentOpenLogic(const HQContentItemObjectRef& contentItem, int rowIndex, int elementIndex, const std::string& hqCategory)
+void ContentOpener::doCarouselContentOpenLogic(const HQContentItemObjectRef& contentItem, int rowIndex, int elementIndex, const std::string& hqCategory, const std::string& location)
 {
 	if(contentItem->getType() == ConfigStorage::kContentTypeManual)
 	{
@@ -122,7 +122,7 @@ void ContentOpener::doCarouselContentOpenLogic(const HQContentItemObjectRef& con
 	
 	if(!contentItem->isEntitled())
 	{
-		AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, rowIndex, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(hqCategory, rowIndex, elementIndex));
+		AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, rowIndex, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(hqCategory, rowIndex, elementIndex), location);
 		
 #ifndef AZOOMEE_VODACOM_BUILD
         AgeGate* ageGate = AgeGate::create();
@@ -139,7 +139,7 @@ void ContentOpener::doCarouselContentOpenLogic(const HQContentItemObjectRef& con
 #endif
 	}
 	
-	AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, rowIndex, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(hqCategory, rowIndex, elementIndex));
+	AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, rowIndex, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(hqCategory, rowIndex, elementIndex), location);
 	
 	if(contentItem->getType() == ConfigStorage::kContentTypeVideo || contentItem->getType() == ConfigStorage::kContentTypeAudio)
 	{

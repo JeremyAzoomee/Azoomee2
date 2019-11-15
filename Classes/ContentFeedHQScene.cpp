@@ -134,7 +134,7 @@ void ContentFeedHQScene::createContentScrollview()
 			hqSceneElement->addHQSceneElement();
 			
 			hqSceneElement->setTouchCallback([rowIndex,elementIndex,this](const HQContentItemObjectRef& elementData){
-				ContentOpener::getInstance()->doCarouselContentOpenLogic(elementData, rowIndex, elementIndex, _hqCategory);
+				ContentOpener::getInstance()->doCarouselContentOpenLogic(elementData, rowIndex, elementIndex, _hqCategory, "");
 			});
 			
 			cocos2d::Vec2 elementShape = HQDataProvider::getInstance()->getHighlightDataForSpecificItem(_hqCategory, rowIndex, elementIndex);

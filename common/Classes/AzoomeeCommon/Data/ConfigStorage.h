@@ -54,6 +54,13 @@ public:
     static const char* const kContentTypeManual;
     static const char* const kContentTypeInternal;
     
+    static const char* const kContentLocFeature;
+    static const char* const kContentLocRecentPlayed;
+    static const char* const kContentLocFavourite;
+    static const char* const kContentLocEpisodeSelector;
+    static const char* const kContentLocCategory;
+    static const char* const kContentLocOffline;
+    
     static const char* const kOomeeMakerURI;
     static const char* const kArtAppURI;
     

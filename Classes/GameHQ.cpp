@@ -135,7 +135,8 @@ void GameHQ::createFeaturedTiles()
     _featuredLayout->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
         if(_contentSelectedCallback)
         {
-            _contentSelectedCallback(content, elementIndex, 0);
+            const std::string& location = StringUtils::format("%s%d", ConfigStorage::kContentLocFeature, elementIndex);
+            _contentSelectedCallback(content, elementIndex, 0, location);
         }
     });
     _staticContentLayout->addChild(_featuredLayout);
@@ -162,7 +163,7 @@ void GameHQ::createRecentlyPlayedTiles()
     _recentlyPlayedLayout->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
         if(_contentSelectedCallback)
         {
-            _contentSelectedCallback(content, elementIndex, -1);
+            _contentSelectedCallback(content, elementIndex, -1, ConfigStorage::kContentLocRecentPlayed);
         }
     });
     _contentListView->pushBackCustomItem(_recentlyPlayedLayout);
@@ -185,7 +186,7 @@ void GameHQ::createDropdowns()
         dropdown->setContentSelectedCallback([this, i](HQContentItemObjectRef content, int elementIndex){
             if(_contentSelectedCallback)
             {
-                _contentSelectedCallback(content, elementIndex, i);
+                _contentSelectedCallback(content, elementIndex, i, ConfigStorage::kContentLocCategory);
             }
         });
         dropdown->setOnResizeCallback([this](){

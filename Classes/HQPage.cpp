@@ -8,6 +8,7 @@
 #include "HQPage.h"
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
 
@@ -117,6 +118,8 @@ void HQPage::dropdownAutoOpenCloseLogic(DropdownContentHolder* pressedDropdown, 
     
     // Now toggle the opening/closing
     pressedDropdown->toggleOpened(!pressedDropdown->isOpen());
+    AnalyticsSingleton::getInstance()->categoryOpenEvent(pressedDropdown->isOpen(), pressedDropdown->getContentItemData()->getTitle());
+    
     for(auto dd : dropdownHoldersInListview)
     {
         if(dd != _focusedDropdown && dd->isOpen())
