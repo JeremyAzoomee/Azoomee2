@@ -95,7 +95,12 @@ void MainScene::addBackButton()
     _backButton->setPosition(Vec2(Point(Director::getInstance()->getVisibleSize().width*0.045, Director::getInstance()->getVisibleOrigin().y + Director::getInstance()->getVisibleSize().height * 0.975)));
     _backButton->setAnchorPoint(Vec2(0.5,1));
     _backButton->loadTextures(kArtAppAssetLoc + "back_button.png", kArtAppAssetLoc + "back_button.png");
-    _backButton->addClickEventListener([this](Ref* but){backButtonCallBack();});
+    _backButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            backButtonCallBack();
+        }
+    });
     this->addChild(_backButton,1);
 }
 
@@ -105,7 +110,12 @@ void MainScene::addShareButton()
     _shareButton->setPosition(_backButton->getPosition() - Vec2(0, _backButton->getContentSize().height * 1.33f));
     _shareButton->setAnchorPoint(Vec2(0.5,1));
     _shareButton->loadTextureNormal(kArtAppAssetLoc + "share.png");
-    _shareButton->addClickEventListener([this](Ref* but){shareButtonCallBack();});
+    _shareButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            shareButtonCallBack();
+        }
+    });
 	_shareButton->setEnabled(!delegate->isOffline());
     this->addChild(_shareButton,1);
 }

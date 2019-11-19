@@ -12,6 +12,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include "ChatDelegate.h"
+#include "ShareInChatLayer.h"
 
 USING_NS_CC;
 
@@ -64,7 +65,7 @@ void ArtAppDelegate::onArtAppShareImage()
             ArtAppRunning = false;
             HQHistoryManager::getInstance()->setReturnedFromForcedOrientation(true);
             Director::getInstance()->getTextureCache()->reloadTexture(filename);
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ShareInChatScene));
         }
     }
 }

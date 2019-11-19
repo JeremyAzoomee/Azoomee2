@@ -21,6 +21,8 @@
 #include "SceneManagerScene.h"
 #include "GameDataManager.h"
 
+#include "ShareInChatLayer.h"
+
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
