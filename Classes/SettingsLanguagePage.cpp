@@ -14,6 +14,7 @@
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
 #include "LanguageListItem.h"
+#include "HQHistoryManager.h"
 
 using namespace cocos2d;
 
@@ -68,6 +69,7 @@ void SettingsLanguagePage::onEnter()
 					selectedItem->setSelected(true);
 				}
 				StringMgr::getInstance()->changeLanguage(data._identifier);
+                HQHistoryManager::getInstance()->clearCachedHQ();
 			}
 		});
 		if(data._identifier == StringMgr::getInstance()->getLanguageID())
