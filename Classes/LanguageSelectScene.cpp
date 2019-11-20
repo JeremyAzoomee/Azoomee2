@@ -19,7 +19,7 @@ using namespace cocos2d;
 NS_AZOOMEE_BEGIN
 
 const std::string LanguageSelectScene::kGreekLangID = "gre";
-const cocos2d::Size LanguageSelectScene::kBaseButtonSize = Size(300,400);
+const cocos2d::Size LanguageSelectScene::kBaseButtonSize = Size(255,410);
 
 bool LanguageSelectScene::init()
 {
@@ -79,13 +79,13 @@ bool LanguageSelectScene::init()
     
     _languageScrollView = ui::ListView::create();
     _languageScrollView->setSizeType(ui::Layout::SizeType::PERCENT);
-    _languageScrollView->setSizePercent(Vec2(1.0f,0.9f));
+    _languageScrollView->setSizePercent(Vec2(1.0f,0.86f));
     _languageScrollView->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _languageScrollView->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _languageScrollView->setItemsMargin(150);
     _languageScrollView->setBounceEnabled(true);
-    _languageScrollView->setTopPadding(80);
-    _languageScrollView->setBottomPadding(80);
+    _languageScrollView->setTopPadding(100);
+    _languageScrollView->setBottomPadding(100);
     _languageLayout->addChild(_languageScrollView);
     
     createLanguageButtons();
@@ -163,7 +163,7 @@ cocos2d::ui::Layout* LanguageSelectScene::createLanguageButton(const LanguagePar
     
     ui::ImageView* shadow = ui::ImageView::create("res/languageSelect/shadow.png");
     shadow->ignoreContentAdaptWithSize(false);
-    shadow->setScale(kBaseButtonSize.width / shadow->getContentSize().width);
+    shadow->setScale((kBaseButtonSize.width * 1.2f) / shadow->getContentSize().width);
     shadow->setAnchorPoint(Vec2(0.5f, 0.6f));
     shadow->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
     flag->addChild(shadow, -1);
@@ -171,7 +171,7 @@ cocos2d::ui::Layout* LanguageSelectScene::createLanguageButton(const LanguagePar
     DynamicText* text = DynamicText::create(params._name, params._identifier == kGreekLangID ? Style::Font::ArialRegular : Style::Font::poppinsRegular, 50);
     text->setTextHorizontalAlignment(TextHAlignment::CENTER);
     text->setTextVerticalAlignment(TextVAlignment::BOTTOM);
-    text->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    text->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     text->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
     text->setTextColor(Color4B(Style::Color::brownGrey));
     langButton->addChild(text);
