@@ -59,6 +59,7 @@ const char* const API::TagRedeemReward = "redeemReward";
 const char* const API::TagGetPendingRewards = "getPendingRewards";
 const char* const API::TagGetInventory = "getInventory";
 const char* const API::TagBuyReward = "buyReward";
+const char* const API::TagGetRewardStrategy = "getRewardStrategy";
 const char* const API::TagGetShopFeed = "getShopFeed";
 const char* const API::TagGetOomeeMakerAssets = "getOomeeMakerAssets";
 const char* const API::TagGetMarketingAssets = "getMarketingAssets";
@@ -1005,6 +1006,19 @@ HttpRequestCreator* API::RewardCallback(const std::string& url,
 		HandleAPIResponse(sender, response, delegate, request);
 	});
 	return request;
+}
+
+HttpRequestCreator* API::GetRewardStrategy(const std::string& method, HttpRequestCreatorResponseDelegate* delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestPath = "/api/rewards/strategy/feed";
+    request->requestTag = StringUtils::format("%s-%s", TagGetRewardStrategy, method.c_str());
+    request->encrypted = true;
+    request->method = method;
+    request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
+        HandleAPIResponse(sender, response, delegate, request);
+    });
+    return request;
 }
 
 HttpRequestCreator* API::GetShopFeed(HttpRequestCreatorResponseDelegate* delegate)

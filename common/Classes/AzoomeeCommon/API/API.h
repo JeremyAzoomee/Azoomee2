@@ -68,6 +68,7 @@ public:
 	static const char* const TagGetPendingRewards;
 	static const char* const TagGetInventory;
 	static const char* const TagBuyReward;
+    static const char* const TagGetRewardStrategy;
 	static const char* const TagGetShopFeed;
 	static const char* const TagGetOomeeMakerAssets;
     static const char* const TagGetMarketingAssets;
@@ -330,6 +331,8 @@ public:
 	
 	static HttpRequestCreator* RewardCallback(const std::string& url,
 											  HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* GetRewardStrategy(const std::string& method, HttpRequestCreatorResponseDelegate* delegate);
 	
 	static HttpRequestCreator* GetShopFeed(HttpRequestCreatorResponseDelegate* delegate);
 	

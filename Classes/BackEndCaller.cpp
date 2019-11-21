@@ -3,6 +3,7 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Rewards/RewardManager.h>
 #include <AzoomeeCommon/Data/Cookie/CookieManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
@@ -306,6 +307,9 @@ void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString
     OomeeMaker::OomeeMakerDataHandler::getInstance()->getOomeesForChild(ChildManager::getInstance()->getLoggedInChild()->getId(), false);
     getGordon();
 	HQHistoryManager::getInstance()->emptyHistory();
+    
+    // Update rewards feed
+    RewardManager::getInstance()->getLatestRewardStrategy();
 }
 
 //GETTING GORDON.PNG-------------------------------------------------------------------------------------

@@ -47,6 +47,7 @@
 		30242C74228D672A00B564E4 /* DirUtil_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30242C72228D672A00B564E4 /* DirUtil_ios.mm */; };
 		302E84791ED1B992006A498C /* ObservableLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302E84751ED1B992006A498C /* ObservableLayout.cpp */; };
 		302E847A1ED1B992006A498C /* SplitLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302E84771ED1B992006A498C /* SplitLayout.cpp */; };
+		303095AA238585F5004A92CD /* RewardManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303095A8238585F5004A92CD /* RewardManager.cpp */; };
 		304D9EC71EA8F883008CED52 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 304D9EC61EA8F883008CED52 /* GameController.framework */; };
 		305966991ECCAF76009A7130 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305966971ECCAF76009A7130 /* Scene.cpp */; };
 		3092BCF01EB10524006D6F4C /* HttpRequestCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3092BCEE1EB10524006D6F4C /* HttpRequestCreator.cpp */; };
@@ -265,6 +266,8 @@
 		302E84761ED1B992006A498C /* ObservableLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObservableLayout.h; sourceTree = "<group>"; };
 		302E84771ED1B992006A498C /* SplitLayout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SplitLayout.cpp; sourceTree = "<group>"; };
 		302E84781ED1B992006A498C /* SplitLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplitLayout.h; sourceTree = "<group>"; };
+		303095A8238585F5004A92CD /* RewardManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RewardManager.cpp; sourceTree = "<group>"; };
+		303095A9238585F5004A92CD /* RewardManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RewardManager.h; sourceTree = "<group>"; };
 		304A6EEA1EC9A96F000D52B5 /* CocosSharedPtr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CocosSharedPtr.h; sourceTree = "<group>"; };
 		304D9EC61EA8F883008CED52 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
 		305966801ECC6987009A7130 /* Style.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Style.h; sourceTree = "<group>"; };
@@ -1125,6 +1128,8 @@
 		92E58567220DD64D0015A4FA /* Rewards */ = {
 			isa = PBXGroup;
 			children = (
+				303095A9238585F5004A92CD /* RewardManager.h */,
+				303095A8238585F5004A92CD /* RewardManager.cpp */,
 				92E58569220DD6A40015A4FA /* RewardItem.h */,
 				92E5856A2211A4E80015A4FA /* RewardItem.cpp */,
 				92E5856F221AC22A0015A4FA /* Inventory.h */,
@@ -1292,6 +1297,7 @@
 				3000FF7B1ED5BBB700E9717C /* Application.cpp in Sources */,
 				4349C84F1EA8ADEF00FE964B /* MPUIEdgeInsetsToNSDictionaryValueTransformer.m in Sources */,
 				4349C8221EA8ADEF00FE964B /* MPABTestDesignerSnapshotResponseMessage.m in Sources */,
+				303095AA238585F5004A92CD /* RewardManager.cpp in Sources */,
 				3000FF761ED5AB7100E9717C /* AzoomeeViewController.mm in Sources */,
 				021B1FCB1F838A0A0044DCF7 /* HQDataObject.cpp in Sources */,
 				4349C8411EA8ADEF00FE964B /* MPResources.m in Sources */,
