@@ -78,9 +78,8 @@ void API::HandleAPIResponse(cocos2d::network::HttpClient *sender, cocos2d::netwo
 	std::string responseDataString = std::string(response->getResponseData()->begin(), response->getResponseData()->end());
 	std::string requestTag = response->getHttpRequest()->getTag();
 	
-	cocos2d::log("Request tag: %s", requestTag.c_str());
-	cocos2d::log("Response code: %ld", response->getResponseCode());
-	cocos2d::log("Response header: %s", responseHeaderString.c_str());
+	cocos2d::log("HandleAPIResponse: %s (%ld)", requestTag.c_str(), response->getResponseCode());
+//	cocos2d::log("Response header: %s", responseHeaderString.c_str());
 //	cocos2d::log("Response string: %s", responseDataString.c_str());
 	
     const long responseCode = response->getResponseCode();
@@ -110,9 +109,12 @@ void API::HandleAPIError(cocos2d::network::HttpResponse *response, HttpRequestCr
 	const std::string& requestTag = response->getHttpRequest()->getTag();
 	long errorCode = response->getResponseCode();
 	
-	cocos2d::log("request tag: %s", requestTag.c_str());
-	cocos2d::log("response string: %s", responseDataString.c_str());
-	cocos2d::log("response code: %ld", response->getResponseCode());
+    cocos2d::log("HandleAPIError: %s (%ld) %s %s", requestTag.c_str(), response->getResponseCode(), request->method.c_str(), request->getRequestURL().c_str());
+	cocos2d::log("HandleAPIError response: %s", responseDataString.c_str());
+    if(!request->requestBody.empty())
+    {
+        cocos2d::log("HandleAPIError request body: %s", request->requestBody.c_str());
+    }
 	
 	//-----------------------Handle error code--------------------------
 	

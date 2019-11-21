@@ -51,7 +51,7 @@ int HttpRequestCreator::getAmountOfFails() const
 
 //-----------------------------------------------------All requests below this line are used internally-------------------------------------------------------
 
-int HttpRequestCreator::findPositionOfNthString(std::string string, std::string whatToFind, int whichOne)
+int HttpRequestCreator::findPositionOfNthString(const std::string& string, const std::string& whatToFind, int whichOne) const
 {
     int startSearchPos = 0;
     
@@ -70,7 +70,7 @@ int HttpRequestCreator::findPositionOfNthString(std::string string, std::string 
     return startSearchPos - 1;
 }
 
-std::string HttpRequestCreator::getPathFromUrl(std::string url)
+std::string HttpRequestCreator::getPathFromUrl(const std::string& url) const
 {
     int from = findPositionOfNthString(url, "/", 3);
     int until = findPositionOfNthString(url, "?", 1);
@@ -79,7 +79,7 @@ std::string HttpRequestCreator::getPathFromUrl(std::string url)
     return(url.substr(from, length)); //returning the path from the url by finding the first slash ( / ) sign after http:// - implemented a method to find 3rd /, as it can be https as well.
 }
 
-std::string HttpRequestCreator::getHostFromUrl(std::string url)
+std::string HttpRequestCreator::getHostFromUrl(const std::string& url) const
 {
     int from = findPositionOfNthString(url, "/", 2) + 1;
     int until = findPositionOfNthString(url, "/", 3);
@@ -88,7 +88,7 @@ std::string HttpRequestCreator::getHostFromUrl(std::string url)
     return(url.substr(from, length)); //returning string between the second slash ( / ) (after http://) until the 3rd one (where path starts).
 }
 
-std::string HttpRequestCreator::getUrlParametersFromUrl(std::string url)
+std::string HttpRequestCreator::getUrlParametersFromUrl(const std::string& url) const
 {
     int from = findPositionOfNthString(url, "?", 1);
     int until = (int)url.length();
@@ -98,7 +98,7 @@ std::string HttpRequestCreator::getUrlParametersFromUrl(std::string url)
 }
 
 
-std::string HttpRequestCreator::getDateFormatString()                   //This function returns the current date in the required format.
+std::string HttpRequestCreator::getDateFormatString() const                   //This function returns the current date in the required format.
 {
     time_t rawtime;
     struct tm * ptm;
@@ -110,7 +110,7 @@ std::string HttpRequestCreator::getDateFormatString()                   //This f
     return myDateTime;
 }
 
-std::string HttpRequestCreator::addLeadingZeroToDateElement(int input)               //This function adds a leading 0 to the date element if it has 1 character only.
+std::string HttpRequestCreator::addLeadingZeroToDateElement(int input) const               //This function adds a leading 0 to the date element if it has 1 character only.
 {
     std::string dateFormat = StringUtils::format("%d", input);
     if(dateFormat.length() == 1)
@@ -119,6 +119,11 @@ std::string HttpRequestCreator::addLeadingZeroToDateElement(int input)          
     }
     
     return dateFormat;
+}
+
+std::string HttpRequestCreator::getRequestURL() const
+{
+    return _requestURL;
 }
 
 cocos2d::network::HttpRequest* HttpRequestCreator::buildHttpRequest()                            //The http request is being created from global variables. This method can't be run until setting up all variables, please see usage on top of this file.
@@ -142,8 +147,12 @@ cocos2d::network::HttpRequest* HttpRequestCreator::buildHttpRequest()           
         }
     }
     
-    std::string requestUrl =  hostPrefix + host + requestPath;
-    if(!urlParameters.empty()) requestUrl = requestUrl + "?" + urlParameters;
+    std::string requestUrl = hostPrefix + host + requestPath;
+    if(!urlParameters.empty())
+    {
+        requestUrl = requestUrl + "?" + urlParameters;
+    }
+    _requestURL = requestUrl;
     
     HttpRequest* request = new HttpRequest();
     
@@ -197,10 +206,10 @@ cocos2d::network::HttpRequest* HttpRequestCreator::buildHttpRequest()           
     
     request->setHeaders(headers);
     
-    for(int i = 0; i < request->getHeaders().size(); i++)
-    {
-        cocos2d::log("HEADERS %s", request->getHeaders().at(i).c_str());
-    }
+//    for(int i = 0; i < request->getHeaders().size(); i++)
+//    {
+//        cocos2d::log("HEADERS %s", request->getHeaders().at(i).c_str());
+//    }
 	
 	request->setResponseCallback(_requestCallback);
     request->setTag(requestTag);

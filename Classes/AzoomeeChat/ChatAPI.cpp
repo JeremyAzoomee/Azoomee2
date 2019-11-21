@@ -183,7 +183,7 @@ void ChatAPI::refreshChildSession()
 
 void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
-    cocos2d::log("ChatAPI::onHttpRequestSuccess: %s, body=%s", requestTag.c_str(), body.c_str());
+//    cocos2d::log("ChatAPI::onHttpRequestSuccess: %s, body=%s", requestTag.c_str(), body.c_str());
     
     // Get chat list success
     if(requestTag == API::TagGetChatList)

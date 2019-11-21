@@ -132,14 +132,14 @@ std::string CookieManager::getAllCookiesInJson()
 		allCookies.push_back(cookieRecord);
 	}
 	
-	cocos2d::log("COOKIE JSON: %s", getJSONStringFromVectorOfMaps(allCookies).c_str());
+//	cocos2d::log("COOKIE JSON: %s", getJSONStringFromVectorOfMaps(allCookies).c_str());
 	
 	return getJSONStringFromVectorOfMaps(allCookies);
 }
 
 bool CookieManager::parseDownloadCookies(const std::string& responseString)
 {
-	cocos2d::log("Responsestring: %s", responseString.c_str());
+//	cocos2d::log("Responsestring: %s", responseString.c_str());
 	
 	std::string cookieStr = responseString;
 	
