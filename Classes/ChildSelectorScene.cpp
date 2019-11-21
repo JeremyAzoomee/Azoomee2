@@ -11,7 +11,6 @@
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 #include "SettingsButton.h"
-#include "OfflineHubScene.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "LoginLogicHandler.h"
 #include <AzoomeeCommon/Data/Parent/ParentManager.h>

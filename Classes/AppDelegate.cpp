@@ -2,7 +2,6 @@
 #include "IntroVideoScene.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "HQHistoryManager.h"
-#include "OfflineHubScene.h"
 #include "LoginLogicHandler.h"
 #include "NativeContentInterface_ios.h"
 #include <AzoomeeCommon/Utils/SessionIdManager.h>

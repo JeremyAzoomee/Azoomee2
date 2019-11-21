@@ -1,7 +1,6 @@
 #include "NavigationLayer.h"
 
 #include "HQDataProvider.h"
-#include "HQSceneArtsApp.h"
 
 #include <AzoomeeCommon/Utils/SpecialCalendarEventManager.h>
 #include <AzoomeeCommon/Data/Parent/ParentManager.h>

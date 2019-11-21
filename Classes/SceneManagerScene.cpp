@@ -2,7 +2,7 @@
 #include "HQHistoryManager.h"
 #include "ChildSelectorScene.h"
 #include "LoginScene.h"
-#include "OfflineHubScene.h"
+#include "OfflineScene.h"
 #include <AzoomeeCommon/Application.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "FlowDataSingleton.h"
@@ -20,9 +20,7 @@
 #include "AddChildScene.h"
 #include "WelcomeScene.h"
 #include "ContentFeedHQScene.h"
-#include "MeHQ.h"
 #include "RewardDisplayHandler.h"
-#include "HQSceneArtsApp.h"
 
 #include "SettingsHub.h"
 #include "ChildSettingsScene.h"
@@ -129,19 +127,11 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         }
         case SceneNameEnum::OfflineHub:
         {
-            forceToLandscape();
+            acceptAnyOrientation();
             OfflineChecker::getInstance()->setDelegate(nullptr);
-            cocos2d::Scene* goToScene = OfflineHubScene::createScene();
+            cocos2d::Scene* goToScene = OfflineScene::create();
             AnalyticsSingleton::getInstance()->registerCurrentScene("OFFLINE");
             Director::getInstance()->replaceScene(goToScene);
-            break;
-        }
-        case SceneNameEnum::OfflineArtsAppHQ:
-        {
-			forceToLandscape();
-			cocos2d::Scene* goToScene = HQSceneArtsApp::createScene();
-            AnalyticsSingleton::getInstance()->registerCurrentScene("OFFLINE_ARTS_APP");
-            Director::getInstance()->replaceScene(TransitionSlideInR::create(0.25f, goToScene));
             break;
         }
         case SceneNameEnum::ChatEntryPointScene:
