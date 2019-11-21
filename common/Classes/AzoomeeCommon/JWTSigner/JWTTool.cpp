@@ -66,14 +66,14 @@ namespace Azoomee
         
         //DISPLAYING DEBUG INFO-----------------------------------------------------------------------
         
-        cocos2d::log("\n\n\n apiSecret: %s\n\n\n", getAppropriateAPISecret().c_str());
+//        cocos2d::log("\n\n\n apiSecret: %s\n\n\n", getAppropriateAPISecret().c_str());
         
         
         //CREATE THE FINAL JWT STRING-----------------------------------------------------------------
         
         std::string finalJWT = StringUtils::format("%s.%s.%s", sHeader.c_str(), sBody.c_str(), sSignature.c_str());
         
-        cocos2d::log("\n\n\n FINAL JWT STRING: %s\n\n\n", finalJWT.c_str());
+//        cocos2d::log("\n\n\n FINAL JWT STRING: %s\n\n\n", finalJWT.c_str());
         
         
         return finalJWT;
@@ -200,11 +200,11 @@ std::string JWTTool::getHeaderString(std::string kid)
     
     const char *jsonString = s.GetString();
     
-    cocos2d::log("\n\n\n Body string: %s\n\n\n", jsonString);
+//    cocos2d::log("\n\n\n Body string: %s\n\n\n", jsonString);
     
     std::string result = getBase64Encoded(StringUtils::format("%s", jsonString));
     
-    cocos2d::log("\n\n\n base64 encoded body: %s\n\n\n", result.c_str());
+//    cocos2d::log("\n\n\n base64 encoded body: %s\n\n\n", result.c_str());
 
     return result;
 }
@@ -256,11 +256,11 @@ std::string JWTTool::getBodyString()
     
     const char *jsonString = s.GetString();
     
-    cocos2d::log("\n\n\n Body string: %s\n\n\n", jsonString);
+//    cocos2d::log("\n\n\n Body string: %s\n\n\n", jsonString);
     
     std::string result = getBase64Encoded(StringUtils::format("%s", jsonString));
     
-    cocos2d::log("\n\n\n base64 encoded body: %s\n\n\n", result.c_str());
+//    cocos2d::log("\n\n\n base64 encoded body: %s\n\n\n", result.c_str());
     
     return result;
 }

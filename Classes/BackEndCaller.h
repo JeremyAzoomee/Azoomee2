@@ -34,8 +34,8 @@ private:
     void onGetChildrenAnswerReceived(const std::string& responseString);
     // Child login success
     void onChildLoginAnswerReceived(const std::string& responseString, const std::string& headerString);
-    // Gorden returned!
-    void onGetGordonAnswerReceived(const std::string& responseString);
+    // Session cookies success
+    void onSessionCookiesAnswerReceived(const std::string& responseString);
     // Register child API success
     void onRegisterChildAnswerReceived();
     // Update child API success
@@ -83,8 +83,8 @@ public:
     void updateChild(const std::string& childId, const std::string& childProfileName, const std::string& childGender, const std::string& childDOB, int oomeeNumber);
     // Update child avatar
     void updateChildAvatar(const std::string& childId, const std::string& imageData);
-    // Get gorden. Good gorden.
-    void getGordon();
+    // Get sssion cookies
+    void getSessionCookies();
     // Verify a google payment
     void verifyGooglePayment(const std::string& orderId, const std::string& iapSku, const std::string& purchaseToken);
     // Verify an Amazon payment

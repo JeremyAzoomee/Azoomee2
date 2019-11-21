@@ -13,19 +13,13 @@ HQHistoryManager* HQHistoryManager::getInstance()
     if (! _sharedHQHistoryManager)
     {
         _sharedHQHistoryManager = new HQHistoryManager();
-        _sharedHQHistoryManager->init();
     }
     
     return _sharedHQHistoryManager;
 }
 
-HQHistoryManager::~HQHistoryManager(void)
+HQHistoryManager::~HQHistoryManager()
 {
-}
-
-bool HQHistoryManager::init(void)
-{
-    return true;
 }
 
 void HQHistoryManager::addHQToHistoryManager(std::string hqName)

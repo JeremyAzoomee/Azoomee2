@@ -20,7 +20,7 @@ const char* const API::TagUpdateBillingData = "updateBilling";
 const char* const API::TagParentPin = "updateParentPin";
 const char* const API::TagGetAvailableChildren = "getChildren";
 const char* const API::TagChildLogin = "childLogin";
-const char* const API::TagGetGorden = "getGordon";
+const char* const API::TagGetSessionCookies = "getSessionCookies";
 const char* const API::TagRegisterParent = "registerParent";
 const char* const API::TagRegisterChild = "registerChild";
 const char* const API::TagUpdateChild = "updateChild";
@@ -81,12 +81,13 @@ void API::HandleAPIResponse(cocos2d::network::HttpClient *sender, cocos2d::netwo
 	cocos2d::log("Request tag: %s", requestTag.c_str());
 	cocos2d::log("Response code: %ld", response->getResponseCode());
 	cocos2d::log("Response header: %s", responseHeaderString.c_str());
-	cocos2d::log("Response string: %s", responseDataString.c_str());
+//	cocos2d::log("Response string: %s", responseDataString.c_str());
 	
-	if((response->getResponseCode() == 200)||(response->getResponseCode() == 201)||(response->getResponseCode() == 204))
+    const long responseCode = response->getResponseCode();
+	if((responseCode == 200) || (responseCode == 201) || (responseCode == 204))
 	{
 		const std::string& rewardData = getValueFromHttpResponseHeaderForKey("X-AZ-REWARDS", responseHeaderString);
-		if(rewardData != "")
+		if(!rewardData.empty())
 		{
 			RewardCallbackHandler::getInstance()->sendRewardCallback(rewardData);
 		}
@@ -110,7 +111,6 @@ void API::HandleAPIError(cocos2d::network::HttpResponse *response, HttpRequestCr
 	long errorCode = response->getResponseCode();
 	
 	cocos2d::log("request tag: %s", requestTag.c_str());
-	//cocos2d::log("request body: %s", response->getHttpRequest()->getRequestData());
 	cocos2d::log("response string: %s", responseDataString.c_str());
 	cocos2d::log("response code: %ld", response->getResponseCode());
 	
@@ -127,7 +127,7 @@ void API::HandleAPIError(cocos2d::network::HttpResponse *response, HttpRequestCr
 		AnalyticsSingleton::getInstance()->httpRequestFailed(requestTag, errorCode, getValueFromHttpResponseHeaderForKey("X-AZ-QID", responseHeaderString));
 	}
 	
-	if((errorCode == 401)&&(findPositionOfNthString(responseDataString, "Invalid Request Time", 1) != responseDataString.length()))
+	if((errorCode == 401) && (findPositionOfNthString(responseDataString, "Invalid Request Time", 1) != responseDataString.length()))
 	{
 		errorCode = 2001;
 	}
@@ -268,13 +268,14 @@ HttpRequestCreator* API::ChildLoginRequest(const std::string& profileName,
     return request;
 }
 
-HttpRequestCreator* API::GetGordenRequest(const std::string& userId,
-                                          const std::string& sessionId,
-                                          HttpRequestCreatorResponseDelegate* delegate)
+HttpRequestCreator* API::GetSessionCookiesRequest(const std::string& userId,
+                                                  const std::string& sessionId,
+                                                  HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestPath = "/api/porthole/pixel/gordon.png";
     request->urlParameters = StringUtils::format("userid=%s&sessionid=%s", userId.c_str(), sessionId.c_str());
-    request->requestTag = TagGetGorden;
+    request->requestTag = TagGetSessionCookies;
     request->encrypted = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);

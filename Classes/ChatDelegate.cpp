@@ -5,7 +5,6 @@
 #include "HQHistoryManager.h"
 #include "FlowDataSingleton.h"
 #include "LoginLogicHandler.h"
-#include "ContentHistoryManager.h"
 #include "HQDataProvider.h"
 #include "ContentOpener.h"
 #include <AzoomeeCommon/Data/Child/ChildManager.h>

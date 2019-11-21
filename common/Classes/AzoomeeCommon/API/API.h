@@ -27,7 +27,7 @@ public:
     static const char* const TagParentPin;
     static const char* const TagGetAvailableChildren;
     static const char* const TagChildLogin;
-    static const char* const TagGetGorden;
+    static const char* const TagGetSessionCookies;
     static const char* const TagRegisterParent;
     static const char* const TagRegisterChild;
     static const char* const TagUpdateChild;
@@ -109,9 +109,9 @@ public:
     static HttpRequestCreator* ChildLoginRequest(const std::string& profileName,
                                                  HttpRequestCreatorResponseDelegate* delegate);
     
-    static HttpRequestCreator* GetGordenRequest(const std::string& userId,
-                                                const std::string& sessionId,
-                                                HttpRequestCreatorResponseDelegate* delegate);
+    static HttpRequestCreator* GetSessionCookiesRequest(const std::string& userId,
+                                                        const std::string& sessionId,
+                                                        HttpRequestCreatorResponseDelegate* delegate);
     
     static HttpRequestCreator* RefreshParentCookiesRequest(HttpRequestCreatorResponseDelegate* delegate);
 	

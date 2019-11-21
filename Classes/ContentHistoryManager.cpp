@@ -8,6 +8,7 @@
 #include "ContentHistoryManager.h"
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
 #include <AzoomeeCommon/Utils//TimeFunctions.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 
 using namespace cocos2d;
 
@@ -20,19 +21,16 @@ ContentHistoryManager* ContentHistoryManager::getInstance()
     if (!sContentHistoryManagerSharedInstance.get())
     {
         sContentHistoryManagerSharedInstance.reset(new ContentHistoryManager());
-        sContentHistoryManagerSharedInstance->init();
     }
-    
     return sContentHistoryManagerSharedInstance.get();
 }
 
-ContentHistoryManager::~ContentHistoryManager(void)
+ContentHistoryManager::ContentHistoryManager()
 {
 }
 
-bool ContentHistoryManager::init(void)
+ContentHistoryManager::~ContentHistoryManager()
 {
-    return true;
 }
 
 void ContentHistoryManager::setLastOppenedContent(const HQContentItemObjectRef& contentItem)
@@ -64,12 +62,54 @@ void ContentHistoryManager::onContentOpened()
 	SessionIdManager::getInstance()->resetBackgroundTimeInContent();
 	_timeInContent = 0;
 }
-void ContentHistoryManager::onContentClosed()
+
+void ContentHistoryManager::onGameContentClosed()
 {
-	_contentClosedTime = time(NULL);
-	_contentClosedTimeMs = getMillisecondTimestampString();
-	_timeInContent = difftime(_contentClosedTime,_contentOpenedTime) - SessionIdManager::getInstance()->getBackgroundTimeInContent();
+    recordContentClosedTime();
+    
+    const std::string& data = StringUtils::format("{\"contentId\":\"%s\", \"contentMeta\":{\"contentTitle\":\"%s\",\"contentType\":\"%s\", \"unit\":\"SECONDS\", \"duration\":%ld, \"lastPlayedMeta\": [{\"start\":%s,\"end\":%s}]}}",
+                                                  _lastOpenedContent->getContentItemId().c_str(),
+                                                  _lastOpenedContent->getTitle().c_str(),
+                                                  _lastOpenedContent->getType().c_str(),
+                                                  _timeInContent,
+                                                  _contentOpenedTimeMs.c_str(),
+                                                  _contentClosedTimeMs.c_str());
+    
+    const ChildRef& loggedInChild = ChildManager::getInstance()->getLoggedInChild();
+    HttpRequestCreator* request = API::UpdateContentProgressMeta(loggedInChild->getId(), data, this);
+    request->execute();
+    
+    // TODO: Notify RewardManager to calculate reward
 }
+
+void ContentHistoryManager::onVideoContentClosed(int videoProgressSeconds, int videoDuration)
+{
+    recordContentClosedTime();
+    
+    const std::string& data = StringUtils::format("{\"contentId\":\"%s\", \"contentMeta\":{\"contentTitle\":\"%s\",\"contentType\":\"%s\", \"contentLength\":%d, \"unit\":\"SECONDS\", \"contentProgress\":%d, \"duration\":%ld, \"lastPlayedMeta\": [{\"start\":%s,\"end\":%s}]}}",
+                                                  _lastOpenedContent->getContentItemId().c_str(),
+                                                  _lastOpenedContent->getTitle().c_str(),
+                                                  _lastOpenedContent->getType().c_str(),
+                                                  videoDuration,
+                                                  videoProgressSeconds,
+                                                  _timeInContent,
+                                                  _contentOpenedTimeMs.c_str(),
+                                                  _contentClosedTimeMs.c_str());
+    
+    const ChildRef& loggedInChild = ChildManager::getInstance()->getLoggedInChild();
+    HttpRequestCreator* request = API::UpdateContentProgressMeta(loggedInChild->getId(), data, this);
+    request->execute();
+    
+    // TODO: Notify RewardManager to calculate reward
+}
+
+void ContentHistoryManager::recordContentClosedTime()
+{
+    _contentClosedTime = time(NULL);
+    _contentClosedTimeMs = getMillisecondTimestampString();
+    _timeInContent = difftime(_contentClosedTime, _contentOpenedTime) - SessionIdManager::getInstance()->getBackgroundTimeInContent();
+}
+
 long ContentHistoryManager::getTimeInContentSec() const
 {
 	return _timeInContent;
@@ -79,6 +119,7 @@ time_t ContentHistoryManager::getContentOpenedTimeSec() const
 {
 	return _contentOpenedTime;
 }
+
 time_t ContentHistoryManager::getContentClosedTimeSec() const
 {
 	return _contentClosedTime;
@@ -93,9 +134,23 @@ std::string ContentHistoryManager::getContentOpenedTimeMs() const
 {
 	return _contentOpenedTimeMs;
 }
+
 std::string ContentHistoryManager::getContentClosedTimeMs() const
 {
 	return _contentClosedTimeMs;
+}
+
+
+#pragma mark - HttpRequestCreatorResponseDelegate
+
+void ContentHistoryManager::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
+{
+    
+}
+
+void ContentHistoryManager::onHttpRequestFailed(const std::string& requestTag, long errorCode)
+{
+    cocos2d::log("ContentHistoryManager::onHttpRequestFailed: %s, errorCode=%ld", requestTag.c_str(), errorCode);
 }
 
 NS_AZOOMEE_END

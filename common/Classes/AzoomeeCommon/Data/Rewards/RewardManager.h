@@ -23,6 +23,9 @@ public:
     
     /// Get the latest reward strategy from the server
     void getLatestRewardStrategy();
+    
+    /// Check an API response for the existence of a reward
+    void checkResponseForNewRewards(const std::string& requestTag, const std::string& headers);
 
 private:
     // Private construction - Use ::getInstance()

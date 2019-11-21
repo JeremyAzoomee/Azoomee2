@@ -41,6 +41,13 @@ void RewardManager::getLatestRewardStrategy()
     request->execute();
 }
 
+void RewardManager::checkResponseForNewRewards(const std::string& requestTag, const std::string& headers)
+{
+    ;
+}
+
+// - Private
+
 void RewardManager::onRewardStrategyLoaded()
 {
     _strategyLoaded = true;
@@ -147,10 +154,11 @@ void RewardManager::handleRewardFeedResponse(const std::string& headers, const s
                 }
             }
             
-            _minRewardCoinValue = minRewardValue;
+            // Values are negative so pass it through abs to make sure we have a positive value for the reward
+            _minRewardCoinValue = abs(minRewardValue);
             _minRewardDuration = minTime;
+            _repeatRewardCoinValue = abs(repeatRewardValue);
             _repeatRewardDuration = repeatTime;
-            _repeatRewardCoinValue = repeatRewardValue;
         }
     }
     
@@ -174,8 +182,7 @@ void RewardManager::handleRewardFeedResponse(const std::string& headers, const s
             if(value.IsObject() && value.HasMember("price"))
             {
                 int price = getIntFromJson("price", value, 0);
-                // Because value is provided as a price, it's negative
-                // So we pass it through abs to make sure we have a positive value for the reward
+                // Values are negative so pass it through abs to make sure we have a positive value for the reward
                 price = abs(price);
                 if(price > 0)
                 {

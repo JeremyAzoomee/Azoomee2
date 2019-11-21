@@ -8,7 +8,7 @@
 
 NS_AZOOMEE_BEGIN
 
-class HQHistoryManager : public cocos2d::Ref
+class HQHistoryManager
 {
 private:
 	std::vector<std::string> _hqNames;
