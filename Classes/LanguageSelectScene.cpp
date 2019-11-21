@@ -117,7 +117,7 @@ void LanguageSelectScene::onSizeChanged()
     _gradient->setStartOpacity(isPortrait ? 150 : 255);
     _titleText->setMaxLineWidth(titleSize.width * 0.7f);
 	
-    _languageLayout->setSizePercent(isPortrait ? Vec2(1.0f, 0.71f) : Vec2(0.5f, 1.0f));
+    _languageLayout->setSizePercent(isPortrait ? Vec2(1.0f, 1.0f - _titleLayout->getSizePercent().y) : Vec2(1.0f - _titleLayout->getSizePercent().x, 1.0f));
 }
 
 void LanguageSelectScene::createLanguageButtons()
