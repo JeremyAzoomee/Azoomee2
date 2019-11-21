@@ -17,7 +17,6 @@
 		0253C9871EC053B5005037EB /* VideoPlaylistManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0253C9851EC053B4005037EB /* VideoPlaylistManager.cpp */; };
 		025633741F39AB5D0053FF26 /* ForceUpdateSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025633721F39AB5D0053FF26 /* ForceUpdateSingleton.cpp */; };
 		025633791F3B0F5C0053FF26 /* ForceUpdateAppLockScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025633771F3B0F5C0053FF26 /* ForceUpdateAppLockScene.cpp */; };
-		025BE9491E3A1E0000EF76D1 /* ArtsAppHQElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE9471E3A1E0000EF76D1 /* ArtsAppHQElement.cpp */; };
 		025BE9571E3B591C00EF76D1 /* PreviewLoginSignupMessageBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE9551E3B591C00EF76D1 /* PreviewLoginSignupMessageBox.cpp */; };
 		025BE95C1E3B980600EF76D1 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 025BE95B1E3B980600EF76D1 /* WebKit.framework */; };
 		025BE95F1E3BD1F800EF76D1 /* WebViewNativeCaller_android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE95D1E3BD1F800EF76D1 /* WebViewNativeCaller_android.cpp */; };
@@ -37,16 +36,8 @@
 		02D6446B2087828800FF17B4 /* WebViewController_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02D6446A2087828700FF17B4 /* WebViewController_ios.mm */; };
 		02D6446D2088AAA700FF17B4 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02D6446C2088AAA600FF17B4 /* AVKit.framework */; };
 		02D6446F2089EBF200FF17B4 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02D6446E2089EBF100FF17B4 /* CoreMedia.framework */; };
-		02E595861E55DE670052F395 /* OfflineHubScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595841E55DE670052F395 /* OfflineHubScene.cpp */; };
-		02E595891E55DFF00052F395 /* OfflineHubSceneVisuals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595871E55DFF00052F395 /* OfflineHubSceneVisuals.cpp */; };
-		02E5958C1E55F5ED0052F395 /* OfflineGameSearch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E5958A1E55F5ED0052F395 /* OfflineGameSearch.cpp */; };
-		02E595901E55F9960052F395 /* OfflineHubHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E5958E1E55F9960052F395 /* OfflineHubHQ.cpp */; };
-		02E595931E55F9BB0052F395 /* OfflineHubHQElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595911E55F9BB0052F395 /* OfflineHubHQElement.cpp */; };
 		02E5959C1E56FC3A0052F395 /* OfflineChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E5959A1E56FC3A0052F395 /* OfflineChecker.cpp */; };
 		02E595B31E5B495B0052F395 /* HQSceneElementVisual.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595B11E5B495B0052F395 /* HQSceneElementVisual.cpp */; };
-		02E595B91E5CA2690052F395 /* OfflineHubBackButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595B71E5CA2690052F395 /* OfflineHubBackButton.cpp */; };
-		02E595C31E5D9EE70052F395 /* OfflineText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595C11E5D9EE70052F395 /* OfflineText.cpp */; };
-		02E595CA1E66E2160052F395 /* HQSceneArtsApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595C81E66E2160052F395 /* HQSceneArtsApp.cpp */; };
 		1AC6FB30180E99EB004C840B /* libcocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB07180E9839004C840B /* libcocos2d iOS.a */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
@@ -103,7 +94,6 @@
 		503AE10117EB989F00D1A890 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FC17EB989F00D1A890 /* main.m */; };
 		521A8EA919F11F5000D177D7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
 		9206012A227B2F9500A73FA5 /* ChildOomeeFTULayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92060129227B2F9500A73FA5 /* ChildOomeeFTULayer.cpp */; };
-		92084F6421E644D800DACCEB /* MeHQRecentlyPlayed.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92084F6321E644D800DACCEB /* MeHQRecentlyPlayed.cpp */; };
 		920F6FDE213EB76300B7BB76 /* SettingsFriendshipsPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920F6FDD213EB76300B7BB76 /* SettingsFriendshipsPage.cpp */; };
 		920F6FE1213FD53900B7BB76 /* FriendRequestLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920F6FE0213FD53900B7BB76 /* FriendRequestLayer.cpp */; };
 		920F6FE52140472A00B7BB76 /* SettingsMessageBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920F6FE42140472A00B7BB76 /* SettingsMessageBox.cpp */; };
@@ -148,7 +138,6 @@
 		9240334122D4CCE2009907F3 /* IAPScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9240334022D4CCE1009907F3 /* IAPScene.cpp */; };
 		9240334622D4E449009907F3 /* MarketingCarousel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9240334522D4E449009907F3 /* MarketingCarousel.cpp */; };
 		92448AE621F73AEF00E88C9D /* WelcomeScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92448AE521F73AEF00E88C9D /* WelcomeScene.cpp */; };
-		924ACE3720A9C541007A5550 /* MeHQProfileDetails.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924ACE3620A9C541007A5550 /* MeHQProfileDetails.cpp */; };
 		924E8450214117D9004590FD /* SettingsMessageBoxRejectFR.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924E844F214117D9004590FD /* SettingsMessageBoxRejectFR.cpp */; };
 		924E845221412D70004590FD /* SettingsKidsPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924E845121412D70004590FD /* SettingsKidsPage.cpp */; };
 		924E8455214141DC004590FD /* KidDetailsLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924E8454214141DC004590FD /* KidDetailsLayer.cpp */; };
@@ -157,7 +146,6 @@
 		925B249E22084B940000D7D2 /* CoinCollectLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 925B249D22084B940000D7D2 /* CoinCollectLayer.cpp */; };
 		925B24A12209D9480000D7D2 /* AwesomeLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 925B24A02209D9480000D7D2 /* AwesomeLayer.cpp */; };
 		925B24A4220AEE5F0000D7D2 /* CoinChestLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 925B24A3220AEE5F0000D7D2 /* CoinChestLayer.cpp */; };
-		926173A71F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926173A61F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp */; };
 		926A2AE1212D6F5500AE7964 /* SettingsHub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926A2AE0212D6F5500AE7964 /* SettingsHub.cpp */; };
 		926A2B0C212EABB000AE7964 /* SettingsNavigationButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926A2B0B212EABB000AE7964 /* SettingsNavigationButton.cpp */; };
 		926A2B2C212F018E00AE7964 /* SettingsPageHeader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926A2B2B212F018E00AE7964 /* SettingsPageHeader.cpp */; };
@@ -169,10 +157,6 @@
 		9271D7D12040544200370120 /* libAzoomeeOomeeMaker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9271D7CB2040537000370120 /* libAzoomeeOomeeMaker.a */; };
 		9271D7D32040557D00370120 /* OomeeMakerDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D7D22040557D00370120 /* OomeeMakerDelegate.cpp */; };
 		92759EB21FE81F6300639190 /* ContentOpener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92759EB11FE81F6300639190 /* ContentOpener.cpp */; };
-		927DF6E320AECA620080DFEF /* MeHQGallery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 927DF6E220AECA620080DFEF /* MeHQGallery.cpp */; };
-		927DF6E920AEF3C50080DFEF /* MeHQDownloads.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 927DF6E820AEF3C50080DFEF /* MeHQDownloads.cpp */; };
-		927DF6EB20B2BD010080DFEF /* MeHQMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 927DF6EA20B2BD010080DFEF /* MeHQMessages.cpp */; };
-		927DF72420B593600080DFEF /* MeHQFavourites.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 927DF72320B593600080DFEF /* MeHQFavourites.cpp */; };
 		9289DA0A1FBDD6EB00B12435 /* ContentHistoryManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DA081FBDD6EB00B12435 /* ContentHistoryManager.cpp */; };
 		928A6DCB20EBB9650053E793 /* ChildCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928A6DCA20EBB9650053E793 /* ChildCreator.cpp */; };
 		928A6DCD20EBC2560053E793 /* AddChildScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928A6DCC20EBC2560053E793 /* AddChildScene.cpp */; };
@@ -181,7 +165,6 @@
 		928A6E8720EE58A70053E793 /* ChildNameLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928A6E8620EE58A70053E793 /* ChildNameLayer.cpp */; };
 		928A6E8920EE5C880053E793 /* ChildAgeLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928A6E8820EE5C880053E793 /* ChildAgeLayer.cpp */; };
 		928A6E8B20EE62270053E793 /* ChildOomeeLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928A6E8A20EE62270053E793 /* ChildOomeeLayer.cpp */; };
-		929A9CFC2065248A009B323D /* MeHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929A9CFB2065248A009B323D /* MeHQ.cpp */; };
 		929A9D57206CF9F1009B323D /* FavouritesManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929A9D56206CF9F1009B323D /* FavouritesManager.cpp */; };
 		929FB10322E8A6440088D406 /* MarketingAssetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929FB10222E8A6440088D406 /* MarketingAssetManager.cpp */; };
 		929FB10722E9A8450088D406 /* PaymentSuccessScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929FB10522E9A8450088D406 /* PaymentSuccessScreen.cpp */; };
@@ -263,6 +246,7 @@
 		E22ACAFF230EC4CA0024B328 /* HQPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACAFE230EC4CA0024B328 /* HQPage.cpp */; };
 		E22ACB13230EF30D0024B328 /* GameHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACB12230EF30D0024B328 /* GameHQ.cpp */; };
 		E22ACB16230FE7E50024B328 /* VideoHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACB15230FE7E50024B328 /* VideoHQ.cpp */; };
+		E22B85FD238596D800F2F7F4 /* OfflineScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22B85FC238596D800F2F7F4 /* OfflineScene.cpp */; };
 		E22C3F9A2355C40900FFFF52 /* ArtTileHolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22C3F992355C40900FFFF52 /* ArtTileHolder.cpp */; };
 		E22D08652362FA200039BB2C /* RecentMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22D08642362FA200039BB2C /* RecentMessages.cpp */; };
 		E23EC8F62331172600DB6ED7 /* PurchaseCapsule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23EC8F52331172600DB6ED7 /* PurchaseCapsule.cpp */; };
@@ -405,8 +389,6 @@
 		025633731F39AB5D0053FF26 /* ForceUpdateSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForceUpdateSingleton.h; sourceTree = "<group>"; };
 		025633771F3B0F5C0053FF26 /* ForceUpdateAppLockScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ForceUpdateAppLockScene.cpp; sourceTree = "<group>"; };
 		025633781F3B0F5C0053FF26 /* ForceUpdateAppLockScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForceUpdateAppLockScene.h; sourceTree = "<group>"; };
-		025BE9471E3A1E0000EF76D1 /* ArtsAppHQElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtsAppHQElement.cpp; sourceTree = "<group>"; };
-		025BE9481E3A1E0000EF76D1 /* ArtsAppHQElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtsAppHQElement.h; sourceTree = "<group>"; };
 		025BE94E1E3A1E9200EF76D1 /* WebViewController_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController_ios.h; sourceTree = "<group>"; };
 		025BE9551E3B591C00EF76D1 /* PreviewLoginSignupMessageBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PreviewLoginSignupMessageBox.cpp; sourceTree = "<group>"; };
 		025BE9561E3B591C00EF76D1 /* PreviewLoginSignupMessageBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreviewLoginSignupMessageBox.h; sourceTree = "<group>"; };
@@ -439,26 +421,10 @@
 		02D6446A2087828700FF17B4 /* WebViewController_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WebViewController_ios.mm; sourceTree = "<group>"; };
 		02D6446C2088AAA600FF17B4 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/AVKit.framework; sourceTree = DEVELOPER_DIR; };
 		02D6446E2089EBF100FF17B4 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/CoreMedia.framework; sourceTree = DEVELOPER_DIR; };
-		02E595841E55DE670052F395 /* OfflineHubScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OfflineHubScene.cpp; sourceTree = "<group>"; };
-		02E595851E55DE670052F395 /* OfflineHubScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfflineHubScene.h; sourceTree = "<group>"; };
-		02E595871E55DFF00052F395 /* OfflineHubSceneVisuals.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OfflineHubSceneVisuals.cpp; sourceTree = "<group>"; };
-		02E595881E55DFF00052F395 /* OfflineHubSceneVisuals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfflineHubSceneVisuals.h; sourceTree = "<group>"; };
-		02E5958A1E55F5ED0052F395 /* OfflineGameSearch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OfflineGameSearch.cpp; sourceTree = "<group>"; };
-		02E5958D1E55F6CF0052F395 /* OfflineGameSearch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OfflineGameSearch.h; sourceTree = "<group>"; };
-		02E5958E1E55F9960052F395 /* OfflineHubHQ.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OfflineHubHQ.cpp; sourceTree = "<group>"; };
-		02E5958F1E55F9960052F395 /* OfflineHubHQ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfflineHubHQ.h; sourceTree = "<group>"; };
-		02E595911E55F9BB0052F395 /* OfflineHubHQElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OfflineHubHQElement.cpp; sourceTree = "<group>"; };
-		02E595921E55F9BB0052F395 /* OfflineHubHQElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfflineHubHQElement.h; sourceTree = "<group>"; };
 		02E5959A1E56FC3A0052F395 /* OfflineChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OfflineChecker.cpp; sourceTree = "<group>"; };
 		02E5959B1E56FC3A0052F395 /* OfflineChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfflineChecker.h; sourceTree = "<group>"; };
 		02E595B11E5B495B0052F395 /* HQSceneElementVisual.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQSceneElementVisual.cpp; sourceTree = "<group>"; };
 		02E595B21E5B495B0052F395 /* HQSceneElementVisual.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQSceneElementVisual.h; sourceTree = "<group>"; };
-		02E595B71E5CA2690052F395 /* OfflineHubBackButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OfflineHubBackButton.cpp; sourceTree = "<group>"; };
-		02E595B81E5CA2690052F395 /* OfflineHubBackButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfflineHubBackButton.h; sourceTree = "<group>"; };
-		02E595C11E5D9EE70052F395 /* OfflineText.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OfflineText.cpp; sourceTree = "<group>"; };
-		02E595C21E5D9EE70052F395 /* OfflineText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfflineText.h; sourceTree = "<group>"; };
-		02E595C81E66E2160052F395 /* HQSceneArtsApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQSceneArtsApp.cpp; sourceTree = "<group>"; };
-		02E595C91E66E2160052F395 /* HQSceneArtsApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQSceneArtsApp.h; sourceTree = "<group>"; };
 		02FFF5052012197D00111E7B /* Messages.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Messages.framework; path = Library/Frameworks/Messages.framework; sourceTree = DEVELOPER_DIR; };
 		1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2d_libs.xcodeproj; path = ../cocos2d/build/cocos2d_libs.xcodeproj; sourceTree = "<group>"; };
 		1ACB3243164770DE00914215 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = ../../cocos2dx/platform/third_party/ios/libraries/libcurl.a; sourceTree = "<group>"; };
@@ -545,8 +511,6 @@
 		8262943D1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		92060124227B2EE200A73FA5 /* ChildOomeeFTULayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChildOomeeFTULayer.h; sourceTree = "<group>"; };
 		92060129227B2F9500A73FA5 /* ChildOomeeFTULayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChildOomeeFTULayer.cpp; sourceTree = "<group>"; };
-		92084F5E21E6438000DACCEB /* MeHQRecentlyPlayed.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeHQRecentlyPlayed.h; sourceTree = "<group>"; };
-		92084F6321E644D800DACCEB /* MeHQRecentlyPlayed.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MeHQRecentlyPlayed.cpp; sourceTree = "<group>"; };
 		920F6FD8213EB4DA00B7BB76 /* SettingsFriendshipsPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsFriendshipsPage.h; sourceTree = "<group>"; };
 		920F6FDD213EB76300B7BB76 /* SettingsFriendshipsPage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsFriendshipsPage.cpp; sourceTree = "<group>"; };
 		920F6FDF213EDE4C00B7BB76 /* FriendRequestLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FriendRequestLayer.h; sourceTree = "<group>"; };
@@ -636,11 +600,6 @@
 		92448AE021F7378400E88C9D /* WelcomeScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WelcomeScene.h; sourceTree = "<group>"; };
 		92448AE521F73AEF00E88C9D /* WelcomeScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = WelcomeScene.cpp; sourceTree = "<group>"; };
 		9246EDCF1F0403A8008CD359 /* azoomee2_ArtApp.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = azoomee2_ArtApp.xcodeproj; path = ../ArtApp/proj.ios_mac/azoomee2_ArtApp.xcodeproj; sourceTree = "<group>"; };
-		924ACE1A20A9A476007A5550 /* MeHQProfileDetails.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeHQProfileDetails.h; sourceTree = "<group>"; };
-		924ACE1F20A9A543007A5550 /* MeHQGallery.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeHQGallery.h; sourceTree = "<group>"; };
-		924ACE2020A9A55C007A5550 /* MeHQMessages.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeHQMessages.h; sourceTree = "<group>"; };
-		924ACE2120A9A572007A5550 /* MeHQDownloads.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeHQDownloads.h; sourceTree = "<group>"; };
-		924ACE3620A9C541007A5550 /* MeHQProfileDetails.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MeHQProfileDetails.cpp; sourceTree = "<group>"; };
 		924E844A214116C2004590FD /* SettingsMessageBoxRejectFR.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsMessageBoxRejectFR.h; sourceTree = "<group>"; };
 		924E844F214117D9004590FD /* SettingsMessageBoxRejectFR.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsMessageBoxRejectFR.cpp; sourceTree = "<group>"; };
 		924E845121412D70004590FD /* SettingsKidsPage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsKidsPage.cpp; sourceTree = "<group>"; };
@@ -656,8 +615,6 @@
 		925B24A02209D9480000D7D2 /* AwesomeLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AwesomeLayer.cpp; sourceTree = "<group>"; };
 		925B24A2220AEE020000D7D2 /* CoinChestLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoinChestLayer.h; sourceTree = "<group>"; };
 		925B24A3220AEE5F0000D7D2 /* CoinChestLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CoinChestLayer.cpp; sourceTree = "<group>"; };
-		926173A11F2A4CC5008E3F9D /* ArtImageOnScreenChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtImageOnScreenChecker.h; sourceTree = "<group>"; };
-		926173A61F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtImageOnScreenChecker.cpp; sourceTree = "<group>"; };
 		926A2ADB212D5D0300AE7964 /* SettingsHub.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsHub.h; sourceTree = "<group>"; };
 		926A2AE0212D6F5500AE7964 /* SettingsHub.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsHub.cpp; sourceTree = "<group>"; };
 		926A2B06212EA9C300AE7964 /* SettingsNavigationButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsNavigationButton.h; sourceTree = "<group>"; };
@@ -680,11 +637,6 @@
 		9271D7D22040557D00370120 /* OomeeMakerDelegate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeMakerDelegate.cpp; sourceTree = "<group>"; };
 		92759EB01FE81BBE00639190 /* ContentOpener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContentOpener.h; sourceTree = "<group>"; };
 		92759EB11FE81F6300639190 /* ContentOpener.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ContentOpener.cpp; sourceTree = "<group>"; };
-		927DF6E220AECA620080DFEF /* MeHQGallery.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MeHQGallery.cpp; sourceTree = "<group>"; };
-		927DF6E820AEF3C50080DFEF /* MeHQDownloads.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MeHQDownloads.cpp; sourceTree = "<group>"; };
-		927DF6EA20B2BD010080DFEF /* MeHQMessages.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MeHQMessages.cpp; sourceTree = "<group>"; };
-		927DF71E20B590800080DFEF /* MeHQFavourites.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeHQFavourites.h; sourceTree = "<group>"; };
-		927DF72320B593600080DFEF /* MeHQFavourites.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MeHQFavourites.cpp; sourceTree = "<group>"; };
 		9289DA081FBDD6EB00B12435 /* ContentHistoryManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ContentHistoryManager.cpp; sourceTree = "<group>"; };
 		9289DA091FBDD6EB00B12435 /* ContentHistoryManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContentHistoryManager.h; sourceTree = "<group>"; };
 		928A6DC420EBA79B0053E793 /* AddChildScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddChildScene.h; sourceTree = "<group>"; };
@@ -701,8 +653,6 @@
 		928A6E8620EE58A70053E793 /* ChildNameLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChildNameLayer.cpp; sourceTree = "<group>"; };
 		928A6E8820EE5C880053E793 /* ChildAgeLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChildAgeLayer.cpp; sourceTree = "<group>"; };
 		928A6E8A20EE62270053E793 /* ChildOomeeLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChildOomeeLayer.cpp; sourceTree = "<group>"; };
-		929A9CFA2063CF4F009B323D /* MeHQ.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeHQ.h; sourceTree = "<group>"; };
-		929A9CFB2065248A009B323D /* MeHQ.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MeHQ.cpp; sourceTree = "<group>"; };
 		929A9D51206CF9D9009B323D /* FavouritesManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FavouritesManager.h; sourceTree = "<group>"; };
 		929A9D56206CF9F1009B323D /* FavouritesManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FavouritesManager.cpp; sourceTree = "<group>"; };
 		929FB0FC22E88F4B0088D406 /* MarketingAssetManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MarketingAssetManager.h; sourceTree = "<group>"; };
@@ -857,6 +807,8 @@
 		E22ACB12230EF30D0024B328 /* GameHQ.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GameHQ.cpp; sourceTree = "<group>"; };
 		E22ACB14230FDC6C0024B328 /* VideoHQ.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoHQ.h; sourceTree = "<group>"; };
 		E22ACB15230FE7E50024B328 /* VideoHQ.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VideoHQ.cpp; sourceTree = "<group>"; };
+		E22B85F72385949300F2F7F4 /* OfflineScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OfflineScene.h; sourceTree = "<group>"; };
+		E22B85FC238596D800F2F7F4 /* OfflineScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OfflineScene.cpp; sourceTree = "<group>"; };
 		E22C3F982355BAE400FFFF52 /* ArtTileHolder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArtTileHolder.h; sourceTree = "<group>"; };
 		E22C3F992355C40900FFFF52 /* ArtTileHolder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ArtTileHolder.cpp; sourceTree = "<group>"; };
 		E22D085F2362F7880039BB2C /* RecentMessages.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecentMessages.h; sourceTree = "<group>"; };
@@ -996,22 +948,10 @@
 		02E595821E55DE5E0052F395 /* Offline */ = {
 			isa = PBXGroup;
 			children = (
-				02E595841E55DE670052F395 /* OfflineHubScene.cpp */,
-				02E595851E55DE670052F395 /* OfflineHubScene.h */,
-				02E595871E55DFF00052F395 /* OfflineHubSceneVisuals.cpp */,
-				02E595881E55DFF00052F395 /* OfflineHubSceneVisuals.h */,
-				02E5958A1E55F5ED0052F395 /* OfflineGameSearch.cpp */,
-				02E5958D1E55F6CF0052F395 /* OfflineGameSearch.h */,
-				02E5958E1E55F9960052F395 /* OfflineHubHQ.cpp */,
-				02E5958F1E55F9960052F395 /* OfflineHubHQ.h */,
-				02E595911E55F9BB0052F395 /* OfflineHubHQElement.cpp */,
-				02E595921E55F9BB0052F395 /* OfflineHubHQElement.h */,
 				02E5959A1E56FC3A0052F395 /* OfflineChecker.cpp */,
 				02E5959B1E56FC3A0052F395 /* OfflineChecker.h */,
-				02E595B71E5CA2690052F395 /* OfflineHubBackButton.cpp */,
-				02E595B81E5CA2690052F395 /* OfflineHubBackButton.h */,
-				02E595C11E5D9EE70052F395 /* OfflineText.cpp */,
-				02E595C21E5D9EE70052F395 /* OfflineText.h */,
+				E22B85F72385949300F2F7F4 /* OfflineScene.h */,
+				E22B85FC238596D800F2F7F4 /* OfflineScene.cpp */,
 			);
 			name = Offline;
 			sourceTree = "<group>";
@@ -1311,7 +1251,6 @@
 				92084F7121E78FB600DACCEB /* Tutorial */,
 				921A265B216E2775005C8C41 /* Vodacom */,
 				923EA8D220EBA6C200283342 /* addChild */,
-				929A9CF92063CD76009B323D /* MeArea */,
 				9271D7C42040537000370120 /* OomeeMaker */,
 				92759EAC1FE81B9600639190 /* ContentOpener */,
 				92A9A0A71F0D1740008A19EB /* ArtApp */,
@@ -1506,34 +1445,11 @@
 			name = ContentOpener;
 			sourceTree = "<group>";
 		};
-		929A9CF92063CD76009B323D /* MeArea */ = {
-			isa = PBXGroup;
-			children = (
-				929A9CFA2063CF4F009B323D /* MeHQ.h */,
-				929A9CFB2065248A009B323D /* MeHQ.cpp */,
-				924ACE1A20A9A476007A5550 /* MeHQProfileDetails.h */,
-				924ACE3620A9C541007A5550 /* MeHQProfileDetails.cpp */,
-				924ACE1F20A9A543007A5550 /* MeHQGallery.h */,
-				927DF6E220AECA620080DFEF /* MeHQGallery.cpp */,
-				924ACE2020A9A55C007A5550 /* MeHQMessages.h */,
-				927DF6EA20B2BD010080DFEF /* MeHQMessages.cpp */,
-				924ACE2120A9A572007A5550 /* MeHQDownloads.h */,
-				927DF6E820AEF3C50080DFEF /* MeHQDownloads.cpp */,
-				927DF71E20B590800080DFEF /* MeHQFavourites.h */,
-				927DF72320B593600080DFEF /* MeHQFavourites.cpp */,
-				92084F5E21E6438000DACCEB /* MeHQRecentlyPlayed.h */,
-				92084F6321E644D800DACCEB /* MeHQRecentlyPlayed.cpp */,
-			);
-			name = MeArea;
-			sourceTree = "<group>";
-		};
 		92A9A0A71F0D1740008A19EB /* ArtApp */ = {
 			isa = PBXGroup;
 			children = (
 				92A9A0A21F0D172F008A19EB /* ArtAppDelegate.h */,
 				92A9A0A81F0D1775008A19EB /* ArtAppDelegate.cpp */,
-				926173A11F2A4CC5008E3F9D /* ArtImageOnScreenChecker.h */,
-				926173A61F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp */,
 			);
 			name = ArtApp;
 			sourceTree = "<group>";
@@ -1642,11 +1558,7 @@
 				923D5BC322007473008C13D0 /* ContentFeedHQScene.h */,
 				923D5BC422008BF1008C13D0 /* ContentFeedHQScene.cpp */,
 				021564701FC4A8F100641C14 /* HQScene2 */,
-				02E595C81E66E2160052F395 /* HQSceneArtsApp.cpp */,
-				02E595C91E66E2160052F395 /* HQSceneArtsApp.h */,
 				02E595B01E5B40BE0052F395 /* HQSceneElement */,
-				025BE9471E3A1E0000EF76D1 /* ArtsAppHQElement.cpp */,
-				025BE9481E3A1E0000EF76D1 /* ArtsAppHQElement.h */,
 				432A6C0B1EA8E2A200C5842B /* ManualGameInputLayer.cpp */,
 				432A6C0C1EA8E2A200C5842B /* ManualGameInputLayer.h */,
 			);
@@ -2159,13 +2071,11 @@
 				E21E659723605186000BC90F /* ChatConfig.cpp in Sources */,
 				E21E658A23605186000BC90F /* StickerCategoryListView.cpp in Sources */,
 				02D6446B2087828800FF17B4 /* WebViewController_ios.mm in Sources */,
-				02E595901E55F9960052F395 /* OfflineHubHQ.cpp in Sources */,
 				E21E659023605186000BC90F /* FriendListViewItem.cpp in Sources */,
 				0281F5C71E89210C001FCE60 /* LoginLogicHandler.cpp in Sources */,
 				923D5BF022020475008C13D0 /* CoinDisplay.cpp in Sources */,
 				A19862221DD3836D0090F053 /* ChildSelectorScene.cpp in Sources */,
 				E21E658923605186000BC90F /* AvatarWidget.cpp in Sources */,
-				025BE9491E3A1E0000EF76D1 /* ArtsAppHQElement.cpp in Sources */,
 				025633791F3B0F5C0053FF26 /* ForceUpdateAppLockScene.cpp in Sources */,
 				921A2677216F9FF6005C8C41 /* VodacomOnboardingDetailsLayer.cpp in Sources */,
 				02074B271E93966D009BB28C /* WebGameAPIDataManager.cpp in Sources */,
@@ -2195,7 +2105,6 @@
 				921A26BF217E1653005C8C41 /* VodacomMessageBoxInfo.cpp in Sources */,
 				E21E658E23605186000BC90F /* ArtListView.cpp in Sources */,
 				924E8455214141DC004590FD /* KidDetailsLayer.cpp in Sources */,
-				927DF6E320AECA620080DFEF /* MeHQGallery.cpp in Sources */,
 				923D5BBE220064B9008C13D0 /* HQSceneDepreciated.cpp in Sources */,
 				926A2B2C212F018E00AE7964 /* SettingsPageHeader.cpp in Sources */,
 				E21B22142322B02E0032510A /* RoundedRectTile.cpp in Sources */,
@@ -2217,14 +2126,13 @@
 				E21E658B23605186000BC90F /* StickerListView.cpp in Sources */,
 				926A2B352130330800AE7964 /* OnlineSafetySlide.cpp in Sources */,
 				02D644692087826800FF17B4 /* MediaPlayer_ios.mm in Sources */,
-				926173A71F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp in Sources */,
 				9289DA0A1FBDD6EB00B12435 /* ContentHistoryManager.cpp in Sources */,
 				920F6FE1213FD53900B7BB76 /* FriendRequestLayer.cpp in Sources */,
 				E21E658823605186000BC90F /* FriendListSceneArtPreview.cpp in Sources */,
 				025BE95F1E3BD1F800EF76D1 /* WebViewNativeCaller_android.cpp in Sources */,
 				E21E658523605186000BC90F /* FriendListScene.cpp in Sources */,
 				E220CC1923548EE000F646CA /* ArtContentTile.cpp in Sources */,
-				929A9CFC2065248A009B323D /* MeHQ.cpp in Sources */,
+				E22B85FD238596D800F2F7F4 /* OfflineScene.cpp in Sources */,
 				924E845221412D70004590FD /* SettingsKidsPage.cpp in Sources */,
 				E21E658123605186000BC90F /* MessageComposer.cpp in Sources */,
 				300742F31EF93428005525AE /* ChatDelegate.cpp in Sources */,
@@ -2240,7 +2148,6 @@
 				E21E659323605186000BC90F /* Message.cpp in Sources */,
 				025BE9571E3B591C00EF76D1 /* PreviewLoginSignupMessageBox.cpp in Sources */,
 				926A2B3B21357A7900AE7964 /* SettingsYourAccountPage.cpp in Sources */,
-				927DF6E920AEF3C50080DFEF /* MeHQDownloads.cpp in Sources */,
 				9220EB21201A185C00BD7A90 /* RecentlyPlayedManager.cpp in Sources */,
 				E220FF092366F2E60086779A /* RecentMessageBar.cpp in Sources */,
 				921A2669216F6F7A005C8C41 /* VodacomOnboardingFlowData.cpp in Sources */,
@@ -2260,7 +2167,6 @@
 				437395811ED3441F00C29DB1 /* FlowDataSingleton.cpp in Sources */,
 				E22ACB13230EF30D0024B328 /* GameHQ.cpp in Sources */,
 				E21A4F272317CC5300E1D3FB /* OomeeHQ.cpp in Sources */,
-				02E595891E55DFF00052F395 /* OfflineHubSceneVisuals.cpp in Sources */,
 				921A2675216F9FD3005C8C41 /* VodacomOnboardingSuccessLayer.cpp in Sources */,
 				928A6E8B20EE62270053E793 /* ChildOomeeLayer.cpp in Sources */,
 				921A267B216FA05A005C8C41 /* VodacomOnboardingPinLayer.cpp in Sources */,
@@ -2290,14 +2196,12 @@
 				E229F6772338CF46005BA0D4 /* EpisodeBar.cpp in Sources */,
 				921A2679216FA030005C8C41 /* VodacomOnboardingErrorLayer.cpp in Sources */,
 				92BDD4C42236AE4E00DA56F3 /* ShopItemPage.cpp in Sources */,
-				924ACE3720A9C541007A5550 /* MeHQProfileDetails.cpp in Sources */,
 				A19862271DD3836D0090F053 /* NavigationLayer.cpp in Sources */,
 				A198622B1DD383BD0090F053 /* AppDelegate.cpp in Sources */,
 				9229EECE22E74A55009732B0 /* LoginEntry.cpp in Sources */,
 				E21E659123605186000BC90F /* TitleBarWidget.cpp in Sources */,
 				925B249E22084B940000D7D2 /* CoinCollectLayer.cpp in Sources */,
 				923D5BC522008BF1008C13D0 /* ContentFeedHQScene.cpp in Sources */,
-				02E595C31E5D9EE70052F395 /* OfflineText.cpp in Sources */,
 				E2D3B50E234B4B8100074881 /* OomeeDisplay.cpp in Sources */,
 				9229EE4E22DCAFAA009732B0 /* SignupScene.cpp in Sources */,
 				02A11FF81EA6375D007EDD95 /* RoutePaymentSingleton.cpp in Sources */,
@@ -2307,8 +2211,6 @@
 				921C75AD219464A100EB93D6 /* VodacomOnboardingTnCLayer.cpp in Sources */,
 				9229EE6322E07808009732B0 /* SignupTermsPage.cpp in Sources */,
 				924E8450214117D9004590FD /* SettingsMessageBoxRejectFR.cpp in Sources */,
-				02E595861E55DE670052F395 /* OfflineHubScene.cpp in Sources */,
-				02E595CA1E66E2160052F395 /* HQSceneArtsApp.cpp in Sources */,
 				92EC0C5D2232805D00B02F20 /* ShopCarousel.cpp in Sources */,
 				E21E659423605186000BC90F /* Sticker.cpp in Sources */,
 				02A11FF61EA6375D007EDD95 /* AmazonPaymentSingleton.cpp in Sources */,
@@ -2327,21 +2229,16 @@
 				02E5959C1E56FC3A0052F395 /* OfflineChecker.cpp in Sources */,
 				92BDD4CF223926CD00DA56F3 /* ShopItemPurchasedAnimation.cpp in Sources */,
 				923D5BED2201F126008C13D0 /* RewardScene.cpp in Sources */,
-				02E595B91E5CA2690052F395 /* OfflineHubBackButton.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				A134ADCE1E0C0F420030BE98 /* HQSceneElementPositioner.cpp in Sources */,
-				92084F6421E644D800DACCEB /* MeHQRecentlyPlayed.cpp in Sources */,
 				301CCA941EB139C1009ADA0C /* SettingsButton.cpp in Sources */,
 				928A6DCB20EBB9650053E793 /* ChildCreator.cpp in Sources */,
-				02E595931E55F9BB0052F395 /* OfflineHubHQElement.cpp in Sources */,
 				E21E650C235F1A88000BC90F /* AzoomeeChat.cpp in Sources */,
 				926A2B0C212EABB000AE7964 /* SettingsNavigationButton.cpp in Sources */,
 				E23EC8F62331172600DB6ED7 /* PurchaseCapsule.cpp in Sources */,
 				E212CC19231D4CB8009D4A63 /* ContentTile.cpp in Sources */,
-				02E5958C1E55F5ED0052F395 /* OfflineGameSearch.cpp in Sources */,
 				925B24A4220AEE5F0000D7D2 /* CoinChestLayer.cpp in Sources */,
 				9206012A227B2F9500A73FA5 /* ChildOomeeFTULayer.cpp in Sources */,
-				927DF72420B593600080DFEF /* MeHQFavourites.cpp in Sources */,
 				4319D3E21E67134600110F92 /* LoginScene.cpp in Sources */,
 				E21E659523605186000BC90F /* StickerCategory.cpp in Sources */,
 				E21E658723605186000BC90F /* StickerListViewColumn.cpp in Sources */,
@@ -2352,7 +2249,6 @@
 				921A25FA2164D08B005C8C41 /* SettingsMessageBoxNotification.cpp in Sources */,
 				E212CCA1231E71DB009D4A63 /* FeaturedTile.cpp in Sources */,
 				921A26BD217E0A91005C8C41 /* VodacomMessageBoxNotification.cpp in Sources */,
-				927DF6EB20B2BD010080DFEF /* MeHQMessages.cpp in Sources */,
 				A154CC521DFEE7440008A626 /* GameDataManager.cpp in Sources */,
 				E2DCF5E9230442FF0032946D /* ImportantMessageForParents.cpp in Sources */,
 				921A266F216F9F6A005C8C41 /* VodacomOnboardingRegisterLayer.cpp in Sources */,

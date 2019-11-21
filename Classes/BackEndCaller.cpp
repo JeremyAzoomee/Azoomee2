@@ -20,7 +20,6 @@
 #include "SceneManagerScene.h"
 #include "DeepLinkingSingleton.h"
 #include "FlowDataSingleton.h"
-#include "OfflineHubScene.h"
 #include "OfflineChecker.h"
 #include "ForceUpdateSingleton.h"
 #include "IAPProductDataHandler.h"

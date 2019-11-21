@@ -1,7 +1,6 @@
 #include "ios_Cocos2d_Callbacks.h"
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include "OfflineHubScene.h"
 #include "WebGameAPIDataManager.h"
 #include "VideoPlaylistManager.h"
 #include "SceneManagerScene.h"

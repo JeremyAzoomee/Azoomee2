@@ -43,7 +43,7 @@ void ArtAppDelegate::onArtAppNavigationBack()
     ArtAppRunning = false;
     if(HQHistoryManager::getInstance()->isOffline())
     {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OfflineArtsAppHQ));
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OfflineHub));
     }
     else
     {

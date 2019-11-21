@@ -12,7 +12,6 @@ enum class SceneNameEnum {
     Base,
     ChildSelector,
     OfflineHub,
-    OfflineArtsAppHQ,
     ChatEntryPointScene,
     WebviewPortrait,
     WebviewLandscape,
