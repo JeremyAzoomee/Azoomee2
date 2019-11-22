@@ -27,7 +27,6 @@ enum class SceneNameEnum {
 	AddChildAnon,
 	VodacomOnboarding,
 	WelcomeScene,
-	ChildSettingsHub,
 	Shop,
 	IAP,
 	Signup
