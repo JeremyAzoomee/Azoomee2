@@ -177,7 +177,6 @@
 		92BDD4CF223926CD00DA56F3 /* ShopItemPurchasedAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4CE223926CD00DA56F3 /* ShopItemPurchasedAnimation.cpp */; };
 		92E58562220DB49F0015A4FA /* RewardScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E58561220DB49F0015A4FA /* RewardScreen.cpp */; };
 		92E58564220DC7580015A4FA /* RewardDisplayHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E58563220DC7580015A4FA /* RewardDisplayHandler.cpp */; };
-		92E5856E221475120015A4FA /* ChildSettingsScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E5856D221475120015A4FA /* ChildSettingsScene.cpp */; };
 		92EC0C4F22312EA800B02F20 /* ShopScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92EC0C4E22312EA800B02F20 /* ShopScene.cpp */; };
 		92EC0C5D2232805D00B02F20 /* ShopCarousel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92EC0C5C2232805D00B02F20 /* ShopCarousel.cpp */; };
 		A134ADCE1E0C0F420030BE98 /* HQSceneElementPositioner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A134ADCC1E0C0F420030BE98 /* HQSceneElementPositioner.cpp */; };
@@ -671,8 +670,6 @@
 		92E58560220DA5740015A4FA /* RewardScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RewardScreen.h; sourceTree = "<group>"; };
 		92E58561220DB49F0015A4FA /* RewardScreen.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RewardScreen.cpp; sourceTree = "<group>"; };
 		92E58563220DC7580015A4FA /* RewardDisplayHandler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RewardDisplayHandler.cpp; sourceTree = "<group>"; };
-		92E5856C221474010015A4FA /* ChildSettingsScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChildSettingsScene.h; sourceTree = "<group>"; };
-		92E5856D221475120015A4FA /* ChildSettingsScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChildSettingsScene.cpp; sourceTree = "<group>"; };
 		92EC0C46223027D300B02F20 /* ShopScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShopScene.h; sourceTree = "<group>"; };
 		92EC0C4822302AC000B02F20 /* ShopCarousel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShopCarousel.h; sourceTree = "<group>"; };
 		92EC0C4922302AD700B02F20 /* ShopItemPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShopItemPage.h; sourceTree = "<group>"; };
@@ -1223,8 +1220,6 @@
 				4315CD001EEEC91600B4F22C /* SettingsSubLayers */,
 				926A2ADB212D5D0300AE7964 /* SettingsHub.h */,
 				926A2AE0212D6F5500AE7964 /* SettingsHub.cpp */,
-				92E5856C221474010015A4FA /* ChildSettingsScene.h */,
-				92E5856D221475120015A4FA /* ChildSettingsScene.cpp */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -1496,12 +1491,12 @@
 		A15B2FA41DEC73B800D25334 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				0281F5C51E89210C001FCE60 /* LoginLogicHandler.cpp */,
 				0281F5C61E89210C001FCE60 /* LoginLogicHandler.h */,
-				4319D3E01E67134600110F92 /* LoginScene.cpp */,
+				0281F5C51E89210C001FCE60 /* LoginLogicHandler.cpp */,
 				4319D3E11E67134600110F92 /* LoginScene.h */,
-				A19862131DD3836D0090F053 /* ChildSelectorScene.cpp */,
+				4319D3E01E67134600110F92 /* LoginScene.cpp */,
 				A19862141DD3836D0090F053 /* ChildSelectorScene.h */,
+				A19862131DD3836D0090F053 /* ChildSelectorScene.cpp */,
 				9229EECC22E748FE009732B0 /* LoginEntry.h */,
 				9229EECD22E74A55009732B0 /* LoginEntry.cpp */,
 			);
@@ -2063,7 +2058,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				926A2B3221301BB800AE7964 /* SettingsOnlineSafetyPage.cpp in Sources */,
-				92E5856E221475120015A4FA /* ChildSettingsScene.cpp in Sources */,
 				9229EE5222DDD3E8009732B0 /* ProgressBar.cpp in Sources */,
 				9240334622D4E449009907F3 /* MarketingCarousel.cpp in Sources */,
 				E21E652E235F4281000BC90F /* ChatHQ.cpp in Sources */,
