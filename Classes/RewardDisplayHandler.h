@@ -16,7 +16,7 @@
 
 NS_AZOOMEE_BEGIN
 
-class RewardDisplayHandler : public RewardCallbackDelegate, RewardScreenDelegate, HttpRequestCreatorResponseDelegate
+class RewardDisplayHandler : public RewardScreenDelegate, HttpRequestCreatorResponseDelegate
 {
 private:
 	bool _rewardDisplayRunning = false;
@@ -32,7 +32,6 @@ private:
 	bool isRunningAnimationPossible();
 	
 public:
-	static const std::string kRewardRedeemedEventKey;
 	
 	static RewardDisplayHandler* getInstance();
 	virtual ~RewardDisplayHandler();

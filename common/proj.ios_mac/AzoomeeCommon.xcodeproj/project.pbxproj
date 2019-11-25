@@ -166,7 +166,6 @@
 		92D1B49322A7F7C000357513 /* CookieManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D1B49222A7F7C000357513 /* CookieManager.cpp */; };
 		92D1B49622A8178400357513 /* ChildManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D1B49522A8178400357513 /* ChildManager.cpp */; };
 		92D1B49922A92B0C00357513 /* ParentManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D1B49822A92B0C00357513 /* ParentManager.cpp */; };
-		92E58566220DD3F00015A4FA /* RewardCallbackHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E58565220DD3F00015A4FA /* RewardCallbackHandler.cpp */; };
 		92E5856B2211A4E80015A4FA /* RewardItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E5856A2211A4E80015A4FA /* RewardItem.cpp */; };
 		92E58571221AC47C0015A4FA /* InventoryItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E58570221AC47C0015A4FA /* InventoryItem.cpp */; };
 		92E58574221ACFE40015A4FA /* Inventory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E58573221ACFE40015A4FA /* Inventory.cpp */; };
@@ -503,8 +502,6 @@
 		92D1B49722A9248600357513 /* ParentManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParentManager.h; sourceTree = "<group>"; };
 		92D1B49822A92B0C00357513 /* ParentManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ParentManager.cpp; sourceTree = "<group>"; };
 		92DC96E4227729C4007557AB /* TutorialGuide.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TutorialGuide.h; sourceTree = "<group>"; };
-		92E5855F220D8ED30015A4FA /* RewardCallbackHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RewardCallbackHandler.h; sourceTree = "<group>"; };
-		92E58565220DD3F00015A4FA /* RewardCallbackHandler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RewardCallbackHandler.cpp; sourceTree = "<group>"; };
 		92E58569220DD6A40015A4FA /* RewardItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RewardItem.h; sourceTree = "<group>"; };
 		92E5856A2211A4E80015A4FA /* RewardItem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RewardItem.cpp; sourceTree = "<group>"; };
 		92E5856F221AC22A0015A4FA /* Inventory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Inventory.h; sourceTree = "<group>"; };
@@ -878,8 +875,6 @@
 				301CCA981EB14280009ADA0C /* API.cpp */,
 				3092BCEE1EB10524006D6F4C /* HttpRequestCreator.cpp */,
 				3092BCEF1EB10524006D6F4C /* HttpRequestCreator.h */,
-				92E5855F220D8ED30015A4FA /* RewardCallbackHandler.h */,
-				92E58565220DD3F00015A4FA /* RewardCallbackHandler.cpp */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -1266,7 +1261,6 @@
 				4349C8501EA8ADEF00FE964B /* MPUIFontToNSDictionaryValueTransformer.m in Sources */,
 				92BDD4DC223FB8C100DA56F3 /* NotificationNodeDisplayManager.cpp in Sources */,
 				02BF05F21F98BAAF00E7D086 /* PushNotificationsHandler_ios.mm in Sources */,
-				92E58566220DD3F00015A4FA /* RewardCallbackHandler.cpp in Sources */,
 				4349C81A1EA8ADEF00FE964B /* MPABTestDesignerChangeResponseMessage.m in Sources */,
 				021B1FC91F838A0A0044DCF7 /* HQCarouselObject.cpp in Sources */,
 				3012EDB21E97E8450009027D /* JWTTool.cpp in Sources */,

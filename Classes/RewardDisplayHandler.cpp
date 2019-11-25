@@ -19,8 +19,6 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-const std::string RewardDisplayHandler::kRewardRedeemedEventKey = "Azoomee_reward_redeemed_event";
-
 static std::auto_ptr<RewardDisplayHandler> sRewardDisplayHandlerSharedInstance;
 
 RewardDisplayHandler* RewardDisplayHandler::getInstance()
@@ -33,13 +31,12 @@ RewardDisplayHandler* RewardDisplayHandler::getInstance()
 	return sRewardDisplayHandlerSharedInstance.get();
 }
 
-RewardDisplayHandler::~RewardDisplayHandler(void)
+RewardDisplayHandler::~RewardDisplayHandler()
 {
-	RewardCallbackHandler::getInstance()->setDelegate(nullptr);
 }
+
 RewardDisplayHandler::RewardDisplayHandler()
 {
-	RewardCallbackHandler::getInstance()->setDelegate(this);
 }
 
 void RewardDisplayHandler::showReward(const RewardItemRef& reward)
@@ -119,15 +116,17 @@ void RewardDisplayHandler::onRewardSuccess(const RewardItemRef& reward)
 {
 	addRewardToQueue(reward);
 	showNextReward();
-	
 }
+
 void RewardDisplayHandler::onAnimationComplete(const RewardItemRef& reward)
 {
 	const std::vector<std::string>& ids = splitStringToVector(reward->getId(), ";");
 	
 	for(const std::string& id : ids)
 	{
-		HttpRequestCreator* request = API::RedeemReward(id, this);
+        HttpRequestCreator* request = API::RedeemReward(id,
+                                                        std::bind(&RewardDisplayHandler::onHttpRequestSuccess, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3),
+                                                        std::bind(&RewardDisplayHandler::onHttpRequestFailed, this, std::placeholders::_1, std::placeholders::_2));
 		request->execute();
 	}
 	AnalyticsSingleton::getInstance()->rewardRedeemedEvent(abs(reward->getItemPrice()));
@@ -173,15 +172,8 @@ void RewardDisplayHandler::onHttpRequestSuccess(const std::string& requestTag, c
 	}
 	else if(requestTag == API::TagRedeemReward)
 	{
-		HttpRequestCreator* getInvReq = API::GetInventory(ChildManager::getInstance()->getLoggedInChild()->getId(), this);
-		getInvReq->execute();
+        ChildManager::getInstance()->updateInventory();
 	}
-	else if(requestTag == API::TagGetInventory)
-	{
-		ChildManager::getInstance()->parseChildInventory(body);
-		Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(kRewardRedeemedEventKey);
-	}
-	
 }
 void RewardDisplayHandler::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {

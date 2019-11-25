@@ -9,6 +9,7 @@
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
 #include <AzoomeeCommon/Utils//TimeFunctions.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include <AzoomeeCommon/Data/Rewards/RewardManager.h>
 
 using namespace cocos2d;
 
@@ -145,12 +146,12 @@ std::string ContentHistoryManager::getContentClosedTimeMs() const
 
 void ContentHistoryManager::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
-    
+    RewardManager::getInstance()->checkResponseForNewRewards(requestTag, headers);
 }
 
 void ContentHistoryManager::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
-    cocos2d::log("ContentHistoryManager::onHttpRequestFailed: %s, errorCode=%ld", requestTag.c_str(), errorCode);
+    // TODO Handle error from UpdateContentProgressMeta
 }
 
 NS_AZOOMEE_END

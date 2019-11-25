@@ -496,8 +496,7 @@ void BackEndCaller::getChildInventory()
 	const ChildRef& child = ChildManager::getInstance()->getLoggedInChild();
 	if(child)
 	{
-		HttpRequestCreator* request = API::GetInventory(child->getId(), this);
-		request->execute();
+        ChildManager::getInstance()->updateInventory();
 	}
 }
 
@@ -518,10 +517,6 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     {
         onChildLoginAnswerReceived(body, headers);
     }
-	else if(requestTag == API::TagGetInventory)
-	{
-		ChildManager::getInstance()->parseChildInventory(body);
-	}
     else if(requestTag == API::TagGetAvailableChildren)
     {
         onGetChildrenAnswerReceived(body);

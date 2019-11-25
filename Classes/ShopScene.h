@@ -23,8 +23,9 @@ NS_AZOOMEE_BEGIN
 class ShopScene : public Azoomee::Scene, HttpRequestCreatorResponseDelegate
 {
 	typedef Azoomee::Scene Super;
-	
 private:
+    
+    void onItemPurchaseCompleted();
 	
 	ShopCarousel* _shopCarousel = nullptr;
 	ShopItemPurchasePopup* _purchasePopup = nullptr;
@@ -36,8 +37,10 @@ private:
 	cocos2d::Sprite* _wires = nullptr;
 	cocos2d::Sprite* _gradient = nullptr;
 	
+    cocos2d::EventListenerCustom* _inventoryUpdateListener = nullptr;
+    
 public:
-	
+    ~ShopScene();
 	virtual bool init() override;
 	virtual void onEnter() override;
 	virtual void onExit() override;

@@ -6,6 +6,8 @@
 //
 
 #include "RewardManager.h"
+#include "../../Utils/StringFunctions.h"
+#include "../Child/ChildManager.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -43,7 +45,16 @@ void RewardManager::getLatestRewardStrategy()
 
 void RewardManager::checkResponseForNewRewards(const std::string& requestTag, const std::string& headers)
 {
-    ;
+    const std::string& rewardData = getValueFromHttpResponseHeaderForKey("X-AZ-REWARDS", headers);
+    if(!rewardData.empty())
+    {
+        const std::vector<std::string>& urls = splitStringToVector(rewardData, ";");
+        for(const std::string& url : urls)
+        {
+            HttpRequestCreator* request = API::RewardCallback(url, this);
+            request->execute();
+        }
+    }
 }
 
 // - Private
@@ -51,6 +62,44 @@ void RewardManager::checkResponseForNewRewards(const std::string& requestTag, co
 void RewardManager::onRewardStrategyLoaded()
 {
     _strategyLoaded = true;
+}
+
+void RewardManager::redeemPendingRewards()
+{
+    if(_rewardsPendingRedemption.size() == 0)
+    {
+        return;
+    }
+    
+    const RewardItemRef& reward = _rewardsPendingRedemption.front();
+    const std::string& rewardId = reward->getId();
+    _rewardsRedemptionInProgress[rewardId] = reward;
+    _rewardsPendingRedemption.pop_front();
+    
+    auto onSuccess = [rewardId, this](const std::string& requestTag, const std::string& headers, const std::string& body) {
+        _rewardsRedemptionInProgress.erase(rewardId);
+        
+        // Any more rewards to redeem?
+        if(!_rewardsPendingRedemption.empty())
+        {
+            redeemPendingRewards();
+        }
+        // Have we finished all in progress redemptions?
+        else if(_rewardsRedemptionInProgress.empty())
+        {
+            // Get latest inventory now all rewards have been redeemed
+            ChildManager::getInstance()->updateInventory();
+        }
+    };
+    
+    auto onFailure = [](const std::string& requestTag, long errorCode) {
+        // TODO: Properly handle failure because like this queue will get stuck
+        //       We should probably retry, and also make sure child login triggers a full redemption attempt
+        //       In addition, on failure should do a get inventory in any case
+    };
+    
+    HttpRequestCreator* request = API::RedeemReward(rewardId, onSuccess, onFailure);
+    request->execute();
 }
 
 void RewardManager::handleRewardFeedResponse(const std::string& headers, const std::string& body)
@@ -195,6 +244,29 @@ void RewardManager::handleRewardFeedResponse(const std::string& headers, const s
     onRewardStrategyLoaded();
 }
 
+void RewardManager::handleNewRewardResponse(const std::string& headers, const std::string& body)
+{
+    rapidjson::Document data;
+    data.Parse(body.c_str());
+    if(data.HasParseError())
+    {
+        return;
+    }
+    
+    const RewardItemRef& reward = RewardItem::createWithJson(data);
+    if(reward->getStatus() == "PENDING")
+    {
+        // TODO -> RewardDisplayHandler::onRewardSuccess
+        _rewardsPendingRedemption.push_back(reward);
+        
+        // Start redeeming if we're not already
+        if(_rewardsPendingRedemption.size() == 1)
+        {
+            redeemPendingRewards();
+        }
+    }
+}
+
 
 #pragma mark - HttpRequestCreatorResponseDelegate
 
@@ -210,6 +282,10 @@ void RewardManager::onHttpRequestSuccess(const std::string& requestTag, const st
     else if(requestTag == rewardStrategyTagGet)
     {
         handleRewardFeedResponse(headers, body);
+    }
+    else if(requestTag == API::TagRewardCallback)
+    {
+        handleNewRewardResponse(headers, body);
     }
 }
 

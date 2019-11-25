@@ -83,9 +83,13 @@ public:
 	static const std::string kAZCountryCodeKey;
 	
 #pragma mark - API Methods
+    
+    typedef std::function<void(const std::string&, const std::string&, const std::string&)> APIResponseSuccessCallback;
+    typedef std::function<void(const std::string&, long)> APIResponseFailureCallback;
 	
-	static void HandleAPIResponse(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response, HttpRequestCreatorResponseDelegate* delegate, HttpRequestCreator* request);
-	static void HandleAPIError(cocos2d::network::HttpResponse *response, HttpRequestCreatorResponseDelegate* delegate, HttpRequestCreator* request);
+    static void HandleAPIResponse(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response, HttpRequestCreatorResponseDelegate* delegate, HttpRequestCreator* request);
+    static void HandleAPIResponse(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response, HttpRequestCreator* request, const APIResponseSuccessCallback& onSuccess, const APIResponseFailureCallback& onFailure);
+	static void HandleAPIError(cocos2d::network::HttpResponse *response, HttpRequestCreator* request, const APIResponseFailureCallback& onFailure);
     
     static HttpRequestCreator* IpCheck(HttpRequestCreatorResponseDelegate* delegate);
     
@@ -318,7 +322,8 @@ public:
 #pragma mark - Rewards
 	
 	static HttpRequestCreator* RedeemReward(const std::string& rewardId,
-											HttpRequestCreatorResponseDelegate* delegate);
+											const APIResponseSuccessCallback& onSuccess,
+                                            const APIResponseFailureCallback& onFailure);
 	
 	static HttpRequestCreator* GetPendingRewards(const std::string& userId,
 												 HttpRequestCreatorResponseDelegate* delegate);
@@ -327,7 +332,8 @@ public:
 										 HttpRequestCreatorResponseDelegate* delegate);
 	
 	static HttpRequestCreator* GetInventory(const std::string& userId,
-											HttpRequestCreatorResponseDelegate* delegate);
+											const APIResponseSuccessCallback& onSuccess,
+                                            const APIResponseFailureCallback& onFailure);
 	
 	static HttpRequestCreator* RewardCallback(const std::string& url,
 											  HttpRequestCreatorResponseDelegate* delegate);
