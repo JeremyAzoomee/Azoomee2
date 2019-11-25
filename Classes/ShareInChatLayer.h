@@ -28,6 +28,8 @@ public:
     typedef std::function<void(void)> OnCompleteCallbackCallback;
 private:
     
+    static const float kSavedImgWidth;
+    
     cocos2d::ui::Layout* _popupBody = nullptr;
     cocos2d::LayerGradient* _bgGradient = nullptr;
     RoundedRectSprite* _bgPattern = nullptr;

@@ -16,6 +16,8 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+const float ShareInChatLayer::kSavedImgWidth = 640.0f;
+
 bool ShareInChatLayer::init()
 {
     if(!Super::init())
@@ -120,33 +122,30 @@ bool ShareInChatLayer::init()
     _friendsList->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _friendsList->setFriendSelectedCallback([this](Chat::FriendRef friendData) {
         Chat::MessageRef message = nullptr;
-        switch (_shareType) {
-            case ART: case OOMEE:
-            {
-                Sprite* artImage = Sprite::create(_imgFilename);
-                artImage->setScale(640/artImage->getContentSize().width);
-                artImage->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-                
-                RenderTexture* renderTex = RenderTexture::create(640, artImage->getContentSize().height * artImage->getScale());
-                renderTex->beginWithClear(0, 0, 0, 0);
-                artImage->visit();
-                renderTex->end();
-                renderTex->saveToFile(DirUtil::getCachesPath() + "temp.png", Image::Format::PNG);
-                Director::getInstance()->getRenderer()->render();
-                
-                char* str = nullptr;
-                const std::string& filecont =  FileUtils::getInstance()->getStringFromFile(DirUtil::getCachesPath() + "temp.png");
-                base64Encode((unsigned char*)filecont.c_str(), (unsigned int)filecont.length(), &str);
-                FileUtils::getInstance()->removeFile(DirUtil::getCachesPath() + "temp.png");
-                message = Chat::Message::createArtMessage(std::string(str));
-                break;
-            }
-            case CONTENT:
-            {
-                message = Chat::Message::createContentMessage(_contentId);
-                break;
-            }
+        if(_shareType == CONTENT)
+        {
+            message = Chat::Message::createContentMessage(_contentId);
         }
+        else
+        {
+            Sprite* artImage = Sprite::create(_imgFilename);
+            artImage->setScale(kSavedImgWidth/artImage->getContentSize().width);
+            artImage->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+            
+            RenderTexture* renderTex = RenderTexture::create(kSavedImgWidth, artImage->getContentSize().height * artImage->getScale());
+            renderTex->beginWithClear(0, 0, 0, 0);
+            artImage->visit();
+            renderTex->end();
+            renderTex->saveToFile(DirUtil::getCachesPath() + "temp.png", Image::Format::PNG);
+            Director::getInstance()->getRenderer()->render();
+            
+            char* str = nullptr;
+            const std::string& filecont =  FileUtils::getInstance()->getStringFromFile(DirUtil::getCachesPath() + "temp.png");
+            base64Encode((unsigned char*)filecont.c_str(), (unsigned int)filecont.length(), &str);
+            FileUtils::getInstance()->removeFile(DirUtil::getCachesPath() + "temp.png");
+            message = Chat::Message::createArtMessage(std::string(str));
+        }
+        
         if(message)
         {
             AudioMixer::getInstance()->playEffect("laser_whoosh_ripple.mp3");
@@ -157,6 +156,7 @@ bool ShareInChatLayer::init()
             _callback();
         }
     });
+    
     _friendsList->setShowAddFriendTile(false);
     _friendListScroll->addChild(_friendsList);
     
