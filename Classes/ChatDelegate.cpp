@@ -85,8 +85,7 @@ void ChatDelegate::onChatOfflineError(const std::string &requestTag)
 void ChatDelegate::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {
     _imageFileName = downloader->getLocalImagePath();
-    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
-    
+    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ShareInChatScene));
 }
 
 void ChatDelegate::onImageDownloadFailed()
@@ -104,7 +103,7 @@ void ChatDelegate::onImageDownloadFailed()
             _imageFileName = filename;
         }
     }
-    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
+    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ShareInChatScene));
 }
 
 void ChatDelegate::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)

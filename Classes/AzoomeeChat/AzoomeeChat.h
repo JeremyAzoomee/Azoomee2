@@ -24,6 +24,7 @@ struct Delegate {
     
     std::string _imageFileName = "";
     std::string _sharedContentId = "";
+    bool _sharingOomee = false;
 };
 
 // Delegate instance in namespace

@@ -245,6 +245,8 @@
 		E22ACAFF230EC4CA0024B328 /* HQPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACAFE230EC4CA0024B328 /* HQPage.cpp */; };
 		E22ACB13230EF30D0024B328 /* GameHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACB12230EF30D0024B328 /* GameHQ.cpp */; };
 		E22ACB16230FE7E50024B328 /* VideoHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACB15230FE7E50024B328 /* VideoHQ.cpp */; };
+		E22B85E62382EC1900F2F7F4 /* ShareInChatLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22B85E52382EC1900F2F7F4 /* ShareInChatLayer.cpp */; };
+		E22B85ED2384429D00F2F7F4 /* ShareInChatScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22B85EC2384429D00F2F7F4 /* ShareInChatScene.cpp */; };
 		E22B85FD238596D800F2F7F4 /* OfflineScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22B85FC238596D800F2F7F4 /* OfflineScene.cpp */; };
 		E22C3F9A2355C40900FFFF52 /* ArtTileHolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22C3F992355C40900FFFF52 /* ArtTileHolder.cpp */; };
 		E22D08652362FA200039BB2C /* RecentMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22D08642362FA200039BB2C /* RecentMessages.cpp */; };
@@ -804,6 +806,10 @@
 		E22ACB12230EF30D0024B328 /* GameHQ.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GameHQ.cpp; sourceTree = "<group>"; };
 		E22ACB14230FDC6C0024B328 /* VideoHQ.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoHQ.h; sourceTree = "<group>"; };
 		E22ACB15230FE7E50024B328 /* VideoHQ.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VideoHQ.cpp; sourceTree = "<group>"; };
+		E22B85CE2382D4DF00F2F7F4 /* ShareInChatLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShareInChatLayer.h; sourceTree = "<group>"; };
+		E22B85E52382EC1900F2F7F4 /* ShareInChatLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShareInChatLayer.cpp; sourceTree = "<group>"; };
+		E22B85EB238441A100F2F7F4 /* ShareInChatScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShareInChatScene.h; sourceTree = "<group>"; };
+		E22B85EC2384429D00F2F7F4 /* ShareInChatScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShareInChatScene.cpp; sourceTree = "<group>"; };
 		E22B85F72385949300F2F7F4 /* OfflineScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OfflineScene.h; sourceTree = "<group>"; };
 		E22B85FC238596D800F2F7F4 /* OfflineScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OfflineScene.cpp; sourceTree = "<group>"; };
 		E22C3F982355BAE400FFFF52 /* ArtTileHolder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArtTileHolder.h; sourceTree = "<group>"; };
@@ -1749,6 +1755,10 @@
 				E22D08642362FA200039BB2C /* RecentMessages.cpp */,
 				E220FF032366EBEE0086779A /* RecentMessageBar.h */,
 				E220FF082366F2E60086779A /* RecentMessageBar.cpp */,
+				E22B85CE2382D4DF00F2F7F4 /* ShareInChatLayer.h */,
+				E22B85E52382EC1900F2F7F4 /* ShareInChatLayer.cpp */,
+				E22B85EB238441A100F2F7F4 /* ShareInChatScene.h */,
+				E22B85EC2384429D00F2F7F4 /* ShareInChatScene.cpp */,
 			);
 			name = ChatHQComponents;
 			sourceTree = "<group>";
@@ -2142,7 +2152,9 @@
 				E21E659323605186000BC90F /* Message.cpp in Sources */,
 				025BE9571E3B591C00EF76D1 /* PreviewLoginSignupMessageBox.cpp in Sources */,
 				926A2B3B21357A7900AE7964 /* SettingsYourAccountPage.cpp in Sources */,
+				E22B85E62382EC1900F2F7F4 /* ShareInChatLayer.cpp in Sources */,
 				9220EB21201A185C00BD7A90 /* RecentlyPlayedManager.cpp in Sources */,
+				E22B85ED2384429D00F2F7F4 /* ShareInChatScene.cpp in Sources */,
 				E220FF092366F2E60086779A /* RecentMessageBar.cpp in Sources */,
 				921A2669216F6F7A005C8C41 /* VodacomOnboardingFlowData.cpp in Sources */,
 				E21E658D23605186000BC90F /* MessageScene.cpp in Sources */,

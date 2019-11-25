@@ -65,9 +65,10 @@ void OomeeMakerDelegate::onOomeeMakerShareOomee(const std::string& filename)
     {
 		if(!HQHistoryManager::getInstance()->isOffline() && ParentManager::getInstance()->isPaidUser())
         {
+            ChatDelegate::getInstance()->_sharingOomee = true;
             HQHistoryManager::getInstance()->setReturnedFromForcedOrientation(true);
             Director::getInstance()->getTextureCache()->reloadTexture(filename);
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ShareInChatScene));
             AnalyticsSingleton::getInstance()->shareOomee();
         }
     }

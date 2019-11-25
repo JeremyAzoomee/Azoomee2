@@ -35,6 +35,8 @@
 #include "CoinCollectLayer.h"
 #include <AzoomeeCommon/Crashlytics/CrashlyticsConfig.h>
 
+#include "ShareInChatScene.h"
+
 #ifdef AZOOMEE_VODACOM_BUILD
 #include "Vodacom/VodacomOnboardingScene.h"
 #endif
@@ -319,6 +321,23 @@ void SceneManagerScene::onEnterTransitionDidFinish()
 			Director::getInstance()->replaceScene(SignupScene::create());
 			break;
 		}
+        case SceneNameEnum::ShareInChatScene:
+        {
+            Azoomee::Chat::delegate = ChatDelegate::getInstance();
+            returnToPrevOrientation();
+            acceptAnyOrientation();
+            ShareInChatScene* scene = ShareInChatScene::create();
+            if(Azoomee::Chat::delegate->_sharedContentId != "")
+            {
+                scene->setShareType(ShareInChatLayer::ShareType::CONTENT);
+            }
+            else
+            {
+                scene->setShareType(ChatDelegate::getInstance()->_sharingOomee ? ShareInChatLayer::ShareType::OOMEE : ShareInChatLayer::ShareType::ART);
+            }
+            Director::getInstance()->replaceScene(TransitionSlideInB::create(0.25f, scene));
+            break;
+        }
 #ifdef AZOOMEE_VODACOM_BUILD
 		case SceneNameEnum::VodacomOnboarding:
 		{
