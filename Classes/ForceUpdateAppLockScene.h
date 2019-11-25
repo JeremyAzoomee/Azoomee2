@@ -3,34 +3,30 @@
 
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Azoomee.h>
-#include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 #include <AzoomeeCommon/UI/Scene.h>
+#include <AzoomeeCommon/UI/DynamicText.h>
+#include <AzoomeeCommon/UI/CTAButton.h>
+#include <AzoomeeCommon/UI/RoundedRectSprite.h>
 
 NS_AZOOMEE_BEGIN
 
-class ForceUpdateAppLockScene : public Azoomee::Scene, public ElectricDreamsButtonDelegate
+class ForceUpdateAppLockScene : public Azoomee::Scene
 {
     typedef Azoomee::Scene Super;
 private:
-    cocos2d::Size _visibleSize;
-    
-    ElectricDreamsButton *updateButton = nullptr;
-    
-    void addVisualComponentsToScene();
-    void addUpdateButtonToScene();
-    void onExit() override;
-    
-protected:
-    virtual void onSizeChanged() override;
+    RoundedRectSprite* _bgPattern = nullptr;
+    cocos2d::LayerGradient* _bgGradient = nullptr;
+
+    cocos2d::ui::Layout* _textLayout = nullptr;
+    DynamicText* _headerText = nullptr;
+    DynamicText* _bodyText = nullptr;
+    CTAButton* _updateButton = nullptr;
 
 public:
-    //static Azoomee::Scene* createScene();
-    virtual bool init() override;
+    bool init() override;
+    void onExit() override;
+    void onSizeChanged() override;
     
-    //Delegate Functions
-    void buttonPressed(ElectricDreamsButton* button) override;
-    
-    // implement the "static create()" method manually
     CREATE_FUNC(ForceUpdateAppLockScene);
 
 };

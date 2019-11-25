@@ -1,50 +1,31 @@
 #include "ChildSelectorScene.h"
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/API/API.h>
-#include <AzoomeeCommon/Data/Cookie/CookieManager.h>
-#include <math.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
 #include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
-#include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
-#include "SettingsButton.h"
-#include "OfflineHubScene.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "LoginLogicHandler.h"
 #include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include "SceneManagerScene.h"
 #include "FlowDataSingleton.h"
-#include "ChatNotificationsSingleton.h"
 #include <AzoomeeCommon/UI/PrivacyLayer.h>
 #include "ContentHistoryManager.h"
 #include "ForceUpdateAppLockScene.h"
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 #include <AzoomeeCommon/Utils/ActionBuilder.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
+#include <AzoomeeCommon/UI/Style.h>
 #include "HQHistoryManager.h"
-
-#define OOMEE_LAYER_WIDTH 450
-#define OOMEE_LAYER_HEIGHT 450
-#define OOMEE_LAYER_GAP 100
-#define OOMEE_LAYER_GAP_PORTRAIT 150
+#include "PopupMessageBox.h"
 
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-const std::string ChildSelectorScene::kSceneName = "ChildSelectScene";
-const std::string ChildSelectorScene::kOomeeLayerName = "oomee";
-
-Scene* ChildSelectorScene::createScene()
-{
-    auto scene = ChildSelectorScene::create();
-    scene->setName(kSceneName);
-    
-    return scene;
-}
+const Size ChildSelectorScene::kBaseButtonSize = Size(560,710);
 
 bool ChildSelectorScene::init()
 {
@@ -55,35 +36,111 @@ bool ChildSelectorScene::init()
     
     AnalyticsSingleton::getInstance()->logoutChildEvent();
     AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
-    
+    ParentManager::getInstance()->logoutChild();
     ContentHistoryManager::getInstance()->setReturnedFromContent(false);
     HQHistoryManager::getInstance()->clearCachedHQ();
     
     AudioMixer::getInstance()->stopBackgroundMusic();
-    ChatNotificationsSingleton::getInstance()->stopNotificationsUpdate();
     
-    _visibleSize = Director::getInstance()->getVisibleSize();
+    const Color3B& bgColour = Style::Color::darkIndigo;
     
-    _isPortrait = _visibleSize.width < _visibleSize.height;
+    _titleLayout = ui::Layout::create();
+    _titleLayout->setSizeType(ui::Layout::SizeType::PERCENT);
+    _titleLayout->setSizePercent(Vec2(0.5f, 1.0f));
+    _titleLayout->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+    _titleLayout->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
+    _titleLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+    _titleLayout->setBackGroundColor(bgColour);
+    addChild(_titleLayout);
     
-    _contentNode = Node::create();
-    _contentNode->setContentSize(_visibleSize);
+    _bgPattern = RoundedRectSprite::create();
+    _bgPattern->setTexture("res/decoration/pattern_stem_tile.png");
+    _bgPattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _bgPattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    _bgPattern->setColor(Style::Color::macaroniAndCheese);
+    _bgPattern->setRoundedCorners(false, false, false, false);
+    _bgPattern->setScaleMode(RoundedRectSprite::ScaleMode::TILE);
+    _bgPattern->setTileScaleFactor(1.0f);
+    _titleLayout->addChild(_bgPattern);
     
-    this->addChild(_contentNode, -1, ConfigStorage::kContentNodeName);
+    _gradient = LayerGradient::create();
+    _gradient->setStartColor(bgColour);
+    _gradient->setStartOpacity(255);
+    _gradient->setEndColor(bgColour);
+    _gradient->setEndOpacity(0);
+    _gradient->setVector(Vec2(0,1));
+    _gradient->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_LEFT);
+    _gradient->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+    _titleLayout->addChild(_gradient);
     
-    _firstTime = true;
+    _titleText = DynamicText::create(_("Tap to access"), Style::Font::PoppinsBold(), 105);
+    _titleText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _titleText->setNormalizedPosition(Vec2(0.5f, 0.52f));
+    _titleText->setTextHorizontalAlignment(TextHAlignment::CENTER);
+    _titleText->setTextVerticalAlignment(TextVAlignment::BOTTOM);
+    _titleText->setTextColor(Color4B::WHITE);
+    _titleText->enableShadow(Color4B(0,0,0,125), Size(4,-8));
+    _titleLayout->addChild(_titleText);
     
-    addVisualsToScene();
-    addScrollViewForProfiles();
-    addProfilesToScrollView();
-    addPrivacyButton();
+    _settingsButton = CTAButton::create("res/onboarding/rounded_button.png");
+    _settingsButton->ignoreContentAdaptWithSize(false);
+    _settingsButton->setScale9Enabled(true);
+    _settingsButton->setContentSize(Size(700,140));
+    _settingsButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+    _settingsButton->setNormalizedPosition(Vec2(0.5f, 0.48f));
+    _settingsButton->setColor(Style::Color::white);
+    _settingsButton->setTextColour(Color4B::BLACK);
+    _settingsButton->setTextFontInfo(Style::Font::PoppinsBold(), 66);
+    _settingsButton->setTextAreaSizePercent(Vec2(0.9f,0.8f));
+    _settingsButton->setText(_("Account settings"));
+    _settingsButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+           Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::SettingsFromChildSelect));
+        }
+    });
+    _titleLayout->addChild(_settingsButton);
     
-    _firstTime = false;
-
+    _childLayout = ui::Layout::create();
+    _childLayout->setSizeType(ui::Layout::SizeType::PERCENT);
+    _childLayout->setSizePercent(Vec2(0.5f, 1.0f));
+    _childLayout->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
+    _childLayout->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_RIGHT);
+    _childLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+    _childLayout->setBackGroundColor(Color3B::WHITE);
+    addChild(_childLayout);
+    
+    _switchProfileText = DynamicText::create(_("Switch profile"), Style::Font::PoppinsBold(), 66);
+    _switchProfileText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _switchProfileText->setNormalizedPosition(Vec2(0.5f, 0.92f));
+    _switchProfileText->setTextHorizontalAlignment(TextHAlignment::CENTER);
+    _switchProfileText->setTextVerticalAlignment(TextVAlignment::BOTTOM);
+    _switchProfileText->setTextColor(Color4B(Style::Color::brownGrey));
+    _childLayout->addChild(_switchProfileText);
+    
+    _childPageView = ui::PageView::create();
+    _childPageView->setDirection(ui::PageView::Direction::HORIZONTAL);
+    _childPageView->setIndicatorEnabled(true);
+    _childPageView->setIndicatorPositionAsAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _childPageView->setIndicatorIndexNodesColor(Style::Color::brownGrey);
+    _childPageView->setIndicatorIndexNodesOpacity(125);
+    _childPageView->setIndicatorSelectedIndexColor(Style::Color::brownGrey);
+    _childPageView->setIndicatorSelectedIndexOpacity(255);
+    _childPageView->setIndicatorSpaceBetweenIndexNodes(20);
+    _childPageView->setSizeType(ui::Layout::SizeType::PERCENT);
+    _childPageView->setSizePercent(Vec2(1.0f,0.85f));
+    _childPageView->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+    _childPageView->setNormalizedPosition(Vec2(0.5f, 0.9));
+    _childPageView->setItemsMargin(80);
+    _childPageView->setBounceEnabled(true);
+    _childLayout->addChild(_childPageView);
+    
+    createChildButtons();
+    
     return true;
 }
 
-void ChildSelectorScene::onEnterTransitionDidFinish()
+void ChildSelectorScene::onEnter()
 {
     OfflineChecker::getInstance()->setDelegate(this);
 	
@@ -92,156 +149,151 @@ void ChildSelectorScene::onEnterTransitionDidFinish()
 	
     if(FlowDataSingleton::getInstance()->hasError())
     {
-        MessageBox::createWith(FlowDataSingleton::getInstance()->getErrorCode(), nullptr);
-    }
-    
-    if(ParentManager::getInstance()->isBillingDataAvailable())
-    {
-        if(ParentManager::getInstance()->isPaidUser())
-        {
-            setParentButtonVisible(true);
-        }
+        const long errorCode = FlowDataSingleton::getInstance()->getErrorCode();
+        const auto& errorMessageText = StringMgr::getInstance()->getErrorMessageWithCode(errorCode);
+        
+        PopupMessageBox* messageBox = PopupMessageBox::create();
+        messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
+        messageBox->setBody(errorMessageText.at(ERROR_BODY));
+        messageBox->setButtonText(_("Back"));
+        messageBox->setButtonColour(Style::Color::darkIndigo);
+        messageBox->setPatternColour(Style::Color::azure);
+        messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+            pSender->removeFromParent();
+        });
+        this->addChild(messageBox, 1);
     }
     
     if(ParentManager::getInstance()->getAmountOfAvailableChildren() == 0)
     {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::AddChildFirstTime));
     }
-    Super::onEnterTransitionDidFinish();
+    
+    Super::onEnter();
+}
+
+void ChildSelectorScene::onExit()
+{
+    OfflineChecker::getInstance()->setDelegate(nullptr);
+    ForceUpdateSingleton::getInstance()->setDelegate(nullptr);
+
+    Super::onExit();
+}
+
+void ChildSelectorScene::onSizeChanged()
+{
+    Super::onSizeChanged();
+    
+    const Size& contentSize = getContentSize();
+    bool isPortrait = contentSize.width < contentSize.height;
+    
+    _titleLayout->setSizePercent(isPortrait ? Vec2(1.0f, 0.29f) : Vec2(0.5f, 1.0f));
+    const Size& titleSize = Size(contentSize.width * _titleLayout->getSizePercent().x, contentSize.height * _titleLayout->getSizePercent().y);
+    _bgPattern->setContentSize(titleSize);
+    _gradient->setContentSize(titleSize);
+    _gradient->setStartOpacity(isPortrait ? 150 : 255);
+    _titleText->setMaxLineWidth(titleSize.width * 0.7f);
+    
+    _childLayout->setSizePercent(isPortrait ? Vec2(1.0f, 1.0f - _titleLayout->getSizePercent().y) : Vec2(1.0f - _titleLayout->getSizePercent().x, 1.0f));
+    
+    _childPageView->scrollToPage(_childPageView->getCurrentPageIndex());
+}
+
+void ChildSelectorScene::createChildButtons()
+{
+    const int numChildren = ParentManager::getInstance()->getAmountOfAvailableChildren();
+    
+    const int rowsPerPage = 2;
+    const int colsPerPage = 2;
+    const int pages = ceil(numChildren / (float)(rowsPerPage * colsPerPage));
+    
+    const float buttonPadding = 80.0f;
+    
+    const Size& pageSize = Size((kBaseButtonSize.width + buttonPadding) * colsPerPage, (kBaseButtonSize.height + buttonPadding) * rowsPerPage);
+    const Size& rowSize = Size((kBaseButtonSize.width + buttonPadding) * colsPerPage , kBaseButtonSize.height);
+    
+    int childNum = 0;
+    for(int pageNum = 0; pageNum < pages; pageNum++)
+    {
+        ui::Layout* page = ui::Layout::create();
+        page->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+        page->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+        page->setLayoutType(ui::Layout::Type::VERTICAL);
+        page->setContentSize(pageSize);
+        _childPageView->addPage(page);
+        
+        for(int row = 0; row < rowsPerPage; row++)
+        {
+            ui::Layout* itemRow = ui::Layout::create();
+            itemRow->setLayoutType(ui::Layout::Type::ABSOLUTE);
+            itemRow->setContentSize(rowSize);
+            itemRow->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,buttonPadding)));
+            page->addChild(itemRow);
+            
+            for(int col = 0; col < colsPerPage; col++)
+            {
+                
+                if(childNum < numChildren)
+                {
+                    const ChildRef& child = ParentManager::getInstance()->getChild(childNum);
+                    if(child)
+                    {
+                        ui::Layout* button = createChildButton(child, childNum);
+                        button->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+                        button->setNormalizedPosition(Vec2((col + 0.5) / colsPerPage, 0.5));
+                        itemRow->addChild(button);
+                    }
+                    childNum++;
+                }
+            }
+        }
+    }
+    
+}
+
+cocos2d::ui::Layout* ChildSelectorScene::createChildButton(const ChildRef& child, int childNum)
+{
+    ui::Layout* childButton = ui::Layout::create();
+    childButton->setContentSize(kBaseButtonSize);
+    
+    RemoteImageSprite* oomee = RemoteImageSprite::create();
+    oomee->initWithUrlAndSizeWithoutPlaceholder(child->getAvatar(), Size(kBaseButtonSize.width, kBaseButtonSize.width));
+    oomee->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+    oomee->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+    childButton->addChild(oomee);
+    
+    ui::ImageView* shadow = ui::ImageView::create("res/childSelection/shadow.png");
+    shadow->ignoreContentAdaptWithSize(false);
+    shadow->setScale((kBaseButtonSize.width * 0.8f) / shadow->getContentSize().width);
+    shadow->setAnchorPoint(Vec2(0.5f, 0.4f));
+    shadow->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    oomee->addChild(shadow, -1);
+    
+    DynamicText* text = DynamicText::create(child->getProfileName(), Style::Font::PoppinsRegular(), 50);
+    text->setTextHorizontalAlignment(TextHAlignment::CENTER);
+    text->setTextVerticalAlignment(TextVAlignment::BOTTOM);
+    text->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    text->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    text->setTextColor(Color4B(Style::Color::brownGrey));
+    childButton->addChild(text);
+    
+    childButton->setTouchEnabled(true);
+    childButton->addTouchEventListener([childNum](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            AudioMixer::getInstance()->playEffect(SELECT_OOMEE_AUDIO_EFFECT);
+            AnalyticsSingleton::getInstance()->registerChildGenderAndAge(ParentManager::getInstance()->getChild(childNum));
+            BackEndCaller::getInstance()->childLogin(childNum);
+        }
+    });
+    
+    return childButton;
+
 }
 
 //-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
 
-void ChildSelectorScene::addVisualsToScene()
-{
-    addBackgroundToScreen();
-	
-	const bool isIphoneX = ConfigStorage::getInstance()->isDeviceIphoneX();
-	
-	ui::Layout* titleLayout = ui::Layout::create();
-	titleLayout->setContentSize(Size(_visibleSize.width, (isIphoneX && _isPortrait) ? 250 : 150));
-	titleLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-	titleLayout->setBackGroundColor(Style::Color::skyBlue);
-	titleLayout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
-	titleLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-	_contentNode->addChild(titleLayout);
-	
-	ui::Text* titleText = ui::Text::create(_("Switch Profile"), Style::Font::Medium(), 91);
-	titleText->setNormalizedPosition(isIphoneX ? Vec2(0.5f,0.25f) : Vec2::ANCHOR_MIDDLE);
-	titleText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	titleText->setTextColor(Color4B::WHITE);
-	titleLayout->addChild(titleText);
-	
-	if(_isPortrait)
-	{
-		auto selectTitle = Label::createWithTTF(_("Select your profile"), Style::Font::Regular(), 65);
-		selectTitle->setHorizontalAlignment(TextHAlignment::CENTER);
-		selectTitle->setTextColor(Color4B::BLACK);
-		selectTitle->setPosition(_visibleSize.width / 2, _visibleSize.height - titleLayout->getContentSize().height * (isIphoneX ? 1.5f : 2.0f));
-		selectTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-		_contentNode->addChild(selectTitle);
-	}
-}
-
-void ChildSelectorScene::addBackgroundToScreen()
-{
-	LayerColor* bgColour = LayerColor::create(Color4B::WHITE);
-	this->addChild(bgColour, -2);
-	
-    auto wireLeft = Sprite::create(StringUtils::format("res/childSelection/wireLeft%s.png", _isPortrait ? "_portrait" : ""));
-    wireLeft->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
-    wireLeft->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
-    wireLeft->setScale(_visibleSize.height / wireLeft->getContentSize().height);
-	wireLeft->setColor(Color3B::BLACK);
-	wireLeft->setOpacity(125);
-    _contentNode->addChild(wireLeft, -2);
-    
-    auto wireRight = Sprite::create(StringUtils::format("res/childSelection/wireRight%s.png", _isPortrait ? "_portrait" : ""));
-    wireRight->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
-    wireRight->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
-    wireRight->setScale(_visibleSize.height / wireRight->getContentSize().height);
-	wireRight->setColor(Color3B::BLACK);
-	wireRight->setOpacity(125);
-    _contentNode->addChild(wireRight, -2);
-}
-
-void ChildSelectorScene::createSettingsButton()
-{
-    auto settingsButton = SettingsButton::create();
-	settingsButton->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
-	settingsButton->setAnchorPoint(Vec2(-0.25,1.25));
-    _contentNode->addChild(settingsButton);
-}
-
-void ChildSelectorScene::addPrivacyButton()
-{
-    PrivacyLayer* privacyLayer = PrivacyLayer::createWithColor();
-    privacyLayer->setCenterPosition(Vec2(_visibleSize.width / 2,privacyLayer->getContentSize().height * 2.0f));
-    _contentNode->addChild(privacyLayer);
-}
-
-void ChildSelectorScene::addScrollViewForProfiles()
-{
-    _scrollView = ui::ScrollView::create();
-	_scrollView->setContentSize(Size(_visibleSize.width * 0.8, _visibleSize.height * (_isPortrait ? 0.6 : (ConfigStorage::getInstance()->isDevice18x9() ? 0.5 : 0.6))));
-	_scrollView->setPosition(Point(_visibleSize.width * 0.1,_visibleSize.height * (_isPortrait ? 0.2 : (ConfigStorage::getInstance()->isDevice18x9() ? 0.3 :  0.25))));
-    _scrollView->setDirection(cocos2d::ui::ScrollView::Direction::VERTICAL);
-    _scrollView->setBounceEnabled(true);
-    _scrollView->setTouchEnabled(true);
-    _scrollView->setInnerContainerSize(getScrollviewInnerSize(_scrollView->getContentSize().width));
-    _scrollView->setSwallowTouches(false);
-    _scrollView->setScrollBarEnabled(true);
-    
-    _contentNode->addChild(_scrollView);
-    
-    Sprite* verticalScrollGradientTop = Sprite::create("res/decoration/TopNavGrad.png");
-    verticalScrollGradientTop->setAnchorPoint(Vec2(0.5, 1.0));
-    verticalScrollGradientTop->setScaleX(_visibleSize.width * 0.75 / verticalScrollGradientTop->getContentSize().width);
-    verticalScrollGradientTop->setColor(Color3B::WHITE);
-    verticalScrollGradientTop->setPosition(Vec2(_visibleSize.width / 2, _scrollView->getPosition().y + _scrollView->getContentSize().height));
-    _contentNode->addChild(verticalScrollGradientTop,1);
-    
-    Sprite* verticalScrollGradientBottom = Sprite::create("res/decoration/TopNavGrad.png");
-    verticalScrollGradientBottom->setAnchorPoint(Vec2(0.5, 1.0));
-    verticalScrollGradientBottom->setScaleX(_visibleSize.width * 0.75 / verticalScrollGradientBottom->getContentSize().width);
-    verticalScrollGradientBottom->setColor(Color3B::WHITE);
-    verticalScrollGradientBottom->setRotation(180);
-    verticalScrollGradientBottom->setPosition(Vec2(_visibleSize.width / 2, _scrollView->getPosition().y));
-    _contentNode->addChild(verticalScrollGradientBottom,1);
-}
-
-Size ChildSelectorScene::getScrollviewInnerSize(float scrollviewWidth)
-{
-    int childrenPerRow = _isPortrait ? 2 : 4;
-    int numChildren = ParentManager::getInstance()->getAmountOfAvailableChildren();
-    
-    int numRows = ceil(numChildren / (double)childrenPerRow);
-    
-    return Size(OOMEE_LAYER_WIDTH * childrenPerRow + OOMEE_LAYER_GAP * (childrenPerRow - 1), (OOMEE_LAYER_HEIGHT * numRows) + ((_isPortrait ? OOMEE_LAYER_GAP_PORTRAIT : OOMEE_LAYER_GAP) * (numRows - 0.5)));
-}
-
-void ChildSelectorScene::addProfilesToScrollView()
-{
-    AnalyticsSingleton::getInstance()->registerNoOfChildren(ParentManager::getInstance()->getAmountOfAvailableChildren());
-    
-    for(int i = 0; i < ParentManager::getInstance()->getAmountOfAvailableChildren(); i++)
-    {
-        auto profileLayer = createChildProfileButton(ParentManager::getInstance()->getChild(i)->getProfileName(), i);
-        profileLayer->setTag(i);
-        profileLayer->setPosition(positionElementOnScrollView(profileLayer));
-        _scrollView->addChild(profileLayer);
-    }
-    
-    _parentButton = createParentProfileButton();
-	if(ParentManager::getInstance()->isLoggedInParentAnonymous())
-	{
-    	setParentButtonVisible(false);
-	}
-	_parentButton->setPosition(Vec2(_visibleSize.width * 0.5f, _parentButton->getContentSize().height * (_isPortrait ? 1.7f : 1.2)));
-    _contentNode->addChild(_parentButton);
-    
-}
-
+/*
 ui::Button *ChildSelectorScene::createChildProfileButton(const std::string& profileName, int childNum)
 {
 	const Size& oomeeSize = Size(370,370);
@@ -347,149 +399,13 @@ ui::Button *ChildSelectorScene::createChildProfileButton(const std::string& prof
 
     return button;
 }
-
-Point ChildSelectorScene::positionElementOnScrollView(Node *layerToBeAdded)
-{
-    Vector<Node*> scrollViewChildren = _scrollView->getChildren();
-    
-    int numberOfChildren = ParentManager::getInstance()->getAmountOfAvailableChildren();
-    if(numberOfChildren > _isPortrait ? 2 : 4)
-    {
-        numberOfChildren = _isPortrait ? 2 : 4;
-    }
-    
-    float layerMultiplier = numberOfChildren * 0.5;
-    float gapMultiplier = (numberOfChildren - 1) * 0.5;
-    
-    float startPosX = _scrollView->getInnerContainerSize().width / 2 - (gapMultiplier * OOMEE_LAYER_GAP) - (layerMultiplier * OOMEE_LAYER_WIDTH);
-    
-    if(scrollViewChildren.size() == 0)
-    {
-        return Point(startPosX, _scrollView->getInnerContainerSize().height - OOMEE_LAYER_GAP / 2 - layerToBeAdded->getContentSize().height);
-    }
-    
-    Node *lastChild = scrollViewChildren.at(scrollViewChildren.size() - 1);
-    Point lastPos = lastChild->getPosition();
-    
-    Point newPos = Point(lastPos.x + lastChild->getContentSize().width + OOMEE_LAYER_GAP, lastPos.y);
-    
-    if(newPos.x + layerToBeAdded->getContentSize().width > (startPosX + getScrollviewInnerSize(_scrollView->getContentSize().width).width)) // position relative to expected size
-    {
-        newPos = Point(startPosX, newPos.y - (_isPortrait ? OOMEE_LAYER_GAP_PORTRAIT : OOMEE_LAYER_GAP) / 2 - layerToBeAdded->getContentSize().height);
-    }
-    
-    return newPos;
-}
-
-ui::Button* ChildSelectorScene::createParentProfileButton()
-{
-	Sprite* icon = Sprite::create("res/settings/parents_area_icon.png");
-	icon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
-	icon->setAnchorPoint(Vec2(-0.125,0.5));
-	
-	auto parentButton = ui::Button::create("res/settings/rounded_button.png");
-	
-	float scale = (icon->getContentSize().height * 1.25) / parentButton->getContentSize().height;
-	
-	parentButton->setContentSize(parentButton->getContentSize() * scale);
-	parentButton->ignoreContentAdaptWithSize(false);
-	parentButton->setColor(Style::Color::skyBlue);
-	parentButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,50,0,0)));
-	parentButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	parentButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
-		if(eType == ui::Widget::TouchEventType::ENDED)
-		{
-			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::SettingsFromChildSelect));
-		}
-	});
-	
-	parentButton->addChild(icon);
-	
-	Label* parentAreaText = Label::createWithTTF(_("Parents' Zone"), Style::Font::Regular(), 70);
-	parentAreaText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	parentAreaText->setColor(Color3B::WHITE);
-	parentAreaText->setHorizontalAlignment(TextHAlignment::CENTER);
-	parentAreaText->setVerticalAlignment(TextVAlignment::CENTER);
-	parentAreaText->setOverflow(Label::Overflow::SHRINK);
-	parentAreaText->setDimensions(parentButton->getContentSize().width * 0.6f, parentButton->getContentSize().height * 0.6f);
-	parentAreaText->setNormalizedPosition(Vec2(0.6,0.5));
-	parentButton->addChild(parentAreaText);
-	
-    return parentButton;
-}
-
-void ChildSelectorScene::setParentButtonVisible(bool visible)
-{
-    if(_parentButton)
-    {
-        _parentButton->setVisible(visible);
-    }
-}
+*/
 
 //----------------------- Delegate Functions ----------------------------
-void ChildSelectorScene::AdultPinCancelled(RequestAdultPinLayer* layer)
-{
-    removeAdultPinLayerDelegate();
-}
-
-void ChildSelectorScene::AdultPinAccepted(RequestAdultPinLayer* layer)
-{
-    removeAdultPinLayerDelegate();
-    
-    if(_parentIconSelected)
-    {
-        refreshParentCookiesRequest();
-        return;
-    }
-    
-    callDelegateFunction(0);
-}
-
-void ChildSelectorScene::createAdultPinLayerWithDelegate()
-{
-    _awaitingAdultPinLayer = RequestAdultPinLayer::create();
-    _awaitingAdultPinLayer->setDelegate(this);
-}
-
-void ChildSelectorScene::removeAdultPinLayerDelegate()
-{
-    if(_awaitingAdultPinLayer == nullptr)
-    {
-        return;
-    }
-    
-    _awaitingAdultPinLayer->setDelegate(nullptr);
-    _awaitingAdultPinLayer = nullptr;
-}
-
-void ChildSelectorScene::refreshParentCookiesRequest()
-{
-    HttpRequestCreator* request = API::RefreshParentCookiesRequest(this);
-    request->execute();
-}
-
-void ChildSelectorScene::getParentCookiesRequest()
-{
-    const std::string& userId = ParentManager::getInstance()->getLoggedInParentId();
-    const std::string& sessionId = ParentManager::getInstance()->getLoggedInParentCdnSessionId();
-    
-    HttpRequestCreator* request = API::GetGordenRequest(userId, sessionId, this);
-    request->execute();
-}
 
 void ChildSelectorScene::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
-    if(requestTag == API::TagCookieRefresh)
-    {
-        ParentManager::getInstance()->parseParentSessionData(body);
-        getParentCookiesRequest();
-        return;
-    }
-    
-    if(CookieManager::getInstance()->parseDownloadCookies(headers))
-    {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
-    }
+
 }
 
 void ChildSelectorScene::onHttpRequestFailed(const std::string& requestTag, long errorCode)
@@ -505,18 +421,6 @@ void ChildSelectorScene::connectivityStateChanged(bool online)
     }
 }
 
-void ChildSelectorScene::callDelegateFunction(float dt)
-{
-    if(ParentManager::getInstance()->getAmountOfAvailableChildren() == 0)
-    {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::AddChildFirstTime));
-    }
-    else
-    {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::AddChild));
-    }
-}
-
 void ChildSelectorScene::onForceUpdateCheckFinished(const ForceUpdateResult& result)
 {
 	switch (result) {
@@ -526,8 +430,24 @@ void ChildSelectorScene::onForceUpdateCheckFinished(const ForceUpdateResult& res
 		}
 		case ForceUpdateResult::NOTIFY:
 		{
-			std::vector<std::string> buttonNames = {_("OK"), _("Update")};
-			MessageBox::createWith(_("Update recommended"), _("You should update to the latest version of Azoomee. Ask a grown-up to help you."), buttonNames, this);
+            PopupMessageBox* messageBox = PopupMessageBox::create();
+            messageBox->setTitle(_("Update recommended"));
+            messageBox->setBody(_("You should update to the latest version of Azoomee. Ask a grown-up to help you."));
+            messageBox->setPatternColour(Style::Color::azure);
+            
+            messageBox->setButtonText(_("Update"));
+            messageBox->setButtonColour(Style::Color::strongPink);
+            messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+                pSender->removeFromParent();
+                Application::getInstance()->openURL(ForceUpdateSingleton::getInstance()->getUpdateUrlFromFile());
+            });
+            
+            messageBox->setSecondButtonText(_("Back"));
+            messageBox->setSecondButtonColour(Style::Color::darkIndigo);
+            messageBox->setSecondButtonPressedCallback([this](PopupMessageBox* pSender){
+                pSender->removeFromParent();
+            });
+            this->addChild(messageBox, 1);
 			break;
 		}
 		case ForceUpdateResult::LOCK:
@@ -538,62 +458,4 @@ void ChildSelectorScene::onForceUpdateCheckFinished(const ForceUpdateResult& res
 			break;
 	}
 }
-
-void ChildSelectorScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
-{
-    if(messageBoxTitle == StringMgr::getInstance()->getErrorMessageWithCode(ERROR_CODE_EMAIL_VARIFICATION_REQUIRED)[ERROR_TITLE] && buttonTitle == StringMgr::getInstance()->getErrorMessageWithCode(ERROR_CODE_EMAIL_VARIFICATION_REQUIRED)[ERROR_BUTTON])
-    {
-        AnalyticsSingleton::getInstance()->logoutParentEvent();
-        ParentManager::getInstance()->logoutChild();
-        
-        LoginLogicHandler::getInstance()->forceNewLogin();
-    }
-	if(messageBoxTitle == _("Update recommended"))
-	{
-		if(buttonTitle == _("Update"))
-		{
-			Application::getInstance()->openURL(ForceUpdateSingleton::getInstance()->getUpdateUrlFromFile());
-		}
-	}
-	
-}
-
-void ChildSelectorScene::onExit()
-{
-    OfflineChecker::getInstance()->setDelegate(nullptr);
-	ForceUpdateSingleton::getInstance()->setDelegate(nullptr);
-    removeAdultPinLayerDelegate();
-
-    Super::onExit();
-}
-
-void ChildSelectorScene::onSizeChanged()
-{
-    Super::onSizeChanged();
-    _isPortrait = Director::getInstance()->getVisibleSize().width < Director::getInstance()->getVisibleSize().height;
-    bool parentButtonVisible = false;
-    if(_parentButton)
-    {
-        parentButtonVisible = _parentButton->isVisible();
-    }
-    if(_contentNode)
-    {
-        _contentNode->removeFromParent();
-    }
-    
-    _visibleSize = Director::getInstance()->getVisibleSize();
-    
-    _contentNode = Node::create();
-    _contentNode->setContentSize(_visibleSize);
-    
-    this->addChild(_contentNode, -1, ConfigStorage::kContentNodeName);
-    
-    addVisualsToScene();
-    addScrollViewForProfiles();
-    addProfilesToScrollView();
-    addPrivacyButton();
-    
-    setParentButtonVisible(parentButtonVisible);
-}
-
 NS_AZOOMEE_END

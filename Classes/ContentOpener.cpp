@@ -26,6 +26,7 @@
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Cookie/CookieManager.h>
 #include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
+#include <AzoomeeCommon/ErrorCodes.h>
 
 #include "AgeGate.h"
 
@@ -191,6 +192,10 @@ void ContentOpener::onHttpRequestSuccess(const std::string& requestTag, const st
 void ContentOpener::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
 	ModalMessages::getInstance()->stopLoading();
+    if(errorCode == ERROR_CODE_OFFLINE)
+    {
+        openContentObject(_contentItemToOpen);
+    }
 }
 
 NS_AZOOMEE_END
