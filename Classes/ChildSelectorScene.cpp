@@ -210,6 +210,7 @@ void ChildSelectorScene::createChildButtons()
     const float buttonPadding = 80.0f;
     
     const Size& pageSize = Size((kBaseButtonSize.width + buttonPadding) * colsPerPage, (kBaseButtonSize.height + buttonPadding) * rowsPerPage);
+    const Size& rowSize = Size((kBaseButtonSize.width + buttonPadding) * colsPerPage , kBaseButtonSize.height);
     
     int childNum = 0;
     for(int pageNum = 0; pageNum < pages; pageNum++)
@@ -225,7 +226,7 @@ void ChildSelectorScene::createChildButtons()
         {
             ui::Layout* itemRow = ui::Layout::create();
             itemRow->setLayoutType(ui::Layout::Type::ABSOLUTE);
-            itemRow->setContentSize(Size((kBaseButtonSize.width + buttonPadding) * colsPerPage , kBaseButtonSize.height));
+            itemRow->setContentSize(rowSize);
             itemRow->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,buttonPadding)));
             page->addChild(itemRow);
             
