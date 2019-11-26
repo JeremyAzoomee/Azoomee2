@@ -201,6 +201,7 @@
 		E212CC75231D75E7009D4A63 /* ContentTileHolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E212CC74231D75E7009D4A63 /* ContentTileHolder.cpp */; };
 		E212CCA1231E71DB009D4A63 /* FeaturedTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E212CCA0231E71DB009D4A63 /* FeaturedTile.cpp */; };
 		E212CCA4231EB07B009D4A63 /* FeaturedGamesHolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E212CCA3231EB07B009D4A63 /* FeaturedGamesHolder.cpp */; };
+		E2157B12238D95D6009CAAC0 /* ChildNameEntry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2157B11238D95D6009CAAC0 /* ChildNameEntry.cpp */; };
 		E21592F523267D2F003CBB50 /* DropdownContentHolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21592F423267D2F003CBB50 /* DropdownContentHolder.cpp */; };
 		E21A4F272317CC5300E1D3FB /* OomeeHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21A4F262317CC5300E1D3FB /* OomeeHQ.cpp */; };
 		E21B22142322B02E0032510A /* RoundedRectTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21B22132322B02E0032510A /* RoundedRectTile.cpp */; };
@@ -250,6 +251,7 @@
 		E22B85FD238596D800F2F7F4 /* OfflineScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22B85FC238596D800F2F7F4 /* OfflineScene.cpp */; };
 		E22C3F9A2355C40900FFFF52 /* ArtTileHolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22C3F992355C40900FFFF52 /* ArtTileHolder.cpp */; };
 		E22D08652362FA200039BB2C /* RecentMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22D08642362FA200039BB2C /* RecentMessages.cpp */; };
+		E231C1DD238C3BF000B41129 /* ChildOnboardingScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E231C1DC238C3BF000B41129 /* ChildOnboardingScene.cpp */; };
 		E23EC8F62331172600DB6ED7 /* PurchaseCapsule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23EC8F52331172600DB6ED7 /* PurchaseCapsule.cpp */; };
 		E244546A2350800E005E5E6C /* OomeeMakerButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E24454692350800E005E5E6C /* OomeeMakerButton.cpp */; };
 		E244546D235099C1005E5E6C /* OomeeStoreButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E244546C235099C1005E5E6C /* OomeeStoreButton.cpp */; };
@@ -718,6 +720,9 @@
 		E212CCA0231E71DB009D4A63 /* FeaturedTile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FeaturedTile.cpp; sourceTree = "<group>"; };
 		E212CCA2231EA818009D4A63 /* FeaturedGamesHolder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeaturedGamesHolder.h; sourceTree = "<group>"; };
 		E212CCA3231EB07B009D4A63 /* FeaturedGamesHolder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FeaturedGamesHolder.cpp; sourceTree = "<group>"; };
+		E2157B0B238D3906009CAAC0 /* ChildNameEntry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChildNameEntry.h; sourceTree = "<group>"; };
+		E2157B0C238D3915009CAAC0 /* ChildAgeEntry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChildAgeEntry.h; sourceTree = "<group>"; };
+		E2157B11238D95D6009CAAC0 /* ChildNameEntry.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChildNameEntry.cpp; sourceTree = "<group>"; };
 		E21592F3232665EC003CBB50 /* DropdownContentHolder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DropdownContentHolder.h; sourceTree = "<group>"; };
 		E21592F423267D2F003CBB50 /* DropdownContentHolder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DropdownContentHolder.cpp; sourceTree = "<group>"; };
 		E21A4F202317CC0200E1D3FB /* OomeeHQ.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OomeeHQ.h; sourceTree = "<group>"; };
@@ -816,6 +821,8 @@
 		E22C3F992355C40900FFFF52 /* ArtTileHolder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ArtTileHolder.cpp; sourceTree = "<group>"; };
 		E22D085F2362F7880039BB2C /* RecentMessages.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecentMessages.h; sourceTree = "<group>"; };
 		E22D08642362FA200039BB2C /* RecentMessages.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RecentMessages.cpp; sourceTree = "<group>"; };
+		E231C1DB238C348100B41129 /* ChildOnboardingScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChildOnboardingScene.h; sourceTree = "<group>"; };
+		E231C1DC238C3BF000B41129 /* ChildOnboardingScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChildOnboardingScene.cpp; sourceTree = "<group>"; };
 		E23EC8EF2331120F00DB6ED7 /* PurchaseCapsule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PurchaseCapsule.h; sourceTree = "<group>"; };
 		E23EC8F52331172600DB6ED7 /* PurchaseCapsule.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PurchaseCapsule.cpp; sourceTree = "<group>"; };
 		E244546323507F6C005E5E6C /* OomeeMakerButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OomeeMakerButton.h; sourceTree = "<group>"; };
@@ -1246,6 +1253,7 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				E231C1D6238C342D00B41129 /* ChildOnboarding */,
 				9240330E22D342A6009907F3 /* Onboarding */,
 				92EC0C47223027DF00B02F20 /* Shop */,
 				923D5BEA2201E18A008C13D0 /* Rewards */,
@@ -1774,6 +1782,18 @@
 			name = EpisodeSelector;
 			sourceTree = "<group>";
 		};
+		E231C1D6238C342D00B41129 /* ChildOnboarding */ = {
+			isa = PBXGroup;
+			children = (
+				E231C1DB238C348100B41129 /* ChildOnboardingScene.h */,
+				E231C1DC238C3BF000B41129 /* ChildOnboardingScene.cpp */,
+				E2157B0B238D3906009CAAC0 /* ChildNameEntry.h */,
+				E2157B11238D95D6009CAAC0 /* ChildNameEntry.cpp */,
+				E2157B0C238D3915009CAAC0 /* ChildAgeEntry.h */,
+			);
+			name = ChildOnboarding;
+			sourceTree = "<group>";
+		};
 		E2D3B506234B3AFC00074881 /* OomeeHQComponents */ = {
 			isa = PBXGroup;
 			children = (
@@ -2072,6 +2092,7 @@
 				9240334622D4E449009907F3 /* MarketingCarousel.cpp in Sources */,
 				E21E652E235F4281000BC90F /* ChatHQ.cpp in Sources */,
 				928A6DD520EBDD4A0053E793 /* AddChildLayer.cpp in Sources */,
+				E2157B12238D95D6009CAAC0 /* ChildNameEntry.cpp in Sources */,
 				E21E659723605186000BC90F /* ChatConfig.cpp in Sources */,
 				E21E658A23605186000BC90F /* StickerCategoryListView.cpp in Sources */,
 				02D6446B2087828800FF17B4 /* WebViewController_ios.mm in Sources */,
@@ -2097,6 +2118,7 @@
 				02A11FF71EA6375D007EDD95 /* GooglePaymentSingleton.cpp in Sources */,
 				925B24A12209D9480000D7D2 /* AwesomeLayer.cpp in Sources */,
 				E244546D235099C1005E5E6C /* OomeeStoreButton.cpp in Sources */,
+				E231C1DD238C3BF000B41129 /* ChildOnboardingScene.cpp in Sources */,
 				E22ACA04230C00D40024B328 /* NavigationButton.cpp in Sources */,
 				4343CB9C1EBB826600247549 /* DeepLinkingSingleton.cpp in Sources */,
 				025633741F39AB5D0053FF26 /* ForceUpdateSingleton.cpp in Sources */,

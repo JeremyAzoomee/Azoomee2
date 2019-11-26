@@ -37,6 +37,8 @@
 
 #include "ShareInChatScene.h"
 
+#include "ChildOnboardingScene.h"
+
 #ifdef AZOOMEE_VODACOM_BUILD
 #include "Vodacom/VodacomOnboardingScene.h"
 #endif
@@ -270,7 +272,8 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             acceptAnyOrientation();
             HQHistoryManager::getInstance()->updatePrevOrientation();
 			AnalyticsSingleton::getInstance()->registerCurrentScene("ADD_CHILD");
-            Director::getInstance()->replaceScene(AddChildScene::createWithFlowStage(AddChildFlow::FIRST_TIME_SETUP_NAME));
+            //Director::getInstance()->replaceScene(AddChildScene::createWithFlowStage(AddChildFlow::FIRST_TIME_SETUP_NAME));
+            Director::getInstance()->replaceScene(ChildOnboardingScene::create());
             break;
         }
 		case SceneNameEnum::AddChildAnon:
@@ -278,7 +281,8 @@ void SceneManagerScene::onEnterTransitionDidFinish()
 			acceptAnyOrientation();
 			HQHistoryManager::getInstance()->updatePrevOrientation();
 			AnalyticsSingleton::getInstance()->registerCurrentScene("ADD_CHILD");
-			Director::getInstance()->replaceScene(AddChildScene::createWithFlowStage(AddChildFlow::ANON_NAME));
+			//Director::getInstance()->replaceScene(AddChildScene::createWithFlowStage(AddChildFlow::ANON_NAME));
+            Director::getInstance()->replaceScene(ChildOnboardingScene::create());
 			break;
 		}
 		case SceneNameEnum::WelcomeScene:
