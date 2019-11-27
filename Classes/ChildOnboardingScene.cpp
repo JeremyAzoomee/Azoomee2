@@ -72,6 +72,20 @@ bool ChildOnboardingScene::init()
     });
     addChild(_nameEntry);
     
+    _ageEntry = ChildAgeEntry::create();
+    _ageEntry->setSizeType(cocos2d::ui::Layout::SizeType::PERCENT);
+    _ageEntry->setVisible(false);
+    _ageEntry->setContinueCallback([this](int age){
+        _childCreator->setAge(age);
+        ModalMessages::getInstance()->startLoading();
+        _childCreator->updateChild(ParentManager::getInstance()->getChild(0));
+    });
+    _ageEntry->setBackCallback([this](int age){
+        _childCreator->setAge(age);
+        this->transitionState(State::ENTER_NAME);
+    });
+    addChild(_ageEntry);
+    
     _oomee = ui::ImageView::create("res/childOnboarding/oomee_torso.png");
     _oomee->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _oomee->setNormalizedPosition(Vec2(0.25f, 0.0f));
@@ -83,9 +97,14 @@ bool ChildOnboardingScene::init()
     _oomee->addChild(_oomeeFace);
     
     _oomeeArms = ui::ImageView::create("res/childOnboarding/oomee_hands.png");
-    _oomeeArms->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _oomeeArms->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _oomeeArms->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _oomee->addChild(_oomeeArms);
+    
+    _speechPoint = ui::ImageView::create("res/childOnboarding/speech_point.png");
+    _speechPoint->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
+    _speechPoint->setNormalizedPosition(Vec2(0.53f, 0.2f));
+    addChild(_speechPoint);
     
     return true;
 }
@@ -127,15 +146,21 @@ void ChildOnboardingScene::onSizeChanged()
     
     _bgPattern->setNormalizedPosition(isPortrait ? Vec2(0.5f,0.66f) : Vec2::ANCHOR_MIDDLE_LEFT);
     _bgPattern->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE_BOTTOM : Vec2::ANCHOR_MIDDLE_LEFT);
-    _bgPattern->setContentSize(isPortrait ? Size(contentSize.width, contentSize.height * 0.34f) : Size(contentSize.width * 0.5f, contentSize.height));
+    _bgPattern->setContentSize(isPortrait ? Size(contentSize.width, contentSize.height * 0.34f) : Size(contentSize.width * 0.55f, contentSize.height));
     
     _oomee->setNormalizedPosition(isPortrait ? Vec2(0.5f, 0.69f) : Vec2(0.25f, 0.0f));
     _oomeeArms->loadTexture(isPortrait ? "res/childOnboarding/oomee_hands.png" : "res/childOnboarding/oomee_hands_crossed.png");
+    _oomeeArms->setAnchorPoint(isPortrait ? Vec2(0.5f, 0.66f) : Vec2::ANCHOR_MIDDLE_BOTTOM);
     _oomee->setScale(isPortrait ? 0.75f : 1.0f);
+    _speechPoint->setVisible(!isPortrait);
     
     _nameEntry->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE_BOTTOM : Vec2::ANCHOR_MIDDLE_LEFT);
     _nameEntry->setPosition(isPortrait ? Vec2(contentSize.width * 0.5,0.0) : Vec2(contentSize.width * 0.5f, contentSize.height * 0.5f));
     _nameEntry->setSizePercent(isPortrait ? Vec2(1.0f,0.72f) : Vec2(0.5f, 0.95f));
+    
+    _ageEntry->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE_BOTTOM : Vec2::ANCHOR_MIDDLE_LEFT);
+    _ageEntry->setPosition(isPortrait ? Vec2(contentSize.width * 0.5,0.0) : Vec2(contentSize.width * 0.5f, contentSize.height * 0.5f));
+    _ageEntry->setSizePercent(isPortrait ? Vec2(1.0f,0.72f) : Vec2(0.5f, 0.95f));
     
 }
 
@@ -144,18 +169,24 @@ void ChildOnboardingScene::transitionState(const State &newState)
     _state = newState;
     
     _nameEntry->setVisible(_state == State::ENTER_NAME);
+    _ageEntry->setVisible(_state == State::ENTER_AGE);
     
+    _nameEntry->setChildName(_childCreator->getName());
+    _ageEntry->setChildName(_childCreator->getName());
+    _ageEntry->setSelectedAge(_childCreator->getAge());
+    
+    _oomeeFace->loadTexture(_state == State::ENTER_AGE ? "res/childOnboarding/oomee_face_excited.png" : "res/childOnboarding/oomee_face_smile.png");
 }
 
 void ChildOnboardingScene::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
-    if(requestTag == API::TagRegisterChild)
-    {
 
-    }
-    else if(requestTag == API::TagUpdateChild)
+    if(requestTag == API::TagUpdateChild)
     {
-        
+        AnalyticsSingleton::getInstance()->childProfileCreatedSuccessEvent();
+        UserDefault::getInstance()->setBoolForKey("anonOnboardingComplete", true);
+        UserDefault::getInstance()->flush();
+        BackEndCaller::getInstance()->getAvailableChildren();
     }
     ModalMessages::getInstance()->stopLoading();
 }

@@ -205,6 +205,7 @@
 		E21592F523267D2F003CBB50 /* DropdownContentHolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21592F423267D2F003CBB50 /* DropdownContentHolder.cpp */; };
 		E21A4F272317CC5300E1D3FB /* OomeeHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21A4F262317CC5300E1D3FB /* OomeeHQ.cpp */; };
 		E21B22142322B02E0032510A /* RoundedRectTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21B22132322B02E0032510A /* RoundedRectTile.cpp */; };
+		E21D618C238E9D0800C92FC7 /* ChildAgeEntry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21D618B238E9D0800C92FC7 /* ChildAgeEntry.cpp */; };
 		E21E650A235F1A88000BC90F /* ChatAPI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21E6503235F1A88000BC90F /* ChatAPI.cpp */; };
 		E21E650C235F1A88000BC90F /* AzoomeeChat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21E6505235F1A88000BC90F /* AzoomeeChat.cpp */; };
 		E21E652E235F4281000BC90F /* ChatHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21E652D235F4281000BC90F /* ChatHQ.cpp */; };
@@ -729,6 +730,7 @@
 		E21A4F262317CC5300E1D3FB /* OomeeHQ.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeHQ.cpp; sourceTree = "<group>"; };
 		E21B220D2322ACA10032510A /* RoundedRectTile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RoundedRectTile.h; sourceTree = "<group>"; };
 		E21B22132322B02E0032510A /* RoundedRectTile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RoundedRectTile.cpp; sourceTree = "<group>"; };
+		E21D618B238E9D0800C92FC7 /* ChildAgeEntry.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChildAgeEntry.cpp; sourceTree = "<group>"; };
 		E21E6503235F1A88000BC90F /* ChatAPI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChatAPI.cpp; sourceTree = "<group>"; };
 		E21E6505235F1A88000BC90F /* AzoomeeChat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AzoomeeChat.cpp; sourceTree = "<group>"; };
 		E21E6506235F1A88000BC90F /* ChatAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatAPI.h; sourceTree = "<group>"; };
@@ -1790,6 +1792,7 @@
 				E2157B0B238D3906009CAAC0 /* ChildNameEntry.h */,
 				E2157B11238D95D6009CAAC0 /* ChildNameEntry.cpp */,
 				E2157B0C238D3915009CAAC0 /* ChildAgeEntry.h */,
+				E21D618B238E9D0800C92FC7 /* ChildAgeEntry.cpp */,
 			);
 			name = ChildOnboarding;
 			sourceTree = "<group>";
@@ -2156,6 +2159,7 @@
 				920F6FE1213FD53900B7BB76 /* FriendRequestLayer.cpp in Sources */,
 				E21E658823605186000BC90F /* FriendListSceneArtPreview.cpp in Sources */,
 				025BE95F1E3BD1F800EF76D1 /* WebViewNativeCaller_android.cpp in Sources */,
+				E21D618C238E9D0800C92FC7 /* ChildAgeEntry.cpp in Sources */,
 				E21E658523605186000BC90F /* FriendListScene.cpp in Sources */,
 				E220CC1923548EE000F646CA /* ArtContentTile.cpp in Sources */,
 				E22B85FD238596D800F2F7F4 /* OfflineScene.cpp in Sources */,

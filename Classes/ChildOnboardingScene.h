@@ -16,6 +16,7 @@
 #include <AzoomeeCommon/UI/RoundedRectSprite.h>
 #include <AzoomeeCommon/API//API.h>
 #include "ChildNameEntry.h"
+#include "ChildAgeEntry.h"
 #include "ChildCreator.h"
 
 NS_AZOOMEE_BEGIN
@@ -36,8 +37,10 @@ private:
     cocos2d::ui::ImageView* _oomee = nullptr;
     cocos2d::ui::ImageView* _oomeeFace = nullptr;
     cocos2d::ui::ImageView* _oomeeArms = nullptr;
+    cocos2d::ui::ImageView* _speechPoint = nullptr;
     
     ChildNameEntry* _nameEntry = nullptr;
+    ChildAgeEntry* _ageEntry = nullptr;
     
     ChildCreatorRef _childCreator = nullptr;
     

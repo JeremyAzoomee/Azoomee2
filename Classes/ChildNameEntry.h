@@ -55,6 +55,8 @@ public:
     
     void clearInputText();
     
+    void setChildName(const std::string& name);
+    
     CREATE_FUNC(ChildNameEntry);
     
     //Editbox Delegate Functions

@@ -9,6 +9,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Input/TextInputChecker.h>
 
 using namespace cocos2d;
 
@@ -195,14 +196,20 @@ void ChildNameEntry::setContinueButtonEnabled(bool enabled)
     _continueButton->setColor(enabled ? Style::Color::darkIndigo : Style::Color::greyBlue2);
 }
 
+void ChildNameEntry::setChildName(const std::string& name)
+{
+    _inputBox->setText(name.c_str());
+    editBoxTextChanged(_inputBox, name.c_str());
+}
+
 //Editbox Delegate Functions
 void ChildNameEntry::editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text)
 {
-    
+    setContinueButtonEnabled(isValidChildName(text.c_str()));
 }
 void ChildNameEntry::editBoxReturn(cocos2d::ui::EditBox* editBox)
 {
-    
+    setContinueButtonEnabled(isValidChildName(editBox->getText()));
 }
 void ChildNameEntry::editBoxEditingDidEndWithAction(cocos2d::ui::EditBox* editBox, EditBoxEndAction action)
 {
@@ -210,11 +217,11 @@ void ChildNameEntry::editBoxEditingDidEndWithAction(cocos2d::ui::EditBox* editBo
 }
 void ChildNameEntry::editBoxEditingDidBegin(cocos2d::ui::EditBox* editBox)
 {
-    
+    setContinueButtonEnabled(isValidChildName(editBox->getText()));
 }
 void ChildNameEntry::editBoxEditingDidEnd(cocos2d::ui::EditBox* editBox)
 {
-    
+    setContinueButtonEnabled(isValidChildName(editBox->getText()));
 }
 
 
