@@ -256,7 +256,7 @@ void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseStrin
     ParentManager::getInstance()->parseAvailableChildren(responseString);
     if(ParentManager::getInstance()->getAmountOfAvailableChildren() == 0)
     {
-		Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::AddChildFirstTime));
+		Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::AddChild));
     }
     else
     {
@@ -266,7 +266,7 @@ void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseStrin
 			bool anonOnboardingComplete = userDefault->getBoolForKey("anonOnboardingComplete", false);
 			if(!anonOnboardingComplete)
 			{
-				Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::AddChildAnon));
+				Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::AddChild));
 			}
 			else
 			{

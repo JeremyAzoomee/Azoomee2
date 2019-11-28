@@ -23,8 +23,6 @@ enum class SceneNameEnum {
 	SettingsFromChildSelect,
     introVideo,
     AddChild,
-    AddChildFirstTime,
-	AddChildAnon,
 	VodacomOnboarding,
 	WelcomeScene,
 	Shop,

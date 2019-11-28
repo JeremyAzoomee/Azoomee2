@@ -25,117 +25,132 @@ bool WelcomeScene::init()
 	}
 	
 	const Size& contentSize = this->getContentSize();
-	bool isPortrait = contentSize.height > contentSize.width;
 	
-	_bgColour = LayerColor::create(Color4B(0,7,4,255), contentSize.width, contentSize.height);
-	this->addChild(_bgColour);
+    _bgColour = ui::Layout::create();
+    _bgColour->setSizeType(ui::Layout::SizeType::PERCENT);
+    _bgColour->setSizePercent(Vec2(1.0,1.0));
+    _bgColour->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+    _bgColour->setBackGroundColor(Style::Color::darkIndigo);
+    addChild(_bgColour);
+	
+    _contentTiles = Sprite::create("res/introAssets/welcome_tiles.png");
+    _contentTiles->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    addChild(_contentTiles);
+    
+	_bottomGradient = LayerGradient::create();
+    _bottomGradient->setStartColor(Style::Color::darkIndigo);
+    _bottomGradient->setStartOpacity(255);
+    _bottomGradient->setEndColor(Style::Color::darkIndigo);
+    _bottomGradient->setEndOpacity(0);
+    _bottomGradient->setVector(Vec2(0,1));
+    _bottomGradient->setIgnoreAnchorPointForPosition(false);
+    _bottomGradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+    _bottomGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+    addChild(_bottomGradient);
 
-	_tilesNode = Node::create();
-	_tilesNode->setContentSize(contentSize);
-	_tilesNode->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	_tilesNode->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	this->addChild(_tilesNode);
-	
-	addAnimatedTiles();
-	
-	_bottomGradient = Sprite::create("res/decoration/TopNavGrad.png");
-	_bottomGradient->setContentSize(Size(contentSize.width, 400));
-	_bottomGradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	_bottomGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-	_bottomGradient->setColor(Style::Color::skyBlue);
-	_bottomGradient->setRotation(180);
-	this->addChild(_bottomGradient);
-
+    _fillColour = Sprite::create("res/decoration/white_1px.png");
+    _fillColour->setColor(Style::Color::darkIndigo);
+    _fillColour->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _fillColour->setNormalizedPosition(Vec2(0.5f, -0.1f));
+    addChild(_fillColour);
+    
 	_body = ui::Layout::create();
 	_body->setLayoutType(ui::Layout::Type::VERTICAL);
 	_body->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_body->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	this->addChild(_body);
+	addChild(_body);
 	
-	_logo = ui::ImageView::create("res/introAssets/Azoomee_WHITE.png");
-	_logo->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
-	_logo->setOpacity(0);
-	_logo->runAction(Sequence::createWithTwoActions(DelayTime::create(0.5), FadeIn::create(1.5f)));
-	_body->addChild(_logo);
+    _logo = ui::ImageView::create("res/introAssets/Azoomee_WHITE.png");
+    _logo->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+    _body->addChild(_logo);
+    
+    _text = DynamicText::create(_("introText"), Style::Font::PoppinsBold(), 80);
+    _text->setOverflow(Label::Overflow::RESIZE_HEIGHT);
+    _text->setTextHorizontalAlignment(TextHAlignment::CENTER);
+    _text->setTextVerticalAlignment(TextVAlignment::CENTER);
+    _text->setTextColor(Color4B::WHITE);
+    _text->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _text->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    _text->enableShadow(Color4B(0,0,0,125), Size(4,-8));
+    _text->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,20,0,0)));
+    _body->addChild(_text);
+    
+    _button = CTAButton::create("res/settings/rounded_button.png");
+    _button->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,20,0,0)));
+    _button->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _button->ignoreContentAdaptWithSize(false);
+    _button->setContentSize(Size(670,140));
+    _button->setColor(Style::Color::strongPink);
+    _button->setTextColour(Color4B::WHITE);
+    _button->setTextFontInfo(Style::Font::PoppinsBold(), 67);
+    _button->setText(_("introButton"));
+    _button->setTextAreaSizePercent(Vec2(0.7f, 0.8f));
+    _button->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            BackEndCaller::getInstance()->anonymousDeviceLogin();
+        }
+    });
+    _body->addChild(_button);
 	
-	_textHolder = ui::Layout::create();
-	_textHolder->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,60,0,0)));
-	_body->addChild(_textHolder);
+	_body->setContentSize(Size(contentSize.width, _logo->getContentSize().height + 20 + _text->getContentSize().height + _button->getContentSize().height));
 	
-	_text = Label::createWithTTF(_("introText"), Style::Font::Bold(), isPortrait ? 75 : 90);
-	_text->setWidth(contentSize.width * (isPortrait ? 0.8f : 0.6f));
-	_text->setOverflow(Label::Overflow::RESIZE_HEIGHT);
-	_text->setAlignment(TextHAlignment::CENTER, TextVAlignment::CENTER);
-	_text->setTextColor(Color4B::WHITE);
-	_text->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	_text->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	_text->setOpacity(0);
-	_text->setLineSpacing(20);
-	_text->runAction(Sequence::createWithTwoActions(DelayTime::create(1.0), FadeIn::create(1.5f)));
-	_textHolder->setContentSize(_text->getContentSize());
-	_textHolder->addChild(_text);
-	
-	_button = ui::Button::create("res/settings/rounded_button.png");
-	_button->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,60,0,0)));
-	_button->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	_button->setCascadeOpacityEnabled(true);
-	_button->setOpacity(0);
-	_button->ignoreContentAdaptWithSize(false);
-	_button->setColor(Style::Color::skyBlue);
-	_button->runAction(Sequence::createWithTwoActions(DelayTime::create(1.5), FadeIn::create(1.5f)));
-	_button->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
-		if(eType == ui::Widget::TouchEventType::ENDED)
-		{
-			BackEndCaller::getInstance()->anonymousDeviceLogin();
-		}
-	});
-	_body->addChild(_button);
-	
-	Label* buttonText = Label::createWithTTF(_("introButton"), Style::Font::Bold(), 70);
-	buttonText->setTextColor(Color4B::WHITE);
-	buttonText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	buttonText->setNormalizedPosition(Vec2(0.5f,0.5f));
-	buttonText->setOverflow(Label::Overflow::SHRINK);
-	buttonText->setAlignment(TextHAlignment::CENTER, TextVAlignment::CENTER);
-	_button->addChild(buttonText);
-	_button->setContentSize(Size(_logo->getContentSize().width, _button->getContentSize().height * (_logo->getContentSize().width / _button->getContentSize().width)));
-	buttonText->setDimensions(_button->getContentSize().width * 0.66, buttonText->getContentSize().height);
-	
-	_body->setContentSize(Size(contentSize.width, _logo->getContentSize().height + 100 + _text->getContentSize().height + _button->getContentSize().height));
-	
-	ui::Button* loginButton = ui::Button::create("res/settings/rounded_button.png");
-	loginButton->setAnchorPoint(Vec2(1.15, 1.75f));
-	loginButton->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
-	loginButton->setColor(Style::Color::skyBlue);
-	loginButton->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
-		if(eType == ui::Widget::TouchEventType::ENDED)
-		{
+    
+    _loginLayout = ui::Layout::create();
+    _loginLayout->setLayoutType(ui::Layout::Type::VERTICAL);
+    _loginLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _loginLayout->setNormalizedPosition(Vec2(0.5,0.2));
+    _loginLayout->setTouchEnabled(true);
+    _loginLayout->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
             LoginLogicHandler::getInstance()->setLoginOrigin(LoginOrigin::LOGOUT);
-			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
-		}
-	});
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
+        }
+    });
+    addChild(_loginLayout);
+    
+    _loginText = DynamicText::create(_("Already have an account?"), Style::Font::PoppinsRegular(), 37);
+    _loginText->setOverflow(Label::Overflow::RESIZE_HEIGHT);
+    _loginText->setTextHorizontalAlignment(TextHAlignment::CENTER);
+    _loginText->setTextVerticalAlignment(TextVAlignment::CENTER);
+    _loginText->setTextColor(Color4B::WHITE);
+    _loginText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _loginText->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+    _loginLayout->addChild(_loginText);
+    
+    _loginButton = DynamicText::create(_("Log In"), Style::Font::PoppinsBold(), 53);
+    _loginButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+    _loginButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _loginButton->setTextHorizontalAlignment(TextHAlignment::CENTER);
+    _loginButton->setTextVerticalAlignment(TextVAlignment::CENTER);
+    _loginButton->enableUnderline(true);
+    _loginButton->ignoreContentAdaptWithSize(false);
+    _loginButton->setTextColor(Color4B::WHITE);
+    _loginLayout->addChild(_loginButton);
+    
+    _loginLayout->setContentSize(Size(contentSize.width, _loginButton->getContentSize().height + _loginText->getContentSize().height));
 	
-	this->addChild(loginButton);
-	
-	Label* loginText = Label::createWithTTF(_("Log in"), Style::Font::Regular(), 60);
-	loginText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	loginText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	loginText->setAlignment(TextHAlignment::CENTER, TextVAlignment::CENTER);
-	loginText->setOverflow(Label::Overflow::SHRINK);
-	loginText->setDimensions(loginButton->getContentSize().width * 0.7f, loginButton->getContentSize().height * 0.7f);
-	loginText->setTextColor(Color4B::WHITE);
-	loginButton->addChild(loginText);
-	
+    _oomee = Sprite::create("res/childOnboarding/oomee_torso.png");
+    _oomee->setAnchorPoint(Vec2(0.5f, 0.55f));
+    _oomee->setNormalizedPosition(Vec2(0.5f, 0.0f));
+    addChild(_oomee);
+    
+    _moveVec = Vec2(1 ,0);
+    _moveVec.rotate(Vec2(0,0), CC_DEGREES_TO_RADIANS(10));
+    
 	return true;
 }
 
 void WelcomeScene::onEnter()
 {
+    scheduleUpdate();
 	Super::onEnter();
 }
 
 void WelcomeScene::onExit()
 {
+    unscheduleUpdate();
 	Super::onExit();
 }
 
@@ -146,103 +161,46 @@ void WelcomeScene::onSizeChanged()
 	const Size& contentSize = this->getContentSize();
 	bool isPortrait = contentSize.height > contentSize.width;
 	
-	_bgColour->setContentSize(contentSize);
+    _contentTiles->setPosition(contentSize / 2);
+    
+    _bottomGradient->setContentSize(Size(contentSize.width + 5, contentSize.height * 0.71f));
 	
-	_text->setWidth(contentSize.width * (isPortrait ? 0.8f : 0.6f));
-	TTFConfig ttfConfig = _text->getTTFConfig();
-	ttfConfig.fontSize = isPortrait ? 75 : 90;
-	_text->setTTFConfig(ttfConfig);
-	_textHolder->setContentSize(_text->getContentSize());
+    _fillColour->setContentSize(Size(contentSize.width + 5, contentSize.height * 0.39f));
+    
+    _text->setMaxLineWidth(contentSize.width * (isPortrait ? 0.8f : 0.6f));
 	
-	_bottomGradient->setContentSize(Size(contentSize.width, 400));
-	
-	_tilesNode->setContentSize(contentSize);
-	_tilesNode->removeAllChildren();
-	addAnimatedTiles();
-	
-	_body->setContentSize(Size(contentSize.width, _logo->getContentSize().height + 100 + _text->getContentSize().height + _button->getContentSize().height));
+	_body->setContentSize(Size(contentSize.width, _logo->getContentSize().height + 40 + _text->getContentSize().height + _button->getContentSize().height));
 	_body->forceDoLayout();
+    
+    _loginLayout->setContentSize(Size(contentSize.width, _loginButton->getContentSize().height + _loginText->getContentSize().height));
+    _loginLayout->forceDoLayout();
+    
+    _oomee->setNormalizedPosition(isPortrait ? Vec2::ANCHOR_MIDDLE_BOTTOM : Vec2(0.25f, 0.0f));
 }
 
-void WelcomeScene::addAnimatedTiles()
+void WelcomeScene::update(float deltaT)
 {
-	const Size& contentSize = this->getContentSize();
-	const bool isPortrait = contentSize.width < contentSize.height;
-	const float scrollDuration = 120.0f;
-	const int numTiles1 = 20;
-	const int numTiles2 = 40;
-	std::vector<std::string> filenames1;
-	std::vector<std::string> filenames2;
-	for(int i = 0; i < numTiles1; i++)
-	{
-		filenames1.push_back(StringUtils::format("%d.jpg",i));
-	}
-	for(int i = numTiles1; i < numTiles2; i++)
-	{
-		filenames2.push_back(StringUtils::format("%d.jpg",i));
-	}
-
-	Size tileSize = Size(683,510);
-	const Vec2& padding = Vec2(30,30);
-	const Vec2& gridSize = isPortrait ? Vec2(3,6) : Vec2(5,4);
-	
-	if(tileSize.width * gridSize.x < contentSize.width * 1.2f || tileSize.height * gridSize.y < contentSize.height * 1.2f)
-	{
-		tileSize = tileSize * MAX(contentSize.width * 1.2f / (tileSize.width * gridSize.x), contentSize.height * 1.2f / (tileSize.height * gridSize.y));
-	}
-	
-	const Vec2& origin = Vec2(contentSize.width * 1.0f, 0);
-	
-	Node* gridNode = Node::create();
-	gridNode->setContentSize(Size((tileSize.width * gridSize.x) + (padding.x * (gridSize.x)), (tileSize.height * gridSize.y) + (padding.y * (gridSize.y))));
-	gridNode->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-	gridNode->setRotation(-8);
-	Vec2 move = Vec2(0 ,gridNode->getContentSize().width);
-	move.rotate(Vec2(0,0), CC_DEGREES_TO_RADIANS(-gridNode->getRotation() - 90));
-	gridNode->setPosition(origin - move * 0.2f);
-	gridNode->runAction(RepeatForever::create(Sequence::create(MoveTo::create(scrollDuration / 2.0f,origin + move * 0.8f), MoveTo::create(0,origin - move * 1.2f), MoveTo::create(scrollDuration / 2.0f, origin - move * 0.2f), NULL)));
-	_tilesNode->addChild(gridNode);
-	
-	std::random_shuffle(filenames1.begin(), filenames1.end());
-	for(int i = 0; i < MIN(gridSize.x * gridSize.y, filenames1.size()); i++)
-	{
-		int row = i / gridSize.x;
-		int col = i % (int)gridSize.x;
-		
-		const Vec2& pos = Vec2((tileSize.width * (col + 0.5f)) + (col * padding.x), (tileSize.height * (row + 0.5f)) + (row * padding.x) );
-		
-		Sprite* tile = Sprite::create("res/introAssets/tiles/" + filenames1.at(i));
-		tile->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-		tile->setPosition(pos);
-		tile->setContentSize(tileSize);
-		tile->setOpacity(100);
-		gridNode->addChild(tile);
-	}
-	
-	Node* gridNode2 = Node::create();
-	gridNode2->setContentSize(gridNode->getContentSize());
-	gridNode2->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-	gridNode2->setPosition(origin - move * 1.2f);
-	gridNode2->setRotation(gridNode->getRotation());
-	gridNode2->runAction(RepeatForever::create(Sequence::create(MoveTo::create(scrollDuration, origin + move * 0.8f), MoveTo::create(0,origin - move * 1.2f), NULL)));
-	_tilesNode->addChild(gridNode2);
-	
-	std::random_shuffle(filenames2.begin(), filenames2.end());
-	for(int i = 0; i < MIN(gridSize.x * gridSize.y, filenames2.size()); i++)
-	{
-		int row = i / gridSize.x;
-		int col = i % (int)gridSize.x;
-		
-		const Vec2& pos = Vec2((tileSize.width * (col + 0.5f)) + (col * padding.x), (tileSize.height * (row + 0.5f)) + (row * padding.x) );
-		
-		Sprite* tile = Sprite::create("res/introAssets/tiles/" + filenames2.at(i));
-		tile->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-		tile->setPosition(pos);
-		tile->setContentSize(tileSize);
-		tile->setOpacity(100);
-		gridNode2->addChild(tile);
-	}
-	
+    Super::update(deltaT);
+    const float pxPerSec = 25.0f;
+    _contentTiles->setPosition(_contentTiles->getPosition() + (pxPerSec * _moveVec * deltaT));
+    
+    const Size& contentSize = getContentSize();
+    const Rect& imgBounds = _contentTiles->getBoundingBox();
+    
+    if(_moveVec.x > 0)
+    {
+        if(imgBounds.getMinY() > 0 || imgBounds.getMinX() > 0)
+        {
+            _moveVec = -_moveVec;
+        }
+    }
+    else
+    {
+        if(imgBounds.getMaxY() < contentSize.height || imgBounds.getMaxX() < contentSize.width)
+        {
+            _moveVec = -_moveVec;
+        }
+    }
 }
 
 NS_AZOOMEE_END

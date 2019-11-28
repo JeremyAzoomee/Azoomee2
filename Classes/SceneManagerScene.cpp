@@ -17,7 +17,6 @@
 #include "WebViewSelector.h"
 #include "IntroVideoScene.h"
 #include "ContentHistoryManager.h"
-#include "AddChildScene.h"
 #include "WelcomeScene.h"
 #include "ContentFeedHQScene.h"
 #include "RewardDisplayHandler.h"
@@ -36,6 +35,8 @@
 #include <AzoomeeCommon/Crashlytics/CrashlyticsConfig.h>
 
 #include "ShareInChatScene.h"
+
+#include "ChildOnboardingScene.h"
 
 #ifdef AZOOMEE_VODACOM_BUILD
 #include "Vodacom/VodacomOnboardingScene.h"
@@ -262,25 +263,9 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             acceptAnyOrientation();
             HQHistoryManager::getInstance()->updatePrevOrientation();
 			AnalyticsSingleton::getInstance()->registerCurrentScene("ADD_CHILD");
-            Director::getInstance()->replaceScene(AddChildScene::createWithFlowStage(AddChildFlow::ADDITIONAL_NAME));
+            Director::getInstance()->replaceScene(ChildOnboardingScene::create());
             break;
         }
-        case SceneNameEnum::AddChildFirstTime:
-        {
-            acceptAnyOrientation();
-            HQHistoryManager::getInstance()->updatePrevOrientation();
-			AnalyticsSingleton::getInstance()->registerCurrentScene("ADD_CHILD");
-            Director::getInstance()->replaceScene(AddChildScene::createWithFlowStage(AddChildFlow::FIRST_TIME_SETUP_NAME));
-            break;
-        }
-		case SceneNameEnum::AddChildAnon:
-		{
-			acceptAnyOrientation();
-			HQHistoryManager::getInstance()->updatePrevOrientation();
-			AnalyticsSingleton::getInstance()->registerCurrentScene("ADD_CHILD");
-			Director::getInstance()->replaceScene(AddChildScene::createWithFlowStage(AddChildFlow::ANON_NAME));
-			break;
-		}
 		case SceneNameEnum::WelcomeScene:
 		{
 			acceptAnyOrientation();
