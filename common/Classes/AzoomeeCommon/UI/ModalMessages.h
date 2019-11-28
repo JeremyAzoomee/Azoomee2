@@ -33,8 +33,6 @@ public:
     
     void showMixpanelNotification();
     void showMixpanelNotificationWithID(int notificationID);
-    
-    //void onSizeChanged();
 };
   
 NS_AZOOMEE_END
