@@ -67,7 +67,6 @@ void RoundedRectTile::onEnter()
 void RoundedRectTile::onExit()
 {
     stopCheckingOnScreenPosition();
-    _imageDownloader->setDelegate(nullptr);
     Super::onExit();
 }
 

@@ -62,7 +62,6 @@ void CircleTile::onEnter()
 void CircleTile::onExit()
 {
     stopCheckingOnScreenPosition();
-    _imageDownloader->setDelegate(nullptr);
     Super::onExit();
 }
 

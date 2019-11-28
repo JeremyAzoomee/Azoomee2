@@ -60,7 +60,6 @@ void FeaturedTile::onEnter()
 void FeaturedTile::onExit()
 {
     stopCheckingOnScreenPosition();
-    _imageDownloader->setDelegate(nullptr);
     Super::onExit();
 }
 

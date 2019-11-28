@@ -38,6 +38,8 @@ private:
     DynamicText* _kidCodeTitle = nullptr;
     DynamicText* _kidCode = nullptr;
     
+    ImageDownloaderRef _imgDownloader = nullptr;
+    
     void resizeOomee();
     
 public:
