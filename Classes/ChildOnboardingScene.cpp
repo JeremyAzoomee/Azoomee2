@@ -15,6 +15,7 @@
 #include <AzoomeeCommon/ErrorCodes.h>
 #include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
+#include "PopupMessageBox.h"
 #include "FlowDataSingleton.h"
 
 using namespace cocos2d;
@@ -57,7 +58,6 @@ bool ChildOnboardingScene::init()
     addChild(_gradient);
     
     _childCreator = ChildCreator::create();
-    _childCreator->setFirstTime(true);
     _childCreator->setHttpRespnseDelegate(this);
     
     _nameEntry = ChildNameEntry::create();
@@ -68,7 +68,14 @@ bool ChildOnboardingScene::init()
         this->transitionState(State::ENTER_AGE);
     });
     _nameEntry->setBackCallback([this](const std::string& inputString){
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::WelcomeScene));
+        if(ParentManager::getInstance()->isLoggedInParentAnonymous())
+        {
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::WelcomeScene));
+        }
+        else
+        {
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::SettingsFromChildSelect));
+        }
     });
     addChild(_nameEntry);
     
@@ -78,7 +85,14 @@ bool ChildOnboardingScene::init()
     _ageEntry->setContinueCallback([this](int age){
         _childCreator->setAge(age);
         ModalMessages::getInstance()->startLoading();
-        _childCreator->updateChild(ParentManager::getInstance()->getChild(0));
+        if(ParentManager::getInstance()->isLoggedInParentAnonymous())
+        {
+            _childCreator->updateChild(ParentManager::getInstance()->getChild(0));
+        }
+        else
+        {
+            _childCreator->addChild();
+        }
     });
     _ageEntry->setBackCallback([this](int age){
         _childCreator->setAge(age);
@@ -188,6 +202,11 @@ void ChildOnboardingScene::onHttpRequestSuccess(const std::string& requestTag, c
         UserDefault::getInstance()->flush();
         BackEndCaller::getInstance()->getAvailableChildren();
     }
+    else if(requestTag == API::TagRegisterChild)
+    {
+        AnalyticsSingleton::getInstance()->childProfileCreatedSuccessEvent();
+        BackEndCaller::getInstance()->getAvailableChildren();
+    }
     ModalMessages::getInstance()->stopLoading();
 }
 
@@ -197,9 +216,22 @@ void ChildOnboardingScene::onHttpRequestFailed(const std::string& requestTag, lo
     {
         errorCode = ERROR_CODE_NAME_EXISTS;
     }
+    
+    const auto& errorMessageText = StringMgr::getInstance()->getErrorMessageWithCode(errorCode);
+        
+    PopupMessageBox* messageBox = PopupMessageBox::create();
+    messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
+    messageBox->setBody(errorMessageText.at(ERROR_BODY));
+    messageBox->setButtonText(_("Back"));
+    messageBox->setButtonColour(Style::Color::darkIndigo);
+    messageBox->setPatternColour(Style::Color::azure);
+    messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+        pSender->removeFromParent();
+        this->transitionState(State::ENTER_NAME);
+    });
+    this->addChild(messageBox, 1);
+    
     AnalyticsSingleton::getInstance()->childProfileCreatedErrorEvent(errorCode);
-    FlowDataSingleton::getInstance()->setErrorCode(errorCode);
-    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChildSelector));
     ModalMessages::getInstance()->stopLoading();
 }
 
