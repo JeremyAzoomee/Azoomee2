@@ -30,6 +30,8 @@
 
 #include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
 
+#include "PopupMessageBox.h"
+
 using namespace cocos2d;
 using namespace cocos2d::network;
 
@@ -425,16 +427,26 @@ Orientation GameDataManager::getGameOrientation(const std::string& jsonFileName)
 //---------------------LOADING SCREEN----------------------------------
 void GameDataManager::displayLoadingScreen()
 {
-    const Size& size = Director::getInstance()->getVisibleSize();
-    const Point& origin = Vec2(0,0);
-    
     ModalMessages::getInstance()->startLoading();
     
-    ElectricDreamsButton *cancelButton = ElectricDreamsButton::createWindowCloseButton();
+    ui::Button* cancelButton = ui::Button::create("res/buttons/windowCloseButton.png");
+    cancelButton->setAnchorPoint(Vec2(2.0f, 2.0f));
+    cancelButton->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
     cancelButton->setName("cancelButton");
-    cancelButton->setCenterPosition(Vec2(origin.x + size.width - cancelButton->getContentSize().width, origin.y + size.height - cancelButton->getContentSize().height));
-    cancelButton->setDelegate(this);
-    cancelButton->setMixPanelButtonName("CancelGameLoading");
+    cancelButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            AnalyticsSingleton::getInstance()->genericButtonPressEvent("CancelGameLoading");
+            processCancelled = true;
+            
+            if(_fileDownloader)
+            {
+                _fileDownloader->setDelegate(nullptr);
+            }
+            
+            this->hideLoadingScreen();
+        }
+    });
     Director::getInstance()->getRunningScene()->addChild(cancelButton, 9999);
 }
 void GameDataManager::hideLoadingScreen()
@@ -445,12 +457,35 @@ void GameDataManager::hideLoadingScreen()
 
 void GameDataManager::showErrorMessage()
 {
-    MessageBox::createWith(ERROR_CODE_SOMETHING_WENT_WRONG, this);
+    const auto& errorMessageText = StringMgr::getInstance()->getErrorMessageWithCode(ERROR_CODE_SOMETHING_WENT_WRONG);
+    
+    PopupMessageBox* messageBox = PopupMessageBox::create();
+    messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
+    messageBox->setBody(errorMessageText.at(ERROR_BODY));
+    messageBox->setButtonText(_("Back"));
+    messageBox->setButtonColour(Style::Color::darkIndigo);
+    messageBox->setPatternColour(Style::Color::azure);
+    messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+        pSender->removeFromParent();
+    });
+    Director::getInstance()->getRunningScene()->addChild(messageBox, 1000);
 }
 
 void GameDataManager::showIncompatibleMessage()
 {
-    MessageBox::createWith(ERROR_CODE_GAME_INCOMPATIBLE, this);
+    const auto& errorMessageText = StringMgr::getInstance()->getErrorMessageWithCode(ERROR_CODE_GAME_INCOMPATIBLE);
+    
+    PopupMessageBox* messageBox = PopupMessageBox::create();
+    messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
+    messageBox->setBody(errorMessageText.at(ERROR_BODY));
+    messageBox->setButtonText(_("Back"));
+    messageBox->setButtonColour(Style::Color::darkIndigo);
+    messageBox->setPatternColour(Style::Color::azure);
+    messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+        pSender->removeFromParent();
+    });
+    Director::getInstance()->getRunningScene()->addChild(messageBox, 1000);
+    
 }
 
 void GameDataManager::removeGameFolderOnError(const std::string &dirPath)
@@ -539,29 +574,6 @@ void GameDataManager::addTimestampFile(const std::string& filenameWithPath)
 
 
 //--------------- DELEGATE FUNCTIONS ------------------
-
-void GameDataManager::buttonPressed(ElectricDreamsButton *button)
-{
-    processCancelled = true;
-    
-    if(_fileDownloader)
-    {
-        _fileDownloader->setDelegate(nullptr);
-    }
-    
-    Director::getInstance()->getRunningScene()->removeChild(Director::getInstance()->getRunningScene()->getChildByName("cancelButton"));
-    ModalMessages::getInstance()->stopLoading();
-}
-
-void GameDataManager::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
-{
-    std::map<std::string, std::string> errorStringMap = StringMgr::getInstance()->getErrorMessageWithCode(ERROR_CODE_SOMETHING_WENT_WRONG);
-
-    if(messageBoxTitle == errorStringMap[ERROR_TITLE] && buttonTitle == errorStringMap[ERROR_BUTTON])
-    {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
-    }
-}
 
 void GameDataManager::onAsyncUnzipComplete(bool success, const std::string& zipPath, const std::string& dirpath)
 {

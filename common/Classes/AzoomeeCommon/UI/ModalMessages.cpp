@@ -26,9 +26,6 @@ ModalMessages* ModalMessages::getInstance()
         _sharedModalMessages->init();
     }
     
-    _sharedModalMessages->visibleSize = Director::getInstance()->getVisibleSize();
-    _sharedModalMessages->origin = dynamic_cast<Azoomee::Scene*>(Director::getInstance()->getRunningScene()) ? Vec2(0,0) : Director::getInstance()->getVisibleOrigin();
-    
     return _sharedModalMessages;
 }
 
@@ -44,27 +41,20 @@ bool ModalMessages::init(void)
 
 void ModalMessages::createAndFadeInLayer()
 {
-    loadingLayer = LayerColor::create(Color4B(0,0,0,150), visibleSize.width, visibleSize.height);
-    loadingLayer->setPosition(origin.x, origin.y);
+    loadingLayer = ui::Layout::create();
+    loadingLayer->setSizeType(ui::Layout::SizeType::PERCENT);
+    loadingLayer->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+    loadingLayer->setBackGroundColor(Color3B::BLACK);
+    loadingLayer->setSizePercent(Vec2(1.0f, 1.0f));
+    loadingLayer->setSwallowTouches(true);
+    loadingLayer->setTouchEnabled(true);
+    loadingLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    loadingLayer->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     loadingLayer->setOpacity(0);
     loadingLayer->setName("loadingLayer");
     Director::getInstance()->getRunningScene()->addChild(loadingLayer, LOADING_Z_ORDER);
     
-    addListenerToBackgroundLayer();
-    
     loadingLayer->runAction(FadeTo::create(0.5, 200));
-}
-
-void ModalMessages::addListenerToBackgroundLayer()
-{
-    auto listener = EventListenerTouchOneByOne::create();
-    listener->setSwallowTouches(true);
-    listener->onTouchBegan = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
-    {
-        return true;
-    };
-    
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), loadingLayer);
 }
 
 void ModalMessages::removeLayer()
@@ -104,15 +94,6 @@ void ModalMessages::startLoading()
 void ModalMessages::stopLoading()
 {
     this->removeLayer();
-}
-
-void ModalMessages::onSizeChanged()
-{
-    if(Director::getInstance()->getRunningScene()->getChildByName("loadingLayer"))
-    {
-        loadingLayer->setContentSize(visibleSize);
-        loadingLayer->setPosition(origin.x, origin.y);
-    }
 }
 
 void ModalMessages::startSaving()

@@ -144,8 +144,6 @@ void Scene::onSizeChanged()
         modalWebview->onSizeChanged();
     }
     
-    ModalMessages::getInstance()->onSizeChanged();
-    
 }
 
 void Scene::setLayoutType(cocos2d::ui::Layout::Type type)
