@@ -5,8 +5,6 @@
 #include "network/HttpClient.h"
 #include "external/json/document.h"
 #include <AzoomeeCommon/Azoomee.h>
-#include <AzoomeeCommon/UI/ElectricDreamsButton.h>
-#include <AzoomeeCommon/UI/MessageBox.h>
 #include "SceneManagerScene.h"
 #include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
 #include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
@@ -15,7 +13,7 @@
 
 NS_AZOOMEE_BEGIN
 
-class GameDataManager : public cocos2d::Ref, public ElectricDreamsButtonDelegate, public MessageBoxDelegate, public FileDownloaderDelegate, public FileZipDelegate
+class GameDataManager : public cocos2d::Ref, public FileDownloaderDelegate, public FileZipDelegate
 {
     
 public:
@@ -34,8 +32,6 @@ public:
     bool unzipGame(const std::string& zipPath,const std::string& dirpath,const std::string& passwd);
     
     //Delegate Functions
-    void buttonPressed(ElectricDreamsButton* button);
-    void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
     void onAsyncUnzipComplete(bool success, const std::string& zipPath, const std::string& dirpath);
     void onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode);
     
