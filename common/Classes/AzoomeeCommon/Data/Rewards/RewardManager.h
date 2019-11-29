@@ -13,6 +13,7 @@
 #include <memory>
 #include "../Json.h"
 #include "RewardItem.h"
+#include "../HQDataObject/HQContentItemObject.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -24,6 +25,16 @@ public:
     
     /// Get the latest reward strategy from the server
     void getLatestRewardStrategy();
+    /// Redeems any pending rewards on the server. The user won't recieve any notification but the inventory will update
+    void checkForPendingRewards();
+    
+    /// Calculate the reward for a user after watching or playing a piece of content
+    void calculateRewardForContent(const HQContentItemObjectRef& content, long timeInContent);
+    /// Does the user have any pending reward notifications?
+    size_t pendingRewardNotificationCount() const;
+    /// Pop the oldest reward notification off the stack
+    /// If the stack is empty, nullptr is returned
+    RewardItemRef popPendingRewardNotification();
     
     /// Check an API response for the existence of a reward
     void checkResponseForNewRewards(const std::string& requestTag, const std::string& headers);
@@ -36,16 +47,22 @@ private:
     void onRewardStrategyLoaded();
     /// Start redeeming rewards from _rewardsPendingRedemption
     void redeemPendingRewards();
+    /// Add a reward to be redeemed. This will start the redemption queue if it hasn't already
+    void addPendingRewardToRedemptionQueue(const RewardItemRef& reward);
     
     /// Handle the network response for reward feed
     void handleRewardFeedResponse(const std::string& headers, const std::string& body);
     /// New reward recieved
     void handleNewRewardResponse(const std::string& headers, const std::string& body);
+    /// Pending rewards recieved
+    void handlePendingRewardsResponse(const std::string& headers, const std::string& body);
     
     /// - HttpRequestCreatorResponseDelegate
     void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body) override;
     void onHttpRequestFailed(const std::string& requestTag, long errorCode) override;
     
+    /// Rewards calculated locally but not yet shown to the user
+    std::deque<RewardItemRef> _rewardNotifications;
     
     /// Rewards pending redemption
     std::deque<RewardItemRef> _rewardsPendingRedemption;

@@ -26,8 +26,6 @@
 #include "IAPProductDataHandler.h"
 #include "ChildCreator.h"
 
-#include "RewardDisplayHandler.h"
-
 #include "MarketingAssetManager.h"
 
 #include <AzoomeeOomeeMaker/DataObjects/OomeeMakerDataHandler.h>
@@ -310,8 +308,7 @@ void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString
     
     // Update rewards feed
     RewardManager::getInstance()->getLatestRewardStrategy();
-    // TODO: getPendingRewards to be moved into RewardManager
-    RewardDisplayHandler::getInstance()->getPendingRewards();
+    RewardManager::getInstance()->checkForPendingRewards();
 }
 
 // - getSessionCookies

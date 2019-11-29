@@ -80,7 +80,8 @@ void ContentHistoryManager::onGameContentClosed()
     HttpRequestCreator* request = API::UpdateContentProgressMeta(loggedInChild->getId(), data, this);
     request->execute();
     
-    // TODO: Notify RewardManager to calculate reward
+    // Notify RewardManager to calculate reward
+    RewardManager::getInstance()->calculateRewardForContent(_lastOpenedContent, _timeInContent);
 }
 
 void ContentHistoryManager::onVideoContentClosed(int videoProgressSeconds, int videoDuration)
@@ -101,7 +102,8 @@ void ContentHistoryManager::onVideoContentClosed(int videoProgressSeconds, int v
     HttpRequestCreator* request = API::UpdateContentProgressMeta(loggedInChild->getId(), data, this);
     request->execute();
     
-    // TODO: Notify RewardManager to calculate reward
+    // Notify RewardManager to calculate reward
+    RewardManager::getInstance()->calculateRewardForContent(_lastOpenedContent, _timeInContent);
 }
 
 void ContentHistoryManager::recordContentClosedTime()

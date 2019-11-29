@@ -8,6 +8,7 @@
 #include "RewardManager.h"
 #include "../../Utils/StringFunctions.h"
 #include "../Child/ChildManager.h"
+#include "../../Analytics/AnalyticsSingleton.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -43,6 +44,32 @@ void RewardManager::getLatestRewardStrategy()
     request->execute();
 }
 
+#pragma mark - Public
+
+void RewardManager::calculateRewardForContent(const HQContentItemObjectRef& content, long timeInContent)
+{
+    // TODO: Get algorithm from backend code
+    // TODO: Add reward to _rewardNotifications
+//    _rewardNotifications.push_back(RewardItemRef());
+}
+
+size_t RewardManager::pendingRewardNotificationCount() const
+{
+    return _rewardNotifications.size();
+}
+
+RewardItemRef RewardManager::popPendingRewardNotification()
+{
+    if(_rewardNotifications.empty())
+    {
+        return nullptr;
+    }
+    
+    RewardItemRef front = _rewardNotifications.front();
+    _rewardNotifications.pop_front();
+    return front;
+}
+
 void RewardManager::checkResponseForNewRewards(const std::string& requestTag, const std::string& headers)
 {
     const std::string& rewardData = getValueFromHttpResponseHeaderForKey("X-AZ-REWARDS", headers);
@@ -57,7 +84,13 @@ void RewardManager::checkResponseForNewRewards(const std::string& requestTag, co
     }
 }
 
-// - Private
+void RewardManager::checkForPendingRewards()
+{
+    HttpRequestCreator* request = API::GetPendingRewards(ChildManager::getInstance()->getLoggedInChild()->getId(), this);
+    request->execute();
+}
+
+#pragma mark - Private
 
 void RewardManager::onRewardStrategyLoaded()
 {
@@ -73,11 +106,13 @@ void RewardManager::redeemPendingRewards()
     
     const RewardItemRef& reward = _rewardsPendingRedemption.front();
     const std::string& rewardId = reward->getId();
+    const int rewardPrice = reward->getItemPrice();
     _rewardsRedemptionInProgress[rewardId] = reward;
     _rewardsPendingRedemption.pop_front();
     
-    auto onSuccess = [rewardId, this](const std::string& requestTag, const std::string& headers, const std::string& body) {
+    auto onSuccess = [rewardId, rewardPrice, this](const std::string& requestTag, const std::string& headers, const std::string& body) {
         _rewardsRedemptionInProgress.erase(rewardId);
+        AnalyticsSingleton::getInstance()->rewardRedeemedEvent(abs(rewardPrice));
         
         // Any more rewards to redeem?
         if(!_rewardsPendingRedemption.empty())
@@ -100,6 +135,20 @@ void RewardManager::redeemPendingRewards()
     
     HttpRequestCreator* request = API::RedeemReward(rewardId, onSuccess, onFailure);
     request->execute();
+}
+
+void RewardManager::addPendingRewardToRedemptionQueue(const RewardItemRef& reward)
+{
+    if(reward && reward->getStatus() == "PENDING")
+    {
+        _rewardsPendingRedemption.push_back(reward);
+        
+        // Start redeeming if we're not already
+        if(_rewardsPendingRedemption.size() == 1)
+        {
+            redeemPendingRewards();
+        }
+    }
 }
 
 void RewardManager::handleRewardFeedResponse(const std::string& headers, const std::string& body)
@@ -254,19 +303,28 @@ void RewardManager::handleNewRewardResponse(const std::string& headers, const st
     }
     
     const RewardItemRef& reward = RewardItem::createWithJson(data);
-    if(reward->getStatus() == "PENDING")
+    addPendingRewardToRedemptionQueue(reward);
+}
+
+void RewardManager::handlePendingRewardsResponse(const std::string& headers, const std::string& body)
+{
+    rapidjson::Document data;
+    data.Parse(body.c_str());
+    if(data.HasParseError())
     {
-        // TODO -> RewardDisplayHandler::onRewardSuccess
-        _rewardsPendingRedemption.push_back(reward);
-        
-        // Start redeeming if we're not already
-        if(_rewardsPendingRedemption.size() == 1)
+        return;
+    }
+    
+    if(data.IsArray() && data.Size() > 0)
+    {
+        for(int i = 0; i < data.Size(); ++i)
         {
-            redeemPendingRewards();
+            const rapidjson::Value& rewardData = data[i];
+            const RewardItemRef& reward = RewardItem::createWithJson(rewardData);
+            addPendingRewardToRedemptionQueue(reward);
         }
     }
 }
-
 
 #pragma mark - HttpRequestCreatorResponseDelegate
 
@@ -286,6 +344,10 @@ void RewardManager::onHttpRequestSuccess(const std::string& requestTag, const st
     else if(requestTag == API::TagRewardCallback)
     {
         handleNewRewardResponse(headers, body);
+    }
+    else if(requestTag == API::TagGetPendingRewards)
+    {
+        handlePendingRewardsResponse(headers, body);
     }
 }
 
