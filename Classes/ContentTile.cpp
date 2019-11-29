@@ -34,6 +34,12 @@ bool ContentTile::init()
     return true;
 }
 
+void ContentTile::onExit()
+{
+    _imageDownloader->setDelegate(nullptr);
+    Super::onExit();
+}
+
 void ContentTile::setContentSelectedCallback(const ContentSelectedCallback& callback)
 {
     _callback = callback;

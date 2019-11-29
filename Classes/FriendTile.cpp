@@ -87,6 +87,8 @@ bool FriendTile::init()
         }
     });
     
+    _imgDownloader = ImageDownloader::create(ConfigStorage::kAvatarImageCacheFolder, ImageDownloader::CacheMode::File);
+    
     return true;
 }
 
@@ -97,6 +99,7 @@ void FriendTile::onEnter()
 
 void FriendTile::onExit()
 {
+    _imgDownloader->setDelegate(nullptr);
     Super::onExit();
 }
 
@@ -112,8 +115,7 @@ void FriendTile::setFriendData(const Chat::FriendRef& friendData)
     if(_friendData)
     {
         _friendName->setString(_friendData->friendName());
-        ImageDownloaderRef avatarDownloader = ImageDownloader::create(ConfigStorage::kAvatarImageCacheFolder, ImageDownloader::CacheMode::File);
-        avatarDownloader->downloadImage(this, _friendData->avatarURL());
+        _imgDownloader->downloadImage(this, _friendData->avatarURL());
         _frame->setColor(Style::Color::macaroniAndCheese);
         _pattern->setVisible(true);
     }
