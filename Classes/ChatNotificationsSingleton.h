@@ -6,7 +6,6 @@
 #include <AzoomeeCommon/API/API.h>
 #include "AzoomeeChat/ChatAPI.h"
 #include "AzoomeeChat/Data/Message.h"
-#include "NavigationLayer.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -19,16 +18,11 @@ public:
     bool init();
     bool userHasNotifications();
     
-    void setNavigationLayer(NavigationLayer* navLayer);
     void forceNotificationsUpdate();
-    NavigationLayer* getNavigationLayer();
     
     void stopNotificationsUpdate();
     
 private:
-    void notifyNavigationLayer();
-    void removeBadgeFromNavigationLayer();
-    NavigationLayer* _navigationLayer = nullptr;
     bool loggedInUserHasNotifications = false;
     
     // - Chat API event observer

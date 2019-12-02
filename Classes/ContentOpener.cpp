@@ -12,7 +12,6 @@
 #include "GameDataManager.h"
 #include "VideoPlaylistManager.h"
 #include "WebViewSelector.h"
-#include "NavigationLayer.h"
 #include "RecentlyPlayedManager.h"
 #include "ArtAppDelegate.h"
 #include "ManualGameInputLayer.h"

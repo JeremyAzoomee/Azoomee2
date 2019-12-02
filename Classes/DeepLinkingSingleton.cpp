@@ -199,12 +199,8 @@ void DeepLinkingSingleton::moveToHQ(const std::string& hqName)
     auto baseLayer = Director::getInstance()->getRunningScene();
     if(baseLayer)
     {
-        NavigationLayer *navigationLayer = dynamic_cast<NavigationLayer*>(baseLayer->getChildByName(ConfigStorage::kNavigationLayerName));
-        
-        if(navigationLayer)
-        {
-            navigationLayer->changeToScene(hqName, 0.1);
-        }
+        HQHistoryManager::getInstance()->addHQToHistoryManager(hqName);
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
     }
     
     resetDeepLink();

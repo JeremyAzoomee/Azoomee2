@@ -6,14 +6,6 @@
 #include "MessageBoxLayers/MessageBoxLayer.h"
 #include "../ErrorCodes.h"
 
-enum MessageBoxLayerEnum {
-    ChatReportForModeration,
-    OnlineSafetySlidesAdult,
-    OnlineSafetySlidesChild,
-    ChatResetModeration
-    
-};
-
 namespace Azoomee
 {
 
@@ -28,8 +20,6 @@ public:
 class MessageBox : public cocos2d::Layer
 {
 private:
-    
-    Layer* initLayer(MessageBoxLayerEnum messageBoxLayer, const std::map<std::string, std::string>& propertiesMap, Layer* newLayer);
     
     cocos2d::LayerColor *backgroundLayer = nullptr;
 
@@ -68,8 +58,6 @@ public:
     static MessageBox* createWith(const std::string& Title, const std::string& Body, const std::string& Button, MessageBoxDelegate* delegate);
     static MessageBox* createWith(long errorCode, MessageBoxDelegate* delegate);
     static MessageBox* createWith(long errorCode, TextInputLayer* textInputToHide, MessageBoxDelegate* delegate);
-    static MessageBox* createWithLayer(MessageBoxLayerEnum messageBoxLayer, MessageBoxDelegate* delegate);
-    static MessageBox* createWithLayer(MessageBoxLayerEnum messageBoxLayer, const std::map<std::string, std::string>& propertiesMap, MessageBoxDelegate* delegate);
     static MessageBox* createWith(const std::string& Title, const std::string& imagePath, const std::string& Body, const std::string& Button, MessageBoxDelegate* delegate);
     
     void removeMessageBox();
