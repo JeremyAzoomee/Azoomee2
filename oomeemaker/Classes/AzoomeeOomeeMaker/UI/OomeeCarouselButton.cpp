@@ -165,6 +165,14 @@ void OomeeCarouselButton::onEnter()
 void OomeeCarouselButton::setOomeeData(const std::string &filename)
 {
     _oomeeFileName = filename;
+    rapidjson::Document data;
+    data.Parse(FileUtils::getInstance()->getStringFromFile(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + filename + OomeeMakerDataHandler::kOomeeFileExtension).c_str());
+    if(!data.HasParseError())
+    {
+        _oomeeData = OomeeFigureData::createWithData(data);
+        _deleteButton->setEnabled(!_oomeeData->isSelected());
+        _deleteButton->setOpacity(_oomeeData->isSelected() ? 125 : 255);
+    }
     setMainImage(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + filename + ".png");
     setPlaceholderImage("res/oomeeMaker/1_Oomee_Reference.png");
     loadPlaceholderImage();

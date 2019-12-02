@@ -12,6 +12,7 @@
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/UI/LazyLoadingButton.h>
+#include "../DataObjects/OomeeFigureData.h"
 
 NS_AZOOMEE_OM_BEGIN
 
@@ -45,6 +46,8 @@ private:
     
     bool _inFocus = false;
     std::string _oomeeFileName;
+    
+    OomeeFigureDataRef _oomeeData = nullptr;
     
     void animateButtonsIn(float duration);
     void animateButtonsOut(float duration);
