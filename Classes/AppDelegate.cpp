@@ -14,6 +14,7 @@
 #include "ChatDelegate.h"
 #include "SceneManagerScene.h"
 #include "../artapp/Classes/AzoomeeArt/MainScene.h"
+#include "GameDataManager.h"
 
 using namespace cocos2d;
 using namespace Azoomee;
@@ -42,7 +43,9 @@ bool AppDelegate::applicationDidFinishLaunching()
     PushNotificationsHandler::getInstance()->resetExistingNotifications();
 	
     IAPProductDataHandler::getInstance()->fetchProductData();
-	
+    
+    GameDataManager::getInstance();
+    
     const Size& visibleSize = Director::getInstance()->getVisibleSize();
     if(visibleSize.width / visibleSize.height > 1.95)
     {

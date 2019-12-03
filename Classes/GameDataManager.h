@@ -10,6 +10,7 @@
 #include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
 #include <AzoomeeCommon/Utils/FileZipUtil.h>
 #include <AzoomeeCommon/Utils/FileDownloader.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQCarouselObject.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -36,6 +37,16 @@ public:
     void onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode);
     
     std::vector<HQContentItemObjectRef> getOfflineGameList();
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+public:
+    void createBundledGamesMap();
+    bool isGameBundled(const std::string& gameId);
+    HQCarouselObjectRef removeUnbundledGames(const HQCarouselObjectRef& carousel);
+private:
+    bool copyBundledGameToCache(const std::string& gameId);
+    std::unordered_map<std::string, std::string> _bundedGamesMap;
+#endif
     
 private:
     //offline game tools
