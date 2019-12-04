@@ -19,7 +19,6 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
-#include <AzoomeeCommon/Tutorial/TutorialController.h>
 #include <AzoomeeCommon/Crashlytics/CrashlyticsConfig.h>
 #include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
@@ -77,7 +76,7 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
         RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(),ConfigStorage::kGameHQName);
         RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kMeHQName);
         ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
-		TutorialController::getInstance()->setTutorialCompleted(TutorialController::kFTUPlayGameID);
+
         GameDataManager::getInstance()->startProcessingGame(contentItem);
     }
     else if(contentItem->getType()  == ConfigStorage::kContentTypeVideo || contentItem->getType()  == ConfigStorage::kContentTypeAudio)
@@ -85,7 +84,6 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
         RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kVideoHQName);
         RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kMeHQName);
         ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
-		TutorialController::getInstance()->setTutorialCompleted(TutorialController::kFTUWatchVideoID);
         Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Orientation::Landscape, contentItem->getUri(),Vec2(0,0)));
     }
     else if(contentItem->getType()  == ConfigStorage::kContentTypeAudioGroup || contentItem->getType()  == ConfigStorage::kContentTypeGroup)
@@ -113,11 +111,6 @@ void ContentOpener::doCarouselContentOpenLogic(const HQContentItemObjectRef& con
 	{
 		ManualGameInputLayer::create();
 		return;
-	}
-	
-	if(TutorialController::getInstance()->isTutorialActive() && (TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUVideoHQContent || TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUGameHQContent || TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUGroupHQContent))
-	{
-		TutorialController::getInstance()->nextStep();
 	}
 	
 	if(!contentItem->isEntitled())

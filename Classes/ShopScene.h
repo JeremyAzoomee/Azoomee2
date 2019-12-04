@@ -36,8 +36,6 @@ private:
 	cocos2d::Sprite* _wires = nullptr;
 	cocos2d::Sprite* _gradient = nullptr;
 	
-	bool _displayingPostPurchaseTutorial = false;
-	
 public:
 	
 	virtual bool init() override;

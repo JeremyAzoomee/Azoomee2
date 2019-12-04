@@ -7,7 +7,6 @@
 
 #include "WelcomeScene.h"
 #include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/Tutorial/TutorialController.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include "SceneManagerScene.h"
 #include "BackEndCaller.h"

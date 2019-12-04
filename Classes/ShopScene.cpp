@@ -6,14 +6,14 @@
 //
 
 #include "ShopScene.h"
-#include "SceneManagerScene.h"#include <AzoomeeCommon/UI/Style.h>
+#include "SceneManagerScene.h"
+#include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Data/Shop/ShopDisplayItem.h>
 #include <AzoomeeCommon/Data/Shop/ShopDataDownloadHandler.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Tutorial/TutorialController.h>
 
 using namespace cocos2d;
 
@@ -111,28 +111,12 @@ void ShopScene::onEnter()
 		}
 	});
 	
-	if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUShopEarnMoreRewards)
-	{
-		runAction(Sequence::createWithTwoActions(DelayTime::create(8.0f), CallFunc::create([this](){
-			TutorialController::getInstance()->setTutorialCompleted(TutorialController::kFTUPostPurchaseID);
-			TutorialController::getInstance()->nextStep();
-			_displayingPostPurchaseTutorial = false;
-		})));
-		_displayingPostPurchaseTutorial = true;
-	}
-	
 	Super::onEnter();
 }
 void ShopScene::onExit()
 {
 	AnalyticsSingleton::getInstance()->contentItemClosedEvent();
 	ShopDataDownloadHandler::getInstance()->setOnCompleteCallback(nullptr);
-	if(_displayingPostPurchaseTutorial)
-	{
-		TutorialController::getInstance()->setTutorialCompleted(TutorialController::kFTUPostPurchaseID);
-		TutorialController::getInstance()->nextStep();
-		stopAllActions();
-	}
 	Super::onExit();
 }
 void ShopScene::onSizeChanged()

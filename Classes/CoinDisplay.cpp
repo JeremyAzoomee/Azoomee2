@@ -12,7 +12,6 @@
 #include "SceneManagerScene.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Tutorial/TutorialController.h>
 
 using namespace cocos2d;
 
@@ -61,11 +60,6 @@ bool CoinDisplay::init()
 	this->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			TutorialController::getInstance()->setTutorialCompleted(TutorialController::kFTUShopID);
-			if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUSpendRewards)
-			{
-				TutorialController::getInstance()->nextStep();
-			}
 			AnalyticsSingleton::getInstance()->coinCounterPressedEvent();
 			AudioMixer::getInstance()->playEffect("CoinCounterIcon_Click.wav");
 			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Shop));

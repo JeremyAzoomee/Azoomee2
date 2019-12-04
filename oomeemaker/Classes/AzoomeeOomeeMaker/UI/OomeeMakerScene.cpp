@@ -233,10 +233,6 @@ void OomeeMakerScene::onEnter()
     _exitButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-			if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kConfirmOomee)
-			{
-				TutorialController::getInstance()->endTutorial();
-			}
             if(_oomee->getUndoStackSize() > 1 || _newOomee)
             {
                 ConfirmCancelMessageBox* messageBox = ConfirmCancelMessageBox::createWithParams(_("Save?"), "res/buttons/confirm_tick_2.png", "res/buttons/confirm_x_2.png");
@@ -305,12 +301,6 @@ void OomeeMakerScene::onEnter()
 		
 		delegate->_newAccessoryId = "";
 	}
-	
-	TutorialController::getInstance()->registerDelegate(this);
-	if(TutorialController::getInstance()->isTutorialActive())
-	{
-		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
-	}
     
     _oomeeSavedEventListener = EventListenerCustom::create(OomeeMakerDataHandler::kSaveNewOomeeEventName, [this](EventCustom* event){
         std::string filename = *static_cast<std::string*>(event->getUserData());
@@ -337,7 +327,6 @@ void OomeeMakerScene::onEnterTransitionDidFinish()
 
 void OomeeMakerScene::onExit()
 {
-	TutorialController::getInstance()->unRegisterDelegate(this);
     _eventDispatcher->removeEventListener(_oomeeSavedEventListener);
     _oomeeSavedEventListener = nullptr;
 	Super::onExit();
@@ -421,19 +410,6 @@ void OomeeMakerScene::resetOomee()
 
 void OomeeMakerScene::displayMadeAvatarNotification()
 {
-	TutorialController::getInstance()->setTutorialCompleted(TutorialController::kFTUOomeeTutorialID);
-	
-	if(TutorialController::getInstance()->isTutorialActive())
-	{
-		if(TutorialController::getInstance()->getCurrentState() == TutorialController::kConfirmOomee)
-		{
-			_makeAvatarButton->removeChildByName("glow");
-			_makeAvatarButton->setTouchEnabled(false);
-			_undoButton->setTouchEnabled(false);
-			_resetOomeeButton->setTouchEnabled(false);
-		}
-	}
-	
     CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Avatar_Messagedrop.mp3");
     Texture2D* particleTex = Director::getInstance()->getTextureCache()->addImage("res/oomeeMaker/confetti_particle.png");
     
@@ -476,14 +452,6 @@ void OomeeMakerScene::displayMadeAvatarNotification()
     banner->setContentSize(Size(_contentLayer->getContentSize().width * 0.43 , 400));
     banner->runAction(Sequence::create(MoveBy::create(0.5, Vec2(0,-200)), DelayTime::create(3.0f),MoveBy::create(0.5, Vec2(0,200)),CallFunc::create([=](){
         banner->removeFromParent();
-		if(TutorialController::getInstance()->isTutorialActive())
-		{
-			if(TutorialController::getInstance()->getCurrentState() == TutorialController::kConfirmOomee)
-			{
-				TutorialController::getInstance()->nextStep();
-				delegate->onOomeeMakerNavigationBack();
-			}
-		}
     }),NULL));
     _contentLayer->addChild(banner,10);
     
@@ -528,32 +496,6 @@ void OomeeMakerScene::onCancelPressed(Azoomee::ConfirmCancelMessageBox *pSender)
         Director::getInstance()->replaceScene(scene);
     }
     pSender->removeFromParent();
-}
-
-void OomeeMakerScene::onTutorialStateChanged(const std::string &stateId)
-{
-	if(stateId == TutorialController::kConfirmOomee)
-	{
-		if(_makeAvatarButton)
-		{
-			Sprite* glow = Sprite::create("res/tutorial/circle_glow.png");
-			glow->setContentSize(_makeAvatarButton->getContentSize() * 1.5f);
-			glow->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-			glow->setOpacity(0);
-			glow->runAction(Sequence::createWithTwoActions(DelayTime::create(15), FadeIn::create(1)));
-			glow->runAction(RepeatForever::create(Sequence::createWithTwoActions(ScaleTo::create(1.0f, 1.5f), ScaleTo::create(1.0f, 1.0f))));
-			glow->setName("glow");
-			_makeAvatarButton->addChild(glow, 1);
-			
-		}
-	}
-	else
-	{
-		if(_makeAvatarButton)
-		{
-			_makeAvatarButton->removeChildByName("glow");
-		}
-	}
 }
 
 
