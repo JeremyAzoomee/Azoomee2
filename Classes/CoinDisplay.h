@@ -19,7 +19,6 @@ class CoinDisplay : public cocos2d::ui::Layout
 	typedef cocos2d::ui::Layout Super;
 private:
 	static const std::string kAnimClipNodeName;
-	static const std::string kAnimFrameGlowName;
 	static const std::string kAnimSliderName;
 	static const std::string kAnimStarName;
 	
@@ -29,7 +28,7 @@ private:
 	static int sTargetVal;
 	
 	cocos2d::Label* _coinsLabel = nullptr;
-	cocos2d::LayerColor* _valueBG = nullptr;
+    cocos2d::ui::Scale9Sprite* _valueBG = nullptr;
 	cocos2d::ClippingNode* _valueFrame = nullptr;
 	cocos2d::Sprite* _coinSprite = nullptr;
 	
