@@ -25,7 +25,9 @@ class ShopScene : public Azoomee::Scene, HttpRequestCreatorResponseDelegate
 	typedef Azoomee::Scene Super;
 	
 private:
-	
+    static const std::string kGetInvPrePurchaseTag;
+    static const std::string kGetInvPostPurchaseTag;
+    
 	ShopCarousel* _shopCarousel = nullptr;
 	ShopItemPurchasePopup* _purchasePopup = nullptr;
 	ShopItemPurchasedAnimation* _purchasedAnim = nullptr;

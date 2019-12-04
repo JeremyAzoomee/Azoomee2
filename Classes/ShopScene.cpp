@@ -14,10 +14,15 @@
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Strings.h>
+#include "PopupMessageBox.h"
 
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
+
+const std::string ShopScene::kGetInvPrePurchaseTag = "getInv_prePurchase";
+const std::string ShopScene::kGetInvPostPurchaseTag = "getInv_postPurchase";
 
 bool ShopScene::init()
 {
@@ -46,11 +51,11 @@ bool ShopScene::init()
 	
 	_shopCarousel = ShopCarousel::create();
 	_shopCarousel->setItemSelectedCallback([this](const ShopDisplayItemRef& item){
-		//toggle purchase screen for item
-		_shopCarousel->setVisible(false);
-		_purchasePopup->setVisible(true);
 		_purchasePopup->setItemData(item);
-		
+        ModalMessages::getInstance()->startLoading();
+		HttpRequestCreator* request = API::GetInventory(ChildManager::getInstance()->getParentOrChildId(), this);
+        request->requestTag = kGetInvPrePurchaseTag;
+        request->execute();
 	});
 	this->addChild(_shopCarousel);
 	
@@ -108,9 +113,12 @@ void ShopScene::onEnter()
 		if(success)
 		{
 			_shopCarousel->setShopData(ShopDataDownloadHandler::getInstance()->getShop());
+            ModalMessages::getInstance()->startLoading();
+            HttpRequestCreator* request = API::GetInventory(ChildManager::getInstance()->getParentOrChildId(), this);
+            request->execute();
 		}
 	});
-	
+    
 	Super::onEnter();
 }
 void ShopScene::onExit()
@@ -150,33 +158,69 @@ void ShopScene::onHttpRequestSuccess(const std::string& requestTag, const std::s
 	if(requestTag == API::TagBuyReward)
 	{
 		HttpRequestCreator* request = API::GetInventory(ChildManager::getInstance()->getParentOrChildId(), this);
+        request->requestTag = kGetInvPostPurchaseTag;
 		request->execute();
 	}
 	else if(requestTag == API::TagGetInventory)
 	{
 		ModalMessages::getInstance()->stopLoading();
-		ChildManager::getInstance()->parseChildInventory(body);
-		_purchasePopup->setVisible(false);
-		_shopCarousel->setVisible(false);
-		_backButton->setVisible(false);
-		_purchasedAnim = ShopItemPurchasedAnimation::create();
-		_purchasedAnim->setItemData(_purchasePopup->getItemData());
-		_purchasedAnim->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-		_purchasedAnim->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-		_purchasedAnim->setOnCompleteCallback([this](){
-			_purchasedAnim->setVisible(false);
-			this->runAction(Sequence::createWithTwoActions(DelayTime::create(0.25), CallFunc::create([this](){// delay removing to prevent crash on android
-				this->removeChild(_purchasedAnim);
-				_purchasedAnim = nullptr;
-			})));
-			
-			_backButton->setVisible(true);
-			_shopCarousel->setVisible(true);
-			_shopCarousel->refreshUI();
-			_purchasePopup->setItemData(nullptr);
-		});
-		this->addChild(_purchasedAnim);
+        ChildManager::getInstance()->parseChildInventory(body);
+        _shopCarousel->refreshUI();
 	}
+    else if(requestTag == kGetInvPrePurchaseTag)
+    {
+        ModalMessages::getInstance()->stopLoading();
+        ChildManager::getInstance()->parseChildInventory(body);
+        
+        if(_purchasePopup->getItemData()->getPrice() <= ChildManager::getInstance()->getLoggedInChild()->getInventory()->getCoins())
+        {
+            //toggle purchase screen for item
+            _shopCarousel->setVisible(false);
+            _purchasePopup->setVisible(true);
+        }
+        else
+        {
+            _purchasePopup->setItemData(nullptr);
+            _shopCarousel->refreshUI();
+            PopupMessageBox* messageBox = PopupMessageBox::create();
+            messageBox->setTitle(_("Cant afford this"));
+            messageBox->setBody(_("You don’t have enough coins to buy this right now"));
+            messageBox->setButtonText(_("Back"));
+            messageBox->setButtonColour(Style::Color::darkIndigo);
+            messageBox->setPatternColour(Style::Color::azure);
+            messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+                pSender->removeFromParent();
+            });
+            this->addChild(messageBox, 1);
+        }
+        
+    }
+    else if(requestTag == kGetInvPostPurchaseTag)
+    {
+        ModalMessages::getInstance()->stopLoading();
+        ChildManager::getInstance()->parseChildInventory(body);
+
+        _purchasePopup->setVisible(false);
+        _shopCarousel->setVisible(false);
+        _backButton->setVisible(false);
+        _purchasedAnim = ShopItemPurchasedAnimation::create();
+        _purchasedAnim->setItemData(_purchasePopup->getItemData());
+        _purchasedAnim->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+        _purchasedAnim->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+        _purchasedAnim->setOnCompleteCallback([this](){
+            _purchasedAnim->setVisible(false);
+            this->runAction(Sequence::createWithTwoActions(DelayTime::create(0.25), CallFunc::create([this](){// delay removing to prevent crash on android
+                this->removeChild(_purchasedAnim);
+                _purchasedAnim = nullptr;
+            })));
+                
+            _backButton->setVisible(true);
+            _shopCarousel->setVisible(true);
+            _shopCarousel->refreshUI();
+            _purchasePopup->setItemData(nullptr);
+        });
+        this->addChild(_purchasedAnim);
+    }
 	else
 	{
 		ModalMessages::getInstance()->stopLoading();
@@ -186,6 +230,19 @@ void ShopScene::onHttpRequestFailed(const std::string& requestTag, long errorCod
 {
 	ModalMessages::getInstance()->stopLoading();
 	_shopCarousel->refreshUI();
+    if(errorCode == 402)
+    {
+        PopupMessageBox* messageBox = PopupMessageBox::create();
+        messageBox->setTitle(_("Cant afford this"));
+        messageBox->setBody(_("You don’t have enough coins to buy this right now"));
+        messageBox->setButtonText(_("Back"));
+        messageBox->setButtonColour(Style::Color::darkIndigo);
+        messageBox->setPatternColour(Style::Color::azure);
+        messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+            pSender->removeFromParent();
+        });
+        this->addChild(messageBox, 1);
+    }
 }
 
 NS_AZOOMEE_END
