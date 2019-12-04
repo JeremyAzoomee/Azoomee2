@@ -316,13 +316,6 @@ task copyWebcommApi(type: Copy) {
 }
 preBuild.dependsOn copyWebcommApi
 
-task ctaZip(type: Zip) {
-    from fileTree(dir: '../../../app-content-dynamicnode/android/')
-    archiveName 'CTAFiles.zip'
-    destinationDir(file('../../Resources/res/cta_assets/'))
-}
-preBuild.dependsOn ctaZip
-
 
 def getCommitHash = { ->
     def stdout = new ByteArrayOutputStream()

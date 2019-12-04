@@ -37,7 +37,6 @@ bool ChatNotificationsSingleton::init()
 void ChatNotificationsSingleton::onChatAPIGetFriendList(const Chat::FriendList& friendList, int amountOfNewMessages)
 {
     loggedInUserHasNotifications = (amountOfNewMessages != 0);
-    notifyNavigationLayer();
 }
 
 void ChatNotificationsSingleton::forceNotificationsUpdate()
@@ -54,42 +53,6 @@ void ChatNotificationsSingleton::stopNotificationsUpdate()
 bool ChatNotificationsSingleton::userHasNotifications()
 {
     return loggedInUserHasNotifications;
-}
-
-void ChatNotificationsSingleton::setNavigationLayer(NavigationLayer* navLayer)
-{
-    _navigationLayer = navLayer;
-}
-
-NavigationLayer* ChatNotificationsSingleton::getNavigationLayer()
-{
-    return _navigationLayer;
-}
-
-void ChatNotificationsSingleton::notifyNavigationLayer()
-{
-    if(!_navigationLayer)
-    {
-        return;
-    }
-    
-    if(loggedInUserHasNotifications)
-    {
-        _navigationLayer->showNotificationBadge();
-    }
-    else
-    {
-        _navigationLayer->hideNotificationBadge();
-    }
-}
-
-void ChatNotificationsSingleton::removeBadgeFromNavigationLayer()
-{
-    if(!_navigationLayer)
-    {
-        return;
-    }
-    _navigationLayer->hideNotificationBadge();
 }
 
 NS_AZOOMEE_END
