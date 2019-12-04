@@ -171,7 +171,15 @@ void ShopScene::onHttpRequestSuccess(const std::string& requestTag, const std::s
     {
         ModalMessages::getInstance()->stopLoading();
         ChildManager::getInstance()->parseChildInventory(body);
-        
+        const InventoryRef& inv = ChildManager::getInstance()->getLoggedInChild()->getInventory();
+        const auto& invItems = inv->getItems();
+        if(std::find_if(invItems.begin(), invItems.end(), [this](const InventoryItemRef& item){
+            return item->getItemId() == _purchasePopup->getItemData()->getInventoryItem()->getItemId();
+        }) != invItems.end()) // check is item already owned
+        {
+            _purchasePopup->setItemData(nullptr);
+            _shopCarousel->refreshUI();
+        }
         if(_purchasePopup->getItemData()->getPrice() <= ChildManager::getInstance()->getLoggedInChild()->getInventory()->getCoins())
         {
             //toggle purchase screen for item
