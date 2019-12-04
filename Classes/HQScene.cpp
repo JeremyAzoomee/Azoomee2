@@ -55,15 +55,7 @@ void HQScene::onEnter()
 {
     _navBar->toggleHQSelected(_activePageName);
 
-	_rewardRedeemedListener = EventListenerCustom::create(ChildManager::kInventoryUpdatedEvent, [this](EventCustom* event){
-		if(!_coinDisplay->isVisible())
-		{
-			_coinDisplay->setVisible(TutorialController::getInstance()->isTutorialCompleted(TutorialController::kFTUShopID) || ChildManager::getInstance()->getLoggedInChild()->getInventory()->getCoins() > 0);
-		}
-	});
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(_rewardRedeemedListener, this);
-    
-	ContentHistoryManager::getInstance()->setReturnedFromContent(false);
+    ContentHistoryManager::getInstance()->setReturnedFromContent(false);
     HQHistoryManager::getInstance()->addHQToHistoryManager(_activePageName);
     
     Super::onEnter();
@@ -72,8 +64,6 @@ void HQScene::onEnter()
 void HQScene::onExit()
 {
     Super::onExit();
-    
-    _eventDispatcher->removeEventListener(_rewardRedeemedListener);
 }
 
 void HQScene::onSizeChanged()
