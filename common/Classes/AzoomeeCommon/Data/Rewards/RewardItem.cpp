@@ -11,18 +11,22 @@ NS_AZOOMEE_BEGIN
 
 RewardItemRef RewardItem::createWithJson(const rapidjson::Value& rewardData)
 {
-	RewardItemRef reward = create();
+	RewardItemRef reward = RewardItemRef(new RewardItem());
 	reward->parseRewardData(rewardData);
 	return reward;
 }
-RewardItemRef RewardItem::create()
+
+RewardItemRef RewardItem::createCoinReward(int itemPrice)
 {
-	return RewardItemRef(new RewardItem);
+	RewardItemRef reward = RewardItemRef(new RewardItem());
+    reward->_itemPrice = itemPrice;
+    reward->_status = "LOCAL";
+    reward->_item = InventoryItem::createCoin();
+    return reward;
 }
 
 RewardItem::RewardItem()
 {
-	
 }
 
 void RewardItem::parseRewardData(const rapidjson::Value& rewardData)

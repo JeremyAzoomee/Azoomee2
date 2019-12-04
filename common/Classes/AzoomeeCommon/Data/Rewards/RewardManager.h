@@ -69,19 +69,22 @@ private:
     /// Rewards currently being redeemed
     std::map<std::string, RewardItemRef> _rewardsRedemptionInProgress;
     
+    
+    // - Variables
+    
     /// True once the reward strategy has been loaded
     bool _strategyLoaded = false;
     
     /// The min duration that must be reached in a piece of content before a reward is given
     int _minRewardDuration;
-    /// The reward the user recieves once they reach _minRewardDuration
-    int _minRewardCoinValue;
-    /// How often the user recieves an addition reward after _minRewardDuration has been reached
+    /// The reward the user receives once they reach _minRewardDuration
+    int _defaultRewardCoinValue;
+    /// How often the user receives an addition reward after _minRewardDuration has been reached
     int _repeatRewardDuration;
-    /// The reward the user recieves for each _repeatRewardDuration reached
+    /// The reward the user receives for each _repeatRewardDuration reached
     int _repeatRewardCoinValue;
-    /// Overrides for _minRewardCoinValue per contentID
-    std::map<std::string, int> _minRewardCoinValueContentOverride;
+    /// Overrides for _defaultRewardCoinValue per contentID
+    std::map<std::string, int> _rewardCoinValueContentOverride;
 };
 
 NS_AZOOMEE_END

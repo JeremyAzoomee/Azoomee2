@@ -48,9 +48,22 @@ void RewardManager::getLatestRewardStrategy()
 
 void RewardManager::calculateRewardForContent(const HQContentItemObjectRef& content, long timeInContent)
 {
-    // TODO: Get algorithm from backend code
-    // TODO: Add reward to _rewardNotifications
-//    _rewardNotifications.push_back(RewardItemRef());
+    // Ref: https://azoomee.atlassian.net/wiki/spaces/API/pages/1268580353/Reward+Strategy
+    
+    if(timeInContent < _minRewardDuration)
+    {
+        return;
+    }
+    
+    auto it = _rewardCoinValueContentOverride.find(content->getContentItemId());
+    const int baseReward = (it != _rewardCoinValueContentOverride.end()) ? it->second : _defaultRewardCoinValue;
+    
+    long bonusDuration = timeInContent - _minRewardDuration;
+    int bonusReward = bonusDuration * _repeatRewardCoinValue / _repeatRewardDuration;
+    int fullReward = baseReward + bonusReward;
+    
+    const RewardItemRef& reward = RewardItem::createCoinReward(fullReward);
+    _rewardNotifications.push_back(reward);
 }
 
 size_t RewardManager::pendingRewardNotificationCount() const
@@ -187,11 +200,11 @@ void RewardManager::handleRewardFeedResponse(const std::string& headers, const s
     }**/
     
     // Reset rewards values before we parse the latest data
-    _minRewardCoinValue = 0;
+    _defaultRewardCoinValue = 0;
     _minRewardDuration = 0;
     _repeatRewardDuration = 0;
     _repeatRewardCoinValue = 0;
-    _minRewardCoinValueContentOverride.clear();
+    _rewardCoinValueContentOverride.clear();
     
     
     // Parse the json
@@ -253,7 +266,7 @@ void RewardManager::handleRewardFeedResponse(const std::string& headers, const s
             }
             
             // Values are negative so pass it through abs to make sure we have a positive value for the reward
-            _minRewardCoinValue = abs(minRewardValue);
+            _defaultRewardCoinValue = abs(minRewardValue);
             _minRewardDuration = minTime;
             _repeatRewardCoinValue = abs(repeatRewardValue);
             _repeatRewardDuration = repeatTime;
@@ -284,7 +297,7 @@ void RewardManager::handleRewardFeedResponse(const std::string& headers, const s
                 price = abs(price);
                 if(price > 0)
                 {
-                    _minRewardCoinValueContentOverride[key] = price;
+                    _rewardCoinValueContentOverride[key] = price;
                 }
             }
         }

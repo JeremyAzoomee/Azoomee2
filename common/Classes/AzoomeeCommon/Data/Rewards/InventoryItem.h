@@ -31,6 +31,7 @@ private:
 public:
 	
 	static InventoryItemRef createWithJson(const rapidjson::Value& InventoryItem);
+    static InventoryItemRef createCoin();
 	static InventoryItemRef create();
 	
 	void parseInventoryItemData(const rapidjson::Value& InventoryItem);
