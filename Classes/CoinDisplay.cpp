@@ -19,7 +19,6 @@ using namespace cocos2d;
 NS_AZOOMEE_BEGIN
 
 const std::string CoinDisplay::kAnimClipNodeName = "clipNode";
-const std::string CoinDisplay::kAnimFrameGlowName = "frameGlow";
 const std::string CoinDisplay::kAnimSliderName = "slider";
 const std::string CoinDisplay::kAnimStarName = "star";
 
@@ -35,19 +34,14 @@ bool CoinDisplay::init()
 		return false;
 	}
 	
-	ui::Scale9Sprite* stencil = ui::Scale9Sprite::create("res/rewards/coin_counter_bg.png");
-	stencil->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-	
-	this->setContentSize(stencil->getContentSize());
-	
-	_valueFrame = ClippingNode::create(stencil);
-	_valueFrame->setAlphaThreshold(0.5);
-	this->addChild(_valueFrame);
-	
-	_valueBG = LayerColor::create(Color4B(30, 74, 123, 65));
-	_valueBG->setContentSize(stencil->getContentSize());
-	_valueFrame->addChild(_valueBG);
-	
+    _valueBG = ui::Scale9Sprite::create("res/rewards/coin_counter_bg.png");
+    _valueBG->setColor(Color3B(30, 74, 123));
+    _valueBG->setOpacity(65);
+    _valueBG->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+    addChild(_valueBG);
+    
+    setContentSize(_valueBG->getContentSize());
+    
 	_coinsLabel = Label::createWithTTF(StringUtils::format("%d",(int)sCoinCount), Style::Font::PoppinsBold(), 75);
 	_coinsLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_coinsLabel->setNormalizedPosition(Vec2(0.6,0.5));
@@ -160,15 +154,6 @@ void CoinDisplay::createGlowAnim()
 	coinGlow->runAction(RepeatForever::create(Sequence::create(DelayTime::create(1), MoveTo::create(0.6, Vec2(_coinSprite->getContentSize().width + coinGlow->getContentSize().width * coinGlow->getScale(),-coinGlow->getContentSize().height * coinGlow->getScale())), MoveTo::create(0, Vec2(0,_coinSprite->getContentSize().height)), DelayTime::create(6.4), NULL)));
 	coinClippingNode->addChild(coinGlow);
 	
-	Sprite* frameGlow = Sprite::create("res/shop/Glow_Counter_Animation.png");
-	frameGlow->setOpacity(75);
-	frameGlow->setScale((_valueBG->getContentSize().height * 1.6f) / frameGlow->getContentSize().height);
-	frameGlow->setPosition(Vec2(-frameGlow->getContentSize().width * frameGlow->getScale(),_valueBG->getContentSize().height / 2));
-	frameGlow->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
-	frameGlow->runAction(RepeatForever::create(Sequence::create(DelayTime::create(1.6),MoveTo::create(0.6, Vec2(_valueBG->getContentSize().width,_valueBG->getContentSize().height / 2)), MoveTo::create(0, Vec2(-frameGlow->getContentSize().width * frameGlow->getScale(),_valueBG->getContentSize().height / 2)), DelayTime::create(5.8), NULL)));
-	frameGlow->setName(kAnimFrameGlowName);
-	_valueBG->addChild(frameGlow);
-	
 	Sprite* slider = Sprite::create("res/shop/side_shooter.png");
 	slider->setPosition(Vec2(75,this->getContentSize().height));
 	slider->setScale(0.5f);
@@ -192,7 +177,6 @@ void CoinDisplay::createGlowAnim()
 void CoinDisplay::removeGlowAnim()
 {
 	_coinSprite->removeChildByName(kAnimClipNodeName);
-	_valueBG->removeChildByName(kAnimFrameGlowName);
 	this->removeChildByName(kAnimSliderName);
 	this->removeChildByName(kAnimStarName);
 	_animInitialised = false;
