@@ -110,20 +110,11 @@ bool OomeeSelectScene::init()
 
 void OomeeSelectScene::onEnter()
 {
-	TutorialController::getInstance()->registerDelegate(this);
-	if(TutorialController::getInstance()->isTutorialActive())
-	{
-		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
-	}
-	
 	OomeeMakerDataHandler::getInstance()->getLatestData([this](bool success){
 		const auto& getOomeesCallback = [this](bool success){
 			this->setCarouselData();
-			if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kConfirmOomee)
-			{
-				OomeeSelectScene::newOomee();
-			}
-			else if(delegate->_newAccessoryId != "")
+
+            if(delegate->_newAccessoryId != "")
 			{
 				if(_oomeeCarousel->getOomeeData().size() > 0)
 				{
@@ -149,7 +140,6 @@ void OomeeSelectScene::onEnterTransitionDidFinish()
 
 void OomeeSelectScene::onExit()
 {
-	TutorialController::getInstance()->unRegisterDelegate(this);
 	Super::onExit();
 }
 
@@ -281,18 +271,6 @@ void OomeeSelectScene::onConfirmPressed(Azoomee::ConfirmCancelMessageBox *pSende
 void OomeeSelectScene::onCancelPressed(Azoomee::ConfirmCancelMessageBox *pSender)
 {
     pSender->removeFromParent();
-}
-
-void OomeeSelectScene::onTutorialStateChanged(const std::string &stateId)
-{
-	if(stateId == TutorialController::kCreateOomee)
-	{
-		_exitButton->setVisible(false);
-	}
-	else
-	{
-		_exitButton->setVisible(true);
-	}
 }
 
 NS_AZOOMEE_OM_END
