@@ -67,6 +67,9 @@ GameDataManager::~GameDataManager(void)
 
 bool GameDataManager::init(void)
 {
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    createBundledGamesMap();
+#endif
     return true;
 }
 
@@ -334,12 +337,16 @@ void GameDataManager::streamGameIfPossible(const std::string &jsonFileName)
 
 void GameDataManager::downloadGameIfPossible(const std::string &jsonFileName, const std::string& itemId)
 {
+#if (CC_TARGET_PLATFORM != CC_PLATFORM_IOS)
     if(getIsGameDownloadableFromJSONFile(jsonFileName))
     {
         const std::string &downloadUrl = getDownloadUrlForGameFromJSONFile(jsonFileName);
         getGameZipFile(downloadUrl, itemId); //getGameZipFile callback will call unzipGame and startGame
     }
     else
+#else
+    if(!copyBundledGameToCache(itemId))
+#endif
     {
         if(!_gameIsBeingStreamed)
         {
@@ -620,5 +627,60 @@ void GameDataManager::onFileDownloadComplete(const std::string &fileString,const
         unzipGame(targetPath, basePath, "");
     }
 }
+
+//IOS GAME BUNDLING FUNCS
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+void GameDataManager::createBundledGamesMap()
+{
+    _bundedGamesMap.clear();
+    const std::string& fileExt = ".zip";
+    const std::string& localDir = "bundledGames/";
+    const std::string& fullPath = FileUtils::getInstance()->fullPathForFilename(localDir + "dirLocator.png"); //use dummy file to get full path to res dir to use with DirUtil
+    const std::string& bundledGamesDir = fullPath.substr(0,fullPath.find(localDir)) + localDir;
+    const auto& filenames = DirUtil::getFilesInDirectoryWithExtention(bundledGamesDir, fileExt);
+    for(const std::string& filename : filenames)
+    {
+        const std::string& gameId = filename.substr(0, filename.length() - fileExt.length());
+        _bundedGamesMap[gameId] = bundledGamesDir + filename;
+    }
+}
+
+bool GameDataManager::isGameBundled(const std::string& gameId)
+{
+    return _bundedGamesMap.find(gameId) != _bundedGamesMap.end();
+}
+
+HQCarouselObjectRef GameDataManager::createFilteredCarouselForBundledGames(const HQCarouselObjectRef &carousel)
+{
+    MutableHQCarouselObjectRef output = MutableHQCarouselObject::create();
+    output->setColour(carousel->getColour());
+    output->setTitle(carousel->getTitle());
+    output->setIcon(carousel->getIcon());
+    const auto& items = carousel->getContentItems();
+    for(const auto& item : items)
+    {
+        if(isGameBundled(item->getContentItemId()))
+        {
+            output->addContentItemToCarousel(item);
+        }
+    }
+    return output;
+}
+
+bool GameDataManager::copyBundledGameToCache(const std::string& gameId)
+{
+    if(!isGameBundled(gameId))
+    {
+        return false;
+    }
+    const std::string& zipData = FileUtils::getInstance()->getStringFromFile(_bundedGamesMap.at(gameId));
+    const std::string& basePath = getGameIdPath(_contentId);
+    const std::string& targetPath = basePath + "game.zip";
+    FileUtils::getInstance()->writeStringToFile(zipData, targetPath);
+    
+    unzipGame(targetPath, basePath, "");
+    return true;
+}
+#endif
 
 NS_AZOOMEE_END
