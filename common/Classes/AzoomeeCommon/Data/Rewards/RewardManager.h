@@ -63,6 +63,8 @@ private:
     
     /// Rewards calculated locally but not yet shown to the user
     std::deque<RewardItemRef> _rewardNotifications;
+    /// Pending coin reward notification
+    RewardItemRef _rewardCoinNotification;
     
     /// Rewards pending redemption
     std::deque<RewardItemRef> _rewardsPendingRedemption;

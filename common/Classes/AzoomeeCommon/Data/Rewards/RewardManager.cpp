@@ -59,11 +59,21 @@ void RewardManager::calculateRewardForContent(const HQContentItemObjectRef& cont
     const int baseReward = (it != _rewardCoinValueContentOverride.end()) ? it->second : _defaultRewardCoinValue;
     
     long bonusDuration = timeInContent - _minRewardDuration;
-    int bonusReward = bonusDuration * _repeatRewardCoinValue / _repeatRewardDuration;
-    int fullReward = baseReward + bonusReward;
+    long bonusReward = bonusDuration * _repeatRewardCoinValue / _repeatRewardDuration;
+    int fullReward = baseReward + (int)bonusReward;
     
     const RewardItemRef& reward = RewardItem::createCoinReward(fullReward);
-    _rewardNotifications.push_back(reward);
+    
+    // Do we already have a coin reward pending we can append these coins to?
+    if(_rewardCoinNotification)
+    {
+        _rewardCoinNotification->mergeRewards(reward);
+    }
+    else
+    {
+        _rewardCoinNotification = reward;
+        _rewardNotifications.push_back(reward);
+    }
 }
 
 size_t RewardManager::pendingRewardNotificationCount() const
@@ -80,6 +90,12 @@ RewardItemRef RewardManager::popPendingRewardNotification()
     
     RewardItemRef front = _rewardNotifications.front();
     _rewardNotifications.pop_front();
+    
+    if(front == _rewardCoinNotification)
+    {
+        _rewardCoinNotification = nullptr;
+    }
+    
     return front;
 }
 

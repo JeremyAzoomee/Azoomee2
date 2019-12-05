@@ -14,6 +14,7 @@
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Data/Rewards/RewardManager.h>
 
 using namespace cocos2d;
 
@@ -115,6 +116,7 @@ bool ShopScene::init()
 	
 	return true;
 }
+
 void ShopScene::onEnter()
 {
 	AnalyticsSingleton::getInstance()->contentItemSelectedEvent("SHOP");
@@ -124,6 +126,8 @@ void ShopScene::onEnter()
 			_shopCarousel->setShopData(ShopDataDownloadHandler::getInstance()->getShop());
 		}
 	});
+    // Make sure any rewards are redeemed on the server so we have the latest
+    RewardManager::getInstance()->checkForPendingRewards();
 	
 	Super::onEnter();
 }
@@ -203,6 +207,7 @@ void ShopScene::onHttpRequestSuccess(const std::string& requestTag, const std::s
 		ModalMessages::getInstance()->stopLoading();
 	}
 }
+
 void ShopScene::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
 	ModalMessages::getInstance()->stopLoading();

@@ -10,7 +10,6 @@
 
 #include <AzoomeeCommon/Azoomee.h>
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/API/RewardCallbackHandler.h>
 #include "RewardScreen.h"
 
 NS_AZOOMEE_BEGIN
