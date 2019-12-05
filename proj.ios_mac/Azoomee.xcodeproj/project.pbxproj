@@ -199,6 +199,7 @@
 		E21A4F272317CC5300E1D3FB /* OomeeHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21A4F262317CC5300E1D3FB /* OomeeHQ.cpp */; };
 		E21B22142322B02E0032510A /* RoundedRectTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21B22132322B02E0032510A /* RoundedRectTile.cpp */; };
 		E21D618C238E9D0800C92FC7 /* ChildAgeEntry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21D618B238E9D0800C92FC7 /* ChildAgeEntry.cpp */; };
+		E21D61D823992FE300C92FC7 /* bundledGames in Resources */ = {isa = PBXBuildFile; fileRef = E21D61D723992FE200C92FC7 /* bundledGames */; };
 		E21E650A235F1A88000BC90F /* ChatAPI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21E6503235F1A88000BC90F /* ChatAPI.cpp */; };
 		E21E650C235F1A88000BC90F /* AzoomeeChat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21E6505235F1A88000BC90F /* AzoomeeChat.cpp */; };
 		E21E652E235F4281000BC90F /* ChatHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21E652D235F4281000BC90F /* ChatHQ.cpp */; };
@@ -710,6 +711,7 @@
 		E21B220D2322ACA10032510A /* RoundedRectTile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RoundedRectTile.h; sourceTree = "<group>"; };
 		E21B22132322B02E0032510A /* RoundedRectTile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RoundedRectTile.cpp; sourceTree = "<group>"; };
 		E21D618B238E9D0800C92FC7 /* ChildAgeEntry.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChildAgeEntry.cpp; sourceTree = "<group>"; };
+		E21D61D723992FE200C92FC7 /* bundledGames */ = {isa = PBXFileReference; lastKnownFileType = folder; name = bundledGames; path = ../bundledGames; sourceTree = "<group>"; };
 		E21E6503235F1A88000BC90F /* ChatAPI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChatAPI.cpp; sourceTree = "<group>"; };
 		E21E6505235F1A88000BC90F /* AzoomeeChat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AzoomeeChat.cpp; sourceTree = "<group>"; };
 		E21E6506235F1A88000BC90F /* ChatAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatAPI.h; sourceTree = "<group>"; };
@@ -1221,6 +1223,7 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E21D61D723992FE200C92FC7 /* bundledGames */,
 				02BF05EA1F9788C300E7D086 /* AirshipConfig.plist */,
 				304D9E9D1EA8F833008CED52 /* Mixpanel */,
 				43069CE81E3B492600D6A631 /* Images.xcassets */,
@@ -1964,6 +1967,7 @@
 				304D9EB71EA8F849008CED52 /* test_variant.json in Resources */,
 				304D9EB31EA8F849008CED52 /* MPTakeoverNotificationViewController~ipad.xib in Resources */,
 				304D9EBA1EA8F849008CED52 /* MPArrowRight.png in Resources */,
+				E21D61D823992FE300C92FC7 /* bundledGames in Resources */,
 				304D9EB91EA8F849008CED52 /* MPArrowLeft@2x.png in Resources */,
 				02BF05EB1F9788C300E7D086 /* AirshipConfig.plist in Resources */,
 				304D9EC31EA8F849008CED52 /* MPLogo.png in Resources */,

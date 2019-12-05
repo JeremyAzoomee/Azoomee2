@@ -634,7 +634,7 @@ void GameDataManager::createBundledGamesMap()
 {
     _bundedGamesMap.clear();
     const std::string& fileExt = ".zip";
-    const std::string& localDir = "res/bundledGames/";
+    const std::string& localDir = "bundledGames/";
     const std::string& fullPath = FileUtils::getInstance()->fullPathForFilename(localDir + "dirLocator.png"); //use dummy file to get full path to res dir to use with DirUtil
     const std::string& bundledGamesDir = fullPath.substr(0,fullPath.find(localDir)) + localDir;
     const auto& filenames = DirUtil::getFilesInDirectoryWithExtention(bundledGamesDir, fileExt);
