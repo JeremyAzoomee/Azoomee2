@@ -45,7 +45,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 	
     IAPProductDataHandler::getInstance()->fetchProductData();
     
-    GameDataManager::getInstance();
+    GameDataManager::getInstance(); //for initialisation of bundled games list for IOS
     
     const Size& visibleSize = Director::getInstance()->getVisibleSize();
     if(visibleSize.width / visibleSize.height > 1.95)

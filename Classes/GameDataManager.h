@@ -42,7 +42,7 @@ public:
 public:
     void createBundledGamesMap();
     bool isGameBundled(const std::string& gameId);
-    HQCarouselObjectRef removeUnbundledGames(const HQCarouselObjectRef& carousel);
+    HQCarouselObjectRef createFilteredCarouselForBundledGames(const HQCarouselObjectRef& carousel);
 private:
     bool copyBundledGameToCache(const std::string& gameId);
     std::unordered_map<std::string, std::string> _bundedGamesMap;

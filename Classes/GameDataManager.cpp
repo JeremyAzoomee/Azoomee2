@@ -650,7 +650,7 @@ bool GameDataManager::isGameBundled(const std::string& gameId)
     return _bundedGamesMap.find(gameId) != _bundedGamesMap.end();
 }
 
-HQCarouselObjectRef GameDataManager::removeUnbundledGames(const HQCarouselObjectRef &carousel)
+HQCarouselObjectRef GameDataManager::createFilteredCarouselForBundledGames(const HQCarouselObjectRef &carousel)
 {
     MutableHQCarouselObjectRef output = MutableHQCarouselObject::create();
     output->setColour(carousel->getColour());

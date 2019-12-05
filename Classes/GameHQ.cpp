@@ -58,7 +58,7 @@ void GameHQ::onEnter()
     recentlyPlayedData->addContentItemsToCarousel(RecentlyPlayedManager::getInstance()->getRecentlyPlayedContentForHQ(ConfigStorage::kGameHQName));
     recentlyPlayedData->setTitle(_("Recently played"));
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    _recentlyPlayedLayout->setContentItemData(GameDataManager::getInstance()->removeUnbundledGames(recentlyPlayedData));
+    _recentlyPlayedLayout->setContentItemData(GameDataManager::getInstance()->createFilteredCarouselForBundledGames(recentlyPlayedData));
 #else
     _recentlyPlayedLayout->setContentItemData(recentlyPlayedData);
 #endif
@@ -136,7 +136,7 @@ void GameHQ::createFeaturedTiles()
 {
     _featuredLayout = FeaturedGamesHolder::create();
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    _featuredLayout->setContentItemData(GameDataManager::getInstance()->removeUnbundledGames(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGameHQName)->getHqCarousels().at(0)));
+    _featuredLayout->setContentItemData(GameDataManager::getInstance()->createFilteredCarouselForBundledGames(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGameHQName)->getHqCarousels().at(0)));
 #else
     _featuredLayout->setContentItemData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGameHQName)->getHqCarousels().at(0));
 #endif
@@ -183,7 +183,7 @@ void GameHQ::createDropdowns()
     for(int i = 1; i < carouselData.size(); i++)
     {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-        auto carousel = GameDataManager::getInstance()->removeUnbundledGames(carouselData.at(i));
+        auto carousel = GameDataManager::getInstance()->createFilteredCarouselForBundledGames(carouselData.at(i));
 #else
         auto carousel = carouselData.at(i);
 #endif
