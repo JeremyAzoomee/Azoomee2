@@ -10,6 +10,7 @@
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include "GameDataManager.h"
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "FlowDataSingleton.h"
 #include "LoginLogicHandler.h"
 #include "HQHistoryManager.h"

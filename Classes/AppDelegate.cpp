@@ -13,6 +13,7 @@
 #include "IAPProductDataHandler.h"
 #include "ChatDelegate.h"
 #include "SceneManagerScene.h"
+#include "OfflineScene.h"
 #include "../artapp/Classes/AzoomeeArt/MainScene.h"
 #include "GameDataManager.h"
 
@@ -124,7 +125,7 @@ void AppDelegate::applicationWillEnterForeground()
         
         if(HQHistoryManager::getInstance()->isOffline())
         {
-            Director::getInstance()->replaceScene(OfflineHubScene::createScene());
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OfflineHub));
             return;
         }
         if(HQHistoryManager::getInstance()->getCurrentHQ() != ConfigStorage::kHomeHQName && !(HQHistoryManager::getInstance()->getCurrentHQ() == ConfigStorage::kGroupHQName && HQHistoryManager::getInstance()->getPreviousHQ() == ConfigStorage::kHomeHQName))

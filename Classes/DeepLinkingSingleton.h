@@ -5,7 +5,6 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
 #include <AzoomeeCommon/Data/Json.h>
-#include "NavigationLayer.h"
 #include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
 
 NS_AZOOMEE_BEGIN

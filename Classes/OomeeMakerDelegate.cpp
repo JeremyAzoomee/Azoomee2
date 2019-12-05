@@ -16,7 +16,6 @@
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Tutorial/TutorialController.h>
 
 USING_NS_CC;
 
@@ -41,10 +40,6 @@ void OomeeMakerDelegate::onOomeeMakerNavigationBack()
     {
 		if(_oomeeMakerFromShop)
 		{
-			if(!TutorialController::getInstance()->isTutorialCompleted(TutorialController::kFTUPostPurchaseID))
-			{
-				TutorialController::getInstance()->startTutorial(TutorialController::kFTUPostPurchaseID);
-			}
 			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Shop));
 		}
 		else

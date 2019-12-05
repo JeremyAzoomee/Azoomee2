@@ -14,11 +14,10 @@
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/UI/ConfirmCancelMessageBox.h>
-#include <AzoomeeCommon/Tutorial/TutorialController.h>
 
 NS_AZOOMEE_OM_BEGIN
 
-class OomeeSelectScene : public cocos2d::Scene, public OomeeCarouselButtonDelegate, public ConfirmCancelMessageBoxDelegate, public TutorialDelegate
+class OomeeSelectScene : public cocos2d::Scene, public OomeeCarouselButtonDelegate, public ConfirmCancelMessageBoxDelegate
 {
     typedef cocos2d::Scene Super;
 private:
@@ -53,9 +52,6 @@ public:
     
     virtual void onConfirmPressed(ConfirmCancelMessageBox* pSender) override;
     virtual void onCancelPressed(ConfirmCancelMessageBox* pSender) override;
-	
-	virtual void onTutorialStateChanged(const std::string& stateId) override;
-    
     
 };
 

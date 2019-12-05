@@ -10,7 +10,6 @@
 
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/Scene.h>
-#include <AzoomeeCommon/Tutorial/TutorialController.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
 #include <AzoomeeCommon/UI/TileSprite.h>
 #include "NavigationBar.h"
@@ -28,7 +27,7 @@
 
 NS_AZOOMEE_BEGIN
 
-class HQScene : public Azoomee::Scene, TutorialDelegate
+class HQScene : public Azoomee::Scene
 {
     typedef Azoomee::Scene Super;
 private:
@@ -40,7 +39,6 @@ private:
     PurchaseCapsule* _purchaseCapsule = nullptr;
     bool _showingMessagingLayer = true;
     CoinDisplay* _coinDisplay = nullptr;
-    cocos2d::EventListenerCustom* _rewardRedeemedListener = nullptr;
     SettingsButton* _settingsButton = nullptr;
     bool _initialised = false;
     bool _isPortrait = false;
@@ -74,9 +72,6 @@ public:
     virtual void onSizeChanged() override;
     
     CREATE_FUNC(HQScene);
-    
-    //delegate functions
-    virtual void onTutorialStateChanged(const std::string& stateId) override;
 };
 
 NS_AZOOMEE_END
