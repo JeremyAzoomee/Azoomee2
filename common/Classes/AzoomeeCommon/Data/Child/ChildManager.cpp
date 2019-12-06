@@ -9,12 +9,14 @@
 #include "../Parent/ParentManager.h"
 #include "../../Analytics/AnalyticsSingleton.h"
 #include "../../Crashlytics/CrashlyticsConfig.h"
+#include "../../API/API.h"
 
 NS_AZOOMEE_BEGIN
 
 using namespace cocos2d;
 
 static std::auto_ptr<ChildManager> sChildManagerSharedInstance;
+const std::string ChildManager::kInventoryUpdatedEvent = "Azoomee_ChildManager_kInventoryUpdatedEvent";
 
 ChildManager* ChildManager::getInstance()
 {
@@ -122,8 +124,26 @@ void ChildManager::setLoggedInChild(const MutableChildRef &child)
 	_loggedInChild = child;
 }
 
+void ChildManager::updateInventory()
+{
+    CCASSERT(_loggedInChild, "Tried to update inventory when no child is logged in");
+
+    auto onSuccess = [this](const std::string& requestTag, const std::string& headers, const std::string& body) {
+        parseChildInventory(body);
+    };
+    
+    HttpRequestCreator* request = API::GetInventory(_loggedInChild->getId(), onSuccess, nullptr);
+    request->execute();
+}
+
 void ChildManager::parseChildInventory(const std::string &inventoryData)
 {
+    // Ignore if we're no longer logged in
+    if(!_loggedInChild)
+    {
+        return;
+    }
+    
 	rapidjson::Document data;
 	data.Parse(inventoryData.c_str());
 	if(data.HasParseError())
@@ -131,15 +151,11 @@ void ChildManager::parseChildInventory(const std::string &inventoryData)
 		return;
 	}
 	
-	if(!_loggedInChild)
-	{
-		return;
-	}
-	
-	InventoryRef inventory = Inventory::createWithJson(data);
-	
+	const InventoryRef& inventory = Inventory::createWithJson(data);
 	_loggedInChild->setInventory(inventory);
-	
+    
+    // Post event to notify
+    cocos2d::Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(kInventoryUpdatedEvent);
 }
 
 void ChildManager::parseAvatarUpdate(const std::string& avatarData)

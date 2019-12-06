@@ -34,7 +34,7 @@ protected:
 public:
 	
 	static RewardItemRef createWithJson(const rapidjson::Value& rewardData);
-	static RewardItemRef create();
+	static RewardItemRef createCoinReward(int itemPrice);
 	
 	void parseRewardData(const rapidjson::Value& rewardData);
 	void mergeRewards(const RewardItemRef& reward);

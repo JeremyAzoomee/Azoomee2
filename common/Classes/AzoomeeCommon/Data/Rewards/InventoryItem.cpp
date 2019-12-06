@@ -17,6 +17,14 @@ InventoryItemRef InventoryItem::createWithJson(const rapidjson::Value& inventory
 	item->parseInventoryItemData(inventoryItem);
 	return item;
 }
+
+InventoryItemRef InventoryItem::createCoin()
+{
+    InventoryItemRef item = create();
+    item->_type = "COIN";
+    return item;
+}
+
 InventoryItemRef InventoryItem::create()
 {
 	return InventoryItemRef(new InventoryItem);

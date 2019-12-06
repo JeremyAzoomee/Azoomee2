@@ -14,10 +14,16 @@
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Data/Rewards/RewardManager.h>
 
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
+
+ShopScene::~ShopScene()
+{
+    _inventoryUpdateListener->release();
+}
 
 bool ShopScene::init()
 {
@@ -98,9 +104,19 @@ bool ShopScene::init()
 	_coinDisplay->setAnchorPoint(Vec2(1.2,(isIphoneX && isPortrait) ? 2.2f : 1.5));
 	_coinDisplay->setTouchEnabled(false);
 	this->addChild(_coinDisplay, 1);
+    
+    _inventoryUpdateListener = EventListenerCustom::create(ChildManager::kInventoryUpdatedEvent, [this](EventCustom* event){
+        if(_purchasePopup->isVisible())
+        {
+            onItemPurchaseCompleted();
+            _eventDispatcher->removeEventListener(_inventoryUpdateListener);
+        }
+    });
+    _inventoryUpdateListener->retain();
 	
 	return true;
 }
+
 void ShopScene::onEnter()
 {
 	AnalyticsSingleton::getInstance()->contentItemSelectedEvent("SHOP");
@@ -110,15 +126,22 @@ void ShopScene::onEnter()
 			_shopCarousel->setShopData(ShopDataDownloadHandler::getInstance()->getShop());
 		}
 	});
+    // Make sure any rewards are redeemed on the server so we have the latest
+    RewardManager::getInstance()->checkForPendingRewards();
 	
 	Super::onEnter();
 }
+
 void ShopScene::onExit()
 {
 	AnalyticsSingleton::getInstance()->contentItemClosedEvent();
 	ShopDataDownloadHandler::getInstance()->setOnCompleteCallback(nullptr);
+    
+    _eventDispatcher->removeEventListener(_inventoryUpdateListener);
+    
 	Super::onExit();
 }
+
 void ShopScene::onSizeChanged()
 {
 	Super::onSizeChanged();
@@ -145,43 +168,46 @@ void ShopScene::onSizeChanged()
 	_coinDisplay->setAnchorPoint(Vec2(1.2,(isIphoneX && isPortrait) ? 2.2f : 1.5));
 }
 
+void ShopScene::onItemPurchaseCompleted()
+{
+    ModalMessages::getInstance()->stopLoading();
+    
+    _purchasePopup->setVisible(false);
+    _shopCarousel->setVisible(false);
+    _backButton->setVisible(false);
+    
+    _purchasedAnim = ShopItemPurchasedAnimation::create();
+    _purchasedAnim->setItemData(_purchasePopup->getItemData());
+    _purchasedAnim->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _purchasedAnim->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _purchasedAnim->setOnCompleteCallback([this](){
+        _purchasedAnim->setVisible(false);
+        this->runAction(Sequence::createWithTwoActions(DelayTime::create(0.25), CallFunc::create([this](){// delay removing to prevent crash on android
+            this->removeChild(_purchasedAnim);
+            _purchasedAnim = nullptr;
+        })));
+        
+        _backButton->setVisible(true);
+        _shopCarousel->setVisible(true);
+        _shopCarousel->refreshUI();
+        _purchasePopup->setItemData(nullptr);
+    });
+    this->addChild(_purchasedAnim);
+}
+
 void ShopScene::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
 	if(requestTag == API::TagBuyReward)
 	{
-		HttpRequestCreator* request = API::GetInventory(ChildManager::getInstance()->getParentOrChildId(), this);
-		request->execute();
-	}
-	else if(requestTag == API::TagGetInventory)
-	{
-		ModalMessages::getInstance()->stopLoading();
-		ChildManager::getInstance()->parseChildInventory(body);
-		_purchasePopup->setVisible(false);
-		_shopCarousel->setVisible(false);
-		_backButton->setVisible(false);
-		_purchasedAnim = ShopItemPurchasedAnimation::create();
-		_purchasedAnim->setItemData(_purchasePopup->getItemData());
-		_purchasedAnim->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-		_purchasedAnim->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-		_purchasedAnim->setOnCompleteCallback([this](){
-			_purchasedAnim->setVisible(false);
-			this->runAction(Sequence::createWithTwoActions(DelayTime::create(0.25), CallFunc::create([this](){// delay removing to prevent crash on android
-				this->removeChild(_purchasedAnim);
-				_purchasedAnim = nullptr;
-			})));
-			
-			_backButton->setVisible(true);
-			_shopCarousel->setVisible(true);
-			_shopCarousel->refreshUI();
-			_purchasePopup->setItemData(nullptr);
-		});
-		this->addChild(_purchasedAnim);
+        _eventDispatcher->addEventListenerWithSceneGraphPriority(_inventoryUpdateListener, this);
+        ChildManager::getInstance()->updateInventory();
 	}
 	else
 	{
 		ModalMessages::getInstance()->stopLoading();
 	}
 }
+
 void ShopScene::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
 	ModalMessages::getInstance()->stopLoading();

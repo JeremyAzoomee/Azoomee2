@@ -11,7 +11,6 @@
 #include "VideoPlaylistManager.h"
 #include "SceneManagerScene.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include "ContentHistoryManager.h"
 #include <AzoomeeCommon/Data/Json.h>
 #include "ContentOpener.h"
 

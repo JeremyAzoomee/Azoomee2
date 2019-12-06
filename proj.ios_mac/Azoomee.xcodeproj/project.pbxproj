@@ -1423,10 +1423,10 @@
 		A15D58921E028C940099CDEE /* HistoryManager */ = {
 			isa = PBXGroup;
 			children = (
-				026BAF761E3FFD33009C4ACE /* HQHistoryManager.cpp */,
 				026BAF771E3FFD33009C4ACE /* HQHistoryManager.h */,
-				9289DA081FBDD6EB00B12435 /* ContentHistoryManager.cpp */,
+				026BAF761E3FFD33009C4ACE /* HQHistoryManager.cpp */,
 				9289DA091FBDD6EB00B12435 /* ContentHistoryManager.h */,
+				9289DA081FBDD6EB00B12435 /* ContentHistoryManager.cpp */,
 				9220EB1C201A144B00BD7A90 /* RecentlyPlayedManager.h */,
 				9220EB20201A185C00BD7A90 /* RecentlyPlayedManager.cpp */,
 				929A9D51206CF9D9009B323D /* FavouritesManager.h */,

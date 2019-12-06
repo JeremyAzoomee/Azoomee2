@@ -183,7 +183,7 @@ void ChatAPI::refreshChildSession()
 
 void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
-    cocos2d::log("ChatAPI::onHttpRequestSuccess: %s, body=%s", requestTag.c_str(), body.c_str());
+//    cocos2d::log("ChatAPI::onHttpRequestSuccess: %s, body=%s", requestTag.c_str(), body.c_str());
     
     // Get chat list success
     if(requestTag == API::TagGetChatList)
@@ -328,10 +328,10 @@ void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
 	else if(requestTag == API::TagChildCookieRefresh)
 	{
 		ChildManager::getInstance()->parseChildSessionUpdate(body);
-		HttpRequestCreator* request = API::GetGordenRequest(ChildManager::getInstance()->getLoggedInChild()->getId(), ChildManager::getInstance()->getLoggedInChild()->getCDNSessionId(), this);
+		HttpRequestCreator* request = API::GetSessionCookiesRequest(ChildManager::getInstance()->getLoggedInChild()->getId(), ChildManager::getInstance()->getLoggedInChild()->getCDNSessionId(), this);
 		request->execute();
 	}
-	else if(requestTag == API::TagGetGorden)
+	else if(requestTag == API::TagGetSessionCookies)
 	{
 		CookieManager::getInstance()->parseDownloadCookies(headers);
 		// Notify observers

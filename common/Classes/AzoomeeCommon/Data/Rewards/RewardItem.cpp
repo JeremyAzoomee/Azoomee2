@@ -11,18 +11,22 @@ NS_AZOOMEE_BEGIN
 
 RewardItemRef RewardItem::createWithJson(const rapidjson::Value& rewardData)
 {
-	RewardItemRef reward = create();
+	RewardItemRef reward = RewardItemRef(new RewardItem());
 	reward->parseRewardData(rewardData);
 	return reward;
 }
-RewardItemRef RewardItem::create()
+
+RewardItemRef RewardItem::createCoinReward(int itemPrice)
 {
-	return RewardItemRef(new RewardItem);
+	RewardItemRef reward = RewardItemRef(new RewardItem());
+    reward->_itemPrice = itemPrice;
+    reward->_status = "LOCAL";
+    reward->_item = InventoryItem::createCoin();
+    return reward;
 }
 
 RewardItem::RewardItem()
 {
-	
 }
 
 void RewardItem::parseRewardData(const rapidjson::Value& rewardData)
@@ -41,24 +45,12 @@ void RewardItem::parseRewardData(const rapidjson::Value& rewardData)
 	}
 }
 
-void RewardItem::mergeRewards(const RewardItemRef& reward)
+void RewardItem::mergeRewards(const RewardItemRef& otherReward)
 {
-	if(reward->getType() == "COIN" && (_id == "" || _item->getType() == "COIN")) // only merge is this is uninitialised or both rewards are coins
+    // only merge if both rewards are coins
+	if(otherReward->getType() == "COIN" && getType() == "COIN")
 	{
-		if(_id == "")// this is unitintialised, copy merged reward
-		{
-			_id = reward->_id;
-			_item = reward->_item;
-			_description = reward->_description;
-			_status = reward->_status;
-			_userId = reward->_userId;
-			_itemPrice = reward->_itemPrice;
-		}
-		else // append new id and reward value
-		{
-			_id += ";" + reward->_id;
-			_itemPrice += reward->_itemPrice;
-		}
+		_itemPrice += otherReward->_itemPrice;
 	}
 }
 

@@ -18,9 +18,6 @@
 #include "BackEndCaller.h"
 #include "RecentlyPlayedManager.h"
 
-#include <AzoomeeCommon/API/API.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-
 using namespace cocos2d;
 NS_AZOOMEE_BEGIN
 
@@ -168,21 +165,12 @@ bool isAnonUser()
 
 void sendProgressMetaDataVideo(int videoProgressSeconds, int videoDuration)
 {
-	ContentHistoryManager::getInstance()->onContentClosed();
-	const auto& contentItem = ContentHistoryManager::getInstance()->getLastOpenedContent();
-	const std::string& data = StringUtils::format("{\"contentId\":\"%s\", \"contentMeta\":{\"contentTitle\":\"%s\",\"contentType\":\"%s\", \"contentLength\":%d, \"unit\":\"SECONDS\", \"contentProgress\":%d, \"duration\":%ld, \"lastPlayedMeta\": [{\"start\":%s,\"end\":%s}]}}",contentItem->getContentItemId().c_str(), contentItem->getTitle().c_str(),contentItem->getType().c_str(), videoDuration, videoProgressSeconds ,ContentHistoryManager::getInstance()->getTimeInContentSec(), ContentHistoryManager::getInstance()->getContentOpenedTimeMs().c_str(), ContentHistoryManager::getInstance()->getContentClosedTimeMs().c_str());
-	HttpRequestCreator* request = API::UpdateContentProgressMeta(ChildManager::getInstance()->getLoggedInChild()->getId(), data, nullptr);
-	request->execute();
-	
+	ContentHistoryManager::getInstance()->onVideoContentClosed(videoProgressSeconds, videoDuration);
 }
 
 void sendProgressMetaDataGame()
 {
-	ContentHistoryManager::getInstance()->onContentClosed();
-	const auto& contentItem = ContentHistoryManager::getInstance()->getLastOpenedContent();
-	const std::string& data = StringUtils::format("{\"contentId\":\"%s\", \"contentMeta\":{\"contentTitle\":\"%s\",\"contentType\":\"%s\", \"unit\":\"SECONDS\", \"duration\":%ld, \"lastPlayedMeta\": [{\"start\":%s,\"end\":%s}]}}",contentItem->getContentItemId().c_str(), contentItem->getTitle().c_str(), contentItem->getType().c_str(), ContentHistoryManager::getInstance()->getTimeInContentSec(), ContentHistoryManager::getInstance()->getContentOpenedTimeMs().c_str(), ContentHistoryManager::getInstance()->getContentClosedTimeMs().c_str());
-	HttpRequestCreator* request = API::UpdateContentProgressMeta(ChildManager::getInstance()->getLoggedInChild()->getId(), data, nullptr);
-	request->execute();
+	ContentHistoryManager::getInstance()->onGameContentClosed();
 }
 
 void newVideoOpened(int playlistIndex)

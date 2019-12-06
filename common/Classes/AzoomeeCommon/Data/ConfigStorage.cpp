@@ -265,7 +265,6 @@ std::string ConfigStorage::getPathForTag(const std::string& httpRequestTag)
     if(httpRequestTag == API::TagLogin) return "/api/auth/login";
     if(httpRequestTag == API::TagGetAvailableChildren) return StringUtils::format("/api/user/adult/%s/owns", ParentManager::getInstance()->getLoggedInParentId().c_str());
     if(httpRequestTag == API::TagChildLogin) return "/api/auth/switchProfile";
-    if(httpRequestTag == API::TagGetGorden) return "/api/porthole/pixel/gordon.png";
     if(httpRequestTag == API::TagRegisterParent) return "/api/user/v2/signup";
     if(httpRequestTag == API::TagRegisterChild) return "/api/user/child";
     if(httpRequestTag == API::TagDeleteChild) return "/api/user/child/";

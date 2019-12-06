@@ -16,10 +16,10 @@ NS_AZOOMEE_BEGIN
 	
 class ChildManager
 {
-		
 public:
+    static const std::string kInventoryUpdatedEvent;
+    
 	static ChildManager* getInstance();
-	
 	virtual ~ChildManager();
 	
 	void setChildLoggedIn(bool loggedIn);
@@ -34,13 +34,17 @@ public:
 	std::string getParentOrChildApiKey() const;
 	std::string getParentOrChildAvatarId() const;
 	std::string getParentOrChildName() const;
+    
+    /// Get the latest inventory from the server
+    void updateInventory();
 	
-	void parseChildInventory(const std::string& inventoryData);
 	void parseAvatarUpdate(const std::string& avatarData);
 	void parseChildSessionUpdate(const std::string& sessionData);
 	void loginChildOffline(const std::string& childId);
 	
 private:
+    void parseChildInventory(const std::string& inventoryData);
+    
 	bool _childLoggedIn = false;
 	MutableChildRef _loggedInChild = nullptr;
 };
