@@ -55,7 +55,7 @@ void HQScene::onEnter()
 {
     _navBar->toggleHQSelected(_activePageName);
 
-	ContentHistoryManager::getInstance()->setReturnedFromContent(false);
+    ContentHistoryManager::getInstance()->setReturnedFromContent(false);
     HQHistoryManager::getInstance()->addHQToHistoryManager(_activePageName);
     
     Super::onEnter();

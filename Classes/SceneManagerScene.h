@@ -47,7 +47,7 @@ private:
     void forceToLandscape();
     void acceptAnyOrientation();
 	
-	void showHoldingUI();
+	void checkForRewardsAndGotoBaseScene();
 	
 	cocos2d::Scene* getBaseScene();
 	

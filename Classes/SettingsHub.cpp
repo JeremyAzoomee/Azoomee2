@@ -399,11 +399,11 @@ void SettingsHub::onHttpRequestSuccess(const std::string& requestTag, const std:
 		const std::string& userId = ParentManager::getInstance()->getLoggedInParentId();
 		const std::string& sessionId = ParentManager::getInstance()->getLoggedInParentCdnSessionId();
 		
-		HttpRequestCreator* request = API::GetGordenRequest(userId, sessionId, this);
+		HttpRequestCreator* request = API::GetSessionCookiesRequest(userId, sessionId, this);
 		request->execute();
 		return;
 	}
-	else if(requestTag == API::TagGetGorden)
+	else if(requestTag == API::TagGetSessionCookies)
 	{
         ModalMessages::getInstance()->stopLoading();
 		ChildManager::getInstance()->setChildLoggedIn(false);// make sure we log out child if entering parent chat

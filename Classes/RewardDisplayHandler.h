@@ -10,41 +10,33 @@
 
 #include <AzoomeeCommon/Azoomee.h>
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/API/RewardCallbackHandler.h>
-#include <AzoomeeCommon/API/HttpRequestCreator.h>
 #include "RewardScreen.h"
 
 NS_AZOOMEE_BEGIN
 
-class RewardDisplayHandler : public RewardCallbackDelegate, RewardScreenDelegate, HttpRequestCreatorResponseDelegate
+class RewardDisplayHandler : public RewardScreenDelegate
 {
 private:
 	bool _rewardDisplayRunning = false;
 	
-	std::vector<RewardItemRef> _rewardQueue;
-	
 	RewardDisplayHandler();
 	
+    /// Show the next reward. Returns false if no reward was shown
+    bool popAndShowNextReward();
 	void showReward(const RewardItemRef& reward);
-	
-	void addRewardToQueue(const RewardItemRef& reward);
 	
 	bool isRunningAnimationPossible();
 	
 public:
-	static const std::string kRewardRedeemedEventKey;
 	
 	static RewardDisplayHandler* getInstance();
 	virtual ~RewardDisplayHandler();
 	
-	void getPendingRewards();
-	void showNextReward();
+    /// Show the next reward. Returns false if no reward was shown
+	bool showNextReward();
 	
 	//delagate functions
-	void onRewardSuccess(const RewardItemRef& responseData);
 	void onAnimationComplete(const RewardItemRef& reward);
-	void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body);
-	void onHttpRequestFailed(const std::string& requestTag, long errorCode);
 };
 
 NS_AZOOMEE_END

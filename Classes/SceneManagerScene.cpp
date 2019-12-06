@@ -99,15 +99,17 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             FlowDataSingleton::getInstance()->clearData();
             returnToPrevOrientation();
             acceptAnyOrientation();
+            
 			if(ContentHistoryManager::getInstance()->getReturnedFromContent())
 			{
 				setCrashlyticsKeyWithString(CrashlyticsConsts::kContentIdKey, "");
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-				showHoldingUI();
+                
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+                this->runAction(Sequence::createWithTwoActions(DelayTime::create(0.5), CallFunc::create([this](){
+                    checkForRewardsAndGotoBaseScene();
+                })));
 #else
-				this->runAction(Sequence::createWithTwoActions(DelayTime::create(0.5), CallFunc::create([this](){
-					showHoldingUI();
-				})));
+				checkForRewardsAndGotoBaseScene();
 #endif
 			}
 			else
@@ -380,49 +382,46 @@ cocos2d::Scene* SceneManagerScene::getBaseScene()
     return scene;
 }
 
-void SceneManagerScene::showHoldingUI()
+void SceneManagerScene::checkForRewardsAndGotoBaseScene()
 {
-    LayerColor* bgColour = LayerColor::create(Color4B(Style::Color::darkIndigo));
-	this->addChild(bgColour, -1);
-	
-	this->setPosition(Director::getInstance()->getVisibleOrigin());
-	this->setContentSize(Director::getInstance()->getVisibleSize());
-	
-    RoundedRectSprite* pattern = RoundedRectSprite::create();
-    pattern->setTexture("res/decoration/pattern_stem_tile.png");
-    pattern->setCornerRadius(0);
-    pattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    pattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    pattern->setColor(Style::Color::white);
-    pattern->setScaleMode(RoundedRectSprite::ScaleMode::TILE);
-    pattern->setContentSize(getContentSize());
-    pattern->setOpacity(100);
-    addChild(pattern);
-	
-	LayerColor* overlay = LayerColor::create(Color4B(7,4,34,80));
-	this->addChild(overlay);
-	
-	for(int i = 0; i < 3; i++)
-	{
-		auto loadingCircle = Sprite::create("res/modal/loading.png");
-		loadingCircle->setNormalizedPosition(Vec2(0.5,0.5));
-		loadingCircle->setOpacity(0);
-		loadingCircle->setRotation(RandomHelper::random_int(0, 360));
-		loadingCircle->setScale(0.6 + i * 0.2);
-		
-		this->addChild(loadingCircle);
-		
-		int direction = CCRANDOM_0_1() < 0.5 ? 1 : -1;
-		
-		loadingCircle->runAction(RepeatForever::create(RotateBy::create(CCRANDOM_0_1() + 1, 360 * direction)));
-		loadingCircle->runAction(FadeTo::create(0.5, 255));
-	}
+//    LayerColor* bgColour = LayerColor::create(Color4B(Style::Color::darkIndigo));
+//	this->addChild(bgColour, -1);
+//
+//	this->setPosition(Director::getInstance()->getVisibleOrigin());
+//	this->setContentSize(Director::getInstance()->getVisibleSize());
+//
+//    RoundedRectSprite* pattern = RoundedRectSprite::create();
+//    pattern->setTexture("res/decoration/pattern_stem_tile.png");
+//    pattern->setCornerRadius(0);
+//    pattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+//    pattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+//    pattern->setColor(Style::Color::white);
+//    pattern->setScaleMode(RoundedRectSprite::ScaleMode::TILE);
+//    pattern->setContentSize(getContentSize());
+//    pattern->setOpacity(100);
+//    addChild(pattern);
+//
+//	LayerColor* overlay = LayerColor::create(Color4B(7,4,34,80));
+//	this->addChild(overlay);
+//
+//	for(int i = 0; i < 3; i++)
+//	{
+//		auto loadingCircle = Sprite::create("res/modal/loading.png");
+//		loadingCircle->setNormalizedPosition(Vec2(0.5,0.5));
+//		loadingCircle->setOpacity(0);
+//		loadingCircle->setRotation(RandomHelper::random_int(0, 360));
+//		loadingCircle->setScale(0.6 + i * 0.2);
+//
+//		this->addChild(loadingCircle);
+//
+//		int direction = CCRANDOM_0_1() < 0.5 ? 1 : -1;
+//
+//		loadingCircle->runAction(RepeatForever::create(RotateBy::create(CCRANDOM_0_1() + 1, 360 * direction)));
+//		loadingCircle->runAction(FadeTo::create(0.5, 255));
+//	}
 	
 	RewardDisplayHandler::getInstance()->showNextReward();
-	
-	this->runAction(Sequence::createWithTwoActions(DelayTime::create(2.5), CallFunc::create([this](){
-		Director::getInstance()->replaceScene(getBaseScene());
-	})));
+	Director::getInstance()->replaceScene(getBaseScene());
 }
 
 NS_AZOOMEE_END

@@ -3,6 +3,7 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Rewards/RewardManager.h>
 #include <AzoomeeCommon/Data/Cookie/CookieManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
@@ -24,8 +25,6 @@
 #include "ForceUpdateSingleton.h"
 #include "IAPProductDataHandler.h"
 #include "ChildCreator.h"
-
-#include "RewardDisplayHandler.h"
 
 #include "MarketingAssetManager.h"
 
@@ -304,16 +303,18 @@ void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString
     ParentManager::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headerString));
 	getChildInventory();
     OomeeMaker::OomeeMakerDataHandler::getInstance()->getOomeesForChild(ChildManager::getInstance()->getLoggedInChild()->getId(), false);
-    getGordon();
+    getSessionCookies();
 	HQHistoryManager::getInstance()->emptyHistory();
+    
+    // Update rewards feed
+    RewardManager::getInstance()->getLatestRewardStrategy();
+    RewardManager::getInstance()->checkForPendingRewards();
 }
 
-//GETTING GORDON.PNG-------------------------------------------------------------------------------------
+// - getSessionCookies
 
-void BackEndCaller::getGordon()
+void BackEndCaller::getSessionCookies()
 {
-    
-    
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     IosNativeFunctionsSingleton::getInstance()->deleteHttpCookies(); //ios handles cookies on OS level. Removal of earlier cookies is important to avoid watching premium content with a free user.
 #endif
@@ -321,11 +322,11 @@ void BackEndCaller::getGordon()
     const std::string& userId = ChildManager::getInstance()->getParentOrChildId();
     const std::string& sessionId = ChildManager::getInstance()->getParentOrChildCdnSessionId();
     
-    HttpRequestCreator* request = API::GetGordenRequest(userId, sessionId, this);
+    HttpRequestCreator* request = API::GetSessionCookiesRequest(userId, sessionId, this);
     request->execute();
 }
 
-void BackEndCaller::onGetGordonAnswerReceived(const std::string& responseString)
+void BackEndCaller::onSessionCookiesAnswerReceived(const std::string& responseString)
 {
     if(CookieManager::getInstance()->parseDownloadCookies(responseString))
     {
@@ -335,8 +336,6 @@ void BackEndCaller::onGetGordonAnswerReceived(const std::string& responseString)
 				HQStructureDownloadHandler::getInstance()->getLatestData([](bool success){ //on complete
 					if(success)
 					{
-						RewardDisplayHandler::getInstance()->getPendingRewards();
-                        
                         SceneNameEnum nextScene = SceneNameEnum::Base;
                         
                         if(ParentManager::getInstance()->isLoggedInParentAnonymous())
@@ -494,8 +493,7 @@ void BackEndCaller::getChildInventory()
 	const ChildRef& child = ChildManager::getInstance()->getLoggedInChild();
 	if(child)
 	{
-		HttpRequestCreator* request = API::GetInventory(child->getId(), this);
-		request->execute();
+        ChildManager::getInstance()->updateInventory();
 	}
 }
 
@@ -508,18 +506,14 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
         ConfigStorage::getInstance()->setClientAnonymousIp(body);
         AnalyticsSingleton::getInstance()->registerAnonymousIp(ConfigStorage::getInstance()->getClientAnonymousIp());
     }
-    else if(requestTag == API::TagGetGorden)
+    else if(requestTag == API::TagGetSessionCookies)
     {
-        onGetGordonAnswerReceived(headers);
+        onSessionCookiesAnswerReceived(headers);
     }
     else if(requestTag == API::TagChildLogin)
     {
         onChildLoginAnswerReceived(body, headers);
     }
-	else if(requestTag == API::TagGetInventory)
-	{
-		ChildManager::getInstance()->parseChildInventory(body);
-	}
     else if(requestTag == API::TagGetAvailableChildren)
     {
         onGetChildrenAnswerReceived(body);

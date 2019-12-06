@@ -23,11 +23,11 @@ NS_AZOOMEE_BEGIN
 class ShopScene : public Azoomee::Scene, HttpRequestCreatorResponseDelegate
 {
 	typedef Azoomee::Scene Super;
-	
 private:
-    static const std::string kGetInvPrePurchaseTag;
-    static const std::string kGetInvPostPurchaseTag;
+    enum GetInvContext {PRE_PURCHSE, POST_PURCAHSE, REFRESH};
     
+    void onItemPurchaseCompleted();
+	
 	ShopCarousel* _shopCarousel = nullptr;
 	ShopItemPurchasePopup* _purchasePopup = nullptr;
 	ShopItemPurchasedAnimation* _purchasedAnim = nullptr;
@@ -38,8 +38,13 @@ private:
 	cocos2d::Sprite* _wires = nullptr;
 	cocos2d::Sprite* _gradient = nullptr;
 	
+    cocos2d::EventListenerCustom* _inventoryUpdateListener = nullptr;
+    
+    GetInvContext _getInvContext = GetInvContext::REFRESH;
+    
+    void displayNotEnoughCoinsError();
+    
 public:
-	
 	virtual bool init() override;
 	virtual void onEnter() override;
 	virtual void onExit() override;

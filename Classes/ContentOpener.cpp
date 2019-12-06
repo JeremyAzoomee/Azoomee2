@@ -167,10 +167,10 @@ void ContentOpener::onHttpRequestSuccess(const std::string& requestTag, const st
 	if(requestTag == API::TagChildCookieRefresh)
 	{
 		ChildManager::getInstance()->parseChildSessionUpdate(body);
-		HttpRequestCreator* request = API::GetGordenRequest(ChildManager::getInstance()->getLoggedInChild()->getId(), ChildManager::getInstance()->getLoggedInChild()->getCDNSessionId(), this);
+		HttpRequestCreator* request = API::GetSessionCookiesRequest(ChildManager::getInstance()->getLoggedInChild()->getId(), ChildManager::getInstance()->getLoggedInChild()->getCDNSessionId(), this);
 		request->execute();
 	}
-	else if(requestTag == API::TagGetGorden)
+	else if(requestTag == API::TagGetSessionCookies)
 	{
 		ModalMessages::getInstance()->stopLoading();
 		CookieManager::getInstance()->parseDownloadCookies(headers);
