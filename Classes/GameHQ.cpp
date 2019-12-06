@@ -13,6 +13,7 @@
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include "RecentlyPlayedManager.h"
 #include "HQDataProvider.h"
+#include "GameDataManager.h"
 
 using namespace cocos2d;
 
@@ -56,8 +57,11 @@ void GameHQ::onEnter()
     MutableHQCarouselObjectRef recentlyPlayedData = MutableHQCarouselObject::create();
     recentlyPlayedData->addContentItemsToCarousel(RecentlyPlayedManager::getInstance()->getRecentlyPlayedContentForHQ(ConfigStorage::kGameHQName));
     recentlyPlayedData->setTitle(_("Recently played"));
-    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    _recentlyPlayedLayout->setContentItemData(GameDataManager::getInstance()->createFilteredCarouselForBundledGames(recentlyPlayedData));
+#else
     _recentlyPlayedLayout->setContentItemData(recentlyPlayedData);
+#endif
     
     Super::onEnter();
 }
@@ -131,7 +135,11 @@ void GameHQ::onSizeChanged()
 void GameHQ::createFeaturedTiles()
 {
     _featuredLayout = FeaturedGamesHolder::create();
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    _featuredLayout->setContentItemData(GameDataManager::getInstance()->createFilteredCarouselForBundledGames(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGameHQName)->getHqCarousels().at(0)));
+#else
     _featuredLayout->setContentItemData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGameHQName)->getHqCarousels().at(0));
+#endif
     _featuredLayout->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
         if(_contentSelectedCallback)
         {
@@ -174,7 +182,11 @@ void GameHQ::createDropdowns()
     const auto& carouselData = HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGameHQName)->getHqCarousels();
     for(int i = 1; i < carouselData.size(); i++)
     {
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+        auto carousel = GameDataManager::getInstance()->createFilteredCarouselForBundledGames(carouselData.at(i));
+#else
         auto carousel = carouselData.at(i);
+#endif
         DropdownContentHolder* dropdown = DropdownContentHolder::create();
         dropdown->setTilePlaceholder(CONTENT_PLACEHOLDER_GAME_1X1);
         dropdown->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());

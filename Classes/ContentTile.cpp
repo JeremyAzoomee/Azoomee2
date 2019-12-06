@@ -22,7 +22,7 @@ bool ContentTile::init()
     addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            if(_callback)
+            if(_callback && _contentItem)
             {
                 _callback(_contentItem);
             }

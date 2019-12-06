@@ -11,6 +11,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/ErrorCodes.h>
 #include <AzoomeeCommon/Utils/StringMgr.h>
+#include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
 
 using namespace cocos2d;
 
@@ -68,8 +69,13 @@ void ChatDelegate::onChatAuthorizationError(const std::string& requestTag, long 
 
 void ChatDelegate::onChatNavigateToContent(const std::string &contentId)
 {
-    AnalyticsSingleton::getInstance()->chatOpenSharedContentEvent(contentId);
-    ContentOpener::getInstance()->openContentById(contentId);
+    const auto& contentItem = ContentItemManager::getInstance()->getContentItemForId(contentId);
+    if(contentItem)
+    {
+        AnalyticsSingleton::getInstance()->chatOpenSharedContentEvent(contentId);
+        AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, 0, 0, "", ConfigStorage::kChatHQName);
+        ContentOpener::getInstance()->openContentById(contentId);
+    }
 }
 
 void ChatDelegate::onChatOfflineError(const std::string &requestTag)
