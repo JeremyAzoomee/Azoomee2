@@ -42,13 +42,8 @@ bool IAPScene::init()
 	_productLayout->setSizePercent(isPortrait ? Vec2(1.0f, 0.34f) : Vec2(0.5f,0.68f));
 	_productLayout->setAnchorPoint(isPortrait ? Vec2::ANCHOR_MIDDLE_TOP : Vec2::ANCHOR_TOP_RIGHT);
 	_productLayout->setNormalizedPosition(isPortrait ? Vec2::ANCHOR_MIDDLE : Vec2::ANCHOR_TOP_RIGHT);
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-	_productLayout->setProductLayoutType(ProductLayoutType::PASS);
-	std::vector<std::pair<std::string, std::string>> products = {{_("Get 30 days of Azoomee for only"),IAPProductDataHandler::getInstance()->getHumanReadableProductPrice()}};
-#else
 	_productLayout->setProductLayoutType(ProductLayoutType::SUBSCRIPTION);
 	std::vector<std::pair<std::string, std::string>> products = {{_("7-day free trial"),IAPProductDataHandler::getInstance()->getHumanReadableProductPrice()}};
-#endif
 	_productLayout->setProductData(products);
 	_productLayout->setIapActionCallback([this](IAPAction action){
 		switch (action) {

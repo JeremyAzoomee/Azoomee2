@@ -40,9 +40,6 @@ using namespace Azoomee;
 
 -(void)makeOneMonthPayment
 {
-#if defined(AZOOMEE_ENVIRONMENT_CI)
-    self.purchaseRecurringAfterQuery = NO;
-#endif
     if(self.oneMonthSubscription == nil)
     {
         self.purchaseAfterQuery = YES;
@@ -53,21 +50,6 @@ using namespace Azoomee;
         [self startPaymentQueueForProduct:self.oneMonthSubscription];
     }
 }
-
-#if defined(AZOOMEE_ENVIRONMENT_CI)
--(void)makeOneMonthRecurringPayment
-{
-    if(self.oneMonthRecurringSubscription == nil)
-    {
-        self.purchaseRecurringAfterQuery = YES;
-        [self queryProductInfo];
-    }
-    else
-    {
-        [self startPaymentQueueForProduct:self.oneMonthRecurringSubscription];
-    }
-}
-#endif
 
 -(void)restorePayment
 {
@@ -97,21 +79,8 @@ using namespace Azoomee;
                 IAPProductDataHandler::getInstance()->setHumanReadableProductPrice(std::string([priceHumanReadable cStringUsingEncoding:NSUTF8StringEncoding]));
                 IAPProductDataHandler::getInstance()->setProductPrice([skProduct.price floatValue]);
             }
-#if defined(AZOOMEE_ENVIRONMENT_CI)
-            else if([skProduct.productIdentifier isEqualToString:self.oneMonthRecurringSubscriptionID] )
-            {
-                self.oneMonthRecurringSubscription = skProduct;
-            }
-#endif
         }
         
-#if defined(AZOOMEE_ENVIRONMENT_CI)
-        if(self.purchaseRecurringAfterQuery)
-        {
-            [self startPaymentQueueForProduct:self.oneMonthRecurringSubscription];
-        }
-        else
-#endif
         if(self.purchaseAfterQuery)
         {
             [self startPaymentQueueForProduct:self.oneMonthSubscription];
@@ -136,7 +105,7 @@ using namespace Azoomee;
 #if defined(AZOOMEE_ENVIRONMENT_TEST)
     const std::vector<std::string> productIDs = { "ios-test" };
 #elif defined(AZOOMEE_ENVIRONMENT_CI)
-    const std::vector<std::string> productIDs = { "ios-ci", "ios-ci-recurring" };
+    const std::vector<std::string> productIDs = { "ios-ci" };
 #else
     const std::vector<std::string> productIDs = { "ios-prod" };
 #endif
@@ -149,9 +118,7 @@ using namespace Azoomee;
     }
     
     self.oneMonthSubscriptionID = [productIDList firstObject];
-#if defined(AZOOMEE_ENVIRONMENT_CI)
-    self.oneMonthRecurringSubscriptionID = [productIDList objectAtIndex:1];
-#endif
+
     NSSet* productIdentifiers = [NSSet setWithArray:productIDList];
     
     SKProductsRequest* productsRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:productIdentifiers];

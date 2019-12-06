@@ -101,48 +101,6 @@ bool ProductLayout::init()
 	});
 	
 	buttonHolder->addChild(_restoreButton);
-	
-#if defined(AZOOMEE_ENVIRONMENT_CI)
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    DynamicText* subTextButton = DynamicText::create(_("Recurring Sub"), Style::Font::PoppinsBold(), 60);
-    subTextButton->ignoreContentAdaptWithSize(false);
-    subTextButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    subTextButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
-    subTextButton->setTextHorizontalAlignment(TextHAlignment::CENTER);
-    subTextButton->setTextVerticalAlignment(TextVAlignment::CENTER);
-    subTextButton->setTextAreaSize(Size(700,140));
-    subTextButton->setTextColor(Color4B(Style::Color::brownGrey));
-    subTextButton->setTouchEnabled(true);
-    subTextButton->setOverflow(Label::Overflow::SHRINK);
-    subTextButton->addTouchEventListener([this, subTextButton](Ref* pSender, ui::Widget::TouchEventType eType){
-        switch(eType)
-        {
-            case cocos2d::ui::Widget::TouchEventType::BEGAN:
-            {
-                subTextButton->setScale(1.05f);
-                break;
-            }
-            case cocos2d::ui::Widget::TouchEventType::MOVED:
-            {
-                break;
-            }
-            case cocos2d::ui::Widget::TouchEventType::ENDED:
-            {
-                subTextButton->setScale(1.0f);
-                RoutePaymentSingleton::getInstance()->startIOSRecPayment();
-                break;
-            }
-            case cocos2d::ui::Widget::TouchEventType::CANCELED:
-            {
-                subTextButton->setScale(1.0f);
-                break;
-            }
-        }
-    });
-    
-    buttonHolder->addChild(subTextButton);
-#endif
-#endif
     
 	return true;
 }
