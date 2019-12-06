@@ -229,8 +229,8 @@ void ShopScene::onItemPurchaseCompleted()
 void ShopScene::displayNotEnoughCoinsError()
 {
     PopupMessageBox* messageBox = PopupMessageBox::create();
-    messageBox->setTitle(_("Cant afford this"));
-    messageBox->setBody(_("You don’t have enough coins to buy this right now"));
+    messageBox->setTitle(_("Oops! We can't find your coins."));
+    messageBox->setBody(_("Earn more by watching and playing!"));
     messageBox->setButtonText(_("Back"));
     messageBox->setButtonColour(Style::Color::darkIndigo);
     messageBox->setPatternColour(Style::Color::azure);
