@@ -185,8 +185,6 @@ void PurchaseCapsule::setupForCurrentState()
             _loginLayout->setSizePercent(Vec2(loginWidthPercent,1.0f));
 #ifdef AZOOMEE_VODACOM_BUILD
             _purchaseText->setString(_("Unlock everything"));
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-            _purchaseText->setString(_("Buy Azoomee Pass"));
 #else
             _purchaseText->setString(_("Get 7 Days free"));
 #endif
