@@ -116,9 +116,10 @@ void ShopScene::onEnter()
                 _shopCarousel->refreshUI();
                 const InventoryRef& inv = ChildManager::getInstance()->getLoggedInChild()->getInventory();
                 const auto& invItems = inv->getItems();
-                if(std::find_if(invItems.begin(), invItems.end(), [this](const InventoryItemRef& item){
+                const auto& findFunc = [this](const InventoryItemRef& item){
                     return item->getItemId() == _purchasePopup->getItemData()->getInventoryItem()->getItemId();
-                }) != invItems.end()) // check is item already owned
+                };
+                if(std::find_if(invItems.begin(), invItems.end(), findFunc) != invItems.end()) // check is item already owned
                 {
                     _purchasePopup->setItemData(nullptr);
                 }
