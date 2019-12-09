@@ -24,6 +24,7 @@ class ShopScene : public Azoomee::Scene, HttpRequestCreatorResponseDelegate
 {
 	typedef Azoomee::Scene Super;
 private:
+    enum GetInvContext {PRE_PURCHSE, POST_PURCAHSE, REFRESH};
     
     void onItemPurchaseCompleted();
 	
@@ -39,8 +40,11 @@ private:
 	
     cocos2d::EventListenerCustom* _inventoryUpdateListener = nullptr;
     
+    GetInvContext _getInvContext = GetInvContext::REFRESH;
+    
+    void displayNotEnoughCoinsError();
+    
 public:
-    ~ShopScene();
 	virtual bool init() override;
 	virtual void onEnter() override;
 	virtual void onExit() override;

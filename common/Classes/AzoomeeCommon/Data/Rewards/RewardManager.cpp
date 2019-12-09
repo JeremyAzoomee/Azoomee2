@@ -59,7 +59,7 @@ void RewardManager::calculateRewardForContent(const HQContentItemObjectRef& cont
     const int baseReward = (it != _rewardCoinValueContentOverride.end()) ? it->second : _defaultRewardCoinValue;
     
     long bonusDuration = timeInContent - _minRewardDuration;
-    long bonusReward = bonusDuration * _repeatRewardCoinValue / _repeatRewardDuration;
+    long bonusReward = floor(bonusDuration * ((float)_repeatRewardCoinValue / (float)_repeatRewardDuration) );
     int fullReward = baseReward + (int)bonusReward;
     
     const RewardItemRef& reward = RewardItem::createCoinReward(fullReward);
