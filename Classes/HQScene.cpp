@@ -53,16 +53,28 @@ bool HQScene::init()
 
 void HQScene::onEnter()
 {
+    OnScreenChecker::kUseStrictBoundry = false;
+    
     _navBar->toggleHQSelected(_activePageName);
 
     ContentHistoryManager::getInstance()->setReturnedFromContent(false);
     HQHistoryManager::getInstance()->addHQToHistoryManager(_activePageName);
+    
+    _gameHQ->setPositionPercent(Vec2::ANCHOR_MIDDLE);
+    _videoHQ->setPositionPercent(Vec2::ANCHOR_MIDDLE);
+    _oomeeHQ->setPositionPercent(Vec2::ANCHOR_MIDDLE);
+    _chatHQ->setPositionPercent(Vec2::ANCHOR_MIDDLE);
     
     Super::onEnter();
 }
 
 void HQScene::onExit()
 {
+    _gameHQ->setPositionPercent(_activePageName == ConfigStorage::kGameHQName ? Vec2::ANCHOR_MIDDLE : Vec2(-1,0.5));
+    _videoHQ->setPositionPercent(_activePageName == ConfigStorage::kVideoHQName ? Vec2::ANCHOR_MIDDLE : Vec2(-1,0.5));
+    _oomeeHQ->setPositionPercent(_activePageName == ConfigStorage::kMeHQName ? Vec2::ANCHOR_MIDDLE : Vec2(-1,0.5));
+    _chatHQ->setPositionPercent(_activePageName == ConfigStorage::kChatHQName ? Vec2::ANCHOR_MIDDLE : Vec2(-1,0.5));
+    OnScreenChecker::kUseStrictBoundry = true;
     Super::onExit();
 }
 

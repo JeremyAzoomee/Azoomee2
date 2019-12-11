@@ -129,6 +129,8 @@ void MessageScene::onEnter()
     
     // Get scrollview on top notifications
     createEventListenerForRetrievingHistory();
+    
+    OnScreenChecker::kUseStrictBoundry = false;
 }
 
 void MessageScene::onExit()

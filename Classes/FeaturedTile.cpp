@@ -59,6 +59,11 @@ void FeaturedTile::onEnter()
 
 void FeaturedTile::onExit()
 {
+    if(!checkIfElementIsOnScreen(this))
+    {
+        elementOnScreen = false;
+        elementDisappeared(this);
+    }
     stopCheckingOnScreenPosition();
     Super::onExit();
 }

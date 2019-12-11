@@ -66,6 +66,11 @@ void RoundedRectTile::onEnter()
 
 void RoundedRectTile::onExit()
 {
+    if(!checkIfElementIsOnScreen(this))
+    {
+        elementOnScreen = false;
+        elementDisappeared(this);
+    }
     stopCheckingOnScreenPosition();
     Super::onExit();
 }

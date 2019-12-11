@@ -308,6 +308,9 @@ void OomeeMakerScene::onEnter()
         _oomee->setFigureId(_filename);
     });
     _eventDispatcher->addEventListenerWithSceneGraphPriority(_oomeeSavedEventListener, this);
+    
+    OnScreenChecker::kUseStrictBoundry = false;
+    
     Super::onEnter();
 }
 

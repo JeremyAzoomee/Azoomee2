@@ -16,6 +16,8 @@ namespace Azoomee {
 class OnScreenChecker
 {
 public:
+    static bool kUseStrictBoundry;
+    
 	virtual ~OnScreenChecker();
 	
     void startCheckingForOnScreenPosition(cocos2d::Node* sender);
