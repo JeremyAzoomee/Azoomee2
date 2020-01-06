@@ -9,6 +9,7 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
 
@@ -77,6 +78,7 @@ bool AgeGate::init()
 		{
 			if(_callback)
 			{
+                AnalyticsSingleton::getInstance()->genericButtonPressEvent("AgeGate_Close");
 				_callback(AgeGateResult::CLOSE);
 			}
 			else
@@ -257,6 +259,7 @@ void AgeGate::createBody()
                 {
                     if(_callback)
                     {
+                        AnalyticsSingleton::getInstance()->genericButtonPressEvent("AgeGate_Success");
                         _callback(AgeGateResult::SUCCESS);
                     }
                     else
@@ -268,6 +271,7 @@ void AgeGate::createBody()
                 {
                     if(_callback)
                     {
+                        AnalyticsSingleton::getInstance()->genericButtonPressEvent("AgeGate_Incorrect");
                         _callback(AgeGateResult::FAIL);
                     }
                     else

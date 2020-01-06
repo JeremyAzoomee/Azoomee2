@@ -262,6 +262,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
 		{
 			acceptAnyOrientation();
 			HQHistoryManager::getInstance()->updatePrevOrientation();
+            AnalyticsSingleton::getInstance()->registerCurrentScene("WELCOME");
 			Director::getInstance()->replaceScene(WelcomeScene::create());
 			break;
 		}

@@ -8,6 +8,7 @@
 #include "WelcomeScene.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "SceneManagerScene.h"
 #include "BackEndCaller.h"
 #include "LoginLogicHandler.h"
@@ -87,6 +88,7 @@ bool WelcomeScene::init()
     _button->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
+            AnalyticsSingleton::getInstance()->genericButtonPressEvent("WelcomeScreen_GetStarted");
             BackEndCaller::getInstance()->anonymousDeviceLogin();
         }
     });
@@ -103,6 +105,7 @@ bool WelcomeScene::init()
     _loginLayout->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
+            AnalyticsSingleton::getInstance()->genericButtonPressEvent("WelcomeScreen_Login");
             LoginLogicHandler::getInstance()->setLoginOrigin(LoginOrigin::LOGOUT);
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
         }
