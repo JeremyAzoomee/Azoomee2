@@ -86,7 +86,7 @@ bool OfflineScene::init()
     _offlineText->setMaxLineWidth(800);
     _offlineMsgLayout->addChild(_offlineText);
     
-    _checkConnectionText = DynamicText::create("Check your connection and try again", Style::Font::PoppinsBold(), 50);
+    _checkConnectionText = DynamicText::create(_("Check your connection and try again"), Style::Font::PoppinsBold(), 50);
     _checkConnectionText->setTextHorizontalAlignment(TextHAlignment::CENTER);
     _checkConnectionText->setTextVerticalAlignment(TextVAlignment::CENTER);
     _checkConnectionText->setTextColor(Color4B::WHITE);
