@@ -33,16 +33,11 @@ ImageDownloader::ImageDownloader(const std::string& storageLocation, CacheMode m
 ImageDownloader::~ImageDownloader()
 {
     _delegate = nullptr;
-    /*if(_downloadRequest)
-    {
-        _downloadRequest->setResponseCallback(nullptr);
-        _downloadRequest->release();
-        _downloadRequest = nullptr;
-    }*/
 }
 
 void ImageDownloader::downloadImage(ImageDownloaderDelegate* delegate, const std::string& url, bool forceOverride)
 {
+    _downloadingImagePool.push_back(shared_from_this());
     _delegate = delegate;
     _filename = getFileNameFromURL(url);
     _category = getCategoryFromUrl(url);
@@ -50,7 +45,16 @@ void ImageDownloader::downloadImage(ImageDownloaderDelegate* delegate, const std
     bool localFileExists = localImageExists();
     if(localFileExists && !hasCacheExpired() && !forceOverride)
     {
-        loadFileFromLocalCacheAsync();
+        Director::getInstance()->getTextureCache()->addImageAsync(getLocalImagePath(), [this](Texture2D* texture){
+            if(texture)
+            {
+                this->loadFileFromLocalCacheAsync();
+            }
+            else
+            {
+                this->downloadFailed();
+            }
+        });
     }
     else
     {
@@ -114,8 +118,6 @@ void ImageDownloader::downloadFileFromServer(const std::string& url)
     _fileDownloader = FileDownloader::create();
     _fileDownloader->setDelegate(this);
     _fileDownloader->downloadFileFromServer(url);
-    
-    _downloadingImagePool.push_back(shared_from_this());
 }
 
 void ImageDownloader::loadFileFromLocalCacheAsync()
@@ -124,6 +126,16 @@ void ImageDownloader::loadFileFromLocalCacheAsync()
     {
         _delegate->onImageDownloadComplete(shared_from_this());
     }
+    _downloadingImagePool.erase(std::find(_downloadingImagePool.begin(), _downloadingImagePool.end(), shared_from_this()));
+}
+
+void ImageDownloader::downloadFailed()
+{
+    if(_delegate)
+    {
+        _delegate->onImageDownloadFailed();
+    }
+    _downloadingImagePool.erase(std::find(_downloadingImagePool.begin(), _downloadingImagePool.end(), shared_from_this()));
 }
 
 std::string ImageDownloader::getTimestampFilePath() const
@@ -211,24 +223,26 @@ void ImageDownloader::onFileDownloadComplete(const std::string& fileString, cons
         if(saveFileToDevice(fileString, getLocalImagePath()))
         {
             saveFileToDevice(StringUtils::format("%ld", time(NULL)), getTimestampFilePath());
-            loadFileFromLocalCacheAsync();
+            Director::getInstance()->getTextureCache()->addImageAsync(getLocalImagePath(), [this](Texture2D* texture){
+                if(texture)
+                {
+                    this->loadFileFromLocalCacheAsync();
+                }
+                else
+                {
+                    this->downloadFailed();
+                }
+            });
         }
         else
         {
-            if(_delegate)
-            {
-                _delegate->onImageDownloadFailed();
-            }
+            downloadFailed();
         }
     }
     else
     {
-        if(_delegate)
-        {
-            _delegate->onImageDownloadFailed();
-        }
+        downloadFailed();
     }
-    _downloadingImagePool.erase(std::find(_downloadingImagePool.begin(), _downloadingImagePool.end(), shared_from_this()));
 }
   
 NS_AZOOMEE_END

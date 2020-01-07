@@ -27,7 +27,7 @@ bool AwesomeLayer::init()
 		return false;
 	}
 	
-	_bgColour = LayerColor::create(Color4B(0,7,4,255));
+    _bgColour = LayerColor::create(Color4B(Style::Color::darkIndigo));
 	this->addChild(_bgColour, -1);
 	
 	return true;

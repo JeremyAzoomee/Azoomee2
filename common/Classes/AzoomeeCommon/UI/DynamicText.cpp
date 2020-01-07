@@ -26,5 +26,17 @@ void DynamicText::setMaxLineWidth(float maxLineWidth)
 {
 	_labelRenderer->setMaxLineWidth(maxLineWidth);
 }
+void DynamicText::enableUnderline(bool underline)
+{
+    if(underline)
+    {
+        _labelRenderer->enableUnderline();
+        
+    }
+    else
+    {
+        _labelRenderer->disableEffect(cocos2d::LabelEffect::UNDERLINE);
+    }
+}
 
 NS_AZOOMEE_END

@@ -2,11 +2,11 @@
 #define __NAVIGATION_LAYER_H__
 
 #include <cocos/cocos2d.h>
-#include "UserTypeMessagingLayer.h"
+#include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
-#include <AzoomeeChat/ChatAPI.h>
-#include <AzoomeeChat/Data/Message.h>
+#include "AzoomeeChat/ChatAPI.h"
+#include "AzoomeeChat/Data/Message.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Tutorial/TutorialController.h>
 

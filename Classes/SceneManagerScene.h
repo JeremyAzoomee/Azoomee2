@@ -3,14 +3,13 @@
 
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Azoomee.h>
-#include <AzoomeeCommon/UI/Orientation.h>
+#include <AzoomeeCommon/UI/UIConsts.h>
 
 NS_AZOOMEE_BEGIN
 
 enum class SceneNameEnum {
     Login,
     Base,
-    BaseWithNoHistory,
     ChildSelector,
     OfflineHub,
     OfflineArtsAppHQ,
@@ -52,6 +51,8 @@ private:
     void acceptAnyOrientation();
 	
 	void showHoldingUI();
+	
+	cocos2d::Scene* getBaseScene();
 	
 public:
     static cocos2d::Scene* createScene(SceneNameEnum sceneName);

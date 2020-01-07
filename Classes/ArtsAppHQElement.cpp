@@ -16,6 +16,16 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+ArtsAppHQElement::ArtsAppHQElement()
+{
+	_onScreenChecker = ArtImageOnScreenChecker();
+}
+
+ArtsAppHQElement::~ArtsAppHQElement()
+{
+
+}
+
 bool ArtsAppHQElement::initWithURLAndSize(const std::string& filePath, const Size& size, bool deletable, bool newImage, bool preload)
 {
     if ( !Super::init() )
@@ -82,8 +92,7 @@ void ArtsAppHQElement::loadImageTex()
 
 void ArtsAppHQElement::enableOnScreenChecker()
 {
-    _onScreenChecker = new ArtImageOnScreenChecker();
-    _onScreenChecker->startCheckingForOnScreenPosition(this);
+    _onScreenChecker.startCheckingForOnScreenPosition(this);
 }
 
 void ArtsAppHQElement::addImage(Texture2D* tex)
@@ -143,7 +152,6 @@ void ArtsAppHQElement::addPlaceHolder()
 void ArtsAppHQElement::createImageBorder()
 {
     _baseLayer = LayerColor::create(ConfigStorage::getInstance()->getColourForElementType(ConfigStorage::kArtAppHQName), this->getContentSize().width, this->getContentSize().height);
-    //_baseLayer->setPosition(10,10);
     this->addChild(_baseLayer);
 }
 
@@ -157,7 +165,6 @@ void ArtsAppHQElement::createWhiteBackground()
 void ArtsAppHQElement::addOverlay()
 {
     _overlayWhenTouched = LayerColor::create(ConfigStorage::getInstance()->getColourForElementType(ConfigStorage::kArtAppHQName), this->getContentSize().width, this->getContentSize().height);
-    //_overlayWhenTouched->setPosition(10,10);
     _overlayWhenTouched->setOpacity(0);
     this->addChild(_overlayWhenTouched,1);
 }
@@ -224,12 +231,9 @@ void ArtsAppHQElement::onExit()
         _artImage->removeFromParent();
         _artImage = nullptr;
     }
-    
-    if(_onScreenChecker)
-    {
-        _onScreenChecker->endCheck();
-        _onScreenChecker->release();
-    }
+	
+	_onScreenChecker.stopCheckingOnScreenPosition();
+
     Super::onExit();
 }
 

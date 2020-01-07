@@ -25,6 +25,7 @@
 #include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Cookie/CookieManager.h>
+#include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
 
 #include "AgeGate.h"
 
@@ -45,7 +46,7 @@ ContentOpener* ContentOpener::getInstance()
 
 void ContentOpener::openContentById(const std::string &contentId)
 {
-    HQContentItemObjectRef contentItem = HQDataProvider::getInstance()->getItemDataForSpecificItem(contentId);
+    HQContentItemObjectRef contentItem = HQDataProvider::getInstance()->getContentItemFromID(contentId);
     
     if(contentItem)
     {
@@ -89,13 +90,7 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
     }
     else if(contentItem->getType()  == ConfigStorage::kContentTypeAudioGroup || contentItem->getType()  == ConfigStorage::kContentTypeGroup)
     {
-        ModalMessages::getInstance()->stopLoading();
-        
-        HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kGroupHQName);
-                
-		HQHistoryManager::getInstance()->setGroupHQSourceId(contentItem->getContentItemId());
-		
-		HQDataProvider::getInstance()->getDataForGroupHQ(contentItem->getUri());
+		HQDataProvider::getInstance()->getDataForGroupHQ(contentItem->getUri(), contentItem->getCarouselColour());
     }
     else if(contentItem->getType() == ConfigStorage::kContentTypeInternal)
     {
@@ -112,7 +107,7 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
 	_contentItemToOpen = nullptr; // dereference at the end as will be pointing to same memory as contentItem in case of refeshed session
 }
 
-void ContentOpener::doCarouselContentOpenLogic(const HQContentItemObjectRef& contentItem, int rowIndex, int elementIndex, const std::string& hqCategory)
+void ContentOpener::doCarouselContentOpenLogic(const HQContentItemObjectRef& contentItem, int rowIndex, int elementIndex, const std::string& hqCategory, const std::string& location)
 {
 	if(contentItem->getType() == ConfigStorage::kContentTypeManual)
 	{
@@ -127,7 +122,7 @@ void ContentOpener::doCarouselContentOpenLogic(const HQContentItemObjectRef& con
 	
 	if(!contentItem->isEntitled())
 	{
-		AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, rowIndex, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(hqCategory, rowIndex, elementIndex));
+		AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, rowIndex, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(hqCategory, rowIndex, elementIndex), location);
 		
 #ifndef AZOOMEE_VODACOM_BUILD
         AgeGate* ageGate = AgeGate::create();
@@ -144,7 +139,7 @@ void ContentOpener::doCarouselContentOpenLogic(const HQContentItemObjectRef& con
 #endif
 	}
 	
-	AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, rowIndex, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(hqCategory, rowIndex, elementIndex));
+	AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, rowIndex, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(hqCategory, rowIndex, elementIndex), location);
 	
 	if(contentItem->getType() == ConfigStorage::kContentTypeVideo || contentItem->getType() == ConfigStorage::kContentTypeAudio)
 	{
@@ -155,7 +150,17 @@ void ContentOpener::doCarouselContentOpenLogic(const HQContentItemObjectRef& con
 		else
 		{
 			MutableHQCarouselObjectRef carousel = MutableHQCarouselObject::create();
-			carousel->addContentItemToCarousel(contentItem);
+            
+            const HQContentItemObjectRef& groupForContent = ContentItemManager::getInstance()->getParentOfContentItemForId(contentItem->getContentItemId());
+            if(groupForContent)
+            {
+                const auto& items = HQDataProvider::getInstance()->getContentItemsFromIDs(groupForContent->getItems());
+                carousel->addContentItemsToCarousel(items);
+            }
+            else
+            {
+                carousel->addContentItemToCarousel(contentItem);
+            }
 			VideoPlaylistManager::getInstance()->setPlaylist(carousel);
 		}
 	}

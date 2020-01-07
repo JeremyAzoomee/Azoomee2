@@ -1,50 +1,44 @@
-Version 4.7.11
-fix for albania games dist
+Version 4.8.8
+update and fix localised strings
 
-Version 4.7.10
-fix for android pie HTTP requests
+Version 4.8.7
+new app icon
+safezone for notch
+new oomee hq buttons
+asset clearout
+analytics
+fix parent chat flow
 
-Version 4.7.9
-ios reccuring sub button for CI builds
+Version 4.8.6
+general bugfixes
+better tile loading
+recently played and favourte videos show series img and open last episode watched
 
-Version 4.7.8
-remote marketing images
-copy update
-sentd transaction id on verify ios payment:
+Version 4.8.5
+Chat HQ
+updated chat messenger visuals
+updated visuals for reward animation
 
-Version 4.7.7
-fix entry links for vodacom onboarding flow
+Version 4.8.4
+oomee hq
+fixes for hq visuals
+oomees stored on backend
+testing auto opening first dropdown in hqs
 
-Version 4.7.6
-updated localisation strings
-fix sizing for age gate
-use new style message box for inavlid login creds
-dont show error when cancelling iap or restore payment
+Version 4.8.3
+better dropdown handling
+dropdown colours reflected in episode selector
+coin counter update
+uniform dropdown tile spacing
 
-Version 4.7.5
-Updated device IDs for testing.
+Version 4.8.2
+BE integration for hq colours and images
+better resize logic for featured and recently played sections
+new placeholders for recently played
+general sizing tweaks
 
-Version 4.7.4
-Removed old cta system.
-
-Version 4.7.3
-Launch new IAP flow on pressing reactivate button instead of old popup.
-Already registered popup now shows a Login button.
-Going back from Login screen should now always return to the correct location.
-Input boxes in signup flow should now all be left aligned.
-Marketing carousel on Paywall should no longer get stuck on orientation changes.
-Important Message for Parents screen added.
-Better error handling of billing verification errors.
-GDPR screen checkboxes now always default to unticked.
-Custom keyboards are now disabled on iOS.
-Marketing carousel on Paywall no longer scrolls through all slides to return to the beginning.
-Fixed initial delay of Marketing carousel on Paywall.
-
-Version 4.7.2
-Fixed a crash issue on the age gate.
-
-Version 4.7.1
-Fix for long chat messages being shown as blank speech bubbles.
-New purchase and signup journey.
-Crashlytics is no longer used on iOS.
+Version 4.8.1
+new HQs for games and video
+note: oomee HQ is not present/finished in this version
+TEST VERSION ONLY
 

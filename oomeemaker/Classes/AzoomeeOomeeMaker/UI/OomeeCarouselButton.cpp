@@ -21,52 +21,52 @@ bool OomeeCarouselButton::init()
     {
         return false;
     }
-    
-    return true;
-}
-
-void OomeeCarouselButton::onEnter()
-{
-    _innerCircle = Sprite::create("res/oomeeMaker/circle_0.png");
-    _innerCircle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	
+	setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	setPlaceholderImage("res/oomeeMaker/1_Oomee_Reference.png");
+	loadPlaceholderImage();
+	ignoreContentAdaptWithSize(false);
+	
+	_innerCircle = Sprite::create("res/oomeeMaker/circle_0.png");
+	_innerCircle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	BlendFunc blendFunc = BlendFunc();
 	blendFunc.src = GL_ZERO;
 	blendFunc.dst = GL_ONE_MINUS_SRC_ALPHA;
 	_innerCircle->setBlendFunc(blendFunc);
-    //bgCircle1->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    //float targetScale = (Vec2(this->getContentSize()).length() * 0.49f) / bgCircle1->getContentSize().height;
-    //bgCircle1->setPosition(Vec2(this->getContentSize().width / 2,  (bgCircle1->getContentSize().height * targetScale) / 2));
-    _innerCircle->setScale(0);
-    _innerCircle->setRotation(RandomHelper::random_real(0.0,M_PI));
-    this->addChild(_innerCircle, -1);
-    
-    auto popIn1 = EaseBackOut::create(ScaleTo::create(0.5, (Vec2(this->getContentSize()).length() * 0.55f) / _innerCircle->getContentSize().height));
-    auto rotate1 = RepeatForever::create(RotateBy::create(30 + CCRANDOM_0_1() * 30, 360));
-    
-    _innerCircle->runAction(popIn1);
-    _innerCircle->runAction(rotate1);
-    
-    _outerCircle = Sprite::create("res/oomeeMaker/circle_1.png");
-    _outerCircle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	//bgCircle1->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	//float targetScale = (Vec2(this->getContentSize()).length() * 0.49f) / bgCircle1->getContentSize().height;
+	//bgCircle1->setPosition(Vec2(this->getContentSize().width / 2,  (bgCircle1->getContentSize().height * targetScale) / 2));
+	_innerCircle->setScale(0);
+	_innerCircle->setRotation(RandomHelper::random_real(0.0,M_PI));
+	this->addChild(_innerCircle, -1);
+	
+	auto popIn1 = EaseBackOut::create(ScaleTo::create(0.5, (Vec2(this->getContentSize()).length() * 0.55f) / _innerCircle->getContentSize().height));
+	auto rotate1 = RepeatForever::create(RotateBy::create(30 + CCRANDOM_0_1() * 30, 360));
+	
+	_innerCircle->runAction(popIn1);
+	_innerCircle->runAction(rotate1);
+	
+	_outerCircle = Sprite::create("res/oomeeMaker/circle_1.png");
+	_outerCircle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_outerCircle->setBlendFunc(blendFunc);
-    //bgCircle2->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    //bgCircle2->setPosition(Vec2(this->getContentSize().width / 2,  (bgCircle2->getContentSize().height * targetScale) / 2));
-    _outerCircle->setScale(0);
-    _outerCircle->setRotation(RandomHelper::random_real(0.0,M_PI));
-    this->addChild(_outerCircle, -1);
-    
-    auto popIn2 = EaseBackOut::create(ScaleTo::create(0.5, (Vec2(this->getContentSize()).length() * 0.75f) / _outerCircle->getContentSize().height));
-    auto rotate2 = RepeatForever::create(RotateBy::create(30 +  CCRANDOM_0_1() * 30, -360));
-        
-    _outerCircle->runAction(popIn2);
-    _outerCircle->runAction(rotate2);
-    
-    float targetScale = (Vec2(this->getContentSize()).length() * 0.75f) / _outerCircle->getContentSize().height;
-    _innerCircle->setNormalizedPosition(Vec2(0.5, ((_outerCircle->getContentSize().height * targetScale) / 2.5) / this->getContentSize().height));
-    _outerCircle->setNormalizedPosition(Vec2(0.5, ((_outerCircle->getContentSize().height * targetScale) / 2.5) / this->getContentSize().height));
-    
-    _outerCircle->setColor(Style::Color::darkTeal);
-    _innerCircle->setColor(Style::Color::darkTeal);
+	//bgCircle2->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+	//bgCircle2->setPosition(Vec2(this->getContentSize().width / 2,  (bgCircle2->getContentSize().height * targetScale) / 2));
+	_outerCircle->setScale(0);
+	_outerCircle->setRotation(RandomHelper::random_real(0.0,M_PI));
+	this->addChild(_outerCircle, -1);
+	
+	auto popIn2 = EaseBackOut::create(ScaleTo::create(0.5, (Vec2(this->getContentSize()).length() * 0.75f) / _outerCircle->getContentSize().height));
+	auto rotate2 = RepeatForever::create(RotateBy::create(30 +  CCRANDOM_0_1() * 30, -360));
+	
+	_outerCircle->runAction(popIn2);
+	_outerCircle->runAction(rotate2);
+	
+	float targetScale = (Vec2(this->getContentSize()).length() * 0.75f) / _outerCircle->getContentSize().height;
+	_innerCircle->setNormalizedPosition(Vec2(0.5, ((_outerCircle->getContentSize().height * targetScale) / 2.5) / this->getContentSize().height));
+	_outerCircle->setNormalizedPosition(Vec2(0.5, ((_outerCircle->getContentSize().height * targetScale) / 2.5) / this->getContentSize().height));
+	
+	_outerCircle->setColor(Style::Color::darkTeal);
+	_innerCircle->setColor(Style::Color::darkTeal);
 	
 	_tutInnerCircle = Sprite::create("res/oomeeMaker/inner_circle_tut.png");
 	_tutInnerCircle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -103,57 +103,62 @@ void OomeeCarouselButton::onEnter()
 	_highlightCircleColour->setVisible(false);
 	this->addChild(_highlightCircleColour,-1);
 	
-    _deleteButton = ui::Button::create("res/oomeeMaker/bin_button.png");
-    _deleteButton->setContentSize(_deleteButton->getContentSize() * 0.8f);
-    _deleteButton->ignoreContentAdaptWithSize(false);
-    _deleteButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _deleteButton->setPosition(this->getContentSize()/2);
-    _deleteButton->setScale(0);
-    _deleteButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
-        if(eType == TouchEventType::ENDED)
-        {
-            if(_delegate)
-            {
-                _delegate->deleteOomee(_oomeeFileName);
-            }
-        }
-    });
-    this->addChild(_deleteButton);
-    
-    _makeAvatarButton = ui::Button::create("res/oomeeMaker/make_oomee_button.png");
-    _makeAvatarButton->setContentSize(_makeAvatarButton->getContentSize() * 0.8f);
-    _makeAvatarButton->ignoreContentAdaptWithSize(false);
-    _makeAvatarButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _makeAvatarButton->setPosition(this->getContentSize()/2);
-    _makeAvatarButton->setScale(0);
-    _makeAvatarButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
-        if(eType == TouchEventType::ENDED)
-        {
-            if(_delegate)
-            {
-                _delegate->makeAvatar(_oomeeFileName);
-            }
-        }
-    });
-    this->addChild(_makeAvatarButton);
-    
-    _shareButton = ui::Button::create("res/oomeeMaker/message_button.png");
-    _shareButton->setContentSize(_shareButton->getContentSize() * 0.8f);
-    _shareButton->ignoreContentAdaptWithSize(false);
-    _shareButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _shareButton->setPosition(this->getContentSize()/2);
-    _shareButton->setScale(0);
-    _shareButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
-        if(eType == TouchEventType::ENDED)
-        {
-            if(_delegate)
-            {
-                _delegate->shareOomee(_oomeeFileName);
-            }
-        }
-    });
-    this->addChild(_shareButton);
-    
+	_deleteButton = ui::Button::create("res/oomeeMaker/bin_button.png");
+	_deleteButton->setContentSize(_deleteButton->getContentSize() * 0.8f);
+	_deleteButton->ignoreContentAdaptWithSize(false);
+	_deleteButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	_deleteButton->setPosition(this->getContentSize()/2);
+	_deleteButton->setScale(0);
+	_deleteButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+		if(eType == TouchEventType::ENDED)
+		{
+			if(_delegate)
+			{
+				_delegate->deleteOomee(_oomeeFileName);
+			}
+		}
+	});
+	this->addChild(_deleteButton);
+	
+	_makeAvatarButton = ui::Button::create("res/oomeeMaker/make_oomee_button.png");
+	_makeAvatarButton->setContentSize(_makeAvatarButton->getContentSize() * 0.8f);
+	_makeAvatarButton->ignoreContentAdaptWithSize(false);
+	_makeAvatarButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	_makeAvatarButton->setPosition(this->getContentSize()/2);
+	_makeAvatarButton->setScale(0);
+	_makeAvatarButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+		if(eType == TouchEventType::ENDED)
+		{
+			if(_delegate)
+			{
+				_delegate->makeAvatar(_oomeeFileName);
+			}
+		}
+	});
+	this->addChild(_makeAvatarButton);
+	
+	_shareButton = ui::Button::create("res/oomeeMaker/message_button.png");
+	_shareButton->setContentSize(_shareButton->getContentSize() * 0.8f);
+	_shareButton->ignoreContentAdaptWithSize(false);
+	_shareButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	_shareButton->setPosition(this->getContentSize()/2);
+	_shareButton->setScale(0);
+	_shareButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
+		if(eType == TouchEventType::ENDED)
+		{
+			if(_delegate)
+			{
+				_delegate->shareOomee(_oomeeFileName);
+			}
+		}
+	});
+	this->addChild(_shareButton);
+	
+    return true;
+}
+
+void OomeeCarouselButton::onEnter()
+{
     Super::onEnter();
 }
 

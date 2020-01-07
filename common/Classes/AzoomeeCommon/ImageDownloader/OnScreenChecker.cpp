@@ -13,13 +13,22 @@ using namespace cocos2d;
 
 namespace Azoomee
 {
-    
+	
+	OnScreenChecker::~OnScreenChecker()
+	{
+		stopCheckingOnScreenPosition();
+	}
+	
     void OnScreenChecker::startCheckingForOnScreenPosition(Node* sender)
     {
         elementOnScreen = false;
         auto scheduler = Director::getInstance()->getScheduler();
         scheduler->schedule([=](float dt)
                             {
+                                if(!sender->isVisible())
+                                {
+                                    return;
+                                }
                                 bool isVisible = OnScreenChecker::checkIfElementIsOnScreen(sender);
                                 
                                 if((isVisible)&&(!elementOnScreen))
@@ -37,9 +46,8 @@ namespace Azoomee
     
     bool OnScreenChecker::checkIfElementIsOnScreen(Node* itemToCheck)
     {
-        Size extraBoundary = Size(100,100);
+        Size extraBoundary = Size(100,800);
         
-        Point directPosition = itemToCheck->getPosition();
         Point worldPosition = itemToCheck->getParent()->convertToWorldSpace(itemToCheck->getPosition());
         Point visibleOrigin = Director::getInstance()->getVisibleOrigin();
         Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -60,7 +68,7 @@ namespace Azoomee
         }
     }
     
-    void OnScreenChecker::endCheck()
+    void OnScreenChecker::stopCheckingOnScreenPosition()
     {
         Director::getInstance()->getScheduler()->unschedule("onScreenCheck", this);
     }

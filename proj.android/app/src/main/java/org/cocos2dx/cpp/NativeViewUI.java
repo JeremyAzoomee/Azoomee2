@@ -45,8 +45,6 @@ public class NativeViewUI extends Activity {
     public static ImageButton favButtonStatic;
     public static ImageButton shareButtonStatic;
 
-    private FrameLayout _favBanner;
-
     private static final int _portrait = 1;
     private static final int _horizonal = 0;
     private int _buttonWidth;
@@ -59,7 +57,6 @@ public class NativeViewUI extends Activity {
     private boolean isWebViewReady = false;
     private boolean isActivityExitRequested = false;
     private boolean _uiExpanded = false;
-    private boolean _isAnimating = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -137,7 +134,6 @@ public class NativeViewUI extends Activity {
         uiWebViewStatic = uiWebView;
 
         addButtons();
-        addFavBanner();
 
         webviewAdditionalSettings();
     }
@@ -329,7 +325,6 @@ public class NativeViewUI extends Activity {
                         favButton.setImageResource(R.drawable.favourite_unelected_v2);
                     } else {
                         JNICalls.JNIAddToFavourites();
-                        animateFavBanner();
                         favButton.setImageResource(R.drawable.favourite_selected_v2);
                     }
                 }
@@ -411,137 +406,6 @@ public class NativeViewUI extends Activity {
         imageButtonStatic = closeButton;
     }
 
-    // Create fav notification banner
-    void addFavBanner()
-    {
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int height = displayMetrics.heightPixels;
-        int width = displayMetrics.widthPixels;
-
-        android.widget.RelativeLayout.LayoutParams bgLayoutParams = new android.widget.RelativeLayout.LayoutParams(
-                android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT, android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT);
-
-        bgLayoutParams.leftMargin = 0;
-        bgLayoutParams.topMargin = 0;
-        bgLayoutParams.width = (int)(Math.max(width, height) * 0.334f);
-        bgLayoutParams.height = (int)(Math.min(width,height) * 0.105f);
-
-        _favBanner = new FrameLayout(this);
-        _favBanner.setX(width / 2 - bgLayoutParams.width / 2);
-        _favBanner.setY(0);
-        _favBanner.setAlpha(0.0f);
-
-        addContentView(_favBanner,bgLayoutParams);
-
-        ImageView background = new ImageView(this);
-        background.setImageResource(R.drawable.fav_banner);
-
-        background.setX(0);
-        background.setY(0);
-
-        _favBanner.addView(background, bgLayoutParams);
-
-        ImageView heart = new ImageView(this);
-        heart.setImageResource(R.drawable.heart);
-
-        android.widget.RelativeLayout.LayoutParams heartLayoutParams = new android.widget.RelativeLayout.LayoutParams(
-                android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT, android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT);
-
-        heartLayoutParams.leftMargin = 0;
-        heartLayoutParams.topMargin = 0;
-        heartLayoutParams.width = (int)(bgLayoutParams.width * 0.107f);
-        heartLayoutParams.height = (int)(bgLayoutParams.height * 0.44f);
-
-        heart.setX(bgLayoutParams.width * 0.07f);
-        heart.setY(bgLayoutParams.height * 0.28f);
-
-        _favBanner.addView(heart, heartLayoutParams);
-
-        TextView text = new TextView(this);
-        text.setText(JNICalls.JNIGetStringForKey("Added to favourites"));
-        text.setWidth((int)(bgLayoutParams.width * 0.7f));
-        text.setHeight((int)(bgLayoutParams.height * 0.6f));
-        text.setX(bgLayoutParams.width * 0.25f);
-        text.setY(bgLayoutParams.height * 0.2f);
-        Typeface face = Typeface.createFromAsset(getAssets(),
-                "fonts/azoomee.ttf");
-        text.setTypeface(face);
-
-        TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(text,(int)(bgLayoutParams.height * 0.1f),(int)(bgLayoutParams.height),2, TypedValue.COMPLEX_UNIT_DIP);
-
-        _favBanner.addView(text);
-    }
-
-    void animateFavBanner()
-    {
-
-        final TranslateAnimation returnAnim = new TranslateAnimation(0,0,0,-_favBanner.getHeight());
-        returnAnim.setDuration(500);
-        returnAnim.setAnimationListener(new TranslateAnimation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation)
-            {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation)
-            {
-
-            }
-            @Override
-            public void onAnimationEnd(Animation animation)
-            {
-                _favBanner.setAlpha(0.0f);
-            }
-        });
-
-        final TranslateAnimation waitAnim = new TranslateAnimation(0,0,0,0);
-        waitAnim.setDuration(1000);
-        waitAnim.setAnimationListener(new TranslateAnimation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation)
-            {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation)
-            {
-
-            }
-            @Override
-            public void onAnimationEnd(Animation animation)
-            {
-                _favBanner.startAnimation(returnAnim);
-            }
-        });
-        waitAnim.setFillAfter(true);
-
-        TranslateAnimation animation = new TranslateAnimation(0,0,-_favBanner.getHeight(),0);
-        animation.setDuration(500);
-        animation.setAnimationListener(new TranslateAnimation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation)
-            {
-                _favBanner.setAlpha(1.0f);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation)
-            {
-
-            }
-            @Override
-            public void onAnimationEnd(Animation animation)
-            {
-                _favBanner.startAnimation(waitAnim);
-            }
-        });
-        animation.setFillAfter(true);
-        _favBanner.startAnimation(animation);
-    }
 
     void calcUIButtonParams()
     {

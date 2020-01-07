@@ -12,6 +12,7 @@
 #include "../DataObjects/Oomee.h"
 #include "../DataObjects/OomeeItem.h"
 #include "../DataObjects/OomeeColour.h"
+#include "../DataObjects/OomeeFigureData.h"
 #include "OomeeBody.h"
 #include "OomeeAccessory.h"
 #include <AzoomeeCommon/UI/CCSpriteWithHue.h>
@@ -24,7 +25,6 @@ enum class AccessoryAction {ADD, REMOVE};
 struct OomeeDataSnapshot
 {
     OomeeRef _oomeeData;
-    //OomeeColourRef _colourData;
     std::vector<OomeeItemRef> _accessoryData;
 };
 
@@ -32,10 +32,13 @@ class OomeeFigure : public cocos2d::Node
 {
     typedef cocos2d::Node Super;
 private:
-    
+	
+	std::string _figureId = "";
+    bool _selected = false;
+	
     bool _isEditable = true;
     OomeeRef _oomeeData = nullptr;
-    //OomeeColourRef _colour = nullptr;
+
     OomeeBody* _baseSprite = nullptr;
     std::map<std::string, OomeeAccessory*> _accessories;
     cocos2d::EventListenerTouchOneByOne* _touchListener = nullptr;
@@ -54,13 +57,15 @@ public:
     virtual bool init() override;
     virtual void onEnter() override;
     
-    bool initWithOomeeFigureData(const rapidjson::Document& data);
+    bool initWithOomeeFigureData(const OomeeFigureDataRef& data);
     
     void setOomeeData(const OomeeRef& oomeeData);
     OomeeRef getOomeeData() const;
     
     std::vector<std::string> getAccessoryIds() const;
-    
+	
+	OomeeFigureDataRef getFigureData() const;
+	
     void addAccessory(const OomeeItemRef& oomeeItem);
     void removeAccessory(const std::string anchorPoint);
     
@@ -73,11 +78,15 @@ public:
     cocos2d::Vec2 getWorldPositionForAnchorPoint(const std::string& anchorPoint);
     cocos2d::Vec2 getLocalPositionForAnchorPoint(const std::string& anchorPoint);
     
-    //void setColour(const OomeeColourRef& colour);
     OomeeColourRef getColour() const;
     
     float getHue() const;
     void setHue(float hue);
+    
+    void setFigureId(const std::string& figureId);
+    std::string getFigureId() const;
+    void setSelected(bool selected);
+    bool isSelected() const;
     
     void undoLastAction();
     int getUndoStackSize() const;

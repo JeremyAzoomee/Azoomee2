@@ -28,6 +28,8 @@
 #include <ctime>
 #include <cstdlib>
 
+#include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
+
 using namespace cocos2d;
 using namespace cocos2d::network;
 
@@ -64,6 +66,34 @@ GameDataManager::~GameDataManager(void)
 bool GameDataManager::init(void)
 {
     return true;
+}
+
+std::vector<HQContentItemObjectRef> GameDataManager::getOfflineGameList()
+{
+    std::vector<HQContentItemObjectRef> gameList;
+    const std::vector<std::string>& jsonList = getJsonFileListFromDir();
+    
+    for(const auto& json : jsonList)
+    {
+        if(json.length() > 3)
+        {
+            const std::string& jsonFilepath = ConfigStorage::getInstance()->getGameCachePath() + json + "/package.json";
+            if(getStartFileFromJSONFile(jsonFilepath) != "")
+            {
+                auto item = ContentItemManager::getInstance()->getContentItemForId(json);
+                if(item && item->isEntitled())
+                {
+                    gameList.push_back(item);
+                }
+            }
+        }
+    }
+    return gameList;
+}
+
+std::vector<std::string> GameDataManager::getJsonFileListFromDir() const
+{
+    return DirUtil::getFoldersInDirectory(ConfigStorage::getInstance()->getGameCachePath());
 }
 
 void GameDataManager::startProcessingGame(const HQContentItemObjectRef &itemData)
@@ -346,15 +376,15 @@ bool GameDataManager::removeGameZip(const std::string &fileNameWithPath)
 
 void GameDataManager::startGame(const std::string &basePath, const std::string &fileName)
 {
+	
     if(processCancelled)
     {
         return;
     }
-    
+    hideLoadingScreen();
     if(!FileUtils::getInstance()->isFileExist(basePath + fileName))
     {
         AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
-        hideLoadingScreen();
         showErrorMessage();
         return;
     }
@@ -362,7 +392,6 @@ void GameDataManager::startGame(const std::string &basePath, const std::string &
     if(!isGameCompatibleWithCurrentAzoomeeVersion(basePath + "package.json"))
     {
         AnalyticsSingleton::getInstance()->contentItemIncompatibleEvent();
-        hideLoadingScreen();
         showIncompatibleMessage();
         return;
     }

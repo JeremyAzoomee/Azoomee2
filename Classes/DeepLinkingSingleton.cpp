@@ -118,7 +118,7 @@ bool DeepLinkingSingleton::actionDeepLink()
     }
     else if(host == "post-content")
     {
-        const HQContentItemObjectRef& item = HQDataProvider::getInstance()->getItemDataForSpecificItem(path);
+        const HQContentItemObjectRef& item = HQDataProvider::getInstance()->getContentItemFromID(path);
         if(item)
         {
             AnalyticsSingleton::getInstance()->contentItemSelectedOutsideCarouselEvent(item);

@@ -54,6 +54,13 @@ public:
     static const char* const kContentTypeManual;
     static const char* const kContentTypeInternal;
     
+    static const char* const kContentLocFeature;
+    static const char* const kContentLocRecentPlayed;
+    static const char* const kContentLocFavourite;
+    static const char* const kContentLocEpisodeSelector;
+    static const char* const kContentLocCategory;
+    static const char* const kContentLocOffline;
+    
     static const char* const kOomeeMakerURI;
     static const char* const kArtAppURI;
     
@@ -63,7 +70,8 @@ public:
     static const std::string kArtCacheFolder;
     static const std::string kGameCacheFolder;
 	static const std::string kOomeeMakerCacheFolder;
-    static const std::string kContentCacheFolder;
+    
+    static const std::string kAvatarImageCacheFolder;
     
     static const std::string kGameDownloadError;
 	

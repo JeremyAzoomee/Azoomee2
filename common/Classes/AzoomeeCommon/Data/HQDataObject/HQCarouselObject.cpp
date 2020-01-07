@@ -21,6 +21,14 @@ void MutableHQCarouselObject::addContentItemToCarousel(const HQContentItemObject
     _contentItems.push_back(contentItem);
 }
 
+void MutableHQCarouselObject::addContentItemsToCarousel(const std::vector<HQContentItemObjectRef>& itemList)
+{
+    for(auto item : itemList)
+    {
+        _contentItems.push_back(item);
+    }
+}
+
 void MutableHQCarouselObject::addContentItemHighlight(const cocos2d::Vec2 &contentItemHighlight)
 {
     _contentItemHighlights.push_back(contentItemHighlight);
@@ -29,6 +37,11 @@ void MutableHQCarouselObject::addContentItemHighlight(const cocos2d::Vec2 &conte
 void MutableHQCarouselObject::setIcon(const std::string &icon)
 {
     _icon = icon;
+}
+
+void MutableHQCarouselObject::setColour(const cocos2d::Color4B &colour)
+{
+    _colour = colour;
 }
 
 void MutableHQCarouselObject::removeAllItemsFromCarousel()
@@ -56,6 +69,11 @@ std::vector<cocos2d::Vec2> HQCarouselObject::getContentItemHighlights()
 std::string HQCarouselObject::getIcon() const
 {
     return _icon;
+}
+
+cocos2d::Color4B HQCarouselObject::getColour() const
+{
+    return _colour;
 }
 
 NS_AZOOMEE_END

@@ -30,6 +30,8 @@
 
 #include "MarketingAssetManager.h"
 
+#include <AzoomeeOomeeMaker/DataObjects/OomeeMakerDataHandler.h>
+
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "ApplePaymentSingleton.h"
 #include <AzoomeeCommon/Utils/IosNativeFunctionsSingleton.h>
@@ -135,6 +137,7 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString, con
     {
 		ParentManager::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headerString));
 		MarketingAssetManager::getInstance()->downloadMarketingAssets();
+        OomeeMaker::OomeeMakerDataHandler::getInstance()->getLatestDataAsync();
 		if(ParentManager::getInstance()->isLoggedInParentAnonymous())
 		{
 			AnalyticsSingleton::getInstance()->setIsUserAnonymous(true);
@@ -301,6 +304,7 @@ void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString
     }
     ParentManager::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headerString));
 	getChildInventory();
+    OomeeMaker::OomeeMakerDataHandler::getInstance()->getOomeesForChild(ChildManager::getInstance()->getLoggedInChild()->getId(), false);
     getGordon();
 	HQHistoryManager::getInstance()->emptyHistory();
 }

@@ -12,6 +12,7 @@
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include "RewardScreen.h"
+#include <AzoomeeCommon/UI/RoundedRectSprite.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -21,8 +22,7 @@ class CoinChestLayer : public RewardScreen
 private:
 	
 	cocos2d::LayerColor* _bgColour = nullptr;
-	cocos2d::Sprite* _wires = nullptr;
-	cocos2d::Sprite* _wireGlow = nullptr;
+    RoundedRectSprite* _pattern = nullptr;
 	cocos2d::ui::Layout* _text = nullptr;
 	cocos2d::Node* _chestNode = nullptr;
 	

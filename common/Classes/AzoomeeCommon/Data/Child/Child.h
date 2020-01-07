@@ -39,6 +39,8 @@ protected:
 	
 	InventoryRef _inventory = nullptr;
 	
+    cocos2d::Color4B _avatarColour;
+    
 	Child();
 public:
 	
@@ -56,6 +58,7 @@ public:
 	
 	InventoryRef getInventory() const;
 	
+    cocos2d::Color4B getAvatarColour() const;
 };
 
 class MutableChild : public Child
@@ -76,6 +79,8 @@ public:
 	
 	void setCDNSessionId(const std::string& sessionId, std::chrono::milliseconds sessionDurationMillis);
 	
+    void setAvatarColour(const cocos2d::Color4B& colour);
+    
 };
 
 NS_AZOOMEE_END

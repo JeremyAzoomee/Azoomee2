@@ -50,6 +50,13 @@ static ConfigStorage *_sharedConfigStorage = NULL;
     const char* const ConfigStorage::kContentTypeAudioGroup = "AUDIOGROUP";
     const char* const ConfigStorage::kContentTypeManual = "MANUAL";
     const char* const ConfigStorage::kContentTypeInternal = "INTERNAL";
+
+    const char* const ConfigStorage::kContentLocFeature = "feature";
+    const char* const ConfigStorage::kContentLocRecentPlayed = "recentPlayed";
+    const char* const ConfigStorage::kContentLocFavourite = "favourite";
+    const char* const ConfigStorage::kContentLocEpisodeSelector = "episodeSelector";
+    const char* const ConfigStorage::kContentLocCategory = "category";
+    const char* const ConfigStorage::kContentLocOffline = "offline";
     
     const char* const ConfigStorage::kOomeeMakerURI = "OOMEE_MAKER";
     const char* const ConfigStorage::kArtAppURI = "AZOOMEE_ART";
@@ -60,7 +67,8 @@ static ConfigStorage *_sharedConfigStorage = NULL;
     const std::string ConfigStorage::kArtCacheFolder = "artCache/";
     const std::string ConfigStorage::kGameCacheFolder = "gameCache/";
 	const std::string ConfigStorage::kOomeeMakerCacheFolder = "oomeeMaker/";
-    const std::string ConfigStorage::kContentCacheFolder = "contentCache/";
+    
+    const std::string ConfigStorage::kAvatarImageCacheFolder = "avatars";
     
     const std::string ConfigStorage::kGameDownloadError = "ERROR";
 	

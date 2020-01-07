@@ -102,6 +102,7 @@ void HQHistoryManager::getHistoryLog()
 void HQHistoryManager::emptyHistory()
 {
     _hqNames.clear();
+	_cachedScenes.clear();
 }
 
 void HQHistoryManager::popHQ()
@@ -160,4 +161,47 @@ int HQHistoryManager::getHistorySize() const
 {
 	return _hqNames.size();
 }
+
+void HQHistoryManager::addHQSceneToCache(const std::string& hqName, HQSceneDepreciated* scene)
+{
+	_cachedScenes.insert(hqName, scene);
+}
+
+HQSceneDepreciated* HQHistoryManager::getCachedHQScene(const std::string& hqName)
+{
+	return _cachedScenes.at(hqName);
+}
+
+void HQHistoryManager::removeHQFromCache(const std::string& hqName)
+{
+	auto it = _cachedScenes.find(hqName);
+	if(it != _cachedScenes.end())
+	{
+		_cachedScenes.erase(it);
+	}
+}
+
+void HQHistoryManager::cacheHQScene(HQScene* hqScene)
+{
+    if(_cachedHQScene)
+    {
+        _cachedHQScene->release();
+    }
+    _cachedHQScene = hqScene;
+    if(_cachedHQScene)
+    {
+        _cachedHQScene->retain();
+    }
+}
+void HQHistoryManager::clearCachedHQ()
+{
+    cacheHQScene(nullptr);
+    Director::getInstance()->purgeCachedData();
+}
+
+HQScene* HQHistoryManager::getCachedHQScene()
+{
+    return _cachedHQScene;
+}
+
 NS_AZOOMEE_END

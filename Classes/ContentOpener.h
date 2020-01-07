@@ -25,7 +25,7 @@ public:
     void openContentById(const std::string& contentId);
     void openContentObject(const HQContentItemObjectRef& contentItem);
 	
-	void doCarouselContentOpenLogic(const HQContentItemObjectRef& contentItem, int rowIndex, int elementIndex, const std::string& hqCategory);
+	void doCarouselContentOpenLogic(const HQContentItemObjectRef& contentItem, int rowIndex, int elementIndex, const std::string& hqCategory, const std::string& location);
 	
 	//delegate functions
 	void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body);

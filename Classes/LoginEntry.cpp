@@ -11,6 +11,7 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Input/TextInputChecker.h>
+#include <AzoomeeCommon/Utils/StringFunctions.h>
 
 using namespace cocos2d;
 
@@ -76,7 +77,7 @@ bool LoginEntry::init()
 		{
 			if(_state == LoginEntryState::EMAIL)
 			{
-				_email = _inputBox->getText();
+				_email = trim(_inputBox->getText());
 				if(_continueCallback)
 				{
 					_continueCallback(_state);
@@ -84,7 +85,7 @@ bool LoginEntry::init()
 			}
 			else
 			{
-				_password = _inputBox->getText();
+				_password = trim(_inputBox->getText());
 				if(_loginConfirmCallback)
 				{
 					_loginConfirmCallback(_email,_password);
@@ -229,6 +230,22 @@ void LoginEntry::editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::st
 void LoginEntry::editBoxReturn(cocos2d::ui::EditBox* editBox)
 {
 	setContinueButtonEnabled(isValidInput(editBox->getText(), _state));
+    if(_state == LoginEntryState::EMAIL)
+    {
+        _email = trim(_inputBox->getText());
+        if(_continueCallback)
+        {
+            _continueCallback(_state);
+        }
+    }
+    else
+    {
+        _password = trim(_inputBox->getText());
+        if(_loginConfirmCallback)
+        {
+            _loginConfirmCallback(_email,_password);
+        }
+    }
 }
 
 void LoginEntry::editBoxEditingDidBegin(cocos2d::ui::EditBox* editBox)

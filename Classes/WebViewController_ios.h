@@ -17,7 +17,6 @@
     UIButton* backButton;
     UIButton* _favButton;
     UIButton* _shareButton;
-    UIView* _favContentBanner;
     float _closeButtonAnchorX;
     float _closeButtonAnchorY;
     float _buttonWidth;
@@ -29,8 +28,5 @@
 - (void)removeWebViewWhileInBackground;
 - (void)addWebViewToScreen;
 - (void)createButtons;
-- (void)createFavBanner;
-- (void)favAnimation;
-- (void) closePopup:(NSTimer *)timer;
 
 @end

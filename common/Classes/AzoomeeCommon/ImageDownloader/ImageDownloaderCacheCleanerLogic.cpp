@@ -38,7 +38,7 @@ void ImageDownloaderCacheCleanerLogic::imageRemoved()
 {
     numberOfImagesRemoved++;
     
-    if(numberOfImagesRemoved > 12)
+    if(numberOfImagesRemoved > 48)
     {
         numberOfImagesRemoved = 0;
         ImageDownloaderCacheCleanerLogic::purgeCache();

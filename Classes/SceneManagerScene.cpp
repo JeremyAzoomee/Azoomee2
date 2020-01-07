@@ -6,8 +6,8 @@
 #include <AzoomeeCommon/Application.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "FlowDataSingleton.h"
-#include <AzoomeeChat/UI/FriendListScene.h>
-#include <AzoomeeChat/UI/FriendListSceneArtPreview.h>
+#include "AzoomeeChat/UI/FriendListScene.h"
+#include "AzoomeeChat/UI/FriendListSceneArtPreview.h"
 #include "ChatDelegate.h"
 #include "../ArtApp/Classes/AzoomeeArt/MainScene.h"
 #include "../ArtApp/Classes/AzoomeeArt/AzoomeeArtApp.h"
@@ -30,6 +30,10 @@
 
 #include "IAPScene.h"
 #include "SignupScene.h"
+
+#include "HQScene.h"
+
+#include <AzoomeeCommon/UI/RoundedRectSprite.h>
 
 #include "CoinCollectLayer.h"
 #include <AzoomeeCommon/Crashlytics/CrashlyticsConfig.h>
@@ -110,43 +114,8 @@ void SceneManagerScene::onEnterTransitionDidFinish()
 			}
 			else
 			{
-				HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
-				const std::string& currentHQ = HQHistoryManager::getInstance()->getCurrentHQ();
-				
-				ContentFeedHQScene* hqScene = ContentFeedHQScene::create();
-				hqScene->setHQCategory(currentHQ);
-				cocos2d::Scene* goToScene = hqScene;
-				
-				if(currentHQ == ConfigStorage::kMeHQName)
-				{
-					MeHQ* hqScene = MeHQ::create();
-					hqScene->setHQCategory(currentHQ);
-					goToScene = hqScene;
-				}
-				Director::getInstance()->replaceScene(goToScene);
+				Director::getInstance()->replaceScene(getBaseScene());
 			}
-            break;
-        }
-        case SceneNameEnum::BaseWithNoHistory:
-        {
-            FlowDataSingleton::getInstance()->clearData();
-            returnToPrevOrientation();
-            acceptAnyOrientation();
-            HQHistoryManager::getInstance()->emptyHistory();
-			HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
-			const std::string& currentHQ = HQHistoryManager::getInstance()->getCurrentHQ();
-			
-			ContentFeedHQScene* hqScene = ContentFeedHQScene::create();
-			hqScene->setHQCategory(currentHQ);
-			cocos2d::Scene* goToScene = hqScene;
-			
-			if(currentHQ == ConfigStorage::kMeHQName)
-			{
-				MeHQ* hqScene = MeHQ::create();
-				hqScene->setHQCategory(currentHQ);
-				goToScene = hqScene;
-			}
-			Director::getInstance()->replaceScene(goToScene);
             break;
         }
         case SceneNameEnum::ChildSelector:
@@ -425,30 +394,35 @@ void SceneManagerScene::returnToPrevOrientation()
     HQHistoryManager::getInstance()->setReturnedFromForcedOrientation(false);
 }
 
+cocos2d::Scene* SceneManagerScene::getBaseScene()
+{
+    HQScene* scene = HQHistoryManager::getInstance()->getCachedHQScene();
+    if(!scene)
+    {
+        scene = HQScene::create();
+        HQHistoryManager::getInstance()->cacheHQScene(scene);
+    }
+    return scene;
+}
+
 void SceneManagerScene::showHoldingUI()
 {
-	LayerColor* bgColour = LayerColor::create(Color4B(0,7,4,255));
+    LayerColor* bgColour = LayerColor::create(Color4B(Style::Color::darkIndigo));
 	this->addChild(bgColour, -1);
 	
 	this->setPosition(Director::getInstance()->getVisibleOrigin());
 	this->setContentSize(Director::getInstance()->getVisibleSize());
 	
-	const Size& contentSize = Director::getInstance()->getVisibleSize();
-	bool isPortrait = contentSize.width < contentSize.height;
-	
-	Sprite* bottomGradient = Sprite::create("res/decoration/TopNavGrad.png");
-	bottomGradient->setContentSize(Size(this->getContentSize().width, 400));
-	bottomGradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	bottomGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-	bottomGradient->setColor(Style::Color::skyBlue);
-	bottomGradient->setRotation(180);
-	this->addChild(bottomGradient);
-	
-	Sprite* wires = Sprite::create("res/rewards/big_wires.png");
-	wires->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	wires->setScale(MAX(contentSize.width, contentSize.height) / wires->getContentSize().width);
-	wires->setRotation(isPortrait ? 90 : 0);
-	this->addChild(wires, -1);
+    RoundedRectSprite* pattern = RoundedRectSprite::create();
+    pattern->setTexture("res/decoration/pattern_stem_tile.png");
+    pattern->setCornerRadius(0);
+    pattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    pattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    pattern->setColor(Style::Color::white);
+    pattern->setScaleMode(RoundedRectSprite::ScaleMode::TILE);
+    pattern->setContentSize(getContentSize());
+    pattern->setOpacity(100);
+    addChild(pattern);
 	
 	LayerColor* overlay = LayerColor::create(Color4B(7,4,34,80));
 	this->addChild(overlay);
@@ -472,20 +446,7 @@ void SceneManagerScene::showHoldingUI()
 	RewardDisplayHandler::getInstance()->showNextReward();
 	
 	this->runAction(Sequence::createWithTwoActions(DelayTime::create(2.5), CallFunc::create([this](){
-		HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
-		const std::string& currentHQ = HQHistoryManager::getInstance()->getCurrentHQ();
-		
-		ContentFeedHQScene* hqScene = ContentFeedHQScene::create();
-		hqScene->setHQCategory(currentHQ);
-		cocos2d::Scene* goToScene = hqScene;
-		
-		if(currentHQ == ConfigStorage::kMeHQName)
-		{
-			MeHQ* hqScene = MeHQ::create();
-			hqScene->setHQCategory(currentHQ);
-			goToScene = hqScene;
-		}
-		Director::getInstance()->replaceScene(goToScene);
+		Director::getInstance()->replaceScene(getBaseScene());
 	})));
 }
 

@@ -93,7 +93,7 @@ void ChatDelegate::onImageDownloadFailed()
 {
     if(_sharedContentId != "")
     {
-        const auto& item = HQDataProvider::getInstance()->getItemDataForSpecificItem(_sharedContentId);
+        const auto& item = HQDataProvider::getInstance()->getContentItemFromID(_sharedContentId);
         if(item)
         {
             std::string filename = "res/contentPlaceholders/Games1X1.png";

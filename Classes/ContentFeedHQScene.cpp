@@ -67,7 +67,18 @@ void ContentFeedHQScene::onEnter()
 		}
 	}
 	
-	createContentScrollview();
+	if(!_initialised)
+	{
+		createContentScrollview();
+		_initialised = true;
+	}
+	
+#if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+	if(startingReviewProcessRequired())
+	{
+		IosNativeFunctionsSingleton::getInstance()->startIosReviewProcess();
+	}
+#endif
 	
 	Super::onEnter();
 }
@@ -99,22 +110,16 @@ void ContentFeedHQScene::createContentScrollview()
 		return;
 	}
 	
-#if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-	if(startingReviewProcessRequired())
-	{
-		IosNativeFunctionsSingleton::getInstance()->startIosReviewProcess();
-	}
-#endif
 	std::vector<LayerColor*> carouselStorage;
 	float totalHeightOfCarousels = 0;
 	
 	//addRecentlyPlayedCarousel();
-	
+	_contentIcons.clear();
 	for(int rowIndex = 0; rowIndex < HQDataProvider::getInstance()->getNumberOfRowsForHQ(_hqCategory); rowIndex++)
 	{
 		const std::vector<HQContentItemObjectRef> &elementsForRow = HQDataProvider::getInstance()->getElementsForRow(_hqCategory, rowIndex);
 		float lowestElementYPosition = 0;
-		
+		std::vector<HQSceneElement*> buttons;
 		cocos2d::LayerColor* carouselLayer =  cocos2d::LayerColor::create(cocos2d::Color4B(255, 0, 0, 0), visibleSize.width - 2 * sideMargin, 0);
 		
 		for(int elementIndex = 0; elementIndex < elementsForRow.size(); elementIndex++)
@@ -129,7 +134,7 @@ void ContentFeedHQScene::createContentScrollview()
 			hqSceneElement->addHQSceneElement();
 			
 			hqSceneElement->setTouchCallback([rowIndex,elementIndex,this](const HQContentItemObjectRef& elementData){
-				ContentOpener::getInstance()->doCarouselContentOpenLogic(elementData, rowIndex, elementIndex, _hqCategory);
+				ContentOpener::getInstance()->doCarouselContentOpenLogic(elementData, rowIndex, elementIndex, _hqCategory, "");
 			});
 			
 			cocos2d::Vec2 elementShape = HQDataProvider::getInstance()->getHighlightDataForSpecificItem(_hqCategory, rowIndex, elementIndex);
@@ -144,28 +149,12 @@ void ContentFeedHQScene::createContentScrollview()
 			
 			hqSceneElement->setPosition(elementPosition);
 			carouselLayer->addChild(hqSceneElement);
-			
+			buttons.push_back(hqSceneElement);
 			if(elementPosition.y < lowestElementYPosition)
 			{
 				lowestElementYPosition = elementPosition.y;
 			}
-			
-			if(rowIndex == 0 && elementIndex == 0)
-			{
-				if(TutorialController::getInstance()->isTutorialActive() && (TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUVideoHQContent || TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUGameHQContent || TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUGroupHQContent))
-				{
-					hqSceneElement->setLocalZOrder(1);
-					
-					Sprite* hand = Sprite::create("res/tutorial/Pointer.png");
-					hand->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-					hand->setRotation(-15.0f);
-					hand->setPosition(hqSceneElement->getContentSize() / 2);
-					hqSceneElement->addChild(hand,1);
-					hand->setScale((contentItemSize.height * unitMultiplier * 0.5f) / hand->getContentSize().height);
-					hand->runAction(RepeatForever::create(Sequence::createWithTwoActions(MoveBy::create(1.0f, Vec2(hqSceneElement->getContentSize().width * 0.05f, -hqSceneElement->getContentSize().height * 0.1f)), MoveBy::create(1.0f, Vec2(-hqSceneElement->getContentSize().width * 0.05f, hqSceneElement->getContentSize().height * 0.1f)))));
-					hand->runAction(RepeatForever::create(Sequence::createWithTwoActions(ScaleTo::create(1.0f, hand->getScale() * 1.2f), ScaleTo::create(1.0f, hand->getScale()))));
-				}
-			}
+
 		}
 		
 		//Filling up empty spaces with placeholders (Design requirement - except for Group HQ)
@@ -189,6 +178,7 @@ void ContentFeedHQScene::createContentScrollview()
 		}
 		totalHeightOfCarousels += carouselLayer->getContentSize().height + spaceAboveCarousel;
 		carouselStorage.push_back(carouselLayer);
+		_contentIcons.push_back(buttons);
 	}
 	
 	//we have all carousels in a vector, time to resize the scrollview and add them one by one
@@ -341,7 +331,12 @@ void ContentFeedHQScene::addGroupHQLogo()
 
 void ContentFeedHQScene::onSizeChanged()
 {
+	bool wasPortrait = _isPortrait;
 	Super::onSizeChanged();
+	if(wasPortrait == _isPortrait) // orientation hasnt changed
+	{
+		return;
+	}
 	float scrollPerc = 0.1f;
 	if(_contentScrollview)
 	{
@@ -362,7 +357,32 @@ void ContentFeedHQScene::onSizeChanged()
 
 void ContentFeedHQScene::onTutorialStateChanged(const std::string& stateId)
 {
-	
+	if(stateId == TutorialController::kFTUVideoHQContent || stateId == TutorialController::kFTUGameHQContent || stateId == TutorialController::kFTUGroupHQContent)
+	{
+		if(_contentIcons.size() > 0 && _contentIcons.at(0).size() > 0)
+		{
+			HQSceneElement* hqSceneElement = _contentIcons.at(0).at(0);
+			hqSceneElement->setLocalZOrder(1);
+			hqSceneElement->removeChildByName("tutHand");
+			Sprite* hand = Sprite::create("res/tutorial/Pointer.png");
+			hand->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+			hand->setName(kTutHandName);
+			hand->setRotation(-15.0f);
+			hand->setPosition(hqSceneElement->getContentSize() / 2);
+			hqSceneElement->addChild(hand,1);
+			hand->setScale((ConfigStorage::getInstance()->getSizeForContentItemInCategory(_hqCategory).height * 0.5f) / hand->getContentSize().height);
+			hand->runAction(RepeatForever::create(Sequence::createWithTwoActions(MoveBy::create(1.0f, Vec2(hqSceneElement->getContentSize().width * 0.05f, -hqSceneElement->getContentSize().height * 0.1f)), MoveBy::create(1.0f, Vec2(-hqSceneElement->getContentSize().width * 0.05f, hqSceneElement->getContentSize().height * 0.1f)))));
+			hand->runAction(RepeatForever::create(Sequence::createWithTwoActions(ScaleTo::create(1.0f, hand->getScale() * 1.2f), ScaleTo::create(1.0f, hand->getScale()))));
+		}
+	}
+	else
+	{
+		if(_contentIcons.size() > 0 && _contentIcons.at(0).size() > 0)
+		{
+			HQSceneElement* hqSceneElement = _contentIcons.at(0).at(0);
+			hqSceneElement->removeChildByName(kTutHandName);
+		}
+	}
 }
 
 NS_AZOOMEE_END

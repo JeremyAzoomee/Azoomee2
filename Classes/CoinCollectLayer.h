@@ -11,6 +11,7 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include <cocos/cocos2d.h>
 #include "RewardScreen.h"
+#include <AzoomeeCommon/UI/RoundedRectSprite.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -24,9 +25,7 @@ private:
 	cocos2d::Label* _valueLabel = nullptr;
 	
 	cocos2d::LayerColor* _bgColour = nullptr;
-	cocos2d::Sprite* _wires = nullptr;
-	cocos2d::Sprite* _wireGlow = nullptr;
-	cocos2d::Sprite* _bottomGradient = nullptr;
+	RoundedRectSprite* _pattern = nullptr;
 	
 	cocos2d::Sprite* _plinth = nullptr;
 	cocos2d::ParticleSystemQuad* _smoke = nullptr;

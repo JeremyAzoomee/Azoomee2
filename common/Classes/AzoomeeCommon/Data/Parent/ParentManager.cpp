@@ -285,6 +285,7 @@ FriendRequestRef ParentManager::getPendingFriendRequest(int pendingFriendRequest
 bool ParentManager::parseParentLoginData(const std::string &responseData)
 {
 	logoutChild();
+    _billingData = nullptr;
 	rapidjson::Document parentData;
 	parentData.Parse(responseData.c_str());
 	
@@ -582,6 +583,15 @@ void ParentManager::saveAnonCredentialsToDevice(const std::string &userId)
 	UserDefault* userDefault = UserDefault::getInstance();
 	userDefault->setStringForKey("anonEmail", userId);
 	userDefault->flush();
+}
+
+void ParentManager::setAvatarColourForChild(const std::string& childId, const cocos2d::Color4B& colour)
+{
+    auto childItt = _availableChildrenById.find(childId);
+    if(childItt != _availableChildrenById.end())
+    {
+        childItt->second->setAvatarColour(colour);
+    }
 }
 
 NS_AZOOMEE_END

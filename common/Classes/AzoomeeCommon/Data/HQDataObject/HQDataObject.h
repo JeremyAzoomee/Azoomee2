@@ -33,6 +33,7 @@ public:
     std::vector<HQCarouselObjectRef> getHqCarousels();
     std::map<std::string, std::string> getImages() const;
     std::string getGroupLogo() const;
+    std::string getGroupBanner() const;
     bool getItemEntitlement(const std::string& itemId) const;
 	
 };

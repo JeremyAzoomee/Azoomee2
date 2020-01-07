@@ -6,6 +6,7 @@
 #include "../Utils/SessionIdManager.h"
 #include "../Crashlytics/CrashlyticsConfig.h"
 #include "../JWTSigner/HMACSHA256/HMACSHA256.h"
+#include "../Data/HQDataObject/ContentItemManager.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -331,13 +332,18 @@ void AnalyticsSingleton::createChildBackPressed()
 
 //-------------HUB ACTIONS-------------------
 
-    void AnalyticsSingleton::navSelectionEvent(std::string hubOrTop, const std::string& buttonName)
+void AnalyticsSingleton::navSelectionEvent(const std::string& buttonName)
 {
     std::map<std::string, std::string> mixPanelProperties;
     mixPanelProperties["Type"] = buttonName;
-    mixPanelProperties["Method"] = hubOrTop;
     
     mixPanelSendEventWithStoredProperties("contentNavSelection", mixPanelProperties);
+}
+
+void AnalyticsSingleton::categoryOpenEvent(bool isOpen, const std::string& categoryName)
+{
+    const std::string& eventName = isOpen ? "categoryOpen" : "categoryClose";
+    mixPanelSendEventWithStoredProperties(eventName, { { "Category Name", categoryName } });
 }
 
 //---------------- CONTENT ITEM ACTIONS------------------------
@@ -346,17 +352,17 @@ void AnalyticsSingleton::contentItemSelectedEvent(const std::string& Type)
 {
     MutableHQContentItemObjectRef contentItem = MutableHQContentItemObject::create();
     contentItem->setType(Type);
-    contentItemSelectedEvent(contentItem, -1, -1, "");
+    contentItemSelectedEvent(contentItem, -1, -1, "", "");
 }
     
 void AnalyticsSingleton::contentItemSelectedEvent(const std::string& Type, const std::string& elementShape)
 {
     MutableHQContentItemObjectRef contentItem = MutableHQContentItemObject::create();
     contentItem->setType(Type);
-    contentItemSelectedEvent(contentItem, -1, -1, elementShape);
+    contentItemSelectedEvent(contentItem, -1, -1, elementShape, "");
 }
     
-void AnalyticsSingleton::contentItemSelectedEvent(const HQContentItemObjectRef &contentItem, int rowNumber, int elementNumber, const std::string& elementShape)
+void AnalyticsSingleton::contentItemSelectedEvent(const HQContentItemObjectRef &contentItem, int rowNumber, int elementNumber, const std::string& elementShape, const std::string& location)
 {
     SessionIdManager::getInstance()->resetBackgroundTimeInContent();
     
@@ -372,6 +378,14 @@ void AnalyticsSingleton::contentItemSelectedEvent(const HQContentItemObjectRef &
     mixPanelProperties["rowNumber"] = cocos2d::StringUtils::format("%d", rowNumber);
     mixPanelProperties["elementNumber"] = cocos2d::StringUtils::format("%d", elementNumber);
     mixPanelProperties["elementShape"] = elementShape;
+    mixPanelProperties["tileLocation"] = location;
+    
+    // is this piece of content part of a group? If so, set the series title property
+    const HQContentItemObjectRef& groupContentItem = ContentItemManager::getInstance()->getParentOfContentItemForId(contentItem->getContentItemId());
+    if(groupContentItem)
+    {
+        mixPanelProperties["SeriesTitle"] = groupContentItem->getTitle();
+    }
     
     _analyticsProperties->setStoredContentItemProperties(mixPanelProperties);
     
@@ -380,7 +394,7 @@ void AnalyticsSingleton::contentItemSelectedEvent(const HQContentItemObjectRef &
 
 void AnalyticsSingleton::contentItemSelectedOutsideCarouselEvent(const HQContentItemObjectRef &contentItem)
 {
-    contentItemSelectedEvent(contentItem, -1, -1, "0,0");
+    contentItemSelectedEvent(contentItem, -1, -1, "0,0", "");
 }
     
 void AnalyticsSingleton::updateContentItemDetails(const HQContentItemObjectRef &contentItem)
@@ -1026,6 +1040,11 @@ void AnalyticsSingleton::shopPurchasedAnimUsePressed(const ShopDisplayItemRef& i
 		{"isNew", std::find(tags.begin(), tags.end(), "NEW") != tags.end() ?  "YES" : "NO"},
 		{"isFeatured", std::find(tags.begin(), tags.end(), "FEATURED") != tags.end() ?  "YES" : "NO"}
 	});
+}
+
+void AnalyticsSingleton::openShopEvent()
+{
+    mixPanelSendEventWithStoredProperties("shopOpen");
 }
 
 void AnalyticsSingleton::coinCounterPressedEvent()

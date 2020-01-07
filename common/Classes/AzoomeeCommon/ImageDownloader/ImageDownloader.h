@@ -72,6 +72,7 @@ private:
     
     void downloadFileFromServer(const std::string& url);
     void loadFileFromLocalCacheAsync();
+    void downloadFailed();
     
 public:
     static ImageDownloaderRef create(const std::string& storageLocation, CacheMode mode);

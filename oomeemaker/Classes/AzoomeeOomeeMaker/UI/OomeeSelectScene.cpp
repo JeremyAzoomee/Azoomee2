@@ -15,6 +15,7 @@
 #include <AzoomeeCommon/Utils/TimeFunctions.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 
 using namespace cocos2d;
 
@@ -25,9 +26,6 @@ void OomeeSelectScene::newOomee()
     AnalyticsSingleton::getInstance()->newOomee();
     OomeeMakerScene* makerScene = OomeeMakerScene::create();
     
-    const std::string& fileNameStr = getTimeStringForFileName();
-    
-    makerScene->setFilename(fileNameStr);
     makerScene->setIsNewOomee(true);
     Director::getInstance()->replaceScene(makerScene);
 	
@@ -53,7 +51,6 @@ bool OomeeSelectScene::init()
     _oomeeCarousel->setButtonDelegate(this);
     _oomeeCarousel->setContentSize(_contentLayer->getContentSize());
     _oomeeCarousel->setPosition(_contentLayer->getContentSize() / 2);
-    setCarouselData();
     _contentLayer->addChild(_oomeeCarousel);
     
     _exitButton = ui::Button::create();
@@ -118,22 +115,29 @@ void OomeeSelectScene::onEnter()
 	{
 		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
 	}
+	
 	OomeeMakerDataHandler::getInstance()->getLatestData([this](bool success){
-		if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kConfirmOomee)
-		{
-			OomeeSelectScene::newOomee();
-		}
-		else if(delegate->_newAccessoryId != "")
-		{
-			if(_oomeeCarousel->getOomeeData().size() > 0)
-			{
-				editOomee(_oomeeCarousel->getOomeeData().at(0));
-			}
-			else
+		const auto& getOomeesCallback = [this](bool success){
+			this->setCarouselData();
+			if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kConfirmOomee)
 			{
 				OomeeSelectScene::newOomee();
 			}
-		}
+			else if(delegate->_newAccessoryId != "")
+			{
+				if(_oomeeCarousel->getOomeeData().size() > 0)
+				{
+					editOomee(_oomeeCarousel->getOomeeData().at(0));
+				}
+				else
+				{
+					OomeeSelectScene::newOomee();
+				}
+			}
+		};
+
+        OomeeMakerDataHandler::getInstance()->getOomeesForChild(ChildManager::getInstance()->getLoggedInChild()->getId(), false, getOomeesCallback);
+
 	});
 	Super::onEnter();
 }
@@ -229,7 +233,19 @@ void OomeeSelectScene::makeAvatar(const std::string &oomeeFilename)
     if(Azoomee::OomeeMaker::delegate)
     {
         CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Make_Avatar_Button.mp3");
-        Azoomee::OomeeMaker::delegate->onOomeeMakerUpdateAvatar(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + oomeeFilename + ".png");
+        rapidjson::Document data;
+        data.Parse(FileUtils::getInstance()->getStringFromFile(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + oomeeFilename + OomeeMakerDataHandler::kOomeeFileExtension).c_str());
+        if(data.HasParseError())
+        {
+            return;
+        }
+        OomeeFigureDataRef oomee = OomeeFigureData::createWithData(data);
+        OomeeMakerDataHandler::getInstance()->saveOomee(oomee, true, ChildManager::getInstance()->getLoggedInChild()->getId(), [this, oomeeFilename](bool success){
+            if(delegate && success)
+            {
+                delegate->onOomeeMakerUpdateAvatar(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + oomeeFilename + ".png");
+            }
+        });
     }
 }
 
@@ -244,16 +260,21 @@ void OomeeSelectScene::shareOomee(const std::string &oomeeFilename)
 
 void OomeeSelectScene::onConfirmPressed(Azoomee::ConfirmCancelMessageBox *pSender)
 {
-    if(OomeeMakerDataHandler::getInstance()->deleteOomee(pSender->getName()))
-    {
-        CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Undo_Exit_Buttons.mp3");
-        AnalyticsSingleton::getInstance()->deleteOomee();
-        stopAllActions();
-        setCarouselData();
-        this->getScheduler()->schedule([this](float deltaT){
-            _oomeeCarousel->centerButtons();
-        }, this, 0, 0, 1.0, 0, "centerButtons");
-    }
+	OomeeFigureDataRef oomee = OomeeFigureData::create();
+	oomee->setId(pSender->getName());
+	OomeeMakerDataHandler::getInstance()->deleteOomee(oomee, ChildManager::getInstance()->getLoggedInChild()->getId(), [this](bool success){
+		if(success)
+		{
+			CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Undo_Exit_Buttons.mp3");
+			AnalyticsSingleton::getInstance()->deleteOomee();
+			stopAllActions();
+			setCarouselData();
+			this->getScheduler()->schedule([this](float deltaT){
+				_oomeeCarousel->centerButtons();
+			}, this, 0, 0, 1.0, 0, "centerButtons");
+		}
+	});
+	
     pSender->removeFromParent();
 }
 

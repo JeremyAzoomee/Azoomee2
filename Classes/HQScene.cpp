@@ -1,48 +1,59 @@
 //
 //  HQScene.cpp
-//  azoomee2-mobile
+//  Azoomee
 //
-//  Created by Macauley on 29/01/2019.
+//  Created by Macauley.Scoffins on 21/08/2019.
 //
 
 #include "HQScene.h"
-#include "SceneManagerScene.h"
 #include "HQHistoryManager.h"
-#include <AzoomeeCommon/Utils/SpecialCalendarEventManager.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
-#include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
-
+#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
 #include "FlowDataSingleton.h"
 #include "ContentHistoryManager.h"
 #include "RewardDisplayHandler.h"
-
+#include "SceneManagerScene.h"
 #include "AgeGate.h"
+#include "ContentOpener.h"
+
 
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+const float HQScene::kTitleBarPadding = 120.0f;
+
 bool HQScene::init()
 {
-	if(!Super::init())
-	{
-		return false;
-	}
-	
-	buildCoreUI();
-
-	return true;
+    if(!Super::init())
+    {
+        return false;
+    }
+    
+    _background = ui::Layout::create();
+    _background->setSizeType(ui::Layout::SizeType::PERCENT);
+    _background->setSizePercent(Vec2(1.0f,1.0f));
+    _background->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+    _background->setBackGroundColor(Style::Color::darkIndigo);
+    addChild(_background);
+    
+    createHeaderUI();
+    createNavigationUI();
+    createPageUI();
+    
+    changeToPage(HQType::GAME);
+    
+    return true;
 }
+
 void HQScene::onEnter()
 {
-	TutorialController::getInstance()->registerDelegate(this);
-	if(TutorialController::getInstance()->isTutorialActive())
-	{
-		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
-	}
-	_navLayer->setButtonOn(_hqCategory);
-	
+    _navBar->toggleHQSelected(_activePageName);
+
 	_rewardRedeemedListener = EventListenerCustom::create(RewardDisplayHandler::kRewardRedeemedEventKey, [this](EventCustom* event){
 		if(!_coinDisplay->isVisible())
 		{
@@ -51,163 +62,266 @@ void HQScene::onEnter()
 	});
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(_rewardRedeemedListener, this);
 	
-	Super::onEnter();
+	TutorialController::getInstance()->registerDelegate(this);
+	if(TutorialController::getInstance()->isTutorialActive())
+	{
+		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
+	}
+    
+	ContentHistoryManager::getInstance()->setReturnedFromContent(false);
+    HQHistoryManager::getInstance()->addHQToHistoryManager(_activePageName);
+    
+    Super::onEnter();
 }
 
 void HQScene::onExit()
 {
-	TutorialController::getInstance()->unRegisterDelegate(this);
-	_eventDispatcher->removeEventListener(_rewardRedeemedListener);
-	_rewardRedeemedListener = nullptr;
-	Super::onExit();
+    Super::onExit();
 }
 
 void HQScene::onSizeChanged()
 {
-	Super::onSizeChanged();
-
-	const Size& visibleSize = this->getContentSize();
-	bool isPortrait = visibleSize.width < visibleSize.height;
-	bool isIphoneX = ConfigStorage::getInstance()->isDeviceIphoneX();
-	
-	_messagingLayer->setContentSize(Size(visibleSize.width, 350));
-	
-	_messagingLayer->repositionElements();
-	
-	_coinDisplay->setAnchorPoint(Vec2(1.2,(isIphoneX && isPortrait) ? 2.2f : 1.5f));
-	_verticalScrollGradient->setScaleX(visibleSize.width / _verticalScrollGradient->getContentSize().width);
-
+    Super::onSizeChanged();
+    const Size& visibleSize = Director::getInstance()->getVisibleSize();
+    _isPortrait = visibleSize.width < visibleSize.height;
+    const Rect& safeAreaRect = Director::getInstance()->getSafeAreaRect();
+    const float safeZonePadding = visibleSize.height - (safeAreaRect.origin.y + safeAreaRect.size.height);
+    if(_titleBannerContent)
+    {
+        const Size& titleBannerSize = Size(visibleSize.width, HQConsts::TitleBannerHeight + safeZonePadding);
+        _titleBanner->setContentSize(titleBannerSize);
+        _topPattern->setContentSize(titleBannerSize);
+        _patternGradient->setContentSize(Size(titleBannerSize.width, 107));
+        _titleBannerContent->setContentSize(Size(visibleSize.width - kTitleBarPadding, titleBannerSize.height));
+    }
+    if(_HQPageTitle)
+    {
+        _HQPageTitle->setTextAreaSize(Size(visibleSize.width / 2, HQConsts::TitleBannerHeight - 20));
+    }
+    if(_pageLayout)
+    {
+        const float titleBannerHeight = _titleBanner->getContentSize().height;
+        _pageLayout->setContentSize(Size(visibleSize.width * 0.95f, visibleSize.height - titleBannerHeight - _navBar->getContentSize().height));
+        _pageLayout->setPosition(Vec2(visibleSize.width / 2, visibleSize.height - titleBannerHeight));
+        _pageLayout->forceDoLayout();
+    }
+    if(_verticalScrollGradient)
+    {
+        _verticalScrollGradient->setAnchorPoint(Vec2(_isPortrait ? 0.5f : 0.0f, 0.0f));
+    }
 }
 
-void HQScene::setHQCategory(const std::string &hqCategory)
+void HQScene::createHeaderUI()
 {
-	_hqCategory = hqCategory;
+    const Size& visibleSize = Director::getInstance()->getVisibleSize();
+    _isPortrait = visibleSize.width < visibleSize.height;
+    const Rect& safeAreaRect = Director::getInstance()->getSafeAreaRect();
+    const float safeZonePadding = visibleSize.height - (safeAreaRect.origin.y + safeAreaRect.size.height);
+    
+    _titleBanner = ui::Layout::create();
+    _titleBanner->setContentSize(Size(visibleSize.width, HQConsts::TitleBannerHeight + safeZonePadding));
+    _titleBanner->setClippingEnabled(true);
+    _titleBanner->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+    _titleBanner->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+    addChild(_titleBanner, 1);
+    
+    _topPattern = TileSprite::create();
+    _topPattern->setTexture("res/decoration/pattern_stem_tile.png");
+    _topPattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+    _topPattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+    _topPattern->setColor(Style::Color::macaroniAndCheese);
+    _titleBanner->addChild(_topPattern);
+    
+    const Color3B& gradColour = Style::Color::darkIndigo;
+    _patternGradient = LayerGradient::create(Color4B(gradColour.r, gradColour.g, gradColour.b, 0), Color4B(gradColour));
+    _patternGradient->setIgnoreAnchorPointForPosition(false);
+    _patternGradient->setContentSize(Size(_titleBanner->getContentSize().width, 107));
+    _patternGradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _patternGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _titleBanner->addChild(_patternGradient);
+    
+    _titleBannerContent = ui::Layout::create();
+    _titleBannerContent->setContentSize(Size(visibleSize.width - kTitleBarPadding, HQConsts::TitleBannerHeight));
+    _titleBannerContent->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _titleBannerContent->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _titleBanner->addChild(_titleBannerContent);
+    
+    _settingsButton = SettingsButton::create();
+    _settingsButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
+    _settingsButton->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
+    _titleBannerContent->addChild(_settingsButton);
+    
+    // add coin counter
+    _coinDisplay = CoinDisplay::create();
+    _coinDisplay->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
+    _coinDisplay->setAnchorPoint(Vec2(1.1f,0.5f));
+    _coinDisplay->setAnimate(false);
+    _settingsButton->addChild(_coinDisplay);
+    //show coin counter if they have coins or have completed the shop tutorial
+    //_coinDisplay->setVisible(TutorialController::getInstance()->isTutorialCompleted(TutorialController::kFTUShopID) || ChildManager::getInstance()->getLoggedInChild()->getInventory()->getCoins() > 0);
+    
+    _HQPageTitle = DynamicText::create(_("Games"), Style::Font::PoppinsBold(), 107);
+    _HQPageTitle->enableShadow(Color4B(0,0,0,125), Size(4,-8));
+    _HQPageTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+    _HQPageTitle->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
+    _HQPageTitle->setOverflow(Label::Overflow::SHRINK);
+    _HQPageTitle->setTextAreaSize(Size(visibleSize.width / 2, HQConsts::TitleBannerHeight - 20));
+    _HQPageTitle->setTextColor(Color4B::WHITE);
+    _HQPageTitle->setTextVerticalAlignment(TextVAlignment::CENTER);
+    _titleBannerContent->addChild(_HQPageTitle);
+    
 }
-
-HQSceneType HQScene::getSceneType() const
+void HQScene::createNavigationUI()
 {
-	return _type;
+    const Size& visibleSize = Director::getInstance()->getVisibleSize();
+    _isPortrait = visibleSize.width < visibleSize.height;
+    
+    _navBar = NavigationBar::create();
+    _navBar->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _navBar->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _navBar->setHQSelectedCallback([this](HQType hq){
+        const std::string& targetHQName = NavigationBar::kHQTypeToNameConv.at(hq);
+        const HQDataObjectRef& targetHQ = HQDataObjectManager::getInstance()->getHQDataObjectForKey(targetHQName);
+        
+        if(!targetHQ->getHqEntitlement())
+        {
+#ifndef ALLOW_UNPAID_SIGNUP
+            AgeGate* ageGate = AgeGate::create();
+            ageGate->setActionCompletedCallback([ageGate](AgeGateResult result){
+                ageGate->removeFromParent();
+                if(result == AgeGateResult::SUCCESS)
+                {
+                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::IAP));
+                }
+            });
+            Director::getInstance()->getRunningScene()->addChild(ageGate,AGE_GATE_Z_ORDER);
+#else
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Signup));
+#endif
+            return false;
+        }
+        
+        // Navigation event
+        const std::string& eventName = NavigationBar::kHQTypeToNameConv.at(hq);
+        AnalyticsSingleton::getInstance()->navSelectionEvent(eventName);
+        
+        changeToPage(hq);
+        return true;
+    });
+    addChild(_navBar, 1);
+    
+    _purchaseCapsule = PurchaseCapsule::create();
+    _purchaseCapsule->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _purchaseCapsule->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+    const BillingDataRef& billingData = ParentManager::getInstance()->getBillingData();
+    BillingStatus billingStatus = BillingStatus::ANON;
+    if(billingData)
+    {
+        billingStatus = billingData->getBillingStatus();
+    }
+    else if(ParentManager::getInstance()->isUserLoggedIn())
+    {
+        billingStatus = BillingStatus::FREE_REGISTERED;
+    }
+    _purchaseCapsule->setUserType(billingStatus);
+    _navBar->addChild(_purchaseCapsule);
+    
+    const Color3B& gradColour = Style::Color::darkIndigo;
+    _verticalScrollGradient = LayerGradient::create(Color4B(gradColour.r, gradColour.g, gradColour.b, 0), Color4B(gradColour));
+    _verticalScrollGradient->setIgnoreAnchorPointForPosition(false);
+    _verticalScrollGradient->setContentSize(Size(2736, 160));
+    _verticalScrollGradient->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+    _verticalScrollGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+    _navBar->addChild(_verticalScrollGradient, -1);
 }
 
-void HQScene::buildCoreUI()
+void HQScene::createPageUI()
 {
-	const Size& visibleSize = this->getContentSize();
-	bool isPortrait = visibleSize.width < visibleSize.height;
-	bool isIphoneX = ConfigStorage::getInstance()->isDeviceIphoneX();
-	
-	// add coin counter
-	_coinDisplay = CoinDisplay::create();
-	_coinDisplay->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
-	_coinDisplay->setAnchorPoint(Vec2(1.2,(isIphoneX && isPortrait) ? 2.2f : 1.5f));
-	_coinDisplay->setAnimate(true);
-	this->addChild(_coinDisplay, 1);
-	//show coin counter if they have coins or have completed the shop tutorial
-	_coinDisplay->setVisible(TutorialController::getInstance()->isTutorialCompleted(TutorialController::kFTUShopID) || ChildManager::getInstance()->getLoggedInChild()->getInventory()->getCoins() > 0);
-	
-	_messagingLayer = UserTypeMessagingLayer::create();
-	_messagingLayer->setContentSize(Size(visibleSize.width, 350));
-	_messagingLayer->setPosition(-Vec2(0,350));
-	_messagingLayer->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-	UserBillingType userType = UserBillingType::ANON;
-	if(!ParentManager::getInstance()->isLoggedInParentAnonymous())
-	{
-		userType = UserBillingType::LAPSED;
-		if(ParentManager::getInstance()->isPaidUser())
-		{
-			userType = UserBillingType::PAID;
-		}
-	}
-	_messagingLayer->setUserType(userType);
-	if(userType == UserBillingType::PAID)
-	{
-		_showingMessagingLayer = false;
-		_messagingLayer->setOpacity(0);
-	}
-	else
-	{
-		if(HQHistoryManager::getInstance()->getHistorySize() == 1)
-		{
-			_messagingLayer->runAction(MoveTo::create(1, Vec2(0,0)));
-		}
-		else
-		{
-			_messagingLayer->setPosition(Vec2(0,0));
-		}
-	}
-	this->addChild(_messagingLayer,1);
-	
-	_navLayer = NavigationLayer::create();
-	_navLayer->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
-	_navLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-	_messagingLayer->addChild(_navLayer);
-	
-	addParticleElementsToBackground();
-	
-	_verticalScrollGradient = Sprite::create("res/decoration/TopNavGrad.png");
-	_verticalScrollGradient->setAnchorPoint(Vec2(0.5, 0.9));
-	_verticalScrollGradient->setScaleX(visibleSize.width / _verticalScrollGradient->getContentSize().width);
-	_verticalScrollGradient->setColor(Color3B::BLACK);
-	_verticalScrollGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
-	_verticalScrollGradient->setRotation(180);
-	_navLayer->addChild(_verticalScrollGradient);
-	
-	if(SpecialCalendarEventManager::getInstance()->isXmasTime())
-	{
-		addXmasDecoration();
-	}
-	
-	if(HQHistoryManager::getInstance()->getHistorySize() == 1 || ContentHistoryManager::getInstance()->getReturnedFromContent())
-	{
-		AudioMixer::getInstance()->playBackgroundMusic(HQ_BACKGROUND_MUSIC);
-	}
-	ContentHistoryManager::getInstance()->setReturnedFromContent(false);
+    const Size& visibleSize = Director::getInstance()->getVisibleSize();
+    
+    _pageLayout = ui::Layout::create();
+    _pageLayout->setContentSize(Size(visibleSize.width * 0.95f, visibleSize.height - _titleBanner->getContentSize().height - _navBar->getContentSize().height));
+    _pageLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+    _pageLayout->setPosition(Vec2(visibleSize.width / 2, visibleSize.height - _titleBanner->getContentSize().height));
+    addChild(_pageLayout);
+    
+    _gameHQ = GameHQ::create();
+    _gameHQ->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _gameHQ->setPositionType(ui::Widget::PositionType::PERCENT);
+    _gameHQ->setPositionPercent(Vec2::ANCHOR_MIDDLE);
+    _gameHQ->setVisible(false);
+    _gameHQ->setContentSelectedCallback([](HQContentItemObjectRef content, int elementIndex, int rowIndex, const std::string& location){
+        ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, ConfigStorage::kGameHQName, location);
+    });
+    _pageLayout->addChild(_gameHQ);
+    
+    _videoHQ = VideoHQ::create();
+    _videoHQ->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _videoHQ->setPositionType(ui::Widget::PositionType::PERCENT);
+    _videoHQ->setPositionPercent(Vec2::ANCHOR_MIDDLE);
+    _videoHQ->setVisible(false);
+    _videoHQ->setContentSelectedCallback([](HQContentItemObjectRef content, int elementIndex, int rowIndex, const std::string& location){
+        ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, ConfigStorage::kVideoHQName, location);
+    });
+    _videoHQ->setEpisodeSelectorContentSelectedCallback([](HQContentItemObjectRef content, int elementIndex, int rowIndex, const std::string& location){
+        ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, ConfigStorage::kGroupHQName, location);
+    });
+    _pageLayout->addChild(_videoHQ);
+    
+    _oomeeHQ = OomeeHQ::create();
+    _oomeeHQ->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _oomeeHQ->setPositionType(ui::Widget::PositionType::PERCENT);
+    _oomeeHQ->setPositionPercent(Vec2::ANCHOR_MIDDLE);
+    _oomeeHQ->setVisible(false);
+    _oomeeHQ->setContentSelectedCallback([](HQContentItemObjectRef content, int elementIndex, int rowIndex, const std::string& location){
+        ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, ConfigStorage::kMeHQName, location);
+    });
+    _pageLayout->addChild(_oomeeHQ);
+    
+    _chatHQ = ChatHQ::create();
+    _chatHQ->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _chatHQ->setPositionType(ui::Widget::PositionType::PERCENT);
+    _chatHQ->setPositionPercent(Vec2::ANCHOR_MIDDLE);
+    _chatHQ->setVisible(false);
+    _pageLayout->addChild(_chatHQ);
 }
 
-void HQScene::addParticleElementsToBackground()
+void HQScene::changeToPage(const HQType& page)
 {
-	Vec2 origin = Director::getInstance()->getVisibleOrigin();
-	
-	auto myParticle = ParticleMeteor::create();
-	
-	if(SpecialCalendarEventManager::getInstance()->isXmasTime())
-	{
-		myParticle->setColor(cocos2d::Color3B::WHITE);
-		myParticle->setStartColor(cocos2d::Color4F::WHITE);
-		myParticle->setEndColor(cocos2d::Color4F::WHITE);
-		myParticle->setLife(20.0f);
-	}
-	
-	myParticle->setSpeed(30);
-	myParticle->setGravity(Vec2(0, -20));
-	myParticle->setScale(1);
-	myParticle->setPosVar(Vec2(2732, 5192));
-	this->addChild(myParticle, 0);
+    _gameHQ->setVisible(page == HQType::GAME);
+    _videoHQ->setVisible(page == HQType::VIDEO);
+    _oomeeHQ->setVisible(page == HQType::OOMEE);
+    _chatHQ->setVisible(page == HQType::CHAT);
+    switch(page)
+    {
+        case HQType::GAME:
+            _gameHQ->forceDoLayout();
+            _HQPageTitle->setString(_("Games"));
+            _activePageName = ConfigStorage::kGameHQName;
+            break;
+        case HQType::VIDEO:
+            _videoHQ->forceDoLayout();
+            _HQPageTitle->setString(_("Videos"));
+            _activePageName = ConfigStorage::kVideoHQName;
+            break;
+        case HQType::CHAT:
+            _chatHQ->forceDoLayout();
+            _HQPageTitle->setString(_("Chat"));
+            _activePageName = ConfigStorage::kChatHQName;
+            break;
+        case HQType::OOMEE:
+            _oomeeHQ->forceDoLayout();
+            _HQPageTitle->setString(ChildManager::getInstance()->getParentOrChildName());
+            _activePageName = ConfigStorage::kMeHQName;
+            break;
+    }
+    HQHistoryManager::getInstance()->addHQToHistoryManager(_activePageName);
 }
 
-void HQScene::addXmasDecoration()
-{
-	Sprite* snow1 = Sprite::create("res/xmasdecoration/snowPileLeft.png");
-	snow1->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-	snow1->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_LEFT);
-	snow1->setScale(0);
-	this->addChild(snow1, DECORATION_ZORDER);
-	snow1->runAction(Sequence::create(DelayTime::create(0.3f), EaseOut::create(ScaleTo::create(2.0f, 1.0f), 2.0f), NULL));
-	
-	Sprite *snow2 = Sprite::create("res/xmasdecoration/snowPileRight.png");
-	snow2->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
-	snow2->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_RIGHT);
-	snow2->setScale(0);
-	this->addChild(snow2, DECORATION_ZORDER);
-	snow2->runAction(Sequence::create(DelayTime::create(0.5f), EaseOut::create(ScaleTo::create(2.0f, 1.0f), 2.0f), NULL));
-}
-
-
-
-// Delegate Functions
-
+//delegate functions
 void HQScene::onTutorialStateChanged(const std::string& stateId)
 {
-	
+    
 }
 
 NS_AZOOMEE_END

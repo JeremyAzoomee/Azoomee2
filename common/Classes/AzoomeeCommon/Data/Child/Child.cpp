@@ -58,6 +58,11 @@ InventoryRef Child::getInventory() const
 	return _inventory;
 }
 
+cocos2d::Color4B Child::getAvatarColour() const
+{
+    return _avatarColour;
+}
+
 bool Child::isSessionExpired() const
 {
 	return _sessionExpiryTimestamp < std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
@@ -129,6 +134,11 @@ void MutableChild::setCDNSessionId(const std::string &sessionId, std::chrono::mi
 {
 	_cdnSessionId = sessionId;
 	_sessionExpiryTimestamp = getCurrentTimeMillis() + std::chrono::milliseconds(sessionDurationMillis);
+}
+
+void MutableChild::setAvatarColour(const cocos2d::Color4B &colour)
+{
+    _avatarColour = colour;
 }
 
 NS_AZOOMEE_END

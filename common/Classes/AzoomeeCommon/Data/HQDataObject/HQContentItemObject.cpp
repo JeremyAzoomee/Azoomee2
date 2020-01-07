@@ -64,6 +64,11 @@ void MutableHQContentItemObject::setImages(const std::map<std::string, std::stri
     _images = images;
 }
 
+void MutableHQContentItemObject::setItems(const std::vector<std::string> &items)
+{
+    _items = items;
+}
+
 std::string HQContentItemObject::getTitle() const
 {
     return _title;
@@ -121,6 +126,11 @@ std::string HQContentItemObject::getBaseImageThumbUrl() const
     return _images.at("ONE_ONE");
 }
 
+std::vector<std::string> HQContentItemObject::getItems() const
+{
+    return _items;
+}
+
 //All functions that are being used only upon reading out
 
 void MutableHQContentItemObject::setImagePath(const std::string &inputImagePath)
@@ -138,6 +148,11 @@ void MutableHQContentItemObject::setElementShape(const cocos2d::Vec2 &inputEleme
     _elementShape = inputElementShape;
 }
 
+void HQContentItemObject::setCarouselColour(const cocos2d::Color4B &colour)
+{
+    _carouselColour = colour;
+}
+
 std::string HQContentItemObject::getImagePath() const
 {
     return _imagePath;
@@ -151,6 +166,11 @@ int HQContentItemObject::getElementNumber() const
 cocos2d::Vec2 HQContentItemObject::getElementShape()
 {
     return _elementShape;
+}
+
+cocos2d::Color4B HQContentItemObject::getCarouselColour() const
+{
+    return _carouselColour;
 }
 
 //Other helper methods

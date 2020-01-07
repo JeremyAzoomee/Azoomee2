@@ -2,6 +2,7 @@
 #include "../Json.h"
 #include "../ConfigStorage.h"
 #include "ContentItemManager.h"
+#include "../../UI/Style.h"
 
 
 using namespace cocos2d;
@@ -93,31 +94,35 @@ void HQDataObjectManager::parseNavigationData(const std::string &data)
 
 void HQDataObjectManager::parseHQStructureData(const std::string& hqStuctureData, const std::string& hqName)
 {
-	// stucture
-	/*
-	 {
-	 "items":{
-	 "1111111-11111-1111-111111":{"entitled":true},
-	 "1111111-22222-1111-111111":{"entitled":true}
-	 etc.
-	 },
-	 "rows": [
-	 {
-	 "contentIds": [
-	 "1111111-11111-1111-111111",
-	 etc.
-	 ],
-	 "title": "favs",
-	 "images": {
-	 "icon": "icon url"
-	 },
-	 "shapes": [
-	 [1,1],
-	 etc
-	 ]
-	 }
-	 }
-	 */
+    /* Example structure
+	{
+        "items": {
+            "1111111-11111-1111-111111": {
+                "entitled": true
+            },
+            "1111111-22222-1111-111111": {
+                "entitled": true
+            },
+            etc
+        },
+        "rows": [
+            {
+                "contentIds": [
+                    "1111111-11111-1111-111111",
+                    etc
+                ],
+                "title": "favs",
+                "images": {
+                    "icon": "icon url"
+                },
+                "shapes": [
+                    [1,1],
+                    etc
+                ]
+            }
+        ]
+    }
+    */
 	
 	rapidjson::Document hqData;
 	hqData.Parse(hqStuctureData.c_str());
@@ -163,10 +168,11 @@ void HQDataObjectManager::parseHQStructureData(const std::string& hqStuctureData
 		MutableHQCarouselObjectRef carouselObject = MutableHQCarouselObject::create();
 		
 		carouselObject->setTitle(getStringFromJson("title", rowData));
-		
+        const Color4B& carouselColour = rowNumber == 0 ? Color4B(Style::Color::macaroniAndCheese) : getColor4BFromJson("rgbColour", rowData, Color4B(Style::Color::azure));
+        carouselObject->setColour(carouselColour);
 		if(rowData.HasMember("images"))
 		{
-			carouselObject->setIcon(getStringFromJson("icon", rowData["images"])); //parsing carousel main icon if present
+			carouselObject->setIcon(getStringFromJson("carouselImage", rowData["images"])); //parsing carousel main icon if present
 		}
 		
 		if(rowData.HasMember("contentIds") && rowData["contentIds"].IsArray() && rowData["contentIds"].Size() != 0)
@@ -185,7 +191,8 @@ void HQDataObjectManager::parseHQStructureData(const std::string& hqStuctureData
 				{
 					continue;
 				}
-				
+                pointerToContentItem->setCarouselColour(carouselColour);
+                
 				Vec2 contentItemHighlight = Vec2(1,1);
 				if(rowData.HasMember("shapes") && rowData["shapes"].IsArray() && rowData["shapes"].Size() > elementIndex)
 				{

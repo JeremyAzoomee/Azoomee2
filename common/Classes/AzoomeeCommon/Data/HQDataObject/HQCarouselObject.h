@@ -20,7 +20,8 @@ protected:
     std::vector<HQContentItemObjectRef> _contentItems;
     std::vector<cocos2d::Vec2> _contentItemHighlights;
     std::string _icon = "";
-	
+    cocos2d::Color4B _colour;
+    
     HQCarouselObject();
 public:
     
@@ -28,6 +29,7 @@ public:
     std::vector<HQContentItemObjectRef> getContentItems();
     std::vector<cocos2d::Vec2> getContentItemHighlights();
     std::string getIcon() const;
+    cocos2d::Color4B getColour() const;
 };
 
 class MutableHQCarouselObject : public HQCarouselObject
@@ -37,8 +39,10 @@ public:
 	
 	void setTitle(const std::string &inputTitle);
 	void addContentItemToCarousel(const HQContentItemObjectRef &contentItem); //also: contentItemData should contain size
+    void addContentItemsToCarousel(const std::vector<HQContentItemObjectRef>& itemList);
 	void addContentItemHighlight(const cocos2d::Vec2 &contentItemHighlight);
 	void setIcon(const std::string &icon);
+    void setColour(const cocos2d::Color4B& colour);
 	void removeAllItemsFromCarousel();
 };
 

@@ -143,7 +143,7 @@ ui::Button* NavigationLayer::addMenuItemHolder(const std::string& hqName, float 
 			if(button && button->getChildByName("on")->getOpacity() < 255)
 			{
 				AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
-				AnalyticsSingleton::getInstance()->navSelectionEvent("",button->getName());
+				AnalyticsSingleton::getInstance()->navSelectionEvent(button->getName());
 				this->changeToScene(button->getName(), 0.5);
 			}
 		}

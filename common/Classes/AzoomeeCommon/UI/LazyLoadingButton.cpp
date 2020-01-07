@@ -13,18 +13,15 @@ NS_AZOOMEE_BEGIN
 
 void LazyLoadingButton::onEnter()
 {
-    _onScreenChecker = LazyLoadButtonOnScreenChecker::create();
-    _onScreenChecker->startCheckingForOnScreenPosition(this);
+    _onScreenChecker = LazyLoadButtonOnScreenChecker();
+    _onScreenChecker.startCheckingForOnScreenPosition(this);
     
     Super::onEnter();
 }
 
 void LazyLoadingButton::onExit()
 {
-    if(_onScreenChecker)
-    {
-        _onScreenChecker->endCheck();
-    }
+	_onScreenChecker.stopCheckingOnScreenPosition();
     
     Super::onExit();
 }

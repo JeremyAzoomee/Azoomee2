@@ -24,6 +24,7 @@
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 #include <AzoomeeCommon/Utils/ActionBuilder.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
+#include "HQHistoryManager.h"
 
 #define OOMEE_LAYER_WIDTH 450
 #define OOMEE_LAYER_HEIGHT 450
@@ -56,6 +57,7 @@ bool ChildSelectorScene::init()
     AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
     
     ContentHistoryManager::getInstance()->setReturnedFromContent(false);
+    HQHistoryManager::getInstance()->clearCachedHQ();
     
     AudioMixer::getInstance()->stopBackgroundMusic();
     ChatNotificationsSingleton::getInstance()->stopNotificationsUpdate();
