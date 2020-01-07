@@ -130,6 +130,8 @@ void EpisodeSelector::onEnter()
 
 void EpisodeSelector::onExit()
 {
+    _bannerDownloader->setDelegate(nullptr);
+    _logoDownloader->setDelegate(nullptr);
     Super::onExit();
 }
 
