@@ -134,11 +134,20 @@ void GameHQ::onSizeChanged()
 
 void GameHQ::createFeaturedTiles()
 {
+    const auto& hqData = HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGameHQName);
+    HQCarouselObjectRef carouselData = nullptr;
+    if(hqData)
+    {
+        if(hqData->getHqCarousels().size() > 0)
+        {
+            carouselData = hqData->getHqCarousels().at(0);
+        }
+    }
     _featuredLayout = FeaturedGamesHolder::create();
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    _featuredLayout->setContentItemData(GameDataManager::getInstance()->createFilteredCarouselForBundledGames(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGameHQName)->getHqCarousels().at(0)));
+    _featuredLayout->setContentItemData(carouselData ? GameDataManager::getInstance()->createFilteredCarouselForBundledGames(carouselData) : nullptr);
 #else
-    _featuredLayout->setContentItemData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGameHQName)->getHqCarousels().at(0));
+    _featuredLayout->setContentItemData(carouselData);
 #endif
     _featuredLayout->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
         if(_contentSelectedCallback)
@@ -179,7 +188,13 @@ void GameHQ::createRecentlyPlayedTiles()
 
 void GameHQ::createDropdowns()
 {
-    const auto& carouselData = HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGameHQName)->getHqCarousels();
+    //const auto& carouselData = HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGameHQName)->getHqCarousels();
+    const auto& hqData = HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGameHQName);
+    if(!hqData)
+    {
+        return;
+    }
+    const auto& carouselData = hqData->getHqCarousels();
     for(int i = 1; i < carouselData.size(); i++)
     {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)

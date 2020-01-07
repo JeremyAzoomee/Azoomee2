@@ -160,8 +160,17 @@ void VideoHQ::setEpisodeSelectorContentSelectedCallback(const ContentSelectedCal
 
 void VideoHQ::createFeaturedTiles()
 {
+    const auto& hqData = HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kVideoHQName);
+    HQCarouselObjectRef carouselData = nullptr;
+    if(hqData)
+    {
+        if(hqData->getHqCarousels().size() > 0)
+        {
+            carouselData = hqData->getHqCarousels().at(0);
+        }
+    }
     _featuredLayout = FeaturedVideosHolder::create();
-    _featuredLayout->setContentItemData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kVideoHQName)->getHqCarousels().at(0));
+    _featuredLayout->setContentItemData(carouselData);
     _featuredLayout->setSizeType(SizeType::ABSOLUTE);
     _featuredLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _featuredLayout->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
@@ -207,7 +216,12 @@ void VideoHQ::createRecentlyPlayedTiles()
 
 void VideoHQ::createDropdowns()
 {
-    const auto& carouselData = HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kVideoHQName)->getHqCarousels();
+    const auto& hqData = HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kVideoHQName);
+    if(!hqData)
+    {
+        return;
+    }
+    const auto& carouselData = hqData->getHqCarousels();
     for(int i = 1; i < carouselData.size(); i++)
     {
         auto carousel = carouselData.at(i);
@@ -242,16 +256,25 @@ void VideoHQ::createDropdowns()
 
 void VideoHQ::createEpisodePlayer()
 {
-    HQContentItemObjectRef firstItem = _featuredLayout->getContentItemData()->getContentItems().front();
-    HQDataProvider::getInstance()->getDataForGroupHQ(firstItem->getUri(), firstItem->getCarouselColour());
+    HQContentItemObjectRef firstItem = nullptr;
+    const auto& featuredData = _featuredLayout->getContentItemData();
+    if(featuredData && featuredData->getContentItems().size() > 0)
+    {
+        firstItem = featuredData->getContentItems().front();
+    }
+    
     _episodeSelector = EpisodeSelector::create();
     _episodeSelector->setSizeType(SizeType::PERCENT);
     _episodeSelector->setSizePercent(Vec2(0.975f,1.0f));
     _episodeSelector->setEpisodeBarHeight(_isPortrait ? EpisodeSelector::kEpisodeBarHeightPortrait : EpisodeSelector::kEpisodeBarHeightLandscape);
-    _episodeSelector->setHqData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGroupHQName));
-    _episodeSelector->setLineAndTextColour(Color3B(firstItem->getCarouselColour()));
     _episodeSelector->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     _episodeSelector->setPosition(Vec2(0,0));
+    if(firstItem)
+    {
+        HQDataProvider::getInstance()->getDataForGroupHQ(firstItem->getUri(), firstItem->getCarouselColour());
+        _episodeSelector->setLineAndTextColour(Color3B(firstItem->getCarouselColour()));
+        _episodeSelector->setHqData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGroupHQName));
+    }
     _episodeSelector->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
         if(_episodeSelectorContentSelectedCallback)
         {

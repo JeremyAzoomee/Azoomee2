@@ -2,37 +2,31 @@
 #define __MANUAL_GAME_INPUT_LAYER_H__
 
 #include <cocos/cocos2d.h>
+#include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/Azoomee.h>
-#include <AzoomeeCommon/UI/ElectricDreamsButton.h>
+#include <AzoomeeCommon/UI/Scene.h>
 #include <AzoomeeCommon/Input/TextInputLayer.h>
 #include "ui/CocosGUI.h"
 
 NS_AZOOMEE_BEGIN
 
-class ManualGameInputLayer : public cocos2d::Layer, public ElectricDreamsButtonDelegate
+class ManualGameInputLayer : public Azoomee::Scene
 {
+    typedef Azoomee::Scene Super;
 private:
-    cocos2d::Size visibleSize;
     
-    cocos2d::LayerColor *backgroundLayer;
+    cocos2d::ui::Layout* _background = nullptr;
     
-    ElectricDreamsButton* backButton;
-    ElectricDreamsButton* startGameButton;
+    cocos2d::ui::Button* _backButton = nullptr;
+    cocos2d::ui::Button* _startGameButton = nullptr;
     
     cocos2d::ui::CheckBox* _streamGameCheckbox = nullptr;
     
-    TextInputLayer *uriTextInput;
-    
-    void createBackgroundLayer();
-    void addListenerToBackgroundLayer();
-    
-    void createUpSaleLayer();
+    TextInputLayer* _uriTextInput = nullptr;
     
     void addTitle();
     void addButtons();
     void addTextBox();
-
-    void removeSelf();
     
 public:
     
@@ -40,8 +34,6 @@ public:
     
     CREATE_FUNC(ManualGameInputLayer);
 
-    //Delegate Functions
-    void buttonPressed(ElectricDreamsButton* button);
 };
 
 NS_AZOOMEE_END

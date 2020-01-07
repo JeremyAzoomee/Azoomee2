@@ -36,6 +36,8 @@
 
 #include "ChildOnboardingScene.h"
 
+#include "ManualGameInputLayer.h"
+
 #ifdef AZOOMEE_VODACOM_BUILD
 #include "Vodacom/VodacomOnboardingScene.h"
 #endif
@@ -313,6 +315,12 @@ void SceneManagerScene::onEnterTransitionDidFinish()
                 scene->setShareType(ChatDelegate::getInstance()->_sharingOomee ? ShareInChatLayer::ShareType::OOMEE : ShareInChatLayer::ShareType::ART);
             }
             Director::getInstance()->replaceScene(TransitionSlideInB::create(0.25f, scene));
+            break;
+        }
+        case SceneNameEnum::ManualGameInput:
+        {
+            acceptAnyOrientation();
+            Director::getInstance()->replaceScene(ManualGameInputLayer::create());
             break;
         }
 #ifdef AZOOMEE_VODACOM_BUILD
