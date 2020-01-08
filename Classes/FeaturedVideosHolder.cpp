@@ -77,15 +77,15 @@ void FeaturedVideosHolder::onEnter()
     if(_contentData)
     {
         auto items = _contentData->getContentItems();
-        if(items.size() > 1)
+        if(items.size() > 0)
         {
             _tile1->setContentItemData(items.at(0));
         }
-        if(items.size() > 2)
+        if(items.size() > 1)
         {
             _tile2->setContentItemData(items.at(1));
         }
-        if(items.size() > 3)
+        if(items.size() > 2)
         {
             _tile3->setContentItemData(items.at(2));
         }

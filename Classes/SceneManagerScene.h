@@ -28,7 +28,8 @@ enum class SceneNameEnum {
 	Shop,
 	IAP,
 	Signup,
-    ShareInChatScene
+    ShareInChatScene,
+    ManualGameInput
 };
 
 class SceneManagerScene : public cocos2d::Layer

@@ -10,6 +10,7 @@
 #include <AzoomeeCommon/Utils//TimeFunctions.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Rewards/RewardManager.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 using namespace cocos2d;
 
@@ -67,6 +68,12 @@ void ContentHistoryManager::onContentOpened()
 void ContentHistoryManager::onGameContentClosed()
 {
     recordContentClosedTime();
+    
+    //dont send content progress for manual game type as this is for testing only
+    if(_lastOpenedContent->getType() == ConfigStorage::kContentTypeManual)
+    {
+        return;
+    }
     
     const std::string& data = StringUtils::format("{\"contentId\":\"%s\", \"contentMeta\":{\"contentTitle\":\"%s\",\"contentType\":\"%s\", \"unit\":\"SECONDS\", \"duration\":%ld, \"lastPlayedMeta\": [{\"start\":%s,\"end\":%s}]}}",
                                                   _lastOpenedContent->getContentItemId().c_str(),

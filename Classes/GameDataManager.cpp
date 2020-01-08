@@ -348,7 +348,13 @@ void GameDataManager::downloadGameIfPossible(const std::string &jsonFileName, co
     if(!copyBundledGameToCache(itemId))
 #endif
     {
-        if(!_gameIsBeingStreamed)
+        // override for ios if manual game input used
+        if(itemId == kManualGameId)
+        {
+            const std::string &downloadUrl = getDownloadUrlForGameFromJSONFile(jsonFileName);
+            getGameZipFile(downloadUrl, itemId); //getGameZipFile callback will call unzipGame and startGame
+        }
+        else if(!_gameIsBeingStreamed)
         {
             hideLoadingScreen();
             showErrorMessage();
@@ -659,7 +665,7 @@ HQCarouselObjectRef GameDataManager::createFilteredCarouselForBundledGames(const
     const auto& items = carousel->getContentItems();
     for(const auto& item : items)
     {
-        if(isGameBundled(item->getContentItemId()))
+        if(isGameBundled(item->getContentItemId()) || item->getType() == ConfigStorage::kContentTypeManual)
         {
             output->addContentItemToCarousel(item);
         }

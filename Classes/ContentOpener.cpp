@@ -109,7 +109,7 @@ void ContentOpener::doCarouselContentOpenLogic(const HQContentItemObjectRef& con
 {
 	if(contentItem->getType() == ConfigStorage::kContentTypeManual)
 	{
-		ManualGameInputLayer::create();
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ManualGameInput));
 		return;
 	}
 	
