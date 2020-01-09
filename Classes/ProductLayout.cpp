@@ -10,6 +10,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 #if defined(AZOOMEE_ENVIRONMENT_CI)
 #include "RoutePaymentSingleton.h"
@@ -55,6 +56,7 @@ bool ProductLayout::init()
 		{
 			if(_callback)
 			{
+                AnalyticsSingleton::getInstance()->genericButtonPressEvent("IAP_Purchase");
 				_callback(IAPAction::PURCHASE);
 			}
 		}
@@ -88,6 +90,7 @@ bool ProductLayout::init()
 				_restoreButton->setScale(1.0f);
 				if(_callback)
 				{
+                    AnalyticsSingleton::getInstance()->genericButtonPressEvent("IAP_Restore");
 					_callback(IAPAction::RESTORE);
 				}
 				break;
