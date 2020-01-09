@@ -13,6 +13,7 @@
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
 #include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
 #include <AzoomeeCommon/ErrorCodes.h>
+#include <AzoomeeCommon/Utils/UserSessionManager.h>
 #include "HQHistoryManager.h"
 #include "LoginLogicHandler.h"
 #include "ChildSelectorScene.h"
@@ -640,15 +641,23 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
     }
     else if(requestTag == API::TagGetAvailableChildren)
     {
-
-        FlowDataSingleton::getInstance()->setErrorCode(errorCode);
-        if(errorCode == ERROR_CODE_OFFLINE)
+        if(errorCode == 401)
         {
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OfflineHub));
-            return;
+            UserSessionManager::getInstance()->refreshUserSession([this](bool){
+                getAvailableChildren();
+            });
         }
-        
-        LoginLogicHandler::getInstance()->forceNewLogin();
+        else
+        {
+            FlowDataSingleton::getInstance()->setErrorCode(errorCode);
+            if(errorCode == ERROR_CODE_OFFLINE)
+            {
+                Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OfflineHub));
+                return;
+            }
+            
+            LoginLogicHandler::getInstance()->forceNewLogin();
+        }
     }
     else if(requestTag == API::TagVerifyApplePayment || requestTag == API::TagVerifyAmazonPayment || requestTag == API::TagVerifyGooglePayment)
     {

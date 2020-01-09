@@ -297,6 +297,18 @@ HttpRequestCreator* API::RefreshParentCookiesRequest(Azoomee::HttpRequestCreator
     return request;
 }
 
+HttpRequestCreator* API::RefreshParentCookiesRequest(const APIResponseSuccessCallback& onSuccess,
+                                                     const APIResponseFailureCallback& onFailure)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(nullptr);
+    request->requestTag = TagCookieRefresh;
+    request->encrypted = true;
+    request->setRequestCallback([onSuccess, onFailure, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
+        HandleAPIResponse(sender, response, request, onSuccess, onFailure);
+    });
+    return request;
+}
+
 HttpRequestCreator* API::RefreshChildCookiesRequest(Azoomee::HttpRequestCreatorResponseDelegate *delegate)
 {
 	HttpRequestCreator* request = new HttpRequestCreator(delegate);

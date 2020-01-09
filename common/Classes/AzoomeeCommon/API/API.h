@@ -118,6 +118,9 @@ public:
                                                         HttpRequestCreatorResponseDelegate* delegate);
     
     static HttpRequestCreator* RefreshParentCookiesRequest(HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* RefreshParentCookiesRequest(const APIResponseSuccessCallback& onSuccess,
+                                                           const APIResponseFailureCallback& onFailure);
 	
 	static HttpRequestCreator* RefreshChildCookiesRequest(HttpRequestCreatorResponseDelegate* delegate);
     
