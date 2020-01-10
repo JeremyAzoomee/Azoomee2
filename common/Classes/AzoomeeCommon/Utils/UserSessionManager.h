@@ -10,6 +10,7 @@
 
 #include "../Azoomee.h"
 #include <functional>
+#include <chrono>
 
 NS_AZOOMEE_BEGIN
 
@@ -18,6 +19,8 @@ class UserSessionManager
     typedef std::function<void(bool)> OnCompleteCallback;
 private:
     UserSessionManager();
+    
+    std::chrono::milliseconds _lastSessionRefresh = std::chrono::milliseconds(0);
     
 public:
     

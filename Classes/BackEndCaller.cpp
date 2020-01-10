@@ -643,8 +643,18 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
     {
         if(errorCode == 401)
         {
-            UserSessionManager::getInstance()->refreshUserSession([this](bool){
-                getAvailableChildren();
+            UserSessionManager::getInstance()->refreshUserSession([this, errorCode](bool success){
+                if(success)
+                {
+                    getAvailableChildren();
+                    updateBillingData();
+                    getParentDetails();
+                }
+                else
+                {
+                    FlowDataSingleton::getInstance()->setErrorCode(errorCode);
+                    LoginLogicHandler::getInstance()->forceNewLogin();
+                }
             });
         }
         else
