@@ -13,6 +13,8 @@ using namespace cocos2d;
 
 namespace Azoomee
 {
+
+bool OnScreenChecker::kUseStrictBoundry = false;
 	
 	OnScreenChecker::~OnScreenChecker()
 	{
@@ -46,7 +48,7 @@ namespace Azoomee
     
     bool OnScreenChecker::checkIfElementIsOnScreen(Node* itemToCheck)
     {
-        Size extraBoundary = Size(100,800);
+        Size extraBoundary = kUseStrictBoundry ? Size(0,0) : Size(100,800);
         
         Point worldPosition = itemToCheck->getParent()->convertToWorldSpace(itemToCheck->getPosition());
         Point visibleOrigin = Director::getInstance()->getVisibleOrigin();

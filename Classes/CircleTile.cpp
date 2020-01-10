@@ -61,6 +61,11 @@ void CircleTile::onEnter()
 
 void CircleTile::onExit()
 {
+    if(!checkIfElementIsOnScreen(this))
+    {
+        elementOnScreen = false;
+        elementDisappeared(this);
+    }
     stopCheckingOnScreenPosition();
     Super::onExit();
 }
