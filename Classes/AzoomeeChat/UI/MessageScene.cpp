@@ -243,8 +243,8 @@ void MessageScene::onSizeChanged()
     _contentLayout->setSizePercent(Vec2(1.0f - kPaddingPercent.x, 0.99f - titleBarSize.y));
     
     const Rect& safeAreaRect = Director::getInstance()->getSafeAreaRect();
-    const float safeZonePaddingPercentTop = isLandscape ? (contentSize.width - (safeAreaRect.origin.x + safeAreaRect.size.width)) / contentSize.width  : (contentSize.height - (safeAreaRect.origin.y + safeAreaRect.size.height)) / contentSize.height;
-    const float safeZonePaddingPercentBottom = isLandscape ? (safeAreaRect.origin.x - origin.x) / contentSize.width  : (safeAreaRect.origin.y - origin.y) / contentSize.height;
+    const float safeZonePaddingPercentTop = MAX(0, isLandscape ? (contentSize.width - (safeAreaRect.origin.x + safeAreaRect.size.width)) / contentSize.width  : (contentSize.height - (safeAreaRect.origin.y + safeAreaRect.size.height)) / contentSize.height);
+    const float safeZonePaddingPercentBottom = MAX(0, isLandscape ? (safeAreaRect.origin.x - origin.x) / contentSize.width  : (safeAreaRect.origin.y - origin.y) / contentSize.height);
     if(isLandscape)
     {
         _rootLayout->setSizePercent(Vec2(1.0f - (2 * MAX(safeZonePaddingPercentTop, safeZonePaddingPercentBottom)), 1.0f));

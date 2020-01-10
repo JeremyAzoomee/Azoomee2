@@ -84,7 +84,7 @@ void HQScene::onSizeChanged()
     const Size& visibleSize = Director::getInstance()->getVisibleSize();
     _isPortrait = visibleSize.width < visibleSize.height;
     const Rect& safeAreaRect = Director::getInstance()->getSafeAreaRect();
-    const float safeZonePadding = visibleSize.height - (safeAreaRect.origin.y + safeAreaRect.size.height);
+    const float safeZonePadding = MAX(0, visibleSize.height - (safeAreaRect.origin.y + safeAreaRect.size.height));
     if(_titleBannerContent)
     {
         const Size& titleBannerSize = Size(visibleSize.width, HQConsts::TitleBannerHeight + safeZonePadding);
