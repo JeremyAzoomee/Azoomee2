@@ -69,6 +69,11 @@ bool GameDataManager::init(void)
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     createBundledGamesMap();
+    
+    FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/index_ios.html"), Azoomee::DirUtil::getCachesPath() + Azoomee::ConfigStorage::kGameCacheFolder + "index_ios.html");
+    FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/circle_1.png"), Azoomee::DirUtil::getCachesPath() + Azoomee::ConfigStorage::kGameCacheFolder + "circle_1.png");
+    FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/load.png"), Azoomee::DirUtil::getCachesPath() + Azoomee::ConfigStorage::kGameCacheFolder + "load.png");
+    FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/style.css"), Azoomee::DirUtil::getCachesPath() + Azoomee::ConfigStorage::kGameCacheFolder + "style.css");
 #endif
     return true;
 }
