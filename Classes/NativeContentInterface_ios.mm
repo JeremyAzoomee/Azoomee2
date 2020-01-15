@@ -9,7 +9,7 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-WebViewController *webViewController = nil;
+//WebViewController *webViewController = nil;
 
 cocos2d::Scene* NativeContentInterface_ios::createSceneWithURL(const std::string &url, const Vec2& closeButtonAnchor, int videoProgressSeconds)
 {
@@ -38,11 +38,11 @@ void NativeContentInterface_ios::onEnterTransitionDidFinish()
 
 void NativeContentInterface_ios::onExit()
 {
-    if(webViewController != nil)
+    /*if(webViewController != nil)
     {
         [webViewController release];
         webViewController = nil;
-    }
+    }*/
     Layer::onExit();
 }
 
@@ -62,19 +62,19 @@ void NativeContentInterface_ios::loadContentBasedOnUrl(const std::string &url, c
 
 void NativeContentInterface_ios::removeWebViewFromScreen()
 {
-	if(webViewController != nil)
+	/*if(webViewController != nil)
 	{
 		[webViewController removeWebViewWhileInBackground];
-	}
+	}*/
 }
 
 void NativeContentInterface_ios::reAddWebViewToScreen()
 {
-	if(webViewController != nil)
+	/*if(webViewController != nil)
 	{
 		[webViewController addWebViewToScreen];
 		[webViewController createButtons];
-	}
+	}*/
 }
 
 void NativeContentInterface_ios::addMediaPlayerToScreen(const std::string &url, int videoProgressSeconds)
@@ -112,16 +112,13 @@ void NativeContentInterface_ios::addWebViewToScreen(const std::string &url, cons
     
     UIView *currentView = (UIView*)Director::getInstance()->getOpenGLView()->getEAGLView();
     
-    webViewController = [[WebViewController alloc] init];
+    //webViewController = [[WebViewController alloc] init];
+    //[currentView addSubview:webViewController.view];
+    //[webViewController startBuildingWebView:iosurl userid:iosuserid closeButtonAnchorX:closeButtonAnchor.x closeButtonAnchorY:closeButtonAnchor.y];
+    
+    WebViewController* webViewController = [[WebViewController alloc] init];
     [currentView addSubview:webViewController.view];
-    
     [webViewController startBuildingWebView:iosurl userid:iosuserid closeButtonAnchorX:closeButtonAnchor.x closeButtonAnchorY:closeButtonAnchor.y];
-    //[webViewController release];
-    
-    //currentView = nil;
-    //cookieStorage = nil;
-    //iosurl = nil;
-    //iosuserid = nil;
 }
 
 NS_AZOOMEE_END
