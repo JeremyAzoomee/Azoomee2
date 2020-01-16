@@ -167,9 +167,11 @@ void HQHistoryManager::cacheHQScene(HQScene* hqScene)
         _cachedHQScene->retain();
     }
 }
-void HQHistoryManager::clearCachedHQ()
+void HQHistoryManager::clearCachedHQData()
 {
     cacheHQScene(nullptr);
+    _hqSnapshot = HQSnapshot();
+    _dataCached = false;
     Director::getInstance()->purgeCachedData();
 }
 
@@ -177,5 +179,32 @@ HQScene* HQHistoryManager::getCachedHQScene()
 {
     return _cachedHQScene;
 }
+
+
+void HQHistoryManager::releaseCachedHQScene()
+{
+    if(_cachedHQScene)
+    {
+        _hqSnapshot = _cachedHQScene->getHQSnapshot();
+        
+        _dataCached = true;
+        
+        _cachedHQScene->release();
+        _cachedHQScene = nullptr;
+        Director::getInstance()->purgeCachedData();
+    }
+}
+
+HQSnapshot HQHistoryManager::getHQSnapshot() const
+{
+    return _hqSnapshot;
+}
+
+bool HQHistoryManager::isDataCached() const
+{
+    return _dataCached;
+}
+
+
 
 NS_AZOOMEE_END

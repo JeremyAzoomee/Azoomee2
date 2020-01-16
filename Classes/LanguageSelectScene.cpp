@@ -181,7 +181,7 @@ cocos2d::ui::Layout* LanguageSelectScene::createLanguageButton(const LanguagePar
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
             StringMgr::getInstance()->changeLanguage(params._identifier);
-            HQHistoryManager::getInstance()->clearCachedHQ();
+            HQHistoryManager::getInstance()->clearCachedHQData();
             if(!ParentManager::getInstance()->hasParentLoginDataInUserDefaults())
             {
                 if(ParentManager::getInstance()->getParent())

@@ -30,7 +30,7 @@ bool LoginScene::init()
     AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
     
     ContentHistoryManager::getInstance()->setReturnedFromContent(false);
-    HQHistoryManager::getInstance()->clearCachedHQ();
+    HQHistoryManager::getInstance()->clearCachedHQData();
     
     PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel("NA");
     AudioMixer::getInstance()->stopBackgroundMusic();

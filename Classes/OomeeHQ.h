@@ -62,6 +62,9 @@ public:
     void onExit() override;
     void onSizeChanged() override;
     
+    int getOpenDropdown() const;
+    void setDropdownOpen();
+    
     CREATE_FUNC(OomeeHQ);
 };
 

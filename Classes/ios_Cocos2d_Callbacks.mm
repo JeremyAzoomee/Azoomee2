@@ -163,6 +163,11 @@ bool isAnonUser()
     return ParentManager::getInstance()->isLoggedInParentAnonymous();
 }
 
+void releaseCachedHQMemory()
+{
+    HQHistoryManager::getInstance()->releaseCachedHQScene();
+}
+
 void sendProgressMetaDataVideo(int videoProgressSeconds, int videoDuration)
 {
 	ContentHistoryManager::getInstance()->onVideoContentClosed(videoProgressSeconds, videoDuration);

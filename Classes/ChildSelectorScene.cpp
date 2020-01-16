@@ -38,7 +38,7 @@ bool ChildSelectorScene::init()
     AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
     ParentManager::getInstance()->logoutChild();
     ContentHistoryManager::getInstance()->setReturnedFromContent(false);
-    HQHistoryManager::getInstance()->clearCachedHQ();
+    HQHistoryManager::getInstance()->clearCachedHQData();
     
     AudioMixer::getInstance()->stopBackgroundMusic();
     

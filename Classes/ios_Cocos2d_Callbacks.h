@@ -26,6 +26,8 @@ extern "C" {
     void shareContentInChat();
     bool isChatEntitled();
     bool isAnonUser();
+
+    void releaseCachedHQMemory();
 	
 	void sendVideoProgress(int playlistIndex , int videoProgressSeconds);
 	void newVideoOpened(int playlistIndex);

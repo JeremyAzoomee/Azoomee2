@@ -54,6 +54,9 @@ public:
     
     void setContentSelectedCallback(const ContentSelectedCallback& callback);
     
+    float getScrolledPercent() const;
+    void setScrolledPercent(float percent);
+    
     CREATE_FUNC(HQPage);
 };
 

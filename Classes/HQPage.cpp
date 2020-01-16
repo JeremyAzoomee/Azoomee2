@@ -129,4 +129,18 @@ void HQPage::dropdownAutoOpenCloseLogic(DropdownContentHolder* pressedDropdown, 
     }
 }
 
+float HQPage::getScrolledPercent() const
+{
+    return _contentListView->getInnerContainerPosition().y;
+    //return _contentListView->getScrolledPercentVertical();
+}
+
+void HQPage::setScrolledPercent(float percent)
+{
+    runAction(Sequence::createWithTwoActions(DelayTime::create(0.1), CallFunc::create([this, percent](){
+        _contentListView->setInnerContainerPosition(Vec2(_contentListView->getInnerContainerPosition().x, percent));
+    })));
+    //_contentListView->scrollToPercentVertical(percent, 0, false);
+}
+
 NS_AZOOMEE_END

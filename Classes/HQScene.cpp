@@ -26,6 +26,57 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+
+HQSnapshot::HQSnapshot()
+{
+    
+}
+
+void HQSnapshot::setScrollPercents(const std::map<HQType, float>& scrollPercents)
+{
+    _scrollPercents = scrollPercents;
+}
+std::map<HQType, float> HQSnapshot::getScrollPercents() const
+{
+    return _scrollPercents;
+}
+
+void HQSnapshot::setOpenDropDowns(const std::map<HQType, int>& openDorpdowns)
+{
+    _openDropDowns = openDorpdowns;
+}
+std::map<HQType, int> HQSnapshot::getOpenDropDowns() const
+{
+    return _openDropDowns;
+}
+
+void HQSnapshot::setActiveHQ(const HQType& activeHQ)
+{
+    _activeHQ = activeHQ;
+}
+HQType HQSnapshot::getActiveHQ() const
+{
+    return _activeHQ;
+}
+
+void HQSnapshot::setEpisodeSelectorOpen(bool open)
+{
+    _episodeSelectorOpen = open;
+}
+bool HQSnapshot::isEpisodeSelectorOpen() const
+{
+    return _episodeSelectorOpen;
+}
+
+void HQSnapshot::setSelectedSeries(const HQContentItemObjectRef& series)
+{
+    _selectedSeries = series;
+}
+HQContentItemObjectRef HQSnapshot::getSelectedSeries() const
+{
+    return _selectedSeries;
+}
+
 const float HQScene::kTitleBarPadding = 120.0f;
 
 bool HQScene::init()
@@ -313,6 +364,82 @@ void HQScene::changeToPage(const HQType& page)
             break;
     }
     HQHistoryManager::getInstance()->addHQToHistoryManager(_activePageName);
+}
+
+HQSnapshot HQScene::getHQSnapshot()
+{
+    HQSnapshot snapshot;
+    
+    std::map<HQType, float> scrollPercents;
+    scrollPercents[HQType::GAME] = _gameHQ->getScrolledPercent();
+    scrollPercents[HQType::VIDEO] = _videoHQ->getScrolledPercent();
+    scrollPercents[HQType::CHAT] = _chatHQ->getScrolledPercent();
+    scrollPercents[HQType::OOMEE] = _oomeeHQ->getScrolledPercent();
+    snapshot.setScrollPercents(scrollPercents);
+    
+    std::map<HQType, int> openDropdowns;
+    openDropdowns[HQType::GAME] = _gameHQ->getOpenDropdown();
+    openDropdowns[HQType::VIDEO] = _videoHQ->getOpenDropdown();
+    openDropdowns[HQType::OOMEE] = _oomeeHQ->getOpenDropdown();
+    snapshot.setOpenDropDowns(openDropdowns);
+    
+    HQType openHQ = HQType::GAME;
+    if(_activePageName == ConfigStorage::kVideoHQName)
+    {
+        openHQ = HQType::VIDEO;
+    }
+    else if(_activePageName == ConfigStorage::kMeHQName)
+    {
+        openHQ = HQType::OOMEE;
+    }
+    else if(_activePageName == ConfigStorage::kChatHQName)
+    {
+        openHQ = HQType::CHAT;
+    }
+    snapshot.setActiveHQ(openHQ);
+    
+    snapshot.setEpisodeSelectorOpen(_videoHQ->isEpisodePlayerOpen());
+    
+    return snapshot;
+}
+
+void HQScene::setupWithSnapshot(const HQSnapshot& snapshot)
+{
+    changeToPage(snapshot.getActiveHQ());
+    const auto& openDropdowns = snapshot.getOpenDropDowns();
+    if(openDropdowns.find(HQType::GAME) != openDropdowns.end())
+    {
+        _gameHQ->setDropdownOpen(openDropdowns.at(HQType::GAME));
+    }
+    if(openDropdowns.find(HQType::VIDEO) != openDropdowns.end())
+    {
+        _videoHQ->setDropdownOpen(openDropdowns.at(HQType::VIDEO));
+    }
+    if(openDropdowns.find(HQType::OOMEE) != openDropdowns.end())
+    {
+        if(openDropdowns.at(HQType::OOMEE) > 0)
+        {
+            _oomeeHQ->setDropdownOpen();
+        }
+    }
+    
+    const auto& scrollPercents = snapshot.getScrollPercents();
+    if(scrollPercents.find(HQType::GAME) != scrollPercents.end())
+    {
+        _gameHQ->setScrolledPercent(scrollPercents.at(HQType::GAME));
+    }
+    if(scrollPercents.find(HQType::VIDEO) != scrollPercents.end())
+    {
+        _videoHQ->setScrolledPercent(scrollPercents.at(HQType::VIDEO));
+    }
+    if(scrollPercents.find(HQType::OOMEE) != scrollPercents.end())
+    {
+        _oomeeHQ->setScrolledPercent(scrollPercents.at(HQType::OOMEE));
+    }
+    if(scrollPercents.find(HQType::CHAT) != scrollPercents.end())
+    {
+        _chatHQ->setScrolledPercent(scrollPercents.at(HQType::CHAT));
+    }
 }
 
 NS_AZOOMEE_END

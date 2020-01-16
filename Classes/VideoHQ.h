@@ -53,6 +53,11 @@ public:
     
     void setEpisodeSelectorContentSelectedCallback(const ContentSelectedCallback& callback);
     
+    int getOpenDropdown() const;
+    void setDropdownOpen(int dropdownIndex);
+    
+    bool isEpisodePlayerOpen() const;
+    
     CREATE_FUNC(VideoHQ);
 };
 

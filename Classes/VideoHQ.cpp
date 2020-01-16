@@ -331,4 +331,33 @@ void VideoHQ::createEpisodePlayer()
     _eventDispatcher->addEventListenerWithSceneGraphPriority(eventListener, this);
 }
 
+int VideoHQ::getOpenDropdown() const
+{
+    for(int i = 0; i < _dropdownLayouts.size(); i++)
+    {
+        if(_dropdownLayouts.at(i)->isOpen())
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+void VideoHQ::setDropdownOpen(int dropdownIndex)
+{
+    for(auto dropdown : _dropdownLayouts)
+    {
+        dropdown->setOpen(false);
+    }
+    if(dropdownIndex >= 0 && dropdownIndex < _dropdownLayouts.size())
+    {
+        _dropdownLayouts.at(dropdownIndex)->setOpen(true);
+    }
+}
+
+bool VideoHQ::isEpisodePlayerOpen() const
+{
+    return _episodePlayerOpen;
+}
+
 NS_AZOOMEE_END

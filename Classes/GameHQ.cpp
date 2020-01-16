@@ -232,4 +232,28 @@ void GameHQ::createDropdowns()
     }
 }
 
+int GameHQ::getOpenDropdown() const
+{
+    for(int i = 0; i < _dropdownLayouts.size(); i++)
+    {
+        if(_dropdownLayouts.at(i)->isOpen())
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+void GameHQ::setDropdownOpen(int dropdownIndex)
+{
+    for(auto dropdown : _dropdownLayouts)
+    {
+        dropdown->setOpen(false);
+    }
+    if(dropdownIndex >= 0 && dropdownIndex < _dropdownLayouts.size())
+    {
+        _dropdownLayouts.at(dropdownIndex)->setOpen(true);
+    }
+}
+
 NS_AZOOMEE_END

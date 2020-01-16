@@ -119,6 +119,7 @@ void NativeContentInterface_ios::addWebViewToScreen(const std::string &url, cons
     WebViewController* webViewController = [[WebViewController alloc] init];
     [currentView addSubview:webViewController.view];
     [webViewController startBuildingWebView:iosurl userid:iosuserid closeButtonAnchorX:closeButtonAnchor.x closeButtonAnchorY:closeButtonAnchor.y];
+    [WebViewController release];
 }
 
 NS_AZOOMEE_END
