@@ -32,13 +32,13 @@ HQSnapshot::HQSnapshot()
     
 }
 
-void HQSnapshot::setScrollPercents(const std::map<HQType, float>& scrollPercents)
+void HQSnapshot::setScrollPositions(const std::map<HQType, float>& scrollPositions)
 {
-    _scrollPercents = scrollPercents;
+    _scrollPositions = scrollPositions;
 }
-std::map<HQType, float> HQSnapshot::getScrollPercents() const
+std::map<HQType, float> HQSnapshot::getScrollPositions() const
 {
-    return _scrollPercents;
+    return _scrollPositions;
 }
 
 void HQSnapshot::setOpenDropDowns(const std::map<HQType, int>& openDorpdowns)
@@ -370,12 +370,12 @@ HQSnapshot HQScene::getHQSnapshot()
 {
     HQSnapshot snapshot;
     
-    std::map<HQType, float> scrollPercents;
-    scrollPercents[HQType::GAME] = _gameHQ->getScrolledPercent();
-    scrollPercents[HQType::VIDEO] = _videoHQ->getScrolledPercent();
-    scrollPercents[HQType::CHAT] = _chatHQ->getScrolledPercent();
-    scrollPercents[HQType::OOMEE] = _oomeeHQ->getScrolledPercent();
-    snapshot.setScrollPercents(scrollPercents);
+    std::map<HQType, float> scrollPositions;
+    scrollPositions[HQType::GAME] = _gameHQ->getScrolledPos();
+    scrollPositions[HQType::VIDEO] = _videoHQ->getScrolledPos();
+    scrollPositions[HQType::CHAT] = _chatHQ->getScrolledPos();
+    scrollPositions[HQType::OOMEE] = _oomeeHQ->getScrolledPos();
+    snapshot.setScrollPositions(scrollPositions);
     
     std::map<HQType, int> openDropdowns;
     openDropdowns[HQType::GAME] = _gameHQ->getOpenDropdown();
@@ -423,22 +423,22 @@ void HQScene::setupWithSnapshot(const HQSnapshot& snapshot)
         }
     }
     
-    const auto& scrollPercents = snapshot.getScrollPercents();
-    if(scrollPercents.find(HQType::GAME) != scrollPercents.end())
+    const auto& scrollPositions = snapshot.getScrollPositions();
+    if(scrollPositions.find(HQType::GAME) != scrollPositions.end())
     {
-        _gameHQ->setScrolledPercent(scrollPercents.at(HQType::GAME));
+        _gameHQ->setScrolledPos(scrollPositions.at(HQType::GAME));
     }
-    if(scrollPercents.find(HQType::VIDEO) != scrollPercents.end())
+    if(scrollPositions.find(HQType::VIDEO) != scrollPositions.end())
     {
-        _videoHQ->setScrolledPercent(scrollPercents.at(HQType::VIDEO));
+        _videoHQ->setScrolledPos(scrollPositions.at(HQType::VIDEO));
     }
-    if(scrollPercents.find(HQType::OOMEE) != scrollPercents.end())
+    if(scrollPositions.find(HQType::OOMEE) != scrollPositions.end())
     {
-        _oomeeHQ->setScrolledPercent(scrollPercents.at(HQType::OOMEE));
+        _oomeeHQ->setScrolledPos(scrollPositions.at(HQType::OOMEE));
     }
-    if(scrollPercents.find(HQType::CHAT) != scrollPercents.end())
+    if(scrollPositions.find(HQType::CHAT) != scrollPositions.end())
     {
-        _chatHQ->setScrolledPercent(scrollPercents.at(HQType::CHAT));
+        _chatHQ->setScrolledPos(scrollPositions.at(HQType::CHAT));
     }
 }
 

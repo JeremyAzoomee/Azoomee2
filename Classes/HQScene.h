@@ -30,7 +30,7 @@ NS_AZOOMEE_BEGIN
 class HQSnapshot
 {
 private:
-    std::map<HQType, float> _scrollPercents;
+    std::map<HQType, float> _scrollPositions;
     std::map<HQType, int> _openDropDowns;
     HQType _activeHQ = HQType::GAME;
     bool _episodeSelectorOpen = false;
@@ -40,8 +40,8 @@ public:
     
     HQSnapshot();
     
-    void setScrollPercents(const std::map<HQType, float>& scrollPercents);
-    std::map<HQType, float> getScrollPercents() const;
+    void setScrollPositions(const std::map<HQType, float>& scrollPositions);
+    std::map<HQType, float> getScrollPositions() const;
     
     void setOpenDropDowns(const std::map<HQType, int>& openDorpdowns);
     std::map<HQType, int> getOpenDropDowns() const;
