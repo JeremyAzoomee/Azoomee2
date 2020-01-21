@@ -17,6 +17,7 @@
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "PopupMessageBox.h"
 #include "FlowDataSingleton.h"
+#include <AzoomeeCommon/Data/User/UserAccountManager.h>
 
 using namespace cocos2d;
 
@@ -200,12 +201,37 @@ void ChildOnboardingScene::onHttpRequestSuccess(const std::string& requestTag, c
         AnalyticsSingleton::getInstance()->childProfileCreatedSuccessEvent();
         UserDefault::getInstance()->setBoolForKey("anonOnboardingComplete", true);
         UserDefault::getInstance()->flush();
-        BackEndCaller::getInstance()->getAvailableChildren();
+        UserAccountManager::getInstance()->getChildrenForLoggedInParent([](bool success, long errorcode){
+            if(success)
+            {
+                LoginLogicHandler::getInstance()->handleGetChildrenSuccess();
+            }
+            else
+            {
+                UserAccountManager::getInstance()->logout();
+                LoginLogicHandler::getInstance()->setLoginOrigin(LoginOrigin::LOGOUT);
+                Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
+            }
+        });
+        
+        //BackEndCaller::getInstance()->getAvailableChildren();
     }
     else if(requestTag == API::TagRegisterChild)
     {
         AnalyticsSingleton::getInstance()->childProfileCreatedSuccessEvent();
-        BackEndCaller::getInstance()->getAvailableChildren();
+        //BackEndCaller::getInstance()->getAvailableChildren();
+        UserAccountManager::getInstance()->getChildrenForLoggedInParent([](bool success, long errorcode){
+            if(success)
+            {
+                LoginLogicHandler::getInstance()->handleGetChildrenSuccess();
+            }
+            else
+            {
+                UserAccountManager::getInstance()->logout();
+                LoginLogicHandler::getInstance()->setLoginOrigin(LoginOrigin::LOGOUT);
+                Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
+            }
+        });
     }
     ModalMessages::getInstance()->stopLoading();
 }

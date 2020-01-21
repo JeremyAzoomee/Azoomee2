@@ -8,6 +8,7 @@
 #include "BackEndCaller.h"
 #include "ForceUpdateAppLockScene.h"
 #include "LanguageSelectScene.h"
+#include <AzoomeeCommon/Data/User/UserAccountManager.h>
 
 #if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     #include <AzoomeeCommon/Utils/IosNativeFunctionsSingleton.h>
@@ -206,7 +207,13 @@ void IntroVideoScene::onForceUpdateCheckFinished(const ForceUpdateResult& result
 				}
 				else
 				{
-					BackEndCaller::getInstance()->anonymousDeviceLogin();
+                    UserAccountManager::getInstance()->AnonLogin([](bool success, long errorcode){
+                        if(success)
+                        {
+                            LoginLogicHandler::getInstance()->handleLoginSuccess();
+                        }
+                    });
+					//BackEndCaller::getInstance()->anonymousDeviceLogin();
 				}
 			}
 			else
@@ -241,7 +248,13 @@ void IntroVideoScene::MessageBoxButtonPressed(std::string messageBoxTitle, std::
 	{
 		if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
 		{
-			BackEndCaller::getInstance()->anonymousDeviceLogin();
+            UserAccountManager::getInstance()->AnonLogin([](bool success, long errorcode){
+                if(success)
+                {
+                    LoginLogicHandler::getInstance()->handleLoginSuccess();
+                }
+            });
+			//BackEndCaller::getInstance()->anonymousDeviceLogin();
 		}
 		else
 		{

@@ -20,6 +20,10 @@ public:
     void doLoginLogic();
     void forceNewLogin(const LoginOrigin& origin = LoginOrigin::LOGOUT);
     
+    void handleLoginSuccess();
+    void handleGetChildrenSuccess();
+    void handleChildLoginSuccess();
+    
     void setLoginOrigin(const LoginOrigin& origin);
     LoginOrigin getOrigin() const;
 };

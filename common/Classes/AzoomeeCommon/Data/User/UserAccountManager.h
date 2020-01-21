@@ -20,8 +20,6 @@ class UserAccountManager
     typedef std::function<void(bool, long)> OnCompleteCallback;
 private:
     
-    void logoutChild();
-    
 public:
     
     static UserAccountManager* getInstance();
@@ -32,6 +30,8 @@ public:
     void AnonLogin(const OnCompleteCallback& callback);
     
     void getChildrenForLoggedInParent(const OnCompleteCallback& callback);
+    
+    void getBillingDataForLoggedInParent(const OnCompleteCallback& callback);
     
     void loginChild(const std::string& profileName, const OnCompleteCallback& callback);
     

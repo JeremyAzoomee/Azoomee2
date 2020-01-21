@@ -14,6 +14,8 @@
 #include "AzoomeeCommon/Data/Child/ChildManager.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 
+#include <AzoomeeCommon/Data/User/UserAccountManager.h>
+
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     #include "platform/android/jni/JniHelper.h"
 
@@ -181,7 +183,8 @@ void RoutePaymentSingleton::inAppPaymentSuccess()
 {
     removeReceiptDataFile();
     
-    BackEndCaller::getInstance()->updateBillingData();
+    /*BackEndCaller::getInstance()->updateBillingData();
+    
     FlowDataSingleton::getInstance()->addIAPSuccess(true);
     if(FlowDataSingleton::getInstance()->isSignupFlow())
     {
@@ -193,7 +196,8 @@ void RoutePaymentSingleton::inAppPaymentSuccess()
     }
     
     ChildManager::getInstance()->setChildLoggedIn(false);
-    BackEndCaller::getInstance()->getAvailableChildren();
+    BackEndCaller::getInstance()->getAvailableChildren();*/
+    LoginLogicHandler::getInstance()->handleLoginSuccess();
 }
 
 void RoutePaymentSingleton::writeAppleReceiptDataToFile(const std::string& receiptData, const std::string& transactionID)

@@ -26,6 +26,8 @@
 #include "PopupMessageBox.h"
 #include "LoginLogicHandler.h"
 
+#include <AzoomeeCommon/Data/User/UserAccountManager.h>
+
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
@@ -425,7 +427,13 @@ void SignupScene::onHttpRequestSuccess(const std::string& requestTag, const std:
 		messageBox->setPatternColour(Style::Color::strongPink);
 		messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
 			pSender->removeFromParent();
-			BackEndCaller::getInstance()->login(_signupData._email, _signupData._password);
+			//BackEndCaller::getInstance()->login(_signupData._email, _signupData._password);
+            UserAccountManager::getInstance()->login(_signupData._email, _signupData._password, [](bool success, long errorcode){
+                if(success)
+                {
+                    LoginLogicHandler::getInstance()->handleLoginSuccess();
+                }
+            });
 		});
 		this->addChild(messageBox, 1);
 	}

@@ -20,6 +20,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include "HQHistoryManager.h"
 #include "PopupMessageBox.h"
+#include <AzoomeeCommon/Data/User/UserAccountManager.h>
 
 using namespace cocos2d;
 
@@ -283,7 +284,13 @@ cocos2d::ui::Layout* ChildSelectorScene::createChildButton(const ChildRef& child
         {
             AudioMixer::getInstance()->playEffect(SELECT_OOMEE_AUDIO_EFFECT);
             AnalyticsSingleton::getInstance()->registerChildGenderAndAge(ParentManager::getInstance()->getChild(childNum));
-            BackEndCaller::getInstance()->childLogin(childNum);
+            //BackEndCaller::getInstance()->childLogin(childNum);
+            UserAccountManager::getInstance()->loginChild(ParentManager::getInstance()->getChild(childNum)->getProfileName(), [](bool success, long errorcode){
+                if(success)
+                {
+                    LoginLogicHandler::getInstance()->handleChildLoginSuccess();
+                }
+            });
         }
     });
     

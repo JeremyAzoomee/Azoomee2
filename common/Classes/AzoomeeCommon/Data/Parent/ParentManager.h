@@ -84,6 +84,8 @@ public:
 	
     void setAvatarColourForChild(const std::string& childId, const cocos2d::Color4B& colour);
 	
+    void logoutParent();
+    
 private:
 	BillingDataRef _billingData = nullptr;
 	MutableParentRef _parent = nullptr;

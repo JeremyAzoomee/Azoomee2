@@ -8,6 +8,7 @@
 #include "UserAccountManager.h"
 #include "../Parent/ParentManager.h"
 #include "../ConfigStorage.h"
+#include "../../Utils/StringFunctions.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -88,6 +89,27 @@ void UserAccountManager::AnonLogin(const OnCompleteCallback& callback)
     }
 }
 
+void UserAccountManager::getBillingDataForLoggedInParent(const OnCompleteCallback& callback)
+{
+    auto onSuccess = [callback](const std::string& tag, const std::string& headers, const std::string& body){
+        ParentManager::getInstance()->parseParentBillingData(body);
+        if(callback)
+        {
+            callback(true, 200);
+        }
+    };
+    
+    auto onFailed = [callback](const std::string& tag, long errorCode){
+        if(callback)
+        {
+            callback(false, errorCode);
+        }
+    };
+    
+    HttpRequestCreator* request = API::UpdateBillingDataRequest(ParentManager::getInstance()->getLoggedInParentId(), onSuccess, onFailed);
+    request->execute();
+}
+
 void UserAccountManager::getChildrenForLoggedInParent(const OnCompleteCallback& callback)
 {
     auto onSuccess = [callback](const std::string& tag, const std::string& headers, const std::string& body){
@@ -111,12 +133,35 @@ void UserAccountManager::getChildrenForLoggedInParent(const OnCompleteCallback& 
 
 void UserAccountManager::loginChild(const std::string& profileName, const OnCompleteCallback& callback)
 {
+    auto onSuccess = [callback](const std::string& tag, const std::string& headers, const std::string& body){
+        if((!ParentManager::getInstance()->parseChildLoginData(body)))
+        {
+            if(callback)
+            {
+                callback(false, 200);
+            }
+        }
+        ParentManager::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headers));
+        if(callback)
+        {
+            callback(true, 200);
+        }
+    };
     
+    auto onFailed = [callback](const std::string& tag, long errorCode){
+        if(callback)
+        {
+            callback(false, errorCode);
+        }
+    };
+    
+    HttpRequestCreator* request = API::ChildLoginRequest(profileName, onSuccess, onFailed);
+    request->execute();
 }
 
-void UserAccountManager::logoutChild()
+void UserAccountManager::logout()
 {
-    
+    ParentManager::getInstance()->logoutParent();
 }
 
 NS_AZOOMEE_END

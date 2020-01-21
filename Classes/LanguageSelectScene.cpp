@@ -13,6 +13,7 @@
 #include "BackEndCaller.h"
 #include "LoginLogicHandler.h"
 #include "HQHistoryManager.h"
+#include <AzoomeeCommon/Data/User/UserAccountManager.h>
 
 using namespace cocos2d;
 
@@ -190,7 +191,13 @@ cocos2d::ui::Layout* LanguageSelectScene::createLanguageButton(const LanguagePar
                 }
                 else
                 {
-                    BackEndCaller::getInstance()->anonymousDeviceLogin();
+                    UserAccountManager::getInstance()->AnonLogin([](bool success, long errorcode){
+                        if(success)
+                        {
+                            LoginLogicHandler::getInstance()->handleLoginSuccess();
+                        }
+                    });
+                    //BackEndCaller::getInstance()->anonymousDeviceLogin();
                 }
             }
             else

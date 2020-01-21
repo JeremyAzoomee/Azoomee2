@@ -8,6 +8,7 @@
 #include "LoginLogicHandler.h"
 #include "RoutePaymentSingleton.h"
 #include "FlowDataSingleton.h"
+#include <AzoomeeCommon/Data/User/UserAccountManager.h>
 
 using namespace cocos2d;
 
@@ -87,7 +88,8 @@ void ApplePaymentSingleton::onAnswerReceived(const std::string& responseDataStri
         {
             AnalyticsSingleton::getInstance()->iapAppleAutoRenewSubscriptionEvent();
             ModalMessages::getInstance()->stopLoading();
-            BackEndCaller::getInstance()->updateBillingData();
+            UserAccountManager::getInstance()->getBillingDataForLoggedInParent(nullptr);
+            //BackEndCaller::getInstance()->updateBillingData();
             return;
         }
         else

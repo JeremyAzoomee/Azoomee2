@@ -594,4 +594,16 @@ void ParentManager::setAvatarColourForChild(const std::string& childId, const co
     }
 }
 
+void ParentManager::logoutParent()
+{
+    _parent = nullptr;
+    _billingData = nullptr;
+    _isBillingDataAvailable = false;
+    ChildManager::getInstance()->setChildLoggedIn(false);
+    ChildManager::getInstance()->setLoggedInChild(nullptr);
+    clearAvailableChildren();
+    clearParentLoginDataFromUserDefaults();
+    createCrashlyticsUserInfo("", "");
+}
+
 NS_AZOOMEE_END
