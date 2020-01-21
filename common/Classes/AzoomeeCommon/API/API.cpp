@@ -191,6 +191,21 @@ HttpRequestCreator* API::LoginRequest(const std::string& username,
     return request;
 }
 
+HttpRequestCreator* API::LoginRequest(const std::string& username,
+                                      const std::string& password,
+                                      const APIResponseSuccessCallback& onSuccess,
+                                      const APIResponseFailureCallback& onFailure)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(nullptr);
+    request->requestBody = StringUtils::format("{\"password\": \"%s\",\"userName\": \"%s\",\"appType\": \"CHILD_APP\"}", password.c_str(), username.c_str());
+    request->requestTag = TagLogin;
+    request->method = "POST";
+    request->setRequestCallback([onSuccess, onFailure, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
+        HandleAPIResponse(sender, response, request, onSuccess, onFailure);
+    });
+    return request;
+}
+
 HttpRequestCreator* API::GetAnonCredentials(HttpRequestCreatorResponseDelegate* delegate)
 {
 	HttpRequestCreator* request = new HttpRequestCreator(delegate);
@@ -203,6 +218,19 @@ HttpRequestCreator* API::GetAnonCredentials(HttpRequestCreatorResponseDelegate* 
 	return request;
 }
 
+HttpRequestCreator* API::GetAnonCredentials(const APIResponseSuccessCallback& onSuccess,
+                                            const APIResponseFailureCallback& onFailure)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(nullptr);
+    request->requestTag = TagGetAnonCredentials;
+    request->requestPath = "/api/user/anonymous/signup";
+    request->requestBody = "{}";
+    request->setRequestCallback([onSuccess, onFailure, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
+        HandleAPIResponse(sender, response, request, onSuccess, onFailure);
+    });
+    return request;
+}
+
 HttpRequestCreator* API::UpdateBillingDataRequest(const std::string& parentId,
 												  HttpRequestCreatorResponseDelegate* delegate)
 {
@@ -213,6 +241,20 @@ HttpRequestCreator* API::UpdateBillingDataRequest(const std::string& parentId,
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
+    return request;
+}
+
+HttpRequestCreator* API::UpdateBillingDataRequest(const std::string& parentId,
+                                                  const APIResponseSuccessCallback& onSuccess,
+                                                  const APIResponseFailureCallback& onFailure)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(nullptr);
+    request->requestTag = TagUpdateBillingData;
+    request->requestPath = StringUtils::format("/api/billing/user/%s/billingStatus", parentId.c_str());
+    request->encrypted = true;
+    request->setRequestCallback([onSuccess, onFailure, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
+        HandleAPIResponse(sender, response, request, onSuccess, onFailure);
+    });
     return request;
 }
 
@@ -256,6 +298,19 @@ HttpRequestCreator* API::GetAvailableChildrenRequest(HttpRequestCreatorResponseD
     return request;
 }
 
+HttpRequestCreator* API::GetAvailableChildrenRequest(const APIResponseSuccessCallback& onSuccess,
+                                                     const APIResponseFailureCallback& onFailure)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(nullptr);
+    request->urlParameters = "expand=true";
+    request->requestTag = TagGetAvailableChildren;
+    request->encrypted = true;
+    request->setRequestCallback([onSuccess, onFailure, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
+        HandleAPIResponse(sender, response, request, onSuccess, onFailure);
+    });
+    return request;
+}
+
 HttpRequestCreator* API::ChildLoginRequest(const std::string& profileName,
                                            HttpRequestCreatorResponseDelegate* delegate)
 {
@@ -268,6 +323,22 @@ HttpRequestCreator* API::ChildLoginRequest(const std::string& profileName,
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
+    return request;
+}
+
+HttpRequestCreator* API::ChildLoginRequest(const std::string& profileName,
+                                           const APIResponseSuccessCallback& onSuccess,
+                                           const APIResponseFailureCallback& onFailure)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(nullptr);
+    request->requestBody = StringUtils::format("{\"userName\": \"%s\", \"password\": \"\"}", profileName.c_str());
+    request->requestTag = TagChildLogin;
+    request->method = "POST";
+    request->urlParameters = "hqs=true";
+    request->encrypted = true;
+    request->setRequestCallback([onSuccess, onFailure, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
+        HandleAPIResponse(sender, response, request, onSuccess, onFailure);
+    });
     return request;
 }
 

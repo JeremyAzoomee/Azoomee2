@@ -99,10 +99,22 @@ public:
                                             const std::string& password,
                                             HttpRequestCreatorResponseDelegate* delegate);
 	
+    static HttpRequestCreator* LoginRequest(const std::string& username,
+                                            const std::string& password,
+                                            const APIResponseSuccessCallback& onSuccess,
+                                            const APIResponseFailureCallback& onFailure);
+    
 	static HttpRequestCreator* GetAnonCredentials(HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* GetAnonCredentials(const APIResponseSuccessCallback& onSuccess,
+                                                  const APIResponseFailureCallback& onFailure);
     
 	static HttpRequestCreator* UpdateBillingDataRequest(const std::string& parentId,
 														HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* UpdateBillingDataRequest(const std::string& parentId,
+                                                        const APIResponseSuccessCallback& onSuccess,
+                                                        const APIResponseFailureCallback& onFailure);
     
     static HttpRequestCreator* GetForceUpdateInformationRequest(HttpRequestCreatorResponseDelegate* delegate);
     
@@ -110,8 +122,15 @@ public:
     
     static HttpRequestCreator* GetAvailableChildrenRequest(HttpRequestCreatorResponseDelegate* delegate);
     
+    static HttpRequestCreator* GetAvailableChildrenRequest(const APIResponseSuccessCallback& onSuccess,
+                                                           const APIResponseFailureCallback& onFailure);
+    
     static HttpRequestCreator* ChildLoginRequest(const std::string& profileName,
                                                  HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* ChildLoginRequest(const std::string& profileName,
+                                                 const APIResponseSuccessCallback& onSuccess,
+                                                 const APIResponseFailureCallback& onFailure);
     
     static HttpRequestCreator* GetSessionCookiesRequest(const std::string& userId,
                                                         const std::string& sessionId,
