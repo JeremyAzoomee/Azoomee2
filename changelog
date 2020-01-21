@@ -1,0 +1,9 @@
+Version 4.10.1
+Update ios webview to use WKWebView
+fix squashed title bar bug on HQs
+limit memory usage from cached hq when entering content
+on memory warning on ios, clear cached hq and save data only version for rebuild
+fix 111yo account
+analytics for welcome screen, iap cta buttons and age gate
+bundle latest strings files in the app
+
