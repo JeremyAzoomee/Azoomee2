@@ -8,12 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import <WebKit/WebKit.h>
+#import <WebKit/WKWebsiteDataStore.h>
 
-@interface WebViewController : UIViewController <UIWebViewDelegate, WKScriptMessageHandler, WKNavigationDelegate> {
+@interface WebViewController : UIViewController <WKNavigationDelegate, WKUIDelegate> {
     NSString *urlToLoad;
     NSString *useridToUse;
     bool iframeloaded;
-    UIWebView *webview;
+    WKWebView *webview;
     UIButton* backButton;
     UIButton* _favButton;
     UIButton* _shareButton;

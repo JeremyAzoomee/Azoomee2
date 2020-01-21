@@ -54,6 +54,9 @@ public:
     
     void setContentSelectedCallback(const ContentSelectedCallback& callback);
     
+    float getScrolledPos() const;
+    void setScrolledPos(float pos);
+    
     CREATE_FUNC(HQPage);
 };
 

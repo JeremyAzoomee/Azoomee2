@@ -69,7 +69,7 @@ void SettingsLanguagePage::onEnter()
 					selectedItem->setSelected(true);
 				}
 				StringMgr::getInstance()->changeLanguage(data._identifier);
-                HQHistoryManager::getInstance()->clearCachedHQ();
+                HQHistoryManager::getInstance()->clearCachedHQData();
 			}
 		});
 		if(data._identifier == StringMgr::getInstance()->getLanguageID())

@@ -41,6 +41,9 @@ public:
     void onExit() override;
     void onSizeChanged() override;
     
+    int getOpenDropdown() const;
+    void setDropdownOpen(int dropdownIndex);
+    
     CREATE_FUNC(GameHQ);
 };
 

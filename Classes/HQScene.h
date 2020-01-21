@@ -27,6 +27,35 @@
 
 NS_AZOOMEE_BEGIN
 
+class HQSnapshot
+{
+private:
+    std::map<HQType, float> _scrollPositions;
+    std::map<HQType, int> _openDropDowns;
+    HQType _activeHQ = HQType::GAME;
+    bool _episodeSelectorOpen = false;
+    HQContentItemObjectRef _selectedSeries = nullptr;
+    
+public:
+    
+    HQSnapshot();
+    
+    void setScrollPositions(const std::map<HQType, float>& scrollPositions);
+    std::map<HQType, float> getScrollPositions() const;
+    
+    void setOpenDropDowns(const std::map<HQType, int>& openDorpdowns);
+    std::map<HQType, int> getOpenDropDowns() const;
+    
+    void setActiveHQ(const HQType& activeHQ);
+    HQType getActiveHQ() const;
+    
+    void setEpisodeSelectorOpen(bool open);
+    bool isEpisodeSelectorOpen() const;
+    
+    void setSelectedSeries(const HQContentItemObjectRef& series);
+    HQContentItemObjectRef getSelectedSeries() const;
+};
+
 class HQScene : public Azoomee::Scene
 {
     typedef Azoomee::Scene Super;
@@ -70,6 +99,10 @@ public:
     virtual void onEnter() override;
     virtual void onExit() override;
     virtual void onSizeChanged() override;
+    
+    HQSnapshot getHQSnapshot();
+    
+    void setupWithSnapshot(const HQSnapshot& snapshot);
     
     CREATE_FUNC(HQScene);
 };

@@ -386,6 +386,10 @@ cocos2d::Scene* SceneManagerScene::getBaseScene()
     if(!scene)
     {
         scene = HQScene::create();
+        if(HQHistoryManager::getInstance()->isDataCached())
+        {
+            scene->setupWithSnapshot(HQHistoryManager::getInstance()->getHQSnapshot());
+        }
         HQHistoryManager::getInstance()->cacheHQScene(scene);
     }
     return scene;

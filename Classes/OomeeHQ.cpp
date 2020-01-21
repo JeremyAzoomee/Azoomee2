@@ -384,4 +384,14 @@ void OomeeHQ::refreshArtList()
     _artTileHolder->setArtFilenames(fullFilepaths);
 }
 
+int OomeeHQ::getOpenDropdown() const
+{
+    return _offlineDropdown->isOpen();
+}
+
+void OomeeHQ::setDropdownOpen()
+{
+    _offlineDropdown->setOpen(true);
+}
+
 NS_AZOOMEE_END

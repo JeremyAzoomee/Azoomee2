@@ -129,4 +129,17 @@ void HQPage::dropdownAutoOpenCloseLogic(DropdownContentHolder* pressedDropdown, 
     }
 }
 
+float HQPage::getScrolledPos() const
+{
+    return _contentListView->getInnerContainerPosition().y;
+}
+
+void HQPage::setScrolledPos(float pos)
+{
+    // delay setting inner container position so position is set after all initial setup of the scrollview is complete
+    runAction(Sequence::createWithTwoActions(DelayTime::create(0.1), CallFunc::create([this, pos](){
+        _contentListView->setInnerContainerPosition(Vec2(_contentListView->getInnerContainerPosition().x, pos));
+    })));
+}
+
 NS_AZOOMEE_END

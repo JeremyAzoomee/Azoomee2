@@ -9,7 +9,11 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+//#define REMOVE_WEBVIEW_ON_BG YES
+
+#ifdef REMOVE_WEBVIEW_ON_BG
 WebViewController *webViewController = nil;
+#endif
 
 cocos2d::Scene* NativeContentInterface_ios::createSceneWithURL(const std::string &url, const Vec2& closeButtonAnchor, int videoProgressSeconds)
 {
@@ -38,11 +42,13 @@ void NativeContentInterface_ios::onEnterTransitionDidFinish()
 
 void NativeContentInterface_ios::onExit()
 {
+#ifdef REMOVE_WEBVIEW_ON_BG
     if(webViewController != nil)
     {
         [webViewController release];
         webViewController = nil;
     }
+#endif
     Layer::onExit();
 }
 
@@ -62,19 +68,23 @@ void NativeContentInterface_ios::loadContentBasedOnUrl(const std::string &url, c
 
 void NativeContentInterface_ios::removeWebViewFromScreen()
 {
+#ifdef REMOVE_WEBVIEW_ON_BG
 	if(webViewController != nil)
 	{
 		[webViewController removeWebViewWhileInBackground];
 	}
+#endif
 }
 
 void NativeContentInterface_ios::reAddWebViewToScreen()
 {
+#ifdef REMOVE_WEBVIEW_ON_BG
 	if(webViewController != nil)
 	{
 		[webViewController addWebViewToScreen];
 		[webViewController createButtons];
 	}
+#endif
 }
 
 void NativeContentInterface_ios::addMediaPlayerToScreen(const std::string &url, int videoProgressSeconds)
@@ -112,16 +122,16 @@ void NativeContentInterface_ios::addWebViewToScreen(const std::string &url, cons
     
     UIView *currentView = (UIView*)Director::getInstance()->getOpenGLView()->getEAGLView();
     
+#ifdef REMOVE_WEBVIEW_ON_BG
     webViewController = [[WebViewController alloc] init];
     [currentView addSubview:webViewController.view];
-    
     [webViewController startBuildingWebView:iosurl userid:iosuserid closeButtonAnchorX:closeButtonAnchor.x closeButtonAnchorY:closeButtonAnchor.y];
-    //[webViewController release];
-    
-    //currentView = nil;
-    //cookieStorage = nil;
-    //iosurl = nil;
-    //iosuserid = nil;
+#else
+    WebViewController* webViewController = [[WebViewController alloc] init];
+    [currentView addSubview:webViewController.view];
+    [webViewController startBuildingWebView:iosurl userid:iosuserid closeButtonAnchorX:closeButtonAnchor.x closeButtonAnchorY:closeButtonAnchor.y];
+    [WebViewController release];
+#endif
 }
 
 NS_AZOOMEE_END

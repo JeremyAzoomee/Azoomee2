@@ -21,7 +21,9 @@ private:
 	Orientation _prevHQOrientation = Orientation::Landscape;
     
     HQScene* _cachedHQScene = nullptr;
-	
+    HQSnapshot _hqSnapshot;
+    bool _dataCached = false;
+    
 public:
 	static HQHistoryManager* getInstance(void);
 	
@@ -54,8 +56,11 @@ public:
 	int getHistorySize() const;
 	
     void cacheHQScene(HQScene* hqScene);
-    void clearCachedHQ();
+    void clearCachedHQData();
+    void releaseCachedHQScene();
     HQScene* getCachedHQScene();
+    HQSnapshot getHQSnapshot() const;
+    bool isDataCached() const;
     
     //Adding last group source ID
     

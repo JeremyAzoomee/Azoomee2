@@ -22,13 +22,10 @@ using namespace Azoomee;
 
 - (void)startBuildingWebView:(NSString*)url userid:(NSString*)userid closeButtonAnchorX:(float)closeButtonAnchorX closeButtonAnchorY:(float)closeButtonAnchorY
 {
-    urlToLoad = url;
-    useridToUse = userid;
+    urlToLoad = [url copy];
+    useridToUse = [userid copy];
     _closeButtonAnchorX = closeButtonAnchorX;
     _closeButtonAnchorY = closeButtonAnchorY;
-    
-    [urlToLoad retain];
-    [useridToUse retain];
     
     [self addWebViewToScreen];
     [self createButtons];
@@ -47,36 +44,50 @@ using namespace Azoomee;
     CGFloat width = screenRect.size.width;
     CGFloat height = screenRect.size.height;
     
-    //float width = self.view.frame.size.width;
-    //float height = self.view.frame.size.height;
-    
     if(isDeviceIphoneX())
     {
         height < width ? width -= 50.0f : height -= 50.0f;
     }
-    webview = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, width, height)];
+    WKWebViewConfiguration* config = [[WKWebViewConfiguration alloc] init];
+    [config setAllowsInlineMediaPlayback:YES];
+    [config setMediaPlaybackRequiresUserAction:NO];
+    [config.preferences setValue:@"TRUE" forKey:@"allowFileAccessFromFileURLs"];
     
-    NSString *urlToCall = [[NSBundle mainBundle] pathForResource:@"res/webcommApi/index_ios" ofType:@"html"];
+    webview = [[WKWebView alloc]initWithFrame:CGRectMake(0, 0, width, height) configuration:config];
+    
+    NSString* cachesPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
+    NSString* urlToCall = [cachesPath stringByAppendingPathComponent:@"gameCache/index_ios.html"];
 	NSURL *nsurl = [NSURL fileURLWithPath:urlToCall];
-    NSURLRequest *nsrequest = [NSURLRequest requestWithURL:nsurl];
-    
-    [webview setAllowsInlineMediaPlayback:YES];
-    [webview setMediaPlaybackRequiresUserAction:NO];
+
     [webview scrollView].scrollEnabled = NO;
     [webview scrollView].bounces = NO;
-    [webview setDelegate:self];
-    [webview loadRequest:nsrequest];
+    webview.navigationDelegate = self;
+    webview.UIDelegate = self;
+
+    [webview loadFileURL:nsurl allowingReadAccessToURL:[nsurl URLByDeletingLastPathComponent]];
     [webview setBackgroundColor:[UIColor blackColor]];
     [self.view addSubview:webview];
     
 }
 
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-    NSString *urlString = [[request URL] absoluteString];
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
+{
+    
+    if(navigationAction.targetFrame != nil)
+    {
+        if(!navigationAction.targetFrame.mainFrame)
+        {
+            decisionHandler(WKNavigationActionPolicyAllow);
+            return;
+        }
+    }
+    
+    NSURL* url = navigationAction.request.URL;
+    NSString *urlString = url.absoluteString;
     
     if ([urlString hasPrefix:@"apirequest:"]) {
         
-        NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:request.URL resolvingAgainstBaseURL:NO];
+        NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
         
         NSArray *urlItems = [urlComponents.string componentsSeparatedByString:@"?"];
         NSString *method = [urlItems objectAtIndex:2];
@@ -98,17 +109,18 @@ using namespace Azoomee;
         
         NSString *callString = [NSString stringWithFormat:@"answerMessageReceivedFromAPI(\"%s\")", returnString];
         NSLog(@"callstring is: %@", callString);
-        [webView stringByEvaluatingJavaScriptFromString:callString];
+        [webView evaluateJavaScript:callString completionHandler:nil];
         
-        return NO;
+        decisionHandler(WKNavigationActionPolicyCancel);
+        return;
     }
     
     if ([urlString hasPrefix:@"videoerror"])
     {
         [webview loadHTMLString:@"" baseURL:nil];
         [webview stopLoading];
-        [webview setDelegate:nil];
-        
+        webview.navigationDelegate = nil;
+        webview.UIDelegate = nil;
         
         [webview removeFromSuperview];
         
@@ -121,58 +133,120 @@ using namespace Azoomee;
         
         navigateToLoginScene();
         
-        //[self release];
-        
-        return NO;
+        decisionHandler(WKNavigationActionPolicyCancel);
+        return;
     }
     
     if ([urlString hasPrefix:@"videoevent"])
     {
         NSLog(@"VideoEvent received");
-        NSLog(@"Query: %@", [[request URL] query]);
-        NSLog(@"Host: %@", [[request URL] host]);
+        NSLog(@"Query: %@", [url query]);
+        NSLog(@"Host: %@", [url host]);
         
-        NSString *urlHost = [[request URL] host];
-        NSString *urlQuery = [[request URL] query];
+        NSString *urlHost = [url host];
+        NSString *urlQuery = [url query];
         
         sendMixPanelData([urlHost cStringUsingEncoding:NSUTF8StringEncoding], [urlQuery cStringUsingEncoding:NSUTF8StringEncoding]);
         
-        return NO;
+        decisionHandler(WKNavigationActionPolicyCancel);
+        return;
     }
     
     if ([urlString hasPrefix:@"finishview"])
     {
         [self finishView];
+        return;
     }
     
-    return YES;
+    decisionHandler(WKNavigationActionPolicyAllow);
+    
 }
 
--(void)webViewDidFinishLoad:(UIWebView *)webView
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
 {
     if(!iframeloaded)
-    {
-
-        [webView stringByEvaluatingJavaScriptFromString:@"clearLocalStorage()"];
-            
-        NSString *localStorageData = [NSString stringWithFormat: @"%s", getLocalStorageForGame()];
-            
-        NSString *addDataString = [NSString stringWithFormat:@"addDataToLocalStorage(\"%@\")", localStorageData];
-        NSLog(@"addDataString: %@", addDataString);
-        [webView stringByEvaluatingJavaScriptFromString:addDataString];
-            
-        NSString *loadString = [NSString stringWithFormat:@"addFrameWithUrl(\"%@\")", urlToLoad];
-        [webView stringByEvaluatingJavaScriptFromString:loadString];
-   
-        
-        iframeloaded = true;
-    };
+       {
+           [webView evaluateJavaScript:@"clearLocalStorage()" completionHandler:^(id result, NSError *error) {
+               if (error == nil) {
+                   if (result != nil) {
+                       NSLog(@"%@", [NSString stringWithFormat:@"%@", result]);
+                   }
+               }
+               else
+               {
+                   NSLog(@"%@", error.localizedDescription);
+               }
+           }];
+               
+           NSString *localStorageData = [NSString stringWithFormat: @"%s", getLocalStorageForGame()];
+               
+           NSString *addDataString = [NSString stringWithFormat:@"addDataToLocalStorage(\"%@\")", localStorageData];
+           NSLog(@"addDataString: %@", addDataString);
+           [webView evaluateJavaScript:addDataString completionHandler:^(id result, NSError *error) {
+               if (error == nil) {
+                   if (result != nil) {
+                       NSLog(@"%@", [NSString stringWithFormat:@"%@", result]);
+                   }
+               }
+               else
+               {
+                   NSLog(@"%@", error.localizedDescription);
+               }
+           }];
+           
+           NSString *loadString = [NSString stringWithFormat:@"addFrameWithUrl(\"%@\")", urlToLoad];
+           [webView evaluateJavaScript:loadString completionHandler:^(id result, NSError *error) {
+               if (error == nil) {
+                   if (result != nil) {
+                       NSLog(@"%@", [NSString stringWithFormat:@"%@", result]);
+                   }
+               }
+               else
+               {
+                   NSLog(@"%@", error.localizedDescription);
+               }
+           }];
+           
+           iframeloaded = true;
+       };
 }
 
+- (void)webViewWebContentProcessDidTerminate:(WKWebView *)webView {
+    // Reload current page, since we have crashed the WebContent process
+    // (most likely due to memory pressure)
+    NSSet *websiteDataTypes = [NSSet setWithArray:@[
+                                WKWebsiteDataTypeDiskCache,
+                                WKWebsiteDataTypeOfflineWebApplicationCache,
+                                WKWebsiteDataTypeMemoryCache,
+                                //WKWebsiteDataTypeLocalStorage,
+                                //WKWebsiteDataTypeCookies,
+                                WKWebsiteDataTypeSessionStorage,
+                                //WKWebsiteDataTypeIndexedDBDatabases,
+                                //WKWebsiteDataTypeWebSQLDatabases,
+                                //WKWebsiteDataTypeFetchCache, //(iOS 11.3, *)
+                                //WKWebsiteDataTypeServiceWorkerRegistrations, //(iOS 11.3, *)
+                            ]];
+    // All kinds of data
+    // NSSet *websiteDataTypes = [WKWebsiteDataStore allWebsiteDataTypes];
+    // Date from
+    NSDate *dateFrom = [NSDate dateWithTimeIntervalSince1970:0];
+    // Execute
+    [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:websiteDataTypes modifiedSince:dateFrom completionHandler:^{
+       // Done
+        iframeloaded = NO;
+        NSString* cachesPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
+        NSString* urlToCall = [cachesPath stringByAppendingPathComponent:@"gameCache/index_ios.html"];
+        NSURL *nsurl = [NSURL fileURLWithPath:urlToCall];
+        [webview loadFileURL:nsurl allowingReadAccessToURL:[nsurl URLByDeletingLastPathComponent]];
+    }];
+    
+    
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    releaseCachedHQMemory();
 }
 
 - (void) createButtons
@@ -260,10 +334,14 @@ using namespace Azoomee;
     {
         if([urlToLoad hasSuffix:@"html"])
         {
-            NSString *htmlData = [webview stringByEvaluatingJavaScriptFromString:@"saveLocalDataBeforeExit()"];
-            saveLocalStorageData(htmlData);
-            [self finishView];
-            return;
+            [webview evaluateJavaScript:@"saveLocalDataBeforeExit()" completionHandler:^(id result, NSError *error) {
+                if (error == nil) {
+                    if (result != nil) {
+                        saveLocalStorageData([NSString stringWithFormat:@"%@", result]);
+                    }
+                }
+                [self finishView];
+            }];
         }
         else
         {
@@ -285,15 +363,22 @@ using namespace Azoomee;
     {
         if([urlToLoad hasSuffix:@"html"])
         {
-            NSString *htmlData = [webview stringByEvaluatingJavaScriptFromString:@"saveLocalDataBeforeExit()"];
-            saveLocalStorageData(htmlData);
-            [self finishView];
+            [webview evaluateJavaScript:@"saveLocalDataBeforeExit()" completionHandler:^(id result, NSError *error) {
+                if (error == nil) {
+                    if (result != nil) {
+                        saveLocalStorageData([NSString stringWithFormat:@"%@", result]);
+                    }
+                }
+                [self finishView];
+                shareContentInChat();
+            }];
         }
         else
         {
             [self finishView];
+            shareContentInChat();
         }
-        shareContentInChat();
+        
     }
 }
 
@@ -312,26 +397,36 @@ using namespace Azoomee;
         }
     }
     
-    NSString *htmlData = [webview stringByEvaluatingJavaScriptFromString:@"saveLocalDataBeforeExit()"];
-    saveLocalStorageData(htmlData);
-    
-    [webview loadHTMLString:@"" baseURL:nil];
-    [webview stopLoading];
-    [webview setDelegate:nil];
-    
-    [webview removeFromSuperview];
-    [webview release];
-    webview = nil;
-    
-    iframeloaded = NO;
+    [webview evaluateJavaScript:@"saveLocalDataBeforeExit()" completionHandler:^(id result, NSError *error) {
+        if (error == nil) {
+            if (result != nil) {
+                saveLocalStorageData([NSString stringWithFormat:@"%@", result]);
+            }
+        }
+        [webview loadHTMLString:@"" baseURL:nil];
+        [webview stopLoading];
+        webview.navigationDelegate = nil;
+        webview.UIDelegate = nil;
+           
+        [webview removeFromSuperview];
+        [webview release];
+        webview = nil;
+           
+        iframeloaded = NO;
+    }];
 }
 
 -(void) finishView
 {
+    if(webview == nil)
+    {
+        return;
+    }
+    
     [webview loadHTMLString:@"" baseURL:nil];
     [webview stopLoading];
-    [webview setDelegate:nil];
-    
+    webview.navigationDelegate = nil;
+    webview.UIDelegate = nil;
     
     [webview removeFromSuperview];
 	
@@ -356,8 +451,6 @@ using namespace Azoomee;
     webview = nil;
     
     navigateToBaseScene();
-    
-    //[self release];
 }
 
 @end
