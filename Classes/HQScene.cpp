@@ -263,13 +263,9 @@ void HQScene::createNavigationUI()
     _purchaseCapsule->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
     const BillingDataRef& billingData = ParentManager::getInstance()->getBillingData();
     BillingStatus billingStatus = BillingStatus::ANON;
-    if(billingData)
+    if(ParentManager::getInstance()->isUserLoggedIn())
     {
         billingStatus = billingData->getBillingStatus();
-    }
-    else if(ParentManager::getInstance()->isUserLoggedIn())
-    {
-        billingStatus = BillingStatus::FREE_REGISTERED;
     }
     _purchaseCapsule->setUserType(billingStatus);
     _navBar->addChild(_purchaseCapsule);
