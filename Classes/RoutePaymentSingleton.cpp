@@ -182,21 +182,6 @@ void RoutePaymentSingleton::canceledAction()
 void RoutePaymentSingleton::inAppPaymentSuccess()
 {
     removeReceiptDataFile();
-    
-    /*BackEndCaller::getInstance()->updateBillingData();
-    
-    FlowDataSingleton::getInstance()->addIAPSuccess(true);
-    if(FlowDataSingleton::getInstance()->isSignupFlow())
-    {
-        FlowDataSingleton::getInstance()->setSuccessFailPath(PREMIUM_NEW_ACCOUNT);
-    }
-    else
-    {
-        FlowDataSingleton::getInstance()->setSuccessFailPath(PREMIUM_EXISTING_ACCOUNT);
-    }
-    
-    ChildManager::getInstance()->setChildLoggedIn(false);
-    BackEndCaller::getInstance()->getAvailableChildren();*/
     LoginLogicHandler::getInstance()->handleLoginSuccess();
 }
 

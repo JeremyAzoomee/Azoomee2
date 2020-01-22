@@ -197,7 +197,6 @@ cocos2d::ui::Layout* LanguageSelectScene::createLanguageButton(const LanguagePar
                             LoginLogicHandler::getInstance()->handleLoginSuccess();
                         }
                     });
-                    //BackEndCaller::getInstance()->anonymousDeviceLogin();
                 }
             }
             else

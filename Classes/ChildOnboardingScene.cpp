@@ -213,13 +213,10 @@ void ChildOnboardingScene::onHttpRequestSuccess(const std::string& requestTag, c
                 Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
             }
         });
-        
-        //BackEndCaller::getInstance()->getAvailableChildren();
     }
     else if(requestTag == API::TagRegisterChild)
     {
         AnalyticsSingleton::getInstance()->childProfileCreatedSuccessEvent();
-        //BackEndCaller::getInstance()->getAvailableChildren();
         UserAccountManager::getInstance()->getChildrenForLoggedInParent([](bool success, long errorcode){
             if(success)
             {

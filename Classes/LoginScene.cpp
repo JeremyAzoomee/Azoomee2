@@ -121,7 +121,6 @@ bool LoginScene::init()
                         LoginLogicHandler::getInstance()->handleLoginSuccess();
                     }
                 });
-				//BackEndCaller::getInstance()->anonymousDeviceLogin();
 				break;
 			}
 			case LoginEntryState::PASSWORD:
@@ -231,8 +230,6 @@ void LoginScene::login(std::string username, std::string password)
             LoginLogicHandler::getInstance()->handleLoginSuccess();
         }
     });
-    //auto backEndCaller = BackEndCaller::getInstance();
-    //backEndCaller->login(username, password);
 }
 
 //-------------DELEGATE FUNCTIONS-------------------

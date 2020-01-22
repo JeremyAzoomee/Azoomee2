@@ -213,7 +213,6 @@ void IntroVideoScene::onForceUpdateCheckFinished(const ForceUpdateResult& result
                             LoginLogicHandler::getInstance()->handleLoginSuccess();
                         }
                     });
-					//BackEndCaller::getInstance()->anonymousDeviceLogin();
 				}
 			}
 			else
@@ -254,7 +253,6 @@ void IntroVideoScene::MessageBoxButtonPressed(std::string messageBoxTitle, std::
                     LoginLogicHandler::getInstance()->handleLoginSuccess();
                 }
             });
-			//BackEndCaller::getInstance()->anonymousDeviceLogin();
 		}
 		else
 		{

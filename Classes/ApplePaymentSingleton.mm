@@ -89,7 +89,6 @@ void ApplePaymentSingleton::onAnswerReceived(const std::string& responseDataStri
             AnalyticsSingleton::getInstance()->iapAppleAutoRenewSubscriptionEvent();
             ModalMessages::getInstance()->stopLoading();
             UserAccountManager::getInstance()->getBillingDataForLoggedInParent(nullptr);
-            //BackEndCaller::getInstance()->updateBillingData();
             return;
         }
         else
