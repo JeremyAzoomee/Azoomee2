@@ -12,7 +12,7 @@
 #include "PaymentSuccessScreen.h"
 #include "PopupMessageBox.h"
 #include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include "MarketingAssetManager.h"
 
@@ -77,7 +77,7 @@ bool IAPScene::init()
 	_closeButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-            const bool isLoggedIn = ParentManager::getInstance()->isLoggedInParentAnonymous() || ChildManager::getInstance()->isChildLoggedIn();
+            const bool isLoggedIn = UserAccountManager::getInstance()->isLoggedInParentAnonymous() || ChildManager::getInstance()->isChildLoggedIn();
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(isLoggedIn ? SceneNameEnum::Base : SceneNameEnum::ChildSelector));
 		}
 	});
@@ -116,7 +116,7 @@ void IAPScene::onEnter()
 	
 	if(RoutePaymentSingleton::getInstance()->receiptDataFileExists())
 	{
-		if(!ParentManager::getInstance()->isUserLoggedIn())
+		if(!UserAccountManager::getInstance()->isUserLoggedIn())
 		{
 			PaymentSuccessScreen* successScreen = PaymentSuccessScreen::create();
 			successScreen->setContinueCallback([](){

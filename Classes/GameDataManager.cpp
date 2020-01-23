@@ -11,7 +11,7 @@
 
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
-#include "LoginLogicHandler.h"
+#include "LoginController.h"
 #include <AzoomeeCommon/UI/MessageBox.h>
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Strings.h>
@@ -621,7 +621,7 @@ void GameDataManager::onFileDownloadComplete(const std::string &fileString,const
     {
         AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
         FlowDataSingleton::getInstance()->setErrorCode(ERROR_CODE_SOMETHING_WENT_WRONG);
-        LoginLogicHandler::getInstance()->doLoginLogic();
+        LoginController::getInstance()->doLoginLogic();
         return;
     }
     if(tag == _kJsonTag)

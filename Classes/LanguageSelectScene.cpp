@@ -8,12 +8,11 @@
 #include "LanguageSelectScene.h"
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include "SceneManagerScene.h"
 #include "BackEndCaller.h"
-#include "LoginLogicHandler.h"
+#include "LoginController.h"
 #include "HQHistoryManager.h"
-#include <AzoomeeCommon/Data/User/UserAccountManager.h>
 
 using namespace cocos2d;
 
@@ -183,9 +182,9 @@ cocos2d::ui::Layout* LanguageSelectScene::createLanguageButton(const LanguagePar
         {
             StringMgr::getInstance()->changeLanguage(params._identifier);
             HQHistoryManager::getInstance()->clearCachedHQData();
-            if(!ParentManager::getInstance()->hasParentLoginDataInUserDefaults())
+            if(!UserAccountManager::getInstance()->hasParentLoginDataInUserDefaults())
             {
-                if(ParentManager::getInstance()->getParent())
+                if(UserAccountManager::getInstance()->getParent())
                 {
                     Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
                 }
@@ -194,20 +193,20 @@ cocos2d::ui::Layout* LanguageSelectScene::createLanguageButton(const LanguagePar
                     UserAccountManager::getInstance()->AnonLogin([](bool success, long errorcode){
                         if(success)
                         {
-                            LoginLogicHandler::getInstance()->handleLoginSuccess();
+                            LoginController::getInstance()->handleLoginSuccess();
                         }
                     });
                 }
             }
             else
             {
-                if(ParentManager::getInstance()->getParent())
+                if(UserAccountManager::getInstance()->getParent())
                 {
                     Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
                 }
                 else
                 {
-                    LoginLogicHandler::getInstance()->doLoginLogic();
+                    LoginController::getInstance()->doLoginLogic();
                 }
             }
         }

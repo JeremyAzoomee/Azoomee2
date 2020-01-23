@@ -1,7 +1,7 @@
 //ConfigStorage is a singleton designed to hold all necessary "burnt-in" information for all visual scenes and layers.
 
 #include "ConfigStorage.h"
-#include "Parent/ParentManager.h"
+#include "Parent/UserAccountManager.h"
 #include "../Analytics/AnalyticsSingleton.h"
 #include "../API/API.h"
 #include "../Net/Utils.h"
@@ -263,17 +263,17 @@ std::string ConfigStorage::getMediaPrefixForXwalkCookies()
 std::string ConfigStorage::getPathForTag(const std::string& httpRequestTag)
 {
     if(httpRequestTag == API::TagLogin) return "/api/auth/login";
-    if(httpRequestTag == API::TagGetAvailableChildren) return StringUtils::format("/api/user/adult/%s/owns", ParentManager::getInstance()->getLoggedInParentId().c_str());
+    if(httpRequestTag == API::TagGetAvailableChildren) return StringUtils::format("/api/user/adult/%s/owns", UserAccountManager::getInstance()->getLoggedInParentId().c_str());
     if(httpRequestTag == API::TagChildLogin) return "/api/auth/switchProfile";
     if(httpRequestTag == API::TagRegisterParent) return "/api/user/v2/signup";
     if(httpRequestTag == API::TagRegisterChild) return "/api/user/child";
     if(httpRequestTag == API::TagDeleteChild) return "/api/user/child/";
-    if(httpRequestTag == API::TagParentPin) return StringUtils::format("/api/user/adult/%s", ParentManager::getInstance()->getLoggedInParentId().c_str());
-    if(httpRequestTag == API::TagVerifyAmazonPayment) return StringUtils::format("/api/billing/amazon/user/%s/receipt", ParentManager::getInstance()->getLoggedInParentId().c_str());
-    if(httpRequestTag == API::TagVerifyApplePayment) return StringUtils::format("/api/billing/apple/user/%s/receipt", ParentManager::getInstance()->getLoggedInParentId().c_str());
-    if(httpRequestTag == API::TagVerifyGooglePayment) return StringUtils::format("/api/billing/google/user/%s/receipt", ParentManager::getInstance()->getLoggedInParentId().c_str());
-    if(httpRequestTag == API::TagUpdateBillingData) return StringUtils::format("/api/billing/user/%s/billingStatus", ParentManager::getInstance()->getLoggedInParentId().c_str());
-    if(httpRequestTag == API::TagGetPendingFriendRequests) return StringUtils::format("/api/user/adult/%s/invite/code/received", ParentManager::getInstance()->getLoggedInParentId().c_str());
+    if(httpRequestTag == API::TagParentPin) return StringUtils::format("/api/user/adult/%s", UserAccountManager::getInstance()->getLoggedInParentId().c_str());
+    if(httpRequestTag == API::TagVerifyAmazonPayment) return StringUtils::format("/api/billing/amazon/user/%s/receipt", UserAccountManager::getInstance()->getLoggedInParentId().c_str());
+    if(httpRequestTag == API::TagVerifyApplePayment) return StringUtils::format("/api/billing/apple/user/%s/receipt", UserAccountManager::getInstance()->getLoggedInParentId().c_str());
+    if(httpRequestTag == API::TagVerifyGooglePayment) return StringUtils::format("/api/billing/google/user/%s/receipt", UserAccountManager::getInstance()->getLoggedInParentId().c_str());
+    if(httpRequestTag == API::TagUpdateBillingData) return StringUtils::format("/api/billing/user/%s/billingStatus", UserAccountManager::getInstance()->getLoggedInParentId().c_str());
+    if(httpRequestTag == API::TagGetPendingFriendRequests) return StringUtils::format("/api/user/adult/%s/invite/code/received", UserAccountManager::getInstance()->getLoggedInParentId().c_str());
     if(httpRequestTag == API::TagCookieRefresh) return "/api/cookie/refresh/adult";
     
     return "";

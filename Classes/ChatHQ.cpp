@@ -11,7 +11,7 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include "AzoomeeChat/UI/MessageScene.h"
 #include "ChatDelegate.h"
 #include "SceneManagerScene.h"
@@ -164,7 +164,7 @@ void ChatHQ::createFriendsList()
 
 void ChatHQ::openChatMessageSceneWithFriend(const Chat::FriendRef& friendData)
 {
-    const bool isParent = friendData->friendId() == ParentManager::getInstance()->getLoggedInParentId();
+    const bool isParent = friendData->friendId() == UserAccountManager::getInstance()->getLoggedInParentId();
     AnalyticsSingleton::getInstance()->setChatFriendIsParent(isParent);
     AnalyticsSingleton::getInstance()->genericButtonPressEvent(isParent ? "ChatScene - SelectedParent" : "ChatScene - SelectedFriend");
     AnalyticsSingleton::getInstance()->contentItemSelectedEvent("CHAT");

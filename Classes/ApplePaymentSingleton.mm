@@ -4,11 +4,10 @@
 #include "external/json/document.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "BackEndCaller.h"
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
-#include "LoginLogicHandler.h"
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
+#include "LoginController.h"
 #include "RoutePaymentSingleton.h"
 #include "FlowDataSingleton.h"
-#include <AzoomeeCommon/Data/User/UserAccountManager.h>
 
 using namespace cocos2d;
 
@@ -59,7 +58,7 @@ void ApplePaymentSingleton::transactionStatePurchased(const std::string& receipt
         AnalyticsSingleton::getInstance()->iapSubscriptionSuccessEvent();
     }
     
-    if(!ParentManager::getInstance()->isUserLoggedIn())
+    if(!UserAccountManager::getInstance()->isUserLoggedIn())
     {
         ModalMessages::getInstance()->stopLoading();
 		Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(RoutePaymentSingleton::kPaymentSuccessfulEventName);
@@ -105,7 +104,7 @@ void ApplePaymentSingleton::onAnswerReceived(const std::string& responseDataStri
     }
     else
     {
-        if(ParentManager::getInstance()->isPaidUser())
+        if(UserAccountManager::getInstance()->isPaidUser())
         {
             ModalMessages::getInstance()->stopLoading();
             MessageBox::createWith(ERROR_CODE_APPLE_ACCOUNT_DOWNGRADED, this);
@@ -121,7 +120,7 @@ void ApplePaymentSingleton::onAnswerReceived(const std::string& responseDataStri
 //---------Delegate Functions----------
 void ApplePaymentSingleton::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
 {
-    LoginLogicHandler::getInstance()->doLoginLogic();
+    LoginController::getInstance()->doLoginLogic();
 }
 
 NS_AZOOMEE_END

@@ -1,5 +1,5 @@
 #include "WebViewNativeCaller_android.h"
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Cookie/CookieManager.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
@@ -372,7 +372,7 @@ extern "C"
 
 JNIEXPORT bool JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIIsAnonUser(JNIEnv* env, jobject thiz)
 {
-    return ParentManager::getInstance()->isLoggedInParentAnonymous();
+    return UserAccountManager::getInstance()->isLoggedInParentAnonymous();
 }
 
 #endif

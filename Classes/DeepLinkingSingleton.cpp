@@ -6,7 +6,7 @@
 #include "HQDataProvider.h"
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "VideoPlaylistManager.h"
 #include "SceneManagerScene.h"
@@ -127,7 +127,7 @@ bool DeepLinkingSingleton::actionDeepLink()
     }
     else if(host == "moveto")
     {
-        if(path == "signup" && !ChildManager::getInstance()->isChildLoggedIn() && !ParentManager::getInstance()->hasParentLoginDataInUserDefaults())
+        if(path == "signup" && !ChildManager::getInstance()->isChildLoggedIn() && !UserAccountManager::getInstance()->hasParentLoginDataInUserDefaults())
         {
             AnalyticsSingleton::getInstance()->deepLinkingMoveToEvent(path);
             

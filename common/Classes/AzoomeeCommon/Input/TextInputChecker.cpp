@@ -1,5 +1,5 @@
 #include "TextInputChecker.h"
-#include "../Data/Parent/ParentManager.h"
+#include "../Data/Parent/UserAccountManager.h"
 #include "../Utils/StringFunctions.h"
 
 
@@ -102,9 +102,9 @@ bool childNameExists(std::string newChildsName)
     //check if child name exists
     bool childNameExists = false;
     
-    for(int i = 0; i < ParentManager::getInstance()->getAmountOfAvailableChildren(); i++)
+    for(int i = 0; i < UserAccountManager::getInstance()->getAmountOfAvailableChildren(); i++)
     {
-		const std::string& storedChildsName = ParentManager::getInstance()->getChild(i)->getProfileName();
+		const std::string& storedChildsName = UserAccountManager::getInstance()->getChild(i)->getProfileName();
         
         if(newChildsName.compare(storedChildsName) == 0)
         {

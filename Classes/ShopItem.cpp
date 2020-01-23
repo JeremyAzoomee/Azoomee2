@@ -9,7 +9,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 
 using namespace cocos2d;
 
@@ -96,7 +96,7 @@ void ShopItem::onEnter()
 			return item->getItemId() == _itemData->getInventoryItem()->getItemId();
 		}) != invItems.end());
 		setAffordable(inv->getCoins() >= _itemData->getPrice());
-		enableLockedIcon(!(ParentManager::getInstance()->isPaidUser() || _itemData->getEntitlement() == "AZ_FREE"));
+		enableLockedIcon(!(UserAccountManager::getInstance()->isPaidUser() || _itemData->getEntitlement() == "AZ_FREE"));
 	}
 	
 	Super::onEnter();

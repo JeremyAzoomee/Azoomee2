@@ -10,7 +10,7 @@
 #include "HQHistoryManager.h"
 #include "SceneManagerScene.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include "ChatDelegate.h"
 #include "ShareInChatLayer.h"
 
@@ -58,7 +58,7 @@ void ArtAppDelegate::onArtAppShareImage()
 {
     if(filename != "")
     {
-		if(!HQHistoryManager::getInstance()->isOffline() && ParentManager::getInstance()->isPaidUser())
+		if(!HQHistoryManager::getInstance()->isOffline() && UserAccountManager::getInstance()->isPaidUser())
         {
             AnalyticsSingleton::getInstance()->contentItemClosedEvent();
             ChatDelegate::getInstance()->_imageFileName = filename;

@@ -20,7 +20,7 @@
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/Crashlytics/CrashlyticsConfig.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Cookie/CookieManager.h>
 #include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>

@@ -1,7 +1,7 @@
 #include "SettingsButton.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "SceneManagerScene.h"
 #include "LanguageSelectScene.h"
@@ -24,7 +24,7 @@ bool SettingsButton::init()
 		{
 			AudioMixer::getInstance()->playEffect(SETTINGS_BUTTON_AUDIO_EFFECT);
 			AnalyticsSingleton::getInstance()->genericButtonPressEvent("Settings");
-			if(ParentManager::getInstance()->isLoggedInParentAnonymous())
+			if(UserAccountManager::getInstance()->isLoggedInParentAnonymous())
 			{
 				Director::getInstance()->replaceScene(LanguageSelectScene::create());
 			}

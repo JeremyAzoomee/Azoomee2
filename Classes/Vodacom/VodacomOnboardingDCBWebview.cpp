@@ -7,7 +7,7 @@
 #ifdef AZOOMEE_VODACOM_BUILD
 #include "VodacomOnboardingDCBWebview.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include "../DeepLinkingSingleton.h"
 #include "../BackEndCaller.h"
 
@@ -67,7 +67,7 @@ void VodacomOnboardingDCBWebview::onEnter()
 		}
 		else if(url.find(kVodacomPurchaseRedirectUrlStart) != url.npos)
 		{
-			if(ParentManager::getInstance()->isUserLoggedIn())
+			if(UserAccountManager::getInstance()->isUserLoggedIn())
 			{
 				_flowData->setDCBCompete(true);
 				BackEndCaller::getInstance()->updateBillingData();

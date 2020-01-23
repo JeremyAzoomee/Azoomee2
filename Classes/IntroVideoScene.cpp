@@ -3,12 +3,12 @@
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Strings.h>
-#include "LoginLogicHandler.h"
+#include "LoginController.h"
 #include "SceneManagerScene.h"
 #include "BackEndCaller.h"
 #include "ForceUpdateAppLockScene.h"
 #include "LanguageSelectScene.h"
-#include <AzoomeeCommon/Data/User/UserAccountManager.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 
 #if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     #include <AzoomeeCommon/Utils/IosNativeFunctionsSingleton.h>
@@ -210,14 +210,14 @@ void IntroVideoScene::onForceUpdateCheckFinished(const ForceUpdateResult& result
                     UserAccountManager::getInstance()->AnonLogin([](bool success, long errorcode){
                         if(success)
                         {
-                            LoginLogicHandler::getInstance()->handleLoginSuccess();
+                            LoginController::getInstance()->handleLoginSuccess();
                         }
                     });
 				}
 			}
 			else
 			{
-				LoginLogicHandler::getInstance()->doLoginLogic();
+				LoginController::getInstance()->doLoginLogic();
 			}
 			
 			break;
@@ -250,13 +250,13 @@ void IntroVideoScene::MessageBoxButtonPressed(std::string messageBoxTitle, std::
             UserAccountManager::getInstance()->AnonLogin([](bool success, long errorcode){
                 if(success)
                 {
-                    LoginLogicHandler::getInstance()->handleLoginSuccess();
+                    LoginController::getInstance()->handleLoginSuccess();
                 }
             });
 		}
 		else
 		{
-			LoginLogicHandler::getInstance()->doLoginLogic();
+			LoginController::getInstance()->doLoginLogic();
 		}
 	}
 }

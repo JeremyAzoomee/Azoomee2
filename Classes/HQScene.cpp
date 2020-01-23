@@ -10,7 +10,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
 #include <AzoomeeCommon/Strings.h>
@@ -261,9 +261,9 @@ void HQScene::createNavigationUI()
     _purchaseCapsule = PurchaseCapsule::create();
     _purchaseCapsule->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _purchaseCapsule->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
-    const BillingDataRef& billingData = ParentManager::getInstance()->getBillingData();
+    const BillingDataRef& billingData = UserAccountManager::getInstance()->getBillingData();
     BillingStatus billingStatus = BillingStatus::ANON;
-    if(ParentManager::getInstance()->isUserLoggedIn())
+    if(UserAccountManager::getInstance()->isUserLoggedIn())
     {
         billingStatus = billingData->getBillingStatus();
     }

@@ -4,7 +4,7 @@
 #include "../Data/ConfigStorage.h"
 #include "../Analytics/AnalyticsSingleton.h"
 #include "../Utils/StringFunctions.h"
-#include "../Data/Parent/ParentManager.h"
+#include "../Data/Parent/UserAccountManager.h"
 #include "../Crashlytics/CrashlyticsConfig.h"
 #include "API.h"
 
@@ -199,7 +199,7 @@ cocos2d::network::HttpRequest* HttpRequestCreator::buildHttpRequest()           
         
         //add country code to the request headers
         
-        headers.push_back("X-AZ-COUNTRYCODE: " + ParentManager::getInstance()->getLoggedInParentCountryCode());
+        headers.push_back("X-AZ-COUNTRYCODE: " + UserAccountManager::getInstance()->getLoggedInParentCountryCode());
     }
     
     headers.push_back(StringUtils::format("x-az-appversion: %s", ConfigStorage::getInstance()->getVersionInformationForRequestHeader().c_str()));

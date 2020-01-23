@@ -15,8 +15,8 @@
 #include "ContentHistoryManager.h"
 #include "PopupMessageBox.h"
 
-#include "LoginLogicHandler.h"
-#include <AzoomeeCommon/Data/User/UserAccountManager.h>
+#include "LoginController.h"
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 
 using namespace cocos2d;
 
@@ -118,7 +118,7 @@ bool LoginScene::init()
                 UserAccountManager::getInstance()->AnonLogin([](bool success, long errorcode){
                     if(success)
                     {
-                        LoginLogicHandler::getInstance()->handleLoginSuccess();
+                        LoginController::getInstance()->handleLoginSuccess();
                     }
                 });
 				break;
@@ -227,7 +227,7 @@ void LoginScene::login(std::string username, std::string password)
     UserAccountManager::getInstance()->login(username, password, [](bool success, long errorcode){
         if(success)
         {
-            LoginLogicHandler::getInstance()->handleLoginSuccess();
+            LoginController::getInstance()->handleLoginSuccess();
         }
     });
 }

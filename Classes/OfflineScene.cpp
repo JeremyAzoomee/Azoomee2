@@ -12,7 +12,7 @@
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "FlowDataSingleton.h"
-#include "LoginLogicHandler.h"
+#include "LoginController.h"
 #include "HQHistoryManager.h"
 #include "BackEndCaller.h"
 #include "ContentOpener.h"
@@ -231,7 +231,7 @@ void OfflineScene::connectivityStateChanged(bool online)
         ChildManager::getInstance()->setChildLoggedIn(false);
         HQHistoryManager::getInstance()->setIsOffline(false);
         FlowDataSingleton::getInstance()->clearData();
-        LoginLogicHandler::getInstance()->doLoginLogic();
+        LoginController::getInstance()->doLoginLogic();
     }
 }
 

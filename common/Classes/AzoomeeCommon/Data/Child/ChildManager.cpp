@@ -6,7 +6,7 @@
 //
 
 #include "ChildManager.h"
-#include "../Parent/ParentManager.h"
+#include "../Parent/UserAccountManager.h"
 #include "../../Analytics/AnalyticsSingleton.h"
 #include "../../Crashlytics/CrashlyticsConfig.h"
 #include "../../API/API.h"
@@ -40,7 +40,7 @@ std::string ChildManager::getParentOrChildId() const
 	}
 	else
 	{
-		return ParentManager::getInstance()->getParent()->getId();
+		return UserAccountManager::getInstance()->getParent()->getId();
 	}
 }
 
@@ -52,7 +52,7 @@ std::string ChildManager::getParentOrChildCdnSessionId() const
 	}
 	else
 	{
-		return ParentManager::getInstance()->getParent()->getCDNSessionId();
+		return UserAccountManager::getInstance()->getParent()->getCDNSessionId();
 	}
 }
 
@@ -64,7 +64,7 @@ std::string ChildManager::getParentOrChildApiSecret() const
 	}
 	else
 	{
-		return ParentManager::getInstance()->getParent()->getAPISecret();
+		return UserAccountManager::getInstance()->getParent()->getAPISecret();
 	}
 }
 
@@ -76,7 +76,7 @@ std::string ChildManager::getParentOrChildApiKey() const
 	}
 	else
 	{
-		return ParentManager::getInstance()->getParent()->getAPIKey();
+		return UserAccountManager::getInstance()->getParent()->getAPIKey();
 	}
 }
 
@@ -88,7 +88,7 @@ std::string ChildManager::getParentOrChildAvatarId() const
 	}
 	else
 	{
-		return ParentManager::getInstance()->getParent()->getAvatar();
+		return UserAccountManager::getInstance()->getParent()->getAvatar();
 	}
 }
 
@@ -100,7 +100,7 @@ std::string ChildManager::getParentOrChildName() const
 	}
 	else
 	{
-		return ParentManager::getInstance()->getParent()->getDisplayName();
+		return UserAccountManager::getInstance()->getParent()->getDisplayName();
 	}
 }
 

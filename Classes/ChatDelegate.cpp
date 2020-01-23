@@ -4,7 +4,7 @@
 #include "SceneManagerScene.h"
 #include "HQHistoryManager.h"
 #include "FlowDataSingleton.h"
-#include "LoginLogicHandler.h"
+#include "LoginController.h"
 #include "HQDataProvider.h"
 #include "ContentOpener.h"
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
@@ -64,7 +64,7 @@ void ChatDelegate::onChatAddFriend()
 void ChatDelegate::onChatAuthorizationError(const std::string& requestTag, long errorCode)
 {
     FlowDataSingleton::getInstance()->setErrorCode(errorCode);
-    LoginLogicHandler::getInstance()->doLoginLogic();
+    LoginController::getInstance()->doLoginLogic();
 }
 
 void ChatDelegate::onChatNavigateToContent(const std::string &contentId)

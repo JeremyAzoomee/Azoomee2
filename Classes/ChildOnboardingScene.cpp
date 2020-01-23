@@ -10,14 +10,13 @@
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include "SceneManagerScene.h"
 #include "BackEndCaller.h"
-#include "LoginLogicHandler.h"
+#include "LoginController.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/ErrorCodes.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "PopupMessageBox.h"
 #include "FlowDataSingleton.h"
-#include <AzoomeeCommon/Data/User/UserAccountManager.h>
 
 using namespace cocos2d;
 
@@ -69,7 +68,7 @@ bool ChildOnboardingScene::init()
         this->transitionState(State::ENTER_AGE);
     });
     _nameEntry->setBackCallback([this](const std::string& inputString){
-        if(ParentManager::getInstance()->isLoggedInParentAnonymous())
+        if(UserAccountManager::getInstance()->isLoggedInParentAnonymous())
         {
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::WelcomeScene));
         }
@@ -86,9 +85,9 @@ bool ChildOnboardingScene::init()
     _ageEntry->setContinueCallback([this](int age){
         _childCreator->setAge(age);
         ModalMessages::getInstance()->startLoading();
-        if(ParentManager::getInstance()->isLoggedInParentAnonymous())
+        if(UserAccountManager::getInstance()->isLoggedInParentAnonymous())
         {
-            _childCreator->updateChild(ParentManager::getInstance()->getChild(0));
+            _childCreator->updateChild(UserAccountManager::getInstance()->getChild(0));
         }
         else
         {
@@ -204,13 +203,11 @@ void ChildOnboardingScene::onHttpRequestSuccess(const std::string& requestTag, c
         UserAccountManager::getInstance()->getChildrenForLoggedInParent([](bool success, long errorcode){
             if(success)
             {
-                LoginLogicHandler::getInstance()->handleGetChildrenSuccess();
+                LoginController::getInstance()->handleGetChildrenSuccess();
             }
             else
             {
-                UserAccountManager::getInstance()->logout();
-                LoginLogicHandler::getInstance()->setLoginOrigin(LoginOrigin::LOGOUT);
-                Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
+                LoginController::getInstance()->forceNewLogin();
             }
         });
     }
@@ -220,13 +217,11 @@ void ChildOnboardingScene::onHttpRequestSuccess(const std::string& requestTag, c
         UserAccountManager::getInstance()->getChildrenForLoggedInParent([](bool success, long errorcode){
             if(success)
             {
-                LoginLogicHandler::getInstance()->handleGetChildrenSuccess();
+                LoginController::getInstance()->handleGetChildrenSuccess();
             }
             else
             {
-                UserAccountManager::getInstance()->logout();
-                LoginLogicHandler::getInstance()->setLoginOrigin(LoginOrigin::LOGOUT);
-                Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
+                LoginController::getInstance()->forceNewLogin();
             }
         });
     }

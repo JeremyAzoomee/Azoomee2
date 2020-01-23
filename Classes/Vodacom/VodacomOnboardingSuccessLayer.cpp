@@ -7,7 +7,7 @@
 #ifdef AZOOMEE_VODACOM_BUILD
 #include "VodacomOnboardingSuccessLayer.h"
 #include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Strings.h>
 
@@ -41,9 +41,9 @@ void VodacomOnboardingSuccessLayer::onEnter()
 	titleHolder->addChild(title);
 	_verticalLayout->addChild(titleHolder);
 	
-	if(ParentManager::getInstance()->isPaidUser())
+	if(UserAccountManager::getInstance()->isPaidUser())
 	{
-		Label* validUntil = Label::createWithTTF(_("Set up complete. Your voucher has been added, valid until") + " " + ParentManager::getInstance()->getBillingDate() , Style::Font::Regular(), 64);
+		Label* validUntil = Label::createWithTTF(_("Set up complete. Your voucher has been added, valid until") + " " + UserAccountManager::getInstance()->getBillingDate() , Style::Font::Regular(), 64);
 		validUntil->setTextColor(Color4B::BLACK);
 		validUntil->setHorizontalAlignment(TextHAlignment::CENTER);
 		validUntil->setAnchorPoint(Vec2::ANCHOR_MIDDLE);

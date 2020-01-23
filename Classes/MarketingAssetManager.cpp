@@ -8,7 +8,7 @@
 #include "MarketingAssetManager.h"
 #include <AzoomeeCommon/Utils/StringMgr.h>
 #include <AzoomeeCommon/API/API.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -115,7 +115,7 @@ void MarketingAssetManager::downloadMarketingAssets()
 {
 	_marketingAssets.clear();
     
-    HttpRequestCreator* request = API::GetMarketingAssets(ParentManager::getInstance()->getLoggedInParentCountryCode() ,this);
+    HttpRequestCreator* request = API::GetMarketingAssets(UserAccountManager::getInstance()->getLoggedInParentCountryCode() ,this);
     request->execute();
 }
 

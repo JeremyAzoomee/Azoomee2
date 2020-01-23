@@ -1,5 +1,5 @@
-#ifndef __LOGIN_LOGIC_HANDLER_H__
-#define __LOGIN_LOGIC_HANDLER_H__
+#ifndef __LOGIN_CONTROLLER_H__
+#define __LOGIN_CONTROLLER_H__
 
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Azoomee.h>
@@ -8,14 +8,14 @@ NS_AZOOMEE_BEGIN
 
 enum class LoginOrigin {LOGOUT, IAP_PAYWALL, SIGNUP, HQ};
 
-class LoginLogicHandler : public cocos2d::Ref
+class LoginController : public cocos2d::Ref
 {
 private:
     LoginOrigin _origin = LoginOrigin::LOGOUT;
     
 public:
-    static LoginLogicHandler* getInstance(void);
-    virtual ~LoginLogicHandler();
+    static LoginController* getInstance(void);
+    virtual ~LoginController();
     bool init(void);
     void doLoginLogic();
     void forceNewLogin(const LoginOrigin& origin = LoginOrigin::LOGOUT);

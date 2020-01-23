@@ -7,8 +7,8 @@
 #include <AzoomeeCommon/UI/MessageBox.h>
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
-#include "LoginLogicHandler.h"
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include "LoginController.h"
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include "SceneManagerScene.h"
 #include "FlowDataSingleton.h"
 #include <AzoomeeCommon/UI/PrivacyLayer.h>
@@ -20,7 +20,6 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include "HQHistoryManager.h"
 #include "PopupMessageBox.h"
-#include <AzoomeeCommon/Data/User/UserAccountManager.h>
 
 using namespace cocos2d;
 
@@ -37,7 +36,7 @@ bool ChildSelectorScene::init()
     
     AnalyticsSingleton::getInstance()->logoutChildEvent();
     AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
-    ParentManager::getInstance()->logoutChild();
+    UserAccountManager::getInstance()->logoutChild();
     ContentHistoryManager::getInstance()->setReturnedFromContent(false);
     HQHistoryManager::getInstance()->clearCachedHQData();
     
@@ -165,7 +164,7 @@ void ChildSelectorScene::onEnter()
         this->addChild(messageBox, 1);
     }
     
-    if(ParentManager::getInstance()->getAmountOfAvailableChildren() == 0)
+    if(UserAccountManager::getInstance()->getAmountOfAvailableChildren() == 0)
     {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::AddChild));
     }
@@ -202,7 +201,7 @@ void ChildSelectorScene::onSizeChanged()
 
 void ChildSelectorScene::createChildButtons()
 {
-    const int numChildren = ParentManager::getInstance()->getAmountOfAvailableChildren();
+    const int numChildren = UserAccountManager::getInstance()->getAmountOfAvailableChildren();
     
     const int rowsPerPage = 2;
     const int colsPerPage = 2;
@@ -236,7 +235,7 @@ void ChildSelectorScene::createChildButtons()
                 
                 if(childNum < numChildren)
                 {
-                    const ChildRef& child = ParentManager::getInstance()->getChild(childNum);
+                    const ChildRef& child = UserAccountManager::getInstance()->getChild(childNum);
                     if(child)
                     {
                         ui::Layout* button = createChildButton(child, childNum);
@@ -283,12 +282,12 @@ cocos2d::ui::Layout* ChildSelectorScene::createChildButton(const ChildRef& child
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
             AudioMixer::getInstance()->playEffect(SELECT_OOMEE_AUDIO_EFFECT);
-            AnalyticsSingleton::getInstance()->registerChildGenderAndAge(ParentManager::getInstance()->getChild(childNum));
+            AnalyticsSingleton::getInstance()->registerChildGenderAndAge(UserAccountManager::getInstance()->getChild(childNum));
             //BackEndCaller::getInstance()->childLogin(childNum);
-            UserAccountManager::getInstance()->loginChild(ParentManager::getInstance()->getChild(childNum)->getProfileName(), [](bool success, long errorcode){
+            UserAccountManager::getInstance()->loginChild(UserAccountManager::getInstance()->getChild(childNum)->getProfileName(), [](bool success, long errorcode){
                 if(success)
                 {
-                    LoginLogicHandler::getInstance()->handleChildLoginSuccess();
+                    LoginController::getInstance()->handleChildLoginSuccess();
                 }
             });
         }
@@ -329,7 +328,7 @@ ui::Button *ChildSelectorScene::createChildProfileButton(const std::string& prof
             AudioMixer::getInstance()->playEffect(SELECT_OOMEE_AUDIO_EFFECT);
             _parentIconSelected = false;
             int childNumber = ((Node*)pSender)->getTag();
-            AnalyticsSingleton::getInstance()->registerChildGenderAndAge(ParentManager::getInstance()->getChild(childNumber));
+            AnalyticsSingleton::getInstance()->registerChildGenderAndAge(UserAccountManager::getInstance()->getChild(childNumber));
             BackEndCaller::getInstance()->childLogin(childNumber);
         }
         else if(eType == ui::Widget::TouchEventType::CANCELED)
@@ -377,7 +376,7 @@ ui::Button *ChildSelectorScene::createChildProfileButton(const std::string& prof
 	bgCircle2->runAction(rotate2);
 	
     auto oomee = RemoteImageSprite::create();
-    oomee->initWithUrlAndSizeWithoutPlaceholder(ParentManager::getInstance()->getChild(childNum)->getAvatar(), oomeeSize);
+    oomee->initWithUrlAndSizeWithoutPlaceholder(UserAccountManager::getInstance()->getChild(childNum)->getAvatar(), oomeeSize);
     oomee->setKeepAspectRatio(true);
     oomee->setAnchorPoint(Vec2(0.5,0.4));
     oomee->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
