@@ -483,6 +483,7 @@ bool ParentManager::parseChildLoginData(const std::string &responseData)
 void ParentManager::logoutChild()
 {
 	ChildManager::getInstance()->setChildLoggedIn(false);
+    ChildManager::getInstance()->setLoggedInChild(nullptr);
 }
 
 void ParentManager::addParentLoginDataToUserDefaults()

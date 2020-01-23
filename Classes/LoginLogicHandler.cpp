@@ -47,7 +47,7 @@ void LoginLogicHandler::doLoginLogic()
 #endif
     
     //Azoomee::ChildManager::getInstance()->setChildLoggedIn(false);
-    UserAccountManager::getInstance()->logout();
+    ParentManager::getInstance()->logoutChild();
     
     if(UserAccountManager::getInstance()->localLogin())
     {
@@ -59,6 +59,7 @@ void LoginLogicHandler::doLoginLogic()
     }
     else
     {
+        ParentManager::getInstance()->logoutParent();
         setLoginOrigin(LoginOrigin::LOGOUT);
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
     }
@@ -191,12 +192,27 @@ void LoginLogicHandler::handleChildLoginSuccess()
 {
     BackEndCaller::getInstance()->getChildInventory();
     OomeeMaker::OomeeMakerDataHandler::getInstance()->getOomeesForChild(ChildManager::getInstance()->getLoggedInChild()->getId(), false);
-    BackEndCaller::getInstance()->getSessionCookies();
+    //BackEndCaller::getInstance()->getSessionCookies();
     HQHistoryManager::getInstance()->emptyHistory();
                            
     // Update rewards feed
     RewardManager::getInstance()->getLatestRewardStrategy();
     RewardManager::getInstance()->checkForPendingRewards();
+    
+    SceneNameEnum nextScene = SceneNameEnum::Base;
+    
+    if(ParentManager::getInstance()->isLoggedInParentAnonymous())
+    {
+        if(LoginLogicHandler::getInstance()->getOrigin() == LoginOrigin::IAP_PAYWALL)
+        {
+            nextScene = SceneNameEnum::IAP;
+        }
+        else if(LoginLogicHandler::getInstance()->getOrigin() == LoginOrigin::SIGNUP)
+        {
+            nextScene = SceneNameEnum::Signup;
+        }
+    }
+    Director::getInstance()->replaceScene(SceneManagerScene::createScene(nextScene));
 }
 
 NS_AZOOMEE_END

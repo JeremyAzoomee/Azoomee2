@@ -357,6 +357,22 @@ HttpRequestCreator* API::GetSessionCookiesRequest(const std::string& userId,
     return request;
 }
 
+HttpRequestCreator* API::GetSessionCookiesRequest(const std::string& userId,
+                                                  const std::string& sessionId,
+                                                  const APIResponseSuccessCallback& onSuccess,
+                                                  const APIResponseFailureCallback& onFailure)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(nullptr);
+    request->requestPath = "/api/porthole/pixel/gordon.png";
+    request->urlParameters = StringUtils::format("userid=%s&sessionid=%s", userId.c_str(), sessionId.c_str());
+    request->requestTag = TagGetSessionCookies;
+    request->encrypted = true;
+    request->setRequestCallback([onSuccess, onFailure, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
+        HandleAPIResponse(sender, response, request, onSuccess, onFailure);
+    });
+    return request;
+}
+
 HttpRequestCreator* API::RefreshParentCookiesRequest(Azoomee::HttpRequestCreatorResponseDelegate *delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
@@ -606,6 +622,21 @@ HttpRequestCreator* API::GetContentPoolRequest(const std::string& childId, Azoom
     return request;
 }
 
+HttpRequestCreator* API::GetContentPoolRequest(const std::string& childId,
+                                               const APIResponseSuccessCallback& onSuccess,
+                                               const APIResponseFailureCallback& onFailure)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(nullptr);
+    request->requestTag = TagGetContentPoolRequest;
+    request->requestPath = StringUtils::format("/api/electricdreams/v3/%s/items",childId.c_str());
+    request->method = "GET";
+    request->encrypted = true;
+    request->setRequestCallback([onSuccess, onFailure, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
+        HandleAPIResponse(sender, response, request, onSuccess, onFailure);
+    });
+    return request;
+}
+
 HttpRequestCreator* API::GetHQStructureDataRequest(const std::string& childId, Azoomee::HttpRequestCreatorResponseDelegate *delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
@@ -615,6 +646,20 @@ HttpRequestCreator* API::GetHQStructureDataRequest(const std::string& childId, A
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
+    return request;
+}
+
+HttpRequestCreator* API::GetHQStructureDataRequest(const std::string& childId,
+                                                   const APIResponseSuccessCallback& onSuccess,
+                                                   const APIResponseFailureCallback& onFailure)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(nullptr);
+    request->requestTag = TagGetHqStructureDataRequest;
+    request->requestPath = StringUtils::format("/api/electricdreams/v3/%s/feeds",childId.c_str());
+    request->encrypted = true;
+    request->setRequestCallback([onSuccess, onFailure, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
+        HandleAPIResponse(sender, response, request, onSuccess, onFailure);
+    });
     return request;
 }
 

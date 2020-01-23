@@ -9,7 +9,13 @@
 #include "../Parent/ParentManager.h"
 #include "../ConfigStorage.h"
 #include "../../Utils/StringFunctions.h"
-
+#include "../Cookie/CookieManager.h"
+#include "../Child/ChildManager.h"
+#include "../HQDataObject/ContentItemPoolDownloadHandler.h"
+#include "../HQDataObject/HQStructureDownloadHandler.h"
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+#include "../../Utils/IosNativeFunctionsSingleton.h"
+#endif
 NS_AZOOMEE_BEGIN
 
 static std::auto_ptr<UserAccountManager> sUserAccountManagerSharedInstance;
@@ -142,10 +148,54 @@ void UserAccountManager::loginChild(const std::string& profileName, const OnComp
             }
         }
         ParentManager::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headers));
-        if(callback)
-        {
-            callback(true, 200);
-        }
+        #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+        IosNativeFunctionsSingleton::getInstance()->deleteHttpCookies(); //ios handles cookies on OS level. Removal of earlier cookies is important to avoid watching premium content with a free user.
+        #endif
+                
+        const std::string& userId = ChildManager::getInstance()->getParentOrChildId();
+        const std::string& sessionId = ChildManager::getInstance()->getParentOrChildCdnSessionId();
+            
+        auto onSuccess = [callback](const std::string& tag, const std::string& headers, const std::string& body){
+            CookieManager::getInstance()->parseDownloadCookies(headers);
+            ContentItemPoolDownloadHandler::getInstance()->getLatestData([callback](bool success){ //on complete
+                if(success)
+                {
+                    HQStructureDownloadHandler::getInstance()->getLatestData([callback](bool success){ //on complete
+                        if(success)
+                        {
+                            if(callback)
+                            {
+                                callback(true, 200);
+                            }
+                        }
+                        else
+                        {
+                            if(callback)
+                            {
+                                callback(false, 200);
+                            }
+                        }
+                    });
+                }
+                else
+                {
+                    if(callback)
+                    {
+                        callback(false, 200);
+                    }
+                }
+            });
+        };
+            
+        auto onFailed = [callback](const std::string& tag, long errorCode){
+            if(callback)
+            {
+                callback(false, errorCode);
+            }
+        };
+            
+        HttpRequestCreator* request = API::GetSessionCookiesRequest(userId, sessionId, onSuccess, onFailed);
+        request->execute();
     };
     
     auto onFailed = [callback](const std::string& tag, long errorCode){

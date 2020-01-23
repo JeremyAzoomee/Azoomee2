@@ -136,6 +136,11 @@ public:
                                                         const std::string& sessionId,
                                                         HttpRequestCreatorResponseDelegate* delegate);
     
+    static HttpRequestCreator* GetSessionCookiesRequest(const std::string& userId,
+                                                        const std::string& sessionId,
+                                                        const APIResponseSuccessCallback& onSuccess,
+                                                        const APIResponseFailureCallback& onFailure);
+    
     static HttpRequestCreator* RefreshParentCookiesRequest(HttpRequestCreatorResponseDelegate* delegate);
 	
 	static HttpRequestCreator* RefreshChildCookiesRequest(HttpRequestCreatorResponseDelegate* delegate);
@@ -211,8 +216,16 @@ public:
     static HttpRequestCreator* GetContentPoolRequest(const std::string& childId,
                                                      HttpRequestCreatorResponseDelegate* delegate);
     
+    static HttpRequestCreator* GetContentPoolRequest(const std::string& childId,
+                                                     const APIResponseSuccessCallback& onSuccess,
+                                                     const APIResponseFailureCallback& onFailure);
+    
     static HttpRequestCreator* GetHQStructureDataRequest(const std::string& childId,
                                                          HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* GetHQStructureDataRequest(const std::string& childId,
+                                                         const APIResponseSuccessCallback& onSuccess,
+                                                         const APIResponseFailureCallback& onFailure);
     
     static HttpRequestCreator* UpdateParentDetailsRequest(const std::string& parentId,
                                                           const std::string& displayName,
