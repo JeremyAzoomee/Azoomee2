@@ -90,7 +90,7 @@ bool WelcomeScene::init()
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
             AnalyticsSingleton::getInstance()->genericButtonPressEvent("WelcomeScreen_GetStarted");
-            UserAccountManager::getInstance()->AnonLogin([](bool success, long errorcode){
+            UserAccountManager::getInstance()->anonLogin([](bool success, long errorcode){
                 if(success)
                 {
                     LoginController::getInstance()->handleLoginSuccess();
