@@ -207,7 +207,7 @@ void IntroVideoScene::onForceUpdateCheckFinished(const ForceUpdateResult& result
 				}
 				else
 				{
-                    UserAccountManager::getInstance()->AnonLogin([](bool success, long errorcode){
+                    UserAccountManager::getInstance()->anonLogin([](bool success, long errorcode){
                         if(success)
                         {
                             LoginController::getInstance()->handleLoginSuccess();
@@ -247,7 +247,7 @@ void IntroVideoScene::MessageBoxButtonPressed(std::string messageBoxTitle, std::
 	{
 		if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
 		{
-            UserAccountManager::getInstance()->AnonLogin([](bool success, long errorcode){
+            UserAccountManager::getInstance()->anonLogin([](bool success, long errorcode){
                 if(success)
                 {
                     LoginController::getInstance()->handleLoginSuccess();

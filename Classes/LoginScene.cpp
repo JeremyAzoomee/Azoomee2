@@ -115,7 +115,7 @@ bool LoginScene::init()
 		switch (state) {
 			case LoginEntryState::EMAIL:
 			{
-                UserAccountManager::getInstance()->AnonLogin([](bool success, long errorcode){
+                UserAccountManager::getInstance()->anonLogin([](bool success, long errorcode){
                     if(success)
                     {
                         LoginController::getInstance()->handleLoginSuccess();

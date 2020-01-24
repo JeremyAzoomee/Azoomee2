@@ -190,7 +190,7 @@ cocos2d::ui::Layout* LanguageSelectScene::createLanguageButton(const LanguagePar
                 }
                 else
                 {
-                    UserAccountManager::getInstance()->AnonLogin([](bool success, long errorcode){
+                    UserAccountManager::getInstance()->anonLogin([](bool success, long errorcode){
                         if(success)
                         {
                             LoginController::getInstance()->handleLoginSuccess();
