@@ -218,4 +218,30 @@ int StringFunctions::findPositionOfNthString(std::string string, std::string wha
 	return startSearchPos - 1;
 }
 
+std::string StringFunctions::getPureVersionNumber(std::string version)
+{
+    return splitStringToVector(version, " ").at(0);
+}
+
+std::vector<std::string> StringFunctions::getVersionNumberElementsInVector(std::string version)
+{
+    return splitStringToVector(getPureVersionNumber(version), ".");
+}
+
+// return 1 if not comparable or compVersion is greater than targetVersion, 0 in equal and -1 if comp < target
+int StringFunctions::compareVersionNumbers(const std::string& targetVersion, const std::string& compVersion)
+{
+    const std::vector<std::string>& compVersionVector = StringFunctions::getVersionNumberElementsInVector(compVersion);
+    const std::vector<std::string>& targetVersionVector = StringFunctions::getVersionNumberElementsInVector(targetVersion);
+    
+    if(compVersionVector.size() != targetVersionVector.size()) return 1;      //Version numbers not comparable - different amount of elements
+    
+    for(int i = 0; i < compVersionVector.size(); i++)
+    {
+        if(std::atoi(compVersionVector.at(i).c_str()) < std::atoi(targetVersionVector.at(i).c_str())) return -1;
+        if(std::atoi(compVersionVector.at(i).c_str()) > std::atoi(targetVersionVector.at(i).c_str())) return 1;
+    }
+    return 0;
+}
+
 NS_AZOOMEE_END

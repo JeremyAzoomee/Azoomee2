@@ -38,6 +38,11 @@ public:
 
     static int findPositionOfNthString(std::string string, std::string whatToFind, int whichOne);
 
+    static std::string getPureVersionNumber(std::string version);
+    static std::vector<std::string> getVersionNumberElementsInVector(std::string version);
+    
+    static int compareVersionNumbers(const std::string& targetVersion, const std::string& compVersion);
+    
 };
 
 NS_AZOOMEE_END
