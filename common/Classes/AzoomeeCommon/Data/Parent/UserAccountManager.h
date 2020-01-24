@@ -88,7 +88,7 @@ public:
     
     bool localLogin();
     void login(const std::string& email, const std::string& password, const OnCompleteCallback& callback);
-    void AnonLogin(const OnCompleteCallback& callback);
+    void anonLogin(const OnCompleteCallback& callback);
     
     void getChildrenForLoggedInParent(const OnCompleteCallback& callback);
     

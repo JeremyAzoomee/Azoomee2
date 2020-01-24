@@ -647,7 +647,7 @@ void UserAccountManager::login(const std::string& email, const std::string& pass
     request->execute();
 }
 
-void UserAccountManager::AnonLogin(const OnCompleteCallback& callback)
+void UserAccountManager::anonLogin(const OnCompleteCallback& callback)
 {
     cocos2d::UserDefault* userDefault = cocos2d::UserDefault::getInstance();
     const std::string& anonEmail = userDefault->getStringForKey(ConfigStorage::kAnonEmailKey, "");
