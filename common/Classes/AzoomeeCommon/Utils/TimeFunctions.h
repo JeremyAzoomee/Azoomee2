@@ -15,14 +15,20 @@
 
 NS_AZOOMEE_BEGIN
 
-bool isDateStringOlderThanToday(const std::string &dateToCheck);
-bool isDateStringFormatCorrectForComparison(const std::string &dateToCheck);
-int birthYearFromAge(int age);
-long getEpochTimeForTodayWithoutYear();
-long getEpochTimeForDateWithoutYear(int month, int day);
-std::string getTimeStringForFileName();
-std::string getMillisecondTimestampString();
-std::chrono::milliseconds getCurrentTimeMillis();
+class TimeFunctions
+{
+public:
+    
+    static bool isDateStringOlderThanToday(const std::string &dateToCheck);
+    static bool isDateStringFormatCorrectForComparison(const std::string &dateToCheck);
+    static int birthYearFromAge(int age);
+    static long getEpochTimeForTodayWithoutYear();
+    static long getEpochTimeForDateWithoutYear(int month, int day);
+    static std::string getTimeStringForFileName();
+    static std::string getMillisecondTimestampString();
+    static std::chrono::milliseconds getCurrentTimeMillis();
+    
+};
 
 NS_AZOOMEE_END
 

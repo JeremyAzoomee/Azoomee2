@@ -106,7 +106,7 @@ bool ForceUpdateSingleton::parseAndSaveForceUpdateData(const std::string &jsonSt
 {
 	    std::map<std::string, std::string> forceUpdateData = getMapFromForceUpdateJsonData(jsonString);
 	    forceUpdateData["timeStamp"] = StringUtils::format("%ld", time(NULL));
-	    const std::string &jsonStringToBeWritten = getJSONStringFromMap(forceUpdateData);
+	    const std::string &jsonStringToBeWritten = StringFunctions::getJSONStringFromMap(forceUpdateData);
 	
 	    FileUtils::getInstance()->writeStringToFile(jsonStringToBeWritten, writablePath + forceUpdateFileSubPath);
 	

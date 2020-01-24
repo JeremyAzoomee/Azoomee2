@@ -77,7 +77,7 @@ bool LoginEntry::init()
 		{
 			if(_state == LoginEntryState::EMAIL)
 			{
-				_email = trim(_inputBox->getText());
+				_email = StringFunctions::trim(_inputBox->getText());
 				if(_continueCallback)
 				{
 					_continueCallback(_state);
@@ -85,7 +85,7 @@ bool LoginEntry::init()
 			}
 			else
 			{
-				_password = trim(_inputBox->getText());
+				_password = StringFunctions::trim(_inputBox->getText());
 				if(_loginConfirmCallback)
 				{
 					_loginConfirmCallback(_email,_password);
@@ -219,7 +219,7 @@ void LoginEntry::setState(const LoginEntryState& state)
 
 bool LoginEntry::isValidInput(const std::string& text, const LoginEntryState& state)
 {
-	return _state == LoginEntryState::EMAIL ? isValidEmailAddress(text.c_str()) : isValidPassword(text.c_str(), kMinPasswordEntryLength);
+	return _state == LoginEntryState::EMAIL ? TextInputChecker::isValidEmailAddress(text.c_str()) : TextInputChecker::isValidPassword(text.c_str(), TextInputChecker::kMinPasswordEntryLength);
 }
 
 //Editbox Delegate Functions
@@ -232,7 +232,7 @@ void LoginEntry::editBoxReturn(cocos2d::ui::EditBox* editBox)
 	setContinueButtonEnabled(isValidInput(editBox->getText(), _state));
     if(_state == LoginEntryState::EMAIL)
     {
-        _email = trim(_inputBox->getText());
+        _email = StringFunctions::trim(_inputBox->getText());
         if(_continueCallback)
         {
             _continueCallback(_state);
@@ -240,7 +240,7 @@ void LoginEntry::editBoxReturn(cocos2d::ui::EditBox* editBox)
     }
     else
     {
-        _password = trim(_inputBox->getText());
+        _password = StringFunctions::trim(_inputBox->getText());
         if(_loginConfirmCallback)
         {
             _loginConfirmCallback(_email,_password);

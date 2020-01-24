@@ -729,7 +729,7 @@ void UserAccountManager::loginChild(const std::string& profileName, const OnComp
                 callback(false, 200);
             }
         }
-        setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headers));
+        setLoggedInParentCountryCode(StringFunctions::getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headers));
         #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
         IosNativeFunctionsSingleton::getInstance()->deleteHttpCookies(); //ios handles cookies on OS level. Removal of earlier cookies is important to avoid watching premium content with a free user.
         #endif

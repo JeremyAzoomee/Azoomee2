@@ -82,7 +82,7 @@ char* WebGameAPIDataManager::handleAPIRequest(const char* method, const char* re
             FileUtils::getInstance()->createDirectory(saveFolder);
         }
         
-        if(FileUtils::getInstance()->writeStringToFile(decodedString, saveFolder + getTimeStringForFileName() + ".png"))
+        if(FileUtils::getInstance()->writeStringToFile(decodedString, saveFolder + TimeFunctions::getTimeStringForFileName() + ".png"))
         {
             return createReturnStringForAPI(method, responseId, "imageSave", "success");
         }

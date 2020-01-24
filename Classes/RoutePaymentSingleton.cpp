@@ -207,7 +207,7 @@ void RoutePaymentSingleton::writeReceiptDataToFile(const std::string &receiptDat
     
     if(receiptDataFileExists())
     {
-        attemptNumber = atoi(splitStringToVector(FileUtils::getInstance()->getStringFromFile(DirUtil::getDocumentsPath() + kReceiptCacheFolder + kReceiptDataFileName), "||").at(0).c_str());
+        attemptNumber = atoi(StringFunctions::splitStringToVector(FileUtils::getInstance()->getStringFromFile(DirUtil::getDocumentsPath() + kReceiptCacheFolder + kReceiptDataFileName), "||").at(0).c_str());
         attemptNumber++;
     }
     
@@ -243,7 +243,7 @@ void RoutePaymentSingleton::retryReceiptValidation()
     }
     
     const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(DirUtil::getDocumentsPath() + kReceiptCacheFolder + kReceiptDataFileName);
-    const std::vector<std::string>& fileContentSplit = splitStringToVector(fileContent, "||");
+    const std::vector<std::string>& fileContentSplit = StringFunctions::splitStringToVector(fileContent, "||");
     
     if(fileContentSplit.size() != 2)
     {
@@ -271,7 +271,7 @@ void RoutePaymentSingleton::retryReceiptValidation()
     pressedRestorePurchaseButton = false;
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    const std::vector<std::string>& paymentElements = splitStringToVector(dataString, "|");
+    const std::vector<std::string>& paymentElements = StringFunctions::splitStringToVector(dataString, "|");
     const std::string& receiptData = paymentElements[0];
     // Get transactionID if we stored it. It may not exist if the receipt was saved in an older version
     const std::string& transactionID = (paymentElements.size() > 1) ? paymentElements[1] : "";

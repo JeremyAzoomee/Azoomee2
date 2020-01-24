@@ -101,10 +101,10 @@ RewardItemRef RewardManager::popPendingRewardNotification()
 
 void RewardManager::checkResponseForNewRewards(const std::string& requestTag, const std::string& headers)
 {
-    const std::string& rewardData = getValueFromHttpResponseHeaderForKey("X-AZ-REWARDS", headers);
+    const std::string& rewardData = StringFunctions::getValueFromHttpResponseHeaderForKey("X-AZ-REWARDS", headers);
     if(!rewardData.empty())
     {
-        const std::vector<std::string>& urls = splitStringToVector(rewardData, ";");
+        const std::vector<std::string>& urls = StringFunctions::splitStringToVector(rewardData, ";");
         for(const std::string& url : urls)
         {
             HttpRequestCreator* request = API::RewardCallback(url, this);

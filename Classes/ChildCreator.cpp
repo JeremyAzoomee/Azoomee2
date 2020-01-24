@@ -71,14 +71,14 @@ void ChildCreator::setHttpRespnseDelegate(Azoomee::HttpRequestCreatorResponseDel
 
 bool ChildCreator::addChild()
 {
-    if(_age <= 0 || !isValidChildName(_childName.c_str()))
+    if(_age <= 0 || !TextInputChecker::isValidChildName(_childName.c_str()))
     {
         return false;
     }
     
-    int year = birthYearFromAge(_age);
+    int year = TimeFunctions::birthYearFromAge(_age);
 	
-	if(!isDate(1, 1, year))
+	if(!TextInputChecker::isDate(1, 1, year))
 	{
 		return false;
 	}
@@ -99,14 +99,14 @@ bool ChildCreator::addChild()
 
 bool ChildCreator::updateChild(const ChildRef &child)
 {
-	if(_age <= 0 || !isValidChildName(_childName.c_str()))
+	if(_age <= 0 || !TextInputChecker::isValidChildName(_childName.c_str()))
 	{
 		return false;
 	}
 	
-	int year = birthYearFromAge(_age);
+	int year = TimeFunctions::birthYearFromAge(_age);
 
-	if(!isDate(1, 1, year))
+	if(!TextInputChecker::isDate(1, 1, year))
 	{
 		return false;
 	}

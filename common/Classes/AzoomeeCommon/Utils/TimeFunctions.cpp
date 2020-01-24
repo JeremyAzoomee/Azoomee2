@@ -11,13 +11,13 @@
 
 NS_AZOOMEE_BEGIN
 
-bool isDateStringFormatCorrectForComparison(const std::string &dateToCheck)
+bool TimeFunctions::isDateStringFormatCorrectForComparison(const std::string &dateToCheck)
 {
     struct tm inputTimeStruct = {0};
     return strptime(dateToCheck.c_str(), "%Y-%m-%d", &inputTimeStruct);
 }
 
-bool isDateStringOlderThanToday(const std::string &dateToCheck)
+bool TimeFunctions::isDateStringOlderThanToday(const std::string &dateToCheck)
 {
     time_t epochTimeForNow = std::time(NULL);
     struct tm currentTimeStruct = *gmtime(&epochTimeForNow);
@@ -43,14 +43,14 @@ bool isDateStringOlderThanToday(const std::string &dateToCheck)
     }
 }
 
-int birthYearFromAge(int age)
+int TimeFunctions::birthYearFromAge(int age)
 {
     time_t t = time(NULL);
     struct tm time = *localtime(&t);
     return 1900 + time.tm_year - age;
 }
 
-long getEpochTimeForTodayWithoutYear()
+long TimeFunctions::getEpochTimeForTodayWithoutYear()
 {
     time_t epochTimeForNow = std::time(NULL);
     struct tm currentTimeStruct = *gmtime(&epochTimeForNow);
@@ -64,7 +64,7 @@ long getEpochTimeForTodayWithoutYear()
     return mktime(&currentTimeStruct);
 }
 
-long getEpochTimeForDateWithoutYear(int month, int day)
+long TimeFunctions::getEpochTimeForDateWithoutYear(int month, int day)
 {
     struct tm currentTimeStruct;
     
@@ -79,7 +79,7 @@ long getEpochTimeForDateWithoutYear(int month, int day)
     return mktime(&currentTimeStruct);
 }
 
-std::string getTimeStringForFileName()
+std::string TimeFunctions::getTimeStringForFileName()
 {
     auto t = std::time(nullptr);
     
@@ -89,7 +89,7 @@ std::string getTimeStringForFileName()
     return oss.str();
 }
 
-std::string getMillisecondTimestampString()
+std::string TimeFunctions::getMillisecondTimestampString()
 {
     auto millis = getCurrentTimeMillis().count();
     std::stringstream ss;
@@ -97,7 +97,7 @@ std::string getMillisecondTimestampString()
     return ss.str();
 }
 
-std::chrono::milliseconds getCurrentTimeMillis()
+std::chrono::milliseconds TimeFunctions::getCurrentTimeMillis()
 {
     return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
 }

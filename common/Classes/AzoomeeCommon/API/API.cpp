@@ -127,10 +127,10 @@ void API::HandleAPIError(cocos2d::network::HttpResponse *response, HttpRequestCr
 	
 	if(response->getResponseCode() != -1)
 	{
-		AnalyticsSingleton::getInstance()->httpRequestFailed(requestTag, errorCode, getValueFromHttpResponseHeaderForKey("X-AZ-QID", responseHeaderString));
+		AnalyticsSingleton::getInstance()->httpRequestFailed(requestTag, errorCode, StringFunctions::getValueFromHttpResponseHeaderForKey("X-AZ-QID", responseHeaderString));
 	}
 	
-	if((errorCode == 401) && (findPositionOfNthString(responseDataString, "Invalid Request Time", 1) != responseDataString.length()))
+	if((errorCode == 401) && (StringFunctions::findPositionOfNthString(responseDataString, "Invalid Request Time", 1) != responseDataString.length()))
 	{
 		errorCode = 2001;
 	}
@@ -808,7 +808,7 @@ HttpRequestCreator* API::SaveNewOomee(const std::string& childId,
 											bool selected,
 											HttpRequestCreatorResponseDelegate* delegate)
 {
-	const std::string& accs = joinStrings(accessoryIds, "\",\"");
+	const std::string& accs = StringFunctions::joinStrings(accessoryIds, "\",\"");
 	HttpRequestCreator* request = new HttpRequestCreator(delegate);
 	request->requestPath = StringUtils::format("/api/oomeemaker/child/%s/oomees",childId.c_str());
 	request->requestTag = TagSaveNewOomee;
@@ -849,7 +849,7 @@ HttpRequestCreator* API::UpdateChildOomee(const std::string& childId,
 												bool selected,
 												HttpRequestCreatorResponseDelegate* delegate)
 {
-	const std::string& accs = joinStrings(accessoryIds, "\",\"");
+	const std::string& accs = StringFunctions::joinStrings(accessoryIds, "\",\"");
 	HttpRequestCreator* request = new HttpRequestCreator(delegate);
 	request->requestPath = StringUtils::format("/api/oomeemaker/child/%s/oomees/%s",childId.c_str(), oomeeId.c_str());
 	request->requestTag = TagUpdateChildOomee;

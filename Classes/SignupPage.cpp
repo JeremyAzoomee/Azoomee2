@@ -111,7 +111,7 @@ void SignupPage::createInputHolder()
         {
             if(_continueCallback)
             {
-                _continueCallback(trim(_inputBox->getText()));
+                _continueCallback(StringFunctions::trim(_inputBox->getText()));
             }
         }
     });
@@ -144,7 +144,7 @@ void SignupPage::createInputHolder()
                 _backButton->setScale(1.0f);
                 if(_backCallback)
                 {
-                    _backCallback(trim(_inputBox->getText()));
+                    _backCallback(StringFunctions::trim(_inputBox->getText()));
                 }
                 break;
             }

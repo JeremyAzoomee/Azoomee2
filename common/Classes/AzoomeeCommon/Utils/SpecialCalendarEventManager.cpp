@@ -28,7 +28,7 @@ SpecialCalendarEventManager::SpecialCalendarEventManager()
 
 CalenderSeasons SpecialCalendarEventManager::getSeasonFromString(const std::string &seasonString)
 {
-    const std::string& stringLower = stringToLower(seasonString);
+    const std::string& stringLower = StringFunctions::stringToLower(seasonString);
     if(stringLower == "easter")
     {
         return EASTER;
@@ -68,11 +68,11 @@ bool SpecialCalendarEventManager::isXmasTime()
 #ifdef FORCE_XMAS
     return true;
 #endif
-    long today = getEpochTimeForTodayWithoutYear();
-    long xmasDecStart = getEpochTimeForDateWithoutYear(11, 22);
-    long xmasDecEnd = getEpochTimeForDateWithoutYear(12, 31);
-    long xmasJanStart = getEpochTimeForDateWithoutYear(1, 1);
-    long xmasJanEnd = getEpochTimeForDateWithoutYear(1, 31);
+    long today = TimeFunctions::getEpochTimeForTodayWithoutYear();
+    long xmasDecStart = TimeFunctions::getEpochTimeForDateWithoutYear(11, 22);
+    long xmasDecEnd = TimeFunctions::getEpochTimeForDateWithoutYear(12, 31);
+    long xmasJanStart = TimeFunctions::getEpochTimeForDateWithoutYear(1, 1);
+    long xmasJanEnd = TimeFunctions::getEpochTimeForDateWithoutYear(1, 31);
     
     return (today >= xmasDecStart && (today <= xmasDecEnd)) || (today >= xmasJanStart && today <= xmasJanEnd);
 }
@@ -90,9 +90,9 @@ bool SpecialCalendarEventManager::isHallowenTime()
 #ifdef FORCE_HALLOWEEN
     return true;
 #endif
-    long today = getEpochTimeForTodayWithoutYear();
-    long halloweenStart = getEpochTimeForDateWithoutYear(10, 1);
-    long hallowenEnd = getEpochTimeForDateWithoutYear(11, 22);
+    long today = TimeFunctions::getEpochTimeForTodayWithoutYear();
+    long halloweenStart = TimeFunctions::getEpochTimeForDateWithoutYear(10, 1);
+    long hallowenEnd = TimeFunctions::getEpochTimeForDateWithoutYear(11, 22);
     
     return (today >= halloweenStart && (today <= hallowenEnd));
 }

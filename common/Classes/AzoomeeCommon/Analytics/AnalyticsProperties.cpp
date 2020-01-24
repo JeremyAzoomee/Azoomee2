@@ -133,7 +133,7 @@ time_t AnalyticsProperties::getTimeOpenedContent() const
 
 void AnalyticsProperties::updateEpochTime()
 {
-    _storedGeneralProperties["epochTime"] = getMillisecondTimestampString();
+    _storedGeneralProperties["epochTime"] = TimeFunctions::getMillisecondTimestampString();
 }
 
 NS_AZOOMEE_END

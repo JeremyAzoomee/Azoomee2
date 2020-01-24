@@ -335,7 +335,7 @@ bool TextInputLayer::inputIsValid()
     {
         case INPUT_IS_EMAIL:
         {
-            if(isValidEmailAddress(editBox->getText()))
+            if(TextInputChecker::isValidEmailAddress(editBox->getText()))
             {
                 isValidInput = true;
             }
@@ -343,7 +343,7 @@ bool TextInputLayer::inputIsValid()
         }
         case INPUT_IS_PASSWORD:
         {
-            if(isValidPassword(editBox->getText(),2))
+            if(TextInputChecker::isValidPassword(editBox->getText(),2))
             {
                 isValidInput = true;
             }
@@ -351,7 +351,7 @@ bool TextInputLayer::inputIsValid()
         }
         case INPUT_IS_PIN:
         {
-            if(isValidPin(editBox->getText()))
+            if(TextInputChecker::isValidPin(editBox->getText()))
             {
                 isValidInput = true;
             }
@@ -359,7 +359,7 @@ bool TextInputLayer::inputIsValid()
         }
         case INPUT_IS_CHILD_NAME:
         {
-            if(isValidChildName(editBox->getText()))
+            if(TextInputChecker::isValidChildName(editBox->getText()))
             {
                 isValidInput = true;
             }
@@ -372,7 +372,7 @@ bool TextInputLayer::inputIsValid()
         }
         case INPUT_IS_NEW_PASSWORD:
         {
-            if(isValidPassword(editBox->getText(), 6))
+            if(TextInputChecker::isValidPassword(editBox->getText(), 6))
             {
                 isValidInput = true;
             }
@@ -407,12 +407,12 @@ bool TextInputLayer::inputIsValid()
         }
         case INPUT_IS_AGE:
         {
-			isValidInput = isValidAge(editBox->getText());
+			isValidInput = TextInputChecker::isValidAge(editBox->getText());
             break;
         }
 		case INPUT_IS_VOUCHER:
 		{
-			isValidInput = isValidVoucher(editBox->getText());
+			isValidInput = TextInputChecker::isValidVoucher(editBox->getText());
 			break;
 		}
     }

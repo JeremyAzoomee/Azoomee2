@@ -4,10 +4,9 @@
 #include <functional>
 #include <cctype>
 
-namespace Azoomee
-{
+NS_AZOOMEE_BEGIN
 
-std::vector<std::string> splitStringToVector(std::string inputString, std::string separator)
+std::vector<std::string> StringFunctions::splitStringToVector(std::string inputString, std::string separator)
 {
     std::vector<std::string> result;
     std::vector<std::string> tokens;
@@ -25,7 +24,7 @@ std::vector<std::string> splitStringToVector(std::string inputString, std::strin
     return result;
 }
 
-std::string stringToLower(std::string input)
+std::string StringFunctions::stringToLower(std::string input)
 {
     for(int i = 0; i < input.length(); i++)
     {
@@ -35,7 +34,7 @@ std::string stringToLower(std::string input)
     return input;
 }
 
-std::string stringToUpper(std::string input)
+std::string StringFunctions::stringToUpper(std::string input)
 {
     for(int i = 0; i < input.length(); i++)
     {
@@ -45,7 +44,7 @@ std::string stringToUpper(std::string input)
     return input;
 }
   
-std::string stringReplace(std::string originalString, std::string stringToReplace, std::string withNewString)
+std::string StringFunctions::stringReplace(std::string originalString, std::string stringToReplace, std::string withNewString)
 {
   std::string::size_type positionInString = originalString.find(stringToReplace);
   long lengthOfString = stringToReplace.length();
@@ -57,7 +56,7 @@ std::string stringReplace(std::string originalString, std::string stringToReplac
 
 
 
-std::string getJSONStringFromVectorOfMaps(std::vector<std::map<std::string, std::string>> inputMapVector)
+std::string StringFunctions::getJSONStringFromVectorOfMaps(std::vector<std::map<std::string, std::string>> inputMapVector)
 {
     std::string returnString = "{ \"Elements\" : [";
     
@@ -85,7 +84,7 @@ std::string getJSONStringFromVectorOfMaps(std::vector<std::map<std::string, std:
     return returnString;
 }
     
-std::string getJSONStringFromMap(std::map<std::string, std::string> inputMap)
+std::string StringFunctions::getJSONStringFromMap(std::map<std::string, std::string> inputMap)
 {
     std::string returnString = "{";
     
@@ -102,21 +101,21 @@ std::string getJSONStringFromMap(std::map<std::string, std::string> inputMap)
     return returnString;
 }
 
-std::string ltrim(const std::string& str)
+std::string StringFunctions::ltrim(const std::string& str)
 {
     std::string s = str;
     s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(std::isspace))));
     return s;
 }
 
-std::string rtrim(const std::string& str)
+std::string StringFunctions::rtrim(const std::string& str)
 {
     std::string s = str;
     s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
     return s;
 }
 
-std::string trim(const std::string& str)
+std::string StringFunctions::trim(const std::string& str)
 {
     std::string s = str;
     // Note we don't call ltrim and rtrim, so we can avoid an extra copy of str
@@ -125,7 +124,7 @@ std::string trim(const std::string& str)
     return s;
 }
     
-std::string replaceAll(std::string& str, const std::string& from, const std::string& to) {
+std::string StringFunctions::replaceAll(std::string& str, const std::string& from, const std::string& to) {
     if(from.empty())
         return "";
     size_t start_pos = 0;
@@ -137,7 +136,7 @@ std::string replaceAll(std::string& str, const std::string& from, const std::str
     return str;
 }
     
-std::string getValueFromHttpResponseHeaderForKey(const std::string &key, const std::string &responseHeaderString)
+std::string StringFunctions::getValueFromHttpResponseHeaderForKey(const std::string &key, const std::string &responseHeaderString)
 {
     const std::vector<std::string>& responseHeaderVector = splitStringToVector(responseHeaderString, "\n");
     for(const std::string &currentKey : responseHeaderVector)
@@ -151,7 +150,7 @@ std::string getValueFromHttpResponseHeaderForKey(const std::string &key, const s
     return "";
 }
     
-std::string shortenString(const std::string& string, int maxLength)
+std::string StringFunctions::shortenString(const std::string& string, int maxLength)
 {
     if(string.length() <= maxLength)
     {
@@ -161,7 +160,7 @@ std::string shortenString(const std::string& string, int maxLength)
     return string.substr(0, maxLength) + "...";
 }
 
-std::string joinStrings(const std::vector<std::string>& stringList, const std::string& divider)
+std::string StringFunctions::joinStrings(const std::vector<std::string>& stringList, const std::string& divider)
 {
     std::string listString = "";
     for (std::vector<std::string>::const_iterator strListItt = stringList.begin(); strListItt != stringList.end(); ++strListItt) {
@@ -174,33 +173,33 @@ std::string joinStrings(const std::vector<std::string>& stringList, const std::s
     return listString;
 }
     
-std::string convertStringToAssetSafeString(const std::string& string)
+std::string StringFunctions::convertStringToAssetSafeString(const std::string& string)
 {
     std::string lowerCase = stringToLower(string);
     return replaceAll(lowerCase, " ", "_");
 }
     
-std::string convertToHQNameString(const std::string& string)
+std::string StringFunctions::convertToHQNameString(const std::string& string)
     {
         return stringToUpper(string) + " HQ";
     }
     
-bool stringEndsWith(const std::string &strToTest, const std::string &endStr)
+bool StringFunctions::stringEndsWith(const std::string &strToTest, const std::string &endStr)
 {
     return strToTest.size() >= endStr.size() && strToTest.compare(strToTest.size() - endStr.size(), endStr.size(), endStr) == 0;
 }
     
-bool stringToBool(const std::string& string)
+bool StringFunctions::stringToBool(const std::string& string)
 {
     return stringToLower(string) == "true";
 }
 
-std::string boolToString(bool boolean)
+std::string StringFunctions::boolToString(bool boolean)
 {
     return boolean ? "true" : "false";
 }
 	
-int findPositionOfNthString(std::string string, std::string whatToFind, int whichOne)
+int StringFunctions::findPositionOfNthString(std::string string, std::string whatToFind, int whichOne)
 {
 	int startSearchPos = 0;
 	
@@ -219,4 +218,4 @@ int findPositionOfNthString(std::string string, std::string whatToFind, int whic
 	return startSearchPos - 1;
 }
 
-} // Azoomee
+NS_AZOOMEE_END

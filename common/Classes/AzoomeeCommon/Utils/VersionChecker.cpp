@@ -47,12 +47,12 @@ namespace Azoomee
     
     std::string getPureVersionNumber(std::string version)
     {
-        return splitStringToVector(version, " ").at(0);
+        return StringFunctions::splitStringToVector(version, " ").at(0);
     }
     
     std::vector<std::string> getVersionNumberElementsInVector(std::string version)
     {
-        return splitStringToVector(getPureVersionNumber(version), ".");
+        return StringFunctions::splitStringToVector(getPureVersionNumber(version), ".");
     }
 
 } // Azoomee

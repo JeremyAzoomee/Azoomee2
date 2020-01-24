@@ -133,7 +133,7 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString, con
     cocos2d::log("Response string is: %s", responseString.c_str());
     if(UserAccountManager::getInstance()->parseParentLoginData(responseString))
     {
-		UserAccountManager::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headerString));
+		UserAccountManager::getInstance()->setLoggedInParentCountryCode(StringFunctions::getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headerString));
 		MarketingAssetManager::getInstance()->downloadMarketingAssets();
         OomeeMaker::OomeeMakerDataHandler::getInstance()->getLatestDataAsync();
 		if(UserAccountManager::getInstance()->isLoggedInParentAnonymous())
@@ -300,7 +300,7 @@ void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString
         LoginController::getInstance()->doLoginLogic();
         return;
     }
-    UserAccountManager::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headerString));
+    UserAccountManager::getInstance()->setLoggedInParentCountryCode(StringFunctions::getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headerString));
 	getChildInventory();
     OomeeMaker::OomeeMakerDataHandler::getInstance()->getOomeesForChild(ChildManager::getInstance()->getLoggedInChild()->getId(), false);
     getSessionCookies();
@@ -484,7 +484,7 @@ void BackEndCaller::GetContent(const std::string& requestId, const std::string& 
 // RESET PASSWORD REQUEST ----------------------------------------------------------------
 void BackEndCaller::resetPasswordRequest(const std::string& emailAddress)
 {
-    HttpRequestCreator* request = API::ResetPaswordRequest(Net::urlEncode(stringToLower(emailAddress)), this);
+    HttpRequestCreator* request = API::ResetPaswordRequest(Net::urlEncode(StringFunctions::stringToLower(emailAddress)), this);
     request->execute();
 }
 

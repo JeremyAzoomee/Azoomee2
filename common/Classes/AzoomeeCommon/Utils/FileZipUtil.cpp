@@ -60,7 +60,7 @@ namespace Azoomee {
                 nRet = unzGetCurrentFileInfo(pFile, &FileInfo, szFilePathA, sizeof(szFilePathA), NULL, 0, NULL, 0);
                 CC_BREAK_IF(UNZ_OK != nRet);
                 
-                auto dirs = splitStringToVector(szFilePathA,"/");
+                auto dirs = StringFunctions::splitStringToVector(szFilePathA,"/");
                 std::string combinedDir = std::string(dirpath) + "/";
                 for (int i = 0; i < dirs.size(); i++)
                 {

@@ -49,7 +49,7 @@ void RecentlyPlayedManager::addContentIdToRecentlyPlayedFileForHQ(const std::str
     
     fileIds.resize(_kMaxRecentContent);
     
-    const std::string& newIdList = joinStrings(fileIds, "/");
+    const std::string& newIdList = StringFunctions::joinStrings(fileIds, "/");
     
     FileUtils::getInstance()->writeStringToFile(newIdList, getRecentlyPlayedFilePathForHQ(hq));
 }
@@ -64,7 +64,7 @@ std::vector<std::string> RecentlyPlayedManager::getRecentContentIds() const
 {
     const std::string& fileStr = FileUtils::getInstance()->getStringFromFile(getRecentlyPlayedFilePath());
     
-    return splitStringToVector(fileStr, "/");
+    return StringFunctions::splitStringToVector(fileStr, "/");
 }
 
 std::string RecentlyPlayedManager::getRecentlyPlayedFilePath() const
@@ -87,7 +87,7 @@ std::vector<std::string> RecentlyPlayedManager::getRecentContentIdsForHQ(const s
 {
     const std::string& fileStr = FileUtils::getInstance()->getStringFromFile(getRecentlyPlayedFilePathForHQ(hq));
     
-    return splitStringToVector(fileStr, "/");
+    return StringFunctions::splitStringToVector(fileStr, "/");
 }
 
 std::string RecentlyPlayedManager::getRecentlyPlayedFilePathForHQ(const std::string &hq) const

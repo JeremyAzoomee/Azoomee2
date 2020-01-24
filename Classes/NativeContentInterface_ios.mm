@@ -56,7 +56,7 @@ void NativeContentInterface_ios::onExit()
 
 void NativeContentInterface_ios::loadContentBasedOnUrl(const std::string &url, const Vec2& closeButtonAnchor, int videoProgressSeconds)
 {
-    if(stringEndsWith(url, "m3u8"))
+    if(StringFunctions::stringEndsWith(url, "m3u8"))
     {
         addMediaPlayerToScreen(url, videoProgressSeconds);
     }

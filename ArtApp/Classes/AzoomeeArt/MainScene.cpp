@@ -29,7 +29,7 @@ Scene* MainScene::createScene()
 	layer->setName("ArtAppMainScene");
     layer->addBackButton();
     layer->addShareButton();
-    const std::string& fileNameStr = getTimeStringForFileName();
+    const std::string& fileNameStr = TimeFunctions::getTimeStringForFileName();
     const std::string& saveFileName = ConfigStorage::kArtCacheFolder + Azoomee::ChildManager::getInstance()->getParentOrChildId() + "/" + fileNameStr + ".png";
     layer->_fileName = DirUtil::getCachesPath() + "/" + saveFileName;
     // add layer as a child to scene
@@ -177,7 +177,7 @@ void MainScene::saveFile()
     std::string saveFileName;
     if(this->_fileName == "")
     {
-        const std::string& fileNameStr = getTimeStringForFileName();
+        const std::string& fileNameStr = TimeFunctions::getTimeStringForFileName();
         
         saveFileName = ConfigStorage::kArtCacheFolder + Azoomee::ChildManager::getInstance()->getParentOrChildId() + "/" + fileNameStr + ".png";
         this->_fileName = DirUtil::getCachesPath() + "/" + saveFileName;

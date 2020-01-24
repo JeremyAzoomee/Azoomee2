@@ -189,7 +189,7 @@ std::string HQContentItemObject::getJSONRepresentationOfStructure() const
     _entitled ? objectMap["entitled"] = "true" : objectMap["entitled"] = "false";
     isNew() ? objectMap["newFlag"] = "true" : objectMap["newFlag"] = "false";
     
-    return getJSONStringFromMap(objectMap);
+    return StringFunctions::getJSONStringFromMap(objectMap);
 }
 
 MutableHQContentItemObjectRef MutableHQContentItemObject::createFromMap(const std::map<std::string, std::string> &inputMap)

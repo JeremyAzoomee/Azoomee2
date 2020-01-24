@@ -59,7 +59,7 @@ void ContentHistoryManager::onContentOpened()
 {
 	_contentOpenedTime = time(NULL);
 	_contentClosedTime = _contentOpenedTime;
-	_contentOpenedTimeMs = getMillisecondTimestampString();
+	_contentOpenedTimeMs = TimeFunctions::getMillisecondTimestampString();
 	_contentClosedTimeMs = _contentOpenedTimeMs;
 	SessionIdManager::getInstance()->resetBackgroundTimeInContent();
 	_timeInContent = 0;
@@ -116,7 +116,7 @@ void ContentHistoryManager::onVideoContentClosed(int videoProgressSeconds, int v
 void ContentHistoryManager::recordContentClosedTime()
 {
     _contentClosedTime = time(NULL);
-    _contentClosedTimeMs = getMillisecondTimestampString();
+    _contentClosedTimeMs = TimeFunctions::getMillisecondTimestampString();
     _timeInContent = difftime(_contentClosedTime, _contentOpenedTime) - SessionIdManager::getInstance()->getBackgroundTimeInContent();
 }
 
