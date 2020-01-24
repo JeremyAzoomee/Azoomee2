@@ -8,7 +8,7 @@
 #include "TutorialController.h"
 #include <algorithm>
 #include "../UI/NotificationNodeDisplayManager.h"
-#include "../Strings.h"
+#include "../Utils/LocaleManager.h"
 #include "../Data/Child/ChildManager.h"
 
 NS_AZOOMEE_BEGIN

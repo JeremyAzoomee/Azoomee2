@@ -1,15 +1,10 @@
-#ifndef AzoomeeCommon_StringMgr_h
-#define AzoomeeCommon_StringMgr_h
+#ifndef AzoomeeCommon_LocaleManager_h
+#define AzoomeeCommon_LocaleManager_h
 
 #include <string>
 #include "FileDownloader.h"
 #include "FileZipUtil.h"
-
-//#include <cocos/cocos2d.h>
-//#include "StringHashDefines.h"
-//#include "ErrorCodeHashDefines.h"
-
-//USING_NS_CC;
+#include "StringFunctions.h"
 
 #include "cocos-ext.h"
 using namespace rapidjson;
@@ -19,6 +14,7 @@ using namespace rapidjson;
 #define ERROR_BUTTON "button"
 #define ERROR_BUTTON_REFERENCE "optionalButtonRefNames"
 
+#define _(string) LocaleManager::getInstance()->getStringForKey(string)
 
 namespace Azoomee
 {
@@ -32,15 +28,15 @@ public:
 	std::string _text;
 };
 	
-	class StringMgr : public FileDownloaderDelegate, FileZipDelegate
+	class LocaleManager : public FileDownloaderDelegate, FileZipDelegate
 {
 public:
 	static const std::vector<LanguageParams> kLanguageParams;
 	static const std::map<std::string, std::string> kDeviceLangConvMap;
     static const std::string kDefaultLanguageIdentifier;
     /** Returns the shared instance of the Game Manager */
-    static StringMgr* getInstance(void);
-    virtual ~StringMgr();
+    static LocaleManager* getInstance(void);
+    virtual ~LocaleManager();
     
     std::string getStringForKey(std::string key);
     std::map<std::string, std::string> getErrorMessageWithCode(long errorCode);

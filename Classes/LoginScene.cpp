@@ -2,7 +2,7 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
-#include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Utils/LocaleManager.h>
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/Input/TextInputChecker.h>
 #include "HQHistoryManager.h"
@@ -153,7 +153,7 @@ void LoginScene::onEnter()
 		_loginEntryForm->setVisible(false);
         
         const long errorCode = FlowDataSingleton::getInstance()->getErrorCode();
-        const auto& errorMessageText = StringMgr::getInstance()->getErrorMessageWithCode(errorCode);
+        const auto& errorMessageText = LocaleManager::getInstance()->getErrorMessageWithCode(errorCode);
         
         if(errorCode == ERROR_CODE_INVALID_CREDENTIALS)
         {

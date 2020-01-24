@@ -8,7 +8,7 @@
 #include "SignupScene.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
@@ -439,7 +439,7 @@ void SignupScene::onHttpRequestFailed(const std::string& requestTag, long errorC
 {
 	ModalMessages::getInstance()->stopLoading();
 	
-	const auto& errorMessageText = StringMgr::getInstance()->getErrorMessageWithCode(errorCode);
+	const auto& errorMessageText = LocaleManager::getInstance()->getErrorMessageWithCode(errorCode);
 	
     if(errorCode == ERROR_CODE_ALREADY_REGISTERED)
     {

@@ -9,7 +9,7 @@
 #define TutorialMessagingNode_h
 
 #include "../Azoomee.h"
-#include "../Strings.h"
+#include "../Utils/LocaleManager.h"
 #include <cocos/cocos2d.h>
 #include "TutorialGuide.h"
 #include "TutorialSpeechBubble.h"

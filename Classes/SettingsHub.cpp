@@ -6,7 +6,7 @@
 //
 
 #include "SettingsHub.h"
-#include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
@@ -37,7 +37,7 @@ bool SettingsHub::init()
     
     const Size& visibleSize = Director::getInstance()->getVisibleSize();
 	
-	_prevLangCode = StringMgr::getInstance()->getLanguageID();
+	_prevLangCode = LocaleManager::getInstance()->getLanguageID();
 	
     LayerColor* bgColour = LayerColor::create(Color4B::WHITE, visibleSize.width, visibleSize.height);
     this->addChild(bgColour);
@@ -89,9 +89,9 @@ bool SettingsHub::init()
                 _navigationLayout->setVisible(true);
                 _titleText->setString(_("Settings"));
                 _titleBarButton->loadTextureNormal("res/settings/exit_button.png");
-				if(_prevLangCode != StringMgr::getInstance()->getLanguageID())
+				if(_prevLangCode != LocaleManager::getInstance()->getLanguageID())
 				{
-					_prevLangCode = StringMgr::getInstance()->getLanguageID();
+					_prevLangCode = LocaleManager::getInstance()->getLanguageID();
 					this->updateTextForNewLanguage();
 				}
                 _inHub = true;
@@ -132,7 +132,7 @@ bool SettingsHub::init()
 	_languageButton = SettingsNavigationButton::create();
 	_languageButton->setContentSize(Size(visibleSize.width, buttonHeight));
 	_languageButton->setLayoutParameter(CreateTopLinearLayoutParam(ui::Margin(0,0,0,10)));
-	_languageButton->setIconFilename(StringUtils::format("res/settings/flag_%s.png",StringMgr::getInstance()->getLanguageID().c_str()));
+	_languageButton->setIconFilename(StringUtils::format("res/settings/flag_%s.png",LocaleManager::getInstance()->getLanguageID().c_str()));
 	_languageButton->setTitleText(_("Language"));
 	_languageButton->setSubTitleText(_("Change your language selection"));
 	_languageButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
@@ -335,7 +335,7 @@ void SettingsHub::updateTextForNewLanguage()
 	_titleText->setString(_("Settings"));
 	_titleText->setFontName(Style::Font::Medium());
 	
-	_languageButton->setIconFilename(StringUtils::format("res/settings/flag_%s.png",StringMgr::getInstance()->getLanguageID().c_str()));
+	_languageButton->setIconFilename(StringUtils::format("res/settings/flag_%s.png",LocaleManager::getInstance()->getLanguageID().c_str()));
 	_languageButton->setTitleText(_("Language"));
 	_languageButton->setSubTitleText(_("Change your language selection"));
 	

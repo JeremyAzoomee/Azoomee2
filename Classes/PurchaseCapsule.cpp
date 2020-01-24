@@ -7,7 +7,7 @@
 
 #include "PurchaseCapsule.h"
 #include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Utils/LocaleManager.h>
 #include "AgeGate.h"
 #include "SceneManagerScene.h"
 #include "LoginController.h"

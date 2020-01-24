@@ -1,4 +1,4 @@
-#include "StringMgr.h"
+#include "LocaleManager.h"
 #include "../Analytics/AnalyticsSingleton.h"
 #include "StringFunctions.h"
 #include "DirUtil.h"
@@ -17,7 +17,7 @@ LanguageParams::LanguageParams(const std::string& identifier, const std::string&
 	_text = text;
 }
 	
-const std::vector<LanguageParams> StringMgr::kLanguageParams = {
+const std::vector<LanguageParams> LocaleManager::kLanguageParams = {
 	LanguageParams("en-GB", "English", "Hello!"),
 	LanguageParams("afr", "Afrikaans", "Hallo!"),
 	LanguageParams("fre-FR", "Français", "Bonjour!"),
@@ -29,7 +29,7 @@ const std::vector<LanguageParams> StringMgr::kLanguageParams = {
 	LanguageParams("tur", "Türk", "Merhaba!")
 };
 
-const std::map<std::string, std::string> StringMgr::kDeviceLangConvMap = {
+const std::map<std::string, std::string> LocaleManager::kDeviceLangConvMap = {
 	{"en", "en-GB"},
 	{"af", "afr"},
 	{"fr", "fre-FR"},
@@ -41,33 +41,33 @@ const std::map<std::string, std::string> StringMgr::kDeviceLangConvMap = {
 	{"tr", "tur"},
 };
 
-const std::string StringMgr::kDefaultLanguageIdentifier = kLanguageParams.at(0)._identifier;
+const std::string LocaleManager::kDefaultLanguageIdentifier = kLanguageParams.at(0)._identifier;
     
-const std::string StringMgr::kLanguagesDir = "languages/";
+const std::string LocaleManager::kLanguagesDir = "languages/";
 #ifdef AZOOMEE_ENVIRONMENT_CI
-	const std::string StringMgr::kLangsZipUrl = "https://media.azoomee.ninja/static/popups/languages/languages.zip";
+	const std::string LocaleManager::kLangsZipUrl = "https://media.azoomee.ninja/static/popups/languages/languages.zip";
 #else
-	const std::string StringMgr::kLangsZipUrl = "https://media.azoomee.com/static/popups/languages/languages.zip";
+	const std::string LocaleManager::kLangsZipUrl = "https://media.azoomee.com/static/popups/languages/languages.zip";
 #endif
 	
-static StringMgr *_sharedStringMgr = NULL;
+static LocaleManager *_sharedLocaleManager = NULL;
 
-StringMgr* StringMgr::getInstance()
+LocaleManager* LocaleManager::getInstance()
 {
-    if (! _sharedStringMgr)
+    if (! _sharedLocaleManager)
     {
-        _sharedStringMgr = new StringMgr();
-        _sharedStringMgr->init();
+        _sharedLocaleManager = new LocaleManager();
+        _sharedLocaleManager->init();
     }
     
-    return _sharedStringMgr;
+    return _sharedLocaleManager;
 }
 
-StringMgr::~StringMgr(void)
+LocaleManager::~LocaleManager(void)
 {
 }
 
-bool StringMgr::init(void)
+bool LocaleManager::init(void)
 {
     setLanguageIdentifier();
     
@@ -90,7 +90,7 @@ bool StringMgr::init(void)
     return true;
 }
 	
-void StringMgr::changeLanguage(const std::string &languageID)
+void LocaleManager::changeLanguage(const std::string &languageID)
 {
 	AnalyticsSingleton::getInstance()->registerLanguageCode(languageID);
 	AnalyticsSingleton::getInstance()->languageChangedEvent(languageID);
@@ -100,19 +100,19 @@ void StringMgr::changeLanguage(const std::string &languageID)
 	UserDefault::getInstance()->setStringForKey("language", languageID);
 }
 	
-std::string StringMgr::getLanguageID() const
+std::string LocaleManager::getLanguageID() const
 {
 	return languageID;
 }
 
 //--------------- Get Strings Functions ------------------
 
-std::string StringMgr::getStringForKey(std::string key)
+std::string LocaleManager::getStringForKey(std::string key)
 {
     return getStringFromJson(key, stringsDocument, key);
 }
 
-std::map<std::string, std::string> StringMgr::getErrorMessageWithCode(long errorCode)
+std::map<std::string, std::string> LocaleManager::getErrorMessageWithCode(long errorCode)
 {
     std::string errorCodeString = StringUtils::format("%ld",errorCode);
 
@@ -137,7 +137,7 @@ std::map<std::string, std::string> StringMgr::getErrorMessageWithCode(long error
 
 //------------- PRIVATE FUNCTIONS---------------
 
-void StringMgr::setLanguageIdentifier()
+void LocaleManager::setLanguageIdentifier()
 {
 	const std::string storedLang = UserDefault::getInstance()->getStringForKey("language", "");
 	if(storedLang == "")
@@ -165,7 +165,7 @@ void StringMgr::setLanguageIdentifier()
 	AnalyticsSingleton::getInstance()->registerLanguageCode(languageID);
 }
 
-Document StringMgr::parseFile(std::string languageID, std::string stringFile)
+Document LocaleManager::parseFile(std::string languageID, std::string stringFile)
 {
 	const std::string& baseDir = _remoteDataInitialised ? DirUtil::getCachesPath() + kLanguagesDir : "res/languages/";
 	const std::string& filename = baseDir + languageID + "/" + stringFile + ".json";
@@ -182,7 +182,7 @@ Document StringMgr::parseFile(std::string languageID, std::string stringFile)
     return document;
 }
 
-std::string StringMgr::getNestedStringFromJson(std::vector<std::string> jsonKeys, rapidjson::Value& sceneJsonDictionary)
+std::string LocaleManager::getNestedStringFromJson(std::vector<std::string> jsonKeys, rapidjson::Value& sceneJsonDictionary)
 {
     std::string stringError = "Text not found.";
     
@@ -216,7 +216,7 @@ std::string StringMgr::getNestedStringFromJson(std::vector<std::string> jsonKeys
     return stringError;
 }
 
-std::string StringMgr::getLocalEtag() const
+std::string LocaleManager::getLocalEtag() const
 {
 	const std::string& etagFilePath = DirUtil::getCachesPath() + kLanguagesDir + "etag.txt";
 	if(cocos2d::FileUtils::getInstance()->isFileExist(etagFilePath))
@@ -225,13 +225,13 @@ std::string StringMgr::getLocalEtag() const
 	}
 	return "";
 }
-void StringMgr::setLocalEtag(const std::string& etag)
+void LocaleManager::setLocalEtag(const std::string& etag)
 {
 	const std::string& etagFilePath = DirUtil::getCachesPath() + kLanguagesDir + "etag.txt";
 	cocos2d::FileUtils::getInstance()->writeStringToFile(etag, etagFilePath);
 }
 
-void StringMgr::removeLocalLanguagesFiles()
+void LocaleManager::removeLocalLanguagesFiles()
 {
 	const std::string& baseLocation = DirUtil::getCachesPath() + kLanguagesDir;
 	const std::vector<std::string>& langsFolders = DirUtil::getFoldersInDirectory(baseLocation);
@@ -248,7 +248,7 @@ void StringMgr::removeLocalLanguagesFiles()
 	
 // Delegate functions
 	
-void StringMgr::onAsyncUnzipComplete(bool success, const std::string& zipPath, const std::string& dirpath)
+void LocaleManager::onAsyncUnzipComplete(bool success, const std::string& zipPath, const std::string& dirpath)
 {
 	FileUtils::getInstance()->removeFile(zipPath);
 	if(success)
@@ -260,7 +260,7 @@ void StringMgr::onAsyncUnzipComplete(bool success, const std::string& zipPath, c
 	}
 }
 
-void StringMgr::onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode)
+void LocaleManager::onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode)
 {
 	if(responseCode == 200)
 	{

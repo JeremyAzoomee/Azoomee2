@@ -28,7 +28,7 @@
 		3012ED481E969A180009027D /* AudioMixer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED461E969A180009027D /* AudioMixer.cpp */; };
 		3012ED6F1E96A3140009027D /* TextInputChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED661E96A3140009027D /* TextInputChecker.cpp */; };
 		3012ED701E96A3140009027D /* StringFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED6B1E96A3140009027D /* StringFunctions.cpp */; };
-		3012ED711E96A3140009027D /* StringMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED6D1E96A3140009027D /* StringMgr.cpp */; };
+		3012ED711E96A3140009027D /* LocaleManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED6D1E96A3140009027D /* LocaleManager.cpp */; };
 		3012ED851E97A8F50009027D /* Notifications_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED831E97A8F50009027D /* Notifications_ios.mm */; };
 		3012ED891E97DB450009027D /* ModalMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED871E97DB450009027D /* ModalMessages.cpp */; };
 		3012ED901E97DCC00009027D /* ElectricDreamsDecoration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED8A1E97DCC00009027D /* ElectricDreamsDecoration.cpp */; };
@@ -221,11 +221,10 @@
 		3012ED641E96A3140009027D /* ErrorCodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ErrorCodes.h; sourceTree = "<group>"; };
 		3012ED661E96A3140009027D /* TextInputChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextInputChecker.cpp; sourceTree = "<group>"; };
 		3012ED671E96A3140009027D /* TextInputChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextInputChecker.h; sourceTree = "<group>"; };
-		3012ED691E96A3140009027D /* Strings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Strings.h; sourceTree = "<group>"; };
 		3012ED6B1E96A3140009027D /* StringFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StringFunctions.cpp; sourceTree = "<group>"; };
 		3012ED6C1E96A3140009027D /* StringFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringFunctions.h; sourceTree = "<group>"; };
-		3012ED6D1E96A3140009027D /* StringMgr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StringMgr.cpp; sourceTree = "<group>"; };
-		3012ED6E1E96A3140009027D /* StringMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringMgr.h; sourceTree = "<group>"; };
+		3012ED6D1E96A3140009027D /* LocaleManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LocaleManager.cpp; sourceTree = "<group>"; };
+		3012ED6E1E96A3140009027D /* LocaleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocaleManager.h; sourceTree = "<group>"; };
 		3012ED811E97A8F50009027D /* Notifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Notifications.h; sourceTree = "<group>"; };
 		3012ED821E97A8F50009027D /* Notifications_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Notifications_android.cpp; sourceTree = "<group>"; };
 		3012ED831E97A8F50009027D /* Notifications_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Notifications_ios.mm; sourceTree = "<group>"; };
@@ -683,8 +682,8 @@
 				022218CB1ECF203000AD167F /* SessionIdManager.h */,
 				3012ED6B1E96A3140009027D /* StringFunctions.cpp */,
 				3012ED6C1E96A3140009027D /* StringFunctions.h */,
-				3012ED6D1E96A3140009027D /* StringMgr.cpp */,
-				3012ED6E1E96A3140009027D /* StringMgr.h */,
+				3012ED6D1E96A3140009027D /* LocaleManager.cpp */,
+				3012ED6E1E96A3140009027D /* LocaleManager.h */,
 				02A120231EAF83E0007EDD95 /* VersionChecker.cpp */,
 				02A120241EAF83E0007EDD95 /* VersionChecker.h */,
 				9224C00A1F7CF8C100108553 /* FileZipUtil.h */,
@@ -848,7 +847,6 @@
 				3000FF7A1ED5BBB700E9717C /* Application.h */,
 				301CCA9B1EB14473009ADA0C /* Azoomee.h */,
 				3012ED641E96A3140009027D /* ErrorCodes.h */,
-				3012ED691E96A3140009027D /* Strings.h */,
 				30DD5EBD1E96571F0084305B /* Analytics */,
 				3092BCED1EB10524006D6F4C /* API */,
 				3012ED451E969A180009027D /* Audio */,
@@ -1326,7 +1324,7 @@
 				022218CC1ECF203000AD167F /* SessionIdManager.cpp in Sources */,
 				02BEDF2E1FE1327500D4C9B3 /* ContentItemManager.cpp in Sources */,
 				301CCA9A1EB14280009ADA0C /* API.cpp in Sources */,
-				3012ED711E96A3140009027D /* StringMgr.cpp in Sources */,
+				3012ED711E96A3140009027D /* LocaleManager.cpp in Sources */,
 				92244D7F2278840B004C9B45 /* TutorialSpeechBubble.cpp in Sources */,
 				4349C8201EA8ADEF00FE964B /* MPABTestDesignerDisconnectMessage.m in Sources */,
 				02AE88E01F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.mm in Sources */,

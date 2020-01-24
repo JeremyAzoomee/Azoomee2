@@ -1,6 +1,6 @@
 #include "PrivacyLayer.h"
 #include "ElectricDreamsTextStyles.h"
-#include "../Strings.h"
+#include "../Utils/LocaleManager.h"
 #include "ModalWebview.h"
 #include "../Data/Urls.h"
 

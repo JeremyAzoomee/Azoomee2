@@ -1,6 +1,6 @@
 #include "PrivacyAndTermsLayer.h"
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
-#include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/UI/ModalWebview.h>
 #include <AzoomeeCommon/Data/Urls.h>
 

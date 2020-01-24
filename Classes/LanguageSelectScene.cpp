@@ -122,7 +122,7 @@ void LanguageSelectScene::onSizeChanged()
 
 void LanguageSelectScene::createLanguageButtons()
 {
-    const auto& langsData = StringMgr::kLanguageParams;
+    const auto& langsData = LocaleManager::kLanguageParams;
     
 	int langsPerRow = 3;
 	
@@ -180,7 +180,7 @@ cocos2d::ui::Layout* LanguageSelectScene::createLanguageButton(const LanguagePar
     langButton->addTouchEventListener([params](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            StringMgr::getInstance()->changeLanguage(params._identifier);
+            LocaleManager::getInstance()->changeLanguage(params._identifier);
             HQHistoryManager::getInstance()->clearCachedHQData();
             if(!UserAccountManager::getInstance()->hasParentLoginDataInUserDefaults())
             {
