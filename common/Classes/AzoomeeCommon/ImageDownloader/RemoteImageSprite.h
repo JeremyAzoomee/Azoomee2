@@ -11,25 +11,27 @@
 
 NS_AZOOMEE_BEGIN
 
-class RemoteImageSprite : public cocos2d::Sprite, public ImageDownloaderDelegate
+class RemoteImageSprite : public cocos2d::ui::ImageView, public ImageDownloaderDelegate, OnScreenChecker
 {
-    typedef cocos2d::Sprite Super;
+    typedef cocos2d::ui::ImageView Super;
 public:
     CREATE_FUNC(RemoteImageSprite);
     virtual ~RemoteImageSprite();
     
     virtual bool initWithURLAndSize(const std::string& url, const std::string& type, const cocos2d::Size& size, const cocos2d::Vec2& shape);
     virtual bool initWithUrlAndSizeWithoutPlaceholder(const std::string& url, const cocos2d::Size& size, bool useStencil = false);
-    bool aboutToExit = false;
-    ImageDownloaderRef imageDownloaderLogic;
+    
+    ImageDownloaderRef _imageDownloaderLogic = nullptr;
     
     void startLoadingImage();
     void removeLoadedImage();
     
-    void setAttachNewBadgeToImage();
     void resizeImage();
     
     void setKeepAspectRatio(bool keepAspectRatio);
+    
+    void elementDisappeared(cocos2d::Node *sender) override;
+    void elementAppeared(cocos2d::Node *sender) override;
     
 private:
     RemoteImageSprite();
@@ -38,29 +40,17 @@ private:
     virtual void onImageDownloadComplete(const ImageDownloaderRef& downloader) override;
     virtual void onImageDownloadFailed() override;
     
-    void addPlaceHolderImage(std::string type, cocos2d::Size contentSize, cocos2d::Vec2 shape);
-    void addLoadingAnimation();
-    void removeLoadingAnimation();
+    void addPlaceHolderImage(const std::string& type, const cocos2d::Size& contentSize, const cocos2d::Vec2& shape);
     void onEnter() override;
-    void onExitTransitionDidStart() override;
     void onExit() override;
-    void imageAddedToCache(cocos2d::Texture2D* resulting_texture);
-    void addClippingNode(bool usingClippingNode);
+    void imageAddedToCache(const std::string& localPath);
     
-    bool addStarted = false;
-    
-    float identifier = -1.0f;
-    std::string imageUrl;
+    std::string _imageUrl;
     cocos2d::ClippingNode* _clippingNode = nullptr;
     cocos2d::ui::Scale9Sprite* _stencil = nullptr;
-    cocos2d::Sprite* loadedImage = nullptr;
+    cocos2d::Sprite* _loadedImage = nullptr;
     
     bool _keepAspectRatio = false;
-    
-    ImageDownloaderOnScreenChecker onScreenChecker;
-    
-    void addNewBadgeToLoadedImage();
-    bool shouldAddNewBadgeToImage = false;
 };
   
 NS_AZOOMEE_END

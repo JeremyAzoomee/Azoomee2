@@ -61,7 +61,7 @@ bool TutorialGuide::init()
 	}
 	else
 	{
-		_avatar = Sprite::create("res/defaultOomees/oomee_11.png");
+		_avatar = ui::ImageView::create("res/defaultOomees/oomee_11.png");
 		_avatar->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 		_avatar->setNormalizedPosition(Vec2(0.5,0.65));
 		_avatar->setContentSize(contentSize * 1.1f);

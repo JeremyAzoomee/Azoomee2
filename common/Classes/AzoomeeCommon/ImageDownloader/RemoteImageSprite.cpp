@@ -12,85 +12,74 @@ NS_AZOOMEE_BEGIN
 
 RemoteImageSprite::RemoteImageSprite()
 {
-	onScreenChecker = ImageDownloaderOnScreenChecker();
+	
 }
     
 RemoteImageSprite::~RemoteImageSprite()
 {
-    if(imageDownloaderLogic)
+    if(_imageDownloaderLogic)
     {
-        imageDownloaderLogic->setDelegate(nullptr);
+        _imageDownloaderLogic->setDelegate(nullptr);
     }
 }
 
 bool RemoteImageSprite::initWithURLAndSize(const std::string& url, const std::string& type, const Size& size, const Vec2& shape)
 {
-    if(!Sprite::init())
+    if(!Super::init())
     {
         return false;
     }
-
-    identifier = CCRANDOM_0_1() * 1000 + 1000;
+    ignoreContentAdaptWithSize(false);
+    _imageDownloaderLogic = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
     
     this->setCascadeOpacityEnabled(true);
     this->setContentSize(size);
     
     this->addPlaceHolderImage(type, size, shape);
     
-    imageUrl = url;
+    _imageUrl = url;
 	
     return true;
 }
 
 bool RemoteImageSprite::initWithUrlAndSizeWithoutPlaceholder(const std::string& url, const cocos2d::Size& size, bool useStencil)
 {
-    if(!Sprite::init())
+    if(!Super::init())
     {
         return false;
     }
-    
-    identifier = CCRANDOM_0_1() * 1000 + 1000;
+    ignoreContentAdaptWithSize(false);
+    _imageDownloaderLogic = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
     
     this->setCascadeOpacityEnabled(true);
     this->setContentSize(size);
     
-    imageUrl = url;
+    _imageUrl = url;
     return true;
-}
-    
-void RemoteImageSprite::setAttachNewBadgeToImage()
-{
-    shouldAddNewBadgeToImage = true;
 }
 
 void RemoteImageSprite::onEnter()
 {
-	if(!imageDownloaderLogic)
-	{
-		imageDownloaderLogic = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
-	}
+	startCheckingForOnScreenPosition(this);
 
-	onScreenChecker.startCheckingForOnScreenPosition(this);
-
-	aboutToExit = false;
     Super::onEnter();
 }
 
 void RemoteImageSprite::startLoadingImage()
 {
-    if(loadedImage || !imageDownloaderLogic)
+    if(_loadedImage || !_imageDownloaderLogic)
 	{
 		return;
 	}
-    imageDownloaderLogic->downloadImage(this, imageUrl);
+    _imageDownloaderLogic->downloadImage(this, _imageUrl);
 }
 
 void RemoteImageSprite::removeLoadedImage()
 {
-    if(loadedImage)
+    if(_loadedImage)
     {
-        loadedImage->removeFromParent();
-        loadedImage = nullptr;
+        _loadedImage->removeFromParent();
+        _loadedImage = nullptr;
         
         ImageDownloaderCacheCleanerLogic::getInstance()->imageRemoved();
     }
@@ -98,22 +87,22 @@ void RemoteImageSprite::removeLoadedImage()
 
 void RemoteImageSprite::resizeImage()
 {
-    if(loadedImage)
+    if(_loadedImage)
     {
-        loadedImage->setPosition(this->getContentSize() / 2);
-        if(!_keepAspectRatio)
+        _loadedImage->setPosition(this->getContentSize() / 2);
+        if(_keepAspectRatio)
         {
-            loadedImage->setScaleX(this->getContentSize().width/ loadedImage->getContentSize().width);
-            loadedImage->setScaleY(this->getContentSize().height/ loadedImage->getContentSize().height);
+            _loadedImage->setScale(MIN(this->getContentSize().height/ _loadedImage->getContentSize().height, this->getContentSize().width / _loadedImage->getContentSize().width));
         }
         else
         {
-            loadedImage->setScale(MIN(this->getContentSize().height/ loadedImage->getContentSize().height, this->getContentSize().width/ loadedImage->getContentSize().width));
+            _loadedImage->setScaleX(this->getContentSize().width/ _loadedImage->getContentSize().width);
+            _loadedImage->setScaleY(this->getContentSize().height/ _loadedImage->getContentSize().height);
         }
     }
 }
 
-void RemoteImageSprite::addPlaceHolderImage(std::string type, Size contentSize, Vec2 shape)
+void RemoteImageSprite::addPlaceHolderImage(const std::string& type, const Size& contentSize, const Vec2& shape)
 {
     std::string placeholderImageFile = StringUtils::format("%s%.fX%.f.png",ConfigStorage::getInstance()->getPlaceholderImageForContentItemInCategory(type).c_str(),shape.x,shape.y);
     if(!FileUtils::getInstance()->isFileExist(placeholderImageFile))
@@ -129,94 +118,38 @@ void RemoteImageSprite::addPlaceHolderImage(std::string type, Size contentSize, 
     this->addChild(placeHolderImage);
 }
 
-void RemoteImageSprite::addLoadingAnimation()
+void RemoteImageSprite::imageAddedToCache(const std::string& localPath)
 {
-    auto loadingAnimation = LayerColor::create();
-    loadingAnimation->setColor(Color3B::BLACK);
-    loadingAnimation->setOpacity(150);
-    loadingAnimation->setName("loadingAnimation");
-    loadingAnimation->setContentSize(this->getContentSize());
-    loadingAnimation->setPosition(0, 0);
-    this->addChild(loadingAnimation);
+    const Size& holderContentSize = this->getContentSize();
     
-    auto loadingLabel = createLabelSmallLoading(_("Loading"));
-    loadingLabel->setPosition(this->getContentSize() / 2);
-    loadingAnimation->addChild(loadingLabel);
-}
-
-void RemoteImageSprite::removeLoadingAnimation()
-{
-    Node* loadingAnimation = this->getChildByName("loadingAnimation");
-    if(loadingAnimation)
+    auto finalImage = Sprite::create(localPath);
+    if(finalImage == nullptr)
     {
-        this->removeChild(loadingAnimation, true);
+        return;
     }
-}
-
-void RemoteImageSprite::imageAddedToCache(Texture2D* resulting_texture)
-{
-    if ( (resulting_texture) && (!aboutToExit))
+    finalImage->setPosition(holderContentSize / 2);
+    
+    if(_keepAspectRatio)
     {
-        if((identifier < 999)||(identifier > 2001))
-        {
-            return;
-        }
-        Size holderContentSize = this->getContentSize();
-        
-        auto finalImage = Sprite::createWithTexture( resulting_texture );
-        finalImage->setPosition(holderContentSize / 2);
-		
-        if(!_keepAspectRatio)
-        {
-            finalImage->setScaleX(holderContentSize.width / finalImage->getContentSize().width);
-            finalImage->setScaleY(holderContentSize.height / finalImage->getContentSize().height);
-        }
-        else
-        {
-            finalImage->setScale(MIN(holderContentSize.height / finalImage->getContentSize().height, holderContentSize.width / finalImage->getContentSize().width));
-        }
-        
-        loadedImage = finalImage;
-        
-        if(shouldAddNewBadgeToImage)
-        {
-            addNewBadgeToLoadedImage();
-        }
-        if(!aboutToExit)
-        {
-            this->addChild(loadedImage);
-        }
-		
+        finalImage->setScale(MIN(holderContentSize.height / finalImage->getContentSize().height, holderContentSize.width / finalImage->getContentSize().width));
     }
-    this->release();
-}
+    else
+    {
+        finalImage->setScaleX(holderContentSize.width / finalImage->getContentSize().width);
+        finalImage->setScaleY(holderContentSize.height / finalImage->getContentSize().height);
+    }
     
-void RemoteImageSprite::addNewBadgeToLoadedImage()
-{
-    auto newBadge = Sprite::create("res/hqscene/newBadge.png");
-    newBadge->setAnchorPoint(Vec2(0.0f, 1.0f));
-    newBadge->setPosition(0, loadedImage->getContentSize().height);
-    newBadge->setOpacity(0);
-    loadedImage->addChild(newBadge);
+    _loadedImage = finalImage;
     
-    newBadge->runAction(FadeIn::create(0.1));
-}
 
-void RemoteImageSprite::onExitTransitionDidStart()
-{
-    aboutToExit = true;
-    Super::onExitTransitionDidStart();
+    addChild(_loadedImage);
 }
 
 void RemoteImageSprite::onExit()
 {
-	onScreenChecker.stopCheckingOnScreenPosition();
-	
-    aboutToExit = true;
-    if(imageDownloaderLogic)
+    if(_imageDownloaderLogic)
     {
-        imageDownloaderLogic->setDelegate(nullptr);
-        imageDownloaderLogic.reset();
+        _imageDownloaderLogic->setDelegate(nullptr);
     }
     
     Super::onExit();
@@ -227,23 +160,14 @@ void RemoteImageSprite::setKeepAspectRatio(bool keepAspectRatio)
     _keepAspectRatio = keepAspectRatio;
 }
 
-void RemoteImageSprite::addClippingNode(bool usingClippingNode)
+void RemoteImageSprite::elementAppeared(cocos2d::Node *sender)
 {
-    _clippingNode = ClippingNode::create();
-    _stencil = ui::Scale9Sprite::create("res/artapp/popup_bg.png");
-    _stencil->setContentSize(this->getContentSize());
-    _stencil->setPosition(this->getContentSize()/2);
-    _stencil->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _clippingNode->setStencil(_stencil);
-    this->addChild(_clippingNode);
-    if(usingClippingNode)
-    {
-        _clippingNode->setAlphaThreshold(0.5f);
-    }
-    else
-    {
-        _clippingNode->setAlphaThreshold(1.0f);
-    }
+    startLoadingImage();
+}
+
+void RemoteImageSprite::elementDisappeared(cocos2d::Node *sender)
+{
+    removeLoadedImage();
 }
 
 #pragma mark - RemoteImageSpriteDelegate
@@ -251,10 +175,8 @@ void RemoteImageSprite::addClippingNode(bool usingClippingNode)
 void RemoteImageSprite::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {
     const std::string& filename = downloader->getLocalImagePath();
-    addStarted = true;
     this->setName(filename);
-    this->retain();
-    Director::getInstance()->getTextureCache()->addImageAsync(filename, CC_CALLBACK_1(RemoteImageSprite::imageAddedToCache, this));
+    imageAddedToCache(downloader->getLocalImagePath());
 }
 
 void RemoteImageSprite::onImageDownloadFailed()
