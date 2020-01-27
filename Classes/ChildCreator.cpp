@@ -10,7 +10,7 @@
 #include <AzoomeeCommon/Input/TextInputChecker.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/Utils/TimeFunctions.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/API/API.h>
 
@@ -112,7 +112,7 @@ bool ChildCreator::updateChild(const ChildRef &child)
 	}
 	const std::string& DOB = StringUtils::format("%04d-%02d-%02d",year,1,1);
 	
-	const std::string& ownerId = ParentManager::getInstance()->getLoggedInParentId();
+	const std::string& ownerId = UserAccountManager::getInstance()->getLoggedInParentId();
 	
 	_oomeeNum = 4;
 	AnalyticsSingleton::getInstance()->childProfileCreatedEvent(_age);

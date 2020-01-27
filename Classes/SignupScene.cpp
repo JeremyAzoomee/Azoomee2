@@ -11,7 +11,7 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/API/API.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/ErrorCodes.h>
@@ -24,7 +24,7 @@
 #include "BackEndCaller.h"
 #include "SceneManagerScene.h"
 #include "PopupMessageBox.h"
-#include "LoginLogicHandler.h"
+#include "LoginController.h"
 
 using namespace cocos2d;
 
@@ -182,7 +182,7 @@ bool SignupScene::init()
 		{
 			_signupData._acceptMarketing = acceptMarketing;
 			ModalMessages::getInstance()->startLoading();
-            HttpRequestCreator* request = API::RegisterParentRequest(ParentManager::getInstance()->getLoggedInParentId(), _signupData._email, _signupData._password, _signupData._pin,ConfigStorage::kSignupPlatformSource, ConfigStorage::getInstance()->getDeviceInformation(), _signupData._acceptMarketing ? "true" : "false", this);
+            HttpRequestCreator* request = API::RegisterParentRequest(UserAccountManager::getInstance()->getLoggedInParentId(), _signupData._email, _signupData._password, _signupData._pin,ConfigStorage::kSignupPlatformSource, ConfigStorage::getInstance()->getDeviceInformation(), _signupData._acceptMarketing ? "true" : "false", this);
 			request->execute();
 		}
 		else
@@ -425,7 +425,7 @@ void SignupScene::onHttpRequestSuccess(const std::string& requestTag, const std:
 		messageBox->setPatternColour(Style::Color::strongPink);
 		messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
 			pSender->removeFromParent();
-			BackEndCaller::getInstance()->login(_signupData._email, _signupData._password);
+            LoginController::getInstance()->login(_signupData._email, _signupData._password);
 		});
 		this->addChild(messageBox, 1);
 	}
@@ -447,7 +447,7 @@ void SignupScene::onHttpRequestFailed(const std::string& requestTag, long errorC
         messageBox->setButtonColour(Style::Color::strongPink);
         messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
             pSender->removeFromParent();
-            LoginLogicHandler::getInstance()->setLoginOrigin(LoginOrigin::SIGNUP);
+            LoginController::getInstance()->setLoginOrigin(LoginOrigin::SIGNUP);
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
         });
         

@@ -2,7 +2,7 @@
 #include "MessageListViewItem.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 
 using namespace cocos2d;
 
@@ -304,7 +304,7 @@ void MessageListView::setData(const FriendList& participants, const MessageList&
         _listView->removeLastItem();
 #endif
         bool userIsParent = false;
-        if(_participants[0]->friendId() == ParentManager::getInstance()->getLoggedInParentId())
+        if(_participants[0]->friendId() == UserAccountManager::getInstance()->getLoggedInParentId())
         {
             userIsParent = true;
         }

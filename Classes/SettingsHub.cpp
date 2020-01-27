@@ -11,7 +11,7 @@
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/API/API.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Cookie/CookieManager.h>
@@ -183,7 +183,7 @@ bool SettingsHub::init()
 	_parentInboxButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			if(ParentManager::getInstance()->isPaidUser())
+			if(UserAccountManager::getInstance()->isPaidUser())
 			{
 			    ModalMessages::getInstance()->startLoading();
 				HttpRequestCreator* request = API::RefreshParentCookiesRequest(this);
@@ -254,7 +254,7 @@ void SettingsHub::onEnter()
 	{
 		_origin = SettingsOrigin::CHILD_SELECT;
 		ModalMessages::getInstance()->startLoading();
-		HttpRequestCreator* request = API::getParentDetailsRequest(ParentManager::getInstance()->getLoggedInParentId(), this);
+		HttpRequestCreator* request = API::getParentDetailsRequest(UserAccountManager::getInstance()->getLoggedInParentId(), this);
 		request->execute();
 	}
     Super::onEnter();
@@ -381,7 +381,7 @@ void SettingsHub::AdultPinAccepted(RequestAdultPinLayer* layer)
 	layer->removeFromParent();
 	
 	ModalMessages::getInstance()->startLoading();
-	HttpRequestCreator* request = API::getParentDetailsRequest(ParentManager::getInstance()->getLoggedInParentId(), this);
+	HttpRequestCreator* request = API::getParentDetailsRequest(UserAccountManager::getInstance()->getLoggedInParentId(), this);
 	request->execute();
 	
 }
@@ -391,13 +391,13 @@ void SettingsHub::onHttpRequestSuccess(const std::string& requestTag, const std:
 	if(requestTag == API::TagGetParentDetails)
 	{
         ModalMessages::getInstance()->stopLoading();
-		ParentManager::getInstance()->parseParentDetails(body);
+		UserAccountManager::getInstance()->parseParentDetails(body);
 	}
 	else if(requestTag == API::TagCookieRefresh)
 	{
-		ParentManager::getInstance()->parseParentSessionData(body);
-		const std::string& userId = ParentManager::getInstance()->getLoggedInParentId();
-		const std::string& sessionId = ParentManager::getInstance()->getLoggedInParentCdnSessionId();
+		UserAccountManager::getInstance()->parseParentSessionData(body);
+		const std::string& userId = UserAccountManager::getInstance()->getLoggedInParentId();
+		const std::string& sessionId = UserAccountManager::getInstance()->getLoggedInParentCdnSessionId();
 		
 		HttpRequestCreator* request = API::GetSessionCookiesRequest(userId, sessionId, this);
 		request->execute();

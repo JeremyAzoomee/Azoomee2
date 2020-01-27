@@ -3,11 +3,12 @@
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Strings.h>
-#include "LoginLogicHandler.h"
+#include "LoginController.h"
 #include "SceneManagerScene.h"
 #include "BackEndCaller.h"
 #include "ForceUpdateAppLockScene.h"
 #include "LanguageSelectScene.h"
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 
 #if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     #include <AzoomeeCommon/Utils/IosNativeFunctionsSingleton.h>
@@ -206,12 +207,12 @@ void IntroVideoScene::onForceUpdateCheckFinished(const ForceUpdateResult& result
 				}
 				else
 				{
-					BackEndCaller::getInstance()->anonymousDeviceLogin();
+                    LoginController::getInstance()->anonLogin();
 				}
 			}
 			else
 			{
-				LoginLogicHandler::getInstance()->doLoginLogic();
+				LoginController::getInstance()->doLoginLogic();
 			}
 			
 			break;
@@ -241,11 +242,11 @@ void IntroVideoScene::MessageBoxButtonPressed(std::string messageBoxTitle, std::
 	{
 		if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
 		{
-			BackEndCaller::getInstance()->anonymousDeviceLogin();
+            LoginController::getInstance()->anonLogin();
 		}
 		else
 		{
-			LoginLogicHandler::getInstance()->doLoginLogic();
+			LoginController::getInstance()->doLoginLogic();
 		}
 	}
 }

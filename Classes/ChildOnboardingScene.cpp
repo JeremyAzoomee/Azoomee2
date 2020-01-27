@@ -10,10 +10,10 @@
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include "SceneManagerScene.h"
 #include "BackEndCaller.h"
-#include "LoginLogicHandler.h"
+#include "LoginController.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/ErrorCodes.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "PopupMessageBox.h"
 #include "FlowDataSingleton.h"
@@ -68,7 +68,7 @@ bool ChildOnboardingScene::init()
         this->transitionState(State::ENTER_AGE);
     });
     _nameEntry->setBackCallback([this](const std::string& inputString){
-        if(ParentManager::getInstance()->isLoggedInParentAnonymous())
+        if(UserAccountManager::getInstance()->isLoggedInParentAnonymous())
         {
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::WelcomeScene));
         }
@@ -85,9 +85,9 @@ bool ChildOnboardingScene::init()
     _ageEntry->setContinueCallback([this](int age){
         _childCreator->setAge(age);
         ModalMessages::getInstance()->startLoading();
-        if(ParentManager::getInstance()->isLoggedInParentAnonymous())
+        if(UserAccountManager::getInstance()->isLoggedInParentAnonymous())
         {
-            _childCreator->updateChild(ParentManager::getInstance()->getChild(0));
+            _childCreator->updateChild(UserAccountManager::getInstance()->getChild(0));
         }
         else
         {
@@ -200,12 +200,30 @@ void ChildOnboardingScene::onHttpRequestSuccess(const std::string& requestTag, c
         AnalyticsSingleton::getInstance()->childProfileCreatedSuccessEvent();
         UserDefault::getInstance()->setBoolForKey("anonOnboardingComplete", true);
         UserDefault::getInstance()->flush();
-        BackEndCaller::getInstance()->getAvailableChildren();
+        UserAccountManager::getInstance()->getChildrenForLoggedInParent([](bool success, long errorcode){
+            if(success)
+            {
+                LoginController::getInstance()->handleGetChildrenSuccess();
+            }
+            else
+            {
+                LoginController::getInstance()->forceNewLogin();
+            }
+        });
     }
     else if(requestTag == API::TagRegisterChild)
     {
         AnalyticsSingleton::getInstance()->childProfileCreatedSuccessEvent();
-        BackEndCaller::getInstance()->getAvailableChildren();
+        UserAccountManager::getInstance()->getChildrenForLoggedInParent([](bool success, long errorcode){
+            if(success)
+            {
+                LoginController::getInstance()->handleGetChildrenSuccess();
+            }
+            else
+            {
+                LoginController::getInstance()->forceNewLogin();
+            }
+        });
     }
     ModalMessages::getInstance()->stopLoading();
 }

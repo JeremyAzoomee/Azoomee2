@@ -12,7 +12,7 @@
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "VodacomMessageBoxNotification.h"
 
@@ -221,17 +221,17 @@ void VodacomOnboardingLoginLayer::onHttpRequestSuccess(const std::string& reques
 {
 	if(requestTag == API::TagLogin)
 	{
-		if(ParentManager::getInstance()->parseParentLoginData(body))
+		if(UserAccountManager::getInstance()->parseParentLoginData(body))
 		{
 			ConfigStorage::getInstance()->setFirstSlideShowSeen();
-			ParentManager::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headers));
+			UserAccountManager::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headers));
 			AnalyticsSingleton::getInstance()->signInSuccessEvent();
 			AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
 			_flowData->setUserType(UserType::FREE);
 			UserDefault* def = UserDefault::getInstance();
 			def->setStringForKey(ConfigStorage::kStoredUsernameKey, _flowData->getEmail());
 			def->flush();
-			HttpRequestCreator* request = API::UpdateBillingDataRequest(ParentManager::getInstance()->getLoggedInParentId(), this);
+			HttpRequestCreator* request = API::UpdateBillingDataRequest(UserAccountManager::getInstance()->getLoggedInParentId(), this);
 			request->execute();
 		}
 		else
@@ -246,8 +246,8 @@ void VodacomOnboardingLoginLayer::onHttpRequestSuccess(const std::string& reques
 	}
 	else if(requestTag == API::TagUpdateBillingData)
 	{
-		ParentManager::getInstance()->parseParentBillingData(body);
-		if(!ParentManager::getInstance()->isPaidUser())
+		UserAccountManager::getInstance()->parseParentBillingData(body);
+		if(!UserAccountManager::getInstance()->isPaidUser())
 		{
 			ModalMessages::getInstance()->stopLoading();
 			VodacomMessageBoxNotification* messageBox = VodacomMessageBoxNotification::create();
@@ -258,12 +258,12 @@ void VodacomOnboardingLoginLayer::onHttpRequestSuccess(const std::string& reques
 				ModalMessages::getInstance()->startLoading();
 				if(_flowData->getPurchaseType() == PurchaseType::VOUCHER)
 				{
-					HttpRequestCreator* request = API::AddVoucher(ParentManager::getInstance()->getLoggedInParentId(), _flowData->getVoucherCode(), this);
+					HttpRequestCreator* request = API::AddVoucher(UserAccountManager::getInstance()->getLoggedInParentId(), _flowData->getVoucherCode(), this);
 					request->execute();
 				}
 				else
 				{
-					HttpRequestCreator* request = API::GetVodacomTransactionId(ParentManager::getInstance()->getLoggedInParentId(), this);
+					HttpRequestCreator* request = API::GetVodacomTransactionId(UserAccountManager::getInstance()->getLoggedInParentId(), this);
 					request->execute();
 				}
 			})));
@@ -282,13 +282,13 @@ void VodacomOnboardingLoginLayer::onHttpRequestSuccess(const std::string& reques
 	else if(requestTag == API::TagAddVoucher)
 	{
 		AnalyticsSingleton::getInstance()->vodacomOnboardingVoucherAdded(_flowData->getVoucherCode());
-		HttpRequestCreator* request = API::UpdateBillingDataRequest(ParentManager::getInstance()->getLoggedInParentId(), this);
+		HttpRequestCreator* request = API::UpdateBillingDataRequest(UserAccountManager::getInstance()->getLoggedInParentId(), this);
 		request->requestTag = "billingAfterVoucher";
 		request->execute();
 	}
 	else if(requestTag == "billingAfterVoucher")
 	{
-		ParentManager::getInstance()->parseParentBillingData(body);
+		UserAccountManager::getInstance()->parseParentBillingData(body);
 		ModalMessages::getInstance()->stopLoading();
 		if(_delegate)
 		{

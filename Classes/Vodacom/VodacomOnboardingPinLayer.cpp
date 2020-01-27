@@ -12,7 +12,7 @@
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "VodacomMessageBoxExitFlow.h"
 #include "VodacomMessageBoxNotification.h"
@@ -192,7 +192,7 @@ void VodacomOnboardingPinLayer::onConfirmPressed()
 		_flowData->setPin(_pinInput->getText());
 		ModalMessages::getInstance()->startLoading();
 		const std::string &sourceDevice = ConfigStorage::getInstance()->getDeviceInformation();
-		HttpRequestCreator* request = API::RegisterParentRequest(ParentManager::getInstance()->getLoggedInParentId(),_flowData->getEmail(), _flowData->getPassword(), _pinInput->getText(), "VODACOM", sourceDevice, boolToString(_flowData->getAcceptedMarketing()), this);
+		HttpRequestCreator* request = API::RegisterParentRequest(UserAccountManager::getInstance()->getLoggedInParentId(),_flowData->getEmail(), _flowData->getPassword(), _pinInput->getText(), "VODACOM", sourceDevice, boolToString(_flowData->getAcceptedMarketing()), this);
 		request->execute();
 	}
 }
@@ -207,10 +207,10 @@ void VodacomOnboardingPinLayer::onHttpRequestSuccess(const std::string& requestT
 	}
 	else if(requestTag == API::TagLogin)
 	{
-		if(ParentManager::getInstance()->parseParentLoginData(body))
+		if(UserAccountManager::getInstance()->parseParentLoginData(body))
 		{
 			ConfigStorage::getInstance()->setFirstSlideShowSeen();
-			ParentManager::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headers));
+			UserAccountManager::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headers));
 			AnalyticsSingleton::getInstance()->signInSuccessEvent();
 			AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
 			_flowData->setUserType(UserType::REGISTERED);
@@ -228,12 +228,12 @@ void VodacomOnboardingPinLayer::onHttpRequestSuccess(const std::string& requestT
 				if(_flowData->getPurchaseType() == PurchaseType::VOUCHER)
 				{
 					ModalMessages::getInstance()->startLoading();
-					HttpRequestCreator* request = API::AddVoucher(ParentManager::getInstance()->getLoggedInParentId(), _flowData->getVoucherCode(), this);
+					HttpRequestCreator* request = API::AddVoucher(UserAccountManager::getInstance()->getLoggedInParentId(), _flowData->getVoucherCode(), this);
 					request->execute();
 				}
 				else
 				{
-					HttpRequestCreator* request = API::GetVodacomTransactionId(ParentManager::getInstance()->getLoggedInParentId(), this);
+					HttpRequestCreator* request = API::GetVodacomTransactionId(UserAccountManager::getInstance()->getLoggedInParentId(), this);
 					request->execute();
 				}
 			})));
@@ -242,12 +242,12 @@ void VodacomOnboardingPinLayer::onHttpRequestSuccess(const std::string& requestT
 	else if(requestTag == API::TagAddVoucher)
 	{
 		AnalyticsSingleton::getInstance()->vodacomOnboardingVoucherAdded(_flowData->getVoucherCode());
-		HttpRequestCreator* request = API::UpdateBillingDataRequest(ParentManager::getInstance()->getLoggedInParentId(), this);
+		HttpRequestCreator* request = API::UpdateBillingDataRequest(UserAccountManager::getInstance()->getLoggedInParentId(), this);
 		request->execute();
 	}
 	else if(requestTag == API::TagUpdateBillingData)
 	{
-		ParentManager::getInstance()->parseParentBillingData(body);
+		UserAccountManager::getInstance()->parseParentBillingData(body);
 		if(_flowData->getVoucherFailed())
 		{
 			ModalMessages::getInstance()->stopLoading();
@@ -299,7 +299,7 @@ void VodacomOnboardingPinLayer::onHttpRequestFailed(const std::string& requestTa
 	else if(requestTag == API::TagAddVoucher)
 	{
 		_flowData->setVoucherFailed(true);
-		HttpRequestCreator* request = API::UpdateBillingDataRequest(ParentManager::getInstance()->getLoggedInParentId(), this);
+		HttpRequestCreator* request = API::UpdateBillingDataRequest(UserAccountManager::getInstance()->getLoggedInParentId(), this);
 		request->execute();
 	}
 	else if(requestTag == API::TagGetVodacomTransactionId)

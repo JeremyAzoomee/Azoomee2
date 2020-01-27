@@ -12,7 +12,7 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
 #include "FriendRequestLayer.h"
@@ -70,9 +70,9 @@ void SettingsFriendshipsPage::onExit()
 
 void SettingsFriendshipsPage::addFriendRequestsToScrollView()
 {
-    for(int i = 0; i < ParentManager::getInstance()->getNoOfPendingFriendRequest(); i++)
+    for(int i = 0; i < UserAccountManager::getInstance()->getNoOfPendingFriendRequest(); i++)
     {
-		FriendRequestRef fr = ParentManager::getInstance()->getPendingFriendRequest(i);
+		FriendRequestRef fr = UserAccountManager::getInstance()->getPendingFriendRequest(i);
 		if(fr)
 		{
 			FriendRequestLayer* friendRequest = FriendRequestLayer::create();
@@ -88,7 +88,7 @@ void SettingsFriendshipsPage::addFriendRequestsToScrollView()
 
 void SettingsFriendshipsPage::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
-    ParentManager::getInstance()->parsePendingFriendRequests(body);
+    UserAccountManager::getInstance()->parsePendingFriendRequests(body);
     addFriendRequestsToScrollView();
 }
 

@@ -2,7 +2,7 @@
 #include "IntroVideoScene.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "HQHistoryManager.h"
-#include "LoginLogicHandler.h"
+#include "LoginController.h"
 #include "NativeContentInterface_ios.h"
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
@@ -119,7 +119,7 @@ void AppDelegate::applicationWillEnterForeground()
         {
             HQHistoryManager::getInstance()->setHasError(false);
             FlowDataSingleton::getInstance()->setErrorCode(ERROR_CODE_SOMETHING_WENT_WRONG);
-            LoginLogicHandler::getInstance()->doLoginLogic();
+            LoginController::getInstance()->doLoginLogic();
             return;
         }
         

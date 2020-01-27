@@ -3,10 +3,10 @@
 #include <AzoomeeCommon/UI/MessageBox.h>
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include "LoginLogicHandler.h"
+#include "LoginController.h"
 #include "RoutePaymentSingleton.h"
 #include "FlowDataSingleton.h"
 
@@ -49,7 +49,7 @@ void GooglePaymentSingleton::startBackEndPaymentVerification(std::string develop
     savedDeveloperPayload = developerPayload;
     savedOrderId = orderId;
     savedToken = token;
-    if(!ParentManager::getInstance()->isUserLoggedIn())
+    if(!UserAccountManager::getInstance()->isUserLoggedIn())
     {
         auto funcCallAction = CallFunc::create([=](){
             ModalMessages::getInstance()->stopLoading();
@@ -252,7 +252,7 @@ extern "C"
 
 JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_AppActivity_getLoggedInParentUserId(JNIEnv* env, jobject thiz)
 {
-    return env->NewStringUTF(ParentManager::getInstance()->getLoggedInParentId().c_str());
+    return env->NewStringUTF(UserAccountManager::getInstance()->getLoggedInParentId().c_str());
 }
 
 extern "C"

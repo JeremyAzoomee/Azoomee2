@@ -7,9 +7,9 @@
 
 #include "IAPFooter.h"
 #include "SceneManagerScene.h"
-#include "LoginLogicHandler.h"
+#include "LoginController.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
@@ -40,7 +40,7 @@ bool IAPFooter::init()
 }
 void IAPFooter::onEnter()
 {
-	_loginButton->setVisible(ParentManager::getInstance()->isLoggedInParentAnonymous());
+	_loginButton->setVisible(UserAccountManager::getInstance()->isLoggedInParentAnonymous());
 	Super::onEnter();
 }
 void IAPFooter::onExit()
@@ -73,11 +73,11 @@ void IAPFooter::createLoginButton()
     _loginButton->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            ParentManager::getInstance()->logoutChild();
+            UserAccountManager::getInstance()->logoutChild();
             
             AudioMixer::getInstance()->stopBackgroundMusic();
             
-            LoginLogicHandler::getInstance()->forceNewLogin(LoginOrigin::IAP_PAYWALL);
+            LoginController::getInstance()->forceNewLogin(LoginOrigin::IAP_PAYWALL);
         }
     });
     addChild(_loginButton);

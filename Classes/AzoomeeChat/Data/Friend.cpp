@@ -1,5 +1,5 @@
 #include "Friend.h"
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 
 
 NS_AZOOMEE_CHAT_BEGIN
@@ -49,7 +49,7 @@ FriendRef Friend::createFromJson(const rapidjson::Value& json)
     // If the avatar is empty, see if we have one already we have use
     if(avatarURL.empty())
     {
-		const ChildRef& child = ParentManager::getInstance()->getChildForId(friendId);
+		const ChildRef& child = UserAccountManager::getInstance()->getChildForId(friendId);
 		if(child)
 		{
         	avatarURL = child->getAvatar();

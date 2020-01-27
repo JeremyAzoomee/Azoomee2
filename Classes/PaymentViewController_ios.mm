@@ -1,7 +1,7 @@
 #import "PaymentViewController_ios.h"
 #include "ApplePaymentSingleton.h"
 #include "RoutePaymentSingleton.h"
-#include "LoginLogicHandler.h"
+#include "LoginController.h"
 #include "IAPProductDataHandler.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 
@@ -206,7 +206,7 @@ using namespace Azoomee;
     {
         if(self.purchaseAfterQuery)
         {
-            LoginLogicHandler::getInstance()->doLoginLogic();
+            LoginController::getInstance()->doLoginLogic();
         }
         else
         {

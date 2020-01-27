@@ -7,7 +7,7 @@
 
 #include "OomeeMakerDataHandler.h"
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Utils/DirUtil.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
@@ -137,7 +137,7 @@ void OomeeMakerDataHandler::getAllOomees(const OnCompleteCallback& callback)
 	}
     _targetChildId = "";
 	ModalMessages::getInstance()->startLoading();
-	HttpRequestCreator* request = API::GetAllOomees(ParentManager::getInstance()->getLoggedInParentId(), false, this);
+	HttpRequestCreator* request = API::GetAllOomees(UserAccountManager::getInstance()->getLoggedInParentId(), false, this);
 	request->execute();
 }
 
@@ -152,12 +152,12 @@ void OomeeMakerDataHandler::saveOomee(const OomeeFigureDataRef& oomee, bool setA
     _savingNewOomee = oomee->getId() == "";
 	if(_savingNewOomee)
 	{
-		HttpRequestCreator* request = API::SaveNewOomee(childId, ParentManager::getInstance()->getLoggedInParentId(), oomee->getOomeeId(), oomee->getAccessoryIds(), setAsAvatar, this);
+		HttpRequestCreator* request = API::SaveNewOomee(childId, UserAccountManager::getInstance()->getLoggedInParentId(), oomee->getOomeeId(), oomee->getAccessoryIds(), setAsAvatar, this);
 		request->execute();
 	}
 	else
 	{
-		HttpRequestCreator* request = API::UpdateChildOomee(childId, oomee->getId(), ParentManager::getInstance()->getLoggedInParentId(), oomee->getOomeeId(), oomee->getAccessoryIds(), setAsAvatar, this);
+		HttpRequestCreator* request = API::UpdateChildOomee(childId, oomee->getId(), UserAccountManager::getInstance()->getLoggedInParentId(), oomee->getOomeeId(), oomee->getAccessoryIds(), setAsAvatar, this);
 		request->execute();
 	}
 }
@@ -427,7 +427,7 @@ void OomeeMakerDataHandler::updateExistingOomeeFilesToNewIds()
 
 void OomeeMakerDataHandler::uploadExistingOomeesToBE(const std::string& childId)
 {
-    const std::string& parentId = ParentManager::getInstance()->getLoggedInParentId();
+    const std::string& parentId = UserAccountManager::getInstance()->getLoggedInParentId();
     const std::string& oomeeDir = getAssetDir() + childId;
 	const auto& oomeeFiles = DirUtil::getFilesInDirectoryWithExtention(oomeeDir, kOomeeFileExtension);
 	for(const auto& file : oomeeFiles)
@@ -476,7 +476,7 @@ void OomeeMakerDataHandler::writeOomeeFiles(const rapidjson::Value& data)
         const std::string& childId = getStringFromJson("childId", figureData);
         if(figure->isSelected())
         {
-            ParentManager::getInstance()->setAvatarColourForChild(childId, getColor4BFromJson("colour", figureData));
+            UserAccountManager::getInstance()->setAvatarColourForChild(childId, getColor4BFromJson("colour", figureData));
         }
         oomeeIds.push_back(figure->getId());
         if(std::find(childIds.begin(), childIds.end(), childId) == childIds.end())

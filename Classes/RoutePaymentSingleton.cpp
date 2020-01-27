@@ -1,12 +1,12 @@
 #include "RoutePaymentSingleton.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "AmazonPaymentSingleton.h"
 #include "GooglePaymentSingleton.h"
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/Utils/DirUtil.h>
-#include "LoginLogicHandler.h"
+#include "LoginController.h"
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/UI/MessageBox.h>
 #include "FlowDataSingleton.h"
@@ -58,7 +58,7 @@ void RoutePaymentSingleton::startInAppPayment()
 {
     if(receiptDataFileExists())
     {
-        if(!ParentManager::getInstance()->isUserLoggedIn())
+        if(!UserAccountManager::getInstance()->isUserLoggedIn())
         {
             Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(kPaymentSuccessfulEventName);
         }
@@ -95,7 +95,7 @@ void RoutePaymentSingleton::startInAppPayment()
 
 bool RoutePaymentSingleton::showIAPContent()
 {
-    return !ParentManager::getInstance()->isPaidUser();
+    return !UserAccountManager::getInstance()->isPaidUser();
 }
 
 bool RoutePaymentSingleton::osIsIos()
@@ -180,20 +180,7 @@ void RoutePaymentSingleton::canceledAction()
 void RoutePaymentSingleton::inAppPaymentSuccess()
 {
     removeReceiptDataFile();
-    
-    BackEndCaller::getInstance()->updateBillingData();
-    FlowDataSingleton::getInstance()->addIAPSuccess(true);
-    if(FlowDataSingleton::getInstance()->isSignupFlow())
-    {
-        FlowDataSingleton::getInstance()->setSuccessFailPath(PREMIUM_NEW_ACCOUNT);
-    }
-    else
-    {
-        FlowDataSingleton::getInstance()->setSuccessFailPath(PREMIUM_EXISTING_ACCOUNT);
-    }
-    
-    ChildManager::getInstance()->setChildLoggedIn(false);
-    BackEndCaller::getInstance()->getAvailableChildren();
+    LoginController::getInstance()->handleLoginSuccess();
 }
 
 void RoutePaymentSingleton::writeAppleReceiptDataToFile(const std::string& receiptData, const std::string& transactionID)
@@ -244,7 +231,7 @@ void RoutePaymentSingleton::removeReceiptDataFile()
 void RoutePaymentSingleton::removeReceiptDataFileAndLogin()
 {
     removeReceiptDataFile();
-    LoginLogicHandler::getInstance()->doLoginLogic();
+    LoginController::getInstance()->doLoginLogic();
 }
 
 void RoutePaymentSingleton::retryReceiptValidation()
@@ -326,7 +313,7 @@ void RoutePaymentSingleton::createReceiptDataFolder()
 //Delegate Functions
 void RoutePaymentSingleton::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
 {
-    LoginLogicHandler::getInstance()->doLoginLogic();
+    LoginController::getInstance()->doLoginLogic();
 }
 
 NS_AZOOMEE_END

@@ -1,12 +1,12 @@
 //
-//  ParentManager.h
+//  UserAccountManager.h
 //  AzoomeeCommon
 //
 //  Created by Macauley on 06/06/2019.
 //
 
-#ifndef ParentManager_h
-#define ParentManager_h
+#ifndef UserAccountManager_h
+#define UserAccountManager_h
 
 #include <cocos/cocos2d.h>
 #include "../Json.h"
@@ -18,13 +18,13 @@
 
 NS_AZOOMEE_BEGIN
 
-class ParentManager
+class UserAccountManager
 {
-		
+    typedef std::function<void(bool, long)> OnCompleteCallback;
 public:
-	static ParentManager* getInstance();
+	static UserAccountManager* getInstance();
 	
-	virtual ~ParentManager();
+	virtual ~UserAccountManager();
 	
 	void setBillingData(const BillingDataRef& billingData);
 	BillingDataRef getBillingData() const;
@@ -84,6 +84,18 @@ public:
 	
     void setAvatarColourForChild(const std::string& childId, const cocos2d::Color4B& colour);
 	
+    void logoutParent();
+    
+    bool localLogin();
+    void login(const std::string& email, const std::string& password, const OnCompleteCallback& callback);
+    void anonLogin(const OnCompleteCallback& callback);
+    
+    void getChildrenForLoggedInParent(const OnCompleteCallback& callback);
+    
+    void getBillingDataForLoggedInParent(const OnCompleteCallback& callback);
+    
+    void loginChild(const std::string& profileName, const OnCompleteCallback& callback);
+    
 private:
 	BillingDataRef _billingData = nullptr;
 	MutableParentRef _parent = nullptr;
@@ -104,4 +116,4 @@ private:
 
 NS_AZOOMEE_END
 
-#endif /* ParentManager_h */
+#endif /* UserAccountManager_h */

@@ -11,7 +11,7 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/API/API.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/NativeShare/NativeShare.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "VodacomMessageBoxExitFlow.h"
@@ -161,7 +161,7 @@ void VodacomOnboardingErrorLayer::setupForVoucherError()
 				if(_flowData->getUserType() == UserType::FREE || _flowData->getUserType() == UserType::REGISTERED)
 				{
 					ModalMessages::getInstance()->startLoading();
-					HttpRequestCreator* request = API::AddVoucher(ParentManager::getInstance()->getLoggedInParentId(), _voucherInput->getText(), this);
+					HttpRequestCreator* request = API::AddVoucher(UserAccountManager::getInstance()->getLoggedInParentId(), _voucherInput->getText(), this);
 					request->execute();
 				}
 				else
@@ -850,7 +850,7 @@ void VodacomOnboardingErrorLayer::onVoucherEntered()
 		if(_flowData->getUserType() == UserType::FREE)
 		{
 			ModalMessages::getInstance()->startLoading();
-			HttpRequestCreator* request = API::AddVoucher(ParentManager::getInstance()->getLoggedInParentId(), _voucherInput->getText(), this);
+			HttpRequestCreator* request = API::AddVoucher(UserAccountManager::getInstance()->getLoggedInParentId(), _voucherInput->getText(), this);
 			request->execute();
 		}
 		else
@@ -867,12 +867,12 @@ void VodacomOnboardingErrorLayer::onHttpRequestSuccess(const std::string& reques
 	if(requestTag == API::TagAddVoucher)
 	{
 		AnalyticsSingleton::getInstance()->vodacomOnboardingVoucherAdded(_flowData->getVoucherCode());
-		HttpRequestCreator* request = API::UpdateBillingDataRequest(ParentManager::getInstance()->getLoggedInParentId(), this);
+		HttpRequestCreator* request = API::UpdateBillingDataRequest(UserAccountManager::getInstance()->getLoggedInParentId(), this);
 		request->execute();
 	}
 	else if(requestTag == API::TagUpdateBillingData)
 	{
-		ParentManager::getInstance()->parseParentBillingData(body);
+		UserAccountManager::getInstance()->parseParentBillingData(body);
 		if(_delegate)
 		{
 			_delegate->moveToState(FlowState::SUCCESS);

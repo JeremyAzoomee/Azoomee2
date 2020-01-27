@@ -4,12 +4,12 @@
 #include "WebGameAPIDataManager.h"
 #include "VideoPlaylistManager.h"
 #include "SceneManagerScene.h"
-#include "LoginLogicHandler.h"
+#include "LoginController.h"
 #include "FlowDataSingleton.h"
 #include <AzoomeeCommon/ErrorCodes.h>
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
 #include "ContentHistoryManager.h"
 #include "FavouritesManager.h"
@@ -42,7 +42,7 @@ void navigateToLoginScene()
 {
     AnalyticsSingleton::getInstance()->contentItemClosedEvent();
     FlowDataSingleton::getInstance()->setErrorCode(ERROR_CODE_SOMETHING_WENT_WRONG);
-    LoginLogicHandler::getInstance()->doLoginLogic();
+    LoginController::getInstance()->doLoginLogic();
 }
 
 void sendMixPanelData(const char* host, const char* query)
@@ -160,7 +160,7 @@ bool isChatEntitled()
 
 bool isAnonUser()
 {
-    return ParentManager::getInstance()->isLoggedInParentAnonymous();
+    return UserAccountManager::getInstance()->isLoggedInParentAnonymous();
 }
 
 void releaseCachedHQMemory()

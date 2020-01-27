@@ -15,6 +15,9 @@
 #include "ContentHistoryManager.h"
 #include "PopupMessageBox.h"
 
+#include "LoginController.h"
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
+
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
@@ -112,7 +115,7 @@ bool LoginScene::init()
 		switch (state) {
 			case LoginEntryState::EMAIL:
 			{
-				BackEndCaller::getInstance()->anonymousDeviceLogin();
+                LoginController::getInstance()->anonLogin();
 				break;
 			}
 			case LoginEntryState::PASSWORD:
@@ -216,8 +219,7 @@ void LoginScene::getUserDefaults()
 
 void LoginScene::login(std::string username, std::string password)
 {
-    auto backEndCaller = BackEndCaller::getInstance();
-    backEndCaller->login(username, password);
+    LoginController::getInstance()->login(username, password);
 }
 
 //-------------DELEGATE FUNCTIONS-------------------

@@ -11,7 +11,8 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "SceneManagerScene.h"
 #include "BackEndCaller.h"
-#include "LoginLogicHandler.h"
+#include "LoginController.h"
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 
 using namespace cocos2d;
 
@@ -89,7 +90,7 @@ bool WelcomeScene::init()
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
             AnalyticsSingleton::getInstance()->genericButtonPressEvent("WelcomeScreen_GetStarted");
-            BackEndCaller::getInstance()->anonymousDeviceLogin();
+            LoginController::getInstance()->anonLogin();
         }
     });
     _body->addChild(_button);
@@ -106,7 +107,7 @@ bool WelcomeScene::init()
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
             AnalyticsSingleton::getInstance()->genericButtonPressEvent("WelcomeScreen_Login");
-            LoginLogicHandler::getInstance()->setLoginOrigin(LoginOrigin::LOGOUT);
+            LoginController::getInstance()->setLoginOrigin(LoginOrigin::LOGOUT);
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
         }
     });

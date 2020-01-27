@@ -8,10 +8,10 @@
 #include "LanguageSelectScene.h"
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include "SceneManagerScene.h"
 #include "BackEndCaller.h"
-#include "LoginLogicHandler.h"
+#include "LoginController.h"
 #include "HQHistoryManager.h"
 
 using namespace cocos2d;
@@ -182,26 +182,26 @@ cocos2d::ui::Layout* LanguageSelectScene::createLanguageButton(const LanguagePar
         {
             StringMgr::getInstance()->changeLanguage(params._identifier);
             HQHistoryManager::getInstance()->clearCachedHQData();
-            if(!ParentManager::getInstance()->hasParentLoginDataInUserDefaults())
+            if(!UserAccountManager::getInstance()->hasParentLoginDataInUserDefaults())
             {
-                if(ParentManager::getInstance()->getParent())
+                if(UserAccountManager::getInstance()->getParent())
                 {
                     Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
                 }
                 else
                 {
-                    BackEndCaller::getInstance()->anonymousDeviceLogin();
+                    LoginController::getInstance()->anonLogin();
                 }
             }
             else
             {
-                if(ParentManager::getInstance()->getParent())
+                if(UserAccountManager::getInstance()->getParent())
                 {
                     Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
                 }
                 else
                 {
-                    LoginLogicHandler::getInstance()->doLoginLogic();
+                    LoginController::getInstance()->doLoginLogic();
                 }
             }
         }

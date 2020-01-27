@@ -10,7 +10,7 @@
 #include <AzoomeeCommon/Strings.h>
 #include "AgeGate.h"
 #include "SceneManagerScene.h"
-#include "LoginLogicHandler.h"
+#include "LoginController.h"
 
 using namespace cocos2d;
 
@@ -116,7 +116,7 @@ bool PurchaseCapsule::init()
             case ui::Widget::TouchEventType::ENDED:
             {
                 _loginText->setScale(1.0f);
-                LoginLogicHandler::getInstance()->setLoginOrigin(LoginOrigin::HQ);
+                LoginController::getInstance()->setLoginOrigin(LoginOrigin::HQ);
                 Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
                 break;
             }
