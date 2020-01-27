@@ -5,6 +5,7 @@
 #include "FileDownloader.h"
 #include "FileZipUtil.h"
 #include "StringFunctions.h"
+#include "../Azoomee.h"
 
 #include "cocos-ext.h"
 using namespace rapidjson;
@@ -16,8 +17,7 @@ using namespace rapidjson;
 
 #define _(string) LocaleManager::getInstance()->getStringForKey(string)
 
-namespace Azoomee
-{
+NS_AZOOMEE_BEGIN
 	
 class LanguageParams
 {
@@ -28,7 +28,7 @@ public:
 	std::string _text;
 };
 	
-	class LocaleManager : public FileDownloaderDelegate, FileZipDelegate
+class LocaleManager : public FileDownloaderDelegate, FileZipDelegate
 {
 public:
 	static const std::vector<LanguageParams> kLanguageParams;
@@ -44,6 +44,8 @@ public:
 	void changeLanguage(const std::string& languageID);
 	std::string getLanguageID() const;
 	
+    void downloadRemoteStringsFiles(const std::string& url);
+    
 	// delegate functions
 	void onAsyncUnzipComplete(bool success, const std::string& zipPath, const std::string& dirpath);
 	void onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode);
@@ -70,11 +72,11 @@ private:
 	
 	void removeLocalLanguagesFiles();
 	
-	static const std::string kLangsZipUrl;
+    std::string _langsZipUrl;
 	static const std::string kLanguagesDir;
 	
 };
   
-}
+NS_AZOOMEE_END
 
 #endif

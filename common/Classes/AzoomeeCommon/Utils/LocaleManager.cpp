@@ -7,8 +7,7 @@
 
 using namespace cocos2d;
 
-namespace Azoomee
-{
+NS_AZOOMEE_BEGIN
 	
 LanguageParams::LanguageParams(const std::string& identifier, const std::string& name, const std::string& text)
 {
@@ -44,11 +43,7 @@ const std::map<std::string, std::string> LocaleManager::kDeviceLangConvMap = {
 const std::string LocaleManager::kDefaultLanguageIdentifier = kLanguageParams.at(0)._identifier;
     
 const std::string LocaleManager::kLanguagesDir = "languages/";
-#ifdef AZOOMEE_ENVIRONMENT_CI
-	const std::string LocaleManager::kLangsZipUrl = "https://media.azoomee.ninja/static/popups/languages/languages.zip";
-#else
-	const std::string LocaleManager::kLangsZipUrl = "https://media.azoomee.com/static/popups/languages/languages.zip";
-#endif
+
 	
 static LocaleManager *_sharedLocaleManager = NULL;
 
@@ -59,7 +54,6 @@ LocaleManager* LocaleManager::getInstance()
         _sharedLocaleManager = new LocaleManager();
         _sharedLocaleManager->init();
     }
-    
     return _sharedLocaleManager;
 }
 
@@ -74,7 +68,6 @@ bool LocaleManager::init(void)
     stringsDocument = parseFile(languageID, "strings");
 	const std::string& fileContent = FileUtils::getInstance()->getStringFromFile("res/languages/errormessages.json");
 	errorMessagesDocument.Parse(fileContent.c_str());
-    //errorMessagesDocument = parseFile(languageID, "errormessages");
 	
 	const std::string& localDir = DirUtil::getCachesPath() + kLanguagesDir;
 	if(!FileUtils::getInstance()->isDirectoryExist(localDir))
@@ -84,19 +77,23 @@ bool LocaleManager::init(void)
 	
 	_langsZipDownloader = FileDownloader::create();
 	_langsZipDownloader->setDelegate(this);
-	_langsZipDownloader->setEtag(getLocalEtag());
-	_langsZipDownloader->downloadFileFromServer(kLangsZipUrl);
 	
     return true;
 }
-	
+
+void LocaleManager::downloadRemoteStringsFiles(const std::string& url)
+{
+    _langsZipUrl = url;
+    _langsZipDownloader->setEtag(getLocalEtag());
+    _langsZipDownloader->downloadFileFromServer(_langsZipUrl);
+}
+
 void LocaleManager::changeLanguage(const std::string &languageID)
 {
 	AnalyticsSingleton::getInstance()->registerLanguageCode(languageID);
 	AnalyticsSingleton::getInstance()->languageChangedEvent(languageID);
 	this->languageID = languageID;
 	stringsDocument = parseFile(languageID, "strings");
-	//errorMessagesDocument = parseFile(languageID, "errormessages");
 	UserDefault::getInstance()->setStringForKey("language", languageID);
 }
 	
@@ -287,4 +284,4 @@ void LocaleManager::onFileDownloadComplete(const std::string& fileString, const 
 	}
 }
   
-}
+NS_AZOOMEE_END
