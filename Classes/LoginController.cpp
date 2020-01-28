@@ -88,6 +88,40 @@ LoginOrigin LoginController::getOrigin() const
     return _origin;
 }
 
+void LoginController::login(const std::string& email, const std::string& password)
+{
+    UserAccountManager::getInstance()->login(email, password, [this](bool success, long errorcode){
+        if(success)
+        {
+            handleLoginSuccess();
+        }
+    });
+}
+
+void LoginController::anonLogin()
+{
+    UserAccountManager::getInstance()->anonLogin([this](bool success, long errorcode){
+        if(success)
+        {
+            handleLoginSuccess();
+        }
+    });
+}
+
+void LoginController::childLogin(const std::string& childName)
+{
+    UserAccountManager::getInstance()->loginChild(childName, [this](bool success, long errorcode){
+        if(success)
+        {
+            handleChildLoginSuccess();
+        }
+        else
+        {
+            forceNewLogin();
+        }
+    });
+}
+
 void LoginController::handleLoginSuccess()
 {
     AnalyticsSingleton::getInstance()->registerIdentifier(UserAccountManager::getInstance()->getLoggedInParentId());
@@ -134,16 +168,7 @@ void LoginController::handleGetChildrenSuccess()
             else
             {
                 // auto login default child
-                UserAccountManager::getInstance()->loginChild(UserAccountManager::getInstance()->getChild(0)->getProfileName(),[this](bool success, long error){
-                    if(success)
-                    {
-                        handleChildLoginSuccess();
-                    }
-                    else
-                    {
-                        forceNewLogin();
-                    }
-                });
+                childLogin(UserAccountManager::getInstance()->getChild(0)->getProfileName());
                 return;
             }
         }

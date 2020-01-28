@@ -425,12 +425,7 @@ void SignupScene::onHttpRequestSuccess(const std::string& requestTag, const std:
 		messageBox->setPatternColour(Style::Color::strongPink);
 		messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
 			pSender->removeFromParent();
-            UserAccountManager::getInstance()->login(_signupData._email, _signupData._password, [](bool success, long errorcode){
-                if(success)
-                {
-                    LoginController::getInstance()->handleLoginSuccess();
-                }
-            });
+            LoginController::getInstance()->login(_signupData._email, _signupData._password);
 		});
 		this->addChild(messageBox, 1);
 	}
