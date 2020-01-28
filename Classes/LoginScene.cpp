@@ -206,7 +206,7 @@ void LoginScene::onEnter()
 void LoginScene::getUserDefaults()
 {
     UserDefault* def = UserDefault::getInstance();
-    _storedUsername = def->getStringForKey(ConfigStorage::kStoredUsernameKey, "");
+    _storedUsername = def->getStringForKey(UserAccountManager::kStoredUsernameKey, "");
     def->flush();
     
     if(_storedUsername == "")

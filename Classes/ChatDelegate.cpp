@@ -73,7 +73,7 @@ void ChatDelegate::onChatNavigateToContent(const std::string &contentId)
     if(contentItem)
     {
         AnalyticsSingleton::getInstance()->chatOpenSharedContentEvent(contentId);
-        AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, 0, 0, "", ConfigStorage::kChatHQName);
+        AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, 0, 0, "", HQConsts::kChatHQName);
         ContentOpener::getInstance()->openContentById(contentId);
     }
 }
@@ -101,7 +101,7 @@ void ChatDelegate::onImageDownloadFailed()
         if(item)
         {
             std::string filename = "res/contentPlaceholders/Games1X1.png";
-            if(item->getType() == ConfigStorage::kContentTypeVideo)
+            if(item->getType() == HQContentItemObject::kContentTypeVideo)
             {
                 filename = "res/contentPlaceholders/Video1X1.png";
             }

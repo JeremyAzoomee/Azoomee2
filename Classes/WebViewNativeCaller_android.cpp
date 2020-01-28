@@ -358,7 +358,7 @@ extern "C"
 
 JNIEXPORT bool JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIIsChatEntitled(JNIEnv* env, jobject thiz)
 {
-    return !HQHistoryManager::getInstance()->isOffline() && HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName)->getHqEntitlement();
+    return !HQHistoryManager::getInstance()->isOffline() && HQDataObjectManager::getInstance()->getHQDataObjectForKey(HQConsts::kChatHQName)->getHqEntitlement();
 }
 
 #endif
@@ -415,8 +415,8 @@ extern "C"
 JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNINewVideoOpened(JNIEnv* env, jobject thiz, int playlistIndex)
 {
 	const auto& contentItem = VideoPlaylistManager::getInstance()->getContentItemDataForPlaylistElement(playlistIndex);
-	RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kVideoHQName);
-	RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kMeHQName);
+	RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), HQConsts::kVideoHQName);
+	RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), HQConsts::kOomeeHQName);
 	ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
 }
 

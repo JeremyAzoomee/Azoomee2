@@ -201,7 +201,7 @@ void IntroVideoScene::onForceUpdateCheckFinished(const ForceUpdateResult& result
 		{
 			if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
 			{
-				if(UserDefault::getInstance()->getStringForKey(ConfigStorage::kAnonEmailKey, "") == "")
+				if(UserDefault::getInstance()->getStringForKey(UserAccountManager::kAnonEmailKey, "") == "")
 				{
 					Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::WelcomeScene));
 				}

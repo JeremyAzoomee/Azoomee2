@@ -20,7 +20,7 @@ bool ManualGameInputLayer::init()
         return false;
     }
     
-    setName(ConfigStorage::kContentTypeManual);
+    setName(HQContentItemObject::kContentTypeManual);
     
     _background = ui::Layout::create();
     _background->setSizeType(ui::Layout::SizeType::PERCENT);
@@ -78,7 +78,7 @@ void ManualGameInputLayer::addButtons()
                 {
                     MutableHQContentItemObjectRef contentItem = MutableHQContentItemObject::create();
                     contentItem->setContentItemId(GameDataManager::kManualGameId);
-                    contentItem->setType(ConfigStorage::kContentTypeManual);
+                    contentItem->setType(HQContentItemObject::kContentTypeManual);
                     ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
                     Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Director::getInstance()->getVisibleSize().width > Director::getInstance()->getVisibleSize().height ? Landscape : Portrait, _uriTextInput->getText()));
                 }
@@ -97,7 +97,7 @@ void ManualGameInputLayer::addButtons()
                 FileUtils::getInstance()->createDirectory(manualGamePath);
                 MutableHQContentItemObjectRef contentItem = MutableHQContentItemObject::create();
                 contentItem->setContentItemId(GameDataManager::kManualGameId);
-                contentItem->setType(ConfigStorage::kContentTypeManual);
+                contentItem->setType(HQContentItemObject::kContentTypeManual);
                 ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
                 
                 GameDataManager::getInstance()->getJSONGameData(_uriTextInput->getText().c_str(), GameDataManager::kManualGameId);

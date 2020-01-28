@@ -16,6 +16,7 @@
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/NativeShare/NativeShare.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/Data/Urls.h>
 #include "SceneManagerScene.h"
 
 using namespace cocos2d;
@@ -277,11 +278,11 @@ void EditAccountLayer::onEnter()
         
         const std::string& billingProvider = UserAccountManager::getInstance()->getBillingProvider();
 #ifdef AZOOMEE_VODACOM_BUILD
-		if(billingProvider == ConfigStorage::kBillingProviderVodacomSA)
+		if(billingProvider == BillingData::kBillingProviderVodacomSA)
 		{
 			subDeetsLab->setString(StringUtils::format(_("Subscribed.\nRenews on %s").c_str(),UserAccountManager::getInstance()->getBillingDate().c_str()));
 #else
-        if(billingProvider == ConfigStorage::kBillingProviderApple || billingProvider == ConfigStorage::kBillingProviderGoogle || billingProvider == ConfigStorage::kBillingProviderAmazon)
+        if(billingProvider == BillingData::kBillingProviderApple || billingProvider == BillingData::kBillingProviderGoogle || billingProvider == BillingData::kBillingProviderAmazon)
         {
 #endif
 			subDeetsLab->setNormalizedPosition(Vec2(0.5f,0.66f));
@@ -295,17 +296,17 @@ void EditAccountLayer::onEnter()
 					Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::VodacomOnboarding));
 #else
 
-					if(billingProvider == ConfigStorage::kBillingProviderApple)
+					if(billingProvider == BillingData::kBillingProviderApple)
 					{
-						Application::getInstance()->openURL(ConfigStorage::kIOSSubURL);
+						Application::getInstance()->openURL(Url::kIOSSubURL);
 					}
-					else if(billingProvider == ConfigStorage::kBillingProviderGoogle)
+					else if(billingProvider == BillingData::kBillingProviderGoogle)
 					{
-						Application::getInstance()->openURL(ConfigStorage::kAndroidSubURL);
+						Application::getInstance()->openURL(Url::kAndroidSubURL);
 					}
-					else if(billingProvider == ConfigStorage::kBillingProviderAmazon)
+					else if(billingProvider == BillingData::kBillingProviderAmazon)
 					{
-						Application::getInstance()->openURL(ConfigStorage::kAmazonSubURL);
+						Application::getInstance()->openURL(Url::kAmazonSubURL);
 					}
 #endif
 				}

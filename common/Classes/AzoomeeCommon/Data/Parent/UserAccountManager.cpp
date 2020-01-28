@@ -25,6 +25,11 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+const std::string UserAccountManager::kAnonLoginPW = "ToBeDecided";
+const char* const UserAccountManager::kAnonEmailKey = "anonEmail";
+const char* const UserAccountManager::kStoredUsernameKey = "username";
+const char* const UserAccountManager::kAnonOnboardingCompleteKey = "anonOnboardingComplete";
+
 static std::auto_ptr<UserAccountManager> sUserAccountManagerSharedInstance;
 
 UserAccountManager* UserAccountManager::getInstance()
@@ -524,7 +529,7 @@ void UserAccountManager::retrieveParentLoginDataFromUserDefaults()
 	parent->setActorStatus(def->getStringForKey("loggedInParentActorStatus"));
 	parent->setAnonymous(def->getBoolForKey("isLoggedInParentAnonymous"));
 	parent->setCountryCode(def->getStringForKey("loggedInParentCountryCode"));
-	parent->setEmail(def->getStringForKey(ConfigStorage::kStoredUsernameKey));
+	parent->setEmail(def->getStringForKey(UserAccountManager::kStoredUsernameKey));
 	
 	_parent = parent;
 	
@@ -650,7 +655,7 @@ void UserAccountManager::login(const std::string& email, const std::string& pass
 void UserAccountManager::anonLogin(const OnCompleteCallback& callback)
 {
     cocos2d::UserDefault* userDefault = cocos2d::UserDefault::getInstance();
-    const std::string& anonEmail = userDefault->getStringForKey(ConfigStorage::kAnonEmailKey, "");
+    const std::string& anonEmail = userDefault->getStringForKey(UserAccountManager::kAnonEmailKey, "");
     
     if(anonEmail == "")
     {
@@ -659,7 +664,7 @@ void UserAccountManager::anonLogin(const OnCompleteCallback& callback)
             json.Parse(body.c_str());
             const std::string& userId = getStringFromJson("id", json);
             saveAnonCredentialsToDevice(userId);
-            this->login(userId, ConfigStorage::kAnonLoginPW, callback);
+            this->login(userId, UserAccountManager::kAnonLoginPW, callback);
         };
         
         auto onFailed = [callback](const std::string& tag, long errorCode){
@@ -673,7 +678,7 @@ void UserAccountManager::anonLogin(const OnCompleteCallback& callback)
     }
     else
     {
-        login(anonEmail, ConfigStorage::kAnonLoginPW, callback);
+        login(anonEmail, UserAccountManager::kAnonLoginPW, callback);
     }
 }
 

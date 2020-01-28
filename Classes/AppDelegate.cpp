@@ -128,10 +128,8 @@ void AppDelegate::applicationWillEnterForeground()
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OfflineHub));
             return;
         }
-        if(HQHistoryManager::getInstance()->getCurrentHQ() != ConfigStorage::kHomeHQName && !(HQHistoryManager::getInstance()->getCurrentHQ() == ConfigStorage::kGroupHQName && HQHistoryManager::getInstance()->getPreviousHQ() == ConfigStorage::kHomeHQName))
-        {
-            ContentHistoryManager::getInstance()->setReturnedFromContent(true);
-        }
+        
+        ContentHistoryManager::getInstance()->setReturnedFromContent(true);
 		
         if(ChatDelegate::getInstance()->_sharedContentId != "")
         {

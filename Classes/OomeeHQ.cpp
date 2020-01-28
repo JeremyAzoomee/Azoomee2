@@ -159,7 +159,7 @@ void OomeeHQ::createScrollViewContent()
     _oomeeMakerButton->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            AnalyticsSingleton::getInstance()->contentItemSelectedEvent(ConfigStorage::kOomeeMakerURI);
+            AnalyticsSingleton::getInstance()->contentItemSelectedEvent(HQConsts::kOomeeMakerURI);
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OomeeMakerEntryPointScene));
         }
     });
@@ -288,7 +288,7 @@ void OomeeHQ::createFavouritesLayout()
             // Open the actual content by checking _recentPlayedContent
             // This is because content might be a group if it's a video episode
             HQContentItemObjectRef contentToOpen = elementIndex < _favouritesContent.size() ? _favouritesContent[elementIndex] : content;
-            _contentSelectedCallback(contentToOpen, elementIndex, -1, ConfigStorage::kContentLocFavourite);
+            _contentSelectedCallback(contentToOpen, elementIndex, -1, HQConsts::kContentLocFavourite);
         }
     });
     _contentListView->pushBackCustomItem(_favouritesLayout);
@@ -306,7 +306,7 @@ void OomeeHQ::createOfflineDropdown()
     _offlineDropdown->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
         if(_contentSelectedCallback)
         {
-            _contentSelectedCallback(content, elementIndex, -3, ConfigStorage::kContentLocOffline);
+            _contentSelectedCallback(content, elementIndex, -3, HQConsts::kContentLocOffline);
         }
     });
     _offlineDropdown->setOnResizeCallback([this](){

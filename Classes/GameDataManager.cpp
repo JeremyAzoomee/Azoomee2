@@ -670,7 +670,7 @@ HQCarouselObjectRef GameDataManager::createFilteredCarouselForBundledGames(const
     const auto& items = carousel->getContentItems();
     for(const auto& item : items)
     {
-        if(isGameBundled(item->getContentItemId()) || item->getType() == ConfigStorage::kContentTypeManual)
+        if(isGameBundled(item->getContentItemId()) || item->getType() == HQContentItemObject::kContentTypeManual)
         {
             output->addContentItemToCarousel(item);
         }

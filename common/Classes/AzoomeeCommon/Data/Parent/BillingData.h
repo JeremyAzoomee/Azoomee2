@@ -39,6 +39,11 @@ private:
 	BillingData();
 public:
 	
+    static const std::string kBillingProviderApple;
+    static const std::string kBillingProviderGoogle;
+    static const std::string kBillingProviderAmazon;
+    static const std::string kBillingProviderVodacomSA;
+    
 	static BillingDataRef createWithJson(const rapidjson::Document& billingData);
 	
 	std::string getBillingStatusStr() const;

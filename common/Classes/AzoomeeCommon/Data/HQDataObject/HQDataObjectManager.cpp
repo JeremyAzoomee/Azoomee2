@@ -69,10 +69,10 @@ void HQDataObjectManager::parseNavigationData(const std::string &data)
 		const auto& value = result["navigation"][i];
 		const std::string& hqName = getStringFromJson("name", value);
 		hqNames.push_back(hqName);
-		if(getBoolFromJson("default", value, false))
-		{
-			ConfigStorage::getInstance()->setDefaultHQ(hqNames.back());
-		}
+		//if(getBoolFromJson("default", value, false))
+		//{
+		//	ConfigStorage::getInstance()->setDefaultHQ(hqNames.back());
+		//}
 		if(value.HasMember("available"))
 		{
 			MutableHQDataObjectRef dataObject = nullptr;

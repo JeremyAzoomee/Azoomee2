@@ -70,7 +70,7 @@ void ContentHistoryManager::onGameContentClosed()
     recordContentClosedTime();
     
     //dont send content progress for manual game type as this is for testing only
-    if(_lastOpenedContent->getType() == ConfigStorage::kContentTypeManual)
+    if(_lastOpenedContent->getType() == HQContentItemObject::kContentTypeManual)
     {
         return;
     }

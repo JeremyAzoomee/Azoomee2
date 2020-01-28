@@ -71,32 +71,32 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
 	
 	setCrashlyticsKeyWithString(CrashlyticsConsts::kContentIdKey, contentItem->getContentItemId());
 	
-    if(contentItem->getType() == ConfigStorage::kContentTypeGame)
+    if(contentItem->getType() == HQContentItemObject::kContentTypeGame)
     {
-        RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(),ConfigStorage::kGameHQName);
-        RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kMeHQName);
+        RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(),HQConsts::kGameHQName);
+        RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), HQConsts::kOomeeHQName);
         ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
 
         GameDataManager::getInstance()->startProcessingGame(contentItem);
     }
-    else if(contentItem->getType()  == ConfigStorage::kContentTypeVideo || contentItem->getType()  == ConfigStorage::kContentTypeAudio)
+    else if(contentItem->getType()  == HQContentItemObject::kContentTypeVideo || contentItem->getType()  == HQContentItemObject::kContentTypeAudio)
     {
-        RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kVideoHQName);
-        RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kMeHQName);
+        RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), HQConsts::kVideoHQName);
+        RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), HQConsts::kOomeeHQName);
         ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
         Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Orientation::Landscape, contentItem->getUri(),Vec2(0,0)));
     }
-    else if(contentItem->getType()  == ConfigStorage::kContentTypeAudioGroup || contentItem->getType()  == ConfigStorage::kContentTypeGroup)
+    else if(contentItem->getType()  == HQContentItemObject::kContentTypeAudioGroup || contentItem->getType()  == HQContentItemObject::kContentTypeGroup)
     {
 		HQDataProvider::getInstance()->getDataForGroupHQ(contentItem->getUri(), contentItem->getCarouselColour());
     }
-    else if(contentItem->getType() == ConfigStorage::kContentTypeInternal)
+    else if(contentItem->getType() == HQContentItemObject::kContentTypeInternal)
     {
-        if(contentItem->getUri() == ConfigStorage::kOomeeMakerURI)
+        if(contentItem->getUri() == HQConsts::kOomeeMakerURI)
         {
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OomeeMakerEntryPointScene));
         }
-        else if(contentItem->getUri() == ConfigStorage::kArtAppURI)
+        else if(contentItem->getUri() == HQConsts::kArtAppURI)
         {
             ArtAppDelegate::getInstance()->setFileName("");
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ArtAppEntryPointScene));
@@ -107,7 +107,7 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
 
 void ContentOpener::doCarouselContentOpenLogic(const HQContentItemObjectRef& contentItem, int rowIndex, int elementIndex, const std::string& hqCategory, const std::string& location)
 {
-	if(contentItem->getType() == ConfigStorage::kContentTypeManual)
+	if(contentItem->getType() == HQContentItemObject::kContentTypeManual)
 	{
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ManualGameInput));
 		return;
@@ -134,7 +134,7 @@ void ContentOpener::doCarouselContentOpenLogic(const HQContentItemObjectRef& con
 	
 	AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, rowIndex, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(hqCategory, rowIndex, elementIndex), location);
 	
-	if(contentItem->getType() == ConfigStorage::kContentTypeVideo || contentItem->getType() == ConfigStorage::kContentTypeAudio)
+	if(contentItem->getType() == HQContentItemObject::kContentTypeVideo || contentItem->getType() == HQContentItemObject::kContentTypeAudio)
 	{
 		if(hqCategory == ConfigStorage::kGroupHQName)
 		{

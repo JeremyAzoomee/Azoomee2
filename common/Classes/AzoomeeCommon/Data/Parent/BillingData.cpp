@@ -9,6 +9,11 @@
 
 NS_AZOOMEE_BEGIN
 
+const std::string BillingData::kBillingProviderApple = "APPLE";
+const std::string BillingData::kBillingProviderGoogle = "GOOGLE";
+const std::string BillingData::kBillingProviderAmazon = "AMAZON";
+const std::string BillingData::kBillingProviderVodacomSA = "VODACOM_SA";
+
 const std::map<BillingStatus, std::string> BillingData::kBillingStatusToStringMap = {
 	{BillingStatus::ANON, "ANON"},
 	{BillingStatus::FREE_REGISTERED, "FREE_REGISTERED"},

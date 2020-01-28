@@ -30,10 +30,8 @@ void navigateToBaseScene()
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OfflineHub));
         return;
     }
-    if(HQHistoryManager::getInstance()->getCurrentHQ() != ConfigStorage::kHomeHQName && !(HQHistoryManager::getInstance()->getCurrentHQ() == ConfigStorage::kGroupHQName && HQHistoryManager::getInstance()->getPreviousHQ() == ConfigStorage::kHomeHQName))
-    {
-        ContentHistoryManager::getInstance()->setReturnedFromContent(true);
-    }
+
+    ContentHistoryManager::getInstance()->setReturnedFromContent(true);
 	
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
 }
@@ -155,7 +153,7 @@ void shareContentInChat()
 
 bool isChatEntitled()
 {
-    return !HQHistoryManager::getInstance()->isOffline() && HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName)->getHqEntitlement();
+    return !HQHistoryManager::getInstance()->isOffline() && HQDataObjectManager::getInstance()->getHQDataObjectForKey(HQConsts::kChatHQName)->getHqEntitlement();
 }
 
 bool isAnonUser()
@@ -181,8 +179,8 @@ void sendProgressMetaDataGame()
 void newVideoOpened(int playlistIndex)
 {
 	const auto& contentItem = VideoPlaylistManager::getInstance()->getContentItemDataForPlaylistElement(playlistIndex);
-	RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kVideoHQName);
-	RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kMeHQName);
+	RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), HQConsts::kVideoHQName);
+	RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), HQConsts::kOomeeHQName);
 	ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
 	ContentHistoryManager::getInstance()->onContentOpened();
 	

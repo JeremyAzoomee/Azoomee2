@@ -115,10 +115,10 @@ void BackEndCaller::login(const std::string& username, const std::string& passwo
     
     HttpRequestCreator* request = API::LoginRequest(username, password, this);
 	
-	if(password != ConfigStorage::kAnonLoginPW)
+	if(password != UserAccountManager::kAnonLoginPW)
 	{
     	UserDefault* def = UserDefault::getInstance();
-    	def->setStringForKey(ConfigStorage::kStoredUsernameKey, username);
+    	def->setStringForKey(UserAccountManager::kStoredUsernameKey, username);
     	def->flush();
 	}
     AnalyticsSingleton::getInstance()->registerAzoomeeEmail(username);
@@ -177,7 +177,7 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString, con
 void BackEndCaller::anonymousDeviceLogin()
 {
 	UserDefault* userDefault = UserDefault::getInstance();
-	const std::string& anonEmail = userDefault->getStringForKey(ConfigStorage::kAnonEmailKey, "");
+	const std::string& anonEmail = userDefault->getStringForKey(UserAccountManager::kAnonEmailKey, "");
 	
 	if(anonEmail == "")
 	{
@@ -187,7 +187,7 @@ void BackEndCaller::anonymousDeviceLogin()
 	}
 	else
 	{
-		login(anonEmail, ConfigStorage::kAnonLoginPW);
+		login(anonEmail, UserAccountManager::kAnonLoginPW);
 	}
 }
 
@@ -389,8 +389,8 @@ void BackEndCaller::onRegisterParentAnswerReceived()
 {
 	IAPProductDataHandler::getInstance()->fetchProductData();
 	UserDefault* userDefault = UserDefault::getInstance();
-	userDefault->setBoolForKey(ConfigStorage::kAnonOnboardingCompleteKey, false);
-	userDefault->setStringForKey(ConfigStorage::kAnonEmailKey, "");
+	userDefault->setBoolForKey(UserAccountManager::kAnonOnboardingCompleteKey, false);
+	userDefault->setStringForKey(UserAccountManager::kAnonEmailKey, "");
     ConfigStorage::getInstance()->setFirstSlideShowSeen();
     AnalyticsSingleton::getInstance()->OnboardingAccountCreatedEvent();
     FlowDataSingleton::getInstance()->setSuccessFailPath(SIGNUP_SUCCESS);
@@ -528,7 +528,7 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
 		json.Parse(body.c_str());
 		const std::string& userId = getStringFromJson("id", json);
 		UserAccountManager::getInstance()->saveAnonCredentialsToDevice(userId);
-		login(userId, ConfigStorage::kAnonLoginPW);
+		login(userId, UserAccountManager::kAnonLoginPW);
 	}
     else if(requestTag == API::TagRegisterChild)
     {

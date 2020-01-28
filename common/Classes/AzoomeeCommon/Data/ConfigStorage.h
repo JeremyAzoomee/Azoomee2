@@ -17,52 +17,10 @@ class ConfigStorage : public cocos2d::Ref
     
 public:
     
-    enum HubTargetTagNumber {
-        CHAT = 0,
-        VIDEO_HQ,
-        AUDIO_HQ,
-        ME_HQ,
-        GAME_HQ,
-        ARTS_APP,
-        GROUP_HQ
-    };
-    
-    static const char* const kChatHQName;
-    static const char* const kGameHQName;
-    static const char* const kVideoHQName;
-    static const char* const kAudioHQName;
     static const char* const kGroupHQName;
-    static const char* const kHomeHQName;
-    static const char* const kArtAppHQName;
-    static const char* const kMeHQName;
     
-    static std::string kDefaultHQName;
-    
-    static const char* const kRecentlyPlayedCarouselName;
-    
-    static const char* const kContentNodeName;
-    static const char* const kContentLayerName;
-    static const char* const kNavigationLayerName;
 	static const char* const kIosWebviewName;
 	static const char* const kAndroidWebviewName;
-    
-    static const char* const kContentTypeVideo;
-    static const char* const kContentTypeAudio;
-    static const char* const kContentTypeGame;
-    static const char* const kContentTypeGroup;
-    static const char* const kContentTypeAudioGroup;
-    static const char* const kContentTypeManual;
-    static const char* const kContentTypeInternal;
-    
-    static const char* const kContentLocFeature;
-    static const char* const kContentLocRecentPlayed;
-    static const char* const kContentLocFavourite;
-    static const char* const kContentLocEpisodeSelector;
-    static const char* const kContentLocCategory;
-    static const char* const kContentLocOffline;
-    
-    static const char* const kOomeeMakerURI;
-    static const char* const kArtAppURI;
     
     static const char* const kEstimatedKeyboardHeightPortrait;
     static const char* const kEstimatedKeyboardHeightLandscape;
@@ -72,23 +30,7 @@ public:
 	static const std::string kOomeeMakerCacheFolder;
     
     static const std::string kAvatarImageCacheFolder;
-    
-    static const std::string kGameDownloadError;
-	
-	static const std::string kIOSSubURL;
-	static const std::string kAndroidSubURL;
-	static const std::string kAmazonSubURL;
-	
-	static const std::string kBillingProviderApple;
-	static const std::string kBillingProviderGoogle;
-	static const std::string kBillingProviderAmazon;
-	static const std::string kBillingProviderVodacomSA;
-	
-	static const std::string kAnonLoginPW;
-	static const char* const kAnonEmailKey;
-	static const char* const kStoredUsernameKey;
-	static const char* const kAnonOnboardingCompleteKey;
-    
+
     static const std::string kOSManufacturerApple;
     static const std::string kOSManufacturerGoogle;
     static const std::string kOSManufacturerAmazon;
@@ -103,7 +45,6 @@ public:
     std::string getFileNameFromUrl(const std::string& url);
     
     std::string getGameCachePath();
-    std::string getDefaultHQ();
     
     //Backend caller configuration
     std::string getServerHost();
@@ -136,7 +77,6 @@ public:
     float getGroupContentItemTextHeight();
     cocos2d::Color4B getColourForElementType(const std::string& type);
     std::string getIconNameForCategory(const std::string& category);
-    std::string getGradientImageForCategory(const std::string& category);
     
     //NavigationLayer configuration
     std::string getHQSceneNameReplacementForPermissionFeed(const std::string &inputHqSceneName) const;
@@ -148,8 +88,7 @@ public:
     cocos2d::Point getTargetPositionForMove(const std::string& hqName) const;
     std::vector<std::string> getHqNames() const;
     void setNavigationHQs(const std::vector<std::string>& hqs);
-    void setDefaultHQ(const std::string& defaultHq);
-    
+
     //MainHubScene configuration
     std::vector<cocos2d::Point> getMainHubPositionForHighlightElements(const std::string& categoryName);
     std::string getRequiredTypesForHighlightCategory(int category);

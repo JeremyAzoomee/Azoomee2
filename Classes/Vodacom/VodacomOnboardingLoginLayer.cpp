@@ -229,7 +229,7 @@ void VodacomOnboardingLoginLayer::onHttpRequestSuccess(const std::string& reques
 			AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
 			_flowData->setUserType(UserType::FREE);
 			UserDefault* def = UserDefault::getInstance();
-			def->setStringForKey(ConfigStorage::kStoredUsernameKey, _flowData->getEmail());
+			def->setStringForKey(UserAccountManager::kStoredUsernameKey, _flowData->getEmail());
 			def->flush();
 			HttpRequestCreator* request = API::UpdateBillingDataRequest(UserAccountManager::getInstance()->getLoggedInParentId(), this);
 			request->execute();

@@ -179,8 +179,8 @@ void OfflineScene::populateOfflineGamesList()
     _gamesList->removeAllItems();
     auto games = GameDataManager::getInstance()->getOfflineGameList();
     MutableHQContentItemObjectRef artContent = MutableHQContentItemObject::create();
-    artContent->setUri(ConfigStorage::kArtAppURI);
-    artContent->setType(ConfigStorage::kContentTypeInternal);
+    artContent->setUri(HQConsts::kArtAppURI);
+    artContent->setType(HQContentItemObject::kContentTypeInternal);
     artContent->setEntitled(true);
     games.insert(games.begin(), artContent);
     const float tileSpacing = 35.0f;
@@ -206,7 +206,7 @@ void OfflineScene::populateOfflineGamesList()
             {
                 const auto& content = games.at((row * numCols) + col);
                 FeaturedTile* tile = FeaturedTile::create();
-                tile->setPlaceholderFilename(content->getUri() == ConfigStorage::kArtAppURI ? "res/contentPlaceholders/artStudio.jpg" : "res/contentPlaceholders/Games1X1.png");
+                tile->setPlaceholderFilename(content->getUri() == HQConsts::kArtAppURI ? "res/contentPlaceholders/artStudio.jpg" : "res/contentPlaceholders/Games1X1.png");
                 tile->setContentSize(tileSize);
                 tile->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
                 tile->setNormalizedPosition(Vec2((col + 0.5) / numCols,0.5f));

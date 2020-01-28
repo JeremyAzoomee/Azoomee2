@@ -256,11 +256,11 @@ void HQDataProvider::hideLoadingScreen()
 }
 
 const std::map<std::string, std::string> HQDataProvider::kLockFiles = {
-    { ConfigStorage::kContentTypeVideo, "res/hqscene/locked_video.png" },
-    { ConfigStorage::kContentTypeAudio, "res/hqscene/locked_audio_books.png" },
-    { ConfigStorage::kContentTypeGroup, "res/hqscene/locked_video.png" },
-    { ConfigStorage::kContentTypeAudioGroup, "res/hqscene/locked_audio_books.png" },
-    { ConfigStorage::kContentTypeGame, "res/hqscene/locked_games.png" },
+    { HQContentItemObject::kContentTypeVideo, "res/hqscene/locked_video.png" },
+    { HQContentItemObject::kContentTypeAudio, "res/hqscene/locked_audio_books.png" },
+    { HQContentItemObject::kContentTypeGroup, "res/hqscene/locked_video.png" },
+    { HQContentItemObject::kContentTypeAudioGroup, "res/hqscene/locked_audio_books.png" },
+    { HQContentItemObject::kContentTypeGame, "res/hqscene/locked_games.png" },
     { "", "res/hqscene/locked.png" }
 };
 

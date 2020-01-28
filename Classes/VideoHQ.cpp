@@ -54,7 +54,7 @@ bool VideoHQ::init()
 
 void VideoHQ::onEnter()
 {
-    const auto& allRecentPlayed = RecentlyPlayedManager::getInstance()->getRecentlyPlayedContentForHQ(ConfigStorage::kVideoHQName);
+    const auto& allRecentPlayed = RecentlyPlayedManager::getInstance()->getRecentlyPlayedContentForHQ(HQConsts::kVideoHQName);
     // Filter the recently played by group so videos can display as a series, but open the episode
     const auto& recentPlayedData = HQDataProvider::getInstance()->filterContentItemsByUniqueGroup(allRecentPlayed);
     
@@ -160,7 +160,7 @@ void VideoHQ::setEpisodeSelectorContentSelectedCallback(const ContentSelectedCal
 
 void VideoHQ::createFeaturedTiles()
 {
-    const auto& hqData = HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kVideoHQName);
+    const auto& hqData = HQDataObjectManager::getInstance()->getHQDataObjectForKey(HQConsts::kVideoHQName);
     HQCarouselObjectRef carouselData = nullptr;
     if(hqData)
     {
@@ -176,7 +176,7 @@ void VideoHQ::createFeaturedTiles()
     _featuredLayout->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
         if(_contentSelectedCallback)
         {
-            const std::string& location = StringUtils::format("%s%d", ConfigStorage::kContentLocFeature, elementIndex);
+            const std::string& location = StringUtils::format("%s%d", HQConsts::kContentLocFeature, elementIndex);
             _contentSelectedCallback(content, elementIndex, 0, location);
         }
     });
@@ -208,7 +208,7 @@ void VideoHQ::createRecentlyPlayedTiles()
             // Open the actual content by checking _recentPlayedContent
             // This is because content might be a group if it's a video episode
             HQContentItemObjectRef contentToOpen = elementIndex < _recentPlayedContent.size() ? _recentPlayedContent[elementIndex] : content;
-            _contentSelectedCallback(contentToOpen, elementIndex, -1, ConfigStorage::kContentLocRecentPlayed);
+            _contentSelectedCallback(contentToOpen, elementIndex, -1, HQConsts::kContentLocRecentPlayed);
         }
     });
     _contentListView->pushBackCustomItem(_recentlyPlayedLayout);
@@ -216,7 +216,7 @@ void VideoHQ::createRecentlyPlayedTiles()
 
 void VideoHQ::createDropdowns()
 {
-    const auto& hqData = HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kVideoHQName);
+    const auto& hqData = HQDataObjectManager::getInstance()->getHQDataObjectForKey(HQConsts::kVideoHQName);
     if(!hqData)
     {
         return;
@@ -236,7 +236,7 @@ void VideoHQ::createDropdowns()
         dropdown->setContentSelectedCallback([this, i](HQContentItemObjectRef content, int elementIndex){
             if(_contentSelectedCallback)
             {
-                _contentSelectedCallback(content, elementIndex, i, ConfigStorage::kContentLocCategory);
+                _contentSelectedCallback(content, elementIndex, i, HQConsts::kContentLocCategory);
             }
         });
         dropdown->setOnResizeCallback([this](){
@@ -278,7 +278,7 @@ void VideoHQ::createEpisodePlayer()
     _episodeSelector->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
         if(_episodeSelectorContentSelectedCallback)
         {
-            _episodeSelectorContentSelectedCallback(content, elementIndex, 0, ConfigStorage::kContentLocEpisodeSelector);
+            _episodeSelectorContentSelectedCallback(content, elementIndex, 0, HQConsts::kContentLocEpisodeSelector);
         }
     });
     _episodeSelector->setTouchEnabled(true);

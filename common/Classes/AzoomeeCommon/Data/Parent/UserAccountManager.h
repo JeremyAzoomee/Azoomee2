@@ -22,6 +22,11 @@ class UserAccountManager
 {
     typedef std::function<void(bool, long)> OnCompleteCallback;
 public:
+    static const std::string kAnonLoginPW;
+    static const char* const kAnonEmailKey;
+    static const char* const kStoredUsernameKey;
+    static const char* const kAnonOnboardingCompleteKey;
+    
 	static UserAccountManager* getInstance();
 	
 	virtual ~UserAccountManager();

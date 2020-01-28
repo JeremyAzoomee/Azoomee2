@@ -24,42 +24,10 @@ namespace Azoomee
 {
 static ConfigStorage *_sharedConfigStorage = NULL;
     
-    const char* const ConfigStorage::kChatHQName = "CHAT";
-    const char* const ConfigStorage::kGameHQName = "GAME HQ";
-    const char* const ConfigStorage::kVideoHQName = "VIDEO HQ";
-    const char* const ConfigStorage::kAudioHQName = "AUDIO HQ";
     const char* const ConfigStorage::kGroupHQName = "GROUP HQ";
-    const char* const ConfigStorage::kHomeHQName = "HOME";
-    const char* const ConfigStorage::kArtAppHQName = "ARTS APP";
-    const char* const ConfigStorage::kMeHQName = "ME HQ";
-    
-    std::string ConfigStorage::kDefaultHQName = ConfigStorage::kMeHQName;
-    
-    const char* const ConfigStorage::kRecentlyPlayedCarouselName = "LAST PLAYED";
-    
-    const char* const ConfigStorage::kContentNodeName = "contentNode";
-    const char* const ConfigStorage::kContentLayerName = "contentLayer";
-    const char* const ConfigStorage::kNavigationLayerName = "NavigationLayer";
+
 	const char* const ConfigStorage::kIosWebviewName = "iosWebView";
 	const char* const ConfigStorage::kAndroidWebviewName = "androidWebView";
-    
-    const char* const ConfigStorage::kContentTypeVideo = "VIDEO";
-    const char* const ConfigStorage::kContentTypeAudio = "AUDIO";
-    const char* const ConfigStorage::kContentTypeGame = "GAME";
-    const char* const ConfigStorage::kContentTypeGroup = "GROUP";
-    const char* const ConfigStorage::kContentTypeAudioGroup = "AUDIOGROUP";
-    const char* const ConfigStorage::kContentTypeManual = "MANUAL";
-    const char* const ConfigStorage::kContentTypeInternal = "INTERNAL";
-
-    const char* const ConfigStorage::kContentLocFeature = "feature";
-    const char* const ConfigStorage::kContentLocRecentPlayed = "recentPlayed";
-    const char* const ConfigStorage::kContentLocFavourite = "favourite";
-    const char* const ConfigStorage::kContentLocEpisodeSelector = "episodeSelector";
-    const char* const ConfigStorage::kContentLocCategory = "category";
-    const char* const ConfigStorage::kContentLocOffline = "offline";
-    
-    const char* const ConfigStorage::kOomeeMakerURI = "OOMEE_MAKER";
-    const char* const ConfigStorage::kArtAppURI = "AZOOMEE_ART";
     
     const char* const ConfigStorage::kEstimatedKeyboardHeightPortrait = "Azoomee::MessageComposer::EstimatedKeyboardHeight/Portrait";
     const char* const ConfigStorage::kEstimatedKeyboardHeightLandscape = "Azoomee::MessageComposer::EstimatedKeyboardHeight/Landscape";
@@ -69,24 +37,7 @@ static ConfigStorage *_sharedConfigStorage = NULL;
 	const std::string ConfigStorage::kOomeeMakerCacheFolder = "oomeeMaker/";
     
     const std::string ConfigStorage::kAvatarImageCacheFolder = "avatars";
-    
-    const std::string ConfigStorage::kGameDownloadError = "ERROR";
 	
-	const std::string ConfigStorage::kIOSSubURL = "https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/DirectAction/manageSubscriptions";
-	const std::string ConfigStorage::kAndroidSubURL = "https://play.google.com/store/account/subscriptions";
-	const std::string ConfigStorage::kAmazonSubURL = "amzn://apps/library/subscriptions";
-
-	const std::string ConfigStorage::kBillingProviderApple = "APPLE";
-	const std::string ConfigStorage::kBillingProviderGoogle = "GOOGLE";
-	const std::string ConfigStorage::kBillingProviderAmazon = "AMAZON";
-	const std::string ConfigStorage::kBillingProviderVodacomSA = "VODACOM_SA";
-	
-	const std::string ConfigStorage::kAnonLoginPW = "ToBeDecided";
-	const char* const ConfigStorage::kAnonEmailKey = "anonEmail";
-	const char* const ConfigStorage::kStoredUsernameKey = "username";
-	const char* const ConfigStorage::kAnonOnboardingCompleteKey = "anonOnboardingComplete";
-	
-    
     const std::string ConfigStorage::kOSManufacturerApple = "Apple";
     const std::string ConfigStorage::kOSManufacturerGoogle = "Google";
     const std::string ConfigStorage::kOSManufacturerAmazon = "Amazon";
@@ -151,11 +102,6 @@ bool ConfigStorage::init(void)
         API::TagGetMarketingAssets
     };
     requestTagsRequireImmediateSending = {
-        kGroupHQName,
-        kVideoHQName,
-        kAudioHQName,
-        kGameHQName,
-        kHomeHQName,
         API::TagLogin,
         API::TagChildLogin,
         API::TagParentPin,
@@ -183,11 +129,6 @@ std::string ConfigStorage::getFileNameFromUrl(const std::string& url)
 std::string ConfigStorage::getGameCachePath()
 {
     return DirUtil::getCachesPath() + kGameCacheFolder;
-}
-    
-std::string ConfigStorage::getDefaultHQ()
-{
-    return kDefaultHQName;
 }
 
 //-------------------------PRIVATE METHOD TO PARSE CONFIG JSON FILE--------
@@ -441,18 +382,6 @@ std::string ConfigStorage::getIconNameForCategory(const std::string& category)
     return getStringFromJson(category, HQSceneConfiguration["iconNameForCategory"]);
 }
     
-std::string ConfigStorage::getGradientImageForCategory(const std::string& category)
-{
-    if(category == kVideoHQName || category == kGroupHQName || category == kHomeHQName )
-    {
-        return "res/hqscene/gradient_overlay.png";
-    }
-    else
-    {
-        return "res/hqscene/gradient_overlay_large.png";
-    }
-}
-    
 //------------------NAVIGATIONLAYER CONFIGURATION--------------------------------
 
 std::string ConfigStorage::getHQSceneNameReplacementForPermissionFeed(const std::string &inputHqSceneName) const
@@ -564,11 +493,6 @@ std::vector<std::string> ConfigStorage::getHqNames() const
 void ConfigStorage::setNavigationHQs(const std::vector<std::string>& hqs)
 {
     _navigationHQs = hqs;
-}
-
-void ConfigStorage::setDefaultHQ(const std::string &defaultHq)
-{
-    kDefaultHQName = defaultHq;
 }
 
 //--------------------------- UserDefaults First Time User for Slideshow------------
