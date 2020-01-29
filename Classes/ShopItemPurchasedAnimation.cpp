@@ -56,7 +56,7 @@ void ShopItemPurchasedAnimation::onEnter()
 {
 	if(_itemData)
 	{
-		_itemAsset->initWithUrlAndSizeWithoutPlaceholder(_itemData->getInventoryItem()->getUri(), _beam->getContentSize());
+		_itemAsset->initWithUrlAndSize(_itemData->getInventoryItem()->getUri(), _beam->getContentSize());
 		_itemAsset->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 		_itemAsset->startLoadingImage();
 		_clippingStencil->setContentSize(_itemAsset->getContentSize() * 1.25);

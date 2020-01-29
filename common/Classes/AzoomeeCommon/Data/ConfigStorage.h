@@ -53,13 +53,7 @@ public:
     std::string getRemoteWebGameAPIPath();
     bool isParentSignatureRequiredForRequest(const std::string& requestTag);
     bool isImmediateRequestSendingRequired(const std::string& requestTag);
-    
-    //HQSceneElementConfiguration
-    std::string getPlaceholderImageForContentItemInCategory(const std::string& type);
-    
-    //NavigationLayer configuration
-    cocos2d::Color4B getColourForMenuItem(const std::string& hqName) const;
-    
+
     //Android helper for arts app
     int inArtsApp;
 
@@ -101,9 +95,6 @@ public:
 private:
     rapidjson::Document parseJsonConfigurationFile(const std::string& fileName);
     
-    rapidjson::Document BaseSceneConfiguration;
-    rapidjson::Document HQSceneConfiguration;
-    rapidjson::Document NavigationConfiguration;
     rapidjson::Document VersionConfiguration;
     rapidjson::Document IapConfiguration;
     

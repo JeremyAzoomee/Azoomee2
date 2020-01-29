@@ -23,26 +23,7 @@ RemoteImageSprite::~RemoteImageSprite()
     }
 }
 
-bool RemoteImageSprite::initWithURLAndSize(const std::string& url, const std::string& type, const Size& size, const Vec2& shape)
-{
-    if(!Super::init())
-    {
-        return false;
-    }
-    ignoreContentAdaptWithSize(false);
-    _imageDownloaderLogic = ImageDownloader::create(ImageDownloader::kImageCachePath, ImageDownloader::CacheMode::File);
-    
-    this->setCascadeOpacityEnabled(true);
-    this->setContentSize(size);
-    
-    this->addPlaceHolderImage(type, size, shape);
-    
-    _imageUrl = url;
-	
-    return true;
-}
-
-bool RemoteImageSprite::initWithUrlAndSizeWithoutPlaceholder(const std::string& url, const cocos2d::Size& size, bool useStencil)
+bool RemoteImageSprite::initWithUrlAndSize(const std::string& url, const cocos2d::Size& size)
 {
     if(!Super::init())
     {
@@ -102,22 +83,6 @@ void RemoteImageSprite::resizeImage()
             _loadedImage->setScaleY(contentSize.height/ imageSize.height);
         }
     }
-}
-
-void RemoteImageSprite::addPlaceHolderImage(const std::string& type, const Size& contentSize, const Vec2& shape)
-{
-    std::string placeholderImageFile = StringUtils::format("%s%.fX%.f.png",ConfigStorage::getInstance()->getPlaceholderImageForContentItemInCategory(type).c_str(),shape.x,shape.y);
-    if(!FileUtils::getInstance()->isFileExist(placeholderImageFile))
-    {
-        placeholderImageFile = StringUtils::format("%s1X1.png",ConfigStorage::getInstance()->getPlaceholderImageForContentItemInCategory(type).c_str());
-    }
-    
-    auto placeHolderImage = Sprite::create(placeholderImageFile);
-    placeHolderImage->setPosition(this->getContentSize() / 2);
-    placeHolderImage->setName("placeHolderImage");
-    placeHolderImage->setScaleX(this->getContentSize().width / placeHolderImage->getContentSize().width);
-    placeHolderImage->setScaleY(this->getContentSize().height / placeHolderImage->getContentSize().height);
-    this->addChild(placeHolderImage);
 }
 
 void RemoteImageSprite::imageAddedToCache(const std::string& localPath)

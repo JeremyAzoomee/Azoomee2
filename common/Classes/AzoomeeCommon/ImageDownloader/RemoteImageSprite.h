@@ -18,8 +18,7 @@ public:
     CREATE_FUNC(RemoteImageSprite);
     virtual ~RemoteImageSprite();
     
-    virtual bool initWithURLAndSize(const std::string& url, const std::string& type, const cocos2d::Size& size, const cocos2d::Vec2& shape);
-    virtual bool initWithUrlAndSizeWithoutPlaceholder(const std::string& url, const cocos2d::Size& size, bool useStencil = false);
+    virtual bool initWithUrlAndSize(const std::string& url, const cocos2d::Size& size);
     
     ImageDownloaderRef _imageDownloaderLogic = nullptr;
     

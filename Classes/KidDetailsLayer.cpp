@@ -163,7 +163,7 @@ void KidDetailsLayer::onEnter()
     bgCircle2->runAction(rotate2);
     
     _oomee = RemoteImageSprite::create();
-    _oomee->initWithUrlAndSizeWithoutPlaceholder(_child->getAvatar(), oomeeLayout->getContentSize());
+    _oomee->initWithUrlAndSize(_child->getAvatar(), oomeeLayout->getContentSize());
     _oomee->setKeepAspectRatio(true);
     _oomee->setAnchorPoint(Vec2(0.5,0.4));
     _oomee->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);

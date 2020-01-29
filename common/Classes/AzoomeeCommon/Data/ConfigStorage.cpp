@@ -71,9 +71,6 @@ bool ConfigStorage::init(void)
 {
     inArtsApp = 0;
     
-    BaseSceneConfiguration = parseJsonConfigurationFile("BaseSceneConfiguration.json");
-    HQSceneConfiguration = parseJsonConfigurationFile("HQSceneConfiguration.json");
-    NavigationConfiguration = parseJsonConfigurationFile("NavigationConfiguration.json");
     VersionConfiguration = parseJsonConfigurationFile("Version.json");
     IapConfiguration = parseJsonConfigurationFile("IapConfiguration.json");
 
@@ -197,33 +194,6 @@ bool ConfigStorage::isImmediateRequestSendingRequired(const std::string& request
 {
     auto itemPosition = std::find(requestTagsRequireImmediateSending.begin(), requestTagsRequireImmediateSending.end(), requestTag);
     return itemPosition != requestTagsRequireImmediateSending.end();
-}
-
-//-------------------------HQSCENEELEMENT CONFIGURATION-------------------------
-
-std::string ConfigStorage::getPlaceholderImageForContentItemInCategory(const std::string& type)
-{
-    const rapidjson::Value &placeholders = HQSceneConfiguration["placeholderImageForContentItemInCategory"];
-    return getStringFromJson(type, placeholders);
-}
-    
-//------------------NAVIGATIONLAYER CONFIGURATION--------------------------------
-
-cocos2d::Color4B ConfigStorage::getColourForMenuItem(const std::string& hqName) const
-{
-    Color4B returnColour = Color4B(0,0,0,0);
-    
-    if(NavigationConfiguration["coloursForMenuItems"].HasMember(hqName.c_str()))
-    {
-        const rapidjson::Value &itemColour = NavigationConfiguration["coloursForMenuItems"][hqName.c_str()];
-        
-        returnColour.r = getIntFromJson("r", itemColour);
-        returnColour.g = getIntFromJson("g", itemColour);
-        returnColour.b = getIntFromJson("b", itemColour);
-        returnColour.a = getIntFromJson("a", itemColour);
-    }
-    
-    return returnColour;
 }
 
 //--------------------------- UserDefaults First Time User for Slideshow------------

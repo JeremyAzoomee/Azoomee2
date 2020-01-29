@@ -257,7 +257,7 @@ cocos2d::ui::Layout* ChildSelectorScene::createChildButton(const ChildRef& child
     childButton->setContentSize(kBaseButtonSize);
     
     RemoteImageSprite* oomee = RemoteImageSprite::create();
-    oomee->initWithUrlAndSizeWithoutPlaceholder(child->getAvatar(), Size(kBaseButtonSize.width, kBaseButtonSize.width));
+    oomee->initWithUrlAndSize(child->getAvatar(), Size(kBaseButtonSize.width, kBaseButtonSize.width));
     oomee->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     oomee->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
     childButton->addChild(oomee);
@@ -370,7 +370,7 @@ ui::Button *ChildSelectorScene::createChildProfileButton(const std::string& prof
 	bgCircle2->runAction(rotate2);
 	
     auto oomee = RemoteImageSprite::create();
-    oomee->initWithUrlAndSizeWithoutPlaceholder(UserAccountManager::getInstance()->getChild(childNum)->getAvatar(), oomeeSize);
+    oomee->initWithUrlAndSize(UserAccountManager::getInstance()->getChild(childNum)->getAvatar(), oomeeSize);
     oomee->setKeepAspectRatio(true);
     oomee->setAnchorPoint(Vec2(0.5,0.4));
     oomee->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);

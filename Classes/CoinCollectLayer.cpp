@@ -205,7 +205,7 @@ void CoinCollectLayer::addPlinth()
 	bool isPortrait = visibleSize.width < visibleSize.height;
 	
 	RemoteImageSprite* oomee = RemoteImageSprite::create();
-	oomee->initWithUrlAndSizeWithoutPlaceholder(_oomeeFilepath, Size(600,600));
+	oomee->initWithUrlAndSize(_oomeeFilepath, Size(600,600));
 	oomee->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 	oomee->setNormalizedPosition(Vec2(0.5,0.8));
 	
