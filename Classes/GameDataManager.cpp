@@ -16,7 +16,6 @@
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include "WebGameAPIDataManager.h"
-#include <AzoomeeCommon/Utils/VersionChecker.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "FlowDataSingleton.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
@@ -169,7 +168,7 @@ void GameDataManager::JSONFileIsPresent(const std::string &itemId)
     const std::string &basePathWithFileName = basePath + "package.json";
     const std::string &startFile = getStartFileFromJSONFile(basePathWithFileName);
     
-    if(!isGameCompatibleWithCurrentAzoomeeVersion(basePathWithFileName))
+    if(!isGameCompatibleWithCurrentAppVersion(basePathWithFileName))
     {
         hideLoadingScreen();
         showIncompatibleMessage();
@@ -410,7 +409,7 @@ void GameDataManager::startGame(const std::string &basePath, const std::string &
         return;
     }
     
-    if(!isGameCompatibleWithCurrentAzoomeeVersion(basePath + "package.json"))
+    if(!isGameCompatibleWithCurrentAppVersion(basePath + "package.json"))
     {
         AnalyticsSingleton::getInstance()->contentItemIncompatibleEvent();
         showIncompatibleMessage();
@@ -512,7 +511,7 @@ void GameDataManager::removeGameFolderOnError(const std::string &dirPath)
     FileUtils::getInstance()->removeDirectory(dirPath);
 }
 
-bool GameDataManager::isGameCompatibleWithCurrentAzoomeeVersion(const std::string &jsonFileName)
+bool GameDataManager::isGameCompatibleWithCurrentAppVersion(const std::string &jsonFileName)
 {
     const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     rapidjson::Document gameData;
@@ -520,7 +519,7 @@ bool GameDataManager::isGameCompatibleWithCurrentAzoomeeVersion(const std::strin
     
     const std::string& minAppVersion = getStringFromJson("minAppVersion", gameData);
 
-    return ( minAppVersion.empty() || azoomeeMeetsVersionRequirement(minAppVersion) );
+    return ( minAppVersion.empty() || StringFunctions::compareVersionNumbers(minAppVersion, ConfigStorage::getInstance()->getVersionNumber()) >= 0);
 }
 
 void GameDataManager::getContentItemImageForOfflineUsage(const std::string &gameId)
@@ -530,7 +529,7 @@ void GameDataManager::getContentItemImageForOfflineUsage(const std::string &game
         imageDownloader.reset();
     }
     
-    imageDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
+    imageDownloader = ImageDownloader::create(ImageDownloader::kImageCachePath, ImageDownloader::CacheMode::File);
     imageDownloader->downloadImage(nullptr, HQDataProvider::getInstance()->getThumbnailUrlForItem(gameId));
 }
 

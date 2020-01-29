@@ -106,7 +106,7 @@ bool ForceUpdateSingleton::parseAndSaveForceUpdateData(const std::string &jsonSt
 {
 	    std::map<std::string, std::string> forceUpdateData = getMapFromForceUpdateJsonData(jsonString);
 	    forceUpdateData["timeStamp"] = StringUtils::format("%ld", time(NULL));
-	    const std::string &jsonStringToBeWritten = getJSONStringFromMap(forceUpdateData);
+	    const std::string &jsonStringToBeWritten = StringFunctions::getJSONStringFromMap(forceUpdateData);
 	
 	    FileUtils::getInstance()->writeStringToFile(jsonStringToBeWritten, writablePath + forceUpdateFileSubPath);
 	
@@ -168,12 +168,12 @@ void ForceUpdateSingleton::setLocalEtag(const std::string& etag)
 
 bool ForceUpdateSingleton::isNotificationRequired()
 {
-    return !azoomeeMeetsVersionRequirement(getAcceptedMinAzoomeeVersion()); //if acceptedMinAzoomeeVersion is not met, we need to at least notify, but check if close required.
+    return StringFunctions::compareVersionNumbers(getAcceptedMinAzoomeeVersion(), ConfigStorage::getInstance()->getVersionNumber()) < 0; //if acceptedMinAzoomeeVersion is not met, we need to at least notify, but check if close required.
 }
 
 bool ForceUpdateSingleton::isAppCloseRequired()
 {
-    return !azoomeeMeetsVersionRequirement(getNotifiedMinAzoomeeVersion()); //if not even the notifiedMinAzoomeeVersion is met, we need to close the app
+    return StringFunctions::compareVersionNumbers(getNotifiedMinAzoomeeVersion(), ConfigStorage::getInstance()->getVersionNumber()) < 0; //if not even the notifiedMinAzoomeeVersion is met, we need to close the app
 }
 
 std::string ForceUpdateSingleton::getAcceptedMinAzoomeeVersion()

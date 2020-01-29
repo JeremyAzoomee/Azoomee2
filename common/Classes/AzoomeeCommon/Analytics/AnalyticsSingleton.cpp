@@ -83,7 +83,7 @@ void AnalyticsSingleton::registerAzoomeeEmail(std::string emailAddress)
 {
     std::string azoomeEmail = "NO";
     
-    if (hasAzoomeeEmailAddress(emailAddress))
+    if (TextInputChecker::hasAzoomeeEmailAddress(emailAddress))
         azoomeEmail = "YES";
     
     mixPanelRegisterSuperProperties("azoomeeEmail",azoomeEmail);
@@ -117,7 +117,7 @@ void AnalyticsSingleton::registerChildGenderAndAge(const ChildRef& child)
 	{
     	mixPanelRegisterSuperProperties("sex",child->getSex());
     
-    	int childAge = ageFromDOBString(child->getDOB());
+    	int childAge = TextInputChecker::ageFromDOBString(child->getDOB());
     
     	mixPanelRegisterSuperProperties("age",cocos2d::StringUtils::format("%s%d",NUMBER_IDENTIFIER, childAge));
 	}
@@ -899,7 +899,7 @@ void AnalyticsSingleton::accessorySelectedEvent(const std::string& method)
 
 void AnalyticsSingleton::stickerSelectedEvent(const std::string &stickerFilename)
 {
-    auto splitString = splitStringToVector(stickerFilename, "/");
+    auto splitString = StringFunctions::splitStringToVector(stickerFilename, "/");
     if(splitString.size() >= 2)
     {
         mixPanelSendEventWithStoredProperties("artAppStickerSelected",{{"stickerCategory",splitString.at(splitString.size() - 2)},{"stickerName",splitString.at(splitString.size() - 1)}} );

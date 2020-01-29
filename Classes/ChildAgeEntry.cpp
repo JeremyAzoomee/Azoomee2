@@ -31,7 +31,7 @@ bool ChildAgeEntry::init()
 }
 void ChildAgeEntry::onEnter()
 {
-    setContinueButtonEnabled(isValidAge(StringUtils::format("%d", _selectedAge)));
+    setContinueButtonEnabled(TextInputChecker::isValidAge(StringUtils::format("%d", _selectedAge)));
     Super::onEnter();
 }
 void ChildAgeEntry::onExit()
@@ -227,7 +227,7 @@ void ChildAgeEntry::setSelectedAge(int age)
         targetButton->setColor(Style::Color::strongPink);
     }
     _selectedAge = age;
-    setContinueButtonEnabled(isValidAge(StringUtils::format("%d", _selectedAge)));
+    setContinueButtonEnabled(TextInputChecker::isValidAge(StringUtils::format("%d", _selectedAge)));
 }
 
 void ChildAgeEntry::highlightMessageString(const std::string& targetStr, const cocos2d::Color3B& highlightColour, const cocos2d::Color3B& baseColour)

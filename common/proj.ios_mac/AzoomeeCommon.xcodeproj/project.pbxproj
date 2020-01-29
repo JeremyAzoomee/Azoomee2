@@ -14,7 +14,6 @@
 		021B1FCC1F838A0A0044DCF7 /* HQDataObjectManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 021B1FC71F838A0A0044DCF7 /* HQDataObjectManager.cpp */; };
 		022218CC1ECF203000AD167F /* SessionIdManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 022218CA1ECF203000AD167F /* SessionIdManager.cpp */; };
 		0240FC952016538C00E88157 /* BiometricAuthenticationHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0240FC942016538B00E88157 /* BiometricAuthenticationHandler.cpp */; };
-		02A120251EAF83E0007EDD95 /* VersionChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02A120231EAF83E0007EDD95 /* VersionChecker.cpp */; };
 		02AE88E01F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02AE88DF1F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.mm */; };
 		02AE88E31F83CBC3005C0FC8 /* AutomaticEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 02AE88E21F83CBC3005C0FC8 /* AutomaticEvents.m */; };
 		02BEDF2E1FE1327500D4C9B3 /* ContentItemManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02BEDF2C1FE1327500D4C9B3 /* ContentItemManager.cpp */; };
@@ -138,7 +137,7 @@
 		92084F0B21B5877B00DACCEB /* BillingData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92084F0A21B5877B00DACCEB /* BillingData.cpp */; };
 		921C75AA2193225D00EB93D6 /* Style.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921C75A92193225C00EB93D6 /* Style.cpp */; };
 		9220E9C11FFE549500BD7A90 /* AnalyticsProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220E9C01FFE549500BD7A90 /* AnalyticsProperties.cpp */; };
-		9220EBB92021FC9300BD7A90 /* TimeFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EBB82021FC9300BD7A90 /* TimeFunctions.cpp */; };
+		9220EBB92021FC9300BD7A90 /* TimeUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EBB82021FC9300BD7A90 /* TimeUtils.cpp */; };
 		9220EC6A203313CE00BD7A90 /* ActionBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EC69203313CE00BD7A90 /* ActionBuilder.cpp */; };
 		92244D7D2278773C004C9B45 /* TutorialGuide.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92244D7C2278773C004C9B45 /* TutorialGuide.cpp */; };
 		92244D7F2278840B004C9B45 /* TutorialSpeechBubble.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92244D7E2278840B004C9B45 /* TutorialSpeechBubble.cpp */; };
@@ -194,8 +193,6 @@
 		022218CB1ECF203000AD167F /* SessionIdManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionIdManager.h; sourceTree = "<group>"; };
 		0240FC932016538A00E88157 /* BiometricAuthenticationHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BiometricAuthenticationHandler.h; sourceTree = "<group>"; };
 		0240FC942016538B00E88157 /* BiometricAuthenticationHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BiometricAuthenticationHandler.cpp; sourceTree = "<group>"; };
-		02A120231EAF83E0007EDD95 /* VersionChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VersionChecker.cpp; sourceTree = "<group>"; };
-		02A120241EAF83E0007EDD95 /* VersionChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VersionChecker.h; sourceTree = "<group>"; };
 		02AE88DE1F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IosNativeFunctionsSingleton.h; sourceTree = "<group>"; };
 		02AE88DF1F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IosNativeFunctionsSingleton.mm; sourceTree = "<group>"; };
 		02AE88E11F83CBC3005C0FC8 /* AutomaticEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutomaticEvents.h; sourceTree = "<group>"; };
@@ -445,8 +442,8 @@
 		921C75A92193225C00EB93D6 /* Style.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Style.cpp; sourceTree = "<group>"; };
 		9220E9BF1FFE44C800BD7A90 /* AnalyticsProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnalyticsProperties.h; sourceTree = "<group>"; };
 		9220E9C01FFE549500BD7A90 /* AnalyticsProperties.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AnalyticsProperties.cpp; sourceTree = "<group>"; };
-		9220EBB72021F9E900BD7A90 /* TimeFunctions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TimeFunctions.h; sourceTree = "<group>"; };
-		9220EBB82021FC9300BD7A90 /* TimeFunctions.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TimeFunctions.cpp; sourceTree = "<group>"; };
+		9220EBB72021F9E900BD7A90 /* TimeUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TimeUtils.h; sourceTree = "<group>"; };
+		9220EBB82021FC9300BD7A90 /* TimeUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TimeUtils.cpp; sourceTree = "<group>"; };
 		9220EC6820330FE000BD7A90 /* ActionBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ActionBuilder.h; sourceTree = "<group>"; };
 		9220EC69203313CE00BD7A90 /* ActionBuilder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ActionBuilder.cpp; sourceTree = "<group>"; };
 		92244D7A227729F7004C9B45 /* TutorialSpeechBubble.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TutorialSpeechBubble.h; sourceTree = "<group>"; };
@@ -684,8 +681,6 @@
 				3012ED6C1E96A3140009027D /* StringFunctions.h */,
 				3012ED6D1E96A3140009027D /* LocaleManager.cpp */,
 				3012ED6E1E96A3140009027D /* LocaleManager.h */,
-				02A120231EAF83E0007EDD95 /* VersionChecker.cpp */,
-				02A120241EAF83E0007EDD95 /* VersionChecker.h */,
 				9224C00A1F7CF8C100108553 /* FileZipUtil.h */,
 				9224C00B1F7CFD7E00108553 /* FileZipUtil.cpp */,
 				9224C00D1F7D11F400108553 /* DirUtil.h */,
@@ -701,8 +696,8 @@
 				92759E9D1FE410BB00639190 /* FileDownloader.cpp */,
 				0240FC942016538B00E88157 /* BiometricAuthenticationHandler.cpp */,
 				0240FC932016538A00E88157 /* BiometricAuthenticationHandler.h */,
-				9220EBB72021F9E900BD7A90 /* TimeFunctions.h */,
-				9220EBB82021FC9300BD7A90 /* TimeFunctions.cpp */,
+				9220EBB72021F9E900BD7A90 /* TimeUtils.h */,
+				9220EBB82021FC9300BD7A90 /* TimeUtils.cpp */,
 				9271D886204EE6AD00370120 /* SpriteUtils.h */,
 				9271D887204EE7EE00370120 /* SpriteUtils.cpp */,
 				9220EC6820330FE000BD7A90 /* ActionBuilder.h */,
@@ -1369,7 +1364,6 @@
 				4318E13A1F289DD500778E9A /* RequestAdultPinLayer.cpp in Sources */,
 				92D1B49622A8178400357513 /* ChildManager.cpp in Sources */,
 				924ACE0C20A4A073007A5550 /* HQStructureDownloadHandler.cpp in Sources */,
-				02A120251EAF83E0007EDD95 /* VersionChecker.cpp in Sources */,
 				4349C84D1EA8ADEF00FE964B /* MPUIColorToNSStringValueTransformer.m in Sources */,
 				92D1B49322A7F7C000357513 /* CookieManager.cpp in Sources */,
 				3012ED481E969A180009027D /* AudioMixer.cpp in Sources */,
@@ -1404,7 +1398,7 @@
 				4349C8431EA8ADEF00FE964B /* MPSwizzle.m in Sources */,
 				9271D888204EE7EE00370120 /* SpriteUtils.cpp in Sources */,
 				4349C82D1EA8ADEF00FE964B /* MPClassDescription.m in Sources */,
-				9220EBB92021FC9300BD7A90 /* TimeFunctions.cpp in Sources */,
+				9220EBB92021FC9300BD7A90 /* TimeUtils.cpp in Sources */,
 				3012EDA11E97E6A40009027D /* ImageDownloader.cpp in Sources */,
 				302E84791ED1B992006A498C /* ObservableLayout.cpp in Sources */,
 				3012ED851E97A8F50009027D /* Notifications_ios.mm in Sources */,

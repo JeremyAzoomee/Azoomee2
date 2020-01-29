@@ -20,6 +20,10 @@ public:
     void doLoginLogic();
     void forceNewLogin(const LoginOrigin& origin = LoginOrigin::LOGOUT);
     
+    void login(const std::string& email, const std::string& password);
+    void anonLogin();
+    void childLogin(const std::string& childName);
+    
     void handleLoginSuccess();
     void handleGetChildrenSuccess();
     void handleChildLoginSuccess();

@@ -30,10 +30,10 @@ Layer* MessageBoxTextLayer::createMessageBoxTextLayer(long errorCode,Layer* pare
     
     layer->_parentLayer = parentLayer;
     
-    layer->_buttonsTitleList = splitStringToVector(errorStringMap[ERROR_BUTTON], "|");
+    layer->_buttonsTitleList = StringFunctions::splitStringToVector(errorStringMap[ERROR_BUTTON], "|");
     
     if(errorStringMap.at(ERROR_BUTTON_REFERENCE) != "")
-        layer->_buttonsReferenceList = splitStringToVector(errorStringMap[ERROR_BUTTON_REFERENCE], "|");
+        layer->_buttonsReferenceList = StringFunctions::splitStringToVector(errorStringMap[ERROR_BUTTON_REFERENCE], "|");
     
     layer->initMessageBoxTextLayer(errorStringMap[ERROR_TITLE], errorStringMap[ERROR_BODY], errorCode);
     

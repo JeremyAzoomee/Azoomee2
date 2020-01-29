@@ -2,7 +2,7 @@
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "VideoPlaylistManager.h"
-#include <AzoomeeCommon/Utils/TimeFunctions.h>
+#include <AzoomeeCommon/Utils/TimeUtils.h>
 #include <AzoomeeCommon/Utils/DirUtil.h>
 
 using namespace cocos2d;
@@ -82,7 +82,7 @@ char* WebGameAPIDataManager::handleAPIRequest(const char* method, const char* re
             FileUtils::getInstance()->createDirectory(saveFolder);
         }
         
-        if(FileUtils::getInstance()->writeStringToFile(decodedString, saveFolder + getTimeStringForFileName() + ".png"))
+        if(FileUtils::getInstance()->writeStringToFile(decodedString, saveFolder + TimeUtils::getTimeStringForFileName() + ".png"))
         {
             return createReturnStringForAPI(method, responseId, "imageSave", "success");
         }

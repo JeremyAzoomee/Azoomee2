@@ -285,7 +285,7 @@ void HttpRequestCreator::handleError(network::HttpResponse *response)
     
     if(response->getResponseCode() != -1)
     {
-        AnalyticsSingleton::getInstance()->httpRequestFailed(requestTag, errorCode, getValueFromHttpResponseHeaderForKey("x-az-qid", responseHeaderString));
+        AnalyticsSingleton::getInstance()->httpRequestFailed(requestTag, errorCode, StringFunctions::getValueFromHttpResponseHeaderForKey("x-az-qid", responseHeaderString));
     }
     
     if((errorCode == 401)&&(findPositionOfNthString(responseDataString, "Invalid Request Time", 1) != responseDataString.length()))

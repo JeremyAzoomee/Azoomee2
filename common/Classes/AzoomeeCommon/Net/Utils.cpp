@@ -68,9 +68,9 @@ std::string urlDecode(const std::string &toDecode)
     
 std::string getUrlParamsInAlphabeticalOrder(const std::string &originalParamString)
 {
-    if(splitStringToVector(originalParamString, "&").size() <= 1) return originalParamString;
+    if(StringFunctions::splitStringToVector(originalParamString, "&").size() <= 1) return originalParamString;
     
-    std::vector<std::string> paramsVector = splitStringToVector(originalParamString, "&");
+    std::vector<std::string> paramsVector = StringFunctions::splitStringToVector(originalParamString, "&");
     
     std::sort(paramsVector.begin(), paramsVector.end());
     std::string returnString = paramsVector.at(0);

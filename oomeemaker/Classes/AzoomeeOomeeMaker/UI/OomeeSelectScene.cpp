@@ -12,7 +12,7 @@
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/Utils/DirUtil.h>
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
-#include <AzoomeeCommon/Utils/TimeFunctions.h>
+#include <AzoomeeCommon/Utils/TimeUtils.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>

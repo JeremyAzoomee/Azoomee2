@@ -115,12 +115,7 @@ bool LoginScene::init()
 		switch (state) {
 			case LoginEntryState::EMAIL:
 			{
-                UserAccountManager::getInstance()->anonLogin([](bool success, long errorcode){
-                    if(success)
-                    {
-                        LoginController::getInstance()->handleLoginSuccess();
-                    }
-                });
+                LoginController::getInstance()->anonLogin();
 				break;
 			}
 			case LoginEntryState::PASSWORD:
@@ -224,12 +219,7 @@ void LoginScene::getUserDefaults()
 
 void LoginScene::login(std::string username, std::string password)
 {
-    UserAccountManager::getInstance()->login(username, password, [](bool success, long errorcode){
-        if(success)
-        {
-            LoginController::getInstance()->handleLoginSuccess();
-        }
-    });
+    LoginController::getInstance()->login(username, password);
 }
 
 //-------------DELEGATE FUNCTIONS-------------------

@@ -648,8 +648,8 @@ void OomeeMakerDataHandler::onHttpRequestSuccess(const std::string& requestTag, 
         if(_savingNewOomee)
         {
             _savingNewOomee = false;
-            auto locationHeader = getValueFromHttpResponseHeaderForKey("Location", headers);
-            std::string oomeeId = splitStringToVector(locationHeader, "/").back();
+            auto locationHeader = StringFunctions::getValueFromHttpResponseHeaderForKey("Location", headers);
+            std::string oomeeId = StringFunctions::splitStringToVector(locationHeader, "/").back();
             Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(kSaveNewOomeeEventName, &oomeeId);
         }
         

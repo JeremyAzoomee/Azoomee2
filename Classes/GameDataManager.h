@@ -98,7 +98,7 @@ private:
     
     bool _gameIsBeingStreamed = false;
     
-    bool isGameCompatibleWithCurrentAzoomeeVersion(const std::string &jsonFileName);
+    bool isGameCompatibleWithCurrentAppVersion(const std::string &jsonFileName);
     Orientation getGameOrientation(const std::string& jsonFileName);
     
     void getContentItemImageForOfflineUsage(const std::string &gameId); //if only a 2x2, 2x1 or 1x2 image is present, we still need the 1x1 image for the offline mode to be cached for.

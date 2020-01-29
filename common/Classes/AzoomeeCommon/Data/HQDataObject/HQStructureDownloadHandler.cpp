@@ -75,7 +75,7 @@ void HQStructureDownloadHandler::loadLocalData()
                 continue;
             }
             const std::string& data = cocos2d::FileUtils::getInstance()->getStringFromFile(localDataPath + folder + "/feed.json");
-            HQDataObjectManager::getInstance()->parseHQStructureData(data, convertToHQNameString(folder));
+            HQDataObjectManager::getInstance()->parseHQStructureData(data, StringFunctions::convertToHQNameString(folder));
         }
         HQDataObjectManager::getInstance()->setHQDataEtag(getLocalEtag());
     }

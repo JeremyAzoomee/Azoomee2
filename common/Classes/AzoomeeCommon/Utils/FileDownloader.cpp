@@ -84,7 +84,7 @@ void FileDownloader::downloadFileFromServerAnswerReceived(cocos2d::network::Http
     {
         if(response && response->getResponseData())
         {
-            _etag = getValueFromHttpResponseHeaderForKey(kEtagName, std::string(response->getResponseHeader()->begin(), response->getResponseHeader()->end()));
+            _etag = StringFunctions::getValueFromHttpResponseHeaderForKey(kEtagName, std::string(response->getResponseHeader()->begin(), response->getResponseHeader()->end()));
             std::vector<char> myResponse = *response->getResponseData();
             const std::string& responseString = std::string(myResponse.begin(), myResponse.end());
             if(_delegate)

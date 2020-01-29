@@ -34,14 +34,14 @@ bool SignupEnterEmail::init()
 	_progressBar->setNumberOfSteps(3);
 	_progressBar->setProgress(1);
 	
-	setContinueButtonEnabled(isValidEmailAddress(_inputBox->getText()));
+	setContinueButtonEnabled(TextInputChecker::isValidEmailAddress(_inputBox->getText()));
 	
 	return true;
 }
 
 void SignupEnterEmail::editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text)
 {
-	setContinueButtonEnabled(isValidEmailAddress(text.c_str()));
+	setContinueButtonEnabled(TextInputChecker::isValidEmailAddress(text.c_str()));
 }
 void SignupEnterEmail::editBoxReturn(cocos2d::ui::EditBox* editBox)
 {
@@ -49,11 +49,11 @@ void SignupEnterEmail::editBoxReturn(cocos2d::ui::EditBox* editBox)
 }
 void SignupEnterEmail::editBoxEditingDidBegin(cocos2d::ui::EditBox* editBox)
 {
-	setContinueButtonEnabled(isValidEmailAddress(editBox->getText()));
+	setContinueButtonEnabled(TextInputChecker::isValidEmailAddress(editBox->getText()));
 }
 void SignupEnterEmail::editBoxEditingDidEnd(cocos2d::ui::EditBox* editBox)
 {
-	setContinueButtonEnabled(isValidEmailAddress(editBox->getText()));
+	setContinueButtonEnabled(TextInputChecker::isValidEmailAddress(editBox->getText()));
 }
 
 NS_AZOOMEE_END

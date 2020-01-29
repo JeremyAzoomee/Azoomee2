@@ -4,38 +4,48 @@
 #include <cocos/cocos2d.h>
 #include <string>
 #include <vector>
+#include "../Azoomee.h"
 
+NS_AZOOMEE_BEGIN
 
-namespace Azoomee
+class StringFunctions
 {
+public:
+    static std::vector<std::string> splitStringToVector(std::string inputString, std::string separator);
+    static std::string stringToLower(std::string input);
+    static std::string stringToUpper(std::string input);
+    static std::string stringReplace(std::string originalString, std::string stringToReplace, std::string withNewString);
+    static std::string getJSONStringFromVectorOfMaps(std::vector<std::map<std::string, std::string>> inputMap);
+    static std::string getJSONStringFromMap(std::map<std::string, std::string> inputMap);
+    static std::string replaceAll(std::string& str, const std::string& from, const std::string& to);
+    static std::string getValueFromHttpResponseHeaderForKey(const std::string &key, const std::string &responseHeaderString);
+    static std::string& trim(std::string& string);
+    static std::string shortenString(const std::string& string, int maxLength);
+    static std::string joinStrings(const std::vector<std::string>& stringList, const std::string& divider);
+    static std::string convertStringToAssetSafeString(const std::string& string);
+    static std::string convertToHQNameString(const std::string& string);
+    static bool stringEndsWith(const std::string &strToTest, const std::string &endStr);
+        
+    static bool stringToBool(const std::string& string);
+    static std::string boolToString(bool boolean);
 
-std::vector<std::string> splitStringToVector(std::string inputString, std::string separator);
-std::string stringToLower(std::string input);
-std::string stringToUpper(std::string input);
-std::string stringReplace(std::string originalString, std::string stringToReplace, std::string withNewString);
-std::string getJSONStringFromVectorOfMaps(std::vector<std::map<std::string, std::string>> inputMap);
-std::string getJSONStringFromMap(std::map<std::string, std::string> inputMap);
-std::string replaceAll(std::string& str, const std::string& from, const std::string& to);
-std::string getValueFromHttpResponseHeaderForKey(const std::string &key, const std::string &responseHeaderString);
-std::string& trim(std::string& string);
-std::string shortenString(const std::string& string, int maxLength);
-std::string joinStrings(const std::vector<std::string>& stringList, const std::string& divider);
-std::string convertStringToAssetSafeString(const std::string& string);
-std::string convertToHQNameString(const std::string& string);
-bool stringEndsWith(const std::string &strToTest, const std::string &endStr);
+    /// Trim whitespace from the start of string
+    static std::string ltrim(const std::string& s);
+    /// Trim whitespace from the end of string
+    static std::string rtrim(const std::string& s);
+    /// Trim whitespace from the start and end of string
+    static std::string trim(const std::string& s);
+
+    static int findPositionOfNthString(std::string string, std::string whatToFind, int whichOne);
+
+    static std::string getPureVersionNumber(std::string version);
+    static std::vector<std::string> getVersionNumberElementsInVector(std::string version);
     
-bool stringToBool(const std::string& string);
-std::string boolToString(bool boolean);
+    static int compareVersionNumbers(const std::string& targetVersion, const std::string& compVersion);
+    
+};
 
-/// Trim whitespace from the start of string
-std::string ltrim(const std::string& s);
-/// Trim whitespace from the end of string
-std::string rtrim(const std::string& s);
-/// Trim whitespace from the start and end of string
-std::string trim(const std::string& s);
-
-int findPositionOfNthString(std::string string, std::string whatToFind, int whichOne);
-} // Azoomee
+NS_AZOOMEE_END
 
 #endif
 

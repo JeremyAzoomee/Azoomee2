@@ -283,13 +283,7 @@ cocos2d::ui::Layout* ChildSelectorScene::createChildButton(const ChildRef& child
         {
             AudioMixer::getInstance()->playEffect(SELECT_OOMEE_AUDIO_EFFECT);
             AnalyticsSingleton::getInstance()->registerChildGenderAndAge(UserAccountManager::getInstance()->getChild(childNum));
-            //BackEndCaller::getInstance()->childLogin(childNum);
-            UserAccountManager::getInstance()->loginChild(UserAccountManager::getInstance()->getChild(childNum)->getProfileName(), [](bool success, long errorcode){
-                if(success)
-                {
-                    LoginController::getInstance()->handleChildLoginSuccess();
-                }
-            });
+            LoginController::getInstance()->childLogin(UserAccountManager::getInstance()->getChild(childNum)->getProfileName());
         }
     });
     

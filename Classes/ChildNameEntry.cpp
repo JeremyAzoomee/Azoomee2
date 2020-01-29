@@ -98,7 +98,7 @@ void ChildNameEntry::createInputHolder()
         {
             if(_continueCallback)
             {
-                _continueCallback(trim(_inputBox->getText()));
+                _continueCallback(StringFunctions::trim(_inputBox->getText()));
             }
         }
     });
@@ -131,7 +131,7 @@ void ChildNameEntry::createInputHolder()
                 _backButton->setScale(1.0f);
                 if(_backCallback)
                 {
-                    _backCallback(trim(_inputBox->getText()));
+                    _backCallback(StringFunctions::trim(_inputBox->getText()));
                 }
                 break;
             }
@@ -205,11 +205,11 @@ void ChildNameEntry::setChildName(const std::string& name)
 //Editbox Delegate Functions
 void ChildNameEntry::editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text)
 {
-    setContinueButtonEnabled(isValidChildName(text.c_str()));
+    setContinueButtonEnabled(TextInputChecker::isValidChildName(text.c_str()));
 }
 void ChildNameEntry::editBoxReturn(cocos2d::ui::EditBox* editBox)
 {
-    setContinueButtonEnabled(isValidChildName(editBox->getText()));
+    setContinueButtonEnabled(TextInputChecker::isValidChildName(editBox->getText()));
 }
 void ChildNameEntry::editBoxEditingDidEndWithAction(cocos2d::ui::EditBox* editBox, EditBoxEndAction action)
 {
@@ -217,11 +217,11 @@ void ChildNameEntry::editBoxEditingDidEndWithAction(cocos2d::ui::EditBox* editBo
 }
 void ChildNameEntry::editBoxEditingDidBegin(cocos2d::ui::EditBox* editBox)
 {
-    setContinueButtonEnabled(isValidChildName(editBox->getText()));
+    setContinueButtonEnabled(TextInputChecker::isValidChildName(editBox->getText()));
 }
 void ChildNameEntry::editBoxEditingDidEnd(cocos2d::ui::EditBox* editBox)
 {
-    setContinueButtonEnabled(isValidChildName(editBox->getText()));
+    setContinueButtonEnabled(TextInputChecker::isValidChildName(editBox->getText()));
 }
 
 

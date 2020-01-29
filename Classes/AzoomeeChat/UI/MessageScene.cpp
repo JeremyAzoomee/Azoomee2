@@ -523,9 +523,9 @@ void MessageScene::AdultPinCancelled(RequestAdultPinLayer* layer)
 
 void MessageScene::AdultPinAccepted(RequestAdultPinLayer* layer)
 {
-    std::string replacedText = stringReplace(_("Reset %s1 & %s2's conversation?"), "%s1", _participants[0]->friendName());
+    std::string replacedText = StringFunctions::stringReplace(_("Reset %s1 & %s2's conversation?"), "%s1", _participants[0]->friendName());
     
-    replacedText = stringReplace(replacedText, "%s2", _participants[1]->friendName());
+    replacedText = StringFunctions::stringReplace(replacedText, "%s2", _participants[1]->friendName());
     
     PopupMessageBox* messageBox = PopupMessageBox::create();
     messageBox->setTitle(_("Reset chat"));

@@ -5,6 +5,7 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
 #include <AzoomeeCommon/Utils/FileDownloader.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 NS_AZOOMEE_BEGIN
 

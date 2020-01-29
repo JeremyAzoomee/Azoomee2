@@ -9,6 +9,8 @@ NS_AZOOMEE_BEGIN
 
 #pragma mark - Public
 
+const std::string ImageDownloader::kImageCachePath = "imageCache";
+
 std::vector<ImageDownloaderRef> ImageDownloader::_downloadingImagePool = std::vector<ImageDownloaderRef>();
 
 ImageDownloaderRef ImageDownloader::create(const std::string& storageLocation, CacheMode mode)
