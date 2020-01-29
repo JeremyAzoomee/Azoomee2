@@ -13,7 +13,7 @@
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
-#include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Utils/LocaleManager.h>
 #include "ChatDelegate.h"
 #include "BackEndCaller.h"
 
@@ -220,7 +220,7 @@ JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIGetStringForKey(JNIE
 {
     const char* cKey = env->GetStringUTFChars(key, NULL);
     
-    jstring returnString = env->NewStringUTF(StringMgr::getInstance()->getStringForKey(cKey).c_str());
+    jstring returnString = env->NewStringUTF(LocaleManager::getInstance()->getStringForKey(cKey).c_str());
     return returnString;
 }
 

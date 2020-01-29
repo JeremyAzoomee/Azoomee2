@@ -6,7 +6,7 @@
 //
 
 #include "MarketingAssetManager.h"
-#include <AzoomeeCommon/Utils/StringMgr.h>
+#include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 
@@ -76,7 +76,7 @@ std::string MarketingAsset::getTitle(const std::string& language) const
 	{
 		return _title.at(language);
 	}
-    return _title.at(StringMgr::kDefaultLanguageIdentifier);
+    return _title.at(LocaleManager::kDefaultLanguageIdentifier);
 }
 std::string MarketingAsset::getDescription(const std::string& language) const
 {
@@ -84,7 +84,7 @@ std::string MarketingAsset::getDescription(const std::string& language) const
 	{
 		return _description.at(language);
 	}
-    return _description.at(StringMgr::kDefaultLanguageIdentifier);
+    return _description.at(LocaleManager::kDefaultLanguageIdentifier);
 }
 std::string MarketingAsset::getLocation() const
 {

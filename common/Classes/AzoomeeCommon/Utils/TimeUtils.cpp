@@ -1,23 +1,23 @@
 //
-//  TimeFunctions.cpp
+//  TimeUtils.cpp
 //  AzoomeeCommon
 //
 //  Created by Macauley on 31/01/2018.
 //
 
-#include "TimeFunctions.h"
+#include "TimeUtils.h"
 #include <locale>
 #include <chrono>
 
 NS_AZOOMEE_BEGIN
 
-bool TimeFunctions::isDateStringFormatCorrectForComparison(const std::string &dateToCheck)
+bool TimeUtils::isDateStringFormatCorrectForComparison(const std::string &dateToCheck)
 {
     struct tm inputTimeStruct = {0};
     return strptime(dateToCheck.c_str(), "%Y-%m-%d", &inputTimeStruct);
 }
 
-bool TimeFunctions::isDateStringOlderThanToday(const std::string &dateToCheck)
+bool TimeUtils::isDateStringOlderThanToday(const std::string &dateToCheck)
 {
     time_t epochTimeForNow = std::time(NULL);
     struct tm currentTimeStruct = *gmtime(&epochTimeForNow);
@@ -43,14 +43,14 @@ bool TimeFunctions::isDateStringOlderThanToday(const std::string &dateToCheck)
     }
 }
 
-int TimeFunctions::birthYearFromAge(int age)
+int TimeUtils::birthYearFromAge(int age)
 {
     time_t t = time(NULL);
     struct tm time = *localtime(&t);
     return 1900 + time.tm_year - age;
 }
 
-long TimeFunctions::getEpochTimeForTodayWithoutYear()
+long TimeUtils::getEpochTimeForTodayWithoutYear()
 {
     time_t epochTimeForNow = std::time(NULL);
     struct tm currentTimeStruct = *gmtime(&epochTimeForNow);
@@ -64,7 +64,7 @@ long TimeFunctions::getEpochTimeForTodayWithoutYear()
     return mktime(&currentTimeStruct);
 }
 
-long TimeFunctions::getEpochTimeForDateWithoutYear(int month, int day)
+long TimeUtils::getEpochTimeForDateWithoutYear(int month, int day)
 {
     struct tm currentTimeStruct;
     
@@ -79,7 +79,7 @@ long TimeFunctions::getEpochTimeForDateWithoutYear(int month, int day)
     return mktime(&currentTimeStruct);
 }
 
-std::string TimeFunctions::getTimeStringForFileName()
+std::string TimeUtils::getTimeStringForFileName()
 {
     auto t = std::time(nullptr);
     
@@ -89,7 +89,7 @@ std::string TimeFunctions::getTimeStringForFileName()
     return oss.str();
 }
 
-std::string TimeFunctions::getMillisecondTimestampString()
+std::string TimeUtils::getMillisecondTimestampString()
 {
     auto millis = getCurrentTimeMillis().count();
     std::stringstream ss;
@@ -97,7 +97,7 @@ std::string TimeFunctions::getMillisecondTimestampString()
     return ss.str();
 }
 
-std::chrono::milliseconds TimeFunctions::getCurrentTimeMillis()
+std::chrono::milliseconds TimeUtils::getCurrentTimeMillis()
 {
     return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
 }

@@ -1,5 +1,5 @@
 #include "MessageBox.h"
-#include "../Strings.h"
+#include "../Utils/LocaleManager.h"
 #include "../Analytics/AnalyticsSingleton.h"
 #include "ElectricDreamsTextStyles.h"
 #include "ElectricDreamsDecoration.h"

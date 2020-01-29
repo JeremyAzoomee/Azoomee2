@@ -10,7 +10,7 @@
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/ErrorCodes.h>
-#include <AzoomeeCommon/Utils/StringMgr.h>
+#include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
 
 using namespace cocos2d;
@@ -34,7 +34,7 @@ void ChatDelegate::shareContentInChat()
     {
         AnalyticsSingleton::getInstance()->shareContentItemButtonPressed(_sharedContentId);
         const std::string& fileurl = HQDataProvider::getInstance()->getThumbnailUrlForItem(_sharedContentId);
-        ImageDownloaderRef imgDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
+        ImageDownloaderRef imgDownloader = ImageDownloader::create(ImageDownloader::kImageCachePath, ImageDownloader::CacheMode::File);
         imgDownloader->downloadImage(this, fileurl);
     }
 }
@@ -113,7 +113,7 @@ void ChatDelegate::onImageDownloadFailed()
 
 void ChatDelegate::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
 {
-	if(messageBoxTitle == StringMgr::getInstance()->getErrorMessageWithCode(ERROR_CODE_OFFLINE).at(ERROR_TITLE))
+	if(messageBoxTitle == LocaleManager::getInstance()->getErrorMessageWithCode(ERROR_CODE_OFFLINE).at(ERROR_TITLE))
 	{
 		Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OfflineHub));
 	}

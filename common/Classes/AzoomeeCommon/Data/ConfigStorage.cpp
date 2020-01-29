@@ -8,7 +8,7 @@
 #include "Json.h"
 #include "../Utils/StringFunctions.h"
 #include "../Utils/DirUtil.h"
-#include "../Strings.h"
+#include "../Utils/LocaleManager.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/jni/JniHelper.h"

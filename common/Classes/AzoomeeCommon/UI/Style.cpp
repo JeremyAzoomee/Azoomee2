@@ -17,7 +17,7 @@ namespace Font
 
 std::string GetFontForCurrentLanguage(const std::string& font)
 {
-    auto it =  kFontOverrideMap.find({font, StringMgr::getInstance()->getLanguageID()});
+    auto it =  kFontOverrideMap.find({font, LocaleManager::getInstance()->getLanguageID()});
     if(it != kFontOverrideMap.end())
     {
         return it->second;

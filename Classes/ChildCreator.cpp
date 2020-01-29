@@ -9,7 +9,7 @@
 #include "FlowDataSingleton.h"
 #include <AzoomeeCommon/Input/TextInputChecker.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
-#include <AzoomeeCommon/Utils/TimeFunctions.h>
+#include <AzoomeeCommon/Utils/TimeUtils.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/API/API.h>
@@ -78,7 +78,7 @@ bool ChildCreator::addChild()
         return false;
     }
     
-    int year = TimeFunctions::birthYearFromAge(_age);
+    int year = TimeUtils::birthYearFromAge(_age);
 	
 	if(!TextInputChecker::isDate(1, 1, year))
 	{
@@ -104,7 +104,7 @@ bool ChildCreator::updateChild(const ChildRef &child)
 		return false;
 	}
 	
-	int year = TimeFunctions::birthYearFromAge(_age);
+	int year = TimeUtils::birthYearFromAge(_age);
 
 	if(!TextInputChecker::isDate(1, 1, year))
 	{

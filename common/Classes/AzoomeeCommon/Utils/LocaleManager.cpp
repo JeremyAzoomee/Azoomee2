@@ -1,4 +1,4 @@
-#include "StringMgr.h"
+#include "LocaleManager.h"
 #include "../Analytics/AnalyticsSingleton.h"
 #include "StringFunctions.h"
 #include "DirUtil.h"
@@ -7,8 +7,7 @@
 
 using namespace cocos2d;
 
-namespace Azoomee
-{
+NS_AZOOMEE_BEGIN
 	
 LanguageParams::LanguageParams(const std::string& identifier, const std::string& name, const std::string& text)
 {
@@ -17,7 +16,7 @@ LanguageParams::LanguageParams(const std::string& identifier, const std::string&
 	_text = text;
 }
 	
-const std::vector<LanguageParams> StringMgr::kLanguageParams = {
+const std::vector<LanguageParams> LocaleManager::kLanguageParams = {
 	LanguageParams("en-GB", "English", "Hello!"),
 	LanguageParams("afr", "Afrikaans", "Hallo!"),
 	LanguageParams("fre-FR", "Français", "Bonjour!"),
@@ -29,7 +28,7 @@ const std::vector<LanguageParams> StringMgr::kLanguageParams = {
 	LanguageParams("tur", "Türk", "Merhaba!")
 };
 
-const std::map<std::string, std::string> StringMgr::kDeviceLangConvMap = {
+const std::map<std::string, std::string> LocaleManager::kDeviceLangConvMap = {
 	{"en", "en-GB"},
 	{"af", "afr"},
 	{"fr", "fre-FR"},
@@ -41,40 +40,34 @@ const std::map<std::string, std::string> StringMgr::kDeviceLangConvMap = {
 	{"tr", "tur"},
 };
 
-const std::string StringMgr::kDefaultLanguageIdentifier = kLanguageParams.at(0)._identifier;
+const std::string LocaleManager::kDefaultLanguageIdentifier = kLanguageParams.at(0)._identifier;
     
-const std::string StringMgr::kLanguagesDir = "languages/";
-#ifdef AZOOMEE_ENVIRONMENT_CI
-	const std::string StringMgr::kLangsZipUrl = "https://media.azoomee.ninja/static/popups/languages/languages.zip";
-#else
-	const std::string StringMgr::kLangsZipUrl = "https://media.azoomee.com/static/popups/languages/languages.zip";
-#endif
+const std::string LocaleManager::kLanguagesDir = "languages/";
+
 	
-static StringMgr *_sharedStringMgr = NULL;
+static LocaleManager *_sharedLocaleManager = NULL;
 
-StringMgr* StringMgr::getInstance()
+LocaleManager* LocaleManager::getInstance()
 {
-    if (! _sharedStringMgr)
+    if (! _sharedLocaleManager)
     {
-        _sharedStringMgr = new StringMgr();
-        _sharedStringMgr->init();
+        _sharedLocaleManager = new LocaleManager();
+        _sharedLocaleManager->init();
     }
-    
-    return _sharedStringMgr;
+    return _sharedLocaleManager;
 }
 
-StringMgr::~StringMgr(void)
+LocaleManager::~LocaleManager(void)
 {
 }
 
-bool StringMgr::init(void)
+bool LocaleManager::init(void)
 {
     setLanguageIdentifier();
     
-    stringsDocument = parseFile(languageID, "strings");
+    _stringsDocument = parseFile(_languageID, "strings");
 	const std::string& fileContent = FileUtils::getInstance()->getStringFromFile("res/languages/errormessages.json");
-	errorMessagesDocument.Parse(fileContent.c_str());
-    //errorMessagesDocument = parseFile(languageID, "errormessages");
+	_errorMessagesDocument.Parse(fileContent.c_str());
 	
 	const std::string& localDir = DirUtil::getCachesPath() + kLanguagesDir;
 	if(!FileUtils::getInstance()->isDirectoryExist(localDir))
@@ -84,51 +77,56 @@ bool StringMgr::init(void)
 	
 	_langsZipDownloader = FileDownloader::create();
 	_langsZipDownloader->setDelegate(this);
-	_langsZipDownloader->setEtag(getLocalEtag());
-	_langsZipDownloader->downloadFileFromServer(kLangsZipUrl);
 	
     return true;
 }
-	
-void StringMgr::changeLanguage(const std::string &languageID)
+
+void LocaleManager::downloadRemoteStringsFiles(const std::string& url)
+{
+    _langsZipUrl = url;
+    _langsZipDownloader->setEtag(getLocalEtag());
+    _langsZipDownloader->downloadFileFromServer(_langsZipUrl);
+}
+
+void LocaleManager::changeLanguage(const std::string &languageID)
 {
 	AnalyticsSingleton::getInstance()->registerLanguageCode(languageID);
 	AnalyticsSingleton::getInstance()->languageChangedEvent(languageID);
-	this->languageID = languageID;
-	stringsDocument = parseFile(languageID, "strings");
-	//errorMessagesDocument = parseFile(languageID, "errormessages");
+	_languageID = languageID;
+	_stringsDocument = parseFile(languageID, "strings");
 	UserDefault::getInstance()->setStringForKey("language", languageID);
 }
 	
-std::string StringMgr::getLanguageID() const
+std::string LocaleManager::getLanguageID() const
 {
-	return languageID;
+	return _languageID;
 }
 
 //--------------- Get Strings Functions ------------------
 
-std::string StringMgr::getStringForKey(std::string key)
+std::string LocaleManager::getStringForKey(const std::string& key)
 {
-    return getStringFromJson(key, stringsDocument, key);
+    return getStringFromJson(key, _stringsDocument, key);
 }
 
-std::map<std::string, std::string> StringMgr::getErrorMessageWithCode(long errorCode)
+std::map<std::string, std::string> LocaleManager::getErrorMessageWithCode(long errorCode)
 {
     std::string errorCodeString = StringUtils::format("%ld",errorCode);
 
-    if(!errorMessagesDocument.HasMember(errorCodeString.c_str()))
+    if(!_errorMessagesDocument.HasMember(errorCodeString.c_str()))
+    {
         errorCodeString = "default";
-    
+    }
     std::map<std::string, std::string> errorMap;
 	
-	const std::string& titleKey  = getNestedStringFromJson(std::vector<std::string>{errorCodeString,ERROR_TITLE}, errorMessagesDocument);
-	const std::string& bodyKey = getNestedStringFromJson(std::vector<std::string>{errorCodeString,ERROR_BODY}, errorMessagesDocument);
-	const std::string& buttonKey = getNestedStringFromJson(std::vector<std::string>{errorCodeString,ERROR_BUTTON}, errorMessagesDocument);
-	const std::string& buttonRefKey = getNestedStringFromJson(std::vector<std::string>{errorCodeString,ERROR_BUTTON_REFERENCE}, errorMessagesDocument);
+	const std::string& titleKey  = getNestedStringFromJson(std::vector<std::string>{errorCodeString,ERROR_TITLE}, _errorMessagesDocument);
+	const std::string& bodyKey = getNestedStringFromJson(std::vector<std::string>{errorCodeString,ERROR_BODY}, _errorMessagesDocument);
+	const std::string& buttonKey = getNestedStringFromJson(std::vector<std::string>{errorCodeString,ERROR_BUTTON}, _errorMessagesDocument);
+	const std::string& buttonRefKey = getNestedStringFromJson(std::vector<std::string>{errorCodeString,ERROR_BUTTON_REFERENCE}, _errorMessagesDocument);
 	
-    errorMap[ERROR_TITLE] = getStringFromJson(titleKey, stringsDocument);
-    errorMap[ERROR_BODY] = getStringFromJson(bodyKey, stringsDocument);
-    errorMap[ERROR_BUTTON] = getStringFromJson(buttonKey, stringsDocument);
+    errorMap[ERROR_TITLE] = getStringFromJson(titleKey, _stringsDocument);
+    errorMap[ERROR_BODY] = getStringFromJson(bodyKey, _stringsDocument);
+    errorMap[ERROR_BUTTON] = getStringFromJson(buttonKey, _stringsDocument);
 	errorMap[ERROR_BUTTON_REFERENCE] = buttonRefKey;
 
     
@@ -137,7 +135,7 @@ std::map<std::string, std::string> StringMgr::getErrorMessageWithCode(long error
 
 //------------- PRIVATE FUNCTIONS---------------
 
-void StringMgr::setLanguageIdentifier()
+void LocaleManager::setLanguageIdentifier()
 {
 	const std::string storedLang = UserDefault::getInstance()->getStringForKey("language", "");
 	if(storedLang == "")
@@ -148,24 +146,24 @@ void StringMgr::setLanguageIdentifier()
 			const auto& target = std::find_if(kLanguageParams.begin(), kLanguageParams.end(), [&](const LanguageParams& langParam){
 				return langParam._identifier == kDeviceLangConvMap.at(deviceLang);
 			});
-			languageID = target != kLanguageParams.end() ? target->_identifier : kDefaultLanguageIdentifier;
+			_languageID = target != kLanguageParams.end() ? target->_identifier : kDefaultLanguageIdentifier;
 		}
 		else
 		{
-			languageID = kDefaultLanguageIdentifier;
+			_languageID = kDefaultLanguageIdentifier;
 		}
-		UserDefault::getInstance()->setStringForKey("language",languageID);
+		UserDefault::getInstance()->setStringForKey("language",_languageID);
 		UserDefault::getInstance()->flush();
 	}
 	else
 	{
-		languageID = UserDefault::getInstance()->getStringForKey("language", kDefaultLanguageIdentifier);
+		_languageID = UserDefault::getInstance()->getStringForKey("language", kDefaultLanguageIdentifier);
 	}
 	
-	AnalyticsSingleton::getInstance()->registerLanguageCode(languageID);
+	AnalyticsSingleton::getInstance()->registerLanguageCode(_languageID);
 }
 
-Document StringMgr::parseFile(std::string languageID, std::string stringFile)
+Document LocaleManager::parseFile(const std::string& languageID, const std::string& stringFile)
 {
 	const std::string& baseDir = _remoteDataInitialised ? DirUtil::getCachesPath() + kLanguagesDir : "res/languages/";
 	const std::string& filename = baseDir + languageID + "/" + stringFile + ".json";
@@ -182,17 +180,17 @@ Document StringMgr::parseFile(std::string languageID, std::string stringFile)
     return document;
 }
 
-std::string StringMgr::getNestedStringFromJson(std::vector<std::string> jsonKeys, rapidjson::Value& sceneJsonDictionary)
+std::string LocaleManager::getNestedStringFromJson(std::vector<std::string> jsonKeys, const rapidjson::Value& sceneJsonDictionary)
 {
-    std::string stringError = "Text not found.";
+    const std::string& stringError = "Text not found.";
     
     if(jsonKeys.size() == 0 || !sceneJsonDictionary.IsObject())
     {
-        AnalyticsSingleton::getInstance()->localisedStringErrorEvent("Error With Strings File",languageID);
+        AnalyticsSingleton::getInstance()->localisedStringErrorEvent("Error With Strings File",_languageID);
         return stringError;
     }
     
-    std::string currentKey = jsonKeys.at(0);
+    const std::string& currentKey = jsonKeys.at(0);
     
     if(jsonKeys.size() == 1)
     {
@@ -210,13 +208,15 @@ std::string StringMgr::getNestedStringFromJson(std::vector<std::string> jsonKeys
 
     //Due to Error Button Reference being optional
     if(currentKey == ERROR_BUTTON_REFERENCE)
+    {
         return "";
+    }
     
-    AnalyticsSingleton::getInstance()->localisedStringErrorEvent(currentKey,languageID);
+    AnalyticsSingleton::getInstance()->localisedStringErrorEvent(currentKey,_languageID);
     return stringError;
 }
 
-std::string StringMgr::getLocalEtag() const
+std::string LocaleManager::getLocalEtag() const
 {
 	const std::string& etagFilePath = DirUtil::getCachesPath() + kLanguagesDir + "etag.txt";
 	if(cocos2d::FileUtils::getInstance()->isFileExist(etagFilePath))
@@ -225,13 +225,13 @@ std::string StringMgr::getLocalEtag() const
 	}
 	return "";
 }
-void StringMgr::setLocalEtag(const std::string& etag)
+void LocaleManager::setLocalEtag(const std::string& etag)
 {
 	const std::string& etagFilePath = DirUtil::getCachesPath() + kLanguagesDir + "etag.txt";
 	cocos2d::FileUtils::getInstance()->writeStringToFile(etag, etagFilePath);
 }
 
-void StringMgr::removeLocalLanguagesFiles()
+void LocaleManager::removeLocalLanguagesFiles()
 {
 	const std::string& baseLocation = DirUtil::getCachesPath() + kLanguagesDir;
 	const std::vector<std::string>& langsFolders = DirUtil::getFoldersInDirectory(baseLocation);
@@ -248,19 +248,19 @@ void StringMgr::removeLocalLanguagesFiles()
 	
 // Delegate functions
 	
-void StringMgr::onAsyncUnzipComplete(bool success, const std::string& zipPath, const std::string& dirpath)
+void LocaleManager::onAsyncUnzipComplete(bool success, const std::string& zipPath, const std::string& dirpath)
 {
 	FileUtils::getInstance()->removeFile(zipPath);
 	if(success)
 	{
 		_remoteDataInitialised = true;
-		parseFile(languageID, "strings");
+		parseFile(_languageID, "strings");
 		const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(dirpath + "errormessages.json");
-		errorMessagesDocument.Parse(fileContent.c_str());
+		_errorMessagesDocument.Parse(fileContent.c_str());
 	}
 }
 
-void StringMgr::onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode)
+void LocaleManager::onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode)
 {
 	if(responseCode == 200)
 	{
@@ -280,11 +280,11 @@ void StringMgr::onFileDownloadComplete(const std::string& fileString, const std:
 		if(langsFolders.size() > 0)
 		{
 			_remoteDataInitialised = true;
-			stringsDocument = parseFile(languageID, "strings");
+			_stringsDocument = parseFile(_languageID, "strings");
 			const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(baseLocation + "errormessages.json");
-			errorMessagesDocument.Parse(fileContent.c_str());
+			_errorMessagesDocument.Parse(fileContent.c_str());
 		}
 	}
 }
   
-}
+NS_AZOOMEE_END

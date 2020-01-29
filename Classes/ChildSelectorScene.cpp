@@ -5,7 +5,7 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
-#include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "LoginController.h"
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
@@ -150,7 +150,7 @@ void ChildSelectorScene::onEnter()
     if(FlowDataSingleton::getInstance()->hasError())
     {
         const long errorCode = FlowDataSingleton::getInstance()->getErrorCode();
-        const auto& errorMessageText = StringMgr::getInstance()->getErrorMessageWithCode(errorCode);
+        const auto& errorMessageText = LocaleManager::getInstance()->getErrorMessageWithCode(errorCode);
         
         PopupMessageBox* messageBox = PopupMessageBox::create();
         messageBox->setTitle(errorMessageText.at(ERROR_TITLE));

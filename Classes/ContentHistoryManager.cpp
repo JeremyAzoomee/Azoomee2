@@ -7,7 +7,7 @@
 
 #include "ContentHistoryManager.h"
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
-#include <AzoomeeCommon/Utils//TimeFunctions.h>
+#include <AzoomeeCommon/Utils//TimeUtils.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Rewards/RewardManager.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
@@ -59,7 +59,7 @@ void ContentHistoryManager::onContentOpened()
 {
 	_contentOpenedTime = time(NULL);
 	_contentClosedTime = _contentOpenedTime;
-	_contentOpenedTimeMs = TimeFunctions::getMillisecondTimestampString();
+	_contentOpenedTimeMs = TimeUtils::getMillisecondTimestampString();
 	_contentClosedTimeMs = _contentOpenedTimeMs;
 	SessionIdManager::getInstance()->resetBackgroundTimeInContent();
 	_timeInContent = 0;
@@ -116,7 +116,7 @@ void ContentHistoryManager::onVideoContentClosed(int videoProgressSeconds, int v
 void ContentHistoryManager::recordContentClosedTime()
 {
     _contentClosedTime = time(NULL);
-    _contentClosedTimeMs = TimeFunctions::getMillisecondTimestampString();
+    _contentClosedTimeMs = TimeUtils::getMillisecondTimestampString();
     _timeInContent = difftime(_contentClosedTime, _contentOpenedTime) - SessionIdManager::getInstance()->getBackgroundTimeInContent();
 }
 

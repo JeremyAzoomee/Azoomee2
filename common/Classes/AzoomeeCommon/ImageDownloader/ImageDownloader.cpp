@@ -10,6 +10,7 @@ NS_AZOOMEE_BEGIN
 #pragma mark - Public
 
 const int ImageDownloader::kContentImageValidityDurationSecs = 604800;
+const std::string ImageDownloader::kImageCachePath = "imageCache";
 
 std::vector<ImageDownloaderRef> ImageDownloader::_downloadingImagePool = std::vector<ImageDownloaderRef>();
 

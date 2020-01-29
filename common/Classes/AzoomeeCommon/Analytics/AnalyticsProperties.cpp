@@ -6,7 +6,7 @@
 //
 
 #include "AnalyticsProperties.h"
-#include "../Utils/TimeFunctions.h"
+#include "../Utils/TimeUtils.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -133,7 +133,7 @@ time_t AnalyticsProperties::getTimeOpenedContent() const
 
 void AnalyticsProperties::updateEpochTime()
 {
-    _storedGeneralProperties["epochTime"] = TimeFunctions::getMillisecondTimestampString();
+    _storedGeneralProperties["epochTime"] = TimeUtils::getMillisecondTimestampString();
 }
 
 NS_AZOOMEE_END

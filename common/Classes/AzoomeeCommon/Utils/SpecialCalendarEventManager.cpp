@@ -1,5 +1,5 @@
 #include "SpecialCalendarEventManager.h"
-#include "TimeFunctions.h"
+#include "TimeUtils.h"
 #include "StringFunctions.h"
 
 using namespace cocos2d;
@@ -68,11 +68,11 @@ bool SpecialCalendarEventManager::isXmasTime()
 #ifdef FORCE_XMAS
     return true;
 #endif
-    long today = TimeFunctions::getEpochTimeForTodayWithoutYear();
-    long xmasDecStart = TimeFunctions::getEpochTimeForDateWithoutYear(11, 22);
-    long xmasDecEnd = TimeFunctions::getEpochTimeForDateWithoutYear(12, 31);
-    long xmasJanStart = TimeFunctions::getEpochTimeForDateWithoutYear(1, 1);
-    long xmasJanEnd = TimeFunctions::getEpochTimeForDateWithoutYear(1, 31);
+    long today = TimeUtils::getEpochTimeForTodayWithoutYear();
+    long xmasDecStart = TimeUtils::getEpochTimeForDateWithoutYear(11, 22);
+    long xmasDecEnd = TimeUtils::getEpochTimeForDateWithoutYear(12, 31);
+    long xmasJanStart = TimeUtils::getEpochTimeForDateWithoutYear(1, 1);
+    long xmasJanEnd = TimeUtils::getEpochTimeForDateWithoutYear(1, 31);
     
     return (today >= xmasDecStart && (today <= xmasDecEnd)) || (today >= xmasJanStart && today <= xmasJanEnd);
 }
@@ -90,9 +90,9 @@ bool SpecialCalendarEventManager::isHallowenTime()
 #ifdef FORCE_HALLOWEEN
     return true;
 #endif
-    long today = TimeFunctions::getEpochTimeForTodayWithoutYear();
-    long halloweenStart = TimeFunctions::getEpochTimeForDateWithoutYear(10, 1);
-    long hallowenEnd = TimeFunctions::getEpochTimeForDateWithoutYear(11, 22);
+    long today = TimeUtils::getEpochTimeForTodayWithoutYear();
+    long halloweenStart = TimeUtils::getEpochTimeForDateWithoutYear(10, 1);
+    long hallowenEnd = TimeUtils::getEpochTimeForDateWithoutYear(11, 22);
     
     return (today >= halloweenStart && (today <= hallowenEnd));
 }

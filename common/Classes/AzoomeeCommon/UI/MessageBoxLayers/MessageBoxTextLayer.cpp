@@ -1,5 +1,5 @@
 #include "MessageBoxTextLayer.h"
-#include "../../Strings.h"
+#include "../../Utils/LocaleManager.h"
 #include "../../Analytics/AnalyticsSingleton.h"
 #include "../ElectricDreamsTextStyles.h"
 #include "../ElectricDreamsDecoration.h"
@@ -24,7 +24,7 @@ Layer* MessageBoxTextLayer::createMessageBoxTextLayer(std::string Title, std::st
 
 Layer* MessageBoxTextLayer::createMessageBoxTextLayer(long errorCode,Layer* parentLayer)
 {
-    std::map<std::string, std::string> errorStringMap = StringMgr::getInstance()->getErrorMessageWithCode(errorCode);
+    std::map<std::string, std::string> errorStringMap = LocaleManager::getInstance()->getErrorMessageWithCode(errorCode);
     
     auto layer = MessageBoxTextLayer::create();
     

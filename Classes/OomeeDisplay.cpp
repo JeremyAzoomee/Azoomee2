@@ -8,7 +8,7 @@
 #include "OomeeDisplay.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Utils/LocaleManager.h>
 #include "SceneManagerScene.h"
 
 using namespace cocos2d;
@@ -106,7 +106,7 @@ bool OomeeDisplay::init()
     _kidCode->setOverflow(Label::Overflow::SHRINK);
     _kidCodeBody->addChild(_kidCode);
     
-    _imgDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
+    _imgDownloader = ImageDownloader::create(ImageDownloader::kImageCachePath, ImageDownloader::CacheMode::File);
     
     return true;
 }

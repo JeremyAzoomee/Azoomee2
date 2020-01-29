@@ -7,7 +7,7 @@
 
 #include "AwesomeLayer.h"
 #include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 
 using namespace cocos2d;

@@ -6,7 +6,7 @@
 //
 
 #include "SettingsMessageBoxFREvent.h"
-#include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/UI/Style.h>
 
 using namespace cocos2d;

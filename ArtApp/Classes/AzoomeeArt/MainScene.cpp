@@ -1,13 +1,13 @@
 #include "MainScene.h"
 #include "SimpleAudioEngine.h"
 #include "AzoomeeArtApp.h"
-#include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/Utils/TimeFunctions.h>
+#include <AzoomeeCommon/Utils/TimeUtils.h>
 #include <AzoomeeCommon/Utils/DirUtil.h>
 
 #include <iostream>
@@ -29,7 +29,7 @@ Scene* MainScene::createScene()
 	layer->setName("ArtAppMainScene");
     layer->addBackButton();
     layer->addShareButton();
-    const std::string& fileNameStr = TimeFunctions::getTimeStringForFileName();
+    const std::string& fileNameStr = TimeUtils::getTimeStringForFileName();
     const std::string& saveFileName = ConfigStorage::kArtCacheFolder + Azoomee::ChildManager::getInstance()->getParentOrChildId() + "/" + fileNameStr + ".png";
     layer->_fileName = DirUtil::getCachesPath() + "/" + saveFileName;
     // add layer as a child to scene
@@ -177,7 +177,7 @@ void MainScene::saveFile()
     std::string saveFileName;
     if(this->_fileName == "")
     {
-        const std::string& fileNameStr = TimeFunctions::getTimeStringForFileName();
+        const std::string& fileNameStr = TimeUtils::getTimeStringForFileName();
         
         saveFileName = ConfigStorage::kArtCacheFolder + Azoomee::ChildManager::getInstance()->getParentOrChildId() + "/" + fileNameStr + ".png";
         this->_fileName = DirUtil::getCachesPath() + "/" + saveFileName;

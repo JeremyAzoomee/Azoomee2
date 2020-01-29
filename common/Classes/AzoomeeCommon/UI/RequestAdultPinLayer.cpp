@@ -1,5 +1,5 @@
 #include "RequestAdultPinLayer.h"
-#include "../Strings.h"
+#include "../Utils/LocaleManager.h"
 #include "../Data/Parent/UserAccountManager.h"
 #include "../Audio/AudioMixer.h"
 #include "../UI/ElectricDreamsTextStyles.h"

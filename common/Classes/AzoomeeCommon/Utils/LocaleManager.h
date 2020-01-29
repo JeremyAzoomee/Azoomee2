@@ -1,15 +1,11 @@
-#ifndef AzoomeeCommon_StringMgr_h
-#define AzoomeeCommon_StringMgr_h
+#ifndef AzoomeeCommon_LocaleManager_h
+#define AzoomeeCommon_LocaleManager_h
 
 #include <string>
 #include "FileDownloader.h"
 #include "FileZipUtil.h"
-
-//#include <cocos/cocos2d.h>
-//#include "StringHashDefines.h"
-//#include "ErrorCodeHashDefines.h"
-
-//USING_NS_CC;
+#include "StringFunctions.h"
+#include "../Azoomee.h"
 
 #include "cocos-ext.h"
 using namespace rapidjson;
@@ -19,9 +15,9 @@ using namespace rapidjson;
 #define ERROR_BUTTON "button"
 #define ERROR_BUTTON_REFERENCE "optionalButtonRefNames"
 
+#define _(string) LocaleManager::getInstance()->getStringForKey(string)
 
-namespace Azoomee
-{
+NS_AZOOMEE_BEGIN
 	
 class LanguageParams
 {
@@ -32,22 +28,24 @@ public:
 	std::string _text;
 };
 	
-	class StringMgr : public FileDownloaderDelegate, FileZipDelegate
+class LocaleManager : public FileDownloaderDelegate, FileZipDelegate
 {
 public:
 	static const std::vector<LanguageParams> kLanguageParams;
 	static const std::map<std::string, std::string> kDeviceLangConvMap;
     static const std::string kDefaultLanguageIdentifier;
-    /** Returns the shared instance of the Game Manager */
-    static StringMgr* getInstance(void);
-    virtual ~StringMgr();
     
-    std::string getStringForKey(std::string key);
+    static LocaleManager* getInstance(void);
+    virtual ~LocaleManager();
+    
+    std::string getStringForKey(const std::string& key);
     std::map<std::string, std::string> getErrorMessageWithCode(long errorCode);
 	
 	void changeLanguage(const std::string& languageID);
 	std::string getLanguageID() const;
 	
+    void downloadRemoteStringsFiles(const std::string& url);
+    
 	// delegate functions
 	void onAsyncUnzipComplete(bool success, const std::string& zipPath, const std::string& dirpath);
 	void onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode);
@@ -55,30 +53,30 @@ public:
 private:
     bool init(void);
     
-    Document stringsDocument;
-    Document errorMessagesDocument;
+    Document _stringsDocument;
+    Document _errorMessagesDocument;
 	
 	bool _remoteDataInitialised = false;
 	FileDownloaderRef _langsZipDownloader = nullptr;
 	
-    std::string languageID;
+    std::string _languageID;
     void setLanguageIdentifier();
-    Document parseFile(std::string languageID, std::string stringFile);
+    Document parseFile(const std::string& languageID, const std::string& stringFile);
 
-    bool keysExistInJson(std::string sceneID, std::string stringKey, Document inDocument);
+    bool keysExistInJson(const std::string& sceneID, const std::string& stringKey, const Document& inDocument);
     
-    std::string getNestedStringFromJson(std::vector<std::string> jsonKeys, rapidjson::Value& sceneJsonDictionary);
+    std::string getNestedStringFromJson(std::vector<std::string> jsonKeys, const rapidjson::Value& sceneJsonDictionary);
 	
 	std::string getLocalEtag() const;
 	void setLocalEtag(const std::string& etag);
 	
 	void removeLocalLanguagesFiles();
 	
-	static const std::string kLangsZipUrl;
+    std::string _langsZipUrl;
 	static const std::string kLanguagesDir;
 	
 };
   
-}
+NS_AZOOMEE_END
 
 #endif
