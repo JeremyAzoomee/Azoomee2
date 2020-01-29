@@ -34,11 +34,11 @@ public:
 	static const std::vector<LanguageParams> kLanguageParams;
 	static const std::map<std::string, std::string> kDeviceLangConvMap;
     static const std::string kDefaultLanguageIdentifier;
-    /** Returns the shared instance of the Game Manager */
+    
     static LocaleManager* getInstance(void);
     virtual ~LocaleManager();
     
-    std::string getStringForKey(std::string key);
+    std::string getStringForKey(const std::string& key);
     std::map<std::string, std::string> getErrorMessageWithCode(long errorCode);
 	
 	void changeLanguage(const std::string& languageID);
@@ -53,19 +53,19 @@ public:
 private:
     bool init(void);
     
-    Document stringsDocument;
-    Document errorMessagesDocument;
+    Document _stringsDocument;
+    Document _errorMessagesDocument;
 	
 	bool _remoteDataInitialised = false;
 	FileDownloaderRef _langsZipDownloader = nullptr;
 	
-    std::string languageID;
+    std::string _languageID;
     void setLanguageIdentifier();
-    Document parseFile(std::string languageID, std::string stringFile);
+    Document parseFile(const std::string& languageID, const std::string& stringFile);
 
-    bool keysExistInJson(std::string sceneID, std::string stringKey, Document inDocument);
+    bool keysExistInJson(const std::string& sceneID, const std::string& stringKey, const Document& inDocument);
     
-    std::string getNestedStringFromJson(std::vector<std::string> jsonKeys, rapidjson::Value& sceneJsonDictionary);
+    std::string getNestedStringFromJson(std::vector<std::string> jsonKeys, const rapidjson::Value& sceneJsonDictionary);
 	
 	std::string getLocalEtag() const;
 	void setLocalEtag(const std::string& etag);

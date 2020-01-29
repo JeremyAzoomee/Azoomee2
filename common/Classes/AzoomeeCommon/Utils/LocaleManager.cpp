@@ -65,9 +65,9 @@ bool LocaleManager::init(void)
 {
     setLanguageIdentifier();
     
-    stringsDocument = parseFile(languageID, "strings");
+    _stringsDocument = parseFile(_languageID, "strings");
 	const std::string& fileContent = FileUtils::getInstance()->getStringFromFile("res/languages/errormessages.json");
-	errorMessagesDocument.Parse(fileContent.c_str());
+	_errorMessagesDocument.Parse(fileContent.c_str());
 	
 	const std::string& localDir = DirUtil::getCachesPath() + kLanguagesDir;
 	if(!FileUtils::getInstance()->isDirectoryExist(localDir))
@@ -92,40 +92,41 @@ void LocaleManager::changeLanguage(const std::string &languageID)
 {
 	AnalyticsSingleton::getInstance()->registerLanguageCode(languageID);
 	AnalyticsSingleton::getInstance()->languageChangedEvent(languageID);
-	this->languageID = languageID;
-	stringsDocument = parseFile(languageID, "strings");
+	_languageID = languageID;
+	_stringsDocument = parseFile(languageID, "strings");
 	UserDefault::getInstance()->setStringForKey("language", languageID);
 }
 	
 std::string LocaleManager::getLanguageID() const
 {
-	return languageID;
+	return _languageID;
 }
 
 //--------------- Get Strings Functions ------------------
 
-std::string LocaleManager::getStringForKey(std::string key)
+std::string LocaleManager::getStringForKey(const std::string& key)
 {
-    return getStringFromJson(key, stringsDocument, key);
+    return getStringFromJson(key, _stringsDocument, key);
 }
 
 std::map<std::string, std::string> LocaleManager::getErrorMessageWithCode(long errorCode)
 {
     std::string errorCodeString = StringUtils::format("%ld",errorCode);
 
-    if(!errorMessagesDocument.HasMember(errorCodeString.c_str()))
+    if(!_errorMessagesDocument.HasMember(errorCodeString.c_str()))
+    {
         errorCodeString = "default";
-    
+    }
     std::map<std::string, std::string> errorMap;
 	
-	const std::string& titleKey  = getNestedStringFromJson(std::vector<std::string>{errorCodeString,ERROR_TITLE}, errorMessagesDocument);
-	const std::string& bodyKey = getNestedStringFromJson(std::vector<std::string>{errorCodeString,ERROR_BODY}, errorMessagesDocument);
-	const std::string& buttonKey = getNestedStringFromJson(std::vector<std::string>{errorCodeString,ERROR_BUTTON}, errorMessagesDocument);
-	const std::string& buttonRefKey = getNestedStringFromJson(std::vector<std::string>{errorCodeString,ERROR_BUTTON_REFERENCE}, errorMessagesDocument);
+	const std::string& titleKey  = getNestedStringFromJson(std::vector<std::string>{errorCodeString,ERROR_TITLE}, _errorMessagesDocument);
+	const std::string& bodyKey = getNestedStringFromJson(std::vector<std::string>{errorCodeString,ERROR_BODY}, _errorMessagesDocument);
+	const std::string& buttonKey = getNestedStringFromJson(std::vector<std::string>{errorCodeString,ERROR_BUTTON}, _errorMessagesDocument);
+	const std::string& buttonRefKey = getNestedStringFromJson(std::vector<std::string>{errorCodeString,ERROR_BUTTON_REFERENCE}, _errorMessagesDocument);
 	
-    errorMap[ERROR_TITLE] = getStringFromJson(titleKey, stringsDocument);
-    errorMap[ERROR_BODY] = getStringFromJson(bodyKey, stringsDocument);
-    errorMap[ERROR_BUTTON] = getStringFromJson(buttonKey, stringsDocument);
+    errorMap[ERROR_TITLE] = getStringFromJson(titleKey, _stringsDocument);
+    errorMap[ERROR_BODY] = getStringFromJson(bodyKey, _stringsDocument);
+    errorMap[ERROR_BUTTON] = getStringFromJson(buttonKey, _stringsDocument);
 	errorMap[ERROR_BUTTON_REFERENCE] = buttonRefKey;
 
     
@@ -145,24 +146,24 @@ void LocaleManager::setLanguageIdentifier()
 			const auto& target = std::find_if(kLanguageParams.begin(), kLanguageParams.end(), [&](const LanguageParams& langParam){
 				return langParam._identifier == kDeviceLangConvMap.at(deviceLang);
 			});
-			languageID = target != kLanguageParams.end() ? target->_identifier : kDefaultLanguageIdentifier;
+			_languageID = target != kLanguageParams.end() ? target->_identifier : kDefaultLanguageIdentifier;
 		}
 		else
 		{
-			languageID = kDefaultLanguageIdentifier;
+			_languageID = kDefaultLanguageIdentifier;
 		}
-		UserDefault::getInstance()->setStringForKey("language",languageID);
+		UserDefault::getInstance()->setStringForKey("language",_languageID);
 		UserDefault::getInstance()->flush();
 	}
 	else
 	{
-		languageID = UserDefault::getInstance()->getStringForKey("language", kDefaultLanguageIdentifier);
+		_languageID = UserDefault::getInstance()->getStringForKey("language", kDefaultLanguageIdentifier);
 	}
 	
-	AnalyticsSingleton::getInstance()->registerLanguageCode(languageID);
+	AnalyticsSingleton::getInstance()->registerLanguageCode(_languageID);
 }
 
-Document LocaleManager::parseFile(std::string languageID, std::string stringFile)
+Document LocaleManager::parseFile(const std::string& languageID, const std::string& stringFile)
 {
 	const std::string& baseDir = _remoteDataInitialised ? DirUtil::getCachesPath() + kLanguagesDir : "res/languages/";
 	const std::string& filename = baseDir + languageID + "/" + stringFile + ".json";
@@ -179,17 +180,17 @@ Document LocaleManager::parseFile(std::string languageID, std::string stringFile
     return document;
 }
 
-std::string LocaleManager::getNestedStringFromJson(std::vector<std::string> jsonKeys, rapidjson::Value& sceneJsonDictionary)
+std::string LocaleManager::getNestedStringFromJson(std::vector<std::string> jsonKeys, const rapidjson::Value& sceneJsonDictionary)
 {
-    std::string stringError = "Text not found.";
+    const std::string& stringError = "Text not found.";
     
     if(jsonKeys.size() == 0 || !sceneJsonDictionary.IsObject())
     {
-        AnalyticsSingleton::getInstance()->localisedStringErrorEvent("Error With Strings File",languageID);
+        AnalyticsSingleton::getInstance()->localisedStringErrorEvent("Error With Strings File",_languageID);
         return stringError;
     }
     
-    std::string currentKey = jsonKeys.at(0);
+    const std::string& currentKey = jsonKeys.at(0);
     
     if(jsonKeys.size() == 1)
     {
@@ -207,9 +208,11 @@ std::string LocaleManager::getNestedStringFromJson(std::vector<std::string> json
 
     //Due to Error Button Reference being optional
     if(currentKey == ERROR_BUTTON_REFERENCE)
+    {
         return "";
+    }
     
-    AnalyticsSingleton::getInstance()->localisedStringErrorEvent(currentKey,languageID);
+    AnalyticsSingleton::getInstance()->localisedStringErrorEvent(currentKey,_languageID);
     return stringError;
 }
 
@@ -251,9 +254,9 @@ void LocaleManager::onAsyncUnzipComplete(bool success, const std::string& zipPat
 	if(success)
 	{
 		_remoteDataInitialised = true;
-		parseFile(languageID, "strings");
+		parseFile(_languageID, "strings");
 		const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(dirpath + "errormessages.json");
-		errorMessagesDocument.Parse(fileContent.c_str());
+		_errorMessagesDocument.Parse(fileContent.c_str());
 	}
 }
 
@@ -277,9 +280,9 @@ void LocaleManager::onFileDownloadComplete(const std::string& fileString, const 
 		if(langsFolders.size() > 0)
 		{
 			_remoteDataInitialised = true;
-			stringsDocument = parseFile(languageID, "strings");
+			_stringsDocument = parseFile(_languageID, "strings");
 			const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(baseLocation + "errormessages.json");
-			errorMessagesDocument.Parse(fileContent.c_str());
+			_errorMessagesDocument.Parse(fileContent.c_str());
 		}
 	}
 }
