@@ -19,6 +19,8 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+const std::string ChildCreator::kDefaultOomeeImgUrl = "https://media.azoomee.com/static/thumbs/oomee_11.png";
+
 ChildCreatorRef ChildCreator::create()
 {
     return std::make_shared<ChildCreator>();
@@ -86,11 +88,9 @@ bool ChildCreator::addChild()
     const std::string& DOB = StringUtils::format("%04d-%02d-%02d",year,1,1);
     const std::string& gender = "MALE";
 	
-	_oomeeNum = 4;
     AnalyticsSingleton::getInstance()->childProfileCreatedEvent(_age);
     
-    const std::string& oomeeUrl = ConfigStorage::getInstance()->getUrlForOomee(_oomeeNum);
-    HttpRequestCreator* request = API::RegisterChildRequest(_childName, gender, DOB, oomeeUrl, _delegate);
+    HttpRequestCreator* request = API::RegisterChildRequest(_childName, gender, DOB, kDefaultOomeeImgUrl, _delegate);
     
     request->execute();
     
@@ -113,13 +113,10 @@ bool ChildCreator::updateChild(const ChildRef &child)
 	const std::string& DOB = StringUtils::format("%04d-%02d-%02d",year,1,1);
 	
 	const std::string& ownerId = UserAccountManager::getInstance()->getLoggedInParentId();
-	
-	_oomeeNum = 4;
+
 	AnalyticsSingleton::getInstance()->childProfileCreatedEvent(_age);
 	
-	const std::string& oomeeUrl = ConfigStorage::getInstance()->getUrlForOomee(_oomeeNum);
-	
-	HttpRequestCreator* request = API::UpdateChildRequest(child->getId(),_childName, child->getSex(), DOB, oomeeUrl, ownerId, _delegate);
+	HttpRequestCreator* request = API::UpdateChildRequest(child->getId(),_childName, child->getSex(), DOB, kDefaultOomeeImgUrl, ownerId, _delegate);
 	request->execute();
 	
 	return true;

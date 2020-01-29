@@ -54,13 +54,6 @@ public:
     bool isParentSignatureRequiredForRequest(const std::string& requestTag);
     bool isImmediateRequestSendingRequired(const std::string& requestTag);
     
-    //ChildAccountScene settings
-    std::string getUrlForOomee(int number);
-    std::string getConfigUrlForOomee(int number);
-    std::string getLocalImageForOomee(int number);
-    std::string getLocalConfigForOomee(int number);
-    int getOomeeNumberForUrl(const std::string& url);
-    
     //BaseScene configuration
     cocos2d::Point getHQScenePositions(const std::string& hqSceneName);
     
@@ -134,7 +127,6 @@ private:
     rapidjson::Document BaseSceneConfiguration;
     rapidjson::Document HQSceneConfiguration;
     rapidjson::Document NavigationConfiguration;
-    rapidjson::Document OomeeConfiguration;
     rapidjson::Document VersionConfiguration;
     rapidjson::Document IapConfiguration;
     

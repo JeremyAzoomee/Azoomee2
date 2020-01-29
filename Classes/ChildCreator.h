@@ -22,6 +22,8 @@ typedef std::shared_ptr<ChildCreator> ChildCreatorRef;
 class ChildCreator
 {
 private:
+    static const std::string kDefaultOomeeImgUrl;
+    
     std::string _childName = "";
     int _age = -1;
     int _oomeeNum = 0;

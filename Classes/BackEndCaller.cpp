@@ -397,44 +397,6 @@ void BackEndCaller::onRegisterParentAnswerReceived()
     login(FlowDataSingleton::getInstance()->getUserName(), FlowDataSingleton::getInstance()->getPassword());
 }
 
-//REGISTER CHILD----------------------------------------------------------------------------
-
-void BackEndCaller::registerChild(const std::string& childProfileName, const std::string& childGender, const std::string& childDOB, int oomeeNumber)
-{
-    displayLoadingScreen();
-    
-    FlowDataSingleton::getInstance()->addChildData(childProfileName, oomeeNumber);
-    
-    const std::string& oomeeUrl = ConfigStorage::getInstance()->getUrlForOomee(oomeeNumber);
-    HttpRequestCreator* request = API::RegisterChildRequest(childProfileName, childGender, childDOB, oomeeUrl, this);
-    request->execute();
-}
-
-void BackEndCaller::onRegisterChildAnswerReceived()
-{
-    AnalyticsSingleton::getInstance()->childProfileCreatedSuccessEvent();
-    getAvailableChildren();
-}
-
-//UPDATE CHILD----------------------------------------------------------------------------
-
-void BackEndCaller::updateChild(const std::string& childId, const std::string& childProfileName, const std::string& childGender, const std::string& childDOB, int oomeeNumber)
-{
-    displayLoadingScreen();
-    
-    FlowDataSingleton::getInstance()->addChildData(childProfileName, oomeeNumber);
-    
-    const std::string& oomeeUrl = ConfigStorage::getInstance()->getUrlForOomee(oomeeNumber);
-    const std::string& ownerId = UserAccountManager::getInstance()->getLoggedInParentId();
-    HttpRequestCreator* request = API::UpdateChildRequest(childId, childProfileName, childGender, childDOB, oomeeUrl, ownerId, this);
-    request->execute();
-}
-
-void BackEndCaller::onUpdateChildAnswerReceived()
-{
-    getAvailableChildren();
-}
-
 void BackEndCaller::updateChildAvatar(const std::string &childId, const std::string &imageData)
 {
     displayLoadingScreen();
@@ -530,14 +492,6 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
 		UserAccountManager::getInstance()->saveAnonCredentialsToDevice(userId);
 		login(userId, UserAccountManager::kAnonLoginPW);
 	}
-    else if(requestTag == API::TagRegisterChild)
-    {
-        onRegisterChildAnswerReceived();
-    }
-    else if(requestTag == API::TagUpdateChild)
-    {
-        onUpdateChildAnswerReceived();
-    }
     else if(requestTag == API::TagUpdateChildAvatar)
     {
         rapidjson::Document json;
@@ -620,18 +574,6 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
 		{
         	MessageBox::createWith(errorCode, nullptr);
 		}
-    }
-    else if(requestTag == API::TagRegisterChild)
-    {
-        AnalyticsSingleton::getInstance()->childProfileCreatedErrorEvent(errorCode);
-        hideLoadingScreen();
-        FlowDataSingleton::getInstance()->setErrorCode(errorCode);
-    }
-    else if(requestTag == API::TagUpdateChild)
-    {
-        AnalyticsSingleton::getInstance()->childProfileUpdateErrorEvent(errorCode);
-        hideLoadingScreen();
-        FlowDataSingleton::getInstance()->setErrorCode(errorCode);
     }
     else if(requestTag == API::TagLogin)
     {

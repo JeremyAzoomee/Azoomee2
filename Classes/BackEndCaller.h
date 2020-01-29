@@ -36,10 +36,6 @@ private:
     void onChildLoginAnswerReceived(const std::string& responseString, const std::string& headerString);
     // Session cookies success
     void onSessionCookiesAnswerReceived(const std::string& responseString);
-    // Register child API success
-    void onRegisterChildAnswerReceived();
-    // Update child API success
-    void onUpdateChildAnswerReceived();
     // Get Force Update Data success
     void onGetForceUpdateDataAnswerReceived(const std::string& responseString);
     
@@ -77,10 +73,6 @@ public:
     void getAvailableChildren();
     // Login child profile with index
     void childLogin(int childNumber);
-    // Register a new child profile on the current parent
-    void registerChild(const std::string& childProfileName, const std::string& childGender, const std::string& childDOB, int oomeeNumber);
-    // Update a child profile
-    void updateChild(const std::string& childId, const std::string& childProfileName, const std::string& childGender, const std::string& childDOB, int oomeeNumber);
     // Update child avatar
     void updateChildAvatar(const std::string& childId, const std::string& imageData);
     // Get sssion cookies

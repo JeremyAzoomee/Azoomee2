@@ -74,7 +74,6 @@ bool ConfigStorage::init(void)
     BaseSceneConfiguration = parseJsonConfigurationFile("BaseSceneConfiguration.json");
     HQSceneConfiguration = parseJsonConfigurationFile("HQSceneConfiguration.json");
     NavigationConfiguration = parseJsonConfigurationFile("NavigationConfiguration.json");
-    OomeeConfiguration = parseJsonConfigurationFile("OomeeConfiguration.json");
     VersionConfiguration = parseJsonConfigurationFile("Version.json");
     IapConfiguration = parseJsonConfigurationFile("IapConfiguration.json");
 
@@ -198,41 +197,6 @@ bool ConfigStorage::isImmediateRequestSendingRequired(const std::string& request
 {
     auto itemPosition = std::find(requestTagsRequireImmediateSending.begin(), requestTagsRequireImmediateSending.end(), requestTag);
     return itemPosition != requestTagsRequireImmediateSending.end();
-}
-
-//-------------------------Oomee settings---------------------------
-std::string ConfigStorage::getUrlForOomee(int number)
-{
-    std::string keyName = StringUtils::format("%d", number);
-    const rapidjson::Value &oomeeurls = OomeeConfiguration["urlForOomee"];
-    return getStringFromJson(keyName, oomeeurls);
-}
-
-std::string ConfigStorage::getConfigUrlForOomee(int number)
-{
-    std::string keyName = StringUtils::format("%d", number);
-    const rapidjson::Value &configurls = OomeeConfiguration["configForOomee"];
-    return getStringFromJson(keyName, configurls);
-}
-std::string ConfigStorage::getLocalImageForOomee(int number)
-{
-    std::string keyName = StringUtils::format("%d", number);
-    const rapidjson::Value &oomeeurls = OomeeConfiguration["localImageForOomee"];
-    return getStringFromJson(keyName, oomeeurls);
-}
-    
-std::string ConfigStorage::getLocalConfigForOomee(int number)
-{
-    std::string keyName = StringUtils::format("%d", number);
-    const rapidjson::Value &configurls = OomeeConfiguration["localConfigForOomee"];
-    return getStringFromJson(keyName, configurls);
-}
-
-int ConfigStorage::getOomeeNumberForUrl(const std::string& url)
-{
-    std::string fileName = getFileNameFromUrl(url);
-    const rapidjson::Value &oomeeNumbers = OomeeConfiguration["oomeeNumberForUrl"];
-    return getIntFromJson(fileName, oomeeNumbers, 0);
 }
 
 //-------------------------BASESCENE CONFIGURATION-------------------------
