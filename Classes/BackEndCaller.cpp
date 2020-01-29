@@ -214,7 +214,7 @@ void BackEndCaller::updateParentPin(AwaitingAdultPinLayer *callBackTo)
     
     callBackNode = callBackTo;
     
-    HttpRequestCreator* request = API::UpdateParentPinRequest(this);
+    HttpRequestCreator* request = API::UpdateParentPinRequest(UserAccountManager::getInstance()->getLoggedInParentId(), this);
     request->execute();
 }
 
@@ -245,7 +245,7 @@ void BackEndCaller::getAvailableChildren()
 {
     ModalMessages::getInstance()->startLoading();
     
-    HttpRequestCreator* request = API::GetAvailableChildrenRequest(this);
+    HttpRequestCreator* request = API::GetAvailableChildrenRequest(UserAccountManager::getInstance()->getLoggedInParentId(), this);
     request->execute();
 }
 
@@ -446,21 +446,21 @@ void BackEndCaller::updateChildAvatar(const std::string &childId, const std::str
 //GOOGLE VERIFY PAYMENT---------------------------------------------------------------------
 void BackEndCaller::verifyGooglePayment(const std::string& orderId, const std::string& iapSku, const std::string& purchaseToken)
 {
-    HttpRequestCreator* request = API::VerifyGooglePaymentRequest(orderId, iapSku, purchaseToken, this);
+    HttpRequestCreator* request = API::VerifyGooglePaymentRequest(UserAccountManager::getInstance()->getLoggedInParentId(), orderId, iapSku, purchaseToken, this);
     request->execute(30.0f);
 }
 
 //AMAZON VERIFY PAYMENT---------------------------------------------------------------------
 void BackEndCaller::verifyAmazonPayment(const std::string& requestId, const std::string& receiptId, const std::string& amazonUserid)
 {
-    HttpRequestCreator* request = API::VerifyAmazonPaymentRequest(requestId, receiptId, amazonUserid, this);
+    HttpRequestCreator* request = API::VerifyAmazonPaymentRequest(UserAccountManager::getInstance()->getLoggedInParentId(), requestId, receiptId, amazonUserid, this);
     request->execute(30.0f);
 }
 
 //APPLE VERIFY PAYMENT----------------------------------------------------------------------
 void BackEndCaller::verifyApplePayment(const std::string& receiptData, const std::string& transactionID)
 {
-    HttpRequestCreator* request = API::VerifyApplePaymentRequest(receiptData, transactionID, this);
+    HttpRequestCreator* request = API::VerifyApplePaymentRequest(UserAccountManager::getInstance()->getLoggedInParentId(), receiptData, transactionID, this);
     request->execute(30.0f);
 }
 

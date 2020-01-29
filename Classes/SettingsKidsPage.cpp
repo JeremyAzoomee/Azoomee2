@@ -98,7 +98,7 @@ void SettingsKidsPage::addKidsToScrollView()
 		kidLayer->setChild(UserAccountManager::getInstance()->getChild(i));
         kidLayer->setDeleteChildCallback([&](){
             ModalMessages::getInstance()->startLoading();
-            HttpRequestCreator* request = API::GetAvailableChildrenRequest(this);
+            HttpRequestCreator* request = API::GetAvailableChildrenRequest(UserAccountManager::getInstance()->getLoggedInParentId(), this);
             request->execute();
         });
         _kidList->pushBackCustomItem(kidLayer);

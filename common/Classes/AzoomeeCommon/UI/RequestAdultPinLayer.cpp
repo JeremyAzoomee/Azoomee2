@@ -243,7 +243,7 @@ void RequestAdultPinLayer::onExit()
 void RequestAdultPinLayer::requestUpdatedPin()
 {
     ModalMessages::getInstance()->startLoading();
-    HttpRequestCreator* request = API::UpdateParentPinRequest(this);
+    HttpRequestCreator* request = API::UpdateParentPinRequest(UserAccountManager::getInstance()->getLoggedInParentId(), this);
     request->execute();
 }
 

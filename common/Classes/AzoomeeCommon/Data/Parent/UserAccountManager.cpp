@@ -720,7 +720,7 @@ void UserAccountManager::getChildrenForLoggedInParent(const OnCompleteCallback& 
         }
     };
     
-    HttpRequestCreator* request = API::GetAvailableChildrenRequest(onSuccess, onFailed);
+    HttpRequestCreator* request = API::GetAvailableChildrenRequest(UserAccountManager::getInstance()->getLoggedInParentId(), onSuccess, onFailed);
     request->execute();
 }
 

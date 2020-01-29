@@ -11,6 +11,8 @@
 
 NS_AZOOMEE_BEGIN
 
+const std::string CookieManager::kMediaCookiePrefix = "https://media";
+
 static std::auto_ptr<CookieManager> sCookieManagerSharedInstance;
 
 CookieManager* CookieManager::getInstance()
@@ -99,7 +101,7 @@ std::string CookieManager::getUrlWithPathFromCookie(const std::string& cookieStr
 		}
 	}
 	
-	return ConfigStorage::getInstance()->getMediaPrefixForXwalkCookies() + domain + path;
+	return kMediaCookiePrefix + domain + path;
 }
 
 std::string CookieManager::getDomainFromCookie(const std::string& cookieString)
@@ -116,7 +118,7 @@ std::string CookieManager::getDomainFromCookie(const std::string& cookieString)
 		}
 	}
 	
-	return ConfigStorage::getInstance()->getMediaPrefixForXwalkCookies() + domain;
+	return kMediaCookiePrefix + domain;
 }
 
 std::string CookieManager::getAllCookiesInJson()

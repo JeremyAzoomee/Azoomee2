@@ -140,11 +140,6 @@ cocos2d::network::HttpRequest* HttpRequestCreator::buildHttpRequest()           
     else
     {
         host = ConfigStorage::getInstance()->getServerHost();
-        
-        if(requestPath.empty())
-        {
-            requestPath = ConfigStorage::getInstance()->getPathForTag(requestTag);
-        }
     }
     
     std::string requestUrl = hostPrefix + host + requestPath;

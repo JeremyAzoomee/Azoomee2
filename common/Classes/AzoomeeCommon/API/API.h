@@ -118,11 +118,14 @@ public:
     
     static HttpRequestCreator* GetForceUpdateInformationRequest(HttpRequestCreatorResponseDelegate* delegate);
     
-    static HttpRequestCreator* UpdateParentPinRequest(HttpRequestCreatorResponseDelegate* delegate);
+    static HttpRequestCreator* UpdateParentPinRequest(const std::string& parentId,
+                                                      HttpRequestCreatorResponseDelegate* delegate);
     
-    static HttpRequestCreator* GetAvailableChildrenRequest(HttpRequestCreatorResponseDelegate* delegate);
+    static HttpRequestCreator* GetAvailableChildrenRequest(const std::string& parentId,
+                                                           HttpRequestCreatorResponseDelegate* delegate);
     
-    static HttpRequestCreator* GetAvailableChildrenRequest(const APIResponseSuccessCallback& onSuccess,
+    static HttpRequestCreator* GetAvailableChildrenRequest(const std::string& parentId,
+                                                           const APIResponseSuccessCallback& onSuccess,
                                                            const APIResponseFailureCallback& onFailure);
     
     static HttpRequestCreator* ChildLoginRequest(const std::string& profileName,
@@ -183,17 +186,20 @@ public:
                                                  const std::string& imageData,
                                                  HttpRequestCreatorResponseDelegate* delegate);
     
-    static HttpRequestCreator* VerifyGooglePaymentRequest(const std::string& orderId,
+    static HttpRequestCreator* VerifyGooglePaymentRequest(const std::string& parentId,
+                                                          const std::string& orderId,
                                                           const std::string& iapSku,
                                                           const std::string& purchaseToken,
                                                           HttpRequestCreatorResponseDelegate* delegate);
     
-    static HttpRequestCreator* VerifyAmazonPaymentRequest(const std::string& requestId,
+    static HttpRequestCreator* VerifyAmazonPaymentRequest(const std::string& parentId,
+                                                          const std::string& requestId,
                                                           const std::string& receiptId,
                                                           const std::string& amazonUserid,
                                                           HttpRequestCreatorResponseDelegate* delegate);
     
-    static HttpRequestCreator* VerifyApplePaymentRequest(const std::string& receiptData,
+    static HttpRequestCreator* VerifyApplePaymentRequest(const std::string& parentId,
+                                                         const std::string& receiptData,
                                                          const std::string& transactionID,
                                                          HttpRequestCreatorResponseDelegate* delegate);
     
@@ -309,7 +315,7 @@ public:
                                                      const std::string& senderName,
                                                      HttpRequestCreatorResponseDelegate* delegate);
     
-    static HttpRequestCreator* GetPendingFriendRequests(HttpRequestCreatorResponseDelegate* delegate);
+    static HttpRequestCreator* GetPendingFriendRequests(const std::string &userId, HttpRequestCreatorResponseDelegate* delegate);
     
 #pragma mark - Sharing
     

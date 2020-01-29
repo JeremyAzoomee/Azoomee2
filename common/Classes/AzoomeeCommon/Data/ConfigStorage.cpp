@@ -179,47 +179,6 @@ std::string ConfigStorage::getServerUrl()
     return getServerUrlPrefix() + getServerHost();
 }
     
-std::string ConfigStorage::getCTAPackageJsonURL()
-{
-#ifdef AZOOMEE_ENVIRONMENT_CI
-  #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    return "https://media.azoomee.ninja/static/popups/android/package.json";
-  #elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    return "https://media.azoomee.ninja/static/popups/ios/package.json";
-  #endif
-#else
-  #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    return "https://media.azoomee.com/static/popups/android/package.json";
-  #elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    return "https://media.azoomee.com/static/popups/ios/package.json";
-  #endif
-#endif
-}
-    
-std::string ConfigStorage::getMediaPrefixForXwalkCookies()
-{
-    return "https://media";
-}
-
-std::string ConfigStorage::getPathForTag(const std::string& httpRequestTag)
-{
-    if(httpRequestTag == API::TagLogin) return "/api/auth/login";
-    if(httpRequestTag == API::TagGetAvailableChildren) return StringUtils::format("/api/user/adult/%s/owns", UserAccountManager::getInstance()->getLoggedInParentId().c_str());
-    if(httpRequestTag == API::TagChildLogin) return "/api/auth/switchProfile";
-    if(httpRequestTag == API::TagRegisterParent) return "/api/user/v2/signup";
-    if(httpRequestTag == API::TagRegisterChild) return "/api/user/child";
-    if(httpRequestTag == API::TagDeleteChild) return "/api/user/child/";
-    if(httpRequestTag == API::TagParentPin) return StringUtils::format("/api/user/adult/%s", UserAccountManager::getInstance()->getLoggedInParentId().c_str());
-    if(httpRequestTag == API::TagVerifyAmazonPayment) return StringUtils::format("/api/billing/amazon/user/%s/receipt", UserAccountManager::getInstance()->getLoggedInParentId().c_str());
-    if(httpRequestTag == API::TagVerifyApplePayment) return StringUtils::format("/api/billing/apple/user/%s/receipt", UserAccountManager::getInstance()->getLoggedInParentId().c_str());
-    if(httpRequestTag == API::TagVerifyGooglePayment) return StringUtils::format("/api/billing/google/user/%s/receipt", UserAccountManager::getInstance()->getLoggedInParentId().c_str());
-    if(httpRequestTag == API::TagUpdateBillingData) return StringUtils::format("/api/billing/user/%s/billingStatus", UserAccountManager::getInstance()->getLoggedInParentId().c_str());
-    if(httpRequestTag == API::TagGetPendingFriendRequests) return StringUtils::format("/api/user/adult/%s/invite/code/received", UserAccountManager::getInstance()->getLoggedInParentId().c_str());
-    if(httpRequestTag == API::TagCookieRefresh) return "/api/cookie/refresh/adult";
-    
-    return "";
-}
-    
 std::string ConfigStorage::getRemoteWebGameAPIPath()
 {
 #ifdef AZOOMEE_ENVIRONMENT_CI

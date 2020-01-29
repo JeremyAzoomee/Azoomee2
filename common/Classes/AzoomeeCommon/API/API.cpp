@@ -182,6 +182,7 @@ HttpRequestCreator* API::LoginRequest(const std::string& username,
                                       HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestPath = "/api/auth/login";
     request->requestBody = StringUtils::format("{\"password\": \"%s\",\"userName\": \"%s\",\"appType\": \"CHILD_APP\"}", password.c_str(), username.c_str());
     request->requestTag = TagLogin;
     request->method = "POST";
@@ -197,6 +198,7 @@ HttpRequestCreator* API::LoginRequest(const std::string& username,
                                       const APIResponseFailureCallback& onFailure)
 {
     HttpRequestCreator* request = new HttpRequestCreator(nullptr);
+    request->requestPath = "/api/auth/login";
     request->requestBody = StringUtils::format("{\"password\": \"%s\",\"userName\": \"%s\",\"appType\": \"CHILD_APP\"}", password.c_str(), username.c_str());
     request->requestTag = TagLogin;
     request->method = "POST";
@@ -275,9 +277,11 @@ HttpRequestCreator* API::GetForceUpdateInformationRequest(Azoomee::HttpRequestCr
     return request;
 }
 
-HttpRequestCreator* API::UpdateParentPinRequest(HttpRequestCreatorResponseDelegate* delegate)
+HttpRequestCreator* API::UpdateParentPinRequest(const std::string& parentId,
+                                                HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestPath = StringUtils::format("/api/user/adult/%s", parentId.c_str());
     request->requestTag = TagParentPin;
     request->encrypted = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
@@ -286,9 +290,11 @@ HttpRequestCreator* API::UpdateParentPinRequest(HttpRequestCreatorResponseDelega
     return request;
 }
 
-HttpRequestCreator* API::GetAvailableChildrenRequest(HttpRequestCreatorResponseDelegate* delegate)
+HttpRequestCreator* API::GetAvailableChildrenRequest(const std::string& parentId,
+                                                     HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestPath = StringUtils::format("/api/user/adult/%s/owns", parentId.c_str());
     request->urlParameters = "expand=true";
     request->requestTag = TagGetAvailableChildren;
     request->encrypted = true;
@@ -298,10 +304,12 @@ HttpRequestCreator* API::GetAvailableChildrenRequest(HttpRequestCreatorResponseD
     return request;
 }
 
-HttpRequestCreator* API::GetAvailableChildrenRequest(const APIResponseSuccessCallback& onSuccess,
+HttpRequestCreator* API::GetAvailableChildrenRequest(const std::string& parentId,
+                                                     const APIResponseSuccessCallback& onSuccess,
                                                      const APIResponseFailureCallback& onFailure)
 {
     HttpRequestCreator* request = new HttpRequestCreator(nullptr);
+    request->requestPath = StringUtils::format("/api/user/adult/%s/owns", parentId.c_str());
     request->urlParameters = "expand=true";
     request->requestTag = TagGetAvailableChildren;
     request->encrypted = true;
@@ -315,6 +323,7 @@ HttpRequestCreator* API::ChildLoginRequest(const std::string& profileName,
                                            HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestPath = "/api/auth/switchProfile";
     request->requestBody = StringUtils::format("{\"userName\": \"%s\", \"password\": \"\"}", profileName.c_str());
     request->requestTag = TagChildLogin;
     request->method = "POST";
@@ -331,6 +340,7 @@ HttpRequestCreator* API::ChildLoginRequest(const std::string& profileName,
                                            const APIResponseFailureCallback& onFailure)
 {
     HttpRequestCreator* request = new HttpRequestCreator(nullptr);
+    request->requestPath = "/api/auth/switchProfile";
     request->requestBody = StringUtils::format("{\"userName\": \"%s\", \"password\": \"\"}", profileName.c_str());
     request->requestTag = TagChildLogin;
     request->method = "POST";
@@ -376,6 +386,7 @@ HttpRequestCreator* API::GetSessionCookiesRequest(const std::string& userId,
 HttpRequestCreator* API::RefreshParentCookiesRequest(Azoomee::HttpRequestCreatorResponseDelegate *delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestPath = "/api/cookie/refresh/adult";
     request->requestTag = TagCookieRefresh;
     request->encrypted = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
@@ -424,6 +435,7 @@ HttpRequestCreator* API::RegisterChildRequest(const std::string& childProfileNam
                                               HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestPath = "/api/user/child";
     request->requestBody = StringUtils::format("{\"profileName\":\"%s\",\"dob\":\"%s\",\"sex\":\"%s\",\"avatar\":\"%s\",\"password\":\"\"}", childProfileName.c_str(), childDOB.c_str(), childGender.c_str(), avatar.c_str());
     request->requestTag = TagRegisterChild;
     request->method = "POST";
@@ -441,6 +453,7 @@ HttpRequestCreator* API::RegisterChildRequestWithAvatarData(const std::string& c
 													   		HttpRequestCreatorResponseDelegate* delegate)
 {
 	HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestPath = "/api/user/child";
 	request->requestBody = "{\"profileName\":\"" + childProfileName + "\",\"dob\":\"" + childDOB + "\",\"sex\":\"" + childGender + "\",\"avatarImageData\":\"" + imgData + "\",\"password\":\"\"}";
 	request->requestTag = TagRegisterChild;
 	request->method = "POST";
@@ -477,9 +490,9 @@ HttpRequestCreator* API::DeleteChild(const std::string& childId,
                                      HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestPath = StringUtils::format("/api/user/child/%s", childId.c_str());
     request->requestBody = StringUtils::format("{\"profileName\":\"%s%s\",\"sex\":\"%s\",\"status\":\"DELETED\"}", childProfileName.c_str(),SessionIdManager::getInstance()->getCurrentSessionId().c_str(), childGender.c_str());
     request->requestTag = TagDeleteChild;
-    request->url = ConfigStorage::getInstance()->getServerUrl() + ConfigStorage::getInstance()->getPathForTag(TagDeleteChild) + childId;
     request->method = "PATCH";
     request->encrypted = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
@@ -505,12 +518,14 @@ HttpRequestCreator* API::UpdateChildAvatar(const std::string &childId,
     return request;
 }
 
-HttpRequestCreator* API::VerifyGooglePaymentRequest(const std::string& orderId,
+HttpRequestCreator* API::VerifyGooglePaymentRequest(const std::string& parentId,
+                                                    const std::string& orderId,
                                                     const std::string& iapSku,
                                                     const std::string& purchaseToken,
                                                     HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestPath = StringUtils::format("/api/billing/google/user/%s/receipt", parentId.c_str());
     request->requestBody = StringUtils::format("{\"orderId\": \"%s\", \"subscriptionId\": \"%s\", \"purchaseToken\": \"%s\"}", orderId.c_str(), iapSku.c_str(), purchaseToken.c_str());
     request->requestTag = TagVerifyGooglePayment;
     request->method = "POST";
@@ -521,12 +536,14 @@ HttpRequestCreator* API::VerifyGooglePaymentRequest(const std::string& orderId,
     return request;
 }
 
-HttpRequestCreator* API::VerifyAmazonPaymentRequest(const std::string& requestId,
+HttpRequestCreator* API::VerifyAmazonPaymentRequest(const std::string& parentId,
+                                                    const std::string& requestId,
                                                     const std::string& receiptId,
                                                     const std::string& amazonUserid,
                                                     HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestPath = StringUtils::format("/api/billing/amazon/user/%s/receipt", parentId.c_str());
     request->requestBody = StringUtils::format("{\"requestId\": \"%s\", \"receiptId\": \"%s\", \"amazonUserId\": \"%s\"}", requestId.c_str(), receiptId.c_str(), amazonUserid.c_str());
     request->requestTag = TagVerifyAmazonPayment;
     request->method = "POST";
@@ -537,13 +554,15 @@ HttpRequestCreator* API::VerifyAmazonPaymentRequest(const std::string& requestId
     return request;
 }
 
-HttpRequestCreator* API::VerifyApplePaymentRequest(const std::string& receiptData,
+HttpRequestCreator* API::VerifyApplePaymentRequest(const std::string& parentId,
+                                                   const std::string& receiptData,
                                                    const std::string& transactionID,
                                                    HttpRequestCreatorResponseDelegate* delegate)
 {
     const std::string& transactionIDList = (transactionID.empty()) ? "[]" : StringUtils::format("[\"%s\"]", transactionID.c_str());
     
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestPath = StringUtils::format("/api/billing/apple/user/%s/receipt", parentId.c_str());
     request->requestBody = StringUtils::format("{\"receipt-data\": \"%s\", \"newTransactionIdList\": %s}", receiptData.c_str(), transactionIDList.c_str());
     request->requestTag = TagVerifyApplePayment;
     request->method = "POST";
@@ -1011,9 +1030,10 @@ HttpRequestCreator* API::GetTimelineSummary(const std::string &userId, Azoomee::
 
 #pragma mark - Friend Requests
 
-HttpRequestCreator* API::GetPendingFriendRequests(HttpRequestCreatorResponseDelegate* delegate)
+HttpRequestCreator* API::GetPendingFriendRequests(const std::string &userId, HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    StringUtils::format("/api/user/adult/%s/invite/code/received", userId.c_str());
     request->urlParameters = "status=CREATED";
     request->requestTag = TagGetPendingFriendRequests;
     request->encrypted = true;
