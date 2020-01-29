@@ -29,7 +29,7 @@ bool ContentTile::init()
         }
     });
     
-    _imageDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
+    _imageDownloader = ImageDownloader::create(ImageDownloader::kImageCachePath, ImageDownloader::CacheMode::File);
     
     return true;
 }

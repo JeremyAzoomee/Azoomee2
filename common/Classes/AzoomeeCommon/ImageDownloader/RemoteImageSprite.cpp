@@ -30,7 +30,7 @@ bool RemoteImageSprite::initWithURLAndSize(const std::string& url, const std::st
         return false;
     }
     ignoreContentAdaptWithSize(false);
-    _imageDownloaderLogic = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
+    _imageDownloaderLogic = ImageDownloader::create(ImageDownloader::kImageCachePath, ImageDownloader::CacheMode::File);
     
     this->setCascadeOpacityEnabled(true);
     this->setContentSize(size);
@@ -49,7 +49,7 @@ bool RemoteImageSprite::initWithUrlAndSizeWithoutPlaceholder(const std::string& 
         return false;
     }
     ignoreContentAdaptWithSize(false);
-    _imageDownloaderLogic = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
+    _imageDownloaderLogic = ImageDownloader::create(ImageDownloader::kImageCachePath, ImageDownloader::CacheMode::File);
     
     this->setCascadeOpacityEnabled(true);
     this->setContentSize(size);
@@ -89,15 +89,17 @@ void RemoteImageSprite::resizeImage()
 {
     if(_loadedImage)
     {
+        const Size& contentSize = getContentSize();
+        const Size& imageSize = _loadedImage->getContentSize();
         _loadedImage->setPosition(this->getContentSize() / 2);
         if(_keepAspectRatio)
         {
-            _loadedImage->setScale(MIN(this->getContentSize().height/ _loadedImage->getContentSize().height, this->getContentSize().width / _loadedImage->getContentSize().width));
+            _loadedImage->setScale(MIN(contentSize.height/ imageSize.height, contentSize.width / imageSize.width));
         }
         else
         {
-            _loadedImage->setScaleX(this->getContentSize().width/ _loadedImage->getContentSize().width);
-            _loadedImage->setScaleY(this->getContentSize().height/ _loadedImage->getContentSize().height);
+            _loadedImage->setScaleX(contentSize.width/ imageSize.width);
+            _loadedImage->setScaleY(contentSize.height/ imageSize.height);
         }
     }
 }
@@ -127,16 +129,18 @@ void RemoteImageSprite::imageAddedToCache(const std::string& localPath)
     {
         return;
     }
+    const Size& imageSize = finalImage->getContentSize();
+    
     finalImage->setPosition(holderContentSize / 2);
     
     if(_keepAspectRatio)
     {
-        finalImage->setScale(MIN(holderContentSize.height / finalImage->getContentSize().height, holderContentSize.width / finalImage->getContentSize().width));
+        finalImage->setScale(MIN(holderContentSize.height / imageSize.height, holderContentSize.width / imageSize.width));
     }
     else
     {
-        finalImage->setScaleX(holderContentSize.width / finalImage->getContentSize().width);
-        finalImage->setScaleY(holderContentSize.height / finalImage->getContentSize().height);
+        finalImage->setScaleX(holderContentSize.width / imageSize.width);
+        finalImage->setScaleY(holderContentSize.height / imageSize.height);
     }
     
     _loadedImage = finalImage;

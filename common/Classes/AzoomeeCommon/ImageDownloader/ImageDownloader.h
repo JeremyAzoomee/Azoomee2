@@ -22,6 +22,8 @@ struct ImageDownloaderDelegate
 class ImageDownloader : public std::enable_shared_from_this<ImageDownloader>, FileDownloaderDelegate
 {
 public:
+    static const std::string kImageCachePath;
+    
     enum CacheMode {
         /// A category as a whole is cached together.
         /// When it expires the whole category is deleted

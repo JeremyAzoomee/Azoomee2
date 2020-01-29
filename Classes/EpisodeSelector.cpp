@@ -117,8 +117,8 @@ bool EpisodeSelector::init()
     });
     _headerLayout->addChild(_closeButton);
     
-    _bannerDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
-    _logoDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
+    _bannerDownloader = ImageDownloader::create(ImageDownloader::kImageCachePath, ImageDownloader::CacheMode::File);
+    _logoDownloader = ImageDownloader::create(ImageDownloader::kImageCachePath, ImageDownloader::CacheMode::File);
     
     return true;
 }

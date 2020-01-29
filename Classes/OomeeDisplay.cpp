@@ -106,7 +106,7 @@ bool OomeeDisplay::init()
     _kidCode->setOverflow(Label::Overflow::SHRINK);
     _kidCodeBody->addChild(_kidCode);
     
-    _imgDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
+    _imgDownloader = ImageDownloader::create(ImageDownloader::kImageCachePath, ImageDownloader::CacheMode::File);
     
     return true;
 }
