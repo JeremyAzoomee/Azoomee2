@@ -2,7 +2,7 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Utils/LocaleManager.h>
 #include "LoginController.h"
 #include "SceneManagerScene.h"
 #include "BackEndCaller.h"

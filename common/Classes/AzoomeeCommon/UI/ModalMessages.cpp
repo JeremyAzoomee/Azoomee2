@@ -4,7 +4,7 @@
 #include "../Mixpanel/Notifications.h"
 #include "Style.h"
 #include "Scene.h"
-#include "../Strings.h"
+#include "../Utils/LocaleManager.h"
 
 USING_NS_CC;
 

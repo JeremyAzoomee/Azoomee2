@@ -1,6 +1,6 @@
 #include "RemoteImageSprite.h"
 #include "../UI/ElectricDreamsTextStyles.h"
-#include "../Strings.h"
+#include "../Utils/LocaleManager.h"
 #include "../Data/ConfigStorage.h"
 #include "ImageDownloaderCacheCleanerLogic.h"
 

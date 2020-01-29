@@ -1,6 +1,6 @@
 #include "FriendListView.h"
 #include "FriendListViewItem.h"
-#include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 

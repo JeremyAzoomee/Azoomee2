@@ -1,7 +1,7 @@
 #include "MainScene.h"
 #include "SimpleAudioEngine.h"
 #include "AzoomeeArtApp.h"
-#include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>

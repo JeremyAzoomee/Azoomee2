@@ -7,7 +7,7 @@
 #include "LoginController.h"
 #include "FlowDataSingleton.h"
 #include <AzoomeeCommon/ErrorCodes.h>
-#include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
@@ -195,7 +195,7 @@ NSString* getPlaylistString()
 
 NSString* getNSStringForKey(const char* key)
 {
-    return [NSString stringWithUTF8String:StringMgr::getInstance()->getStringForKey(key).c_str()];
+    return [NSString stringWithUTF8String:LocaleManager::getInstance()->getStringForKey(key).c_str()];
 }
 
 NS_AZOOMEE_END

@@ -9,7 +9,7 @@
 #include "OomeeMakerScene.h"
 #include "SimpleAudioEngine.h"
 #include "../DataObjects/OomeeMakerDataHandler.h"
-#include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/Utils/DirUtil.h>
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 #include <AzoomeeCommon/Utils/TimeUtils.h>

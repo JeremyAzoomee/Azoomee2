@@ -235,7 +235,7 @@ void ChildOnboardingScene::onHttpRequestFailed(const std::string& requestTag, lo
         errorCode = ERROR_CODE_NAME_EXISTS;
     }
     
-    const auto& errorMessageText = StringMgr::getInstance()->getErrorMessageWithCode(errorCode);
+    const auto& errorMessageText = LocaleManager::getInstance()->getErrorMessageWithCode(errorCode);
         
     PopupMessageBox* messageBox = PopupMessageBox::create();
     messageBox->setTitle(errorMessageText.at(ERROR_TITLE));

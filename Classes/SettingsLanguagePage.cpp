@@ -9,7 +9,7 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
@@ -44,7 +44,7 @@ void SettingsLanguagePage::onEnter()
 	_languageList->setBottomPadding(0);
 	this->addChild(_languageList);
 	
-	for(auto data : StringMgr::kLanguageParams)
+	for(auto data : LocaleManager::kLanguageParams)
 	{
 		LanguageListItem* listItem = LanguageListItem::create();
 		listItem->setLanguage(data._name);
@@ -68,11 +68,11 @@ void SettingsLanguagePage::onEnter()
 				{
 					selectedItem->setSelected(true);
 				}
-				StringMgr::getInstance()->changeLanguage(data._identifier);
+				LocaleManager::getInstance()->changeLanguage(data._identifier);
                 HQHistoryManager::getInstance()->clearCachedHQData();
 			}
 		});
-		if(data._identifier == StringMgr::getInstance()->getLanguageID())
+		if(data._identifier == LocaleManager::getInstance()->getLanguageID())
 		{
 			listItem->setSelected(true);
 		}

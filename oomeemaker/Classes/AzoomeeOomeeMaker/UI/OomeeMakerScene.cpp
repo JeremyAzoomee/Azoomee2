@@ -13,7 +13,7 @@
 #include "OomeeFigure.h"
 #include "DragAndDropController.h"
 #include "OomeeSelectScene.h"
-#include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>

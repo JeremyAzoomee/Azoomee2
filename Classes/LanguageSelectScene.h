@@ -12,7 +12,7 @@
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/UI/Scene.h>
-#include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/UI/DynamicText.h>
 #include <AzoomeeCommon/UI/RoundedRectSprite.h>
 

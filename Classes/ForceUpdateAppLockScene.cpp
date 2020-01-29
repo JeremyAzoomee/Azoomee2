@@ -1,5 +1,5 @@
 #include "ForceUpdateAppLockScene.h"
-#include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include "ForceUpdateSingleton.h"
 

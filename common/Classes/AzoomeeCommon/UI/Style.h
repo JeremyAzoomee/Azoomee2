@@ -3,7 +3,7 @@
 
 #include "../Azoomee.h"
 #include <cocos/cocos2d.h>
-#include "../Utils/StringMgr.h"
+#include "../Utils/LocaleManager.h"
 
 NS_AZOOMEE_BEGIN
 

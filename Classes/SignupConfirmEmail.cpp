@@ -7,7 +7,7 @@
 
 #include "SignupConfirmEmail.h"
 #include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Utils/LocaleManager.h>
 
 using namespace cocos2d;
 

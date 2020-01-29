@@ -37,6 +37,13 @@ bool AppDelegate::applicationDidFinishLaunching()
     // create a scene. it's an autorelease object
     Director::getInstance()->runWithScene(SceneManagerScene::createScene(SceneNameEnum::introVideo));
     
+    #ifdef AZOOMEE_ENVIRONMENT_CI
+        const std::string& url = "https://media.azoomee.ninja/static/popups/languages/languages.zip";
+    #else
+        const std::string& url = "https://media.azoomee.com/static/popups/languages/languages.zip";
+    #endif
+    LocaleManager::getInstance()->downloadRemoteStringsFiles(url);
+    
     SessionIdManager::getInstance();
     AnalyticsSingleton::getInstance()->setLandscapeOrientation();
     AnalyticsSingleton::getInstance()->firstLaunchEvent();

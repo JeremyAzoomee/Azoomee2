@@ -2,7 +2,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
-#include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Utils/LocaleManager.h>
 
 using namespace cocos2d;
 

@@ -14,7 +14,7 @@
 #include "LoginController.h"
 #include <AzoomeeCommon/UI/MessageBox.h>
 #include "HQHistoryManager.h"
-#include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Utils/LocaleManager.h>
 #include "WebGameAPIDataManager.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "FlowDataSingleton.h"
@@ -475,7 +475,7 @@ void GameDataManager::hideLoadingScreen()
 
 void GameDataManager::showErrorMessage()
 {
-    const auto& errorMessageText = StringMgr::getInstance()->getErrorMessageWithCode(ERROR_CODE_SOMETHING_WENT_WRONG);
+    const auto& errorMessageText = LocaleManager::getInstance()->getErrorMessageWithCode(ERROR_CODE_SOMETHING_WENT_WRONG);
     
     PopupMessageBox* messageBox = PopupMessageBox::create();
     messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
@@ -491,7 +491,7 @@ void GameDataManager::showErrorMessage()
 
 void GameDataManager::showIncompatibleMessage()
 {
-    const auto& errorMessageText = StringMgr::getInstance()->getErrorMessageWithCode(ERROR_CODE_GAME_INCOMPATIBLE);
+    const auto& errorMessageText = LocaleManager::getInstance()->getErrorMessageWithCode(ERROR_CODE_GAME_INCOMPATIBLE);
     
     PopupMessageBox* messageBox = PopupMessageBox::create();
     messageBox->setTitle(errorMessageText.at(ERROR_TITLE));

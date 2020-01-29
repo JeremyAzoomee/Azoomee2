@@ -1,6 +1,6 @@
 #include "TextInputLayer.h"
 #include "TextInputChecker.h"
-#include "../Strings.h"
+#include "../Utils/LocaleManager.h"
 #include "../UI/ElectricDreamsTextStyles.h"
 #include "../Analytics/AnalyticsSingleton.h"
 
