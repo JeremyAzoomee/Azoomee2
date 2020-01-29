@@ -89,7 +89,6 @@ void HQDataObjectManager::parseNavigationData(const std::string &data)
 		}
 		
 	}
-	ConfigStorage::getInstance()->setNavigationHQs(hqNames);
 }
 
 void HQDataObjectManager::parseHQStructureData(const std::string& hqStuctureData, const std::string& hqName)

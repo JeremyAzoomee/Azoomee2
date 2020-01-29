@@ -9,6 +9,8 @@ NS_AZOOMEE_BEGIN
 
 #pragma mark - Public
 
+const int ImageDownloader::kContentImageValidityDurationSecs = 604800;
+
 std::vector<ImageDownloaderRef> ImageDownloader::_downloadingImagePool = std::vector<ImageDownloaderRef>();
 
 ImageDownloaderRef ImageDownloader::create(const std::string& storageLocation, CacheMode mode)
@@ -184,12 +186,18 @@ std::string ImageDownloader::getCategoryFromUrl(const std::string& url)
 
 bool ImageDownloader::checkTimeStampValid(const std::string& timeStampFilePath)
 {
-    if(!FileUtils::getInstance()->isFileExist(timeStampFilePath)) return false;
+    if(!FileUtils::getInstance()->isFileExist(timeStampFilePath))
+    {
+        return false;
+    }
     
     const time_t timeStamp = atoll(FileUtils::getInstance()->getStringFromFile(timeStampFilePath).c_str());
     const time_t currentTimeStamp = time(NULL);
     
-    if(currentTimeStamp - timeStamp > ConfigStorage::getInstance()->getContentItemImageValidityInSeconds()) return false;
+    if(currentTimeStamp - timeStamp > kContentImageValidityDurationSecs)
+    {
+        return false;
+    }
     
     return true;
 }

@@ -54,34 +54,11 @@ public:
     bool isParentSignatureRequiredForRequest(const std::string& requestTag);
     bool isImmediateRequestSendingRequired(const std::string& requestTag);
     
-    //BaseScene configuration
-    cocos2d::Point getHQScenePositions(const std::string& hqSceneName);
-    
     //HQSceneElementConfiguration
-    cocos2d::Size getSizeForContentItemInCategory(const std::string& category);
     std::string getPlaceholderImageForContentItemInCategory(const std::string& type);
-    cocos2d::Vec2 getHighlightSizeMultiplierForContentItem(int highlightClass);
-    float getScrollviewTitleTextHeight();
-    cocos2d::Size getGroupHQLogoSize();
-    int getContentItemImageValidityInSeconds();
-    float getGroupContentItemTextHeight();
-    cocos2d::Color4B getColourForElementType(const std::string& type);
-    std::string getIconNameForCategory(const std::string& category);
     
     //NavigationLayer configuration
-    std::string getHQSceneNameReplacementForPermissionFeed(const std::string &inputHqSceneName) const;
-    cocos2d::Point getHorizontalPositionForMenuItem(const std::string& hqName) const;
-    float getHorizontalMenuItemsHeight() const;
-    cocos2d::Point getHorizontalPositionForMenuItemInGroupHQ(const std::string& hqName) const;
     cocos2d::Color4B getColourForMenuItem(const std::string& hqName) const;
-    std::string getNameForMenuItem(const std::string& hqName) const;
-    cocos2d::Point getTargetPositionForMove(const std::string& hqName) const;
-    std::vector<std::string> getHqNames() const;
-    void setNavigationHQs(const std::vector<std::string>& hqs);
-
-    //MainHubScene configuration
-    std::vector<cocos2d::Point> getMainHubPositionForHighlightElements(const std::string& categoryName);
-    std::string getRequiredTypesForHighlightCategory(int category);
     
     //Android helper for arts app
     int inArtsApp;

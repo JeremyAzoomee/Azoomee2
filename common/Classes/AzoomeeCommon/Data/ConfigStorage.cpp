@@ -199,167 +199,15 @@ bool ConfigStorage::isImmediateRequestSendingRequired(const std::string& request
     return itemPosition != requestTagsRequireImmediateSending.end();
 }
 
-//-------------------------BASESCENE CONFIGURATION-------------------------
-Point ConfigStorage::getHQScenePositions(const std::string& hqSceneName)
-{
-    
-    
-    if(BaseSceneConfiguration["HQScenePositions"].HasMember(hqSceneName.c_str()))
-    {
-        const rapidjson::Value &scenePositionsns = BaseSceneConfiguration["HQScenePositions"][hqSceneName.c_str()];
-        float x = getDoubleFromJson("x", scenePositionsns);
-        float y = getDoubleFromJson("y", scenePositionsns);
-        
-        return Point(x,y);
-    }
-    else
-    {
-        return Point(0,0);
-    }
-}
-
 //-------------------------HQSCENEELEMENT CONFIGURATION-------------------------
-
-cocos2d::Size ConfigStorage::getSizeForContentItemInCategory(const std::string& category)
-{
-    if(HQSceneConfiguration["sizeForContentLayerInCategory"].HasMember(category.c_str()))
-    {
-        const rapidjson::Value &contentLayerSizes = HQSceneConfiguration["sizeForContentLayerInCategory"][category.c_str()];
-        float width = getDoubleFromJson("width", contentLayerSizes);
-        float height = getDoubleFromJson("height", contentLayerSizes);
-        
-        return Size(width, height);
-    }
-    else
-    {
-        return Size(0,0);
-    }
-}
 
 std::string ConfigStorage::getPlaceholderImageForContentItemInCategory(const std::string& type)
 {
     const rapidjson::Value &placeholders = HQSceneConfiguration["placeholderImageForContentItemInCategory"];
     return getStringFromJson(type, placeholders);
 }
-
-float ConfigStorage::getScrollviewTitleTextHeight()
-{
-    return getDoubleFromJson("scrollViewTextHeight", HQSceneConfiguration);
-}
-
-Size ConfigStorage::getGroupHQLogoSize()
-{
-    const rapidjson::Value &groupLogoSize = HQSceneConfiguration["groupLogoSize"];
-    float width = getDoubleFromJson("width", groupLogoSize);
-    float height = getDoubleFromJson("height", groupLogoSize);
-    
-    return Size(width, height);
-}
-    
-int ConfigStorage::getContentItemImageValidityInSeconds()
-{
-    return getIntFromJson("ContentItemImageValidityInSeconds", HQSceneConfiguration);
-}
-    
-float ConfigStorage::getGroupContentItemTextHeight()
-{
-    return getDoubleFromJson("groupContentItemTextHeight", HQSceneConfiguration);
-}
-
-std::vector<Point> ConfigStorage::getMainHubPositionForHighlightElements(const std::string& categoryName)
-{
-    if(HQSceneConfiguration["MainHubPositionsForHighlightElements"].HasMember(categoryName.c_str()))
-    {
-        const rapidjson::Value &points = HQSceneConfiguration["MainHubPositionsForHighlightElements"][categoryName.c_str()]["Points"];
-        
-        const rapidjson::Value &p1 = points[0];
-        const rapidjson::Value &p2 = points[1];
-        
-        return std::vector<Point> {Point(getDoubleFromJson("x", p1), getDoubleFromJson("y", p1)), Point(getDoubleFromJson("x", p2), getDoubleFromJson("y", p2))};
-    }
-    else
-    {
-        return std::vector<Point> {Point(0,0), Point(0,0)};
-    }
-}
-    
-cocos2d::Color4B ConfigStorage::getColourForElementType(const std::string& type)
-{
-    Color4B returnColor = Color4B(0, 0, 0, 0);
-    
-    if(HQSceneConfiguration["colourForElementType"].HasMember(type.c_str()))
-    {
-        const rapidjson::Value &typeColour = HQSceneConfiguration["colourForElementType"][type.c_str()];
-        
-        returnColor.r = getIntFromJson("r", typeColour);
-        returnColor.g = getIntFromJson("g", typeColour);
-        returnColor.b = getIntFromJson("b", typeColour);
-        returnColor.a = getIntFromJson("a", typeColour);
-    }
-        
-    return returnColor;
-}
-    
-std::string ConfigStorage::getIconNameForCategory(const std::string& category)
-{
-    return getStringFromJson(category, HQSceneConfiguration["iconNameForCategory"]);
-}
     
 //------------------NAVIGATIONLAYER CONFIGURATION--------------------------------
-
-std::string ConfigStorage::getHQSceneNameReplacementForPermissionFeed(const std::string &inputHqSceneName) const
-{
-    const rapidjson::Value& permissionField = NavigationConfiguration["hqNamesReplacementForPermissionFeed"];
-    const std::string& returnValue = getStringFromJson(inputHqSceneName, permissionField);
-    
-    if(returnValue == "")
-    {
-        return inputHqSceneName;
-    }
-    else
-    {
-        return returnValue;
-    }
-}
-
-cocos2d::Point ConfigStorage::getHorizontalPositionForMenuItem(const std::string& hqName) const
-{
-    cocos2d::Point visualOrigin = Vec2(0,0);//Director::getInstance()->getVisibleOrigin();
-    cocos2d::Size visualSize = Director::getInstance()->getVisibleSize();
-    
-    float x = 0;
-    float y = 0;
-    
-    if(NavigationConfiguration["horizontalXPositionsForMenuItems"].HasMember(hqName.c_str()))
-    {
-        x = NavigationConfiguration["horizontalXPositionsForMenuItems"][hqName.c_str()].GetDouble();
-        y = getDoubleFromJson("horizontalYPositionsForMenuItems", NavigationConfiguration) + visualOrigin.y + visualSize.height;
-    }
-    
-    return Point(x, y);
-}
-
-float ConfigStorage::getHorizontalMenuItemsHeight() const
-{
-    return getDoubleFromJson("horizontalMenuItemsHeight", NavigationConfiguration);
-}
-
-cocos2d::Point ConfigStorage::getHorizontalPositionForMenuItemInGroupHQ(const std::string& hqName) const
-{
-    cocos2d::Point visualOrigin = Director::getInstance()->getVisibleOrigin();
-    cocos2d::Size visualSize = Director::getInstance()->getVisibleSize();
-    
-    float x = 0;
-    float y = 0;
-    
-    if(NavigationConfiguration["horizontalXPositionsForMenuItems"].HasMember(hqName.c_str()))
-    {
-        x = NavigationConfiguration["horizontalXPositionsForMenuItems"][hqName.c_str()].GetDouble();
-        y = visualOrigin.y + visualSize.height + getDoubleFromJson("horizontalYPositionsForMenuItemsInGroupHQ", NavigationConfiguration);
-    }
-    
-    return Point(x, y);
-}
 
 cocos2d::Color4B ConfigStorage::getColourForMenuItem(const std::string& hqName) const
 {
@@ -376,46 +224,6 @@ cocos2d::Color4B ConfigStorage::getColourForMenuItem(const std::string& hqName) 
     }
     
     return returnColour;
-}
-
-std::string ConfigStorage::getNameForMenuItem(const std::string& hqName) const
-{
-    if(NavigationConfiguration["namesForMenuItems"].HasMember(hqName.c_str()))
-    {
-        return NavigationConfiguration["namesForMenuItems"][hqName.c_str()].GetString();
-    }
-    else
-    {
-        return "";
-    }
-}
-
-Point ConfigStorage::getTargetPositionForMove(const std::string& hqName) const
-{
-    float x = 0;
-    float y = 0;
-    
-    if(NavigationConfiguration["targetPositionsForMove"].HasMember(hqName.c_str()))
-    {
-        x = getDoubleFromJson("x", NavigationConfiguration["targetPositionsForMove"][hqName.c_str()]);
-        y = getDoubleFromJson("y", NavigationConfiguration["targetPositionsForMove"][hqName.c_str()]);
-    }
-    
-    return Point(x, y);
-}
-    
-std::vector<std::string> ConfigStorage::getHqNames() const
-{
-    if(_navigationHQs.size() > 0)
-    {
-        return _navigationHQs;
-    }
-    return getStringArrayFromJson(NavigationConfiguration["namesForMenuItems"]);
-}
-
-void ConfigStorage::setNavigationHQs(const std::vector<std::string>& hqs)
-{
-    _navigationHQs = hqs;
 }
 
 //--------------------------- UserDefaults First Time User for Slideshow------------

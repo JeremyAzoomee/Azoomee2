@@ -32,6 +32,9 @@ public:
     
 private:
     static std::vector<ImageDownloaderRef> _downloadingImagePool;
+    
+    static const int kContentImageValidityDurationSecs;
+    
     /// Filename for the image
     std::string _filename;
     /// Category of the image
