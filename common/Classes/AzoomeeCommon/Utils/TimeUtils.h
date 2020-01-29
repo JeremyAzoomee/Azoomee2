@@ -1,12 +1,12 @@
 //
-//  TimeFunctions.h
+//  TimeUtils.h
 //  AzoomeeCommon
 //
 //  Created by Macauley on 31/01/2018.
 //
 
-#ifndef TimeFunctions_h
-#define TimeFunctions_h
+#ifndef TimeUtils_h
+#define TimeUtils_h
 
 #include "../Azoomee.h"
 #include <cocos/cocos2d.h>
@@ -15,7 +15,7 @@
 
 NS_AZOOMEE_BEGIN
 
-class TimeFunctions
+class TimeUtils
 {
 public:
     
@@ -32,4 +32,4 @@ public:
 
 NS_AZOOMEE_END
 
-#endif /* TimeFunctions_h */
+#endif /* TimeUtils_h */
