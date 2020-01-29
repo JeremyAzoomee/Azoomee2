@@ -766,7 +766,7 @@ void ConfigStorage::setEstimatedKeyboardHeight(float height)
 //----------------------- Anonymous IP configuration -------------------------------------------
 void ConfigStorage::setClientAnonymousIp(const std::string& publicIp)
 {
-    std::vector<std::string> ipElementsVector = splitStringToVector(publicIp, ".");
+    std::vector<std::string> ipElementsVector = StringFunctions::splitStringToVector(publicIp, ".");
     if(ipElementsVector.size() != 4)
     {
         _clientIp = "0.0.0.0";

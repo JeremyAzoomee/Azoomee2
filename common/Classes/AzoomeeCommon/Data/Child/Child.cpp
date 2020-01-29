@@ -6,7 +6,7 @@
 //
 
 #include "Child.h"
-#include "../../Utils/TimeFunctions.h"
+#include "../../Utils/TimeUtils.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -94,7 +94,7 @@ void MutableChild::parseLoginData(const rapidjson::Document& loginData)
 	_cdnSessionId = getStringFromJson("cdn-sessionid", loginData);
 	_apiSecret = getStringFromJson("apiSecret", loginData);
 	_apiKey = getStringFromJson("apiKey", loginData);
-	_sessionExpiryTimestamp = getCurrentTimeMillis() + std::chrono::milliseconds(getIntFromJson("cdn-expiry", loginData));
+	_sessionExpiryTimestamp = TimeUtils::getCurrentTimeMillis() + std::chrono::milliseconds(getIntFromJson("cdn-expiry", loginData));
 }
 
 void MutableChild::parseChildData(const rapidjson::Value& childData)
@@ -133,7 +133,7 @@ void MutableChild::setProfileName(const std::string& name)
 void MutableChild::setCDNSessionId(const std::string &sessionId, std::chrono::milliseconds sessionDurationMillis)
 {
 	_cdnSessionId = sessionId;
-	_sessionExpiryTimestamp = getCurrentTimeMillis() + std::chrono::milliseconds(sessionDurationMillis);
+	_sessionExpiryTimestamp = TimeUtils::getCurrentTimeMillis() + std::chrono::milliseconds(sessionDurationMillis);
 }
 
 void MutableChild::setAvatarColour(const cocos2d::Color4B &colour)

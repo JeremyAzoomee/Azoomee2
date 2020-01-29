@@ -132,7 +132,7 @@ Label*  createLabelMessageBoxBody(std::string text)
 
 Label*  createLabelContentTitle(std::string text)
 {
-    Label* newLabel = createLabelWith(stringToUpper(text), Style::Font::Bold(), Style::Color::white, 36);
+    Label* newLabel = createLabelWith(StringFunctions::stringToUpper(text), Style::Font::Bold(), Style::Color::white, 36);
     newLabel->setHorizontalAlignment(TextHAlignment::LEFT);
     
     return newLabel;

@@ -408,7 +408,7 @@ void MessageComposer::sendMessage(const std::string& message)
     
     if(_delegate)
     {
-        const std::string& trimmedMessage = Azoomee::trim(message);
+        const std::string& trimmedMessage = StringFunctions::trim(message);
         if(trimmedMessage.length() > 0)
         {
             const MessageRef& messageObj = Message::createTextMessage(trimmedMessage);

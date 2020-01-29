@@ -47,10 +47,10 @@ bool CookieManager::checkIfCookieIsForUrl(const std::string& cookieRecord, const
 	bool domainFound = false;
 	bool pathFound = false;
 	
-	std::vector<std::string> cookieParts = splitStringToVector(cookieRecord, "; ");
+	std::vector<std::string> cookieParts = StringFunctions::splitStringToVector(cookieRecord, "; ");
 	for(int i = 0; i < cookieParts.size(); i++)
 	{
-		std::vector<std::string> partKeyAndValue = splitStringToVector(cookieParts.at(i), "=");
+		std::vector<std::string> partKeyAndValue = StringFunctions::splitStringToVector(cookieParts.at(i), "=");
 		if(partKeyAndValue.at(0) == "Domain")
 		{
 			if(partKeyAndValue.size() > 1 && url.find(partKeyAndValue.at(1)) != std::string::npos)
@@ -77,7 +77,7 @@ bool CookieManager::checkIfCookieIsForUrl(const std::string& cookieRecord, const
 
 std::string CookieManager::getCookieMainContent(const std::string& cookieRecord)
 {
-	return splitStringToVector(cookieRecord, "; ").at(0);
+	return StringFunctions::splitStringToVector(cookieRecord, "; ").at(0);
 }
 
 std::string CookieManager::getUrlWithPathFromCookie(const std::string& cookieString)
@@ -85,17 +85,17 @@ std::string CookieManager::getUrlWithPathFromCookie(const std::string& cookieStr
 	std::string domain = "";
 	std::string path = "";
 	
-	std::vector<std::string> cookieParts = splitStringToVector(cookieString, "; ");
+	std::vector<std::string> cookieParts = StringFunctions::splitStringToVector(cookieString, "; ");
 	for(int i = 0; i < cookieParts.size(); i++)
 	{
 		std::string currentPart = cookieParts.at(i);
 		if(currentPart.find("Domain=") != std::string::npos)
 		{
-			domain = splitStringToVector(currentPart, "=").at(1);
+			domain = StringFunctions::splitStringToVector(currentPart, "=").at(1);
 		}
 		else if(currentPart.find("Path=") != std::string::npos)
 		{
-			path = splitStringToVector(currentPart, "=").at(1);
+			path = StringFunctions::splitStringToVector(currentPart, "=").at(1);
 		}
 	}
 	
@@ -106,13 +106,13 @@ std::string CookieManager::getDomainFromCookie(const std::string& cookieString)
 {
 	std::string domain = "";
 	
-	std::vector<std::string> cookieParts = splitStringToVector(cookieString, "; ");
+	std::vector<std::string> cookieParts = StringFunctions::splitStringToVector(cookieString, "; ");
 	for(int i = 0; i < cookieParts.size(); i++)
 	{
 		std::string currentPart = cookieParts.at(i);
 		if(currentPart.find("Domain=") != std::string::npos)
 		{
-			domain = splitStringToVector(currentPart, "=").at(1);
+			domain = StringFunctions::splitStringToVector(currentPart, "=").at(1);
 		}
 	}
 	
@@ -134,7 +134,7 @@ std::string CookieManager::getAllCookiesInJson()
 	
 //	cocos2d::log("COOKIE JSON: %s", getJSONStringFromVectorOfMaps(allCookies).c_str());
 	
-	return getJSONStringFromVectorOfMaps(allCookies);
+	return StringFunctions::getJSONStringFromVectorOfMaps(allCookies);
 }
 
 bool CookieManager::parseDownloadCookies(const std::string& responseString)
@@ -164,10 +164,10 @@ bool CookieManager::parseDownloadCookies(const std::string& responseString)
 	_dataDownloadCookiesVector.clear();
 	
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-	_dataDownloadCookiesVector = splitStringToVector(_pureCookieResponseString, ", ");
+	_dataDownloadCookiesVector = StringFunctions::splitStringToVector(_pureCookieResponseString, ", ");
 #endif
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-	_dataDownloadCookiesVector = splitStringToVector(_pureCookieResponseString, ",");
+	_dataDownloadCookiesVector = StringFunctions::splitStringToVector(_pureCookieResponseString, ",");
 #endif
 	
 	return true;

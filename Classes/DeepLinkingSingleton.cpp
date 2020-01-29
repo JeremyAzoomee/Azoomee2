@@ -70,7 +70,7 @@ void DeepLinkingSingleton::resetDeepLink()
 
 bool DeepLinkingSingleton::setHostAndPath(const std::string& uriString)
 {
-    const std::vector<std::string>& splitByAzoomeVector = splitStringToVector(stringToLower(uriString), "azoomee://");
+    const std::vector<std::string>& splitByAzoomeVector = StringFunctions::splitStringToVector(StringFunctions::stringToLower(uriString), "azoomee://");
     
     if(splitByAzoomeVector.size() == 0 || splitByAzoomeVector.size() > 2)
     {
@@ -84,7 +84,7 @@ bool DeepLinkingSingleton::setHostAndPath(const std::string& uriString)
         uriStringWhole = splitByAzoomeVector.at(1);
     }
     
-    const std::vector<std::string>&  splitByForwardSlash = splitStringToVector(uriStringWhole, "/");
+    const std::vector<std::string>&  splitByForwardSlash = StringFunctions::splitStringToVector(uriStringWhole, "/");
     
     if(splitByForwardSlash.size() != 2)
     {

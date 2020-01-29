@@ -68,10 +68,10 @@ void WebViewSelector::loadWebView(const std::string& url, Orientation orientatio
 	ContentHistoryManager::getInstance()->onContentOpened();
     AudioMixer::getInstance()->stopBackgroundMusic();
     
-    if(stringEndsWith(_targetUrl, "m3u8")) //this if clause will probably need changes for later
+    if(StringFunctions::stringEndsWith(_targetUrl, "m3u8")) //this if clause will probably need changes for later
     {
         const std::string& userSessionId = ChildManager::getInstance()->getParentOrChildCdnSessionId();
-        _targetUrl = replaceAll(_targetUrl, "{sessionId}", userSessionId);
+        _targetUrl = StringFunctions::replaceAll(_targetUrl, "{sessionId}", userSessionId);
 		HttpRequestCreator* progressCheck = API::GetVideoProgress(ChildManager::getInstance()->getParentOrChildId(), ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId(),this);
         progressCheck->execute();
     }

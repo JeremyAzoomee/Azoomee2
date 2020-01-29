@@ -42,7 +42,7 @@ void FavouritesManager::addToFavourites(const HQContentItemObjectRef& contentIte
     if(pivot == fileIds.end()) // not already favourited
     {
         fileIds.insert(fileIds.begin(), contentId);
-        const std::string& newIdList = joinStrings(fileIds, "/");
+        const std::string& newIdList = StringFunctions::joinStrings(fileIds, "/");
         FileUtils::getInstance()->writeStringToFile(newIdList, getFavouritesFilePath());
         AnalyticsSingleton::getInstance()->favouriteContentItem(contentId);
     }
@@ -57,7 +57,7 @@ void FavouritesManager::removeFromFavourites(const HQContentItemObjectRef& conte
     if(pivot != fileIds.end()) // not already favourited
     {
         fileIds.erase(pivot);
-        std::string newIdList = joinStrings(fileIds, "/");
+        std::string newIdList = StringFunctions::joinStrings(fileIds, "/");
         if(newIdList == "")
         {
             newIdList = "-";
@@ -93,7 +93,7 @@ std::vector<std::string> FavouritesManager::getFavouriteContentIds() const
 {
     const std::string& fileStr = FileUtils::getInstance()->getStringFromFile(getFavouritesFilePath());
     
-    return splitStringToVector(fileStr, "/");
+    return StringFunctions::splitStringToVector(fileStr, "/");
 }
 
 bool FavouritesManager::isFavouriteContent(const std::string &contentId)

@@ -3,20 +3,23 @@
 #include "../Utils/StringFunctions.h"
 
 
-namespace Azoomee
-{
+NS_AZOOMEE_BEGIN
 
-bool isCharacter(const char Character)
+const int TextInputChecker::kMaxAge = 99;
+const int TextInputChecker::kMinNewPasswordLength = 6;
+const int TextInputChecker::kMinPasswordEntryLength = 2;
+
+bool TextInputChecker::isCharacter(const char Character)
 {
     return ( (Character >= 'a' && Character <= 'z') || (Character >= 'A' && Character <= 'Z'));
 }
   
-bool isNumber(const char Character)
+bool TextInputChecker::isNumber(const char Character)
 {
     return ( Character >= '0' && Character <= '9');
 }
 
-bool isValidEmailAddress(const char * EmailAddress)
+bool TextInputChecker::isValidEmailAddress(const char * EmailAddress)
 {
     if(!EmailAddress) return 0;
     
@@ -38,7 +41,7 @@ bool isValidEmailAddress(const char * EmailAddress)
     return !(DotOffset >= ((int)Length-1));
 }
 
-bool isValidPassword(const char * password, int minNoOfChars)
+bool TextInputChecker::isValidPassword(const char * password, int minNoOfChars)
 {
     if(!password) return 0;
     if(strlen(password) < minNoOfChars) return 0;
@@ -56,7 +59,7 @@ bool isValidPassword(const char * password, int minNoOfChars)
     else return 0;
 }
 
-bool isValidPin(const char * pinNumber)
+bool TextInputChecker::isValidPin(const char * pinNumber)
 {
     if(!pinNumber) return 0;
     if(strlen(pinNumber) != 4) return 0;
@@ -73,7 +76,7 @@ bool isValidPin(const char * pinNumber)
     else return 0;
 }
 
-bool isDate(int day, int month, int year)
+bool TextInputChecker::isDate(int day, int month, int year)
 {
     if (! (1582<= year )  )//comment these 2 lines out if it bothers you
         return false;
@@ -97,7 +100,7 @@ bool isDate(int day, int month, int year)
     return true;
 }
 
-bool childNameExists(std::string newChildsName)
+bool TextInputChecker::childNameExists(std::string newChildsName)
 {
     //check if child name exists
     bool childNameExists = false;
@@ -116,7 +119,7 @@ bool childNameExists(std::string newChildsName)
     return childNameExists;
 }
 
-bool isValidChildName(const char * childName)
+bool TextInputChecker::isValidChildName(const char * childName)
 {
     if(!childName)
 	{
@@ -157,19 +160,19 @@ bool isValidChildName(const char * childName)
 		
 }
 
-bool hasAzoomeeEmailAddress(std::string emailAddress)
+bool TextInputChecker::hasAzoomeeEmailAddress(std::string emailAddress)
 {
     auto atPosition = emailAddress.find("@");
     
-    if ( atPosition != std::string::npos && stringToLower(emailAddress).find("azoomee", atPosition) != std::string::npos)
+    if ( atPosition != std::string::npos && StringFunctions::stringToLower(emailAddress).find("azoomee", atPosition) != std::string::npos)
         return true;
     else
         return false;
 }
 
-int ageFromDOBString(std::string dobString)
+int TextInputChecker::ageFromDOBString(std::string dobString)
 {
-  std::vector<std::string> dobSplit = splitStringToVector(dobString, "-");
+  std::vector<std::string> dobSplit = StringFunctions::splitStringToVector(dobString, "-");
   
   if(dobSplit.size() != 3)
     return -1;
@@ -198,7 +201,7 @@ int ageFromDOBString(std::string dobString)
   return -1;
 }
     
-bool isDateInFuture(std::string dobstring)
+bool TextInputChecker::isDateInFuture(std::string dobstring)
 {
     struct tm tm;
     time_t ts;
@@ -210,12 +213,12 @@ bool isDateInFuture(std::string dobstring)
     return(ts >= time(NULL) || ts==-1);
 }
 	
-bool isValidVoucher(const std::string& voucher)
+bool TextInputChecker::isValidVoucher(const std::string& voucher)
 {
 	return voucher.size() > 0;
 }
 	
-bool isValidAge(const std::string& ageString)
+bool TextInputChecker::isValidAge(const std::string& ageString)
 {
 	int value = std::atoi(ageString.c_str());
 	if(value > 0 && value < kMaxAge)
@@ -232,4 +235,5 @@ bool isValidAge(const std::string& ageString)
 	
 	return false;
 }
-}
+
+NS_AZOOMEE_END

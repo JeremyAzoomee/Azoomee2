@@ -95,7 +95,7 @@ MessageRef Message::createFromJson(const rapidjson::Value& json)
             messageText = params["text"].GetString();
             
             // Decode the string and trim whitespace
-            messageText = Azoomee::trim(Azoomee::Net::urlDecode(messageText));
+            messageText = StringFunctions::trim(Azoomee::Net::urlDecode(messageText));
         }
         else if(messageType == Message::MessageTypeSticker)
         {
@@ -113,7 +113,7 @@ MessageRef Message::createFromJson(const rapidjson::Value& json)
                 return MessageRef();
             }
             
-            stickerLocation = Azoomee::trim(params["sticker_location"].GetString());
+            stickerLocation = StringFunctions::trim(params["sticker_location"].GetString());
         }
         else if(messageType == Message::MessageTypeArt)
         {
