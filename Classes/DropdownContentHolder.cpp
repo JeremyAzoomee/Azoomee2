@@ -26,7 +26,7 @@ bool DropdownContentHolder::init()
         return false;
     }
     
-    _iconDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
+    _iconDownloader = ImageDownloader::create(ImageDownloader::kImageCachePath, ImageDownloader::CacheMode::File);
     
     setBackGroundImage("res/hqscene/dropdown_bg.png");
     setBackGroundImageScale9Enabled(true);

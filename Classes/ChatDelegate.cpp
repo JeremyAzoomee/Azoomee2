@@ -34,7 +34,7 @@ void ChatDelegate::shareContentInChat()
     {
         AnalyticsSingleton::getInstance()->shareContentItemButtonPressed(_sharedContentId);
         const std::string& fileurl = HQDataProvider::getInstance()->getThumbnailUrlForItem(_sharedContentId);
-        ImageDownloaderRef imgDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
+        ImageDownloaderRef imgDownloader = ImageDownloader::create(ImageDownloader::kImageCachePath, ImageDownloader::CacheMode::File);
         imgDownloader->downloadImage(this, fileurl);
     }
 }

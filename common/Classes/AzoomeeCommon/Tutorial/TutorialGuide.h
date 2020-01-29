@@ -10,6 +10,7 @@
 
 #include "../Azoomee.h"
 #include <cocos/cocos2d.h>
+#include <cocos/ui/CocosGUI.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -18,7 +19,7 @@ class TutorialGuide : public cocos2d::Node
 	typedef cocos2d::Node Super;
 	typedef std::function<void()> AnimationCompleteCallback;
 private:
-	cocos2d::Sprite* _avatar = nullptr;
+	cocos2d::ui::ImageView* _avatar = nullptr;
 	cocos2d::Sprite* _frame = nullptr;
 	cocos2d::ClippingNode* _clippingNode = nullptr;
 	cocos2d::DrawNode* _stencil = nullptr;
