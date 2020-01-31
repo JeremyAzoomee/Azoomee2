@@ -18,7 +18,7 @@
 #include "ContentHistoryManager.h"
 #include "WelcomeScene.h"
 #include "RewardDisplayHandler.h"
-
+#include <AzoomeeCommon/Device.h>
 #include "SettingsHub.h"
 #include "ShopScene.h"
 
@@ -352,7 +352,7 @@ void SceneManagerScene::forceToLandscape()
 
 void SceneManagerScene::acceptAnyOrientation()
 {
-	if(ConfigStorage::getInstance()->isDevicePhone())
+	if(Device::getInstance()->isDevicePhone())
 	{
 		forceToPortrait();
 	}
@@ -367,7 +367,7 @@ void SceneManagerScene::returnToPrevOrientation()
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 	if(ContentHistoryManager::getInstance()->getReturnedFromContent() || HQHistoryManager::getInstance()->hasReturnedFromForcedOrientation())
     {
-        if(HQHistoryManager::getInstance()->getPrevHQOrientation() == Portrait || ConfigStorage::getInstance()->isDevicePhone())
+        if(HQHistoryManager::getInstance()->getPrevHQOrientation() == Portrait || Device::getInstance()->isDevicePhone())
         {
             forceToPortrait();
         }

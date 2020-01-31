@@ -29,7 +29,7 @@
 #include "MarketingAssetManager.h"
 
 #include <AzoomeeOomeeMaker/DataObjects/OomeeMakerDataHandler.h>
-
+#include <AzoomeeCommon/Device.h>
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "ApplePaymentSingleton.h"
 #include <AzoomeeCommon/Utils/IosNativeFunctionsSingleton.h>
@@ -98,7 +98,7 @@ void BackEndCaller::offlineCheck()
 
 void BackEndCaller::ipCheck()
 {
-    if(ConfigStorage::getInstance()->getClientAnonymousIp() != "0.0.0.0")
+    if(Device::getInstance()->getClientAnonymousIp() != "0.0.0.0")
     {
         return;
     }
@@ -370,7 +370,7 @@ void BackEndCaller::onSessionCookiesAnswerReceived(const std::string& responseSt
 void BackEndCaller::registerParent(const std::string& emailAddress, const std::string& password, const std::string& pinNumber, const std::string& marketingAccepted)
 {
     FlowDataSingleton::getInstance()->setFlowToSignup(emailAddress, password);
-    const std::string &sourceDevice = ConfigStorage::getInstance()->getDeviceInformation();
+    const std::string &sourceDevice = Device::getInstance()->getDeviceInformation();
     
     std::string source = "OTHER";
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -465,8 +465,8 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
 {
     if(requestTag == API::TagIpCheck)
     {
-        ConfigStorage::getInstance()->setClientAnonymousIp(body);
-        AnalyticsSingleton::getInstance()->registerAnonymousIp(ConfigStorage::getInstance()->getClientAnonymousIp());
+        Device::getInstance()->setClientAnonymousIp(body);
+        AnalyticsSingleton::getInstance()->registerAnonymousIp(Device::getInstance()->getClientAnonymousIp());
     }
     else if(requestTag == API::TagGetSessionCookies)
     {
@@ -554,8 +554,8 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
 {
     if(requestTag == API::TagIpCheck)
     {
-        ConfigStorage::getInstance()->setClientAnonymousIp("0.0.0.0");
-        AnalyticsSingleton::getInstance()->registerAnonymousIp(ConfigStorage::getInstance()->getClientAnonymousIp());
+        Device::getInstance()->setClientAnonymousIp("0.0.0.0");
+        AnalyticsSingleton::getInstance()->registerAnonymousIp(Device::getInstance()->getClientAnonymousIp());
     }
     else if(requestTag == API::TagOfflineCheck)
     {

@@ -11,6 +11,7 @@
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Device.h>
 
 #if defined(AZOOMEE_ENVIRONMENT_CI)
 #include "RoutePaymentSingleton.h"
@@ -109,7 +110,7 @@ bool ProductLayout::init()
 }
 void ProductLayout::onEnter()
 {
-    if(ConfigStorage::getInstance()->getOSManufacturer() == ConfigStorage::kOSManufacturerAmazon)
+    if(Device::getInstance()->getOSManufacturer() == Device::kOSManufacturerAmazon)
     {
         _restoreButton->setVisible(false);
     }

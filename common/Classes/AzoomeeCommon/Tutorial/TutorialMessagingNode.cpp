@@ -7,6 +7,7 @@
 
 #include "TutorialMessagingNode.h"
 #include "../Data/ConfigStorage.h"
+#include "../Device.h"
 
 using namespace cocos2d;
 
@@ -49,7 +50,7 @@ void TutorialMessagingNode::onSizeChanged()
 {
 	this->setContentSize(Director::getInstance()->getVisibleSize());
 	
-	if(ConfigStorage::getInstance()->isDevice18x9())
+	if(Device::getInstance()->isDevice18x9())
 	{
 		_bubble->setMaxWidth((this->getContentSize().width - _guide->getContentSize().width) * 1.1f);
 	}
@@ -66,7 +67,7 @@ void TutorialMessagingNode::setMessage(const std::string &message)
 
 void TutorialMessagingNode::setLocation(const MessageLocation &location)
 {
-	bool is18x9 = ConfigStorage::getInstance()->isDevice18x9();
+	bool is18x9 = Device::getInstance()->isDevice18x9();
 	
 	switch(location)
 	{

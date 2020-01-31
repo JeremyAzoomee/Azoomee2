@@ -14,6 +14,7 @@
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Utils/SpecialCalendarEventManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
+#include <AzoomeeCommon/Device.h>
 
 using namespace cocos2d;
 
@@ -273,7 +274,7 @@ void DrawingCanvasUILayer::addColourSelectButtons(const Size& visibleSize, const
     closeButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onCloseColourSelectPressed, this));
     _colourButtonLayout->addChild(closeButton);
     
-    if(ConfigStorage::getInstance()->isDeviceIphoneX())
+    if(Device::getInstance()->isDeviceIphoneX())
     {
         _colourButtonLayout->setScale(0.85);
     }
@@ -452,7 +453,7 @@ void DrawingCanvasUILayer::addBrushRadiusSlider(const Size& visibleSize, const P
     
     this->addChild(_brushSizeSlider,MAIN_UI_LAYER);
     
-    if(ConfigStorage::getInstance()->isDeviceIphoneX())
+    if(Device::getInstance()->isDeviceIphoneX())
     {
         _brushSizeSlider->setScale(0.75);
         _brushSizeSlider->setPosition(_brushSizeSlider->getPosition() + Vec2(50,0));

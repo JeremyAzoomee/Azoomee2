@@ -17,6 +17,7 @@
 #include "VideoPlaylistManager.h"
 #include "BackEndCaller.h"
 #include "RecentlyPlayedManager.h"
+#include <AzoomeeCommon/Device.h>
 
 using namespace cocos2d;
 NS_AZOOMEE_BEGIN
@@ -124,7 +125,7 @@ NSString* getRemoteWebGameAPIPath()
 
 bool isDeviceIphoneX()
 {
-    return ConfigStorage::getInstance()->isDeviceIphoneX();
+    return Device::getInstance()->isDeviceIphoneX();
 }
 
 void favContent()

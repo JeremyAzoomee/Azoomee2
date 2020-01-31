@@ -3,6 +3,7 @@
 #include "StringFunctions.h"
 #include "DirUtil.h"
 #include "../Data/Json.h"
+#include "../Device.h"
 #include <cocos/cocos2d.h>
 
 using namespace cocos2d;
@@ -140,7 +141,7 @@ void LocaleManager::setLanguageIdentifier()
 	const std::string storedLang = UserDefault::getInstance()->getStringForKey("language", "");
 	if(storedLang == "")
 	{
-		const std::string& deviceLang = ConfigStorage::getInstance()->getDeviceLanguage().substr(0,2);
+		const std::string& deviceLang = Device::getInstance()->getDeviceLanguage().substr(0,2);
 		if(kDeviceLangConvMap.find(deviceLang) != kDeviceLangConvMap.end())
 		{
 			const auto& target = std::find_if(kLanguageParams.begin(), kLanguageParams.end(), [&](const LanguageParams& langParam){

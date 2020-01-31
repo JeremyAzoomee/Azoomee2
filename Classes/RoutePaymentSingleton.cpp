@@ -13,6 +13,7 @@
 #include "SceneManagerScene.h"
 #include "AzoomeeCommon/Data/Child/ChildManager.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/Device.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     #include "platform/android/jni/JniHelper.h"
@@ -110,17 +111,17 @@ bool RoutePaymentSingleton::showIAPContent()
 
 bool RoutePaymentSingleton::osIsIos()
 {
-    return (ConfigStorage::getInstance()->getOSManufacturer() == ConfigStorage::kOSManufacturerApple);
+    return (Device::getInstance()->getOSManufacturer() == Device::kOSManufacturerApple);
 }
 
 bool RoutePaymentSingleton::osIsAndroid()
 {
-    return (ConfigStorage::getInstance()->getOSManufacturer() == ConfigStorage::kOSManufacturerGoogle);
+    return (Device::getInstance()->getOSManufacturer() == Device::kOSManufacturerGoogle);
 }
 
 bool RoutePaymentSingleton::osIsAmazon()
 {
-    return (ConfigStorage::getInstance()->getOSManufacturer() == ConfigStorage::kOSManufacturerAmazon);
+    return (Device::getInstance()->getOSManufacturer() == Device::kOSManufacturerAmazon);
 }
 
 void RoutePaymentSingleton::restorePayment()

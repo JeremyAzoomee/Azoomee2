@@ -25,6 +25,7 @@
 #include "SceneManagerScene.h"
 #include "PopupMessageBox.h"
 #include "LoginController.h"
+#include <AzoomeeCommon/Device.h>
 
 using namespace cocos2d;
 
@@ -190,7 +191,7 @@ bool SignupScene::init()
 		{
 			_signupData._acceptMarketing = acceptMarketing;
 			ModalMessages::getInstance()->startLoading();
-            HttpRequestCreator* request = API::RegisterParentRequest(UserAccountManager::getInstance()->getLoggedInParentId(), _signupData._email, _signupData._password, _signupData._pin,kSignupPlatformSource, ConfigStorage::getInstance()->getDeviceInformation(), _signupData._acceptMarketing ? "true" : "false", this);
+            HttpRequestCreator* request = API::RegisterParentRequest(UserAccountManager::getInstance()->getLoggedInParentId(), _signupData._email, _signupData._password, _signupData._pin,kSignupPlatformSource, Device::getInstance()->getDeviceInformation(), _signupData._acceptMarketing ? "true" : "false", this);
 			request->execute();
 		}
 		else

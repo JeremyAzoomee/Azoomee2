@@ -7,6 +7,7 @@
 #include <AzoomeeCommon/Utils/DirUtil.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/Device.h>
 
 using namespace cocos2d;
 
@@ -292,7 +293,7 @@ float MessageComposer::getEstimatedKeyboardHeight() const
     const bool currentOrientationPortrait = (nativeScreenSize.height > nativeScreenSize.width);
     
     // Do we have a value in user defaults?
-    float height = UserDefault::getInstance()->getFloatForKey(currentOrientationPortrait ? ConfigStorage::kEstimatedKeyboardHeightPortrait : ConfigStorage::kEstimatedKeyboardHeightLandscape);
+    float height = UserDefault::getInstance()->getFloatForKey(currentOrientationPortrait ? Device::kEstimatedKeyboardHeightPortrait : Device::kEstimatedKeyboardHeightLandscape);
     if(height == 0)
     {
         // If no value stored, calculate a sensible default based on the native device's
@@ -384,13 +385,13 @@ float MessageComposer::getEstimatedKeyboardHeight() const
         const float heightPortrait = (portraitSize.width * keyboardHeightPct.y) - visibleOrigin.y;
         const float heightLandscape = (portraitSize.height * keyboardHeightPct.x) - visibleOrigin.x;
         // Check before we save, we don't overwrite any legit values
-        if(UserDefault::getInstance()->getFloatForKey(ConfigStorage::kEstimatedKeyboardHeightPortrait) == 0)
+        if(UserDefault::getInstance()->getFloatForKey(Device::kEstimatedKeyboardHeightPortrait) == 0)
         {
-            UserDefault::getInstance()->setFloatForKey(ConfigStorage::kEstimatedKeyboardHeightPortrait, heightPortrait);
+            UserDefault::getInstance()->setFloatForKey(Device::kEstimatedKeyboardHeightPortrait, heightPortrait);
         }
-        if(UserDefault::getInstance()->getFloatForKey(ConfigStorage::kEstimatedKeyboardHeightLandscape) == 0)
+        if(UserDefault::getInstance()->getFloatForKey(Device::kEstimatedKeyboardHeightLandscape) == 0)
         {
-            UserDefault::getInstance()->setFloatForKey(ConfigStorage::kEstimatedKeyboardHeightLandscape, heightLandscape);
+            UserDefault::getInstance()->setFloatForKey(Device::kEstimatedKeyboardHeightLandscape, heightLandscape);
         }
         
         return (currentOrientationPortrait) ? heightPortrait : heightLandscape;
@@ -694,7 +695,7 @@ void MessageComposer::keyboardWillShow(cocos2d::IMEKeyboardNotificationInfo& inf
     
     _imeOpen = true;
     setMode(MessageComposer::Mode::TextEntry);
-    ConfigStorage::getInstance()->setEstimatedKeyboardHeight(keyboardHeight);
+    Device::getInstance()->setEstimatedKeyboardHeight(keyboardHeight);
     resizeUIForKeyboard(keyboardHeight, info.duration);
 }
 
@@ -711,7 +712,7 @@ void MessageComposer::keyboardDidShow(cocos2d::IMEKeyboardNotificationInfo& info
     
     _imeOpen = true;
     setMode(MessageComposer::Mode::TextEntry);
-    ConfigStorage::getInstance()->setEstimatedKeyboardHeight(keyboardHeight);
+    Device::getInstance()->setEstimatedKeyboardHeight(keyboardHeight);
     resizeUIForKeyboard(keyboardHeight, 0);
 }
 
@@ -956,7 +957,7 @@ void MessageComposer::createMessageEntryUI(cocos2d::ui::Layout* parent)
         const Size& nativeScreenSize = Director::getInstance()->getOpenGLView()->getFrameSize();
         const bool currentOrientationPortrait = (nativeScreenSize.height > nativeScreenSize.width);
         
-        const char* const keyToRead = currentOrientationPortrait ? ConfigStorage::kEstimatedKeyboardHeightPortrait : ConfigStorage::kEstimatedKeyboardHeightLandscape;
+        const char* const keyToRead = currentOrientationPortrait ? Device::kEstimatedKeyboardHeightPortrait : Device::kEstimatedKeyboardHeightLandscape;
         
         if(UserDefault::getInstance()->getFloatForKey(keyToRead) < 100.0f)
         {

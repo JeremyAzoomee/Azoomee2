@@ -191,7 +191,7 @@ void VodacomOnboardingPinLayer::onConfirmPressed()
 	{
 		_flowData->setPin(_pinInput->getText());
 		ModalMessages::getInstance()->startLoading();
-		const std::string &sourceDevice = ConfigStorage::getInstance()->getDeviceInformation();
+		const std::string &sourceDevice = Device::getInstance()->getDeviceInformation();
 		HttpRequestCreator* request = API::RegisterParentRequest(UserAccountManager::getInstance()->getLoggedInParentId(),_flowData->getEmail(), _flowData->getPassword(), _pinInput->getText(), "VODACOM", sourceDevice, boolToString(_flowData->getAcceptedMarketing()), this);
 		request->execute();
 	}

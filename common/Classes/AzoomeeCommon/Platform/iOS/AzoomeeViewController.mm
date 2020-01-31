@@ -3,6 +3,7 @@
 #import <cocos/cocos2d.h>
 #import <cocos/platform/ios/CCEAGLView-ios.h>
 #import "../../Data/ConfigStorage.h"
+#import "../../Device.h"
 
 #define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
 
@@ -34,7 +35,7 @@
     
     if([UIScreen mainScreen].bounds.size.width == 812)
     {
-        Azoomee::ConfigStorage::getInstance()->setIsDeviceIphoneX(true);
+        Azoomee::Device::getInstance()->setIsDeviceIphoneX(true);
     }
     
     // Initialize the CCEAGLView

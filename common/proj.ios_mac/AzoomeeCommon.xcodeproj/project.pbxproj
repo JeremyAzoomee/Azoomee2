@@ -175,6 +175,7 @@
 		E21858A1232BC9090062858A /* TileSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21858A0232BC9090062858A /* TileSprite.cpp */; };
 		E21D61B423955E8400C92FC7 /* MessageBoxTextLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21D61B023955E8400C92FC7 /* MessageBoxTextLayer.cpp */; };
 		E21D61B523955E8400C92FC7 /* MessageBoxLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21D61B123955E8400C92FC7 /* MessageBoxLayer.cpp */; };
+		E21F700C23E47F670007EFF9 /* Device.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21F700B23E47F670007EFF9 /* Device.cpp */; };
 		E229F70B233E1465005BA0D4 /* RoundedRectSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E229F70A233E1465005BA0D4 /* RoundedRectSprite.cpp */; };
 /* End PBXBuildFile section */
 
@@ -519,6 +520,8 @@
 		E21D61B123955E8400C92FC7 /* MessageBoxLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageBoxLayer.cpp; sourceTree = "<group>"; };
 		E21D61B223955E8400C92FC7 /* MessageBoxTextLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageBoxTextLayer.h; sourceTree = "<group>"; };
 		E21D61B323955E8400C92FC7 /* MessageBoxLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageBoxLayer.h; sourceTree = "<group>"; };
+		E21F700A23E47E2F0007EFF9 /* Device.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Device.h; sourceTree = "<group>"; };
+		E21F700B23E47F670007EFF9 /* Device.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Device.cpp; sourceTree = "<group>"; };
 		E229F709233E13D6005BA0D4 /* RoundedRectSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RoundedRectSprite.h; sourceTree = "<group>"; };
 		E229F70A233E1465005BA0D4 /* RoundedRectSprite.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RoundedRectSprite.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -840,6 +843,8 @@
 			children = (
 				3000FF791ED5BBB700E9717C /* Application.cpp */,
 				3000FF7A1ED5BBB700E9717C /* Application.h */,
+				E21F700A23E47E2F0007EFF9 /* Device.h */,
+				E21F700B23E47F670007EFF9 /* Device.cpp */,
 				301CCA9B1EB14473009ADA0C /* Azoomee.h */,
 				3012ED641E96A3140009027D /* ErrorCodes.h */,
 				30DD5EBD1E96571F0084305B /* Analytics */,
@@ -1282,6 +1287,7 @@
 				3012ED9F1E97E6A40009027D /* RemoteImageSprite.cpp in Sources */,
 				302E847A1ED1B992006A498C /* SplitLayout.cpp in Sources */,
 				3000FF7B1ED5BBB700E9717C /* Application.cpp in Sources */,
+				E21F700C23E47F670007EFF9 /* Device.cpp in Sources */,
 				4349C84F1EA8ADEF00FE964B /* MPUIEdgeInsetsToNSDictionaryValueTransformer.m in Sources */,
 				4349C8221EA8ADEF00FE964B /* MPABTestDesignerSnapshotResponseMessage.m in Sources */,
 				303095AA238585F5004A92CD /* RewardManager.cpp in Sources */,

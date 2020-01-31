@@ -17,7 +17,7 @@
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include "PopupMessageBox.h"
 #include <AzoomeeCommon/Data/Rewards/RewardManager.h>
-
+#include <AzoomeeCommon/Device.h>
 
 using namespace cocos2d;
 
@@ -32,7 +32,7 @@ bool ShopScene::init()
 	
 	const Size& visibleSize = this->getContentSize();
 	bool isPortrait = visibleSize.width < visibleSize.height;
-	bool isIphoneX = ConfigStorage::getInstance()->isDeviceIphoneX();
+	bool isIphoneX = Device::getInstance()->isDeviceIphoneX();
 	
 	_bgColour = LayerColor::create(Color4B(3, 36, 78,60));
 	this->addChild(_bgColour);
@@ -179,7 +179,7 @@ void ShopScene::onSizeChanged()
 	Super::onSizeChanged();
 	const Size& visibleSize = this->getContentSize();
 	bool isPortrait = visibleSize.width < visibleSize.height;
-	bool isIphoneX = ConfigStorage::getInstance()->isDeviceIphoneX();
+	bool isIphoneX = Device::getInstance()->isDeviceIphoneX();
 	if(_shopCarousel)
 	{
 		_shopCarousel->refreshUI();

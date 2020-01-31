@@ -23,6 +23,7 @@
 #include "SettingsKidsPage.h"
 #include "SettingsLanguagePage.h"
 #include "HQHistoryManager.h"
+#include <AzoomeeCommon/Device.h>
 
 using namespace cocos2d;
 
@@ -50,7 +51,7 @@ bool SettingsHub::init()
     _contentLayout->setLayoutType(ui::Layout::Type::VERTICAL);
     this->addChild(_contentLayout);
     
-    bool isIphoneX = ConfigStorage::getInstance()->isDeviceIphoneX();
+    bool isIphoneX = Device::getInstance()->isDeviceIphoneX();
     
     _titleLayout = ui::Layout::create();
     _titleLayout->setContentSize(Size(visibleSize.width, isIphoneX ? 250 : 150));

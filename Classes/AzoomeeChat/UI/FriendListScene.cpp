@@ -9,6 +9,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
+#include <AzoomeeCommon/Device.h>
 #include "MessageScene.h"
 
 using namespace cocos2d;
@@ -30,7 +31,7 @@ bool FriendListScene::init()
     _rootLayout->setSizeType(ui::Widget::SizeType::PERCENT);
     _rootLayout->setSizePercent(Vec2(1.0f, 1.0f));
     
-    if(ConfigStorage::getInstance()->isDeviceIphoneX())
+    if(Device::getInstance()->isDeviceIphoneX())
     {
         const bool isLandscape = _rootLayout->getContentSize().width > _rootLayout->getContentSize().height;
         
@@ -130,7 +131,7 @@ void FriendListScene::onSizeChanged()
     const cocos2d::Size& contentSize = getContentSize();
     const bool isLandscape = contentSize.width > contentSize.height;
     
-    if(ConfigStorage::getInstance()->isDeviceIphoneX())
+    if(Device::getInstance()->isDeviceIphoneX())
     {
         if(isLandscape)
         {
