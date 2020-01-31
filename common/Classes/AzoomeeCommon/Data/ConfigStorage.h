@@ -51,8 +51,6 @@ public:
     std::string getServerUrlPrefix();
     std::string getServerUrl();
     std::string getRemoteWebGameAPIPath();
-    bool isParentSignatureRequiredForRequest(const std::string& requestTag);
-    bool isImmediateRequestSendingRequired(const std::string& requestTag);
 
     //Android helper for arts app
     int inArtsApp;
@@ -99,7 +97,6 @@ private:
     rapidjson::Document IapConfiguration;
     
     std::vector<std::string> requestTagsRequireImmediateSending;
-    std::vector<std::string> parentSignedRequestTags;
     
     std::vector<std::string> _navigationHQs;
     

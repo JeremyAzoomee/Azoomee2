@@ -127,7 +127,7 @@ void WebViewNativeCaller_android::onEnterTransitionDidFinish()
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     SessionIdManager::getInstance()->registerAndroidSceneChangeEvent();
-    JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "startWebView", loadUrl,ChildManager::getInstance()->getParentOrChildId(),(int)_orientation, _closeButtonAnchor.x, _closeButtonAnchor.y, _videoProgressSeconds);
+    JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "startWebView", loadUrl,ChildManager::getInstance()->getLoggedInChild()->getId(),(int)_orientation, _closeButtonAnchor.x, _closeButtonAnchor.y, _videoProgressSeconds);
         
 #endif
 }

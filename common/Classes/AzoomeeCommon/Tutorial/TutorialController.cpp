@@ -219,12 +219,12 @@ void TutorialController::highlightMessageString(const std::string& targetStr, co
 
 bool TutorialController::isTutorialCompleted(const std::string& tutorialId)
 {
-	return cocos2d::UserDefault::getInstance()->getBoolForKey((tutorialId + "_" + ChildManager::getInstance()->getParentOrChildId()).c_str(), false);
+	return cocos2d::UserDefault::getInstance()->getBoolForKey((tutorialId + "_" + ChildManager::getInstance()->getLoggedInChild()->getId()).c_str(), false);
 }
 
 void TutorialController::setTutorialCompleted(const std::string& tutorialId)
 {
-	cocos2d::UserDefault::getInstance()->setBoolForKey((tutorialId + "_" + ChildManager::getInstance()->getParentOrChildId()).c_str(), true);
+	cocos2d::UserDefault::getInstance()->setBoolForKey((tutorialId + "_" + ChildManager::getInstance()->getLoggedInChild()->getId()).c_str(), true);
 }
 
 NS_AZOOMEE_END

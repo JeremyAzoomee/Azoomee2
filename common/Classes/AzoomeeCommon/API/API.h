@@ -137,10 +137,12 @@ public:
     
     static HttpRequestCreator* GetSessionCookiesRequest(const std::string& userId,
                                                         const std::string& sessionId,
+                                                        bool parentSigned,
                                                         HttpRequestCreatorResponseDelegate* delegate);
     
     static HttpRequestCreator* GetSessionCookiesRequest(const std::string& userId,
                                                         const std::string& sessionId,
+                                                        bool parentSigned,
                                                         const APIResponseSuccessCallback& onSuccess,
                                                         const APIResponseFailureCallback& onFailure);
     
@@ -322,6 +324,7 @@ public:
     // Get the chat list for childId
     // userId must be the currently logged in child or parent, or the request will fail
     static HttpRequestCreator* GetChatListRequest(const std::string& userId,
+                                                  bool isParent,
                                                   HttpRequestCreatorResponseDelegate* delegate);
     
     // Get the chat list between childId and friendId
@@ -329,6 +332,7 @@ public:
     static HttpRequestCreator* GetChatMessagesRequest(const std::string& userId,
                                                       const std::string& friendId,
                                                       int pageNumber,
+                                                      bool isParent,
                                                       HttpRequestCreatorResponseDelegate* delegate);
     
     // Send a chat message to friendId
@@ -337,6 +341,7 @@ public:
     static HttpRequestCreator* SendChatMessageRequest(const std::string& userId,
                                                       const std::string& friendId,
                                                       const JsonObjectRepresentation& jsonObject,
+                                                      bool isParent,
                                                       HttpRequestCreatorResponseDelegate* delegate);
     
     // Mark messages between user and friend as read
@@ -344,6 +349,7 @@ public:
     static HttpRequestCreator* MarkReadMessageRequest(const std::string& userId,
                                                       const std::string& friendId,
                                                       const uint64_t& readAt,
+                                                      bool isParent,
                                                       HttpRequestCreatorResponseDelegate* delegate);
     
     static HttpRequestCreator* SendChatReportRequest(const std::string& userId,

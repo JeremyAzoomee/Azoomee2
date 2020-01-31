@@ -76,7 +76,7 @@ void OomeeMakerDelegate::onOomeeMakerUpdateAvatar(const std::string &filename)
 	char* str = nullptr;
 	base64Encode((unsigned char*)imageData.c_str(), (unsigned int)imageData.length(), &str);
 		
-	HttpRequestCreator* request = API::UpdateChildAvatar(ChildManager::getInstance()->getParentOrChildId(), str, this);
+	HttpRequestCreator* request = API::UpdateChildAvatar(ChildManager::getInstance()->getLoggedInChild()->getId(), str, this);
 	request->execute();
 }
 

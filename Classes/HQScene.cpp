@@ -355,7 +355,7 @@ void HQScene::changeToPage(const HQType& page)
             break;
         case HQType::OOMEE:
             _oomeeHQ->forceDoLayout();
-            _HQPageTitle->setString(ChildManager::getInstance()->getParentOrChildName());
+            _HQPageTitle->setString(ChildManager::getInstance()->getLoggedInChild()->getProfileName());
             _activePageName = HQConsts::kOomeeHQName;
             break;
     }

@@ -23,6 +23,8 @@ bool FriendListScene::init()
         return false;
     }
     
+    _isParent = !ChildManager::getInstance()->isChildLoggedIn();
+    
     // Create the root layout which fills the whole screen
     _rootLayout = ui::Layout::create();
     _rootLayout->setSizeType(ui::Widget::SizeType::PERCENT);
@@ -79,15 +81,25 @@ void FriendListScene::onEnter()
     Super::onEnter();
     
     // Create a friend object which represents the current user
-    const std::string& childId = ChildManager::getInstance()->getParentOrChildId();
-    const std::string& childName = ChildManager::getInstance()->getParentOrChildName();
-    const std::string& childAvatar = ChildManager::getInstance()->getParentOrChildAvatarId();
-    _currentUser = Friend::create(childId, childName, childAvatar);
+    if(!_isParent)
+    {
+        const std::string& childId = ChildManager::getInstance()->getLoggedInChild()->getId();
+        const std::string& childName = ChildManager::getInstance()->getLoggedInChild()->getProfileName();
+        const std::string& childAvatar = ChildManager::getInstance()->getLoggedInChild()->getAvatar();
+        _currentUser = Friend::create(childId, childName, childAvatar);
+    }
+    else
+    {
+        const std::string& parentId = UserAccountManager::getInstance()->getLoggedInParentId();
+        const std::string& ParentName = UserAccountManager::getInstance()->getParentDisplayName();
+        const std::string& ParentAvatar = UserAccountManager::getInstance()->getParent()->getAvatar();
+        _currentUser = Friend::create(parentId, ParentName, ParentAvatar);
+    }
     
     // Register for API events
     ChatAPI::getInstance()->registerObserver(this);
 	
-	if(ChildManager::getInstance()->isChildLoggedIn() && ChildManager::getInstance()->getLoggedInChild()->isSessionExpired())
+	if(!_isParent && ChildManager::getInstance()->getLoggedInChild()->isSessionExpired())
 	{
 		ModalMessages::getInstance()->startLoading();
 		ChatAPI::getInstance()->refreshChildSession();
@@ -194,10 +206,10 @@ void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
     childAvatar->setLayoutParameter(CreateCenterVerticalLinearLayoutParam());
     childAvatar->setSizeType(ui::Widget::SizeType::ABSOLUTE);
     
-    if(ChildManager::getInstance()->isChildLoggedIn())
+    if(!_isParent)
     {
-        oomeeFileName = ChildManager::getInstance()->getParentOrChildAvatarId();
-		displayName = "   " + ChildManager::getInstance()->getParentOrChildName() + " (" + _("Kid Code:") + " " + ChildManager::getInstance()->getLoggedInChild()->getInviteCode() + ")";
+        oomeeFileName = ChildManager::getInstance()->getLoggedInChild()->getAvatar();
+		displayName = "   " + ChildManager::getInstance()->getLoggedInChild()->getProfileName() + " (" + _("Kid Code:") + " " + ChildManager::getInstance()->getLoggedInChild()->getInviteCode() + ")";
         auto childAvatarSprite = RemoteImageSprite::create();
         childAvatarSprite->setKeepAspectRatio(true);
         childAvatarSprite->initWithUrlAndSize(oomeeFileName, Size(128,128));

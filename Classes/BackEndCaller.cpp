@@ -319,10 +319,10 @@ void BackEndCaller::getSessionCookies()
     IosNativeFunctionsSingleton::getInstance()->deleteHttpCookies(); //ios handles cookies on OS level. Removal of earlier cookies is important to avoid watching premium content with a free user.
 #endif
     
-    const std::string& userId = ChildManager::getInstance()->getParentOrChildId();
-    const std::string& sessionId = ChildManager::getInstance()->getParentOrChildCdnSessionId();
+    const std::string& userId = ChildManager::getInstance()->getLoggedInChild()->getId();
+    const std::string& sessionId = ChildManager::getInstance()->getLoggedInChild()->getCDNSessionId();
     
-    HttpRequestCreator* request = API::GetSessionCookiesRequest(userId, sessionId, this);
+    HttpRequestCreator* request = API::GetSessionCookiesRequest(userId, sessionId, false, this);
     request->execute();
 }
 

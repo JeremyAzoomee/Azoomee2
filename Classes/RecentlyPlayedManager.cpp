@@ -74,7 +74,7 @@ std::string RecentlyPlayedManager::getRecentlyPlayedFilePath() const
     {
         FileUtils::getInstance()->createDirectory(recentlyPlayedFolderLoc);
     }
-    const std::string& childRecentlyPlayedFolderLoc = recentlyPlayedFolderLoc + ChildManager::getInstance()->getParentOrChildId();
+    const std::string& childRecentlyPlayedFolderLoc = recentlyPlayedFolderLoc + ChildManager::getInstance()->getLoggedInChild()->getId();
     if(!FileUtils::getInstance()->isDirectoryExist(childRecentlyPlayedFolderLoc))
     {
         FileUtils::getInstance()->createDirectory(childRecentlyPlayedFolderLoc);
@@ -97,7 +97,7 @@ std::string RecentlyPlayedManager::getRecentlyPlayedFilePathForHQ(const std::str
     {
         FileUtils::getInstance()->createDirectory(recentlyPlayedFolderLoc);
     }
-    const std::string& childRecentlyPlayedFolderLoc = recentlyPlayedFolderLoc + ChildManager::getInstance()->getParentOrChildId();
+    const std::string& childRecentlyPlayedFolderLoc = recentlyPlayedFolderLoc + ChildManager::getInstance()->getLoggedInChild()->getId();
     if(!FileUtils::getInstance()->isDirectoryExist(childRecentlyPlayedFolderLoc))
     {
         FileUtils::getInstance()->createDirectory(childRecentlyPlayedFolderLoc);

@@ -399,7 +399,7 @@ void SettingsHub::onHttpRequestSuccess(const std::string& requestTag, const std:
 		const std::string& userId = UserAccountManager::getInstance()->getLoggedInParentId();
 		const std::string& sessionId = UserAccountManager::getInstance()->getLoggedInParentCdnSessionId();
 		
-		HttpRequestCreator* request = API::GetSessionCookiesRequest(userId, sessionId, this);
+		HttpRequestCreator* request = API::GetSessionCookiesRequest(userId, sessionId, true, this);
 		request->execute();
 		return;
 	}

@@ -80,16 +80,21 @@ bool MessageComposer::init()
     _artListView->setSizeType(ui::Widget::SizeType::PERCENT);
     _artListView->setSizePercent(Vec2(1.0f, 0.99f));
     
-    const std::string& artDir = DirUtil::getCachesPath() + ConfigStorage::kArtCacheFolder + ChildManager::getInstance()->getParentOrChildId();
-    const auto& files = DirUtil::getImagesInDirectory(artDir);
-    std::vector<std::string> fullFiles;
-    
-    for(auto file : files)
+    if(ChildManager::getInstance()->isChildLoggedIn())
     {
-        fullFiles.push_back(StringUtils::format("%s/%s",artDir.c_str(), file.c_str()));
+        const std::string& artDir = DirUtil::getCachesPath() + ConfigStorage::kArtCacheFolder + ChildManager::getInstance()->getLoggedInChild()->getId();
+        const auto& files = DirUtil::getImagesInDirectory(artDir);
+        std::vector<std::string> fullFiles;
+        
+        for(auto file : files)
+        {
+            fullFiles.push_back(StringUtils::format("%s/%s",artDir.c_str(), file.c_str()));
+        }
+        _artListView->setItems(fullFiles);
     }
-    _artListView->setItems(fullFiles);
-    
+    else{
+        _galleryTab->setEnabled(false);
+    }
     _artListView->addItemSelectedEventListener([this](const std::string& artFile){
         sendArtMessage(artFile);
     });

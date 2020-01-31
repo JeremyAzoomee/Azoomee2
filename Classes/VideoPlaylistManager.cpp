@@ -59,7 +59,7 @@ std::string VideoPlaylistManager::getPlaylist()
                 std::map<std::string, std::string> elementToBeAdded;
                 
                 std::string itemUri = item->getUri();
-                itemUri = StringFunctions::replaceAll(itemUri, "{sessionId}", ChildManager::getInstance()->getParentOrChildCdnSessionId());
+                itemUri = StringFunctions::replaceAll(itemUri, "{sessionId}", ChildManager::getInstance()->getLoggedInChild()->getCDNSessionId());
                 
                 elementToBeAdded["uri"] = itemUri;
                 elementToBeAdded["image"] = HQDataProvider::getInstance()->getThumbnailUrlForItem(item->getContentItemId());
@@ -98,7 +98,7 @@ std::string VideoPlaylistManager::getPlaylistForIosNativePlayer()
             }
             
             std::string itemUri = item->getUri();
-            itemUri = StringFunctions::replaceAll(itemUri, "{sessionId}", ChildManager::getInstance()->getParentOrChildCdnSessionId());
+            itemUri = StringFunctions::replaceAll(itemUri, "{sessionId}", ChildManager::getInstance()->getLoggedInChild()->getCDNSessionId());
             returnString += itemUri;
         }
     }

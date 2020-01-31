@@ -41,13 +41,14 @@ public:
 	int getAmountOfFails() const;
     std::string getRequestURL() const;
 	
-    std::string requestBody = "";
-    std::string urlParameters = "";
-    std::string requestTag = "";
-    std::string method = "GET";
-    std::string requestPath = "";
-    std::string url = "";
-    bool encrypted = false;
+    std::string _requestBody = "";
+    std::string _urlParameters = "";
+    std::string _requestTag = "";
+    std::string _method = "GET";
+    std::string _requestPath = "";
+    std::string _url = "";
+    bool _encrypted = false;
+    bool _signAsParent = false;
     
 private:
     // The full request URL, populated after buildHttpRequest is called

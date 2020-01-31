@@ -89,7 +89,7 @@ std::string JWTTool::getAppropriateAPISecret()
     }
     else
     {
-        return ChildManager::getInstance()->getParentOrChildApiSecret();
+        return ChildManager::getInstance()->getLoggedInChild()->getAPISecret();
     }
 }
     
@@ -101,7 +101,7 @@ std::string JWTTool::getAppropriateAPIKey()
     }
     else
     {
-        return ChildManager::getInstance()->getParentOrChildApiKey();
+        return ChildManager::getInstance()->getLoggedInChild()->getAPIKey();
     }
 }
     
@@ -113,7 +113,7 @@ std::string JWTTool::getAppropriateUserId()
     }
     else
     {
-        return ChildManager::getInstance()->getParentOrChildId();
+        return ChildManager::getInstance()->getLoggedInChild()->getId();
     }
 }
     

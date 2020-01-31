@@ -57,9 +57,10 @@ bool ChatHQ::init()
 void ChatHQ::onEnter()
 {
     // Create a friend object which represents the current user
-    const std::string& childId = ChildManager::getInstance()->getParentOrChildId();
-    const std::string& childName = ChildManager::getInstance()->getParentOrChildName();
-    const std::string& childAvatar = ChildManager::getInstance()->getParentOrChildAvatarId();
+    auto child = ChildManager::getInstance()->getLoggedInChild();
+    const std::string& childId = child->getId();
+    const std::string& childName = child->getProfileName();
+    const std::string& childAvatar = child->getAvatar();
     _currentUser = Chat::Friend::create(childId, childName, childAvatar);
     Azoomee::Chat::delegate = ChatDelegate::getInstance();
     Chat::ChatAPI::getInstance()->registerObserver(this);
@@ -215,7 +216,7 @@ void ChatHQ::onChatAPIGetTimelineSummary(const Chat::MessageList& messageList)
     if(messages.size() == 0)
     {
         Chat::MessageRef message = Chat::Message::createTextMessage(_("Hi, welcome to chat!"));
-        Chat::FriendRef user = Chat::Friend::create(ChildManager::getInstance()->getParentOrChildId(), ChildManager::getInstance()->getParentOrChildName(), ChildManager::getInstance()->getParentOrChildAvatarId());
+        Chat::FriendRef user = _currentUser;//Chat::Friend::create(ChildManager::getInstance()->getParentOrChildId(), ChildManager::getInstance()->getParentOrChildName(), ChildManager::getInstance()->getParentOrChildAvatarId());
         messages.push_back({user, message});
         _recentMessagesLayout->setMessageSelectedCallback(nullptr);
     }

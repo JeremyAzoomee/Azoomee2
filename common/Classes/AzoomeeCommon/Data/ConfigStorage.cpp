@@ -73,40 +73,6 @@ bool ConfigStorage::init(void)
     
     VersionConfiguration = parseJsonConfigurationFile("Version.json");
     IapConfiguration = parseJsonConfigurationFile("IapConfiguration.json");
-
-    parentSignedRequestTags = {
-        API::TagParentPin,
-        API::TagVerifyAmazonPayment,
-        API::TagVerifyGooglePayment,
-        API::TagVerifyApplePayment,
-        API::TagUpdateBillingData,
-        API::TagGetAvailableChildren,
-        API::TagUpdateChild,
-        API::TagDeleteChild,
-        API::TagGetPendingFriendRequests,
-        API::TagFriendRequest,
-        API::TagFriendRequestReaction,
-        API::TagResetReportedChat,
-        API::TagCookieRefresh,
-		API::TagAddVoucher,
-		API::TagUpdateParentPassword,
-		API::TagUpdateParentDetails,
-		API::TagUpdateChildNameRequest,
-		API::TagGetParentDetails,
-		API::TagGetVodacomTransactionId,
-		API::TagRegisterParent,
-        API::TagGetMarketingAssets
-    };
-    requestTagsRequireImmediateSending = {
-        API::TagLogin,
-        API::TagChildLogin,
-        API::TagParentPin,
-        API::TagVerifyGooglePayment,
-        API::TagVerifyAmazonPayment,
-        API::TagVerifyApplePayment,
-        API::TagGetAvailableChildren
-    };
-    
     
     return true;
 }
@@ -182,12 +148,6 @@ std::string ConfigStorage::getRemoteWebGameAPIPath()
 #else
     return "https://media.azoomee.com/static/webgameapi/";
 #endif
-}
-    
-bool ConfigStorage::isParentSignatureRequiredForRequest(const std::string& requestTag)
-{
-    auto itemPosition = std::find(parentSignedRequestTags.begin(), parentSignedRequestTags.end(), requestTag);
-    return itemPosition != parentSignedRequestTags.end();
 }
     
 bool ConfigStorage::isImmediateRequestSendingRequired(const std::string& requestTag)

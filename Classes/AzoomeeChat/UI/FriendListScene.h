@@ -20,6 +20,7 @@ private:
     
     /// A friend object which represents the current user
     FriendRef _currentUser;
+    bool _isParent = false;
     
     /// Root layout for all elements
     cocos2d::ui::Layout* _rootLayout = nullptr;

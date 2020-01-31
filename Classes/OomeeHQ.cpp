@@ -349,7 +349,7 @@ void OomeeHQ::refreshFavouritesList()
 
 void OomeeHQ::refreshArtList()
 {
-    const std::string& dirPath = DirUtil::getCachesPath() + ConfigStorage::kArtCacheFolder + ChildManager::getInstance()->getParentOrChildId();
+    const std::string& dirPath = DirUtil::getCachesPath() + ConfigStorage::kArtCacheFolder + ChildManager::getInstance()->getLoggedInChild()->getId();
     
     if(!FileUtils::getInstance()->isDirectoryExist(dirPath))
     {

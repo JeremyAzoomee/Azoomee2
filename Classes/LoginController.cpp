@@ -141,7 +141,6 @@ void LoginController::handleLoginSuccess()
     }
     
     MarketingAssetManager::getInstance()->downloadMarketingAssets();
-    OomeeMaker::OomeeMakerDataHandler::getInstance()->getLatestDataAsync();
     
     
     AnalyticsSingleton::getInstance()->setIsUserAnonymous(UserAccountManager::getInstance()->isLoggedInParentAnonymous());
@@ -184,6 +183,7 @@ void LoginController::handleGetChildrenSuccess()
 void LoginController::handleChildLoginSuccess()
 {
     ChildManager::getInstance()->updateInventory();
+    OomeeMaker::OomeeMakerDataHandler::getInstance()->getLatestDataAsync();
     OomeeMaker::OomeeMakerDataHandler::getInstance()->getOomeesForChild(ChildManager::getInstance()->getLoggedInChild()->getId(), false);
     HQHistoryManager::getInstance()->emptyHistory();
                            
