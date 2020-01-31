@@ -101,6 +101,9 @@ public:
     
     void loginChild(const std::string& profileName, const OnCompleteCallback& callback);
     
+    void setHasLoggedInOnDevice(bool loggedIn);
+    bool userHasLoggedInOnDevice();
+    
 private:
 	BillingDataRef _billingData = nullptr;
 	MutableParentRef _parent = nullptr;
@@ -115,8 +118,8 @@ private:
 	void addParentLoginDataToUserDefaults();
 	void clearAvailableChildren();
 	void addChild(const MutableChildRef& child);
-	//std::vector<ChildRef> getAvailableChildren() const;
-	//std::map<std::string, ChildRef> getAvailableChildrenById() const;
+	
+    static const std::string kUserHasLoggedInOnDeviceKey;
 };
 
 NS_AZOOMEE_END

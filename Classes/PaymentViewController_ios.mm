@@ -113,7 +113,7 @@ using namespace Azoomee;
     NSMutableArray* productIDList = [NSMutableArray array];
     for(auto productID : productIDs)
     {
-        NSString* idAsNS = [NSString stringWithUTF8String:ConfigStorage::getInstance()->getIapSkuForProvider(productID).c_str()];
+        NSString* idAsNS = [NSString stringWithUTF8String:RoutePaymentSingleton::getInstance()->getIapSkuForProvider(productID).c_str()];
         [productIDList addObject:idAsNS];
     }
     

@@ -37,6 +37,7 @@ using namespace cocos2d::network;
 NS_AZOOMEE_BEGIN
 
 const char* const GameDataManager::kManualGameId = "MANUAL_GAME";
+const std::string GameDataManager::kGameCacheFolder = "gameCache/";
 
 const std::map<std::string, Vec2> GameDataManager::kCloseAnchorKeyToVec2Map = {
     {"TOP_LEFT",Vec2(0,0)},
@@ -70,10 +71,10 @@ bool GameDataManager::init(void)
     createBundledGamesMap();
     
     // copy games loading pages from bundle to games cache so game data can be accessed in the new WKWebView
-    FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/index_ios.html"), Azoomee::DirUtil::getCachesPath() + Azoomee::ConfigStorage::kGameCacheFolder + "index_ios.html");
-    FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/circle_1.png"), Azoomee::DirUtil::getCachesPath() + Azoomee::ConfigStorage::kGameCacheFolder + "circle_1.png");
-    FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/load.png"), Azoomee::DirUtil::getCachesPath() + Azoomee::ConfigStorage::kGameCacheFolder + "load.png");
-    FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/style.css"), Azoomee::DirUtil::getCachesPath() + Azoomee::ConfigStorage::kGameCacheFolder + "style.css");
+    FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/index_ios.html"), Azoomee::DirUtil::getCachesPath() + kGameCacheFolder + "index_ios.html");
+    FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/circle_1.png"), Azoomee::DirUtil::getCachesPath() + kGameCacheFolder + "circle_1.png");
+    FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/load.png"), Azoomee::DirUtil::getCachesPath() + kGameCacheFolder + "load.png");
+    FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/style.css"), Azoomee::DirUtil::getCachesPath() + kGameCacheFolder + "style.css");
 #endif
     return true;
 }
@@ -87,7 +88,7 @@ std::vector<HQContentItemObjectRef> GameDataManager::getOfflineGameList()
     {
         if(json.length() > 3)
         {
-            const std::string& jsonFilepath = ConfigStorage::getInstance()->getGameCachePath() + json + "/package.json";
+            const std::string& jsonFilepath = getGameCachePath() + json + "/package.json";
             if(getStartFileFromJSONFile(jsonFilepath) != "")
             {
                 auto item = ContentItemManager::getInstance()->getContentItemForId(json);
@@ -103,7 +104,7 @@ std::vector<HQContentItemObjectRef> GameDataManager::getOfflineGameList()
 
 std::vector<std::string> GameDataManager::getJsonFileListFromDir() const
 {
-    return DirUtil::getFoldersInDirectory(ConfigStorage::getInstance()->getGameCachePath());
+    return DirUtil::getFoldersInDirectory(getGameCachePath());
 }
 
 void GameDataManager::startProcessingGame(const HQContentItemObjectRef &itemData)
@@ -421,12 +422,12 @@ void GameDataManager::startGame(const std::string &basePath, const std::string &
 
 std::string GameDataManager::getGameIdPath(const std::string &gameId)
 {
-    return ConfigStorage::getInstance()->getGameCachePath() + gameId + "/";
+    return getGameCachePath() + gameId + "/";
 }
 
-std::string GameDataManager::getGameCachePath()
+std::string GameDataManager::getGameCachePath() const
 {
-    return ConfigStorage::getInstance()->getGameCachePath();
+    return DirUtil::getCachesPath() + kGameCacheFolder;
 }
 
 Orientation GameDataManager::getGameOrientation(const std::string& jsonFileName)

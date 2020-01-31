@@ -199,7 +199,7 @@ void IntroVideoScene::onForceUpdateCheckFinished(const ForceUpdateResult& result
 	{
 		case ForceUpdateResult::DO_NOTHING:
 		{
-			if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
+			if(!UserAccountManager::getInstance()->userHasLoggedInOnDevice())
 			{
 				if(UserDefault::getInstance()->getStringForKey(UserAccountManager::kAnonEmailKey, "") == "")
 				{
@@ -240,7 +240,7 @@ void IntroVideoScene::MessageBoxButtonPressed(std::string messageBoxTitle, std::
 	}
 	else
 	{
-		if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
+		if(!UserAccountManager::getInstance()->userHasLoggedInOnDevice())
 		{
             LoginController::getInstance()->anonLogin();
 		}

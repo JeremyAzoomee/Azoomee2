@@ -209,7 +209,7 @@ void VodacomOnboardingPinLayer::onHttpRequestSuccess(const std::string& requestT
 	{
 		if(UserAccountManager::getInstance()->parseParentLoginData(body))
 		{
-			ConfigStorage::getInstance()->setFirstSlideShowSeen();
+			UserAccountManager::getInstance()->setHasLoggedInOnDevice(true);
 			UserAccountManager::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headers));
 			AnalyticsSingleton::getInstance()->signInSuccessEvent();
 			AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);

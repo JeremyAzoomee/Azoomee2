@@ -87,7 +87,7 @@ void ManualGameInputLayer::addButtons()
             {
                 ModalMessages::getInstance()->startLoading();
                 
-                const std::string& manualGamePath = DirUtil::getCachesPath() + ConfigStorage::kGameCacheFolder + GameDataManager::kManualGameId;
+                const std::string& manualGamePath = DirUtil::getCachesPath() + GameDataManager::kGameCacheFolder + GameDataManager::kManualGameId;
                 
                 if(FileUtils::getInstance()->isDirectoryExist(manualGamePath))
                 {

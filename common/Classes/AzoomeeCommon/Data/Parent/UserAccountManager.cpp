@@ -29,6 +29,7 @@ const std::string UserAccountManager::kAnonLoginPW = "ToBeDecided";
 const char* const UserAccountManager::kAnonEmailKey = "anonEmail";
 const char* const UserAccountManager::kStoredUsernameKey = "username";
 const char* const UserAccountManager::kAnonOnboardingCompleteKey = "anonOnboardingComplete";
+const std::string UserAccountManager::kUserHasLoggedInOnDeviceKey = "FirstSlideShowSeen";
 
 static std::auto_ptr<UserAccountManager> sUserAccountManagerSharedInstance;
 
@@ -796,4 +797,14 @@ void UserAccountManager::loginChild(const std::string& profileName, const OnComp
     request->execute();
 }
 
+
+void UserAccountManager::setHasLoggedInOnDevice(bool loggedIn)
+{
+    UserDefault::getInstance()->setBoolForKey(kUserHasLoggedInOnDeviceKey.c_str(), loggedIn);
+}
+
+bool UserAccountManager::userHasLoggedInOnDevice()
+{
+    return UserDefault::getInstance()->getBoolForKey(kUserHasLoggedInOnDeviceKey.c_str(), false);
+}
 NS_AZOOMEE_END

@@ -22,6 +22,7 @@ public:
     
     static GameDataManager* getInstance(void);
     static const char* const kManualGameId;
+    static const std::string kGameCacheFolder;
     static const std::map<std::string, cocos2d::Vec2> kCloseAnchorKeyToVec2Map;
     
     virtual ~GameDataManager();
@@ -79,7 +80,7 @@ private:
     
     void removeGameFolderOnError(const std::string &dirPath);
     
-    std::string getGameCachePath();
+    std::string getGameCachePath() const;
     std::string getGameIdPath(const std::string &gameId);
     
     void startGame(const std::string &basePath, const std::string &startFileName);

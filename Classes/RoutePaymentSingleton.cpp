@@ -52,6 +52,16 @@ RoutePaymentSingleton::~RoutePaymentSingleton(void)
 
 bool RoutePaymentSingleton::init(void)
 {
+    const std::string& jsonString = FileUtils::getInstance()->getStringFromFile("res/configuration/IapConfiguration.json");
+    
+    _iapConfiguration.Parse(jsonString.c_str());
+    
+    if(_iapConfiguration.HasParseError())
+    {
+        cocos2d::log("IAPConfig file parsing error!");
+        _iapConfiguration.SetObject();
+    }
+    
     return true;
 }
 void RoutePaymentSingleton::startInAppPayment()
@@ -308,6 +318,12 @@ void RoutePaymentSingleton::createReceiptDataFolder()
     {
         FileUtils::getInstance()->createDirectory(cacheFolder);
     }
+}
+
+
+std::string RoutePaymentSingleton::getIapSkuForProvider(const std::string& provider)
+{
+    return getStringFromJson(provider, _iapConfiguration);
 }
 
 //Delegate Functions

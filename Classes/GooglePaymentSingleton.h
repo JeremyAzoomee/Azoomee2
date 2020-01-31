@@ -23,6 +23,8 @@ public:
     void onGooglePaymentVerificationAnswerReceived(std::string responseDataString);
     
 private:
+    std::string getDeveloperPublicKey();
+    
     std::string savedDeveloperPayload;
     std::string savedOrderId;
     std::string savedToken;

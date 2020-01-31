@@ -159,7 +159,7 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString, con
 				updateBillingData();
 			}
 			getParentDetails();
-			ConfigStorage::getInstance()->setFirstSlideShowSeen();
+			UserAccountManager::getInstance()->setHasLoggedInOnDevice(true);
 		}
 		
 		
@@ -391,7 +391,7 @@ void BackEndCaller::onRegisterParentAnswerReceived()
 	UserDefault* userDefault = UserDefault::getInstance();
 	userDefault->setBoolForKey(UserAccountManager::kAnonOnboardingCompleteKey, false);
 	userDefault->setStringForKey(UserAccountManager::kAnonEmailKey, "");
-    ConfigStorage::getInstance()->setFirstSlideShowSeen();
+    UserAccountManager::getInstance()->setHasLoggedInOnDevice(true);
     AnalyticsSingleton::getInstance()->OnboardingAccountCreatedEvent();
     FlowDataSingleton::getInstance()->setSuccessFailPath(SIGNUP_SUCCESS);
     login(FlowDataSingleton::getInstance()->getUserName(), FlowDataSingleton::getInstance()->getPassword());

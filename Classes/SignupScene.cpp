@@ -44,6 +44,14 @@ const std::map<std::string, cocos2d::Color3B> SignupScene::kPagePatternColours =
 	{kTermsPageKey, Style::Color::azure}
 };
 
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+const std::string SignupScene::kSignupPlatformSource = "IOS_INAPP";
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+const std::string SignupScene::kSignupPlatformSource = "ANDROID_INAPP";
+#else
+const std::string SignupScene::kSignupPlatformSource = "OTHER";
+#endif
+
 bool SignupScene::init()
 {
 	if(!Super::init())
@@ -182,7 +190,7 @@ bool SignupScene::init()
 		{
 			_signupData._acceptMarketing = acceptMarketing;
 			ModalMessages::getInstance()->startLoading();
-            HttpRequestCreator* request = API::RegisterParentRequest(UserAccountManager::getInstance()->getLoggedInParentId(), _signupData._email, _signupData._password, _signupData._pin,ConfigStorage::kSignupPlatformSource, ConfigStorage::getInstance()->getDeviceInformation(), _signupData._acceptMarketing ? "true" : "false", this);
+            HttpRequestCreator* request = API::RegisterParentRequest(UserAccountManager::getInstance()->getLoggedInParentId(), _signupData._email, _signupData._password, _signupData._pin,kSignupPlatformSource, ConfigStorage::getInstance()->getDeviceInformation(), _signupData._acceptMarketing ? "true" : "false", this);
 			request->execute();
 		}
 		else
@@ -414,7 +422,7 @@ void SignupScene::onHttpRequestSuccess(const std::string& requestTag, const std:
 		UserDefault* userDefault = UserDefault::getInstance();
 		userDefault->setBoolForKey(UserAccountManager::kAnonOnboardingCompleteKey, false); //registered account is upgrade of local anon account, if logging in as anon again, will need to complete onboarding again for fresh anon account
 		userDefault->setStringForKey(UserAccountManager::kAnonEmailKey, "");
-		ConfigStorage::getInstance()->setFirstSlideShowSeen();
+		UserAccountManager::getInstance()->setHasLoggedInOnDevice(true);
 		AnalyticsSingleton::getInstance()->OnboardingAccountCreatedEvent();
 		
 		PopupMessageBox* messageBox = PopupMessageBox::create();

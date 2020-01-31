@@ -26,7 +26,6 @@ public:
     static const char* const kEstimatedKeyboardHeightLandscape;
     
     static const std::string kArtCacheFolder;
-    static const std::string kGameCacheFolder;
 	static const std::string kOomeeMakerCacheFolder;
     
     static const std::string kAvatarImageCacheFolder;
@@ -35,39 +34,23 @@ public:
     static const std::string kOSManufacturerGoogle;
     static const std::string kOSManufacturerAmazon;
     
-    static const std::string kSignupPlatformSource;
     
     /** Returns the shared instance of the Game Manager */
     static ConfigStorage* getInstance(void);
     virtual ~ConfigStorage();
     bool init(void);
     
-    std::string getFileNameFromUrl(const std::string& url);
-    
-    std::string getGameCachePath();
-    
     //Backend caller configuration
     std::string getServerHost();
     std::string getServerUrlPrefix();
     std::string getServerUrl();
     std::string getRemoteWebGameAPIPath();
-
-    //Android helper for arts app
-    int inArtsApp;
-
-    //UserDefaults First Time User for Slideshow
-    void setFirstSlideShowSeen();
-    bool shouldShowFirstSlideShowScene();
     
     //Version configuration
     std::string getVersionNumber();
     std::string getVersionNumberWithPlatform();
     std::string getVersionNumberToDisplay();
     std::string getVersionInformationForRequestHeader();
-    
-    //IAP Configuration
-    std::string getIapSkuForProvider(const std::string& provider);
-    std::string getDeveloperPublicKey();
     
     //Device-specific information
     std::string getDeviceInformation();
@@ -94,11 +77,8 @@ private:
     rapidjson::Document parseJsonConfigurationFile(const std::string& fileName);
     
     rapidjson::Document VersionConfiguration;
-    rapidjson::Document IapConfiguration;
     
     std::vector<std::string> requestTagsRequireImmediateSending;
-    
-    std::vector<std::string> _navigationHQs;
     
     bool _isDeviceIphoneX = false;
     bool _isDevice18x9 = false;

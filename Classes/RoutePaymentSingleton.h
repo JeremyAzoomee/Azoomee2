@@ -2,6 +2,7 @@
 #define __ROUTE_PAYMENT_SINGLETON_H__
 
 #include "cocos2d.h"
+#include <AzoomeeCommon/Data/Json.h>
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
 
@@ -14,6 +15,8 @@ private:
     void createReceiptDataFolder();
     void removeReceiptDataFileAndLogin();
     void writeReceiptDataToFile(const std::string &receiptData);
+    
+    rapidjson::Document _iapConfiguration;
     
 public:
     static RoutePaymentSingleton* getInstance(void);
@@ -52,6 +55,8 @@ public:
     bool receiptDataFileExists();
     void removeReceiptDataFile();
     void retryReceiptValidation();
+    
+    std::string getIapSkuForProvider(const std::string& provider);
     
     //Delegate Functions
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);

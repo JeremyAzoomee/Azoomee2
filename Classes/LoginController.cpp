@@ -128,7 +128,7 @@ void LoginController::handleLoginSuccess()
     
     if(!UserAccountManager::getInstance()->isLoggedInParentAnonymous())
     {
-        ConfigStorage::getInstance()->setFirstSlideShowSeen();
+        UserAccountManager::getInstance()->setHasLoggedInOnDevice(true);
         
         //if reciept needs validating, do validation here, on success or fail it will fire this function again with reciept deleted
         if(RoutePaymentSingleton::getInstance()->receiptDataFileExists())

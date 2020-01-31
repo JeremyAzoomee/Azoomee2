@@ -214,7 +214,7 @@ extern "C"
 
 JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_AppActivity_getAmazonSku(JNIEnv* env, jobject thiz)
 {
-    return env->NewStringUTF(ConfigStorage::getInstance()->getIapSkuForProvider("amazon-prod").c_str());
+    return env->NewStringUTF(RoutePaymentSingleton::getInstance()->getIapSkuForProvider("amazon-prod").c_str());
 }
 
 #endif

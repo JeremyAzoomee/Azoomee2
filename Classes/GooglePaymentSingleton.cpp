@@ -68,7 +68,7 @@ void GooglePaymentSingleton::startBackEndPaymentVerification(std::string develop
         const std::string& productID = "googleplay-prod";
 #endif
         auto funcCallAction = CallFunc::create([=](){
-            BackEndCaller::getInstance()->verifyGooglePayment(orderId, ConfigStorage::getInstance()->getIapSkuForProvider(productID), token);
+            BackEndCaller::getInstance()->verifyGooglePayment(orderId, RoutePaymentSingleton::getInstance()->getIapSkuForProvider(productID), token);
         });
     
         Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL)); //need time to get focus back from google window, otherwise the app will crash
@@ -139,6 +139,18 @@ void GooglePaymentSingleton::restoreFailedNoPurchase()
 	});
 	
 	Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL)); //need time to get focus back from google window, otherwise the app will crash
+}
+
+std::string GooglePaymentSingleton::getDeveloperPublicKey()
+{
+    std::string devKey = "MJKBJlAODglshlkG:y0CCQFHABQCBS8BOIJDChMCBSEB{uhXV3FZlUQTjZZT+[m6O:XUsUevgKjNMROPZAkoiYYuNX6Ws905wZtWCFiGyz[OAjroRYmtEUOKaD;b8HVK:pxUSUrfI6VgsAEfHKzHTO6WgaF7ZjV/3{WxPOSHijdf7vEn[D4kkB8j2QGqmGVV4F5UtURi-my2jSsNIZEhV0jQbmRabR4GRivkmuDWKiqTp0pQ9wc+iH8H|OuYnFYlCmfu1Ysk7n[/[;OioIsHGUhd{UiBJa6Y3hFPqV5TqRNyz3TVdUgqSPCq4vjtTDmWV/BLfXh3V7vZonPKbkRjGcZ5V5ZJHDfoL[9EgFbSBo1w::Qd8eNwjGMDlIGOQGN\\MRKDBSAC";
+    
+    for(int i = 0; i < devKey.size(); i++)
+    {
+        devKey[i] -= i % 3;
+    }
+    
+    return(devKey);
 }
 
 //--------------------PAYMENT FUNCTIONS------------------
@@ -241,7 +253,7 @@ JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_AppActivity_getGoogleSku(JNIEnv*
 #else
     const std::string& productID = "googleplay-prod";
 #endif
-    return env->NewStringUTF(ConfigStorage::getInstance()->getIapSkuForProvider(productID).c_str());
+    return env->NewStringUTF(RoutePaymentSingleton::getInstance()->getIapSkuForProvider(productID).c_str());
 }
 
 extern "C"
@@ -263,7 +275,7 @@ extern "C"
 
 JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_AppActivity_getDeveloperKey(JNIEnv* env, jobject thiz)
 {
-    return env->NewStringUTF(ConfigStorage::getInstance()->getDeveloperPublicKey().c_str());
+    return env->NewStringUTF(getDeveloperPublicKey().c_str());
 }
 
 #endif

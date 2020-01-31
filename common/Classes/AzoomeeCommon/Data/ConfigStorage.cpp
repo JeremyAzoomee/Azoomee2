@@ -33,7 +33,6 @@ static ConfigStorage *_sharedConfigStorage = NULL;
     const char* const ConfigStorage::kEstimatedKeyboardHeightLandscape = "Azoomee::MessageComposer::EstimatedKeyboardHeight/Landscape";
     
     const std::string ConfigStorage::kArtCacheFolder = "artCache/";
-    const std::string ConfigStorage::kGameCacheFolder = "gameCache/";
 	const std::string ConfigStorage::kOomeeMakerCacheFolder = "oomeeMaker/";
     
     const std::string ConfigStorage::kAvatarImageCacheFolder = "avatars";
@@ -41,14 +40,6 @@ static ConfigStorage *_sharedConfigStorage = NULL;
     const std::string ConfigStorage::kOSManufacturerApple = "Apple";
     const std::string ConfigStorage::kOSManufacturerGoogle = "Google";
     const std::string ConfigStorage::kOSManufacturerAmazon = "Amazon";
-    
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-     const std::string ConfigStorage::kSignupPlatformSource = "IOS_INAPP";
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-     const std::string ConfigStorage::kSignupPlatformSource = "ANDROID_INAPP";
-#else
-     const std::string ConfigStorage::kSignupPlatformSource = "OTHER";
-#endif
    
     
     
@@ -69,30 +60,11 @@ ConfigStorage::~ConfigStorage(void)
 
 bool ConfigStorage::init(void)
 {
-    inArtsApp = 0;
     
     VersionConfiguration = parseJsonConfigurationFile("Version.json");
-    IapConfiguration = parseJsonConfigurationFile("IapConfiguration.json");
     
     return true;
 }
-
-std::string ConfigStorage::getFileNameFromUrl(const std::string& url)
-{
-    int startPoint = (int)url.find_last_of("/") + 1;
-    
-    int endPoint = (int)url.length();
-    if(url.find("?", 0) != url.npos) endPoint = (int)url.find("?", 0);
-    int subLength = endPoint - startPoint;
-    
-    return url.substr(startPoint, subLength);
-}
-    
-std::string ConfigStorage::getGameCachePath()
-{
-    return DirUtil::getCachesPath() + kGameCacheFolder;
-}
-
 //-------------------------PRIVATE METHOD TO PARSE CONFIG JSON FILE--------
 
 rapidjson::Document ConfigStorage::parseJsonConfigurationFile(const std::string& fileName)
@@ -149,26 +121,6 @@ std::string ConfigStorage::getRemoteWebGameAPIPath()
     return "https://media.azoomee.com/static/webgameapi/";
 #endif
 }
-    
-bool ConfigStorage::isImmediateRequestSendingRequired(const std::string& requestTag)
-{
-    auto itemPosition = std::find(requestTagsRequireImmediateSending.begin(), requestTagsRequireImmediateSending.end(), requestTag);
-    return itemPosition != requestTagsRequireImmediateSending.end();
-}
-
-//--------------------------- UserDefaults First Time User for Slideshow------------
-
-#define USERDEFAULTS_FIRST_SLIDE_SHOW_SEEN "FirstSlideShowSeen"
-
-void ConfigStorage::setFirstSlideShowSeen()
-{
-    UserDefault::getInstance()->setBoolForKey(USERDEFAULTS_FIRST_SLIDE_SHOW_SEEN, true);
-}
-
-bool ConfigStorage::shouldShowFirstSlideShowScene()
-{
-    return !UserDefault::getInstance()->getBoolForKey(USERDEFAULTS_FIRST_SLIDE_SHOW_SEEN, false);
-}
 
 //---------------------------- Version configuration --------------------------------
 
@@ -194,25 +146,6 @@ std::string ConfigStorage::getVersionNumberToDisplay()
 std::string ConfigStorage::getVersionInformationForRequestHeader()
 {
     return getOSManufacturer() + "/" + getVersionNumberWithPlatform();
-}
-
-//----------------------------- IAP Configuration -------------------------------------
-
-std::string ConfigStorage::getIapSkuForProvider(const std::string& provider)
-{
-    return getStringFromJson(provider, IapConfiguration);
-}
-
-std::string ConfigStorage::getDeveloperPublicKey()
-{
-    std::string devKey = "MJKBJlAODglshlkG:y0CCQFHABQCBS8BOIJDChMCBSEB{uhXV3FZlUQTjZZT+[m6O:XUsUevgKjNMROPZAkoiYYuNX6Ws905wZtWCFiGyz[OAjroRYmtEUOKaD;b8HVK:pxUSUrfI6VgsAEfHKzHTO6WgaF7ZjV/3{WxPOSHijdf7vEn[D4kkB8j2QGqmGVV4F5UtURi-my2jSsNIZEhV0jQbmRabR4GRivkmuDWKiqTp0pQ9wc+iH8H|OuYnFYlCmfu1Ysk7n[/[;OioIsHGUhd{UiBJa6Y3hFPqV5TqRNyz3TVdUgqSPCq4vjtTDmWV/BLfXh3V7vZonPKbkRjGcZ5V5ZJHDfoL[9EgFbSBo1w::Qd8eNwjGMDlIGOQGN\\MRKDBSAC";
-    
-    for(int i = 0; i < devKey.size(); i++)
-    {
-        devKey[i] -= i % 3;
-    }
-    
-    return(devKey);
 }
     
 //----------------------------- Device specific information -----------------------------
