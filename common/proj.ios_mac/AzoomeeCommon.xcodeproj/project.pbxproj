@@ -177,6 +177,7 @@
 		E21D61B523955E8400C92FC7 /* MessageBoxLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21D61B123955E8400C92FC7 /* MessageBoxLayer.cpp */; };
 		E21F700C23E47F670007EFF9 /* Device.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21F700B23E47F670007EFF9 /* Device.cpp */; };
 		E229F70B233E1465005BA0D4 /* RoundedRectSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E229F70A233E1465005BA0D4 /* RoundedRectSprite.cpp */; };
+		E230584B23E83C530057CFE7 /* AppConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E230584A23E83C530057CFE7 /* AppConfig.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -524,6 +525,8 @@
 		E21F700B23E47F670007EFF9 /* Device.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Device.cpp; sourceTree = "<group>"; };
 		E229F709233E13D6005BA0D4 /* RoundedRectSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RoundedRectSprite.h; sourceTree = "<group>"; };
 		E229F70A233E1465005BA0D4 /* RoundedRectSprite.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RoundedRectSprite.cpp; sourceTree = "<group>"; };
+		E230584923E8236A0057CFE7 /* AppConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppConfig.h; sourceTree = "<group>"; };
+		E230584A23E83C530057CFE7 /* AppConfig.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AppConfig.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -929,6 +932,8 @@
 				4360078A1F2232CC000ECBA4 /* Urls.h */,
 				92BDD4C82237D27D00DA56F3 /* DataDownloadHandler.h */,
 				92BDD4C92237D39E00DA56F3 /* DataDownloadHandler.cpp */,
+				E230584923E8236A0057CFE7 /* AppConfig.h */,
+				E230584A23E83C530057CFE7 /* AppConfig.cpp */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -1322,6 +1327,7 @@
 				4349C85E1EA8ADEF00FE964B /* UIViewController+AutomaticEvents.m in Sources */,
 				4349C8191EA8ADEF00FE964B /* MPABTestDesignerChangeRequestMessage.m in Sources */,
 				E229F70B233E1465005BA0D4 /* RoundedRectSprite.cpp in Sources */,
+				E230584B23E83C530057CFE7 /* AppConfig.cpp in Sources */,
 				022218CC1ECF203000AD167F /* SessionIdManager.cpp in Sources */,
 				02BEDF2E1FE1327500D4C9B3 /* ContentItemManager.cpp in Sources */,
 				301CCA9A1EB14280009ADA0C /* API.cpp in Sources */,

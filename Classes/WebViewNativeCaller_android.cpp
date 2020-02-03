@@ -14,6 +14,7 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
+#include <AzoomeeCommon/Data/AppConfig.h>
 #include "ChatDelegate.h"
 #include "BackEndCaller.h"
 
@@ -284,7 +285,7 @@ extern "C"
 
 JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIGetRemoteWebGameAPIPath(JNIEnv* env, jobject thiz)
 {
-    jstring returnString = env->NewStringUTF(ConfigStorage::getInstance()->getRemoteWebGameAPIPath().c_str());
+    jstring returnString = env->NewStringUTF(AppConfig::getInstance()->getRemoteWebGameAPIPath().c_str());
     return returnString;
 }
 

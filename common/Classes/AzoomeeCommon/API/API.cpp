@@ -5,6 +5,7 @@
 #include "../Utils/SessionIdManager.h"
 #include "../Analytics/AnalyticsSingleton.h"
 #include "../Utils/StringFunctions.h"
+#include "../Data/AppConfig.h"
 
 using namespace cocos2d;
 
@@ -1150,7 +1151,7 @@ HttpRequestCreator* API::BuyReward(const std::string& purchaseUrl,
 									 HttpRequestCreatorResponseDelegate* delegate)
 {
 	HttpRequestCreator* request = new HttpRequestCreator(delegate);
-	request->_url = ConfigStorage::getInstance()->getServerUrl() + purchaseUrl;
+	request->_url = AppConfig::getInstance()->getServerUrl() + purchaseUrl;
 	request->_requestTag = TagBuyReward;
 	request->_requestBody = "{}";
 	request->_method = "POST";

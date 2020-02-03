@@ -22,8 +22,9 @@ public:
 	void restoreFailedNoPurchase();
     void onGooglePaymentVerificationAnswerReceived(std::string responseDataString);
     
-private:
     std::string getDeveloperPublicKey();
+    
+private:
     
     std::string savedDeveloperPayload;
     std::string savedOrderId;

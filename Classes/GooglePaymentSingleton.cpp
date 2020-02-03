@@ -275,7 +275,7 @@ extern "C"
 
 JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_AppActivity_getDeveloperKey(JNIEnv* env, jobject thiz)
 {
-    return env->NewStringUTF(getDeveloperPublicKey().c_str());
+    return env->NewStringUTF(GooglePaymentSingleton::getInstance()->getDeveloperPublicKey().c_str());
 }
 
 #endif

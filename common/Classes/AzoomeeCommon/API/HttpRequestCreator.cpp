@@ -6,6 +6,7 @@
 #include "../Utils/StringFunctions.h"
 #include "../Data/Parent/UserAccountManager.h"
 #include "../Crashlytics/CrashlyticsConfig.h"
+#include "../Data/AppConfig.h"
 #include "API.h"
 
 using namespace cocos2d;
@@ -128,7 +129,7 @@ std::string HttpRequestCreator::getRequestURL() const
 
 cocos2d::network::HttpRequest* HttpRequestCreator::buildHttpRequest()                            //The http request is being created from global variables. This method can't be run until setting up all variables, please see usage on top of this file.
 {
-    std::string hostPrefix = ConfigStorage::getInstance()->getServerUrlPrefix();
+    std::string hostPrefix = AppConfig::getInstance()->getServerUrlPrefix();
     std::string host;
     
     if(!_url.empty())
@@ -139,7 +140,7 @@ cocos2d::network::HttpRequest* HttpRequestCreator::buildHttpRequest()           
     }
     else
     {
-        host = ConfigStorage::getInstance()->getServerHost();
+        host = AppConfig::getInstance()->getServerHost();
     }
     
     std::string requestUrl = hostPrefix + host + _requestPath;
@@ -198,7 +199,7 @@ cocos2d::network::HttpRequest* HttpRequestCreator::buildHttpRequest()           
         headers.push_back("X-AZ-COUNTRYCODE: " + UserAccountManager::getInstance()->getLoggedInParentCountryCode());
     }
     
-    headers.push_back(StringUtils::format("x-az-appversion: %s", ConfigStorage::getInstance()->getVersionInformationForRequestHeader().c_str()));
+    headers.push_back(StringUtils::format("x-az-appversion: %s", AppConfig::getInstance()->getVersionInformationForRequestHeader().c_str()));
     
     request->setHeaders(headers);
     

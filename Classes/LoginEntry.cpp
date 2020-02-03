@@ -12,6 +12,7 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Input/TextInputChecker.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
+#include <AzoomeeCommon/Data/AppConfig.h>
 
 using namespace cocos2d;
 
@@ -118,7 +119,7 @@ bool LoginEntry::init()
 	
 	_inputHolder->setContentSize(Size(0,_inputTitle->getContentSize().height + _inputBox->getContentSize().height + _continueButton->getContentSize().height + _backButton->getContentSize().height + (3 * elementSpacing)));
 	
-	_versionNumber = DynamicText::create(ConfigStorage::getInstance()->getVersionNumberToDisplay(), Style::Font::PoppinsRegular(), 35);
+	_versionNumber = DynamicText::create(AppConfig::getInstance()->getVersionNumberToDisplay(), Style::Font::PoppinsRegular(), 35);
 	_versionNumber->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 	_versionNumber->setNormalizedPosition(Vec2(0.5,0.05));
 	_versionNumber->setTextColor(Color4B(Style::Color::brownGrey));

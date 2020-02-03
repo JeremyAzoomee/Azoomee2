@@ -290,7 +290,7 @@ void RoutePaymentSingleton::retryReceiptValidation()
 #endif
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    const std::vector<std::string>& paymentElements = splitStringToVector(dataString, "|");
+    const std::vector<std::string>& paymentElements = StringFunctions::splitStringToVector(dataString, "|");
     if(paymentElements.size() == 3)
     {
         if(osIsAmazon())

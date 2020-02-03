@@ -17,6 +17,7 @@
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include "WebGameAPIDataManager.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/Data/AppConfig.h>
 #include "FlowDataSingleton.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
@@ -520,7 +521,7 @@ bool GameDataManager::isGameCompatibleWithCurrentAppVersion(const std::string &j
     
     const std::string& minAppVersion = getStringFromJson("minAppVersion", gameData);
 
-    return ( minAppVersion.empty() || StringFunctions::compareVersionNumbers(minAppVersion, ConfigStorage::getInstance()->getVersionNumber()) >= 0);
+    return ( minAppVersion.empty() || StringFunctions::compareVersionNumbers(minAppVersion, AppConfig::getInstance()->getVersionNumber()) >= 0);
 }
 
 void GameDataManager::getContentItemImageForOfflineUsage(const std::string &gameId)

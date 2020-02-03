@@ -11,6 +11,7 @@
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/NativeShare/NativeShare.h>
+#include <AzoomeeCommon/Data/AppConfig.h>
 
 using namespace cocos2d;
 
@@ -32,7 +33,7 @@ void SettingsSupportPage::onEnter()
 {
     _headerBanner = SettingsPageHeader::create();
     _headerBanner->setContentSize(Size(this->getContentSize().width, 316));
-    _headerBanner->setText(ConfigStorage::getInstance()->getVersionNumberToDisplay());
+    _headerBanner->setText(AppConfig::getInstance()->getVersionNumberToDisplay());
     _headerBanner->setLayoutParameter(CreateTopLinearLayoutParam());
     this->addChild(_headerBanner);
     

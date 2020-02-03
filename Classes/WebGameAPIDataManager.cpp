@@ -4,6 +4,7 @@
 #include "VideoPlaylistManager.h"
 #include <AzoomeeCommon/Utils/TimeUtils.h>
 #include <AzoomeeCommon/Utils/DirUtil.h>
+#include <AzoomeeCommon/Data/AppConfig.h>
 
 using namespace cocos2d;
 
@@ -61,7 +62,7 @@ char* WebGameAPIDataManager::handleAPIRequest(const char* method, const char* re
     
     if(strncmp(method, "requestAzoomeeVersion", strlen(method)) == 0)
     {
-        return createReturnStringForAPI(method, responseId, "version", ConfigStorage::getInstance()->getVersionNumber().c_str());
+        return createReturnStringForAPI(method, responseId, "version", AppConfig::getInstance()->getVersionNumber().c_str());
     }
     
     if(strncmp(method, "requestPlaylist", strlen(method)) == 0)

@@ -33,18 +33,6 @@ public:
     virtual ~ConfigStorage();
     bool init(void);
     
-    //Backend caller configuration
-    std::string getServerHost();
-    std::string getServerUrlPrefix();
-    std::string getServerUrl();
-    std::string getRemoteWebGameAPIPath();
-    
-    //Version configuration
-    std::string getVersionNumber();
-    std::string getVersionNumberWithPlatform();
-    std::string getVersionNumberToDisplay();
-    std::string getVersionInformationForRequestHeader();
-    
     
 private:
     rapidjson::Document parseJsonConfigurationFile(const std::string& fileName);

@@ -52,6 +52,14 @@ const char* IosNativeFunctionsSingleton::getIosDeviceLanguage()
 	return [[[NSLocale preferredLanguages] firstObject] cStringUsingEncoding:NSUTF8StringEncoding];
 }
 
+const char* IosNativeFunctionsSingleton::getAppVersionNum()
+{
+    NSString * appVersionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    NSString * appBuildString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+    NSString * versionBuildString = [NSString stringWithFormat:@"%@ (%@)", appVersionString, appBuildString];
+    return [versionBuildString cStringUsingEncoding:NSUTF8StringEncoding];
+}
+
 void IosNativeFunctionsSingleton::identifyMixpanel()
 {
     NSString *idfa = [NSString stringWithCString:getIosDeviceIDFA() encoding:NSUTF8StringEncoding];
