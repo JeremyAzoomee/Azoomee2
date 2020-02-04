@@ -46,7 +46,6 @@
 		30242C74228D672A00B564E4 /* DirUtil_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30242C72228D672A00B564E4 /* DirUtil_ios.mm */; };
 		302E84791ED1B992006A498C /* ObservableLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302E84751ED1B992006A498C /* ObservableLayout.cpp */; };
 		302E847A1ED1B992006A498C /* SplitLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302E84771ED1B992006A498C /* SplitLayout.cpp */; };
-		303095AA238585F5004A92CD /* RewardManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303095A8238585F5004A92CD /* RewardManager.cpp */; };
 		304D9EC71EA8F883008CED52 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 304D9EC61EA8F883008CED52 /* GameController.framework */; };
 		305966991ECCAF76009A7130 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305966971ECCAF76009A7130 /* Scene.cpp */; };
 		3092BCF01EB10524006D6F4C /* HttpRequestCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3092BCEE1EB10524006D6F4C /* HttpRequestCreator.cpp */; };
@@ -59,7 +58,6 @@
 		30E094C01EDF0F2B00555891 /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30E094BD1EDF0F2B00555891 /* Utils.cpp */; };
 		43087FD91F03AC4C00E199EA /* NativeShare_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 43087FD61F03AC4C00E199EA /* NativeShare_ios.mm */; };
 		4318E13A1F289DD500778E9A /* RequestAdultPinLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4318E1381F289DD500778E9A /* RequestAdultPinLayer.cpp */; };
-		433479491F7E42010093C7BE /* PrivacyLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 433479471F7E42000093C7BE /* PrivacyLayer.cpp */; };
 		4349C8041EA8ADEF00FE964B /* _MPTweakBindObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C7611EA8ADEE00FE964B /* _MPTweakBindObserver.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4349C8131EA8ADEF00FE964B /* Mixpanel+AutomaticEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C7751EA8ADEE00FE964B /* Mixpanel+AutomaticEvents.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4349C8141EA8ADEF00FE964B /* Mixpanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C7771EA8ADEE00FE964B /* Mixpanel.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -164,7 +162,6 @@
 		92D1B49322A7F7C000357513 /* CookieManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D1B49222A7F7C000357513 /* CookieManager.cpp */; };
 		92D1B49622A8178400357513 /* ChildManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D1B49522A8178400357513 /* ChildManager.cpp */; };
 		92D1B49922A92B0C00357513 /* UserAccountManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D1B49822A92B0C00357513 /* UserAccountManager.cpp */; };
-		92E5856B2211A4E80015A4FA /* RewardItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E5856A2211A4E80015A4FA /* RewardItem.cpp */; };
 		92E58571221AC47C0015A4FA /* InventoryItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E58570221AC47C0015A4FA /* InventoryItem.cpp */; };
 		92E58574221ACFE40015A4FA /* Inventory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E58573221ACFE40015A4FA /* Inventory.cpp */; };
 		92E58607221F05B10015A4FA /* NotificationNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E58606221F05B10015A4FA /* NotificationNode.cpp */; };
@@ -262,8 +259,6 @@
 		302E84761ED1B992006A498C /* ObservableLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObservableLayout.h; sourceTree = "<group>"; };
 		302E84771ED1B992006A498C /* SplitLayout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SplitLayout.cpp; sourceTree = "<group>"; };
 		302E84781ED1B992006A498C /* SplitLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplitLayout.h; sourceTree = "<group>"; };
-		303095A8238585F5004A92CD /* RewardManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RewardManager.cpp; sourceTree = "<group>"; };
-		303095A9238585F5004A92CD /* RewardManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RewardManager.h; sourceTree = "<group>"; };
 		304A6EEA1EC9A96F000D52B5 /* CocosSharedPtr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CocosSharedPtr.h; sourceTree = "<group>"; };
 		304D9EC61EA8F883008CED52 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
 		305966801ECC6987009A7130 /* Style.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Style.h; sourceTree = "<group>"; };
@@ -289,10 +284,8 @@
 		43087FD51F03AC4C00E199EA /* NativeShare_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NativeShare_android.cpp; path = AzoomeeCommon/NativeShare/NativeShare_android.cpp; sourceTree = "<group>"; };
 		43087FD61F03AC4C00E199EA /* NativeShare_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = NativeShare_ios.mm; path = AzoomeeCommon/NativeShare/NativeShare_ios.mm; sourceTree = "<group>"; };
 		43087FD71F03AC4C00E199EA /* NativeShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NativeShare.h; path = AzoomeeCommon/NativeShare/NativeShare.h; sourceTree = "<group>"; };
-		4318E1381F289DD500778E9A /* RequestAdultPinLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RequestAdultPinLayer.cpp; sourceTree = "<group>"; };
-		4318E1391F289DD500778E9A /* RequestAdultPinLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestAdultPinLayer.h; sourceTree = "<group>"; };
-		433479471F7E42000093C7BE /* PrivacyLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PrivacyLayer.cpp; sourceTree = "<group>"; };
-		433479481F7E42010093C7BE /* PrivacyLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrivacyLayer.h; sourceTree = "<group>"; };
+		4318E1381F289DD500778E9A /* RequestAdultPinLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RequestAdultPinLayer.cpp; path = ../../../../Classes/RequestAdultPinLayer.cpp; sourceTree = "<group>"; };
+		4318E1391F289DD500778E9A /* RequestAdultPinLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RequestAdultPinLayer.h; path = ../../../../Classes/RequestAdultPinLayer.h; sourceTree = "<group>"; };
 		434858821F3DAE6400C22670 /* UIConsts.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIConsts.h; sourceTree = "<group>"; };
 		4349C7601EA8ADEE00FE964B /* _MPTweakBindObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _MPTweakBindObserver.h; sourceTree = "<group>"; };
 		4349C7611EA8ADEE00FE964B /* _MPTweakBindObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _MPTweakBindObserver.m; sourceTree = "<group>"; };
@@ -497,8 +490,6 @@
 		92D1B49722A9248600357513 /* UserAccountManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserAccountManager.h; sourceTree = "<group>"; };
 		92D1B49822A92B0C00357513 /* UserAccountManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UserAccountManager.cpp; sourceTree = "<group>"; };
 		92DC96E4227729C4007557AB /* TutorialGuide.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TutorialGuide.h; sourceTree = "<group>"; };
-		92E58569220DD6A40015A4FA /* RewardItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RewardItem.h; sourceTree = "<group>"; };
-		92E5856A2211A4E80015A4FA /* RewardItem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RewardItem.cpp; sourceTree = "<group>"; };
 		92E5856F221AC22A0015A4FA /* Inventory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Inventory.h; sourceTree = "<group>"; };
 		92E58570221AC47C0015A4FA /* InventoryItem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = InventoryItem.cpp; sourceTree = "<group>"; };
 		92E58572221ACA9B0015A4FA /* InventoryItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InventoryItem.h; sourceTree = "<group>"; };
@@ -653,6 +644,10 @@
 		3012ED5A1E969BF60009027D /* Child */ = {
 			isa = PBXGroup;
 			children = (
+				92E5856F221AC22A0015A4FA /* Inventory.h */,
+				92E58573221ACFE40015A4FA /* Inventory.cpp */,
+				92E58572221ACA9B0015A4FA /* InventoryItem.h */,
+				92E58570221AC47C0015A4FA /* InventoryItem.cpp */,
 				92448ABF21EF5D0800E88C9D /* Child.h */,
 				92448AC021EF771300E88C9D /* Child.cpp */,
 				92D1B49422A8146B00357513 /* ChildManager.h */,
@@ -739,8 +734,6 @@
 				3012ED871E97DB450009027D /* ModalMessages.cpp */,
 				3012ED881E97DB450009027D /* ModalMessages.h */,
 				434858821F3DAE6400C22670 /* UIConsts.h */,
-				433479471F7E42000093C7BE /* PrivacyLayer.cpp */,
-				433479481F7E42010093C7BE /* PrivacyLayer.h */,
 				4318E1381F289DD500778E9A /* RequestAdultPinLayer.cpp */,
 				4318E1391F289DD500778E9A /* RequestAdultPinLayer.h */,
 				436007871F22120C000ECBA4 /* ModalWebview.cpp */,
@@ -918,7 +911,6 @@
 			isa = PBXGroup;
 			children = (
 				92EC0C5122315CAF00B02F20 /* Shop */,
-				92E58567220DD64D0015A4FA /* Rewards */,
 				021B1FC01F8389FC0044DCF7 /* HQDataObject */,
 				3012ED5A1E969BF60009027D /* Child */,
 				3012ED531E969BBB0009027D /* Parent */,
@@ -1115,22 +1107,8 @@
 				92244D7B22774F14004C9B45 /* TutorialMessagingNode.h */,
 				92244D8022789B5E004C9B45 /* TutorialMessagingNode.cpp */,
 			);
-			path = Tutorial;
-			sourceTree = "<group>";
-		};
-		92E58567220DD64D0015A4FA /* Rewards */ = {
-			isa = PBXGroup;
-			children = (
-				303095A9238585F5004A92CD /* RewardManager.h */,
-				303095A8238585F5004A92CD /* RewardManager.cpp */,
-				92E58569220DD6A40015A4FA /* RewardItem.h */,
-				92E5856A2211A4E80015A4FA /* RewardItem.cpp */,
-				92E5856F221AC22A0015A4FA /* Inventory.h */,
-				92E58573221ACFE40015A4FA /* Inventory.cpp */,
-				92E58572221ACA9B0015A4FA /* InventoryItem.h */,
-				92E58570221AC47C0015A4FA /* InventoryItem.cpp */,
-			);
-			path = Rewards;
+			name = Tutorial;
+			path = ../../../Classes/Tutorial;
 			sourceTree = "<group>";
 		};
 		92EC0C5122315CAF00B02F20 /* Shop */ = {
@@ -1251,7 +1229,6 @@
 				4349C85A1EA8ADEF00FE964B /* UIColor+MPColor.m in Sources */,
 				9220E9C11FFE549500BD7A90 /* AnalyticsProperties.cpp in Sources */,
 				4349C8541EA8ADEF00FE964B /* MPWebSocket.m in Sources */,
-				433479491F7E42010093C7BE /* PrivacyLayer.cpp in Sources */,
 				4349C8371EA8ADEF00FE964B /* MPNotificationViewController.m in Sources */,
 				4349C8331EA8ADEF00FE964B /* MPMiniNotification.m in Sources */,
 				4349C8311EA8ADEF00FE964B /* MPEnumDescription.m in Sources */,
@@ -1290,7 +1267,6 @@
 				E21F700C23E47F670007EFF9 /* Device.cpp in Sources */,
 				4349C84F1EA8ADEF00FE964B /* MPUIEdgeInsetsToNSDictionaryValueTransformer.m in Sources */,
 				4349C8221EA8ADEF00FE964B /* MPABTestDesignerSnapshotResponseMessage.m in Sources */,
-				303095AA238585F5004A92CD /* RewardManager.cpp in Sources */,
 				3000FF761ED5AB7100E9717C /* AzoomeeViewController.mm in Sources */,
 				021B1FCB1F838A0A0044DCF7 /* HQDataObject.cpp in Sources */,
 				4349C8411EA8ADEF00FE964B /* MPResources.m in Sources */,
@@ -1302,7 +1278,6 @@
 				4349C8271EA8ADEF00FE964B /* MPCATransform3DToNSDictionaryValueTransformer.m in Sources */,
 				921C75AA2193225D00EB93D6 /* Style.cpp in Sources */,
 				4349C8441EA8ADEF00FE964B /* MPSwizzler.m in Sources */,
-				92E5856B2211A4E80015A4FA /* RewardItem.cpp in Sources */,
 				4349C8241EA8ADEF00FE964B /* MPABTestDesignerTweakResponseMessage.m in Sources */,
 				E21858A1232BC9090062858A /* TileSprite.cpp in Sources */,
 				30DD5ED71E965E060084305B /* AnalyticsSingleton.cpp in Sources */,

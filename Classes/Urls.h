@@ -1,7 +1,7 @@
 #ifndef Azoomee_Urls_h
 #define Azoomee_Urls_h
 
-#include "../Azoomee.h"
+#include <AzoomeeCommon/Azoomee.h>
 #include <string>
 
 

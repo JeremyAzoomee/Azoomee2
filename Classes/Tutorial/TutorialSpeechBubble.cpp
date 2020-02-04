@@ -7,7 +7,7 @@
 
 #include "TutorialSpeechBubble.h"
 #include <cocos/ui/CocosGUI.h>
-#include "../UI/Style.h"
+#include <AzoomeeCommon/UI/Style.h>
 
 using namespace cocos2d;
 

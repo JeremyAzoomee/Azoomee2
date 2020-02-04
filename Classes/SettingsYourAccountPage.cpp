@@ -13,9 +13,8 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
-#include <AzoomeeCommon/Data/Urls.h>
+#include "Urls.h"
 #include "LoginController.h"
-#include "PrivacyAndTermsLayer.h"
 
 using namespace cocos2d;
 

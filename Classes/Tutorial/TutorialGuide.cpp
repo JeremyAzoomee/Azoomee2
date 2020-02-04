@@ -6,8 +6,8 @@
 //
 
 #include "TutorialGuide.h"
-#include "../Data/Child/ChildManager.h"
-#include "../ImageDownloader/RemoteImageSprite.h"
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 
 using namespace cocos2d;
 

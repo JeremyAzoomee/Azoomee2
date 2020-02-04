@@ -1,15 +1,15 @@
 #include "RequestAdultPinLayer.h"
-#include "../Utils/LocaleManager.h"
-#include "../Data/Parent/UserAccountManager.h"
-#include "../Audio/AudioMixer.h"
-#include "../UI/ElectricDreamsTextStyles.h"
-#include "../UI/ElectricDreamsDecoration.h"
-#include "../API/API.h"
-#include "../Data/Parent/UserAccountManager.h"
-#include "ModalMessages.h"
-#include "../ErrorCodes.h"
-#include "../Utils/BiometricAuthenticationHandler.h"
-#include "Scene.h"
+#include <AzoomeeCommon/Utils/LocaleManager.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
+#include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
+#include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
+#include <AzoomeeCommon/API/API.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
+#include <AzoomeeCommon/UI/ModalMessages.h>
+#include <AzoomeeCommon/ErrorCodes.h>
+#include <AzoomeeCommon/Utils/BiometricAuthenticationHandler.h>
+#include <AzoomeeCommon/UI/Scene.h>
 
 using namespace cocos2d;
 
@@ -19,14 +19,16 @@ NS_AZOOMEE_BEGIN
 
 bool RequestAdultPinLayer::init()
 {
-    if ( !Layer::init() )
+    if ( !Super::init() )
     {
         return false;
     }
     
     this->setName("RequestPinLayer");
-    
-    this->setPosition(dynamic_cast<Azoomee::Scene*>(Director::getInstance()->getRunningScene()) ? Vec2(0,0) : -Director::getInstance()->getVisibleOrigin());
+    setSizeType(SizeType::PERCENT);
+    setSizePercent(Vec2(1.0,1.0f));
+    setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     
     AudioMixer::getInstance()->pauseBackgroundMusic();
     
@@ -210,6 +212,8 @@ void RequestAdultPinLayer::resizeWindowAndObjects()
 
 void RequestAdultPinLayer::onSizeChanged()
 {
+    Super::onSizeChanged();
+    
     auto currentRunningScene = Director::getInstance()->getRunningScene();
     backgroundLayer->setContentSize(currentRunningScene->getContentSize());
     
@@ -237,7 +241,7 @@ void RequestAdultPinLayer::onExit()
     Director::getInstance()->getEventDispatcher()->removeEventListener(_biometricValidationSuccessListener);
     Director::getInstance()->getEventDispatcher()->removeEventListener(_biometricValidationFailureListener);
     
-    Node::onExit();
+    Super::onExit();
 }
 
 void RequestAdultPinLayer::requestUpdatedPin()
@@ -257,7 +261,9 @@ void RequestAdultPinLayer::checkPinAgainstStoredPin()
         this->scheduleOnce(schedule_selector(RequestAdultPinLayer::removeSelf), 0.1);
         
         if(this->getDelegate())
-        this->getDelegate()->AdultPinAccepted(this);
+        {
+            this->getDelegate()->AdultPinAccepted(this);
+        }
     }
     else
     {
@@ -278,7 +284,9 @@ void RequestAdultPinLayer::textInputIsValid(TextInputLayer* inputLayer, bool isV
 void RequestAdultPinLayer::textInputReturnPressed(TextInputLayer* inputLayer)
 {
     if(editBox_pin->inputIsValid())
+    {
         requestUpdatedPin();
+    }
 }
 
 void RequestAdultPinLayer::editBoxEditingDidBegin(TextInputLayer* inputLayer)

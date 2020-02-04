@@ -3,10 +3,10 @@
 
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include "../Azoomee.h"
-#include "../Input/TextInputLayer.h"
-#include "MessageBox.h"
-#include "../API/HttpRequestCreator.h"
+#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Input/TextInputLayer.h>
+#include <AzoomeeCommon/UI/MessageBox.h>
+#include <AzoomeeCommon/API/HttpRequestCreator.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -19,8 +19,9 @@ public:
     virtual void AdultPinAccepted(RequestAdultPinLayer* layer) = 0;
 };
 
-class RequestAdultPinLayer : public cocos2d::Layer, public TextInputLayerDelegate, public MessageBoxDelegate, public Azoomee::HttpRequestCreatorResponseDelegate
+class RequestAdultPinLayer : public cocos2d::ui::Layout, public TextInputLayerDelegate, public MessageBoxDelegate, public Azoomee::HttpRequestCreatorResponseDelegate
 {
+    typedef cocos2d::ui::Layout Super;
 private:
     cocos2d::EventListenerCustom* _biometricValidationSuccessListener = nullptr;
     cocos2d::EventListenerCustom* _biometricValidationFailureListener = nullptr;

@@ -12,7 +12,7 @@
 #include <string>
 #include <memory>
 #include "../Json.h"
-#include "../Rewards/InventoryItem.h"
+#include "../Child/InventoryItem.h"
 
 NS_AZOOMEE_BEGIN
 

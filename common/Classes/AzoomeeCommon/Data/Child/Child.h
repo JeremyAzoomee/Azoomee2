@@ -13,7 +13,7 @@
 #include <memory>
 #include <chrono>
 #include "../Json.h"
-#include "../Rewards/Inventory.h"
+#include "Inventory.h"
 
 NS_AZOOMEE_BEGIN
 

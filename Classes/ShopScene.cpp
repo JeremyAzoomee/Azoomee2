@@ -16,7 +16,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include "PopupMessageBox.h"
-#include <AzoomeeCommon/Data/Rewards/RewardManager.h>
+#include "RewardManager.h"
 #include <AzoomeeCommon/Device.h>
 
 using namespace cocos2d;

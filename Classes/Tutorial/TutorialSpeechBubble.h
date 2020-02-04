@@ -8,7 +8,7 @@
 #ifndef TutorialSpeechBubble_h
 #define TutorialSpeechBubble_h
 
-#include "../Azoomee.h"
+#include <AzoomeeCommon/Azoomee.h>
 #include <cocos/cocos2d.h>
 
 NS_AZOOMEE_BEGIN

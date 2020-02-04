@@ -7,9 +7,9 @@
 
 #include "TutorialController.h"
 #include <algorithm>
-#include "../UI/NotificationNodeDisplayManager.h"
-#include "../Utils/LocaleManager.h"
-#include "../Data/Child/ChildManager.h"
+#include <AzoomeeCommon/UI/NotificationNodeDisplayManager.h>
+#include <AzoomeeCommon/Utils/LocaleManager.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 
 NS_AZOOMEE_BEGIN
 

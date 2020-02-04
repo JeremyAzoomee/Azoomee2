@@ -2,7 +2,7 @@
 
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
-#include <AzoomeeCommon/Data/Rewards/RewardManager.h>
+#include "RewardManager.h"
 #include <AzoomeeCommon/Data/Cookie/CookieManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
@@ -15,7 +15,7 @@
 #include "HQHistoryManager.h"
 #include "LoginController.h"
 #include "ChildSelectorScene.h"
-#include <AzoomeeCommon/UI/RequestAdultPinLayer.h>
+#include "RequestAdultPinLayer.h"
 #include "RoutePaymentSingleton.h"
 #include "SceneManagerScene.h"
 #include "DeepLinkingSingleton.h"

@@ -8,12 +8,12 @@
 #ifndef RewardManager_h
 #define RewardManager_h
 
-#include "../../Azoomee.h"
-#include "../../API/API.h"
+#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/API/API.h>
 #include <memory>
-#include "../Json.h"
+#include <AzoomeeCommon/Data/Json.h>
 #include "RewardItem.h"
-#include "../HQDataObject/HQContentItemObject.h"
+#include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
 
 NS_AZOOMEE_BEGIN
 

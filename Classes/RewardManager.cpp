@@ -6,9 +6,9 @@
 //
 
 #include "RewardManager.h"
-#include "../../Utils/StringFunctions.h"
-#include "../Child/ChildManager.h"
-#include "../../Analytics/AnalyticsSingleton.h"
+#include <AzoomeeCommon/Utils/StringFunctions.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 NS_AZOOMEE_BEGIN
 

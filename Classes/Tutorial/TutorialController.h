@@ -8,7 +8,7 @@
 #ifndef TutorialController_h
 #define TutorialController_h
 
-#include "../Azoomee.h"
+#include <AzoomeeCommon/Azoomee.h>
 #include <string>
 #include <memory>
 #include <vector>

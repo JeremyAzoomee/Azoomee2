@@ -11,6 +11,9 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+namespace ActionBuilder
+{
+
 Sequence* createFadeInAndOutEffect(float totalDuration, int fadeInOpacity, int fadeOutOpacity)
 {
     return Sequence::create( EaseOut::create( FadeTo::create(totalDuration / 2.0f, fadeOutOpacity), 1), EaseIn::create( FadeTo::create(totalDuration / 2.0f, fadeInOpacity), 1), nullptr);
@@ -24,6 +27,8 @@ Sequence* createFlickerEffect(int flickerCount, float delayBetweenFlickers)
 cocos2d::Sequence* createBlinkEffect(float startDelay, float blinkDelay)
 {
     return Sequence::create(DelayTime::create(startDelay), FadeTo::create(0, 255), DelayTime::create(blinkDelay), FadeTo::create(0, 0), DelayTime::create(blinkDelay), FadeTo::create(0, 255), NULL);
+}
+
 }
 
 NS_AZOOMEE_END

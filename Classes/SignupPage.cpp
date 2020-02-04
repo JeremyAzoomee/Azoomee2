@@ -10,7 +10,7 @@
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/UI/ModalWebview.h>
-#include <AzoomeeCommon/Data/Urls.h>
+#include "Urls.h"
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 
 using namespace cocos2d;
