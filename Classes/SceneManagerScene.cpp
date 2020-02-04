@@ -11,7 +11,7 @@
 #include "../ArtApp/Classes/AzoomeeArt/MainScene.h"
 #include "../ArtApp/Classes/AzoomeeArt/AzoomeeArtApp.h"
 #include "OomeeMakerDelegate.h"
-#include <AzoomeeOomeeMaker/UI/OomeeSelectScene.h>
+#include "AzoomeeOomeeMaker/UI/OomeeSelectScene.h"
 #include "ArtAppDelegate.h"
 #include "WebViewSelector.h"
 #include "IntroVideoScene.h"

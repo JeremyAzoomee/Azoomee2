@@ -146,7 +146,6 @@
 		926A2B352130330800AE7964 /* OnlineSafetySlide.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926A2B342130330800AE7964 /* OnlineSafetySlide.cpp */; };
 		926A2B3921356C2000AE7964 /* EditAccountLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926A2B3821356C2000AE7964 /* EditAccountLayer.cpp */; };
 		926A2B3B21357A7900AE7964 /* SettingsYourAccountPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926A2B3A21357A7900AE7964 /* SettingsYourAccountPage.cpp */; };
-		9271D7D12040544200370120 /* libAzoomeeOomeeMaker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9271D7CB2040537000370120 /* libAzoomeeOomeeMaker.a */; };
 		9271D7D32040557D00370120 /* OomeeMakerDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D7D22040557D00370120 /* OomeeMakerDelegate.cpp */; };
 		92759EB21FE81F6300639190 /* ContentOpener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92759EB11FE81F6300639190 /* ContentOpener.cpp */; };
 		9289DA0A1FBDD6EB00B12435 /* ContentHistoryManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DA081FBDD6EB00B12435 /* ContentHistoryManager.cpp */; };
@@ -235,6 +234,27 @@
 		E22B85FD238596D800F2F7F4 /* OfflineScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22B85FC238596D800F2F7F4 /* OfflineScene.cpp */; };
 		E22C3F9A2355C40900FFFF52 /* ArtTileHolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22C3F992355C40900FFFF52 /* ArtTileHolder.cpp */; };
 		E22D08652362FA200039BB2C /* RecentMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22D08642362FA200039BB2C /* RecentMessages.cpp */; };
+		E230589123E98BF10057CFE7 /* OomeeCarousel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E230586623E98BF10057CFE7 /* OomeeCarousel.cpp */; };
+		E230589223E98BF10057CFE7 /* OomeeMakerScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E230586A23E98BF10057CFE7 /* OomeeMakerScene.cpp */; };
+		E230589323E98BF10057CFE7 /* OomeeSelectScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E230586C23E98BF10057CFE7 /* OomeeSelectScene.cpp */; };
+		E230589423E98BF10057CFE7 /* OomeeItemList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E230586D23E98BF10057CFE7 /* OomeeItemList.cpp */; };
+		E230589523E98BF10057CFE7 /* OomeeItemButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E230586F23E98BF10057CFE7 /* OomeeItemButton.cpp */; };
+		E230589623E98BF10057CFE7 /* OomeeBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E230587023E98BF10057CFE7 /* OomeeBody.cpp */; };
+		E230589723E98BF10057CFE7 /* OomeeAccessory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E230587223E98BF10057CFE7 /* OomeeAccessory.cpp */; };
+		E230589823E98BF10057CFE7 /* DragAndDropController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E230587423E98BF10057CFE7 /* DragAndDropController.cpp */; };
+		E230589923E98BF10057CFE7 /* ItemCategoryButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E230587623E98BF10057CFE7 /* ItemCategoryButton.cpp */; };
+		E230589A23E98BF10057CFE7 /* OomeeFigure.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E230587823E98BF10057CFE7 /* OomeeFigure.cpp */; };
+		E230589B23E98BF10057CFE7 /* OomeeCarouselButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E230587923E98BF10057CFE7 /* OomeeCarouselButton.cpp */; };
+		E230589C23E98BF10057CFE7 /* ItemCategoryList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E230587A23E98BF10057CFE7 /* ItemCategoryList.cpp */; };
+		E230589D23E98BF10057CFE7 /* OomeeColour.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E230588323E98BF10057CFE7 /* OomeeColour.cpp */; };
+		E230589E23E98BF10057CFE7 /* OomeeMakerDataHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E230588523E98BF10057CFE7 /* OomeeMakerDataHandler.cpp */; };
+		E230589F23E98BF10057CFE7 /* Oomee.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E230588623E98BF10057CFE7 /* Oomee.cpp */; };
+		E23058A023E98BF10057CFE7 /* OomeeItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E230588723E98BF10057CFE7 /* OomeeItem.cpp */; };
+		E23058A123E98BF10057CFE7 /* ItemCategory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E230588823E98BF10057CFE7 /* ItemCategory.cpp */; };
+		E23058A223E98BF10057CFE7 /* AssetData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E230588B23E98BF10057CFE7 /* AssetData.cpp */; };
+		E23058A323E98BF10057CFE7 /* OomeeMakerDataStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E230588C23E98BF10057CFE7 /* OomeeMakerDataStorage.cpp */; };
+		E23058A423E98BF10057CFE7 /* OomeeFigureData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E230588E23E98BF10057CFE7 /* OomeeFigureData.cpp */; };
+		E23058A523E98BF10057CFE7 /* AzoomeeOomeeMaker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E230589023E98BF10057CFE7 /* AzoomeeOomeeMaker.cpp */; };
 		E231C1DD238C3BF000B41129 /* ChildOnboardingScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E231C1DC238C3BF000B41129 /* ChildOnboardingScene.cpp */; };
 		E23EC8F62331172600DB6ED7 /* PurchaseCapsule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23EC8F52331172600DB6ED7 /* PurchaseCapsule.cpp */; };
 		E244546A2350800E005E5E6C /* OomeeMakerButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E24454692350800E005E5E6C /* OomeeMakerButton.cpp */; };
@@ -297,27 +317,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 1D6058910D05DD3D006BFB54;
 			remoteInfo = "azoomee2_ArtApp-mobile";
-		};
-		9271D7612035F44600370120 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9271D7572035F44600370120 /* AzoomeeOomeeMaker.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1D6058910D05DD3D006BFB54;
-			remoteInfo = "AzoomeeOomeeMaker-mobile";
-		};
-		9271D7CA2040537000370120 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9271D7572035F44600370120 /* AzoomeeOomeeMaker.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9271D7A620404C6400370120;
-			remoteInfo = libAzoomeeOomeeMaker;
-		};
-		9271D7CF204053D200370120 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9271D7572035F44600370120 /* AzoomeeOomeeMaker.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 9271D7A520404C6400370120;
-			remoteInfo = libAzoomeeOomeeMaker;
 		};
 		92A9A0651F068A7B008A19EB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -603,7 +602,6 @@
 		926A2B3721354BED00AE7964 /* EditAccountLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EditAccountLayer.h; sourceTree = "<group>"; };
 		926A2B3821356C2000AE7964 /* EditAccountLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EditAccountLayer.cpp; sourceTree = "<group>"; };
 		926A2B3A21357A7900AE7964 /* SettingsYourAccountPage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsYourAccountPage.cpp; sourceTree = "<group>"; };
-		9271D7572035F44600370120 /* AzoomeeOomeeMaker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AzoomeeOomeeMaker.xcodeproj; path = ../oomeemaker/proj.ios_mac/AzoomeeOomeeMaker.xcodeproj; sourceTree = "<group>"; };
 		9271D7CE204053BC00370120 /* OomeeMakerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OomeeMakerDelegate.h; sourceTree = "<group>"; };
 		9271D7D22040557D00370120 /* OomeeMakerDelegate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeMakerDelegate.cpp; sourceTree = "<group>"; };
 		92759EB01FE81BBE00639190 /* ContentOpener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContentOpener.h; sourceTree = "<group>"; };
@@ -771,6 +769,48 @@
 		E22C3F992355C40900FFFF52 /* ArtTileHolder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ArtTileHolder.cpp; sourceTree = "<group>"; };
 		E22D085F2362F7880039BB2C /* RecentMessages.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecentMessages.h; sourceTree = "<group>"; };
 		E22D08642362FA200039BB2C /* RecentMessages.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RecentMessages.cpp; sourceTree = "<group>"; };
+		E230586623E98BF10057CFE7 /* OomeeCarousel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeCarousel.cpp; sourceTree = "<group>"; };
+		E230586723E98BF10057CFE7 /* OomeeCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OomeeCarousel.h; sourceTree = "<group>"; };
+		E230586823E98BF10057CFE7 /* DragAndDropController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DragAndDropController.h; sourceTree = "<group>"; };
+		E230586923E98BF10057CFE7 /* OomeeBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OomeeBody.h; sourceTree = "<group>"; };
+		E230586A23E98BF10057CFE7 /* OomeeMakerScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeMakerScene.cpp; sourceTree = "<group>"; };
+		E230586B23E98BF10057CFE7 /* OomeeItemList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OomeeItemList.h; sourceTree = "<group>"; };
+		E230586C23E98BF10057CFE7 /* OomeeSelectScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeSelectScene.cpp; sourceTree = "<group>"; };
+		E230586D23E98BF10057CFE7 /* OomeeItemList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeItemList.cpp; sourceTree = "<group>"; };
+		E230586E23E98BF10057CFE7 /* OomeeItemButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OomeeItemButton.h; sourceTree = "<group>"; };
+		E230586F23E98BF10057CFE7 /* OomeeItemButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeItemButton.cpp; sourceTree = "<group>"; };
+		E230587023E98BF10057CFE7 /* OomeeBody.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeBody.cpp; sourceTree = "<group>"; };
+		E230587123E98BF10057CFE7 /* OomeeMakerScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OomeeMakerScene.h; sourceTree = "<group>"; };
+		E230587223E98BF10057CFE7 /* OomeeAccessory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeAccessory.cpp; sourceTree = "<group>"; };
+		E230587323E98BF10057CFE7 /* OomeeSelectScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OomeeSelectScene.h; sourceTree = "<group>"; };
+		E230587423E98BF10057CFE7 /* DragAndDropController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DragAndDropController.cpp; sourceTree = "<group>"; };
+		E230587523E98BF10057CFE7 /* OomeeAccessory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OomeeAccessory.h; sourceTree = "<group>"; };
+		E230587623E98BF10057CFE7 /* ItemCategoryButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ItemCategoryButton.cpp; sourceTree = "<group>"; };
+		E230587723E98BF10057CFE7 /* ItemCategoryButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemCategoryButton.h; sourceTree = "<group>"; };
+		E230587823E98BF10057CFE7 /* OomeeFigure.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeFigure.cpp; sourceTree = "<group>"; };
+		E230587923E98BF10057CFE7 /* OomeeCarouselButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeCarouselButton.cpp; sourceTree = "<group>"; };
+		E230587A23E98BF10057CFE7 /* ItemCategoryList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ItemCategoryList.cpp; sourceTree = "<group>"; };
+		E230587B23E98BF10057CFE7 /* ItemCategoryList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemCategoryList.h; sourceTree = "<group>"; };
+		E230587C23E98BF10057CFE7 /* OomeeFigure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OomeeFigure.h; sourceTree = "<group>"; };
+		E230587D23E98BF10057CFE7 /* OomeeCarouselButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OomeeCarouselButton.h; sourceTree = "<group>"; };
+		E230587E23E98BF10057CFE7 /* AzoomeeOomeeMaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AzoomeeOomeeMaker.h; sourceTree = "<group>"; };
+		E230588023E98BF10057CFE7 /* OomeeItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OomeeItem.h; sourceTree = "<group>"; };
+		E230588123E98BF10057CFE7 /* OomeeMakerDataStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OomeeMakerDataStorage.h; sourceTree = "<group>"; };
+		E230588223E98BF10057CFE7 /* Oomee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Oomee.h; sourceTree = "<group>"; };
+		E230588323E98BF10057CFE7 /* OomeeColour.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeColour.cpp; sourceTree = "<group>"; };
+		E230588423E98BF10057CFE7 /* OomeeMakerDataHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OomeeMakerDataHandler.h; sourceTree = "<group>"; };
+		E230588523E98BF10057CFE7 /* OomeeMakerDataHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeMakerDataHandler.cpp; sourceTree = "<group>"; };
+		E230588623E98BF10057CFE7 /* Oomee.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Oomee.cpp; sourceTree = "<group>"; };
+		E230588723E98BF10057CFE7 /* OomeeItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeItem.cpp; sourceTree = "<group>"; };
+		E230588823E98BF10057CFE7 /* ItemCategory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ItemCategory.cpp; sourceTree = "<group>"; };
+		E230588923E98BF10057CFE7 /* ItemCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemCategory.h; sourceTree = "<group>"; };
+		E230588A23E98BF10057CFE7 /* OomeeColour.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OomeeColour.h; sourceTree = "<group>"; };
+		E230588B23E98BF10057CFE7 /* AssetData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AssetData.cpp; sourceTree = "<group>"; };
+		E230588C23E98BF10057CFE7 /* OomeeMakerDataStorage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeMakerDataStorage.cpp; sourceTree = "<group>"; };
+		E230588D23E98BF10057CFE7 /* OomeeFigureData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OomeeFigureData.h; sourceTree = "<group>"; };
+		E230588E23E98BF10057CFE7 /* OomeeFigureData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeFigureData.cpp; sourceTree = "<group>"; };
+		E230588F23E98BF10057CFE7 /* AssetData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssetData.h; sourceTree = "<group>"; };
+		E230589023E98BF10057CFE7 /* AzoomeeOomeeMaker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AzoomeeOomeeMaker.cpp; sourceTree = "<group>"; };
 		E231C1DB238C348100B41129 /* ChildOnboardingScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChildOnboardingScene.h; sourceTree = "<group>"; };
 		E231C1DC238C3BF000B41129 /* ChildOnboardingScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChildOnboardingScene.cpp; sourceTree = "<group>"; };
 		E23EC8EF2331120F00DB6ED7 /* PurchaseCapsule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PurchaseCapsule.h; sourceTree = "<group>"; };
@@ -801,7 +841,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9271D7D12040544200370120 /* libAzoomeeOomeeMaker.a in Frameworks */,
 				02D6446F2089EBF200FF17B4 /* CoreMedia.framework in Frameworks */,
 				02D6446D2088AAA700FF17B4 /* AVKit.framework in Frameworks */,
 				026FA3FF200E03460045C305 /* LocalAuthentication.framework in Frameworks */,
@@ -943,7 +982,6 @@
 				1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */,
 				3077F44D1E8D51D7006DA465 /* AzoomeeCommon.xcodeproj */,
 				9246EDCF1F0403A8008CD359 /* azoomee2_ArtApp.xcodeproj */,
-				9271D7572035F44600370120 /* AzoomeeOomeeMaker.xcodeproj */,
 				0240FC46201224AC00E88157 /* stickers */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				080E96DDFE201D6D7F000001 /* ios */,
@@ -1320,18 +1358,10 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		9271D7582035F44600370120 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				9271D7622035F44600370120 /* AzoomeeOomeeMaker-mobile.app */,
-				9271D7CB2040537000370120 /* libAzoomeeOomeeMaker.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		9271D7C42040537000370120 /* OomeeMaker */ = {
 			isa = PBXGroup;
 			children = (
+				E230586423E98BF10057CFE7 /* AzoomeeOomeeMaker */,
 				9271D7CE204053BC00370120 /* OomeeMakerDelegate.h */,
 				9271D7D22040557D00370120 /* OomeeMakerDelegate.cpp */,
 			);
@@ -1663,6 +1693,71 @@
 			name = EpisodeSelector;
 			sourceTree = "<group>";
 		};
+		E230586423E98BF10057CFE7 /* AzoomeeOomeeMaker */ = {
+			isa = PBXGroup;
+			children = (
+				E230587E23E98BF10057CFE7 /* AzoomeeOomeeMaker.h */,
+				E230586523E98BF10057CFE7 /* UI */,
+				E230587F23E98BF10057CFE7 /* DataObjects */,
+				E230589023E98BF10057CFE7 /* AzoomeeOomeeMaker.cpp */,
+			);
+			path = AzoomeeOomeeMaker;
+			sourceTree = "<group>";
+		};
+		E230586523E98BF10057CFE7 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				E230586623E98BF10057CFE7 /* OomeeCarousel.cpp */,
+				E230586723E98BF10057CFE7 /* OomeeCarousel.h */,
+				E230586823E98BF10057CFE7 /* DragAndDropController.h */,
+				E230586923E98BF10057CFE7 /* OomeeBody.h */,
+				E230586A23E98BF10057CFE7 /* OomeeMakerScene.cpp */,
+				E230586B23E98BF10057CFE7 /* OomeeItemList.h */,
+				E230586C23E98BF10057CFE7 /* OomeeSelectScene.cpp */,
+				E230586D23E98BF10057CFE7 /* OomeeItemList.cpp */,
+				E230586E23E98BF10057CFE7 /* OomeeItemButton.h */,
+				E230586F23E98BF10057CFE7 /* OomeeItemButton.cpp */,
+				E230587023E98BF10057CFE7 /* OomeeBody.cpp */,
+				E230587123E98BF10057CFE7 /* OomeeMakerScene.h */,
+				E230587223E98BF10057CFE7 /* OomeeAccessory.cpp */,
+				E230587323E98BF10057CFE7 /* OomeeSelectScene.h */,
+				E230587423E98BF10057CFE7 /* DragAndDropController.cpp */,
+				E230587523E98BF10057CFE7 /* OomeeAccessory.h */,
+				E230587623E98BF10057CFE7 /* ItemCategoryButton.cpp */,
+				E230587723E98BF10057CFE7 /* ItemCategoryButton.h */,
+				E230587823E98BF10057CFE7 /* OomeeFigure.cpp */,
+				E230587923E98BF10057CFE7 /* OomeeCarouselButton.cpp */,
+				E230587A23E98BF10057CFE7 /* ItemCategoryList.cpp */,
+				E230587B23E98BF10057CFE7 /* ItemCategoryList.h */,
+				E230587C23E98BF10057CFE7 /* OomeeFigure.h */,
+				E230587D23E98BF10057CFE7 /* OomeeCarouselButton.h */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		E230587F23E98BF10057CFE7 /* DataObjects */ = {
+			isa = PBXGroup;
+			children = (
+				E230588023E98BF10057CFE7 /* OomeeItem.h */,
+				E230588123E98BF10057CFE7 /* OomeeMakerDataStorage.h */,
+				E230588223E98BF10057CFE7 /* Oomee.h */,
+				E230588323E98BF10057CFE7 /* OomeeColour.cpp */,
+				E230588423E98BF10057CFE7 /* OomeeMakerDataHandler.h */,
+				E230588523E98BF10057CFE7 /* OomeeMakerDataHandler.cpp */,
+				E230588623E98BF10057CFE7 /* Oomee.cpp */,
+				E230588723E98BF10057CFE7 /* OomeeItem.cpp */,
+				E230588823E98BF10057CFE7 /* ItemCategory.cpp */,
+				E230588923E98BF10057CFE7 /* ItemCategory.h */,
+				E230588A23E98BF10057CFE7 /* OomeeColour.h */,
+				E230588B23E98BF10057CFE7 /* AssetData.cpp */,
+				E230588C23E98BF10057CFE7 /* OomeeMakerDataStorage.cpp */,
+				E230588D23E98BF10057CFE7 /* OomeeFigureData.h */,
+				E230588E23E98BF10057CFE7 /* OomeeFigureData.cpp */,
+				E230588F23E98BF10057CFE7 /* AssetData.h */,
+			);
+			path = DataObjects;
+			sourceTree = "<group>";
+		};
 		E231C1D6238C342D00B41129 /* ChildOnboarding */ = {
 			isa = PBXGroup;
 			children = (
@@ -1731,7 +1826,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				9271D7D0204053D200370120 /* PBXTargetDependency */,
 				92A9A0661F068A7B008A19EB /* PBXTargetDependency */,
 				3077F4551E8D51ED006DA465 /* PBXTargetDependency */,
 				1AC6FB25180E99E1004C840B /* PBXTargetDependency */,
@@ -1785,10 +1879,6 @@
 					ProjectRef = 3077F44D1E8D51D7006DA465 /* AzoomeeCommon.xcodeproj */;
 				},
 				{
-					ProductGroup = 9271D7582035F44600370120 /* Products */;
-					ProjectRef = 9271D7572035F44600370120 /* AzoomeeOomeeMaker.xcodeproj */;
-				},
-				{
 					ProductGroup = 1AC6FAE6180E9839004C840B /* Products */;
 					ProjectRef = 1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */;
 				},
@@ -1828,20 +1918,6 @@
 			fileType = wrapper.application;
 			path = "AzoomeeArt-app.app";
 			remoteRef = 9246EDD51F0403A9008CD359 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		9271D7622035F44600370120 /* AzoomeeOomeeMaker-mobile.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = "AzoomeeOomeeMaker-mobile.app";
-			remoteRef = 9271D7612035F44600370120 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		9271D7CB2040537000370120 /* libAzoomeeOomeeMaker.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libAzoomeeOomeeMaker.a;
-			remoteRef = 9271D7CA2040537000370120 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		92A9A06B1F068A7B008A19EB /* libAzoomeeArt.a */ = {
@@ -1973,6 +2049,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				926A2B3221301BB800AE7964 /* SettingsOnlineSafetyPage.cpp in Sources */,
+				E230589623E98BF10057CFE7 /* OomeeBody.cpp in Sources */,
 				9229EE5222DDD3E8009732B0 /* ProgressBar.cpp in Sources */,
 				9240334622D4E449009907F3 /* MarketingCarousel.cpp in Sources */,
 				E21E652E235F4281000BC90F /* ChatHQ.cpp in Sources */,
@@ -1983,12 +2060,14 @@
 				E21E659023605186000BC90F /* FriendListViewItem.cpp in Sources */,
 				0281F5C71E89210C001FCE60 /* LoginController.cpp in Sources */,
 				923D5BF022020475008C13D0 /* CoinDisplay.cpp in Sources */,
+				E230589823E98BF10057CFE7 /* DragAndDropController.cpp in Sources */,
 				A19862221DD3836D0090F053 /* ChildSelectorScene.cpp in Sources */,
 				E21E658923605186000BC90F /* AvatarWidget.cpp in Sources */,
 				025633791F3B0F5C0053FF26 /* ForceUpdateAppLockScene.cpp in Sources */,
 				921A2677216F9FF6005C8C41 /* VodacomOnboardingDetailsLayer.cpp in Sources */,
 				02074B271E93966D009BB28C /* WebGameAPIDataManager.cpp in Sources */,
 				E22ACAA3230D51100024B328 /* HQScene.cpp in Sources */,
+				E230589523E98BF10057CFE7 /* OomeeItemButton.cpp in Sources */,
 				02D644542087489800FF17B4 /* NativeContentInterface_ios.mm in Sources */,
 				9229EE5A22DF5954009732B0 /* SignupConfirmEmail.cpp in Sources */,
 				92E58564220DC7580015A4FA /* RewardDisplayHandler.cpp in Sources */,
@@ -2005,6 +2084,8 @@
 				E231C1DD238C3BF000B41129 /* ChildOnboardingScene.cpp in Sources */,
 				E22ACA04230C00D40024B328 /* NavigationButton.cpp in Sources */,
 				4343CB9C1EBB826600247549 /* DeepLinkingSingleton.cpp in Sources */,
+				E230589F23E98BF10057CFE7 /* Oomee.cpp in Sources */,
+				E230589123E98BF10057CFE7 /* OomeeCarousel.cpp in Sources */,
 				025633741F39AB5D0053FF26 /* ForceUpdateSingleton.cpp in Sources */,
 				028DDEB5206CFB69006D7EC5 /* IntroVideoScene.cpp in Sources */,
 				A15B2F991DE74F6400D25334 /* WebViewSelector.cpp in Sources */,
@@ -2013,6 +2094,8 @@
 				E24454702350D8E5005E5E6C /* ArtStudioButton.cpp in Sources */,
 				921A26BF217E1653005C8C41 /* VodacomMessageBoxInfo.cpp in Sources */,
 				E21E658E23605186000BC90F /* ArtListView.cpp in Sources */,
+				E23058A323E98BF10057CFE7 /* OomeeMakerDataStorage.cpp in Sources */,
+				E230589D23E98BF10057CFE7 /* OomeeColour.cpp in Sources */,
 				924E8455214141DC004590FD /* KidDetailsLayer.cpp in Sources */,
 				926A2B2C212F018E00AE7964 /* SettingsPageHeader.cpp in Sources */,
 				E21B22142322B02E0032510A /* RoundedRectTile.cpp in Sources */,
@@ -2026,8 +2109,10 @@
 				92BDD4C122366D3100DA56F3 /* ShopItem.cpp in Sources */,
 				92759EB21FE81F6300639190 /* ContentOpener.cpp in Sources */,
 				E2A5141A23200E58007B93BC /* FeaturedVideosHolder.cpp in Sources */,
+				E23058A223E98BF10057CFE7 /* AssetData.cpp in Sources */,
 				921A25FD2164E8DE005C8C41 /* SettingsMessageBoxTryAgain.cpp in Sources */,
 				A15B2FAF1DEDD1D500D25334 /* BackEndCaller.cpp in Sources */,
+				E230589323E98BF10057CFE7 /* OomeeSelectScene.cpp in Sources */,
 				E21E658B23605186000BC90F /* StickerListView.cpp in Sources */,
 				926A2B352130330800AE7964 /* OnlineSafetySlide.cpp in Sources */,
 				02D644692087826800FF17B4 /* MediaPlayer_ios.mm in Sources */,
@@ -2035,16 +2120,19 @@
 				920F6FE1213FD53900B7BB76 /* FriendRequestLayer.cpp in Sources */,
 				025BE95F1E3BD1F800EF76D1 /* WebViewNativeCaller_android.cpp in Sources */,
 				E21D618C238E9D0800C92FC7 /* ChildAgeEntry.cpp in Sources */,
+				E230589E23E98BF10057CFE7 /* OomeeMakerDataHandler.cpp in Sources */,
 				E21E658523605186000BC90F /* FriendListScene.cpp in Sources */,
 				E220CC1923548EE000F646CA /* ArtContentTile.cpp in Sources */,
 				E22B85FD238596D800F2F7F4 /* OfflineScene.cpp in Sources */,
 				924E845221412D70004590FD /* SettingsKidsPage.cpp in Sources */,
 				E21E658123605186000BC90F /* MessageComposer.cpp in Sources */,
 				300742F31EF93428005525AE /* ChatDelegate.cpp in Sources */,
+				E230589723E98BF10057CFE7 /* OomeeAccessory.cpp in Sources */,
 				E21592F523267D2F003CBB50 /* DropdownContentHolder.cpp in Sources */,
 				432A6C0D1EA8E2A200C5842B /* ManualGameInputLayer.cpp in Sources */,
 				E21E658323605186000BC90F /* MessageListView.cpp in Sources */,
 				E21E658C23605186000BC90F /* ArtListColumn.cpp in Sources */,
+				E230589A23E98BF10057CFE7 /* OomeeFigure.cpp in Sources */,
 				02D4FCD21FCEE5E2005BA020 /* IAPProductDataHandler.mm in Sources */,
 				E244546A2350800E005E5E6C /* OomeeMakerButton.cpp in Sources */,
 				E21E659323605186000BC90F /* Message.cpp in Sources */,
@@ -2056,6 +2144,7 @@
 				921A2669216F6F7A005C8C41 /* VodacomOnboardingFlowData.cpp in Sources */,
 				E21E658D23605186000BC90F /* MessageScene.cpp in Sources */,
 				921A26BB217DFB55005C8C41 /* VodacomMessageBoxExitFlow.cpp in Sources */,
+				E230589423E98BF10057CFE7 /* OomeeItemList.cpp in Sources */,
 				926A2AE1212D6F5500AE7964 /* SettingsHub.cpp in Sources */,
 				E22C3F9A2355C40900FFFF52 /* ArtTileHolder.cpp in Sources */,
 				92A519652194A7CF008DBD51 /* VodacomOnboardingDCBWebview.cpp in Sources */,
@@ -2070,6 +2159,7 @@
 				437395811ED3441F00C29DB1 /* FlowDataSingleton.cpp in Sources */,
 				E22ACB13230EF30D0024B328 /* GameHQ.cpp in Sources */,
 				E21A4F272317CC5300E1D3FB /* OomeeHQ.cpp in Sources */,
+				E23058A123E98BF10057CFE7 /* ItemCategory.cpp in Sources */,
 				921A2675216F9FD3005C8C41 /* VodacomOnboardingSuccessLayer.cpp in Sources */,
 				921A267B216FA05A005C8C41 /* VodacomOnboardingPinLayer.cpp in Sources */,
 				E21E659623605186000BC90F /* Friend.cpp in Sources */,
@@ -2079,6 +2169,7 @@
 				E21E658223605186000BC90F /* MessageListViewItem.cpp in Sources */,
 				9229EE4A22D795BA009732B0 /* IAPFooter.cpp in Sources */,
 				926A2B3921356C2000AE7964 /* EditAccountLayer.cpp in Sources */,
+				E23058A523E98BF10057CFE7 /* AzoomeeOomeeMaker.cpp in Sources */,
 				9271D7D32040557D00370120 /* OomeeMakerDelegate.cpp in Sources */,
 				921A25F421627FD6005C8C41 /* SettingsLanguagePage.cpp in Sources */,
 				E21E658F23605186000BC90F /* ArtListItemOnScreenChecker.cpp in Sources */,
@@ -2086,10 +2177,13 @@
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				E229F67423351999005BA0D4 /* EpisodeSelector.cpp in Sources */,
 				924E84772147FE2B004590FD /* SettingsMessageBoxFREvent.cpp in Sources */,
+				E230589B23E98BF10057CFE7 /* OomeeCarouselButton.cpp in Sources */,
 				E21E658023605186000BC90F /* FriendListView.cpp in Sources */,
 				E21E658623605186000BC90F /* StickerCategoryListViewItem.cpp in Sources */,
 				924E845821427C05004590FD /* SettingsMessageBoxDeleteChild.cpp in Sources */,
 				9229EECB22E5C6AF009732B0 /* PopupMessageBox.cpp in Sources */,
+				E23058A023E98BF10057CFE7 /* OomeeItem.cpp in Sources */,
+				E230589223E98BF10057CFE7 /* OomeeMakerScene.cpp in Sources */,
 				E21E65D22360810B000BC90F /* FriendTile.cpp in Sources */,
 				E22ACA06230C07650024B328 /* NavigationBar.cpp in Sources */,
 				929FB10322E8A6440088D406 /* MarketingAssetManager.cpp in Sources */,
@@ -2116,12 +2210,14 @@
 				9229EE6022DF6935009732B0 /* SignupEnterPin.cpp in Sources */,
 				43BCD71E1EC9FD4E00A07737 /* SceneManagerScene.cpp in Sources */,
 				92A9A0A91F0D1775008A19EB /* ArtAppDelegate.cpp in Sources */,
+				E230589C23E98BF10057CFE7 /* ItemCategoryList.cpp in Sources */,
 				92BDD4CC22380D4700DA56F3 /* ShopItemPurchasePopup.cpp in Sources */,
 				4396947D1EAA4855003C17E6 /* ApplePaymentSingleton.mm in Sources */,
 				E21E65D92361F174000BC90F /* AddFriendTile.cpp in Sources */,
 				929FB10722E9A8450088D406 /* PaymentSuccessScreen.cpp in Sources */,
 				921A25F72162830A005C8C41 /* LanguageListItem.cpp in Sources */,
 				02D4FCD41FCF0D0C005BA020 /* IAPProductDataHandler.cpp in Sources */,
+				E230589923E98BF10057CFE7 /* ItemCategoryButton.cpp in Sources */,
 				9229EE5722DF2CC2009732B0 /* SignupEnterEmail.cpp in Sources */,
 				92EC0C4F22312EA800B02F20 /* ShopScene.cpp in Sources */,
 				E212CCA4231EB07B009D4A63 /* FeaturedGamesHolder.cpp in Sources */,
@@ -2134,6 +2230,7 @@
 				E21E650C235F1A88000BC90F /* AzoomeeChat.cpp in Sources */,
 				926A2B0C212EABB000AE7964 /* SettingsNavigationButton.cpp in Sources */,
 				E23EC8F62331172600DB6ED7 /* PurchaseCapsule.cpp in Sources */,
+				E23058A423E98BF10057CFE7 /* OomeeFigureData.cpp in Sources */,
 				E212CC19231D4CB8009D4A63 /* ContentTile.cpp in Sources */,
 				925B24A4220AEE5F0000D7D2 /* CoinChestLayer.cpp in Sources */,
 				4319D3E21E67134600110F92 /* LoginScene.cpp in Sources */,
@@ -2168,11 +2265,6 @@
 			isa = PBXTargetDependency;
 			name = AzoomeeCommon;
 			targetProxy = 3077F4541E8D51ED006DA465 /* PBXContainerItemProxy */;
-		};
-		9271D7D0204053D200370120 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = libAzoomeeOomeeMaker;
-			targetProxy = 9271D7CF204053D200370120 /* PBXContainerItemProxy */;
 		};
 		92A9A0661F068A7B008A19EB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

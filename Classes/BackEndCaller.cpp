@@ -27,7 +27,7 @@
 
 #include "MarketingAssetManager.h"
 
-#include <AzoomeeOomeeMaker/DataObjects/OomeeMakerDataHandler.h>
+#include "AzoomeeOomeeMaker/DataObjects/OomeeMakerDataHandler.h"
 #include <AzoomeeCommon/Device.h>
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "ApplePaymentSingleton.h"
