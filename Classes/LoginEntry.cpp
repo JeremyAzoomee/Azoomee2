@@ -9,7 +9,6 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Input/TextInputChecker.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/Data/AppConfig.h>

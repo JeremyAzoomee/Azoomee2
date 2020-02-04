@@ -22,6 +22,7 @@ private:
     std::string _env = "";
     
 public:
+    static const std::string kArtCacheFolder;
     
     static AppConfig* getInstance();
     ~AppConfig();

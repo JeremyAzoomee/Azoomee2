@@ -12,9 +12,9 @@
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Utils/DirUtil.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Data/AppConfig.h>
 #include "HQDataProvider.h"
 #include "FavouritesManager.h"
 #include "ArtAppDelegate.h"
@@ -349,7 +349,7 @@ void OomeeHQ::refreshFavouritesList()
 
 void OomeeHQ::refreshArtList()
 {
-    const std::string& dirPath = DirUtil::getCachesPath() + ConfigStorage::kArtCacheFolder + ChildManager::getInstance()->getLoggedInChild()->getId();
+    const std::string& dirPath = DirUtil::getCachesPath() + AppConfig::kArtCacheFolder + ChildManager::getInstance()->getLoggedInChild()->getId();
     
     if(!FileUtils::getInstance()->isDirectoryExist(dirPath))
     {

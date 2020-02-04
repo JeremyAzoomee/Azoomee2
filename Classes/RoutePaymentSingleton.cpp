@@ -12,7 +12,6 @@
 #include "FlowDataSingleton.h"
 #include "SceneManagerScene.h"
 #include "AzoomeeCommon/Data/Child/ChildManager.h"
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Device.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)

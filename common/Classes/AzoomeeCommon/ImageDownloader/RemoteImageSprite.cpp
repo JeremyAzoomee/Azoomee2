@@ -1,7 +1,6 @@
 #include "RemoteImageSprite.h"
 #include "../UI/ElectricDreamsTextStyles.h"
 #include "../Utils/LocaleManager.h"
-#include "../Data/ConfigStorage.h"
 #include "ImageDownloaderCacheCleanerLogic.h"
 
 using namespace cocos2d::network;

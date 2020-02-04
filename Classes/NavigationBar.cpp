@@ -6,7 +6,6 @@
 //
 
 #include "NavigationBar.h"
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "HQConstants.h"
 
 using namespace cocos2d;

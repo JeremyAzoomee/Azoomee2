@@ -8,7 +8,6 @@
 #include "OomeeCarousel.h"
 #include "../DataObjects/OomeeMakerDataHandler.h"
 #include "OomeeSelectScene.h"
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Device.h>
 
 NS_AZOOMEE_OM_BEGIN

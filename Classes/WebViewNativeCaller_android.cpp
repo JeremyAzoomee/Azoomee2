@@ -11,12 +11,12 @@
 #include "ContentHistoryManager.h"
 #include "RecentlyPlayedManager.h"
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/Data/AppConfig.h>
 #include "ChatDelegate.h"
 #include "BackEndCaller.h"
+#include "WebViewSelector.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/jni/JniHelper.h"
@@ -124,7 +124,7 @@ void WebViewNativeCaller_android::onEnterTransitionDidFinish()
 {
     AudioMixer::getInstance()->stopBackgroundMusic();
     Director::getInstance()->purgeCachedData();
-    this->setName(ConfigStorage::kAndroidWebviewName);
+    this->setName(WebViewSelector::kAndroidWebviewName);
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     SessionIdManager::getInstance()->registerAndroidSceneChangeEvent();

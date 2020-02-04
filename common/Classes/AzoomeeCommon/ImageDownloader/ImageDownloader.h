@@ -23,6 +23,7 @@ class ImageDownloader : public std::enable_shared_from_this<ImageDownloader>, Fi
 {
 public:
     static const std::string kImageCachePath;
+    static const std::string kAvatarImageCacheFolder;
     
     enum CacheMode {
         /// A category as a whole is cached together.

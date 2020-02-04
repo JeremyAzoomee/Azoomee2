@@ -7,7 +7,6 @@
 
 #include "FriendTile.h"
 #include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 using namespace cocos2d;
 
@@ -87,7 +86,7 @@ bool FriendTile::init()
         }
     });
     
-    _imgDownloader = ImageDownloader::create(ConfigStorage::kAvatarImageCacheFolder, ImageDownloader::CacheMode::File);
+    _imgDownloader = ImageDownloader::create(ImageDownloader::kAvatarImageCacheFolder, ImageDownloader::CacheMode::File);
     
     return true;
 }

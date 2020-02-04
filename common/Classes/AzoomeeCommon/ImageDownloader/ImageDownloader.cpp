@@ -1,5 +1,4 @@
 #include "ImageDownloader.h"
-#include "../Data/ConfigStorage.h"
 
 using namespace cocos2d;
 using namespace network;
@@ -11,6 +10,7 @@ NS_AZOOMEE_BEGIN
 
 const int ImageDownloader::kContentImageValidityDurationSecs = 604800;
 const std::string ImageDownloader::kImageCachePath = "imageCache";
+const std::string ImageDownloader::kAvatarImageCacheFolder = "avatars";
 
 std::vector<ImageDownloaderRef> ImageDownloader::_downloadingImagePool = std::vector<ImageDownloaderRef>();
 

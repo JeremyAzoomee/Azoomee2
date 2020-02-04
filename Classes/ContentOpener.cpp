@@ -16,7 +16,6 @@
 #include "ArtAppDelegate.h"
 #include "ManualGameInputLayer.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/Crashlytics/CrashlyticsConfig.h>
@@ -136,7 +135,7 @@ void ContentOpener::doCarouselContentOpenLogic(const HQContentItemObjectRef& con
 	
 	if(contentItem->getType() == HQContentItemObject::kContentTypeVideo || contentItem->getType() == HQContentItemObject::kContentTypeAudio)
 	{
-		if(hqCategory == ConfigStorage::kGroupHQName)
+		if(hqCategory == HQDataObject::kGroupHQName)
 		{
 			VideoPlaylistManager::getInstance()->setPlaylist(HQDataObjectManager::getInstance()->getHQDataObjectForKey(hqCategory)->getHqCarousels().at(rowIndex));
 		}

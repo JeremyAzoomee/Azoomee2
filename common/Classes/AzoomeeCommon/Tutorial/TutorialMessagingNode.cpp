@@ -6,7 +6,6 @@
 //
 
 #include "TutorialMessagingNode.h"
-#include "../Data/ConfigStorage.h"
 #include "../Device.h"
 
 using namespace cocos2d;

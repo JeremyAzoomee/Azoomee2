@@ -7,7 +7,6 @@
 #include <AzoomeeCommon/Input/TextInputChecker.h>
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Utils/PushNotificationsHandler.h>
 #include "FlowDataSingleton.h"
 #include "SceneManagerScene.h"

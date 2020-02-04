@@ -7,7 +7,6 @@
 
 #include "RecentlyPlayedManager.h"
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/Utils/DirUtil.h>

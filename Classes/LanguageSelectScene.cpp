@@ -7,7 +7,6 @@
 
 #include "LanguageSelectScene.h"
 #include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include "SceneManagerScene.h"
 #include "BackEndCaller.h"

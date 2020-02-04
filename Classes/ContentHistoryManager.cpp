@@ -10,7 +10,6 @@
 #include <AzoomeeCommon/Utils//TimeUtils.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Rewards/RewardManager.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 using namespace cocos2d;
 

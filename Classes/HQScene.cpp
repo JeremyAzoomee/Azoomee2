@@ -11,7 +11,6 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include "FlowDataSingleton.h"
@@ -308,7 +307,7 @@ void HQScene::createPageUI()
         ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, HQConsts::kVideoHQName, location);
     });
     _videoHQ->setEpisodeSelectorContentSelectedCallback([](HQContentItemObjectRef content, int elementIndex, int rowIndex, const std::string& location){
-        ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, ConfigStorage::kGroupHQName, location);
+        ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, HQDataObject::kGroupHQName, location);
     });
     _pageLayout->addChild(_videoHQ);
     

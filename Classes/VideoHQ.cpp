@@ -6,7 +6,6 @@
 //
 
 #include "VideoHQ.h"
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/UI/Style.h>
@@ -273,7 +272,7 @@ void VideoHQ::createEpisodePlayer()
     {
         HQDataProvider::getInstance()->getDataForGroupHQ(firstItem->getUri(), firstItem->getCarouselColour());
         _episodeSelector->setLineAndTextColour(Color3B(firstItem->getCarouselColour()));
-        _episodeSelector->setHqData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGroupHQName));
+        _episodeSelector->setHqData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(HQDataObject::kGroupHQName));
     }
     _episodeSelector->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
         if(_episodeSelectorContentSelectedCallback)
@@ -311,7 +310,7 @@ void VideoHQ::createEpisodePlayer()
     addChild(_episodeSelector, 1);
     
     EventListenerCustom* eventListener = EventListenerCustom::create(HQDataProvider::kGroupRefreshEvent, [this](EventCustom* event){
-        _episodeSelector->setHqData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGroupHQName));
+        _episodeSelector->setHqData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(HQDataObject::kGroupHQName));
         Color4B colour = *static_cast<Color4B*>(event->getUserData());
         _episodeSelector->setLineAndTextColour(Color3B(colour));
         if(_isPortrait && !_episodePlayerOpen && !_episodePlayerMoving)

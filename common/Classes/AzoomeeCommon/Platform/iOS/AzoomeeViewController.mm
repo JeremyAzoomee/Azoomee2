@@ -2,7 +2,6 @@
 #import "../../Application.h"
 #import <cocos/cocos2d.h>
 #import <cocos/platform/ios/CCEAGLView-ios.h>
-#import "../../Data/ConfigStorage.h"
 #import "../../Device.h"
 
 #define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)

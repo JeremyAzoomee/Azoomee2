@@ -1,7 +1,6 @@
 #include "API.h"
 #include <cocos/cocos2d.h>
 #include <functional>
-#include "../Data/ConfigStorage.h"
 #include "../Utils/SessionIdManager.h"
 #include "../Analytics/AnalyticsSingleton.h"
 #include "../Utils/StringFunctions.h"

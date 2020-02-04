@@ -7,7 +7,6 @@
 
 #include "CookieManager.h"
 #include "../../Utils/StringFunctions.h"
-#include "../ConfigStorage.h"
 
 NS_AZOOMEE_BEGIN
 

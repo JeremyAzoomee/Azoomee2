@@ -6,8 +6,8 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Utils/DirUtil.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Device.h>
+#include <AzoomeeCommon/Data/AppConfig.h>
 
 using namespace cocos2d;
 
@@ -83,7 +83,7 @@ bool MessageComposer::init()
     
     if(ChildManager::getInstance()->isChildLoggedIn())
     {
-        const std::string& artDir = DirUtil::getCachesPath() + ConfigStorage::kArtCacheFolder + ChildManager::getInstance()->getLoggedInChild()->getId();
+        const std::string& artDir = DirUtil::getCachesPath() + AppConfig::kArtCacheFolder + ChildManager::getInstance()->getLoggedInChild()->getId();
         const auto& files = DirUtil::getImagesInDirectory(artDir);
         std::vector<std::string> fullFiles;
         

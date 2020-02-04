@@ -1,6 +1,5 @@
 #include "HQDataObjectManager.h"
 #include "../Json.h"
-#include "../ConfigStorage.h"
 #include "ContentItemManager.h"
 #include "../../UI/Style.h"
 
@@ -149,7 +148,7 @@ void HQDataObjectManager::parseHQStructureData(const std::string& hqStuctureData
 	{
 		dataObject = MutableHQDataObject::create();
 		_hqDataObjects[hqName] = dataObject;
-		if(hqName == ConfigStorage::kGroupHQName)
+		if(hqName == HQDataObject::kGroupHQName)
 		{
 			dataObject->setHqEntitlement(true); // force set group hq to entitled as not set in entitlement feed
 		}

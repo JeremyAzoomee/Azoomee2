@@ -3,7 +3,6 @@
 #include "RoutePaymentSingleton.h"
 #include "LoginController.h"
 #include "IAPProductDataHandler.h"
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 using namespace Azoomee;
 

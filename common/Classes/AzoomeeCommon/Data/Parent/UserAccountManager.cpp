@@ -11,7 +11,6 @@
 #include "../../Analytics/AnalyticsSingleton.h"
 #include "../../Utils/PushNotificationsHandler.h"
 #include "../../API/API.h"
-#include "../ConfigStorage.h"
 #include "../../Utils/StringFunctions.h"
 #include "../Cookie/CookieManager.h"
 #include "../Child/ChildManager.h"

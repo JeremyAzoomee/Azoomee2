@@ -16,7 +16,6 @@
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include "WebGameAPIDataManager.h"
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/AppConfig.h>
 #include "FlowDataSingleton.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>

@@ -1,5 +1,4 @@
 #include "IosNativeFunctionsSingleton.h"
-#include "../Data/ConfigStorage.h"
 #include "../Utils/LocaleManager.h"
 #include "BiometricAuthenticationHandler.h"
 #import <AdSupport/ASIdentifierManager.h>

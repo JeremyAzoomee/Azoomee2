@@ -1,6 +1,5 @@
 #include "AppDelegate.h"
 #include "IntroVideoScene.h"
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "HQHistoryManager.h"
 #include "LoginController.h"
 #include "NativeContentInterface_ios.h"
@@ -17,6 +16,7 @@
 #include "../artapp/Classes/AzoomeeArt/MainScene.h"
 #include "GameDataManager.h"
 #include <AzoomeeCommon/Device.h>
+#include "WebViewSelector.h"
 
 using namespace cocos2d;
 using namespace Azoomee;
@@ -80,9 +80,9 @@ bool AppDelegate::applicationDidFinishLaunching()
 void AppDelegate::applicationDidEnterBackground()
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-	if(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kIosWebviewName))
+	if(Director::getInstance()->getRunningScene()->getChildByName(WebViewSelector::kIosWebviewName))
 	{
-		NativeContentInterface_ios *webview = dynamic_cast<NativeContentInterface_ios*>(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kIosWebviewName));
+		NativeContentInterface_ios *webview = dynamic_cast<NativeContentInterface_ios*>(Director::getInstance()->getRunningScene()->getChildByName(WebViewSelector::kIosWebviewName));
 		if(webview)
 		{
 			webview->removeWebViewFromScreen();
@@ -107,9 +107,9 @@ void AppDelegate::applicationWillEnterForeground()
     PushNotificationsHandler::getInstance()->resetExistingNotifications();
 	
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-	if(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kIosWebviewName))
+	if(Director::getInstance()->getRunningScene()->getChildByName(WebViewSelector::kIosWebviewName))
 	{
-		NativeContentInterface_ios *webview = dynamic_cast<NativeContentInterface_ios*>(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kIosWebviewName));
+		NativeContentInterface_ios *webview = dynamic_cast<NativeContentInterface_ios*>(Director::getInstance()->getRunningScene()->getChildByName(WebViewSelector::kIosWebviewName));
 		if(webview)
 		{
 			webview->reAddWebViewToScreen();
@@ -120,7 +120,7 @@ void AppDelegate::applicationWillEnterForeground()
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     
-    if(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kAndroidWebviewName))
+    if(Director::getInstance()->getRunningScene()->getChildByName(WebViewSelector::kAndroidWebviewName))
     {
         AnalyticsSingleton::getInstance()->contentItemClosedEvent();
         if(HQHistoryManager::getInstance()->hasError())

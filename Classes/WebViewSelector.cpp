@@ -19,6 +19,9 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+const char* const WebViewSelector::kIosWebviewName = "iosWebView";
+const char* const WebViewSelector::kAndroidWebviewName = "androidWebView";
+
 cocos2d::Scene* WebViewSelector::createSceneWithUrl(const std::string& url, Orientation orientation, const Vec2& closeButtonAnchor)
 {
     // 'scene' is an autorelease object

@@ -1,7 +1,6 @@
 #include "ElectricDreamsTextStyles.h"
 #include "../Utils/StringFunctions.h"
 #include "Style.h"
-#include "../Data/ConfigStorage.h"
 #include "../Data/Parent/UserAccountManager.h"
 
 using namespace cocos2d;

@@ -7,7 +7,6 @@
 
 #include "SettingsSupportPage.h"
 #include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/NativeShare/NativeShare.h>

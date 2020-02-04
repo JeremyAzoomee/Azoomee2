@@ -55,7 +55,6 @@
 		30DD5ECE1E965B710084305B /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DD5EC91E9658B40084305B /* Fabric.framework */; };
 		30DD5ED61E965E060084305B /* AnalyticsSingleton_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30DD5ED21E965E060084305B /* AnalyticsSingleton_ios.mm */; };
 		30DD5ED71E965E060084305B /* AnalyticsSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30DD5ED31E965E060084305B /* AnalyticsSingleton.cpp */; };
-		30DD5EF01E96860C0084305B /* ConfigStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30DD5EEE1E96860C0084305B /* ConfigStorage.cpp */; };
 		30E094BF1EDF0F2B00555891 /* URI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30E094BB1EDF0F2B00555891 /* URI.cpp */; };
 		30E094C01EDF0F2B00555891 /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30E094BD1EDF0F2B00555891 /* Utils.cpp */; };
 		43087FD91F03AC4C00E199EA /* NativeShare_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 43087FD61F03AC4C00E199EA /* NativeShare_ios.mm */; };
@@ -283,8 +282,6 @@
 		30DD5ED21E965E060084305B /* AnalyticsSingleton_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AnalyticsSingleton_ios.mm; sourceTree = "<group>"; };
 		30DD5ED31E965E060084305B /* AnalyticsSingleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnalyticsSingleton.cpp; sourceTree = "<group>"; };
 		30DD5ED41E965E060084305B /* AnalyticsSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnalyticsSingleton.h; sourceTree = "<group>"; };
-		30DD5EEE1E96860C0084305B /* ConfigStorage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConfigStorage.cpp; sourceTree = "<group>"; };
-		30DD5EEF1E96860C0084305B /* ConfigStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigStorage.h; sourceTree = "<group>"; };
 		30E094BB1EDF0F2B00555891 /* URI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = URI.cpp; sourceTree = "<group>"; };
 		30E094BC1EDF0F2B00555891 /* URI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URI.h; sourceTree = "<group>"; };
 		30E094BD1EDF0F2B00555891 /* Utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utils.cpp; sourceTree = "<group>"; };
@@ -926,8 +923,6 @@
 				3012ED5A1E969BF60009027D /* Child */,
 				3012ED531E969BBB0009027D /* Parent */,
 				3012ED491E969AE40009027D /* Cookie */,
-				30DD5EEE1E96860C0084305B /* ConfigStorage.cpp */,
-				30DD5EEF1E96860C0084305B /* ConfigStorage.h */,
 				3018498C1EBCC100005B994A /* Json.h */,
 				4360078A1F2232CC000ECBA4 /* Urls.h */,
 				92BDD4C82237D27D00DA56F3 /* DataDownloadHandler.h */,
@@ -1303,7 +1298,6 @@
 				3012ED911E97DCC00009027D /* ElectricDreamsTextStyles.cpp in Sources */,
 				3012ED891E97DB450009027D /* ModalMessages.cpp in Sources */,
 				3000FF751ED5AB7100E9717C /* AzoomeeAppController.mm in Sources */,
-				30DD5EF01E96860C0084305B /* ConfigStorage.cpp in Sources */,
 				92EC0C732232C9F400B02F20 /* Shop.cpp in Sources */,
 				4349C8271EA8ADEF00FE964B /* MPCATransform3DToNSDictionaryValueTransformer.m in Sources */,
 				921C75AA2193225D00EB93D6 /* Style.cpp in Sources */,

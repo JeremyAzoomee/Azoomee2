@@ -9,12 +9,12 @@
 #include "DrawingCanvasUILayer.h"
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Utils/DirUtil.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Utils/SpecialCalendarEventManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Device.h>
+#include <AzoomeeCommon/Data/AppConfig.h>
 
 using namespace cocos2d;
 
@@ -123,7 +123,7 @@ void DrawingCanvasUILayer::saveImage()
     
     const std::string scheduleKey = "save";
     Director::getInstance()->getScheduler()->schedule([&](float dt){
-        const std::string& truncatedPath = _filename.substr(_filename.find(ConfigStorage::kArtCacheFolder));
+        const std::string& truncatedPath = _filename.substr(_filename.find(AppConfig::kArtCacheFolder));
         _drawingCanvas->saveImage(truncatedPath);
         ModalMessages::getInstance()->stopSaving();
     }, this, 0.5, 0, 0, false, scheduleKey);

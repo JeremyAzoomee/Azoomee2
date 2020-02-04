@@ -5,10 +5,10 @@
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Utils/TimeUtils.h>
 #include <AzoomeeCommon/Utils/DirUtil.h>
+#include <AzoomeeCommon/Data/AppConfig.h>
 
 #include <iostream>
 #include <iomanip>
@@ -30,7 +30,7 @@ Scene* MainScene::createScene()
     layer->addBackButton();
     layer->addShareButton();
     const std::string& fileNameStr = TimeUtils::getTimeStringForFileName();
-    const std::string& saveFileName = ConfigStorage::kArtCacheFolder + ChildManager::getInstance()->getLoggedInChild()->getId() + "/" + fileNameStr + ".png";
+    const std::string& saveFileName = AppConfig::kArtCacheFolder + ChildManager::getInstance()->getLoggedInChild()->getId() + "/" + fileNameStr + ".png";
     layer->_fileName = DirUtil::getCachesPath() + "/" + saveFileName;
     // add layer as a child to scene
     scene->addChild(layer);
@@ -179,12 +179,12 @@ void MainScene::saveFile()
     {
         const std::string& fileNameStr = TimeUtils::getTimeStringForFileName();
         
-        saveFileName = ConfigStorage::kArtCacheFolder + Azoomee::ChildManager::getInstance()->getLoggedInChild()->getId() + "/" + fileNameStr + ".png";
+        saveFileName = AppConfig::kArtCacheFolder + Azoomee::ChildManager::getInstance()->getLoggedInChild()->getId() + "/" + fileNameStr + ".png";
         this->_fileName = DirUtil::getCachesPath() + "/" + saveFileName;
     }
     else
     {
-        const std::string& truncatedPath = this->_fileName.substr(this->_fileName.find(ConfigStorage::kArtCacheFolder));
+        const std::string& truncatedPath = this->_fileName.substr(this->_fileName.find(AppConfig::kArtCacheFolder));
         saveFileName = truncatedPath;
         
     }

@@ -17,6 +17,8 @@ static const std::string kAzoomeeActivityJavaClassName = "org/cocos2dx/cpp/AppAc
 
 NS_AZOOMEE_BEGIN
 
+const std::string AppConfig::kArtCacheFolder = "artCache/";
+
 static std::auto_ptr<AppConfig> sAppConfigSharedInstance;
 
 AppConfig* AppConfig::getInstance()

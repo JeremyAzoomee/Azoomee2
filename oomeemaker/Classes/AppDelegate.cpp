@@ -1,7 +1,6 @@
 #include "AppDelegate.h"
 #include "AzoomeeOomeeMaker/UI/OomeeMakerScene.h"
 #include "AzoomeeOomeeMaker/UI/OomeeSelectScene.h"
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 USING_NS_CC;
 

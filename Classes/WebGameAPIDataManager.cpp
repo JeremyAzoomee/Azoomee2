@@ -1,6 +1,5 @@
 #include "WebGameAPIDataManager.h"
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "VideoPlaylistManager.h"
 #include <AzoomeeCommon/Utils/TimeUtils.h>
 #include <AzoomeeCommon/Utils/DirUtil.h>
@@ -76,7 +75,7 @@ char* WebGameAPIDataManager::handleAPIRequest(const char* method, const char* re
         int length = cocos2d::base64Decode((const unsigned char*)sendData, (unsigned int)strlen(sendData), &decoded);
         std::string decodedString( reinterpret_cast<char const*>(decoded), length ) ;
         
-        const std::string &saveFolder = DirUtil::getCachesPath() + ConfigStorage::kArtCacheFolder + ChildManager::getInstance()->getLoggedInChild()->getId() + "/";
+        const std::string &saveFolder = DirUtil::getCachesPath() + AppConfig::kArtCacheFolder + ChildManager::getInstance()->getLoggedInChild()->getId() + "/";
         
         if(!FileUtils::getInstance()->isDirectoryExist(saveFolder))
         {
