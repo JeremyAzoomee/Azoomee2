@@ -7,7 +7,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Utils/PushNotificationsHandler.h>
 #include "FlowDataSingleton.h"
-#include <AzoomeeCommon/ErrorCodes.h>
+#include "ErrorCodes.h"
 #include "ContentHistoryManager.h"
 #include "IAPProductDataHandler.h"
 #include "ChatDelegate.h"

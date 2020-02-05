@@ -258,6 +258,7 @@
 		E23058B123E9BCAC0057CFE7 /* RewardItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23058AF23E9BCAC0057CFE7 /* RewardItem.cpp */; };
 		E23058B623E9C52E0057CFE7 /* RequestAdultPinLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23058B523E9C52E0057CFE7 /* RequestAdultPinLayer.cpp */; };
 		E23058C223E9DDCE0057CFE7 /* ActionBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23058C023E9DDCE0057CFE7 /* ActionBuilder.cpp */; };
+		E23058C523EAF68C0057CFE7 /* TextInputLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23058C423EAF68B0057CFE7 /* TextInputLayer.cpp */; };
 		E231C1DD238C3BF000B41129 /* ChildOnboardingScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E231C1DC238C3BF000B41129 /* ChildOnboardingScene.cpp */; };
 		E23EC8F62331172600DB6ED7 /* PurchaseCapsule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23EC8F52331172600DB6ED7 /* PurchaseCapsule.cpp */; };
 		E244546A2350800E005E5E6C /* OomeeMakerButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E24454692350800E005E5E6C /* OomeeMakerButton.cpp */; };
@@ -829,6 +830,9 @@
 		E23058BE23E9D4670057CFE7 /* TutorialMessagingNode.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TutorialMessagingNode.cpp; sourceTree = "<group>"; };
 		E23058C023E9DDCE0057CFE7 /* ActionBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ActionBuilder.cpp; path = ../common/Classes/AzoomeeCommon/Utils/ActionBuilder.cpp; sourceTree = "<group>"; };
 		E23058C123E9DDCE0057CFE7 /* ActionBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActionBuilder.h; path = ../common/Classes/AzoomeeCommon/Utils/ActionBuilder.h; sourceTree = "<group>"; };
+		E23058C323EAF68B0057CFE7 /* TextInputLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextInputLayer.h; sourceTree = "<group>"; };
+		E23058C423EAF68B0057CFE7 /* TextInputLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextInputLayer.cpp; sourceTree = "<group>"; };
+		E23058C623EAF7830057CFE7 /* ErrorCodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ErrorCodes.h; sourceTree = "<group>"; };
 		E231C1DB238C348100B41129 /* ChildOnboardingScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChildOnboardingScene.h; sourceTree = "<group>"; };
 		E231C1DC238C3BF000B41129 /* ChildOnboardingScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChildOnboardingScene.cpp; sourceTree = "<group>"; };
 		E23EC8EF2331120F00DB6ED7 /* PurchaseCapsule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PurchaseCapsule.h; sourceTree = "<group>"; };
@@ -1158,6 +1162,7 @@
 		4323120D1E1D4DC500C8606D /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				E23058C623EAF7830057CFE7 /* ErrorCodes.h */,
 				E23058B323E9C1F70057CFE7 /* Urls.h */,
 				E23058C123E9DDCE0057CFE7 /* ActionBuilder.h */,
 				E23058C023E9DDCE0057CFE7 /* ActionBuilder.cpp */,
@@ -1172,6 +1177,8 @@
 		4327D9251E1F98AC00F912C5 /* uiObjects */ = {
 			isa = PBXGroup;
 			children = (
+				E23058C423EAF68B0057CFE7 /* TextInputLayer.cpp */,
+				E23058C323EAF68B0057CFE7 /* TextInputLayer.h */,
 				E23058B523E9C52E0057CFE7 /* RequestAdultPinLayer.cpp */,
 				E23058B423E9C52E0057CFE7 /* RequestAdultPinLayer.h */,
 				301CCA921EB139C1009ADA0C /* SettingsButton.cpp */,
@@ -1725,30 +1732,30 @@
 		E230586523E98BF10057CFE7 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				E230586623E98BF10057CFE7 /* OomeeCarousel.cpp */,
-				E230586723E98BF10057CFE7 /* OomeeCarousel.h */,
-				E230586823E98BF10057CFE7 /* DragAndDropController.h */,
-				E230586923E98BF10057CFE7 /* OomeeBody.h */,
-				E230586A23E98BF10057CFE7 /* OomeeMakerScene.cpp */,
-				E230586B23E98BF10057CFE7 /* OomeeItemList.h */,
-				E230586C23E98BF10057CFE7 /* OomeeSelectScene.cpp */,
-				E230586D23E98BF10057CFE7 /* OomeeItemList.cpp */,
-				E230586E23E98BF10057CFE7 /* OomeeItemButton.h */,
-				E230586F23E98BF10057CFE7 /* OomeeItemButton.cpp */,
-				E230587023E98BF10057CFE7 /* OomeeBody.cpp */,
-				E230587123E98BF10057CFE7 /* OomeeMakerScene.h */,
-				E230587223E98BF10057CFE7 /* OomeeAccessory.cpp */,
-				E230587323E98BF10057CFE7 /* OomeeSelectScene.h */,
 				E230587423E98BF10057CFE7 /* DragAndDropController.cpp */,
-				E230587523E98BF10057CFE7 /* OomeeAccessory.h */,
+				E230586823E98BF10057CFE7 /* DragAndDropController.h */,
 				E230587623E98BF10057CFE7 /* ItemCategoryButton.cpp */,
 				E230587723E98BF10057CFE7 /* ItemCategoryButton.h */,
-				E230587823E98BF10057CFE7 /* OomeeFigure.cpp */,
-				E230587923E98BF10057CFE7 /* OomeeCarouselButton.cpp */,
 				E230587A23E98BF10057CFE7 /* ItemCategoryList.cpp */,
 				E230587B23E98BF10057CFE7 /* ItemCategoryList.h */,
-				E230587C23E98BF10057CFE7 /* OomeeFigure.h */,
+				E230587223E98BF10057CFE7 /* OomeeAccessory.cpp */,
+				E230587523E98BF10057CFE7 /* OomeeAccessory.h */,
+				E230587023E98BF10057CFE7 /* OomeeBody.cpp */,
+				E230586923E98BF10057CFE7 /* OomeeBody.h */,
+				E230586623E98BF10057CFE7 /* OomeeCarousel.cpp */,
+				E230586723E98BF10057CFE7 /* OomeeCarousel.h */,
+				E230587923E98BF10057CFE7 /* OomeeCarouselButton.cpp */,
 				E230587D23E98BF10057CFE7 /* OomeeCarouselButton.h */,
+				E230587823E98BF10057CFE7 /* OomeeFigure.cpp */,
+				E230587C23E98BF10057CFE7 /* OomeeFigure.h */,
+				E230586F23E98BF10057CFE7 /* OomeeItemButton.cpp */,
+				E230586E23E98BF10057CFE7 /* OomeeItemButton.h */,
+				E230586D23E98BF10057CFE7 /* OomeeItemList.cpp */,
+				E230586B23E98BF10057CFE7 /* OomeeItemList.h */,
+				E230586A23E98BF10057CFE7 /* OomeeMakerScene.cpp */,
+				E230587123E98BF10057CFE7 /* OomeeMakerScene.h */,
+				E230586C23E98BF10057CFE7 /* OomeeSelectScene.cpp */,
+				E230587323E98BF10057CFE7 /* OomeeSelectScene.h */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -2091,6 +2098,7 @@
 				E21E658A23605186000BC90F /* StickerCategoryListView.cpp in Sources */,
 				02D6446B2087828800FF17B4 /* WebViewController_ios.mm in Sources */,
 				E21E659023605186000BC90F /* FriendListViewItem.cpp in Sources */,
+				E23058C523EAF68C0057CFE7 /* TextInputLayer.cpp in Sources */,
 				0281F5C71E89210C001FCE60 /* LoginController.cpp in Sources */,
 				923D5BF022020475008C13D0 /* CoinDisplay.cpp in Sources */,
 				E230589823E98BF10057CFE7 /* DragAndDropController.cpp in Sources */,

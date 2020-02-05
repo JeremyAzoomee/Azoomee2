@@ -6,7 +6,7 @@
 #include "SceneManagerScene.h"
 #include "LoginController.h"
 #include "FlowDataSingleton.h"
-#include <AzoomeeCommon/ErrorCodes.h>
+#include "ErrorCodes.h"
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>

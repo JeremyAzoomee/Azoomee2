@@ -11,7 +11,7 @@
 #include "PopupMessageBox.h"
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/ErrorCodes.h>
+#include "ErrorCodes.h"
 
 using namespace cocos2d;
 

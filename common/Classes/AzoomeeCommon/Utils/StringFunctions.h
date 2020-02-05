@@ -2,6 +2,7 @@
 #define AzoomeeCommon_StringFunctions_h
 
 #include <cocos/cocos2d.h>
+#include <cocos/ui/CocosGUI.h>
 #include <string>
 #include <vector>
 #include "../Azoomee.h"
@@ -43,6 +44,8 @@ public:
     
     static int compareVersionNumbers(const std::string& targetVersion, const std::string& compVersion);
     
+    static void reduceLabelTextToFitWidth(cocos2d::Label* label,float maxWidth);
+    static void reduceLabelTextToFitWidth(cocos2d::ui::Text* label,float maxWidth);
 };
 
 NS_AZOOMEE_END

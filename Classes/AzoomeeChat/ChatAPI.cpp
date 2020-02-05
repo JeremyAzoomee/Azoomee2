@@ -5,7 +5,7 @@
 #include <AzoomeeCommon/Data/Json.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/Cookie/CookieManager.h>
-#include <AzoomeeCommon/ErrorCodes.h>
+#include "../ErrorCodes.h"
 #include <cocos/cocos2d.h>
 #include <memory>
 

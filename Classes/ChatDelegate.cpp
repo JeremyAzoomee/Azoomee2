@@ -9,7 +9,7 @@
 #include "ContentOpener.h"
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/ErrorCodes.h>
+#include "ErrorCodes.h"
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
 #include "PopupMessageBox.h"

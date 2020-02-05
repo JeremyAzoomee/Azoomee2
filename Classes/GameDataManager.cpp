@@ -19,7 +19,7 @@
 #include "FlowDataSingleton.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
-#include <AzoomeeCommon/ErrorCodes.h>
+#include "ErrorCodes.h"
 #include "WebViewSelector.h"
 #include "HQDataProvider.h"
 #include <AzoomeeCommon/Utils/DirUtil.h>

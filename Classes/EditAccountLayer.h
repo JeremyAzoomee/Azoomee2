@@ -9,7 +9,7 @@
 #define EditAccountLayer_h
 
 #include <AzoomeeCommon/Azoomee.h>
-#include <AzoomeeCommon/Input/TextInputLayer.h>
+#include "TextInputLayer.h"
 #include <AzoomeeCommon/API/HttpRequestCreator.h>
 #include <cocos/cocos2d.h>
 #include <ui/CocosGUI.h>

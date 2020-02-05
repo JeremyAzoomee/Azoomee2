@@ -6,7 +6,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/ErrorCodes.h>
+#include "../../ErrorCodes.h"
 #include "FriendListScene.h"
 #include "../../HQHistoryManager.h"
 

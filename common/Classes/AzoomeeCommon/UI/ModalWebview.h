@@ -2,13 +2,13 @@
 #define __MODAL_WEBVIEW_H__
 
 #include <cocos/cocos2d.h>
-#include "ElectricDreamsButton.h"
+#include <cocos/ui/CocosGUI.h>
 #include "ui/UIWebView.h"
 #include "../Azoomee.h"
 
 NS_AZOOMEE_BEGIN
 
-class ModalWebview : public cocos2d::Layer, public ElectricDreamsButtonDelegate
+class ModalWebview : public cocos2d::Layer
 {
 private:
     cocos2d::Size _visibleSize;
@@ -17,7 +17,7 @@ private:
     cocos2d::LayerColor *_backgroundLayer = nullptr;
     cocos2d::experimental::ui::WebView *_modalWebview = nullptr;
     
-    ElectricDreamsButton *_closeButton = nullptr;
+    cocos2d::ui::Button *_closeButton = nullptr;
     
     void createBackgroundLayer();
     void addListenerToBackgroundLayer();
@@ -34,9 +34,6 @@ public:
     virtual bool init();
     
     CREATE_FUNC(ModalWebview);
-
-    //Delegate Functions
-    void buttonPressed(ElectricDreamsButton* button);
     
     /// Called when the content size of the scene has changed
     void onSizeChanged();

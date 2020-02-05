@@ -29,9 +29,6 @@
 		3012ED701E96A3140009027D /* StringFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED6B1E96A3140009027D /* StringFunctions.cpp */; };
 		3012ED711E96A3140009027D /* LocaleManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED6D1E96A3140009027D /* LocaleManager.cpp */; };
 		3012ED891E97DB450009027D /* ModalMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED871E97DB450009027D /* ModalMessages.cpp */; };
-		3012ED901E97DCC00009027D /* ElectricDreamsDecoration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED8A1E97DCC00009027D /* ElectricDreamsDecoration.cpp */; };
-		3012ED911E97DCC00009027D /* ElectricDreamsTextStyles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED8C1E97DCC00009027D /* ElectricDreamsTextStyles.cpp */; };
-		3012ED951E97E5260009027D /* TextInputLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED931E97E5260009027D /* TextInputLayer.cpp */; };
 		3012ED9F1E97E6A40009027D /* RemoteImageSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED971E97E6A40009027D /* RemoteImageSprite.cpp */; };
 		3012EDA01E97E6A40009027D /* ImageDownloaderCacheCleanerLogic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED991E97E6A40009027D /* ImageDownloaderCacheCleanerLogic.cpp */; };
 		3012EDA11E97E6A40009027D /* ImageDownloader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED9B1E97E6A40009027D /* ImageDownloader.cpp */; };
@@ -39,7 +36,6 @@
 		3012EDAF1E97E8450009027D /* HMACSHA256.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012EDA51E97E8450009027D /* HMACSHA256.cpp */; };
 		3012EDB01E97E8450009027D /* HMACSHA256_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3012EDA81E97E8450009027D /* HMACSHA256_ios.mm */; };
 		3012EDB21E97E8450009027D /* JWTTool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012EDAB1E97E8450009027D /* JWTTool.cpp */; };
-		301CCA901EB13191009ADA0C /* ElectricDreamsButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301CCA8E1EB13191009ADA0C /* ElectricDreamsButton.cpp */; };
 		301CCA9A1EB14280009ADA0C /* API.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301CCA981EB14280009ADA0C /* API.cpp */; };
 		30242C74228D672A00B564E4 /* DirUtil_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30242C72228D672A00B564E4 /* DirUtil_ios.mm */; };
 		302E84791ED1B992006A498C /* ObservableLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302E84751ED1B992006A498C /* ObservableLayout.cpp */; };
@@ -208,7 +204,6 @@
 		300AD5B11F0B96310049A24F /* 5CA1B21D-FB96-3675-9651-7D94826701AB.bcsymbolmap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "5CA1B21D-FB96-3675-9651-7D94826701AB.bcsymbolmap"; sourceTree = "<group>"; };
 		3012ED461E969A180009027D /* AudioMixer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioMixer.cpp; sourceTree = "<group>"; };
 		3012ED471E969A180009027D /* AudioMixer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioMixer.h; sourceTree = "<group>"; };
-		3012ED641E96A3140009027D /* ErrorCodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ErrorCodes.h; sourceTree = "<group>"; };
 		3012ED661E96A3140009027D /* TextInputChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextInputChecker.cpp; sourceTree = "<group>"; };
 		3012ED671E96A3140009027D /* TextInputChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextInputChecker.h; sourceTree = "<group>"; };
 		3012ED6B1E96A3140009027D /* StringFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StringFunctions.cpp; sourceTree = "<group>"; };
@@ -217,12 +212,6 @@
 		3012ED6E1E96A3140009027D /* LocaleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocaleManager.h; sourceTree = "<group>"; };
 		3012ED871E97DB450009027D /* ModalMessages.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModalMessages.cpp; sourceTree = "<group>"; };
 		3012ED881E97DB450009027D /* ModalMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModalMessages.h; sourceTree = "<group>"; };
-		3012ED8A1E97DCC00009027D /* ElectricDreamsDecoration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ElectricDreamsDecoration.cpp; sourceTree = "<group>"; };
-		3012ED8B1E97DCC00009027D /* ElectricDreamsDecoration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElectricDreamsDecoration.h; sourceTree = "<group>"; };
-		3012ED8C1E97DCC00009027D /* ElectricDreamsTextStyles.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ElectricDreamsTextStyles.cpp; sourceTree = "<group>"; };
-		3012ED8D1E97DCC00009027D /* ElectricDreamsTextStyles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElectricDreamsTextStyles.h; sourceTree = "<group>"; };
-		3012ED931E97E5260009027D /* TextInputLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextInputLayer.cpp; sourceTree = "<group>"; };
-		3012ED941E97E5260009027D /* TextInputLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextInputLayer.h; sourceTree = "<group>"; };
 		3012ED971E97E6A40009027D /* RemoteImageSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RemoteImageSprite.cpp; sourceTree = "<group>"; };
 		3012ED981E97E6A40009027D /* RemoteImageSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteImageSprite.h; sourceTree = "<group>"; };
 		3012ED991E97E6A40009027D /* ImageDownloaderCacheCleanerLogic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageDownloaderCacheCleanerLogic.cpp; sourceTree = "<group>"; };
@@ -238,8 +227,6 @@
 		3012EDAB1E97E8450009027D /* JWTTool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JWTTool.cpp; sourceTree = "<group>"; };
 		3012EDAC1E97E8450009027D /* JWTTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JWTTool.h; sourceTree = "<group>"; };
 		3018498C1EBCC100005B994A /* Json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Json.h; sourceTree = "<group>"; };
-		301CCA8E1EB13191009ADA0C /* ElectricDreamsButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ElectricDreamsButton.cpp; sourceTree = "<group>"; tabWidth = 4; };
-		301CCA8F1EB13191009ADA0C /* ElectricDreamsButton.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; path = ElectricDreamsButton.h; sourceTree = "<group>"; tabWidth = 4; };
 		301CCA981EB14280009ADA0C /* API.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = API.cpp; sourceTree = "<group>"; };
 		301CCA991EB14280009ADA0C /* API.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = API.h; sourceTree = "<group>"; };
 		301CCA9B1EB14473009ADA0C /* Azoomee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Azoomee.h; sourceTree = "<group>"; };
@@ -643,8 +630,6 @@
 		3012ED651E96A3140009027D /* Input */ = {
 			isa = PBXGroup;
 			children = (
-				3012ED931E97E5260009027D /* TextInputLayer.cpp */,
-				3012ED941E97E5260009027D /* TextInputLayer.h */,
 				3012ED661E96A3140009027D /* TextInputChecker.cpp */,
 				3012ED671E96A3140009027D /* TextInputChecker.h */,
 			);
@@ -695,12 +680,6 @@
 				302E84761ED1B992006A498C /* ObservableLayout.h */,
 				302E84771ED1B992006A498C /* SplitLayout.cpp */,
 				302E84781ED1B992006A498C /* SplitLayout.h */,
-				301CCA8E1EB13191009ADA0C /* ElectricDreamsButton.cpp */,
-				301CCA8F1EB13191009ADA0C /* ElectricDreamsButton.h */,
-				3012ED8A1E97DCC00009027D /* ElectricDreamsDecoration.cpp */,
-				3012ED8B1E97DCC00009027D /* ElectricDreamsDecoration.h */,
-				3012ED8C1E97DCC00009027D /* ElectricDreamsTextStyles.cpp */,
-				3012ED8D1E97DCC00009027D /* ElectricDreamsTextStyles.h */,
 				305966A01ECEF5A8009A7130 /* LayoutParams.h */,
 				3012ED871E97DB450009027D /* ModalMessages.cpp */,
 				3012ED881E97DB450009027D /* ModalMessages.h */,
@@ -808,7 +787,6 @@
 				E21F700A23E47E2F0007EFF9 /* Device.h */,
 				E21F700B23E47F670007EFF9 /* Device.cpp */,
 				301CCA9B1EB14473009ADA0C /* Azoomee.h */,
-				3012ED641E96A3140009027D /* ErrorCodes.h */,
 				30DD5EBD1E96571F0084305B /* Analytics */,
 				3092BCED1EB10524006D6F4C /* API */,
 				3012ED451E969A180009027D /* Audio */,
@@ -1227,7 +1205,6 @@
 				021B1FCB1F838A0A0044DCF7 /* HQDataObject.cpp in Sources */,
 				4349C8411EA8ADEF00FE964B /* MPResources.m in Sources */,
 				4349C85D1EA8ADEF00FE964B /* UIView+MPHelpers.m in Sources */,
-				3012ED911E97DCC00009027D /* ElectricDreamsTextStyles.cpp in Sources */,
 				3012ED891E97DB450009027D /* ModalMessages.cpp in Sources */,
 				3000FF751ED5AB7100E9717C /* AzoomeeAppController.mm in Sources */,
 				92EC0C732232C9F400B02F20 /* Shop.cpp in Sources */,
@@ -1304,7 +1281,6 @@
 				92D1B49322A7F7C000357513 /* CookieManager.cpp in Sources */,
 				3012ED481E969A180009027D /* AudioMixer.cpp in Sources */,
 				4349C83B1EA8ADEF00FE964B /* MPObjectSelector.m in Sources */,
-				3012ED951E97E5260009027D /* TextInputLayer.cpp in Sources */,
 				4349C85B1EA8ADEF00FE964B /* UIImage+MPAverageColor.m in Sources */,
 				4349C8511EA8ADEF00FE964B /* MPUIImageToNSDictionaryValueTransformer.m in Sources */,
 				4349C83F1EA8ADEF00FE964B /* MPPassThroughValueTransformer.m in Sources */,
@@ -1315,7 +1291,6 @@
 				4349C8301EA8ADEF00FE964B /* MPDesignerTrackMessage.m in Sources */,
 				4349C8141EA8ADEF00FE964B /* Mixpanel.m in Sources */,
 				92448AEE21F77F5400E88C9D /* TutorialController.cpp in Sources */,
-				3012ED901E97DCC00009027D /* ElectricDreamsDecoration.cpp in Sources */,
 				92EC0C59223177D500B02F20 /* ShopDisplay.cpp in Sources */,
 				4349C81E1EA8ADEF00FE964B /* MPABTestDesignerDeviceInfoRequestMessage.m in Sources */,
 				4349C8131EA8ADEF00FE964B /* Mixpanel+AutomaticEvents.m in Sources */,
@@ -1337,7 +1312,6 @@
 				3012EDA11E97E6A40009027D /* ImageDownloader.cpp in Sources */,
 				302E84791ED1B992006A498C /* ObservableLayout.cpp in Sources */,
 				4349C8161EA8ADEF00FE964B /* MixpanelPeople.m in Sources */,
-				301CCA901EB13191009ADA0C /* ElectricDreamsButton.cpp in Sources */,
 				92E58571221AC47C0015A4FA /* InventoryItem.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

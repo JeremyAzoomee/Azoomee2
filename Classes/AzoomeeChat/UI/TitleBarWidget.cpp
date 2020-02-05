@@ -1,7 +1,6 @@
 #include "TitleBarWidget.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 
 using namespace cocos2d;
@@ -96,7 +95,8 @@ bool TitleBarWidget::init()
     _warningImageRight->setAnchorPoint(Vec2(0.5f, 0.5f));
     _reportedChatTitleBar->addChild(_warningImageRight);
     
-    _warningLabel = createLabelWith(_("This chat has been reported. Get your parent to reset it."), Style::Font::Regular(), Style::Color::black, 64);
+    _warningLabel = Label::createWithTTF(_("This chat has been reported. Get your parent to reset it."), Style::Font::Regular(), 64);
+    _warningLabel->setTextColor(Color4B(Style::Color::black));
     _warningLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     _reportedChatTitleBar->addChild(_warningLabel);
     

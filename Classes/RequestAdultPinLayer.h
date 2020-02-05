@@ -4,7 +4,7 @@
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/Azoomee.h>
-#include <AzoomeeCommon/Input/TextInputLayer.h>
+#include "TextInputLayer.h"
 #include <AzoomeeCommon/API/HttpRequestCreator.h>
 
 NS_AZOOMEE_BEGIN

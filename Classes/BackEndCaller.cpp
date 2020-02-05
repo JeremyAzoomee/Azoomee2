@@ -11,7 +11,7 @@
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
 #include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
-#include <AzoomeeCommon/ErrorCodes.h>
+#include "ErrorCodes.h"
 #include "HQHistoryManager.h"
 #include "LoginController.h"
 #include "ChildSelectorScene.h"

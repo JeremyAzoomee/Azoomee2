@@ -11,7 +11,7 @@
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
-#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
+#include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/NativeShare/NativeShare.h>
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
@@ -112,7 +112,7 @@ void KidDetailsLayer::onEnter()
     _nameText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _nameText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _nameText->setTextColor(Color4B::BLACK);
-    reduceLabelTextToFitWidth(_nameText, _nameLayout->getContentSize().width * 0.8f);
+    StringFunctions::reduceLabelTextToFitWidth(_nameText, _nameLayout->getContentSize().width * 0.8f);
     _displayNameLayout->addChild(_nameText);
     
     _editNameButton = ui::Button::create("res/settings/edit_button_circle.png");
@@ -322,7 +322,7 @@ void KidDetailsLayer::onHttpRequestSuccess(const std::string& requestTag, const 
 			
 			UserAccountManager::getInstance()->parseChildUpdateData(_child->getId(), body);
 			_nameText->setString(_child->getProfileName());
-			reduceLabelTextToFitWidth(_nameText, _nameLayout->getContentSize().width * 0.8f);
+			StringFunctions::reduceLabelTextToFitWidth(_nameText, _nameLayout->getContentSize().width * 0.8f);
 			_editNameButton->setPosition((_displayNameLayout->getContentSize() * 0.5) + Size(_nameText->getContentSize().width * 0.5f,0));
 			_editNameInput->setText(_child->getProfileName());
 		}

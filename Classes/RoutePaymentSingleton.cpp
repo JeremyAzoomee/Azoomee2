@@ -15,7 +15,7 @@
 #include "PopupMessageBox.h"
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/ErrorCodes.h>
+#include "ErrorCodes.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     #include "platform/android/jni/JniHelper.h"

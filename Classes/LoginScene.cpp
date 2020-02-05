@@ -16,7 +16,7 @@
 #include <AzoomeeCommon/Device.h>
 #include "LoginController.h"
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
-#include <AzoomeeCommon/ErrorCodes.h>
+#include "ErrorCodes.h"
 
 using namespace cocos2d;
 

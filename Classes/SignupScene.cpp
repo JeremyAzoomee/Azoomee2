@@ -13,7 +13,7 @@
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/ErrorCodes.h>
+#include "ErrorCodes.h"
 #include "SignupEnterEmail.h"
 #include "SignupConfirmEmail.h"
 #include "SignupEnterPassword.h"

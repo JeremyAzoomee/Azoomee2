@@ -7,7 +7,7 @@
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/ErrorCodes.h>
+#include "ErrorCodes.h"
 #include <AzoomeeCommon/Utils/BiometricAuthenticationHandler.h>
 #include <AzoomeeCommon/UI/Scene.h>
 #include "PopupMessageBox.h"
@@ -197,8 +197,6 @@ void RequestAdultPinLayer::addUIObjects()
     {
         editBox_pin->focusAndShowKeyboard();
     }
-    
-    //editBox_pin->focusAndShowKeyboard();
 	
 	_accept->setEnabled(editBox_pin->inputIsValid());
 	editBox_pin->addChild(_accept,1);

@@ -244,4 +244,30 @@ int StringFunctions::compareVersionNumbers(const std::string& targetVersion, con
     return 0;
 }
 
+//----------------- Label too Long Style -------------------
+void StringFunctions::reduceLabelTextToFitWidth(cocos2d::Label* label,float maxWidth)
+{
+    std::string labelText = label->getString();
+    
+    while(label->getContentSize().width > maxWidth)
+    {
+        labelText = labelText.substr(0, labelText.length()-1);
+        
+        label->setString(cocos2d::StringUtils::format("%s...",labelText.c_str()));
+    }
+}
+    
+void StringFunctions::reduceLabelTextToFitWidth(cocos2d::ui::Text* label,float maxWidth)
+{
+    std::string labelText = label->getString();
+    
+    while(label->getContentSize().width > maxWidth)
+    {
+        labelText = labelText.substr(0, labelText.length()-1);
+        
+        label->setString(cocos2d::StringUtils::format("%s...",labelText.c_str()));
+    }
+}
+
+
 NS_AZOOMEE_END
