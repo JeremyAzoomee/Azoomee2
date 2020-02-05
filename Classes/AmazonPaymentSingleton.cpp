@@ -1,6 +1,5 @@
 #include "AmazonPaymentSingleton.h"
 #include "external/json/document.h"
-#include <AzoomeeCommon/UI/MessageBox.h>
 #include "BackEndCaller.h"
 #include "LoginController.h"
 #include "RoutePaymentSingleton.h"

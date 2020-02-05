@@ -3,7 +3,6 @@
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/UI/MessageBox.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "LoginController.h"

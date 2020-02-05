@@ -7,14 +7,13 @@
 #include "TitleBarWidget.h"
 #include "MessageComposer.h"
 #include <AzoomeeCommon/UI/Scene.h>
-#include <AzoomeeCommon/UI/MessageBox.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include "../../RequestAdultPinLayer.h"
 
 NS_AZOOMEE_CHAT_BEGIN
     
-class MessageScene : public Azoomee::Scene, public ChatAPIObserver, public MessageComposer::Delegate, public MessageBoxDelegate, public RequestAdultPinLayerDelegate
+class MessageScene : public Azoomee::Scene, public ChatAPIObserver, public MessageComposer::Delegate, public RequestAdultPinLayerDelegate
 {
     typedef Azoomee::Scene Super;
 private:
@@ -97,7 +96,6 @@ private:
     void onMessageComposerSendMessage(const MessageRef& message) override;
     
     // - MessageBoxDelegate
-    void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle) override;
     void AdultPinCancelled(RequestAdultPinLayer* layer) override;
     void AdultPinAccepted(RequestAdultPinLayer* layer) override;
 

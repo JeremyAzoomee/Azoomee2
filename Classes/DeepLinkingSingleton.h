@@ -3,13 +3,12 @@
 
 #include "cocos2d.h"
 #include <AzoomeeCommon/Azoomee.h>
-#include <AzoomeeCommon/UI/MessageBox.h>
 #include <AzoomeeCommon/Data/Json.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
 
 NS_AZOOMEE_BEGIN
 
-class DeepLinkingSingleton : public cocos2d::Ref, public Azoomee::MessageBoxDelegate
+class DeepLinkingSingleton : public cocos2d::Ref
 {
 private:
     std::string host;
@@ -34,9 +33,6 @@ public:
     void setDeepLink(const std::string& uriString);
     bool actionDeepLink();
     void contentDetailsResponse(const std::string& responseBody);
-    
-    //Delegate Functions
-    void MessageBoxButtonPressed(std::string messageBoxTitle, std::string buttonTitle);
     
     static const std::string kPostContentDeeplinkStr;
 };

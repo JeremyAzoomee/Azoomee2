@@ -120,10 +120,12 @@ std::map<std::string, std::string> LocaleManager::getErrorMessageWithCode(long e
     }
     std::map<std::string, std::string> errorMap;
 	
-	const std::string& titleKey  = getNestedStringFromJson(std::vector<std::string>{errorCodeString,ERROR_TITLE}, _errorMessagesDocument);
-	const std::string& bodyKey = getNestedStringFromJson(std::vector<std::string>{errorCodeString,ERROR_BODY}, _errorMessagesDocument);
-	const std::string& buttonKey = getNestedStringFromJson(std::vector<std::string>{errorCodeString,ERROR_BUTTON}, _errorMessagesDocument);
-	const std::string& buttonRefKey = getNestedStringFromJson(std::vector<std::string>{errorCodeString,ERROR_BUTTON_REFERENCE}, _errorMessagesDocument);
+    const rapidjson::Value& errorStrings = _errorMessagesDocument[errorCodeString.c_str()];
+    
+    const std::string& titleKey  = getStringFromJson(ERROR_TITLE, errorStrings);//getNestedStringFromJson(std::vector<std::string>{errorCodeString,ERROR_TITLE}, _errorMessagesDocument);
+	const std::string& bodyKey = getStringFromJson(ERROR_BODY, errorStrings);//getNestedStringFromJson(std::vector<std::string>{errorCodeString,ERROR_BODY}, _errorMessagesDocument);
+	const std::string& buttonKey = getStringFromJson(ERROR_BUTTON, errorStrings);//getNestedStringFromJson(std::vector<std::string>{errorCodeString,ERROR_BUTTON}, _errorMessagesDocument);
+	const std::string& buttonRefKey = getStringFromJson(ERROR_BUTTON_REFERENCE, errorStrings);//getNestedStringFromJson(std::vector<std::string>{errorCodeString,ERROR_BUTTON_REFERENCE}, _errorMessagesDocument);
 	
     errorMap[ERROR_TITLE] = getStringFromJson(titleKey, _stringsDocument);
     errorMap[ERROR_BODY] = getStringFromJson(bodyKey, _stringsDocument);

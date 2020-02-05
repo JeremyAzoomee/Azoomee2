@@ -3,11 +3,10 @@
 
 #include "cocos2d.h"
 #include <AzoomeeCommon/Azoomee.h>
-#include <AzoomeeCommon/UI/MessageBox.h>
 
 NS_AZOOMEE_BEGIN
 
-class ApplePaymentSingleton : public cocos2d::Ref, public MessageBoxDelegate
+class ApplePaymentSingleton : public cocos2d::Ref
 {
     
 public:
@@ -20,9 +19,6 @@ public:
     
     void transactionStatePurchased(const std::string& receiptData, const std::string& transactionID);
     void onAnswerReceived(const std::string& responseDataString);
-    
-    //Delegate Functions
-    void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
     
 private:
     //For making repeat requests

@@ -1,5 +1,4 @@
 #include "Scene.h"
-#include "MessageBox.h"
 #include "ModalWebview.h"
 #include "ModalMessages.h"
 
@@ -119,18 +118,6 @@ void Scene::onSizeChanged()
 	else
 	{
 		return;
-	}
-	
-	for(auto messageBox : this->getChildren())
-	{
-		if(messageBox->getName() == "MessageBoxLayer")
-		{
-			MessageBox* messageBoxLayer = dynamic_cast<MessageBox*>(messageBox);
-			if(messageBoxLayer)
-			{
-				messageBoxLayer->onSizeChanged();
-			}
-		}
 	}
     
     ModalWebview* modalWebview = dynamic_cast<ModalWebview*>(this->getChildByName("ModalWebview"));

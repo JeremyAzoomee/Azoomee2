@@ -24,6 +24,7 @@
 #include "ForceUpdateSingleton.h"
 #include "IAPProductDataHandler.h"
 #include "ChildCreator.h"
+#include "PopupMessageBox.h"
 
 #include "MarketingAssetManager.h"
 
@@ -571,7 +572,18 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
 		}
 		else
 		{
-        	MessageBox::createWith(errorCode, nullptr);
+        	const auto& errorMessageText = LocaleManager::getInstance()->getErrorMessageWithCode(errorCode);
+                
+            PopupMessageBox* messageBox = PopupMessageBox::create();
+            messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
+            messageBox->setBody(errorMessageText.at(ERROR_BODY));
+            messageBox->setButtonText(_("Back"));
+            messageBox->setButtonColour(Style::Color::darkIndigo);
+            messageBox->setPatternColour(Style::Color::azure);
+            messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+                pSender->removeFromParent();
+            });
+            Director::getInstance()->getRunningScene()->addChild(messageBox, 1);
 		}
     }
     else if(requestTag == API::TagLogin)

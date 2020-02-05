@@ -2,7 +2,6 @@
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/UI/MessageBox.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
@@ -10,6 +9,7 @@
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 #include <AzoomeeCommon/Device.h>
 #include "MessageScene.h"
+#include "../../PopupMessageBox.h"
 
 using namespace cocos2d;
 
@@ -288,7 +288,18 @@ void FriendListScene::onChatAPIGetFriendList(const FriendList& friendList, int a
 void FriendListScene::onChatAPIErrorRecieved(const std::string& requestTag, long errorCode)
 {
     ModalMessages::getInstance()->stopLoading();
-    MessageBox::createWith(ERROR_CODE_SOMETHING_WENT_WRONG, nullptr);
+    const auto& errorMessageText = LocaleManager::getInstance()->getErrorMessageWithCode(errorCode);
+           
+    PopupMessageBox* messageBox = PopupMessageBox::create();
+    messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
+    messageBox->setBody(errorMessageText.at(ERROR_BODY));
+    messageBox->setButtonText(_("Back"));
+    messageBox->setButtonColour(Style::Color::darkIndigo);
+    messageBox->setPatternColour(Style::Color::azure);
+    messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+        pSender->removeFromParent();
+    });
+    addChild(messageBox, 1);
 }
 
 void FriendListScene::onChatAPIModerationStatusChanged(const FriendRef& friendObj)

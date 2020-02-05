@@ -3,7 +3,6 @@
 
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Azoomee.h>
-#include <AzoomeeCommon/UI/MessageBox.h>
 #include <AzoomeeCommon/Utils/FileDownloader.h>
 
 NS_AZOOMEE_BEGIN

@@ -12,6 +12,7 @@
 #include <AzoomeeCommon/ErrorCodes.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
+#include "PopupMessageBox.h"
 
 using namespace cocos2d;
 
@@ -82,7 +83,19 @@ void ChatDelegate::onChatOfflineError(const std::string &requestTag)
 {
 	if(!HQHistoryManager::getInstance()->isOffline())
 	{
-		MessageBox::createWith(ERROR_CODE_OFFLINE, this);
+        const auto& errorMessageText = LocaleManager::getInstance()->getErrorMessageWithCode(ERROR_CODE_OFFLINE);
+               
+        PopupMessageBox* messageBox = PopupMessageBox::create();
+        messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
+        messageBox->setBody(errorMessageText.at(ERROR_BODY));
+        messageBox->setButtonText(_("Back"));
+        messageBox->setButtonColour(Style::Color::darkIndigo);
+        messageBox->setPatternColour(Style::Color::azure);
+        messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+            pSender->removeFromParent();
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OfflineHub));
+        });
+        Director::getInstance()->getRunningScene()->addChild(messageBox, 1);
 	}
 }
 
@@ -109,14 +122,6 @@ void ChatDelegate::onImageDownloadFailed()
         }
     }
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ShareInChatScene));
-}
-
-void ChatDelegate::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
-{
-	if(messageBoxTitle == LocaleManager::getInstance()->getErrorMessageWithCode(ERROR_CODE_OFFLINE).at(ERROR_TITLE))
-	{
-		Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OfflineHub));
-	}
 }
 
 NS_AZOOMEE_END

@@ -11,7 +11,7 @@
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/UI/MessageBox.h>
+#include "PopupMessageBox.h"
 
 using namespace cocos2d;
 
@@ -190,7 +190,18 @@ void FriendRequestLayer::onHttpRequestSuccess(const std::string& requestTag, con
 void FriendRequestLayer::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
     AnalyticsSingleton::getInstance()->settingsConfirmationError(errorCode);
-    MessageBox::createWith(ERROR_CODE_SOMETHING_WENT_WRONG, nullptr);
+    const auto& errorMessageText = LocaleManager::getInstance()->getErrorMessageWithCode(errorCode);
+        
+    PopupMessageBox* messageBox = PopupMessageBox::create();
+    messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
+    messageBox->setBody(errorMessageText.at(ERROR_BODY));
+    messageBox->setButtonText(_("Back"));
+    messageBox->setButtonColour(Style::Color::darkIndigo);
+    messageBox->setPatternColour(Style::Color::azure);
+    messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+        pSender->removeFromParent();
+    });
+    Director::getInstance()->getRunningScene()->addChild(messageBox, 1);
 }
 
 void FriendRequestLayer::onButtonPressed(SettingsMessageBox* pSender, SettingsMessageBoxButtonType type)

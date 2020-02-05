@@ -17,6 +17,7 @@ NS_AZOOMEE_BEGIN
 const char* const BiometricAuthenticationHandler::kBiometricValidationSuccess = "biometricValidationSuccess";
 const char* const BiometricAuthenticationHandler::kBiometricValidationFailure = "biometricValidationFailure";
 const char* const BiometricAuthenticationHandler::kBiometricValidation = "biometricValidation";
+const char* const BiometricAuthenticationHandler::kBiometricValidationError = "biometricValidationError";
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 const char* const kFingerPrintAuthenticationAvailableJavaMethodName = "fingerPrintAuthenticationAvailable";
@@ -66,15 +67,13 @@ void BiometricAuthenticationHandler::startBiometricAuthentication()
 #if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     IosNativeFunctionsSingleton::getInstance()->doBiometricValidation(false);
 #elif(CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    _waitingForFingerPrint = MessageBox::createWith(_("Waiting for authentication"), kBiometricDialogImage, _("Please authenticate yourself to access parents area"), _("Cancel"), this);
+    //_waitingForFingerPrint = MessageBox::createWith(_("Waiting for authentication"), kBiometricDialogImage, _("Please authenticate yourself to access parents area"), _("Cancel"), this);
     JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, kBiometricStartJavaMethodName);
 #endif
 }
 
 void BiometricAuthenticationHandler::biometricAuthenticationSuccess()
 {
-    removeMessageBoxAndroid();
-
     UserDefault::getInstance()->setIntegerForKey(kBiometricValidation, 1);
     EventCustom event(kBiometricValidationSuccess);
     Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
@@ -82,15 +81,14 @@ void BiometricAuthenticationHandler::biometricAuthenticationSuccess()
 
 void BiometricAuthenticationHandler::biometricAuthenticationFailure()
 {
-    removeMessageBoxAndroid();
-    
     EventCustom event(kBiometricValidationFailure);
     Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
 }
 
 void BiometricAuthenticationHandler::biometricAuthenticationError()
 {
-	removeMessageBoxAndroid();
+    EventCustom event(kBiometricValidationError);
+    Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
 }
 
 void BiometricAuthenticationHandler::biometricAuthenticationNotNeeded()
@@ -98,25 +96,10 @@ void BiometricAuthenticationHandler::biometricAuthenticationNotNeeded()
     UserDefault::getInstance()->setIntegerForKey(kBiometricValidation, -1);
 }
 
-void BiometricAuthenticationHandler::removeMessageBoxAndroid()
-{
-	if(_waitingForFingerPrint)
-	{
-		_waitingForFingerPrint->removeMessageBox();
-		_waitingForFingerPrint = nullptr;
-	}
-}
-
-//messagebox delegate
-
-void BiometricAuthenticationHandler::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
+void BiometricAuthenticationHandler::stopBiometricAuthentication()
 {
 #if(CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    if(buttonTitle == _("Cancel"))
-    {
-        JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, kBiometricStopJavaMethodName);
-    }
-	_waitingForFingerPrint = nullptr; //cancel button auto removes message box, so set to nullptr here so we dont try and remove it again
+    JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, kBiometricStopJavaMethodName);
 #endif
 }
 

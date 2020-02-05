@@ -4,13 +4,12 @@
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/Scene.h>
-#include <AzoomeeCommon/UI/MessageBox.h>
 #include "ForceUpdateSingleton.h"
 #include "ui/UIVideoPlayer.h"
 
 NS_AZOOMEE_BEGIN
 
-class IntroVideoScene: public Azoomee::Scene, MessageBoxDelegate, ForceUpdateDelegate
+class IntroVideoScene: public Azoomee::Scene, ForceUpdateDelegate
 {
     typedef Azoomee::Scene Super;
 private:
@@ -35,7 +34,6 @@ public:
 	
 	//Delegate functions
 	void onForceUpdateCheckFinished(const ForceUpdateResult& result) override;
-	void MessageBoxButtonPressed(std::string messageBoxTitle, std::string buttonTitle) override;
 };
 
 NS_AZOOMEE_END

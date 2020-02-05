@@ -1,7 +1,6 @@
 #include "ModalMessages.h"
 #include <ui/UIEditBox/UIEditBox.h>
 #include "../Analytics/AnalyticsSingleton.h"
-#include "../Mixpanel/Notifications.h"
 #include "Style.h"
 #include "Scene.h"
 #include "../Utils/LocaleManager.h"
@@ -113,18 +112,6 @@ void ModalMessages::startSaving()
 void ModalMessages::stopSaving()
 {
     this->removeLayer();
-}
-
-//-----------------MIXPANEL NOTIFICATIONS--------------------------
-
-void ModalMessages::showMixpanelNotification()
-{
-    showMixPanelNotification();
-}
-
-void ModalMessages::showMixpanelNotificationWithID(int notificationID)
-{
-    showMixPanelNotificationWithID(notificationID);
 }
   
 NS_AZOOMEE_END

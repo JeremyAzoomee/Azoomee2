@@ -4,7 +4,6 @@
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/Azoomee.h>
-#include <AzoomeeCommon/UI/MessageBox.h>
 #include <AzoomeeCommon/UI/Scene.h>
 #include <AzoomeeCommon/UI/DynamicText.h>
 #include "OfflineChecker.h"

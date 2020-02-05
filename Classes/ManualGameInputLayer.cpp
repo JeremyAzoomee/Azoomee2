@@ -1,6 +1,5 @@
 #include "ManualGameInputLayer.h"
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
-#include <AzoomeeCommon/UI/MessageBox.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "GameDataManager.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>

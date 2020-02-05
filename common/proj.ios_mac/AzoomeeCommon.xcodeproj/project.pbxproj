@@ -28,7 +28,6 @@
 		3012ED6F1E96A3140009027D /* TextInputChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED661E96A3140009027D /* TextInputChecker.cpp */; };
 		3012ED701E96A3140009027D /* StringFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED6B1E96A3140009027D /* StringFunctions.cpp */; };
 		3012ED711E96A3140009027D /* LocaleManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED6D1E96A3140009027D /* LocaleManager.cpp */; };
-		3012ED851E97A8F50009027D /* Notifications_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED831E97A8F50009027D /* Notifications_ios.mm */; };
 		3012ED891E97DB450009027D /* ModalMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED871E97DB450009027D /* ModalMessages.cpp */; };
 		3012ED901E97DCC00009027D /* ElectricDreamsDecoration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED8A1E97DCC00009027D /* ElectricDreamsDecoration.cpp */; };
 		3012ED911E97DCC00009027D /* ElectricDreamsTextStyles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED8C1E97DCC00009027D /* ElectricDreamsTextStyles.cpp */; };
@@ -40,7 +39,6 @@
 		3012EDAF1E97E8450009027D /* HMACSHA256.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012EDA51E97E8450009027D /* HMACSHA256.cpp */; };
 		3012EDB01E97E8450009027D /* HMACSHA256_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3012EDA81E97E8450009027D /* HMACSHA256_ios.mm */; };
 		3012EDB21E97E8450009027D /* JWTTool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012EDAB1E97E8450009027D /* JWTTool.cpp */; };
-		301CCA8D1EB13151009ADA0C /* MessageBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301CCA8B1EB13151009ADA0C /* MessageBox.cpp */; };
 		301CCA901EB13191009ADA0C /* ElectricDreamsButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301CCA8E1EB13191009ADA0C /* ElectricDreamsButton.cpp */; };
 		301CCA9A1EB14280009ADA0C /* API.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301CCA981EB14280009ADA0C /* API.cpp */; };
 		30242C74228D672A00B564E4 /* DirUtil_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30242C72228D672A00B564E4 /* DirUtil_ios.mm */; };
@@ -57,7 +55,6 @@
 		30E094BF1EDF0F2B00555891 /* URI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30E094BB1EDF0F2B00555891 /* URI.cpp */; };
 		30E094C01EDF0F2B00555891 /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30E094BD1EDF0F2B00555891 /* Utils.cpp */; };
 		43087FD91F03AC4C00E199EA /* NativeShare_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 43087FD61F03AC4C00E199EA /* NativeShare_ios.mm */; };
-		4318E13A1F289DD500778E9A /* RequestAdultPinLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4318E1381F289DD500778E9A /* RequestAdultPinLayer.cpp */; };
 		4349C8041EA8ADEF00FE964B /* _MPTweakBindObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C7611EA8ADEE00FE964B /* _MPTweakBindObserver.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4349C8131EA8ADEF00FE964B /* Mixpanel+AutomaticEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C7751EA8ADEE00FE964B /* Mixpanel+AutomaticEvents.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4349C8141EA8ADEF00FE964B /* Mixpanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C7771EA8ADEE00FE964B /* Mixpanel.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -169,8 +166,6 @@
 		92EC0C5B223177E700B02F20 /* ShopDisplayItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92EC0C5A223177E700B02F20 /* ShopDisplayItem.cpp */; };
 		92EC0C732232C9F400B02F20 /* Shop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92EC0C712232C9F300B02F20 /* Shop.cpp */; };
 		E21858A1232BC9090062858A /* TileSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21858A0232BC9090062858A /* TileSprite.cpp */; };
-		E21D61B423955E8400C92FC7 /* MessageBoxTextLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21D61B023955E8400C92FC7 /* MessageBoxTextLayer.cpp */; };
-		E21D61B523955E8400C92FC7 /* MessageBoxLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21D61B123955E8400C92FC7 /* MessageBoxLayer.cpp */; };
 		E21F700C23E47F670007EFF9 /* Device.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21F700B23E47F670007EFF9 /* Device.cpp */; };
 		E229F70B233E1465005BA0D4 /* RoundedRectSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E229F70A233E1465005BA0D4 /* RoundedRectSprite.cpp */; };
 		E230584B23E83C530057CFE7 /* AppConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E230584A23E83C530057CFE7 /* AppConfig.cpp */; };
@@ -220,9 +215,6 @@
 		3012ED6C1E96A3140009027D /* StringFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringFunctions.h; sourceTree = "<group>"; };
 		3012ED6D1E96A3140009027D /* LocaleManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LocaleManager.cpp; sourceTree = "<group>"; };
 		3012ED6E1E96A3140009027D /* LocaleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocaleManager.h; sourceTree = "<group>"; };
-		3012ED811E97A8F50009027D /* Notifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Notifications.h; sourceTree = "<group>"; };
-		3012ED821E97A8F50009027D /* Notifications_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Notifications_android.cpp; sourceTree = "<group>"; };
-		3012ED831E97A8F50009027D /* Notifications_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Notifications_ios.mm; sourceTree = "<group>"; };
 		3012ED871E97DB450009027D /* ModalMessages.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModalMessages.cpp; sourceTree = "<group>"; };
 		3012ED881E97DB450009027D /* ModalMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModalMessages.h; sourceTree = "<group>"; };
 		3012ED8A1E97DCC00009027D /* ElectricDreamsDecoration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ElectricDreamsDecoration.cpp; sourceTree = "<group>"; };
@@ -246,8 +238,6 @@
 		3012EDAB1E97E8450009027D /* JWTTool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JWTTool.cpp; sourceTree = "<group>"; };
 		3012EDAC1E97E8450009027D /* JWTTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JWTTool.h; sourceTree = "<group>"; };
 		3018498C1EBCC100005B994A /* Json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Json.h; sourceTree = "<group>"; };
-		301CCA8B1EB13151009ADA0C /* MessageBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageBox.cpp; sourceTree = "<group>"; tabWidth = 4; };
-		301CCA8C1EB13151009ADA0C /* MessageBox.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; path = MessageBox.h; sourceTree = "<group>"; tabWidth = 4; };
 		301CCA8E1EB13191009ADA0C /* ElectricDreamsButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ElectricDreamsButton.cpp; sourceTree = "<group>"; tabWidth = 4; };
 		301CCA8F1EB13191009ADA0C /* ElectricDreamsButton.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; path = ElectricDreamsButton.h; sourceTree = "<group>"; tabWidth = 4; };
 		301CCA981EB14280009ADA0C /* API.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = API.cpp; sourceTree = "<group>"; };
@@ -284,8 +274,6 @@
 		43087FD51F03AC4C00E199EA /* NativeShare_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NativeShare_android.cpp; path = AzoomeeCommon/NativeShare/NativeShare_android.cpp; sourceTree = "<group>"; };
 		43087FD61F03AC4C00E199EA /* NativeShare_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = NativeShare_ios.mm; path = AzoomeeCommon/NativeShare/NativeShare_ios.mm; sourceTree = "<group>"; };
 		43087FD71F03AC4C00E199EA /* NativeShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NativeShare.h; path = AzoomeeCommon/NativeShare/NativeShare.h; sourceTree = "<group>"; };
-		4318E1381F289DD500778E9A /* RequestAdultPinLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RequestAdultPinLayer.cpp; path = ../../../../Classes/RequestAdultPinLayer.cpp; sourceTree = "<group>"; };
-		4318E1391F289DD500778E9A /* RequestAdultPinLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RequestAdultPinLayer.h; path = ../../../../Classes/RequestAdultPinLayer.h; sourceTree = "<group>"; };
 		434858821F3DAE6400C22670 /* UIConsts.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIConsts.h; sourceTree = "<group>"; };
 		4349C7601EA8ADEE00FE964B /* _MPTweakBindObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _MPTweakBindObserver.h; sourceTree = "<group>"; };
 		4349C7611EA8ADEE00FE964B /* _MPTweakBindObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _MPTweakBindObserver.m; sourceTree = "<group>"; };
@@ -505,10 +493,6 @@
 		92EC0C722232C9F400B02F20 /* Shop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shop.h; sourceTree = "<group>"; };
 		E218589F232BC4E80062858A /* TileSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TileSprite.h; sourceTree = "<group>"; };
 		E21858A0232BC9090062858A /* TileSprite.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TileSprite.cpp; sourceTree = "<group>"; };
-		E21D61B023955E8400C92FC7 /* MessageBoxTextLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageBoxTextLayer.cpp; sourceTree = "<group>"; };
-		E21D61B123955E8400C92FC7 /* MessageBoxLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageBoxLayer.cpp; sourceTree = "<group>"; };
-		E21D61B223955E8400C92FC7 /* MessageBoxTextLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageBoxTextLayer.h; sourceTree = "<group>"; };
-		E21D61B323955E8400C92FC7 /* MessageBoxLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageBoxLayer.h; sourceTree = "<group>"; };
 		E21F700A23E47E2F0007EFF9 /* Device.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Device.h; sourceTree = "<group>"; };
 		E21F700B23E47F670007EFF9 /* Device.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Device.cpp; sourceTree = "<group>"; };
 		E229F709233E13D6005BA0D4 /* RoundedRectSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RoundedRectSprite.h; sourceTree = "<group>"; };
@@ -704,20 +688,9 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
-		3012ED801E97A8F50009027D /* Mixpanel */ = {
-			isa = PBXGroup;
-			children = (
-				3012ED811E97A8F50009027D /* Notifications.h */,
-				3012ED821E97A8F50009027D /* Notifications_android.cpp */,
-				3012ED831E97A8F50009027D /* Notifications_ios.mm */,
-			);
-			path = Mixpanel;
-			sourceTree = "<group>";
-		};
 		3012ED861E97DB450009027D /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				E21D61AF23955E8400C92FC7 /* MessageBoxLayers */,
 				302E84751ED1B992006A498C /* ObservableLayout.cpp */,
 				302E84761ED1B992006A498C /* ObservableLayout.h */,
 				302E84771ED1B992006A498C /* SplitLayout.cpp */,
@@ -729,13 +702,9 @@
 				3012ED8C1E97DCC00009027D /* ElectricDreamsTextStyles.cpp */,
 				3012ED8D1E97DCC00009027D /* ElectricDreamsTextStyles.h */,
 				305966A01ECEF5A8009A7130 /* LayoutParams.h */,
-				301CCA8B1EB13151009ADA0C /* MessageBox.cpp */,
-				301CCA8C1EB13151009ADA0C /* MessageBox.h */,
 				3012ED871E97DB450009027D /* ModalMessages.cpp */,
 				3012ED881E97DB450009027D /* ModalMessages.h */,
 				434858821F3DAE6400C22670 /* UIConsts.h */,
-				4318E1381F289DD500778E9A /* RequestAdultPinLayer.cpp */,
-				4318E1391F289DD500778E9A /* RequestAdultPinLayer.h */,
 				436007871F22120C000ECBA4 /* ModalWebview.cpp */,
 				436007881F22120C000ECBA4 /* ModalWebview.h */,
 				305966971ECCAF76009A7130 /* Scene.cpp */,
@@ -848,7 +817,6 @@
 				3012ED961E97E6A40009027D /* ImageDownloader */,
 				3012ED651E96A3140009027D /* Input */,
 				3012EDA31E97E8450009027D /* JWTSigner */,
-				3012ED801E97A8F50009027D /* Mixpanel */,
 				43087FD41F03AC0C00E199EA /* NativeShare */,
 				30E094BA1EDF0F2B00555891 /* Net */,
 				3000FF6D1ED5AB7000E9717C /* Platform */,
@@ -1126,17 +1094,6 @@
 			path = Shop;
 			sourceTree = "<group>";
 		};
-		E21D61AF23955E8400C92FC7 /* MessageBoxLayers */ = {
-			isa = PBXGroup;
-			children = (
-				E21D61B023955E8400C92FC7 /* MessageBoxTextLayer.cpp */,
-				E21D61B123955E8400C92FC7 /* MessageBoxLayer.cpp */,
-				E21D61B223955E8400C92FC7 /* MessageBoxTextLayer.h */,
-				E21D61B323955E8400C92FC7 /* MessageBoxLayer.h */,
-			);
-			path = MessageBoxLayers;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1232,7 +1189,6 @@
 				4349C8371EA8ADEF00FE964B /* MPNotificationViewController.m in Sources */,
 				4349C8331EA8ADEF00FE964B /* MPMiniNotification.m in Sources */,
 				4349C8311EA8ADEF00FE964B /* MPEnumDescription.m in Sources */,
-				301CCA8D1EB13151009ADA0C /* MessageBox.cpp in Sources */,
 				4349C8501EA8ADEF00FE964B /* MPUIFontToNSDictionaryValueTransformer.m in Sources */,
 				92BDD4DC223FB8C100DA56F3 /* NotificationNodeDisplayManager.cpp in Sources */,
 				02BF05F21F98BAAF00E7D086 /* PushNotificationsHandler_ios.mm in Sources */,
@@ -1342,7 +1298,6 @@
 				92448AC421F0ABC000E88C9D /* Parent.cpp in Sources */,
 				4349C82A1EA8ADEF00FE964B /* MPCGPointToNSDictionaryValueTransformer.m in Sources */,
 				4349C81F1EA8ADEF00FE964B /* MPABTestDesignerDeviceInfoResponseMessage.m in Sources */,
-				4318E13A1F289DD500778E9A /* RequestAdultPinLayer.cpp in Sources */,
 				92D1B49622A8178400357513 /* ChildManager.cpp in Sources */,
 				924ACE0C20A4A073007A5550 /* HQStructureDownloadHandler.cpp in Sources */,
 				4349C84D1EA8ADEF00FE964B /* MPUIColorToNSStringValueTransformer.m in Sources */,
@@ -1356,7 +1311,6 @@
 				9271D84720483C0D00370120 /* LazyLoadButtonOnScreenChecker.cpp in Sources */,
 				4349C84A1EA8ADEF00FE964B /* MPTweakInline.m in Sources */,
 				3092BCF01EB10524006D6F4C /* HttpRequestCreator.cpp in Sources */,
-				E21D61B423955E8400C92FC7 /* MessageBoxTextLayer.cpp in Sources */,
 				4349C83A1EA8ADEF00FE964B /* MPObjectIdentityProvider.m in Sources */,
 				4349C8301EA8ADEF00FE964B /* MPDesignerTrackMessage.m in Sources */,
 				4349C8141EA8ADEF00FE964B /* Mixpanel.m in Sources */,
@@ -1382,11 +1336,9 @@
 				9220EBB92021FC9300BD7A90 /* TimeUtils.cpp in Sources */,
 				3012EDA11E97E6A40009027D /* ImageDownloader.cpp in Sources */,
 				302E84791ED1B992006A498C /* ObservableLayout.cpp in Sources */,
-				3012ED851E97A8F50009027D /* Notifications_ios.mm in Sources */,
 				4349C8161EA8ADEF00FE964B /* MixpanelPeople.m in Sources */,
 				301CCA901EB13191009ADA0C /* ElectricDreamsButton.cpp in Sources */,
 				92E58571221AC47C0015A4FA /* InventoryItem.cpp in Sources */,
-				E21D61B523955E8400C92FC7 /* MessageBoxLayer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,6 +8,7 @@
 #include "ForceUpdateAppLockScene.h"
 #include "LanguageSelectScene.h"
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
+#include "PopupMessageBox.h"
 
 #if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     #include <AzoomeeCommon/Utils/IosNativeFunctionsSingleton.h>
@@ -218,8 +219,22 @@ void IntroVideoScene::onForceUpdateCheckFinished(const ForceUpdateResult& result
 		}
 		case ForceUpdateResult::NOTIFY:
 		{
-			std::vector<std::string> buttonNames = {_("OK"), _("Update")};
-			MessageBox::createWith(_("Update recommended"), _("You should update to the latest version of Azoomee. Ask a grown-up to help you."), buttonNames, this);
+            PopupMessageBox* messageBox = PopupMessageBox::create();
+            messageBox->setTitle(_("Update recommended"));
+            messageBox->setBody(_("You should update to the latest version of Azoomee. Ask a grown-up to help you."));
+            messageBox->setButtonText(_("OK"));
+            messageBox->setButtonColour(Style::Color::darkIndigo);
+            messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+                pSender->removeFromParent();
+                this->onForceUpdateCheckFinished(ForceUpdateResult::DO_NOTHING);
+            });
+            messageBox->setSecondButtonText(_("Update"));
+            messageBox->setSecondButtonColour(Style::Color::strongPink);
+            messageBox->setSecondButtonPressedCallback([](PopupMessageBox* pSender){
+                pSender->removeFromParent();
+                Director::getInstance()->replaceScene(ForceUpdateAppLockScene::create());
+            });
+            addChild(messageBox, 1);
 			break;
 		}
 		case ForceUpdateResult::LOCK:
@@ -228,25 +243,6 @@ void IntroVideoScene::onForceUpdateCheckFinished(const ForceUpdateResult& result
 		}
 		default:
 			break;
-	}
-}
-
-void IntroVideoScene::MessageBoxButtonPressed(std::string messageBoxTitle, std::string buttonTitle)
-{
-	if(buttonTitle == _("Update"))
-	{
-		Application::getInstance()->openURL(ForceUpdateSingleton::getInstance()->getUpdateUrlFromFile());
-	}
-	else
-	{
-		if(!UserAccountManager::getInstance()->userHasLoggedInOnDevice())
-		{
-            LoginController::getInstance()->anonLogin();
-		}
-		else
-		{
-			LoginController::getInstance()->doLoginLogic();
-		}
 	}
 }
 

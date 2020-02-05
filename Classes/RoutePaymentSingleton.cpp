@@ -8,11 +8,14 @@
 #include <AzoomeeCommon/Utils/DirUtil.h>
 #include "LoginController.h"
 #include "BackEndCaller.h"
-#include <AzoomeeCommon/UI/MessageBox.h>
 #include "FlowDataSingleton.h"
 #include "SceneManagerScene.h"
 #include "AzoomeeCommon/Data/Child/ChildManager.h"
 #include <AzoomeeCommon/Device.h>
+#include "PopupMessageBox.h"
+#include <AzoomeeCommon/Utils/LocaleManager.h>
+#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/ErrorCodes.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     #include "platform/android/jni/JniHelper.h"
@@ -157,7 +160,19 @@ void RoutePaymentSingleton::backendRequestFailed(long errorCode)
     }
     else // generic error message for 400 and 403 errors where either the request was invalid or signatures didnt match up do access was denied
     {
-        MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, this);
+        const auto& errorMessageText = LocaleManager::getInstance()->getErrorMessageWithCode(ERROR_CODE_PURCHASE_FAILURE);
+               
+        PopupMessageBox* messageBox = PopupMessageBox::create();
+        messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
+        messageBox->setBody(errorMessageText.at(ERROR_BODY));
+        messageBox->setButtonText(_("Back"));
+        messageBox->setButtonColour(Style::Color::darkIndigo);
+        messageBox->setPatternColour(Style::Color::azure);
+        messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+            pSender->removeFromParent();
+            LoginController::getInstance()->doLoginLogic();
+        });
+        Director::getInstance()->getRunningScene()->addChild(messageBox, 1);
     }
 }
 
@@ -172,14 +187,36 @@ void RoutePaymentSingleton::doublePurchaseMessage()
 {
     AnalyticsSingleton::getInstance()->iapSubscriptionDoublePurchaseEvent();
     Azoomee::ModalMessages::getInstance()->stopLoading();
-    MessageBox::createWith(ERROR_CODE_PURCHASE_DOUBLE, nullptr);
+    const auto& errorMessageText = LocaleManager::getInstance()->getErrorMessageWithCode(ERROR_CODE_PURCHASE_DOUBLE);
+           
+    PopupMessageBox* messageBox = PopupMessageBox::create();
+    messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
+    messageBox->setBody(errorMessageText.at(ERROR_BODY));
+    messageBox->setButtonText(_("Back"));
+    messageBox->setButtonColour(Style::Color::darkIndigo);
+    messageBox->setPatternColour(Style::Color::azure);
+    messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+        pSender->removeFromParent();
+    });
+    Director::getInstance()->getRunningScene()->addChild(messageBox, 1);
 }
 
 void RoutePaymentSingleton::failedRestoreMessage()
 {
 	AnalyticsSingleton::getInstance()->iapSubscriptionErrorEvent("failed restore - no purchase");
 	Azoomee::ModalMessages::getInstance()->stopLoading();
-	MessageBox::createWith(ERROR_CODE_APPLE_NO_PREVIOUS_PURCHASE, nullptr);
+    const auto& errorMessageText = LocaleManager::getInstance()->getErrorMessageWithCode(ERROR_CODE_APPLE_NO_PREVIOUS_PURCHASE);
+           
+    PopupMessageBox* messageBox = PopupMessageBox::create();
+    messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
+    messageBox->setBody(errorMessageText.at(ERROR_BODY));
+    messageBox->setButtonText(_("Back"));
+    messageBox->setButtonColour(Style::Color::darkIndigo);
+    messageBox->setPatternColour(Style::Color::azure);
+    messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+        pSender->removeFromParent();
+    });
+    Director::getInstance()->getRunningScene()->addChild(messageBox, 1);
 }
 
 void RoutePaymentSingleton::canceledAction()
@@ -324,12 +361,6 @@ void RoutePaymentSingleton::createReceiptDataFolder()
 std::string RoutePaymentSingleton::getIapSkuForProvider(const std::string& provider)
 {
     return getStringFromJson(provider, _iapConfiguration);
-}
-
-//Delegate Functions
-void RoutePaymentSingleton::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
-{
-    LoginController::getInstance()->doLoginLogic();
 }
 
 NS_AZOOMEE_END

@@ -8,6 +8,10 @@
 #include "LoginController.h"
 #include "RoutePaymentSingleton.h"
 #include "FlowDataSingleton.h"
+#include "PopupMessageBox.h"
+#include <AzoomeeCommon/Utils/LocaleManager.h>
+#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/ErrorCodes.h>
 
 using namespace cocos2d;
 
@@ -107,7 +111,19 @@ void ApplePaymentSingleton::onAnswerReceived(const std::string& responseDataStri
         if(UserAccountManager::getInstance()->isPaidUser())
         {
             ModalMessages::getInstance()->stopLoading();
-            MessageBox::createWith(ERROR_CODE_APPLE_ACCOUNT_DOWNGRADED, this);
+            const auto& errorMessageText = LocaleManager::getInstance()->getErrorMessageWithCode(ERROR_CODE_APPLE_ACCOUNT_DOWNGRADED);
+                   
+            PopupMessageBox* messageBox = PopupMessageBox::create();
+            messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
+            messageBox->setBody(errorMessageText.at(ERROR_BODY));
+            messageBox->setButtonText(_("Back"));
+            messageBox->setButtonColour(Style::Color::darkIndigo);
+            messageBox->setPatternColour(Style::Color::azure);
+            messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+                pSender->removeFromParent();
+                LoginController::getInstance()->doLoginLogic();
+            });
+            Director::getInstance()->getRunningScene()->addChild(messageBox, 1);
         }
         else
         {
@@ -115,12 +131,6 @@ void ApplePaymentSingleton::onAnswerReceived(const std::string& responseDataStri
             return;
         }
     }
-}
-
-//---------Delegate Functions----------
-void ApplePaymentSingleton::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
-{
-    LoginController::getInstance()->doLoginLogic();
 }
 
 NS_AZOOMEE_END

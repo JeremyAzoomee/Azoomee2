@@ -13,8 +13,9 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/UI/MessageBox.h>
 #include "FriendRequestLayer.h"
+#include "PopupMessageBox.h"
+#include <AzoomeeCommon/ErrorCodes.h>
 
 using namespace cocos2d;
 
@@ -95,7 +96,18 @@ void SettingsFriendshipsPage::onHttpRequestFailed(const std::string& requestTag,
 {
     AnalyticsSingleton::getInstance()->settingsPendingFriendRequestsRefreshError(errorCode);
     ModalMessages::getInstance()->stopLoading();
-    MessageBox::createWith(ERROR_CODE_SOMETHING_WENT_WRONG, nullptr);
+    const auto& errorMessageText = LocaleManager::getInstance()->getErrorMessageWithCode(errorCode);
+        
+    PopupMessageBox* messageBox = PopupMessageBox::create();
+    messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
+    messageBox->setBody(errorMessageText.at(ERROR_BODY));
+    messageBox->setButtonText(_("Back"));
+    messageBox->setButtonColour(Style::Color::darkIndigo);
+    messageBox->setPatternColour(Style::Color::azure);
+    messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+        pSender->removeFromParent();
+    });
+    this->addChild(messageBox, 1);
 }
 NS_AZOOMEE_END
 

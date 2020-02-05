@@ -12,7 +12,6 @@
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "LoginController.h"
-#include <AzoomeeCommon/UI/MessageBox.h>
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include "WebGameAPIDataManager.h"

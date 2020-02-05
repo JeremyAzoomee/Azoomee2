@@ -5,7 +5,6 @@
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/Input/TextInputLayer.h>
-#include <AzoomeeCommon/UI/MessageBox.h>
 #include <AzoomeeCommon/API/HttpRequestCreator.h>
 
 NS_AZOOMEE_BEGIN
@@ -19,12 +18,15 @@ public:
     virtual void AdultPinAccepted(RequestAdultPinLayer* layer) = 0;
 };
 
-class RequestAdultPinLayer : public cocos2d::ui::Layout, public TextInputLayerDelegate, public MessageBoxDelegate, public Azoomee::HttpRequestCreatorResponseDelegate
+class RequestAdultPinLayer : public cocos2d::ui::Layout, public TextInputLayerDelegate, public Azoomee::HttpRequestCreatorResponseDelegate
 {
     typedef cocos2d::ui::Layout Super;
 private:
     cocos2d::EventListenerCustom* _biometricValidationSuccessListener = nullptr;
     cocos2d::EventListenerCustom* _biometricValidationFailureListener = nullptr;
+    cocos2d::EventListenerCustom* _biometricValidationErrorListener = nullptr;
+    
+    static const std::string kAndroidMsgBoxName;
     
     cocos2d::LayerColor *backgroundLayer = nullptr;
     
@@ -74,7 +76,6 @@ public:
     void textInputReturnPressed(TextInputLayer* inputLayer);
     void editBoxEditingDidBegin(TextInputLayer* inputLayer);
     void editBoxEditingDidEnd(TextInputLayer* inputLayer);
-    void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
     
     void onSizeChanged();
     void checkPinAgainstStoredPin();
