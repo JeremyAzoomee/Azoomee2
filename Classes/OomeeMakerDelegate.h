@@ -9,7 +9,7 @@
 #define OomeeMakerDelegate_h
 
 #include <AzoomeeCommon/Azoomee.h>
-#include <AzoomeeOomeeMaker/AzoomeeOomeeMaker.h>
+#include "AzoomeeOomeeMaker/AzoomeeOomeeMaker.h"
 #include <AzoomeeCommon/API/HttpRequestCreator.h>
 #include <string>
 #include <memory>
