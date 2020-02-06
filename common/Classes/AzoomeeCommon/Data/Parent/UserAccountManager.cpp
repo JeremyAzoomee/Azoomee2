@@ -9,7 +9,6 @@
 #include "../Child/ChildManager.h"
 #include "../../Crashlytics/CrashlyticsConfig.h"
 #include "../../Analytics/AnalyticsSingleton.h"
-#include "../../Utils/PushNotificationsHandler.h"
 #include "../../API/API.h"
 #include "../../Utils/StringFunctions.h"
 #include "../Cookie/CookieManager.h"
@@ -319,8 +318,6 @@ bool UserAccountManager::parseParentLoginData(const std::string &responseData)
 		createCrashlyticsUserInfo(_parent->getId(), "");
 		AnalyticsSingleton::getInstance()->registerAccountStatus(_parent->getActorStatus());
 		
-		PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel(_parent->getId());
-		
 		return true;
 	}
 	
@@ -536,8 +533,6 @@ void UserAccountManager::retrieveParentLoginDataFromUserDefaults()
 	createCrashlyticsUserInfo(parent->getId(), "");
 	AnalyticsSingleton::getInstance()->registerAccountStatus(parent->getActorStatus());
 	AnalyticsSingleton::getInstance()->registerAzoomeeEmail(parent->getEmail());
-	
-	PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel(parent->getId());
 }
 
 bool UserAccountManager::hasParentLoginDataInUserDefaults()

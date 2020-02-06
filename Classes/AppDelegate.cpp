@@ -5,7 +5,6 @@
 #include "NativeContentInterface_ios.h"
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Utils/PushNotificationsHandler.h>
 #include "FlowDataSingleton.h"
 #include "ErrorCodes.h"
 #include "ContentHistoryManager.h"
@@ -48,8 +47,6 @@ bool AppDelegate::applicationDidFinishLaunching()
     SessionIdManager::getInstance();
     AnalyticsSingleton::getInstance()->setLandscapeOrientation();
     AnalyticsSingleton::getInstance()->firstLaunchEvent();
-    
-    PushNotificationsHandler::getInstance()->resetExistingNotifications();
 	
     IAPProductDataHandler::getInstance()->fetchProductData();
     
@@ -103,8 +100,7 @@ void AppDelegate::applicationWillEnterForeground()
     
     AnalyticsSingleton::getInstance()->enteredForegroundEvent();
     SessionIdManager::getInstance()->registerAppCameForegroundEvent();
-	
-    PushNotificationsHandler::getInstance()->resetExistingNotifications();
+
 	
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 	if(Director::getInstance()->getRunningScene()->getChildByName(WebViewSelector::kIosWebviewName))

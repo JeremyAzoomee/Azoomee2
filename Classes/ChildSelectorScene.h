@@ -9,7 +9,7 @@
 #include <AzoomeeCommon/UI/Scene.h>
 #include <AzoomeeCommon/UI/DynamicText.h>
 #include <AzoomeeCommon/UI/RoundedRectSprite.h>
-#include <AzoomeeCommon/UI/CTAButton.h>
+#include <AzoomeeCommon/UI/TextButton.h>
 #include <AzoomeeCommon/Data/Child/Child.h>
 #include "ForceUpdateSingleton.h"
 
@@ -23,7 +23,7 @@ private:
     static const cocos2d::Size kBaseButtonSize;
     
     DynamicText* _titleText = nullptr;
-    CTAButton* _settingsButton = nullptr;
+    TextButton* _settingsButton = nullptr;
     RoundedRectSprite* _bgPattern = nullptr;
     cocos2d::LayerGradient* _gradient = nullptr;
     cocos2d::ui::Layout* _titleLayout = nullptr;

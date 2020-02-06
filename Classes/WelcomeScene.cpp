@@ -76,7 +76,7 @@ bool WelcomeScene::init()
     _text->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,20,0,0)));
     _body->addChild(_text);
     
-    _button = CTAButton::create("res/settings/rounded_button.png");
+    _button = TextButton::create("res/settings/rounded_button.png");
     _button->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,20,0,0)));
     _button->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _button->ignoreContentAdaptWithSize(false);

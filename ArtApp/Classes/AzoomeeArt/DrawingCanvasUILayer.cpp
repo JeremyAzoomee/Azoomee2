@@ -11,7 +11,6 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Utils/DirUtil.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Utils/SpecialCalendarEventManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Device.h>
 #include <AzoomeeCommon/Data/AppConfig.h>
@@ -1031,11 +1030,6 @@ void DrawingCanvasUILayer::getStickerFilesFromJSON()
     {
         std::vector<std::pair<std::string,std::string>> catStickers;
         const auto& jsonCatEntry = *it;
-        
-        if(!SpecialCalendarEventManager::getInstance()->checkIfInSeason(SpecialCalendarEventManager::getInstance()->getSeasonFromString(getStringFromJson("season", jsonCatEntry, "any"))))
-        {
-            continue;
-        }
         
         const std::string& catName = jsonCatEntry["image_location"].GetString();
         

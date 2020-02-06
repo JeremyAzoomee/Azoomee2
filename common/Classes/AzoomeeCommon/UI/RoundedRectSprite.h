@@ -12,7 +12,10 @@
 #include <cocos/cocos2d.h>
 
 NS_AZOOMEE_BEGIN
-
+/*
+   OpenGL ES only supports repeating textures when texture sizes are a power of 2, so this class will only work as intended
+   when using tile mode if Po2 textures are passed into it.
+*/
 class RoundedRectSprite : public cocos2d::Sprite
 {
     typedef cocos2d::Sprite Super;

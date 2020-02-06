@@ -79,7 +79,7 @@ bool ChildSelectorScene::init()
     _titleText->enableShadow(Color4B(0,0,0,125), Size(4,-8));
     _titleLayout->addChild(_titleText);
     
-    _settingsButton = CTAButton::create("res/onboarding/rounded_button.png");
+    _settingsButton = TextButton::create("res/onboarding/rounded_button.png");
     _settingsButton->ignoreContentAdaptWithSize(false);
     _settingsButton->setScale9Enabled(true);
     _settingsButton->setContentSize(Size(700,140));

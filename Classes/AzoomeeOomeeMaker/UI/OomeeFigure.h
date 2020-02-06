@@ -92,6 +92,8 @@ public:
     int getUndoStackSize() const;
     
     CREATE_FUNC(OomeeFigure);
+    
+    static bool touchOnSpritePixelPerfect(cocos2d::Touch* touch, cocos2d::Sprite* targetSprite);
 };
 
 NS_AZOOMEE_OM_END

@@ -1,5 +1,5 @@
 //
-//  CTAButton.h
+//  TextButton.h
 //  AzoomeeCommon
 //
 //  Created by Macauley on 30/07/2019.
@@ -13,7 +13,7 @@
 
 NS_AZOOMEE_BEGIN
 
-class CTAButton : public cocos2d::ui::Button
+class TextButton : public cocos2d::ui::Button
 {
 	typedef cocos2d::ui::Button Super;
 private:
@@ -22,7 +22,7 @@ private:
 	
 public:
 	
-	static CTAButton* create(const std::string& normalImage);
+	static TextButton* create(const std::string& normalImage);
 	
 	bool init() override;
 	void onSizeChanged() override;
@@ -33,7 +33,7 @@ public:
 	void setTextColour(const cocos2d::Color4B& colour);
 	void setTextFontInfo(const std::string& font, int fontSize);
 	
-	CREATE_FUNC(CTAButton);
+	CREATE_FUNC(TextButton);
 };
 
 NS_AZOOMEE_END

@@ -1,25 +1,25 @@
 //
-//  CTAButton.cpp
+//  TextButton.cpp
 //  AzoomeeCommon
 //
 //  Created by Macauley on 30/07/2019.
 //
 
-#include "CTAButton.h"
+#include "TextButton.h"
 #include "Style.h"
 
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-CTAButton* CTAButton::create(const std::string& normalImage)
+TextButton* TextButton::create(const std::string& normalImage)
 {
-	CTAButton* button = CTAButton::create();
+	TextButton* button = TextButton::create();
 	button->loadTextureNormal(normalImage);
 	return button;
 }
 
-bool CTAButton::init()
+bool TextButton::init()
 {
 	if(!Super::init())
 	{
@@ -38,31 +38,31 @@ bool CTAButton::init()
 	
 	return true;
 }
-void CTAButton::onSizeChanged()
+void TextButton::onSizeChanged()
 {
 	Super::onSizeChanged();
 	
 	_buttonText->setDimensions(getContentSize().width * _textSizePercent.x, getContentSize().height * _textSizePercent.y);
 }
 
-void CTAButton::setOverflow(const cocos2d::Label::Overflow& overflow)
+void TextButton::setOverflow(const cocos2d::Label::Overflow& overflow)
 {
 	_buttonText->setOverflow(overflow);
 }
-void CTAButton::setTextAreaSizePercent(const cocos2d::Vec2& sizePercent)
+void TextButton::setTextAreaSizePercent(const cocos2d::Vec2& sizePercent)
 {
 	_textSizePercent = sizePercent;
 	_buttonText->setDimensions(getContentSize().width * _textSizePercent.x, getContentSize().height * _textSizePercent.y);
 }
-void CTAButton::setText(const std::string& text)
+void TextButton::setText(const std::string& text)
 {
 	_buttonText->setString(text);
 }
-void CTAButton::setTextColour(const cocos2d::Color4B& colour)
+void TextButton::setTextColour(const cocos2d::Color4B& colour)
 {
 	_buttonText->setTextColor(colour);
 }
-void CTAButton::setTextFontInfo(const std::string& font, int fontSize)
+void TextButton::setTextFontInfo(const std::string& font, int fontSize)
 {
 	TTFConfig config = _buttonText->getTTFConfig();
 	config.fontFilePath = font;

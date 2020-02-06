@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		021564901FC5F3DC00641C14 /* SpecialCalendarEventManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0215648F1FC5F3DC00641C14 /* SpecialCalendarEventManager.cpp */; };
 		021B1FC91F838A0A0044DCF7 /* HQCarouselObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 021B1FC11F838A0A0044DCF7 /* HQCarouselObject.cpp */; };
 		021B1FCA1F838A0A0044DCF7 /* HQContentItemObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 021B1FC31F838A0A0044DCF7 /* HQContentItemObject.cpp */; };
 		021B1FCB1F838A0A0044DCF7 /* HQDataObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 021B1FC51F838A0A0044DCF7 /* HQDataObject.cpp */; };
@@ -19,7 +18,6 @@
 		02BEDF2E1FE1327500D4C9B3 /* ContentItemManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02BEDF2C1FE1327500D4C9B3 /* ContentItemManager.cpp */; };
 		02BF05E01F97828E00E7D086 /* AirshipKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02BF05DF1F97828D00E7D086 /* AirshipKit.framework */; };
 		02BF05E21F97829E00E7D086 /* AirshipKit.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 02BF05E11F97829E00E7D086 /* AirshipKit.framework.dSYM */; };
-		02BF05F21F98BAAF00E7D086 /* PushNotificationsHandler_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02BF05F01F98BAAE00E7D086 /* PushNotificationsHandler_ios.mm */; };
 		3000FF751ED5AB7100E9717C /* AzoomeeAppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3000FF711ED5AB7000E9717C /* AzoomeeAppController.mm */; };
 		3000FF761ED5AB7100E9717C /* AzoomeeViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3000FF731ED5AB7000E9717C /* AzoomeeViewController.mm */; };
 		3000FF7B1ED5BBB700E9717C /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3000FF791ED5BBB700E9717C /* Application.cpp */; };
@@ -143,11 +141,10 @@
 		9261739F1F2A3E4A008E3F9D /* OnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9261739E1F2A3E4A008E3F9D /* OnScreenChecker.cpp */; };
 		9271D8452048311A00370120 /* LazyLoadingButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D8442048311A00370120 /* LazyLoadingButton.cpp */; };
 		9271D84720483C0D00370120 /* LazyLoadButtonOnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D84620483C0D00370120 /* LazyLoadButtonOnScreenChecker.cpp */; };
-		9271D888204EE7EE00370120 /* SpriteUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D887204EE7EE00370120 /* SpriteUtils.cpp */; };
 		9271D88B2051725C00370120 /* CCSpriteWithHue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D8892051725800370120 /* CCSpriteWithHue.cpp */; };
 		92759E9E1FE410BB00639190 /* FileDownloader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92759E9D1FE410BB00639190 /* FileDownloader.cpp */; };
 		929E8B6B2153F06E0078C983 /* ConfirmCancelMessageBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929E8B6A2153F06E0078C983 /* ConfirmCancelMessageBox.cpp */; };
-		929FB10A22F08CFF0088D406 /* CTAButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929FB10922F08CFF0088D406 /* CTAButton.cpp */; };
+		929FB10A22F08CFF0088D406 /* TextButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929FB10922F08CFF0088D406 /* TextButton.cpp */; };
 		929FB10D22F096B30088D406 /* DynamicText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929FB10C22F096B30088D406 /* DynamicText.cpp */; };
 		92BDD4C72237BC0800DA56F3 /* ShopDataDownloadHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4C62237BC0800DA56F3 /* ShopDataDownloadHandler.cpp */; };
 		92BDD4CA2237D39E00DA56F3 /* DataDownloadHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BDD4C92237D39E00DA56F3 /* DataDownloadHandler.cpp */; };
@@ -161,15 +158,12 @@
 		92EC0C59223177D500B02F20 /* ShopDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92EC0C58223177D500B02F20 /* ShopDisplay.cpp */; };
 		92EC0C5B223177E700B02F20 /* ShopDisplayItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92EC0C5A223177E700B02F20 /* ShopDisplayItem.cpp */; };
 		92EC0C732232C9F400B02F20 /* Shop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92EC0C712232C9F300B02F20 /* Shop.cpp */; };
-		E21858A1232BC9090062858A /* TileSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21858A0232BC9090062858A /* TileSprite.cpp */; };
 		E21F700C23E47F670007EFF9 /* Device.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21F700B23E47F670007EFF9 /* Device.cpp */; };
 		E229F70B233E1465005BA0D4 /* RoundedRectSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E229F70A233E1465005BA0D4 /* RoundedRectSprite.cpp */; };
 		E230584B23E83C530057CFE7 /* AppConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E230584A23E83C530057CFE7 /* AppConfig.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0215648E1FC5F3DB00641C14 /* SpecialCalendarEventManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpecialCalendarEventManager.h; sourceTree = "<group>"; };
-		0215648F1FC5F3DC00641C14 /* SpecialCalendarEventManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpecialCalendarEventManager.cpp; sourceTree = "<group>"; };
 		021B1FC11F838A0A0044DCF7 /* HQCarouselObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HQCarouselObject.cpp; path = HQDataObject/HQCarouselObject.cpp; sourceTree = "<group>"; };
 		021B1FC21F838A0A0044DCF7 /* HQCarouselObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HQCarouselObject.h; path = HQDataObject/HQCarouselObject.h; sourceTree = "<group>"; };
 		021B1FC31F838A0A0044DCF7 /* HQContentItemObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HQContentItemObject.cpp; path = HQDataObject/HQContentItemObject.cpp; sourceTree = "<group>"; };
@@ -190,9 +184,6 @@
 		02BEDF2D1FE1327500D4C9B3 /* ContentItemManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContentItemManager.h; path = HQDataObject/ContentItemManager.h; sourceTree = "<group>"; };
 		02BF05DF1F97828D00E7D086 /* AirshipKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AirshipKit.framework; sourceTree = "<group>"; };
 		02BF05E11F97829E00E7D086 /* AirshipKit.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; path = AirshipKit.framework.dSYM; sourceTree = "<group>"; };
-		02BF05EE1F98B80B00E7D086 /* PushNotificationsHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushNotificationsHandler.h; sourceTree = "<group>"; };
-		02BF05F01F98BAAE00E7D086 /* PushNotificationsHandler_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PushNotificationsHandler_ios.mm; sourceTree = "<group>"; };
-		02BF05F11F98BAAF00E7D086 /* PushNotificationsHandler_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PushNotificationsHandler_android.cpp; sourceTree = "<group>"; };
 		3000FF701ED5AB7000E9717C /* AzoomeeAppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AzoomeeAppController.h; sourceTree = "<group>"; };
 		3000FF711ED5AB7000E9717C /* AzoomeeAppController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AzoomeeAppController.mm; sourceTree = "<group>"; };
 		3000FF721ED5AB7000E9717C /* AzoomeeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AzoomeeViewController.h; sourceTree = "<group>"; };
@@ -438,16 +429,14 @@
 		9271D84320482E9700370120 /* LazyLoadButtonOnScreenChecker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LazyLoadButtonOnScreenChecker.h; sourceTree = "<group>"; };
 		9271D8442048311A00370120 /* LazyLoadingButton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LazyLoadingButton.cpp; sourceTree = "<group>"; };
 		9271D84620483C0D00370120 /* LazyLoadButtonOnScreenChecker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LazyLoadButtonOnScreenChecker.cpp; sourceTree = "<group>"; };
-		9271D886204EE6AD00370120 /* SpriteUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpriteUtils.h; sourceTree = "<group>"; };
-		9271D887204EE7EE00370120 /* SpriteUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SpriteUtils.cpp; sourceTree = "<group>"; };
 		9271D8892051725800370120 /* CCSpriteWithHue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSpriteWithHue.cpp; sourceTree = "<group>"; };
 		9271D88A2051725B00370120 /* CCSpriteWithHue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSpriteWithHue.h; sourceTree = "<group>"; };
 		92759E9C1FE3DDCA00639190 /* FileDownloader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileDownloader.h; sourceTree = "<group>"; };
 		92759E9D1FE410BB00639190 /* FileDownloader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FileDownloader.cpp; sourceTree = "<group>"; };
 		929E8B692153E85C0078C983 /* ConfirmCancelMessageBox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfirmCancelMessageBox.h; sourceTree = "<group>"; };
 		929E8B6A2153F06E0078C983 /* ConfirmCancelMessageBox.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ConfirmCancelMessageBox.cpp; sourceTree = "<group>"; };
-		929FB10822F085280088D406 /* CTAButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CTAButton.h; sourceTree = "<group>"; };
-		929FB10922F08CFF0088D406 /* CTAButton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CTAButton.cpp; sourceTree = "<group>"; };
+		929FB10822F085280088D406 /* TextButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextButton.h; sourceTree = "<group>"; };
+		929FB10922F08CFF0088D406 /* TextButton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TextButton.cpp; sourceTree = "<group>"; };
 		929FB10B22F094A10088D406 /* DynamicText.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DynamicText.h; sourceTree = "<group>"; };
 		929FB10C22F096B30088D406 /* DynamicText.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicText.cpp; sourceTree = "<group>"; };
 		92B1EC8820A209CB007A58C0 /* ContentItemPoolDownloadHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContentItemPoolDownloadHandler.h; path = HQDataObject/ContentItemPoolDownloadHandler.h; sourceTree = "<group>"; };
@@ -478,8 +467,6 @@
 		92EC0C5A223177E700B02F20 /* ShopDisplayItem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShopDisplayItem.cpp; sourceTree = "<group>"; };
 		92EC0C712232C9F300B02F20 /* Shop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shop.cpp; sourceTree = "<group>"; };
 		92EC0C722232C9F400B02F20 /* Shop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shop.h; sourceTree = "<group>"; };
-		E218589F232BC4E80062858A /* TileSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TileSprite.h; sourceTree = "<group>"; };
-		E21858A0232BC9090062858A /* TileSprite.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TileSprite.cpp; sourceTree = "<group>"; };
 		E21F700A23E47E2F0007EFF9 /* Device.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Device.h; sourceTree = "<group>"; };
 		E21F700B23E47F670007EFF9 /* Device.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Device.cpp; sourceTree = "<group>"; };
 		E229F709233E13D6005BA0D4 /* RoundedRectSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RoundedRectSprite.h; sourceTree = "<group>"; };
@@ -654,19 +641,12 @@
 				9224C00E1F7D13F000108553 /* DirUtil.cpp */,
 				30242C71228D672A00B564E4 /* DirUtil_android.cpp */,
 				30242C72228D672A00B564E4 /* DirUtil_ios.mm */,
-				02BF05F11F98BAAF00E7D086 /* PushNotificationsHandler_android.cpp */,
-				02BF05F01F98BAAE00E7D086 /* PushNotificationsHandler_ios.mm */,
-				02BF05EE1F98B80B00E7D086 /* PushNotificationsHandler.h */,
-				0215648F1FC5F3DC00641C14 /* SpecialCalendarEventManager.cpp */,
-				0215648E1FC5F3DB00641C14 /* SpecialCalendarEventManager.h */,
 				92759E9C1FE3DDCA00639190 /* FileDownloader.h */,
 				92759E9D1FE410BB00639190 /* FileDownloader.cpp */,
 				0240FC942016538B00E88157 /* BiometricAuthenticationHandler.cpp */,
 				0240FC932016538A00E88157 /* BiometricAuthenticationHandler.h */,
 				9220EBB72021F9E900BD7A90 /* TimeUtils.h */,
 				9220EBB82021FC9300BD7A90 /* TimeUtils.cpp */,
-				9271D886204EE6AD00370120 /* SpriteUtils.h */,
-				9271D887204EE7EE00370120 /* SpriteUtils.cpp */,
 				9220EC6820330FE000BD7A90 /* ActionBuilder.h */,
 				9220EC69203313CE00BD7A90 /* ActionBuilder.cpp */,
 			);
@@ -703,12 +683,10 @@
 				92BDD4DA223FAAFF00DA56F3 /* NotificationNodeDisplayManager.h */,
 				92BDD4DB223FB8C100DA56F3 /* NotificationNodeDisplayManager.cpp */,
 				92BDD4DD223FC3E100DA56F3 /* ResizeNode.h */,
-				929FB10822F085280088D406 /* CTAButton.h */,
-				929FB10922F08CFF0088D406 /* CTAButton.cpp */,
+				929FB10822F085280088D406 /* TextButton.h */,
+				929FB10922F08CFF0088D406 /* TextButton.cpp */,
 				929FB10B22F094A10088D406 /* DynamicText.h */,
 				929FB10C22F096B30088D406 /* DynamicText.cpp */,
-				E218589F232BC4E80062858A /* TileSprite.h */,
-				E21858A0232BC9090062858A /* TileSprite.cpp */,
 				E229F709233E13D6005BA0D4 /* RoundedRectSprite.h */,
 				E229F70A233E1465005BA0D4 /* RoundedRectSprite.cpp */,
 			);
@@ -1169,7 +1147,6 @@
 				4349C8311EA8ADEF00FE964B /* MPEnumDescription.m in Sources */,
 				4349C8501EA8ADEF00FE964B /* MPUIFontToNSDictionaryValueTransformer.m in Sources */,
 				92BDD4DC223FB8C100DA56F3 /* NotificationNodeDisplayManager.cpp in Sources */,
-				02BF05F21F98BAAF00E7D086 /* PushNotificationsHandler_ios.mm in Sources */,
 				4349C81A1EA8ADEF00FE964B /* MPABTestDesignerChangeResponseMessage.m in Sources */,
 				021B1FC91F838A0A0044DCF7 /* HQCarouselObject.cpp in Sources */,
 				3012EDB21E97E8450009027D /* JWTTool.cpp in Sources */,
@@ -1212,7 +1189,6 @@
 				921C75AA2193225D00EB93D6 /* Style.cpp in Sources */,
 				4349C8441EA8ADEF00FE964B /* MPSwizzler.m in Sources */,
 				4349C8241EA8ADEF00FE964B /* MPABTestDesignerTweakResponseMessage.m in Sources */,
-				E21858A1232BC9090062858A /* TileSprite.cpp in Sources */,
 				30DD5ED71E965E060084305B /* AnalyticsSingleton.cpp in Sources */,
 				021B1FCA1F838A0A0044DCF7 /* HQContentItemObject.cpp in Sources */,
 				30E094BF1EDF0F2B00555891 /* URI.cpp in Sources */,
@@ -1259,7 +1235,7 @@
 				4349C8261EA8ADEF00FE964B /* MPBOOLToNSNumberValueTransformer.m in Sources */,
 				9261739F1F2A3E4A008E3F9D /* OnScreenChecker.cpp in Sources */,
 				4349C8521EA8ADEF00FE964B /* MPUITableViewBinding.m in Sources */,
-				929FB10A22F08CFF0088D406 /* CTAButton.cpp in Sources */,
+				929FB10A22F08CFF0088D406 /* TextButton.cpp in Sources */,
 				92E58607221F05B10015A4FA /* NotificationNode.cpp in Sources */,
 				4349C84C1EA8ADEF00FE964B /* MPTypeDescription.m in Sources */,
 				3012ED701E96A3140009027D /* StringFunctions.cpp in Sources */,
@@ -1271,7 +1247,6 @@
 				9271D8452048311A00370120 /* LazyLoadingButton.cpp in Sources */,
 				3012EDB01E97E8450009027D /* HMACSHA256_ios.mm in Sources */,
 				92BDD4C72237BC0800DA56F3 /* ShopDataDownloadHandler.cpp in Sources */,
-				021564901FC5F3DC00641C14 /* SpecialCalendarEventManager.cpp in Sources */,
 				92448AC421F0ABC000E88C9D /* Parent.cpp in Sources */,
 				4349C82A1EA8ADEF00FE964B /* MPCGPointToNSDictionaryValueTransformer.m in Sources */,
 				4349C81F1EA8ADEF00FE964B /* MPABTestDesignerDeviceInfoResponseMessage.m in Sources */,
@@ -1306,7 +1281,6 @@
 				4349C8491EA8ADEF00FE964B /* MPTweak.m in Sources */,
 				4349C8351EA8ADEF00FE964B /* MPNotification.m in Sources */,
 				4349C8431EA8ADEF00FE964B /* MPSwizzle.m in Sources */,
-				9271D888204EE7EE00370120 /* SpriteUtils.cpp in Sources */,
 				4349C82D1EA8ADEF00FE964B /* MPClassDescription.m in Sources */,
 				9220EBB92021FC9300BD7A90 /* TimeUtils.cpp in Sources */,
 				3012EDA11E97E6A40009027D /* ImageDownloader.cpp in Sources */,

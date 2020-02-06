@@ -9,7 +9,6 @@
 #include "DragAndDropController.h"
 #include "../DataObjects/OomeeMakerDataStorage.h"
 #include "../DataObjects/OomeeMakerDataHandler.h"
-#include <AzoomeeCommon/Utils/SpriteUtils.h>
 #include <AzoomeeCommon/Utils/DirUtil.h>
 
 using namespace cocos2d;
@@ -437,6 +436,30 @@ Vec2 OomeeFigure::getLocalPositionForAnchorPoint(const std::string& anchorPoint)
     const Vec2& baseSpriteSize = _baseSprite->getContentSize() * _baseSprite->getScale();
     Vec2 anchor = _oomeeData->getAnchorPoints().at(anchorPoint); // dont const& - unstable on android, caused many tears
     return Vec2(layerSize.width * _baseSprite->getNormalizedPosition().x, layerSize.height * _baseSprite->getNormalizedPosition().y) + Vec2(baseSpriteSize.x * anchor.x, baseSpriteSize.y * anchor.y) - (baseSpriteSize / 2.0f);
+}
+
+bool OomeeFigure::touchOnSpritePixelPerfect(Touch* touch, Sprite* targetSprite)
+{
+    Vec2 tap = targetSprite->convertTouchToNodeSpace(touch);
+    Image* imgPtr = new cocos2d::Image();
+    imgPtr->initWithImageFile( targetSprite->getTexture()->getPath());
+    
+    const int width = imgPtr->getWidth();
+    const int height = imgPtr->getHeight();
+    
+    unsigned x = unsigned( tap.x ) % width;
+    /// Don't forget to invert y coordinate.
+    unsigned y = unsigned( height - tap.y ) % height;
+    unsigned index = x + y * width;
+    long dataLen = imgPtr->getDataLen();
+    if(index > dataLen)
+    {
+        return false;
+    }
+    unsigned char* pixel = imgPtr->getData() + (4 * index);
+    bool result = pixel[3] != 0;
+    delete imgPtr;
+    return result;
 }
 
 NS_AZOOMEE_OM_END

@@ -174,10 +174,12 @@ void HQScene::createHeaderUI()
     _titleBanner->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
     addChild(_titleBanner, 1);
     
-    _topPattern = TileSprite::create();
+    _topPattern = RoundedRectSprite::create();
     _topPattern->setTexture("res/decoration/pattern_stem_tile.png");
     _topPattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _topPattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+    _topPattern->setRoundedCorners(false, false, false, false);
+    _topPattern->setScaleMode(RoundedRectSprite::ScaleMode::TILE);
     _topPattern->setColor(Style::Color::macaroniAndCheese);
     _titleBanner->addChild(_topPattern);
     
