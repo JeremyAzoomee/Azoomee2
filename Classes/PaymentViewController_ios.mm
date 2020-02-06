@@ -3,7 +3,6 @@
 #include "RoutePaymentSingleton.h"
 #include "LoginController.h"
 #include "IAPProductDataHandler.h"
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 using namespace Azoomee;
 
@@ -113,7 +112,7 @@ using namespace Azoomee;
     NSMutableArray* productIDList = [NSMutableArray array];
     for(auto productID : productIDs)
     {
-        NSString* idAsNS = [NSString stringWithUTF8String:ConfigStorage::getInstance()->getIapSkuForProvider(productID).c_str()];
+        NSString* idAsNS = [NSString stringWithUTF8String:RoutePaymentSingleton::getInstance()->getIapSkuForProvider(productID).c_str()];
         [productIDList addObject:idAsNS];
     }
     

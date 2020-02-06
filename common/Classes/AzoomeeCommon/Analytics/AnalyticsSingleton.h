@@ -2,7 +2,6 @@
 #define AzoomeeCommon_AnalyticsSingleton_h
 
 #include <cocos/cocos2d.h>
-#include "../Data/ConfigStorage.h"
 #include <time.h>
 #include "../Data/HQDataObject/HQContentItemObject.h"
 #include "AnalyticsProperties.h"

@@ -118,11 +118,14 @@ public:
     
     static HttpRequestCreator* GetForceUpdateInformationRequest(HttpRequestCreatorResponseDelegate* delegate);
     
-    static HttpRequestCreator* UpdateParentPinRequest(HttpRequestCreatorResponseDelegate* delegate);
+    static HttpRequestCreator* UpdateParentPinRequest(const std::string& parentId,
+                                                      HttpRequestCreatorResponseDelegate* delegate);
     
-    static HttpRequestCreator* GetAvailableChildrenRequest(HttpRequestCreatorResponseDelegate* delegate);
+    static HttpRequestCreator* GetAvailableChildrenRequest(const std::string& parentId,
+                                                           HttpRequestCreatorResponseDelegate* delegate);
     
-    static HttpRequestCreator* GetAvailableChildrenRequest(const APIResponseSuccessCallback& onSuccess,
+    static HttpRequestCreator* GetAvailableChildrenRequest(const std::string& parentId,
+                                                           const APIResponseSuccessCallback& onSuccess,
                                                            const APIResponseFailureCallback& onFailure);
     
     static HttpRequestCreator* ChildLoginRequest(const std::string& profileName,
@@ -134,10 +137,12 @@ public:
     
     static HttpRequestCreator* GetSessionCookiesRequest(const std::string& userId,
                                                         const std::string& sessionId,
+                                                        bool parentSigned,
                                                         HttpRequestCreatorResponseDelegate* delegate);
     
     static HttpRequestCreator* GetSessionCookiesRequest(const std::string& userId,
                                                         const std::string& sessionId,
+                                                        bool parentSigned,
                                                         const APIResponseSuccessCallback& onSuccess,
                                                         const APIResponseFailureCallback& onFailure);
     
@@ -183,17 +188,20 @@ public:
                                                  const std::string& imageData,
                                                  HttpRequestCreatorResponseDelegate* delegate);
     
-    static HttpRequestCreator* VerifyGooglePaymentRequest(const std::string& orderId,
+    static HttpRequestCreator* VerifyGooglePaymentRequest(const std::string& parentId,
+                                                          const std::string& orderId,
                                                           const std::string& iapSku,
                                                           const std::string& purchaseToken,
                                                           HttpRequestCreatorResponseDelegate* delegate);
     
-    static HttpRequestCreator* VerifyAmazonPaymentRequest(const std::string& requestId,
+    static HttpRequestCreator* VerifyAmazonPaymentRequest(const std::string& parentId,
+                                                          const std::string& requestId,
                                                           const std::string& receiptId,
                                                           const std::string& amazonUserid,
                                                           HttpRequestCreatorResponseDelegate* delegate);
     
-    static HttpRequestCreator* VerifyApplePaymentRequest(const std::string& receiptData,
+    static HttpRequestCreator* VerifyApplePaymentRequest(const std::string& parentId,
+                                                         const std::string& receiptData,
                                                          const std::string& transactionID,
                                                          HttpRequestCreatorResponseDelegate* delegate);
     
@@ -309,13 +317,14 @@ public:
                                                      const std::string& senderName,
                                                      HttpRequestCreatorResponseDelegate* delegate);
     
-    static HttpRequestCreator* GetPendingFriendRequests(HttpRequestCreatorResponseDelegate* delegate);
+    static HttpRequestCreator* GetPendingFriendRequests(const std::string &userId, HttpRequestCreatorResponseDelegate* delegate);
     
 #pragma mark - Sharing
     
     // Get the chat list for childId
     // userId must be the currently logged in child or parent, or the request will fail
     static HttpRequestCreator* GetChatListRequest(const std::string& userId,
+                                                  bool isParent,
                                                   HttpRequestCreatorResponseDelegate* delegate);
     
     // Get the chat list between childId and friendId
@@ -323,6 +332,7 @@ public:
     static HttpRequestCreator* GetChatMessagesRequest(const std::string& userId,
                                                       const std::string& friendId,
                                                       int pageNumber,
+                                                      bool isParent,
                                                       HttpRequestCreatorResponseDelegate* delegate);
     
     // Send a chat message to friendId
@@ -331,6 +341,7 @@ public:
     static HttpRequestCreator* SendChatMessageRequest(const std::string& userId,
                                                       const std::string& friendId,
                                                       const JsonObjectRepresentation& jsonObject,
+                                                      bool isParent,
                                                       HttpRequestCreatorResponseDelegate* delegate);
     
     // Mark messages between user and friend as read
@@ -338,6 +349,7 @@ public:
     static HttpRequestCreator* MarkReadMessageRequest(const std::string& userId,
                                                       const std::string& friendId,
                                                       const uint64_t& readAt,
+                                                      bool isParent,
                                                       HttpRequestCreatorResponseDelegate* delegate);
     
     static HttpRequestCreator* SendChatReportRequest(const std::string& userId,

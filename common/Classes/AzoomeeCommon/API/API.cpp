@@ -1,10 +1,10 @@
 #include "API.h"
 #include <cocos/cocos2d.h>
 #include <functional>
-#include "../Data/ConfigStorage.h"
 #include "../Utils/SessionIdManager.h"
 #include "../Analytics/AnalyticsSingleton.h"
 #include "../Utils/StringFunctions.h"
+#include "../Data/AppConfig.h"
 
 using namespace cocos2d;
 
@@ -110,11 +110,11 @@ void API::HandleAPIError(cocos2d::network::HttpResponse *response, HttpRequestCr
 	const std::string& requestTag = response->getHttpRequest()->getTag();
 	long errorCode = response->getResponseCode();
 	
-    cocos2d::log("HandleAPIError: %s (%ld) %s %s", requestTag.c_str(), response->getResponseCode(), request->method.c_str(), request->getRequestURL().c_str());
+    cocos2d::log("HandleAPIError: %s (%ld) %s %s", requestTag.c_str(), response->getResponseCode(), request->_method.c_str(), request->getRequestURL().c_str());
 	cocos2d::log("HandleAPIError response: %s", responseDataString.c_str());
-    if(!request->requestBody.empty())
+    if(!request->_requestBody.empty())
     {
-        cocos2d::log("HandleAPIError request body: %s", request->requestBody.c_str());
+        cocos2d::log("HandleAPIError request body: %s", request->_requestBody.c_str());
     }
 	
 	//-----------------------Handle error code--------------------------
@@ -147,12 +147,12 @@ void API::HandleAPIError(cocos2d::network::HttpResponse *response, HttpRequestCr
 HttpRequestCreator* API::IpCheck(HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestTag = TagIpCheck;
-    request->url = "https://icanhazip.azoomee.com";
+    request->_requestTag = TagIpCheck;
+    request->_url = "https://icanhazip.azoomee.com";
 #ifdef AZOOMEE_ENVIRONMENT_CI
-    request->url = "https://icanhazip.azoomee.ninja";
+    request->_url = "https://icanhazip.azoomee.ninja";
 #endif
-    request->encrypted = false;
+    request->_encrypted = false;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -162,15 +162,15 @@ HttpRequestCreator* API::IpCheck(HttpRequestCreatorResponseDelegate* delegate)
 HttpRequestCreator* API::OfflineCheck(HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestTag = TagOfflineCheck;
+    request->_requestTag = TagOfflineCheck;
     
-    request->url = "https://versions.azoomee.com";
+    request->_url = "https://versions.azoomee.com";
     
 #ifdef AZOOMEE_ENVIRONMENT_CI
-    request->url = "http://versions.azoomee.ninja";
+    request->_url = "http://versions.azoomee.ninja";
 #endif
     
-    request->encrypted = false;
+    request->_encrypted = false;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -182,9 +182,10 @@ HttpRequestCreator* API::LoginRequest(const std::string& username,
                                       HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestBody = StringUtils::format("{\"password\": \"%s\",\"userName\": \"%s\",\"appType\": \"CHILD_APP\"}", password.c_str(), username.c_str());
-    request->requestTag = TagLogin;
-    request->method = "POST";
+    request->_requestPath = "/api/auth/login";
+    request->_requestBody = StringUtils::format("{\"password\": \"%s\",\"userName\": \"%s\",\"appType\": \"CHILD_APP\"}", password.c_str(), username.c_str());
+    request->_requestTag = TagLogin;
+    request->_method = "POST";
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -197,9 +198,10 @@ HttpRequestCreator* API::LoginRequest(const std::string& username,
                                       const APIResponseFailureCallback& onFailure)
 {
     HttpRequestCreator* request = new HttpRequestCreator(nullptr);
-    request->requestBody = StringUtils::format("{\"password\": \"%s\",\"userName\": \"%s\",\"appType\": \"CHILD_APP\"}", password.c_str(), username.c_str());
-    request->requestTag = TagLogin;
-    request->method = "POST";
+    request->_requestPath = "/api/auth/login";
+    request->_requestBody = StringUtils::format("{\"password\": \"%s\",\"userName\": \"%s\",\"appType\": \"CHILD_APP\"}", password.c_str(), username.c_str());
+    request->_requestTag = TagLogin;
+    request->_method = "POST";
     request->setRequestCallback([onSuccess, onFailure, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
         HandleAPIResponse(sender, response, request, onSuccess, onFailure);
     });
@@ -209,9 +211,9 @@ HttpRequestCreator* API::LoginRequest(const std::string& username,
 HttpRequestCreator* API::GetAnonCredentials(HttpRequestCreatorResponseDelegate* delegate)
 {
 	HttpRequestCreator* request = new HttpRequestCreator(delegate);
-	request->requestTag = TagGetAnonCredentials;
-	request->requestPath = "/api/user/anonymous/signup";
-	request->requestBody = "{}";
+	request->_requestTag = TagGetAnonCredentials;
+	request->_requestPath = "/api/user/anonymous/signup";
+	request->_requestBody = "{}";
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -222,9 +224,9 @@ HttpRequestCreator* API::GetAnonCredentials(const APIResponseSuccessCallback& on
                                             const APIResponseFailureCallback& onFailure)
 {
     HttpRequestCreator* request = new HttpRequestCreator(nullptr);
-    request->requestTag = TagGetAnonCredentials;
-    request->requestPath = "/api/user/anonymous/signup";
-    request->requestBody = "{}";
+    request->_requestTag = TagGetAnonCredentials;
+    request->_requestPath = "/api/user/anonymous/signup";
+    request->_requestBody = "{}";
     request->setRequestCallback([onSuccess, onFailure, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
         HandleAPIResponse(sender, response, request, onSuccess, onFailure);
     });
@@ -235,9 +237,10 @@ HttpRequestCreator* API::UpdateBillingDataRequest(const std::string& parentId,
 												  HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestTag = TagUpdateBillingData;
-	request->requestPath = StringUtils::format("/api/billing/user/%s/billingStatus", parentId.c_str());
-    request->encrypted = true;
+    request->_requestTag = TagUpdateBillingData;
+	request->_requestPath = StringUtils::format("/api/billing/user/%s/billingStatus", parentId.c_str());
+    request->_encrypted = true;
+    request->_signAsParent = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -249,9 +252,10 @@ HttpRequestCreator* API::UpdateBillingDataRequest(const std::string& parentId,
                                                   const APIResponseFailureCallback& onFailure)
 {
     HttpRequestCreator* request = new HttpRequestCreator(nullptr);
-    request->requestTag = TagUpdateBillingData;
-    request->requestPath = StringUtils::format("/api/billing/user/%s/billingStatus", parentId.c_str());
-    request->encrypted = true;
+    request->_requestTag = TagUpdateBillingData;
+    request->_requestPath = StringUtils::format("/api/billing/user/%s/billingStatus", parentId.c_str());
+    request->_encrypted = true;
+    request->_signAsParent = true;
     request->setRequestCallback([onSuccess, onFailure, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
         HandleAPIResponse(sender, response, request, onSuccess, onFailure);
     });
@@ -261,50 +265,59 @@ HttpRequestCreator* API::UpdateBillingDataRequest(const std::string& parentId,
 HttpRequestCreator* API::GetForceUpdateInformationRequest(Azoomee::HttpRequestCreatorResponseDelegate *delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestTag = TagGetForceUpdateInformation;
-    request->url = "https://versions.azoomee.com";
+    request->_requestTag = TagGetForceUpdateInformation;
+    request->_url = "https://versions.azoomee.com";
     
 #ifdef AZOOMEE_ENVIRONMENT_CI
-    request->url = "http://versions.azoomee.ninja";
+    request->_url = "http://versions.azoomee.ninja";
 #endif
     
-    request->encrypted = false;
+    request->_encrypted = false;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
     return request;
 }
 
-HttpRequestCreator* API::UpdateParentPinRequest(HttpRequestCreatorResponseDelegate* delegate)
+HttpRequestCreator* API::UpdateParentPinRequest(const std::string& parentId,
+                                                HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestTag = TagParentPin;
-    request->encrypted = true;
+    request->_requestPath = StringUtils::format("/api/user/adult/%s", parentId.c_str());
+    request->_requestTag = TagParentPin;
+    request->_encrypted = true;
+    request->_signAsParent = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
     return request;
 }
 
-HttpRequestCreator* API::GetAvailableChildrenRequest(HttpRequestCreatorResponseDelegate* delegate)
+HttpRequestCreator* API::GetAvailableChildrenRequest(const std::string& parentId,
+                                                     HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->urlParameters = "expand=true";
-    request->requestTag = TagGetAvailableChildren;
-    request->encrypted = true;
+    request->_requestPath = StringUtils::format("/api/user/adult/%s/owns", parentId.c_str());
+    request->_urlParameters = "expand=true";
+    request->_requestTag = TagGetAvailableChildren;
+    request->_encrypted = true;
+    request->_signAsParent = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
     return request;
 }
 
-HttpRequestCreator* API::GetAvailableChildrenRequest(const APIResponseSuccessCallback& onSuccess,
+HttpRequestCreator* API::GetAvailableChildrenRequest(const std::string& parentId,
+                                                     const APIResponseSuccessCallback& onSuccess,
                                                      const APIResponseFailureCallback& onFailure)
 {
     HttpRequestCreator* request = new HttpRequestCreator(nullptr);
-    request->urlParameters = "expand=true";
-    request->requestTag = TagGetAvailableChildren;
-    request->encrypted = true;
+    request->_requestPath = StringUtils::format("/api/user/adult/%s/owns", parentId.c_str());
+    request->_urlParameters = "expand=true";
+    request->_requestTag = TagGetAvailableChildren;
+    request->_encrypted = true;
+    request->_signAsParent = true;
     request->setRequestCallback([onSuccess, onFailure, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
         HandleAPIResponse(sender, response, request, onSuccess, onFailure);
     });
@@ -315,11 +328,13 @@ HttpRequestCreator* API::ChildLoginRequest(const std::string& profileName,
                                            HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestBody = StringUtils::format("{\"userName\": \"%s\", \"password\": \"\"}", profileName.c_str());
-    request->requestTag = TagChildLogin;
-    request->method = "POST";
-    request->urlParameters = "hqs=true";
-    request->encrypted = true;
+    request->_requestPath = "/api/auth/switchProfile";
+    request->_requestBody = StringUtils::format("{\"userName\": \"%s\", \"password\": \"\"}", profileName.c_str());
+    request->_requestTag = TagChildLogin;
+    request->_method = "POST";
+    request->_urlParameters = "hqs=true";
+    request->_encrypted = true;
+    request->_signAsParent = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -331,11 +346,13 @@ HttpRequestCreator* API::ChildLoginRequest(const std::string& profileName,
                                            const APIResponseFailureCallback& onFailure)
 {
     HttpRequestCreator* request = new HttpRequestCreator(nullptr);
-    request->requestBody = StringUtils::format("{\"userName\": \"%s\", \"password\": \"\"}", profileName.c_str());
-    request->requestTag = TagChildLogin;
-    request->method = "POST";
-    request->urlParameters = "hqs=true";
-    request->encrypted = true;
+    request->_requestPath = "/api/auth/switchProfile";
+    request->_requestBody = StringUtils::format("{\"userName\": \"%s\", \"password\": \"\"}", profileName.c_str());
+    request->_requestTag = TagChildLogin;
+    request->_method = "POST";
+    request->_urlParameters = "hqs=true";
+    request->_encrypted = true;
+    request->_signAsParent = true;
     request->setRequestCallback([onSuccess, onFailure, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
         HandleAPIResponse(sender, response, request, onSuccess, onFailure);
     });
@@ -344,13 +361,15 @@ HttpRequestCreator* API::ChildLoginRequest(const std::string& profileName,
 
 HttpRequestCreator* API::GetSessionCookiesRequest(const std::string& userId,
                                                   const std::string& sessionId,
+                                                  bool parentSigned,
                                                   HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestPath = "/api/porthole/pixel/gordon.png";
-    request->urlParameters = StringUtils::format("userid=%s&sessionid=%s", userId.c_str(), sessionId.c_str());
-    request->requestTag = TagGetSessionCookies;
-    request->encrypted = true;
+    request->_requestPath = "/api/porthole/pixel/gordon.png";
+    request->_urlParameters = StringUtils::format("userid=%s&sessionid=%s", userId.c_str(), sessionId.c_str());
+    request->_requestTag = TagGetSessionCookies;
+    request->_encrypted = true;
+    request->_signAsParent = parentSigned;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -359,14 +378,16 @@ HttpRequestCreator* API::GetSessionCookiesRequest(const std::string& userId,
 
 HttpRequestCreator* API::GetSessionCookiesRequest(const std::string& userId,
                                                   const std::string& sessionId,
+                                                  bool parentSigned,
                                                   const APIResponseSuccessCallback& onSuccess,
                                                   const APIResponseFailureCallback& onFailure)
 {
     HttpRequestCreator* request = new HttpRequestCreator(nullptr);
-    request->requestPath = "/api/porthole/pixel/gordon.png";
-    request->urlParameters = StringUtils::format("userid=%s&sessionid=%s", userId.c_str(), sessionId.c_str());
-    request->requestTag = TagGetSessionCookies;
-    request->encrypted = true;
+    request->_requestPath = "/api/porthole/pixel/gordon.png";
+    request->_urlParameters = StringUtils::format("userid=%s&sessionid=%s", userId.c_str(), sessionId.c_str());
+    request->_requestTag = TagGetSessionCookies;
+    request->_encrypted = true;
+    request->_signAsParent = parentSigned;
     request->setRequestCallback([onSuccess, onFailure, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
         HandleAPIResponse(sender, response, request, onSuccess, onFailure);
     });
@@ -376,8 +397,10 @@ HttpRequestCreator* API::GetSessionCookiesRequest(const std::string& userId,
 HttpRequestCreator* API::RefreshParentCookiesRequest(Azoomee::HttpRequestCreatorResponseDelegate *delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestTag = TagCookieRefresh;
-    request->encrypted = true;
+    request->_requestPath = "/api/cookie/refresh/adult";
+    request->_requestTag = TagCookieRefresh;
+    request->_encrypted = true;
+    request->_signAsParent = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -387,9 +410,9 @@ HttpRequestCreator* API::RefreshParentCookiesRequest(Azoomee::HttpRequestCreator
 HttpRequestCreator* API::RefreshChildCookiesRequest(Azoomee::HttpRequestCreatorResponseDelegate *delegate)
 {
 	HttpRequestCreator* request = new HttpRequestCreator(delegate);
-	request->requestTag = TagChildCookieRefresh;
-	request->requestPath = "/api/cookie/refresh/child";
-	request->encrypted = true;
+	request->_requestTag = TagChildCookieRefresh;
+	request->_requestPath = "/api/cookie/refresh/child";
+	request->_encrypted = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -406,11 +429,12 @@ HttpRequestCreator* API::RegisterParentRequest(const std::string& parentId,
                                                HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestBody = StringUtils::format("{\"emailAddress\":\"%s\",\"over18\":\"true\",\"termsAccepted\":\"true\",\"marketingAccepted\":\"%s\",\"password\":\"%s\",\"source\":\"%s\",\"pinNumber\":\"%s\", \"sourceDevice\":\"%s\"}", emailAddress.c_str(), marketingAccepted.c_str(), password.c_str(), source.c_str(), pinNumber.c_str(), sourceDevice.c_str());
-	request->requestPath = StringUtils::format("/api/user/anonymous/adult/%s",parentId.c_str());
-    request->requestTag = TagRegisterParent;
-    request->method = "PATCH";
-	request->encrypted = true;
+    request->_requestBody = StringUtils::format("{\"emailAddress\":\"%s\",\"over18\":\"true\",\"termsAccepted\":\"true\",\"marketingAccepted\":\"%s\",\"password\":\"%s\",\"source\":\"%s\",\"pinNumber\":\"%s\", \"sourceDevice\":\"%s\"}", emailAddress.c_str(), marketingAccepted.c_str(), password.c_str(), source.c_str(), pinNumber.c_str(), sourceDevice.c_str());
+	request->_requestPath = StringUtils::format("/api/user/anonymous/adult/%s",parentId.c_str());
+    request->_requestTag = TagRegisterParent;
+    request->_method = "PATCH";
+	request->_encrypted = true;
+    request->_signAsParent = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -424,10 +448,12 @@ HttpRequestCreator* API::RegisterChildRequest(const std::string& childProfileNam
                                               HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestBody = StringUtils::format("{\"profileName\":\"%s\",\"dob\":\"%s\",\"sex\":\"%s\",\"avatar\":\"%s\",\"password\":\"\"}", childProfileName.c_str(), childDOB.c_str(), childGender.c_str(), avatar.c_str());
-    request->requestTag = TagRegisterChild;
-    request->method = "POST";
-    request->encrypted = true;
+    request->_requestPath = "/api/user/child";
+    request->_requestBody = StringUtils::format("{\"profileName\":\"%s\",\"dob\":\"%s\",\"sex\":\"%s\",\"avatar\":\"%s\",\"password\":\"\"}", childProfileName.c_str(), childDOB.c_str(), childGender.c_str(), avatar.c_str());
+    request->_requestTag = TagRegisterChild;
+    request->_method = "POST";
+    request->_encrypted = true;
+    request->_signAsParent = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -441,10 +467,12 @@ HttpRequestCreator* API::RegisterChildRequestWithAvatarData(const std::string& c
 													   		HttpRequestCreatorResponseDelegate* delegate)
 {
 	HttpRequestCreator* request = new HttpRequestCreator(delegate);
-	request->requestBody = "{\"profileName\":\"" + childProfileName + "\",\"dob\":\"" + childDOB + "\",\"sex\":\"" + childGender + "\",\"avatarImageData\":\"" + imgData + "\",\"password\":\"\"}";
-	request->requestTag = TagRegisterChild;
-	request->method = "POST";
-	request->encrypted = true;
+    request->_requestPath = "/api/user/child";
+	request->_requestBody = "{\"profileName\":\"" + childProfileName + "\",\"dob\":\"" + childDOB + "\",\"sex\":\"" + childGender + "\",\"avatarImageData\":\"" + imgData + "\",\"password\":\"\"}";
+	request->_requestTag = TagRegisterChild;
+	request->_method = "POST";
+	request->_encrypted = true;
+    request->_signAsParent = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -460,11 +488,12 @@ HttpRequestCreator* API::UpdateChildRequest(const std::string& childId,
                                               HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestBody = StringUtils::format("{\"id\":\"%s\",\"profileName\":\"%s\",\"dob\":\"%s\",\"sex\":\"%s\",\"avatar\":\"%s\",\"ownerId\":\"%s\"}", childId.c_str(), childProfileName.c_str(), childDOB.c_str(), childGender.c_str(), avatar.c_str(), ownerId.c_str());
-    request->requestTag = TagUpdateChild;
-	request->requestPath = "/api/user/child/" + childId;
-    request->method = "PATCH";
-    request->encrypted = true;
+    request->_requestBody = StringUtils::format("{\"id\":\"%s\",\"profileName\":\"%s\",\"dob\":\"%s\",\"sex\":\"%s\",\"avatar\":\"%s\",\"ownerId\":\"%s\"}", childId.c_str(), childProfileName.c_str(), childDOB.c_str(), childGender.c_str(), avatar.c_str(), ownerId.c_str());
+    request->_requestTag = TagUpdateChild;
+	request->_requestPath = "/api/user/child/" + childId;
+    request->_method = "PATCH";
+    request->_encrypted = true;
+    request->_signAsParent = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -477,11 +506,12 @@ HttpRequestCreator* API::DeleteChild(const std::string& childId,
                                      HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestBody = StringUtils::format("{\"profileName\":\"%s%s\",\"sex\":\"%s\",\"status\":\"DELETED\"}", childProfileName.c_str(),SessionIdManager::getInstance()->getCurrentSessionId().c_str(), childGender.c_str());
-    request->requestTag = TagDeleteChild;
-    request->url = ConfigStorage::getInstance()->getServerUrl() + ConfigStorage::getInstance()->getPathForTag(TagDeleteChild) + childId;
-    request->method = "PATCH";
-    request->encrypted = true;
+    request->_requestPath = StringUtils::format("/api/user/child/%s", childId.c_str());
+    request->_requestBody = StringUtils::format("{\"profileName\":\"%s%s\",\"sex\":\"%s\",\"status\":\"DELETED\"}", childProfileName.c_str(),SessionIdManager::getInstance()->getCurrentSessionId().c_str(), childGender.c_str());
+    request->_requestTag = TagDeleteChild;
+    request->_method = "PATCH";
+    request->_encrypted = true;
+    request->_signAsParent = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -493,61 +523,70 @@ HttpRequestCreator* API::UpdateChildAvatar(const std::string &childId,
                                            Azoomee::HttpRequestCreatorResponseDelegate *delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestTag = TagUpdateChildAvatar;
-    request->requestPath = StringUtils::format("/api/user/child/%s/avatar", childId.c_str());
-    request->method = "PATCH";
-    request->encrypted = true;
+    request->_requestTag = TagUpdateChildAvatar;
+    request->_requestPath = StringUtils::format("/api/user/child/%s/avatar", childId.c_str());
+    request->_method = "PATCH";
+    request->_encrypted = true;
     
-    request->requestBody = "{\"userId\":\"" + childId + "\", \"data\":\"" + imageData + "\"}";
+    request->_requestBody = "{\"userId\":\"" + childId + "\", \"data\":\"" + imageData + "\"}";
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
     return request;
 }
 
-HttpRequestCreator* API::VerifyGooglePaymentRequest(const std::string& orderId,
+HttpRequestCreator* API::VerifyGooglePaymentRequest(const std::string& parentId,
+                                                    const std::string& orderId,
                                                     const std::string& iapSku,
                                                     const std::string& purchaseToken,
                                                     HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestBody = StringUtils::format("{\"orderId\": \"%s\", \"subscriptionId\": \"%s\", \"purchaseToken\": \"%s\"}", orderId.c_str(), iapSku.c_str(), purchaseToken.c_str());
-    request->requestTag = TagVerifyGooglePayment;
-    request->method = "POST";
-    request->encrypted = true;
+    request->_requestPath = StringUtils::format("/api/billing/google/user/%s/receipt", parentId.c_str());
+    request->_requestBody = StringUtils::format("{\"orderId\": \"%s\", \"subscriptionId\": \"%s\", \"purchaseToken\": \"%s\"}", orderId.c_str(), iapSku.c_str(), purchaseToken.c_str());
+    request->_requestTag = TagVerifyGooglePayment;
+    request->_method = "POST";
+    request->_encrypted = true;
+    request->_signAsParent = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
     return request;
 }
 
-HttpRequestCreator* API::VerifyAmazonPaymentRequest(const std::string& requestId,
+HttpRequestCreator* API::VerifyAmazonPaymentRequest(const std::string& parentId,
+                                                    const std::string& requestId,
                                                     const std::string& receiptId,
                                                     const std::string& amazonUserid,
                                                     HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestBody = StringUtils::format("{\"requestId\": \"%s\", \"receiptId\": \"%s\", \"amazonUserId\": \"%s\"}", requestId.c_str(), receiptId.c_str(), amazonUserid.c_str());
-    request->requestTag = TagVerifyAmazonPayment;
-    request->method = "POST";
-    request->encrypted = true;
+    request->_requestPath = StringUtils::format("/api/billing/amazon/user/%s/receipt", parentId.c_str());
+    request->_requestBody = StringUtils::format("{\"requestId\": \"%s\", \"receiptId\": \"%s\", \"amazonUserId\": \"%s\"}", requestId.c_str(), receiptId.c_str(), amazonUserid.c_str());
+    request->_requestTag = TagVerifyAmazonPayment;
+    request->_method = "POST";
+    request->_encrypted = true;
+    request->_signAsParent = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
     return request;
 }
 
-HttpRequestCreator* API::VerifyApplePaymentRequest(const std::string& receiptData,
+HttpRequestCreator* API::VerifyApplePaymentRequest(const std::string& parentId,
+                                                   const std::string& receiptData,
                                                    const std::string& transactionID,
                                                    HttpRequestCreatorResponseDelegate* delegate)
 {
     const std::string& transactionIDList = (transactionID.empty()) ? "[]" : StringUtils::format("[\"%s\"]", transactionID.c_str());
     
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestBody = StringUtils::format("{\"receipt-data\": \"%s\", \"newTransactionIdList\": %s}", receiptData.c_str(), transactionIDList.c_str());
-    request->requestTag = TagVerifyApplePayment;
-    request->method = "POST";
-    request->encrypted = true;
+    request->_requestPath = StringUtils::format("/api/billing/apple/user/%s/receipt", parentId.c_str());
+    request->_requestBody = StringUtils::format("{\"receipt-data\": \"%s\", \"newTransactionIdList\": %s}", receiptData.c_str(), transactionIDList.c_str());
+    request->_requestTag = TagVerifyApplePayment;
+    request->_method = "POST";
+    request->_encrypted = true;
+    request->_signAsParent = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -559,9 +598,9 @@ HttpRequestCreator* API::GetEncryptedContentRequest(const std::string& url,
                                                     HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->url = url;
-    request->requestTag = category;
-    request->encrypted = true;
+    request->_url = url;
+    request->_requestTag = category;
+    request->_encrypted = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -573,8 +612,8 @@ HttpRequestCreator* API::GetPublicContentRequest(const std::string& url,
                                                  HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->url = url;
-    request->requestTag = category;
+    request->_url = url;
+    request->_requestTag = category;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -587,9 +626,9 @@ HttpRequestCreator* API::GetContent(const std::string& requestId,
                                                   HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestTag = requestId;
-    request->requestPath = StringUtils::format("/api/electricdreams/%s/content/%s", childId.c_str(), contentID.c_str());
-    request->encrypted = true;
+    request->_requestTag = requestId;
+    request->_requestPath = StringUtils::format("/api/electricdreams/%s/content/%s", childId.c_str(), contentID.c_str());
+    request->_encrypted = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -600,9 +639,9 @@ HttpRequestCreator* API::ResetPaswordRequest(const std::string& forEmailAddress,
                                                   HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestTag = TagResetPasswordRequest;
-    request->requestPath = StringUtils::format("/api/auth/requestPasswordReset?emailAddress=%s", forEmailAddress.c_str());
-    request->encrypted = false;
+    request->_requestTag = TagResetPasswordRequest;
+    request->_requestPath = StringUtils::format("/api/auth/requestPasswordReset?emailAddress=%s", forEmailAddress.c_str());
+    request->_encrypted = false;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -612,10 +651,10 @@ HttpRequestCreator* API::ResetPaswordRequest(const std::string& forEmailAddress,
 HttpRequestCreator* API::GetContentPoolRequest(const std::string& childId, Azoomee::HttpRequestCreatorResponseDelegate *delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestTag = TagGetContentPoolRequest;
-    request->requestPath = StringUtils::format("/api/electricdreams/v3/%s/items",childId.c_str());
-    request->method = "GET";
-    request->encrypted = true;
+    request->_requestTag = TagGetContentPoolRequest;
+    request->_requestPath = StringUtils::format("/api/electricdreams/v3/%s/items",childId.c_str());
+    request->_method = "GET";
+    request->_encrypted = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -627,10 +666,10 @@ HttpRequestCreator* API::GetContentPoolRequest(const std::string& childId,
                                                const APIResponseFailureCallback& onFailure)
 {
     HttpRequestCreator* request = new HttpRequestCreator(nullptr);
-    request->requestTag = TagGetContentPoolRequest;
-    request->requestPath = StringUtils::format("/api/electricdreams/v3/%s/items",childId.c_str());
-    request->method = "GET";
-    request->encrypted = true;
+    request->_requestTag = TagGetContentPoolRequest;
+    request->_requestPath = StringUtils::format("/api/electricdreams/v3/%s/items",childId.c_str());
+    request->_method = "GET";
+    request->_encrypted = true;
     request->setRequestCallback([onSuccess, onFailure, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
         HandleAPIResponse(sender, response, request, onSuccess, onFailure);
     });
@@ -640,9 +679,9 @@ HttpRequestCreator* API::GetContentPoolRequest(const std::string& childId,
 HttpRequestCreator* API::GetHQStructureDataRequest(const std::string& childId, Azoomee::HttpRequestCreatorResponseDelegate *delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestTag = TagGetHqStructureDataRequest;
-    request->requestPath = StringUtils::format("/api/electricdreams/v3/%s/feeds",childId.c_str());
-    request->encrypted = true;
+    request->_requestTag = TagGetHqStructureDataRequest;
+    request->_requestPath = StringUtils::format("/api/electricdreams/v3/%s/feeds",childId.c_str());
+    request->_encrypted = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -654,9 +693,9 @@ HttpRequestCreator* API::GetHQStructureDataRequest(const std::string& childId,
                                                    const APIResponseFailureCallback& onFailure)
 {
     HttpRequestCreator* request = new HttpRequestCreator(nullptr);
-    request->requestTag = TagGetHqStructureDataRequest;
-    request->requestPath = StringUtils::format("/api/electricdreams/v3/%s/feeds",childId.c_str());
-    request->encrypted = true;
+    request->_requestTag = TagGetHqStructureDataRequest;
+    request->_requestPath = StringUtils::format("/api/electricdreams/v3/%s/feeds",childId.c_str());
+    request->_encrypted = true;
     request->setRequestCallback([onSuccess, onFailure, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
         HandleAPIResponse(sender, response, request, onSuccess, onFailure);
     });
@@ -669,11 +708,12 @@ HttpRequestCreator* API::UpdateParentDetailsRequest(const std::string &parentId,
                                                     Azoomee::HttpRequestCreatorResponseDelegate *delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestBody = StringUtils::format("{\"displayName\":\"%s\",\"pinNumber\":\"%s\"}", displayName.c_str(), pinNumber.c_str());
-    request->requestTag = TagUpdateParentDetails;
-    request->requestPath = StringUtils::format("/api/user/adult/%s",parentId.c_str());
-    request->method = "PATCH";
-    request->encrypted = true;
+    request->_requestBody = StringUtils::format("{\"displayName\":\"%s\",\"pinNumber\":\"%s\"}", displayName.c_str(), pinNumber.c_str());
+    request->_requestTag = TagUpdateParentDetails;
+    request->_requestPath = StringUtils::format("/api/user/adult/%s",parentId.c_str());
+    request->_method = "PATCH";
+    request->_encrypted = true;
+    request->_signAsParent = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -686,11 +726,12 @@ HttpRequestCreator* API::UpdateParentPasswordRequest(const std::string &parentId
                                                      Azoomee::HttpRequestCreatorResponseDelegate *delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestBody = StringUtils::format("{\"oldPassword\":\"%s\",\"newPassword\":\"%s\"}", oldPassword.c_str(), newPassword.c_str());
-    request->requestTag = TagUpdateParentPassword;
-    request->requestPath = StringUtils::format("/api/user/v2/adult/%s/password",parentId.c_str());
-    request->method = "PATCH";
-    request->encrypted = true;
+    request->_requestBody = StringUtils::format("{\"oldPassword\":\"%s\",\"newPassword\":\"%s\"}", oldPassword.c_str(), newPassword.c_str());
+    request->_requestTag = TagUpdateParentPassword;
+    request->_requestPath = StringUtils::format("/api/user/v2/adult/%s/password",parentId.c_str());
+    request->_method = "PATCH";
+    request->_encrypted = true;
+    request->_signAsParent = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -700,9 +741,10 @@ HttpRequestCreator* API::UpdateParentPasswordRequest(const std::string &parentId
 HttpRequestCreator* API::getParentDetailsRequest(const std::string &parentId, Azoomee::HttpRequestCreatorResponseDelegate *delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestTag = TagGetParentDetails;
-    request->requestPath = StringUtils::format("/api/user/adult/%s",parentId.c_str());
-    request->encrypted = true;
+    request->_requestTag = TagGetParentDetails;
+    request->_requestPath = StringUtils::format("/api/user/adult/%s",parentId.c_str());
+    request->_encrypted = true;
+    request->_signAsParent = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -714,11 +756,12 @@ HttpRequestCreator* API::UpdateChildNameRequest(const std::string& childId,
                                                 HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestBody = StringUtils::format("{\"profileName\":\"%s\"}", newName.c_str());
-    request->requestPath = StringUtils::format("/api/user/child/%s",childId.c_str());
-    request->requestTag = TagUpdateChildNameRequest;
-    request->method = "PATCH";
-    request->encrypted = true;
+    request->_requestBody = StringUtils::format("{\"profileName\":\"%s\"}", newName.c_str());
+    request->_requestPath = StringUtils::format("/api/user/child/%s",childId.c_str());
+    request->_requestTag = TagUpdateChildNameRequest;
+    request->_method = "PATCH";
+    request->_encrypted = true;
+    request->_signAsParent = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -730,11 +773,12 @@ HttpRequestCreator* API::AddVoucher(const std::string &parentId,
 									HttpRequestCreatorResponseDelegate *delegate)
 {
 	HttpRequestCreator* request = new HttpRequestCreator(delegate);
-	request->requestBody = StringUtils::format("{\"voucherCode\":\"%s\"}", voucherCode.c_str());
-	request->requestPath = StringUtils::format("/api/billing/user/%s/voucher",parentId.c_str());
-	request->requestTag = TagAddVoucher;
-	request->method = "PATCH";
-	request->encrypted = true;
+	request->_requestBody = StringUtils::format("{\"voucherCode\":\"%s\"}", voucherCode.c_str());
+	request->_requestPath = StringUtils::format("/api/billing/user/%s/voucher",parentId.c_str());
+	request->_requestTag = TagAddVoucher;
+	request->_method = "PATCH";
+	request->_encrypted = true;
+    request->_signAsParent = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -746,9 +790,9 @@ HttpRequestCreator* API::GetVideoProgress(const std::string &childId,
 										  HttpRequestCreatorResponseDelegate *delegate)
 {
 	HttpRequestCreator* request = new HttpRequestCreator(delegate);
-	request->requestPath = StringUtils::format("/api/useractivity/progress/%s/content/%s",childId.c_str(), videoId.c_str());
-	request->requestTag = TagGetVideoProgress;
-	request->encrypted = true;
+	request->_requestPath = StringUtils::format("/api/useractivity/progress/%s/content/%s",childId.c_str(), videoId.c_str());
+	request->_requestTag = TagGetVideoProgress;
+	request->_encrypted = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -760,11 +804,11 @@ HttpRequestCreator* API::UpdateContentProgressMeta(const std::string& childId,
 											  HttpRequestCreatorResponseDelegate* delegate)
 {
 	HttpRequestCreator* request = new HttpRequestCreator(delegate);
-	request->requestPath = StringUtils::format("/api/useractivity/progress/%s",childId.c_str());
-	request->requestBody = metaBody;
-	request->requestTag = TagUpdateProgressMeta;
-	request->method = "POST";
-	request->encrypted = true;
+	request->_requestPath = StringUtils::format("/api/useractivity/progress/%s",childId.c_str());
+	request->_requestBody = metaBody;
+	request->_requestTag = TagUpdateProgressMeta;
+	request->_method = "POST";
+	request->_encrypted = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -775,10 +819,11 @@ HttpRequestCreator* API::GetMarketingAssets(const std::string& countryCode,
                                             HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestPath = "/api/marketing/image/";
-    request->urlParameters = StringUtils::format("countryCode=%s&fallbackCountry=global", countryCode.c_str());
-    request->requestTag = TagGetMarketingAssets;
-    request->encrypted = true;
+    request->_requestPath = "/api/marketing/image/";
+    request->_urlParameters = StringUtils::format("countryCode=%s&fallbackCountry=global", countryCode.c_str());
+    request->_requestTag = TagGetMarketingAssets;
+    request->_encrypted = true;
+    request->_signAsParent = true;
     request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
         HandleAPIResponse(sender, response, delegate, request);
     });
@@ -791,9 +836,9 @@ HttpRequestCreator* API::GetOomeeMakerAssets(const std::string& childId,
 										HttpRequestCreatorResponseDelegate* delegate)
 {
 	HttpRequestCreator* request = new HttpRequestCreator(delegate);
-	request->requestPath = StringUtils::format("/api/oomeemaker/zip/%s",childId.c_str());
-	request->requestTag = TagGetOomeeMakerAssets;
-	request->encrypted = true;
+	request->_requestPath = StringUtils::format("/api/oomeemaker/zip/%s",childId.c_str());
+	request->_requestTag = TagGetOomeeMakerAssets;
+	request->_encrypted = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -810,11 +855,11 @@ HttpRequestCreator* API::SaveNewOomee(const std::string& childId,
 {
 	const std::string& accs = StringFunctions::joinStrings(accessoryIds, "\",\"");
 	HttpRequestCreator* request = new HttpRequestCreator(delegate);
-	request->requestPath = StringUtils::format("/api/oomeemaker/child/%s/oomees",childId.c_str());
-	request->requestTag = TagSaveNewOomee;
-	request->requestBody = "{\"childId\":\"" + childId + "\",\"adultId\":\"" + adultId + "\",\"oomeeId\":\"" + oomeeBodyId + "\",\"selected\":" + (selected ? "true" : "false") + ",\"oomeeItems\":[\"" + accs + "\"]}";
-	request->encrypted = true;
-	request->method = "POST";
+	request->_requestPath = StringUtils::format("/api/oomeemaker/child/%s/oomees",childId.c_str());
+	request->_requestTag = TagSaveNewOomee;
+	request->_requestBody = "{\"childId\":\"" + childId + "\",\"adultId\":\"" + adultId + "\",\"oomeeId\":\"" + oomeeBodyId + "\",\"selected\":" + (selected ? "true" : "false") + ",\"oomeeItems\":[\"" + accs + "\"]}";
+	request->_encrypted = true;
+	request->_method = "POST";
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -827,13 +872,13 @@ HttpRequestCreator* API::GetChildOomees(const std::string& childId,
 											  HttpRequestCreatorResponseDelegate* delegate)
 {
 	HttpRequestCreator* request = new HttpRequestCreator(delegate);
-	request->requestPath = StringUtils::format("/api/oomeemaker/child/%s/oomees",childId.c_str());
+	request->_requestPath = StringUtils::format("/api/oomeemaker/child/%s/oomees",childId.c_str());
     if(getOnlySelected)
     {
-        request->urlParameters = "selected=true";
+        request->_urlParameters = "selected=true";
     }
-	request->requestTag = TagGetChildOomees;
-	request->encrypted = true;
+	request->_requestTag = TagGetChildOomees;
+	request->_encrypted = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -851,11 +896,11 @@ HttpRequestCreator* API::UpdateChildOomee(const std::string& childId,
 {
 	const std::string& accs = StringFunctions::joinStrings(accessoryIds, "\",\"");
 	HttpRequestCreator* request = new HttpRequestCreator(delegate);
-	request->requestPath = StringUtils::format("/api/oomeemaker/child/%s/oomees/%s",childId.c_str(), oomeeId.c_str());
-	request->requestTag = TagUpdateChildOomee;
-	request->requestBody = "{\"childId\":\"" + childId + "\",\"adultId\":\"" + adultId + "\",\"oomeeId\":\"" + oomeeBodyId + "\",\"selected\":" + (selected ? "true" : "false") + ",\"oomeeItems\":[\"" + accs + "\"]}";
-	request->encrypted = true;
-	request->method = "PATCH";
+	request->_requestPath = StringUtils::format("/api/oomeemaker/child/%s/oomees/%s",childId.c_str(), oomeeId.c_str());
+	request->_requestTag = TagUpdateChildOomee;
+	request->_requestBody = "{\"childId\":\"" + childId + "\",\"adultId\":\"" + adultId + "\",\"oomeeId\":\"" + oomeeBodyId + "\",\"selected\":" + (selected ? "true" : "false") + ",\"oomeeItems\":[\"" + accs + "\"]}";
+	request->_encrypted = true;
+	request->_method = "PATCH";
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -868,13 +913,13 @@ HttpRequestCreator* API::GetAllOomees(const std::string& adultId,
 											HttpRequestCreatorResponseDelegate* delegate)
 {
 	HttpRequestCreator* request = new HttpRequestCreator(delegate);
-	request->requestPath = StringUtils::format("/api/oomeemaker/adult/%s/oomees",adultId.c_str());
+	request->_requestPath = StringUtils::format("/api/oomeemaker/adult/%s/oomees",adultId.c_str());
     if(getOnlySelected)
     {
-        request->urlParameters = "selected=true";
+        request->_urlParameters = "selected=true";
     }
-	request->requestTag = TagGetAllOomees;
-	request->encrypted = true;
+	request->_requestTag = TagGetAllOomees;
+	request->_encrypted = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -886,10 +931,10 @@ HttpRequestCreator* API::DeleteChildOomee(const std::string& childId,
 										  HttpRequestCreatorResponseDelegate* delegate)
 {
 	HttpRequestCreator* request = new HttpRequestCreator(delegate);
-	request->requestPath = StringUtils::format("/api/oomeemaker/child/%s/%s",childId.c_str(), oomeeId.c_str());
-	request->requestTag = TagDeleteChildOomee;
-	request->encrypted = true;
-	request->method = "DELETE";
+	request->_requestPath = StringUtils::format("/api/oomeemaker/child/%s/%s",childId.c_str(), oomeeId.c_str());
+	request->_requestTag = TagDeleteChildOomee;
+	request->_encrypted = true;
+	request->_method = "DELETE";
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -899,12 +944,14 @@ HttpRequestCreator* API::DeleteChildOomee(const std::string& childId,
 #pragma mark - Sharing
 
 HttpRequestCreator* API::GetChatListRequest(const std::string& userId,
+                                            bool isParent,
                                             HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestTag = TagGetChatList;
-    request->requestPath = StringUtils::format("/api/share/%s/chat", userId.c_str());
-    request->encrypted = true;
+    request->_requestTag = TagGetChatList;
+    request->_requestPath = StringUtils::format("/api/share/%s/chat", userId.c_str());
+    request->_encrypted = true;
+    request->_signAsParent = isParent;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -914,13 +961,15 @@ HttpRequestCreator* API::GetChatListRequest(const std::string& userId,
 HttpRequestCreator* API::GetChatMessagesRequest(const std::string& userId,
                                                 const std::string& friendId,
                                                 int pageNumber,
+                                                bool isParent,
                                                 HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestTag = TagGetChatMessages;
-    request->requestPath = StringUtils::format("/api/share/v2/%s/%s", userId.c_str(), friendId.c_str());
-    request->urlParameters = StringUtils::format("page=%d", pageNumber);
-    request->encrypted = true;
+    request->_requestTag = TagGetChatMessages;
+    request->_requestPath = StringUtils::format("/api/share/v2/%s/%s", userId.c_str(), friendId.c_str());
+    request->_urlParameters = StringUtils::format("page=%d", pageNumber);
+    request->_encrypted = true;
+    request->_signAsParent = isParent;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -930,13 +979,15 @@ HttpRequestCreator* API::GetChatMessagesRequest(const std::string& userId,
 HttpRequestCreator* API::SendChatMessageRequest(const std::string& userId,
                                                 const std::string& friendId,
                                                 const JsonObjectRepresentation& jsonObject,
+                                                bool isParent,
                                                 HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestTag = TagSendChatMessage;
-    request->requestPath = StringUtils::format("/api/share/v2/%s/%s", userId.c_str(), friendId.c_str());
-    request->method = "POST";
-    request->encrypted = true;
+    request->_requestTag = TagSendChatMessage;
+    request->_requestPath = StringUtils::format("/api/share/v2/%s/%s", userId.c_str(), friendId.c_str());
+    request->_method = "POST";
+    request->_encrypted = true;
+    request->_signAsParent = isParent;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -946,21 +997,23 @@ HttpRequestCreator* API::SendChatMessageRequest(const std::string& userId,
     rapidjson::StringBuffer buffer;
     rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
     json.Accept(writer);
-    request->requestBody = buffer.GetString();
+    request->_requestBody = buffer.GetString();
     return request;
 }
 
 HttpRequestCreator* API::MarkReadMessageRequest(const std::string& userId,
                                                 const std::string& friendId,
                                                 const uint64_t& readAt,
+                                                bool isParent,
                                                 HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestTag = TagMarkReadMessage;
-    request->requestPath = StringUtils::format("/api/share/v2/%s/%s", userId.c_str(), friendId.c_str());
-    request->method = "PATCH";
-    request->encrypted = true;
-    request->requestBody = StringUtils::format("{\"readAt\": \"%lld\"}", readAt);
+    request->_requestTag = TagMarkReadMessage;
+    request->_requestPath = StringUtils::format("/api/share/v2/%s/%s", userId.c_str(), friendId.c_str());
+    request->_method = "PATCH";
+    request->_encrypted = true;
+    request->_signAsParent = isParent;
+    request->_requestBody = StringUtils::format("{\"readAt\": \"%lld\"}", readAt);
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -970,11 +1023,11 @@ HttpRequestCreator* API::MarkReadMessageRequest(const std::string& userId,
 HttpRequestCreator* API::SendChatReportRequest(const std::string &userId, const std::string &friendId, Azoomee::HttpRequestCreatorResponseDelegate *delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestTag = TagReportChat;
-    request->requestPath = StringUtils::format("/api/share/v2/%s/%s/conversationstatus", userId.c_str(), friendId.c_str());
-    request->requestBody = "{\"status\": \"IN_MODERATION\"}";
-    request->method = "PUT";
-    request->encrypted = true;
+    request->_requestTag = TagReportChat;
+    request->_requestPath = StringUtils::format("/api/share/v2/%s/%s/conversationstatus", userId.c_str(), friendId.c_str());
+    request->_requestBody = "{\"status\": \"IN_MODERATION\"}";
+    request->_method = "PUT";
+    request->_encrypted = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -985,11 +1038,12 @@ HttpRequestCreator* API::SendChatReportRequest(const std::string &userId, const 
 HttpRequestCreator* API::ResetReportedChatRequest(const std::string &userId, const std::string &friendId, Azoomee::HttpRequestCreatorResponseDelegate *delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestTag = TagResetReportedChat;
-    request->requestPath = StringUtils::format("/api/share/v2/%s/%s/conversationstatus", userId.c_str(), friendId.c_str());
-    request->requestBody = "{\"status\": \"ACTIVE\"}";
-    request->method = "PATCH";
-    request->encrypted = true;
+    request->_requestTag = TagResetReportedChat;
+    request->_requestPath = StringUtils::format("/api/share/v2/%s/%s/conversationstatus", userId.c_str(), friendId.c_str());
+    request->_requestBody = "{\"status\": \"ACTIVE\"}";
+    request->_method = "PATCH";
+    request->_encrypted = true;
+    request->_signAsParent = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -1000,9 +1054,9 @@ HttpRequestCreator* API::ResetReportedChatRequest(const std::string &userId, con
 HttpRequestCreator* API::GetTimelineSummary(const std::string &userId, Azoomee::HttpRequestCreatorResponseDelegate *delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestTag = TagGetTimelineSummary;
-    request->requestPath = StringUtils::format("/api/share/v2/%s/summary", userId.c_str());
-    request->encrypted = true;
+    request->_requestTag = TagGetTimelineSummary;
+    request->_requestPath = StringUtils::format("/api/share/v2/%s/summary", userId.c_str());
+    request->_encrypted = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -1011,12 +1065,14 @@ HttpRequestCreator* API::GetTimelineSummary(const std::string &userId, Azoomee::
 
 #pragma mark - Friend Requests
 
-HttpRequestCreator* API::GetPendingFriendRequests(HttpRequestCreatorResponseDelegate* delegate)
+HttpRequestCreator* API::GetPendingFriendRequests(const std::string &userId, HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->urlParameters = "status=CREATED";
-    request->requestTag = TagGetPendingFriendRequests;
-    request->encrypted = true;
+    StringUtils::format("/api/user/adult/%s/invite/code/received", userId.c_str());
+    request->_urlParameters = "status=CREATED";
+    request->_requestTag = TagGetPendingFriendRequests;
+    request->_encrypted = true;
+    request->_signAsParent = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -1027,11 +1083,12 @@ HttpRequestCreator* API::GetPendingFriendRequests(HttpRequestCreatorResponseDele
 HttpRequestCreator* API::FriendRequest(const std::string& senderChildId, const std::string& senderChildName, const std::string& inviteCode, HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestPath = StringUtils::format("/api/user/child/%s/invite/code", senderChildId.c_str());
-    request->requestBody = StringUtils::format("{\"inviteeCode\": \"%s\", \"friendName\": \"\", \"senderName\": \"%s\"}", inviteCode.c_str(), senderChildName.c_str());
-    request->method = "POST";
-    request->requestTag = TagFriendRequest;
-    request->encrypted = true;
+    request->_requestPath = StringUtils::format("/api/user/child/%s/invite/code", senderChildId.c_str());
+    request->_requestBody = StringUtils::format("{\"inviteeCode\": \"%s\", \"friendName\": \"\", \"senderName\": \"%s\"}", inviteCode.c_str(), senderChildName.c_str());
+    request->_method = "POST";
+    request->_requestTag = TagFriendRequest;
+    request->_encrypted = true;
+    request->_signAsParent = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -1045,11 +1102,12 @@ HttpRequestCreator* API::FriendRequestReaction(bool confirmed, const std::string
     if(!confirmed) status = "REJECTED";
     
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestPath = StringUtils::format("/api/user/child/%s/invite/code/%s", respondentChildId.c_str(), invitationId.c_str());
-    request->requestBody = StringUtils::format("{\"status\": \"%s\", \"friendName\": \"%s\"}", status.c_str(), senderName.c_str());
-    request->method = "POST";
-    request->requestTag = TagFriendRequestReaction;
-    request->encrypted = true;
+    request->_requestPath = StringUtils::format("/api/user/child/%s/invite/code/%s", respondentChildId.c_str(), invitationId.c_str());
+    request->_requestBody = StringUtils::format("{\"status\": \"%s\", \"friendName\": \"%s\"}", status.c_str(), senderName.c_str());
+    request->_method = "POST";
+    request->_requestTag = TagFriendRequestReaction;
+    request->_encrypted = true;
+    request->_signAsParent = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -1063,11 +1121,11 @@ HttpRequestCreator* API::RedeemReward(const std::string& rewardId,
                                       const APIResponseFailureCallback& onFailure)
 {
 	HttpRequestCreator* request = new HttpRequestCreator(nullptr);
-	request->requestPath = StringUtils::format("/api/rewards/%s",rewardId.c_str());
-	request->requestBody = "{\"status\": \"REDEEMED\"}";
-	request->method = "PATCH";
-	request->requestTag = TagRedeemReward;
-	request->encrypted = true;
+	request->_requestPath = StringUtils::format("/api/rewards/%s",rewardId.c_str());
+	request->_requestBody = "{\"status\": \"REDEEMED\"}";
+	request->_method = "PATCH";
+	request->_requestTag = TagRedeemReward;
+	request->_encrypted = true;
 	request->setRequestCallback([onSuccess, onFailure, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, request, onSuccess, onFailure);
 	});
@@ -1078,10 +1136,10 @@ HttpRequestCreator* API::GetPendingRewards(const std::string& userId,
 											 HttpRequestCreatorResponseDelegate* delegate)
 {
 	HttpRequestCreator* request = new HttpRequestCreator(delegate);
-	request->requestPath = "/api/rewards/";
-	request->urlParameters = StringUtils::format("status=PENDING&userId=%s",userId.c_str());
-	request->requestTag = TagGetPendingRewards;
-	request->encrypted = true;
+	request->_requestPath = "/api/rewards/";
+	request->_urlParameters = StringUtils::format("status=PENDING&userId=%s",userId.c_str());
+	request->_requestTag = TagGetPendingRewards;
+	request->_encrypted = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -1092,11 +1150,11 @@ HttpRequestCreator* API::BuyReward(const std::string& purchaseUrl,
 									 HttpRequestCreatorResponseDelegate* delegate)
 {
 	HttpRequestCreator* request = new HttpRequestCreator(delegate);
-	request->url = ConfigStorage::getInstance()->getServerUrl() + purchaseUrl;
-	request->requestTag = TagBuyReward;
-	request->requestBody = "{}";
-	request->method = "POST";
-	request->encrypted = true;
+	request->_url = AppConfig::getInstance()->getServerUrl() + purchaseUrl;
+	request->_requestTag = TagBuyReward;
+	request->_requestBody = "{}";
+	request->_method = "POST";
+	request->_encrypted = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -1108,9 +1166,9 @@ HttpRequestCreator* API::GetInventory(const std::string& userId,
                                       const APIResponseFailureCallback& onFailure)
 {
 	HttpRequestCreator* request = new HttpRequestCreator(nullptr);
-	request->requestPath = StringUtils::format("/api/inventory/%s",userId.c_str());
-	request->requestTag = TagGetInventory;
-	request->encrypted = true;
+	request->_requestPath = StringUtils::format("/api/inventory/%s",userId.c_str());
+	request->_requestTag = TagGetInventory;
+	request->_encrypted = true;
 	request->setRequestCallback([onSuccess, onFailure, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
         HandleAPIResponse(sender, response, request, onSuccess, onFailure);
     });
@@ -1121,9 +1179,9 @@ HttpRequestCreator* API::RewardCallback(const std::string& url,
 									  HttpRequestCreatorResponseDelegate* delegate)
 {
 	HttpRequestCreator* request = new HttpRequestCreator(delegate);
-	request->url = url;
-	request->requestTag = TagRewardCallback;
-	request->encrypted = true;
+	request->_url = url;
+	request->_requestTag = TagRewardCallback;
+	request->_encrypted = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -1133,10 +1191,10 @@ HttpRequestCreator* API::RewardCallback(const std::string& url,
 HttpRequestCreator* API::GetRewardStrategy(const std::string& method, HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestPath = "/api/rewards/strategy/feed";
-    request->requestTag = StringUtils::format("%s-%s", TagGetRewardStrategy, method.c_str());
-    request->encrypted = true;
-    request->method = method;
+    request->_requestPath = "/api/rewards/strategy/feed";
+    request->_requestTag = StringUtils::format("%s-%s", TagGetRewardStrategy, method.c_str());
+    request->_encrypted = true;
+    request->_method = method;
     request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
         HandleAPIResponse(sender, response, delegate, request);
     });
@@ -1146,9 +1204,9 @@ HttpRequestCreator* API::GetRewardStrategy(const std::string& method, HttpReques
 HttpRequestCreator* API::GetShopFeed(HttpRequestCreatorResponseDelegate* delegate)
 {
 	HttpRequestCreator* request = new HttpRequestCreator(delegate);
-	request->requestPath = "/api/shopfront/feed";
-	request->requestTag = TagGetShopFeed;
-	request->encrypted = true;
+	request->_requestPath = "/api/shopfront/feed";
+	request->_requestTag = TagGetShopFeed;
+	request->_encrypted = true;
 	request->setRequestCallback([delegate, request](cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response){
 		HandleAPIResponse(sender, response, delegate, request);
 	});
@@ -1161,11 +1219,12 @@ HttpRequestCreator* API::GetVodacomTransactionId(const std::string& userId,
 											HttpRequestCreatorResponseDelegate* delegate)
 {
 	HttpRequestCreator* request = new HttpRequestCreator(delegate);
-	request->requestTag = TagGetVodacomTransactionId;
-	request->requestPath = StringUtils::format("/api/vodasabilling/%s/receipt", userId.c_str());
-	request->requestBody = "{}";
-	request->method = "POST";
-	request->encrypted = true;
+	request->_requestTag = TagGetVodacomTransactionId;
+	request->_requestPath = StringUtils::format("/api/vodasabilling/%s/receipt", userId.c_str());
+	request->_requestBody = "{}";
+	request->_method = "POST";
+	request->_encrypted = true;
+    request->_signAsParent = true;
 	return request;
 }
 

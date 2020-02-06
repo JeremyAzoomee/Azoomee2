@@ -4,6 +4,13 @@
 NS_AZOOMEE_BEGIN
 
 const std::string& HQContentItemObject::kTagNew = "NEW";
+const char* const HQContentItemObject::kContentTypeVideo = "VIDEO";
+const char* const HQContentItemObject::kContentTypeAudio = "AUDIO";
+const char* const HQContentItemObject::kContentTypeGame = "GAME";
+const char* const HQContentItemObject::kContentTypeGroup = "GROUP";
+const char* const HQContentItemObject::kContentTypeAudioGroup = "AUDIOGROUP";
+const char* const HQContentItemObject::kContentTypeManual = "MANUAL";
+const char* const HQContentItemObject::kContentTypeInternal = "INTERNAL";
 
 HQContentItemObject::HQContentItemObject()
 {

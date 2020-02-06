@@ -16,6 +16,10 @@ private:
     Orientation _orientation;
     cocos2d::Vec2 _closeButtonAnchor;
 public:
+    
+    static const char* const kIosWebviewName;
+    static const char* const kAndroidWebviewName;
+    
     CREATE_FUNC(WebViewSelector);
     static cocos2d::Scene* createSceneWithUrl(const std::string& url, Orientation orientation, const cocos2d::Vec2& closeButtonAnchor);
     virtual bool init() override;

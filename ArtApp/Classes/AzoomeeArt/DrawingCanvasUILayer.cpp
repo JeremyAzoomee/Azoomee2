@@ -9,11 +9,12 @@
 #include "DrawingCanvasUILayer.h"
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Utils/DirUtil.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Utils/SpecialCalendarEventManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
+#include <AzoomeeCommon/Device.h>
+#include <AzoomeeCommon/Data/AppConfig.h>
 
 using namespace cocos2d;
 
@@ -122,7 +123,7 @@ void DrawingCanvasUILayer::saveImage()
     
     const std::string scheduleKey = "save";
     Director::getInstance()->getScheduler()->schedule([&](float dt){
-        const std::string& truncatedPath = _filename.substr(_filename.find(ConfigStorage::kArtCacheFolder));
+        const std::string& truncatedPath = _filename.substr(_filename.find(AppConfig::kArtCacheFolder));
         _drawingCanvas->saveImage(truncatedPath);
         ModalMessages::getInstance()->stopSaving();
     }, this, 0.5, 0, 0, false, scheduleKey);
@@ -273,7 +274,7 @@ void DrawingCanvasUILayer::addColourSelectButtons(const Size& visibleSize, const
     closeButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onCloseColourSelectPressed, this));
     _colourButtonLayout->addChild(closeButton);
     
-    if(ConfigStorage::getInstance()->isDeviceIphoneX())
+    if(Device::getInstance()->isDeviceIphoneX())
     {
         _colourButtonLayout->setScale(0.85);
     }
@@ -452,7 +453,7 @@ void DrawingCanvasUILayer::addBrushRadiusSlider(const Size& visibleSize, const P
     
     this->addChild(_brushSizeSlider,MAIN_UI_LAYER);
     
-    if(ConfigStorage::getInstance()->isDeviceIphoneX())
+    if(Device::getInstance()->isDeviceIphoneX())
     {
         _brushSizeSlider->setScale(0.75);
         _brushSizeSlider->setPosition(_brushSizeSlider->getPosition() + Vec2(50,0));
@@ -1002,7 +1003,7 @@ void DrawingCanvasUILayer::setButtonBodyPattern(cocos2d::ui::Button *button, con
 void DrawingCanvasUILayer::getStickerFilesFromJSON()
 {
     _stickerCats.clear();
-	const std::string& oomeeStoragePath = DirUtil::getCachesPath() + "oomeeMaker/" + ChildManager::getInstance()->getParentOrChildId();
+	const std::string& oomeeStoragePath = DirUtil::getCachesPath() + "oomeeMaker/" + ChildManager::getInstance()->getLoggedInChild()->getId();
     const std::vector<std::string>& oomeeImages = DirUtil::getImagesInDirectory(oomeeStoragePath);
     
     if(oomeeImages.size() != 0)

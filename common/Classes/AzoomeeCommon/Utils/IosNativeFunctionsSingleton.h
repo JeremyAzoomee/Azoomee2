@@ -19,6 +19,8 @@ public:
     const char* getIosDeviceIDFA();
 	const char* getIosDeviceLanguage();
     
+    const char* getAppVersionNum();
+    
     void identifyMixpanel();
     
     void deleteHttpCookies();

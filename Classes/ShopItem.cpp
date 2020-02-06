@@ -85,7 +85,7 @@ void ShopItem::onEnter()
 			_assetImage->setNormalizedPosition(Vec2(0.5,0.55));
 		}
 		addFeaturedAnim();
-		_assetImage->initWithUrlAndSizeWithoutPlaceholder(_itemData->getInventoryItem()->getUri(), Size(this->getContentSize().width * 0.8f, this->getContentSize().height - 160));
+		_assetImage->initWithUrlAndSize(_itemData->getInventoryItem()->getUri(), Size(this->getContentSize().width * 0.8f, this->getContentSize().height - 160));
 		_costValue->setString(StringUtils::format("%d",_itemData->getPrice()));
 		const auto& tags = _itemData->getTags();
 		enableNewIcon(std::find(tags.begin(), tags.end(), "NEW") != tags.end());

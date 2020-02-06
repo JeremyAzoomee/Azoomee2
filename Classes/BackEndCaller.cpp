@@ -1,6 +1,5 @@
 #include "BackEndCaller.h"
 
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Data/Rewards/RewardManager.h>
@@ -29,7 +28,7 @@
 #include "MarketingAssetManager.h"
 
 #include <AzoomeeOomeeMaker/DataObjects/OomeeMakerDataHandler.h>
-
+#include <AzoomeeCommon/Device.h>
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "ApplePaymentSingleton.h"
 #include <AzoomeeCommon/Utils/IosNativeFunctionsSingleton.h>
@@ -98,7 +97,7 @@ void BackEndCaller::offlineCheck()
 
 void BackEndCaller::ipCheck()
 {
-    if(ConfigStorage::getInstance()->getClientAnonymousIp() != "0.0.0.0")
+    if(Device::getInstance()->getClientAnonymousIp() != "0.0.0.0")
     {
         return;
     }
@@ -115,10 +114,10 @@ void BackEndCaller::login(const std::string& username, const std::string& passwo
     
     HttpRequestCreator* request = API::LoginRequest(username, password, this);
 	
-	if(password != ConfigStorage::kAnonLoginPW)
+	if(password != UserAccountManager::kAnonLoginPW)
 	{
     	UserDefault* def = UserDefault::getInstance();
-    	def->setStringForKey(ConfigStorage::kStoredUsernameKey, username);
+    	def->setStringForKey(UserAccountManager::kStoredUsernameKey, username);
     	def->flush();
 	}
     AnalyticsSingleton::getInstance()->registerAzoomeeEmail(username);
@@ -159,7 +158,7 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString, con
 				updateBillingData();
 			}
 			getParentDetails();
-			ConfigStorage::getInstance()->setFirstSlideShowSeen();
+			UserAccountManager::getInstance()->setHasLoggedInOnDevice(true);
 		}
 		
 		
@@ -177,7 +176,7 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString, con
 void BackEndCaller::anonymousDeviceLogin()
 {
 	UserDefault* userDefault = UserDefault::getInstance();
-	const std::string& anonEmail = userDefault->getStringForKey(ConfigStorage::kAnonEmailKey, "");
+	const std::string& anonEmail = userDefault->getStringForKey(UserAccountManager::kAnonEmailKey, "");
 	
 	if(anonEmail == "")
 	{
@@ -187,7 +186,7 @@ void BackEndCaller::anonymousDeviceLogin()
 	}
 	else
 	{
-		login(anonEmail, ConfigStorage::kAnonLoginPW);
+		login(anonEmail, UserAccountManager::kAnonLoginPW);
 	}
 }
 
@@ -214,7 +213,7 @@ void BackEndCaller::updateParentPin(AwaitingAdultPinLayer *callBackTo)
     
     callBackNode = callBackTo;
     
-    HttpRequestCreator* request = API::UpdateParentPinRequest(this);
+    HttpRequestCreator* request = API::UpdateParentPinRequest(UserAccountManager::getInstance()->getLoggedInParentId(), this);
     request->execute();
 }
 
@@ -245,7 +244,7 @@ void BackEndCaller::getAvailableChildren()
 {
     ModalMessages::getInstance()->startLoading();
     
-    HttpRequestCreator* request = API::GetAvailableChildrenRequest(this);
+    HttpRequestCreator* request = API::GetAvailableChildrenRequest(UserAccountManager::getInstance()->getLoggedInParentId(), this);
     request->execute();
 }
 
@@ -319,10 +318,10 @@ void BackEndCaller::getSessionCookies()
     IosNativeFunctionsSingleton::getInstance()->deleteHttpCookies(); //ios handles cookies on OS level. Removal of earlier cookies is important to avoid watching premium content with a free user.
 #endif
     
-    const std::string& userId = ChildManager::getInstance()->getParentOrChildId();
-    const std::string& sessionId = ChildManager::getInstance()->getParentOrChildCdnSessionId();
+    const std::string& userId = ChildManager::getInstance()->getLoggedInChild()->getId();
+    const std::string& sessionId = ChildManager::getInstance()->getLoggedInChild()->getCDNSessionId();
     
-    HttpRequestCreator* request = API::GetSessionCookiesRequest(userId, sessionId, this);
+    HttpRequestCreator* request = API::GetSessionCookiesRequest(userId, sessionId, false, this);
     request->execute();
 }
 
@@ -370,7 +369,7 @@ void BackEndCaller::onSessionCookiesAnswerReceived(const std::string& responseSt
 void BackEndCaller::registerParent(const std::string& emailAddress, const std::string& password, const std::string& pinNumber, const std::string& marketingAccepted)
 {
     FlowDataSingleton::getInstance()->setFlowToSignup(emailAddress, password);
-    const std::string &sourceDevice = ConfigStorage::getInstance()->getDeviceInformation();
+    const std::string &sourceDevice = Device::getInstance()->getDeviceInformation();
     
     std::string source = "OTHER";
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -389,50 +388,12 @@ void BackEndCaller::onRegisterParentAnswerReceived()
 {
 	IAPProductDataHandler::getInstance()->fetchProductData();
 	UserDefault* userDefault = UserDefault::getInstance();
-	userDefault->setBoolForKey(ConfigStorage::kAnonOnboardingCompleteKey, false);
-	userDefault->setStringForKey(ConfigStorage::kAnonEmailKey, "");
-    ConfigStorage::getInstance()->setFirstSlideShowSeen();
+	userDefault->setBoolForKey(UserAccountManager::kAnonOnboardingCompleteKey, false);
+	userDefault->setStringForKey(UserAccountManager::kAnonEmailKey, "");
+    UserAccountManager::getInstance()->setHasLoggedInOnDevice(true);
     AnalyticsSingleton::getInstance()->OnboardingAccountCreatedEvent();
     FlowDataSingleton::getInstance()->setSuccessFailPath(SIGNUP_SUCCESS);
     login(FlowDataSingleton::getInstance()->getUserName(), FlowDataSingleton::getInstance()->getPassword());
-}
-
-//REGISTER CHILD----------------------------------------------------------------------------
-
-void BackEndCaller::registerChild(const std::string& childProfileName, const std::string& childGender, const std::string& childDOB, int oomeeNumber)
-{
-    displayLoadingScreen();
-    
-    FlowDataSingleton::getInstance()->addChildData(childProfileName, oomeeNumber);
-    
-    const std::string& oomeeUrl = ConfigStorage::getInstance()->getUrlForOomee(oomeeNumber);
-    HttpRequestCreator* request = API::RegisterChildRequest(childProfileName, childGender, childDOB, oomeeUrl, this);
-    request->execute();
-}
-
-void BackEndCaller::onRegisterChildAnswerReceived()
-{
-    AnalyticsSingleton::getInstance()->childProfileCreatedSuccessEvent();
-    getAvailableChildren();
-}
-
-//UPDATE CHILD----------------------------------------------------------------------------
-
-void BackEndCaller::updateChild(const std::string& childId, const std::string& childProfileName, const std::string& childGender, const std::string& childDOB, int oomeeNumber)
-{
-    displayLoadingScreen();
-    
-    FlowDataSingleton::getInstance()->addChildData(childProfileName, oomeeNumber);
-    
-    const std::string& oomeeUrl = ConfigStorage::getInstance()->getUrlForOomee(oomeeNumber);
-    const std::string& ownerId = UserAccountManager::getInstance()->getLoggedInParentId();
-    HttpRequestCreator* request = API::UpdateChildRequest(childId, childProfileName, childGender, childDOB, oomeeUrl, ownerId, this);
-    request->execute();
-}
-
-void BackEndCaller::onUpdateChildAnswerReceived()
-{
-    getAvailableChildren();
 }
 
 void BackEndCaller::updateChildAvatar(const std::string &childId, const std::string &imageData)
@@ -446,21 +407,21 @@ void BackEndCaller::updateChildAvatar(const std::string &childId, const std::str
 //GOOGLE VERIFY PAYMENT---------------------------------------------------------------------
 void BackEndCaller::verifyGooglePayment(const std::string& orderId, const std::string& iapSku, const std::string& purchaseToken)
 {
-    HttpRequestCreator* request = API::VerifyGooglePaymentRequest(orderId, iapSku, purchaseToken, this);
+    HttpRequestCreator* request = API::VerifyGooglePaymentRequest(UserAccountManager::getInstance()->getLoggedInParentId(), orderId, iapSku, purchaseToken, this);
     request->execute(30.0f);
 }
 
 //AMAZON VERIFY PAYMENT---------------------------------------------------------------------
 void BackEndCaller::verifyAmazonPayment(const std::string& requestId, const std::string& receiptId, const std::string& amazonUserid)
 {
-    HttpRequestCreator* request = API::VerifyAmazonPaymentRequest(requestId, receiptId, amazonUserid, this);
+    HttpRequestCreator* request = API::VerifyAmazonPaymentRequest(UserAccountManager::getInstance()->getLoggedInParentId(), requestId, receiptId, amazonUserid, this);
     request->execute(30.0f);
 }
 
 //APPLE VERIFY PAYMENT----------------------------------------------------------------------
 void BackEndCaller::verifyApplePayment(const std::string& receiptData, const std::string& transactionID)
 {
-    HttpRequestCreator* request = API::VerifyApplePaymentRequest(receiptData, transactionID, this);
+    HttpRequestCreator* request = API::VerifyApplePaymentRequest(UserAccountManager::getInstance()->getLoggedInParentId(), receiptData, transactionID, this);
     request->execute(30.0f);
 }
 
@@ -503,8 +464,8 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
 {
     if(requestTag == API::TagIpCheck)
     {
-        ConfigStorage::getInstance()->setClientAnonymousIp(body);
-        AnalyticsSingleton::getInstance()->registerAnonymousIp(ConfigStorage::getInstance()->getClientAnonymousIp());
+        Device::getInstance()->setClientAnonymousIp(body);
+        AnalyticsSingleton::getInstance()->registerAnonymousIp(Device::getInstance()->getClientAnonymousIp());
     }
     else if(requestTag == API::TagGetSessionCookies)
     {
@@ -528,16 +489,8 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
 		json.Parse(body.c_str());
 		const std::string& userId = getStringFromJson("id", json);
 		UserAccountManager::getInstance()->saveAnonCredentialsToDevice(userId);
-		login(userId, ConfigStorage::kAnonLoginPW);
+		login(userId, UserAccountManager::kAnonLoginPW);
 	}
-    else if(requestTag == API::TagRegisterChild)
-    {
-        onRegisterChildAnswerReceived();
-    }
-    else if(requestTag == API::TagUpdateChild)
-    {
-        onUpdateChildAnswerReceived();
-    }
     else if(requestTag == API::TagUpdateChildAvatar)
     {
         rapidjson::Document json;
@@ -600,8 +553,8 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
 {
     if(requestTag == API::TagIpCheck)
     {
-        ConfigStorage::getInstance()->setClientAnonymousIp("0.0.0.0");
-        AnalyticsSingleton::getInstance()->registerAnonymousIp(ConfigStorage::getInstance()->getClientAnonymousIp());
+        Device::getInstance()->setClientAnonymousIp("0.0.0.0");
+        AnalyticsSingleton::getInstance()->registerAnonymousIp(Device::getInstance()->getClientAnonymousIp());
     }
     else if(requestTag == API::TagOfflineCheck)
     {
@@ -620,18 +573,6 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
 		{
         	MessageBox::createWith(errorCode, nullptr);
 		}
-    }
-    else if(requestTag == API::TagRegisterChild)
-    {
-        AnalyticsSingleton::getInstance()->childProfileCreatedErrorEvent(errorCode);
-        hideLoadingScreen();
-        FlowDataSingleton::getInstance()->setErrorCode(errorCode);
-    }
-    else if(requestTag == API::TagUpdateChild)
-    {
-        AnalyticsSingleton::getInstance()->childProfileUpdateErrorEvent(errorCode);
-        hideLoadingScreen();
-        FlowDataSingleton::getInstance()->setErrorCode(errorCode);
     }
     else if(requestTag == API::TagLogin)
     {

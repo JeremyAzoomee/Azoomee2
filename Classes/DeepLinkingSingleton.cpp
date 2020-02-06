@@ -162,17 +162,12 @@ bool DeepLinkingSingleton::actionDeepLink()
         }
         if(path == "games")
         {
-            moveToHQ(ConfigStorage::kGameHQName);
-            return true;
-        }
-        if(path == "audio")
-        {
-            moveToHQ(ConfigStorage::kAudioHQName);
+            moveToHQ(HQConsts::kGameHQName);
             return true;
         }
         if(path == "videos")
         {
-            moveToHQ(ConfigStorage::kVideoHQName);
+            moveToHQ(HQConsts::kVideoHQName);
             return true;
         }
     }

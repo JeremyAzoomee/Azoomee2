@@ -11,11 +11,11 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/API/API.h>
 #include "KidDetailsLayer.h"
 #include "SceneManagerScene.h"
+#include <AzoomeeCommon/Device.h>
 
 using namespace cocos2d;
 
@@ -44,7 +44,7 @@ void SettingsKidsPage::onEnter()
     _kidList = ui::ListView::create();
     _kidList->setDirection(ui::ScrollView::Direction::VERTICAL);
     _kidList->setBounceEnabled(true);
-	_kidList->setContentSize(Size(this->getContentSize().width - 100, this->getContentSize().height - 316 - (ConfigStorage::getInstance()->isDeviceIphoneX() ? 200 : 150)));
+	_kidList->setContentSize(Size(this->getContentSize().width - 100, this->getContentSize().height - 316 - (Device::getInstance()->isDeviceIphoneX() ? 200 : 150)));
     _kidList->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _kidList->setItemsMargin(50);
     _kidList->setTopPadding(50);
@@ -98,7 +98,7 @@ void SettingsKidsPage::addKidsToScrollView()
 		kidLayer->setChild(UserAccountManager::getInstance()->getChild(i));
         kidLayer->setDeleteChildCallback([&](){
             ModalMessages::getInstance()->startLoading();
-            HttpRequestCreator* request = API::GetAvailableChildrenRequest(this);
+            HttpRequestCreator* request = API::GetAvailableChildrenRequest(UserAccountManager::getInstance()->getLoggedInParentId(), this);
             request->execute();
         });
         _kidList->pushBackCustomItem(kidLayer);

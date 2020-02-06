@@ -6,7 +6,6 @@
 //
 #ifdef AZOOMEE_VODACOM_BUILD
 #include "VodacomOnboardingDCBWebview.h"
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include "../DeepLinkingSingleton.h"
 #include "../BackEndCaller.h"

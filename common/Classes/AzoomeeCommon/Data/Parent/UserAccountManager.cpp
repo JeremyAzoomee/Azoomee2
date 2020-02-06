@@ -11,7 +11,6 @@
 #include "../../Analytics/AnalyticsSingleton.h"
 #include "../../Utils/PushNotificationsHandler.h"
 #include "../../API/API.h"
-#include "../ConfigStorage.h"
 #include "../../Utils/StringFunctions.h"
 #include "../Cookie/CookieManager.h"
 #include "../Child/ChildManager.h"
@@ -24,6 +23,12 @@
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
+
+const std::string UserAccountManager::kAnonLoginPW = "ToBeDecided";
+const char* const UserAccountManager::kAnonEmailKey = "anonEmail";
+const char* const UserAccountManager::kStoredUsernameKey = "username";
+const char* const UserAccountManager::kAnonOnboardingCompleteKey = "anonOnboardingComplete";
+const std::string UserAccountManager::kUserHasLoggedInOnDeviceKey = "FirstSlideShowSeen";
 
 static std::auto_ptr<UserAccountManager> sUserAccountManagerSharedInstance;
 
@@ -524,7 +529,7 @@ void UserAccountManager::retrieveParentLoginDataFromUserDefaults()
 	parent->setActorStatus(def->getStringForKey("loggedInParentActorStatus"));
 	parent->setAnonymous(def->getBoolForKey("isLoggedInParentAnonymous"));
 	parent->setCountryCode(def->getStringForKey("loggedInParentCountryCode"));
-	parent->setEmail(def->getStringForKey(ConfigStorage::kStoredUsernameKey));
+	parent->setEmail(def->getStringForKey(UserAccountManager::kStoredUsernameKey));
 	
 	_parent = parent;
 	
@@ -650,7 +655,7 @@ void UserAccountManager::login(const std::string& email, const std::string& pass
 void UserAccountManager::anonLogin(const OnCompleteCallback& callback)
 {
     cocos2d::UserDefault* userDefault = cocos2d::UserDefault::getInstance();
-    const std::string& anonEmail = userDefault->getStringForKey(ConfigStorage::kAnonEmailKey, "");
+    const std::string& anonEmail = userDefault->getStringForKey(UserAccountManager::kAnonEmailKey, "");
     
     if(anonEmail == "")
     {
@@ -659,7 +664,7 @@ void UserAccountManager::anonLogin(const OnCompleteCallback& callback)
             json.Parse(body.c_str());
             const std::string& userId = getStringFromJson("id", json);
             saveAnonCredentialsToDevice(userId);
-            this->login(userId, ConfigStorage::kAnonLoginPW, callback);
+            this->login(userId, UserAccountManager::kAnonLoginPW, callback);
         };
         
         auto onFailed = [callback](const std::string& tag, long errorCode){
@@ -673,7 +678,7 @@ void UserAccountManager::anonLogin(const OnCompleteCallback& callback)
     }
     else
     {
-        login(anonEmail, ConfigStorage::kAnonLoginPW, callback);
+        login(anonEmail, UserAccountManager::kAnonLoginPW, callback);
     }
 }
 
@@ -715,7 +720,7 @@ void UserAccountManager::getChildrenForLoggedInParent(const OnCompleteCallback& 
         }
     };
     
-    HttpRequestCreator* request = API::GetAvailableChildrenRequest(onSuccess, onFailed);
+    HttpRequestCreator* request = API::GetAvailableChildrenRequest(UserAccountManager::getInstance()->getLoggedInParentId(), onSuccess, onFailed);
     request->execute();
 }
 
@@ -734,8 +739,8 @@ void UserAccountManager::loginChild(const std::string& profileName, const OnComp
         IosNativeFunctionsSingleton::getInstance()->deleteHttpCookies(); //ios handles cookies on OS level. Removal of earlier cookies is important to avoid watching premium content with a free user.
         #endif
                 
-        const std::string& userId = ChildManager::getInstance()->getParentOrChildId();
-        const std::string& sessionId = ChildManager::getInstance()->getParentOrChildCdnSessionId();
+        const std::string& userId = ChildManager::getInstance()->getLoggedInChild()->getId();
+        const std::string& sessionId = ChildManager::getInstance()->getLoggedInChild()->getCDNSessionId();
             
         auto onSuccess = [callback](const std::string& tag, const std::string& headers, const std::string& body){
             CookieManager::getInstance()->parseDownloadCookies(headers);
@@ -776,7 +781,7 @@ void UserAccountManager::loginChild(const std::string& profileName, const OnComp
             }
         };
             
-        HttpRequestCreator* request = API::GetSessionCookiesRequest(userId, sessionId, onSuccess, onFailed);
+        HttpRequestCreator* request = API::GetSessionCookiesRequest(userId, sessionId, false, onSuccess, onFailed);
         request->execute();
     };
     
@@ -791,4 +796,14 @@ void UserAccountManager::loginChild(const std::string& profileName, const OnComp
     request->execute();
 }
 
+
+void UserAccountManager::setHasLoggedInOnDevice(bool loggedIn)
+{
+    UserDefault::getInstance()->setBoolForKey(kUserHasLoggedInOnDeviceKey.c_str(), loggedIn);
+}
+
+bool UserAccountManager::userHasLoggedInOnDevice()
+{
+    return UserDefault::getInstance()->getBoolForKey(kUserHasLoggedInOnDeviceKey.c_str(), false);
+}
 NS_AZOOMEE_END

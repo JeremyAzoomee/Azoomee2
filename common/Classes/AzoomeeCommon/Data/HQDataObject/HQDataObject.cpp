@@ -2,6 +2,8 @@
 
 NS_AZOOMEE_BEGIN
 
+const std::string HQDataObject::kGroupHQName = "GROUP HQ";  //custom hq to hold series content
+
 MutableHQDataObjectRef MutableHQDataObject::create()
 {
     return std::make_shared<MutableHQDataObject>();

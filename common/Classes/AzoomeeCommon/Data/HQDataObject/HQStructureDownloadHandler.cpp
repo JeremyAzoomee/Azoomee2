@@ -13,7 +13,6 @@
 #include "../Json.h"
 #include "../../UI/ModalMessages.h"
 #include "../Child/ChildManager.h"
-#include "../ConfigStorage.h"
 #include "../../Utils/StringFunctions.h"
 #include "HQDataObjectManager.h"
 #include "ContentItemManager.h"
@@ -89,7 +88,7 @@ void HQStructureDownloadHandler::loadGroupHQData(const std::string &groupIdPath)
     if(FileUtils::getInstance()->isFileExist(dataPath))
     {
         const std::string& data = cocos2d::FileUtils::getInstance()->getStringFromFile(dataPath);
-        HQDataObjectManager::getInstance()->parseHQStructureData(data, ConfigStorage::kGroupHQName);
+        HQDataObjectManager::getInstance()->parseHQStructureData(data, HQDataObject::kGroupHQName);
     }
 }
 

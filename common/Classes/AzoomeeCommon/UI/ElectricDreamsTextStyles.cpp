@@ -1,7 +1,7 @@
 #include "ElectricDreamsTextStyles.h"
 #include "../Utils/StringFunctions.h"
 #include "Style.h"
-#include "../Data/ConfigStorage.h"
+#include "../Data/Parent/UserAccountManager.h"
 
 using namespace cocos2d;
 
@@ -184,7 +184,7 @@ Label*  createLabelSmallLoading(std::string text)
 Label*  createUserNameLabelWithWidth(float width)
 {
     UserDefault* def = UserDefault::getInstance();
-    std::string username = def->getStringForKey(ConfigStorage::kStoredUsernameKey, "");
+    std::string username = def->getStringForKey(UserAccountManager::kStoredUsernameKey, "");
     def->flush();
     
     Label* newLabel = createLabelWith(username, Style::Font::Regular(), Style::Color::greenish, 84);

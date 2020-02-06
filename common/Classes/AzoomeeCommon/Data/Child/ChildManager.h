@@ -28,12 +28,12 @@ public:
 	void setLoggedInChild(const MutableChildRef& child);
 	ChildRef getLoggedInChild() const;
 	
-	std::string getParentOrChildId() const;
-	std::string getParentOrChildCdnSessionId() const;
-	std::string getParentOrChildApiSecret() const;
-	std::string getParentOrChildApiKey() const;
-	std::string getParentOrChildAvatarId() const;
-	std::string getParentOrChildName() const;
+	//std::string getParentOrChildId() const;
+	//std::string getParentOrChildCdnSessionId() const;
+	//std::string getParentOrChildApiSecret() const;
+	//std::string getParentOrChildApiKey() const;
+	//std::string getParentOrChildAvatarId() const;
+	//std::string getParentOrChildName() const;
     
     /// Get the latest inventory from the server
     void updateInventory();

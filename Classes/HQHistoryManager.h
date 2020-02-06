@@ -5,6 +5,7 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/UIConsts.h>
 #include "HQScene.h"
+#include "HQConstants.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -19,6 +20,8 @@ private:
 	bool _returnedFromForcedOrientation = false;
 	
 	Orientation _prevHQOrientation = Orientation::Landscape;
+    
+    std::string kDefaultHQName = HQConsts::kGameHQName;
     
     HQScene* _cachedHQScene = nullptr;
     HQSnapshot _hqSnapshot;

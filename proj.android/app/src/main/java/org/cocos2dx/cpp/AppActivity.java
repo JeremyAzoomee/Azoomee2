@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -166,6 +167,12 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     /* handle your error case: the device has no way to handle market urls */
         }
     }
+
+    public static String getAppVersionNum()
+    {
+        return BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")";
+    }
+
 
     public static String getOSBuildManufacturer() {
         return android.os.Build.MANUFACTURER;

@@ -120,14 +120,14 @@ void ShopItemPurchasePopup::refreshUI()
 	if(_itemData)
 	{
 		_itemAsset->removeLoadedImage();
-		_itemAsset->initWithUrlAndSizeWithoutPlaceholder(_itemData->getInventoryItem()->getUri(), this->getContentSize() * 0.4f);
+		_itemAsset->initWithUrlAndSize(_itemData->getInventoryItem()->getUri(), this->getContentSize() * 0.4f);
 		_itemAsset->startLoadingImage();
 		_cost->setString(StringUtils::format("%d",_itemData->getPrice()));
 		_valueLayout->setContentSize(_cost->getContentSize() + Size(_coin->getContentSize().width * 1.5f,0));
 	}
 	else
 	{
-		_itemAsset->initWithUrlAndSizeWithoutPlaceholder("", this->getContentSize() * 0.4f);
+		_itemAsset->initWithUrlAndSize("", this->getContentSize() * 0.4f);
 		_cost->setString(StringUtils::format("%d",0));
 		_valueLayout->setContentSize(_cost->getContentSize() + Size(_coin->getContentSize().width * 1.5f,0));
 	}

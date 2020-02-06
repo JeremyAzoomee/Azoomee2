@@ -1,5 +1,4 @@
 #include "IntroVideoScene.h"
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
@@ -199,9 +198,9 @@ void IntroVideoScene::onForceUpdateCheckFinished(const ForceUpdateResult& result
 	{
 		case ForceUpdateResult::DO_NOTHING:
 		{
-			if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
+			if(!UserAccountManager::getInstance()->userHasLoggedInOnDevice())
 			{
-				if(UserDefault::getInstance()->getStringForKey(ConfigStorage::kAnonEmailKey, "") == "")
+				if(UserDefault::getInstance()->getStringForKey(UserAccountManager::kAnonEmailKey, "") == "")
 				{
 					Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::WelcomeScene));
 				}
@@ -240,7 +239,7 @@ void IntroVideoScene::MessageBoxButtonPressed(std::string messageBoxTitle, std::
 	}
 	else
 	{
-		if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
+		if(!UserAccountManager::getInstance()->userHasLoggedInOnDevice())
 		{
             LoginController::getInstance()->anonLogin();
 		}

@@ -6,7 +6,6 @@
 //
 
 #include "SettingsFriendshipsPage.h"
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
@@ -51,7 +50,7 @@ void SettingsFriendshipsPage::onEnter()
     _friendRequestList->setBottomPadding(50);
     this->addChild(_friendRequestList);
     
-    _pendingFRHttpRequest = API::GetPendingFriendRequests(this);
+    _pendingFRHttpRequest = API::GetPendingFriendRequests(UserAccountManager::getInstance()->getLoggedInParentId(), this);
     _pendingFRHttpRequest->execute();
     
     Super::onEnter();

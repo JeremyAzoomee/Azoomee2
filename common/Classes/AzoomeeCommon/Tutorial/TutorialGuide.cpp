@@ -53,7 +53,7 @@ bool TutorialGuide::init()
 	{
 		RemoteImageSprite* avatar = RemoteImageSprite::create();
 		avatar->setKeepAspectRatio(true);
-		avatar->initWithUrlAndSizeWithoutPlaceholder(ChildManager::getInstance()->getLoggedInChild()->getAvatar(), contentSize * 1.1f);
+		avatar->initWithUrlAndSize(ChildManager::getInstance()->getLoggedInChild()->getAvatar(), contentSize * 1.1f);
 		avatar->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 		avatar->setNormalizedPosition(Vec2(0.5,0.65));
 		_avatar = avatar;

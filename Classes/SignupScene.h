@@ -38,6 +38,8 @@ private:
 	
 	static const std::map<std::string, cocos2d::Color3B> kPagePatternColours;
 	
+    static const std::string kSignupPlatformSource;
+    
 	SignupData _signupData;
 	
 	cocos2d::ui::Text* _titleText = nullptr;

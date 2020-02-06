@@ -1,5 +1,6 @@
 #include "SessionIdManager.h"
 #include "../Analytics/AnalyticsSingleton.h"
+#include "../Device.h"
 #include <chrono>
 
 using namespace cocos2d;
@@ -92,8 +93,8 @@ void SessionIdManager::generateSessionId()
     
     //get some device specific identifiers to decrease overlap chance further
     
-    const std::string &deviceData = ConfigStorage::getInstance()->getDeviceInformation();
-    const std::string &deviceIDFA = ConfigStorage::getInstance()->getDeviceAdvertisingId();
+    const std::string &deviceData = Device::getInstance()->getDeviceInformation();
+    const std::string &deviceIDFA = Device::getInstance()->getDeviceAdvertisingId();
     std::string deviceString = deviceData + deviceIDFA;
     
     std::hash<std::string> hasher;

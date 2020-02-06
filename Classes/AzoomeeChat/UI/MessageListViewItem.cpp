@@ -2,6 +2,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
 #include "../Data/StickerCache.h"
 
@@ -250,7 +251,7 @@ void MessageListViewItem::setData(const MessageRef& message)
         else if(messageType == Message::MessageTypeArt)
         {
             const Size& contentSize = getContentSize();
-            _artImage->initWithUrlAndSizeWithoutPlaceholder(message->artURL(), Size(contentSize.width/2,contentSize.width/2 * 10.0f/16.0f));
+            _artImage->initWithUrlAndSize(message->artURL(), Size(contentSize.width/2,contentSize.width/2 * 10.0f/16.0f));
             _artLayout->setTouchEnabled(false);
         }
         else if(messageType == Message::MessageTypeContent)
@@ -260,7 +261,7 @@ void MessageListViewItem::setData(const MessageRef& message)
             {
                 const std::string& imgUrl = contentItem->getBaseImageThumbUrl();
                 const Size& contentSize = getContentSize();
-                _artImage->initWithUrlAndSizeWithoutPlaceholder(imgUrl, Size(contentSize.width/2,contentSize.width/2 * 10.0f/16.0f));
+                _artImage->initWithUrlAndSize(imgUrl, Size(contentSize.width/2,contentSize.width/2 * 10.0f/16.0f));
                 if(!_userIsParent)
                 {
                     _artLayout->addTouchEventListener([=](Ref* sender, ui::Widget::TouchEventType event){
@@ -310,7 +311,7 @@ void MessageListViewItem::setData(const MessageRef& message)
         
         // Color depends also on current user
         const std::string& senderId = message->senderId();
-        const bool isCurrentUser = (senderId == ChildManager::getInstance()->getParentOrChildId());
+        const bool isCurrentUser = (senderId == (ChildManager::getInstance()->isChildLoggedIn() ? ChildManager::getInstance()->getLoggedInChild()->getId() : UserAccountManager::getInstance()->getLoggedInParentId()));
         const Color3B& fontColor = (isCurrentUser) ? Style::Color::darkIndigoTwo : Style::Color::white;
         _textLabel->setTextColor(Color4B(fontColor));
         _bubbleLayout->setBackGroundImageColor((isCurrentUser) ? Style::Color::white : Style::Color::darkIndigo);

@@ -9,7 +9,6 @@
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
@@ -23,6 +22,7 @@
 #include "SettingsKidsPage.h"
 #include "SettingsLanguagePage.h"
 #include "HQHistoryManager.h"
+#include <AzoomeeCommon/Device.h>
 
 using namespace cocos2d;
 
@@ -50,7 +50,7 @@ bool SettingsHub::init()
     _contentLayout->setLayoutType(ui::Layout::Type::VERTICAL);
     this->addChild(_contentLayout);
     
-    bool isIphoneX = ConfigStorage::getInstance()->isDeviceIphoneX();
+    bool isIphoneX = Device::getInstance()->isDeviceIphoneX();
     
     _titleLayout = ui::Layout::create();
     _titleLayout->setContentSize(Size(visibleSize.width, isIphoneX ? 250 : 150));
@@ -399,7 +399,7 @@ void SettingsHub::onHttpRequestSuccess(const std::string& requestTag, const std:
 		const std::string& userId = UserAccountManager::getInstance()->getLoggedInParentId();
 		const std::string& sessionId = UserAccountManager::getInstance()->getLoggedInParentCdnSessionId();
 		
-		HttpRequestCreator* request = API::GetSessionCookiesRequest(userId, sessionId, this);
+		HttpRequestCreator* request = API::GetSessionCookiesRequest(userId, sessionId, true, this);
 		request->execute();
 		return;
 	}

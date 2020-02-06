@@ -1,6 +1,7 @@
 #include "ChatAPI.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Data/Json.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/Cookie/CookieManager.h>
@@ -69,8 +70,14 @@ void ChatAPI::updateProfileNames()
     _profileNames.clear();
     
     // Add the current child user
-    ChildManager* childData = ChildManager::getInstance();
-    _profileNames[childData->getParentOrChildId()] = childData->getParentOrChildName();
+    if(ChildManager::getInstance()->isChildLoggedIn())
+    {
+        _profileNames[ChildManager::getInstance()->getLoggedInChild()->getId()] = ChildManager::getInstance()->getLoggedInChild()->getProfileName();
+    }
+    else
+    {
+        _profileNames[UserAccountManager::getInstance()->getLoggedInParentId()] = UserAccountManager::getInstance()->getParentDisplayName();
+    }
     
     // Add names from friend list
     for(auto friendData : _friendList)
@@ -115,8 +122,14 @@ void ChatAPI::removeObserver(ChatAPIObserver* observer)
 
 void ChatAPI::requestFriendList()
 {
-    ChildManager* childData = ChildManager::getInstance();
-    HttpRequestCreator* request = API::GetChatListRequest(childData->getParentOrChildId(), this);
+    std::string userId = UserAccountManager::getInstance()->getLoggedInParentId();
+    bool isParent = true;
+    if(ChildManager::getInstance()->isChildLoggedIn())
+    {
+        userId = ChildManager::getInstance()->getLoggedInChild()->getId();
+        isParent = false;
+    }
+    HttpRequestCreator* request = API::GetChatListRequest(userId, isParent, this);
     request->execute();
 }
 
@@ -127,13 +140,23 @@ FriendList ChatAPI::getFriendList() const
 
 void ChatAPI::reportChat(const FriendRef &friendObj)
 {
-    HttpRequestCreator *request = API::SendChatReportRequest(ChildManager::getInstance()->getParentOrChildId(), friendObj->friendId(), this);
+    std::string userId = UserAccountManager::getInstance()->getLoggedInParentId();
+    if(ChildManager::getInstance()->isChildLoggedIn())
+    {
+        userId = ChildManager::getInstance()->getLoggedInChild()->getId();
+    }
+    HttpRequestCreator *request = API::SendChatReportRequest(userId, friendObj->friendId(), this);
     request->execute();
 }
 
 void ChatAPI::resetReportedChat(const FriendRef &friendObj)
 {
-    HttpRequestCreator *request = API::ResetReportedChatRequest(ChildManager::getInstance()->getParentOrChildId(), friendObj->friendId(), this);
+    std::string userId = UserAccountManager::getInstance()->getLoggedInParentId();
+    if(ChildManager::getInstance()->isChildLoggedIn())
+    {
+        userId = ChildManager::getInstance()->getLoggedInChild()->getId();
+    }
+    HttpRequestCreator *request = API::ResetReportedChatRequest(userId, friendObj->friendId(), this);
     request->execute();
 }
 
@@ -141,8 +164,14 @@ void ChatAPI::resetReportedChat(const FriendRef &friendObj)
 
 void ChatAPI::requestMessageHistory(const FriendRef& friendObj, int pageNumber)
 {
-    ChildManager* childData = ChildManager::getInstance();
-    HttpRequestCreator* request = API::GetChatMessagesRequest(childData->getParentOrChildId(), friendObj->friendId(), pageNumber, this);
+    std::string userId = UserAccountManager::getInstance()->getLoggedInParentId();
+    bool isParent = true;
+    if(ChildManager::getInstance()->isChildLoggedIn())
+    {
+        userId = ChildManager::getInstance()->getLoggedInChild()->getId();
+        isParent = false;
+    }
+    HttpRequestCreator* request = API::GetChatMessagesRequest(userId, friendObj->friendId(), pageNumber, isParent, this);
     request->execute();
 }
 
@@ -150,9 +179,15 @@ void ChatAPI::requestMessageHistory(const FriendRef& friendObj, int pageNumber)
 
 void ChatAPI::sendMessage(const FriendRef& friendObj, const MessageRef& message)
 {
-    ChildManager* childData = ChildManager::getInstance();
+    std::string userId = UserAccountManager::getInstance()->getLoggedInParentId();
+    bool isParent = true;
+    if(ChildManager::getInstance()->isChildLoggedIn())
+    {
+        userId = ChildManager::getInstance()->getLoggedInChild()->getId();
+        isParent = false;
+    }
     const JsonObjectRepresentation& asJson = *message.get();
-    HttpRequestCreator* request = API::SendChatMessageRequest(childData->getParentOrChildId(), friendObj->friendId(), asJson, this);
+    HttpRequestCreator* request = API::SendChatMessageRequest(userId, friendObj->friendId(), asJson, isParent, this);
     request->execute();
 }
 
@@ -160,14 +195,25 @@ void ChatAPI::sendMessage(const FriendRef& friendObj, const MessageRef& message)
 
 void ChatAPI::markMessagesAsRead(const FriendRef& friendObj, const MessageRef& message)
 {
-    ChildManager* childData = ChildManager::getInstance();
-    HttpRequestCreator* request = API::MarkReadMessageRequest(childData->getParentOrChildId(), friendObj->friendId(), message->timestamp(), this);
+    std::string userId = UserAccountManager::getInstance()->getLoggedInParentId();
+    bool isParent = true;
+    if(ChildManager::getInstance()->isChildLoggedIn())
+    {
+        userId = ChildManager::getInstance()->getLoggedInChild()->getId();
+        isParent = false;
+    }
+    HttpRequestCreator* request = API::MarkReadMessageRequest(userId, friendObj->friendId(), message->timestamp(), isParent, this);
     request->execute();
 }
 
 void ChatAPI::getTimelineSummary()
 {
-    HttpRequestCreator* request = API::GetTimelineSummary(ChildManager::getInstance()->getParentOrChildId(), this);
+    std::string userId = UserAccountManager::getInstance()->getLoggedInParentId();
+    if(ChildManager::getInstance()->isChildLoggedIn())
+    {
+        userId = ChildManager::getInstance()->getLoggedInChild()->getId();
+    }
+    HttpRequestCreator* request = API::GetTimelineSummary(userId, this);
     request->execute();
 }
 
@@ -328,7 +374,7 @@ void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
 	else if(requestTag == API::TagChildCookieRefresh)
 	{
 		ChildManager::getInstance()->parseChildSessionUpdate(body);
-		HttpRequestCreator* request = API::GetSessionCookiesRequest(ChildManager::getInstance()->getLoggedInChild()->getId(), ChildManager::getInstance()->getLoggedInChild()->getCDNSessionId(), this);
+		HttpRequestCreator* request = API::GetSessionCookiesRequest(ChildManager::getInstance()->getLoggedInChild()->getId(), ChildManager::getInstance()->getLoggedInChild()->getCDNSessionId(), false, this);
 		request->execute();
 	}
 	else if(requestTag == API::TagGetSessionCookies)
@@ -389,7 +435,11 @@ void ChatAPI::onModerationStatusResponseSuccess(const std::string& requestTag, c
     const std::string& status = getStringFromJson("status", response);
     
     // Make sure the confirmation is for the current user
-    const std::string& currentChildID = ChildManager::getInstance()->getParentOrChildId();
+    std::string currentChildID = UserAccountManager::getInstance()->getLoggedInParentId();
+    if(ChildManager::getInstance()->isChildLoggedIn())
+    {
+        currentChildID = ChildManager::getInstance()->getLoggedInChild()->getId();
+    }
     if(userIdA != currentChildID)
     {
         // Not related to the current user

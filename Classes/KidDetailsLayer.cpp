@@ -163,7 +163,7 @@ void KidDetailsLayer::onEnter()
     bgCircle2->runAction(rotate2);
     
     _oomee = RemoteImageSprite::create();
-    _oomee->initWithUrlAndSizeWithoutPlaceholder(_child->getAvatar(), oomeeLayout->getContentSize());
+    _oomee->initWithUrlAndSize(_child->getAvatar(), oomeeLayout->getContentSize());
     _oomee->setKeepAspectRatio(true);
     _oomee->setAnchorPoint(Vec2(0.5,0.4));
     _oomee->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -262,7 +262,7 @@ void KidDetailsLayer::onEnter()
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
 			const std::string& targetChildId = _child->getId();
-			if(ChildManager::getInstance()->isChildLoggedIn() && ChildManager::getInstance()->getParentOrChildId() == targetChildId)
+			if(ChildManager::getInstance()->isChildLoggedIn() && ChildManager::getInstance()->getLoggedInChild()->getId() == targetChildId)
 			{
 				SettingsMessageBoxNotification* messageBox = SettingsMessageBoxNotification::create();
 				messageBox->setHeading(_("You can't do that right now, this child is currently logged in."));

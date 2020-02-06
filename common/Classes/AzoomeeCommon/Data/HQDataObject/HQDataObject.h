@@ -36,6 +36,8 @@ public:
     std::string getGroupBanner() const;
     bool getItemEntitlement(const std::string& itemId) const;
 	
+    static const std::string kGroupHQName;
+    
 };
 
 class MutableHQDataObject : public HQDataObject

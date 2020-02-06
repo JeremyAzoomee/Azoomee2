@@ -59,6 +59,13 @@ public:
     
     static const std::string &kTagNew;
     
+    static const char* const kContentTypeVideo;
+    static const char* const kContentTypeAudio;
+    static const char* const kContentTypeGame;
+    static const char* const kContentTypeGroup;
+    static const char* const kContentTypeAudioGroup;
+    static const char* const kContentTypeManual;
+    static const char* const kContentTypeInternal;
 };
 
 class MutableHQContentItemObject : public HQContentItemObject

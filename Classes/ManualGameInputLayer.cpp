@@ -4,7 +4,6 @@
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "GameDataManager.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "ContentHistoryManager.h"
 #include <AzoomeeCommon/Utils/DirUtil.h>
 #include <AzoomeeCommon/UI/DynamicText.h>
@@ -20,7 +19,7 @@ bool ManualGameInputLayer::init()
         return false;
     }
     
-    setName(ConfigStorage::kContentTypeManual);
+    setName(HQContentItemObject::kContentTypeManual);
     
     _background = ui::Layout::create();
     _background->setSizeType(ui::Layout::SizeType::PERCENT);
@@ -78,7 +77,7 @@ void ManualGameInputLayer::addButtons()
                 {
                     MutableHQContentItemObjectRef contentItem = MutableHQContentItemObject::create();
                     contentItem->setContentItemId(GameDataManager::kManualGameId);
-                    contentItem->setType(ConfigStorage::kContentTypeManual);
+                    contentItem->setType(HQContentItemObject::kContentTypeManual);
                     ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
                     Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Director::getInstance()->getVisibleSize().width > Director::getInstance()->getVisibleSize().height ? Landscape : Portrait, _uriTextInput->getText()));
                 }
@@ -87,7 +86,7 @@ void ManualGameInputLayer::addButtons()
             {
                 ModalMessages::getInstance()->startLoading();
                 
-                const std::string& manualGamePath = DirUtil::getCachesPath() + ConfigStorage::kGameCacheFolder + GameDataManager::kManualGameId;
+                const std::string& manualGamePath = DirUtil::getCachesPath() + GameDataManager::kGameCacheFolder + GameDataManager::kManualGameId;
                 
                 if(FileUtils::getInstance()->isDirectoryExist(manualGamePath))
                 {
@@ -97,7 +96,7 @@ void ManualGameInputLayer::addButtons()
                 FileUtils::getInstance()->createDirectory(manualGamePath);
                 MutableHQContentItemObjectRef contentItem = MutableHQContentItemObject::create();
                 contentItem->setContentItemId(GameDataManager::kManualGameId);
-                contentItem->setType(ConfigStorage::kContentTypeManual);
+                contentItem->setType(HQContentItemObject::kContentTypeManual);
                 ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
                 
                 GameDataManager::getInstance()->getJSONGameData(_uriTextInput->getText().c_str(), GameDataManager::kManualGameId);

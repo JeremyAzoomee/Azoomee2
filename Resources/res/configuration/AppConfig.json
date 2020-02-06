@@ -1,0 +1,16 @@
+{
+    "prod" :
+    {
+        "serverUrlPrefix" : "https://",
+        "serverHost" : "api.azoomee.com",
+        "localeZipUrl" : "https://media.azoomee.com/static/popups/languages/languages.zip",
+        "webcomAPIUrl" : "https://media.azoomee.com/static/webgameapi/"
+    },
+    "ci" :
+    {
+        "serverUrlPrefix" : "http://",
+        "serverHost" : "api.azoomee.ninja",
+        "localeZipUrl" : "https://media.azoomee.ninja/static/popups/languages/languages.zip",
+        "webcomAPIUrl" : "https://media.azoomee.ninja/static/webgameapi/"
+    }
+}

@@ -36,6 +36,7 @@ public:
     
     static const std::map<std::string, HQType> kHQNameToTypeConv;
     static const std::map<HQType,std::string> kHQTypeToNameConv;
+    static const std::map<std::string, cocos2d::Color3B> kHQColourMap;
     
     bool init() override;
     void onEnter() override;

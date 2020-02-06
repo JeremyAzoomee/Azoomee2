@@ -23,6 +23,7 @@ class ImageDownloader : public std::enable_shared_from_this<ImageDownloader>, Fi
 {
 public:
     static const std::string kImageCachePath;
+    static const std::string kAvatarImageCacheFolder;
     
     enum CacheMode {
         /// A category as a whole is cached together.
@@ -34,6 +35,9 @@ public:
     
 private:
     static std::vector<ImageDownloaderRef> _downloadingImagePool;
+    
+    static const int kContentImageValidityDurationSecs;
+    
     /// Filename for the image
     std::string _filename;
     /// Category of the image

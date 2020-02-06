@@ -11,7 +11,6 @@
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "VodacomMessageBoxExitFlow.h"
@@ -191,7 +190,7 @@ void VodacomOnboardingPinLayer::onConfirmPressed()
 	{
 		_flowData->setPin(_pinInput->getText());
 		ModalMessages::getInstance()->startLoading();
-		const std::string &sourceDevice = ConfigStorage::getInstance()->getDeviceInformation();
+		const std::string &sourceDevice = Device::getInstance()->getDeviceInformation();
 		HttpRequestCreator* request = API::RegisterParentRequest(UserAccountManager::getInstance()->getLoggedInParentId(),_flowData->getEmail(), _flowData->getPassword(), _pinInput->getText(), "VODACOM", sourceDevice, boolToString(_flowData->getAcceptedMarketing()), this);
 		request->execute();
 	}
@@ -209,15 +208,15 @@ void VodacomOnboardingPinLayer::onHttpRequestSuccess(const std::string& requestT
 	{
 		if(UserAccountManager::getInstance()->parseParentLoginData(body))
 		{
-			ConfigStorage::getInstance()->setFirstSlideShowSeen();
+			UserAccountManager::getInstance()->setHasLoggedInOnDevice(true);
 			UserAccountManager::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headers));
 			AnalyticsSingleton::getInstance()->signInSuccessEvent();
 			AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
 			_flowData->setUserType(UserType::REGISTERED);
 			UserDefault* def = UserDefault::getInstance();
-			def->setStringForKey(ConfigStorage::kStoredUsernameKey, _flowData->getEmail());
-			def->setBoolForKey(ConfigStorage::kAnonOnboardingCompleteKey, false);
-			def->setStringForKey(ConfigStorage::kAnonEmailKey, "");
+			def->setStringForKey(UserAccountManager::kStoredUsernameKey, _flowData->getEmail());
+			def->setBoolForKey(UserAccountManager::kAnonOnboardingCompleteKey, false);
+			def->setStringForKey(UserAccountManager::kAnonEmailKey, "");
 			def->flush();
 			ModalMessages::getInstance()->stopLoading();
 			VodacomMessageBoxNotification* messageBox = VodacomMessageBoxNotification::create();

@@ -1,9 +1,9 @@
 #include "NativeContentInterface_ios.h"
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "WebViewController_ios.h"
 #include "MediaPlayer_ios.h"
+#include "WebViewSelector.h"
 
 using namespace cocos2d;
 
@@ -37,7 +37,7 @@ bool NativeContentInterface_ios::init()
 void NativeContentInterface_ios::onEnterTransitionDidFinish()
 {
     Director::getInstance()->purgeCachedData();
-    this->setName(ConfigStorage::kIosWebviewName);
+    this->setName(WebViewSelector::kIosWebviewName);
 }
 
 void NativeContentInterface_ios::onExit()
@@ -109,7 +109,7 @@ void NativeContentInterface_ios::addWebViewToScreen(const std::string &url, cons
         NSLog(@"Cookies in storage: %@", each);
     }
     
-    const std::string& userid = ChildManager::getInstance()->getParentOrChildId();
+    const std::string& userid = ChildManager::getInstance()->getLoggedInChild()->getId();
     
     //If game is called, open the game directly, if video / audio, we open up jw player with the given url
     

@@ -9,12 +9,12 @@
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/NotificationNodeDisplayManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/Rewards/RewardManager.h>
 #include "CoinCollectLayer.h"
 #include "RewardScene.h"
+#include "WebViewSelector.h"
 
 using namespace cocos2d;
 
@@ -58,7 +58,7 @@ void RewardDisplayHandler::showReward(const RewardItemRef& reward)
 bool RewardDisplayHandler::isRunningAnimationPossible()
 {
 	const auto& scene = Director::getInstance()->getRunningScene();
-    return scene != nullptr && !scene->getChildByName(ConfigStorage::kIosWebviewName) && !scene->getChildByName(ConfigStorage::kAndroidWebviewName);
+    return scene != nullptr && !scene->getChildByName(WebViewSelector::kIosWebviewName) && !scene->getChildByName(WebViewSelector::kAndroidWebviewName);
 }
 
 bool RewardDisplayHandler::showNextReward()

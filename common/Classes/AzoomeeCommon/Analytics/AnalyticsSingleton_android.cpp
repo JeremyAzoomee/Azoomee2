@@ -26,7 +26,7 @@ std::string convertMapToJSONString(const std::map<std::string, std::string>& map
     
     //Only way found to pass integer to the Property JSON string
     if (mapIterator->second.find("NUMBER|") != std::string::npos) {
-      propertyData = splitStringToVector(mapIterator->second, "|")[1];
+      propertyData = StringFunctions::splitStringToVector(mapIterator->second, "|")[1];
     }
     else
       propertyData = cocos2d::StringUtils::format("\"%s\"",mapIterator->second.c_str());

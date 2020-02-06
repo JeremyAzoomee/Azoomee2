@@ -16,7 +16,7 @@ public:
     void setPath(const std::string &path);
     void setHost(const std::string &host);
     void setQueryParams(const std::string &queryParams);
-    void setRequestBody(const std::string &requestBody);
+    void setRequestBody(const std::string &_requestBody);
     void setForceParent(bool forceParent);
     
     std::string buildJWTString();

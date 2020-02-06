@@ -1,5 +1,4 @@
 #include "BiometricAuthenticationHandler.h"
-#include "../Data/ConfigStorage.h"
 #include "../Utils/LocaleManager.h"
 
 #if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)

@@ -17,7 +17,8 @@ NS_AZOOMEE_BEGIN
 class CookieManager
 {
 private:
-	
+    static const std::string kMediaCookiePrefix;
+    
 	std::vector<std::string> _dataDownloadCookiesVector;
 	std::string _pureCookieResponseString;
 	

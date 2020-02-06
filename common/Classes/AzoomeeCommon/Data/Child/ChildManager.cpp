@@ -31,7 +31,7 @@ ChildManager::~ChildManager()
 {
 	
 }
-
+/*
 std::string ChildManager::getParentOrChildId() const
 {
 	if(isChildLoggedIn())
@@ -103,7 +103,7 @@ std::string ChildManager::getParentOrChildName() const
 		return UserAccountManager::getInstance()->getParent()->getDisplayName();
 	}
 }
-
+*/
 bool ChildManager::isChildLoggedIn() const
 {
 	return _childLoggedIn && _loggedInChild;

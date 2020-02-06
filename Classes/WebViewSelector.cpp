@@ -19,6 +19,9 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+const char* const WebViewSelector::kIosWebviewName = "iosWebView";
+const char* const WebViewSelector::kAndroidWebviewName = "androidWebView";
+
 cocos2d::Scene* WebViewSelector::createSceneWithUrl(const std::string& url, Orientation orientation, const Vec2& closeButtonAnchor)
 {
     // 'scene' is an autorelease object
@@ -70,9 +73,9 @@ void WebViewSelector::loadWebView(const std::string& url, Orientation orientatio
     
     if(StringFunctions::stringEndsWith(_targetUrl, "m3u8")) //this if clause will probably need changes for later
     {
-        const std::string& userSessionId = ChildManager::getInstance()->getParentOrChildCdnSessionId();
+        const std::string& userSessionId = ChildManager::getInstance()->getLoggedInChild()->getCDNSessionId();
         _targetUrl = StringFunctions::replaceAll(_targetUrl, "{sessionId}", userSessionId);
-		HttpRequestCreator* progressCheck = API::GetVideoProgress(ChildManager::getInstance()->getParentOrChildId(), ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId(),this);
+		HttpRequestCreator* progressCheck = API::GetVideoProgress(ChildManager::getInstance()->getLoggedInChild()->getId(), ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId(),this);
         progressCheck->execute();
     }
     else

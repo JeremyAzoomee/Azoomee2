@@ -80,7 +80,7 @@ std::string FavouritesManager::getFavouritesFilePath() const
     {
         FileUtils::getInstance()->createDirectory(favouritesFolderLoc);
     }
-    const std::string& childFavouritesFolderLoc = favouritesFolderLoc + ChildManager::getInstance()->getParentOrChildId();
+    const std::string& childFavouritesFolderLoc = favouritesFolderLoc + ChildManager::getInstance()->getLoggedInChild()->getId();
     if(!FileUtils::getInstance()->isDirectoryExist(childFavouritesFolderLoc))
     {
         FileUtils::getInstance()->createDirectory(childFavouritesFolderLoc);

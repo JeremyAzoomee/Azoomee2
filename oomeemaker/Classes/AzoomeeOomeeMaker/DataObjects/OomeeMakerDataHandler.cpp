@@ -84,7 +84,7 @@ void OomeeMakerDataHandler::getLatestData(const OnCompleteCallback& callback)
     }
     else
     {
-        HttpRequestCreator* request = API::GetOomeeMakerAssets(ChildManager::getInstance()->getParentOrChildId(), this);
+        HttpRequestCreator* request = API::GetOomeeMakerAssets(ChildManager::getInstance()->getLoggedInChild()->getId(), this);
         request->execute();
     }
 }
@@ -102,7 +102,7 @@ void OomeeMakerDataHandler::getLatestDataAsync(const OnCompleteCallback& callbac
     if(!_gettingDataAsync)
     {
         _gettingDataAsync = true;
-        HttpRequestCreator* request = API::GetOomeeMakerAssets(ChildManager::getInstance()->getParentOrChildId(), this);
+        HttpRequestCreator* request = API::GetOomeeMakerAssets(ChildManager::getInstance()->getLoggedInChild()->getId(), this);
         request->execute();
     }
 }
@@ -276,7 +276,7 @@ std::string OomeeMakerDataHandler::getFullSaveDir() const
 #ifdef STANDALONE_APP
     const std::string& searchDir =  assetDir + "user/";
 #else
-    const std::string& searchDir =  assetDir + ChildManager::getInstance()->getParentOrChildId() + "/";
+    const std::string& searchDir =  assetDir + ChildManager::getInstance()->getLoggedInChild()->getId() + "/";
 #endif
     
     if(!FileUtils::getInstance()->isDirectoryExist(searchDir))
@@ -292,7 +292,7 @@ std::string OomeeMakerDataHandler::getLocalSaveDir() const
 #ifdef STANDALONE_APP
     return kBaseFolderName + "user/";
 #else
-    return kBaseFolderName + ChildManager::getInstance()->getParentOrChildId() + "/";
+    return kBaseFolderName + ChildManager::getInstance()->getLoggedInChild()->getId() + "/";
 #endif
 }
 
@@ -442,7 +442,7 @@ void OomeeMakerDataHandler::uploadExistingOomeesToBE(const std::string& childId)
 		if(oomee->getId() == "")
 		{
 			HttpRequestCreator* request = API::SaveNewOomee(childId, parentId, oomee->getOomeeId(), oomee->getAccessoryIds(), (_pendingLocalOomeeUploads.size() == 0), this);
-            request->requestTag = API::TagSaveLocalOomee;
+            request->_requestTag = API::TagSaveLocalOomee;
 			_pendingLocalOomeeUploads.push_back(request);
 			deleteOomee(file.substr(0,file.size() - kOomeeFileExtension.length()));
 		}

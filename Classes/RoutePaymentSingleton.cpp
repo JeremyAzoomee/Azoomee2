@@ -12,7 +12,7 @@
 #include "FlowDataSingleton.h"
 #include "SceneManagerScene.h"
 #include "AzoomeeCommon/Data/Child/ChildManager.h"
-#include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/Device.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     #include "platform/android/jni/JniHelper.h"
@@ -52,6 +52,16 @@ RoutePaymentSingleton::~RoutePaymentSingleton(void)
 
 bool RoutePaymentSingleton::init(void)
 {
+    const std::string& jsonString = FileUtils::getInstance()->getStringFromFile("res/configuration/IapConfiguration.json");
+    
+    _iapConfiguration.Parse(jsonString.c_str());
+    
+    if(_iapConfiguration.HasParseError())
+    {
+        cocos2d::log("IAPConfig file parsing error!");
+        _iapConfiguration.SetObject();
+    }
+    
     return true;
 }
 void RoutePaymentSingleton::startInAppPayment()
@@ -100,17 +110,17 @@ bool RoutePaymentSingleton::showIAPContent()
 
 bool RoutePaymentSingleton::osIsIos()
 {
-    return (ConfigStorage::getInstance()->getOSManufacturer() == ConfigStorage::kOSManufacturerApple);
+    return (Device::getInstance()->getOSManufacturer() == Device::kOSManufacturerApple);
 }
 
 bool RoutePaymentSingleton::osIsAndroid()
 {
-    return (ConfigStorage::getInstance()->getOSManufacturer() == ConfigStorage::kOSManufacturerGoogle);
+    return (Device::getInstance()->getOSManufacturer() == Device::kOSManufacturerGoogle);
 }
 
 bool RoutePaymentSingleton::osIsAmazon()
 {
-    return (ConfigStorage::getInstance()->getOSManufacturer() == ConfigStorage::kOSManufacturerAmazon);
+    return (Device::getInstance()->getOSManufacturer() == Device::kOSManufacturerAmazon);
 }
 
 void RoutePaymentSingleton::restorePayment()
@@ -279,7 +289,7 @@ void RoutePaymentSingleton::retryReceiptValidation()
 #endif
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    const std::vector<std::string>& paymentElements = splitStringToVector(dataString, "|");
+    const std::vector<std::string>& paymentElements = StringFunctions::splitStringToVector(dataString, "|");
     if(paymentElements.size() == 3)
     {
         if(osIsAmazon())
@@ -308,6 +318,12 @@ void RoutePaymentSingleton::createReceiptDataFolder()
     {
         FileUtils::getInstance()->createDirectory(cacheFolder);
     }
+}
+
+
+std::string RoutePaymentSingleton::getIapSkuForProvider(const std::string& provider)
+{
+    return getStringFromJson(provider, _iapConfiguration);
 }
 
 //Delegate Functions

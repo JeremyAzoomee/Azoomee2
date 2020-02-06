@@ -128,7 +128,7 @@ void LoginController::handleLoginSuccess()
     
     if(!UserAccountManager::getInstance()->isLoggedInParentAnonymous())
     {
-        ConfigStorage::getInstance()->setFirstSlideShowSeen();
+        UserAccountManager::getInstance()->setHasLoggedInOnDevice(true);
         
         //if reciept needs validating, do validation here, on success or fail it will fire this function again with reciept deleted
         if(RoutePaymentSingleton::getInstance()->receiptDataFileExists())
@@ -141,7 +141,6 @@ void LoginController::handleLoginSuccess()
     }
     
     MarketingAssetManager::getInstance()->downloadMarketingAssets();
-    OomeeMaker::OomeeMakerDataHandler::getInstance()->getLatestDataAsync();
     
     
     AnalyticsSingleton::getInstance()->setIsUserAnonymous(UserAccountManager::getInstance()->isLoggedInParentAnonymous());
@@ -184,6 +183,7 @@ void LoginController::handleGetChildrenSuccess()
 void LoginController::handleChildLoginSuccess()
 {
     ChildManager::getInstance()->updateInventory();
+    OomeeMaker::OomeeMakerDataHandler::getInstance()->getLatestDataAsync();
     OomeeMaker::OomeeMakerDataHandler::getInstance()->getOomeesForChild(ChildManager::getInstance()->getLoggedInChild()->getId(), false);
     HQHistoryManager::getInstance()->emptyHistory();
                            

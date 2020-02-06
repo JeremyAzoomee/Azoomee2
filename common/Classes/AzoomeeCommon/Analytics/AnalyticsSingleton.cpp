@@ -7,6 +7,7 @@
 #include "../Crashlytics/CrashlyticsConfig.h"
 #include "../JWTSigner/HMACSHA256/HMACSHA256.h"
 #include "../Data/HQDataObject/ContentItemManager.h"
+#include "../Data/AppConfig.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -59,7 +60,7 @@ void AnalyticsSingleton::mixPanelRegisterSuperProperties(const std::string& key,
 
 void AnalyticsSingleton::registerAppVersion()
 {
-    mixPanelRegisterSuperProperties("appVersion",ConfigStorage::getInstance()->getVersionNumberToDisplay());
+    mixPanelRegisterSuperProperties("appVersion",AppConfig::getInstance()->getVersionNumberToDisplay());
 }
     
 void AnalyticsSingleton::registerAnonymousIp(const std::string& anonymousIp)

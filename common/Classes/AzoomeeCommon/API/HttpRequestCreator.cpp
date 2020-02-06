@@ -1,11 +1,11 @@
 #include "HttpRequestCreator.h"
 
 #include "../JWTSigner/JWTTool.h"
-#include "../Data/ConfigStorage.h"
 #include "../Analytics/AnalyticsSingleton.h"
 #include "../Utils/StringFunctions.h"
 #include "../Data/Parent/UserAccountManager.h"
 #include "../Crashlytics/CrashlyticsConfig.h"
+#include "../Data/AppConfig.h"
 #include "API.h"
 
 using namespace cocos2d;
@@ -128,66 +128,62 @@ std::string HttpRequestCreator::getRequestURL() const
 
 cocos2d::network::HttpRequest* HttpRequestCreator::buildHttpRequest()                            //The http request is being created from global variables. This method can't be run until setting up all variables, please see usage on top of this file.
 {
-    std::string hostPrefix = ConfigStorage::getInstance()->getServerUrlPrefix();
+    std::string hostPrefix = AppConfig::getInstance()->getServerUrlPrefix();
     std::string host;
     
-    if(!url.empty())
+    if(!_url.empty())
     {
-        urlParameters = getUrlParametersFromUrl(url);
-        requestPath = getPathFromUrl(url);
-        host = getHostFromUrl(url);
+        _urlParameters = getUrlParametersFromUrl(_url);
+        _requestPath = getPathFromUrl(_url);
+        host = getHostFromUrl(_url);
     }
     else
     {
-        host = ConfigStorage::getInstance()->getServerHost();
-        
-        if(requestPath.empty())
-        {
-            requestPath = ConfigStorage::getInstance()->getPathForTag(requestTag);
-        }
+        host = AppConfig::getInstance()->getServerHost();
     }
     
-    std::string requestUrl = hostPrefix + host + requestPath;
-    if(!urlParameters.empty())
+    std::string requestUrl = hostPrefix + host + _requestPath;
+    if(!_urlParameters.empty())
     {
-        requestUrl = requestUrl + "?" + urlParameters;
+        requestUrl = requestUrl + "?" + _urlParameters;
     }
     _requestURL = requestUrl;
     
     HttpRequest* request = new HttpRequest();
     
-    if(method == "POST") request->setRequestType(HttpRequest::Type::POST);
-    if(method == "GET") request->setRequestType(HttpRequest::Type::GET);
-    if(method == "PATCH") request->setRequestType(HttpRequest::Type::PATCH);
-    if(method == "PUT") request->setRequestType(HttpRequest::Type::PUT);
-	if(method == "DELETE") request->setRequestType(HttpRequest::Type::DELETE);
+    if(_method == "POST") request->setRequestType(HttpRequest::Type::POST);
+    if(_method == "GET") request->setRequestType(HttpRequest::Type::GET);
+    if(_method == "PATCH") request->setRequestType(HttpRequest::Type::PATCH);
+    if(_method == "PUT") request->setRequestType(HttpRequest::Type::PUT);
+	if(_method == "DELETE") request->setRequestType(HttpRequest::Type::DELETE);
     request->setUrl(requestUrl.c_str());
     
-    const char* postData = requestBody.c_str();
+    const char* postData = _requestBody.c_str();
     request->setRequestData(postData, strlen(postData) + 1); //+1 is required to get the termination string. Otherwise random memory garbage can be added to the string by accident.
     std::vector<std::string> headers;
     
     //Add no cache to requests, to avoid caching
     headers.push_back("Cache-Control: no-cache");
     
-    if(!requestBody.empty())
+    if(!_requestBody.empty())
     {
         headers.push_back("Content-Type: application/json;charset=UTF-8");    //Adding content type to header only, if there is data in the request.
     }
     
-    if(encrypted)                                                             //parentLogin (and register parent) is the only nonencrypted call. JWTTool is called unless the request is not coming from login.
+    if(_encrypted)                                                             //parentLogin (and register parent) is the only nonencrypted call. JWTTool is called unless the request is not coming from login.
     {
         std::string myRequestString;
         
         auto jwtTool = JWTTool();
-        jwtTool.setRequestBody(requestBody);
-        jwtTool.setQueryParams(urlParameters);
+        jwtTool.setRequestBody(_requestBody);
+        jwtTool.setQueryParams(_urlParameters);
         jwtTool.setHost(host);
-        jwtTool.setPath(requestPath);
-        jwtTool.setMethod(method);
+        jwtTool.setPath(_requestPath);
+        jwtTool.setMethod(_method);
         
         
-        if(ConfigStorage::getInstance()->isParentSignatureRequiredForRequest(requestTag))
+        //if(ConfigStorage::getInstance()->isParentSignatureRequiredForRequest(_requestTag))
+        if(_signAsParent)
         {
             jwtTool.setForceParent(true);
         }
@@ -202,7 +198,7 @@ cocos2d::network::HttpRequest* HttpRequestCreator::buildHttpRequest()           
         headers.push_back("X-AZ-COUNTRYCODE: " + UserAccountManager::getInstance()->getLoggedInParentCountryCode());
     }
     
-    headers.push_back(StringUtils::format("x-az-appversion: %s", ConfigStorage::getInstance()->getVersionInformationForRequestHeader().c_str()));
+    headers.push_back(StringUtils::format("x-az-appversion: %s", AppConfig::getInstance()->getVersionInformationForRequestHeader().c_str()));
     
     request->setHeaders(headers);
     
@@ -212,7 +208,7 @@ cocos2d::network::HttpRequest* HttpRequestCreator::buildHttpRequest()           
 //    }
 	
 	request->setResponseCallback(_requestCallback);
-    request->setTag(requestTag);
+    request->setTag(_requestTag);
     
     return request;
 }
@@ -222,18 +218,11 @@ void HttpRequestCreator::sendRequest(cocos2d::network::HttpRequest* request, flo
     HttpClient::getInstance()->setTimeoutForConnect(timeout); // This is copied by the created http request object, so next request wont change the value for previous requests
     HttpClient::getInstance()->setTimeoutForRead(timeout);
     
-    if(ConfigStorage::getInstance()->isImmediateRequestSendingRequired(requestTag))
-	{
-		HttpClient::getInstance()->sendImmediate(request);
-	}
-    else
-	{
-		HttpClient::getInstance()->send(request);
-	}
+    HttpClient::getInstance()->send(request);
 	
-	if(requestTag != API::TagOfflineCheck)
+	if(_requestTag != API::TagOfflineCheck)
 	{
-		setCrashlyticsKeyWithString(CrashlyticsConsts::kLastHttpRequestTagKey, requestTag);
+		setCrashlyticsKeyWithString(CrashlyticsConsts::kLastHttpRequestTagKey, _requestTag);
 	}
 }
 
@@ -299,7 +288,9 @@ void HttpRequestCreator::handleError(network::HttpResponse *response)
 void HttpRequestCreator::handleEventAfterError(const std::string& requestTag, long errorCode)
 {
     if(delegate != nullptr)
+    {
         delegate->onHttpRequestFailed(requestTag, errorCode);
+    }
 }
   
 NS_AZOOMEE_END

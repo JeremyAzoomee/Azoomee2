@@ -1,6 +1,5 @@
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 using namespace cocos2d;
 
@@ -52,7 +51,7 @@ std::string HQHistoryManager::getPreviousHQ()
 		return _hqNames.at(_hqNames.size() - 2);
 	}
 	
-	return ConfigStorage::getInstance()->getDefaultHQ();
+	return kDefaultHQName;
 }
 
 std::string HQHistoryManager::getBeforePreviousHQ()
@@ -74,8 +73,8 @@ void HQHistoryManager::addDefaultHQIfHistoryEmpty()
 {
     if(_hqNames.size() == 0)
     {
-        Azoomee::AnalyticsSingleton::getInstance()->registerCurrentScene(ConfigStorage::getInstance()->getDefaultHQ());
-        _hqNames.push_back(ConfigStorage::getInstance()->getDefaultHQ());
+        Azoomee::AnalyticsSingleton::getInstance()->registerCurrentScene(kDefaultHQName);
+        _hqNames.push_back(kDefaultHQName);
     }
     else
     {

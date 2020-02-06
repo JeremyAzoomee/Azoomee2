@@ -11,7 +11,6 @@
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "VodacomMessageBoxNotification.h"
@@ -223,13 +222,13 @@ void VodacomOnboardingLoginLayer::onHttpRequestSuccess(const std::string& reques
 	{
 		if(UserAccountManager::getInstance()->parseParentLoginData(body))
 		{
-			ConfigStorage::getInstance()->setFirstSlideShowSeen();
+			UserAccountManager::getInstance()->setHasLoggedInOnDevice(true);
 			UserAccountManager::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headers));
 			AnalyticsSingleton::getInstance()->signInSuccessEvent();
 			AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
 			_flowData->setUserType(UserType::FREE);
 			UserDefault* def = UserDefault::getInstance();
-			def->setStringForKey(ConfigStorage::kStoredUsernameKey, _flowData->getEmail());
+			def->setStringForKey(UserAccountManager::kStoredUsernameKey, _flowData->getEmail());
 			def->flush();
 			HttpRequestCreator* request = API::UpdateBillingDataRequest(UserAccountManager::getInstance()->getLoggedInParentId(), this);
 			request->execute();
@@ -283,7 +282,7 @@ void VodacomOnboardingLoginLayer::onHttpRequestSuccess(const std::string& reques
 	{
 		AnalyticsSingleton::getInstance()->vodacomOnboardingVoucherAdded(_flowData->getVoucherCode());
 		HttpRequestCreator* request = API::UpdateBillingDataRequest(UserAccountManager::getInstance()->getLoggedInParentId(), this);
-		request->requestTag = "billingAfterVoucher";
+		request->_requestTag = "billingAfterVoucher";
 		request->execute();
 	}
 	else if(requestTag == "billingAfterVoucher")

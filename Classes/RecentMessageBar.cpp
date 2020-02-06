@@ -9,7 +9,6 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 
 using namespace cocos2d;
@@ -86,7 +85,7 @@ bool RecentMessageBar::init()
     _messageText->setOverflow(Label::Overflow::CLAMP);
     _textLayout->addChild(_messageText);
     
-    _imageDownloader = ImageDownloader::create(ConfigStorage::kAvatarImageCacheFolder, ImageDownloader::CacheMode::File);
+    _imageDownloader = ImageDownloader::create(ImageDownloader::kAvatarImageCacheFolder, ImageDownloader::CacheMode::File);
     
     addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)

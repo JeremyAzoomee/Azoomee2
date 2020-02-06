@@ -10,7 +10,6 @@
 #include <AzoomeeCommon/Utils//TimeUtils.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Rewards/RewardManager.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 using namespace cocos2d;
 
@@ -70,7 +69,7 @@ void ContentHistoryManager::onGameContentClosed()
     recordContentClosedTime();
     
     //dont send content progress for manual game type as this is for testing only
-    if(_lastOpenedContent->getType() == ConfigStorage::kContentTypeManual)
+    if(_lastOpenedContent->getType() == HQContentItemObject::kContentTypeManual)
     {
         return;
     }

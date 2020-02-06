@@ -3,11 +3,11 @@
 
 #include <external/json/document.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/Utils/VersionChecker.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/Utils/DirUtil.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "ForceUpdateAppLockScene.h"
+#include <AzoomeeCommon/Data/AppConfig.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/jni/JniHelper.h"
@@ -168,12 +168,12 @@ void ForceUpdateSingleton::setLocalEtag(const std::string& etag)
 
 bool ForceUpdateSingleton::isNotificationRequired()
 {
-    return StringFunctions::compareVersionNumbers(getAcceptedMinAzoomeeVersion(), ConfigStorage::getInstance()->getVersionNumber()) < 0; //if acceptedMinAzoomeeVersion is not met, we need to at least notify, but check if close required.
+    return StringFunctions::compareVersionNumbers(getAcceptedMinAzoomeeVersion(), AppConfig::getInstance()->getVersionNumber()) < 0; //if acceptedMinAzoomeeVersion is not met, we need to at least notify, but check if close required.
 }
 
 bool ForceUpdateSingleton::isAppCloseRequired()
 {
-    return StringFunctions::compareVersionNumbers(getNotifiedMinAzoomeeVersion(), ConfigStorage::getInstance()->getVersionNumber()) < 0; //if not even the notifiedMinAzoomeeVersion is met, we need to close the app
+    return StringFunctions::compareVersionNumbers(getNotifiedMinAzoomeeVersion(), AppConfig::getInstance()->getVersionNumber()) < 0; //if not even the notifiedMinAzoomeeVersion is met, we need to close the app
 }
 
 std::string ForceUpdateSingleton::getAcceptedMinAzoomeeVersion()

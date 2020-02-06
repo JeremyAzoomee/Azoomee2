@@ -3,6 +3,7 @@
 #include "UI/NotificationNode.h"
 #include "Analytics/AnalyticsSingleton.h"
 #include "UI/NotificationNodeDisplayManager.h"
+#include "Device.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 
@@ -88,7 +89,7 @@ bool Application::applicationDidFinishLaunching()
     auto frameSize = glview->getFrameSize();
     applicationScreenSizeChanged(frameSize.width, frameSize.height);
 
-	ConfigStorage::getInstance()->setIsDevicePhone(MAX(frameSize.width, frameSize.height) / MIN(frameSize.width, frameSize.height) >= 1.71); // sweet spot between 16/9 and 16/10 to keep most tablets open for landscape
+	Device::getInstance()->setIsDevicePhone(MAX(frameSize.width, frameSize.height) / MIN(frameSize.width, frameSize.height) >= 1.71); // sweet spot between 16/9 and 16/10 to keep most tablets open for landscape
 	
     return true;
 }

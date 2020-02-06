@@ -7,7 +7,6 @@
 
 #include "RecentlyPlayedManager.h"
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/Utils/DirUtil.h>
@@ -74,7 +73,7 @@ std::string RecentlyPlayedManager::getRecentlyPlayedFilePath() const
     {
         FileUtils::getInstance()->createDirectory(recentlyPlayedFolderLoc);
     }
-    const std::string& childRecentlyPlayedFolderLoc = recentlyPlayedFolderLoc + ChildManager::getInstance()->getParentOrChildId();
+    const std::string& childRecentlyPlayedFolderLoc = recentlyPlayedFolderLoc + ChildManager::getInstance()->getLoggedInChild()->getId();
     if(!FileUtils::getInstance()->isDirectoryExist(childRecentlyPlayedFolderLoc))
     {
         FileUtils::getInstance()->createDirectory(childRecentlyPlayedFolderLoc);
@@ -97,7 +96,7 @@ std::string RecentlyPlayedManager::getRecentlyPlayedFilePathForHQ(const std::str
     {
         FileUtils::getInstance()->createDirectory(recentlyPlayedFolderLoc);
     }
-    const std::string& childRecentlyPlayedFolderLoc = recentlyPlayedFolderLoc + ChildManager::getInstance()->getParentOrChildId();
+    const std::string& childRecentlyPlayedFolderLoc = recentlyPlayedFolderLoc + ChildManager::getInstance()->getLoggedInChild()->getId();
     if(!FileUtils::getInstance()->isDirectoryExist(childRecentlyPlayedFolderLoc))
     {
         FileUtils::getInstance()->createDirectory(childRecentlyPlayedFolderLoc);

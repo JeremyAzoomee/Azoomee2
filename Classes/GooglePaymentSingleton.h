@@ -22,7 +22,10 @@ public:
 	void restoreFailedNoPurchase();
     void onGooglePaymentVerificationAnswerReceived(std::string responseDataString);
     
+    std::string getDeveloperPublicKey();
+    
 private:
+    
     std::string savedDeveloperPayload;
     std::string savedOrderId;
     std::string savedToken;

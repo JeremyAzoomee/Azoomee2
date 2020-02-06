@@ -7,14 +7,13 @@
 #include <AzoomeeCommon/Input/TextInputChecker.h>
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Utils/PushNotificationsHandler.h>
 #include "FlowDataSingleton.h"
 #include "SceneManagerScene.h"
 #include "ChatNotificationsSingleton.h"
 #include "ContentHistoryManager.h"
 #include "PopupMessageBox.h"
-
+#include <AzoomeeCommon/Device.h>
 #include "LoginController.h"
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 
@@ -206,7 +205,7 @@ void LoginScene::onEnter()
 void LoginScene::getUserDefaults()
 {
     UserDefault* def = UserDefault::getInstance();
-    _storedUsername = def->getStringForKey(ConfigStorage::kStoredUsernameKey, "");
+    _storedUsername = def->getStringForKey(UserAccountManager::kStoredUsernameKey, "");
     def->flush();
     
     if(_storedUsername == "")
@@ -247,7 +246,7 @@ void LoginScene::keyboardWillShow(cocos2d::IMEKeyboardNotificationInfo& info)
 	const Vec2& targetPos = isPortrait ? Vec2(contentSize.width * 0.5f,contentSize.height * 0.85f) : Vec2(contentSize.width * 0.25f,contentSize.height * 0.5f);
 	
 	int keyboardHeight = info.end.size.height - Director::getInstance()->getVisibleOrigin().y;
-	ConfigStorage::getInstance()->setEstimatedKeyboardHeight(keyboardHeight);
+	Device::getInstance()->setEstimatedKeyboardHeight(keyboardHeight);
 	if((targetPos.y - (_titleText->getContentSize().height * 0.5f)) < keyboardHeight)
 	{
 		float offset = keyboardHeight - (targetPos.y - (_titleText->getContentSize().height * 0.5f));

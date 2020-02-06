@@ -8,7 +8,6 @@
 #include "FlowDataSingleton.h"
 #include <AzoomeeCommon/ErrorCodes.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
 #include "ContentHistoryManager.h"
@@ -17,6 +16,8 @@
 #include "VideoPlaylistManager.h"
 #include "BackEndCaller.h"
 #include "RecentlyPlayedManager.h"
+#include <AzoomeeCommon/Device.h>
+#include <AzoomeeCommon/Data/AppConfig.h>
 
 using namespace cocos2d;
 NS_AZOOMEE_BEGIN
@@ -30,10 +31,8 @@ void navigateToBaseScene()
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OfflineHub));
         return;
     }
-    if(HQHistoryManager::getInstance()->getCurrentHQ() != ConfigStorage::kHomeHQName && !(HQHistoryManager::getInstance()->getCurrentHQ() == ConfigStorage::kGroupHQName && HQHistoryManager::getInstance()->getPreviousHQ() == ConfigStorage::kHomeHQName))
-    {
-        ContentHistoryManager::getInstance()->setReturnedFromContent(true);
-    }
+
+    ContentHistoryManager::getInstance()->setReturnedFromContent(true);
 	
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
 }
@@ -121,12 +120,12 @@ NSString* getVideoPlaylist()
 
 NSString* getRemoteWebGameAPIPath()
 {
-    return [NSString stringWithUTF8String:ConfigStorage::getInstance()->getRemoteWebGameAPIPath().c_str()];
+    return [NSString stringWithUTF8String:AppConfig::getInstance()->getRemoteWebGameAPIPath().c_str()];
 }
 
 bool isDeviceIphoneX()
 {
-    return ConfigStorage::getInstance()->isDeviceIphoneX();
+    return Device::getInstance()->isDeviceIphoneX();
 }
 
 void favContent()
@@ -155,7 +154,7 @@ void shareContentInChat()
 
 bool isChatEntitled()
 {
-    return !HQHistoryManager::getInstance()->isOffline() && HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName)->getHqEntitlement();
+    return !HQHistoryManager::getInstance()->isOffline() && HQDataObjectManager::getInstance()->getHQDataObjectForKey(HQConsts::kChatHQName)->getHqEntitlement();
 }
 
 bool isAnonUser()
@@ -181,8 +180,8 @@ void sendProgressMetaDataGame()
 void newVideoOpened(int playlistIndex)
 {
 	const auto& contentItem = VideoPlaylistManager::getInstance()->getContentItemDataForPlaylistElement(playlistIndex);
-	RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kVideoHQName);
-	RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kMeHQName);
+	RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), HQConsts::kVideoHQName);
+	RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), HQConsts::kOomeeHQName);
 	ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
 	ContentHistoryManager::getInstance()->onContentOpened();
 	

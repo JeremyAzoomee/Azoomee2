@@ -3,6 +3,7 @@
 #include "../Utils/LocaleManager.h"
 #include "../UI/ElectricDreamsTextStyles.h"
 #include "../Analytics/AnalyticsSingleton.h"
+#include "../Device.h"
 
 using namespace cocos2d;
 
@@ -514,7 +515,7 @@ void TextInputLayer::editBoxEditingDidBegin(cocos2d::ui::EditBox* editBox)
     auto pos = editBox->convertToWorldSpace(editBox->getPosition());
     pos.y -= editBox->getContentSize().height;
     bool isPortrait = Director::getInstance()->getVisibleSize().width < Director::getInstance()->getVisibleSize().height;
-    float height = UserDefault::getInstance()->getFloatForKey(isPortrait ? ConfigStorage::kEstimatedKeyboardHeightPortrait : ConfigStorage::kEstimatedKeyboardHeightLandscape);
+    float height = UserDefault::getInstance()->getFloatForKey(isPortrait ? Device::kEstimatedKeyboardHeightPortrait : Device::kEstimatedKeyboardHeightLandscape);
     if(pos.y < height)
     {
         Director::getInstance()->getRunningScene()->setPositionY(height - pos.y);
