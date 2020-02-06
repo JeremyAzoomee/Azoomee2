@@ -12,7 +12,6 @@
 #include "RoundedRectTile.h"
 #include <AzoomeeCommon/UI/DynamicText.h>
 #include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
-#include <AzoomeeCommon/UI/TileSprite.h>
 
 NS_AZOOMEE_BEGIN
 

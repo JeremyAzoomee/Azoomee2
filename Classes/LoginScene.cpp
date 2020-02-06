@@ -1,7 +1,5 @@
 #include "LoginScene.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
-#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
-#include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/Input/TextInputChecker.h>
