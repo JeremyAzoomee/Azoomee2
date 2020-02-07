@@ -7,7 +7,7 @@
 #include "SceneManagerScene.h"
 #include "MarketingAssetManager.h"
 #include "HQHistoryManager.h"
-
+#include "ModalMessages.h"
 #include "RoutePaymentSingleton.h"
 
 #include "AzoomeeOomeeMaker/DataObjects/OomeeMakerDataHandler.h"
@@ -49,8 +49,10 @@ void LoginController::doLoginLogic()
     
     if(UserAccountManager::getInstance()->localLogin())
     {
+        ModalMessages::getInstance()->startLoading();
         UserAccountManager::getInstance()->getBillingDataForLoggedInParent([this](bool, long){
             UserAccountManager::getInstance()->getChildrenForLoggedInParent([this](bool success, long errorcode){
+                ModalMessages::getInstance()->stopLoading();
                 if(success)
                 {
                     handleLoginSuccess();
@@ -58,7 +60,7 @@ void LoginController::doLoginLogic()
                 else
                 {
                     forceNewLogin();
-                }
+                } 
             });
         });
     }
@@ -90,7 +92,9 @@ LoginOrigin LoginController::getOrigin() const
 
 void LoginController::login(const std::string& email, const std::string& password)
 {
+    ModalMessages::getInstance()->startLoading();
     UserAccountManager::getInstance()->login(email, password, [this](bool success, long errorcode){
+        ModalMessages::getInstance()->stopLoading();
         if(success)
         {
             handleLoginSuccess();
@@ -100,7 +104,9 @@ void LoginController::login(const std::string& email, const std::string& passwor
 
 void LoginController::anonLogin()
 {
+    ModalMessages::getInstance()->startLoading();
     UserAccountManager::getInstance()->anonLogin([this](bool success, long errorcode){
+        ModalMessages::getInstance()->stopLoading();
         if(success)
         {
             handleLoginSuccess();
@@ -110,7 +116,9 @@ void LoginController::anonLogin()
 
 void LoginController::childLogin(const std::string& childName)
 {
+    ModalMessages::getInstance()->startLoading();
     UserAccountManager::getInstance()->loginChild(childName, [this](bool success, long errorcode){
+        ModalMessages::getInstance()->stopLoading();
         if(success)
         {
             handleChildLoginSuccess();

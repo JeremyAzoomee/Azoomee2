@@ -10,7 +10,7 @@
 #include <AzoomeeCommon/Utils/FileZipUtil.h>
 
 #include "BackEndCaller.h"
-#include <AzoomeeCommon/UI/ModalMessages.h>
+#include "ModalMessages.h"
 #include "LoginController.h"
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Utils/LocaleManager.h>

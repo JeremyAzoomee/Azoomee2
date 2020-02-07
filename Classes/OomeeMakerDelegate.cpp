@@ -14,7 +14,7 @@
 #include "AzoomeeOomeeMaker/UI/OomeeMakerScene.h"
 #include "AzoomeeOomeeMaker/UI/OomeeSelectScene.h"
 #include <AzoomeeCommon/API/API.h>
-#include <AzoomeeCommon/UI/ModalMessages.h>
+#include "ModalMessages.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 USING_NS_CC;

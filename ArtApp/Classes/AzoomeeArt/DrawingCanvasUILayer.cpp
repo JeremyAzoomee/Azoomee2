@@ -11,7 +11,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Utils/DirUtil.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/UI/ModalMessages.h>
+#include "ModalMessages.h"
 #include <AzoomeeCommon/Device.h>
 #include <AzoomeeCommon/Data/AppConfig.h>
 

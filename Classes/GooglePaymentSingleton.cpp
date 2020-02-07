@@ -1,7 +1,7 @@
 #include "GooglePaymentSingleton.h"
 #include "external/json/document.h"
 #include "BackEndCaller.h"
-#include <AzoomeeCommon/UI/ModalMessages.h>
+#include "ModalMessages.h"
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "LoginController.h"

@@ -1,7 +1,7 @@
 #include "FriendListScene.h"
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/UI/ModalMessages.h>
+#include "../../ModalMessages.h"
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>

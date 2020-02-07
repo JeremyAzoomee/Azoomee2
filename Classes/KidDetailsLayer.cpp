@@ -14,7 +14,7 @@
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/NativeShare/NativeShare.h>
 #include <AzoomeeCommon/API/API.h>
-#include <AzoomeeCommon/UI/ModalMessages.h>
+#include "ModalMessages.h"
 #include "SettingsMessageBoxDeleteChild.h"
 #include "SettingsMessageBoxFREvent.h"
 #include "SettingsMessageBoxNotification.h"

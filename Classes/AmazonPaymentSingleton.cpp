@@ -3,7 +3,7 @@
 #include "BackEndCaller.h"
 #include "LoginController.h"
 #include "RoutePaymentSingleton.h"
-#include <AzoomeeCommon/UI/ModalMessages.h>
+#include "ModalMessages.h"
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "FlowDataSingleton.h"

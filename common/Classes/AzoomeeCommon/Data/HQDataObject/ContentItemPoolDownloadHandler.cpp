@@ -9,7 +9,6 @@
 #include "../../API/API.h"
 #include <cocos/cocos2d.h>
 #include "../Json.h"
-#include "../../UI/ModalMessages.h"
 #include "../Child/ChildManager.h"
 #include "ContentItemManager.h"
 #include "../../Utils/DirUtil.h"
@@ -46,7 +45,6 @@ void ContentItemPoolDownloadHandler::getLatestData(const OnCompleteCallback& cal
 	{
 		_callback = callback;
 	}
-    ModalMessages::getInstance()->startLoading();
 	const std::string& childId = ChildManager::getInstance()->getLoggedInChild()->getId();
     HttpRequestCreator* request = API::GetContentPoolRequest(childId, this);
     request->execute();
@@ -61,7 +59,6 @@ void ContentItemPoolDownloadHandler::loadLocalData()
         ContentItemManager::getInstance()->parseContentItemPool(data);
         ContentItemManager::getInstance()->setPoolEtag(getLocalEtag());
     }
-    ModalMessages::getInstance()->stopLoading();
 	sendCallback(true);
 }
 

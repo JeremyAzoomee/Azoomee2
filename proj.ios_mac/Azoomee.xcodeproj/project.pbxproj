@@ -221,6 +221,7 @@
 		E220CC1923548EE000F646CA /* ArtContentTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E220CC1823548EE000F646CA /* ArtContentTile.cpp */; };
 		E220FF092366F2E60086779A /* RecentMessageBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E220FF082366F2E60086779A /* RecentMessageBar.cpp */; };
 		E228BF4223EDAA8400D9E57D /* ConfirmCancelMessageBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E228BF4023EDAA8400D9E57D /* ConfirmCancelMessageBox.cpp */; };
+		E228BF4B23EDBF8400D9E57D /* ModalMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E228BF4923EDBF8300D9E57D /* ModalMessages.cpp */; };
 		E229F67423351999005BA0D4 /* EpisodeSelector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E229F67323351999005BA0D4 /* EpisodeSelector.cpp */; };
 		E229F6772338CF46005BA0D4 /* EpisodeBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E229F6762338CF46005BA0D4 /* EpisodeBar.cpp */; };
 		E22ACA04230C00D40024B328 /* NavigationButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22ACA03230C00D40024B328 /* NavigationButton.cpp */; };
@@ -748,6 +749,8 @@
 		E220FF082366F2E60086779A /* RecentMessageBar.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RecentMessageBar.cpp; sourceTree = "<group>"; };
 		E228BF4023EDAA8400D9E57D /* ConfirmCancelMessageBox.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ConfirmCancelMessageBox.cpp; sourceTree = "<group>"; };
 		E228BF4123EDAA8400D9E57D /* ConfirmCancelMessageBox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfirmCancelMessageBox.h; sourceTree = "<group>"; };
+		E228BF4923EDBF8300D9E57D /* ModalMessages.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModalMessages.cpp; sourceTree = "<group>"; };
+		E228BF4A23EDBF8300D9E57D /* ModalMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModalMessages.h; sourceTree = "<group>"; };
 		E229F67223350BCA005BA0D4 /* EpisodeSelector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EpisodeSelector.h; sourceTree = "<group>"; };
 		E229F67323351999005BA0D4 /* EpisodeSelector.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EpisodeSelector.cpp; sourceTree = "<group>"; };
 		E229F6752338C02A005BA0D4 /* EpisodeBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EpisodeBar.h; sourceTree = "<group>"; };
@@ -1180,6 +1183,8 @@
 		4327D9251E1F98AC00F912C5 /* uiObjects */ = {
 			isa = PBXGroup;
 			children = (
+				E228BF4923EDBF8300D9E57D /* ModalMessages.cpp */,
+				E228BF4A23EDBF8300D9E57D /* ModalMessages.h */,
 				E228BF4123EDAA8400D9E57D /* ConfirmCancelMessageBox.h */,
 				E228BF4023EDAA8400D9E57D /* ConfirmCancelMessageBox.cpp */,
 				9229EEC422E5C290009732B0 /* PopupMessageBox.h */,
@@ -2171,6 +2176,7 @@
 				E220CC1923548EE000F646CA /* ArtContentTile.cpp in Sources */,
 				E22B85FD238596D800F2F7F4 /* OfflineScene.cpp in Sources */,
 				924E845221412D70004590FD /* SettingsKidsPage.cpp in Sources */,
+				E228BF4B23EDBF8400D9E57D /* ModalMessages.cpp in Sources */,
 				E21E658123605186000BC90F /* MessageComposer.cpp in Sources */,
 				300742F31EF93428005525AE /* ChatDelegate.cpp in Sources */,
 				E230589723E98BF10057CFE7 /* OomeeAccessory.cpp in Sources */,

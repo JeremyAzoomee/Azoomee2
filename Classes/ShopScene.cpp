@@ -10,7 +10,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Data/Shop/ShopDisplayItem.h>
 #include <AzoomeeCommon/Data/Shop/ShopDataDownloadHandler.h>
-#include <AzoomeeCommon/UI/ModalMessages.h>
+#include "ModalMessages.h"
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>

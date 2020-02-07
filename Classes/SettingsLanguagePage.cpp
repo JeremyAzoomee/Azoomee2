@@ -10,7 +10,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/UI/ModalMessages.h>
+#include "ModalMessages.h"
 #include "LanguageListItem.h"
 #include "HQHistoryManager.h"
 

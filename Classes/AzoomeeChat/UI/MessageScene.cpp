@@ -1,6 +1,6 @@
 #include "MessageScene.h"
 #include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/UI/ModalMessages.h>
+#include "../../ModalMessages.h"
 #include <AzoomeeCommon/UI/SplitLayout.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>

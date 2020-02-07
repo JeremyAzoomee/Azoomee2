@@ -12,7 +12,7 @@
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
-#include <AzoomeeCommon/UI/ModalMessages.h>
+#include "ModalMessages.h"
 #include "FriendRequestLayer.h"
 #include "PopupMessageBox.h"
 #include "ErrorCodes.h"

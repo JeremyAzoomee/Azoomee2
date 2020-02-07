@@ -1,9 +1,9 @@
 #include "ModalMessages.h"
 #include <ui/UIEditBox/UIEditBox.h>
-#include "../Analytics/AnalyticsSingleton.h"
-#include "Style.h"
-#include "Scene.h"
-#include "../Utils/LocaleManager.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Scene.h>
+#include <AzoomeeCommon//Utils/LocaleManager.h>
 
 USING_NS_CC;
 
@@ -22,7 +22,6 @@ ModalMessages* ModalMessages::getInstance()
     if (! _sharedModalMessages)
     {
         _sharedModalMessages = new ModalMessages();
-        _sharedModalMessages->init();
     }
     
     return _sharedModalMessages;
@@ -30,12 +29,6 @@ ModalMessages* ModalMessages::getInstance()
 
 ModalMessages::~ModalMessages(void)
 {
-}
-
-bool ModalMessages::init(void)
-{
-    
-    return true;
 }
 
 void ModalMessages::createAndFadeInLayer()

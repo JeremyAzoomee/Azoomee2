@@ -3,9 +3,9 @@
 
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include "../Azoomee.h"
+#include "AzoomeeArtApp.h"
 
-NS_AZOOMEE_BEGIN
+NS_AZOOMEE_AA_BEGIN
 
 class ModalMessages : public cocos2d::Ref
 {
@@ -32,6 +32,6 @@ public:
     void stopSaving();
 };
   
-NS_AZOOMEE_END
+NS_AZOOMEE_AA_END
 
 #endif
