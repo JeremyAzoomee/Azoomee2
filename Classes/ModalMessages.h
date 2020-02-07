@@ -10,10 +10,10 @@ NS_AZOOMEE_BEGIN
 class ModalMessages
 {
 public:
-    /** Returns the shared instance of the Game Manager */
     static ModalMessages* getInstance(void);
     
 private:
+    static const std::string kLoadingLayerName;
     void createAndFadeInLayer();
     void addListenerToBackgroundLayer();
     void removeLayer();

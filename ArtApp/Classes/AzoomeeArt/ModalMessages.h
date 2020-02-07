@@ -7,13 +7,13 @@
 
 NS_AZOOMEE_AA_BEGIN
 
-class ModalMessages : public cocos2d::Ref
+class ModalMessages
 {
 public:
-    /** Returns the shared instance of the Game Manager */
     static ModalMessages* getInstance(void);
     
 private:
+    static const std::string kLoadingLayerName;
     void createAndFadeInLayer();
     void addListenerToBackgroundLayer();
     void removeLayer();
@@ -23,7 +23,6 @@ private:
 public:
     
     virtual ~ModalMessages();
-    bool init(void);
     
     void startLoading();
     void stopLoading();

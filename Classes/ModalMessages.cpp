@@ -15,6 +15,8 @@ USING_NS_CC;
 
 NS_AZOOMEE_BEGIN
 
+const std::string ModalMessages::kLoadingLayerName = "loadingLayer";
+
 static ModalMessages *_sharedModalMessages = NULL;
 
 ModalMessages* ModalMessages::getInstance()
@@ -43,7 +45,7 @@ void ModalMessages::createAndFadeInLayer()
     loadingLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     loadingLayer->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     loadingLayer->setOpacity(0);
-    loadingLayer->setName("loadingLayer");
+    loadingLayer->setName(kLoadingLayerName);
     Director::getInstance()->getRunningScene()->addChild(loadingLayer, LOADING_Z_ORDER);
     
     loadingLayer->runAction(FadeTo::create(0.5, 200));
@@ -51,7 +53,7 @@ void ModalMessages::createAndFadeInLayer()
 
 void ModalMessages::removeLayer()
 {
-    if(Director::getInstance()->getRunningScene()->getChildByName("loadingLayer"))
+    if(Director::getInstance()->getRunningScene()->getChildByName(kLoadingLayerName))
     {
         Director::getInstance()->getRunningScene()->removeChild(loadingLayer);
     }
@@ -59,7 +61,7 @@ void ModalMessages::removeLayer()
 
 void ModalMessages::startLoading()
 {
-    if(Director::getInstance()->getRunningScene()->getChildByName("loadingLayer")) return;
+    if(Director::getInstance()->getRunningScene()->getChildByName(kLoadingLayerName)) return;
     
     createAndFadeInLayer();
     
@@ -76,7 +78,10 @@ void ModalMessages::startLoading()
         loadingLayer->addChild(loadingCircle);
         
         int direction = 1;
-        if(CCRANDOM_0_1() < 0.5) direction = -1;
+        if(CCRANDOM_0_1() < 0.5)
+        {
+            direction = -1;
+        }
         
         loadingCircle->runAction(RepeatForever::create(RotateBy::create(CCRANDOM_0_1() + 1, 360 * direction)));
         loadingCircle->runAction(FadeTo::create(0.5, 255));
@@ -90,8 +95,10 @@ void ModalMessages::stopLoading()
 
 void ModalMessages::startSaving()
 {
-    if(Director::getInstance()->getRunningScene()->getChildByName("loadingLayer")) return;
-    
+    if(Director::getInstance()->getRunningScene()->getChildByName(kLoadingLayerName))
+    {
+        return;
+    }
     createAndFadeInLayer();
     
     auto savingLabel = Label::createWithTTF(_("Saving..."), Style::Font::Regular(), 128);
