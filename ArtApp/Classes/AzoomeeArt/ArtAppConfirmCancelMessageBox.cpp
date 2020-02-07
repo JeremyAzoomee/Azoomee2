@@ -1,48 +1,33 @@
 //
-//  ConfirmCancelMessageBox.cpp
+//  ArtAppConfirmCancelMessageBox.cpp
 //  AzoomeeCommon
 //
 //  Created by Macauley on 20/09/2018.
 //
 
-#include "ConfirmCancelMessageBox.h"
-#include "Style.h"
-#include "../Audio/AudioMixer.h"
+#include "ArtAppConfirmCancelMessageBox.h"
+#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/Audio/AudioMixer.h>
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+NS_AZOOMEE_AA_BEGIN
 
-ConfirmCancelMessageBox* ConfirmCancelMessageBox::createWithParams(const std::string &title, const std::string &confirmButtonFilename, const std::string &cancelButtonFilename, const cocos2d::Color3B &backgroundColour, const cocos2d::Color4B &textColour)
+ArtAppConfirmCancelMessageBox* ArtAppConfirmCancelMessageBox::createWithParams(const std::string &title, const std::string &confirmButtonFilename, const std::string &cancelButtonFilename, const cocos2d::Color3B &backgroundColour, const cocos2d::Color4B &textColour)
 {
-    ConfirmCancelMessageBox* messageBox = ConfirmCancelMessageBox::create();
+    ArtAppConfirmCancelMessageBox* messageBox = ArtAppConfirmCancelMessageBox::create();
     messageBox->setParams(title, confirmButtonFilename, cancelButtonFilename, backgroundColour, textColour);
     return messageBox;
 }
 
-bool ConfirmCancelMessageBox::init()
+bool ArtAppConfirmCancelMessageBox::init()
 {
     if(!Super::init())
     {
         return false;
     }
     
-    this->setContentSize(Director::getInstance()->getVisibleSize());
-	
-	Layer* touchLayer = Layer::create();
-	touchLayer->setContentSize(this->getContentSize() * 2);
-	touchLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	touchLayer->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	this->addChild(touchLayer);
-    
-    EventListenerTouchOneByOne* touchListener = EventListenerTouchOneByOne::create();
-    touchListener->setSwallowTouches(true);
-    touchListener->onTouchBegan = [=](Touch *touch, Event *event)
-    {
-        return true;
-    };
-    
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListener->clone(), touchLayer);
+    setBackGroundColorOpacity(0);
     
     _messageBox = ui::Layout::create();
     _messageBox->setBackGroundImage("res/modal/confirm_cancel_popup.png");
@@ -65,9 +50,9 @@ bool ConfirmCancelMessageBox::init()
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
 			AudioMixer::getInstance()->playEffect(NEXT_BUTTON_AUDIO_EFFECT);
-            if(_delegate)
+            if(_confirmCallback)
             {
-                _delegate->onConfirmPressed(this);
+                _confirmCallback(this);
             }
         }
     });
@@ -80,9 +65,9 @@ bool ConfirmCancelMessageBox::init()
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
 			AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
-            if(_delegate)
+            if(_cancelCallback)
             {
-                _delegate->onCancelPressed(this);
+                _cancelCallback(this);
             }
         }
     });
@@ -90,12 +75,12 @@ bool ConfirmCancelMessageBox::init()
     
     return true;
 }
-void ConfirmCancelMessageBox::onEnter()
+void ArtAppConfirmCancelMessageBox::onEnter()
 {
     Super::onEnter();
 }
 
-void ConfirmCancelMessageBox::setParams(const std::string& title, const std::string& confirmButtonFilename, const std::string& cancelButtonFilename, const cocos2d::Color3B& backgroundColour, const cocos2d::Color4B& textColour)
+void ArtAppConfirmCancelMessageBox::setParams(const std::string& title, const std::string& confirmButtonFilename, const std::string& cancelButtonFilename, const cocos2d::Color3B& backgroundColour, const cocos2d::Color4B& textColour)
 {
     _confirmButton->loadTextureNormal(confirmButtonFilename);
     _cancelButton->loadTextureNormal(cancelButtonFilename);
@@ -104,10 +89,14 @@ void ConfirmCancelMessageBox::setParams(const std::string& title, const std::str
     _titleText->setTextColor(textColour);
 }
 
-void ConfirmCancelMessageBox::setDelegate(Azoomee::ConfirmCancelMessageBoxDelegate *delegate)
+void ArtAppConfirmCancelMessageBox::setOnConfirmCallback(const ButtonPressedCallback& callback)
 {
-    _delegate = delegate;
+    _confirmCallback = callback;
 }
 
+void ArtAppConfirmCancelMessageBox::setOnCancelCallback(const ButtonPressedCallback& callback)
+{
+    _cancelCallback = callback;
+}
 
-NS_AZOOMEE_END
+NS_AZOOMEE_AA_END

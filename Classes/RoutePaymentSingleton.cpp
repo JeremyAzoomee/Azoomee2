@@ -168,7 +168,7 @@ void RoutePaymentSingleton::backendRequestFailed(long errorCode)
         messageBox->setButtonText(_("Back"));
         messageBox->setButtonColour(Style::Color::darkIndigo);
         messageBox->setPatternColour(Style::Color::azure);
-        messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+        messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
             pSender->removeFromParent();
             LoginController::getInstance()->doLoginLogic();
         });
@@ -195,7 +195,7 @@ void RoutePaymentSingleton::doublePurchaseMessage()
     messageBox->setButtonText(_("Back"));
     messageBox->setButtonColour(Style::Color::darkIndigo);
     messageBox->setPatternColour(Style::Color::azure);
-    messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+    messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
         pSender->removeFromParent();
     });
     Director::getInstance()->getRunningScene()->addChild(messageBox, 1);
@@ -213,7 +213,7 @@ void RoutePaymentSingleton::failedRestoreMessage()
     messageBox->setButtonText(_("Back"));
     messageBox->setButtonColour(Style::Color::darkIndigo);
     messageBox->setPatternColour(Style::Color::azure);
-    messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+    messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
         pSender->removeFromParent();
     });
     Director::getInstance()->getRunningScene()->addChild(messageBox, 1);

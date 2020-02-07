@@ -484,7 +484,7 @@ void GameDataManager::showErrorMessage()
     messageBox->setButtonText(_("Back"));
     messageBox->setButtonColour(Style::Color::darkIndigo);
     messageBox->setPatternColour(Style::Color::azure);
-    messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+    messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
         pSender->removeFromParent();
     });
     Director::getInstance()->getRunningScene()->addChild(messageBox, 1000);
@@ -500,7 +500,7 @@ void GameDataManager::showIncompatibleMessage()
     messageBox->setButtonText(_("Back"));
     messageBox->setButtonColour(Style::Color::darkIndigo);
     messageBox->setPatternColour(Style::Color::azure);
-    messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+    messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
         pSender->removeFromParent();
     });
     Director::getInstance()->getRunningScene()->addChild(messageBox, 1000);

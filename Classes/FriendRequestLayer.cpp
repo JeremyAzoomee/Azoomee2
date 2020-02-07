@@ -198,7 +198,7 @@ void FriendRequestLayer::onHttpRequestFailed(const std::string& requestTag, long
     messageBox->setButtonText(_("Back"));
     messageBox->setButtonColour(Style::Color::darkIndigo);
     messageBox->setPatternColour(Style::Color::azure);
-    messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+    messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
         pSender->removeFromParent();
     });
     Director::getInstance()->getRunningScene()->addChild(messageBox, 1);

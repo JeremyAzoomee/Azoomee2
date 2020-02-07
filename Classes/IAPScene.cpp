@@ -105,7 +105,7 @@ void IAPScene::onEnter()
 		messageBox->setButtonText(_("Back"));
 		messageBox->setButtonColour(Style::Color::darkIndigo);
 		messageBox->setPatternColour(Style::Color::azure);
-		messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+		messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
 			pSender->removeFromParent();
 		});
 		this->addChild(messageBox, 1);

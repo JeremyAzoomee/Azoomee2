@@ -243,7 +243,7 @@ void ChildOnboardingScene::onHttpRequestFailed(const std::string& requestTag, lo
     messageBox->setButtonText(_("Back"));
     messageBox->setButtonColour(Style::Color::darkIndigo);
     messageBox->setPatternColour(Style::Color::azure);
-    messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+    messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
         pSender->removeFromParent();
         this->transitionState(State::ENTER_NAME);
     });

@@ -224,13 +224,13 @@ void IntroVideoScene::onForceUpdateCheckFinished(const ForceUpdateResult& result
             messageBox->setBody(_("You should update to the latest version of Azoomee. Ask a grown-up to help you."));
             messageBox->setButtonText(_("OK"));
             messageBox->setButtonColour(Style::Color::darkIndigo);
-            messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+            messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
                 pSender->removeFromParent();
                 this->onForceUpdateCheckFinished(ForceUpdateResult::DO_NOTHING);
             });
             messageBox->setSecondButtonText(_("Update"));
             messageBox->setSecondButtonColour(Style::Color::strongPink);
-            messageBox->setSecondButtonPressedCallback([](PopupMessageBox* pSender){
+            messageBox->setSecondButtonPressedCallback([](MessagePopupBase* pSender){
                 pSender->removeFromParent();
                 Director::getInstance()->replaceScene(ForceUpdateAppLockScene::create());
             });

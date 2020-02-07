@@ -103,13 +103,13 @@ void RequestAdultPinLayer::addListenerToBiometricValidationFailure()
             messageBox->setBody(_("Oops! Biometric authentication failed."));
             messageBox->setButtonText(_("Retry"));
             messageBox->setButtonColour(Style::Color::darkIndigo);
-            messageBox->setButtonPressedCallback([](PopupMessageBox* pSender){
+            messageBox->setButtonPressedCallback([](MessagePopupBase* pSender){
                 pSender->removeFromParent();
                 BiometricAuthenticationHandler::getInstance()->startBiometricAuthentication();
             });
             messageBox->setSecondButtonText(_("Cancel"));
             messageBox->setSecondButtonColour(Style::Color::strongPink);
-            messageBox->setSecondButtonPressedCallback([this](PopupMessageBox* pSender){
+            messageBox->setSecondButtonPressedCallback([this](MessagePopupBase* pSender){
                 pSender->removeFromParent();
                 editBox_pin->focusAndShowKeyboard();
             });
@@ -321,7 +321,7 @@ void RequestAdultPinLayer::checkPinAgainstStoredPin()
         messageBox->setButtonText(_("Back"));
         messageBox->setButtonColour(Style::Color::darkIndigo);
         messageBox->setPatternColour(Style::Color::azure);
-        messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+        messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
             pSender->removeFromParent();
             editBox_pin->setEditboxVisibility(true);
             editBox_pin->focusAndShowKeyboard();

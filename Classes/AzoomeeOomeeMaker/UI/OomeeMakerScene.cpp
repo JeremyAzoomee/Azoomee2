@@ -236,8 +236,19 @@ void OomeeMakerScene::onEnter()
             if(_oomee->getUndoStackSize() > 1 || _newOomee)
             {
                 ConfirmCancelMessageBox* messageBox = ConfirmCancelMessageBox::createWithParams(_("Save?"), "res/buttons/confirm_tick_2.png", "res/buttons/confirm_x_2.png");
-                messageBox->setDelegate(this);
-                messageBox->setName(kSavePopupId);
+                messageBox->setOnConfirmCallback([this](MessagePopupBase *pSender){
+                    saveAndExit();
+                    pSender->removeFromParent();
+                });
+                messageBox->setOnCancelCallback([this](MessagePopupBase *pSender){
+                    auto scene = OomeeSelectScene::create();
+                    if(!_newOomee)
+                    {
+                        scene->setCarouselCenterTarget(_filename);
+                    }
+                    Director::getInstance()->replaceScene(scene);
+                    pSender->removeFromParent();
+                });
 				messageBox->setPosition(Vec2(-this->getContentSize().width * 0.08f, 0));
                 _contentLayer->addChild(messageBox);
             }
@@ -283,8 +294,13 @@ void OomeeMakerScene::onEnter()
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
             ConfirmCancelMessageBox* messageBox = ConfirmCancelMessageBox::createWithParams(_("Reset?"), "res/buttons/confirm_bin.png", "res/buttons/confirm_x_2.png");
-            messageBox->setDelegate(this);
-            messageBox->setName(kResetPopupId);
+            messageBox->setOnConfirmCallback([this](MessagePopupBase *pSender){
+                resetOomee();
+                pSender->removeFromParent();
+            });
+            messageBox->setOnCancelCallback([](MessagePopupBase *pSender){
+                pSender->removeFromParent();
+            });
 			messageBox->setPosition(Vec2(-this->getContentSize().width * 0.08f, 0));
             _contentLayer->addChild(messageBox);
         }
@@ -470,35 +486,6 @@ void OomeeMakerScene::displayMadeAvatarNotification()
 	
 	
     
-}
-
-// delegate functions
-
-void OomeeMakerScene::onConfirmPressed(Azoomee::ConfirmCancelMessageBox *pSender)
-{
-    if(pSender->getName() == kResetPopupId)
-    {
-        resetOomee();
-    }
-    else if(pSender->getName() == kSavePopupId)
-    {
-        saveAndExit();
-    }
-    pSender->removeFromParent();
-}
-
-void OomeeMakerScene::onCancelPressed(Azoomee::ConfirmCancelMessageBox *pSender)
-{
-    if(pSender->getName() == kSavePopupId)
-    {
-        auto scene = OomeeSelectScene::create();
-        if(!_newOomee)
-        {
-            scene->setCarouselCenterTarget(_filename);
-        }
-        Director::getInstance()->replaceScene(scene);
-    }
-    pSender->removeFromParent();
 }
 
 
