@@ -10,7 +10,7 @@
 
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/API/HttpRequestCreator.h>
-#include <AzoomeeCommon/Input/TextInputLayer.h>
+#include "TextInputLayer.h"
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 #include <AzoomeeCommon/Data/Child/Child.h>
 #include <cocos/cocos2d.h>

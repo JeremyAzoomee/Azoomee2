@@ -14,7 +14,7 @@
 #include <AzoomeeCommon/UI/Scene.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/UI/DynamicText.h>
-#include <AzoomeeCommon/UI/CTAButton.h>
+#include <AzoomeeCommon/UI/TextButton.h>
 #include <AzoomeeCommon/UI/RoundedRectSprite.h>
 #include "FeaturedTile.h"
 #include "OfflineChecker.h"
@@ -35,7 +35,7 @@ private:
     cocos2d::ui::ImageView* _offlineLogo = nullptr;
     DynamicText* _offlineText = nullptr;
     DynamicText* _checkConnectionText = nullptr;
-    CTAButton* _retryButton = nullptr;
+    TextButton* _retryButton = nullptr;
     DynamicText* _gamesSmallHeading = nullptr;
     DynamicText* _playTheseText = nullptr;
     cocos2d::ui::Layout* _offlineMsgLayout = nullptr;

@@ -57,10 +57,15 @@ void ModalWebview::addListenerToBackgroundLayer()
 
 void ModalWebview::createCloseButton()
 {
-    _closeButton = ElectricDreamsButton::createWindowCloseButton();
-    _closeButton->setCenterPosition(Vec2(_visibleSize.width - _closeButton->getContentSize().width, _visibleSize.height - _closeButton->getContentSize().height));
-    _closeButton->setDelegate(this);
-    _closeButton->setMixPanelButtonName("ModalWebview-CloseButton");
+    _closeButton = cocos2d::ui::Button::create("res/buttons/windowCloseButton.png");
+    _closeButton->setAnchorPoint(Vec2(2.0,2.0));
+    _closeButton->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
+    _closeButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            this->removeSelf();
+        }
+    });
     _backgroundLayer->addChild(_closeButton);
 }
 
@@ -138,19 +143,8 @@ void ModalWebview::onSizeChanged()
         }
     }
     
-    _closeButton->setCenterPosition(Vec2(_runningSceneSize.width/2.0f + _visibleSize.width/2.0f - _closeButton->getContentSize().width,_runningSceneSize.height/2.0f + _visibleSize.height/2.0f - _closeButton->getContentSize().height));
-    
     _modalWebview->setContentSize(Size(_visibleSize.width*0.8f,_visibleSize.height*0.8f));
     _modalWebview->setPosition(Vec2(_runningSceneSize.width/2.0f,_runningSceneSize.height/2.0f));
 }
 
-//----------------------- Delegate Functions ----------------------------
-
-void ModalWebview::buttonPressed(ElectricDreamsButton* button)
-{
-    if(button == _closeButton)
-    {
-        removeSelf();
-    }
-}
 }

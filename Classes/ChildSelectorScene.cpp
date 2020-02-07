@@ -3,14 +3,12 @@
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/UI/MessageBox.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "LoginController.h"
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include "SceneManagerScene.h"
 #include "FlowDataSingleton.h"
-#include <AzoomeeCommon/UI/PrivacyLayer.h>
 #include "ContentHistoryManager.h"
 #include "ForceUpdateAppLockScene.h"
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
@@ -81,7 +79,7 @@ bool ChildSelectorScene::init()
     _titleText->enableShadow(Color4B(0,0,0,125), Size(4,-8));
     _titleLayout->addChild(_titleText);
     
-    _settingsButton = CTAButton::create("res/onboarding/rounded_button.png");
+    _settingsButton = TextButton::create("res/onboarding/rounded_button.png");
     _settingsButton->ignoreContentAdaptWithSize(false);
     _settingsButton->setScale9Enabled(true);
     _settingsButton->setContentSize(Size(700,140));
@@ -289,116 +287,6 @@ cocos2d::ui::Layout* ChildSelectorScene::createChildButton(const ChildRef& child
     return childButton;
 
 }
-
-//-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
-
-/*
-ui::Button *ChildSelectorScene::createChildProfileButton(const std::string& profileName, int childNum)
-{
-	const Size& oomeeSize = Size(370,370);
-	
-    auto button = ui::Button::create();
-    button->setContentSize(Size(OOMEE_LAYER_WIDTH,OOMEE_LAYER_HEIGHT));
-    button->ignoreContentAdaptWithSize(false);
-    button->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-    
-    button->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType)
-    {
-        if(eType == ui::Widget::TouchEventType::BEGAN)
-        {
-            auto button = dynamic_cast<Node*>(pSender);
-            if(button)
-            {
-                auto oomeeLayer = button->getChildByName(kOomeeLayerName);
-                if(oomeeLayer)
-                {
-                    oomeeLayer->setScale(1.25f);
-                }
-            }
-        }
-        else if(eType == ui::Widget::TouchEventType::ENDED)
-        {
-            AudioMixer::getInstance()->playEffect(SELECT_OOMEE_AUDIO_EFFECT);
-            _parentIconSelected = false;
-            int childNumber = ((Node*)pSender)->getTag();
-            AnalyticsSingleton::getInstance()->registerChildGenderAndAge(UserAccountManager::getInstance()->getChild(childNumber));
-            BackEndCaller::getInstance()->childLogin(childNumber);
-        }
-        else if(eType == ui::Widget::TouchEventType::CANCELED)
-        {
-            auto button = dynamic_cast<Node*>(pSender);
-            if(button)
-            {
-                auto oomeeLayer = button->getChildByName(kOomeeLayerName);
-                if(oomeeLayer)
-                {
-                    oomeeLayer->setScale(1.0f);
-                }
-            }
-        }
-    });
-	
-	Sprite* bgCircle1 = Sprite::create("res/oomeeMaker/circle_0.png");
-	bgCircle1->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	bgCircle1->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	bgCircle1->setScale(0);
-	bgCircle1->setOpacity(25);
-	bgCircle1->setRotation(RandomHelper::random_real(0.0,M_PI));
-	bgCircle1->setColor(Style::Color::darkTeal);
-	button->addChild(bgCircle1, -1);
-	
-	auto popIn1 = EaseBackOut::create(ScaleTo::create(0.5, ((oomeeSize.height * 0.85) / bgCircle1->getContentSize().height)));
-	auto rotate1 = RepeatForever::create(RotateBy::create(30 + CCRANDOM_0_1() * 30, 360));
-	
-	bgCircle1->runAction(popIn1);
-	bgCircle1->runAction(rotate1);
-	
-	Sprite* bgCircle2 = Sprite::create("res/oomeeMaker/circle_1.png");
-	bgCircle2->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	bgCircle2->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	bgCircle2->setScale(0);
-	bgCircle2->setOpacity(25);
-	bgCircle2->setRotation(RandomHelper::random_real(0.0,M_PI));
-	bgCircle2->setColor(Style::Color::darkTeal);
-	button->addChild(bgCircle2, -1);
-	
-	auto popIn2 = EaseBackOut::create(ScaleTo::create(0.5, ((oomeeSize.height * 1.15f) / bgCircle2->getContentSize().height)));
-	auto rotate2 = RepeatForever::create(RotateBy::create(30 +  CCRANDOM_0_1() * 30, -360));
-	
-	bgCircle2->runAction(popIn2);
-	bgCircle2->runAction(rotate2);
-	
-    auto oomee = RemoteImageSprite::create();
-    oomee->initWithUrlAndSize(UserAccountManager::getInstance()->getChild(childNum)->getAvatar(), oomeeSize);
-    oomee->setKeepAspectRatio(true);
-    oomee->setAnchorPoint(Vec2(0.5,0.4));
-    oomee->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    oomee->setName(kOomeeLayerName);
-    button->addChild(oomee);
-    
-    float delayTime = CCRANDOM_0_1() * 0.5;
-    if(_firstTime)
-    {
-        oomee->setOpacity(0);
-        oomee->runAction(createBlinkEffect(delayTime, 0.1));
-    }
-	
-    auto profileLabel = createLabelChildName(profileName);
-    profileLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    profileLabel->setNormalizedPosition(Vec2(0.5,0));
-	profileLabel->setTextColor(Color4B::BLACK);
-    reduceLabelTextToFitWidth(profileLabel,OOMEE_LAYER_WIDTH);
-    button->addChild(profileLabel);
-    
-    if(_firstTime)
-    {
-        profileLabel->setOpacity(0);
-        profileLabel->runAction(createBlinkEffect(delayTime, 0.1));
-    }
-
-    return button;
-}
-*/
 
 //----------------------- Delegate Functions ----------------------------
 

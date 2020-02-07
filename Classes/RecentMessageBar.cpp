@@ -9,7 +9,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
+#include <AzoomeeCommon/Utils/StringFunctions.h>
 
 using namespace cocos2d;
 
@@ -146,7 +146,7 @@ void RecentMessageBar::resizeImageAndText()
     _messageText->setString(text);
     if(_messageText->getContentSize().width > textMaxWidth && textMaxWidth > 0)
     {
-        reduceLabelTextToFitWidth(_messageText, textMaxWidth);
+        StringFunctions::reduceLabelTextToFitWidth(_messageText, textMaxWidth);
     }
     
     _textLayout->setPosition(Vec2(imageWidth + kTextPadding,contentSize.height / 2.0f));

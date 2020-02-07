@@ -4,7 +4,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/API/API.h>
-#include <AzoomeeCommon/ErrorCodes.h>
+#include "ErrorCodes.h"
 #include "SceneManagerScene.h"
 #include "ContentHistoryManager.h"
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)

@@ -11,7 +11,7 @@
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/UI/NotificationNodeDisplayManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Data/Rewards/RewardManager.h>
+#include "RewardManager.h"
 #include "CoinCollectLayer.h"
 #include "RewardScene.h"
 #include "WebViewSelector.h"

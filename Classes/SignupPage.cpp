@@ -10,7 +10,7 @@
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/UI/ModalWebview.h>
-#include <AzoomeeCommon/Data/Urls.h>
+#include "Urls.h"
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 
 using namespace cocos2d;
@@ -96,7 +96,7 @@ void SignupPage::createInputHolder()
     _inputBox->setShouldMoveContentOnKeyboardDisplay(false);
     _inputHolder->addChild(_inputBox);
     
-    _continueButton = CTAButton::create("res/onboarding/rounded_button.png");
+    _continueButton = TextButton::create("res/onboarding/rounded_button.png");
     _continueButton->ignoreContentAdaptWithSize(false);
     _continueButton->setContentSize(Size(700,140));
     _continueButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);

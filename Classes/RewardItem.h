@@ -8,11 +8,11 @@
 #ifndef RewardItem_h
 #define RewardItem_h
 
-#include "../../Azoomee.h"
+#include <AzoomeeCommon/Azoomee.h>
 #include <string>
 #include <memory>
-#include "../Json.h"
-#include "InventoryItem.h"
+#include <AzoomeeCommon/Data/Json.h>
+#include <AzoomeeCommon/Data/Child/InventoryItem.h>
 
 NS_AZOOMEE_BEGIN
 

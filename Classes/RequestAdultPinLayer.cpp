@@ -1,15 +1,14 @@
 #include "RequestAdultPinLayer.h"
-#include "../Utils/LocaleManager.h"
-#include "../Data/Parent/UserAccountManager.h"
-#include "../Audio/AudioMixer.h"
-#include "../UI/ElectricDreamsTextStyles.h"
-#include "../UI/ElectricDreamsDecoration.h"
-#include "../API/API.h"
-#include "../Data/Parent/UserAccountManager.h"
-#include "ModalMessages.h"
-#include "../ErrorCodes.h"
-#include "../Utils/BiometricAuthenticationHandler.h"
-#include "Scene.h"
+#include <AzoomeeCommon/Utils/LocaleManager.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
+#include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <AzoomeeCommon/API/API.h>
+#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
+#include <AzoomeeCommon/UI/ModalMessages.h>
+#include "ErrorCodes.h"
+#include <AzoomeeCommon/Utils/BiometricAuthenticationHandler.h>
+#include <AzoomeeCommon/UI/Scene.h>
+#include "PopupMessageBox.h"
 
 using namespace cocos2d;
 
@@ -17,16 +16,20 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+const std::string RequestAdultPinLayer::kAndroidMsgBoxName = "androidBiometricMessageBox";
+
 bool RequestAdultPinLayer::init()
 {
-    if ( !Layer::init() )
+    if ( !Super::init() )
     {
         return false;
     }
     
     this->setName("RequestPinLayer");
-    
-    this->setPosition(dynamic_cast<Azoomee::Scene*>(Director::getInstance()->getRunningScene()) ? Vec2(0,0) : -Director::getInstance()->getVisibleOrigin());
+    setSizeType(SizeType::PERCENT);
+    setSizePercent(Vec2(1.0,1.0f));
+    setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     
     AudioMixer::getInstance()->pauseBackgroundMusic();
     
@@ -38,6 +41,19 @@ bool RequestAdultPinLayer::init()
     if(BiometricAuthenticationHandler::getInstance()->biometricAuthenticationAvailable() && BiometricAuthenticationHandler::getInstance()->biometricAuthenticationSet())
     {
         BiometricAuthenticationHandler::getInstance()->startBiometricAuthentication();
+#if(CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+        PopupMessageBox* messageBox = PopupMessageBox::create();
+        messageBox->setName(kAndroidMsgBoxName);
+        messageBox->setTitle(_("Waiting for authentication"));
+        messageBox->setBody(_("Please authenticate yourself to access parents area"));
+        messageBox->setButtonText(_("Cancel"));
+        messageBox->setButtonColour(Style::Color::strongPink);
+        messageBox->setButtonPressedCallback([](PopupMessageBox* pSender){
+            pSender->removeFromParent();
+            BiometricAuthenticationHandler::getInstance()->stopBiometricAuthentication();
+        });
+        addChild(messageBox, PIN_Z_ORDER);
+#endif
     }
     setPercentageofScreenForBox();
     addUIObjects();
@@ -61,6 +77,7 @@ void RequestAdultPinLayer::addListenerToBiometricValidationSuccess()
 {
     _biometricValidationSuccessListener = cocos2d::EventListenerCustom::create(BiometricAuthenticationHandler::kBiometricValidationSuccess, [=](EventCustom* event) {
         auto funcCallAction = CallFunc::create([=](){
+            removeChildByName(kAndroidMsgBoxName);
             this->scheduleOnce(schedule_selector(RequestAdultPinLayer::removeSelf), 0.1);
             
             if(this->getDelegate())
@@ -79,14 +96,41 @@ void RequestAdultPinLayer::addListenerToBiometricValidationFailure()
 {
     _biometricValidationFailureListener = cocos2d::EventListenerCustom::create(BiometricAuthenticationHandler::kBiometricValidationFailure, [=](EventCustom* event) {
         auto funcCallAction = CallFunc::create([=](){
-			const std::vector<std::string>& buttons = {_("Retry"), _("Cancel")};
-			MessageBox::createWith(_("Authentication Failed"), _("Oops! Biometric authentication failed."), buttons, this);
+            removeChildByName(kAndroidMsgBoxName);
+            PopupMessageBox* messageBox = PopupMessageBox::create();
+            messageBox->setName(kAndroidMsgBoxName);
+            messageBox->setTitle(_("Authentication Failed"));
+            messageBox->setBody(_("Oops! Biometric authentication failed."));
+            messageBox->setButtonText(_("Retry"));
+            messageBox->setButtonColour(Style::Color::darkIndigo);
+            messageBox->setButtonPressedCallback([](PopupMessageBox* pSender){
+                pSender->removeFromParent();
+                BiometricAuthenticationHandler::getInstance()->startBiometricAuthentication();
+            });
+            messageBox->setSecondButtonText(_("Cancel"));
+            messageBox->setSecondButtonColour(Style::Color::strongPink);
+            messageBox->setSecondButtonPressedCallback([this](PopupMessageBox* pSender){
+                pSender->removeFromParent();
+                editBox_pin->focusAndShowKeyboard();
+            });
+            addChild(messageBox, PIN_Z_ORDER);
         });
         
         this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
     });
     
     Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(_biometricValidationFailureListener, 1);
+    
+    _biometricValidationErrorListener = cocos2d::EventListenerCustom::create(BiometricAuthenticationHandler::kBiometricValidationError, [=](EventCustom* event) {
+        auto funcCallAction = CallFunc::create([=](){
+            removeChildByName(kAndroidMsgBoxName);
+            editBox_pin->focusAndShowKeyboard();
+        });
+        
+        this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
+    });
+    
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(_biometricValidationErrorListener, 1);
 }
 
 void RequestAdultPinLayer::addListenerToBackgroundLayer()
@@ -106,9 +150,13 @@ void RequestAdultPinLayer::setPercentageofScreenForBox()
     auto currentRunningScene = Director::getInstance()->getRunningScene();
     
     if(currentRunningScene->getContentSize().width < currentRunningScene->getContentSize().height)
+    {
         percentageOfScreenForBox = 0.85;
+    }
     else
+    {
         percentageOfScreenForBox = 0.66;
+    }
 }
 
 void RequestAdultPinLayer::addUIObjects()
@@ -147,8 +195,6 @@ void RequestAdultPinLayer::addUIObjects()
     {
         editBox_pin->focusAndShowKeyboard();
     }
-    
-    editBox_pin->focusAndShowKeyboard();
 	
 	_accept->setEnabled(editBox_pin->inputIsValid());
 	editBox_pin->addChild(_accept,1);
@@ -210,6 +256,8 @@ void RequestAdultPinLayer::resizeWindowAndObjects()
 
 void RequestAdultPinLayer::onSizeChanged()
 {
+    Super::onSizeChanged();
+    
     auto currentRunningScene = Director::getInstance()->getRunningScene();
     backgroundLayer->setContentSize(currentRunningScene->getContentSize());
     
@@ -223,9 +271,9 @@ void RequestAdultPinLayer::removeSelf(float dt)
 {
     if(this)
     {
-		BiometricAuthenticationHandler::getInstance()->removeMessageBoxAndroid();
         Director::getInstance()->getEventDispatcher()->removeEventListener(_biometricValidationSuccessListener);
         Director::getInstance()->getEventDispatcher()->removeEventListener(_biometricValidationFailureListener);
+        Director::getInstance()->getEventDispatcher()->removeEventListener(_biometricValidationErrorListener);
         this->removeChild(backgroundLayer);
         this->removeFromParent();
     }
@@ -233,11 +281,11 @@ void RequestAdultPinLayer::removeSelf(float dt)
 
 void RequestAdultPinLayer::onExit()
 {
-	BiometricAuthenticationHandler::getInstance()->removeMessageBoxAndroid();
     Director::getInstance()->getEventDispatcher()->removeEventListener(_biometricValidationSuccessListener);
     Director::getInstance()->getEventDispatcher()->removeEventListener(_biometricValidationFailureListener);
+    Director::getInstance()->getEventDispatcher()->removeEventListener(_biometricValidationErrorListener);
     
-    Node::onExit();
+    Super::onExit();
 }
 
 void RequestAdultPinLayer::requestUpdatedPin()
@@ -257,13 +305,28 @@ void RequestAdultPinLayer::checkPinAgainstStoredPin()
         this->scheduleOnce(schedule_selector(RequestAdultPinLayer::removeSelf), 0.1);
         
         if(this->getDelegate())
-        this->getDelegate()->AdultPinAccepted(this);
+        {
+            this->getDelegate()->AdultPinAccepted(this);
+        }
     }
     else
     {
         editBox_pin->setText("");
         editBox_pin->setEditboxVisibility(false);
-        MessageBox::createWith(ERROR_CODE_INCORRECT_PIN, this);
+        const auto& errorMessageText = LocaleManager::getInstance()->getErrorMessageWithCode(ERROR_CODE_INCORRECT_PIN);
+               
+        PopupMessageBox* messageBox = PopupMessageBox::create();
+        messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
+        messageBox->setBody(errorMessageText.at(ERROR_BODY));
+        messageBox->setButtonText(_("Back"));
+        messageBox->setButtonColour(Style::Color::darkIndigo);
+        messageBox->setPatternColour(Style::Color::azure);
+        messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+            pSender->removeFromParent();
+            editBox_pin->setEditboxVisibility(true);
+            editBox_pin->focusAndShowKeyboard();
+        });
+        addChild(messageBox, 1);
         _accept->setEnabled(false);
     }
 }
@@ -278,7 +341,9 @@ void RequestAdultPinLayer::textInputIsValid(TextInputLayer* inputLayer, bool isV
 void RequestAdultPinLayer::textInputReturnPressed(TextInputLayer* inputLayer)
 {
     if(editBox_pin->inputIsValid())
+    {
         requestUpdatedPin();
+    }
 }
 
 void RequestAdultPinLayer::editBoxEditingDidBegin(TextInputLayer* inputLayer)
@@ -288,43 +353,6 @@ void RequestAdultPinLayer::editBoxEditingDidBegin(TextInputLayer* inputLayer)
 
 void RequestAdultPinLayer::editBoxEditingDidEnd(TextInputLayer* inputLayer)
 {
-    
-}
-
-void RequestAdultPinLayer::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
-{
-    if(messageBoxTitle == _("Biometric Authentication"))
-    {
-        if(buttonTitle == _("Yes"))
-        {
-            BiometricAuthenticationHandler::getInstance()->startBiometricAuthentication();
-        }
-        
-        if(buttonTitle == _("No"))
-        {
-            BiometricAuthenticationHandler::getInstance()->biometricAuthenticationNotNeeded();
-        }
-        
-        this->scheduleOnce(schedule_selector(RequestAdultPinLayer::removeSelf), 0.1);
-        return;
-    }
-    
-    if(messageBoxTitle == _("Authentication Failed"))
-    {
-        if(buttonTitle == _("Retry"))
-        {
-            BiometricAuthenticationHandler::getInstance()->startBiometricAuthentication();
-            return;
-        }
-        
-        if(buttonTitle == _("Cancel"))
-        {
-            editBox_pin->focusAndShowKeyboard();
-            return;
-        }
-    }
-    editBox_pin->setEditboxVisibility(true);
-    editBox_pin->focusAndShowKeyboard();
     
 }
 

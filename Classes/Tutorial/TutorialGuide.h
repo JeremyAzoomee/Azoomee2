@@ -8,7 +8,7 @@
 #ifndef TutorialGuide_h
 #define TutorialGuide_h
 
-#include "../Azoomee.h"
+#include <AzoomeeCommon/Azoomee.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 

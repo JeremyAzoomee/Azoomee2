@@ -9,7 +9,7 @@
 #define VodacomOnboardingRegisterLayer_h
 
 #include "VodacomOnboardingLayer.h"
-#include <AzoomeeCommon/Input/TextInputLayer.h>
+#include "../TextInputLayer.h"
 #include "../SettingsMessageBox.h"
 
 NS_AZOOMEE_BEGIN

@@ -6,7 +6,7 @@
 //
 
 #include "TutorialMessagingNode.h"
-#include "../Device.h"
+#include <AzoomeeCommon/Device.h>
 
 using namespace cocos2d;
 

@@ -3,7 +3,6 @@
 
 #include "../AzoomeeChat.h"
 #include <AzoomeeCommon/Data/Json.h>
-#include <AzoomeeCommon/Utils/SpecialCalendarEventManager.h>
 #include <string>
 #include <memory>
 #include "Sticker.h"
@@ -25,7 +24,6 @@ private:
     
     std::string _imageURL;
     std::string _categoryID;
-    CalenderSeasons _season;
     StickerList _stickers;
     
     // no direct construction
@@ -39,7 +37,6 @@ public:
     std::string imageURL() const;
     std::string categoryID() const;
     std::string imageLocalPath() const;
-    CalenderSeasons season() const;
     StickerList stickers() const;
 };
 

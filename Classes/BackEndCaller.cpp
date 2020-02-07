@@ -2,7 +2,7 @@
 
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
-#include <AzoomeeCommon/Data/Rewards/RewardManager.h>
+#include "RewardManager.h"
 #include <AzoomeeCommon/Data/Cookie/CookieManager.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
@@ -11,11 +11,11 @@
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
 #include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
-#include <AzoomeeCommon/ErrorCodes.h>
+#include "ErrorCodes.h"
 #include "HQHistoryManager.h"
 #include "LoginController.h"
 #include "ChildSelectorScene.h"
-#include <AzoomeeCommon/UI/RequestAdultPinLayer.h>
+#include "RequestAdultPinLayer.h"
 #include "RoutePaymentSingleton.h"
 #include "SceneManagerScene.h"
 #include "DeepLinkingSingleton.h"
@@ -24,6 +24,7 @@
 #include "ForceUpdateSingleton.h"
 #include "IAPProductDataHandler.h"
 #include "ChildCreator.h"
+#include "PopupMessageBox.h"
 
 #include "MarketingAssetManager.h"
 
@@ -571,7 +572,18 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
 		}
 		else
 		{
-        	MessageBox::createWith(errorCode, nullptr);
+        	const auto& errorMessageText = LocaleManager::getInstance()->getErrorMessageWithCode(errorCode);
+                
+            PopupMessageBox* messageBox = PopupMessageBox::create();
+            messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
+            messageBox->setBody(errorMessageText.at(ERROR_BODY));
+            messageBox->setButtonText(_("Back"));
+            messageBox->setButtonColour(Style::Color::darkIndigo);
+            messageBox->setPatternColour(Style::Color::azure);
+            messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+                pSender->removeFromParent();
+            });
+            Director::getInstance()->getRunningScene()->addChild(messageBox, 1);
 		}
     }
     else if(requestTag == API::TagLogin)

@@ -93,13 +93,10 @@ void StickerCategoryListView::setItems(const StickerCategoryList& data)
     const Size& contentSize = getContentSize();
     for(const auto& category : _listData)
     {
-        if(SpecialCalendarEventManager::getInstance()->checkIfInSeason(category->season()))
-        {
-            StickerCategoryListViewItem* item = StickerCategoryListViewItem::create();
-            item->setContentSize(Size(0.0f, contentSize.height));
-            item->setData(category);
-            pushBackCustomItem(item);
-        }
+        StickerCategoryListViewItem* item = StickerCategoryListViewItem::create();
+        item->setContentSize(Size(0.0f, contentSize.height));
+        item->setData(category);
+        pushBackCustomItem(item);
     }
     
     forceDoLayout();

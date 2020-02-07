@@ -14,7 +14,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/UI/ModalWebview.h>
-#include <AzoomeeCommon/Data/Urls.h>
+#include "Urls.h"
 #include "ImportantMessageForParents.h"
 
 using namespace cocos2d;

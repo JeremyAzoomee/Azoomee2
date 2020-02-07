@@ -9,7 +9,7 @@
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
 #include <AzoomeeCommon/Utils//TimeUtils.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/Rewards/RewardManager.h>
+#include "RewardManager.h"
 
 using namespace cocos2d;
 

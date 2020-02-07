@@ -4,11 +4,10 @@
 #include "cocos2d.h"
 #include <AzoomeeCommon/Data/Json.h>
 #include <AzoomeeCommon/Azoomee.h>
-#include <AzoomeeCommon/UI/MessageBox.h>
 
 NS_AZOOMEE_BEGIN
 
-class RoutePaymentSingleton : public cocos2d::Ref, public MessageBoxDelegate
+class RoutePaymentSingleton : public cocos2d::Ref
 {
 private:
     bool appleReceiptRefreshchecked = false;
@@ -57,9 +56,6 @@ public:
     void retryReceiptValidation();
     
     std::string getIapSkuForProvider(const std::string& provider);
-    
-    //Delegate Functions
-    void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
     
     static const std::string& kReceiptCacheFolder;
     static const std::string& kReceiptDataFileName;

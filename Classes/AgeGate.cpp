@@ -243,7 +243,7 @@ void AgeGate::createBody()
     for(int i = 0; i < ansValues._answers.size(); i++)
     {
         int value = ansValues._answers.at(i);
-        CTAButton* ansButton = CTAButton::create("res/onboarding/rounded_button.png");
+        TextButton* ansButton = TextButton::create("res/onboarding/rounded_button.png");
         ansButton->ignoreContentAdaptWithSize(false);
         ansButton->setContentSize(Size(700,140));
         ansButton->setColor(Style::Color::strongPink);

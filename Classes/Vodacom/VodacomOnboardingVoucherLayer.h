@@ -9,7 +9,7 @@
 #define VodacomOnboardingVoucherLayer_h
 
 #include "VodacomOnboardingLayer.h"
-#include <AzoomeeCommon/Input/TextInputLayer.h>
+#include "../TextInputLayer.h"
 #include <AzoomeeCommon/API/HttpRequestCreator.h>
 
 NS_AZOOMEE_BEGIN

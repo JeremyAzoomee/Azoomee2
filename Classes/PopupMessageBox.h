@@ -11,7 +11,7 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/UI/CTAButton.h>
+#include <AzoomeeCommon/UI/TextButton.h>
 #include <AzoomeeCommon/UI/DynamicText.h>
 
 NS_AZOOMEE_BEGIN
@@ -47,10 +47,10 @@ protected:
 	cocos2d::ui::Layout* _contentBody = nullptr;
 	DynamicText* _contentText = nullptr;
     
-	CTAButton* _actionButton = nullptr;
+	TextButton* _actionButton = nullptr;
 	ButtonPressedCallback _callback = nullptr;
     
-    CTAButton* _secondActionButton = nullptr;
+    TextButton* _secondActionButton = nullptr;
     ButtonPressedCallback _secondCallback = nullptr;
 	
     void createMessageBox();

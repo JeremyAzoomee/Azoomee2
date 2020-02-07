@@ -1,9 +1,9 @@
 #include "TextInputLayer.h"
-#include "TextInputChecker.h"
-#include "../Utils/LocaleManager.h"
-#include "../UI/ElectricDreamsTextStyles.h"
-#include "../Analytics/AnalyticsSingleton.h"
-#include "../Device.h"
+#include <AzoomeeCommon/Input/TextInputChecker.h>
+#include <AzoomeeCommon/Utils/LocaleManager.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Device.h>
+#include <AzoomeeCommon/UI/Style.h>
 
 using namespace cocos2d;
 

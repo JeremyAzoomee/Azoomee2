@@ -12,7 +12,6 @@
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "LoginController.h"
-#include <AzoomeeCommon/UI/MessageBox.h>
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include "WebGameAPIDataManager.h"
@@ -20,7 +19,7 @@
 #include "FlowDataSingleton.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
-#include <AzoomeeCommon/ErrorCodes.h>
+#include "ErrorCodes.h"
 #include "WebViewSelector.h"
 #include "HQDataProvider.h"
 #include <AzoomeeCommon/Utils/DirUtil.h>
@@ -71,10 +70,11 @@ bool GameDataManager::init(void)
     createBundledGamesMap();
     
     // copy games loading pages from bundle to games cache so game data can be accessed in the new WKWebView
-    FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/index_ios.html"), Azoomee::DirUtil::getCachesPath() + kGameCacheFolder + "index_ios.html");
-    FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/circle_1.png"), Azoomee::DirUtil::getCachesPath() + kGameCacheFolder + "circle_1.png");
-    FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/load.png"), Azoomee::DirUtil::getCachesPath() + kGameCacheFolder + "load.png");
-    FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/style.css"), Azoomee::DirUtil::getCachesPath() + kGameCacheFolder + "style.css");
+    const std::string& cacheFolder = Azoomee::DirUtil::getCachesPath() + kGameCacheFolder;
+    FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/index_ios.html"), cacheFolder + "index_ios.html");
+    FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/circle_1.png"), cacheFolder + "circle_1.png");
+    FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/load.png"), cacheFolder + "load.png");
+    FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/style.css"), cacheFolder + "style.css");
 #endif
     return true;
 }

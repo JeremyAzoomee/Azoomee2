@@ -42,7 +42,7 @@ bool ProductLayout::init()
 	buttonHolder->setLayoutType(Type::VERTICAL);
 	addChild(buttonHolder);
 	
-	_purchaseButton = CTAButton::create("res/onboarding/rounded_button.png");
+	_purchaseButton = TextButton::create("res/onboarding/rounded_button.png");
 	_purchaseButton->ignoreContentAdaptWithSize(false);
 	_purchaseButton->setContentSize(Size(700,140));
 	_purchaseButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);

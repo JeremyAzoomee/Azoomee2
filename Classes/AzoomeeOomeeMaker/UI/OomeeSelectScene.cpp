@@ -11,7 +11,6 @@
 #include "../DataObjects/OomeeMakerDataHandler.h"
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/Utils/DirUtil.h>
-#include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 #include <AzoomeeCommon/Utils/TimeUtils.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
@@ -40,7 +39,26 @@ bool OomeeSelectScene::init()
     
     Director::getInstance()->getTextureCache()->removeUnusedTextures();
     
-    addSideWiresToScreen(this, 0.2, 1.0f, 0.3f);
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    auto origin = Director::getInstance()->getVisibleOrigin();
+
+    auto wireLeft = Sprite::create("res/decoration/wireLeft.png");
+    wireLeft->setName("Wire");
+    wireLeft->setPosition(wireLeft->getContentSize().width / -2 + origin.x, visibleSize.height / 2 + origin.y);
+    wireLeft->setOpacity(75);
+    addChild(wireLeft);
+    
+    auto wireRight = Sprite::create("res/decoration/wireRight.png");
+    wireRight->setName("Wire");
+    wireRight->setPosition(wireRight->getContentSize().width / 2 + visibleSize.width + origin.x, visibleSize.height / 2 + origin.y);
+    wireRight->setOpacity(75);
+    addChild(wireRight);
+    
+    wireLeft->runAction(Sequence::create(DelayTime::create(0.2f), EaseOut::create(MoveTo::create(1, Vec2(wireLeft->getContentSize().width / 2+ origin.x, visibleSize.height / 2 + origin.y)), 1.0), NULL));
+    
+    wireRight->runAction(Sequence::create(DelayTime::create(0.2f), EaseOut::create(MoveTo::create(1, Vec2(visibleSize.width - wireRight->getContentSize().width / 2+ origin.x, visibleSize.height / 2 + origin.y)), 1.0), NULL));
+
+    
     
     _contentLayer = Layer::create();
     _contentLayer->setContentSize(Director::getInstance()->getVisibleSize());

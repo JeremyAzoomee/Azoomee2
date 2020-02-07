@@ -64,7 +64,7 @@ bool ForceUpdateAppLockScene::init()
     _bodyText->setMaxLineWidth(1000);
     _textLayout->addChild(_bodyText);
     
-    _updateButton = CTAButton::create("res/onboarding/rounded_button.png");
+    _updateButton = TextButton::create("res/onboarding/rounded_button.png");
     _updateButton->ignoreContentAdaptWithSize(false);
     _updateButton->setScale9Enabled(true);
     _updateButton->setContentSize(Size(600,140));

@@ -6,6 +6,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
+#include "../../ErrorCodes.h"
 #include "FriendListScene.h"
 #include "../../HQHistoryManager.h"
 
@@ -429,7 +430,18 @@ void MessageScene::onChatAPISendMessage(const MessageRef& sentMessage)
 void MessageScene::onChatAPIErrorRecieved(const std::string& requestTag, long errorCode)
 {
     ModalMessages::getInstance()->stopLoading();
-    MessageBox::createWith(ERROR_CODE_SOMETHING_WENT_WRONG, nullptr);
+    const auto& errorMessageText = LocaleManager::getInstance()->getErrorMessageWithCode(ERROR_CODE_SOMETHING_WENT_WRONG);
+           
+    PopupMessageBox* messageBox = PopupMessageBox::create();
+    messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
+    messageBox->setBody(errorMessageText.at(ERROR_BODY));
+    messageBox->setButtonText(_("Back"));
+    messageBox->setButtonColour(Style::Color::darkIndigo);
+    messageBox->setPatternColour(Style::Color::azure);
+    messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+        pSender->removeFromParent();
+    });
+    addChild(messageBox, 1);
 }
 
 void MessageScene::onChatAPIGetFriendList(const FriendList& friendList, int amountOfNewMessages)
@@ -495,22 +507,6 @@ void MessageScene::onMessageComposerSendMessage(const MessageRef& message)
     
     // Pause schedule until the sent message has been confirmed
     _timeTillGet = -1.0f;
-}
-
-#pragma mark - MessageBoxDelegate
-
-void MessageScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
-{
-    if(buttonTitle == MessageBox::kReport)
-    {
-        ChatAPI::getInstance()->reportChat(_participants[1]);
-        ModalMessages::getInstance()->startLoading();
-    }
-    else if(buttonTitle == MessageBox::kReset)
-    {
-        ChatAPI::getInstance()->resetReportedChat(_participants[1]);
-        ModalMessages::getInstance()->startLoading();
-    }
 }
 
 #pragma mark - RequestAdultPinDelegate

@@ -191,7 +191,7 @@ void PopupMessageBox::createBody()
     _contentText->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(cocos2d::ui::Margin(0, 0, 0, 0)));
     _contentBody->addChild(_contentText);
     
-    _actionButton = CTAButton::create("res/onboarding/rounded_button.png");
+    _actionButton = TextButton::create("res/onboarding/rounded_button.png");
     _actionButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(cocos2d::ui::Margin(0, 0, 0, 0)));
     _actionButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _actionButton->setScale9Enabled(true);
@@ -212,7 +212,7 @@ void PopupMessageBox::createBody()
     });
     _contentBody->addChild(_actionButton);
     
-    _secondActionButton = CTAButton::create("res/onboarding/rounded_button.png");
+    _secondActionButton = TextButton::create("res/onboarding/rounded_button.png");
     _secondActionButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(cocos2d::ui::Margin(0, kButtonSpacing, 0, 0)));
     _secondActionButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _secondActionButton->ignoreContentAdaptWithSize(false);

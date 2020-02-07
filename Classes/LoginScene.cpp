@@ -1,13 +1,10 @@
 #include "LoginScene.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
-#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
-#include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/Input/TextInputChecker.h>
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Utils/PushNotificationsHandler.h>
 #include "FlowDataSingleton.h"
 #include "SceneManagerScene.h"
 #include "ChatNotificationsSingleton.h"
@@ -16,6 +13,7 @@
 #include <AzoomeeCommon/Device.h>
 #include "LoginController.h"
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
+#include "ErrorCodes.h"
 
 using namespace cocos2d;
 
@@ -33,8 +31,7 @@ bool LoginScene::init()
     
     ContentHistoryManager::getInstance()->setReturnedFromContent(false);
     HQHistoryManager::getInstance()->clearCachedHQData();
-    
-    PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel("NA");
+
     AudioMixer::getInstance()->stopBackgroundMusic();
 	
     getUserDefaults();

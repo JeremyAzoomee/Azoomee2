@@ -11,7 +11,7 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/Scene.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
-#include <AzoomeeCommon/UI/TileSprite.h>
+#include <AzoomeeCommon/UI/RoundedRectSprite.h>
 #include "NavigationBar.h"
 #include <AzoomeeCommon/UI/DynamicText.h>
 #include "SettingsButton.h"
@@ -73,7 +73,7 @@ private:
     bool _isPortrait = false;
     cocos2d::ui::Layout* _titleBanner = nullptr;
     DynamicText* _HQPageTitle = nullptr;
-    TileSprite* _topPattern = nullptr;
+    RoundedRectSprite* _topPattern = nullptr;
     cocos2d::LayerGradient* _patternGradient = nullptr;
     cocos2d::ui::Layout* _background = nullptr;
     cocos2d::ui::Layout* _titleBannerContent = nullptr;

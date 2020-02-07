@@ -13,7 +13,7 @@
 #include <AzoomeeCommon/API/HttpRequestCreator.h>
 #include <cocos/cocos2d.h>
 #include <ui/CocosGUI.h>
-#include <AzoomeeCommon/UI/RequestAdultPinLayer.h>
+#include "RequestAdultPinLayer.h"
 #include "SettingsNavigationButton.h"
 
 NS_AZOOMEE_BEGIN

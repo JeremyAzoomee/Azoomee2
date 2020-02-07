@@ -11,7 +11,7 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/Data/Rewards/RewardItem.h>
+#include "RewardItem.h"
 #include <AzoomeeCommon/UI/NotificationNode.h>
 #include <AzoomeeCommon/UI/ResizeNode.h>
 

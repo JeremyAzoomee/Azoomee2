@@ -5,7 +5,7 @@
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/Scene.h>
-#include <AzoomeeCommon/Input/TextInputLayer.h>
+#include "TextInputLayer.h"
 #include "ui/CocosGUI.h"
 
 NS_AZOOMEE_BEGIN

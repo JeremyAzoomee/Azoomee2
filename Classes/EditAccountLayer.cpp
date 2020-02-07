@@ -15,7 +15,7 @@
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/NativeShare/NativeShare.h>
-#include <AzoomeeCommon/Data/Urls.h>
+#include "Urls.h"
 #include "SceneManagerScene.h"
 
 using namespace cocos2d;

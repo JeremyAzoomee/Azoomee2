@@ -69,7 +69,7 @@ void ChildAgeEntry::createContentLayout()
     _inputHolder->addChild(_ageNumLayout);
     createAgeButtons();
     
-    _continueButton = CTAButton::create("res/onboarding/rounded_button.png");
+    _continueButton = TextButton::create("res/onboarding/rounded_button.png");
     _continueButton->ignoreContentAdaptWithSize(false);
     _continueButton->setContentSize(Size(700,140));
     _continueButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);

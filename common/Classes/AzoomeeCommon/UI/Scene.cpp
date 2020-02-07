@@ -1,6 +1,4 @@
 #include "Scene.h"
-#include "MessageBox.h"
-#include "RequestAdultPinLayer.h"
 #include "ModalWebview.h"
 #include "ModalMessages.h"
 
@@ -121,22 +119,6 @@ void Scene::onSizeChanged()
 	{
 		return;
 	}
-	
-	for(auto messageBox : this->getChildren())
-	{
-		if(messageBox->getName() == "MessageBoxLayer")
-		{
-			MessageBox* messageBoxLayer = dynamic_cast<MessageBox*>(messageBox);
-			if(messageBoxLayer)
-			{
-				messageBoxLayer->onSizeChanged();
-			}
-		}
-	}
-    
-    RequestAdultPinLayer* adultPinLayer = dynamic_cast<RequestAdultPinLayer*>(this->getChildByName("RequestPinLayer"));
-    if(adultPinLayer)
-        adultPinLayer->onSizeChanged();
     
     ModalWebview* modalWebview = dynamic_cast<ModalWebview*>(this->getChildByName("ModalWebview"));
     if(modalWebview)

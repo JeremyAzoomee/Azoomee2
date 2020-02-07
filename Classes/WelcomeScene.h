@@ -13,7 +13,7 @@
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/UI/Scene.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/UI/CTAButton.h>
+#include <AzoomeeCommon/UI/TextButton.h>
 #include <AzoomeeCommon/UI/DynamicText.h>
 #include <AzoomeeCommon/UI/RoundedRectSprite.h>
 
@@ -30,7 +30,7 @@ private:
     cocos2d::Sprite* _fillColour = nullptr;
     
     cocos2d::ui::ImageView* _logo = nullptr;
-    CTAButton* _button = nullptr;
+    TextButton* _button = nullptr;
     DynamicText* _text = nullptr;
 	cocos2d::ui::Layout* _body = nullptr;
 	

@@ -93,7 +93,7 @@ bool OfflineScene::init()
     _checkConnectionText->setMaxLineWidth(650);
     _offlineMsgLayout->addChild(_checkConnectionText);
     
-    _retryButton = CTAButton::create("res/onboarding/rounded_button.png");
+    _retryButton = TextButton::create("res/onboarding/rounded_button.png");
     _retryButton->ignoreContentAdaptWithSize(false);
     _retryButton->setScale9Enabled(true);
     _retryButton->setContentSize(Size(460,140));

@@ -8,12 +8,12 @@
 #ifndef TutorialMessagingNode_h
 #define TutorialMessagingNode_h
 
-#include "../Azoomee.h"
-#include "../Utils/LocaleManager.h"
+#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <cocos/cocos2d.h>
 #include "TutorialGuide.h"
 #include "TutorialSpeechBubble.h"
-#include "../UI/ResizeNode.h"
+#include <AzoomeeCommon/UI/ResizeNode.h>
 
 NS_AZOOMEE_BEGIN
 

@@ -11,7 +11,7 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/UI/CTAButton.h>
+#include <AzoomeeCommon/UI/TextButton.h>
 #include <AzoomeeCommon/UI/DynamicText.h>
 #include "ProgressBar.h"
 
@@ -28,7 +28,7 @@ private:
     cocos2d::ui::Layout* _ageNumLayout = nullptr;
     cocos2d::Vector<cocos2d::ui::Button*> _buttons;
     cocos2d::ui::Scale9Sprite* _inputBg = nullptr;
-    CTAButton* _continueButton = nullptr;
+    TextButton* _continueButton = nullptr;
     DynamicText* _backButton = nullptr;
     
     ButtonCallback _continueCallback = nullptr;

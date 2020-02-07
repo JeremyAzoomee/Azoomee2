@@ -9,7 +9,7 @@
 #define VodacomOnboardingPinLayer_h
 
 #include "VodacomOnboardingLayer.h"
-#include <AzoomeeCommon/Input/TextInputLayer.h>
+#include "../TextInputLayer.h"
 #include <AzoomeeCommon/API/HttpRequestCreator.h>
 #include "../SettingsMessageBox.h"
 

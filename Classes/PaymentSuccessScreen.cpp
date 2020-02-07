@@ -102,7 +102,7 @@ void PaymentSuccessScreen::createBody()
     
     _bodyText->addChild(_headerText);
     
-    _continueButton = CTAButton::create("res/onboarding/rounded_button.png");
+    _continueButton = TextButton::create("res/onboarding/rounded_button.png");
     _continueButton->setContentSize(Size(700,140));
     _continueButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _continueButton->setNormalizedPosition(Vec2(0.5f, -0.3f));

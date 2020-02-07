@@ -30,9 +30,6 @@ public:
     
     void startSaving();
     void stopSaving();
-    
-    void showMixpanelNotification();
-    void showMixpanelNotificationWithID(int notificationID);
 };
   
 NS_AZOOMEE_END

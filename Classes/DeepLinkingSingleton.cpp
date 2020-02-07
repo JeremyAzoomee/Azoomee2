@@ -230,7 +230,6 @@ void DeepLinkingSingleton::contentDetailsResponse(const std::string& responseBod
     {
         ModalMessages::getInstance()->stopLoading();
         resetDeepLink();
-        MessageBox::createWith(ERROR_CODE_DEEPLINK_NOT_ENTITLED, this);
     }
 }
 
@@ -247,12 +246,6 @@ void DeepLinkingSingleton::completeContentAction(const HQContentItemObjectRef &c
     ContentOpener::getInstance()->openContentObject(contentItem);
     
     resetDeepLink();
-}
-
-//Delegate Functions
-void DeepLinkingSingleton::MessageBoxButtonPressed(std::string messageBoxTitle, std::string buttonTitle)
-{
-	Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::IAP));
 }
 
 NS_AZOOMEE_END

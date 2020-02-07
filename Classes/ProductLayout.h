@@ -12,7 +12,7 @@
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/UI/DynamicText.h>
-#include <AzoomeeCommon/UI/CTAButton.h>
+#include <AzoomeeCommon/UI/TextButton.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -26,7 +26,7 @@ class ProductLayout : public cocos2d::ui::Layout
 	typedef std::function<void(IAPAction)> IAPActionCallback;
 private:
 	cocos2d::ui::Layout* _productBanner = nullptr;
-	CTAButton* _purchaseButton = nullptr;
+	TextButton* _purchaseButton = nullptr;
 	DynamicText* _restoreButton = nullptr;
 	
 	ProductLayoutType _type;

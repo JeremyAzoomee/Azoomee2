@@ -186,7 +186,7 @@ bool SignupTermsPage::init()
 	_acceptMarketingCheckBox->setColor(Color3B(79,78,78));
 	checkbox3->addChild(_acceptMarketingCheckBox);
 	
-	_submitButton = CTAButton::create("res/onboarding/rounded_button.png");
+	_submitButton = TextButton::create("res/onboarding/rounded_button.png");
 	_submitButton->ignoreContentAdaptWithSize(false);
 	_submitButton->setContentSize(Size(700,140));
 	_submitButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);

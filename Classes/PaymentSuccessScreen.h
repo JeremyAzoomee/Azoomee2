@@ -11,7 +11,7 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/UI/CTAButton.h>
+#include <AzoomeeCommon/UI/TextButton.h>
 #include <AzoomeeCommon/UI/DynamicText.h>
 
 NS_AZOOMEE_BEGIN
@@ -26,7 +26,7 @@ private:
 
 	DynamicText* _headerText = nullptr;
 	DynamicText* _bodyText = nullptr;
-	CTAButton* _continueButton = nullptr;
+	TextButton* _continueButton = nullptr;
 	
 	DynamicText* _loginButton = nullptr;
 	DynamicText* _loginHeader = nullptr;

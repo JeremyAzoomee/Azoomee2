@@ -5,7 +5,7 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/Scene.h>
 #include <AzoomeeCommon/UI/DynamicText.h>
-#include <AzoomeeCommon/UI/CTAButton.h>
+#include <AzoomeeCommon/UI/TextButton.h>
 #include <AzoomeeCommon/UI/RoundedRectSprite.h>
 
 NS_AZOOMEE_BEGIN
@@ -20,7 +20,7 @@ private:
     cocos2d::ui::Layout* _textLayout = nullptr;
     DynamicText* _headerText = nullptr;
     DynamicText* _bodyText = nullptr;
-    CTAButton* _updateButton = nullptr;
+    TextButton* _updateButton = nullptr;
 
 public:
     bool init() override;
