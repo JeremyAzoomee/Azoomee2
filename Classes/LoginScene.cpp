@@ -155,7 +155,7 @@ void LoginScene::onEnter()
             
             messageBox->setButtonText(_("Reset password"));
             messageBox->setButtonColour(Style::Color::strongPink);
-            messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+            messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
                 pSender->removeFromParent();
                 BackEndCaller::getInstance()->resetPasswordRequest(_storedUsername);
                 
@@ -165,7 +165,7 @@ void LoginScene::onEnter()
                 messageBox->setButtonText(_("OK"));
                 messageBox->setButtonColour(Style::Color::darkIndigo);
                 messageBox->setPatternColour(Style::Color::azure);
-                messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+                messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
                     pSender->removeFromParent();
                     _loginEntryForm->setVisible(true);
                 });
@@ -174,7 +174,7 @@ void LoginScene::onEnter()
             
             messageBox->setSecondButtonText(_("Back"));
             messageBox->setSecondButtonColour(Style::Color::darkIndigo);
-            messageBox->setSecondButtonPressedCallback([this](PopupMessageBox* pSender){
+            messageBox->setSecondButtonPressedCallback([this](MessagePopupBase* pSender){
                 pSender->removeFromParent();
                 _loginEntryForm->setVisible(true);
             });
@@ -188,7 +188,7 @@ void LoginScene::onEnter()
             messageBox->setButtonText(_("Back"));
             messageBox->setButtonColour(Style::Color::darkIndigo);
             messageBox->setPatternColour(Style::Color::azure);
-            messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+            messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
                 pSender->removeFromParent();
                 _loginEntryForm->setVisible(true);
             });

@@ -330,14 +330,14 @@ void MessageScene::onReportButtonPressed()
     messageBox->setButtonText(_("Report"));
     messageBox->setButtonColour(Style::Color::strongPink);
     messageBox->setPatternColour(Style::Color::azure);
-    messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+    messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
         pSender->removeFromParent();
         ChatAPI::getInstance()->reportChat(_participants[1]);
         ModalMessages::getInstance()->startLoading();
     });
     messageBox->setSecondButtonText(_("Cancel"));
     messageBox->setSecondButtonColour(Style::Color::darkIndigo);
-    messageBox->setSecondButtonPressedCallback([this](PopupMessageBox* pSender){
+    messageBox->setSecondButtonPressedCallback([this](MessagePopupBase* pSender){
         pSender->removeFromParent();
     });
     this->addChild(messageBox, 1);
@@ -438,7 +438,7 @@ void MessageScene::onChatAPIErrorRecieved(const std::string& requestTag, long er
     messageBox->setButtonText(_("Back"));
     messageBox->setButtonColour(Style::Color::darkIndigo);
     messageBox->setPatternColour(Style::Color::azure);
-    messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+    messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
         pSender->removeFromParent();
     });
     addChild(messageBox, 1);
@@ -528,14 +528,14 @@ void MessageScene::AdultPinAccepted(RequestAdultPinLayer* layer)
     messageBox->setButtonText(_("Reset"));
     messageBox->setButtonColour(Style::Color::strongPink);
     messageBox->setPatternColour(Style::Color::azure);
-    messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+    messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
         pSender->removeFromParent();
         ChatAPI::getInstance()->resetReportedChat(_participants[1]);
         ModalMessages::getInstance()->startLoading();
     });
     messageBox->setSecondButtonText(_("Cancel"));
     messageBox->setSecondButtonColour(Style::Color::darkIndigo);
-    messageBox->setSecondButtonPressedCallback([this](PopupMessageBox* pSender){
+    messageBox->setSecondButtonPressedCallback([this](MessagePopupBase* pSender){
         pSender->removeFromParent();
     });
     this->addChild(messageBox, 1);

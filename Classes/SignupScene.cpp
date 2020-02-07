@@ -202,7 +202,7 @@ bool SignupScene::init()
 			messageBox->setButtonText(_("Back"));
 			messageBox->setButtonColour(Style::Color::darkIndigo);
 			messageBox->setPatternColour(Style::Color::azure);
-			messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+			messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
 				pSender->removeFromParent();
 			});
 			this->addChild(messageBox, 1);
@@ -431,7 +431,7 @@ void SignupScene::onHttpRequestSuccess(const std::string& requestTag, const std:
 		messageBox->setButtonText(_("Let's go!"));
 		messageBox->setButtonColour(Style::Color::strongPink);
 		messageBox->setPatternColour(Style::Color::strongPink);
-		messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+		messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
 			pSender->removeFromParent();
             LoginController::getInstance()->login(_signupData._email, _signupData._password);
 		});
@@ -453,7 +453,7 @@ void SignupScene::onHttpRequestFailed(const std::string& requestTag, long errorC
         
         messageBox->setButtonText(_("Log in"));
         messageBox->setButtonColour(Style::Color::strongPink);
-        messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+        messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
             pSender->removeFromParent();
             LoginController::getInstance()->setLoginOrigin(LoginOrigin::SIGNUP);
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
@@ -461,7 +461,7 @@ void SignupScene::onHttpRequestFailed(const std::string& requestTag, long errorC
         
         messageBox->setSecondButtonText(_("Back"));
         messageBox->setSecondButtonColour(Style::Color::darkIndigo);
-        messageBox->setSecondButtonPressedCallback([this](PopupMessageBox* pSender){
+        messageBox->setSecondButtonPressedCallback([this](MessagePopupBase* pSender){
             pSender->removeFromParent();
             this->changeToPage(kEnterEmailPageKey);
         });
@@ -475,7 +475,7 @@ void SignupScene::onHttpRequestFailed(const std::string& requestTag, long errorC
         messageBox->setButtonText(_("Back"));
         messageBox->setButtonColour(Style::Color::darkIndigo);
         messageBox->setPatternColour(Style::Color::azure);
-        messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+        messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
             pSender->removeFromParent();
         });
         this->addChild(messageBox, 1);

@@ -126,8 +126,20 @@ void MainScene::backButtonCallBack()
     
     if(_drawingCanvas->_actionCounter > 0)
     {
-        ConfirmCancelMessageBox* messageBox = ConfirmCancelMessageBox::createWithParams(_("Save?"), "res/buttons/confirm_tick_2.png", "res/buttons/confirm_x_2.png", Color3B::BLACK, Color4B::WHITE);
-        messageBox->setDelegate(this);
+        ArtAppConfirmCancelMessageBox* messageBox = ArtAppConfirmCancelMessageBox::createWithParams(_("Save?"), "res/buttons/confirm_tick_2.png", "res/buttons/confirm_x_2.png", Color3B::BLACK, Color4B::WHITE);
+        messageBox->setOnConfirmCallback([this](MessagePopupBase *pSender){
+            ModalMessages::getInstance()->startSaving();
+            
+            const std::string scheduleKey = "saveAndExit";
+            Director::getInstance()->getScheduler()->schedule([&](float dt){
+                this->saveFileAndExit();
+            }, this, 0.5, 0, 0, false, scheduleKey);
+            pSender->removeFromParent();
+        });
+        messageBox->setOnCancelCallback([this](MessagePopupBase *pSender){
+            delegate->onArtAppNavigationBack();
+            pSender->removeFromParent();
+        });
         messageBox->setPosition(Director::getInstance()->getVisibleOrigin() + Vec2(Director::getInstance()->getVisibleSize().width * 0.09f/2.0f,Director::getInstance()->getVisibleSize().height * 0.175f/2.0f));
         this->addChild(messageBox,POPUP_UI_LAYER);
         
@@ -195,24 +207,6 @@ void MainScene::saveFile()
 void MainScene::reloadRenderTextureObject()
 {
 	_drawingCanvas->reloadRenderTextureObject();
-}
-
-void MainScene::onConfirmPressed(Azoomee::ConfirmCancelMessageBox *pSender)
-{
-    ModalMessages::getInstance()->startSaving();
-    
-    const std::string scheduleKey = "saveAndExit";
-    Director::getInstance()->getScheduler()->schedule([&](float dt){
-        this->saveFileAndExit();
-    }, this, 0.5, 0, 0, false, scheduleKey);
-    
-    pSender->removeFromParent();
-}
-
-void MainScene::onCancelPressed(Azoomee::ConfirmCancelMessageBox *pSender)
-{
-    pSender->removeFromParent();
-    delegate->onArtAppNavigationBack();
 }
 
 NS_AZOOMEE_AA_END

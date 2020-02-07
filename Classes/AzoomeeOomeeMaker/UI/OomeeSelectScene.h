@@ -13,11 +13,11 @@
 #include "OomeeCarousel.h"
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/UI/ConfirmCancelMessageBox.h>
+#include "../../ConfirmCancelMessageBox.h"
 
 NS_AZOOMEE_OM_BEGIN
 
-class OomeeSelectScene : public cocos2d::Scene, public OomeeCarouselButtonDelegate, public ConfirmCancelMessageBoxDelegate
+class OomeeSelectScene : public cocos2d::Scene, public OomeeCarouselButtonDelegate
 {
     typedef cocos2d::Scene Super;
 private:
@@ -49,9 +49,6 @@ public:
     virtual void deleteOomee(const std::string& oomeeFilename) override;
     virtual void shareOomee(const std::string& oomeeFilename) override;
     virtual void makeAvatar(const std::string& oomeeFilename) override;
-    
-    virtual void onConfirmPressed(ConfirmCancelMessageBox* pSender) override;
-    virtual void onCancelPressed(ConfirmCancelMessageBox* pSender) override;
     
 };
 

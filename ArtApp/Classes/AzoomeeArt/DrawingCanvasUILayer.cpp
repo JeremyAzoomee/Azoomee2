@@ -155,9 +155,14 @@ void DrawingCanvasUILayer::addClearButton(const Size& visibleSize, const Point& 
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
 			const Size& visibleSize = Director::getInstance()->getVisibleSize();
-            ConfirmCancelMessageBox* messageBox = ConfirmCancelMessageBox::createWithParams(_("Save?"), "res/buttons/confirm_tick_2.png", "res/buttons/confirm_x_2.png", Color3B::BLACK, Color4B::WHITE);
-            messageBox->setName(kSavePopupName);
-            messageBox->setDelegate(this);
+            ArtAppConfirmCancelMessageBox* messageBox = ArtAppConfirmCancelMessageBox::createWithParams(_("Save?"), "res/buttons/confirm_tick_2.png", "res/buttons/confirm_x_2.png", Color3B::BLACK, Color4B::WHITE);
+            messageBox->setOnConfirmCallback([this](MessagePopupBase *pSender){
+                saveImage();
+                pSender->removeFromParent();
+            });
+            messageBox->setOnCancelCallback([](MessagePopupBase *pSender){
+                pSender->removeFromParent();
+            });
             messageBox->setPosition(Director::getInstance()->getVisibleOrigin() + Vec2(visibleSize.width * 0.09f/2.0f,visibleSize.height * 0.175f/2.0f));
             Director::getInstance()->getRunningScene()->addChild(messageBox,POPUP_UI_LAYER);
         }
@@ -173,9 +178,14 @@ void DrawingCanvasUILayer::addClearButton(const Size& visibleSize, const Point& 
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
 			const Size& visibleSize = Director::getInstance()->getVisibleSize();
-            ConfirmCancelMessageBox* messageBox = ConfirmCancelMessageBox::createWithParams(_("Delete?"), "res/buttons/confirm_bin.png", "res/buttons/confirm_x_2.png", Color3B::BLACK, Color4B::WHITE);
-            messageBox->setName(kClearPopupName);
-            messageBox->setDelegate(this);
+            ArtAppConfirmCancelMessageBox* messageBox = ArtAppConfirmCancelMessageBox::createWithParams(_("Delete?"), "res/buttons/confirm_bin.png", "res/buttons/confirm_x_2.png", Color3B::BLACK, Color4B::WHITE);
+            messageBox->setOnConfirmCallback([this](MessagePopupBase *pSender){
+                _drawingCanvas->clearDrawing();
+                pSender->removeFromParent();
+            });
+            messageBox->setOnCancelCallback([](MessagePopupBase *pSender){
+                pSender->removeFromParent();
+            });
             messageBox->setPosition(Director::getInstance()->getVisibleOrigin() + Vec2(visibleSize.width * 0.09f/2.0f,visibleSize.height * 0.175f/2.0f));
             Director::getInstance()->getRunningScene()->addChild(messageBox,POPUP_UI_LAYER);
         }
@@ -1050,26 +1060,6 @@ void DrawingCanvasUILayer::getStickerFilesFromJSON()
         
     }
     
-}
-
-// delegate functions
-
-void DrawingCanvasUILayer::onConfirmPressed(Azoomee::ConfirmCancelMessageBox *pSender)
-{
-    if(pSender->getName() == kSavePopupName)
-    {
-        saveImage();
-    }
-    else if(pSender->getName() == kClearPopupName)
-    {
-        _drawingCanvas->clearDrawing();
-    }
-    pSender->removeFromParent();
-}
-
-void DrawingCanvasUILayer::onCancelPressed(Azoomee::ConfirmCancelMessageBox *pSender)
-{
-    pSender->removeFromParent();
 }
 
 

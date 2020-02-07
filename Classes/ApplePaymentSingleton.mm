@@ -119,7 +119,7 @@ void ApplePaymentSingleton::onAnswerReceived(const std::string& responseDataStri
             messageBox->setButtonText(_("Back"));
             messageBox->setButtonColour(Style::Color::darkIndigo);
             messageBox->setPatternColour(Style::Color::azure);
-            messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+            messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
                 pSender->removeFromParent();
                 LoginController::getInstance()->doLoginLogic();
             });

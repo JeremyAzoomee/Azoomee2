@@ -230,10 +230,29 @@ void OomeeSelectScene::editOomee(const std::string& oomeeFileName)
 
 void OomeeSelectScene::deleteOomee(const std::string &oomeeFilename)
 {
-    ConfirmCancelMessageBox* messagebox = ConfirmCancelMessageBox::createWithParams(_("Delete?"), "res/buttons/confirm_bin.png", "res/buttons/confirm_x_2.png");
-    messagebox->setDelegate(this);
-    messagebox->setName(oomeeFilename);
-    _contentLayer->addChild(messagebox);
+    ConfirmCancelMessageBox* messageBox = ConfirmCancelMessageBox::createWithParams(_("Delete?"), "res/buttons/confirm_bin.png", "res/buttons/confirm_x_2.png");
+    messageBox->setName(oomeeFilename);
+    messageBox->setOnConfirmCallback([this](MessagePopupBase *pSender){
+        OomeeFigureDataRef oomee = OomeeFigureData::create();
+        oomee->setId(pSender->getName());
+        OomeeMakerDataHandler::getInstance()->deleteOomee(oomee, ChildManager::getInstance()->getLoggedInChild()->getId(), [this](bool success){
+            if(success)
+            {
+                CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Undo_Exit_Buttons.mp3");
+                AnalyticsSingleton::getInstance()->deleteOomee();
+                stopAllActions();
+                setCarouselData();
+                this->getScheduler()->schedule([this](float deltaT){
+                    _oomeeCarousel->centerButtons();
+                }, this, 0, 0, 1.0, 0, "centerButtons");
+            }
+        });
+        pSender->removeFromParent();
+    });
+    messageBox->setOnCancelCallback([](MessagePopupBase *pSender){
+        pSender->removeFromParent();
+    });
+    _contentLayer->addChild(messageBox);
 }
 
 void OomeeSelectScene::makeAvatar(const std::string &oomeeFilename)
@@ -264,31 +283,6 @@ void OomeeSelectScene::shareOomee(const std::string &oomeeFilename)
         CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Share_Button.mp3");
         delegate->onOomeeMakerShareOomee(OomeeMakerDataHandler::getInstance()->getFullSaveDir() + oomeeFilename + ".png");
     }
-}
-
-void OomeeSelectScene::onConfirmPressed(Azoomee::ConfirmCancelMessageBox *pSender)
-{
-	OomeeFigureDataRef oomee = OomeeFigureData::create();
-	oomee->setId(pSender->getName());
-	OomeeMakerDataHandler::getInstance()->deleteOomee(oomee, ChildManager::getInstance()->getLoggedInChild()->getId(), [this](bool success){
-		if(success)
-		{
-			CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Undo_Exit_Buttons.mp3");
-			AnalyticsSingleton::getInstance()->deleteOomee();
-			stopAllActions();
-			setCarouselData();
-			this->getScheduler()->schedule([this](float deltaT){
-				_oomeeCarousel->centerButtons();
-			}, this, 0, 0, 1.0, 0, "centerButtons");
-		}
-	});
-	
-    pSender->removeFromParent();
-}
-
-void OomeeSelectScene::onCancelPressed(Azoomee::ConfirmCancelMessageBox *pSender)
-{
-    pSender->removeFromParent();
 }
 
 NS_AZOOMEE_OM_END

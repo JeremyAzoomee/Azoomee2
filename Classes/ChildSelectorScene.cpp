@@ -155,7 +155,7 @@ void ChildSelectorScene::onEnter()
         messageBox->setButtonText(_("Back"));
         messageBox->setButtonColour(Style::Color::darkIndigo);
         messageBox->setPatternColour(Style::Color::azure);
-        messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+        messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
             pSender->removeFromParent();
         });
         this->addChild(messageBox, 1);
@@ -324,14 +324,14 @@ void ChildSelectorScene::onForceUpdateCheckFinished(const ForceUpdateResult& res
             
             messageBox->setButtonText(_("Update"));
             messageBox->setButtonColour(Style::Color::strongPink);
-            messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+            messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
                 pSender->removeFromParent();
                 Application::getInstance()->openURL(ForceUpdateSingleton::getInstance()->getUpdateUrlFromFile());
             });
             
             messageBox->setSecondButtonText(_("Back"));
             messageBox->setSecondButtonColour(Style::Color::darkIndigo);
-            messageBox->setSecondButtonPressedCallback([this](PopupMessageBox* pSender){
+            messageBox->setSecondButtonPressedCallback([this](MessagePopupBase* pSender){
                 pSender->removeFromParent();
             });
             this->addChild(messageBox, 1);

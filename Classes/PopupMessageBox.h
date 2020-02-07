@@ -13,14 +13,15 @@
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/UI/TextButton.h>
 #include <AzoomeeCommon/UI/DynamicText.h>
+#include <AzoomeeCommon/UI/MessagePopupBase.h>
 
 NS_AZOOMEE_BEGIN
 
-class PopupMessageBox : public cocos2d::ui::Layout
+class PopupMessageBox : public MessagePopupBase
 {
-	typedef cocos2d::ui::Layout Super;
+	typedef MessagePopupBase Super;
 protected:
-    typedef std::function<void(PopupMessageBox* pSender)> ButtonPressedCallback;
+    //typedef std::function<void(PopupMessageBox* pSender)> ButtonPressedCallback;
     // fixed size of the popup
     static const float kPopupSize;
     // fixed height of the title bar
