@@ -208,7 +208,8 @@ namespace Font
         {{poppinsRegular,"gre"},ArialRegular},
         {{poppinsMedium,"gre"},ArialRegular},
         {{poppinsBold,"gre"},ArialBold},
-        {{PassionOneRegular, "gre"}, ArialBold}
+        {{PassionOneRegular, "gre"}, ArialBold},
+        {{PassionOneRegular, "tur"}, ArialBold}
     };
 }
     
