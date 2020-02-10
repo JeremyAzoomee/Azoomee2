@@ -4,6 +4,7 @@
 #include "ContentHistoryManager.h"
 #include <AzoomeeCommon/Utils/DirUtil.h>
 #include <AzoomeeCommon/UI/DynamicText.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -22,7 +23,7 @@ bool ManualGameInputLayer::init()
     _background->setSizeType(ui::Layout::SizeType::PERCENT);
     _background->setSizePercent(Vec2(1.0,1.0));
     _background->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _background->setBackGroundColor(Style::Color::darkIndigo);
+    _background->setBackGroundColor(Colours::Color_3B::darkIndigo);
     addChild(_background);
 
     addTitle();

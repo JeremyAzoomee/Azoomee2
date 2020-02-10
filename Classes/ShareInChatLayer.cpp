@@ -7,10 +7,11 @@
 
 #include "ShareInChatLayer.h"
 #include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/Utils/DirUtil.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -29,7 +30,7 @@ bool ShareInChatLayer::init()
     setSizeType(SizeType::PERCENT);
     setSizePercent(Vec2(1.0f,1.0f));
     setBackGroundColorType(BackGroundColorType::SOLID);
-    setBackGroundColor(Style::Color::darkIndigo);
+    setBackGroundColor(Colours::Color_3B::darkIndigo);
     
     _popupBody = ui::Layout::create();
     _popupBody->setSizeType(SizeType::PERCENT);
@@ -41,7 +42,7 @@ bool ShareInChatLayer::init()
     _bgColour = RoundedRectSprite::create();
     _bgColour->setTexture("res/decoration/white_1px.png");
     _bgColour->setCornerRadius(26);
-    _bgColour->setColor(Style::Color::darkIndigoThree);
+    _bgColour->setColor(Colours::Color_3B::darkIndigoThree);
     _bgColour->setRoundedCorners(false, false, true, true);
     _bgColour->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _bgColour->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
@@ -51,16 +52,16 @@ bool ShareInChatLayer::init()
     _bgPattern->setTexture("res/decoration/pattern_stem_tile.png");
     _bgPattern->setCornerRadius(26);
     _bgPattern->setScaleMode(RoundedRectSprite::ScaleMode::TILE);
-    _bgPattern->setColor(Style::Color::azure);
+    _bgPattern->setColor(Colours::Color_3B::azure);
     _bgPattern->setRoundedCorners(false, false, true, true);
     _bgPattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _bgPattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
     _popupBody->addChild(_bgPattern);
     
     _bgGradient = LayerGradient::create();
-    _bgGradient->setStartColor(Style::Color::darkIndigoThree);
+    _bgGradient->setStartColor(Colours::Color_3B::darkIndigoThree);
     _bgGradient->setStartOpacity(0);
-    _bgGradient->setEndColor(Style::Color::darkIndigoThree);
+    _bgGradient->setEndColor(Colours::Color_3B::darkIndigoThree);
     _bgGradient->setEndOpacity(255);
     _bgGradient->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     _bgGradient->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_LEFT);

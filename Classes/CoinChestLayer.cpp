@@ -6,12 +6,13 @@
 //
 
 #include "CoinChestLayer.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "SceneManagerScene.h"
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -24,7 +25,7 @@ bool CoinChestLayer::init()
 		return false;
 	}
 	
-    _bgColour = LayerColor::create(Color4B(Style::Color::darkIndigo));
+    _bgColour = LayerColor::create(Color4B(Colours::Color_3B::darkIndigo));
 	this->addChild(_bgColour, -1);
 	
     _pattern = RoundedRectSprite::create();
@@ -32,7 +33,7 @@ bool CoinChestLayer::init()
     _pattern->setCornerRadius(0);
     _pattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _pattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    _pattern->setColor(Style::Color::white);
+    _pattern->setColor(Colours::Color_3B::white);
     _pattern->setScaleMode(RoundedRectSprite::ScaleMode::TILE);
     _pattern->setContentSize(getContentSize());
     _pattern->setOpacity(100);
@@ -90,7 +91,7 @@ void CoinChestLayer::addText()
 	_text->addChild(youWon);
 	
 	ui::Text* value = ui::Text::create(StringUtils::format("%d",abs(_rewardData->getItemPrice())), Style::Font::RewardRegular(), 360);
-	value->setTextColor(Color4B(Style::Color::macaroniAndCheese));
+	value->setTextColor(Color4B(Colours::Color_3B::macaroniAndCheese));
 	value->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	_text->addChild(value);
 	

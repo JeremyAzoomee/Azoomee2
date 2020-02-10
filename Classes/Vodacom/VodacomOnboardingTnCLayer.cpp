@@ -8,7 +8,7 @@
 #include "VodacomOnboardingTnCLayer.h"
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/UI/ModalWebview.h>
 #include "Urls.h"
 
@@ -160,7 +160,7 @@ void VodacomOnboardingTnCLayer::onEnter()
 	_errorMessage = Label::createWithTTF("*You must be over 18 and agree to our T&Cs", Style::Font::Regular(), 59);
 	_errorMessage->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_errorMessage->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	_errorMessage->setTextColor(Color4B(Style::Color::watermelon));
+	_errorMessage->setTextColor(Color4B(Colours::Color_3B::watermelon));
 	_errorMessage->setHorizontalAlignment(TextHAlignment::LEFT);
 	_errorMessage->setVerticalAlignment(TextVAlignment::TOP);
 	_errorMessage->setVisible(false);
@@ -191,12 +191,12 @@ void VodacomOnboardingTnCLayer::onEnter()
 	_confirmButton->addChild(confirmText);
 	
 	Label* privacyPolicy = Label::createWithTTF(_("Privacy Policy"), Style::Font::Regular(), 64);
-	privacyPolicy->setTextColor(Color4B(Style::Color::skyBlue));
+	privacyPolicy->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	privacyPolicy->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	privacyPolicy->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	
 	DrawNode* underline = DrawNode::create();
-	underline->drawRect(Vec2(0, -7), Vec2(privacyPolicy->getContentSize().width, -6), Color4F(Style::Color::skyBlue));
+	underline->drawRect(Vec2(0, -7), Vec2(privacyPolicy->getContentSize().width, -6), Color4F(Colours::Color_3B::skyBlue));
 	privacyPolicy->addChild(underline);
 	
 	ui::Layout* privacyPolicyHolder = ui::Layout::create();
@@ -214,12 +214,12 @@ void VodacomOnboardingTnCLayer::onEnter()
 	this->addChild(privacyPolicyHolder);
 	
 	Label* tnc = Label::createWithTTF(_("Terms and Conditions"), Style::Font::Regular(), 64);
-	tnc->setTextColor(Color4B(Style::Color::skyBlue));
+	tnc->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	tnc->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	tnc->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	
 	DrawNode* underline2 = DrawNode::create();
-	underline2->drawRect(Vec2(0, -7), Vec2(tnc->getContentSize().width, -6), Color4F(Style::Color::skyBlue));
+	underline2->drawRect(Vec2(0, -7), Vec2(tnc->getContentSize().width, -6), Color4F(Colours::Color_3B::skyBlue));
 	tnc->addChild(underline2);
 	
 	ui::Layout* tncHolder = ui::Layout::create();

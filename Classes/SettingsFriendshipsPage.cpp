@@ -7,7 +7,7 @@
 
 #include "SettingsFriendshipsPage.h"
 #include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
@@ -102,8 +102,8 @@ void SettingsFriendshipsPage::onHttpRequestFailed(const std::string& requestTag,
     messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
     messageBox->setBody(errorMessageText.at(ERROR_BODY));
     messageBox->setButtonText(_("Back"));
-    messageBox->setButtonColour(Style::Color::darkIndigo);
-    messageBox->setPatternColour(Style::Color::azure);
+    messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
+    messageBox->setPatternColour(Colours::Color_3B::azure);
     messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
         pSender->removeFromParent();
     });

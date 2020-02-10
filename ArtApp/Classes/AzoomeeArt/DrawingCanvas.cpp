@@ -7,7 +7,7 @@
 //
 
 #include "DrawingCanvas.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Utils/DirUtil.h>
 #include <dirent.h>
@@ -27,7 +27,7 @@ bool DrawingCanvas::init()
     
     _brushConfig = BrushConfig::create();
     
-    _background = LayerColor::create(Color4B(Style::Color_4F::pureWhite));
+    _background = LayerColor::create(Color4B(Colours::Color_4F::pureWhite));
      _brushConfig->setBgImageFilename(kArtAppAssetLoc + "white_bg.png");
     
     this->addChild(_background,BACKGROUND_LAYER);
@@ -37,7 +37,7 @@ bool DrawingCanvas::init()
     _drawing = RenderTexture::create(visibleSize.width, visibleSize.height, Texture2D::PixelFormat::RGBA8888, GL_DEPTH24_STENCIL8);
     _drawing->setAnchorPoint(Vec2(0.5,0.5));
     _drawing->setPosition(visibleSize/2);
-    _drawing->beginWithClear(Style::Color_4F::pureWhite.r, Style::Color_4F::pureWhite.g, Style::Color_4F::pureWhite.b, Style::Color_4F::pureWhite.a);
+    _drawing->beginWithClear(Colours::Color_4F::pureWhite.r, Colours::Color_4F::pureWhite.g, Colours::Color_4F::pureWhite.b, Colours::Color_4F::pureWhite.a);
     _drawing->end();
     
     this->addChild(_drawing);
@@ -133,7 +133,7 @@ void DrawingCanvas::clearDrawing()
         layer->removeFromParent();
     }
     _drawingStack.clear();
-    _drawing->beginWithClear(Style::Color_4F::pureWhite.r,Style::Color_4F::pureWhite.g,Style::Color_4F::pureWhite.b,Style::Color_4F::pureWhite.a);
+    _drawing->beginWithClear(Colours::Color_4F::pureWhite.r,Colours::Color_4F::pureWhite.g,Colours::Color_4F::pureWhite.b,Colours::Color_4F::pureWhite.a);
     _drawing->end();
     Director::getInstance()->getRenderer()->render();
     _actionCounter++;
@@ -332,7 +332,7 @@ void DrawingCanvas::reloadRenderTextureObject()
 	auto newDrawing = RenderTexture::create(visibleSize.width, visibleSize.height, Texture2D::PixelFormat::RGBA8888, GL_DEPTH24_STENCIL8);
 	newDrawing->setAnchorPoint(Vec2(0.5,0.5));
 	newDrawing->setPosition(visibleSize/2);
-	newDrawing->beginWithClear(Style::Color_4F::pureWhite.r, Style::Color_4F::pureWhite.g, Style::Color_4F::pureWhite.b, Style::Color_4F::pureWhite.a);
+	newDrawing->beginWithClear(Colours::Color_4F::pureWhite.r, Colours::Color_4F::pureWhite.g, Colours::Color_4F::pureWhite.b, Colours::Color_4F::pureWhite.a);
 	drawingSprite->visit();
 	newDrawing->end();
 	

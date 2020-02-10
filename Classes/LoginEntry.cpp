@@ -6,12 +6,13 @@
 //
 
 #include "LoginEntry.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/Input/TextInputChecker.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/Data/AppConfig.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -39,7 +40,7 @@ bool LoginEntry::init()
 	_inputTitle->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	_inputTitle->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_inputTitle->setTextVerticalAlignment(TextVAlignment::CENTER);
-	_inputTitle->setTextColor(Color4B(Style::Color::brownGrey));
+	_inputTitle->setTextColor(Color4B(Colours::Color_3B::brownGrey));
 	_inputHolder->addChild(_inputTitle);
 	
 	_inputBg = ui::Scale9Sprite::create("res/onboarding/input_rounded_frame.png");
@@ -68,7 +69,7 @@ bool LoginEntry::init()
 	_continueButton->setContentSize(Size(700,140));
 	_continueButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_continueButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,elementSpacing,0,0)));
-	_continueButton->setColor(Style::Color::darkIndigo);
+	_continueButton->setColor(Colours::Color_3B::darkIndigo);
 	_continueButton->setText(_("Continue"));
 	_continueButton->setTextFontInfo(Style::Font::PoppinsBold(), 70);
 	_continueButton->setTextColour(Color4B::WHITE);
@@ -99,7 +100,7 @@ bool LoginEntry::init()
 	_backButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_backButton->setContentSize(Size(700,140));
 	_backButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,elementSpacing,0,0)));
-	_backButton->setTextColor(Color4B(Style::Color::brownGrey));
+	_backButton->setTextColor(Color4B(Colours::Color_3B::brownGrey));
 	_backButton->setTouchEnabled(true);
 	_backButton->setTouchScaleChangeEnabled(true);
 	_backButton->ignoreContentAdaptWithSize(false);
@@ -121,7 +122,7 @@ bool LoginEntry::init()
 	_versionNumber = DynamicText::create(AppConfig::getInstance()->getVersionNumberToDisplay(), Style::Font::PoppinsRegular(), 35);
 	_versionNumber->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 	_versionNumber->setNormalizedPosition(Vec2(0.5,0.05));
-	_versionNumber->setTextColor(Color4B(Style::Color::brownGrey));
+	_versionNumber->setTextColor(Color4B(Colours::Color_3B::brownGrey));
 	_versionNumber->setTextVerticalAlignment(TextVAlignment::CENTER);
 	_versionNumber->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_versionNumber->setOverflow(Label::Overflow::SHRINK);
@@ -187,7 +188,7 @@ void LoginEntry::clearInputText()
 void LoginEntry::setContinueButtonEnabled(bool enabled)
 {
 	_continueButton->setTouchEnabled(enabled);
-    _continueButton->setColor(enabled ? Style::Color::darkIndigo : Style::Color::greyBlue2);
+    _continueButton->setColor(enabled ? Colours::Color_3B::darkIndigo : Colours::Color_3B::greyBlue2);
 }
 
 void LoginEntry::setState(const LoginEntryState& state)

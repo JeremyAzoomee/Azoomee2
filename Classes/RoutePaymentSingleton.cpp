@@ -14,7 +14,7 @@
 #include <AzoomeeCommon/Device.h>
 #include "PopupMessageBox.h"
 #include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include "ErrorCodes.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -166,8 +166,8 @@ void RoutePaymentSingleton::backendRequestFailed(long errorCode)
         messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
         messageBox->setBody(errorMessageText.at(ERROR_BODY));
         messageBox->setButtonText(_("Back"));
-        messageBox->setButtonColour(Style::Color::darkIndigo);
-        messageBox->setPatternColour(Style::Color::azure);
+        messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
+        messageBox->setPatternColour(Colours::Color_3B::azure);
         messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
             pSender->removeFromParent();
             LoginController::getInstance()->doLoginLogic();
@@ -193,8 +193,8 @@ void RoutePaymentSingleton::doublePurchaseMessage()
     messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
     messageBox->setBody(errorMessageText.at(ERROR_BODY));
     messageBox->setButtonText(_("Back"));
-    messageBox->setButtonColour(Style::Color::darkIndigo);
-    messageBox->setPatternColour(Style::Color::azure);
+    messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
+    messageBox->setPatternColour(Colours::Color_3B::azure);
     messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
         pSender->removeFromParent();
     });
@@ -211,8 +211,8 @@ void RoutePaymentSingleton::failedRestoreMessage()
     messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
     messageBox->setBody(errorMessageText.at(ERROR_BODY));
     messageBox->setButtonText(_("Back"));
-    messageBox->setButtonColour(Style::Color::darkIndigo);
-    messageBox->setPatternColour(Style::Color::azure);
+    messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
+    messageBox->setPatternColour(Colours::Color_3B::azure);
     messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
         pSender->removeFromParent();
     });

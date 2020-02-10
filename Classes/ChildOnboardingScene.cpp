@@ -6,7 +6,7 @@
 //
 
 #include "ChildOnboardingScene.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include "SceneManagerScene.h"
 #include "BackEndCaller.h"
@@ -17,6 +17,7 @@
 #include "ModalMessages.h"
 #include "PopupMessageBox.h"
 #include "FlowDataSingleton.h"
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -29,7 +30,7 @@ bool ChildOnboardingScene::init()
         return false;
     }
     
-    const Color3B& bgColour = Style::Color::darkIndigo;
+    const Color3B& bgColour = Colours::Color_3B::darkIndigo;
     
     _bgColour = ui::Layout::create();
     _bgColour->setBackGroundColorType(ui::HBox::BackGroundColorType::SOLID);
@@ -145,12 +146,12 @@ void ChildOnboardingScene::onSizeChanged()
     if(isPortrait)
     {
         Vec2 points[4] = {Vec2(0,-1), Vec2(contentSize.width, -1), Vec2(contentSize.width, contentSize.height * 0.66f), Vec2(0,contentSize.height * 0.66f)};
-        _patternHider->drawSolidPoly(points, 4, Color4F(Style::Color::darkIndigo));
+        _patternHider->drawSolidPoly(points, 4, Color4F(Colours::Color_3B::darkIndigo));
     }
     else
     {
         Vec2 points[3] = {Vec2(0, 0), Vec2(contentSize.width, contentSize.height), Vec2(contentSize.width,0)};
-        _patternHider->drawSolidPoly(points, 3, Color4F(Style::Color::darkIndigo));
+        _patternHider->drawSolidPoly(points, 3, Color4F(Colours::Color_3B::darkIndigo));
     }
     
     _gradient->setStartOpacity(isPortrait ? 166 : 255);
@@ -241,8 +242,8 @@ void ChildOnboardingScene::onHttpRequestFailed(const std::string& requestTag, lo
     messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
     messageBox->setBody(errorMessageText.at(ERROR_BODY));
     messageBox->setButtonText(_("Back"));
-    messageBox->setButtonColour(Style::Color::darkIndigo);
-    messageBox->setPatternColour(Style::Color::azure);
+    messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
+    messageBox->setPatternColour(Colours::Color_3B::azure);
     messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
         pSender->removeFromParent();
         this->transitionState(State::ENTER_NAME);

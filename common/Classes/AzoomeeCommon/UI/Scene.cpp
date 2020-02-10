@@ -17,7 +17,7 @@ bool Scene::init()
     _contentLayer = ui::Layout::create();
     _contentLayer->setLayoutType(ui::Layout::Type::ABSOLUTE);
 //    _contentLayer->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-//    _contentLayer->setBackGroundColor(Style::Color::white);
+//    _contentLayer->setBackGroundColor(Colours::Color_3B::white);
     addChild(_contentLayer);
     
     // Offset the content by the visible origin

@@ -6,8 +6,9 @@
 //
 
 #include "SettingsMessageBox.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -23,7 +24,7 @@ bool SettingsMessageBox::init()
     _visibleSize = Director::getInstance()->getVisibleSize();
     this->setContentSize(_visibleSize);
     
-    _overlay = LayerColor::create(Style::Color_4B::semiTransparentOverlay, _visibleSize.width, _visibleSize.height);
+    _overlay = LayerColor::create(Colours::Color_4B::semiTransparentOverlay, _visibleSize.width, _visibleSize.height);
     this->addChild(_overlay);
     
     auto listener = EventListenerTouchOneByOne::create();

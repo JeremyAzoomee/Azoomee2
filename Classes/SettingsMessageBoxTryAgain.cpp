@@ -7,7 +7,8 @@
 
 #include "SettingsMessageBoxTryAgain.h"
 #include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -39,7 +40,7 @@ void SettingsMessageBoxTryAgain::onEnter()
 	
 	_tryAgainButton = SettingsMessageBoxButton::create();
 	_tryAgainButton->loadTextureNormal("res/settings/settings_rounded.png");
-	_tryAgainButton->setColor(Style::Color::skyBlue);
+	_tryAgainButton->setColor(Colours::Color_3B::skyBlue);
 	_tryAgainButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_tryAgainButton->setNormalizedPosition(Vec2(0.5f,0.25f));
 	_tryAgainButton->setMessageBoxButtonType(SettingsMessageBoxButtonType::TRY_AGAIN);

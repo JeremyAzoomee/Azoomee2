@@ -6,7 +6,7 @@
 //
 
 #include "ArtAppConfirmCancelMessageBox.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 
 using namespace cocos2d;
@@ -37,7 +37,7 @@ bool ArtAppConfirmCancelMessageBox::init()
     _messageBox->setContentSize(Size(890,570));
     this->addChild(_messageBox);
     
-    _titleText = Label::createWithTTF("", Style::Font::Regular(), 109);
+    _titleText = Label::createWithTTF("", "fonts/Arial.ttf", 109);
     _titleText->setNormalizedPosition(Vec2(0.5,0.9));
     _titleText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _titleText->setTextColor(Color4B::BLACK);

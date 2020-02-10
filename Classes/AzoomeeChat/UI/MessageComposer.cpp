@@ -1,5 +1,5 @@
 #include "MessageComposer.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
@@ -8,6 +8,7 @@
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Device.h>
 #include <AzoomeeCommon/Data/AppConfig.h>
+#include "../../Style.h"
 
 using namespace cocos2d;
 
@@ -26,7 +27,7 @@ bool MessageComposer::init()
     }
     
     setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    setBackGroundColor(Style::Color::darkIndigoTwo);
+    setBackGroundColor(Colours::Color_3B::darkIndigoTwo);
     setLayoutType(ui::Layout::Type::VERTICAL);
     
     setSizeType(ui::Widget::SizeType::PERCENT);
@@ -71,7 +72,7 @@ bool MessageComposer::init()
     ui::Layout* artBG = ui::Layout::create();
     artBG->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
     artBG->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    artBG->setBackGroundColor(Style::Color::darkIndigoTwo);
+    artBG->setBackGroundColor(Colours::Color_3B::darkIndigoTwo);
     artBG->setSizeType(ui::Widget::SizeType::PERCENT);
     artBG->setSizePercent(Vec2(1.0f,1.0f));
     _selectorLayout->addChild(artBG);
@@ -913,8 +914,8 @@ void MessageComposer::createMessageEntryUI(cocos2d::ui::Layout* parent)
     _messageEntryField->setTextHorizontalAlignment(TextHAlignment::LEFT);
     _messageEntryField->setTextVerticalAlignment(TextVAlignment::TOP);
     _messageEntryField->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(textEntryLeftMargin, 0, 0, 0)));
-    _messageEntryField->setPlaceHolderColor(Style::Color::white);
-    _messageEntryField->setTextColor(Color4B(Style::Color::black));
+    _messageEntryField->setPlaceHolderColor(Colours::Color_3B::white);
+    _messageEntryField->setTextColor(Color4B(Colours::Color_3B::black));
     _messageEntryField->addEventListener(CC_CALLBACK_2(MessageComposer::onTextFieldEvent, this));
     firstLayout->addChild(_messageEntryField);
     

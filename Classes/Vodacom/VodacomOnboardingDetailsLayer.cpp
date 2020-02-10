@@ -8,7 +8,7 @@
 #include "VodacomOnboardingDetailsLayer.h"
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 
 using namespace cocos2d;
 
@@ -132,16 +132,16 @@ void VodacomOnboardingDetailsLayer::onEnter()
 	
 	// add this in later when we have a link
 	/*Label* voucherLearnMore = Label::createWithTTF(_("Don’t have a voucher?"), Style::Font::Regular(), 64);
-	voucherLearnMore->setTextColor(Color4B(Style::Color::skyBlue));
+	voucherLearnMore->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	voucherLearnMore->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	voucherLearnMore->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
 	Label* learnMore = Label::createWithTTF(_("Learn more"), Style::Font::Regular(), 64);
-	learnMore->setTextColor(Color4B(Style::Color::skyBlue));
+	learnMore->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	learnMore->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
 	learnMore->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
 	
 	DrawNode* underline = DrawNode::create();
-	underline->drawRect(Vec2(0, -7), Vec2(learnMore->getContentSize().width, -6), Color4F(Style::Color::skyBlue));
+	underline->drawRect(Vec2(0, -7), Vec2(learnMore->getContentSize().width, -6), Color4F(Colours::Color_3B::skyBlue));
 	learnMore->addChild(underline);
 	
 	ui::Layout* learnMoreHolder = ui::Layout::create();

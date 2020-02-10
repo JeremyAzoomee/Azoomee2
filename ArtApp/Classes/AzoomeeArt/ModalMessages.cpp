@@ -1,7 +1,7 @@
 #include "ModalMessages.h"
 #include <ui/UIEditBox/UIEditBox.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/UI/Scene.h>
 #include <AzoomeeCommon//Utils/LocaleManager.h>
 
@@ -100,8 +100,8 @@ void ModalMessages::startSaving()
     }
     createAndFadeInLayer();
     
-    auto savingLabel = Label::createWithTTF(_("Saving..."), Style::Font::Regular(), 128);
-    savingLabel->setColor(Style::Color::white);
+    auto savingLabel = Label::createWithTTF(_("Saving..."), "fonts/Arial.ttf", 128);
+    savingLabel->setColor(Colours::Color_3B::white);
     savingLabel->setNormalizedPosition(Vec2(0.5,0.5));
     savingLabel->setAnchorPoint(Vec2(0.5,0.5));
     loadingLayer->addChild(savingLabel);

@@ -6,10 +6,11 @@
 //
 
 #include "RecentMessageBar.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -40,7 +41,7 @@ bool RecentMessageBar::init()
     _avatarBG->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
     _avatarBG->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
     _avatarBG->setStretchImageEnabled(true);
-    _avatarBG->setColor(Style::Color::darkIndigoThree);
+    _avatarBG->setColor(Colours::Color_3B::darkIndigoThree);
     addChild(_avatarBG);
     
     _pattern = RoundedRectSprite::create();
@@ -75,7 +76,7 @@ bool RecentMessageBar::init()
     _senderName->setTextHorizontalAlignment(TextHAlignment::LEFT);
     _senderName->setTextVerticalAlignment(TextVAlignment::CENTER);
     _senderName->setOverflow(Label::Overflow::RESIZE_HEIGHT);
-    _senderName->setTextColor(Color4B(Style::Color::macaroniAndCheese));
+    _senderName->setTextColor(Color4B(Colours::Color_3B::macaroniAndCheese));
     _textLayout->addChild(_senderName);
     
     _messageText = DynamicText::create("", Style::Font::PoppinsBold(), 48);

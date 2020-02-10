@@ -7,7 +7,7 @@
 //
 
 #include "BrushEraser.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 
 using namespace cocos2d;
 

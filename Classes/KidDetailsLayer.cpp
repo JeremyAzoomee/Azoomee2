@@ -7,7 +7,7 @@
 
 #include "KidDetailsLayer.h"
 #include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
@@ -18,6 +18,7 @@
 #include "SettingsMessageBoxDeleteChild.h"
 #include "SettingsMessageBoxFREvent.h"
 #include "SettingsMessageBoxNotification.h"
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -138,7 +139,7 @@ void KidDetailsLayer::onEnter()
     bgCircle1->setScale(0);
     bgCircle1->setOpacity(25);
     bgCircle1->setRotation(RandomHelper::random_real(0.0,M_PI));
-    bgCircle1->setColor(Style::Color::darkTeal);
+    bgCircle1->setColor(Colours::Color_3B::darkTeal);
     oomeeLayout->addChild(bgCircle1, -1);
     
     auto popIn1 = EaseBackOut::create(ScaleTo::create(0.5, ((oomeeLayout->getContentSize().height * 0.85) / bgCircle1->getContentSize().height)));
@@ -153,7 +154,7 @@ void KidDetailsLayer::onEnter()
     bgCircle2->setScale(0);
     bgCircle2->setOpacity(25);
     bgCircle2->setRotation(RandomHelper::random_real(0.0,M_PI));
-    bgCircle2->setColor(Style::Color::darkTeal);
+    bgCircle2->setColor(Colours::Color_3B::darkTeal);
     oomeeLayout->addChild(bgCircle2, -1);
     
     auto popIn2 = EaseBackOut::create(ScaleTo::create(0.5, ((oomeeLayout->getContentSize().height * 1.15f) / bgCircle2->getContentSize().height)));

@@ -6,7 +6,7 @@
 //
 #ifdef AZOOMEE_VODACOM_BUILD
 #include "VodacomOnboardingErrorLayer.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include "ModalMessages.h"
@@ -138,7 +138,7 @@ void VodacomOnboardingErrorLayer::setupForVoucherError()
 	_voucherInput->setDelegate(this);
 	
 	Label* voucherError = Label::createWithTTF(_("*Invalid Voucher"), Style::Font::Regular(), 53);
-	voucherError->setTextColor(Color4B(Style::Color::watermelon));
+	voucherError->setTextColor(Color4B(Colours::Color_3B::watermelon));
 	voucherError->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
 	voucherError->setNormalizedPosition(Vec2(0.1f,-0.1));
 	voucherError->setName("error");
@@ -185,12 +185,12 @@ void VodacomOnboardingErrorLayer::setupForVoucherError()
 	if(_flowData->getUserType() == UserType::REGISTERED)
 	{
 		Label* skip = Label::createWithTTF(_("Skip this step"), Style::Font::Regular(), 64);
-		skip->setTextColor(Color4B(Style::Color::skyBlue));
+		skip->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 		skip->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 		skip->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 		
 		DrawNode* underline2 = DrawNode::create();
-		underline2->drawRect(Vec2(0, -7), Vec2(skip->getContentSize().width, -6), Color4F(Style::Color::skyBlue));
+		underline2->drawRect(Vec2(0, -7), Vec2(skip->getContentSize().width, -6), Color4F(Colours::Color_3B::skyBlue));
 		skip->addChild(underline2);
 		
 		ui::Layout* skipHolder = ui::Layout::create();
@@ -214,16 +214,16 @@ void VodacomOnboardingErrorLayer::setupForVoucherError()
 	}
 	
 	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular(), 64);
-	needHelp->setTextColor(Color4B(Style::Color::skyBlue));
+	needHelp->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	needHelp->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	needHelp->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
 	Label* contactUs = Label::createWithTTF(_("Contact us"), Style::Font::Regular(), 64);
-	contactUs->setTextColor(Color4B(Style::Color::skyBlue));
+	contactUs->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	contactUs->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
 	contactUs->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
 		
 	DrawNode* underline = DrawNode::create();
-	underline->drawRect(Vec2(0, -7), Vec2(contactUs->getContentSize().width, -6), Color4F(Style::Color::skyBlue));
+	underline->drawRect(Vec2(0, -7), Vec2(contactUs->getContentSize().width, -6), Color4F(Colours::Color_3B::skyBlue));
 	contactUs->addChild(underline);
 		
 	ui::Layout* contactUsHolder = ui::Layout::create();
@@ -348,16 +348,16 @@ void VodacomOnboardingErrorLayer::setupForLoginError()
 	resetButton->addChild(resetText);
 	
 	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular(), 64);
-	needHelp->setTextColor(Color4B(Style::Color::skyBlue));
+	needHelp->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	needHelp->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	needHelp->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
 	Label* contactUs = Label::createWithTTF(_("Contact us"), Style::Font::Regular(), 64);
-	contactUs->setTextColor(Color4B(Style::Color::skyBlue));
+	contactUs->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	contactUs->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
 	contactUs->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
 	
 	DrawNode* underline = DrawNode::create();
-	underline->drawRect(Vec2(0, -7), Vec2(contactUs->getContentSize().width, -6), Color4F(Style::Color::skyBlue));
+	underline->drawRect(Vec2(0, -7), Vec2(contactUs->getContentSize().width, -6), Color4F(Colours::Color_3B::skyBlue));
 	contactUs->addChild(underline);
 	
 	ui::Layout* contactUsHolder = ui::Layout::create();
@@ -439,7 +439,7 @@ void VodacomOnboardingErrorLayer::setupForPasswordReset()
 	_verticalLayout->addChild(subHeadingHolder);
 	
 	Label* email = Label::createWithTTF(_flowData->getEmail(), Style::Font::Regular(), 64);
-	email->setTextColor(Color4B(Style::Color::skyBlue));
+	email->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	email->setHorizontalAlignment(TextHAlignment::CENTER);
 	email->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	email->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -472,16 +472,16 @@ void VodacomOnboardingErrorLayer::setupForPasswordReset()
 	okButton->addChild(okText);
 	
 	Label* notRecieved = Label::createWithTTF(_("Didn't recieve an email?"), Style::Font::Regular(), 64);
-	notRecieved->setTextColor(Color4B(Style::Color::skyBlue));
+	notRecieved->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	notRecieved->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	notRecieved->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
 	Label* sendAgain = Label::createWithTTF(_("Send again"), Style::Font::Regular(), 64);
-	sendAgain->setTextColor(Color4B(Style::Color::skyBlue));
+	sendAgain->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	sendAgain->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
 	sendAgain->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
 	
 	DrawNode* underline = DrawNode::create();
-	underline->drawRect(Vec2(0, -7), Vec2(sendAgain->getContentSize().width, -6), Color4F(Style::Color::skyBlue));
+	underline->drawRect(Vec2(0, -7), Vec2(sendAgain->getContentSize().width, -6), Color4F(Colours::Color_3B::skyBlue));
 	sendAgain->addChild(underline);
 	
 	ui::Layout* sendAgainHolder = ui::Layout::create();
@@ -501,16 +501,16 @@ void VodacomOnboardingErrorLayer::setupForPasswordReset()
 	_verticalLayout->addChild(sendAgainHolder);
 	
 	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular(), 64);
-	needHelp->setTextColor(Color4B(Style::Color::skyBlue));
+	needHelp->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	needHelp->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	needHelp->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
 	Label* contactUs = Label::createWithTTF(_("Contact us"), Style::Font::Regular(), 64);
-	contactUs->setTextColor(Color4B(Style::Color::skyBlue));
+	contactUs->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	contactUs->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
 	contactUs->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
 	
 	DrawNode* underline2 = DrawNode::create();
-	underline2->drawRect(Vec2(0, -7), Vec2(contactUs->getContentSize().width, -6), Color4F(Style::Color::skyBlue));
+	underline2->drawRect(Vec2(0, -7), Vec2(contactUs->getContentSize().width, -6), Color4F(Colours::Color_3B::skyBlue));
 	contactUs->addChild(underline2);
 	
 	ui::Layout* contactUsHolder = ui::Layout::create();
@@ -635,16 +635,16 @@ void VodacomOnboardingErrorLayer::setupForAlreadyRegistered()
 	loginButton->addChild(loginText);
 	
 	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular(), 64);
-	needHelp->setTextColor(Color4B(Style::Color::skyBlue));
+	needHelp->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	needHelp->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	needHelp->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
 	Label* contactUs = Label::createWithTTF(_("Contact us"), Style::Font::Regular(), 64);
-	contactUs->setTextColor(Color4B(Style::Color::skyBlue));
+	contactUs->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	contactUs->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
 	contactUs->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
 	
 	DrawNode* underline = DrawNode::create();
-	underline->drawRect(Vec2(0, -7), Vec2(contactUs->getContentSize().width, -6), Color4F(Style::Color::skyBlue));
+	underline->drawRect(Vec2(0, -7), Vec2(contactUs->getContentSize().width, -6), Color4F(Colours::Color_3B::skyBlue));
 	contactUs->addChild(underline);
 	
 	ui::Layout* contactUsHolder = ui::Layout::create();
@@ -747,16 +747,16 @@ void VodacomOnboardingErrorLayer::setupForAlreadyPremium()
 	okButton->addChild(okText);
 	
 	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular(), 64);
-	needHelp->setTextColor(Color4B(Style::Color::skyBlue));
+	needHelp->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	needHelp->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	needHelp->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
 	Label* contactUs = Label::createWithTTF(_("Contact us"), Style::Font::Regular(), 64);
-	contactUs->setTextColor(Color4B(Style::Color::skyBlue));
+	contactUs->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	contactUs->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
 	contactUs->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
 	
 	DrawNode* underline = DrawNode::create();
-	underline->drawRect(Vec2(0, -7), Vec2(contactUs->getContentSize().width, -6), Color4F(Style::Color::skyBlue));
+	underline->drawRect(Vec2(0, -7), Vec2(contactUs->getContentSize().width, -6), Color4F(Colours::Color_3B::skyBlue));
 	contactUs->addChild(underline);
 	
 	ui::Layout* contactUsHolder = ui::Layout::create();

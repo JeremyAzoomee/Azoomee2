@@ -12,9 +12,10 @@
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/Utils/DirUtil.h>
 #include <AzoomeeCommon/Utils/TimeUtils.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include "../../Style.h"
 
 using namespace cocos2d;
 
@@ -193,7 +194,7 @@ void OomeeSelectScene::toggleMakeAvatarHiglight()
         banner->setAnchorPoint(Vec2(0.0,1.25));
         banner->setPosition(Vec2(_contentLayer->getContentSize().width, _contentLayer->getContentSize().height));
         banner->setContentSize(Size(_contentLayer->getContentSize().width * 0.315 , 166));
-        banner->setColor(Style::Color::white);
+        banner->setColor(Colours::Color_3B::white);
         banner->runAction(Sequence::create(MoveBy::create(0.5, Vec2(-banner->getContentSize().width,0)), DelayTime::create(3.0f),MoveBy::create(0.5, Vec2(banner->getContentSize().width,0)),CallFunc::create([=](){
             banner->removeFromParent();
         }),NULL));

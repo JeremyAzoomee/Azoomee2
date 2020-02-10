@@ -6,9 +6,10 @@
 //
 
 #include "AwesomeLayer.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -27,7 +28,7 @@ bool AwesomeLayer::init()
 		return false;
 	}
 	
-    _bgColour = LayerColor::create(Color4B(Style::Color::darkIndigo));
+    _bgColour = LayerColor::create(Color4B(Colours::Color_3B::darkIndigo));
 	this->addChild(_bgColour, -1);
 	
 	return true;

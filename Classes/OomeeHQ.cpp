@@ -7,7 +7,7 @@
 
 #include "OomeeHQ.h"
 #include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
@@ -20,7 +20,7 @@
 #include "ArtAppDelegate.h"
 #include "SceneManagerScene.h"
 #include "GameDataManager.h"
-
+#include "Style.h"
 #include "ShareInChatLayer.h"
 
 using namespace cocos2d;
@@ -39,7 +39,7 @@ bool OomeeHQ::init()
     createFavouritesLayout();
     createOfflineDropdown();
     
-    const Color3B& gradColour = Style::Color::darkIndigo;
+    const Color3B& gradColour = Colours::Color_3B::darkIndigo;
     _topScrollGradient = LayerGradient::create(Color4B(gradColour), Color4B(gradColour.r, gradColour.g, gradColour.b, 0));
     _topScrollGradient->setIgnoreAnchorPointForPosition(false);
     _topScrollGradient->setContentSize(Size(_contentListView->getContentSize().width, 0));
@@ -301,8 +301,8 @@ void OomeeHQ::createOfflineDropdown()
     _offlineDropdown->setTilePlaceholder(CONTENT_PLACEHOLDER_GAME_1X1);
     _offlineDropdown->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _offlineDropdown->setContentSize(Size(_contentListView->getSizePercent().x * getContentSize().width, 0));
-    _offlineDropdown->setFrameColour(Style::Color::azure);
-    _offlineDropdown->setPatternColour(Style::Color::azure);
+    _offlineDropdown->setFrameColour(Colours::Color_3B::azure);
+    _offlineDropdown->setPatternColour(Colours::Color_3B::azure);
     _offlineDropdown->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
         if(_contentSelectedCallback)
         {
@@ -325,7 +325,7 @@ void OomeeHQ::createOfflineDropdown()
 void OomeeHQ::refreshOfflineList()
 {
     MutableHQCarouselObjectRef carousel = MutableHQCarouselObject::create();
-    carousel->setColour(Color4B(Style::Color::azure));
+    carousel->setColour(Color4B(Colours::Color_3B::azure));
     carousel->addContentItemsToCarousel(GameDataManager::getInstance()->getOfflineGameList());
     carousel->setTitle(_("Offline"));
     
@@ -340,7 +340,7 @@ void OomeeHQ::refreshFavouritesList()
     _favouritesContent = filteredFavourites.first;
     
     MutableHQCarouselObjectRef carousel = MutableHQCarouselObject::create();
-    carousel->setColour(Color4B(Style::Color::azure));
+    carousel->setColour(Color4B(Colours::Color_3B::azure));
     carousel->addContentItemsToCarousel(filteredFavourites.second);
     carousel->setTitle(_("Favourites"));
     _favouritesLayout->setMaxRows(_favouritesContent.size() > 0 ? -1 : 1);

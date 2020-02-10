@@ -6,12 +6,13 @@
 //
 
 #include "SignupPage.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/UI/ModalWebview.h>
 #include "Urls.h"
 #include <AzoomeeCommon/Utils/StringFunctions.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -58,7 +59,7 @@ void SignupPage::createInputHolder()
     addChild(_inputHolder);
     
     _topHeading = DynamicText::create("", Style::Font::PoppinsMedium(), 50);
-    _topHeading->setTextColor(Color4B(Style::Color::strongPink));
+    _topHeading->setTextColor(Color4B(Colours::Color_3B::strongPink));
     _topHeading->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,1.5 * elementSpacing)));
     _topHeading->setTextVerticalAlignment(TextVAlignment::BOTTOM);
     _topHeading->setTextHorizontalAlignment(TextHAlignment::CENTER);
@@ -70,7 +71,7 @@ void SignupPage::createInputHolder()
     _inputTitle->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _inputTitle->setTextHorizontalAlignment(TextHAlignment::CENTER);
     _inputTitle->setTextVerticalAlignment(TextVAlignment::CENTER);
-    _inputTitle->setTextColor(Color4B(Style::Color::brownGrey));
+    _inputTitle->setTextColor(Color4B(Colours::Color_3B::brownGrey));
     _inputTitle->setTextAreaSize(Size(1000,140));
     _inputTitle->setOverflow(Label::Overflow::SHRINK);
     _inputHolder->addChild(_inputTitle);
@@ -101,7 +102,7 @@ void SignupPage::createInputHolder()
     _continueButton->setContentSize(Size(700,140));
     _continueButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _continueButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,elementSpacing,0,0)));
-    _continueButton->setColor(Style::Color::darkIndigo);
+    _continueButton->setColor(Colours::Color_3B::darkIndigo);
     _continueButton->setTextAreaSizePercent(Vec2(0.9f,0.8f));
     _continueButton->setText(_("Continue"));
     _continueButton->setTextFontInfo(Style::Font::PoppinsBold(), 70);
@@ -121,7 +122,7 @@ void SignupPage::createInputHolder()
     _backButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _backButton->setContentSize(Size(700,140));
     _backButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,elementSpacing,0,0)));
-    _backButton->setTextColor(Color4B(Style::Color::brownGrey));
+    _backButton->setTextColor(Color4B(Colours::Color_3B::brownGrey));
     _backButton->setTouchEnabled(true);
     _backButton->setTouchScaleChangeEnabled(true);
     _backButton->ignoreContentAdaptWithSize(false);
@@ -171,7 +172,7 @@ void SignupPage::createProgressIndicator()
     addChild(_progressBar);
     
     _progressText = DynamicText::create(_("test progress text"), Style::Font::PoppinsRegular(), 50);
-    _progressText->setTextColor(Color4B(Style::Color::brownGrey));
+    _progressText->setTextColor(Color4B(Colours::Color_3B::brownGrey));
     _progressText->setAnchorPoint(Vec2(0.5f,1.5f));
     _progressText->setNormalizedPosition(Vec2(0.5,0.15));
     addChild(_progressText);
@@ -193,7 +194,7 @@ DynamicText* SignupPage::createTermsLinkWithURL(const std::string& title, const 
 {
     DynamicText* link = DynamicText::create(title, Style::Font::PoppinsRegular(), 35);
     link->ignoreContentAdaptWithSize(false);
-    link->setTextColor(Color4B(Style::Color::brownGrey));
+    link->setTextColor(Color4B(Colours::Color_3B::brownGrey));
     link->setTextVerticalAlignment(TextVAlignment::CENTER);
     link->setTextHorizontalAlignment(TextHAlignment::CENTER);
     link->setTouchEnabled(true);
@@ -203,7 +204,7 @@ DynamicText* SignupPage::createTermsLinkWithURL(const std::string& title, const 
         {
             case cocos2d::ui::Widget::TouchEventType::BEGAN:
             {
-                link->setTextColor(Color4B(Style::Color::strongPink));
+                link->setTextColor(Color4B(Colours::Color_3B::strongPink));
                 link->setScale(1.1f);
                 break;
             }
@@ -213,14 +214,14 @@ DynamicText* SignupPage::createTermsLinkWithURL(const std::string& title, const 
             }
             case cocos2d::ui::Widget::TouchEventType::ENDED:
             {
-                link->setTextColor(Color4B(Style::Color::brownGrey));
+                link->setTextColor(Color4B(Colours::Color_3B::brownGrey));
                 link->setScale(1.0f);
                 ModalWebview::createWithURL(url);
                 break;
             }
             case cocos2d::ui::Widget::TouchEventType::CANCELED:
             {
-                link->setTextColor(Color4B(Style::Color::brownGrey));
+                link->setTextColor(Color4B(Colours::Color_3B::brownGrey));
                 link->setScale(1.0f);
                 break;
             }
@@ -274,7 +275,7 @@ void SignupPage::clearInputText()
 void SignupPage::setContinueButtonEnabled(bool enabled)
 {
 	_continueButton->setTouchEnabled(enabled);
-    _continueButton->setColor(enabled ? Style::Color::darkIndigo : Style::Color::greyBlue2);
+    _continueButton->setColor(enabled ? Colours::Color_3B::darkIndigo : Colours::Color_3B::greyBlue2);
 }
 
 //Editbox Delegate Functions

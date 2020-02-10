@@ -12,6 +12,7 @@
 #include "BackEndCaller.h"
 #include "LoginController.h"
 #include "HQHistoryManager.h"
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -27,7 +28,7 @@ bool LanguageSelectScene::init()
 		return false;
 	}
     
-    const Color3B& bgColour = Style::Color::darkIndigo;
+    const Color3B& bgColour = Colours::Color_3B::darkIndigo;
     
     _titleLayout = ui::Layout::create();
     _titleLayout->setSizeType(ui::Layout::SizeType::PERCENT);
@@ -42,7 +43,7 @@ bool LanguageSelectScene::init()
     _bgPattern->setTexture("res/decoration/pattern_stem_tile.png");
     _bgPattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _bgPattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    _bgPattern->setColor(Style::Color::macaroniAndCheese);
+    _bgPattern->setColor(Colours::Color_3B::macaroniAndCheese);
     _bgPattern->setRoundedCorners(false, false, false, false);
     _bgPattern->setScaleMode(RoundedRectSprite::ScaleMode::TILE);
     _bgPattern->setTileScaleFactor(1.0f);
@@ -172,7 +173,7 @@ cocos2d::ui::Layout* LanguageSelectScene::createLanguageButton(const LanguagePar
     text->setTextVerticalAlignment(TextVAlignment::BOTTOM);
     text->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     text->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-    text->setTextColor(Color4B(Style::Color::brownGrey));
+    text->setTextColor(Color4B(Colours::Color_3B::brownGrey));
     langButton->addChild(text);
     
     langButton->setTouchEnabled(true);

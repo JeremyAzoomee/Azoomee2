@@ -1,5 +1,5 @@
 #include "BackEndCaller.h"
-
+#include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include "RewardManager.h"
@@ -578,8 +578,8 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
             messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
             messageBox->setBody(errorMessageText.at(ERROR_BODY));
             messageBox->setButtonText(_("Back"));
-            messageBox->setButtonColour(Style::Color::darkIndigo);
-            messageBox->setPatternColour(Style::Color::azure);
+            messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
+            messageBox->setPatternColour(Colours::Color_3B::azure);
             messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
                 pSender->removeFromParent();
             });

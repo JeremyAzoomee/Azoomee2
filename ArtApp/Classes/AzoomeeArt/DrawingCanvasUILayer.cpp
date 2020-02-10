@@ -8,7 +8,7 @@
 
 #include "DrawingCanvasUILayer.h"
 #include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/Utils/DirUtil.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include "ModalMessages.h"
@@ -20,33 +20,33 @@ using namespace cocos2d;
 NS_AZOOMEE_AA_BEGIN
 
 const std::vector<Color3B> DrawingCanvasUILayer::_kColours = { // top left
-    Color3B(Style::Color_4F::grey), //row 1
-    Color3B(Style::Color_4F::darkGrey),
-    Color3B(Style::Color_4F::black),
-    Color3B(Style::Color_4F::darkPurple), //row 2
-    Color3B(Style::Color_4F::purple),
-    Color3B(Style::Color_4F::neonPink),
-    Color3B(Style::Color_4F::babyPink),
-    Color3B(Style::Color_4F::palePink),
-    Color3B(Style::Color_4F::pink),
-    Color3B(Style::Color_4F::darkPink),
-    Color3B(Style::Color_4F::red),
-    Color3B(Style::Color_4F::darkBlue), // row 3
-    Color3B(Style::Color_4F::blue),
-    Color3B(Style::Color_4F::lightBlue),
-    Color3B(Style::Color_4F::neonBlue),
-    Color3B(Style::Color_4F::greenBlue),
-    Color3B(Style::Color_4F::green),
-    Color3B(Style::Color_4F::grassGreen),
-    Color3B(Style::Color_4F::neonGreen),
-    Color3B(Style::Color_4F::darkBrown), //row 4
-    Color3B(Style::Color_4F::brown),
-    Color3B(Style::Color_4F::lightBrown),
-    Color3B(Style::Color_4F::orangeBrown),
-    Color3B(Style::Color_4F::orange),
-    Color3B(Style::Color_4F::darkYellow),
-    Color3B(Style::Color_4F::yellow),
-    Color3B(Style::Color_4F::paleYellow) // bottom right
+    Color3B(Colours::Color_4F::grey), //row 1
+    Color3B(Colours::Color_4F::darkGrey),
+    Color3B(Colours::Color_4F::black),
+    Color3B(Colours::Color_4F::darkPurple), //row 2
+    Color3B(Colours::Color_4F::purple),
+    Color3B(Colours::Color_4F::neonPink),
+    Color3B(Colours::Color_4F::babyPink),
+    Color3B(Colours::Color_4F::palePink),
+    Color3B(Colours::Color_4F::pink),
+    Color3B(Colours::Color_4F::darkPink),
+    Color3B(Colours::Color_4F::red),
+    Color3B(Colours::Color_4F::darkBlue), // row 3
+    Color3B(Colours::Color_4F::blue),
+    Color3B(Colours::Color_4F::lightBlue),
+    Color3B(Colours::Color_4F::neonBlue),
+    Color3B(Colours::Color_4F::greenBlue),
+    Color3B(Colours::Color_4F::green),
+    Color3B(Colours::Color_4F::grassGreen),
+    Color3B(Colours::Color_4F::neonGreen),
+    Color3B(Colours::Color_4F::darkBrown), //row 4
+    Color3B(Colours::Color_4F::brown),
+    Color3B(Colours::Color_4F::lightBrown),
+    Color3B(Colours::Color_4F::orangeBrown),
+    Color3B(Colours::Color_4F::orange),
+    Color3B(Colours::Color_4F::darkYellow),
+    Color3B(Colours::Color_4F::yellow),
+    Color3B(Colours::Color_4F::paleYellow) // bottom right
 };
 
 const std::vector<std::pair<std::string, std::string>> DrawingCanvasUILayer::_kPatterns = {
@@ -76,7 +76,7 @@ void DrawingCanvasUILayer::onEnter()
     const Size& visibleSize = Director::getInstance()->getVisibleSize();
     const Point& visibleOrigin = Director::getInstance()->getVisibleOrigin();
     
-    _overlay = LayerColor::create(Style::Color_4B::semiTransparentOverlay, visibleSize.width, visibleSize.height);
+    _overlay = LayerColor::create(Colours::Color_4B::semiTransparentOverlay, visibleSize.width, visibleSize.height);
     _overlay->setPosition(visibleOrigin);
     _overlay->setName("overlay");
     this->addChild(_overlay,POPUP_UI_LAYER);
@@ -139,7 +139,7 @@ void DrawingCanvasUILayer::addBackgroundFrame(const Size& visibleSize, const Poi
     stencil->setPosition(visibleOrigin + Vec2(visibleSize.width * 0.09,visibleSize.height * 0.175));
     stencil->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     bgClipNode->setStencil(stencil);
-    LayerColor* bgColour = LayerColor::create(Color4B(Style::Color_4F::black));
+    LayerColor* bgColour = LayerColor::create(Color4B(Colours::Color_4F::black));
     bgColour->setContentSize(Director::getInstance()->getWinSize());
     bgClipNode->addChild(bgColour);
     bgClipNode->setInverted(true);
@@ -933,7 +933,7 @@ void DrawingCanvasUILayer::setOnlyPatternBrushesEnabled(bool isEnabled)
             onToolChanged(toolButtons.at(0), ui::Widget::TouchEventType::BEGAN, PEN);
             onToolChanged(toolButtons.at(0), ui::Widget::TouchEventType::ENDED, PEN);
         }
-        setButtonBodyColour(brushBtn, Style::Color::charcoalGrey);
+        setButtonBodyColour(brushBtn, Colours::Color_3B::charcoalGrey);
     }
     
     if(!isEnabled && _selectedToolButton != brushBtn)

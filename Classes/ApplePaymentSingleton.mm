@@ -10,7 +10,7 @@
 #include "FlowDataSingleton.h"
 #include "PopupMessageBox.h"
 #include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include "ErrorCodes.h"
 
 using namespace cocos2d;
@@ -117,8 +117,8 @@ void ApplePaymentSingleton::onAnswerReceived(const std::string& responseDataStri
             messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
             messageBox->setBody(errorMessageText.at(ERROR_BODY));
             messageBox->setButtonText(_("Back"));
-            messageBox->setButtonColour(Style::Color::darkIndigo);
-            messageBox->setPatternColour(Style::Color::azure);
+            messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
+            messageBox->setPatternColour(Colours::Color_3B::azure);
             messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
                 pSender->removeFromParent();
                 LoginController::getInstance()->doLoginLogic();

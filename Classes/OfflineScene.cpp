@@ -6,7 +6,7 @@
 //
 
 #include "OfflineScene.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include "GameDataManager.h"
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
@@ -15,6 +15,7 @@
 #include "HQHistoryManager.h"
 #include "BackEndCaller.h"
 #include "ContentOpener.h"
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -43,14 +44,14 @@ bool OfflineScene::init()
     
     ui::Layout* bgColour = ui::Layout::create();
     bgColour->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    bgColour->setBackGroundColor(Style::Color::darkIndigo);
+    bgColour->setBackGroundColor(Colours::Color_3B::darkIndigo);
     bgColour->setSizeType(ui::Layout::SizeType::PERCENT);
     bgColour->setSizePercent(Vec2(1.0f,1.0f));
     addChild(bgColour);
     
     _bgPattern = RoundedRectSprite::create();
     _bgPattern->setTexture("res/decoration/pattern_stem_tile.png");
-    _bgPattern->setColor(Style::Color::azure);
+    _bgPattern->setColor(Colours::Color_3B::azure);
     _bgPattern->setRoundedCorners(false, false, false, false);
     _bgPattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _bgPattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -58,9 +59,9 @@ bool OfflineScene::init()
     addChild(_bgPattern);
     
     _bgGradient = LayerGradient::create();
-    _bgGradient->setStartColor(Style::Color::darkIndigo);
+    _bgGradient->setStartColor(Colours::Color_3B::darkIndigo);
     _bgGradient->setStartOpacity(155);
-    _bgGradient->setEndColor(Style::Color::darkIndigo);
+    _bgGradient->setEndColor(Colours::Color_3B::darkIndigo);
     _bgGradient->setEndOpacity(0);
     _bgGradient->setVector(Vec2(0,1));
     _bgGradient->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_LEFT);
@@ -99,7 +100,7 @@ bool OfflineScene::init()
     _retryButton->setContentSize(Size(460,140));
     _retryButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _retryButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,kPadding,0,0)));
-    _retryButton->setColor(Style::Color::white);
+    _retryButton->setColor(Colours::Color_3B::white);
     _retryButton->setTextColour(Color4B::BLACK);
     _retryButton->setTextFontInfo(Style::Font::PoppinsBold(), 66);
     _retryButton->setTextAreaSizePercent(Vec2(0.9f,0.8f));

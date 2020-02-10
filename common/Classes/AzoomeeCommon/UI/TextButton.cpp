@@ -6,7 +6,7 @@
 //
 
 #include "TextButton.h"
-#include "Style.h"
+#include "Colour.h"
 
 using namespace cocos2d;
 
@@ -26,7 +26,7 @@ bool TextButton::init()
 		return false;
 	}
 	
-	_buttonText = Label::createWithTTF("", Style::Font::PoppinsBold(), 70);
+	_buttonText = Label::createWithTTF("", "fonts/Marker Felt.ttf", 70);
 	_buttonText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_buttonText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	_buttonText->setOverflow(Label::Overflow::SHRINK);

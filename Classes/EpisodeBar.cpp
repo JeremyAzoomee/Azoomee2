@@ -6,11 +6,12 @@
 //
 
 #include "EpisodeBar.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/ImageDownloader/ImageDownloaderCacheCleanerLogic.h>
 #include "HQDataProvider.h"
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -48,7 +49,7 @@ bool EpisodeBar::init()
     _lockedOverlay->setCornerRadius(25);
     _lockedOverlay->setRoundedCorners(true, false, true, false);
     _lockedOverlay->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    _lockedOverlay->setColor(Style::Color::darkIndigo);
+    _lockedOverlay->setColor(Colours::Color_3B::darkIndigo);
     _lockedOverlay->setOpacity(51);
     _lockedOverlay->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _lockedOverlay->setStretchImageEnabled(true);
@@ -144,7 +145,7 @@ void EpisodeBar::resizeImageAndText()
 void EpisodeBar::setEpisodeNumber(int episodeNumber)
 {
     _episodeTag->setString(StringUtils::format("%s %d",_("Episode").c_str(),episodeNumber));
-    _dropShadow->setColor(episodeNumber % 2 ? Style::Color::darkIndigo: Style::Color::darkIndigoTwo);
+    _dropShadow->setColor(episodeNumber % 2 ? Colours::Color_3B::darkIndigo: Colours::Color_3B::darkIndigoTwo);
 }
 
 void EpisodeBar::setContentItemData(const HQContentItemObjectRef& contentItem)

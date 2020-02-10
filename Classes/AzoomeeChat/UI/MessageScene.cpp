@@ -1,5 +1,5 @@
 #include "MessageScene.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include "../../ModalMessages.h"
 #include <AzoomeeCommon/UI/SplitLayout.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
@@ -52,7 +52,7 @@ bool MessageScene::init()
     bgColour->setSizeType(ui::Widget::SizeType::PERCENT);
     bgColour->setSizePercent(Vec2(1.0f, 1.0f));
     bgColour->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    bgColour->setBackGroundColor(Style::Color::darkIndigo);
+    bgColour->setBackGroundColor(Colours::Color_3B::darkIndigo);
     addChild(bgColour);
     
     // Create the root layout which fills the whole screen
@@ -60,7 +60,7 @@ bool MessageScene::init()
     _rootLayout->setSizeType(ui::Widget::SizeType::PERCENT);
     _rootLayout->setSizePercent(Vec2(1.0f, 1.0f));
     _rootLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _rootLayout->setBackGroundColor(Style::Color::darkIndigo);
+    _rootLayout->setBackGroundColor(Colours::Color_3B::darkIndigo);
     _rootLayout->setLayoutType(ui::Layout::Type::VERTICAL);
     addChild(_rootLayout);
     
@@ -328,15 +328,15 @@ void MessageScene::onReportButtonPressed()
     messageBox->setTitle(_("Report chat"));
     messageBox->setBody(_("Do you really want to report this chat to your parents?"));
     messageBox->setButtonText(_("Report"));
-    messageBox->setButtonColour(Style::Color::strongPink);
-    messageBox->setPatternColour(Style::Color::azure);
+    messageBox->setButtonColour(Colours::Color_3B::strongPink);
+    messageBox->setPatternColour(Colours::Color_3B::azure);
     messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
         pSender->removeFromParent();
         ChatAPI::getInstance()->reportChat(_participants[1]);
         ModalMessages::getInstance()->startLoading();
     });
     messageBox->setSecondButtonText(_("Cancel"));
-    messageBox->setSecondButtonColour(Style::Color::darkIndigo);
+    messageBox->setSecondButtonColour(Colours::Color_3B::darkIndigo);
     messageBox->setSecondButtonPressedCallback([this](MessagePopupBase* pSender){
         pSender->removeFromParent();
     });
@@ -436,8 +436,8 @@ void MessageScene::onChatAPIErrorRecieved(const std::string& requestTag, long er
     messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
     messageBox->setBody(errorMessageText.at(ERROR_BODY));
     messageBox->setButtonText(_("Back"));
-    messageBox->setButtonColour(Style::Color::darkIndigo);
-    messageBox->setPatternColour(Style::Color::azure);
+    messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
+    messageBox->setPatternColour(Colours::Color_3B::azure);
     messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
         pSender->removeFromParent();
     });
@@ -526,15 +526,15 @@ void MessageScene::AdultPinAccepted(RequestAdultPinLayer* layer)
     messageBox->setTitle(_("Reset chat"));
     messageBox->setBody(replacedText);
     messageBox->setButtonText(_("Reset"));
-    messageBox->setButtonColour(Style::Color::strongPink);
-    messageBox->setPatternColour(Style::Color::azure);
+    messageBox->setButtonColour(Colours::Color_3B::strongPink);
+    messageBox->setPatternColour(Colours::Color_3B::azure);
     messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
         pSender->removeFromParent();
         ChatAPI::getInstance()->resetReportedChat(_participants[1]);
         ModalMessages::getInstance()->startLoading();
     });
     messageBox->setSecondButtonText(_("Cancel"));
-    messageBox->setSecondButtonColour(Style::Color::darkIndigo);
+    messageBox->setSecondButtonColour(Colours::Color_3B::darkIndigo);
     messageBox->setSecondButtonPressedCallback([this](MessagePopupBase* pSender){
         pSender->removeFromParent();
     });

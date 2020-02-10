@@ -1,7 +1,7 @@
 #include "HQDataObjectManager.h"
 #include "../Json.h"
 #include "ContentItemManager.h"
-#include "../../UI/Style.h"
+#include "../../UI/Colour.h"
 
 
 using namespace cocos2d;
@@ -166,7 +166,7 @@ void HQDataObjectManager::parseHQStructureData(const std::string& hqStuctureData
 		MutableHQCarouselObjectRef carouselObject = MutableHQCarouselObject::create();
 		
 		carouselObject->setTitle(getStringFromJson("title", rowData));
-        const Color4B& carouselColour = rowNumber == 0 ? Color4B(Style::Color::macaroniAndCheese) : getColor4BFromJson("rgbColour", rowData, Color4B(Style::Color::azure));
+        const Color4B& carouselColour = rowNumber == 0 ? Color4B(Colours::Color_3B::macaroniAndCheese) : getColor4BFromJson("rgbColour", rowData, Color4B(Colours::Color_3B::azure));
         carouselObject->setColour(carouselColour);
 		if(rowData.HasMember("images"))
 		{

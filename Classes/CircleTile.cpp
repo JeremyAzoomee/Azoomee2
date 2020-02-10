@@ -6,7 +6,7 @@
 //
 
 #include "CircleTile.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/ImageDownloader/ImageDownloaderCacheCleanerLogic.h>
 #include "HQDataProvider.h"
@@ -30,7 +30,7 @@ bool CircleTile::init()
     _bgColour->setSizePercent(Vec2(1.0f, 1.0f));
     _bgColour->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _bgColour->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    _bgColour->setColor(Style::Color::darkIndigoThree);
+    _bgColour->setColor(Colours::Color_3B::darkIndigoThree);
     addChild(_bgColour);
     
     _clippingStencil = Sprite::create("res/hqscene/circle.png");
@@ -83,7 +83,7 @@ void CircleTile::onSizeChanged()
 void CircleTile::setContentItemData(const HQContentItemObjectRef& contentItem)
 {
     _contentItem = contentItem;
-    _bgColour->setColor(_contentItem ? Style::Color::macaroniAndCheese : Style::Color::darkIndigoThree);
+    _bgColour->setColor(_contentItem ? Colours::Color_3B::macaroniAndCheese : Colours::Color_3B::darkIndigoThree);
 }
 
 void CircleTile::setEmptyImage(const std::string& filename)

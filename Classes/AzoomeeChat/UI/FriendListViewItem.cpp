@@ -1,7 +1,7 @@
 #include "FriendListViewItem.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
-
+#include "../../Style.h"
 
 using namespace cocos2d;
 
@@ -68,7 +68,7 @@ bool FriendListViewItem::init()
     _nameLabel = ui::Text::create();
     _nameLabel->setFontName(Style::Font::Regular());
     _nameLabel->setFontSize(70.0f);
-    _nameLabel->setTextColor(Color4B(Style::Color::white));
+    _nameLabel->setTextColor(Color4B(Colours::Color_3B::white));
     _nameLabel->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(150.0f, 0, 0, 0)));
     _contentLayout->addChild(_nameLabel);
     
@@ -146,7 +146,7 @@ void FriendListViewItem::onPressStateChangedToNormal()
 {
     if(_nameLabel)
     {
-        _nameLabel->setTextColor(Color4B(Style::Color::white));
+        _nameLabel->setTextColor(Color4B(Colours::Color_3B::white));
     }
 }
 
@@ -154,7 +154,7 @@ void FriendListViewItem::onPressStateChangedToPressed()
 {
     if(_nameLabel)
     {
-        _nameLabel->setTextColor(Color4B(Style::Color::neonPurple));
+        _nameLabel->setTextColor(Color4B(Colours::Color_3B::neonPurple));
     }
 }
 

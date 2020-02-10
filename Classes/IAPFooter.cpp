@@ -11,11 +11,12 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/UI/ModalWebview.h>
 #include "Urls.h"
 #include "ImportantMessageForParents.h"
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -83,7 +84,7 @@ void IAPFooter::createLoginButton()
     addChild(_loginButton);
     
     _loginHeader = DynamicText::create(_("Already have an account?"), Style::Font::PoppinsRegular(), 49);
-    _loginHeader->setTextColor(Color4B(Style::Color::brownGrey));
+    _loginHeader->setTextColor(Color4B(Colours::Color_3B::brownGrey));
     _loginHeader->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _loginHeader->setNormalizedPosition(Vec2(0.5f,1.1f));
     _loginHeader->setTextHorizontalAlignment(TextHAlignment::CENTER);
@@ -99,7 +100,7 @@ void IAPFooter::createTermsLinks()
     _termsLink->ignoreContentAdaptWithSize(false);
     _termsLink->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     _termsLink->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_LEFT);
-    _termsLink->setTextColor(Color4B(Style::Color::brownGrey));
+    _termsLink->setTextColor(Color4B(Colours::Color_3B::brownGrey));
     _termsLink->setTextVerticalAlignment(TextVAlignment::CENTER);
     _termsLink->setTextHorizontalAlignment(TextHAlignment::CENTER);
     _termsLink->setTouchEnabled(true);
@@ -117,7 +118,7 @@ void IAPFooter::createTermsLinks()
     _privacyPolicyLink->ignoreContentAdaptWithSize(false);
     _privacyPolicyLink->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
     _privacyPolicyLink->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_RIGHT);
-    _privacyPolicyLink->setTextColor(Color4B(Style::Color::brownGrey));
+    _privacyPolicyLink->setTextColor(Color4B(Colours::Color_3B::brownGrey));
     _privacyPolicyLink->setTextVerticalAlignment(TextVAlignment::CENTER);
     _privacyPolicyLink->setTextHorizontalAlignment(TextHAlignment::CENTER);
     _privacyPolicyLink->setTouchEnabled(true);
@@ -135,7 +136,7 @@ void IAPFooter::createTermsLinks()
     _privacyNoticeLink->ignoreContentAdaptWithSize(false);
     _privacyNoticeLink->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _privacyNoticeLink->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-    _privacyNoticeLink->setTextColor(Color4B(Style::Color::brownGrey));
+    _privacyNoticeLink->setTextColor(Color4B(Colours::Color_3B::brownGrey));
     _privacyNoticeLink->setTextVerticalAlignment(TextVAlignment::CENTER);
     _privacyNoticeLink->setTextHorizontalAlignment(TextHAlignment::CENTER);
     _privacyNoticeLink->setTouchEnabled(true);
@@ -155,7 +156,7 @@ void IAPFooter::createBackroundElements()
     Sprite* bgPattern = Sprite::create("res/decoration/main_pattern_big.png");
     bgPattern->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
     bgPattern->setNormalizedPosition(Vec2::ANCHOR_TOP_LEFT);
-    bgPattern->setColor(Style::Color::darkIndigo);
+    bgPattern->setColor(Colours::Color_3B::darkIndigo);
     bgPattern->setOpacity(102);
     addChild(bgPattern);
     

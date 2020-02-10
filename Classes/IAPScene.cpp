@@ -15,6 +15,7 @@
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include "MarketingAssetManager.h"
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -103,8 +104,8 @@ void IAPScene::onEnter()
 		messageBox->setTitle(_("Oops!\nThat didn't work"));
 		messageBox->setBody(_("We couldn't process your payment. Please try again."));
 		messageBox->setButtonText(_("Back"));
-		messageBox->setButtonColour(Style::Color::darkIndigo);
-		messageBox->setPatternColour(Style::Color::azure);
+		messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
+		messageBox->setPatternColour(Colours::Color_3B::azure);
 		messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
 			pSender->removeFromParent();
 		});

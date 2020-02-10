@@ -6,8 +6,9 @@
 //
 
 #include "ConfirmCancelMessageBox.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
+#include "Style.h"
 
 using namespace cocos2d;
 

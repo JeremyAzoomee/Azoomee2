@@ -6,9 +6,10 @@
 //
 
 #include "ImportantMessageForParents.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -71,7 +72,7 @@ void ImportantMessageForParents::createText()
     
     ui::ImageView* logo = ui::ImageView::create("res/introAssets/Azoomee_WHITE.png");
     logo->setContentSize(Size(850,130));
-    logo->setColor(Style::Color::darkIndigo);
+    logo->setColor(Colours::Color_3B::darkIndigo);
     logo->setLayoutParameter(CreateLeftLinearLayoutParam(ui::Margin(0,0,0,165)));
     logo->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
     _contentLayout->addChild(logo);
@@ -90,7 +91,7 @@ void ImportantMessageForParents::createText()
     para1->setLayoutParameter(CreateLeftLinearLayoutParam(ui::Margin(0,0,0,100)));
     para1->setMaxLineWidth(maxWidth);
     para1->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
-    para1->setTextColor(Color4B(Style::Color::brownGrey));
+    para1->setTextColor(Color4B(Colours::Color_3B::brownGrey));
     para1->setOverflow(Label::Overflow::RESIZE_HEIGHT);
     para1->setTextHorizontalAlignment(TextHAlignment::LEFT);
     para1->setTextVerticalAlignment(TextVAlignment::TOP);
@@ -110,7 +111,7 @@ void ImportantMessageForParents::createText()
     para2->setLayoutParameter(CreateLeftLinearLayoutParam());
     para2->setMaxLineWidth(maxWidth);
     para2->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
-    para2->setTextColor(Color4B(Style::Color::brownGrey));
+    para2->setTextColor(Color4B(Colours::Color_3B::brownGrey));
     para2->setOverflow(Label::Overflow::RESIZE_HEIGHT);
     para2->setTextHorizontalAlignment(TextHAlignment::LEFT);
     para2->setTextVerticalAlignment(TextVAlignment::TOP);

@@ -9,6 +9,7 @@
 #include <AzoomeeCommon/Utils/BiometricAuthenticationHandler.h>
 #include <AzoomeeCommon/UI/Scene.h>
 #include "PopupMessageBox.h"
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -47,7 +48,7 @@ bool RequestAdultPinLayer::init()
         messageBox->setTitle(_("Waiting for authentication"));
         messageBox->setBody(_("Please authenticate yourself to access parents area"));
         messageBox->setButtonText(_("Cancel"));
-        messageBox->setButtonColour(Style::Color::strongPink);
+        messageBox->setButtonColour(Colours::Color_3B::strongPink);
         messageBox->setButtonPressedCallback([](PopupMessageBox* pSender){
             pSender->removeFromParent();
             BiometricAuthenticationHandler::getInstance()->stopBiometricAuthentication();
@@ -102,13 +103,13 @@ void RequestAdultPinLayer::addListenerToBiometricValidationFailure()
             messageBox->setTitle(_("Authentication Failed"));
             messageBox->setBody(_("Oops! Biometric authentication failed."));
             messageBox->setButtonText(_("Retry"));
-            messageBox->setButtonColour(Style::Color::darkIndigo);
+            messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
             messageBox->setButtonPressedCallback([](MessagePopupBase* pSender){
                 pSender->removeFromParent();
                 BiometricAuthenticationHandler::getInstance()->startBiometricAuthentication();
             });
             messageBox->setSecondButtonText(_("Cancel"));
-            messageBox->setSecondButtonColour(Style::Color::strongPink);
+            messageBox->setSecondButtonColour(Colours::Color_3B::strongPink);
             messageBox->setSecondButtonPressedCallback([this](MessagePopupBase* pSender){
                 pSender->removeFromParent();
                 editBox_pin->focusAndShowKeyboard();
@@ -319,8 +320,8 @@ void RequestAdultPinLayer::checkPinAgainstStoredPin()
         messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
         messageBox->setBody(errorMessageText.at(ERROR_BODY));
         messageBox->setButtonText(_("Back"));
-        messageBox->setButtonColour(Style::Color::darkIndigo);
-        messageBox->setPatternColour(Style::Color::azure);
+        messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
+        messageBox->setPatternColour(Colours::Color_3B::azure);
         messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
             pSender->removeFromParent();
             editBox_pin->setEditboxVisibility(true);

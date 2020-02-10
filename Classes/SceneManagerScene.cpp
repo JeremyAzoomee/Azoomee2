@@ -397,7 +397,7 @@ cocos2d::Scene* SceneManagerScene::getBaseScene()
 
 void SceneManagerScene::checkForRewardsAndGotoBaseScene()
 {
-//    LayerColor* bgColour = LayerColor::create(Color4B(Style::Color::darkIndigo));
+//    LayerColor* bgColour = LayerColor::create(Color4B(Colours::Color_3B::darkIndigo));
 //	this->addChild(bgColour, -1);
 //
 //	this->setPosition(Director::getInstance()->getVisibleOrigin());
@@ -408,7 +408,7 @@ void SceneManagerScene::checkForRewardsAndGotoBaseScene()
 //    pattern->setCornerRadius(0);
 //    pattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 //    pattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-//    pattern->setColor(Style::Color::white);
+//    pattern->setColor(Colours::Color_3B::white);
 //    pattern->setScaleMode(RoundedRectSprite::ScaleMode::TILE);
 //    pattern->setContentSize(getContentSize());
 //    pattern->setOpacity(100);

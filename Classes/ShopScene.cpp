@@ -7,7 +7,7 @@
 
 #include "ShopScene.h"
 #include "SceneManagerScene.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/Data/Shop/ShopDisplayItem.h>
 #include <AzoomeeCommon/Data/Shop/ShopDataDownloadHandler.h>
 #include "ModalMessages.h"
@@ -233,8 +233,8 @@ void ShopScene::displayNotEnoughCoinsError()
     messageBox->setTitle(_("Oops! We can't find your coins."));
     messageBox->setBody(_("Earn more by watching and playing!"));
     messageBox->setButtonText(_("Back"));
-    messageBox->setButtonColour(Style::Color::darkIndigo);
-    messageBox->setPatternColour(Style::Color::azure);
+    messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
+    messageBox->setPatternColour(Colours::Color_3B::azure);
     messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
         pSender->removeFromParent();
     });

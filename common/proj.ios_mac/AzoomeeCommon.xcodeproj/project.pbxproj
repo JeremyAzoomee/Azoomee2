@@ -122,19 +122,13 @@
 		4349C85E1EA8ADEF00FE964B /* UIViewController+AutomaticEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C8021EA8ADEF00FE964B /* UIViewController+AutomaticEvents.m */; };
 		436007891F22120C000ECBA4 /* ModalWebview.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 436007871F22120C000ECBA4 /* ModalWebview.cpp */; };
 		92084F0B21B5877B00DACCEB /* BillingData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92084F0A21B5877B00DACCEB /* BillingData.cpp */; };
-		921C75AA2193225D00EB93D6 /* Style.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921C75A92193225C00EB93D6 /* Style.cpp */; };
 		9220E9C11FFE549500BD7A90 /* AnalyticsProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220E9C01FFE549500BD7A90 /* AnalyticsProperties.cpp */; };
 		9220EBB92021FC9300BD7A90 /* TimeUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EBB82021FC9300BD7A90 /* TimeUtils.cpp */; };
-		9220EC6A203313CE00BD7A90 /* ActionBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EC69203313CE00BD7A90 /* ActionBuilder.cpp */; };
-		92244D7D2278773C004C9B45 /* TutorialGuide.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92244D7C2278773C004C9B45 /* TutorialGuide.cpp */; };
-		92244D7F2278840B004C9B45 /* TutorialSpeechBubble.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92244D7E2278840B004C9B45 /* TutorialSpeechBubble.cpp */; };
-		92244D8122789B5E004C9B45 /* TutorialMessagingNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92244D8022789B5E004C9B45 /* TutorialMessagingNode.cpp */; };
 		9224C00C1F7CFD7E00108553 /* FileZipUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224C00B1F7CFD7E00108553 /* FileZipUtil.cpp */; };
 		9224C00F1F7D13F000108553 /* DirUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224C00E1F7D13F000108553 /* DirUtil.cpp */; };
 		92448AC121EF771400E88C9D /* Child.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92448AC021EF771300E88C9D /* Child.cpp */; };
 		92448AC421F0ABC000E88C9D /* Parent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92448AC321F0ABC000E88C9D /* Parent.cpp */; };
 		92448AC721F1FADE00E88C9D /* FriendRequest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92448AC621F1FADE00E88C9D /* FriendRequest.cpp */; };
-		92448AEE21F77F5400E88C9D /* TutorialController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92448AEC21F77F5300E88C9D /* TutorialController.cpp */; };
 		924ACE0820A46C50007A5550 /* ContentItemPoolDownloadHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924ACE0720A46C50007A5550 /* ContentItemPoolDownloadHandler.cpp */; };
 		924ACE0C20A4A073007A5550 /* HQStructureDownloadHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924ACE0B20A4A073007A5550 /* HQStructureDownloadHandler.cpp */; };
 		9261739F1F2A3E4A008E3F9D /* OnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9261739E1F2A3E4A008E3F9D /* OnScreenChecker.cpp */; };
@@ -226,7 +220,7 @@
 		302E84781ED1B992006A498C /* SplitLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplitLayout.h; sourceTree = "<group>"; };
 		304A6EEA1EC9A96F000D52B5 /* CocosSharedPtr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CocosSharedPtr.h; sourceTree = "<group>"; };
 		304D9EC61EA8F883008CED52 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
-		305966801ECC6987009A7130 /* Style.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Style.h; sourceTree = "<group>"; };
+		305966801ECC6987009A7130 /* Colour.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Colour.h; sourceTree = "<group>"; };
 		305966971ECCAF76009A7130 /* Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Scene.cpp; sourceTree = "<group>"; };
 		305966981ECCAF76009A7130 /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scene.h; sourceTree = "<group>"; };
 		305966A01ECEF5A8009A7130 /* LayoutParams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LayoutParams.h; sourceTree = "<group>"; };
@@ -394,18 +388,10 @@
 		4360078A1F2232CC000ECBA4 /* Urls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Urls.h; sourceTree = "<group>"; };
 		92084F0921B562C500DACCEB /* BillingData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BillingData.h; sourceTree = "<group>"; };
 		92084F0A21B5877B00DACCEB /* BillingData.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BillingData.cpp; sourceTree = "<group>"; };
-		921C75A92193225C00EB93D6 /* Style.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Style.cpp; sourceTree = "<group>"; };
 		9220E9BF1FFE44C800BD7A90 /* AnalyticsProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnalyticsProperties.h; sourceTree = "<group>"; };
 		9220E9C01FFE549500BD7A90 /* AnalyticsProperties.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AnalyticsProperties.cpp; sourceTree = "<group>"; };
 		9220EBB72021F9E900BD7A90 /* TimeUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TimeUtils.h; sourceTree = "<group>"; };
 		9220EBB82021FC9300BD7A90 /* TimeUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TimeUtils.cpp; sourceTree = "<group>"; };
-		9220EC6820330FE000BD7A90 /* ActionBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ActionBuilder.h; sourceTree = "<group>"; };
-		9220EC69203313CE00BD7A90 /* ActionBuilder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ActionBuilder.cpp; sourceTree = "<group>"; };
-		92244D7A227729F7004C9B45 /* TutorialSpeechBubble.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TutorialSpeechBubble.h; sourceTree = "<group>"; };
-		92244D7B22774F14004C9B45 /* TutorialMessagingNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TutorialMessagingNode.h; sourceTree = "<group>"; };
-		92244D7C2278773C004C9B45 /* TutorialGuide.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TutorialGuide.cpp; sourceTree = "<group>"; };
-		92244D7E2278840B004C9B45 /* TutorialSpeechBubble.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TutorialSpeechBubble.cpp; sourceTree = "<group>"; };
-		92244D8022789B5E004C9B45 /* TutorialMessagingNode.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TutorialMessagingNode.cpp; sourceTree = "<group>"; };
 		9224C00A1F7CF8C100108553 /* FileZipUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileZipUtil.h; sourceTree = "<group>"; };
 		9224C00B1F7CFD7E00108553 /* FileZipUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileZipUtil.cpp; sourceTree = "<group>"; };
 		9224C00D1F7D11F400108553 /* DirUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirUtil.h; sourceTree = "<group>"; };
@@ -416,8 +402,6 @@
 		92448AC321F0ABC000E88C9D /* Parent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Parent.cpp; sourceTree = "<group>"; };
 		92448AC521F1DDAC00E88C9D /* FriendRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FriendRequest.h; sourceTree = "<group>"; };
 		92448AC621F1FADE00E88C9D /* FriendRequest.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FriendRequest.cpp; sourceTree = "<group>"; };
-		92448AEC21F77F5300E88C9D /* TutorialController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TutorialController.cpp; sourceTree = "<group>"; };
-		92448AED21F77F5400E88C9D /* TutorialController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialController.h; sourceTree = "<group>"; };
 		924ACE0720A46C50007A5550 /* ContentItemPoolDownloadHandler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ContentItemPoolDownloadHandler.cpp; path = HQDataObject/ContentItemPoolDownloadHandler.cpp; sourceTree = "<group>"; };
 		924ACE0B20A4A073007A5550 /* HQStructureDownloadHandler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = HQStructureDownloadHandler.cpp; path = HQDataObject/HQStructureDownloadHandler.cpp; sourceTree = "<group>"; };
 		9261739D1F2A3D34008E3F9D /* OnScreenChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnScreenChecker.h; sourceTree = "<group>"; };
@@ -448,7 +432,6 @@
 		92D1B49522A8178400357513 /* ChildManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChildManager.cpp; sourceTree = "<group>"; };
 		92D1B49722A9248600357513 /* UserAccountManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserAccountManager.h; sourceTree = "<group>"; };
 		92D1B49822A92B0C00357513 /* UserAccountManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UserAccountManager.cpp; sourceTree = "<group>"; };
-		92DC96E4227729C4007557AB /* TutorialGuide.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TutorialGuide.h; sourceTree = "<group>"; };
 		92E5856F221AC22A0015A4FA /* Inventory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Inventory.h; sourceTree = "<group>"; };
 		92E58570221AC47C0015A4FA /* InventoryItem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = InventoryItem.cpp; sourceTree = "<group>"; };
 		92E58572221ACA9B0015A4FA /* InventoryItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InventoryItem.h; sourceTree = "<group>"; };
@@ -644,8 +627,6 @@
 				0240FC932016538A00E88157 /* BiometricAuthenticationHandler.h */,
 				9220EBB72021F9E900BD7A90 /* TimeUtils.h */,
 				9220EBB82021FC9300BD7A90 /* TimeUtils.cpp */,
-				9220EC6820330FE000BD7A90 /* ActionBuilder.h */,
-				9220EC69203313CE00BD7A90 /* ActionBuilder.cpp */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -663,8 +644,7 @@
 				436007881F22120C000ECBA4 /* ModalWebview.h */,
 				305966971ECCAF76009A7130 /* Scene.cpp */,
 				305966981ECCAF76009A7130 /* Scene.h */,
-				305966801ECC6987009A7130 /* Style.h */,
-				921C75A92193225C00EB93D6 /* Style.cpp */,
+				305966801ECC6987009A7130 /* Colour.h */,
 				9271D842204829C700370120 /* LazyLoadingButton.h */,
 				9271D8442048311A00370120 /* LazyLoadingButton.cpp */,
 				9271D84320482E9700370120 /* LazyLoadButtonOnScreenChecker.h */,
@@ -771,7 +751,6 @@
 				43087FD41F03AC0C00E199EA /* NativeShare */,
 				30E094BA1EDF0F2B00555891 /* Net */,
 				3000FF6D1ED5AB7000E9717C /* Platform */,
-				92448AE821F77E3200E88C9D /* Tutorial */,
 				3012ED861E97DB450009027D /* UI */,
 				3012ED6A1E96A3140009027D /* Utils */,
 			);
@@ -1014,22 +993,6 @@
 			path = Mixpanel;
 			sourceTree = "<group>";
 		};
-		92448AE821F77E3200E88C9D /* Tutorial */ = {
-			isa = PBXGroup;
-			children = (
-				92448AEC21F77F5300E88C9D /* TutorialController.cpp */,
-				92448AED21F77F5400E88C9D /* TutorialController.h */,
-				92DC96E4227729C4007557AB /* TutorialGuide.h */,
-				92244D7C2278773C004C9B45 /* TutorialGuide.cpp */,
-				92244D7A227729F7004C9B45 /* TutorialSpeechBubble.h */,
-				92244D7E2278840B004C9B45 /* TutorialSpeechBubble.cpp */,
-				92244D7B22774F14004C9B45 /* TutorialMessagingNode.h */,
-				92244D8022789B5E004C9B45 /* TutorialMessagingNode.cpp */,
-			);
-			name = Tutorial;
-			path = ../../../Classes/Tutorial;
-			sourceTree = "<group>";
-		};
 		92EC0C5122315CAF00B02F20 /* Shop */ = {
 			isa = PBXGroup;
 			children = (
@@ -1163,9 +1126,7 @@
 				30E094C01EDF0F2B00555891 /* Utils.cpp in Sources */,
 				4349C8151EA8ADEF00FE964B /* MixpanelExceptionHandler.m in Sources */,
 				92448AC121EF771400E88C9D /* Child.cpp in Sources */,
-				9220EC6A203313CE00BD7A90 /* ActionBuilder.cpp in Sources */,
 				92084F0B21B5877B00DACCEB /* BillingData.cpp in Sources */,
-				92244D8122789B5E004C9B45 /* TutorialMessagingNode.cpp in Sources */,
 				3012ED9F1E97E6A40009027D /* RemoteImageSprite.cpp in Sources */,
 				302E847A1ED1B992006A498C /* SplitLayout.cpp in Sources */,
 				E23058C923EC75630057CFE7 /* MessagePopupBase.cpp in Sources */,
@@ -1180,7 +1141,6 @@
 				3000FF751ED5AB7100E9717C /* AzoomeeAppController.mm in Sources */,
 				92EC0C732232C9F400B02F20 /* Shop.cpp in Sources */,
 				4349C8271EA8ADEF00FE964B /* MPCATransform3DToNSDictionaryValueTransformer.m in Sources */,
-				921C75AA2193225D00EB93D6 /* Style.cpp in Sources */,
 				4349C8441EA8ADEF00FE964B /* MPSwizzler.m in Sources */,
 				4349C8241EA8ADEF00FE964B /* MPABTestDesignerTweakResponseMessage.m in Sources */,
 				30DD5ED71E965E060084305B /* AnalyticsSingleton.cpp in Sources */,
@@ -1204,7 +1164,6 @@
 				02BEDF2E1FE1327500D4C9B3 /* ContentItemManager.cpp in Sources */,
 				301CCA9A1EB14280009ADA0C /* API.cpp in Sources */,
 				3012ED711E96A3140009027D /* LocaleManager.cpp in Sources */,
-				92244D7F2278840B004C9B45 /* TutorialSpeechBubble.cpp in Sources */,
 				4349C8201EA8ADEF00FE964B /* MPABTestDesignerDisconnectMessage.m in Sources */,
 				02AE88E01F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.mm in Sources */,
 				3012ED6F1E96A3140009027D /* TextInputChecker.cpp in Sources */,
@@ -1222,7 +1181,6 @@
 				43087FD91F03AC4C00E199EA /* NativeShare_ios.mm in Sources */,
 				4349C84E1EA8ADEF00FE964B /* MPUIControlBinding.m in Sources */,
 				3012EDA01E97E6A40009027D /* ImageDownloaderCacheCleanerLogic.cpp in Sources */,
-				92244D7D2278773C004C9B45 /* TutorialGuide.cpp in Sources */,
 				4349C83C1EA8ADEF00FE964B /* MPObjectSerializer.m in Sources */,
 				4349C8181EA8ADEF00FE964B /* MPAbstractABTestDesignerMessage.m in Sources */,
 				4349C82C1EA8ADEF00FE964B /* MPCGSizeToNSDictionaryValueTransformer.m in Sources */,
@@ -1259,7 +1217,6 @@
 				4349C83A1EA8ADEF00FE964B /* MPObjectIdentityProvider.m in Sources */,
 				4349C8301EA8ADEF00FE964B /* MPDesignerTrackMessage.m in Sources */,
 				4349C8141EA8ADEF00FE964B /* Mixpanel.m in Sources */,
-				92448AEE21F77F5400E88C9D /* TutorialController.cpp in Sources */,
 				92EC0C59223177D500B02F20 /* ShopDisplay.cpp in Sources */,
 				4349C81E1EA8ADEF00FE964B /* MPABTestDesignerDeviceInfoRequestMessage.m in Sources */,
 				4349C8131EA8ADEF00FE964B /* Mixpanel+AutomaticEvents.m in Sources */,

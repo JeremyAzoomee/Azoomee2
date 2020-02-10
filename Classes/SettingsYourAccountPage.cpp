@@ -7,7 +7,7 @@
 
 #include "SettingsYourAccountPage.h"
 #include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/UI/ModalWebview.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
@@ -15,6 +15,7 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "Urls.h"
 #include "LoginController.h"
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -48,14 +49,14 @@ void SettingsYourAccountPage::onEnter()
     this->addChild(_footerBanner);
     
     Label* privacy = Label::createWithTTF(_("Privacy Policy"), Style::Font::Medium(), 60);
-	privacy->setTextColor(Color4B(Style::Color::skyBlue));
+	privacy->setTextColor(Color4B(Colours::Color_3B::skyBlue));
     privacy->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     privacy->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	privacy->setHorizontalAlignment(TextHAlignment::CENTER);
 	privacy->setVerticalAlignment(TextVAlignment::CENTER);
     
     DrawNode* privacyDrawNode = DrawNode::create();
-	privacyDrawNode->drawRect(Vec2(_footerBanner->getContentSize().width * 0.4f - privacy->getContentSize().width / 2, -7), Vec2(_footerBanner->getContentSize().width * 0.4f + privacy->getContentSize().width / 2, -6), Color4F(Style::Color::skyBlue));
+	privacyDrawNode->drawRect(Vec2(_footerBanner->getContentSize().width * 0.4f - privacy->getContentSize().width / 2, -7), Vec2(_footerBanner->getContentSize().width * 0.4f + privacy->getContentSize().width / 2, -6), Color4F(Colours::Color_3B::skyBlue));
     privacy->addChild(privacyDrawNode);
 	
 	privacy->setOverflow(Label::Overflow::SHRINK);
@@ -81,14 +82,14 @@ void SettingsYourAccountPage::onEnter()
 	footerheight += privacyButton->getContentSize().height;
 	
     Label* terms = Label::createWithTTF(_("Terms of Use"), Style::Font::Medium(), 60);
-	terms->setTextColor(Color4B(Style::Color::skyBlue));
+	terms->setTextColor(Color4B(Colours::Color_3B::skyBlue));
     terms->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     terms->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	terms->setHorizontalAlignment(TextHAlignment::CENTER);
 	terms->setVerticalAlignment(TextVAlignment::CENTER);
 	
     DrawNode* termsDrawNode = DrawNode::create();
-	termsDrawNode->drawRect(Vec2(_footerBanner->getContentSize().width * 0.4f - terms->getContentSize().width / 2, -7), Vec2(_footerBanner->getContentSize().width * 0.4f + terms->getContentSize().width / 2, -6), Color4F(Style::Color::skyBlue));
+	termsDrawNode->drawRect(Vec2(_footerBanner->getContentSize().width * 0.4f - terms->getContentSize().width / 2, -7), Vec2(_footerBanner->getContentSize().width * 0.4f + terms->getContentSize().width / 2, -6), Color4F(Colours::Color_3B::skyBlue));
     terms->addChild(termsDrawNode);
 	
 	terms->setOverflow(Label::Overflow::SHRINK);
@@ -114,14 +115,14 @@ void SettingsYourAccountPage::onEnter()
 	footerheight += termsButton->getContentSize().height + 100;
 	
 	Label* logout = Label::createWithTTF(_("Log out"), Style::Font::Medium(), 60);
-	logout->setTextColor(Color4B(Style::Color::skyBlue));
+	logout->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	logout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	logout->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	logout->setHorizontalAlignment(TextHAlignment::CENTER);
 	logout->setVerticalAlignment(TextVAlignment::CENTER);
 	
 	DrawNode* logoutDrawNode = DrawNode::create();
-	logoutDrawNode->drawRect(Vec2(_footerBanner->getContentSize().width * 0.4f - logout->getContentSize().width / 2, -7), Vec2(_footerBanner->getContentSize().width * 0.4f + logout->getContentSize().width / 2, -6), Color4F(Style::Color::skyBlue));
+	logoutDrawNode->drawRect(Vec2(_footerBanner->getContentSize().width * 0.4f - logout->getContentSize().width / 2, -7), Vec2(_footerBanner->getContentSize().width * 0.4f + logout->getContentSize().width / 2, -6), Color4F(Colours::Color_3B::skyBlue));
 	logout->addChild(logoutDrawNode);
 	
 	logout->setOverflow(Label::Overflow::SHRINK);

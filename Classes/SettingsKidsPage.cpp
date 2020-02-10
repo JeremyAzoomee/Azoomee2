@@ -8,7 +8,7 @@
 #include "SettingsKidsPage.h"
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include "ModalMessages.h"
@@ -16,6 +16,7 @@
 #include "KidDetailsLayer.h"
 #include "SceneManagerScene.h"
 #include <AzoomeeCommon/Device.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -55,7 +56,7 @@ void SettingsKidsPage::onEnter()
     
     _footerBanner = ui::Layout::create();
     _footerBanner->setContentSize(Size(this->getContentSize().width, 300));
-    _footerBanner->setBackGroundColor(Style::Color::skyBlue);
+    _footerBanner->setBackGroundColor(Colours::Color_3B::skyBlue);
     _footerBanner->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
     _footerBanner->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)

@@ -3,7 +3,7 @@
 #include "AzoomeeArtApp.h"
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "ModalMessages.h"
 #include <AzoomeeCommon/Utils/TimeUtils.h>
