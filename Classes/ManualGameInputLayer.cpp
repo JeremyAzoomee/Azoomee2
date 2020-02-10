@@ -1,6 +1,6 @@
 #include "ManualGameInputLayer.h"
 #include "GameDataManager.h"
-#include <AzoomeeCommon/UI/ModalMessages.h>
+#include "ModalMessages.h"
 #include "ContentHistoryManager.h"
 #include <AzoomeeCommon/Utils/DirUtil.h>
 #include <AzoomeeCommon/UI/DynamicText.h>

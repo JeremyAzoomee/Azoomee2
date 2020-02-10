@@ -16,7 +16,7 @@
 #include "ArtAppDelegate.h"
 #include "ManualGameInputLayer.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/UI/ModalMessages.h>
+#include "ModalMessages.h"
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/Crashlytics/CrashlyticsConfig.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>

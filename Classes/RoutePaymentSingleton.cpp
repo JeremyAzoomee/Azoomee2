@@ -1,7 +1,7 @@
 #include "RoutePaymentSingleton.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
-#include <AzoomeeCommon/UI/ModalMessages.h>
+#include "ModalMessages.h"
 #include "AmazonPaymentSingleton.h"
 #include "GooglePaymentSingleton.h"
 #include <AzoomeeCommon/Utils/StringFunctions.h>

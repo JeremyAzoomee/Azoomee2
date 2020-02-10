@@ -5,7 +5,7 @@
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/Utils/DirUtil.h>
-#include <AzoomeeCommon/UI/ModalMessages.h>
+#include "ModalMessages.h"
 #include "ForceUpdateAppLockScene.h"
 #include <AzoomeeCommon/Data/AppConfig.h>
 

@@ -1,9 +1,9 @@
 #include "ModalMessages.h"
 #include <ui/UIEditBox/UIEditBox.h>
-#include "../Analytics/AnalyticsSingleton.h"
-#include "Style.h"
-#include "Scene.h"
-#include "../Utils/LocaleManager.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Scene.h>
+#include <AzoomeeCommon//Utils/LocaleManager.h>
 
 USING_NS_CC;
 
@@ -13,7 +13,9 @@ USING_NS_CC;
 
 #define LOADING_Z_ORDER 5000
 
-NS_AZOOMEE_BEGIN
+NS_AZOOMEE_AA_BEGIN
+
+const std::string ModalMessages::kLoadingLayerName = "loadingLayer";
 
 static ModalMessages *_sharedModalMessages = NULL;
 
@@ -22,7 +24,6 @@ ModalMessages* ModalMessages::getInstance()
     if (! _sharedModalMessages)
     {
         _sharedModalMessages = new ModalMessages();
-        _sharedModalMessages->init();
     }
     
     return _sharedModalMessages;
@@ -30,12 +31,6 @@ ModalMessages* ModalMessages::getInstance()
 
 ModalMessages::~ModalMessages(void)
 {
-}
-
-bool ModalMessages::init(void)
-{
-    
-    return true;
 }
 
 void ModalMessages::createAndFadeInLayer()
@@ -50,7 +45,7 @@ void ModalMessages::createAndFadeInLayer()
     loadingLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     loadingLayer->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     loadingLayer->setOpacity(0);
-    loadingLayer->setName("loadingLayer");
+    loadingLayer->setName(kLoadingLayerName);
     Director::getInstance()->getRunningScene()->addChild(loadingLayer, LOADING_Z_ORDER);
     
     loadingLayer->runAction(FadeTo::create(0.5, 200));
@@ -58,7 +53,7 @@ void ModalMessages::createAndFadeInLayer()
 
 void ModalMessages::removeLayer()
 {
-    if(Director::getInstance()->getRunningScene()->getChildByName("loadingLayer"))
+    if(Director::getInstance()->getRunningScene()->getChildByName(kLoadingLayerName))
     {
         Director::getInstance()->getRunningScene()->removeChild(loadingLayer);
     }
@@ -66,7 +61,7 @@ void ModalMessages::removeLayer()
 
 void ModalMessages::startLoading()
 {
-    if(Director::getInstance()->getRunningScene()->getChildByName("loadingLayer")) return;
+    if(Director::getInstance()->getRunningScene()->getChildByName(kLoadingLayerName)) return;
     
     createAndFadeInLayer();
     
@@ -83,8 +78,10 @@ void ModalMessages::startLoading()
         loadingLayer->addChild(loadingCircle);
         
         int direction = 1;
-        if(CCRANDOM_0_1() < 0.5) direction = -1;
-        
+        if(CCRANDOM_0_1() < 0.5)
+        {
+            direction = -1;
+        }
         loadingCircle->runAction(RepeatForever::create(RotateBy::create(CCRANDOM_0_1() + 1, 360 * direction)));
         loadingCircle->runAction(FadeTo::create(0.5, 255));
     }
@@ -97,8 +94,10 @@ void ModalMessages::stopLoading()
 
 void ModalMessages::startSaving()
 {
-    if(Director::getInstance()->getRunningScene()->getChildByName("loadingLayer")) return;
-    
+    if(Director::getInstance()->getRunningScene()->getChildByName(kLoadingLayerName))
+    {
+        return;
+    }
     createAndFadeInLayer();
     
     auto savingLabel = Label::createWithTTF(_("Saving..."), Style::Font::Regular(), 128);
@@ -114,5 +113,5 @@ void ModalMessages::stopSaving()
     this->removeLayer();
 }
   
-NS_AZOOMEE_END
+NS_AZOOMEE_AA_END
 

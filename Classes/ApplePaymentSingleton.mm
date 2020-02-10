@@ -1,6 +1,6 @@
 #include "ApplePaymentSingleton.h"
 #include "PaymentViewController_ios.h"
-#include <AzoomeeCommon/UI/ModalMessages.h>
+#include "ModalMessages.h"
 #include "external/json/document.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "BackEndCaller.h"

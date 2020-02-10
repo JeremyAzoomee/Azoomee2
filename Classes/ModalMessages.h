@@ -3,17 +3,17 @@
 
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include "../Azoomee.h"
+#include <AzoomeeCommon/Azoomee.h>
 
 NS_AZOOMEE_BEGIN
 
-class ModalMessages : public cocos2d::Ref
+class ModalMessages
 {
 public:
-    /** Returns the shared instance of the Game Manager */
     static ModalMessages* getInstance(void);
     
 private:
+    static const std::string kLoadingLayerName;
     void createAndFadeInLayer();
     void addListenerToBackgroundLayer();
     void removeLayer();
@@ -23,7 +23,6 @@ private:
 public:
     
     virtual ~ModalMessages();
-    bool init(void);
     
     void startLoading();
     void stopLoading();

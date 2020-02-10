@@ -8,7 +8,7 @@
 #include "OomeeMakerDataHandler.h"
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
-#include <AzoomeeCommon/UI/ModalMessages.h>
+#include "../../ModalMessages.h"
 #include <AzoomeeCommon/Utils/DirUtil.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include "../UI/OomeeSelectScene.h"

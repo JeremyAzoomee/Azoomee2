@@ -26,7 +26,6 @@
 		3012ED6F1E96A3140009027D /* TextInputChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED661E96A3140009027D /* TextInputChecker.cpp */; };
 		3012ED701E96A3140009027D /* StringFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED6B1E96A3140009027D /* StringFunctions.cpp */; };
 		3012ED711E96A3140009027D /* LocaleManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED6D1E96A3140009027D /* LocaleManager.cpp */; };
-		3012ED891E97DB450009027D /* ModalMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED871E97DB450009027D /* ModalMessages.cpp */; };
 		3012ED9F1E97E6A40009027D /* RemoteImageSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED971E97E6A40009027D /* RemoteImageSprite.cpp */; };
 		3012EDA01E97E6A40009027D /* ImageDownloaderCacheCleanerLogic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED991E97E6A40009027D /* ImageDownloaderCacheCleanerLogic.cpp */; };
 		3012EDA11E97E6A40009027D /* ImageDownloader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED9B1E97E6A40009027D /* ImageDownloader.cpp */; };
@@ -201,8 +200,6 @@
 		3012ED6C1E96A3140009027D /* StringFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringFunctions.h; sourceTree = "<group>"; };
 		3012ED6D1E96A3140009027D /* LocaleManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LocaleManager.cpp; sourceTree = "<group>"; };
 		3012ED6E1E96A3140009027D /* LocaleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocaleManager.h; sourceTree = "<group>"; };
-		3012ED871E97DB450009027D /* ModalMessages.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModalMessages.cpp; sourceTree = "<group>"; };
-		3012ED881E97DB450009027D /* ModalMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModalMessages.h; sourceTree = "<group>"; };
 		3012ED971E97E6A40009027D /* RemoteImageSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RemoteImageSprite.cpp; sourceTree = "<group>"; };
 		3012ED981E97E6A40009027D /* RemoteImageSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteImageSprite.h; sourceTree = "<group>"; };
 		3012ED991E97E6A40009027D /* ImageDownloaderCacheCleanerLogic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageDownloaderCacheCleanerLogic.cpp; sourceTree = "<group>"; };
@@ -661,8 +658,6 @@
 				302E84771ED1B992006A498C /* SplitLayout.cpp */,
 				302E84781ED1B992006A498C /* SplitLayout.h */,
 				305966A01ECEF5A8009A7130 /* LayoutParams.h */,
-				3012ED871E97DB450009027D /* ModalMessages.cpp */,
-				3012ED881E97DB450009027D /* ModalMessages.h */,
 				434858821F3DAE6400C22670 /* UIConsts.h */,
 				436007871F22120C000ECBA4 /* ModalWebview.cpp */,
 				436007881F22120C000ECBA4 /* ModalWebview.h */,
@@ -1182,7 +1177,6 @@
 				021B1FCB1F838A0A0044DCF7 /* HQDataObject.cpp in Sources */,
 				4349C8411EA8ADEF00FE964B /* MPResources.m in Sources */,
 				4349C85D1EA8ADEF00FE964B /* UIView+MPHelpers.m in Sources */,
-				3012ED891E97DB450009027D /* ModalMessages.cpp in Sources */,
 				3000FF751ED5AB7100E9717C /* AzoomeeAppController.mm in Sources */,
 				92EC0C732232C9F400B02F20 /* Shop.cpp in Sources */,
 				4349C8271EA8ADEF00FE964B /* MPCATransform3DToNSDictionaryValueTransformer.m in Sources */,
