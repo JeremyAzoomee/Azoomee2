@@ -8,7 +8,7 @@
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include "ModalMessages.h"
-#include "VideoPlaylistManager.h"
+#include <AzoomeeCommon/WebGameAPI/VideoPlaylistManager.h>
 #include "SceneManagerScene.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/Json.h>

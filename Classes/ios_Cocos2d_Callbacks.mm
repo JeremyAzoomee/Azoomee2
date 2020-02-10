@@ -1,8 +1,7 @@
 #include "ios_Cocos2d_Callbacks.h"
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include "WebGameAPIDataManager.h"
-#include "VideoPlaylistManager.h"
+#include <AzoomeeCommon/WebGameAPI/WebGameAPIDataManager.h>
 #include "SceneManagerScene.h"
 #include "LoginController.h"
 #include "FlowDataSingleton.h"
@@ -13,7 +12,7 @@
 #include "ContentHistoryManager.h"
 #include "FavouritesManager.h"
 #include "ChatDelegate.h"
-#include "VideoPlaylistManager.h"
+#include <AzoomeeCommon/WebGameAPI/VideoPlaylistManager.h>
 #include "BackEndCaller.h"
 #include "RecentlyPlayedManager.h"
 #include <AzoomeeCommon/Device.h>

@@ -5,8 +5,8 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include "WebGameAPIDataManager.h"
-#include "VideoPlaylistManager.h"
+#include <AzoomeeCommon/WebGameAPI/WebGameAPIDataManager.h>
+#include <AzoomeeCommon/WebGameAPI/VideoPlaylistManager.h>
 #include "FavouritesManager.h"
 #include "ContentHistoryManager.h"
 #include "RecentlyPlayedManager.h"

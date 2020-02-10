@@ -1,7 +1,7 @@
 #include "VideoPlaylistManager.h"
-#include "HQDataProvider.h"
-#include <AzoomeeCommon/Utils/StringFunctions.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
+//#include "HQDataProvider.h"
+#include "../Utils/StringFunctions.h"
+#include "../Data/Child/ChildManager.h"
 
 using namespace cocos2d;
 
@@ -20,11 +20,11 @@ VideoPlaylistManager* VideoPlaylistManager::getInstance()
     return _sharedVideoPlaylistManager;
 }
 
-VideoPlaylistManager::~VideoPlaylistManager(void)
+VideoPlaylistManager::~VideoPlaylistManager()
 {
 }
 
-bool VideoPlaylistManager::init(void)
+bool VideoPlaylistManager::init()
 {
     _storedPlaylist = MutableHQCarouselObject::create();
     return true;
@@ -62,7 +62,7 @@ std::string VideoPlaylistManager::getPlaylist()
                 itemUri = StringFunctions::replaceAll(itemUri, "{sessionId}", ChildManager::getInstance()->getLoggedInChild()->getCDNSessionId());
                 
                 elementToBeAdded["uri"] = itemUri;
-                elementToBeAdded["image"] = HQDataProvider::getInstance()->getThumbnailUrlForItem(item->getContentItemId());
+                //elementToBeAdded["image"] = HQDataProvider::getInstance()->getThumbnailUrlForItem(item->getContentItemId());
                 elementToBeAdded["title"] = item->getTitle();
                 
                 playlistElements.push_back(elementToBeAdded);

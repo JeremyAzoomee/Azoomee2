@@ -10,7 +10,7 @@
 #include "HQHistoryManager.h"
 #include "ContentHistoryManager.h"
 #include "GameDataManager.h"
-#include "VideoPlaylistManager.h"
+#include <AzoomeeCommon/WebGameAPI/VideoPlaylistManager.h>
 #include "WebViewSelector.h"
 #include "RecentlyPlayedManager.h"
 #include "ArtAppDelegate.h"
