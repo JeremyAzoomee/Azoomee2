@@ -8,7 +8,7 @@
 #include <AzoomeeCommon/WebGameAPI/WebGameAPIDataManager.h>
 #include <AzoomeeCommon/WebGameAPI/VideoPlaylistManager.h>
 #include "FavouritesManager.h"
-#include "ContentHistoryManager.h"
+#include <AzoomeeCommon/ContentDataManagers/ContentHistoryManager.h>
 #include "RecentlyPlayedManager.h"
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
@@ -402,6 +402,8 @@ extern "C"
 JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNISendProgressMetaDataGame(JNIEnv* env, jobject thiz)
 {
 	ContentHistoryManager::getInstance()->onGameContentClosed();
+    // Notify RewardManager to calculate reward
+    RewardManager::getInstance()->calculateRewardForContent(ContentHistoryManager::getInstance()->getLastOpenedContent(), ContentHistoryManager::getInstance()->getTimeInContentSec());
 }
 
 #endif

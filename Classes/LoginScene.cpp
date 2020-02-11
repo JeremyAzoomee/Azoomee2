@@ -8,7 +8,7 @@
 #include "FlowDataSingleton.h"
 #include "SceneManagerScene.h"
 #include "ChatNotificationsSingleton.h"
-#include "ContentHistoryManager.h"
+#include <AzoomeeCommon/ContentDataManagers/ContentHistoryManager.h>
 #include "PopupMessageBox.h"
 #include <AzoomeeCommon/Device.h>
 #include "LoginController.h"

@@ -9,7 +9,7 @@
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
-#include "ContentHistoryManager.h"
+#include <AzoomeeCommon/ContentDataManagers/ContentHistoryManager.h>
 #include "FavouritesManager.h"
 #include "ChatDelegate.h"
 #include <AzoomeeCommon/WebGameAPI/VideoPlaylistManager.h>
@@ -17,6 +17,7 @@
 #include "RecentlyPlayedManager.h"
 #include <AzoomeeCommon/Device.h>
 #include <AzoomeeCommon/Data/AppConfig.h>
+#include "RewardManager.h"
 
 using namespace cocos2d;
 NS_AZOOMEE_BEGIN
@@ -174,6 +175,8 @@ void sendProgressMetaDataVideo(int videoProgressSeconds, int videoDuration)
 void sendProgressMetaDataGame()
 {
 	ContentHistoryManager::getInstance()->onGameContentClosed();
+    // Notify RewardManager to calculate reward
+    RewardManager::getInstance()->calculateRewardForContent(ContentHistoryManager::getInstance()->getLastOpenedContent(), ContentHistoryManager::getInstance()->getTimeInContentSec());
 }
 
 void newVideoOpened(int playlistIndex)

@@ -6,7 +6,7 @@
 #include <AzoomeeCommon/API/API.h>
 #include "ErrorCodes.h"
 #include "SceneManagerScene.h"
-#include "ContentHistoryManager.h"
+#include <AzoomeeCommon/ContentDataManagers/ContentHistoryManager.h>
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "NativeContentInterface_ios.h"
 #endif

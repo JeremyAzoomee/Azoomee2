@@ -9,9 +9,9 @@
 #define ContentHistoryManager_h
 
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Azoomee.h>
-#include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
-#include <AzoomeeCommon/API/API.h>
+#include "../Azoomee.h"
+#include "../Data/HQDataObject/HQContentItemObject.h"
+#include "../API/API.h"
 
 NS_AZOOMEE_BEGIN
 

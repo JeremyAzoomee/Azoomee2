@@ -7,7 +7,7 @@
 
 #include "ContentOpener.h"
 #include "HQHistoryManager.h"
-#include "ContentHistoryManager.h"
+#include <AzoomeeCommon/ContentDataManagers/ContentHistoryManager.h>
 #include "GameDataManager.h"
 #include <AzoomeeCommon/WebGameAPI/VideoPlaylistManager.h>
 #include "WebViewSelector.h"

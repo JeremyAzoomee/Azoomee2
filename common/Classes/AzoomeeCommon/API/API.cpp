@@ -72,6 +72,8 @@ const char* const API::TagDeleteChildOomee = "deleteChildOomee";
 
 const std::string API::kAZCountryCodeKey = "X-AZ-COUNTRYCODE";
 
+const std::string API::kRewardHeaderCheckEventName = "rewardHeaderCheckEvent";
+
 void API::HandleAPIResponse(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response, HttpRequestCreatorResponseDelegate* delegate, HttpRequestCreator* request)
 {
     HandleAPIResponse(sender, response, request,

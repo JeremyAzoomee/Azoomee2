@@ -87,6 +87,8 @@ private:
     int _repeatRewardCoinValue;
     /// Overrides for _defaultRewardCoinValue per contentID
     std::map<std::string, int> _rewardCoinValueContentOverride;
+    
+    cocos2d::EventListenerCustom* _rewardHeaderCheckEventListener = nullptr;
 };
 
 NS_AZOOMEE_END

@@ -79,9 +79,11 @@ public:
 	static const char* const TagGetAllOomees;
 	static const char* const TagDeleteChildOomee;
     
-	
+    
 	static const std::string kAZCountryCodeKey;
 	
+    static const std::string kRewardHeaderCheckEventName;
+    
 #pragma mark - API Methods
     
     typedef std::function<void(const std::string&, const std::string&, const std::string&)> APIResponseSuccessCallback;
