@@ -21,7 +21,6 @@
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include "ErrorCodes.h"
 #include "WebViewSelector.h"
-#include "HQDataProvider.h"
 #include <AzoomeeCommon/Utils/DirUtil.h>
 #include <ctime>
 #include <cstdlib>
@@ -531,7 +530,7 @@ void GameDataManager::getContentItemImageForOfflineUsage(const std::string &game
     }
     
     imageDownloader = ImageDownloader::create(ImageDownloader::kImageCachePath, ImageDownloader::CacheMode::File);
-    imageDownloader->downloadImage(nullptr, HQDataProvider::getInstance()->getThumbnailUrlForItem(gameId));
+    imageDownloader->downloadImage(nullptr, ContentItemManager::getInstance()->getThumbnailUrlForItem(gameId));
 }
 
 void GameDataManager::performGameCleanup()

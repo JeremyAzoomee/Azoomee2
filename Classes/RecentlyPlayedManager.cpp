@@ -10,7 +10,6 @@
 #include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/Utils/DirUtil.h>
-#include "HQDataProvider.h"
 
 using namespace cocos2d;
 
@@ -56,7 +55,7 @@ void RecentlyPlayedManager::addContentIdToRecentlyPlayedFileForHQ(const std::str
 std::vector<HQContentItemObjectRef> RecentlyPlayedManager::getRecentlyPlayedContentForHQ(const std::string &hq) const
 {
     const std::vector<std::string>& ids = getRecentContentIdsForHQ(hq);
-    return HQDataProvider::getInstance()->getContentItemsFromIDs(ids);
+    return ContentItemManager::getInstance()->getContentItemsFromIDs(ids);
 }
 
 std::vector<std::string> RecentlyPlayedManager::getRecentContentIds() const

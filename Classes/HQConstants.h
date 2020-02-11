@@ -10,6 +10,16 @@
 
 #include <AzoomeeCommon/Azoomee.h>
 
+#define TILESIZE_1X1 cocos2d::Vec2(1,1)
+#define TILESIZE_1X2 cocos2d::Vec2(1,2)
+#define TILESIZE_2X2 cocos2d::Vec2(2,2)
+#define TILESIZE_3X3 cocos2d::Vec2(3,3) //circle tile
+
+#define CONTENT_PLACEHOLDER_GAME_1X1 "res/contentPlaceholders/Games1X1.png"
+#define CONTENT_PLACEHOLDER_VIDEO_1X1 "res/contentPlaceholders/Video1X1.png"
+#define CONTENT_PLACEHOLDER_VIDEO_1X2 "res/contentPlaceholders/Video1X2.png"
+
+
 namespace HQConsts
 {
     const char* const kChatHQName = "CHAT";

@@ -6,7 +6,6 @@
 //
 
 #include "ContentOpener.h"
-#include "HQDataProvider.h"
 #include "HQHistoryManager.h"
 #include "ContentHistoryManager.h"
 #include "GameDataManager.h"
@@ -23,6 +22,8 @@
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Cookie/CookieManager.h>
 #include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQStructureDownloadHandler.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
 #include "ErrorCodes.h"
 
 #include "AgeGate.h"
@@ -30,6 +31,8 @@
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
+
+const std::string ContentOpener::kGroupRefreshEvent = "groupRefresh";
 
 static std::auto_ptr<ContentOpener> sContentOpenerSharedInstance;
 
@@ -44,7 +47,7 @@ ContentOpener* ContentOpener::getInstance()
 
 void ContentOpener::openContentById(const std::string &contentId)
 {
-    HQContentItemObjectRef contentItem = HQDataProvider::getInstance()->getContentItemFromID(contentId);
+    HQContentItemObjectRef contentItem = ContentItemManager::getInstance()->getContentItemForId(contentId);
     
     if(contentItem)
     {
@@ -87,7 +90,7 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
     }
     else if(contentItem->getType()  == HQContentItemObject::kContentTypeAudioGroup || contentItem->getType()  == HQContentItemObject::kContentTypeGroup)
     {
-		HQDataProvider::getInstance()->getDataForGroupHQ(contentItem->getUri(), contentItem->getCarouselColour());
+		getDataForGroupHQ(contentItem->getUri(), contentItem->getCarouselColour());
     }
     else if(contentItem->getType() == HQContentItemObject::kContentTypeInternal)
     {
@@ -114,7 +117,7 @@ void ContentOpener::doCarouselContentOpenLogic(const HQContentItemObjectRef& con
 	
 	if(!contentItem->isEntitled())
 	{
-		AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, rowIndex, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(hqCategory, rowIndex, elementIndex), location);
+		AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, rowIndex, elementIndex, location);
 		
 #ifndef AZOOMEE_VODACOM_BUILD
         AgeGate* ageGate = AgeGate::create();
@@ -131,7 +134,7 @@ void ContentOpener::doCarouselContentOpenLogic(const HQContentItemObjectRef& con
 #endif
 	}
 	
-	AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, rowIndex, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(hqCategory, rowIndex, elementIndex), location);
+	AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, rowIndex, elementIndex, location);
 	
 	if(contentItem->getType() == HQContentItemObject::kContentTypeVideo || contentItem->getType() == HQContentItemObject::kContentTypeAudio)
 	{
@@ -146,7 +149,7 @@ void ContentOpener::doCarouselContentOpenLogic(const HQContentItemObjectRef& con
             const HQContentItemObjectRef& groupForContent = ContentItemManager::getInstance()->getParentOfContentItemForId(contentItem->getContentItemId());
             if(groupForContent)
             {
-                const auto& items = HQDataProvider::getInstance()->getContentItemsFromIDs(groupForContent->getItems());
+                const auto& items = ContentItemManager::getInstance()->getContentItemsFromIDs(groupForContent->getItems());
                 carousel->addContentItemsToCarousel(items);
             }
             else
@@ -157,6 +160,13 @@ void ContentOpener::doCarouselContentOpenLogic(const HQContentItemObjectRef& con
 		}
 	}
 	openContentObject(contentItem);
+}
+
+void ContentOpener::getDataForGroupHQ(const std::string &uri, const Color4B& carouselColour)
+{
+    HQStructureDownloadHandler::getInstance()->loadGroupHQData(uri);
+    Color4B colourCopy = carouselColour; // event is sent immediatly so we send address of colour object stored on the stack so we dont get mem leak
+    Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(kGroupRefreshEvent, &colourCopy);
 }
 
 // delegate functions

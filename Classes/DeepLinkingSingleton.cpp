@@ -3,7 +3,6 @@
 #include "BackEndCaller.h"
 #include "WebViewSelector.h"
 #include "GameDataManager.h"
-#include "HQDataProvider.h"
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
@@ -13,6 +12,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/Json.h>
 #include "ContentOpener.h"
+#include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
 
 #ifdef AZOOMEE_VODACOM_BUILD
 #include "Vodacom/VodacomOnboardingScene.h"
@@ -117,7 +117,7 @@ bool DeepLinkingSingleton::actionDeepLink()
     }
     else if(host == "post-content")
     {
-        const HQContentItemObjectRef& item = HQDataProvider::getInstance()->getContentItemFromID(path);
+        const HQContentItemObjectRef& item = ContentItemManager::getInstance()->getContentItemForId(path);
         if(item)
         {
             AnalyticsSingleton::getInstance()->contentItemSelectedOutsideCarouselEvent(item);

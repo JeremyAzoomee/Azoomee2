@@ -15,7 +15,6 @@
 #include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/AppConfig.h>
-#include "HQDataProvider.h"
 #include "FavouritesManager.h"
 #include "ArtAppDelegate.h"
 #include "SceneManagerScene.h"
@@ -336,7 +335,7 @@ void OomeeHQ::refreshFavouritesList()
 {
     const auto& allFavourites = FavouritesManager::getInstance()->getFavouriteContent();
     // Filter the recently played by group so videos can display as a series, but open the episode
-    const auto& filteredFavourites = HQDataProvider::getInstance()->filterContentItemsByUniqueGroup(allFavourites);
+    const auto& filteredFavourites = ContentItemManager::getInstance()->filterContentItemsByUniqueGroup(allFavourites);
     _favouritesContent = filteredFavourites.first;
     
     MutableHQCarouselObjectRef carousel = MutableHQCarouselObject::create();

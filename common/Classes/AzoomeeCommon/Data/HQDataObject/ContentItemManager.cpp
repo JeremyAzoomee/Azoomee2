@@ -82,6 +82,85 @@ HQContentItemObjectRef ContentItemManager::getParentOfContentItemForId(const std
     return nullptr;
 }
 
+std::vector<HQContentItemObjectRef> ContentItemManager::getContentItemsFromIDs(const std::vector<std::string> &itemidList) const
+{
+    std::vector<HQContentItemObjectRef> items;
+    
+    for(const std::string& id : itemidList)
+    {
+        HQContentItemObjectRef content = getContentItemForId(id);
+        if(content)
+        {
+            items.push_back(content);
+        }
+    }
+    
+    return items;
+}
+
+std::pair<std::vector<HQContentItemObjectRef>, std::vector<HQContentItemObjectRef>> ContentItemManager::filterContentItemsByUniqueGroup(const std::vector<HQContentItemObjectRef>& items) const
+{
+    std::vector<HQContentItemObjectRef> filteredItems;
+    // Keep track of what groups we have added
+    std::vector<HQContentItemObjectRef> itemGroups;
+    
+    ContentItemManager* contentItemManager = ContentItemManager::getInstance();
+    for(const HQContentItemObjectRef& content : items)
+    {
+        // Check if the item has a group
+        const HQContentItemObjectRef& groupForContent = contentItemManager->getParentOfContentItemForId(content->getContentItemId());
+        
+        // If the item doesn't have a group, or we haven't added an item from this group yet
+        if(!groupForContent || std::find(itemGroups.begin(), itemGroups.end(), groupForContent) == itemGroups.end())
+        {
+            filteredItems.push_back(content);
+            itemGroups.push_back(groupForContent ? groupForContent : content);
+        }
+    }
+    
+    return std::make_pair(filteredItems, itemGroups);
+}
+
+std::string ContentItemManager::getThumbnailUrlForItem(const std::string &itemId) const
+{
+    HQContentItemObjectRef element = getContentItemForId(itemId);
+    if(element)
+    {
+        return getThumbnailUrlForItem(element, Vec2(1,1));
+    }
+    
+    return "";
+}
+
+std::string ContentItemManager::getThumbnailUrlForItem(HQContentItemObjectRef element, const cocos2d::Vec2 &shape) const
+{
+    if(element == nullptr)
+    {
+        return "";
+    }
+    
+    const std::string &key = convertShapeToThumbnailKey(shape);
+    const auto& images = element->getImages();
+    if(images.find(key) != images.end())
+    {
+        return images.at(key);
+    }
+    else if(images.find(convertShapeToThumbnailKey(Vec2(1,1))) != images.end()) //if the queried key does not exist in images map, we try to fall back to ONE_ONE first
+    {
+        return images.at(convertShapeToThumbnailKey(Vec2(1,1)));
+    }
+    else //if ONE_ONE even does not exist, we return an empty string
+    {
+        return "";
+    }
+}
+
+std::string ContentItemManager::convertShapeToThumbnailKey(const cocos2d::Vec2 &shape) const
+{
+    static const std::vector<std::string> &numbersByWords = {"ZERO", "ONE", "TWO", "THREE", "FOUR", "FIVE"};
+    return numbersByWords.at(shape.x) + "_" + numbersByWords.at(shape.y);
+}
+
 bool ContentItemManager::isSameContentPool(const std::string &etag) const
 {
     return _currentPoolEtag == etag;

@@ -10,9 +10,11 @@
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
+#include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
 #include "RecentlyPlayedManager.h"
-#include "HQDataProvider.h"
+#include "HQConstants.h"
 #include "Style.h"
+#include "ContentOpener.h"
 
 using namespace cocos2d;
 
@@ -56,7 +58,7 @@ void VideoHQ::onEnter()
 {
     const auto& allRecentPlayed = RecentlyPlayedManager::getInstance()->getRecentlyPlayedContentForHQ(HQConsts::kVideoHQName);
     // Filter the recently played by group so videos can display as a series, but open the episode
-    const auto& recentPlayedData = HQDataProvider::getInstance()->filterContentItemsByUniqueGroup(allRecentPlayed);
+    const auto& recentPlayedData = ContentItemManager::getInstance()->filterContentItemsByUniqueGroup(allRecentPlayed);
     
     _recentPlayedContent = recentPlayedData.first;
     
@@ -271,7 +273,7 @@ void VideoHQ::createEpisodePlayer()
     _episodeSelector->setPosition(Vec2(0,0));
     if(firstItem)
     {
-        HQDataProvider::getInstance()->getDataForGroupHQ(firstItem->getUri(), firstItem->getCarouselColour());
+        ContentOpener::getInstance()->getDataForGroupHQ(firstItem->getUri(), firstItem->getCarouselColour());
         _episodeSelector->setLineAndTextColour(Color3B(firstItem->getCarouselColour()));
         _episodeSelector->setHqData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(HQDataObject::kGroupHQName));
     }
@@ -310,7 +312,7 @@ void VideoHQ::createEpisodePlayer()
     });
     addChild(_episodeSelector, 1);
     
-    EventListenerCustom* eventListener = EventListenerCustom::create(HQDataProvider::kGroupRefreshEvent, [this](EventCustom* event){
+    EventListenerCustom* eventListener = EventListenerCustom::create(ContentOpener::kGroupRefreshEvent, [this](EventCustom* event){
         _episodeSelector->setHqData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(HQDataObject::kGroupHQName));
         Color4B colour = *static_cast<Color4B*>(event->getUserData());
         _episodeSelector->setLineAndTextColour(Color3B(colour));

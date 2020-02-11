@@ -20,6 +20,8 @@ class ContentOpener : public HttpRequestCreatorResponseDelegate
 private:
 	HQContentItemObjectRef _contentItemToOpen = nullptr;
 public:
+    static const std::string kGroupRefreshEvent;
+    
     static ContentOpener* getInstance();
     
     void openContentById(const std::string& contentId);
@@ -27,6 +29,8 @@ public:
 	
 	void doCarouselContentOpenLogic(const HQContentItemObjectRef& contentItem, int rowIndex, int elementIndex, const std::string& hqCategory, const std::string& location);
 	
+    void getDataForGroupHQ(const std::string &uri, const cocos2d::Color4B& carouselColour);
+    
 	//delegate functions
 	void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body);
 	void onHttpRequestFailed(const std::string& requestTag, long errorCode);

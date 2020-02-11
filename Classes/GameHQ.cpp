@@ -11,7 +11,6 @@
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include "RecentlyPlayedManager.h"
-#include "HQDataProvider.h"
 #include "GameDataManager.h"
 #include "Style.h"
 

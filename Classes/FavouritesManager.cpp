@@ -8,9 +8,9 @@
 #include "FavouritesManager.h"
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
-#include "HQDataProvider.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Utils/DirUtil.h>
+#include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
 
 using namespace cocos2d;
 
@@ -70,7 +70,7 @@ void FavouritesManager::removeFromFavourites(const HQContentItemObjectRef& conte
 std::vector<HQContentItemObjectRef> FavouritesManager::getFavouriteContent() const
 {
     const std::vector<std::string>& ids = getFavouriteContentIds();
-    return HQDataProvider::getInstance()->getContentItemsFromIDs(ids);
+    return ContentItemManager::getInstance()->getContentItemsFromIDs(ids);
 }
 
 std::string FavouritesManager::getFavouritesFilePath() const

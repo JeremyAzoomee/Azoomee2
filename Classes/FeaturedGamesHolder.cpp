@@ -8,7 +8,7 @@
 #include "FeaturedGamesHolder.h"
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/UI/UIConsts.h>
-#include "HQDataProvider.h"
+#include "HQConstants.h"
 
 using namespace cocos2d;
 
