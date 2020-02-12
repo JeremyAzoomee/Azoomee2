@@ -8,7 +8,7 @@
 
 #include "ArtListView.h"
 #include "ArtListColumn.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 
 using namespace cocos2d;
 
@@ -74,7 +74,7 @@ bool ArtListView::init()
     }
     
     setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    setBackGroundColor(Style::Color::darkIndigoTwo);
+    setBackGroundColor(Colours::Color_3B::darkIndigoTwo);
     
     setDirection(ui::ScrollView::Direction::HORIZONTAL);
     setBounceEnabled(true);

@@ -1,11 +1,11 @@
 #include "MessageListViewItem.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
 #include "../Data/StickerCache.h"
-
+#include "../../Style.h"
 
 using namespace cocos2d;
 
@@ -312,14 +312,14 @@ void MessageListViewItem::setData(const MessageRef& message)
         // Color depends also on current user
         const std::string& senderId = message->senderId();
         const bool isCurrentUser = (senderId == (ChildManager::getInstance()->isChildLoggedIn() ? ChildManager::getInstance()->getLoggedInChild()->getId() : UserAccountManager::getInstance()->getLoggedInParentId()));
-        const Color3B& fontColor = (isCurrentUser) ? Style::Color::darkIndigoTwo : Style::Color::white;
+        const Color3B& fontColor = (isCurrentUser) ? Colours::Color_3B::darkIndigoTwo : Colours::Color_3B::white;
         _textLabel->setTextColor(Color4B(fontColor));
-        _bubbleLayout->setBackGroundImageColor((isCurrentUser) ? Style::Color::white : Style::Color::darkIndigo);
+        _bubbleLayout->setBackGroundImageColor((isCurrentUser) ? Colours::Color_3B::white : Colours::Color_3B::darkIndigo);
     }
     else
     {
         _textLabel->setString("");
-        _textLabel->setTextColor(Color4B(Style::Color::black));
+        _textLabel->setTextColor(Color4B(Colours::Color_3B::black));
         _stickerLayout->setVisible(false);
         _bubbleLayout->setVisible(false);
         _artLayout->setVisible(false);

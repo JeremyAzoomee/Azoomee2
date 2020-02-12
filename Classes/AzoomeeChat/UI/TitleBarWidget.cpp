@@ -1,7 +1,8 @@
 #include "TitleBarWidget.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
+#include "../../Style.h"
 
 using namespace cocos2d;
 
@@ -33,9 +34,9 @@ bool TitleBarWidget::init()
     addChild(_background);
     
     _bannerShadow = LayerGradient::create();
-    _bannerShadow->setStartColor(Style::Color::darkIndigoThree);
+    _bannerShadow->setStartColor(Colours::Color_3B::darkIndigoThree);
     _bannerShadow->setStartOpacity(0);
-    _bannerShadow->setEndColor(Style::Color::darkIndigoThree);
+    _bannerShadow->setEndColor(Colours::Color_3B::darkIndigoThree);
     _bannerShadow->setEndOpacity(255);
     _bannerShadow->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     _bannerShadow->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_LEFT);
@@ -83,7 +84,7 @@ bool TitleBarWidget::init()
     _reportedChatTitleBar->setAnchorPoint(Vec2(0.5f, 1.0f));
     _reportedChatTitleBar->setSizeType(ui::Widget::SizeType::ABSOLUTE);
     _reportedChatTitleBar->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _reportedChatTitleBar->setBackGroundColor(Style::Color::strongPink);
+    _reportedChatTitleBar->setBackGroundColor(Colours::Color_3B::strongPink);
     _reportedChatTitleBar->setVisible(false);
     reportChatTitleBarHolder->addChild(_reportedChatTitleBar);
     
@@ -96,7 +97,7 @@ bool TitleBarWidget::init()
     _reportedChatTitleBar->addChild(_warningImageRight);
     
     _warningLabel = Label::createWithTTF(_("This chat has been reported. Get your parent to reset it."), Style::Font::Regular(), 64);
-    _warningLabel->setTextColor(Color4B(Style::Color::black));
+    _warningLabel->setTextColor(Color4B(Colours::Color_3B::black));
     _warningLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     _reportedChatTitleBar->addChild(_warningLabel);
     
@@ -104,7 +105,7 @@ bool TitleBarWidget::init()
     _reportResetButton = ui::Button::create("res/chat/ui/buttons/reset_button.png");
     // TODO: Get from Strings
     _reportResetButton->setTitleText(_("Reset"));
-    _reportResetButton->setTitleColor(Style::Color::black);
+    _reportResetButton->setTitleColor(Colours::Color_3B::black);
     _reportResetButton->setTitleFontName(Style::Font::PoppinsMedium());
     _reportResetButton->setTitleFontSize(45.0f);
     _reportResetButton->setScale9Enabled(true);
@@ -119,7 +120,7 @@ bool TitleBarWidget::init()
     _reportButton = ui::Button::create("res/chat/ui/buttons/report_button_outline.png");
     // TODO: Get from Strings
     _reportButton->setTitleText(_("Report"));
-    _reportButton->setTitleColor(Style::Color::white);
+    _reportButton->setTitleColor(Colours::Color_3B::white);
     _reportButton->setTitleFontName(Style::Font::PoppinsMedium());
     _reportButton->setTitleFontSize(45.0f);
     _reportButton->setScale9Enabled(true);
@@ -242,7 +243,7 @@ void TitleBarWidget::setTitleImage(const std::string& imagePath)
 void TitleBarWidget::setTitleAvatar(const FriendRef& friendData)
 {
     _titleLabel->setString(friendData->friendName());
-    setTitleColor(Style::Color::white);
+    setTitleColor(Colours::Color_3B::white);
     _titleLabel->setFontSize(80.0f);
 
     _titleLabel->setVisible(true);
@@ -258,7 +259,7 @@ void TitleBarWidget::underlineTitleBar()
     _subTitleBarBorder->setLayoutParameter(CreateBottomCenterRelativeLayoutParam());
     _subTitleBarBorder->setSizeType(ui::Widget::SizeType::ABSOLUTE);
     _subTitleBarBorder->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _subTitleBarBorder->setBackGroundColor(Style::Color::macaroniAndCheese);
+    _subTitleBarBorder->setBackGroundColor(Colours::Color_3B::macaroniAndCheese);
     addChild(_subTitleBarBorder);
 }
 

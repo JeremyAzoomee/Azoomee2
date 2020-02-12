@@ -9,7 +9,7 @@
 #include "SettingsMessageBoxNotification.h"
 #include "SettingsMessageBoxTryAgain.h"
 #include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/API/API.h>
@@ -17,6 +17,7 @@
 #include <AzoomeeCommon/NativeShare/NativeShare.h>
 #include "Urls.h"
 #include "SceneManagerScene.h"
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -127,7 +128,7 @@ void EditAccountLayer::onEnter()
     lowestY -= (pinEditboxLayout->getContentSize().height + 35);
     
     Label* pinText = Label::createWithTTF(_("PIN"), Style::Font::Medium(), 59);
-    pinText->setTextColor(Color4B(Style::Color::battleshipGrey));
+    pinText->setTextColor(Color4B(Colours::Color_3B::battleshipGrey));
 	pinText->setHorizontalAlignment(TextHAlignment::RIGHT);
 	pinText->setVerticalAlignment(TextVAlignment::CENTER);
 	pinText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
@@ -182,7 +183,7 @@ void EditAccountLayer::onEnter()
     lowestY -= passwordEditboxLayout->getContentSize().height;
     
     Label* passwordText = Label::createWithTTF(_("Password"), Style::Font::Medium(), 59);
-    passwordText->setTextColor(Color4B(Style::Color::battleshipGrey));
+    passwordText->setTextColor(Color4B(Colours::Color_3B::battleshipGrey));
     passwordText->setHorizontalAlignment(TextHAlignment::RIGHT);
 	passwordText->setVerticalAlignment(TextVAlignment::CENTER);
     passwordText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
@@ -257,7 +258,7 @@ void EditAccountLayer::onEnter()
     
     _accountTypeLayout = ui::Layout::create();
     _accountTypeLayout->setBackGroundImage("res/settings/rounded_rect_half.png");
-    _accountTypeLayout->setBackGroundImageColor(Style::Color::skyBlue);
+    _accountTypeLayout->setBackGroundImageColor(Colours::Color_3B::skyBlue);
     _accountTypeLayout->setContentSize(Size(contentSize.width, 400));
     _accountTypeLayout->setBackGroundImageScale9Enabled(true);
     _accountTypeLayout->setLayoutParameter(CreateTopLinearLayoutParam(ui::Margin(0,remainingPadding,0,0)));

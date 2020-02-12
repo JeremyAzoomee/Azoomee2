@@ -1,9 +1,9 @@
 #include "FriendListView.h"
 #include "FriendListViewItem.h"
 #include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
-
+#include "../../Style.h"
 
 using namespace cocos2d;
 
@@ -317,7 +317,7 @@ ui::Layout* FriendListView::createAddFriendButton()
     ui::Text* label = ui::Text::create();
     label->setFontName(Style::Font::Regular());
     label->setFontSize(70.0f);
-    label->setTextColor(Color4B(Style::Color::white));
+    label->setTextColor(Color4B(Colours::Color_3B::white));
     label->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(150.0f, 0, 0, 0)));
     label->setString(_("Add Friends"));
     contentLayout->addChild(label);

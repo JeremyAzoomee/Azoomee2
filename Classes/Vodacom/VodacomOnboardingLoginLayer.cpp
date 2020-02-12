@@ -7,7 +7,7 @@
 #ifdef AZOOMEE_VODACOM_BUILD
 #include "VodacomOnboardingLoginLayer.h"
 #include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/API/API.h>
 #include "ModalMessages.h"
@@ -98,7 +98,7 @@ void VodacomOnboardingLoginLayer::onEnter()
 	_emailInput->setText(_flowData->getEmail());
 	
 	Label* emailError = Label::createWithTTF(_("*Invalid email address"), Style::Font::Regular(), 53);
-	emailError->setTextColor(Color4B(Style::Color::watermelon));
+	emailError->setTextColor(Color4B(Colours::Color_3B::watermelon));
 	emailError->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
 	emailError->setNormalizedPosition(Vec2(0.1f,-0.1));
 	emailError->setName("error");
@@ -129,7 +129,7 @@ void VodacomOnboardingLoginLayer::onEnter()
 	_passwordInput->setText(_flowData->getPassword());
 	
 	Label* pwError = Label::createWithTTF(_("*Invalid password"), Style::Font::Regular(), 53);
-	pwError->setTextColor(Color4B(Style::Color::watermelon));
+	pwError->setTextColor(Color4B(Colours::Color_3B::watermelon));
 	pwError->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
 	pwError->setNormalizedPosition(Vec2(0.1f,-0.1));
 	pwError->setName("error");
@@ -161,16 +161,16 @@ void VodacomOnboardingLoginLayer::onEnter()
 	_confirmButton->addChild(confirmText);
 	
 	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular(), 64);
-	needHelp->setTextColor(Color4B(Style::Color::skyBlue));
+	needHelp->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	needHelp->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	needHelp->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
 	Label* contactUs = Label::createWithTTF(_("Contact us"), Style::Font::Regular(), 64);
-	contactUs->setTextColor(Color4B(Style::Color::skyBlue));
+	contactUs->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	contactUs->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
 	contactUs->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
 	
 	DrawNode* underline = DrawNode::create();
-	underline->drawRect(Vec2(0, -7), Vec2(contactUs->getContentSize().width, -6), Color4F(Style::Color::skyBlue));
+	underline->drawRect(Vec2(0, -7), Vec2(contactUs->getContentSize().width, -6), Color4F(Colours::Color_3B::skyBlue));
 	contactUs->addChild(underline);
 	
 	ui::Layout* contactUsHolder = ui::Layout::create();

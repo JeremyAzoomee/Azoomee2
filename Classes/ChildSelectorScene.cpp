@@ -14,9 +14,10 @@
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 #include <AzoomeeCommon/Utils/ActionBuilder.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include "HQHistoryManager.h"
 #include "PopupMessageBox.h"
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -39,7 +40,7 @@ bool ChildSelectorScene::init()
     
     AudioMixer::getInstance()->stopBackgroundMusic();
     
-    const Color3B& bgColour = Style::Color::darkIndigo;
+    const Color3B& bgColour = Colours::Color_3B::darkIndigo;
     
     _titleLayout = ui::Layout::create();
     _titleLayout->setSizeType(ui::Layout::SizeType::PERCENT);
@@ -54,7 +55,7 @@ bool ChildSelectorScene::init()
     _bgPattern->setTexture("res/decoration/pattern_stem_tile.png");
     _bgPattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _bgPattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    _bgPattern->setColor(Style::Color::macaroniAndCheese);
+    _bgPattern->setColor(Colours::Color_3B::macaroniAndCheese);
     _bgPattern->setRoundedCorners(false, false, false, false);
     _bgPattern->setScaleMode(RoundedRectSprite::ScaleMode::TILE);
     _bgPattern->setTileScaleFactor(1.0f);
@@ -85,7 +86,7 @@ bool ChildSelectorScene::init()
     _settingsButton->setContentSize(Size(700,140));
     _settingsButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _settingsButton->setNormalizedPosition(Vec2(0.5f, 0.48f));
-    _settingsButton->setColor(Style::Color::white);
+    _settingsButton->setColor(Colours::Color_3B::white);
     _settingsButton->setTextColour(Color4B::BLACK);
     _settingsButton->setTextFontInfo(Style::Font::PoppinsBold(), 66);
     _settingsButton->setTextAreaSizePercent(Vec2(0.9f,0.8f));
@@ -112,16 +113,16 @@ bool ChildSelectorScene::init()
     _switchProfileText->setNormalizedPosition(Vec2(0.5f, 0.92f));
     _switchProfileText->setTextHorizontalAlignment(TextHAlignment::CENTER);
     _switchProfileText->setTextVerticalAlignment(TextVAlignment::BOTTOM);
-    _switchProfileText->setTextColor(Color4B(Style::Color::brownGrey));
+    _switchProfileText->setTextColor(Color4B(Colours::Color_3B::brownGrey));
     _childLayout->addChild(_switchProfileText);
     
     _childPageView = ui::PageView::create();
     _childPageView->setDirection(ui::PageView::Direction::HORIZONTAL);
     _childPageView->setIndicatorEnabled(true);
     _childPageView->setIndicatorPositionAsAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-    _childPageView->setIndicatorIndexNodesColor(Style::Color::brownGrey);
+    _childPageView->setIndicatorIndexNodesColor(Colours::Color_3B::brownGrey);
     _childPageView->setIndicatorIndexNodesOpacity(125);
-    _childPageView->setIndicatorSelectedIndexColor(Style::Color::brownGrey);
+    _childPageView->setIndicatorSelectedIndexColor(Colours::Color_3B::brownGrey);
     _childPageView->setIndicatorSelectedIndexOpacity(255);
     _childPageView->setIndicatorSpaceBetweenIndexNodes(20);
     _childPageView->setSizeType(ui::Layout::SizeType::PERCENT);
@@ -153,8 +154,8 @@ void ChildSelectorScene::onEnter()
         messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
         messageBox->setBody(errorMessageText.at(ERROR_BODY));
         messageBox->setButtonText(_("Back"));
-        messageBox->setButtonColour(Style::Color::darkIndigo);
-        messageBox->setPatternColour(Style::Color::azure);
+        messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
+        messageBox->setPatternColour(Colours::Color_3B::azure);
         messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
             pSender->removeFromParent();
         });
@@ -271,7 +272,7 @@ cocos2d::ui::Layout* ChildSelectorScene::createChildButton(const ChildRef& child
     text->setTextVerticalAlignment(TextVAlignment::BOTTOM);
     text->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     text->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-    text->setTextColor(Color4B(Style::Color::brownGrey));
+    text->setTextColor(Color4B(Colours::Color_3B::brownGrey));
     childButton->addChild(text);
     
     childButton->setTouchEnabled(true);
@@ -320,17 +321,17 @@ void ChildSelectorScene::onForceUpdateCheckFinished(const ForceUpdateResult& res
             PopupMessageBox* messageBox = PopupMessageBox::create();
             messageBox->setTitle(_("Update recommended"));
             messageBox->setBody(_("You should update to the latest version of Azoomee. Ask a grown-up to help you."));
-            messageBox->setPatternColour(Style::Color::azure);
+            messageBox->setPatternColour(Colours::Color_3B::azure);
             
             messageBox->setButtonText(_("Update"));
-            messageBox->setButtonColour(Style::Color::strongPink);
+            messageBox->setButtonColour(Colours::Color_3B::strongPink);
             messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
                 pSender->removeFromParent();
                 Application::getInstance()->openURL(ForceUpdateSingleton::getInstance()->getUpdateUrlFromFile());
             });
             
             messageBox->setSecondButtonText(_("Back"));
-            messageBox->setSecondButtonColour(Style::Color::darkIndigo);
+            messageBox->setSecondButtonColour(Colours::Color_3B::darkIndigo);
             messageBox->setSecondButtonPressedCallback([this](MessagePopupBase* pSender){
                 pSender->removeFromParent();
             });

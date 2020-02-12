@@ -1,5 +1,6 @@
 #include "IAPProductDataHandler.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
+#include "Style.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/jni/JniHelper.h"
@@ -103,7 +104,7 @@ std::string IAPProductDataHandler::getHumanReadableProductPrice() const
 cocos2d::Label* IAPProductDataHandler::createOptionalSubscriptionLabel()
 {
     cocos2d::Label *optionalLabel = Label::createWithTTF("Then " + getHumanReadableProductPrice() + "/month. No commitment, cancel anytime.", Style::Font::Regular(), 40);
-    optionalLabel->setColor(Style::Color::brightAqua);
+    optionalLabel->setColor(Colours::Color_3B::brightAqua);
     optionalLabel->setAnchorPoint(Vec2(0.5,0.5));
     optionalLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     return optionalLabel;

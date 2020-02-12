@@ -6,11 +6,12 @@
 //
 
 #include "PurchaseCapsule.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include "AgeGate.h"
 #include "SceneManagerScene.h"
 #include "LoginController.h"
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -41,7 +42,7 @@ bool PurchaseCapsule::init()
     _purchaseLayout = ui::Layout::create();
     _purchaseLayout->setSizeType(SizeType::PERCENT);
     _purchaseLayout->setBackGroundColorType(BackGroundColorType::SOLID);
-    _purchaseLayout->setBackGroundColor(Style::Color::macaroniAndCheese);
+    _purchaseLayout->setBackGroundColor(Colours::Color_3B::macaroniAndCheese);
     _purchaseLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
     _purchaseLayout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
     _purchaseLayout->setTouchEnabled(true);
@@ -134,7 +135,7 @@ bool PurchaseCapsule::init()
     _clippingNode->addChild(_loginLayout);
     
     _loginText = DynamicText::create(_("Log In"), Style::Font::PoppinsBold(), 53);
-    _loginText->setTextColor(Color4B(Style::Color::macaroniAndCheese));
+    _loginText->setTextColor(Color4B(Colours::Color_3B::macaroniAndCheese));
     _loginText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _loginText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _loginText->setTextHorizontalAlignment(TextHAlignment::CENTER);

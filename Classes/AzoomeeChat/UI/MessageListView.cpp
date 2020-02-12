@@ -1,6 +1,6 @@
 #include "MessageListView.h"
 #include "MessageListViewItem.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 
@@ -23,7 +23,7 @@ bool MessageListView::init()
     }
     
     setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    setBackGroundColor(Style::Color::darkIndigoThree);
+    setBackGroundColor(Colours::Color_3B::darkIndigoThree);
     
 #ifdef AVATARS_IN_LISTVIEW
     // Setup foreground with the Oomee bar
@@ -95,7 +95,7 @@ bool MessageListView::init()
     addChild(_foreground);
 #endif
   
-    const Color3B& gradColour = Style::Color::darkIndigoThree;
+    const Color3B& gradColour = Colours::Color_3B::darkIndigoThree;
     _topGradient = LayerGradient::create(Color4B(gradColour), Color4B(gradColour.r, gradColour.g, gradColour.b, 0));
     _topGradient->setIgnoreAnchorPointForPosition(false);
     _topGradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);

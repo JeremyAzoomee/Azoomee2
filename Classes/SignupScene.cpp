@@ -6,7 +6,7 @@
 //
 
 #include "SignupScene.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include "ModalMessages.h"
@@ -25,6 +25,7 @@
 #include "PopupMessageBox.h"
 #include "LoginController.h"
 #include <AzoomeeCommon/Device.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -37,11 +38,11 @@ const std::string SignupScene::kEnterPinPageKey = "enterPin";
 const std::string SignupScene::kTermsPageKey = "terms";
 
 const std::map<std::string, cocos2d::Color3B> SignupScene::kPagePatternColours = {
-	{kEnterEmailPageKey, Style::Color::macaroniAndCheese},
-	{kConfirmEmailPageKey, Style::Color::macaroniAndCheese},
-	{kEnterPasswordPageKey, Style::Color::purplyPink},
-	{kEnterPinPageKey, Style::Color::greenishCyan},
-	{kTermsPageKey, Style::Color::azure}
+	{kEnterEmailPageKey, Colours::Color_3B::macaroniAndCheese},
+	{kConfirmEmailPageKey, Colours::Color_3B::macaroniAndCheese},
+	{kEnterPasswordPageKey, Colours::Color_3B::purplyPink},
+	{kEnterPinPageKey, Colours::Color_3B::greenishCyan},
+	{kTermsPageKey, Colours::Color_3B::azure}
 };
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -62,7 +63,7 @@ bool SignupScene::init()
 	const Size& contentSize = getContentSize();
 	const bool isPortrait = contentSize.width < contentSize.height;
 	
-	const Color3B& bgColour = Style::Color::darkIndigo;
+	const Color3B& bgColour = Colours::Color_3B::darkIndigo;
 	
 	_bgColour = ui::Layout::create();
 	_bgColour->setBackGroundColorType(ui::HBox::BackGroundColorType::SOLID);
@@ -76,19 +77,19 @@ bool SignupScene::init()
 	_bgPattern = Sprite::create("res/decoration/main_pattern_big.png");
 	_bgPattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_bgPattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	_bgPattern->setColor(Style::Color::macaroniAndCheese);
+	_bgPattern->setColor(Colours::Color_3B::macaroniAndCheese);
 	addChild(_bgPattern);
 	
 	_patternHider = DrawNode::create();
 	if(isPortrait)
 	{
 		Vec2 points[4] = {Vec2(0,0), Vec2(contentSize.width, 0), Vec2(contentSize.width, contentSize.height * 0.66f), Vec2(0,contentSize.height * 0.66f)};
-		_patternHider->drawSolidPoly(points, 4, Color4F(Style::Color::darkIndigo));
+		_patternHider->drawSolidPoly(points, 4, Color4F(Colours::Color_3B::darkIndigo));
 	}
 	else
 	{
 		Vec2 points[3] = {Vec2(contentSize.width, 0), Vec2(contentSize.width, contentSize.height), Vec2(0,contentSize.height)};
-		_patternHider->drawSolidPoly(points, 3, Color4F(Style::Color::darkIndigo));
+		_patternHider->drawSolidPoly(points, 3, Color4F(Colours::Color_3B::darkIndigo));
 	}
 	addChild(_patternHider);
 	
@@ -200,8 +201,8 @@ bool SignupScene::init()
 			messageBox->setTitle(_("Setup unsuccessful"));
 			messageBox->setBody(_("To continue using Azoomee, you must confirm that you are over 18, and that you agree to our Policies."));
 			messageBox->setButtonText(_("Back"));
-			messageBox->setButtonColour(Style::Color::darkIndigo);
-			messageBox->setPatternColour(Style::Color::azure);
+			messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
+			messageBox->setPatternColour(Colours::Color_3B::azure);
 			messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
 				pSender->removeFromParent();
 			});
@@ -237,19 +238,19 @@ void SignupScene::onSizeChanged()
 	if(isPortrait)
 	{
 		Vec2 points[4] = {Vec2(0,-1), Vec2(contentSize.width, -1), Vec2(contentSize.width, contentSize.height * 0.66f), Vec2(0,contentSize.height * 0.66f)};
-		_patternHider->drawSolidPoly(points, 4, Color4F(Style::Color::darkIndigo));
+		_patternHider->drawSolidPoly(points, 4, Color4F(Colours::Color_3B::darkIndigo));
 	}
 	else
 	{
 		if(_activePage->getName() == kTermsPageKey)
 		{
 			Vec2 points[4] = {Vec2(contentSize.width / 2,-1), Vec2(contentSize.width, -1), Vec2(contentSize.width, contentSize.height), Vec2(contentSize.width / 2,contentSize.height)};
-			_patternHider->drawSolidPoly(points, 4, Color4F(Style::Color::darkIndigo));
+			_patternHider->drawSolidPoly(points, 4, Color4F(Colours::Color_3B::darkIndigo));
 		}
 		else
 		{
 			Vec2 points[3] = {Vec2(contentSize.width, 0), Vec2(contentSize.width, contentSize.height), Vec2(0,contentSize.height)};
-			_patternHider->drawSolidPoly(points, 3, Color4F(Style::Color::darkIndigo));
+			_patternHider->drawSolidPoly(points, 3, Color4F(Colours::Color_3B::darkIndigo));
 		}
 	}
 	
@@ -352,7 +353,7 @@ void SignupScene::changeToPage(const std::string& pageKey)
 		{
 			_patternHider->clear();
 			Vec2 points[4] = {Vec2(contentSize.width / 2,-1), Vec2(contentSize.width, -1), Vec2(contentSize.width, contentSize.height), Vec2(contentSize.width / 2,contentSize.height)};
-			_patternHider->drawSolidPoly(points, 4, Color4F(Style::Color::darkIndigo));
+			_patternHider->drawSolidPoly(points, 4, Color4F(Colours::Color_3B::darkIndigo));
 		}
 	}
 	else
@@ -368,7 +369,7 @@ void SignupScene::changeToPage(const std::string& pageKey)
 		{
 			_patternHider->clear();
 			Vec2 points[3] = {Vec2(contentSize.width, 0), Vec2(contentSize.width, contentSize.height), Vec2(0,contentSize.height)};
-			_patternHider->drawSolidPoly(points, 3, Color4F(Style::Color::darkIndigo));
+			_patternHider->drawSolidPoly(points, 3, Color4F(Colours::Color_3B::darkIndigo));
 		}
 	}
 }
@@ -429,8 +430,8 @@ void SignupScene::onHttpRequestSuccess(const std::string& requestTag, const std:
 		messageBox->setTitle(_("Setup Complete"));
 		messageBox->setBody(_("Welcome to the Azoomee family! Your account is now active"));
 		messageBox->setButtonText(_("Let's go!"));
-		messageBox->setButtonColour(Style::Color::strongPink);
-		messageBox->setPatternColour(Style::Color::strongPink);
+		messageBox->setButtonColour(Colours::Color_3B::strongPink);
+		messageBox->setPatternColour(Colours::Color_3B::strongPink);
 		messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
 			pSender->removeFromParent();
             LoginController::getInstance()->login(_signupData._email, _signupData._password);
@@ -449,10 +450,10 @@ void SignupScene::onHttpRequestFailed(const std::string& requestTag, long errorC
         PopupMessageBox* messageBox = PopupMessageBox::create();
         messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
         messageBox->setBody(errorMessageText.at(ERROR_BODY));
-        messageBox->setPatternColour(Style::Color::azure);
+        messageBox->setPatternColour(Colours::Color_3B::azure);
         
         messageBox->setButtonText(_("Log in"));
-        messageBox->setButtonColour(Style::Color::strongPink);
+        messageBox->setButtonColour(Colours::Color_3B::strongPink);
         messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
             pSender->removeFromParent();
             LoginController::getInstance()->setLoginOrigin(LoginOrigin::SIGNUP);
@@ -460,7 +461,7 @@ void SignupScene::onHttpRequestFailed(const std::string& requestTag, long errorC
         });
         
         messageBox->setSecondButtonText(_("Back"));
-        messageBox->setSecondButtonColour(Style::Color::darkIndigo);
+        messageBox->setSecondButtonColour(Colours::Color_3B::darkIndigo);
         messageBox->setSecondButtonPressedCallback([this](MessagePopupBase* pSender){
             pSender->removeFromParent();
             this->changeToPage(kEnterEmailPageKey);
@@ -473,8 +474,8 @@ void SignupScene::onHttpRequestFailed(const std::string& requestTag, long errorC
         messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
         messageBox->setBody(errorMessageText.at(ERROR_BODY));
         messageBox->setButtonText(_("Back"));
-        messageBox->setButtonColour(Style::Color::darkIndigo);
-        messageBox->setPatternColour(Style::Color::azure);
+        messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
+        messageBox->setPatternColour(Colours::Color_3B::azure);
         messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
             pSender->removeFromParent();
         });

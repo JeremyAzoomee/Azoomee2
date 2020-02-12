@@ -7,7 +7,7 @@
 
 #include "SettingsHub.h"
 #include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
@@ -23,6 +23,7 @@
 #include "SettingsLanguagePage.h"
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Device.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -45,7 +46,7 @@ bool SettingsHub::init()
     _contentLayout = ui::Layout::create();
     _contentLayout->setContentSize(visibleSize);
     _contentLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _contentLayout->setBackGroundColor(Style::Color::greyBlue);
+    _contentLayout->setBackGroundColor(Colours::Color_3B::greyBlue);
     _contentLayout->setBackGroundColorOpacity(50);
     _contentLayout->setLayoutType(ui::Layout::Type::VERTICAL);
     this->addChild(_contentLayout);
@@ -55,7 +56,7 @@ bool SettingsHub::init()
     _titleLayout = ui::Layout::create();
     _titleLayout->setContentSize(Size(visibleSize.width, isIphoneX ? 250 : 150));
     _titleLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _titleLayout->setBackGroundColor(Style::Color::skyBlue);
+    _titleLayout->setBackGroundColor(Colours::Color_3B::skyBlue);
     _contentLayout->addChild(_titleLayout);
     
     _titleBarButton = ui::Button::create("res/settings/exit_button.png");

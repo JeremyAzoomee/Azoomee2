@@ -6,7 +6,7 @@
 #include <cocos/ui/CocosGUI.h>
 
 // Quite commonly used with Scene so included here for convenience
-#include "Style.h"
+#include "Colour.h"
 #include "LayoutParams.h"
 
 

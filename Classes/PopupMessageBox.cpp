@@ -8,7 +8,8 @@
 #include "PopupMessageBox.h"
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -143,7 +144,7 @@ void PopupMessageBox::createTitle()
 {
     _titleBox = ui::Layout::create();
     _titleBox->setBackGroundColorType(BackGroundColorType::SOLID);
-    _titleBox->setBackGroundColor(Style::Color::darkIndigo);
+    _titleBox->setBackGroundColor(Colours::Color_3B::darkIndigo);
     _titleBox->setClippingEnabled(true);
     _titleBox->setLayoutParameter(CreateTopLinearLayoutParam());
     _messageBoxLayout->addChild(_titleBox);
@@ -151,13 +152,13 @@ void PopupMessageBox::createTitle()
     _titlePattern = ui::ImageView::create("res/decoration/main_pattern_small.png");
     _titlePattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _titlePattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    _titlePattern->setColor(Style::Color::azure);
+    _titlePattern->setColor(Colours::Color_3B::azure);
     _titleBox->addChild(_titlePattern);
     
     _titleGradient = LayerGradient::create();
-    _titleGradient->setStartColor(Style::Color::darkIndigo);
+    _titleGradient->setStartColor(Colours::Color_3B::darkIndigo);
     _titleGradient->setStartOpacity(0);
-    _titleGradient->setEndColor(Style::Color::darkIndigo);
+    _titleGradient->setEndColor(Colours::Color_3B::darkIndigo);
     _titleGradient->setEndOpacity(90);
     _titleGradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _titleGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
@@ -186,7 +187,7 @@ void PopupMessageBox::createBody()
     _contentText = DynamicText::create("", Style::Font::PoppinsRegular(), 50);
     _contentText->setTextHorizontalAlignment(TextHAlignment::CENTER);
     _contentText->setTextVerticalAlignment(TextVAlignment::CENTER);
-    _contentText->setTextColor(Color4B(Style::Color::brownGrey));
+    _contentText->setTextColor(Color4B(Colours::Color_3B::brownGrey));
     _contentText->setOverflow(Label::Overflow::SHRINK);
     _contentText->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(cocos2d::ui::Margin(0, 0, 0, 0)));
     _contentBody->addChild(_contentText);
@@ -197,7 +198,7 @@ void PopupMessageBox::createBody()
     _actionButton->setScale9Enabled(true);
     _actionButton->ignoreContentAdaptWithSize(false);
     _actionButton->setContentSize(kButtonSize);
-    _actionButton->setColor(Style::Color::darkIndigo);
+    _actionButton->setColor(Colours::Color_3B::darkIndigo);
     _actionButton->setTextFontInfo(Style::Font::PoppinsBold(), 70);
     _actionButton->setTextColour(Color4B::WHITE);
     _actionButton->setTextAreaSizePercent(Vec2(0.8f,0.8f));
@@ -218,7 +219,7 @@ void PopupMessageBox::createBody()
     _secondActionButton->ignoreContentAdaptWithSize(false);
     _secondActionButton->setScale9Enabled(true);
     _secondActionButton->setContentSize(kButtonSize);
-    _secondActionButton->setColor(Style::Color::darkIndigo);
+    _secondActionButton->setColor(Colours::Color_3B::darkIndigo);
     _secondActionButton->setTextFontInfo(Style::Font::PoppinsBold(), 70);
     _secondActionButton->setTextColour(Color4B::WHITE);
     _secondActionButton->setTextAreaSizePercent(Vec2(0.8f,0.8f));

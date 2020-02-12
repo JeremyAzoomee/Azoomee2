@@ -6,13 +6,14 @@
 //
 
 #include "WelcomeScene.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "SceneManagerScene.h"
 #include "BackEndCaller.h"
 #include "LoginController.h"
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -31,7 +32,7 @@ bool WelcomeScene::init()
     _bgColour->setSizeType(ui::Layout::SizeType::PERCENT);
     _bgColour->setSizePercent(Vec2(1.0,1.0));
     _bgColour->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _bgColour->setBackGroundColor(Style::Color::darkIndigo);
+    _bgColour->setBackGroundColor(Colours::Color_3B::darkIndigo);
     addChild(_bgColour);
 	
     _contentTiles = Sprite::create("res/introAssets/welcome_tiles.png");
@@ -39,9 +40,9 @@ bool WelcomeScene::init()
     addChild(_contentTiles);
     
 	_bottomGradient = LayerGradient::create();
-    _bottomGradient->setStartColor(Style::Color::darkIndigo);
+    _bottomGradient->setStartColor(Colours::Color_3B::darkIndigo);
     _bottomGradient->setStartOpacity(255);
-    _bottomGradient->setEndColor(Style::Color::darkIndigo);
+    _bottomGradient->setEndColor(Colours::Color_3B::darkIndigo);
     _bottomGradient->setEndOpacity(0);
     _bottomGradient->setVector(Vec2(0,1));
     _bottomGradient->setIgnoreAnchorPointForPosition(false);
@@ -50,7 +51,7 @@ bool WelcomeScene::init()
     addChild(_bottomGradient);
 
     _fillColour = Sprite::create("res/decoration/white_1px.png");
-    _fillColour->setColor(Style::Color::darkIndigo);
+    _fillColour->setColor(Colours::Color_3B::darkIndigo);
     _fillColour->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _fillColour->setNormalizedPosition(Vec2(0.5f, -0.1f));
     addChild(_fillColour);
@@ -81,7 +82,7 @@ bool WelcomeScene::init()
     _button->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _button->ignoreContentAdaptWithSize(false);
     _button->setContentSize(Size(670,140));
-    _button->setColor(Style::Color::strongPink);
+    _button->setColor(Colours::Color_3B::strongPink);
     _button->setTextColour(Color4B::WHITE);
     _button->setTextFontInfo(Style::Font::PoppinsBold(), 67);
     _button->setText(_("introButton"));

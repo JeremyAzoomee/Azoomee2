@@ -7,7 +7,8 @@
 
 #include "SettingsMessageBoxNotification.h"
 #include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
+#include "Style.h"
 
 using namespace cocos2d;
 

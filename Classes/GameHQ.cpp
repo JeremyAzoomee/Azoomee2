@@ -7,12 +7,13 @@
 
 #include "GameHQ.h"
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include "RecentlyPlayedManager.h"
 #include "HQDataProvider.h"
 #include "GameDataManager.h"
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -29,7 +30,7 @@ bool GameHQ::init()
     createRecentlyPlayedTiles();
     createDropdowns();
     
-    const Color3B& gradColour = Style::Color::darkIndigo;
+    const Color3B& gradColour = Colours::Color_3B::darkIndigo;
     _topScrollGradient = LayerGradient::create(Color4B(gradColour), Color4B(gradColour.r, gradColour.g, gradColour.b, 0));
     _topScrollGradient->setIgnoreAnchorPointForPosition(false);
     _topScrollGradient->setContentSize(Size(_contentListView->getContentSize().width, 0));

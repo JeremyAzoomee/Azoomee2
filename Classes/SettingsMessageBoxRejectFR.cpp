@@ -7,7 +7,8 @@
 
 #include "SettingsMessageBoxRejectFR.h"
 #include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -29,7 +30,7 @@ void SettingsMessageBoxRejectFR::onEnter()
     
     _cancelButton = SettingsMessageBoxButton::create();
     _cancelButton->loadTextureNormal("res/settings/rounded_button.png");
-    _cancelButton->setColor(Style::Color::skyBlue);
+    _cancelButton->setColor(Colours::Color_3B::skyBlue);
     _cancelButton->setMessageBoxButtonType(SettingsMessageBoxButtonType::CANCEL);
     _cancelButton->setNormalizedPosition(Vec2(0.5,0.3));
     _cancelButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
@@ -43,7 +44,7 @@ void SettingsMessageBoxRejectFR::onEnter()
     
     _rejectButton = SettingsMessageBoxButton::create();
     _rejectButton->loadTextureNormal("res/settings/rounded_button.png");
-    _rejectButton->setColor(Style::Color::watermelon);
+    _rejectButton->setColor(Colours::Color_3B::watermelon);
     _rejectButton->setMessageBoxButtonType(SettingsMessageBoxButtonType::REJECT);
     _rejectButton->setNormalizedPosition(Vec2(0.5,0.12));
     _rejectButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);

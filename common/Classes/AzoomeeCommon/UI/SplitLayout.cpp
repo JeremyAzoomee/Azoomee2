@@ -1,5 +1,5 @@
 #include "SplitLayout.h"
-#include "Style.h"
+#include "Colour.h"
 
 
 using namespace cocos2d;

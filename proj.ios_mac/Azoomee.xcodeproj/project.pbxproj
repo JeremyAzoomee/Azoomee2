@@ -220,6 +220,11 @@
 		E21E65D92361F174000BC90F /* AddFriendTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21E65D82361F174000BC90F /* AddFriendTile.cpp */; };
 		E220CC1923548EE000F646CA /* ArtContentTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E220CC1823548EE000F646CA /* ArtContentTile.cpp */; };
 		E220FF092366F2E60086779A /* RecentMessageBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E220FF082366F2E60086779A /* RecentMessageBar.cpp */; };
+		E2264F3023F1699D00392D89 /* Style.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2264F2E23F1699D00392D89 /* Style.cpp */; };
+		E2264F3623F179AA00392D89 /* TutorialSpeechBubble.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23058BC23E9D4670057CFE7 /* TutorialSpeechBubble.cpp */; };
+		E2264F3A23F179AD00392D89 /* TutorialMessagingNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23058BE23E9D4670057CFE7 /* TutorialMessagingNode.cpp */; };
+		E2264F3B23F179B100392D89 /* TutorialGuide.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23058BA23E9D4670057CFE7 /* TutorialGuide.cpp */; };
+		E2264F3C23F179B500392D89 /* TutorialController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23058B723E9D4670057CFE7 /* TutorialController.cpp */; };
 		E228BF4223EDAA8400D9E57D /* ConfirmCancelMessageBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E228BF4023EDAA8400D9E57D /* ConfirmCancelMessageBox.cpp */; };
 		E228BF4B23EDBF8400D9E57D /* ModalMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E228BF4923EDBF8300D9E57D /* ModalMessages.cpp */; };
 		E229F67423351999005BA0D4 /* EpisodeSelector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E229F67323351999005BA0D4 /* EpisodeSelector.cpp */; };
@@ -747,6 +752,8 @@
 		E220CC1823548EE000F646CA /* ArtContentTile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ArtContentTile.cpp; sourceTree = "<group>"; };
 		E220FF032366EBEE0086779A /* RecentMessageBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecentMessageBar.h; sourceTree = "<group>"; };
 		E220FF082366F2E60086779A /* RecentMessageBar.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RecentMessageBar.cpp; sourceTree = "<group>"; };
+		E2264F2A23F1688B00392D89 /* Style.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Style.h; sourceTree = "<group>"; };
+		E2264F2E23F1699D00392D89 /* Style.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Style.cpp; sourceTree = "<group>"; };
 		E228BF4023EDAA8400D9E57D /* ConfirmCancelMessageBox.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ConfirmCancelMessageBox.cpp; sourceTree = "<group>"; };
 		E228BF4123EDAA8400D9E57D /* ConfirmCancelMessageBox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfirmCancelMessageBox.h; sourceTree = "<group>"; };
 		E228BF4923EDBF8300D9E57D /* ModalMessages.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModalMessages.cpp; sourceTree = "<group>"; };
@@ -1168,6 +1175,8 @@
 		4323120D1E1D4DC500C8606D /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				E2264F2A23F1688B00392D89 /* Style.h */,
+				E2264F2E23F1699D00392D89 /* Style.cpp */,
 				E23058C623EAF7830057CFE7 /* ErrorCodes.h */,
 				E23058B323E9C1F70057CFE7 /* Urls.h */,
 				E23058C123E9DDCE0057CFE7 /* ActionBuilder.h */,
@@ -2129,6 +2138,7 @@
 				921A267D216FA0A4005C8C41 /* VodacomOnboardingAddChildLayer.cpp in Sources */,
 				921A2671216F9F85005C8C41 /* VodacomOnboardingVoucherLayer.cpp in Sources */,
 				02A11FF71EA6375D007EDD95 /* GooglePaymentSingleton.cpp in Sources */,
+				E2264F3B23F179B100392D89 /* TutorialGuide.cpp in Sources */,
 				925B24A12209D9480000D7D2 /* AwesomeLayer.cpp in Sources */,
 				E244546D235099C1005E5E6C /* OomeeStoreButton.cpp in Sources */,
 				E231C1DD238C3BF000B41129 /* ChildOnboardingScene.cpp in Sources */,
@@ -2141,6 +2151,7 @@
 				A15B2F991DE74F6400D25334 /* WebViewSelector.cpp in Sources */,
 				E23058B023E9BCAC0057CFE7 /* RewardManager.cpp in Sources */,
 				4306ABA31EAE2C3E001E586A /* PaymentViewController_ios.mm in Sources */,
+				E2264F3623F179AA00392D89 /* TutorialSpeechBubble.cpp in Sources */,
 				9229EE4322D75A6A009732B0 /* ProductLayout.cpp in Sources */,
 				E24454702350D8E5005E5E6C /* ArtStudioButton.cpp in Sources */,
 				921A26BF217E1653005C8C41 /* VodacomMessageBoxInfo.cpp in Sources */,
@@ -2175,6 +2186,7 @@
 				E21E658523605186000BC90F /* FriendListScene.cpp in Sources */,
 				E220CC1923548EE000F646CA /* ArtContentTile.cpp in Sources */,
 				E22B85FD238596D800F2F7F4 /* OfflineScene.cpp in Sources */,
+				E2264F3C23F179B500392D89 /* TutorialController.cpp in Sources */,
 				924E845221412D70004590FD /* SettingsKidsPage.cpp in Sources */,
 				E228BF4B23EDBF8400D9E57D /* ModalMessages.cpp in Sources */,
 				E21E658123605186000BC90F /* MessageComposer.cpp in Sources */,
@@ -2205,7 +2217,9 @@
 				0243B8DB1F1F5D5C005D3734 /* ChatNotificationsSingleton.cpp in Sources */,
 				E21E658423605186000BC90F /* StickerSelector.cpp in Sources */,
 				921A266B216F7307005C8C41 /* VodacomOnboardingScene.cpp in Sources */,
+				E2264F3023F1699D00392D89 /* Style.cpp in Sources */,
 				E21E659223605186000BC90F /* StickerCache.cpp in Sources */,
+				E2264F3A23F179AD00392D89 /* TutorialMessagingNode.cpp in Sources */,
 				9240334122D4CCE2009907F3 /* IAPScene.cpp in Sources */,
 				920F6FE52140472A00B7BB76 /* SettingsMessageBox.cpp in Sources */,
 				437395811ED3441F00C29DB1 /* FlowDataSingleton.cpp in Sources */,

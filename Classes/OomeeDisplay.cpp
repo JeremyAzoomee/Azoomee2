@@ -6,10 +6,11 @@
 //
 
 #include "OomeeDisplay.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include "SceneManagerScene.h"
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -29,7 +30,7 @@ bool OomeeDisplay::init()
     setSizePercent(Vec2(1.0f, 1.0f));
     setClippingEnabled(true);
     
-    const Color3B& bgColour = Style::Color::darkIndigoThree;
+    const Color3B& bgColour = Colours::Color_3B::darkIndigoThree;
     
     _background = RoundedRectSprite::create();
     _background->setTexture("res/decoration/white_1px.png");

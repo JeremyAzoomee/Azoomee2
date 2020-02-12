@@ -7,7 +7,7 @@
 #ifdef AZOOMEE_VODACOM_BUILD
 #include "VodacomOnboardingAddChildLayer.h"
 #include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/API/API.h>
 #include "ModalMessages.h"
@@ -77,7 +77,7 @@ void VodacomOnboardingAddChildLayer::onEnter()
 	_nameInput->setText(_flowData->getChildName());
 	
 	Label* nameError = Label::createWithTTF(_("*Invalid name"), Style::Font::Regular(), 53);
-	nameError->setTextColor(Color4B(Style::Color::watermelon));
+	nameError->setTextColor(Color4B(Colours::Color_3B::watermelon));
 	nameError->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
 	nameError->setNormalizedPosition(Vec2(0.1f,-0.1));
 	nameError->setName("error");
@@ -103,7 +103,7 @@ void VodacomOnboardingAddChildLayer::onEnter()
 	_verticalLayout->addChild(ageInputTitleHolder);
 	
 	Label* detailsLink = Label::createWithTTF(_("Why do we need this?"), Style::Font::Regular(), 64);
-	detailsLink->setTextColor(Color4B(Style::Color::skyBlue));
+	detailsLink->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	float textWidth = detailsLink->getContentSize().width;
 	if(textWidth > contentSize.width * 0.65f)
 	{
@@ -114,7 +114,7 @@ void VodacomOnboardingAddChildLayer::onEnter()
 	detailsLink->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	
 	DrawNode* underline = DrawNode::create();
-	underline->drawRect(Vec2(0, -7), Vec2(detailsLink->getContentSize().width, -6), Color4F(Style::Color::skyBlue));
+	underline->drawRect(Vec2(0, -7), Vec2(detailsLink->getContentSize().width, -6), Color4F(Colours::Color_3B::skyBlue));
 	detailsLink->addChild(underline);
 	
 	ui::Layout* detailsLinkHolder = ui::Layout::create();
@@ -139,7 +139,7 @@ void VodacomOnboardingAddChildLayer::onEnter()
 	_ageInput->setText(_flowData->getChildAge());
 	
 	Label* ageError = Label::createWithTTF(_("*Invalid age"), Style::Font::Regular(), 53);
-	ageError->setTextColor(Color4B(Style::Color::watermelon));
+	ageError->setTextColor(Color4B(Colours::Color_3B::watermelon));
 	ageError->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
 	ageError->setNormalizedPosition(Vec2(0.1f,-0.1));
 	ageError->setName("error");
@@ -175,16 +175,16 @@ void VodacomOnboardingAddChildLayer::onEnter()
 	_verticalLayout->addChild(progressIcon);
 	
 	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular(), 64);
-	needHelp->setTextColor(Color4B(Style::Color::skyBlue));
+	needHelp->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	needHelp->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	needHelp->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
 	Label* contactUs = Label::createWithTTF(_("Contact us"), Style::Font::Regular(), 64);
-	contactUs->setTextColor(Color4B(Style::Color::skyBlue));
+	contactUs->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	contactUs->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
 	contactUs->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
 	
 	DrawNode* underline2 = DrawNode::create();
-	underline2->drawRect(Vec2(0, -7), Vec2(contactUs->getContentSize().width, -6), Color4F(Style::Color::skyBlue));
+	underline2->drawRect(Vec2(0, -7), Vec2(contactUs->getContentSize().width, -6), Color4F(Colours::Color_3B::skyBlue));
 	contactUs->addChild(underline2);
 	
 	ui::Layout* contactUsHolder = ui::Layout::create();

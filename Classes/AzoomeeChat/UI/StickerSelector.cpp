@@ -1,5 +1,5 @@
 #include "StickerSelector.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "../Data/StickerCache.h"
@@ -27,7 +27,7 @@ bool StickerSelector::init()
     
     ui::Layout* firstLayout = _splitLayout->firstLayout();
     firstLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    firstLayout->setBackGroundColor(Style::Color::darkIndigoThree);
+    firstLayout->setBackGroundColor(Colours::Color_3B::darkIndigoThree);
     firstLayout->setLayoutType(ui::Layout::Type::RELATIVE);
     
     _stickerListView = StickerListView::create();
@@ -45,7 +45,7 @@ bool StickerSelector::init()
     
     ui::Layout* secondLayout = _splitLayout->secondLayout();
     secondLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    secondLayout->setBackGroundColor(Style::Color::darkIndigoTwo);
+    secondLayout->setBackGroundColor(Colours::Color_3B::darkIndigoTwo);
     
     _categoryListView = StickerCategoryListView::create();
     _categoryListView->setSizeType(ui::Widget::SizeType::PERCENT);

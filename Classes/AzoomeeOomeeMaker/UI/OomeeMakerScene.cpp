@@ -14,10 +14,11 @@
 #include "DragAndDropController.h"
 #include "OomeeSelectScene.h"
 #include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include "../../ModalMessages.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include "../../Style.h"
 
 using namespace cocos2d;
 
@@ -54,9 +55,9 @@ void OomeeMakerScene::addBGLayer()
     
     const Size& contentSize = _contentLayer->getContentSize();
     
-    LayerColor* base = LayerColor::create(Color4B(Style::Color::white));
+    LayerColor* base = LayerColor::create(Color4B(Colours::Color_3B::white));
     _contentLayer->addChild(base);
-    LayerColor* bg = LayerColor::create(Color4B(Style::Color::greyBlue));
+    LayerColor* bg = LayerColor::create(Color4B(Colours::Color_3B::greyBlue));
     bg->setOpacity(50);
     _contentLayer->addChild(bg);
     
@@ -80,7 +81,7 @@ void OomeeMakerScene::addBGLayer()
     bgCircle1->setScale(0);
     bgCircle1->setOpacity(25);
     bgCircle1->setRotation(RandomHelper::random_real(0.0,M_PI));
-    bgCircle1->setColor(Style::Color::darkTeal);
+    bgCircle1->setColor(Colours::Color_3B::darkTeal);
     _contentLayer->addChild(bgCircle1);
     
     auto popIn1 = EaseBackOut::create(ScaleTo::create(0.5, ((contentSize.width * 0.35) / bgCircle1->getContentSize().height)));
@@ -95,7 +96,7 @@ void OomeeMakerScene::addBGLayer()
     bgCircle2->setScale(0);
     bgCircle2->setOpacity(25);
     bgCircle2->setRotation(RandomHelper::random_real(0.0,M_PI));
-    bgCircle2->setColor(Style::Color::darkTeal);
+    bgCircle2->setColor(Colours::Color_3B::darkTeal);
     _contentLayer->addChild(bgCircle2);
     
     auto popIn2 = EaseBackOut::create(ScaleTo::create(0.5, ((contentSize.width * 0.45) / bgCircle2->getContentSize().height)));
@@ -433,11 +434,11 @@ void OomeeMakerScene::displayMadeAvatarNotification()
     Texture2D* particleTex = Director::getInstance()->getTextureCache()->addImage("res/oomeeMaker/confetti_particle.png");
     
     std::vector<Color4F> colours = {
-        Style::Color_4F::green,
-        Style::Color_4F::yellow,
-        Style::Color_4F::red,
-        Style::Color_4F::purple,
-        Style::Color_4F::blue
+        Colours::Color_4F::green,
+        Colours::Color_4F::yellow,
+        Colours::Color_4F::red,
+        Colours::Color_4F::purple,
+        Colours::Color_4F::blue
     };
     
     for(auto colour : colours)

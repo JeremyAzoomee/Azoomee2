@@ -7,7 +7,8 @@
 
 #include "ProgressBar.h"
 #include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -51,7 +52,7 @@ void ProgressBar::setNumberOfSteps(int steps)
 		progressIcon->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 		progressIcon->setRotation(i == steps - 1 ? 180 : 0);
 		progressIcon->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(3,0,3,0)));
-		progressIcon->setColor(Style::Color::strongPink);
+		progressIcon->setColor(Colours::Color_3B::strongPink);
 		progressIcon->setOpacity(100);
 		this->addChild(progressIcon);
 		_progressIcons.pushBack(progressIcon);

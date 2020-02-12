@@ -6,7 +6,8 @@
 //
 
 #include "SettingsNavigationButton.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -48,7 +49,7 @@ void SettingsNavigationButton::onEnter()
     _titleText = Label::createWithTTF(_titleTextString, Style::Font::Medium(), 91);
     _titleText->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     _titleText->setPosition(Vec2(0,(_textLayout->getContentSize().height * 0.5f) + 20));
-    _titleText->setTextColor(Color4B(Style::Color::skyBlue));
+    _titleText->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	_titleText->setVerticalAlignment(TextVAlignment::BOTTOM);
 	_titleText->setHorizontalAlignment(TextHAlignment::LEFT);
 	_titleText->setOverflow(Label::Overflow::SHRINK);
@@ -58,7 +59,7 @@ void SettingsNavigationButton::onEnter()
     _subTitleText = Label::createWithTTF(_subTitleTextString, Style::Font::Medium(), 49);
     _subTitleText->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
     _subTitleText->setPosition(Vec2(0,_textLayout->getContentSize().height * 0.5f));
-    _subTitleText->setTextColor(Color4B(Style::Color::battleshipGrey));
+    _subTitleText->setTextColor(Color4B(Colours::Color_3B::battleshipGrey));
 	_subTitleText->setLineSpacing(20.0f);
 	_subTitleText->setVerticalAlignment(TextVAlignment::TOP);
 	_subTitleText->setHorizontalAlignment(TextHAlignment::LEFT);

@@ -6,8 +6,9 @@
 //
 
 #include "AddFriendTile.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -37,7 +38,7 @@ bool AddFriendTile::init()
     _contentClipper->setAlphaThreshold(0.5f);
     addChild(_contentClipper);
     
-    const Color3B& bgColour = Style::Color::darkIndigoThree;
+    const Color3B& bgColour = Colours::Color_3B::darkIndigoThree;
     
     _bgColour = ui::ImageView::create("res/hqscene/circle.png");
     _bgColour->ignoreContentAdaptWithSize(false);

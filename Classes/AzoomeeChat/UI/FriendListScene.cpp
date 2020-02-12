@@ -1,6 +1,6 @@
 #include "FriendListScene.h"
 #include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include "../../ModalMessages.h"
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
@@ -10,6 +10,7 @@
 #include <AzoomeeCommon/Device.h>
 #include "MessageScene.h"
 #include "../../PopupMessageBox.h"
+#include "../../Style.h"
 
 using namespace cocos2d;
 
@@ -47,7 +48,7 @@ bool FriendListScene::init()
     }
     
     _rootLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _rootLayout->setBackGroundColor(Style::Color::black);
+    _rootLayout->setBackGroundColor(Colours::Color_3B::black);
     _rootLayout->setLayoutType(ui::Layout::Type::RELATIVE);
     addChild(_rootLayout);
     
@@ -169,7 +170,7 @@ void FriendListScene::createContentUI(cocos2d::ui::Layout* parent)
     _subTitleBar = ui::Layout::create();
     _subTitleBar->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _subTitleBar->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _subTitleBar->setBackGroundColor(Style::Color::dark);
+    _subTitleBar->setBackGroundColor(Colours::Color_3B::dark);
     
     parent->addChild(_subTitleBar);
     createSubTitleBarUI(_subTitleBar);
@@ -191,7 +192,7 @@ void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
     childDataLayout->setLayoutType(cocos2d::ui::Layout::Type::HORIZONTAL);
     childDataLayout->setLayoutParameter(CreateCenterRelativeLayoutParam());
     childDataLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    childDataLayout->setBackGroundColor(Style::Color::dark);
+    childDataLayout->setBackGroundColor(Colours::Color_3B::dark);
     
     std::string oomeeFileName;
     std::string displayName;
@@ -225,7 +226,7 @@ void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
     //childAvatar->setScale(0.25f);
     
     auto childInfoLabel = ui::Text::create(displayName, Azoomee::Style::Font::Regular(), 48);
-    childInfoLabel->setColor(Style::Color::white);
+    childInfoLabel->setColor(Colours::Color_3B::white);
     childInfoLabel->setLayoutParameter(CreateCenterVerticalLinearLayoutParam());
     childInfoLabel->setSizeType(ui::Widget::SizeType::ABSOLUTE);
     
@@ -241,7 +242,7 @@ void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
     _subTitleBarBorder->setLayoutParameter(CreateBottomCenterRelativeLayoutParam());
     _subTitleBarBorder->setSizeType(ui::Widget::SizeType::ABSOLUTE);
     _subTitleBarBorder->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _subTitleBarBorder->setBackGroundColor(Style::Color::greenishTeal);
+    _subTitleBarBorder->setBackGroundColor(Colours::Color_3B::greenishTeal);
     parent->addChild(_subTitleBarBorder);
 }
 
@@ -294,8 +295,8 @@ void FriendListScene::onChatAPIErrorRecieved(const std::string& requestTag, long
     messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
     messageBox->setBody(errorMessageText.at(ERROR_BODY));
     messageBox->setButtonText(_("Back"));
-    messageBox->setButtonColour(Style::Color::darkIndigo);
-    messageBox->setPatternColour(Style::Color::azure);
+    messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
+    messageBox->setPatternColour(Colours::Color_3B::azure);
     messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
         pSender->removeFromParent();
     });

@@ -7,7 +7,7 @@
 
 #include "SettingsOnlineSafetyPage.h"
 #include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include "OnlineSafetySlide.h"
 

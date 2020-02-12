@@ -1,6 +1,6 @@
 #include "StickerListView.h"
 #include "StickerListViewColumn.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 
 
 using namespace cocos2d;
@@ -17,7 +17,7 @@ bool StickerListView::init()
     }
     
     setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    setBackGroundColor(Style::Color::darkIndigoThree);
+    setBackGroundColor(Colours::Color_3B::darkIndigoThree);
     
     setDirection(ui::ScrollView::Direction::HORIZONTAL);
     setBounceEnabled(true);

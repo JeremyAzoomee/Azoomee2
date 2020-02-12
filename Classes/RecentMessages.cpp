@@ -7,8 +7,9 @@
 
 #include "RecentMessages.h"
 #include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -37,7 +38,7 @@ bool RecentMessages::init()
     _background->setCornerRadius(20);
     _background->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _background->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _background->setColor(Style::Color::darkIndigoThree);
+    _background->setColor(Colours::Color_3B::darkIndigoThree);
     _background->setStretchImageEnabled(true);
     addChild(_background, -1);
     
@@ -64,9 +65,9 @@ bool RecentMessages::init()
     _headerLayout->addChild(_bannerGradient);
     
     _bannerShadow = LayerGradient::create();
-    _bannerShadow->setStartColor(Style::Color::darkIndigoThree);
+    _bannerShadow->setStartColor(Colours::Color_3B::darkIndigoThree);
     _bannerShadow->setStartOpacity(0);
-    _bannerShadow->setEndColor(Style::Color::darkIndigoThree);
+    _bannerShadow->setEndColor(Colours::Color_3B::darkIndigoThree);
     _bannerShadow->setEndOpacity(255);
     _bannerShadow->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     _bannerShadow->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_LEFT);
@@ -84,7 +85,7 @@ bool RecentMessages::init()
     _divider->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _divider->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _divider->setBackGroundColorType(BackGroundColorType::SOLID);
-    _divider->setBackGroundColor(Style::Color::macaroniAndCheese);
+    _divider->setBackGroundColor(Colours::Color_3B::macaroniAndCheese);
     _headerLayout->addChild(_divider);
     
     _messageListView = ui::ListView::create();
@@ -104,7 +105,7 @@ bool RecentMessages::init()
     _bottomGradient->setRoundedCorners(true, true, false, false);
     _bottomGradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _bottomGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-    _bottomGradient->setColor(Style::Color::darkIndigoThree);
+    _bottomGradient->setColor(Colours::Color_3B::darkIndigoThree);
     addChild(_bottomGradient);
     
     return true;
@@ -175,7 +176,7 @@ void RecentMessages::setupMessageBars()
     _messageBars.clear();
     if(_messageData.size() > 0)
     {
-        std::vector<Color3B> colours = {Style::Color::darkIndigo, Style::Color::darkIndigoTwo};
+        std::vector<Color3B> colours = {Colours::Color_3B::darkIndigo, Colours::Color_3B::darkIndigoTwo};
         int i = 0;
         const Size& messageBarSize = Size(getContentSize().width - (2 * kListViewPadding), _messageBarHeight);
         for(auto message : _messageData)

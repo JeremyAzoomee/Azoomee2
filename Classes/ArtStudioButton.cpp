@@ -7,7 +7,7 @@
 
 #include "ArtStudioButton.h"
 #include "SceneManagerScene.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include "HQConstants.h"
 
 using namespace cocos2d;
@@ -29,7 +29,7 @@ bool ArtStudioButton::init()
     _frame = RoundedRectSprite::create();
     _frame->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _frame->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-    _frame->setColor(Style::Color::purplyPink);
+    _frame->setColor(Colours::Color_3B::purplyPink);
     _frame->setTexture("res/decoration/white_1px.png");
     _frame->setCornerRadius(HQConsts::OomeeHQTileCornerRadius);
     addChild(_frame);

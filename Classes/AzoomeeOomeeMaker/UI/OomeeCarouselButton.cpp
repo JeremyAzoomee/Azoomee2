@@ -9,7 +9,7 @@
 #include "SimpleAudioEngine.h"
 #include "../DataObjects/OomeeMakerDataHandler.h"
 #include "OomeeSelectScene.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 
 using namespace cocos2d;
 
@@ -65,8 +65,8 @@ bool OomeeCarouselButton::init()
 	_innerCircle->setNormalizedPosition(Vec2(0.5, ((_outerCircle->getContentSize().height * targetScale) / 2.5) / this->getContentSize().height));
 	_outerCircle->setNormalizedPosition(Vec2(0.5, ((_outerCircle->getContentSize().height * targetScale) / 2.5) / this->getContentSize().height));
 	
-	_outerCircle->setColor(Style::Color::darkTeal);
-	_innerCircle->setColor(Style::Color::darkTeal);
+	_outerCircle->setColor(Colours::Color_3B::darkTeal);
+	_innerCircle->setColor(Colours::Color_3B::darkTeal);
 	
 	_tutInnerCircle = Sprite::create("res/oomeeMaker/inner_circle_tut.png");
 	_tutInnerCircle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -84,7 +84,7 @@ bool OomeeCarouselButton::init()
 	_tutOuterCircle->setNormalizedPosition(_outerCircle->getNormalizedPosition());
 	this->addChild(_tutOuterCircle, -1);
 	
-	_mainCircleColour = LayerGradient::create(Color4B(Style::Color::darkTeal), Color4B(Style::Color::greenishTeal), Vec2(-1,1));
+	_mainCircleColour = LayerGradient::create(Color4B(Colours::Color_3B::darkTeal), Color4B(Colours::Color_3B::greenishTeal), Vec2(-1,1));
 	BlendFunc blendFunc1 = BlendFunc();
 	blendFunc1.src = GL_ONE_MINUS_DST_ALPHA;
 	blendFunc1.dst = GL_DST_ALPHA;
@@ -94,7 +94,7 @@ bool OomeeCarouselButton::init()
 	_mainCircleColour->setPosition(this->getContentSize() * -0.15f);
 	this->addChild(_mainCircleColour,-1);
 	
-	_highlightCircleColour = LayerGradient::create(Color4B(Style::Color::greenishTeal), Color4B(Style::Color::greenishTeal), Vec2(-1,1));
+	_highlightCircleColour = LayerGradient::create(Color4B(Colours::Color_3B::greenishTeal), Color4B(Colours::Color_3B::greenishTeal), Vec2(-1,1));
 	_highlightCircleColour->setBlendFunc(blendFunc1);
 	_highlightCircleColour->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_highlightCircleColour->setPosition(this->getContentSize() * -0.15f);

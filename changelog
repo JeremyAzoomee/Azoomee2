@@ -1,3 +1,7 @@
+Version 4.10.2
+fix for turkish chars on reward screen
+updated games bundle
+
 Version 4.10.1
 Update ios webview to use WKWebView
 fix squashed title bar bug on HQs

@@ -6,7 +6,8 @@
 //
 
 #include "SettingsPageHeader.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -20,7 +21,7 @@ bool SettingsPageHeader::init()
     }
     
     setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    setBackGroundColor(Style::Color::carolinaBlue);
+    setBackGroundColor(Colours::Color_3B::carolinaBlue);
     
     return true;
 }
@@ -32,7 +33,7 @@ void SettingsPageHeader::onEnter()
     _text->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _text->setHorizontalAlignment(TextHAlignment::CENTER);
 	_text->setVerticalAlignment(TextVAlignment::CENTER);
-    _text->setTextColor(Color4B(Style::Color::white));
+    _text->setTextColor(Color4B(Colours::Color_3B::white));
 	_text->setOverflow(Label::Overflow::SHRINK);
     _text->setDimensions(this->getContentSize().width * 0.8f, this->getContentSize().height * 0.7f);
 	_text->setLineSpacing(20);

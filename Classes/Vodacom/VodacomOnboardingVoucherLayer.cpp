@@ -7,7 +7,7 @@
 #ifdef AZOOMEE_VODACOM_BUILD
 #include "VodacomOnboardingVoucherLayer.h"
 #include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
@@ -114,7 +114,7 @@ void VodacomOnboardingVoucherLayer::onEnter()
 	_voucherInput->setText(_flowData->getVoucherCode());
 	
 	Label* voucherError = Label::createWithTTF(_("*Invalid Voucher"), Style::Font::Regular(), 53);
-	voucherError->setTextColor(Color4B(Style::Color::watermelon));
+	voucherError->setTextColor(Color4B(Colours::Color_3B::watermelon));
 	voucherError->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
 	voucherError->setNormalizedPosition(Vec2(0.1f,-0.1));
 	voucherError->setName("error");
@@ -157,16 +157,16 @@ void VodacomOnboardingVoucherLayer::onEnter()
 	}
 	
 	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular(), 64);
-	needHelp->setTextColor(Color4B(Style::Color::skyBlue));
+	needHelp->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	needHelp->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	needHelp->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
 	Label* contactUs = Label::createWithTTF(_("Contact us"), Style::Font::Regular(), 64);
-	contactUs->setTextColor(Color4B(Style::Color::skyBlue));
+	contactUs->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	contactUs->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
 	contactUs->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
 	
 	DrawNode* underline = DrawNode::create();
-	underline->drawRect(Vec2(0, -7), Vec2(contactUs->getContentSize().width, -6), Color4F(Style::Color::skyBlue));
+	underline->drawRect(Vec2(0, -7), Vec2(contactUs->getContentSize().width, -6), Color4F(Colours::Color_3B::skyBlue));
 	contactUs->addChild(underline);
 	
 	ui::Layout* contactUsHolder = ui::Layout::create();

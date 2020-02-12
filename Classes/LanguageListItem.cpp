@@ -6,7 +6,8 @@
 //
 
 #include "LanguageListItem.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -37,7 +38,7 @@ void LanguageListItem::onEnter()
 	this->addChild(_flag);
 	
 	_languageText = Label::createWithSystemFont(_language, Style::Font::Medium(), 91);
-	_languageText->setTextColor(Color4B(Style::Color::battleshipGrey));
+	_languageText->setTextColor(Color4B(Colours::Color_3B::battleshipGrey));
 	_languageText->setPosition(Vec2(_flag->getContentSize().width * 2.0f, contentSize.height / 2.0f));
 	_languageText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
 	this->addChild(_languageText);

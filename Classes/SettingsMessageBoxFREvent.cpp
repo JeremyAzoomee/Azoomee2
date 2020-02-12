@@ -7,7 +7,8 @@
 
 #include "SettingsMessageBoxFREvent.h"
 #include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -64,7 +65,7 @@ void SettingsMessageBoxFREvent::onEnter()
     _sendButton = SettingsMessageBoxButton::create();
     _sendButton->setMessageBoxButtonType(SettingsMessageBoxButtonType::SEND);
     _sendButton->loadTextureNormal("res/settings/settings_rounded.png");
-    _sendButton->setColor(Style::Color::skyBlue);
+    _sendButton->setColor(Colours::Color_3B::skyBlue);
     _sendButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _sendButton->setPosition(Vec2(messageBoxSize.width * 0.5f, messageBoxSize.height * 0.18f));
     _sendButton->addTouchEventListener(CC_CALLBACK_2(SettingsMessageBox::onButtonPressed, this));

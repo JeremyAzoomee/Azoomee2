@@ -3,7 +3,8 @@
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Device.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -100,7 +101,7 @@ void TextInputLayer::createEditBox()
     editBox->setPosition(Vec2(contentSize.width/2, contentSize.height/2));
     editBox->setFont(Style::Font::Regular().c_str(), 70);
     editBox->setFontColor(Color3B::BLACK);
-    editBox->setPlaceholderFontColor(Style::Color::telish);
+    editBox->setPlaceholderFontColor(Colours::Color_3B::telish);
     editBox->setPlaceholderFont(Style::Font::Regular().c_str(), 70);
     editBox->setTextHorizontalAlignment(TextHAlignment::CENTER);
    
@@ -124,7 +125,7 @@ void TextInputLayer::createSettingsBoxEditBox(float width)
     editBoxArea = ui::Scale9Sprite::create("res/settings/rounded_rect_frame.png");
     editBoxArea->setContentSize(Size(width,160));
     editBoxArea->setPosition(Vec2(contentSize.width/2, contentSize.height/2));
-    editBoxArea->setColor(Style::Color::carolinaBlue);
+    editBoxArea->setColor(Colours::Color_3B::carolinaBlue);
     this->addChild(editBoxArea);
     
     editBox = ui::EditBox::create(Size(contentSize.width - 40,contentSize.height), "res/settings/rounded_rect.png");
@@ -134,7 +135,7 @@ void TextInputLayer::createSettingsBoxEditBox(float width)
     editBox->setPosition(Vec2(contentSize.width/2, contentSize.height/2));
     editBox->setFont(Style::Font::Regular().c_str(), 59);
     editBox->setFontColor(Color3B::BLACK);
-    editBox->setPlaceholderFontColor(Style::Color::battleshipGrey);
+    editBox->setPlaceholderFontColor(Colours::Color_3B::battleshipGrey);
     editBox->setPlaceholderFont(Style::Font::Regular().c_str(), 59);
     
     editBox->setTextHorizontalAlignment(TextHAlignment::CENTER);
@@ -168,7 +169,7 @@ void TextInputLayer::createSettingRoundedEditBox(float width)
     editBox->setPosition(Vec2(contentSize.width/2, contentSize.height/2));
     editBox->setFont(Style::Font::Regular().c_str(), 63);
     editBox->setFontColor(Color3B::BLACK);
-    editBox->setPlaceholderFontColor(Style::Color::battleshipGrey);
+    editBox->setPlaceholderFontColor(Colours::Color_3B::battleshipGrey);
     editBox->setPlaceholderFont(Style::Font::Regular().c_str(), 63);
     
     editBox->setTextHorizontalAlignment(TextHAlignment::CENTER);
@@ -276,7 +277,7 @@ void TextInputLayer::createSettingsChatEditBox(float width)
     editBoxArea = ui::Scale9Sprite::create("res/settings/rounded_rect_frame.png");
     editBoxArea->setContentSize(Size(width,160));
     editBoxArea->setPosition(Vec2(contentSize.width/2, contentSize.height/2));
-    editBoxArea->setColor(Style::Color::carolinaBlue);
+    editBoxArea->setColor(Colours::Color_3B::carolinaBlue);
     this->addChild(editBoxArea);
     
     editBox = ui::EditBox::create(Size(contentSize.width - 20,contentSize.height), "res/settings/rounded_rect.png");
@@ -437,7 +438,7 @@ void TextInputLayer::setEditboxHasError(bool hasError)
     if(hasError)
     {
         editBoxAreaError->setVisible(true);
-        editBox->setFontColor(Style::Color::watermelon);
+        editBox->setFontColor(Colours::Color_3B::watermelon);
     }
     else
     {

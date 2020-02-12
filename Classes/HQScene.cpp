@@ -7,7 +7,7 @@
 
 #include "HQScene.h"
 #include "HQHistoryManager.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
@@ -19,7 +19,7 @@
 #include "SceneManagerScene.h"
 #include "AgeGate.h"
 #include "ContentOpener.h"
-
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -89,7 +89,7 @@ bool HQScene::init()
     _background->setSizeType(ui::Layout::SizeType::PERCENT);
     _background->setSizePercent(Vec2(1.0f,1.0f));
     _background->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _background->setBackGroundColor(Style::Color::darkIndigo);
+    _background->setBackGroundColor(Colours::Color_3B::darkIndigo);
     addChild(_background);
     
     createHeaderUI();
@@ -180,10 +180,10 @@ void HQScene::createHeaderUI()
     _topPattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
     _topPattern->setRoundedCorners(false, false, false, false);
     _topPattern->setScaleMode(RoundedRectSprite::ScaleMode::TILE);
-    _topPattern->setColor(Style::Color::macaroniAndCheese);
+    _topPattern->setColor(Colours::Color_3B::macaroniAndCheese);
     _titleBanner->addChild(_topPattern);
     
-    const Color3B& gradColour = Style::Color::darkIndigo;
+    const Color3B& gradColour = Colours::Color_3B::darkIndigo;
     _patternGradient = LayerGradient::create(Color4B(gradColour.r, gradColour.g, gradColour.b, 0), Color4B(gradColour));
     _patternGradient->setIgnoreAnchorPointForPosition(false);
     _patternGradient->setContentSize(Size(_titleBanner->getContentSize().width, 107));
@@ -271,7 +271,7 @@ void HQScene::createNavigationUI()
     _purchaseCapsule->setUserType(billingStatus);
     _navBar->addChild(_purchaseCapsule);
     
-    const Color3B& gradColour = Style::Color::darkIndigo;
+    const Color3B& gradColour = Colours::Color_3B::darkIndigo;
     _verticalScrollGradient = LayerGradient::create(Color4B(gradColour.r, gradColour.g, gradColour.b, 0), Color4B(gradColour));
     _verticalScrollGradient->setIgnoreAnchorPointForPosition(false);
     _verticalScrollGradient->setContentSize(Size(2736, 160));

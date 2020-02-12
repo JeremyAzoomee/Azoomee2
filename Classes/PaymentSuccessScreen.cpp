@@ -8,10 +8,11 @@
 #include "PaymentSuccessScreen.h"
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "LoginController.h"
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -34,7 +35,7 @@ bool PaymentSuccessScreen::init()
     setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     
 	setBackGroundColorType(BackGroundColorType::SOLID);
-	setBackGroundColor(Style::Color::darkIndigo);
+	setBackGroundColor(Colours::Color_3B::darkIndigo);
 	
     createBackground();
     createBody();
@@ -64,16 +65,16 @@ void PaymentSuccessScreen::createBackground()
     _pattern = Sprite::create("res/decoration/main_pattern_big.png");
     _pattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _pattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    _pattern->setColor(Style::Color::strongPink);
+    _pattern->setColor(Colours::Color_3B::strongPink);
     addChild(_pattern);
     
     _gradient = LayerGradient::create();
     _gradient->setContentSize(contentSize);
     _gradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _gradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    _gradient->setStartColor(Style::Color::darkIndigo);
+    _gradient->setStartColor(Colours::Color_3B::darkIndigo);
     _gradient->setStartOpacity(0);
-    _gradient->setEndColor(Style::Color::darkIndigo);
+    _gradient->setEndColor(Colours::Color_3B::darkIndigo);
     _gradient->setEndOpacity(isPortrait ? 140 : 180);
     _gradient->setIgnoreAnchorPointForPosition(false);
     addChild(_gradient);

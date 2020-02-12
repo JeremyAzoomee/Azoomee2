@@ -6,7 +6,7 @@
 //
 
 #include "FeaturedTile.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/ImageDownloader/ImageDownloaderCacheCleanerLogic.h>
 #include "HQDataProvider.h"
@@ -23,7 +23,7 @@ bool FeaturedTile::init()
     }
     
     setBackGroundImage("res/hqscene/rounded_rect_20px.png");
-    setBackGroundImageColor(Style::Color::macaroniAndCheese);
+    setBackGroundImageColor(Colours::Color_3B::macaroniAndCheese);
     setBackGroundImageScale9Enabled(true);
     
     _contentImage = RoundedRectSprite::create();
@@ -35,7 +35,7 @@ bool FeaturedTile::init()
     _lockedOverlay = RoundedRectSprite::create();
     _lockedOverlay->setTexture("res/decoration/white_1px.png");
     _lockedOverlay->setCornerRadius(20);
-    _lockedOverlay->setColor(Style::Color::darkIndigo);
+    _lockedOverlay->setColor(Colours::Color_3B::darkIndigo);
     _lockedOverlay->setOpacity(204);
     _lockedOverlay->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _lockedOverlay->setAnchorPoint(Vec2::ANCHOR_MIDDLE);

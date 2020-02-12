@@ -6,7 +6,7 @@
 //
 
 #include "RoundedRectTile.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/ImageDownloader/ImageDownloaderCacheCleanerLogic.h>
 #include "HQDataProvider.h"
@@ -42,7 +42,7 @@ bool RoundedRectTile::init()
     _lockedOverlay = RoundedRectSprite::create();
     _lockedOverlay->setTexture("res/decoration/white_1px.png");
     _lockedOverlay->setCornerRadius(60);
-    _lockedOverlay->setColor(Style::Color::darkIndigo);
+    _lockedOverlay->setColor(Colours::Color_3B::darkIndigo);
     _lockedOverlay->setOpacity(204);
     _lockedOverlay->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _lockedOverlay->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
